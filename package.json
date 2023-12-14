@@ -1,0 +1,33 @@
+{
+  "name": "@coinbase/onchainkit",
+  "version": "0.0.0",
+  "repository": "https://github.com/coinbase/onchainkit.git",
+  "license": "MIT",
+  "dependencies": {
+    "react": "^18",
+    "viem": "^1.19.7",
+    "wagmi": "^1.4.10"
+  },
+  "scripts": {
+    "prebuild": "rimraf dist",
+    "build": "tsc && tsc --module commonjs --outDir dist/lib",
+    "release:check": "changeset status --verbose --since=origin/main",
+    "release:publish": "yarn install && yarn build && changeset publish",
+    "release:version": "changeset version && yarn install --immutable"
+  },
+  "devDependencies": {
+    "typescript": "~5.3.3"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "files": [
+    "src/",
+    "dist/"
+  ],
+  "type": "commonjs",
+  "main": "./dist/src/index.js",
+  "typings": "./dist/src/index.d.ts",
+  "packageManager": "yarn@4.0.2"
+}
