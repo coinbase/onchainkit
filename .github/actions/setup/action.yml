@@ -1,0 +1,29 @@
+name: Setup
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-node@v3
+      with:
+        node-version-file: '.nvmrc'
+        registry-url: https://registry.npmjs.org
+        cache: yarn
+
+    # For provenance https://docs.npmjs.com/generating-provenance-statements#prerequisites
+    - name: Install npm 9.5
+      run: npm install -g npm@^9.5.0
+      shell: bash
+
+    - name: Install Foundry
+      uses: foundry-rs/foundry-toolchain@v1
+      with:
+        version: nightly
+
+    # Workaround for parallel building with forge:
+    # https://github.com/foundry-rs/foundry/issues/4736
+    - name: Setup forge hack
+      shell: bash
+      run: forge build
+
+    - name: Install node modules
+      run: yarn install --frozen-lockfile
+      shell: bash
