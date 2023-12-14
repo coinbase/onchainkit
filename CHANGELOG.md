@@ -4,4 +4,4 @@
 
 ### Minor Changes
 
-- e44929f: feat: init
+- **feat**: init (e44929f)
