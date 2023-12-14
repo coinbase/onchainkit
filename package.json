@@ -6,7 +6,8 @@
   "dependencies": {
     "react": "^18",
     "viem": "^1.19.7",
-    "wagmi": "^1.4.10"
+    "wagmi": "^1.4.10",
+    "yarn": "^1.22.21"
   },
   "scripts": {
     "prebuild": "rimraf dist",
@@ -16,6 +17,9 @@
     "release:version": "changeset version && yarn install --immutable"
   },
   "devDependencies": {
+    "@changesets/changelog-github": "^0.4.8",
+    "@changesets/cli": "^2.26.2",
+    "prettier": "^3.1.1",
     "typescript": "~5.3.3"
   },
   "publishConfig": {
