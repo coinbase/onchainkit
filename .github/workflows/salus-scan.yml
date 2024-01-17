@@ -8,8 +8,8 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Set the correct Node version using nvm
-        shell: bash
-        run: nvm install
+      shell: bash
+      run: nvm install
     - name: Salus Scan
       id: salus_scan
       uses: federacy/scan-action@0.1.4
