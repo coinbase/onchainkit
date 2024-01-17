@@ -1,0 +1,14 @@
+name: Salus Security Scan
+
+on: [pull_request, push]
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Salus Scan
+      id: salus_scan
+      uses: federacy/scan-action@0.1.4
+      with:
+        active_scanners: "\n  - PatternSearch\n  - Semgrep\n  - Trufflehog\n  - YarnAudit"
