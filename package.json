@@ -32,8 +32,5 @@
   "type": "commonjs",
   "main": "./dist/src/index.js",
   "typings": "./dist/src/index.d.ts",
-  "packageManager": "yarn@4.0.2",
-  "engines": {
-    "node": "^18.14"
-  }
+  "packageManager": "yarn@4.0.2"
 }
