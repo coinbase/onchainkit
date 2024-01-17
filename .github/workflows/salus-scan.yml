@@ -1,0 +1,17 @@
+name: Salus Security Scan
+
+on: [pull_request, push]
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set the correct Node version using nvm
+        shell: bash -l {0} 
+        run: nvm install
+    - name: Salus Scan
+      id: salus_scan
+      uses: federacy/scan-action@0.1.4
+      with:
+        active_scanners: "\n  - PatternSearch\n  - Semgrep\n  - Trufflehog\n  - YarnAudit"
