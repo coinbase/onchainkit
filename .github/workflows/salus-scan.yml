@@ -2,9 +2,6 @@ name: Salus Security Scan
 
 on: [pull_request, push]
 
-env:
-  YARN_IGNORE_NODE: 1
-
 jobs:
   scan:
     runs-on: ubuntu-latest
