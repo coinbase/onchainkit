@@ -8,7 +8,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Set the correct Node version using nvm
-      shell: bash
+      shell: bash -l {0} 
       run: nvm install
     - name: Salus Scan
       id: salus_scan
