@@ -2,14 +2,14 @@ name: Salus Security Scan
 
 on: [pull_request, push]
 
+env:
+  YARN_IGNORE_NODE: 1
+
 jobs:
   scan:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
-        with:
-          node-version: 18
       - name: Salus Scan
         id: salus_scan
         uses: federacy/scan-action@0.1.4
