@@ -29,9 +29,6 @@
     "src/",
     "dist/"
   ],
-  "engines": {
-    "node": "18.14"
-  },
   "type": "commonjs",
   "main": "./dist/src/index.js",
   "typings": "./dist/src/index.d.ts",
