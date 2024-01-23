@@ -5,9 +5,7 @@
   "license": "MIT",
   "dependencies": {
     "react": "^18",
-    "viem": "^1.19.7",
-    "wagmi": "^1.4.10",
-    "yarn": "^1.22.21"
+    "viem": "2.4.1"
   },
   "scripts": {
     "prebuild": "rimraf dist",
@@ -20,7 +18,8 @@
     "@changesets/changelog-github": "^0.4.8",
     "@changesets/cli": "^2.26.2",
     "prettier": "^3.1.1",
-    "typescript": "~5.3.3"
+    "typescript": "~5.3.3",
+    "yarn": "^1.22.21"
   },
   "publishConfig": {
     "access": "public"
