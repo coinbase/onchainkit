@@ -4,8 +4,8 @@
 
 ### Patch Changes
 
-- 30666be: - **docs**: kickoff docs for `generateFrameNextMetadata` core utility
-  - **fix**: set correctly the `main` and `types` file in the `package.json`
+- **docs**: kickoff docs for `generateFrameNextMetadata` core utility 30666be
+- **fix**: set correctly the `main` and `types` file in the `package.json`
 
 ## 0.1.1
 
