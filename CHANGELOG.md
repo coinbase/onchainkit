@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- c015b3e: - **feat**: renamed `generateFrameNextMetadata` to `getFrameMetadata`
+- **feat**: renamed `generateFrameNextMetadata` to `getFrameMetadata` c015b3e
 
 ## 0.1.2
 
