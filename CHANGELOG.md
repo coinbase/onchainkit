@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- a83b0f9: **feat**: added `generateFrameNextMetadata` to help generates the metadata for a Farcaster Frame.
+- **feat**: added `generateFrameNextMetadata` to help generates the metadata for a Farcaster Frame. a83b0f9
 
 ## 0.1.0
 
