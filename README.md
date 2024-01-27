@@ -2,7 +2,25 @@
 
 > OnchainKit is a collection of CSS, React components and Core utilities specifically crafted to enhance your creativity when building onchain applications.
 
-## Core utilities
+
+## Getting Started
+Add OnchainKit to your project, install the required packages.
+
+
+```bash
+# Use Yarn
+yarn add @coinbase/onchainkit
+
+# Use NPM
+npm install @coinbase/onchainkit
+
+# Use PNPM
+pnpm add @coinbase/onchainkit
+```
+
+<br />
+
+## FrameKit utilities
 
 ### generateFrameNextMetadata
 
