@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.2
+
+### Patch Changes
+
+- 30666be: - **docs**: kickoff docs for `generateFrameNextMetadata` core utility
+  - **fix**: set correctly the `main` and `types` file in the `package.json`
+
 ## 0.1.1
 
 ### Patch Changes
