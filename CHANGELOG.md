@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.3
+
+### Patch Changes
+
+- **feat**: renamed `generateFrameNextMetadata` to `getFrameMetadata` c015b3e
+
 ## 0.1.2
 
 ### Patch Changes
