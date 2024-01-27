@@ -1,7 +1,7 @@
 name: Bug report
 description: Create a report to help us improve
-title: "Bug: "
-labels: ["type: bug"]
+title: 'Bug: '
+labels: ['type: bug']
 
 body:
   - type: textarea
@@ -27,4 +27,3 @@ body:
       label: What version of the libraries are you using?
       placeholder: |
         - OnchainKit: [e.g. 0.2.x]
-

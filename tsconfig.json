@@ -2,8 +2,11 @@
   "compilerOptions": {
     "moduleResolution": "node",
     "target": "es2020",
-    "module":"es2020",
-    "lib": ["es2020", "dom"],
+    "module": "es2020",
+    "lib": [
+      "es2020",
+      "dom"
+    ],
     "strict": true,
     "sourceMap": true,
     "declaration": true,
