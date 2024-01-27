@@ -5,7 +5,7 @@
   "license": "MIT",
   "dependencies": {
     "react": "^18",
-    "viem": "2.4.1"
+    "viem": "2.5.0"
   },
   "scripts": {
     "prebuild": "rimraf dist",

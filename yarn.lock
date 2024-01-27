@@ -321,7 +321,7 @@ __metadata:
     prettier: "npm:^3.1.1"
     react: "npm:^18"
     typescript: "npm:~5.3.3"
-    viem: "npm:2.4.1"
+    viem: "npm:2.5.0"
     yarn: "npm:^1.22.21"
   languageName: unknown
   linkType: soft
@@ -2546,9 +2546,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"viem@npm:2.4.1":
-  version: 2.4.1
-  resolution: "viem@npm:2.4.1"
+"viem@npm:2.5.0":
+  version: 2.5.0
+  resolution: "viem@npm:2.5.0"
   dependencies:
     "@adraffy/ens-normalize": "npm:1.10.0"
     "@noble/curves": "npm:1.2.0"
@@ -2563,7 +2563,7 @@ __metadata:
   peerDependenciesMeta:
     typescript:
       optional: true
-  checksum: 62887977a4d9a3100d9351ff80103dbcbd171d550d870b4894d4e74e122576e9f1599a15346a9bd9b71997413b9708ba9182ac0c2773d2fd65aa8924e309c706
+  checksum: 1a15999dea2f4fd97d52f7436aa237d7334b41aa50a509a713ef7719437d28bdc4daa1e9f9bad56016caef72294d057c4dd47931d4f6aecfa243ba4cc60e2c51
   languageName: node
   linkType: hard
 
