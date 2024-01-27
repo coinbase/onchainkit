@@ -1,9 +1,11 @@
 /**
  * This function generates the metadata for a Farcaster Frame.
- * @param param0
- * @returns
+ * @param buttons: An array of button names.
+ * @param image: The image to use for the frame.
+ * @param post_url: The URL to post the frame to.
+ * @returns The metadata for the frame.
  */
-export const generateFrameNextMetadata = function ({
+export const getFrameMetadata = function ({
   buttons,
   image,
   post_url,
