@@ -29,7 +29,7 @@
     "dist/"
   ],
   "type": "commonjs",
-  "main": "./dist/src/index.js",
-  "typings": "./dist/src/index.d.ts",
+  "main": "./dist/lib/index.js",
+  "typings": "./dist/types/index.d.ts",
   "packageManager": "yarn@4.0.2"
 }
