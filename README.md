@@ -7,6 +7,7 @@
 ### generateFrameNextMetadata
 
 Next App `page.ts`
+
 ```ts
 // Steps 1. import generateFrameNextMetadata from @coinbase/onchainkit
 import { generateFrameNextMetadata } from '@coinbase/onchainkit';

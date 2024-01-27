@@ -1,6 +1,6 @@
 {
   "name": "@coinbase/onchainkit",
-  "version": "0.1.2",
+  "version": "0.1.1",
   "repository": "https://github.com/coinbase/onchainkit.git",
   "license": "MIT",
   "dependencies": {
@@ -8,8 +8,11 @@
     "viem": "2.5.0"
   },
   "scripts": {
-    "prebuild": "rimraf dist",
     "build": "tsc && tsc --module commonjs --outDir dist/lib",
+    "check": "yarn format",
+    "format": "prettier --log-level warn --write .",
+    "format:check": "prettier --check .",
+    "prebuild": "rimraf dist",
     "release:check": "changeset status --verbose --since=origin/main",
     "release:publish": "yarn install && yarn build && changeset publish",
     "release:version": "changeset version && yarn install --immutable"
@@ -18,6 +21,7 @@
     "@changesets/changelog-github": "^0.4.8",
     "@changesets/cli": "^2.26.2",
     "prettier": "^3.1.1",
+    "prettier-plugin-tailwindcss": "^0.5.9",
     "typescript": "~5.3.3",
     "yarn": "^1.22.21"
   },
