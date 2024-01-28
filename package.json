@@ -4,6 +4,7 @@
   "repository": "https://github.com/coinbase/onchainkit.git",
   "license": "MIT",
   "dependencies": {
+    "@farcaster/hub-nodejs": "^0.10.21",
     "react": "^18",
     "viem": "2.5.0"
   },
