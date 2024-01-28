@@ -29,10 +29,10 @@ A Frame transforms any cast into an interactive app.
 Creating a frame is easy: select an image and add clickable buttons. When a button is clicked, you receive a callback and can send another image with more buttons. To learn more, check out "[Farcaster Frames Official Documentation](https://warpcast.notion.site/Farcaster-Frames-4bd47fe97dc74a42a48d3a234636d8c5)".
 
 Utilities:
+
 - [getFrameAccountAddress()](https://github.com/coinbase/onchainkit?tab=readme-ov-file#getframeaccountaddress)
 - [getFrameMetadata()](https://github.com/coinbase/onchainkit?tab=readme-ov-file#getFrameMetadata)
 - [getFrameValidatedMessage()](https://github.com/coinbase/onchainkit?tab=readme-ov-file#getFrameValidatedMessage)
-
 
 ### getFrameAccountAddress()
 
@@ -144,7 +144,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
   const body = await req.json();
   // Step 3. Validate the message
   validatedMessage = await getFrameValidatedMessage(body);
-  
+
   // Step 4. Determine the Frame experience based on the validity of the message
   if (validatedMessage) {
     // the message is valid
