@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- d5de4e7: - **feat**: added initial version of `getFrameValidatedMessage`, which helps decode and validate a Frame message.
+- **feat**: added initial version of `getFrameValidatedMessage`, which helps decode and validate a Frame message. d5de4e7
 
 ## 0.1.5
 
