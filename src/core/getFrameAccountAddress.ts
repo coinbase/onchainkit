@@ -1,16 +1,22 @@
 import { HubRpcClient, Message, getSSLHubRpcClient } from '@farcaster/hub-nodejs';
 
-// URL of the Hub
+/**
+ * Farcaster Hub for signature verification, consider using a private hub if needed:
+ * https://docs.farcaster.xyz/hubble/hubble
+ */
 const HUB_URL = 'nemes.farcaster.xyz:2283';
-// Create a Hub RPC client
-const client: HubRpcClient = getSSLHubRpcClient(HUB_URL);
 
 type FidResponse = {
   verifications: string[];
 };
 
+function getHubClient(): HubRpcClient {
+  return getSSLHubRpcClient(HUB_URL);
+}
 /**
- * Get the Account Address from the Farcaster ID using the Frame.
+ * Get the Account Address from the Farcaster ID using the Frame.  This uses a Neynar api
+ * to get verified addresses belonging to the user wht that FID.  This is using a demo api
+ * key so please register on through https://neynar.com/.
  * @param body
  * @param param1
  * @returns
@@ -18,7 +24,7 @@ type FidResponse = {
 async function getFrameAccountAddress(
   body: { trustedData?: { messageBytes?: string } },
   { NEYNAR_API_KEY = 'NEYNAR_API_DOCS' },
-) {
+): Promise<string | undefined> {
   let farcasterID = 0;
   let validatedMessage: Message | undefined = undefined;
   // Get the message from the request body
@@ -26,9 +32,12 @@ async function getFrameAccountAddress(
     Buffer.from(body?.trustedData?.messageBytes ?? '', 'hex'),
   );
   // Validate the message
+  const client = getHubClient();
   const result = await client.validateMessage(frameMessage);
   if (result.isOk() && result.value.valid && result.value.message) {
     validatedMessage = result.value.message;
+  } else {
+    return;
   }
   // Get the Farcaster ID from the message
   farcasterID = validatedMessage?.data?.fid ?? 0;
@@ -47,7 +56,7 @@ async function getFrameAccountAddress(
       return userVerifications.verifications[0];
     }
   }
-  return '0x00';
+  return;
 }
 
 export { getFrameAccountAddress };
