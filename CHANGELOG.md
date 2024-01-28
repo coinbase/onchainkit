@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.6
+
+### Patch Changes
+
+- d5de4e7: - **feat**: added initial version of `getFrameValidatedMessage`, which helps decode and validate a Frame message.
+
 ## 0.1.5
 
 ### Patch Changes
