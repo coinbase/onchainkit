@@ -31,7 +31,7 @@ When a user interacts with your Frame, you will receive a JSON message called `F
 
 This Account Address can then be utilized for subsequent operations, enhancing the personalized experience of using the Frame for each individual.
 
-Note: To utilize this function, we rely on [Neynar APIs](https://docs.neynar.com/reference/user-bulk). In order to avoid rate limiting, please ensure that you have your own API KEY.
+Note: To utilize this function, we rely on [Neynar APIs](https://docs.neynar.com/reference/user-bulk). In order to avoid rate limiting, please ensure that you have your own API KEY. Sign up [here](https://neynar.com).
 
 ```ts
 // Steps 1. import getFrameAccountAddress from @coinbase/onchainkit
