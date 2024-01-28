@@ -13,7 +13,7 @@ type FidResponse = {
  * Get the Account Address from the Farcaster ID using the Frame.
  * @param body
  * @param param1
- * @returns 
+ * @returns
  */
 async function getFrameAccountAddress(
   body: { trustedData?: { messageBytes?: string } },
