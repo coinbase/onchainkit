@@ -31,7 +31,7 @@ Creating a frame is easy: select an image and add clickable buttons. When a butt
 Utilities:
 - [getFrameAccountAddress()](https://github.com/coinbase/onchainkit?tab=readme-ov-file#getframeaccountaddress)
 - [getFrameMetadata()](https://github.com/coinbase/onchainkit?tab=readme-ov-file#getFrameMetadata)
-- [getFrameValidatedMessage](https://github.com/coinbase/onchainkit?tab=readme-ov-file#getFrameValidatedMessage)
+- [getFrameValidatedMessage()](https://github.com/coinbase/onchainkit?tab=readme-ov-file#getFrameValidatedMessage)
 
 
 ### getFrameAccountAddress()
