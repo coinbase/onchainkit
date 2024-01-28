@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- 398933b: - **feat**: added initial version of `getFrameAccountAddress`, which helps getting the Account Address from the Farcaster ID using the Frame.
+- **feat**: added initial version of `getFrameAccountAddress`, which helps getting the Account Address from the Farcaster ID using the Frame. 398933b
 
 ## 0.1.3
 
