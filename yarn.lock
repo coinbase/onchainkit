@@ -318,7 +318,7 @@ __metadata:
   dependencies:
     "@changesets/changelog-github": "npm:^0.4.8"
     "@changesets/cli": "npm:^2.26.2"
-    "@farcaster/hub-nodejs": "npm:^0.10.21"
+    "@farcaster/hub-nodejs": "npm:0.10.21"
     prettier: "npm:^3.1.1"
     prettier-plugin-tailwindcss: "npm:^0.5.9"
     react: "npm:^18"
@@ -342,7 +342,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@farcaster/hub-nodejs@npm:^0.10.21":
+"@farcaster/hub-nodejs@npm:0.10.21":
   version: 0.10.21
   resolution: "@farcaster/hub-nodejs@npm:0.10.21"
   dependencies:
