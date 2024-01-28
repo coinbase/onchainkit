@@ -1,0 +1,31 @@
+name: Kit Format / Test / Build
+on:
+  push:
+    branches: ['main']
+  pull_request:
+    branches: ['main']
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+      - name: Kit Install dependencies
+        run: npm install
+      - name: Kit Format Check
+        run: npm run format:check
+      - name: Kit Test Check
+        # When fails, please check your tests
+        run: npm run test
+      - name: Kit Test Build
+        # When fails, please check your build
+        run: |
+          npm run build
