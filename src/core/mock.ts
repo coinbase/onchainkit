@@ -14,7 +14,7 @@ export function buildFarcasterResponse(fid: number) {
   };
 }
 
-export function mockNeynarResponse(fid: number, addresses: string[], isOk = true) {
+export function mockNeynarResponse(fid: number, addresses: string[]) {
   const neynarResponse = {
     users: [
       {
@@ -28,8 +28,8 @@ export function mockNeynarResponse(fid: number, addresses: string[], isOk = true
 
   // Mock the response from the Farcaster hub
   validateMock.mockResolvedValue({
-    isOk: () => isOk,
-    value: { valid: isOk, message: { fid } },
+    isOk: () => true,
+    value: { valid: true, message: { fid } },
   });
 
   validateMock.mockResolvedValue(buildFarcasterResponse(fid));

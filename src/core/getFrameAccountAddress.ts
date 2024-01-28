@@ -1,4 +1,4 @@
-import { getValidatedMessage } from './getFrameValidatedMessage';
+import { getFrameValidatedMessage } from './getFrameValidatedMessage';
 
 type FidResponse = {
   verifications: string[];
@@ -19,7 +19,7 @@ async function getFrameAccountAddress(
   body: { trustedData?: { messageBytes?: string } },
   { NEYNAR_API_KEY = 'NEYNAR_API_DOCS' },
 ): Promise<string | undefined> {
-  const validatedMessage = await getValidatedMessage(body);
+  const validatedMessage = await getFrameValidatedMessage(body);
   if (!validatedMessage) {
     return;
   }
