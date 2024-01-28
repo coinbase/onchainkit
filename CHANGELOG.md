@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- d042114: - **fix**: build
+- **fix**: build d042114
 
 ## 0.1.4
 

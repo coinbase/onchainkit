@@ -1,4 +1,6 @@
-# [OnchainKit](https://github.com/coinbase/onchainkit/)
+<img src='./docs/logo-v-0-1.png' width='800' alt='OnchainKit'>
+
+# [OnchainKit (🌲)](https://github.com/coinbase/onchainkit/)
 
 > OnchainKit is a collection of CSS, React components and Core utilities specifically crafted to enhance your creativity when building onchain applications.
 
@@ -25,6 +27,12 @@ pnpm add @coinbase/onchainkit
 A Frame transforms any cast into an interactive app.
 
 Creating a frame is easy: select an image and add clickable buttons. When a button is clicked, you receive a callback and can send another image with more buttons. To learn more, check out "[Farcaster Frames Official Documentation](https://warpcast.notion.site/Farcaster-Frames-4bd47fe97dc74a42a48d3a234636d8c5)".
+
+Utilities:
+
+- [getFrameAccountAddress()](https://github.com/coinbase/onchainkit?tab=readme-ov-file#getframeaccountaddress)
+- [getFrameMetadata()](https://github.com/coinbase/onchainkit?tab=readme-ov-file#getFrameMetadata)
+- [getFrameValidatedMessage()](https://github.com/coinbase/onchainkit?tab=readme-ov-file#getFrameValidatedMessage)
 
 ### getFrameAccountAddress()
 
@@ -121,6 +129,42 @@ export default function Page() {
 
 <br />
 
+### getFrameValidatedMessage()
+
+When a user interacts with your Frame, you receive a JSON message called the "Frame Signature Packet". Decode and validate this message using the `getFrameValidatedMessage` function. It returns undefined if the message is not valid.
+
+```ts
+// Steps 1. import getFrameValidatedMessage from @coinbase/onchainkit
+import { getFrameValidatedMessage } from '@coinbase/onchainkit';
+import { NextRequest, NextResponse } from 'next/server';
+
+async function getResponse(req: NextRequest): Promise<NextResponse> {
+  try {
+  // Step 2. Read the body from the Next Request
+  const body = await req.json();
+  // Step 3. Validate the message
+  validatedMessage = await getFrameValidatedMessage(body);
+
+  // Step 4. Determine the Frame experience based on the validity of the message
+  if (validatedMessage) {
+    // the message is valid
+  } else {
+    // sorry, the message is not valid
+  }
+
+  ...
+}
+
+export async function POST(req: NextRequest): Promise<Response> {
+  return getResponse(req);
+}
+
+export const dynamic = 'force-dynamic';
+```
+
+<br />
+<br />
+
 ## The Team and Our Community ☁️ 🌁 ☁️
 
 OnchainKit is all about community; for any questions, feel free to:
@@ -137,6 +181,13 @@ OnchainKit is all about community; for any questions, feel free to:
         <a href="https://twitter.com/Zizzamia">Leonardo Zizzamia</a>
       </td>
       <td align="center" valign="top">
+        <a href="https://twitter.com/0xr0b_eth">
+          <img width="80" height="80" src="https://github.com/robpolak.png?s=100">
+        </a>
+        <br />
+        <a href="https://twitter.com/0xr0b_eth">Rob Polak</a>
+      </td>
+      <td align="center" valign="top">
         <a href="https://twitter.com/alvaroraminelli">
           <img width="80" height="80" src="https://github.com/alvaroraminelli.png?s=100">
         </a>
@@ -144,11 +195,11 @@ OnchainKit is all about community; for any questions, feel free to:
         <a href="https://twitter.com/alvaroraminelli">Alvaro Raminelli</a>
       </td>
       <td align="center" valign="top">
-        <a href="https://twitter.com/0xr0b_eth">
-          <img width="80" height="80" src="https://github.com/robpolak.png?s=100">
+        <a href="https://warpcast.com/cnasc">
+          <img width="80" height="80" src="https://github.com/cnasc.png?s=100">
         </a>
         <br />
-        <a href="https://twitter.com/0xr0b_eth">Rob Polak</a>
+        <a href="https://warpcast.com/cnasc">Chris Nascone</a>
       </td>
     </tr>
   </tbody>
