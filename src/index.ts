@@ -1,5 +1,6 @@
 // ☕️
-const version = '0.1.2';
+const version = '0.1.4';
 
-// TODO remove this line from here
+export { version };
+export { getFrameAccountAddress } from './core/getFrameAccountAddress';
 export { getFrameMetadata } from './core/getFrameMetadata';

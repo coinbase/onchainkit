@@ -2,10 +2,9 @@
 
 > OnchainKit is a collection of CSS, React components and Core utilities specifically crafted to enhance your creativity when building onchain applications.
 
-
 ## Getting Started
-Add OnchainKit to your project, install the required packages.
 
+Add OnchainKit to your project, install the required packages.
 
 ```bash
 # Use Yarn
@@ -53,6 +52,7 @@ export default function Page() {
 ```
 
 `getFrameMetadata` params
-- `buttons`: A list of strings which are the label for the buttons in the frame (max 4 buttons). 
+
+- `buttons`: A list of strings which are the label for the buttons in the frame (max 4 buttons).
 - `image`: An image which must be smaller than 10MB and should have an aspect ratio of 1.91:1
-- `post_url`: A valid POST URL to send the Signature Packet to. 
+- `post_url`: A valid POST URL to send the Signature Packet to.
