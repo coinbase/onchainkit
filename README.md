@@ -21,7 +21,8 @@ pnpm add @coinbase/onchainkit
 <br />
 
 ## FrameKit 🖼️
-A Frame transforms any cast into an interactive app. 
+
+A Frame transforms any cast into an interactive app.
 
 Creating a frame is easy: select an image and add clickable buttons. When a button is clicked, you receive a callback and can send another image with more buttons. To learn more, check out "[Farcaster Frames Official Documentation](https://warpcast.notion.site/Farcaster-Frames-4bd47fe97dc74a42a48d3a234636d8c5)".
 
@@ -43,7 +44,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
   try {
     // Step 2. Read the body from the Next Request
     const body = await req.json();
-    // Step 3. Get from the body the Account Address of the user using the Frame 
+    // Step 3. Get from the body the Account Address of the user using the Frame
     accountAddress = await getFrameAccountAddress(body, { NEYNAR_API_KEY: 'NEYNAR_API_DOCS' });
   } catch (err) {
     console.error(err);
