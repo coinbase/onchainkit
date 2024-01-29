@@ -1,10 +1,10 @@
 import { getFrameAccountAddress } from './getFrameAccountAddress';
 import { mockNeynarResponse } from './mock';
-import {neynarBulkUserLookup} from "../utils/neynar/user/neynarUserFunctions";
+import { neynarBulkUserLookup } from '../utils/neynar/user/neynarUserFunctions';
 
 jest.mock('../utils/neynar/user/neynarUserFunctions', () => {
   return {
-    neynarBulkUserLookup: jest.fn()
+    neynarBulkUserLookup: jest.fn(),
   };
 });
 

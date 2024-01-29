@@ -1,5 +1,5 @@
 import { getFrameValidatedMessage } from './getFrameValidatedMessage';
-import {neynarBulkUserLookup} from "../utils/neynar/user/neynarUserFunctions";
+import { neynarBulkUserLookup } from '../utils/neynar/user/neynarUserFunctions';
 
 type FidResponse = {
   verifications: string[];

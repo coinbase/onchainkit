@@ -1,5 +1,4 @@
-
-import {neynarBulkUserLookup} from "./user/neynarUserFunctions";
+import { neynarBulkUserLookup } from './user/neynarUserFunctions';
 
 describe('integration tests', () => {
   it('bulk data lookup should find all users', async () => {

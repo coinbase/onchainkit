@@ -1,6 +1,6 @@
 import { FetchError } from '../exceptions/FetchError';
 
-export const NEYNAR_DEFAULT_API_KEY = "NEYNAR_API_DOCS";
+export const NEYNAR_DEFAULT_API_KEY = 'NEYNAR_API_DOCS';
 export interface NeynarUserModel {
   fid: number;
   custody_address: string;
@@ -19,7 +19,10 @@ export interface NeynarBulkUserLookupModel {
   users: NeynarUserModel[];
 }
 
-export async function neynarBulkUserLookup(farcasterIDs: number[], apiKey: string = NEYNAR_DEFAULT_API_KEY): Promise<NeynarBulkUserLookupModel | undefined> {
+export async function neynarBulkUserLookup(
+  farcasterIDs: number[],
+  apiKey: string = NEYNAR_DEFAULT_API_KEY,
+): Promise<NeynarBulkUserLookupModel | undefined> {
   const options = {
     method: 'GET',
     url: `https://api.neynar.com/v2/farcaster/user/bulk?fids=${farcasterIDs.join(',')}`,

@@ -1,10 +1,10 @@
 import { mockNeynarResponse } from './mock';
 import { getFrameValidatedMessage } from './getFrameValidatedMessage';
-import {neynarBulkUserLookup} from "../utils/neynar/user/neynarUserFunctions";
+import { neynarBulkUserLookup } from '../utils/neynar/user/neynarUserFunctions';
 
 jest.mock('../utils/neynar/user/neynarUserFunctions', () => {
   return {
-    neynarBulkUserLookup: jest.fn()
+    neynarBulkUserLookup: jest.fn(),
   };
 });
 
