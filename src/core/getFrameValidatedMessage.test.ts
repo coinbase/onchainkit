@@ -1,5 +1,12 @@
 import { mockNeynarResponse } from './mock';
 import { getFrameValidatedMessage } from './getFrameValidatedMessage';
+import { neynarBulkUserLookup } from '../utils/neynar/user/neynarUserFunctions';
+
+jest.mock('../utils/neynar/user/neynarUserFunctions', () => {
+  return {
+    neynarBulkUserLookup: jest.fn(),
+  };
+});
 
 jest.mock('@farcaster/hub-nodejs', () => {
   return {
@@ -16,7 +23,7 @@ describe('getFrameValidatedMessage', () => {
   it('should return undefined if the message is invalid', async () => {
     const fid = 1234;
     const addresses = ['0xaddr1'];
-    const { validateMock } = mockNeynarResponse(fid, addresses);
+    const { validateMock } = mockNeynarResponse(fid, addresses, neynarBulkUserLookup as jest.Mock);
     validateMock.mockClear();
     validateMock.mockResolvedValue({
       isOk: () => {
@@ -32,7 +39,7 @@ describe('getFrameValidatedMessage', () => {
   it('should return the message if the message is valid', async () => {
     const fid = 1234;
     const addresses = ['0xaddr1'];
-    mockNeynarResponse(fid, addresses);
+    mockNeynarResponse(fid, addresses, neynarBulkUserLookup as jest.Mock);
     const fakeFrameData = {
       trustedData: {},
     };

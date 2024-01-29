@@ -1,5 +1,12 @@
 import { getFrameAccountAddress } from './getFrameAccountAddress';
 import { mockNeynarResponse } from './mock';
+import { neynarBulkUserLookup } from '../utils/neynar/user/neynarUserFunctions';
+
+jest.mock('../utils/neynar/user/neynarUserFunctions', () => {
+  return {
+    neynarBulkUserLookup: jest.fn(),
+  };
+});
 
 jest.mock('@farcaster/hub-nodejs', () => {
   return {
@@ -23,7 +30,7 @@ describe('getFrameAccountAddress', () => {
   it('should return the first verification for valid input', async () => {
     const fid = 1234;
     const addresses = ['0xaddr1'];
-    mockNeynarResponse(fid, addresses);
+    mockNeynarResponse(fid, addresses, neynarBulkUserLookup as jest.Mock);
 
     const response = await getFrameAccountAddress(fakeFrameData, fakeApiKey);
     expect(response).toEqual(addresses[0]);
@@ -32,7 +39,7 @@ describe('getFrameAccountAddress', () => {
   it('when the call from farcaster fails we should return undefined', async () => {
     const fid = 1234;
     const addresses = ['0xaddr1'];
-    const { validateMock } = mockNeynarResponse(fid, addresses);
+    const { validateMock } = mockNeynarResponse(fid, addresses, neynarBulkUserLookup as jest.Mock);
     validateMock.mockClear();
     validateMock.mockResolvedValue({
       isOk: () => {
