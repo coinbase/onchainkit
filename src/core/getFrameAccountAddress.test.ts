@@ -1,18 +1,10 @@
 import { getFrameAccountAddress } from './getFrameAccountAddress';
 import { mockNeynarResponse } from './mock';
+import {neynarBulkUserLookup} from "../utils/neynar/user/neynarUserFunctions";
 
-const bulkUserLookupMock = jest.fn();
-jest.mock('../internal/neynar/neynarClient', () => {
+jest.mock('../utils/neynar/user/neynarUserFunctions', () => {
   return {
-    NeynarClient: jest.fn().mockImplementation(() => {
-      return {
-        user: {
-          bulkUserLookup: bulkUserLookupMock,
-          // other user functions can be mocked here
-        },
-        // other properties and methods of NeynarClient can be mocked here
-      };
-    }),
+    neynarBulkUserLookup: jest.fn()
   };
 });
 
@@ -38,7 +30,7 @@ describe('getFrameAccountAddress', () => {
   it('should return the first verification for valid input', async () => {
     const fid = 1234;
     const addresses = ['0xaddr1'];
-    mockNeynarResponse(fid, addresses, bulkUserLookupMock);
+    mockNeynarResponse(fid, addresses, neynarBulkUserLookup as jest.Mock);
 
     const response = await getFrameAccountAddress(fakeFrameData, fakeApiKey);
     expect(response).toEqual(addresses[0]);
@@ -47,7 +39,7 @@ describe('getFrameAccountAddress', () => {
   it('when the call from farcaster fails we should return undefined', async () => {
     const fid = 1234;
     const addresses = ['0xaddr1'];
-    const { validateMock } = mockNeynarResponse(fid, addresses, bulkUserLookupMock);
+    const { validateMock } = mockNeynarResponse(fid, addresses, neynarBulkUserLookup as jest.Mock);
     validateMock.mockClear();
     validateMock.mockResolvedValue({
       isOk: () => {

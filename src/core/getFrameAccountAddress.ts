@@ -1,5 +1,5 @@
 import { getFrameValidatedMessage } from './getFrameValidatedMessage';
-import { NeynarClient } from '../internal/neynar/neynarClient';
+import {neynarBulkUserLookup} from "../utils/neynar/user/neynarUserFunctions";
 
 type FidResponse = {
   verifications: string[];
@@ -27,8 +27,7 @@ async function getFrameAccountAddress(
   // Get the Farcaster ID from the message
   const farcasterID = validatedMessage?.data?.fid ?? 0;
   // Get the user verifications from the Farcaster Indexer
-  const neynarClient = new NeynarClient();
-  const bulkUserLookupResponse = await neynarClient.user.bulkUserLookup([farcasterID]);
+  const bulkUserLookupResponse = await neynarBulkUserLookup([farcasterID]);
   if (bulkUserLookupResponse?.users) {
     const userVerifications = bulkUserLookupResponse?.users[0] as FidResponse;
     if (userVerifications.verifications) {
