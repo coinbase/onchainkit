@@ -1,8 +1,8 @@
 <img src='./docs/logo-v-0-1.png' width='800' alt='OnchainKit'>
 
-# [OnchainKit (🌲)](https://github.com/coinbase/onchainkit/)
+# [OnchainKit](https://github.com/coinbase/onchainkit/)
 
-> OnchainKit is a collection of CSS, React components and Core utilities specifically crafted to enhance your creativity when building onchain applications.
+> OnchainKit is a collection of tools to build world-class onchain apps with CSS, React, and typescript.
 
 ## Getting Started
 
