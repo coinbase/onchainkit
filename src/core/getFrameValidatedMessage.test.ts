@@ -1,5 +1,5 @@
 import { mockNeynarResponse } from './mock';
-import { getFrameValidatedMessage } from './getFrameValidatedMessage';
+import { getFrameMessage } from './getFrameMessage';
 import { neynarBulkUserLookup } from '../utils/neynar/user/neynarUserFunctions';
 import { FrameRequest } from './farcasterTypes';
 
@@ -31,7 +31,7 @@ describe('getFrameValidatedMessage', () => {
         return false;
       },
     });
-    const result = await getFrameValidatedMessage({
+    const result = await getFrameMessage({
       trustedData: { messageBytes: 'invalid' },
     } as FrameRequest);
     expect(result?.isValid).toEqual(false);
@@ -44,7 +44,7 @@ describe('getFrameValidatedMessage', () => {
     const fakeFrameData = {
       trustedData: {},
     };
-    const result = await getFrameValidatedMessage(fakeFrameData as FrameRequest);
-    expect(result?.data?.fid).toEqual(fid);
+    const result = await getFrameMessage(fakeFrameData as FrameRequest);
+    expect(result?.message?.fid).toEqual(fid);
   });
 });

@@ -5,10 +5,9 @@ export interface FrameRequest {
   };
 }
 
-export interface FrameValidationResponse {
-  isValid: boolean;
-  data?: FrameData;
-}
+export type FrameValidationResponse =
+  | { isValid: true; message: FrameData }
+  | { isValid: false; message: undefined };
 
 export interface FrameData {
   fid: number;

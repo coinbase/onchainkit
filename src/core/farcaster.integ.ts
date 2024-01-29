@@ -1,4 +1,4 @@
-import { getFrameValidatedMessage } from './getFrameValidatedMessage';
+import { getFrameMessage } from './getFrameMessage';
 
 describe('getFrameValidatedMessage integration tests', () => {
   it('bulk data lookup should find all users', async () => {
@@ -20,11 +20,11 @@ describe('getFrameValidatedMessage integration tests', () => {
           '3120c8908678a00f4f42e805280132208d36f374eb10e27853496cfa342b9021acc7bf3c26262501259657c4bb15a149',
       },
     };
-    const response = await getFrameValidatedMessage(body);
+    const response = await getFrameMessage(body);
     expect(response?.isValid).toEqual(true);
-    expect(response?.data?.url).toEqual(body.untrustedData.url);
-    expect(response?.data?.fid).toEqual(body.untrustedData.fid);
-    expect(response?.data?.network).toEqual(body.untrustedData.network);
-    expect(response?.data?.castId.fid).toEqual(body.untrustedData.castId.fid);
+    expect(response?.message?.url).toEqual(body.untrustedData.url);
+    expect(response?.message?.fid).toEqual(body.untrustedData.fid);
+    expect(response?.message?.network).toEqual(body.untrustedData.network);
+    expect(response?.message?.castId.fid).toEqual(body.untrustedData.castId.fid);
   });
 });
