@@ -19,6 +19,7 @@
     "prebuild": "rimraf dist",
     "test": "jest --testPathIgnorePatterns=\\.integ\\.",
     "test:integration": "jest --testPathIgnorePatterns=\\.test\\.",
+    "test:all": "jest .",
     "test:coverage": "jest . --coverage ",
     "release:check": "changeset status --verbose --since=origin/main",
     "release:publish": "yarn install && yarn build && changeset publish",
