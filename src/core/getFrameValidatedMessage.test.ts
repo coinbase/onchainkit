@@ -34,7 +34,7 @@ describe('getFrameValidatedMessage', () => {
     const result = await getFrameValidatedMessage({
       trustedData: { messageBytes: 'invalid' },
     } as FrameRequest);
-    expect(result).toBeUndefined();
+    expect(result?.isValid).toEqual(false);
   });
 
   it('should return the message if the message is valid', async () => {
@@ -45,6 +45,6 @@ describe('getFrameValidatedMessage', () => {
       trustedData: {},
     };
     const result = await getFrameValidatedMessage(fakeFrameData as FrameRequest);
-    expect(result?.data.fid).toEqual(fid);
+    expect(result?.data?.fid).toEqual(fid);
   });
 });

@@ -21,9 +21,10 @@ describe('getFrameValidatedMessage integration tests', () => {
       },
     };
     const response = await getFrameValidatedMessage(body);
-    expect(response?.data.url).toEqual(body.untrustedData.url);
-    expect(response?.data.fid).toEqual(body.untrustedData.fid);
-    expect(response?.data.network).toEqual(body.untrustedData.network);
-    expect(response?.data.castId.fid).toEqual(body.untrustedData.castId.fid);
+    expect(response?.isValid).toEqual(true);
+    expect(response?.data?.url).toEqual(body.untrustedData.url);
+    expect(response?.data?.fid).toEqual(body.untrustedData.fid);
+    expect(response?.data?.network).toEqual(body.untrustedData.network);
+    expect(response?.data?.castId.fid).toEqual(body.untrustedData.castId.fid);
   });
 });

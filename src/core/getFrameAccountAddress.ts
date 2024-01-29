@@ -22,7 +22,7 @@ async function getFrameAccountAddress(
   { NEYNAR_API_KEY = 'NEYNAR_API_DOCS' },
 ): Promise<string | undefined> {
   const validatedMessage = await getFrameValidatedMessage(body);
-  if (!validatedMessage) {
+  if (!validatedMessage?.isValid) {
     return;
   }
   // Get the Farcaster ID from the message

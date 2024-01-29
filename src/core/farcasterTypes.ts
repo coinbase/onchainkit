@@ -5,8 +5,9 @@ export interface FrameRequest {
   };
 }
 
-export interface FrameResponse {
-  data: FrameData;
+export interface FrameValidationResponse {
+  isValid: boolean;
+  data?: FrameData;
 }
 
 export interface FrameData {
