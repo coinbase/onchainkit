@@ -1,5 +1,6 @@
 import { getFrameValidatedMessage } from './getFrameValidatedMessage';
 import { neynarBulkUserLookup } from '../utils/neynar/user/neynarUserFunctions';
+import { FrameRequest } from './farcasterTypes';
 
 type FidResponse = {
   verifications: string[];
@@ -17,7 +18,7 @@ type FidResponse = {
  * @returns
  */
 async function getFrameAccountAddress(
-  body: { trustedData?: { messageBytes?: string } },
+  body: FrameRequest,
   { NEYNAR_API_KEY = 'NEYNAR_API_DOCS' },
 ): Promise<string | undefined> {
   const validatedMessage = await getFrameValidatedMessage(body);

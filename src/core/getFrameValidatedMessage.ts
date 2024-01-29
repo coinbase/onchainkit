@@ -1,4 +1,5 @@
 import { HubRpcClient, Message, getSSLHubRpcClient } from '@farcaster/hub-nodejs';
+import { convertToFrame, FrameRequest, FrameResponse } from './farcasterTypes';
 
 /**
  * Farcaster Hub for signature verification,
@@ -18,9 +19,7 @@ export function getHubClient(): HubRpcClient {
  *
  * @param body The JSON received by server on frame callback
  */
-async function getFrameValidatedMessage(body: {
-  trustedData?: { messageBytes?: string };
-}): Promise<Message | undefined> {
+async function getFrameValidatedMessage(body: FrameRequest): Promise<FrameResponse | undefined> {
   // Get the message from the request body
   const frameMessage: Message = Message.decode(
     Buffer.from(body?.trustedData?.messageBytes ?? '', 'hex'),
@@ -29,7 +28,9 @@ async function getFrameValidatedMessage(body: {
   const client = getHubClient();
   const result = await client.validateMessage(frameMessage);
   if (result.isOk() && result.value.valid && result.value.message) {
-    return result.value.message;
+    return {
+      data: convertToFrame(result?.value?.message?.data),
+    };
   }
   return;
 }

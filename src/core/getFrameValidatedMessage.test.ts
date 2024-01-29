@@ -1,6 +1,7 @@
 import { mockNeynarResponse } from './mock';
 import { getFrameValidatedMessage } from './getFrameValidatedMessage';
 import { neynarBulkUserLookup } from '../utils/neynar/user/neynarUserFunctions';
+import { FrameRequest } from './farcasterTypes';
 
 jest.mock('../utils/neynar/user/neynarUserFunctions', () => {
   return {
@@ -32,7 +33,7 @@ describe('getFrameValidatedMessage', () => {
     });
     const result = await getFrameValidatedMessage({
       trustedData: { messageBytes: 'invalid' },
-    });
+    } as FrameRequest);
     expect(result).toBeUndefined();
   });
 
@@ -43,7 +44,7 @@ describe('getFrameValidatedMessage', () => {
     const fakeFrameData = {
       trustedData: {},
     };
-    const result = await getFrameValidatedMessage(fakeFrameData);
-    expect(result).toEqual({ data: { fid } });
+    const result = await getFrameValidatedMessage(fakeFrameData as FrameRequest);
+    expect(result?.data.fid).toEqual(fid);
   });
 });

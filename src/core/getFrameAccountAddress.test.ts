@@ -1,6 +1,7 @@
 import { getFrameAccountAddress } from './getFrameAccountAddress';
 import { mockNeynarResponse } from './mock';
 import { neynarBulkUserLookup } from '../utils/neynar/user/neynarUserFunctions';
+import { FrameRequest } from './farcasterTypes';
 
 jest.mock('../utils/neynar/user/neynarUserFunctions', () => {
   return {
@@ -32,7 +33,7 @@ describe('getFrameAccountAddress', () => {
     const addresses = ['0xaddr1'];
     mockNeynarResponse(fid, addresses, neynarBulkUserLookup as jest.Mock);
 
-    const response = await getFrameAccountAddress(fakeFrameData, fakeApiKey);
+    const response = await getFrameAccountAddress(fakeFrameData as FrameRequest, fakeApiKey);
     expect(response).toEqual(addresses[0]);
   });
 
@@ -46,7 +47,7 @@ describe('getFrameAccountAddress', () => {
         return false;
       },
     });
-    const response = await getFrameAccountAddress(fakeFrameData, fakeApiKey);
+    const response = await getFrameAccountAddress(fakeFrameData as FrameRequest, fakeApiKey);
     expect(response).toEqual(undefined);
   });
 });
