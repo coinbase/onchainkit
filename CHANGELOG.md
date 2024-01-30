@@ -1,9 +1,10 @@
 # Changelog
 
-## 0.2.0
+## 0.2.1
 
-### Minor Changes
+### Patch Changes
 
+- **feat**: exported `FrameRequest` and `FrameData` types.
 - **docs**: Polished README for `getFrameMessage()`. By @zizzamia #38 218b65e
 - **fix**: Refactor Farcaster typing to be explicit, and added a Farcaster message verification integration test. By @robpolak @cnasc @zizzamia #37
 - **feat**: Added a concept of integration tests where we can assert the actual values coming back from `neynar`. We decoupled these from unit tests as we should not commingle. By @robpolak #35
