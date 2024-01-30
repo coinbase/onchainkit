@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.1
+
+### Patch Changes
+
+- 8df2ce6: - **feat**: exported `FrameRequest` and `FrameData` types.
+
 ## 0.2.0
 
 ### Minor Changes
