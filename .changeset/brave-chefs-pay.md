@@ -19,7 +19,6 @@ import { getFrameAccountAddress } from '@coinbase/onchainkit';
 const accountAddress = await getFrameAccountAddress(body);
 ```
 
-
 After
 
 ```ts
