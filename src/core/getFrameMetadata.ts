@@ -1,3 +1,9 @@
+type FrameMetadataResponse = {
+  buttons: string[];
+  image: string;
+  post_url: string;
+};
+
 /**
  * This function generates the metadata for a Farcaster Frame.
  * @param buttons: An array of button names.
@@ -5,15 +11,7 @@
  * @param post_url: The URL to post the frame to.
  * @returns The metadata for the frame.
  */
-export const getFrameMetadata = function ({
-  buttons,
-  image,
-  post_url,
-}: {
-  buttons: string[];
-  image: string;
-  post_url: string;
-}) {
+export const getFrameMetadata = function ({ buttons, image, post_url }: FrameMetadataResponse) {
   const metadata: Record<string, string> = {
     'fc:frame': 'vNext',
   };
