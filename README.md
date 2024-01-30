@@ -48,14 +48,14 @@ Note: To utilize this function, we rely on [Neynar APIs](https://docs.neynar.com
 
 ```ts
 // Steps 1. import getFrameAccountAddress from @coinbase/onchainkit
-import { getFrameAccountAddress } from '@coinbase/onchainkit';
+import { FrameRequest, getFrameAccountAddress } from '@coinbase/onchainkit';
 import { NextRequest, NextResponse } from 'next/server';
 
 async function getResponse(req: NextRequest): Promise<NextResponse> {
   let accountAddress = '';
   try {
     // Step 2. Read the body from the Next Request
-    const body = await req.json();
+    const body: FrameRequest = await req.json();
     // Step 3. Get from the body the Account Address of the user using the Frame
     accountAddress = await getFrameAccountAddress(body, { NEYNAR_API_KEY: 'NEYNAR_API_DOCS' });
   } catch (err) {
@@ -142,6 +142,8 @@ export const dynamic = 'force-dynamic';
 **@Returns**
 
 ```ts
+type Promise<FrameValidationResponse>;
+
 type FrameValidationResponse =
   | { isValid: true; message: FrameData }
   | { isValid: false; message: undefined };
