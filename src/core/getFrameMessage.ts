@@ -19,7 +19,7 @@ export function getHubClient(): HubRpcClient {
  *
  * @param body The JSON received by server on frame callback
  */
-async function getFrameMessage(body: FrameRequest): Promise<FrameValidationResponse | undefined> {
+async function getFrameMessage(body: FrameRequest): Promise<FrameValidationResponse> {
   // Get the message from the request body
   const frameMessage: Message = Message.decode(
     Buffer.from(body?.trustedData?.messageBytes ?? '', 'hex'),
