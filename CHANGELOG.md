@@ -10,6 +10,7 @@
 
 BREAKING CHANGES
 
+**getFrameAccountAddress**
 We have enhanced the `getFrameAccountAddress` method by making it more composable with `getFrameMessage`. Now, instead of directly retrieving the `accountAddress` from the `body`, you will utilize the validated `message` to do so.
 
 Before
@@ -30,6 +31,65 @@ import { getFrameAccountAddress } from '@coinbase/onchainkit';
 ...
 const { isValid, message } = await getFrameMessage(body);
 const accountAddress = await getFrameAccountAddress(message);
+```
+
+**getFrameMetadata**
+We have enhanced the `getFrameMetadata` method by making making the `buttons` extantable to new actions.
+
+Before
+
+```ts
+import { getFrameMetadata } from '@coinbase/onchainkit';
+
+...
+const frameMetadata = getFrameMetadata({
+  buttons: ['boat'],
+  image: 'https://build-onchain-apps.vercel.app/release/v-0-17.png',
+  post_url: 'https://build-onchain-apps.vercel.app/api/frame',
+});
+```
+
+```ts
+type FrameMetadata = {
+  buttons: string[];
+  image: string;
+  post_url: string;
+};
+```
+
+After
+
+```ts
+import { frameMetadata } from '@coinbase/onchainkit';
+
+...
+const frameMetadata = getFrameMetadata({
+  buttons: [
+    {
+      label: 'We love BOAT',
+    },
+  ],
+  image: 'https://build-onchain-apps.vercel.app/release/v-0-17.png',
+  post_url: 'https://build-onchain-apps.vercel.app/api/frame',
+});
+```
+
+```ts
+type Button = {
+  label: string;
+  action?: 'post' | 'post_redirect';
+};
+
+type FrameMetadata = {
+  // A list of strings which are the label for the buttons in the frame (max 4 buttons).
+  buttons: [Button, ...Button[]];
+  // An image which must be smaller than 10MB and should have an aspect ratio of 1.91:1
+  image: string;
+  // A valid POST URL to send the Signature Packet to.
+  post_url: string;
+  // A period in seconds at which the app should expect the image to update.
+  refresh_period?: number;
+};
 ```
 
 ## 0.2.1
