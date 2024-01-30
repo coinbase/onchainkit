@@ -153,9 +153,9 @@ interface FrameData {
 
 <br />
 
-### getFrameMetadata()
+### getFrameMetadata(metadata: FrameMetadata)
 
-With Next.js App routing, use the `getFrameMetadata` inside your `page.ts` to get the metadata need it for your Frame.
+With Next.js App routing, use the `getFrameMetadata()` inside your `page.ts` to get the metadata need it for your Frame.
 
 ```ts
 // Steps 1. import getFrameMetadata from @coinbase/onchainkit
@@ -165,7 +165,11 @@ import HomePage from './home';
 
 // Step 2. Use getFrameMetadata to shape your Frame metadata
 const frameMetadata = getFrameMetadata({
-  buttons: ['boat'],
+  buttons: [
+    {
+      label: 'We love BOAT',
+    },
+  ],
   image: 'https://build-onchain-apps.vercel.app/release/v-0-17.png',
   post_url: 'https://build-onchain-apps.vercel.app/api/frame',
 });
@@ -185,18 +189,28 @@ export default function Page() {
 
 **@Param**
 
-- `buttons`: A list of strings which are the label for the buttons in the frame (max 4 buttons).
-- `image`: An image which must be smaller than 10MB and should have an aspect ratio of 1.91:1
-- `post_url`: A valid POST URL to send the Signature Packet to.
+```ts
+type Button = {
+  label: string;
+  action?: 'post' | 'post_redirect';
+};
+
+type FrameMetadata = {
+  // A list of strings which are the label for the buttons in the frame (max 4 buttons).
+  buttons: [Button, ...Button[]];
+  // An image which must be smaller than 10MB and should have an aspect ratio of 1.91:1
+  image: string;
+  // A valid POST URL to send the Signature Packet to.
+  post_url: string;
+  // A period in seconds at which the app should expect the image to update.
+  refresh_period?: number;
+};
+```
 
 **@Returns**
 
 ```ts
-type FrameMetadataResponse = {
-  buttons: string[];
-  image: string;
-  post_url: string;
-};
+type FrameMetadataResponse = Record<string, string>;
 ```
 
 <br />
