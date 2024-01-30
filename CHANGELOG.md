@@ -4,64 +4,63 @@
 
 ### Minor Changes
 
-- 218b65e: - **docs**: Polished README for `getFrameMessage()`. By @zizzamia #38
+- **docs**: Polished README for `getFrameMessage()`. By @zizzamia #38 218b65e
+- **fix**: Refactor Farcaster typing to be explicit, and added a Farcaster message verification integration test. By @robpolak @cnasc @zizzamia #37
+- **feat**: Added a concept of integration tests where we can assert the actual values coming back from `neynar`. We decoupled these from unit tests as we should not commingle. By @robpolak #35
+- **feat**: Refactored `neynar` client out of the `./src/core` code-path, for better composability and testability. By @robpolak #35
 
-  - **fix**: Refactor Farcaster typing to be explicit, and added a Farcaster message verification integration test. By @robpolak @cnasc @zizzamia #37
-  - **feat**: Added a concept of integration tests where we can assert the actual values coming back from `neynar`. We decoupled these from unit tests as we should not commingle. By @robpolak #35
-  - **feat**: Refactored `neynar` client out of the `./src/core` code-path, for better composability and testability. By @robpolak #35
+BREAKING CHANGES
 
-  BREAKING CHANGES
+We made the `getFrameValidatedMessage` method more type-safe and renamed it to `getFrameMessage`.
 
-  We made the `getFrameValidatedMessage` method more type-safe and renamed it to `getFrameMessage`.
+Before
 
-  Before
+```ts
+import { getFrameValidatedMessage } from '@coinbase/onchainkit';
 
-  ```ts
-  import { getFrameValidatedMessage } from '@coinbase/onchainkit';
+...
 
-  ...
+const validatedMessage = await getFrameValidatedMessage(body);
+```
 
-  const validatedMessage = await getFrameValidatedMessage(body);
-  ```
+**@Returns**
 
-  **@Returns**
+```ts
+type Promise<Message | undefined>
+```
 
-  ```ts
-  type Promise<Message | undefined>
-  ```
+After
 
-  After
+```ts
+import { getFrameMessage } from '@coinbase/onchainkit';
 
-  ```ts
-  import { getFrameMessage } from '@coinbase/onchainkit';
+...
 
-  ...
+const { isValid, message } = await getFrameMessage(body);
+```
 
-  const { isValid, message } = await getFrameMessage(body);
-  ```
+**@Returns**
 
-  **@Returns**
+```ts
+type Promise<FrameValidationResponse>;
 
-  ```ts
-  type Promise<FrameValidationResponse>;
+type FrameValidationResponse =
+  | { isValid: true; message: FrameData }
+  | { isValid: false; message: undefined };
 
-  type FrameValidationResponse =
-    | { isValid: true; message: FrameData }
-    | { isValid: false; message: undefined };
-
-  interface FrameData {
-    fid: number;
-    url: string;
-    messageHash: string;
-    timestamp: number;
-    network: number;
-    buttonIndex: number;
-    castId: {
-      fid: number;
-      hash: string;
-    };
-  }
-  ```
+interface FrameData {
+  fid: number;
+  url: string;
+  messageHash: string;
+  timestamp: number;
+  network: number;
+  buttonIndex: number;
+  castId: {
+   fid: number;
+   hash: string;
+ };
+}
+```
 
 ## 0.1.6
 
