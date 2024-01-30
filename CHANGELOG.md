@@ -34,7 +34,7 @@ const accountAddress = await getFrameAccountAddress(message);
 ```
 
 **getFrameMetadata**
-We have enhanced the `getFrameMetadata` method by making making the `buttons` extantable to new actions.
+We have improved the `getFrameMetadata` method by making the `buttons` extensible for new actions.
 
 Before
 
