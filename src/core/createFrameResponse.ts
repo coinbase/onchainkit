@@ -1,4 +1,3 @@
-import { NextResponse } from 'next/server';
 import { Button, FrameMetadata } from './sharedTypes';
 
 /**
@@ -15,7 +14,7 @@ function createFrameResponse({
   image,
   post_url,
   refresh_period,
-}: FrameMetadata): NextResponse {
+}: FrameMetadata): Response {
   const imageHtml = image ? `<meta property="fc:frame:image" content="${image}" />` : '';
   // Ensure only up to 4 buttons are processed
   let buttonsHtml = '';
@@ -49,7 +48,7 @@ function createFrameResponse({
       </head>
     </html>`;
 
-  const response = new NextResponse(html);
+  const response = new Response(html);
   response.headers.set('Cache-Control', 'private, no-cache, no-store, max-age=0');
   response.headers.set('Pragma', 'no-cache');
   return response;
