@@ -9,17 +9,13 @@ import { FrameMetadata } from './farcasterTypes';
  * @param refresh_period: The refresh period for the image used.
  * @returns An HTML string containing metadata for the frame.
  */
-function getFrameHtml({
-  buttons,
-  image,
-  post_url,
-  refresh_period,
-}: FrameMetadata): string {
+function getFrameHtml({ buttons, image, post_url, refresh_period }: FrameMetadata): string {
   const imageHtml = image ? `<meta property="fc:frame:image" content="${image}" />` : '';
   // Ensure only up to 4 buttons are processed
   let buttonsHtml = '';
   if (buttons) {
-    buttonsHtml = buttons.map((button, index) => {
+    buttonsHtml = buttons
+      .map((button, index) => {
         let buttonHtml = `<meta property="fc:frame:button:${index + 1}" content="${button.label}" />`;
         if (button.action) {
           buttonHtml += `<meta property="fc:frame:button:${index + 1}:action" content="${button.action}" />`;

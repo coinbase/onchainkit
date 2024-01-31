@@ -48,4 +48,3 @@ export type FrameMetadata = {
   post_url?: string;
   refresh_period?: number;
 };
-
