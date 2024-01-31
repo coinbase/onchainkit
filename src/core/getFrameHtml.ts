@@ -1,4 +1,4 @@
-import { Button, FrameMetadata } from './farcasterTypes';
+import { FrameMetadata } from './farcasterTypes';
 
 /**
  * Gets an HTML string containing metadata for a new valid frame.
@@ -19,18 +19,14 @@ function getFrameHtml({
   // Ensure only up to 4 buttons are processed
   let buttonsHtml = '';
   if (buttons) {
-    const validButtons = buttons
-      .slice(0, 4)
-      .filter((button): button is Button => button !== undefined);
-    buttonsHtml = validButtons
-      .map((button, index) => {
+    buttonsHtml = buttons.map((button, index) => {
         let buttonHtml = `<meta property="fc:frame:button:${index + 1}" content="${button.label}" />`;
         if (button.action) {
-          buttonHtml += `\n<meta property="fc:frame:button:${index + 1}:action" content="${button.action}" />`;
+          buttonHtml += `<meta property="fc:frame:button:${index + 1}:action" content="${button.action}" />`;
         }
         return buttonHtml;
       })
-      .join('\n');
+      .join('');
   }
   const postUrlHtml = post_url ? `<meta property="fc:frame:post_url" content="${post_url}" />` : '';
   const refreshPeriodHtml = refresh_period
