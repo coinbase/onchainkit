@@ -6,8 +6,8 @@ describe('getFrameHtml', () => {
       buttons: [
         { label: 'button1', action: 'post' },
         { label: 'button2' },
-        { label: 'button3', action: 'post_redirect'},
-        { label: 'button4' }
+        { label: 'button3', action: 'post_redirect' },
+        { label: 'button4' },
       ],
       image: 'https://example.com/image.png',
       post_url: 'https://example.com/api/frame',
@@ -15,14 +15,18 @@ describe('getFrameHtml', () => {
     });
 
     expect(html).toContain('<meta property="fc:frame" content="vNext" />');
-    expect(html).toContain('<meta property="fc:frame:image" content="https://example.com/image.png" />');
+    expect(html).toContain(
+      '<meta property="fc:frame:image" content="https://example.com/image.png" />',
+    );
     expect(html).toContain('<meta property="fc:frame:button:1" content="button1" />');
     expect(html).toContain('<meta property="fc:frame:button:1:action" content="post" />');
     expect(html).toContain('<meta property="fc:frame:button:2" content="button2" />');
     expect(html).toContain('<meta property="fc:frame:button:3" content="button3" />');
     expect(html).toContain('<meta property="fc:frame:button:3:action" content="post_redirect" />');
     expect(html).toContain('<meta property="fc:frame:button:4" content="button4" />');
-    expect(html).toContain('<meta property="fc:frame:post_url" content="https://example.com/api/frame" />');
+    expect(html).toContain(
+      '<meta property="fc:frame:post_url" content="https://example.com/api/frame" />',
+    );
     expect(html).toContain('<meta property="fc:frame:refresh_period" content="10" />');
   });
 
@@ -33,8 +37,12 @@ describe('getFrameHtml', () => {
     });
 
     expect(html).toContain('<meta property="fc:frame" content="vNext" />');
-    expect(html).toContain('<meta property="fc:frame:image" content="https://example.com/image.png" />');
-    expect(html).toContain('<meta property="fc:frame:post_url" content="https://example.com/api/frame" />');
+    expect(html).toContain(
+      '<meta property="fc:frame:image" content="https://example.com/image.png" />',
+    );
+    expect(html).toContain(
+      '<meta property="fc:frame:post_url" content="https://example.com/api/frame" />',
+    );
     expect(html).not.toContain('fc:frame:button:');
   });
 
@@ -45,7 +53,9 @@ describe('getFrameHtml', () => {
     });
 
     expect(html).toContain('<meta property="fc:frame" content="vNext" />');
-    expect(html).toContain('<meta property="fc:frame:image" content="https://example.com/image.png" />');
+    expect(html).toContain(
+      '<meta property="fc:frame:image" content="https://example.com/image.png" />',
+    );
     expect(html).toContain('<meta property="fc:frame:button:1" content="button1" />');
     expect(html).not.toContain('fc:frame:post_url');
   });
@@ -58,9 +68,13 @@ describe('getFrameHtml', () => {
     });
 
     expect(html).toContain('<meta property="fc:frame" content="vNext" />');
-    expect(html).toContain('<meta property="fc:frame:image" content="https://example.com/image.png" />');
+    expect(html).toContain(
+      '<meta property="fc:frame:image" content="https://example.com/image.png" />',
+    );
     expect(html).toContain('<meta property="fc:frame:button:1" content="button1" />');
-    expect(html).toContain('<meta property="fc:frame:post_url" content="https://example.com/api/frame" />');
+    expect(html).toContain(
+      '<meta property="fc:frame:post_url" content="https://example.com/api/frame" />',
+    );
     expect(html).not.toContain('fc:frame:refresh_period');
   });
 });
