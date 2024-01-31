@@ -1,4 +1,4 @@
-import { FrameMetadata } from './sharedTypes';
+import { FrameMetadata } from './farcasterTypes';
 
 type FrameMetadataResponse = Record<string, string>;
 

@@ -1,21 +1,20 @@
-import { NextResponse } from 'next/server';
-import { Button, FrameMetadata } from './sharedTypes';
+import { Button, FrameMetadata } from './farcasterTypes';
 
 /**
- * Creates a response with a new valid frame to be rendered.
+ * Gets an HTML string containing metadata for a new valid frame.
  *
  * @param buttons: The buttons to use for the frame.
  * @param image: The image to use for the frame.
  * @param post_url: The URL to post the frame to.
  * @param refresh_period: The refresh period for the image used.
- * @returns An HTML response containing metadata for the frame.
+ * @returns An HTML string containing metadata for the frame.
  */
-function createFrameResponse({
+function getFrameHtml({
   buttons,
   image,
   post_url,
   refresh_period,
-}: FrameMetadata): NextResponse {
+}: FrameMetadata): string {
   const imageHtml = image ? `<meta property="fc:frame:image" content="${image}" />` : '';
   // Ensure only up to 4 buttons are processed
   let buttonsHtml = '';
@@ -49,10 +48,7 @@ function createFrameResponse({
       </head>
     </html>`;
 
-  const response = new NextResponse(html);
-  response.headers.set('Cache-Control', 'private, no-cache, no-store, max-age=0');
-  response.headers.set('Pragma', 'no-cache');
-  return response;
+  return html;
 }
 
-export { createFrameResponse };
+export { getFrameHtml };
