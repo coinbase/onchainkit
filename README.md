@@ -2,7 +2,7 @@
 
 # [OnchainKit](https://github.com/coinbase/onchainkit/)
 
-> OnchainKit is a collection of tools to build world-class onchain apps with CSS, React, and Typescript.
+> OnchainKit is a collection of tools to build world-class onchain apps with NextJS.
 
 ## Getting Started
 
@@ -20,6 +20,10 @@ npm install @coinbase/onchainkit
 # Use PNPM
 pnpm add @coinbase/onchainkit
 ```
+
+### NextJS Pages Router
+
+If your app uses [NextJS Pages Router](https://nextjs.org/docs/pages), you'll need to ensure that Framekit is only called server-side (e.g., in `getServerSideProps` or `getStaticProps`). In [NextJS App Router](https://nextjs.org/docs/app) pages are React Server Components by default, so this is only a concern if you are calling from a client component.
 
 <br />
 <br />
