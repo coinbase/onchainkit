@@ -32,9 +32,10 @@ Creating a frame is easy: select an image and add clickable buttons. When a butt
 
 Utilities:
 
-- [getFrameAccountAddress()](https://github.com/coinbase/onchainkit?tab=readme-ov-file#getframeaccountaddress)
-- [getFrameMessage()](https://github.com/coinbase/onchainkit?tab=readme-ov-file#getFrameMessage)
-- [getFrameMetadata()](https://github.com/coinbase/onchainkit?tab=readme-ov-file#getFrameMetadata)
+- [getFrameAccountAddress()](https://github.com/coinbase/onchainkit?tab=readme-ov-file#getframeaccountaddress): Retrieves the user **Account Address** from a Frame message.
+- [getFrameHtmlResponse()](https://github.com/coinbase/onchainkit?tab=readme-ov-file#getframehtmlresponse): Retrieves the **Frame HTML** for your HTTP responses.
+- [getFrameMessage()](https://github.com/coinbase/onchainkit?tab=readme-ov-file#getframemessage): Retrieves a valid **Frame message** from the Frame Signature Packet.
+- [getFrameMetadata()](https://github.com/coinbase/onchainkit?tab=readme-ov-file#getframemetadata): Retrieves valid **Frame metadata** for your initial HTML page.
 
 <br />
 
@@ -78,15 +79,27 @@ export const dynamic = 'force-dynamic';
 
 **@Param**
 
-- `message`: The validated message from the Frame
-- `options`:
-  - `NEYNAR_API_KEY`: The NEYNAR_API_KEY used to access [Neynar Farcaster Indexer](https://docs.neynar.com/reference/user-bulk)
+```ts
+type AccountAddressRequest = {
+  // The validated message from the getFrameMessage() function
+  message: FrameData;
+  options: {
+    // The NEYNAR_API_KEY used to access Neynar Farcaster Indexer
+    // https://docs.neynar.com/reference/user-bulk
+    NEYNAR_API_KEY: string;
+  };
+};
+```
 
 **@Returns**
 
 ```ts
 type AccountAddressResponse = Promise<string | undefined>;
 ```
+
+<br />
+
+### getFrameHtmlResponse(options)
 
 <br />
 
@@ -126,7 +139,12 @@ export const dynamic = 'force-dynamic';
 
 **@Param**
 
-- `body`: The Frame Signature Packet body
+```ts
+type FrameMessageRequest = {
+  // The Frame Signature Packet body
+  body: FrameRequest;
+};
+```
 
 **@Returns**
 
@@ -197,11 +215,11 @@ type Button = {
 
 type FrameMetadata = {
   // A list of strings which are the label for the buttons in the frame (max 4 buttons).
-  buttons: [Button, ...Button[]];
+  buttons?: [Button, ...Button[]];
   // An image which must be smaller than 10MB and should have an aspect ratio of 1.91:1
   image: string;
   // A valid POST URL to send the Signature Packet to.
-  post_url: string;
+  post_url?: string;
   // A period in seconds at which the app should expect the image to update.
   refresh_period?: number;
 };

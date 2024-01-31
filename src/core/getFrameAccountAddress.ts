@@ -1,11 +1,11 @@
 import { neynarBulkUserLookup } from '../utils/neynar/user/neynarUserFunctions';
 import { FrameData } from './farcasterTypes';
 
+type AccountAddressResponse = Promise<string | undefined>;
+
 type FidResponse = {
   verifications: string[];
 };
-
-type AccountAddressResponse = Promise<string | undefined>;
 
 /**
  * Get the Account Address from the Farcaster ID using the Frame.
