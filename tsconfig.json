@@ -18,7 +18,8 @@
     "typeRoots": [
       "node_modules/@types",
       "./types"
-    ]
+    ],
+    "jsx": "react"
   },
   "include": [
     "src"

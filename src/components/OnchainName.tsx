@@ -11,7 +11,7 @@ type OnchainNameProps = {
 };
 
 /**
- * OnchainAddress is a React component that renders an Ethereum address.
+ * OnchainName is a React component that renders the user name from an Ethereum address.
  * It displays the ENS name if available; otherwise, it shows either a sliced version of the address
  * or the full address, based on the 'sliced' prop. By default, 'sliced' is set to true.
  *
