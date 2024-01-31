@@ -22,7 +22,6 @@
     ]
   },
   "include": [
-    "src",
-    "jest.setup.ts"
+    "src"
   ]
 }

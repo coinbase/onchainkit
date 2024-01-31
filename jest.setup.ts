@@ -3,8 +3,6 @@
 // specific matchers (assertions) would be far more convenient.
 // https://jest-extended.jestcommunity.dev/docs/matchers/
 import 'jest-extended';
-// Enable jest-dom functions
-import '@testing-library/jest-dom';
 
 import { TextEncoder, TextDecoder } from 'util';
 

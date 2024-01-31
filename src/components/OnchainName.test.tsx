@@ -6,6 +6,9 @@ import { OnchainName } from './OnchainName';
 import { useEnsName } from '../hooks/useEnsName';
 import { getSlicedAddress } from '../core/address';
 
+// Enable jest-dom functions
+import '@testing-library/jest-dom';
+
 // Mocking the hooks and utilities
 jest.mock('../hooks/useEnsName', () => ({
   useEnsName: jest.fn(),
