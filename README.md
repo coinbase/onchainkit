@@ -213,7 +213,9 @@ type FrameMetadataResponse = {
 <br />
 <br />
 
-## OnchainName 📛
+## Identity Kit 👤
+
+### OnchainName
 
 The `OnchainName` component primarily focuses on showcasing ENS names for given Ethereum addresses, and defaults to displaying a sliced version of the address when an ENS name isn't available.
 
