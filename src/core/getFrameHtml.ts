@@ -11,7 +11,6 @@ import { FrameMetadata } from './farcasterTypes';
  */
 function getFrameHtml({ buttons, image, post_url, refresh_period }: FrameMetadata): string {
   const imageHtml = image ? `<meta property="fc:frame:image" content="${image}" />` : '';
-  // Ensure only up to 4 buttons are processed
   let buttonsHtml = '';
   if (buttons) {
     buttonsHtml = buttons
