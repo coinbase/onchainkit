@@ -213,6 +213,29 @@ type FrameMetadataResponse = {
 <br />
 <br />
 
+## OnchainName 📛
+
+The `OnchainName` component primarily focuses on showcasing ENS names for given Ethereum addresses, and defaults to displaying a sliced version of the address when an ENS name isn't available.
+
+```tsx
+import { OnchainName } from '@coinbase/onchainkit';
+
+<OnchainName address="0x1234567890abcdef1234567890abcdef12345678" sliced={false} />;
+```
+
+**@Param**
+
+- `address`: Ethereum address to be resolved from ENS.
+- `className`: Optional CSS class for custom styling.
+- `sliced`: Determines if the address should be sliced when no ENS name is available.
+- `props`: Additional HTML attributes for the span element.
+
+**@Returns**
+
+```ts
+type JSX.Element;
+```
+
 ## The Team and Our Community ☁️ 🌁 ☁️
 
 OnchainKit is all about community; for any questions, feel free to:
