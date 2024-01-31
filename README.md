@@ -61,7 +61,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
   // Step 4. Determine the experience based on the validity of the message
   if (isValid) {
     // Step 5. Get from the message the Account Address of the user using the Frame
-    accountAddress = await getFrameAccountAddress(message, { NEYNAR_API_KEY: 'NEYNAR_API_DOCS' });
+    accountAddress = await getFrameAccountAddress(message, { NEYNAR_API_KEY: 'NEYNAR_ONCHAIN_KIT' });
   } else {
     // sorry, the message is not valid and it will be undefined
   }

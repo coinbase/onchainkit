@@ -20,7 +20,7 @@ type AccountAddressResponse = Promise<string | undefined>;
  */
 async function getFrameAccountAddress(
   message: FrameData,
-  { NEYNAR_API_KEY = 'NEYNAR_API_DOCS' },
+  { NEYNAR_API_KEY = 'NEYNAR_ONCHAIN_KIT' },
 ): AccountAddressResponse {
   // Get the Farcaster ID from the message
   const farcasterID = message.fid ?? 0;
