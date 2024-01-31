@@ -7,6 +7,7 @@
       "es2020",
       "dom"
     ],
+    "jsx": "react-jsx",
     "strict": true,
     "sourceMap": true,
     "declaration": true,
@@ -18,10 +19,10 @@
     "typeRoots": [
       "node_modules/@types",
       "./types"
-    ],
-    "jsx": "react"
+    ]
   },
   "include": [
-    "src"
+    "src",
+    "jest.setup.ts"
   ]
 }
