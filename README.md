@@ -1,4 +1,4 @@
-<img src='./docs/logo-v-0-2.png' width='800' alt='OnchainKit'>
+<img src='./docs/logo-v-0-3.png' width='800' alt='OnchainKit'>
 
 # [OnchainKit](https://github.com/coinbase/onchainkit/)
 
@@ -38,46 +38,35 @@ Utilities:
 
 <br />
 
-### getFrameAccountAddress(body, options)
+### getFrameAccountAddress(message, options)
 
-When a user interacts with your Frame, you will receive a JSON message called `Frame Signature Packet`. From this message, you can extract the Account Address using the `getFrameAccountAddress()` function.
+When a user interacts with your Frame, you will receive a JSON message called the "Frame Signature Packet." Once you validate this `message`, you can extract the Account Address by using the `getFrameAccountAddress(message)` function.
 
-This Account Address can then be utilized for subsequent operations, enhancing the personalized experience of using the Frame for each individual.
+This Account Address can then be utilized for subsequent operations, enhancing the personalized experience of each individual using the Frame.
 
 Note: To utilize this function, we rely on [Neynar APIs](https://docs.neynar.com/reference/user-bulk). In order to avoid rate limiting, please ensure that you have your own API KEY. Sign up [here](https://neynar.com).
 
 ```ts
 // Steps 1. import getFrameAccountAddress from @coinbase/onchainkit
-import { FrameRequest, getFrameAccountAddress } from '@coinbase/onchainkit';
+import { FrameRequest, getFrameAccountAddress, getFrameMessage } from '@coinbase/onchainkit';
 import { NextRequest, NextResponse } from 'next/server';
 
 async function getResponse(req: NextRequest): Promise<NextResponse> {
   let accountAddress = '';
-  try {
-    // Step 2. Read the body from the Next Request
-    const body: FrameRequest = await req.json();
-    // Step 3. Get from the body the Account Address of the user using the Frame
-    accountAddress = await getFrameAccountAddress(body, { NEYNAR_API_KEY: 'NEYNAR_API_DOCS' });
-  } catch (err) {
-    console.error(err);
+  // Step 2. Read the body from the Next Request
+  const body: FrameRequest = await req.json();
+  // Step 3. Validate the message
+  const { isValid, message } = await getFrameMessage(body);
+
+  // Step 4. Determine the experience based on the validity of the message
+  if (isValid) {
+    // Step 5. Get from the message the Account Address of the user using the Frame
+    accountAddress = await getFrameAccountAddress(message, { NEYNAR_API_KEY: 'NEYNAR_API_DOCS' });
+  } else {
+    // sorry, the message is not valid and it will be undefined
   }
 
-  // Step 4. Use the account address for your next step
-  return new NextResponse(`
-    <!DOCTYPE html>
-    <html>
-      <head>
-        <title>BOAT</title>
-        <meta name="fc:frame" content="vNext">
-        <meta name="fc:frame:image" content="https://build-onchain-apps.vercel.app/release/v-0-17.png">
-        <meta name="fc:frame:post_url" content="post_url_test">
-        <meta name="fc:frame:button:1" content="${accountAddress}">
-      </head>
-      <body>
-        <p>BOAT Text</p>
-      </body>
-    </html>
-  `);
+  ...
 }
 
 export async function POST(req: NextRequest): Promise<Response> {
@@ -89,7 +78,7 @@ export const dynamic = 'force-dynamic';
 
 **@Param**
 
-- `body`: The Frame Signature Packet body
+- `message`: The validated message from the Frame
 - `options`:
   - `NEYNAR_API_KEY`: The NEYNAR_API_KEY used to access [Neynar Farcaster Indexer](https://docs.neynar.com/reference/user-bulk)
 
@@ -164,9 +153,9 @@ interface FrameData {
 
 <br />
 
-### getFrameMetadata()
+### getFrameMetadata(metadata: FrameMetadata)
 
-With Next.js App routing, use the `getFrameMetadata` inside your `page.ts` to get the metadata need it for your Frame.
+With Next.js App routing, use the `getFrameMetadata()` inside your `page.ts` to get the metadata need it for your Frame.
 
 ```ts
 // Steps 1. import getFrameMetadata from @coinbase/onchainkit
@@ -176,7 +165,11 @@ import HomePage from './home';
 
 // Step 2. Use getFrameMetadata to shape your Frame metadata
 const frameMetadata = getFrameMetadata({
-  buttons: ['boat'],
+  buttons: [
+    {
+      label: 'We love BOAT',
+    },
+  ],
   image: 'https://build-onchain-apps.vercel.app/release/v-0-17.png',
   post_url: 'https://build-onchain-apps.vercel.app/api/frame',
 });
@@ -196,18 +189,28 @@ export default function Page() {
 
 **@Param**
 
-- `buttons`: A list of strings which are the label for the buttons in the frame (max 4 buttons).
-- `image`: An image which must be smaller than 10MB and should have an aspect ratio of 1.91:1
-- `post_url`: A valid POST URL to send the Signature Packet to.
+```ts
+type Button = {
+  label: string;
+  action?: 'post' | 'post_redirect';
+};
+
+type FrameMetadata = {
+  // A list of strings which are the label for the buttons in the frame (max 4 buttons).
+  buttons: [Button, ...Button[]];
+  // An image which must be smaller than 10MB and should have an aspect ratio of 1.91:1
+  image: string;
+  // A valid POST URL to send the Signature Packet to.
+  post_url: string;
+  // A period in seconds at which the app should expect the image to update.
+  refresh_period?: number;
+};
+```
 
 **@Returns**
 
 ```ts
-type FrameMetadataResponse = {
-  buttons: string[];
-  image: string;
-  post_url: string;
-};
+type FrameMetadataResponse = Record<string, string>;
 ```
 
 <br />

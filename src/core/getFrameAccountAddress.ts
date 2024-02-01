@@ -1,6 +1,5 @@
-import { getFrameMessage } from './getFrameMessage';
 import { neynarBulkUserLookup } from '../utils/neynar/user/neynarUserFunctions';
-import { FrameRequest } from './farcasterTypes';
+import { FrameData } from './farcasterTypes';
 
 type FidResponse = {
   verifications: string[];
@@ -15,20 +14,16 @@ type AccountAddressResponse = Promise<string | undefined>;
  *
  * This is using a demo api key so please register
  * on through https://neynar.com/.
- * @param body The JSON received by server on frame callback
+ * @param message The validated message from the Frame
  * @param NEYNAR_API_KEY The api key for the Neynar API
  * @returns The account address or undefined
  */
 async function getFrameAccountAddress(
-  body: FrameRequest,
+  message: FrameData,
   { NEYNAR_API_KEY = 'NEYNAR_API_DOCS' },
 ): AccountAddressResponse {
-  const validatedMessage = await getFrameMessage(body);
-  if (!validatedMessage?.isValid) {
-    return;
-  }
   // Get the Farcaster ID from the message
-  const farcasterID = validatedMessage?.message?.fid ?? 0;
+  const farcasterID = message.fid ?? 0;
   // Get the user verifications from the Farcaster Indexer
   const bulkUserLookupResponse = await neynarBulkUserLookup([farcasterID], NEYNAR_API_KEY);
   if (bulkUserLookupResponse?.users) {

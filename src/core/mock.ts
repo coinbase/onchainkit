@@ -14,7 +14,11 @@ export function buildFarcasterResponse(fid: number) {
   };
 }
 
-export function mockNeynarResponse(fid: number, addresses: string[], lookupMock: jest.Mock) {
+export function mockNeynarResponse(
+  fid: number,
+  addresses: string[] | undefined,
+  lookupMock: jest.Mock,
+) {
   const neynarResponse = {
     users: [
       {
