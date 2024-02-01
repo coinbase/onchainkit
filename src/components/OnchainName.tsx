@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { getSlicedAddress } from '../core/address';
-import { useEnsName } from '../hooks/useEnsName';
+import { useOnchainName } from '../hooks/useOnchainName';
 import type { Address } from 'viem';
 
 type OnchainNameProps = {
@@ -21,19 +21,23 @@ type OnchainNameProps = {
  * @param {React.HTMLAttributes<HTMLSpanElement>} [props] - Additional HTML attributes for the span element.
  */
 export function OnchainName({ address, className, sliced = true, props }: OnchainNameProps) {
-  const { ensName } = useEnsName(address);
+  const { ensName, isLoading } = useOnchainName(address);
 
-  const normilizedAddress = useMemo(() => {
-    if (sliced) {
+  // wrapped in useMemo to prevent unnecessary recalculations.
+  const normalizedAddress = useMemo(() => {
+    if (!ensName && !isLoading && sliced) {
       return getSlicedAddress(address);
     }
-
     return address;
-  }, [address]);
+  }, [address, isLoading]);
+
+  if (isLoading) {
+    return null;
+  }
 
   return (
     <span className={className} {...props}>
-      {ensName ?? normilizedAddress}
+      {ensName ?? normalizedAddress}
     </span>
   );
 }

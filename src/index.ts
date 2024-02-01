@@ -7,4 +7,5 @@ export { getFrameAccountAddress } from './core/getFrameAccountAddress';
 export { getFrameMetadata } from './core/getFrameMetadata';
 export { getFrameMessage } from './core/getFrameMessage';
 export { OnchainName } from './components/OnchainName';
+export { useOnchainName } from './hooks/useOnchainName';
 export type { FrameRequest, FrameData } from './core/farcasterTypes';

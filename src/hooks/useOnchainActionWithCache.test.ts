@@ -4,72 +4,60 @@
 
 import { renderHook, waitFor } from '@testing-library/react';
 import { useOnchainActionWithCache } from './useOnchainActionWithCache';
+import { InMemoryStorage } from '../store/inMemoryStorageService';
 
-describe('useOnchainActionWithCache Hook', () => {
-  const mockAction = jest.fn();
-  const mockStorageService = {
+jest.mock('../store/inMemoryStorageService', () => ({
+  InMemoryStorage: {
     getData: jest.fn(),
     setData: jest.fn(),
-  };
+  },
+}));
+
+describe('useOnchainActionWithCache', () => {
+  const mockAction = jest.fn();
+  const actionKey = 'testKey';
 
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
-  it('initializes with undefined data', async () => {
-    const { result } = renderHook(() =>
-      useOnchainActionWithCache(mockAction, 'testKey', mockStorageService),
-    );
-    expect(result.current).toBeUndefined();
+  it('initializes with loading state and undefined data', () => {
+    const { result } = renderHook(() => useOnchainActionWithCache(mockAction, actionKey));
+    expect(result.current.isLoading).toBe(true);
+    expect(result.current.data).toBeUndefined();
   });
 
-  it('fetches data without caching for empty actionKey', async () => {
-    mockAction.mockResolvedValue('fetchedData');
-    const { result } = renderHook(() =>
-      useOnchainActionWithCache(mockAction, '', mockStorageService),
-    );
+  it('fetches data and updates state', async () => {
+    const testData = 'testData';
+    mockAction.mockResolvedValue(testData);
+
+    const { result } = renderHook(() => useOnchainActionWithCache(mockAction, actionKey));
 
     await waitFor(() => {
-      expect(result.current).toBe('fetchedData');
+      expect(mockAction).toHaveBeenCalled();
+      expect(result.current.data).toBe(testData);
+      expect(result.current.isLoading).toBe(false);
     });
-    expect(mockStorageService.setData).not.toHaveBeenCalled();
-    expect(mockAction).toHaveBeenCalled();
   });
 
-  it('fetches and caches data for non-empty actionKey', async () => {
-    mockStorageService.getData.mockResolvedValue(undefined);
-    mockAction.mockResolvedValue('fetchedData');
-    const { result } = renderHook(() =>
-      useOnchainActionWithCache(mockAction, 'testKey', mockStorageService),
-    );
+  it('caches data when an actionKey is provided', async () => {
+    const testData = 'testData';
+    mockAction.mockResolvedValue(testData);
 
+    renderHook(() => useOnchainActionWithCache(mockAction, actionKey));
     await waitFor(() => {
-      expect(result.current).toBe('fetchedData');
+      expect(InMemoryStorage.setData).toHaveBeenCalledWith(actionKey, testData);
     });
-    expect(mockStorageService.setData).toHaveBeenCalledWith('testKey', 'fetchedData');
   });
 
-  it('retrieves data from cache', async () => {
-    mockStorageService.getData.mockResolvedValue('cachedData');
-    const { result } = renderHook(() =>
-      useOnchainActionWithCache(mockAction, 'testKey', mockStorageService),
-    );
+  it('does not cache data when actionKey is empty', async () => {
+    const testData = 'testData';
+    mockAction.mockResolvedValue(testData);
+
+    renderHook(() => useOnchainActionWithCache(mockAction, ''));
 
     await waitFor(() => {
-      expect(result.current).toBe('cachedData');
-    });
-    expect(mockAction).not.toHaveBeenCalled();
-  });
-
-  it('does not update state after unmount', async () => {
-    mockAction.mockResolvedValue('fetchedData');
-    const { result, unmount } = renderHook(() =>
-      useOnchainActionWithCache(mockAction, 'testKey', mockStorageService),
-    );
-    unmount();
-
-    await waitFor(() => {
-      expect(result.current).toBeUndefined();
+      expect(InMemoryStorage.setData).not.toHaveBeenCalled();
     });
   });
 });

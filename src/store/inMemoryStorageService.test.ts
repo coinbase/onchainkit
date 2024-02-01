@@ -1,33 +1,31 @@
-import { InMemoryStorageService } from './inMemoryStorageService';
+import { InMemoryStorage } from '../store/inMemoryStorageService';
 
-describe('InMemoryStorageService', () => {
-  let storageService: InMemoryStorageService;
-
+describe('InMemoryStorage', () => {
   beforeEach(() => {
-    storageService = new InMemoryStorageService();
+    // Optionally clear the storage before each test if needed.
+    // This depends on whether InMemoryStorage provides a method to clear the storage.
   });
 
-  it('initializes an empty storage', async () => {
-    expect(storageService).toBeDefined();
-    const value = await storageService.getData('someKey');
+  it('initializes with an empty storage', async () => {
+    const value = await InMemoryStorage.getData('someKey');
     expect(value).toBeNull();
   });
 
   it('stores and retrieves data correctly', async () => {
-    await storageService.setData('testKey', 'testValue');
-    const value = await storageService.getData('testKey');
+    await InMemoryStorage.setData('testKey', 'testValue');
+    const value = await InMemoryStorage.getData('testKey');
     expect(value).toBe('testValue');
   });
 
   it('returns null for non-existent keys', async () => {
-    const value = await storageService.getData('nonExistentKey');
+    const value = await InMemoryStorage.getData('nonExistentKey');
     expect(value).toBeNull();
   });
 
   it("deletes data when setting a key's value to null", async () => {
-    await storageService.setData('testKey', 'testValue');
-    await storageService.setData('testKey', null);
-    const value = await storageService.getData('testKey');
+    await InMemoryStorage.setData('testKey', 'testValue');
+    await InMemoryStorage.setData('testKey', null);
+    const value = await InMemoryStorage.getData('testKey');
     expect(value).toBeNull();
   });
 });

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { StorageInterface, ActionFunction, ActionKey, StorageValue } from '../types';
+import { ActionFunction, ActionKey, StorageValue } from '../types';
+import { InMemoryStorage } from '../store/inMemoryStorageService'; // Adjust the import path as needed
 
 type ExtractStorageValue<T> = T extends StorageValue ? T : never;
 
@@ -8,15 +9,11 @@ type ExtractStorageValue<T> = T extends StorageValue ? T : never;
  * It fetches data based on the given dependencies and stores it using the provided storage service.
  * @param action - The action function to fetch data.
  * @param actionKey - A key associated with the action for caching purposes.
- * @param storageService - The storage service to use for caching.
- * @returns The data fetched by the action function.
+ * @returns The data fetched by the action function and a boolean indicating whether the data is being fetched.
  */
-export function useOnchainActionWithCache<T>(
-  action: ActionFunction<T>,
-  actionKey: ActionKey,
-  storageService: StorageInterface,
-) {
+export function useOnchainActionWithCache<T>(action: ActionFunction<T>, actionKey: ActionKey) {
   const [data, setData] = useState<StorageValue>(undefined);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     let isSubscribed = true;
@@ -25,7 +22,7 @@ export function useOnchainActionWithCache<T>(
       let fetchedData: StorageValue;
       // Use cache only if actionKey is not empty
       if (actionKey) {
-        fetchedData = await storageService.getData(actionKey);
+        fetchedData = await InMemoryStorage.getData(actionKey);
       }
 
       // If no cached data or actionKey is empty, fetch new data
@@ -33,12 +30,13 @@ export function useOnchainActionWithCache<T>(
         fetchedData = (await action()) as ExtractStorageValue<T>;
         // Cache the data only if actionKey is not empty
         if (actionKey) {
-          await storageService.setData(actionKey, fetchedData);
+          await InMemoryStorage.setData(actionKey, fetchedData);
         }
       }
 
       if (isSubscribed) {
         setData(fetchedData);
+        setIsLoading(false);
       }
     };
 
@@ -47,7 +45,7 @@ export function useOnchainActionWithCache<T>(
     return () => {
       isSubscribed = false;
     };
-  }, [storageService, actionKey, action]);
+  }, [actionKey, action]);
 
-  return data;
+  return { data, isLoading };
 }
