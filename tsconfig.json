@@ -7,6 +7,8 @@
       "es2020",
       "dom"
     ],
+    "skipLibCheck": true,
+    "jsx": "react-jsx",
     "strict": true,
     "sourceMap": true,
     "declaration": true,
@@ -21,6 +23,10 @@
     ]
   },
   "include": [
-    "src"
+    "src",
+    "jest.setup.ts"
+  ],
+  "exclude": [
+    "node_modules"
   ]
 }
