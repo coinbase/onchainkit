@@ -107,7 +107,16 @@ type FrameHTMLResponse = string;
 
 When a user interacts with your Frame, you receive a JSON message called the "Frame Signature Packet". Decode and validate this message using the `getFrameMessage` function.
 
-It returns undefined if the message is not valid.
+Use `getFrameMessage` also to access useful informations like:
+
+- button: number;
+- fid: number;
+- following: boolean;
+- liked: boolean;
+- recasted: boolean;
+- verified_accounts: string[];
+
+The message will be undefined if not valid.
 
 ```ts
 // Steps 1. import getFrameMessage from @coinbase/onchainkit
@@ -118,7 +127,9 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
   // Step 2. Read the body from the Next Request
   const body = await req.json();
   // Step 3. Validate the message
-  const { isValid, message } = await getFrameMessage(body);
+  const { isValid, message } = await getFrameMessage(body , {
+    neynarApiKey: 'NEYNAR_ONCHAIN_KIT'
+  });
 
   // Step 4. Determine the experience based on the validity of the message
   if (isValid) {
@@ -141,12 +152,21 @@ export const dynamic = 'force-dynamic';
 
 ```ts
 // The Frame Signature Packet body
-type FrameRequest {
-  untrustedData: FrameData;
-  trustedData: {
-    messageBytes: string;
-  };
+type FrameMessage {
+  body: any;
+  messageOptions?: FrameMessageOptions;
 }
+
+type FrameMessageOptions =
+  | {
+      // The API key to use for validation. Default: NEYNAR_ONCHAIN_KIT
+      neynarApiKey?: string;
+      // Whether to cast the reaction context. Default: true
+      castReactionContext?: boolean;
+      // Whether to follow the context. Default: true
+      followContext?: boolean;
+    }
+  | undefined;
 ```
 
 **@Returns**
@@ -155,20 +175,21 @@ type FrameRequest {
 type Promise<FrameValidationResponse>;
 
 type FrameValidationResponse =
-  | { isValid: true; message: FrameData }
+  | { isValid: true; message: FrameValidationData }
   | { isValid: false; message: undefined };
 
-interface FrameData {
-  fid: number;
-  url: string;
-  messageHash: string;
-  timestamp: number;
-  network: number;
-  buttonIndex: number;
-  castId: {
+interface FrameValidationData {
+  valid: boolean;
+  button: number;
+  liked: boolean;
+  recasted: boolean;
+  following: boolean;
+  interactor: {
     fid: number;
-    hash: string;
+    custody_address: string;
+    verified_accounts: string[];
   };
+  raw: NeynarFrameValidationInternalModel;
 }
 ```
 
