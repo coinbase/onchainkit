@@ -1,8 +1,8 @@
 // 🌲
-const version = '0.3.0';
+const version = '0.3.1';
 
 export { version };
-export { getFrameHtml } from './core/getFrameHtmlResponse';
+export { getFrameHtmlResponse } from './core/getFrameHtmlResponse';
 export { getFrameAccountAddress } from './core/getFrameAccountAddress';
 export { getFrameMetadata } from './core/getFrameMetadata';
 export { getFrameMessage } from './core/getFrameMessage';

@@ -101,6 +101,8 @@ type AccountAddressResponse = Promise<string | undefined>;
 
 ### getFrameHtmlResponse(options)
 
+Coming soon docs!
+
 <br />
 
 ### getFrameMessage()
