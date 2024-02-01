@@ -1,3 +1,4 @@
+import { version } from '../../../version';
 import { FrameValidationData } from '../../../core/farcasterTypes';
 import { FetchError } from '../exceptions/FetchError';
 import { convertToNeynarResponseModel } from './neynarFrameModels';
@@ -13,7 +14,12 @@ export async function neynarFrameValidation(
   const options = {
     method: 'POST',
     url: `https://api.neynar.com/v2/farcaster/frame/validate`,
-    headers: { accept: 'application/json', api_key: apiKey, 'content-type': 'application/json' },
+    headers: {
+      accept: 'application/json',
+      api_key: apiKey,
+      'content-type': 'application/json',
+      onchainkit_version: version,
+    },
     body: JSON.stringify({
       message_bytes_in_hex: messageBytes,
       cast_reaction_context: castReactionContext, // Returns if the user has liked/recasted
