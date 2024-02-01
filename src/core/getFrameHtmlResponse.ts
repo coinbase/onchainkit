@@ -1,7 +1,7 @@
 import { FrameMetadata } from './farcasterTypes';
 
 /**
- * Gets an HTML string containing metadata for a new valid frame.
+ * Returns an HTML string containing metadata for a new valid frame.
  *
  * @param buttons: The buttons to use for the frame.
  * @param image: The image to use for the frame.
@@ -9,8 +9,11 @@ import { FrameMetadata } from './farcasterTypes';
  * @param refresh_period: The refresh period for the image used.
  * @returns An HTML string containing metadata for the frame.
  */
-function getFrameHtml({ buttons, image, post_url, refresh_period }: FrameMetadata): string {
+function getFrameHtmlResponse({ buttons, image, post_url, refresh_period }: FrameMetadata): string {
+  // Set the image metadata if it exists.
   const imageHtml = image ? `<meta property="fc:frame:image" content="${image}" />` : '';
+
+  // Set the button metadata if it exists.
   let buttonsHtml = '';
   if (buttons) {
     buttonsHtml = buttons
@@ -23,23 +26,20 @@ function getFrameHtml({ buttons, image, post_url, refresh_period }: FrameMetadat
       })
       .join('');
   }
+
+  // Set the post_url metadata if it exists.
   const postUrlHtml = post_url ? `<meta property="fc:frame:post_url" content="${post_url}" />` : '';
+
+  // Set the refresh_period metadata if it exists.
   const refreshPeriodHtml = refresh_period
     ? `<meta property="fc:frame:refresh_period" content="${refresh_period.toString()}" />`
     : '';
 
-  const html = `<!DOCTYPE html>
-    <html>
-      <head>
-        <meta property="fc:frame" content="vNext" />
-        ${imageHtml}
-        ${buttonsHtml}
-        ${postUrlHtml}
-        ${refreshPeriodHtml}
-      </head>
-    </html>`;
+  // Return the HTML string containing all the metadata.
+  let html = '<!DOCTYPE html><html><head><meta property="fc:frame" content="vNext" />';
+  html += `${imageHtml}${buttonsHtml}${postUrlHtml}${refreshPeriodHtml}</head></html>`;
 
   return html;
 }
 
-export { getFrameHtml };
+export { getFrameHtmlResponse };

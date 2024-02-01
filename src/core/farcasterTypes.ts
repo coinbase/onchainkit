@@ -43,8 +43,8 @@ export type FrameButtonMetadata = {
 };
 
 export type FrameMetadata = {
-  image: string;
   buttons?: [FrameButtonMetadata, ...FrameButtonMetadata[]];
+  image: string;
   post_url?: string;
   refresh_period?: number;
 };
