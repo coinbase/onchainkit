@@ -32,10 +32,10 @@ Creating a frame is easy: select an image and add clickable buttons. When a butt
 
 Utilities:
 
-- [getFrameAccountAddress()](https://github.com/coinbase/onchainkit?tab=readme-ov-file#getframeaccountaddress): Retrieves the user **Account Address** from a Frame message.
-- [getFrameHtmlResponse()](https://github.com/coinbase/onchainkit?tab=readme-ov-file#getframehtmlresponse): Retrieves the **Frame HTML** for your HTTP responses.
-- [getFrameMessage()](https://github.com/coinbase/onchainkit?tab=readme-ov-file#getframemessage): Retrieves a valid **Frame message** from the Frame Signature Packet.
-- [getFrameMetadata()](https://github.com/coinbase/onchainkit?tab=readme-ov-file#getframemetadata): Retrieves valid **Frame metadata** for your initial HTML page.
+- [getFrameAccountAddress()](https://github.com/coinbase/onchainkit?tab=readme-ov-file#getframeaccountaddressmessage-options): Retrieves the user **Account Address** from a Frame message.
+- [getFrameHtmlResponse()](https://github.com/coinbase/onchainkit?tab=readme-ov-file#getframehtmlresponseframemetadata): Retrieves the **Frame HTML** for your HTTP responses.
+- [getFrameMessage()](https://github.com/coinbase/onchainkit?tab=readme-ov-file#getframemessageframerequest): Retrieves a valid **Frame message** from the Frame Signature Packet.
+- [getFrameMetadata()](https://github.com/coinbase/onchainkit?tab=readme-ov-file#getframeframemetadata): Retrieves valid **Frame metadata** for your initial HTML page.
 
 <br />
 
@@ -99,7 +99,7 @@ type AccountAddressResponse = Promise<string | undefined>;
 
 <br />
 
-### getFrameHtmlResponse(options)
+### getFrameHtmlResponse(frameMetadata)
 
 When you need to send an HTML Frame Response, the `getFrameHtmlResponse` method is here to assist you.
 
@@ -165,7 +165,7 @@ type FrameHTMLResponse = string;
 
 <br />
 
-### getFrameMessage()
+### getFrameMessage(frameRequest)
 
 When a user interacts with your Frame, you receive a JSON message called the "Frame Signature Packet". Decode and validate this message using the `getFrameMessage` function.
 
@@ -202,10 +202,13 @@ export const dynamic = 'force-dynamic';
 **@Param**
 
 ```ts
-type FrameMessageRequest = {
-  // The Frame Signature Packet body
-  body: FrameRequest;
-};
+// The Frame Signature Packet body
+type FrameRequest {
+  untrustedData: FrameData;
+  trustedData: {
+    messageBytes: string;
+  };
+}
 ```
 
 **@Returns**
@@ -233,7 +236,7 @@ interface FrameData {
 
 <br />
 
-### getFrameMetadata(metadata: FrameMetadata)
+### getFrameMetadata(frameMetadata)
 
 With Next.js App routing, use the `getFrameMetadata()` inside your `page.ts` to get the metadata need it for your Frame.
 
