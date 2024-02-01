@@ -3,7 +3,7 @@
  */
 
 import { renderHook, waitFor } from '@testing-library/react';
-import { publicClient } from '../store/client';
+import { publicClient } from '../network/client';
 import { useOnchainName, ensNameAction } from './useOnchainName';
 import { useOnchainActionWithCache } from './useOnchainActionWithCache';
 

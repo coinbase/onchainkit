@@ -332,15 +332,19 @@ const { ensName, isLoading } = useOnchainName('0x1234567890abcdef1234567890abcde
 
 **@Param**
 
-- `address`: Ethereum address to be resolved from ENS.
+```ts
+type UseOnchainName = {
+  address?: `0x${string}`;
+};
+```
 
 **@Returns**
 
 ```ts
-{
-  ensName: StorageValue;
+type UseOnchainNameResponse = {
+  ensName: string | null | undefined;
   isLoading: boolean;
-}
+};
 ```
 
 ## The Team and Our Community ☁️ 🌁 ☁️

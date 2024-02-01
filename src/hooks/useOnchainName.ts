@@ -1,4 +1,4 @@
-import { publicClient } from '../store/client';
+import { publicClient } from '../network/client';
 import { useOnchainActionWithCache } from './useOnchainActionWithCache';
 import type { Address, GetEnsNameReturnType } from 'viem';
 
