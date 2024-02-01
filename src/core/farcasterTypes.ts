@@ -1,3 +1,5 @@
+import { NeynarFrameValidationResponse } from '../utils/neynar/frame/neynarFrameModels';
+
 export interface FrameRequest {
   untrustedData: FrameData;
   trustedData: {
@@ -6,7 +8,7 @@ export interface FrameRequest {
 }
 
 export type FrameValidationResponse =
-  | { isValid: true; message: FrameData }
+  | { isValid: true; message: NeynarFrameValidationResponse }
   | { isValid: false; message: undefined };
 
 export interface FrameData {

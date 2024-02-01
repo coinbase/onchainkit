@@ -18,6 +18,7 @@ export function mockNeynarResponse(
   fid: number,
   addresses: string[] | undefined,
   lookupMock: jest.Mock,
+  frameValidationMock: jest.Mock = jest.fn(),
 ) {
   const neynarResponse = {
     users: [
@@ -28,18 +29,11 @@ export function mockNeynarResponse(
   };
   lookupMock.mockResolvedValue(neynarResponse);
 
-  const getSSLHubRpcClientMock = require('@farcaster/hub-nodejs').getSSLHubRpcClient;
-  const validateMock = getSSLHubRpcClientMock().validateMessage as jest.Mock;
-
-  // Mock the response from the Farcaster hub
-  validateMock.mockResolvedValue({
-    isOk: () => true,
-    value: { valid: true, message: { fid } },
+  frameValidationMock.mockResolvedValue({
+    valid: true,
+    interactor: {
+      fid,
+      verified_accounts: addresses,
+    },
   });
-
-  validateMock.mockResolvedValue(buildFarcasterResponse(fid));
-
-  return {
-    validateMock,
-  };
 }
