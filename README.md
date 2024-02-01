@@ -101,7 +101,67 @@ type AccountAddressResponse = Promise<string | undefined>;
 
 ### getFrameHtmlResponse(options)
 
-Coming soon docs!
+When you need to send an HTML Frame Response, the `getFrameHtmlResponse` method is here to assist you.
+
+It generates a valid HTML string response with a frame and utilizes `FrameMetadata` types for page metadata. This eliminates the need to manually create server-side HTML strings.
+
+```ts
+import {
+  FrameRequest,
+  getFrameAccountAddress,
+  getFrameMessage,
+  getFrameHtmlResponse,
+} from '@coinbase/onchainkit';
+import { NextRequest, NextResponse } from 'next/server';
+
+async function getResponse(req: NextRequest): Promise<NextResponse> {
+  ...
+
+  return new NextResponse(
+    getFrameHtmlResponse({
+      buttons: [
+        {
+          label: `We love BOAT`,
+        },
+      ],
+      image:'https://build-onchain-apps.vercel.app/release/v-0-17.png',
+      post_url: 'https://build-onchain-apps.vercel.app/api/frame',
+    }),
+  );
+}
+
+export async function POST(req: NextRequest): Promise<Response> {
+  return getResponse(req);
+}
+
+export const dynamic = 'force-dynamic';
+```
+
+**@Param**
+
+```ts
+type Button = {
+  label: string;
+  action?: 'post' | 'post_redirect';
+};
+
+type FrameMetadata = {
+  // A list of strings which are the label for the buttons in the frame (max 4 buttons).
+  buttons?: [Button, ...Button[]];
+  // An image which must be smaller than 10MB and should have an aspect ratio of 1.91:1
+  image: string;
+  // A valid POST URL to send the Signature Packet to.
+  post_url?: string;
+  // A period in seconds at which the app should expect the image to update.
+  refresh_period?: number;
+};
+```
+
+**@Returns**
+
+```ts
+type FrameHTMLResponse = string;
+```
 
 <br />
 
