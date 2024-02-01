@@ -85,7 +85,7 @@ const frameMetadata = getFrameMetadata({
 ```ts
 type Button = {
   label: string;
-  action?: "post" | "post_redirect";
+  action?: 'post' | 'post_redirect';
 };
 
 type FrameMetadata = {
