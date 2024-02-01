@@ -108,6 +108,7 @@ type FrameHTMLResponse = string;
 When a user interacts with your Frame, you receive a JSON message called the "Frame Signature Packet". Decode and validate this message using the `getFrameMessage` function.
 
 You can also use `getFrameMessage` to access useful information such as:
+
 - button: number
 - fid: number
 - following: boolean
