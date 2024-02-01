@@ -1,6 +1,6 @@
 import { FetchError } from '../exceptions/FetchError';
 
-export const NEYNAR_DEFAULT_API_KEY = 'NEYNAR_API_DOCS';
+export const NEYNAR_DEFAULT_API_KEY = 'NEYNAR_ONCHAIN_KIT';
 export interface NeynarUserModel {
   fid: number;
   custody_address: string;

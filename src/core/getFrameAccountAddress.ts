@@ -1,11 +1,11 @@
 import { neynarBulkUserLookup } from '../utils/neynar/user/neynarUserFunctions';
 import { FrameData } from './farcasterTypes';
 
+type AccountAddressResponse = Promise<string | undefined>;
+
 type FidResponse = {
   verifications: string[];
 };
-
-type AccountAddressResponse = Promise<string | undefined>;
 
 /**
  * Get the Account Address from the Farcaster ID using the Frame.
@@ -20,7 +20,7 @@ type AccountAddressResponse = Promise<string | undefined>;
  */
 async function getFrameAccountAddress(
   message: FrameData,
-  { NEYNAR_API_KEY = 'NEYNAR_API_DOCS' },
+  { NEYNAR_API_KEY = 'NEYNAR_ONCHAIN_KIT' },
 ): AccountAddressResponse {
   // Get the Farcaster ID from the message
   const farcasterID = message.fid ?? 0;
