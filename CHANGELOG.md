@@ -4,14 +4,13 @@
 
 ### Minor Changes
 
-- 0355c73: - **feat**: deprecated `getFrameAccountAddress` as now `getFrameMessage` returns also the Account Address. #60
+- **feat**: deprecated `getFrameAccountAddress` as now `getFrameMessage` returns also the Account Address. #60 0355c73
+- **feat**: integrated with Neynars api to get validated messages + additional context like recast/follow/etc. By @robpolak #59
+- **fix**: removed farcaster references as they were generating build errors and compatibility issues. By @robpolak #59
 
-  - **feat**: integrated with Neynars api to get validated messages + additional context like recast/follow/etc. By @robpolak #59
-  - **fix**: removed farcaster references as they were generating build errors and compatibility issues. By @robpolak #59
+BREAKING CHANGES
 
-  BREAKING CHANGES
-
-  I will write the breaking changes in the next PR
+I will write the breaking changes in the next PR
 
 ## 0.3.1
 
