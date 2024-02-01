@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.4.1
+
+### Patch Changes
+
+- 97c146d: - **fix**: missing apiKey
+
 ## 0.4.0
 
 ### Minor Changes
@@ -97,7 +103,7 @@ const frameMetadata = getFrameMetadata({
 ```ts
 type Button = {
   label: string;
-  action?: 'post' | 'post_redirect';
+  action?: "post" | "post_redirect";
 };
 
 type FrameMetadata = {
