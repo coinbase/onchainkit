@@ -9,7 +9,7 @@ import type { Address, GetEnsNameReturnType } from 'viem';
  * @param address - The Ethereum address for which the ENS name is being fetched.
  * @returns A promise that resolves to the ENS name (as a string) or null.
  */
-export const ensNameAction = (address?: Address) => async (): Promise<GetEnsNameReturnType> => {
+export const ensNameAction = (address: Address) => async (): Promise<GetEnsNameReturnType> => {
   if (!address) return null;
   try {
     return await publicClient.getEnsName({
@@ -28,7 +28,7 @@ export const ensNameAction = (address?: Address) => async (): Promise<GetEnsName
  *  - `ensName`: The fetched ENS name for the provided address, or null if not found or in case of an error.
  *  - `isLoading`: A boolean indicating whether the ENS name is currently being fetched.
  */
-export const useOnchainName = (address?: Address) => {
+export const useOnchainName = (address: Address) => {
   const ensActionKey = `ens-name-${address}`;
   const { data: ensName, isLoading } = useOnchainActionWithCache(
     ensNameAction(address),

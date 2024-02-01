@@ -4,7 +4,7 @@ import { useOnchainName } from '../hooks/useOnchainName';
 import type { Address } from 'viem';
 
 type OnchainNameProps = {
-  address?: Address;
+  address: Address;
   className?: string;
   sliced?: boolean;
   props?: React.HTMLAttributes<HTMLSpanElement>;
