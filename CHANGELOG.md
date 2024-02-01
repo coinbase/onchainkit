@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.4.0
+
+### Minor Changes
+
+- **feat**: deprecated `getFrameAccountAddress` as now `getFrameMessage` returns also the Account Address. #60 0355c73
+- **feat**: integrated with Neynars api to get validated messages + additional context like recast/follow/etc. By @robpolak #59
+- **fix**: removed farcaster references as they were generating build errors and compatibility issues. By @robpolak #59
+
+BREAKING CHANGES
+
+I will write the breaking changes in the next PR
+
 ## 0.3.1
 
 ### Patch Changes
@@ -85,7 +97,7 @@ const frameMetadata = getFrameMetadata({
 ```ts
 type Button = {
   label: string;
-  action?: 'post' | 'post_redirect';
+  action?: "post" | "post_redirect";
 };
 
 type FrameMetadata = {
