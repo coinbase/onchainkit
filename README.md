@@ -107,16 +107,15 @@ type FrameHTMLResponse = string;
 
 When a user interacts with your Frame, you receive a JSON message called the "Frame Signature Packet". Decode and validate this message using the `getFrameMessage` function.
 
-Use `getFrameMessage` also to access useful informations like:
+You can also use `getFrameMessage` to access useful information such as:
+- button: number
+- fid: number
+- following: boolean
+- liked: boolean
+- recasted: boolean
+- verified_accounts: string[]
 
-- button: number;
-- fid: number;
-- following: boolean;
-- liked: boolean;
-- recasted: boolean;
-- verified_accounts: string[];
-
-The message will be undefined if not valid.
+Note that if the `message` is not valid, it will be undefined.
 
 ```ts
 // Steps 1. import getFrameMessage from @coinbase/onchainkit

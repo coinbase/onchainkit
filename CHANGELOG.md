@@ -4,13 +4,41 @@
 
 ### Minor Changes
 
-- **feat**: deprecated `getFrameAccountAddress` as now `getFrameMessage` returns also the Account Address. #60 0355c73
-- **feat**: integrated with Neynars api to get validated messages + additional context like recast/follow/etc. By @robpolak #59
-- **fix**: removed farcaster references as they were generating build errors and compatibility issues. By @robpolak #59
+- **feat**: the `getFrameAccountAddress` function has been deprecated. Now, the `getFrameMessage` function also returns the Account Address. #60 0355c73
+- **feat**: integrated with Neynars API to obtain validated messages and additional context, such as recast, follow-up, etc. By @robpolak #59
+- **fix**: removed the Farcaster references due to build errors and compatibility issues. By @robpolak #59
 
 BREAKING CHANGES
 
-I will write the breaking changes in the next PR
+We received feedback regarding our initial approach with OnchainKit, which had excessive dependencies on Node.js-only libraries. This caused issues when integrating the library with React Native and the latest version of Node (e.g., v21).
+
+In response to this feedback, we decided to utilize Neynar to simplify our approach and implementation of the `getFrameMessage` method. By incorporating Neynar, you now have no dependencies for that particular method and will also receive additional data to enhance your Frame.
+
+Therefore, as `getFrameMessage` relies on Neynar, it is necessary to provide a Neynar API KEY when using the method in order to avoid rate limiting.
+
+Before
+
+```ts
+import { getFrameMessage } from '@coinbase/onchainkit';
+
+...
+const { isValid, message} = await getFrameMessage(body);
+```
+
+After
+
+```ts
+import { getFrameMessage } from '@coinbase/onchainkit';
+
+...
+const { isValid, message } = await getFrameMessage(body , {
+  neynarApiKey: 'NEYNAR_ONCHAIN_KIT'
+});
+```
+
+Additionally, the `getFrameMessage` function now returns the Account Address. As a result, we no longer require the use of `getFrameAccountAddress`.
+
+This enhancement allows us to accomplish more with **less** code!
 
 ## 0.3.1
 
