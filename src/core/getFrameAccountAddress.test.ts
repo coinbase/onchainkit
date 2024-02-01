@@ -9,17 +9,6 @@ jest.mock('../utils/neynar/user/neynarUserFunctions', () => {
   };
 });
 
-jest.mock('@farcaster/hub-nodejs', () => {
-  return {
-    getSSLHubRpcClient: jest.fn().mockReturnValue({
-      validateMessage: jest.fn(),
-    }),
-    Message: {
-      decode: jest.fn(),
-    },
-  };
-});
-
 describe('getFrameAccountAddress', () => {
   const fakeMessage = {
     fid: 1234,

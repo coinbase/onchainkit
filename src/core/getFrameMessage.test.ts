@@ -2,6 +2,7 @@ import { mockNeynarResponse } from './mock';
 import { getFrameMessage } from './getFrameMessage';
 import { neynarBulkUserLookup } from '../utils/neynar/user/neynarUserFunctions';
 import { FrameRequest } from './farcasterTypes';
+import { neynarFrameValidation } from '../utils/neynar/frame/neynarFrameFunctions';
 
 jest.mock('../utils/neynar/user/neynarUserFunctions', () => {
   return {
@@ -9,28 +10,14 @@ jest.mock('../utils/neynar/user/neynarUserFunctions', () => {
   };
 });
 
-jest.mock('@farcaster/hub-nodejs', () => {
+jest.mock('../utils/neynar/frame/neynarFrameFunctions', () => {
   return {
-    getSSLHubRpcClient: jest.fn().mockReturnValue({
-      validateMessage: jest.fn(),
-    }),
-    Message: {
-      decode: jest.fn(),
-    },
+    neynarFrameValidation: jest.fn(),
   };
 });
 
 describe('getFrameValidatedMessage', () => {
   it('should return undefined if the message is invalid', async () => {
-    const fid = 1234;
-    const addresses = ['0xaddr1'];
-    const { validateMock } = mockNeynarResponse(fid, addresses, neynarBulkUserLookup as jest.Mock);
-    validateMock.mockClear();
-    validateMock.mockResolvedValue({
-      isOk: () => {
-        return false;
-      },
-    });
     const result = await getFrameMessage({
       trustedData: { messageBytes: 'invalid' },
     } as FrameRequest);
@@ -40,11 +27,16 @@ describe('getFrameValidatedMessage', () => {
   it('should return the message if the message is valid', async () => {
     const fid = 1234;
     const addresses = ['0xaddr1'];
-    mockNeynarResponse(fid, addresses, neynarBulkUserLookup as jest.Mock);
+    mockNeynarResponse(
+      fid,
+      addresses,
+      neynarBulkUserLookup as jest.Mock,
+      neynarFrameValidation as jest.Mock,
+    );
     const fakeFrameData = {
       trustedData: {},
     };
     const result = await getFrameMessage(fakeFrameData as FrameRequest);
-    expect(result?.message?.fid).toEqual(fid);
+    expect(result?.message?.interactor.fid).toEqual(fid);
   });
 });

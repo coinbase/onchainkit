@@ -1,7 +1,7 @@
 import { getFrameMessage } from './getFrameMessage';
 
 describe('getFrameValidatedMessage integration tests', () => {
-  it('bulk data lookup should find all users', async () => {
+  it('frame message should decode properly', async () => {
     const body = {
       untrustedData: {
         fid: 194519,
@@ -22,9 +22,9 @@ describe('getFrameValidatedMessage integration tests', () => {
     };
     const response = await getFrameMessage(body);
     expect(response?.isValid).toEqual(true);
-    expect(response?.message?.url).toEqual(body.untrustedData.url);
-    expect(response?.message?.fid).toEqual(body.untrustedData.fid);
-    expect(response?.message?.network).toEqual(body.untrustedData.network);
-    expect(response?.message?.castId.fid).toEqual(body.untrustedData.castId.fid);
+    expect(response?.message?.button).toEqual(body.untrustedData.buttonIndex);
+    expect(response?.message?.interactor.fid).toEqual(body.untrustedData.fid);
+    expect(response.message?.liked).toEqual(false);
+    expect(response.message?.recasted).toEqual(false);
   });
 });
