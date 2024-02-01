@@ -23,6 +23,7 @@ describe('useOnchainActionWithCache', () => {
 
   it('initializes with loading state and undefined data', () => {
     const { result } = renderHook(() => useOnchainActionWithCache(mockAction, actionKey));
+
     expect(result.current.isLoading).toBe(true);
     expect(result.current.data).toBeUndefined();
   });
@@ -45,6 +46,7 @@ describe('useOnchainActionWithCache', () => {
     mockAction.mockResolvedValue(testData);
 
     renderHook(() => useOnchainActionWithCache(mockAction, actionKey));
+
     await waitFor(() => {
       expect(InMemoryStorage.setData).toHaveBeenCalledWith(actionKey, testData);
     });

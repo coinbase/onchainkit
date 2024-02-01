@@ -10,7 +10,6 @@ import type { Address, GetEnsNameReturnType } from 'viem';
  * @returns A promise that resolves to the ENS name (as a string) or null.
  */
 export const ensNameAction = (address: Address) => async (): Promise<GetEnsNameReturnType> => {
-  if (!address) return null;
   try {
     return await publicClient.getEnsName({
       address,

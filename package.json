@@ -17,7 +17,9 @@
     "release:publish": "yarn install && yarn build && changeset publish",
     "release:version": "changeset version && yarn install --immutable"
   },
-  "dependencies": {
+  "peerDependencies": {
+    "react": "^18",
+    "react-dom": "^18",
     "viem": "^2.5.0"
   },
   "devDependencies": {
@@ -33,9 +35,12 @@
     "jest-extended": "^4.0.2",
     "prettier": "^3.1.1",
     "prettier-plugin-tailwindcss": "^0.5.9",
+    "react": "^18",
+    "react-dom": "^18",
     "rimraf": "^5.0.5",
     "ts-jest": "^29.1.2",
     "typescript": "~5.3.3",
+    "viem": "^2.5.0",
     "yarn": "^1.22.21"
   },
   "publishConfig": {

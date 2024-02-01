@@ -7,7 +7,7 @@ import { publicClient } from '../network/client';
 import { useOnchainName, ensNameAction } from './useOnchainName';
 import { useOnchainActionWithCache } from './useOnchainActionWithCache';
 
-jest.mock('../store/client');
+jest.mock('../network/client');
 jest.mock('./useOnchainActionWithCache');
 
 describe('useOnchainName', () => {
@@ -93,7 +93,7 @@ describe('useOnchainName', () => {
     });
 
     it('should return null client getEnsName throws an error', async () => {
-      const walletAddress = undefined;
+      const walletAddress = '0x1234';
 
       mockGetEnsName.mockRejectedValue(new Error('This is an error'));
 
