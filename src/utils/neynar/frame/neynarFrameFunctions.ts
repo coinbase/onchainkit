@@ -1,5 +1,6 @@
+import { FrameValidationData } from '../../../core/farcasterTypes';
 import { FetchError } from '../exceptions/FetchError';
-import { convertToNeynarResponseModel, NeynarFrameValidationResponse } from './neynarFrameModels';
+import { convertToNeynarResponseModel } from './neynarFrameModels';
 
 export const NEYNAR_DEFAULT_API_KEY = 'NEYNAR_ONCHAIN_KIT';
 
@@ -8,7 +9,7 @@ export async function neynarFrameValidation(
   apiKey: string = NEYNAR_DEFAULT_API_KEY,
   castReactionContext = true,
   followContext = true,
-): Promise<NeynarFrameValidationResponse | undefined> {
+): Promise<FrameValidationData | undefined> {
   const options = {
     method: 'POST',
     url: `https://api.neynar.com/v2/farcaster/frame/validate`,

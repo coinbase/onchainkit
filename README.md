@@ -1,4 +1,4 @@
-<img src='./docs/logo-v-0-3.png' width='800' alt='OnchainKit'>
+<img src='./docs/logo-v-0-4.png' width='800' alt='OnchainKit'>
 
 # [OnchainKit](https://github.com/coinbase/onchainkit/)
 
@@ -32,70 +32,9 @@ Creating a frame is easy: select an image and add clickable buttons. When a butt
 
 Utilities:
 
-- [getFrameAccountAddress()](https://github.com/coinbase/onchainkit?tab=readme-ov-file#getframeaccountaddressmessage-options): Retrieves the user **Account Address** from a Frame message.
 - [getFrameHtmlResponse()](https://github.com/coinbase/onchainkit?tab=readme-ov-file#getframehtmlresponseframemetadata): Retrieves the **Frame HTML** for your HTTP responses.
 - [getFrameMessage()](https://github.com/coinbase/onchainkit?tab=readme-ov-file#getframemessageframerequest): Retrieves a valid **Frame message** from the Frame Signature Packet.
 - [getFrameMetadata()](https://github.com/coinbase/onchainkit?tab=readme-ov-file#getframeframemetadata): Retrieves valid **Frame metadata** for your initial HTML page.
-
-<br />
-
-### getFrameAccountAddress(message, options)
-
-When a user interacts with your Frame, you will receive a JSON message called the "Frame Signature Packet." Once you validate this `message`, you can extract the Account Address by using the `getFrameAccountAddress(message)` function.
-
-This Account Address can then be utilized for subsequent operations, enhancing the personalized experience of each individual using the Frame.
-
-Note: To utilize this function, we rely on [Neynar APIs](https://docs.neynar.com/reference/user-bulk). In order to avoid rate limiting, please ensure that you have your own API KEY. Sign up [here](https://neynar.com).
-
-```ts
-// Steps 1. import getFrameAccountAddress from @coinbase/onchainkit
-import { FrameRequest, getFrameAccountAddress, getFrameMessage } from '@coinbase/onchainkit';
-import { NextRequest, NextResponse } from 'next/server';
-
-async function getResponse(req: NextRequest): Promise<NextResponse> {
-  let accountAddress = '';
-  // Step 2. Read the body from the Next Request
-  const body: FrameRequest = await req.json();
-  // Step 3. Validate the message
-  const { isValid, message } = await getFrameMessage(body);
-
-  // Step 4. Determine the experience based on the validity of the message
-  if (isValid) {
-    // Step 5. Get from the message the Account Address of the user using the Frame
-    accountAddress = await getFrameAccountAddress(message, { NEYNAR_API_KEY: 'NEYNAR_ONCHAIN_KIT' });
-  } else {
-    // sorry, the message is not valid and it will be undefined
-  }
-
-  ...
-}
-
-export async function POST(req: NextRequest): Promise<Response> {
-  return getResponse(req);
-}
-
-export const dynamic = 'force-dynamic';
-```
-
-**@Param**
-
-```ts
-type AccountAddressRequest = {
-  // The validated message from the getFrameMessage() function
-  message: FrameData;
-  options: {
-    // The NEYNAR_API_KEY used to access Neynar Farcaster Indexer
-    // https://docs.neynar.com/reference/user-bulk
-    NEYNAR_API_KEY: string;
-  };
-};
-```
-
-**@Returns**
-
-```ts
-type AccountAddressResponse = Promise<string | undefined>;
-```
 
 <br />
 
@@ -108,7 +47,6 @@ It generates a valid HTML string response with a frame and utilizes `FrameMetada
 ```ts
 import {
   FrameRequest,
-  getFrameAccountAddress,
   getFrameMessage,
   getFrameHtmlResponse,
 } from '@coinbase/onchainkit';

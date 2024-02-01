@@ -1,15 +1,4 @@
-import { NeynarFrameValidationResponse } from '../utils/neynar/frame/neynarFrameModels';
-
-export interface FrameRequest {
-  untrustedData: FrameData;
-  trustedData: {
-    messageBytes: string;
-  };
-}
-
-export type FrameValidationResponse =
-  | { isValid: true; message: NeynarFrameValidationResponse }
-  | { isValid: false; message: undefined };
+import { NeynarFrameValidationInternalModel } from '../utils/neynar/frame/types';
 
 export interface FrameData {
   fid: number;
@@ -23,6 +12,34 @@ export interface FrameData {
     hash: string;
   };
 }
+
+export interface FrameRequest {
+  untrustedData: FrameData;
+  trustedData: {
+    messageBytes: string;
+  };
+}
+
+/**
+ * Simplified Object model with the raw Neynar data if-needed.
+ */
+export interface FrameValidationData {
+  valid: boolean;
+  button: number;
+  liked: boolean;
+  recasted: boolean;
+  following: boolean;
+  interactor: {
+    fid: number;
+    custody_address: string;
+    verified_accounts: string[];
+  };
+  raw: NeynarFrameValidationInternalModel;
+}
+
+export type FrameValidationResponse =
+  | { isValid: true; message: FrameValidationData }
+  | { isValid: false; message: undefined };
 
 export function convertToFrame(json: any) {
   return {

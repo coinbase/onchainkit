@@ -1,9 +1,8 @@
 // 🌲
-const version = '0.3.1';
+const version = '0.4.0';
 
 export { version };
 export { getFrameHtmlResponse } from './core/getFrameHtmlResponse';
-export { getFrameAccountAddress } from './core/getFrameAccountAddress';
 export { getFrameMetadata } from './core/getFrameMetadata';
 export { getFrameMessage } from './core/getFrameMessage';
-export type { FrameRequest, FrameData } from './core/farcasterTypes';
+export type { FrameRequest, FrameValidationData } from './core/farcasterTypes';
