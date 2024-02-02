@@ -1,5 +1,5 @@
 import { version } from '../../../version';
-import { FrameValidationData } from '../../../core/farcasterTypes';
+import { FrameValidationData } from '../../../core/types';
 import { FetchError } from '../exceptions/FetchError';
 import { convertToNeynarResponseModel } from './neynarFrameModels';
 

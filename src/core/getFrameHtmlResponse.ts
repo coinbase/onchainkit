@@ -1,4 +1,4 @@
-import { FrameMetadata } from './farcasterTypes';
+import { FrameMetadata } from './types';
 
 /**
  * Returns an HTML string containing metadata for a new valid frame.
