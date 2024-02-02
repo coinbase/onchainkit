@@ -258,7 +258,7 @@ type FrameMetadataResponse = Record<string, string>;
 <br />
 <br />
 
-## Identity Kit 👤
+## Identity Kit 👨‍🚀
 
 ### OnchainName
 
@@ -270,41 +270,23 @@ import { OnchainName } from '@coinbase/onchainkit';
 <OnchainName address="0x1234567890abcdef1234567890abcdef12345678" sliced={false} />;
 ```
 
-**@Param**
-
-- `address`: Ethereum address to be resolved from ENS.
-- `className`: Optional CSS class for custom styling.
-- `sliced`: Determines if the address should be sliced when no ENS name is available.
-- `props`: Additional HTML attributes for the span element.
-
-**@Returns**
-
-```ts
-type JSX.Element;
-```
-
-```tsx
-import { useOnchainName } from '@coinbase/onchainkit';
-
-const { ensName, isLoading } = useOnchainName('0x1234567890abcdef1234567890abcdef12345678');
-```
-
-**@Param**
+**@Props**
 
 ```ts
 type UseOnchainName = {
-  address?: `0x${string}`;
+  // Ethereum address to be resolved from ENS.
+  address: Address;
+  // Optional CSS class for custom styling.
+  className?: string;
+  // Determines if the address should be sliced when no ENS name is available.
+  sliced?: boolean;
+  // Additional HTML attributes for the span element.
+  props?: React.HTMLAttributes<HTMLSpanElement>;
 };
 ```
 
-**@Returns**
-
-```ts
-type UseOnchainNameResponse = {
-  ensName: string | null | undefined;
-  isLoading: boolean;
-};
-```
+<br />
+<br />
 
 ## The Team and Our Community ☁️ 🌁 ☁️
 
@@ -335,12 +317,21 @@ OnchainKit is all about community; for any questions, feel free to:
         <br />
         <a href="https://twitter.com/alvaroraminelli">Alvaro Raminelli</a>
       </td>
+    </tr>
+    <tr>
       <td align="center" valign="top">
         <a href="https://warpcast.com/cnasc">
           <img width="80" height="80" src="https://github.com/cnasc.png?s=100">
         </a>
         <br />
         <a href="https://warpcast.com/cnasc">Chris Nascone</a>
+      </td>
+      <td align="center" valign="top">
+        <a href="https://twitter.com/taycaldwell_">
+          <img width="80" height="80" src="https://github.com/taycaldwell.png?s=100">
+        </a>
+        <br />
+        <a href="https://twitter.com/taycaldwell_">Taylor Caldwell</a>
       </td>
     </tr>
   </tbody>
