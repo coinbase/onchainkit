@@ -120,12 +120,12 @@ Note that if the `message` is not valid, it will be undefined.
 
 ```ts
 // Steps 1. import getFrameMessage from @coinbase/onchainkit
-import { getFrameMessage } from '@coinbase/onchainkit';
+import { FrameRequest, getFrameMessage } from '@coinbase/onchainkit';
 import { NextRequest, NextResponse } from 'next/server';
 
 async function getResponse(req: NextRequest): Promise<NextResponse> {
   // Step 2. Read the body from the Next Request
-  const body = await req.json();
+  const body: FrameRequest = await req.json();
   // Step 3. Validate the message
   const { isValid, message } = await getFrameMessage(body , {
     neynarApiKey: 'NEYNAR_ONCHAIN_KIT'
@@ -152,10 +152,10 @@ export const dynamic = 'force-dynamic';
 
 ```ts
 // The Frame Signature Packet body
-type FrameMessage {
-  body: any;
+type FrameMessage = {
+  body: FrameRequest;
   messageOptions?: FrameMessageOptions;
-}
+};
 
 type FrameMessageOptions =
   | {
@@ -179,15 +179,15 @@ type FrameValidationResponse =
   | { isValid: false; message: undefined };
 
 interface FrameValidationData {
-  valid: boolean;
-  button: number;
-  liked: boolean;
-  recasted: boolean;
-  following: boolean;
+  valid: boolean; // Indicates if the frame is valid
+  button: number; // Number of the button clicked
+  liked: boolean; // Indicates if the viewer clicking the frame liked the cast
+  recasted: boolean; // Indicates if the viewer clicking the frame recasted the cast
+  following: boolean; // Indicates if the viewer clicking the frame follows the cast author
   interactor: {
-    fid: number;
-    custody_address: string;
-    verified_accounts: string[];
+    fid: number; // Viewer Farcaster ID
+    custody_address: string; // Viewer custody address
+    verified_accounts: string[]; // Viewer account addresses
   };
   raw: NeynarFrameValidationInternalModel;
 }
