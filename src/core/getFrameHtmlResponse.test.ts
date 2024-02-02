@@ -42,9 +42,9 @@ describe('getFrameHtmlResponse', () => {
     expect(html).toContain('<meta property="fc:frame" content="vNext" />');
     expect(html).toContain('<meta property="fc:frame:button:1" content="button1" />');
     expect(html).toContain(
-    expect(html).toContain(
       '<meta property="fc:frame:image" content="https://example.com/image.png" />',
     );
+    expect(html).toContain(
       '<meta property="fc:frame:post_url" content="https://example.com/api/frame" />',
     );
     expect(html).not.toContain('fc:frame:input:text');

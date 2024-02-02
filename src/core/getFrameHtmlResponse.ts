@@ -21,9 +21,7 @@ function getFrameHtmlResponse({
   const imageHtml = image ? `<meta property="fc:frame:image" content="${image}" />` : '';
 
   // Set the input metadata if it exists.
-  const inputHtml = input
-    ? `<meta property="fc:frame:input:text" content="${input.text}" />`
-    : '';
+  const inputHtml = input ? `<meta property="fc:frame:input:text" content="${input.text}" />` : '';
 
   // Set the button metadata if it exists.
   let buttonsHtml = '';
