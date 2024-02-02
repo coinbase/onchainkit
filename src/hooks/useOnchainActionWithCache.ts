@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
-import { ActionFunction, ActionKey, StorageValue } from '../types';
-import { InMemoryStorage } from '../store/inMemoryStorageService'; // Adjust the import path as needed
+import { InMemoryStorage } from '../store/inMemoryStorageService';
+import type { ActionFunction, ActionKey } from './types';
+import type { StorageValue } from '../store/types';
 
 type ExtractStorageValue<T> = T extends StorageValue ? T : never;
 

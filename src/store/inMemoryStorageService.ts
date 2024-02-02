@@ -1,4 +1,4 @@
-import { StorageInterface } from '../types';
+import { StorageInterface } from './types';
 
 // Module-level storage variable (replaces the class property)
 const storage = new Map<string, string | null | undefined>();

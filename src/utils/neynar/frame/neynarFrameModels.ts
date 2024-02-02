@@ -1,4 +1,4 @@
-import { FrameValidationData } from '../../../core/farcasterTypes';
+import { FrameValidationData } from '../../../core/types';
 import { NeynarFrameValidationInternalModel } from './types';
 
 export function convertToNeynarResponseModel(data: any): FrameValidationData | undefined {

@@ -1,4 +1,4 @@
-import { FrameRequest, FrameValidationResponse } from './farcasterTypes';
+import { FrameRequest, FrameValidationResponse } from './types';
 import {
   NEYNAR_DEFAULT_API_KEY,
   neynarFrameValidation,
