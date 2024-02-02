@@ -12,7 +12,6 @@ describe('FrameMetadata', () => {
 
   it('renders with image', () => {
     const meta = render(<FrameMetadata image="https://example.com/image.png" />);
-    expect(meta.container.querySelector('meta[property="fc:frame:image"]')).not.toBeNull();
     expect(
       meta.container.querySelector('meta[property="fc:frame:image"]')?.getAttribute('content'),
     ).toBe('https://example.com/image.png');
@@ -20,7 +19,9 @@ describe('FrameMetadata', () => {
   });
 
   it('renders with input', () => {
-    const meta = render(<FrameMetadata image="https://example.com/image.png" input={{ text: 'test' }} />);
+    const meta = render(
+      <FrameMetadata image="https://example.com/image.png" input={{ text: 'test' }} />,
+    );
     expect(meta.container.querySelector('meta[property="fc:frame:input:text"]')).not.toBeNull();
     expect(
       meta.container.querySelector('meta[property="fc:frame:input:text"]')?.getAttribute('content'),
@@ -32,10 +33,7 @@ describe('FrameMetadata', () => {
     const meta = render(
       <FrameMetadata
         image="https://example.com/image.png"
-        buttons={[
-          { label: 'button1' },
-          { label: 'button2', action: 'post_redirect' },
-        ]}
+        buttons={[{ label: 'button1' }, { label: 'button2', action: 'post_redirect' }]}
       />,
     );
     // Button 1
@@ -49,16 +47,22 @@ describe('FrameMetadata', () => {
     expect(
       meta.container.querySelector('meta[property="fc:frame:button:2"]')?.getAttribute('content'),
     ).toBe('button2');
-    expect(meta.container.querySelector('meta[property="fc:frame:button:2:action"]')).not.toBeNull();
     expect(
-      meta.container.querySelector('meta[property="fc:frame:button:2:action"]')?.getAttribute('content'),
+      meta.container.querySelector('meta[property="fc:frame:button:2:action"]'),
+    ).not.toBeNull();
+    expect(
+      meta.container
+        .querySelector('meta[property="fc:frame:button:2:action"]')
+        ?.getAttribute('content'),
     ).toBe('post_redirect');
     // Length
     expect(meta.container.querySelectorAll('meta').length).toBe(5);
   });
 
   it('renders with post_url', () => {
-    const meta = render(<FrameMetadata image="https://example.com/image.png" post_url="https://example.com" />);
+    const meta = render(
+      <FrameMetadata image="https://example.com/image.png" post_url="https://example.com" />,
+    );
     expect(meta.container.querySelector('meta[property="fc:frame:post_url"]')).not.toBeNull();
     expect(
       meta.container.querySelector('meta[property="fc:frame:post_url"]')?.getAttribute('content'),
@@ -67,10 +71,14 @@ describe('FrameMetadata', () => {
   });
 
   it('renders with refresh_period', () => {
-    const meta = render(<FrameMetadata image="https://example.com/image.png" refresh_period={10} />);
+    const meta = render(
+      <FrameMetadata image="https://example.com/image.png" refresh_period={10} />,
+    );
     expect(meta.container.querySelector('meta[property="fc:frame:refresh_period"]')).not.toBeNull();
     expect(
-      meta.container.querySelector('meta[property="fc:frame:refresh_period"]')?.getAttribute('content'),
+      meta.container
+        .querySelector('meta[property="fc:frame:refresh_period"]')
+        ?.getAttribute('content'),
     ).toBe('10');
     expect(meta.container.querySelectorAll('meta').length).toBe(3);
   });
