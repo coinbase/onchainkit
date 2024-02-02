@@ -62,7 +62,7 @@ export type FrameButtonMetadata = {
 };
 
 export type FrameInputMetadata = {
-  prompt_text: string;
+  text: string;
 };
 
 export type FrameMetadata = {
