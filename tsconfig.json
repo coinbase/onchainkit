@@ -21,10 +21,10 @@
       "node_modules/@types",
       "./types"
     ],
-    "rootDir": "src",
+    "rootDir": "src"
   },
   "include": [
-    "src",
+    "src"
   ],
   "exclude": [
     "node_modules",
