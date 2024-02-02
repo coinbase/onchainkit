@@ -61,9 +61,14 @@ export type FrameButtonMetadata = {
   action?: 'post' | 'post_redirect';
 };
 
+export type FrameInputMetadata = {
+  prompt_text: string;
+};
+
 export type FrameMetadata = {
-  buttons?: [FrameButtonMetadata, ...FrameButtonMetadata[]];
   image: string;
+  input?: FrameInputMetadata;
+  buttons?: [FrameButtonMetadata, ...FrameButtonMetadata[]];
   post_url?: string;
   refresh_period?: number;
 };
