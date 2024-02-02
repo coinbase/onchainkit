@@ -4,17 +4,17 @@ type FrameMetadataResponse = Record<string, string>;
 
 /**
  * This function generates the metadata for a Farcaster Frame.
+ * @param buttons: The buttons to use for the frame.
  * @param image: The image to use for the frame.
  * @param input: The text input to use for the frame.
- * @param buttons: The buttons to use for the frame.
  * @param post_url: The URL to post the frame to.
  * @param refresh_period: The refresh period for the image used.
  * @returns The metadata for the frame.
  */
 export const getFrameMetadata = function ({
+  buttons,
   image,
   input,
-  buttons,
   post_url,
   refresh_period,
 }: FrameMetadata): FrameMetadataResponse {
@@ -23,7 +23,7 @@ export const getFrameMetadata = function ({
   };
   metadata['fc:frame:image'] = image;
   if (input) {
-    metadata['fc:frame:input:text'] = input.prompt_text;
+    metadata['fc:frame:input:text'] = input.text;
   }
   if (buttons) {
     buttons.forEach((button, index) => {
