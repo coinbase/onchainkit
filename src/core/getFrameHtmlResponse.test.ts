@@ -10,6 +10,9 @@ describe('getFrameHtmlResponse', () => {
         { label: 'button4' },
       ],
       image: 'https://example.com/image.png',
+      input: {
+        text: 'Enter a message...',
+      },
       post_url: 'https://example.com/api/frame',
       refresh_period: 10,
     });
@@ -17,6 +20,7 @@ describe('getFrameHtmlResponse', () => {
     expect(html).toBe(
       '<!DOCTYPE html><html><head><meta property="fc:frame" content="vNext" />' +
         '<meta property="fc:frame:image" content="https://example.com/image.png" />' +
+        '<meta property="fc:frame:input:text" content="Enter a message..." />' +
         '<meta property="fc:frame:button:1" content="button1" />' +
         '<meta property="fc:frame:button:1:action" content="post" />' +
         '<meta property="fc:frame:button:2" content="button2" />' +
@@ -26,6 +30,24 @@ describe('getFrameHtmlResponse', () => {
         '<meta property="fc:frame:post_url" content="https://example.com/api/frame" />' +
         '<meta property="fc:frame:refresh_period" content="10" /></head></html>',
     );
+  });
+
+  it('should handle no input', () => {
+    const html = getFrameHtmlResponse({
+      buttons: [{ label: 'button1' }],
+      image: 'https://example.com/image.png',
+      post_url: 'https://example.com/api/frame',
+    });
+
+    expect(html).toContain('<meta property="fc:frame" content="vNext" />');
+    expect(html).toContain('<meta property="fc:frame:button:1" content="button1" />');
+    expect(html).toContain(
+      '<meta property="fc:frame:image" content="https://example.com/image.png" />',
+    );
+    expect(html).toContain(
+      '<meta property="fc:frame:post_url" content="https://example.com/api/frame" />',
+    );
+    expect(html).not.toContain('fc:frame:input:text');
   });
 
   it('should handle no buttons', () => {
