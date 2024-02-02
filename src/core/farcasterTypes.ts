@@ -66,9 +66,9 @@ export type FrameInputMetadata = {
 };
 
 export type FrameMetadata = {
+  buttons?: [FrameButtonMetadata, ...FrameButtonMetadata[]];
   image: string;
   input?: FrameInputMetadata;
-  buttons?: [FrameButtonMetadata, ...FrameButtonMetadata[]];
   post_url?: string;
   refresh_period?: number;
 };
