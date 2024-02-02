@@ -1,7 +1,27 @@
 import type { FrameMetadata as FrameMetadataType } from '../core/types';
 
 /**
- *
+ * FrameMetadata component
+ * 
+ * @description
+ * This component is used to add React Frame Metadata to the page.
+ * 
+ * @example
+ * ```tsx
+ * <FrameMetadata
+ *  image="https://example.com/image.png"
+ *  post_url="https://example.com"
+ *  buttons={[{ label: 'button1' }]}
+ * />
+ * ```
+ * 
+ * @param {FrameMetadataType} props - The metadata for the frame.
+ * @param {string} props.image - The image URL.
+ * @param {string} props.input - The input text.
+ * @param {string} props.post_url - The post URL.
+ * @param {number} props.refresh_period - The refresh period.
+ * @param {Array<{ label: string, action?: string }>} props.buttons - The buttons.
+ * @returns {React.ReactElement} The FrameMetadata component.
  */
 export function FrameMetadata({
   buttons,
