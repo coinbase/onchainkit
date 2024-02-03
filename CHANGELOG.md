@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.4.3
+
+### Patch Changes
+
+- 4bd8ec8: - **feat**: added `textInput` to `FrameData`.
+
 ## 0.4.2
 
 ### Patch Changes
@@ -133,7 +139,7 @@ const frameMetadata = getFrameMetadata({
 ```ts
 type Button = {
   label: string;
-  action?: 'post' | 'post_redirect';
+  action?: "post" | "post_redirect";
 };
 
 type FrameMetadata = {
