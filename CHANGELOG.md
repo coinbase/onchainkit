@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.4.4
+
+### Patch Changes
+
+- d168475: - **fix**: added missing `input` type on `FrameValidationData`;
+
 ## 0.4.3
 
 ### Patch Changes
