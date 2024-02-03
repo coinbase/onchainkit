@@ -30,6 +30,10 @@ export interface NeynarFrameValidationInternalModel {
     tapped_button: {
       index: number;
     };
+    input: {
+      text: string;
+    };
+    url: string;
     cast: {
       object: string;
       hash: string;

@@ -25,17 +25,18 @@ export interface FrameRequest {
  * Simplified Object model with the raw Neynar data if-needed.
  */
 export interface FrameValidationData {
-  valid: boolean; // Indicates if the frame is valid
   button: number; // Number of the button clicked
-  liked: boolean; // Indicates if the viewer clicking the frame liked the cast
-  recasted: boolean; // Indicates if the viewer clicking the frame recasted the cast
   following: boolean; // Indicates if the viewer clicking the frame follows the cast author
+  input: string; // Text input from the viewer typing in the frame
   interactor: {
     fid: number; // Viewer Farcaster ID
     custody_address: string; // Viewer custody address
     verified_accounts: string[]; // Viewer account addresses
   };
+  liked: boolean; // Indicates if the viewer clicking the frame liked the cast
   raw: NeynarFrameValidationInternalModel;
+  recasted: boolean; // Indicates if the viewer clicking the frame recasted the cast
+  valid: boolean; // Indicates if the frame is valid
 }
 
 export type FrameValidationResponse =

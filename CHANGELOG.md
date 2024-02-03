@@ -4,15 +4,15 @@
 
 ### Patch Changes
 
-- 4bd8ec8: - **feat**: added `textInput` to `FrameData`.
+- **feat**: added `textInput` to `FrameData`. 4bd8ec8
 
 ## 0.4.2
 
 ### Patch Changes
 
-- 89e5210: - **feat**: Added support for Text Input metadata for Farcaster Frames. By @taycaldwell #67
-  - **feat**: Added `FrameMetadata` component, to help support metadata elements with classic React apps. By @zizzamia #71
-  - **feat**: Added `OnchainName` component, to our Identity Kit. The `OnchainName` component primarily focuses on showcasing ENS names for given Ethereum addresses, and defaults to displaying a sliced version of the address when an ENS name isn't available. By @alvaroraminelli #49
+- **feat**: Added support for Text Input metadata for Farcaster Frames. By @taycaldwell #67 89e5210
+- **feat**: Added `FrameMetadata` component, to help support metadata elements with classic React apps. By @zizzamia #71
+- **feat**: Added `OnchainName` component, to our Identity Kit. The `OnchainName` component primarily focuses on showcasing ENS names for given Ethereum addresses, and defaults to displaying a sliced version of the address when an ENS name isn't available. By @alvaroraminelli #49
 
 ## 0.4.1
 
@@ -137,11 +137,6 @@ const frameMetadata = getFrameMetadata({
 ```
 
 ```ts
-type Button = {
-  label: string;
-  action?: "post" | "post_redirect";
-};
-
 type FrameMetadata = {
   // A list of strings which are the label for the buttons in the frame (max 4 buttons).
   buttons: [Button, ...Button[]];
