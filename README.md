@@ -83,11 +83,17 @@ type Button = {
   action?: 'post' | 'post_redirect';
 };
 
+type InputMetadata = {
+  text: string;
+};
+
 type FrameMetadata = {
   // A list of strings which are the label for the buttons in the frame (max 4 buttons).
   buttons?: [Button, ...Button[]];
   // An image which must be smaller than 10MB and should have an aspect ratio of 1.91:1
   image: string;
+  // The text input to use for the Frame.
+  input?: InputMetadata;
   // A valid POST URL to send the Signature Packet to.
   post_url?: string;
   // A period in seconds at which the app should expect the image to update.
@@ -237,11 +243,17 @@ type Button = {
   action?: 'post' | 'post_redirect';
 };
 
+type InputMetadata = {
+  text: string;
+};
+
 type FrameMetadata = {
   // A list of strings which are the label for the buttons in the frame (max 4 buttons).
   buttons?: [Button, ...Button[]];
   // An image which must be smaller than 10MB and should have an aspect ratio of 1.91:1
   image: string;
+  // The text input to use for the Frame.
+  input?: InputMetadata;
   // A valid POST URL to send the Signature Packet to.
   post_url?: string;
   // A period in seconds at which the app should expect the image to update.
