@@ -137,11 +137,6 @@ const frameMetadata = getFrameMetadata({
 ```
 
 ```ts
-type Button = {
-  label: string;
-  action?: 'post' | 'post_redirect';
-};
-
 type FrameMetadata = {
   // A list of strings which are the label for the buttons in the frame (max 4 buttons).
   buttons: [Button, ...Button[]];
