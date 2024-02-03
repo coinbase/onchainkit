@@ -1,16 +1,17 @@
 import { NeynarFrameValidationInternalModel } from '../utils/neynar/frame/types';
 
 export interface FrameData {
-  fid: number;
-  url: string;
-  messageHash: string;
-  timestamp: number;
-  network: number;
   buttonIndex: number;
   castId: {
     fid: number;
     hash: string;
   };
+  inputText: string;
+  fid: number;
+  messageHash: string;
+  network: number;
+  timestamp: number;
+  url: string;
 }
 
 export interface FrameRequest {
