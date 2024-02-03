@@ -1,5 +1,5 @@
 ---
-"@coinbase/onchainkit": patch
+'@coinbase/onchainkit': patch
 ---
 
 - **feat**: Added support for Text Input metadata for Farcaster Frames. By @taycaldwell #67
