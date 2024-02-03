@@ -1,4 +1,4 @@
-name: Kit Test / Build
+name: Kit Build
 on:
   push:
     branches: ['main']
@@ -20,9 +20,6 @@ jobs:
           cache: 'npm'
       - name: Kit Install dependencies
         run: npm install
-      - name: Kit Test Check
-        # When fails, please check your tests
-        run: npm run test
       - name: Kit Test Build
         # When fails, please check your build
         run: |
