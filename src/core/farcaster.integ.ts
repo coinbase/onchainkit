@@ -8,6 +8,7 @@ describe('getFrameValidatedMessage integration tests', () => {
         url: 'https://frame-demo.vercel.app/2',
         messageHash: '0x7099de8afb08984d53f56a02b28d0f96097bfd82',
         timestamp: 1706559790000,
+        inputText: '',
         network: 1,
         buttonIndex: 1,
         castId: { fid: 194519, hash: '0x3d7c0dac1dd0ee588eb58d07105b14786cfca976' },
