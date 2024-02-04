@@ -6,4 +6,4 @@ export { getFrameMessage } from './core/getFrameMessage';
 export { FrameMetadata } from './components/FrameMetadata';
 export { OnchainName } from './components/OnchainName';
 export { useOnchainName } from './hooks/useOnchainName';
-export type { FrameRequest, FrameValidationData } from './core/types';
+export type { FrameMetadataType, FrameRequest, FrameValidationData } from './core/types';

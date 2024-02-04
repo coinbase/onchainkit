@@ -1,4 +1,4 @@
-import type { FrameMetadata as FrameMetadataType } from '../core/types';
+import type { FrameMetadataType } from '../core/types';
 
 /**
  * FrameMetadata component

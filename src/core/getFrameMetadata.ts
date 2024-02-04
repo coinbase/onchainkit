@@ -1,4 +1,4 @@
-import { FrameMetadata } from './types';
+import { FrameMetadataType } from './types';
 
 type FrameMetadataResponse = Record<string, string>;
 
@@ -17,7 +17,7 @@ export const getFrameMetadata = function ({
   input,
   post_url,
   refresh_period,
-}: FrameMetadata): FrameMetadataResponse {
+}: FrameMetadataType): FrameMetadataResponse {
   const metadata: Record<string, string> = {
     'fc:frame': 'vNext',
   };
