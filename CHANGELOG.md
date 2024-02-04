@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.4.5
+
+### Patch Changes
+
+- 6f9dd77: - **feat**: exported `FrameMetadataType`.
+
 ## 0.4.4
 
 ### Patch Changes
