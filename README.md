@@ -73,7 +73,7 @@ Creating a frame is easy: select an image and add clickable buttons. When a butt
 
 - [getFrameHtmlResponse()](https://github.com/coinbase/onchainkit?tab=readme-ov-file#getframehtmlresponseframemetadata): Retrieves the **Frame HTML** for your HTTP responses.
 - [getFrameMessage()](https://github.com/coinbase/onchainkit?tab=readme-ov-file#getframemessageframerequest): Retrieves a valid **Frame message** from the Frame Signature Packet.
-- [getFrameMetadata()](https://github.com/coinbase/onchainkit?tab=readme-ov-file#getframeframemetadata): Retrieves valid **Frame metadata** for your initial HTML page.
+- [getFrameMetadata()](https://github.com/coinbase/onchainkit?tab=readme-ov-file#getframeframemetadata): Retrieves valid **Frame metadata** for your initial HTML page with Next.js App Routing.
 
 <br />
 
@@ -84,11 +84,17 @@ This component is utilized for incorporating Frame metadata elements into the Re
 Note: If you are using Next.js with App routing, it is recommended to use `getFrameMetadata` instead.
 
 ```tsx
-<FrameMetadata
-  image="https://example.com/image.png"
-  post_url="https://example.com"
-  buttons={[{ label: 'button1' }]}
-/>
+export default function HomePage() {
+  return (
+    ...
+    <FrameMetadata
+      image="https://example.com/image.png"
+      post_url="https://example.com"
+      buttons={[{ label: 'button1' }]}
+    />
+    ...
+  );
+}
 ```
 
 **@Props**
