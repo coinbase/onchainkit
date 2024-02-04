@@ -1,5 +1,5 @@
 ---
-"@coinbase/onchainkit": patch
+'@coinbase/onchainkit': patch
 ---
 
 - **feat**: exported `FrameMetadataType`.
