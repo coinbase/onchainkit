@@ -415,6 +415,13 @@ OnchainKit is all about community; for any questions, feel free to:
     </tr>
     <tr>
       <td align="center" valign="top">
+        <a href="https://twitter.com/taycaldwell_">
+          <img width="80" height="80" src="https://github.com/taycaldwell.png?s=100">
+        </a>
+        <br />
+        <a href="https://twitter.com/taycaldwell_">Taylor Caldwell</a>
+      </td>
+      <td align="center" valign="top">
         <a href="https://warpcast.com/cnasc">
           <img width="80" height="80" src="https://github.com/cnasc.png?s=100">
         </a>
@@ -422,11 +429,11 @@ OnchainKit is all about community; for any questions, feel free to:
         <a href="https://warpcast.com/cnasc">Chris Nascone</a>
       </td>
       <td align="center" valign="top">
-        <a href="https://twitter.com/taycaldwell_">
-          <img width="80" height="80" src="https://github.com/taycaldwell.png?s=100">
+        <a href="https://twitter.com/wespickett">
+          <img width="80" height="80" src="https://github.com/wespickett.png?s=100">
         </a>
         <br />
-        <a href="https://twitter.com/taycaldwell_">Taylor Caldwell</a>
+        <a href="https://twitter.com/wespickett">Wesley Pickett</a>
       </td>
     </tr>
   </tbody>
