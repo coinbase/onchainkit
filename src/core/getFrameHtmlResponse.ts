@@ -1,4 +1,4 @@
-import { FrameMetadata } from './types';
+import { FrameMetadataType } from './types';
 
 /**
  * Returns an HTML string containing metadata for a new valid frame.
@@ -16,7 +16,7 @@ function getFrameHtmlResponse({
   input,
   post_url,
   refresh_period,
-}: FrameMetadata): string {
+}: FrameMetadataType): string {
   // Set the image metadata if it exists.
   const imageHtml = image ? `<meta property="fc:frame:image" content="${image}" />` : '';
 

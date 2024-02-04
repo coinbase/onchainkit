@@ -38,8 +38,6 @@
 
 Add OnchainKit to your project, install the required packages.
 
-<br />
-
 ```bash
 # Use Yarn
 yarn add @coinbase/onchainkit
@@ -55,7 +53,7 @@ pnpm add @coinbase/onchainkit
 
 OnchainKit is divided into various theme utilities and components that are available for your use:
 
-- [Frame Kit 🖼️](https://github.com/coinbase/onchainkit?tab=readme-ov-file#frame-kit-)
+- [Frame Kit 🖼️](https://github.com/coinbase/onchainkit?tab=readme-ov-file#frame-kit-%EF%B8%8F)
 - [Identity Kit 👨‍🚀](https://github.com/coinbase/onchainkit?tab=readme-ov-file#identity-kit-)
 
 <br />
@@ -67,11 +65,63 @@ A Frame transforms any cast into an interactive app.
 
 Creating a frame is easy: select an image and add clickable buttons. When a button is clicked, you receive a callback and can send another image with more buttons. To learn more, check out "[Farcaster Frames Official Documentation](https://warpcast.notion.site/Farcaster-Frames-4bd47fe97dc74a42a48d3a234636d8c5)".
 
-Utilities:
+**React Component**:
+
+- <FrameMetadata />: This component renders all the Frame metadata elements in one place.
+
+**Utilities**:
 
 - [getFrameHtmlResponse()](https://github.com/coinbase/onchainkit?tab=readme-ov-file#getframehtmlresponseframemetadata): Retrieves the **Frame HTML** for your HTTP responses.
 - [getFrameMessage()](https://github.com/coinbase/onchainkit?tab=readme-ov-file#getframemessageframerequest): Retrieves a valid **Frame message** from the Frame Signature Packet.
-- [getFrameMetadata()](https://github.com/coinbase/onchainkit?tab=readme-ov-file#getframeframemetadata): Retrieves valid **Frame metadata** for your initial HTML page.
+- [getFrameMetadata()](https://github.com/coinbase/onchainkit?tab=readme-ov-file#getframeframemetadata): Retrieves valid **Frame metadata** for your initial HTML page with Next.js App Routing.
+
+<br />
+
+### <FrameMetadata />
+
+This component is utilized for incorporating Frame metadata elements into the React page.
+
+Note: If you are using Next.js with App routing, it is recommended to use `getFrameMetadata` instead.
+
+```tsx
+export default function HomePage() {
+  return (
+    ...
+    <FrameMetadata
+      image="https://example.com/image.png"
+      post_url="https://example.com"
+      buttons={[{ label: 'button1' }]}
+    />
+    ...
+  );
+}
+```
+
+**@Props**
+
+```ts
+type Button = {
+  label: string;
+  action?: 'post' | 'post_redirect';
+};
+
+type InputMetadata = {
+  text: string;
+};
+
+type FrameMetadataType = {
+  // A list of strings which are the label for the buttons in the frame (max 4 buttons).
+  buttons?: [Button, ...Button[]];
+  // An image which must be smaller than 10MB and should have an aspect ratio of 1.91:1
+  image: string;
+  // The text input to use for the Frame.
+  input?: InputMetadata;
+  // A valid POST URL to send the Signature Packet to.
+  post_url?: string;
+  // A period in seconds at which the app should expect the image to update.
+  refresh_period?: number;
+};
+```
 
 <br />
 
@@ -124,7 +174,7 @@ type InputMetadata = {
   text: string;
 };
 
-type FrameMetadata = {
+type FrameMetadataType = {
   // A list of strings which are the label for the buttons in the frame (max 4 buttons).
   buttons?: [Button, ...Button[]];
   // An image which must be smaller than 10MB and should have an aspect ratio of 1.91:1
@@ -285,7 +335,7 @@ type InputMetadata = {
   text: string;
 };
 
-type FrameMetadata = {
+type FrameMetadataType = {
   // A list of strings which are the label for the buttons in the frame (max 4 buttons).
   buttons?: [Button, ...Button[]];
   // An image which must be smaller than 10MB and should have an aspect ratio of 1.91:1

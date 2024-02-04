@@ -1,5 +1,10 @@
 import { NeynarFrameValidationInternalModel } from '../utils/neynar/frame/types';
 
+/**
+ * Frame Data
+ *
+ * Note: exported as public Type
+ */
 export interface FrameData {
   buttonIndex: number;
   castId: {
@@ -14,6 +19,11 @@ export interface FrameData {
   url: string;
 }
 
+/**
+ * Frame Request
+ *
+ * Note: exported as public Type
+ */
 export interface FrameRequest {
   untrustedData: FrameData;
   trustedData: {
@@ -67,7 +77,12 @@ export type FrameInputMetadata = {
   text: string;
 };
 
-export type FrameMetadata = {
+/**
+ * Frame Request
+ *
+ * Note: exported as public Type
+ */
+export type FrameMetadataType = {
   buttons?: [FrameButtonMetadata, ...FrameButtonMetadata[]];
   image: string;
   input?: FrameInputMetadata;
