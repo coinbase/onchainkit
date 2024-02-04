@@ -1,8 +1,38 @@
-<img src='./docs/logo-v-0-4.png' width='800' alt='OnchainKit'>
+<p align="center">
+  <a href="https://github.com/coinbase/onchainkit">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="./docs/logo-v-0-4.png">
+      <img alt="OnchainKit logo vibes" src="./docs/logo-v-0-4.png" width="auto">
+    </picture>
+  </a>
+</p>
 
-# [OnchainKit](https://github.com/coinbase/onchainkit/)
+# OnchainKit
 
-> OnchainKit is a collection of tools to build world-class onchain apps with CSS, React, and Typescript.
+<p align="left">
+  OnchainKit is a collection of tools to build world-class onchain apps with CSS, React, and Typescript.
+<p>
+
+<p align="left">
+  <a href="https://www.npmjs.com/package/@coinbase/onchainkit">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="https://img.shields.io/npm/v/@coinbase/onchainkit?colorA=21262d&colorB=21262d&style=flat">
+      <img src="https://img.shields.io/npm/v/viem?colorA=f6f8fa&colorB=f6f8fa&style=flat" alt="Version">
+    </picture>
+  </a>
+  <a href="https://github.com/coinbase/onchainkit/blob/main/LICENSE.md">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="https://img.shields.io/npm/l/@coinbase/onchainkit?colorA=21262d&colorB=21262d&style=flat">
+      <img src="https://img.shields.io/npm/l/@coinbase/onchainkit?colorA=f6f8fa&colorB=f6f8fa&style=flat" alt="MIT License">
+    </picture>
+  </a>
+  <a href="https://www.npmjs.com/package/@coinbase/onchainkit">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="https://img.shields.io/npm/dm/@coinbase/onchainkit?colorA=21262d&colorB=21262d&style=flat">
+      <img src="https://img.shields.io/npm/dm/@coinbase/onchainkit?colorA=f6f8fa&colorB=f6f8fa&style=flat" alt="Downloads per month">
+    </picture>
+  </a>
+</p>
 
 ## Getting Started
 
@@ -22,9 +52,16 @@ pnpm add @coinbase/onchainkit
 ```
 
 <br />
+
+OnchainKit is divided into various theme utilities and components that are available for your use:
+
+- [Frame Kit 🖼️](https://github.com/coinbase/onchainkit?tab=readme-ov-file#frame-kit-)
+- [Identity Kit 👨‍🚀](https://github.com/coinbase/onchainkit?tab=readme-ov-file#identity-kit-)
+
+<br />
 <br />
 
-## FrameKit 🖼️
+## Frame Kit 🖼️
 
 A Frame transforms any cast into an interactive app.
 
