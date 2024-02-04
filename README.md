@@ -63,21 +63,21 @@ OnchainKit is divided into various theme utilities and components that are avail
 
 A Frame transforms any cast into an interactive app.
 
-Creating a frame is easy: select an image and add clickable buttons. When a button is clicked, you receive a callback and can send another image with more buttons. To learn more, check out "[Farcaster Frames Official Documentation](https://warpcast.notion.site/Farcaster-Frames-4bd47fe97dc74a42a48d3a234636d8c5)".
+Creating a frame is easy: select an image and add clickable buttons. When a button is clicked, you receive a callback and can send another image with more buttons. To learn more, check out "[Farcaster Frames Official Documentation](https://docs.farcaster.xyz/learn/what-is-farcaster/frames)".
 
-**React Component**:
+**React component**:
 
-- <FrameMetadata />: This component renders all the Frame metadata elements in one place.
+- `<FrameMetadata />`: This component renders all the Frame metadata elements in one place.
 
-**Utilities**:
+**Typescript utilities**:
 
-- [getFrameHtmlResponse()](https://github.com/coinbase/onchainkit?tab=readme-ov-file#getframehtmlresponseframemetadata): Retrieves the **Frame HTML** for your HTTP responses.
-- [getFrameMessage()](https://github.com/coinbase/onchainkit?tab=readme-ov-file#getframemessageframerequest): Retrieves a valid **Frame message** from the Frame Signature Packet.
-- [getFrameMetadata()](https://github.com/coinbase/onchainkit?tab=readme-ov-file#getframeframemetadata): Retrieves valid **Frame metadata** for your initial HTML page with Next.js App Routing.
+- [`getFrameHtmlResponse()`](https://github.com/coinbase/onchainkit?tab=readme-ov-file#getframehtmlresponseframemetadata): Retrieves the **Frame HTML** for your HTTP responses.
+- [`getFrameMessage()`](https://github.com/coinbase/onchainkit?tab=readme-ov-file#getframemessageframerequest): Retrieves a valid **Frame message** from the Frame Signature Packet.
+- [`getFrameMetadata()`](https://github.com/coinbase/onchainkit?tab=readme-ov-file#getframeframemetadata): Retrieves valid **Frame metadata** for your initial HTML page with Next.js App Routing.
 
 <br />
 
-### <FrameMetadata />
+### `<FrameMetadata />`
 
 This component is utilized for incorporating Frame metadata elements into the React page.
 
@@ -132,17 +132,16 @@ When you need to send an HTML Frame Response, the `getFrameHtmlResponse` method 
 It generates a valid HTML string response with a frame and utilizes `FrameMetadata` types for page metadata. This eliminates the need to manually create server-side HTML strings.
 
 ```ts
-import {
-  FrameRequest,
-  getFrameMessage,
-  getFrameHtmlResponse,
-} from '@coinbase/onchainkit';
+// Step 1. import getFrameHtmlResponse from @coinbase/onchainkit
+import { getFrameHtmlResponse } from '@coinbase/onchainkit';
 import { NextRequest, NextResponse } from 'next/server';
 
 async function getResponse(req: NextRequest): Promise<NextResponse> {
+  // Step 2. Build your Frame logic
   ...
 
   return new NextResponse(
+    // Step 3. Use getFrameHtmlResponse to create a Frame response
     getFrameHtmlResponse({
       buttons: [
         {
@@ -158,8 +157,6 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
 export async function POST(req: NextRequest): Promise<Response> {
   return getResponse(req);
 }
-
-export const dynamic = 'force-dynamic';
 ```
 
 **@Param**
@@ -212,7 +209,7 @@ You can also use `getFrameMessage` to access useful information such as:
 Note that if the `message` is not valid, it will be undefined.
 
 ```ts
-// Steps 1. import getFrameMessage from @coinbase/onchainkit
+// Step 1. import getFrameMessage from @coinbase/onchainkit
 import { FrameRequest, getFrameMessage } from '@coinbase/onchainkit';
 import { NextRequest, NextResponse } from 'next/server';
 
@@ -237,8 +234,6 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
 export async function POST(req: NextRequest): Promise<Response> {
   return getResponse(req);
 }
-
-export const dynamic = 'force-dynamic';
 ```
 
 **@Param**
@@ -294,7 +289,7 @@ interface FrameValidationData {
 With Next.js App routing, use the `getFrameMetadata()` inside your `page.ts` to get the metadata need it for your Frame.
 
 ```ts
-// Steps 1. import getFrameMetadata from @coinbase/onchainkit
+// Step 1. import getFrameMetadata from @coinbase/onchainkit
 import { getFrameMetadata } from '@coinbase/onchainkit';
 import type { Metadata } from 'next';
 import HomePage from './home';
