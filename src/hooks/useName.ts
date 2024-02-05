@@ -27,7 +27,7 @@ export const ensNameAction = (address: Address) => async (): Promise<GetEnsNameR
  *  - `ensName`: The fetched ENS name for the provided address, or null if not found or in case of an error.
  *  - `isLoading`: A boolean indicating whether the ENS name is currently being fetched.
  */
-export const useOnchainName = (address: Address) => {
+export const useName = (address: Address) => {
   const ensActionKey = `ens-name-${address}`;
   const { data: ensName, isLoading } = useOnchainActionWithCache(
     ensNameAction(address),

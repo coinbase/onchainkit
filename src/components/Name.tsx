@@ -1,9 +1,9 @@
 import React, { useMemo } from 'react';
 import { getSlicedAddress } from '../core/address';
-import { useOnchainName } from '../hooks/useOnchainName';
+import { useName } from '../hooks/useName';
 import type { Address } from 'viem';
 
-type OnchainNameProps = {
+type NameProps = {
   address: Address;
   className?: string;
   sliced?: boolean;
@@ -11,7 +11,7 @@ type OnchainNameProps = {
 };
 
 /**
- * OnchainName is a React component that renders the user name from an Ethereum address.
+ * Name is a React component that renders the user name from an Ethereum address.
  * It displays the ENS name if available; otherwise, it shows either a sliced version of the address
  * or the full address, based on the 'sliced' prop. By default, 'sliced' is set to true.
  *
@@ -20,8 +20,8 @@ type OnchainNameProps = {
  * @param {boolean} [sliced=true] - Determines if the address should be sliced when no ENS name is available.
  * @param {React.HTMLAttributes<HTMLSpanElement>} [props] - Additional HTML attributes for the span element.
  */
-export function OnchainName({ address, className, sliced = true, props }: OnchainNameProps) {
-  const { ensName, isLoading } = useOnchainName(address);
+export function Name({ address, className, sliced = true, props }: NameProps) {
+  const { ensName, isLoading } = useName(address);
 
   // wrapped in useMemo to prevent unnecessary recalculations.
   const normalizedAddress = useMemo(() => {

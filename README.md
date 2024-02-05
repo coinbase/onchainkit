@@ -355,20 +355,20 @@ type FrameMetadataResponse = Record<string, string>;
 
 ## Identity Kit 👨‍🚀
 
-### OnchainName
+### Name
 
-The `OnchainName` component is used to display ENS names associated with Ethereum addresses. When an ENS name is not available, it defaults to showing a truncated version of the address.
+The `Name` component is used to display ENS names associated with Ethereum addresses. When an ENS name is not available, it defaults to showing a truncated version of the address.
 
 ```tsx
-import { OnchainName } from '@coinbase/onchainkit';
+import { Name } from '@coinbase/onchainkit';
 
-<OnchainName address="0x1234567890abcdef1234567890abcdef12345678" sliced={false} />;
+<Name address="0x1234567890abcdef1234567890abcdef12345678" sliced={false} />;
 ```
 
 **@Props**
 
 ```ts
-type UseOnchainName = {
+type UseName = {
   // Ethereum address to be resolved from ENS.
   address: Address;
   // Optional CSS class for custom styling.
