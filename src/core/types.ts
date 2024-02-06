@@ -89,3 +89,10 @@ export type FrameMetadataType = {
   post_url?: string;
   refresh_period?: number;
 };
+
+/**
+ * Frame Metadata Response
+ *
+ * Note: exported as public Type
+ */
+export type FrameMetadataResponse = Record<string, string>;
