@@ -137,13 +137,13 @@ type FrameMetadataType = {
 **@Returns**
 
 ```html
-<meta name="fc:frame" content="vNext">
-<meta name="fc:frame:button:1" content="Tell me the story">
-<meta name="fc:frame:button:2" content="Redirect to cute dog pictures">
-<meta name="fc:frame:button:2:action" content="post_redirect">
-<meta name="fc:frame:image" content="https://zizzamia.xyz/park-1.png">
-<meta name="fc:frame:input:text" content="Tell me a boat story">
-<meta name="fc:frame:post_url" content="https://zizzamia.xyz/api/frame">
+<meta name="fc:frame" content="vNext" />
+<meta name="fc:frame:button:1" content="Tell me the story" />
+<meta name="fc:frame:button:2" content="Redirect to cute dog pictures" />
+<meta name="fc:frame:button:2:action" content="post_redirect" />
+<meta name="fc:frame:image" content="https://zizzamia.xyz/park-1.png" />
+<meta name="fc:frame:input:text" content="Tell me a boat story" />
+<meta name="fc:frame:post_url" content="https://zizzamia.xyz/api/frame" />
 ```
 
 <br />
