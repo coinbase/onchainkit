@@ -1,4 +1,4 @@
-import React from 'react';
+import { Fragment } from 'react';
 import type { FrameMetadataType } from '../core/types';
 
 /**
@@ -42,7 +42,7 @@ export function FrameMetadata({
   input,
   post_url,
   refresh_period,
-  wrapperComponent: WrapperComponent = React.Fragment,
+  wrapperComponent: WrapperComponent = Fragment,
 }: FrameMetadataType) {
   return (
     <WrapperComponent>

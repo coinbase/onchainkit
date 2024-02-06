@@ -78,4 +78,17 @@ describe('FrameMetadata', () => {
     ).toBe('10');
     expect(meta.container.querySelectorAll('meta').length).toBe(3);
   });
+
+  it('renders with wrapperComponent', () => {
+    const meta = render(
+      <FrameMetadata
+        image="https://example.com/image.png"
+        wrapperComponent={({ children }) => <div id="wrapper">{children}</div>}
+      />,
+    );
+
+    expect(meta.container.querySelector('#wrapper')).not.toBeNull();
+    expect(meta.container.querySelector('meta[name="fc:frame:image"]')).not.toBeNull();
+    expect(meta.container.querySelectorAll('meta').length).toBe(2);
+  });
 });
