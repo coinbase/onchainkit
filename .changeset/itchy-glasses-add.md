@@ -2,7 +2,8 @@
 '@coinbase/onchainkit': minor
 ---
 
-- **feat**: Rename the component from `OnchainName` in our Identity Kit. This is a breaking change. `OnchainName` is being renamed to `Name` for simplicity and clarity.
+- **fix**: ensured that the `<FrameMetadata>` component uses the `name` property instead of the `property` property to set the type of metadata. Both options are technically correct, but historically, using `name` is more accurate.
+- **feat**: renamed the component from `OnchainName` to `Name` in our Identity Kit. This is a breaking changes. The purpose of the rename is to simplify and enhance clarity. By @alvaroraminelli #86
 
 BREAKING CHANGES
 

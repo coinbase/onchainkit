@@ -1,7 +1,7 @@
 <p align="center">
   <a href="https://github.com/coinbase/onchainkit">
     <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="./docs/logo-v-0-4.png">
+      <source media="(prefers-color-scheme: dark)" srcset="./docs/logo-v-0-5.png">
       <img alt="OnchainKit logo vibes" src="./docs/logo-v-0-4.png" width="auto">
     </picture>
   </a>
@@ -88,9 +88,20 @@ export default function HomePage() {
   return (
     ...
     <FrameMetadata
-      image="https://example.com/image.png"
-      post_url="https://example.com"
-      buttons={[{ label: 'button1' }]}
+      buttons={[
+        {
+          label: 'Tell me the story',
+        },
+        {
+          label: 'Redirect to cute dog pictures',
+          action: 'post_redirect',
+        },
+      ]}
+      image="https://zizzamia.xyz/park-1.png"
+      input={{
+        text: 'Tell me a boat story',
+      }}
+      post_url="https://zizzamia.xyz/api/frame"
     />
     ...
   );
@@ -121,6 +132,18 @@ type FrameMetadataType = {
   // A period in seconds at which the app should expect the image to update.
   refresh_period?: number;
 };
+```
+
+**@Returns**
+
+```html
+<meta name="fc:frame" content="vNext" />
+<meta name="fc:frame:button:1" content="Tell me the story" />
+<meta name="fc:frame:button:2" content="Redirect to cute dog pictures" />
+<meta name="fc:frame:button:2:action" content="post_redirect" />
+<meta name="fc:frame:image" content="https://zizzamia.xyz/park-1.png" />
+<meta name="fc:frame:input:text" content="Tell me a boat story" />
+<meta name="fc:frame:post_url" content="https://zizzamia.xyz/api/frame" />
 ```
 
 <br />

@@ -4,13 +4,13 @@
 
 ### Patch Changes
 
-- 6f9dd77: - **feat**: exported `FrameMetadataType`.
+- **feat**: exported `FrameMetadataType`. 6f9dd77
 
 ## 0.4.4
 
 ### Patch Changes
 
-- d168475: - **fix**: added missing `input` type on `FrameValidationData`;
+- **fix**: added missing `input` type on `FrameValidationData`. d168475
 
 ## 0.4.3
 
@@ -22,9 +22,9 @@
 
 ### Patch Changes
 
-- **feat**: Added support for Text Input metadata for Farcaster Frames. By @taycaldwell #67 89e5210
-- **feat**: Added `FrameMetadata` component, to help support metadata elements with classic React apps. By @zizzamia #71
-- **feat**: Added `OnchainName` component, to our Identity Kit. The `OnchainName` component primarily focuses on showcasing ENS names for given Ethereum addresses, and defaults to displaying a sliced version of the address when an ENS name isn't available. By @alvaroraminelli #49
+- **feat**: added support for Text Input metadata for Farcaster Frames. By @taycaldwell #67 89e5210
+- **feat**: added `FrameMetadata` component, to help support metadata elements with classic React apps. By @zizzamia #71
+- **feat**: added `OnchainName` component, to our Identity Kit. The `OnchainName` component primarily focuses on showcasing ENS names for given Ethereum addresses, and defaults to displaying a sliced version of the address when an ENS name isn't available. By @alvaroraminelli #49
 
 ## 0.4.1
 
@@ -166,10 +166,10 @@ type FrameMetadata = {
 ### Patch Changes
 
 - **feat**: exported `FrameRequest` and `FrameData` types.
-- **docs**: Polished README for `getFrameMessage()`. By @zizzamia #38 218b65e
-- **fix**: Refactor Farcaster typing to be explicit, and added a Farcaster message verification integration test. By @robpolak @cnasc @zizzamia #37
-- **feat**: Added a concept of integration tests where we can assert the actual values coming back from `neynar`. We decoupled these from unit tests as we should not commingle. By @robpolak #35
-- **feat**: Refactored `neynar` client out of the `./src/core` code-path, for better composability and testability. By @robpolak #35
+- **docs**: polished README for `getFrameMessage()`. By @zizzamia #38 218b65e
+- **fix**: refactor Farcaster typing to be explicit, and added a Farcaster message verification integration test. By @robpolak @cnasc @zizzamia #37
+- **feat**: added a concept of integration tests where we can assert the actual values coming back from `neynar`. We decoupled these from unit tests as we should not commingle. By @robpolak #35
+- **feat**: refactored `neynar` client out of the `./src/core` code-path, for better composability and testability. By @robpolak #35
 
 BREAKING CHANGES
 

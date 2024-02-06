@@ -9,9 +9,20 @@ import type { FrameMetadataType } from '../core/types';
  * @example
  * ```tsx
  * <FrameMetadata
- *  image="https://example.com/image.png"
- *  post_url="https://example.com"
- *  buttons={[{ label: 'button1' }]}
+ *   buttons={[
+ *     {
+ *       label: 'Tell me the story',
+ *     },
+ *     {
+ *       label: 'Redirect to cute dog pictures',
+ *       action: 'post_redirect',
+ *     },
+ *   ]}
+ *   image="https://zizzamia.xyz/park-1.png"
+ *   input={{
+ *     text: 'Tell me a boat story',
+ *   }}
+ *   post_url="https://zizzamia.xyz/api/frame"
  * />
  * ```
  *
@@ -32,25 +43,25 @@ export function FrameMetadata({
 }: FrameMetadataType) {
   return (
     <>
-      <meta property="fc:frame" content="vNext" />
-      {!!image && <meta property="fc:frame:image" content={image} />}
-      {!!input && <meta property="fc:frame:input:text" content={input.text} />}
+      <meta name="fc:frame" content="vNext" />
+      {!!image && <meta name="fc:frame:image" content={image} />}
+      {!!input && <meta name="fc:frame:input:text" content={input.text} />}
 
       {buttons?.map((button, index) => {
         return (
           <>
-            <meta property={`fc:frame:button:${index + 1}`} content={button.label} />
+            <meta name={`fc:frame:button:${index + 1}`} content={button.label} />
             {!!button.action && (
-              <meta property={`fc:frame:button:${index + 1}:action`} content={button.action} />
+              <meta name={`fc:frame:button:${index + 1}:action`} content={button.action} />
             )}
           </>
         );
       })}
 
-      {!!post_url && <meta property="fc:frame:post_url" content={post_url} />}
+      {!!post_url && <meta name="fc:frame:post_url" content={post_url} />}
 
       {!!refresh_period && (
-        <meta property="fc:frame:refresh_period" content={refresh_period.toString()} />
+        <meta name="fc:frame:refresh_period" content={refresh_period.toString()} />
       )}
     </>
   );
