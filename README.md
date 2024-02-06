@@ -1,7 +1,7 @@
 <p align="center">
   <a href="https://github.com/coinbase/onchainkit">
     <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="./docs/logo-v-0-4.png">
+      <source media="(prefers-color-scheme: dark)" srcset="./docs/logo-v-0-5.png">
       <img alt="OnchainKit logo vibes" src="./docs/logo-v-0-4.png" width="auto">
     </picture>
   </a>
@@ -137,13 +137,13 @@ type FrameMetadataType = {
 **@Returns**
 
 ```html
-<meta property="fc:frame" content="vNext">
-<meta property="fc:frame:button:1" content="Tell me the story">
-<meta property="fc:frame:button:2" content="Redirect to cute dog pictures">
-<meta property="fc:frame:button:2:action" content="post_redirect">
-<meta property="fc:frame:image" content="https://zizzamia.xyz/park-1.png">
-<meta property="fc:frame:input:text" content="Tell me a boat story">
-<meta property="fc:frame:post_url" content="https://zizzamia.xyz/api/frame">
+<meta name="fc:frame" content="vNext">
+<meta name="fc:frame:button:1" content="Tell me the story">
+<meta name="fc:frame:button:2" content="Redirect to cute dog pictures">
+<meta name="fc:frame:button:2:action" content="post_redirect">
+<meta name="fc:frame:image" content="https://zizzamia.xyz/park-1.png">
+<meta name="fc:frame:input:text" content="Tell me a boat story">
+<meta name="fc:frame:post_url" content="https://zizzamia.xyz/api/frame">
 ```
 
 <br />
