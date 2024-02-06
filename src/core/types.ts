@@ -88,4 +88,12 @@ export type FrameMetadataType = {
   input?: FrameInputMetadata;
   post_url?: string;
   refresh_period?: number;
+  wrapperComponent?: React.ComponentType<any>;
 };
+
+/**
+ * Frame Metadata Response
+ *
+ * Note: exported as public Type
+ */
+export type FrameMetadataResponse = Record<string, string>;

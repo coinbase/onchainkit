@@ -1,6 +1,4 @@
-import { FrameMetadataType } from './types';
-
-type FrameMetadataResponse = Record<string, string>;
+import { FrameMetadataResponse, FrameMetadataType } from './types';
 
 /**
  * This function generates the metadata for a Farcaster Frame.
