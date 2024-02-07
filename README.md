@@ -116,7 +116,7 @@ export default function HomePage() {
 **@Props**
 
 ```ts
-type Button = 
+type Button =
   | {
       action: 'link' | 'mint';
       label: string;
@@ -125,7 +125,7 @@ type Button =
   | {
       action?: 'post' | 'post_redirect';
       label: string;
-  };
+    };
 
 type InputMetadata = {
   text: string;
@@ -203,7 +203,7 @@ export async function POST(req: NextRequest): Promise<Response> {
 **@Param**
 
 ```ts
-type Button = 
+type Button =
   | {
       action: 'link' | 'mint';
       label: string;
@@ -212,7 +212,7 @@ type Button =
   | {
       action?: 'post' | 'post_redirect';
       label: string;
-  };
+    };
 
 type InputMetadata = {
   text: string;
@@ -368,7 +368,7 @@ export default function Page() {
 **@Param**
 
 ```ts
-type Button = 
+type Button =
   | {
       action: 'link' | 'mint';
       label: string;
@@ -377,7 +377,7 @@ type Button =
   | {
       action?: 'post' | 'post_redirect';
       label: string;
-  };
+    };
 
 type InputMetadata = {
   text: string;
