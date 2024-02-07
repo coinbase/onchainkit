@@ -32,6 +32,9 @@ function getFrameHtmlResponse({
         if (button.action) {
           buttonHtml += `<meta property="fc:frame:button:${index + 1}:action" content="${button.action}" />`;
         }
+        if (button.target) {
+          buttonHtml += `<meta property="fc:frame:button:${index + 1}:target" content="${button.target}" />`;
+        }
         return buttonHtml;
       })
       .join('');
