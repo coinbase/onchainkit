@@ -4,7 +4,7 @@ layout: home
 
 hero:
   name: OnchainKit
-  text: ""
+  text: ''
   tagline: A collection of tools to build world-class onchain apps with CSS, React, and Typescript
   actions:
     - theme: brand
@@ -22,6 +22,4 @@ features:
     details: A frame transforms any cast into an interactive app
   - title: Identity Kit
     details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-
 ---
-
