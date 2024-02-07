@@ -406,10 +406,12 @@ type UseName = {
 ### hasVerifiedAttestations
 
 ```tsx
+import { base } from 'viem/chains';
 import { hasVerifiedAttestations } from '@coinbase/onchainkit';
 
 const hasVerifiedAttestation = await hasVerifiedAttestations(
-  '0x44a7D120beA87455071cebB841eF91E6Ae21bC1a',
+  base,
+  '0x1234567890abcdef1234567890abcdef12345678',
   ['VERIFIED ACCOUNT'],
 );
 ```
@@ -419,7 +421,10 @@ const hasVerifiedAttestation = await hasVerifiedAttestations(
 ```tsx
 import { getVerifiedAttestations } from '@coinbase/onchainkit';
 
-const attestations = await getVerifiedAttestation('0x44a7D120beA87455071cebB841eF91E6Ae21bC1a');
+const attestations = await getVerifiedAttestation(
+  base,
+  '0x1234567890abcdef1234567890abcdef12345678',
+);
 ```
 
 <br />
