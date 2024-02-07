@@ -113,5 +113,3 @@ export type Attestation = {
   timeCreated: number;
   txid: string;
 };
-
-export type AttestationSchema = 'VERIFIED ACCOUNT' | 'VERIFIED COUNTRY';

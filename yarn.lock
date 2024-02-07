@@ -719,8 +719,8 @@ __metadata:
     viem: "npm:^2.5.0"
     yarn: "npm:^1.22.21"
   peerDependencies:
-    graphql: ^16.8.1
-    graphql-request: ^6.1.0
+    graphql: ^16
+    graphql-request: ^6
     react: ^18
     react-dom: ^18
     viem: ^2.5.0

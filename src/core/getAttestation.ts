@@ -1,8 +1,13 @@
 import type { Address } from 'viem';
 import type { Chain } from 'viem';
 import { gql, request } from 'graphql-request';
-import { Attestation, AttestationSchema } from './types';
-import { getChainSchemasUids, easScanGraphQLAPI, getAttesterAddresses } from './attestation';
+import { Attestation } from './types';
+import {
+  getChainSchemasUids,
+  getChainEASGraphQLAPI,
+  getAttesterAddresses,
+  AttestationSchema,
+} from '../utils/attestation';
 
 const attestationsQuery = gql`
   query AttestationsForUsers(
@@ -33,12 +38,13 @@ const attestationsQuery = gql`
  * @returns A promise that resolves to an array of Attestations.
  * @throws Will throw an error if the request to the GraphQL API fails.
  */
-export async function getAttestation(
-  chain: Chain,
+export async function getAttestation<TChain extends Chain>(
   address: Address,
+  chain: TChain,
   filters?: { schemas?: AttestationSchema[] },
 ): Promise<Attestation[]> {
   try {
+    const easScanGraphQLAPI = getChainEASGraphQLAPI(chain);
     const conditions: Record<string, any> = {
       attester: { in: getAttesterAddresses(chain) },
       recipient: { equals: address },
@@ -49,7 +55,7 @@ export async function getAttestation(
       ], // Not expired
     };
 
-    if (filters?.schemas?.length) {
+    if (filters?.schemas && filters?.schemas?.length > 0) {
       conditions.schemaId = { in: getChainSchemasUids(filters.schemas, chain.id) };
     }
 

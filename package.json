@@ -18,8 +18,8 @@
     "release:version": "changeset version && yarn install --immutable"
   },
   "peerDependencies": {
-    "graphql": "^16.8.1",
-    "graphql-request": "^6.1.0",
+    "graphql": "^16",
+    "graphql-request": "^6",
     "react": "^18",
     "react-dom": "^18",
     "viem": "^2.5.0"

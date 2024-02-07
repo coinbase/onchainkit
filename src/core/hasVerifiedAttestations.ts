@@ -1,8 +1,7 @@
 import type { Address } from 'viem';
 import type { Chain } from 'viem';
-import { AttestationSchema } from './types';
 import { getAttestation } from './getAttestation';
-import { isChainSupported, getChainSchemasUids } from './attestation';
+import { isChainSupported, getChainSchemasUids, AttestationSchema } from '../utils/attestation';
 
 /**
  * Checks if the specified address has verified attestations for the given chain and expected schemas.
@@ -13,9 +12,9 @@ import { isChainSupported, getChainSchemasUids } from './attestation';
  * @returns A promise that resolves to a boolean indicating whether the address has the expected attestations.
  * @throws Will throw an error if the chain is not supported.
  */
-export async function hasVerifiedAttestations(
-  chain: Chain,
+export async function hasVerifiedAttestations<TChain extends Chain>(
   address: Address,
+  chain: TChain,
   expectedSchemas: AttestationSchema[] = [],
 ): Promise<boolean> {
   if (!chain || !address || expectedSchemas.length === 0) {
@@ -27,7 +26,7 @@ export async function hasVerifiedAttestations(
   }
 
   const schemaUids = getChainSchemasUids(expectedSchemas, chain.id);
-  const attestations = await getAttestation(chain, address, { schemas: expectedSchemas });
+  const attestations = await getAttestation(address, chain, { schemas: expectedSchemas });
   const schemasFound = attestations.map((attestation) => attestation.schemaId);
 
   return schemaUids.every((schemaUid) => schemasFound.includes(schemaUid));

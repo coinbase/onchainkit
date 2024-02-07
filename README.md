@@ -405,25 +405,29 @@ type UseName = {
 
 ### hasVerifiedAttestations
 
+Checks if the specified address has verified attestations for the given chain and expected schemas.
+
 ```tsx
 import { base } from 'viem/chains';
-import { hasVerifiedAttestations } from '@coinbase/onchainkit';
+import { hasVerifiedAttestations, attestationSchemas } from '@coinbase/onchainkit';
 
 const hasVerifiedAttestation = await hasVerifiedAttestations(
-  base,
   '0x1234567890abcdef1234567890abcdef12345678',
-  ['VERIFIED ACCOUNT'],
+  base,
+  [attestationSchemas[base.id].VERIFIED_ACCOUNT],
 );
 ```
 
 ### getVerifiedAttestations
 
+Retrieves attestations for a given address and chain, optionally filtered by schemas.
+
 ```tsx
 import { getVerifiedAttestations } from '@coinbase/onchainkit';
 
 const attestations = await getVerifiedAttestation(
-  base,
   '0x1234567890abcdef1234567890abcdef12345678',
+  base,
 );
 ```
 
