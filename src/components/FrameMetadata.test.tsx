@@ -157,6 +157,6 @@ describe('FrameMetadata', () => {
       />,
     );
     expect(meta.container.querySelector('meta[name="fc:frame:button:1:target"')).toBeNull();
-    expect(meta.container.querySelectorAll('meta').length).toBe(4);
+    expect(meta.container.querySelectorAll('meta').length).toBe(5);
   });
 });
