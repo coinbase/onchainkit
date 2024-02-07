@@ -76,4 +76,62 @@ describe('getFrameMetadata', () => {
       'fc:frame:refresh_period': '10',
     });
   });
+
+  it('should return the correct metadata with action mint', () => {
+    expect(
+      getFrameMetadata({
+        buttons: [{ label: 'Mint', action: 'mint', target: 'https://zizzamia.xyz/api/frame/mint' }],
+        image: 'https://zizzamia.xyz/park-1.png',
+        input: {
+          text: 'Tell me a boat story',
+        },
+        post_url: 'https://zizzamia.xyz/api/frame',
+      }),
+    ).toEqual({
+      'fc:frame': 'vNext',
+      'fc:frame:button:1': 'Mint',
+      'fc:frame:button:1:action': 'mint',
+      'fc:frame:button:1:target': 'https://zizzamia.xyz/api/frame/mint',
+      'fc:frame:image': 'https://zizzamia.xyz/park-1.png',
+      'fc:frame:input:text': 'Tell me a boat story',
+      'fc:frame:post_url': 'https://zizzamia.xyz/api/frame',
+    });
+  });
+
+  it('should return the correct metadata with action link', () => {
+    expect(
+      getFrameMetadata({
+        buttons: [{ label: 'Link', action: 'link', target: 'https://zizzamia.xyz/frame/link' }],
+        image: 'https://zizzamia.xyz/park-1.png',
+        input: {
+          text: 'Tell me a boat story',
+        },
+        post_url: 'https://zizzamia.xyz/api/frame',
+      }),
+    ).toEqual({
+      'fc:frame': 'vNext',
+      'fc:frame:button:1': 'Link',
+      'fc:frame:button:1:action': 'link',
+      'fc:frame:button:1:target': 'https://zizzamia.xyz/frame/link',
+      'fc:frame:image': 'https://zizzamia.xyz/park-1.png',
+      'fc:frame:input:text': 'Tell me a boat story',
+      'fc:frame:post_url': 'https://zizzamia.xyz/api/frame',
+    });
+  });
+
+  it('should not render action target if action is not link or mint', () => {
+    expect(
+      getFrameMetadata({
+        buttons: [{ label: 'button1', action: 'post' }],
+        image: 'image',
+        post_url: 'post_url',
+      }),
+    ).toEqual({
+      'fc:frame': 'vNext',
+      'fc:frame:button:1': 'button1',
+      'fc:frame:button:1:action': 'post',
+      'fc:frame:image': 'image',
+      'fc:frame:post_url': 'post_url',
+    });
+  });
 });

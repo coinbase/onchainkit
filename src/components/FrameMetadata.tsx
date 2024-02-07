@@ -22,6 +22,11 @@ type FrameMetadataReact = FrameMetadataType & {
  *       label: 'Redirect to cute dog pictures',
  *       action: 'post_redirect',
  *     },
+ *     {
+ *      label: 'Mint',
+ *      action: 'mint',
+ *      target: 'https://zizzamia.xyz/api/frame/mint',
+ *    },
  *   ]}
  *   image="https://zizzamia.xyz/park-1.png"
  *   input={{
@@ -32,11 +37,11 @@ type FrameMetadataReact = FrameMetadataType & {
  * ```
  *
  * @param {FrameMetadataReact} props - The metadata for the frame.
+ * @param {Array<{ label: string, action?: string }>} props.buttons - The buttons.
  * @param {string} props.image - The image URL.
  * @param {string} props.input - The input text.
  * @param {string} props.post_url - The post URL.
  * @param {number} props.refresh_period - The refresh period.
- * @param {Array<{ label: string, action?: string }>} props.buttons - The buttons.
  * @param {React.ComponentType<any> | undefined} props.wrapper - The wrapper component meta tags are rendered in.
  * @returns {React.ReactElement} The FrameMetadata component.
  */
@@ -60,6 +65,9 @@ export function FrameMetadata({
             <meta name={`fc:frame:button:${index + 1}`} content={button.label} />
             {!!button.action && (
               <meta name={`fc:frame:button:${index + 1}:action`} content={button.action} />
+            )}
+            {(button.action == 'link' || button.action == 'mint') && !!button.target && (
+              <meta name={`fc:frame:button:${index + 1}:target`} content={button.target} />
             )}
           </>
         );
