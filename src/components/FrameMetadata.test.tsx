@@ -79,11 +79,11 @@ describe('FrameMetadata', () => {
     expect(meta.container.querySelectorAll('meta').length).toBe(3);
   });
 
-  it('renders with wrapperComponent', () => {
+  it('renders with wrapper', () => {
     const meta = render(
       <FrameMetadata
         image="https://example.com/image.png"
-        wrapperComponent={({ children }) => <div id="wrapper">{children}</div>}
+        wrapper={({ children }) => <div id="wrapper">{children}</div>}
       />,
     );
 
