@@ -66,7 +66,7 @@ export function FrameMetadata({
             {!!button.action && (
               <meta name={`fc:frame:button:${index + 1}:action`} content={button.action} />
             )}
-            {!!button.target && (
+            {(button.action == 'link' || button.action == 'mint') && !!button.target && (
               <meta name={`fc:frame:button:${index + 1}:target`} content={button.target} />
             )}
           </>
