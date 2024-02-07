@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.5.1
+
+### Patch Changes
+
+- f9f7652: - **feat**: added option for mint action on a Frame. By @zizzamia #93
+  - **feat**: added option for simple static links when creating a Frame. By @zizzamia #93
+  - **feat**: added `wrapper` prop to `<FrameMetadata />` component, that defaults to `React.Fragment` when not passed (original behavior). By @syntag #90 #91
+  - **feat**: exported `FrameMetadataResponse` type which can be useful when using `getFrameMetadata` in a TS project. By @syntag #90
+
 ## 0.5.0
 
 ### Minor Changes
