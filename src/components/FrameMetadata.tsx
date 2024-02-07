@@ -1,6 +1,10 @@
 import { Fragment } from 'react';
 import type { FrameMetadataType } from '../core/types';
 
+type FrameMetadataReact = FrameMetadataType & {
+  wrapper?: React.ComponentType<any>;
+};
+
 /**
  * FrameMetadata component
  *
@@ -27,13 +31,13 @@ import type { FrameMetadataType } from '../core/types';
  * />
  * ```
  *
- * @param {FrameMetadataType} props - The metadata for the frame.
+ * @param {FrameMetadataReact} props - The metadata for the frame.
  * @param {string} props.image - The image URL.
  * @param {string} props.input - The input text.
  * @param {string} props.post_url - The post URL.
  * @param {number} props.refresh_period - The refresh period.
  * @param {Array<{ label: string, action?: string }>} props.buttons - The buttons.
- * @param {React.ComponentType<any> | undefined} props.wrapperComponent - The wrapper component meta tags are rendered in.
+ * @param {React.ComponentType<any> | undefined} props.wrapper - The wrapper component meta tags are rendered in.
  * @returns {React.ReactElement} The FrameMetadata component.
  */
 export function FrameMetadata({
@@ -42,10 +46,10 @@ export function FrameMetadata({
   input,
   post_url,
   refresh_period,
-  wrapperComponent: WrapperComponent = Fragment,
-}: FrameMetadataType) {
+  wrapper: Wrapper = Fragment,
+}: FrameMetadataReact) {
   return (
-    <WrapperComponent>
+    <Wrapper>
       <meta name="fc:frame" content="vNext" />
       {!!image && <meta name="fc:frame:image" content={image} />}
       {!!input && <meta name="fc:frame:input:text" content={input.text} />}
@@ -66,6 +70,6 @@ export function FrameMetadata({
       {!!refresh_period && (
         <meta name="fc:frame:refresh_period" content={refresh_period.toString()} />
       )}
-    </WrapperComponent>
+    </Wrapper>
   );
 }

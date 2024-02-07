@@ -88,7 +88,6 @@ export type FrameMetadataType = {
   input?: FrameInputMetadata;
   post_url?: string;
   refresh_period?: number;
-  wrapperComponent?: React.ComponentType<any>;
 };
 
 /**
