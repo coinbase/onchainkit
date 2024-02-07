@@ -1,6 +1,6 @@
-import type { Address } from "viem";
+import type { Address } from 'viem';
 import type { Chain } from 'viem';
-import { AttestationSchema } from "./types";
+import { AttestationSchema } from './types';
 import { getAttestation } from './getAttestation';
 import { isChainSupported, getChainSchemasUids } from './attestation';
 
@@ -14,21 +14,21 @@ import { isChainSupported, getChainSchemasUids } from './attestation';
  * @throws Will throw an error if the chain is not supported.
  */
 export async function hasVerifiedAttestations(
-    chain: Chain,
-    address: Address,
-    expectedSchemas: AttestationSchema[] = []
+  chain: Chain,
+  address: Address,
+  expectedSchemas: AttestationSchema[] = [],
 ): Promise<boolean> {
-    if (!chain || !address || expectedSchemas.length === 0) {
-        return false;
-    }
+  if (!chain || !address || expectedSchemas.length === 0) {
+    return false;
+  }
 
-    if (!isChainSupported(chain)) {
-        throw new Error(`Chain ${chain.id} is not supported`);
-    }
+  if (!isChainSupported(chain)) {
+    throw new Error(`Chain ${chain.id} is not supported`);
+  }
 
-    const schemaUids = getChainSchemasUids(expectedSchemas, chain.id);
-    const attestations = await getAttestation(chain, address, { schemas: expectedSchemas });
-    const schemasFound = attestations.map(attestation => attestation.schemaId);
+  const schemaUids = getChainSchemasUids(expectedSchemas, chain.id);
+  const attestations = await getAttestation(chain, address, { schemas: expectedSchemas });
+  const schemasFound = attestations.map((attestation) => attestation.schemaId);
 
-    return schemaUids.every(schemaUid => schemasFound.includes(schemaUid));
+  return schemaUids.every((schemaUid) => schemasFound.includes(schemaUid));
 }

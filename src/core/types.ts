@@ -114,4 +114,4 @@ export type Attestation = {
   txid: string;
 };
 
-export type AttestationSchema = "VERIFIED ACCOUNT" | "VERIFIED COUNTRY";
+export type AttestationSchema = 'VERIFIED ACCOUNT' | 'VERIFIED COUNTRY';
