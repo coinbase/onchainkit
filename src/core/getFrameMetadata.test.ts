@@ -112,7 +112,7 @@ describe('getFrameMetadata', () => {
       'fc:frame': 'vNext',
       'fc:frame:button:1': 'Link',
       'fc:frame:button:1:action': 'link',
-      'fc:frame:button:1:target': 'https://zizzamia.xyz/api/frame/link',
+      'fc:frame:button:1:target': 'https://zizzamia.xyz/frame/link',
       'fc:frame:image': 'https://zizzamia.xyz/park-1.png',
       'fc:frame:input:text': 'Tell me a boat story',
       'fc:frame:post_url': 'https://zizzamia.xyz/api/frame',
