@@ -147,4 +147,16 @@ describe('FrameMetadata', () => {
     ).toBe('https://zizzamia.xyz/api/frame/link');
     expect(meta.container.querySelectorAll('meta').length).toBe(5);
   });
+
+  it('should not render action target if action is not link or mint', () => {
+    const meta = render(
+      <FrameMetadata
+        image="image"
+        buttons={[{ label: 'button1', action: 'post' }]}
+        post_url="post_url"
+      />,
+    );
+    expect(meta.container.querySelector('meta[name="fc:frame:button:1:target"')).toBeNull();
+    expect(meta.container.querySelectorAll('meta').length).toBe(4);
+  });
 });

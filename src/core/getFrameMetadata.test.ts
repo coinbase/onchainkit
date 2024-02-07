@@ -118,4 +118,20 @@ describe('getFrameMetadata', () => {
       'fc:frame:post_url': 'https://zizzamia.xyz/api/frame',
     });
   });
+
+  it('should not render action target if action is not link or mint', () => {
+    expect(
+      getFrameMetadata({
+        buttons: [{ label: 'button1', action: 'post' }],
+        image: 'image',
+        post_url: 'post_url',
+      }),
+    ).toEqual({
+      'fc:frame': 'vNext',
+      'fc:frame:button:1': 'button1',
+      'fc:frame:button:1:action': 'post',
+      'fc:frame:image': 'image',
+      'fc:frame:post_url': 'post_url',
+    });
+  });
 });

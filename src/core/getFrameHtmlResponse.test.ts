@@ -129,6 +129,21 @@ describe('getFrameHtmlResponse', () => {
     );
     expect(html).not.toContain('fc:frame:refresh_period');
   });
+
+  it('should not render action target if action is not link or mint', () => {
+    const html = getFrameHtmlResponse({
+      buttons: [{ label: 'button1', action: 'post' }],
+      image: 'image',
+      post_url: 'post_url',
+    });
+
+    expect(html).toContain('<meta property="fc:frame" content="vNext" />');
+    expect(html).toContain('<meta property="fc:frame:button:1" content="button1" />');
+    expect(html).toContain('<meta property="fc:frame:button:1:action" content="post" />');
+    expect(html).toContain('<meta property="fc:frame:image" content="image" />');
+    expect(html).toContain('<meta property="fc:frame:post_url" content="post_url" />');
+    expect(html).not.toContain('fc:frame:button:1:target');
+  });
 });
 
 export { getFrameHtmlResponse };
