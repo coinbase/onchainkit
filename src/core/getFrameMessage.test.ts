@@ -1,7 +1,7 @@
 import { mockNeynarResponse } from './mock';
 import { getFrameMessage } from './getFrameMessage';
 import { neynarBulkUserLookup } from '../utils/neynar/user/neynarUserFunctions';
-import { FrameRequest } from './farcasterTypes';
+import { FrameRequest } from './types';
 import { neynarFrameValidation } from '../utils/neynar/frame/neynarFrameFunctions';
 
 jest.mock('../utils/neynar/user/neynarUserFunctions', () => {

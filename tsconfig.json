@@ -20,13 +20,14 @@
     "typeRoots": [
       "node_modules/@types",
       "./types"
-    ]
+    ],
+    "rootDir": "src"
   },
   "include": [
-    "src",
-    "jest.setup.ts"
+    "src"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "**/*.test.*"
   ]
 }

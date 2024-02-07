@@ -1,4 +1,4 @@
-import { FrameValidationResponse } from './farcasterTypes';
+import { FrameRequest, FrameValidationResponse } from './types';
 import {
   NEYNAR_DEFAULT_API_KEY,
   neynarFrameValidation,
@@ -20,7 +20,7 @@ type FrameMessageOptions =
  * @param body The JSON received by server on frame callback
  */
 async function getFrameMessage(
-  body: any,
+  body: FrameRequest,
   messageOptions?: FrameMessageOptions,
 ): Promise<FrameValidationResponse> {
   // Validate the message

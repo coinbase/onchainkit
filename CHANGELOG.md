@@ -1,5 +1,69 @@
 # Changelog
 
+## 0.5.1
+
+### Patch Changes
+
+- **feat**: added option for mint action on a Frame. By @zizzamia #93 f9f7652
+- **feat**: added option for simple static links when creating a Frame. By @zizzamia #93
+- **feat**: added `wrapper` prop to `<FrameMetadata />` component, that defaults to `React.Fragment` when not passed (original behavior). By @syntag #90 #91
+- **feat**: exported `FrameMetadataResponse` type which can be useful when using `getFrameMetadata` in a TS project. By @syntag #90
+
+## 0.5.0
+
+### Minor Changes
+
+- **fix**: ensured that the `<FrameMetadata>` component uses the `name` property instead of the `property` property to set the type of metadata. Both options are technically correct, but historically, using `name` is more accurate. dc6f33d
+- **feat**: renamed the component from `OnchainName` to `Name` in our Identity Kit. This is a breaking changes. The purpose of the rename is to simplify and enhance clarity. By @alvaroraminelli #86
+
+BREAKING CHANGES
+
+To enhance usability and intuitiveness, the component name has been simplified. `OnchainName` is now renamed to `Name`.
+
+Before
+
+```ts
+import { OnchainName } from '@coinbase/onchainkit';
+
+...
+<OnchainName address="0x1234">
+```
+
+After
+
+```ts
+import { Name } from '@coinbase/onchainkit';
+
+...
+<Name address="0x1234">
+```
+
+## 0.4.5
+
+### Patch Changes
+
+- **feat**: exported `FrameMetadataType`. 6f9dd77
+
+## 0.4.4
+
+### Patch Changes
+
+- **fix**: added missing `input` type on `FrameValidationData`. d168475
+
+## 0.4.3
+
+### Patch Changes
+
+- **feat**: added `textInput` to `FrameData`. 4bd8ec8
+
+## 0.4.2
+
+### Patch Changes
+
+- **feat**: added support for Text Input metadata for Farcaster Frames. By @taycaldwell #67 89e5210
+- **feat**: added `FrameMetadata` component, to help support metadata elements with classic React apps. By @zizzamia #71
+- **feat**: added `OnchainName` component, to our Identity Kit. The `OnchainName` component primarily focuses on showcasing ENS names for given Ethereum addresses, and defaults to displaying a sliced version of the address when an ENS name isn't available. By @alvaroraminelli #49
+
 ## 0.4.1
 
 ### Minor Changes
@@ -123,11 +187,6 @@ const frameMetadata = getFrameMetadata({
 ```
 
 ```ts
-type Button = {
-  label: string;
-  action?: 'post' | 'post_redirect';
-};
-
 type FrameMetadata = {
   // A list of strings which are the label for the buttons in the frame (max 4 buttons).
   buttons: [Button, ...Button[]];
@@ -145,10 +204,10 @@ type FrameMetadata = {
 ### Patch Changes
 
 - **feat**: exported `FrameRequest` and `FrameData` types.
-- **docs**: Polished README for `getFrameMessage()`. By @zizzamia #38 218b65e
-- **fix**: Refactor Farcaster typing to be explicit, and added a Farcaster message verification integration test. By @robpolak @cnasc @zizzamia #37
-- **feat**: Added a concept of integration tests where we can assert the actual values coming back from `neynar`. We decoupled these from unit tests as we should not commingle. By @robpolak #35
-- **feat**: Refactored `neynar` client out of the `./src/core` code-path, for better composability and testability. By @robpolak #35
+- **docs**: polished README for `getFrameMessage()`. By @zizzamia #38 218b65e
+- **fix**: refactor Farcaster typing to be explicit, and added a Farcaster message verification integration test. By @robpolak @cnasc @zizzamia #37
+- **feat**: added a concept of integration tests where we can assert the actual values coming back from `neynar`. We decoupled these from unit tests as we should not commingle. By @robpolak #35
+- **feat**: refactored `neynar` client out of the `./src/core` code-path, for better composability and testability. By @robpolak #35
 
 BREAKING CHANGES
 

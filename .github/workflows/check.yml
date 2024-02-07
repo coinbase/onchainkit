@@ -1,4 +1,4 @@
-name: Kit Format / Test / Build
+name: Kit Format
 on:
   push:
     branches: ['main']
@@ -22,10 +22,3 @@ jobs:
         run: npm install
       - name: Kit Format Check
         run: npm run format:check
-      - name: Kit Test Check
-        # When fails, please check your tests
-        run: npm run test
-      - name: Kit Test Build
-        # When fails, please check your build
-        run: |
-          npm run build

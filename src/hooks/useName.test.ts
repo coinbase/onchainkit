@@ -4,13 +4,13 @@
 
 import { renderHook, waitFor } from '@testing-library/react';
 import { publicClient } from '../network/client';
-import { useOnchainName, ensNameAction } from './useOnchainName';
+import { useName, ensNameAction } from './useName';
 import { useOnchainActionWithCache } from './useOnchainActionWithCache';
 
 jest.mock('../network/client');
 jest.mock('./useOnchainActionWithCache');
 
-describe('useOnchainName', () => {
+describe('useName', () => {
   const mockGetEnsName = publicClient.getEnsName as jest.Mock;
   const mockUseOnchainActionWithCache = useOnchainActionWithCache as jest.Mock;
 
@@ -31,8 +31,8 @@ describe('useOnchainName', () => {
       };
     });
 
-    // Use the renderHook function to create a test harness for the useOnchainName hook
-    const { result } = renderHook(() => useOnchainName(testAddress));
+    // Use the renderHook function to create a test harness for the useName hook
+    const { result } = renderHook(() => useName(testAddress));
 
     // Wait for the hook to finish fetching the ENS name
     await waitFor(() => {
@@ -54,8 +54,8 @@ describe('useOnchainName', () => {
       };
     });
 
-    // Use the renderHook function to create a test harness for the useOnchainName hook
-    const { result } = renderHook(() => useOnchainName(testAddress));
+    // Use the renderHook function to create a test harness for the useName hook
+    const { result } = renderHook(() => useName(testAddress));
 
     // Wait for the hook to finish fetching the ENS name
     await waitFor(() => {

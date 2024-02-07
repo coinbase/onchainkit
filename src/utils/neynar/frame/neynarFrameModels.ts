@@ -1,4 +1,4 @@
-import { FrameValidationData } from '../../../core/farcasterTypes';
+import { FrameValidationData } from '../../../core/types';
 import { NeynarFrameValidationInternalModel } from './types';
 
 export function convertToNeynarResponseModel(data: any): FrameValidationData | undefined {
@@ -19,16 +19,17 @@ export function convertToNeynarResponseModel(data: any): FrameValidationData | u
   const interactor = action?.interactor;
 
   return {
-    valid: neynarResponse.valid,
     button: action?.tapped_button?.index,
-    liked: cast?.viewer_context?.liked,
-    recasted: cast?.viewer_context?.recasted,
     following: action?.interactor?.viewer_context?.following,
+    input: action?.input?.text,
     interactor: {
       fid: interactor?.fid,
       custody_address: interactor?.custody_address,
       verified_accounts: interactor?.verifications,
     },
+    liked: cast?.viewer_context?.liked,
     raw: neynarResponse,
+    recasted: cast?.viewer_context?.recasted,
+    valid: neynarResponse.valid,
   };
 }
