@@ -97,3 +97,21 @@ export type FrameMetadataType = {
  * Note: exported as public Type
  */
 export type FrameMetadataResponse = Record<string, string>;
+
+/**
+ * Attestation
+ *
+ * Note: exported as public Type
+ */
+export type Attestation = {
+  attester: string;
+  expirationTime: number;
+  id: string;
+  recipient: string;
+  revocationTime: number;
+  schemaId: string;
+  timeCreated: number;
+  txid: string;
+};
+
+export type AttestationSchema = "VERIFIED ACCOUNT" | "VERIFIED COUNTRY";
