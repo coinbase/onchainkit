@@ -68,8 +68,7 @@ export function FrameMetadata({
             )}
             {!!button.target && (
               <meta name={`fc:frame:button:${index + 1}:target`} content={button.target} />
-            )
-            }
+            )}
           </>
         );
       })}
