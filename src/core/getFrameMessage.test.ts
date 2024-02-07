@@ -3,6 +3,7 @@ import { getFrameMessage } from './getFrameMessage';
 import { neynarBulkUserLookup } from '../utils/neynar/user/neynarUserFunctions';
 import { FrameRequest } from './types';
 import { neynarFrameValidation } from '../utils/neynar/frame/neynarFrameFunctions';
+import { validateXmtpFrameResponse } from '../utils/xmtp/validation';
 
 jest.mock('../utils/neynar/user/neynarUserFunctions', () => {
   return {
@@ -12,9 +13,14 @@ jest.mock('../utils/neynar/user/neynarUserFunctions', () => {
 
 jest.mock('../utils/neynar/frame/neynarFrameFunctions', () => {
   return {
+    isXmtpFrameResponse: jest.requireActual('../utils/xmtp/validation').isXmtpFrameResponse,
     neynarFrameValidation: jest.fn(),
   };
 });
+
+jest.mock('../utils/xmtp/validation', () => ({
+  validateXmtpFrameResponse: jest.fn(),
+}));
 
 describe('getFrameValidatedMessage', () => {
   it('should return undefined if the message is invalid', async () => {
@@ -37,6 +43,47 @@ describe('getFrameValidatedMessage', () => {
       trustedData: {},
     };
     const result = await getFrameMessage(fakeFrameData as FrameRequest);
-    expect(result?.message?.interactor.fid).toEqual(fid);
+    if ('clientType' in result && result.clientType === 'farcaster') {
+      expect(result?.message.interactor.fid).toEqual(fid);
+    } else {
+      fail("Expected clientType to be 'farcaster' but it wasn't");
+    }
+  });
+});
+
+describe('getFrameValidatedMessageXmtp', () => {
+  afterEach(() => {
+    (validateXmtpFrameResponse as jest.Mock).mockReset();
+  });
+
+  it('should return a valid response if opaqueConversationIdentifier is present', async () => {
+    const payload = {
+      untrustedData: {
+        opaqueConversationIdentifier: 'opaqueConversationIdentifier',
+      },
+      trustedData: {
+        messageBytes: 'messageBytes',
+      },
+    };
+    (validateXmtpFrameResponse as jest.Mock).mockResolvedValue({
+      clientType: 'xmtp',
+      isValid: true,
+      message: {
+        verifiedWalletAddress: 'verifiedWalletAddress',
+        buttonIndex: 1,
+        frameUrl: 'http://frames.com/foo',
+        opaqueConversationIdentifier: 'opaqueConversationIdentifier',
+      },
+    });
+
+    const result = await getFrameMessage(payload as FrameRequest);
+    expect(result.isValid).toEqual(true);
+    if (!result.message || result.clientType !== 'xmtp') {
+      throw new Error('Invalid response type');
+    }
+    expect(result.message.buttonIndex).toEqual(1);
+    expect(result.message.frameUrl).toEqual('http://frames.com/foo');
+    expect(result.message.opaqueConversationIdentifier).toEqual('opaqueConversationIdentifier');
+    expect(result.message.verifiedWalletAddress).toEqual('verifiedWalletAddress');
   });
 });

@@ -3,6 +3,7 @@ import {
   NEYNAR_DEFAULT_API_KEY,
   neynarFrameValidation,
 } from '../utils/neynar/frame/neynarFrameFunctions';
+import { isXmtpFrameResponse, validateXmtpFrameResponse } from '../utils/xmtp/validation';
 
 type FrameMessageOptions =
   | {
@@ -23,6 +24,9 @@ async function getFrameMessage(
   body: FrameRequest,
   messageOptions?: FrameMessageOptions,
 ): Promise<FrameValidationResponse> {
+  if (isXmtpFrameResponse(body)) {
+    return await validateXmtpFrameResponse(body);
+  }
   // Validate the message
   const response = await neynarFrameValidation(
     body?.trustedData?.messageBytes,
@@ -34,6 +38,7 @@ async function getFrameMessage(
     return {
       isValid: true,
       message: response,
+      clientType: 'farcaster',
     };
   } else {
     // Security best practice, don't return anything if we can't validate the frame.

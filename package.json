@@ -53,5 +53,8 @@
   "type": "commonjs",
   "main": "./dist/lib/index.js",
   "typings": "./dist/types/index.d.ts",
-  "packageManager": "yarn@4.0.2"
+  "packageManager": "yarn@4.0.2",
+  "dependencies": {
+    "@xmtp/frames-validator": "^0.2.0"
+  }
 }

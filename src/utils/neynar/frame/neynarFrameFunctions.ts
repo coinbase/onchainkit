@@ -1,5 +1,5 @@
 import { version } from '../../../version';
-import { FrameValidationData } from '../../../core/types';
+import { FarcasterValidationData } from '../../../core/types';
 import { FetchError } from '../exceptions/FetchError';
 import { convertToNeynarResponseModel } from './neynarFrameModels';
 
@@ -10,7 +10,7 @@ export async function neynarFrameValidation(
   apiKey: string = NEYNAR_DEFAULT_API_KEY,
   castReactionContext = true,
   followContext = true,
-): Promise<FrameValidationData | undefined> {
+): Promise<FarcasterValidationData | undefined> {
   const options = {
     method: 'POST',
     url: `https://api.neynar.com/v2/farcaster/frame/validate`,

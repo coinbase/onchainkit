@@ -22,6 +22,9 @@ describe('getFrameValidatedMessage integration tests', () => {
       },
     };
     const response = await getFrameMessage(body);
+    if (!('clientType' in response) || response.clientType !== 'farcaster') {
+      throw new Error('Not a farcaster response');
+    }
     expect(response?.isValid).toEqual(true);
     expect(response?.message?.button).toEqual(body.untrustedData.buttonIndex);
     expect(response?.message?.interactor.fid).toEqual(body.untrustedData.fid);

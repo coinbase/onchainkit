@@ -1,4 +1,6 @@
+import { FramePostUntrustedData as XmtpUntrustedData } from '@xmtp/frames-validator/dist/src/types';
 import { NeynarFrameValidationInternalModel } from '../utils/neynar/frame/types';
+import { validateFramesPost } from '@xmtp/frames-validator';
 
 /**
  * Frame Data
@@ -25,7 +27,7 @@ export interface FrameData {
  * Note: exported as public Type
  */
 export interface FrameRequest {
-  untrustedData: FrameData;
+  untrustedData: FrameData | XmtpUntrustedData;
   trustedData: {
     messageBytes: string;
   };
@@ -34,7 +36,7 @@ export interface FrameRequest {
 /**
  * Simplified Object model with the raw Neynar data if-needed.
  */
-export interface FrameValidationData {
+export interface FarcasterValidationData {
   button: number; // Number of the button clicked
   following: boolean; // Indicates if the viewer clicking the frame follows the cast author
   input: string; // Text input from the viewer typing in the frame
@@ -49,8 +51,13 @@ export interface FrameValidationData {
   valid: boolean; // Indicates if the frame is valid
 }
 
+export type XmtpValidationData = Awaited<ReturnType<typeof validateFramesPost>>['actionBody'] & {
+  verifiedWalletAddress: string;
+};
+
 export type FrameValidationResponse =
-  | { isValid: true; message: FrameValidationData }
+  | { isValid: true; message: XmtpValidationData; clientType: 'xmtp' }
+  | { isValid: true; message: FarcasterValidationData; clientType: 'farcaster' }
   | { isValid: false; message: undefined };
 
 export function convertToFrame(json: any) {
