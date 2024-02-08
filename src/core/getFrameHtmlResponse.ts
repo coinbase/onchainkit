@@ -44,7 +44,9 @@ function getFrameHtmlResponse({
 
   // Set the post_url metadata if it exists.
   const postUrlToUse = postUrl || post_url;
-  const postUrlHtml = postUrlToUse ? `<meta property="fc:frame:post_url" content="${postUrlToUse}" />` : '';
+  const postUrlHtml = postUrlToUse
+    ? `<meta property="fc:frame:post_url" content="${postUrlToUse}" />`
+    : '';
 
   // Set the refresh_period metadata if it exists.
   const refreshPeriodToUse = refreshPeriod || refresh_period;
