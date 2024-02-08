@@ -13,7 +13,7 @@ describe('FrameMetadata', () => {
   it('renders with image', () => {
     const meta = render(<FrameMetadata image="https://example.com/image.png" />);
     expect(
-      meta.container.querySelector('meta[name="fc:frame:image"]')?.getAttribute('content'),
+      meta.container.querySelector('meta[property="fc:frame:image"]')?.getAttribute('content'),
     ).toBe('https://example.com/image.png');
     expect(meta.container.querySelectorAll('meta').length).toBe(2);
   });
@@ -22,9 +22,9 @@ describe('FrameMetadata', () => {
     const meta = render(
       <FrameMetadata image="https://example.com/image.png" input={{ text: 'test' }} />,
     );
-    expect(meta.container.querySelector('meta[name="fc:frame:input:text"]')).not.toBeNull();
+    expect(meta.container.querySelector('meta[property="fc:frame:input:text"]')).not.toBeNull();
     expect(
-      meta.container.querySelector('meta[name="fc:frame:input:text"]')?.getAttribute('content'),
+      meta.container.querySelector('meta[property="fc:frame:input:text"]')?.getAttribute('content'),
     ).toBe('test');
     expect(meta.container.querySelectorAll('meta').length).toBe(3);
   });
@@ -37,20 +37,22 @@ describe('FrameMetadata', () => {
       />,
     );
     // Button 1
-    expect(meta.container.querySelector('meta[name="fc:frame:button:1"]')).not.toBeNull();
+    expect(meta.container.querySelector('meta[property="fc:frame:button:1"]')).not.toBeNull();
     expect(
-      meta.container.querySelector('meta[name="fc:frame:button:1"]')?.getAttribute('content'),
+      meta.container.querySelector('meta[property="fc:frame:button:1"]')?.getAttribute('content'),
     ).toBe('button1');
-    expect(meta.container.querySelector('meta[name="fc:frame:button:1:action"]')).toBeNull();
+    expect(meta.container.querySelector('meta[property="fc:frame:button:1:action"]')).toBeNull();
     // Button 2
-    expect(meta.container.querySelector('meta[name="fc:frame:button:2"]')).not.toBeNull();
+    expect(meta.container.querySelector('meta[property="fc:frame:button:2"]')).not.toBeNull();
     expect(
-      meta.container.querySelector('meta[name="fc:frame:button:2"]')?.getAttribute('content'),
+      meta.container.querySelector('meta[property="fc:frame:button:2"]')?.getAttribute('content'),
     ).toBe('button2');
-    expect(meta.container.querySelector('meta[name="fc:frame:button:2:action"]')).not.toBeNull();
+    expect(
+      meta.container.querySelector('meta[property="fc:frame:button:2:action"]'),
+    ).not.toBeNull();
     expect(
       meta.container
-        .querySelector('meta[name="fc:frame:button:2:action"]')
+        .querySelector('meta[property="fc:frame:button:2:action"]')
         ?.getAttribute('content'),
     ).toBe('post_redirect');
     // Length
@@ -70,54 +72,64 @@ describe('FrameMetadata', () => {
       />,
     );
     // Button 1
-    expect(meta.container.querySelector('meta[name="fc:frame:button:1"]')).not.toBeNull();
+    expect(meta.container.querySelector('meta[property="fc:frame:button:1"]')).not.toBeNull();
     expect(
-      meta.container.querySelector('meta[name="fc:frame:button:1"]')?.getAttribute('content'),
+      meta.container.querySelector('meta[property="fc:frame:button:1"]')?.getAttribute('content'),
     ).toBe('button1');
-    expect(meta.container.querySelector('meta[name="fc:frame:button:1:action"]')).toBeNull();
+    expect(meta.container.querySelector('meta[property="fc:frame:button:1:action"]')).toBeNull();
     // Button 2
-    expect(meta.container.querySelector('meta[name="fc:frame:button:2"]')).not.toBeNull();
+    expect(meta.container.querySelector('meta[property="fc:frame:button:2"]')).not.toBeNull();
     expect(
-      meta.container.querySelector('meta[name="fc:frame:button:2"]')?.getAttribute('content'),
+      meta.container.querySelector('meta[property="fc:frame:button:2"]')?.getAttribute('content'),
     ).toBe('button2');
-    expect(meta.container.querySelector('meta[name="fc:frame:button:2:action"]')).not.toBeNull();
+    expect(
+      meta.container.querySelector('meta[property="fc:frame:button:2:action"]'),
+    ).not.toBeNull();
     expect(
       meta.container
-        .querySelector('meta[name="fc:frame:button:2:action"]')
+        .querySelector('meta[property="fc:frame:button:2:action"]')
         ?.getAttribute('content'),
     ).toBe('post_redirect');
     // Button 3
-    expect(meta.container.querySelector('meta[name="fc:frame:button:3"]')).not.toBeNull();
+    expect(meta.container.querySelector('meta[property="fc:frame:button:3"]')).not.toBeNull();
     expect(
-      meta.container.querySelector('meta[name="fc:frame:button:3"]')?.getAttribute('content'),
+      meta.container.querySelector('meta[property="fc:frame:button:3"]')?.getAttribute('content'),
     ).toBe('button3');
-    expect(meta.container.querySelector('meta[name="fc:frame:button:3:action"]')).not.toBeNull();
+    expect(
+      meta.container.querySelector('meta[property="fc:frame:button:3:action"]'),
+    ).not.toBeNull();
     expect(
       meta.container
-        .querySelector('meta[name="fc:frame:button:3:action"]')
+        .querySelector('meta[property="fc:frame:button:3:action"]')
         ?.getAttribute('content'),
     ).toBe('mint');
-    expect(meta.container.querySelector('meta[name="fc:frame:button:3:target"]')).not.toBeNull();
+    expect(
+      meta.container.querySelector('meta[property="fc:frame:button:3:target"]'),
+    ).not.toBeNull();
     expect(
       meta.container
-        .querySelector('meta[name="fc:frame:button:3:target"]')
+        .querySelector('meta[property="fc:frame:button:3:target"]')
         ?.getAttribute('content'),
     ).toBe('https://zizzamia.xyz/api/frame/mint');
     // Button 4
-    expect(meta.container.querySelector('meta[name="fc:frame:button:4"]')).not.toBeNull();
+    expect(meta.container.querySelector('meta[property="fc:frame:button:4"]')).not.toBeNull();
     expect(
-      meta.container.querySelector('meta[name="fc:frame:button:4"]')?.getAttribute('content'),
+      meta.container.querySelector('meta[property="fc:frame:button:4"]')?.getAttribute('content'),
     ).toBe('button4');
-    expect(meta.container.querySelector('meta[name="fc:frame:button:4:action"]')).not.toBeNull();
+    expect(
+      meta.container.querySelector('meta[property="fc:frame:button:4:action"]'),
+    ).not.toBeNull();
     expect(
       meta.container
-        .querySelector('meta[name="fc:frame:button:4:action"]')
+        .querySelector('meta[property="fc:frame:button:4:action"]')
         ?.getAttribute('content'),
     ).toBe('link');
-    expect(meta.container.querySelector('meta[name="fc:frame:button:4:target"]')).not.toBeNull();
+    expect(
+      meta.container.querySelector('meta[property="fc:frame:button:4:target"]'),
+    ).not.toBeNull();
     expect(
       meta.container
-        .querySelector('meta[name="fc:frame:button:4:target"]')
+        .querySelector('meta[property="fc:frame:button:4:target"]')
         ?.getAttribute('content'),
     ).toBe('https://zizzamia.xyz/api/frame/link');
     // Length
@@ -128,9 +140,9 @@ describe('FrameMetadata', () => {
     const meta = render(
       <FrameMetadata image="https://example.com/image.png" post_url="https://example.com" />,
     );
-    expect(meta.container.querySelector('meta[name="fc:frame:post_url"]')).not.toBeNull();
+    expect(meta.container.querySelector('meta[property="fc:frame:post_url"]')).not.toBeNull();
     expect(
-      meta.container.querySelector('meta[name="fc:frame:post_url"]')?.getAttribute('content'),
+      meta.container.querySelector('meta[property="fc:frame:post_url"]')?.getAttribute('content'),
     ).toBe('https://example.com');
     expect(meta.container.querySelectorAll('meta').length).toBe(3);
   });
@@ -139,9 +151,11 @@ describe('FrameMetadata', () => {
     const meta = render(
       <FrameMetadata image="https://example.com/image.png" refresh_period={10} />,
     );
-    expect(meta.container.querySelector('meta[name="fc:frame:refresh_period"]')).not.toBeNull();
+    expect(meta.container.querySelector('meta[property="fc:frame:refresh_period"]')).not.toBeNull();
     expect(
-      meta.container.querySelector('meta[name="fc:frame:refresh_period"]')?.getAttribute('content'),
+      meta.container
+        .querySelector('meta[property="fc:frame:refresh_period"]')
+        ?.getAttribute('content'),
     ).toBe('10');
     expect(meta.container.querySelectorAll('meta').length).toBe(3);
   });
@@ -155,7 +169,7 @@ describe('FrameMetadata', () => {
     );
 
     expect(meta.container.querySelector('#wrapper')).not.toBeNull();
-    expect(meta.container.querySelector('meta[name="fc:frame:image"]')).not.toBeNull();
+    expect(meta.container.querySelector('meta[property="fc:frame:image"]')).not.toBeNull();
     expect(meta.container.querySelectorAll('meta').length).toBe(2);
   });
 
@@ -172,16 +186,20 @@ describe('FrameMetadata', () => {
         ]}
       />,
     );
-    expect(meta.container.querySelector('meta[name="fc:frame:button:1:action"]')).not.toBeNull();
+    expect(
+      meta.container.querySelector('meta[property="fc:frame:button:1:action"]'),
+    ).not.toBeNull();
     expect(
       meta.container
-        .querySelector('meta[name="fc:frame:button:1:action"]')
+        .querySelector('meta[property="fc:frame:button:1:action"]')
         ?.getAttribute('content'),
     ).toBe('mint');
-    expect(meta.container.querySelector('meta[name="fc:frame:button:1:target"]')).not.toBeNull();
+    expect(
+      meta.container.querySelector('meta[property="fc:frame:button:1:target"]'),
+    ).not.toBeNull();
     expect(
       meta.container
-        .querySelector('meta[name="fc:frame:button:1:target"]')
+        .querySelector('meta[property="fc:frame:button:1:target"]')
         ?.getAttribute('content'),
     ).toBe('https://zizzamia.xyz/api/frame/mint');
     expect(meta.container.querySelectorAll('meta').length).toBe(5);
@@ -200,16 +218,20 @@ describe('FrameMetadata', () => {
         ]}
       />,
     );
-    expect(meta.container.querySelector('meta[name="fc:frame:button:1:action"]')).not.toBeNull();
+    expect(
+      meta.container.querySelector('meta[property="fc:frame:button:1:action"]'),
+    ).not.toBeNull();
     expect(
       meta.container
-        .querySelector('meta[name="fc:frame:button:1:action"]')
+        .querySelector('meta[property="fc:frame:button:1:action"]')
         ?.getAttribute('content'),
     ).toBe('link');
-    expect(meta.container.querySelector('meta[name="fc:frame:button:1:target"]')).not.toBeNull();
+    expect(
+      meta.container.querySelector('meta[property="fc:frame:button:1:target"]'),
+    ).not.toBeNull();
     expect(
       meta.container
-        .querySelector('meta[name="fc:frame:button:1:target"]')
+        .querySelector('meta[property="fc:frame:button:1:target"]')
         ?.getAttribute('content'),
     ).toBe('https://zizzamia.xyz/api/frame/link');
     expect(meta.container.querySelectorAll('meta').length).toBe(5);
@@ -223,7 +245,7 @@ describe('FrameMetadata', () => {
         post_url="post_url"
       />,
     );
-    expect(meta.container.querySelector('meta[name="fc:frame:button:1:target"')).toBeNull();
+    expect(meta.container.querySelector('meta[property="fc:frame:button:1:target"')).toBeNull();
     expect(meta.container.querySelectorAll('meta').length).toBe(5);
   });
 });
