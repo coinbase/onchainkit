@@ -4,12 +4,10 @@
   "repository": "https://github.com/coinbase/onchainkit.git",
   "license": "MIT",
   "scripts": {
-    "build": "packemon pack --addEngines --addFiles --declaration",
+    "build": "packemon build --addEngines --addFiles --declaration && npx packemon validate --no-license --no-people --no-repo",
     "check": "yarn format",
-    "dev": "packemon build",
     "format": "prettier --log-level warn --write .",
     "format:check": "prettier --check .",
-    "prebuild": "rimraf dist",
     "test": "jest --testPathIgnorePatterns=\\.integ\\.",
     "test:integration": "jest --testPathIgnorePatterns=\\.test\\.",
     "test:all": "jest .",
@@ -62,7 +60,6 @@
     "access": "public"
   },
   "files": [
-    "dist/",
     "esm/**/*",
     "lib/**/*",
     "src/",
@@ -74,7 +71,6 @@
     "node": ">=16.12.0"
   },
   "main": "./lib/node/index.js",
-  "typings": "./dist/types/index.d.ts",
   "module": "./esm/index.js",
   "types": "./lib/index.d.ts",
   "browser": "./lib/browser/index.js"
