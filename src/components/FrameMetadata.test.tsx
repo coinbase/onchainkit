@@ -138,7 +138,7 @@ describe('FrameMetadata', () => {
 
   it('renders with post_url', () => {
     const meta = render(
-      <FrameMetadata image="https://example.com/image.png" post_url="https://example.com" />,
+      <FrameMetadata image="https://example.com/image.png" postUrl="https://example.com" />,
     );
     expect(meta.container.querySelector('meta[property="fc:frame:post_url"]')).not.toBeNull();
     expect(
@@ -148,9 +148,7 @@ describe('FrameMetadata', () => {
   });
 
   it('renders with refresh_period', () => {
-    const meta = render(
-      <FrameMetadata image="https://example.com/image.png" refresh_period={10} />,
-    );
+    const meta = render(<FrameMetadata image="https://example.com/image.png" refreshPeriod={10} />);
     expect(meta.container.querySelector('meta[property="fc:frame:refresh_period"]')).not.toBeNull();
     expect(
       meta.container
@@ -242,7 +240,7 @@ describe('FrameMetadata', () => {
       <FrameMetadata
         image="image"
         buttons={[{ label: 'button1', action: 'post' }]}
-        post_url="post_url"
+        postUrl="post_url"
       />,
     );
     expect(meta.container.querySelector('meta[property="fc:frame:button:1:target"')).toBeNull();

@@ -10,7 +10,7 @@ describe('getFrameMetadata', () => {
           { label: 'button3' },
         ],
         image: 'image',
-        post_url: 'post_url',
+        postUrl: 'post_url',
       }),
     ).toEqual({
       'fc:frame': 'vNext',
@@ -29,7 +29,7 @@ describe('getFrameMetadata', () => {
       getFrameMetadata({
         buttons: [{ label: 'button1' }],
         image: 'image',
-        post_url: 'post_url',
+        postUrl: 'post_url',
       }),
     ).toEqual({
       'fc:frame': 'vNext',
@@ -44,8 +44,8 @@ describe('getFrameMetadata', () => {
       getFrameMetadata({
         buttons: [{ label: 'button1' }],
         image: 'image',
-        post_url: 'post_url',
-        refresh_period: 10,
+        postUrl: 'post_url',
+        refreshPeriod: 10,
       }),
     ).toEqual({
       'fc:frame': 'vNext',
@@ -64,8 +64,8 @@ describe('getFrameMetadata', () => {
         input: {
           text: 'Enter a message...',
         },
-        post_url: 'post_url',
-        refresh_period: 10,
+        postUrl: 'post_url',
+        refreshPeriod: 10,
       }),
     ).toEqual({
       'fc:frame': 'vNext',
@@ -85,7 +85,7 @@ describe('getFrameMetadata', () => {
         input: {
           text: 'Tell me a boat story',
         },
-        post_url: 'https://zizzamia.xyz/api/frame',
+        postUrl: 'https://zizzamia.xyz/api/frame',
       }),
     ).toEqual({
       'fc:frame': 'vNext',
@@ -106,7 +106,7 @@ describe('getFrameMetadata', () => {
         input: {
           text: 'Tell me a boat story',
         },
-        post_url: 'https://zizzamia.xyz/api/frame',
+        postUrl: 'https://zizzamia.xyz/api/frame',
       }),
     ).toEqual({
       'fc:frame': 'vNext',
@@ -124,7 +124,7 @@ describe('getFrameMetadata', () => {
       getFrameMetadata({
         buttons: [{ label: 'button1', action: 'post' }],
         image: 'image',
-        post_url: 'post_url',
+        postUrl: 'post_url',
       }),
     ).toEqual({
       'fc:frame': 'vNext',

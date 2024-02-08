@@ -13,8 +13,8 @@ describe('getFrameHtmlResponse', () => {
       input: {
         text: 'Enter a message...',
       },
-      post_url: 'https://example.com/api/frame',
-      refresh_period: 10,
+      postUrl: 'https://example.com/api/frame',
+      refreshPeriod: 10,
     });
 
     expect(html).toBe(`<!DOCTYPE html>
@@ -80,7 +80,7 @@ describe('getFrameHtmlResponse', () => {
     const html = getFrameHtmlResponse({
       buttons: [{ label: 'button1' }],
       image: 'https://example.com/image.png',
-      post_url: 'https://example.com/api/frame',
+      postUrl: 'https://example.com/api/frame',
     });
 
     expect(html).toContain('<meta property="fc:frame" content="vNext" />');
@@ -97,7 +97,7 @@ describe('getFrameHtmlResponse', () => {
   it('should handle no buttons', () => {
     const html = getFrameHtmlResponse({
       image: 'https://example.com/image.png',
-      post_url: 'https://example.com/api/frame',
+      postUrl: 'https://example.com/api/frame',
     });
 
     expect(html).toContain('<meta property="fc:frame" content="vNext" />');
@@ -128,7 +128,7 @@ describe('getFrameHtmlResponse', () => {
     const html = getFrameHtmlResponse({
       buttons: [{ label: 'button1' }],
       image: 'https://example.com/image.png',
-      post_url: 'https://example.com/api/frame',
+      postUrl: 'https://example.com/api/frame',
     });
 
     expect(html).toContain('<meta property="fc:frame" content="vNext" />');
@@ -146,7 +146,7 @@ describe('getFrameHtmlResponse', () => {
     const html = getFrameHtmlResponse({
       buttons: [{ label: 'button1', action: 'post' }],
       image: 'image',
-      post_url: 'post_url',
+      postUrl: 'post_url',
     });
 
     expect(html).toContain('<meta property="fc:frame" content="vNext" />');

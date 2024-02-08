@@ -32,7 +32,7 @@ type FrameMetadataReact = FrameMetadataType & {
  *   input={{
  *     text: 'Tell me a boat story',
  *   }}
- *   post_url="https://zizzamia.xyz/api/frame"
+ *   postUrl="https://zizzamia.xyz/api/frame"
  * />
  * ```
  *
