@@ -92,8 +92,12 @@ export type FrameMetadataType = {
   buttons?: [FrameButtonMetadata, ...FrameButtonMetadata[]];
   image: string;
   input?: FrameInputMetadata;
+  /** @deprecated Prefer `postUrl` */
   post_url?: string;
+  postUrl?: string;
+  /** @deprecated Prefer `refreshPeriod` */
   refresh_period?: number;
+  refreshPeriod?: number;
 };
 
 /**

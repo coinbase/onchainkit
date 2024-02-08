@@ -106,7 +106,7 @@ export default function HomePage() {
       input={{
         text: 'Tell me a boat story',
       }}
-      post_url="https://zizzamia.xyz/api/frame"
+      postUrl="https://zizzamia.xyz/api/frame"
     />
     ...
   );
@@ -139,9 +139,9 @@ type FrameMetadataType = {
   // The text input to use for the Frame.
   input?: InputMetadata;
   // A valid POST URL to send the Signature Packet to.
-  post_url?: string;
+  postUrl?: string;
   // A period in seconds at which the app should expect the image to update.
-  refresh_period?: number;
+  refreshPeriod?: number;
 };
 
 type FrameMetadataReact = FrameMetadataType & {
@@ -190,7 +190,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
         },
       ],
       image:'https://build-onchain-apps.vercel.app/release/v-0-17.png',
-      post_url: 'https://build-onchain-apps.vercel.app/api/frame',
+      postUrl: 'https://build-onchain-apps.vercel.app/api/frame',
     }),
   );
 }
@@ -226,9 +226,9 @@ type FrameMetadataType = {
   // The text input to use for the Frame.
   input?: InputMetadata;
   // A valid POST URL to send the Signature Packet to.
-  post_url?: string;
+  postUrl?: string;
   // A period in seconds at which the app should expect the image to update.
-  refresh_period?: number;
+  refreshPeriod?: number;
 };
 ```
 
@@ -349,7 +349,7 @@ const frameMetadata = getFrameMetadata({
     },
   ],
   image: 'https://build-onchain-apps.vercel.app/release/v-0-17.png',
-  post_url: 'https://build-onchain-apps.vercel.app/api/frame',
+  postUrl: 'https://build-onchain-apps.vercel.app/api/frame',
 });
 
 // Step 3. Add your metadata in the Next.js metadata utility
@@ -391,9 +391,9 @@ type FrameMetadataType = {
   // The text input to use for the Frame.
   input?: InputMetadata;
   // A valid POST URL to send the Signature Packet to.
-  post_url?: string;
+  postUrl?: string;
   // A period in seconds at which the app should expect the image to update.
-  refresh_period?: number;
+  refreshPeriod?: number;
 };
 ```
 
