@@ -69,13 +69,13 @@
     "src/**/*"
   ],
   "type": "commonjs",
-  "main": "./lib/node/index.js",
-  "typings": "./dist/types/index.d.ts",
   "packageManager": "yarn@4.0.2",
-  "module": "./esm/index.js",
-  "types": "./lib/index.d.ts",
-  "browser": "./lib/browser/index.js",
   "engines": {
     "node": ">=16.12.0"
-  }
+  },
+  "main": "./lib/node/index.js",
+  "typings": "./dist/types/index.d.ts",
+  "module": "./esm/index.js",
+  "types": "./lib/index.d.ts",
+  "browser": "./lib/browser/index.js"
 }
