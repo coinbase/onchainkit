@@ -55,6 +55,6 @@
   "typings": "./dist/types/index.d.ts",
   "packageManager": "yarn@4.0.2",
   "dependencies": {
-    "@xmtp/frames-validator": "^0.2.0"
+    "@xmtp/frames-validator": "^0.3.1"
   }
 }

@@ -1,4 +1,4 @@
-import { FramePostPayload } from '@xmtp/frames-validator/dist/src/types';
+import { FramePostPayload } from '@xmtp/frames-validator';
 import { FrameValidationResponse } from '../../core/types';
 import { validateFramesPost } from '@xmtp/frames-validator';
 

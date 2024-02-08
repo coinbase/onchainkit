@@ -1,4 +1,4 @@
-import { FramePostUntrustedData as XmtpUntrustedData } from '@xmtp/frames-validator/dist/src/types';
+import type { FramePostUntrustedData as XmtpUntrustedData } from '@xmtp/frames-validator';
 import { NeynarFrameValidationInternalModel } from '../utils/neynar/frame/types';
 import { validateFramesPost } from '@xmtp/frames-validator';
 
@@ -54,6 +54,8 @@ export interface FarcasterValidationData {
 export type XmtpValidationData = Awaited<ReturnType<typeof validateFramesPost>>['actionBody'] & {
   verifiedWalletAddress: string;
 };
+
+export type FrameValidationData = XmtpValidationData | FarcasterValidationData;
 
 export type FrameValidationResponse =
   | { isValid: true; message: XmtpValidationData; clientType: 'xmtp' }

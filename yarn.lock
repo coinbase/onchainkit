@@ -705,7 +705,7 @@ __metadata:
     "@types/jest": "npm:^29.5.11"
     "@types/react": "npm:^18"
     "@types/react-dom": "npm:^18"
-    "@xmtp/frames-validator": "npm:^0.2.0"
+    "@xmtp/frames-validator": "npm:^0.3.1"
     jest: "npm:^29.7.0"
     jest-environment-jsdom: "npm:^29.7.0"
     jest-extended: "npm:^4.0.2"
@@ -1961,13 +1961,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xmtp/frames-validator@npm:^0.2.0":
-  version: 0.2.0
-  resolution: "@xmtp/frames-validator@npm:0.2.0"
+"@xmtp/frames-validator@npm:^0.3.1":
+  version: 0.3.1
+  resolution: "@xmtp/frames-validator@npm:0.3.1"
   dependencies:
     "@xmtp/proto": "npm:3.41.0-beta.5"
     "@xmtp/xmtp-js": "npm:^11.3.5"
-  checksum: 1c296467d24a991247d20140f64f42da1306151053b09829d91bb0a96eea0fe78ff8c4b0270abe150ff73c4d177c4cc2a145ea39cd74743ab3c2bb26176f5e87
+  checksum: 300116ae6e4d725eb71cb91eb08dadd8d93f22c04bb617f30ec3fc2c6cbfcac0b5343f79de70fcb5a5709bbff0a1c61367b4c913325c6cac4355a4675ec376d9
   languageName: node
   linkType: hard
 
