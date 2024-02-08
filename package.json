@@ -4,7 +4,7 @@
   "repository": "https://github.com/coinbase/onchainkit.git",
   "license": "MIT",
   "scripts": {
-    "build": "packemon build --addEngines --addFiles --declaration && npx packemon validate --no-license --no-people --no-repo",
+    "build": "packemon build --addExports --addEngines --addFiles --declaration && npx packemon validate --no-license --no-people --no-repo",
     "check": "yarn format",
     "format": "prettier --log-level warn --write .",
     "format:check": "prettier --check .",
@@ -73,5 +73,26 @@
   "main": "./lib/node/index.js",
   "module": "./esm/index.js",
   "types": "./lib/index.d.ts",
-  "browser": "./lib/browser/index.js"
+  "browser": "./lib/browser/index.js",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "types": "./lib/index.d.ts",
+      "browser": {
+        "types": "./esm/index.d.ts",
+        "module": "./esm/index.js",
+        "import": "./esm/index.js",
+        "default": "./lib/browser/index.js"
+      },
+      "react-native": {
+        "types": "./lib/index.d.ts",
+        "default": "./lib/native/index.js"
+      },
+      "node": {
+        "types": "./lib/index.d.ts",
+        "default": "./lib/node/index.js"
+      },
+      "default": "./lib/node/index.js"
+    }
+  }
 }
