@@ -1,34 +1,49 @@
 # Changelog
 
+## 0.5.2
+
+### Patch Changes
+
+- cefcfa8: - **fix**: `<FrameMetadata>` component when used with Helmet. To ensure smooth functionality when used with Helmet as a wrapper component, it is crucial to flatten the Buttons loop. By @zizzamia #99
+  - **feat**: added `Avatar` component, to our Identity Kit. The `Avatar` component primarily focuses on showcasing ENS avatar for given Ethereum addresses, and defaults to a default SVG avatar when an ENS avatar isn't available. By @alvaroraminelli #69
+
+## 0.5.1
+
+### Patch Changes
+
+- **feat**: added option for mint action on a Frame. By @zizzamia #93 f9f7652
+- **feat**: added option for simple static links when creating a Frame. By @zizzamia #93
+- **feat**: added `wrapper` prop to `<FrameMetadata />` component, that defaults to `React.Fragment` when not passed (original behavior). By @syntag #90 #91
+- **feat**: exported `FrameMetadataResponse` type which can be useful when using `getFrameMetadata` in a TS project. By @syntag #90
+
 ## 0.5.0
 
 ### Minor Changes
 
-- dc6f33d: - **fix**: ensured that the `<FrameMetadata>` component uses the `name` property instead of the `property` property to set the type of metadata. Both options are technically correct, but historically, using `name` is more accurate.
+- **fix**: ensured that the `<FrameMetadata>` component uses the `name` property instead of the `property` property to set the type of metadata. Both options are technically correct, but historically, using `name` is more accurate. dc6f33d
+- **feat**: renamed the component from `OnchainName` to `Name` in our Identity Kit. This is a breaking changes. The purpose of the rename is to simplify and enhance clarity. By @alvaroraminelli #86
 
-  - **feat**: renamed the component from `OnchainName` to `Name` in our Identity Kit. This is a breaking changes. The purpose of the rename is to simplify and enhance clarity. By @alvaroraminelli #86
+BREAKING CHANGES
 
-  BREAKING CHANGES
+To enhance usability and intuitiveness, the component name has been simplified. `OnchainName` is now renamed to `Name`.
 
-  To enhance usability and intuitiveness, the component name has been simplified. `OnchainName` is now renamed to `Name`.
+Before
 
-  Before
+```ts
+import { OnchainName } from '@coinbase/onchainkit';
 
-  ```ts
-  import { OnchainName } from '@coinbase/onchainkit';
+...
+<OnchainName address="0x1234">
+```
 
-  ...
-  <OnchainName address="0x1234">
-  ```
+After
 
-  After
+```ts
+import { Name } from '@coinbase/onchainkit';
 
-  ```ts
-  import { Name } from '@coinbase/onchainkit';
-
-  ...
-  <Name address="0x1234">
-  ```
+...
+<Name address="0x1234">
+```
 
 ## 0.4.5
 

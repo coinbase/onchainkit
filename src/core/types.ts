@@ -68,10 +68,16 @@ export function convertToFrame(json: any) {
   };
 }
 
-export type FrameButtonMetadata = {
-  label: string;
-  action?: 'post' | 'post_redirect';
-};
+export type FrameButtonMetadata =
+  | {
+      action: 'link' | 'mint';
+      label: string;
+      target: string;
+    }
+  | {
+      action?: 'post' | 'post_redirect';
+      label: string;
+    };
 
 export type FrameInputMetadata = {
   text: string;
@@ -88,7 +94,6 @@ export type FrameMetadataType = {
   input?: FrameInputMetadata;
   post_url?: string;
   refresh_period?: number;
-  wrapperComponent?: React.ComponentType<any>;
 };
 
 /**

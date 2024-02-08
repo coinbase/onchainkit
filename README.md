@@ -17,7 +17,7 @@
   <a href="https://www.npmjs.com/package/@coinbase/onchainkit">
     <picture>
       <source media="(prefers-color-scheme: dark)" srcset="https://img.shields.io/npm/v/@coinbase/onchainkit?colorA=21262d&colorB=21262d&style=flat">
-      <img src="https://img.shields.io/npm/v/viem?colorA=f6f8fa&colorB=f6f8fa&style=flat" alt="Version">
+      <img src="https://img.shields.io/npm/v/@coinbase/onchainkit?colorA=f6f8fa&colorB=f6f8fa&style=flat" alt="Version">
     </picture>
   </a>
   <a href="https://github.com/coinbase/onchainkit/blob/main/LICENSE.md">
@@ -93,8 +93,13 @@ export default function HomePage() {
           label: 'Tell me the story',
         },
         {
-          label: 'Redirect to cute dog pictures',
+          action: 'link',
+          label: 'Link to Google',
+          target: 'https://www.google.com'
+        },
+        {
           action: 'post_redirect',
+          label: 'Redirect to cute pictures',
         },
       ]}
       image="https://zizzamia.xyz/park-1.png"
@@ -111,10 +116,16 @@ export default function HomePage() {
 **@Props**
 
 ```ts
-type Button = {
-  label: string;
-  action?: 'post' | 'post_redirect';
-};
+type Button =
+  | {
+      action: 'link' | 'mint';
+      label: string;
+      target: string;
+    }
+  | {
+      action?: 'post' | 'post_redirect';
+      label: string;
+    };
 
 type InputMetadata = {
   text: string;
@@ -132,6 +143,10 @@ type FrameMetadataType = {
   // A period in seconds at which the app should expect the image to update.
   refresh_period?: number;
 };
+
+type FrameMetadataReact = FrameMetadataType & {
+  wrapper?: React.ComponentType<any>;
+};
 ```
 
 **@Returns**
@@ -139,8 +154,11 @@ type FrameMetadataType = {
 ```html
 <meta name="fc:frame" content="vNext" />
 <meta name="fc:frame:button:1" content="Tell me the story" />
-<meta name="fc:frame:button:2" content="Redirect to cute dog pictures" />
-<meta name="fc:frame:button:2:action" content="post_redirect" />
+<meta name="fc:frame:button:2" content="Link to Google" />
+<meta name="fc:frame:button:2:action" content="link" />
+<meta name="fc:frame:button:2:target" content="https://www.google.com" />
+<meta name="fc:frame:button:3" content="Redirect to cute pictures" />
+<meta name="fc:frame:button:3:action" content="post_redirect" />
 <meta name="fc:frame:image" content="https://zizzamia.xyz/park-1.png" />
 <meta name="fc:frame:input:text" content="Tell me a boat story" />
 <meta name="fc:frame:post_url" content="https://zizzamia.xyz/api/frame" />
@@ -185,10 +203,16 @@ export async function POST(req: NextRequest): Promise<Response> {
 **@Param**
 
 ```ts
-type Button = {
-  label: string;
-  action?: 'post' | 'post_redirect';
-};
+type Button =
+  | {
+      action: 'link' | 'mint';
+      label: string;
+      target: string;
+    }
+  | {
+      action?: 'post' | 'post_redirect';
+      label: string;
+    };
 
 type InputMetadata = {
   text: string;
@@ -344,10 +368,16 @@ export default function Page() {
 **@Param**
 
 ```ts
-type Button = {
-  label: string;
-  action?: 'post' | 'post_redirect';
-};
+type Button =
+  | {
+      action: 'link' | 'mint';
+      label: string;
+      target: string;
+    }
+  | {
+      action?: 'post' | 'post_redirect';
+      label: string;
+    };
 
 type InputMetadata = {
   text: string;
@@ -398,6 +428,29 @@ type UseName = {
   className?: string;
   // Determines if the address should be sliced when no ENS name is available.
   sliced?: boolean;
+  // Additional HTML attributes for the span element.
+  props?: React.HTMLAttributes<HTMLSpanElement>;
+};
+```
+
+### Avatar
+
+The `Avatar` component is used to display ENS avatar associated with Ethereum addresses. When an ENS avatar is not available, it defaults to blue color avatar.
+
+```tsx
+import { Avatar } from '@coinbase/onchainkit';
+
+<Avatar address="0x1234567890abcdef1234567890abcdef12345678" />;
+```
+
+**@Props**
+
+```ts
+type UseAvatar = {
+  // Ethereum address to be resolved from ENS.
+  address: Address;
+  // Optional CSS class for custom styling.
+  className?: string;
   // Additional HTML attributes for the span element.
   props?: React.HTMLAttributes<HTMLSpanElement>;
 };

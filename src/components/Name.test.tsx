@@ -7,6 +7,8 @@ import { Name } from './Name';
 import { useName } from '../hooks/useName';
 import { getSlicedAddress } from '../core/address';
 
+import '@testing-library/jest-dom';
+
 // Mocking the hooks and utilities
 jest.mock('../hooks/useName', () => ({
   useName: jest.fn(),
