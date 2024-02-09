@@ -168,16 +168,21 @@ export default function Page() {
 **@Param**
 
 ```ts
-type Button = {
+type ButtonMetadata = {
   label: string;
   action?: 'post' | 'post_redirect';
 };
 
+type ImageMetadata = {
+  src: string;
+  aspectRatio?: '1.91:1' | '1:1';
+};
+
 type FrameMetadata = {
   // A list of strings which are the label for the buttons in the frame (max 4 buttons).
-  buttons: [Button, ...Button[]];
+  buttons: [ButtonMetadata, ...ButtonMetadata[]];
   // An image which must be smaller than 10MB and should have an aspect ratio of 1.91:1
-  image: string;
+  image: string | ImageMetadata;
   // A valid POST URL to send the Signature Packet to.
   post_url: string;
   // A period in seconds at which the app should expect the image to update.
