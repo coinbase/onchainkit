@@ -132,7 +132,7 @@ export type FrameMetadataResponse = Record<string, string>;
  *  Note: exported as public Type
  */
 
-export enum FrameAddressType {
+export enum FarcasterAddressType {
   VerifiedAddress,
   CustodyAddress,
 }
@@ -142,7 +142,7 @@ export enum FrameAddressType {
  *
  * Note: exported as public Type
  */
-export interface GetUserAddressRequest {
+export interface GetFarcasterUserAddressesRequest {
   fid: number;
-  frameAddressType: FrameAddressType;
+  farcasterAddressType: FarcasterAddressType;
 }

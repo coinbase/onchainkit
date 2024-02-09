@@ -8,7 +8,7 @@ export async function neynarGetCustodyAddressesForFid(
 ) {
   const options = {
     method: 'GET',
-    url: `https://api.neynar.com/v2/farcaster/custody-address/${fid}`,
+    url: `https://api.neynar.com/v1/farcaster/custody-address?fid=${fid}`,
     headers: {
       accept: 'application/json',
       api_key: apiKey,

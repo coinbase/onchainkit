@@ -8,7 +8,7 @@ export async function neynarGetVerifiedAddressesForFid(
 ): Promise<string[]> {
   const options = {
     method: 'GET',
-    url: `https://api.neynar.com/v2/farcaster/verifiedAddress/${fid}`,
+    url: `https://api.neynar.com/v1/farcaster/verifications?fid=${fid}`,
     headers: {
       accept: 'application/json',
       api_key: apiKey,

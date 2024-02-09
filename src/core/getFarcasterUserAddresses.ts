@@ -1,6 +1,6 @@
 import { neynarGetCustodyAddressesForFid } from '../utils/neynar/frame/neynarGetCustodyAddressForFid';
 import { neynarGetVerifiedAddressesForFid } from '../utils/neynar/frame/neynarGetVerifiedAddressesForFid';
-import { FrameAddressType, GetUserAddressRequest } from './types';
+import { FarcasterAddressType, GetFarcasterUserAddressesRequest } from './types';
 
 type GetUserAddressOptions =
   | {
@@ -11,21 +11,20 @@ type GetUserAddressOptions =
 /**
  * Get the user address for a given fid
  * @param fid  The frame id
- * @param frameAddressType represents whether the client wants a verified address or a custody address
- * @returns the address or throws an error
+ * @param FarcasterAddressType represents whether the client wants a verified address or a custody address
+ * @returns the validation addresses or the custory address. If there is an error, it throws an error
  */
 
-async function getUserAddress(
-  getUserAddressRequest: GetUserAddressRequest,
+async function getFarcasterUserAddresses(
+  getFarcasterUserAddressRequest: GetFarcasterUserAddressesRequest,
   options?: GetUserAddressOptions,
 ) {
   try {
-    const { fid, frameAddressType } = getUserAddressRequest;
-    if (frameAddressType === FrameAddressType.VerifiedAddress) {
+    const { fid, farcasterAddressType } = getFarcasterUserAddressRequest;
+    if (farcasterAddressType === FarcasterAddressType.VerifiedAddress) {
       const addresses = await neynarGetVerifiedAddressesForFid(fid, options?.neynarApiKey);
-      return addresses[0];
+      return addresses;
     }
-
     const address = await neynarGetCustodyAddressesForFid(fid, options?.neynarApiKey);
     return address;
   } catch (e) {
@@ -33,4 +32,4 @@ async function getUserAddress(
   }
 }
 
-export { getUserAddress, FrameAddressType };
+export { FarcasterAddressType, getFarcasterUserAddresses };

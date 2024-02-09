@@ -1,6 +1,7 @@
 // 🌲☀️🌲
 export { version } from './version';
 export { getFrameHtmlResponse } from './core/getFrameHtmlResponse';
+export { getFarcasterUserAddresses } from './core/getFarcasterUserAddresses';
 export { getFrameMetadata } from './core/getFrameMetadata';
 export { getFrameMessage } from './core/getFrameMessage';
 export { FrameMetadata } from './components/FrameMetadata';
@@ -15,4 +16,6 @@ export type {
   FrameMetadataType,
   FrameRequest,
   FrameValidationData,
+  FarcasterAddressType,
+  GetFarcasterUserAddressesRequest,
 } from './core/types';
