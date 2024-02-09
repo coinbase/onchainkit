@@ -2,7 +2,7 @@
   <a href="https://github.com/coinbase/onchainkit">
     <picture>
       <source media="(prefers-color-scheme: dark)" srcset="./docs/logo-v-0-5.png">
-      <img alt="OnchainKit logo vibes" src="./docs/logo-v-0-4.png" width="auto">
+      <img alt="OnchainKit logo vibes" src="./docs/logo-v-0-5.png" width="auto">
     </picture>
   </a>
 </p>
@@ -102,7 +102,10 @@ export default function HomePage() {
           label: 'Redirect to cute pictures',
         },
       ]}
-      image='https://zizzamia.xyz/park-1.png'
+      image={{
+       src: 'https://zizzamia.xyz/park-3.png',
+       aspectRatio: '1:1'
+      }}
       input={{
         text: 'Tell me a boat story',
       }}
@@ -116,7 +119,7 @@ export default function HomePage() {
 **@Props**
 
 ```ts
-type ButtonMetadata =
+type FrameButtonMetadata =
   | {
       action: 'link' | 'mint';
       label: string;
@@ -127,22 +130,22 @@ type ButtonMetadata =
       label: string;
     };
 
-type InputMetadata = {
-  text: string;
+type FrameImageMetadata = {
+  src: string;
+  aspectRatio?: '1.91:1' | '1:1';
 };
 
-type ImageMetadata = {
-  src: string;
-  aspectRatio?: '1.91:1' | '1.1';
+type FrameInputMetadata = {
+  text: string;
 };
 
 type FrameMetadataType = {
   // A list of strings which are the label for the buttons in the frame (max 4 buttons).
-  buttons?: [ButtonMetadata, ...ButtonMetadata[]];
+  buttons?: [FrameButtonMetadata, ...FrameButtonMetadata[]];
   // An image which must be smaller than 10MB and should have an aspect ratio of 1.91:1 or 1:1
-  image: ImageMetadata;
+  image: FrameImageMetadata;
   // The text input to use for the Frame.
-  input?: InputMetadata;
+  input?: FrameInputMetadata;
   // A valid POST URL to send the Signature Packet to.
   postUrl?: string;
   // A period in seconds at which the app should expect the image to update.
@@ -164,7 +167,8 @@ type FrameMetadataReact = FrameMetadataType & {
 <meta name="fc:frame:button:2:target" content="https://www.google.com" />
 <meta name="fc:frame:button:3" content="Redirect to cute pictures" />
 <meta name="fc:frame:button:3:action" content="post_redirect" />
-<meta name="fc:frame:image" content="https://zizzamia.xyz/park-1.png" />
+<meta name="fc:frame:image" content="https://zizzamia.xyz/park-3.png" />
+<meta name="fc:frame:image:aspect_ratio" content="1:1" />
 <meta name="fc:frame:input:text" content="Tell me a boat story" />
 <meta name="fc:frame:post_url" content="https://zizzamia.xyz/api/frame" />
 ```
@@ -208,7 +212,7 @@ export async function POST(req: NextRequest): Promise<Response> {
 **@Param**
 
 ```ts
-type ButtonMetadata =
+type FrameButtonMetadata =
   | {
       action: 'link' | 'mint';
       label: string;
@@ -219,22 +223,22 @@ type ButtonMetadata =
       label: string;
     };
 
-type InputMetadata = {
-  text: string;
+type FrameImageMetadata = {
+  src: string;
+  aspectRatio?: '1.91:1' | '1:1';
 };
 
-type ImageMetadata = {
-  src: string;
-  aspectRatio?: '1.91:1' | '1.1';
+type FrameInputMetadata = {
+  text: string;
 };
 
 type FrameMetadataType = {
   // A list of strings which are the label for the buttons in the frame (max 4 buttons).
-  buttons?: [ButtonMetadata, ...ButtonMetadata[]];
+  buttons?: [FrameButtonMetadata, ...FrameButtonMetadata[]];
   // An image which must be smaller than 10MB and should have an aspect ratio of 1.91:1 or 1:1
-  image: ImageMetadata;
+  image: FrameImageMetadata;
   // The text input to use for the Frame.
-  input?: InputMetadata;
+  input?: FrameInputMetadata;
   // A valid POST URL to send the Signature Packet to.
   postUrl?: string;
   // A period in seconds at which the app should expect the image to update.
@@ -378,7 +382,7 @@ export default function Page() {
 **@Param**
 
 ```ts
-type ButtonMetadata =
+type FrameButtonMetadata =
   | {
       action: 'link' | 'mint';
       label: string;
@@ -389,22 +393,22 @@ type ButtonMetadata =
       label: string;
     };
 
-type InputMetadata = {
-  text: string;
+type FrameImageMetadata = {
+  src: string;
+  aspectRatio?: '1.91:1' | '1:1';
 };
 
-type ImageMetadata = {
-  src: string;
-  aspectRatio?: '1.91:1' | '1.1';
+type FrameInputMetadata = {
+  text: string;
 };
 
 type FrameMetadataType = {
   // A list of strings which are the label for the buttons in the frame (max 4 buttons).
-  buttons?: [ButtonMetadata, ...ButtonMetadata[]];
+  buttons?: [FrameButtonMetadata, ...FrameButtonMetadata[]];
   // An image which must be smaller than 10MB and should have an aspect ratio of 1.91:1
-  image: ImageMetadata;
+  image: FrameImageMetadata;
   // The text input to use for the Frame.
-  input?: InputMetadata;
+  input?: FrameInputMetadata;
   // A valid POST URL to send the Signature Packet to.
   postUrl?: string;
   // A period in seconds at which the app should expect the image to update.
