@@ -11,7 +11,7 @@ jest.mock('../utils/neynar/frame/neynarGetVerifiedAddressesForFid', () => ({
   neynarGetVerifiedAddressesForFid: jest.fn(),
 }));
 
-describe('getUserAddress function', () => {
+describe('getFarcasterUserAddresses function', () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
@@ -19,14 +19,14 @@ describe('getUserAddress function', () => {
   test('should return verified address when FarcasterAddressType is FarcasterAddressType.VerifiedAddresses', async () => {
     const fid = 1234;
     const expectedAddress = 'verified address';
-    const getUserAddressRequest = {
+    const getFarcasterUserAddressesRequest = {
       fid,
       farcasterAddressType: FarcasterAddressType.VerifiedAddresses,
     };
 
     (neynarGetVerifiedAddressesForFid as jest.Mock).mockResolvedValue([expectedAddress]);
 
-    const result = await getFarcasterUserAddresses(getUserAddressRequest);
+    const result = await getFarcasterUserAddresses(getFarcasterUserAddressesRequest);
 
     expect(neynarGetVerifiedAddressesForFid).toHaveBeenCalledWith(fid, undefined);
     expect(result).toEqual([expectedAddress]);
@@ -35,14 +35,14 @@ describe('getUserAddress function', () => {
   test('should return custody address when FarcasterAddressType is FarcasterAddressType.CustodyAddress', async () => {
     const fid = 12345;
     const expectedAddress = 'custody address';
-    const getUserAddressRequest = {
+    const getFarcasterUserAddressesRequest = {
       fid,
       farcasterAddressType: FarcasterAddressType.CustodyAddress,
     };
 
     (neynarGetCustodyAddressesForFid as jest.Mock).mockResolvedValue(expectedAddress);
 
-    const result = await getFarcasterUserAddresses(getUserAddressRequest);
+    const result = await getFarcasterUserAddresses(getFarcasterUserAddressesRequest);
 
     expect(neynarGetCustodyAddressesForFid).toHaveBeenCalledWith(fid, undefined);
     expect(result).toEqual(expectedAddress);
@@ -51,13 +51,15 @@ describe('getUserAddress function', () => {
   test('should throw an error if an exception occurs', async () => {
     const fid = 1234;
     const error = new Error('Something went wrong');
-    const getUserAddressRequest = {
+    const getFarcasterUserAddressesRequest = {
       fid,
       farcasterAddressType: FarcasterAddressType.VerifiedAddresses,
     };
 
     (neynarGetVerifiedAddressesForFid as jest.Mock).mockRejectedValue(error);
 
-    await expect(getFarcasterUserAddresses(getUserAddressRequest)).rejects.toThrow(error);
+    await expect(getFarcasterUserAddresses(getFarcasterUserAddressesRequest)).rejects.toThrow(
+      error,
+    );
   });
 });
