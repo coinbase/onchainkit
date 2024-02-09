@@ -19,8 +19,8 @@ function getFrameHtmlResponse({
   refreshPeriod,
   refresh_period,
 }: FrameMetadataType): string {
-  // Set the image metadata if it exists.
-  const imageHtml = image ? `  <meta property="fc:frame:image" content="${image}" />\n` : '';
+  const imageHtml = `  <meta property="fc:frame:image" content="${image}" />\n`;
+  const ogImageHtml = `  <meta property="og:image" content="${image}" />\n`;
 
   // Set the input metadata if it exists.
   const inputHtml = input
@@ -61,7 +61,7 @@ function getFrameHtmlResponse({
 <html>
 <head>
   <meta property="fc:frame" content="vNext" />
-${buttonsHtml}${imageHtml}${inputHtml}${postUrlHtml}${refreshPeriodHtml}
+${buttonsHtml}${imageHtml}${ogImageHtml}${inputHtml}${postUrlHtml}${refreshPeriodHtml}
 </head>
 </html>`;
 

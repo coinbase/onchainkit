@@ -67,7 +67,8 @@ export function FrameMetadata({
   return (
     <Wrapper>
       <meta property="fc:frame" content="vNext" />
-      {!!image && <meta property="fc:frame:image" content={image} />}
+      <meta property="fc:frame:image" content={image} />
+      <meta property="og:image" content={image} />
       {!!input && <meta property="fc:frame:input:text" content={input.text} />}
 
       {!!button1 && <meta property="fc:frame:button:1" content={button1.label} />}
