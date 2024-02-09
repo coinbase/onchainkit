@@ -18,6 +18,29 @@ describe('FrameMetadata', () => {
     expect(meta.container.querySelectorAll('meta').length).toBe(2);
   });
 
+  it('renders with image src', () => {
+    const meta = render(<FrameMetadata image={{ src: 'https://example.com/image.png' }} />);
+    expect(
+      meta.container.querySelector('meta[property="fc:frame:image"]')?.getAttribute('content'),
+    ).toBe('https://example.com/image.png');
+    expect(meta.container.querySelectorAll('meta').length).toBe(2);
+  });
+
+  it('renders with image aspect ratio', () => {
+    const meta = render(
+      <FrameMetadata image={{ src: 'https://example.com/image.png', aspectRatio: '1:1' }} />,
+    );
+    expect(
+      meta.container.querySelector('meta[property="fc:frame:image:aspect_ratio"]'),
+    ).not.toBeNull();
+    expect(
+      meta.container
+        .querySelector('meta[property="fc:frame:image:aspect_ratio"]')
+        ?.getAttribute('content'),
+    ).toBe('1:1');
+    expect(meta.container.querySelectorAll('meta').length).toBe(3);
+  });
+
   it('renders with input', () => {
     const meta = render(
       <FrameMetadata image="https://example.com/image.png" input={{ text: 'test' }} />,
@@ -238,7 +261,7 @@ describe('FrameMetadata', () => {
   it('should not render action target if action is not link or mint', () => {
     const meta = render(
       <FrameMetadata
-        image="image"
+        image="https://example.com/image.png"
         buttons={[{ label: 'button1', action: 'post' }]}
         postUrl="post_url"
       />,

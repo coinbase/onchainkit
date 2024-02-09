@@ -1,5 +1,5 @@
 import { Fragment } from 'react';
-import type { FrameMetadataType } from '../core/types';
+import type { FrameMetadataType, FrameImageMetadata } from '../core/types';
 
 type FrameMetadataReact = FrameMetadataType & {
   wrapper?: React.ComponentType<any>;
@@ -38,7 +38,7 @@ type FrameMetadataReact = FrameMetadataType & {
  *
  * @param {FrameMetadataReact} props - The metadata for the frame.
  * @param {Array<{ label: string, action?: string }>} props.buttons - The buttons.
- * @param {string} props.image - The image URL.
+ * @param {string | { src: string, aspectRatio?: string }} props.image - The image URL.
  * @param {string} props.input - The input text.
  * @param {string} props.postUrl - The post URL.
  * @param {number} props.refreshPeriod - The refresh period.
@@ -61,13 +61,17 @@ export function FrameMetadata({
   const button4 = buttons && buttons[3];
   const postUrlToUse = postUrl || post_url;
   const refreshPeriodToUse = refreshPeriod || refresh_period;
+  const imageSrc = typeof image === 'string' ? image : image.src;
+  const aspectRatio = typeof image === 'string' ? undefined : image.aspectRatio;
 
   // Important: To ensure smooth functionality when used
   // with Helmet as a wrapper component, it is crucial to flatten the Buttons loop.
   return (
     <Wrapper>
       <meta property="fc:frame" content="vNext" />
-      {!!image && <meta property="fc:frame:image" content={image} />}
+      {!!imageSrc && <meta property="fc:frame:image" content={imageSrc} />}
+      {!!aspectRatio && <meta property="fc:frame:image:aspect_ratio" content={aspectRatio} />}
+
       {!!input && <meta property="fc:frame:input:text" content={input.text} />}
 
       {!!button1 && <meta property="fc:frame:button:1" content={button1.label} />}
