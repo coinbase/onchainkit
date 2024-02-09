@@ -1,4 +1,4 @@
-import { FrameMetadataType } from './types';
+import { FrameMetadataType, FrameImageMetadata } from './types';
 
 /**
  * Returns an HTML string containing metadata for a new valid frame.
@@ -19,8 +19,18 @@ function getFrameHtmlResponse({
   refreshPeriod,
   refresh_period,
 }: FrameMetadataType): string {
-  const imageHtml = `  <meta property="fc:frame:image" content="${image}" />\n`;
   const ogImageHtml = `  <meta property="og:image" content="${image}" />\n`;
+
+  // Set the image metadata if it exists.
+  let imageHtml = '';
+  if (typeof image === 'string') {
+    imageHtml = `  <meta property="fc:frame:image" content="${image}" />\n`;
+  } else {
+    imageHtml = `  <meta property="fc:frame:image" content="${image.src}" />\n`;
+    if (image.aspectRatio) {
+      imageHtml += `  <meta property="fc:frame:image:aspect_ratio" content="${image.aspectRatio}" />\n`;
+    }
+  }
 
   // Set the input metadata if it exists.
   const inputHtml = input

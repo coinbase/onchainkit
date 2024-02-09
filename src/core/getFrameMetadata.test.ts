@@ -9,7 +9,7 @@ describe('getFrameMetadata', () => {
           { label: 'button2', action: 'post_redirect' },
           { label: 'button3' },
         ],
-        image: 'image',
+        image: { src: 'image', aspectRatio: '1.91:1' },
         postUrl: 'post_url',
       }),
     ).toEqual({
@@ -20,6 +20,38 @@ describe('getFrameMetadata', () => {
       'fc:frame:button:2:action': 'post_redirect',
       'fc:frame:button:3': 'button3',
       'fc:frame:image': 'image',
+      'fc:frame:image:aspect_ratio': '1.91:1',
+      'fc:frame:post_url': 'post_url',
+    });
+  });
+
+  it('should return the correct metadata with image src', () => {
+    expect(
+      getFrameMetadata({
+        buttons: [{ label: 'button1' }],
+        image: { src: 'image' },
+        postUrl: 'post_url',
+      }),
+    ).toEqual({
+      'fc:frame': 'vNext',
+      'fc:frame:button:1': 'button1',
+      'fc:frame:image': 'image',
+      'fc:frame:post_url': 'post_url',
+    });
+  });
+
+  it('should return the correct metadata with image aspect ratio', () => {
+    expect(
+      getFrameMetadata({
+        buttons: [{ label: 'button1' }],
+        image: { src: 'image', aspectRatio: '1:1' },
+        postUrl: 'post_url',
+      }),
+    ).toEqual({
+      'fc:frame': 'vNext',
+      'fc:frame:button:1': 'button1',
+      'fc:frame:image': 'image',
+      'fc:frame:image:aspect_ratio': '1:1',
       'fc:frame:post_url': 'post_url',
     });
   });

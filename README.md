@@ -102,7 +102,7 @@ export default function HomePage() {
           label: 'Redirect to cute pictures',
         },
       ]}
-      image="https://zizzamia.xyz/park-1.png"
+      image='https://zizzamia.xyz/park-1.png'
       input={{
         text: 'Tell me a boat story',
       }}
@@ -116,7 +116,7 @@ export default function HomePage() {
 **@Props**
 
 ```ts
-type Button =
+type ButtonMetadata =
   | {
       action: 'link' | 'mint';
       label: string;
@@ -131,11 +131,16 @@ type InputMetadata = {
   text: string;
 };
 
+type ImageMetadata = {
+  src: string;
+  aspectRatio?: '1.91:1' | '1.1';
+};
+
 type FrameMetadataType = {
   // A list of strings which are the label for the buttons in the frame (max 4 buttons).
-  buttons?: [Button, ...Button[]];
-  // An image which must be smaller than 10MB and should have an aspect ratio of 1.91:1
-  image: string;
+  buttons?: [ButtonMetadata, ...ButtonMetadata[]];
+  // An image which must be smaller than 10MB and should have an aspect ratio of 1.91:1 or 1:1
+  image: ImageMetadata;
   // The text input to use for the Frame.
   input?: InputMetadata;
   // A valid POST URL to send the Signature Packet to.
@@ -189,7 +194,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
           label: `We love BOAT`,
         },
       ],
-      image:'https://build-onchain-apps.vercel.app/release/v-0-17.png',
+      image: 'https://build-onchain-apps.vercel.app/release/v-0-17.png',
       postUrl: 'https://build-onchain-apps.vercel.app/api/frame',
     }),
   );
@@ -203,7 +208,7 @@ export async function POST(req: NextRequest): Promise<Response> {
 **@Param**
 
 ```ts
-type Button =
+type ButtonMetadata =
   | {
       action: 'link' | 'mint';
       label: string;
@@ -218,11 +223,16 @@ type InputMetadata = {
   text: string;
 };
 
+type ImageMetadata = {
+  src: string;
+  aspectRatio?: '1.91:1' | '1.1';
+};
+
 type FrameMetadataType = {
   // A list of strings which are the label for the buttons in the frame (max 4 buttons).
-  buttons?: [Button, ...Button[]];
-  // An image which must be smaller than 10MB and should have an aspect ratio of 1.91:1
-  image: string;
+  buttons?: [ButtonMetadata, ...ButtonMetadata[]];
+  // An image which must be smaller than 10MB and should have an aspect ratio of 1.91:1 or 1:1
+  image: ImageMetadata;
   // The text input to use for the Frame.
   input?: InputMetadata;
   // A valid POST URL to send the Signature Packet to.
@@ -368,7 +378,7 @@ export default function Page() {
 **@Param**
 
 ```ts
-type Button =
+type ButtonMetadata =
   | {
       action: 'link' | 'mint';
       label: string;
@@ -383,11 +393,16 @@ type InputMetadata = {
   text: string;
 };
 
+type ImageMetadata = {
+  src: string;
+  aspectRatio?: '1.91:1' | '1.1';
+};
+
 type FrameMetadataType = {
   // A list of strings which are the label for the buttons in the frame (max 4 buttons).
-  buttons?: [Button, ...Button[]];
+  buttons?: [ButtonMetadata, ...ButtonMetadata[]];
   // An image which must be smaller than 10MB and should have an aspect ratio of 1.91:1
-  image: string;
+  image: ImageMetadata;
   // The text input to use for the Frame.
   input?: InputMetadata;
   // A valid POST URL to send the Signature Packet to.

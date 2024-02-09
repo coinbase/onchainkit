@@ -1,4 +1,4 @@
-import { FrameMetadataResponse, FrameMetadataType } from './types';
+import { FrameMetadataResponse, FrameMetadataType, FrameImageMetadata } from './types';
 
 /**
  * This function generates the metadata for a Farcaster Frame.
@@ -24,7 +24,14 @@ export const getFrameMetadata = function ({
   const metadata: Record<string, string> = {
     'fc:frame': 'vNext',
   };
-  metadata['fc:frame:image'] = image;
+  if (typeof image === 'string') {
+    metadata['fc:frame:image'] = image;
+  } else {
+    metadata['fc:frame:image'] = image.src;
+    if (image.aspectRatio) {
+      metadata['fc:frame:image:aspect_ratio'] = image.aspectRatio;
+    }
+  }
   if (input) {
     metadata['fc:frame:input:text'] = input.text;
   }
