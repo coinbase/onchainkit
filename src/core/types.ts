@@ -126,3 +126,23 @@ export type FrameMetadataType = {
  * Note: exported as public Type
  */
 export type FrameMetadataResponse = Record<string, string>;
+
+/**
+ * Frame address type to determine if the client is request a verified address or a custody address
+ *  Note: exported as public Type
+ */
+
+export enum FrameAddressType {
+  VerifiedAddress,
+  CustodyAddress,
+}
+
+/**
+ * Get User Address Request
+ *
+ * Note: exported as public Type
+ */
+export interface GetUserAddressRequest {
+  fid: number;
+  frameAddressType: FrameAddressType;
+}
