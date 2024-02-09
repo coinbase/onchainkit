@@ -23,7 +23,7 @@ export async function neynarGetCustodyAddressesForFid(
   const responseBody = await resp.json();
 
   if (!responseBody || !responseBody.result || !responseBody.result.custodyAddress) {
-    throw new Error('No verified addresses found for FID ' + fid);
+    throw new Error('No custody address found for FID ' + fid);
   }
 
   return responseBody.result.custodyAddress;

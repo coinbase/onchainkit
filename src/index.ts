@@ -1,7 +1,7 @@
 // 🌲☀️🌲
 export { version } from './version';
 export { getFrameHtmlResponse } from './core/getFrameHtmlResponse';
-export { getFarcasterUserAddresses } from './core/getFarcasterUserAddresses';
+export { getFarcasterUserAddresses } from './farcaster/getFarcasterUserAddresses';
 export { getFrameMetadata } from './core/getFrameMetadata';
 export { getFrameMessage } from './core/getFrameMessage';
 export { FrameMetadata } from './components/FrameMetadata';
