@@ -32,8 +32,8 @@ describe('getFrameHtmlResponse', () => {
   <meta property="fc:frame:button:3" content="button3" />
   <meta property="fc:frame:button:3:action" content="post_redirect" />
   <meta property="fc:frame:button:4" content="button4" />
-  <meta property="fc:frame:image" content="https://example.com/image.png" />
   <meta property="og:image" content="https://example.com/image.png" />
+  <meta property="fc:frame:image" content="https://example.com/image.png" />
   <meta property="fc:frame:image:aspect_ratio" content="1.91:1" />
   <meta property="fc:frame:input:text" content="Enter a message..." />
   <meta property="fc:frame:post_url" content="https://example.com/api/frame" />
@@ -58,6 +58,7 @@ describe('getFrameHtmlResponse', () => {
   <meta property="fc:frame:button:1" content="Mint" />
   <meta property="fc:frame:button:1:action" content="mint" />
   <meta property="fc:frame:button:1:target" content="https://zizzamia.xyz/api/frame/mint" />
+  <meta property="og:image" content="https://zizzamia.xyz/park-1.png" />
   <meta property="fc:frame:image" content="https://zizzamia.xyz/park-1.png" />
 
 </head>
@@ -80,6 +81,7 @@ describe('getFrameHtmlResponse', () => {
   <meta property="fc:frame:button:1" content="Mint" />
   <meta property="fc:frame:button:1:action" content="mint" />
   <meta property="fc:frame:button:1:target" content="https://zizzamia.xyz/api/frame/mint" />
+  <meta property="og:image" content="https://zizzamia.xyz/park-1.png" />
   <meta property="fc:frame:image" content="https://zizzamia.xyz/park-1.png" />
   <meta property="fc:frame:image:aspect_ratio" content="1:1" />
 
@@ -100,8 +102,8 @@ describe('getFrameHtmlResponse', () => {
   <meta property="fc:frame:button:1" content="Mint" />
   <meta property="fc:frame:button:1:action" content="mint" />
   <meta property="fc:frame:button:1:target" content="https://zizzamia.xyz/api/frame/mint" />
-  <meta property="fc:frame:image" content="https://zizzamia.xyz/park-1.png" />
   <meta property="og:image" content="https://zizzamia.xyz/park-1.png" />
+  <meta property="fc:frame:image" content="https://zizzamia.xyz/park-1.png" />
 
 </head>
 </html>`);
@@ -120,8 +122,8 @@ describe('getFrameHtmlResponse', () => {
   <meta property="fc:frame:button:1" content="Link" />
   <meta property="fc:frame:button:1:action" content="link" />
   <meta property="fc:frame:button:1:target" content="https://zizzamia.xyz/api/frame/link" />
-  <meta property="fc:frame:image" content="https://zizzamia.xyz/park-1.png" />
   <meta property="og:image" content="https://zizzamia.xyz/park-1.png" />
+  <meta property="fc:frame:image" content="https://zizzamia.xyz/park-1.png" />
 
 </head>
 </html>`);

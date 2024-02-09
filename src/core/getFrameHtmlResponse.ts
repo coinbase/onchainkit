@@ -19,17 +19,11 @@ function getFrameHtmlResponse({
   refreshPeriod,
   refresh_period,
 }: FrameMetadataType): string {
-  const ogImageHtml = `  <meta property="og:image" content="${image}" />\n`;
-
-  // Set the image metadata if it exists.
-  let imageHtml = '';
-  if (typeof image === 'string') {
-    imageHtml = `  <meta property="fc:frame:image" content="${image}" />\n`;
-  } else {
-    imageHtml = `  <meta property="fc:frame:image" content="${image.src}" />\n`;
-    if (image.aspectRatio) {
-      imageHtml += `  <meta property="fc:frame:image:aspect_ratio" content="${image.aspectRatio}" />\n`;
-    }
+  const imgSrc = typeof image === 'string' ? image : image.src;
+  const ogImageHtml = `  <meta property="og:image" content="${imgSrc}" />\n`;
+  let imageHtml = `  <meta property="fc:frame:image" content="${imgSrc}" />\n`;
+  if (typeof image !== 'string' && image.aspectRatio) {
+    imageHtml += `  <meta property="fc:frame:image:aspect_ratio" content="${image.aspectRatio}" />\n`;
   }
 
   // Set the input metadata if it exists.
@@ -71,7 +65,7 @@ function getFrameHtmlResponse({
 <html>
 <head>
   <meta property="fc:frame" content="vNext" />
-${buttonsHtml}${imageHtml}${ogImageHtml}${inputHtml}${postUrlHtml}${refreshPeriodHtml}
+${buttonsHtml}${ogImageHtml}${imageHtml}${inputHtml}${postUrlHtml}${refreshPeriodHtml}
 </head>
 </html>`;
 

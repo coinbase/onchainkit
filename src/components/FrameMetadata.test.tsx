@@ -23,7 +23,7 @@ describe('FrameMetadata', () => {
     expect(
       meta.container.querySelector('meta[property="fc:frame:image"]')?.getAttribute('content'),
     ).toBe('https://example.com/image.png');
-    expect(meta.container.querySelectorAll('meta').length).toBe(2);
+    expect(meta.container.querySelectorAll('meta').length).toBe(3);
   });
 
   it('renders with image aspect ratio', () => {
@@ -38,7 +38,7 @@ describe('FrameMetadata', () => {
         .querySelector('meta[property="fc:frame:image:aspect_ratio"]')
         ?.getAttribute('content'),
     ).toBe('1:1');
-    expect(meta.container.querySelectorAll('meta').length).toBe(3);
+    expect(meta.container.querySelectorAll('meta').length).toBe(4);
   });
 
   it('renders with input', () => {
