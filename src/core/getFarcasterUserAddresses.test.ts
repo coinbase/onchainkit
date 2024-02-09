@@ -62,4 +62,29 @@ describe('getFarcasterUserAddresses function', () => {
       error,
     );
   });
+
+  test('should return verified address when FarcasterAddressType is FarcasterAddressType.VerifiedAddresses and neynarApiKey is not undefined', async () => {
+    const fid = 1234;
+    const neynarApiKey = 'neynar';
+    const expectedAddress = 'verified address';
+    const anotherExpectedAddress = 'verified address-2';
+
+    const getFarcasterUserAddressesRequest = {
+      fid,
+      farcasterAddressType: FarcasterAddressType.VerifiedAddresses,
+    };
+    const options = {
+      neynarApiKey,
+    };
+
+    (neynarGetVerifiedAddressesForFid as jest.Mock).mockResolvedValue([
+      expectedAddress,
+      anotherExpectedAddress,
+    ]);
+
+    const result = await getFarcasterUserAddresses(getFarcasterUserAddressesRequest, options);
+
+    expect(neynarGetVerifiedAddressesForFid).toHaveBeenCalledWith(fid, neynarApiKey);
+    expect(result).toEqual([expectedAddress, anotherExpectedAddress]);
+  });
 });

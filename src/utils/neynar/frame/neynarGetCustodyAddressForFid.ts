@@ -5,7 +5,7 @@ import { NEYNAR_DEFAULT_API_KEY } from './neynarFrameFunctions';
 export async function neynarGetCustodyAddressesForFid(
   fid: number,
   apiKey: string = NEYNAR_DEFAULT_API_KEY,
-) {
+): Promise<string> {
   const options = {
     method: 'GET',
     url: `https://api.neynar.com/v1/farcaster/custody-address?fid=${fid}`,

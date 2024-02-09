@@ -18,7 +18,7 @@ type GetUserAddressOptions =
 async function getFarcasterUserAddresses(
   getFarcasterUserAddressRequest: GetFarcasterUserAddressesRequest,
   options?: GetUserAddressOptions,
-) {
+): Promise<string | string[]> {
   try {
     const { fid, farcasterAddressType } = getFarcasterUserAddressRequest;
     if (farcasterAddressType === FarcasterAddressType.VerifiedAddresses) {
