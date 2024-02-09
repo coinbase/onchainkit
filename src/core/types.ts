@@ -133,7 +133,7 @@ export type FrameMetadataResponse = Record<string, string>;
  */
 
 export enum FarcasterAddressType {
-  VerifiedAddress,
+  VerifiedAddresses,
   CustodyAddress,
 }
 

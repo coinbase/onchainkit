@@ -16,12 +16,12 @@ describe('getUserAddress function', () => {
     jest.clearAllMocks();
   });
 
-  test('should return verified address when FarcasterAddressType is FarcasterAddressType.VerifiedAddress', async () => {
+  test('should return verified address when FarcasterAddressType is FarcasterAddressType.VerifiedAddresses', async () => {
     const fid = 1234;
     const expectedAddress = 'verified address';
     const getUserAddressRequest = {
       fid,
-      farcasterAddressType: FarcasterAddressType.VerifiedAddress,
+      farcasterAddressType: FarcasterAddressType.VerifiedAddresses,
     };
 
     (neynarGetVerifiedAddressesForFid as jest.Mock).mockResolvedValue([expectedAddress]);
@@ -53,7 +53,7 @@ describe('getUserAddress function', () => {
     const error = new Error('Something went wrong');
     const getUserAddressRequest = {
       fid,
-      farcasterAddressType: FarcasterAddressType.VerifiedAddress,
+      farcasterAddressType: FarcasterAddressType.VerifiedAddresses,
     };
 
     (neynarGetVerifiedAddressesForFid as jest.Mock).mockRejectedValue(error);

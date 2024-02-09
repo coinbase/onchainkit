@@ -21,7 +21,7 @@ async function getFarcasterUserAddresses(
 ) {
   try {
     const { fid, farcasterAddressType } = getFarcasterUserAddressRequest;
-    if (farcasterAddressType === FarcasterAddressType.VerifiedAddress) {
+    if (farcasterAddressType === FarcasterAddressType.VerifiedAddresses) {
       const addresses = await neynarGetVerifiedAddressesForFid(fid, options?.neynarApiKey);
       return addresses;
     }
