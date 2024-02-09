@@ -1,5 +1,5 @@
-import { neynarGetCustodyAddressesForFid } from '../utils/neynar/frame/neynarGetCustodyAddressForFid';
-import { neynarGetVerifiedAddressesForFid } from '../utils/neynar/frame/neynarGetVerifiedAddressesForFid';
+import { neynarGetCustodyAddressesForFid } from '../utils/neynar/user/neynarGetCustodyAddressForFid';
+import { neynarGetVerifiedAddressesForFid } from '../utils/neynar/user/neynarGetVerifiedAddressesForFid';
 import { FarcasterAddressType, GetFarcasterUserAddressesRequest } from './types';
 
 type GetUserAddressOptions =

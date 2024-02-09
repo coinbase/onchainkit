@@ -1,14 +1,14 @@
 import { version } from '../../../version';
 import { FetchError } from '../exceptions/FetchError';
-import { NEYNAR_DEFAULT_API_KEY } from './neynarFrameFunctions';
+import { NEYNAR_DEFAULT_API_KEY } from '../frame/neynarFrameFunctions';
 
-export async function neynarGetVerifiedAddressesForFid(
+export async function neynarGetCustodyAddressesForFid(
   fid: number,
   apiKey: string = NEYNAR_DEFAULT_API_KEY,
-): Promise<string[]> {
+): Promise<string> {
   const options = {
     method: 'GET',
-    url: `https://api.neynar.com/v1/farcaster/verifications?fid=${fid}`,
+    url: `https://api.neynar.com/v1/farcaster/custody-address?fid=${fid}`,
     headers: {
       accept: 'application/json',
       api_key: apiKey,
@@ -22,14 +22,9 @@ export async function neynarGetVerifiedAddressesForFid(
   }
   const responseBody = await resp.json();
 
-  if (
-    !responseBody ||
-    !responseBody.result ||
-    !responseBody.result.verifications ||
-    responseBody.result.verifications.length === 0
-  ) {
-    throw new Error('No verified addresses found for FID ' + fid);
+  if (!responseBody || !responseBody.result || !responseBody.result.custodyAddress) {
+    throw new Error('No custody address found for FID ' + fid);
   }
 
-  return responseBody.result.verifications;
+  return responseBody.result.custodyAddress;
 }
