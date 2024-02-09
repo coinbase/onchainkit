@@ -3,11 +3,11 @@ import { neynarGetVerifiedAddressesForFid } from '../utils/neynar/user/neynarGet
 import { FarcasterAddressType } from './types';
 import { getFarcasterUserAddresses } from './getFarcasterUserAddresses';
 
-jest.mock('../utils/neynar/frame/neynarGetCustodyAddressForFid', () => ({
+jest.mock('../utils/neynar/user/neynarGetCustodyAddressForFid', () => ({
   neynarGetCustodyAddressesForFid: jest.fn(),
 }));
 
-jest.mock('../utils/neynar/frame/neynarGetVerifiedAddressesForFid', () => ({
+jest.mock('../utils/neynar/user/neynarGetVerifiedAddressesForFid', () => ({
   neynarGetVerifiedAddressesForFid: jest.fn(),
 }));
 
