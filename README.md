@@ -104,7 +104,7 @@ export default function HomePage() {
       ]}
       image={{
        src: 'https://zizzamia.xyz/park-3.png',
-       aspectRatio: '1.1'
+       aspectRatio: '1:1'
       }}
       input={{
         text: 'Tell me a boat story',
@@ -132,7 +132,7 @@ type FrameButtonMetadata =
 
 type FrameImageMetadata = {
   src: string;
-  aspectRatio?: '1.91:1' | '1.1';
+  aspectRatio?: '1.91:1' | '1:1';
 };
 
 type FrameInputMetadata = {
@@ -168,7 +168,7 @@ type FrameMetadataReact = FrameMetadataType & {
 <meta name="fc:frame:button:3" content="Redirect to cute pictures" />
 <meta name="fc:frame:button:3:action" content="post_redirect" />
 <meta name="fc:frame:image" content="https://zizzamia.xyz/park-3.png" />
-<meta name="fc:frame:image:aspect_ratio" content="1.1" />
+<meta name="fc:frame:image:aspect_ratio" content="1:1" />
 <meta name="fc:frame:input:text" content="Tell me a boat story" />
 <meta name="fc:frame:post_url" content="https://zizzamia.xyz/api/frame" />
 ```
@@ -225,7 +225,7 @@ type FrameButtonMetadata =
 
 type FrameImageMetadata = {
   src: string;
-  aspectRatio?: '1.91:1' | '1.1';
+  aspectRatio?: '1.91:1' | '1:1';
 };
 
 type FrameInputMetadata = {
@@ -395,7 +395,7 @@ type FrameButtonMetadata =
 
 type FrameImageMetadata = {
   src: string;
-  aspectRatio?: '1.91:1' | '1.1';
+  aspectRatio?: '1.91:1' | '1:1';
 };
 
 type FrameInputMetadata = {
