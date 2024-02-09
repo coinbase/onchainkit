@@ -1,6 +1,6 @@
 {
   "name": "@coinbase/onchainkit",
-  "version": "0.5.4",
+  "version": "0.5.3",
   "repository": "https://github.com/coinbase/onchainkit.git",
   "license": "MIT",
   "scripts": {
@@ -54,10 +54,9 @@
         "lib"
       ],
       "platform": [
-        "browser",
-        "native",
-        "node"
-      ]
+        "browser"
+      ],
+      "bundle": false
     }
   ],
   "publishConfig": {
@@ -72,9 +71,9 @@
   "type": "commonjs",
   "packageManager": "yarn@4.0.2",
   "engines": {
-    "node": ">=16.12.0"
+    "node": ">=18.14.0"
   },
-  "main": "./lib/node/index.js",
+  "main": "./lib/index.js",
   "module": "./esm/index.js",
   "types": "./lib/index.d.ts",
   "browser": "./lib/browser/index.js",
@@ -86,17 +85,9 @@
         "types": "./esm/index.d.ts",
         "module": "./esm/index.js",
         "import": "./esm/index.js",
-        "default": "./lib/browser/index.js"
+        "default": "./lib/index.js"
       },
-      "react-native": {
-        "types": "./lib/index.d.ts",
-        "default": "./lib/native/index.js"
-      },
-      "node": {
-        "types": "./lib/index.d.ts",
-        "default": "./lib/node/index.js"
-      },
-      "default": "./lib/node/index.js"
+      "default": "./lib/index.js"
     }
   }
 }
