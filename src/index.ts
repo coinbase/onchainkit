@@ -16,6 +16,5 @@ export type {
   FrameMetadataType,
   FrameRequest,
   FrameValidationData,
-  FarcasterAddressType,
-  GetFarcasterUserAddressesRequest,
 } from './core/types';
+export type { FarcasterAddressType, GetFarcasterUserAddressesRequest } from './farcaster/types';
