@@ -15,7 +15,7 @@ describe('FrameMetadata', () => {
     expect(
       meta.container.querySelector('meta[property="fc:frame:image"]')?.getAttribute('content'),
     ).toBe('https://example.com/image.png');
-    expect(meta.container.querySelectorAll('meta').length).toBe(2);
+    expect(meta.container.querySelectorAll('meta').length).toBe(3);
   });
 
   it('renders with input', () => {
@@ -26,7 +26,7 @@ describe('FrameMetadata', () => {
     expect(
       meta.container.querySelector('meta[property="fc:frame:input:text"]')?.getAttribute('content'),
     ).toBe('test');
-    expect(meta.container.querySelectorAll('meta').length).toBe(3);
+    expect(meta.container.querySelectorAll('meta').length).toBe(4);
   });
 
   it('renders with two basic buttons', () => {
@@ -56,7 +56,7 @@ describe('FrameMetadata', () => {
         ?.getAttribute('content'),
     ).toBe('post_redirect');
     // Length
-    expect(meta.container.querySelectorAll('meta').length).toBe(5);
+    expect(meta.container.querySelectorAll('meta').length).toBe(6);
   });
 
   it('renders with all buttons', () => {
@@ -133,7 +133,7 @@ describe('FrameMetadata', () => {
         ?.getAttribute('content'),
     ).toBe('https://zizzamia.xyz/api/frame/link');
     // Length
-    expect(meta.container.querySelectorAll('meta').length).toBe(11);
+    expect(meta.container.querySelectorAll('meta').length).toBe(12);
   });
 
   it('renders with post_url', () => {
@@ -144,7 +144,7 @@ describe('FrameMetadata', () => {
     expect(
       meta.container.querySelector('meta[property="fc:frame:post_url"]')?.getAttribute('content'),
     ).toBe('https://example.com');
-    expect(meta.container.querySelectorAll('meta').length).toBe(3);
+    expect(meta.container.querySelectorAll('meta').length).toBe(4);
   });
 
   it('renders with refresh_period', () => {
@@ -155,7 +155,7 @@ describe('FrameMetadata', () => {
         .querySelector('meta[property="fc:frame:refresh_period"]')
         ?.getAttribute('content'),
     ).toBe('10');
-    expect(meta.container.querySelectorAll('meta').length).toBe(3);
+    expect(meta.container.querySelectorAll('meta').length).toBe(4);
   });
 
   it('renders with wrapper', () => {
@@ -168,7 +168,7 @@ describe('FrameMetadata', () => {
 
     expect(meta.container.querySelector('#wrapper')).not.toBeNull();
     expect(meta.container.querySelector('meta[property="fc:frame:image"]')).not.toBeNull();
-    expect(meta.container.querySelectorAll('meta').length).toBe(2);
+    expect(meta.container.querySelectorAll('meta').length).toBe(3);
   });
 
   it('renders with action mint', () => {
@@ -200,7 +200,7 @@ describe('FrameMetadata', () => {
         .querySelector('meta[property="fc:frame:button:1:target"]')
         ?.getAttribute('content'),
     ).toBe('https://zizzamia.xyz/api/frame/mint');
-    expect(meta.container.querySelectorAll('meta').length).toBe(5);
+    expect(meta.container.querySelectorAll('meta').length).toBe(6);
   });
 
   it('renders with action link', () => {
@@ -232,7 +232,7 @@ describe('FrameMetadata', () => {
         .querySelector('meta[property="fc:frame:button:1:target"]')
         ?.getAttribute('content'),
     ).toBe('https://zizzamia.xyz/api/frame/link');
-    expect(meta.container.querySelectorAll('meta').length).toBe(5);
+    expect(meta.container.querySelectorAll('meta').length).toBe(6);
   });
 
   it('should not render action target if action is not link or mint', () => {
@@ -244,6 +244,6 @@ describe('FrameMetadata', () => {
       />,
     );
     expect(meta.container.querySelector('meta[property="fc:frame:button:1:target"')).toBeNull();
-    expect(meta.container.querySelectorAll('meta').length).toBe(5);
+    expect(meta.container.querySelectorAll('meta').length).toBe(6);
   });
 });
