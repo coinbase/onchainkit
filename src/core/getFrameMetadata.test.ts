@@ -9,8 +9,8 @@ describe('getFrameMetadata', () => {
           { label: 'button2', action: 'post_redirect' },
           { label: 'button3' },
         ],
-        image: 'image',
-        post_url: 'post_url',
+        image: { src: 'image', aspectRatio: '1.91:1' },
+        postUrl: 'post_url',
       }),
     ).toEqual({
       'fc:frame': 'vNext',
@@ -20,6 +20,38 @@ describe('getFrameMetadata', () => {
       'fc:frame:button:2:action': 'post_redirect',
       'fc:frame:button:3': 'button3',
       'fc:frame:image': 'image',
+      'fc:frame:image:aspect_ratio': '1.91:1',
+      'fc:frame:post_url': 'post_url',
+    });
+  });
+
+  it('should return the correct metadata with image src', () => {
+    expect(
+      getFrameMetadata({
+        buttons: [{ label: 'button1' }],
+        image: { src: 'image' },
+        postUrl: 'post_url',
+      }),
+    ).toEqual({
+      'fc:frame': 'vNext',
+      'fc:frame:button:1': 'button1',
+      'fc:frame:image': 'image',
+      'fc:frame:post_url': 'post_url',
+    });
+  });
+
+  it('should return the correct metadata with image aspect ratio', () => {
+    expect(
+      getFrameMetadata({
+        buttons: [{ label: 'button1' }],
+        image: { src: 'image', aspectRatio: '1:1' },
+        postUrl: 'post_url',
+      }),
+    ).toEqual({
+      'fc:frame': 'vNext',
+      'fc:frame:button:1': 'button1',
+      'fc:frame:image': 'image',
+      'fc:frame:image:aspect_ratio': '1:1',
       'fc:frame:post_url': 'post_url',
     });
   });
@@ -29,7 +61,7 @@ describe('getFrameMetadata', () => {
       getFrameMetadata({
         buttons: [{ label: 'button1' }],
         image: 'image',
-        post_url: 'post_url',
+        postUrl: 'post_url',
       }),
     ).toEqual({
       'fc:frame': 'vNext',
@@ -44,8 +76,8 @@ describe('getFrameMetadata', () => {
       getFrameMetadata({
         buttons: [{ label: 'button1' }],
         image: 'image',
-        post_url: 'post_url',
-        refresh_period: 10,
+        postUrl: 'post_url',
+        refreshPeriod: 10,
       }),
     ).toEqual({
       'fc:frame': 'vNext',
@@ -64,8 +96,8 @@ describe('getFrameMetadata', () => {
         input: {
           text: 'Enter a message...',
         },
-        post_url: 'post_url',
-        refresh_period: 10,
+        postUrl: 'post_url',
+        refreshPeriod: 10,
       }),
     ).toEqual({
       'fc:frame': 'vNext',
@@ -85,7 +117,7 @@ describe('getFrameMetadata', () => {
         input: {
           text: 'Tell me a boat story',
         },
-        post_url: 'https://zizzamia.xyz/api/frame',
+        postUrl: 'https://zizzamia.xyz/api/frame',
       }),
     ).toEqual({
       'fc:frame': 'vNext',
@@ -106,7 +138,7 @@ describe('getFrameMetadata', () => {
         input: {
           text: 'Tell me a boat story',
         },
-        post_url: 'https://zizzamia.xyz/api/frame',
+        postUrl: 'https://zizzamia.xyz/api/frame',
       }),
     ).toEqual({
       'fc:frame': 'vNext',
@@ -124,7 +156,7 @@ describe('getFrameMetadata', () => {
       getFrameMetadata({
         buttons: [{ label: 'button1', action: 'post' }],
         image: 'image',
-        post_url: 'post_url',
+        postUrl: 'post_url',
       }),
     ).toEqual({
       'fc:frame': 'vNext',

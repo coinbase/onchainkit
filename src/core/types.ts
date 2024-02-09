@@ -83,6 +83,11 @@ export type FrameInputMetadata = {
   text: string;
 };
 
+export type FrameImageMetadata = {
+  src: string;
+  aspectRatio?: '1.91:1' | '1:1';
+};
+
 /**
  * Frame Request
  *
@@ -90,10 +95,14 @@ export type FrameInputMetadata = {
  */
 export type FrameMetadataType = {
   buttons?: [FrameButtonMetadata, ...FrameButtonMetadata[]];
-  image: string;
+  image: string | FrameImageMetadata;
   input?: FrameInputMetadata;
+  /** @deprecated Prefer `postUrl` */
   post_url?: string;
+  postUrl?: string;
+  /** @deprecated Prefer `refreshPeriod` */
   refresh_period?: number;
+  refreshPeriod?: number;
 };
 
 /**

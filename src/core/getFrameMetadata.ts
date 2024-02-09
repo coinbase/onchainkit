@@ -1,25 +1,37 @@
-import { FrameMetadataResponse, FrameMetadataType } from './types';
+import { FrameMetadataResponse, FrameMetadataType, FrameImageMetadata } from './types';
 
 /**
  * This function generates the metadata for a Farcaster Frame.
  * @param buttons: The buttons to use for the frame.
  * @param image: The image to use for the frame.
  * @param input: The text input to use for the frame.
- * @param post_url: The URL to post the frame to.
- * @param refresh_period: The refresh period for the image used.
+ * @param postUrl: The URL to post the frame to.
+ * @param refreshPeriod: The refresh period for the image used.
  * @returns The metadata for the frame.
  */
 export const getFrameMetadata = function ({
   buttons,
   image,
   input,
+  postUrl,
   post_url,
+  refreshPeriod,
   refresh_period,
 }: FrameMetadataType): FrameMetadataResponse {
+  const postUrlToUse = postUrl || post_url;
+  const refreshPeriodToUse = refreshPeriod || refresh_period;
+
   const metadata: Record<string, string> = {
     'fc:frame': 'vNext',
   };
-  metadata['fc:frame:image'] = image;
+  if (typeof image === 'string') {
+    metadata['fc:frame:image'] = image;
+  } else {
+    metadata['fc:frame:image'] = image.src;
+    if (image.aspectRatio) {
+      metadata['fc:frame:image:aspect_ratio'] = image.aspectRatio;
+    }
+  }
   if (input) {
     metadata['fc:frame:input:text'] = input.text;
   }
@@ -34,11 +46,11 @@ export const getFrameMetadata = function ({
       }
     });
   }
-  if (post_url) {
-    metadata['fc:frame:post_url'] = post_url;
+  if (postUrlToUse) {
+    metadata['fc:frame:post_url'] = postUrlToUse;
   }
-  if (refresh_period) {
-    metadata['fc:frame:refresh_period'] = refresh_period.toString();
+  if (refreshPeriodToUse) {
+    metadata['fc:frame:refresh_period'] = refreshPeriodToUse.toString();
   }
   return metadata;
 };
