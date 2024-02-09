@@ -68,15 +68,9 @@
     "src/",
     "src/**/*"
   ],
-  "type": "commonjs",
-  "packageManager": "yarn@4.0.2",
-  "engines": {
-    "node": ">=18.14.0"
-  },
   "main": "./lib/index.js",
-  "module": "./esm/index.js",
   "types": "./lib/index.d.ts",
-  "browser": "./lib/browser/index.js",
+  "module": "./esm/index.js",
   "exports": {
     "./package.json": "./package.json",
     ".": {
