@@ -875,6 +875,7 @@ __metadata:
   dependencies:
     "@changesets/changelog-github": "npm:^0.4.8"
     "@changesets/cli": "npm:^2.26.2"
+    "@open-frames/types": "npm:^0.0.5"
     "@testing-library/jest-dom": "npm:^6.4.0"
     "@testing-library/react": "npm:^14.2.0"
     "@types/jest": "npm:^29.5.11"
@@ -1505,6 +1506,13 @@ __metadata:
   dependencies:
     semver: "npm:^7.3.5"
   checksum: 162b4a0b8705cd6f5c2470b851d1dc6cd228c86d2170e1769d738c1fbb69a87160901411c3c035331e9e99db72f1f1099a8b734bf1637cc32b9a5be1660e4e1e
+  languageName: node
+  linkType: hard
+
+"@open-frames/types@npm:^0.0.5":
+  version: 0.0.5
+  resolution: "@open-frames/types@npm:0.0.5"
+  checksum: 971153e1ba5af69f54df0ebe65ce6dcc15163675abe097d3d9454a0552d9181207d89bf64ff1e30859b49f77cdac286baac6bbc42b8df112b1977fc35b8e4ac5
   languageName: node
   linkType: hard
 

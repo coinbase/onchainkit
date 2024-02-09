@@ -3,6 +3,12 @@ import {
   NEYNAR_DEFAULT_API_KEY,
   neynarFrameValidation,
 } from '../utils/neynar/frame/neynarFrameFunctions';
+import type {
+  GetValidationResponse,
+  OpenFramesRequest,
+  RequestValidator,
+} from '@open-frames/types';
+import { NeynarValidator } from '../utils/neynar/openframes/neynarValidator';
 
 type FrameMessageOptions =
   | {
@@ -23,18 +29,13 @@ async function getFrameMessage(
   body: FrameRequest,
   messageOptions?: FrameMessageOptions,
 ): Promise<FrameValidationResponse> {
+  const neynarValidator = new NeynarValidator(messageOptions);
   // Validate the message
-  const response = await neynarFrameValidation(
-    body?.trustedData?.messageBytes,
-    messageOptions?.neynarApiKey || NEYNAR_DEFAULT_API_KEY,
-    messageOptions?.castReactionContext || true,
-    messageOptions?.followContext || true,
-  );
-  if (response?.valid) {
-    return {
-      isValid: true,
-      message: response,
-    };
+  const response = await getOpenFramesMessage({ clientProtocol: 'farcaster@VNext', ...body }, [
+    neynarValidator,
+  ]);
+  if (response.isValid) {
+    return response;
   } else {
     // Security best practice, don't return anything if we can't validate the frame.
     return {
@@ -44,4 +45,20 @@ async function getFrameMessage(
   }
 }
 
-export { getFrameMessage };
+async function getOpenFramesMessage<ClientProtocols extends Array<RequestValidator<any, any, any>>>(
+  body: OpenFramesRequest,
+  clientProtocols: ClientProtocols,
+): Promise<GetValidationResponse<ClientProtocols[number]>> {
+  for (const protocol of clientProtocols) {
+    if (protocol.isSupported(body)) {
+      const validationResponse = await protocol.validate(body as any);
+      return validationResponse as GetValidationResponse<ClientProtocols[number]>;
+    }
+  }
+
+  return {
+    isValid: false,
+  } as GetValidationResponse<ClientProtocols[number]>;
+}
+
+export { getFrameMessage, getOpenFramesMessage };
