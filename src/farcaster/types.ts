@@ -9,11 +9,11 @@ export enum FarcasterAddressType {
 }
 
 /**
- * getFarcasterUserAddressRequest
+ * GetFarcasterUserAddressRequest
  *
  * Note: exported as public Type
  */
-export interface getFarcasterUserAddressRequest {
+export interface GetFarcasterUserAddressRequest {
   fid: number;
   farcasterAddressType: FarcasterAddressType;
 }

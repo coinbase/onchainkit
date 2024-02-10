@@ -1,6 +1,6 @@
 import { getCustodyAddressForFidNeynar } from '../utils/neynar/user/getCustodyAddressForFidNeynar';
 import { getVerifiedAddressesForFidNeynar } from '../utils/neynar/user/getVerifiedAddressesForFidNeynar';
-import { FarcasterAddressType, getFarcasterUserAddressRequest } from './types';
+import { FarcasterAddressType, GetFarcasterUserAddressRequest } from './types';
 
 type GetUserAddressOptions =
   | {
@@ -15,7 +15,7 @@ type GetUserAddressOptions =
  * @returns the validation addresse or the custory address. If there is an error, it returns null
  */
 async function getFarcasterUserAddress(
-  getFarcasterUserAddressRequest: getFarcasterUserAddressRequest,
+  getFarcasterUserAddressRequest: GetFarcasterUserAddressRequest,
   options?: GetUserAddressOptions,
 ): Promise<string | null> {
   try {

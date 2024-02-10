@@ -48,7 +48,7 @@ describe('getFarcasterUserAddress function', () => {
     expect(result).toEqual(expectedAddress);
   });
 
-  test('should throw an error if an exception occurs', async () => {
+  test('should return null if an exception occurs', async () => {
     const fid = 1234;
     const error = new Error('Something went wrong');
     const getFarcasterUserAddressRequest = {
