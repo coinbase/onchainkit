@@ -68,6 +68,11 @@ export function convertToFrame(json: any) {
   };
 }
 
+/**
+ * Frame Request
+ *
+ * Note: exported as public Type
+ */
 export type FrameButtonMetadata =
   | {
       action: 'link' | 'mint';
@@ -79,10 +84,20 @@ export type FrameButtonMetadata =
       label: string;
     };
 
+/**
+ * Frame Request
+ *
+ * Note: exported as public Type
+ */
 export type FrameInputMetadata = {
   text: string;
 };
 
+/**
+ * Frame Request
+ *
+ * Note: exported as public Type
+ */
 export type FrameImageMetadata = {
   src: string;
   aspectRatio?: '1.91:1' | '1:1';

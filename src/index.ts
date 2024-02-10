@@ -8,4 +8,11 @@ export { Avatar } from './components/Avatar';
 export { Name } from './components/Name';
 export { useAvatar } from './hooks/useAvatar';
 export { useName } from './hooks/useName';
-export type { FrameMetadataType, FrameRequest, FrameValidationData } from './core/types';
+export type {
+  FrameButtonMetadata,
+  FrameImageMetadata,
+  FrameInputMetadata,
+  FrameMetadataType,
+  FrameRequest,
+  FrameValidationData,
+} from './core/types';
