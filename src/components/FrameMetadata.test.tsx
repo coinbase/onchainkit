@@ -269,4 +269,34 @@ describe('FrameMetadata', () => {
     expect(meta.container.querySelector('meta[property="fc:frame:button:1:target"')).toBeNull();
     expect(meta.container.querySelectorAll('meta').length).toBe(6);
   });
+
+  it('should set og:description', () => {
+    const meta = render(
+      <FrameMetadata
+        image="https://example.com/image.png"
+        ogDescription="This is the description"
+      />,
+    );
+    expect(
+      meta.container.querySelector('meta[property="og:description"]')?.getAttribute('content'),
+    ).toBe('This is the description');
+    expect(meta.container.querySelectorAll('meta').length).toBe(4);
+  });
+
+  it('should set og:title', () => {
+    const meta = render(
+      <FrameMetadata image="https://example.com/image.png" ogTitle="This is the title" />,
+    );
+    expect(meta.container.querySelector('meta[property="og:title"]')?.getAttribute('content')).toBe(
+      'This is the title',
+    );
+    expect(meta.container.querySelectorAll('meta').length).toBe(4);
+  });
+
+  it('should not render og:description and og:title if not provided', () => {
+    const meta = render(<FrameMetadata image="https://example.com/image.png" />);
+    expect(meta.container.querySelector('meta[property="og:description"]')).toBeNull();
+    expect(meta.container.querySelector('meta[property="og:title"]')).toBeNull();
+    expect(meta.container.querySelectorAll('meta').length).toBe(3);
+  });
 });

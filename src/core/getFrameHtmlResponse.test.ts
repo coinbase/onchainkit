@@ -23,6 +23,8 @@ describe('getFrameHtmlResponse', () => {
     expect(html).toBe(`<!DOCTYPE html>
 <html>
 <head>
+  <meta property="og:description" content="Frame description" />
+  <meta property="og:title" content="Frame title" />
   <meta property="fc:frame" content="vNext" />
   <meta property="fc:frame:button:1" content="button1" />
   <meta property="fc:frame:button:1:action" content="post" />
@@ -54,6 +56,8 @@ describe('getFrameHtmlResponse', () => {
     expect(html).toBe(`<!DOCTYPE html>
 <html>
 <head>
+  <meta property="og:description" content="Frame description" />
+  <meta property="og:title" content="Frame title" />
   <meta property="fc:frame" content="vNext" />
   <meta property="fc:frame:button:1" content="Mint" />
   <meta property="fc:frame:button:1:action" content="mint" />
@@ -77,6 +81,8 @@ describe('getFrameHtmlResponse', () => {
     expect(html).toBe(`<!DOCTYPE html>
 <html>
 <head>
+  <meta property="og:description" content="Frame description" />
+  <meta property="og:title" content="Frame title" />
   <meta property="fc:frame" content="vNext" />
   <meta property="fc:frame:button:1" content="Mint" />
   <meta property="fc:frame:button:1:action" content="mint" />
@@ -98,6 +104,8 @@ describe('getFrameHtmlResponse', () => {
     expect(html).toBe(`<!DOCTYPE html>
 <html>
 <head>
+  <meta property="og:description" content="Frame description" />
+  <meta property="og:title" content="Frame title" />
   <meta property="fc:frame" content="vNext" />
   <meta property="fc:frame:button:1" content="Mint" />
   <meta property="fc:frame:button:1:action" content="mint" />
@@ -118,6 +126,8 @@ describe('getFrameHtmlResponse', () => {
     expect(html).toBe(`<!DOCTYPE html>
 <html>
 <head>
+  <meta property="og:description" content="Frame description" />
+  <meta property="og:title" content="Frame title" />
   <meta property="fc:frame" content="vNext" />
   <meta property="fc:frame:button:1" content="Link" />
   <meta property="fc:frame:button:1:action" content="link" />
@@ -211,6 +221,30 @@ describe('getFrameHtmlResponse', () => {
     expect(html).toContain('<meta property="fc:frame:image" content="image" />');
     expect(html).toContain('<meta property="fc:frame:post_url" content="post_url" />');
     expect(html).not.toContain('fc:frame:button:1:target');
+  });
+
+  it('should set og:description and og:title to default values if not provided', () => {
+    const html = getFrameHtmlResponse({
+      buttons: [{ label: 'button1' }],
+      image: 'image',
+      postUrl: 'post_url',
+    });
+
+    expect(html).toContain('<meta property="og:description" content="Frame description" />');
+    expect(html).toContain('<meta property="og:title" content="Frame title" />');
+  });
+
+  it('should set og:description and og:title to provided values', () => {
+    const html = getFrameHtmlResponse({
+      buttons: [{ label: 'button1' }],
+      image: 'image',
+      postUrl: 'post_url',
+      ogDescription: 'description',
+      ogTitle: 'title',
+    });
+
+    expect(html).toContain('<meta property="og:description" content="description" />');
+    expect(html).toContain('<meta property="og:title" content="title" />');
   });
 });
 

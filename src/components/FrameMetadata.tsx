@@ -2,6 +2,8 @@ import { Fragment } from 'react';
 import type { FrameMetadataType, FrameImageMetadata } from '../core/types';
 
 type FrameMetadataReact = FrameMetadataType & {
+  ogDescription?: string;
+  ogTitle?: string;
   wrapper?: React.ComponentType<any>;
 };
 
@@ -40,6 +42,8 @@ type FrameMetadataReact = FrameMetadataType & {
  * @param {Array<{ label: string, action?: string }>} props.buttons - The buttons.
  * @param {string | { src: string, aspectRatio?: string }} props.image - The image URL.
  * @param {string} props.input - The input text.
+ * @param {string} props.ogDescription - The Open Graph description.
+ * @param {string} props.ogTitle - The Open Graph title.
  * @param {string} props.postUrl - The post URL.
  * @param {number} props.refreshPeriod - The refresh period.
  * @param {React.ComponentType<any> | undefined} props.wrapper - The wrapper component meta tags are rendered in.
@@ -49,6 +53,8 @@ export function FrameMetadata({
   buttons,
   image,
   input,
+  ogDescription,
+  ogTitle,
   postUrl,
   post_url,
   refreshPeriod,
@@ -68,6 +74,8 @@ export function FrameMetadata({
   // with Helmet as a wrapper component, it is crucial to flatten the Buttons loop.
   return (
     <Wrapper>
+      {!!ogDescription && <meta property="og:description" content={ogDescription} />}
+      {!!ogTitle && <meta property="og:title" content={ogTitle} />}
       <meta property="fc:frame" content="vNext" />
       <meta property="og:image" content={imageSrc} />
       {!!imageSrc && <meta property="fc:frame:image" content={imageSrc} />}
