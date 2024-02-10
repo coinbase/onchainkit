@@ -1,11 +1,18 @@
 import { FrameMetadataType, FrameImageMetadata } from './types';
 
+type FrameMetadataHTMLResponse = FrameMetadataType & {
+  ogDescription?: string;
+  ogTitle?: string;
+};
+
 /**
  * Returns an HTML string containing metadata for a new valid frame.
  *
  * @param buttons: The buttons to use for the frame.
  * @param image: The image to use for the frame.
  * @param input: The text input to use for the frame.
+ * @param ogDescription: The Open Graph description for the frame.
+ * @param ogTitle: The Open Graph title for the frame.
  * @param postUrl: The URL to post the frame to.
  * @param refreshPeriod: The refresh period for the image used.
  * @returns An HTML string containing metadata for the frame.
@@ -14,21 +21,20 @@ function getFrameHtmlResponse({
   buttons,
   image,
   input,
+  ogDescription,
+  ogTitle,
   postUrl,
   post_url,
   refreshPeriod,
   refresh_period,
-}: FrameMetadataType): string {
-  // Set the image metadata if it exists.
-  let imageHtml = '';
-  if (typeof image === 'string') {
-    imageHtml = `  <meta property="fc:frame:image" content="${image}" />\n`;
-  } else {
-    imageHtml = `  <meta property="fc:frame:image" content="${image.src}" />\n`;
-    if (image.aspectRatio) {
-      imageHtml += `  <meta property="fc:frame:image:aspect_ratio" content="${image.aspectRatio}" />\n`;
-    }
+}: FrameMetadataHTMLResponse): string {
+  const imgSrc = typeof image === 'string' ? image : image.src;
+  const ogImageHtml = `  <meta property="og:image" content="${imgSrc}" />\n`;
+  let imageHtml = `  <meta property="fc:frame:image" content="${imgSrc}" />\n`;
+  if (typeof image !== 'string' && image.aspectRatio) {
+    imageHtml += `  <meta property="fc:frame:image:aspect_ratio" content="${image.aspectRatio}" />\n`;
   }
+
   // Set the input metadata if it exists.
   const inputHtml = input
     ? `  <meta property="fc:frame:input:text" content="${input.text}" />\n`
@@ -67,8 +73,10 @@ function getFrameHtmlResponse({
   let html = `<!DOCTYPE html>
 <html>
 <head>
+  <meta property="og:description" content="${ogDescription || 'Frame description'}" />
+  <meta property="og:title" content="${ogTitle || 'Frame title'}" />
   <meta property="fc:frame" content="vNext" />
-${buttonsHtml}${imageHtml}${inputHtml}${postUrlHtml}${refreshPeriodHtml}
+${buttonsHtml}${ogImageHtml}${imageHtml}${inputHtml}${postUrlHtml}${refreshPeriodHtml}
 </head>
 </html>`;
 
