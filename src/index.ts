@@ -1,7 +1,7 @@
 // 🌲☀️🌲
 export { version } from './version';
 export { getFrameHtmlResponse } from './core/getFrameHtmlResponse';
-export { getFarcasterUserAddresses } from './farcaster/getFarcasterUserAddresses';
+export { getFarcasterUserAddress } from './farcaster/getFarcasterUserAddress';
 export { getFrameMetadata } from './core/getFrameMetadata';
 export { getFrameMessage } from './core/getFrameMessage';
 export { FrameMetadata } from './components/FrameMetadata';
@@ -17,4 +17,4 @@ export type {
   FrameRequest,
   FrameValidationData,
 } from './core/types';
-export type { FarcasterAddressType, GetFarcasterUserAddressesRequest } from './farcaster/types';
+export type { FarcasterAddressType, getFarcasterUserAddressRequest } from './farcaster/types';
