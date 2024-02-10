@@ -40,13 +40,13 @@ Add OnchainKit to your project, install the required packages.
 
 ```bash
 # Use Yarn
-yarn add @coinbase/onchainkit
+yarn add @coinbase/onchainkit viem@2.x react@18 react-dom@18
 
 # Use NPM
-npm install @coinbase/onchainkit
+npm install @coinbase/onchainkit viem@2.x react@18 react-dom@18
 
 # Use PNPM
-pnpm add @coinbase/onchainkit
+pnpm add @coinbase/onchainkit viem@2.x react@18 react-dom@18
 ```
 
 <br />
