@@ -13,8 +13,8 @@ type GetFarcasterUserAddressOptions =
 /**
  * Get the user address for a given fid
  * @param fid  The farcaster id
- * @param FarcasterAddressType represents whether the client wants a verified address or a custody address
- * @returns the validation addresses or the custory address. If there is an error, it returns null
+ * @param GetFarcasterUserAddressOptions  The options to specify the type of addresses to get and the neynar api key
+ * @returns the custory address and/or verified addresses. If there is an error, it returns null
  */
 async function getFarcasterUserAddress(
   fid: number,

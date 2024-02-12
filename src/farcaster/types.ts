@@ -1,5 +1,5 @@
 /**
- * GetFarcasterUserAddressRequest
+ * GetFarcasterUserAddressResponse
  *
  * Note: exported as public Type
  */

@@ -444,7 +444,7 @@ fetchUserAddress(3);
 // Fid - Farcaster Id
 fid: number;
 
-// Optional options to speicify whether the client wants custody and/or verified addresses
+// Optional options to specify whether the client wants custody and/or verified addresses
 // along with their neynar api key
 type GetFarcasterUserAddressOptions =
   | {
