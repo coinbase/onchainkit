@@ -1,7 +1,5 @@
-import { version } from '../../../version';
-import { FetchError } from '../exceptions/FetchError';
-import { fetchDataFromNeynar } from '../neynar';
 import { NEYNAR_DEFAULT_API_KEY } from '../frame/neynarFrameFunctions';
+import { getDataFromNeynar } from '../getDataFormNeynar';
 
 export async function getVerifiedAddressesForFidNeynar(
   fid: number,
@@ -9,7 +7,7 @@ export async function getVerifiedAddressesForFidNeynar(
 ): Promise<string[]> {
   const url = `https://api.neynar.com/v1/farcaster/verifications?fid=${fid}`;
 
-  const responseBody = await fetchDataFromNeynar(url, apiKey);
+  const responseBody = await getDataFromNeynar(url, apiKey);
 
   if (
     !responseBody ||

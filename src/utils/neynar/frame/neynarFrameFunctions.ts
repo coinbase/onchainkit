@@ -2,7 +2,7 @@ import { version } from '../../../version';
 import { FrameValidationData } from '../../../core/types';
 import { FetchError } from '../exceptions/FetchError';
 import { convertToNeynarResponseModel } from './neynarFrameModels';
-import { postDataToNeynar } from '../neynar';
+import { postDataToNeynar } from '../postDataToNeynar';
 
 export const NEYNAR_DEFAULT_API_KEY = 'NEYNAR_ONCHAIN_KIT';
 

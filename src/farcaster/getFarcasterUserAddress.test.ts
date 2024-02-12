@@ -1,88 +1,79 @@
+import { getFarcasterUserAddress } from './getFarcasterUserAddress';
 import { getCustodyAddressForFidNeynar } from '../utils/neynar/user/getCustodyAddressForFidNeynar';
 import { getVerifiedAddressesForFidNeynar } from '../utils/neynar/user/getVerifiedAddressesForFidNeynar';
-import { FarcasterAddressType } from './types';
-import { getFarcasterUserAddress } from './getFarcasterUserAddress';
 
-jest.mock('../utils/neynar/user/getCustodyAddressForFidNeynar', () => ({
-  getCustodyAddressForFidNeynar: jest.fn(),
-}));
-
-jest.mock('../utils/neynar/user/getVerifiedAddressesForFidNeynar', () => ({
-  getVerifiedAddressesForFidNeynar: jest.fn(),
-}));
+jest.mock('../utils/neynar/user/getCustodyAddressForFidNeynar');
+jest.mock('../utils/neynar/user/getVerifiedAddressesForFidNeynar');
 
 describe('getFarcasterUserAddress function', () => {
-  afterEach(() => {
+  beforeEach(() => {
+    // Reset mocks before each test
     jest.clearAllMocks();
   });
 
-  test('should return verified address when FarcasterAddressType is FarcasterAddressType.VerifiedAddress', async () => {
-    const fid = 1234;
-    const expectedAddress = 'verified address';
-    const getFarcasterUserAddressRequest = {
-      fid,
-      farcasterAddressType: FarcasterAddressType.VerifiedAddress,
-    };
-
-    (getVerifiedAddressesForFidNeynar as jest.Mock).mockResolvedValue([expectedAddress]);
-
-    const result = await getFarcasterUserAddress(getFarcasterUserAddressRequest);
-
-    expect(getVerifiedAddressesForFidNeynar).toHaveBeenCalledWith(fid, undefined);
-    expect(result).toEqual(expectedAddress);
-  });
-
-  test('should return custody address when FarcasterAddressType is FarcasterAddressType.CustodyAddress', async () => {
-    const fid = 12345;
-    const expectedAddress = 'custody address';
-    const getFarcasterUserAddressRequest = {
-      fid,
-      farcasterAddressType: FarcasterAddressType.CustodyAddress,
-    };
-
-    (getCustodyAddressForFidNeynar as jest.Mock).mockResolvedValue(expectedAddress);
-
-    const result = await getFarcasterUserAddress(getFarcasterUserAddressRequest);
-
-    expect(getCustodyAddressForFidNeynar).toHaveBeenCalledWith(fid, undefined);
-    expect(result).toEqual(expectedAddress);
-  });
-
-  test('should return null if an exception occurs', async () => {
-    const fid = 1234;
+  it('should return null if any API call fails', async () => {
     const error = new Error('Something went wrong');
-    const getFarcasterUserAddressRequest = {
-      fid,
-      farcasterAddressType: FarcasterAddressType.VerifiedAddress,
-    };
-
     (getVerifiedAddressesForFidNeynar as jest.Mock).mockRejectedValue(error);
-
-    expect(await getFarcasterUserAddress(getFarcasterUserAddressRequest)).toBeNull();
+    const result = await getFarcasterUserAddress(123);
+    expect(result).toBeNull();
   });
 
-  test('should return verified address when FarcasterAddressType is FarcasterAddressType.VerifiedAddress and neynarApiKey is not undefined', async () => {
-    const fid = 1234;
-    const neynarApiKey = 'neynar';
-    const expectedAddress = 'verified address';
-    const anotherExpectedAddress = 'verified address-2';
+  it('should return both custody and verified addresses by default', async () => {
+    const expectedCustodyAddress = 'mock-custody-address';
+    (getCustodyAddressForFidNeynar as jest.Mock).mockResolvedValue(expectedCustodyAddress);
+    (getVerifiedAddressesForFidNeynar as jest.Mock).mockResolvedValue([expectedCustodyAddress]);
 
-    const getFarcasterUserAddressRequest = {
-      fid,
-      farcasterAddressType: FarcasterAddressType.VerifiedAddress,
-    };
-    const options = {
-      neynarApiKey,
-    };
+    const result = await getFarcasterUserAddress(123);
+    expect(result).toEqual({
+      custodyAddress: expectedCustodyAddress,
+      verifiedAddresses: [expectedCustodyAddress],
+    });
+  });
 
-    (getVerifiedAddressesForFidNeynar as jest.Mock).mockResolvedValue([
-      expectedAddress,
-      anotherExpectedAddress,
-    ]);
+  it('should return null if both hasCustodyAddresses and hasVerifiedAddresses are false', async () => {
+    const result = await getFarcasterUserAddress(123, {
+      hasCustodyAddresses: false,
+      hasVerifiedAddresses: false,
+    });
+    expect(result).toEqual({});
+  });
 
-    const result = await getFarcasterUserAddress(getFarcasterUserAddressRequest, options);
+  it('should return both custodyAddress and verifiedAddresses when both options are true', async () => {
+    const expectedCustodyAddress = 'mock-custody-address';
+    const expectedVerifiedAddresses = ['mock-verified-address-1', 'mock-verified-address-2'];
+    (getCustodyAddressForFidNeynar as jest.Mock).mockResolvedValue(expectedCustodyAddress);
+    (getVerifiedAddressesForFidNeynar as jest.Mock).mockResolvedValue(expectedVerifiedAddresses);
+    const result = await getFarcasterUserAddress(123, {
+      hasCustodyAddresses: true,
+      hasVerifiedAddresses: true,
+    });
+    expect(result).toEqual({
+      custodyAddress: expectedCustodyAddress,
+      verifiedAddresses: expectedVerifiedAddresses,
+    });
+  });
 
-    expect(getVerifiedAddressesForFidNeynar).toHaveBeenCalledWith(fid, neynarApiKey);
-    expect(result).toEqual(expectedAddress);
+  it('should only return custodyAddress  when hasVerifiedAddresses is false', async () => {
+    const expectedCustodyAddress = 'mock-custody-address';
+    (getCustodyAddressForFidNeynar as jest.Mock).mockResolvedValue(expectedCustodyAddress);
+    const result = await getFarcasterUserAddress(123, {
+      hasVerifiedAddresses: false,
+    });
+    expect(result).toEqual({ custodyAddress: expectedCustodyAddress });
+  });
+
+  it('should only return verifiedAddresses  when hasCustodyAddresses is false', async () => {
+    const expectedVerifiedAddresses = ['mock-verified-address-1', 'mock-verified-address-2'];
+    (getVerifiedAddressesForFidNeynar as jest.Mock).mockResolvedValue(expectedVerifiedAddresses);
+    const result = await getFarcasterUserAddress(123, {
+      hasCustodyAddresses: false,
+    });
+    expect(result).toEqual({ verifiedAddresses: expectedVerifiedAddresses });
+  });
+
+  it('should call getCustodyAddressForFidNeynar and getVerifiedAddressesForFidNeynar with the default neynarApiKey if not provided', async () => {
+    await getFarcasterUserAddress(123);
+    expect(getCustodyAddressForFidNeynar).toHaveBeenCalledWith(123, undefined);
+    expect(getVerifiedAddressesForFidNeynar).toHaveBeenCalledWith(123, undefined);
   });
 });

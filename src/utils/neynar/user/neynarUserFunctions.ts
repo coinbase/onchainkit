@@ -1,5 +1,5 @@
 import { FetchError } from '../exceptions/FetchError';
-import { fetchDataFromNeynar } from '../neynar';
+import { getDataFromNeynar } from '../getDataFormNeynar';
 
 export const NEYNAR_DEFAULT_API_KEY = 'NEYNAR_ONCHAIN_KIT';
 export interface NeynarUserModel {
@@ -25,7 +25,7 @@ export async function neynarBulkUserLookup(
   apiKey: string = NEYNAR_DEFAULT_API_KEY,
 ): Promise<NeynarBulkUserLookupModel | undefined> {
   const url = `https://api.neynar.com/v2/farcaster/user/bulk?fids=${farcasterIDs.join(',')}`;
-  const responseBody = await fetchDataFromNeynar(url, apiKey);
+  const responseBody = await getDataFromNeynar(url, apiKey);
   return convertToNeynarResponseModel(responseBody);
 }
 

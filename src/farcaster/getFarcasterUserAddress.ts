@@ -1,34 +1,48 @@
 import { getCustodyAddressForFidNeynar } from '../utils/neynar/user/getCustodyAddressForFidNeynar';
 import { getVerifiedAddressesForFidNeynar } from '../utils/neynar/user/getVerifiedAddressesForFidNeynar';
-import { FarcasterAddressType, GetFarcasterUserAddressRequest } from './types';
+import { GetFarcasterUserAddressResponse } from './types';
 
-type GetUserAddressOptions =
+type GetFarcasterUserAddressOptions =
   | {
-      neynarApiKey?: string;
+      neynarApiKey?: string; // default to onchain-kit's default key
+      hasCustodyAddresses?: boolean; // default to true
+      hasVerifiedAddresses?: boolean; // default to true
     }
   | undefined;
 
 /**
  * Get the user address for a given fid
- * @param fid  The frame id
+ * @param fid  The farcaster id
  * @param FarcasterAddressType represents whether the client wants a verified address or a custody address
- * @returns the validation addresse or the custory address. If there is an error, it returns null
+ * @returns the validation addresses or the custory address. If there is an error, it returns null
  */
 async function getFarcasterUserAddress(
-  getFarcasterUserAddressRequest: GetFarcasterUserAddressRequest,
-  options?: GetUserAddressOptions,
-): Promise<string | null> {
+  fid: number,
+  options?: GetFarcasterUserAddressOptions,
+): Promise<GetFarcasterUserAddressResponse | null> {
   try {
-    const { fid, farcasterAddressType } = getFarcasterUserAddressRequest;
-    if (farcasterAddressType === FarcasterAddressType.VerifiedAddress) {
-      const addresses = await getVerifiedAddressesForFidNeynar(fid, options?.neynarApiKey);
-      return addresses[0];
+    const hasCustodyAddresses = options?.hasCustodyAddresses ?? true;
+    const hasVerifiedAddresses = options?.hasVerifiedAddresses ?? true;
+    const response: GetFarcasterUserAddressResponse = {};
+
+    if (hasCustodyAddresses) {
+      const custodyAddress = await getCustodyAddressForFidNeynar(fid, options?.neynarApiKey);
+      if (custodyAddress) {
+        response.custodyAddress = custodyAddress;
+      }
     }
-    const address = await getCustodyAddressForFidNeynar(fid, options?.neynarApiKey);
-    return address;
+
+    if (hasVerifiedAddresses) {
+      const verifiedAddresses = await getVerifiedAddressesForFidNeynar(fid, options?.neynarApiKey);
+      if (verifiedAddresses) {
+        response.verifiedAddresses = verifiedAddresses;
+      }
+    }
+
+    return response;
   } catch (e) {
     return null;
   }
 }
 
-export { FarcasterAddressType, getFarcasterUserAddress };
+export { getFarcasterUserAddress };
