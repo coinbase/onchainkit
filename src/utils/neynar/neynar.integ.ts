@@ -1,5 +1,7 @@
 import { neynarBulkUserLookup } from './user/neynarUserFunctions';
 import { neynarFrameValidation } from './frame/neynarFrameFunctions';
+import { getCustodyAddressForFidNeynar } from './user/getCustodyAddressForFidNeynar';
+import { getVerifiedAddressesForFidNeynar } from './user/getVerifiedAddressesForFidNeynar';
 
 describe('neynar integration tests', () => {
   it('bulk data lookup should find all users', async () => {
@@ -26,5 +28,20 @@ describe('neynar integration tests', () => {
       '0xe975a573784f2970c507b51a76c5834e798b2bd5',
     );
     expect(response?.interactor.verified_accounts.length).toBeGreaterThan(0);
+  });
+
+  it('get custody address for FID returns correct address', async () => {
+    const fid = 3;
+    const response = await getCustodyAddressForFidNeynar(fid);
+    expect(response).toEqual('0x6b0bda3f2ffed5efc83fa8c024acff1dd45793f1');
+  });
+
+  it('get verified addresses for FID returns correct addresses', async () => {
+    const fid = 3;
+    const response = await getVerifiedAddressesForFidNeynar(fid);
+    expect(response).toEqual([
+      '0x8fc5d6afe572fefc4ec153587b63ce543f6fa2ea',
+      '0xd7029bdea1c17493893aafe29aad69ef892b8ff2',
+    ]);
   });
 });
