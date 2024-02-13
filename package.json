@@ -14,10 +14,7 @@
     "test:coverage": "jest . --coverage ",
     "release:check": "changeset status --verbose --since=origin/main",
     "release:publish": "yarn install && yarn build && changeset publish",
-    "release:version": "changeset version && yarn install --immutable",
-    "docs:dev": "vitepress dev docs",
-    "docs:build": "vitepress build docs",
-    "docs:preview": "vitepress preview docs"
+    "release:version": "changeset version && yarn install --immutable"
   },
   "peerDependencies": {
     "react": "^18",
@@ -44,7 +41,6 @@
     "ts-jest": "^29.1.2",
     "typescript": "~5.3.3",
     "viem": "^2.7.0",
-    "vitepress": "^1.0.0-rc.42",
     "yarn": "^1.22.21"
   },
   "packemon": [

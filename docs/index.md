@@ -10,14 +10,13 @@ hero:
     - theme: brand
       text: Getting Started
       link: /getting-started
-    # - theme: alt
-    #   text: API Reference
-    #   link: /api-examples
-  # image:
-  #   src: /logo-v-0-3.png
-  #   alt: VitePress
+  image:
+    src: /logo/v-0-3.png
+    alt: VitePress
 
 features:
+  - title: Farcaster Kit
+    details: A ~~~
   - title: Frame Kit
     details: A frame transforms any cast into an interactive app
   - title: Identity Kit
