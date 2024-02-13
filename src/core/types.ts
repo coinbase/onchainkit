@@ -127,7 +127,6 @@ export type FrameMetadataType = {
  */
 export type FrameMetadataResponse = Record<string, string>;
 
-
 /**
  * EAS Attester Address
  * The Ethereum address of the attester who created the attestation.
@@ -138,7 +137,7 @@ type EASAttesterAddress = `0x${string}`;
  * EAS Schema Uid
  * The schema identifier associated with the EAS attestation.
  * Note: exported as public Type
-*/
+ */
 export type EASSchemaUid = `0x${string}`;
 
 /**
@@ -156,7 +155,7 @@ export type EASAttestation = {
   revocationTime: number; // The Unix timestamp when the attestation was revoked, if applicable.
   revoked: boolean; // A boolean indicating whether the attestation is revocable or not.
   schemaId: EASSchemaUid; // The schema identifier associated with the attestation.
-}
+};
 
 /**
  * EAS Chain Definition
@@ -166,6 +165,6 @@ export type EASAttestation = {
 export type EASChainDefinition = {
   id: number; // blockchain source id
   easGraphqlAPI: string; // EAS GraphQL API endpoint
-  schemaUids: EASSchemaUid[]; 
+  schemaUids: EASSchemaUid[];
   attesterAddresses: EASAttesterAddress[];
-}
+};
