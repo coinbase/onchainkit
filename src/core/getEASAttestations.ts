@@ -1,0 +1,55 @@
+import { isChainSupported, easSupportedChains } from '../utils/easAttestation';
+import { EASAttestation, EASSchemaUid } from './types';
+import type { Address, Chain } from 'viem';
+
+type GetEASAttestationsOptions = {
+  schemas?: EASSchemaUid[];
+}
+
+type GetEASAttestationsResponse = EASAttestation[];
+/**
+ * Fetches Ethereum Attestation Service (EAS) attestations for a given address and chain, 
+ * optionally filtered by schemas associated with the attestation.
+ * 
+ * @param {Address} address - The address for which attestations are being queried.
+ * @param {Chain} chain - The blockchain of interest.
+ * @returns {Promise<GetEASAttestationsResponse[]>} A promise that resolves to an array of EAS Attestations.
+ * @throws Will throw an error if the request to the GraphQL API fails.
+ * 
+ * @example
+ * import { getEASAttestations } from '@coinbase/onchainkit'
+ * import { base } from "viem/chains";
+ * 
+ * const attestations = await getEASAttestations("0x1234567890abcdef1234567890abcdef12345678", base)
+ * // [
+ * //   {
+ * //       "attester": "0x357458739F90461b99789350868CD7CF330Dd7EE",
+ * //       "expirationTime": 0,
+ * //       "id": "0x93016a60f13e7cfe0257116aedfce7088c2c0020787a325ea9f6b4ba11d07598",
+ * //       "recipient": "0x44a7D120beA87455071cebB841eF91E6Ae21bC1a",
+ * //       "revocationTime": 0,
+ * //       "schemaId": "0x1801901fabd0e6189356b4fb52bb0ab855276d84f7ec140839fbd1f6801ca065",
+ * //       "timeCreated": 1707269100,
+ * //       "txid": "0x88448267566c9546ff31b9e6be229fb960f12bec8bc441259c7b064ae4159d34"
+ * //   },
+ * // ]
+ */
+export async function getEASAttestations<TChain extends Chain>(
+  // @ts-ignore - WIP - Add support for address in part 2
+  address: Address,
+  chain: TChain,
+  // @ts-ignore - WIP - Add support for options in part 2
+  options?: GetEASAttestationsOptions,
+): Promise<GetEASAttestationsResponse> {
+  try {
+    if (!isChainSupported(chain)) {
+      throw new Error(`Chain is not supported. Supported chains: ${Object.keys(easSupportedChains).join(', ')}`);
+    }
+
+    // TODO: Implement the function that get the EAS Attestations
+        
+    return [];
+  } catch (error) {
+    throw new Error(`Error in getEASAttestation: ${(error as Error).message}`);
+  }
+}
