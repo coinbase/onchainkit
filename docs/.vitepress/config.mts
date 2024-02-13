@@ -17,6 +17,7 @@ export default defineConfig({
         text: 'Documentation',
         items: [
           { text: 'Getting Started', link: '/getting-started' },
+          { text: 'Farcaster Kit', link: '/farcaster-kit' },
           { text: 'Frame Kit', link: '/frame-kit' },
           { text: 'Identity Kit', link: '/identity-kit' },
         ],
