@@ -25,7 +25,7 @@ fid: number;
 type GetFarcasterUserAddressOptions =
   | {
       neynarApiKey?: string; // default to onchain-kit's default key
-      hasCustodyAddresses?: boolean; // default to true
+      hasCustodyAddress?: boolean; // default to true
       hasVerifiedAddresses?: boolean; // default to true
     }
   | undefined;
