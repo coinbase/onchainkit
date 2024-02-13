@@ -3,7 +3,7 @@ export { version } from './version';
 export { getFrameHtmlResponse } from './core/getFrameHtmlResponse';
 export { getFrameMetadata } from './core/getFrameMetadata';
 export { getFrameMessage } from './core/getFrameMessage';
-export { FrameMetadata } from './components/FrameMetadata';
+export { getEASAttestations } from './core/getEASAttestations';
 export { Avatar } from './components/Avatar';
 export { Name } from './components/Name';
 export { useAvatar } from './hooks/useAvatar';

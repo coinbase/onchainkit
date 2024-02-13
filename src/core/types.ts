@@ -126,3 +126,69 @@ export type FrameMetadataType = {
  * Note: exported as public Type
  */
 export type FrameMetadataResponse = Record<string, string>;
+
+
+/**
+ * EASAttestation
+ *
+ * Note: exported as public Type
+ */
+
+export type EASSchemaName = string;
+
+export type EASSchemaUid = `0x${string}`;
+
+export type EASSchemaUids = Record<EASSchemaName, EASSchemaUid>;
+
+export type EASChainDefinition = {
+  id: number;
+  easGraphqlAPI: string;
+  schemaUids: EASSchemaUids;
+  attesterAddresses: `0x${string}`[];
+}
+
+export type EASSupportedChains = Record<number, EASChainDefinition>;
+
+export type EASSupportedSchemas = Record<number, EASSchemaUids>;
+
+/**
+ * EASAttestation
+ *
+ * Note: exported as public Type
+ */
+export type EASAttestation = {
+  id: string;
+  decodedDataJson: string;
+  recipient: String;
+  attester: String;
+  time: number;
+  timeCreated: number;
+  expirationTime: number;
+  revocationTime: number;
+  revoked: boolean;
+  txid: string;
+  schemaId: string;
+}
+
+export interface EASAttestationWhereInput {
+  // Define properties according to your schema
+  AND?: Record<string, any>[];
+}
+
+export type OrderDirection = 'asc' | 'desc';
+
+export interface EASAttestationOrderByWithRelationInput {
+  timeCreated?: OrderDirection;
+  // Include other fields from the EASAttestation type that you may want to order by
+}
+
+export interface EASAttestationsQueryResponse {
+  attestations: EASAttestation[];
+}
+
+export type EASAttestationsQueryVariables = {
+  where: EASAttestationWhereInput;
+  orderBy: EASAttestationOrderByWithRelationInput[];
+  distinct: string[];
+  take: number;
+}
