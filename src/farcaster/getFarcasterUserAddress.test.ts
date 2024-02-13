@@ -30,9 +30,9 @@ describe('getFarcasterUserAddress function', () => {
     });
   });
 
-  it('should return null if both hasCustodyAddresses and hasVerifiedAddresses are false', async () => {
+  it('should return null if both hasCustodyAddress and hasVerifiedAddresses are false', async () => {
     const result = await getFarcasterUserAddress(123, {
-      hasCustodyAddresses: false,
+      hasCustodyAddress: false,
       hasVerifiedAddresses: false,
     });
     expect(result).toEqual({});
@@ -44,7 +44,7 @@ describe('getFarcasterUserAddress function', () => {
     (getCustodyAddressForFidNeynar as jest.Mock).mockResolvedValue(expectedCustodyAddress);
     (getVerifiedAddressesForFidNeynar as jest.Mock).mockResolvedValue(expectedVerifiedAddresses);
     const result = await getFarcasterUserAddress(123, {
-      hasCustodyAddresses: true,
+      hasCustodyAddress: true,
       hasVerifiedAddresses: true,
     });
     expect(result).toEqual({
@@ -62,11 +62,11 @@ describe('getFarcasterUserAddress function', () => {
     expect(result).toEqual({ custodyAddress: expectedCustodyAddress });
   });
 
-  it('should only return verifiedAddresses  when hasCustodyAddresses is false', async () => {
+  it('should only return verifiedAddresses  when hasCustodyAddress is false', async () => {
     const expectedVerifiedAddresses = ['mock-verified-address-1', 'mock-verified-address-2'];
     (getVerifiedAddressesForFidNeynar as jest.Mock).mockResolvedValue(expectedVerifiedAddresses);
     const result = await getFarcasterUserAddress(123, {
-      hasCustodyAddresses: false,
+      hasCustodyAddress: false,
     });
     expect(result).toEqual({ verifiedAddresses: expectedVerifiedAddresses });
   });

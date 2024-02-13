@@ -5,7 +5,7 @@ import { GetFarcasterUserAddressResponse } from './types';
 type GetFarcasterUserAddressOptions =
   | {
       neynarApiKey?: string; // default to onchain-kit's default key
-      hasCustodyAddresses?: boolean; // default to true
+      hasCustodyAddress?: boolean; // default to true
       hasVerifiedAddresses?: boolean; // default to true
     }
   | undefined;
@@ -21,11 +21,11 @@ async function getFarcasterUserAddress(
   options?: GetFarcasterUserAddressOptions,
 ): Promise<GetFarcasterUserAddressResponse | null> {
   try {
-    const hasCustodyAddresses = options?.hasCustodyAddresses ?? true;
+    const hasCustodyAddress = options?.hasCustodyAddress ?? true;
     const hasVerifiedAddresses = options?.hasVerifiedAddresses ?? true;
     const response: GetFarcasterUserAddressResponse = {};
 
-    if (hasCustodyAddresses) {
+    if (hasCustodyAddress) {
       const custodyAddress = await getCustodyAddressForFidNeynar(fid, options?.neynarApiKey);
       if (custodyAddress) {
         response.custodyAddress = custodyAddress;
