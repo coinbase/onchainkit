@@ -47,6 +47,9 @@ npm install @coinbase/onchainkit viem@2.x react@18 react-dom@18
 
 # Use PNPM
 pnpm add @coinbase/onchainkit viem@2.x react@18 react-dom@18
+
+# Use Bun
+bun add @coinbase/onchainkit viem@2.x react@18 react-dom@18
 ```
 
 <br />
