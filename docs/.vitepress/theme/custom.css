@@ -1,0 +1,12 @@
+:root {
+  --vp-home-hero-name-color: rgb(229, 231, 235);
+}
+
+.VPFeature {
+  opacity: 0.8;
+}
+
+.is-home {
+  background: url('../../logo-v-0-3.png') no-repeat center center fixed;
+  background-size: cover;
+}

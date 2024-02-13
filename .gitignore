@@ -2,6 +2,8 @@
 
 # compiled output
 dist
+esm
+lib
 tmp
 /out-tsc
 
@@ -49,3 +51,7 @@ package-lock.json
 !.yarn/plugins
 !.yarn/sdks
 !.yarn/versions
+
+# VitePress
+docs/.vitepress/cache
+docs/.vitepress/dist

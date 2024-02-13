@@ -68,6 +68,11 @@ export function convertToFrame(json: any) {
   };
 }
 
+/**
+ * Frame Request
+ *
+ * Note: exported as public Type
+ */
 export type FrameButtonMetadata =
   | {
       action: 'link' | 'mint';
@@ -79,6 +84,11 @@ export type FrameButtonMetadata =
       label: string;
     };
 
+/**
+ * Frame Request
+ *
+ * Note: exported as public Type
+ */
 export type FrameInputMetadata = {
   text: string;
 };
@@ -88,12 +98,26 @@ export type FrameInputMetadata = {
  *
  * Note: exported as public Type
  */
+export type FrameImageMetadata = {
+  src: string;
+  aspectRatio?: '1.91:1' | '1:1';
+};
+
+/**
+ * Frame Request
+ *
+ * Note: exported as public Type
+ */
 export type FrameMetadataType = {
   buttons?: [FrameButtonMetadata, ...FrameButtonMetadata[]];
-  image: string;
+  image: string | FrameImageMetadata;
   input?: FrameInputMetadata;
+  /** @deprecated Prefer `postUrl` */
   post_url?: string;
+  postUrl?: string;
+  /** @deprecated Prefer `refreshPeriod` */
   refresh_period?: number;
+  refreshPeriod?: number;
 };
 
 /**

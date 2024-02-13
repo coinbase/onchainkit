@@ -1,8 +1,8 @@
 <p align="center">
   <a href="https://github.com/coinbase/onchainkit">
     <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="./docs/logo-v-0-5.png">
-      <img alt="OnchainKit logo vibes" src="./docs/logo-v-0-4.png" width="auto">
+      <source media="(prefers-color-scheme: dark)" srcset="./docs/logo/v-0-6.png">
+      <img alt="OnchainKit logo vibes" src="./docs/logo/v-0-6.png" width="auto">
     </picture>
   </a>
 </p>
@@ -40,13 +40,13 @@ Add OnchainKit to your project, install the required packages.
 
 ```bash
 # Use Yarn
-yarn add @coinbase/onchainkit
+yarn add @coinbase/onchainkit viem@2.x react@18 react-dom@18
 
 # Use NPM
-npm install @coinbase/onchainkit
+npm install @coinbase/onchainkit viem@2.x react@18 react-dom@18
 
 # Use PNPM
-pnpm add @coinbase/onchainkit
+pnpm add @coinbase/onchainkit viem@2.x react@18 react-dom@18
 ```
 
 <br />
@@ -102,11 +102,14 @@ export default function HomePage() {
           label: 'Redirect to cute pictures',
         },
       ]}
-      image="https://zizzamia.xyz/park-1.png"
+      image={{
+       src: 'https://zizzamia.xyz/park-3.png',
+       aspectRatio: '1:1'
+      }}
       input={{
         text: 'Tell me a boat story',
       }}
-      post_url="https://zizzamia.xyz/api/frame"
+      postUrl="https://zizzamia.xyz/api/frame"
     />
     ...
   );
@@ -116,7 +119,7 @@ export default function HomePage() {
 **@Props**
 
 ```ts
-type Button =
+type FrameButtonMetadata =
   | {
       action: 'link' | 'mint';
       label: string;
@@ -127,21 +130,26 @@ type Button =
       label: string;
     };
 
-type InputMetadata = {
+type FrameImageMetadata = {
+  src: string;
+  aspectRatio?: '1.91:1' | '1:1';
+};
+
+type FrameInputMetadata = {
   text: string;
 };
 
 type FrameMetadataType = {
   // A list of strings which are the label for the buttons in the frame (max 4 buttons).
-  buttons?: [Button, ...Button[]];
-  // An image which must be smaller than 10MB and should have an aspect ratio of 1.91:1
-  image: string;
+  buttons?: [FrameButtonMetadata, ...FrameButtonMetadata[]];
+  // An image which must be smaller than 10MB and should have an aspect ratio of 1.91:1 or 1:1
+  image: FrameImageMetadata;
   // The text input to use for the Frame.
-  input?: InputMetadata;
+  input?: FrameInputMetadata;
   // A valid POST URL to send the Signature Packet to.
-  post_url?: string;
+  postUrl?: string;
   // A period in seconds at which the app should expect the image to update.
-  refresh_period?: number;
+  refreshPeriod?: number;
 };
 
 type FrameMetadataReact = FrameMetadataType & {
@@ -159,7 +167,8 @@ type FrameMetadataReact = FrameMetadataType & {
 <meta name="fc:frame:button:2:target" content="https://www.google.com" />
 <meta name="fc:frame:button:3" content="Redirect to cute pictures" />
 <meta name="fc:frame:button:3:action" content="post_redirect" />
-<meta name="fc:frame:image" content="https://zizzamia.xyz/park-1.png" />
+<meta name="fc:frame:image" content="https://zizzamia.xyz/park-3.png" />
+<meta name="fc:frame:image:aspect_ratio" content="1:1" />
 <meta name="fc:frame:input:text" content="Tell me a boat story" />
 <meta name="fc:frame:post_url" content="https://zizzamia.xyz/api/frame" />
 ```
@@ -189,8 +198,8 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
           label: `We love BOAT`,
         },
       ],
-      image:'https://build-onchain-apps.vercel.app/release/v-0-17.png',
-      post_url: 'https://build-onchain-apps.vercel.app/api/frame',
+      image: 'https://build-onchain-apps.vercel.app/release/v-0-17.png',
+      postUrl: 'https://build-onchain-apps.vercel.app/api/frame',
     }),
   );
 }
@@ -203,7 +212,7 @@ export async function POST(req: NextRequest): Promise<Response> {
 **@Param**
 
 ```ts
-type Button =
+type FrameButtonMetadata =
   | {
       action: 'link' | 'mint';
       label: string;
@@ -214,21 +223,26 @@ type Button =
       label: string;
     };
 
-type InputMetadata = {
+type FrameImageMetadata = {
+  src: string;
+  aspectRatio?: '1.91:1' | '1:1';
+};
+
+type FrameInputMetadata = {
   text: string;
 };
 
 type FrameMetadataType = {
   // A list of strings which are the label for the buttons in the frame (max 4 buttons).
-  buttons?: [Button, ...Button[]];
-  // An image which must be smaller than 10MB and should have an aspect ratio of 1.91:1
-  image: string;
+  buttons?: [FrameButtonMetadata, ...FrameButtonMetadata[]];
+  // An image which must be smaller than 10MB and should have an aspect ratio of 1.91:1 or 1:1
+  image: FrameImageMetadata;
   // The text input to use for the Frame.
-  input?: InputMetadata;
+  input?: FrameInputMetadata;
   // A valid POST URL to send the Signature Packet to.
-  post_url?: string;
+  postUrl?: string;
   // A period in seconds at which the app should expect the image to update.
-  refresh_period?: number;
+  refreshPeriod?: number;
 };
 ```
 
@@ -349,7 +363,7 @@ const frameMetadata = getFrameMetadata({
     },
   ],
   image: 'https://build-onchain-apps.vercel.app/release/v-0-17.png',
-  post_url: 'https://build-onchain-apps.vercel.app/api/frame',
+  postUrl: 'https://build-onchain-apps.vercel.app/api/frame',
 });
 
 // Step 3. Add your metadata in the Next.js metadata utility
@@ -368,7 +382,7 @@ export default function Page() {
 **@Param**
 
 ```ts
-type Button =
+type FrameButtonMetadata =
   | {
       action: 'link' | 'mint';
       label: string;
@@ -379,21 +393,26 @@ type Button =
       label: string;
     };
 
-type InputMetadata = {
+type FrameImageMetadata = {
+  src: string;
+  aspectRatio?: '1.91:1' | '1:1';
+};
+
+type FrameInputMetadata = {
   text: string;
 };
 
 type FrameMetadataType = {
   // A list of strings which are the label for the buttons in the frame (max 4 buttons).
-  buttons?: [Button, ...Button[]];
+  buttons?: [FrameButtonMetadata, ...FrameButtonMetadata[]];
   // An image which must be smaller than 10MB and should have an aspect ratio of 1.91:1
-  image: string;
+  image: FrameImageMetadata;
   // The text input to use for the Frame.
-  input?: InputMetadata;
+  input?: FrameInputMetadata;
   // A valid POST URL to send the Signature Packet to.
-  post_url?: string;
+  postUrl?: string;
   // A period in seconds at which the app should expect the image to update.
-  refresh_period?: number;
+  refreshPeriod?: number;
 };
 ```
 

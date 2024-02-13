@@ -1,4 +1,9 @@
-import { FrameMetadataType } from './types';
+import { FrameMetadataType, FrameImageMetadata } from './types';
+
+type FrameMetadataHTMLResponse = FrameMetadataType & {
+  ogDescription?: string;
+  ogTitle?: string;
+};
 
 /**
  * Returns an HTML string containing metadata for a new valid frame.
@@ -6,34 +11,46 @@ import { FrameMetadataType } from './types';
  * @param buttons: The buttons to use for the frame.
  * @param image: The image to use for the frame.
  * @param input: The text input to use for the frame.
- * @param post_url: The URL to post the frame to.
- * @param refresh_period: The refresh period for the image used.
+ * @param ogDescription: The Open Graph description for the frame.
+ * @param ogTitle: The Open Graph title for the frame.
+ * @param postUrl: The URL to post the frame to.
+ * @param refreshPeriod: The refresh period for the image used.
  * @returns An HTML string containing metadata for the frame.
  */
 function getFrameHtmlResponse({
   buttons,
   image,
   input,
+  ogDescription,
+  ogTitle,
+  postUrl,
   post_url,
+  refreshPeriod,
   refresh_period,
-}: FrameMetadataType): string {
-  // Set the image metadata if it exists.
-  const imageHtml = image ? `<meta property="fc:frame:image" content="${image}" />` : '';
+}: FrameMetadataHTMLResponse): string {
+  const imgSrc = typeof image === 'string' ? image : image.src;
+  const ogImageHtml = `  <meta property="og:image" content="${imgSrc}" />\n`;
+  let imageHtml = `  <meta property="fc:frame:image" content="${imgSrc}" />\n`;
+  if (typeof image !== 'string' && image.aspectRatio) {
+    imageHtml += `  <meta property="fc:frame:image:aspect_ratio" content="${image.aspectRatio}" />\n`;
+  }
 
   // Set the input metadata if it exists.
-  const inputHtml = input ? `<meta property="fc:frame:input:text" content="${input.text}" />` : '';
+  const inputHtml = input
+    ? `  <meta property="fc:frame:input:text" content="${input.text}" />\n`
+    : '';
 
   // Set the button metadata if it exists.
   let buttonsHtml = '';
   if (buttons) {
     buttonsHtml = buttons
       .map((button, index) => {
-        let buttonHtml = `<meta property="fc:frame:button:${index + 1}" content="${button.label}" />`;
+        let buttonHtml = `  <meta property="fc:frame:button:${index + 1}" content="${button.label}" />\n`;
         if (button.action) {
-          buttonHtml += `<meta property="fc:frame:button:${index + 1}:action" content="${button.action}" />`;
+          buttonHtml += `  <meta property="fc:frame:button:${index + 1}:action" content="${button.action}" />\n`;
         }
         if ((button.action == 'link' || button.action == 'mint') && button.target) {
-          buttonHtml += `<meta property="fc:frame:button:${index + 1}:target" content="${button.target}" />`;
+          buttonHtml += `  <meta property="fc:frame:button:${index + 1}:target" content="${button.target}" />\n`;
         }
         return buttonHtml;
       })
@@ -41,16 +58,27 @@ function getFrameHtmlResponse({
   }
 
   // Set the post_url metadata if it exists.
-  const postUrlHtml = post_url ? `<meta property="fc:frame:post_url" content="${post_url}" />` : '';
+  const postUrlToUse = postUrl || post_url;
+  const postUrlHtml = postUrlToUse
+    ? `  <meta property="fc:frame:post_url" content="${postUrlToUse}" />\n`
+    : '';
 
   // Set the refresh_period metadata if it exists.
-  const refreshPeriodHtml = refresh_period
-    ? `<meta property="fc:frame:refresh_period" content="${refresh_period.toString()}" />`
+  const refreshPeriodToUse = refreshPeriod || refresh_period;
+  const refreshPeriodHtml = refreshPeriodToUse
+    ? `  <meta property="fc:frame:refresh_period" content="${refreshPeriodToUse.toString()}" />\n`
     : '';
 
   // Return the HTML string containing all the metadata.
-  let html = '<!DOCTYPE html><html><head><meta property="fc:frame" content="vNext" />';
-  html += `${imageHtml}${inputHtml}${buttonsHtml}${postUrlHtml}${refreshPeriodHtml}</head></html>`;
+  let html = `<!DOCTYPE html>
+<html>
+<head>
+  <meta property="og:description" content="${ogDescription || 'Frame description'}" />
+  <meta property="og:title" content="${ogTitle || 'Frame title'}" />
+  <meta property="fc:frame" content="vNext" />
+${buttonsHtml}${ogImageHtml}${imageHtml}${inputHtml}${postUrlHtml}${refreshPeriodHtml}
+</head>
+</html>`;
 
   return html;
 }

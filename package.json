@@ -1,21 +1,23 @@
 {
   "name": "@coinbase/onchainkit",
-  "version": "0.5.2",
+  "version": "0.6.1",
   "repository": "https://github.com/coinbase/onchainkit.git",
   "license": "MIT",
   "scripts": {
-    "build": "tsc && tsc --module commonjs --outDir dist/lib",
+    "build": "packemon build --addExports --addEngines --addFiles --declaration && npx packemon validate --no-license --no-people --no-repo",
     "check": "yarn format",
     "format": "prettier --log-level warn --write .",
     "format:check": "prettier --check .",
-    "prebuild": "rimraf dist",
     "test": "jest --testPathIgnorePatterns=\\.integ\\.",
     "test:integration": "jest --testPathIgnorePatterns=\\.test\\.",
     "test:all": "jest .",
     "test:coverage": "jest . --coverage ",
     "release:check": "changeset status --verbose --since=origin/main",
     "release:publish": "yarn install && yarn build && changeset publish",
-    "release:version": "changeset version && yarn install --immutable"
+    "release:version": "changeset version && yarn install --immutable",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
   },
   "peerDependencies": {
     "graphql": "^16",
@@ -36,6 +38,7 @@
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
     "jest-extended": "^4.0.2",
+    "packemon": "^3.3.0",
     "prettier": "^3.1.1",
     "prettier-plugin-tailwindcss": "^0.5.9",
     "react": "^18",
@@ -44,17 +47,44 @@
     "ts-jest": "^29.1.2",
     "typescript": "~5.3.3",
     "viem": "^2.7.0",
+    "vitepress": "^1.0.0-rc.42",
     "yarn": "^1.22.21"
   },
+  "packemon": [
+    {
+      "format": [
+        "esm",
+        "lib"
+      ],
+      "platform": [
+        "browser"
+      ],
+      "bundle": false
+    }
+  ],
   "publishConfig": {
     "access": "public"
   },
   "files": [
+    "esm/**/*",
+    "lib/**/*",
     "src/",
-    "dist/"
+    "src/**/*"
   ],
-  "type": "commonjs",
-  "main": "./dist/lib/index.js",
-  "typings": "./dist/types/index.d.ts",
-  "packageManager": "yarn@4.0.2"
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
+  "module": "./esm/index.js",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "types": "./lib/index.d.ts",
+      "browser": {
+        "types": "./esm/index.d.ts",
+        "module": "./esm/index.js",
+        "import": "./esm/index.js",
+        "default": "./lib/index.js"
+      },
+      "default": "./lib/index.js"
+    }
+  }
 }

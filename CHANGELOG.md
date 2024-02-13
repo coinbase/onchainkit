@@ -1,5 +1,35 @@
 # Changelog
 
+## 0.6.1
+
+### Patch Changes
+
+- c5ee76d: - **feat**: automated the `og:image` and `og:title` properties for `getFrameHtmlResponse` and `FrameMetadata`. By @zizzamia #109
+
+## 0.6.0
+
+### Minor Changes
+
+- fc74af1: - **feat**: better treeshaking support by using **packemon**. By @zizzamia & @wespickett #105
+
+  BREAKING CHANGES
+
+  For modern apps that utilize `ES2020` or the latest version, breaking changes are not anticipated. However, if you encounter any building issues when using OnchainKit with older apps that rely on `ES6`, please open an issue and provide details of the error you're experiencing. We will do our best to provide the necessary support.
+
+## 0.5.4
+
+### Patch Changes
+
+- bf014fd: - **feat**: exported `FrameButtonMetadata`, `FrameInputMetadata` and `FrameImageMetadata` types. By @zizzamia #111
+  - **feat**: introduced support for image aspect ratio metadata, ensuring backward compatibility. Image metadata can now be defined either as a string (with a default aspect ratio of `1.91:1`) or as an object with a src URL string and an aspect ratio of either `1.91:1` or `1:1`. By @taycaldwell #110
+
+## 0.5.3
+
+### Patch Changes
+
+- f2cf7b6: - **feat**: all `FrameMetadataType` parameters have been updated to use consistent lowerCamelCase. It's important to note that we are not deprecating the old method, at least for a few weeks, to allow time for migration to the new approach. By @zizzamia #106
+  - **feat**: while there is no real issue in using either `property` or `name` as the standard for a metadata element, it is fair to respect the Open Graph specification, which originally uses `property`. By @zizzamia #106
+
 ## 0.5.2
 
 ### Patch Changes
