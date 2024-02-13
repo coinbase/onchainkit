@@ -129,66 +129,43 @@ export type FrameMetadataResponse = Record<string, string>;
 
 
 /**
- * EASAttestation
- *
- * Note: exported as public Type
+ * EAS Attester Address
+ * The Ethereum address of the attester who created the attestation.
  */
-
-export type EASSchemaName = string;
-
-export type EASSchemaUid = `0x${string}`;
-
-export type EASSchemaUids = Record<EASSchemaName, EASSchemaUid>;
-
-export type EASChainDefinition = {
-  id: number;
-  easGraphqlAPI: string;
-  schemaUids: EASSchemaUids;
-  attesterAddresses: `0x${string}`[];
-}
-
-export type EASSupportedChains = Record<number, EASChainDefinition>;
-
-export type EASSupportedSchemas = Record<number, EASSchemaUids>;
+type EASAttesterAddress = `0x${string}`;
 
 /**
- * EASAttestation
- *
+ * EAS Schema Uid
+ * The schema identifier associated with the EAS attestation.
+ * Note: exported as public Type
+*/
+export type EASSchemaUid = `0x${string}`;
+
+/**
+ * EAS Attestation
+ * GraphQL response for EAS Attestation
  * Note: exported as public Type
  */
 export type EASAttestation = {
-  id: string;
-  decodedDataJson: string;
-  recipient: String;
-  attester: String;
-  time: number;
-  timeCreated: number;
-  expirationTime: number;
-  revocationTime: number;
-  revoked: boolean;
-  txid: string;
-  schemaId: string;
+  id: string; // The unique identifier of the attestation.
+  decodedDataJson: string; // The attestation data decoded to JSON.
+  recipient: string; // The Ethereum address of the recipient of the attestation.
+  attester: EASAttesterAddress; // the attester who created the attestation.
+  time: number; // The Unix timestamp when the attestation was created.
+  expirationTime: number; // The Unix timestamp when the attestation expires (0 for no expiration).
+  revocationTime: number; // The Unix timestamp when the attestation was revoked, if applicable.
+  revoked: boolean; // A boolean indicating whether the attestation is revocable or not.
+  schemaId: EASSchemaUid; // The schema identifier associated with the attestation.
 }
 
-export interface EASAttestationWhereInput {
-  // Define properties according to your schema
-  AND?: Record<string, any>[];
-}
-
-export type OrderDirection = 'asc' | 'desc';
-
-export interface EASAttestationOrderByWithRelationInput {
-  timeCreated?: OrderDirection;
-  // Include other fields from the EASAttestation type that you may want to order by
-}
-
-export interface EASAttestationsQueryResponse {
-  attestations: EASAttestation[];
-}
-
-export type EASAttestationsQueryVariables = {
-  where: EASAttestationWhereInput;
-  orderBy: EASAttestationOrderByWithRelationInput[];
-  distinct: string[];
-  take: number;
+/**
+ * EAS Chain Definition
+ * The definition of a blockchain chain supported by EAS attestations.
+ * Note: exported as public Type
+ */
+export type EASChainDefinition = {
+  id: number; // blockchain source id
+  easGraphqlAPI: string; // EAS GraphQL API endpoint
+  schemaUids: EASSchemaUid[]; 
+  attesterAddresses: EASAttesterAddress[];
 }
