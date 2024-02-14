@@ -3,6 +3,8 @@ import {
   NEYNAR_DEFAULT_API_KEY,
   neynarFrameValidation,
 } from '../utils/neynar/frame/neynarFrameFunctions';
+import { xmtpFrameValidation } from '../utils/xmtp/validateRequest';
+import { XmtpOpenFramesRequest } from '@xmtp/frames-validator';
 
 type FrameMessageOptions =
   | {
@@ -44,4 +46,8 @@ async function getFrameMessage(
   }
 }
 
-export { getFrameMessage };
+function getXmtpFrameMessage(body: XmtpOpenFramesRequest): ReturnType<typeof xmtpFrameValidation> {
+  return xmtpFrameValidation(body);
+}
+
+export { getFrameMessage, getXmtpFrameMessage };

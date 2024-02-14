@@ -79,5 +79,8 @@
       },
       "default": "./lib/index.js"
     }
+  },
+  "dependencies": {
+    "@xmtp/frames-validator": "^0.4.0"
   }
 }
