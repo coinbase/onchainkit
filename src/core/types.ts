@@ -1,5 +1,6 @@
 import { NeynarFrameValidationInternalModel } from '../utils/neynar/frame/types';
 import { Address } from 'viem';
+import { xmtpFrameValidation } from '../utils/xmtp/validateRequest';
 /**
  * Frame Data
  *
@@ -67,6 +68,8 @@ export function convertToFrame(json: any) {
     },
   };
 }
+
+export type XmtpFrameValidationResponse = ReturnType<typeof xmtpFrameValidation>;
 
 /**
  * Frame Request
