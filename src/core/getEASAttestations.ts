@@ -1,5 +1,4 @@
-import { createEasGraphQLClient } from '../network/easGraphQL';
-import { easAttestationQuery, getEASAttestationQueryVariables, GetEASAttestationQueryResponse, EASAttestationsQueryVariables } from '../queries/easAttestations';
+import { getEASAttestationsByFilter } from '../queries/easAttestations';
 import { isChainSupported, easSupportedChains } from '../utils/easAttestation';
 import { EASAttestation, EASSchemaUid } from './types';
 import type { Address, Chain } from 'viem';
@@ -55,23 +54,14 @@ export async function getEASAttestations<TChain extends Chain>(
       );
     }
 
-     // Default query filter values
-     const defaultQueryVariablesFilter = {
+    // Default query filter values
+    const defaultQueryVariablesFilter = {
       revoked: false,
       expirationTime: Math.round(Date.now() / 1000),
-      limit: 10
+      limit: 10,
     };
 
-    // Merge options with default values
-    const queryVariablesFilters = { ...defaultQueryVariablesFilter, ...options };
-
-    const easGraphqlClient = createEasGraphQLClient(chain);
-    const easAttestationQueryVariables = getEASAttestationQueryVariables(address, queryVariablesFilters);
-
-    const { attestations } = await easGraphqlClient.request<GetEASAttestationQueryResponse, EASAttestationsQueryVariables>(easAttestationQuery, easAttestationQueryVariables);
-  
-    return attestations;
-
+    return await getEASAttestationsByFilter(address, chain, defaultQueryVariablesFilter);
   } catch (error) {
     console.log(`Error in getEASAttestation: ${(error as Error).message}`);
     return [];

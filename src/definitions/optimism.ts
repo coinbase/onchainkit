@@ -15,5 +15,5 @@ export const easChainOptimism: EASChainDefinition = {
     // OPTIMISM_GOVERNANCE_SEASON_4_CO_GRANT_PARTICIPANT:
     // https://optimism.easscan.org/schema/view/0x401a80196f3805c57b00482ae2b575a9f270562b6b6de7711af9837f08fa0faf
     '0x401a80196f3805c57b00482ae2b575a9f270562b6b6de7711af9837f08fa0faf',
-  ]
+  ],
 };
