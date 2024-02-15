@@ -21,7 +21,7 @@ type GetEASAttestationQueryVariablesFilters = {
 /**
  * Alias type for filter options when fetching attestations by filter.
  */
-type GetEASAttestationsByFilterOptions = GetEASAttestationQueryVariablesFilters;
+export type GetEASAttestationsByFilterOptions = GetEASAttestationQueryVariablesFilters;
 
 /**
  * Type representing the variables passed to the EAS Attestations GraphQL query.

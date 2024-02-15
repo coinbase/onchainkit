@@ -1,5 +1,6 @@
 // 🌲☀️🌲
 export { version } from './version';
+export { getEASAttestations } from './core/getEASAttestations';
 export { getFrameHtmlResponse } from './core/getFrameHtmlResponse';
 export { getFrameMetadata } from './core/getFrameMetadata';
 export { getFrameMessage } from './core/getFrameMessage';

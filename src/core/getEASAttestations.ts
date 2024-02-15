@@ -61,7 +61,9 @@ export async function getEASAttestations<TChain extends Chain>(
       limit: 10,
     };
 
-    return await getEASAttestationsByFilter(address, chain, defaultQueryVariablesFilter);
+    const queryVariablesFilter = { ...defaultQueryVariablesFilter, ...options };
+
+    return await getEASAttestationsByFilter(address, chain, queryVariablesFilter);
   } catch (error) {
     console.log(`Error in getEASAttestation: ${(error as Error).message}`);
     return [];
