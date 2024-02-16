@@ -1,1 +1,1 @@
-export { validateXmtpFramesPost } from './validation';
+export { getXmtpFrameMessage, isXmtpFrameRequest } from './validation';

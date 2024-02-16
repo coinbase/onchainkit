@@ -79,6 +79,7 @@ Creating a frame is easy: select an image and add clickable buttons. When a butt
 
 - [`getFrameHtmlResponse()`](https://github.com/coinbase/onchainkit?tab=readme-ov-file#getframehtmlresponseframemetadata): Retrieves the **Frame HTML** for your HTTP responses.
 - [`getFrameMessage()`](https://github.com/coinbase/onchainkit?tab=readme-ov-file#getframemessageframerequest): Retrieves a valid **Frame message** from the Frame Signature Packet.
+- [`getXmtpFrameMessage()`](https://github.com/coinbase/onchainkit?tab=readme-ov-file#getxmtpframemessageframerequest): Retrieves a valid **XMTP Frame message** from the Frame Signature Packet.
 - [`getFrameMetadata()`](https://github.com/coinbase/onchainkit?tab=readme-ov-file#getframeframemetadata): Retrieves valid **Frame metadata** for your initial HTML page with Next.js App Routing.
 
 <br />
@@ -351,6 +352,94 @@ interface FrameValidationData {
 
 <br />
 
+### getXmtpFrameMessage(frameRequest)
+
+Frames can receive interactions from apps outside of Farcaster, such as from XMTP conversations. When receiving these interactions you can expect a slightly different response format, since fields like `fid` or `castId` are not available.
+
+You can also use `getXmtpFrameMessage` to access useful information such as:
+
+- buttonIndex: number
+- verifiedWalletAddress: string
+- opaqueConversationIdentifier: string
+
+Note that if the `message` is not valid, it will be undefined.
+
+**In order to use `getXmtpFrameMessage` you must also install `@xmtp/frames-validator` in your app, alongside onchainkit**
+
+```sh
+yarn add @xmtp/frames-validator
+# OR
+npm i --save @xmtp/frames-validator
+```
+
+```ts
+import { FrameRequest, getFrameMessage } from '@coinbase/onchainkit';
+import { isXmtpFrameRequest, getXmtpFrameMessage } from '@coinbase/onchainkit/xmtp';
+import { NextRequest, NextResponse } from 'next/server';
+
+async function getResponse(req: any): Promise<NextResponse> {
+  // Step 2. Read the body from the Next Request
+  const body: FrameRequest = await req.json();
+  if (isXmtpFrameRequest(body)) {
+    const { isValid, message } = await getXmtpFrameMessage(body);
+    // ... do something with the message if isValid is true
+  } else {
+    const { isValid, message } = await getFrameMessage(body, {
+      neynarApiKey,
+    });
+    // ... do something with the message if isValid is true
+  }
+}
+
+export async function POST(req: NextRequest): Promise<Response> {
+  return getResponse(req);
+}
+```
+
+**@Param**
+
+```ts
+export type UntrustedData = {
+  url: string;
+  timestamp: number;
+  buttonIndex: number;
+  inputText?: string;
+  opaqueConversationIdentifier: string;
+  walletAddress: string;
+};
+
+// The Frame Signature Packet body
+export type XmtpFramesRequest = {
+  clientProtocol: `xmtp@${string}`;
+  untrustedData: UntrustedData;
+  trustedData: {
+    messageBytes: string;
+  };
+};
+```
+
+**@Returns**
+
+```ts
+type Promise<XmtpFrameValidationResponse>;
+
+type XmtpFrameValidationResponse =
+  | { isValid: true; message: XmtpFrameValidationData }
+  | { isValid: false; message: undefined };
+
+interface FrameValidationData {
+  frameUrl: string;
+  buttonIndex: number;
+  timestamp: number;
+  identifier: string;
+  verifiedWalletAddress: string;
+  // Same as verifiedWalletAddress
+  identifier: string;
+}
+```
+
+<br />
+
 ### getFrameMetadata(frameMetadata)
 
 With Next.js App routing, use the `getFrameMetadata()` inside your `page.ts` to get the metadata need it for your Frame.
@@ -428,7 +517,6 @@ type FrameMetadataType = {
 type FrameMetadataResponse = Record<string, string>;
 ```
 
-<br />
 <br />
 
 ## Identity Kit 👨‍🚀
