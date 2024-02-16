@@ -46,13 +46,13 @@ Add OnchainKit to your project, install the required packages.
 
 ```bash
 # Use Yarn
-yarn add @coinbase/onchainkit viem@2.x react@18 react-dom@18
+yarn add @coinbase/onchainkit viem@2.x react@18 react-dom@18 graphql@14 graphql-request@6
 
 # Use NPM
-npm install @coinbase/onchainkit viem@2.x react@18 react-dom@18
+npm install @coinbase/onchainkit viem@2.x react@18 react-dom@18 graphql@14 graphql-request@6
 
 # Use PNPM
-pnpm add @coinbase/onchainkit viem@2.x react@18 react-dom@18
+pnpm add @coinbase/onchainkit viem@2.x react@18 react-dom@18 graphql@14 graphql-request@6
 ```
 
 <br />
