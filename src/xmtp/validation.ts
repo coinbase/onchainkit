@@ -1,9 +1,9 @@
 import { validateFramesPost, XmtpOpenFramesRequest } from '@xmtp/frames-validator';
 
-export async function xmtpFrameValidation(payload: XmtpOpenFramesRequest) {
+export async function validateXmtpFramesPost(payload: XmtpOpenFramesRequest) {
   if (!payload.clientProtocol || !payload.clientProtocol.startsWith('xmtp@')) {
     return {
-      isValid: false,
+      isValid: false as const,
       message: undefined,
     };
   }
@@ -11,16 +11,16 @@ export async function xmtpFrameValidation(payload: XmtpOpenFramesRequest) {
   try {
     const { actionBody, verifiedWalletAddress } = await validateFramesPost(payload);
     return {
-      isValid: true,
+      isValid: true as const,
       message: {
         ...actionBody,
         verifiedWalletAddress,
+        identifier: verifiedWalletAddress,
       },
     };
   } catch (e) {
-    console.error(`Error validating frames post: ${e}`);
     return {
-      isValid: false,
+      isValid: false as const,
       message: undefined,
     };
   }

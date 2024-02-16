@@ -2008,13 +2008,12 @@ __metadata:
   dependencies:
     "@changesets/changelog-github": "npm:^0.4.8"
     "@changesets/cli": "npm:^2.26.2"
-    "@open-frames/types": "npm:^0.0.6"
     "@testing-library/jest-dom": "npm:^6.4.0"
     "@testing-library/react": "npm:^14.2.0"
     "@types/jest": "npm:^29.5.12"
     "@types/react": "npm:^18"
     "@types/react-dom": "npm:^18"
-    "@xmtp/frames-validator": "npm:^0.4.0"
+    "@xmtp/frames-validator": "npm:^0.5.0"
     jest: "npm:^29.7.0"
     jest-environment-jsdom: "npm:^29.7.0"
     jest-extended: "npm:^4.0.2"
@@ -2029,6 +2028,7 @@ __metadata:
     viem: "npm:^2.7.0"
     yarn: "npm:^1.22.21"
   peerDependencies:
+    "@xmtp/frames-validator": ^0.5.0
     react: ^18
     react-dom: ^18
     viem: ^2.7.0
@@ -2383,6 +2383,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@noble/curves@npm:^1.3.0":
+  version: 1.3.0
+  resolution: "@noble/curves@npm:1.3.0"
+  dependencies:
+    "@noble/hashes": "npm:1.3.3"
+  checksum: 704bf8fda8e1365a9bb9e9945bd06645ef4ce85aa2fac5594abe09f19889197518152319481b89a271e0ee011787bd2ee87202441500bca7ca587a2c3ac10b01
+  languageName: node
+  linkType: hard
+
 "@noble/hashes@npm:1.3.2":
   version: 1.3.2
   resolution: "@noble/hashes@npm:1.3.2"
@@ -2390,17 +2399,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@noble/hashes@npm:^1.3.3, @noble/hashes@npm:~1.3.0, @noble/hashes@npm:~1.3.2":
+"@noble/hashes@npm:1.3.3, @noble/hashes@npm:^1.3.3, @noble/hashes@npm:~1.3.0, @noble/hashes@npm:~1.3.2":
   version: 1.3.3
   resolution: "@noble/hashes@npm:1.3.3"
   checksum: 23c020b33da4172c988e44100e33cd9f8f6250b68b43c467d3551f82070ebd9716e0d9d2347427aa3774c85934a35fa9ee6f026fca2117e3fa12db7bedae7668
-  languageName: node
-  linkType: hard
-
-"@noble/secp256k1@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "@noble/secp256k1@npm:2.0.0"
-  checksum: ab1f1e2bb09460e5c5962978954c6b835c2f16f4811da013f82c534c05b5f82dd3f215d038d2c90982c035a10806756ba0703255e15a0b26c709bab33f5a71ed
   languageName: node
   linkType: hard
 
@@ -2450,13 +2452,6 @@ __metadata:
   dependencies:
     semver: "npm:^7.3.5"
   checksum: 162b4a0b8705cd6f5c2470b851d1dc6cd228c86d2170e1769d738c1fbb69a87160901411c3c035331e9e99db72f1f1099a8b734bf1637cc32b9a5be1660e4e1e
-  languageName: node
-  linkType: hard
-
-"@open-frames/types@npm:^0.0.6":
-  version: 0.0.6
-  resolution: "@open-frames/types@npm:0.0.6"
-  checksum: 83c6a73da51c993495673d9e3987428d91b5f526818dc1caa60085ec8702f8b2a76f52f010949212bbf5833f07b52e58c9c36cb1e1b28f770d7c79fd7215f2f7
   languageName: node
   linkType: hard
 
@@ -3246,15 +3241,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xmtp/frames-validator@npm:^0.4.0":
-  version: 0.4.0
-  resolution: "@xmtp/frames-validator@npm:0.4.0"
+"@xmtp/frames-validator@npm:^0.5.0":
+  version: 0.5.0
+  resolution: "@xmtp/frames-validator@npm:0.5.0"
   dependencies:
+    "@noble/curves": "npm:^1.3.0"
     "@noble/hashes": "npm:^1.3.3"
-    "@noble/secp256k1": "npm:^2.0.0"
     "@xmtp/proto": "npm:3.41.0-beta.6"
     viem: "npm:^2.7.8"
-  checksum: 0a315a80ac2ba87dc35a4f2d3217439cd7c7411b2d461baec3bbc4bb134ed5e3196a2171288613454794ff8f9caeee0d80c7686eab137df56f76961619cf1c72
+  checksum: 3017a532f2c6318271ea46b2f684fe9eef832cb13888736570c33cd6ceb629627df52f5356958c97256f536fbb15e1413b6d8c082ddd24c51f5950ff090e3149
   languageName: node
   linkType: hard
 

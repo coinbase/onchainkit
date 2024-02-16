@@ -17,6 +17,7 @@
     "release:version": "changeset version && yarn install --immutable"
   },
   "peerDependencies": {
+    "@xmtp/frames-validator": "^0.5.0",
     "react": "^18",
     "react-dom": "^18",
     "viem": "^2.7.0"
@@ -29,6 +30,7 @@
     "@types/jest": "^29.5.12",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@xmtp/frames-validator": "^0.5.0",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
     "jest-extended": "^4.0.2",
@@ -79,8 +81,5 @@
       },
       "default": "./lib/index.js"
     }
-  },
-  "dependencies": {
-    "@xmtp/frames-validator": "^0.4.0"
   }
 }
