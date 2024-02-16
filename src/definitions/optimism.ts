@@ -16,16 +16,4 @@ export const easChainOptimism: EASChainDefinition = {
     // https://optimism.easscan.org/schema/view/0x401a80196f3805c57b00482ae2b575a9f270562b6b6de7711af9837f08fa0faf
     '0x401a80196f3805c57b00482ae2b575a9f270562b6b6de7711af9837f08fa0faf',
   ],
-  attesterAddresses: [
-    // https://optimism.easscan.org/address/0x38e9ef91f1a96aca71e2c5f7abfea45536b995a2
-    '0x38e9ef91f1a96aca71e2c5f7abfea45536b995a2',
-    // https://optimism.easscan.org/address/0x2a0eb7cae52b68e94ff6ab0bfcf0df8eeeb624be
-    '0x2a0eb7cae52b68e94ff6ab0bfcf0df8eeeb624be',
-    // https://optimism.easscan.org/address/0x2d93c2f74b2c4697f9ea85d0450148aa45d4d5a2
-    '0x2d93c2f74b2c4697f9ea85d0450148aa45d4d5a2',
-    // https://optimism.easscan.org/address/0x843829986e895facd330486a61Ebee9E1f1adB1a
-    '0x843829986e895facd330486a61Ebee9E1f1adB1a',
-    // https://optimism.easscan.org/address/0x3C7820f2874b665AC7471f84f5cbd6E12871F4cC
-    '0x3C7820f2874b665AC7471f84f5cbd6E12871F4cC',
-  ],
 };

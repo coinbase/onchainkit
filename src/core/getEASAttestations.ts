@@ -1,9 +1,13 @@
+import { getEASAttestationsByFilter } from '../queries/easAttestations';
 import { isChainSupported, easSupportedChains } from '../utils/easAttestation';
 import { EASAttestation, EASSchemaUid } from './types';
 import type { Address, Chain } from 'viem';
 
 export type GetEASAttestationsOptions = {
   schemas?: EASSchemaUid[];
+  revoked?: boolean;
+  expirationTime?: number;
+  limit?: number;
 };
 
 type GetEASAttestationsResponse = EASAttestation[];
@@ -13,6 +17,10 @@ type GetEASAttestationsResponse = EASAttestation[];
  *
  * @param {Address} address - The address for which attestations are being queried.
  * @param {Chain} chain - The blockchain of interest.
+ * @param {GetEASAttestationsOptions} [options] - Optional filtering options.
+ *   options.revoked - Filter for revoked attestations (default: false).
+ *   options.expirationTime - Unix timestamp to filter attestations based on expiration time (default: current time).
+ *   options.limit - The maximum number of attestations to return (default: 10).
  * @returns {Promise<GetEASAttestationsResponse[]>} A promise that resolves to an array of EAS Attestations.
  * @throws Will throw an error if the request to the GraphQL API fails.
  *
@@ -35,10 +43,8 @@ const attestations = await getEASAttestations("0x1234567890abcdef1234567890abcde
 // ]
  */
 export async function getEASAttestations<TChain extends Chain>(
-  // @ts-ignore - WIP - Add support for address in part 2
   address: Address,
   chain: TChain,
-  // @ts-ignore - WIP - Add support for options in part 2
   options?: GetEASAttestationsOptions,
 ): Promise<GetEASAttestationsResponse> {
   try {
@@ -48,10 +54,18 @@ export async function getEASAttestations<TChain extends Chain>(
       );
     }
 
-    // TODO: Implement the function that get the EAS Attestations in part 2
+    // Default query filter values
+    const defaultQueryVariablesFilter = {
+      revoked: false,
+      expirationTime: Math.round(Date.now() / 1000),
+      limit: 10,
+    };
 
-    return [];
+    const queryVariablesFilter = { ...defaultQueryVariablesFilter, ...options };
+
+    return await getEASAttestationsByFilter(address, chain, queryVariablesFilter);
   } catch (error) {
-    throw new Error(`Error in getEASAttestation: ${(error as Error).message}`);
+    console.log(`Error in getEASAttestation: ${(error as Error).message}`);
+    return [];
   }
 }

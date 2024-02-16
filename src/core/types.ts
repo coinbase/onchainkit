@@ -138,7 +138,7 @@ type EASAttesterAddress = Address;
  * The schema identifier associated with the EAS attestation.
  * Note: exported as public Type
  */
-export type EASSchemaUid = `0x${string}`;
+export type EASSchemaUid = Address;
 
 /**
  * Ethereum Attestation Service (EAS) Attestation
@@ -146,15 +146,15 @@ export type EASSchemaUid = `0x${string}`;
  * Note: exported as public Type
  */
 export type EASAttestation = {
-  id: string; // The unique identifier of the attestation.
-  decodedDataJson: string; // The attestation data decoded to JSON.
-  recipient: Address; // The Ethereum address of the recipient of the attestation.
   attester: EASAttesterAddress; // the attester who created the attestation.
-  time: number; // The Unix timestamp when the attestation was created.
+  decodedDataJson: string; // The attestation data decoded to JSON.
   expirationTime: number; // The Unix timestamp when the attestation expires (0 for no expiration).
+  id: string; // The unique identifier of the attestation.
+  recipient: Address; // The Ethereum address of the recipient of the attestation.
   revocationTime: number; // The Unix timestamp when the attestation was revoked, if applicable.
   revoked: boolean; // A boolean indicating whether the attestation is revocable or not.
   schemaId: EASSchemaUid; // The schema identifier associated with the attestation.
+  time: number; // The Unix timestamp when the attestation was created.
 };
 
 /**
@@ -163,8 +163,7 @@ export type EASAttestation = {
  * Note: exported as public Type
  */
 export type EASChainDefinition = {
-  id: number; // blockchain source id
   easGraphqlAPI: string; // EAS GraphQL API endpoint
-  schemaUids: EASSchemaUid[];
-  attesterAddresses: EASAttesterAddress[];
+  id: number; // blockchain source id
+  schemaUids: EASSchemaUid[]; // Array of EAS Schema UIDs
 };
