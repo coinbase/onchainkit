@@ -1,4 +1,4 @@
-import { validateXmtpFramesPost } from './validation';
+import { getXmtpFrameMessage } from './validation';
 
 const FIXTURES = {
   valid: {
@@ -35,7 +35,7 @@ const FIXTURES = {
 
 describe('xmtp validation', () => {
   it('should correctly handle valid frames posts', async () => {
-    const result = await validateXmtpFramesPost(FIXTURES.valid);
+    const result = await getXmtpFrameMessage(FIXTURES.valid);
     expect(result.isValid).toBe(true);
 
     const { buttonIndex, opaqueConversationIdentifier, url, walletAddress } =
@@ -53,7 +53,7 @@ describe('xmtp validation', () => {
   });
 
   it('should fail validation on invalid posts', async () => {
-    const invalidResult = await validateXmtpFramesPost(FIXTURES.invalid);
+    const invalidResult = await getXmtpFrameMessage(FIXTURES.invalid);
     expect(invalidResult.isValid).toBe(false);
     expect(invalidResult.message).toBeUndefined();
   });
