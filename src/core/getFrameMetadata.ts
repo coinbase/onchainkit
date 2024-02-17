@@ -41,7 +41,7 @@ export const getFrameMetadata = function ({
       if (button.action) {
         metadata[`fc:frame:button:${index + 1}:action`] = button.action;
       }
-      if ((button.action == 'link' || button.action == 'mint') && button.target) {
+      if ((button.action == 'link' || button.action == 'mint' || button.action == 'post') && button.target) {
         metadata[`fc:frame:button:${index + 1}:target`] = button.target;
       }
     });
