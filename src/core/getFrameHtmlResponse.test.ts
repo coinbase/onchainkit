@@ -246,6 +246,29 @@ describe('getFrameHtmlResponse', () => {
     expect(html).toContain('<meta property="og:description" content="description" />');
     expect(html).toContain('<meta property="og:title" content="title" />');
   });
+
+  it('should set a button link only once', () => {
+    const html = getFrameHtmlResponse({
+      buttons: [{ label: 'button1', action: 'link', target: 'https://example.com' }],
+      image: 'image',
+      postUrl: 'post_url',
+    });
+
+    expect(html).toContain('<meta property="fc:frame:button:1" content="button1" />');
+    expect(html).toContain('<meta property="fc:frame:button:1:action" content="link" />');
+    expect(html).toContain(
+      '<meta property="fc:frame:button:1:target" content="https://example.com" />',
+    );
+    expect(html).not.toContain('fc:frame:button:2');
+    expect(html).not.toContain('fc:frame:button:2:action');
+    expect(html).not.toContain('fc:frame:button:2:target');
+    expect(html).not.toContain('fc:frame:button:3');
+    expect(html).not.toContain('fc:frame:button:3:action');
+    expect(html).not.toContain('fc:frame:button:3:target');
+    expect(html).not.toContain('fc:frame:button:4');
+    expect(html).not.toContain('fc:frame:button:4:action');
+    expect(html).not.toContain('fc:frame:button:4:target');
+  });
 });
 
 export { getFrameHtmlResponse };
