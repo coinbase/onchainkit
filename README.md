@@ -77,6 +77,7 @@ Creating a frame is easy: select an image and add clickable buttons. When a butt
 
 **Typescript utilities**:
 
+- [`uploadFrameMediaToIPFS()`](https://github.com/coinbase/onchainkit?tab=readme-ov-file#uploadframemedaitoipfs): Optionally allows you to host your frame media on IPFS. Uploads files from a local path in your project and return a url to use in your frame.
 - [`getFrameHtmlResponse()`](https://github.com/coinbase/onchainkit?tab=readme-ov-file#getframehtmlresponseframemetadata): Retrieves the **Frame HTML** for your HTTP responses.
 - [`getFrameMessage()`](https://github.com/coinbase/onchainkit?tab=readme-ov-file#getframemessageframerequest): Retrieves a valid **Frame message** from the Frame Signature Packet.
 - [`getFrameMetadata()`](https://github.com/coinbase/onchainkit?tab=readme-ov-file#getframeframemetadata): Retrieves valid **Frame metadata** for your initial HTML page with Next.js App Routing.
@@ -125,6 +126,15 @@ export default function HomePage() {
 **@Props**
 
 ```ts
+type MediaOptions = {
+  //  The api key jwt provided by Pinata
+  pinataJwt: string;  
+  //  A dedicated IPFS gateway url
+  gatewayUrl: string;
+  //  The local path to media in your project (i.e. "./my_cat_pic.png")
+  pathToMedia: string;
+};
+
 type FrameButtonMetadata =
   | {
       action: 'link' | 'mint';
@@ -180,6 +190,48 @@ type FrameMetadataReact = FrameMetadataType & {
 ```
 
 <br />
+
+### uploadMediaToIPFS(mediaOptions)
+
+Frames are made up of media (currently just images). You may want to host your frames media on IPFS, and this method helps you do so.
+
+It takes a local path string to a file in your project and uploads it to IPFS using [Pinata](https://pinata.cloud). The method returns a url that you can use in the subsequent methods below for your frame images. 
+
+``ts
+// Step 1. import uploadFrameMediaToIPFS from @coinbase/onchainkit
+import { uploadFrameMediaToIPFS } from '@coinbase/onchainkit';
+import { NextRequest, NextResponse } from 'next/server';
+
+async function getResponse(req: NextRequest): Promise<NextResponse> {
+  //  Step 2. Upload your media to IPFS and get url back
+  const mediaOptions: MediaOptions {
+    pinataJwt: "YOUR PINATA JWT", 
+    gatewayUrl: "IPFS GATEWAY URL", 
+    mediaPath: "./example.png"
+  }
+  const url = await uploadFrameMediaToIPFS(mediaOptions);
+  // Step 3. Build your Frame logic
+  ...
+
+  return new NextResponse(
+    // Step 4. Use getFrameHtmlResponse to create a Frame response (see below)
+    getFrameHtmlResponse({
+      buttons: [
+        {
+          label: `We love BOAT`,
+        },
+      ],
+      image: url,
+      postUrl: 'https://build-onchain-apps.vercel.app/api/frame',
+    }),
+  );
+}
+
+export async function POST(req: NextRequest): Promise<Response> {
+  return getResponse(req);
+}
+```
+
 
 ### getFrameHtmlResponse(frameMetadata)
 

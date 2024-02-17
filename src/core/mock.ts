@@ -37,3 +37,7 @@ export function mockNeynarResponse(
     },
   });
 }
+
+export function mockPinataUploadResponse() {
+  return "https://gateway.pinata.cloud/ipfs/QmfNvYKNHLFut99TRmwVAhKa1ePUoeqpgB61rxfzdoM5zq"  
+}
