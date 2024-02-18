@@ -64,6 +64,8 @@ pnpm add @coinbase/onchainkit viem@2.x react@18 react-dom@18
 OnchainKit is divided into various theme utilities and components that are available for your use:
 
 - [Farcaster Kit](https://onchainkit.xyz/farcasterkit/introduction)
+  - Utilitis:
+    - [`getFarcasterUserAddress`](https://onchainkit.xyz/farcasterkit/get-farcaster-user-address)
 - [Frame Kit](https://github.com/coinbase/onchainkit?tab=readme-ov-file#frame-kit-%EF%B8%8F)
 - [Identity Kit](https://github.com/coinbase/onchainkit?tab=readme-ov-file#identity-kit-)
 
