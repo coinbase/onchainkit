@@ -75,4 +75,5 @@ export const vNextSchema = yup.object({
     .matches(/^1:1$|^1.91:1$/),
 });
 
+// This interface doesn't fully encapsulate the dynamically defined types. Do we even need it?
 export interface FrameVNext extends yup.InferType<typeof vNextSchema> {}
