@@ -51,16 +51,27 @@ For documentation and guides, visit [onchainkit.xyz](https://onchainkit.xyz/).
 ## Features
 
 - [Farcaster Kit](https://onchainkit.xyz/farcasterkit/introduction)
-  - Utilitis:
+  - Utilities:
     - [`getFarcasterUserAddress`](https://onchainkit.xyz/farcasterkit/get-farcaster-user-address)
 - [Frame Kit](https://onchainkit.xyz/framekit/introduction)
+
+  - Components:
+    - [`<FrameMetadata />`](https://onchainkit.xyz/framekit/introduction#framemetadata-)
+  - Utilities:
+    - [`getFrameHtmlResponse`](https://onchainkit.xyz/framekit/introduction#getframehtmlresponseframemetadata)
+    - [`getFrameMessage`](https://onchainkit.xyz/framekit/introduction#getframemessageframerequest)
+    - [`getFrameMetadata`](https://onchainkit.xyz/framekit/introduction#getframemetadataframemetadata)
+
 - [Identity Kit](https://onchainkit.xyz/identitykit/introduction)
+  - Components:
+    - [`<Name />`](https://onchainkit.xyz/identitykit/introduction#name)
+    - [`<Avatar />`](https://onchainkit.xyz/identitykit/introduction#avatar)
 
 <br />
 
 ## Overview
 
-Add OnchainKit to your project, install the required packages.
+To integrate OnchainKit into your project, begin by installing the necessary packages.
 
 ```bash
 # Use Yarn
@@ -73,9 +84,11 @@ npm install @coinbase/onchainkit viem@2.x react@18 react-dom@18
 pnpm add @coinbase/onchainkit viem@2.x react@18 react-dom@18
 ```
 
-And use any of the Components or Utilities like `FrameMetadata`.
+Then, feel free to utilize any of the components or utilities, such as `FrameMetadata`.
 
 ```tsx
+import { FrameMetadata } from '@coinbase/onchainkit';
+
 export default function HomePage() {
   return (
     ...
@@ -108,16 +121,12 @@ export default function HomePage() {
 }
 ```
 
-<br />
-
 ## Community ☁️ 🌁 ☁️
 
 Check out the following places for more OnchainKit-related content:
 
 - Follow @zizzamia ([X](https://twitter.com/zizzamia), [Farcaster](https://warpcast.com/zizzamia)) for project updates
 - Join the discussions on our [OnchainKit warpcast channel](https://warpcast.com/~/channel/onchainkit)
-
-<br />
 
 ## Authors
 
@@ -127,8 +136,6 @@ Check out the following places for more OnchainKit-related content:
 - [@taycaldwell](https://github.com/taycaldwell.png) ([X](https://twitter.com/taycaldwell_))
 - [@cnasc](https://github.com/cnasc.png) ([warpcast](https://warpcast.com/cnasc))
 - [@wespickett](https://github.com/wespickett.png) ([X](https://twitter.com/wespickett))
-
-<br>
 
 ## License
 
