@@ -8,6 +8,7 @@ Note:
 In this release we update the `FrameMetadataType` so that it supports the latest [Handling Clicks](https://docs.farcaster.xyz/reference/frames/spec#handling-clicks) Frames specification.
 
 If the button clicked is a `post` or `post_redirect`, apps must:
+
 1. Construct a Frame Signature Packet.
 2. POST the packet to `fc:frame:button:$idx:target` if present
 3. POST the packet to `fc:frame:post_url if target` was not present.
