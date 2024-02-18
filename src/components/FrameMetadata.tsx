@@ -86,7 +86,7 @@ export function FrameMetadata({
       {!!(button1 && !!button1.action) && (
         <meta property="fc:frame:button:1:action" content={button1.action} />
       )}
-      {!!(button1 && (button1.action == 'link' || button1.action == 'mint')) && (
+      {!!(button1 && button1.target) && (
         <meta property="fc:frame:button:1:target" content={button1.target} />
       )}
 
@@ -94,7 +94,7 @@ export function FrameMetadata({
       {!!(button2 && !!button2.action) && (
         <meta property="fc:frame:button:2:action" content={button2.action} />
       )}
-      {!!(button2 && (button2.action == 'link' || button2.action == 'mint')) && (
+      {!!(button2 && button2.target) && (
         <meta property="fc:frame:button:2:target" content={button2.target} />
       )}
 
@@ -102,7 +102,7 @@ export function FrameMetadata({
       {!!(button3 && !!button3.action) && (
         <meta property="fc:frame:button:3:action" content={button3.action} />
       )}
-      {!!(button3 && (button3.action == 'link' || button3.action == 'mint')) && (
+      {!!(button3 && button3.target) && (
         <meta property="fc:frame:button:3:target" content={button3.target} />
       )}
 
@@ -110,7 +110,7 @@ export function FrameMetadata({
       {!!(button4 && !!button4.action) && (
         <meta property="fc:frame:button:4:action" content={button4.action} />
       )}
-      {!!(button4 && (button4.action == 'link' || button4.action == 'mint')) && (
+      {!!(button4 && button4.target) && (
         <meta property="fc:frame:button:4:target" content={button4.target} />
       )}
 

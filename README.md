@@ -46,8 +46,6 @@
 
 For documentation and guides, visit [onchainkit.xyz](https://onchainkit.xyz/).
 
-<br />
-
 ## Features
 
 - [Farcaster Kit](https://onchainkit.xyz/farcasterkit/introduction)
@@ -66,8 +64,6 @@ For documentation and guides, visit [onchainkit.xyz](https://onchainkit.xyz/).
   - Components:
     - [`<Name />`](https://onchainkit.xyz/identitykit/introduction#name)
     - [`<Avatar />`](https://onchainkit.xyz/identitykit/introduction#avatar)
-
-<br />
 
 ## Overview
 

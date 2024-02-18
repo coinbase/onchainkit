@@ -1,4 +1,4 @@
-import { FrameMetadataResponse, FrameMetadataType, FrameImageMetadata } from './types';
+import { FrameMetadataResponse, FrameMetadataType } from './types';
 
 /**
  * This function generates the metadata for a Farcaster Frame.
@@ -41,10 +41,7 @@ export const getFrameMetadata = function ({
       if (button.action) {
         metadata[`fc:frame:button:${index + 1}:action`] = button.action;
       }
-      if (
-        (button.action == 'link' || button.action == 'mint' || button.action == 'post') &&
-        button.target
-      ) {
+      if (button.action && button.target) {
         metadata[`fc:frame:button:${index + 1}:target`] = button.target;
       }
     });

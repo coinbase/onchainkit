@@ -82,6 +82,7 @@ export type FrameButtonMetadata =
   | {
       action?: 'post' | 'post_redirect';
       label: string;
+      target?: string;
     };
 
 /**

@@ -49,7 +49,7 @@ function getFrameHtmlResponse({
         if (button.action) {
           buttonHtml += `  <meta property="fc:frame:button:${index + 1}:action" content="${button.action}" />\n`;
         }
-        if ((button.action == 'link' || button.action == 'mint') && button.target) {
+        if (button.action && button.target) {
           buttonHtml += `  <meta property="fc:frame:button:${index + 1}:target" content="${button.target}" />\n`;
         }
         return buttonHtml;
