@@ -41,7 +41,7 @@ export default defineConfig({
       />
     </>
   ),
-  rootDir: "./docs/",
+  rootDir: './docs/',
   sidebar,
   socials: [
     {
