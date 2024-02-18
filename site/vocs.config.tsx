@@ -15,32 +15,33 @@ export default defineConfig({
   titleTemplate: '%s · OnchainKit',
   description: ONCHAINKIT_DESCRIPTION,
   head: (
-      <>
-        <FrameMetadata
-          image={{
-            src: 'https://onchainkit.xyz/logo/',
-          }}
-          ogTitle={ONCHAINKIT_TITLE}
-          ogDescription={ONCHAINKIT_DESCRIPTION}
-        />
-        <script
-          src={`https://www.googletagmanager.com/gtag/js?id=${GOOGLE_ANALYTICS_ID}`}
-          async
-          defer
-        />
-        <script
-          id="gtag-init"
-          dangerouslySetInnerHTML={{
-            __html: `
+    <>
+      <FrameMetadata
+        image={{
+          src: 'https://onchainkit.xyz/logo/',
+        }}
+        ogTitle={ONCHAINKIT_TITLE}
+        ogDescription={ONCHAINKIT_DESCRIPTION}
+      />
+      <script
+        src={`https://www.googletagmanager.com/gtag/js?id=${GOOGLE_ANALYTICS_ID}`}
+        async
+        defer
+      />
+      <script
+        id="gtag-init"
+        dangerouslySetInnerHTML={{
+          __html: `
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());
               gtag('config', '${GOOGLE_ANALYTICS_ID}');
             `,
         }}
-        />
-      </>
+      />
+    </>
   ),
+  rootDir: "./docs/",
   sidebar,
   socials: [
     {
@@ -55,7 +56,7 @@ export default defineConfig({
     },
   },
   topNav: [
-    { text: 'Docs', link: '/docs/getting-started', match: '/docs' },
+    { text: 'Docs', link: '/getting-started', match: '/docs' },
     {
       text: 'Onchain App Example',
       link: 'https://github.com/coinbase/build-onchain-apps',
@@ -78,4 +79,4 @@ export default defineConfig({
       ],
     },
   ],
-})
+});
