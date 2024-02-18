@@ -1,4 +1,3 @@
-import { BORDER_COLOR } from '@/utils/constants';
 import { frameResultsAtom } from '@/utils/store';
 import { useAtom } from 'jotai';
 
@@ -15,7 +14,7 @@ export function ValidationResults() {
           </span>
         )}
       </h2>
-      <div className="flex w-full flex-col gap-4 rounded-xl bg-[#27282B] p-6">
+      <div className="bg-content flex w-full flex-col gap-4 rounded-xl p-6">
         {latestResult && (
           <dl className="flex flex-col gap-4">
             {Object.entries(latestResult.tags).map(([key, value]) => (
@@ -35,7 +34,9 @@ export function ValidationResults() {
 
 function ValidationEntry({ name, value, error }: { name: string; value: string; error?: string }) {
   return (
-    <div className={`flex flex-col gap-2 border-b ${BORDER_COLOR} pb-4 last:border-b-0 last:pb-0`}>
+    <div
+      className={`border-pallette-line flex flex-col gap-2 border-b pb-4 last:border-b-0 last:pb-0`}
+    >
       <div className="flex justify-between">
         <span>{name}</span>
         <span>{error ? '🔴' : '🟢'}</span>

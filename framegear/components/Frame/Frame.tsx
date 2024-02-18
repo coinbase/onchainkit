@@ -41,18 +41,9 @@ function ValidFrame({ tags }: { tags: Record<string, string> }) {
     <div>
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img className={`w-full rounded-t-xl aspect-[${imageAspectRatio}]`} src={image} alt="" />
-      <div className="flex flex-wrap gap-2 rounded-b-xl bg-[#f3f3f3] px-4 py-2">
+      <div className="bg-button flex flex-wrap gap-2 rounded-b-xl px-4 py-2">
         {buttons.map((button) =>
-          button ? (
-            <button
-              className="w-[45%] grow rounded-lg border border-[#cfd0d2] bg-white p-2 text-black"
-              type="button"
-              key={button.key}
-              disabled
-            >
-              <span>{button.value}</span>
-            </button>
-          ) : null,
+          button ? <FrameButton key={button.key}>{button.value}</FrameButton> : null,
         )}
       </div>
     </div>
@@ -69,8 +60,8 @@ function ErrorFrame() {
 function PlaceholderFrame() {
   return (
     <div className="flex flex-col">
-      <div className="flex aspect-[1.91/1] w-full rounded-t-xl bg-[#855DCD]"></div>
-      <div className="flex flex-wrap gap-2 rounded-b-xl bg-[#f3f3f3] px-4 py-2">
+      <div className="bg-farcaster flex aspect-[1.91/1] w-full rounded-t-xl"></div>
+      <div className="bg-button flex flex-wrap gap-2 rounded-b-xl px-4 py-2">
         <FrameButton>Get Started</FrameButton>
       </div>
     </div>
@@ -80,7 +71,7 @@ function PlaceholderFrame() {
 function FrameButton({ children }: PropsWithChildren<{}>) {
   return (
     <button
-      className="w-[45%] grow rounded-lg border border-[#cfd0d2] bg-white p-2 text-black"
+      className="border-button w-[45%] grow rounded-lg border bg-white p-2 text-black"
       type="button"
       disabled
     >

@@ -1,4 +1,3 @@
-import { BORDER_COLOR } from '@/utils/constants';
 import { fetchFrame } from '@/utils/fetchFrame';
 import { frameResultsAtom } from '@/utils/store';
 import { useAtom } from 'jotai';
@@ -18,7 +17,7 @@ export function FrameInput() {
       <label className="flex flex-col">
         Enter your frame URL
         <input
-          className={`h-[40px] rounded-md border ${BORDER_COLOR} bg-[#191918] p-2`}
+          className={`border-pallette-line bg-input h-[40px] rounded-md border p-2`}
           type="url"
           placeholder="Enter URL"
           value={url}
