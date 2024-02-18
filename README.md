@@ -54,11 +54,11 @@ For documentation and guides, visit [onchainkit.xyz](https://onchainkit.xyz/).
 - [Frame Kit](https://onchainkit.xyz/framekit/introduction)
 
   - Components:
-    - [`<FrameMetadata />`](https://onchainkit.xyz/framekit/introduction#framemetadata-)
+    - [`<FrameMetadata />`](https://onchainkit.xyz/framekit/frame-metadata)
   - Utilities:
-    - [`getFrameHtmlResponse`](https://onchainkit.xyz/framekit/introduction#getframehtmlresponseframemetadata)
-    - [`getFrameMessage`](https://onchainkit.xyz/framekit/introduction#getframemessageframerequest)
-    - [`getFrameMetadata`](https://onchainkit.xyz/framekit/introduction#getframemetadataframemetadata)
+    - [`getFrameHtmlResponse`](https://onchainkit.xyz/framekit/get-frame-html-response)
+    - [`getFrameMessage`](https://onchainkit.xyz/framekit/get-frame-message)
+    - [`getFrameMetadata`](https://onchainkit.xyz/framekit/get-frame-metadata)
 
 - [Identity Kit](https://onchainkit.xyz/identitykit/introduction)
   - Components:

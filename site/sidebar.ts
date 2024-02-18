@@ -29,10 +29,48 @@ export const sidebar = [
   },
   {
     text: 'Frame Kit',
-    items: [{ text: 'Introduction', link: '/framekit/introduction' }],
+    items: [
+      { text: 'Introduction', link: '/framekit/introduction' },
+      {
+        text: 'Components',
+        items: [
+          {
+            text: 'FrameMetadata',
+            link: '/framekit/frame-metadata',
+          },
+        ],
+      },
+      {
+        text: 'Utilities',
+        items: [
+          {
+            text: 'getFrameHtmlResponse',
+            link: '/framekit/get-frame-html-response',
+          },
+          {
+            text: 'getFrameMessage',
+            link: '/framekit/get-frame-message',
+          },
+          {
+            text: 'getFrameMetadata',
+            link: '/framekit/get-frame-metadata',
+          },
+        ],
+      },
+      {
+        text: 'Types',
+        link: '/framekit/types',
+      },
+    ],
   },
   {
     text: 'Identity Kit',
-    items: [{ text: 'Introduction', link: '/identitykit/introduction' }],
+    items: [
+      { text: 'Introduction', link: '/identitykit/introduction' },
+      {
+        text: 'Types',
+        link: '/identitykit/types',
+      },
+    ],
   },
 ] as const satisfies Sidebar;
