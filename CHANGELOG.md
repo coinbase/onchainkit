@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.6.2
+
+### Patch Changes
+
+- 926bc30: - **docs**: Init https://onchainkit.xyz . By @zizzamia #131
+  - **feat**: Added `getFarcasterUserAddress` utility to extract the user's custody and/or verified addresses. By @Sneh1999 #114 #121
+  - **feat**: Updates the version of `@types/jest` package. By @Sneh1999 #114
+
 ## 0.6.1
 
 ### Patch Changes
