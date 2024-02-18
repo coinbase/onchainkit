@@ -10,7 +10,7 @@
 # OnchainKit
 
 <p align="left">
-  OnchainKit is a collection of tools to build world-class onchain apps with CSS, React, and Typescript.
+  OnchainKit is a collection of lightweight, composable, and type-safe React components along with TypeScript utilities to create top-tier onchain applications.
 <p>
 
 <p align="left">
