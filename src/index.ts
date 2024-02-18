@@ -13,6 +13,7 @@ export type {
   FrameButtonMetadata,
   FrameImageMetadata,
   FrameInputMetadata,
+  FrameMetadataReact,
   FrameMetadataType,
   FrameRequest,
   FrameValidationData,

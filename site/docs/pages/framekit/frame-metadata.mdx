@@ -57,41 +57,4 @@ export default function HomePage() {
 
 ## Props
 
-```ts
-type FrameButtonMetadata =
-  | {
-      action: 'link' | 'mint';
-      label: string;
-      target: string;
-    }
-  | {
-      action?: 'post' | 'post_redirect';
-      label: string;
-    };
-
-type FrameImageMetadata = {
-  src: string;
-  aspectRatio?: '1.91:1' | '1:1';
-};
-
-type FrameInputMetadata = {
-  text: string;
-};
-
-type FrameMetadataType = {
-  // A list of strings which are the label for the buttons in the frame (max 4 buttons).
-  buttons?: [FrameButtonMetadata, ...FrameButtonMetadata[]];
-  // An image which must be smaller than 10MB and should have an aspect ratio of 1.91:1 or 1:1
-  image: FrameImageMetadata;
-  // The text input to use for the Frame.
-  input?: FrameInputMetadata;
-  // A valid POST URL to send the Signature Packet to.
-  postUrl?: string;
-  // A period in seconds at which the app should expect the image to update.
-  refreshPeriod?: number;
-};
-
-type FrameMetadataReact = FrameMetadataType & {
-  wrapper?: React.ComponentType<any>;
-};
-```
+[`FrameMetadataReact`](/framekit/types#framemetadatareact)
