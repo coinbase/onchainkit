@@ -1,8 +1,8 @@
 <p align="center">
-  <a href="https://github.com/coinbase/onchainkit">
+  <a href="https://onchainkit.xyz">
     <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="./site/public/logo/v-0-6.png">
-      <img alt="OnchainKit logo vibes" src="./site/docs/public/logo/v-0-6.png" width="auto">
+      <source media="(prefers-color-scheme: dark)" srcset="./site/docs/public/logo/v0-6.png">
+      <img alt="OnchainKit logo vibes" src="./site/docs/public/logo/v0-6.png" width="auto">
     </picture>
   </a>
 </p>
