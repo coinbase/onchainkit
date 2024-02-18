@@ -1,9 +1,9 @@
-### getFarcasterUserAddress
+# getFarcasterUserAddress
 
-The `getFarcasterUserAddress` function retrieves the user address associated 
-with a given Farcaster ID (fid). It provides options to specify whether 
-the client wants **custody address** and/or **verified addresses**, 
-and also allows the user to provide their own neynar api key. 
+The `getFarcasterUserAddress` function retrieves the user address associated
+with a given Farcaster ID (fid). It provides options to specify whether
+the client wants **custody address** and/or **verified addresses**,
+and also allows the user to provide their own neynar api key.
 
 By default, both **custody** and **verified** addresses are provided.
 
@@ -11,34 +11,56 @@ By default, both **custody** and **verified** addresses are provided.
 
 ```ts
 import { getFarcasterUserAddress } from '@coinbase/onchainkit/farcaster';
- 
-const userAddress = await getFarcasterUserAddress(fid); // [!code focus]
+
+const userAddress = await getFarcasterUserAddress(fid, options); // [!code focus]
 ```
 
 ## Returns
 
-```ts
-// Fid - Farcaster Id
-fid: number;
+[`GetFarcasterUserAddressResponse`](/farcasterkit/types#getfarcasteruseraddressresponse)
 
-// Optional options to specify whether the client wants custody and/or verified addresses
-// along with their neynar api key
-type GetFarcasterUserAddressOptions =
-  | {
-      neynarApiKey?: string; // default to onchain-kit's default key
-      hasCustodyAddress?: boolean; // default to true
-      hasVerifiedAddresses?: boolean; // default to true
-    }
-  | undefined;
+Returns the Custody Address and the list of all verified addresses of a given fid.
+
+## Parameters
+
+### fid
+
+- **Type:** `string`
+
+Farcaster ID
+
+### options.neynarApiKey
+
+- **Type:** `string`
+
+Default to onchain-kit's default key.
+
+```ts
+const userAddress = await getFarcasterUserAddress(fid, {
+  neynarApiKey: 'MY_NEYNAR_API_KEY', // [!code focus]
+});
 ```
 
-**@Returns**
+### options.hasCustodyAddress
+
+- **Type:** `boolean`
+
+Optional options to specify if the client wants custody addresses. Default to true.
 
 ```ts
-type GetFarcasterUserAddressResponse = {
-  // Custody Address of a given fid
-  custodyAddress?: string;
-  // List of all verified addresses for a given fid
-  verifiedAddresses?: string[];
-};
+const userAddress = await getFarcasterUserAddress(fid, {
+  hasCustodyAddress: false, // [!code focus]
+});
+```
+
+### options.hasVerifiedAddresses
+
+- **Type:** `boolean`
+
+Optional options to specify if the client wants verified addresses. Default to true.
+
+```ts
+const userAddress = await getFarcasterUserAddress(fid, {
+  hasVerifiedAddresses: false, // [!code focus]
+});
 ```
