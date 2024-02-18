@@ -1,11 +1,5 @@
 import { Fragment } from 'react';
-import type { FrameMetadataType, FrameImageMetadata } from '../core/types';
-
-type FrameMetadataReact = FrameMetadataType & {
-  ogDescription?: string;
-  ogTitle?: string;
-  wrapper?: React.ComponentType<any>;
-};
+import type { FrameMetadataReact } from '../core/types';
 
 /**
  * FrameMetadata component

@@ -1,49 +1,15 @@
+---
+title: Introduction to Identity Kit · OnchainKit
+deescription: Introduction to Identity Kit
+---
+
 # Introduction to Identity Kit
 
-## Name
+Identity Kit is a collection of components and hooks that help you build user interfaces for Ethereum applications.
+It provides a set of tools to resolve Ethereum addresses to ENS names, and more.
 
-The `Name` component is used to display ENS names associated with Ethereum addresses. When an ENS name is not available, it defaults to showing a truncated version of the address.
+To assist you in engaging with onchain Identity, here is the Identity Kit which includes:
 
-```tsx
-import { Name } from '@coinbase/onchainkit';
-
-<Name address="0x1234567890abcdef1234567890abcdef12345678" sliced={false} />;
-```
-
-**@Props**
-
-```ts
-type UseName = {
-  // Ethereum address to be resolved from ENS.
-  address: Address;
-  // Optional CSS class for custom styling.
-  className?: string;
-  // Determines if the address should be sliced when no ENS name is available.
-  sliced?: boolean;
-  // Additional HTML attributes for the span element.
-  props?: React.HTMLAttributes<HTMLSpanElement>;
-};
-```
-
-## Avatar
-
-The `Avatar` component is used to display ENS avatar associated with Ethereum addresses. When an ENS avatar is not available, it defaults to blue color avatar.
-
-```tsx
-import { Avatar } from '@coinbase/onchainkit';
-
-<Avatar address="0x1234567890abcdef1234567890abcdef12345678" />;
-```
-
-**@Props**
-
-```ts
-type UseAvatar = {
-  // Ethereum address to be resolved from ENS.
-  address: Address;
-  // Optional CSS class for custom styling.
-  className?: string;
-  // Additional HTML attributes for the span element.
-  props?: React.HTMLAttributes<HTMLSpanElement>;
-};
-```
+- Components:
+  - [`<Address />`](/identitykit/avatar): A component to display an Ethereum address.
+  - [`<Name />`](/identitykit/name): A component to display an ENS name.

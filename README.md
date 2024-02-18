@@ -48,6 +48,8 @@ For documentation and guides, visit [onchainkit.xyz](https://onchainkit.xyz/).
 
 ## Features
 
+OnchainKit offers three themes packed with React components and TypeScript utilities ready for action.
+
 - [Farcaster Kit](https://onchainkit.xyz/farcasterkit/introduction)
   - Utilities:
     - [`getFarcasterUserAddress`](https://onchainkit.xyz/farcasterkit/get-farcaster-user-address)
@@ -62,8 +64,8 @@ For documentation and guides, visit [onchainkit.xyz](https://onchainkit.xyz/).
 
 - [Identity Kit](https://onchainkit.xyz/identitykit/introduction)
   - Components:
-    - [`<Name />`](https://onchainkit.xyz/identitykit/introduction#name)
-    - [`<Avatar />`](https://onchainkit.xyz/identitykit/introduction#avatar)
+    - [`<Avatar />`](https://onchainkit.xyz/identitykit/avatar)
+    - [`<Name />`](https://onchainkit.xyz/identitykit/name)
 
 ## Overview
 

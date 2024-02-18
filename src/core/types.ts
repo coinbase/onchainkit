@@ -69,8 +69,6 @@ export function convertToFrame(json: any) {
 }
 
 /**
- * Frame Request
- *
  * Note: exported as public Type
  */
 export type FrameButtonMetadata =
@@ -86,8 +84,6 @@ export type FrameButtonMetadata =
     };
 
 /**
- * Frame Request
- *
  * Note: exported as public Type
  */
 export type FrameInputMetadata = {
@@ -95,8 +91,6 @@ export type FrameInputMetadata = {
 };
 
 /**
- * Frame Request
- *
  * Note: exported as public Type
  */
 export type FrameImageMetadata = {
@@ -105,25 +99,35 @@ export type FrameImageMetadata = {
 };
 
 /**
- * Frame Request
- *
+ * Note: exported as public Type
+ */
+export type FrameMetadataReact = FrameMetadataType & {
+  ogDescription?: string;
+  ogTitle?: string;
+  wrapper?: React.ComponentType<any>;
+};
+
+/**
  * Note: exported as public Type
  */
 export type FrameMetadataType = {
+  // A list of strings which are the label for the buttons in the frame (max 4 buttons).
   buttons?: [FrameButtonMetadata, ...FrameButtonMetadata[]];
+  // An image which must be smaller than 10MB and should have an aspect ratio of 1.91:1
   image: string | FrameImageMetadata;
+  // The text input to use for the Frame.
   input?: FrameInputMetadata;
   /** @deprecated Prefer `postUrl` */
   post_url?: string;
+  // A valid POST URL to send the Signature Packet to.
   postUrl?: string;
   /** @deprecated Prefer `refreshPeriod` */
   refresh_period?: number;
+  // A period in seconds at which the app should expect the image to update.
   refreshPeriod?: number;
 };
 
 /**
- * Frame Metadata Response
- *
  * Note: exported as public Type
  */
 export type FrameMetadataResponse = Record<string, string>;
@@ -137,6 +141,7 @@ type EASAttesterAddress = Address;
 /**
  * Ethereum Attestation Service (EAS) Schema Uid
  * The schema identifier associated with the EAS attestation.
+ *
  * Note: exported as public Type
  */
 export type EASSchemaUid = Address;
@@ -144,6 +149,7 @@ export type EASSchemaUid = Address;
 /**
  * Ethereum Attestation Service (EAS) Attestation
  * GraphQL response for EAS Attestation
+ *
  * Note: exported as public Type
  */
 export type EASAttestation = {
@@ -161,6 +167,7 @@ export type EASAttestation = {
 /**
  * Ethereum Attestation Service (EAS) Chain Definition
  * The definition of a blockchain chain supported by EAS attestations.
+ *
  * Note: exported as public Type
  */
 export type EASChainDefinition = {
