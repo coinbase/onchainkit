@@ -1,43 +1,18 @@
-### getFarcasterUserAddress
+# Introduction to Farcaster Kit [A brief introduction on essential Farcaster knowledge.]
 
-The `getFarcasterUserAddress` function retrieves the user address associated with a given Farcaster ID (fid). It provides options to specify whether the client wants `custody address` and/or `verified addresses`, and also allows the user to provide their own neynar api key. By default, both `custody` and `verified` addresses are provided.
+Farcaster is a decentralized social network on Ethereum. 
+Users create profiles, post "casts," and follow others. 
+They own their [accounts](https://docs.farcaster.xyz/learn/what-is-farcaster/accounts) and relationships.
 
-```tsx
-import { getFarcasterUserAddress } from '@coinbase/onchainkit/farcaster';
+To join, users need an Ethereum address for onchain registration.
 
-async function fetchUserAddress(fid: number) {
-  // Returns custody and verified addresses. If there is an error, returns null
-  const userAddress = await getFarcasterUserAddress(fid);
-  console.log(userAddress);
-}
+Farcaster [contracts](https://docs.farcaster.xyz/learn/architecture/contracts) are deployed on Optimism, an Ethereum Layer 2 network. 
+Core contracts include ID Registry, Key Registry, and Storage Registry.
 
-fetchUserAddress(3);
-```
+[ID Registry](https://docs.farcaster.xyz/reference/contracts/reference/id-registry) tracks Farcaster IDs (aka FID), linking them to Ethereum addresses. [Key Registry](https://docs.farcaster.xyz/reference/contracts/reference/key-gateway) links Farcaster IDs with ed25519 public keys. 
 
-**@Param**
+Only [messages](https://docs.farcaster.xyz/learn/what-is-farcaster/messages) signed by registered keys are valid.
 
-```ts
-// Fid - Farcaster Id
-fid: number;
-
-// Optional options to specify whether the client wants custody and/or verified addresses
-// along with their neynar api key
-type GetFarcasterUserAddressOptions =
-  | {
-      neynarApiKey?: string; // default to onchain-kit's default key
-      hasCustodyAddress?: boolean; // default to true
-      hasVerifiedAddresses?: boolean; // default to true
-    }
-  | undefined;
-```
-
-**@Returns**
-
-```ts
-type GetFarcasterUserAddressResponse = {
-  // Custody Address of a given fid
-  custodyAddress?: string;
-  // List of all verified addresses for a given fid
-  verifiedAddresses?: string[];
-};
-```
+To assist you in engaging with Farcaster, here is the Farcaster Kit which includes:
+- Utilities:
+  - [getFarcasterUserAddress](/farcasterkit/get-farcaster-user-address)

@@ -7,7 +7,14 @@ export const sidebar = [
   },
   {
     text: 'Farcaster Kit',
-    items: [{ text: 'Introduction', link: '/farcasterkit/introduction' }],
+    items: [{ 
+      text: 'Introduction', link: '/farcasterkit/introduction' 
+    }, {
+      text: 'Utilities',
+      items: [{
+        text: 'getFarcasterUserAddress', link: '/farcasterkit/get-farcaster-user-address'
+      }]
+    }],
   },
   {
     text: 'Frame Kit',

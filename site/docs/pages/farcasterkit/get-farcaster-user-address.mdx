@@ -1,0 +1,44 @@
+### getFarcasterUserAddress
+
+The `getFarcasterUserAddress` function retrieves the user address associated 
+with a given Farcaster ID (fid). It provides options to specify whether 
+the client wants **custody address** and/or **verified addresses**, 
+and also allows the user to provide their own neynar api key. 
+
+By default, both **custody** and **verified** addresses are provided.
+
+## Usage
+
+```ts
+import { getFarcasterUserAddress } from '@coinbase/onchainkit/farcaster';
+ 
+const userAddress = await getFarcasterUserAddress(fid); // [!code focus]
+```
+
+## Returns
+
+```ts
+// Fid - Farcaster Id
+fid: number;
+
+// Optional options to specify whether the client wants custody and/or verified addresses
+// along with their neynar api key
+type GetFarcasterUserAddressOptions =
+  | {
+      neynarApiKey?: string; // default to onchain-kit's default key
+      hasCustodyAddress?: boolean; // default to true
+      hasVerifiedAddresses?: boolean; // default to true
+    }
+  | undefined;
+```
+
+**@Returns**
+
+```ts
+type GetFarcasterUserAddressResponse = {
+  // Custody Address of a given fid
+  custodyAddress?: string;
+  // List of all verified addresses for a given fid
+  verifiedAddresses?: string[];
+};
+```
