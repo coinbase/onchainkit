@@ -10,7 +10,7 @@
 # OnchainKit
 
 <p align="left">
-  OnchainKit is a collection of lightweight, composable, and type-safe React components along with TypeScript utilities to create top-tier onchain applications.
+  OnchainKit: React components and TypeScript utilities for top-tier onchain apps.
 <p>
 
 <p align="left">
@@ -40,6 +40,10 @@
   </a>
 </p>
 
+## Documentation
+
+For documentation and guides, visit [onchainkit.xyz](https://onchainkit.xyz/).
+
 ## Getting Started
 
 Add OnchainKit to your project, install the required packages.
@@ -59,8 +63,11 @@ pnpm add @coinbase/onchainkit viem@2.x react@18 react-dom@18
 
 OnchainKit is divided into various theme utilities and components that are available for your use:
 
-- [Frame Kit 🖼️](https://github.com/coinbase/onchainkit?tab=readme-ov-file#frame-kit-%EF%B8%8F)
-- [Identity Kit 👨‍🚀](https://github.com/coinbase/onchainkit?tab=readme-ov-file#identity-kit-)
+- [Farcaster Kit](https://onchainkit.xyz/farcasterkit/introduction)
+  - Utilitis:
+    - [`getFarcasterUserAddress`](https://onchainkit.xyz/farcasterkit/get-farcaster-user-address)
+- [Frame Kit](https://github.com/coinbase/onchainkit?tab=readme-ov-file#frame-kit-%EF%B8%8F)
+- [Identity Kit](https://github.com/coinbase/onchainkit?tab=readme-ov-file#identity-kit-)
 
 <br />
 <br />
