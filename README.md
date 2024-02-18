@@ -1,8 +1,8 @@
 <p align="center">
   <a href="https://github.com/coinbase/onchainkit">
     <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="./docs/logo/v-0-6.png">
-      <img alt="OnchainKit logo vibes" src="./docs/logo/v-0-6.png" width="auto">
+      <source media="(prefers-color-scheme: dark)" srcset="./site/public/logo/v-0-6.png">
+      <img alt="OnchainKit logo vibes" src="./site/docs/public/logo/v-0-6.png" width="auto">
     </picture>
   </a>
 </p>
@@ -10,7 +10,7 @@
 # OnchainKit
 
 <p align="left">
-  OnchainKit is a collection of tools to build world-class onchain apps with CSS, React, and Typescript.
+  OnchainKit is a collection of lightweight, composable, and type-safe React components along with TypeScript utilities to create top-tier onchain applications.
 <p>
 
 <p align="left">
