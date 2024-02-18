@@ -72,14 +72,21 @@ OnchainKit offers three themes packed with React components and TypeScript utili
 To integrate OnchainKit into your project, begin by installing the necessary packages.
 
 ```bash
-# Use Yarn
-yarn add @coinbase/onchainkit viem@2.x react@18 react-dom@18
+# Yarn: Add library
+yarn add @coinbase/onchainkit
+# Yarn: Depending on the components or utilities you choose,
+# you may end up utilizing any of those libraries.
+yarn add viem@2.x react@18 react-dom@18 graphql@14 graphql-request@6
+
+# or
 
 # Use NPM
-npm install @coinbase/onchainkit viem@2.x react@18 react-dom@18
+npm install @coinbase/onchainkit
+npm install viem@2.x react@18 react-dom@18 graphql@14 graphql-request@6
 
 # Use PNPM
-pnpm add @coinbase/onchainkit viem@2.x react@18 react-dom@18
+pnpm add @coinbase/onchainkit
+npm install viem@2.x react@18 react-dom@18 graphql@14 graphql-request@6
 ```
 
 Then, feel free to utilize any of the components or utilities, such as `FrameMetadata`.
