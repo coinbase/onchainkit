@@ -1,3 +1,4 @@
+import { BORDER_COLOR } from '@/utils/constants';
 import { fetchFrame } from '@/utils/fetchFrame';
 import { frameResultsAtom } from '@/utils/store';
 import { useAtom } from 'jotai';
@@ -14,14 +15,18 @@ export function FrameInput() {
 
   return (
     <div className="grid grid-cols-[2fr_1fr] gap-4">
-      <input
-        className="rounded-lg border border-white p-2 text-black"
-        type="text"
-        value={url}
-        onChange={(e) => setUrl(e.target.value)}
-      />
+      <label className="flex flex-col">
+        Enter your frame URL
+        <input
+          className={`h-[40px] rounded-md border ${BORDER_COLOR} bg-[#191918] p-2`}
+          type="url"
+          placeholder="Enter URL"
+          value={url}
+          onChange={(e) => setUrl(e.target.value)}
+        />
+      </label>
       <button
-        className="rounded-lg border border-white"
+        className="h-[40px] self-end rounded-full bg-white text-black"
         type="button"
         onClick={getResults}
         disabled={url.length < 1}

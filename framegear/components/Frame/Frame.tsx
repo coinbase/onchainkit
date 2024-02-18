@@ -1,6 +1,6 @@
 import { frameResultsAtom } from '@/utils/store';
 import { useAtom } from 'jotai';
-import { useMemo } from 'react';
+import { PropsWithChildren, useMemo } from 'react';
 
 export function Frame() {
   const [results] = useAtom(frameResultsAtom);
@@ -36,16 +36,16 @@ function ValidFrame({ tags }: { tags: Record<string, string> }) {
       buttons,
     };
   }, [tags]);
-  console.log({ buttons });
+
   return (
     <div>
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img className={`rounded-t-xl aspect-[${imageAspectRatio}]`} src={image} alt="" />
-      <div className="flex flex-wrap gap-2 rounded-b-xl border-b border-l border-r border-slate-600 px-4 py-2">
+      <img className={`w-full rounded-t-xl aspect-[${imageAspectRatio}]`} src={image} alt="" />
+      <div className="flex flex-wrap gap-2 rounded-b-xl bg-[#f3f3f3] px-4 py-2">
         {buttons.map((button) =>
           button ? (
             <button
-              className="w-[45%] grow rounded-lg bg-pink-950 p-2"
+              className="w-[45%] grow rounded-lg border border-[#cfd0d2] bg-white p-2 text-black"
               type="button"
               key={button.key}
               disabled
@@ -68,13 +68,23 @@ function ErrorFrame() {
 
 function PlaceholderFrame() {
   return (
-    <div className="flex aspect-[1.91/1] w-full rounded-xl border-slate-700 bg-fuchsia-950">
-      <div></div>
-      <div className="flex h-16 w-full flex-wrap gap-2 self-end rounded-b-xl bg-slate-700 px-4 py-2">
-        <button className="w-[45%] grow rounded-lg bg-slate-400 p-2 text-black" type="button">
-          Load Frame To Continue
-        </button>
+    <div className="flex flex-col">
+      <div className="flex aspect-[1.91/1] w-full rounded-t-xl bg-[#855DCD]"></div>
+      <div className="flex flex-wrap gap-2 rounded-b-xl bg-[#f3f3f3] px-4 py-2">
+        <FrameButton>Get Started</FrameButton>
       </div>
     </div>
+  );
+}
+
+function FrameButton({ children }: PropsWithChildren<{}>) {
+  return (
+    <button
+      className="w-[45%] grow rounded-lg border border-[#cfd0d2] bg-white p-2 text-black"
+      type="button"
+      disabled
+    >
+      <span>{children}</span>
+    </button>
   );
 }
