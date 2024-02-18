@@ -68,6 +68,19 @@ export const sidebar = [
     items: [
       { text: 'Introduction', link: '/identitykit/introduction' },
       {
+        text: 'Components',
+        items: [
+          {
+            text: 'Avatar',
+            link: '/identitykit/avatar',
+          },
+          {
+            text: 'Name',
+            link: '/identitykit/name',
+          },
+        ],
+      },
+      {
         text: 'Types',
         link: '/identitykit/types',
       },

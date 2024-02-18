@@ -1,0 +1,24 @@
+# Avatar
+
+The `Avatar` component is used to display ENS avatar associated with Ethereum addresses. When an ENS avatar is not available, it defaults to blue color avatar.
+
+## Usage
+
+```tsx
+import { Avatar } from '@coinbase/onchainkit';
+
+<Avatar address="0x1234567890abcdef1234567890abcdef12345678" />;
+```
+
+## Props
+
+```ts
+type UseAvatar = {
+  // Ethereum address to be resolved from ENS.
+  address: Address;
+  // Optional CSS class for custom styling.
+  className?: string;
+  // Additional HTML attributes for the span element.
+  props?: React.HTMLAttributes<HTMLSpanElement>;
+};
+```
