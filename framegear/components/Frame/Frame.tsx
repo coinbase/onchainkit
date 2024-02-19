@@ -41,10 +41,19 @@ function ValidFrame({ tags }: { tags: Record<string, string> }) {
     <div>
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img className={`w-full rounded-t-xl aspect-[${imageAspectRatio}]`} src={image} alt="" />
-      <div className="bg-button flex flex-wrap gap-2 rounded-b-xl px-4 py-2">
-        {buttons.map((button) =>
-          button ? <FrameButton key={button.key}>{button.value}</FrameButton> : null,
+      <div className="bg-content-light flex flex-col gap-2 rounded-b-xl px-4 py-2">
+        {!!input && (
+          <input
+            className="bg-input-light border-light rounded-lg border p-2 text-black"
+            type="text"
+            placeholder={input}
+          />
         )}
+        <div className="flex flex-wrap gap-4">
+          {buttons.map((button) =>
+            button ? <FrameButton key={button.key}>{button.value}</FrameButton> : null,
+          )}
+        </div>
       </div>
     </div>
   );
@@ -61,7 +70,7 @@ function PlaceholderFrame() {
   return (
     <div className="flex flex-col">
       <div className="bg-farcaster flex aspect-[1.91/1] w-full rounded-t-xl"></div>
-      <div className="bg-button flex flex-wrap gap-2 rounded-b-xl px-4 py-2">
+      <div className="bg-content-light flex flex-wrap gap-2 rounded-b-xl px-4 py-2">
         <FrameButton>Get Started</FrameButton>
       </div>
     </div>
