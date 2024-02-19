@@ -269,6 +269,28 @@ describe('getFrameHtmlResponse', () => {
     expect(html).not.toContain('fc:frame:button:4:action');
     expect(html).not.toContain('fc:frame:button:4:target');
   });
+
+  it('should set a target when action is post', () => {
+    const html = getFrameHtmlResponse({
+      buttons: [{ label: 'button1', action: 'post', target: 'https://example.com/api/frame7' }],
+      image: 'image',
+    });
+
+    expect(html).toContain('<meta property="fc:frame:button:1" content="button1" />');
+    expect(html).toContain('<meta property="fc:frame:button:1:action" content="post" />');
+    expect(html).toContain(
+      '<meta property="fc:frame:button:1:target" content="https://example.com/api/frame7" />',
+    );
+    expect(html).not.toContain('fc:frame:button:2');
+    expect(html).not.toContain('fc:frame:button:2:action');
+    expect(html).not.toContain('fc:frame:button:2:target');
+    expect(html).not.toContain('fc:frame:button:3');
+    expect(html).not.toContain('fc:frame:button:3:action');
+    expect(html).not.toContain('fc:frame:button:3:target');
+    expect(html).not.toContain('fc:frame:button:4');
+    expect(html).not.toContain('fc:frame:button:4:action');
+    expect(html).not.toContain('fc:frame:button:4:target');
+  });
 });
 
 export { getFrameHtmlResponse };
