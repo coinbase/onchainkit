@@ -3,12 +3,14 @@ import {
   NEYNAR_DEFAULT_API_KEY,
   neynarFrameValidation,
 } from '../utils/neynar/frame/neynarFrameFunctions';
+import { DebugFrameRequest } from './getDebugFrameAction';
 
 type FrameMessageOptions =
   | {
       neynarApiKey?: string;
       castReactionContext?: boolean;
       followContext?: boolean;
+      allowDebug?: boolean;
     }
   | undefined;
 
@@ -20,9 +22,19 @@ type FrameMessageOptions =
  * @param body The JSON received by server on frame callback
  */
 async function getFrameMessage(
-  body: FrameRequest,
+  body: FrameRequest | DebugFrameRequest,
   messageOptions?: FrameMessageOptions,
 ): Promise<FrameValidationResponse> {
+  // Skip validation only when allowed and when receiving a debug request
+  if (messageOptions?.allowDebug) {
+    if ((body as DebugFrameRequest).onchainkitDebug) {
+      return {
+        isValid: true,
+        message: (body as DebugFrameRequest).onchainkitDebug,
+      };
+    }
+  }
+
   // Validate the message
   const response = await neynarFrameValidation(
     body?.trustedData?.messageBytes,
