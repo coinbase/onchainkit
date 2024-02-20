@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.8.0
+
+### Minor Changes
+
+- ee72476: - **feat**: `getFrameMessage` can now handle mock frame messages. When `allowFramegear` is passed as an option (defaults to `false`), it will skip validating which facilitates testing locally running apps with future releases of `framegear`. By @cnasc #149
+  - **docs**: polish README.md and site. By @zizzamia #144
+
 ## 0.7.0
 
 ### Minor Changes
