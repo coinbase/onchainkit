@@ -1,0 +1,52 @@
+# sendFrameApiTransaction
+
+Once you have created a api key and wallet you can send transactions to the configured chain using this function.
+
+### Note
+
+As its unlikely you you will know the address of the user who interacts with your frame we allow you to pass the string `{frame-user}` in the `args` parameter where the user address is required. This string will be replaced with the address of the user who interacted with the frame.
+
+## Usage
+
+```ts
+import { sendFrameApiTransaction } from '@coinbase/onchainkit';
+
+const response = await sendFrameApiTransaction({
+  apiKey: 'your-api-key',
+  frameTrustedData: 'kuhrekehirvtuneroj...',
+  contractAddress: '0x...',
+  functionSignature: 'mint(address to)',
+  args: {
+    to: '0x...',
+  },
+});
+
+console.log(response);
+// { transactionId: '0x...', userAddress: '0x...' }
+```
+
+## Returns
+
+```ts
+type Promise<SendFrameApiTransactionResponse>;
+
+// If there is an error, the response will be undefined otherwise we will get the Syndicate Transaction ID and userAddress that is retrieved from the frameTrustedData.
+type SendFrameApiTransactionResponse =
+  | { transactionId: string; userAddress: Address }
+  | undefined;
+```
+
+## Parameters
+
+```ts
+interface SendFrameApiTransaction {
+  apiKey: string;
+  frameTrustedData: string;
+  contractAddress: Address;
+  functionSignature: string;
+  args: Record<string, any>;
+  shouldLike?: boolean;
+  shouldRecast?: boolean;
+  shouldFollow?: boolean;
+}
+```
