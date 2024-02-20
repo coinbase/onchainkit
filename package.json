@@ -83,5 +83,8 @@
       },
       "default": "./lib/index.js"
     }
+  },
+  "dependencies": {
+    "@coinbase/onchainkit": "^0.8.0"
   }
 }
