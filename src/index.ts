@@ -17,4 +17,6 @@ export type {
   FrameMetadataType,
   FrameRequest,
   FrameValidationData,
+  MockFrameRequest,
+  MockFrameRequestOptions,
 } from './core/types';
