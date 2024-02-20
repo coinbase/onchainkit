@@ -58,12 +58,12 @@ export const sidebar = [
         ],
       },
       {
-        text: 'Types',
-        link: '/framekit/types',
+        text: 'Framegear',
+        link: '/framekit/framegear',
       },
       {
-        text: 'Emulator',
-        link: '/framekit/framegear',
+        text: 'Types',
+        link: '/framekit/types',
       },
     ],
   },
