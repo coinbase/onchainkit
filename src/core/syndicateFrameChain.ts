@@ -11,6 +11,7 @@ export const syndicateFrameChain = defineChain({
   rpcUrls: {
     default: {
       http: ['https://rpc-frame.syndicate.io'],
+      webSocket: ['wss://rpc-frame.syndicate.io'],
     },
   },
   blockExplorers: {
