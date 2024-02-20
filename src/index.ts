@@ -5,6 +5,7 @@ export { getFrameHtmlResponse } from './core/getFrameHtmlResponse';
 export { getFrameMetadata } from './core/getFrameMetadata';
 export { getFrameMessage } from './core/getFrameMessage';
 export { getMockFrameRequest } from './core/getMockFrameRequest';
+export { createFrameApiKey } from './core/createFrameApiKey';
 export { FrameMetadata } from './components/FrameMetadata';
 export { Avatar } from './components/Avatar';
 export { Name } from './components/Name';
@@ -20,4 +21,6 @@ export type {
   FrameValidationData,
   MockFrameRequest,
   MockFrameRequestOptions,
+  CreateFrameApiKey,
+  CreateFrameApiKeyResponse,
 } from './core/types';

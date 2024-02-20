@@ -198,3 +198,43 @@ export type MockFrameRequestOptions = {
  * Note: exported as public Type
  */
 export type MockFrameRequest = FrameRequest & { mockFrameData: Required<FrameValidationData> };
+
+/**
+ * Syndicate Frame API Create API Key Request Args
+ * Currently works with Syndicate Frame Chain & Base Mainnet
+ */
+export interface CreateFrameApiKey {
+  chainId: 5101 | 8453;
+}
+
+/**
+ * Syndicate Frame API Create API Key Response
+ */
+export type CreateFrameApiKeyResponse = string | undefined;
+
+/**
+ * Syndicate Frame API Error Response
+ * This is a constant type of reponse from the whole API
+ */
+export interface SyndicateFrameApiErrorResponse {
+  success: false;
+  error: string;
+}
+
+/**
+ * Syndicate Frame API Success Response
+ * This is a partial constant type of reponse from the whole API
+ * We can pass a generic type to the data field
+ */
+export interface SyndicateFrameApiSuccessResponse<T> {
+  success: true;
+  data: T;
+}
+
+export type SyndicateFrameApiResponse<T> =
+  | SyndicateFrameApiSuccessResponse<T>
+  | SyndicateFrameApiErrorResponse;
+
+export type CreateFrameApiKeyFetchResponse =
+  | SyndicateFrameApiSuccessResponse<{ apiKey: string }>
+  | SyndicateFrameApiErrorResponse;
