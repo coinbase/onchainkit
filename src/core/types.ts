@@ -213,6 +213,33 @@ export interface CreateFrameApiKey {
 export type CreateFrameApiKeyResponse = string | undefined;
 
 /**
+ * API Response from the Syndicate Frame API fetch call
+ */
+export type CreateFrameApiKeyFetchResponse =
+  | SyndicateFrameApiSuccessResponse<{ apiKey: string }>
+  | SyndicateFrameApiErrorResponse;
+
+/**
+ * Syndicate Frame API Create Wallet Request Args
+ */
+export interface CreateFrameApiWallet {
+  apiKey: string;
+}
+
+/**
+ * Syndicate Frame API Create Wallet Response
+ */
+export type CreateFrameApiWalletResponse = Address[] | undefined;
+
+/**
+ * API Response from the Syndicate Frame API fetch call
+ */
+export type CreateFrameApiWalletFetchResponse =
+  | SyndicateFrameApiSuccessResponse<{ walletAddresses: Address[] }>
+  | SyndicateFrameApiErrorResponse;
+
+/* General Syndicate Frame API Types */
+/**
  * Syndicate Frame API Error Response
  * This is a constant type of reponse from the whole API
  */
@@ -231,10 +258,9 @@ export interface SyndicateFrameApiSuccessResponse<T> {
   data: T;
 }
 
+/**
+ * A disriminated union type to represent the Syndicate Frame API response
+ */
 export type SyndicateFrameApiResponse<T> =
   | SyndicateFrameApiSuccessResponse<T>
-  | SyndicateFrameApiErrorResponse;
-
-export type CreateFrameApiKeyFetchResponse =
-  | SyndicateFrameApiSuccessResponse<{ apiKey: string }>
   | SyndicateFrameApiErrorResponse;
