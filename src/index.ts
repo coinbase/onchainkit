@@ -9,6 +9,7 @@ export { createFrameApiKey } from './core/createFrameApiKey';
 export { createFrameApiWallet } from './core/createFrameApiWallet';
 export { getFrameApiWallets } from './core/getFrameApiWallets';
 export { sendFrameApiTransaction } from './core/sendFrameApiTransaction';
+export { getFrameApiTxHash } from './core/getFrameApiTxHash';
 export { FrameMetadata } from './components/FrameMetadata';
 export { Avatar } from './components/Avatar';
 export { Name } from './components/Name';
@@ -32,4 +33,6 @@ export type {
   GetFrameApiWalletsResponse,
   SendFrameApiTransaction,
   SendFrameApiTransactionResponse,
+  GetFrameApiTxHash,
+  GetFrameApiTxHashResponse,
 } from './core/types';

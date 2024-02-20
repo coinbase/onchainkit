@@ -285,6 +285,26 @@ export type SendFrameApiTransactionFetchResponse =
   | SyndicateFrameApiSuccessResponse<{ transactionId: string; userAddress: Address }>
   | SyndicateFrameApiErrorResponse;
 
+/**
+ * Syndicate Frame API Get Tx hash Args
+ */
+export interface GetFrameApiTxHash {
+  apiKey: string;
+  transactionId: string;
+}
+
+/**
+ * Syndicate Frame API Get Tx hash Response
+ */
+export type GetFrameApiTxHashResponse = string | null | undefined;
+
+/**
+ * API Response from the Syndicate Frame API fetch call
+ */
+export type GetFrameApiTxHashFetchResponse =
+  | SyndicateFrameApiSuccessResponse<{ transactionHash: string | null }>
+  | SyndicateFrameApiErrorResponse;
+
 /* General Syndicate Frame API Types */
 /**
  * Syndicate Frame API Error Response
