@@ -17,7 +17,8 @@ export default defineConfig({
     <>
       <FrameMetadata
         image={{
-          src: 'https://onchainkit.xyz/logo/v0-8.png',
+          src: 'https://onchainkit.xyz/frame/landing-1-1-v1.png',
+          aspectRatio: '1:1',
         }}
         ogTitle={ONCHAINKIT_TITLE}
         ogDescription={ONCHAINKIT_DESCRIPTION}
