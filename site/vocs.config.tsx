@@ -17,8 +17,15 @@ export default defineConfig({
   head: (
     <>
       <FrameMetadata
+        buttons={[
+          {
+            action: 'link',
+            label: 'Check out the docs',
+            target: 'https://onchainkit.xyz',
+          },
+        ]}
         image={{
-          src: 'https://onchainkit.xyz/logo/',
+          src: 'https://onchainkit.xyz/logo/v0-8.png',
         }}
         ogTitle={ONCHAINKIT_TITLE}
         ogDescription={ONCHAINKIT_DESCRIPTION}
