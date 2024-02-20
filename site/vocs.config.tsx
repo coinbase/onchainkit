@@ -6,8 +6,7 @@ import { sidebar } from './sidebar';
 export const GOOGLE_ANALYTICS_ID = process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID ?? 'TEST_GA';
 
 const ONCHAINKIT_TITLE = 'OnchainKit';
-const ONCHAINKIT_DESCRIPTION = `A collection of tools to build world-class onchain 
-apps with CSS, React, and Typescript.`;
+const ONCHAINKIT_DESCRIPTION = `React components and TypeScript utilities for top-tier onchain apps.`;
 
 export default defineConfig({
   baseUrl: 'https://onchainkit.xyz',
@@ -17,13 +16,6 @@ export default defineConfig({
   head: (
     <>
       <FrameMetadata
-        buttons={[
-          {
-            action: 'link',
-            label: 'Check out the docs',
-            target: 'https://onchainkit.xyz',
-          },
-        ]}
         image={{
           src: 'https://onchainkit.xyz/logo/v0-8.png',
         }}
