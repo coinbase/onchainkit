@@ -24,7 +24,7 @@ async function getFrameMessage(
   body: FrameRequest | MockFrameRequest,
   messageOptions?: FrameMessageOptions,
 ): Promise<FrameValidationResponse> {
-  // Skip validation only when allowed and when receiving a debug request
+  // Skip validation only when allowed and when receiving a request from framegear
   if (messageOptions?.allowFramegear) {
     if ((body as MockFrameRequest).mockFrameData) {
       return {
