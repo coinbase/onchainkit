@@ -220,25 +220,6 @@ export type CreateFrameApiKeyFetchResponse =
   | SyndicateFrameApiErrorResponse;
 
 /**
- * Syndicate Frame API Create Wallet Request Args
- */
-export interface CreateFrameApiWallet {
-  apiKey: string;
-}
-
-/**
- * Syndicate Frame API Create Wallet Response
- */
-export type CreateFrameApiWalletResponse = Address[] | undefined;
-
-/**
- * API Response from the Syndicate Frame API fetch call
- */
-export type CreateFrameApiWalletFetchResponse =
-  | SyndicateFrameApiSuccessResponse<{ walletAddresses: Address[] }>
-  | SyndicateFrameApiErrorResponse;
-
-/**
  * Syndicate Frame API Get Wallets Args
  */
 export interface GetFrameApiWallets {

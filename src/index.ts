@@ -7,7 +7,6 @@ export { getFrameMessage } from './core/getFrameMessage';
 export { getMockFrameRequest } from './core/getMockFrameRequest';
 export { syndicateFrameChain } from './core/syndicateFrameChain';
 export { createFrameApiKey } from './core/createFrameApiKey';
-export { createFrameApiWallet } from './core/createFrameApiWallet';
 export { getFrameApiWallets } from './core/getFrameApiWallets';
 export { sendFrameApiTransaction } from './core/sendFrameApiTransaction';
 export { getFrameApiTxHash } from './core/getFrameApiTxHash';
@@ -28,8 +27,6 @@ export type {
   MockFrameRequestOptions,
   CreateFrameApiKey,
   CreateFrameApiKeyResponse,
-  CreateFrameApiWallet,
-  CreateFrameApiWalletResponse,
   GetFrameApiWallets,
   GetFrameApiWalletsResponse,
   SendFrameApiTransaction,
