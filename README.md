@@ -60,6 +60,7 @@ OnchainKit offers three themes packed with React components and TypeScript utili
   - Utilities:
     - [`getFrameHtmlResponse`](https://onchainkit.xyz/framekit/get-frame-html-response)
     - [`getFrameMessage`](https://onchainkit.xyz/framekit/get-frame-message)
+    - [`getXmtpFrameMessage`](https://onchainkit.xyz/framekit/get-xmtp-frame-message)
     - [`getFrameMetadata`](https://onchainkit.xyz/framekit/get-frame-metadata)
   - [Framegear](https://onchainkit.xyz/framekit/framegear)
 
