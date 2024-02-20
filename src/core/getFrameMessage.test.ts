@@ -3,7 +3,7 @@ import { getFrameMessage } from './getFrameMessage';
 import { neynarBulkUserLookup } from '../utils/neynar/user/neynarUserFunctions';
 import { FrameRequest } from './types';
 import { neynarFrameValidation } from '../utils/neynar/frame/neynarFrameFunctions';
-import { getDebugFrameRequest } from './getDebugFrameRequest';
+import { getMockFrameRequest } from './getMockFrameRequest';
 
 jest.mock('../utils/neynar/user/neynarUserFunctions', () => {
   return {
@@ -25,9 +25,20 @@ describe('getFrameValidatedMessage', () => {
     expect(result?.isValid).toEqual(false);
   });
 
-  it('should consider debug messages valid, if allowed', async () => {
+  it('should consider invalid non-mock requests as invalid, even if mock requests are allowed', async () => {
     const result = await getFrameMessage(
-      getDebugFrameRequest({
+      {
+        trustedData: { messageBytes: 'invalid' },
+      } as FrameRequest,
+      { allowDebug: true },
+    );
+    expect(result?.isValid).toEqual(false);
+    expect(result.message).toBeUndefined();
+  });
+
+  it('should consider mock messages valid, if allowed', async () => {
+    const result = await getFrameMessage(
+      getMockFrameRequest({
         untrustedData: {
           buttonIndex: 1,
           castId: {
@@ -51,9 +62,9 @@ describe('getFrameValidatedMessage', () => {
     expect(result.message?.button).toEqual(1);
   });
 
-  it('should consider debug messages invalid, if not allowed (default)', async () => {
+  it('should consider mock messages invalid, if not allowed (default)', async () => {
     const result = await getFrameMessage(
-      getDebugFrameRequest({
+      getMockFrameRequest({
         untrustedData: {
           buttonIndex: 1,
           castId: {

@@ -1,17 +1,4 @@
-import { FrameRequest, FrameValidationData } from './types';
-
-export type DebugFrameRequestOptions = {
-  following?: boolean; // Indicates if the viewer clicking the frame follows the cast author
-  interactor?: {
-    fid?: number; // Viewer Farcaster ID
-    custody_address?: string; // Viewer custody address
-    verified_accounts?: string[]; // Viewer account addresses
-  };
-  liked?: boolean; // Indicates if the viewer clicking the frame liked the cast
-  recasted?: boolean; // Indicates if the viewer clicking the frame recasted the cast
-};
-
-type DebugFrameRequest = FrameRequest & { onchainkitDebug: Required<FrameValidationData> };
+import { FrameRequest, MockFrameRequest, MockFrameRequestOptions } from './types';
 
 /**
  * Modify a standard frame request to include simulated values (e.g., indicate the viewer
@@ -20,10 +7,10 @@ type DebugFrameRequest = FrameRequest & { onchainkitDebug: Required<FrameValidat
  * @param options An object containing values we will pretend are real for the purposes of debugging.
  * @returns
  */
-function getDebugFrameRequest(
+function getMockFrameRequest(
   request: FrameRequest,
-  options?: DebugFrameRequestOptions,
-): DebugFrameRequest {
+  options?: MockFrameRequestOptions,
+): MockFrameRequest {
   return {
     ...request,
     onchainkitDebug: {
@@ -47,4 +34,4 @@ function getDebugFrameRequest(
   };
 }
 
-export { getDebugFrameRequest, type DebugFrameRequest };
+export { getMockFrameRequest };

@@ -1,6 +1,6 @@
 // 🌲☀️🌲
 export { version } from './version';
-export { getDebugFrameRequest, type DebugFrameRequestOptions } from './core/getDebugFrameRequest';
+export { getMockFrameRequest } from './core/getMockFrameRequest';
 export { getEASAttestations } from './core/getEASAttestations';
 export { getFrameHtmlResponse } from './core/getFrameHtmlResponse';
 export { getFrameMetadata } from './core/getFrameMetadata';
@@ -18,4 +18,6 @@ export type {
   FrameMetadataType,
   FrameRequest,
   FrameValidationData,
+  MockFrameRequest,
+  MockFrameRequestOptions,
 } from './core/types';
