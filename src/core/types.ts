@@ -197,4 +197,4 @@ export type MockFrameRequestOptions = {
  *
  * Note: exported as public Type
  */
-export type MockFrameRequest = FrameRequest & { onchainkitDebug: Required<FrameValidationData> };
+export type MockFrameRequest = FrameRequest & { mockFrameData: Required<FrameValidationData> };

@@ -13,7 +13,7 @@ function getMockFrameRequest(
 ): MockFrameRequest {
   return {
     ...request,
-    onchainkitDebug: {
+    mockFrameData: {
       button: request.untrustedData.buttonIndex,
       input: request.untrustedData.inputText,
       following: !!options?.following,

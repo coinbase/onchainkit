@@ -9,7 +9,7 @@ type FrameMessageOptions =
       neynarApiKey?: string;
       castReactionContext?: boolean;
       followContext?: boolean;
-      allowDebug?: boolean;
+      allowFramegear?: boolean;
     }
   | undefined;
 
@@ -25,11 +25,11 @@ async function getFrameMessage(
   messageOptions?: FrameMessageOptions,
 ): Promise<FrameValidationResponse> {
   // Skip validation only when allowed and when receiving a debug request
-  if (messageOptions?.allowDebug) {
-    if ((body as MockFrameRequest).onchainkitDebug) {
+  if (messageOptions?.allowFramegear) {
+    if ((body as MockFrameRequest).mockFrameData) {
       return {
         isValid: true,
-        message: (body as MockFrameRequest).onchainkitDebug,
+        message: (body as MockFrameRequest).mockFrameData,
       };
     }
   }

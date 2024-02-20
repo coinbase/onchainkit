@@ -30,7 +30,7 @@ describe('getFrameValidatedMessage', () => {
       {
         trustedData: { messageBytes: 'invalid' },
       } as FrameRequest,
-      { allowDebug: true },
+      { allowFramegear: true },
     );
     expect(result?.isValid).toEqual(false);
     expect(result.message).toBeUndefined();
@@ -56,7 +56,7 @@ describe('getFrameValidatedMessage', () => {
           messageBytes: '0xthisisnotreal',
         },
       }),
-      { allowDebug: true },
+      { allowFramegear: true },
     );
     expect(result?.isValid).toEqual(true);
     expect(result.message?.button).toEqual(1);
