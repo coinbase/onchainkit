@@ -9,6 +9,7 @@ import {
  * Create a wallet that will be used to perform actions onchain on behalf of the authenticated user
  *
  * Currently we only generate 1 wallet per api key but if you would like to have multiple please contact Syndicate
+ *
  * @param apiKey A valid API key geneerated from createFrameApiKey
  * @returns A promise that either resolves to the generated wallet address(es) or undefined if there is an error
  */
