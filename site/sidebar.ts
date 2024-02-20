@@ -61,6 +61,10 @@ export const sidebar = [
         text: 'Types',
         link: '/framekit/types',
       },
+      {
+        text: 'Emulator',
+        link: '/framekit/framegear',
+      },
     ],
   },
   {
