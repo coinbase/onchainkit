@@ -175,3 +175,26 @@ export type EASChainDefinition = {
   id: number; // blockchain source id
   schemaUids: EASSchemaUid[]; // Array of EAS Schema UIDs
 };
+
+/**
+ * Settings to simulate statuses on mock frames.
+ *
+ * Note: exported as public Type
+ */
+export type MockFrameRequestOptions = {
+  following?: boolean; // Indicates if the viewer clicking the frame follows the cast author
+  interactor?: {
+    fid?: number; // Viewer Farcaster ID
+    custody_address?: string; // Viewer custody address
+    verified_accounts?: string[]; // Viewer account addresses
+  };
+  liked?: boolean; // Indicates if the viewer clicking the frame liked the cast
+  recasted?: boolean; // Indicates if the viewer clicking the frame recasted the cast
+};
+
+/**
+ * A mock frame request payload
+ *
+ * Note: exported as public Type
+ */
+export type MockFrameRequest = FrameRequest & { mockFrameData: Required<FrameValidationData> };

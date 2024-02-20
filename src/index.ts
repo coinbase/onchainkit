@@ -4,6 +4,7 @@ export { getEASAttestations } from './core/getEASAttestations';
 export { getFrameHtmlResponse } from './core/getFrameHtmlResponse';
 export { getFrameMetadata } from './core/getFrameMetadata';
 export { getFrameMessage } from './core/getFrameMessage';
+export { getMockFrameRequest } from './core/getMockFrameRequest';
 export { FrameMetadata } from './components/FrameMetadata';
 export { Avatar } from './components/Avatar';
 export { Name } from './components/Name';
@@ -17,4 +18,6 @@ export type {
   FrameMetadataType,
   FrameRequest,
   FrameValidationData,
+  MockFrameRequest,
+  MockFrameRequestOptions,
 } from './core/types';

@@ -1,4 +1,4 @@
-import { FrameRequest, FrameValidationResponse } from './types';
+import { FrameRequest, FrameValidationResponse, MockFrameRequest } from './types';
 import {
   NEYNAR_DEFAULT_API_KEY,
   neynarFrameValidation,
@@ -9,6 +9,7 @@ type FrameMessageOptions =
       neynarApiKey?: string;
       castReactionContext?: boolean;
       followContext?: boolean;
+      allowFramegear?: boolean;
     }
   | undefined;
 
@@ -20,9 +21,19 @@ type FrameMessageOptions =
  * @param body The JSON received by server on frame callback
  */
 async function getFrameMessage(
-  body: FrameRequest,
+  body: FrameRequest | MockFrameRequest,
   messageOptions?: FrameMessageOptions,
 ): Promise<FrameValidationResponse> {
+  // Skip validation only when allowed and when receiving a request from framegear
+  if (messageOptions?.allowFramegear) {
+    if ((body as MockFrameRequest).mockFrameData) {
+      return {
+        isValid: true,
+        message: (body as MockFrameRequest).mockFrameData,
+      };
+    }
+  }
+
   // Validate the message
   const response = await neynarFrameValidation(
     body?.trustedData?.messageBytes,
