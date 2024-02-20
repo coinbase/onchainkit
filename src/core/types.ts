@@ -246,7 +246,7 @@ export interface GetFrameApiWallets {
 }
 
 /**
- * Syndicate Frame API Create Wallet Response
+ * Syndicate Frame API Get Wallets Response
  */
 export type GetFrameApiWalletsResponse = Address[] | undefined;
 
@@ -255,6 +255,34 @@ export type GetFrameApiWalletsResponse = Address[] | undefined;
  */
 export type GetFrameApiWalletsFetchResponse =
   | SyndicateFrameApiSuccessResponse<{ walletAddresses: Address[] }>
+  | SyndicateFrameApiErrorResponse;
+
+/**
+ * Syndicate Frame API Send Transaction Args
+ */
+export interface SendFrameApiTransaction {
+  apiKey: string;
+  frameTrustedData: string;
+  contractAddress: Address;
+  functionSignature: string;
+  args: Record<string, any>;
+  shouldLike?: boolean;
+  shouldRecast?: boolean;
+  shouldFollow?: boolean;
+}
+
+/**
+ * Syndicate Frame API Send Transaction Response
+ */
+export type SendFrameApiTransactionResponse =
+  | { transactionId: string; userAddress: Address }
+  | undefined;
+
+/**
+ * API Response from the Syndicate Frame API fetch call
+ */
+export type SendFrameApiTransactionFetchResponse =
+  | SyndicateFrameApiSuccessResponse<{ transactionId: string; userAddress: Address }>
   | SyndicateFrameApiErrorResponse;
 
 /* General Syndicate Frame API Types */

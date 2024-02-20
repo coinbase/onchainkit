@@ -8,6 +8,7 @@ export { getMockFrameRequest } from './core/getMockFrameRequest';
 export { createFrameApiKey } from './core/createFrameApiKey';
 export { createFrameApiWallet } from './core/createFrameApiWallet';
 export { getFrameApiWallets } from './core/getFrameApiWallets';
+export { sendFrameApiTransaction } from './core/sendFrameApiTransaction';
 export { FrameMetadata } from './components/FrameMetadata';
 export { Avatar } from './components/Avatar';
 export { Name } from './components/Name';
@@ -29,4 +30,6 @@ export type {
   CreateFrameApiWalletResponse,
   GetFrameApiWallets,
   GetFrameApiWalletsResponse,
+  SendFrameApiTransaction,
+  SendFrameApiTransactionResponse,
 } from './core/types';
