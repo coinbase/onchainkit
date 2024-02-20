@@ -32,6 +32,6 @@ export function isXmtpFrameRequest(payload: any): payload is XmtpOpenFramesReque
     !!payload &&
     !!payload.untrustedData &&
     !!payload.trustedData &&
-    payload.clientProtocol?.startsWith('xmtp@')
+    !!payload.clientProtocol?.startsWith('xmtp@')
   );
 }
