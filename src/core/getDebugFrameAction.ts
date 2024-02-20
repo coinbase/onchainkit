@@ -22,21 +22,21 @@ type DebugFrameRequest = FrameRequest & { onchainkitDebug: Required<FrameValidat
  */
 function getDebugFrameAction(
   request: FrameRequest,
-  options: DebugFrameRequestOptions,
+  options?: DebugFrameRequestOptions,
 ): DebugFrameRequest {
   return {
     ...request,
     onchainkitDebug: {
       button: request.untrustedData.buttonIndex,
       input: request.untrustedData.inputText,
-      following: !!options.following,
+      following: !!options?.following,
       interactor: {
-        fid: options.interactor?.fid || 0,
-        custody_address: options.interactor?.custody_address || '0xnotarealaddress',
-        verified_accounts: options.interactor?.verified_accounts || [],
+        fid: options?.interactor?.fid || 0,
+        custody_address: options?.interactor?.custody_address || '0xnotarealaddress',
+        verified_accounts: options?.interactor?.verified_accounts || [],
       },
-      liked: !!options.liked,
-      recasted: !!options.recasted,
+      liked: !!options?.liked,
+      recasted: !!options?.recasted,
       valid: true,
       raw: {
         valid: true,
