@@ -1,0 +1,72 @@
+# framegear
+
+`framegear` is a simple tool that allows you to run and test your frames locally:
+
+- without publishing
+- without casting
+- without spending warps
+
+## Installation and Usage
+
+`framegear` is currently distributed as part of the [coinbase/onchainkit](https://github.com/coinbase/onchainkit.git) Git repository.
+
+```sh
+# clone the repo
+git clone https://github.com/coinbase/onchainkit.git
+
+# Use Yarn
+cd onchainkit/framegear
+yarn
+yarn dev
+
+# Use NPM
+cd onchainkit/framegear
+npm install
+npm run dev
+
+# Use PNPM
+cd onchainkit/framegear
+pnpm install
+pnpm run dev
+```
+
+Visit http://localhost:1337 to start the `framegear` interface. Enter the URL of your locally running
+frame (e.g., `http://localhost:3000`) and click `Fetch` to validate your frame response and start testing.
+
+### Frame-specific setup
+
+`framegear` can validate the initial response of any frame. However, more sophisticated debugging is available
+if the frame is built using `@coinbase/onchainkit` (versions `^0.8.0`). When calling the `getFrameMessage` function
+pass the `allowFramegear` option to allow `framegear` to send mock frame actions.
+
+```ts
+const result = await getFrameMessage(body, { allowFramegear: true });
+```
+
+#### An Important Security Note
+
+Frames in production should not pass the `allowFramegear` option. Exact setup will depend on the particular application,
+but one example is:
+
+```ts
+const allowFramegear = process.env.NODE_ENV !== 'production';
+// ...
+const result = await getFrameMessage(body, { allowFramegear });
+```
+
+## Current Abilities
+
+At present, `framegear` is able to validate the initial frame response against the
+[current Frame Specification](https://docs.farcaster.xyz/reference/frames/spec) and interact with frames through
+buttons using the `post` action.
+
+`framegear` is under active development and much more functionality is on the roadmap including (but not limited to):
+
+- more button actions
+- text input
+- simulated conditions
+  - viewer followed
+  - viewer liked
+  - viewer recasted
+
+A partial roadmap can be viewed at https://github.com/coinbase/onchainkit/issues/146
