@@ -6,6 +6,7 @@ esm
 lib
 tmp
 /out-tsc
+site/vocs.config.tsx.timestamp*
 
 # dependencies
 node_modules

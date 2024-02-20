@@ -166,4 +166,25 @@ describe('getFrameMetadata', () => {
       'fc:frame:post_url': 'post_url',
     });
   });
+
+  it('should render the target metadata for post and post_redirect when used', () => {
+    expect(
+      getFrameMetadata({
+        buttons: [
+          { label: 'button1', action: 'post', target: 'https://zizzamia.xyz/api/frame1' },
+          { label: 'button2', action: 'post_redirect', target: 'https://zizzamia.xyz/api/frame2' },
+        ],
+        image: 'image',
+      }),
+    ).toEqual({
+      'fc:frame': 'vNext',
+      'fc:frame:button:1': 'button1',
+      'fc:frame:button:1:action': 'post',
+      'fc:frame:button:1:target': 'https://zizzamia.xyz/api/frame1',
+      'fc:frame:button:2': 'button2',
+      'fc:frame:button:2:action': 'post_redirect',
+      'fc:frame:button:2:target': 'https://zizzamia.xyz/api/frame2',
+      'fc:frame:image': 'image',
+    });
+  });
 });
