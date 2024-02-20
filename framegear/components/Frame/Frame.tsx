@@ -1,7 +1,7 @@
 import { postFrame } from '@/utils/postFrame';
 import { frameResultsAtom } from '@/utils/store';
 import { useAtom } from 'jotai';
-import { PropsWithChildren, useMemo } from 'react';
+import { PropsWithChildren, useCallback, useMemo } from 'react';
 
 export function Frame() {
   const [results] = useAtom(frameResultsAtom);
@@ -24,15 +24,14 @@ function ValidFrame({ tags }: { tags: Record<string, string> }) {
     const image = tags['fc:frame:image'];
     const imageAspectRatio = tags['fc:frame:image:aspect_ratio'] === '1:1' ? '1/1' : '1.91/1';
     const input = tags['fc:frame:input:text'];
-    // TODO: when debugger is live we will also need to extract actions, etc.
     const buttons = [1, 2, 3, 4].map((index) => {
       const key = `fc:frame:button:${index}`;
       const actionKey = `${key}:action`;
       const targetKey = `${key}:target`;
       const value = tags[key];
-      const action = tags[actionKey];
-      const target = tags[targetKey];
-      return value ? { key, value, action, target } : undefined;
+      const action = tags[actionKey] || 'post';
+      const target = tags[targetKey] || tags['fc:frame:post_url'];
+      return value ? { key, value, action, target, index } : undefined;
     });
     return {
       image,
@@ -56,7 +55,11 @@ function ValidFrame({ tags }: { tags: Record<string, string> }) {
         )}
         <div className="flex flex-wrap gap-4">
           {buttons.map((button) =>
-            button ? <FrameButton key={button.key}>{button.value}</FrameButton> : null,
+            button ? (
+              <FrameButton key={button.key} button={button}>
+                {button.value}
+              </FrameButton>
+            ) : null,
           )}
         </div>
       </div>
@@ -82,26 +85,41 @@ function PlaceholderFrame() {
   );
 }
 
-function FrameButton({ children }: PropsWithChildren<{}>) {
+function FrameButton({
+  children,
+  button,
+}: PropsWithChildren<{
+  button?: { key: string; value: string; action: string; target: string; index: number };
+}>) {
+  const [_, setResults] = useAtom(frameResultsAtom);
+  const handleClick = useCallback(async () => {
+    if (button?.action === 'post') {
+      // TODO: collect user options (follow, like, etc.) and include
+      const result = await postFrame({
+        buttonIndex: button.index,
+        url: button.target,
+        // TODO: make these user-input-driven
+        castId: {
+          fid: 0,
+          hash: '0xthisisnotreal',
+        },
+        inputText: '',
+        fid: 0,
+        messageHash: '0xthisisnotreal',
+        network: 0,
+        timestamp: 0,
+      });
+      setResults((prev) => [...prev, result]);
+      return;
+    }
+    // TODO: implement other actions
+  }, [button, setResults]);
   return (
     <button
       className="border-button w-[45%] grow rounded-lg border bg-white p-2 text-black"
       type="button"
-      onClick={() =>
-        postFrame({
-          buttonIndex: 1,
-          castId: {
-            fid: 0,
-            hash: '0xthisisnotreal',
-          },
-          inputText: '',
-          fid: 0,
-          messageHash: '0xthisisnotreal',
-          network: 0,
-          timestamp: 0,
-          url: 'http://localhost:3000/api/frame',
-        })
-      }
+      onClick={handleClick}
+      disabled={button?.action !== 'post'}
     >
       <span>{children}</span>
     </button>

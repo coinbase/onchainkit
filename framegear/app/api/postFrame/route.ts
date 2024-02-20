@@ -12,7 +12,7 @@ export async function POST(req: NextRequest) {
     body: JSON.stringify(debugPayload),
   });
 
-  const text = await res.text();
+  const html = await res.text();
 
-  return Response.json({ text });
+  return Response.json({ html });
 }

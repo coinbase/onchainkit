@@ -1,8 +1,10 @@
 import { FrameRequest, DebugFrameRequestOptions } from '@coinbase/onchainkit';
+import { parseHtml } from './parseHtml';
 
 type FrameData = FrameRequest['untrustedData'];
 
 export async function postFrame(frameData: FrameData, options?: DebugFrameRequestOptions) {
+  // TODO: handle exceptional cases
   const res = await fetch('/api/postFrame', {
     body: JSON.stringify({
       frameData,
@@ -14,5 +16,6 @@ export async function postFrame(frameData: FrameData, options?: DebugFrameReques
     },
   });
   const json = await res.json();
-  console.log(json.text);
+  const html = json.html;
+  return parseHtml(html);
 }
