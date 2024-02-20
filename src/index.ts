@@ -5,7 +5,7 @@ export { getFrameHtmlResponse } from './core/getFrameHtmlResponse';
 export { getFrameMetadata } from './core/getFrameMetadata';
 export { getFrameMessage } from './core/getFrameMessage';
 export { getMockFrameRequest } from './core/getMockFrameRequest';
-export { syndicateFrameChain } from './core/syndicateFrameChain';
+export { syndicateFrameChainDefinition } from './core/syndicateFrameChainDefinition';
 export { createFrameApiKey } from './core/createFrameApiKey';
 export { getFrameApiWallets } from './core/getFrameApiWallets';
 export { sendFrameApiTransaction } from './core/sendFrameApiTransaction';

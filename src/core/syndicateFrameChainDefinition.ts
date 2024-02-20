@@ -1,6 +1,6 @@
 import { defineChain } from 'viem';
 
-export const syndicateFrameChain = defineChain({
+export const syndicateFrameChainDefinition = defineChain({
   id: 5101,
   name: 'Syndicate Frame Chain',
   nativeCurrency: {
