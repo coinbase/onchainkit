@@ -61,6 +61,7 @@ OnchainKit offers three themes packed with React components and TypeScript utili
     - [`getFrameHtmlResponse`](https://onchainkit.xyz/framekit/get-frame-html-response)
     - [`getFrameMessage`](https://onchainkit.xyz/framekit/get-frame-message)
     - [`getFrameMetadata`](https://onchainkit.xyz/framekit/get-frame-metadata)
+  - [Framegear](https://onchainkit.xyz/framekit/framegear)
 
 - [Identity Kit](https://onchainkit.xyz/identitykit/introduction)
   - Components:
@@ -136,10 +137,10 @@ Check out the following places for more OnchainKit-related content:
 ## Authors
 
 - [@zizzamia](https://github.com/zizzamia.png) ([X](https://twitter.com/Zizzamia))
+- [@cnasc](https://github.com/cnasc.png) ([warpcast](https://warpcast.com/cnasc))
 - [@alvaroraminelli](https://github.com/alvaroraminelli.png) ([X](https://twitter.com/alvaroraminelli))
 - [@robpolak](https://github.com/robpolak.png) ([X](https://twitter.com/0xr0b_eth))
 - [@taycaldwell](https://github.com/taycaldwell.png) ([X](https://twitter.com/taycaldwell_))
-- [@cnasc](https://github.com/cnasc.png) ([warpcast](https://warpcast.com/cnasc))
 - [@wespickett](https://github.com/wespickett.png) ([X](https://twitter.com/wespickett))
 
 ## License
