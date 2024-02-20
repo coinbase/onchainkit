@@ -3,7 +3,7 @@ import { getFrameMessage } from './getFrameMessage';
 import { neynarBulkUserLookup } from '../utils/neynar/user/neynarUserFunctions';
 import { FrameRequest } from './types';
 import { neynarFrameValidation } from '../utils/neynar/frame/neynarFrameFunctions';
-import { getDebugFrameAction } from './getDebugFrameAction';
+import { getDebugFrameRequest } from './getDebugFrameRequest';
 
 jest.mock('../utils/neynar/user/neynarUserFunctions', () => {
   return {
@@ -27,7 +27,7 @@ describe('getFrameValidatedMessage', () => {
 
   it('should consider debug messages valid, if allowed', async () => {
     const result = await getFrameMessage(
-      getDebugFrameAction({
+      getDebugFrameRequest({
         untrustedData: {
           buttonIndex: 1,
           castId: {
@@ -53,7 +53,7 @@ describe('getFrameValidatedMessage', () => {
 
   it('should consider debug messages invalid, if not allowed (default)', async () => {
     const result = await getFrameMessage(
-      getDebugFrameAction({
+      getDebugFrameRequest({
         untrustedData: {
           buttonIndex: 1,
           castId: {

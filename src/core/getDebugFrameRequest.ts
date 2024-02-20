@@ -1,6 +1,6 @@
 import { FrameRequest, FrameValidationData } from './types';
 
-type DebugFrameRequestOptions = {
+export type DebugFrameRequestOptions = {
   following?: boolean; // Indicates if the viewer clicking the frame follows the cast author
   interactor?: {
     fid?: number; // Viewer Farcaster ID
@@ -20,7 +20,7 @@ type DebugFrameRequest = FrameRequest & { onchainkitDebug: Required<FrameValidat
  * @param options An object containing values we will pretend are real for the purposes of debugging.
  * @returns
  */
-function getDebugFrameAction(
+function getDebugFrameRequest(
   request: FrameRequest,
   options?: DebugFrameRequestOptions,
 ): DebugFrameRequest {
@@ -47,4 +47,4 @@ function getDebugFrameAction(
   };
 }
 
-export { getDebugFrameAction, type DebugFrameRequest };
+export { getDebugFrameRequest, type DebugFrameRequest };

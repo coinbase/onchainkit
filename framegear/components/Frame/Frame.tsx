@@ -1,3 +1,4 @@
+import { postFrame } from '@/utils/postFrame';
 import { frameResultsAtom } from '@/utils/store';
 import { useAtom } from 'jotai';
 import { PropsWithChildren, useMemo } from 'react';
@@ -26,8 +27,12 @@ function ValidFrame({ tags }: { tags: Record<string, string> }) {
     // TODO: when debugger is live we will also need to extract actions, etc.
     const buttons = [1, 2, 3, 4].map((index) => {
       const key = `fc:frame:button:${index}`;
+      const actionKey = `${key}:action`;
+      const targetKey = `${key}:target`;
       const value = tags[key];
-      return value ? { key, value } : undefined;
+      const action = tags[actionKey];
+      const target = tags[targetKey];
+      return value ? { key, value, action, target } : undefined;
     });
     return {
       image,
@@ -82,7 +87,21 @@ function FrameButton({ children }: PropsWithChildren<{}>) {
     <button
       className="border-button w-[45%] grow rounded-lg border bg-white p-2 text-black"
       type="button"
-      disabled
+      onClick={() =>
+        postFrame({
+          buttonIndex: 1,
+          castId: {
+            fid: 0,
+            hash: '0xthisisnotreal',
+          },
+          inputText: '',
+          fid: 0,
+          messageHash: '0xthisisnotreal',
+          network: 0,
+          timestamp: 0,
+          url: 'http://localhost:3000/api/frame',
+        })
+      }
     >
       <span>{children}</span>
     </button>

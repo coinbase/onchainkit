@@ -3,7 +3,7 @@ import {
   NEYNAR_DEFAULT_API_KEY,
   neynarFrameValidation,
 } from '../utils/neynar/frame/neynarFrameFunctions';
-import { DebugFrameRequest } from './getDebugFrameAction';
+import { DebugFrameRequest } from './getDebugFrameRequest';
 
 type FrameMessageOptions =
   | {

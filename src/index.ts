@@ -1,5 +1,6 @@
 // 🌲☀️🌲
 export { version } from './version';
+export { getDebugFrameRequest, type DebugFrameRequestOptions } from './core/getDebugFrameRequest';
 export { getEASAttestations } from './core/getEASAttestations';
 export { getFrameHtmlResponse } from './core/getFrameHtmlResponse';
 export { getFrameMetadata } from './core/getFrameMetadata';
