@@ -134,7 +134,7 @@ export type FrameMetadataResponse = Record<string, string>;
 
 /**
  * A named frame with links to other named frames.
- * 
+ *
  * Note: exported as public Type
  */
 export type HyperFrame = {

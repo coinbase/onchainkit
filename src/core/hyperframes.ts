@@ -1,4 +1,4 @@
-import { HyperFrame } from "./types";
+import { HyperFrame } from './types';
 
 const frames: Record<string, HyperFrame> = {};
 
