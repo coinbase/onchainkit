@@ -23,9 +23,15 @@ yarn add @coinbase/onchainkit @xmtp/frames-validator
 pnpm add @coinbase/onchainkit @xmtp/frames-validator
 ```
 
+[XMTP](https://xmtp.org/) is a wallet to wallet messaging protocol, and many XMTP client applications are adding Frames support.
+
+When a user interacts with a Frame inside an XMTP client application, you will need to handle the payload slightly differently from an interaction coming from Farcaster.
+
+The primary identifier for a user on Farcaster is the `fid`, while in XMTP it is the `verifiedWalletAddress`.
+
 :::
 
-To assist you in engaging with XMTP, here is the XMTP Kit which includes:
+To assist you in handling interactions from XMTP, and extracting the `verifiedWalletAddress` from a POST payload, here is the XMTP Kit which includes:
 
 - [XMTP Kit](/xmtpkit/introduction)
   - Utilities:
