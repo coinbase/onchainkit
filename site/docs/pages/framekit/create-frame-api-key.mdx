@@ -1,0 +1,33 @@
+# createFrameApiKey
+
+To get started with with the Syndicate Frame API you must first generate a free API key. The easiest way to run this is using a script as shown below.
+
+**It's important to note that you should keep this api key secret and secure as once its been generated it cant be retrieved again.**
+
+## Usage
+
+```ts
+import { createFrameApiKey } from '@coinbase/onchainkit';
+
+const apiKey = await createFrameApiKey({ chainId: 5101 });
+
+// This is only shown once, keep it safe & secure
+console.log(apiKey);
+```
+
+## Returns
+
+```ts
+type Promise<CreateFrameApiKeyResponse>;
+
+type CreateFrameApiKeyResponse = string | undefined;
+```
+
+## Parameters
+
+```ts
+// We currently support Syndicate's Frame and Base mainnet chains
+interface CreateFrameApiKey {
+  chainId: 5101 | 8453;
+}
+```

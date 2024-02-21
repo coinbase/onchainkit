@@ -41,6 +41,19 @@ export const sidebar = [
         ],
       },
       {
+        text: 'Syndicate Frame API',
+        items: [
+          { text: 'createFrameApiKey', link: '/framekit/create-frame-api-key' },
+          { text: 'sendFrameApiTransaction', link: '/framekit/send-frame-api-transaction' },
+          { text: 'getFrameApiWallets', link: '/framekit/get-frame-api-wallets' },
+          { text: 'getFrameApiTxHash', link: '/framekit/get-frame-api-tx-hash' },
+          {
+            text: 'syndicateFrameChainDefinition',
+            link: '/framekit/syndicate-frame-chain-definition',
+          },
+        ],
+      },
+      {
         text: 'Utilities',
         items: [
           {

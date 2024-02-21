@@ -1,0 +1,32 @@
+# getFrameApiWallets
+
+Once you have an api key we generate a wallet for you to use with the Frame API. To get the address you can call the below function. Note that this wallet never changes for the lifetime of the api key.
+
+As this wallet will be used to send transactions on your behalf you should make sure the wallets address is allowed to call functions on your contract.
+
+## Usage
+
+```ts
+import { getFrameApiWallets } from '@coinbase/onchainkit';
+
+const walletAddresses = await getFrameApiWallets({ apiKey: 'your-api-key' });
+
+console.log(walletAddresses);
+// ['0x1234...']
+```
+
+## Returns
+
+```ts
+type Promise<GetFrameApiWalletsResponse>;
+
+type GetFrameApiWalletsResponse = Address[] | undefined;
+```
+
+## Parameters
+
+```ts
+interface GetFrameApiWallets {
+  apiKey: string;
+}
+```

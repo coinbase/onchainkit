@@ -1,0 +1,38 @@
+# getFrameApiTxHash
+
+Once you have an api key we generate a wallet for you to use with the Frame API. To get the address you can call the below function. Note that this wallet never changes for the lifetime of the api key.
+
+As this wallet will be used to send transactions on your behalf you should make sure the wallets address is allowed to call functions on your contract.
+
+If the response is successful we will return the transaction hash if a transaction has been broadcasted, null if its still being processed or undefined if the transaction has not been found.
+
+## Usage
+
+```ts
+import { getFrameApiTxHash } from '@coinbase/onchainkit';
+
+const transactionHash = await getFrameApiTxHash({
+  apiKey: 'your-api-key',
+  transactionId: 'iuh4vbiu3enir...',
+});
+
+console.log(transactionHash);
+// '0x123...'
+```
+
+## Returns
+
+```ts
+type Promise<GetFrameApiTxHashResponse>;
+
+type GetFrameApiTxHashResponse = string | null | undefined;
+```
+
+## Parameters
+
+```ts
+interface GetFrameApiTxHash {
+  apiKey: string;
+  transactionId: string;
+}
+```

@@ -198,3 +198,117 @@ export type MockFrameRequestOptions = {
  * Note: exported as public Type
  */
 export type MockFrameRequest = FrameRequest & { mockFrameData: Required<FrameValidationData> };
+
+/**
+ * Syndicate Frame API Create API Key Request Args
+ * Currently works with Syndicate Frame Chain & Base Mainnet
+ */
+export interface CreateFrameApiKey {
+  chainId: 5101 | 8453;
+}
+
+/**
+ * Syndicate Frame API Create API Key Response
+ */
+export type CreateFrameApiKeyResponse = string | undefined;
+
+/**
+ * API Response from the Syndicate Frame API fetch call
+ */
+export type CreateFrameApiKeyFetchResponse =
+  | SyndicateFrameApiSuccessResponse<{ apiKey: string }>
+  | SyndicateFrameApiErrorResponse;
+
+/**
+ * Syndicate Frame API Get Wallets Args
+ */
+export interface GetFrameApiWallets {
+  apiKey: string;
+}
+
+/**
+ * Syndicate Frame API Get Wallets Response
+ */
+export type GetFrameApiWalletsResponse = Address[] | undefined;
+
+/**
+ * API Response from the Syndicate Frame API fetch call
+ */
+export type GetFrameApiWalletsFetchResponse =
+  | SyndicateFrameApiSuccessResponse<{ walletAddresses: Address[] }>
+  | SyndicateFrameApiErrorResponse;
+
+/**
+ * Syndicate Frame API Send Transaction Args
+ */
+export interface SendFrameApiTransaction {
+  apiKey: string;
+  frameTrustedData: string;
+  contractAddress: Address;
+  functionSignature: string;
+  args: Record<string, any>;
+  shouldLike?: boolean;
+  shouldRecast?: boolean;
+  shouldFollow?: boolean;
+}
+
+/**
+ * Syndicate Frame API Send Transaction Response
+ */
+export type SendFrameApiTransactionResponse =
+  | { transactionId: string; userAddress: Address }
+  | undefined;
+
+/**
+ * API Response from the Syndicate Frame API fetch call
+ */
+export type SendFrameApiTransactionFetchResponse =
+  | SyndicateFrameApiSuccessResponse<{ transactionId: string; userAddress: Address }>
+  | SyndicateFrameApiErrorResponse;
+
+/**
+ * Syndicate Frame API Get Tx hash Args
+ */
+export interface GetFrameApiTxHash {
+  apiKey: string;
+  transactionId: string;
+}
+
+/**
+ * Syndicate Frame API Get Tx hash Response
+ */
+export type GetFrameApiTxHashResponse = string | null | undefined;
+
+/**
+ * API Response from the Syndicate Frame API fetch call
+ */
+export type GetFrameApiTxHashFetchResponse =
+  | SyndicateFrameApiSuccessResponse<{ transactionHash: string | null }>
+  | SyndicateFrameApiErrorResponse;
+
+/* General Syndicate Frame API Types */
+/**
+ * Syndicate Frame API Error Response
+ * This is a constant type of reponse from the whole API
+ */
+export interface SyndicateFrameApiErrorResponse {
+  success: false;
+  error: string;
+}
+
+/**
+ * Syndicate Frame API Success Response
+ * This is a partial constant type of reponse from the whole API
+ * We can pass a generic type to the data field
+ */
+export interface SyndicateFrameApiSuccessResponse<T> {
+  success: true;
+  data: T;
+}
+
+/**
+ * A disriminated union type to represent the Syndicate Frame API response
+ */
+export type SyndicateFrameApiResponse<T> =
+  | SyndicateFrameApiSuccessResponse<T>
+  | SyndicateFrameApiErrorResponse;
