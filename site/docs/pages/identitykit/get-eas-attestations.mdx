@@ -22,20 +22,20 @@ console.log(attestations);
 
 ## Returns
 
-```
+```ts
 // Array of EAS Attestation objects
 type GetEASAttestationsResponse = EASAttestation[];
 
 type EASAttestation = {
-attester: EASAttesterAddress; // the attester who created the attestation.
-decodedDataJson: string; // The attestation data decoded to JSON.
-expirationTime: number; // The Unix timestamp when the attestation expires (0 for no expiration).
-id: string; // The unique identifier of the attestation.
-recipient: Address; // The Ethereum address of the recipient of the attestation.
-revocationTime: number; // The Unix timestamp when the attestation was revoked, if applicable.
-revoked: boolean; // A boolean indicating whether the attestation is revocable or not.
-schemaId: EASSchemaUid; // The schema identifier associated with the attestation.
-time: number; // The Unix timestamp when the attestation was created.
+  attester: EASAttesterAddress; // the attester who created the attestation.
+  decodedDataJson: string; // The attestation data decoded to JSON.
+  expirationTime: number; // The Unix timestamp when the attestation expires (0 for no expiration).
+  id: string; // The unique identifier of the attestation.
+  recipient: Address; // The Ethereum address of the recipient of the attestation.
+  revocationTime: number; // The Unix timestamp when the attestation was revoked, if applicable.
+  revoked: boolean; // A boolean indicating whether the attestation is revocable or not.
+  schemaId: EASSchemaUid; // The schema identifier associated with the attestation.
+  time: number; // The Unix timestamp when the attestation was created.
 };
 
 type EASAttesterAddress = Address;
