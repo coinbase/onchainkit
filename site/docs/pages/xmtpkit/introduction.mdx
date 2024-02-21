@@ -7,8 +7,27 @@ deescription: Introduction to XMTP Kit
 
 XMTP Kit is designed to be modular and flexible, allowing developers to use only the parts of the protocol that they need.
 
+In order to use **XMTP Kit** you must also install `@xmtp/frames-validator` in your app, alongside Onchainkit.
+
+:::code-group
+
+```bash [npm]
+npm install @coinbase/onchainkit @xmtp/frames-validator
+```
+
+```bash [yarn]
+yarn add @coinbase/onchainkit @xmtp/frames-validator
+```
+
+```bash [pnpm]
+pnpm add @coinbase/onchainkit @xmtp/frames-validator
+```
+
+:::
+
 To assist you in engaging with XMTP, here is the XMTP Kit which includes:
 
 - [XMTP Kit](/xmtpkit/introduction)
   - Utilities:
     - [`getXmtpFrameMessage`](/xmtpkit/get-xmtp-frame-message)
+    - [`isXmtpFrameRequest`](/xmtpkit/is-xmtp-frame-request)

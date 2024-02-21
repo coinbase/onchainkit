@@ -1,4 +1,5 @@
-import { validateFramesPost, XmtpOpenFramesRequest } from '@xmtp/frames-validator';
+import { validateFramesPost } from '@xmtp/frames-validator';
+import type { XmtpOpenFramesRequest } from '@xmtp/frames-validator';
 
 export async function getXmtpFrameMessage(payload: XmtpOpenFramesRequest) {
   if (!payload.clientProtocol || !payload.clientProtocol.startsWith('xmtp@')) {

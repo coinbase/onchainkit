@@ -1,3 +1,24 @@
 # isXmtpFrameRequest
 
-isXmtpFrameRequest
+```ts
+import { FrameRequest } from '@coinbase/onchainkit';
+import { isXmtpFrameRequest } from '@coinbase/onchainkit/xmtp'; // [!code focus]
+import { NextResponse } from 'next/server';
+
+async function getResponse(req: any): Promise<NextResponse> {
+  const body: FrameRequest = await req.json();
+  if (isXmtpFrameRequest(body)) {
+    // [!code focus]
+    // [!code focus]
+    // ...
+  }
+}
+```
+
+## Returns
+
+- **Type:** `boolean`
+
+## Parameters
+
+[`XmtpFramesRequest`](/xmtpkit/types#xmtpframesrequest)
