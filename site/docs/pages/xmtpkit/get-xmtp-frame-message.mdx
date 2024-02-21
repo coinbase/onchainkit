@@ -12,76 +12,26 @@ You can also use `getXmtpFrameMessage` to access useful information such as:
 
 Note that if the `message` is not valid, it will be undefined.
 
-**In order to use `getXmtpFrameMessage` you must also install `@xmtp/frames-validator` in your app, alongside onchainkit**
-
-```sh
-yarn add @xmtp/frames-validator
-# OR
-npm i --save @xmtp/frames-validator
-```
-
 ```ts
-import { FrameRequest, getFrameMessage } from '@coinbase/onchainkit';
-import { isXmtpFrameRequest, getXmtpFrameMessage } from '@coinbase/onchainkit/xmtp';
-import { NextRequest, NextResponse } from 'next/server';
+import { FrameRequest } from '@coinbase/onchainkit';
+import { isXmtpFrameRequest, getXmtpFrameMessage } from '@coinbase/onchainkit/xmtp'; // [!code focus]
+import { NextResponse } from 'next/server';
 
 async function getResponse(req: any): Promise<NextResponse> {
-  // Step 2. Read the body from the Next Request
   const body: FrameRequest = await req.json();
   if (isXmtpFrameRequest(body)) {
-    const { isValid, message } = await getXmtpFrameMessage(body);
+    const { isValid, message } = await getXmtpFrameMessage(body); // [!code focus]
     // ... do something with the message if isValid is true
   } else {
-    const { isValid, message } = await getFrameMessage(body, {
-      neynarApiKey,
-    });
-    // ... do something with the message if isValid is true
+    // ...
   }
-}
-
-export async function POST(req: NextRequest): Promise<Response> {
-  return getResponse(req);
 }
 ```
 
 ## Returns
 
-```ts
-type Promise<XmtpFrameValidationResponse>;
+[`Promise<XmtpFrameValidationResponse>`](/framekit/types#xmtpframevalidationresponse)
 
-type XmtpFrameValidationResponse =
-  | { isValid: true; message: XmtpFrameValidationData }
-  | { isValid: false; message: undefined };
+## Parameters
 
-interface FrameValidationData {
-  frameUrl: string;
-  buttonIndex: number;
-  timestamp: number;
-  identifier: string;
-  verifiedWalletAddress: string;
-  // Same as verifiedWalletAddress
-  identifier: string;
-}
-```
-
-## Param
-
-```ts
-export type UntrustedData = {
-  url: string;
-  timestamp: number;
-  buttonIndex: number;
-  inputText?: string;
-  opaqueConversationIdentifier: string;
-  walletAddress: string;
-};
-
-// The Frame Signature Packet body
-export type XmtpFramesRequest = {
-  clientProtocol: `xmtp@${string}`;
-  untrustedData: UntrustedData;
-  trustedData: {
-    messageBytes: string;
-  };
-};
-```
+[`Promise<XmtpFramesRequest>`](/framekit/types#xmtpframesrequest)

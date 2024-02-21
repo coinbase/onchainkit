@@ -84,6 +84,36 @@
         "default": "./lib/index.js"
       },
       "default": "./lib/index.js"
+    },
+    "./core": {
+      "types": "./lib/core/index.d.ts",
+      "browser": {
+        "types": "./esm/core/index.d.ts",
+        "module": "./esm/core/index.js",
+        "import": "./esm/core/index.js",
+        "default": "./lib/core/index.js"
+      },
+      "default": "./lib/core/index.js"
+    },
+    "./farcaster": {
+      "types": "./lib/farcaster/index.d.ts",
+      "browser": {
+        "types": "./esm/farcaster/index.d.ts",
+        "module": "./esm/farcaster/index.js",
+        "import": "./esm/farcaster/index.js",
+        "default": "./lib/farcaster/index.js"
+      },
+      "default": "./lib/farcaster/index.js"
+    },
+    "./xmtp": {
+      "types": "./lib/xmtp/index.d.ts",
+      "browser": {
+        "types": "./esm/xmtp/index.d.ts",
+        "module": "./esm/xmtp/index.js",
+        "import": "./esm/xmtp/index.js",
+        "default": "./lib/xmtp/index.js"
+      },
+      "default": "./lib/xmtp/index.js"
     }
   }
 }
