@@ -1,0 +1,94 @@
+# Framegear
+
+**Framegear** is a simple tool that allows you to run and test your frames locally:
+
+- without publishing
+- without casting
+- without spending warps
+
+## Installation and Usage
+
+**Framegear** is currently distributed as part of the [@coinbase/onchainkit](https://github.com/coinbase/onchainkit) Git repository.
+
+:::code-group
+
+```bash [npm]
+git clone https://github.com/coinbase/onchainkit.git
+
+cd onchainkit/framegear
+npm install
+npm run dev
+```
+
+```bash [yarn]
+git clone https://github.com/coinbase/onchainkit.git
+
+cd onchainkit/framegear
+yarn
+yarn dev
+```
+
+```bash [pnpm]
+git clone https://github.com/coinbase/onchainkit.git
+
+cd onchainkit/framegear
+pnpm install
+pnpm run dev
+```
+
+:::
+
+Visit http://localhost:1337 to start the **Framegear** interface. Enter the URL of your locally
+running frame (e.g., `http://localhost:3000`) and click `Fetch` to validate your frame response and start testing.
+
+![Fetch Frame](https://onchainkit.xyz/assets/fetch-frame.png)]
+
+### Frame-specific setup
+
+**Framegear** can validate the initial response of any frame. For more advanced debugging capabilities,
+consider building the frame using `@coinbase/onchainkit` (versions `^0.8.0`). When using the `getFrameMessage` function,
+include the `allowFramegear` option to enable **Framegear** to send mock frame actions.
+
+```ts
+import { getFrameMessage } from '@coinbase/onchainkit';
+
+// ...
+
+const { isValid, message } = await getFrameMessage(body, {
+  allowFramegear: true, // [!code focus]
+});
+```
+
+### Security Tip
+
+When setting up frames in production, remember not to include the `allowFramegear` option.
+The exact setup might vary based on the application, but here's one example:
+
+```ts
+import { getFrameMessage } from '@coinbase/onchainkit';
+
+const allowFramegear = process.env.NODE_ENV !== 'production'; // [!code focus]
+
+// ...
+
+const { isValid, message } = await getFrameMessage(body, {
+  allowFramegear, // [!code focus]
+});
+```
+
+## Current Abilities
+
+At present, **Framegear** is able to validate the initial frame response against the
+[current Frame Specification](https://docs.farcaster.xyz/reference/frames/spec) and interact with frames through
+buttons using the `post` action.
+
+**Framegear** is under active development and much more functionality is on the roadmap including (but not limited to):
+
+- more button actions
+- text input
+- simulated conditions
+  - viewer followed
+  - viewer liked
+  - viewer recasted
+
+A partial roadmap can be viewed at https://github.com/coinbase/onchainkit/issues/146

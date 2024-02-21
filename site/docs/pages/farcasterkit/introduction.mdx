@@ -1,0 +1,26 @@
+---
+title: Introduction to Farcaster Kit · OnchainKit
+deescription: A brief introduction on essential Farcaster knowledge and OnchainKit utilities.
+---
+
+# Introduction to Farcaster Kit [A brief introduction on essential Farcaster knowledge.]
+
+Farcaster is a decentralized social network on Ethereum.
+Users create profiles, post "casts," and follow others.
+They own their [accounts](https://docs.farcaster.xyz/learn/what-is-farcaster/accounts) and relationships.
+
+To join, users need an Ethereum address for onchain registration.
+
+Farcaster [contracts](https://docs.farcaster.xyz/learn/architecture/contracts) are deployed on Optimism, an Ethereum Layer 2 network.
+Core contracts include ID Registry, Key Registry, and Storage Registry.
+
+[ID Registry](https://docs.farcaster.xyz/reference/contracts/reference/id-registry) tracks Farcaster IDs (aka FID), linking them to Ethereum addresses. [Key Registry](https://docs.farcaster.xyz/reference/contracts/reference/key-gateway) links Farcaster IDs with ed25519 public keys.
+
+Only [messages](https://docs.farcaster.xyz/learn/what-is-farcaster/messages) signed by registered keys are valid.
+
+To assist you in engaging with Farcaster, here is the Farcaster Kit which includes:
+
+- Utilities:
+  - [getFarcasterUserAddress](/farcasterkit/get-farcaster-user-address)
+- Types:
+  - [GetFarcasterUserAddressResponse]()

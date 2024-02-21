@@ -1,0 +1,64 @@
+# Getting Started
+
+Add OnchainKit to your project, install the required packages.
+
+## Installation
+
+:::code-group
+
+```bash [npm]
+npm install @coinbase/onchainkit
+
+# Depending on the components or utilities you use,
+# you may end up utilizing any of those libraries.
+npm install viem@2.x react@18 react-dom@18
+npm install graphql@14 graphql-request@6
+```
+
+```bash [yarn]
+yarn add @coinbase/onchainkit
+
+# Depending on the components or utilities you use,
+# you may end up utilizing any of those libraries.
+yarn add viem@2.x react@18 react-dom@18
+yarn add graphql@14 graphql-request@6
+```
+
+```bash [pnpm]
+pnpm add @coinbase/onchainkit
+
+# Depending on the components or utilities you use,
+# you may end up utilizing any of those libraries.
+pnpm install viem@2.x react@18 react-dom@18
+pnpm install graphql@14 graphql-request@6
+```
+
+:::
+
+OnchainKit is divided into various theme utilities and components that are available for your use:
+
+- [Farcaster Kit](/farcasterkit/introduction)
+
+  - Utilities:
+    - [`getFarcasterUserAddress`](/farcasterkit/get-farcaster-user-address)
+
+- [Frame Kit](/framekit/introduction)
+
+  - Components:
+    - [`<FrameMetadata />`](/framekit/frame-metadata)
+  - Utilities:
+    - [`getFrameHtmlResponse`](/framekit/get-frame-html-response)
+    - [`getFrameMessage`](/framekit/get-frame-message)
+    - [`getFrameMetadata`](/framekit/get-frame-metadata)
+  - [Framegear](/framekit/framegear)
+
+- [Identity Kit](/identitykit/introduction)
+
+  - Components:
+    - [`<Avatar />`](/identitykit/avatar)
+    - [`<Name />`](/identitykit/name)
+
+- [XMTP Kit](/xmtpkit/introduction)
+  - Utilities:
+    - [`getXmtpFrameMessage`](/xmtpkit/get-xmtp-frame-message)
+    - [`isXmtpFrameRequest`](/xmtpkit/is-xmtp-frame-request)

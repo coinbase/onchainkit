@@ -1,0 +1,37 @@
+# getXmtpFrameMessage
+
+Frames can receive interactions from apps outside of Farcaster, such as from XMTP conversations.
+When receiving these interactions you can expect a slightly different response format,
+since fields like `fid` or `castId` are not available.
+
+You can also use `getXmtpFrameMessage` to access useful information such as:
+
+- buttonIndex: number
+- verifiedWalletAddress: string
+- opaqueConversationIdentifier: string
+
+Note that if the `message` is not valid, it will be undefined.
+
+```ts
+import { FrameRequest } from '@coinbase/onchainkit';
+import { isXmtpFrameRequest, getXmtpFrameMessage } from '@coinbase/onchainkit/xmtp'; // [!code focus]
+import { NextResponse } from 'next/server';
+
+async function getResponse(req: any): Promise<NextResponse> {
+  const body: FrameRequest = await req.json();
+  if (isXmtpFrameRequest(body)) {
+    const { isValid, message } = await getXmtpFrameMessage(body); // [!code focus]
+    // ... do something with the message if isValid is true
+  } else {
+    // ...
+  }
+}
+```
+
+## Returns
+
+[`Promise<XmtpFrameValidationResponse>`](/xmtpkit/types#xmtpframevalidationresponse)
+
+## Parameters
+
+[`Promise<XmtpFramesRequest>`](/xmtpkit/types#xmtpframesrequest)

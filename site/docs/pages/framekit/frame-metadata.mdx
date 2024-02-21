@@ -1,0 +1,60 @@
+# `<FrameMetadata />`
+
+This component is utilized for incorporating Frame metadata elements into the React page.
+
+Note: If you are using Next.js with App routing, it is recommended to use `getFrameMetadata` instead.
+
+## Usage
+
+```tsx
+export default function HomePage() {
+  return (
+    ...
+    <FrameMetadata
+      buttons={[
+        {
+          label: 'Tell me the story',
+        },
+        {
+          action: 'link',
+          label: 'Link to Google',
+          target: 'https://www.google.com'
+        },
+        {
+          action: 'post_redirect',
+          label: 'Redirect to cute pictures',
+        },
+      ]}
+      image={{
+       src: 'https://zizzamia.xyz/park-3.png',
+       aspectRatio: '1:1'
+      }}
+      input={{
+        text: 'Tell me a boat story',
+      }}
+      postUrl="https://zizzamia.xyz/api/frame"
+    />
+    ...
+  );
+}
+```
+
+## Returns
+
+```html
+<meta name="fc:frame" content="vNext" />
+<meta name="fc:frame:button:1" content="Tell me the story" />
+<meta name="fc:frame:button:2" content="Link to Google" />
+<meta name="fc:frame:button:2:action" content="link" />
+<meta name="fc:frame:button:2:target" content="https://www.google.com" />
+<meta name="fc:frame:button:3" content="Redirect to cute pictures" />
+<meta name="fc:frame:button:3:action" content="post_redirect" />
+<meta name="fc:frame:image" content="https://zizzamia.xyz/park-3.png" />
+<meta name="fc:frame:image:aspect_ratio" content="1:1" />
+<meta name="fc:frame:input:text" content="Tell me a boat story" />
+<meta name="fc:frame:post_url" content="https://zizzamia.xyz/api/frame" />
+```
+
+## Props
+
+[`FrameMetadataReact`](/framekit/types#framemetadatareact)

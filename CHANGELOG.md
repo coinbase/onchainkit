@@ -1,41 +1,84 @@
 # Changelog
 
+## 0.8.2
+
+### Patch Changes
+
+- **fix**: make sure imports from `core`, `farcaster` and `xmtp` work. c30296d
+
+## 0.8.1
+
+### Patch Changes
+
+- **feat**: Added `getXmtpFrameMessage` and `isXmtpFrameRequest` so that Frames can receive interactions from apps outside of Farcaster, such as from XMTP conversations. By @neekolas #123 272082b
+
+## 0.8.0
+
+### Minor Changes
+
+- **feat**: `getFrameMessage` can now handle mock frame messages. When `allowFramegear` is passed as an option (defaults to `false`), it will skip validating which facilitates testing locally running apps with future releases of `framegear`. By @cnasc #149 ee72476
+
+## 0.7.0
+
+### Minor Changes
+
+- **feat**: Updated `FrameMetadataType` to support `target` for button `post` and `post_redirect` actions. By @HashWarlock @zizzamia #130 #136 26f6fd5
+
+Note:
+In this release we update the `FrameMetadataType` so that it supports the latest [Handling Clicks](https://docs.farcaster.xyz/reference/frames/spec#handling-clicks) Frames specification.
+
+If the button clicked is a `post` or `post_redirect`, apps must:
+
+1. Construct a Frame Signature Packet.
+2. POST the packet to `fc:frame:button:$idx:target` if present
+3. POST the packet to `fc:frame:post_url if target` was not present.
+4. POST the packet to or the frame's embed URL if neither target nor action were present.
+5. Wait at least 5 seconds for a response from the frame server.
+
+## 0.6.2
+
+### Patch Changes
+
+- **docs**: Init https://onchainkit.xyz . By @zizzamia #131 926bc30
+- **feat**: Added `getFarcasterUserAddress` utility to extract the user's custody and/or verified addresses. By @Sneh1999 #114 #121
+- **feat**: Updates the version of `@types/jest` package. By @Sneh1999 #114
+
 ## 0.6.1
 
 ### Patch Changes
 
-- c5ee76d: - **feat**: automated the `og:image` and `og:title` properties for `getFrameHtmlResponse` and `FrameMetadata`. By @zizzamia #109
+- **feat**: automated the `og:image` and `og:title` properties for `getFrameHtmlResponse` and `FrameMetadata`. By @zizzamia #109 c5ee76d
 
 ## 0.6.0
 
 ### Minor Changes
 
-- fc74af1: - **feat**: better treeshaking support by using **packemon**. By @zizzamia & @wespickett #105
+- **feat**: better treeshaking support by using **packemon**. By @zizzamia & @wespickett #105 fc74af1
 
-  BREAKING CHANGES
+BREAKING CHANGES
 
-  For modern apps that utilize `ES2020` or the latest version, breaking changes are not anticipated. However, if you encounter any building issues when using OnchainKit with older apps that rely on `ES6`, please open an issue and provide details of the error you're experiencing. We will do our best to provide the necessary support.
+For modern apps that utilize `ES2020` or the latest version, breaking changes are not anticipated. However, if you encounter any building issues when using OnchainKit with older apps that rely on `ES6`, please open an issue and provide details of the error you're experiencing. We will do our best to provide the necessary support.
 
 ## 0.5.4
 
 ### Patch Changes
 
-- bf014fd: - **feat**: exported `FrameButtonMetadata`, `FrameInputMetadata` and `FrameImageMetadata` types. By @zizzamia #111
-  - **feat**: introduced support for image aspect ratio metadata, ensuring backward compatibility. Image metadata can now be defined either as a string (with a default aspect ratio of `1.91:1`) or as an object with a src URL string and an aspect ratio of either `1.91:1` or `1:1`. By @taycaldwell #110
+- **feat**: exported `FrameButtonMetadata`, `FrameInputMetadata` and `FrameImageMetadata` types. By @zizzamia #111 bf014fd
+- **feat**: introduced support for image aspect ratio metadata, ensuring backward compatibility. Image metadata can now be defined either as a string (with a default aspect ratio of `1.91:1`) or as an object with a src URL string and an aspect ratio of either `1.91:1` or `1:1`. By @taycaldwell #110
 
 ## 0.5.3
 
 ### Patch Changes
 
-- f2cf7b6: - **feat**: all `FrameMetadataType` parameters have been updated to use consistent lowerCamelCase. It's important to note that we are not deprecating the old method, at least for a few weeks, to allow time for migration to the new approach. By @zizzamia #106
-  - **feat**: while there is no real issue in using either `property` or `name` as the standard for a metadata element, it is fair to respect the Open Graph specification, which originally uses `property`. By @zizzamia #106
+- **feat**: all `FrameMetadataType` parameters have been updated to use consistent lowerCamelCase. It's important to note that we are not deprecating the old method, at least for a few weeks, to allow time for migration to the new approach. By @zizzamia #106 f2cf7b6
+- **feat**: while there is no real issue in using either `property` or `name` as the standard for a metadata element, it is fair to respect the Open Graph specification, which originally uses `property`. By @zizzamia #106
 
 ## 0.5.2
 
 ### Patch Changes
 
-- cefcfa8: - **fix**: `<FrameMetadata>` component when used with Helmet. To ensure smooth functionality when used with Helmet as a wrapper component, it is crucial to flatten the Buttons loop. By @zizzamia #99
-  - **feat**: added `Avatar` component, to our Identity Kit. The `Avatar` component primarily focuses on showcasing ENS avatar for given Ethereum addresses, and defaults to a default SVG avatar when an ENS avatar isn't available. By @alvaroraminelli #69
+- **fix**: `<FrameMetadata>` component when used with Helmet. To ensure smooth functionality when used with Helmet as a wrapper component, it is crucial to flatten the Buttons loop. By @zizzamia #99 cefcfa8
+- **feat**: added `Avatar` component, to our Identity Kit. The `Avatar` component primarily focuses on showcasing ENS avatar for given Ethereum addresses, and defaults to a default SVG avatar when an ENS avatar isn't available. By @alvaroraminelli #69
 
 ## 0.5.1
 

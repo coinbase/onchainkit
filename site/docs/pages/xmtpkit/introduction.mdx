@@ -1,0 +1,39 @@
+---
+title: Introduction to XMTP Kit · OnchainKit
+deescription: Introduction to XMTP Kit
+---
+
+# Introduction to XMTP Kit
+
+XMTP Kit is designed to be modular and flexible, allowing developers to use only the parts of the protocol that they need.
+
+In order to use **XMTP Kit** you must also install `@xmtp/frames-validator` in your app, alongside Onchainkit.
+
+:::code-group
+
+```bash [npm]
+npm install @coinbase/onchainkit @xmtp/frames-validator
+```
+
+```bash [yarn]
+yarn add @coinbase/onchainkit @xmtp/frames-validator
+```
+
+```bash [pnpm]
+pnpm add @coinbase/onchainkit @xmtp/frames-validator
+```
+
+:::
+
+[XMTP](https://xmtp.org/) is a wallet to wallet messaging protocol, and many XMTP client applications are adding Frames support.
+
+When a user interacts with a Frame inside an XMTP client application, you will need to handle the payload slightly differently from an interaction coming from Farcaster. The primary identifier for a user on Farcaster is the `fid`, while in XMTP it is the `verifiedWalletAddress`.
+
+You can learn more about how XMTP works with frames in [their documentation here](https://xmtp.org/docs/build/frames).
+
+To assist you in handling interactions from XMTP, and extracting the `verifiedWalletAddress` from a POST payload, here is the XMTP Kit which includes:
+
+- [XMTP Kit](/xmtpkit/introduction)
+  - Utilities:
+    - [`getXmtpFrameMessage`](/xmtpkit/get-xmtp-frame-message)
+    - [`isXmtpFrameRequest`](/xmtpkit/is-xmtp-frame-request)
