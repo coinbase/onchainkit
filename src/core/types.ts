@@ -133,6 +133,19 @@ export type FrameMetadataType = {
 export type FrameMetadataResponse = Record<string, string>;
 
 /**
+ * A named frame with links to other named frames.
+ * 
+ * Note: exported as public Type
+ */
+export type HyperFrame = {
+  frame: string;
+  1: string | ((text: string) => string) | (() => string);
+  2?: string | ((text: string) => string) | (() => string);
+  3?: string | ((text: string) => string) | (() => string);
+  4?: string | ((text: string) => string) | (() => string);
+};
+
+/**
  * Ethereum Attestation Service (EAS) Attester Address
  * The Ethereum address of the attester who created the attestation.
  */
