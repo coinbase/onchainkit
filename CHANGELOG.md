@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.8.1
+
+### Patch Changes
+
+- 272082b: - **feat**: Added `getXmtpFrameMessage` and `isXmtpFrameRequest` so that Frames can receive interactions from apps outside of Farcaster, such as from XMTP conversations. By @neekolas #123
+
 ## 0.8.0
 
 ### Minor Changes
