@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.8.2
+
+### Patch Changes
+
+- c30296d: - **fix**: make sure imports from `core`, `farcaster` and `xmtp` work.
+
 ## 0.8.1
 
 ### Patch Changes
