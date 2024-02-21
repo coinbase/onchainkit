@@ -92,7 +92,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
   }
 
   if (!frame) {
-    return new NextResponse('Frame name not provided in postUurl', { status: 404 });
+    return new NextResponse('Frame name not provided in postUrl', { status: 404 });
   }
 
   // There should always be a button number
