@@ -4,7 +4,7 @@ HyperFrames are a data structure that makes it easy to create and organize large
 
 ## Usage
 
-With Next.js App routing, start inside `page.ts`.  Create your first frame as normal, but be sure to add a query parameter to the `postUrl` called `frame` with a value containing the name of the first frame, such as `start`:
+With Next.js App routing, start inside `page.ts`. Create your first frame as normal, but be sure to add a query parameter to the `postUrl` called `frame` with a value containing the name of the first frame, such as `start`:
 
 ```typescript
 const frameMetadata = getFrameMetadata({
@@ -69,7 +69,7 @@ Again, the `postUrl` for each frame must contain a query parameter called `frame
 
 The numbered properties correspond with the name of the HyperFrame that should be returned when that button is clicked.
 
-The `getResponse` function must extract the query parameter `frame` from the request.  It then performs the usual validation, and returns `getHyperFrame`, called with the name of the frame from the query parameter, the frame `text`, and the button pressed by the user.
+The `getResponse` function must extract the query parameter `frame` from the request. It then performs the usual validation, and returns `getHyperFrame`, called with the name of the frame from the query parameter, the frame `text`, and the button pressed by the user.
 
 ```typescript
 async function getResponse(req: NextRequest): Promise<NextResponse> {
