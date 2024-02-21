@@ -90,4 +90,23 @@ export const sidebar = [
       },
     ],
   },
+  {
+    text: 'XMTP Kit',
+    items: [
+      { text: 'Introduction', link: '/xmtpkit/introduction' },
+      {
+        text: 'Utilities',
+        items: [
+          {
+            text: 'getXmtpFrameMessage',
+            link: '/xmtpkit/get-xmtp-frame-message',
+          },
+          {
+            text: 'isXmtpFrameRequest',
+            link: '/xmtpkit/is-xmtp-frame-request',
+          },
+        ],
+      },
+    ],
+  },
 ] as const satisfies Sidebar;

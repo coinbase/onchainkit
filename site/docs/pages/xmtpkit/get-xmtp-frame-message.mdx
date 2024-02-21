@@ -42,7 +42,27 @@ export async function POST(req: NextRequest): Promise<Response> {
 }
 ```
 
-**@Param**
+## Returns
+
+```ts
+type Promise<XmtpFrameValidationResponse>;
+
+type XmtpFrameValidationResponse =
+  | { isValid: true; message: XmtpFrameValidationData }
+  | { isValid: false; message: undefined };
+
+interface FrameValidationData {
+  frameUrl: string;
+  buttonIndex: number;
+  timestamp: number;
+  identifier: string;
+  verifiedWalletAddress: string;
+  // Same as verifiedWalletAddress
+  identifier: string;
+}
+```
+
+## Param
 
 ```ts
 export type UntrustedData = {
@@ -63,25 +83,3 @@ export type XmtpFramesRequest = {
   };
 };
 ```
-
-**@Returns**
-
-```ts
-type Promise<XmtpFrameValidationResponse>;
-
-type XmtpFrameValidationResponse =
-  | { isValid: true; message: XmtpFrameValidationData }
-  | { isValid: false; message: undefined };
-
-interface FrameValidationData {
-  frameUrl: string;
-  buttonIndex: number;
-  timestamp: number;
-  identifier: string;
-  verifiedWalletAddress: string;
-  // Same as verifiedWalletAddress
-  identifier: string;
-}
-```
-
-<br />
