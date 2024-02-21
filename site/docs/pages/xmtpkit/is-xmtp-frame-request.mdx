@@ -7,7 +7,8 @@ import { NextResponse } from 'next/server';
 
 async function getResponse(req: any): Promise<NextResponse> {
   const body: FrameRequest = await req.json();
-  if (isXmtpFrameRequest(body)) { // [!code focus]
+  if (isXmtpFrameRequest(body)) {
+    // [!code focus]
     // [!code focus]
     // ...
   }
