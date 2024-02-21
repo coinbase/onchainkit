@@ -4,37 +4,36 @@
 
 ### Patch Changes
 
-- c30296d: - **fix**: make sure imports from `core`, `farcaster` and `xmtp` work.
+- **fix**: make sure imports from `core`, `farcaster` and `xmtp` work. c30296d
 
 ## 0.8.1
 
 ### Patch Changes
 
-- 272082b: - **feat**: Added `getXmtpFrameMessage` and `isXmtpFrameRequest` so that Frames can receive interactions from apps outside of Farcaster, such as from XMTP conversations. By @neekolas #123
+- **feat**: Added `getXmtpFrameMessage` and `isXmtpFrameRequest` so that Frames can receive interactions from apps outside of Farcaster, such as from XMTP conversations. By @neekolas #123 272082b
 
 ## 0.8.0
 
 ### Minor Changes
 
-- ee72476: - **feat**: `getFrameMessage` can now handle mock frame messages. When `allowFramegear` is passed as an option (defaults to `false`), it will skip validating which facilitates testing locally running apps with future releases of `framegear`. By @cnasc #149
-  - **docs**: polish README.md and site. By @zizzamia #144
+- **feat**: `getFrameMessage` can now handle mock frame messages. When `allowFramegear` is passed as an option (defaults to `false`), it will skip validating which facilitates testing locally running apps with future releases of `framegear`. By @cnasc #149 ee72476
 
 ## 0.7.0
 
 ### Minor Changes
 
-- 26f6fd5: - **feat**: Updated `FrameMetadataType` to support `target` for button `post` and `post_redirect` actions. By @HashWarlock @zizzamia #130 #136
+- **feat**: Updated `FrameMetadataType` to support `target` for button `post` and `post_redirect` actions. By @HashWarlock @zizzamia #130 #136 26f6fd5
 
-  Note:
-  In this release we update the `FrameMetadataType` so that it supports the latest [Handling Clicks](https://docs.farcaster.xyz/reference/frames/spec#handling-clicks) Frames specification.
+Note:
+In this release we update the `FrameMetadataType` so that it supports the latest [Handling Clicks](https://docs.farcaster.xyz/reference/frames/spec#handling-clicks) Frames specification.
 
-  If the button clicked is a `post` or `post_redirect`, apps must:
+If the button clicked is a `post` or `post_redirect`, apps must:
 
-  1. Construct a Frame Signature Packet.
-  2. POST the packet to `fc:frame:button:$idx:target` if present
-  3. POST the packet to `fc:frame:post_url if target` was not present.
-  4. POST the packet to or the frame's embed URL if neither target nor action were present.
-  5. Wait at least 5 seconds for a response from the frame server.
+1. Construct a Frame Signature Packet.
+2. POST the packet to `fc:frame:button:$idx:target` if present
+3. POST the packet to `fc:frame:post_url if target` was not present.
+4. POST the packet to or the frame's embed URL if neither target nor action were present.
+5. Wait at least 5 seconds for a response from the frame server.
 
 ## 0.6.2
 
