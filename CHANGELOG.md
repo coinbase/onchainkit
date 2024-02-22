@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- 0f7ef77: - **fix**: `frame` module. By @zizzamia #174
+- **fix**: `frame` module. By @zizzamia #174 0f7ef77
 
 ## 0.9.1
 
