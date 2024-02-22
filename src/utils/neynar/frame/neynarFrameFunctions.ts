@@ -1,6 +1,4 @@
-import { version } from '../../../version';
-import { FrameValidationData } from '../../../core/types';
-import { FetchError } from '../exceptions/FetchError';
+import { FrameValidationData } from '../../../frame/types';
 import { convertToNeynarResponseModel } from './neynarFrameModels';
 import { postDataToNeynar } from '../postDataToNeynar';
 
