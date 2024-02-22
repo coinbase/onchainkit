@@ -55,8 +55,8 @@ export type GetEASAttestationsByFilterResponse = EASAttestation[];
  */
 export const easAttestationQuery = gql`
   query EASAttestationsForUsers(
-    $where: EASAttestationWhereInput
-    $distinct: [EASAttestationScalarFieldEnum!]
+    $where: AttestationWhereInput
+    $distinct: [AttestationScalarFieldEnum!]
     $take: Int
   ) {
     attestations(where: $where, distinct: $distinct, take: $take) {
