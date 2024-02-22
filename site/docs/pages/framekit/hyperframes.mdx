@@ -32,9 +32,10 @@ const frameMetadata = getFrameMetadata({ // [!code word:start]
 });
 ```
 
-Next, in `api/route.ts`, or another file and imported there, add this frame to the `frames` array:
+Next, in `api/route.ts`, or another file and imported there, add this frame to the `frames` array with `addHyperFrame:
 
 ```typescript
+import { addHyperFrame } from '../../hyperframes';
 addHyperFrame('start', { // [!code word:start]
   frame: getFrameHtmlResponse({
     buttons: [
@@ -46,11 +47,6 @@ addHyperFrame('start', { // [!code word:start]
       },
       {
         label: 'Cave',
-      },
-      {
-        action: 'link',
-        label: 'TODO',
-        target: 'https://www.google.com',
       },
     ],
     image: {
@@ -68,6 +64,29 @@ addHyperFrame('start', { // [!code word:start]
 Again, the `postUrl` for each frame must contain a query parameter called `frame` with a value containing the name of the frame.
 
 The numbered properties correspond with the name of the HyperFrame that should be returned when that button is clicked.
+
+Add additional frames in the same way.
+
+```typescript
+addHyperFrame('cave-1', { // [!code word:cave-1]
+  frame: getFrameHtmlResponse({
+    buttons: [
+      {
+        label: 'Go Back',
+      },
+      
+    ],
+    image: {
+      src: `${NEXT_PUBLIC_URL}/cave.webp`,
+      aspectRatio: '1:1',
+    },
+    postUrl: `${NEXT_PUBLIC_URL}/api/frame?frame=cave-1`, // [!code highlight]
+  }),
+  1: 'start',
+});
+```
+
+The second frame will be displayed with the user clicks the `Cave` button in the first frame.  It contains a single button, 'Go Back', which will return the user to the first frame.
 
 The `getResponse` function must extract the query parameter `frame` from the request. It then performs the usual validation, and returns `getHyperFrame`, called with the name of the frame from the query parameter, the frame `text`, and the button pressed by the user.
 
