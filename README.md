@@ -84,17 +84,17 @@ To integrate OnchainKit into your project, begin by installing the necessary pac
 yarn add @coinbase/onchainkit
 # Yarn: Depending on the components or utilities you choose,
 # you may end up utilizing any of those libraries.
-yarn add viem@2.x react@18 react-dom@18 graphql@14 graphql-request@6
+yarn add viem@2.x react@18 react-dom@18
 
 # or
 
 # Use NPM
 npm install @coinbase/onchainkit
-npm install viem@2.x react@18 react-dom@18 graphql@14 graphql-request@6
+npm install viem@2.x react@18 react-dom@18
 
 # Use PNPM
 pnpm add @coinbase/onchainkit
-npm install viem@2.x react@18 react-dom@18 graphql@14 graphql-request@6
+npm install viem@2.x react@18 react-dom@18
 ```
 
 Then, feel free to utilize any of the components or utilities, such as `FrameMetadata`.

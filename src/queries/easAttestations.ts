@@ -1,6 +1,6 @@
 import { gql } from 'graphql-request';
 import type { Address, Chain } from 'viem';
-import { EASSchemaUid, EASAttestation } from '../core/types';
+import { EASSchemaUid, EASAttestation } from '../identity/types';
 import { createEasGraphQLClient } from '../network/easGraphQL';
 
 /**

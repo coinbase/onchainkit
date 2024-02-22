@@ -1,4 +1,4 @@
-import { FrameMetadataType, FrameImageMetadata } from './types';
+import { FrameMetadataType } from './types';
 
 type FrameMetadataHTMLResponse = FrameMetadataType & {
   ogDescription?: string;

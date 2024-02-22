@@ -105,6 +105,16 @@
       },
       "default": "./lib/farcaster/index.js"
     },
+    "./identity": {
+      "types": "./lib/identity/index.d.ts",
+      "browser": {
+        "types": "./esm/identity/index.d.ts",
+        "module": "./esm/identity/index.js",
+        "import": "./esm/identity/index.js",
+        "default": "./lib/identity/index.js"
+      },
+      "default": "./lib/identity/index.js"
+    },
     "./xmtp": {
       "types": "./lib/xmtp/index.d.ts",
       "browser": {

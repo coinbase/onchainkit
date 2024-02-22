@@ -1,5 +1,5 @@
-import { publicClient } from '../network/client';
-import { useOnchainActionWithCache } from './useOnchainActionWithCache';
+import { publicClient } from '../../network/client';
+import { useOnchainActionWithCache } from '../../utils/hooks/useOnchainActionWithCache';
 import { GetEnsAvatarReturnType, normalize } from 'viem/ens';
 
 export const ensAvatarAction = (ensName: string) => async (): Promise<GetEnsAvatarReturnType> => {

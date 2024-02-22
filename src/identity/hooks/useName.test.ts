@@ -3,12 +3,12 @@
  */
 
 import { renderHook, waitFor } from '@testing-library/react';
-import { publicClient } from '../network/client';
+import { publicClient } from '../../network/client';
 import { useName, ensNameAction } from './useName';
-import { useOnchainActionWithCache } from './useOnchainActionWithCache';
+import { useOnchainActionWithCache } from '../../utils/hooks/useOnchainActionWithCache';
 
-jest.mock('../network/client');
-jest.mock('./useOnchainActionWithCache');
+jest.mock('../../network/client');
+jest.mock('../../utils/hooks/useOnchainActionWithCache');
 
 describe('useName', () => {
   const mockGetEnsName = publicClient.getEnsName as jest.Mock;
