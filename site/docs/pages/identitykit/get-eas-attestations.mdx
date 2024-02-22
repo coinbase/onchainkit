@@ -1,0 +1,68 @@
+# getEASAttestations
+
+The `getEASAttestations` function fetches attestations for a specified address and blockchain in Ethereum Attestation Service (EAS). It allows optional filtering based on schema IDs, revocation status, expiration time, and the number of attestations to return.
+
+## Usage
+
+```ts
+import { getEASAttestations } from '@coinbase/onchainkit';
+import { base } from 'viem/chains';
+
+const attestations = await getEASAttestations({
+  '0x1234567890abcdef1234567890abcdef12345678',
+  base,
+  {
+    // Optional schemas to filter the attestations.
+    schemas: ['0x1801901fabd0e6189356b4fb52bb0ab855276d84f7ec140839fbd1f6801ca065'],
+  },
+});
+
+console.log(attestations);
+```
+
+## Returns
+
+```ts
+// Array of EAS Attestation objects
+type GetEASAttestationsResponse = EASAttestation[];
+
+type EASAttestation = {
+  attester: EASAttesterAddress; // the attester who created the attestation.
+  decodedDataJson: string; // The attestation data decoded to JSON.
+  expirationTime: number; // The Unix timestamp when the attestation expires (0 for no expiration).
+  id: string; // The unique identifier of the attestation.
+  recipient: Address; // The Ethereum address of the recipient of the attestation.
+  revocationTime: number; // The Unix timestamp when the attestation was revoked, if applicable.
+  revoked: boolean; // A boolean indicating whether the attestation is revocable or not.
+  schemaId: EASSchemaUid; // The schema identifier associated with the attestation.
+  time: number; // The Unix timestamp when the attestation was created.
+};
+
+type EASAttesterAddress = Address;
+
+type EASSchemaUid = Address;
+
+type Address = `0x${string}`;
+```
+
+## Parameters
+
+```ts
+// Address - Ethereum address for which attestations are being queried
+address: Address;
+
+// Chain - The blockchain of interest
+chain: Chain;
+
+// Optional filtering options for the attestations query
+type GetEASAttestationsOptions = {
+  schemas?: EASSchemaUid[]; // Schema IDs to filter attestations
+  revoked?: boolean; // Filter for revoked attestations (default: false)
+  expirationTime?: number; // Unix timestamp to filter based on expiration time (default: current time)
+  limit?: number; // Maximum number of attestations to return (default: 10)
+};
+
+type EASSchemaUid = Address;
+
+type Address = `0x${string}`;
+```

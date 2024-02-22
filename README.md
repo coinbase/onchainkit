@@ -68,6 +68,8 @@ OnchainKit offers three themes packed with React components and TypeScript utili
   - Components:
     - [`<Avatar />`](https://onchainkit.xyz/identitykit/avatar)
     - [`<Name />`](https://onchainkit.xyz/identitykit/name)
+  - Utilities:
+    - [`getEASAttestations`](https://onchainkit.xyz/identitykit/get-eas-attestations)
 
 - [XMTP Kit](https://onchainkit.xyz/xmtpkit/introduction)
   - Utilities:

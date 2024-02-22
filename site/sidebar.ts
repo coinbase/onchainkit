@@ -85,6 +85,15 @@ export const sidebar = [
         ],
       },
       {
+        text: 'Utilities',
+        items: [
+          {
+            text: 'getEASAttestations',
+            link: '/identitykit/get-eas-attestations',
+          },
+        ],
+      },
+      {
         text: 'Types',
         link: '/identitykit/types',
       },
