@@ -100,7 +100,9 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
   let text: string | undefined = '';
 
   const body: FrameRequest = await req.json();
-  const { isValid, message } = await getFrameMessage(body, { neynarApiKey: 'NEYNAR_ONCHAIN_KIT' });
+  const { isValid, message } = await getFrameMessage(body, {
+    neynarApiKey: 'NEYNAR_ONCHAIN_KIT'
+  });
 
   if (isValid) {
     accountAddress = message.interactor.verified_accounts[0];
@@ -111,7 +113,9 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
   }
 
   if (!frame) { // [!code focus]
-    return new NextResponse('Frame name not provided in postUrl', { status: 404 }); // [!code focus]
+    return new NextResponse('Frame name not provided in postUrl', {
+      status: 404
+    }); // [!code focus]
   } // [!code focus]
 
   // There should always be a button number
@@ -119,6 +123,8 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     return new NextResponse('Button not found', { status: 404 });
   }
 
-  return new NextResponse(getHyperFrame(frame as string, text || '', message?.button)); // [!code focus]
+  return new NextResponse(
+    getHyperFrame(frame as string, text || '', message?.button)
+  ); // [!code focus]
 }
 ```
