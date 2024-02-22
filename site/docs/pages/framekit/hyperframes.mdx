@@ -18,11 +18,6 @@ const frameMetadata = getFrameMetadata({ // [!code word:start]
     {
       label: 'Cave',
     },
-    {
-      action: 'link',
-      label: 'TODO',
-      target: 'https://www.google.com',
-    },
   ],
   image: {
     src: `${NEXT_PUBLIC_URL}/frame-1-forest.webp`,
@@ -65,7 +60,7 @@ Again, the `postUrl` for each frame must contain a query parameter called `frame
 
 The numbered properties correspond with the name of the HyperFrame that should be returned when that button is clicked.
 
-Add additional frames in the same way.
+Add additional frames in the same way:
 
 ```typescript
 addHyperFrame('cave-1', { // [!code word:cave-1]
@@ -86,7 +81,7 @@ addHyperFrame('cave-1', { // [!code word:cave-1]
 });
 ```
 
-The second frame will be displayed with the user clicks the `Cave` button in the first frame.  It contains a single button, 'Go Back', which will return the user to the first frame.
+The second frame will be displayed with the user clicks the `Cave` button in the first frame.  It contains a single button, `Go Back`, which will return the user to the first frame.
 
 The `getResponse` function must extract the query parameter `frame` from the request. It then performs the usual validation, and returns `getHyperFrame`, called with the name of the frame from the query parameter, the frame `text`, and the button pressed by the user.
 
@@ -113,8 +108,8 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
   }
 
   if (!frame) { // [!code focus]
-    return new NextResponse('Frame name not provided in postUrl', {
-      status: 404
+    return new NextResponse('Frame name not provided in postUrl', { // [!code focus]
+      status: 404 // [!code focus]
     }); // [!code focus]
   } // [!code focus]
 
@@ -123,8 +118,8 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     return new NextResponse('Button not found', { status: 404 });
   }
 
-  return new NextResponse(
-    getHyperFrame(frame as string, text || '', message?.button)
+  return new NextResponse( // [!code focus]
+    getHyperFrame(frame as string, text || '', message?.button) // [!code focus]
   ); // [!code focus]
 }
 ```
