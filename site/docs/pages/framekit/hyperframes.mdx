@@ -7,7 +7,7 @@ HyperFrames are a data structure that makes it easy to create and organize large
 With Next.js App routing, start inside `page.ts`. Create your first frame as normal, but be sure to add a query parameter to the `postUrl` called `frame` with a value containing the name of the first frame, such as `start`:
 
 ```typescript
-const frameMetadata = getFrameMetadata({
+const frameMetadata = getFrameMetadata({ // [!code word:start]
   buttons: [
     {
       label: 'Road',
@@ -28,14 +28,14 @@ const frameMetadata = getFrameMetadata({
     src: `${NEXT_PUBLIC_URL}/frame-1-forest.webp`,
     aspectRatio: '1:1',
   },
-  postUrl: `${NEXT_PUBLIC_URL}/api/frame?frame=start`,
+  postUrl: `${NEXT_PUBLIC_URL}/api/frame?frame=start`, // [!code highlight]
 });
 ```
 
 Next, in `api/route.ts`, or another file and imported there, add this frame to the `frames` array:
 
 ```typescript
-addHyperFrame('start', {
+addHyperFrame('start', { // [!code word:start]
   frame: getFrameHtmlResponse({
     buttons: [
       {
@@ -57,7 +57,7 @@ addHyperFrame('start', {
       src: `${NEXT_PUBLIC_URL}/frame-1-forest.webp`,
       aspectRatio: '1:1',
     },
-    postUrl: `${NEXT_PUBLIC_URL}/api/frame?frame=start`,
+    postUrl: `${NEXT_PUBLIC_URL}/api/frame?frame=start`, // [!code highlight]
   }),
   1: 'road',
   2: 'woods-bear',
@@ -73,9 +73,9 @@ The `getResponse` function must extract the query parameter `frame` from the req
 
 ```typescript
 async function getResponse(req: NextRequest): Promise<NextResponse> {
-  const url = new URL(req.url);
-  const queryParams = url.searchParams;
-  const frame = queryParams.get('frame');
+  const url = new URL(req.url); // [!code focus]
+  const queryParams = url.searchParams; // [!code focus]
+  const frame = queryParams.get('frame'); // [!code focus]
 
   let accountAddress: string | undefined = '';
   let text: string | undefined = '';
@@ -91,15 +91,15 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     text = message.input;
   }
 
-  if (!frame) {
-    return new NextResponse('Frame name not provided in postUrl', { status: 404 });
-  }
+  if (!frame) { // [!code focus]
+    return new NextResponse('Frame name not provided in postUrl', { status: 404 }); // [!code focus]
+  } // [!code focus]
 
   // There should always be a button number
   if (!message?.button) {
     return new NextResponse('Button not found', { status: 404 });
   }
 
-  return new NextResponse(getHyperFrame(frame as string, text || '', message?.button));
+  return new NextResponse(getHyperFrame(frame as string, text || '', message?.button)); // [!code focus]
 }
 ```
