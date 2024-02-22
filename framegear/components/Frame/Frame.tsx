@@ -48,7 +48,11 @@ function ValidFrame({ tags }: { tags: Record<string, string> }) {
   return (
     <div>
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img className={`w-full rounded-t-xl aspect-[${imageAspectRatio}]`} src={image} alt="" />
+      <img
+        className={`w-full rounded-t-xl aspect-[${imageAspectRatio}] object-cover`}
+        src={image}
+        alt=""
+      />
       <div className="bg-content-light flex flex-col gap-2 rounded-b-xl px-4 py-2">
         {!!input && (
           <input
@@ -121,12 +125,14 @@ function FrameButton({
   }, [button, setResults]);
   return (
     <button
-      className="border-button w-[45%] grow rounded-lg border bg-white p-2 text-black"
+      className="border-button w-[45%] grow rounded-lg border bg-white px-4 py-2 text-black"
       type="button"
       onClick={handleClick}
       disabled={button?.action !== 'post'}
     >
-      <span>{children}</span>
+      <span className="block max-w-full overflow-hidden text-ellipsis whitespace-nowrap">
+        {children}
+      </span>
     </button>
   );
 }
