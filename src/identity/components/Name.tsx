@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { getSlicedAddress } from '../core/address';
+import { getSlicedAddress } from '../getSlicedAddress';
 import { useName } from '../hooks/useName';
 import type { Address } from 'viem';
 

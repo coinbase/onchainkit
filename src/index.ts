@@ -1,15 +1,14 @@
 // 🌲☀️🌲
 export { version } from './version';
-export { getEASAttestations } from './core/getEASAttestations';
 export { getFrameHtmlResponse } from './core/getFrameHtmlResponse';
 export { getFrameMetadata } from './core/getFrameMetadata';
 export { getFrameMessage } from './core/getFrameMessage';
 export { getMockFrameRequest } from './core/getMockFrameRequest';
-export { FrameMetadata } from './components/FrameMetadata';
-export { Avatar } from './components/Avatar';
-export { Name } from './components/Name';
-export { useAvatar } from './hooks/useAvatar';
-export { useName } from './hooks/useName';
+export { FrameMetadata } from './frame/FrameMetadata';
+export { Avatar } from './identity/components/Avatar';
+export { Name } from './identity/components/Name';
+export { useAvatar } from './identity/hooks/useAvatar';
+export { useName } from './identity/hooks/useName';
 export type {
   FrameButtonMetadata,
   FrameImageMetadata,

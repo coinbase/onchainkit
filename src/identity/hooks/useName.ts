@@ -1,5 +1,5 @@
-import { publicClient } from '../network/client';
-import { useOnchainActionWithCache } from './useOnchainActionWithCache';
+import { publicClient } from '../../network/client';
+import { useOnchainActionWithCache } from '../../utils/hooks/useOnchainActionWithCache';
 import type { Address, GetEnsNameReturnType } from 'viem';
 
 /**

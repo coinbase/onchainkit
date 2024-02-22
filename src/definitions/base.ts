@@ -1,5 +1,5 @@
 import { base } from 'viem/chains';
-import { EASChainDefinition } from '../core/types';
+import { EASChainDefinition } from '../identity/types';
 
 export const easChainBase: EASChainDefinition = {
   id: base.id,

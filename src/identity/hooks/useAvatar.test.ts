@@ -3,12 +3,12 @@
  */
 
 import { renderHook, waitFor } from '@testing-library/react';
-import { publicClient } from '../network/client';
+import { publicClient } from '../../network/client';
 import { useAvatar, ensAvatarAction } from './useAvatar';
-import { useOnchainActionWithCache } from './useOnchainActionWithCache';
+import { useOnchainActionWithCache } from '../../utils/hooks/useOnchainActionWithCache';
 
-jest.mock('../network/client');
-jest.mock('./useOnchainActionWithCache');
+jest.mock('../../network/client');
+jest.mock('../../utils/hooks/useOnchainActionWithCache');
 
 describe('useAvatar', () => {
   const mockGetEnsAvatar = publicClient.getEnsAvatar as jest.Mock;

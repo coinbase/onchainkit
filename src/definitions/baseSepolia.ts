@@ -1,5 +1,5 @@
 import { baseSepolia } from 'viem/chains';
-import { EASChainDefinition } from '../core/types';
+import { EASChainDefinition } from '../identity/types';
 
 export const easChainBaseSepolia: EASChainDefinition = {
   id: baseSepolia.id,

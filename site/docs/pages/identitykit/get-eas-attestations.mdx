@@ -1,11 +1,13 @@
 # getEASAttestations
 
-The `getEASAttestations` function fetches attestations for a specified address and blockchain in Ethereum Attestation Service (EAS). It allows optional filtering based on schema IDs, revocation status, expiration time, and the number of attestations to return.
+The `getEASAttestations` function fetches attestations for a specified address
+and blockchain in Ethereum Attestation Service (EAS). It allows optional filtering
+based on schema IDs, revocation status, expiration time, and the number of attestations to return.
 
 ## Usage
 
 ```ts
-import { getEASAttestations } from '@coinbase/onchainkit';
+import { getEASAttestations } from '@coinbase/onchainkit/identities';
 import { base } from 'viem/chains';
 
 const attestations = await getEASAttestations({
@@ -16,8 +18,6 @@ const attestations = await getEASAttestations({
     schemas: ['0x1801901fabd0e6189356b4fb52bb0ab855276d84f7ec140839fbd1f6801ca065'],
   },
 });
-
-console.log(attestations);
 ```
 
 ## Returns

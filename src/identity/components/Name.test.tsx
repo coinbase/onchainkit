@@ -5,7 +5,7 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { Name } from './Name';
 import { useName } from '../hooks/useName';
-import { getSlicedAddress } from '../core/address';
+import { getSlicedAddress } from '../getSlicedAddress';
 
 import '@testing-library/jest-dom';
 
@@ -13,7 +13,7 @@ import '@testing-library/jest-dom';
 jest.mock('../hooks/useName', () => ({
   useName: jest.fn(),
 }));
-jest.mock('../core/address', () => ({
+jest.mock('../getSlicedAddress', () => ({
   getSlicedAddress: jest.fn(),
 }));
 
