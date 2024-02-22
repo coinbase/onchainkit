@@ -1,5 +1,5 @@
 ---
-"@coinbase/onchainkit": patch
+'@coinbase/onchainkit': patch
 ---
 
 - **fix**: EAS graphql types. By @dneilroth #177
