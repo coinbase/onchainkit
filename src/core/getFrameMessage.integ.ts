@@ -1,6 +1,6 @@
 import { getFrameMessage } from './getFrameMessage';
 
-describe('getFrameValidatedMessage integration tests', () => {
+describe('getFrameMessage integration tests', () => {
   it('frame message should decode properly', async () => {
     const body = {
       untrustedData: {
