@@ -13,9 +13,9 @@ You can also use `getXmtpFrameMessage` to access useful information such as:
 Note that if the `message` is not valid, it will be undefined.
 
 ```ts
-import { FrameRequest } from '@coinbase/onchainkit';
 import { isXmtpFrameRequest, getXmtpFrameMessage } from '@coinbase/onchainkit/xmtp'; // [!code focus]
 import { NextResponse } from 'next/server';
+import type { FrameRequest } from '@coinbase/onchainkit';
 
 async function getResponse(req: any): Promise<NextResponse> {
   const body: FrameRequest = await req.json();
