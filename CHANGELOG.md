@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.9.2
+
+### Patch Changes
+
+- 0f7ef77: - **fix**: `frame` module. By @zizzamia #174
+
 ## 0.9.1
 
 ### Patch Changes
