@@ -4,12 +4,10 @@ import { useAtom } from 'jotai';
 import { PropsWithChildren, useMemo } from 'react';
 import { type SchemaDescription } from 'yup';
 
-const REQUIRED_FIELD_NAMES = new Set(
-  Object.entries(vNextSchema.describe().fields).reduce(
-    (acc, [name, description]) =>
-      (description as SchemaDescription).optional ? acc : [...acc, name],
-    [] as string[],
-  ),
+const REQUIRED_FIELD_NAMES = Object.entries(vNextSchema.describe().fields).reduce(
+  (acc, [name, description]) =>
+    (description as SchemaDescription).optional ? acc : [...acc, name],
+  [] as string[],
 );
 
 export function ValidationResults() {
@@ -36,17 +34,11 @@ function ValidationResultsPlaceholder() {
 function ValidationResultsContent() {
   const [results] = useAtom(frameResultsAtom);
   const latestResult = results[results.length - 1];
-  const { requiredTags, optionalTags } = useMemo(() => {
+  const optionalTags = useMemo(() => {
+    const requiredNames = new Set(REQUIRED_FIELD_NAMES);
     const tagEntries = Object.entries(latestResult?.tags);
-    const requiredTags: typeof tagEntries = [];
-    const optionalTags: typeof tagEntries = [];
-    tagEntries.forEach((tag) =>
-      (REQUIRED_FIELD_NAMES.has(tag[0]) ? requiredTags : optionalTags).push(tag),
-    );
-    return { requiredTags, optionalTags };
+    return tagEntries.filter((tag) => !requiredNames.has(tag[0]));
   }, [latestResult]);
-
-  console.log({ requiredTags, optionalTags, latestResult });
 
   return (
     <div className="flex flex-col gap-4">
@@ -60,15 +52,30 @@ function ValidationResultsContent() {
       </h2>
       <div className="bg-content flex w-full flex-col gap-4 rounded-xl p-6">
         <ValidationEntriesWrapper title="Required Fields">
-          {requiredTags.map(([key, value]) => (
-            <ValidationEntry key={key} name={key} value={value} error={latestResult.errors[key]} />
-          ))}
+          {REQUIRED_FIELD_NAMES.map((name) => {
+            const value = latestResult.tags[name];
+            return (
+              <ValidationEntry
+                key={name}
+                name={name}
+                value={value}
+                error={latestResult.errors[name]}
+              />
+            );
+          })}
         </ValidationEntriesWrapper>
-        <ValidationEntriesWrapper title="Optional Fields">
-          {optionalTags.map(([key, value]) => (
-            <ValidationEntry key={key} name={key} value={value} error={latestResult.errors[key]} />
-          ))}
-        </ValidationEntriesWrapper>
+        {optionalTags.length > 0 && (
+          <ValidationEntriesWrapper title="Optional Fields">
+            {optionalTags.map(([key, value]) => (
+              <ValidationEntry
+                key={key}
+                name={key}
+                value={value}
+                error={latestResult.errors[key]}
+              />
+            ))}
+          </ValidationEntriesWrapper>
+        )}
       </div>
     </div>
   );
@@ -77,7 +84,7 @@ function ValidationResultsContent() {
 function ValidationEntriesWrapper({ title, children }: PropsWithChildren<{ title: string }>) {
   return (
     <figure>
-      <figcaption className="border-pallette-line mb-4 border-b pb-4 pt-4 font-bold first:pt-0">
+      <figcaption className="border-pallette-line mb-4 border-b pb-4 pt-4 text-center font-bold first:pt-0">
         {title}
       </figcaption>
       <ul className="flex list-none flex-col gap-4 p-0">{children}</ul>
@@ -85,7 +92,7 @@ function ValidationEntriesWrapper({ title, children }: PropsWithChildren<{ title
   );
 }
 
-type ValidationEntryProps = { name: string; value: string; error?: string };
+type ValidationEntryProps = { name: string; value?: string; error?: string };
 function ValidationEntry({ name, value, error }: ValidationEntryProps) {
   return (
     <div
@@ -95,7 +102,8 @@ function ValidationEntry({ name, value, error }: ValidationEntryProps) {
         <span>{name}</span>
         <span>{error ? '🔴' : '🟢'}</span>
       </div>
-      <div className="font-mono">{value}</div>
+      <div className="font-mono">{value || 'Not set'}</div>
+      {!!error && <div className="font-mono italic">{error}</div>}
     </div>
   );
 }

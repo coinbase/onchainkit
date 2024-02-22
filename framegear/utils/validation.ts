@@ -2,8 +2,8 @@ import * as yup from 'yup';
 
 export const vNextSchema = yup.object({
   'fc:frame': yup.string().required().matches(/vNext/, '"fc:frame" must be "vNext"'),
-  'fc:frame:image': yup.string().defined(),
-  'og:image': yup.string().defined(),
+  'fc:frame:image': yup.string().required(),
+  'og:image': yup.string().required(),
   'fc:frame:button:1': yup.string().optional(),
   // TODO: yup doesn't infer type well from this concise definition
   ...[2, 3, 4].reduce(
