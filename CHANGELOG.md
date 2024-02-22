@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.9.1
+
+### Patch Changes
+
+- 605ce64: - **feat**: created `frame` module. By @zizzamia #172
+
 ## 0.9.0
 
 ### Minor Changes
