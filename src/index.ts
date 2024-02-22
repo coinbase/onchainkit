@@ -1,10 +1,10 @@
 // 🌲☀️🌲
 export { version } from './version';
-export { getFrameHtmlResponse } from './core/getFrameHtmlResponse';
-export { getFrameMetadata } from './core/getFrameMetadata';
-export { getFrameMessage } from './core/getFrameMessage';
-export { getMockFrameRequest } from './core/getMockFrameRequest';
-export { FrameMetadata } from './frame/FrameMetadata';
+export { getFrameHtmlResponse } from './frame/getFrameHtmlResponse';
+export { getFrameMetadata } from './frame/getFrameMetadata';
+export { getFrameMessage } from './frame/getFrameMessage';
+export { getMockFrameRequest } from './frame/getMockFrameRequest';
+export { FrameMetadata } from './frame/components/FrameMetadata';
 export { Avatar } from './identity/components/Avatar';
 export { Name } from './identity/components/Name';
 export { useAvatar } from './identity/hooks/useAvatar';
@@ -19,4 +19,4 @@ export type {
   FrameValidationData,
   MockFrameRequest,
   MockFrameRequestOptions,
-} from './core/types';
+} from './frame/types';

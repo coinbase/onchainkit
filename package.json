@@ -105,6 +105,16 @@
       },
       "default": "./lib/farcaster/index.js"
     },
+    "./frame": {
+      "types": "./lib/frame/index.d.ts",
+      "browser": {
+        "types": "./esm/frame/index.d.ts",
+        "module": "./esm/frame/index.js",
+        "import": "./esm/frame/index.js",
+        "default": "./lib/frame/index.js"
+      },
+      "default": "./lib/frame/index.js"
+    },
     "./identity": {
       "types": "./lib/identity/index.d.ts",
       "browser": {

@@ -4,8 +4,8 @@
 
 ### Minor Changes
 
-- 311b027: - **feat**: prep the identity `identity` module. By @zizzamia #171
-  - **feat**: added initial version of `getEASAttestations`, which helps getting the user attestations from the Ethereum Attetation Service (EAS). By @alvaroraminelli #126
+- **feat**: prep the identity `identity` module. By @zizzamia #171 311b027
+- **feat**: added initial version of `getEASAttestations`, which helps getting the user attestations from the Ethereum Attetation Service (EAS). By @alvaroraminelli #126
 
 ## 0.8.2
 

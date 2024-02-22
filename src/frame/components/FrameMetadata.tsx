@@ -1,5 +1,5 @@
 import { Fragment } from 'react';
-import type { FrameMetadataReact } from '../core/types';
+import type { FrameMetadataReact } from '../types';
 
 /**
  * FrameMetadata component
