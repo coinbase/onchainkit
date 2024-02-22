@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- 605ce64: - **feat**: created `frame` module. By @zizzamia #172
+- **feat**: created `frame` module. By @zizzamia #172 605ce64
 
 ## 0.9.0
 
