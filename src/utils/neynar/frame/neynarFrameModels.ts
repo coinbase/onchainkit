@@ -26,6 +26,11 @@ export function convertToNeynarResponseModel(data: any): FrameValidationData | u
       fid: interactor?.fid,
       custody_address: interactor?.custody_address,
       verified_accounts: interactor?.verifications,
+      verified_addresses: {
+        // TODO: update types, ideally pulling from Neynar automatically
+        verified_eth_accounts: (interactor as any)?.verified_addresses?.eth_addresses,
+        verified_sol_accounts: (interactor as any)?.verified_addresses?.sol_addresses,
+      },
     },
     liked: cast?.viewer_context?.liked,
     raw: neynarResponse,

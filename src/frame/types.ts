@@ -42,6 +42,10 @@ export interface FrameValidationData {
     fid: number; // Viewer Farcaster ID
     custody_address: string; // Viewer custody address
     verified_accounts: string[]; // Viewer account addresses
+    verified_addresses?: {
+      verified_eth_accounts?: string[];
+      verified_sol_accounts?: string[];
+    };
   };
   liked: boolean; // Indicates if the viewer clicking the frame liked the cast
   raw: NeynarFrameValidationInternalModel;
