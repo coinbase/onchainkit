@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- 606a717: - **fix**: EAS graphql types. By @dneilroth #177
+- **fix**: EAS graphql types. By @dneilroth #177 606a717
 
 ## 0.9.2
 

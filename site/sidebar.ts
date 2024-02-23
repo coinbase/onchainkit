@@ -10,33 +10,33 @@ export const sidebar = [
     items: [
       {
         text: 'Introduction',
-        link: '/farcasterkit/introduction',
+        link: '/farcaster/introduction',
       },
       {
         text: 'Utilities',
         items: [
           {
             text: 'getFarcasterUserAddress',
-            link: '/farcasterkit/get-farcaster-user-address',
+            link: '/farcaster/get-farcaster-user-address',
           },
         ],
       },
       {
         text: 'Types',
-        link: '/farcasterkit/types',
+        link: '/farcaster/types',
       },
     ],
   },
   {
     text: 'Frame Kit',
     items: [
-      { text: 'Introduction', link: '/framekit/introduction' },
+      { text: 'Introduction', link: '/frame/introduction' },
       {
         text: 'Components',
         items: [
           {
             text: 'FrameMetadata',
-            link: '/framekit/frame-metadata',
+            link: '/frame/frame-metadata',
           },
         ],
       },
@@ -45,42 +45,42 @@ export const sidebar = [
         items: [
           {
             text: 'getFrameHtmlResponse',
-            link: '/framekit/get-frame-html-response',
+            link: '/frame/get-frame-html-response',
           },
           {
             text: 'getFrameMessage',
-            link: '/framekit/get-frame-message',
+            link: '/frame/get-frame-message',
           },
           {
             text: 'getFrameMetadata',
-            link: '/framekit/get-frame-metadata',
+            link: '/frame/get-frame-metadata',
           },
         ],
       },
       {
         text: 'Framegear',
-        link: '/framekit/framegear',
+        link: '/frame/framegear',
       },
       {
         text: 'Types',
-        link: '/framekit/types',
+        link: '/frame/types',
       },
     ],
   },
   {
     text: 'Identity Kit',
     items: [
-      { text: 'Introduction', link: '/identitykit/introduction' },
+      { text: 'Introduction', link: '/identity/introduction' },
       {
         text: 'Components',
         items: [
           {
             text: 'Avatar',
-            link: '/identitykit/avatar',
+            link: '/identity/avatar',
           },
           {
             text: 'Name',
-            link: '/identitykit/name',
+            link: '/identity/name',
           },
         ],
       },
@@ -89,30 +89,30 @@ export const sidebar = [
         items: [
           {
             text: 'getEASAttestations',
-            link: '/identitykit/get-eas-attestations',
+            link: '/identity/get-eas-attestations',
           },
         ],
       },
       {
         text: 'Types',
-        link: '/identitykit/types',
+        link: '/identity/types',
       },
     ],
   },
   {
     text: 'XMTP Kit',
     items: [
-      { text: 'Introduction', link: '/xmtpkit/introduction' },
+      { text: 'Introduction', link: '/xmtp/introduction' },
       {
         text: 'Utilities',
         items: [
           {
             text: 'getXmtpFrameMessage',
-            link: '/xmtpkit/get-xmtp-frame-message',
+            link: '/xmtp/get-xmtp-frame-message',
           },
           {
             text: 'isXmtpFrameRequest',
-            link: '/xmtpkit/is-xmtp-frame-request',
+            link: '/xmtp/is-xmtp-frame-request',
           },
         ],
       },

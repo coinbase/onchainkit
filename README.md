@@ -50,30 +50,30 @@ For documentation and guides, visit [onchainkit.xyz](https://onchainkit.xyz/).
 
 OnchainKit offers three themes packed with React components and TypeScript utilities ready for action.
 
-- [Farcaster Kit](https://onchainkit.xyz/farcasterkit/introduction)
+- [Farcaster Kit](https://onchainkit.xyz/farcaster/introduction)
   - Utilities:
-    - [`getFarcasterUserAddress`](https://onchainkit.xyz/farcasterkit/get-farcaster-user-address)
-- [Frame Kit](https://onchainkit.xyz/framekit/introduction)
+    - [`getFarcasterUserAddress`](https://onchainkit.xyz/farcaster/get-farcaster-user-address)
+- [Frame Kit](https://onchainkit.xyz/frame/introduction)
 
   - Components:
-    - [`<FrameMetadata />`](https://onchainkit.xyz/framekit/frame-metadata)
+    - [`<FrameMetadata />`](https://onchainkit.xyz/frame/frame-metadata)
   - Utilities:
-    - [`getFrameHtmlResponse`](https://onchainkit.xyz/framekit/get-frame-html-response)
-    - [`getFrameMessage`](https://onchainkit.xyz/framekit/get-frame-message)
-    - [`getFrameMetadata`](https://onchainkit.xyz/framekit/get-frame-metadata)
-  - [Framegear](https://onchainkit.xyz/framekit/framegear)
+    - [`getFrameHtmlResponse`](https://onchainkit.xyz/frame/get-frame-html-response)
+    - [`getFrameMessage`](https://onchainkit.xyz/frame/get-frame-message)
+    - [`getFrameMetadata`](https://onchainkit.xyz/frame/get-frame-metadata)
+  - [Framegear](https://onchainkit.xyz/frame/framegear)
 
-- [Identity Kit](https://onchainkit.xyz/identitykit/introduction)
+- [Identity Kit](https://onchainkit.xyz/identity/introduction)
 
   - Components:
-    - [`<Avatar />`](https://onchainkit.xyz/identitykit/avatar)
-    - [`<Name />`](https://onchainkit.xyz/identitykit/name)
+    - [`<Avatar />`](https://onchainkit.xyz/identity/avatar)
+    - [`<Name />`](https://onchainkit.xyz/identity/name)
   - Utilities:
-    - [`getEASAttestations`](https://onchainkit.xyz/identitykit/get-eas-attestations)
+    - [`getEASAttestations`](https://onchainkit.xyz/identity/get-eas-attestations)
 
-- [XMTP Kit](https://onchainkit.xyz/xmtpkit/introduction)
+- [XMTP Kit](https://onchainkit.xyz/xmtp/introduction)
   - Utilities:
-    - [`getXmtpFrameMessage`](https://onchainkit.xyz/xmtpkit/get-xmtp-frame-message)
+    - [`getXmtpFrameMessage`](https://onchainkit.xyz/xmtp/get-xmtp-frame-message)
 
 ## Overview
 
