@@ -21,6 +21,10 @@ export interface NeynarFrameValidationInternalModel {
       follower_count: number;
       following_count: number;
       verifications: any[];
+      verified_addresses: {
+        eth_addresses: string[] | null;
+        sol_addresses: string[] | null;
+      };
       active_status: string;
       viewer_context: {
         following: boolean;

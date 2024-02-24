@@ -21,6 +21,10 @@ function getMockFrameRequest(
         fid: options?.interactor?.fid || 0,
         custody_address: options?.interactor?.custody_address || '0xnotarealaddress',
         verified_accounts: options?.interactor?.verified_accounts || [],
+        verified_addresses: {
+          eth_addresses: null,
+          sol_addresses: null,
+        },
       },
       liked: !!options?.liked,
       recasted: !!options?.recasted,
