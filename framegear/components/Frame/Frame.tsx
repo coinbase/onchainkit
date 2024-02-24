@@ -53,7 +53,7 @@ function ValidFrame({ tags }: { tags: Record<string, string> }) {
         src={image}
         alt=""
       />
-      <div className="bg-content-light flex flex-col gap-2 rounded-b-xl px-4 py-2">
+      <div className="bg-button-gutter-light dark:bg-content-light flex flex-col gap-2 rounded-b-xl px-4 py-2">
         {!!input && (
           <input
             className="bg-input-light border-light rounded-lg border p-2 text-black"
@@ -86,7 +86,7 @@ function PlaceholderFrame() {
   return (
     <div className="flex flex-col">
       <div className="bg-farcaster flex aspect-[1.91/1] w-full rounded-t-xl"></div>
-      <div className="bg-content-light flex flex-wrap gap-2 rounded-b-xl px-4 py-2">
+      <div className="bg-button-gutter-light dark:bg-content-light flex flex-wrap gap-2 rounded-b-xl px-4 py-2">
         <FrameButton>Get Started</FrameButton>
       </div>
     </div>
