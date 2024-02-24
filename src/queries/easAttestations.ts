@@ -1,5 +1,6 @@
 import { gql } from 'graphql-request';
 import type { Address, Chain } from 'viem';
+import { getAddress } from 'viem';
 import { EASSchemaUid, EASAttestation } from '../identity/types';
 import { createEasGraphQLClient } from '../network/easGraphQL';
 
@@ -86,8 +87,9 @@ export function getEASAttestationQueryVariables(
   address: Address,
   filters: GetEASAttestationQueryVariablesFilters,
 ): EASAttestationsQueryVariables {
+  const checksummedAddress = getAddress(address);
   const conditions: Record<string, any> = {
-    recipient: { equals: address },
+    recipient: { equals: checksummedAddress },
     revoked: { equals: filters.revoked },
   };
 

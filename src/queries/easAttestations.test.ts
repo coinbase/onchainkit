@@ -10,7 +10,8 @@ import { base } from 'viem/chains';
 jest.mock('../network/easGraphQL');
 
 describe('EAS Attestation Service', () => {
-  const mockAddress = '0x123';
+  const mockAddress = '0xdbf03b407c01e7cd3cbea99509d93f8dddc8c6fb';
+  const mockChecksummedAddress = '0xdbF03B407c01E7cD3CBea99509d93f8DDDC8C6FB';
   const mockFilters: GetEASAttestationsByFilterOptions = {
     limit: 10,
     revoked: false,
@@ -25,7 +26,7 @@ describe('EAS Attestation Service', () => {
         where: {
           AND: [
             {
-              recipient: { equals: mockAddress },
+              recipient: { equals: mockChecksummedAddress },
               revoked: { equals: mockFilters.revoked },
               OR: [
                 { expirationTime: { equals: 0 } },
