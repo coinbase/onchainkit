@@ -16,7 +16,7 @@ export function Header() {
 function Banner() {
   return (
     <div
-    className={`max-w-layout-max border-pallette-line bg-content-light dark:bg-banner flex w-full items-center justify-between rounded-lg border p-6`}
+      className={`max-w-layout-max border-pallette-line bg-content-light dark:bg-banner flex w-full items-center justify-between rounded-lg border p-6`}
     >
       <div className="flex items-center gap-4">
         <div className="text-3xl">⚒️</div>
@@ -39,6 +39,10 @@ function Banner() {
 
 function AppName({ className: additionalClasses = '' }: { className?: string }) {
   return (
-    <span className={`rounded-lg bg-content-light dark:bg-slate-800 p-1 font-mono ${additionalClasses}`}>{APP_NAME}</span>
+    <span
+      className={`bg-content-light rounded-lg p-1 font-mono dark:bg-slate-800 ${additionalClasses}`}
+    >
+      {APP_NAME}
+    </span>
   );
 }
