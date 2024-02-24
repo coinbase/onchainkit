@@ -20,9 +20,9 @@ export function Frame() {
 }
 
 function ValidFrame({ tags }: { tags: Record<string, string> }) {
-  const { image, imageAspectRatio, input, buttons } = useMemo(() => {
+  const { image, imageAspectRatioClassname, input, buttons } = useMemo(() => {
     const image = tags['fc:frame:image'];
-    const imageAspectRatio = tags['fc:frame:image:aspect_ratio'] === '1:1' ? '1/1' : '1.91/1';
+    const imageAspectRatioClassname = tags['fc:frame:image:aspect_ratio'] === '1:1' ? 'aspect-square' : 'aspect-[1.91/1]';
     const input = tags['fc:frame:input:text'];
     // TODO: when debugger is live we will also need to extract actions, etc.
     const buttons = [1, 2, 3, 4].map((index) => {
@@ -39,7 +39,7 @@ function ValidFrame({ tags }: { tags: Record<string, string> }) {
     });
     return {
       image,
-      imageAspectRatio,
+      imageAspectRatioClassname,
       input,
       buttons,
     };
@@ -49,7 +49,7 @@ function ValidFrame({ tags }: { tags: Record<string, string> }) {
     <div>
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
-        className={`w-full rounded-t-xl aspect-[${imageAspectRatio}] object-cover`}
+        className={`w-full rounded-t-xl ${imageAspectRatioClassname} object-cover`}
         src={image}
         alt=""
       />
