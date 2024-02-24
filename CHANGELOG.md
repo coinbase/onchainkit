@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.9.4
+
+### Patch Changes
+
+- 4c7fe48: - **fix**: in EAS did checksum address before querying GQL endpoint. By @dneilroth #182
+  - **feat**: added support for both ETH and SOL `verified_addresses` for [getFrameMessage](https://onchainkit.xyz/frame/get-frame-message). By @cnasc #181
+
 ## 0.9.3
 
 ### Patch Changes
