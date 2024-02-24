@@ -12,6 +12,7 @@ const config: Config = {
         input: '#191918',
         'input-light': '#DBDBDB',
         'link-button': '#2E3137',
+        'button-gutter-light': '#CBC8C7',
       },
       borderColor: {
         button: '#cfd0d2',

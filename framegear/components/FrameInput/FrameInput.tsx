@@ -17,7 +17,7 @@ export function FrameInput() {
       <label className="flex flex-col">
         Enter your frame URL
         <input
-          className={`border-pallette-line bg-input h-[40px] rounded-md border p-2`}
+          className={`border-pallette-line bg-content-light dark:bg-input h-[40px] rounded-md border p-2`}
           type="url"
           placeholder="Enter URL"
           value={url}

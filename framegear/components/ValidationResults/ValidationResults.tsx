@@ -24,7 +24,7 @@ function ValidationResultsPlaceholder() {
   return (
     <div className="flex flex-col gap-4">
       <h2>Frame validations</h2>
-      <div className="bg-content flex w-full flex-col gap-4 rounded-xl p-6">
+      <div className="bg-content-light dark:bg-content flex w-full flex-col gap-4 rounded-xl p-6">
         <p>No data yet.</p>
       </div>
     </div>
@@ -50,7 +50,7 @@ function ValidationResultsContent() {
           </span>
         )}
       </h2>
-      <div className="bg-content flex w-full flex-col gap-4 rounded-xl p-6">
+      <div className="bg-content-light dark:bg-content flex w-full flex-col gap-4 rounded-xl p-6">
         <ul className="flex list-none flex-col gap-4 p-0">
           {REQUIRED_FIELD_NAMES.map((name) => {
             const value = latestResult.tags[name];
