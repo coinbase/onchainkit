@@ -1,90 +1,69 @@
 # getFrameMessage
 
-When a user interacts with your Frame, you receive a JSON message called the "Frame Signature Packet". Decode and validate this message using the `getFrameMessage` function.
-
-You can also use `getFrameMessage` to access useful information such as:
-
-- button: number
-- fid: number
-- following: boolean
-- liked: boolean
-- recasted: boolean
-- verified_accounts: string[]
+When a user interacts with your Frame, you receive a JSON message called
+the "**Frame Signature Packet**". Decode and validate this message using the `getFrameMessage` function.
 
 Note that if the `message` is not valid, it will be undefined.
 
 ## Usage
 
 ```ts
-// Step 1. import getFrameMessage from @coinbase/onchainkit
-import { FrameRequest, getFrameMessage } from '@coinbase/onchainkit/frame';
+import { FrameRequest, getFrameMessage } from '@coinbase/onchainkit/frame'; // [!code focus]
 import { NextRequest, NextResponse } from 'next/server';
 
 async function getResponse(req: NextRequest): Promise<NextResponse> {
-  // Step 2. Read the body from the Next Request
-  const body: FrameRequest = await req.json();
-  // Step 3. Validate the message
-  const { isValid, message } = await getFrameMessage(body , {
-    neynarApiKey: 'NEYNAR_ONCHAIN_KIT'
-  });
+  const frameRequest: FrameRequest = await req.json();
+  const { isValid, message } = await getFrameMessage(frameRequest); // [!code focus]
 
-  // Step 4. Determine the experience based on the validity of the message
   if (isValid) {
     // the message is valid
-  } else {
-    // sorry, the message is not valid and it will be undefined
   }
-
   ...
-}
-
-export async function POST(req: NextRequest): Promise<Response> {
-  return getResponse(req);
 }
 ```
 
 ## Returns
 
-```ts
-type Promise<FrameValidationResponse>;
-
-type FrameValidationResponse =
-  | { isValid: true; message: FrameValidationData }
-  | { isValid: false; message: undefined };
-
-interface FrameValidationData {
-  button: number; // Number of the button clicked
-  following: boolean; // Indicates if the viewer clicking the frame follows the cast author
-  input: string; // Text input from the viewer typing in the frame
-  interactor: {
-    fid: number; // Viewer Farcaster ID
-    custody_address: string; // Viewer custody address
-    verified_accounts: string[]; // Viewer account addresses
-  };
-  liked: boolean; // Indicates if the viewer clicking the frame liked the cast
-  raw: NeynarFrameValidationInternalModel;
-  recasted: boolean; // Indicates if the viewer clicking the frame recasted the cast
-  valid: boolean; // Indicates if the frame is valid
-}
-```
+[`Promise<FrameValidationResponse>`](/frame/types#framevalidationresponse)
 
 ## Parameters
 
-```ts
-// The Frame Signature Packet body
-type FrameMessage = {
-  body: FrameRequest;
-  messageOptions?: FrameMessageOptions;
-};
+### FrameRequest
 
-type FrameMessageOptions =
-  | {
-      // The API key to use for validation. Default: NEYNAR_ONCHAIN_KIT
-      neynarApiKey?: string;
-      // Whether to cast the reaction context. Default: true
-      castReactionContext?: boolean;
-      // Whether to follow the context. Default: true
-      followContext?: boolean;
-    }
-  | undefined;
+- [`FrameRequest`](/frame/types#framerequest)
+
+### options.neynarApiKey
+
+- **Type:** `string`
+
+Default to OnchainKit's default key.
+
+```ts
+const { isValid, message } = await getFrameMessage(frameRequest, {
+  neynarApiKey: 'MY_NEYNAR_API_KEY', // [!code focus]
+});
+```
+
+### options.castReactionContext
+
+- **Type:** `boolean`
+
+Whether to cast the reaction context. Default: true
+
+```ts
+const { isValid, message } = await getFrameMessage(frameRequest, {
+  castReactionContext: true, // [!code focus]
+});
+```
+
+### options.followContext
+
+- **Type:** `boolean`
+
+// Whether to follow the context. Default: true
+
+```ts
+const { isValid, message } = await getFrameMessage(frameRequest, {
+  followContext: true, // [!code focus]
+});
 ```
