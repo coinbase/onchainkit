@@ -1,4 +1,3 @@
-import { FrameMetadata } from '@coinbase/onchainkit';
 import { defineConfig } from 'vocs';
 import pkg from '../package.json';
 import { sidebar } from './sidebar';
@@ -13,16 +12,10 @@ export default defineConfig({
   title: ONCHAINKIT_TITLE,
   titleTemplate: '%s · OnchainKit',
   description: ONCHAINKIT_DESCRIPTION,
+  ogImageUrl: 'https://vocs.dev/api/og?logo=%logo&title=%title&description=%description',
+  logoUrl: { light: '/favicon/48x48.png', dark: '/favicon/48x48.png' },
   head: (
     <>
-      <FrameMetadata
-        image={{
-          src: 'https://onchainkit.xyz/frame/landing-1-1-v1.png',
-          aspectRatio: '1:1',
-        }}
-        ogTitle={ONCHAINKIT_TITLE}
-        ogDescription={ONCHAINKIT_DESCRIPTION}
-      />
       <script
         src={`https://www.googletagmanager.com/gtag/js?id=${GOOGLE_ANALYTICS_ID}`}
         async
