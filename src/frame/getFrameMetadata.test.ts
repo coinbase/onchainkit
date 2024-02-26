@@ -196,7 +196,7 @@ describe('getFrameMetadata', () => {
         postUrl: 'post_url',
         refreshPeriod: 10,
         state: {
-          counter: 1
+          counter: 1,
         },
       }),
     ).toEqual({

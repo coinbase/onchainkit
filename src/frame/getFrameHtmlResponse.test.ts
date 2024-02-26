@@ -19,7 +19,7 @@ describe('getFrameHtmlResponse', () => {
       postUrl: 'https://example.com/api/frame',
       refreshPeriod: 10,
       state: {
-        counter: 1
+        counter: 1,
       },
     });
 

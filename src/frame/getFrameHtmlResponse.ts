@@ -44,8 +44,8 @@ function getFrameHtmlResponse({
 
   // Set the state metadata if it exists.
   const stateHtml = state
-  ? `  <meta property="fc:frame:state" content="${encodeURIComponent(JSON.stringify(state))}" />\n`
-  : '';
+    ? `  <meta property="fc:frame:state" content="${encodeURIComponent(JSON.stringify(state))}" />\n`
+    : '';
 
   // Set the button metadata if it exists.
   let buttonsHtml = '';
