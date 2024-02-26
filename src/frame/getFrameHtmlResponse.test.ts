@@ -18,6 +18,9 @@ describe('getFrameHtmlResponse', () => {
       },
       postUrl: 'https://example.com/api/frame',
       refreshPeriod: 10,
+      state: {
+        counter: 1
+      },
     });
 
     expect(html).toBe(`<!DOCTYPE html>
@@ -40,6 +43,7 @@ describe('getFrameHtmlResponse', () => {
   <meta property="fc:frame:input:text" content="Enter a message..." />
   <meta property="fc:frame:post_url" content="https://example.com/api/frame" />
   <meta property="fc:frame:refresh_period" content="10" />
+  <meta property="fc:frame:state" content="%7B%22counter%22%3A1%7D" />
 
 </head>
 </html>`);
@@ -290,6 +294,25 @@ describe('getFrameHtmlResponse', () => {
     expect(html).not.toContain('fc:frame:button:4');
     expect(html).not.toContain('fc:frame:button:4:action');
     expect(html).not.toContain('fc:frame:button:4:target');
+  });
+
+  it('should handle no state', () => {
+    const html = getFrameHtmlResponse({
+      buttons: [{ label: 'button1' }],
+      image: 'https://example.com/image.png',
+      postUrl: 'https://example.com/api/frame',
+    });
+
+    expect(html).toContain('<meta property="fc:frame" content="vNext" />');
+    expect(html).toContain('<meta property="fc:frame:button:1" content="button1" />');
+    expect(html).toContain(
+      '<meta property="fc:frame:image" content="https://example.com/image.png" />',
+    );
+    expect(html).toContain('<meta property="og:image" content="https://example.com/image.png" />');
+    expect(html).toContain(
+      '<meta property="fc:frame:post_url" content="https://example.com/api/frame" />',
+    );
+    expect(html).not.toContain('fc:frame:state');
   });
 });
 

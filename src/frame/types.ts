@@ -129,6 +129,8 @@ export type FrameMetadataType = {
   refresh_period?: number;
   // A period in seconds at which the app should expect the image to update.
   refreshPeriod?: number;
+  // A string containing serialized state (e.g. JSON) passed to the frame server.
+  state?: object;
 };
 
 /**
