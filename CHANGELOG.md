@@ -1,18 +1,11 @@
 # Changelog
 
-
-## 0.10.0
-
-### Minor Changes
-
-- **feat**: add support for passing `state` to frame server. By @taycaldwell #197
-
 ## 0.9.4
 
 ### Patch Changes
 
-- 4c7fe48: - **fix**: in EAS did checksum address before querying GQL endpoint. By @dneilroth #182
-  - **feat**: added support for both ETH and SOL `verified_addresses` for [getFrameMessage](https://onchainkit.xyz/frame/get-frame-message). By @cnasc #181
+- **fix**: in EAS did checksum address before querying GQL endpoint. By @dneilroth #182
+- **feat**: added support for both ETH and SOL `verified_addresses` for [getFrameMessage](https://onchainkit.xyz/frame/get-frame-message). By @cnasc #181 4c7fe48
 
 ## 0.9.3
 

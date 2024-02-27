@@ -1,5 +1,5 @@
 ---
-"@coinbase/onchainkit": minor
+'@coinbase/onchainkit': patch
 ---
 
-**feat**: add support for passing `state` to frame server. By @taycaldwell #197
+- **feat**: added support for passing `state` to frame server. By @taycaldwell #197
