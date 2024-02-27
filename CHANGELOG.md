@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.9.5
+
+### Patch Changes
+
+- 4410ad0: - **chore**: added Cross Site Scripting tests for `frame:state`. By @zizzamia #199
+  - **feat**: added support for passing `state` to frame server. By @taycaldwell #197
+
 ## 0.9.4
 
 ### Patch Changes
