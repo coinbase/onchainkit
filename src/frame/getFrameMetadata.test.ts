@@ -187,4 +187,25 @@ describe('getFrameMetadata', () => {
       'fc:frame:image': 'image',
     });
   });
+
+  it('should return the correct metadata with state', () => {
+    expect(
+      getFrameMetadata({
+        buttons: [{ label: 'button1' }],
+        image: 'image',
+        postUrl: 'post_url',
+        refreshPeriod: 10,
+        state: {
+          counter: 1,
+        },
+      }),
+    ).toEqual({
+      'fc:frame': 'vNext',
+      'fc:frame:button:1': 'button1',
+      'fc:frame:image': 'image',
+      'fc:frame:post_url': 'post_url',
+      'fc:frame:refresh_period': '10',
+      'fc:frame:state': '%7B%22counter%22%3A1%7D',
+    });
+  });
 });

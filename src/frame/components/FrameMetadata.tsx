@@ -40,6 +40,7 @@ import type { FrameMetadataReact } from '../types';
  * @param {string} props.ogTitle - The Open Graph title.
  * @param {string} props.postUrl - The post URL.
  * @param {number} props.refreshPeriod - The refresh period.
+ * @param {object} props.state - The serialized state (e.g. JSON) for the frame.
  * @param {React.ComponentType<any> | undefined} props.wrapper - The wrapper component meta tags are rendered in.
  * @returns {React.ReactElement} The FrameMetadata component.
  */
@@ -53,6 +54,7 @@ export function FrameMetadata({
   post_url,
   refreshPeriod,
   refresh_period,
+  state,
   wrapper: Wrapper = Fragment,
 }: FrameMetadataReact) {
   const button1 = buttons && buttons[0];
@@ -75,6 +77,7 @@ export function FrameMetadata({
       {!!imageSrc && <meta property="fc:frame:image" content={imageSrc} />}
       {!!aspectRatio && <meta property="fc:frame:image:aspect_ratio" content={aspectRatio} />}
       {!!input && <meta property="fc:frame:input:text" content={input.text} />}
+      {!!state && <meta property="fc:frame:state" content={encodeURIComponent(JSON.stringify(state))} />}
 
       {!!button1 && <meta property="fc:frame:button:1" content={button1.label} />}
       {!!(button1 && !!button1.action) && (

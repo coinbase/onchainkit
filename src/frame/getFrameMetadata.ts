@@ -7,6 +7,7 @@ import { FrameMetadataResponse, FrameMetadataType } from './types';
  * @param input: The text input to use for the frame.
  * @param postUrl: The URL to post the frame to.
  * @param refreshPeriod: The refresh period for the image used.
+ * @param state: The serialized state (e.g. JSON) for the frame.
  * @returns The metadata for the frame.
  */
 export const getFrameMetadata = function ({
@@ -17,6 +18,7 @@ export const getFrameMetadata = function ({
   post_url,
   refreshPeriod,
   refresh_period,
+  state,
 }: FrameMetadataType): FrameMetadataResponse {
   const postUrlToUse = postUrl || post_url;
   const refreshPeriodToUse = refreshPeriod || refresh_period;
@@ -51,6 +53,9 @@ export const getFrameMetadata = function ({
   }
   if (refreshPeriodToUse) {
     metadata['fc:frame:refresh_period'] = refreshPeriodToUse.toString();
+  }
+  if (state) {
+    metadata['fc:frame:state'] = encodeURIComponent(JSON.stringify(state));
   }
   return metadata;
 };

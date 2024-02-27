@@ -15,6 +15,7 @@ type FrameMetadataHTMLResponse = FrameMetadataType & {
  * @param ogTitle: The Open Graph title for the frame.
  * @param postUrl: The URL to post the frame to.
  * @param refreshPeriod: The refresh period for the image used.
+ * @param state: The serialized state (e.g. JSON) for the frame.
  * @returns An HTML string containing metadata for the frame.
  */
 function getFrameHtmlResponse({
@@ -27,6 +28,7 @@ function getFrameHtmlResponse({
   post_url,
   refreshPeriod,
   refresh_period,
+  state,
 }: FrameMetadataHTMLResponse): string {
   const imgSrc = typeof image === 'string' ? image : image.src;
   const ogImageHtml = `  <meta property="og:image" content="${imgSrc}" />\n`;
@@ -38,6 +40,11 @@ function getFrameHtmlResponse({
   // Set the input metadata if it exists.
   const inputHtml = input
     ? `  <meta property="fc:frame:input:text" content="${input.text}" />\n`
+    : '';
+
+  // Set the state metadata if it exists.
+  const stateHtml = state
+    ? `  <meta property="fc:frame:state" content="${encodeURIComponent(JSON.stringify(state))}" />\n`
     : '';
 
   // Set the button metadata if it exists.
@@ -76,7 +83,7 @@ function getFrameHtmlResponse({
   <meta property="og:description" content="${ogDescription || 'Frame description'}" />
   <meta property="og:title" content="${ogTitle || 'Frame title'}" />
   <meta property="fc:frame" content="vNext" />
-${buttonsHtml}${ogImageHtml}${imageHtml}${inputHtml}${postUrlHtml}${refreshPeriodHtml}
+${buttonsHtml}${ogImageHtml}${imageHtml}${inputHtml}${postUrlHtml}${refreshPeriodHtml}${stateHtml}
 </head>
 </html>`;
 
