@@ -37,7 +37,6 @@ export interface NeynarFrameValidationInternalModel {
     input: {
       text: string;
     };
-    state: string;
     url: string;
     cast: {
       object: string;
