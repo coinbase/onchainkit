@@ -1,5 +1,12 @@
 # Changelog
 
+
+## 0.10.0
+
+### Minor Changes
+
+- **feat**: add support for passing `state` to frame server. By @taycaldwell #197
+
 ## 0.9.4
 
 ### Patch Changes
