@@ -228,7 +228,7 @@ describe('getFrameMetadata', () => {
       'fc:frame:post_url': 'post_url',
       'fc:frame:refresh_period': '10',
       'fc:frame:state':
-        '%7B%22counter%22%3A1%2C%22xss%22%3A%22%3Cscript%3Ealert(%22XSS%22)%3C%2Fscript%3E%22%7D',
+        '%7B%22counter%22%3A1%2C%22xss%22%3A%22%3Cscript%3Ealert(%5C%22XSS%5C%22)%3C%2Fscript%3E%22%7D',
     });
   });
 });

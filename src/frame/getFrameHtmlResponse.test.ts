@@ -335,7 +335,9 @@ describe('getFrameHtmlResponse', () => {
     expect(html).toContain(
       '<meta property="fc:frame:post_url" content="https://example.com/api/frame" />',
     );
-    expect(html).toContain('<meta property="fc:frame:state" content="%7B%22counter%22%3A1%7D"');
+    expect(html).toContain(
+      '<meta property="fc:frame:state" content="%7B%22counter%22%3A1%2C%22xss%22%3A%22%3Cscript%3Ealert(%5C%22XSS%5C%22)%3C%2Fscript%3E%22%7D"',
+    );
     expect(html).not.toContain('<script>alert("XSS")</script>');
   });
 });
