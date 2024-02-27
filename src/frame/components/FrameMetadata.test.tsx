@@ -52,6 +52,17 @@ describe('FrameMetadata', () => {
     expect(meta.container.querySelectorAll('meta').length).toBe(4);
   });
 
+  it('renders with input', () => {
+    const meta = render(
+      <FrameMetadata image="https://example.com/image.png" state={{ counter: 1 }} />,
+    );
+    expect(meta.container.querySelector('meta[property="fc:frame:state"]')).not.toBeNull();
+    expect(
+      meta.container.querySelector('meta[property="fc:frame:state"]')?.getAttribute('content'),
+    ).toBe('%7B%22counter%22%3A1%7D');
+    expect(meta.container.querySelectorAll('meta').length).toBe(4);
+  });
+
   it('renders with two basic buttons', () => {
     const meta = render(
       <FrameMetadata

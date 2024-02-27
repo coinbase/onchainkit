@@ -34,6 +34,9 @@ export default function HomePage() {
       input={{
         text: 'Tell me a boat story',
       }}
+      state={{
+        counter: 1,
+      }}
       postUrl="https://zizzamia.xyz/api/frame"
     />
     ...
@@ -54,6 +57,7 @@ export default function HomePage() {
 <meta name="fc:frame:image" content="https://zizzamia.xyz/park-3.png" />
 <meta name="fc:frame:image:aspect_ratio" content="1:1" />
 <meta name="fc:frame:input:text" content="Tell me a boat story" />
+<meta name="fc:frame:state" content="%7B%22counter%22%3A1%7D" />
 <meta name="fc:frame:post_url" content="https://zizzamia.xyz/api/frame" />
 ```
 
