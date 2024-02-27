@@ -15,7 +15,6 @@ export interface FrameData {
   fid: number;
   messageHash: string;
   network: number;
-  state: string;
   timestamp: number;
   url: string;
 }
@@ -39,7 +38,6 @@ export interface FrameValidationData {
   button: number; // Number of the button clicked
   following: boolean; // Indicates if the viewer clicking the frame follows the cast author
   input: string; // Text input from the viewer typing in the frame
-  state: string;
   interactor: {
     fid: number; // Viewer Farcaster ID
     custody_address: string; // Viewer custody address
