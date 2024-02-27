@@ -208,4 +208,27 @@ describe('getFrameMetadata', () => {
       'fc:frame:state': '%7B%22counter%22%3A1%7D',
     });
   });
+
+  it('should return the correct metadata with state when Cross Site Scripting occur', () => {
+    expect(
+      getFrameMetadata({
+        buttons: [{ label: 'button1' }],
+        image: 'image',
+        postUrl: 'post_url',
+        refreshPeriod: 10,
+        state: {
+          counter: 1,
+          xss: '<script>alert("XSS")</script>',
+        },
+      }),
+    ).toEqual({
+      'fc:frame': 'vNext',
+      'fc:frame:button:1': 'button1',
+      'fc:frame:image': 'image',
+      'fc:frame:post_url': 'post_url',
+      'fc:frame:refresh_period': '10',
+      'fc:frame:state':
+        '%7B%22counter%22%3A1%2C%22xss%22%3A%22%3Cscript%3Ealert(%5C%22XSS%5C%22)%3C%2Fscript%3E%22%7D',
+    });
+  });
 });

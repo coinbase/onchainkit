@@ -52,7 +52,7 @@ describe('FrameMetadata', () => {
     expect(meta.container.querySelectorAll('meta').length).toBe(4);
   });
 
-  it('renders with input', () => {
+  it('renders with state', () => {
     const meta = render(
       <FrameMetadata image="https://example.com/image.png" state={{ counter: 1 }} />,
     );
@@ -60,6 +60,20 @@ describe('FrameMetadata', () => {
     expect(
       meta.container.querySelector('meta[property="fc:frame:state"]')?.getAttribute('content'),
     ).toBe('%7B%22counter%22%3A1%7D');
+    expect(meta.container.querySelectorAll('meta').length).toBe(4);
+  });
+
+  it('renders with state when Cross Site Scripting occur', () => {
+    const meta = render(
+      <FrameMetadata
+        image="https://example.com/image.png"
+        state={{ counter: 1, xss: '<script>' }}
+      />,
+    );
+    expect(meta.container.querySelector('meta[property="fc:frame:state"]')).not.toBeNull();
+    expect(
+      meta.container.querySelector('meta[property="fc:frame:state"]')?.getAttribute('content'),
+    ).toBe('%7B%22counter%22%3A1%2C%22xss%22%3A%22%3Cscript%3E%22%7D');
     expect(meta.container.querySelectorAll('meta').length).toBe(4);
   });
 

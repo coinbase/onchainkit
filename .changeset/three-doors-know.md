@@ -1,5 +1,6 @@
 ---
-"@coinbase/onchainkit": minor
+'@coinbase/onchainkit': patch
 ---
 
-**feat**: add support for passing `state` to frame server. By @taycaldwell #197
+- **chore**: added Cross Site Scripting tests for `frame:state`. By @zizzamia #199
+- **feat**: added support for passing `state` to frame server. By @taycaldwell #197

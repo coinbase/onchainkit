@@ -77,7 +77,9 @@ export function FrameMetadata({
       {!!imageSrc && <meta property="fc:frame:image" content={imageSrc} />}
       {!!aspectRatio && <meta property="fc:frame:image:aspect_ratio" content={aspectRatio} />}
       {!!input && <meta property="fc:frame:input:text" content={input.text} />}
-      {!!state && <meta property="fc:frame:state" content={encodeURIComponent(JSON.stringify(state))} />}
+      {!!state && (
+        <meta property="fc:frame:state" content={encodeURIComponent(JSON.stringify(state))} />
+      )}
 
       {!!button1 && <meta property="fc:frame:button:1" content={button1.label} />}
       {!!(button1 && !!button1.action) && (
