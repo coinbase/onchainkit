@@ -22,6 +22,7 @@ export function convertToNeynarResponseModel(data: any): FrameValidationData | u
     button: action?.tapped_button?.index,
     following: action?.interactor?.viewer_context?.following,
     input: action?.input?.text,
+    state: action?.state,
     interactor: {
       fid: interactor?.fid,
       custody_address: interactor?.custody_address,

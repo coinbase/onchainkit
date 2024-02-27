@@ -16,6 +16,7 @@ function getMockFrameRequest(
     mockFrameData: {
       button: request.untrustedData.buttonIndex,
       input: request.untrustedData.inputText,
+      state: request.untrustedData.state,
       following: !!options?.following,
       interactor: {
         fid: options?.interactor?.fid || 0,

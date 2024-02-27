@@ -30,6 +30,7 @@ describe('neynar frame functions', () => {
         input: {
           text: 'test',
         },
+        state: '%7B%22counter%22%3A1%7D',
         interactor: {
           fid: 1234,
           verifications: ['0x00123'],
@@ -48,6 +49,7 @@ describe('neynar frame functions', () => {
     expect(resp?.recasted).toEqual(mockedResponse.action.cast.viewer_context.recasted);
     expect(resp?.button).toEqual(mockedResponse.action.tapped_button.index);
     expect(resp?.input).toEqual(mockedResponse.action.input.text);
+    expect(resp?.state).toEqual(mockedResponse.action.state);
     expect(resp?.interactor?.fid).toEqual(mockedResponse.action.interactor.fid);
     expect(resp?.interactor?.verified_accounts).toEqual(
       mockedResponse.action.interactor.verifications,
