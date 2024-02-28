@@ -16,6 +16,12 @@ export async function postFrame(frameData: FrameData, options?: MockFrameRequest
     },
   });
   const json = await res.json();
+
+  if (json.redirectUrl) {
+    window.location.href = json.redirectUrl;
+    return;
+  }
+
   const html = json.html;
   return parseHtml(html);
 }

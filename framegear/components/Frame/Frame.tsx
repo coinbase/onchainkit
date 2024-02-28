@@ -1,7 +1,9 @@
 import { postFrame } from '@/utils/postFrame';
 import { frameResultsAtom } from '@/utils/store';
 import { useAtom } from 'jotai';
-import { PropsWithChildren, useCallback, useMemo } from 'react';
+import { PropsWithChildren, useCallback, useMemo, useState } from 'react';
+import { ArrowTopRightIcon } from '@radix-ui/react-icons';
+import { useRedirectModal } from '@/components/RedirectModalContext/RedirectModalContext';
 
 export function Frame() {
   const [results] = useAtom(frameResultsAtom);
@@ -101,38 +103,58 @@ function FrameButton({
   // TODO: this type should probably be extracted
   button?: { key: string; value: string; action: string; target: string; index: number };
 }>) {
+  const { openModal } = useRedirectModal();
+  const [isLoading, setIsLoading] = useState(false);
   const [_, setResults] = useAtom(frameResultsAtom);
+
   const handleClick = useCallback(async () => {
-    if (button?.action === 'post') {
+    if (button?.action === 'post' || button?.action === 'post_redirect') {
       // TODO: collect user options (follow, like, etc.) and include
-      const result = await postFrame({
-        buttonIndex: button.index,
-        url: button.target,
-        // TODO: make these user-input-driven
-        castId: {
+      const confirmAction = async () => {
+        const result = await postFrame({
+          buttonIndex: button.index,
+          url: button.target,
+          // TODO: make these user-input-driven
+          castId: {
+            fid: 0,
+            hash: '0xthisisnotreal',
+          },
+          inputText: '',
           fid: 0,
-          hash: '0xthisisnotreal',
-        },
-        inputText: '',
-        fid: 0,
-        messageHash: '0xthisisnotreal',
-        network: 0,
-        timestamp: 0,
-      });
-      setResults((prev) => [...prev, result]);
+          messageHash: '0xthisisnotreal',
+          network: 0,
+          timestamp: 0,
+        });
+        setResults((prev) => [...prev, result]);
+      };
+      setIsLoading(true);
+      if (button?.action === 'post_redirect') {
+        openModal(confirmAction);
+      } else {
+        confirmAction();
+      }
+      setIsLoading(false);
       return;
+    } else if (button?.action === 'link') {
+      const onConfirm = () => window.open(button.target, '_blank');
+      openModal(onConfirm);
     }
-    // TODO: implement other actions
+    // TODO: implement other actions (mint, etc.)
   }, [button, setResults]);
   return (
     <button
       className="border-button w-[45%] grow rounded-lg border bg-white px-4 py-2 text-black"
       type="button"
       onClick={handleClick}
-      disabled={button?.action !== 'post'}
+      disabled={isLoading || button?.action === 'mint'}
     >
       <span className="block max-w-full overflow-hidden text-ellipsis whitespace-nowrap">
         {children}
+        {button?.action === 'post_redirect' || button?.action === 'link' ? (
+          <ArrowTopRightIcon className="ml-1 inline" />
+        ) : (
+          ''
+        )}
       </span>
     </button>
   );

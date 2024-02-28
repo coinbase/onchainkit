@@ -16,9 +16,14 @@ export async function POST(req: NextRequest) {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(debugPayload),
+    redirect: 'manual',
   });
 
-  const html = await res.text();
-
-  return Response.json({ html });
+  if (res.status === 302) {
+    const redirectUrl = res.headers.get('Location');
+    return Response.json({ redirectUrl });
+  } else {
+    const html = await res.text();
+    return Response.json({ html });
+  }
 }

@@ -1,0 +1,1 @@
+export { RedirectModal } from './RedirectModal';
