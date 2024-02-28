@@ -67,7 +67,7 @@ function ValidFrame({ tags }: { tags: Record<string, string> }) {
         <div className="flex flex-wrap gap-4">
           {buttons.map((button) =>
             button ? (
-              <FrameButton key={button.key} button={button} >
+              <FrameButton key={button.key} button={button}>
                 {button.value}
               </FrameButton>
             ) : null,
@@ -126,7 +126,7 @@ function FrameButton({
           timestamp: 0,
         });
         setResults((prev) => [...prev, result]);
-      }
+      };
       setIsLoading(true);
       if (button?.action === 'post_redirect') {
         openModal(confirmAction);
@@ -150,7 +150,11 @@ function FrameButton({
     >
       <span className="block max-w-full overflow-hidden text-ellipsis whitespace-nowrap">
         {children}
-        {button?.action === 'post_redirect' || button?.action === 'link' ? <ArrowTopRightIcon className="inline ml-1" /> : ''}
+        {button?.action === 'post_redirect' || button?.action === 'link' ? (
+          <ArrowTopRightIcon className="ml-1 inline" />
+        ) : (
+          ''
+        )}
       </span>
     </button>
   );

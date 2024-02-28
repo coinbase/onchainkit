@@ -16,7 +16,7 @@ export const useRedirectModal = () => {
   return context;
 };
 
-export const RedirectModalProvider: React.FC<{children: ReactNode}> = ({ children }) => {
+export const RedirectModalProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [onConfirm, setOnConfirm] = useState<(() => void) | null>(null);
 
   const openModal = (confirmAction: () => void) => {
@@ -34,10 +34,10 @@ export const RedirectModalProvider: React.FC<{children: ReactNode}> = ({ childre
         isOpen={!!onConfirm}
         onClose={closeModal}
         onConfirm={() => {
-            if (onConfirm) {
-                onConfirm();
-                closeModal();
-            }
+          if (onConfirm) {
+            onConfirm();
+            closeModal();
+          }
         }}
       />
     </RedirectModalContext.Provider>

@@ -13,11 +13,11 @@ export default function Home() {
         <div className={`max-w-layout-max grid w-full grid-cols-[5fr,4fr] gap-16`}>
           <div className="flex flex-col gap-4">
             <FrameInput />
-            <Frame/>
+            <Frame />
           </div>
           <ValidationResults />
         </div>
       </div>
-      </ RedirectModalProvider>
+    </RedirectModalProvider>
   );
 }

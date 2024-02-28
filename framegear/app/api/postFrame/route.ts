@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(debugPayload),
-    redirect: 'manual'
+    redirect: 'manual',
   });
 
   if (res.status === 302) {
