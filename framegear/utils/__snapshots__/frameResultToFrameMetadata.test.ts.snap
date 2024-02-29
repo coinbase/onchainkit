@@ -9,7 +9,7 @@ exports[`frameResultToFrameMetadata handles buttons 1`] = `
       "target": undefined,
     },
     {
-      "action": "post_url",
+      "action": "post_redirect",
       "label": "henlo",
       "target": undefined,
     },
