@@ -22,7 +22,7 @@ describe('frameResultToFrameMetadata', () => {
         'fc:frame:button:1': 'henlo',
         'fc:frame:button:1:action': 'post',
         'fc:frame:button:2': 'henlo',
-        'fc:frame:button:2:action': 'post_url',
+        'fc:frame:button:2:action': 'post_redirect',
         'fc:frame:button:3': 'henlo',
         'fc:frame:button:3:action': 'mint',
         'fc:frame:button:4': 'henlo',
