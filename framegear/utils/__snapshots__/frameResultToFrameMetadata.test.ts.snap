@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`frameResultToFrameMetadata handles buttons 1`] = `
+{
+  "buttons": [
+    {
+      "action": "post",
+      "label": "henlo",
+      "target": undefined,
+    },
+    {
+      "action": "post_url",
+      "label": "henlo",
+      "target": undefined,
+    },
+    {
+      "action": "mint",
+      "label": "henlo",
+      "target": undefined,
+    },
+    {
+      "action": "link",
+      "label": "henlo",
+      "target": "https://google.com",
+    },
+  ],
+  "image": "https://images.party/this-is-a-test.apng",
+  "input": undefined,
+  "postUrl": undefined,
+  "state": undefined,
+}
+`;
