@@ -2,7 +2,7 @@ import { postFrame } from '@/utils/postFrame';
 import { frameResultsAtom } from '@/utils/store';
 import { useAtom } from 'jotai';
 import { ChangeEvent, PropsWithChildren, useCallback, useMemo, useState } from 'react';
-import { ArrowTopRightIcon } from '@radix-ui/react-icons';
+import { ExternalLinkIcon, ResetIcon, RocketIcon } from '@radix-ui/react-icons';
 import { useRedirectModal } from '@/components/RedirectModalContext/RedirectModalContext';
 
 export function Frame() {
@@ -153,21 +153,31 @@ function FrameButton({
     }
     // TODO: implement other actions (mint, etc.)
   }, [button?.action, button?.index, button?.target, inputText, openModal, setResults]);
+
+  const buttonIcon = useMemo(() => {
+    switch (button?.action) {
+      case 'link':
+        return <ExternalLinkIcon />;
+      case 'post_redirect':
+        return <ResetIcon />;
+      case 'mint':
+        return <RocketIcon />;
+      default:
+        null;
+    }
+  }, [button?.action]);
+
   return (
     <button
-      className="border-button w-[45%] grow rounded-lg border bg-white px-4 py-2 text-black"
+      className="border-button flex w-[45%] grow items-center justify-center gap-1 rounded-lg border bg-white px-4 py-2 text-black"
       type="button"
       onClick={handleClick}
       disabled={isLoading || button?.action === 'mint'}
     >
-      <span className="block max-w-full overflow-hidden text-ellipsis whitespace-nowrap">
+      <span className="block max-w-[90%] overflow-hidden text-ellipsis whitespace-nowrap">
         {children}
-        {button?.action === 'post_redirect' || button?.action === 'link' ? (
-          <ArrowTopRightIcon className="ml-1 inline" />
-        ) : (
-          ''
-        )}
       </span>
+      {buttonIcon}
     </button>
   );
 }
