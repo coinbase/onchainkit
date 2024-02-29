@@ -11,7 +11,7 @@ export function RedirectModal({
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="bg-content-light rounded-lg p-6 shadow-lg">
+      <div className="bg-content-light rounded-lg p-6 text-black shadow-lg">
         <p className="text-lg font-semibold">Leaving website</p>
         <p>If you connect your wallet and the site is malicious, you may lose funds.</p>
         <div className="mt-4 flex justify-end space-x-4">
