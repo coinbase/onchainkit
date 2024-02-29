@@ -65,7 +65,7 @@ describe('schema validation', () => {
         ).toBe(true);
       });
 
-      it('fails when button action is not "post" or "post_url"', () => {
+      it('fails when button action is not "post" or "post_redirect"', () => {
         expect(
           vNextSchema.isValidSync({
             ...baseGoodDefinition,
@@ -80,20 +80,20 @@ describe('schema validation', () => {
         ).toBe(false);
       });
 
-      it('succeeds when button action is "post", "post_url", "mint", or "link"', () => {
+      it('succeeds when button action is "post", "post_redirect", "mint", or "link"', () => {
         expect(
           vNextSchema.isValidSync({
             ...baseGoodDefinition,
             'fc:frame:button:1': 'henlo',
             'fc:frame:button:1:action': 'post',
             'fc:frame:button:2': 'henlo',
-            'fc:frame:button:2:action': 'post_url',
+            'fc:frame:button:2:action': 'post_redirect',
             'fc:frame:button:3': 'henlo',
             'fc:frame:button:3:action': 'mint',
             'fc:frame:button:4': 'henlo',
             'fc:frame:button:4:action': 'link',
           }),
-        ).toBe(false);
+        ).toBe(true);
       });
     });
 
@@ -150,32 +150,59 @@ describe('schema validation', () => {
         ).toBe(false);
       });
     });
-  });
 
-  describe('aspect_ratio', () => {
-    it('succeeds when 1:1', () => {
-      expect(
-        vNextSchema.isValidSync({
-          ...baseGoodDefinition,
-          'fc:frame:image:aspect_ratio': '1:1',
-        }),
-      ).toBe(true);
+    describe('state', () => {
+      it('succeeds when state is less than 4096 bytes', () => {
+        expect(
+          vNextSchema.isValidSync({
+            ...baseGoodDefinition,
+            'fc:frame:state': '{"hello": "goodbye"}',
+          }),
+        ).toBe(true);
+      });
+      it('succeeds when state is exactly 4096 bytes', () => {
+        expect(
+          vNextSchema.isValidSync({
+            ...baseGoodDefinition,
+            'fc:frame:state': new Array(4096).fill('a').join(''),
+          }),
+        ).toBe(true);
+      });
+      it('fails when state exceeds 4096 bytes', () => {
+        expect(
+          vNextSchema.isValidSync({
+            ...baseGoodDefinition,
+            'fc:frame:state': new Array(4097).fill('a').join(''),
+          }),
+        ).toBe(false);
+      });
     });
-    it('succeeds when 1:1', () => {
-      expect(
-        vNextSchema.isValidSync({
-          ...baseGoodDefinition,
-          'fc:frame:image:aspect_ratio': '1.91:1',
-        }),
-      ).toBe(true);
-    });
-    it('fails when some other value', () => {
-      expect(
-        vNextSchema.isValidSync({
-          ...baseGoodDefinition,
-          'fc:frame:image:aspect_ratio': '1.618:1',
-        }),
-      ).toBe(false);
+
+    describe('aspect_ratio', () => {
+      it('succeeds when 1:1', () => {
+        expect(
+          vNextSchema.isValidSync({
+            ...baseGoodDefinition,
+            'fc:frame:image:aspect_ratio': '1:1',
+          }),
+        ).toBe(true);
+      });
+      it('succeeds when 1.91:1', () => {
+        expect(
+          vNextSchema.isValidSync({
+            ...baseGoodDefinition,
+            'fc:frame:image:aspect_ratio': '1.91:1',
+          }),
+        ).toBe(true);
+      });
+      it('fails when some other value', () => {
+        expect(
+          vNextSchema.isValidSync({
+            ...baseGoodDefinition,
+            'fc:frame:image:aspect_ratio': '1.618:1',
+          }),
+        ).toBe(false);
+      });
     });
   });
 });
