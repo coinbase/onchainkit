@@ -3,63 +3,57 @@
  */
 
 import { renderHook, waitFor } from '@testing-library/react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { publicClient } from '../../network/client';
 import { useAvatar, ensAvatarAction } from './useAvatar';
-import { useOnchainActionWithCache } from '../../utils/hooks/useOnchainActionWithCache';
 
 jest.mock('../../network/client');
-jest.mock('../../utils/hooks/useOnchainActionWithCache');
 
 describe('useAvatar', () => {
   const mockGetEnsAvatar = publicClient.getEnsAvatar as jest.Mock;
-  const mockUseOnchainActionWithCache = useOnchainActionWithCache as jest.Mock;
 
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
   it('returns the correct ENS avatar and loading state', async () => {
+    const queryClient = new QueryClient();
+    function ReactQueryTestProvider({ children }: { children: React.ReactNode }) {
+      return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
+    }
+
     const testEnsName = 'test.ens';
     const testEnsAvatar = 'avatarUrl';
 
     // Mock the getEnsAvatar method of the publicClient
     mockGetEnsAvatar.mockResolvedValue(testEnsAvatar);
-    mockUseOnchainActionWithCache.mockImplementation(() => {
-      return {
-        data: testEnsAvatar,
-        isLoading: false,
-      };
-    });
 
     // Use the renderHook function to create a test harness for the useAvatar hook
-    const { result } = renderHook(() => useAvatar(testEnsName));
+    const { result } = renderHook(() => useAvatar({ensName: testEnsName}), {wrapper: ReactQueryTestProvider});
 
     // Wait for the hook to finish fetching the ENS avatar
     await waitFor(() => {
       // Check that the ENS avatar and loading state are correct
-      expect(result.current.ensAvatar).toBe(testEnsAvatar);
+      expect(result.current.data).toBe(testEnsAvatar);
       expect(result.current.isLoading).toBe(false);
     });
   });
 
   it('returns the loading state true while still fetching ENS avatar', async () => {
+    const queryClient = new QueryClient();
+    function ReactQueryTestProvider({ children }: { children: React.ReactNode }) {
+      return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
+    }
+
     const testEnsName = 'test.ens';
 
-    // Mock the getEnsAvatar method of the publicClient
-    mockUseOnchainActionWithCache.mockImplementation(() => {
-      return {
-        data: undefined,
-        isLoading: true,
-      };
-    });
-
     // Use the renderHook function to create a test harness for the useAvatar hook
-    const { result } = renderHook(() => useAvatar(testEnsName));
+    const { result } = renderHook(() => useAvatar({ensName: testEnsName}), {wrapper: ReactQueryTestProvider});
 
     // Wait for the hook to finish fetching the ENS avatar
     await waitFor(() => {
       // Check that the loading state is correct
-      expect(result.current.ensAvatar).toBe(undefined);
+      expect(result.current.data).toBe(undefined);
       expect(result.current.isLoading).toBe(true);
     });
   });
@@ -71,8 +65,7 @@ describe('useAvatar', () => {
 
       mockGetEnsAvatar.mockResolvedValue(expectedAvatarUrl);
 
-      const action = ensAvatarAction(ensName);
-      const avatarUrl = await action();
+      const avatarUrl = await ensAvatarAction(ensName);
 
       expect(avatarUrl).toBe(expectedAvatarUrl);
       expect(mockGetEnsAvatar).toHaveBeenCalledWith({ name: ensName });
@@ -83,10 +76,7 @@ describe('useAvatar', () => {
 
       mockGetEnsAvatar.mockRejectedValue(new Error('This is an error'));
 
-      const action = ensAvatarAction(ensName);
-      const avatarUrl = await action();
-
-      expect(avatarUrl).toBe(null);
+      await expect(ensAvatarAction(ensName)).rejects.toThrow('This is an error');
     });
   });
 });

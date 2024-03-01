@@ -21,7 +21,7 @@ type NameProps = {
  * @param {React.HTMLAttributes<HTMLSpanElement>} [props] - Additional HTML attributes for the span element.
  */
 export function Name({ address, className, sliced = true, props }: NameProps) {
-  const { ensName, isLoading } = useName(address);
+  const { data: ensName, isLoading } = useName({ address });
 
   // wrapped in useMemo to prevent unnecessary recalculations.
   const normalizedAddress = useMemo(() => {

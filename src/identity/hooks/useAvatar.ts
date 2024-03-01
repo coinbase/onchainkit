@@ -1,22 +1,35 @@
 import { publicClient } from '../../network/client';
-import { useOnchainActionWithCache } from '../../utils/hooks/useOnchainActionWithCache';
-import { GetEnsAvatarReturnType, normalize } from 'viem/ens';
+import { type GetEnsAvatarReturnType, normalize } from 'viem/ens';
+import { useQuery } from '@tanstack/react-query';
 
-export const ensAvatarAction = (ensName: string) => async (): Promise<GetEnsAvatarReturnType> => {
-  try {
-    return await publicClient.getEnsAvatar({
-      name: normalize(ensName),
-    });
-  } catch (err) {
-    return null;
-  }
+// Since ENS values are not as crucial and not changing often, we can cache them
+const DEFAULT_ENS_CACHE_TIME = 2 * 60 * 1000; // 2 minutes
+
+export const ensAvatarAction = async (ensName: string): Promise<GetEnsAvatarReturnType> => {
+  return await publicClient.getEnsAvatar({
+    name: normalize(ensName),
+  });
 };
 
-export const useAvatar = (ensName: string) => {
+type Arguments = {
+  ensName: string;
+};
+
+type QueryOptions = {
+  enabled?: boolean;
+  cacheTime?: number;
+};
+
+export const useAvatar = ({ ensName }: Arguments, queryOptions?: QueryOptions) => {
+  const { enabled = true, cacheTime = DEFAULT_ENS_CACHE_TIME } = queryOptions ?? {};
   const ensActionKey = `ens-avatar-${ensName}` ?? '';
-  const { data: ensAvatar, isLoading } = useOnchainActionWithCache(
-    ensAvatarAction(ensName),
-    ensActionKey,
-  );
-  return { ensAvatar, isLoading };
+  return useQuery<GetEnsAvatarReturnType>({
+    queryKey: ['useAvatar', ensActionKey],
+    queryFn: async () => {
+      return await ensAvatarAction(ensName);
+    },
+    gcTime: cacheTime,
+    enabled,
+    refetchOnWindowFocus: false,
+  });
 };

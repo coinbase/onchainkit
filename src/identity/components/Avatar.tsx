@@ -30,8 +30,11 @@ export function Avatar({
   defaultComponent,
   props,
 }: AvatarProps) {
-  const { ensName, isLoading: isLoadingName } = useName(address);
-  const { ensAvatar, isLoading: isLoadingAvatar } = useAvatar(ensName as string);
+  const { data: ensName, isLoading: isLoadingName } = useName({ address });
+  const { data: ensAvatar, isLoading: isLoadingAvatar } = useAvatar(
+    { ensName: ensName ?? '' },
+    { enabled: !!ensName },
+  );
 
   if (isLoadingName || isLoadingAvatar) {
     return (

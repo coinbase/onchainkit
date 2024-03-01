@@ -2008,6 +2008,7 @@ __metadata:
   dependencies:
     "@changesets/changelog-github": "npm:^0.4.8"
     "@changesets/cli": "npm:^2.26.2"
+    "@tanstack/react-query": "npm:^5.24.1"
     "@testing-library/jest-dom": "npm:^6.4.0"
     "@testing-library/react": "npm:^14.2.0"
     "@types/jest": "npm:^29.5.12"
@@ -2030,6 +2031,7 @@ __metadata:
     viem: "npm:^2.7.0"
     yarn: "npm:^1.22.21"
   peerDependencies:
+    "@tanstack/react-query": "*"
     "@xmtp/frames-validator": ^0.5.0
     graphql: ^14
     graphql-request: ^6
@@ -2931,6 +2933,24 @@ __metadata:
   version: 0.1.5
   resolution: "@swc/types@npm:0.1.5"
   checksum: b35f93fe896a2240f6f10544e408f9648c2bd4bcff9bd8d022d9a6942d31cf859f86119fb0bbb04a12eefa1f6a6745ffc7d18f3a490d76d7b6a074a7c9608144
+  languageName: node
+  linkType: hard
+
+"@tanstack/query-core@npm:5.24.1":
+  version: 5.24.1
+  resolution: "@tanstack/query-core@npm:5.24.1"
+  checksum: b1d0363096dde7a7b021c0565b9d7f2678d5348225d2fec74f8ee97fb2c294a8de1030a6c2ceb24ffd08daecf006ec17550f1db97c74f817d4fab33295e852ef
+  languageName: node
+  linkType: hard
+
+"@tanstack/react-query@npm:^5.24.1":
+  version: 5.24.1
+  resolution: "@tanstack/react-query@npm:5.24.1"
+  dependencies:
+    "@tanstack/query-core": "npm:5.24.1"
+  peerDependencies:
+    react: ^18.0.0
+  checksum: 2c22e0e4fea282d77e8a54d9118b555d831ab51ec5eec2f5291a32ebd722967b8b3d41b9a8ceea7044decc3d0435c33161ebe82e6dd509277418d371a268a8f7
   languageName: node
   linkType: hard
 
