@@ -29,7 +29,9 @@ describe('useAvatar', () => {
     mockGetEnsAvatar.mockResolvedValue(testEnsAvatar);
 
     // Use the renderHook function to create a test harness for the useAvatar hook
-    const { result } = renderHook(() => useAvatar({ensName: testEnsName}), {wrapper: ReactQueryTestProvider});
+    const { result } = renderHook(() => useAvatar({ ensName: testEnsName }), {
+      wrapper: ReactQueryTestProvider,
+    });
 
     // Wait for the hook to finish fetching the ENS avatar
     await waitFor(() => {
@@ -48,7 +50,9 @@ describe('useAvatar', () => {
     const testEnsName = 'test.ens';
 
     // Use the renderHook function to create a test harness for the useAvatar hook
-    const { result } = renderHook(() => useAvatar({ensName: testEnsName}), {wrapper: ReactQueryTestProvider});
+    const { result } = renderHook(() => useAvatar({ ensName: testEnsName }), {
+      wrapper: ReactQueryTestProvider,
+    });
 
     // Wait for the hook to finish fetching the ENS avatar
     await waitFor(() => {

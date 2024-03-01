@@ -29,7 +29,9 @@ describe('useName', () => {
     mockGetEnsName.mockResolvedValue(testEnsName);
 
     // Use the renderHook function to create a test harness for the useName hook
-    const { result } = renderHook(() => useName({address: testAddress}), {wrapper: ReactQueryTestProvider});
+    const { result } = renderHook(() => useName({ address: testAddress }), {
+      wrapper: ReactQueryTestProvider,
+    });
 
     // Wait for the hook to finish fetching the ENS name
     await waitFor(() => {
@@ -48,7 +50,9 @@ describe('useName', () => {
     const testAddress = '0x123';
 
     // Use the renderHook function to create a test harness for the useName hook
-    const { result } = renderHook(() => useName({address: testAddress}), {wrapper: ReactQueryTestProvider});
+    const { result } = renderHook(() => useName({ address: testAddress }), {
+      wrapper: ReactQueryTestProvider,
+    });
 
     // Wait for the hook to finish fetching the ENS name
     await waitFor(() => {
@@ -88,7 +92,7 @@ describe('useName', () => {
 
       mockGetEnsName.mockRejectedValue(new Error('This is an error'));
 
-      await expect(ensNameAction(walletAddress)).rejects.toThrow('This is an error')
+      await expect(ensNameAction(walletAddress)).rejects.toThrow('This is an error');
     });
   });
 });

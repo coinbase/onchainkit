@@ -36,10 +36,10 @@ If you are using any of the provided react hooks, you will need to install and c
 
 ```tsx
 import { Avatar } from '@coinbase/onchainkit/identity';
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 // Create a client
-const queryClient = new QueryClient()
+const queryClient = new QueryClient();
 
 function App() {
   return (
@@ -47,12 +47,11 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <Avatar address="0x1234567890abcdef1234567890abcdef12345678" />
     </QueryClientProvider>
-  )
+  );
 }
 ```
 
 See [Tanstack Query documentation](https://tanstack.com/query/v5/docs/framework/react/quick-start) for more info.
-
 
 :::
 
