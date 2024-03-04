@@ -10,14 +10,12 @@ based on schema IDs, revocation status, expiration time, and the number of attes
 import { getEASAttestations } from '@coinbase/onchainkit/identity';
 import { base } from 'viem/chains';
 
-const attestations = await getEASAttestations({
-  '0x1234567890abcdef1234567890abcdef12345678',
-  base,
-  {
-    // Optional schemas to filter the attestations.
-    schemas: ['0x1801901fabd0e6189356b4fb52bb0ab855276d84f7ec140839fbd1f6801ca065'],
-  },
-});
+const address = '0x1234567890abcdef1234567890abcdef12345678';
+const attestationsOptions = {
+  schemas: ['0x1801901fabd0e6189356b4fb52bb0ab855276d84f7ec140839fbd1f6801ca065'],
+};
+
+const attestations = await getEASAttestations(address, base, attestationsOptions); // [!code focus]
 ```
 
 ## Returns
