@@ -165,7 +165,7 @@ describe('getFrameMetadata', () => {
       }),
     ).toEqual({
       'fc:frame': 'vNext',
-      'fc:frame:button:1': 'Mint',
+      'fc:frame:button:1': 'Transaction',
       'fc:frame:button:1:action': 'tx',
       'fc:frame:button:1:target': 'https://zizzamia.xyz/api/frame/tx',
       'fc:frame:image': 'https://zizzamia.xyz/park-1.png',
