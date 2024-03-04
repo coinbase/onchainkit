@@ -151,7 +151,30 @@ describe('getFrameMetadata', () => {
     });
   });
 
-  it('should not render action target if action is not link or mint', () => {
+  it('should return the correct metadata with action tx', () => {
+    expect(
+      getFrameMetadata({
+        buttons: [
+          { label: 'Transaction', action: 'tx', target: 'https://zizzamia.xyz/api/frame/tx' },
+        ],
+        image: 'https://zizzamia.xyz/park-1.png',
+        input: {
+          text: 'Tell me a boat story',
+        },
+        postUrl: 'https://zizzamia.xyz/api/frame',
+      }),
+    ).toEqual({
+      'fc:frame': 'vNext',
+      'fc:frame:button:1': 'Transaction',
+      'fc:frame:button:1:action': 'tx',
+      'fc:frame:button:1:target': 'https://zizzamia.xyz/api/frame/tx',
+      'fc:frame:image': 'https://zizzamia.xyz/park-1.png',
+      'fc:frame:input:text': 'Tell me a boat story',
+      'fc:frame:post_url': 'https://zizzamia.xyz/api/frame',
+    });
+  });
+
+  it('should not render action target if action is not link, mint or tx', () => {
     expect(
       getFrameMetadata({
         buttons: [{ label: 'button1', action: 'post' }],

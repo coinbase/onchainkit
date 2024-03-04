@@ -77,7 +77,7 @@ export function convertToFrame(json: any) {
  */
 export type FrameButtonMetadata =
   | {
-      action: 'link' | 'mint';
+      action: 'link' | 'mint' | 'tx';
       label: string;
       target: string;
     }
