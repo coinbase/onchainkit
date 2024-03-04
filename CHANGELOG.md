@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.9.6
+
+### Patch Changes
+
+- 75dc428: - **feat**: added `tx` as a Frame action option, enabling support for Frame Transactions. By @zizzamia #208
+
 ## 0.9.5
 
 ### Patch Changes
