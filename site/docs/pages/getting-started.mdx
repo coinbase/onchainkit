@@ -19,7 +19,7 @@ yarn add @coinbase/onchainkit
 
 # Depending on the components or utilities you use,
 # you may end up utilizing any of those libraries.
-yarn add viem@2.x react@18 react-dom@18 @tanstack/react-query@5.x
+yarn add viem@2.x react@18 react-dom@18
 ```
 
 ```bash [pnpm]
@@ -27,31 +27,8 @@ pnpm add @coinbase/onchainkit
 
 # Depending on the components or utilities you use,
 # you may end up utilizing any of those libraries.
-pnpm install viem@2.x react@18 react-dom@18 @tanstack/react-query@5.x
+pnpm install viem@2.x react@18 react-dom@18
 ```
-
-## React hooks
-
-If you are using any of the provided react hooks, you will need to install and configure `@tanstack/react-query` and wrap your app in `<QueryClientProvider>`.
-
-```tsx
-import { Avatar } from '@coinbase/onchainkit/identity';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-
-// Create a client
-const queryClient = new QueryClient();
-
-function App() {
-  return (
-    // Provide the client to your App
-    <QueryClientProvider client={queryClient}>
-      <Avatar address="0x1234567890abcdef1234567890abcdef12345678" />
-    </QueryClientProvider>
-  );
-}
-```
-
-See [Tanstack Query documentation](https://tanstack.com/query/v5/docs/framework/react/quick-start) for more info.
 
 :::
 

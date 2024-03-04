@@ -13,16 +13,39 @@ In order to use **Identity Kit** you must also install `graphql@14 graphql-reque
 :::code-group
 
 ```bash [npm]
-npm install @coinbase/onchainkit graphql@14 graphql-request@6
+npm install @coinbase/onchainkit graphql@14 graphql-request@6 @tanstack/react-query@5.x
 ```
 
 ```bash [yarn]
-yarn add @coinbase/onchainkit graphql@14 graphql-request@6
+yarn add @coinbase/onchainkit graphql@14 graphql-request@6 @tanstack/react-query@5.x
 ```
 
 ```bash [pnpm]
-pnpm add @coinbase/onchainkit graphql@14 graphql-request@6
+pnpm add @coinbase/onchainkit graphql@14 graphql-request@6 @tanstack/react-query@5.x
 ```
+
+## React
+
+If you are using any of the provided react hooks, you will need to install and configure `@tanstack/react-query` and wrap your app in `<QueryClientProvider>`.
+
+```tsx
+import { Avatar } from '@coinbase/onchainkit/identity';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
+// Create a client
+const queryClient = new QueryClient();
+
+function App() {
+  return (
+    // Provide the client to your App
+    <QueryClientProvider client={queryClient}>
+      <Avatar address="0x1234567890abcdef1234567890abcdef12345678" />
+    </QueryClientProvider>
+  );
+}
+```
+
+See [Tanstack Query documentation](https://tanstack.com/query/v5/docs/framework/react/quick-start) for more info.
 
 To assist you in engaging with onchain Identity, here is the Identity Kit which includes:
 
