@@ -2031,7 +2031,7 @@ __metadata:
     viem: "npm:^2.7.0"
     yarn: "npm:^1.22.21"
   peerDependencies:
-    "@tanstack/react-query": "*"
+    "@tanstack/react-query": ^5
     "@xmtp/frames-validator": ^0.5.0
     graphql: ^14
     graphql-request: ^6
