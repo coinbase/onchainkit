@@ -2,9 +2,6 @@ import { publicClient } from '../../network/client';
 import type { Address, GetEnsNameReturnType } from 'viem';
 import { useQuery } from '@tanstack/react-query';
 
-// Since ENS values are not as crucial and not changing often, we can cache them
-const DEFAULT_ENS_CACHE_TIME = 2 * 60 * 1000; // 2 minutes
-
 /**
  * An asynchronous function to fetch the Ethereum Name Service (ENS) name for a given Ethereum address.
  * It returns the ENS name if it exists, or null if it doesn't or in case of an error.
@@ -33,13 +30,13 @@ type QueryOptions = {
  * @param {Address} arguments.address - The Ethereum address for which the ENS name is to be fetched.
  * @param {QueryOptions} queryOptions - Additional query options, including `enabled` and `cacheTime`
  * @param {boolean} queryOptions.enabled - Whether the query should be enabled. Defaults to true.
- * @param {number} queryOptions.cacheTime - Cache time in milliseconds. Defaults to 2 minutes.
+ * @param {number} queryOptions.cacheTime - Cache time in milliseconds.
  * @returns An object containing:
  *  - `ensName`: The fetched ENS name for the provided address, or null if not found or in case of an error.
  *  - `{UseQueryResult}`: The rest of useQuery return values. including isLoading, isError, error, isFetching, refetch, etc.
  */
 export const useName = ({ address }: Arguments, queryOptions?: QueryOptions) => {
-  const { enabled = true, cacheTime = DEFAULT_ENS_CACHE_TIME } = queryOptions ?? {};
+  const { enabled = true, cacheTime } = queryOptions ?? {};
   const ensActionKey = `ens-name-${address}`;
   return useQuery<GetEnsNameReturnType>({
     queryKey: ['useName', ensActionKey],
