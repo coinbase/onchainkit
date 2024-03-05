@@ -13,6 +13,8 @@ export type {
   FrameMetadataType,
   FrameRequest,
   FrameValidationData,
+  FrameTransactionResponse,
+  FrameTransactionEthSendParams,
   MockFrameRequest,
   MockFrameRequestOptions,
 } from './types';

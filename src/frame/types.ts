@@ -1,3 +1,7 @@
+import type {
+  Abi,
+  Hex,
+} from 'viem';
 import { NeynarFrameValidationInternalModel } from '../utils/neynar/frame/types';
 
 /**
@@ -137,6 +141,25 @@ export type FrameMetadataType = {
  * Note: exported as public Type
  */
 export type FrameMetadataResponse = Record<string, string>;
+
+/**
+ * Note: exported as public Type
+ */
+export type FrameTransactionResponse = {
+  chainId: `eip155:${number}`; // A CAIP-2 chain ID to identify the tx network  
+  method: 'eth_sendTransaction'; // A method ID to identify the type of tx request.
+  params: FrameTransactionEthSendParams; // Specific parameters for chainId and method
+}
+
+/**
+ * Note: exported as public Type
+ */
+export type FrameTransactionEthSendParams = {
+  abi: Abi; // The contract ABI for the contract to call.
+  data?: Hex; // The data to send with the transaction.  
+  to: Hex; // The address of the contract to call.          
+  value: string; // The amount of Ether to send with the transaction.
+}
 
 /**
  * Settings to simulate statuses on mock frames.
