@@ -3,9 +3,10 @@
  */
 
 import { getEASAttestationsByFilter } from '../queries/easAttestations';
-import { getEASAttestations, GetEASAttestationsOptions } from './getEASAttestations';
+import { getEASAttestations } from './getEASAttestations';
 import { easSupportedChains } from '../utils/easAttestation';
 import { base, opBNBTestnet } from 'viem/chains';
+import { GetEASAttestationsOptions } from './types';
 
 jest.mock('../queries/easAttestations');
 
