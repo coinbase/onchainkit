@@ -112,8 +112,11 @@ type FrameValidationResponse =
 ## `FrameTransactionResponse`
 
 ```ts
+type ChainNamespace = 'eip155' | 'solana';
+type ChainReference = string;
+
 type FrameTransactionResponse = {
-  chainId: `eip155:${number}`; // A CAIP-2 chain ID to identify the tx network
+  chainId: `${ChainNamespace}:${ChainReference}`; // A CAIP-2 chain ID to identify the tx network
   method: 'eth_sendTransaction'; // A method ID to identify the type of tx request.
   params: FrameTransactionEthSendParams; // Specific parameters for chainId and method
 };
@@ -122,10 +125,10 @@ type FrameTransactionResponse = {
 ## `FrameTransactionEthSendParams`
 
 ```ts
-export type FrameTransactionEthSendParams = {
+type FrameTransactionEthSendParams = {
   abi: Abi; // The contract ABI for the contract to call.
-  data?: Hex; // The data to send with the transaction.
-  to: Hex; // The address of the contract to call.
-  value: string; // The amount of Ether to send with the transaction.
+  data?: Address; // The data to send with the transaction.
+  to: Address; // The address of the contract to call.
+  value: bigint; // The amount of Ether to send with the transaction.
 };
 ```
