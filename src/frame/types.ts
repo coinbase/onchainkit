@@ -51,6 +51,9 @@ export interface FrameValidationData {
   liked: boolean; // Indicates if the viewer clicking the frame liked the cast
   raw: NeynarFrameValidationInternalModel;
   recasted: boolean; // Indicates if the viewer clicking the frame recasted the cast
+  state: {
+    serialized: string; // Serialized state (e.g. JSON) passed to the frame server
+  };
   valid: boolean; // Indicates if the frame is valid
 }
 

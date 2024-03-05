@@ -34,6 +34,9 @@ export function convertToNeynarResponseModel(data: any): FrameValidationData | u
     liked: cast?.viewer_context?.liked,
     raw: neynarResponse,
     recasted: cast?.viewer_context?.recasted,
+    state: {
+      serialized: action?.state?.serialized || '',
+    },
     valid: neynarResponse.valid,
   };
 }
