@@ -78,6 +78,7 @@ describe('getFrameValidatedMessage', () => {
           messageHash: '0xthisisnotreal',
           state: '',
           timestamp: 0,
+          transactionId: undefined,
           url: 'https://localhost:3000',
         },
         trustedData: {
