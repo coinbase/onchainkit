@@ -3,9 +3,9 @@
  */
 
 import { renderHook, waitFor } from '@testing-library/react';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { publicClient } from '../../network/client';
 import { useName, ensNameAction } from './useName';
+import { getNewReactQueryTestProvider } from '../../test-utils/hooks/get-new-react-query-test-provider';
 
 jest.mock('../../network/client');
 
@@ -17,11 +17,6 @@ describe('useName', () => {
   });
 
   it('returns the correct ENS name and loading state', async () => {
-    const queryClient = new QueryClient();
-    function ReactQueryTestProvider({ children }: { children: React.ReactNode }) {
-      return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
-    }
-
     const testAddress = '0x123';
     const testEnsName = 'test.ens';
 
@@ -30,7 +25,7 @@ describe('useName', () => {
 
     // Use the renderHook function to create a test harness for the useName hook
     const { result } = renderHook(() => useName({ address: testAddress }), {
-      wrapper: ReactQueryTestProvider,
+      wrapper: getNewReactQueryTestProvider(),
     });
 
     // Wait for the hook to finish fetching the ENS name
@@ -42,16 +37,11 @@ describe('useName', () => {
   });
 
   it('returns the loading state true while still fetching from ens action', async () => {
-    const queryClient = new QueryClient();
-    function ReactQueryTestProvider({ children }: { children: React.ReactNode }) {
-      return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
-    }
-
     const testAddress = '0x123';
 
     // Use the renderHook function to create a test harness for the useName hook
     const { result } = renderHook(() => useName({ address: testAddress }), {
-      wrapper: ReactQueryTestProvider,
+      wrapper: getNewReactQueryTestProvider(),
     });
 
     // Wait for the hook to finish fetching the ENS name

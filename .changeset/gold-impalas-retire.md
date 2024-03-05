@@ -1,5 +1,5 @@
 ---
-"@coinbase/onchainkit": minor
+'@coinbase/onchainkit': minor
 ---
 
 **feat**: Replace internal `useOnchainActionWithCache` with `tanstack/react-query`. This affects `useName` and `useAvatar` hooks. The return type and the input parameters also changed for these 2 hooks.
@@ -24,7 +24,13 @@ After
 import { useName } from '@coinbase/onchainkit/identity';
 
 // Return type signature is following @tanstack/react-query useQuery hook signature
-const { data: name, isLoading, isError, error, status } = useName({ address: '0x1234' }, { enabled: true, cacheTime: 1000 * 60 * 60 * 24 });
+const {
+  data: name,
+  isLoading,
+  isError,
+  error,
+  status,
+} = useName({ address: '0x1234' }, { enabled: true, cacheTime: 1000 * 60 * 60 * 24 });
 ```
 
 ### `useAvatar`
@@ -43,6 +49,11 @@ After
 import { useAvatar } from '@coinbase/onchainkit/identity';
 
 // Return type signature is following @tanstack/react-query useQuery hook signature
-const { data: avatar, isLoading, isError, error, status } = useAvatar({ ensName: 'vitalik.eth' }, { enabled: true, cacheTime: 1000 * 60 * 60 * 24 });
+const {
+  data: avatar,
+  isLoading,
+  isError,
+  error,
+  status,
+} = useAvatar({ ensName: 'vitalik.eth' }, { enabled: true, cacheTime: 1000 * 60 * 60 * 24 });
 ```
-

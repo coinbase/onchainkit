@@ -3,9 +3,9 @@
  */
 
 import { renderHook, waitFor } from '@testing-library/react';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { publicClient } from '../../network/client';
 import { useAvatar, ensAvatarAction } from './useAvatar';
+import { getNewReactQueryTestProvider } from '../../test-utils/hooks/get-new-react-query-test-provider';
 
 jest.mock('../../network/client');
 
@@ -17,11 +17,6 @@ describe('useAvatar', () => {
   });
 
   it('returns the correct ENS avatar and loading state', async () => {
-    const queryClient = new QueryClient();
-    function ReactQueryTestProvider({ children }: { children: React.ReactNode }) {
-      return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
-    }
-
     const testEnsName = 'test.ens';
     const testEnsAvatar = 'avatarUrl';
 
@@ -30,7 +25,7 @@ describe('useAvatar', () => {
 
     // Use the renderHook function to create a test harness for the useAvatar hook
     const { result } = renderHook(() => useAvatar({ ensName: testEnsName }), {
-      wrapper: ReactQueryTestProvider,
+      wrapper: getNewReactQueryTestProvider(),
     });
 
     // Wait for the hook to finish fetching the ENS avatar
@@ -42,16 +37,11 @@ describe('useAvatar', () => {
   });
 
   it('returns the loading state true while still fetching ENS avatar', async () => {
-    const queryClient = new QueryClient();
-    function ReactQueryTestProvider({ children }: { children: React.ReactNode }) {
-      return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
-    }
-
     const testEnsName = 'test.ens';
 
     // Use the renderHook function to create a test harness for the useAvatar hook
     const { result } = renderHook(() => useAvatar({ ensName: testEnsName }), {
-      wrapper: ReactQueryTestProvider,
+      wrapper: getNewReactQueryTestProvider(),
     });
 
     // Wait for the hook to finish fetching the ENS avatar
