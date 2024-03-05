@@ -5,13 +5,7 @@ deescription: Introduction to Frame Kit
 
 # Introduction to Frame Kit
 
-A Frame transforms any cast into an interactive app.
-
-Creating a frame is easy: select an image and add clickable buttons. When a button is clicked,
-you receive a callback and can send another image with more buttons.
-To learn more, check out "[Farcaster Frames Official Documentation](https://docs.farcaster.xyz/learn/what-is-farcaster/frames)".
-
-To assist you in engaging with Frames, here is the Frame Kit which includes:
+OnchainKit provides TypeScript utilities and React components to help you build Frames.
 
 - Components:
   - [`<FrameMetadata />`](/frame/frame-metadata)
@@ -19,5 +13,21 @@ To assist you in engaging with Frames, here is the Frame Kit which includes:
   - [`getFrameHtmlResponse`](/frame/get-frame-html-response)
   - [`getFrameMessage`](/frame/get-frame-message)
   - [`getFrameMetadata`](/frame/get-frame-metadata)
-- Emulator
-  - [`framegear`](/frame/framegear)
+- [`Framegear`](/frame/framegear)
+- [`Types`](/frame/types)
+
+If you are using components, be sure to install `react@18` and `react-dom@18` in your app alongside OnchainKit.
+
+:::code-group
+
+```bash [npm]
+npm install @coinbase/onchainkit react@18 react-dom@18
+```
+
+```bash [yarn]
+yarn add @coinbase/onchainkit react@18 react-dom@18
+```
+
+```bash [pnpm]
+pnpm add @coinbase/onchainkit react@18 react-dom@18
+```
