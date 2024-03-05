@@ -1,6 +1,6 @@
 {
   "name": "@coinbase/onchainkit",
-  "version": "0.9.8",
+  "version": "0.9.9",
   "repository": "https://github.com/coinbase/onchainkit.git",
   "license": "MIT",
   "scripts": {

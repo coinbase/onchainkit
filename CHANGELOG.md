@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.9.9
+
+### Patch Changes
+
+- 3f76991: - **feat**: added `state` type support for `FrameData` and `FrameValidationData`. By @zizzamia #216
+  - **fix**: update Neynar frame validation type. By @Flickque #212
+
 ## 0.9.8
 
 ### Patch Changes
