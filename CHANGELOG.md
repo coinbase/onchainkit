@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.9.8
+
+### Patch Changes
+
+- 3476d8a: - **feat**: exported `GetEASAttestationsOptions` type, and polished EAS docs. By @zizzamia #210
+
 ## 0.9.7
 
 ### Patch Changes
