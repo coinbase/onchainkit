@@ -16,6 +16,7 @@ export interface FrameData {
   fid: number;
   messageHash: string;
   network: number;
+  state: string;
   timestamp: number;
   url: string;
 }
