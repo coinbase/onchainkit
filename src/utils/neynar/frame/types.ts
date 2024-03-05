@@ -89,10 +89,10 @@ export interface NeynarFrameValidationInternalModel {
           action_type: string;
         }[];
         input: {
-          text: string;
+          text?: string;
         };
         state: {
-          serialized: string;
+          serialized?: string;
         };
         post_url: string;
         frames_url: string;
