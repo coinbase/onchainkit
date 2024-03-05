@@ -1,7 +1,4 @@
-import type {
-  Abi,
-  Hex,
-} from 'viem';
+import type { Abi, Hex } from 'viem';
 import { NeynarFrameValidationInternalModel } from '../utils/neynar/frame/types';
 
 /**
@@ -119,22 +116,16 @@ export type FrameMetadataReact = FrameMetadataType & {
  * Note: exported as public Type
  */
 export type FrameMetadataType = {
-  // A list of strings which are the label for the buttons in the frame (max 4 buttons).
-  buttons?: [FrameButtonMetadata, ...FrameButtonMetadata[]];
-  // An image which must be smaller than 10MB and should have an aspect ratio of 1.91:1
-  image: string | FrameImageMetadata;
-  // The text input to use for the Frame.
-  input?: FrameInputMetadata;
+  buttons?: [FrameButtonMetadata, ...FrameButtonMetadata[]]; // A list of strings which are the label for the buttons in the frame (max 4 buttons).
+  image: string | FrameImageMetadata; // An image which must be smaller than 10MB and should have an aspect ratio of 1.91:1
+  input?: FrameInputMetadata; // The text input to use for the Frame.
   /** @deprecated Prefer `postUrl` */
   post_url?: string;
-  // A valid POST URL to send the Signature Packet to.
-  postUrl?: string;
+  postUrl?: string; // A valid POST URL to send the Signature Packet to.
   /** @deprecated Prefer `refreshPeriod` */
   refresh_period?: number;
-  // A period in seconds at which the app should expect the image to update.
-  refreshPeriod?: number;
-  // A string containing serialized state (e.g. JSON) passed to the frame server.
-  state?: object;
+  refreshPeriod?: number; // A period in seconds at which the app should expect the image to update.
+  state?: object; // A string containing serialized state (e.g. JSON) passed to the frame server.
 };
 
 /**
@@ -146,20 +137,20 @@ export type FrameMetadataResponse = Record<string, string>;
  * Note: exported as public Type
  */
 export type FrameTransactionResponse = {
-  chainId: `eip155:${number}`; // A CAIP-2 chain ID to identify the tx network  
+  chainId: `eip155:${number}`; // A CAIP-2 chain ID to identify the tx network
   method: 'eth_sendTransaction'; // A method ID to identify the type of tx request.
   params: FrameTransactionEthSendParams; // Specific parameters for chainId and method
-}
+};
 
 /**
  * Note: exported as public Type
  */
 export type FrameTransactionEthSendParams = {
   abi: Abi; // The contract ABI for the contract to call.
-  data?: Hex; // The data to send with the transaction.  
-  to: Hex; // The address of the contract to call.          
+  data?: Hex; // The data to send with the transaction.
+  to: Hex; // The address of the contract to call.
   value: string; // The amount of Ether to send with the transaction.
-}
+};
 
 /**
  * Settings to simulate statuses on mock frames.
