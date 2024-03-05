@@ -18,6 +18,7 @@ export interface FrameData {
   network: number;
   state: string;
   timestamp: number;
+  transactionId?: string;
   url: string;
 }
 
