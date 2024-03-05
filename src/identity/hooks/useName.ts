@@ -15,27 +15,27 @@ export const ensNameAction = async (address: Address): Promise<GetEnsNameReturnT
   });
 };
 
-type Arguments = {
+type UseAvatarOptions = {
   address: Address;
 };
 
-type QueryOptions = {
+type UseAvatarQueryOptions = {
   enabled?: boolean;
   cacheTime?: number;
 };
 
 /**
  * It leverages the `@tanstack/react-query` hook for fetching and optionally caching the ENS name
- * @param {Arguments} arguments
+ * @param {UseAvatarOptions} arguments
  * @param {Address} arguments.address - The Ethereum address for which the ENS name is to be fetched.
- * @param {QueryOptions} queryOptions - Additional query options, including `enabled` and `cacheTime`
+ * @param {UseAvatarQueryOptions} queryOptions - Additional query options, including `enabled` and `cacheTime`
  * @param {boolean} queryOptions.enabled - Whether the query should be enabled. Defaults to true.
  * @param {number} queryOptions.cacheTime - Cache time in milliseconds.
  * @returns An object containing:
  *  - `ensName`: The fetched ENS name for the provided address, or null if not found or in case of an error.
  *  - `{UseQueryResult}`: The rest of useQuery return values. including isLoading, isError, error, isFetching, refetch, etc.
  */
-export const useName = ({ address }: Arguments, queryOptions?: QueryOptions) => {
+export const useName = ({ address }: UseAvatarOptions, queryOptions?: UseAvatarQueryOptions) => {
   const { enabled = true, cacheTime } = queryOptions ?? {};
   const ensActionKey = `ens-name-${address}`;
   return useQuery<GetEnsNameReturnType>({
