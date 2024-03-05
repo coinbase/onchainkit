@@ -21,7 +21,7 @@ export type EASAttestation = {
   id: string; // The unique identifier of the attestation.
   recipient: Address; // The Ethereum address of the recipient of the attestation.
   revocationTime: number; // The Unix timestamp when the attestation was revoked, if applicable.
-  revoked: boolean; // A boolean indicating whether the attestation is revocable or not.
+  revoked: boolean; // A boolean indicating whether the attestation is revoked or not.
   schemaId: EASSchemaUid; // The schema identifier associated with the attestation.
   time: number; // The Unix timestamp when the attestation was created.
 };

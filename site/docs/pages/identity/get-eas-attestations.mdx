@@ -12,16 +12,10 @@ import { base } from 'viem/chains';
 
 const address = '0x1234567890abcdef1234567890abcdef12345678';
 const attestationsOptions = {
-  schemas: [
-    '0x1801901fabd0e6189356b4fb52bb0ab855276d84f7ec140839fbd1f6801ca065'
-  ],
+  schemas: ['0x1801901fabd0e6189356b4fb52bb0ab855276d84f7ec140839fbd1f6801ca065'],
 };
 
-const attestations = await getEASAttestations(
-  address,
-  base,
-  attestationsOptions,
-);
+const attestations = await getEASAttestations(address, base, attestationsOptions);
 ```
 
 ## Returns
