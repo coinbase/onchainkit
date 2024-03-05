@@ -1,5 +1,5 @@
 ---
-"@coinbase/onchainkit": patch
+'@coinbase/onchainkit': patch
 ---
 
-- **feat**: added `transactionId` in `FrameData`. 
+- **feat**: added `transactionId` in `FrameData`. By @zizzamia #218
