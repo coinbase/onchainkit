@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.9.7
+
+### Patch Changes
+
+- 8a3138c: - **feat**: added `FrameTransactionResponse` and `FrameTransactionEthSendParams` as initial version of Frame Transaction types. By @zizzamia #211
+  - **docs**: polished introduction for Frame and Identity pages. By @zizzamia #211
+
 ## 0.9.6
 
 ### Patch Changes
