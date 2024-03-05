@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.9.10
+
+### Patch Changes
+
+- 1c94437: - **feat**: added `transactionId` in `FrameData`. By @zizzamia #218
+
 ## 0.9.9
 
 ### Patch Changes
