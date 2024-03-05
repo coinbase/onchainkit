@@ -85,6 +85,19 @@ export const sidebar = [
         ],
       },
       {
+        text: 'React Hooks',
+        items: [
+          {
+            text: 'useName',
+            link: '/identity/use-name',
+          },
+          {
+            text: 'useAvatar',
+            link: '/identity/use-avatar',
+          },
+        ],
+      },
+      {
         text: 'Utilities',
         items: [
           {
