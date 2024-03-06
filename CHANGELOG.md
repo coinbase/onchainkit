@@ -4,67 +4,61 @@
 
 ### Minor Changes
 
-- 4090f4f: - **feat**: Replace internal `useOnchainActionWithCache` with `tanstack/react-query`. This affects `useName` and `useAvatar` hooks. The return type and the input parameters also changed for these 2 hooks.
+- **feat**: Replace internal `useOnchainActionWithCache` with `tanstack/react-query`. This affects `useName` and `useAvatar` hooks. The return type and the input parameters also changed for these 2 hooks. 4090f4f
 
-  BREAKING CHANGES
+BREAKING CHANGES
 
-  The input parameters as well as return types of `useName` and `useAvatar` hooks have changed. The return type of `useName` and `useAvatar` hooks changed.
+The input parameters as well as return types of `useName` and `useAvatar` hooks have changed. The return type of `useName` and `useAvatar` hooks changed.
 
-  ### `useName`
+### `useName`
 
-  Before
+Before
 
-  ```tsx
-  import { useName } from "@coinbase/onchainkit/identity";
+```tsx
+import { useName } from '@coinbase/onchainkit/identity';
 
-  const { ensName, isLoading } = useName("0x1234");
-  ```
+const { ensName, isLoading } = useName('0x1234');
+```
 
-  After
+After
 
-  ```tsx
-  import { useName } from "@coinbase/onchainkit/identity";
+```tsx
+import { useName } from '@coinbase/onchainkit/identity';
 
-  // Return type signature is following @tanstack/react-query useQuery hook signature
-  const {
-    data: name,
-    isLoading,
-    isError,
-    error,
-    status,
-  } = useName(
-    { address: "0x1234" },
-    { enabled: true, cacheTime: 1000 * 60 * 60 * 24 },
-  );
-  ```
+// Return type signature is following @tanstack/react-query useQuery hook signature
+const {
+  data: name,
+  isLoading,
+  isError,
+  error,
+  status,
+} = useName({ address: '0x1234' }, { enabled: true, cacheTime: 1000 * 60 * 60 * 24 });
+```
 
-  ### `useAvatar`
+### `useAvatar`
 
-  Before
+Before
 
-  ```tsx
-  import { useAvatar } from "@coinbase/onchainkit/identity";
+```tsx
+import { useAvatar } from '@coinbase/onchainkit/identity';
 
-  const { ensAvatar, isLoading } = useAvatar("vitalik.eth");
-  ```
+const { ensAvatar, isLoading } = useAvatar('vitalik.eth');
+```
 
-  After
+After
 
-  ```tsx
-  import { useAvatar } from "@coinbase/onchainkit/identity";
+```tsx
+import { useAvatar } from '@coinbase/onchainkit/identity';
 
-  // Return type signature is following @tanstack/react-query useQuery hook signature
-  const {
-    data: avatar,
-    isLoading,
-    isError,
-    error,
-    status,
-  } = useAvatar(
-    { ensName: "vitalik.eth" },
-    { enabled: true, cacheTime: 1000 * 60 * 60 * 24 },
-  );
-  ```
+// Return type signature is following @tanstack/react-query useQuery hook signature
+const {
+  data: avatar,
+  isLoading,
+  isError,
+  error,
+  status,
+} = useAvatar({ ensName: 'vitalik.eth' }, { enabled: true, cacheTime: 1000 * 60 * 60 * 24 });
+```
 
 ## 0.9.12
 
