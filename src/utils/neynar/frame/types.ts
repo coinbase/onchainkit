@@ -38,6 +38,9 @@ export interface NeynarFrameValidationInternalModel {
       text: string;
     };
     url: string;
+    state: {
+      serialized: string;
+    };
     cast: {
       object: string;
       hash: string;
@@ -79,11 +82,18 @@ export interface NeynarFrameValidationInternalModel {
         version: string;
         title: string;
         image: string;
+        image_aspect_ratio: string;
         buttons: {
           index: number;
           title: string;
           action_type: string;
         }[];
+        input: {
+          text?: string;
+        };
+        state: {
+          serialized?: string;
+        };
         post_url: string;
         frames_url: string;
       }[];
@@ -123,5 +133,6 @@ export interface NeynarFrameValidationInternalModel {
         recasted: boolean;
       };
     };
+    timestamp: string;
   };
 }

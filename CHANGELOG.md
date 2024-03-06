@@ -1,5 +1,49 @@
 # Changelog
 
+## 0.9.12
+
+### Patch Changes
+
+- 7238d29: - **fix**: for `FrameTransactionEthSendParams.data` replaced `Address` with `Hex`. By @zizzamia #224
+
+## 0.9.11
+
+### Patch Changes
+
+- 6763bb2: - **fix**: converted the `value` for `FrameTransactionEthSendParams` to string. By @zizzamia 221
+
+## 0.9.10
+
+### Patch Changes
+
+- 1c94437: - **feat**: added `transactionId` in `FrameData`. By @zizzamia #218
+
+## 0.9.9
+
+### Patch Changes
+
+- 3f76991: - **feat**: added `state` type support for `FrameData` and `FrameValidationData`. By @zizzamia #216
+  - **fix**: update Neynar frame validation type. By @Flickque #212
+
+## 0.9.8
+
+### Patch Changes
+
+- 3476d8a: - **feat**: exported `GetEASAttestationsOptions` type, and polished EAS docs. By @zizzamia #210
+
+## 0.9.7
+
+### Patch Changes
+
+- 8a3138c: - **feat**: added `FrameTransactionResponse` and `FrameTransactionEthSendParams` as initial version of Frame Transaction types. By @zizzamia #211
+  - **docs**: polished introduction for Frame and Identity pages. By @zizzamia #211
+
+## 0.9.6
+
+### Patch Changes
+
+- 75dc428: - **feat**: added `tx` as a Frame action option, enabling support for Frame Transactions. By @zizzamia #208
+
 ## 0.9.5
 
 ### Patch Changes

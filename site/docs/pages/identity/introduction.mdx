@@ -5,28 +5,39 @@ deescription: Introduction to Identity Kit
 
 # Introduction to Identity Kit
 
-Identity Kit is a collection of components and hooks that help you build user interfaces for Ethereum applications.
-It provides a set of tools to resolve Ethereum addresses to ENS names, and more.
+OnchainKit provides TypeScript utilities and React components to help you build applications that interact with onchain identity.
 
-In order to use **Identity Kit** you must also install `graphql@14 graphql-request@6` in your app, alongside Onchainkit.
+- Components:
+  - [`<Avatar />`](/identity/avatar): A component to display an ENS avatar.
+  - [`<Name />`](/identity/name): A component to display an ENS name.
+- Hooks:
+  - [`useName`](/identity/use-name): A hook to get an onchain name for a given address. (ENS only for now)
+  - [`useAvatar`](/identity/use-avatar): A hook to get avatar image src. (ENS only for now)
+- Utilities:
+  - [`getEASAttestations`](/identity/get-eas-attestations): A function to fetche EAS attestations.
+
+Required depedencies for using the Identity utilities and components are:
 
 :::code-group
 
 ```bash [npm]
-npm install @coinbase/onchainkit graphql@14 graphql-request@6 @tanstack/react-query@5.x
+npm install @coinbase/onchainkit react@18 react-dom@18 graphql@14 graphql-request@6
 ```
 
 ```bash [yarn]
-yarn add @coinbase/onchainkit graphql@14 graphql-request@6 @tanstack/react-query@5.x
+yarn add @coinbase/onchainkit react@18 react-dom@18 graphql@14 graphql-request@6
 ```
 
 ```bash [pnpm]
-pnpm add @coinbase/onchainkit graphql@14 graphql-request@6 @tanstack/react-query@5.x
+pnpm add @coinbase/onchainkit react@18 react-dom@18 graphql@14 graphql-request@6
 ```
 
-## React
+:::
 
-If you are using any of the provided react hooks, you will need to install and configure `@tanstack/react-query` and wrap your app in `<QueryClientProvider>`.
+
+## Components
+
+If you are using any of the provided components, you will need to install and configure `@tanstack/react-query` and wrap your app in `<QueryClientProvider>`.
 
 ```tsx
 import { Avatar } from '@coinbase/onchainkit/identity';
@@ -46,16 +57,3 @@ function App() {
 ```
 
 See [Tanstack Query documentation](https://tanstack.com/query/v5/docs/framework/react/quick-start) for more info.
-
-To assist you in engaging with onchain Identity, here is the Identity Kit which includes:
-
-:::
-
-- Components:
-  - [`<Avatar />`](/identity/avatar): A component to display an ENS avatar.
-  - [`<Name />`](/identity/name): A component to display an ENS name.
-- React hooks:
-  - [`useName`](/identity/use-name): A hook to get an onchain name for a given address. (ENS only for now)
-  - [`useAvatar`](/identity/use-avatar): A hook to get avatar image src. (ENS only for now)
-- Utilities:
-  - [`getEASAttestations`](/identity/get-eas-attestations): A function to fetche EAS attestations.

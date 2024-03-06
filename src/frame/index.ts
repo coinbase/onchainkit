@@ -7,12 +7,15 @@ export { getFrameMessage } from './getFrameMessage';
 export { getMockFrameRequest } from './getMockFrameRequest';
 export type {
   FrameButtonMetadata,
+  FrameData,
   FrameImageMetadata,
   FrameInputMetadata,
   FrameMetadataReact,
   FrameMetadataType,
   FrameRequest,
   FrameValidationData,
+  FrameTransactionResponse,
+  FrameTransactionEthSendParams,
   MockFrameRequest,
   MockFrameRequestOptions,
 } from './types';

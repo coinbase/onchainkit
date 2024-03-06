@@ -1,16 +1,8 @@
 import { getEASAttestationsByFilter } from '../queries/easAttestations';
 import { isChainSupported, easSupportedChains } from '../utils/easAttestation';
-import { EASAttestation, EASSchemaUid } from './types';
+import { EASAttestation, GetEASAttestationsOptions } from './types';
 import type { Address, Chain } from 'viem';
 
-export type GetEASAttestationsOptions = {
-  schemas?: EASSchemaUid[];
-  revoked?: boolean;
-  expirationTime?: number;
-  limit?: number;
-};
-
-type GetEASAttestationsResponse = EASAttestation[];
 /**
  * Fetches Ethereum Attestation Service (EAS) attestations for a given address and chain,
  * optionally filtered by schemas associated with the attestation.
@@ -21,7 +13,7 @@ type GetEASAttestationsResponse = EASAttestation[];
  *   options.revoked - Filter for revoked attestations (default: false).
  *   options.expirationTime - Unix timestamp to filter attestations based on expiration time (default: current time).
  *   options.limit - The maximum number of attestations to return (default: 10).
- * @returns {Promise<GetEASAttestationsResponse[]>} A promise that resolves to an array of EAS Attestations.
+ * @returns {Promise<EASAttestation[]>} A promise that resolves to an array of EAS Attestations.
  * @throws Will throw an error if the request to the GraphQL API fails.
  *
  * @example
@@ -46,7 +38,7 @@ export async function getEASAttestations<TChain extends Chain>(
   address: Address,
   chain: TChain,
   options?: GetEASAttestationsOptions,
-): Promise<GetEASAttestationsResponse> {
+): Promise<EASAttestation[]> {
   try {
     if (!isChainSupported(chain)) {
       throw new Error(

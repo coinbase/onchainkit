@@ -49,6 +49,7 @@ describe('getFrameValidatedMessage', () => {
           fid: 0,
           network: 0,
           messageHash: '0xthisisnotreal',
+          state: '',
           timestamp: 0,
           url: 'https://localhost:3000',
         },
@@ -75,7 +76,9 @@ describe('getFrameValidatedMessage', () => {
           fid: 0,
           network: 0,
           messageHash: '0xthisisnotreal',
+          state: '',
           timestamp: 0,
+          transactionId: undefined,
           url: 'https://localhost:3000',
         },
         trustedData: {

@@ -143,6 +143,30 @@ describe('getFrameHtmlResponse', () => {
 </html>`);
   });
 
+  it('should return correct HTML with action tx', () => {
+    const html = getFrameHtmlResponse({
+      buttons: [
+        { label: 'Transaction', action: 'tx', target: 'https://zizzamia.xyz/api/frame/tx' },
+      ],
+      image: 'https://zizzamia.xyz/park-1.png',
+    });
+
+    expect(html).toBe(`<!DOCTYPE html>
+<html>
+<head>
+  <meta property="og:description" content="Frame description" />
+  <meta property="og:title" content="Frame title" />
+  <meta property="fc:frame" content="vNext" />
+  <meta property="fc:frame:button:1" content="Transaction" />
+  <meta property="fc:frame:button:1:action" content="tx" />
+  <meta property="fc:frame:button:1:target" content="https://zizzamia.xyz/api/frame/tx" />
+  <meta property="og:image" content="https://zizzamia.xyz/park-1.png" />
+  <meta property="fc:frame:image" content="https://zizzamia.xyz/park-1.png" />
+
+</head>
+</html>`);
+  });
+
   it('should handle no input', () => {
     const html = getFrameHtmlResponse({
       buttons: [{ label: 'button1' }],
@@ -212,7 +236,7 @@ describe('getFrameHtmlResponse', () => {
     expect(html).not.toContain('fc:frame:refresh_period');
   });
 
-  it('should not render action target if action is not link or mint', () => {
+  it('should not render action target if action is not link, mint or tx', () => {
     const html = getFrameHtmlResponse({
       buttons: [{ label: 'button1', action: 'post' }],
       image: 'image',
@@ -284,6 +308,28 @@ describe('getFrameHtmlResponse', () => {
     expect(html).toContain('<meta property="fc:frame:button:1:action" content="post" />');
     expect(html).toContain(
       '<meta property="fc:frame:button:1:target" content="https://example.com/api/frame7" />',
+    );
+    expect(html).not.toContain('fc:frame:button:2');
+    expect(html).not.toContain('fc:frame:button:2:action');
+    expect(html).not.toContain('fc:frame:button:2:target');
+    expect(html).not.toContain('fc:frame:button:3');
+    expect(html).not.toContain('fc:frame:button:3:action');
+    expect(html).not.toContain('fc:frame:button:3:target');
+    expect(html).not.toContain('fc:frame:button:4');
+    expect(html).not.toContain('fc:frame:button:4:action');
+    expect(html).not.toContain('fc:frame:button:4:target');
+  });
+
+  it('should set a target when action is tx', () => {
+    const html = getFrameHtmlResponse({
+      buttons: [{ label: 'Transaction', action: 'tx', target: 'https://example.com/api/tx7' }],
+      image: 'image',
+    });
+
+    expect(html).toContain('<meta property="fc:frame:button:1" content="Transaction" />');
+    expect(html).toContain('<meta property="fc:frame:button:1:action" content="tx" />');
+    expect(html).toContain(
+      '<meta property="fc:frame:button:1:target" content="https://example.com/api/tx7" />',
     );
     expect(html).not.toContain('fc:frame:button:2');
     expect(html).not.toContain('fc:frame:button:2:action');

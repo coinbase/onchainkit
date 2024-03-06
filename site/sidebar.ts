@@ -6,7 +6,7 @@ export const sidebar = [
     items: [{ text: 'Getting Started', link: '/getting-started' }],
   },
   {
-    text: 'Farcaster Kit',
+    text: 'Farcaster',
     items: [
       {
         text: 'Introduction',
@@ -28,7 +28,7 @@ export const sidebar = [
     ],
   },
   {
-    text: 'Frame Kit',
+    text: 'Frame',
     items: [
       { text: 'Introduction', link: '/frame/introduction' },
       {
@@ -68,7 +68,7 @@ export const sidebar = [
     ],
   },
   {
-    text: 'Identity Kit',
+    text: 'Identity',
     items: [
       { text: 'Introduction', link: '/identity/introduction' },
       {
@@ -113,7 +113,7 @@ export const sidebar = [
     ],
   },
   {
-    text: 'XMTP Kit',
+    text: 'XMTP',
     items: [
       { text: 'Introduction', link: '/xmtp/introduction' },
       {
