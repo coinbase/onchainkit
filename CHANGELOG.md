@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.9.12
+
+### Patch Changes
+
+- 7238d29: - **fix**: for `FrameTransactionEthSendParams.data` replaced `Address` with `Hex`. By @zizzamia #224
+
 ## 0.9.11
 
 ### Patch Changes
