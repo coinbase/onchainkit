@@ -1,4 +1,4 @@
-import type { Abi, Address } from 'viem';
+import type { Abi, Address, Hex } from 'viem';
 import { NeynarFrameValidationInternalModel } from '../utils/neynar/frame/types';
 
 /**
@@ -154,7 +154,7 @@ export type FrameTransactionResponse = {
  */
 export type FrameTransactionEthSendParams = {
   abi: Abi; // The contract ABI for the contract to call.
-  data?: Address; // The data to send with the transaction.
+  data?: Hex; // The data to send with the transaction.
   to: Address; // The address of the contract to call.
   value: string; // The amount of Wei to send with the transaction
 };
