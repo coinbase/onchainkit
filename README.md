@@ -1,8 +1,8 @@
 <p align="center">
   <a href="https://onchainkit.xyz">
     <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="./site/docs/public/logo/v0-9.png">
-      <img alt="OnchainKit logo vibes" src="./site/docs/public/logo/v0-9.png" width="auto">
+      <source media="(prefers-color-scheme: dark)" srcset="./site/docs/public/logo/v0-10.png">
+      <img alt="OnchainKit logo vibes" src="./site/docs/public/logo/v0-10.png" width="auto">
     </picture>
   </a>
 </p>
@@ -48,32 +48,12 @@ For documentation and guides, visit [onchainkit.xyz](https://onchainkit.xyz/).
 
 ## Features
 
-OnchainKit offers three themes packed with React components and TypeScript utilities ready for action.
+OnchainKit offers four themes packed with React components and TypeScript utilities ready for action.
 
-- [Farcaster Kit](https://onchainkit.xyz/farcaster/introduction)
-  - Utilities:
-    - [`getFarcasterUserAddress`](https://onchainkit.xyz/farcaster/get-farcaster-user-address)
-- [Frame Kit](https://onchainkit.xyz/frame/introduction)
-
-  - Components:
-    - [`<FrameMetadata />`](https://onchainkit.xyz/frame/frame-metadata)
-  - Utilities:
-    - [`getFrameHtmlResponse`](https://onchainkit.xyz/frame/get-frame-html-response)
-    - [`getFrameMessage`](https://onchainkit.xyz/frame/get-frame-message)
-    - [`getFrameMetadata`](https://onchainkit.xyz/frame/get-frame-metadata)
-  - [Framegear](https://onchainkit.xyz/frame/framegear)
-
-- [Identity Kit](https://onchainkit.xyz/identity/introduction)
-
-  - Components:
-    - [`<Avatar />`](https://onchainkit.xyz/identity/avatar)
-    - [`<Name />`](https://onchainkit.xyz/identity/name)
-  - Utilities:
-    - [`getEASAttestations`](https://onchainkit.xyz/identity/get-eas-attestations)
-
-- [XMTP Kit](https://onchainkit.xyz/xmtp/introduction)
-  - Utilities:
-    - [`getXmtpFrameMessage`](https://onchainkit.xyz/xmtp/get-xmtp-frame-message)
+- [Farcaster](https://onchainkit.xyz/farcaster/introduction)
+- [Frame](https://onchainkit.xyz/frame/introduction)
+- [Identity](https://onchainkit.xyz/identity/introduction)
+- [XMTP](https://onchainkit.xyz/xmtp/introduction)
 
 ## Overview
 
@@ -138,17 +118,14 @@ export default function HomePage() {
 
 Check out the following places for more OnchainKit-related content:
 
-- Follow @zizzamia ([X](https://twitter.com/zizzamia), [Farcaster](https://warpcast.com/zizzamia)) for project updates
+- Follow @zizzamia ([X](https://twitter.com/zizzamia), [Warpcast](https://warpcast.com/zizzamia)) for project updates
 - Join the discussions on our [OnchainKit warpcast channel](https://warpcast.com/~/channel/onchainkit)
 
 ## Authors
 
-- [@zizzamia](https://github.com/zizzamia) ([X](https://twitter.com/Zizzamia))
+- [@zizzamia](https://github.com/zizzamia) ([X](https://twitter.com/Zizzamia), [Warpcast](https://warpcast.com/zizzamia))
 - [@cnasc](https://github.com/cnasc) ([warpcast](https://warpcast.com/cnasc))
-- [@alvaroraminelli](https://github.com/alvaroraminelli) ([X](https://twitter.com/alvaroraminelli))
-- [@robpolak](https://github.com/robpolak) ([X](https://twitter.com/0xr0b_eth))
 - [@taycaldwell](https://github.com/taycaldwell) ([X](https://twitter.com/taycaldwell_))
-- [@wespickett](https://github.com/wespickett) ([X](https://twitter.com/wespickett))
 - [@mochikuan](https://github.com/mochikuan) ([X](https://twitter.com/mochikuan))
 
 ## License

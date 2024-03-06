@@ -1,3 +1,4 @@
+import { FrameMetadata } from '@coinbase/onchainkit';
 import { defineConfig } from 'vocs';
 import pkg from '../package.json';
 import { sidebar } from './sidebar';
@@ -14,26 +15,55 @@ export default defineConfig({
   description: ONCHAINKIT_DESCRIPTION,
   ogImageUrl: 'https://vocs.dev/api/og?logo=%logo&title=%title&description=%description',
   logoUrl: { light: '/favicon/48x48.png', dark: '/favicon/48x48.png' },
-  head: (
-    <>
-      <script
-        src={`https://www.googletagmanager.com/gtag/js?id=${GOOGLE_ANALYTICS_ID}`}
-        async
-        defer
-      />
-      <script
-        id="gtag-init"
-        dangerouslySetInnerHTML={{
-          __html: `
+  async head({ path }) {
+    const analytics = (
+      <>
+        <script
+          src={`https://www.googletagmanager.com/gtag/js?id=${GOOGLE_ANALYTICS_ID}`}
+          async
+          defer
+        />
+        <script
+          id="gtag-init"
+          dangerouslySetInnerHTML={{
+            __html: `
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());
               gtag('config', '${GOOGLE_ANALYTICS_ID}');
             `,
-        }}
-      />
-    </>
-  ),
+          }}
+        />
+      </>
+    );
+
+    if (path === '/') {
+      return (
+        <>
+          <FrameMetadata
+            buttons={[
+              {
+                action: 'link',
+                label: 'Docs',
+                target: 'https://onchainkit.xyz',
+              },
+              {
+                action: 'link',
+                label: 'Github',
+                target: 'https://github.com/coinbase/onchainkit',
+              },
+            ]}
+            image={{
+              src: 'https://onchainkit.xyz/logo/v0-10.png',
+            }}
+          />
+          {analytics}
+        </>
+      );
+    }
+
+    return <>{analytics}</>;
+  },
   rootDir: './docs/',
   sidebar,
   socials: [
