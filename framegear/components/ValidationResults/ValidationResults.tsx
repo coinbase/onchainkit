@@ -82,7 +82,7 @@ function ValidationEntry({ name, value, error }: ValidationEntryProps) {
         <span>{name}</span>
         <span>{error ? '🔴' : '🟢'}</span>
       </div>
-      <div className="font-mono">{value || 'Not set'}</div>
+      <div className="font-mono break-all">{value || 'Not set'}</div>
       {!!error && <div className="font-mono italic">{error}</div>}
     </div>
   );
