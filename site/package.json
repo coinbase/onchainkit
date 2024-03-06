@@ -8,13 +8,13 @@
     "preview": "vocs preview"
   },
   "dependencies": {
-    "@coinbase/onchainkit": "^0.6.1",
+    "@coinbase/onchainkit": "0.9.10",
     "@types/react": "latest",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "tailwindcss": "^3.4.1",
     "typescript": "latest",
     "viem": "^2.7.10",
-    "vocs": "1.0.0-alpha.34"
+    "vocs": "1.0.0-alpha.42"
   }
 }

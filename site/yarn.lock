@@ -325,14 +325,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@coinbase/onchainkit@npm:^0.6.1":
-  version: 0.6.1
-  resolution: "@coinbase/onchainkit@npm:0.6.1"
+"@coinbase/onchainkit@npm:0.9.10":
+  version: 0.9.10
+  resolution: "@coinbase/onchainkit@npm:0.9.10"
   peerDependencies:
+    "@xmtp/frames-validator": ^0.5.0
+    graphql: ^14
+    graphql-request: ^6
     react: ^18
     react-dom: ^18
     viem: ^2.7.0
-  checksum: fd1b45b8f385f35e7a9aee5a45557511021783cd1a8fbd4c802807b92bc8be1cd72d660ede06e1ffaac9400973230f19ec652473a3ec0b3fc65df59150c696ce
+  checksum: 400bcdea4b175a171610565a4221874b99b2da899b3806d3e4fcece6bfee31d81966a09de3c87bc3a5ac3b3200a5520661b3ba149dbab27a0a4e42792dcc5ced
   languageName: node
   linkType: hard
 
@@ -1561,43 +1564,43 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@shikijs/core@npm:1.0.0-beta.5":
-  version: 1.0.0-beta.5
-  resolution: "@shikijs/core@npm:1.0.0-beta.5"
-  checksum: 729363ba94e2c1989144b5e6ec201840345f57c62b978fc7eecd026dc564b8acaf5357f29518fe2a9d40afbeee0808d17e1165601c0358549410422d68bcc786
+"@shikijs/core@npm:1.1.7":
+  version: 1.1.7
+  resolution: "@shikijs/core@npm:1.1.7"
+  checksum: ee59b88d4c81422792651c0ca52ff378c3035f9d1e4907b58c1d6da06fad02d530775a2e6f43bb033832cd3d2a5f69c9aa4eb5b6b05311396acc503f15442f37
   languageName: node
   linkType: hard
 
-"@shikijs/rehype@npm:1.0.0-beta.5":
-  version: 1.0.0-beta.5
-  resolution: "@shikijs/rehype@npm:1.0.0-beta.5"
+"@shikijs/rehype@npm:^1.1.2":
+  version: 1.1.7
+  resolution: "@shikijs/rehype@npm:1.1.7"
   dependencies:
-    "@shikijs/transformers": "npm:1.0.0-beta.5"
+    "@shikijs/transformers": "npm:1.1.7"
     "@types/hast": "npm:^3.0.4"
     hast-util-to-string: "npm:^3.0.0"
-    shiki: "npm:1.0.0-beta.5"
+    shiki: "npm:1.1.7"
     unified: "npm:^11.0.4"
     unist-util-visit: "npm:^5.0.0"
-  checksum: 1d6b099032263b13e5f1d4b79dcba0f95a2be894a2c6f2ff845d3f3f676daa799df47bca478688ef0634ee0dcd1a6a8b02639ee81e1d784c96f6c05f2ac3c00a
+  checksum: 61f586d15cd218309fc0bbd31235ccd234314791357599efb9e5665350234e374d2972d167665e212b04729c808c2305113fd8f6acbbdb6d53eff9437857bbdf
   languageName: node
   linkType: hard
 
-"@shikijs/transformers@npm:1.0.0-beta.5":
-  version: 1.0.0-beta.5
-  resolution: "@shikijs/transformers@npm:1.0.0-beta.5"
+"@shikijs/transformers@npm:1.1.7, @shikijs/transformers@npm:^1.1.2":
+  version: 1.1.7
+  resolution: "@shikijs/transformers@npm:1.1.7"
   dependencies:
-    shiki: "npm:1.0.0-beta.5"
-  checksum: 230bb36df683aa61faa288fb12197de8b39d77ab0131f77b2ecf5b93fc2fcf9fe2e4d64d58a5e77b896b863fc83be810deda72f51d224a022b05763a9bec30a6
+    shiki: "npm:1.1.7"
+  checksum: be2794c35ba6d57da11e3ed509d714dd4533c2658c31182df61a7a6d38d94847564a1ae1acb9ce22dfc08702702769647ec545ba04053de8361d5019227be876
   languageName: node
   linkType: hard
 
-"@shikijs/twoslash@npm:1.0.0-beta.5":
-  version: 1.0.0-beta.5
-  resolution: "@shikijs/twoslash@npm:1.0.0-beta.5"
+"@shikijs/twoslash@npm:^1.1.2":
+  version: 1.1.7
+  resolution: "@shikijs/twoslash@npm:1.1.7"
   dependencies:
-    "@shikijs/core": "npm:1.0.0-beta.5"
-    twoslash: "npm:^0.1.0"
-  checksum: 5aa799ce5a0f577f196d4c100da21dd65ac7d13124812d88a1943626b336a6ddc28491c1ded2f940cc5b8f5767f32cb337c66f2ddccb472d417d8e896ffdca7a
+    "@shikijs/core": "npm:1.1.7"
+    twoslash: "npm:^0.2.4"
+  checksum: 4e8726052f03a2e6048d0f5d49eca74a6e30b89ce19972c671ba8b5c38d3d990dc1fc737415f227060e225986c882ff9c2bed4dcf33dc564ccc09b45ca5417f7
   languageName: node
   linkType: hard
 
@@ -4834,14 +4837,14 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "onchainkit@workspace:."
   dependencies:
-    "@coinbase/onchainkit": "npm:^0.6.1"
+    "@coinbase/onchainkit": "npm:0.9.10"
     "@types/react": "npm:latest"
     react: "npm:^18.2.0"
     react-dom: "npm:^18.2.0"
     tailwindcss: "npm:^3.4.1"
     typescript: "npm:latest"
     viem: "npm:^2.7.10"
-    vocs: "npm:1.0.0-alpha.34"
+    vocs: "npm:1.0.0-alpha.42"
   languageName: unknown
   linkType: soft
 
@@ -5706,12 +5709,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"shiki@npm:1.0.0-beta.5":
-  version: 1.0.0-beta.5
-  resolution: "shiki@npm:1.0.0-beta.5"
+"shiki@npm:1.1.7, shiki@npm:^1.1.2":
+  version: 1.1.7
+  resolution: "shiki@npm:1.1.7"
   dependencies:
-    "@shikijs/core": "npm:1.0.0-beta.5"
-  checksum: e93ea87dc83564e3aa36517cae333032883dac895cf5909c43cd6bbb4d69ad5454310185cf68da1e79e46af65105e71f8e40c2e311acc89f563122e7c81fc92d
+    "@shikijs/core": "npm:1.1.7"
+  checksum: 536f8dec961d7938f6d3a63dd6be64be082b56c1433380eda0a82cb57b5789759097947d9ef1726e521d4054a6fe2b73639e94bedaccea2044fa640667167501
   languageName: node
   linkType: hard
 
@@ -6092,14 +6095,22 @@ __metadata:
   languageName: node
   linkType: hard
 
-"twoslash@npm:^0.1.0, twoslash@npm:~0.1.0":
-  version: 0.1.2
-  resolution: "twoslash@npm:0.1.2"
+"twoslash-protocol@npm:0.2.4":
+  version: 0.2.4
+  resolution: "twoslash-protocol@npm:0.2.4"
+  checksum: 4f14a360a1474a07f887546b7eb5ed3664a093af26c82367cb829b6a22318281982f155514383583c43433f394eeefb221856f671d2af6383bd2f55eff2a06a7
+  languageName: node
+  linkType: hard
+
+"twoslash@npm:^0.2.4, twoslash@npm:~0.2.2":
+  version: 0.2.4
+  resolution: "twoslash@npm:0.2.4"
   dependencies:
     "@typescript/vfs": "npm:1.5.0"
+    twoslash-protocol: "npm:0.2.4"
   peerDependencies:
     typescript: "*"
-  checksum: 73c049df3eda7b6bd22b96ca627208718d2d3acf4b2a7aacdf1651df646f2595d29a0f3f26b0ace5fcc0c884bc6cdc80c4815d0ccdfc1974f4f7b569b9210ce5
+  checksum: 904bf911a20f99ee74556330b1433d57a98d5cc4d98b6c59613074f3d18f0621e71767b7308827a78aea112b1b44edc3211b329760069b2f90305228401b3ebd
   languageName: node
   linkType: hard
 
@@ -6453,9 +6464,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vocs@npm:1.0.0-alpha.34":
-  version: 1.0.0-alpha.34
-  resolution: "vocs@npm:1.0.0-alpha.34"
+"vocs@npm:1.0.0-alpha.42":
+  version: 1.0.0-alpha.42
+  resolution: "vocs@npm:1.0.0-alpha.42"
   dependencies:
     "@floating-ui/react": "npm:^0.26.6"
     "@hono/node-server": "npm:^1.2.3"
@@ -6470,9 +6481,9 @@ __metadata:
     "@radix-ui/react-navigation-menu": "npm:^1.1.4"
     "@radix-ui/react-popover": "npm:^1.0.7"
     "@radix-ui/react-tabs": "npm:^1.0.4"
-    "@shikijs/rehype": "npm:1.0.0-beta.5"
-    "@shikijs/transformers": "npm:1.0.0-beta.5"
-    "@shikijs/twoslash": "npm:1.0.0-beta.5"
+    "@shikijs/rehype": "npm:^1.1.2"
+    "@shikijs/transformers": "npm:^1.1.2"
+    "@shikijs/twoslash": "npm:^1.1.2"
     "@vanilla-extract/css": "npm:^1.14.0"
     "@vanilla-extract/dynamic": "npm:^2.1.0"
     "@vanilla-extract/vite-plugin": "npm:^3.9.4"
@@ -6509,10 +6520,10 @@ __metadata:
     remark-mdx-frontmatter: "npm:^4.0.0"
     remark-parse: "npm:^11.0.0"
     serve-static: "npm:^1.15.0"
-    shiki: "npm:1.0.0-beta.5"
+    shiki: "npm:^1.1.2"
     tailwindcss: "npm:^3.3.3"
     toml: "npm:^3.0.0"
-    twoslash: "npm:~0.1.0"
+    twoslash: "npm:~0.2.2"
     ua-parser-js: "npm:^1.0.36"
     unified: "npm:^11.0.4"
     unist-util-visit: "npm:^5.0.0"
@@ -6522,7 +6533,7 @@ __metadata:
     react-dom: ^18.2.0
   bin:
     vocs: _lib/cli/index.js
-  checksum: f3ed4142819372f24c629427255fda6e07560b149c4978951fef17a5545546c883ad5d276fe033fe89425d1fdd45b8fbc85ffa9a7c122834664ee06b23a2ad19
+  checksum: a022c76b1fc761ba7e32bf056b6234c077274f8a10bb146bcd29ecafd0eab0085f05dc7a8097d502f74bea49b9129fb3e49e5477d5252a8e55b36f82069cf1f2
   languageName: node
   linkType: hard
 
