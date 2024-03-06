@@ -85,7 +85,7 @@ export const sidebar = [
         ],
       },
       {
-        text: 'React Hooks',
+        text: 'Hooks',
         items: [
           {
             text: 'useName',
