@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.9.11
+
+### Patch Changes
+
+- 6763bb2: - **fix**: converted the `value` for `FrameTransactionEthSendParams` to string. By @zizzamia 221
+
 ## 0.9.10
 
 ### Patch Changes
