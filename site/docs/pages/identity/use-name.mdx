@@ -1,0 +1,35 @@
+# `useName`
+
+The `useName` hook is used to get name from an onchain identity provider for a given address.
+
+Supported providers:
+
+- ENS
+
+## Usage
+
+```tsx
+import { useName } from '@coinbase/onchainkit/identity';
+
+// Return type signature is following @tanstack/react-query useQuery hook signature
+const {
+  data: name,
+  isLoading,
+  isError,
+  error,
+  status,
+} = useName({ address: '0x1234' }, { enabled: true, cacheTime: 1000 * 60 * 60 * 24 });
+```
+
+## Props
+
+```ts
+type UseNameOptions = {
+  address: `0x${string}`;
+};
+
+type UseNameQueryOptions = {
+  enabled?: boolean;
+  cacheTime?: number;
+};
+```

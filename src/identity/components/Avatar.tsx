@@ -30,8 +30,11 @@ export function Avatar({
   defaultComponent,
   props,
 }: AvatarProps) {
-  const { ensName, isLoading: isLoadingName } = useName(address);
-  const { ensAvatar, isLoading: isLoadingAvatar } = useAvatar(ensName as string);
+  const { data: name, isLoading: isLoadingName } = useName({ address });
+  const { data: avatar, isLoading: isLoadingAvatar } = useAvatar(
+    { ensName: name ?? '' },
+    { enabled: !!name },
+  );
 
   if (isLoadingName || isLoadingAvatar) {
     return (
@@ -66,7 +69,7 @@ export function Avatar({
     );
   }
 
-  if (!ensName || !ensAvatar) {
+  if (!name || !avatar) {
     return (
       defaultComponent || (
         <svg
@@ -88,8 +91,8 @@ export function Avatar({
       width="32"
       height="32"
       decoding="async"
-      src={ensAvatar}
-      alt={ensName}
+      src={avatar}
+      alt={name}
       {...props}
     />
   );

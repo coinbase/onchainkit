@@ -23,8 +23,8 @@ describe('Avatar Component', () => {
   });
 
   it('should display loading indicator when loading', async () => {
-    (useAvatar as jest.Mock).mockReturnValue({ ensAvatar: null, isLoading: true });
-    (useName as jest.Mock).mockReturnValue({ ensName: null, isLoading: true });
+    (useAvatar as jest.Mock).mockReturnValue({ data: null, isLoading: true });
+    (useName as jest.Mock).mockReturnValue({ data: null, isLoading: true });
 
     render(<Avatar address="0x123" />);
 
@@ -35,8 +35,8 @@ describe('Avatar Component', () => {
   });
 
   it('should display default avatar when no ENS name or avatar is available', async () => {
-    (useAvatar as jest.Mock).mockReturnValue({ ensAvatar: null, isLoading: false });
-    (useName as jest.Mock).mockReturnValue({ ensName: null, isLoading: false });
+    (useAvatar as jest.Mock).mockReturnValue({ data: null, isLoading: false });
+    (useName as jest.Mock).mockReturnValue({ data: null, isLoading: false });
 
     render(<Avatar address="0x123" />);
 
@@ -47,8 +47,8 @@ describe('Avatar Component', () => {
   });
 
   it('should display ENS avatar when available', async () => {
-    (useAvatar as jest.Mock).mockReturnValue({ ensAvatar: 'avatar_url', isLoading: false });
-    (useName as jest.Mock).mockReturnValue({ ensName: 'ens_name', isLoading: false });
+    (useAvatar as jest.Mock).mockReturnValue({ data: 'avatar_url', isLoading: false });
+    (useName as jest.Mock).mockReturnValue({ data: 'ens_name', isLoading: false });
 
     render(<Avatar address="0x123" className="custom-class" />);
 
@@ -61,8 +61,8 @@ describe('Avatar Component', () => {
   });
 
   it('renders custom loading component when provided', () => {
-    (useAvatar as jest.Mock).mockReturnValue({ ensAvatar: null, isLoading: true });
-    (useName as jest.Mock).mockReturnValue({ ensName: null, isLoading: true });
+    (useAvatar as jest.Mock).mockReturnValue({ data: null, isLoading: true });
+    (useName as jest.Mock).mockReturnValue({ data: null, isLoading: true });
 
     const CustomLoadingComponent = <div data-testid="custom-loading">Loading...</div>;
 
@@ -74,8 +74,8 @@ describe('Avatar Component', () => {
   });
 
   it('renders custom default component when no ENS name or avatar is available', () => {
-    (useAvatar as jest.Mock).mockReturnValue({ ensAvatar: null, isLoading: false });
-    (useName as jest.Mock).mockReturnValue({ ensName: null, isLoading: false });
+    (useAvatar as jest.Mock).mockReturnValue({ data: null, isLoading: false });
+    (useName as jest.Mock).mockReturnValue({ data: null, isLoading: false });
 
     const CustomDefaultComponent = <div data-testid="custom-default">Default Avatar</div>;
 

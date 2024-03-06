@@ -1,22 +1,32 @@
 import { publicClient } from '../../network/client';
-import { useOnchainActionWithCache } from '../../utils/hooks/useOnchainActionWithCache';
-import { GetEnsAvatarReturnType, normalize } from 'viem/ens';
+import { type GetEnsAvatarReturnType, normalize } from 'viem/ens';
+import { useQuery } from '@tanstack/react-query';
 
-export const ensAvatarAction = (ensName: string) => async (): Promise<GetEnsAvatarReturnType> => {
-  try {
-    return await publicClient.getEnsAvatar({
-      name: normalize(ensName),
-    });
-  } catch (err) {
-    return null;
-  }
+export const ensAvatarAction = async (ensName: string): Promise<GetEnsAvatarReturnType> => {
+  return await publicClient.getEnsAvatar({
+    name: normalize(ensName),
+  });
 };
 
-export const useAvatar = (ensName: string) => {
+type UseNameOptions = {
+  ensName: string;
+};
+
+type UseNameQueryOptions = {
+  enabled?: boolean;
+  cacheTime?: number;
+};
+
+export const useAvatar = ({ ensName }: UseNameOptions, queryOptions?: UseNameQueryOptions) => {
+  const { enabled = true, cacheTime } = queryOptions ?? {};
   const ensActionKey = `ens-avatar-${ensName}` ?? '';
-  const { data: ensAvatar, isLoading } = useOnchainActionWithCache(
-    ensAvatarAction(ensName),
-    ensActionKey,
-  );
-  return { ensAvatar, isLoading };
+  return useQuery<GetEnsAvatarReturnType>({
+    queryKey: ['useAvatar', ensActionKey],
+    queryFn: async () => {
+      return await ensAvatarAction(ensName);
+    },
+    gcTime: cacheTime,
+    enabled,
+    refetchOnWindowFocus: false,
+  });
 };

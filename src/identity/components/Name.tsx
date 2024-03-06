@@ -21,11 +21,11 @@ type NameProps = {
  * @param {React.HTMLAttributes<HTMLSpanElement>} [props] - Additional HTML attributes for the span element.
  */
 export function Name({ address, className, sliced = true, props }: NameProps) {
-  const { ensName, isLoading } = useName(address);
+  const { data: name, isLoading } = useName({ address });
 
   // wrapped in useMemo to prevent unnecessary recalculations.
   const normalizedAddress = useMemo(() => {
-    if (!ensName && !isLoading && sliced) {
+    if (!name && !isLoading && sliced) {
       return getSlicedAddress(address);
     }
     return address;
@@ -37,7 +37,7 @@ export function Name({ address, className, sliced = true, props }: NameProps) {
 
   return (
     <span className={className} {...props}>
-      {ensName ?? normalizedAddress}
+      {name ?? normalizedAddress}
     </span>
   );
 }

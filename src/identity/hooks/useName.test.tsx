@@ -5,14 +5,12 @@
 import { renderHook, waitFor } from '@testing-library/react';
 import { publicClient } from '../../network/client';
 import { useName, ensNameAction } from './useName';
-import { useOnchainActionWithCache } from '../../utils/hooks/useOnchainActionWithCache';
+import { getNewReactQueryTestProvider } from '../../test-utils/hooks/get-new-react-query-test-provider';
 
 jest.mock('../../network/client');
-jest.mock('../../utils/hooks/useOnchainActionWithCache');
 
 describe('useName', () => {
   const mockGetEnsName = publicClient.getEnsName as jest.Mock;
-  const mockUseOnchainActionWithCache = useOnchainActionWithCache as jest.Mock;
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -24,20 +22,16 @@ describe('useName', () => {
 
     // Mock the getEnsName method of the publicClient
     mockGetEnsName.mockResolvedValue(testEnsName);
-    mockUseOnchainActionWithCache.mockImplementation(() => {
-      return {
-        data: testEnsName,
-        isLoading: false,
-      };
-    });
 
     // Use the renderHook function to create a test harness for the useName hook
-    const { result } = renderHook(() => useName(testAddress));
+    const { result } = renderHook(() => useName({ address: testAddress }), {
+      wrapper: getNewReactQueryTestProvider(),
+    });
 
     // Wait for the hook to finish fetching the ENS name
     await waitFor(() => {
       // Check that the ENS name and loading state are correct
-      expect(result.current.ensName).toBe(testEnsName);
+      expect(result.current.data).toBe(testEnsName);
       expect(result.current.isLoading).toBe(false);
     });
   });
@@ -45,22 +39,15 @@ describe('useName', () => {
   it('returns the loading state true while still fetching from ens action', async () => {
     const testAddress = '0x123';
 
-    // Mock the getEnsName method of the publicClient
-    // mockGetEnsName.mockResolvedValue(testEnsName);
-    mockUseOnchainActionWithCache.mockImplementation(() => {
-      return {
-        data: undefined,
-        isLoading: true,
-      };
-    });
-
     // Use the renderHook function to create a test harness for the useName hook
-    const { result } = renderHook(() => useName(testAddress));
+    const { result } = renderHook(() => useName({ address: testAddress }), {
+      wrapper: getNewReactQueryTestProvider(),
+    });
 
     // Wait for the hook to finish fetching the ENS name
     await waitFor(() => {
       // Check that the ENS name and loading state are correct
-      expect(result.current.ensName).toBe(undefined);
+      expect(result.current.data).toBe(undefined);
       expect(result.current.isLoading).toBe(true);
     });
   });
@@ -72,8 +59,7 @@ describe('useName', () => {
 
       mockGetEnsName.mockResolvedValue(expectedEnsName);
 
-      const action = ensNameAction(walletAddress);
-      const name = await action();
+      const name = await ensNameAction(walletAddress);
 
       expect(name).toBe(expectedEnsName);
       expect(mockGetEnsName).toHaveBeenCalledWith({ address: walletAddress });
@@ -85,8 +71,7 @@ describe('useName', () => {
 
       mockGetEnsName.mockResolvedValue(expectedEnsName);
 
-      const action = ensNameAction(walletAddress);
-      const name = await action();
+      const name = await ensNameAction(walletAddress);
 
       expect(name).toBe(expectedEnsName);
       expect(mockGetEnsName).toHaveBeenCalledWith({ address: walletAddress });
@@ -97,10 +82,7 @@ describe('useName', () => {
 
       mockGetEnsName.mockRejectedValue(new Error('This is an error'));
 
-      const action = ensNameAction(walletAddress);
-      const name = await action();
-
-      expect(name).toBe(null);
+      await expect(ensNameAction(walletAddress)).rejects.toThrow('This is an error');
     });
   });
 });

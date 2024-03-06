@@ -10,6 +10,9 @@ OnchainKit provides TypeScript utilities and React components to help you build 
 - Components:
   - [`<Avatar />`](/identity/avatar): A component to display an ENS avatar.
   - [`<Name />`](/identity/name): A component to display an ENS name.
+- Hooks:
+  - [`useName`](/identity/use-name): A hook to get an onchain name for a given address. (ENS only for now)
+  - [`useAvatar`](/identity/use-avatar): A hook to get avatar image src. (ENS only for now)
 - Utilities:
   - [`getEASAttestations`](/identity/get-eas-attestations): A function to fetche EAS attestations.
 
@@ -30,3 +33,27 @@ pnpm add @coinbase/onchainkit react@18 react-dom@18 graphql@14 graphql-request@6
 ```
 
 :::
+
+
+## Components
+
+If you are using any of the provided components, you will need to install and configure `@tanstack/react-query` and wrap your app in `<QueryClientProvider>`.
+
+```tsx
+import { Avatar } from '@coinbase/onchainkit/identity';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
+// Create a client
+const queryClient = new QueryClient();
+
+function App() {
+  return (
+    // Provide the client to your App
+    <QueryClientProvider client={queryClient}>
+      <Avatar address="0x1234567890abcdef1234567890abcdef12345678" />
+    </QueryClientProvider>
+  );
+}
+```
+
+See [Tanstack Query documentation](https://tanstack.com/query/v5/docs/framework/react/quick-start) for more info.

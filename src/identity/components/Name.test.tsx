@@ -29,7 +29,7 @@ describe('OnchainAddress', () => {
   });
 
   it('displays ENS name when available', () => {
-    (useName as jest.Mock).mockReturnValue({ ensName: testName, isLoading: false });
+    (useName as jest.Mock).mockReturnValue({ data: testName, isLoading: false });
 
     render(<Name address={testAddress} />);
 
@@ -38,7 +38,7 @@ describe('OnchainAddress', () => {
   });
 
   it('displays sliced address when ENS name is not available and sliced is true as default', () => {
-    (useName as jest.Mock).mockReturnValue({ ensName: null, isLoading: false });
+    (useName as jest.Mock).mockReturnValue({ data: null, isLoading: false });
 
     render(<Name address={testAddress} />);
 
@@ -46,7 +46,7 @@ describe('OnchainAddress', () => {
   });
 
   it('displays empty when ens still fetching', () => {
-    (useName as jest.Mock).mockReturnValue({ ensName: null, isLoading: true });
+    (useName as jest.Mock).mockReturnValue({ data: null, isLoading: true });
 
     render(<Name address={testAddress} />);
 
@@ -55,7 +55,7 @@ describe('OnchainAddress', () => {
   });
 
   it('displays full address when ENS name is not available and sliced is false', () => {
-    (useName as jest.Mock).mockReturnValue({ ensName: null, isLoading: false });
+    (useName as jest.Mock).mockReturnValue({ data: null, isLoading: false });
 
     render(<Name address={testAddress} sliced={false} />);
 
