@@ -70,6 +70,7 @@ function ErrorFrame() {
   // TODO: implement -- decide how to handle
   // - simply show an error?
   // - best effort rendering of what they do have?
+  // - maybe just ValidFrame with a red border?
   return <PlaceholderFrame />;
 }
 
