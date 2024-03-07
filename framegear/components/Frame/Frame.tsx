@@ -1,5 +1,5 @@
 import { postFrame } from '@/utils/postFrame';
-import { frameResultsAtom } from '@/utils/store';
+import { frameResultsAtom, mockFrameOptionsAtom } from '@/utils/store';
 import { useAtom } from 'jotai';
 import { ChangeEvent, PropsWithChildren, useCallback, useMemo, useState } from 'react';
 import { ExternalLinkIcon, ResetIcon, RocketIcon } from '@radix-ui/react-icons';
@@ -62,6 +62,7 @@ function ValidFrame({ metadata }: { metadata: FrameMetadataWithImageObject }) {
           )}
         </div>
       </div>
+      <MockFrameOptions />
     </div>
   );
 }
@@ -102,26 +103,30 @@ function FrameButton({
   const { openModal } = useRedirectModal();
   const [isLoading, setIsLoading] = useState(false);
   const [_, setResults] = useAtom(frameResultsAtom);
+  const [mockFrameOptions] = useAtom(mockFrameOptionsAtom);
 
   const handleClick = useCallback(async () => {
     if (button?.action === 'post' || button?.action === 'post_redirect') {
       // TODO: collect user options (follow, like, etc.) and include
       const confirmAction = async () => {
-        const result = await postFrame({
-          buttonIndex: index,
-          url: button.target!,
-          state: JSON.stringify(state),
-          // TODO: make these user-input-driven
-          castId: {
+        const result = await postFrame(
+          {
+            buttonIndex: index,
+            url: button.target!,
+            state: JSON.stringify(state),
+            // TODO: make these user-input-driven
+            castId: {
+              fid: 0,
+              hash: '0xthisisnotreal',
+            },
+            inputText,
             fid: 0,
-            hash: '0xthisisnotreal',
+            messageHash: '0xthisisnotreal',
+            network: 0,
+            timestamp: 0,
           },
-          inputText,
-          fid: 0,
-          messageHash: '0xthisisnotreal',
-          network: 0,
-          timestamp: 0,
-        });
+          mockFrameOptions,
+        );
         // TODO: handle when result is not defined
         if (result) {
           setResults((prev) => [...prev, result]);
@@ -140,7 +145,16 @@ function FrameButton({
       openModal(onConfirm);
     }
     // TODO: implement other actions (mint, etc.)
-  }, [button, index, inputText, openModal, setResults, state]);
+  }, [
+    button?.action,
+    button?.target,
+    index,
+    inputText,
+    mockFrameOptions,
+    openModal,
+    setResults,
+    state,
+  ]);
 
   const buttonIcon = useMemo(() => {
     switch (button?.action) {
@@ -167,5 +181,20 @@ function FrameButton({
       </span>
       {buttonIcon}
     </button>
+  );
+}
+
+function MockFrameOptions() {
+  const [mockFrameOptions, setMockFrameOptions] = useAtom(mockFrameOptionsAtom);
+  const toggleFollowing = useCallback(() => {
+    setMockFrameOptions((prev) => ({ ...prev, following: !prev.following }));
+  }, [setMockFrameOptions]);
+  return (
+    <fieldset>
+      <label>
+        Following{' '}
+        <input onClick={toggleFollowing} type="checkbox" checked={!!mockFrameOptions.following} />
+      </label>
+    </fieldset>
   );
 }
