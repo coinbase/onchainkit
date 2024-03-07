@@ -26,7 +26,7 @@ describe('frameResultToFrameMetadata', () => {
         undefined,
         undefined,
       ],
-      image: 'Image URL',
+      image: { src: 'Image URL', aspectRatio: undefined },
       input: { text: 'Input Text' },
       postUrl: 'Post URL',
       state: { key: 'value' },
@@ -47,7 +47,7 @@ describe('frameResultToFrameMetadata', () => {
 
     expect(metadata).toEqual({
       buttons: [undefined, undefined, undefined, undefined],
-      image: undefined,
+      image: { src: undefined, aspectRatio: undefined },
       input: undefined,
       postUrl: undefined,
       state: undefined,
