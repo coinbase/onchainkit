@@ -1,55 +1,57 @@
 import { frameResultToFrameMetadata } from './frameResultToFrameMetadata';
 
-const baseGoodDefinition = {
-  'fc:frame': 'vNext',
-  'fc:frame:image': 'https://images.party/this-is-a-test.apng',
-  'og:image': 'https://images.party/this-is-a-test.apng',
-};
-
 describe('frameResultToFrameMetadata', () => {
-  it('handles the minimum viable input', () => {
-    expect(frameResultToFrameMetadata(baseGoodDefinition)).toEqual(
-      expect.objectContaining({
-        image: baseGoodDefinition['og:image'],
-      }),
-    );
+  const baseResult = {
+    'fc:frame:button:1': 'Button 1',
+    'fc:frame:button:1:action': 'Action 1',
+    'fc:frame:button:1:target': 'Target 1',
+    'fc:frame:image': 'Image URL',
+    'fc:frame:input': 'Input Text',
+    'fc:frame:post_url': 'Post URL',
+    'fc:frame:state': JSON.stringify({ key: 'value' }),
+    'fc:frame:refresh_period': '10',
+  };
+
+  it('should correctly map frame result to frame metadata', () => {
+    const metadata = frameResultToFrameMetadata(baseResult);
+
+    expect(metadata).toEqual({
+      buttons: [
+        {
+          action: 'Action 1',
+          label: 'Button 1',
+          target: 'Target 1',
+        },
+        undefined,
+        undefined,
+        undefined,
+      ],
+      image: 'Image URL',
+      input: { text: 'Input Text' },
+      postUrl: 'Post URL',
+      state: { key: 'value' },
+      refreshPeriod: 10,
+    });
   });
 
-  it('handles buttons', () => {
-    expect(
-      frameResultToFrameMetadata({
-        ...baseGoodDefinition,
-        'fc:frame:button:1': 'henlo',
-        'fc:frame:button:1:action': 'post',
-        'fc:frame:button:2': 'henlo',
-        'fc:frame:button:2:action': 'post_redirect',
-        'fc:frame:button:3': 'henlo',
-        'fc:frame:button:3:action': 'mint',
-        'fc:frame:button:4': 'henlo',
-        'fc:frame:button:4:action': 'link',
-        'fc:frame:button:4:target': 'https://google.com',
-      }),
-    ).toMatchSnapshot();
-  });
+  it('should handle missing optional fields', () => {
+    const result = { ...baseResult };
+    delete (result as any)['fc:frame:button:1'];
+    delete (result as any)['fc:frame:image'];
+    delete (result as any)['fc:frame:input'];
+    delete (result as any)['fc:frame:post_url'];
+    delete (result as any)['fc:frame:state'];
+    delete (result as any)['fc:frame:refresh_period'];
 
-  it('handles input text', () => {
-    expect(frameResultToFrameMetadata({ ...baseGoodDefinition, 'fc:frame:input': 'lmbo' })).toEqual(
-      expect.objectContaining({
-        input: { text: 'lmbo' },
-      }),
-    );
-  });
+    const metadata = frameResultToFrameMetadata(result);
 
-  it('handles state', () => {
-    expect(
-      frameResultToFrameMetadata({
-        ...baseGoodDefinition,
-        'fc:frame:state': JSON.stringify({ status: 'buzzin' }),
-      }),
-    ).toEqual(
-      expect.objectContaining({
-        state: { status: 'buzzin' },
-      }),
-    );
+    expect(metadata).toEqual({
+      buttons: [undefined, undefined, undefined, undefined],
+      image: undefined,
+      input: undefined,
+      postUrl: undefined,
+      state: undefined,
+      refreshPeriod: undefined,
+    });
   });
 });

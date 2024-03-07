@@ -15,7 +15,9 @@ export function frameResultToFrameMetadata(result: Record<string, string>): Fram
   const input = inputText ? { text: inputText } : undefined;
   const postUrl = result['fc:frame:post_url'];
   const rawState = result['fc:frame:state'];
+  const rawRefreshPeriod = result['fc:frame:refresh_period'];
+  const refreshPeriod = rawRefreshPeriod ? parseInt(rawRefreshPeriod, 10) : undefined;
   const state = rawState ? JSON.parse(result['fc:frame:state']) : undefined;
 
-  return { buttons: buttons as any, image, input, postUrl, state };
+  return { buttons: buttons as any, image, input, postUrl, state, refreshPeriod };
 }
