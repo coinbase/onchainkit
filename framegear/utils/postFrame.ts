@@ -1,6 +1,5 @@
 import { FrameRequest, MockFrameRequestOptions } from '@coinbase/onchainkit';
 import { parseHtml } from './parseHtml';
-import { frameResultToFrameMetadata } from './frameResultToFrameMetadata';
 
 type FrameData = FrameRequest['untrustedData'];
 
@@ -24,9 +23,5 @@ export async function postFrame(frameData: FrameData, options?: MockFrameRequest
   }
 
   const html = json.html;
-  const parsedHtml = parseHtml(html);
-  return {
-    ...parsedHtml,
-    tags: frameResultToFrameMetadata(parsedHtml.tags),
-  };
+  return parseHtml(html);
 }

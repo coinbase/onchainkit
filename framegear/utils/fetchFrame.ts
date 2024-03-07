@@ -1,4 +1,3 @@
-import { frameResultToFrameMetadata } from './frameResultToFrameMetadata';
 import { parseHtml } from './parseHtml';
 
 export async function fetchFrame(url: string) {
@@ -12,9 +11,5 @@ export async function fetchFrame(url: string) {
 
   const json = (await response.json()) as { html: string };
   const html = json.html;
-  const parsedHtml = parseHtml(html);
-  return {
-    ...parsedHtml,
-    tags: frameResultToFrameMetadata(parsedHtml.tags),
-  };
+  return parseHtml(html);
 }
