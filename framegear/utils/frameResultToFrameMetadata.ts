@@ -7,12 +7,13 @@ export type FrameMetadataWithImageObject = FrameMetadataType & {
 export function frameResultToFrameMetadata(
   result: Record<string, string>,
 ): FrameMetadataWithImageObject {
+  const postUrl = result['fc:frame:post_url'];
   const buttons = [1, 2, 3, 4].map((idx) =>
     result[`fc:frame:button:${idx}`]
       ? {
-          action: result[`fc:frame:button:${idx}:action`],
+          action: result[`fc:frame:button:${idx}:action`] || 'post',
           label: result[`fc:frame:button:${idx}`],
-          target: result[`fc:frame:button:${idx}:target`],
+          target: result[`fc:frame:button:${idx}:target`] || postUrl,
         }
       : undefined,
   );
@@ -20,11 +21,10 @@ export function frameResultToFrameMetadata(
   const imageAspectRatio = result['fc:frame:image:aspect_ratio'];
   const inputText = result['fc:frame:input'];
   const input = inputText ? { text: inputText } : undefined;
-  const postUrl = result['fc:frame:post_url'];
   const rawState = result['fc:frame:state'];
   const rawRefreshPeriod = result['fc:frame:refresh_period'];
   const refreshPeriod = rawRefreshPeriod ? parseInt(rawRefreshPeriod, 10) : undefined;
-  const state = rawState ? JSON.parse(result['fc:frame:state']) : undefined;
+  const state = rawState ? JSON.parse(decodeURIComponent(result['fc:frame:state'])) : undefined;
 
   return {
     buttons: buttons as any,

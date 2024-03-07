@@ -15,10 +15,6 @@ export function Frame() {
 
   const latestFrame = results[results.length - 1];
 
-  if (!latestFrame.isValid) {
-    return <ErrorFrame />;
-  }
-
   return <ValidFrame metadata={latestFrame.metadata} />;
 }
 
@@ -58,6 +54,7 @@ function ValidFrame({ metadata }: { metadata: FrameMetadataWithImageObject }) {
                 key={button.label}
                 index={index + 1}
                 button={button}
+                state={metadata.state}
               >
                 {button.label}
               </FrameButton>
@@ -81,7 +78,7 @@ function PlaceholderFrame() {
     <div className="flex flex-col">
       <div className="bg-farcaster flex aspect-[1.91/1] w-full rounded-t-xl"></div>
       <div className="bg-button-gutter-light dark:bg-content-light flex flex-wrap gap-2 rounded-b-xl px-4 py-2">
-        <FrameButton index={1} inputText="">
+        <FrameButton state={{}} index={1} inputText="">
           Get Started
         </FrameButton>
       </div>
@@ -94,10 +91,12 @@ function FrameButton({
   button,
   index,
   inputText,
+  state,
 }: PropsWithChildren<{
   button?: NonNullable<FrameMetadataWithImageObject['buttons']>[0];
   index: number;
   inputText: string;
+  state: any;
 }>) {
   const { openModal } = useRedirectModal();
   const [isLoading, setIsLoading] = useState(false);
@@ -110,6 +109,7 @@ function FrameButton({
         const result = await postFrame({
           buttonIndex: index,
           url: button.target!,
+          state: JSON.stringify(state),
           // TODO: make these user-input-driven
           castId: {
             fid: 0,
@@ -120,7 +120,6 @@ function FrameButton({
           messageHash: '0xthisisnotreal',
           network: 0,
           timestamp: 0,
-          state: '',
         });
         // TODO: handle when result is not defined
         if (result) {
@@ -140,7 +139,7 @@ function FrameButton({
       openModal(onConfirm);
     }
     // TODO: implement other actions (mint, etc.)
-  }, [button?.action, button?.target, index, inputText, openModal, setResults]);
+  }, [button, index, inputText, openModal, setResults, state]);
 
   const buttonIcon = useMemo(() => {
     switch (button?.action) {
