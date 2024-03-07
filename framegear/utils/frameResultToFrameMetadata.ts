@@ -1,6 +1,12 @@
-import { FrameMetadataType } from '@coinbase/onchainkit';
+import { FrameImageMetadata, FrameMetadataType } from '@coinbase/onchainkit';
 
-export function frameResultToFrameMetadata(result: Record<string, string>): FrameMetadataType {
+export type FrameMetadataWithImageObject = FrameMetadataType & {
+  image: FrameImageMetadata;
+};
+
+export function frameResultToFrameMetadata(
+  result: Record<string, string>,
+): FrameMetadataWithImageObject {
   const buttons = [1, 2, 3, 4].map((idx) =>
     result[`fc:frame:button:${idx}`]
       ? {
@@ -10,7 +16,8 @@ export function frameResultToFrameMetadata(result: Record<string, string>): Fram
         }
       : undefined,
   );
-  const image = result['fc:frame:image'];
+  const imageSrc = result['fc:frame:image'];
+  const imageAspectRatio = result['fc:frame:image:aspect_ratio'];
   const inputText = result['fc:frame:input'];
   const input = inputText ? { text: inputText } : undefined;
   const postUrl = result['fc:frame:post_url'];
@@ -19,5 +26,12 @@ export function frameResultToFrameMetadata(result: Record<string, string>): Fram
   const refreshPeriod = rawRefreshPeriod ? parseInt(rawRefreshPeriod, 10) : undefined;
   const state = rawState ? JSON.parse(result['fc:frame:state']) : undefined;
 
-  return { buttons: buttons as any, image, input, postUrl, state, refreshPeriod };
+  return {
+    buttons: buttons as any,
+    image: { src: imageSrc, aspectRatio: imageAspectRatio as any },
+    input,
+    postUrl,
+    state,
+    refreshPeriod,
+  };
 }
