@@ -36,7 +36,7 @@ export const vNextSchema = yup.object({
         .optional()
         .matches(
           /^post$|^post_redirect$|^mint$|^link$/,
-          `button action must be "post" or "post_url". Failed on index: ${index}`,
+          `button action must be "post" or "post_redirect". Failed on index: ${index}`,
         ),
     }),
     {},
@@ -73,6 +73,13 @@ export const vNextSchema = yup.object({
     .string()
     .optional()
     .matches(/^1:1$|^1.91:1$/),
+  'fc:frame:state': yup
+    .string()
+    .optional()
+    .test('state-has-valid-size', 'frame:state has maximum size of 4096 bytes', (value) => {
+      // test only fires when `value` is defined
+      return new Blob([value!]).size <= 4096;
+    }),
 });
 
 // This interface doesn't fully encapsulate the dynamically defined types. Do we even need it?
