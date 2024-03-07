@@ -1,3 +1,4 @@
+import { frameResultToFrameMetadata } from './frameResultToFrameMetadata';
 import { vNextSchema } from './validation';
 
 export function parseHtml(html: string) {
@@ -27,8 +28,9 @@ export function parseHtml(html: string) {
 
   const isValid = vNextSchema.isValidSync(tags);
   const errors = aggregateValidationErrors(tags);
+  const metadata = frameResultToFrameMetadata(tags);
 
-  return { isValid, errors, tags };
+  return { isValid, errors, tags, metadata };
 }
 
 function aggregateValidationErrors(tags: Record<string, string>) {

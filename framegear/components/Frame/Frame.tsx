@@ -19,14 +19,14 @@ export function Frame() {
     return <ErrorFrame />;
   }
 
-  return <ValidFrame tags={latestFrame.tags} />;
+  return <ValidFrame metadata={latestFrame.metadata} />;
 }
 
-function ValidFrame({ tags }: { tags: FrameMetadataWithImageObject }) {
+function ValidFrame({ metadata }: { metadata: FrameMetadataWithImageObject }) {
   const [inputText, setInputText] = useState('');
-  const { image, input, buttons } = tags;
+  const { image, input, buttons } = metadata;
   const imageAspectRatioClassname =
-    tags.image.aspectRatio === '1:1' ? 'aspect-square' : 'aspect-[1.91/1]';
+    metadata.image.aspectRatio === '1:1' ? 'aspect-square' : 'aspect-[1.91/1]';
 
   const handleInputChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => setInputText(e.target.value),
