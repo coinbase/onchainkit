@@ -147,6 +147,12 @@ describe('getFrameHtmlResponse', () => {
     const html = getFrameHtmlResponse({
       buttons: [
         { label: 'Transaction', action: 'tx', target: 'https://zizzamia.xyz/api/frame/tx' },
+        {
+          label: 'Transaction 2',
+          action: 'tx',
+          target: 'https://zizzamia.xyz/api/frame/tx',
+          postUrl: 'https://zizzamia.xyz/api/frame/tx-success',
+        },
       ],
       image: 'https://zizzamia.xyz/park-1.png',
     });
@@ -160,6 +166,10 @@ describe('getFrameHtmlResponse', () => {
   <meta property="fc:frame:button:1" content="Transaction" />
   <meta property="fc:frame:button:1:action" content="tx" />
   <meta property="fc:frame:button:1:target" content="https://zizzamia.xyz/api/frame/tx" />
+  <meta property="fc:frame:button:2" content="Transaction 2" />
+  <meta property="fc:frame:button:2:action" content="tx" />
+  <meta property="fc:frame:button:2:target" content="https://zizzamia.xyz/api/frame/tx" />
+  <meta property="fc:frame:button:2:post_url" content="https://zizzamia.xyz/api/frame/tx-success" />
   <meta property="og:image" content="https://zizzamia.xyz/park-1.png" />
   <meta property="fc:frame:image" content="https://zizzamia.xyz/park-1.png" />
 

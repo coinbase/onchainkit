@@ -59,6 +59,9 @@ function getFrameHtmlResponse({
         if (button.action && button.target) {
           buttonHtml += `  <meta property="fc:frame:button:${index + 1}:target" content="${button.target}" />\n`;
         }
+        if (button.action && button.action === 'tx' && button.postUrl) {
+          buttonHtml += `  <meta property="fc:frame:button:${index + 1}:post_url" content="${button.postUrl}" />\n`;
+        }
         return buttonHtml;
       })
       .join('');
