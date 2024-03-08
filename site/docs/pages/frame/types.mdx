@@ -10,7 +10,7 @@ deescription: Glossary of Types for Frame utilities and components
 ```ts
 type FrameButtonMetadata =
   | {
-      action: 'link' | 'mint' | 'tx';
+      action: 'link' | 'mint';
       label: string;
       target: string;
     }
@@ -18,6 +18,12 @@ type FrameButtonMetadata =
       action?: 'post' | 'post_redirect';
       label: string;
       target?: string;
+    }
+  | {
+      action: 'tx';
+      label: string;
+      target: string;
+      postUrl?: string;
     };
 ```
 
