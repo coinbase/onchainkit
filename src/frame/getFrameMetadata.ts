@@ -46,6 +46,9 @@ export const getFrameMetadata = function ({
       if (button.action && button.target) {
         metadata[`fc:frame:button:${index + 1}:target`] = button.target;
       }
+      if (button.action && button.action === 'tx' && button.postUrl) {
+        metadata[`fc:frame:button:${index + 1}:post_url`] = button.postUrl;
+      }
     });
   }
   if (postUrlToUse) {

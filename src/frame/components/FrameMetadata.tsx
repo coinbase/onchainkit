@@ -88,6 +88,9 @@ export function FrameMetadata({
       {!!(button1 && button1.target) && (
         <meta property="fc:frame:button:1:target" content={button1.target} />
       )}
+      {!!(button1 && button1.action === 'tx' && button1.postUrl) && (
+        <meta property="fc:frame:button:1:post_url" content={button1.postUrl} />
+      )}
 
       {!!button2 && <meta property="fc:frame:button:2" content={button2.label} />}
       {!!(button2 && !!button2.action) && (
@@ -95,6 +98,9 @@ export function FrameMetadata({
       )}
       {!!(button2 && button2.target) && (
         <meta property="fc:frame:button:2:target" content={button2.target} />
+      )}
+      {!!(button2 && button2.action === 'tx' && button2.postUrl) && (
+        <meta property="fc:frame:button:1:post_url" content={button2.postUrl} />
       )}
 
       {!!button3 && <meta property="fc:frame:button:3" content={button3.label} />}
@@ -104,6 +110,9 @@ export function FrameMetadata({
       {!!(button3 && button3.target) && (
         <meta property="fc:frame:button:3:target" content={button3.target} />
       )}
+      {!!(button3 && button3.action === 'tx' && button3.postUrl) && (
+        <meta property="fc:frame:button:1:post_url" content={button3.postUrl} />
+      )}
 
       {!!button4 && <meta property="fc:frame:button:4" content={button4.label} />}
       {!!(button4 && !!button4.action) && (
@@ -111,6 +120,9 @@ export function FrameMetadata({
       )}
       {!!(button4 && button4.target) && (
         <meta property="fc:frame:button:4:target" content={button4.target} />
+      )}
+      {!!(button4 && button4.action === 'tx' && button4.postUrl) && (
+        <meta property="fc:frame:button:1:post_url" content={button4.postUrl} />
       )}
 
       {!!postUrlToUse && <meta property="fc:frame:post_url" content={postUrlToUse} />}
