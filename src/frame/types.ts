@@ -83,7 +83,7 @@ export function convertToFrame(json: any) {
  */
 export type FrameButtonMetadata =
   | {
-      action: 'link' | 'mint' | 'tx';
+      action: 'link' | 'mint';
       label: string;
       target: string;
     }
@@ -91,6 +91,12 @@ export type FrameButtonMetadata =
       action?: 'post' | 'post_redirect';
       label: string;
       target?: string;
+    }
+  | {
+      action: 'tx';
+      label: string;
+      target: string;
+      postUrl?: string;
     };
 
 /**

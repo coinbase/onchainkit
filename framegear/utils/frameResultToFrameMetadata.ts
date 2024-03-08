@@ -1,4 +1,4 @@
-import { FrameImageMetadata, FrameMetadataType } from '@coinbase/onchainkit';
+import { FrameImageMetadata, FrameMetadataType } from '@coinbase/onchainkit/frame';
 
 export type FrameMetadataWithImageObject = FrameMetadataType & {
   image: FrameImageMetadata;

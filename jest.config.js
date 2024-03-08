@@ -1,5 +1,5 @@
 module.exports = {
-  // ...
+  modulePathIgnorePatterns: ['<rootDir>/framegear/'],
   transform: {
     '^.+\\.tsx?$': 'ts-jest',
   },
