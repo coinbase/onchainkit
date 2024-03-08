@@ -326,6 +326,24 @@ describe('FrameMetadata', () => {
             target: 'https://zizzamia.xyz/api/frame/tx',
             postUrl: 'https://zizzamia.xyz/api/frame/tx-post-url',
           },
+          {
+            label: 'TX',
+            action: 'tx',
+            target: 'https://zizzamia.xyz/api/frame/tx2',
+            postUrl: 'https://zizzamia.xyz/api/frame/tx-post-url2',
+          },
+          {
+            label: 'TX',
+            action: 'tx',
+            target: 'https://zizzamia.xyz/api/frame/tx3',
+            postUrl: 'https://zizzamia.xyz/api/frame/tx-post-url3',
+          },
+          {
+            label: 'TX',
+            action: 'tx',
+            target: 'https://zizzamia.xyz/api/frame/tx4',
+            postUrl: 'https://zizzamia.xyz/api/frame/tx-post-url4',
+          },
         ]}
       />,
     );
@@ -345,7 +363,22 @@ describe('FrameMetadata', () => {
         .querySelector('meta[property="fc:frame:button:1:post_url"]')
         ?.getAttribute('content'),
     ).toBe('https://zizzamia.xyz/api/frame/tx-post-url');
-    expect(meta.container.querySelectorAll('meta').length).toBe(7);
+    expect(
+      meta.container
+        .querySelector('meta[property="fc:frame:button:2:post_url"]')
+        ?.getAttribute('content'),
+    ).toBe('https://zizzamia.xyz/api/frame/tx-post-url2');
+    expect(
+      meta.container
+        .querySelector('meta[property="fc:frame:button:3:post_url"]')
+        ?.getAttribute('content'),
+    ).toBe('https://zizzamia.xyz/api/frame/tx-post-url3');
+    expect(
+      meta.container
+        .querySelector('meta[property="fc:frame:button:4:post_url"]')
+        ?.getAttribute('content'),
+    ).toBe('https://zizzamia.xyz/api/frame/tx-post-url4');
+    expect(meta.container.querySelectorAll('meta').length).toBe(19);
   });
 
   it('should not render action target if action is not link or mint', () => {
