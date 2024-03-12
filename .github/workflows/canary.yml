@@ -25,16 +25,16 @@ jobs:
         run: |
           cd src
           npm --no-git-tag-version version $(npm pkg get version | sed 's/"//g')-$(git branch --show-current | tr -cs '[:alnum:]-' '-' | tr '[:upper:]' '[:lower:]' | sed 's/-$//').$(date +'%Y%m%dT%H%M%S')
-      
+
       - name: Build
         shell: bash
         run: yarn build
-  
+
       - name: Set deployment token
         run: npm config set '//registry.npmjs.org/:_authToken' "${{ secrets.NPM_TOKEN }}"
 
       - name: Publish to npm
-        run: | 
+        run: |
           cd src 
           npm publish --tag $(git branch --show-current | tr -cs '[:alnum:]-' '-' | tr '[:upper:]' '[:lower:]' | sed 's/-$//')
         env:
