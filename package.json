@@ -107,6 +107,16 @@
       },
       "default": "./lib/farcaster/index.js"
     },
+    "./fiat": {
+      "types": "./lib/fiat/index.d.ts",
+      "browser": {
+        "types": "./esm/fiat/index.d.ts",
+        "module": "./esm/fiat/index.js",
+        "import": "./esm/fiat/index.js",
+        "default": "./lib/fiat/index.js"
+      },
+      "default": "./lib/fiat/index.js"
+    },
     "./frame": {
       "types": "./lib/frame/index.d.ts",
       "browser": {
@@ -126,6 +136,16 @@
         "default": "./lib/identity/index.js"
       },
       "default": "./lib/identity/index.js"
+    },
+    "./trade": {
+      "types": "./lib/trade/index.d.ts",
+      "browser": {
+        "types": "./esm/trade/index.d.ts",
+        "module": "./esm/trade/index.js",
+        "import": "./esm/trade/index.js",
+        "default": "./lib/trade/index.js"
+      },
+      "default": "./lib/trade/index.js"
     },
     "./xmtp": {
       "types": "./lib/xmtp/index.d.ts",
