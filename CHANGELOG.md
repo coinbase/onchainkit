@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- d0a2a35: fix: `button.target` is not dependent on `button.action` (#243)
+- **fix**: `button.target` is not dependent on `button.action`. By @cnasc #243 d0a2a35
 
 ## 0.10.1
 
