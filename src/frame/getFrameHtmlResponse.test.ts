@@ -143,6 +143,27 @@ describe('getFrameHtmlResponse', () => {
 </html>`);
   });
 
+  it('should return correct HTML with action link, even if action is not explicitly set', () => {
+    const html = getFrameHtmlResponse({
+      buttons: [{ label: 'Click', target: 'https://zizzamia.xyz/api/frame/click' }],
+      image: 'https://zizzamia.xyz/park-1.png',
+    });
+
+    expect(html).toBe(`<!DOCTYPE html>
+<html>
+<head>
+  <meta property="og:description" content="Frame description" />
+  <meta property="og:title" content="Frame title" />
+  <meta property="fc:frame" content="vNext" />
+  <meta property="fc:frame:button:1" content="Click" />
+  <meta property="fc:frame:button:1:target" content="https://zizzamia.xyz/api/frame/click" />
+  <meta property="og:image" content="https://zizzamia.xyz/park-1.png" />
+  <meta property="fc:frame:image" content="https://zizzamia.xyz/park-1.png" />
+
+</head>
+</html>`);
+  });
+
   it('should return correct HTML with action tx', () => {
     const html = getFrameHtmlResponse({
       buttons: [
