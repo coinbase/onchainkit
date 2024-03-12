@@ -215,12 +215,13 @@ describe('getFrameMetadata', () => {
     });
   });
 
-  it('should render the target metadata for post and post_redirect when used', () => {
+  it('should render the target metadata for post and post_redirect (including implicit POST)', () => {
     expect(
       getFrameMetadata({
         buttons: [
           { label: 'button1', action: 'post', target: 'https://zizzamia.xyz/api/frame1' },
           { label: 'button2', action: 'post_redirect', target: 'https://zizzamia.xyz/api/frame2' },
+          { label: 'button3', target: 'https://zizzamia.xyz/api/frame3' },
         ],
         image: 'image',
       }),
@@ -232,6 +233,8 @@ describe('getFrameMetadata', () => {
       'fc:frame:button:2': 'button2',
       'fc:frame:button:2:action': 'post_redirect',
       'fc:frame:button:2:target': 'https://zizzamia.xyz/api/frame2',
+      'fc:frame:button:3': 'button3',
+      'fc:frame:button:3:target': 'https://zizzamia.xyz/api/frame3',
       'fc:frame:image': 'image',
     });
   });
