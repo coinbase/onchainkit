@@ -2,7 +2,7 @@ import { FrameRequest, FrameValidationResponse, MockFrameRequest } from './types
 import {
   NEYNAR_DEFAULT_API_KEY,
   neynarFrameValidation,
-} from '../utils/neynar/frame/neynarFrameFunctions';
+} from '../utils/neynar/frame/neynarFrameValidation';
 
 type FrameMessageOptions =
   | {

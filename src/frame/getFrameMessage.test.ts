@@ -2,7 +2,7 @@ import { getFrameMessage } from './getFrameMessage';
 import { getMockFrameRequest } from './getMockFrameRequest';
 import { neynarBulkUserLookup } from '../utils/neynar/user/neynarBulkUserLookup';
 import { FrameRequest } from './types';
-import { neynarFrameValidation } from '../utils/neynar/frame/neynarFrameFunctions';
+import { neynarFrameValidation } from '../utils/neynar/frame/neynarFrameValidation';
 
 jest.mock('../utils/neynar/user/neynarBulkUserLookup', () => {
   return {
@@ -10,7 +10,7 @@ jest.mock('../utils/neynar/user/neynarBulkUserLookup', () => {
   };
 });
 
-jest.mock('../utils/neynar/frame/neynarFrameFunctions', () => {
+jest.mock('../utils/neynar/frame/neynarFrameValidation', () => {
   return {
     neynarFrameValidation: jest.fn(),
   };

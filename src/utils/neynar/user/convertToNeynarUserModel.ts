@@ -4,7 +4,6 @@ export function convertToNeynarUserModel(data: any): NeynarUserModel | undefined
   if (!data) {
     return;
   }
-
   return {
     fid: data.fid ?? 0,
     custody_address: data.custody_address ?? '',

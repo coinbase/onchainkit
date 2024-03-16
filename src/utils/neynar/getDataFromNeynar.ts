@@ -1,6 +1,6 @@
 import { version } from '../../version';
 import { FetchError } from './exceptions/FetchError';
-import { NEYNAR_DEFAULT_API_KEY } from './frame/neynarFrameFunctions';
+import { NEYNAR_DEFAULT_API_KEY } from './frame/neynarFrameValidation';
 
 export async function getDataFromNeynar(url: string, apiKey: string = NEYNAR_DEFAULT_API_KEY) {
   const options = {
