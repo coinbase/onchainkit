@@ -1,6 +1,6 @@
 import { version } from '../../../version';
 import { FetchError } from '../exceptions/FetchError';
-import { getDataFromNeynar } from '../getDataFormNeynar';
+import { getDataFromNeynar } from '../getDataFromNeynar';
 import { NEYNAR_DEFAULT_API_KEY } from '../frame/neynarFrameFunctions';
 
 export async function getCustodyAddressForFidNeynar(

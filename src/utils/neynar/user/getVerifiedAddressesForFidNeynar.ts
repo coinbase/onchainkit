@@ -1,5 +1,5 @@
 import { NEYNAR_DEFAULT_API_KEY } from '../frame/neynarFrameFunctions';
-import { getDataFromNeynar } from '../getDataFormNeynar';
+import { getDataFromNeynar } from '../getDataFromNeynar';
 
 export async function getVerifiedAddressesForFidNeynar(
   fid: number,

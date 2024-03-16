@@ -1,5 +1,5 @@
 import { FetchError } from '../exceptions/FetchError';
-import { getDataFromNeynar } from '../getDataFormNeynar';
+import { getDataFromNeynar } from '../getDataFromNeynar';
 
 export const NEYNAR_DEFAULT_API_KEY = 'NEYNAR_ONCHAIN_KIT';
 export interface NeynarUserModel {
