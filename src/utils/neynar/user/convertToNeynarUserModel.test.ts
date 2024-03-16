@@ -2,7 +2,7 @@ import { convertToNeynarUserModel } from './convertToNeynarUserModel';
 
 describe('convertToNeynarUserModel', () => {
   it('should covert the model correctly', async () => {
-    const mockData = {
+    const resp = convertToNeynarUserModel({
       fid: 1234,
       custody_address: '0x00123',
       username: 'coolUsername',
@@ -15,8 +15,7 @@ describe('convertToNeynarUserModel', () => {
       },
       follower_count: 42,
       verifications: ['0x00123'],
-    };
-    const resp = convertToNeynarUserModel(mockData);
+    });
 
     expect(resp?.fid).toEqual(1234);
     expect(resp?.custody_address).toEqual('0x00123');
@@ -30,5 +29,28 @@ describe('convertToNeynarUserModel', () => {
     });
     expect(resp?.follower_count).toEqual(42);
     expect(resp?.verifications).toEqual(['0x00123']);
+  });
+
+  it('should return undefined when data is empty', async () => {
+    const resp = convertToNeynarUserModel(undefined);
+    expect(resp).toEqual(undefined);
+  });
+
+  it('should return fid 0 when fid empty', async () => {
+    const resp = convertToNeynarUserModel({
+      fid: undefined,
+      custody_address: '0x00123',
+      username: 'coolUsername',
+      display_name: 'cool name',
+      pfp_url: 'pfp_url',
+      profile: {
+        bio: {
+          text: 'text',
+        },
+      },
+      follower_count: 42,
+      verifications: ['0x00123'],
+    });
+    expect(resp?.fid).toEqual(0);
   });
 });
