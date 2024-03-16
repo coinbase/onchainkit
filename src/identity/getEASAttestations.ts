@@ -1,5 +1,5 @@
 import { getEASAttestationsByFilter } from '../queries/easAttestations';
-import { isChainSupported, easSupportedChains } from '../utils/easAttestation';
+import { isChainSupported, easSupportedChains } from './easSupportedChains';
 import { EASAttestation, GetEASAttestationsOptions } from './types';
 import type { Address, Chain } from 'viem';
 

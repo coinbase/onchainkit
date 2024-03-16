@@ -4,7 +4,7 @@
 
 import { getEASAttestationsByFilter } from '../queries/easAttestations';
 import { getEASAttestations } from './getEASAttestations';
-import { easSupportedChains } from '../utils/easAttestation';
+import { easSupportedChains } from '../identity/easSupportedChains';
 import { base, opBNBTestnet } from 'viem/chains';
 import { GetEASAttestationsOptions } from './types';
 
