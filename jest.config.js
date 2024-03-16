@@ -1,10 +1,10 @@
 module.exports = {
   coverageThreshold: {
     global: {
-      branches: 94.8,
-      functions: 93,
-      lines: 95.5,
-      statements: 95.3,
+      branches: 93,
+      functions: 100,
+      lines: 95.7,
+      statements: 95.8,
     },
   },
   modulePathIgnorePatterns: ['<rootDir>/framegear/'],
