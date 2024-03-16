@@ -18,7 +18,7 @@ describe('getVerifiedAddressesForFidNeynar', () => {
     const mockedResponse = {
       result: {
         verifications: ['0x00123'],
-      }
+      },
     };
     fetchMock.mockResolvedValue(mockedResponse);
     const resp = await getVerifiedAddressesForFidNeynar(42);
@@ -29,31 +29,25 @@ describe('getVerifiedAddressesForFidNeynar', () => {
     const mockedResponse = {
       badResult: {
         verifications: ['0x00123'],
-      }
+      },
     };
     fetchMock.mockResolvedValue(mockedResponse);
     try {
       await getVerifiedAddressesForFidNeynar(42);
     } catch (e) {
-      expect(e).toHaveProperty(
-        'message',
-        'No verified addresses found for FID 42',
-      );
+      expect(e).toHaveProperty('message', 'No verified addresses found for FID 42');
     }
   });
 
   it('throw an error on missing verifications', async () => {
     const mockedResponse = {
-      result: {}
+      result: {},
     };
     fetchMock.mockResolvedValue(mockedResponse);
     try {
       await getVerifiedAddressesForFidNeynar(42);
     } catch (e) {
-      expect(e).toHaveProperty(
-        'message',
-        'No verified addresses found for FID 42',
-      );
+      expect(e).toHaveProperty('message', 'No verified addresses found for FID 42');
     }
   });
 });

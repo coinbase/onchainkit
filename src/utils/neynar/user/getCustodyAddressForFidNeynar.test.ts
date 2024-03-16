@@ -18,7 +18,7 @@ describe('getCustodyAddressForFidNeynar', () => {
     const mockedResponse = {
       result: {
         custodyAddress: '0x00123',
-      }
+      },
     };
     fetchMock.mockResolvedValue(mockedResponse);
     const resp = await getCustodyAddressForFidNeynar(42);
@@ -29,31 +29,25 @@ describe('getCustodyAddressForFidNeynar', () => {
     const mockedResponse = {
       badResult: {
         custodyAddress: '0x00123',
-      }
+      },
     };
     fetchMock.mockResolvedValue(mockedResponse);
     try {
       await getCustodyAddressForFidNeynar(42);
     } catch (e) {
-      expect(e).toHaveProperty(
-        'message',
-        'No custody address found for FID 42',
-      );
+      expect(e).toHaveProperty('message', 'No custody address found for FID 42');
     }
   });
 
   it('throw an error on missing custodyAddress', async () => {
     const mockedResponse = {
-      result: {}
+      result: {},
     };
     fetchMock.mockResolvedValue(mockedResponse);
     try {
       await getCustodyAddressForFidNeynar(42);
     } catch (e) {
-      expect(e).toHaveProperty(
-        'message',
-        'No custody address found for FID 42',
-      );
+      expect(e).toHaveProperty('message', 'No custody address found for FID 42');
     }
   });
 });

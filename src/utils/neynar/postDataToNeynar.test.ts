@@ -1,7 +1,7 @@
 import { version } from '../../version';
 import { NEYNAR_DEFAULT_API_KEY } from './frame/neynarFrameFunctions';
 import { postDataToNeynar } from './postDataToNeynar';
-  
+
 describe('postDataToNeynar', () => {
   let fetchMock = jest.fn();
   let status = 200;
@@ -29,8 +29,7 @@ describe('postDataToNeynar', () => {
         'content-type': 'application/json',
         onchainkit_version: version,
       },
-      body: JSON.stringify(mockData)
+      body: JSON.stringify(mockData),
     });
   });
 });
-  

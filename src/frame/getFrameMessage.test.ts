@@ -1,10 +1,10 @@
 import { getFrameMessage } from './getFrameMessage';
 import { getMockFrameRequest } from './getMockFrameRequest';
-import { neynarBulkUserLookup } from '../utils/neynar/user/neynarUserFunctions';
+import { neynarBulkUserLookup } from '../utils/neynar/user/neynarBulkUserLookup';
 import { FrameRequest } from './types';
 import { neynarFrameValidation } from '../utils/neynar/frame/neynarFrameFunctions';
 
-jest.mock('../utils/neynar/user/neynarUserFunctions', () => {
+jest.mock('../utils/neynar/user/neynarBulkUserLookup', () => {
   return {
     neynarBulkUserLookup: jest.fn(),
   };

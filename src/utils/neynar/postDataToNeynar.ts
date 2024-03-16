@@ -1,11 +1,7 @@
 import { version } from '../../version';
 import { FetchError } from './exceptions/FetchError';
 
-export async function postDataToNeynar(
-  url: string,
-  apiKey: string,
-  data: any,
-) {
+export async function postDataToNeynar(url: string, apiKey: string, data: any) {
   const options = {
     method: 'POST',
     url: url,
