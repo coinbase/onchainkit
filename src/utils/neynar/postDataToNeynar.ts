@@ -1,10 +1,9 @@
 import { version } from '../../version';
 import { FetchError } from './exceptions/FetchError';
-import { NEYNAR_DEFAULT_API_KEY } from './frame/neynarFrameFunctions';
 
 export async function postDataToNeynar(
   url: string,
-  apiKey: string = NEYNAR_DEFAULT_API_KEY,
+  apiKey: string,
   data: any,
 ) {
   const options = {
