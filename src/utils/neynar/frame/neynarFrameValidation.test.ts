@@ -1,5 +1,5 @@
 import { FetchError } from '../exceptions/FetchError';
-import { neynarFrameValidation } from './neynarFrameFunctions';
+import { neynarFrameValidation } from './neynarFrameValidation';
 
 describe('neynar frame functions', () => {
   let fetchMock = jest.fn();

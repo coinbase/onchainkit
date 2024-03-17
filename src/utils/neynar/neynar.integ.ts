@@ -1,5 +1,5 @@
-import { neynarBulkUserLookup } from './user/neynarUserFunctions';
-import { neynarFrameValidation } from './frame/neynarFrameFunctions';
+import { neynarBulkUserLookup } from './user/neynarBulkUserLookup';
+import { neynarFrameValidation } from './frame/neynarFrameValidation';
 import { getCustodyAddressForFidNeynar } from './user/getCustodyAddressForFidNeynar';
 import { getVerifiedAddressesForFidNeynar } from './user/getVerifiedAddressesForFidNeynar';
 

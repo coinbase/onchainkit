@@ -1,5 +1,5 @@
 import { FetchError } from '../exceptions/FetchError';
-import { neynarBulkUserLookup } from './neynarUserFunctions';
+import { neynarBulkUserLookup } from './neynarBulkUserLookup';
 
 describe('neynar user functions', () => {
   let fetchMock = jest.fn();

@@ -4,10 +4,10 @@ import {
   getEASAttestationsByFilter,
   easAttestationQuery,
 } from './easAttestations';
-import { createEasGraphQLClient } from '../network/easGraphQL';
+import { createEasGraphQLClient } from '../network/createEasGraphQLClient';
 import { base } from 'viem/chains';
 
-jest.mock('../network/easGraphQL');
+jest.mock('../network/createEasGraphQLClient');
 
 describe('EAS Attestation Service', () => {
   const mockAddress = '0xdbf03b407c01e7cd3cbea99509d93f8dddc8c6fb';

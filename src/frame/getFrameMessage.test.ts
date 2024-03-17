@@ -1,21 +1,44 @@
-import { mockNeynarResponse } from './mock';
 import { getFrameMessage } from './getFrameMessage';
 import { getMockFrameRequest } from './getMockFrameRequest';
-import { neynarBulkUserLookup } from '../utils/neynar/user/neynarUserFunctions';
+import { neynarBulkUserLookup } from '../utils/neynar/user/neynarBulkUserLookup';
 import { FrameRequest } from './types';
-import { neynarFrameValidation } from '../utils/neynar/frame/neynarFrameFunctions';
+import { neynarFrameValidation } from '../utils/neynar/frame/neynarFrameValidation';
 
-jest.mock('../utils/neynar/user/neynarUserFunctions', () => {
+jest.mock('../utils/neynar/user/neynarBulkUserLookup', () => {
   return {
     neynarBulkUserLookup: jest.fn(),
   };
 });
 
-jest.mock('../utils/neynar/frame/neynarFrameFunctions', () => {
+jest.mock('../utils/neynar/frame/neynarFrameValidation', () => {
   return {
     neynarFrameValidation: jest.fn(),
   };
 });
+
+function mockNeynarResponse(
+  fid: number,
+  addresses: string[] | undefined,
+  lookupMock: jest.Mock,
+  frameValidationMock: jest.Mock = jest.fn(),
+) {
+  const neynarResponse = {
+    users: [
+      {
+        verifications: addresses,
+      },
+    ],
+  };
+  lookupMock.mockResolvedValue(neynarResponse);
+
+  frameValidationMock.mockResolvedValue({
+    valid: true,
+    interactor: {
+      fid,
+      verified_accounts: addresses,
+    },
+  });
+}
 
 describe('getFrameValidatedMessage', () => {
   it('should return undefined if the message is invalid', async () => {

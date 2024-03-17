@@ -17,9 +17,12 @@ type UseNameQueryOptions = {
   cacheTime?: number;
 };
 
+/**
+ * Gets an ensName and resolves the Avatar
+ */
 export const useAvatar = ({ ensName }: UseNameOptions, queryOptions?: UseNameQueryOptions) => {
   const { enabled = true, cacheTime } = queryOptions ?? {};
-  const ensActionKey = `ens-avatar-${ensName}` ?? '';
+  const ensActionKey = `ens-avatar-${ensName}`;
   return useQuery<GetEnsAvatarReturnType>({
     queryKey: ['useAvatar', ensActionKey],
     queryFn: async () => {
