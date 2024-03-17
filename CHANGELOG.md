@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.11.0
+
+### Minor Changes
+
+- d8c3349: - **feat**: 100% unit-test coverage. By @zizzamia #256
+
 ## 0.10.2
 
 ### Patch Changes
@@ -29,15 +35,15 @@ The input parameters as well as return types of `useName` and `useAvatar` hooks 
 Before
 
 ```tsx
-import { useName } from '@coinbase/onchainkit/identity';
+import { useName } from "@coinbase/onchainkit/identity";
 
-const { ensName, isLoading } = useName('0x1234');
+const { ensName, isLoading } = useName("0x1234");
 ```
 
 After
 
 ```tsx
-import { useName } from '@coinbase/onchainkit/identity';
+import { useName } from "@coinbase/onchainkit/identity";
 
 // Return type signature is following @tanstack/react-query useQuery hook signature
 const {
@@ -46,7 +52,10 @@ const {
   isError,
   error,
   status,
-} = useName({ address: '0x1234' }, { enabled: true, cacheTime: 1000 * 60 * 60 * 24 });
+} = useName(
+  { address: "0x1234" },
+  { enabled: true, cacheTime: 1000 * 60 * 60 * 24 },
+);
 ```
 
 ### `useAvatar`
@@ -54,15 +63,15 @@ const {
 Before
 
 ```tsx
-import { useAvatar } from '@coinbase/onchainkit/identity';
+import { useAvatar } from "@coinbase/onchainkit/identity";
 
-const { ensAvatar, isLoading } = useAvatar('vitalik.eth');
+const { ensAvatar, isLoading } = useAvatar("vitalik.eth");
 ```
 
 After
 
 ```tsx
-import { useAvatar } from '@coinbase/onchainkit/identity';
+import { useAvatar } from "@coinbase/onchainkit/identity";
 
 // Return type signature is following @tanstack/react-query useQuery hook signature
 const {
@@ -71,7 +80,10 @@ const {
   isError,
   error,
   status,
-} = useAvatar({ ensName: 'vitalik.eth' }, { enabled: true, cacheTime: 1000 * 60 * 60 * 24 });
+} = useAvatar(
+  { ensName: "vitalik.eth" },
+  { enabled: true, cacheTime: 1000 * 60 * 60 * 24 },
+);
 ```
 
 ## 0.9.12
