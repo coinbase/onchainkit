@@ -1,13 +1,16 @@
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
+import type { Address } from 'viem';
+
 import { getSlicedAddress } from '../getSlicedAddress';
 import { useName } from '../hooks/useName';
-import type { Address } from 'viem';
+import { NameBadge } from './NameBadge';
 
 type NameProps = {
   address: Address;
   className?: string;
   sliced?: boolean;
   props?: React.HTMLAttributes<HTMLSpanElement>;
+  displayBadge?: boolean;
 };
 
 /**
@@ -20,7 +23,7 @@ type NameProps = {
  * @param {boolean} [sliced=true] - Determines if the address should be sliced when no ENS name is available.
  * @param {React.HTMLAttributes<HTMLSpanElement>} [props] - Additional HTML attributes for the span element.
  */
-export function Name({ address, className, sliced = true, props }: NameProps) {
+export function Name({ address, className, sliced = true, displayBadge, props }: NameProps) {
   const { data: name, isLoading } = useName({ address });
 
   // wrapped in useMemo to prevent unnecessary recalculations.
@@ -29,15 +32,16 @@ export function Name({ address, className, sliced = true, props }: NameProps) {
       return getSlicedAddress(address);
     }
     return address;
-  }, [address, isLoading]);
+  }, [address, isLoading, sliced, name]);
 
   if (isLoading) {
     return null;
   }
 
   return (
-    <span className={className} {...props}>
+    <span className={className} style={{ display: 'flex', alignItems: 'center' }} {...props}>
       {name ?? normalizedAddress}
+      {displayBadge && <NameBadge address={address} />}
     </span>
   );
 }

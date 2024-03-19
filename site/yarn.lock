@@ -325,19 +325,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@coinbase/onchainkit@npm:0.9.10":
-  version: 0.9.10
-  resolution: "@coinbase/onchainkit@npm:0.9.10"
+"@coinbase/onchainkit@portal:./..::locator=onchainkit-site%40workspace%3A.":
+  version: 0.0.0-use.local
+  resolution: "@coinbase/onchainkit@portal:./..::locator=onchainkit-site%40workspace%3A."
   peerDependencies:
+    "@tanstack/react-query": ^5
     "@xmtp/frames-validator": ^0.5.0
     graphql: ^14
     graphql-request: ^6
     react: ^18
     react-dom: ^18
     viem: ^2.7.0
-  checksum: 400bcdea4b175a171610565a4221874b99b2da899b3806d3e4fcece6bfee31d81966a09de3c87bc3a5ac3b3200a5520661b3ba149dbab27a0a4e42792dcc5ced
   languageName: node
-  linkType: hard
+  linkType: soft
 
 "@emotion/hash@npm:^0.9.0":
   version: 0.9.1
@@ -556,6 +556,15 @@ __metadata:
   version: 0.2.1
   resolution: "@floating-ui/utils@npm:0.2.1"
   checksum: ee77756712cf5b000c6bacf11992ffb364f3ea2d0d51cc45197a7e646a17aeb86ea4b192c0b42f3fbb29487aee918a565e84f710b8c3645827767f406a6b4cc9
+  languageName: node
+  linkType: hard
+
+"@graphql-typed-document-node/core@npm:^3.2.0":
+  version: 3.2.0
+  resolution: "@graphql-typed-document-node/core@npm:3.2.0"
+  peerDependencies:
+    graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
+  checksum: 94e9d75c1f178bbae8d874f5a9361708a3350c8def7eaeb6920f2c820e82403b7d4f55b3735856d68e145e86c85cbfe2adc444fdc25519cd51f108697e99346c
   languageName: node
   linkType: hard
 
@@ -1604,6 +1613,24 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@tanstack/query-core@npm:5.28.2":
+  version: 5.28.2
+  resolution: "@tanstack/query-core@npm:5.28.2"
+  checksum: 4e93c7be19195f0e404c3486d92b8e19cf1605eadf863f442a1be3dae302b67c617781f47e74a5f5c1f9771fb0dd0f2fa2b3dd56f78bc32e70294cf0f6968ed0
+  languageName: node
+  linkType: hard
+
+"@tanstack/react-query@npm:^5.28.2":
+  version: 5.28.2
+  resolution: "@tanstack/react-query@npm:5.28.2"
+  dependencies:
+    "@tanstack/query-core": "npm:5.28.2"
+  peerDependencies:
+    react: ^18.0.0
+  checksum: 204e90d43a2919298efc5e189456a15b6b6990282f9d6ff4f295e03f0e6506334c2e6f17141bcb67a8daabc4c78dc649bf7334f3d6ec943fd40584be57c9c7f5
+  languageName: node
+  linkType: hard
+
 "@types/acorn@npm:^4.0.0":
   version: 4.0.6
   resolution: "@types/acorn@npm:4.0.6"
@@ -2405,6 +2432,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"cross-fetch@npm:^3.1.5":
+  version: 3.1.8
+  resolution: "cross-fetch@npm:3.1.8"
+  dependencies:
+    node-fetch: "npm:^2.6.12"
+  checksum: 4c5e022ffe6abdf380faa6e2373c0c4ed7ef75e105c95c972b6f627c3f083170b6886f19fb488a7fa93971f4f69dcc890f122b0d97f0bf5f41ca1d9a8f58c8af
+  languageName: node
+  linkType: hard
+
 "cross-spawn@npm:^7.0.0, cross-spawn@npm:^7.0.3":
   version: 7.0.3
   resolution: "cross-spawn@npm:7.0.3"
@@ -3092,6 +3128,25 @@ __metadata:
   version: 4.2.11
   resolution: "graceful-fs@npm:4.2.11"
   checksum: 386d011a553e02bc594ac2ca0bd6d9e4c22d7fa8cfbfc448a6d148c59ea881b092db9dbe3547ae4b88e55f1b01f7c4a2ecc53b310c042793e63aa44cf6c257f2
+  languageName: node
+  linkType: hard
+
+"graphql-request@npm:^6.1.0":
+  version: 6.1.0
+  resolution: "graphql-request@npm:6.1.0"
+  dependencies:
+    "@graphql-typed-document-node/core": "npm:^3.2.0"
+    cross-fetch: "npm:^3.1.5"
+  peerDependencies:
+    graphql: 14 - 16
+  checksum: f8167925a110e8e1de93d56c14245e7e64391dc8dce5002dd01bf24a3059f345d4ca1bb6ce2040e2ec78264211b0704e75da3e63984f0f74d2042f697a4e8cc6
+  languageName: node
+  linkType: hard
+
+"graphql@npm:^16.8.1":
+  version: 16.8.1
+  resolution: "graphql@npm:16.8.1"
+  checksum: 129c318156b466f440914de80dbf7bc67d17f776f2a088a40cb0da611d19a97c224b1c6d2b13cbcbc6e5776e45ed7468b8432f9c3536724e079b44f1a3d57a8a
   languageName: node
   linkType: hard
 
@@ -4726,6 +4781,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"node-fetch@npm:^2.6.12":
+  version: 2.7.0
+  resolution: "node-fetch@npm:2.7.0"
+  dependencies:
+    whatwg-url: "npm:^5.0.0"
+  peerDependencies:
+    encoding: ^0.1.0
+  peerDependenciesMeta:
+    encoding:
+      optional: true
+  checksum: b55786b6028208e6fbe594ccccc213cab67a72899c9234eb59dba51062a299ea853210fcf526998eaa2867b0963ad72338824450905679ff0fa304b8c5093ae8
+  languageName: node
+  linkType: hard
+
 "node-gyp@npm:latest":
   version: 10.0.1
   resolution: "node-gyp@npm:10.0.1"
@@ -4833,12 +4902,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"onchainkit@workspace:.":
+"onchainkit-site@workspace:.":
   version: 0.0.0-use.local
-  resolution: "onchainkit@workspace:."
+  resolution: "onchainkit-site@workspace:."
   dependencies:
-    "@coinbase/onchainkit": "npm:0.9.10"
+    "@coinbase/onchainkit": "portal:./.."
+    "@tanstack/react-query": "npm:^5.28.2"
     "@types/react": "npm:latest"
+    graphql: "npm:^16.8.1"
+    graphql-request: "npm:^6.1.0"
     react: "npm:^18.2.0"
     react-dom: "npm:^18.2.0"
     tailwindcss: "npm:^3.4.1"
@@ -6067,6 +6139,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"tr46@npm:~0.0.3":
+  version: 0.0.3
+  resolution: "tr46@npm:0.0.3"
+  checksum: 047cb209a6b60c742f05c9d3ace8fa510bff609995c129a37ace03476a9b12db4dbf975e74600830ef0796e18882b2381fb5fb1f6b4f96b832c374de3ab91a11
+  languageName: node
+  linkType: hard
+
 "trim-lines@npm:^3.0.0":
   version: 3.0.1
   resolution: "trim-lines@npm:3.0.1"
@@ -6534,6 +6613,23 @@ __metadata:
   bin:
     vocs: _lib/cli/index.js
   checksum: a022c76b1fc761ba7e32bf056b6234c077274f8a10bb146bcd29ecafd0eab0085f05dc7a8097d502f74bea49b9129fb3e49e5477d5252a8e55b36f82069cf1f2
+  languageName: node
+  linkType: hard
+
+"webidl-conversions@npm:^3.0.0":
+  version: 3.0.1
+  resolution: "webidl-conversions@npm:3.0.1"
+  checksum: 5612d5f3e54760a797052eb4927f0ddc01383550f542ccd33d5238cfd65aeed392a45ad38364970d0a0f4fea32e1f4d231b3d8dac4a3bdd385e5cf802ae097db
+  languageName: node
+  linkType: hard
+
+"whatwg-url@npm:^5.0.0":
+  version: 5.0.0
+  resolution: "whatwg-url@npm:5.0.0"
+  dependencies:
+    tr46: "npm:~0.0.3"
+    webidl-conversions: "npm:^3.0.0"
+  checksum: 1588bed84d10b72d5eec1d0faa0722ba1962f1821e7539c535558fb5398d223b0c50d8acab950b8c488b4ba69043fd833cc2697056b167d8ad46fac3995a55d5
   languageName: node
   linkType: hard
 

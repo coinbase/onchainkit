@@ -14,7 +14,8 @@
     "test:coverage": "jest . --coverage ",
     "release:check": "changeset status --verbose --since=origin/main",
     "release:publish": "yarn install && yarn build && changeset publish",
-    "release:version": "changeset version && yarn install --immutable"
+    "release:version": "changeset version && yarn install --immutable",
+    "watch": "packemon watch"
   },
   "peerDependencies": {
     "@tanstack/react-query": "^5",
@@ -35,6 +36,7 @@
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "@xmtp/frames-validator": "^0.5.0",
+    "chokidar": "^3.6.0",
     "graphql": "^14",
     "graphql-request": "^6.1.0",
     "jest": "^29.7.0",
@@ -123,9 +125,9 @@
         "types": "./esm/identity/index.d.ts",
         "module": "./esm/identity/index.js",
         "import": "./esm/identity/index.js",
-        "default": "./lib/identity/index.js"
+        "default": "./esm/identity/index.js"
       },
-      "default": "./lib/identity/index.js"
+      "default": "./esm/identity/index.js"
     },
     "./xmtp": {
       "types": "./lib/xmtp/index.d.ts",
