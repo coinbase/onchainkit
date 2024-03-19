@@ -118,7 +118,7 @@ export default function HomePage() {
 
 Check out the following places for more OnchainKit-related content:
 
-- Follow @zizzamia ([X](https://twitter.com/zizzamia), [Warpcast](https://warpcast.com/zizzamia)) for project updates
+- Follow [@zizzamia](https://github.com/zizzamia) ([X](https://twitter.com/zizzamia), [Warpcast](https://warpcast.com/zizzamia)) for project updates
 - Join the discussions on our [OnchainKit warpcast channel](https://warpcast.com/~/channel/onchainkit)
 
 ## Authors
