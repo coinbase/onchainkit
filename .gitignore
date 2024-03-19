@@ -52,6 +52,7 @@ package-lock.json
 !.yarn/plugins
 !.yarn/sdks
 !.yarn/versions
+install-state.gz
 
 # VitePress
 docs/.vitepress/cache
