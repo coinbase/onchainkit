@@ -1,3 +1,6 @@
+import { Avatar } from '@coinbase/onchainkit/identity';
+import App from './App';
+
 # `<Avatar />`
 
 The `Avatar` component is used to display ENS avatar associated with Ethereum addresses.
@@ -5,11 +8,27 @@ When an ENS avatar is not available, it defaults to blue color avatar.
 
 ## Usage
 
+Address with an ENS avatar:
+
 ```tsx
 import { Avatar } from '@coinbase/onchainkit/identity';
+<Avatar address="0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1" />; // [!code focus]
+```
 
+<App>
+  <Avatar address="0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1" />
+</App>
+
+Address without an ENS avatar, and it defaults to a blue color avatar:
+
+```tsx
+import { Avatar } from '@coinbase/onchainkit/identity';
 <Avatar address="0x1234567890abcdef1234567890abcdef12345678" />; // [!code focus]
 ```
+
+<App>
+  <Avatar address="0x1234567890abcdef1234567890abcdef12345678" />
+</App>
 
 ## Props
 
