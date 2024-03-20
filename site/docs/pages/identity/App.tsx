@@ -1,12 +1,10 @@
 'use client';
-
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-
 import { ReactNode } from 'react';
 
 const queryClient = new QueryClient();
 
-export function App({ children }: { children: ReactNode }) {
+export default function App({ children }: { children: ReactNode }) {
   const isServer = typeof window === 'undefined';
   if (isServer) {
     return null;
