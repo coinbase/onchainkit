@@ -4844,7 +4844,7 @@ __metadata:
     tailwindcss: "npm:^3.4.1"
     typescript: "npm:latest"
     viem: "npm:^2.7.10"
-    vocs: "npm:1.0.0-alpha.42"
+    vocs: "npm:1.0.0-alpha.44"
   languageName: unknown
   linkType: soft
 
@@ -6464,9 +6464,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vocs@npm:1.0.0-alpha.42":
-  version: 1.0.0-alpha.42
-  resolution: "vocs@npm:1.0.0-alpha.42"
+"vocs@npm:1.0.0-alpha.44":
+  version: 1.0.0-alpha.44
+  resolution: "vocs@npm:1.0.0-alpha.44"
   dependencies:
     "@floating-ui/react": "npm:^0.26.6"
     "@hono/node-server": "npm:^1.2.3"
@@ -6533,7 +6533,7 @@ __metadata:
     react-dom: ^18.2.0
   bin:
     vocs: _lib/cli/index.js
-  checksum: a022c76b1fc761ba7e32bf056b6234c077274f8a10bb146bcd29ecafd0eab0085f05dc7a8097d502f74bea49b9129fb3e49e5477d5252a8e55b36f82069cf1f2
+  checksum: b5636b9b1b17e5c23db72eba3016ea5e414222d4e1b2cb018e106fe4c26621e335edf344e5865bb569bf093e55d9e2e04dbaea88bd53b07cc0ac53e0def44b1c
   languageName: node
   linkType: hard
 

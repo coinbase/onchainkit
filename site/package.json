@@ -15,6 +15,6 @@
     "tailwindcss": "^3.4.1",
     "typescript": "latest",
     "viem": "^2.7.10",
-    "vocs": "1.0.0-alpha.42"
+    "vocs": "1.0.0-alpha.44"
   }
 }
