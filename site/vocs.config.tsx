@@ -54,7 +54,7 @@ export default defineConfig({
               },
             ]}
             image={{
-              src: 'https://onchainkit.xyz/logo/v0-10.png',
+              src: 'https://onchainkit.xyz/frame/install-onchainkit-3-24-24.png',
             }}
           />
           {analytics}
