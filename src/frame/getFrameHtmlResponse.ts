@@ -3,6 +3,7 @@ import { FrameMetadataType } from './types';
 type FrameMetadataHTMLResponse = FrameMetadataType & {
   ogDescription?: string;
   ogTitle?: string;
+  xmtpContent?: string,
 };
 
 /**
@@ -16,6 +17,7 @@ type FrameMetadataHTMLResponse = FrameMetadataType & {
  * @param postUrl: The URL to post the frame to.
  * @param refreshPeriod: The refresh period for the image used.
  * @param state: The serialized state (e.g. JSON) for the frame.
+ * @param xmtpContent: The XMTP content string to use for the frame.
  * @returns An HTML string containing metadata for the frame.
  */
 function getFrameHtmlResponse({
@@ -29,6 +31,7 @@ function getFrameHtmlResponse({
   refreshPeriod,
   refresh_period,
   state,
+  xmtpContent,
 }: FrameMetadataHTMLResponse): string {
   const imgSrc = typeof image === 'string' ? image : image.src;
   const ogImageHtml = `  <meta property="og:image" content="${imgSrc}" />\n`;
@@ -79,6 +82,11 @@ function getFrameHtmlResponse({
     ? `  <meta property="fc:frame:refresh_period" content="${refreshPeriodToUse.toString()}" />\n`
     : '';
 
+  // Set the xmtp metadata if the corresponding content exists.
+  const xmtpHtml = xmtpContent
+  ? ` <meta property="of:accepts:xmtp" content="${xmtpContent}" />\n`
+  : '';
+
   // Return the HTML string containing all the metadata.
   let html = `<!DOCTYPE html>
 <html>
@@ -86,7 +94,7 @@ function getFrameHtmlResponse({
   <meta property="og:description" content="${ogDescription || 'Frame description'}" />
   <meta property="og:title" content="${ogTitle || 'Frame title'}" />
   <meta property="fc:frame" content="vNext" />
-${buttonsHtml}${ogImageHtml}${imageHtml}${inputHtml}${postUrlHtml}${refreshPeriodHtml}${stateHtml}
+${buttonsHtml}${ogImageHtml}${imageHtml}${inputHtml}${postUrlHtml}${refreshPeriodHtml}${stateHtml}${xmtpHtml}
 </head>
 </html>`;
 
