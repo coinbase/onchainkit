@@ -3,7 +3,7 @@ import { FrameMetadataType } from './types';
 type FrameMetadataHTMLResponse = FrameMetadataType & {
   ogDescription?: string;
   ogTitle?: string;
-  xmtpContent?: string,
+  xmtpContent?: string;
 };
 
 /**
@@ -84,8 +84,8 @@ function getFrameHtmlResponse({
 
   // Set the xmtp metadata if the corresponding content exists.
   const xmtpHtml = xmtpContent
-  ? ` <meta property="of:accepts:xmtp" content="${xmtpContent}" />\n`
-  : '';
+    ? `  <meta property="of:accepts:xmtp" content="${xmtpContent}" />\n`
+    : '';
 
   // Return the HTML string containing all the metadata.
   let html = `<!DOCTYPE html>

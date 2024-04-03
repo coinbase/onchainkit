@@ -21,6 +21,7 @@ describe('getFrameHtmlResponse', () => {
       state: {
         counter: 1,
       },
+      xmtpContent: '2024-04-03',
     });
 
     expect(html).toBe(`<!DOCTYPE html>
@@ -44,9 +45,34 @@ describe('getFrameHtmlResponse', () => {
   <meta property="fc:frame:post_url" content="https://example.com/api/frame" />
   <meta property="fc:frame:refresh_period" content="10" />
   <meta property="fc:frame:state" content="%7B%22counter%22%3A1%7D" />
+  <meta property="of:accepts:xmtp" content="2024-04-03" />
 
 </head>
 </html>`);
+  });
+  it('should return correct HTML without XMTP content', () => {
+    const html = getFrameHtmlResponse({
+      buttons: [
+        { label: 'button1', action: 'post' },
+        { label: 'button2', action: 'mint', target: 'https://example.com' },
+        { label: 'button3', action: 'post_redirect' },
+        { label: 'button4' },
+      ],
+      image: {
+        src: 'https://example.com/image.png',
+        aspectRatio: '1.91:1',
+      },
+      input: {
+        text: 'Enter a message...',
+      },
+      postUrl: 'https://example.com/api/frame',
+      refreshPeriod: 10,
+      state: {
+        counter: 1,
+      },
+    });
+
+    expect(html).not.toContain('xmtp');
   });
 
   it('should return correct HTML with image src', () => {
