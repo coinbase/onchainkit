@@ -19,8 +19,8 @@
   "peerDependencies": {
     "@tanstack/react-query": "^5",
     "@xmtp/frames-validator": "^0.6.0",
-    "graphql": "^14 || ^15 || ^16",
-    "graphql-request": "^6.1.0",
+    "graphql": "^14",
+    "graphql-request": "^6",
     "react": "^18",
     "react-dom": "^18",
     "viem": "^2.7.0"
