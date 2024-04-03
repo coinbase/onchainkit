@@ -21,7 +21,7 @@ describe('getFrameHtmlResponse', () => {
       state: {
         counter: 1,
       },
-      xmtpContent: '2024-04-03',
+      xmtpMinSupportedVersion: '2024-04-03',
     });
 
     expect(html).toBe(`<!DOCTYPE html>
