@@ -17,7 +17,7 @@ type FrameMetadataHTMLResponse = FrameMetadataType & {
  * @param postUrl: The URL to post the frame to.
  * @param refreshPeriod: The refresh period for the image used.
  * @param state: The serialized state (e.g. JSON) for the frame.
- * @param xmtpMinSupportedVersion: The minimum XMTP support version to use for the frame.
+ * @param xmtpMinSupportedVersion: The XMTP minimum supported version to use for the frame.
  * @returns An HTML string containing metadata for the frame.
  */
 function getFrameHtmlResponse({
