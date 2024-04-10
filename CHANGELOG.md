@@ -4,7 +4,7 @@
 
 ### Minor Changes
 
-- d8c3349: - **feat**: 100% unit-test coverage. By @zizzamia #256
+- **feat**: 100% unit-test coverage. By @zizzamia #256 d8c3349
 
 ## 0.10.2
 
