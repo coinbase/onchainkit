@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.11.2
+
+### Patch Changes
+
+- 695b4a0: - **feat**: upgraded `@xmtp/frames-validator` package to [0.6.0](https://github.com/xmtp/xmtp-node-js-tools/pull/191). By @zizzamia #278 #277
+
 ## 0.11.1
 
 ### Patch Changes
@@ -41,15 +47,15 @@ The input parameters as well as return types of `useName` and `useAvatar` hooks 
 Before
 
 ```tsx
-import { useName } from '@coinbase/onchainkit/identity';
+import { useName } from "@coinbase/onchainkit/identity";
 
-const { ensName, isLoading } = useName('0x1234');
+const { ensName, isLoading } = useName("0x1234");
 ```
 
 After
 
 ```tsx
-import { useName } from '@coinbase/onchainkit/identity';
+import { useName } from "@coinbase/onchainkit/identity";
 
 // Return type signature is following @tanstack/react-query useQuery hook signature
 const {
@@ -58,7 +64,10 @@ const {
   isError,
   error,
   status,
-} = useName({ address: '0x1234' }, { enabled: true, cacheTime: 1000 * 60 * 60 * 24 });
+} = useName(
+  { address: "0x1234" },
+  { enabled: true, cacheTime: 1000 * 60 * 60 * 24 },
+);
 ```
 
 ### `useAvatar`
@@ -66,15 +75,15 @@ const {
 Before
 
 ```tsx
-import { useAvatar } from '@coinbase/onchainkit/identity';
+import { useAvatar } from "@coinbase/onchainkit/identity";
 
-const { ensAvatar, isLoading } = useAvatar('vitalik.eth');
+const { ensAvatar, isLoading } = useAvatar("vitalik.eth");
 ```
 
 After
 
 ```tsx
-import { useAvatar } from '@coinbase/onchainkit/identity';
+import { useAvatar } from "@coinbase/onchainkit/identity";
 
 // Return type signature is following @tanstack/react-query useQuery hook signature
 const {
@@ -83,7 +92,10 @@ const {
   isError,
   error,
   status,
-} = useAvatar({ ensName: 'vitalik.eth' }, { enabled: true, cacheTime: 1000 * 60 * 60 * 24 });
+} = useAvatar(
+  { ensName: "vitalik.eth" },
+  { enabled: true, cacheTime: 1000 * 60 * 60 * 24 },
+);
 ```
 
 ## 0.9.12
