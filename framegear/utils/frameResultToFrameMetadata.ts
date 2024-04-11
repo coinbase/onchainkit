@@ -13,13 +13,14 @@ export function frameResultToFrameMetadata(
       ? {
           action: result[`fc:frame:button:${idx}:action`] || 'post',
           label: result[`fc:frame:button:${idx}`],
-          target: result[`fc:frame:button:${idx}:target`] || postUrl,
+          target: result[`fc:frame:button:${idx}:target`],
+          postUrl: result[`fc:frame:button:${idx}:post_url`] || postUrl,
         }
       : undefined,
   );
   const imageSrc = result['fc:frame:image'];
   const imageAspectRatio = result['fc:frame:image:aspect_ratio'];
-  const inputText = result['fc:frame:input'];
+  const inputText = result['fc:frame:input:text'];
   const input = inputText ? { text: inputText } : undefined;
   const rawState = result['fc:frame:state'];
   const rawRefreshPeriod = result['fc:frame:refresh_period'];

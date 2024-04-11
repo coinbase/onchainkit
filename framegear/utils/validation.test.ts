@@ -95,6 +95,22 @@ describe('schema validation', () => {
           }),
         ).toBe(true);
       });
+
+      it('succeeds when button action is "tx"', () => {
+        expect(
+          vNextSchema.isValidSync({
+            ...baseGoodDefinition,
+            'fc:frame:button:1': 'henlo',
+            'fc:frame:button:1:action': 'post',
+            'fc:frame:button:2': 'henlo',
+            'fc:frame:button:2:action': 'post_redirect',
+            'fc:frame:button:3': 'henlo',
+            'fc:frame:button:3:action': 'mint',
+            'fc:frame:button:4': 'henlo',
+            'fc:frame:button:4:action': 'tx',
+          }),
+        ).toBe(true);
+      });
     });
 
     describe('post_url', () => {
@@ -121,6 +137,24 @@ describe('schema validation', () => {
             'fc:frame:post_url': new Array(257).fill('a').join(''),
           }),
         ).toBe(false);
+      });
+
+      it('fails on otherwise valid schema where button:1:post_url is too long', () => {
+        expect(
+          vNextSchema.isValidSync({
+            ...baseGoodDefinition,
+            'fc:frame:button:1:post_url': new Array(257).fill('a').join(''),
+          }),
+        ).toBe(false);
+      });
+
+      it('succeeds on valid schema where button:1:post_url is a valid URL', () => {
+        expect(
+          vNextSchema.isValidSync({
+            ...baseGoodDefinition,
+            'fc:frame:button:1:post_url': 'https://valid.url',
+          }),
+        ).toBe(true);
       });
     });
 
