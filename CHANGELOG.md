@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.11.3
+
+### Patch Changes
+
+- b795268: - **feat**: exposed the `getName` and `getAvatar` utilities to assist in retrieving name and avatar identity information. These utilities come in handy when working with Next.js or any Node.js backend. By @zizzamia #265 #283
+
 ## 0.11.2
 
 ### Patch Changes
