@@ -6,7 +6,7 @@ describe('frameResultToFrameMetadata', () => {
     'fc:frame:button:1:action': 'Action 1',
     'fc:frame:button:1:target': 'Target 1',
     'fc:frame:image': 'Image URL',
-    'fc:frame:input': 'Input Text',
+    'fc:frame:input:text': 'Input Text',
     'fc:frame:post_url': 'Post URL',
     'fc:frame:state': JSON.stringify({ key: 'value' }),
     'fc:frame:refresh_period': '10',
@@ -21,6 +21,7 @@ describe('frameResultToFrameMetadata', () => {
           action: 'Action 1',
           label: 'Button 1',
           target: 'Target 1',
+          postUrl: 'Post URL',
         },
         undefined,
         undefined,
@@ -38,7 +39,7 @@ describe('frameResultToFrameMetadata', () => {
     const result = { ...baseResult };
     delete (result as any)['fc:frame:button:1'];
     delete (result as any)['fc:frame:image'];
-    delete (result as any)['fc:frame:input'];
+    delete (result as any)['fc:frame:input:text'];
     delete (result as any)['fc:frame:post_url'];
     delete (result as any)['fc:frame:state'];
     delete (result as any)['fc:frame:refresh_period'];
