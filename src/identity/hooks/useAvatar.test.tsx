@@ -3,8 +3,9 @@
  */
 
 import { renderHook, waitFor } from '@testing-library/react';
+import { useAvatar } from './useAvatar';
+import { getAvatar } from '../core/getAvatar';
 import { publicClient } from '../../network/client';
-import { useAvatar, ensAvatarAction } from './useAvatar';
 import { getNewReactQueryTestProvider } from '../../test-utils/hooks/get-new-react-query-test-provider';
 
 jest.mock('../../network/client');
@@ -59,7 +60,7 @@ describe('useAvatar', () => {
 
       mockGetEnsAvatar.mockResolvedValue(expectedAvatarUrl);
 
-      const avatarUrl = await ensAvatarAction(ensName);
+      const avatarUrl = await getAvatar(ensName);
 
       expect(avatarUrl).toBe(expectedAvatarUrl);
       expect(mockGetEnsAvatar).toHaveBeenCalledWith({ name: ensName });
@@ -70,7 +71,7 @@ describe('useAvatar', () => {
 
       mockGetEnsAvatar.mockRejectedValue(new Error('This is an error'));
 
-      await expect(ensAvatarAction(ensName)).rejects.toThrow('This is an error');
+      await expect(getAvatar(ensName)).rejects.toThrow('This is an error');
     });
   });
 });

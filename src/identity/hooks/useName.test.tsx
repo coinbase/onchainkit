@@ -3,8 +3,9 @@
  */
 
 import { renderHook, waitFor } from '@testing-library/react';
+import { useName } from './useName';
+import { getName } from '../core/getName';
 import { publicClient } from '../../network/client';
-import { useName, ensNameAction } from './useName';
 import { getNewReactQueryTestProvider } from '../../test-utils/hooks/get-new-react-query-test-provider';
 
 jest.mock('../../network/client');
@@ -59,7 +60,7 @@ describe('useName', () => {
 
       mockGetEnsName.mockResolvedValue(expectedEnsName);
 
-      const name = await ensNameAction(walletAddress);
+      const name = await getName(walletAddress);
 
       expect(name).toBe(expectedEnsName);
       expect(mockGetEnsName).toHaveBeenCalledWith({ address: walletAddress });
@@ -71,7 +72,7 @@ describe('useName', () => {
 
       mockGetEnsName.mockResolvedValue(expectedEnsName);
 
-      const name = await ensNameAction(walletAddress);
+      const name = await getName(walletAddress);
 
       expect(name).toBe(expectedEnsName);
       expect(mockGetEnsName).toHaveBeenCalledWith({ address: walletAddress });
@@ -82,7 +83,7 @@ describe('useName', () => {
 
       mockGetEnsName.mockRejectedValue(new Error('This is an error'));
 
-      await expect(ensNameAction(walletAddress)).rejects.toThrow('This is an error');
+      await expect(getName(walletAddress)).rejects.toThrow('This is an error');
     });
   });
 });
