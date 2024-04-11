@@ -2,4 +2,4 @@
 '@coinbase/onchainkit': patch
 ---
 
-- **feat**: expose `getName` and `getAvatar` identity logic. By @zizzamia #265 #283
+- **feat**: exposed the `getName` and `getAvatar` utilities to assist in retrieving name and avatar identity information. These utilities come in handy when working with Next.js or any Node.js backend. By @zizzamia #265 #283

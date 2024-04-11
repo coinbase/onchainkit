@@ -1,10 +1,10 @@
 # `getName`
 
-The `getName` core utility is designed to retrieve a name from an onchain identity
+The `getName` utility is designed to retrieve a name from an onchain identity
 provider for a specific address.
 
-Consider utilizing the core functionality instead of the hook in
-cases where you use it with Next.js or any Node.js backend.
+Consider the utility instead of the hook when you
+use it with Next.js or any Node.js backend.
 
 Supported providers:
 
@@ -20,4 +20,4 @@ const name = await getName({ address: '0x1234' });
 
 ## Returns
 
-[`Promise<GetNameReturnType[]>`](/identity/types#getnamereturntype)
+[`Promise<GetNameReturnType>`](/identity/types#getnamereturntype)

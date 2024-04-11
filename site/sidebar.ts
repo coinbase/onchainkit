@@ -85,19 +85,6 @@ export const sidebar = [
         ],
       },
       {
-        text: 'Core',
-        items: [
-          {
-            text: 'getName',
-            link: '/identity/get-name',
-          },
-          {
-            text: 'getAvatar',
-            link: '/identity/get-avatar',
-          },
-        ],
-      },
-      {
         text: 'Hooks',
         items: [
           {
@@ -114,8 +101,16 @@ export const sidebar = [
         text: 'Utilities',
         items: [
           {
+            text: 'getAvatar',
+            link: '/identity/get-avatar',
+          },
+          {
             text: 'getEASAttestations',
             link: '/identity/get-eas-attestations',
+          },
+          {
+            text: 'getName',
+            link: '/identity/get-name',
           },
         ],
       },
