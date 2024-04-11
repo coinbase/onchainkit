@@ -35,8 +35,8 @@ export const vNextSchema = yup.object({
         .string()
         .optional()
         .matches(
-          /^post$|^post_redirect$|^mint$|^link$/,
-          `button action must be "post" or "post_redirect". Failed on index: ${index}`,
+          /^post$|^post_redirect$|^mint$|^link$|^tx$/,
+          `button action must be "post", "post_redirect", "mint", "link", or "tx". Failed on index: ${index}`,
         ),
     }),
     {},
@@ -49,6 +49,20 @@ export const vNextSchema = yup.object({
         .string()
         .optional()
         .test('target-has-valid-size', 'button target has maximum size of 256 bytes', (value) => {
+          // test only fires when `value` is defined
+          return new Blob([value!]).size <= 256;
+        }),
+    }),
+    {},
+  ),
+  // TODO: yup doesn't infer type well from this concise definition
+  ...[1, 2, 3, 4].reduce(
+    (acc, index) => ({
+      ...acc,
+      [`fc:frame:button:${index}:post_url`]: yup
+        .string()
+        .optional()
+        .test('target-has-valid-size', 'button post_url has maximum size of 256 bytes', (value) => {
           // test only fires when `value` is defined
           return new Blob([value!]).size <= 256;
         }),
