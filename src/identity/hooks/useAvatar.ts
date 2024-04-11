@@ -1,5 +1,5 @@
-import { type GetEnsAvatarReturnType } from 'viem/ens';
 import { useQuery } from '@tanstack/react-query';
+import { GetAvatarReturnType } from '../types';
 import { getAvatar } from '../core/getAvatar';
 
 type UseNameOptions = {
@@ -17,7 +17,7 @@ type UseNameQueryOptions = {
 export const useAvatar = ({ ensName }: UseNameOptions, queryOptions?: UseNameQueryOptions) => {
   const { enabled = true, cacheTime } = queryOptions ?? {};
   const ensActionKey = `ens-avatar-${ensName}`;
-  return useQuery<GetEnsAvatarReturnType>({
+  return useQuery<GetAvatarReturnType>({
     queryKey: ['useAvatar', ensActionKey],
     queryFn: async () => {
       return await getAvatar(ensName);

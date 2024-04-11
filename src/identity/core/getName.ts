@@ -1,5 +1,6 @@
+import type { Address } from 'viem';
 import { publicClient } from '../../network/client';
-import type { Address, GetEnsNameReturnType } from 'viem';
+import { GetNameReturnType } from '../types';
 
 /**
  * An asynchronous function to fetch the Ethereum Name Service (ENS) name for a given Ethereum address.
@@ -8,7 +9,7 @@ import type { Address, GetEnsNameReturnType } from 'viem';
  * @param address - The Ethereum address for which the ENS name is being fetched.
  * @returns A promise that resolves to the ENS name (as a string) or null.
  */
-export const getName = async (address: Address): Promise<GetEnsNameReturnType> => {
+export const getName = async (address: Address): Promise<GetNameReturnType> => {
   return await publicClient.getEnsName({
     address,
   });

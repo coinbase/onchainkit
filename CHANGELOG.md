@@ -4,13 +4,13 @@
 
 ### Patch Changes
 
-- 695b4a0: - **feat**: upgraded `@xmtp/frames-validator` package to [0.6.0](https://github.com/xmtp/xmtp-node-js-tools/pull/191). By @zizzamia #278 #277
+- **feat**: upgraded `@xmtp/frames-validator` package to [0.6.0](https://github.com/xmtp/xmtp-node-js-tools/pull/191). By @zizzamia #278 #277 695b4a0
 
 ## 0.11.1
 
 ### Patch Changes
 
-- 2301e64: - **feat**: include peer dependency for graphql@15 and graphql@16. By @benson-budiman-cb #270
+- **feat**: include peer dependency for graphql@15 and graphql@16. By @benson-budiman-cb #270 2301e64
 
 ## 0.11.0
 

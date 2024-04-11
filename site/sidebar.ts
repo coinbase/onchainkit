@@ -85,6 +85,19 @@ export const sidebar = [
         ],
       },
       {
+        text: 'Core',
+        items: [
+          {
+            text: 'getName',
+            link: '/identity/get-name',
+          },
+          {
+            text: 'getAvatar',
+            link: '/identity/get-avatar',
+          },
+        ],
+      },
+      {
         text: 'Hooks',
         items: [
           {

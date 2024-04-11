@@ -1,5 +1,6 @@
-import type { Address, GetEnsNameReturnType } from 'viem';
 import { useQuery } from '@tanstack/react-query';
+import type { Address } from 'viem';
+import { GetNameReturnType } from '../types';
 import { getName } from '../core/getName';
 
 type UseNameOptions = {
@@ -25,7 +26,7 @@ type UseNameQueryOptions = {
 export const useName = ({ address }: UseNameOptions, queryOptions?: UseNameQueryOptions) => {
   const { enabled = true, cacheTime } = queryOptions ?? {};
   const ensActionKey = `ens-name-${address}`;
-  return useQuery<GetEnsNameReturnType>({
+  return useQuery<GetNameReturnType>({
     queryKey: ['useName', ensActionKey],
     queryFn: async () => {
       return await getName(address);
