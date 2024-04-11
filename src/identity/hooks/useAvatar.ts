@@ -1,12 +1,6 @@
-import { publicClient } from '../../network/client';
-import { type GetEnsAvatarReturnType, normalize } from 'viem/ens';
 import { useQuery } from '@tanstack/react-query';
-
-export const ensAvatarAction = async (ensName: string): Promise<GetEnsAvatarReturnType> => {
-  return await publicClient.getEnsAvatar({
-    name: normalize(ensName),
-  });
-};
+import { GetAvatarReturnType } from '../types';
+import { getAvatar } from '../core/getAvatar';
 
 type UseNameOptions = {
   ensName: string;
@@ -23,10 +17,10 @@ type UseNameQueryOptions = {
 export const useAvatar = ({ ensName }: UseNameOptions, queryOptions?: UseNameQueryOptions) => {
   const { enabled = true, cacheTime } = queryOptions ?? {};
   const ensActionKey = `ens-avatar-${ensName}`;
-  return useQuery<GetEnsAvatarReturnType>({
+  return useQuery<GetAvatarReturnType>({
     queryKey: ['useAvatar', ensActionKey],
     queryFn: async () => {
-      return await ensAvatarAction(ensName);
+      return await getAvatar(ensName);
     },
     gcTime: cacheTime,
     enabled,

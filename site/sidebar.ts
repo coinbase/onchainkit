@@ -101,8 +101,16 @@ export const sidebar = [
         text: 'Utilities',
         items: [
           {
+            text: 'getAvatar',
+            link: '/identity/get-avatar',
+          },
+          {
             text: 'getEASAttestations',
             link: '/identity/get-eas-attestations',
+          },
+          {
+            text: 'getName',
+            link: '/identity/get-name',
           },
         ],
       },

@@ -3,8 +3,8 @@
  */
 
 import { renderHook, waitFor } from '@testing-library/react';
+import { useName } from './useName';
 import { publicClient } from '../../network/client';
-import { useName, ensNameAction } from './useName';
 import { getNewReactQueryTestProvider } from '../../test-utils/hooks/get-new-react-query-test-provider';
 
 jest.mock('../../network/client');
@@ -49,40 +49,6 @@ describe('useName', () => {
       // Check that the ENS name and loading state are correct
       expect(result.current.data).toBe(undefined);
       expect(result.current.isLoading).toBe(true);
-    });
-  });
-
-  describe('ensNameAction', () => {
-    it('should return correct value from client getEnsName', async () => {
-      const walletAddress = '0x1234';
-      const expectedEnsName = 'avatarUrl';
-
-      mockGetEnsName.mockResolvedValue(expectedEnsName);
-
-      const name = await ensNameAction(walletAddress);
-
-      expect(name).toBe(expectedEnsName);
-      expect(mockGetEnsName).toHaveBeenCalledWith({ address: walletAddress });
-    });
-
-    it('should return null name when client ', async () => {
-      const walletAddress = '0x1234';
-      const expectedEnsName = 'avatarUrl';
-
-      mockGetEnsName.mockResolvedValue(expectedEnsName);
-
-      const name = await ensNameAction(walletAddress);
-
-      expect(name).toBe(expectedEnsName);
-      expect(mockGetEnsName).toHaveBeenCalledWith({ address: walletAddress });
-    });
-
-    it('should return null client getEnsName throws an error', async () => {
-      const walletAddress = '0x1234';
-
-      mockGetEnsName.mockRejectedValue(new Error('This is an error'));
-
-      await expect(ensNameAction(walletAddress)).rejects.toThrow('This is an error');
     });
   });
 });

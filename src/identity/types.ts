@@ -49,3 +49,13 @@ export type GetEASAttestationsOptions = {
   expirationTime?: number;
   limit?: number;
 };
+
+/**
+ * Note: exported as public Type
+ */
+export type GetAvatarReturnType = string | null;
+
+/**
+ * Note: exported as public Type
+ */
+export type GetNameReturnType = string | null;
