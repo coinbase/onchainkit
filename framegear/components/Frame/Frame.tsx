@@ -112,7 +112,7 @@ function FrameButton({
         const result = await postFrame(
           {
             buttonIndex: index,
-            url: button.target!,
+            url: (button as any).postUrl!,
             state: JSON.stringify(state),
             // TODO: make these user-input-driven
             castId: {
@@ -153,16 +153,7 @@ You can test this action on the official Warpcast validator: https://warpcast.co
       );
     }
     // TODO: implement other actions (mint, etc.)
-  }, [
-    button?.action,
-    button?.target,
-    index,
-    inputText,
-    mockFrameOptions,
-    openModal,
-    setResults,
-    state,
-  ]);
+  }, [button, index, inputText, mockFrameOptions, openModal, setResults, state]);
 
   const buttonIcon = useMemo(() => {
     switch (button?.action) {
