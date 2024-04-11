@@ -201,7 +201,7 @@ function MockFrameOptions() {
     <fieldset>
       <label>
         Following{' '}
-        <input onClick={toggleFollowing} type="checkbox" checked={!!mockFrameOptions.following} />
+        <input onChange={toggleFollowing} type="checkbox" checked={!!mockFrameOptions.following} />
       </label>
     </fieldset>
   );
