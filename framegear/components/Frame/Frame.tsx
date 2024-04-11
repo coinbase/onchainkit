@@ -143,6 +143,14 @@ function FrameButton({
     } else if (button?.action === 'link') {
       const onConfirm = () => window.open(button.target, '_blank');
       openModal(onConfirm);
+    } else {
+      alert(
+        `Button action "${button?.action}" not implemented.
+
+You can test this action on the official Warpcast validator: https://warpcast.com/~/developers/frames
+
+(must deploy frame to a publicly accessible URL)`,
+      );
     }
     // TODO: implement other actions (mint, etc.)
   }, [
