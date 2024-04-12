@@ -8,9 +8,11 @@ type FrameMetadataHTMLResponse = FrameMetadataType & {
 /**
  * Returns an HTML string containing metadata for a new valid frame.
  *
+ * @param accepts: The types of protocol the frame accepts.
  * @param buttons: The buttons to use for the frame.
  * @param image: The image to use for the frame.
  * @param input: The text input to use for the frame.
+ * @param isOpenFrame: Whether the frame uses the Open Frames standard.
  * @param ogDescription: The Open Graph description for the frame.
  * @param ogTitle: The Open Graph title for the frame.
  * @param postUrl: The URL to post the frame to.
