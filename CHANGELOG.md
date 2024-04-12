@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.12.0
+
+### Minor Changes
+
+- b8aa317: - **feat**: init Open Frame spec support. By @zizzamia @daria-github @neekolas #285
+
 ## 0.11.3
 
 ### Patch Changes
