@@ -19,9 +19,11 @@ type FrameMetadataHTMLResponse = FrameMetadataType & {
  * @returns An HTML string containing metadata for the frame.
  */
 function getFrameHtmlResponse({
+  accepts = {},
   buttons,
   image,
   input,
+  isOpenFrame = false,
   ogDescription,
   ogTitle,
   postUrl,
@@ -79,6 +81,19 @@ function getFrameHtmlResponse({
     ? `  <meta property="fc:frame:refresh_period" content="${refreshPeriodToUse.toString()}" />\n`
     : '';
 
+  let ofHtml = '';
+  // Set the Open Frames metadata
+  if (isOpenFrame) {
+    ofHtml = `  <meta property="of:version" content="vNext" />\n`;
+    const ofAcceptsHtml = Object.keys(accepts)
+      .map((protocolIdentifier) => {
+        return `  <meta property="of:accepts:${protocolIdentifier}" content="${accepts[protocolIdentifier]}" />\n`;
+      })
+      .join('');
+    const ofImageHtml = `  <meta property="of:image" content="${imgSrc}" />\n`;
+    ofHtml += ofAcceptsHtml + ofImageHtml;
+  }
+
   // Return the HTML string containing all the metadata.
   let html = `<!DOCTYPE html>
 <html>
@@ -86,7 +101,7 @@ function getFrameHtmlResponse({
   <meta property="og:description" content="${ogDescription || 'Frame description'}" />
   <meta property="og:title" content="${ogTitle || 'Frame title'}" />
   <meta property="fc:frame" content="vNext" />
-${buttonsHtml}${ogImageHtml}${imageHtml}${inputHtml}${postUrlHtml}${refreshPeriodHtml}${stateHtml}
+${buttonsHtml}${ogImageHtml}${imageHtml}${inputHtml}${postUrlHtml}${refreshPeriodHtml}${stateHtml}${ofHtml}
 </head>
 </html>`;
 

@@ -13,7 +13,7 @@ import { FrameMetadataResponse, FrameMetadataType } from './types';
  * @returns The metadata for the frame.
  */
 export const getFrameMetadata = function ({
-  accepts,
+  accepts = {},
   buttons,
   image,
   input,
