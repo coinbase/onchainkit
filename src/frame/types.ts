@@ -127,9 +127,13 @@ export type FrameMetadataReact = FrameMetadataType & {
  * Note: exported as public Type
  */
 export type FrameMetadataType = {
+  accepts?: {
+    [protocolIdentifier: string]: string;
+  }; // The minimum client protocol version accepted for the given protocol identifier.
   buttons?: [FrameButtonMetadata, ...FrameButtonMetadata[]]; // A list of strings which are the label for the buttons in the frame (max 4 buttons).
   image: string | FrameImageMetadata; // An image which must be smaller than 10MB and should have an aspect ratio of 1.91:1
   input?: FrameInputMetadata; // The text input to use for the Frame.
+  isOpenFrame?: boolean; // A boolean indicating if the frame uses the Open Frames standard.
   /** @deprecated Prefer `postUrl` */
   post_url?: string;
   postUrl?: string; // A valid POST URL to send the Signature Packet to.
