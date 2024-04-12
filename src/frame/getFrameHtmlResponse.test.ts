@@ -417,6 +417,59 @@ describe('getFrameHtmlResponse', () => {
     );
     expect(html).not.toContain('<script>alert("XSS")</script>');
   });
-});
 
-export { getFrameHtmlResponse };
+  describe('when using isOpenFrame true', () => {
+    it('should return correct HTML with all parameters', () => {
+      const html = getFrameHtmlResponse({
+        accepts: { 'protocol-identifier': '1.0.0' },
+        buttons: [
+          { label: 'button1', action: 'post' },
+          { label: 'button2', action: 'mint', target: 'https://example.com' },
+          { label: 'button3', action: 'post_redirect' },
+          { label: 'button4' },
+        ],
+        image: {
+          src: 'https://example.com/image.png',
+          aspectRatio: '1.91:1',
+        },
+        input: {
+          text: 'Enter a message...',
+        },
+        isOpenFrame: true,
+        postUrl: 'https://example.com/api/frame',
+        refreshPeriod: 10,
+        state: {
+          counter: 1,
+        },
+      });
+
+      expect(html).toBe(`<!DOCTYPE html>
+<html>
+<head>
+  <meta property="og:description" content="Frame description" />
+  <meta property="og:title" content="Frame title" />
+  <meta property="fc:frame" content="vNext" />
+  <meta property="fc:frame:button:1" content="button1" />
+  <meta property="fc:frame:button:1:action" content="post" />
+  <meta property="fc:frame:button:2" content="button2" />
+  <meta property="fc:frame:button:2:action" content="mint" />
+  <meta property="fc:frame:button:2:target" content="https://example.com" />
+  <meta property="fc:frame:button:3" content="button3" />
+  <meta property="fc:frame:button:3:action" content="post_redirect" />
+  <meta property="fc:frame:button:4" content="button4" />
+  <meta property="og:image" content="https://example.com/image.png" />
+  <meta property="fc:frame:image" content="https://example.com/image.png" />
+  <meta property="fc:frame:image:aspect_ratio" content="1.91:1" />
+  <meta property="fc:frame:input:text" content="Enter a message..." />
+  <meta property="fc:frame:post_url" content="https://example.com/api/frame" />
+  <meta property="fc:frame:refresh_period" content="10" />
+  <meta property="fc:frame:state" content="%7B%22counter%22%3A1%7D" />
+  <meta property="of:version" content="vNext" />
+  <meta property="of:accepts:protocol-identifier" content="1.0.0" />
+  <meta property="of:image" content="https://example.com/image.png" />
+
+</head>
+</html>`);
+    });
+  });
+});

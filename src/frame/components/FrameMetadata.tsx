@@ -33,9 +33,11 @@ import type { FrameMetadataReact } from '../types';
  * ```
  *
  * @param {FrameMetadataReact} props - The metadata for the frame.
+ * @param {{ [protocolIdentifier: string]: string; }} accepts - The types of protocol the frame accepts.
  * @param {Array<{ label: string, action?: string }>} props.buttons - The buttons.
  * @param {string | { src: string, aspectRatio?: string }} props.image - The image URL.
  * @param {string} props.input - The input text.
+ * @param {boolean} props.isOpenFrame: Whether the frame uses the Open Frames standard.
  * @param {string} props.ogDescription - The Open Graph description.
  * @param {string} props.ogTitle - The Open Graph title.
  * @param {string} props.postUrl - The post URL.
@@ -45,9 +47,11 @@ import type { FrameMetadataReact } from '../types';
  * @returns {React.ReactElement} The FrameMetadata component.
  */
 export function FrameMetadata({
+  accepts = {},
   buttons,
   image,
   input,
+  isOpenFrame = false,
   ogDescription,
   ogTitle,
   postUrl,
@@ -130,6 +134,14 @@ export function FrameMetadata({
       {!!refreshPeriodToUse && (
         <meta property="fc:frame:refresh_period" content={refreshPeriodToUse.toString()} />
       )}
+
+      {!!isOpenFrame && <meta property="of:version" content="vNext" />}
+
+      {!!isOpenFrame && accepts && accepts['xmtp'] && (
+        <meta property={`of:accepts:xmtp`} content={accepts['xmtp']} />
+      )}
+
+      {!!isOpenFrame && imageSrc && <meta property="of:image" content={imageSrc} />}
     </Wrapper>
   );
 }

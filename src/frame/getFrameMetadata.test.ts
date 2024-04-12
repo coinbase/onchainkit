@@ -282,4 +282,35 @@ describe('getFrameMetadata', () => {
         '%7B%22counter%22%3A1%2C%22xss%22%3A%22%3Cscript%3Ealert(%5C%22XSS%5C%22)%3C%2Fscript%3E%22%7D',
     });
   });
+
+  describe('when using isOpenFrame true', () => {
+    it('should return the correct metadata', () => {
+      expect(
+        getFrameMetadata({
+          accepts: { 'protocol-identifier': '1.0.0' },
+          buttons: [
+            { label: 'button1', action: 'post' },
+            { label: 'button2', action: 'post_redirect' },
+            { label: 'button3' },
+          ],
+          image: { src: 'image', aspectRatio: '1.91:1' },
+          isOpenFrame: true,
+          postUrl: 'post_url',
+        }),
+      ).toEqual({
+        'fc:frame': 'vNext',
+        'fc:frame:button:1': 'button1',
+        'fc:frame:button:1:action': 'post',
+        'fc:frame:button:2': 'button2',
+        'fc:frame:button:2:action': 'post_redirect',
+        'fc:frame:button:3': 'button3',
+        'fc:frame:image': 'image',
+        'fc:frame:image:aspect_ratio': '1.91:1',
+        'fc:frame:post_url': 'post_url',
+        'of:version': 'vNext',
+        'of:accepts:protocol-identifier': '1.0.0',
+        'of:image': 'image',
+      });
+    });
+  });
 });

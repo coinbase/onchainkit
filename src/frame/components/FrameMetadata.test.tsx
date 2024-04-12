@@ -422,4 +422,39 @@ describe('FrameMetadata', () => {
     expect(meta.container.querySelector('meta[property="og:title"]')).toBeNull();
     expect(meta.container.querySelectorAll('meta').length).toBe(3);
   });
+
+  describe('when using isOpenFrame true', () => {
+    it('renders', () => {
+      const meta = render(<FrameMetadata isOpenFrame image="https://example.com/image.png" />);
+      expect(meta.container.querySelectorAll('meta').length).toBe(5);
+    });
+
+    it('renders with accepts', () => {
+      const meta = render(
+        <FrameMetadata
+          accepts={{ xmtp: '1.0.0' }}
+          isOpenFrame
+          image="https://example.com/image.png"
+        />,
+      );
+      expect(
+        meta.container.querySelector('meta[property="of:accepts:xmtp"]')?.getAttribute('content'),
+      ).toBe('1.0.0');
+      expect(meta.container.querySelectorAll('meta').length).toBe(6);
+    });
+
+    it('renders with image', () => {
+      const meta = render(
+        <FrameMetadata
+          accepts={{ xmtp: '1.0.0' }}
+          isOpenFrame
+          image="https://example.com/image.png"
+        />,
+      );
+      expect(
+        meta.container.querySelector('meta[property="of:image"]')?.getAttribute('content'),
+      ).toBe('https://example.com/image.png');
+      expect(meta.container.querySelectorAll('meta').length).toBe(6);
+    });
+  });
 });
