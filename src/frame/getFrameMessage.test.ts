@@ -1,3 +1,4 @@
+import { Address } from 'viem';
 import { getFrameMessage } from './getFrameMessage';
 import { getMockFrameRequest } from './getMockFrameRequest';
 import { neynarBulkUserLookup } from '../utils/neynar/user/neynarBulkUserLookup';
@@ -17,26 +18,36 @@ jest.mock('../utils/neynar/frame/neynarFrameValidation', () => {
 });
 
 function mockNeynarResponse(
-  fid: number,
-  addresses: string[] | undefined,
+  action: {
+    address?: Address;
+    transaction?: {
+      hash: string;
+    };
+  },
+  interactor: {
+    fid: number;
+    verifications?: string[] | undefined;
+  },
   lookupMock: jest.Mock,
   frameValidationMock: jest.Mock = jest.fn(),
 ) {
   const neynarResponse = {
     users: [
       {
-        verifications: addresses,
+        verifications: interactor?.verifications,
       },
     ],
   };
   lookupMock.mockResolvedValue(neynarResponse);
 
   frameValidationMock.mockResolvedValue({
-    valid: true,
+    address: action?.address || null,
     interactor: {
-      fid,
-      verified_accounts: addresses,
+      fid: interactor.fid,
+      verified_accounts: interactor?.verifications,
     },
+    transaction: action?.transaction || null,
+    valid: true,
   });
 }
 
@@ -117,8 +128,11 @@ describe('getFrameValidatedMessage', () => {
     const fid = 1234;
     const addresses = ['0xaddr1'];
     mockNeynarResponse(
-      fid,
-      addresses,
+      {},
+      {
+        fid,
+        verifications: addresses,
+      },
       neynarBulkUserLookup as jest.Mock,
       neynarFrameValidation as jest.Mock,
     );
@@ -127,5 +141,32 @@ describe('getFrameValidatedMessage', () => {
     };
     const result = await getFrameMessage(fakeFrameData as FrameRequest);
     expect(result?.message?.interactor.fid).toEqual(fid);
+  });
+
+  it('should return the address and transaction if they exist', async () => {
+    const fid = 1234;
+    const addresses = ['0xaddr1'];
+    mockNeynarResponse(
+      {
+        address: 'address' as Address,
+        transaction: {
+          hash: 'transaction',
+        },
+      },
+      {
+        fid,
+        verifications: addresses,
+      },
+      neynarBulkUserLookup as jest.Mock,
+      neynarFrameValidation as jest.Mock,
+    );
+    const fakeFrameData = {
+      trustedData: {},
+    };
+    const result = await getFrameMessage(fakeFrameData as FrameRequest);
+    expect(result?.message?.address).toEqual('address');
+    expect(result?.message?.transaction).toEqual({
+      hash: 'transaction',
+    });
   });
 });

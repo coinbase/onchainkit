@@ -1,3 +1,4 @@
+import { Address } from 'viem';
 import { FrameRequest, MockFrameRequest, MockFrameRequestOptions } from './types';
 
 /**
