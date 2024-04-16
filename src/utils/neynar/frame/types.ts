@@ -4,6 +4,7 @@
 export interface NeynarFrameValidationInternalModel {
   valid: boolean;
   action: {
+    address?: string;
     object: string;
     interactor: {
       object: string;
@@ -134,5 +135,8 @@ export interface NeynarFrameValidationInternalModel {
       };
     };
     timestamp: string;
+    transaction?: {
+      hash: string;
+    };
   };
 }

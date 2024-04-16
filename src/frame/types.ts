@@ -38,6 +38,7 @@ export interface FrameRequest {
  * Simplified Object model with the raw Neynar data if-needed.
  */
 export interface FrameValidationData {
+  address: string | null; // The connected wallet address of the interacting user.
   button: number; // Number of the button clicked
   following: boolean; // Indicates if the viewer clicking the frame follows the cast author
   input: string; // Text input from the viewer typing in the frame
@@ -56,6 +57,9 @@ export interface FrameValidationData {
   state: {
     serialized: string; // Serialized state (e.g. JSON) passed to the frame server
   };
+  transaction: {
+    hash: string;
+  } | null;
   valid: boolean; // Indicates if the frame is valid
 }
 

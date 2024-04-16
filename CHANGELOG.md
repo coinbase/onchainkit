@@ -4,7 +4,7 @@
 
 ### Minor Changes
 
-- b8aa317: - **feat**: init Open Frame spec support. By @zizzamia @daria-github @neekolas #285
+- **feat**: init Open Frame spec support. By @zizzamia @daria-github @neekolas #285 b8aa317
 
 ## 0.11.3
 

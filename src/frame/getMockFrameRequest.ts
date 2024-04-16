@@ -1,3 +1,4 @@
+import { Address } from 'viem';
 import { FrameRequest, MockFrameRequest, MockFrameRequestOptions } from './types';
 
 /**
@@ -14,6 +15,7 @@ function getMockFrameRequest(
   return {
     ...request,
     mockFrameData: {
+      address: null,
       button: request.untrustedData.buttonIndex,
       following: !!options?.following,
       input: request.untrustedData.inputText,
@@ -31,6 +33,7 @@ function getMockFrameRequest(
       state: {
         serialized: request.untrustedData.state || '',
       },
+      transaction: null,
       valid: true,
       raw: {
         valid: true,

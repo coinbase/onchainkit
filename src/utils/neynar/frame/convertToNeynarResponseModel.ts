@@ -19,6 +19,7 @@ export function convertToNeynarResponseModel(data: any): FrameValidationData | u
   const interactor = action?.interactor;
 
   return {
+    address: action?.address || null,
     button: action?.tapped_button?.index,
     following: action?.interactor?.viewer_context?.following,
     input: action?.input?.text,
@@ -37,6 +38,7 @@ export function convertToNeynarResponseModel(data: any): FrameValidationData | u
     state: {
       serialized: action?.state?.serialized || '',
     },
+    transaction: action?.transaction || null,
     valid: neynarResponse.valid,
   };
 }
