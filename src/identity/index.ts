@@ -5,6 +5,7 @@ export { getAvatar } from './core/getAvatar';
 export { getName } from './core/getName';
 export { useAvatar } from './hooks/useAvatar';
 export { useName } from './hooks/useName';
+export { IdentityProvider } from './hooks/useIdentity';
 export { getEASAttestations } from './getEASAttestations';
 export type {
   EASSchemaUid,
