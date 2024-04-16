@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.12.1
+
+### Patch Changes
+
+- d61861f: - **feat**: added missing `address` and `transaction` field for `FrameValidationData` type. By @zizzamia & @SamuelLHuber #287
+
 ## 0.12.0
 
 ### Minor Changes
