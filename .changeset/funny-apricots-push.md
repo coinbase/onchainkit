@@ -2,4 +2,4 @@
 '@coinbase/onchainkit': minor
 ---
 
-feat: add eas attestation to identity kit
+- **feat**: added Ethereum Attestation to identity kit. By @kyhyco & @zizzamia #259

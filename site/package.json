@@ -8,7 +8,7 @@
     "preview": "vocs preview"
   },
   "dependencies": {
-    "@coinbase/onchainkit": "0.11.1",
+    "@coinbase/onchainkit": "0.12.1",
     "@tanstack/react-query": "^5.28.4",
     "@types/react": "latest",
     "graphql": "14",

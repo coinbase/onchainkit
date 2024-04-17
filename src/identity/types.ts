@@ -1,6 +1,18 @@
 import { Address } from 'viem';
 
 /**
+ * Note: exported as public Type
+ */
+export type AvatarReact = {
+  address: Address; // The Ethereum address to fetch the avatar for.
+  className?: string; // Optional additional CSS class to apply to the avatar.
+  loadingComponent?: JSX.Element; // Optional custom component to display while the avatar data is loading.
+  defaultComponent?: JSX.Element; // Optional custom component to display when no ENS name or avatar is available.
+  props?: React.ImgHTMLAttributes<HTMLImageElement>; // Optional additional image attributes to apply to the avatar.
+  showAttestation?: boolean; // Optional flag to show the EAS attestation badge.
+};
+
+/**
  * Ethereum Attestation Service (EAS) Schema Uid
  * The schema identifier associated with the EAS attestation.
  *
