@@ -4,8 +4,7 @@ import { base } from 'viem/chains';
 import { getEASAttestations } from '../getEASAttestations';
 import { useAvatar } from '../hooks/useAvatar';
 import { useName } from '../hooks/useName';
-import { useVerified } from '../hooks/useVerified';
-import { WithAvatarBadge } from './internal/WithAvatarBadge';
+import { WithAvatarBadge } from './WithAvatarBadge';
 
 type AvatarProps = {
   address: Address;

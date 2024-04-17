@@ -1,25 +1,26 @@
-import type { Address } from 'viem';
-import { useVerified } from '../../hooks/useVerified';
+import type { Address, Chain } from 'viem';
+import { useAttestAddress } from '../hooks/useAttestAddress';
 import { Badge } from './Badge';
 
-type DisplayBadgeProps = {
+type WithAvatarBadgeInnerProps = {
   children: React.ReactNode;
   address: Address;
+  chain?: Chain;
 };
 
-function DisplayBadge({ children, address }: DisplayBadgeProps) {
-  const verified = useVerified(address);
+function WithAvatarBadgeInner({ children, address, chain }: WithAvatarBadgeInnerProps) {
+  const attested = useAttestAddress({ address, chain });
 
   return (
-    <div style={{ position: 'relative', width: '32px', height: '32px' }}>
+    <div style={{ position: 'relative', width: '32px', height: '32px' }} data-testid="inner">
       {children}
-      {verified && (
+      {attested && (
         <div
           style={{
             position: 'absolute',
             bottom: '-2px',
             right: '-2px',
-            background: 'white',
+            background: 'transparent',
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
@@ -45,14 +46,19 @@ function DisplayBadge({ children, address }: DisplayBadgeProps) {
   );
 }
 
-type WithBadgeProps = {
+type WithAvatarBadgeProps = {
   children: React.ReactNode;
   displayBadge: boolean;
   address: Address;
+  chain?: Chain;
 };
 
-export function WithAvatarBadge({ children, displayBadge, address }: WithBadgeProps) {
+export function WithAvatarBadge({ children, displayBadge, address, chain }: WithAvatarBadgeProps) {
   if (!displayBadge) return children;
 
-  return <DisplayBadge address={address}>{children}</DisplayBadge>;
+  return (
+    <WithAvatarBadgeInner address={address} chain={chain}>
+      {children}
+    </WithAvatarBadgeInner>
+  );
 }

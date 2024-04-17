@@ -1,12 +1,17 @@
 import { useEffect, useState } from 'react';
 import { base } from 'viem/chains';
-import type { Address } from 'viem';
+import type { Address, Chain } from 'viem';
 
 import { getEASAttestations } from '../getEASAttestations';
 import { useIdentity } from './useIdentity';
 
-export function useVerified(address: Address) {
-  const [verified, setVerified] = useState(false);
+type UseVerified = {
+  address: Address;
+  chain?: Chain;
+};
+
+export function useAttestAddress({ address, chain = base }: UseVerified) {
+  const [attested, setAttested] = useState(false);
   const identity = useIdentity();
 
   useEffect(() => {
@@ -15,12 +20,12 @@ export function useVerified(address: Address) {
       const found = attestation.find(({ schemaId }) => schemaId === identity.schemaId);
 
       if (found !== undefined) {
-        setVerified(true);
+        setAttested(true);
       }
     };
 
     fetchData();
   }, [address]);
 
-  return verified;
+  return attested;
 }

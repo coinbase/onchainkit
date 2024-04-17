@@ -3,7 +3,7 @@ import type { Address } from 'viem';
 
 import { getSlicedAddress } from '../getSlicedAddress';
 import { useName } from '../hooks/useName';
-import { WithNameBadge } from './internal/WithNameBadge';
+import { WithNameBadge } from './WithNameBadge';
 
 type NameProps = {
   address: Address;
