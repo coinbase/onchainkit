@@ -12,10 +12,6 @@ type IdentityContextType = {
 
 const IdentityContext = createContext<IdentityContextType | null>(null);
 
-function checkSchemaId(hash: string): hash is `0x${string}` {
-  return /^0x[a-fA-F0-9]{64}$/.test(hash);
-}
-
 type EasConfig = {
   schemaId: SchemaId;
 };
