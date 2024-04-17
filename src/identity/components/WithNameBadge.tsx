@@ -25,13 +25,13 @@ function WithNameBadgeInner({ children, address, chain }: WithNameBadgeInnerProp
 
 type WithNameBadgeProps = {
   children: React.ReactNode;
-  displayBadge?: boolean;
+  attest?: boolean;
   address: Address;
   chain?: Chain;
 };
 
-export function WithNameBadge({ children, displayBadge, address, chain }: WithNameBadgeProps) {
-  if (!displayBadge) return children;
+export function WithNameBadge({ children, attest, address, chain }: WithNameBadgeProps) {
+  if (!attest) return children;
 
   return (
     <WithNameBadgeInner address={address} chain={chain}>

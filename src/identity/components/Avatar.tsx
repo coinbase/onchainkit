@@ -12,7 +12,7 @@ type AvatarProps = {
   loadingComponent?: JSX.Element;
   defaultComponent?: JSX.Element;
   props?: React.ImgHTMLAttributes<HTMLImageElement>;
-  displayBadge?: boolean;
+  attest?: boolean;
 };
 
 /**
@@ -34,7 +34,7 @@ export function Avatar({
   loadingComponent,
   defaultComponent,
   props,
-  displayBadge = false,
+  attest = false,
 }: AvatarProps) {
   const { data: name, isLoading: isLoadingName } = useName({ address });
   const { data: avatar, isLoading: isLoadingAvatar } = useAvatar(
@@ -77,7 +77,7 @@ export function Avatar({
 
   if (!name || !avatar) {
     return (
-      <WithAvatarBadge displayBadge={displayBadge} address={address}>
+      <WithAvatarBadge attest={attest} address={address}>
         {defaultComponent || (
           <svg
             data-testid="avatar-default-svg"
@@ -93,7 +93,7 @@ export function Avatar({
   }
 
   return (
-    <WithAvatarBadge displayBadge={displayBadge} address={address}>
+    <WithAvatarBadge attest={attest} address={address}>
       <img
         className={className}
         loading="lazy"
