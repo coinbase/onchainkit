@@ -10,7 +10,7 @@ type NameProps = {
   className?: string;
   sliced?: boolean;
   props?: React.HTMLAttributes<HTMLSpanElement>;
-  attest?: boolean;
+  showAttestation?: boolean;
 };
 
 /**
@@ -23,7 +23,7 @@ type NameProps = {
  * @param {boolean} [sliced=true] - Determines if the address should be sliced when no ENS name is available.
  * @param {React.HTMLAttributes<HTMLSpanElement>} [props] - Additional HTML attributes for the span element.
  */
-export function Name({ address, className, sliced = true, attest, props }: NameProps) {
+export function Name({ address, className, sliced = true, showAttestation, props }: NameProps) {
   const { data: name, isLoading } = useName({ address });
 
   // wrapped in useMemo to prevent unnecessary recalculations.
@@ -39,7 +39,7 @@ export function Name({ address, className, sliced = true, attest, props }: NameP
   }
 
   return (
-    <WithNameBadge attest={attest} address={address}>
+    <WithNameBadge showAttestation={showAttestation} address={address}>
       <span className={className} {...props}>
         {name ?? normalizedAddress}
       </span>

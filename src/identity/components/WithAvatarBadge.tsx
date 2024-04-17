@@ -48,13 +48,18 @@ function WithAvatarBadgeInner({ children, address, chain }: WithAvatarBadgeInner
 
 type WithAvatarBadgeProps = {
   children: React.ReactNode;
-  attest: boolean;
+  showAttestation: boolean;
   address: Address;
   chain?: Chain;
 };
 
-export function WithAvatarBadge({ children, attest, address, chain }: WithAvatarBadgeProps) {
-  if (!attest) return children;
+export function WithAvatarBadge({
+  children,
+  showAttestation,
+  address,
+  chain,
+}: WithAvatarBadgeProps) {
+  if (!showAttestation) return children;
 
   return (
     <WithAvatarBadgeInner address={address} chain={chain}>

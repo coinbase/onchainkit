@@ -18,7 +18,7 @@ describe('WithNameBadge Component', () => {
 
   it('should not render inner component', async () => {
     render(
-      <WithNameBadge address="0x123" attest={false}>
+      <WithNameBadge address="0x123" showAttestation={false}>
         test
       </WithNameBadge>,
     );
@@ -33,7 +33,7 @@ describe('WithNameBadge Component', () => {
     (useAttestAddress as jest.Mock).mockReturnValue(null);
 
     render(
-      <WithNameBadge address="0x123" attest={true}>
+      <WithNameBadge address="0x123" showAttestation={true}>
         test
       </WithNameBadge>,
     );
@@ -50,7 +50,7 @@ describe('WithNameBadge Component', () => {
     (useAttestAddress as jest.Mock).mockReturnValue('eas');
 
     render(
-      <WithNameBadge address="0x123" attest={true}>
+      <WithNameBadge address="0x123" showAttestation={true}>
         test
       </WithNameBadge>,
     );
