@@ -5,16 +5,15 @@ import { Badge } from './Badge';
 type WithNameBadgeInnerProps = {
   children: React.ReactNode;
   address: Address;
-  chain?: Chain;
 };
 
-function WithNameBadgeInner({ children, address, chain }: WithNameBadgeInnerProps) {
-  const attested = useAttestation({ address, chain });
+function WithNameBadgeInner({ children, address }: WithNameBadgeInnerProps) {
+  const attestation = useAttestation(address);
 
   return (
     <div data-testid="inner" style={{ display: 'flex', alignItems: 'center' }}>
       {children}
-      {attested === 'eas' && (
+      {attestation === 'eas' && (
         <div style={{ marginLeft: '4px' }}>
           <Badge />
         </div>
@@ -27,15 +26,10 @@ type WithNameBadgeProps = {
   children: React.ReactNode;
   showAttestation?: boolean;
   address: Address;
-  chain?: Chain;
 };
 
-export function WithNameBadge({ children, showAttestation, address, chain }: WithNameBadgeProps) {
+export function WithNameBadge({ children, showAttestation, address }: WithNameBadgeProps) {
   if (!showAttestation) return children;
 
-  return (
-    <WithNameBadgeInner address={address} chain={chain}>
-      {children}
-    </WithNameBadgeInner>
-  );
+  return <WithNameBadgeInner address={address}>{children}</WithNameBadgeInner>;
 }

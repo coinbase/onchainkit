@@ -5,16 +5,15 @@ import { Badge } from './Badge';
 type WithAvatarBadgeInnerProps = {
   children: React.ReactNode;
   address: Address;
-  chain?: Chain;
 };
 
-function WithAvatarBadgeInner({ children, address, chain }: WithAvatarBadgeInnerProps) {
-  const attested = useAttestation({ address, chain });
+function WithAvatarBadgeInner({ children, address }: WithAvatarBadgeInnerProps) {
+  const attestation = useAttestation(address);
 
   return (
     <div style={{ position: 'relative', width: '32px', height: '32px' }} data-testid="inner">
       {children}
-      {attested === 'eas' && (
+      {attestation === 'eas' && (
         <div
           style={{
             position: 'absolute',
@@ -50,20 +49,10 @@ type WithAvatarBadgeProps = {
   children: React.ReactNode;
   showAttestation: boolean;
   address: Address;
-  chain?: Chain;
 };
 
-export function WithAvatarBadge({
-  children,
-  showAttestation,
-  address,
-  chain,
-}: WithAvatarBadgeProps) {
+export function WithAvatarBadge({ children, showAttestation, address }: WithAvatarBadgeProps) {
   if (!showAttestation) return children;
 
-  return (
-    <WithAvatarBadgeInner address={address} chain={chain}>
-      {children}
-    </WithAvatarBadgeInner>
-  );
+  return <WithAvatarBadgeInner address={address}>{children}</WithAvatarBadgeInner>;
 }

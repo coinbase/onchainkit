@@ -1,35 +1,34 @@
 import { useEffect, useState } from 'react';
-import { base } from 'viem/chains';
 import type { Address, Chain } from 'viem';
+import { base } from 'viem/chains';
 
+import { useOnchainKit } from '../../useOnchainKit';
 import { getEASAttestations } from '../getEASAttestations';
-import { useIdentity } from './useIdentity';
 import { attestationMapping } from '../attestationMapping';
 
-type UseAttestationOptions = {
-  address: Address;
-  chain?: Chain;
-};
-
-export function useAttestation({ address, chain = base }: UseAttestationOptions) {
-  const [attested, setAttested] = useState<'eas' | null>(null);
-  const identity = useIdentity();
+export function useAttestation(address: Address) {
+  const { identity } = useOnchainKit();
+  const [attestation, setAttestation] = useState<'eas' | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
       if (identity.eas !== undefined) {
         const { predicate } = attestationMapping.eas;
 
-        const result = await predicate({ address, chain, config: identity.eas });
+        const result = await predicate({
+          address,
+          chain: identity.eas.chain,
+          config: identity.eas,
+        });
 
         if (result) {
-          setAttested('eas');
+          setAttestation('eas');
         }
       }
     };
 
     fetchData();
-  }, [address, chain, identity.eas]);
+  }, [address, identity.eas]);
 
-  return attested;
+  return attestation;
 }
