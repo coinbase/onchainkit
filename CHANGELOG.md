@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.13.0
+
+### Minor Changes
+
+- 75f309c: - **feat**: added Ethereum Attestation `Badge` component to the Identity kit. By @kyhyco & @zizzamia #259 #289
+
 ## 0.12.1
 
 ### Patch Changes
