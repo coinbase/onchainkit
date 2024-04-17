@@ -1,5 +1,6 @@
 // 🌲☀️🌲
 export { version } from './version';
+export { OnchainKitProvider } from './useOnchainKit';
 /** @deprecated Prefer `import { getFrameHtmlResponse } from '@coinbase/onchainkit/frame';` */
 export { getFrameHtmlResponse } from './frame/getFrameHtmlResponse';
 /** @deprecated Prefer `import { getFrameMetadata } from '@coinbase/onchainkit/frame';` */

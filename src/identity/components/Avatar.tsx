@@ -1,6 +1,10 @@
+import type { Address } from 'viem';
+import { useEffect, useState } from 'react';
+import { base } from 'viem/chains';
+import { getEASAttestations } from '../getEASAttestations';
 import { useAvatar } from '../hooks/useAvatar';
 import { useName } from '../hooks/useName';
-import type { Address } from 'viem';
+import { WithAvatarBadge } from './WithAvatarBadge';
 
 type AvatarProps = {
   address: Address;
@@ -8,6 +12,7 @@ type AvatarProps = {
   loadingComponent?: JSX.Element;
   defaultComponent?: JSX.Element;
   props?: React.ImgHTMLAttributes<HTMLImageElement>;
+  showAttestation?: boolean;
 };
 
 /**
@@ -29,6 +34,7 @@ export function Avatar({
   loadingComponent,
   defaultComponent,
   props,
+  showAttestation = false,
 }: AvatarProps) {
   const { data: name, isLoading: isLoadingName } = useName({ address });
   const { data: avatar, isLoading: isLoadingAvatar } = useAvatar(
@@ -71,29 +77,33 @@ export function Avatar({
 
   if (!name || !avatar) {
     return (
-      defaultComponent || (
-        <svg
-          data-testid="avatar-default-svg"
-          xmlns="http://www.w3.org/2000/svg"
-          height="32"
-          width="32"
-        >
-          <circle fill="blue" cx="16" cy="16" r="16" />
-        </svg>
-      )
+      <WithAvatarBadge showAttestation={showAttestation} address={address}>
+        {defaultComponent || (
+          <svg
+            data-testid="avatar-default-svg"
+            xmlns="http://www.w3.org/2000/svg"
+            height="32"
+            width="32"
+          >
+            <circle fill="blue" cx="16" cy="16" r="16" />
+          </svg>
+        )}
+      </WithAvatarBadge>
     );
   }
 
   return (
-    <img
-      className={className}
-      loading="lazy"
-      width="32"
-      height="32"
-      decoding="async"
-      src={avatar}
-      alt={name}
-      {...props}
-    />
+    <WithAvatarBadge showAttestation={showAttestation} address={address}>
+      <img
+        className={className}
+        loading="lazy"
+        width="32"
+        height="32"
+        decoding="async"
+        src={avatar}
+        alt={name}
+        {...props}
+      />
+    </WithAvatarBadge>
   );
 }
