@@ -14,7 +14,7 @@ function WithNameBadgeInner({ children, address, chain }: WithNameBadgeInnerProp
   return (
     <div data-testid="inner" style={{ display: 'flex', alignItems: 'center' }}>
       {children}
-      {attested && (
+      {attested === 'eas' && (
         <div style={{ marginLeft: '4px' }}>
           <Badge />
         </div>

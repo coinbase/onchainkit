@@ -7,9 +7,10 @@ import { SchemaId } from '../types';
 import { checkAddress } from '../checkAddress';
 
 type IdentityContextType = {
-  schemaId: string;
+  eas: {
+    schemaId: string;
+  };
 };
-
 const IdentityContext = createContext<IdentityContextType | null>(null);
 
 type EasConfig = {
@@ -30,7 +31,9 @@ export function IdentityProvider({ easConfig, children }: IdentityProviderProps)
     const { schemaId } = easConfig;
 
     return {
-      schemaId,
+      eas: {
+        schemaId,
+      },
     };
   }, [easConfig]);
 

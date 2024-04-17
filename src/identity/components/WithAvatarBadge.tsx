@@ -14,7 +14,7 @@ function WithAvatarBadgeInner({ children, address, chain }: WithAvatarBadgeInner
   return (
     <div style={{ position: 'relative', width: '32px', height: '32px' }} data-testid="inner">
       {children}
-      {attested && (
+      {attested === 'eas' && (
         <div
           style={{
             position: 'absolute',

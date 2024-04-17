@@ -30,7 +30,7 @@ describe('WithAvatarBadge Component', () => {
   });
 
   it('should not render badge', async () => {
-    (useAttestAddress as jest.Mock).mockReturnValue(false);
+    (useAttestAddress as jest.Mock).mockReturnValue(null);
 
     render(
       <WithAvatarBadge address="0x123" attest={true}>
@@ -47,7 +47,7 @@ describe('WithAvatarBadge Component', () => {
   });
 
   it('should render badge', async () => {
-    (useAttestAddress as jest.Mock).mockReturnValue(true);
+    (useAttestAddress as jest.Mock).mockReturnValue('eas');
 
     render(
       <WithAvatarBadge address="0x123" attest={true}>

@@ -4,28 +4,32 @@ import type { Address, Chain } from 'viem';
 
 import { getEASAttestations } from '../getEASAttestations';
 import { useIdentity } from './useIdentity';
+import { attestationMapping } from '../attestationMapping';
 
-type UseVerified = {
+type UseAttestAddress = {
   address: Address;
   chain?: Chain;
 };
 
-export function useAttestAddress({ address, chain = base }: UseVerified) {
-  const [attested, setAttested] = useState(false);
+export function useAttestAddress({ address, chain = base }: UseAttestAddress) {
+  const [attested, setAttested] = useState<'eas' | null>(null);
   const identity = useIdentity();
 
   useEffect(() => {
     const fetchData = async () => {
-      const attestation = await getEASAttestations(address, base);
-      const found = attestation.find(({ schemaId }) => schemaId === identity.schemaId);
+      if (identity.eas !== undefined) {
+        const { predicate } = attestationMapping.eas;
 
-      if (found !== undefined) {
-        setAttested(true);
+        const result = await predicate({ address, chain, config: identity.eas });
+
+        if (result) {
+          setAttested('eas');
+        }
       }
     };
 
     fetchData();
-  }, [address]);
+  }, [address, chain, identity.eas]);
 
   return attested;
 }
