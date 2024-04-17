@@ -4,13 +4,18 @@
 import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import { Avatar } from './Avatar';
-import { useAvatar } from '../hooks/useAvatar';
 import { useName } from '../hooks/useName';
+import { useAttestation } from '../hooks/useAttestation';
+import { useAvatar } from '../hooks/useAvatar';
 
 import '@testing-library/jest-dom';
 
 jest.mock('../hooks/useName', () => ({
   useName: jest.fn(),
+}));
+
+jest.mock('../hooks/useAttestation', () => ({
+  useAttestation: jest.fn(),
 }));
 
 jest.mock('../hooks/useAvatar', () => ({
@@ -84,5 +89,20 @@ describe('Avatar Component', () => {
     const customDefaultElement = screen.getByTestId('custom-default');
     expect(customDefaultElement).toBeInTheDocument();
     expect(customDefaultElement).toHaveTextContent('Default Avatar');
+  });
+
+  it('renders badge when showAttestation is true', async () => {
+    (useAttestation as jest.Mock).mockReturnValue('eas');
+    (useAvatar as jest.Mock).mockReturnValue({ data: 'avatar_url', isLoading: false });
+    (useName as jest.Mock).mockReturnValue({ data: 'ens_name', isLoading: false });
+
+    render(<Avatar address="0x123" showAttestation />);
+
+    await waitFor(() => {
+      const inner = screen.getByTestId('inner');
+      expect(inner).toBeInTheDocument();
+      const badge = screen.getByTestId('badge');
+      expect(badge).toBeInTheDocument();
+    });
   });
 });

@@ -1,41 +1,34 @@
-import type { Address } from 'viem';
-import { useEffect, useState } from 'react';
-import { base } from 'viem/chains';
-import { getEASAttestations } from '../getEASAttestations';
 import { useAvatar } from '../hooks/useAvatar';
 import { useName } from '../hooks/useName';
 import { WithAvatarBadge } from './WithAvatarBadge';
-
-type AvatarProps = {
-  address: Address;
-  className?: string;
-  loadingComponent?: JSX.Element;
-  defaultComponent?: JSX.Element;
-  props?: React.ImgHTMLAttributes<HTMLImageElement>;
-  showAttestation?: boolean;
-};
+import { AvatarReact } from '../types';
 
 /**
- * Represents an Avatar component that displays either a loading indicator, a default avatar, or a custom avatar based on Ethereum Name Service (ENS).
+ * Represents an Avatar component that displays either a loading indicator,
+ * a default avatar, or a custom avatar based on Ethereum Name Service (ENS).
  *
- * The component first attempts to retrieve the ENS name and avatar for the given Ethereum address. If the data is still loading, it displays a loading SVG.
- * If the ENS name or avatar is not available, it shows a default SVG avatar. Otherwise, it displays the custom avatar obtained from ENS.
+ * The component first attempts to retrieve the ENS name and avatar for the given Ethereum address.
+ * If the data is still loading, it displays a loading SVG.
+ *
+ * If the ENS name or avatar is not available, it shows a default SVG avatar.
+ * Otherwise, it displays the custom avatar obtained from ENS.
  *
  * @param {Address} props.address - The Ethereum address for which to display the avatar.
  * @param {string} [props.className] - Optional additional CSS class to apply to the avatar.
- * @param {JSX.Element} [props.loadingComponent] - Optional custom component to display while the avatar data is loading.
  * @param {JSX.Element} [props.defaultComponent] - Optional custom component to display when no ENS name or avatar is available.
+ * @param {JSX.Element} [props.loadingComponent] - Optional custom component to display while the avatar data is loading.
  * @param {React.ImgHTMLAttributes<HTMLImageElement>} [props.props] - Optional additional image attributes to apply to the avatar.
+ * @param {Boolean} [props.showAttestation] - Optional flag to show the EAS attestation badge.
  * @returns {JSX.Element} The JSX element representing the avatar, which could be a loading SVG, a default SVG, or an image.
  */
 export function Avatar({
   address,
   className,
-  loadingComponent,
   defaultComponent,
+  loadingComponent,
   props,
   showAttestation = false,
-}: AvatarProps) {
+}: AvatarReact) {
   const { data: name, isLoading: isLoadingName } = useName({ address });
   const { data: avatar, isLoading: isLoadingAvatar } = useAvatar(
     { ensName: name ?? '' },

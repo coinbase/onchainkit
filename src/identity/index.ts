@@ -7,6 +7,7 @@ export { useAvatar } from './hooks/useAvatar';
 export { useName } from './hooks/useName';
 export { getEASAttestations } from './getEASAttestations';
 export type {
+  AvatarReact,
   EASSchemaUid,
   EASAttestation,
   EASChainDefinition,

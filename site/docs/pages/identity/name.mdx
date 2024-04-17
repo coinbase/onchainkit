@@ -1,3 +1,6 @@
+import { Name } from '@coinbase/onchainkit/identity';
+import App from './App';
+
 # `<Name />`
 
 The `Name` component is used to display ENS names associated with Ethereum addresses.
@@ -5,23 +8,44 @@ When an ENS name is not available, it defaults to showing a truncated version of
 
 ## Usage
 
-```tsx
-import { Name } from '@coinbase/onchainkit/identity';
+Address with an ENS:
 
-<Name address="0x1234567890abcdef1234567890abcdef12345678" sliced={false} />; // [!code focus]
+:::code-group
+
+```tsx [code]
+import { Name } from '@coinbase/onchainkit/identity';
+<Name address="0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1" sliced={false} />; // [!code focus]
 ```
+
+```html [return html]
+<span>zizzamia.eth</span>
+```
+
+:::
+
+<App>
+  <Name address="0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1" />
+</App>
+
+Address without an ENS avatar, and it defaults to his sliced address:
+
+:::code-group
+
+```tsx [code]
+import { Name } from '@coinbase/onchainkit/identity';
+<Name address="0x1234567890abcdef1234567890abcdef12345678" />; // [!code focus]
+```
+
+```html [return html]
+<span>0x123...5678</span>
+```
+
+:::
+
+<App>
+  <Name address="0x1234567890abcdef1234567890abcdef12345678" />
+</App>
 
 ## Props
 
-```ts
-type UseName = {
-  // Ethereum address to be resolved from ENS.
-  address: Address;
-  // Optional CSS class for custom styling.
-  className?: string;
-  // Determines if the address should be sliced when no ENS name is available.
-  sliced?: boolean;
-  // Additional HTML attributes for the span element.
-  props?: React.HTMLAttributes<HTMLSpanElement>;
-};
-```
+[`NameReact`](/identity/types#NameReact)

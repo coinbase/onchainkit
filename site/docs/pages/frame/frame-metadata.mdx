@@ -6,7 +6,9 @@ Note: If you are using Next.js with App routing, it is recommended to use `getFr
 
 ## Usage
 
-```tsx
+:::code-group
+
+```tsx [code]
 import { FrameMetadata } from '@coinbase/onchainkit/frame';
 
 export default function HomePage() {
@@ -44,9 +46,7 @@ export default function HomePage() {
 }
 ```
 
-## Returns
-
-```html
+```html [return html]
 <meta name="fc:frame" content="vNext" />
 <meta name="fc:frame:button:1" content="Tell me the story" />
 <meta name="fc:frame:button:2" content="Link to Google" />
@@ -60,6 +60,8 @@ export default function HomePage() {
 <meta name="fc:frame:state" content="%7B%22counter%22%3A1%7D" />
 <meta name="fc:frame:post_url" content="https://zizzamia.xyz/api/frame" />
 ```
+
+:::
 
 ## Props
 
