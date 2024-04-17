@@ -1,5 +1,6 @@
 /**
  * Checks if a given hash has a given length.
+ * The hash must start with '0x' followed by hexadecimal characters (a-f, A-F, 0-9).
  *
  * @param {string} hash - hash to be checked.
  * @param {number} length - length of hash.
