@@ -5,10 +5,10 @@ import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { WithNameBadge } from './WithNameBadge';
-import { useAttestAddress } from '../hooks/useAttestAddress';
+import { useAttestation } from '../hooks/useAttestation';
 
-jest.mock('../hooks/useAttestAddress', () => ({
-  useAttestAddress: jest.fn(),
+jest.mock('../hooks/useAttestation', () => ({
+  useAttestation: jest.fn(),
 }));
 
 describe('WithNameBadge Component', () => {
@@ -30,7 +30,7 @@ describe('WithNameBadge Component', () => {
   });
 
   it('should not render badge', async () => {
-    (useAttestAddress as jest.Mock).mockReturnValue(null);
+    (useAttestation as jest.Mock).mockReturnValue(null);
 
     render(
       <WithNameBadge address="0x123" showAttestation={true}>
@@ -47,7 +47,7 @@ describe('WithNameBadge Component', () => {
   });
 
   it('should render badge', async () => {
-    (useAttestAddress as jest.Mock).mockReturnValue('eas');
+    (useAttestation as jest.Mock).mockReturnValue('eas');
 
     render(
       <WithNameBadge address="0x123" showAttestation={true}>

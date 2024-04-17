@@ -6,12 +6,12 @@ import { getEASAttestations } from '../getEASAttestations';
 import { useIdentity } from './useIdentity';
 import { attestationMapping } from '../attestationMapping';
 
-type UseAttestAddress = {
+type UseAttestationOptions = {
   address: Address;
   chain?: Chain;
 };
 
-export function useAttestAddress({ address, chain = base }: UseAttestAddress) {
+export function useAttestation({ address, chain = base }: UseAttestationOptions) {
   const [attested, setAttested] = useState<'eas' | null>(null);
   const identity = useIdentity();
 
