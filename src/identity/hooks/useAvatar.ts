@@ -2,11 +2,11 @@ import { useQuery } from '@tanstack/react-query';
 import { GetAvatarReturnType } from '../types';
 import { getAvatar } from '../core/getAvatar';
 
-type UseNameOptions = {
+type UseAvatarOptions = {
   ensName: string;
 };
 
-type UseNameQueryOptions = {
+type UseAvatarQueryOptions = {
   enabled?: boolean;
   cacheTime?: number;
 };
@@ -14,7 +14,7 @@ type UseNameQueryOptions = {
 /**
  * Gets an ensName and resolves the Avatar
  */
-export const useAvatar = ({ ensName }: UseNameOptions, queryOptions?: UseNameQueryOptions) => {
+export const useAvatar = ({ ensName }: UseAvatarOptions, queryOptions?: UseAvatarQueryOptions) => {
   const { enabled = true, cacheTime } = queryOptions ?? {};
   const ensActionKey = `ens-avatar-${ensName}`;
   return useQuery<GetAvatarReturnType>({
