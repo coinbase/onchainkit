@@ -1,4 +1,4 @@
-import type { Address, Chain } from 'viem';
+import type { Address } from 'viem';
 import { useAttestation } from '../hooks/useAttestation';
 import { Badge } from './Badge';
 
@@ -9,7 +9,6 @@ type WithAvatarBadgeInnerProps = {
 
 function WithAvatarBadgeInner({ children, address }: WithAvatarBadgeInnerProps) {
   const attestation = useAttestation(address);
-
   return (
     <div style={{ position: 'relative', width: '32px', height: '32px' }} data-testid="inner">
       {children}
@@ -52,7 +51,8 @@ type WithAvatarBadgeProps = {
 };
 
 export function WithAvatarBadge({ children, showAttestation, address }: WithAvatarBadgeProps) {
-  if (!showAttestation) return children;
-
+  if (!showAttestation) {
+    return children;
+  }
   return <WithAvatarBadgeInner address={address}>{children}</WithAvatarBadgeInner>;
 }
