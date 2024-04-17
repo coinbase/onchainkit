@@ -1,3 +1,8 @@
+/**
+ * Badge component.
+ *
+ * @returns {JSX.Element} The JSX element representing the badge, which is a blue circle with a white checkmark.
+ */
 export function Badge() {
   return (
     <svg

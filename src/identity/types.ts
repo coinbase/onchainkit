@@ -71,3 +71,14 @@ export type GetAvatarReturnType = string | null;
  * Note: exported as public Type
  */
 export type GetNameReturnType = string | null;
+
+/**
+ * Note: exported as public Type
+ */
+export type NameReact = {
+  address: Address; // Ethereum address to be displayed.
+  className?: string; // Optional CSS class for custom styling.
+  props?: React.HTMLAttributes<HTMLSpanElement>; // Additional HTML attributes for the span element.
+  showAttestation?: boolean; // Optional flag to show the EAS attestation badge.
+  sliced?: boolean; // Determines if the address should be sliced when no ENS name is available.
+};
