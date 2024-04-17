@@ -4,7 +4,6 @@ import { base } from 'viem/chains';
 
 import { useOnchainKit } from '../../useOnchainKit';
 import { getEASAttestations } from '../getEASAttestations';
-import { attestationMapping } from '../attestationMapping';
 
 export function useAttestation(address: Address) {
   const { identity } = useOnchainKit();
@@ -13,15 +12,11 @@ export function useAttestation(address: Address) {
   useEffect(() => {
     const fetchData = async () => {
       if (identity.eas !== undefined) {
-        const { predicate } = attestationMapping.eas;
+        const attestation = await getEASAttestations(address, identity.eas.chain);
 
-        const result = await predicate({
-          address,
-          chain: identity.eas.chain,
-          config: identity.eas,
-        });
+        const found = attestation.find(({ schemaId }) => schemaId === identity.eas.schemaId);
 
-        if (result) {
+        if (found) {
           setAttestation('eas');
         }
       }
