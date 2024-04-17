@@ -3,8 +3,8 @@ import { Address } from 'viem';
 import { base } from 'viem/chains';
 
 import { getEASAttestations } from '../getEASAttestations';
-import { SchemaId } from '../types';
-import { checkAddress } from '../checkAddress';
+import { EASSchemaUid } from '../types';
+import { checkHashLength } from '../checkHashLength';
 
 type IdentityContextType = {
   eas: {
@@ -14,7 +14,7 @@ type IdentityContextType = {
 const IdentityContext = createContext<IdentityContextType | null>(null);
 
 type EasConfig = {
-  schemaId: SchemaId;
+  schemaId: EASSchemaUid;
 };
 
 type IdentityProviderProps = {
@@ -23,7 +23,7 @@ type IdentityProviderProps = {
 };
 
 export function IdentityProvider({ easConfig, children }: IdentityProviderProps) {
-  if (!checkAddress(easConfig.schemaId, 64)) {
+  if (!checkHashLength(easConfig.schemaId, 64)) {
     throw Error('EAS schemaId must be 64 characters prefixed with "0x"');
   }
 

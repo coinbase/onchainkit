@@ -59,5 +59,3 @@ export type GetAvatarReturnType = string | null;
  * Note: exported as public Type
  */
 export type GetNameReturnType = string | null;
-
-export type SchemaId = `0x${string}`;
