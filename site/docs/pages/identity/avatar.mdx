@@ -10,10 +10,25 @@ When an ENS avatar is not available, it defaults to blue color avatar.
 
 Address with an ENS avatar:
 
-```tsx
+:::code-group
+
+```tsx [code]
 import { Avatar } from '@coinbase/onchainkit/identity';
 <Avatar address="0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1" />; // [!code focus]
 ```
+
+```html [return html]
+<img
+  loading="lazy"
+  width="32"
+  height="32"
+  decoding="async"
+  src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMTAgMTEwIj48ZGVmcz48cmFkaWFsR3JhZGllbnQgaWQ9Imd6ciIgZ3JhZGllbnRUcmFuc2Zvcm09InRyYW5zbGF0ZSg2Ni40NTc4IDI0LjM1NzUpIHNjYWxlKDc1LjI5MDgpIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgcj0iMSIgY3g9IjAiIGN5PSIwJSI+PHN0b3Agb2Zmc2V0PSIxNS42MiUiIHN0b3AtY29sb3I9ImhzbCgyNDQsIDcxJSwgODglKSIgLz48c3RvcCBvZmZzZXQ9IjM5LjU4JSIgc3RvcC1jb2xvcj0iaHNsKDI0MSwgNzMlLCA4MSUpIiAvPjxzdG9wIG9mZnNldD0iNzIuOTIlIiBzdG9wLWNvbG9yPSJoc2woMjIzLCA3OCUsIDcwJSkiIC8+PHN0b3Agb2Zmc2V0PSI5MC42MyUiIHN0b3AtY29sb3I9ImhzbCgyMTcsIDkwJSwgNjAlKSIgLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9ImhzbCgyMTQsIDk1JSwgNTklKSIgLz48L3JhZGlhbEdyYWRpZW50PjwvZGVmcz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSg1LDUpIj48cGF0aCBkPSJNMTAwIDUwQzEwMCAyMi4zODU4IDc3LjYxNDIgMCA1MCAwQzIyLjM4NTggMCAwIDIyLjM4NTggMCA1MEMwIDc3LjYxNDIgMjIuMzg1OCAxMDAgNTAgMTAwQzc3LjYxNDIgMTAwIDEwMCA3Ny42MTQyIDEwMCA1MFoiIGZpbGw9InVybCgjZ3pyKSIgLz48cGF0aCBzdHJva2U9InJnYmEoMCwwLDAsMC4wNzUpIiBmaWxsPSJ0cmFuc3BhcmVudCIgc3Ryb2tlLXdpZHRoPSIxIiBkPSJNNTAsMC41YzI3LjMsMCw0OS41LDIyLjIsNDkuNSw0OS41Uzc3LjMsOTkuNSw1MCw5OS41UzAuNSw3Ny4zLDAuNSw1MFMyMi43LDAuNSw1MCwwLjV6IiAvPjwvZz48L3N2Zz4="
+  alt="zizzamia.eth"
+/>
+```
+
+:::
 
 <App>
   <Avatar address="0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1" />
@@ -21,37 +36,24 @@ import { Avatar } from '@coinbase/onchainkit/identity';
 
 Address without an ENS avatar, and it defaults to a blue color avatar:
 
-```tsx
+:::code-group
+
+```tsx [code]
 import { Avatar } from '@coinbase/onchainkit/identity';
 <Avatar address="0x1234567890abcdef1234567890abcdef12345678" />; // [!code focus]
 ```
 
+```html [return html]
+<svg data-testid="avatar-default-svg" width="32" height="32" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="16" cy="16" r="16" fill="blue"></circle>
+</svg>
+```
+
+:::
+
 <App>
   <Avatar address="0x1234567890abcdef1234567890abcdef12345678" />
 </App>
-
-## Returns
-
-```html
-<!-- Address with an ENS avatar -->
-<div style="display: flex; flex-direction: column;">
-  <img
-    loading="lazy"
-    width="32"
-    height="32"
-    decoding="async"
-    src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMTAgMTEwIj48ZGVmcz48cmFkaWFsR3JhZGllbnQgaWQ9Imd6ciIgZ3JhZGllbnRUcmFuc2Zvcm09InRyYW5zbGF0ZSg2Ni40NTc4IDI0LjM1NzUpIHNjYWxlKDc1LjI5MDgpIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgcj0iMSIgY3g9IjAiIGN5PSIwJSI+PHN0b3Agb2Zmc2V0PSIxNS42MiUiIHN0b3AtY29sb3I9ImhzbCgyNDQsIDcxJSwgODglKSIgLz48c3RvcCBvZmZzZXQ9IjM5LjU4JSIgc3RvcC1jb2xvcj0iaHNsKDI0MSwgNzMlLCA4MSUpIiAvPjxzdG9wIG9mZnNldD0iNzIuOTIlIiBzdG9wLWNvbG9yPSJoc2woMjIzLCA3OCUsIDcwJSkiIC8+PHN0b3Agb2Zmc2V0PSI5MC42MyUiIHN0b3AtY29sb3I9ImhzbCgyMTcsIDkwJSwgNjAlKSIgLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9ImhzbCgyMTQsIDk1JSwgNTklKSIgLz48L3JhZGlhbEdyYWRpZW50PjwvZGVmcz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSg1LDUpIj48cGF0aCBkPSJNMTAwIDUwQzEwMCAyMi4zODU4IDc3LjYxNDIgMCA1MCAwQzIyLjM4NTggMCAwIDIyLjM4NTggMCA1MEMwIDc3LjYxNDIgMjIuMzg1OCAxMDAgNTAgMTAwQzc3LjYxNDIgMTAwIDEwMCA3Ny42MTQyIDEwMCA1MFoiIGZpbGw9InVybCgjZ3pyKSIgLz48cGF0aCBzdHJva2U9InJnYmEoMCwwLDAsMC4wNzUpIiBmaWxsPSJ0cmFuc3BhcmVudCIgc3Ryb2tlLXdpZHRoPSIxIiBkPSJNNTAsMC41YzI3LjMsMCw0OS41LDIyLjIsNDkuNSw0OS41Uzc3LjMsOTkuNSw1MCw5OS41UzAuNSw3Ny4zLDAuNSw1MFMyMi43LDAuNSw1MCwwLjV6IiAvPjwvZz48L3N2Zz4="
-    alt="zizzamia.eth"
-  />
-</div>
-
-<!-- Address without an ENS avatar, and it defaults to a blue color avatar -->
-<div style="display: flex; flex-direction: column;">
-  <svg data-testid="avatar-default-svg" width="32" height="32" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="16" cy="16" r="16" fill="blue"></circle>
-  </svg>
-</div>
-```
 
 ## Props
 
