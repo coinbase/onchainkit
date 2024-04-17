@@ -8,12 +8,6 @@ import { EASSchemaUid } from './identity/types';
 
 import '@testing-library/jest-dom';
 
-// Mock the necessary imports
-jest.mock('./identity/checkHashLength', () => ({
-  checkHashLength: jest.fn().mockImplementation((id) => id.startsWith('0x') && id.length === 66),
-}));
-
-// Helper component to test useOnchainKit hook
 const TestComponent = () => {
   const { identity } = useOnchainKit();
   return <div>{identity.eas.schemaId}</div>;

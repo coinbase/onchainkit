@@ -3,7 +3,7 @@ import { Address, Chain } from 'viem';
 import { base } from 'viem/chains';
 
 import { EASSchemaUid } from './identity/types';
-import { checkHashLength } from './identity/checkHashLength';
+import { checkHashLength } from './utils/checkHashLength';
 
 type OnchainKitContextType = {
   identity: {
