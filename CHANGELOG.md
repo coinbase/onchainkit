@@ -4,7 +4,7 @@
 
 ### Minor Changes
 
-- 75f309c: - **feat**: added Ethereum Attestation `Badge` component to the Identity kit. By @kyhyco & @zizzamia #259 #289
+- **feat**: added Ethereum Attestation `Badge` component to the Identity kit. By @kyhyco & @zizzamia #259 #289 75f309c
 
 ## 0.12.1
 
