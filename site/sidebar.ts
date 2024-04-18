@@ -6,28 +6,6 @@ export const sidebar = [
     items: [{ text: 'Getting Started', link: '/getting-started' }],
   },
   {
-    text: 'Farcaster',
-    items: [
-      {
-        text: 'Introduction',
-        link: '/farcaster/introduction',
-      },
-      {
-        text: 'Utilities',
-        items: [
-          {
-            text: 'getFarcasterUserAddress',
-            link: '/farcaster/get-farcaster-user-address',
-          },
-        ],
-      },
-      {
-        text: 'Types',
-        link: '/farcaster/types',
-      },
-    ],
-  },
-  {
     text: 'Frame',
     items: [
       { text: 'Introduction', link: '/frame/introduction' },
@@ -121,7 +99,31 @@ export const sidebar = [
     ],
   },
   {
+    text: 'Farcaster',
+    collapsed: true,
+    items: [
+      {
+        text: 'Introduction',
+        link: '/farcaster/introduction',
+      },
+      {
+        text: 'Utilities',
+        items: [
+          {
+            text: 'getFarcasterUserAddress',
+            link: '/farcaster/get-farcaster-user-address',
+          },
+        ],
+      },
+      {
+        text: 'Types',
+        link: '/farcaster/types',
+      },
+    ],
+  },
+  {
     text: 'XMTP',
+    collapsed: true,
     items: [
       { text: 'Introduction', link: '/xmtp/introduction' },
       {
