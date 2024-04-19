@@ -4,6 +4,10 @@
 @tailwind components;
 @tailwind utilities;
 
+body * {
+  @apply transition-colors duration-1000;
+}
+
 #home-install .vocs_CodeGroup {
   display: flex;
   height: 100%;
@@ -16,4 +20,16 @@
 
 #home-install .vocs_Code {
   font-size: 14px;
+}
+
+.vocs_DesktopTopNav {
+  display: flex;
+  justify-content: space-between;
+}
+
+.vocs_DesktopSearch_search {
+  display: none;
+}
+.vocs_DesktopTopNav_divider {
+  display: none;
 }
