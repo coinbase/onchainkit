@@ -77,6 +77,14 @@ export default defineConfig({
       light: '#FF5D2F',
       dark: '#FF5D2F',
     },
+    variables: {
+      color: {
+        text: {
+          light: '#373A3E',
+          dark: '#FFFFFF',
+        },
+      },
+    },
   },
   topNav: [
     { text: 'Docs', link: '/getting-started', match: '/docs' },
