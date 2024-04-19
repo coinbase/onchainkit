@@ -4,10 +4,6 @@
 @tailwind components;
 @tailwind utilities;
 
-body * {
-  @apply transition-colors duration-1000;
-}
-
 #home-install .vocs_CodeGroup {
   display: flex;
   height: 100%;
