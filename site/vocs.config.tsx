@@ -14,7 +14,7 @@ export default defineConfig({
   titleTemplate: '%s · OnchainKit',
   description: ONCHAINKIT_DESCRIPTION,
   ogImageUrl: 'https://vocs.dev/api/og?logo=%logo&title=%title&description=%description',
-  logoUrl: { light: '/favicon/48x48.png', dark: '/favicon/48x48.png' },
+  logoUrl: { light: '/favicon/48x48.png?v4-19-24', dark: '/favicon/48x48.png?v4-19-24' },
   async head({ path }) {
     const analytics = (
       <>

@@ -123,7 +123,8 @@ Check out the following places for more OnchainKit-related content:
 
 ## Authors
 
-- [@zizzamia](https://github.com/zizzamia) ([X](https://twitter.com/Zizzamia), [Warpcast](https://warpcast.com/zizzamia))
+- [@zizzamia](https://github.com/zizzamia) ([X](https://twitter.com/hey_shells), [Warpcast](https://warpcast.com/zizzamia))
+- [@0xchiaroscuro](https://github.com/0xchiaroscuro) ([X](https://twitter.com/chiaroscuro), [Warpcast](https://warpcast.com/chiaroscuro))
 - [@cnasc](https://github.com/cnasc) ([warpcast](https://warpcast.com/cnasc))
 - [@taycaldwell](https://github.com/taycaldwell) ([X](https://twitter.com/taycaldwell_))
 - [@mochikuan](https://github.com/mochikuan) ([X](https://twitter.com/mochikuan))
