@@ -731,9 +731,9 @@ __metadata:
   linkType: hard
 
 "@hono/node-server@npm:^1.2.3":
-  version: 1.8.0
-  resolution: "@hono/node-server@npm:1.8.0"
-  checksum: 1107a4819ee353fcf4f11cbc166fb097ddc6a6421db1dbe4bf799c1bcfbd10f7d5c61752019b6091f4b29b6baae036aec53e3a501da3a7be7bf394adbaf129f0
+  version: 1.11.0
+  resolution: "@hono/node-server@npm:1.11.0"
+  checksum: 3f888b5a1ddcb8b2f6568c49e62794b34994d367bbfcfccfa3ef00a8431fad0d3a2a5e2bd8ca3fc8540170e5d0fb9c8b2a61ced0e07e4e505119ce967a81d4cf
   languageName: node
   linkType: hard
 
