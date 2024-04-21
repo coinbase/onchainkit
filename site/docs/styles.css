@@ -17,19 +17,3 @@
 #home-install .vocs_Code {
   font-size: 14px;
 }
-
-.vocs_DocsLayout[data-layout='landing'] {
-  * {
-    transition-property: background-color, border-color, color, fill, stroke;
-    transition-duration: 1000ms;
-  }
-
-  .vocs_DesktopTopNav .vocs_DesktopTopNav_item,
-  .vocs_DesktopTopNav_content * {
-    transition-duration: 0ms;
-  }
-
-  .vocs_DesktopSearch_search {
-    display: none;
-  }
-}
