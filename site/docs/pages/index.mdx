@@ -33,28 +33,28 @@ pnpm add @coinbase/onchainkit viem@2.x
 
 :::
 
-</div>
-<a href="/getting-started" className="justify-self-end">
-<button className="font-medium bg-gray-200 dark:bg-white dark:text-black px-6 py-3 rounded-full">
-View Docs
-</button>
-</a>
-</div>
+      </div>
+      <a href="/getting-started" className="justify-self-end">
+        <button className="font-medium bg-gray-200 dark:bg-white dark:text-black px-6 py-3 rounded-full">
+          View Docs
+        </button>
+      </a>
+    </div>
 
   </div>
 </div>
 
-<hr className="md:mb-16 md:mt-32" />
+<main className="vocs_Content mt-[-80px] mx-auto">
+  <hr className="md:mb-16 md:mt-32" />
 
+{' '}
 <section>
-  <div className="flex flex-col items-center md:flex-row gap-4">
+  <main className="flex flex-col items-center gap-4 md:flex-row">
     <h2 className="basis-1/2 text-6xl ">See how it works</h2>
-    <p className="basis-1/2 md:px-36 text-3xl">
-      See how Taylor Caldwell uses Onchainkit to build frames on Base
-    </p>
-  </div>
+    <p className="basis-1/2 text-2xl md:px-36">Let's build frames on Base</p>
+  </main>
   <div className="md:py-12" />
-  <div className="md:px-48">
+  <aside className="md:px-48">
     <div className="relative w-full pt-[56.25%]">
       <iframe
         src="https://www.youtube.com/embed/YwlfgIJK0j8"
@@ -63,54 +63,28 @@ View Docs
         className="absolute inset-0"
       ></iframe>
     </div>
-  </div>
+  </aside>
 </section>
 
+{' '}
 <hr className="md:my-20" />
 
-<article className="vocs_Content max-w-3xl mt-[-80px] mx-auto">
-
-# Features
-
-OnchainKit offers three themes packed with React components and TypeScript utilities ready for action.
-
-- [Farcaster](/farcaster/introduction)
-- [Frame](/frame/introduction)
-- [Identity](/identity/introduction)
-- [XMTP](/xmtp/introduction)
-
-# Community
-
-Check out the following places for more OnchainKit-related content:
-
-- Follow @zizzamia ([X](https://twitter.com/zizzamia), [Warpcast](https://warpcast.com/zizzamia)) for project updates
-- Join the discussions on our [OnchainKit warpcast channel](https://warpcast.com/~/channel/onchainkit)
-
-# Authors
-
-- [@zizzamia](https://github.com/zizzamia) ([X](https://twitter.com/Zizzamia), [Warpcast](https://warpcast.com/zizzamia))
-- [@0xchiaroscuro](https://github.com/0xchiaroscuro) ([X](https://twitter.com/chiaroscuro), [Warpcast](https://warpcast.com/chiaroscuro))
-- [@cnasc](https://github.com/cnasc) ([Warpcast](https://warpcast.com/cnasc))
-- [@taycaldwell](https://github.com/taycaldwell) ([X](https://twitter.com/taycaldwell_))
-- [@mochikuan](https://github.com/mochikuan) ([X](https://twitter.com/mochikuan))
-
-</article>
-
-<footer className="flex flex-col justify-center space-y-[25px]">
-  <div className="flex max-w-[1400px] flex-col justify-between xl:flex-row xl:space-x-[25px]">
-    <div className="space-y-[20px] xl:space-y-[40px]">
-      <div className="text-[70px] leading-[70px]">OnchainKit</div>
+  <footer className="flex flex-col justify-center space-y-[25px]">
+    <div className="flex max-w-[1400px] flex-col justify-between xl:flex-row xl:space-x-[25px]">
+      <div className="space-y-[20px] xl:space-y-[40px]">
+        <div className="text-[70px] leading-[70px]">OnchainKit</div>
+      </div>
+      <div className="flex flex-row items-center space-x-[128px]">
+        <ul className="flex space-x-[28px]">
+          <li>[Getting Started](/getting-started)</li>
+          <li>[Warpcast](https://warpcast.com/~/channel/onchainkit)</li>
+          <li>[GitHub](https://github.com/coinbase/onchainkit)</li>
+        </ul>
+      </div>
     </div>
-    <div className="flex flex-row items-center space-x-[128px]">
-      <ul className="flex space-x-[28px]">
-        <li>[Getting Started](/getting-started)</li>
-        <li>[Warpcast](https://warpcast.com/~/channel/onchainkit)</li>
-        <li>[GitHub](https://github.com/coinbase/onchainkit)</li>
-      </ul>
+    <div className="text-[16px] leading-5 leading-[16px] xl:text-[20px] xl:leading-[20px]">
+      This project is licensed under the MIT License - see the
+      [LICENSE.md](https://github.com/coinbase/onchainkit/blob/main/LICENSE.md) file for details.
     </div>
-  </div>
-  <div className="text-[16px] leading-5 leading-[16px] xl:text-[20px] xl:leading-[20px]">
-    This project is licensed under the MIT License - see the
-    [LICENSE.md](https://github.com/coinbase/onchainkit/blob/main/LICENSE.md) file for details.
-  </div>
-</footer>
+  </footer>
+</main>
