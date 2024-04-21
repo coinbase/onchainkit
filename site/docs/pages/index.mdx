@@ -44,7 +44,29 @@ View Docs
   </div>
 </div>
 
-<hr className="md:my-32" />
+<hr className="md:mb-16 md:mt-32" />
+
+<section>
+  <div className="flex flex-col items-center md:flex-row gap-4">
+    <h2 className="basis-1/2 text-6xl ">See how it works</h2>
+    <p className="basis-1/2 md:px-36 text-3xl">
+      See how Taylor Caldwell uses Onchainkit to build frames on Base
+    </p>
+  </div>
+  <div className="md:py-12" />
+  <div className="md:px-48">
+    <div className="relative w-full pt-[56.25%]">
+      <iframe
+        src="https://www.youtube.com/embed/YwlfgIJK0j8"
+        width="100%"
+        height="100%"
+        className="absolute inset-0"
+      ></iframe>
+    </div>
+  </div>
+</section>
+
+<hr className="md:my-20" />
 
 <article className="vocs_Content max-w-3xl mt-[-80px] mx-auto">
 
@@ -74,8 +96,8 @@ Check out the following places for more OnchainKit-related content:
 
 </article>
 
-<footer className="flex justify-center flex-col space-y-[25px]">
-  <div className="flex justify-between max-w-[1400px] xl:space-x-[25px] flex-col xl:flex-row">
+<footer className="flex flex-col justify-center space-y-[25px]">
+  <div className="flex max-w-[1400px] flex-col justify-between xl:flex-row xl:space-x-[25px]">
     <div className="space-y-[20px] xl:space-y-[40px]">
       <div className="text-[70px] leading-[70px]">OnchainKit</div>
     </div>
@@ -87,5 +109,8 @@ Check out the following places for more OnchainKit-related content:
       </ul>
     </div>
   </div>
-  <div className="text-[16px] leading-[16px] xl:text-[20px] xl:leading-[20px] leading-5">This project is licensed under the MIT License - see the [LICENSE.md](https://github.com/coinbase/onchainkit/blob/main/LICENSE.md) file for details.</div>
+  <div className="text-[16px] leading-5 leading-[16px] xl:text-[20px] xl:leading-[20px]">
+    This project is licensed under the MIT License - see the
+    [LICENSE.md](https://github.com/coinbase/onchainkit/blob/main/LICENSE.md) file for details.
+  </div>
 </footer>
