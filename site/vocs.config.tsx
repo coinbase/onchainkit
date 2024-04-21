@@ -83,6 +83,10 @@ export default defineConfig({
           light: 'white',
           dark: '#151A26',
         },
+        backgroundDark: {
+          light: '#F5F5F5',
+          dark: '#0F131E',
+        },
         textAccent: {
           light: '#050F19',
           dark: 'white',
