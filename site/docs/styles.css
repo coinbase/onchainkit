@@ -17,3 +17,21 @@
 #home-install .vocs_Code {
   font-size: 14px;
 }
+
+.css-blurry-gradient {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, 0%);
+  width: 500px;
+  height: 500px;
+  border-radius: 50% 22% 40% 80%;
+  filter: blur(70px);
+  background: radial-gradient(circle at 50% 50%, #0070ba, #003a5b);
+  opacity: 0.6;
+}
+
+.dark .css-blurry-gradient {
+  background: radial-gradient(circle at 50% 50%, #b2fdff, rgba(0, 162, 255, 0));
+  opacity: 0.2;
+}
