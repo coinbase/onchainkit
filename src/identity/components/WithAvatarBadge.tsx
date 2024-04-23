@@ -1,5 +1,5 @@
 import type { Address } from 'viem';
-import { useAttestations } from '../hooks/useAttestation';
+import { useAttestations } from '../hooks/useAttestations';
 import { Badge } from './Badge';
 
 type WithAvatarBadgeInnerProps = {

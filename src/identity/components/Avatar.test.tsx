@@ -5,7 +5,7 @@ import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import { Avatar } from './Avatar';
 import { useName } from '../hooks/useName';
-import { useAttestation } from '../hooks/useAttestation';
+import { useAttestations } from '../hooks/useAttestations';
 import { useAvatar } from '../hooks/useAvatar';
 
 import '@testing-library/jest-dom';
@@ -14,8 +14,8 @@ jest.mock('../hooks/useName', () => ({
   useName: jest.fn(),
 }));
 
-jest.mock('../hooks/useAttestation', () => ({
-  useAttestation: jest.fn(),
+jest.mock('../hooks/useAttestations', () => ({
+  useAttestations: jest.fn(),
 }));
 
 jest.mock('../hooks/useAvatar', () => ({
@@ -92,7 +92,7 @@ describe('Avatar Component', () => {
   });
 
   it('renders badge when showAttestation is true', async () => {
-    (useAttestation as jest.Mock).mockReturnValue('eas');
+    (useAttestations as jest.Mock).mockReturnValue('eas');
     (useAvatar as jest.Mock).mockReturnValue({ data: 'avatar_url', isLoading: false });
     (useName as jest.Mock).mockReturnValue({ data: 'ens_name', isLoading: false });
 

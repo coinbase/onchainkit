@@ -1,5 +1,7 @@
 import type { Address } from 'viem';
-import { useAttestations } from '../hooks/useAttestation';
+
+import { useOnchainKit } from '../../useOnchainKit';
+import { useAttestations } from '../hooks/useAttestations';
 import { Badge } from './Badge';
 
 type WithNameBadgeInnerProps = {
@@ -8,7 +10,12 @@ type WithNameBadgeInnerProps = {
 };
 
 function WithNameBadgeInner({ children, address }: WithNameBadgeInnerProps) {
-  const attestations = useAttestations({ address });
+  const onchainKitContext = useOnchainKit();
+  const attestations = useAttestations({
+    address,
+    chain: onchainKitContext?.chain,
+    schemaId: onchainKitContext?.schemaId,
+  });
   return (
     <div data-testid="inner" style={{ display: 'flex', alignItems: 'center' }}>
       {children}

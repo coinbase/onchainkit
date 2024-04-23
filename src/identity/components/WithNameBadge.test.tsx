@@ -4,11 +4,17 @@
 import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
+import { useOnchainKit } from '../../useOnchainKit';
+import { useAttestations } from '../hooks/useAttestations';
 import { WithNameBadge } from './WithNameBadge';
-import { useAttestation } from '../hooks/useAttestation';
+import { base } from 'viem/chains';
 
-jest.mock('../hooks/useAttestation', () => ({
-  useAttestation: jest.fn(),
+jest.mock('../../useOnchainKit', () => ({
+  useOnchainKit: jest.fn(),
+}));
+
+jest.mock('../hooks/useAttestations', () => ({
+  useAttestations: jest.fn(),
 }));
 
 describe('WithNameBadge Component', () => {
@@ -17,6 +23,11 @@ describe('WithNameBadge Component', () => {
   });
 
   it('should not render inner component', async () => {
+    (useOnchainKit as jest.Mock).mockReturnValue({
+      chain: base,
+      schemaId: '0xschema',
+    });
+
     render(
       <WithNameBadge address="0x123" showAttestation={false}>
         test
@@ -30,7 +41,11 @@ describe('WithNameBadge Component', () => {
   });
 
   it('should not render badge', async () => {
-    (useAttestation as jest.Mock).mockReturnValue(null);
+    (useOnchainKit as jest.Mock).mockReturnValue({
+      chain: base,
+      schemaId: '0xschema',
+    });
+    (useAttestations as jest.Mock).mockReturnValue(null);
 
     render(
       <WithNameBadge address="0x123" showAttestation={true}>
@@ -47,7 +62,12 @@ describe('WithNameBadge Component', () => {
   });
 
   it('should render badge', async () => {
-    (useAttestation as jest.Mock).mockReturnValue('eas');
+    (useOnchainKit as jest.Mock).mockReturnValue({
+      chain: base,
+      schemaId: '0xschema',
+    });
+    const attestation = {};
+    (useAttestations as jest.Mock).mockReturnValue([attestation]);
 
     render(
       <WithNameBadge address="0x123" showAttestation={true}>

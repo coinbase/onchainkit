@@ -5,18 +5,18 @@ import { EASSchemaUid } from './identity/types';
 import { checkHashLength } from './utils/checkHashLength';
 
 type OnchainKitContextType = {
-  address: Address;
-  chain: Chain;
-  schemaId: EASSchemaUid;
+  address: Address | null;
+  chain: Chain | null;
+  schemaId: EASSchemaUid | null;
 };
 
 export const OnchainKitContext = createContext<OnchainKitContextType | null>(null);
 
 type OnchainKitProviderProps = {
-  address: Address;
-  chain: Chain;
+  address?: Address;
+  chain?: Chain;
   children: ReactNode;
-  schemaId: EASSchemaUid;
+  schemaId?: EASSchemaUid;
 };
 
 export function OnchainKitProvider({
@@ -25,14 +25,14 @@ export function OnchainKitProvider({
   children,
   schemaId,
 }: OnchainKitProviderProps) {
-  if (!checkHashLength(schemaId, 64)) {
+  if (schemaId && !checkHashLength(schemaId, 64)) {
     throw Error('EAS schemaId must be 64 characters prefixed with "0x"');
   }
   const value = useMemo(() => {
     return {
-      address,
-      chain,
-      schemaId,
+      address: address ?? null,
+      chain: chain ?? null,
+      schemaId: schemaId ?? null,
     };
   }, [address, chain, schemaId]);
   return <OnchainKitContext.Provider value={value}>{children}</OnchainKitContext.Provider>;

@@ -10,8 +10,8 @@ import { OnchainKitProvider } from './OnchainKitProvider';
 import { useOnchainKit } from './useOnchainKit';
 
 const TestComponent = () => {
-  const { identity } = useOnchainKit();
-  return <div>{identity.eas.schemaId}</div>;
+  const { schemaId } = useOnchainKit();
+  return <div>{schemaId}</div>;
 };
 
 describe('OnchainKitProvider', () => {
@@ -19,7 +19,7 @@ describe('OnchainKitProvider', () => {
     const schemaId: EASSchemaUid = `0x${'1'.repeat(64)}`;
 
     render(
-      <OnchainKitProvider identity={{ easConfig: { schemaId } }}>
+      <OnchainKitProvider schemaId={schemaId}>
         <TestComponent />
       </OnchainKitProvider>,
     );
@@ -32,7 +32,7 @@ describe('OnchainKitProvider', () => {
   it('throws an error if schemaId does not meet the required length', () => {
     expect(() =>
       render(
-        <OnchainKitProvider identity={{ easConfig: { schemaId: '0x123' } }}>
+        <OnchainKitProvider schemaId={'0x123'}>
           <TestComponent />
         </OnchainKitProvider>,
       ),
