@@ -1,45 +1,40 @@
 import { ReactNode, createContext, useMemo } from 'react';
-import { Chain } from 'viem';
+import { Address, Chain } from 'viem';
 import { base } from 'viem/chains';
 
 import { EASSchemaUid } from './identity/types';
 import { checkHashLength } from './utils/checkHashLength';
 
 type OnchainKitContextType = {
-  identity: {
-    eas: {
-      schemaId: EASSchemaUid;
-      chain: Chain;
-    };
-  };
+  address: Address;
+  chain: Chain;
+  schemaId: EASSchemaUid;
 };
 
 export const OnchainKitContext = createContext<OnchainKitContextType | null>(null);
 
 type OnchainKitProviderProps = {
-  identity: {
-    easConfig: {
-      schemaId: EASSchemaUid;
-      chain?: Chain;
-    };
-  };
+  address: Address;
+  chain: Chain;
   children: ReactNode;
+  schemaId: EASSchemaUid;
 };
 
-export function OnchainKitProvider({ identity: { easConfig }, children }: OnchainKitProviderProps) {
-  if (!checkHashLength(easConfig.schemaId, 64)) {
+export function OnchainKitProvider({
+  address,
+  chain,
+  children,
+  schemaId,
+}: OnchainKitProviderProps) {
+  if (!checkHashLength(schemaId, 64)) {
     throw Error('EAS schemaId must be 64 characters prefixed with "0x"');
   }
   const value = useMemo(() => {
-    const { schemaId, chain = base } = easConfig;
     return {
-      identity: {
-        eas: {
-          schemaId,
-          chain,
-        },
-      },
+      address,
+      chain,
+      schemaId,
     };
-  }, [easConfig]);
+  }, [address, chain, schemaId]);
   return <OnchainKitContext.Provider value={value}>{children}</OnchainKitContext.Provider>;
 }

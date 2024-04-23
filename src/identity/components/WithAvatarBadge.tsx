@@ -12,7 +12,7 @@ function WithAvatarBadgeInner({ children, address }: WithAvatarBadgeInnerProps) 
   return (
     <div style={{ position: 'relative', width: '32px', height: '32px' }} data-testid="inner">
       {children}
-      {attestation === 'eas' && (
+      {attestation && (
         <div
           style={{
             position: 'absolute',

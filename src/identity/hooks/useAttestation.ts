@@ -1,29 +1,37 @@
 import { useEffect, useState } from 'react';
 import type { Address, Chain } from 'viem';
-import { base } from 'viem/chains';
 
 import { useOnchainKit } from '../../useOnchainKit';
 import { getEASAttestations } from '../getEASAttestations';
+import { EASAttestation } from '../types';
 
-export function useAttestation(address: Address) {
-  const { identity } = useOnchainKit();
-  const [attestation, setAttestation] = useState<'eas' | null>(null);
+type UseAttestations = {
+  address?: Address;
+  chain?: Chain;
+  schemaId?: Address;
+};
+
+export function useAttestations({
+  address,
+  chain,
+  schemaId,
+}: UseAttestations): EASAttestation[] | null {
+  const onchainKitContext = useOnchainKit();
+  let attestations: EASAttestation[] | null = null;
+  let addressToUse = address ?? onchainKitContext?.address ?? null;
+  let chainToUse = chain ?? onchainKitContext?.chain ?? null;
+  let schemaIdToUse = schemaId ?? onchainKitContext?.schemaId ?? null;
+  const [attestation, setAttestation] = useState<EASAttestation[] | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
-      if (identity.eas !== undefined) {
-        const attestation = await getEASAttestations(address, identity.eas.chain);
-
-        const found = attestation.find(({ schemaId }) => schemaId === identity.eas.schemaId);
-
-        if (found) {
-          setAttestation('eas');
-        }
-      }
+      const foundAttestations = await getEASAttestations(addressToUse, chainToUse, {
+        schemas: [schemaIdToUse],
+      });
+      setAttestation(foundAttestations);
     };
-
     fetchData();
-  }, [address, identity.eas]);
+  }, [addressToUse, chainToUse, schemaIdToUse]);
 
   return attestation;
 }
