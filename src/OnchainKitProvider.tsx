@@ -1,6 +1,5 @@
 import { ReactNode, createContext, useMemo } from 'react';
 import { Address, Chain } from 'viem';
-import { base } from 'viem/chains';
 
 import { EASSchemaUid } from './identity/types';
 import { checkHashLength } from './utils/checkHashLength';

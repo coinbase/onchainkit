@@ -1,5 +1,5 @@
 import type { Address } from 'viem';
-import { useAttestation } from '../hooks/useAttestation';
+import { useAttestations } from '../hooks/useAttestation';
 import { Badge } from './Badge';
 
 type WithNameBadgeInnerProps = {
@@ -8,11 +8,11 @@ type WithNameBadgeInnerProps = {
 };
 
 function WithNameBadgeInner({ children, address }: WithNameBadgeInnerProps) {
-  const attestation = useAttestation(address);
+  const attestations = useAttestations({ address });
   return (
     <div data-testid="inner" style={{ display: 'flex', alignItems: 'center' }}>
       {children}
-      {attestation === 'eas' && (
+      {attestations && attestations[0] && (
         <div style={{ marginLeft: '4px' }}>
           <Badge />
         </div>
