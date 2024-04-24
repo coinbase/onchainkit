@@ -9,6 +9,12 @@ type WithNameBadgeInnerProps = {
   address: Address;
 };
 
+type WithNameBadgeProps = {
+  children: React.ReactNode;
+  showAttestation?: boolean;
+  address: Address;
+};
+
 function WithNameBadgeInner({ children, address }: WithNameBadgeInnerProps) {
   const onchainKitContext = useOnchainKit();
   const attestations = useAttestations({
@@ -27,12 +33,6 @@ function WithNameBadgeInner({ children, address }: WithNameBadgeInnerProps) {
     </div>
   );
 }
-
-type WithNameBadgeProps = {
-  children: React.ReactNode;
-  showAttestation?: boolean;
-  address: Address;
-};
 
 export function WithNameBadge({ children, showAttestation, address }: WithNameBadgeProps) {
   if (!showAttestation) {

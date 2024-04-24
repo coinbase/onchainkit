@@ -2,16 +2,17 @@
  * @jest-environment jsdom
  */
 import React from 'react';
+import { base } from 'viem/chains';
+import '@testing-library/jest-dom';
 import { render, screen, waitFor } from '@testing-library/react';
-import { Avatar } from './Avatar';
+import { useOnchainKit } from '../../useOnchainKit';
 import { useName } from '../hooks/useName';
 import { useAttestations } from '../hooks/useAttestations';
 import { useAvatar } from '../hooks/useAvatar';
+import { Avatar } from './Avatar';
 
-import '@testing-library/jest-dom';
-
-jest.mock('../hooks/useName', () => ({
-  useName: jest.fn(),
+jest.mock('../../useOnchainKit', () => ({
+  useOnchainKit: jest.fn(),
 }));
 
 jest.mock('../hooks/useAttestations', () => ({
@@ -20,6 +21,10 @@ jest.mock('../hooks/useAttestations', () => ({
 
 jest.mock('../hooks/useAvatar', () => ({
   useAvatar: jest.fn(),
+}));
+
+jest.mock('../hooks/useName', () => ({
+  useName: jest.fn(),
 }));
 
 describe('Avatar Component', () => {
@@ -92,7 +97,11 @@ describe('Avatar Component', () => {
   });
 
   it('renders badge when showAttestation is true', async () => {
-    (useAttestations as jest.Mock).mockReturnValue('eas');
+    (useOnchainKit as jest.Mock).mockReturnValue({
+      chain: base,
+      schemaId: '0xschema',
+    });
+    (useAttestations as jest.Mock).mockReturnValue([{}]);
     (useAvatar as jest.Mock).mockReturnValue({ data: 'avatar_url', isLoading: false });
     (useName as jest.Mock).mockReturnValue({ data: 'ens_name', isLoading: false });
 

@@ -1,4 +1,6 @@
 import type { Address } from 'viem';
+
+import { useOnchainKit } from '../../useOnchainKit';
 import { useAttestations } from '../hooks/useAttestations';
 import { Badge } from './Badge';
 
@@ -7,8 +9,19 @@ type WithAvatarBadgeInnerProps = {
   address: Address;
 };
 
+type WithAvatarBadgeProps = {
+  children: React.ReactNode;
+  showAttestation: boolean;
+  address: Address;
+};
+
 function WithAvatarBadgeInner({ children, address }: WithAvatarBadgeInnerProps) {
-  const attestations = useAttestations({ address });
+  const onchainKitContext = useOnchainKit();
+  const attestations = useAttestations({
+    address,
+    chain: onchainKitContext?.chain,
+    schemaId: onchainKitContext?.schemaId,
+  });
   return (
     <div style={{ position: 'relative', width: '32px', height: '32px' }} data-testid="inner">
       {children}
@@ -43,12 +56,6 @@ function WithAvatarBadgeInner({ children, address }: WithAvatarBadgeInnerProps) 
     </div>
   );
 }
-
-type WithAvatarBadgeProps = {
-  children: React.ReactNode;
-  showAttestation: boolean;
-  address: Address;
-};
 
 export function WithAvatarBadge({ children, showAttestation, address }: WithAvatarBadgeProps) {
   if (!showAttestation) {
