@@ -16,10 +16,23 @@ describe('useAttestations', () => {
     jest.clearAllMocks();
   });
 
-  it('returns null if no attestations found', async () => {
+  it('returns an empty array if no attestations found', async () => {
+    (getEASAttestations as jest.Mock).mockReturnValue([]);
+
+    const address = '0xaddress';
+    const chain = base;
+    const schemaId = '0xschema';
+    const { result } = renderHook(() => useAttestations({ address, chain, schemaId }));
+
+    await waitFor(() => {
+      expect(result.current).toEqual([]);
+    });
+  });
+
+  it('returns attestations if found', async () => {
     (getEASAttestations as jest.Mock).mockReturnValue([
       {
-        schemaId: '0xdiffSchema',
+        schemaId: '0xschema',
       },
     ]);
 
@@ -29,7 +42,7 @@ describe('useAttestations', () => {
     const { result } = renderHook(() => useAttestations({ address, chain, schemaId }));
 
     await waitFor(() => {
-      expect(result.current).toBeNull();
+      expect(result.current).toEqual([{ schemaId: '0xschema' }]);
     });
   });
 });

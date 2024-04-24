@@ -6,23 +6,15 @@ import { EASAttestation } from '../types';
 
 type UseAttestations = {
   address: Address;
-  chain: Chain | null;
-  schemaId: Address | null;
+  chain: Chain;
+  schemaId: Address;
 };
 
-export function useAttestations({
-  address,
-  chain,
-  schemaId,
-}: UseAttestations): EASAttestation[] | null {
-  const [attestations, setAttestations] = useState<EASAttestation[] | null>(null);
+export function useAttestations({ address, chain, schemaId }: UseAttestations): EASAttestation[] {
+  const [attestations, setAttestations] = useState<EASAttestation[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
-      if (!address || !chain || !schemaId) {
-        setAttestations(null);
-        return;
-      }
       const foundAttestations = await getEASAttestations(address, chain, {
         schemas: [schemaId],
       });

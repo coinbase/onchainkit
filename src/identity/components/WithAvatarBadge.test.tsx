@@ -82,4 +82,25 @@ describe('WithAvatarBadge Component', () => {
       expect(badge).toBeInTheDocument();
     });
   });
+
+  it('should log error message when schemaId is not provided', async () => {
+    (useOnchainKit as jest.Mock).mockReturnValue({
+      chain: base,
+      schemaId: null,
+    });
+
+    const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+
+    render(
+      <WithAvatarBadge address="0x123" showAttestation={true}>
+        test
+      </WithAvatarBadge>,
+    );
+
+    await waitFor(() => {
+      expect(consoleSpy).toHaveBeenCalledWith(
+        'EAS schemaId must provided in OnchainKitProvider context when using WithNameBadge showAttestation is true.',
+      );
+    });
+  });
 });
