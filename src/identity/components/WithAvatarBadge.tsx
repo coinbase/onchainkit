@@ -1,5 +1,7 @@
 import type { Address } from 'viem';
-import { useAttestation } from '../hooks/useAttestation';
+
+import { useOnchainKit } from '../../useOnchainKit';
+import { useAttestations } from '../hooks/useAttestations';
 import { Badge } from './Badge';
 
 type WithAvatarBadgeInnerProps = {
@@ -7,12 +9,31 @@ type WithAvatarBadgeInnerProps = {
   address: Address;
 };
 
+type WithAvatarBadgeProps = {
+  children: React.ReactNode;
+  showAttestation: boolean;
+  address: Address;
+};
+
+const ERROR_MESSAGE =
+  'EAS schemaId must provided in OnchainKitProvider context when using WithNameBadge showAttestation is true.';
+
 function WithAvatarBadgeInner({ children, address }: WithAvatarBadgeInnerProps) {
-  const attestation = useAttestation(address);
+  const onchainKitContext = useOnchainKit();
+  // SchemaId is required to fetch attestations
+  if (!onchainKitContext?.schemaId) {
+    console.error(ERROR_MESSAGE);
+    return children;
+  }
+  const attestations = useAttestations({
+    address,
+    chain: onchainKitContext?.chain,
+    schemaId: onchainKitContext?.schemaId,
+  });
   return (
     <div style={{ position: 'relative', width: '32px', height: '32px' }} data-testid="inner">
       {children}
-      {attestation === 'eas' && (
+      {attestations && attestations[0] && (
         <div
           style={{
             position: 'absolute',
@@ -43,12 +64,6 @@ function WithAvatarBadgeInner({ children, address }: WithAvatarBadgeInnerProps) 
     </div>
   );
 }
-
-type WithAvatarBadgeProps = {
-  children: React.ReactNode;
-  showAttestation: boolean;
-  address: Address;
-};
 
 export function WithAvatarBadge({ children, showAttestation, address }: WithAvatarBadgeProps) {
   if (!showAttestation) {

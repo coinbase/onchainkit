@@ -7,8 +7,8 @@ import { render } from '@testing-library/react';
 import { useOnchainKit } from './useOnchainKit';
 
 const TestComponent = () => {
-  const { identity } = useOnchainKit();
-  return <div>{identity.eas.schemaId}</div>;
+  const { schemaId } = useOnchainKit();
+  return <div>{schemaId}</div>;
 };
 
 describe('useOnchainKit', () => {

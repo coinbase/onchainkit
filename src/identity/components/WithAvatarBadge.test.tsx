@@ -4,11 +4,17 @@
 import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
+import { useOnchainKit } from '../../useOnchainKit';
+import { useAttestations } from '../hooks/useAttestations';
 import { WithAvatarBadge } from './WithAvatarBadge';
-import { useAttestation } from '../hooks/useAttestation';
+import { base } from 'viem/chains';
 
-jest.mock('../hooks/useAttestation', () => ({
-  useAttestation: jest.fn(),
+jest.mock('../../useOnchainKit', () => ({
+  useOnchainKit: jest.fn(),
+}));
+
+jest.mock('../hooks/useAttestations', () => ({
+  useAttestations: jest.fn(),
 }));
 
 describe('WithAvatarBadge Component', () => {
@@ -17,6 +23,11 @@ describe('WithAvatarBadge Component', () => {
   });
 
   it('should not render inner component', async () => {
+    (useOnchainKit as jest.Mock).mockReturnValue({
+      chain: base,
+      schemaId: '0xschema',
+    });
+
     render(
       <WithAvatarBadge address="0x123" showAttestation={false}>
         test
@@ -30,7 +41,11 @@ describe('WithAvatarBadge Component', () => {
   });
 
   it('should not render badge', async () => {
-    (useAttestation as jest.Mock).mockReturnValue(null);
+    (useOnchainKit as jest.Mock).mockReturnValue({
+      chain: base,
+      schemaId: '0xschema',
+    });
+    (useAttestations as jest.Mock).mockReturnValue(null);
 
     render(
       <WithAvatarBadge address="0x123" showAttestation={true}>
@@ -47,7 +62,12 @@ describe('WithAvatarBadge Component', () => {
   });
 
   it('should render badge', async () => {
-    (useAttestation as jest.Mock).mockReturnValue('eas');
+    (useOnchainKit as jest.Mock).mockReturnValue({
+      chain: base,
+      schemaId: '0xschema',
+    });
+    const attestation = {};
+    (useAttestations as jest.Mock).mockReturnValue([attestation]);
 
     render(
       <WithAvatarBadge address="0x123" showAttestation={true}>
@@ -60,6 +80,27 @@ describe('WithAvatarBadge Component', () => {
       expect(inner).toBeInTheDocument();
       const badge = screen.getByTestId('badge');
       expect(badge).toBeInTheDocument();
+    });
+  });
+
+  it('should log error message when schemaId is not provided', async () => {
+    (useOnchainKit as jest.Mock).mockReturnValue({
+      chain: base,
+      schemaId: null,
+    });
+
+    const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+
+    render(
+      <WithAvatarBadge address="0x123" showAttestation={true}>
+        test
+      </WithAvatarBadge>,
+    );
+
+    await waitFor(() => {
+      expect(consoleSpy).toHaveBeenCalledWith(
+        'EAS schemaId must provided in OnchainKitProvider context when using WithNameBadge showAttestation is true.',
+      );
     });
   });
 });
