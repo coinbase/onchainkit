@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.13.1
+
+### Patch Changes
+
+- 49c4233: - **feat**: defined three main props for `OnchainKitProvider`: `address`, `chain` and `schemaId`. By @zizzamia #305
+
 ## 0.13.0
 
 ### Minor Changes
