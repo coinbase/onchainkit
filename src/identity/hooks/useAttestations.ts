@@ -1,15 +1,10 @@
 import { useEffect, useState } from 'react';
-import type { Address, Chain } from 'viem';
-
 import { getEASAttestations } from '../getEASAttestations';
-import { EASAttestation } from '../types';
+import { EASAttestation, UseAttestations } from '../types';
 
-type UseAttestations = {
-  address: Address;
-  chain: Chain;
-  schemaId: Address;
-};
-
+/**
+ * Fetches EAS Attestations for a given address, chain, and schemaId.
+ */
 export function useAttestations({ address, chain, schemaId }: UseAttestations): EASAttestation[] {
   const [attestations, setAttestations] = useState<EASAttestation[]>([]);
 

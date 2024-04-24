@@ -1,4 +1,4 @@
-import { Address } from 'viem';
+import { Address, Chain } from 'viem';
 
 /**
  * Note: exported as public Type
@@ -81,4 +81,10 @@ export type NameReact = {
   props?: React.HTMLAttributes<HTMLSpanElement>; // Additional HTML attributes for the span element.
   showAttestation?: boolean; // Optional flag to show the EAS attestation badge.
   sliced?: boolean; // Determines if the address should be sliced when no ENS name is available.
+};
+
+export type UseAttestations = {
+  address: Address;
+  chain: Chain;
+  schemaId: Address;
 };
