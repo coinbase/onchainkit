@@ -1,5 +1,5 @@
 ---
-"@coinbase/onchainkit": patch
+'@coinbase/onchainkit': patch
 ---
 
-dope
+- **feat**: added custom style to `Badge` component. By @zizzamia #307
