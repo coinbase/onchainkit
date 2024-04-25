@@ -10,6 +10,7 @@ export { useAttestations } from './hooks/useAttestations';
 export { getEASAttestations } from './getEASAttestations';
 export type {
   AvatarReact,
+  BadgeReact,
   EASSchemaUid,
   EASAttestation,
   EASChainDefinition,

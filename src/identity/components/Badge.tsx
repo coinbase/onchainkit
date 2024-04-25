@@ -1,9 +1,4 @@
-type BadgeProps = {
-  backgroundColor?: string;
-  borderColor?: string;
-  className?: string;
-  tickerColor?: string;
-};
+import { BadgeReact } from '../types';
 
 /**
  * Badge component.
@@ -15,7 +10,7 @@ export function Badge({
   borderColor,
   className,
   tickerColor = 'white',
-}: BadgeProps) {
+}: BadgeReact) {
   // TODO: Implement the Badge component as span and CSS without an SVG element.
   const badgeSize = borderColor ? '14px' : '12px';
   return (

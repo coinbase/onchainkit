@@ -13,6 +13,16 @@ export type AvatarReact = {
 };
 
 /**
+ * Note: exported as public Type
+ */
+export type BadgeReact = {
+  backgroundColor?: string; // The background color of the badge.
+  borderColor?: string; // The border color of the badge.
+  className?: string; // // Optional additional CSS class to apply to the badge.
+  tickerColor?: string; // The color of the checkmark.
+};
+
+/**
  * Ethereum Attestation Service (EAS) Schema Uid
  * The schema identifier associated with the EAS attestation.
  *
