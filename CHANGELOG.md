@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.13.3
+
+### Patch Changes
+
+- f4e432f: - **feat**: keep polishing the `Badge` component props and how to customize it. By @zizzamia #310
+
 ## 0.13.2
 
 ### Patch Changes
