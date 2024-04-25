@@ -2,4 +2,4 @@
 '@coinbase/onchainkit': patch
 ---
 
-- **feat**: ok
+- **feat**: keep polishing the `Badge` component props and how to customize it. By @zizzamia #310

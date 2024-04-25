@@ -11,7 +11,7 @@ describe('WithAvatarBadge Component', () => {
     render(<Badge />);
 
     await waitFor(() => {
-      const inner = screen.queryByTestId('badge');
+      const inner = screen.queryByTestId('ockBadge');
       expect(inner).toBeInTheDocument();
     });
   });
@@ -20,11 +20,11 @@ describe('WithAvatarBadge Component', () => {
     render(<Badge />);
 
     await waitFor(() => {
-      const badge = screen.queryByTestId('badge');
+      const badge = screen.queryByTestId('ockBadge');
       expect(badge).toHaveStyle('border-radius: 50%; height: 12px; width: 12px;');
-      const bg = screen.queryByTestId('badgeBackground');
+      const bg = screen.queryByTestId('ockBadgeBackground');
       expect(bg).toHaveAttribute('fill', '#0052FF');
-      const ticker = screen.queryByTestId('badgeTicker');
+      const ticker = screen.queryByTestId('ockBadgeTicker');
       expect(ticker).toHaveAttribute('fill', 'white');
     });
   });
@@ -33,13 +33,13 @@ describe('WithAvatarBadge Component', () => {
     render(<Badge borderColor="red" />);
 
     await waitFor(() => {
-      const badge = screen.queryByTestId('badge');
+      const badge = screen.queryByTestId('ockBadge');
       expect(badge).toHaveStyle(
         'border: 1px solid red; border-radius: 50%; height: 14px; width: 14px;',
       );
-      const bg = screen.queryByTestId('badgeBackground');
+      const bg = screen.queryByTestId('ockBadgeBackground');
       expect(bg).toHaveAttribute('fill', '#0052FF');
-      const ticker = screen.queryByTestId('badgeTicker');
+      const ticker = screen.queryByTestId('ockBadgeTicker');
       expect(ticker).toHaveAttribute('fill', 'white');
     });
   });
@@ -48,11 +48,11 @@ describe('WithAvatarBadge Component', () => {
     render(<Badge backgroundColor="green" />);
 
     await waitFor(() => {
-      const badge = screen.queryByTestId('badge');
+      const badge = screen.queryByTestId('ockBadge');
       expect(badge).toHaveStyle('border-radius: 50%; height: 12px; width: 12px;');
-      const bg = screen.queryByTestId('badgeBackground');
+      const bg = screen.queryByTestId('ockBadgeBackground');
       expect(bg).toHaveAttribute('fill', 'green');
-      const ticker = screen.queryByTestId('badgeTicker');
+      const ticker = screen.queryByTestId('ockBadgeTicker');
       expect(ticker).toHaveAttribute('fill', 'white');
     });
   });
@@ -61,11 +61,11 @@ describe('WithAvatarBadge Component', () => {
     render(<Badge tickerColor="yellow" />);
 
     await waitFor(() => {
-      const badge = screen.queryByTestId('badge');
+      const badge = screen.queryByTestId('ockBadge');
       expect(badge).toHaveStyle('border-radius: 50%; height: 12px; width: 12px;');
-      const bg = screen.queryByTestId('badgeBackground');
+      const bg = screen.queryByTestId('ockBadgeBackground');
       expect(bg).toHaveAttribute('fill', '#0052FF');
-      const ticker = screen.queryByTestId('badgeTicker');
+      const ticker = screen.queryByTestId('ockBadgeTicker');
       expect(ticker).toHaveAttribute('fill', 'yellow');
     });
   });

@@ -35,7 +35,7 @@ describe('WithNameBadge Component', () => {
     );
 
     await waitFor(() => {
-      const inner = screen.queryByTestId('inner');
+      const inner = screen.queryByTestId('ockNameBadgeInner');
       expect(inner).toBeNull();
     });
   });
@@ -54,9 +54,9 @@ describe('WithNameBadge Component', () => {
     );
 
     await waitFor(() => {
-      const inner = screen.getByTestId('inner');
+      const inner = screen.getByTestId('ockNameBadgeInner');
       expect(inner).toBeInTheDocument();
-      const badge = screen.queryByTestId('badge');
+      const badge = screen.queryByTestId('ockBadge');
       expect(badge).toBeNull();
     });
   });
@@ -76,9 +76,9 @@ describe('WithNameBadge Component', () => {
     );
 
     await waitFor(() => {
-      const inner = screen.getByTestId('inner');
+      const inner = screen.getByTestId('ockNameBadgeInner');
       expect(inner).toBeInTheDocument();
-      const badge = screen.getByTestId('badge');
+      const badge = screen.getByTestId('ockBadge');
       expect(badge).toBeInTheDocument();
     });
   });

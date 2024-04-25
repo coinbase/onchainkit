@@ -31,7 +31,10 @@ function WithAvatarBadgeInner({ children, address }: WithAvatarBadgeInnerProps) 
     schemaId: onchainKitContext?.schemaId,
   });
   return (
-    <div style={{ position: 'relative', width: '32px', height: '32px' }} data-testid="inner">
+    <div
+      style={{ position: 'relative', width: '32px', height: '32px' }}
+      data-testid="ockAvatarBadgeInner"
+    >
       {children}
       {attestations && attestations[0] && (
         <div
