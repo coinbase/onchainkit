@@ -16,45 +16,57 @@ describe('WithAvatarBadge Component', () => {
     });
   });
 
-  it('should render the default svg with a blue background and white border and size 12', async () => {
+  it('should render the default svg with a blue background and no border', async () => {
     render(<Badge />);
 
     await waitFor(() => {
-      const inner = screen.queryByTestId('badge');
-      expect(inner).toHaveAttribute('width', '12');
-      expect(inner).toHaveAttribute('height', '12');
-      const background = screen.queryByTestId('badgeBackground');
-      expect(background).toHaveAttribute('fill', '#0052FF');
-      const border = screen.queryByTestId('badgeBorder');
-      expect(border).toHaveAttribute('fill', 'white');
+      const badge = screen.queryByTestId('badge');
+      expect(badge).toHaveStyle('border-radius: 50%; height: 12px; width: 12px;');
+      const bg = screen.queryByTestId('badgeBackground');
+      expect(bg).toHaveAttribute('fill', '#0052FF');
+      const ticker = screen.queryByTestId('badgeTicker');
+      expect(ticker).toHaveAttribute('fill', 'white');
     });
   });
 
-  it('should render the svg with a custom background color', async () => {
-    render(<Badge backgroundColor="red" />);
-
-    await waitFor(() => {
-      const inner = screen.queryByTestId('badgeBackground');
-      expect(inner).toHaveAttribute('fill', 'red');
-    });
-  });
-
-  it('should render the svg with a custom border color', async () => {
+  it('should render the badge with a red border', async () => {
     render(<Badge borderColor="red" />);
 
     await waitFor(() => {
-      const inner = screen.queryByTestId('badgeBorder');
-      expect(inner).toHaveAttribute('fill', 'red');
+      const badge = screen.queryByTestId('badge');
+      expect(badge).toHaveStyle(
+        'border: 1px solid red; border-radius: 50%; height: 14px; width: 14px;',
+      );
+      const bg = screen.queryByTestId('badgeBackground');
+      expect(bg).toHaveAttribute('fill', '#0052FF');
+      const ticker = screen.queryByTestId('badgeTicker');
+      expect(ticker).toHaveAttribute('fill', 'white');
     });
   });
 
-  it('should render the svg with a custom size', async () => {
-    render(<Badge size="24" />);
+  it('should render the badge with a green background', async () => {
+    render(<Badge backgroundColor="green" />);
 
     await waitFor(() => {
-      const inner = screen.queryByTestId('badge');
-      expect(inner).toHaveAttribute('width', '24');
-      expect(inner).toHaveAttribute('height', '24');
+      const badge = screen.queryByTestId('badge');
+      expect(badge).toHaveStyle('border-radius: 50%; height: 12px; width: 12px;');
+      const bg = screen.queryByTestId('badgeBackground');
+      expect(bg).toHaveAttribute('fill', 'green');
+      const ticker = screen.queryByTestId('badgeTicker');
+      expect(ticker).toHaveAttribute('fill', 'white');
+    });
+  });
+
+  it('should render the badge with a yellow ticker', async () => {
+    render(<Badge tickerColor="yellow" />);
+
+    await waitFor(() => {
+      const badge = screen.queryByTestId('badge');
+      expect(badge).toHaveStyle('border-radius: 50%; height: 12px; width: 12px;');
+      const bg = screen.queryByTestId('badgeBackground');
+      expect(bg).toHaveAttribute('fill', '#0052FF');
+      const ticker = screen.queryByTestId('badgeTicker');
+      expect(ticker).toHaveAttribute('fill', 'yellow');
     });
   });
 });
