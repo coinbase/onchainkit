@@ -15,6 +15,7 @@
     "graphql-request": "6",
     "react": "18",
     "react-dom": "18",
+    "react-farcaster-embed": "^1.4.7",
     "tailwindcss": "^3.4.1",
     "tar": "^7.0.0",
     "typescript": "latest",
