@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.13.2
+
+### Patch Changes
+
+- 7476951: - **feat**: added custom style to `Badge` component. By @zizzamia #307
+
 ## 0.13.1
 
 ### Patch Changes
