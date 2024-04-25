@@ -57,6 +57,10 @@ export const sidebar = [
             link: '/identity/avatar',
           },
           {
+            text: 'Badge',
+            link: '/identity/badge',
+          },
+          {
             text: 'Name',
             link: '/identity/name',
           },
