@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.13.4
+
+### Patch Changes
+
+- 42ae354: - **feat**: exported `BadgeReact` type. By @zizzamia #312
+
 ## 0.13.3
 
 ### Patch Changes
