@@ -7,6 +7,8 @@ layout: landing
 showOutline: false
 ---
 
+import FarcasterCastCard from '../components/FarcasterCastCard';
+
 <div id="blobs">
 <div className="css-blurry-gradient" style={{ top: '-15%', left: 'calc(50% - 280px)' }} />
 <div className="css-blurry-gradient" style={{ 
@@ -40,7 +42,7 @@ showOutline: false
         and TypeScript utilities to help you build top-tier onchain apps.</p>
       </div>
     </div>
-    <div className="flex space-between items-center gap-6 w-full">
+    <div className="flex flex-col md:flex-row space-between items-center gap-6 w-full">
       <div id="home-install" className="h-full grow">
 :::code-group
 
@@ -94,7 +96,24 @@ pnpm add @coinbase/onchainkit viem@2.x
 
 {' '}
 
-<hr className="md:my-20" />
+<hr className="my-8 md:my-20" />
+
+<section>
+  <main className="flex flex-col items-center gap-4 md:flex-row">
+    <h2 className="basis-1/2 text-6xl ">Helping builders ship faster</h2>
+  </main>
+  <div className="overflow-x-scroll">
+    <div className="flex flex-col gap-4 py-10 md:flex-row">
+      <FarcasterCastCard castUrl="https://warpcast.com/edatweets/0xda341d80" />
+      <FarcasterCastCard castUrl="https://warpcast.com/samuellhuber/0xc036074d" />
+      <div className="hidden md:inline-block">
+        <FarcasterCastCard castUrl="https://warpcast.com/rish/0x3d28ce25" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr className="my-8 md:my-20" />
 
   <footer className="flex flex-col justify-center space-y-[25px]">
     <div className="flex max-w-[1400px] flex-col justify-between xl:flex-row xl:space-x-[25px]">
