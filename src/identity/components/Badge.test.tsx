@@ -15,4 +15,32 @@ describe('WithAvatarBadge Component', () => {
       expect(inner).toBeInTheDocument();
     });
   });
+
+  it('should render the svg with a custom background color', async () => {
+    render(<Badge backgroundColor="red" />);
+
+    await waitFor(() => {
+      const inner = screen.queryByTestId('badge');
+      expect(inner).toHaveStyle('fill: red');
+    });
+  });
+
+  it('should render the svg with a custom border color', async () => {
+    render(<Badge borderColor="red" />);
+
+    await waitFor(() => {
+      const inner = screen.queryByTestId('badge');
+      expect(inner).toHaveStyle('fill: #0052FF');
+    });
+  });
+
+  it('should render the svg with a custom size', async () => {
+    render(<Badge size="24" />);
+
+    await waitFor(() => {
+      const inner = screen.queryByTestId('badge');
+      expect(inner).toHaveAttribute('width', '24');
+      expect(inner).toHaveAttribute('height', '24');
+    });
+  });
 });
