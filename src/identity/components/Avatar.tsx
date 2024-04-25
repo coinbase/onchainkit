@@ -39,7 +39,7 @@ export function Avatar({
     return (
       loadingComponent || (
         <svg
-          data-testid="avatar-loading-svg"
+          data-testid="ockAvatarLoadingSvg"
           width="32"
           height="32"
           viewBox="0 0 100 100"
@@ -73,7 +73,7 @@ export function Avatar({
       <WithAvatarBadge showAttestation={showAttestation} address={address}>
         {defaultComponent || (
           <svg
-            data-testid="avatar-default-svg"
+            data-testid="ockAvatarDefaultSvg"
             xmlns="http://www.w3.org/2000/svg"
             height="32"
             width="32"

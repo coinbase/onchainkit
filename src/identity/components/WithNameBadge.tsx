@@ -31,7 +31,7 @@ function WithNameBadgeInner({ children, address }: WithNameBadgeInnerProps) {
     schemaId: onchainKitContext?.schemaId,
   });
   return (
-    <div data-testid="inner" style={{ display: 'flex', alignItems: 'center' }}>
+    <div data-testid="ockNameBadgeInner" style={{ display: 'flex', alignItems: 'center' }}>
       {children}
       {attestations && attestations[0] && (
         <div style={{ marginLeft: '4px' }}>

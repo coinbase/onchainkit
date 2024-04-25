@@ -39,7 +39,7 @@ describe('Avatar Component', () => {
     render(<Avatar address="0x123" />);
 
     await waitFor(() => {
-      const svgElement = screen.getByTestId('avatar-loading-svg');
+      const svgElement = screen.getByTestId('ockAvatarLoadingSvg');
       expect(svgElement).toBeInTheDocument();
     });
   });
@@ -51,7 +51,7 @@ describe('Avatar Component', () => {
     render(<Avatar address="0x123" />);
 
     await waitFor(() => {
-      const defaultAvatarElement = screen.getByTestId('avatar-default-svg');
+      const defaultAvatarElement = screen.getByTestId('ockAvatarDefaultSvg');
       expect(defaultAvatarElement).toBeInTheDocument();
     });
   });
@@ -74,11 +74,11 @@ describe('Avatar Component', () => {
     (useAvatar as jest.Mock).mockReturnValue({ data: null, isLoading: true });
     (useName as jest.Mock).mockReturnValue({ data: null, isLoading: true });
 
-    const CustomLoadingComponent = <div data-testid="custom-loading">Loading...</div>;
+    const CustomLoadingComponent = <div data-testid="ockAvatarCustomLoading">Loading...</div>;
 
     render(<Avatar address="0x123" loadingComponent={CustomLoadingComponent} />);
 
-    const customLoadingElement = screen.getByTestId('custom-loading');
+    const customLoadingElement = screen.getByTestId('ockAvatarCustomLoading');
     expect(customLoadingElement).toBeInTheDocument();
     expect(customLoadingElement).toHaveTextContent('Loading...');
   });
@@ -87,11 +87,11 @@ describe('Avatar Component', () => {
     (useAvatar as jest.Mock).mockReturnValue({ data: null, isLoading: false });
     (useName as jest.Mock).mockReturnValue({ data: null, isLoading: false });
 
-    const CustomDefaultComponent = <div data-testid="custom-default">Default Avatar</div>;
+    const CustomDefaultComponent = <div data-testid="ockAvatarCustomDefault">Default Avatar</div>;
 
     render(<Avatar address="0x123" defaultComponent={CustomDefaultComponent} />);
 
-    const customDefaultElement = screen.getByTestId('custom-default');
+    const customDefaultElement = screen.getByTestId('ockAvatarCustomDefault');
     expect(customDefaultElement).toBeInTheDocument();
     expect(customDefaultElement).toHaveTextContent('Default Avatar');
   });
@@ -108,9 +108,9 @@ describe('Avatar Component', () => {
     render(<Avatar address="0x123" showAttestation />);
 
     await waitFor(() => {
-      const inner = screen.getByTestId('inner');
+      const inner = screen.getByTestId('ockAvatarBadgeInner');
       expect(inner).toBeInTheDocument();
-      const badge = screen.getByTestId('badge');
+      const badge = screen.getByTestId('ockBadge');
       expect(badge).toBeInTheDocument();
     });
   });
