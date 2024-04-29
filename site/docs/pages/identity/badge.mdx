@@ -85,6 +85,8 @@ import { Badge } from '@coinbase/onchainkit/identity';
 
 Badge with [`<Name />`](/identity/name), best used when [`<Name />`](/identity/name) are displayed alongside [`<Avatar />`](/identity/avatar) components.
 
+In both examples we use the Coinbase verified account schema ID to show the Coinbase verified badge on the Name and Avatar components.
+
 :::code-group
 
 ```tsx [code]
@@ -93,9 +95,9 @@ import { OnchainKitProvider } from '@coinbase/onchainkit';
 import { Name } from '@coinbase/onchainkit/identity';
 
 const address = '0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1';
-const schemaId = '0x1801901fabd0e6189356b4fb52bb0ab855276d84f7ec140839fbd1f6801ca065';
+const COINBASE_VERIFIED_ACCOUNT_SCHEMA_ID = '0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9';
 
-<OnchainKitProvider chain={base} schemaId={schemaId}>
+<OnchainKitProvider chain={base} schemaId={COINBASE_VERIFIED_ACCOUNT_SCHEMA_ID}>
   <Name address={address} showAttestation />
 </OnchainKitProvider>;
 ```
@@ -133,7 +135,7 @@ const schemaId = '0x1801901fabd0e6189356b4fb52bb0ab855276d84f7ec140839fbd1f6801c
 <App>
   <OnchainKitProvider
     chain={base}
-    schemaId="0x1801901fabd0e6189356b4fb52bb0ab855276d84f7ec140839fbd1f6801ca065"
+    schemaId="0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9"
   >
     <Name address="0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1" showAttestation />
   </OnchainKitProvider>
@@ -149,9 +151,9 @@ import { OnchainKitProvider } from '@coinbase/onchainkit';
 import { Avatar } from '@coinbase/onchainkit/identity';
 
 const address = '0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1';
-const schemaId = '0x1801901fabd0e6189356b4fb52bb0ab855276d84f7ec140839fbd1f6801ca065';
+const COINBASE_VERIFIED_ACCOUNT_SCHEMA_ID = '0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9';
 
-<OnchainKitProvider chain={base} schemaId={schemaId}>
+<OnchainKitProvider chain={base} schemaId={COINBASE_VERIFIED_ACCOUNT_SCHEMA_ID}>
   <Avatar address={address} showAttestation />
 </OnchainKitProvider>;
 ```
@@ -202,7 +204,7 @@ const schemaId = '0x1801901fabd0e6189356b4fb52bb0ab855276d84f7ec140839fbd1f6801c
 <App>
   <OnchainKitProvider
     chain={base}
-    schemaId="0x1801901fabd0e6189356b4fb52bb0ab855276d84f7ec140839fbd1f6801ca065"
+    schemaId="0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9"
   >
     <Avatar address="0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1" showAttestation />
   </OnchainKitProvider>
