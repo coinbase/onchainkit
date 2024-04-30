@@ -1,13 +1,46 @@
 ---
 title: Introduction to XMTP Kit · OnchainKit
-deescription: Introduction to XMTP Kit
+description: Introduction to XMTP Frames
 ---
 
 # Introduction to XMTP Kit
 
-XMTP Kit is designed to be modular and flexible, allowing developers to use only the parts of the protocol that they need.
 
-In order to use **XMTP Kit** you must also install `@xmtp/frames-validator` in your app, alongside Onchainkit.
+[XMTP](https://xmtp.org/) is a wallet to wallet messaging protocol, and many XMTP client applications are adding Frames support.
+
+XMTP Frames are designed to extend Frames and make them compatible with XMTP through the Open Frames [standard](https://github.com/open-frames/standard).
+
+## Metadata
+
+XMTP Frames are designed to be compatible with the Open Frames standard, and as such, they include a `metadata` field in the Frame `getFrameMetadata` response.
+
+```ts
+const frameMetadata = getFrameMetadata({
+  /**
+   * Frame metadata like Image, Buttons, Input, etc.
+   */
+  isOpenFrame: true,
+  accepts: { xmtp: 'vNext' },
+});
+
+export const metadata: Metadata = {
+  /**
+   * ...other metadata
+   */
+  other: {
+    ...frameMetadata,
+  },
+};
+```
+- `isOpenFrame`: A boolean that indicates whether the Frame is open or not.
+- `accepts`: An object that indicates the versions of the Frame that the Frame supports.
+
+## Handling XMTP Frames
+
+
+When a user interacts with a Frame inside an XMTP client application, you will need to handle the payload slightly differently from an interaction coming from Farcaster. The primary identifier for a user on Farcaster is the `fid`, while in XMTP it is the `verifiedWalletAddress`.
+
+In order to get the `verifiedWalletAddress` you must install `@xmtp/frames-validator` in your Frame, alongside Onchainkit.
 
 :::code-group
 
@@ -25,15 +58,10 @@ pnpm add @coinbase/onchainkit @xmtp/frames-validator
 
 :::
 
-[XMTP](https://xmtp.org/) is a wallet to wallet messaging protocol, and many XMTP client applications are adding Frames support.
-
-When a user interacts with a Frame inside an XMTP client application, you will need to handle the payload slightly differently from an interaction coming from Farcaster. The primary identifier for a user on Farcaster is the `fid`, while in XMTP it is the `verifiedWalletAddress`.
-
-You can learn more about how XMTP works with frames in [their documentation here](https://xmtp.org/docs/build/frames).
-
 To assist you in handling interactions from XMTP, and extracting the `verifiedWalletAddress` from a POST payload, here is the XMTP Kit which includes:
 
 - [XMTP Kit](/xmtp/introduction)
   - Utilities:
     - [`getXmtpFrameMessage`](/xmtp/get-xmtp-frame-message)
     - [`isXmtpFrameRequest`](/xmtp/is-xmtp-frame-request)
+
