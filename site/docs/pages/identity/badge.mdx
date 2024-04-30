@@ -85,7 +85,7 @@ import { Badge } from '@coinbase/onchainkit/identity';
 
 Badge with [`<Name />`](/identity/name), best used when [`<Name />`](/identity/name) are displayed alongside [`<Avatar />`](/identity/avatar) components.
 
-In both examples we use the Coinbase verified account schema ID to show the Coinbase verified badge on the Name and Avatar components.
+In both examples we use the Coinbase [Verified Account](https://base.easscan.org/schema/view/0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9) schema ID to show the Coinbase verified badge on the Name and Avatar components.
 
 :::code-group
 
@@ -95,7 +95,8 @@ import { OnchainKitProvider } from '@coinbase/onchainkit';
 import { Name } from '@coinbase/onchainkit/identity';
 
 const address = '0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1';
-const COINBASE_VERIFIED_ACCOUNT_SCHEMA_ID = '0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9';
+const COINBASE_VERIFIED_ACCOUNT_SCHEMA_ID =
+  '0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9';
 
 <OnchainKitProvider chain={base} schemaId={COINBASE_VERIFIED_ACCOUNT_SCHEMA_ID}>
   <Name address={address} showAttestation />
@@ -151,7 +152,8 @@ import { OnchainKitProvider } from '@coinbase/onchainkit';
 import { Avatar } from '@coinbase/onchainkit/identity';
 
 const address = '0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1';
-const COINBASE_VERIFIED_ACCOUNT_SCHEMA_ID = '0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9';
+const COINBASE_VERIFIED_ACCOUNT_SCHEMA_ID =
+  '0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9';
 
 <OnchainKitProvider chain={base} schemaId={COINBASE_VERIFIED_ACCOUNT_SCHEMA_ID}>
   <Avatar address={address} showAttestation />
