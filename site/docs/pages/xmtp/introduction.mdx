@@ -29,11 +29,11 @@ export const metadata: Metadata = {
   },
 };
 ```
+
 - `isOpenFrame`: A boolean that indicates whether the Frame is open or not.
 - `accepts`: An object that indicates the versions of the Frame that the Frame supports.
 
 ## Handling XMTP Frames
-
 
 When a user interacts with a Frame inside an XMTP client application, you will need to handle the payload slightly differently from an interaction coming from Farcaster. The primary identifier for a user on Farcaster is the `fid`, while in XMTP it is the `verifiedWalletAddress`.
 
