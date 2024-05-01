@@ -23,8 +23,8 @@ async function getResponse(req: any): Promise<NextResponse> {
     const { isValid, message } = await getXmtpFrameMessage(body); // [!code focus]
     // ... do something with the message if isValid is true
     if (isValid) {
-      const accountAddress = message.interactor.verified_accounts[0];
-      // ... do something with the accountAddress
+      const { verifiedWalletAddress } = message;
+      // ... do something with the verifiedWalletAddress
     }
   } else {
     // ...
