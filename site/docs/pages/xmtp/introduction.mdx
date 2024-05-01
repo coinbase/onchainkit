@@ -1,17 +1,15 @@
 ---
 title: Introduction to XMTP Kit · OnchainKit
-description: Introduction to XMTP Frames
+description: Introduction to XMTP Kit
 ---
 
 # Introduction to XMTP Kit
 
-[XMTP](https://xmtp.org/) is a wallet to wallet messaging protocol, and many XMTP client applications are adding Frames support.
-
-XMTP Frames are designed to extend Frames and make them compatible with XMTP through the Open Frames [standard](https://github.com/open-frames/standard).
+OnchainKit has a collection of utilities that allows you to build Frames with the XMTP protocol.
 
 ## Metadata
 
-XMTP Frames are designed to be compatible with the Open Frames standard, and as such, they include a `metadata` field in the Frame `getFrameMetadata` response.
+To build a Frame with XMTP, you must first get the Frame metadata. This is done using the `getFrameMetadata` function.
 
 ```ts
 const frameMetadata = getFrameMetadata({
@@ -63,4 +61,3 @@ To assist you in handling interactions from XMTP, and extracting the `verifiedWa
   - Utilities:
     - [`getXmtpFrameMessage`](/xmtp/get-xmtp-frame-message)
     - [`isXmtpFrameRequest`](/xmtp/is-xmtp-frame-request)
-
