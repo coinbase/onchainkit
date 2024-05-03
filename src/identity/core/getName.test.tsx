@@ -18,7 +18,7 @@ describe('getName', () => {
     const walletAddress = '0x1234';
     const expectedEnsName = 'avatarUrl';
     mockGetEnsName.mockResolvedValue(expectedEnsName);
-    const name = await getName(walletAddress);
+    const name = await getName({ address: walletAddress });
     expect(name).toBe(expectedEnsName);
     expect(mockGetEnsName).toHaveBeenCalledWith({ address: walletAddress });
   });
@@ -27,7 +27,7 @@ describe('getName', () => {
     const walletAddress = '0x1234';
     const expectedEnsName = 'avatarUrl';
     mockGetEnsName.mockResolvedValue(expectedEnsName);
-    const name = await getName(walletAddress);
+    const name = await getName({ address: walletAddress });
     expect(name).toBe(expectedEnsName);
     expect(mockGetEnsName).toHaveBeenCalledWith({ address: walletAddress });
   });
@@ -35,6 +35,6 @@ describe('getName', () => {
   it('should return null client getName throws an error', async () => {
     const walletAddress = '0x1234';
     mockGetEnsName.mockRejectedValue(new Error('This is an error'));
-    await expect(getName(walletAddress)).rejects.toThrow('This is an error');
+    await expect(getName({ address: walletAddress })).rejects.toThrow('This is an error');
   });
 });

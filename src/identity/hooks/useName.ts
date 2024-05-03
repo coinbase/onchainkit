@@ -29,7 +29,7 @@ export const useName = ({ address }: UseNameOptions, queryOptions?: UseNameQuery
   return useQuery<GetNameReturnType>({
     queryKey: ['useName', ensActionKey],
     queryFn: async () => {
-      return await getName(address);
+      return await getName({ address });
     },
     gcTime: cacheTime,
     enabled,

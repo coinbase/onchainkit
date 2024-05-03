@@ -80,6 +80,14 @@ export type GetAvatarReturnType = string | null;
 /**
  * Note: exported as public Type
  */
+export type GetName = {
+  address: Address;
+  showAddress?: boolean;
+};
+
+/**
+ * Note: exported as public Type
+ */
 export type GetNameReturnType = string | null;
 
 /**
