@@ -97,6 +97,7 @@ export type NameReact = {
   address: Address; // Ethereum address to be displayed.
   className?: string; // Optional CSS class for custom styling.
   props?: React.HTMLAttributes<HTMLSpanElement>; // Additional HTML attributes for the span element.
+  showAddress?: boolean; // Whether to prefer to show the address instead of the ENS name.
   showAttestation?: boolean; // Optional flag to show the EAS attestation badge.
   sliced?: boolean; // Determines if the address should be sliced when no ENS name is available.
 };
