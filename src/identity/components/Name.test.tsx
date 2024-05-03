@@ -67,4 +67,15 @@ describe('OnchainAddress', () => {
 
     expect(screen.getByText(mockSliceAddress(testAddress))).toBeInTheDocument();
   });
+
+  it('displays sliced address when ENS name is not available', () => {
+    (useName as jest.Mock).mockReturnValue({
+      data: null,
+      isLoading: false,
+    });
+
+    render(<Name address={testAddress} />);
+
+    expect(screen.getByText(mockSliceAddress(testAddress))).toBeInTheDocument();
+  });
 });
