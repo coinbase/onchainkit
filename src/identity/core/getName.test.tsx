@@ -37,4 +37,11 @@ describe('getName', () => {
     mockGetEnsName.mockRejectedValue(new Error('This is an error'));
     await expect(getName({ address: walletAddress })).rejects.toThrow('This is an error');
   });
+
+  it('should return address when showAddress is true', async () => {
+    const walletAddress = '0x1234567890123456789012345678901234567890';
+    const slicedAddress = '0x123...7890';
+    const name = await getName({ address: walletAddress, showAddress: true });
+    expect(name).toBe(slicedAddress);
+  });
 });
