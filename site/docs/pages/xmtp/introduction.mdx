@@ -1,13 +1,43 @@
 ---
 title: Introduction to XMTP Kit · OnchainKit
-deescription: Introduction to XMTP Kit
+description: Introduction to XMTP Kit
 ---
 
 # Introduction to XMTP Kit
 
-XMTP Kit is designed to be modular and flexible, allowing developers to use only the parts of the protocol that they need.
+OnchainKit has a collection of utilities that allows you to build Frames with the XMTP protocol.
 
-In order to use **XMTP Kit** you must also install `@xmtp/frames-validator` in your app, alongside Onchainkit.
+## Metadata
+
+To build a Frame with XMTP, you must first add XMTP metadata. This is done using the `getFrameMetadata` function.
+
+```ts
+const frameMetadata = getFrameMetadata({
+  /**
+   * Frame metadata like Image, Buttons, Input, etc.
+   */
+  isOpenFrame: true,
+  accepts: { xmtp: 'vNext' },
+});
+
+export const metadata: Metadata = {
+  /**
+   * ...other metadata
+   */
+  other: {
+    ...frameMetadata,
+  },
+};
+```
+
+- `isOpenFrame`: A boolean that indicates whether the Frame is open or not.
+- `accepts`: An object that indicates the versions of the Frame that the Frame supports.
+
+## Handling XMTP Frames
+
+When a user interacts with a Frame inside an XMTP client application, you will need to handle the payload slightly differently from an interaction coming from Farcaster. The primary identifier for a user on Farcaster is the `fid`, while in XMTP it is the `verifiedWalletAddress`.
+
+In order to get the `verifiedWalletAddress` you must install `@xmtp/frames-validator` in your Frame, alongside Onchainkit.
 
 :::code-group
 
@@ -24,12 +54,6 @@ pnpm add @coinbase/onchainkit @xmtp/frames-validator
 ```
 
 :::
-
-[XMTP](https://xmtp.org/) is a wallet to wallet messaging protocol, and many XMTP client applications are adding Frames support.
-
-When a user interacts with a Frame inside an XMTP client application, you will need to handle the payload slightly differently from an interaction coming from Farcaster. The primary identifier for a user on Farcaster is the `fid`, while in XMTP it is the `verifiedWalletAddress`.
-
-You can learn more about how XMTP works with frames in [their documentation here](https://xmtp.org/docs/build/frames).
 
 To assist you in handling interactions from XMTP, and extracting the `verifiedWalletAddress` from a POST payload, here is the XMTP Kit which includes:
 
