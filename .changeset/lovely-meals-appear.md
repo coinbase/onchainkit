@@ -1,5 +1,5 @@
 ---
-"@coinbase/onchainkit": minor
+'@coinbase/onchainkit': minor
 ---
 
 - **feat**: added `showAddress` as an option to the `Name` component. By @zizzamia #322

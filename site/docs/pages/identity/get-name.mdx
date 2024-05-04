@@ -24,7 +24,7 @@ const name = await getName({ address });
 ```
 
 ```ts [return value]
-zizzamia.eth
+zizzamia.eth;
 ```
 
 :::
@@ -37,7 +37,7 @@ Get a sliced address when `showAddress` is true:
 import { getName } from '@coinbase/onchainkit/identity';
 
 const address = '0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1';
-const name = await getName({ address, showAddress: true});
+const name = await getName({ address, showAddress: true });
 ```
 
 ```ts [return value]
@@ -53,4 +53,3 @@ const name = await getName({ address, showAddress: true});
 ## Parameters
 
 [`GetName`](/identity/types#getname)
-
