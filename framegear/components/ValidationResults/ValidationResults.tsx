@@ -52,6 +52,7 @@ function ValidationResultsContent() {
       </h2>
       <div className="bg-content-light dark:bg-content flex w-full flex-col gap-4 rounded-xl p-6">
         <ul className="flex list-none flex-col gap-4 p-0">
+          <ValidationEntry name="URL" value={latestResult.url} showFlag={false} />
           {REQUIRED_FIELD_NAMES.map((name) => {
             const value = latestResult.tags[name];
             return (
@@ -72,15 +73,15 @@ function ValidationResultsContent() {
   );
 }
 
-type ValidationEntryProps = { name: string; value?: string; error?: string };
-function ValidationEntry({ name, value, error }: ValidationEntryProps) {
+type ValidationEntryProps = { name: string; value?: string; error?: string; showFlag?: boolean };
+function ValidationEntry({ name, value, error, showFlag = true }: ValidationEntryProps) {
   return (
     <div
       className={`border-pallette-line flex flex-col gap-2 border-b pb-4 last:border-b-0 last:pb-0`}
     >
       <div className="flex justify-between">
         <span>{name}</span>
-        <span>{error ? '🔴' : '🟢'}</span>
+        {showFlag && <span>{error ? '🔴' : '🟢'}</span>}
       </div>
       <div className="break-all font-mono">{value || 'Not set'}</div>
       {!!error && <div className="font-mono italic">{error}</div>}
