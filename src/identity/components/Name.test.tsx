@@ -37,8 +37,11 @@ describe('OnchainAddress', () => {
     expect(getSlicedAddress).toHaveBeenCalledTimes(0);
   });
 
-  it('displays sliced address when ENS name is not available and sliced is true as default', () => {
-    (useName as jest.Mock).mockReturnValue({ data: null, isLoading: false });
+  it('displays sliced address when ENS name is not available', () => {
+    (useName as jest.Mock).mockReturnValue({
+      data: mockSliceAddress(testAddress),
+      isLoading: false,
+    });
 
     render(<Name address={testAddress} />);
 
@@ -54,11 +57,25 @@ describe('OnchainAddress', () => {
     expect(getSlicedAddress).toHaveBeenCalledTimes(0);
   });
 
-  it('displays full address when ENS name is not available and sliced is false', () => {
-    (useName as jest.Mock).mockReturnValue({ data: null, isLoading: false });
+  it('displays sliced address when ENS name is available but showAddress is true', () => {
+    (useName as jest.Mock).mockReturnValue({
+      data: mockSliceAddress(testAddress),
+      isLoading: false,
+    });
 
-    render(<Name address={testAddress} sliced={false} />);
+    render(<Name address={testAddress} showAddress />);
 
-    expect(screen.getByText(testAddress)).toBeInTheDocument();
+    expect(screen.getByText(mockSliceAddress(testAddress))).toBeInTheDocument();
+  });
+
+  it('displays sliced address when ENS name is not available', () => {
+    (useName as jest.Mock).mockReturnValue({
+      data: null,
+      isLoading: false,
+    });
+
+    render(<Name address={testAddress} />);
+
+    expect(screen.getByText(mockSliceAddress(testAddress))).toBeInTheDocument();
   });
 });
