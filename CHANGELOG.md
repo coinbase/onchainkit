@@ -4,11 +4,12 @@
 
 ### Minor Changes
 
-- 249e1ac: - **feat**: added `showAddress` as an option to the `Name` component. By @zizzamia #322
+- **feat**: added `showAddress` as an option to the `Name` component. By @zizzamia #322 249e1ac
 
-  Breaking Changes
+Breaking Changes
 
-  The `Name` component will use `showAddress` to override the default ENS behavior, and `getName`. It will have multiple options as input, which means to pass the address you have to do `getName({ address })` instead of `getName(address)`.
+- The `Name` component will use `showAddress` to override the default ENS behavior, and `getName`. It will have multiple options as input, which means to pass the address you have to do `getName({ address })` instead of `getName(address)`.
+- Removed `getFrameMetadata`, `FrameMetadata`, `Avatar`, `Name`, `useAvatar`, `useName` from the root level exports. And you can find them going forward in either `@coinbase/onchainkit/frame` or `@coinbase/onchainkit/identity`.
 
 ## 0.13.4
 
