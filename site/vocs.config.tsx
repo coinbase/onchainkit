@@ -1,4 +1,4 @@
-import { FrameMetadata } from '@coinbase/onchainkit';
+import { FrameMetadata } from '@coinbase/onchainkit/frame';
 import { defineConfig } from 'vocs';
 import pkg from '../package.json';
 import { sidebar } from './sidebar';

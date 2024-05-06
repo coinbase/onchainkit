@@ -12,14 +12,6 @@ import { AvatarReact } from '../types';
  *
  * If the ENS name or avatar is not available, it shows a default SVG avatar.
  * Otherwise, it displays the custom avatar obtained from ENS.
- *
- * @param {Address} props.address - The Ethereum address for which to display the avatar.
- * @param {string} [props.className] - Optional additional CSS class to apply to the avatar.
- * @param {JSX.Element} [props.defaultComponent] - Optional custom component to display when no ENS name or avatar is available.
- * @param {JSX.Element} [props.loadingComponent] - Optional custom component to display while the avatar data is loading.
- * @param {React.ImgHTMLAttributes<HTMLImageElement>} [props.props] - Optional additional image attributes to apply to the avatar.
- * @param {Boolean} [props.showAttestation] - Optional flag to show the EAS attestation badge.
- * @returns {JSX.Element} The JSX element representing the avatar, which could be a loading SVG, a default SVG, or an image.
  */
 export function Avatar({
   address,
@@ -95,6 +87,7 @@ export function Avatar({
         decoding="async"
         src={avatar}
         alt={name}
+        style={{ borderRadius: '50%' }}
         {...props}
       />
     </WithAvatarBadge>
