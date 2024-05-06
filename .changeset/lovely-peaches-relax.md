@@ -2,4 +2,4 @@
 "@coinbase/onchainkit": patch
 ---
 
-dope
+- **feat**: added missing CSS radius on `Avatar` component. By @zizzamia #329

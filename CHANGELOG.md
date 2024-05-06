@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- a83f9f0: - **chore**: deprecated root level imports for `getFrameMetadata`, `FrameMetadata`, `Avatar`, `Name`, `useAvatar`, `useName` utilities and components.
+- **chore**: deprecated root level imports for `getFrameMetadata`, `FrameMetadata`, `Avatar`, `Name`, `useAvatar`, `useName` utilities and components. a83f9f0
 
 ## 0.14.0
 
