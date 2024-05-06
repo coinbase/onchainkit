@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.14.1
+
+### Patch Changes
+
+- a83f9f0: - **chore**: deprecated root level imports for `getFrameMetadata`, `FrameMetadata`, `Avatar`, `Name`, `useAvatar`, `useName` utilities and components.
+
 ## 0.14.0
 
 ### Minor Changes
