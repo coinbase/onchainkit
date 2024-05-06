@@ -4,13 +4,13 @@
 
 ### Patch Changes
 
-- 78319ec: - **feat**: added missing CSS radius on `Avatar` component. By @zizzamia #329
+- **feat**: added missing CSS radius on `Avatar` component. By @zizzamia #329 78319ec
 
 ## 0.14.1
 
 ### Patch Changes
 
-- **chore**: deprecated root level imports for `getFrameMetadata`, `FrameMetadata`, `Avatar`, `Name`, `useAvatar`, `useName` utilities and components. a83f9f0
+- **chore**: deprecated root level imports for `getFrameMetadata`, `FrameMetadata`, `Avatar`, `Name`, `useAvatar`, `useName` utilities and components. By @zizzamia a83f9f0
 
 ## 0.14.0
 
