@@ -13,7 +13,7 @@ export function FrameInput() {
   }, [setResults, url]);
 
   return (
-    <div className="grid grid-cols-[2fr_1fr] gap-4">
+    <div className="grid grid-cols-[3fr_1fr] gap-4">
       <label className="flex flex-col">
         Enter your frame URL
         <input
