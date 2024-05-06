@@ -1,6 +1,6 @@
-import { getEASAttestationsByFilter } from '../queries/easAttestations';
+import { getAttestationsByFilter } from '../queries/attestations';
 import { isChainSupported, easSupportedChains } from './easSupportedChains';
-import { EASAttestation, GetEASAttestationsOptions } from './types';
+import { Attestation, GetAttestationsOptions } from './types';
 import type { Address, Chain } from 'viem';
 
 /**
@@ -9,18 +9,18 @@ import type { Address, Chain } from 'viem';
  *
  * @param {Address} address - The address for which attestations are being queried.
  * @param {Chain} chain - The blockchain of interest.
- * @param {GetEASAttestationsOptions} [options] - Optional filtering options.
+ * @param {GetAttestationsOptions} [options] - Optional filtering options.
  *   options.revoked - Filter for revoked attestations (default: false).
  *   options.expirationTime - Unix timestamp to filter attestations based on expiration time (default: current time).
  *   options.limit - The maximum number of attestations to return (default: 10).
- * @returns {Promise<EASAttestation[]>} A promise that resolves to an array of EAS Attestations.
+ * @returns {Promise<Attestation[]>} A promise that resolves to an array of EAS Attestations.
  * @throws Will throw an error if the request to the GraphQL API fails.
  *
  * @example
-import { getEASAttestations } from '@coinbase/onchainkit'
+import { getAttestations } from '@coinbase/onchainkit'
 import { base } from "viem/chains";
 
-const attestations = await getEASAttestations("0x1234567890abcdef1234567890abcdef12345678", base)
+const attestations = await getAttestations("0x1234567890abcdef1234567890abcdef12345678", base)
 // [
 //   {
 //       "attester": "0x357458739F90461b99789350868CD7CF330Dd7EE",
@@ -34,11 +34,11 @@ const attestations = await getEASAttestations("0x1234567890abcdef1234567890abcde
 //   },
 // ]
  */
-export async function getEASAttestations<TChain extends Chain>(
+export async function getAttestations<TChain extends Chain>(
   address: Address,
   chain: TChain,
-  options?: GetEASAttestationsOptions,
-): Promise<EASAttestation[]> {
+  options?: GetAttestationsOptions,
+): Promise<Attestation[]> {
   try {
     if (!isChainSupported(chain)) {
       throw new Error(
@@ -55,9 +55,9 @@ export async function getEASAttestations<TChain extends Chain>(
 
     const queryVariablesFilter = { ...defaultQueryVariablesFilter, ...options };
 
-    return await getEASAttestationsByFilter(address, chain, queryVariablesFilter);
+    return await getAttestationsByFilter(address, chain, queryVariablesFilter);
   } catch (error) {
-    console.log(`Error in getEASAttestation: ${(error as Error).message}`);
+    console.log(`Error in getAttestation: ${(error as Error).message}`);
     return [];
   }
 }

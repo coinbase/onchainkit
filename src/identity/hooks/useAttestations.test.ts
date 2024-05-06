@@ -5,10 +5,10 @@
 import { renderHook, waitFor } from '@testing-library/react';
 import { base } from 'viem/chains';
 import { useAttestations } from './useAttestations';
-import { getEASAttestations } from '../getEASAttestations';
+import { getAttestations } from '../getAttestations';
 
-jest.mock('../getEASAttestations', () => ({
-  getEASAttestations: jest.fn(),
+jest.mock('../getAttestations', () => ({
+  getAttestations: jest.fn(),
 }));
 
 describe('useAttestations', () => {
@@ -17,7 +17,7 @@ describe('useAttestations', () => {
   });
 
   it('returns an empty array if no attestations found', async () => {
-    (getEASAttestations as jest.Mock).mockReturnValue([]);
+    (getAttestations as jest.Mock).mockReturnValue([]);
 
     const address = '0xaddress';
     const chain = base;
@@ -30,7 +30,7 @@ describe('useAttestations', () => {
   });
 
   it('returns attestations if found', async () => {
-    (getEASAttestations as jest.Mock).mockReturnValue([
+    (getAttestations as jest.Mock).mockReturnValue([
       {
         schemaId: '0xschema',
       },

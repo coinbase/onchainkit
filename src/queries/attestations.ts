@@ -1,18 +1,18 @@
 import { gql } from 'graphql-request';
 import type { Address, Chain } from 'viem';
 import { getAddress } from 'viem';
-import { EASSchemaUid, EASAttestation } from '../identity/types';
+import { EASSchemaUid, Attestation } from '../identity/types';
 import { createEasGraphQLClient } from '../network/createEasGraphQLClient';
 
 /**
  * Type representing the filter options used for querying EAS Attestations.
- * @typedef {Object} GetEASAttestationQueryVariablesFilters
+ * @typedef {Object} GetAttestationQueryVariablesFilters
  * @property {number} [expirationTime] - Optional Unix timestamp to filter attestations based on expiration time.
  * @property {number} [limit] - Optional limit for the number of results returned.
  * @property {boolean} [revoked] - Optional boolean to filter attestations based on their revoked status.
  * @property {EASSchemaUid[]} [schemas] - Optional array of schema UIDs to filter attestations.
  */
-type GetEASAttestationQueryVariablesFilters = {
+type GetAttestationQueryVariablesFilters = {
   expirationTime?: number;
   limit: number;
   revoked: boolean;
@@ -22,16 +22,16 @@ type GetEASAttestationQueryVariablesFilters = {
 /**
  * Alias type for filter options when fetching attestations by filter.
  */
-export type GetEASAttestationsByFilterOptions = GetEASAttestationQueryVariablesFilters;
+export type GetAttestationsByFilterOptions = GetAttestationQueryVariablesFilters;
 
 /**
  * Type representing the variables passed to the EAS Attestations GraphQL query.
- * @typedef {Object} EASAttestationsQueryVariables
+ * @typedef {Object} AttestationsQueryVariables
  * @property {string[]} distinct - Fields for which to get distinct records.
  * @property {number} take - Number of records to retrieve.
  * @property {Record<string, any>} where - Conditions for filtering the attestations.
  */
-export type EASAttestationsQueryVariables = {
+export type AttestationsQueryVariables = {
   distinct: string[];
   take: number;
   where: Record<string, any>;
@@ -39,23 +39,23 @@ export type EASAttestationsQueryVariables = {
 
 /**
  * Type representing the response of the EAS Attestation GraphQL query.
- * @typedef {Object} GetEASAttestationQueryResponse
- * @property {EASAttestation[]} attestations - Array of attestation objects.
+ * @typedef {Object} GetAttestationQueryResponse
+ * @property {Attestation[]} attestations - Array of attestation objects.
  */
-export type GetEASAttestationQueryResponse = {
-  attestations: EASAttestation[];
+export type GetAttestationQueryResponse = {
+  attestations: Attestation[];
 };
 
 /**
  * Type representing the response when fetching attestations by filter.
  */
-export type GetEASAttestationsByFilterResponse = EASAttestation[];
+export type GetAttestationsByFilterResponse = Attestation[];
 
 /**
  * GraphQL query definition for fetching EAS Attestations for users.
  */
-export const easAttestationQuery = gql`
-  query EASAttestationsForUsers(
+export const attestationQuery = gql`
+  query AttestationsForUsers(
     $where: AttestationWhereInput
     $distinct: [AttestationScalarFieldEnum!]
     $take: Int
@@ -80,13 +80,13 @@ export const easAttestationQuery = gql`
  * Generates query variables for the EAS Attestation GraphQL query based on the given address and filters.
  *
  * @param {Address} address - The Ethereum address of the recipient.
- * @param {GetEASAttestationQueryVariablesFilters} filters - Filters to apply to the query.
- * @returns {EASAttestationsQueryVariables} The query variables for the GraphQL query.
+ * @param {GetAttestationQueryVariablesFilters} filters - Filters to apply to the query.
+ * @returns {AttestationsQueryVariables} The query variables for the GraphQL query.
  */
-export function getEASAttestationQueryVariables(
+export function getAttestationQueryVariables(
   address: Address,
-  filters: GetEASAttestationQueryVariablesFilters,
-): EASAttestationsQueryVariables {
+  filters: GetAttestationQueryVariablesFilters,
+): AttestationsQueryVariables {
   const checksummedAddress = getAddress(address);
   const conditions: Record<string, any> = {
     recipient: { equals: checksummedAddress },
@@ -117,21 +117,21 @@ export function getEASAttestationQueryVariables(
  *
  * @param {Address} address - The Ethereum address for which attestations are being queried.
  * @param {Chain} chain - The blockchain chain of interest.
- * @param {GetEASAttestationsByFilterOptions} filters - Filter options for querying attestations.
- * @returns {Promise<GetEASAttestationsByFilterResponse>} A promise that resolves to an array of EAS Attestations.
+ * @param {GetAttestationsByFilterOptions} filters - Filter options for querying attestations.
+ * @returns {Promise<GetAttestationsByFilterResponse>} A promise that resolves to an array of EAS Attestations.
  */
-export async function getEASAttestationsByFilter<TChain extends Chain>(
+export async function getAttestationsByFilter<TChain extends Chain>(
   address: Address,
   chain: TChain,
-  filters: GetEASAttestationsByFilterOptions,
-): Promise<GetEASAttestationsByFilterResponse> {
+  filters: GetAttestationsByFilterOptions,
+): Promise<GetAttestationsByFilterResponse> {
   const easGraphqlClient = createEasGraphQLClient(chain);
-  const easAttestationQueryVariables = getEASAttestationQueryVariables(address, filters);
+  const attestationQueryVariables = getAttestationQueryVariables(address, filters);
 
   const { attestations } = await easGraphqlClient.request<
-    GetEASAttestationQueryResponse,
-    EASAttestationsQueryVariables
-  >(easAttestationQuery, easAttestationQueryVariables);
+    GetAttestationQueryResponse,
+    AttestationsQueryVariables
+  >(attestationQuery, attestationQueryVariables);
 
   return attestations;
 }

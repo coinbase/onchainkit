@@ -35,10 +35,10 @@ type BadgeReact = {
 type EASSchemaUid = `0x${string}`;
 ```
 
-## `EASAttestation`
+## `Attestation`
 
 ```ts
-type EASAttestation = {
+type Attestation = {
   attester: Address; // the attester who created the attestation.
   decodedDataJson: string; // The attestation data decoded to JSON.
   expirationTime: number; // The Unix timestamp when the attestation expires (0 for no expiration).
@@ -51,10 +51,10 @@ type EASAttestation = {
 };
 ```
 
-## `GetEASAttestationsOptions`
+## `GetAttestationsOptions`
 
 ```ts
-type GetEASAttestationsOptions = {
+type GetAttestationsOptions = {
   schemas?: EASSchemaUid[];
   revoked?: boolean;
   expirationTime?: number;
