@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.14.2
+
+### Patch Changes
+
+- 78319ec: - **feat**: added missing CSS radius on `Avatar` component. By @zizzamia #329
+
 ## 0.14.1
 
 ### Patch Changes
