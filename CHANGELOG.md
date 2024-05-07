@@ -27,25 +27,25 @@ Breaking Changes
 
 ### Patch Changes
 
-- 42ae354: - **feat**: exported `BadgeReact` type. By @zizzamia #312
+- **feat**: exported `BadgeReact` type. By @zizzamia #312 42ae354
 
 ## 0.13.3
 
 ### Patch Changes
 
-- f4e432f: - **feat**: keep polishing the `Badge` component props and how to customize it. By @zizzamia #310
+- **feat**: keep polishing the `Badge` component props and how to customize it. By @zizzamia #310 f4e432f
 
 ## 0.13.2
 
 ### Patch Changes
 
-- 7476951: - **feat**: added custom style to `Badge` component. By @zizzamia #307
+- **feat**: added custom style to `Badge` component. By @zizzamia #307 7476951
 
 ## 0.13.1
 
 ### Patch Changes
 
-- 49c4233: - **feat**: defined three main props for `OnchainKitProvider`: `address`, `chain` and `schemaId`. By @zizzamia #305
+- **feat**: defined three main props for `OnchainKitProvider`: `address`, `chain` and `schemaId`. By @zizzamia #305 49c4233
 
 ## 0.13.0
 
