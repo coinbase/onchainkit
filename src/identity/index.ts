@@ -7,14 +7,14 @@ export { getName } from './core/getName';
 export { useAvatar } from './hooks/useAvatar';
 export { useName } from './hooks/useName';
 export { useAttestations } from './hooks/useAttestations';
-export { getEASAttestations } from './getEASAttestations';
+export { getAttestations } from './getAttestations';
 export type {
+  Attestation,
   AvatarReact,
   BadgeReact,
   EASSchemaUid,
-  EASAttestation,
   EASChainDefinition,
-  GetEASAttestationsOptions,
+  GetAttestationsOptions,
   GetAvatarReturnType,
   GetNameReturnType,
 } from './types';

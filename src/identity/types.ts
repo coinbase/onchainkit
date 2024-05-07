@@ -36,7 +36,7 @@ export type EASSchemaUid = `0x${string}`;
  *
  * Note: exported as public Type
  */
-export type EASAttestation = {
+export type Attestation = {
   attester: Address; // the attester who created the attestation.
   decodedDataJson: string; // The attestation data decoded to JSON.
   expirationTime: number; // The Unix timestamp when the attestation expires (0 for no expiration).
@@ -65,7 +65,7 @@ export type EASChainDefinition = {
  *
  * Note: exported as public Type
  */
-export type GetEASAttestationsOptions = {
+export type GetAttestationsOptions = {
   schemas?: EASSchemaUid[];
   revoked?: boolean;
   expirationTime?: number;

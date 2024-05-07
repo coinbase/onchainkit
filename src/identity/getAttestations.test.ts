@@ -2,17 +2,17 @@
  * @jest-environment jsdom
  */
 
-import { getEASAttestationsByFilter } from '../queries/easAttestations';
-import { getEASAttestations } from './getEASAttestations';
-import { easSupportedChains } from '../identity/easSupportedChains';
+import { getAttestationsByFilter } from '../queries/attestations';
+import { getAttestations } from './getAttestations';
+import { easSupportedChains } from './easSupportedChains';
 import { base, opBNBTestnet } from 'viem/chains';
-import { GetEASAttestationsOptions } from './types';
+import { GetAttestationsOptions } from './types';
 
-jest.mock('../queries/easAttestations');
+jest.mock('../queries/attestations');
 
-describe('getEASAttestations', () => {
+describe('getAttestations', () => {
   const mockAddress = '0x1234567890abcdef1234567890abcdef12345678';
-  const mockOptions: GetEASAttestationsOptions = { schemas: ['0x12345'] };
+  const mockOptions: GetAttestationsOptions = { schemas: ['0x12345'] };
   const mockAttestations = [
     {
       attester: '0x357458739F90461b99789350868CD7CF330Dd7EE',
@@ -32,7 +32,7 @@ describe('getEASAttestations', () => {
 
   it('throws an error for unsupported chains', () => {
     try {
-      getEASAttestations(mockAddress, opBNBTestnet, mockOptions);
+      getAttestations(mockAddress, opBNBTestnet, mockOptions);
     } catch (e) {
       expect(e).toHaveProperty(
         'message',
@@ -42,27 +42,27 @@ describe('getEASAttestations', () => {
   });
 
   it('fetches attestations for supported chains', async () => {
-    (getEASAttestationsByFilter as jest.Mock).mockResolvedValue(mockAttestations);
+    (getAttestationsByFilter as jest.Mock).mockResolvedValue(mockAttestations);
 
-    const result = await getEASAttestations(mockAddress, base, mockOptions);
+    const result = await getAttestations(mockAddress, base, mockOptions);
     expect(result).toEqual(mockAttestations); // Replace [] with expected mockAttestations once implemented
   });
 
   it('uses default values when options are not provided', async () => {
     // Call the function without the options parameter
-    await getEASAttestations(mockAddress, base);
-    // Check if getEASAttestationsByFilter is called with default values
-    expect(getEASAttestationsByFilter).toHaveBeenCalledWith(mockAddress, base, {
+    await getAttestations(mockAddress, base);
+    // Check if getAttestationsByFilter is called with default values
+    expect(getAttestationsByFilter).toHaveBeenCalledWith(mockAddress, base, {
       revoked: false,
       expirationTime: expect.any(Number),
       limit: 10,
     });
   });
 
-  it('handles errors from getEASAttestationsByFilter correctly', async () => {
-    (getEASAttestationsByFilter as jest.Mock).mockRejectedValue(new Error('Network error'));
+  it('handles errors from getAttestationsByFilter correctly', async () => {
+    (getAttestationsByFilter as jest.Mock).mockRejectedValue(new Error('Network error'));
 
-    const result = await getEASAttestations(mockAddress, base);
+    const result = await getAttestations(mockAddress, base);
 
     expect(result).toEqual([]);
   });
@@ -72,10 +72,10 @@ describe('getEASAttestations', () => {
     const chain = base; // assuming 'base' is a supported chain
 
     // Call the function without options
-    await getEASAttestations(mockAddress, chain);
+    await getAttestations(mockAddress, chain);
 
-    // Check if getEASAttestationsByFilter is called with the correct default values
-    expect(getEASAttestationsByFilter).toHaveBeenCalledWith(mockAddress, chain, {
+    // Check if getAttestationsByFilter is called with the correct default values
+    expect(getAttestationsByFilter).toHaveBeenCalledWith(mockAddress, chain, {
       revoked: false, // Default value for revoked
       expirationTime: expect.any(Number), // Should be a timestamp
       limit: 10, // Default limit
@@ -88,12 +88,12 @@ describe('getEASAttestations', () => {
       revoked: true,
       expirationTime: 1234567890,
       limit: 5,
-    } as GetEASAttestationsOptions;
+    } as GetAttestationsOptions;
 
     // Call the function with custom options
-    await getEASAttestations(mockAddress, base, customOptions);
+    await getAttestations(mockAddress, base, customOptions);
 
-    // Check if getEASAttestationsByFilter is called with the custom options
-    expect(getEASAttestationsByFilter).toHaveBeenCalledWith(mockAddress, base, customOptions);
+    // Check if getAttestationsByFilter is called with the custom options
+    expect(getAttestationsByFilter).toHaveBeenCalledWith(mockAddress, base, customOptions);
   });
 });
