@@ -88,7 +88,7 @@ export const sidebar = [
           },
           {
             text: 'getAttestations',
-            link: '/identity/get-eas-attestations',
+            link: '/identity/get-attestations',
           },
           {
             text: 'getName',
