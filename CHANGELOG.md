@@ -4,11 +4,11 @@
 
 ### Minor Changes
 
-- 7935116: - **feat**: renamed anything that says `EASAttestation` to just `Attestation`. This should help better popularize the concept of attestation. By @zizzamia #332
+- **feat**: renamed anything that says `EASAttestation` to just `Attestation`. This should help better popularize the concept of attestation. By @zizzamia #332 7935116
 
-  Breaking Changes
+Breaking Changes
 
-  The `getEASAttestations` now is `getAttestations`.
+The `getEASAttestations` now is `getAttestations`.
 
 ## 0.14.2
 
