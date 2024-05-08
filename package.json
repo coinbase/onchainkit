@@ -17,7 +17,7 @@
     "release:version": "changeset version && yarn install --immutable"
   },
   "peerDependencies": {
-    "@coinbase/wallet-sdk": "^4",
+    "@coinbase/wallet-sdk": "4.0.0-rc.2",
     "@tanstack/react-query": "^5",
     "@xmtp/frames-validator": "^0.6.0",
     "graphql": "^14 || ^15 || ^16",
@@ -30,7 +30,7 @@
   "devDependencies": {
     "@changesets/changelog-github": "^0.4.8",
     "@changesets/cli": "^2.26.2",
-    "@coinbase/wallet-sdk": "4.0.0",
+    "@coinbase/wallet-sdk": "4.0.0-rc.2",
     "@tanstack/react-query": "^5.24.1",
     "@testing-library/jest-dom": "^6.4.0",
     "@testing-library/react": "^14.2.0",
@@ -71,7 +71,7 @@
     "access": "public"
   },
   "resolutions": {
-    "@coinbase/wallet-sdk": "npm:@coinbase/wallet-sdk@4.0.0-rc.3"
+    "@coinbase/wallet-sdk": "npm:@coinbase/wallet-sdk@4.0.0-rc.2"
   },
   "files": [
     "esm/**/*",
