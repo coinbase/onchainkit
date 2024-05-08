@@ -2030,7 +2030,7 @@ __metadata:
   dependencies:
     "@changesets/changelog-github": "npm:^0.4.8"
     "@changesets/cli": "npm:^2.26.2"
-    "@coinbase/wallet-sdk": "npm:4.0.0-rc.2"
+    "@coinbase/wallet-sdk": "npm:4.0.0-beta.12"
     "@tanstack/react-query": "npm:^5.24.1"
     "@testing-library/jest-dom": "npm:^6.4.0"
     "@testing-library/react": "npm:^14.2.0"
@@ -2055,7 +2055,7 @@ __metadata:
     wagmi: "npm:^2.8.1"
     yarn: "npm:^1.22.21"
   peerDependencies:
-    "@coinbase/wallet-sdk": 4.0.0-rc.2
+    "@coinbase/wallet-sdk": 4
     "@tanstack/react-query": ^5
     "@xmtp/frames-validator": ^0.6.0
     graphql: ^14 || ^15 || ^16
@@ -2067,9 +2067,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@coinbase/wallet-sdk@npm:@coinbase/wallet-sdk@4.0.0-rc.2":
-  version: 4.0.0-rc.2
-  resolution: "@coinbase/wallet-sdk@npm:4.0.0-rc.2"
+"@coinbase/wallet-sdk@npm:@coinbase/wallet-sdk@4.0.0-beta.12":
+  version: 4.0.0-beta.12
+  resolution: "@coinbase/wallet-sdk@npm:4.0.0-beta.12"
   dependencies:
     buffer: "npm:^6.0.3"
     clsx: "npm:^1.2.1"
@@ -2077,7 +2077,7 @@ __metadata:
     keccak: "npm:^3.0.3"
     preact: "npm:^10.16.0"
     sha.js: "npm:^2.4.11"
-  checksum: d5286372b3ed7373734965d3d5475c9a3a8b0521b58d7364e474149cc6cfcf9fa0b1a72ed1101d7bdfbe16067638c034e47559b51d57c6f8c3a2617fc7cbb41c
+  checksum: 17f1edba3f04035bc796a1a976355ff7c0926d1e0e681db740f8c26e1bafe4e37104a879c0bae1c8e69740c64ae3da04abc9a762c313dab0f4fd38757b54972e
   languageName: node
   linkType: hard
 
