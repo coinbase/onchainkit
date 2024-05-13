@@ -151,16 +151,22 @@ If you're seeking basic TypeScript utilities, we have plenty of ready-to-use opt
 ##### XMTP
 
 - [getXmtpFrameMessage](https://onchainkit.xyz/xmtp/get-xmtp-frame-message)
-- [isXmtpFrameRequest]https://onchainkit.xyz/xmtp/is-xmtp-frame-request
+- [isXmtpFrameRequest](https://onchainkit.xyz/xmtp/is-xmtp-frame-request)
 
 ## Design
 
 All our component designs are open-sourced. You can access the [Figma file](https://www.figma.com/community/file/1370194397345450683) to use them for your onchain project.
 
-<a href="(https://www.figma.com/community/file/1370194397345450683">
+<a href="https://www.figma.com/community/file/1370194397345450683">
+  <p>Figma - How to use</p>
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="./site/docs/public/assets/onchainkit-figma-design.png">
-    <img alt="OnchainKit logo vibes" src="./site/docs/public/assets/onchainkit-figma-design.png" width="auto">
+    <source media="(prefers-color-scheme: dark)" srcset="./site/docs/public/assets/onchainkit-figma-design-how-to-use.png">
+    <img alt="OnchainKit logo vibes" src="./site/docs/public/assets/onchainkit-figma-design-how-to-use.png" width="auto">
+  </picture>
+  <p>Figma - Components</p>
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="./site/docs/public/assets/onchainkit-figma-design-components.png">
+    <img alt="OnchainKit logo vibes" src="./site/docs/public/assets/onchainkit-figma-design-components.png" width="auto">
   </picture>
 </a>
 
