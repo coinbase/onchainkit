@@ -23,8 +23,7 @@
     "graphql-request": "^6.1.0",
     "react": "^18",
     "react-dom": "^18",
-    "viem": "^2.7.0",
-    "wagmi": "^2"
+    "viem": "^2.7.0"
   },
   "devDependencies": {
     "@changesets/changelog-github": "^0.4.8",

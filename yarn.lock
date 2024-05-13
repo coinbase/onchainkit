@@ -2061,7 +2061,6 @@ __metadata:
     react: ^18
     react-dom: ^18
     viem: ^2.7.0
-    wagmi: ^2
   languageName: unknown
   linkType: soft
 
