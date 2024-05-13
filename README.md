@@ -68,14 +68,10 @@ pnpm add @coinbase/onchainkit viem@2.x
 #### Display ENS [avatars](https://onchainkit.xyz/identity/avatar), Attestation [badges](https://onchainkit.xyz/identity/badge), and ENS [names](https://onchainkit.xyz/identity/name).
 
 ```tsx
-const EAS_SCHEMA_ID = "0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9";
-const ACCOUNT_ADDRESS = "0x838aD0EAE54F99F1926dA7C3b6bFbF617389B4D9";
+const EAS_SCHEMA_ID = '0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9';
+const ACCOUNT_ADDRESS = '0x838aD0EAE54F99F1926dA7C3b6bFbF617389B4D9';
 
-
-<OnchainKitProvider
-  chain={base}
-  schemaId={EAS_SCHEMA_ID}
->
+<OnchainKitProvider chain={base} schemaId={EAS_SCHEMA_ID}>
   <div className="flex h-10 items-center space-x-4">
     <Avatar address={ACCOUNT_ADDRESS} showAttestation />
     <div className="flex flex-col text-sm">
@@ -85,7 +81,7 @@ const ACCOUNT_ADDRESS = "0x838aD0EAE54F99F1926dA7C3b6bFbF617389B4D9";
       <Name address={ACCOUNT_ADDRESS} showAddress />
     </div>
   </div>
-</OnchainKitProvider>
+</OnchainKitProvider>;
 ```
 
 <picture>
@@ -135,11 +131,13 @@ export default function HomePage() {
 If you're seeking basic TypeScript utilities, we have plenty of ready-to-use options available.
 
 ##### Frames
+
 - [getFrameHtmlResponse](https://onchainkit.xyz/frame/get-frame-html-response)
 - [getFrameMessage](https://onchainkit.xyz/frame/get-frame-message)
 - [getFrameMetadata](https://onchainkit.xyz/frame/get-frame-metadata)
 
 ##### Identity
+
 - [getAvatar](https://onchainkit.xyz/identity/get-avatar)
 - [getAttestations](https://onchainkit.xyz/identity/get-attestations)
 - [getName](https://onchainkit.xyz/identity/get-name)
@@ -147,9 +145,11 @@ If you're seeking basic TypeScript utilities, we have plenty of ready-to-use opt
 - [useAvatar](https://onchainkit.xyz/identity/use-avatar)
 
 ##### Farcaster
+
 - [getFarcasterUserAddress](https://onchainkit.xyz/farcaster/get-farcaster-user-address)
 
 ##### XMTP
+
 - [getXmtpFrameMessage](https://onchainkit.xyz/xmtp/get-xmtp-frame-message)
 - [isXmtpFrameRequest]https://onchainkit.xyz/xmtp/is-xmtp-frame-request
 
