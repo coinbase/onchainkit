@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.16.1
+
+### Patch Changes
+
+- 64b59f7: - **feat**: keep polishing the `ConnectAccount` component. By @zizzamia #344
+
 ## 0.16.0
 
 ### Minor Changes
