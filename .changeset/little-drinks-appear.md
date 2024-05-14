@@ -2,4 +2,4 @@
 '@coinbase/onchainkit': patch
 ---
 
-- **feat**: dope
+- **feat**: keep polishing the `ConnectAccount` component. By @zizzamia #344

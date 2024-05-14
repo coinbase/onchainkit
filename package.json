@@ -60,10 +60,6 @@
   },
   "packemon": [
     {
-      "format": [
-        "esm",
-        "lib"
-      ],
       "platform": [
         "browser"
       ],
@@ -79,20 +75,14 @@
     "src/",
     "src/**/*"
   ],
-  "main": "./lib/index.js",
-  "types": "./lib/index.d.ts",
+  "main": "./esm/index.js",
+  "types": "./esm/index.d.ts",
   "module": "./esm/index.js",
   "exports": {
     "./package.json": "./package.json",
     ".": {
-      "types": "./lib/index.d.ts",
-      "browser": {
-        "types": "./esm/index.d.ts",
-        "module": "./esm/index.js",
-        "import": "./esm/index.js",
-        "default": "./lib/index.js"
-      },
-      "default": "./lib/index.js"
+      "types": "./esm/index.d.ts",
+      "import": "./esm/index.js"
     },
     "./core": {
       "types": "./lib/core/index.d.ts",
