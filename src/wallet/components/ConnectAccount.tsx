@@ -1,4 +1,9 @@
-import { useAccount, useConnect } from 'wagmi';
+import { useCallback } from 'react';
+import { useAccount, useConnect, useDisconnect } from 'wagmi';
+
+type ConnectAccountReact = {
+  children?: React.ReactNode;
+};
 
 /**
  * ConnectAccount
@@ -6,15 +11,27 @@ import { useAccount, useConnect } from 'wagmi';
  *  - Disconnects from the wallet
  *  - Displays the wallet network
  */
-export function ConnectAccount() {
-  const account = useAccount();
+export function ConnectAccount({ children }: ConnectAccountReact) {
+  const { address, status } = useAccount();
   const { connectors, connect } = useConnect();
+  const { disconnect } = useDisconnect();
   const connector = connectors[0];
 
+  const handleDisconnectWallet = useCallback(() => {
+    disconnect({ connector });
+  }, [disconnect]);
+
+  const ConnectedChildren = () => {
+    if (children) {
+      return children;
+    }
+    return <div onClick={handleDisconnectWallet}>Connected wallet: {address}</div>;
+  };
+
   return (
-    <div className="flex flex-grow">
+    <div className="flex flex-grow" data-testid="ockConnectAccountButton">
       {(() => {
-        if (account.status === 'disconnected') {
+        if (status === 'disconnected' || status === 'connecting') {
           return (
             <button
               onClick={() => connect({ connector })}
@@ -35,6 +52,7 @@ export function ConnectAccount() {
               }}
             >
               <div
+                data-testid="ockConnectAccountButtonInner"
                 style={{
                   fontSize: '0.875rem',
                   lineHeight: '1.25rem',
@@ -48,11 +66,7 @@ export function ConnectAccount() {
           );
         }
 
-        return (
-          <>
-            <div>Connected</div>
-          </>
-        );
+        return <ConnectedChildren />;
       })()}
     </div>
   );

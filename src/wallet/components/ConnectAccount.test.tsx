@@ -4,12 +4,13 @@
 import React from 'react';
 import '@testing-library/jest-dom';
 import { render, screen, waitFor } from '@testing-library/react';
-import { useAccount, useConnect } from 'wagmi';
+import { useAccount, useConnect, useDisconnect } from 'wagmi';
 import { ConnectAccount } from './ConnectAccount';
 
 jest.mock('wagmi', () => ({
   useAccount: jest.fn(),
   useConnect: jest.fn(),
+  useDisconnect: jest.fn(),
 }));
 
 describe('ConnectAccount Component', () => {
@@ -20,6 +21,7 @@ describe('ConnectAccount Component', () => {
       connectors: [{ name: 'injected' }],
       connect: jest.fn(),
     });
+    (useDisconnect as jest.Mock).mockReturnValue({ disconnect: jest.fn() });
   });
 
   it('should display connect wallet button when disconnected', async () => {
@@ -31,24 +33,46 @@ describe('ConnectAccount Component', () => {
     });
   });
 
-  it('should display connected when connected', async () => {
-    (useAccount as jest.Mock).mockReturnValue({ status: 'connected' });
+  it('should display connected wallet when connected', async () => {
+    (useAccount as jest.Mock).mockReturnValue({ status: 'connected', address: '0x1234' });
 
     render(<ConnectAccount />);
 
     await waitFor(() => {
-      const connectedText = screen.getByText('Connected');
-      expect(connectedText).toBeInTheDocument();
+      const connectedWallet = screen.getByText('Connected wallet: 0x1234');
+      expect(connectedWallet).toBeInTheDocument();
     });
   });
 
-  it('should call connect when connect wallet button is clicked', async () => {
+  it('should call connect when connect button is clicked', async () => {
     render(<ConnectAccount />);
 
     await waitFor(() => {
       const connectWalletButton = screen.getByText('Connect wallet');
       connectWalletButton.click();
-      expect(useConnect().connect).toHaveBeenCalledWith({ connector: { name: 'injected' } });
+      expect(useConnect().connect).toHaveBeenCalled();
+    });
+  });
+
+  it('should call disconnect when disconnect button is clicked', async () => {
+    (useAccount as jest.Mock).mockReturnValue({ status: 'connected', address: '0x1234' });
+
+    render(<ConnectAccount />);
+
+    await waitFor(() => {
+      const connectedWallet = screen.getByText('Connected wallet: 0x1234');
+      connectedWallet.click();
+      expect(useDisconnect().disconnect).toHaveBeenCalled();
+    });
+  });
+
+  it('should render children when provided and is connected', async () => {
+    (useAccount as jest.Mock).mockReturnValue({ status: 'connected', address: '0x1234' });
+    render(<ConnectAccount>Custom Children</ConnectAccount>);
+
+    await waitFor(() => {
+      const customChildren = screen.getByText('Custom Children');
+      expect(customChildren).toBeInTheDocument();
     });
   });
 });

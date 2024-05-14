@@ -43,7 +43,7 @@
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
     "jest-extended": "^4.0.2",
-    "packemon": "^3.3.0",
+    "packemon": "^4.0.1",
     "prettier": "^3.1.1",
     "prettier-plugin-tailwindcss": "^0.5.9",
     "react": "^18",
@@ -60,10 +60,6 @@
   },
   "packemon": [
     {
-      "format": [
-        "esm",
-        "lib"
-      ],
       "platform": [
         "browser"
       ],
@@ -79,20 +75,14 @@
     "src/",
     "src/**/*"
   ],
-  "main": "./lib/index.js",
-  "types": "./lib/index.d.ts",
+  "main": "./esm/index.js",
+  "types": "./esm/index.d.ts",
   "module": "./esm/index.js",
   "exports": {
     "./package.json": "./package.json",
     ".": {
-      "types": "./lib/index.d.ts",
-      "browser": {
-        "types": "./esm/index.d.ts",
-        "module": "./esm/index.js",
-        "import": "./esm/index.js",
-        "default": "./lib/index.js"
-      },
-      "default": "./lib/index.js"
+      "types": "./esm/index.d.ts",
+      "import": "./esm/index.js"
     },
     "./core": {
       "types": "./lib/core/index.d.ts",
