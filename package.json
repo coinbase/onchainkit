@@ -143,6 +143,16 @@
         "default": "./lib/xmtp/index.js"
       },
       "default": "./lib/xmtp/index.js"
+    },
+    "./wallet": {
+      "types": "./lib/wallet/index.d.ts",
+      "browser": {
+        "types": "./esm/wallet/index.d.ts",
+        "module": "./esm/wallet/index.js",
+        "import": "./esm/wallet/index.js",
+        "default": "./lib/wallet/index.js"
+      },
+      "default": "./lib/wallet/index.js"
     }
   }
 }
