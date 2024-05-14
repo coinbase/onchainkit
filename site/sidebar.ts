@@ -103,6 +103,25 @@ export const sidebar = [
     ],
   },
   {
+    text: 'Wallet',
+    items: [
+      { text: 'Introduction', link: '/wallet/introduction' },
+      {
+        text: 'Components',
+        items: [
+          {
+            text: 'ConnectAccount',
+            link: '/wallet/connect-account',
+          },
+        ],
+      },
+      {
+        text: 'Types',
+        link: '/wallet/types',
+      },
+    ],
+  },
+  {
     text: 'Farcaster',
     collapsed: true,
     items: [
