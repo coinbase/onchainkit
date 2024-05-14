@@ -17,6 +17,7 @@
     "release:version": "changeset version && yarn install --immutable"
   },
   "peerDependencies": {
+    "@coinbase/wallet-sdk": "^4",
     "@tanstack/react-query": "^5",
     "@xmtp/frames-validator": "^0.6.0",
     "graphql": "^14 || ^15 || ^16",
@@ -29,6 +30,7 @@
   "devDependencies": {
     "@changesets/changelog-github": "^0.4.8",
     "@changesets/cli": "^2.26.2",
+    "@coinbase/wallet-sdk": "^4.0.0",
     "@tanstack/react-query": "^5.24.1",
     "@testing-library/jest-dom": "^6.4.0",
     "@testing-library/react": "^14.2.0",
@@ -52,6 +54,9 @@
     "viem": "^2.10.5",
     "wagmi": "^2.8.7",
     "yarn": "^1.22.21"
+  },
+  "resolutions": {
+    "@coinbase/wallet-sdk": "npm:@coinbase/wallet-sdk@4.0.0"
   },
   "packemon": [
     {
@@ -138,6 +143,16 @@
         "default": "./lib/xmtp/index.js"
       },
       "default": "./lib/xmtp/index.js"
+    },
+    "./wallet": {
+      "types": "./lib/wallet/index.d.ts",
+      "browser": {
+        "types": "./esm/wallet/index.d.ts",
+        "module": "./esm/wallet/index.js",
+        "import": "./esm/wallet/index.js",
+        "default": "./lib/wallet/index.js"
+      },
+      "default": "./lib/wallet/index.js"
     }
   }
 }
