@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.16.2
+
+### Patch Changes
+
+- f7fea11: - **fix**: removed `lib` export. By @zizzamia #346
+
 ## 0.16.1
 
 ### Patch Changes
