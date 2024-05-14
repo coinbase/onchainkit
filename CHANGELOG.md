@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.16.3
+
+### Patch Changes
+
+- 84c9e5f: - **fix**: added back `lib`.
+
 ## 0.16.2
 
 ### Patch Changes
