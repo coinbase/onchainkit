@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 import { useAccount, useConnect, useDisconnect } from 'wagmi';
 
 type ConnectAccountReact = {
-  children: React.ReactNode;
+  children?: React.ReactNode;
 };
 
 /**
@@ -29,7 +29,7 @@ export function ConnectAccount({ children }: ConnectAccountReact) {
   };
 
   return (
-    <div className="flex flex-grow">
+    <div className="flex flex-grow" data-testid="ockConnectAccountButton">
       {(() => {
         if (status === 'disconnected' || status === 'connecting') {
           return (
@@ -52,6 +52,7 @@ export function ConnectAccount({ children }: ConnectAccountReact) {
               }}
             >
               <div
+                data-testid="ockConnectAccountButtonInner"
                 style={{
                   fontSize: '0.875rem',
                   lineHeight: '1.25rem',
