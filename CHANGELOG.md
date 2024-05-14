@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.16.0
+
+### Minor Changes
+
+- 9f93913: - **feat**: init `ConnectAccount` component, which will make even easier to use Smart Wallet. By @zizzamia #342
+
 ## 0.15.0
 
 ### Minor Changes
