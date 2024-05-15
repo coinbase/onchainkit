@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.16.6
+
+### Patch Changes
+
+- a90851f: - **fix**: build
+
 ## 0.16.5
 
 ### Patch Changes
