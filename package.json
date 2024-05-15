@@ -60,8 +60,9 @@
   },
   "packemon": [
     {
-      "platform": [
-        "browser"
+      "format": [
+        "esm",
+        "lib"
       ],
       "bundle": false
     }
@@ -75,73 +76,49 @@
     "src/",
     "src/**/*"
   ],
-  "main": "./esm/index.js",
-  "types": "./esm/index.d.ts",
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
   "module": "./esm/index.js",
   "exports": {
     "./package.json": "./package.json",
     ".": {
-      "types": "./esm/index.d.ts",
-      "import": "./esm/index.js"
+      "import": {
+        "types": "./esm/index.d.ts",
+        "default": "./esm/index.js"
+      },
+      "require": {
+        "types": "./lib/index.d.ts",
+        "default": "./lib/index.js"
+      }
     },
     "./core": {
-      "types": "./lib/core/index.d.ts",
-      "browser": {
-        "types": "./esm/core/index.d.ts",
-        "module": "./esm/core/index.js",
-        "import": "./esm/core/index.js",
-        "default": "./lib/core/index.js"
-      },
+      "types": "./esm/core/index.d.ts",
+      "import": "./esm/core/index.js",
       "default": "./lib/core/index.js"
     },
     "./farcaster": {
-      "types": "./lib/farcaster/index.d.ts",
-      "browser": {
-        "types": "./esm/farcaster/index.d.ts",
-        "module": "./esm/farcaster/index.js",
-        "import": "./esm/farcaster/index.js",
-        "default": "./lib/farcaster/index.js"
-      },
+      "types": "./esm/farcaster/index.d.ts",
+      "import": "./esm/farcaster/index.js",
       "default": "./lib/farcaster/index.js"
     },
     "./frame": {
-      "types": "./lib/frame/index.d.ts",
-      "browser": {
-        "types": "./esm/frame/index.d.ts",
-        "module": "./esm/frame/index.js",
-        "import": "./esm/frame/index.js",
-        "default": "./lib/frame/index.js"
-      },
+      "types": "./esm/frame/index.d.ts",
+      "import": "./esm/frame/index.js",
       "default": "./lib/frame/index.js"
     },
     "./identity": {
-      "types": "./lib/identity/index.d.ts",
-      "browser": {
-        "types": "./esm/identity/index.d.ts",
-        "module": "./esm/identity/index.js",
-        "import": "./esm/identity/index.js",
-        "default": "./lib/identity/index.js"
-      },
+      "types": "./esm/identity/index.d.ts",
+      "import": "./esm/identity/index.js",
       "default": "./lib/identity/index.js"
     },
     "./xmtp": {
-      "types": "./lib/xmtp/index.d.ts",
-      "browser": {
-        "types": "./esm/xmtp/index.d.ts",
-        "module": "./esm/xmtp/index.js",
-        "import": "./esm/xmtp/index.js",
-        "default": "./lib/xmtp/index.js"
-      },
+      "types": "./esm/xmtp/index.d.ts",
+      "import": "./esm/xmtp/index.js",
       "default": "./lib/xmtp/index.js"
     },
     "./wallet": {
-      "types": "./lib/wallet/index.d.ts",
-      "browser": {
-        "types": "./esm/wallet/index.d.ts",
-        "module": "./esm/wallet/index.js",
-        "import": "./esm/wallet/index.js",
-        "default": "./lib/wallet/index.js"
-      },
+      "types": "./esm/wallet/index.d.ts",
+      "import": "./esm/wallet/index.js",
       "default": "./lib/wallet/index.js"
     }
   }
