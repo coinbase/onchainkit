@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.16.8
+
+### Patch Changes
+
+- 962ad43: - **fix**: keep polishing pkg.
+
 ## 0.16.7
 
 ### Patch Changes
