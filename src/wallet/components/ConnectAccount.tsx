@@ -1,9 +1,6 @@
 import { useCallback } from 'react';
 import { useAccount, useConnect, useDisconnect } from 'wagmi';
-
-type ConnectAccountReact = {
-  children?: React.ReactNode;
-};
+import { ConnectAccountReact } from '../types';
 
 /**
  * ConnectAccount
@@ -22,6 +19,7 @@ export function ConnectAccount({ children }: ConnectAccountReact) {
   }, [disconnect]);
 
   const ConnectedChildren = () => {
+    // Children can be utilized to display customized content when the wallet is connected.
     if (children) {
       return children;
     }
