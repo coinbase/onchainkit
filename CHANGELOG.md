@@ -4,49 +4,23 @@
 
 ### Patch Changes
 
-- 8b56121: - **fix**: packemon.
-
-## 0.16.8
-
-### Patch Changes
-
-- 962ad43: - **fix**: keep polishing pkg.
-
-## 0.16.7
-
-### Patch Changes
-
-- 2fddad2: - **feat**: set pkg type to `module`.
-
-## 0.16.6
-
-### Patch Changes
-
-- a90851f: - **fix**: build
-
-## 0.16.5
-
-### Patch Changes
-
-- f0d6fde: - **fix**: build
-
-## 0.16.4
-
-### Patch Changes
-
-- 67c2e45: - **fix**: revert
+- **fix**: packemon. By @zizzamia 8b56121
 
 ## 0.16.1
 
 ### Patch Changes
 
-- 64b59f7: - **feat**: keep polishing the `ConnectAccount` component. By @zizzamia #344
+- **feat**: keep polishing the `ConnectAccount` component. By @zizzamia #344 64b59f7
 
 ## 0.16.0
 
 ### Minor Changes
 
-- 9f93913: - **feat**: init `ConnectAccount` component, which will make even easier to use Smart Wallet. By @zizzamia #342
+- **feat**: init `ConnectAccount` component, which will make even easier to use Smart Wallet. By @zizzamia #342 9f93913
+
+Breaking Changes
+
+Transition to exclusively using ESM and phase out CommonJS support.
 
 ## 0.15.0
 
