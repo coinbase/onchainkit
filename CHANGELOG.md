@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.16.10
+
+### Patch Changes
+
+- c4a9f78: - **feat**: exported `ConnectAccountReact` type.
+
 ## 0.16.9
 
 ### Patch Changes
