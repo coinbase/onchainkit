@@ -102,7 +102,6 @@ export const sidebar = [
       },
     ],
   },
-  /*
   {
     text: 'Wallet',
     items: [
@@ -122,7 +121,6 @@ export const sidebar = [
       },
     ],
   },
-  */
   {
     text: 'Farcaster',
     collapsed: true,
