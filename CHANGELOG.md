@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.16.7
+
+### Patch Changes
+
+- 2fddad2: - **feat**: set pkg type to `module`.
+
 ## 0.16.6
 
 ### Patch Changes
