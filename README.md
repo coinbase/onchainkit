@@ -154,7 +154,6 @@ export default function HomePage() {
   <img alt="OnchainKit Wallet components" src="./site/docs/public/assets/onchainkit-wallet-2.png" width="auto">
 </picture>
 
-
 ## Utilities
 
 If you're seeking basic TypeScript utilities, we have plenty of ready-to-use options available.
