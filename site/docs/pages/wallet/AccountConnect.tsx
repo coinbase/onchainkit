@@ -14,7 +14,7 @@ function AccountConnect() {
   return (
     <div className="flex flex-grow">
       {(() => {
-        if (status === 'disconnected') {
+        if (['disconnected', 'connecting'].includes(status)) {
           return <ConnectAccount />;
         }
 

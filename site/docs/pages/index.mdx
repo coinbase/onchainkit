@@ -11,6 +11,7 @@ import { base } from 'viem/chains';
 import { OnchainKitProvider } from '@coinbase/onchainkit';
 import { Avatar, Badge, Name } from '@coinbase/onchainkit/identity';
 import App from './App';
+import AccountConnect from './wallet/AccountConnect';
 
 import FarcasterCastCard from '../components/FarcasterCastCard';
 
@@ -127,6 +128,36 @@ pnpm add @coinbase/onchainkit viem@2.x
       </div>
     </div>
   </OnchainKitProvider>
+</App>
+      </div>
+    </div>
+  </aside>
+  <aside className="md:px-2 pt-10">
+    <p className="text-lg md:text-xl py-2">
+      Create or connect your wallet with [Connect Account](/wallet/connect-account), powered by [Smart Wallet](https://www.smartwallet.dev/why).
+    </p>
+    <div className="flex grow flex-col md:flex-row">
+      <div>
+```tsx
+<div className="flex flex-grow">
+  {(() => {
+    if (status === 'disconnected') {
+      return <ConnectAccount />; // [!code focus]
+    }
+    return (
+      <div className="flex h-8 w-8 items-center justify-center">
+        <button type="button" onClick={() => disconnect()}>
+          <Avatar address={address} />
+        </button>
+      </div>
+    );
+  })()}
+</div>
+```
+      </div>
+      <div className='flex grow items-center justify-center h-24 md:h-auto'>
+<App>
+  <AccountConnect />
 </App>
       </div>
     </div>

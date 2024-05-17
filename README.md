@@ -86,7 +86,7 @@ const ACCOUNT_ADDRESS = '0x838aD0EAE54F99F1926dA7C3b6bFbF617389B4D9';
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="./site/docs/public/assets/onchainkit-identity.png">
-  <img alt="OnchainKit logo vibes" src="./site/docs/public/assets/onchainkit-identity.png" width="auto">
+  <img alt="OnchainKit Identity components" src="./site/docs/public/assets/onchainkit-identity.png" width="auto">
 </picture>
 
 #### Convert your web page into a [Frame](https://onchainkit.xyz/frame/frame-metadata)
@@ -125,6 +125,34 @@ export default function HomePage() {
   );
 }
 ```
+
+#### Create or connect your wallet with [Connect Account](https://onchainkit.xyz/wallet/connect-account), powered by [Smart Wallet](https://www.smartwallet.dev/why).
+
+```tsx
+<div className="flex flex-grow">
+  {(() => {
+    if (status === 'disconnected') {
+      return <ConnectAccount />; // [!code focus]
+    }
+    return (
+      <div className="flex h-8 w-8 items-center justify-center">
+        <button type="button" onClick={() => disconnect()}>
+          <Avatar address={address} />
+        </button>
+      </div>
+    );
+  })()}
+</div>
+```
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="./site/docs/public/assets/onchainkit-wallet-1.png">
+  <img alt="OnchainKit Wallet components" src="./site/docs/public/assets/onchainkit-wallet-1.png" width="auto">
+</picture>
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="./site/docs/public/assets/onchainkit-wallet-2.png">
+  <img alt="OnchainKit Wallet components" src="./site/docs/public/assets/onchainkit-wallet-2.png" width="auto">
+</picture>
 
 ## Utilities
 
