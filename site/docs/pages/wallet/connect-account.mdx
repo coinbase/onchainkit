@@ -1,29 +1,59 @@
 {/* import { ConnectAccount } from '../../../../src/wallet'; */}
-import { ConnectAccount } from '@coinbase/onchainkit/wallet';
 import App from '../App';
+import AccountConnect from './AccountConnect';
 
 # `<ConnectAccount />`
 
-The `ConnectAccount` component is used to connect an account to the wallet.
+The `ConnectAccount` component is used to render the connect button and use
+Smart Wallet to create or connect an account in seconds with no app or extension required.
 
 ## Usage
 
 :::code-group
 
 ```tsx [code]
-import { ConnectAccount } from '@coinbase/onchainkit/wallet';
+import { Avatar } from '@coinbase/onchainkit/identity';
+import { ConnectAccount } from '@coinbase/onchainkit/wallet'; // [!code focus]
+import { useAccount, useDisconnect } from 'wagmi';
 
-<ConnectAccount />; // [!code focus]
+function AccountConnect() {
+  const { address, status } = useAccount();
+  const { disconnect } = useDisconnect();
+
+  return (
+    <div className="flex flex-grow">
+      {(() => {
+        if (status === 'disconnected') {
+          return <ConnectAccount />; // [!code focus]
+        }
+
+        return (
+          <div className="flex h-8 w-8 items-center justify-center">
+            {address && (
+              <button type="button" onClick={() => disconnect()}>
+                <Avatar address={address} />
+              </button>
+            )}
+          </div>
+        );
+      })()}
+    </div>
+  );
+}
 ```
 
 ```html [return html]
 <button
   type="button"
-  style="display: inline-flex; padding: 0.5rem 1rem; flex-grow: 1; gap: 0.5rem; justify-content: center; align-items: center; border-radius: 1.5rem; height: 2.5rem; background-color: rgb(255, 255, 255);"
+  style="display: inline-flex; padding: 0.5rem 1rem; flex-grow: 1;
+  gap: 0.5rem; justify-content: center; align-items: center;
+  border-radius: 1.5rem; height: 2.5rem;
+  background-color: rgb(255, 255, 255);"
 >
   <div
     data-testid="ockConnectAccountButtonInner"
-    style="font-size: 0.875rem; line-height: 1.25rem; font-weight: 500; color: rgb(0, 0, 0);"
+    style="font-size: 0.875rem; line-height: 1.25rem; 
+    font-weight: 500; color: rgb(0, 0, 0);"
   >
     Connect wallet
   </div>
@@ -33,7 +63,7 @@ import { ConnectAccount } from '@coinbase/onchainkit/wallet';
 :::
 
 <App>
-  <ConnectAccount />
+  <AccountConnect />
 </App>
 
 ## Props

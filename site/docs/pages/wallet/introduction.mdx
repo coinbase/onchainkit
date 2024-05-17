@@ -3,6 +3,124 @@ title: Introduction to Wallet Kit · OnchainKit
 deescription: Introduction to Wallet Kit
 ---
 
+import App from '../App';
+import AccountConnect from './AccountConnect';
+
 # Introduction to Wallet Kit
 
 OnchainKit provides React components to help you connect with [Smart Wallet](https://www.smartwallet.dev/why).
+
+## Components
+
+The available components are:
+
+- [`<ConnectAccount />`](/wallet/connect-account): Renders the connect button
+
+:::code-group
+
+```tsx [code]
+<WagmiProvider config={wagmiConfig}>
+  ...
+  <div className="flex flex-grow">
+    {(() => {
+      if (status === 'disconnected') {
+        return <ConnectAccount />; // [!code focus]
+      }
+
+      return (
+        <div className="flex h-8 w-8 items-center justify-center">
+          {address && (
+            <button type="button" onClick={() => disconnect()}>
+              <Avatar address={address} />
+            </button>
+          )}
+        </div>
+      );
+    })()}
+  </div>
+  ...
+</WagmiProvider>
+```
+
+```html [return html]
+<button
+  type="button"
+  style="display: inline-flex; padding: 0.5rem 1rem; flex-grow: 1;
+  gap: 0.5rem; justify-content: center; align-items: center;
+  border-radius: 1.5rem; height: 2.5rem;
+  background-color: rgb(255, 255, 255);"
+>
+  <div
+    data-testid="ockConnectAccountButtonInner"
+    style="font-size: 0.875rem; line-height: 1.25rem; 
+    font-weight: 500; color: rgb(0, 0, 0);"
+  >
+    Connect wallet
+  </div>
+</button>
+```
+
+:::
+
+<App>
+  <AccountConnect />
+</App>
+
+## Required dependencies
+
+To use the Identity utilities and components install:
+
+:::code-group
+
+```bash [npm]
+npm install @coinbase/onchainkit
+npm install react@18 react-dom@18 wagmi@2 @coinbase/wallet-sdk@4
+```
+
+```bash [yarn]
+yarn add @coinbase/onchainkit
+yarn add react@18 react-dom@18 wagmi@2 @coinbase/wallet-sdk@4
+```
+
+```bash [pnpm]
+pnpm add @coinbase/onchainkit
+pnpm add react@18 react-dom@18 wagmi@2 @coinbase/wallet-sdk@4
+```
+
+:::
+
+## Required providers
+
+If you are using any of the provided components, you will need to install
+and configure `wagmi` and wrap your app in `<WagmiProvider>`.
+
+```tsx
+import { ReactNode } from 'react';
+import { WagmiProvider, createConfig, http } from 'wagmi';
+import { baseSepolia } from 'wagmi/chains';
+import { coinbaseWallet } from 'wagmi/connectors';
+
+const wagmiConfig = createConfig({
+  chains: [baseSepolia],
+  connectors: [
+    coinbaseWallet({
+      appChainIds: [baseSepolia.id],
+      appName: 'onchainkit',
+    }),
+  ],
+  ssr: true,
+  transports: {
+    [baseSepolia.id]: http(),
+  },
+});
+
+function App({ children }: { children: ReactNode }) {
+  return (
+    <WagmiProvider config={wagmiConfig}>
+      {' '}
+      // [!code focus]
+      {children}
+    </WagmiProvider> // [!code focus]
+  );
+}
+```

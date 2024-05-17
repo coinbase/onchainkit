@@ -23,9 +23,6 @@
     "viem": "^2.7.10",
     "vite": "^5.2.8",
     "vocs": "1.0.0-alpha.46",
-    "wagmi": "^2.8.7"
-  },
-  "resolutions": {
-    "@coinbase/wallet-sdk": "npm:@coinbase/wallet-sdk@4.0.0"
+    "wagmi": "^2.9.2"
   }
 }
