@@ -1,8 +1,13 @@
+'use client';
 import { Avatar } from '@coinbase/onchainkit/identity';
 import { ConnectAccount } from '@coinbase/onchainkit/wallet';
 import { useAccount, useDisconnect } from 'wagmi';
 
 function AccountConnect() {
+  const isServer = typeof window === 'undefined';
+  if (isServer) {
+    return null;
+  }
   const { address, status } = useAccount();
   const { disconnect } = useDisconnect();
 
