@@ -13,7 +13,6 @@ const wagmiConfig = createConfig({
     coinbaseWallet({
       appChainIds: [baseSepolia.id],
       appName: 'onchainkit',
-      preference: 'smartWalletOnly',
     }),
   ],
   ssr: true,
