@@ -1,8 +1,9 @@
 import { createContext, useMemo } from 'react';
 import { checkHashLength } from './utils/checkHashLength';
+import { ONCHAIN_KIT_CONFIG } from './OnchainKitConfig';
 import { OnchainKitContextType, OnchainKitProviderProps } from './types';
 
-export const OnchainKitContext = createContext<OnchainKitContextType | null>(null);
+export const OnchainKitContext = createContext<OnchainKitContextType>(ONCHAIN_KIT_CONFIG);
 
 /**
  * Provides the OnchainKit React Context to the app.

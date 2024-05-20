@@ -1,15 +1,17 @@
-import { baseSepolia } from "viem/chains";
-import { OnchainKitConfig, SetOnchainKitConfig } from "./types";
+import { baseSepolia } from 'viem/chains';
+import { OnchainKitConfig, SetOnchainKitConfig } from './types';
 
-// The config should be never exported as a constant, 
+// The config should be never exported as a constant,
 // but only acccessed through the get and set functions.
-const ONCHAIN_KIT_CONFIG: OnchainKitConfig = {
+export const ONCHAIN_KIT_CONFIG: OnchainKitConfig = {
   address: null,
   chain: baseSepolia,
-  schemaId: null
+  schemaId: null,
 };
 
-export const getOnchainKitConfig = (configName: keyof typeof ONCHAIN_KIT_CONFIG): any => {  
+export const getOnchainKitConfig = <K extends keyof typeof ONCHAIN_KIT_CONFIG>(
+  configName: K,
+): (typeof ONCHAIN_KIT_CONFIG)[K] => {
   return ONCHAIN_KIT_CONFIG[configName];
 };
 
