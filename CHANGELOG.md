@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.17.0
+
+### Minor Changes
+
+- 9498586: - **feat**: added `getOnchainKitConfig` and `setOnchainKitConfig` to access and edit the share OnchainKit config directly. By @zizzamia #376
+
+  Breaking Changes
+  Removed `getFrameHtmlResponse`, `getFrameMessage`, `getMockFrameRequest` and Frames types from the root level exports. And you can find them going forward in `@coinbase/onchainkit/frame`.
+
 ## 0.16.10
 
 ### Patch Changes
