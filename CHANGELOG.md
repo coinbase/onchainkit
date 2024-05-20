@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- c4a9f78: - **feat**: exported `ConnectAccountReact` type.
+- **feat**: exported `ConnectAccountReact` type. c4a9f78
 
 ## 0.16.9
 

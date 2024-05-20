@@ -111,6 +111,12 @@
       "import": "./esm/identity/index.js",
       "default": "./lib/identity/index.js"
     },
+    "./trade": {
+      "types": "./esm/trade/index.d.ts",
+      "module": "./esm/trade/index.js",
+      "import": "./esm/trade/index.js",
+      "default": "./lib/trade/index.js"
+    },
     "./xmtp": {
       "types": "./esm/xmtp/index.d.ts",
       "module": "./esm/xmtp/index.js",
