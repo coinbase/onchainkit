@@ -5,6 +5,7 @@ import React from 'react';
 import '@testing-library/jest-dom';
 import { render } from '@testing-library/react';
 import { useOnchainKit } from './useOnchainKit';
+import { setOnchainKitConfig } from './OnchainKitConfig';
 
 const TestComponent = () => {
   const { schemaId } = useOnchainKit();
@@ -12,9 +13,12 @@ const TestComponent = () => {
 };
 
 describe('useOnchainKit', () => {
-  it('throws an error when useOnchainKit is used outside of OnchainKitProvider', () => {
-    expect(() => render(<TestComponent />)).toThrow(
-      'useOnchainKit must be used within an OnchainKitProvider',
-    );
+  it('should return the correct value', () => {
+    const schemaId = '0x123';
+    setOnchainKitConfig({ schemaId });
+    const { container } = render(<TestComponent />, {
+      wrapper: ({ children }) => <div>{children}</div>,
+    });
+    expect(container).toHaveTextContent(schemaId);
   });
 });
