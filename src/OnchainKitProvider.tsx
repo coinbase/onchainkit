@@ -10,6 +10,7 @@ export const OnchainKitContext = createContext<OnchainKitContextType>(ONCHAIN_KI
  */
 export function OnchainKitProvider({
   address,
+  apiKey,
   chain,
   children,
   schemaId,
@@ -17,9 +18,16 @@ export function OnchainKitProvider({
   if (schemaId && !checkHashLength(schemaId, 64)) {
     throw Error('EAS schemaId must be 64 characters prefixed with "0x"');
   }
+  if (!apiKey) {
+    throw Error(
+      'API Key is required to use OnchainKit - get your API key from the Coinbase Developer Platform: https://portal.cdp.coinbase.com/products/templates',
+    );
+  }
   const value = useMemo(() => {
     return {
       address: address ?? null,
+      apiKey: apiKey,
+      rpcUrl: `https://api.developer.coinbase.com/rpc/v1/${ONCHAIN_KIT_CONFIG.chain.name.replace(' ', '-').toLowerCase()}/${ONCHAIN_KIT_CONFIG.apiKey}`,
       chain: chain,
       schemaId: schemaId ?? null,
     };

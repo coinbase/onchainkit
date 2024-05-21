@@ -16,11 +16,12 @@ const TestComponent = () => {
 };
 
 describe('OnchainKitProvider', () => {
-  it('provides the context value correctly', async () => {
-    const schemaId: EASSchemaUid = `0x${'1'.repeat(64)}`;
+  const schemaId: EASSchemaUid = `0x${'1'.repeat(64)}`;
+  const apiKey = 'test-api-key';
 
+  it('provides the context value correctly', async () => {
     render(
-      <OnchainKitProvider chain={base} schemaId={schemaId}>
+      <OnchainKitProvider chain={base} schemaId={schemaId} apiKey={apiKey}>
         <TestComponent />
       </OnchainKitProvider>,
     );
@@ -30,10 +31,22 @@ describe('OnchainKitProvider', () => {
     });
   });
 
+  it('throws an error if apiKey is empty', () => {
+    expect(() =>
+      render(
+        <OnchainKitProvider chain={base} apiKey="">
+          <TestComponent />
+        </OnchainKitProvider>,
+      ),
+    ).toThrow(
+      'API Key is required to use OnchainKit - get your API key from the Coinbase Developer Platform: https://portal.cdp.coinbase.com/products/templates',
+    );
+  });
+
   it('throws an error if schemaId does not meet the required length', () => {
     expect(() =>
       render(
-        <OnchainKitProvider chain={base} schemaId={'0x123'}>
+        <OnchainKitProvider chain={base} schemaId={'0x123'} apiKey={apiKey}>
           <TestComponent />
         </OnchainKitProvider>,
       ),
@@ -43,7 +56,7 @@ describe('OnchainKitProvider', () => {
   it('does not throw an error if schemaId is not provided', () => {
     expect(() =>
       render(
-        <OnchainKitProvider chain={base}>
+        <OnchainKitProvider chain={base} apiKey={apiKey}>
           <TestComponent />
         </OnchainKitProvider>,
       ),

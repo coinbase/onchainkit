@@ -5,6 +5,8 @@ import { OnchainKitConfig, SetOnchainKitConfig } from './types';
 // but only acccessed through the get and set functions.
 export const ONCHAIN_KIT_CONFIG: OnchainKitConfig = {
   address: null,
+  apiKey: '',
+  rpcUrl: '',
   chain: baseSepolia,
   schemaId: null,
 };
@@ -25,5 +27,13 @@ export const getOnchainKitConfig = <K extends keyof typeof ONCHAIN_KIT_CONFIG>(
  */
 export const setOnchainKitConfig = (properties: SetOnchainKitConfig) => {
   Object.assign(ONCHAIN_KIT_CONFIG, properties);
+  if (!ONCHAIN_KIT_CONFIG.apiKey) {
+    throw new Error(
+      'API Key is required to use OnchainKit - get your API key from the Coinbase Developer Platform: https://portal.cdp.coinbase.com/products/templates',
+    );
+  }
+  if (properties.apiKey || properties.chain) {
+    ONCHAIN_KIT_CONFIG.rpcUrl = `https://api.developer.coinbase.com/rpc/v1/${ONCHAIN_KIT_CONFIG.chain.name.replace(' ', '-').toLowerCase()}/${ONCHAIN_KIT_CONFIG.apiKey}`;
+  }
   return getOnchainKitConfig;
 };

@@ -15,7 +15,8 @@ const TestComponent = () => {
 describe('useOnchainKit', () => {
   it('should return the correct value', () => {
     const schemaId = '0x123';
-    setOnchainKitConfig({ schemaId });
+    const apiKey = 'test-api-key';
+    setOnchainKitConfig({ schemaId, apiKey });
     const { container } = render(<TestComponent />, {
       wrapper: ({ children }) => <div>{children}</div>,
     });
