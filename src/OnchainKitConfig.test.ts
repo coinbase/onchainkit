@@ -1,7 +1,7 @@
 import fs from 'fs';
 import { baseSepolia } from 'viem/chains';
 import { getOnchainKitConfig, setOnchainKitConfig } from './OnchainKitConfig';
-import { getRPCUrl } from './RPC';
+import { getRPCUrl } from './getRPCUrl';
 
 describe('OnchainKitConfig', () => {
   it('should have a get function to access the config', () => {

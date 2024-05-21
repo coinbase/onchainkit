@@ -56,4 +56,14 @@ describe('OnchainKitProvider', () => {
       ),
     ).not.toThrow();
   });
+
+  it('does not throw an error if api key is not provided', () => {
+    expect(() =>
+      render(
+        <OnchainKitProvider chain={base}>
+          <TestComponent />
+        </OnchainKitProvider>,
+      ),
+    ).not.toThrow();
+  });
 });
