@@ -11,8 +11,13 @@ import { OnchainKitProvider } from './OnchainKitProvider';
 import { useOnchainKit } from './useOnchainKit';
 
 const TestComponent = () => {
-  const { schemaId } = useOnchainKit();
-  return <div>{schemaId}</div>;
+  const { schemaId, apiKey } = useOnchainKit();
+  return (
+    <>
+      <div>{schemaId}</div>
+      <div>{apiKey}</div>
+    </>
+  );
 };
 
 describe('OnchainKitProvider', () => {
@@ -28,6 +33,7 @@ describe('OnchainKitProvider', () => {
 
     await waitFor(() => {
       expect(screen.getByText(schemaId)).toBeInTheDocument();
+      expect(screen.getByText(apiKey)).toBeInTheDocument();
     });
   });
 

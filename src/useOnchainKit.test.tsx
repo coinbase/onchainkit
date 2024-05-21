@@ -8,8 +8,12 @@ import { useOnchainKit } from './useOnchainKit';
 import { setOnchainKitConfig } from './OnchainKitConfig';
 
 const TestComponent = () => {
-  const { schemaId } = useOnchainKit();
-  return <div>{schemaId}</div>;
+  const { schemaId, apiKey } = useOnchainKit();
+  return (
+    <div>
+      {apiKey} + {schemaId}
+    </div>
+  );
 };
 
 describe('useOnchainKit', () => {
@@ -21,5 +25,6 @@ describe('useOnchainKit', () => {
       wrapper: ({ children }) => <div>{children}</div>,
     });
     expect(container).toHaveTextContent(schemaId);
+    expect(container).toHaveTextContent(apiKey);
   });
 });

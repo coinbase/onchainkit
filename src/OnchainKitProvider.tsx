@@ -31,6 +31,6 @@ export function OnchainKitProvider({
       chain: chain,
       schemaId: schemaId ?? null,
     };
-  }, [address, chain, schemaId]);
+  }, [address, chain, schemaId, apiKey, rpcUrl]);
   return <OnchainKitContext.Provider value={value}>{children}</OnchainKitContext.Provider>;
 }
