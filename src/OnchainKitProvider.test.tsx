@@ -31,18 +31,6 @@ describe('OnchainKitProvider', () => {
     });
   });
 
-  it('throws an error if apiKey is empty', () => {
-    expect(() =>
-      render(
-        <OnchainKitProvider chain={base} apiKey="">
-          <TestComponent />
-        </OnchainKitProvider>,
-      ),
-    ).toThrow(
-      'API Key is required to use OnchainKit - get your API key from the Coinbase Developer Platform: https://portal.cdp.coinbase.com/products/templates',
-    );
-  });
-
   it('throws an error if schemaId does not meet the required length', () => {
     expect(() =>
       render(

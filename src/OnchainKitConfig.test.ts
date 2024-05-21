@@ -1,6 +1,6 @@
 import fs from 'fs';
 import { baseSepolia } from 'viem/chains';
-import { getOnchainKitConfig, setOnchainKitConfig } from './OnchainKitConfig';
+import { getOnchainKitConfig, getRPCUrl, setOnchainKitConfig } from './OnchainKitConfig';
 
 describe('OnchainKitConfig', () => {
   it('should have a get function to access the config', () => {
@@ -11,10 +11,11 @@ describe('OnchainKitConfig', () => {
     expect(setOnchainKitConfig).toBeDefined();
   });
 
-  it('should require an api key', () => {
+  it('should require an api key if rpc url is unset', () => {
     const chain = baseSepolia;
-    expect(() => setOnchainKitConfig({ chain })).toThrow(
-      'API Key is required to use OnchainKit - get your API key from the Coinbase Developer Platform: https://portal.cdp.coinbase.com/products/templates',
+    setOnchainKitConfig({ chain });
+    expect(() => getRPCUrl()).toThrow(
+      'RPC URL Unset: You can use the Coinbase Developer Platform RPC by providing an API key in `setOnchainKitConfig`: https://portal.cdp.coinbase.com/products/templates',
     );
   });
 
@@ -22,24 +23,24 @@ describe('OnchainKitConfig', () => {
     const chain = baseSepolia;
     const schemaId = '0x123';
     const apiKey = 'test-api-key';
-    const expectedRpcUrl = `https://api.developer.coinbase.com/rpc/v1/base-sepolia/test-api-key`;
+    const rpcUrl = `https://api.developer.coinbase.com/rpc/v1/base-sepolia/test-api-key`;
     setOnchainKitConfig({ chain, schemaId, apiKey });
     expect(getOnchainKitConfig('chain')).toEqual(chain);
     expect(getOnchainKitConfig('schemaId')).toEqual(schemaId);
     expect(getOnchainKitConfig('apiKey')).toEqual(apiKey);
-    expect(getOnchainKitConfig('rpcUrl')).toEqual(expectedRpcUrl);
+    expect(getRPCUrl()).toEqual(rpcUrl);
   });
 
   it('should update the config value', () => {
     const chain = baseSepolia;
     const schemaId = '0x123';
     const apiKey = 'updated-api-key';
-    const expectedUpdatedRpcUrl = `https://api.developer.coinbase.com/rpc/v1/base-sepolia/updated-api-key`;
-    setOnchainKitConfig({ chain, schemaId, apiKey });
+    const rpcUrl = `https://api.developer.coinbase.com/rpc/v1/base-sepolia/updated-api-key`;
+    setOnchainKitConfig({ chain, schemaId, apiKey, rpcUrl });
     expect(getOnchainKitConfig('chain')).toEqual(chain);
     expect(getOnchainKitConfig('schemaId')).toEqual(schemaId);
     expect(getOnchainKitConfig('apiKey')).toEqual(apiKey);
-    expect(getOnchainKitConfig('rpcUrl')).toEqual(expectedUpdatedRpcUrl);
+    expect(getRPCUrl()).toEqual(rpcUrl);
 
     const newSchemaId = '0x456';
     setOnchainKitConfig({ schemaId: newSchemaId });
