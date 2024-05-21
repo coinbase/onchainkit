@@ -2,7 +2,6 @@ import { createContext, useMemo } from 'react';
 import { checkHashLength } from './utils/checkHashLength';
 import { ONCHAIN_KIT_CONFIG } from './OnchainKitConfig';
 import { OnchainKitContextType, OnchainKitProviderProps } from './types';
-import { getRPCUrl } from './RPC';
 
 export const OnchainKitContext = createContext<OnchainKitContextType>(ONCHAIN_KIT_CONFIG);
 
@@ -25,7 +24,7 @@ export function OnchainKitProvider({
       address: address ?? null,
       apiKey: apiKey ?? null,
       chain: chain,
-      rpcUrl: apiKey ? getRPCUrl() : null,
+      rpcUrl: rpcUrl ?? null,
       schemaId: schemaId ?? null,
     };
   }, [address, chain, schemaId, apiKey, rpcUrl]);
