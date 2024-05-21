@@ -1,6 +1,6 @@
 import { baseSepolia } from 'viem/chains';
 import { getOnchainKitConfig, setOnchainKitConfig } from './OnchainKitConfig';
-import { getRPCUrl } from './RPC';
+import { getRPCUrl } from './getRPCUrl';
 
 describe('OnchainKitConfig RPC URL', () => {
   it('should require an api key if rpc url is unset', () => {
