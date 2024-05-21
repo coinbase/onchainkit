@@ -10,8 +10,10 @@ export const OnchainKitContext = createContext<OnchainKitContextType>(ONCHAIN_KI
  */
 export function OnchainKitProvider({
   address,
+  apiKey,
   chain,
   children,
+  rpcUrl,
   schemaId,
 }: OnchainKitProviderProps) {
   if (schemaId && !checkHashLength(schemaId, 64)) {
@@ -20,9 +22,11 @@ export function OnchainKitProvider({
   const value = useMemo(() => {
     return {
       address: address ?? null,
+      apiKey: apiKey ?? null,
       chain: chain,
+      rpcUrl: rpcUrl ?? null,
       schemaId: schemaId ?? null,
     };
-  }, [address, chain, schemaId]);
+  }, [address, chain, schemaId, apiKey, rpcUrl]);
   return <OnchainKitContext.Provider value={value}>{children}</OnchainKitContext.Provider>;
 }

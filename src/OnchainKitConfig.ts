@@ -5,7 +5,9 @@ import { OnchainKitConfig, SetOnchainKitConfig } from './types';
 // but only acccessed through the get and set functions.
 export const ONCHAIN_KIT_CONFIG: OnchainKitConfig = {
   address: null,
+  apiKey: null,
   chain: baseSepolia,
+  rpcUrl: null,
   schemaId: null,
 };
 
