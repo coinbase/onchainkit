@@ -60,7 +60,7 @@ export async function sendRequest<T, V>(body: JSONRPCRequest<T>): Promise<JSONRP
     const data: JSONRPCResult<V> = await response.json();
     return data;
   } catch (error) {
-    console.log(`Error sending request: ${(error as Error).message}`);
+    console.log(`sendRequest: error sending request: ${(error as Error).message}`);
     throw error;
   }
 }
