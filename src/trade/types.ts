@@ -1,80 +1,56 @@
 import { Address } from 'viem';
 
-/**
- * Note: exported as public Type
- */
-export type Token = {
-  address: Address;
-  decimals?: number;
-  name?: string;
-  logoURI?: string;
-  currencyCode?: string;
+export type AddressOrETH = Address | 'ETH';
+
+export type Fee = {
+  amount: string;
+  baseAsset: Token;
+  percentage: string;
 };
 
-/**
- * Note: exported as public Type
- */
-export type TrendingToken = Token & {
-  numOfBuys: number;
-  numOfSells: number;
-};
-
-/**
- * Note: exported as public Type
- */
-export type QuoteWarning = {
-  Type?: string;
-  Message?: string;
-  Description?: string;
-};
-
-/**
- * Note: exported as public Type
- */
 export type Quote = {
-  fromAsset: Token;
-  toAsset: Token;
-  fromAmount: string;
-  toAmount: string;
   amountReference: string;
-  priceImpact: string;
+  fromAmount: string;
+  fromAsset: Token;
   highPriceImpact: boolean;
+  priceImpact: string;
   slippage: string;
+  toAmount: string;
+  toAsset: Token;
   warning?: QuoteWarning;
 };
 
-/**
- * Note: exported as public Type
- */
-export type Trade = {
-  tx: Transaction;
-  fee: Fee;
-  approveTx?: Transaction;
-  chainId: string;
+export type QuoteWarning = {
+  description?: string;
+  message?: string;
+  type?: string;
 };
 
-/**
- * Note: exported as public Type
- */
+export type Token = {
+  address: Address;
+  currencyCode?: string;
+  decimals?: number;
+  logoURI?: string;
+  name?: string;
+};
+
+export type Trade = {
+  approveTx?: Transaction;
+  chainId: string;
+  fee: Fee;
+  tx: Transaction;
+};
+
 export type Transaction = {
   data: string;
+  from: string;
   gas: string;
   gasPrice: string;
-  from: string;
   to: string;
   value: string;
 };
 
-/**
- * Note: exported as public Type
- */
-export type Fee = {
-  baseAsset: Token;
-  percentage: string;
-  amount: string;
+export type TrendingToken = Token & {
+  numOfBuys: number;
+  numOfSells: number;
 };
-
-/**
- * Note: exported as public Type
- */
-export type AddressOrETH = Address | 'ETH';
