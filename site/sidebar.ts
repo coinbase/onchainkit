@@ -122,6 +122,10 @@ export const sidebar = [
     ],
   },
   {
+    text: 'Trade',
+    items: [{ text: 'Introduction', link: '/trade/introduction' }],
+  },
+  {
     text: 'Farcaster',
     collapsed: true,
     items: [
