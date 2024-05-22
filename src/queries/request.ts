@@ -1,22 +1,22 @@
 import { getRPCUrl } from '../getRPCUrl';
 
-export type JSONRPCRequest<T> = {
-  jsonrpc: string;
-  method: string;
-  params: T[];
-  id: number;
-};
-
 export type JSONRPCError = {
   code: number;
   message: string;
 };
 
-export type JSONRPCResult<T> = {
+export type JSONRPCRequest<T> = {
+  id: number;
   jsonrpc: string;
-  result: T;
+  method: string;
+  params: T[];
+};
+
+export type JSONRPCResult<T> = {
   error?: JSONRPCError;
   id: number;
+  jsonrpc: string;
+  result: T;
 };
 
 const POST_METHOD = 'POST';
@@ -35,10 +35,10 @@ const JSON_RPC_VERSION = '2.0';
  */
 export function buildRequestBody<T>(method: string, params: T[]): JSONRPCRequest<T> {
   return {
+    id: 1,
     jsonrpc: JSON_RPC_VERSION,
     method: method,
     params: params,
-    id: 1,
   };
 }
 
@@ -53,9 +53,9 @@ export async function sendRequest<T, V>(body: JSONRPCRequest<T>): Promise<JSONRP
   try {
     const url = getRPCUrl();
     const response = await fetch(url, {
-      method: POST_METHOD,
       body: JSON.stringify(body),
       headers: JSON_HEADERS,
+      method: POST_METHOD,
     });
     const data: JSONRPCResult<V> = await response.json();
     return data;
