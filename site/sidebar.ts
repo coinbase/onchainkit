@@ -20,6 +20,7 @@ export const sidebar = [
       },
       {
         text: 'Utilities',
+        collapsed: true,
         items: [
           {
             text: 'getFrameHtmlResponse',
@@ -67,20 +68,8 @@ export const sidebar = [
         ],
       },
       {
-        text: 'Hooks',
-        items: [
-          {
-            text: 'useName',
-            link: '/identity/use-name',
-          },
-          {
-            text: 'useAvatar',
-            link: '/identity/use-avatar',
-          },
-        ],
-      },
-      {
         text: 'Utilities',
+        collapsed: true,
         items: [
           {
             text: 'getAvatar',
@@ -94,11 +83,39 @@ export const sidebar = [
             text: 'getName',
             link: '/identity/get-name',
           },
+          {
+            text: 'useName',
+            link: '/identity/use-name',
+          },
+          {
+            text: 'useAvatar',
+            link: '/identity/use-avatar',
+          },
         ],
       },
       {
         text: 'Types',
         link: '/identity/types',
+      },
+    ],
+  },
+  {
+    text: 'Swap',
+    items: [
+      { text: 'Introduction', link: '/swap/introduction' },
+      {
+        text: 'Types',
+        link: '/swap/types',
+      },
+    ],
+  },
+  {
+    text: 'Token',
+    items: [
+      { text: 'Introduction', link: '/token/introduction' },
+      {
+        text: 'Types',
+        link: '/token/types',
       },
     ],
   },

@@ -111,11 +111,17 @@
       "import": "./esm/identity/index.js",
       "default": "./lib/identity/index.js"
     },
-    "./trade": {
-      "types": "./esm/trade/index.d.ts",
-      "module": "./esm/trade/index.js",
-      "import": "./esm/trade/index.js",
-      "default": "./lib/trade/index.js"
+    "./swap": {
+      "types": "./esm/swap/index.d.ts",
+      "module": "./esm/swap/index.js",
+      "import": "./esm/swap/index.js",
+      "default": "./lib/swap/index.js"
+    },
+    "./token": {
+      "types": "./esm/token/index.d.ts",
+      "module": "./esm/token/index.js",
+      "import": "./esm/token/index.js",
+      "default": "./lib/token/index.js"
     },
     "./xmtp": {
       "types": "./esm/xmtp/index.d.ts",
