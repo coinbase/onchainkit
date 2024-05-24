@@ -1,0 +1,38 @@
+import { CSSProperties } from 'react';
+import { TokenChipReact } from '../types';
+
+const styles = {
+  button: {
+    borderRadius: '16px',
+    padding: '4px 12px 4px 4px',
+    display: 'flex',
+    alignItems: 'center',
+    background: '#EEF0F3',
+    width: 'fit-content',
+  },
+  image: {
+    height: '24px',
+    width: '24px',
+    marginRight: '8px',
+  },
+  label: {
+    color: '#1D1818',
+    fontSize: '16px',
+    lineHeight: '1',
+    fontWeight: '500',
+  },
+} as Record<string, CSSProperties>;
+
+/**
+ * Small button that display a given token symbol and image.
+ *
+ * On click handler uses the given token as the argument.
+ */
+export function TokenChip({ token, onClick }: TokenChipReact) {
+  return (
+    <button style={styles.button} onClick={() => onClick(token)}>
+      <img style={styles.image} src={token.imageURL} />
+      <span style={styles.label}>{token.currencyCode}</span>
+    </button>
+  );
+}
