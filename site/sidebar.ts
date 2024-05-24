@@ -104,6 +104,15 @@ export const sidebar = [
     items: [
       { text: 'Introduction', link: '/swap/introduction' },
       {
+        text: 'Components',
+        items: [
+          {
+            text: 'Swap',
+            link: '/swap/swap',
+          },
+        ],
+      },
+      {
         text: 'Types',
         link: '/swap/types',
       },
