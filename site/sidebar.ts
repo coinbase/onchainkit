@@ -113,6 +113,7 @@ export const sidebar = [
     text: 'Token',
     items: [
       { text: 'Introduction', link: '/token/introduction' },
+      /*
       {
         text: 'Components',
         items: [
@@ -121,7 +122,7 @@ export const sidebar = [
             link: '/token/token-chip',
           },
         ],
-      },
+      },*/
       {
         text: 'Types',
         link: '/token/types',
