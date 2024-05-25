@@ -9,14 +9,12 @@ description: Glossary of Types in Token Kit.
 
 ```ts
 type Token = {
-  name: string; // Token full name e.g. Ether
-  currencyCode: string; // Token symbol e.g. ETH
-  imageURL: string; // Link to the token image
-  blockchain: string; // Blockchain that the token is on
-  address: Address; // The token address on the given blockchain
-  chainId: number; // Blockchain ID
-  decimals: number; // Decimals for the token
-  uuid: string; // ID on ??
+  address: Address; // The address of the token contract
+  chainId: number; // The chain id of the token contract
+  decimals: number; // The number of token decimals
+  image: string | null; // A string url of the token logo
+  name: string;
+  symbol: string; // A ticker symbol or shorthand, up to 11 characters
 };
 ```
 
@@ -25,6 +23,5 @@ type Token = {
 ```ts
 type TokenChipReact = {
   token: Token; // Rendered token
-  onClick: (token: Token) => void; // Click handler that will use token prop as the argument
 };
 ```
