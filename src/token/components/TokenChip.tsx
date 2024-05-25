@@ -26,13 +26,14 @@ const styles = {
 /**
  * Small button that display a given token symbol and image.
  *
- * On click handler uses the given token as the argument.
+ * WARNING: This component is under development and
+ *          may change in the next few weeks.
  */
-export function TokenChip({ token, onClick }: TokenChipReact) {
+export function TokenChip({ token }: TokenChipReact) {
   return (
-    <button style={styles.button} onClick={() => onClick(token)}>
-      <img style={styles.image} src={token.imageURL} />
-      <span style={styles.label}>{token.currencyCode}</span>
+    <button style={styles.button}>
+      <img style={styles.image} src={token.image || ''} />
+      <span style={styles.label}>{token.symbol}</span>
     </button>
   );
 }
