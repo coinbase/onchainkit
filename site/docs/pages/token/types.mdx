@@ -1,6 +1,30 @@
 ---
 title: Token Kit Types
-deescription: Glossary of Types in Token Kit.
+description: Glossary of Types in Token Kit.
 ---
 
 # Types [Glossary of Types in Token Kit.]
+
+## `Token`
+
+```ts
+type Token = {
+  name: string; // Token full name e.g. Ether
+  currencyCode: string; // Token symbol e.g. ETH
+  imageURL: string; // Link to the token image
+  blockchain: string; // Blockchain that the token is on
+  address: Address; // The token address on the given blockchain
+  chainId: number; // Blockchain ID
+  decimals: number; // Decimals for the token
+  uuid: string; // ID on ??
+};
+```
+
+## `TokenChipReact`
+
+```ts
+type TokenChipReact = {
+  token: Token; // Rendered token
+  onClick: (token: Token) => void; // Click handler that will use token prop as the argument
+};
+```
