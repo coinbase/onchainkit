@@ -93,7 +93,7 @@ describe('getTokens', () => {
     expect(sendRequest).toHaveBeenCalledWith(ListSwapAssets, [{ limit: '1', page: '1' }]);
   });
 
-  it('should throw an error if sendRequest returns an error', async () => {
+  it('should return an error object if sendRequest returns an error', async () => {
     const mockError = new Error('Request failed');
 
     (sendRequest as jest.Mock).mockResolvedValue({
@@ -105,10 +105,11 @@ describe('getTokens', () => {
       },
     });
 
-    await expect(getTokens()).resolves.toEqual({
+    const error = await getTokens();
+
+    expect(error).toEqual({
       code: -1,
-      message: 'Request failed',
-      data: null,
+      error: 'Request failed',
     });
 
     expect(sendRequest).toHaveBeenCalledTimes(1);
