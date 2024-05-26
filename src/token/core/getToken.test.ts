@@ -1,6 +1,6 @@
 import { getTokens } from './getTokens';
-import { sendRequest } from '../queries/request';
-import { ListSwapAssets } from '../definitions/swap';
+import { sendRequest } from '../../queries/request';
+import { ListSwapAssets } from '../../definitions/swap';
 
 jest.mock('../queries/request');
 

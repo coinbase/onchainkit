@@ -1,9 +1,9 @@
 // 🌲☀️🌲
-export { getTokens } from './getTokens';
+export { getTokens } from './core/getTokens';
 export type {
-  Token,
-  TokenChipReact,
+  GetTokensError,
   GetTokensOptions,
   GetTokensResponse,
-  GetTokensError,
+  Token,
+  TokenChipReact,
 } from './types';
