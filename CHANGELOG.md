@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.17.2
+
+### Patch Changes
+
+- 2922e75: - **feat**: added `getTokens`, which helps retrieve a list of tokens on Base. By @0xAlec #389
+
 ## 0.17.1
 
 ### Patch Changes
