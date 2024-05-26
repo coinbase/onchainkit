@@ -42,3 +42,16 @@ export type GetTokensOptions = {
   search?: string;
   page?: string;
 };
+
+/**
+ * Note: exported as public Type
+ */
+export type GetTokensError = {
+  code: number;
+  error: string;
+};
+
+/**
+ * Note: exported as public Type
+ */
+export type GetTokensResponse = Token[] | GetTokensError;

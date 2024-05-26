@@ -1,6 +1,6 @@
 import { ListSwapAssets } from '../definitions/swap';
-import { Token, RawTokenData, GetTokensOptions } from './types';
-import { sendRequest, JSONRPCError } from '../queries/request';
+import { RawTokenData, GetTokensOptions, GetTokensResponse, GetTokensError } from './types';
+import { sendRequest } from '../queries/request';
 
 /**
  * Retrieves a list of tokens on Base.
@@ -26,7 +26,7 @@ const tokens = await getTokens({ limit: '1', search: 'degen' });
 //   }
 // ]
 */
-export async function getTokens(options?: GetTokensOptions): Promise<Token[] | JSONRPCError> {
+export async function getTokens(options?: GetTokensOptions): Promise<GetTokensResponse> {
   // Default filter values
   const defaultFilter: GetTokensOptions = {
     limit: '50',
@@ -39,7 +39,10 @@ export async function getTokens(options?: GetTokensOptions): Promise<Token[] | J
     const res = await sendRequest<GetTokensOptions, RawTokenData[]>(ListSwapAssets, [filters]);
 
     if (res.error) {
-      return res.error;
+      return {
+        code: res.error.code,
+        error: res.error.message,
+      } as GetTokensError;
     }
 
     // Map the data from the response to the `OnchainKit` Token type
