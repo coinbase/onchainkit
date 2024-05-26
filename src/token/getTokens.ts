@@ -1,11 +1,11 @@
 import { ListSwapAssets } from '../definitions/swap';
-import { Token, RawTokenData, ListSwapAssetsOptions } from './types';
+import { Token, RawTokenData, GetTokensOptions } from './types';
 import { sendRequest } from '../queries/request';
 
 /**
  * Retrieves a list of tokens on Base.
  * 
- * @param {ListSwapAssetsOptions} options - An optional object that can be used to filter the list of tokens.
+ * @param {GetTokensOptions} options - An optional object that can be used to filter the list of tokens.
  *  options.limit - The maximum number of tokens to return (default: 50).
  *  options.search - A string to search for in the token name or symbol.
  *  options.page - The page number to return (default: 1).
@@ -26,9 +26,9 @@ const tokens = await getTokens({ limit: '1', search: 'degen' });
 //   }
 // ]
 */
-export async function getTokens(options?: ListSwapAssetsOptions): Promise<Token[]> {
+export async function getTokens(options?: GetTokensOptions): Promise<Token[]> {
   // Default filter values
-  const defaultFilter: ListSwapAssetsOptions = {
+  const defaultFilter: GetTokensOptions = {
     limit: '50',
     page: '1',
   };
@@ -36,7 +36,7 @@ export async function getTokens(options?: ListSwapAssetsOptions): Promise<Token[
   const filters = { ...defaultFilter, ...options };
 
   try {
-    const res = await sendRequest<ListSwapAssetsOptions, RawTokenData[]>(ListSwapAssets, [filters]);
+    const res = await sendRequest<GetTokensOptions, RawTokenData[]>(ListSwapAssets, [filters]);
     if (res.error) {
       throw new Error(`getTokens: ${res.error.message}`);
     }

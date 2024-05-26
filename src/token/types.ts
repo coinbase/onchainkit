@@ -37,7 +37,7 @@ export type TokenChipReact = {
 /**
  * Note: exported as public Type
  */
-export type ListSwapAssetsOptions = {
+export type GetTokensOptions = {
   limit?: string;
   search?: string;
   version?: string;
