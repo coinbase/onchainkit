@@ -14,7 +14,17 @@ import { sendRequest } from '../queries/request';
  * @example
 import { getTokens } from '@coinbase/onchainkit'
 
-const tokens = await getTokens();
+const tokens = await getTokens({ limit: '1', search: 'degen' });
+// [
+//   {
+//     address: '0x4ed4e862860bed51a9570b96d89af5e1b0efefed',
+//     chainId: 8453,
+//     decimals: 18,
+//     image: 'https://d3r81g40ycuhqg.cloudfront.net/wallet/wais/3b/bf/3bbf118b5e6dc2f9e7fc607a6e7526647b4ba8f0bea87125f971446d57b296d2-MDNmNjY0MmEtNGFiZi00N2I0LWIwMTItMDUyMzg2ZDZhMWNm',
+//     name: 'DEGEN',
+//     symbol: 'DEGEN'
+//   }
+// ]
 */
 export async function getTokens(options?: ListSwapAssetsOptions): Promise<Token[]> {
   // Default filter values
@@ -31,6 +41,7 @@ export async function getTokens(options?: ListSwapAssetsOptions): Promise<Token[
       throw new Error(`getTokens: ${res.error.message}`);
     }
 
+    // Map the data from the response to the `OnchainKit` Token type
     return res.result.map((token) => ({
       address: token.address,
       chainId: token.chainId,
