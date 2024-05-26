@@ -1,6 +1,6 @@
-import { swapAPIRequest } from '../queries/swap';
 import { ListSwapAssets } from '../definitions/swap';
 import { Token, ListSwapAssetsOptions, ListSwapAssetsError } from './types';
+import { sendRequest } from '../queries/request';
 
 /**
  * Retrieves a list of tokens on Base.
@@ -17,18 +17,17 @@ import { getTokens } from '@coinbase/onchainkit'
 const tokens = await getTokens();
 */
 export async function getTokens(options?: ListSwapAssetsOptions): Promise<Token[]> {
-  try {
-    // Default filter values
-    const defaultFilter: ListSwapAssetsOptions = {
-      limit: 50,
-      page: 1,
-    };
+  // Default filter values
+  const defaultFilter: ListSwapAssetsOptions = {
+    limit: 50,
+    page: 1,
+  };
 
-    const filters = [{ ...defaultFilter, ...options }];
+  const filters = [{ ...defaultFilter, ...options }];
 
-    return swapAPIRequest<ListSwapAssetsOptions, Token[]>(ListSwapAssets, filters);
-  } catch (error) {
-    console.log(`getTokens: error retrieving tokens: ${(error as ListSwapAssetsError).message}`);
-    return [];
+  const res = await sendRequest<ListSwapAssetsOptions, Token[]>(ListSwapAssets, filters);
+  if (res.error) {
+    throw new Error(`getTokens: ${res.error.message}`);
   }
+  return res.result;
 }

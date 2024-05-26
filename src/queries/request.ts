@@ -49,8 +49,9 @@ export function buildRequestBody<T>(method: string, params: T[]): JSONRPCRequest
  * @returns A promise that resolves to the JSON-RPC response.
  * @throws If an error occurs while sending the request.
  */
-export async function sendRequest<T, V>(body: JSONRPCRequest<T>): Promise<JSONRPCResult<V>> {
+export async function sendRequest<T, V>(method: string, params: T[]): Promise<JSONRPCResult<V>> {
   try {
+    const body = buildRequestBody<T>(method, params);
     const url = getRPCUrl();
     const response = await fetch(url, {
       body: JSON.stringify(body),
