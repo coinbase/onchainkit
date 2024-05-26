@@ -40,6 +40,5 @@ export type TokenChipReact = {
 export type GetTokensOptions = {
   limit?: string;
   search?: string;
-  version?: string;
   page?: string;
 };
