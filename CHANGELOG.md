@@ -4,10 +4,10 @@
 
 ### Patch Changes
 
-- 17a3d06: - **feat**: polished `Token` Type. By @zizzamia #386
-  - **feat**: init `TokenChip` component. By @kyhyco #383
-  - **feat**: scaffold Swap API request and types. By @0xAlec #381
-  - **feat**: add CDP api key and rpc url to OnchainKitConfig and OnchainKitProvider. By @0xAlec #379
+- **feat**: polished `Token` Type. By @zizzamia #386 17a3d06
+- **feat**: init `TokenChip` component. By @kyhyco #383
+- **feat**: scaffold Swap API request and types. By @0xAlec #381
+- **feat**: add CDP api key and rpc url to OnchainKitConfig and OnchainKitProvider. By @0xAlec #379
 
 ## 0.17.0
 

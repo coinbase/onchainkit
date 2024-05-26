@@ -123,6 +123,16 @@ export const sidebar = [
         ],
       },
       {
+        text: 'Utilities',
+        collapsed: true,
+        items: [
+          {
+            text: 'getTokens',
+            link: '/token/get-tokens',
+          },
+        ],
+      },
+      {
         text: 'Types',
         link: '/token/types',
       },

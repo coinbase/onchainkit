@@ -1,8 +1,8 @@
 import { getTokens } from './getTokens';
-import { sendRequest } from '../queries/request';
-import { ListSwapAssets } from '../definitions/swap';
+import { sendRequest } from '../../queries/request';
+import { ListSwapAssets } from '../../definitions/swap';
 
-jest.mock('../queries/request');
+jest.mock('../../queries/request');
 
 describe('getTokens', () => {
   afterEach(() => {
