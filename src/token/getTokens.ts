@@ -51,7 +51,6 @@ export async function getTokens(options?: GetTokensOptions): Promise<Token[]> {
       symbol: token.currencyCode,
     }));
   } catch (error) {
-    console.log(`getTokens: error retrieving tokens: ${(error as Error).message}`);
-    throw error;
+    throw new Error(`getTokens: error retrieving tokens: ${error}`);
   }
 }
