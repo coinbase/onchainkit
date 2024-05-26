@@ -1,5 +1,5 @@
 import { ListSwapAssets } from '../definitions/swap';
-import { Token, ListSwapAssetsOptions, ListSwapAssetsError } from './types';
+import { Token, RawTokenData, ListSwapAssetsOptions } from './types';
 import { sendRequest } from '../queries/request';
 
 /**
@@ -19,15 +19,28 @@ const tokens = await getTokens();
 export async function getTokens(options?: ListSwapAssetsOptions): Promise<Token[]> {
   // Default filter values
   const defaultFilter: ListSwapAssetsOptions = {
-    limit: 50,
-    page: 1,
+    limit: '50',
+    page: '1',
   };
 
-  const filters = [{ ...defaultFilter, ...options }];
+  const filters = { ...defaultFilter, ...options };
 
-  const res = await sendRequest<ListSwapAssetsOptions, Token[]>(ListSwapAssets, filters);
-  if (res.error) {
-    throw new Error(`getTokens: ${res.error.message}`);
+  try {
+    const res = await sendRequest<ListSwapAssetsOptions, RawTokenData[]>(ListSwapAssets, [filters]);
+    if (res.error) {
+      throw new Error(`getTokens: ${res.error.message}`);
+    }
+
+    return res.result.map((token) => ({
+      address: token.address,
+      chainId: token.chainId,
+      decimals: token.decimals,
+      image: token.imageURL,
+      name: token.name,
+      symbol: token.currencyCode,
+    }));
+  } catch (error) {
+    console.log(`getTokens: error retrieving tokens: ${(error as Error).message}`);
+    throw error;
   }
-  return res.result;
 }

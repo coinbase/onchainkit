@@ -13,6 +13,20 @@ export type Token = {
   symbol: string; // A ticker symbol or shorthand, up to 11 characters
 };
 
+// The raw response from the Swap API
+export type RawTokenData = {
+  name: string;
+  address: Address;
+  currencyCode: string;
+  decimals: number;
+  imageURL: string;
+  blockchain: string;
+  aggregators: string[];
+  swappable: boolean;
+  unverified: boolean;
+  chainId: number;
+};
+
 /**
  * Note: exported as public Type
  */
@@ -21,13 +35,8 @@ export type TokenChipReact = {
 };
 
 export type ListSwapAssetsOptions = {
-  limit?: number;
+  limit?: string;
   search?: string;
-  version?: number;
-  page?: number;
-};
-
-export type ListSwapAssetsError = {
-  code: number;
-  message: string;
+  version?: string;
+  page?: string;
 };
