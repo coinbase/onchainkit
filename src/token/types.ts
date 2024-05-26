@@ -1,6 +1,21 @@
 // 🌲☀️🌲
 import { Address } from 'viem';
 
+// The raw response from the Swap API
+// Contains legacy fields that have been renamed in the OnchainKit Token type
+export type LegacyTokenData = {
+  name: string;
+  address: Address;
+  currencyCode: string;
+  decimals: number;
+  imageURL: string;
+  blockchain: string;
+  aggregators: string[];
+  swappable: boolean;
+  unverified: boolean;
+  chainId: number;
+};
+
 /**
  * Note: exported as public Type
  */
@@ -19,3 +34,25 @@ export type Token = {
 export type TokenChipReact = {
   token: Token;
 };
+
+/**
+ * Note: exported as public Type
+ */
+export type GetTokensOptions = {
+  limit?: string;
+  search?: string;
+  page?: string;
+};
+
+/**
+ * Note: exported as public Type
+ */
+export type GetTokensError = {
+  code: number;
+  error: string;
+};
+
+/**
+ * Note: exported as public Type
+ */
+export type GetTokensResponse = Token[] | GetTokensError;

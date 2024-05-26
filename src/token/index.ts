@@ -1,2 +1,9 @@
 // 🌲☀️🌲
-export type { Token, TokenChipReact } from './types';
+export { getTokens } from './getTokens';
+export type {
+  Token,
+  TokenChipReact,
+  GetTokensOptions,
+  GetTokensResponse,
+  GetTokensError,
+} from './types';
