@@ -19,3 +19,15 @@ export type Token = {
 export type TokenChipReact = {
   token: Token;
 };
+
+export type ListSwapAssetsOptions = {
+  limit?: number;
+  search?: string;
+  version?: number;
+  page?: number;
+};
+
+export type ListSwapAssetsError = {
+  code: number;
+  message: string;
+};
