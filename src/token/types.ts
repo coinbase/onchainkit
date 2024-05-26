@@ -1,20 +1,9 @@
 // 🌲☀️🌲
 import { Address } from 'viem';
 
-/**
- * Note: exported as public Type
- */
-export type Token = {
-  address: Address; // The address of the token contract
-  chainId: number; // The chain id of the token contract
-  decimals: number; // The number of token decimals
-  image: string | null; // A string url of the token logo
-  name: string;
-  symbol: string; // A ticker symbol or shorthand, up to 11 characters
-};
-
 // The raw response from the Swap API
-export type RawTokenData = {
+// Contains legacy fields that have been renamed in the OnchainKit Token type
+export type LegacyTokenData = {
   name: string;
   address: Address;
   currencyCode: string;
@@ -25,6 +14,18 @@ export type RawTokenData = {
   swappable: boolean;
   unverified: boolean;
   chainId: number;
+};
+
+/**
+ * Note: exported as public Type
+ */
+export type Token = {
+  address: Address; // The address of the token contract
+  chainId: number; // The chain id of the token contract
+  decimals: number; // The number of token decimals
+  image: string | null; // A string url of the token logo
+  name: string;
+  symbol: string; // A ticker symbol or shorthand, up to 11 characters
 };
 
 /**

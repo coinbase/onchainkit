@@ -1,5 +1,5 @@
 import { ListSwapAssets } from '../definitions/swap';
-import { RawTokenData, GetTokensOptions, GetTokensResponse, GetTokensError } from './types';
+import { LegacyTokenData, GetTokensOptions, GetTokensResponse, GetTokensError } from './types';
 import { sendRequest } from '../queries/request';
 
 /**
@@ -36,7 +36,7 @@ export async function getTokens(options?: GetTokensOptions): Promise<GetTokensRe
   const filters = { ...defaultFilter, ...options };
 
   try {
-    const res = await sendRequest<GetTokensOptions, RawTokenData[]>(ListSwapAssets, [filters]);
+    const res = await sendRequest<GetTokensOptions, LegacyTokenData[]>(ListSwapAssets, [filters]);
 
     if (res.error) {
       return {
