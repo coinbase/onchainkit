@@ -1,4 +1,5 @@
 // 🌲☀️🌲
+export { getTokens } from './getTokens';
 export type {
   Token,
   TokenChipReact,
@@ -6,4 +7,3 @@ export type {
   GetTokensResponse,
   GetTokensError,
 } from './types';
-export { getTokens } from './getTokens';
