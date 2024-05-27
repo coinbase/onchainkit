@@ -1,6 +1,6 @@
 import { ENTRYPOINT_ADDRESS_V06 } from 'permissionless';
 import { baseSepolia } from 'viem/chains';
-import { IsValidSponsorTransactionOptions, IsValidSponsorTransactionResponse } from '../types';
+import { WillPaymasterSponsorOptions, WillPaymasterSponsorResponse } from '../types';
 import { CB_SW_PROXY_BYTECODE } from '../constants';
 
 /**
@@ -10,12 +10,12 @@ import { CB_SW_PROXY_BYTECODE } from '../constants';
  * This method verifies that the transaction is valid
  * for sponsorship (aka use Paymaster to avoid paying gas fees).
  */
-export async function isValidSponsorTransaction({
+export async function willPaymasterSponsor({
   chainId,
   client,
   entrypoint,
   userOp,
-}: IsValidSponsorTransactionOptions): Promise<IsValidSponsorTransactionResponse> {
+}: WillPaymasterSponsorOptions): Promise<WillPaymasterSponsorResponse> {
   // Check chain id
   if (chainId !== baseSepolia.id) {
     return { isValid: false, error: 'Invalid chain id', code: 1 };
