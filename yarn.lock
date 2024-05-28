@@ -2119,6 +2119,7 @@ __metadata:
     jest-environment-jsdom: "npm:^29.7.0"
     jest-extended: "npm:^4.0.2"
     packemon: "npm:3.3.1"
+    permissionless: "npm:^0.1.29"
     prettier: "npm:^3.1.1"
     prettier-plugin-tailwindcss: "npm:^0.5.9"
     react: "npm:^18"
@@ -2135,6 +2136,7 @@ __metadata:
     "@xmtp/frames-validator": ^0.6.0
     graphql: ^14 || ^15 || ^16
     graphql-request: ^6.1.0
+    permissionless: ^0.1.29
     react: ^18
     react-dom: ^18
     viem: ^2
@@ -10137,6 +10139,15 @@ __metadata:
   version: 1.1.2
   resolution: "pathe@npm:1.1.2"
   checksum: 64ee0a4e587fb0f208d9777a6c56e4f9050039268faaaaecd50e959ef01bf847b7872785c36483fa5cdcdbdfdb31fef2ff222684d4fc21c330ab60395c681897
+  languageName: node
+  linkType: hard
+
+"permissionless@npm:^0.1.29":
+  version: 0.1.29
+  resolution: "permissionless@npm:0.1.29"
+  peerDependencies:
+    viem: ^2.9.17
+  checksum: b57d2af6c45b45b20371fb7840e63cd0ba2ede81111db7e7fe59a92a197446cb9ee4651c59405b05bdf2a4a515b15411f3412d6bd2f3e16a662376e1266c5b1e
   languageName: node
   linkType: hard
 
