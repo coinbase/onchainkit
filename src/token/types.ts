@@ -19,6 +19,20 @@ export type LegacyTokenData = {
 /**
  * Note: exported as public Type
  */
+export type FormatAmountOptions = {
+  locale?: string; // User locale (default: browser locale)
+  minimumFractionDigits?: number; // Minimum fraction digits for number decimals
+  maximumFractionDigits?: number; // Maximum fraction digits for number decimals
+};
+
+/**
+ * Note: exported as public Type
+ */
+export type FormatAmountResponse = string; // See Number.prototype.toLocaleString for more info
+
+/**
+ * Note: exported as public Type
+ */
 export type GetTokensError = {
   code: number; // The Error code
   error: string; // The Error message
@@ -36,15 +50,6 @@ export type GetTokensOptions = {
   limit?: string; // The maximum number of tokens to return (default: 50)
   search?: string; // A string to search for in the token name or symbol
   page?: string; // The page number to return (default: 1)
-};
-
-/**
- * Note: exported as public Type
- */
-export type FormatAmountOptions = {
-  locale?: string; // User locale (default: browser locale)
-  minimumFractionDigits?: number; // Minimum fraction digits for number decimals
-  maximumFractionDigits?: number; // Maximum fraction digits for number decimals
 };
 
 /**
