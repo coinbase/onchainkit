@@ -6,6 +6,7 @@
   "license": "MIT",
   "scripts": {
     "build": "packemon build --addEngines --addFiles --declaration && npx packemon validate --no-license --no-people --no-repo",
+    "watch": "packemon watch",
     "check": "yarn format",
     "format": "prettier --log-level warn --write .",
     "format:check": "prettier --check .",
