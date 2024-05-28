@@ -15,7 +15,7 @@ Note that if the `message` is not valid, it will be undefined.
 ```ts
 import { isXmtpFrameRequest, getXmtpFrameMessage } from '@coinbase/onchainkit/xmtp'; // [!code focus]
 import { NextResponse } from 'next/server';
-import type { FrameRequest } from '@coinbase/onchainkit';
+import type { FrameRequest } from '@coinbase/onchainkit/frame';
 
 async function getResponse(req: any): Promise<NextResponse> {
   const body: FrameRequest = await req.json();

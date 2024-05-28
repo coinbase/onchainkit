@@ -92,7 +92,7 @@ const ACCOUNT_ADDRESS = '0x838aD0EAE54F99F1926dA7C3b6bFbF617389B4D9';
 #### Convert your web page into a [Frame](https://onchainkit.xyz/frame/frame-metadata)
 
 ```tsx
-import { FrameMetadata } from '@coinbase/onchainkit';
+import { FrameMetadata } from '@coinbase/onchainkit/frame';
 
 export default function HomePage() {
   return (
@@ -171,6 +171,18 @@ If you're seeking basic TypeScript utilities, we have plenty of ready-to-use opt
 - [getName](https://onchainkit.xyz/identity/get-name)
 - [useName](https://onchainkit.xyz/identity/use-name)
 - [useAvatar](https://onchainkit.xyz/identity/use-avatar)
+
+##### Swap
+
+Coming soon
+
+##### Token
+
+Coming soon
+
+##### Wallet
+
+Coming soon
 
 ##### Farcaster
 
