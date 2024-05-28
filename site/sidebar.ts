@@ -120,6 +120,10 @@ export const sidebar = [
             text: 'TokenChip',
             link: '/token/token-chip',
           },
+          {
+            text: 'TokenRow',
+            link: '/token/token-row',
+          },
         ],
       },
       {

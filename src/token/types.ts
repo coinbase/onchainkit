@@ -70,3 +70,12 @@ export type Token = {
 export type TokenChipReact = {
   token: Token;
 };
+
+/**
+ * Note: exported as public Type
+ */
+export type TokenRowReact = {
+  token: Token;
+  amount?: string;
+  onClick?: (token: Token) => void;
+};
