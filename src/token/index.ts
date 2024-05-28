@@ -1,5 +1,6 @@
 // 🌲☀️🌲
 export { getTokens } from './core/getTokens';
+export { formatAmount } from './core/formatAmount';
 export type {
   GetTokensError,
   GetTokensOptions,

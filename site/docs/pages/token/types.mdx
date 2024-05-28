@@ -30,6 +30,16 @@ type GetTokensOptions = {
 };
 ```
 
+## `FormatAmountOptions`
+
+```ts
+export type FormatAmountOptions = {
+  locale?: string; // User locale (default: browser locale)
+  minimumFractionDigits?: number; // Minimum fraction digits for number decimals (default: 0)
+  maximumFractionDigits?: number; // Maximum fraction digits for number decimals (default: 0)
+};
+```
+
 ## `Token`
 
 ```ts

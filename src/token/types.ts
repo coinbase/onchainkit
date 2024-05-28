@@ -41,6 +41,15 @@ export type GetTokensOptions = {
 /**
  * Note: exported as public Type
  */
+export type FormatAmountOptions = {
+  locale?: string; // User locale (default: browser locale)
+  minimumFractionDigits?: number; // Minimum fraction digits for number decimals
+  maximumFractionDigits?: number; // Maximum fraction digits for number decimals
+};
+
+/**
+ * Note: exported as public Type
+ */
 export type Token = {
   address: Address; // The address of the token contract
   chainId: number; // The chain id of the token contract

@@ -130,6 +130,10 @@ export const sidebar = [
             text: 'getTokens',
             link: '/token/get-tokens',
           },
+          {
+            text: 'formatAmount',
+            link: '/token/format-amount',
+          },
         ],
       },
       {
