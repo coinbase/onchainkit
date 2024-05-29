@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- bf94ffd: - **feat**: added `permissionless` as dependency for WalletKit. By @zizzamia #396
+- **feat**: added `permissionless` as dependency for WalletKit. By @zizzamia #396 bf94ffd
 
 ## 0.17.2
 
