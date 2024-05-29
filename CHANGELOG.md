@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.17.5
+
+### Patch Changes
+
+- 7485234: - **feat**: added `TokenRow` component to render Token is a row format. By @kyhyco #399
+
 ## 0.17.4
 
 ### Patch Changes
