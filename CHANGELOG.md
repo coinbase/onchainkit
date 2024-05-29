@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.17.6
+
+### Patch Changes
+
+- 66b8309: - **feat**: Added `isBase` utility function. By @cpcramer #403
+
 ## 0.17.5
 
 ### Patch Changes
