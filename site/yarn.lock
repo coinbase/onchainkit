@@ -334,9 +334,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@coinbase/onchainkit@npm:0.17.3":
-  version: 0.17.3
-  resolution: "@coinbase/onchainkit@npm:0.17.3"
+"@coinbase/onchainkit@npm:0.17.4":
+  version: 0.17.4
+  resolution: "@coinbase/onchainkit@npm:0.17.4"
   peerDependencies:
     "@coinbase/wallet-sdk": ^4
     "@tanstack/react-query": ^5
@@ -348,7 +348,7 @@ __metadata:
     react-dom: ^18
     viem: ^2
     wagmi: ^2
-  checksum: c113c91fff5367cab801f7fd333edab781456f915a9c084d3cc8cdf102cba8cedf2d49d7925450098ecbc5d72392428de1879d6e2459089c8d75d50e5b846277
+  checksum: 7d38c753a63969419efbb1aa8fffaed6f4265f14ca1eda843e3fff256ca6e1bad230d04bd0997d839aa9951912c51e83066b368ef09f64abe7f70c04a6be361c
   languageName: node
   linkType: hard
 
@@ -7657,12 +7657,13 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "onchainkit@workspace:."
   dependencies:
-    "@coinbase/onchainkit": "npm:0.17.3"
+    "@coinbase/onchainkit": "npm:0.17.4"
     "@coinbase/wallet-sdk": "npm:^4.0.0"
     "@tanstack/react-query": "npm:^5.36.0"
     "@types/react": "npm:latest"
     graphql: "npm:14"
     graphql-request: "npm:6"
+    permissionless: "npm:^0.1.29"
     react: "npm:18"
     react-dom: "npm:18"
     react-farcaster-embed: "npm:^1.4.7"
@@ -7883,6 +7884,15 @@ __metadata:
     estree-walker: "npm:^3.0.0"
     is-reference: "npm:^3.0.0"
   checksum: fb5ce7cd810c49254cdf1cd3892811e6dd1a1dfbdf5f10a0a33fb7141baac36443c4cad4f0e2b30abd4eac613f6ab845c2bc1b7ce66ae9694c7321e6ada5bd96
+  languageName: node
+  linkType: hard
+
+"permissionless@npm:^0.1.29":
+  version: 0.1.29
+  resolution: "permissionless@npm:0.1.29"
+  peerDependencies:
+    viem: ^2.9.17
+  checksum: b57d2af6c45b45b20371fb7840e63cd0ba2ede81111db7e7fe59a92a197446cb9ee4651c59405b05bdf2a4a515b15411f3412d6bd2f3e16a662376e1266c5b1e
   languageName: node
   linkType: hard
 

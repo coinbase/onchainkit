@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- 0265426: - **feat**: added `formatAmount` utility function to assist in formatting token amounts. By @kyhyco #398
+- **feat**: added `formatAmount` utility function to assist in formatting token amounts. By @kyhyco #398 0265426
 
 ## 0.17.3
 
