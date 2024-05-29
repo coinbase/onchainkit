@@ -178,7 +178,8 @@ Coming soon
 
 ##### Token
 
-Coming soon
+- [formatAmount](https://onchainkit.xyz/token/format-amount)
+- [getTokens](https://onchainkit.xyz/identity/get-tokens)
 
 ##### Wallet
 
@@ -221,7 +222,6 @@ Check out the following places for more OnchainKit-related content:
 
 - [@zizzamia](https://github.com/zizzamia) ([X](https://twitter.com/hey_shells), [Warpcast](https://warpcast.com/zizzamia)), Eng Lead
 - [@0xchiaroscuro](https://github.com/0xchiaroscuro) ([X](https://twitter.com/chiaroscuro), [Warpcast](https://warpcast.com/chiaroscuro)), Design Lead
-- [@taycaldwell](https://github.com/taycaldwell) ([X](https://twitter.com/taycaldwell_)), Dev Rel Lead
 
 ## License
 

@@ -2,4 +2,4 @@
 '@coinbase/onchainkit': patch
 ---
 
-feat: formatAmount utility function to assist in formatting token amounts
+- **feat**: added `formatAmount` utility function to assist in formatting token amounts. By @kyhyco #398
