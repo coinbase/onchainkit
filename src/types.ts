@@ -28,3 +28,9 @@ export type OnchainKitProviderProps = {
   rpcUrl?: string;
   schemaId?: EASSchemaUid;
 };
+
+export type isBaseOptions = {
+  chainId: number;
+};
+
+export type isBaseResponse = boolean;

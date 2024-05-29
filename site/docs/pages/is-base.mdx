@@ -1,0 +1,33 @@
+# `isBase`
+
+The `isBase` utility is designed to verify if the chain id is a valid Base or Base Sepolia chain id.
+
+## Usage
+
+:::code-group
+
+```tsx [code]
+import { isBase } from '@coinbase/onchainkit';
+
+const isValid = await isBase({ chainId: '8453' });
+
+if (isValid) {
+  console.log('The chainId is valid.');
+} else {
+  console.log('Invalid chainId.');
+}
+```
+
+```ts [return value]
+true;
+```
+
+:::
+
+## Returns
+
+[`isBaseResponse`](/types#isbaseresponse)
+
+## Parameters
+
+[`isBaseOptions`](/types#isbaseOptions)

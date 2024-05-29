@@ -2,4 +2,4 @@
 '@coinbase/onchainkit': patch
 ---
 
-feat: Added isBase wallet utility function. By @cpcramer
+feat: Added isBase general utility function. By @cpcramer

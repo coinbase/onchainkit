@@ -3,7 +3,23 @@ import type { Sidebar } from 'vocs';
 export const sidebar = [
   {
     text: 'Introduction',
-    items: [{ text: 'Getting Started', link: '/getting-started' }],
+    items: [
+      { text: 'Getting Started', link: '/getting-started' },
+      {
+        text: 'Utilities',
+        collapsed: true,
+        items: [
+          {
+            text: 'isBase',
+            link: '/is-base',
+          },
+        ],
+      },
+      {
+        text: 'Types',
+        link: '/types',
+      },
+    ],
   },
   {
     text: 'Frame',
@@ -152,16 +168,6 @@ export const sidebar = [
           {
             text: 'ConnectAccount',
             link: '/wallet/connect-account',
-          },
-        ],
-      },
-      {
-        text: 'Utilities',
-        collapsed: true,
-        items: [
-          {
-            text: 'isBase',
-            link: '/wallet/is-base',
           },
         ],
       },
