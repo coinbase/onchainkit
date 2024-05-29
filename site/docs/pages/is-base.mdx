@@ -9,12 +9,12 @@ The `isBase` utility is designed to verify if the chain id is a valid Base or Ba
 ```tsx [code]
 import { isBase } from '@coinbase/onchainkit';
 
-const isValid = await isBase({ chainId: '8453' });
+const chainId = '8453';
 
-if (isValid) {
-  console.log('The chainId is valid.');
+if (isBase({ chainId })) {
+  console.log('The chainId is Base.');
 } else {
-  console.log('Invalid chainId.');
+  console.log('The chainId is not Base.');
 }
 ```
 
@@ -26,8 +26,8 @@ true;
 
 ## Returns
 
-[`isBaseResponse`](/types#isbaseresponse)
+`boolean` - Returns `true` if the chain id is Base or Base Sepolia, otherwise `false`.
 
 ## Parameters
 
-[`isBaseOptions`](/types#isbaseOptions)
+[`isBaseOptions`](/types#isbaseoptions)
