@@ -60,7 +60,8 @@
     "yarn": "^1.22.21"
   },
   "resolutions": {
-    "@coinbase/wallet-sdk": "npm:@coinbase/wallet-sdk@4.0.0"
+    "@coinbase/wallet-sdk": "npm:@coinbase/wallet-sdk@4.0.0",
+    "react": "npm:react@^18"
   },
   "packemon": [
     {
