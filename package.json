@@ -6,6 +6,7 @@
   "license": "MIT",
   "scripts": {
     "build": "packemon build --addEngines --addFiles --declaration && npx packemon validate --no-license --no-people --no-repo",
+    "watch": "packemon watch",
     "check": "yarn format",
     "format": "prettier --log-level warn --write .",
     "format:check": "prettier --check .",
@@ -59,7 +60,8 @@
     "yarn": "^1.22.21"
   },
   "resolutions": {
-    "@coinbase/wallet-sdk": "npm:@coinbase/wallet-sdk@4.0.0"
+    "@coinbase/wallet-sdk": "npm:@coinbase/wallet-sdk@4.0.0",
+    "react": "npm:react@^18"
   },
   "packemon": [
     {

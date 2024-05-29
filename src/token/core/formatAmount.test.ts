@@ -44,4 +44,8 @@ describe('formatAmount', () => {
     expect(formatAmount('123456789', options)).toEqual('123.456.789,00');
     expect(formatAmount('1234567890', options)).toEqual('1.234.567.890,00');
   });
+
+  it('should return an empty string if amount is undefined', () => {
+    expect(formatAmount(undefined)).toEqual('');
+  });
 });

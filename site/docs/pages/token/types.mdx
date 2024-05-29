@@ -60,3 +60,13 @@ type TokenChipReact = {
   token: Token; // Rendered token
 };
 ```
+
+## `TokenRowReact`
+
+```ts
+type TokenRowReact = {
+  token: Token; // Rendered token
+  amount?: string; // Token amount
+  onClick: (token: Token) => void; // Component on click handler
+};
+```
