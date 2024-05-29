@@ -1,4 +1,4 @@
-import { isBaseOptions, isBaseResponse } from './types';
+import { isBaseOptions } from './types';
 import { baseSepolia, base } from 'viem/chains';
 
 /**
@@ -6,10 +6,9 @@ import { baseSepolia, base } from 'viem/chains';
  *  - Checks if the paymaster operations chain id is valid
  *  - Only allows the Base and Base Sepolia chain ids
  */
-export function isBase({ chainId }: isBaseOptions): isBaseResponse {
+export function isBase({ chainId }: isBaseOptions): boolean {
   if (chainId !== baseSepolia.id && chainId !== base.id) {
     return false;
   }
-
   return true;
 }
