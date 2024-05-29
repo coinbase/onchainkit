@@ -1,7 +1,7 @@
 import { createContext, useMemo } from 'react';
 import { checkHashLength } from './utils/checkHashLength';
 import { ONCHAIN_KIT_CONFIG } from './OnchainKitConfig';
-import { OnchainKitContextType, OnchainKitProviderProps } from './types';
+import { OnchainKitContextType, OnchainKitProviderReact } from './types';
 
 export const OnchainKitContext = createContext<OnchainKitContextType>(ONCHAIN_KIT_CONFIG);
 
@@ -15,7 +15,7 @@ export function OnchainKitProvider({
   children,
   rpcUrl,
   schemaId,
-}: OnchainKitProviderProps) {
+}: OnchainKitProviderReact) {
   if (schemaId && !checkHashLength(schemaId, 64)) {
     throw Error('EAS schemaId must be 64 characters prefixed with "0x"');
   }

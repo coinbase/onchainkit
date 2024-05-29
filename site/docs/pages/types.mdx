@@ -1,6 +1,6 @@
 ---
-title: General types
-description: Glossary of general Types.
+title: OnchainKit top-level types
+description: Glossary of OnchainKit top-level Types.
 ---
 
 # Types [Glossary of general Types.]
@@ -8,13 +8,38 @@ description: Glossary of general Types.
 ## `isBaseOptions`
 
 ```ts
-export type isBaseOptions = {
+type isBaseOptions = {
   chainId: number;
 };
 ```
 
-## `isBaseResponse`
+## `OnchainKitConfig`
 
 ```ts
-export type isBaseResponse = boolean;
+type OnchainKitConfig = {
+  address: Address | null; // Address is optional as we may not have an address for new users
+  apiKey: string | null; // ApiKey for Coinbase Developer Platform APIs
+  rpcUrl: string | null; // RPC URL for onchain requests. Defaults to using CDP Node if the API Key is set
+  chain: Chain; // Chain must be provided as we need to know which chain to use
+  schemaId: EASSchemaUid | null; // SchemaId is optional as not all apps need to use EAS
+};
+```
+
+## `OnchainKitContextType`
+
+```ts
+type OnchainKitContextType = OnchainKitConfig;
+```
+
+## `OnchainKitProviderReact`
+
+```ts
+type OnchainKitProviderReact = {
+  address?: Address;
+  apiKey?: string;
+  chain: Chain;
+  children: ReactNode;
+  rpcUrl?: string;
+  schemaId?: EASSchemaUid;
+};
 ```
