@@ -46,19 +46,19 @@ const styles = {
 
 export const TokenRow = memo(function TokenRow({ token, amount, onClick }: TokenRowReact) {
   return (
-    <div data-testid="tokenRow" style={styles.row} onClick={() => onClick?.(token)}>
+    <div data-testid="ockTokenRow_Container" style={styles.row} onClick={() => onClick?.(token)}>
       <div style={styles.left}>
         {token.image === null ? (
-          <div data-testid="noTokenImage" style={styles.circle} />
+          <div data-testid="ockTokenRow_PlaceholderImage" style={styles.circle} />
         ) : (
-          <img data-testid="tokenImage" style={styles.image} src={token.image} />
+          <img data-testid="ockTokenRow_Image" style={styles.image} src={token.image} />
         )}
         <div style={styles.column}>
           <div style={styles.label1}>{token.name}</div>
           <div style={styles.label2}>{token.symbol}</div>
         </div>
       </div>
-      <div data-testid="tokenAmount" style={styles.label2}>
+      <div data-testid="ockTokenRow_Amount" style={styles.label2}>
         {formatAmount(amount, {
           minimumFractionDigits: 2,
           maximumFractionDigits: Number(amount) < 1 ? 5 : 2,

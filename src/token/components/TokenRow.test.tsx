@@ -27,7 +27,7 @@ describe('TokenRow component', () => {
     render(<TokenRow token={token} />);
 
     await waitFor(() => {
-      const circle = screen.getByTestId('noTokenImage');
+      const circle = screen.getByTestId('ockTokenRow_PlaceholderImage');
       expect(circle).toBeInTheDocument();
     });
   });
@@ -36,7 +36,7 @@ describe('TokenRow component', () => {
     render(<TokenRow token={EXAMPLE_TOKEN} />);
 
     await waitFor(() => {
-      const tokenImage = screen.getByTestId('tokenImage');
+      const tokenImage = screen.getByTestId('ockTokenRow_Image');
       expect(tokenImage).toBeInTheDocument();
     });
   });
@@ -45,7 +45,7 @@ describe('TokenRow component', () => {
     render(<TokenRow token={EXAMPLE_TOKEN} amount={undefined} />);
 
     await waitFor(() => {
-      const tokenAmount = screen.getByTestId('tokenAmount');
+      const tokenAmount = screen.getByTestId('ockTokenRow_Amount');
       expect(tokenAmount.textContent).toEqual('');
     });
   });
@@ -54,7 +54,7 @@ describe('TokenRow component', () => {
     render(<TokenRow token={EXAMPLE_TOKEN} amount="0.00234567" />);
 
     await waitFor(() => {
-      const tokenAmount = screen.getByTestId('tokenAmount');
+      const tokenAmount = screen.getByTestId('ockTokenRow_Amount');
       expect(tokenAmount.textContent).toEqual('0.00235');
     });
   });
@@ -63,7 +63,7 @@ describe('TokenRow component', () => {
     render(<TokenRow token={EXAMPLE_TOKEN} amount="100.1234" />);
 
     await waitFor(() => {
-      const tokenAmount = screen.getByTestId('tokenAmount');
+      const tokenAmount = screen.getByTestId('ockTokenRow_Amount');
       expect(tokenAmount.textContent).toEqual('100.12');
     });
   });
@@ -72,7 +72,7 @@ describe('TokenRow component', () => {
     render(<TokenRow key="" token={EXAMPLE_TOKEN} amount="1" />);
 
     await waitFor(() => {
-      const tokenAmount = screen.getByTestId('tokenAmount');
+      const tokenAmount = screen.getByTestId('ockTokenRow_Amount');
       expect(tokenAmount.textContent).toEqual('1.00');
     });
   });
@@ -81,7 +81,7 @@ describe('TokenRow component', () => {
     const handleClick = jest.fn();
     render(<TokenRow key="" token={EXAMPLE_TOKEN} onClick={handleClick} />);
 
-    const tokenRow = screen.getByTestId('tokenRow');
+    const tokenRow = screen.getByTestId('ockTokenRow_Container');
 
     fireEvent.click(tokenRow);
 
