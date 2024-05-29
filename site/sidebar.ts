@@ -13,6 +13,10 @@ export const sidebar = [
             text: 'isBase',
             link: '/is-base',
           },
+          {
+            text: 'isEntrypoint',
+            link: '/is-entrypoint',
+          },
         ],
       },
       {

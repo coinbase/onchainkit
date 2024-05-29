@@ -1,0 +1,34 @@
+# `isEntrypoint`
+
+The `isEntrypoint` utility is designed to verify if the entrypoint address is a valid v6 entrypoint.
+
+## Usage
+
+:::code-group
+
+```tsx [code]
+import { isEntrypoint } from '@coinbase/onchainkit';
+import { ENTRYPOINT_ADDRESS_V06 } from 'permissionless';
+
+const isValid = isEntrypoint({ entrypoint: ENTRYPOINT_ADDRESS_V06 });
+
+if (isValid) {
+  console.log('The entrypoint is valid.');
+} else {
+  console.log('Invalid entrypoint.');
+}
+```
+
+```ts [return value]
+true;
+```
+
+:::
+
+## Returns
+
+[`isEntrypointResponse`](/types#isentrypointresponse)
+
+## Parameters
+
+[`isEntrypointOptions`](/types#isentrypointoptions)
