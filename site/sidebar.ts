@@ -156,6 +156,16 @@ export const sidebar = [
         ],
       },
       {
+        text: 'Utilities',
+        collapsed: true,
+        items: [
+          {
+            text: 'isBase',
+            link: '/wallet/is-base',
+          },
+        ],
+      },
+      {
         text: 'Types',
         link: '/wallet/types',
       },
