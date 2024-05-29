@@ -9,6 +9,7 @@ const styles = {
     justifyContent: 'space-between',
     cursor: 'pointer',
     padding: '4px 8px',
+    width: '100%',
   },
   left: {
     display: 'flex',
@@ -29,6 +30,7 @@ const styles = {
   column: {
     display: 'flex',
     flexDirection: 'column',
+    alignItems: 'flex-start',
   },
   label1: {
     fontSize: '16px',
@@ -46,24 +48,24 @@ const styles = {
 
 export const TokenRow = memo(function TokenRow({ token, amount, onClick }: TokenRowReact) {
   return (
-    <div data-testid="ockTokenRow_Container" style={styles.row} onClick={() => onClick?.(token)}>
-      <div style={styles.left}>
+    <button data-testid="ockTokenRow_Container" style={styles.row} onClick={() => onClick?.(token)}>
+      <span style={styles.left}>
         {token.image === null ? (
-          <div data-testid="ockTokenRow_PlaceholderImage" style={styles.circle} />
+          <span data-testid="ockTokenRow_PlaceholderImage" style={styles.circle} />
         ) : (
           <img data-testid="ockTokenRow_Image" style={styles.image} src={token.image} />
         )}
-        <div style={styles.column}>
-          <div style={styles.label1}>{token.name}</div>
-          <div style={styles.label2}>{token.symbol}</div>
-        </div>
-      </div>
-      <div data-testid="ockTokenRow_Amount" style={styles.label2}>
+        <span style={styles.column}>
+          <span style={styles.label1}>{token.name}</span>
+          <span style={styles.label2}>{token.symbol}</span>
+        </span>
+      </span>
+      <span data-testid="ockTokenRow_Amount" style={styles.label2}>
         {formatAmount(amount, {
           minimumFractionDigits: 2,
           maximumFractionDigits: Number(amount) < 1 ? 5 : 2,
         })}
-      </div>
-    </div>
+      </span>
+    </button>
   );
 });
