@@ -127,6 +127,10 @@ export const sidebar = [
         collapsed: true,
         items: [
           {
+            text: 'formatAmount',
+            link: '/token/format-amount',
+          },
+          {
             text: 'getTokens',
             link: '/token/get-tokens',
           },
