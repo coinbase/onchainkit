@@ -173,6 +173,12 @@ export const sidebar = [
             text: 'ConnectAccount',
             link: '/wallet/connect-account',
           },
+        ],
+      },
+      {
+        text: 'Utilities',
+        collapsed: true,
+        items: [
           {
             text: 'isValidAAEntrypoint',
             link: '/wallet/is-valid-aa-entrypoint',
