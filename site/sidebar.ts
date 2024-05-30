@@ -14,8 +14,8 @@ export const sidebar = [
             link: '/is-base',
           },
           {
-            text: 'isEntrypoint',
-            link: '/is-entrypoint',
+            text: 'isValidAAEntrypoint',
+            link: '/is-valid-aa-entrypoint',
           },
         ],
       },

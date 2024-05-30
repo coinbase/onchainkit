@@ -1,16 +1,16 @@
-# `isEntrypoint`
+# `isValidAAEntrypoint`
 
-The `isEntrypoint` utility is designed to verify if the entrypoint address is a valid v6 entrypoint.
+The `isValidAAEntrypoint` utility is designed to verify if the entrypoint address is a valid v6 entrypoint.
 
 ## Usage
 
 :::code-group
 
 ```tsx [code]
-import { isEntrypoint } from '@coinbase/onchainkit';
+import { isValidAAEntrypoint } from '@coinbase/onchainkit';
 import { ENTRYPOINT_ADDRESS_V06 } from 'permissionless';
 
-const isValid = isEntrypoint({ entrypoint: ENTRYPOINT_ADDRESS_V06 });
+const isValid = isValidAAEntrypoint({ entrypoint: ENTRYPOINT_ADDRESS_V06 });
 
 if (isValid) {
   console.log('The entrypoint is valid.');
@@ -27,8 +27,8 @@ true;
 
 ## Returns
 
-[`isEntrypointResponse`](/types#isentrypointresponse)
+[`isValidAAEntrypointtResponse`](/types#isvalidaaentrypointtresponse)
 
 ## Parameters
 
-[`isEntrypointOptions`](/types#isentrypointoptions)
+[`isValidAAEntrypointtOptions`](/types#isvalidaaentrypointtoptions)
