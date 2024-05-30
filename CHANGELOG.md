@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.17.7
+
+### Patch Changes
+
+- 68d5c3d: - **feat**: added `isValidAAEntrypoint` wallet utility function. By @cpcramer #409
+
 ## 0.17.6
 
 ### Patch Changes
