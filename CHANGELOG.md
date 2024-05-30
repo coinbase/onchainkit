@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- 66b8309: - **feat**: Added `isBase` utility function. By @cpcramer #403
+- **feat**: Added `isBase` utility function. By @cpcramer #403 66b8309
 
 ## 0.17.5
 

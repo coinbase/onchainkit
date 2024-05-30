@@ -1,14 +1,13 @@
 # `isValidAAEntrypoint`
 
-The `isValidAAEntrypoint` utility is designed to verify if the target account abstraction singleton address.
-This should be used to validate the entrypoint before sponsoring a transaction.
+The `isValidAAEntrypoint` utility is designed to verify the Account-Abstraction entrypoint before sponsoring a transaction.
 
 ## Usage
 
 :::code-group
 
 ```tsx [code]
-import { isValidAAEntrypoint } from '@coinbase/onchainkit';
+import { isValidAAEntrypoint } from '@coinbase/onchainkit/wallet';
 
 const AAImplementationAddress = '0x123`;
 const isValid = isValidAAEntrypoint({ entrypoint: AAImplementationAddress });
