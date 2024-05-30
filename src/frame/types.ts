@@ -159,7 +159,7 @@ type ChainNamespace = 'eip155' | 'solana';
 type ChainReference = string;
 export type FrameTransactionResponse = {
   chainId: `${ChainNamespace}:${ChainReference}`; // A CAIP-2 chain ID to identify the tx network
-  method: 'eth_sendTransaction'; // A method ID to identify the type of tx request.
+  method: 'eth_sendTransaction' | 'eth_personalSign'; // A method ID to identify the type of tx request.
   params: FrameTransactionEthSendParams; // Specific parameters for chainId and method
 };
 
@@ -168,7 +168,7 @@ export type FrameTransactionResponse = {
  */
 export type FrameTransactionEthSendParams = {
   abi: Abi; // The contract ABI for the contract to call.
-  data?: Hex; // The data to send with the transaction.
+  data?: Hex | string; // The data to send with the transaction.
   to: Address; // The address of the contract to call.
   value: string; // The amount of Wei to send with the transaction
 };
