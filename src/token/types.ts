@@ -69,6 +69,7 @@ export type Token = {
  */
 export type TokenChipReact = {
   token: Token;
+  onClick?: (token: Token) => void;
 };
 
 /**
@@ -78,4 +79,13 @@ export type TokenRowReact = {
   token: Token;
   amount?: string;
   onClick?: (token: Token) => void;
+};
+
+/**
+ * Note: exported as public Type
+ */
+export type TokenSelectorReact = {
+  onSelect: (token: Token) => void;
+  onClose: () => void;
+  tokens: Token[];
 };

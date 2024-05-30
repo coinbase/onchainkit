@@ -36,6 +36,7 @@ export function TextInput({ placeholder, value, onChange }: TextInputReact) {
         <SearchIcon />
       </div>
       <input
+        data-testid="ockTextInput_Search"
         type="text"
         style={styles.input}
         placeholder={placeholder}

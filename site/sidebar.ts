@@ -140,6 +140,10 @@ export const sidebar = [
             text: 'TokenRow',
             link: '/token/token-row',
           },
+          {
+            text: 'TokenSelector',
+            link: '/token/token-selector',
+          },
         ],
       },
       {

@@ -29,9 +29,9 @@ const styles = {
  * WARNING: This component is under development and
  *          may change in the next few weeks.
  */
-export function TokenChip({ token }: TokenChipReact) {
+export function TokenChip({ token, onClick }: TokenChipReact) {
   return (
-    <button style={styles.button}>
+    <button style={styles.button} onClick={() => onClick?.(token)}>
       <img style={styles.image} src={token.image || ''} />
       <span style={styles.label}>{token.symbol}</span>
     </button>
