@@ -13,10 +13,6 @@ export const sidebar = [
             text: 'isBase',
             link: '/is-base',
           },
-          {
-            text: 'isValidAAEntrypoint',
-            link: '/is-valid-aa-entrypoint',
-          },
         ],
       },
       {
@@ -176,6 +172,10 @@ export const sidebar = [
           {
             text: 'ConnectAccount',
             link: '/wallet/connect-account',
+          },
+          {
+            text: 'isValidAAEntrypoint',
+            link: '/wallet/is-valid-aa-entrypoint',
           },
         ],
       },
