@@ -31,7 +31,11 @@ const styles = {
  */
 export function TokenChip({ token, onClick }: TokenChipReact) {
   return (
-    <button style={styles.button} onClick={() => onClick?.(token)}>
+    <button
+      data-testid="ockTokenChip_Button"
+      style={styles.button}
+      onClick={() => onClick?.(token)}
+    >
       <img style={styles.image} src={token.image || ''} />
       <span style={styles.label}>{token.symbol}</span>
     </button>
