@@ -1,6 +1,6 @@
 export const tokens = [
   {
-    name: 'ETH',
+    name: 'Ethereum',
     address: '',
     symbol: 'ETH',
     decimals: 18,
