@@ -75,18 +75,7 @@ type TokenRowReact = {
 
 ```ts
 export type TokenSearchReact = {
-  onSearch: (tokens: Token[]) => void; // Token search handler
-  tokens: Token[]; // List of tokens
+  onChange: (value: string) => void; // Search callback function
   delayMs?: number; // Debounce delay in milliseconds
-};
-```
-
-## `TokenSelectorReact`
-
-```ts
-export type TokenSelectorReact = {
-  onSelect: (token: Token) => void; // Token select handler
-  onClose: () => void; // Modal close handler
-  tokens: Token[]; // List of tokens
 };
 ```
