@@ -1,4 +1,4 @@
-.token-chip__button {
+.ock-token-chip__button {
   border-radius: 16px;
   padding: 4px 12px 4px 4px;
   display: flex;
@@ -7,17 +7,21 @@
   width: fit-content;
 }
 
-.token-chip__button:hover {
+.ock-token-chip__button:hover {
   background: #cacbce;
 }
 
-.token-chip__image {
+.ock-token-chip__button:active {
+  background: #bfc1c3;
+}
+
+.ock-token-chip__image {
   height: 24px;
   width: 24px;
   margin-right: 8px;
 }
 
-.token-chip__label {
+.ock-token-chip__label {
   color: #1d1818;
   font-size: 16px;
   line-height: 1;

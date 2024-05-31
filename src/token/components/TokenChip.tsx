@@ -11,11 +11,11 @@ export function TokenChip({ token, onClick }: TokenChipReact) {
   return (
     <button
       data-testid="ockTokenChip_Button"
-      className="token-chip__button"
+      className="ock-token-chip__button"
       onClick={() => onClick?.(token)}
     >
-      <img className="token-chip__image" src={token.image || ''} />
-      <span className="token-chip__label">{token.symbol}</span>
+      <img className="ock-token-chip__image" src={token.image || ''} />
+      <span className="ock-token-chip__label">{token.symbol}</span>
     </button>
   );
 }
