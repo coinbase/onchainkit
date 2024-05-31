@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.17.10
+
+### Patch Changes
+
+- 0f14362: - **feat**: add TokenSearch component that allows users to search on a given list of tokens by name, symbol and address. By @kyhyco #421
+
 ## 0.17.9
 
 ### Patch Changes
