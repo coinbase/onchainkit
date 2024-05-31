@@ -84,8 +84,16 @@ export type TokenRowReact = {
 /**
  * Note: exported as public Type
  */
+export type TokenSearchReact = {
+  onSearch: (tokens: Token[]) => void;
+  tokens: Token[];
+  delayMs?: number;
+};
+
+/**
+ * Note: exported as public Type
+ */
 export type TokenSelectorReact = {
   onSelect: (token: Token) => void;
-  onClose: () => void;
   tokens: Token[];
 };

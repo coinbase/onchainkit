@@ -1,14 +1,7 @@
 import { useCallback, useState } from 'react';
-
-import { Token } from '../types';
+import { TokenSearchReact } from '../types';
 import { TextInput } from './TextInput';
 import { useDebounce } from './useDebounce';
-
-type TokenSearchReact = {
-  onSearch: (tokens: Token[]) => void;
-  tokens: Token[];
-  delayMs?: number;
-};
 
 export function TokenSearch({ tokens, onSearch, delayMs = 200 }: TokenSearchReact) {
   const [value, setValue] = useState('');
