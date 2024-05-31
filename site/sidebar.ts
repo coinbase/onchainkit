@@ -2,16 +2,37 @@ import type { Sidebar } from 'vocs';
 
 export const sidebar = [
   {
-    text: 'Introduction',
+    text: 'OnchainKit',
     items: [
       { text: 'Getting Started', link: '/getting-started' },
+      {
+        text: 'Components',
+        items: [
+          {
+            text: 'OnchainKitProvider',
+            link: '/onchainkit-provider',
+          },
+        ],
+      },
       {
         text: 'Utilities',
         collapsed: true,
         items: [
           {
+            text: 'getOnchainKitConfig',
+            link: '/get-onchainkit-config',
+          },
+          {
             text: 'isBase',
             link: '/is-base',
+          },
+          {
+            text: 'setOnchainKitConfig',
+            link: '/set-onchainkit-config',
+          },
+          {
+            text: 'useOnchainKit',
+            link: '/use-onchainkit',
           },
         ],
       },
