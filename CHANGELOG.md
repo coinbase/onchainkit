@@ -4,14 +4,14 @@
 
 ### Patch Changes
 
-- 9576276: - **chore**: updated `TokenSelector` docs and added `useFilteredTokens` to `TokenSelector`. By @kyhyco #417
-- 350066e: - **feat**: added `TokenSelector` to select a token from a list. By @kyhyco #410
+- **chore**: updated `TokenSelector` docs and added `useFilteredTokens` to `TokenSelector`. By @kyhyco #417 9576276
+- **feat**: added `TokenSelector` to select a token from a list. By @kyhyco #410 350066e
 
 ## 0.17.7
 
 ### Patch Changes
 
-- 68d5c3d: - **feat**: added `isValidAAEntrypoint` wallet utility function. By @cpcramer #409
+- **feat**: added `isValidAAEntrypoint` wallet utility function. By @cpcramer #409 68d5c3d
 
 ## 0.17.6
 
