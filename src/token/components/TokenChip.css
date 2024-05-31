@@ -1,0 +1,25 @@
+.token-chip__button {
+  border-radius: 16px;
+  padding: 4px 12px 4px 4px;
+  display: flex;
+  align-items: center;
+  background: #eef0f3;
+  width: fit-content;
+}
+
+.token-chip__button:hover {
+  background: #cacbce;
+}
+
+.token-chip__image {
+  height: 24px;
+  width: 24px;
+  margin-right: 8px;
+}
+
+.token-chip__label {
+  color: #1d1818;
+  font-size: 16px;
+  line-height: 1;
+  font-weight: 500;
+}
