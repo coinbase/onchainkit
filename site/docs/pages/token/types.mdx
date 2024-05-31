@@ -71,6 +71,16 @@ type TokenRowReact = {
 };
 ```
 
+## `TokenSearchReact`
+
+```ts
+export type TokenSearchReact = {
+  onSearch: (tokens: Token[]) => void; // Token search handler
+  tokens: Token[]; // List of tokens
+  delayMs?: number; // Debounce delay in milliseconds
+};
+```
+
 ## `TokenSelectorReact`
 
 ```ts
