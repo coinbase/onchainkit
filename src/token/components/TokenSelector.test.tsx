@@ -3,9 +3,8 @@
  */
 import React from 'react';
 import '@testing-library/jest-dom';
-import { fireEvent, render, screen, waitFor, within } from '@testing-library/react';
-import { Address } from 'viem';
-import { TokenSelector } from './TokenSelector';
+import { fireEvent, render, renderHook, screen } from '@testing-library/react';
+import { TokenSelector, useFilteredTokens } from './TokenSelector';
 import { Token } from '../types';
 
 const tokens: Token[] = [
@@ -100,5 +99,34 @@ describe('TokenSelector Component', () => {
     expect(tokenChips).not.toBeInTheDocument();
     expect(tokenList).not.toBeInTheDocument();
     expect(noResult).toBeInTheDocument();
+  });
+});
+
+describe('useFilteredTokens', () => {
+  it('should filter tokens by name', () => {
+    const { result } = renderHook(() => useFilteredTokens(tokens, 'wrapped'));
+    expect(result.current).toEqual([tokens[3]]);
+  });
+
+  it('should filter tokens by symbol', () => {
+    const { result } = renderHook(() => useFilteredTokens(tokens, 'eth'));
+    expect(result.current).toEqual([tokens[0], tokens[3]]);
+  });
+
+  it('should filter tokens by address', () => {
+    const { result } = renderHook(() =>
+      useFilteredTokens(tokens, '0x50c5725949a6f0c72e6c4a641f24049a917db0cb'),
+    );
+    expect(result.current).toEqual([tokens[2]]);
+  });
+
+  it('should return all tokens if filter value is empty', () => {
+    const { result } = renderHook(() => useFilteredTokens(tokens, ''));
+    expect(result.current).toEqual(tokens);
+  });
+
+  it('should return no tokens if no match is found', () => {
+    const { result } = renderHook(() => useFilteredTokens(tokens, 'tothemooooooon'));
+    expect(result.current).toEqual([]);
   });
 });

@@ -1,5 +1,5 @@
 import { CSSProperties, useMemo, useState } from 'react';
-import { TokenSelectorReact } from '../types';
+import { Token, TokenSelectorReact } from '../types';
 import { TokenChip } from './TokenChip';
 import { TokenRow } from './TokenRow';
 import { TextInput } from './TextInput';
@@ -48,12 +48,10 @@ const styles = {
   },
 } as Record<string, CSSProperties>;
 
-export function TokenSelector({ onSelect, tokens, onClose }: TokenSelectorReact) {
-  const [value, setValue] = useState('');
-
-  const { filteredTokens } = useMemo(
-    () => ({
-      filteredTokens: tokens.filter(({ name, symbol, address }) => {
+export function useFilteredTokens(tokens: Token[], value: string) {
+  return useMemo(
+    () =>
+      tokens.filter(({ name, symbol, address }) => {
         const v = value.toLowerCase();
         return (
           name.toLowerCase().includes(v) ||
@@ -61,9 +59,14 @@ export function TokenSelector({ onSelect, tokens, onClose }: TokenSelectorReact)
           address.toLowerCase().includes(v)
         );
       }),
-    }),
     [value, tokens],
   );
+}
+
+export function TokenSelector({ onSelect, tokens, onClose }: TokenSelectorReact) {
+  const [value, setValue] = useState('');
+
+  const filteredTokens = useFilteredTokens(tokens, value);
 
   return (
     <Panel>
