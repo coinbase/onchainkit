@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.17.8
+
+### Patch Changes
+
+- 9576276: - **chore**: updated `TokenSelector` docs and added `useFilteredTokens` to `TokenSelector`. By @kyhyco #417
+- 350066e: - **feat**: added `TokenSelector` to select a token from a list. By @kyhyco #410
+
 ## 0.17.7
 
 ### Patch Changes
