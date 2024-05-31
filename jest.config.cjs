@@ -7,6 +7,9 @@ module.exports = {
       statements: 100,
     },
   },
+  moduleNameMapper: {
+    '^.+\\.(css|less)$': '<rootDir>/src/cssStub.ts',
+  },
   modulePathIgnorePatterns: ['<rootDir>/framegear/'],
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
   transform: {
