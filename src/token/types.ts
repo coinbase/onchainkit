@@ -85,8 +85,7 @@ export type TokenRowReact = {
  * Note: exported as public Type
  */
 export type TokenSearchReact = {
-  onSearch: (tokens: Token[]) => void;
-  tokens: Token[];
+  onChange: (value: string) => void;
   delayMs?: number;
 };
 
