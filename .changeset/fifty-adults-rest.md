@@ -2,4 +2,4 @@
 '@coinbase/onchainkit': patch
 ---
 
-update transaction types to enable consent proofs
+- **feat**: updated the `FrameTransactionResponse` type to accommodate an `eth_personalSign` method needed for XMTP consent proofs. By @daria-github #413

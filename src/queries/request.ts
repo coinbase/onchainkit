@@ -1,4 +1,5 @@
 import { getRPCUrl } from '../getRPCUrl';
+import { version } from '../version';
 
 export type JSONRPCError = {
   code: number;
@@ -22,6 +23,7 @@ export type JSONRPCResult<T> = {
 const POST_METHOD = 'POST';
 const JSON_HEADERS = {
   'Content-Type': 'application/json',
+  onchainkit_version: version,
 };
 const JSON_RPC_VERSION = '2.0';
 
@@ -43,7 +45,8 @@ export function buildRequestBody<T>(method: string, params: T[]): JSONRPCRequest
 }
 
 /**
- * Sends a JSON-RPC request to configured RPC URL. Defaults to using the Coinbase Developer Platform Node.
+ * Sends a JSON-RPC request to configured RPC URL.
+ * Defaults to using the Coinbase Developer Platform Node.
  *
  * @param body - The JSON-RPC request body.
  * @returns A promise that resolves to the JSON-RPC response.
