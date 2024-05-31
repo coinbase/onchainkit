@@ -3,7 +3,7 @@
  */
 import React from 'react';
 import '@testing-library/jest-dom';
-import { render, screen, within } from '@testing-library/react';
+import { fireEvent, render, screen, within } from '@testing-library/react';
 import { Address } from 'viem';
 import { TokenChip } from './TokenChip';
 
@@ -12,7 +12,7 @@ describe('TokenChip Component', () => {
     jest.clearAllMocks();
   });
 
-  it('should render and register a click when pressed', async () => {
+  it('should render', async () => {
     const token = {
       address: '0x123' as Address,
       chainId: 1,
@@ -50,5 +50,24 @@ describe('TokenChip Component', () => {
 
     expect(imgElement).toBeInTheDocument();
     expect(spanElement).toBeInTheDocument();
+  });
+
+  it('should register a click on press', async () => {
+    const token = {
+      address: '0x123' as Address,
+      chainId: 1,
+      decimals: 2,
+      image: 'imageURL',
+      name: 'Ether',
+      symbol: 'ETH',
+    };
+    const handleClick = jest.fn();
+    render(<TokenChip token={token} onClick={handleClick} />);
+
+    const button = screen.getByTestId('ockTokenChip_Button');
+
+    fireEvent.click(button);
+
+    expect(handleClick).toHaveBeenCalledTimes(1);
   });
 });

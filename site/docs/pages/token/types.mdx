@@ -70,3 +70,13 @@ type TokenRowReact = {
   onClick: (token: Token) => void; // Component on click handler
 };
 ```
+
+## `TokenSelectorReact`
+
+```ts
+export type TokenSelectorReact = {
+  onSelect: (token: Token) => void; // Token select handler
+  onClose: () => void; // Modal close handler
+  tokens: Token[]; // List of tokens
+};
+```
