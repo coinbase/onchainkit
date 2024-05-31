@@ -1,3 +1,6 @@
+import type { UserOperation } from 'permissionless';
+import type { PublicClient } from 'viem';
+
 /**
  * Note: exported as public Type
  */
@@ -10,4 +13,12 @@ export type ConnectAccountReact = {
  */
 export type IsValidAAEntrypointOptions = {
   entrypoint: string;
+};
+
+/**
+ * Note: exported as public Type
+ */
+export type IsWalletASmartWalletOptions = {
+  client: PublicClient;
+  userOp: UserOperation<'v0.6'>;
 };

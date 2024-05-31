@@ -204,6 +204,10 @@ export const sidebar = [
             text: 'isValidAAEntrypoint',
             link: '/wallet/is-valid-aa-entrypoint',
           },
+          {
+            text: 'isWalletASmartWallet',
+            link: '/wallet/is-wallet-a-smart-wallet',
+          },
         ],
       },
       {
