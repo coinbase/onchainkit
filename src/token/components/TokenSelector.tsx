@@ -65,9 +65,7 @@ export function useFilteredTokens(tokens: Token[], value: string) {
 
 export function TokenSelector({ onSelect, tokens, onClose }: TokenSelectorReact) {
   const [value, setValue] = useState('');
-
   const filteredTokens = useFilteredTokens(tokens, value);
-
   return (
     <Panel>
       <div style={styles.header}>

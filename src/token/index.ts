@@ -11,4 +11,5 @@ export type {
   Token,
   TokenChipReact,
   TokenRowReact,
+  TokenSelectorReact,
 } from './types';
