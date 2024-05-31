@@ -1,5 +1,5 @@
 import { CSSProperties, ChangeEvent, useCallback } from 'react';
-import { SearchIcon } from './SearchIcon';
+import { MagnifierIcon } from './icons';
 
 const styles = {
   container: {
@@ -33,7 +33,7 @@ export function TextInput({ placeholder, value, onChange }: TextInputReact) {
   return (
     <div style={styles.container}>
       <div style={styles.icon}>
-        <SearchIcon />
+        <MagnifierIcon />
       </div>
       <input
         data-testid="ockTextInput_Search"

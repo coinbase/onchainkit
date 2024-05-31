@@ -1,10 +1,10 @@
 import { CSSProperties, useMemo, useState } from 'react';
+import { IconButton } from '../../internal/components/IconButton';
+import { Panel } from '../../internal/components/Panel';
+import { TextInput } from '../../internal/components/TextInput';
 import { TokenSelectorReact } from '../types';
 import { TokenChip } from './TokenChip';
 import { TokenRow } from './TokenRow';
-import { TextInput } from './TextInput';
-import { CloseIcon } from './CloseIcon';
-import { Panel } from './Panel';
 
 const styles = {
   header: {
@@ -69,7 +69,7 @@ export function TokenSelector({ onSelect, tokens, onClose }: TokenSelectorReact)
     <Panel>
       <div style={styles.header}>
         <div style={styles.title}>Select a token</div>
-        <CloseIcon onClick={onClose} />
+        <IconButton icon="close" onClick={onClose} />
       </div>
       <div style={styles.content}>
         <TextInput placeholder="Search name or paste address" value={value} onChange={setValue} />
