@@ -168,7 +168,7 @@ export type FrameTransactionResponse = {
  */
 export type FrameTransactionEthSendParams = {
   abi: Abi; // The contract ABI for the contract to call.
-  data?: Hex | string; // The data to send with the transaction.
+  data?: Hex; // The data to send with the transaction.
   to: Address; // The address of the contract to call.
   value: string; // The amount of Wei to send with the transaction
 };
