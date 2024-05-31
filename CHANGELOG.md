@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.17.9
+
+### Patch Changes
+
+- 04cda00: - **feat**: added `onchainkit_version` header to API requests. By @zizzamia #423
+  - **feat**: updated the `FrameTransactionResponse` type to accommodate an `eth_personalSign` method needed for XMTP consent proofs. By @daria-github #413
+- e080a5b: - **docs**: update GetTokens to include capability to search by address. By @kyhyco
+
 ## 0.17.8
 
 ### Patch Changes
