@@ -1,4 +1,5 @@
 import { setOnchainKitConfig } from '../OnchainKitConfig';
+import { version } from '../version';
 import { buildRequestBody, sendRequest } from './request';
 
 describe('request', () => {
@@ -46,6 +47,7 @@ describe('request', () => {
         body: JSON.stringify(requestBody),
         headers: {
           'Content-Type': 'application/json',
+          onchainkit_version: version,
         },
       });
       expect(response).toEqual(mockResponse);
