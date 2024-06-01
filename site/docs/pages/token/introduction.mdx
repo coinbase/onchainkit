@@ -3,12 +3,12 @@ title: Introduction to Token Kit · OnchainKit
 description: Introduction to Token Kit
 ---
 
-import { TokenSelector } from './TokenSelector';
+import TokenSelector from '../../components/TokenSelector';
 import App from '../App';
 
 # Introduction to Token Kit
 
-Coming soon!
+TokenKit enables you to effortlessly create user experiences using Token components and utilities.
 
 ## Components
 
@@ -23,16 +23,12 @@ The available components are:
 ```tsx [code]
 const [filteredTokens, setFilteredTokens] = useState<Token[]>([]);
 
-const handleChange = useCallback((value: string) => {
-  const filteredTokens = tokens.filter(({ name, symbol, address }: Token) => {
-    const v = value.toLowerCase();
-    return (
-      name.toLowerCase().includes(v) ||
-      symbol.toLowerCase().includes(v) ||
-      address.toLowerCase().includes(v)
-    );
-  });
-  setFilteredTokens(filteredTokens);
+const handleChange = useCallback((value) => {
+  async function getData(value) {
+    const tokens = await getTokens({ search: value });  // [!code focus]
+    setFilteredTokens(filteredTokens);
+  }
+  getData(value);
 }, []);
 
 ...
