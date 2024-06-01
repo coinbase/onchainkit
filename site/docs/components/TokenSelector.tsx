@@ -1,13 +1,54 @@
 import { useCallback, useState } from 'react';
+import { TokenSearch, TokenChip, TokenRow } from '@coinbase/onchainkit/token';
+import type { Token } from '@coinbase/onchainkit/token';
 
-import { TokenSearch, TokenChip, TokenRow, type Token } from '@coinbase/onchainkit/token';
-import { tokens } from './tokens';
+const tokens: Token[] = [
+  {
+    name: 'Ethereum',
+    address: '',
+    symbol: 'ETH',
+    decimals: 18,
+    image: 'https://wallet-api-production.s3.amazonaws.com/uploads/tokens/eth_288.png',
+    blockchain: 'eth',
+    chainId: 8453,
+  },
+  {
+    name: 'USDC',
+    address: '0x833589fcd6edb6e08f4c7c32d4f71b54bda02913',
+    symbol: 'USDC',
+    decimals: 6,
+    image:
+      'https://d3r81g40ycuhqg.cloudfront.net/wallet/wais/44/2b/442b80bd16af0c0d9b22e03a16753823fe826e5bfd457292b55fa0ba8c1ba213-ZWUzYjJmZGUtMDYxNy00NDcyLTg0NjQtMWI4OGEwYjBiODE2',
+    blockchain: 'eth',
+    chainId: 8453,
+  },
+  {
+    name: 'Dai',
+    address: '0x50c5725949a6f0c72e6c4a641f24049a917db0cb',
+    symbol: 'DAI',
+    decimals: 18,
+    image:
+      'https://d3r81g40ycuhqg.cloudfront.net/wallet/wais/d0/d7/d0d7784975771dbbac9a22c8c0c12928cc6f658cbcf2bbbf7c909f0fa2426dec-NmU4ZWViMDItOTQyYy00Yjk5LTkzODUtNGJlZmJiMTUxOTgy',
+    blockchain: 'eth',
+    chainId: 8453,
+  },
+  {
+    name: 'Wrapped Ether',
+    address: '0x4200000000000000000000000000000000000006',
+    symbol: 'WETH',
+    decimals: 18,
+    image:
+      'https://d3r81g40ycuhqg.cloudfront.net/wallet/wais/47/bc/47bc3593c2dec7c846b66b7ba5f6fa6bd69ec34f8ebb931f2a43072e5aaac7a8-YmUwNmRjZDUtMjczYy00NDFiLWJhZDUtMzgwNjFmYWM0Njkx',
+    blockchain: 'eth',
+    chainId: 8453,
+  },
+];
 
-export function TokenSelector() {
+function TokenSelector() {
   const [filteredTokens, setFilteredTokens] = useState<Token[]>(tokens);
 
   const handleChange = useCallback((value: string) => {
-    const filteredTokens = tokens.filter(({ name, symbol, address }) => {
+    const filteredTokens = tokens.filter(({ name, symbol, address }: Token) => {
       const v = value.toLowerCase();
       return (
         name.toLowerCase().includes(v) ||
@@ -24,46 +65,29 @@ export function TokenSelector() {
   }, []);
 
   return (
-    <div className="flex flex-col gap-1 rounded-3xl bg-white p-4">
-      <div className="mb-2 flex w-full items-center justify-between">
-        <div className="text-lg text-black">Select a token</div>
-        <div className="text-lg text-black">
-          <svg
-            width="16"
-            height="16"
-            viewBox="0 0 16 16"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M2.3352 1L1 2.33521L6.66479 8L1 13.6648L2.3352 15L8 9.33521L13.6648 15L15 13.6648L9.33521 8L15 2.33521L13.6648 1L8 6.6648L2.3352 1Z"
-              fill="#0A0B0D"
-            />
-          </svg>
+    <div className="flex min-w-96 flex-col gap-4 rounded-3xl bg-white p-4">
+      <TokenSearch tokens={tokens} onChange={handleChange} />
+      {filteredTokens.length > 0 && (
+        <div className="flex gap-2">
+          {filteredTokens.map((token) => (
+            <TokenChip key={token.name} token={token} onClick={handleSelect} />
+          ))}
         </div>
-      </div>
-      <div className="flex flex-col gap-4">
-        <TokenSearch tokens={tokens} onChange={handleChange} />
-        {filteredTokens.length > 0 && (
-          <div className="flex gap-2">
+      )}
+      {filteredTokens.length > 0 ? (
+        <div>
+          <div className="text-body text-black">Tokens</div>
+          <div>
             {filteredTokens.map((token) => (
-              <TokenChip key={token.name} token={token} onClick={handleSelect} />
+              <TokenRow key={token.name} token={token} onClick={handleSelect} />
             ))}
           </div>
-        )}
-        {filteredTokens.length > 0 ? (
-          <div>
-            <div className="text-body text-black">Tokens</div>
-            <div>
-              {filteredTokens.map((token) => (
-                <TokenRow key={token.name} token={token} onClick={handleSelect} />
-              ))}
-            </div>
-          </div>
-        ) : (
-          <div className="text-body text-black">No tokens found</div>
-        )}
-      </div>
+        </div>
+      ) : (
+        <div className="text-body text-black">No tokens found</div>
+      )}
     </div>
   );
 }
+
+export default TokenSelector;

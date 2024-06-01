@@ -12,8 +12,8 @@ import { OnchainKitProvider } from '@coinbase/onchainkit';
 import { Avatar, Badge, Name } from '@coinbase/onchainkit/identity';
 import App from './App';
 import AccountConnect from './wallet/AccountConnect';
-
 import FarcasterCastCard from '../components/FarcasterCastCard';
+import TokenSelector from '../components/TokenSelector';
 
 <div id="blobs">
 <div className="css-blurry-gradient" style={{ top: '-15%', left: 'calc(50% - 280px)' }} />
@@ -158,6 +158,55 @@ pnpm add @coinbase/onchainkit viem@2.x
       <div className='flex grow items-center justify-center h-24 md:h-auto'>
 <App>
   <AccountConnect />
+</App>
+      </div>
+    </div>
+  </aside>
+  <aside className="md:px-2 pt-10">
+    <p className="text-lg md:text-xl py-2">
+      Search [Tokens](/token/types#token) using [getTokens](/token/get-tokens) and display them with [TokenSearch](/token/token-search), [TokenChip](/token/token-chip), and [TokenRow](/token/token-row).
+    </p>
+    <div className="flex grow flex-col md:flex-row">
+      <div>
+```tsx
+const [filteredTokens, setFilteredTokens] = useState<Token[]>([]);
+
+const handleChange = useCallback((value) => {
+async function getData(value) {
+const tokens: Token[] = await getTokens({ search: value }); // [!code focus]
+setFilteredTokens(filteredTokens);
+}
+getData(value);
+}, []);
+...
+
+<div className="flex flex-col gap-4 rounded-3xl bg-white p-4">
+  <TokenSearch onChange={handleChange} delayMs={200} /> // [!code focus]
+  {filteredTokens.length > 0 && (
+    <div className="flex gap-2">
+      {filteredTokens.map((token) => (
+        <TokenChip key={token.name} token={token} onClick={handleSelect} /> // [!code focus]
+      ))}
+    </div>
+  )}
+  {filteredTokens.length > 0 ? (
+    <div>
+      <div className="text-body text-black">Tokens</div>
+      <div>
+        {filteredTokens.map((token) => (
+          <TokenRow key={token.name} token={token} onClick={handleSelect} /> // [!code focus]
+        ))}
+      </div>
+    </div>
+  ) : (
+    <div className="text-body text-black">No tokens found</div>
+  )}
+</div>
+```
+      </div>
+      <div className='flex grow items-center justify-center h-24 md:h-auto'>
+<App>
+  <TokenSelector />
 </App>
       </div>
     </div>
