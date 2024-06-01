@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 import { TokenSearch, TokenChip, TokenRow, type Token } from '@coinbase/onchainkit/token';
-import { tokens } from './tokens';
+import { tokens } from './tokens.ts';
 
 export function TokenSelector() {
   const [filteredTokens, setFilteredTokens] = useState<Token[]>(tokens);

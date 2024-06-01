@@ -21,8 +21,24 @@ The available components are:
 :::code-group
 
 ```tsx [code]
+const [filteredTokens, setFilteredTokens] = useState<Token[]>([]);
+
+const handleChange = useCallback((value: string) => {
+  const filteredTokens = tokens.filter(({ name, symbol, address }: Token) => {
+    const v = value.toLowerCase();
+    return (
+      name.toLowerCase().includes(v) ||
+      symbol.toLowerCase().includes(v) ||
+      address.toLowerCase().includes(v)
+    );
+  });
+  setFilteredTokens(filteredTokens);
+}, []);
+
+...
+
 <div className="flex flex-col gap-4 rounded-3xl bg-white p-4">
-  <TokenSearch tokens={tokens} onChange={handleChange} /> // [!code focus]
+  <TokenSearch onChange={handleChange} delayMs={200} /> // [!code focus]
   {filteredTokens.length > 0 && (
     <div className="flex gap-2">
       {filteredTokens.map((token) => (
@@ -106,6 +122,43 @@ The available utilities are:
 - [`formatAmount`](/token/format-amount): number formatting for token amount.
 - [`getTokens`](/token/get-tokens): retrive a list of tokens on Base.
 
+## Required dependencies
+
+To use the Token utilities and components install:
+
+:::code-group
+
+```bash [npm]
+npm install @coinbase/onchainkit
+npm install viem@2.x react@18 react-dom@18
+```
+
+```bash [yarn]
+yarn add @coinbase/onchainkit
+yarn add viem@2.x react@18 react-dom@18
+```
+
+```bash [pnpm]
+pnpm add @coinbase/onchainkit
+pnpm add viem@2.x react@18 react-dom@18
+```
+
+:::
+
 ## Required providers
 
-Coming soon!
+If you are using any of the provided components, you will need to configure `OnchainKitConfig` with the `<OnchainKitProvider>`.
+
+```tsx
+import { OnchainKitProvider } from '@coinbase/onchainkit';
+
+function App() {
+  return (
+    <OnchainKitProvider chain={base} apiKey="YOUR_API_KEY">
+      ...
+    </OnchainKitProvider>
+  );
+}
+```
+
+See [Tanstack Query documentation](https://tanstack.com/query/v5/docs/framework/react/quick-start) for more info.
