@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.17.11
+
+### Patch Changes
+
+- fe340d7: - **chore**: revert TokenChip.css. By @kyhyco #426
+
 ## 0.17.10
 
 ### Patch Changes
