@@ -65,7 +65,7 @@ function TokenSelector() {
   }, []);
 
   return (
-    <div className="flex flex-col gap-4 rounded-3xl bg-white p-4">
+    <div className="flex min-w-96 flex-col gap-4 rounded-3xl bg-white p-4">
       <TokenSearch tokens={tokens} onChange={handleChange} />
       {filteredTokens.length > 0 && (
         <div className="flex gap-2">

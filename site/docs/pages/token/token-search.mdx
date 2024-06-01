@@ -15,14 +15,15 @@ Use [`getTokens`](/token/get-tokens) and `<TokenSearch />` combined to search th
 
 ```tsx [code]
 import { OnchainKitProvider } from '@coinbase/onchainkit';
-import { TokenSearch } from '@coinbase/onchainkit/token'; // [!code focus]
+import { TokenSearch, getTokens } from '@coinbase/onchainkit/token'; // [!code focus]
+import type { Token } from '@coinbase/onchainkit/token'; // [!code focus]
 
 ...
 
 // example of async onChange handler
 const handleChange = useCallback((value) => {
   async function getData(value) {
-    const tokens = await getTokens({ search: value });
+    const tokens: Token[] = await getTokens({ search: value }); // [!code focus]
     // Do something with tokens here
   }
   getData(value)
