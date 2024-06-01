@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- fe340d7: - **chore**: revert TokenChip.css. By @kyhyco #426
+- **chore**: revert TokenChip.css. By @kyhyco #426 fe340d7
 
 ## 0.17.10
 
