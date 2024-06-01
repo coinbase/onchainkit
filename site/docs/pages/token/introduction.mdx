@@ -3,6 +3,9 @@ title: Introduction to Token Kit · OnchainKit
 description: Introduction to Token Kit
 ---
 
+import { TokenSelector } from '../../components/TokenSelector';
+import App from '../App';
+
 # Introduction to Token Kit
 
 ### Warning: kit under development, may change in coming weeks
@@ -10,5 +13,143 @@ description: Introduction to Token Kit
 Coming soon!
 
 ## Components
+
+The available components are:
+
+- [`<TokenChip />`](/token/token-chip): Small button component for a given token.
+- [`<TokenRow />`](/token/token-row): Row component for a given token.
+- [`<TokenSearch />`](/token/token-search): Search component to search by name, symbol and address for a given list of tokens.
+
+:::code-group
+
+```tsx [code]
+function TokenSelector() {
+  const [filteredTokens, setFilteredTokens] = useState<Token[]>(tokens);
+
+  const handleChange = useCallback((value: string) => {
+    const filteredTokens = tokens.filter(({ name, symbol, address }) => {
+      const v = value.toLowerCase();
+      return (
+        name.toLowerCase().includes(v) ||
+        symbol.toLowerCase().includes(v) ||
+        address.toLowerCase().includes(v)
+      );
+    });
+
+    setFilteredTokens(filteredTokens);
+  }, []);
+
+  const handleSelect = useCallback((token: Token) => {
+    console.log('Selected token', token);
+  }, []);
+
+  return (
+    <div className="flex flex-col gap-1 rounded-3xl bg-white p-4">
+      <div className="mb-2 flex w-full items-center justify-between">
+        <div className="text-lg text-black">Select a token</div>
+        <div className="text-lg text-black">
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M2.3352 1L1 2.33521L6.66479 8L1 13.6648L2.3352 15L8 9.33521L13.6648 15L15 13.6648L9.33521 8L15 2.33521L13.6648 1L8 6.6648L2.3352 1Z"
+              fill="#0A0B0D"
+            />
+          </svg>
+        </div>
+      </div>
+      <div className="flex flex-col gap-4">
+        <TokenSearch tokens={tokens} onChange={handleChange} /> // [!code focus]
+        {filteredTokens.length > 0 && (
+          <div className="flex gap-2">
+            {filteredTokens.map((token) => (
+              <TokenChip key={token.name} token={token} onClick={handleSelect} /> // [!code focus]
+            ))}
+          </div>
+        )}
+        {filteredTokens.length > 0 ? (
+          <div>
+            <div className="text-body text-black">Tokens</div>
+            <div>
+              {filteredTokens.map((token) => (
+                <TokenRow key={token.name} token={token} onClick={handleSelect} /> // [!code focus]
+              ))}
+            </div>
+          </div>
+        ) : (
+          <div className="text-body text-black">No tokens found</div>
+        )}
+      </div>
+    </div>
+  );
+}
+```
+
+```html [return html]
+<div class="flex h-10 items-center space-x-4">
+  <div data-testid="ockAvatarBadgeInner" style="position: relative; width: 32px; height: 32px;">
+    <img
+      loading="lazy"
+      width="32"
+      height="32"
+      decoding="async"
+      src="https://euc.li/nickprince.eth"
+      alt="nickprince.eth"
+      style="border-radius: 50%;"
+    />
+    <div
+      style="position: absolute; bottom: -2px; right: -2px; background: transparent; display: flex; justify-content: center; align-items: center; width: 15px; height: 15px; border-radius: 9999px;"
+    >
+      <div
+        style="width: 11px; height: 11px; display: flex; justify-content: center; align-items: center;"
+      >
+        <span data-testid="ockBadge" style="border-radius: 50%; height: 12px; width: 12px;">
+          <svg
+            width="12"
+            height="12"
+            viewBox="0 0 12 12"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M6 12C9.31371 12 12 9.31371 12 6C12 2.68629 9.31371 0 6 0C2.68629 0 0 2.68629 0 6C0 9.31371 2.68629 12 6 12Z"
+              data-testid="ockBadgeBackground"
+              fill="#0052FF"
+            ></path>
+            <path
+              d="M8.12957 3.73002L5.11957 6.74002L3.77957 5.40002C3.49957 5.12002 3.04957 5.12002 2.76957 5.40002C2.48957 5.68002 2.48957 6.13002 2.76957 6.41002L4.10957 7.75002L4.59957 8.24002C4.90957 8.55002 5.41957 8.55002 5.72957 8.24002L9.17957 4.79002C9.45957 4.51002 9.45957 4.06002 9.17957 3.78002L9.12957 3.73002C8.84957 3.45002 8.39957 3.45002 8.11957 3.73002H8.12957Z"
+              data-testid="ockBadgeTicker"
+              fill="white"
+            ></path>
+          </svg>
+        </span>
+      </div>
+    </div>
+  </div>
+  <div class="flex flex-col text-sm">
+    <b><span>nickprince.eth</span></b>
+    <span>0x838...B4D9</span>
+  </div>
+</div>
+```
+
+:::
+
+<App>
+  <TokenSelector />
+</App>
+
+## Utilities
+
+The available utilities are:
+
+- [`formatAmount`](/token/format-amount): number formatting for token amount.
+- [`getTokens`](/token/get-tokens): retrive a list of tokens on Base.
+
+## Required providers
 
 Coming soon!
