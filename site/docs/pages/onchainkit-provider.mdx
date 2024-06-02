@@ -1,0 +1,24 @@
+# `<OnchainKitProvider />`
+
+Provides the OnchainKit React Context to the app.
+
+## Usage
+
+```tsx [code]
+import { base } from 'viem/chains';
+import { OnchainKitProvider } from '@coinbase/onchainkit'; // [!code focus]
+
+const App = () => {
+  return (
+    <OnchainKitProvider chain="base">
+      {' '}
+      // [!code focus]
+      <MyComponent />
+    </OnchainKitProvider> // [!code focus]
+  );
+};
+```
+
+## Props
+
+[`OnchainKitProviderReact`](/types#onchainkitproviderreact)
