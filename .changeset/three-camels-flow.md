@@ -1,5 +1,5 @@
 ---
-'@coinbase/onchainkit': patch
+'@coinbase/onchainkit': minor
 ---
 
-- **docs**: update TokenKit introduction. By @kyhyco #426
+- **feat**: TokenKit first version is ready to be used. By @zizzamia
