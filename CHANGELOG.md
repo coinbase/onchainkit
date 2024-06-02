@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.18.0
+
+### Minor Changes
+
+- 361d5c6: - **feat**: TokenKit first version is ready to be used. By @zizzamia
+
 ## 0.17.11
 
 ### Patch Changes
