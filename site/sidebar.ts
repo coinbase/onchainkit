@@ -6,6 +6,15 @@ export const sidebar = [
     items: [
       { text: 'Getting Started', link: '/getting-started' },
       {
+        text: 'Components',
+        items: [
+          {
+            text: 'OnchainKitProvider',
+            link: '/onchainkit-provider',
+          },
+        ],
+      },
+      {
         text: 'Utilities',
         collapsed: true,
         items: [

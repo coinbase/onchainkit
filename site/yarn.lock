@@ -334,9 +334,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@coinbase/onchainkit@npm:0.17.11":
-  version: 0.17.11
-  resolution: "@coinbase/onchainkit@npm:0.17.11"
+"@coinbase/onchainkit@npm:0.18.0":
+  version: 0.18.0
+  resolution: "@coinbase/onchainkit@npm:0.18.0"
   peerDependencies:
     "@coinbase/wallet-sdk": ^4
     "@tanstack/react-query": ^5
@@ -348,7 +348,7 @@ __metadata:
     react-dom: ^18
     viem: ^2
     wagmi: ^2
-  checksum: 9c2349d82fae90ee74f6b9e1f3195988075fc0ce34ca3d6f776998f9efdede3dafb7dc0a73cee960b81e915ae2c3fc08c393b136b08e66a7ee20ab3c248a80d5
+  checksum: 63abb8141b1928e331144d5accdef80336e9d75786acbc4906c5cc60fdd91ed06cdc2d68dde89fbb3c21fd8880999373794447705c8c60da7ef52a9a8ab8e1fa
   languageName: node
   linkType: hard
 
@@ -7657,7 +7657,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "onchainkit@workspace:."
   dependencies:
-    "@coinbase/onchainkit": "npm:0.17.11"
+    "@coinbase/onchainkit": "npm:0.18.0"
     "@coinbase/wallet-sdk": "npm:^4.0.0"
     "@tanstack/react-query": "npm:^5.36.0"
     "@types/react": "npm:latest"
