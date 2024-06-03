@@ -77,17 +77,17 @@ pnpm add @coinbase/onchainkit viem@2.x
   </div>
 </div>
 
-<main className="max-w-screen-xl mx-auto vp-doc relative px-[24px] mb-[26px] mt-0 md:px-0 md:mb-[64px]">
+<main className="max-w-screen-xl mx-auto vp-doc relative px-0 mb-[26px] mt-0 md:mb-[64px]">
   <hr className="md:mb-16 md:mt-32" />
 
 {' '}
 
 <section>
-  <main className="flex flex-col items-center gap-4 md:flex-row">
-    <h2 className="basis-1/2 py-10 text-2xl md:text-6xl">Components</h2>
+  <main className="flex flex-col gap-4 md:flex-row">
+    <h2 className="basis-1/2 py-10 text-4xl md:text-6xl">Components</h2>
   </main>
   <aside className="md:px-2">
-    <p className="text-lg md:text-xl py-2">
+    <p className="text-lg md:text-xl py-4">
       Display ENS [avatars](/identity/avatar), Attestation [badges](/identity/badge), and ENS [names](/identity/name).
     </p>
     <div className="flex grow flex-col md:flex-row">
@@ -133,7 +133,7 @@ pnpm add @coinbase/onchainkit viem@2.x
     </div>
   </aside>
   <aside className="md:px-2 pt-10">
-    <p className="text-lg md:text-xl py-2">
+    <p className="text-lg md:text-xl py-4">
       Create or connect your wallet with [Connect Account](/wallet/connect-account), powered by [Smart Wallet](https://www.smartwallet.dev/why).
     </p>
     <div className="flex grow flex-col md:flex-row">
@@ -163,21 +163,17 @@ pnpm add @coinbase/onchainkit viem@2.x
     </div>
   </aside>
   <aside className="md:px-2 pt-10">
-    <p className="text-lg md:text-xl py-2">
+    <p className="text-lg md:text-xl py-4">
       Search [Tokens](/token/types#token) using [getTokens](/token/get-tokens) and display them with [TokenSearch](/token/token-search), [TokenChip](/token/token-chip), and [TokenRow](/token/token-row).
     </p>
     <div className="flex grow flex-col md:flex-row">
       <div>
 ```tsx
 const [filteredTokens, setFilteredTokens] = useState<Token[]>([]);
+...
 
-const handleChange = useCallback((value) => {
-async function getData(value) {
 const tokens: Token[] = await getTokens({ search: value }); // [!code focus]
 setFilteredTokens(filteredTokens);
-}
-getData(value);
-}, []);
 ...
 
 <div className="flex flex-col gap-4 rounded-3xl bg-white p-4">
@@ -204,7 +200,7 @@ getData(value);
 </div>
 ```
       </div>
-      <div className='flex grow items-center justify-center h-24 md:h-auto'>
+      <div className='flex grow items-center justify-center h-auto p-6'>
 <App>
   <TokenSelector />
 </App>
@@ -219,12 +215,12 @@ getData(value);
 
 <section>
   <main className="flex flex-row gap-1">
-    <h2 className="basis-1/2 text-2xl md:text-6xl">Utilities</h2>
+    <h2 className="basis-1/2 text-4xl md:text-6xl">Utilities</h2>
   </main>
-  <p className="py-2 text-2xl md:text-xl">
+  <p className="py-2 text-lg md:text-xl">
     If you're seeking basic TypeScript utilities, we have plenty of ready-to-use options available.
   </p>
-  <aside className="flex gap-10 pt-8 md:px-2">
+  <aside className="flex flex-col gap-10 pt-8 md:flex-row md:px-2">
     <ul>
       <li>
         <h3>Frames</h3>
@@ -273,15 +269,15 @@ getData(value);
 <hr className="my-8 md:my-20" />
 
 <section>
-  <main className="flex flex-col items-center gap-4 md:flex-row">
-    <h2 className="basis-1/2 text-2xl md:text-6xl">Design</h2>
+  <main className="flex flex-col gap-4 md:flex-row">
+    <h2 className="basis-1/2 text-4xl md:text-6xl">Design</h2>
   </main>
-  <p className="py-2 text-2xl md:text-xl">
+  <p className="py-2 text-lg md:text-xl">
     All our component designs are open-sourced. You can access the [Figma
     file](https://www.figma.com/community/file/1370194397345450683) to use them for your onchain
     project.
   </p>
-  <aside className="flex pt-10 md:px-2">
+  <aside className="flex flex-col pt-10 md:flex-row md:px-2">
     <div>
       <a href="https://www.figma.com/community/file/1370194397345450683">
         <p>Figma - How to use</p>
@@ -310,9 +306,8 @@ getData(value);
 <hr className="my-8 md:my-20" />
 
 <section>
-  <main className="flex flex-col items-center gap-4 md:flex-row">
-    <h2 className="basis-1/2 py-10 text-2xl md:text-6xl">See how it works</h2>
-    <p className="hidden basis-1/2 text-2xl md:block md:px-36">Let's build frames on Base</p>
+  <main className="flex flex-col gap-4 md:flex-row">
+    <h2 className="basis-1/2 py-10 text-4xl md:text-6xl">See how it works</h2>
   </main>
   <aside className="md:px-48">
     <div className="relative w-full pt-[56.25%]">
@@ -331,8 +326,8 @@ getData(value);
 <hr className="my-8 md:my-20" />
 
 <section>
-  <main className="flex flex-col items-center gap-4 md:flex-row">
-    <h2 className="basis-1/2 text-2xl md:text-6xl">Helping builders ship faster</h2>
+  <main className="flex flex-col gap-4 md:flex-row">
+    <h2 className="basis-1/2 text-4xl md:text-6xl">Helping builders ship faster</h2>
   </main>
   <div className="overflow-x-scroll">
     <div className="flex flex-col gap-4 py-10 md:flex-row">
