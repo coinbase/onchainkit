@@ -1,4 +1,5 @@
 import { Address } from 'viem';
+import { Token } from '../token/types';
 
 export type AddressOrETH = Address | 'ETH';
 
@@ -24,14 +25,6 @@ export type QuoteWarning = {
   description?: string;
   message?: string;
   type?: string;
-};
-
-export type Token = {
-  address: Address;
-  currencyCode?: string;
-  decimals?: number;
-  logoURI?: string;
-  name?: string;
 };
 
 export type Trade = {

@@ -1,12 +1,299 @@
 ---
 title: Introduction to Token Kit · OnchainKit
-deescription: Introduction to Token Kit
+description: Introduction to Token Kit
 ---
+
+import TokenSelector from '../../components/TokenSelector';
+import App from '../App';
 
 # Introduction to Token Kit
 
-Coming soon!
+TokenKit enables you to effortlessly create user experiences using Token components and utilities.
 
 ## Components
 
-Coming soon!
+The available components are:
+
+- [`<TokenChip />`](/token/token-chip): Small button component for a given token.
+- [`<TokenRow />`](/token/token-row): Row component for a given token.
+- [`<TokenSearch />`](/token/token-search): Search component to search by name, symbol and address for a given list of tokens.
+
+:::code-group
+
+```tsx [code]
+const [filteredTokens, setFilteredTokens] = useState<Token[]>([]);
+
+const handleChange = useCallback((value) => {
+  async function getData(value) {
+    const tokens = await getTokens({ search: value });  // [!code focus]
+    setFilteredTokens(filteredTokens);
+  }
+  getData(value);
+}, []);
+
+...
+
+<div className="flex flex-col gap-4 rounded-3xl bg-white p-4">
+  <TokenSearch onChange={handleChange} delayMs={200} /> // [!code focus]
+  {filteredTokens.length > 0 && (
+    <div className="flex gap-2">
+      {filteredTokens.map((token) => (
+        <TokenChip key={token.name} token={token} onClick={handleSelect} /> // [!code focus]
+      ))}
+    </div>
+  )}
+  {filteredTokens.length > 0 ? (
+    <div>
+      <div className="text-body text-black">Tokens</div>
+      <div>
+        {filteredTokens.map((token) => (
+          <TokenRow key={token.name} token={token} onClick={handleSelect} /> // [!code focus]
+        ))}
+      </div>
+    </div>
+  ) : (
+    <div className="text-body text-black">No tokens found</div>
+  )}
+</div>
+```
+
+```html [return html]
+<div class="flex min-w-96 flex-col gap-4 rounded-3xl bg-white p-4">
+  <div style="position: relative;">
+    <div style="position: absolute; left: 16px; top: 14px;">
+      <svg
+        width="16"
+        height="16"
+        viewBox="0 0 16 16"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M16 14.23L11.89 10.12C12.59 9.09 13 7.84 13 6.5C13 2.91 10.09 0 6.5 0C2.91 0 0 2.91 0 6.5C0 10.09 2.91 13 6.5 13C7.84 13 9.09 12.59 10.13 11.89L14.23 16L16 14.23ZM6.5 10.5C4.29 10.5 2.5 8.71 2.5 6.5C2.5 4.29 4.29 2.5 6.5 2.5C8.71 2.5 10.5 4.29 10.5 6.5C10.5 8.71 8.71 10.5 6.5 10.5Z"
+          fill="#0A0B0D"
+        ></path>
+      </svg>
+    </div>
+    <input
+      data-testid="ockTextInput_Search"
+      type="text"
+      placeholder="Search name or paste address"
+      value=""
+      style="border-radius: 1000px; padding: 8px 20px 8px 48px; width: 100%; background: rgb(238, 240, 243); color: rgb(91, 97, 110);"
+    />
+  </div>
+  <div class="flex gap-2">
+    <button
+      data-testid="ockTokenChip_Button"
+      style="border-radius: 16px; padding: 4px 12px 4px 4px; display: flex; align-items: center; background: rgb(238, 240, 243); width: fit-content;"
+    >
+      <img
+        src="https://wallet-api-production.s3.amazonaws.com/uploads/tokens/eth_288.png"
+        style="height: 24px; width: 24px; margin-right: 8px;"
+      />
+      <span style="color: rgb(29, 24, 24); font-size: 16px; line-height: 1; font-weight: 500;"
+        >ETH</span
+      >
+    </button>
+    <button
+      data-testid="ockTokenChip_Button"
+      style="border-radius: 16px; padding: 4px 12px 4px 4px; display: flex; align-items: center; background: rgb(238, 240, 243); width: fit-content;"
+    >
+      <img
+        src="https://d3r81g40ycuhqg.cloudfront.net/wallet/wais/44/2b/442b80bd16af0c0d9b22e03a16753823fe826e5bfd457292b55fa0ba8c1ba213-ZWUzYjJmZGUtMDYxNy00NDcyLTg0NjQtMWI4OGEwYjBiODE2"
+        style="height: 24px; width: 24px; margin-right: 8px;"
+      />
+      <span style="color: rgb(29, 24, 24); font-size: 16px; line-height: 1; font-weight: 500;"
+        >USDC</span
+      >
+    </button>
+    <button
+      data-testid="ockTokenChip_Button"
+      style="border-radius: 16px; padding: 4px 12px 4px 4px; display: flex; align-items: center; background: rgb(238, 240, 243); width: fit-content;"
+    >
+      <img
+        src="https://d3r81g40ycuhqg.cloudfront.net/wallet/wais/d0/d7/d0d7784975771dbbac9a22c8c0c12928cc6f658cbcf2bbbf7c909f0fa2426dec-NmU4ZWViMDItOTQyYy00Yjk5LTkzODUtNGJlZmJiMTUxOTgy"
+        style="height: 24px; width: 24px; margin-right: 8px;"
+      />
+      <span style="color: rgb(29, 24, 24); font-size: 16px; line-height: 1; font-weight: 500;"
+        >DAI</span
+      >
+    </button>
+    <button
+      data-testid="ockTokenChip_Button"
+      style="border-radius: 16px; padding: 4px 12px 4px 4px; display: flex; align-items: center; background: rgb(238, 240, 243); width: fit-content;"
+    >
+      <img
+        src="https://d3r81g40ycuhqg.cloudfront.net/wallet/wais/47/bc/47bc3593c2dec7c846b66b7ba5f6fa6bd69ec34f8ebb931f2a43072e5aaac7a8-YmUwNmRjZDUtMjczYy00NDFiLWJhZDUtMzgwNjFmYWM0Njkx"
+        style="height: 24px; width: 24px; margin-right: 8px;"
+      />
+      <span style="color: rgb(29, 24, 24); font-size: 16px; line-height: 1; font-weight: 500;"
+        >WETH</span
+      >
+    </button>
+  </div>
+  <div>
+    <div class="text-body text-black">Tokens</div>
+    <div>
+      <button
+        data-testid="ockTokenRow_Container"
+        style="display: flex; align-items: center; justify-content: space-between; cursor: pointer; padding: 4px 8px; width: 100%;"
+      >
+        <span style="display: flex; align-items: center;">
+          <img
+            data-testid="ockTokenRow_Image"
+            src="https://wallet-api-production.s3.amazonaws.com/uploads/tokens/eth_288.png"
+            style="height: 32px; width: 32px; margin-right: 12px;"
+          />
+          <span style="display: flex; flex-direction: column; align-items: flex-start;">
+            <span
+              style="font-size: 16px; line-height: 1.5; font-weight: 500; color: rgb(10, 11, 13);"
+              >Ethereum</span
+            >
+            <span
+              style="font-size: 16px; line-height: 1.5; font-weight: 400; color: rgb(91, 97, 110);"
+              >ETH</span
+            >
+          </span>
+        </span>
+        <span
+          data-testid="ockTokenRow_Amount"
+          style="font-size: 16px; line-height: 1.5; font-weight: 400; color: rgb(91, 97, 110);"
+        ></span>
+      </button>
+      <button
+        data-testid="ockTokenRow_Container"
+        style="display: flex; align-items: center; justify-content: space-between; cursor: pointer; padding: 4px 8px; width: 100%;"
+      >
+        <span style="display: flex; align-items: center;">
+          <img
+            data-testid="ockTokenRow_Image"
+            src="https://d3r81g40ycuhqg.cloudfront.net/wallet/wais/44/2b/442b80bd16af0c0d9b22e03a16753823fe826e5bfd457292b55fa0ba8c1ba213-ZWUzYjJmZGUtMDYxNy00NDcyLTg0NjQtMWI4OGEwYjBiODE2"
+            style="height: 32px; width: 32px; margin-right: 12px;"
+          />
+          <span style="display: flex; flex-direction: column; align-items: flex-start;">
+            <span
+              style="font-size: 16px; line-height: 1.5; font-weight: 500; color: rgb(10, 11, 13);"
+              >USDC</span
+            >
+            <span
+              style="font-size: 16px; line-height: 1.5; font-weight: 400; color: rgb(91, 97, 110);"
+              >USDC</span
+            >
+          </span>
+        </span>
+        <span
+          data-testid="ockTokenRow_Amount"
+          style="font-size: 16px; line-height: 1.5; font-weight: 400; color: rgb(91, 97, 110);"
+        ></span>
+      </button>
+      <button
+        data-testid="ockTokenRow_Container"
+        style="display: flex; align-items: center; justify-content: space-between; cursor: pointer; padding: 4px 8px; width: 100%;"
+      >
+        <span style="display: flex; align-items: center;">
+          <img
+            data-testid="ockTokenRow_Image"
+            src="https://d3r81g40ycuhqg.cloudfront.net/wallet/wais/d0/d7/d0d7784975771dbbac9a22c8c0c12928cc6f658cbcf2bbbf7c909f0fa2426dec-NmU4ZWViMDItOTQyYy00Yjk5LTkzODUtNGJlZmJiMTUxOTgy"
+            style="height: 32px; width: 32px; margin-right: 12px;"
+          />
+          <span style="display: flex; flex-direction: column; align-items: flex-start;">
+            <span
+              style="font-size: 16px; line-height: 1.5; font-weight: 500; color: rgb(10, 11, 13);"
+              >Dai</span
+            >
+            <span
+              style="font-size: 16px; line-height: 1.5; font-weight: 400; color: rgb(91, 97, 110);"
+              >DAI</span
+            >
+          </span>
+        </span>
+        <span
+          data-testid="ockTokenRow_Amount"
+          style="font-size: 16px; line-height: 1.5; font-weight: 400; color: rgb(91, 97, 110);"
+        ></span>
+      </button>
+      <button
+        data-testid="ockTokenRow_Container"
+        style="display: flex; align-items: center; justify-content: space-between; cursor: pointer; padding: 4px 8px; width: 100%;"
+      >
+        <span style="display: flex; align-items: center;">
+          <img
+            data-testid="ockTokenRow_Image"
+            src="https://d3r81g40ycuhqg.cloudfront.net/wallet/wais/47/bc/47bc3593c2dec7c846b66b7ba5f6fa6bd69ec34f8ebb931f2a43072e5aaac7a8-YmUwNmRjZDUtMjczYy00NDFiLWJhZDUtMzgwNjFmYWM0Njkx"
+            style="height: 32px; width: 32px; margin-right: 12px;"
+          />
+          <span style="display: flex; flex-direction: column; align-items: flex-start;">
+            <span
+              style="font-size: 16px; line-height: 1.5; font-weight: 500; color: rgb(10, 11, 13);"
+              >Wrapped Ether</span
+            >
+            <span
+              style="font-size: 16px; line-height: 1.5; font-weight: 400; color: rgb(91, 97, 110);"
+              >WETH</span
+            >
+          </span>
+        </span>
+        <span
+          data-testid="ockTokenRow_Amount"
+          style="font-size: 16px; line-height: 1.5; font-weight: 400; color: rgb(91, 97, 110);"
+        ></span>
+      </button>
+    </div>
+  </div>
+</div>
+```
+
+:::
+
+<App>
+  <TokenSelector />
+</App>
+
+## Utilities
+
+The available utilities are:
+
+- [`formatAmount`](/token/format-amount): number formatting for token amount.
+- [`getTokens`](/token/get-tokens): retrive a list of tokens on Base.
+
+## Required dependencies
+
+To use the Token utilities and components install:
+
+:::code-group
+
+```bash [npm]
+npm install @coinbase/onchainkit
+npm install viem@2.x react@18 react-dom@18
+```
+
+```bash [yarn]
+yarn add @coinbase/onchainkit
+yarn add viem@2.x react@18 react-dom@18
+```
+
+```bash [pnpm]
+pnpm add @coinbase/onchainkit
+pnpm add viem@2.x react@18 react-dom@18
+```
+
+:::
+
+## Required providers
+
+If you are using any of the provided components, you will need to configure `OnchainKitConfig` with the `<OnchainKitProvider>`.
+
+```tsx
+import { OnchainKitProvider } from '@coinbase/onchainkit';
+
+function App() {
+  return (
+    <OnchainKitProvider chain={base} apiKey="YOUR_API_KEY">
+      ...
+    </OnchainKitProvider>
+  );
+}
+```
+
+See [Tanstack Query documentation](https://tanstack.com/query/v5/docs/framework/react/quick-start) for more info.

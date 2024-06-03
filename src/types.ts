@@ -5,6 +5,13 @@ import { EASSchemaUid } from './identity/types';
 /**
  * Note: exported as public Type
  */
+export type isBaseOptions = {
+  chainId: number;
+};
+
+/**
+ * Note: exported as public Type
+ */
 export type OnchainKitConfig = {
   address: Address | null; // Address is optional as we may not have an address for new users
   apiKey: string | null; // ApiKey for Coinbase Developer Platform APIs
@@ -20,7 +27,10 @@ export type SetOnchainKitConfig = Partial<OnchainKitConfig>;
  */
 export type OnchainKitContextType = OnchainKitConfig;
 
-export type OnchainKitProviderProps = {
+/**
+ * Note: exported as public Type
+ */
+export type OnchainKitProviderReact = {
   address?: Address;
   apiKey?: string;
   chain: Chain;

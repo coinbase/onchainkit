@@ -1,4 +1,5 @@
 import { setOnchainKitConfig } from '../OnchainKitConfig';
+import { version } from '../version';
 import { buildRequestBody, sendRequest } from './request';
 
 describe('request', () => {
@@ -33,18 +34,21 @@ describe('request', () => {
       global.fetch = mockFetch;
 
       const requestBody = {
+        id: 1,
         jsonrpc: '2.0',
         method: 'exampleMethod',
         params: ['param1', 'param2'],
-        id: 1,
       };
 
-      const response = await sendRequest(requestBody);
+      const response = await sendRequest('exampleMethod', ['param1', 'param2']);
 
       expect(mockFetch).toHaveBeenCalledWith(expect.any(String), {
         method: 'POST',
         body: JSON.stringify(requestBody),
-        headers: expect.any(Object),
+        headers: {
+          'Content-Type': 'application/json',
+          onchainkit_version: version,
+        },
       });
       expect(response).toEqual(mockResponse);
     });
@@ -54,14 +58,7 @@ describe('request', () => {
       const mockFetch = jest.fn().mockRejectedValue(mockError);
       global.fetch = mockFetch;
 
-      const requestBody = {
-        jsonrpc: '2.0',
-        method: 'exampleMethod',
-        params: ['param1', 'param2'],
-        id: 1,
-      };
-
-      await expect(sendRequest(requestBody)).rejects.toThrow(mockError);
+      await expect(sendRequest('exampleMethod', ['param1', 'param2'])).rejects.toThrow(mockError);
     });
   });
 });

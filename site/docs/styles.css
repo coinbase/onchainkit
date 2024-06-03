@@ -35,3 +35,7 @@
   background: radial-gradient(circle at 50% 50%, #b2fdff, rgba(0, 162, 255, 0));
   opacity: 0.2;
 }
+
+.pane {
+  background: white;
+}

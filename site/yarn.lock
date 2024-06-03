@@ -334,20 +334,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@coinbase/onchainkit@npm:0.16.10":
-  version: 0.16.10
-  resolution: "@coinbase/onchainkit@npm:0.16.10"
+"@coinbase/onchainkit@npm:0.18.0":
+  version: 0.18.0
+  resolution: "@coinbase/onchainkit@npm:0.18.0"
   peerDependencies:
     "@coinbase/wallet-sdk": ^4
     "@tanstack/react-query": ^5
     "@xmtp/frames-validator": ^0.6.0
     graphql: ^14 || ^15 || ^16
     graphql-request: ^6.1.0
+    permissionless: ^0.1.29
     react: ^18
     react-dom: ^18
     viem: ^2
     wagmi: ^2
-  checksum: 4cacee8f7ed3c59f3234f6db6a2d8ff5491dbce435128053c3ef712da110a528c74ad337b67ea2c54d8578f323c3e419cd994c863f950b32fde970dee8065e6e
+  checksum: 63abb8141b1928e331144d5accdef80336e9d75786acbc4906c5cc60fdd91ed06cdc2d68dde89fbb3c21fd8880999373794447705c8c60da7ef52a9a8ab8e1fa
   languageName: node
   linkType: hard
 
@@ -7656,12 +7657,13 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "onchainkit@workspace:."
   dependencies:
-    "@coinbase/onchainkit": "npm:0.16.10"
+    "@coinbase/onchainkit": "npm:0.18.0"
     "@coinbase/wallet-sdk": "npm:^4.0.0"
     "@tanstack/react-query": "npm:^5.36.0"
     "@types/react": "npm:latest"
     graphql: "npm:14"
     graphql-request: "npm:6"
+    permissionless: "npm:^0.1.29"
     react: "npm:18"
     react-dom: "npm:18"
     react-farcaster-embed: "npm:^1.4.7"
@@ -7670,7 +7672,7 @@ __metadata:
     typescript: "npm:latest"
     viem: "npm:^2.10.9"
     vite: "npm:^5.2.8"
-    vocs: "npm:1.0.0-alpha.46"
+    vocs: "npm:1.0.0-alpha.52"
     wagmi: "npm:^2.9.2"
   languageName: unknown
   linkType: soft
@@ -7743,6 +7745,15 @@ __metadata:
   dependencies:
     yocto-queue: "npm:^0.1.0"
   checksum: 9db675949dbdc9c3763c89e748d0ef8bdad0afbb24d49ceaf4c46c02c77d30db4e0652ed36d0a0a7a95154335fab810d95c86153105bb73b3a90448e2bb14e1a
+  languageName: node
+  linkType: hard
+
+"p-limit@npm:^5.0.0":
+  version: 5.0.0
+  resolution: "p-limit@npm:5.0.0"
+  dependencies:
+    yocto-queue: "npm:^1.0.0"
+  checksum: 574e93b8895a26e8485eb1df7c4b58a1a6e8d8ae41b1750cc2cc440922b3d306044fc6e9a7f74578a883d46802d9db72b30f2e612690fcef838c173261b1ed83
   languageName: node
   linkType: hard
 
@@ -7873,6 +7884,15 @@ __metadata:
     estree-walker: "npm:^3.0.0"
     is-reference: "npm:^3.0.0"
   checksum: fb5ce7cd810c49254cdf1cd3892811e6dd1a1dfbdf5f10a0a33fb7141baac36443c4cad4f0e2b30abd4eac613f6ab845c2bc1b7ce66ae9694c7321e6ada5bd96
+  languageName: node
+  linkType: hard
+
+"permissionless@npm:^0.1.29":
+  version: 0.1.29
+  resolution: "permissionless@npm:0.1.29"
+  peerDependencies:
+    viem: ^2.9.17
+  checksum: b57d2af6c45b45b20371fb7840e63cd0ba2ede81111db7e7fe59a92a197446cb9ee4651c59405b05bdf2a4a515b15411f3412d6bd2f3e16a662376e1266c5b1e
   languageName: node
   linkType: hard
 
@@ -10192,9 +10212,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vocs@npm:1.0.0-alpha.46":
-  version: 1.0.0-alpha.46
-  resolution: "vocs@npm:1.0.0-alpha.46"
+"vocs@npm:1.0.0-alpha.52":
+  version: 1.0.0-alpha.52
+  resolution: "vocs@npm:1.0.0-alpha.52"
   dependencies:
     "@floating-ui/react": "npm:^0.26.6"
     "@hono/node-server": "npm:^1.2.3"
@@ -10235,6 +10255,7 @@ __metadata:
     minimatch: "npm:^9.0.3"
     minisearch: "npm:^6.3.0"
     ora: "npm:^7.0.1"
+    p-limit: "npm:^5.0.0"
     postcss: "npm:^8.4.31"
     react-helmet: "npm:^6.1.0"
     react-intersection-observer: "npm:^9.5.3"
@@ -10261,7 +10282,7 @@ __metadata:
     react-dom: ^18.2.0
   bin:
     vocs: _lib/cli/index.js
-  checksum: d0d0a5dd456e39bf339e2398451367a31e30b9e650c4b8066337dfb6bd3d10331634412713623088f2fa581fde0f4cdac4e84e685c486d22be16782b5b28e8ce
+  checksum: 1de952e9ff0605e464fcaf5fe010c59b4ca61e1a6d295f67f1b0d80ea115ce24da65b0de89bdbf2f852453d5e5e760a9d8808cfa584ecf85b442be6a4a398d9f
   languageName: node
   linkType: hard
 
@@ -10553,6 +10574,13 @@ __metadata:
   version: 0.1.0
   resolution: "yocto-queue@npm:0.1.0"
   checksum: dceb44c28578b31641e13695d200d34ec4ab3966a5729814d5445b194933c096b7ced71494ce53a0e8820685d1d010df8b2422e5bf2cdea7e469d97ffbea306f
+  languageName: node
+  linkType: hard
+
+"yocto-queue@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "yocto-queue@npm:1.0.0"
+  checksum: 856117aa15cf5103d2a2fb173f0ab4acb12b4b4d0ed3ab249fdbbf612e55d1cadfd27a6110940e24746fb0a78cf640b522cc8bca76f30a3b00b66e90cf82abe0
   languageName: node
   linkType: hard
 

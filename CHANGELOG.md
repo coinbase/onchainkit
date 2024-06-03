@@ -1,13 +1,91 @@
 # Changelog
 
+## 0.18.0
+
+### Minor Changes
+
+- 361d5c6: - **feat**: TokenKit first version is ready to be used. By @zizzamia
+
+## 0.17.11
+
+### Patch Changes
+
+- **chore**: revert TokenChip.css. By @kyhyco #426 fe340d7
+
+## 0.17.10
+
+### Patch Changes
+
+- **feat**: add TokenSearch component that allows users to search on a given list of tokens by name, symbol and address. By @kyhyco #421 0f14362
+
+## 0.17.9
+
+### Patch Changes
+
+- **feat**: added `onchainkit_version` header to API requests. By @zizzamia #423 04cda00
+- **feat**: updated the `FrameTransactionResponse` type to accommodate an `eth_personalSign` method needed for XMTP consent proofs. By @daria-github #413
+- **docs**: update GetTokens to include capability to search by address. By @kyhyco
+
+## 0.17.8
+
+### Patch Changes
+
+- **chore**: updated `TokenSelector` docs and added `useFilteredTokens` to `TokenSelector`. By @kyhyco #417 9576276
+- **feat**: added `TokenSelector` to select a token from a list. By @kyhyco #410 350066e
+
+## 0.17.7
+
+### Patch Changes
+
+- **feat**: added `isValidAAEntrypoint` wallet utility function. By @cpcramer #409 68d5c3d
+
+## 0.17.6
+
+### Patch Changes
+
+- **feat**: Added `isBase` utility function. By @cpcramer #403 66b8309
+
+## 0.17.5
+
+### Patch Changes
+
+- **feat**: added `TokenRow` component to render Token is a row format. By @kyhyco #399 7485234
+
+## 0.17.4
+
+### Patch Changes
+
+- **feat**: added `formatAmount` utility function to assist in formatting token amounts. By @kyhyco #398 0265426
+
+## 0.17.3
+
+### Patch Changes
+
+- **feat**: added `permissionless` as dependency for WalletKit. By @zizzamia #396 bf94ffd
+
+## 0.17.2
+
+### Patch Changes
+
+- **feat**: added `getTokens`, which helps retrieve a list of tokens on Base. By @0xAlec #389 2922e75
+
+## 0.17.1
+
+### Patch Changes
+
+- **feat**: polished `Token` Type. By @zizzamia #386 17a3d06
+- **feat**: init `TokenChip` component. By @kyhyco #383
+- **feat**: scaffold Swap API request and types. By @0xAlec #381
+- **feat**: add CDP api key and rpc url to OnchainKitConfig and OnchainKitProvider. By @0xAlec #379
+
 ## 0.17.0
 
 ### Minor Changes
 
-- 9498586: - **feat**: added `getOnchainKitConfig` and `setOnchainKitConfig` to access and edit the share OnchainKit config directly. By @zizzamia #376
+- **feat**: added `getOnchainKitConfig` and `setOnchainKitConfig` to access and edit the share OnchainKit config directly. By @zizzamia #376 9498586
 
-  Breaking Changes
-  Removed `getFrameHtmlResponse`, `getFrameMessage`, `getMockFrameRequest` and Frames types from the root level exports. And you can find them going forward in `@coinbase/onchainkit/frame`.
+Breaking Changes
+Removed `getFrameHtmlResponse`, `getFrameMessage`, `getMockFrameRequest` and Frames types from the root level exports. And you can find them going forward in `@coinbase/onchainkit/frame`.
 
 ## 0.16.10
 

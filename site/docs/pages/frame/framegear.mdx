@@ -50,7 +50,7 @@ consider building the frame using `@coinbase/onchainkit` (versions `^0.8.0`). Wh
 include the `allowFramegear` option to enable **Framegear** to send mock frame actions.
 
 ```ts
-import { getFrameMessage } from '@coinbase/onchainkit';
+import { getFrameMessage } from '@coinbase/onchainkit/frame';
 
 // ...
 
@@ -65,7 +65,7 @@ When setting up frames in production, remember not to include the `allowFramegea
 The exact setup might vary based on the application, but here's one example:
 
 ```ts
-import { getFrameMessage } from '@coinbase/onchainkit';
+import { getFrameMessage } from '@coinbase/onchainkit/frame';
 
 const allowFramegear = process.env.NODE_ENV !== 'production'; // [!code focus]
 

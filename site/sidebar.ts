@@ -3,7 +3,32 @@ import type { Sidebar } from 'vocs';
 export const sidebar = [
   {
     text: 'Introduction',
-    items: [{ text: 'Getting Started', link: '/getting-started' }],
+    items: [
+      { text: 'Getting Started', link: '/getting-started' },
+      {
+        text: 'Components',
+        items: [
+          {
+            text: 'OnchainKitProvider',
+            link: '/onchainkit-provider',
+          },
+        ],
+      },
+      {
+        text: 'Utilities',
+        collapsed: true,
+        items: [
+          {
+            text: 'isBase',
+            link: '/is-base',
+          },
+        ],
+      },
+      {
+        text: 'Types',
+        link: '/types',
+      },
+    ],
   },
   {
     text: 'Frame',
@@ -123,6 +148,37 @@ export const sidebar = [
     items: [
       { text: 'Introduction', link: '/token/introduction' },
       {
+        text: 'Components',
+        items: [
+          {
+            text: 'TokenChip',
+            link: '/token/token-chip',
+          },
+          {
+            text: 'TokenRow',
+            link: '/token/token-row',
+          },
+          {
+            text: 'TokenSearch',
+            link: '/token/token-search',
+          },
+        ],
+      },
+      {
+        text: 'Utilities',
+        collapsed: true,
+        items: [
+          {
+            text: 'formatAmount',
+            link: '/token/format-amount',
+          },
+          {
+            text: 'getTokens',
+            link: '/token/get-tokens',
+          },
+        ],
+      },
+      {
         text: 'Types',
         link: '/token/types',
       },
@@ -138,6 +194,16 @@ export const sidebar = [
           {
             text: 'ConnectAccount',
             link: '/wallet/connect-account',
+          },
+        ],
+      },
+      {
+        text: 'Utilities',
+        collapsed: true,
+        items: [
+          {
+            text: 'isValidAAEntrypoint',
+            link: '/wallet/is-valid-aa-entrypoint',
           },
         ],
       },

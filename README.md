@@ -1,8 +1,8 @@
 <p align="center">
   <a href="https://onchainkit.xyz">
     <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="./site/docs/public/logo/v0-17.png">
-      <img alt="OnchainKit logo vibes" src="./site/docs/public/logo/v0-17.png" width="auto">
+      <source media="(prefers-color-scheme: dark)" srcset="./site/docs/public/logo/v0-18.png">
+      <img alt="OnchainKit logo vibes" src="./site/docs/public/logo/v0-18.png" width="auto">
     </picture>
   </a>
 </p>
@@ -92,7 +92,7 @@ const ACCOUNT_ADDRESS = '0x838aD0EAE54F99F1926dA7C3b6bFbF617389B4D9';
 #### Convert your web page into a [Frame](https://onchainkit.xyz/frame/frame-metadata)
 
 ```tsx
-import { FrameMetadata } from '@coinbase/onchainkit';
+import { FrameMetadata } from '@coinbase/onchainkit/frame';
 
 export default function HomePage() {
   return (
@@ -154,6 +154,49 @@ export default function HomePage() {
   <img alt="OnchainKit Wallet components" src="./site/docs/public/assets/onchainkit-wallet-2.png" width="auto">
 </picture>
 
+#### Search [Tokens](https://onchainkit.xyz/token/types#token) using [getTokens](https://onchainkit.xyz/token/get-tokens) and display them with [TokenSearch](https://onchainkit.xyz/token/token-search), [TokenChip](https://onchainkit.xyz/token/token-chip), and [TokenRow](https://onchainkit.xyz/token/token-row)
+
+```tsx
+const [filteredTokens, setFilteredTokens] = useState<Token[]>([]);
+
+const handleChange = useCallback((value) => {
+async function getData(value) {
+const tokens: Token[] = await getTokens({ search: value }); // [!code focus]
+setFilteredTokens(filteredTokens);
+}
+getData(value);
+}, []);
+...
+
+<div className="flex flex-col gap-4 rounded-3xl bg-white p-4">
+  <TokenSearch onChange={handleChange} delayMs={200} /> // [!code focus]
+  {filteredTokens.length > 0 && (
+    <div className="flex gap-2">
+      {filteredTokens.map((token) => (
+        <TokenChip key={token.name} token={token} onClick={handleSelect} /> // [!code focus]
+      ))}
+    </div>
+  )}
+  {filteredTokens.length > 0 ? (
+    <div>
+      <div className="text-body text-black">Tokens</div>
+      <div>
+        {filteredTokens.map((token) => (
+          <TokenRow key={token.name} token={token} onClick={handleSelect} /> // [!code focus]
+        ))}
+      </div>
+    </div>
+  ) : (
+    <div className="text-body text-black">No tokens found</div>
+  )}
+</div>
+```
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="./site/docs/public/assets/onchainkit-token.png">
+  <img alt="OnchainKit Wallet components" src="./site/docs/public/assets/onchainkit-token.png" width="auto">
+</picture>
+
 ## Utilities
 
 If you're seeking basic TypeScript utilities, we have plenty of ready-to-use options available.
@@ -171,6 +214,19 @@ If you're seeking basic TypeScript utilities, we have plenty of ready-to-use opt
 - [getName](https://onchainkit.xyz/identity/get-name)
 - [useName](https://onchainkit.xyz/identity/use-name)
 - [useAvatar](https://onchainkit.xyz/identity/use-avatar)
+
+##### Swap
+
+Coming soon
+
+##### Token
+
+- [formatAmount](https://onchainkit.xyz/token/format-amount)
+- [getTokens](https://onchainkit.xyz/identity/get-tokens)
+
+##### Wallet
+
+Coming soon
 
 ##### Farcaster
 
@@ -209,7 +265,6 @@ Check out the following places for more OnchainKit-related content:
 
 - [@zizzamia](https://github.com/zizzamia) ([X](https://twitter.com/hey_shells), [Warpcast](https://warpcast.com/zizzamia)), Eng Lead
 - [@0xchiaroscuro](https://github.com/0xchiaroscuro) ([X](https://twitter.com/chiaroscuro), [Warpcast](https://warpcast.com/chiaroscuro)), Design Lead
-- [@taycaldwell](https://github.com/taycaldwell) ([X](https://twitter.com/taycaldwell_)), Dev Rel Lead
 
 ## License
 
