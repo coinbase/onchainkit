@@ -61,10 +61,6 @@ export type TokenBalanceProps = {
   fiatEstimate?: string;
 };
 
-export type SwapIconProps = {
-  onClick: () => void;
-};
-
 export type SwapTokensButtonProps = {
   onClick: () => void;
 };

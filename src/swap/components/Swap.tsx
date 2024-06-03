@@ -1,57 +1,47 @@
 import { useCallback, useState } from 'react';
 import { AmountInput } from './AmountInput';
-import { Token } from '../types';
+
+import { SwapTokensButton } from './SwapTokensButton';
+import { Token } from '../../token';
 
 // TODO: replace with actual tokens
 const tokens: Token[] = [
-  { name: 'Ether', address: '0x123', currencyCode: 'ETH' },
-  { name: 'Dai Stablecoin', address: '0x123' , currencyCode: 'DAI' },
+  {
+    name: 'ETH',
+    address: '0x833589fcd6edb6e08f4c7c32d4f71b54bda02913',
+    symbol: 'ETH',
+    decimals: 18,
+    image: 'https://wallet-api-production.s3.amazonaws.com/uploads/tokens/eth_288.png',
+    chainId: 8453,
+  },
+  {
+    name: 'USDC',
+    address: '0x833589fcd6edb6e08f4c7c32d4f71b54bda02913',
+    symbol: 'USDC',
+    decimals: 6,
+    image:
+      'https://d3r81g40ycuhqg.cloudfront.net/wallet/wais/44/2b/442b80bd16af0c0d9b22e03a16753823fe826e5bfd457292b55fa0ba8c1ba213-ZWUzYjJmZGUtMDYxNy00NDcyLTg0NjQtMWI4OGEwYjBiODE2',
+    chainId: 8453,
+  },
+  {
+    name: 'Dai',
+    address: '0x50c5725949a6f0c72e6c4a641f24049a917db0cb',
+    symbol: 'DAI',
+    decimals: 18,
+    image:
+      'https://d3r81g40ycuhqg.cloudfront.net/wallet/wais/d0/d7/d0d7784975771dbbac9a22c8c0c12928cc6f658cbcf2bbbf7c909f0fa2426dec-NmU4ZWViMDItOTQyYy00Yjk5LTkzODUtNGJlZmJiMTUxOTgy',
+    chainId: 8453,
+  },
+  {
+    name: 'Wrapped Ether',
+    address: '0x4200000000000000000000000000000000000006',
+    symbol: 'WETH',
+    decimals: 18,
+    image:
+      'https://d3r81g40ycuhqg.cloudfront.net/wallet/wais/47/bc/47bc3593c2dec7c846b66b7ba5f6fa6bd69ec34f8ebb931f2a43072e5aaac7a8-YmUwNmRjZDUtMjczYy00NDFiLWJhZDUtMzgwNjFmYWM0Njkx',
+    chainId: 8453,
+  },
 ];
-
-const swapSVG = (
-  <svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <g clip-path="url(#clip0_2077_4627)">
-      <path
-        d="M14.5659 4.93434L13.4345 6.06571L11.8002 4.43139L11.8002 10.75L10.2002 10.75L10.2002 4.43139L8.56592 6.06571L7.43455 4.93434L11.0002 1.36865L14.5659 4.93434ZM8.56592 12.0657L5.00023 15.6314L1.43455 12.0657L2.56592 10.9343L4.20023 12.5687L4.20023 6.25002L5.80023 6.25002L5.80023 12.5687L7.43455 10.9343L8.56592 12.0657Z"
-        fill="#0A0B0D"
-      />
-    </g>
-    <defs>
-      <clipPath id="clip0_2077_4627">
-        <rect width="16" height="16" fill="white" transform="translate(0 0.5)" />
-      </clipPath>
-    </defs>
-  </svg>
-);
-
-type SwapTokensButtonProps = {
-  onClick: () => void;
-};
-
-function SwapTokensButton({ onClick }: SwapTokensButtonProps) {
-  return (
-    <div
-      style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: '3rem',
-        width: '3rem',
-        borderRadius: '50%',
-        background: '#EEF0F3',
-        border: '0.25rem solid white',
-        position: 'absolute',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        cursor: 'pointer',
-      }}
-      onClick={onClick}
-    >
-      {swapSVG}
-    </div>
-  );
-}
 
 export function Swap() {
   const [fromAmount, setFromAmount] = useState('');
