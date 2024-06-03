@@ -16,8 +16,8 @@ describe('SwapTokensButton Component', () => {
   it('should render', async () => {
     render(<SwapTokensButton onClick={handleClick} />);
 
-    const tokenSelector = screen.getByTestId('SwapTokensButton');
-    expect(tokenSelector).toBeInTheDocument();
+    const swapTokensButton = screen.getByTestId('SwapTokensButton');
+    expect(swapTokensButton).toBeInTheDocument();
 
     const swapIcon = screen.getByTestId('SwapIcon');
     expect(swapIcon).toBeInTheDocument();
@@ -26,9 +26,9 @@ describe('SwapTokensButton Component', () => {
   it('should register a click on press', async () => {
     render(<SwapTokensButton onClick={handleClick} />);
 
-    const tokenSelector = screen.getByTestId('SwapTokensButton');
+    const swapTokensButton = screen.getByTestId('SwapTokensButton');
 
-    fireEvent.click(tokenSelector);
+    fireEvent.click(swapTokensButton);
 
     expect(handleClick).toHaveBeenCalledTimes(1);
   });
