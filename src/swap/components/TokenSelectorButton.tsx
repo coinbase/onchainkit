@@ -1,5 +1,4 @@
 import { memo, CSSProperties } from 'react';
-import { Token } from '../../token';
 import { CaretIcon } from './CaretIcon';
 import { TokenSelectorProps } from '../types';
 
@@ -30,12 +29,12 @@ const styles = {
   },
 } as Record<string, CSSProperties>;
 
-export const TokenSelector = memo(function TokenSelectorComponent({
+export const TokenSelectorButton = memo(function TokenSelectorButton({
   token,
   onClick,
 }: TokenSelectorProps) {
   return (
-    <div style={styles.container} onClick={onClick} data-testid="TokenSelector">
+    <div style={styles.container} onClick={onClick} data-testid="TokenSelectorButton">
       {token ? (
         <div style={styles.selector}>
           <img style={styles.image} src={token.image || ''} />

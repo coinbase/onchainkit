@@ -5,11 +5,11 @@ import React from 'react';
 import '@testing-library/jest-dom';
 import { fireEvent, render, screen, within } from '@testing-library/react';
 import { Address } from 'viem';
-import { TokenSelector } from './TokenSelector';
+import { TokenSelectorButton } from './TokenSelectorButton';
 
 const handleClick = jest.fn();
 
-describe('TokenSelector Component', () => {
+describe('TokenSelectorButton Component', () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
@@ -23,12 +23,12 @@ describe('TokenSelector Component', () => {
       name: 'Ether',
       symbol: 'ETH',
     };
-    render(<TokenSelector token={token} onClick={handleClick} />);
-    const tokenSelector = screen.getByTestId('TokenSelector');
-    expect(tokenSelector).toBeInTheDocument();
+    render(<TokenSelectorButton token={token} onClick={handleClick} />);
+    const tokenSelectorButton = screen.getByTestId('TokenSelectorButton');
+    expect(tokenSelectorButton).toBeInTheDocument();
 
-    const imgElement = within(tokenSelector).getByRole('img');
-    const spanElement = within(tokenSelector).getByText(token.symbol);
+    const imgElement = within(tokenSelectorButton).getByRole('img');
+    const spanElement = within(tokenSelectorButton).getByText(token.symbol);
 
     expect(imgElement).toBeInTheDocument();
     expect(spanElement).toBeInTheDocument();
@@ -43,20 +43,20 @@ describe('TokenSelector Component', () => {
       name: 'Ether',
       symbol: 'ETH',
     };
-    render(<TokenSelector token={token} onClick={handleClick} />);
-    const tokenSelector = screen.getByTestId('TokenSelector');
-    expect(tokenSelector).toBeInTheDocument();
+    render(<TokenSelectorButton token={token} onClick={handleClick} />);
+    const tokenSelectorButton = screen.getByTestId('TokenSelectorButton');
+    expect(tokenSelectorButton).toBeInTheDocument();
 
     const imgElement = screen.queryByRole('img');
-    const spanElement = within(tokenSelector).getByText(token.symbol);
+    const spanElement = within(tokenSelectorButton).getByText(token.symbol);
 
     expect(imgElement).toBeInTheDocument();
     expect(spanElement).toBeInTheDocument();
   });
 
   it('should render a placeholder when token is undefined', async () => {
-    render(<TokenSelector onClick={handleClick} />);
-    const tokenSelector = screen.getByTestId('TokenSelector');
+    render(<TokenSelectorButton onClick={handleClick} />);
+    const tokenSelector = screen.getByTestId('TokenSelectorButton');
     expect(tokenSelector).toBeInTheDocument();
 
     const spanElement = within(tokenSelector).getByText('Select');
@@ -73,9 +73,9 @@ describe('TokenSelector Component', () => {
       name: 'Ether',
       symbol: 'ETH',
     };
-    render(<TokenSelector token={token} onClick={handleClick} />);
+    render(<TokenSelectorButton token={token} onClick={handleClick} />);
 
-    const tokenSelector = screen.getByTestId('TokenSelector');
+    const tokenSelector = screen.getByTestId('TokenSelectorButton');
 
     fireEvent.click(tokenSelector);
 

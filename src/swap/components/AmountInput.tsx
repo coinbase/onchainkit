@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 
-import { TokenSelector } from './TokenSelector';
+import { TokenSelectorButton } from './TokenSelectorButton';
 import { TokenBalanceProps, AmountInputProps } from '../types';
 import { isValidAmount } from '../utils';
 
@@ -94,7 +94,7 @@ export function AmountInput({
           placeholder="0"
           disabled={disabled}
         />
-        <TokenSelector token={selectedToken} onClick={handleTokenSelectClick} />
+        <TokenSelectorButton token={selectedToken} onClick={handleTokenSelectClick} />
       </div>
       {selectedToken && amount && <TokenBalance fiatEstimate={estimatedAmountInFiat} />}
     </div>
