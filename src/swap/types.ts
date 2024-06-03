@@ -47,3 +47,29 @@ export type TrendingToken = Token & {
   numOfBuys: number;
   numOfSells: number;
 };
+
+export type AmountInputProps = {
+  label: string;
+  amount?: string;
+  setAmount: (amount: string) => void;
+  selectedToken?: Token;
+  estimatedAmountInFiat?: string;
+  disabled?: boolean;
+};
+
+export type TokenBalanceProps = {
+  fiatEstimate?: string;
+};
+
+export type SwapIconProps = {
+  onClick: () => void;
+};
+
+export type SwapTokensButtonProps = {
+  onClick: () => void;
+};
+
+export type TokenSelectorProps = {
+  token?: Token;
+  onClick: () => void;
+};
