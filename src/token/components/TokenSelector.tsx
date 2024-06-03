@@ -1,4 +1,4 @@
-import { Token } from '../types';
+import { TokenSelectorReact } from '../types';
 import { TokenImage } from './TokenImage';
 
 function CaretDown() {
@@ -35,11 +35,6 @@ const styles = {
   caret: {
     marginLeft: '8px',
   },
-};
-
-type TokenSelectorReact = {
-  token?: Token;
-  onClick: () => void;
 };
 
 export function TokenSelector({ token, onClick }: TokenSelectorReact) {

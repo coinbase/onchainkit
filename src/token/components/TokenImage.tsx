@@ -1,9 +1,5 @@
 import { useMemo } from 'react';
-
-type TokenImageReact = {
-  src: string | null;
-  size?: number;
-};
+import { TokenImageReact } from '../types';
 
 export function TokenImage({ src, size = 24 }: TokenImageReact) {
   const styles = useMemo(() => {

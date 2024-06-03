@@ -75,6 +75,14 @@ export type TokenChipReact = {
 /**
  * Note: exported as public Type
  */
+export type TokenImageReact = {
+  src: string | null;
+  size?: number;
+};
+
+/**
+ * Note: exported as public Type
+ */
 export type TokenRowReact = {
   token: Token;
   amount?: string;
@@ -93,6 +101,6 @@ export type TokenSearchReact = {
  * Note: exported as public Type
  */
 export type TokenSelectorReact = {
-  onSelect: (token: Token) => void;
-  tokens: Token[];
+  token?: Token;
+  onClick: () => void;
 };
