@@ -146,12 +146,20 @@ export const sidebar = [
             link: '/token/token-chip',
           },
           {
+            text: 'TokenImage',
+            link: '/token/token-image',
+          },
+          {
             text: 'TokenRow',
             link: '/token/token-row',
           },
           {
             text: 'TokenSearch',
             link: '/token/token-search',
+          },
+          {
+            text: 'TokenSelector',
+            link: '/token/token-selector',
           },
         ],
       },
