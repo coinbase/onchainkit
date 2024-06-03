@@ -18,6 +18,13 @@
   font-size: 14px;
 }
 
+@media (max-width: 768px) {
+  .vocs_CodeBlock {
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
 .css-blurry-gradient {
   position: absolute;
   top: 50%;
