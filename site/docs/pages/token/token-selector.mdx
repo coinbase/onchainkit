@@ -1,0 +1,109 @@
+import { TokenSelector } from '../../../../src/token/components/TokenSelector';
+import App from '../App';
+
+# `<TokenSelector />`
+
+### Warning: component under development, may change in coming weeks
+
+`TokenSelector` component is stylized button component that displays the token info or placeholder text.
+
+## Usage
+
+`TokenSelector` with token prop
+
+:::code-group
+
+```tsx [code]
+<TokenSelector
+  token={{
+    address: '0x1234',
+    chainId: 1,
+    decimals: 18,
+    image:
+      'https://dynamic-assets.coinbase.com/dbb4b4983bde81309ddab83eb598358eb44375b930b94687ebe38bc22e52c3b2125258ffb8477a5ef22e33d6bd72e32a506c391caa13af64c00e46613c3e5806/asset_icons/4113b082d21cc5fab17fc8f2d19fb996165bcce635e6900f7fc2d57c4ef33ae9.png',
+    name: 'Ethereum',
+    symbol: 'ETH',
+  }}
+  onClick={() => {}}
+/>
+```
+
+```html [return html]
+<button
+  data-testid="ockTokenSelector_Button"
+  style="border-radius: 16px; padding: 4px 12px; display: flex; align-items: center; background: rgb(238, 240, 243); width: fit-content;"
+>
+  <img
+    data-testid="ockTokenImage_Image"
+    src="https://dynamic-assets.coinbase.com/dbb4b4983bde81309ddab83eb598358eb44375b930b94687ebe38bc22e52c3b2125258ffb8477a5ef22e33d6bd72e32a506c391caa13af64c00e46613c3e5806/asset_icons/4113b082d21cc5fab17fc8f2d19fb996165bcce635e6900f7fc2d57c4ef33ae9.png"
+    style="width: 16px; height: 16px; border-radius: 50%; overflow: hidden; background: blue;"
+  /><span
+    data-testid="ockTokenSelector_Symbol"
+    style="color: rgb(10, 11, 13); font-size: 16px; line-height: 1.5; font-weight: 500; margin-left: 4px;"
+    >ETH</span
+  >
+  <span style="margin-left: 8px;">
+    <svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path
+        d="M12.95 4.85999L8.00001 9.80999L3.05001 4.85999L1.64001 6.27999L8.00001 12.64L14.36 6.27999L12.95 4.85999Z"
+        fill="#0A0B0D"
+      ></path>
+    </svg>
+  </span>
+</button>
+```
+
+:::
+
+<App>
+  <TokenSelector
+    token={{
+      address: '0x1234',
+      chainId: 1,
+      decimals: 18,
+      image:
+        'https://dynamic-assets.coinbase.com/dbb4b4983bde81309ddab83eb598358eb44375b930b94687ebe38bc22e52c3b2125258ffb8477a5ef22e33d6bd72e32a506c391caa13af64c00e46613c3e5806/asset_icons/4113b082d21cc5fab17fc8f2d19fb996165bcce635e6900f7fc2d57c4ef33ae9.png',
+      name: 'Ethereum',
+      symbol: 'ETH',
+    }}
+    onClick={() => {}}
+  />
+</App>
+
+`TokenSelector` with no token prop
+
+:::code-group
+
+```tsx [code]
+<TokenSelector token={undefined} onClick={() => {}} />
+```
+
+```html [return html]
+<button
+  data-testid="ockTokenSelector_Button"
+  style="border-radius: 16px; padding: 4px 12px; display: flex; align-items: center; background: rgb(238, 240, 243); width: fit-content;"
+>
+  <span
+    style="color: rgb(10, 11, 13); font-size: 16px; line-height: 1.5; font-weight: 500; margin-left: 4px;"
+    >Select</span
+  >
+  <span style="margin-left: 8px;">
+    <svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path
+        d="M12.95 4.85999L8.00001 9.80999L3.05001 4.85999L1.64001 6.27999L8.00001 12.64L14.36 6.27999L12.95 4.85999Z"
+        fill="#0A0B0D"
+      ></path>
+    </svg>
+  </span>
+</button>
+```
+
+:::
+
+<App>
+  <TokenSelector token={undefined} onClick={() => {}} />
+</App>
+
+## Props
+
+[`TokenSelectorReact`](/token/types#tokenselectorreact)

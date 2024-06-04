@@ -61,6 +61,15 @@ type TokenChipReact = {
 };
 ```
 
+## `TokenImageReact`
+
+```ts
+type TokenImageReact = {
+  src: string | null; // url for the token images
+  size: number; // size of the image in px (default: 24)
+};
+```
+
 ## `TokenRowReact`
 
 ```ts
@@ -77,5 +86,14 @@ type TokenRowReact = {
 export type TokenSearchReact = {
   onChange: (value: string) => void; // Search callback function
   delayMs?: number; // Debounce delay in milliseconds
+};
+```
+
+## `TokenSelectorReact`
+
+```ts
+export type TokenSelectorReact = {
+  token: Token; // Rendered token
+  onClick: () => void; // Component on click handler
 };
 ```
