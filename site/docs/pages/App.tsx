@@ -5,6 +5,8 @@ import { WagmiProvider, createConfig, http } from 'wagmi';
 import { baseSepolia } from 'wagmi/chains';
 import { coinbaseWallet } from 'wagmi/connectors';
 
+import '../../../src/styles.css'; // change this to @coinbase/onchainkit/styles.css
+
 const queryClient = new QueryClient();
 
 const wagmiConfig = createConfig({
