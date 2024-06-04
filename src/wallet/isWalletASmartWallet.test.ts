@@ -56,4 +56,44 @@ describe('isWalletASmartWallet', () => {
     const result = await isWalletASmartWallet({ client, userOp });
     expect(result).toEqual(true);
   });
+
+  it('should return false when there is an error retrieving bytecode', async () => {
+    const userOp = {
+      sender: 'error-address',
+    } as unknown as UserOperation<'v0.6'>;
+
+    (client.getBytecode as jest.Mock).mockRejectedValue(new Error('Failed to fetch bytecode'));
+    (client.request as jest.Mock).mockResolvedValue(
+      '0x0000000000000000000000000000000000000000000000000000000000000000',
+    );
+
+    const result = await isWalletASmartWallet({ client, userOp });
+    expect(result).toEqual(false);
+  });
+
+  it('should return false when there is an error retrieving implementation address', async () => {
+    const userOp = {
+      sender: 'valid-proxy-address',
+    } as unknown as UserOperation<'v0.6'>;
+
+    (client.getBytecode as jest.Mock).mockResolvedValue(CB_SW_PROXY_BYTECODE);
+    (client.request as jest.Mock).mockRejectedValue(
+      new Error('Failed to fetch implementation address'),
+    );
+
+    const result = await isWalletASmartWallet({ client, userOp });
+    expect(result).toEqual(false);
+  });
+
+  it('should return false when there is an error decoding implementation address', async () => {
+    const userOp = {
+      sender: 'valid-proxy-address',
+    } as unknown as UserOperation<'v0.6'>;
+
+    (client.getBytecode as jest.Mock).mockResolvedValue(CB_SW_PROXY_BYTECODE);
+    (client.request as jest.Mock).mockResolvedValue('invalid data');
+
+    const result = await isWalletASmartWallet({ client, userOp });
+    expect(result).toEqual(false);
+  });
 });
