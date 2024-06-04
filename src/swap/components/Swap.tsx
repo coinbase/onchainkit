@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { CSSProperties, useCallback, useState } from 'react';
 import { AmountInput } from './AmountInput';
 
 import { SwapTokensButton } from './SwapTokensButton';
@@ -43,6 +43,38 @@ const tokens: Token[] = [
   },
 ];
 
+const styles = {
+  swapContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    width: '100%',
+    maxWidth: '31.25rem',
+    gap: '1rem',
+    background: 'white',
+    padding: '1.5rem',
+    borderRadius: '1.5rem',
+  },
+  swapButton: {
+    background: '#0052FF',
+    width: '100%',
+    borderRadius: '6.25rem',
+    color: 'white',
+    padding: '1rem 2rem',
+    fontWeight: '500',
+    alignItems: 'center',
+    display: 'flex',
+    justifyContent: 'center',
+    boxSizing: 'border-box',
+  },
+  header: { fontSize: '1.25rem', color: 'black', fontWeight: '500' },
+  inputsContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '0.25rem',
+    position: 'relative',
+  },
+} as Record<string, CSSProperties>;
+
 export function Swap() {
   const [fromAmount, setFromAmount] = useState('');
   const [toAmount, setToAmount] = useState('');
@@ -63,35 +95,9 @@ export function Swap() {
   const estimatedAmountInFiat = fromAmount;
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        width: '100%',
-        maxWidth: '31.25rem',
-        gap: '1rem',
-        background: 'white',
-        padding: '1.5rem',
-        borderRadius: '1.5rem',
-      }}
-    >
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          fontWeight: '500',
-        }}
-      >
-        <label style={{ fontSize: '1.25rem', color: 'black' }}>Swap</label>
-      </div>
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '0.25rem',
-          position: 'relative',
-        }}
-      >
+    <div style={styles.swapContainer}>
+      <label style={styles.header}>Swap</label>
+      <div style={styles.inputsContainer}>
         <AmountInput
           label="You pay"
           amount={fromAmount}
@@ -110,22 +116,7 @@ export function Swap() {
           selectTokenClick={handleSelectTokenClick}
         />
       </div>
-      <div
-        style={{
-          background: '#0052FF',
-          width: '100%',
-          borderRadius: '6.25rem',
-          color: 'white',
-          padding: '1rem 2rem',
-          fontWeight: '500',
-          alignItems: 'center',
-          display: 'flex',
-          justifyContent: 'center',
-          boxSizing: 'border-box',
-        }}
-      >
-        Swap
-      </div>
+      <div style={styles.swapButton}>Swap</div>
     </div>
   );
 }
