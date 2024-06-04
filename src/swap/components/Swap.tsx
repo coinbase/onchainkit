@@ -55,6 +55,10 @@ export function Swap() {
     setToToken(prevFromToken);
   }, [fromToken, toToken]);
 
+  const handleSelectTokenClick = useCallback(() => {
+    // TODO: open select token modal
+  }, [fromToken, toToken]);
+
   // TODO: update with actual estimate
   const estimatedAmountInFiat = fromAmount;
 
@@ -94,6 +98,7 @@ export function Swap() {
           setAmount={setFromAmount}
           selectedToken={fromToken}
           estimatedAmountInFiat={estimatedAmountInFiat}
+          selectTokenClick={handleSelectTokenClick}
         />
         <SwapTokensButton onClick={handleSwapTokensClick} />
         <AmountInput
@@ -102,6 +107,7 @@ export function Swap() {
           setAmount={setToAmount}
           disabled={true}
           selectedToken={toToken}
+          selectTokenClick={handleSelectTokenClick}
         />
       </div>
       <div

@@ -52,6 +52,7 @@ export type AmountInputProps = {
   label: string;
   amount?: string;
   setAmount: (amount: string) => void;
+  selectTokenClick: () => void;
   selectedToken?: Token;
   estimatedAmountInFiat?: string;
   disabled?: boolean;
@@ -59,6 +60,8 @@ export type AmountInputProps = {
 
 export type TokenBalanceProps = {
   fiatEstimate?: string;
+  onMaxButtonClick: () => void;
+  token: Token;
 };
 
 export type SwapTokensButtonProps = {
