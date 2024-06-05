@@ -226,7 +226,8 @@ Coming soon
 
 ##### Wallet
 
-Coming soon
+- [isValidAAEntrypoint](/wallet/is-valid-aa-entrypoint)
+- [isWalletASmartWallet](/wallet/is-wallet-a-smart-wallet)
 
 ##### Farcaster
 

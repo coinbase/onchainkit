@@ -23,6 +23,9 @@ export type IsWalletASmartWalletOptions = {
   userOp: UserOperation<'v0.6'>;
 };
 
+/**
+ * Note: exported as public Type
+ */
 export type IsWalletASmartWalletResponse =
-  | { isValid: true }
-  | { isValid: false; error: string; code: string };
+  | { isSmartWallet: true }
+  | { isSmartWallet: false; error: string; code: string };
