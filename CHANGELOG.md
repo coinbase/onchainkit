@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- db2e1d9: - **feat**: postcss integration + add modifier states TokenChip css. By @kyhyco #453
+- **feat**: postcss integration + add modifier states TokenChip css. By @kyhyco #453 db2e1d9
 
 ## 0.18.5
 
