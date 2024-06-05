@@ -56,8 +56,27 @@ const token = {
 
 [`TokenChipReact`](/token/types#tokenchipreact)
 
-## CSS classes
+## CSS
 
-- `ock-tokenchip-button`
-- `ock-tokenchip-image`
-- `ock-tokenchip-label`
+```css
+.ock-tokenchip-button {
+  @apply flex w-fit items-center rounded-2xl py-1 pl-1 pr-3;
+  background: #eef0f3;
+
+  &:hover {
+    background: #cacbce;
+  }
+
+  &:active {
+    background: #bfc1c3;
+  }
+}
+
+.ock-tokenchip-label {
+  @apply text-base font-medium leading-4 text-black;
+}
+
+.ock-tokenchip-image {
+  @apply mr-2 h-6 w-6;
+}
+```
