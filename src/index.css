@@ -1,6 +1,6 @@
 @import 'tailwindcss/base';
 
 @import 'tailwindcss/components';
-@import './token/components/TokenChip.css';
+@import url('./token/components/TokenChip.css');
 
 @import 'tailwindcss/utilities';
