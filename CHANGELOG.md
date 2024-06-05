@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.18.6
+
+### Patch Changes
+
+- db2e1d9: - **feat**: postcss integration + add modifier states TokenChip css. By @kyhyco #453
+
 ## 0.18.5
 
 ### Patch Changes
