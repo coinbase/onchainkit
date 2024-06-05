@@ -86,7 +86,7 @@
   "module": "./esm/index.js",
   "exports": {
     "./package.json": "./package.json",
-    "./src/styles.css": "./styles.css",
+    "./styles.css": "./styles.css",
     ".": {
       "types": "./esm/index.d.ts",
       "module": "./esm/index.js",
