@@ -222,7 +222,7 @@ Coming soon
 ##### Token
 
 - [formatAmount](https://onchainkit.xyz/token/format-amount)
-- [getTokens](https://onchainkit.xyz/identity/get-tokens)
+- [getTokens](https://onchainkit.xyz/token/get-tokens)
 
 ##### Wallet
 
