@@ -36,8 +36,8 @@ export function TokenChip({ token, onClick }: TokenChipReact) {
       style={styles.button}
       onClick={() => onClick?.(token)}
     >
-      <img style={styles.image} src={token.image || ''} />
-      <span style={styles.label}>{token.symbol}</span>
+      <img className="mr-2 h-6 w-6" src={token.image || ''} />
+      <span className="ock-label">{token.symbol}</span>
     </button>
   );
 }

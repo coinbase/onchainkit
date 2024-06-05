@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .ock-label {
+    @apply text-base font-medium leading-4 text-black;
+  }
+}

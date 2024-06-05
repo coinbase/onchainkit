@@ -56,3 +56,6 @@ package-lock.json
 # VitePress
 docs/.vitepress/cache
 docs/.vitepress/dist
+
+# tailwind
+src/styles.css
