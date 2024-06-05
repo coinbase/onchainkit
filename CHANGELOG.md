@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.18.2
+
+### Patch Changes
+
+- afc7d2d: - **fix**: moved `styles.css` at top level. By @zizzamia #443
+
 ## 0.18.1
 
 ### Patch Changes
