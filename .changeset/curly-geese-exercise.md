@@ -1,5 +1,5 @@
 ---
-"@coinbase/onchainkit": patch
+'@coinbase/onchainkit': patch
 ---
 
-- **fix**: style.css location.
+- **fix**: style.css location. By @zizzamia #445
