@@ -28,6 +28,10 @@ export const sidebar = [
         text: 'Types',
         link: '/types',
       },
+      {
+        text: 'Contribution Guide',
+        link: '/contribution-guide',
+      },
     ],
   },
   {
