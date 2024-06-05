@@ -8,7 +8,8 @@ import type { Address, BlockTag, Hex } from 'viem';
 import type { IsWalletASmartWalletOptions, IsWalletASmartWalletResponse } from './types';
 
 /**
- * Validates a User Operation by checking if the sender address is a proxy with the expected bytecode.
+ * Validates a User Operation by checking if the sender address
+ * is a proxy with the expected bytecode.
  */
 export async function isWalletASmartWallet({
   client,
@@ -16,14 +17,13 @@ export async function isWalletASmartWallet({
 }: IsWalletASmartWalletOptions): Promise<IsWalletASmartWalletResponse> {
   try {
     const code = await client.getBytecode({ address: userOp.sender });
-
     // Verify if the sender address bytecode matches the Coinbase Smart Wallet proxy bytecode
     if (code !== CB_SW_PROXY_BYTECODE) {
-      return { isValid: false, error: 'Invalid bytecode', code: '1' };
+      return { isSmartWallet: false, error: 'Invalid bytecode', code: 'W_ERR_1' };
     }
   } catch (error) {
     console.error('Error retrieving bytecode:', error);
-    return { isValid: false, error: 'Error retrieving bytecode', code: '2' };
+    return { isSmartWallet: false, error: 'Error retrieving bytecode', code: 'W_ERR_2' };
   }
 
   let implementation: Hex;
@@ -37,7 +37,11 @@ export async function isWalletASmartWallet({
     });
   } catch (error) {
     console.error('Error retrieving implementation address:', error);
-    return { isValid: false, error: 'Error retrieving implementation address', code: '3' };
+    return {
+      isSmartWallet: false,
+      error: 'Error retrieving implementation address',
+      code: 'W_ERR_3',
+    };
   }
 
   // Decode the implementation address from the retrieved storage data
@@ -45,8 +49,8 @@ export async function isWalletASmartWallet({
 
   // Verify if the implementation address matches the expected Coinbase Smart Wallet address
   if (implementationAddress !== CB_SW_V1_IMPLEMENTATION_ADDRESS) {
-    return { isValid: false, error: 'Invalid implementation address', code: '4' };
+    return { isSmartWallet: false, error: 'Invalid implementation address', code: 'W_ERR_4' };
   }
 
-  return { isValid: true };
+  return { isSmartWallet: true };
 }

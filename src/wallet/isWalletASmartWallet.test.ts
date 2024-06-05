@@ -1,4 +1,3 @@
-import { isValidElement } from 'react';
 import { CB_SW_PROXY_BYTECODE, CB_SW_V1_IMPLEMENTATION_ADDRESS } from './constants';
 import { isWalletASmartWallet } from './isWalletASmartWallet';
 import type { UserOperation } from 'permissionless';
@@ -21,7 +20,7 @@ describe('isWalletASmartWallet', () => {
     );
 
     const result = await isWalletASmartWallet({ client, userOp });
-    expect(result).toEqual({ isValid: false, error: 'Invalid bytecode', code: '1' });
+    expect(result).toEqual({ isSmartWallet: false, error: 'Invalid bytecode', code: 'W_ERR_1' });
   });
 
   it('should return false when the implementation address does not match COINBASE_SMART_WALLET_V1_IMPLEMENTATION', async () => {
@@ -36,7 +35,11 @@ describe('isWalletASmartWallet', () => {
     (client.request as jest.Mock).mockResolvedValue(differentImplementationAddress);
 
     const result = await isWalletASmartWallet({ client, userOp });
-    expect(result).toEqual({ isValid: false, error: 'Invalid implementation address', code: '4' });
+    expect(result).toEqual({
+      isSmartWallet: false,
+      error: 'Invalid implementation address',
+      code: 'W_ERR_4',
+    });
   });
 
   it('should return true for a valid sender proxy address with correct implementation address', async () => {
@@ -55,7 +58,7 @@ describe('isWalletASmartWallet', () => {
     );
 
     const result = await isWalletASmartWallet({ client, userOp });
-    expect(result).toEqual({ isValid: true });
+    expect(result).toEqual({ isSmartWallet: true });
   });
 
   it('should return false when there is an error retrieving bytecode', async () => {
@@ -69,7 +72,11 @@ describe('isWalletASmartWallet', () => {
     );
 
     const result = await isWalletASmartWallet({ client, userOp });
-    expect(result).toEqual({ isValid: false, error: 'Error retrieving bytecode', code: '2' });
+    expect(result).toEqual({
+      isSmartWallet: false,
+      error: 'Error retrieving bytecode',
+      code: 'W_ERR_2',
+    });
   });
 
   it('should return false when there is an error retrieving implementation address', async () => {
@@ -84,9 +91,9 @@ describe('isWalletASmartWallet', () => {
 
     const result = await isWalletASmartWallet({ client, userOp });
     expect(result).toEqual({
-      isValid: false,
+      isSmartWallet: false,
       error: 'Error retrieving implementation address',
-      code: '3',
+      code: 'W_ERR_3',
     });
   });
 });
