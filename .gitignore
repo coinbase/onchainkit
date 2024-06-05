@@ -7,7 +7,7 @@ lib
 tmp
 /out-tsc
 site/vocs.config.tsx.timestamp*
-src/styles.css
+styles.css
 
 # dependencies
 node_modules
