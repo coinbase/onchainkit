@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.18.3
+
+### Patch Changes
+
+- 81ea439: - **fix**: style.css location. By @zizzamia #445
+
 ## 0.18.2
 
 ### Patch Changes
