@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- afc7d2d: - **fix**: moved `styles.css` at top level. By @zizzamia #443
+- **fix**: moved `styles.css` at top level. By @zizzamia #443 afc7d2d
 
 ## 0.18.1
 
