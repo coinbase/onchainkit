@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- 81ea439: - **fix**: style.css location. By @zizzamia #445
+- **fix**: style.css location. By @zizzamia #445 81ea439
 
 ## 0.18.2
 

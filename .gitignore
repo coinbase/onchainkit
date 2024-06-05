@@ -7,6 +7,7 @@ lib
 tmp
 /out-tsc
 site/vocs.config.tsx.timestamp*
+src/styles.css
 
 # dependencies
 node_modules
@@ -56,6 +57,3 @@ package-lock.json
 # VitePress
 docs/.vitepress/cache
 docs/.vitepress/dist
-
-# tailwind
-styles.css
