@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- dd31024: - **feat**: added the `isWalletASmartWallet` utility which helps verify if a given sender address is a Smart Wallet proxy with the expected implementation before sponsoring a transaction. By @cpcramer & @zizzamia #420 #454
+- **feat**: added the `isWalletASmartWallet` utility which helps verify if a given sender address is a Smart Wallet proxy with the expected implementation before sponsoring a transaction. By @cpcramer & @zizzamia #420 #454 dd31024
 
 ## 0.18.4
 
