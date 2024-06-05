@@ -1,3 +1,8 @@
 // 🌲☀️🌲
 export { ConnectAccount } from './components/ConnectAccount';
-export type { ConnectAccountReact, IsValidAAEntrypointOptions } from './types';
+export type {
+  ConnectAccountReact,
+  IsValidAAEntrypointOptions,
+  IsWalletASmartWalletOptions,
+  IsWalletASmartWalletResponse,
+} from './types';

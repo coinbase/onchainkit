@@ -1,0 +1,44 @@
+# `isWalletASmartWallet`
+
+The `isWalletASmartWallet` utility is designed to verify if a given sender address is a Smart Wallet proxy with the expected implementation before sponsoring a transaction.
+
+## Usage
+
+:::code-group
+
+```tsx [code]
+import { isWalletASmartWallet } from '@coinbase/onchainkit/wallet';
+import { http } from 'viem';
+import { baseSepolia } from 'viem/chains';
+import type { UserOperation } from 'permissionless';
+import type { PublicClient } from 'viem';
+
+export const publicClient = createPublicClient({
+  chain: baseSepolia,
+  transport: http(),
+});
+
+const userOperation = { sender: '0x123' } as UserOperation<'v0.6'>;
+
+const isValid = isWalletASmartWallet({ client: publicClient, userOp: userOperation }); // [!code focus]
+
+if (isValid) {
+  console.log('The sender address is a valid smart wallet proxy.');
+} else {
+  console.log('The sender address is not a valid smart wallet proxy.');
+}
+```
+
+```ts [return value]
+true;
+```
+
+:::
+
+## Returns
+
+[`IsWalletASmartWalletResponse`](/wallet/types#iswalletasmartwalletresponse)
+
+## Parameters
+
+[`isWalletASmartWalletOptions`](/wallet/types#iswalletasmartwalletoptions)
