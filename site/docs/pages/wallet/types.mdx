@@ -13,19 +13,27 @@ type ConnectAccountReact = {
 };
 ```
 
-## `isValidAAEntrypointOptions`
+## `IsValidAAEntrypointOptions`
 
 ```ts
-export type isValidAAEntrypointOptions = {
+export type IsValidAAEntrypointOptions = {
   entrypoint: string;
 };
 ```
 
-## `isWalletASmartWalletOptions`
+## `IsWalletASmartWalletOptions`
 
 ```ts
-export type isWalletASmartWalletOptions = {
+export type IsWalletASmartWalletOptions = {
   client: PublicClient;
   userOp: UserOperation<'v0.6'>;
 };
+```
+
+## `IsWalletASmartWalletResponse`
+
+```ts
+export type IsWalletASmartWalletResponse =
+  | { isValid: true }
+  | { isValid: false; error: string; code: string };
 ```
