@@ -19,11 +19,11 @@ export async function isWalletASmartWallet({
     const code = await client.getBytecode({ address: userOp.sender });
     // Verify if the sender address bytecode matches the Coinbase Smart Wallet proxy bytecode
     if (code !== CB_SW_PROXY_BYTECODE) {
-      return { isSmartWallet: false, error: 'Invalid bytecode', code: '1' };
+      return { isSmartWallet: false, error: 'Invalid bytecode', code: 'W_ERR_1' };
     }
   } catch (error) {
     console.error('Error retrieving bytecode:', error);
-    return { isSmartWallet: false, error: 'Error retrieving bytecode', code: '2' };
+    return { isSmartWallet: false, error: 'Error retrieving bytecode', code: 'W_ERR_2' };
   }
 
   let implementation: Hex;
@@ -37,7 +37,11 @@ export async function isWalletASmartWallet({
     });
   } catch (error) {
     console.error('Error retrieving implementation address:', error);
-    return { isSmartWallet: false, error: 'Error retrieving implementation address', code: '3' };
+    return {
+      isSmartWallet: false,
+      error: 'Error retrieving implementation address',
+      code: 'W_ERR_3',
+    };
   }
 
   // Decode the implementation address from the retrieved storage data
@@ -45,7 +49,7 @@ export async function isWalletASmartWallet({
 
   // Verify if the implementation address matches the expected Coinbase Smart Wallet address
   if (implementationAddress !== CB_SW_V1_IMPLEMENTATION_ADDRESS) {
-    return { isSmartWallet: false, error: 'Invalid implementation address', code: '4' };
+    return { isSmartWallet: false, error: 'Invalid implementation address', code: 'W_ERR_4' };
   }
 
   return { isSmartWallet: true };
