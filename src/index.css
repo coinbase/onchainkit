@@ -1,9 +1,6 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss/base';
 
-@layer components {
-  .ock-label {
-    @apply text-base font-medium leading-4 text-black;
-  }
-}
+@import 'tailwindcss/components';
+@import './token/components/TokenChip.css';
+
+@import 'tailwindcss/utilities';
