@@ -76,7 +76,7 @@ function TokenSelector() {
       )}
       {filteredTokens.length > 0 ? (
         <div>
-          <div className="text-body text-black">Tokens</div>
+          <div className="text-black text-body">Tokens</div>
           <div>
             {filteredTokens.map((token) => (
               <TokenRow key={token.name} token={token} onClick={handleSelect} />
@@ -84,7 +84,7 @@ function TokenSelector() {
           </div>
         </div>
       ) : (
-        <div className="text-body text-black">No tokens found</div>
+        <div className="text-black text-body">No tokens found</div>
       )}
     </div>
   );

@@ -18,7 +18,7 @@ export function FrameInput() {
         Enter your frame URL
         <input
           className={
-            'border-pallette-line bg-content-light dark:bg-input h-[40px] rounded-md border p-2'
+            'h-[40px] rounded-md border border-pallette-line bg-content-light p-2 dark:bg-input'
           }
           type="url"
           placeholder="Enter URL"

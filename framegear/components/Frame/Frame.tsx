@@ -37,10 +37,10 @@ function ValidFrame({ metadata }: { metadata: FrameMetadataWithImageObject }) {
         src={image.src}
         alt=""
       />
-      <div className="bg-button-gutter-light dark:bg-content-light flex flex-col gap-2 rounded-b-xl px-4 py-2">
+      <div className="flex flex-col gap-2 rounded-b-xl bg-button-gutter-light px-4 py-2 dark:bg-content-light">
         {!!input && (
           <input
-            className="bg-input-light border-light rounded-lg border p-2 text-black"
+            className="rounded-lg border border-light bg-input-light p-2 text-black"
             type="text"
             placeholder={input.text}
             onChange={handleInputChange}
@@ -78,8 +78,8 @@ function ErrorFrame() {
 function PlaceholderFrame() {
   return (
     <div className="flex flex-col">
-      <div className="bg-farcaster flex aspect-[1.91/1] w-full rounded-t-xl" />
-      <div className="bg-button-gutter-light dark:bg-content-light flex flex-wrap gap-2 rounded-b-xl px-4 py-2">
+      <div className="flex aspect-[1.91/1] w-full rounded-t-xl bg-farcaster" />
+      <div className="flex flex-wrap gap-2 rounded-b-xl bg-button-gutter-light px-4 py-2 dark:bg-content-light">
         <FrameButton state={{}} index={1} inputText="">
           Get Started
         </FrameButton>
@@ -171,7 +171,7 @@ You can test this action on the official Warpcast validator: https://warpcast.co
 
   return (
     <button
-      className="border-button flex w-[45%] grow items-center justify-center gap-1 rounded-lg border bg-white px-4 py-2 text-black"
+      className="flex w-[45%] grow items-center justify-center gap-1 rounded-lg border border-button bg-white px-4 py-2 text-black"
       type="button"
       onClick={handleClick}
       disabled={isLoading || button?.action === 'mint'}

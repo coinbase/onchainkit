@@ -24,7 +24,7 @@ function ValidationResultsPlaceholder() {
   return (
     <div className="flex flex-col gap-4">
       <h2>Frame validations</h2>
-      <div className="bg-content-light dark:bg-content flex w-full flex-col gap-4 rounded-xl p-6">
+      <div className="flex w-full flex-col gap-4 rounded-xl bg-content-light p-6 dark:bg-content">
         <p>No data yet.</p>
       </div>
     </div>
@@ -50,7 +50,7 @@ function ValidationResultsContent() {
           </span>
         )}
       </h2>
-      <div className="bg-content-light dark:bg-content flex w-full flex-col gap-4 rounded-xl p-6">
+      <div className="flex w-full flex-col gap-4 rounded-xl bg-content-light p-6 dark:bg-content">
         <ul className="flex list-none flex-col gap-4 p-0">
           <ValidationEntry name="URL" value={latestResult.url} showFlag={false} />
           {REQUIRED_FIELD_NAMES.map((name) => {
@@ -77,7 +77,7 @@ type ValidationEntryProps = { name: string; value?: string; error?: string; show
 function ValidationEntry({ name, value, error, showFlag = true }: ValidationEntryProps) {
   return (
     <div
-      className={'border-pallette-line flex flex-col gap-2 border-b pb-4 last:border-b-0 last:pb-0'}
+      className={'flex flex-col gap-2 border-pallette-line border-b pb-4 last:border-b-0 last:pb-0'}
     >
       <div className="flex justify-between">
         <span>{name}</span>
