@@ -3,7 +3,7 @@ import { NEYNAR_DEFAULT_API_KEY } from './frame/neynarFrameValidation';
 import { postDataToNeynar } from './postDataToNeynar';
 
 describe('postDataToNeynar', () => {
-  let fetchMock = jest.fn();
+  const fetchMock = jest.fn();
   let status = 200;
 
   beforeEach(() => {

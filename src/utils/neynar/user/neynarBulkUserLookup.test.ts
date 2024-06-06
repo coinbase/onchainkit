@@ -2,7 +2,7 @@ import { FetchError } from '../exceptions/FetchError';
 import { neynarBulkUserLookup } from './neynarBulkUserLookup';
 
 describe('neynar user functions', () => {
-  let fetchMock = jest.fn();
+  const fetchMock = jest.fn();
   let status = 200;
 
   beforeEach(() => {

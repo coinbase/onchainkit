@@ -1,8 +1,8 @@
-import { FrameRequest, FrameValidationResponse, MockFrameRequest } from './types';
 import {
   NEYNAR_DEFAULT_API_KEY,
   neynarFrameValidation,
 } from '../utils/neynar/frame/neynarFrameValidation';
+import type { FrameRequest, FrameValidationResponse, MockFrameRequest } from './types';
 
 type FrameMessageOptions =
   | {

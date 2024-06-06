@@ -1,4 +1,4 @@
-import { FrameImageMetadata, FrameMetadataType } from '@coinbase/onchainkit/frame';
+import type { FrameImageMetadata, FrameMetadataType } from '@coinbase/onchainkit/frame';
 
 export type FrameMetadataWithImageObject = FrameMetadataType & {
   image: FrameImageMetadata;
@@ -24,7 +24,7 @@ export function frameResultToFrameMetadata(
   const input = inputText ? { text: inputText } : undefined;
   const rawState = result['fc:frame:state'];
   const rawRefreshPeriod = result['fc:frame:refresh_period'];
-  const refreshPeriod = rawRefreshPeriod ? parseInt(rawRefreshPeriod, 10) : undefined;
+  const refreshPeriod = rawRefreshPeriod ? Number.parseInt(rawRefreshPeriod, 10) : undefined;
   const state = rawState ? JSON.parse(decodeURIComponent(result['fc:frame:state'])) : undefined;
 
   return {

@@ -2,8 +2,8 @@
  * @jest-environment jsdom
  */
 
-import { getName } from './getName';
 import { publicClient } from '../../network/client';
+import { getName } from './getName';
 
 jest.mock('../../network/client');
 

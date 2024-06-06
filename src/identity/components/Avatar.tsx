@@ -1,7 +1,7 @@
 import { useAvatar } from '../hooks/useAvatar';
 import { useName } from '../hooks/useName';
+import type { AvatarReact } from '../types';
 import { WithAvatarBadge } from './WithAvatarBadge';
-import { AvatarReact } from '../types';
 
 /**
  * Represents an Avatar component that displays either a loading indicator,

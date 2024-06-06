@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import type { Address } from 'viem';
-import { getSlicedAddress } from '../getSlicedAddress';
 import { getName } from '../core/getName';
+import { getSlicedAddress } from '../getSlicedAddress';
 import type { GetNameReturnType } from '../types';
 
 type UseNameOptions = {

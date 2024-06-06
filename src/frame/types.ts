@@ -1,5 +1,5 @@
 import type { Abi, Address, Hex } from 'viem';
-import { NeynarFrameValidationInternalModel } from '../utils/neynar/frame/types';
+import type { NeynarFrameValidationInternalModel } from '../utils/neynar/frame/types';
 
 /**
  * Frame Data

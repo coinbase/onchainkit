@@ -1,4 +1,4 @@
-import { XmtpOpenFramesRequest } from '@xmtp/frames-validator';
+import type { XmtpOpenFramesRequest } from '@xmtp/frames-validator';
 import { getXmtpFrameMessage } from './getXmtpFrameMessage';
 
 describe('getXmtpFrameMessage', () => {

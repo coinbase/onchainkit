@@ -1,4 +1,4 @@
-import { NeynarUserModel } from './types';
+import type { NeynarUserModel } from './types';
 
 export function convertToNeynarUserModel(data: any): NeynarUserModel | undefined {
   if (!data) {

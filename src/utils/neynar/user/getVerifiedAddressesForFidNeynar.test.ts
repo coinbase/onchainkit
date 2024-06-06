@@ -1,7 +1,7 @@
 import { getVerifiedAddressesForFidNeynar } from './getVerifiedAddressesForFidNeynar';
 
 describe('getVerifiedAddressesForFidNeynar', () => {
-  let fetchMock = jest.fn();
+  const fetchMock = jest.fn();
   let status = 200;
 
   beforeEach(() => {

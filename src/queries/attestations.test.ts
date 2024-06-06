@@ -1,11 +1,11 @@
+import { base } from 'viem/chains';
+import { createEasGraphQLClient } from '../network/createEasGraphQLClient';
 import {
-  GetAttestationsByFilterOptions,
+  type GetAttestationsByFilterOptions,
+  attestationQuery,
   getAttestationQueryVariables,
   getAttestationsByFilter,
-  attestationQuery,
 } from './attestations';
-import { createEasGraphQLClient } from '../network/createEasGraphQLClient';
-import { base } from 'viem/chains';
 
 jest.mock('../network/createEasGraphQLClient');
 

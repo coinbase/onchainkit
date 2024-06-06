@@ -3,9 +3,9 @@
  */
 
 import { renderHook, waitFor } from '@testing-library/react';
-import { useName } from './useName';
 import { publicClient } from '../../network/client';
 import { getNewReactQueryTestProvider } from '../../test-utils/hooks/get-new-react-query-test-provider';
+import { useName } from './useName';
 
 jest.mock('../../network/client');
 

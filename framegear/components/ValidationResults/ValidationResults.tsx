@@ -2,7 +2,7 @@ import { frameResultsAtom } from '@/utils/store';
 import { vNextSchema } from '@/utils/validation';
 import { useAtom } from 'jotai';
 import { useMemo } from 'react';
-import { type SchemaDescription } from 'yup';
+import type { SchemaDescription } from 'yup';
 
 const REQUIRED_FIELD_NAMES = Object.entries(vNextSchema.describe().fields).reduce(
   (acc, [name, description]) =>

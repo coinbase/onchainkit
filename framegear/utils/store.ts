@@ -1,6 +1,6 @@
+import type { MockFrameRequestOptions } from '@coinbase/onchainkit/frame';
 import { atom } from 'jotai';
-import { fetchFrame } from './fetchFrame';
-import { MockFrameRequestOptions } from '@coinbase/onchainkit/frame';
+import type { fetchFrame } from './fetchFrame';
 
 // We store an array here so that we can step through history, e.g. seeing the
 // chain of responses through a number of frame actions.

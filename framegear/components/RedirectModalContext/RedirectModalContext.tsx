@@ -1,5 +1,6 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
 import { RedirectModal } from '@/components/RedirectModal';
+import type React from 'react';
+import { type ReactNode, createContext, useContext, useState } from 'react';
 
 interface RedirectModalContextType {
   openModal: (onConfirm: () => void) => void;

@@ -1,10 +1,10 @@
+import { useRedirectModal } from '@/components/RedirectModalContext/RedirectModalContext';
+import type { FrameMetadataWithImageObject } from '@/utils/frameResultToFrameMetadata';
 import { postFrame } from '@/utils/postFrame';
 import { frameResultsAtom, mockFrameOptionsAtom } from '@/utils/store';
-import { useAtom } from 'jotai';
-import { ChangeEvent, PropsWithChildren, useCallback, useMemo, useState } from 'react';
 import { ExternalLinkIcon, ResetIcon, RocketIcon } from '@radix-ui/react-icons';
-import { useRedirectModal } from '@/components/RedirectModalContext/RedirectModalContext';
-import { FrameMetadataWithImageObject } from '@/utils/frameResultToFrameMetadata';
+import { useAtom } from 'jotai';
+import { type ChangeEvent, type PropsWithChildren, useCallback, useMemo, useState } from 'react';
 
 export function Frame() {
   const [results] = useAtom(frameResultsAtom);

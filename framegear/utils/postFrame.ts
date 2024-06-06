@@ -1,4 +1,4 @@
-import { FrameRequest, MockFrameRequestOptions } from '@coinbase/onchainkit/frame';
+import type { FrameRequest, MockFrameRequestOptions } from '@coinbase/onchainkit/frame';
 import { parseHtml } from './parseHtml';
 
 type FrameData = FrameRequest['untrustedData'];

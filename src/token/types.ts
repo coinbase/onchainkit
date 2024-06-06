@@ -1,6 +1,6 @@
 // 🌲☀️🌲
 import { ReactElement } from 'react';
-import { Address } from 'viem';
+import type { Address } from 'viem';
 
 /**
  * Note: exported as public Type

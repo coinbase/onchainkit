@@ -1,6 +1,6 @@
-import { FrameValidationData } from '../../../frame/types';
-import { convertToNeynarResponseModel } from './convertToNeynarResponseModel';
+import type { FrameValidationData } from '../../../frame/types';
 import { postDataToNeynar } from '../postDataToNeynar';
+import { convertToNeynarResponseModel } from './convertToNeynarResponseModel';
 
 export const NEYNAR_DEFAULT_API_KEY = 'NEYNAR_ONCHAIN_KIT';
 

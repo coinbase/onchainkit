@@ -1,7 +1,7 @@
-import { CB_SW_PROXY_BYTECODE, CB_SW_V1_IMPLEMENTATION_ADDRESS } from './constants';
-import { isWalletASmartWallet } from './isWalletASmartWallet';
 import type { UserOperation } from 'permissionless';
 import type { PublicClient } from 'viem';
+import { CB_SW_PROXY_BYTECODE, CB_SW_V1_IMPLEMENTATION_ADDRESS } from './constants';
+import { isWalletASmartWallet } from './isWalletASmartWallet';
 
 describe('isWalletASmartWallet', () => {
   const client = {

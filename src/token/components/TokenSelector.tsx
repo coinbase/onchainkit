@@ -1,5 +1,5 @@
 import { cloneElement, isValidElement, useCallback, useState } from 'react';
-import { TokenSelectorReact } from '../types';
+import type { TokenSelectorReact } from '../types';
 import { TokenImage } from './TokenImage';
 
 function CaretUp() {

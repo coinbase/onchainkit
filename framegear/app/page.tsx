@@ -2,8 +2,8 @@
 import { Frame } from '@/components/Frame';
 import { FrameInput } from '@/components/FrameInput';
 import { Header } from '@/components/Header';
-import { ValidationResults } from '@/components/ValidationResults';
 import { RedirectModalProvider } from '@/components/RedirectModalContext/RedirectModalContext';
+import { ValidationResults } from '@/components/ValidationResults';
 
 export default function Home() {
   return (

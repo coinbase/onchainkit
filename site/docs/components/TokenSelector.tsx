@@ -1,6 +1,6 @@
-import { useCallback, useState } from 'react';
-import { TokenSearch, TokenChip, TokenRow } from '@coinbase/onchainkit/token';
+import { TokenChip, TokenRow, TokenSearch } from '@coinbase/onchainkit/token';
 import type { Token } from '@coinbase/onchainkit/token';
+import { useCallback, useState } from 'react';
 
 const tokens: Token[] = [
   {

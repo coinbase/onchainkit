@@ -1,13 +1,13 @@
+import { render, screen, waitFor } from '@testing-library/react';
 /**
  * @jest-environment jsdom
  */
 import React from 'react';
-import { render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
+import { base } from 'viem/chains';
 import { useOnchainKit } from '../../useOnchainKit';
 import { useAttestations } from '../hooks/useAttestations';
 import { WithAvatarBadge } from './WithAvatarBadge';
-import { base } from 'viem/chains';
 
 jest.mock('../../useOnchainKit', () => ({
   useOnchainKit: jest.fn(),

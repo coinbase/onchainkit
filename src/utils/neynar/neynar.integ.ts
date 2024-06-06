@@ -1,7 +1,7 @@
-import { neynarBulkUserLookup } from './user/neynarBulkUserLookup';
 import { neynarFrameValidation } from './frame/neynarFrameValidation';
 import { getCustodyAddressForFidNeynar } from './user/getCustodyAddressForFidNeynar';
 import { getVerifiedAddressesForFidNeynar } from './user/getVerifiedAddressesForFidNeynar';
+import { neynarBulkUserLookup } from './user/neynarBulkUserLookup';
 
 describe('neynar integration tests', () => {
   it('bulk data lookup should find all users', async () => {

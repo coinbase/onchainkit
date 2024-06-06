@@ -1,4 +1,4 @@
-import { Address, Chain } from 'viem';
+import type { Address, Chain } from 'viem';
 
 /**
  * Note: exported as public Type

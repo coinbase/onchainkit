@@ -1,4 +1,4 @@
-import { FrameMetadataResponse, FrameMetadataType } from './types';
+import type { FrameMetadataResponse, FrameMetadataType } from './types';
 
 /**
  * This function generates the metadata for a Farcaster Frame.
@@ -12,7 +12,7 @@ import { FrameMetadataResponse, FrameMetadataType } from './types';
  * @param state: The serialized state (e.g. JSON) for the frame.
  * @returns The metadata for the frame.
  */
-export const getFrameMetadata = function ({
+export const getFrameMetadata = ({
   accepts = {},
   buttons,
   image,
@@ -23,7 +23,7 @@ export const getFrameMetadata = function ({
   refreshPeriod,
   refresh_period,
   state,
-}: FrameMetadataType): FrameMetadataResponse {
+}: FrameMetadataType): FrameMetadataResponse => {
   const postUrlToUse = postUrl || post_url;
   const refreshPeriodToUse = refreshPeriod || refresh_period;
 

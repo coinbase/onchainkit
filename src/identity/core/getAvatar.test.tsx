@@ -1,8 +1,8 @@
 /**
  * @jest-environment jsdom
  */
-import { getAvatar } from './getAvatar';
 import { publicClient } from '../../network/client';
+import { getAvatar } from './getAvatar';
 
 jest.mock('../../network/client');
 

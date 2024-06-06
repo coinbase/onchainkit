@@ -3,9 +3,9 @@
  */
 import React from 'react';
 import '@testing-library/jest-dom';
-import { render, screen, waitFor, fireEvent } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import type { Token } from '../types';
 import { TokenRow } from './TokenRow';
-import { Token } from '../types';
 
 const EXAMPLE_TOKEN: Token = {
   address: '0x1234',

@@ -4,7 +4,7 @@
 import React from 'react';
 import '@testing-library/jest-dom';
 import { fireEvent, render, screen, within } from '@testing-library/react';
-import { Address } from 'viem';
+import type { Address } from 'viem';
 import { TokenChip } from './TokenChip';
 
 describe('TokenChip Component', () => {

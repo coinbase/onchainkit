@@ -1,9 +1,9 @@
 import { useMemo } from 'react';
 
-import { useName } from '../hooks/useName';
 import { getSlicedAddress } from '../getSlicedAddress';
-import { WithNameBadge } from './WithNameBadge';
+import { useName } from '../hooks/useName';
 import type { NameReact } from '../types';
+import { WithNameBadge } from './WithNameBadge';
 
 /**
  * Name is a React component that renders the user name from an Ethereum address.

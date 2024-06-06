@@ -6,9 +6,9 @@ import { base } from 'viem/chains';
 import '@testing-library/jest-dom';
 import { render, screen, waitFor } from '@testing-library/react';
 import { useOnchainKit } from '../../useOnchainKit';
-import { useName } from '../hooks/useName';
 import { useAttestations } from '../hooks/useAttestations';
 import { useAvatar } from '../hooks/useAvatar';
+import { useName } from '../hooks/useName';
 import { Avatar } from './Avatar';
 
 jest.mock('../../useOnchainKit', () => ({

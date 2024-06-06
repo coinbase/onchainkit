@@ -1,13 +1,13 @@
+import { render, screen, waitFor } from '@testing-library/react';
 /**
  * @jest-environment jsdom
  */
 import React from 'react';
 import { base } from 'viem/chains';
-import { render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
-import { EASSchemaUid } from './identity/types';
 import { OnchainKitProvider } from './OnchainKitProvider';
+import type { EASSchemaUid } from './identity/types';
 import { useOnchainKit } from './useOnchainKit';
 
 const TestComponent = () => {

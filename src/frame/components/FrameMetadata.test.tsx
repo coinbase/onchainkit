@@ -1,8 +1,8 @@
+import { render } from '@testing-library/react';
 /**
  * @jest-environment jsdom
  */
 import React from 'react';
-import { render } from '@testing-library/react';
 import { FrameMetadata } from './FrameMetadata';
 
 describe('FrameMetadata', () => {

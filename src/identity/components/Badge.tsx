@@ -1,4 +1,4 @@
-import { BadgeReact } from '../types';
+import type { BadgeReact } from '../types';
 
 /**
  * Badge component.

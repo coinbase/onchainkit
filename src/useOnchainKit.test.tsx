@@ -4,8 +4,8 @@
 import React from 'react';
 import '@testing-library/jest-dom';
 import { render } from '@testing-library/react';
-import { useOnchainKit } from './useOnchainKit';
 import { setOnchainKitConfig } from './OnchainKitConfig';
+import { useOnchainKit } from './useOnchainKit';
 
 const TestComponent = () => {
   const { schemaId, apiKey } = useOnchainKit();

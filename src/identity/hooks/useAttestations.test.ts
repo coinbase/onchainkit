@@ -4,8 +4,8 @@
 
 import { renderHook, waitFor } from '@testing-library/react';
 import { base } from 'viem/chains';
-import { useAttestations } from './useAttestations';
 import { getAttestations } from '../getAttestations';
+import { useAttestations } from './useAttestations';
 
 jest.mock('../getAttestations', () => ({
   getAttestations: jest.fn(),

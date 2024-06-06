@@ -1,10 +1,10 @@
 import { decodeAbiParameters } from 'viem';
+import type { Address, BlockTag, Hex } from 'viem';
 import {
   CB_SW_PROXY_BYTECODE,
   CB_SW_V1_IMPLEMENTATION_ADDRESS,
   ERC_1967_PROXY_IMPLEMENTATION_SLOT,
 } from './constants';
-import type { Address, BlockTag, Hex } from 'viem';
 import type { IsWalletASmartWalletOptions, IsWalletASmartWalletResponse } from './types';
 
 /**
