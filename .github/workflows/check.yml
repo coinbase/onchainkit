@@ -21,4 +21,4 @@ jobs:
       - name: Kit Install dependencies
         run: npm install
       - name: Kit Format Check
-        run: npm run format:check
+        run: npm run check
