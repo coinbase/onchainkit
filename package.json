@@ -8,7 +8,7 @@
     "build": "packemon build --addEngines --addFiles --declaration && npx packemon validate --no-license --no-people --no-repo && tailwindcss -i ./src/index.css -o ./src/styles.css --minify",
     "watch": "tailwind -i ./src/index.css -o ./src/styles.css --watch",
     "format": "biome format --write .",
-    "lint": "biome lint --apply .",
+    "lint": "biome lint --write .",
     "check": "biome check --apply .",
     "test": "jest --testPathIgnorePatterns=\\.integ\\.",
     "test:integration": "jest --testPathIgnorePatterns=\\.test\\.",
