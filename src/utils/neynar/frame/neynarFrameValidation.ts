@@ -10,7 +10,7 @@ export async function neynarFrameValidation(
   castReactionContext = true,
   followContext = true,
 ): Promise<FrameValidationData | undefined> {
-  const url = `https://api.neynar.com/v2/farcaster/frame/validate`;
+  const url = 'https://api.neynar.com/v2/farcaster/frame/validate';
 
   const responseBody = await postDataToNeynar(url, apiKey, {
     message_bytes_in_hex: messageBytes,

@@ -37,12 +37,12 @@ describe('frameResultToFrameMetadata', () => {
 
   it('should handle missing optional fields', () => {
     const result = { ...baseResult };
-    delete (result as any)['fc:frame:button:1'];
-    delete (result as any)['fc:frame:image'];
-    delete (result as any)['fc:frame:input:text'];
-    delete (result as any)['fc:frame:post_url'];
-    delete (result as any)['fc:frame:state'];
-    delete (result as any)['fc:frame:refresh_period'];
+    (result as any)['fc:frame:button:1'] = undefined;
+    (result as any)['fc:frame:image'] = undefined;
+    (result as any)['fc:frame:input:text'] = undefined;
+    (result as any)['fc:frame:post_url'] = undefined;
+    (result as any)['fc:frame:state'] = undefined;
+    (result as any)['fc:frame:refresh_period'] = undefined;
 
     const metadata = frameResultToFrameMetadata(result);
 

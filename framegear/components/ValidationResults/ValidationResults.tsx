@@ -77,7 +77,7 @@ type ValidationEntryProps = { name: string; value?: string; error?: string; show
 function ValidationEntry({ name, value, error, showFlag = true }: ValidationEntryProps) {
   return (
     <div
-      className={`border-pallette-line flex flex-col gap-2 border-b pb-4 last:border-b-0 last:pb-0`}
+      className={'border-pallette-line flex flex-col gap-2 border-b pb-4 last:border-b-0 last:pb-0'}
     >
       <div className="flex justify-between">
         <span>{name}</span>

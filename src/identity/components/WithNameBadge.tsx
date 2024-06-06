@@ -33,7 +33,7 @@ function WithNameBadgeInner({ children, address }: WithNameBadgeInnerProps) {
   return (
     <div data-testid="ockNameBadgeInner" style={{ display: 'flex', alignItems: 'center' }}>
       {children}
-      {attestations && attestations[0] && (
+      {attestations?.[0] && (
         <div style={{ marginLeft: '4px' }}>
           <Badge />
         </div>

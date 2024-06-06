@@ -78,7 +78,7 @@ function ErrorFrame() {
 function PlaceholderFrame() {
   return (
     <div className="flex flex-col">
-      <div className="bg-farcaster flex aspect-[1.91/1] w-full rounded-t-xl"></div>
+      <div className="bg-farcaster flex aspect-[1.91/1] w-full rounded-t-xl" />
       <div className="bg-button-gutter-light dark:bg-content-light flex flex-wrap gap-2 rounded-b-xl px-4 py-2">
         <FrameButton state={{}} index={1} inputText="">
           Get Started
@@ -140,7 +140,7 @@ function FrameButton({
       }
       setIsLoading(false);
       return;
-    } else if (button?.action === 'link') {
+    }if (button?.action === 'link') {
       const onConfirm = () => window.open(button.target, '_blank');
       openModal(onConfirm);
     } else {

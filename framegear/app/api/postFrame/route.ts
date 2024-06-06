@@ -22,8 +22,7 @@ export async function POST(req: NextRequest) {
   if (res.status === 302) {
     const redirectUrl = res.headers.get('Location');
     return Response.json({ redirectUrl });
-  } else {
+  }
     const html = await res.text();
     return Response.json({ html });
-  }
 }

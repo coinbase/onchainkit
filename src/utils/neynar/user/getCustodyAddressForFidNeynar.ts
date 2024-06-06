@@ -8,7 +8,7 @@ export async function getCustodyAddressForFidNeynar(
   const url = `https://api.neynar.com/v1/farcaster/custody-address?fid=${fid}`;
   const responseBody = await getDataFromNeynar(url, apiKey);
   if (!responseBody || !responseBody.result || !responseBody.result.custodyAddress) {
-    throw new Error('No custody address found for FID ' + fid);
+    throw new Error(`No custody address found for FID ${fid}`);
   }
   return responseBody.result.custodyAddress;
 }
