@@ -15,22 +15,22 @@ describe('getAvatar', () => {
   });
 
   it('should return correct avatar URL from client getAvatar', async () => {
-    const ensName = 'test.ens';
+    const name = 'test.ens';
     const expectedAvatarUrl = 'avatarUrl';
 
     mockGetEnsAvatar.mockResolvedValue(expectedAvatarUrl);
 
-    const avatarUrl = await getAvatar(ensName);
+    const avatarUrl = await getAvatar({ name });
 
     expect(avatarUrl).toBe(expectedAvatarUrl);
-    expect(mockGetEnsAvatar).toHaveBeenCalledWith({ name: ensName });
+    expect(mockGetEnsAvatar).toHaveBeenCalledWith({ name });
   });
 
   it('should return null when client getAvatar throws an error', async () => {
-    const ensName = 'test.ens';
+    const name = 'test.ens';
 
     mockGetEnsAvatar.mockRejectedValue(new Error('This is an error'));
 
-    await expect(getAvatar(ensName)).rejects.toThrow('This is an error');
+    await expect(getAvatar({ name })).rejects.toThrow('This is an error');
   });
 });
