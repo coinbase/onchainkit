@@ -76,7 +76,7 @@ export type TokenChipReact = {
  * Note: exported as public Type
  */
 export type TokenImageReact = {
-  src: string | null;
+  token: Token;
   size?: number;
 };
 

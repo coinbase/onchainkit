@@ -42,7 +42,7 @@ export function TokenSelector({ token, onClick }: TokenSelectorReact) {
     <button data-testid="ockTokenSelector_Button" style={styles.button} onClick={onClick}>
       {token ? (
         <>
-          <TokenImage src={token.image} size={16} />
+          <TokenImage token={token} size={16} />
           <span data-testid="ockTokenSelector_Symbol" style={styles.label}>
             {token.symbol}
           </span>
