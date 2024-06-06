@@ -20,9 +20,10 @@ export async function getQuote(params: GetQuoteParams): Promise<GetQuoteResponse
   params = { ...defaultParams, ...params };
 
   // Only pass in the address as a parameter to the request
+  // Defaults to ETH if no address is provided
   const addressParams: GetQuoteParamsWithAddress = {
-    from: params.from.address,
-    to: params.to.address,
+    from: params.from.address || 'ETH',
+    to: params.to.address || 'ETH',
     amount: params.amount,
     amountReference: params.amountReference,
   };
