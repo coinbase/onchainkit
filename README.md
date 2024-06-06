@@ -61,6 +61,9 @@ npm install @coinbase/onchainkit viem@2.x
 
 # Use PNPM
 pnpm add @coinbase/onchainkit viem@2.x
+
+# Use BUN
+bun add @coinbase/onchainkit viem@2.x
 ```
 
 ## Components
