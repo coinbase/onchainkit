@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 
-import { getEnsAvatar } from './getAvatar';
+import { getEnsAvatar } from './getEnsAvatar';
 import { publicClient } from '../../network/client';
 
 jest.mock('../../network/client');
