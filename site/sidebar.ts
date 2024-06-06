@@ -3,14 +3,26 @@ import type { Sidebar } from 'vocs';
 export const sidebar = [
   {
     text: 'Introduction',
+    items: [{ text: 'Getting Started', link: '/getting-started' }],
+  },
+  {
+    text: 'Guides',
     items: [
-      { text: 'Getting Started', link: '/getting-started' },
+      {
+        text: 'Contribution',
+        link: '/guides/contribution',
+      },
+    ],
+  },
+  {
+    text: 'Config',
+    items: [
       {
         text: 'Components',
         items: [
           {
             text: 'OnchainKitProvider',
-            link: '/onchainkit-provider',
+            link: '/config/onchainkit-provider',
           },
         ],
       },
@@ -20,17 +32,13 @@ export const sidebar = [
         items: [
           {
             text: 'isBase',
-            link: '/is-base',
+            link: '/config/is-base',
           },
         ],
       },
       {
         text: 'Types',
-        link: '/types',
-      },
-      {
-        text: 'Contribution Guide',
-        link: '/contribution-guide',
+        link: '/config/types',
       },
     ],
   },
