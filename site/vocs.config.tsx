@@ -6,7 +6,8 @@ import { sidebar } from './sidebar';
 export const GOOGLE_ANALYTICS_ID = process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID ?? 'TEST_GA';
 
 const ONCHAINKIT_TITLE = 'OnchainKit';
-const ONCHAINKIT_DESCRIPTION = 'React components and TypeScript utilities for top-tier onchain apps.';
+const ONCHAINKIT_DESCRIPTION =
+  'React components and TypeScript utilities for top-tier onchain apps.';
 
 export default defineConfig({
   baseUrl: 'https://onchainkit.xyz',

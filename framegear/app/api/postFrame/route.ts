@@ -23,6 +23,6 @@ export async function POST(req: NextRequest) {
     const redirectUrl = res.headers.get('Location');
     return Response.json({ redirectUrl });
   }
-    const html = await res.text();
-    return Response.json({ html });
+  const html = await res.text();
+  return Response.json({ html });
 }

@@ -140,7 +140,8 @@ function FrameButton({
       }
       setIsLoading(false);
       return;
-    }if (button?.action === 'link') {
+    }
+    if (button?.action === 'link') {
       const onConfirm = () => window.open(button.target, '_blank');
       openModal(onConfirm);
     } else {
