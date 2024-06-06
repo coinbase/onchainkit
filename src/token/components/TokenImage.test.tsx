@@ -5,14 +5,33 @@ import React from 'react';
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import { TokenImage } from './TokenImage';
+import { Token } from '../types';
+
+const tokenWithImage: Token = {
+  name: 'Ethereum',
+  address: '0x123',
+  symbol: 'ETH',
+  decimals: 18,
+  image: 'https://wallet-api-production.s3.amazonaws.com/uploads/tokens/eth_288.png',
+  chainId: 8453,
+};
+
+const tokenWithNoImage: Token = {
+  name: 'Ethereum',
+  address: '0x123',
+  symbol: 'ETH',
+  decimals: 18,
+  image: null,
+  chainId: 8453,
+};
 
 describe('TokenImage Component', () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
-  it('should render with src prop', async () => {
-    render(<TokenImage src="https://link/to/image.png" />);
+  it('should render token with image', async () => {
+    render(<TokenImage token={tokenWithImage} />);
     const imgElement = screen.getByTestId('ockTokenImage_Image');
     const noImgElement = screen.queryByTestId('ockTokenImage_NoImage');
 
@@ -20,8 +39,8 @@ describe('TokenImage Component', () => {
     expect(noImgElement).toBeNull();
   });
 
-  it('should render with no src prop', async () => {
-    render(<TokenImage src={null} />);
+  it('should render token with no image', async () => {
+    render(<TokenImage token={tokenWithNoImage} />);
     const imgElement = screen.queryByTestId('ockTokenImage_Image');
     const noImgElement = screen.getByTestId('ockTokenImage_NoImage');
 
@@ -30,7 +49,7 @@ describe('TokenImage Component', () => {
   });
 
   it('should render with size prop', async () => {
-    render(<TokenImage src={null} size={16} />);
+    render(<TokenImage token={tokenWithNoImage} size={16} />);
     const imgElement = screen.queryByTestId('ockTokenImage_Image');
     const noImgElement = screen.getByTestId('ockTokenImage_NoImage');
 
