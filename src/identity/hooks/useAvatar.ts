@@ -20,7 +20,7 @@ export const useAvatar = ({ ensName }: UseAvatarOptions, queryOptions?: UseAvata
   return useQuery<GetEnsAvatarReturnType>({
     queryKey: ['useEnsAvatar', ensActionKey],
     queryFn: async () => {
-      return await getEnsAvatar({ name: ensName });
+      return getEnsAvatar({ name: ensName });
     },
     gcTime: cacheTime,
     enabled,
