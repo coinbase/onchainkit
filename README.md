@@ -209,7 +209,7 @@ If you're seeking basic TypeScript utilities, we have plenty of ready-to-use opt
 
 ##### Identity
 
-- [getAvatar](https://onchainkit.xyz/identity/get-avatar)
+- [getEnsAvatar](https://onchainkit.xyz/identity/get-ens-avatar)
 - [getAttestations](https://onchainkit.xyz/identity/get-attestations)
 - [getName](https://onchainkit.xyz/identity/get-name)
 - [useName](https://onchainkit.xyz/identity/use-name)

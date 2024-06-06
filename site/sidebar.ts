@@ -101,8 +101,8 @@ export const sidebar = [
         collapsed: true,
         items: [
           {
-            text: 'getAvatar',
-            link: '/identity/get-avatar',
+            text: 'getEnsAvatar',
+            link: '/identity/get-ens-avatar',
           },
           {
             text: 'getAttestations',
