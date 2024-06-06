@@ -16,6 +16,5 @@ export type {
   EASChainDefinition,
   GetAttestationsOptions,
   GetAvatarReturnType,
-  GetEnsAvatarReturnType,
   GetNameReturnType,
 } from './types';
