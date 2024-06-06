@@ -1,6 +1,7 @@
 import { ListSwapAssets } from '../../definitions/swap';
 import { LegacyTokenData, GetTokensOptions, GetTokensResponse, GetTokensError } from '../types';
 import { sendRequest } from '../../queries/request';
+import { formatToken, formatTokens } from './formatToken';
 
 /**
  * Retrieves a list of tokens on Base.
@@ -25,14 +26,7 @@ export async function getTokens(options?: GetTokensOptions): Promise<GetTokensRe
     }
 
     // Map the data from the response to the `OnchainKit` Token type
-    return res.result.map((token) => ({
-      address: token.address,
-      chainId: token.chainId,
-      decimals: token.decimals,
-      image: token.imageURL,
-      name: token.name,
-      symbol: token.currencyCode,
-    }));
+    return formatTokens(res.result);
   } catch (error) {
     throw new Error(`getTokens: ${error}`);
   }
