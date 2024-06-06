@@ -7,9 +7,9 @@
   "scripts": {
     "build": "packemon build --addEngines --addFiles --declaration && npx packemon validate --no-license --no-people --no-repo && tailwindcss -i ./src/index.css -o ./src/styles.css --minify",
     "watch": "tailwind -i ./src/index.css -o ./src/styles.css --watch",
-    "check": "yarn format",
-    "format": "prettier --log-level warn --write .",
-    "format:check": "prettier --check .",
+    "format": "biome format --write .",
+    "lint": "biome lint --apply .",
+    "check": "biome check --apply .",
     "test": "jest --testPathIgnorePatterns=\\.integ\\.",
     "test:integration": "jest --testPathIgnorePatterns=\\.test\\.",
     "test:all": "jest .",
@@ -31,6 +31,7 @@
     "wagmi": "^2"
   },
   "devDependencies": {
+    "@biomejs/biome": "^1.8.0",
     "@changesets/changelog-github": "^0.4.8",
     "@changesets/cli": "^2.26.2",
     "@coinbase/wallet-sdk": "^4.0.0",
