@@ -56,7 +56,7 @@ export type GetTokensOptions = {
  * Note: exported as public Type
  */
 export type Token = {
-  address: Address; // The address of the token contract
+  address: Address | ''; // The address of the token contract
   chainId: number; // The chain id of the token contract
   decimals: number; // The number of token decimals
   image: string | null; // A string url of the token logo
