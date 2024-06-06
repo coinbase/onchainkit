@@ -73,7 +73,6 @@ export type GetAttestationsOptions = {
 };
 
 /**
- * @deprecated Use {@link GetEnsAvatarReturnType} instead.
  * Note: exported as public Type
  */
 export type GetAvatarReturnType = string | null;
