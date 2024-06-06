@@ -1,0 +1,32 @@
+.ock-tokenrow-button {
+  @apply flex h-16 w-full cursor-pointer items-center justify-between px-2 py-1;
+  background: #ffffff;
+
+  &:hover {
+    background: #cacbce;
+  }
+
+  &:active {
+    background: #bfc1c3;
+  }
+}
+
+.ock-tokenrow-left {
+  @apply flex items-center gap-3;
+}
+
+.ock-tokenrow-body {
+  @apply flex flex-col items-start;
+}
+
+.ock-tokenrow-name {
+  @apply text-base font-medium leading-normal text-[#0A0B0D];
+}
+
+.ock-tokenrow-symbol {
+  @apply text-base font-normal leading-normal text-[#5B616E];
+}
+
+.ock-tokenrow-data {
+  @apply text-base font-normal leading-normal text-[#5B616E];
+}
