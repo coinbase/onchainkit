@@ -3,10 +3,7 @@
     "moduleResolution": "node",
     "target": "es2020",
     "module": "es2020",
-    "lib": [
-      "es2020",
-      "dom"
-    ],
+    "lib": ["es2020", "dom"],
     "skipLibCheck": true,
     "jsx": "react-jsx",
     "strict": true,
@@ -17,17 +14,9 @@
     "emitDecoratorMetadata": true,
     "declarationDir": "dist/types",
     "outDir": "dist/es",
-    "typeRoots": [
-      "node_modules/@types",
-      "./types"
-    ],
+    "typeRoots": ["node_modules/@types", "./types"],
     "rootDir": "src"
   },
-  "include": [
-    "src"
-  ],
-  "exclude": [
-    "node_modules",
-    "**/*.test.*"
-  ]
+  "include": ["src"],
+  "exclude": ["node_modules", "**/*.test.*"]
 }

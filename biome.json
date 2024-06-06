@@ -1,8 +1,8 @@
 {
-	"$schema": "https://biomejs.dev/schemas/1.8.0/schema.json",
-	"organizeImports": {
-		"enabled": true
-	},
+  "$schema": "https://biomejs.dev/schemas/1.8.0/schema.json",
+  "organizeImports": {
+    "enabled": true
+  },
   "formatter": {
     "enabled": true,
     "indentWidth": 2,
@@ -19,12 +19,12 @@
       "bracketSameLine": false
     }
   },
-	"linter": {
-		"enabled": true,
-		"rules": {
-			"recommended": true
-		}
-	},
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": true
+    }
+  },
   "json": {
     "formatter": {
       "trailingCommas": "none"
