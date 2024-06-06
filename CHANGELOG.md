@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.19.1
+
+### Patch Changes
+
+- b6653f1: - **feat**: for `getAvatar` now we use `ensName` instead of `name`. By @zizzamia #471
+
 ## 0.19.0
 
 ### Minor Changes
