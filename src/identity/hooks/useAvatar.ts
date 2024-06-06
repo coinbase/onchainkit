@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { GetAvatarReturnType } from '../types';
-import { getEnsAvatar } from '../core/getEnsAvatar';
+import { getEnsAvatar } from '../core/getAvatar';
 
 type UseAvatarOptions = {
   ensName: string;
