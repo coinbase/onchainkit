@@ -222,11 +222,12 @@ Coming soon
 ##### Token
 
 - [formatAmount](https://onchainkit.xyz/token/format-amount)
-- [getTokens](https://onchainkit.xyz/identity/get-tokens)
+- [getTokens](https://onchainkit.xyz/token/get-tokens)
 
 ##### Wallet
 
-Coming soon
+- [isValidAAEntrypoint](/wallet/is-valid-aa-entrypoint)
+- [isWalletASmartWallet](/wallet/is-wallet-a-smart-wallet)
 
 ##### Farcaster
 

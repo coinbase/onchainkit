@@ -1,10 +1,22 @@
 # Changelog
 
+## 0.18.6
+
+### Patch Changes
+
+- **feat**: postcss integration + add modifier states TokenChip css. By @kyhyco #453 db2e1d9
+
+## 0.18.5
+
+### Patch Changes
+
+- **feat**: added the `isWalletASmartWallet` utility which helps verify if a given sender address is a Smart Wallet proxy with the expected implementation before sponsoring a transaction. By @cpcramer & @zizzamia #420 #454 dd31024
+
 ## 0.18.4
 
 ### Patch Changes
 
-- 62be36a: - **fix**: style.css location. By @zizzamia
+- **fix**: style.css location. By @zizzamia 62be36a
 
 ## 0.18.3
 

@@ -1,0 +1,31 @@
+.ock-textinput-container {
+  @apply relative flex items-center;
+}
+
+.ock-textinput-iconsearch {
+  @apply absolute left-4 top-2/4 -translate-y-2/4;
+}
+
+.ock-textinput-input {
+  @apply w-full rounded-full border-2 border-solid border-[#eef0f3] py-2  pl-12 pr-5 text-[#0A0B0D];
+  background: #eef0f3;
+
+  &::placeholder {
+    @apply text-[#5B616E];
+  }
+  &:hover {
+    @apply border-[#cacbce];
+    background: #cacbce;
+  }
+  &:focus {
+    @apply border-[#0052FF];
+    outline: none;
+  }
+  &:hover:focus {
+    background: #eef0f3;
+  }
+}
+
+.ock-textinput-clearbutton {
+  @apply absolute right-4 top-2/4 -translate-y-2/4;
+}

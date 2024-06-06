@@ -28,6 +28,10 @@ export const sidebar = [
         text: 'Types',
         link: '/types',
       },
+      {
+        text: 'Contribution Guide',
+        link: '/contribution-guide',
+      },
     ],
   },
   {
@@ -203,6 +207,10 @@ export const sidebar = [
           {
             text: 'isValidAAEntrypoint',
             link: '/wallet/is-valid-aa-entrypoint',
+          },
+          {
+            text: 'isWalletASmartWallet',
+            link: '/wallet/is-wallet-a-smart-wallet',
           },
         ],
       },

@@ -20,7 +20,5 @@ export function TokenSearch({ onChange, delayMs = 200 }: TokenSearchReact) {
     }
   }, []);
 
-  return (
-    <TextInput placeholder="Search name or paste address" value={value} onChange={handleChange} />
-  );
+  return <TextInput placeholder="Search for a token" value={value} onChange={handleChange} />;
 }
