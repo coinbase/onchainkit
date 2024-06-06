@@ -1,9 +1,14 @@
 import { getQuote } from './getQuote';
 import { sendRequest } from '../../queries/request';
+import { GetSwapQuote } from '../../definitions/swap';
 
 jest.mock('../../queries/request');
 
 describe('getQuote', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('should return a quote for a swap', async () => {
     const mockParams = {
       amountReference: 'from',
@@ -56,6 +61,9 @@ describe('getQuote', () => {
     const quote = await getQuote(mockParams);
 
     expect(quote).toEqual(mockResponse.result);
+
+    expect(sendRequest).toHaveBeenCalledTimes(1);
+    expect(sendRequest).toHaveBeenCalledWith(GetSwapQuote, [mockParams]);
   });
 
   it('should throw an error if sendRequest fails', async () => {
@@ -66,13 +74,16 @@ describe('getQuote', () => {
       amount: '3305894409732200',
     };
 
-    const mockError = new Error('Failed to send request');
+    const mockError = new Error('getQuote: Error: Failed to send request');
     (sendRequest as jest.Mock).mockRejectedValue(mockError);
 
-    await expect(getQuote(mockParams)).rejects.toThrowError(mockError);
+    await expect(getQuote(mockParams)).rejects.toThrow('getQuote: Error: Failed to send request');
+
+    expect(sendRequest).toHaveBeenCalledTimes(1);
+    expect(sendRequest).toHaveBeenCalledWith(GetSwapQuote, [mockParams]);
   });
 
-  it('should throw an error if the response does not have a result', async () => {
+  it('should return an error object from getQuote', async () => {
     const mockParams = {
       amountReference: 'from',
       from: '0x4ed4e862860bed51a9570b96d89af5e1b0efefed',
@@ -91,6 +102,13 @@ describe('getQuote', () => {
 
     (sendRequest as jest.Mock).mockResolvedValue(mockResponse);
 
-    await expect(getQuote(mockParams)).rejects.toThrowError('Invalid response');
+    const error = await getQuote(mockParams);
+    expect(error).toEqual({
+      code: -1,
+      error: 'Invalid response',
+    });
+
+    expect(sendRequest).toHaveBeenCalledTimes(1);
+    expect(sendRequest).toHaveBeenCalledWith(GetSwapQuote, [mockParams]);
   });
 });
