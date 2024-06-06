@@ -4,32 +4,32 @@
 
 ### Minor Changes
 
-- 029ba7d: - **feat**: standardized `getAvatar()`. By @roushou #464
+- **feat**: standardized `getAvatar()`. By @roushou #464 029ba7d
 
-  - **feat**: `TokenImage` with no image renders partial token symbol and deterministic dark color. By @kyhyco #468
-  - **feat**: converted `TokeSearch` to css and add modifier styles. By @kyhyco #460
-  - **docs**: added contribution guide. By @kyhyco #459
+- **feat**: `TokenImage` with no image renders partial token symbol and deterministic dark color. By @kyhyco#468
+- **feat**: converted `TokeSearch` to css and add modifier styles. By @kyhyco #460
+- **docs**: added contribution guide. By @kyhyco #459
 
-  Breaking changes
+Breaking changes
 
-  - Changed the definition of `getAvatar(...)`, from `getAvatar(ensName: string)` to `getAvatar(params: { ensName: string })`.
-  - Changed `TokenImage` props from
+- Changed the definition of `getAvatar(...)`, from `getAvatar(ensName: string)` to `getAvatar(params: {ensName: string })`.
+- Changed `TokenImage` props from
 
-  ```ts
-  export type TokenImageReact = {
-    src: string | null;
-    size?: number;
-  };
-  ```
+```ts
+export type TokenImageReact = {
+  src: string | null;
+  size?: number;
+};
+```
 
-  to
+to
 
-  ```ts
-  export type TokenImageReact = {
-    token: Token;
-    size?: number;
-  };
-  ```
+```ts
+export type TokenImageReact = {
+  token: Token;
+  size?: number;
+};
+```
 
 ## 0.18.6
 
