@@ -3,15 +3,31 @@ import { Token } from '../token/types';
 
 export type AddressOrETH = Address | 'ETH';
 
+/**
+ * Note: exported as public Type
+ */
 export type GetQuoteParams = {
-  from: string;
-  to: string;
+  from: Token;
+  to: Token;
   amount: string;
   amountReference?: string;
 };
 
+export type GetQuoteParamsWithAddress = {
+  from: AddressOrETH;
+  to: AddressOrETH;
+  amount: string;
+  amountReference?: string;
+};
+
+/**
+ * Note: exported as public Type
+ */
 export type GetQuoteResponse = Quote | SwapError;
 
+/**
+ * Note: exported as public Type
+ */
 export type SwapError = {
   code: number;
   error: string;
@@ -23,6 +39,9 @@ export type Fee = {
   percentage: string;
 };
 
+/**
+ * Note: exported as public Type
+ */
 export type Quote = {
   amountReference: string;
   fromAmount: string;
