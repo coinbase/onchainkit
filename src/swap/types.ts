@@ -44,13 +44,13 @@ export type Fee = {
  */
 export type Quote = {
   amountReference: string;
+  from: Token;
   fromAmount: string;
-  fromAsset: Token;
   highPriceImpact: boolean;
   priceImpact: string;
   slippage: string;
+  to: Token;
   toAmount: string;
-  toAsset: Token;
   warning?: QuoteWarning;
 };
 
