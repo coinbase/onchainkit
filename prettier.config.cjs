@@ -1,6 +1,6 @@
 /** @type {import("prettier").Config} */
 module.exports = {
-  arrowParens: 'always',
+  arrowParens: "always",
   bracketSameLine: false,
   jsxSingleQuote: false,
   plugins: ['prettier-plugin-tailwindcss'],
