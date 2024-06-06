@@ -11,8 +11,8 @@ export const getAvatar = async (ensName: string): Promise<GetAvatarReturnType> =
   });
 };
 
-export const getEnsAvatar = async (ensName: string): Promise<GetAvatarReturnType> => {
+export const getEnsAvatar = async (params: { name: string }): Promise<GetAvatarReturnType> => {
   return await publicClient.getEnsAvatar({
-    name: normalize(ensName),
+    name: normalize(params.name),
   });
 };
