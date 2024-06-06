@@ -1,11 +1,13 @@
 import { GetSwapQuote } from '../../definitions/swap';
 import { sendRequest } from '../../queries/request';
+import { formatToken } from '../../token/core/formatToken';
 import {
   GetQuoteResponse,
   GetQuoteParams,
   GetQuoteParamsWithAddress,
   Quote,
   SwapError,
+  LegacyQuote,
 } from '../types';
 
 /**
@@ -29,7 +31,9 @@ export async function getQuote(params: GetQuoteParams): Promise<GetQuoteResponse
   };
 
   try {
-    const res = await sendRequest<GetQuoteParamsWithAddress, Quote>(GetSwapQuote, [addressParams]);
+    const res = await sendRequest<GetQuoteParamsWithAddress, LegacyQuote>(GetSwapQuote, [
+      addressParams,
+    ]);
 
     if (res.error) {
       return {
@@ -38,7 +42,19 @@ export async function getQuote(params: GetQuoteParams): Promise<GetQuoteResponse
       } as SwapError;
     }
 
-    return res.result;
+    const quote: Quote = {
+      amountReference: res.result.amountReference,
+      from: formatToken(res.result.fromAsset),
+      fromAmount: res.result.fromAmount,
+      highPriceImpact: res.result.highPriceImpact,
+      priceImpact: res.result.priceImpact,
+      slippage: res.result.slippage,
+      to: formatToken(res.result.toAsset),
+      toAmount: res.result.toAmount,
+      warning: res.result.warning,
+    };
+
+    return quote;
   } catch (error) {
     throw new Error(`getQuote: ${error}`);
   }

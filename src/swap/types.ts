@@ -1,5 +1,5 @@
 import { Address } from 'viem';
-import { Token } from '../token/types';
+import { LegacyTokenData, Token } from '../token/types';
 
 export type AddressOrETH = Address | 'ETH';
 
@@ -51,6 +51,18 @@ export type Quote = {
   slippage: string;
   to: Token;
   toAmount: string;
+  warning?: QuoteWarning;
+};
+
+export type LegacyQuote = {
+  amountReference: string;
+  fromAmount: string;
+  fromAsset: LegacyTokenData;
+  highPriceImpact: boolean;
+  priceImpact: string;
+  slippage: string;
+  toAmount: string;
+  toAsset: LegacyTokenData;
   warning?: QuoteWarning;
 };
 
