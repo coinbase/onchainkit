@@ -75,6 +75,13 @@ export type GetAttestationsOptions = {
 /**
  * Note: exported as public Type
  */
+export type GetAvatar = {
+  ensName: string; // The ENS name to fetch the avatar for.
+};
+
+/**
+ * Note: exported as public Type
+ */
 export type GetAvatarReturnType = string | null;
 
 /**
