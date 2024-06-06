@@ -22,7 +22,7 @@ describe('getAvatar', () => {
     const avatarUrl = await getAvatar({ ensName });
 
     expect(avatarUrl).toBe(expectedAvatarUrl);
-    expect(mockGetEnsAvatar).toHaveBeenCalledWith({ ensName });
+    expect(mockGetEnsAvatar).toHaveBeenCalledWith({ name: ensName });
   });
 
   it('should return null when client getAvatar throws an error', async () => {
