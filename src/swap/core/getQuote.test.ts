@@ -1,6 +1,7 @@
 import { getQuote } from './getQuote';
 import { sendRequest } from '../../queries/request';
 import { GetSwapQuote } from '../../definitions/swap';
+import { Token } from '../../token';
 
 jest.mock('../../queries/request');
 
@@ -9,11 +10,30 @@ describe('getQuote', () => {
     jest.clearAllMocks();
   });
 
+  const ETH: Token = {
+    name: 'ETH',
+    address: '',
+    symbol: 'ETH',
+    decimals: 18,
+    image: 'https://wallet-api-production.s3.amazonaws.com/uploads/tokens/eth_288.png',
+    chainId: 8453,
+  };
+
+  const DEGEN: Token = {
+    name: 'DEGEN',
+    address: '0x4ed4e862860bed51a9570b96d89af5e1b0efefed',
+    symbol: 'DEGEN',
+    decimals: 18,
+    image:
+      'https://d3r81g40ycuhqg.cloudfront.net/wallet/wais/3b/bf/3bbf118b5e6dc2f9e7fc607a6e7526647b4ba8f0bea87125f971446d57b296d2-MDNmNjY0MmEtNGFiZi00N2I0LWIwMTItMDUyMzg2ZDZhMWNm',
+    chainId: 8453,
+  };
+
   it('should return a quote for a swap', async () => {
     const mockParams = {
       amountReference: 'from',
-      from: '0x4ed4e862860bed51a9570b96d89af5e1b0efefed',
-      to: '0xcd2f22236dd9dfe2356d7c543161d4d260fd9bcb',
+      from: ETH,
+      to: DEGEN,
       amount: '3305894409732200',
     };
 
@@ -69,8 +89,8 @@ describe('getQuote', () => {
   it('should throw an error if sendRequest fails', async () => {
     const mockParams = {
       amountReference: 'from',
-      from: '0x4ed4e862860bed51a9570b96d89af5e1b0efefed',
-      to: '0xcd2f22236dd9dfe2356d7c543161d4d260fd9bcb',
+      from: ETH,
+      to: DEGEN,
       amount: '3305894409732200',
     };
 
@@ -86,8 +106,8 @@ describe('getQuote', () => {
   it('should return an error object from getQuote', async () => {
     const mockParams = {
       amountReference: 'from',
-      from: '0x4ed4e862860bed51a9570b96d89af5e1b0efefed',
-      to: '0xcd2f22236dd9dfe2356d7c543161d4d260fd9bcb',
+      from: ETH,
+      to: DEGEN,
       amount: '3305894409732200',
     };
 
