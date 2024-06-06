@@ -1,32 +1,9 @@
 import { memo, CSSProperties } from 'react';
 import { TokenRowReact } from '../types';
 import { formatAmount } from '../core/formatAmount';
+import { TokenImage } from './TokenImage';
 
 const styles = {
-  row: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    cursor: 'pointer',
-    padding: '4px 8px',
-    width: '100%',
-  },
-  left: {
-    display: 'flex',
-    alignItems: 'center',
-  },
-  image: {
-    height: '32px',
-    width: '32px',
-    marginRight: '12px',
-  },
-  circle: {
-    height: '32px',
-    width: '32px',
-    borderRadius: '99999px',
-    background: 'gray',
-    marginRight: '12px',
-  },
   column: {
     display: 'flex',
     flexDirection: 'column',
@@ -46,21 +23,27 @@ const styles = {
   },
 } as Record<string, CSSProperties>;
 
-export const TokenRow = memo(function TokenRow({ token, amount, onClick }: TokenRowReact) {
+export const TokenRow = memo(function TokenRow({
+  token,
+  amount,
+  onClick,
+  hideImage,
+  hideSymbol,
+}: TokenRowReact) {
   return (
-    <button data-testid="ockTokenRow_Container" style={styles.row} onClick={() => onClick?.(token)}>
-      <span style={styles.left}>
-        {token.image === null ? (
-          <span data-testid="ockTokenRow_PlaceholderImage" style={styles.circle} />
-        ) : (
-          <img data-testid="ockTokenRow_Image" style={styles.image} src={token.image} />
-        )}
-        <span style={styles.column}>
-          <span style={styles.label1}>{token.name}</span>
-          <span style={styles.label2}>{token.symbol}</span>
+    <button
+      data-testid="ockTokenRow_Container"
+      className="ock-tokenrow-button"
+      onClick={() => onClick?.(token)}
+    >
+      <span className="ock-tokenrow-left">
+        {!hideImage && <TokenImage token={token} size={32} />}
+        <span className="ock-tokenrow-body">
+          <span className="ock-tokenrow-name">{token.name}</span>
+          {!hideSymbol && <span className="ock-tokenrow-symbol">{token.symbol}</span>}
         </span>
       </span>
-      <span data-testid="ockTokenRow_Amount" style={styles.label2}>
+      <span data-testid="ockTokenRow_Amount" className="ock-tokenrow-data">
         {formatAmount(amount, {
           minimumFractionDigits: 2,
           maximumFractionDigits: Number(amount) < 1 ? 5 : 2,

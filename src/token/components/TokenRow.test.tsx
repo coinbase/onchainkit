@@ -27,7 +27,7 @@ describe('TokenRow component', () => {
     render(<TokenRow token={token} />);
 
     await waitFor(() => {
-      const circle = screen.getByTestId('ockTokenRow_PlaceholderImage');
+      const circle = screen.getByTestId('ockTokenImage_NoImage');
       expect(circle).toBeInTheDocument();
     });
   });
@@ -36,7 +36,7 @@ describe('TokenRow component', () => {
     render(<TokenRow token={EXAMPLE_TOKEN} />);
 
     await waitFor(() => {
-      const tokenImage = screen.getByTestId('ockTokenRow_Image');
+      const tokenImage = screen.getByTestId('ockTokenImage_Image');
       expect(tokenImage).toBeInTheDocument();
     });
   });

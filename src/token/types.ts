@@ -87,6 +87,8 @@ export type TokenRowReact = {
   token: Token;
   amount?: string;
   onClick?: (token: Token) => void;
+  hideSymbol?: boolean;
+  hideImage?: boolean;
 };
 
 /**

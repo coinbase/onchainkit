@@ -14,62 +14,42 @@ Token with an image url
 ```tsx [code]
 import { TokenRow } from '@coinbase/onchainkit/token';
 
-const token = {
-  address: '0x1234',
-  chainId: 1,
-  decimals: 18,
-  image:
-    'https://dynamic-assets.coinbase.com/dbb4b4983bde81309ddab83eb598358eb44375b930b94687ebe38bc22e52c3b2125258ffb8477a5ef22e33d6bd72e32a506c391caa13af64c00e46613c3e5806/asset_icons/4113b082d21cc5fab17fc8f2d19fb996165bcce635e6900f7fc2d57c4ef33ae9.png',
-  name: 'Ether',
-  symbol: 'ETH',
-};
+const token = { ... };
 
 <TokenRow token={token} />; // [!code focus]
 ```
 
 ```html [return html]
-<button
-  data-testid="ockTokenRow_Container"
-  style="display: flex; align-items: center; justify-content: space-between; cursor: pointer; padding: 4px 8px; width: 100%;"
->
-  <span style="display: flex; align-items: center;">
+<button data-testid="ockTokenRow_Container" class="ock-tokenrow-button">
+  <span class="ock-tokenrow-left">
     <img
-      data-testid="ockTokenRow_Image"
+      data-testid="ockTokenImage_Image"
       src="https://dynamic-assets.coinbase.com/dbb4b4983bde81309ddab83eb598358eb44375b930b94687ebe38bc22e52c3b2125258ffb8477a5ef22e33d6bd72e32a506c391caa13af64c00e46613c3e5806/asset_icons/4113b082d21cc5fab17fc8f2d19fb996165bcce635e6900f7fc2d57c4ef33ae9.png"
-      style="height: 32px; width: 32px; margin-right: 12px;"
+      style="width: 32px; height: 32px; border-radius: 50%; overflow: hidden;"
     />
-    <span style="display: flex; flex-direction: column; align-items: flex-start;">
-      <span style="font-size: 16px; line-height: 1.5; font-weight: 500; color: rgb(10, 11, 13);"
-        >Ether</span
-      >
-      <span style="font-size: 16px; line-height: 1.5; font-weight: 400; color: rgb(91, 97, 110);"
-        >ETH</span
-      >
+    <span class="ock-tokenrow-body">
+      <span class="ock-tokenrow-name">Ethereum</span>
+      <span class="ock-tokenrow-symbol">ETH</span>
     </span>
   </span>
-  <span
-    data-testid="ockTokenRow_Amount"
-    style="font-size: 16px; line-height: 1.5; font-weight: 400; color: rgb(91, 97, 110);"
-  ></span>
+  <span data-testid="ockTokenRow_Amount" class="ock-tokenrow-data"></span>
 </button>
 ```
 
 :::
 
 <App>
-  <div className="pane">
-    <TokenRow
-      token={{
-        address: '0x1234',
-        chainId: 1,
-        decimals: 18,
-        image:
-          'https://dynamic-assets.coinbase.com/dbb4b4983bde81309ddab83eb598358eb44375b930b94687ebe38bc22e52c3b2125258ffb8477a5ef22e33d6bd72e32a506c391caa13af64c00e46613c3e5806/asset_icons/4113b082d21cc5fab17fc8f2d19fb996165bcce635e6900f7fc2d57c4ef33ae9.png',
-        name: 'Ether',
-        symbol: 'ETH',
-      }}
-    />
-  </div>
+  <TokenRow
+    token={{
+      address: '0x1234',
+      chainId: 1,
+      decimals: 18,
+      image:
+        'https://dynamic-assets.coinbase.com/dbb4b4983bde81309ddab83eb598358eb44375b930b94687ebe38bc22e52c3b2125258ffb8477a5ef22e33d6bd72e32a506c391caa13af64c00e46613c3e5806/asset_icons/4113b082d21cc5fab17fc8f2d19fb996165bcce635e6900f7fc2d57c4ef33ae9.png',
+      name: 'Ethereum',
+      symbol: 'ETH',
+    }}
+  />
 </App>
 
 Token without an image url
@@ -79,61 +59,43 @@ Token without an image url
 ```tsx [code]
 import { TokenRow } from '@coinbase/onchainkit/token';
 
-const token = {
-  address: '0x1234',
-  chainId: 1,
-  decimals: 18,
-  image: null,
-  name: 'Ether',
-  symbol: 'ETH',
-};
+const token = { ... };
 
 <TokenRow token={token} />; // [!code focus]
 ```
 
 ```html [return html]
-<button
-  data-testid="ockTokenRow_Container"
-  style="display: flex; align-items: center; justify-content: space-between; cursor: pointer; padding: 4px 8px; width: 100%;"
->
-  <span style="display: flex; align-items: center;">
-    <span
-      data-testid="ockTokenRow_PlaceholderImage"
-      style="height: 32px; width: 32px; border-radius: 99999px; background: gray; margin-right: 12px;"
-    ></span>
-    <span style="display: flex; flex-direction: column; align-items: flex-start;">
-      <span style="font-size: 16px; line-height: 1.5; font-weight: 500; color: rgb(10, 11, 13);"
-        >Ether</span
-      >
-      <span style="font-size: 16px; line-height: 1.5; font-weight: 400; color: rgb(91, 97, 110);"
-        >ETH</span
-      >
+<button data-testid="ockTokenRow_Container" class="ock-tokenrow-button">
+  <span class="ock-tokenrow-left">
+    <div
+      data-testid="ockTokenImage_NoImage"
+      style="width: 32px; height: 32px; border-radius: 50%; overflow: hidden;"
+    >
+      <div style="background: rgb(26, 219, 158); width: 32px; height: 32px;"></div>
+    </div>
+    <span class="ock-tokenrow-body">
+      <span class="ock-tokenrow-name">Ethereum</span>
+      <span class="ock-tokenrow-symbol">ETH</span>
     </span>
   </span>
-  <span
-    data-testid="ockTokenRow_Amount"
-    style="font-size: 16px; line-height: 1.5; font-weight: 400; color: rgb(91, 97, 110);"
-    >1,000.00</span
-  >
+  <span data-testid="ockTokenRow_Amount" class="ock-tokenrow-data">1,000.00</span>
 </button>
 ```
 
 :::
 
 <App>
-  <div className="pane">
-    <TokenRow
-      token={{
-        address: '0x1234',
-        chainId: 1,
-        decimals: 18,
-        image: null,
-        name: 'Ether',
-        symbol: 'ETH',
-      }}
-      amount="1000.00234"
-    />
-  </div>
+  <TokenRow
+    token={{
+      address: '0x1234',
+      chainId: 1,
+      decimals: 18,
+      image: null,
+      name: 'Ethereum',
+      symbol: 'ETH',
+    }}
+    amount="1000.00234"
+  />
 </App>
 
 Token with an amount
@@ -143,106 +105,205 @@ Token with an amount
 ```tsx [code]
 import { TokenRow } from '@coinbase/onchainkit/token';
 
-const token = {
-  address: '0x1234',
-  chainId: 1,
-  decimals: 18,
-  image:
-    'https://dynamic-assets.coinbase.com/dbb4b4983bde81309ddab83eb598358eb44375b930b94687ebe38bc22e52c3b2125258ffb8477a5ef22e33d6bd72e32a506c391caa13af64c00e46613c3e5806/asset_icons/4113b082d21cc5fab17fc8f2d19fb996165bcce635e6900f7fc2d57c4ef33ae9.png',
-  name: 'Ether',
-  symbol: 'ETH',
-};
+const token = { ... };
 
 <TokenRow token={token} amount="1000" />; // [!code focus]
 <TokenRow token={token} amount="0.00234567" />; // [!code focus]
 ```
 
 ```html [return html]
-<button
-  data-testid="ockTokenRow_Container"
-  style="display: flex; align-items: center; justify-content: space-between; cursor: pointer; padding: 4px 8px; width: 100%;"
->
-  <span style="display: flex; align-items: center;">
+<button data-testid="ockTokenRow_Container" class="ock-tokenrow-button">
+  <span class="ock-tokenrow-left">
     <img
-      data-testid="ockTokenRow_Image"
+      data-testid="ockTokenImage_Image"
       src="https://dynamic-assets.coinbase.com/dbb4b4983bde81309ddab83eb598358eb44375b930b94687ebe38bc22e52c3b2125258ffb8477a5ef22e33d6bd72e32a506c391caa13af64c00e46613c3e5806/asset_icons/4113b082d21cc5fab17fc8f2d19fb996165bcce635e6900f7fc2d57c4ef33ae9.png"
-      style="height: 32px; width: 32px; margin-right: 12px;"
+      style="width: 32px; height: 32px; border-radius: 50%; overflow: hidden;"
     />
-    <span style="display: flex; flex-direction: column; align-items: flex-start;">
-      <span style="font-size: 16px; line-height: 1.5; font-weight: 500; color: rgb(10, 11, 13);"
-        >Ether</span
-      >
-      <span style="font-size: 16px; line-height: 1.5; font-weight: 400; color: rgb(91, 97, 110);"
-        >ETH</span
-      >
+    <span class="ock-tokenrow-body">
+      <span class="ock-tokenrow-name">Ethereum</span>
+      <span class="ock-tokenrow-symbol">ETH</span>
     </span>
   </span>
-  <span
-    data-testid="ockTokenRow_Amount"
-    style="font-size: 16px; line-height: 1.5; font-weight: 400; color: rgb(91, 97, 110);"
-    >1,000.00</span
-  >
+  <span data-testid="ockTokenRow_Amount" class="ock-tokenrow-data">1,000.00</span>
 </button>
-<button
-  data-testid="ockTokenRow_Container"
-  style="display: flex; align-items: center; justify-content: space-between; cursor: pointer; padding: 4px 8px; width: 100%;"
->
-  <span style="display: flex; align-items: center;">
+
+<button data-testid="ockTokenRow_Container" class="ock-tokenrow-button">
+  <span class="ock-tokenrow-left">
     <img
-      data-testid="ockTokenRow_Image"
+      data-testid="ockTokenImage_Image"
       src="https://dynamic-assets.coinbase.com/dbb4b4983bde81309ddab83eb598358eb44375b930b94687ebe38bc22e52c3b2125258ffb8477a5ef22e33d6bd72e32a506c391caa13af64c00e46613c3e5806/asset_icons/4113b082d21cc5fab17fc8f2d19fb996165bcce635e6900f7fc2d57c4ef33ae9.png"
-      style="height: 32px; width: 32px; margin-right: 12px;"
+      style="width: 32px; height: 32px; border-radius: 50%; overflow: hidden;"
     />
-    <span style="display: flex; flex-direction: column; align-items: flex-start;">
-      <span style="font-size: 16px; line-height: 1.5; font-weight: 500; color: rgb(10, 11, 13);"
-        >Ether</span
-      >
-      <span style="font-size: 16px; line-height: 1.5; font-weight: 400; color: rgb(91, 97, 110);"
-        >ETH</span
-      >
+    <span class="ock-tokenrow-body">
+      <span class="ock-tokenrow-name">Ethereum</span>
+      <span class="ock-tokenrow-symbol">ETH</span>
     </span>
   </span>
-  <span
-    data-testid="ockTokenRow_Amount"
-    style="font-size: 16px; line-height: 1.5; font-weight: 400; color: rgb(91, 97, 110);"
-    >0.00235</span
-  >
+  <span data-testid="ockTokenRow_Amount" class="ock-tokenrow-data">0.00235</span>
 </button>
 ```
 
 :::
 
 <App>
-  <div className="pane">
-    <TokenRow
-      token={{
-        address: '0x1234',
-        chainId: 1,
-        decimals: 18,
-        image:
-          'https://dynamic-assets.coinbase.com/dbb4b4983bde81309ddab83eb598358eb44375b930b94687ebe38bc22e52c3b2125258ffb8477a5ef22e33d6bd72e32a506c391caa13af64c00e46613c3e5806/asset_icons/4113b082d21cc5fab17fc8f2d19fb996165bcce635e6900f7fc2d57c4ef33ae9.png',
-        name: 'Ether',
-        symbol: 'ETH',
-      }}
-      amount="1000"
+  <TokenRow
+    token={{
+      address: '0x1234',
+      chainId: 1,
+      decimals: 18,
+      image:
+        'https://dynamic-assets.coinbase.com/dbb4b4983bde81309ddab83eb598358eb44375b930b94687ebe38bc22e52c3b2125258ffb8477a5ef22e33d6bd72e32a506c391caa13af64c00e46613c3e5806/asset_icons/4113b082d21cc5fab17fc8f2d19fb996165bcce635e6900f7fc2d57c4ef33ae9.png',
+      name: 'Ethereum',
+      symbol: 'ETH',
+    }}
+    amount="1000"
+  />
+  <TokenRow
+    token={{
+      address: '0x1234',
+      chainId: 1,
+      decimals: 18,
+      image:
+        'https://dynamic-assets.coinbase.com/dbb4b4983bde81309ddab83eb598358eb44375b930b94687ebe38bc22e52c3b2125258ffb8477a5ef22e33d6bd72e32a506c391caa13af64c00e46613c3e5806/asset_icons/4113b082d21cc5fab17fc8f2d19fb996165bcce635e6900f7fc2d57c4ef33ae9.png',
+      name: 'Ethereum',
+      symbol: 'ETH',
+    }}
+    amount="0.00234567"
+  />
+</App>
+
+Variations with `hideImage` and `hideSymbol`
+
+:::code-group
+
+```tsx [code]
+import { TokenRow } from '@coinbase/onchainkit/token';
+
+const token = { ... };
+
+<TokenRow token={token} hideSymbol />; // [!code focus]
+<TokenRow token={token} hideImage />; // [!code focus]
+<TokenRow token={token} hideSymbol hideImage />; // [!code focus]
+```
+
+```html [return html]
+<button data-testid="ockTokenRow_Container" class="ock-tokenrow-button">
+  <span class="ock-tokenrow-left">
+    <img
+      data-testid="ockTokenImage_Image"
+      src="https://dynamic-assets.coinbase.com/dbb4b4983bde81309ddab83eb598358eb44375b930b94687ebe38bc22e52c3b2125258ffb8477a5ef22e33d6bd72e32a506c391caa13af64c00e46613c3e5806/asset_icons/4113b082d21cc5fab17fc8f2d19fb996165bcce635e6900f7fc2d57c4ef33ae9.png"
+      style="width: 32px; height: 32px; border-radius: 50%; overflow: hidden;"
     />
-  </div>
-  <div className="pane">
-    <TokenRow
-      token={{
-        address: '0x1234',
-        chainId: 1,
-        decimals: 18,
-        image:
-          'https://dynamic-assets.coinbase.com/dbb4b4983bde81309ddab83eb598358eb44375b930b94687ebe38bc22e52c3b2125258ffb8477a5ef22e33d6bd72e32a506c391caa13af64c00e46613c3e5806/asset_icons/4113b082d21cc5fab17fc8f2d19fb996165bcce635e6900f7fc2d57c4ef33ae9.png',
-        name: 'Ether',
-        symbol: 'ETH',
-      }}
-      amount="0.00234567"
-    />
-  </div>
+    <span class="ock-tokenrow-body">
+      <span class="ock-tokenrow-name">Ethereum</span>
+    </span>
+  </span>
+  <span data-testid="ockTokenRow_Amount" class="ock-tokenrow-data"></span>
+</button>
+
+<button data-testid="ockTokenRow_Container" class="ock-tokenrow-button">
+  <span class="ock-tokenrow-left">
+    <span class="ock-tokenrow-body">
+      <span class="ock-tokenrow-name">Ethereum</span>
+      <span class="ock-tokenrow-symbol">ETH</span>
+    </span>
+  </span>
+  <span data-testid="ockTokenRow_Amount" class="ock-tokenrow-data"></span>
+</button>
+
+<button data-testid="ockTokenRow_Container" class="ock-tokenrow-button">
+  <span class="ock-tokenrow-left">
+    <span class="ock-tokenrow-body">
+      <span class="ock-tokenrow-name">Ethereum</span>
+    </span>
+  </span>
+  <span data-testid="ockTokenRow_Amount" class="ock-tokenrow-data"></span>
+</button>
+```
+
+:::
+
+<App>
+  <TokenRow
+    token={{
+      address: '0x1234',
+      chainId: 1,
+      decimals: 18,
+      image:
+        'https://dynamic-assets.coinbase.com/dbb4b4983bde81309ddab83eb598358eb44375b930b94687ebe38bc22e52c3b2125258ffb8477a5ef22e33d6bd72e32a506c391caa13af64c00e46613c3e5806/asset_icons/4113b082d21cc5fab17fc8f2d19fb996165bcce635e6900f7fc2d57c4ef33ae9.png',
+      name: 'Ethereum',
+      symbol: 'ETH',
+    }}
+    hideSymbol
+  />
+
+{' '}
+
+<TokenRow
+  token={{
+    address: '0x1234',
+    chainId: 1,
+    decimals: 18,
+    image:
+      'https://dynamic-assets.coinbase.com/dbb4b4983bde81309ddab83eb598358eb44375b930b94687ebe38bc22e52c3b2125258ffb8477a5ef22e33d6bd72e32a506c391caa13af64c00e46613c3e5806/asset_icons/4113b082d21cc5fab17fc8f2d19fb996165bcce635e6900f7fc2d57c4ef33ae9.png',
+    name: 'Ethereum',
+    symbol: 'ETH',
+  }}
+  hideImage
+/>
+
+  <TokenRow
+    token={{
+      address: '0x1234',
+      chainId: 1,
+      decimals: 18,
+      image:
+        'https://dynamic-assets.coinbase.com/dbb4b4983bde81309ddab83eb598358eb44375b930b94687ebe38bc22e52c3b2125258ffb8477a5ef22e33d6bd72e32a506c391caa13af64c00e46613c3e5806/asset_icons/4113b082d21cc5fab17fc8f2d19fb996165bcce635e6900f7fc2d57c4ef33ae9.png',
+      name: 'Ethereum',
+      symbol: 'ETH',
+    }}
+    hideSymbol
+    hideImage
+  />
 </App>
 
 ## Props
 
 [`TokenRowReact`](/token/types#tokenrowreact)
+
+## CSS
+
+```css
+.ock-tokenrow-button {
+  @apply flex h-16 w-full cursor-pointer items-center justify-between px-2 py-1;
+  background: #ffffff;
+
+  &:hover {
+    background: #cacbce;
+  }
+
+  &:active {
+    background: #bfc1c3;
+  }
+}
+
+.ock-tokenrow-left {
+  @apply flex items-center gap-3;
+}
+
+.ock-tokenrow-body {
+  @apply flex flex-col items-start;
+}
+
+.ock-tokenrow-name {
+  @apply text-base font-medium leading-normal text-[#0A0B0D];
+}
+
+.ock-tokenrow-symbol {
+  @apply text-base font-normal leading-normal text-[#5B616E];
+}
+
+.ock-tokenrow-data {
+  @apply text-base font-normal leading-normal text-[#5B616E];
+}
+```
