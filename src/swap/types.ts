@@ -3,6 +3,27 @@ import { Token } from '../token/types';
 
 export type AddressOrETH = Address | 'ETH';
 
+export type GetQuoteParams = {
+  from: Token;
+  to: Token;
+  amount: string;
+  amountReference?: string;
+};
+
+export type GetQuoteAPIParams = {
+  from: AddressOrETH | '';
+  to: AddressOrETH | '';
+  amount: string;
+  amountReference?: string;
+};
+
+export type GetQuoteResponse = Quote | SwapError;
+
+export type SwapError = {
+  code: number;
+  error: string;
+};
+
 export type Fee = {
   amount: string;
   baseAsset: Token;
