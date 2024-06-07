@@ -21,4 +21,4 @@ jobs:
       - name: Kit Install dependencies
         run: npm install
       - name: Kit Check
-        run: npm run ci
+        run: npm run ci --report=github
