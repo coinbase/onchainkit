@@ -27,7 +27,7 @@ export type GetQuoteParams = {
   to: Token; // The destination token for the swap
   amount: string; // The amount to be swapped
   amountReference?: string; // The reference amount for the swap
-  amountInDecimals?: boolean; // Whether the amount is in decimals
+  isAmountInDecimals?: boolean; // Whether the amount is in decimals
 };
 
 /**
@@ -42,7 +42,7 @@ export type Quote = {
   amountReference: string; // The reference amount for the quote
   from: Token; // The source token for the swap
   fromAmount: string; // The amount of the source token
-  highPriceImpact: boolean; // Whether the price impact is high
+  hasHighPriceImpact: boolean; // Whether the price impact is high
   priceImpact: string; // The price impact of the swap
   slippage: string; // The slippage of the swap
   to: Token; // The destination token for the swap

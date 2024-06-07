@@ -76,7 +76,7 @@ describe('getParamsForToken', () => {
     expect(result).toEqual(expectedParams);
   });
 
-  it('should format the amount correctly with default decimals when amountInDecimals is true', () => {
+  it('should format the amount correctly with default decimals when isAmountInDecimals is true', () => {
     const to: Token = {
       name: 'ETH',
       address: '',
@@ -96,7 +96,7 @@ describe('getParamsForToken', () => {
     };
     const amount = '1500000000000000000';
     const amountReference = 'from';
-    const amountInDecimals = true;
+    const isAmountInDecimals = true;
     const expectedParams = {
       from: '0x4ed4e862860bed51a9570b96d89af5e1b0efefed',
       to: 'ETH',
@@ -108,12 +108,12 @@ describe('getParamsForToken', () => {
       to,
       amount,
       amountReference,
-      amountInDecimals,
+      isAmountInDecimals,
     });
     expect(result).toEqual(expectedParams);
   });
 
-  it('should format the amount correctly with default decimals when amountInDecimals is false', () => {
+  it('should format the amount correctly with default decimals when isAmountInDecimals is false', () => {
     const to: Token = {
       name: 'ETH',
       address: '',

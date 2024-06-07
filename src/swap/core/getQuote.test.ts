@@ -66,7 +66,7 @@ describe('getQuote', () => {
         amountReference: 'from',
         priceImpact: '0.07',
         chainId: 8453,
-        highPriceImpact: false,
+        hasHighPriceImpact: false,
         slippage: '3',
       },
     };
