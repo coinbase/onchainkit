@@ -1,6 +1,6 @@
 import { getTokens } from './getTokens';
 import { sendRequest } from '../../queries/request';
-import { ListSwapAssets } from '../../definitions/swap';
+import { CDP_LISTSWAPASSETS } from '../../definitions/swap';
 
 jest.mock('../../queries/request');
 
@@ -56,7 +56,7 @@ describe('getTokens', () => {
     ]);
 
     expect(sendRequest).toHaveBeenCalledTimes(1);
-    expect(sendRequest).toHaveBeenCalledWith(ListSwapAssets, [{ limit: '50', page: '1' }]);
+    expect(sendRequest).toHaveBeenCalledWith(CDP_LISTSWAPASSETS, [{ limit: '50', page: '1' }]);
   });
 
   it('should accept options parameters', async () => {
@@ -90,7 +90,7 @@ describe('getTokens', () => {
     ]);
 
     expect(sendRequest).toHaveBeenCalledTimes(1);
-    expect(sendRequest).toHaveBeenCalledWith(ListSwapAssets, [{ limit: '1', page: '1' }]);
+    expect(sendRequest).toHaveBeenCalledWith(CDP_LISTSWAPASSETS, [{ limit: '1', page: '1' }]);
   });
 
   it('should return an error object if sendRequest returns an error', async () => {
@@ -113,7 +113,7 @@ describe('getTokens', () => {
     });
 
     expect(sendRequest).toHaveBeenCalledTimes(1);
-    expect(sendRequest).toHaveBeenCalledWith(ListSwapAssets, [{ limit: '50', page: '1' }]);
+    expect(sendRequest).toHaveBeenCalledWith(CDP_LISTSWAPASSETS, [{ limit: '50', page: '1' }]);
   });
 
   it('should rethrow the error if an error occurs during token retrieval', async () => {
@@ -126,6 +126,6 @@ describe('getTokens', () => {
     );
 
     expect(sendRequest).toHaveBeenCalledTimes(1);
-    expect(sendRequest).toHaveBeenCalledWith(ListSwapAssets, [{ limit: '50', page: '1' }]);
+    expect(sendRequest).toHaveBeenCalledWith(CDP_LISTSWAPASSETS, [{ limit: '50', page: '1' }]);
   });
 });
