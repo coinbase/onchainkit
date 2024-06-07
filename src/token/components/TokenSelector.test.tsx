@@ -3,7 +3,7 @@
  */
 import React from 'react';
 import '@testing-library/jest-dom';
-import { fireEvent, render, screen, within } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { Address } from 'viem';
 import { TokenSelector } from './TokenSelector';
 
@@ -21,7 +21,7 @@ describe('TokenSelector', () => {
   const setToken = jest.fn();
   const children = <div data-testid="ockTokenSelector_MockChildren">component</div>;
 
-  test('renders correctly without a token', () => {
+  it('renders correctly without a token', () => {
     render(
       <TokenSelector token={undefined} setToken={setToken}>
         {children}
@@ -33,7 +33,7 @@ describe('TokenSelector', () => {
     expect(screen.getByTestId('ockTokenSelector_CaretDown')).toBeInTheDocument();
   });
 
-  test('renders correctly with a token', () => {
+  it('renders correctly with a token', () => {
     render(
       <TokenSelector token={token} setToken={setToken}>
         {children}
@@ -45,7 +45,7 @@ describe('TokenSelector', () => {
     expect(screen.queryByText('Select')).toBeNull();
   });
 
-  test('toggles dropdown on button click', () => {
+  it('toggles dropdown on button click', () => {
     render(
       <TokenSelector token={token} setToken={setToken}>
         {children}

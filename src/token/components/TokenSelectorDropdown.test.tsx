@@ -2,15 +2,15 @@
  * @jest-environment jsdom
  */
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { Address } from 'viem';
 import { TokenSelectorDropdown } from './TokenSelectorDropdown';
 import { Token } from '../types';
 
 describe('TokenSelectorDropdown', () => {
-  const handleSetToken = jest.fn();
-  const handleToggle = jest.fn();
-  const tokens: Token[] = [
+  const setToken = jest.fn();
+  const onToggle = jest.fn();
+  const options: Token[] = [
     {
       name: 'Ethereum',
       address: '' as Address,
@@ -31,26 +31,30 @@ describe('TokenSelectorDropdown', () => {
   ];
 
   it('renders the TokenSelectorDropdown component', () => {
-    render(
-      <TokenSelectorDropdown setToken={handleSetToken} options={tokens} onToggle={handleToggle} />,
-    );
+    render(<TokenSelectorDropdown setToken={setToken} options={options} onToggle={onToggle} />);
 
     const result = screen.getAllByTestId('ockTokenRow_Container');
-    expect(result.length).toEqual(tokens.length);
+    expect(result.length).toEqual(options.length);
   });
 
-  test('calls setToken and onToggle when a TokenRow is clicked', () => {
-    render(
-      <TokenSelectorDropdown setToken={handleSetToken} options={tokens} onToggle={handleToggle} />,
-    );
+  it('calls setToken and onToggle when clicking on a token', async () => {
+    render(<TokenSelectorDropdown setToken={setToken} onToggle={onToggle} options={options} />);
 
-    const elements = screen.getAllByTestId('ockTokenRow_Container');
+    await waitFor(() => {
+      fireEvent.click(screen.getByText(options[0].name));
 
-    elements.forEach((element) => {
-      fireEvent.click(element);
+      expect(setToken).toHaveBeenCalledWith(options[0]);
+      expect(onToggle).toHaveBeenCalled();
     });
+  });
 
-    expect(handleSetToken).toHaveBeenCalledTimes(tokens.length);
-    expect(handleToggle).toHaveBeenCalledTimes(tokens.length);
+  it('calls onToggle when clicking outside the component', async () => {
+    render(<TokenSelectorDropdown setToken={setToken} onToggle={onToggle} options={options} />);
+
+    await waitFor(() => {
+      fireEvent.click(document);
+
+      expect(onToggle).toHaveBeenCalled();
+    });
   });
 });

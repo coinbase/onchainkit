@@ -103,8 +103,8 @@ export type TokenSelectorReact = {
 
 ```ts
 export type TokenSelectorDropdownReact = {
-  onToggle: () => void; // Injected by TokenSelector
+  onToggle: () => void; // Injected by TokenSelector. To be removed.
   options: Token[]; // List of tokens
-  setToken: (token: Token) => void; // Injected by TokenSelector
+  setToken: (token: Token) => void; // Token setter
 };
 ```

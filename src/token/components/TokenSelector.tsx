@@ -38,7 +38,7 @@ function CaretDown() {
   );
 }
 
-export function TokenSelector({ token, children, setToken }: TokenSelectorReact) {
+export function TokenSelector({ token, children }: TokenSelectorReact) {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleToggle = useCallback(() => {
@@ -66,7 +66,9 @@ export function TokenSelector({ token, children, setToken }: TokenSelectorReact)
       </button>
       {isOpen &&
         isValidElement(children) &&
-        cloneElement(children, { setToken, onToggle: handleToggle })}
+        cloneElement(children, {
+          onToggle: handleToggle,
+        })}
     </div>
   );
 }
