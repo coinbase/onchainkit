@@ -66,6 +66,14 @@ pnpm add @coinbase/onchainkit viem@2.x
 bun add @coinbase/onchainkit viem@2.x
 ```
 
+## CSS
+
+Add this at the top of your application entry point
+
+```javascript
+import '@coinbase/onchainkit/styles.css';
+```
+
 ## Components
 
 #### Display ENS [avatars](https://onchainkit.xyz/identity/avatar), Attestation [badges](https://onchainkit.xyz/identity/badge), and ENS [names](https://onchainkit.xyz/identity/name).
