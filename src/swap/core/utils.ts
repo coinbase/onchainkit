@@ -6,6 +6,6 @@ export function getParamsForToken(params: GetQuoteParams): GetQuoteAPIParams {
     from: from.address || 'ETH',
     to: to.address || 'ETH',
     amount: amount,
-    amountReference: amountReference,
+    amountReference: amountReference || 'from',
   };
 }
