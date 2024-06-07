@@ -7,7 +7,7 @@ import type {
   Quote,
   SwapError,
 } from '../types';
-import { getParamsForToken } from './utils';
+import { getParamsForToken } from './getParamsForToken';
 
 /**
  * Retrieves a quote for a swap from Token A to Token B.
