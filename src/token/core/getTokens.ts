@@ -1,5 +1,5 @@
 import { ListSwapAssets } from '../../definitions/swap';
-import { Token, GetTokensOptions, GetTokensResponse, GetTokensError } from '../types';
+import type { Token, GetTokensOptions, GetTokensResponse, GetTokensError } from '../types';
 import { sendRequest } from '../../queries/request';
 
 /**
