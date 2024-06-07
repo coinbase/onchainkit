@@ -1,6 +1,13 @@
 import { GetSwapQuote } from '../../definitions/swap';
 import { sendRequest } from '../../queries/request';
-import { GetQuoteResponse, GetQuoteParams, GetQuoteAPIParams, Quote, SwapError } from '../types';
+import type {
+  GetQuoteResponse,
+  GetQuoteParams,
+  GetQuoteAPIParams,
+  Quote,
+  SwapError,
+} from '../types';
+import { getParamsForToken } from './utils';
 
 /**
  * Retrieves a quote for a swap from Token A to Token B.
@@ -13,16 +20,10 @@ export async function getQuote(params: GetQuoteParams): Promise<GetQuoteResponse
 
   params = { ...defaultParams, ...params };
 
-  // Only pass in the address as a parameter to the request
-  const addressParams: GetQuoteAPIParams = {
-    from: params.from.address,
-    to: params.to.address,
-    amount: params.amount,
-    amountReference: params.amountReference,
-  };
+  const apiParams = getParamsForToken(params);
 
   try {
-    const res = await sendRequest<GetQuoteAPIParams, Quote>(GetSwapQuote, [addressParams]);
+    const res = await sendRequest<GetQuoteAPIParams, Quote>(GetSwapQuote, [apiParams]);
 
     if (res.error) {
       return {
