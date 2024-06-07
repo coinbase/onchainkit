@@ -34,51 +34,68 @@ import App from '../App';
 ```
 
 ```html [return html]
-<button data-testid="ockTokenSelector_Button" class="ock-tokenselector-button">
-  <span class="ock-tokenselector-label">Select</span>
-  <svg
-    data-testid="ockTokenSelector_CaretUp"
-    width="16"
-    height="16"
-    viewBox="0 0 16 16"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      d="M3.05329 10.9866L7.99996 6.03997L12.9466 10.9866L14.1266 9.80663L7.99996 3.67997L1.87329 9.80663L3.05329 10.9866Z"
-      fill="#0A0B0D"
-    ></path>
-  </svg>
-</button>
-<div class="ock-tokenselectordropdown-container">
-  <div class="ock-tokenselectordropdown-scroll">
-    <button data-testid="ockTokenRow_Container" class="ock-tokenrow-button">
-      <span class="ock-tokenrow-left">
-        <span class="ock-tokenrow-body">
-          <span class="ock-tokenrow-name">Ethereum</span>
-          <span class="ock-tokenrow-symbol">ETH</span>
+<div class="ock-tokenselector-container">
+  <button data-testid="ockTokenSelector_Button" class="ock-tokenselector-button">
+    <span class="ock-tokenselector-label">Select</span>
+    <svg
+      data-testid="ockTokenSelector_CaretUp"
+      width="16"
+      height="16"
+      viewBox="0 0 16 16"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M3.05329 10.9866L7.99996 6.03997L12.9466 10.9866L14.1266 9.80663L7.99996 3.67997L1.87329 9.80663L3.05329 10.9866Z"
+        fill="#0A0B0D"
+      ></path>
+    </svg>
+  </button>
+  <div class="ock-tokenselectordropdown-container">
+    <div class="ock-tokenselectordropdown-scroll">
+      <button data-testid="ockTokenRow_Container" class="ock-tokenrow-button">
+        <span class="ock-tokenrow-left">
+          <img
+            data-testid="ockTokenImage_Image"
+            src="https://wallet-api-production.s3.amazonaws.com/uploads/tokens/eth_288.png"
+            style="width: 48px; height: 48px; border-radius: 50%; overflow: hidden;"
+          />
+          <span class="ock-tokenrow-body">
+            <span class="ock-tokenrow-name">Ethereum</span>
+            <span class="ock-tokenrow-symbol">ETH</span>
+          </span>
         </span>
-      </span>
-      <span data-testid="ockTokenRow_Amount" class="ock-tokenrow-data"></span>
-    </button>
-    <button data-testid="ockTokenRow_Container" class="ock-tokenrow-button">
-      <span class="ock-tokenrow-left">
-        <span class="ock-tokenrow-body">
-          <span class="ock-tokenrow-name">USDC</span>
-          <span class="ock-tokenrow-symbol">USDC</span>
+        <span data-testid="ockTokenRow_Amount" class="ock-tokenrow-data"></span>
+      </button>
+      <button data-testid="ockTokenRow_Container" class="ock-tokenrow-button">
+        <span class="ock-tokenrow-left">
+          <img
+            data-testid="ockTokenImage_Image"
+            src="https://d3r81g40ycuhqg.cloudfront.net/wallet/wais/44/2b/442b80bd16af0c0d9b22e03a16753823fe826e5bfd457292b55fa0ba8c1ba213-ZWUzYjJmZGUtMDYxNy00NDcyLTg0NjQtMWI4OGEwYjBiODE2"
+            style="width: 48px; height: 48px; border-radius: 50%; overflow: hidden;"
+          />
+          <span class="ock-tokenrow-body">
+            <span class="ock-tokenrow-name">USDC</span>
+            <span class="ock-tokenrow-symbol">USDC</span>
+          </span>
         </span>
-      </span>
-      <span data-testid="ockTokenRow_Amount" class="ock-tokenrow-data"></span>
-    </button>
-    <button data-testid="ockTokenRow_Container" class="ock-tokenrow-button">
-      <span class="ock-tokenrow-left">
-        <span class="ock-tokenrow-body">
-          <span class="ock-tokenrow-name">Dai</span>
-          <span class="ock-tokenrow-symbol">DAI</span>
+        <span data-testid="ockTokenRow_Amount" class="ock-tokenrow-data"></span>
+      </button>
+      <button data-testid="ockTokenRow_Container" class="ock-tokenrow-button">
+        <span class="ock-tokenrow-left">
+          <img
+            data-testid="ockTokenImage_Image"
+            src="https://d3r81g40ycuhqg.cloudfront.net/wallet/wais/d0/d7/d0d7784975771dbbac9a22c8c0c12928cc6f658cbcf2bbbf7c909f0fa2426dec-NmU4ZWViMDItOTQyYy00Yjk5LTkzODUtNGJlZmJiMTUxOTgy"
+            style="width: 48px; height: 48px; border-radius: 50%; overflow: hidden;"
+          />
+          <span class="ock-tokenrow-body">
+            <span class="ock-tokenrow-name">Dai</span>
+            <span class="ock-tokenrow-symbol">DAI</span>
+          </span>
         </span>
-      </span>
-      <span data-testid="ockTokenRow_Amount" class="ock-tokenrow-data"></span>
-    </button>
+        <span data-testid="ockTokenRow_Amount" class="ock-tokenrow-data"></span>
+      </button>
+    </div>
   </div>
 </div>
 ```
