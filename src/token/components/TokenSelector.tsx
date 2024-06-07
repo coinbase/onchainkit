@@ -48,6 +48,7 @@ export function TokenSelector({ token, children }: TokenSelectorReact) {
   return (
     <div className="ock-tokenselector-container">
       <button
+        type="button"
         data-testid="ockTokenSelector_Button"
         className="ock-tokenselector-button"
         onClick={handleToggle}

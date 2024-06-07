@@ -26,6 +26,7 @@ export default defineConfig({
         />
         <script
           id="gtag-init"
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: TODO Give explanation
           dangerouslySetInnerHTML={{
             __html: `
               window.dataLayer = window.dataLayer || [];

@@ -12,6 +12,7 @@ export const TokenRow = memo(function TokenRow({
 }: TokenRowReact) {
   return (
     <button
+      type="button"
       data-testid="ockTokenRow_Container"
       className="ock-tokenrow-button"
       onClick={() => onClick?.(token)}

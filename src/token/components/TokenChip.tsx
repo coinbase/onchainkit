@@ -9,6 +9,7 @@ import type { TokenChipReact } from '../types';
 export function TokenChip({ token, onClick }: TokenChipReact) {
   return (
     <button
+      type="button"
       data-testid="ockTokenChip_Button"
       className="ock-tokenchip-button"
       onClick={() => onClick?.(token)}

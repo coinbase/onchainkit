@@ -31,6 +31,7 @@ export function TextInput({ placeholder, value, onChange }: TextInputReact) {
       />
       {value && (
         <button
+          type="button"
           data-testid="ockTextInput_Clear"
           className="ock-textinput-clearbutton"
           onClick={handleClear}
