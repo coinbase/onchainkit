@@ -17,7 +17,7 @@ export const TokenRow = memo(function TokenRow({
       onClick={() => onClick?.(token)}
     >
       <span className="ock-tokenrow-left">
-        {!hideImage && <TokenImage token={token} size={32} />}
+        {!hideImage && <TokenImage token={token} size={48} />}
         <span className="ock-tokenrow-body">
           <span className="ock-tokenrow-name">{token.name}</span>
           {!hideSymbol && <span className="ock-tokenrow-symbol">{token.symbol}</span>}
