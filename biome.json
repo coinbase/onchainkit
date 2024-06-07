@@ -12,11 +12,14 @@
     "formatter": {
       "enabled": true,
       "lineWidth": 100,
-      "quoteStyle": "single",
-      "semicolons": "always",
-      "jsxQuoteStyle": "double",
       "arrowParentheses": "always",
-      "bracketSameLine": false
+      "bracketSameLine": false,
+      "quoteStyle": "single",
+      "jsxQuoteStyle": "double",
+      "indentWidth": 2,
+      "indentStyle": "space",
+      "semicolons": "always",
+      "trailingCommas": "all"
     }
   },
   "linter": {
