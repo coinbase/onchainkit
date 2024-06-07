@@ -1,21 +1,6 @@
 // 🌲☀️🌲
 import { Address } from 'viem';
 
-// The raw response from the Swap API
-// Contains legacy fields that have been renamed in the OnchainKit Token type
-export type LegacyTokenData = {
-  name: string;
-  address: Address;
-  currencyCode: string;
-  decimals: number;
-  imageURL: string;
-  blockchain: string;
-  aggregators: string[];
-  swappable: boolean;
-  unverified: boolean;
-  chainId: number;
-};
-
 /**
  * Note: exported as public Type
  */
