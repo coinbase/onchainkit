@@ -30,7 +30,12 @@ describe('getParamsForToken', () => {
       amountReference: 'from',
     };
 
-    const result = getParamsForToken(from, to, amount, amountReference);
+    const result = getParamsForToken({
+      from,
+      to,
+      amount,
+      amountReference,
+    });
 
     expect(result).toEqual(expectedParams);
   });

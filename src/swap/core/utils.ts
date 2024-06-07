@@ -1,12 +1,7 @@
-import type { Token } from '../../token';
-import type { GetQuoteAPIParams } from '../types';
+import type { GetQuoteParams, GetQuoteAPIParams } from '../types';
 
-export function getParamsForToken(
-  from: Token,
-  to: Token,
-  amount: string,
-  amountReference: string = 'from',
-): GetQuoteAPIParams {
+export function getParamsForToken(params: GetQuoteParams): GetQuoteAPIParams {
+  const { from, to, amount, amountReference } = params;
   return {
     from: from.address || 'ETH',
     to: to.address || 'ETH',
