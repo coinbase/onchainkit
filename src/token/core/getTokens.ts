@@ -24,7 +24,6 @@ export async function getTokens(options?: GetTokensOptions): Promise<GetTokensRe
       } as GetTokensError;
     }
 
-    // Map the data from the response to the `OnchainKit` Token type
     return res.result;
   } catch (error) {
     throw new Error(`getTokens: ${error}`);
