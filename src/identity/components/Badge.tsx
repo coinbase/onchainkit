@@ -2,8 +2,6 @@ import { BadgeReact } from '../types';
 
 /**
  * Badge component.
- *
- * @returns {JSX.Element} The JSX element representing the badge, which is a blue circle with a white checkmark.
  */
 export function Badge({
   backgroundColor = '#0052FF',

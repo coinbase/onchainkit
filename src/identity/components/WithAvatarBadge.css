@@ -1,0 +1,9 @@
+.ock-withavatarbadge-container {
+  @apply relative h-8 w-8;
+}
+.ock-withavatarbadge-badge {
+  @apply absolute -bottom-0.5 -right-0.5 flex h-[15px] w-[15px] items-center justify-center rounded-full bg-transparent;
+}
+.ock-withavatarbadge-inner {
+  @apply flex h-[11px] w-[11px] items-center justify-center;
+}

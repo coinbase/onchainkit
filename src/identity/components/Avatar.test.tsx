@@ -108,7 +108,7 @@ describe('Avatar Component', () => {
     render(<Avatar address="0x123" showAttestation />);
 
     await waitFor(() => {
-      const inner = screen.getByTestId('ockAvatarBadgeInner');
+      const inner = screen.getByTestId('ockAvatarBadgeContainer');
       expect(inner).toBeInTheDocument();
       const badge = screen.getByTestId('ockBadge');
       expect(badge).toBeInTheDocument();

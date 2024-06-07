@@ -16,9 +16,7 @@ The available components are:
 
 - [`<ConnectAccount />`](/wallet/connect-account): Renders the connect button
 
-:::code-group
-
-```tsx [code]
+```tsx
 <WagmiProvider config={wagmiConfig}>
   ...
   <div className="flex flex-grow">
@@ -41,26 +39,6 @@ The available components are:
   ...
 </WagmiProvider>
 ```
-
-```html [return html]
-<button
-  type="button"
-  style="display: inline-flex; padding: 0.5rem 1rem; flex-grow: 1;
-  gap: 0.5rem; justify-content: center; align-items: center;
-  border-radius: 1.5rem; height: 2.5rem;
-  background-color: rgb(255, 255, 255);"
->
-  <div
-    data-testid="ockConnectAccountButtonInner"
-    style="font-size: 0.875rem; line-height: 1.25rem; 
-    font-weight: 500; color: rgb(0, 0, 0);"
-  >
-    Connect wallet
-  </div>
-</button>
-```
-
-:::
 
 <App>
   <AccountConnect />
