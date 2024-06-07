@@ -4,14 +4,14 @@
 
 ### Patch Changes
 
-- 9b03393: - **feat**: converted `Badge` to css. By @zizzamia #476
-  - **feat**: converted `TokenRow` to css, add modifier state and add additinal display controls. By @kyhyco #473
+- **feat**: converted `Badge` to css. By @zizzamia #476 9b03393
+- **feat**: converted `TokenRow` to css, add modifier state and add additinal display controls. By @kyhyco #473
 
 ## 0.19.1
 
 ### Patch Changes
 
-- b6653f1: - **feat**: for `getAvatar` now we use `ensName` instead of `name`. By @zizzamia #471
+- **feat**: for `getAvatar` now we use `ensName` instead of `name`. By @zizzamia #471 b6653f1
 
 ## 0.19.0
 
