@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- 10d1fa9: - **feat**: updated TokenKit styles. By @kyhyco #482
+- **feat**: updated TokenKit styles. By @kyhyco #482 10d1fa9
 
 ## 0.19.3
 
