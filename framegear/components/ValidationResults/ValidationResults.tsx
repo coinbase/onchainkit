@@ -74,11 +74,10 @@ function ValidationResultsContent() {
 }
 
 type ValidationEntryProps = { name: string; value?: string; error?: string; showFlag?: boolean };
+
 function ValidationEntry({ name, value, error, showFlag = true }: ValidationEntryProps) {
   return (
-    <div
-      className={'flex flex-col gap-2 border-pallette-line border-b pb-4 last:border-b-0 last:pb-0'}
-    >
+    <div className="flex flex-col gap-2 border-pallette-line border-b pb-4 last:border-b-0 last:pb-0">
       <div className="flex justify-between">
         <span>{name}</span>
         {showFlag && <span>{error ? '🔴' : '🟢'}</span>}

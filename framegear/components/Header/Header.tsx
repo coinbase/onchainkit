@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 export function Header() {
   return (
-    <div className={'flex w-full justify-center border-pallette-line border-b py-8'}>
+    <div className="flex w-full justify-center border-pallette-line border-b py-8">
       <div className="flex w-full max-w-layout-max items-center justify-between">
         <h1>
           <AppName className="px-6 text-4xl" />
