@@ -1,27 +1,7 @@
-import { memo, CSSProperties } from 'react';
+import { memo } from 'react';
 import { TokenRowReact } from '../types';
 import { formatAmount } from '../core/formatAmount';
 import { TokenImage } from './TokenImage';
-
-const styles = {
-  column: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'flex-start',
-  },
-  label1: {
-    fontSize: '16px',
-    lineHeight: '1.5',
-    fontWeight: 500,
-    color: '#0A0B0D',
-  },
-  label2: {
-    fontSize: '16px',
-    lineHeight: '1.5',
-    fontWeight: 400,
-    color: '#5B616E',
-  },
-} as Record<string, CSSProperties>;
 
 export const TokenRow = memo(function TokenRow({
   token,
