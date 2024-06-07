@@ -3,12 +3,13 @@ import { Token } from '../token/types';
 
 export type AddressOrETH = Address | 'ETH';
 
-export type GetQuoteParams = {
-  from: Token;
-  to: Token;
+/**
+ * Note: exported as public Type
+ */
+export type Fee = {
   amount: string;
-  amountReference?: string;
-  amountInDecimals?: boolean;
+  baseAsset: Token;
+  percentage: string;
 };
 
 export type GetQuoteAPIParams = {
@@ -18,35 +19,52 @@ export type GetQuoteAPIParams = {
   amountReference?: string;
 };
 
+/**
+ * Note: exported as public Type
+ */
+export type GetQuoteParams = {
+  from: Token;
+  to: Token;
+  amount: string;
+  amountReference?: string;
+  amountInDecimals?: boolean;
+};
+
+/**
+ * Note: exported as public Type
+ */
 export type GetQuoteResponse = Quote | SwapError;
 
-export type SwapError = {
-  code: number;
-  error: string;
-};
-
-export type Fee = {
-  amount: string;
-  baseAsset: Token;
-  percentage: string;
-};
-
+/**
+ * Note: exported as public Type
+ */
 export type Quote = {
   amountReference: string;
+  from: Token;
   fromAmount: string;
-  fromAsset: Token;
   highPriceImpact: boolean;
   priceImpact: string;
   slippage: string;
+  to: Token;
   toAmount: string;
-  toAsset: Token;
   warning?: QuoteWarning;
 };
 
+/**
+ * Note: exported as public Type
+ */
 export type QuoteWarning = {
   description?: string;
   message?: string;
   type?: string;
+};
+
+/**
+ * Note: exported as public Type
+ */
+export type SwapError = {
+  code: number;
+  error: string;
 };
 
 export type Trade = {
@@ -63,9 +81,4 @@ export type Transaction = {
   gasPrice: string;
   to: string;
   value: string;
-};
-
-export type TrendingToken = Token & {
-  numOfBuys: number;
-  numOfSells: number;
 };

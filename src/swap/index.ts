@@ -1,3 +1,10 @@
 // 🌲☀️🌲
 export { getQuote } from './core/getQuote';
-export type { GetQuoteParams, GetQuoteResponse, SwapError, Quote } from './types';
+export type {
+  Fee,
+  GetQuoteParams,
+  GetQuoteResponse,
+  Quote,
+  QuoteWarning,
+  SwapError,
+} from './types';

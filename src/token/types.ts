@@ -41,7 +41,7 @@ export type GetTokensOptions = {
  * Note: exported as public Type
  */
 export type Token = {
-  address: Address | ''; // The address of the token contract, this value will be an empty for native ETH
+  address: Address | ''; // The address of the token contract, this value will be empty for native ETH
   chainId: number; // The chain id of the token contract
   decimals: number; // The number of token decimals
   image: string | null; // A string url of the token logo
