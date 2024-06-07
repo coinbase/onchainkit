@@ -5,16 +5,13 @@
   &:hover {
     background: #cacbce;
   }
-
   &:active {
     background: #bfc1c3;
   }
 }
-
 .ock-tokenchip-label {
   @apply text-base font-medium leading-4 text-black;
 }
-
 .ock-tokenchip-image {
   @apply mr-2 h-6 w-6;
 }

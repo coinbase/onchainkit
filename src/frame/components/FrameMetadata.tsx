@@ -2,49 +2,7 @@ import { Fragment } from 'react';
 import type { FrameMetadataReact } from '../types';
 
 /**
- * FrameMetadata component
- *
- * @description
  * This component is used to add React Frame Metadata to the page.
- *
- * @example
- * ```tsx
- * <FrameMetadata
- *   buttons={[
- *     {
- *       label: 'Tell me the story',
- *     },
- *     {
- *       label: 'Redirect to cute dog pictures',
- *       action: 'post_redirect',
- *     },
- *     {
- *      label: 'Mint',
- *      action: 'mint',
- *      target: 'https://zizzamia.xyz/api/frame/mint',
- *    },
- *   ]}
- *   image="https://zizzamia.xyz/park-1.png"
- *   input={{
- *     text: 'Tell me a boat story',
- *   }}
- *   postUrl="https://zizzamia.xyz/api/frame"
- * />
- * ```
- *
- * @param {FrameMetadataReact} props - The metadata for the frame.
- * @param {{ [protocolIdentifier: string]: string; }} accepts - The types of protocol the frame accepts.
- * @param {Array<{ label: string, action?: string }>} props.buttons - The buttons.
- * @param {string | { src: string, aspectRatio?: string }} props.image - The image URL.
- * @param {string} props.input - The input text.
- * @param {boolean} props.isOpenFrame: Whether the frame uses the Open Frames standard.
- * @param {string} props.ogDescription - The Open Graph description.
- * @param {string} props.ogTitle - The Open Graph title.
- * @param {string} props.postUrl - The post URL.
- * @param {number} props.refreshPeriod - The refresh period.
- * @param {object} props.state - The serialized state (e.g. JSON) for the frame.
- * @param {React.ComponentType<any> | undefined} props.wrapper - The wrapper component meta tags are rendered in.
- * @returns {React.ReactElement} The FrameMetadata component.
  */
 export function FrameMetadata({
   accepts = {},
