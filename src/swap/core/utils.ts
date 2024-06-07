@@ -1,5 +1,8 @@
 import type { GetQuoteParams, GetQuoteAPIParams } from '../types';
 
+/**
+ * Converts parameters with `Token` to ones with address. Additionally adds default values for optional request fields.
+ */
 export function getParamsForToken(params: GetQuoteParams): GetQuoteAPIParams {
   const { from, to, amount, amountReference, amountInDecimals } = params;
 
