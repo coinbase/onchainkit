@@ -19,9 +19,7 @@ export async function getQuote(params: GetQuoteParams): Promise<GetQuoteResponse
     amountInDecimals: false,
   };
 
-  params = { ...defaultParams, ...params };
-
-  const apiParams = getParamsForToken(params);
+  const apiParams = getParamsForToken({ ...defaultParams, ...params });
 
   try {
     const res = await sendRequest<GetQuoteAPIParams, Quote>(CDP_GETSWAPQUOTE, [apiParams]);
