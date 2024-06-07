@@ -1,4 +1,4 @@
-import { GetSwapQuote } from '../../definitions/swap';
+import { CDP_GETSWAPQUOTE } from '../../definitions/swap';
 import { sendRequest } from '../../queries/request';
 import type {
   GetQuoteResponse,
@@ -24,7 +24,7 @@ export async function getQuote(params: GetQuoteParams): Promise<GetQuoteResponse
   const apiParams = getParamsForToken(params);
 
   try {
-    const res = await sendRequest<GetQuoteAPIParams, Quote>(GetSwapQuote, [apiParams]);
+    const res = await sendRequest<GetQuoteAPIParams, Quote>(CDP_GETSWAPQUOTE, [apiParams]);
 
     if (res.error) {
       return {

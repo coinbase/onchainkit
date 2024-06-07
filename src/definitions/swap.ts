@@ -1,2 +1,2 @@
-export const ListSwapAssets = 'cdp_listSwapAssets';
-export const GetSwapQuote = 'cdp_getSwapQuote';
+export const CDP_LISTSWAPASSETS = 'cdp_listSwapAssets';
+export const CDP_GETSWAPQUOTE = 'cdp_getSwapQuote';

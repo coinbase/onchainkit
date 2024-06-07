@@ -1,6 +1,6 @@
 import { getQuote } from './getQuote';
 import { sendRequest } from '../../queries/request';
-import { GetSwapQuote } from '../../definitions/swap';
+import { CDP_GETSWAPQUOTE } from '../../definitions/swap';
 import type { Token } from '../../token/types';
 import { getParamsForToken } from './utils';
 
@@ -78,7 +78,7 @@ describe('getQuote', () => {
     expect(quote).toEqual(mockResponse.result);
 
     expect(sendRequest).toHaveBeenCalledTimes(1);
-    expect(sendRequest).toHaveBeenCalledWith(GetSwapQuote, [mockApiParams]);
+    expect(sendRequest).toHaveBeenCalledWith(CDP_GETSWAPQUOTE, [mockApiParams]);
   });
 
   it('should throw an error if sendRequest fails', async () => {
@@ -96,7 +96,7 @@ describe('getQuote', () => {
     await expect(getQuote(mockParams)).rejects.toThrow('getQuote: Error: Failed to send request');
 
     expect(sendRequest).toHaveBeenCalledTimes(1);
-    expect(sendRequest).toHaveBeenCalledWith(GetSwapQuote, [mockApiParams]);
+    expect(sendRequest).toHaveBeenCalledWith(CDP_GETSWAPQUOTE, [mockApiParams]);
   });
 
   it('should return an error object from getQuote', async () => {
@@ -126,6 +126,6 @@ describe('getQuote', () => {
     });
 
     expect(sendRequest).toHaveBeenCalledTimes(1);
-    expect(sendRequest).toHaveBeenCalledWith(GetSwapQuote, [mockApiParams]);
+    expect(sendRequest).toHaveBeenCalledWith(CDP_GETSWAPQUOTE, [mockApiParams]);
   });
 });
