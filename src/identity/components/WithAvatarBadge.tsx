@@ -33,7 +33,7 @@ function WithAvatarBadgeInner({ children, address }: WithAvatarBadgeInnerProps) 
   return (
     <div className="ock-withavatarbadge-container" data-testid="ockAvatarBadgeContainer">
       {children}
-      {attestations && attestations[0] && (
+      {attestations?.[0] && (
         <div className="ock-withavatarbadge-badge">
           <div className="ock-withavatarbadge-inner">
             <Badge />
