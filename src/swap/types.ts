@@ -8,6 +8,7 @@ export type GetQuoteParams = {
   to: Token;
   amount: string;
   amountReference?: string;
+  amountInDecimals?: boolean;
 };
 
 export type GetQuoteAPIParams = {

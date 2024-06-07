@@ -16,6 +16,7 @@ export async function getQuote(params: GetQuoteParams): Promise<GetQuoteResponse
   // Default parameters
   const defaultParams = {
     amountReference: 'from',
+    amountInDecimals: false,
   };
 
   params = { ...defaultParams, ...params };

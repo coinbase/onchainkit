@@ -1,11 +1,14 @@
 import type { GetQuoteParams, GetQuoteAPIParams } from '../types';
 
 export function getParamsForToken(params: GetQuoteParams): GetQuoteAPIParams {
-  const { from, to, amount, amountReference } = params;
+  const { from, to, amount, amountReference, amountInDecimals } = params;
+
+  const decimals = amountReference == 'from' ? from.decimals : to.decimals;
+
   return {
     from: from.address || 'ETH',
     to: to.address || 'ETH',
-    amount: amount,
+    amount: amountInDecimals ? amount : formatDecimals(amount, false, decimals),
     amountReference: amountReference || 'from',
   };
 }
