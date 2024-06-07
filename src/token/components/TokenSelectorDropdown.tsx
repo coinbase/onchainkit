@@ -35,7 +35,6 @@ export function TokenSelectorDropdown({ setToken, options, onToggle }: TokenSele
               setToken(token);
               onToggle();
             }}
-            hideImage
           />
         ))}
       </div>

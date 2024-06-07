@@ -93,7 +93,7 @@ export type TokenSearchReact = {
 
 ```ts
 export type TokenSelectorReact = {
-  children: ReactElement<{ setToken: (token: Token) => void; onToggle: () => void }>; // Should either be a dropdown or modal that handle token selection
+  children: ReactElement<{ onToggle: () => void }>; // Should either be a dropdown or modal that handle token selection
   setToken: (token: Token) => void; // Token setter
   token?: Token; // Selected token
 };
