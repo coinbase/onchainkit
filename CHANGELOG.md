@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.19.4
+
+### Patch Changes
+
+- 10d1fa9: - **feat**: updated TokenKit styles. By @kyhyco #482
+
 ## 0.19.3
 
 ### Patch Changes
