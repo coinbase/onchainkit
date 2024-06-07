@@ -1,7 +1,8 @@
-import { render, screen } from '@testing-library/react';
 /**
  * @jest-environment jsdom
  */
+
+import { render, screen } from '@testing-library/react';
 import React from 'react';
 import { getSlicedAddress } from '../getSlicedAddress';
 import { useName } from '../hooks/useName';

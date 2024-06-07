@@ -1,7 +1,8 @@
-import { render, screen, waitFor } from '@testing-library/react';
 /**
  * @jest-environment jsdom
  */
+
+import { render, screen, waitFor } from '@testing-library/react';
 import React from 'react';
 import '@testing-library/jest-dom';
 import { base } from 'viem/chains';
