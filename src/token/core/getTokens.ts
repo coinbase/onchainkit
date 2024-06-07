@@ -1,5 +1,5 @@
 import { ListSwapAssets } from '../../definitions/swap';
-import { LegacyTokenData, GetTokensOptions, GetTokensResponse, GetTokensError } from '../types';
+import type { Token, GetTokensOptions, GetTokensResponse, GetTokensError } from '../types';
 import { sendRequest } from '../../queries/request';
 
 /**
@@ -15,7 +15,7 @@ export async function getTokens(options?: GetTokensOptions): Promise<GetTokensRe
   const filters = { ...defaultFilter, ...options };
 
   try {
-    const res = await sendRequest<GetTokensOptions, LegacyTokenData[]>(ListSwapAssets, [filters]);
+    const res = await sendRequest<GetTokensOptions, Token[]>(ListSwapAssets, [filters]);
 
     if (res.error) {
       return {
@@ -24,15 +24,7 @@ export async function getTokens(options?: GetTokensOptions): Promise<GetTokensRe
       } as GetTokensError;
     }
 
-    // Map the data from the response to the `OnchainKit` Token type
-    return res.result.map((token) => ({
-      address: token.address,
-      chainId: token.chainId,
-      decimals: token.decimals,
-      image: token.imageURL,
-      name: token.name,
-      symbol: token.currencyCode,
-    }));
+    return res.result;
   } catch (error) {
     throw new Error(`getTokens: ${error}`);
   }
