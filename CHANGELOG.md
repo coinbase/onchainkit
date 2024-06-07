@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.19.3
+
+### Patch Changes
+
+- fdab188: - **feat**: added `getQuote`. by @0xAlec #479
+  - **feat**: deprecated `LegacyTokenData`. By @0xAlec #478
+  - **feat**: added `TokenSelectorDropdown` to use with `TokenSelector`. By @kyhyco #475
+
 ## 0.19.2
 
 ### Patch Changes
