@@ -1,5 +1,5 @@
 import type { Token } from '../../token';
-import { getParamsForToken } from './utils';
+import { getParamsForToken, formatDecimals } from './utils';
 
 describe('getParamsForToken', () => {
   it('should return the correct GetQuoteAPIParams object', () => {
@@ -74,5 +74,37 @@ describe('getParamsForToken', () => {
     });
 
     expect(result).toEqual(expectedParams);
+  });
+});
+
+describe('formatDecimals', () => {
+  it('should format the amount correctly with default decimals', () => {
+    const amount = '1500000000000000000';
+    const expectedFormattedAmount = '1.5';
+    const result = formatDecimals(amount, true, 18);
+    expect(result).toEqual(expectedFormattedAmount);
+  });
+
+  it('should format the amount correctly with custom decimals', () => {
+    const amount = '1500000000000000000';
+    const decimals = 9;
+    const expectedFormattedAmount = '1500000000';
+    const result = formatDecimals(amount, true, decimals);
+    expect(result).toEqual(expectedFormattedAmount);
+  });
+
+  it('should format the amount correctly with default decimals when inputInDecimals is false', () => {
+    const amount = '1.5';
+    const expectedFormattedAmount = '1500000000000000000';
+    const result = formatDecimals(amount, false, 18);
+    expect(result).toEqual(expectedFormattedAmount);
+  });
+
+  it('should format the amount correctly with custom decimals when inputInDecimals is false', () => {
+    const amount = '1.5';
+    const decimals = 9;
+    const expectedFormattedAmount = '1500000000';
+    const result = formatDecimals(amount, false, decimals);
+    expect(result).toEqual(expectedFormattedAmount);
   });
 });
