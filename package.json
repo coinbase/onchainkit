@@ -13,6 +13,7 @@
     "check": "biome check --write .",
     "check:fix": "biome check --fix .",
     "check:unsafe": "biome check --unsafe .",
+    "ci": "biome ci .",
     "test": "jest --testPathIgnorePatterns=\\.integ\\.",
     "test:integration": "jest --testPathIgnorePatterns=\\.test\\.",
     "test:all": "jest .",

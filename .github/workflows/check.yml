@@ -20,5 +20,5 @@ jobs:
           cache: 'npm'
       - name: Kit Install dependencies
         run: npm install
-      - name: Kit Format Check
-        run: npm run check
+      - name: Kit Biome CI
+        run: npm run ci
