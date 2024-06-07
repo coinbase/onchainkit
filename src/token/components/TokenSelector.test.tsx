@@ -3,69 +3,64 @@
  */
 import React from 'react';
 import '@testing-library/jest-dom';
-import { fireEvent, render, screen, within } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { Address } from 'viem';
 import { TokenSelector } from './TokenSelector';
 
-describe('TokenSelector Component', () => {
-  beforeEach(() => {
-    jest.clearAllMocks();
+describe('TokenSelector', () => {
+  const token = {
+    name: 'Ethereum',
+    address: '0x123' as Address,
+    symbol: 'ETH',
+    decimals: 18,
+    image: 'https://wallet-api-production.s3.amazonaws.com/uploads/tokens/eth_288.png',
+    blockchain: 'eth',
+    chainId: 8453,
+  };
+
+  const setToken = jest.fn();
+  const children = <div data-testid="ockTokenSelector_MockChildren">component</div>;
+
+  it('renders correctly without a token', () => {
+    render(
+      <TokenSelector token={undefined} setToken={setToken}>
+        {children}
+      </TokenSelector>,
+    );
+
+    expect(screen.getByText('Select')).toBeInTheDocument();
+    expect(screen.queryByTestId('ockTokenSelector_Symbol')).toBeNull();
+    expect(screen.getByTestId('ockTokenSelector_CaretDown')).toBeInTheDocument();
   });
 
-  it('should render with token prop', async () => {
-    const token = {
-      address: '0x123' as Address,
-      chainId: 1,
-      decimals: 2,
-      image: 'imageURL',
-      name: 'Ether',
-      symbol: 'ETH',
-    };
-    const handleClick = jest.fn();
+  it('renders correctly with a token', () => {
+    render(
+      <TokenSelector token={token} setToken={setToken}>
+        {children}
+      </TokenSelector>,
+    );
 
-    render(<TokenSelector token={token} onClick={handleClick} />);
-    const buttonElement = screen.getByRole('button');
-    expect(buttonElement).toBeInTheDocument();
-
-    const imgElement = within(buttonElement).getByRole('img');
-    const spanElement = within(buttonElement).getByText(token.symbol);
-
-    expect(imgElement).toBeInTheDocument();
-    expect(spanElement).toBeInTheDocument();
+    expect(screen.getByText('ETH')).toBeInTheDocument();
+    expect(screen.getByTestId('ockTokenSelector_CaretDown')).toBeInTheDocument();
+    expect(screen.queryByText('Select')).toBeNull();
   });
 
-  it('should render with no token prop with placeholder text', async () => {
-    const handleClick = jest.fn();
-
-    render(<TokenSelector token={undefined} onClick={handleClick} />);
-    const buttonElement = screen.getByRole('button');
-    expect(buttonElement).toBeInTheDocument();
-
-    const imgElement = within(buttonElement).queryByRole('img');
-    const spanElement = within(buttonElement).queryByTestId('ockTokenSelector_Symbol');
-    const placeholderElement = within(buttonElement).getByText('Select');
-
-    expect(imgElement).toBeNull();
-    expect(spanElement).toBeNull();
-    expect(placeholderElement).toBeInTheDocument();
-  });
-
-  it('should register a click on press', async () => {
-    const token = {
-      address: '0x123' as Address,
-      chainId: 1,
-      decimals: 2,
-      image: 'imageURL',
-      name: 'Ether',
-      symbol: 'ETH',
-    };
-    const handleClick = jest.fn();
-    render(<TokenSelector token={token} onClick={handleClick} />);
+  it('toggles dropdown on button click', () => {
+    render(
+      <TokenSelector token={token} setToken={setToken}>
+        {children}
+      </TokenSelector>,
+    );
 
     const button = screen.getByTestId('ockTokenSelector_Button');
+    fireEvent.click(button);
+
+    expect(screen.getByTestId('ockTokenSelector_CaretUp')).toBeInTheDocument();
+    expect(screen.getByTestId('ockTokenSelector_MockChildren')).toBeInTheDocument();
 
     fireEvent.click(button);
 
-    expect(handleClick).toHaveBeenCalledTimes(1);
+    expect(screen.getByTestId('ockTokenSelector_CaretDown')).toBeInTheDocument();
+    expect(screen.queryByTestId('ockTokenSelector_MockChildren')).toBeNull();
   });
 });
