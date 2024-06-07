@@ -1,4 +1,5 @@
 // 🌲☀️🌲
+import { ReactElement } from 'react';
 import { Address } from 'viem';
 
 // The raw response from the Swap API
@@ -103,6 +104,16 @@ export type TokenSearchReact = {
  * Note: exported as public Type
  */
 export type TokenSelectorReact = {
+  children: ReactElement<{ setToken: (token: Token) => void; onToggle: () => void }>;
+  setToken: (token: Token) => void;
   token?: Token;
-  onClick: () => void;
+};
+
+/**
+ * Note: exported as public Type
+ */
+export type TokenSelectorDropdownReact = {
+  onToggle: () => void; // Injected by TokenSelector
+  options: Token[]; // List of tokens
+  setToken: (token: Token) => void; // Injected by TokenSelector
 };

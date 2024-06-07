@@ -93,7 +93,18 @@ export type TokenSearchReact = {
 
 ```ts
 export type TokenSelectorReact = {
-  token: Token; // Rendered token
-  onClick: () => void; // Component on click handler
+  children: ReactElement<{ setToken: (token: Token) => void; onToggle: () => void }>; // Should either be a dropdown or modal that handle token selection
+  setToken: (token: Token) => void; // Token setter
+  token?: Token; // Selected token
+};
+```
+
+## `TokenSelectorDropdownReact`
+
+```ts
+export type TokenSelectorDropdownReact = {
+  onToggle: () => void; // Injected by TokenSelector
+  options: Token[]; // List of tokens
+  setToken: (token: Token) => void; // Injected by TokenSelector
 };
 ```
