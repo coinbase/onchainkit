@@ -34,9 +34,7 @@ describe('WithAvatarBadge Component', () => {
 
     await waitFor(() => {
       const badge = screen.queryByTestId('ockBadge');
-      expect(badge).toHaveStyle(
-        'border-color: red; height: 14px; width: 14px;',
-      );
+      expect(badge).toHaveStyle('border-color: red; height: 14px; width: 14px;');
       const bg = screen.queryByTestId('ockBadgeBackground');
       expect(bg).toHaveAttribute('fill', '#0052FF');
       const ticker = screen.queryByTestId('ockBadgeTicker');
