@@ -1,7 +1,8 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 /**
  * @jest-environment jsdom
  */
+
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import React from 'react';
 import type { Address } from 'viem';
 import type { Token } from '../types';
