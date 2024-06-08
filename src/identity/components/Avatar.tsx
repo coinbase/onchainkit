@@ -80,14 +80,13 @@ export function Avatar({
   return (
     <WithAvatarBadge showAttestation={showAttestation} address={address}>
       <img
-        className={className}
+        className={className || 'ock-avatar'}
         loading="lazy"
         width="32"
         height="32"
         decoding="async"
         src={avatar}
         alt={name}
-        style={{ borderRadius: '50%' }}
         {...props}
       />
     </WithAvatarBadge>

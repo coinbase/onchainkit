@@ -13,11 +13,10 @@ export function Badge({
   const badgeSize = borderColor ? '14px' : '12px';
   return (
     <span
-      className={className}
+      className={className || 'ock-badge'}
       data-testid="ockBadge"
       style={{
-        border: `1px solid ${borderColor}`,
-        borderRadius: '50%',
+        borderColor,
         height: badgeSize,
         width: badgeSize,
       }}

@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { TokenImageReact } from '../types';
 import { getTokenImageColor } from './getTokenImageColor';
 
-export function TokenImage({ token, size = 24 }: TokenImageReact) {
+export function TokenImage({ className, size = 24, token }: TokenImageReact) {
   const { image, name } = token;
 
   const styles = useMemo(() => {
@@ -10,8 +10,6 @@ export function TokenImage({ token, size = 24 }: TokenImageReact) {
       image: {
         width: `${size}px`,
         height: `${size}px`,
-        borderRadius: '50%',
-        overflow: 'hidden',
       },
       placeholderImage: {
         background: getTokenImageColor(name),
@@ -23,11 +21,22 @@ export function TokenImage({ token, size = 24 }: TokenImageReact) {
 
   if (!image) {
     return (
-      <div data-testid="ockTokenImage_NoImage" style={styles.image}>
+      <div
+        className={className || 'ock-tokenimage'}
+        data-testid="ockTokenImage_NoImage"
+        style={styles.image}
+      >
         <div style={styles.placeholderImage} />
       </div>
     );
   }
 
-  return <img data-testid="ockTokenImage_Image" style={styles.image} src={image} />;
+  return (
+    <img
+      className={className || 'ock-tokenimage'}
+      data-testid="ockTokenImage_Image"
+      style={styles.image}
+      src={image}
+    />
+  );
 }

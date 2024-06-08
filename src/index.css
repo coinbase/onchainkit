@@ -1,6 +1,11 @@
+@import url('./identity/components/Avatar.css');
+@import url('./identity/components/Badge.css');
 @import url('./identity/components/WithAvatarBadge.css');
+@import url('./identity/components/WithNameBadge.css');
 @import url('./token/components/TextInput.css');
 @import url('./token/components/TokenChip.css');
+@import url('./token/components/TokenImage.css');
 @import url('./token/components/TokenRow.css');
 @import url('./token/components/TokenSelector.css');
 @import url('./token/components/TokenSelectorDropdown.css');
+@import url('./wallet/components/ConnectAccount.css');

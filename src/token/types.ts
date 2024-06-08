@@ -62,8 +62,9 @@ export type TokenChipReact = {
  * Note: exported as public Type
  */
 export type TokenImageReact = {
-  token: Token;
+  className?: string; // Optional additional CSS class to apply to the component
   size?: number;
+  token: Token;
 };
 
 /**
