@@ -7,7 +7,9 @@
   "scripts": {
     "build": "packemon build --addEngines --addFiles --declaration && npx packemon validate --no-license --no-people --no-repo && tailwindcss -i ./src/index.css -o ./src/styles.css --minify",
     "watch": "tailwind -i ./src/index.css -o ./src/styles.css --watch",
-    "format": "biome format --write .",
+    "format": "prettier --log-level warn --write .",
+    "format:check": "prettier --check .",
+    "format:biome": "biome format --write .",
     "lint": "biome lint --write .",
     "lint:unsafe": "biome lint --write --unsafe .",
     "check": "biome check --write .",
