@@ -1,5 +1,5 @@
 .ock-tokenselectordropdown-container {
-  @apply absolute z-10 mt-[11px] flex max-h-80 w-[250px] flex-col overflow-y-hidden rounded-lg;
+  @apply absolute z-10 mt-1 flex max-h-80 w-[250px] flex-col overflow-y-hidden rounded-lg;
   scrollbar-width: thin;
   scrollbar-color: #d1d5db #ffffff;
 }
