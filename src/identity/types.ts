@@ -114,3 +114,25 @@ export type UseAttestations = {
   chain: Chain;
   schemaId: Address;
 };
+
+export type WithAvatarBadgeInnerReact = {
+  children: React.ReactNode;
+  address: Address;
+};
+
+export type WithAvatarBadgeReact = {
+  children: React.ReactNode;
+  showAttestation: boolean;
+  address: Address;
+};
+
+export type WithNameBadgeInnerReact = {
+  children: React.ReactNode;
+  address: Address;
+};
+
+export type WithNameBadgeReact = {
+  children: React.ReactNode;
+  showAttestation?: boolean;
+  address: Address;
+};
