@@ -1,6 +1,6 @@
-import { getTokens } from './getTokens';
-import { sendRequest } from '../../queries/request';
 import { CDP_LISTSWAPASSETS } from '../../definitions/swap';
+import { sendRequest } from '../../queries/request';
+import { getTokens } from './getTokens';
 
 jest.mock('../../queries/request');
 

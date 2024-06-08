@@ -1,6 +1,6 @@
 import { CDP_LISTSWAPASSETS } from '../../definitions/swap';
-import type { Token, GetTokensOptions, GetTokensResponse, GetTokensError } from '../types';
 import { sendRequest } from '../../queries/request';
+import type { GetTokensError, GetTokensOptions, GetTokensResponse, Token } from '../types';
 
 /**
  * Retrieves a list of tokens on Base.

@@ -1,9 +1,9 @@
 import { CDP_GETSWAPQUOTE } from '../../definitions/swap';
 import { sendRequest } from '../../queries/request';
 import type {
-  GetQuoteResponse,
-  GetQuoteParams,
   GetQuoteAPIParams,
+  GetQuoteParams,
+  GetQuoteResponse,
   Quote,
   SwapError,
 } from '../types';

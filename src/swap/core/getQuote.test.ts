@@ -1,8 +1,8 @@
-import { getQuote } from './getQuote';
-import { sendRequest } from '../../queries/request';
 import { CDP_GETSWAPQUOTE } from '../../definitions/swap';
+import { sendRequest } from '../../queries/request';
 import type { Token } from '../../token/types';
 import { getParamsForToken } from './getParamsForToken';
+import { getQuote } from './getQuote';
 
 jest.mock('../../queries/request');
 

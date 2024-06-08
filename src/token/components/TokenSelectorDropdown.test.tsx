@@ -1,11 +1,11 @@
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 /**
  * @jest-environment jsdom
  */
 import React from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import { Address } from 'viem';
+import type { Address } from 'viem';
+import type { Token } from '../types';
 import { TokenSelectorDropdown } from './TokenSelectorDropdown';
-import { Token } from '../types';
 
 describe('TokenSelectorDropdown', () => {
   const setToken = jest.fn();

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef } from 'react';
-import { TokenSelectorDropdownReact } from '../types';
+import type { TokenSelectorDropdownReact } from '../types';
 import { TokenRow } from './TokenRow';
 
 export function TokenSelectorDropdown({ setToken, options, onToggle }: TokenSelectorDropdownReact) {

@@ -1,5 +1,5 @@
-import { ReactElement, useState } from 'react';
 import type { Token } from '@coinbase/onchainkit/token';
+import { type ReactElement, useState } from 'react';
 
 type TokenSelectorContainer = {
   children: (token: Token, setToken: (t: Token) => void) => ReactElement;

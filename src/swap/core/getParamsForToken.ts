@@ -1,5 +1,5 @@
+import type { GetQuoteAPIParams, GetQuoteParams } from '../types';
 import { formatDecimals } from './formatDecimals';
-import type { GetQuoteParams, GetQuoteAPIParams } from '../types';
 
 /**
  * Converts parameters with `Token` to ones with address. Additionally adds default values for optional request fields.
