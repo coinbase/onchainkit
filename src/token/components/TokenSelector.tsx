@@ -63,7 +63,7 @@ export function TokenSelector({ token, children }: TokenSelectorReact) {
             </span>
           </>
         ) : (
-          <span className="ock-tokenselector-label">Select</span>
+          <span className="font-medium leading-normal text-[#0a0b0d]">Select</span>
         )}
         {isOpen ? <CaretUp /> : <CaretDown />}
       </button>
