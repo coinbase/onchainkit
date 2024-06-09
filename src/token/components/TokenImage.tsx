@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import { TokenImageReact } from '../types';
 import { getTokenImageColor } from './getTokenImageColor';
+import { cn } from '../../lib/utils';
 
 export function TokenImage({ className, size = 24, token }: TokenImageReact) {
   const { image, name } = token;
@@ -22,7 +23,7 @@ export function TokenImage({ className, size = 24, token }: TokenImageReact) {
   if (!image) {
     return (
       <div
-        className={className || 'ock-tokenimage'}
+        className={cn('overflow-hidden rounded-full', className)}
         data-testid="ockTokenImage_NoImage"
         style={styles.image}
       >
