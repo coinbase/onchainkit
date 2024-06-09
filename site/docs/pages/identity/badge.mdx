@@ -20,8 +20,8 @@ import { Badge } from '@coinbase/onchainkit/identity';
 ```
 
 ```html [return html]
-<span data-testid="ockBadge" style="border-radius: 50%; height: 12px; width: 12px;">
-  <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<span class="ock-badge" data-testid="ockBadge" style="height: 12px; width: 12px;"
+  ><svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path
       d="M6 12C9.31371 12 12 9.31371 12 6C12 2.68629 9.31371 0 6 0C2.68629 0 0 2.68629 0 6C0 9.31371 2.68629 12 6 12Z"
       data-testid="ockBadgeBackground"
@@ -31,9 +31,8 @@ import { Badge } from '@coinbase/onchainkit/identity';
       d="M8.12957 3.73002L5.11957 6.74002L3.77957 5.40002C3.49957 5.12002 3.04957 5.12002 2.76957 5.40002C2.48957 5.68002 2.48957 6.13002 2.76957 6.41002L4.10957 7.75002L4.59957 8.24002C4.90957 8.55002 5.41957 8.55002 5.72957 8.24002L9.17957 4.79002C9.45957 4.51002 9.45957 4.06002 9.17957 3.78002L9.12957 3.73002C8.84957 3.45002 8.39957 3.45002 8.11957 3.73002H8.12957Z"
       data-testid="ockBadgeTicker"
       fill="white"
-    ></path>
-  </svg>
-</span>
+    ></path></svg
+></span>
 ```
 
 :::
@@ -53,10 +52,10 @@ import { Badge } from '@coinbase/onchainkit/identity';
 
 ```html [return html]
 <span
+  class="ock-badge"
   data-testid="ockBadge"
-  style="border: 1px solid white; border-radius: 50%; height: 14px; width: 14px;"
->
-  <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+  style="border-color: white; height: 14px; width: 14px;"
+  ><svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path
       d="M6 12C9.31371 12 12 9.31371 12 6C12 2.68629 9.31371 0 6 0C2.68629 0 0 2.68629 0 6C0 9.31371 2.68629 12 6 12Z"
       data-testid="ockBadgeBackground"
@@ -66,9 +65,8 @@ import { Badge } from '@coinbase/onchainkit/identity';
       d="M8.12957 3.73002L5.11957 6.74002L3.77957 5.40002C3.49957 5.12002 3.04957 5.12002 2.76957 5.40002C2.48957 5.68002 2.48957 6.13002 2.76957 6.41002L4.10957 7.75002L4.59957 8.24002C4.90957 8.55002 5.41957 8.55002 5.72957 8.24002L9.17957 4.79002C9.45957 4.51002 9.45957 4.06002 9.17957 3.78002L9.12957 3.73002C8.84957 3.45002 8.39957 3.45002 8.11957 3.73002H8.12957Z"
       data-testid="ockBadgeTicker"
       fill="#FDFDFD"
-    ></path>
-  </svg>
-</span>
+    ></path></svg
+></span>
 ```
 
 :::
@@ -104,11 +102,11 @@ const COINBASE_VERIFIED_ACCOUNT_SCHEMA_ID =
 ```
 
 ```html [return html]
-<div data-testid="ockNameBadgeContainer" style="display: flex; align-items: center;">
-  <span>zizzamia.eth</span>
-  <div style="margin-left: 4px;">
-    <span data-testid="ockBadge" style="border-radius: 50%; height: 12px; width: 12px;">
-      <svg
+<div class="ock-withnamebadge-container" data-testid="ockNameBadgeContainer">
+  <span>nickprince.eth</span>
+  <div class="ock-withnamebadge-inner">
+    <span class="ock-badge" data-testid="ockBadge" style="height: 12px; width: 12px;"
+      ><svg
         width="12"
         height="12"
         viewBox="0 0 12 12"
@@ -124,9 +122,8 @@ const COINBASE_VERIFIED_ACCOUNT_SCHEMA_ID =
           d="M8.12957 3.73002L5.11957 6.74002L3.77957 5.40002C3.49957 5.12002 3.04957 5.12002 2.76957 5.40002C2.48957 5.68002 2.48957 6.13002 2.76957 6.41002L4.10957 7.75002L4.59957 8.24002C4.90957 8.55002 5.41957 8.55002 5.72957 8.24002L9.17957 4.79002C9.45957 4.51002 9.45957 4.06002 9.17957 3.78002L9.12957 3.73002C8.84957 3.45002 8.39957 3.45002 8.11957 3.73002H8.12957Z"
           data-testid="ockBadgeTicker"
           fill="white"
-        ></path>
-      </svg>
-    </span>
+        ></path></svg
+    ></span>
   </div>
 </div>
 ```
@@ -161,23 +158,20 @@ const COINBASE_VERIFIED_ACCOUNT_SCHEMA_ID =
 ```
 
 ```html [return html]
-<div data-testid="ockAvatarBadgeInner" style="position: relative; width: 32px; height: 32px;">
+<div class="ock-withavatarbadge-container" data-testid="ockAvatarBadgeContainer">
   <img
+    class="ock-avatar"
     loading="lazy"
     width="32"
     height="32"
     decoding="async"
-    src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMTAgMTEwIj48ZGVmcz48cmFkaWFsR3JhZGllbnQgaWQ9Imd6ciIgZ3JhZGllbnRUcmFuc2Zvcm09InRyYW5zbGF0ZSg2Ni40NTc4IDI0LjM1NzUpIHNjYWxlKDc1LjI5MDgpIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgcj0iMSIgY3g9IjAiIGN5PSIwJSI+PHN0b3Agb2Zmc2V0PSIxNS42MiUiIHN0b3AtY29sb3I9ImhzbCgyNDQsIDcxJSwgODglKSIgLz48c3RvcCBvZmZzZXQ9IjM5LjU4JSIgc3RvcC1jb2xvcj0iaHNsKDI0MSwgNzMlLCA4MSUpIiAvPjxzdG9wIG9mZnNldD0iNzIuOTIlIiBzdG9wLWNvbG9yPSJoc2woMjIzLCA3OCUsIDcwJSkiIC8+PHN0b3Agb2Zmc2V0PSI5MC42MyUiIHN0b3AtY29sb3I9ImhzbCgyMTcsIDkwJSwgNjAlKSIgLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9ImhzbCgyMTQsIDk1JSwgNTklKSIgLz48L3JhZGlhbEdyYWRpZW50PjwvZGVmcz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSg1LDUpIj48cGF0aCBkPSJNMTAwIDUwQzEwMCAyMi4zODU4IDc3LjYxNDIgMCA1MCAwQzIyLjM4NTggMCAwIDIyLjM4NTggMCA1MEMwIDc3LjYxNDIgMjIuMzg1OCAxMDAgNTAgMTAwQzc3LjYxNDIgMTAwIDEwMCA3Ny42MTQyIDEwMCA1MFoiIGZpbGw9InVybCgjZ3pyKSIgLz48cGF0aCBzdHJva2U9InJnYmEoMCwwLDAsMC4wNzUpIiBmaWxsPSJ0cmFuc3BhcmVudCIgc3Ryb2tlLXdpZHRoPSIxIiBkPSJNNTAsMC41YzI3LjMsMCw0OS41LDIyLjIsNDkuNSw0OS41Uzc3LjMsOTkuNSw1MCw5OS41UzAuNSw3Ny4zLDAuNSw1MFMyMi43LDAuNSw1MCwwLjV6IiAvPjwvZz48L3N2Zz4="
-    alt="zizzamia.eth"
+    src="https://euc.li/nickprince.eth"
+    alt="nickprince.eth"
   />
-  <div
-    style="position: absolute; bottom: -2px; right: -2px; background: transparent; display: flex; justify-content: center; align-items: center; width: 15px; height: 15px; border-radius: 9999px;"
-  >
-    <div
-      style="width: 11px; height: 11px; display: flex; justify-content: center; align-items: center;"
-    >
-      <span data-testid="ockBadge" style="border-radius: 50%; height: 12px; width: 12px;">
-        <svg
+  <div class="ock-withavatarbadge-badge">
+    <div class="ock-withavatarbadge-inner">
+      <span class="ock-badge" data-testid="ockBadge" style="height: 12px; width: 12px;"
+        ><svg
           width="12"
           height="12"
           viewBox="0 0 12 12"
@@ -193,9 +187,8 @@ const COINBASE_VERIFIED_ACCOUNT_SCHEMA_ID =
             d="M8.12957 3.73002L5.11957 6.74002L3.77957 5.40002C3.49957 5.12002 3.04957 5.12002 2.76957 5.40002C2.48957 5.68002 2.48957 6.13002 2.76957 6.41002L4.10957 7.75002L4.59957 8.24002C4.90957 8.55002 5.41957 8.55002 5.72957 8.24002L9.17957 4.79002C9.45957 4.51002 9.45957 4.06002 9.17957 3.78002L9.12957 3.73002C8.84957 3.45002 8.39957 3.45002 8.11957 3.73002H8.12957Z"
             data-testid="ockBadgeTicker"
             fill="white"
-          ></path>
-        </svg>
-      </span>
+          ></path></svg
+      ></span>
     </div>
   </div>
 </div>
@@ -215,6 +208,9 @@ const COINBASE_VERIFIED_ACCOUNT_SCHEMA_ID =
 ## CSS
 
 ```css
+.ock-badge {
+  @apply rounded-[50%] border;
+}
 .ock-withavatarbadge-container {
   @apply relative h-8 w-8;
 }
@@ -223,5 +219,11 @@ const COINBASE_VERIFIED_ACCOUNT_SCHEMA_ID =
 }
 .ock-withavatarbadge-inner {
   @apply flex h-[11px] w-[11px] items-center justify-center;
+}
+.ock-withnamebadge-container {
+  @apply flex items-center;
+}
+.ock-withnamebadge-inner {
+  @apply ml-1;
 }
 ```
