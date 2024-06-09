@@ -1,8 +1,8 @@
 import { gql } from 'graphql-request';
-import type { Address, Chain } from 'viem';
 import { getAddress } from 'viem';
-import { EASSchemaUid, Attestation } from '../identity/types';
 import { createEasGraphQLClient } from '../network/createEasGraphQLClient';
+import type { Address, Chain } from 'viem';
+import type { EASSchemaUid, Attestation } from '../identity/types';
 
 /**
  * Type representing the filter options used for querying EAS Attestations.

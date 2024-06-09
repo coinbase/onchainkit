@@ -7,7 +7,7 @@ import type { GetQuoteParams, GetQuoteAPIParams } from '../types';
 export function getParamsForToken(params: GetQuoteParams): GetQuoteAPIParams {
   const { from, to, amount, amountReference, isAmountInDecimals } = params;
 
-  const decimals = amountReference == 'from' ? from.decimals : to.decimals;
+  const decimals = amountReference === 'from' ? from.decimals : to.decimals;
 
   return {
     from: from.address || 'ETH',

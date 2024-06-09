@@ -1,5 +1,5 @@
 import {
-  GetAttestationsByFilterOptions,
+  type GetAttestationsByFilterOptions,
   getAttestationQueryVariables,
   getAttestationsByFilter,
   attestationQuery,

@@ -1,5 +1,5 @@
-import { Address } from 'viem';
-import { Token } from '../token/types';
+import type { Address } from 'viem';
+import type { Token } from '../token/types';
 
 export type AddressOrETH = Address | 'ETH';
 

@@ -1,5 +1,5 @@
 import { baseSepolia } from 'viem/chains';
-import { OnchainKitConfig, SetOnchainKitConfig } from './types';
+import type { OnchainKitConfig, SetOnchainKitConfig } from './types';
 
 // The ONCHAIN_KIT_CONFIG is not exported at index.ts,
 // but only acccessed through the get and set functions.

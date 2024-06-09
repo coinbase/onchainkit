@@ -5,7 +5,7 @@
 import 'jest-extended';
 // Enable jest-dom functions
 import '@testing-library/jest-dom';
-
+// biome-ignore lint: Running linting with `unsafe` flag changes import to 'node:util' which breaks the CI. See https://nodejs.org/docs/latest-v18.x/api/util.html
 import { TextEncoder, TextDecoder } from 'util';
 
 global.TextEncoder = TextEncoder;
