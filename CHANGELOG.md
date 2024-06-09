@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.19.6
+
+### Patch Changes
+
+- c54ec7b: - **fix**: added border transparent to Badge component. By @zizzamia #493
+
 ## 0.19.5
 
 ### Patch Changes
