@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.19.5
+
+### Patch Changes
+
+- 477e1f5: - **chore**: continue migrating to Tailwind for CSS internals. By @zizzamia #492
+  - **fix**: reduce gap between `TokenSelector` and `TokenSelectorDropdown`. By @kyhyco #489
+  - **docs**: add back `TokenSelectorDropdown` example. By @kyhyco #487
+
 ## 0.19.4
 
 ### Patch Changes
