@@ -6,7 +6,7 @@ jobs:
   scan:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Salus Scan
         id: salus_scan
         uses: federacy/scan-action@0.1.4
