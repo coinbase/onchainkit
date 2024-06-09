@@ -27,12 +27,12 @@ const token = {
 ```
 
 ```html [return html]
-<button data-testid="ockTokenChip_Button" style="" class="ock-tokenchip-button">
+<button data-testid="ockTokenChip_Button" class="flex w-fit items-center rounded-2xl bg-[#eef0f3] py-1 pl-1 pr-3 hover:bg-[#cacbce] hover:active:bg-[#bfc1c3]">
   <img
-    class="ock-tokenchip-image"
+    class="mr-2 h-6 w-6"
     src="https://dynamic-assets.coinbase.com/dbb4b4983bde81309ddab83eb598358eb44375b930b94687ebe38bc22e52c3b2125258ffb8477a5ef22e33d6bd72e32a506c391caa13af64c00e46613c3e5806/asset_icons/4113b082d21cc5fab17fc8f2d19fb996165bcce635e6900f7fc2d57c4ef33ae9.png"
   />
-  <span class="ock-tokenchip-label">ETH</span>
+  <span class="text-base font-medium leading-4 text-black">ETH</span>
 </button>
 ```
 
@@ -55,25 +55,3 @@ const token = {
 ## Props
 
 [`TokenChipReact`](/token/types#tokenchipreact)
-
-## CSS
-
-```css
-.ock-tokenchip-button {
-  @apply flex w-fit items-center rounded-2xl py-1 pl-1 pr-3;
-  background: #eef0f3;
-
-  &:hover {
-    background: #cacbce;
-  }
-  &:active {
-    background: #bfc1c3;
-  }
-}
-.ock-tokenchip-label {
-  @apply text-base font-medium leading-4 text-black;
-}
-.ock-tokenchip-image {
-  @apply mr-2 h-6 w-6;
-}
-```
