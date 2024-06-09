@@ -1,8 +1,12 @@
 # Getting Started
 
-Add OnchainKit to your project, install the required packages.
+You can use OnchainKit in an existing project, by installing OnchainKit as a dependency.
 
-## Installation
+::::steps
+
+### Install
+
+Let's install OnchainKit as a dependency along with its Viem peer dependency.
 
 :::code-group
 
@@ -24,13 +28,38 @@ bun add @coinbase/onchainkit viem@2.x
 
 :::
 
-## CSS
+### Configure the OnchainKitProvider
 
-Add this at the top of your application entry point
+The `<OnchainKitProvider />` component equips your app with the essential context to interact with OnchainKit components and utilities.
+
+Set the `chain` prop to your target chain and provide the API KEY to access the embedded APIs.
+
+Obtain an API key from the [Coinbase Developer Platform APIs](https://www.coinbase.com/developer-platform).
+
+```tsx [code]
+import { base } from 'viem/chains';
+import { OnchainKitProvider } from '@coinbase/onchainkit';
+
+const App = () => {
+  return (
+    <OnchainKitProvider apiKey="YOUR_API_KEY" chain={base}>
+      <YourKit />
+    </OnchainKitProvider>
+  );
+};
+```
+
+### Style your components
+
+All OnchainKit components come pre-configured with a style.
+
+Simply place this at the top of your application's entry point to have the components working out of the box.
 
 ```javascript
 import '@coinbase/onchainkit/styles.css';
 ```
+
+::::
 
 OnchainKit is divided into various theme utilities and components that are available for your use:
 
