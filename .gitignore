@@ -3,7 +3,6 @@
 # compiled output
 dist
 esm
-lib
 tmp
 /out-tsc
 site/vocs.config.tsx.timestamp*
