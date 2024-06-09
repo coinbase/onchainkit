@@ -5,7 +5,7 @@
   "repository": "https://github.com/coinbase/onchainkit.git",
   "license": "MIT",
   "scripts": {
-    "build": "packemon build --addEngines --addFiles --declaration && npx packemon validate --no-license --no-people --no-repo && tailwindcss -i ./src/index.css -o ./src/styles.css --minify",
+    "build": "packemon build --addEngines --addFiles --declaration && npx packemon validate --no-license --no-people --no-repo && tailwindcss -o ./src/styles.css --minify",
     "watch": "tailwind -i ./src/index.css -o ./src/styles.css --watch",
     "check": "yarn format",
     "format": "prettier --log-level warn --write .",
