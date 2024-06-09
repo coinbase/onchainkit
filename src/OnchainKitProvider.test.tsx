@@ -6,7 +6,7 @@ import { base } from 'viem/chains';
 import { render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
-import { EASSchemaUid } from './identity/types';
+import type { EASSchemaUid } from './identity/types';
 import { OnchainKitProvider } from './OnchainKitProvider';
 import { useOnchainKit } from './useOnchainKit';
 

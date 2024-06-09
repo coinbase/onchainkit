@@ -11,6 +11,8 @@
     "format": "prettier --log-level warn --write .",
     "format:check": "prettier --check .",
     "format:biome": "biome format --write .",
+    "lint": "biome lint --write .",
+    "lint:unsafe": "biome lint --write --unsafe .",
     "test": "jest --testPathIgnorePatterns=\\.integ\\.",
     "test:integration": "jest --testPathIgnorePatterns=\\.test\\.",
     "test:all": "jest .",

@@ -3,8 +3,8 @@
  */
 export function formatDecimals(
   amount: string,
-  inputInDecimals: boolean = true,
-  decimals: number = 18,
+  inputInDecimals = true,
+  decimals = 18,
 ): string {
   if (inputInDecimals) {
     return (Number(amount) / 10 ** decimals).toString();
