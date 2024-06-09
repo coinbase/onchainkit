@@ -33,6 +33,10 @@
     "viem": "^2",
     "wagmi": "^2"
   },
+  "dependencies": {
+    "clsx": "^2.1.1",
+    "tailwind-merge": "^2.3.0"
+  },
   "devDependencies": {
     "@biomejs/biome": "^1.8.0",
     "@changesets/changelog-github": "^0.4.8",
