@@ -27,16 +27,19 @@ export function ConnectAccount({ children }: ConnectAccountReact) {
   };
 
   return (
-    <div className="ock-connectaccount" data-testid="ockConnectAccountButton">
+    <div className="flex grow" data-testid="ockConnectAccountButton">
       {(() => {
         if (status === 'disconnected' || status === 'connecting') {
           return (
             <button
-              className="ock-connectaccount-button"
+              className="inline-flex h-10 grow items-center justify-center gap-2 rounded-3xl bg-white px-4 py-2"
               onClick={() => connect({ connector })}
               type="button"
             >
-              <div className="ock-connectaccount-inner" data-testid="ockConnectAccountButtonInner">
+              <div
+                className="text-sm font-medium leading-5 text-black"
+                data-testid="ockConnectAccountButtonInner"
+              >
                 Connect wallet
               </div>
             </button>

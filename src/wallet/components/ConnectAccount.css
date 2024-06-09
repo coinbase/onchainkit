@@ -1,9 +1,0 @@
-.ock-connectaccount {
-  @apply flex flex-grow;
-}
-.ock-connectaccount-button {
-  @apply inline-flex h-10 grow items-center justify-center gap-2 rounded-3xl bg-white px-4 py-2;
-}
-.ock-connectaccount-inner {
-  @apply text-sm font-medium leading-5 text-black;
-}
