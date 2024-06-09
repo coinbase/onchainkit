@@ -1,6 +1,5 @@
 import { ChangeEvent, useCallback } from 'react';
 import { SearchIcon } from './SearchIcon';
-import { clsx } from 'clsx';
 
 type TextInputReact = {
   placeholder: string;
