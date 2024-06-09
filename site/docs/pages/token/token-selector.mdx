@@ -34,9 +34,9 @@ import App from '../App';
 ```
 
 ```html [return html]
-<div class="ock-tokenselector-container">
-  <button data-testid="ockTokenSelector_Button" class="ock-tokenselector-button">
-    <span class="ock-tokenselector-label">Select</span>
+<div class="relative">
+  <button data-testid="ockTokenSelector_Button" class="flex w-fit items-center gap-2 rounded-2xl bg-[#eef0f3] px-3 py-1 outline-none hover:bg-[#cacbce] active:bg-[#bfc1c3]">
+    <span class="font-medium leading-normal text-[#0a0b0d]">Select</span>
     <svg
       data-testid="ockTokenSelector_CaretUp"
       width="16"
@@ -51,49 +51,49 @@ import App from '../App';
       ></path>
     </svg>
   </button>
-  <div class="ock-tokenselectordropdown-container">
-    <div class="ock-tokenselectordropdown-scroll">
-      <button data-testid="ockTokenRow_Container" class="ock-tokenrow-button">
-        <span class="ock-tokenrow-left">
+  <div class="absolute z-10 mt-1 flex max-h-80 w-[250px] flex-col overflow-y-hidden rounded-lg">
+    <div>
+      <button data-testid="ockTokenRow_Container" class="flex h-16 w-full cursor-pointer items-center justify-between bg-white px-2 py-1 hover:bg-[#cacbce] active:bg-[#bfc1c3]">
+        <span class="flex items-center gap-3">
           <img
             data-testid="ockTokenImage_Image"
             src="https://wallet-api-production.s3.amazonaws.com/uploads/tokens/eth_288.png"
             style="width: 48px; height: 48px; border-radius: 50%; overflow: hidden;"
           />
-          <span class="ock-tokenrow-body">
-            <span class="ock-tokenrow-name">Ethereum</span>
-            <span class="ock-tokenrow-symbol">ETH</span>
+          <span class="flex flex-col items-start">
+            <span class="font-medium leading-normal text-[#0A0B0D]">Ethereum</span>
+            <span class="font-normal leading-normal text-[#5B616E]">ETH</span>
           </span>
         </span>
-        <span data-testid="ockTokenRow_Amount" class="ock-tokenrow-data"></span>
+        <span data-testid="ockTokenRow_Amount" class="font-normal leading-normal text-[#5B616E]"></span>
       </button>
-      <button data-testid="ockTokenRow_Container" class="ock-tokenrow-button">
-        <span class="ock-tokenrow-left">
+      <button data-testid="ockTokenRow_Container" class="flex h-16 w-full cursor-pointer items-center justify-between bg-white px-2 py-1 hover:bg-[#cacbce] active:bg-[#bfc1c3]">
+        <span class="flex items-center gap-3">
           <img
             data-testid="ockTokenImage_Image"
             src="https://d3r81g40ycuhqg.cloudfront.net/wallet/wais/44/2b/442b80bd16af0c0d9b22e03a16753823fe826e5bfd457292b55fa0ba8c1ba213-ZWUzYjJmZGUtMDYxNy00NDcyLTg0NjQtMWI4OGEwYjBiODE2"
             style="width: 48px; height: 48px; border-radius: 50%; overflow: hidden;"
           />
-          <span class="ock-tokenrow-body">
-            <span class="ock-tokenrow-name">USDC</span>
-            <span class="ock-tokenrow-symbol">USDC</span>
+          <span class="flex flex-col items-start">
+            <span class="font-medium leading-normal text-[#0A0B0D]">USDC</span>
+            <span class="font-normal leading-normal text-[#5B616E]">USDC</span>
           </span>
         </span>
-        <span data-testid="ockTokenRow_Amount" class="ock-tokenrow-data"></span>
+        <span data-testid="ockTokenRow_Amount" class="font-normal leading-normal text-[#5B616E]"></span>
       </button>
-      <button data-testid="ockTokenRow_Container" class="ock-tokenrow-button">
-        <span class="ock-tokenrow-left">
+      <button data-testid="ockTokenRow_Container" class="flex h-16 w-full cursor-pointer items-center justify-between bg-white px-2 py-1 hover:bg-[#cacbce] active:bg-[#bfc1c3]">
+        <span class="flex items-center gap-3">
           <img
             data-testid="ockTokenImage_Image"
             src="https://d3r81g40ycuhqg.cloudfront.net/wallet/wais/d0/d7/d0d7784975771dbbac9a22c8c0c12928cc6f658cbcf2bbbf7c909f0fa2426dec-NmU4ZWViMDItOTQyYy00Yjk5LTkzODUtNGJlZmJiMTUxOTgy"
             style="width: 48px; height: 48px; border-radius: 50%; overflow: hidden;"
           />
-          <span class="ock-tokenrow-body">
-            <span class="ock-tokenrow-name">Dai</span>
-            <span class="ock-tokenrow-symbol">DAI</span>
+          <span class="flex flex-col items-start">
+            <span class="font-medium leading-normal text-[#0A0B0D]">Dai</span>
+            <span class="font-normal leading-normal text-[#5B616E]">DAI</span>
           </span>
         </span>
-        <span data-testid="ockTokenRow_Amount" class="ock-tokenrow-data"></span>
+        <span data-testid="ockTokenRow_Amount" class="font-normal leading-normal text-[#5B616E]"></span>
       </button>
     </div>
   </div>
