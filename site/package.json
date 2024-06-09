@@ -8,7 +8,7 @@
     "preview": "vocs preview"
   },
   "dependencies": {
-    "@coinbase/onchainkit": "0.19.4",
+    "@coinbase/onchainkit": "0.19.5",
     "@coinbase/wallet-sdk": "^4.0.0",
     "@tanstack/react-query": "^5.36.0",
     "@types/react": "latest",
