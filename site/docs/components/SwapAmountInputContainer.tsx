@@ -3,10 +3,10 @@ import type { Token } from '@coinbase/onchainkit/token';
 
 type SwapAmountInputContainer = {
   children: (
-    token: Token,
-    setToken: (t: Token) => void,
-    setAmount: (a: string) => void,
     amount: string,
+    setAmount: (a: string) => void,
+    setToken: (t: Token) => void,
+    token: Token,
     tokenBalance: string,
   ) => ReactElement;
 };
@@ -23,5 +23,5 @@ export default function SwapAmountInputContainer({ children }: SwapAmountInputCo
 
   const tokenBalance = TOKEN_BALANCE_MAP[token?.symbol];
 
-  return children(token, setToken, setAmount, amount, tokenBalance);
+  return children(amount, setAmount, setToken, token, tokenBalance);
 }

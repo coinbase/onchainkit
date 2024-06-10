@@ -73,7 +73,7 @@ The `SwapAmountInput` component is a stylized input field designed for users to 
 
 <App>
   <SwapAmountInputContainer>
-    {(token, setToken, setAmount, amount, tokenBalance) => (
+    {(amount, setAmount, setToken, token, tokenBalance) => (
       <SwapAmountInput
         amount={amount}
         label="Sell"
