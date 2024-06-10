@@ -1,8 +1,8 @@
+import { getParamsForToken } from './getParamsForToken';
 import { getSwap } from './getSwap';
+import { getTransaction } from './getTransaction';
 import { sendRequest } from '../../queries/request';
 import { CDP_GETSWAPTRADE } from '../../definitions/swap';
-import { getParamsForToken } from './getParamsForToken';
-import { getTransaction } from './getTransaction';
 import type { Token } from '../../token/types';
 import { Swap } from '../types';
 

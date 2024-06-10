@@ -1,6 +1,6 @@
-import { getTransaction } from './getTransaction';
-import { TransactionParams } from '../types';
 import { RawTransactionData } from '../types';
+import { TransactionParams } from '../types';
+import { getTransaction } from './getTransaction';
 
 jest.mock('../../queries/request');
 

@@ -12,8 +12,12 @@ export type Fee = {
   percentage: string; // The percentage of the fee
 };
 
-export type GetSwapAPIParams = GetQuoteAPIParams & {
-  fromAddress: Address; // The address of the user
+export type GetQuoteParams = {
+  from: Token; // The source token for the swap
+  to: Token; // The destination token for the swap
+  amount: string; // The amount to be swapped
+  amountReference?: string; // The reference amount for the swap
+  isAmountInDecimals?: boolean; // Whether the amount is in decimals
 };
 
 export type GetQuoteAPIParams = {
@@ -27,23 +31,19 @@ export type GetSwapParams = GetQuoteParams & {
   fromAddress: Address; // The address of the user
 };
 
-export type GetQuoteParams = {
-  from: Token; // The source token for the swap
-  to: Token; // The destination token for the swap
-  amount: string; // The amount to be swapped
-  amountReference?: string; // The reference amount for the swap
-  isAmountInDecimals?: boolean; // Whether the amount is in decimals
+export type GetSwapAPIParams = GetQuoteAPIParams & {
+  fromAddress: Address; // The address of the user
 };
 
 /**
  * Note: exported as public Type
  */
-export type GetSwapResponse = Swap | SwapError;
+export type GetQuoteResponse = Quote | SwapError;
 
 /**
  * Note: exported as public Type
  */
-export type GetQuoteResponse = Quote | SwapError;
+export type GetSwapResponse = Swap | SwapError;
 
 /**
  * Note: exported as public Type
@@ -67,6 +67,15 @@ export type QuoteWarning = {
   description?: string; // The description of the warning
   message?: string; // The message of the warning
   type?: string; // The type of the warning
+};
+
+export type RawTransactionData = {
+  data: string; // The transaction data
+  from: string; // The sender address
+  gas: string; // The gas limit
+  gasPrice: string; // The gas price
+  to: string; // The recipient address
+  value: string; // The value of the transaction
 };
 
 /**
@@ -132,13 +141,4 @@ export type Trade = {
   fee: Fee; // The fee for the trade
   quote: Quote; // The quote for the trade
   tx: RawTransactionData; // The trade transaction
-};
-
-export type RawTransactionData = {
-  data: string; // The transaction data
-  from: string; // The sender address
-  gas: string; // The gas limit
-  gasPrice: string; // The gas price
-  to: string; // The recipient address
-  value: string; // The value of the transaction
 };

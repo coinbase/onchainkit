@@ -1,4 +1,4 @@
-import { Transaction, RawTransactionData } from '../types';
+import { RawTransactionData, Transaction } from '../types';
 
 /**
  * Constructs an unsigned transaction.

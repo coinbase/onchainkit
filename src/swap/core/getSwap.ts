@@ -1,8 +1,8 @@
 import { CDP_GETSWAPTRADE } from '../../definitions/swap';
 import { sendRequest } from '../../queries/request';
-import type { GetSwapParams, Trade, SwapError, SwapAPIParams, GetSwapResponse } from '../types';
 import { getParamsForToken } from './getParamsForToken';
 import { getTransaction } from './getTransaction';
+import type { GetSwapParams, Trade, SwapError, SwapAPIParams, GetSwapResponse } from '../types';
 
 /**
  * Retrieves an unsigned transaction for a swap from Token A to Token B.
