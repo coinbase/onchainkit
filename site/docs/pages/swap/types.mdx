@@ -12,9 +12,9 @@ type SwapAmountInputReact = {
   label: string; // Descriptive label for the input field
   amount?: string; // Token amount
   token?: Token; // Selected token
-  swappableTokens?: Token[];
-  tokenBalance?: string;
-  onMaxButtonClick: () => void;
+  swappableTokens?: Token[]; // Tokens available for swap
+  tokenBalance?: string; // Amount of selected Token user owns
+  onMaxButtonClick: () => void; // Callback function when max button is clicked
   onAmountChange: (amount: string) => void; // Callback function when the amount changes
   onTokenSelectorClick: () => void; // Callback function when the token selector is clicked
   disabled?: boolean; // Whether the input is disabled
