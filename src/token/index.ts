@@ -15,5 +15,4 @@ export type {
   TokenChipReact,
   TokenRowReact,
   TokenSelectorReact,
-  TokenAmountInputReact,
 } from './types';
