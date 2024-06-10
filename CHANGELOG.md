@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.19.7
+
+### Patch Changes
+
+- a47b07f: - **fix**: have API_KEY set correctly by `OnchainKitProvider` and avoid request CORS issue with the `onchainkit_version` Header. By @zizzamia #501
+
 ## 0.19.6
 
 ### Patch Changes
