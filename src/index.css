@@ -1,3 +1,4 @@
+@import url('./variables.css');
 @import url('./identity/components/Avatar.css');
 @import url('./identity/components/Badge.css');
 @import url('./identity/components/WithAvatarBadge.css');
