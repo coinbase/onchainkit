@@ -20,7 +20,11 @@ import { Badge } from '@coinbase/onchainkit/identity';
 ```
 
 ```html [return html]
-<span class="ock-badge" data-testid="ockBadge" style="height: 12px; width: 12px;">
+<span
+  class="rounded-full border border-transparent"
+  data-testid="ockBadge"
+  style="height: 12px; width: 12px;"
+>
   <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path
       d="M6 12C9.31371 12 12 9.31371 12 6C12 2.68629 9.31371 0 6 0C2.68629 0 0 2.68629 0 6C0 9.31371 2.68629 12 6 12Z"
@@ -53,7 +57,7 @@ import { Badge } from '@coinbase/onchainkit/identity';
 
 ```html [return html]
 <span
-  class="ock-badge"
+  class="rounded-full border border-transparent"
   data-testid="ockBadge"
   style="border-color: white; height: 14px; width: 14px;"
 >
@@ -108,7 +112,11 @@ const COINBASE_VERIFIED_ACCOUNT_SCHEMA_ID =
 <div class="ock-withnamebadge-container" data-testid="ockNameBadgeContainer">
   <span>nickprince.eth</span>
   <div class="ock-withnamebadge-inner">
-    <span class="ock-badge" data-testid="ockBadge" style="height: 12px; width: 12px;">
+    <span
+      class="rounded-full border border-transparent"
+      data-testid="ockBadge"
+      style="height: 12px; width: 12px;"
+    >
       <svg
         width="12"
         height="12"
@@ -174,7 +182,11 @@ const COINBASE_VERIFIED_ACCOUNT_SCHEMA_ID =
   />
   <div class="ock-withavatarbadge-badge">
     <div class="ock-withavatarbadge-inner">
-      <span class="ock-badge" data-testid="ockBadge" style="height: 12px; width: 12px;">
+      <span
+        class="rounded-full border border-transparent"
+        data-testid="ockBadge"
+        style="height: 12px; width: 12px;"
+      >
         <svg
           width="12"
           height="12"
@@ -209,26 +221,3 @@ const COINBASE_VERIFIED_ACCOUNT_SCHEMA_ID =
     <Avatar address="0x838aD0EAE54F99F1926dA7C3b6bFbF617389B4D9" showAttestation />
   </OnchainKitProvider>
 </App>
-
-## CSS
-
-```css
-.ock-badge {
-  @apply rounded-[50%] border;
-}
-.ock-withavatarbadge-container {
-  @apply relative h-8 w-8;
-}
-.ock-withavatarbadge-badge {
-  @apply absolute -bottom-0.5 -right-0.5 flex h-[15px] w-[15px] items-center justify-center rounded-full bg-transparent;
-}
-.ock-withavatarbadge-inner {
-  @apply flex h-[11px] w-[11px] items-center justify-center;
-}
-.ock-withnamebadge-container {
-  @apply flex items-center;
-}
-.ock-withnamebadge-inner {
-  @apply ml-1;
-}
-```

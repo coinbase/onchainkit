@@ -1,4 +1,5 @@
 import { BadgeReact } from '../types';
+import { cn } from '../../lib/utils';
 
 /**
  * Badge component.
@@ -13,7 +14,7 @@ export function Badge({
   const badgeSize = borderColor ? '14px' : '12px';
   return (
     <span
-      className={className || 'ock-badge'}
+      className={cn('rounded-full border border-transparent', className)}
       data-testid="ockBadge"
       style={{
         borderColor,

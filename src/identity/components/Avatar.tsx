@@ -2,6 +2,7 @@ import { useAvatar } from '../hooks/useAvatar';
 import { useName } from '../hooks/useName';
 import { WithAvatarBadge } from './WithAvatarBadge';
 import { AvatarReact } from '../types';
+import { cn } from '../../lib/utils';
 
 /**
  * Represents an Avatar component that displays either a loading indicator,
@@ -80,7 +81,7 @@ export function Avatar({
   return (
     <WithAvatarBadge showAttestation={showAttestation} address={address}>
       <img
-        className={className || 'ock-avatar'}
+        className={cn('rounded-full', className)}
         loading="lazy"
         width="32"
         height="32"

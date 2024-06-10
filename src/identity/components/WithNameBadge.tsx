@@ -19,10 +19,10 @@ function WithNameBadgeInner({ children, address }: WithNameBadgeInnerReact) {
     schemaId: onchainKitContext?.schemaId,
   });
   return (
-    <div className="ock-withnamebadge-container" data-testid="ockNameBadgeContainer">
+    <div className="flex items-center" data-testid="ockNameBadgeContainer">
       {children}
       {attestations && attestations[0] && (
-        <div className="ock-withnamebadge-inner">
+        <div className="ml-1">
           <Badge />
         </div>
       )}

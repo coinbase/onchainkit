@@ -25,8 +25,11 @@ export function TokenSelectorDropdown({ setToken, options, onToggle }: TokenSele
   }, []);
 
   return (
-    <div ref={ref} className="ock-tokenselectordropdown-container">
-      <div className="ock-tokenselectordropdown-scroll">
+    <div
+      ref={ref}
+      className="absolute z-10 mt-1 flex max-h-80 w-[250px] flex-col overflow-y-hidden rounded-lg"
+    >
+      <div className="overflow-y-auto">
         {options.map((token) => (
           <TokenRow
             key={token.name + token.address}

@@ -46,21 +46,24 @@ export function TokenSelector({ token, children }: TokenSelectorReact) {
   }, [isOpen]);
 
   return (
-    <div className="ock-tokenselector-container">
+    <div className="relative">
       <button
         data-testid="ockTokenSelector_Button"
-        className="ock-tokenselector-button"
+        className="flex w-fit items-center gap-2 rounded-2xl bg-[#eef0f3] px-3 py-1 outline-none hover:bg-[#cacbce] active:bg-[#bfc1c3]"
         onClick={handleToggle}
       >
         {token ? (
           <>
             <TokenImage token={token} size={16} />
-            <span data-testid="ockTokenSelector_Symbol" className="ock-tokenselector-label">
+            <span
+              data-testid="ockTokenSelector_Symbol"
+              className="font-medium leading-normal text-[#0a0b0d]"
+            >
               {token.symbol}
             </span>
           </>
         ) : (
-          <span className="ock-tokenselector-label">Select</span>
+          <span className="font-medium leading-normal text-[#0a0b0d]">Select</span>
         )}
         {isOpen ? <CaretUp /> : <CaretDown />}
       </button>
