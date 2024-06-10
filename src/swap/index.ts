@@ -8,3 +8,5 @@ export type {
   QuoteWarning,
   SwapError,
 } from './types';
+
+export { SwapAmountInput } from './components/SwapAmountInput';
