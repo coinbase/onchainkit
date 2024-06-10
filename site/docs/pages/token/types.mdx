@@ -108,17 +108,3 @@ export type TokenSelectorDropdownReact = {
   setToken: (token: Token) => void; // Token setter
 };
 ```
-
-## `TokenAmountInputReact`
-
-```ts
-type TokenAmountInputReact = {
-  label: string; // Descriptive label for the input field
-  amount?: string; // Token amount
-  onAmountChange: (amount: string) => void; // Callback function when the amount changes
-  onTokenSelectorClick: () => void; // Callback function when the token selector is clicked
-  token?: Token; // Selected token
-  estimatedAmountInFiat?: string; // Estimated amount in fiat currency
-  disabled?: boolean; // Whether the input is disabled
-};
-```

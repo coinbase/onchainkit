@@ -4,3 +4,20 @@ description: Glossary of Types in Swap Kit.
 ---
 
 # Types [Glossary of Types in Swap Kit.]
+
+## `SwapAmountInputReact`
+
+```ts
+type SwapAmountInputReact = {
+  label: string; // Descriptive label for the input field
+  amount?: string; // Token amount
+  token?: Token; // Selected token
+  swappableTokens?: Token[];
+  tokenBalance?: string;
+  onMaxButtonClick: () => void;
+  onAmountChange: (amount: string) => void; // Callback function when the amount changes
+  onTokenSelectorClick: () => void; // Callback function when the token selector is clicked
+  onSelectTokenToggle: () => void;
+  disabled?: boolean; // Whether the input is disabled
+};
+```
