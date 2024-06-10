@@ -51,10 +51,6 @@ const swappableTokens: Token[] = [
 ];
 
 describe('SwapAmountInput Component', () => {
-  beforeEach(() => {
-    jest.clearAllMocks();
-  });
-
   it('should render', async () => {
     render(
       <SwapAmountInput
@@ -142,7 +138,7 @@ describe('SwapAmountInput Component', () => {
         onAmountChange={setAmountMock}
         onTokenSelectorClick={selectTokenClickMock}
         onMaxButtonClick={onMaxButtonClickMock}
-        disabled={true}
+        disabled
       />,
     );
 
