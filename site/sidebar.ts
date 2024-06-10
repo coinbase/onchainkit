@@ -173,6 +173,10 @@ export const sidebar = [
             text: 'TokenSelector',
             link: '/token/token-selector',
           },
+          {
+            text: 'TokenAmountInput',
+            link: '/token/token-amount-input',
+          },
         ],
       },
       {

@@ -7,6 +7,7 @@ export { TokenSelector } from './components/TokenSelector';
 export { TokenSelectorDropdown } from './components/TokenSelectorDropdown';
 export { formatAmount } from './core/formatAmount';
 export { getTokens } from './core/getTokens';
+export { TokenAmountInput } from './components/TokenAmountInput';
 export type {
   GetTokensError,
   GetTokensOptions,
@@ -15,4 +16,5 @@ export type {
   TokenChipReact,
   TokenRowReact,
   TokenSelectorReact,
+  TokenAmountInputReact,
 } from './types';
