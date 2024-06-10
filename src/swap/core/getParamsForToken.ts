@@ -1,12 +1,12 @@
 import { formatDecimals } from './formatDecimals';
-import type { SwapParams, SwapAPIParams, getSwapParams } from '../types';
+import type { SwapParams, SwapAPIParams, GetSwapParams } from '../types';
 
 /**
  * Converts parameters with `Token` to ones with address. Additionally adds default values for optional request fields.
  */
 export function getParamsForToken(params: SwapParams): SwapAPIParams {
   const { from, to, amount, amountReference, isAmountInDecimals } = params;
-  const { fromAddress } = params as getSwapParams;
+  const { fromAddress } = params as GetSwapParams;
 
   const decimals = amountReference === 'from' ? from.decimals : to.decimals;
 
