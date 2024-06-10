@@ -1,4 +1,4 @@
-import { useCallback, CSSProperties, useEffect } from 'react';
+import { useCallback } from 'react';
 
 import { SwapAmountInputReact } from '../types';
 import { isValidAmount } from '../utils';
