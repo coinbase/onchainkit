@@ -56,8 +56,8 @@ describe('SwapAmountInput Component', () => {
         token={token}
         swappableTokens={swappableTokens}
         label="Sell"
-        onAmountChange={setAmountMock}
-        onTokenSelectorClick={selectTokenClickMock}
+        setAmount={setAmountMock}
+        setToken={selectTokenClickMock}
         amount="1"
         tokenBalance="100"
       />,
@@ -79,8 +79,8 @@ describe('SwapAmountInput Component', () => {
         token={token}
         swappableTokens={swappableTokens}
         label="Sell"
-        onAmountChange={setAmountMock}
-        onTokenSelectorClick={selectTokenClickMock}
+        setAmount={setAmountMock}
+        setToken={selectTokenClickMock}
       />,
     );
 
@@ -96,8 +96,8 @@ describe('SwapAmountInput Component', () => {
         token={token}
         swappableTokens={swappableTokens}
         label="Sell"
-        onAmountChange={setAmountMock}
-        onTokenSelectorClick={selectTokenClickMock}
+        setAmount={setAmountMock}
+        setToken={selectTokenClickMock}
         amount="1"
       />,
     );
@@ -108,15 +108,15 @@ describe('SwapAmountInput Component', () => {
     expect(input.value).toBe('1');
   });
 
-  it('should call onAmountChange with tokenBalance when the max button is clicked', async () => {
+  it('should call setAmount with tokenBalance when the max button is clicked', async () => {
     render(
       <SwapAmountInput
         token={token}
         swappableTokens={swappableTokens}
         label="Sell"
         amount="1"
-        onAmountChange={setAmountMock}
-        onTokenSelectorClick={selectTokenClickMock}
+        setAmount={setAmountMock}
+        setToken={selectTokenClickMock}
         tokenBalance="100"
       />,
     );
@@ -133,8 +133,8 @@ describe('SwapAmountInput Component', () => {
         swappableTokens={swappableTokens}
         label="Sell"
         amount="1"
-        onAmountChange={setAmountMock}
-        onTokenSelectorClick={selectTokenClickMock}
+        setAmount={setAmountMock}
+        setToken={selectTokenClickMock}
         disabled
       />,
     );

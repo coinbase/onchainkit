@@ -14,8 +14,8 @@ type SwapAmountInputReact = {
   token?: Token; // Selected token
   swappableTokens?: Token[]; // Tokens available for swap
   tokenBalance?: string; // Amount of selected token user owns
-  onAmountChange: (amount: string) => void; // Callback function when the amount changes
-  onTokenSelectorClick: () => void; // Callback function when the token selector is clicked
+  setAmount: (amount: string) => void; // Callback function when the amount changes
+  setToken: () => void; // Callback function when the token selector is clicked
   disabled?: boolean; // Whether the input is disabled
 };
 ```

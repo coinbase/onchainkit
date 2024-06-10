@@ -29,8 +29,8 @@ The `SwapAmountInput` component is a stylized input field designed for users to 
   label="Sell"
   amount={amount}
   tokenBalance={tokenBalance}
-  onAmountChange={setAmount}
-  onTokenSelectorClick={setToken}
+  setAmount={setAmount}
+  setToken={setToken}
 />
 ```
 
@@ -107,8 +107,8 @@ The `SwapAmountInput` component is a stylized input field designed for users to 
         label="Sell"
         amount={amount}
         tokenBalance={tokenBalance}
-        onAmountChange={setAmount}
-        onTokenSelectorClick={setToken}
+        setAmount={setAmount}
+        setToken={setToken}
       />
     )}
   </SwapAmountInputContainer>

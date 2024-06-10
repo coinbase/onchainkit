@@ -10,24 +10,24 @@ export function SwapAmountInput({
   label,
   amount,
   tokenBalance,
-  onAmountChange,
-  onTokenSelectorClick,
+  setAmount,
+  setToken,
   disabled = false,
 }: SwapAmountInputReact) {
   const handleAmountChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       if (isValidAmount(event.target.value)) {
-        onAmountChange(event.target.value);
+        setAmount(event.target.value);
       }
     },
-    [onAmountChange],
+    [setAmount],
   );
 
   const handleMaxButtonClick = useCallback(() => {
     if (tokenBalance && isValidAmount(tokenBalance)) {
-      onAmountChange(tokenBalance);
+      setAmount(tokenBalance);
     }
-  }, [tokenBalance, onAmountChange]);
+  }, [tokenBalance, setAmount]);
 
   return (
     <div data-testid="ockSwapAmountInput_Container" className="ock-swapamountinput-container">
@@ -38,8 +38,8 @@ export function SwapAmountInput({
         )}
       </div>
       <div className="ock-swapamountinput-row">
-        <TokenSelector token={token} setToken={onTokenSelectorClick}>
-          <TokenSelectorDropdown setToken={onTokenSelectorClick} options={swappableTokens} />
+        <TokenSelector token={token} setToken={setToken}>
+          <TokenSelectorDropdown setToken={setToken} options={swappableTokens} />
         </TokenSelector>
         <button
           data-testid="ockSwapAmountInput_MaxButton"
