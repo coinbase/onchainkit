@@ -30,6 +30,7 @@ The `SwapAmountInput` component is a stylized input field designed for users to 
   tokenBalance={tokenBalance}
   onAmountChange={setAmount}
   onTokenSelectorClick={setToken}
+  onMaxButtonClick={onMaxButtonClick}
 />
 ```
 
@@ -41,7 +42,7 @@ The `SwapAmountInput` component is a stylized input field designed for users to 
 
 <App>
   <SwapAmountInputContainer>
-    {(token, setToken, setAmount, amount) => (
+    {(token, setToken, setAmount, amount, tokenBalance, onMaxButtonClick) => (
       <SwapAmountInput
         token={token}
         swappableTokens={[
@@ -51,7 +52,6 @@ The `SwapAmountInput` component is a stylized input field designed for users to 
             symbol: 'ETH',
             decimals: 18,
             image: 'https://wallet-api-production.s3.amazonaws.com/uploads/tokens/eth_288.png',
-            blockchain: 'eth',
             chainId: 8453,
           },
           {
@@ -61,7 +61,6 @@ The `SwapAmountInput` component is a stylized input field designed for users to 
             decimals: 6,
             image:
               'https://d3r81g40ycuhqg.cloudfront.net/wallet/wais/44/2b/442b80bd16af0c0d9b22e03a16753823fe826e5bfd457292b55fa0ba8c1ba213-ZWUzYjJmZGUtMDYxNy00NDcyLTg0NjQtMWI4OGEwYjBiODE2',
-            blockchain: 'eth',
             chainId: 8453,
           },
           {
@@ -71,15 +70,15 @@ The `SwapAmountInput` component is a stylized input field designed for users to 
             decimals: 18,
             image:
               'https://d3r81g40ycuhqg.cloudfront.net/wallet/wais/d0/d7/d0d7784975771dbbac9a22c8c0c12928cc6f658cbcf2bbbf7c909f0fa2426dec-NmU4ZWViMDItOTQyYy00Yjk5LTkzODUtNGJlZmJiMTUxOTgy',
-            blockchain: 'eth',
             chainId: 8453,
           },
         ]}
         label="Sell"
         amount={amount}
-        tokenBalance="4"
+        tokenBalance={tokenBalance}
         onAmountChange={setAmount}
         onTokenSelectorClick={setToken}
+        onMaxButtonClick={onMaxButtonClick}
       />
     )}
   </SwapAmountInputContainer>

@@ -92,6 +92,5 @@ export type SwapAmountInputReact = {
   onMaxButtonClick?: () => void;
   onAmountChange: (amount: string) => void;
   onTokenSelectorClick: () => void;
-  onSelectTokenToggle: () => void;
   disabled?: boolean;
 };

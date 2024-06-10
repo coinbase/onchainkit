@@ -7,12 +7,26 @@ type SwapAmountInputContainer = {
     setToken: (t: Token) => void,
     setAmount: (a: string) => void,
     amount: string,
+    tokenBalance: string,
+    onMaxButtonClick: (a: string) => void,
   ) => ReactElement;
 };
 
+const TOKEN_BALANCE_MAP: Record<string, string> = {
+  ETH: '3.5',
+  USDC: '2.77',
+  DAI: '4.9',
+};
+
 export default function SwapAmountInputContainer({ children }: SwapAmountInputContainer) {
-  const [token, setToken] = useState();
+  const [token, setToken] = useState<Token>();
   const [amount, setAmount] = useState('');
 
-  return children(token, setToken, setAmount, amount);
+  const tokenBalance = TOKEN_BALANCE_MAP[token?.symbol];
+
+  const onMaxButtonClick = () => {
+    setAmount(tokenBalance);
+  };
+
+  return children(token, setToken, setAmount, amount, tokenBalance, onMaxButtonClick);
 }

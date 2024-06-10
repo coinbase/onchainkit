@@ -1,5 +1,5 @@
 .ock-swapamountinput-container {
-  @apply box-border flex w-fit flex-col items-start gap-[11px] rounded-2xl bg-[#FFF] p-4;
+  @apply box-border flex w-fit flex-col items-start gap-[11px] bg-[#FFF] p-4;
 }
 
 .ock-swapamountinput-label {
