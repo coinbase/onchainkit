@@ -10,7 +10,6 @@ import { Token } from '../../token';
 
 const setAmountMock = jest.fn();
 const selectTokenClickMock = jest.fn();
-const onMaxButtonClickMock = jest.fn();
 
 const token = {
   address: '0x123' as Address,
@@ -109,7 +108,7 @@ describe('SwapAmountInput Component', () => {
     expect(input.value).toBe('1');
   });
 
-  it('should call onMaxButtonClick when the max button is clicked', async () => {
+  it('should call onAmountChange with tokenBalance when the max button is clicked', async () => {
     render(
       <SwapAmountInput
         token={token}
@@ -118,14 +117,13 @@ describe('SwapAmountInput Component', () => {
         amount="1"
         onAmountChange={setAmountMock}
         onTokenSelectorClick={selectTokenClickMock}
-        onMaxButtonClick={onMaxButtonClickMock}
         tokenBalance="100"
       />,
     );
 
     const maxButton = screen.getByTestId('ockSwapAmountInput_MaxButton');
     fireEvent.click(maxButton);
-    expect(onMaxButtonClickMock).toHaveBeenCalled();
+    expect(setAmountMock).toHaveBeenCalledWith('100');
   });
 
   it('should disable the input when disabled prop is true', async () => {
@@ -137,7 +135,6 @@ describe('SwapAmountInput Component', () => {
         amount="1"
         onAmountChange={setAmountMock}
         onTokenSelectorClick={selectTokenClickMock}
-        onMaxButtonClick={onMaxButtonClickMock}
         disabled
       />,
     );

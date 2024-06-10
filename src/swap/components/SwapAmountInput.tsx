@@ -12,7 +12,6 @@ export function SwapAmountInput({
   tokenBalance,
   onAmountChange,
   onTokenSelectorClick,
-  onMaxButtonClick,
   disabled = false,
 }: SwapAmountInputReact) {
   const handleAmountChange = useCallback(
@@ -23,6 +22,12 @@ export function SwapAmountInput({
     },
     [onAmountChange],
   );
+
+  const handleMaxButtonClick = useCallback(() => {
+    if (tokenBalance && isValidAmount(tokenBalance)) {
+      onAmountChange(tokenBalance);
+    }
+  }, [tokenBalance, onAmountChange]);
 
   return (
     <div data-testid="ockSwapAmountInput_Container" className="ock-swapamountinput-container">
@@ -39,7 +44,8 @@ export function SwapAmountInput({
         <button
           data-testid="ockSwapAmountInput_MaxButton"
           className="ock-swapamountinput-maxbutton"
-          onClick={onMaxButtonClick}
+          onClick={handleMaxButtonClick}
+          disabled={tokenBalance === undefined}
         >
           Max
         </button>

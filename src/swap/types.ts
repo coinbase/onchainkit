@@ -89,7 +89,6 @@ export type SwapAmountInputReact = {
   token?: Token;
   swappableTokens: Token[];
   tokenBalance?: string;
-  onMaxButtonClick?: () => void;
   onAmountChange: (amount: string) => void;
   onTokenSelectorClick: () => void;
   disabled?: boolean;

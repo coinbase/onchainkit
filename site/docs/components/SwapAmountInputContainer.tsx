@@ -8,7 +8,6 @@ type SwapAmountInputContainer = {
     setAmount: (a: string) => void,
     amount: string,
     tokenBalance: string,
-    onMaxButtonClick: () => void,
   ) => ReactElement;
 };
 
@@ -24,9 +23,5 @@ export default function SwapAmountInputContainer({ children }: SwapAmountInputCo
 
   const tokenBalance = TOKEN_BALANCE_MAP[token?.symbol];
 
-  const onMaxButtonClick = () => {
-    setAmount(tokenBalance);
-  };
-
-  return children(token, setToken, setAmount, amount, tokenBalance, onMaxButtonClick);
+  return children(token, setToken, setAmount, amount, tokenBalance);
 }

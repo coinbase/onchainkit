@@ -31,7 +31,6 @@ The `SwapAmountInput` component is a stylized input field designed for users to 
   tokenBalance={tokenBalance}
   onAmountChange={setAmount}
   onTokenSelectorClick={setToken}
-  onMaxButtonClick={onMaxButtonClick}
 />
 ```
 
@@ -74,7 +73,7 @@ The `SwapAmountInput` component is a stylized input field designed for users to 
 
 <App>
   <SwapAmountInputContainer>
-    {(token, setToken, setAmount, amount, tokenBalance, onMaxButtonClick) => (
+    {(token, setToken, setAmount, amount, tokenBalance) => (
       <SwapAmountInput
         token={token}
         swappableTokens={[
@@ -110,7 +109,6 @@ The `SwapAmountInput` component is a stylized input field designed for users to 
         tokenBalance={tokenBalance}
         onAmountChange={setAmount}
         onTokenSelectorClick={setToken}
-        onMaxButtonClick={onMaxButtonClick}
       />
     )}
   </SwapAmountInputContainer>
