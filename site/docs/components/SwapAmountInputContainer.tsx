@@ -8,7 +8,7 @@ type SwapAmountInputContainer = {
     setAmount: (a: string) => void,
     amount: string,
     tokenBalance: string,
-    onMaxButtonClick: (a: string) => void,
+    onMaxButtonClick: () => void,
   ) => ReactElement;
 };
 
