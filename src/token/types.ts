@@ -103,3 +103,13 @@ export type TokenSelectorDropdownReact = {
   options: Token[]; // List of tokens
   setToken: (token: Token) => void; // Token setter
 };
+
+export type TokenAmountInputReact = {
+  label: string;
+  amount?: string;
+  onAmountChange: (amount: string) => void;
+  onTokenSelectorClick: () => void;
+  token?: Token;
+  estimatedAmountInFiat?: string;
+  disabled?: boolean;
+};
