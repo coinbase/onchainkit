@@ -36,7 +36,11 @@ export function SwapAmountInput({
         <TokenSelector token={token} setToken={onTokenSelectorClick}>
           <TokenSelectorDropdown setToken={onTokenSelectorClick} options={swappableTokens} />
         </TokenSelector>
-        <button className="ock-swapamountinput-maxbutton" onClick={onMaxButtonClick}>
+        <button
+          data-testid="ockSwapAmountInput_MaxButton"
+          className="ock-swapamountinput-maxbutton"
+          onClick={onMaxButtonClick}
+        >
           Max
         </button>
       </div>
