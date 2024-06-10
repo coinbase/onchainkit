@@ -7,6 +7,7 @@ import { render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
 import type { EASSchemaUid } from './identity/types';
+import { setOnchainKitConfig, ONCHAIN_KIT_CONFIG } from './OnchainKitConfig';
 import { OnchainKitProvider } from './OnchainKitProvider';
 import { useOnchainKit } from './useOnchainKit';
 
@@ -19,6 +20,17 @@ const TestComponent = () => {
     </>
   );
 };
+
+jest.mock('./OnchainKitConfig', () => ({
+  setOnchainKitConfig: jest.fn(),
+  ONCHAIN_KIT_CONFIG: {
+    address: null,
+    apiKey: null,
+    chain: base,
+    rpcUrl: null,
+    schemaId: null,
+  },
+}));
 
 describe('OnchainKitProvider', () => {
   const schemaId: EASSchemaUid = `0x${'1'.repeat(64)}`;
@@ -65,5 +77,20 @@ describe('OnchainKitProvider', () => {
         </OnchainKitProvider>,
       ),
     ).not.toThrow();
+  });
+
+  it('should call setOnchainKitConfig with the correct values', async () => {
+    render(
+      <OnchainKitProvider chain={base} schemaId={schemaId} apiKey={apiKey}>
+        <TestComponent />
+      </OnchainKitProvider>,
+    );
+    expect(setOnchainKitConfig).toHaveBeenCalledWith({
+      address: null,
+      apiKey,
+      chain: base,
+      rpcUrl: null,
+      schemaId,
+    });
   });
 });

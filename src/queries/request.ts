@@ -23,7 +23,6 @@ export type JSONRPCResult<T> = {
 const POST_METHOD = 'POST';
 const JSON_HEADERS = {
   'Content-Type': 'application/json',
-  onchainkit_version: version,
 };
 const JSON_RPC_VERSION = '2.0';
 
