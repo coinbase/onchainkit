@@ -1,4 +1,4 @@
-import type { Address, PrivateKeyAccount } from 'viem';
+import type { Address } from 'viem';
 import type { Token } from '../token/types';
 
 export type AddressOrETH = Address | 'ETH';
