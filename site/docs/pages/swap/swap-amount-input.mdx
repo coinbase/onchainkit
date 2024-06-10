@@ -13,7 +13,10 @@ The `SwapAmountInput` component is a stylized input field designed for users to 
 
 ```tsx [code]
 <SwapAmountInput
-  token={token}
+  amount={amount}
+  label="Sell"
+  setAmount={setAmount}
+  setToken={setToken}
   swappableTokens={[
     {
       address: '0x1234',
@@ -26,11 +29,8 @@ The `SwapAmountInput` component is a stylized input field designed for users to 
     },
     ...
   ]}
-  label="Sell"
-  amount={amount}
+  token={token}
   tokenBalance={tokenBalance}
-  setAmount={setAmount}
-  setToken={setToken}
 />
 ```
 
@@ -75,7 +75,10 @@ The `SwapAmountInput` component is a stylized input field designed for users to 
   <SwapAmountInputContainer>
     {(token, setToken, setAmount, amount, tokenBalance) => (
       <SwapAmountInput
-        token={token}
+        amount={amount}
+        label="Sell"
+        setAmount={setAmount}
+        setToken={setToken}
         swappableTokens={[
           {
             name: 'Ethereum',
@@ -104,11 +107,8 @@ The `SwapAmountInput` component is a stylized input field designed for users to 
             chainId: 8453,
           },
         ]}
-        label="Sell"
-        amount={amount}
+        token={token}
         tokenBalance={tokenBalance}
-        setAmount={setAmount}
-        setToken={setToken}
       />
     )}
   </SwapAmountInputContainer>

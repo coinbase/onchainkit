@@ -1,18 +1,18 @@
 import { useCallback } from 'react';
 
-import { SwapAmountInputReact } from '../types';
 import { isValidAmount } from '../utils';
 import { TokenSelector, TokenSelectorDropdown } from '../../token';
+import type { SwapAmountInputReact } from '../types';
 
 export function SwapAmountInput({
-  token,
-  swappableTokens,
-  label,
   amount,
-  tokenBalance,
+  disabled = false,
+  label,
   setAmount,
   setToken,
-  disabled = false,
+  swappableTokens,
+  token,
+  tokenBalance,
 }: SwapAmountInputReact) {
   const handleAmountChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -30,7 +30,7 @@ export function SwapAmountInput({
   }, [tokenBalance, setAmount]);
 
   return (
-    <div data-testid="ockSwapAmountInput_Container" className="ock-swapamountinput-container">
+    <div className="ock-swapamountinput-container" data-testid="ockSwapAmountInput_Container">
       <div className="ock-swapamountinput-row">
         <label className="ock-swapamountinput-label">{label}</label>
         {tokenBalance && (
@@ -38,25 +38,25 @@ export function SwapAmountInput({
         )}
       </div>
       <div className="ock-swapamountinput-row">
-        <TokenSelector token={token} setToken={setToken}>
-          <TokenSelectorDropdown setToken={setToken} options={swappableTokens} />
+        <TokenSelector setToken={setToken} token={token}>
+          <TokenSelectorDropdown options={swappableTokens} setToken={setToken} />
         </TokenSelector>
         <button
-          data-testid="ockSwapAmountInput_MaxButton"
           className="ock-swapamountinput-maxbutton"
-          onClick={handleMaxButtonClick}
+          data-testid="ockSwapAmountInput_MaxButton"
           disabled={tokenBalance === undefined}
+          onClick={handleMaxButtonClick}
         >
           Max
         </button>
       </div>
       <input
         className="ock-swapamountinput-input"
-        value={amount}
+        data-testid="ockSwapAmountInput_Input"
+        disabled={disabled}
         onChange={handleAmountChange}
         placeholder="0"
-        disabled={disabled}
-        data-testid="ockSwapAmountInput_Input"
+        value={amount}
       />
     </div>
   );

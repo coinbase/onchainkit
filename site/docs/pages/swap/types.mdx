@@ -9,13 +9,13 @@ description: Glossary of Types in Swap Kit.
 
 ```ts
 type SwapAmountInputReact = {
-  label: string; // Descriptive label for the input field
   amount?: string; // Token amount
-  token?: Token; // Selected token
-  swappableTokens?: Token[]; // Tokens available for swap
-  tokenBalance?: string; // Amount of selected token user owns
+  disabled?: boolean; // Whether the input is disabled
+  label: string; // Descriptive label for the input field
   setAmount: (amount: string) => void; // Callback function when the amount changes
   setToken: () => void; // Callback function when the token selector is clicked
-  disabled?: boolean; // Whether the input is disabled
+  swappableTokens: Token[]; // Tokens available for swap
+  token?: Token; // Selected token
+  tokenBalance?: string; // Amount of selected token user owns
 };
 ```

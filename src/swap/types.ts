@@ -84,12 +84,12 @@ export type Transaction = {
 };
 
 export type SwapAmountInputReact = {
-  label: string;
-  amount?: string;
-  token?: Token;
-  swappableTokens: Token[];
-  tokenBalance?: string;
-  setAmount: (amount: string) => void;
-  setToken: () => void;
-  disabled?: boolean;
+  amount?: string; // Token amount
+  disabled?: boolean; // Whether the input is disabled
+  label: string; // Descriptive label for the input field
+  setAmount: (amount: string) => void; // Callback function when the amount changes
+  setToken: () => void; // Callback function when the token selector is clicked
+  swappableTokens: Token[]; // Tokens available for swap
+  token?: Token; // Selected token
+  tokenBalance?: string; // Amount of selected token user owns
 };
