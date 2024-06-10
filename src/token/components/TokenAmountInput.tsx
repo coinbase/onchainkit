@@ -14,19 +14,12 @@ const styles = {
     width: 'fit-content',
     boxSizing: 'border-box',
     alignItems: 'flex-start',
+    gap: '11px',
   },
   label: {
     fontSize: '0.875rem',
-    color: '#5B616E',
-    paddingBottom: '0.25rem',
-  },
-  inputContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    width: '100%',
-    boxSizing: 'border-box',
-    justifyContent: 'space-between',
-    marginBottom: 'auto',
+    color: '#030712',
+    fontWeight: '600',
   },
   input: {
     fontSize: '2.5rem',
@@ -58,17 +51,15 @@ export function TokenAmountInput({
   return (
     <div style={styles.container} data-testid="ockTokenAmountInput_InputContainer">
       <label style={styles.label}>{label}</label>
-      <div style={styles.inputContainer}>
-        <TokenSelector token={token} onClick={onTokenSelectorClick} />
-        <input
-          style={styles.input}
-          value={amount}
-          onChange={handleAmountChange}
-          placeholder="0"
-          disabled={disabled}
-          data-testid="ockTokenAmountInput_Input"
-        />
-      </div>
+      <TokenSelector token={token} onClick={onTokenSelectorClick} />
+      <input
+        style={styles.input}
+        value={amount}
+        onChange={handleAmountChange}
+        placeholder="0"
+        disabled={disabled}
+        data-testid="ockTokenAmountInput_Input"
+      />
     </div>
   );
 }
