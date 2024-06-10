@@ -46,7 +46,7 @@ export function SwapAmountInput({
         onChange={handleAmountChange}
         placeholder="0"
         disabled={disabled}
-        data-testid="ockTokenAmountInput_Input"
+        data-testid="ockSwapAmountInput_Input"
       />
     </div>
   );
