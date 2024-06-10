@@ -30,6 +30,7 @@ export async function getSwap(params: GetSwapParams): Promise<GetSwapResponse> {
       approveTransaction: trade.approveTx
         ? getTransaction(trade.approveTx, trade.chainId)
         : undefined,
+      fee: trade.fee,
       quote: trade.quote,
       transaction: getTransaction(trade.tx, trade.chainId),
       warning: trade.quote.warning,

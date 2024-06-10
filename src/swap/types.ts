@@ -74,6 +74,7 @@ export type QuoteWarning = {
  */
 export type Swap = {
   approveTransaction?: Transaction; // The approval transaction
+  fee: Fee; // The fee for the swap
   quote: Quote; // The quote for the swap
   transaction: Transaction; // The swap transaction
   warning?: QuoteWarning; // The warning associated with the swap
