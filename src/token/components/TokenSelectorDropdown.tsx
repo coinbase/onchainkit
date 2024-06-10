@@ -8,7 +8,7 @@ export function TokenSelectorDropdown({ setToken, options, onToggle }: TokenSele
   const handleBlur = useCallback((event: MouseEvent) => {
     /* istanbul ignore next */
     if (ref.current && !ref.current.contains(event.target as Node)) {
-      onToggle();
+      onToggle?.();
     }
   }, []);
 
@@ -36,7 +36,7 @@ export function TokenSelectorDropdown({ setToken, options, onToggle }: TokenSele
             token={token}
             onClick={() => {
               setToken(token);
-              onToggle();
+              onToggle?.();
             }}
           />
         ))}
