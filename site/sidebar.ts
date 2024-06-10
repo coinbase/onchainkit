@@ -141,6 +141,15 @@ export const sidebar = [
     items: [
       { text: 'Introduction', link: '/swap/introduction' },
       {
+        text: 'Components',
+        items: [
+          {
+            text: 'SwapAmountInput',
+            link: '/swap/swap-amount-input',
+          },
+        ],
+      },
+      {
         text: 'Types',
         link: '/swap/types',
       },
@@ -172,10 +181,6 @@ export const sidebar = [
           {
             text: 'TokenSelector',
             link: '/token/token-selector',
-          },
-          {
-            text: 'TokenAmountInput',
-            link: '/token/token-amount-input',
           },
         ],
       },

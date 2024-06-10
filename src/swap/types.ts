@@ -82,3 +82,16 @@ export type Transaction = {
   to: string; // The recipient address
   value: string; // The value of the transaction
 };
+
+export type SwapAmountInputReact = {
+  label: string;
+  amount?: string;
+  token?: Token;
+  swappableTokens: Token[];
+  tokenBalance?: string;
+  onMaxButtonClick?: () => void;
+  onAmountChange: (amount: string) => void;
+  onTokenSelectorClick: () => void;
+  onSelectTokenToggle: () => void;
+  disabled?: boolean;
+};

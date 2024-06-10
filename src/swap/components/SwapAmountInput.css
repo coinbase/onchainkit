@@ -1,0 +1,23 @@
+.ock-swapamountinput-container {
+  @apply box-border flex w-fit flex-col items-start gap-[11px] rounded-2xl bg-[#FFF] p-4;
+}
+
+.ock-swapamountinput-label {
+  @apply text-sm font-semibold text-[#030712];
+}
+
+.ock-swapamountinput-input {
+  @apply border-[none] bg-transparent text-5xl text-[black];
+}
+
+.ock-swapamountinput-row {
+  @apply flex w-full items-center justify-between;
+}
+
+.ock-swapamountinput-balance {
+  @apply text-sm font-normal text-gray-400;
+}
+
+.ock-swapamountinput-maxbutton {
+  @apply flex h-8 w-[58px] max-w-[200px] items-center rounded-[40px] bg-gray-100 px-3 py-2 text-base font-medium not-italic leading-6 text-gray-500;
+}
