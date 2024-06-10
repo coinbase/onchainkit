@@ -1,0 +1,23 @@
+.ock-tokenamountinput-container {
+  @apply box-border flex w-fit flex-col items-start gap-[11px] rounded-2xl bg-[#FFF] p-4;
+}
+
+.ock-tokenamountinput-label {
+  @apply text-sm font-semibold text-[#030712];
+}
+
+.ock-tokenamountinput-input {
+  @apply border-[none] bg-transparent text-5xl text-[black];
+}
+
+.ock-tokenamountinput-row {
+  @apply flex w-full items-center justify-between;
+}
+
+.ock-tokenamountinput-balance {
+  @apply text-sm font-normal text-gray-400;
+}
+
+.ock-tokenamountinput-maxbutton {
+  @apply bg-gray-100 text-base not-italic font-medium leading-6 flex w-[58px] h-8 max-w-[200px] items-center text-gray-500 px-3 py-2 rounded-[40px];
+}

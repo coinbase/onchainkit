@@ -1,42 +1,19 @@
-import { useCallback, CSSProperties } from 'react';
+import { useCallback, CSSProperties, useEffect } from 'react';
 
 import { TokenAmountInputReact } from '../types';
 import { isValidAmount } from '../utils';
-import { TokenSelector } from '../../token';
-
-const styles = {
-  container: {
-    display: 'flex',
-    flexDirection: 'column',
-    borderRadius: '16px',
-    background: '#EEF0F3',
-    padding: '16px',
-    width: 'fit-content',
-    boxSizing: 'border-box',
-    alignItems: 'flex-start',
-    gap: '11px',
-  },
-  label: {
-    fontSize: '0.875rem',
-    color: '#030712',
-    fontWeight: '600',
-  },
-  input: {
-    fontSize: '2.5rem',
-    border: 'none',
-    background: 'none',
-    outline: 'none',
-    maxWidth: '18.75rem',
-    color: 'black',
-  },
-} as Record<string, CSSProperties>;
+import { TokenSelector, TokenSelectorDropdown } from '../../token';
 
 export function TokenAmountInput({
   label,
   amount,
-  onAmountChange,
   token,
+  swappableTokens,
+  tokenBalance,
+  onMaxButtonClick,
+  onAmountChange,
   onTokenSelectorClick,
+  onSelectTokenToggle,
   disabled = false,
 }: TokenAmountInputReact) {
   const handleAmountChange = useCallback(
@@ -49,11 +26,27 @@ export function TokenAmountInput({
   );
 
   return (
-    <div style={styles.container} data-testid="ockTokenAmountInput_InputContainer">
-      <label style={styles.label}>{label}</label>
-      <TokenSelector token={token} onClick={onTokenSelectorClick} />
+    <div data-testid="ockTokenAmountInput_Container" className="ock-tokenamountinput-container">
+      <div className="ock-tokenamountinput-row">
+        <label className="ock-tokenamountinput-label">{label}</label>
+        {tokenBalance && (
+          <label className="ock-tokenamountinput-balance">{`Balance: ${tokenBalance}`}</label>
+        )}
+      </div>
+      <div className="ock-tokenamountinput-row">
+        <TokenSelector token={token} setToken={onTokenSelectorClick}>
+          <TokenSelectorDropdown
+            setToken={onTokenSelectorClick}
+            onToggle={onSelectTokenToggle}
+            options={swappableTokens}
+          />
+        </TokenSelector>
+        <button className="ock-tokenamountinput-maxbutton" onClick={onMaxButtonClick}>
+          Max
+        </button>
+      </div>
       <input
-        style={styles.input}
+        className="ock-tokenamountinput-input"
         value={amount}
         onChange={handleAmountChange}
         placeholder="0"
