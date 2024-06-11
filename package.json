@@ -5,8 +5,8 @@
   "repository": "https://github.com/coinbase/onchainkit.git",
   "license": "MIT",
   "scripts": {
-    "build": "packemon build --addEngines --addFiles --declaration && npx packemon validate --no-license --no-people --no-repo && tailwindcss -o ./src/styles.css --minify",
-    "watch": "tailwind -o ./src/styles.css --watch",
+    "build": "packemon build --addEngines --addFiles --declaration && npx packemon validate --no-license --no-people --no-repo && tailwindcss -i ./src/styles/index.css -o ./src/tailwind.css --minify && tailwindcss -i ./src/styles/index-with-tailwind.css -o ./src/styles.css --minify",
+    "watch": "tailwind -i ./src/styles/index.css -o ./src/tailwind.css --watch",
     "check": "yarn format",
     "format": "prettier --log-level warn --write .",
     "format:check": "prettier --check .",
@@ -95,6 +95,7 @@
   "exports": {
     "./package.json": "./package.json",
     "./styles.css": "./src/styles.css",
+    "./tailwind.css": "./src/tailwind.css",
     ".": {
       "types": "./esm/index.d.ts",
       "module": "./esm/index.js",

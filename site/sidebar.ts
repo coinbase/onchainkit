@@ -179,8 +179,8 @@ export const sidebar = [
             link: '/token/token-search',
           },
           {
-            text: 'TokenSelector',
-            link: '/token/token-selector',
+            text: 'TokenSelectDropdown',
+            link: '/token/token-select-dropdown',
           },
         ],
       },
