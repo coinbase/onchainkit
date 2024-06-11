@@ -1,8 +1,8 @@
 <p align="center">
   <a href="https://onchainkit.xyz">
     <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="./site/docs/public/logo/v0-19.png">
-      <img alt="OnchainKit logo vibes" src="./site/docs/public/logo/v0-19.png" width="auto">
+      <source media="(prefers-color-scheme: dark)" srcset="./site/docs/public/logo/v0-20.png">
+      <img alt="OnchainKit logo vibes" src="./site/docs/public/logo/v0-20.png" width="auto">
     </picture>
   </a>
 </p>
@@ -32,12 +32,6 @@
       <img src="https://img.shields.io/npm/dm/@coinbase/onchainkit?colorA=f6f8fa&colorB=f6f8fa&style=flat" alt="Downloads per month">
     </picture>
   </a>
-  <a href="https://bundlephobia.com/result?p=@coinbase/onchainkit" target="_blank" rel="noopener noreferrer">
-    <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="https://flat.badgen.net/bundlephobia/minzip/@coinbase/onchainkit">
-      <img width="146" height="20" src="https://flat.badgen.net/bundlephobia/minzip/@coinbase/onchainkit" alt="Minified + gzip package size for @coinbase/onchainkit in KB" class="badge--in-table"></a>
-    </picture>
-  </a>
 </p>
 
 <br />
@@ -52,18 +46,18 @@ To integrate OnchainKit into your project, begin by installing the necessary pac
 
 ```bash
 # Yarn: Add library
-yarn add @coinbase/onchainkit viem@2.x
+yarn add @coinbase/onchainkit
 
 # or
 
 # Use NPM
-npm install @coinbase/onchainkit viem@2.x
+npm install @coinbase/onchainkit
 
 # Use PNPM
-pnpm add @coinbase/onchainkit viem@2.x
+pnpm add @coinbase/onchainkit
 
 # Use BUN
-bun add @coinbase/onchainkit viem@2.x
+bun add @coinbase/onchainkit
 ```
 
 ## CSS
