@@ -1,37 +1,34 @@
-{/* import { Avatar } from '../../../../src/identity'; */}
+import { Avatar } from '@coinbase/onchainkit/identity';
+import { ComponentPreview } from '../../components/ComponentPreview.tsx';
+
+# `<Avatar />` [An image displaying an ENS avatar with a fallback.]
+
+:::code-group
+
+<div data-title="Preview">
+  <ComponentPreview>
+    <Avatar address="0x838aD0EAE54F99F1926dA7C3b6bFbF617389B4D9" />
+  </ComponentPreview>
+</div>
+
+```tsx [Code]
 import { Avatar } from '@coinbase/onchainkit/identity';
 
-import App from '../App';
+export function AvatarDemo() {
+  return <Avatar address="0x838aD0EAE54F99F1926dA7C3b6bFbF617389B4D9" />;
+}
+```
 
-# `<Avatar />`
-
-The `Avatar` component is used to display ENS avatar associated with Ethereum addresses.
-When an ENS avatar is not available, it defaults to blue color avatar.
+:::
 
 ## Usage
 
-Address with an ENS avatar:
-
 ```tsx
 import { Avatar } from '@coinbase/onchainkit/identity';
-<Avatar address="0x838aD0EAE54F99F1926dA7C3b6bFbF617389B4D9" />; // [!code focus]
+
+export function AvatarDemo() {
+  return <Avatar address="0x838aD0EAE54F99F1926dA7C3b6bFbF617389B4D9" />;
+}
 ```
-
-<App>
-  <Avatar address="0x838aD0EAE54F99F1926dA7C3b6bFbF617389B4D9" />
-</App>
-
-Address without an ENS avatar, and it defaults to a blue color avatar:
-
-```tsx
-import { Avatar } from '@coinbase/onchainkit/identity';
-<Avatar address="0x1234567890abcdef1234567890abcdef12345678" />; // [!code focus]
-```
-
-<App>
-  <Avatar address="0x1234567890abcdef1234567890abcdef12345678" />
-</App>
-
-## Props
 
 [`AvatarReact`](/identity/types#AvatarReact)
