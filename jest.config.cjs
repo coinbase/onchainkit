@@ -7,6 +7,7 @@ module.exports = {
       statements: 100,
     },
   },
+  maxWorkers: 1,
   modulePathIgnorePatterns: ['<rootDir>/framegear/'],
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
   transform: {

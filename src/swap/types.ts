@@ -12,16 +12,6 @@ export type Fee = {
   percentage: string; // The percentage of the fee
 };
 
-export type GetQuoteAPIParams = {
-  from: AddressOrETH | ''; // The source address or 'ETH' for Ethereum
-  to: AddressOrETH | ''; // The destination address or 'ETH' for Ethereum
-  amount: string; // The amount to be swapped
-  amountReference?: string; // The reference amount for the swap
-};
-
-/**
- * Note: exported as public Type
- */
 export type GetQuoteParams = {
   from: Token; // The source token for the swap
   to: Token; // The destination token for the swap
@@ -30,10 +20,30 @@ export type GetQuoteParams = {
   isAmountInDecimals?: boolean; // Whether the amount is in decimals
 };
 
+export type GetQuoteAPIParams = {
+  from: AddressOrETH | ''; // The source address or 'ETH' for Ethereum
+  to: AddressOrETH | ''; // The destination address or 'ETH' for Ethereum
+  amount: string; // The amount to be swapped
+  amountReference?: string; // The reference amount for the swap
+};
+
+export type GetSwapParams = GetQuoteParams & {
+  fromAddress: Address; // The address of the user
+};
+
+export type GetSwapAPIParams = GetQuoteAPIParams & {
+  fromAddress: Address; // The address of the user
+};
+
 /**
  * Note: exported as public Type
  */
 export type GetQuoteResponse = Quote | SwapError;
+
+/**
+ * Note: exported as public Type
+ */
+export type GetSwapResponse = Swap | SwapError;
 
 /**
  * Note: exported as public Type
@@ -59,6 +69,26 @@ export type QuoteWarning = {
   type?: string; // The type of the warning
 };
 
+export type RawTransactionData = {
+  data: string; // The transaction data
+  from: string; // The sender address
+  gas: string; // The gas limit
+  gasPrice: string; // The gas price
+  to: string; // The recipient address
+  value: string; // The value of the transaction
+};
+
+/**
+ * Note: exported as public Type
+ */
+export type Swap = {
+  approveTransaction?: Transaction; // The approval transaction
+  fee: Fee; // The fee for the swap
+  quote: Quote; // The quote for the swap
+  transaction: Transaction; // The swap transaction
+  warning?: QuoteWarning; // The warning associated with the swap
+};
+
 /**
  * Note: exported as public Type
  */
@@ -67,20 +97,50 @@ export type SwapError = {
   error: string; // The error message
 };
 
-export type Trade = {
-  approveTx?: Transaction; // The approval transaction
-  chainId: string; // The chain ID
-  fee: Fee; // The fee for the trade
-  tx: Transaction; // The trade transaction
+/**
+ * Note: exported as public Type
+ */
+export type SwapParams = GetQuoteParams | GetSwapParams;
+
+export type SwapAPIParams = GetQuoteAPIParams | GetSwapAPIParams;
+
+/**
+ * Note: exported as public Type
+ */
+export interface Transaction {
+  transaction: TransactionData;
+
+  withParams(params: TransactionParams): TransactionData;
+}
+
+/**
+ * Note: exported as public Type
+ */
+export type TransactionData = {
+  chainId: number; // The chain ID
+  data: `0x${string}`; // The data for the transaction
+  gas: bigint; // The gas limit
+  to: `0x${string}`; // The recipient address
+  value: bigint; // The value of the transaction
+  nonce?: number; // The nonce for the transaction
+  maxFeePerGas?: bigint | undefined; // The maximum fee per gas
+  maxPriorityFeePerGas?: bigint | undefined; // The maximum priority fee per gas
+};
+/**
+ * Note: exported as public Type
+ */
+export type TransactionParams = {
+  nonce: number; // The nonce for the transaction
+  maxFeePerGas: bigint | undefined; // The maximum fee per gas
+  maxPriorityFeePerGas: bigint | undefined; // The maximum priority fee per gas
 };
 
-export type Transaction = {
-  data: string; // The transaction data
-  from: string; // The sender address
-  gas: string; // The gas limit
-  gasPrice: string; // The gas price
-  to: string; // The recipient address
-  value: string; // The value of the transaction
+export type Trade = {
+  approveTx?: RawTransactionData; // The approval transaction
+  chainId: string; // The chain ID
+  fee: Fee; // The fee for the trade
+  quote: Quote; // The quote for the trade
+  tx: RawTransactionData; // The trade transaction
 };
 
 export type SwapAmountInputReact = {
