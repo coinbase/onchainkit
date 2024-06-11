@@ -98,12 +98,6 @@ const wagmiConfig = createConfig({
 });
 
 function App({ children }: { children: ReactNode }) {
-  return (
-    <WagmiProvider config={wagmiConfig}>
-      {' '}
-      // [!code focus]
-      {children}
-    </WagmiProvider> // [!code focus]
-  );
+  return <WagmiProvider config={wagmiConfig}>{children}</WagmiProvider>;
 }
 ```
