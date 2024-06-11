@@ -1,6 +1,4 @@
-# `<OnchainKitProvider />`
-
-Provides the OnchainKit React Context to the app.
+# `<OnchainKitProvider />` [React context for OnchainKit]
 
 ## Usage
 
@@ -8,13 +6,19 @@ Provides the OnchainKit React Context to the app.
 import { base } from 'viem/chains';
 import { OnchainKitProvider } from '@coinbase/onchainkit';
 
-const App = () => {
+function App() {
   return (
     <OnchainKitProvider chain={base}>
       <MyComponent />
     </OnchainKitProvider>
   );
-};
+}
+```
+
+## Parameters
+
+```ts
+import { type OnchainKitProviderReact } from '@coinbase/onchainkit';
 ```
 
 ## Props
