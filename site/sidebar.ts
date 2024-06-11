@@ -178,10 +178,6 @@ export const sidebar = [
             text: 'TokenSearch',
             link: '/token/token-search',
           },
-          {
-            text: 'TokenSelector',
-            link: '/token/token-selector',
-          },
         ],
       },
       {
