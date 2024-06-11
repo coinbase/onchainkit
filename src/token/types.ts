@@ -1,5 +1,4 @@
 // 🌲☀️🌲
-import { ReactElement } from 'react';
 import { Address } from 'viem';
 
 /**
@@ -84,6 +83,15 @@ export type TokenRowReact = {
 export type TokenSearchReact = {
   onChange: (value: string) => void;
   delayMs?: number;
+};
+
+/**
+ * Note: exported as public Type
+ */
+export type TokenSelectButtonReact = {
+  isOpen: boolean; // Determines carot icon direction
+  onClick: () => void; // Button on click handler
+  token?: Token; // Selected token
 };
 
 /**

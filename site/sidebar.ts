@@ -178,6 +178,10 @@ export const sidebar = [
             text: 'TokenSearch',
             link: '/token/token-search',
           },
+          {
+            text: 'TokenSelectDropdown',
+            link: '/token/token-select-dropdown',
+          }
         ],
       },
       {
