@@ -1,12 +1,7 @@
 import { decodeAbiParameters } from 'viem';
 import type { Address, Hex, BlockTag } from 'viem';
 import type { PublicClient } from 'viem';
-
-const CB_SW_PROXY_BYTECODE =
-  '0x363d3d373d3d363d7f360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc545af43d6000803e6038573d6000fd5b3d6000f3';
-const COINBASE_SMART_WALLET_V1_IMPLEMENTATION = '0x000100abaad02f1cfC8Bbe32bD5a564817339E72';
-const ERC_1967_PROXY_IMPLEMENTATION_SLOT =
-  '0x360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc';
+import type { UserOperation } from 'permissionless';
 
 type CheckAddressTypeOptions = {
   address: string;
@@ -14,7 +9,7 @@ type CheckAddressTypeOptions = {
 };
 
 type CheckAddressTypeResponse = {
-  type: 'EOA' | 'Coinbase Smart Wallet' | 'Smart Contract';
+  type: 'EOA' | 'Smart Wallet' | 'Smart Contract';
   error?: string;
 };
 
@@ -24,10 +19,9 @@ export async function checkAddressType({
 }: CheckAddressTypeOptions): Promise<CheckAddressTypeResponse> {
   try {
     console.log(`Checking address type for ${address}`);
+    
     // Step 1: Get bytecode of the address
     // Bytecode is undefined if the address is an EOA
-    // Retrieves the contracts bytecode at an address.
-
     const code = await client.getBytecode({ address: `0x${address}` });
 
     console.log(`Bytecode for address ${address}: ${code}`);
@@ -42,37 +36,34 @@ export async function checkAddressType({
       return { type: 'EOA' };
     }
 
-    // Step 3: Check if the address is a Coinbase Smart Wallet by verifying its proxy bytecode
-    if (code === CB_SW_PROXY_BYTECODE) {
-      let implementation: Hex;
-
-      try {
-        // Step 4: Retrieve the implementation address from the proxy
-        implementation = await client.request<{
-          Parameters: [Address, Hex, BlockTag];
-          ReturnType: Hex;
-        }>({
-          method: 'eth_getStorageAt',
-          params: [`0x${address}`, ERC_1967_PROXY_IMPLEMENTATION_SLOT, 'latest'],
-        });
-
-        // Step 5: Decode the implementation address from the retrieved storage data
-        const implementationAddress = decodeAbiParameters([{ type: 'address' }], implementation)[0];
-
-        // Step 6: Verify if the implementation address matches the expected Coinbase Smart Wallet address
-        if (implementationAddress === COINBASE_SMART_WALLET_V1_IMPLEMENTATION) {
-          return { type: 'Coinbase Smart Wallet' };
-        }
-      } catch (error) {
-        console.error('Error retrieving implementation address:', error);
-        return { type: 'Smart Contract', error: 'Error retrieving implementation address' };
-      }
+    // Step 3: Check if the address is a smart wallet by calling validateUserOp
+    if (await validateUserOp(client, address)) {
+      return { type: 'Smart Wallet' };
     }
 
-    // Step 7: If the address has bytecode but is not a Coinbase Smart Wallet, it's a regular smart contract
+    // Step 7: If the address has bytecode but is not a Smart Wallet, it's a regular smart contract
     return { type: 'Smart Contract' };
   } catch (error) {
     console.error('Error checking address type:', error);
     return { type: 'Smart Contract', error: 'Error checking address type' };
+  }
+}
+
+// const userOp = {
+//     sender: 'valid-proxy-address',
+//     } as unknown as UserOperation<'v0.6'>;
+// }
+
+async function validateUserOp(client: PublicClient, address: string): Promise<boolean> {
+  // call validateUserOp and check for errors
+  try {
+    const result = await client.callContract({
+      to: address,
+      data: '0x', // Replace with the actual method data for validateUserOp
+    });
+    return !!result;
+  } catch (error) {
+    console.error('Error validating user operation:', error);
+    return false;
   }
 }

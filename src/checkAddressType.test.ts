@@ -18,22 +18,22 @@ describe('checkAddressType', () => {
     expect(result).toEqual({ type: 'EOA' });
   });
 
-  it('should return "Coinbase Smart Wallet" for a known Coinbase Smart Wallet address', async () => {
-    const address = '0x06C36AA794d96fD7816deA8De80d4B8Aa9DB283c'; // My Coinbase Smart Wallet address
+  it('should return "Smart Wallet" for a known Smart Wallet address', async () => {
+    const address = '0x06C36AA794d96fD7816deA8De80d4B8Aa9DB283c'; // My Smart Wallet address
 
-    // Mock the getBytecode function to return the Coinbase Smart Wallet proxy bytecode
+    // Mock the getBytecode function to return the  Smart Wallet proxy bytecode
     (client.getBytecode as jest.Mock).mockResolvedValue(
       '0x363d3d373d3d363d7f360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc545af43d6000803e6038573d6000fd5b3d6000f3',
     );
 
-    // Mock the request function to return the Coinbase Smart Wallet implementation address
+    // Mock the request function to return the  Smart Wallet implementation address
     (client.request as jest.Mock).mockResolvedValue(
       '0x000000000000000000000000000100abaad02f1cfC8Bbe32bD5a564817339E72',
     );
 
     const result = await checkAddressType({ client, address });
 
-    expect(result).toEqual({ type: 'Coinbase Smart Wallet' });
+    expect(result).toEqual({ type: 'Smart Wallet' });
   });
 
   it('should return "Smart Contract" for a regular smart contract address', async () => {
