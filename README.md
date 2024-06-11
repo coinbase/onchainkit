@@ -52,18 +52,18 @@ To integrate OnchainKit into your project, begin by installing the necessary pac
 
 ```bash
 # Yarn: Add library
-yarn add @coinbase/onchainkit viem@2.x
+yarn add @coinbase/onchainkit
 
 # or
 
 # Use NPM
-npm install @coinbase/onchainkit viem@2.x
+npm install @coinbase/onchainkit
 
 # Use PNPM
-pnpm add @coinbase/onchainkit viem@2.x
+pnpm add @coinbase/onchainkit
 
 # Use BUN
-bun add @coinbase/onchainkit viem@2.x
+bun add @coinbase/onchainkit
 ```
 
 ## CSS

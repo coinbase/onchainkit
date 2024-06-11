@@ -4,13 +4,13 @@
 
 ### Patch Changes
 
-- a47b07f: - **fix**: have API_KEY set correctly by `OnchainKitProvider` and avoid request CORS issue with the `onchainkit_version` Header. By @zizzamia #501
+- **fix**: have API_KEY set correctly by `OnchainKitProvider` and avoid request CORS issue with the `onchainkit_version` Header. By @zizzamia #501 a47b07f
 
 ## 0.19.6
 
 ### Patch Changes
 
-- c54ec7b: - **fix**: added border transparent to Badge component. By @zizzamia #493
+- **fix**: added border transparent to Badge component. By @zizzamia #493 c54ec7b
 
 ## 0.19.5
 

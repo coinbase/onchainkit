@@ -2,4 +2,4 @@
 "@coinbase/onchainkit": patch
 ---
 
-- **feat**: Remove TokenSelector\* components and add refactored TokenSelectDropdown. By @kyhyco #508
+- **feat**: Removd `TokenSelector` components and add refactored `TokenSelectDropdown`. By @kyhyco #508
