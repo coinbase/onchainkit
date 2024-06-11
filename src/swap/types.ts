@@ -6,13 +6,22 @@ export type AddressOrETH = Address | 'ETH';
 /**
  * Note: exported as public Type
  */
+export type BuildSwapTransactionResponse = Swap | SwapError;
+
+export type BuildSwapTransactionParams = GetSwapQuoteParams & {
+  fromAddress: Address; // The address of the user
+};
+
+/**
+ * Note: exported as public Type
+ */
 export type Fee = {
   amount: string; // The amount of the fee
   baseAsset: Token; // The base asset for the fee
   percentage: string; // The percentage of the fee
 };
 
-export type GetQuoteParams = {
+export type GetSwapQuoteParams = {
   from: Token; // The source token for the swap
   to: Token; // The destination token for the swap
   amount: string; // The amount to be swapped
@@ -27,10 +36,6 @@ export type GetQuoteAPIParams = {
   amountReference?: string; // The reference amount for the swap
 };
 
-export type GetSwapParams = GetQuoteParams & {
-  fromAddress: Address; // The address of the user
-};
-
 export type GetSwapAPIParams = GetQuoteAPIParams & {
   fromAddress: Address; // The address of the user
 };
@@ -38,12 +43,7 @@ export type GetSwapAPIParams = GetQuoteAPIParams & {
 /**
  * Note: exported as public Type
  */
-export type GetQuoteResponse = Quote | SwapError;
-
-/**
- * Note: exported as public Type
- */
-export type GetSwapResponse = Swap | SwapError;
+export type GetSwapQuoteResponse = Quote | SwapError;
 
 /**
  * Note: exported as public Type
@@ -89,6 +89,8 @@ export type Swap = {
   warning?: QuoteWarning; // The warning associated with the swap
 };
 
+export type SwapAPIParams = GetQuoteAPIParams | GetSwapAPIParams;
+
 /**
  * Note: exported as public Type
  */
@@ -100,16 +102,24 @@ export type SwapError = {
 /**
  * Note: exported as public Type
  */
-export type SwapParams = GetQuoteParams | GetSwapParams;
+export type SwapParams = GetSwapQuoteParams | BuildSwapTransactionParams;
 
-export type SwapAPIParams = GetQuoteAPIParams | GetSwapAPIParams;
+export type SwapAmountInputReact = {
+  amount?: string; // Token amount
+  disabled?: boolean; // Whether the input is disabled
+  label: string; // Descriptive label for the input field
+  setAmount: (amount: string) => void; // Callback function when the amount changes
+  setToken: () => void; // Callback function when the token selector is clicked
+  swappableTokens: Token[]; // Tokens available for swap
+  token?: Token; // Selected token
+  tokenBalance?: string; // Amount of selected token user owns
+};
 
 /**
  * Note: exported as public Type
  */
 export interface Transaction {
   transaction: TransactionData;
-
   withParams(params: TransactionParams): TransactionData;
 }
 
@@ -141,15 +151,4 @@ export type Trade = {
   fee: Fee; // The fee for the trade
   quote: Quote; // The quote for the trade
   tx: RawTransactionData; // The trade transaction
-};
-
-export type SwapAmountInputReact = {
-  amount?: string; // Token amount
-  disabled?: boolean; // Whether the input is disabled
-  label: string; // Descriptive label for the input field
-  setAmount: (amount: string) => void; // Callback function when the amount changes
-  setToken: () => void; // Callback function when the token selector is clicked
-  swappableTokens: Token[]; // Tokens available for swap
-  token?: Token; // Selected token
-  tokenBalance?: string; // Amount of selected token user owns
 };

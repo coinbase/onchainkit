@@ -1,10 +1,10 @@
 import { getParamsForToken } from './getParamsForToken';
-import { getSwap } from './getSwap';
+import { buildSwapTransaction } from './buildSwapTransaction';
 import { getTransaction } from './getTransaction';
 import { sendRequest } from '../../queries/request';
-import { CDP_GETSWAPTRADE } from '../../definitions/swap';
+import { CDP_GET_SWAP_TRADE } from '../../definitions/swap';
 import type { Token } from '../../token/types';
-import { Swap } from '../types';
+import type { Swap } from '../types';
 
 jest.mock('../../queries/request');
 
@@ -29,7 +29,7 @@ const testFromAddress = '0x6Cd01c0F55ce9E0Bf78f5E90f72b4345b16d515d';
 const testAmount = '3305894409732200';
 const testAmountReference = 'from';
 
-describe('getSwap', () => {
+describe('buildSwapTransaction', () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
@@ -118,7 +118,7 @@ describe('getSwap', () => {
       warning: trade.quote.warning,
     };
 
-    const quote = (await getSwap(mockParams)) as Swap;
+    const quote = (await buildSwapTransaction(mockParams)) as Swap;
 
     expect(quote.approveTransaction?.transaction).toEqual(
       expectedResponse.approveTransaction?.transaction,
@@ -128,7 +128,7 @@ describe('getSwap', () => {
     expect(quote.warning).toEqual(expectedResponse.warning);
 
     expect(sendRequest).toHaveBeenCalledTimes(1);
-    expect(sendRequest).toHaveBeenCalledWith(CDP_GETSWAPTRADE, [mockApiParams]);
+    expect(sendRequest).toHaveBeenCalledWith(CDP_GET_SWAP_TRADE, [mockApiParams]);
   });
 
   it('should return a swap with an approve transaction', async () => {
@@ -222,7 +222,7 @@ describe('getSwap', () => {
       warning: trade.quote.warning,
     };
 
-    const quote = (await getSwap(mockParams)) as Swap;
+    const quote = (await buildSwapTransaction(mockParams)) as Swap;
 
     expect(quote.approveTransaction?.transaction).toEqual(
       expectedResponse.approveTransaction?.transaction,
@@ -232,7 +232,7 @@ describe('getSwap', () => {
     expect(quote.warning).toEqual(expectedResponse.warning);
 
     expect(sendRequest).toHaveBeenCalledTimes(1);
-    expect(sendRequest).toHaveBeenCalledWith(CDP_GETSWAPTRADE, [mockApiParams]);
+    expect(sendRequest).toHaveBeenCalledWith(CDP_GET_SWAP_TRADE, [mockApiParams]);
   });
 
   it('should throw an error if sendRequest fails', async () => {
@@ -245,16 +245,18 @@ describe('getSwap', () => {
     };
     const mockApiParams = getParamsForToken(mockParams);
 
-    const mockError = new Error('getSwap: Error: Failed to send request');
+    const mockError = new Error('buildSwapTransaction: Error: Failed to send request');
     (sendRequest as jest.Mock).mockRejectedValue(mockError);
 
-    await expect(getSwap(mockParams)).rejects.toThrow('getSwap: Error: Failed to send request');
+    await expect(buildSwapTransaction(mockParams)).rejects.toThrow(
+      'buildSwapTransaction: Error: Failed to send request',
+    );
 
     expect(sendRequest).toHaveBeenCalledTimes(1);
-    expect(sendRequest).toHaveBeenCalledWith(CDP_GETSWAPTRADE, [mockApiParams]);
+    expect(sendRequest).toHaveBeenCalledWith(CDP_GET_SWAP_TRADE, [mockApiParams]);
   });
 
-  it('should return an error object from getSwap', async () => {
+  it('should return an error object from buildSwapTransaction', async () => {
     const mockParams = {
       fromAddress: testFromAddress as `0x${string}`,
       amountReference: testAmountReference,
@@ -275,13 +277,13 @@ describe('getSwap', () => {
 
     (sendRequest as jest.Mock).mockResolvedValue(mockResponse);
 
-    const error = await getSwap(mockParams);
+    const error = await buildSwapTransaction(mockParams);
     expect(error).toEqual({
       code: -1,
       error: 'Invalid response',
     });
 
     expect(sendRequest).toHaveBeenCalledTimes(1);
-    expect(sendRequest).toHaveBeenCalledWith(CDP_GETSWAPTRADE, [mockApiParams]);
+    expect(sendRequest).toHaveBeenCalledWith(CDP_GET_SWAP_TRADE, [mockApiParams]);
   });
 });

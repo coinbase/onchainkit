@@ -1,4 +1,4 @@
-import { RawTransactionData, Transaction } from '../types';
+import type { RawTransactionData, Transaction } from '../types';
 
 /**
  * Constructs an unsigned transaction.
@@ -18,7 +18,6 @@ export function getTransaction(tx: RawTransactionData, chainId: string): Transac
     transaction: txData,
     withParams(params) {
       const { nonce, maxFeePerGas, maxPriorityFeePerGas } = params;
-
       return {
         ...txData,
         nonce,

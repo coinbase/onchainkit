@@ -2,4 +2,5 @@
 "@coinbase/onchainkit": patch
 ---
 
-- **fix**: add tailwind utilities to exported styles.css. By @kyhyco #515
+- **feat**: added `buildSwapTransaction`. By @0xAlec & @zizzamia #503
+- **fix**: added tailwind utilities to exported styles.css. By @kyhyco #515

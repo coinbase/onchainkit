@@ -1,13 +1,21 @@
-import { CDP_GETSWAPTRADE } from '../../definitions/swap';
+import { CDP_GET_SWAP_TRADE } from '../../definitions/swap';
 import { sendRequest } from '../../queries/request';
 import { getParamsForToken } from './getParamsForToken';
 import { getTransaction } from './getTransaction';
-import type { GetSwapParams, Trade, SwapError, SwapAPIParams, GetSwapResponse } from '../types';
+import type {
+  BuildSwapTransactionParams,
+  Trade,
+  SwapError,
+  SwapAPIParams,
+  GetSwapResponse,
+} from '../types';
 
 /**
  * Retrieves an unsigned transaction for a swap from Token A to Token B.
  */
-export async function getSwap(params: GetSwapParams): Promise<GetSwapResponse> {
+export async function buildSwapTransaction(
+  params: BuildSwapTransactionParams,
+): Promise<GetSwapResponse> {
   // Default parameters
   const defaultParams = {
     amountReference: 'from',
@@ -17,7 +25,7 @@ export async function getSwap(params: GetSwapParams): Promise<GetSwapResponse> {
   const apiParams = getParamsForToken({ ...defaultParams, ...params });
 
   try {
-    const res = await sendRequest<SwapAPIParams, Trade>(CDP_GETSWAPTRADE, [apiParams]);
+    const res = await sendRequest<SwapAPIParams, Trade>(CDP_GET_SWAP_TRADE, [apiParams]);
     if (res.error) {
       return {
         code: res.error.code,

@@ -1,4 +1,4 @@
-import { CDP_LISTSWAPASSETS } from '../../definitions/swap';
+import { CDP_LIST_SWAP_ASSETS } from '../../definitions/swap';
 import type { Token, GetTokensOptions, GetTokensResponse, GetTokensError } from '../types';
 import { sendRequest } from '../../queries/request';
 
@@ -15,7 +15,7 @@ export async function getTokens(options?: GetTokensOptions): Promise<GetTokensRe
   const filters = { ...defaultFilter, ...options };
 
   try {
-    const res = await sendRequest<GetTokensOptions, Token[]>(CDP_LISTSWAPASSETS, [filters]);
+    const res = await sendRequest<GetTokensOptions, Token[]>(CDP_LIST_SWAP_ASSETS, [filters]);
 
     if (res.error) {
       return {

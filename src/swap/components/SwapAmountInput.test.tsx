@@ -4,9 +4,9 @@
 import React from 'react';
 import '@testing-library/jest-dom';
 import { fireEvent, render, screen, within } from '@testing-library/react';
-import { Address } from 'viem';
+import type { Address } from 'viem';
 import { SwapAmountInput } from './SwapAmountInput';
-import { Token } from '../../token';
+import type { Token } from '../../token';
 
 const setAmountMock = jest.fn();
 const selectTokenClickMock = jest.fn();

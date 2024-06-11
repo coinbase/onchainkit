@@ -1,10 +1,10 @@
 // 🌲☀️🌲
-export { getQuote } from './core/getQuote';
-export { getSwap } from './core/getSwap';
+export { getSwapQuote } from './core/getSwapQuote';
+export { buildSwapTransaction } from './core/buildSwapTransaction';
 export type {
+  BuildSwapTransactionResponse,
+  GetSwapQuoteResponse,
   Fee,
-  GetQuoteResponse,
-  GetSwapResponse,
   Quote,
   QuoteWarning,
   Swap,
