@@ -1,8 +1,8 @@
 <p align="center">
   <a href="https://onchainkit.xyz">
     <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="./site/docs/public/logo/v0-19.png">
-      <img alt="OnchainKit logo vibes" src="./site/docs/public/logo/v0-19.png" width="auto">
+      <source media="(prefers-color-scheme: dark)" srcset="./site/docs/public/logo/v0-20.png">
+      <img alt="OnchainKit logo vibes" src="./site/docs/public/logo/v0-20.png" width="auto">
     </picture>
   </a>
 </p>
