@@ -1,28 +1,22 @@
-# `isBase`
-
-The `isBase` utility is designed to verify if the chain id is a valid Base or Base Sepolia chain id.
+# `isBase` [Utility that verifies if the chain id is a valid Base or Base Sepolia chain id.]
 
 ## Usage
 
-:::code-group
-
-```tsx [code]
+```tsx
 import { isBase } from '@coinbase/onchainkit';
 
-const chainId = 8453;
+const baseChainId = 8453;
+isBase({ chainId: baseChainId });
+Output: true; // [!code hl]
 
-if (isBase({ chainId })) {
-  console.log('The chainId is Base.');
-} else {
-  console.log('The chainId is not Base.');
-}
+const baseSepoliaChainId = 84532;
+isBase({ chainId: baseSepoliaChainId });
+Output: true; // [!code hl]
+
+const ethereumMainnetChainId = 1;
+isBase({ chainId: ethereumMainnetChainId });
+Output: false; // [!code hl]
 ```
-
-```ts [return value]
-true;
-```
-
-:::
 
 ## Returns
 
