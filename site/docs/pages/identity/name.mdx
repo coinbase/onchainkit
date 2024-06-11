@@ -1,46 +1,100 @@
-{/* import { Name } from '../../../../src/identity'; */}
 import { Name } from '@coinbase/onchainkit/identity';
-import App from '../App';
+import { ComponentPreview } from '../../components/ComponentPreview';
 
-# `<Name />`
+# `<Name />` [Displays the ENS name associated with an Ethereum address]
 
-The `Name` component is used to display ENS names associated with Ethereum addresses.
+:::code-group
+
+<div data-title="Preview">
+  <ComponentPreview>
+    <Name address="0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1" />
+  </ComponentPreview>
+</div>
+
+```tsx [Code]
+import { Name } from '@coinbase/onchainkit/identity';
+
+export function NameDemo() {
+  return <Name address="0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1" />;
+}
+```
+
+:::
 
 ## Usage
 
-Address with an ENS:
-
 ```tsx
 import { Name } from '@coinbase/onchainkit/identity';
-<Name address="0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1" />; // [!code focus]
+
+export function NameDemo() {
+  return <Name address="0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1" />;
+}
 ```
 
-<App>
-  <Name address="0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1" />
-</App>
+## Examples
 
-Address with an ENS name, showing his address sliced:
+### Basic
 
-```tsx
+:::code-group
+
+<div data-title="Preview">
+  <ComponentPreview>
+    <Name address="0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1" />
+  </ComponentPreview>
+</div>
+
+```tsx [Code]
 import { Name } from '@coinbase/onchainkit/identity';
-<Name address="0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1" showAddress />; // [!code focus]
+
+export function NameDemo() {
+  return <Name address="0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1" />;
+}
 ```
 
-<App>
-  <Name address="0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1" showAddress />
-</App>
+:::
 
-Address without an ENS name, and it defaults to his sliced address:
+### Show truncated address
 
-```tsx
+:::code-group
+
+<div data-title="Preview">
+  <ComponentPreview>
+    <Name address="0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1" showAddress />
+  </ComponentPreview>
+</div>
+
+```tsx [Code]
 import { Name } from '@coinbase/onchainkit/identity';
-<Name address="0x1234567890abcdef1234567890abcdef12345678" />; // [!code focus]
+
+export function NameDemo() {
+  return <Name address="0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1" showAddress />;
+}
 ```
 
-<App>
-  <Name address="0x1234567890abcdef1234567890abcdef12345678" />
-</App>
+:::
+
+### Defaults to truncated address
+
+Address without an ENS name defaults to its truncated address:
+
+:::code-group
+
+<div data-title="Preview">
+  <ComponentPreview>
+    <Name address="0x1234567890abcdef1234567890abcdef12345678" />
+  </ComponentPreview>
+</div>
+
+```tsx [Code]
+import { Name } from '@coinbase/onchainkit/identity';
+
+export function NameDemo() {
+  return <Name address="0x1234567890abcdef1234567890abcdef12345678" />; // [!code focus]
+}
+
+:::
 
 ## Props
 
 [`NameReact`](/identity/types#namereact)
+```
