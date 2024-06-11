@@ -1,24 +1,14 @@
-# `formatAmount`
-
-The `formatAmount` utility is designed for consistent number formatting.
+# `formatAmount` [Utility designed for consistent number formatting.]
 
 ## Usage
 
-:::code-group
-
-```tsx [code]
+```tsx
 import { formatAmount } from '@coinbase/onchainkit/token';
 
 const amount = formatAmount(10000, { minimumFractionDigits: 2 });
+> '10,000.00'; // if in U.S. English locale // [!code hl]
+> '10.000,00'; // if in EU country locale // [!code hl]
 ```
-
-```ts [return value]
-'10,000.00'; // if in U.S. English locale
-
-'10.000,00'; // if in EU country locale
-```
-
-:::
 
 ## Returns
 
