@@ -58,14 +58,16 @@ describe('TokenSelectDropdown', () => {
     });
   });
 
-  it('calls onToggle when clicking outside the component', async () => {
+  it('toggles when clicking outside the component', async () => {
     render(<TokenSelectDropdown setToken={setToken} options={options} />);
 
     const button = screen.getByTestId('ockTokenSelectButton_Button');
     fireEvent.click(button);
 
-    const result = screen.getByTestId('ockTokenSelectDropdown_List');
-    console.log(result);
-    // expect(screen.getByTestId('ockTokenSelectDropdown_List')).toBeInTheDocument();
+    expect(screen.getByTestId('ockTokenSelectDropdown_List')).toBeInTheDocument();
+
+    fireEvent.click(button);
+
+    expect(screen.queryByTestId('ockTokenSelectDropdown_List')).toBeNull();
   });
 });
