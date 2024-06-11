@@ -11,6 +11,7 @@ type SwapContainer = {
     setToToken: (t: Token) => void,
     toAmount: string,
     toToken: Token,
+    toTokenBalance: string,
   ) => ReactElement;
 };
 
@@ -24,10 +25,10 @@ export default function SwapContainer({ children }: SwapContainer) {
   const [toToken, setToToken] = useState<Token>();
   const [fromToken, setFromToken] = useState<Token>();
   const [fromAmount, setFromAmount] = useState('');
-  const [toAmount, setToAmount] = useState('');
+  const [toAmount, _] = useState('');
 
   const fromTokenBalance = TOKEN_BALANCE_MAP[fromToken?.symbol];
-
+  const toTokenBalance = TOKEN_BALANCE_MAP[toToken?.symbol];
   return children(
     fromAmount,
     fromToken,
@@ -37,5 +38,6 @@ export default function SwapContainer({ children }: SwapContainer) {
     setToToken,
     toAmount,
     toToken,
+    toTokenBalance,
   );
 }
