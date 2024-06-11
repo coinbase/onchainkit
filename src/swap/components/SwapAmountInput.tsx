@@ -1,7 +1,6 @@
 import { useCallback } from 'react';
 
 import { isValidAmount } from '../utils';
-import { TokenSelector, TokenSelectorDropdown } from '../../token';
 import type { SwapAmountInputReact } from '../types';
 
 export function SwapAmountInput({
@@ -9,9 +8,6 @@ export function SwapAmountInput({
   disabled = false,
   label,
   setAmount,
-  setToken,
-  swappableTokens,
-  token,
   tokenBalance,
 }: SwapAmountInputReact) {
   const handleAmountChange = useCallback(
@@ -41,9 +37,10 @@ export function SwapAmountInput({
         )}
       </div>
       <div className="flex w-full items-center justify-between">
-        <TokenSelector setToken={setToken} token={token}>
+        {/* TODO: add back in when TokenSelector is complete */}
+        {/* <TokenSelector setToken={setToken} token={token}>
           <TokenSelectorDropdown options={swappableTokens} setToken={setToken} />
-        </TokenSelector>
+        </TokenSelector> */}
         <button
           className="flex h-8 w-[58px] max-w-[200px] items-center rounded-[40px] bg-gray-100 px-3 py-2 text-base font-medium not-italic leading-6 text-gray-500"
           data-testid="ockSwapAmountInput_MaxButton"
