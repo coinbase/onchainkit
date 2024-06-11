@@ -45,7 +45,6 @@ export const sidebar = [
   {
     text: 'Frame',
     items: [
-      { text: 'Introduction', link: '/frame/introduction' },
       {
         text: 'Components',
         items: [
@@ -139,7 +138,6 @@ export const sidebar = [
   {
     text: 'Swap',
     items: [
-      { text: 'Introduction', link: '/swap/introduction' },
       {
         text: 'Components',
         items: [
