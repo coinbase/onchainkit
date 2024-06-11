@@ -30,10 +30,6 @@ describe('TokenSelectorDropdown', () => {
     },
   ];
 
-  beforeEach(() => {
-    jest.clearAllMocks();
-  });
-
   it('renders the TokenSelectorDropdown component', () => {
     render(<TokenSelectorDropdown setToken={setToken} options={options} onToggle={onToggle} />);
 
@@ -59,22 +55,6 @@ describe('TokenSelectorDropdown', () => {
       fireEvent.click(document);
 
       expect(onToggle).toHaveBeenCalled();
-    });
-  });
-
-  it('does not call onToggle when onToggle is not provided', async () => {
-    render(<TokenSelectorDropdown setToken={setToken} options={options} />);
-
-    await waitFor(() => {
-      fireEvent.click(screen.getByText(options[0].name));
-
-      expect(setToken).toHaveBeenCalledWith(options[0]);
-      expect(onToggle).not.toHaveBeenCalled();
-    });
-
-    await waitFor(() => {
-      fireEvent.click(document);
-      expect(onToggle).not.toHaveBeenCalled();
     });
   });
 });

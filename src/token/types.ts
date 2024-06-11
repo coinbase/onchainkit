@@ -90,7 +90,7 @@ export type TokenSearchReact = {
  * Note: exported as public Type
  */
 export type TokenSelectorReact = {
-  children: ReactElement<{ onToggle?: () => void }>;
+  children: ReactElement<{ onToggle: () => void }>;
   setToken: (token: Token) => void;
   token?: Token;
 };
@@ -99,7 +99,7 @@ export type TokenSelectorReact = {
  * Note: exported as public Type
  */
 export type TokenSelectorDropdownReact = {
-  onToggle?: () => void; // Injected by TokenSelector
+  onToggle: () => void; // Injected by TokenSelector
   options: Token[]; // List of tokens
   setToken: (token: Token) => void; // Token setter
 };
