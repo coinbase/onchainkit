@@ -89,12 +89,12 @@ export type TokenSearchReact = {
 };
 ```
 
-## `TokenSelectorDropdownReact`
+## `TokenSearchReact`
 
 ```ts
-export type TokenSelectorDropdownReact = {
-  onToggle: () => void; // Injected by TokenSelector. To be removed.
+export type TokenSelectDropdownReact = {
   options: Token[]; // List of tokens
   setToken: (token: Token) => void; // Token setter
+  token?: Token; // Selected token
 };
 ```

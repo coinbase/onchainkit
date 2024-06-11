@@ -181,7 +181,7 @@ export const sidebar = [
           {
             text: 'TokenSelectDropdown',
             link: '/token/token-select-dropdown',
-          }
+          },
         ],
       },
       {

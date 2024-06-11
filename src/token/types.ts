@@ -97,6 +97,15 @@ export type TokenSelectButtonReact = {
 /**
  * Note: exported as public Type
  */
+export type TokenSelectDropdownReact = {
+  options: Token[]; // List of tokens
+  setToken: (token: Token) => void; // Token setter
+  token?: Token; // Selected token
+};
+
+/**
+ * Note: exported as public Type
+ */
 export type TokenSelectorDropdownReact = {
   onToggle: () => void; // Injected by TokenSelector
   options: Token[]; // List of tokens
