@@ -1,10 +1,10 @@
 import { checkAddressType } from './checkAddressType';
-import type { createPublicClient } from 'viem';
+import type { PublicClient } from 'viem';
 
 const client = {
   getBytecode: jest.fn(),
   request: jest.fn(),
-} as unknown as ReturnType<typeof createPublicClient>;
+} as unknown as PublicClient;
 
 describe('checkAddressType', () => {
   it('should return "EOA" for an externally owned account (EOA)', async () => {

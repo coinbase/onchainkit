@@ -1,5 +1,6 @@
-import { type createPublicClient, decodeAbiParameters } from 'viem';
+import { decodeAbiParameters } from 'viem';
 import type { Address, Hex, BlockTag } from 'viem';
+import type { PublicClient } from 'viem';
 
 const CB_SW_PROXY_BYTECODE =
   '0x363d3d373d3d363d7f360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc545af43d6000803e6038573d6000fd5b3d6000f3';
@@ -9,7 +10,7 @@ const ERC_1967_PROXY_IMPLEMENTATION_SLOT =
 
 type CheckAddressTypeOptions = {
   address: string;
-  client: ReturnType<typeof createPublicClient>;
+  client: PublicClient;
 };
 
 type CheckAddressTypeResponse = {
@@ -22,9 +23,19 @@ export async function checkAddressType({
   address,
 }: CheckAddressTypeOptions): Promise<CheckAddressTypeResponse> {
   try {
+    console.log(`Checking address type for ${address}`);
     // Step 1: Get bytecode of the address
+    // Bytecode is undefined if the address is an EOA
     // Retrieves the contracts bytecode at an address.
+
     const code = await client.getBytecode({ address: `0x${address}` });
+
+    console.log(`Bytecode for address ${address}: ${code}`);
+
+    if (code === undefined) {
+      console.error(`Error: Bytecode for address ${address} is undefined`);
+      return { type: 'EOA', error: 'Bytecode retrieval returned undefined' };
+    }
 
     // Step 2: Check if the address is an EOA (Externally Owned Account, no bytecode)
     if (!code || code === '0x') {
