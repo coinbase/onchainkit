@@ -30,19 +30,22 @@ export function SwapAmountInput({
   }, [tokenBalance, setAmount]);
 
   return (
-    <div className="ock-swapamountinput-container" data-testid="ockSwapAmountInput_Container">
-      <div className="ock-swapamountinput-row">
-        <label className="ock-swapamountinput-label">{label}</label>
+    <div
+      className="box-border flex w-fit flex-col items-start gap-[11px] bg-[#FFF] p-4"
+      data-testid="ockSwapAmountInput_Container"
+    >
+      <div className="flex w-full items-center justify-between">
+        <label className="text-sm font-semibold text-[#030712]">{label}</label>
         {tokenBalance && (
-          <label className="ock-swapamountinput-balance">{`Balance: ${tokenBalance}`}</label>
+          <label className="text-sm font-normal text-gray-400">{`Balance: ${tokenBalance}`}</label>
         )}
       </div>
-      <div className="ock-swapamountinput-row">
+      <div className="flex w-full items-center justify-between">
         <TokenSelector setToken={setToken} token={token}>
           <TokenSelectorDropdown options={swappableTokens} setToken={setToken} />
         </TokenSelector>
         <button
-          className="ock-swapamountinput-maxbutton"
+          className="flex h-8 w-[58px] max-w-[200px] items-center rounded-[40px] bg-gray-100 px-3 py-2 text-base font-medium not-italic leading-6 text-gray-500"
           data-testid="ockSwapAmountInput_MaxButton"
           disabled={tokenBalance === undefined}
           onClick={handleMaxButtonClick}
@@ -51,7 +54,7 @@ export function SwapAmountInput({
         </button>
       </div>
       <input
-        className="ock-swapamountinput-input"
+        className="border-[none] bg-transparent text-5xl text-[black]"
         data-testid="ockSwapAmountInput_Input"
         disabled={disabled}
         onChange={handleAmountChange}
