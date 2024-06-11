@@ -2,47 +2,80 @@
 import { base } from 'viem/chains';
 import { OnchainKitProvider } from '@coinbase/onchainkit';
 import { Avatar, Badge, Name } from '@coinbase/onchainkit/identity';
-import App from '../App';
+import { ComponentPreview } from '../../components/ComponentPreview'
 
-# `<Badge />`
+# `<Badge />` [Displays that a user has an attestation attached to their account]
 
-Badging is used to show that a user has an attestation attached to their account.
+:::code-group
+
+<div data-title="Preview">
+  <ComponentPreview>
+    <Badge />
+  </ComponentPreview>
+</div>
+
+```tsx [Code]
+import { Badge } from '@coinbase/onchainkit/identity';
+
+export function BadgeDemo() {
+  return <Badge />;
+}
+```
+
+:::
 
 ## Usage
 
-Badge with default colors:
-
 ```tsx
 import { Badge } from '@coinbase/onchainkit/identity';
-<Badge />; // [!code focus]
+
+export function BadgeDemo() {
+  return <Badge />;
+}
 ```
 
-<App>
-  <Badge />
-</App>
+## Examples
 
-Badge with custom colors:
+### Custom colors
 
-```tsx
+:::code-group
+
+<div data-title="Preview">
+  <ComponentPreview>
+    <Badge backgroundColor="green" borderColor="white" />
+  </ComponentPreview>
+</div>
+
+```tsx [Code]
 import { Badge } from '@coinbase/onchainkit/identity';
-<Badge backgroundColor="#7DA1F8" borderColor="white" />; // [!code focus]
+
+export function BadgeDemo() {
+  return <Badge backgroundColor="green" borderColor="white" />;
+}
 ```
 
-<App>
-  <Badge backgroundColor="#7DA1F8" borderColor="white" tickerColor="#FDFDFD" />
-</App>
+:::
 
-## Props
-
-[`BadgeReact`](/identity/types#BadgeReact)
-
-## Badge on `<Name />` and `<Avatar />`
+### ENS name
 
 Badge with [`<Name />`](/identity/name), best used when [`<Name />`](/identity/name) are displayed alongside [`<Avatar />`](/identity/avatar) components.
 
 In both examples we use the Coinbase [Verified Account](https://base.easscan.org/schema/view/0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9) schema ID to show the Coinbase verified badge on the Name and Avatar components.
 
-```tsx
+:::code-group
+
+<div data-title="Preview">
+  <ComponentPreview>
+    <OnchainKitProvider
+      chain={base}
+      schemaId="0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9"
+    >
+      <Name address="0x838aD0EAE54F99F1926dA7C3b6bFbF617389B4D9" showAttestation />
+    </OnchainKitProvider>
+  </ComponentPreview>
+</div>
+
+```tsx [code]
 import { base } from 'viem/chains';
 import { OnchainKitProvider } from '@coinbase/onchainkit';
 import { Name } from '@coinbase/onchainkit/identity';
@@ -51,23 +84,35 @@ const address = '0x838aD0EAE54F99F1926dA7C3b6bFbF617389B4D9';
 const COINBASE_VERIFIED_ACCOUNT_SCHEMA_ID =
   '0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9';
 
-<OnchainKitProvider chain={base} schemaId={COINBASE_VERIFIED_ACCOUNT_SCHEMA_ID}>
-  <Name address={address} showAttestation />
-</OnchainKitProvider>;
+export function BadgeDemo() {
+  return (
+    <OnchainKitProvider chain={base} schemaId={COINBASE_VERIFIED_ACCOUNT_SCHEMA_ID}>
+      <Name address={address} showAttestation />
+    </OnchainKitProvider>;
+  )
+}
 ```
 
-<App>
-  <OnchainKitProvider
-    chain={base}
-    schemaId="0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9"
-  >
-    <Name address="0x838aD0EAE54F99F1926dA7C3b6bFbF617389B4D9" showAttestation />
-  </OnchainKitProvider>
-</App>
+:::
+
+### Avatar
 
 Badge with [`<Avatar />`](/identity/avatar), best used when [`<Avatar />`](/identity/avatar) is not paired with any labels.
 
-```tsx
+:::code-group
+
+<div data-title="Preview">
+  <ComponentPreview>
+    <OnchainKitProvider
+      chain={base}
+      schemaId="0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9"
+    >
+      <Avatar address="0x838aD0EAE54F99F1926dA7C3b6bFbF617389B4D9" showAttestation />
+    </OnchainKitProvider>
+  </ComponentPreview>
+</div>
+
+```tsx [Code]
 import { base } from 'viem/chains';
 import { OnchainKitProvider } from '@coinbase/onchainkit';
 import { Avatar } from '@coinbase/onchainkit/identity';
@@ -76,16 +121,17 @@ const address = '0x838aD0EAE54F99F1926dA7C3b6bFbF617389B4D9';
 const COINBASE_VERIFIED_ACCOUNT_SCHEMA_ID =
   '0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9';
 
-<OnchainKitProvider chain={base} schemaId={COINBASE_VERIFIED_ACCOUNT_SCHEMA_ID}>
-  <Avatar address={address} showAttestation />
-</OnchainKitProvider>;
+export function BadgeDemo() {
+  return (
+    <OnchainKitProvider chain={base} schemaId={COINBASE_VERIFIED_ACCOUNT_SCHEMA_ID}>
+      <Avatar address={address} showAttestation />
+    </OnchainKitProvider>;
+  )
+}
 ```
 
-<App>
-  <OnchainKitProvider
-    chain={base}
-    schemaId="0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9"
-  >
-    <Avatar address="0x838aD0EAE54F99F1926dA7C3b6bFbF617389B4D9" showAttestation />
-  </OnchainKitProvider>
-</App>
+:::
+
+## Props
+
+[`BadgeReact`](/identity/types#BadgeReact)
