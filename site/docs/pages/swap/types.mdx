@@ -9,9 +9,7 @@ description: Glossary of Types in Swap components & utilities.
 
 ```ts
 type SwapAmountInputReact = {
-  amount?: string; // Optional token amount (overrides internal implementation)
   label: string; // Descriptive label for the input field
-  setAmount: (amount: string) => void; // Optional callback function when the amount changes (overrides internal implementation)
   token?: Token; // Selected token
   type: 'to' | 'from'; // Identifies if component is for toToken or fromToken
 };
@@ -21,7 +19,7 @@ type SwapAmountInputReact = {
 
 ```ts
 export type SwapReact = {
-  account: Account // Ethereum account
-  children: ReactNode // Children components to render
+  account: Account; // Ethereum account
+  children: ReactNode; // Children components to render
 };
 ```
