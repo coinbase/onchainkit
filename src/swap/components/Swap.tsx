@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { buildSwapTransaction } from '../core/buildSwapTransaction';
 import { getSwapQuote } from '../core/getSwapQuote';
 import { SwapContext } from '../context';
-import type { GetSwapQuoteResponse, SwapError, SwapReact } from '../types';
+import type { SwapError, SwapReact } from '../types';
 import type { Token } from '../../token';
 
 function isSwapError(response: unknown): response is SwapError {
@@ -14,29 +14,41 @@ export function Swap({ account, children }: SwapReact) {
   const [fromToken, setFromToken] = useState<Token>();
   const [toAmount, setToAmount] = useState('');
   const [toToken, setToToken] = useState<Token>();
+  const [swapQuoteError, setSwapQuoteError] = useState('');
+  const [swapTransactionError, setSwapTransactionError] = useState('');
 
   const handleSubmit = useCallback(async () => {
-    console.log({ account, fromAmount, fromToken, toToken });
     if (account && fromToken && toToken && fromAmount) {
-      // TODO: incomplete
-      // const response = await buildSwapTransaction({
-      //   amount: fromAmount,
-      //   fromAddress: account.address,
-      //   from: fromToken,
-      //   to: toToken,
-      // });
+      try {
+        const response = await buildSwapTransaction({
+          amount: fromAmount,
+          fromAddress: account.address,
+          from: fromToken,
+          to: toToken,
+        });
+        if (isSwapError(response)) {
+          setSwapTransactionError(response.error);
+        } else {
+          // TODO: complete
+        }
+      } catch (error) {
+        console.log({ error });
+      }
     }
   }, [account, fromAmount, fromToken, toToken]);
 
   const handleGetSwapQuote = useCallback(async () => {
     if (fromToken && toToken && fromAmount) {
-      // TODO: incomplete
-      // const response = await getSwapQuote({ from: fromToken, to: toToken, amount: fromAmount });
-      // if (isSwapError(response)) {
-      //   const a = response;
-      // } else {
-      //   const a = response;
-      // }
+      try {
+        const response = await getSwapQuote({ from: fromToken, to: toToken, amount: fromAmount });
+        if (isSwapError(response)) {
+          setSwapQuoteError(response.error);
+        } else {
+          setToAmount(response?.toAmount);
+        }
+      } catch (error) {
+        console.log({ error });
+      }
     }
   }, [fromAmount, fromToken, toToken]);
 
@@ -48,7 +60,6 @@ export function Swap({ account, children }: SwapReact) {
 
   const value = useMemo(() => {
     return {
-      account,
       fromAmount,
       fromToken,
       onSubmit: handleSubmit,
@@ -60,7 +71,6 @@ export function Swap({ account, children }: SwapReact) {
       toToken,
     };
   }, [
-    account,
     fromAmount,
     fromToken,
     handleSubmit,

@@ -91,15 +91,15 @@ export type RawTransactionData = {
  */
 export type SwapAmountInputReact = {
   amount?: string; // Token amount
-  disabled?: boolean; // Whether the input is disabled
-  displayMaxButton?: boolean; // Whether the max button is displayed
+  // disabled?: boolean; // Whether the input is disabled
+  // displayMaxButton?: boolean; // Whether the max button is displayed
   label: string; // Descriptive label for the input field
   setAmount?: (amount: string) => void; // Callback function when the amount changes
-  setToken: (token: Token) => void; // Callback function when the token selector is clicked
-  swappableTokens: Token[]; // Tokens available for swap
-  token?: Token; // Selected token
-  tokenBalance?: string; // Amount of selected token user owns
-  type: string;
+  // setToken?: (token: Token) => void; // Callback function when the token selector is clicked
+  // swappableTokens?: Token[]; // Tokens available for swap
+  token: Token; // Selected token
+  // tokenBalance?: string; // Amount of selected token user owns
+  type: 'to' | 'from';
 };
 
 export type SwapAPIParams = GetQuoteAPIParams | GetSwapAPIParams;
@@ -117,7 +117,7 @@ export type SwapButtonReact = {
 };
 
 export type SwapContextType = {
-  account: Account;
+  // account: Account;
   fromAmount: string;
   fromToken?: Token;
   onSubmit: () => void;
@@ -139,8 +139,8 @@ export type SwapParams = {
 export type SwapReact = {
   account: Account;
   children: ReactNode;
-  fromToken?: Token;
-  toToken?: Token;
+  // fromToken?: Token;
+  // toToken?: Token;
 };
 
 /**

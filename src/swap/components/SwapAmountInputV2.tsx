@@ -1,53 +1,44 @@
-import { useCallback, useContext, useMemo } from 'react';
+import { useCallback, useContext, useEffect, useMemo } from 'react';
 
 import { isValidAmount } from '../utils';
-import { TokenChip, TokenSelectDropdown } from '../../token';
+import { TokenChip } from '../../token';
 import { SwapContext } from '../context';
 import type { SwapAmountInputReact } from '../types';
 
-export function SwapAmountInputV2({ label, swappableTokens, type }: SwapAmountInputReact) {
-  const {
-    fromAmount,
-    fromToken,
-    setFromAmount,
-    setFromToken,
-    setToAmount,
-    setToToken,
-    toAmount,
-    toToken,
-  } = useContext(SwapContext);
+export function SwapAmountInputV2({ amount, label, setAmount, token, type }: SwapAmountInputReact) {
+  const { fromAmount, setFromAmount, setFromToken, setToAmount, setToToken, toAmount } =
+    useContext(SwapContext);
 
-  const amount = useMemo(() => {
+  const contextAmount = useMemo(() => {
     if (type === 'to') {
       return toAmount;
     }
     return fromAmount;
   }, [type, toAmount, fromAmount]);
 
-  const setAmount = useMemo(() => {
+  const setContextAmount = useMemo(() => {
     if (type === 'to') {
       return setToAmount;
     }
     return setFromAmount;
   }, [type, setToAmount, setFromAmount]);
 
-  const setToken = useMemo(() => {
+  const setContextToken = useMemo(() => {
     if (type === 'to') {
       return setToToken;
     }
     return setFromToken;
   }, [type, setFromToken, setToToken]);
 
-  const token = useMemo(() => {
-    if (type === 'to') {
-      return toToken;
+  useEffect(() => {
+    if (token) {
+      setContextToken(token);
     }
-    return fromToken;
-  }, [type, fromToken, toToken]);
+  }, [token]);
 
   const handleAmountChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     if (isValidAmount(event.target.value)) {
-      console.log(event.target.value);
+      setContextAmount?.(event.target.value);
       setAmount?.(event.target.value);
     }
   }, []);
@@ -61,18 +52,14 @@ export function SwapAmountInputV2({ label, swappableTokens, type }: SwapAmountIn
         <label className="text-sm font-semibold text-[#030712]">{label}</label>
       </div>
       <div className="flex w-full items-center justify-between">
-        {token && !swappableTokens ? (
-          <TokenChip token={token} />
-        ) : (
-          <TokenSelectDropdown options={swappableTokens} setToken={setToken} token={token} />
-        )}
+        <TokenChip token={token} />
       </div>
       <input
         className="w-full border-[none] bg-transparent text-5xl text-[black]"
         data-testid="ockSwapAmountInput_Input"
         onChange={handleAmountChange}
         placeholder="0"
-        value={amount}
+        value={amount || contextAmount}
       />
     </div>
   );
