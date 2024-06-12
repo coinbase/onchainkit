@@ -101,8 +101,9 @@ export type SwapAPIResponse = {
 export type SwapAmountInputReact = {
   amount?: string; // Token amount
   disabled?: boolean; // Whether the input is disabled
+  displayMaxButton?: boolean; // Whether the max button is displayed
   label: string; // Descriptive label for the input field
-  setAmount: (amount: string) => void; // Callback function when the amount changes
+  setAmount?: (amount: string) => void; // Callback function when the amount changes
   setToken: () => void; // Callback function when the token selector is clicked
   swappableTokens: Token[]; // Tokens available for swap
   token?: Token; // Selected token
