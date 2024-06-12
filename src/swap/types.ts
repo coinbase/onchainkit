@@ -3,18 +3,18 @@ import type { Token } from '../token/types';
 
 export type AddressOrETH = Address | 'ETH';
 
+export type BuildSwapTransaction = {
+  approveTransaction?: SwapTransaction; // The approval transaction
+  fee: Fee; // The fee for the swap
+  quote: Quote; // The quote for the swap
+  transaction: SwapTransaction; // The swap transaction
+  warning?: QuoteWarning; // The warning associated with the swap
+};
+
 /**
  * Note: exported as public Type
  */
-export type BuildSwapTransactionResponse =
-  | {
-      approveTransaction?: SwapTransaction; // The approval transaction
-      fee: Fee; // The fee for the swap
-      quote: Quote; // The quote for the swap
-      transaction: SwapTransaction; // The swap transaction
-      warning?: QuoteWarning; // The warning associated with the swap
-    }
-  | SwapError;
+export type BuildSwapTransactionResponse = BuildSwapTransaction | SwapError;
 
 /**
  * Note: exported as public Type
@@ -28,6 +28,8 @@ export type Fee = {
   baseAsset: Token; // The base asset for the fee
   percentage: string; // The percentage of the fee
 };
+
+export type GetAPIParamsForToken = GetSwapQuoteParams | BuildSwapTransactionParams;
 
 export type GetQuoteAPIParams = {
   from: AddressOrETH | ''; // The source address or 'ETH' for Ethereum
@@ -114,8 +116,6 @@ export type SwapError = {
   code: number; // The error code
   error: string; // The error message
 };
-
-export type SwapParams = GetSwapQuoteParams | BuildSwapTransactionParams;
 
 /**
  * Note: exported as public Type

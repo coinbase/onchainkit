@@ -1,10 +1,10 @@
-import { getParamsForToken } from './getParamsForToken';
+import { getAPIParamsForToken } from './getAPIParamsForToken';
 import { buildSwapTransaction } from './buildSwapTransaction';
-import { getTransaction } from './getTransaction';
+import { getSwapTransaction } from './getSwapTransaction';
 import { sendRequest } from '../../queries/request';
 import { CDP_GET_SWAP_TRADE } from '../../definitions/swap';
 import type { Token } from '../../token/types';
-import type { Swap } from '../types';
+import type { BuildSwapTransaction } from '../types';
 
 jest.mock('../../queries/request');
 
@@ -42,7 +42,7 @@ describe('buildSwapTransaction', () => {
       to: DEGEN,
       amount: testAmount,
     };
-    const mockApiParams = getParamsForToken(mockParams);
+    const mockApiParams = getAPIParamsForToken(mockParams);
 
     const mockResponse = {
       id: 1,
@@ -110,15 +110,15 @@ describe('buildSwapTransaction', () => {
     const trade = mockResponse.result;
     const expectedResponse = {
       approveTransaction: trade.approveTx
-        ? getTransaction(trade.approveTx, trade.chainId)
+        ? getSwapTransaction(trade.approveTx, trade.chainId)
         : undefined,
       fee: trade.fee,
       quote: trade.quote,
-      transaction: getTransaction(trade.tx, trade.chainId),
+      transaction: getSwapTransaction(trade.tx, trade.chainId),
       warning: trade.quote.warning,
     };
 
-    const quote = (await buildSwapTransaction(mockParams)) as Swap;
+    const quote = (await buildSwapTransaction(mockParams)) as BuildSwapTransaction;
 
     expect(quote.approveTransaction?.transaction).toEqual(
       expectedResponse.approveTransaction?.transaction,
@@ -139,7 +139,7 @@ describe('buildSwapTransaction', () => {
       to: ETH,
       amount: testAmount,
     };
-    const mockApiParams = getParamsForToken(mockParams);
+    const mockApiParams = getAPIParamsForToken(mockParams);
 
     const mockResponse = {
       id: 1,
@@ -214,15 +214,15 @@ describe('buildSwapTransaction', () => {
     const trade = mockResponse.result;
     const expectedResponse = {
       approveTransaction: trade.approveTx
-        ? getTransaction(trade.approveTx, trade.chainId)
+        ? getSwapTransaction(trade.approveTx, trade.chainId)
         : undefined,
       fee: trade.fee,
       quote: trade.quote,
-      transaction: getTransaction(trade.tx, trade.chainId),
+      transaction: getSwapTransaction(trade.tx, trade.chainId),
       warning: trade.quote.warning,
     };
 
-    const quote = (await buildSwapTransaction(mockParams)) as Swap;
+    const quote = (await buildSwapTransaction(mockParams)) as BuildSwapTransaction;
 
     expect(quote.approveTransaction?.transaction).toEqual(
       expectedResponse.approveTransaction?.transaction,
@@ -243,7 +243,7 @@ describe('buildSwapTransaction', () => {
       to: DEGEN,
       amount: testAmount,
     };
-    const mockApiParams = getParamsForToken(mockParams);
+    const mockApiParams = getAPIParamsForToken(mockParams);
 
     const mockError = new Error('buildSwapTransaction: Error: Failed to send request');
     (sendRequest as jest.Mock).mockRejectedValue(mockError);
@@ -264,7 +264,7 @@ describe('buildSwapTransaction', () => {
       to: DEGEN,
       amount: testAmount,
     };
-    const mockApiParams = getParamsForToken(mockParams);
+    const mockApiParams = getAPIParamsForToken(mockParams);
 
     const mockResponse = {
       id: 1,
