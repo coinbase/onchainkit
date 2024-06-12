@@ -2,9 +2,9 @@ import { useCallback, useContext, useEffect, useMemo } from 'react';
 
 import { isValidAmount } from '../utils';
 import { TokenChip } from '../../token';
+import { cn } from '../../lib/utils';
 import { SwapContext } from '../context';
 import type { SwapAmountInputReact } from '../types';
-import { cn } from '../../lib/utils';
 
 export function SwapAmountInputV2({ label, token, type }: SwapAmountInputReact) {
   const { fromAmount, setFromAmount, setFromToken, setToAmount, setToToken, toAmount } =

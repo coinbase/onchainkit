@@ -1,7 +1,7 @@
 import { useCallback, useContext } from 'react';
-import { SwapContext } from '../context';
-import { SwapButtonReact } from '../types';
 import { cn } from '../../lib/utils';
+import { SwapContext } from '../context';
+import type { SwapButtonReact } from '../types';
 
 export function SwapButton({ onSubmit }: SwapButtonReact) {
   const {

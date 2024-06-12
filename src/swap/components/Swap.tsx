@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { buildSwapTransaction } from '../core/buildSwapTransaction';
 import { getSwapQuote } from '../core/getSwapQuote';
+import { cn } from '../../lib/utils';
 import { SwapContext } from '../context';
 import type { SwapError, SwapReact } from '../types';
 import type { Token } from '../../token';
-import { cn } from '../../lib/utils';
 
 function isSwapError(response: unknown): response is SwapError {
   return response !== null && typeof response === 'object' && 'error' in response;
