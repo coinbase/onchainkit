@@ -2,14 +2,11 @@
 export { getSwapQuote } from './core/getSwapQuote';
 export { buildSwapTransaction } from './core/buildSwapTransaction';
 export type {
+  BuildSwapTransactionParams,
   BuildSwapTransactionResponse,
+  GetSwapQuoteParams,
   GetSwapQuoteResponse,
-  Fee,
-  Quote,
-  QuoteWarning,
-  Swap,
+  SwapAmountInputReact,
   SwapError,
-  SwapParams,
-  Transaction,
-  TransactionParams,
+  SwapTransaction,
 } from './types';

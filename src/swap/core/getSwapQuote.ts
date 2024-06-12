@@ -1,18 +1,24 @@
 import { CDP_GET_SWAP_QUOTE } from '../../definitions/swap';
 import { sendRequest } from '../../queries/request';
-import { getParamsForToken } from './getParamsForToken';
-import type { GetSwapQuoteResponse, Quote, SwapError, SwapParams, SwapAPIParams } from '../types';
+import { getAPIParamsForToken } from './getAPIParamsForToken';
+import type {
+  GetSwapQuoteResponse,
+  Quote,
+  SwapError,
+  GetSwapQuoteParams,
+  SwapAPIParams,
+} from '../types';
 
 /**
  * Retrieves a quote for a swap from Token A to Token B.
  */
-export async function getSwapQuote(params: SwapParams): Promise<GetSwapQuoteResponse> {
+export async function getSwapQuote(params: GetSwapQuoteParams): Promise<GetSwapQuoteResponse> {
   // Default parameters
   const defaultParams = {
     amountReference: 'from',
     isAmountInDecimals: false,
   };
-  const apiParams = getParamsForToken({ ...defaultParams, ...params });
+  const apiParams = getAPIParamsForToken({ ...defaultParams, ...params });
 
   try {
     const res = await sendRequest<SwapAPIParams, Quote>(CDP_GET_SWAP_QUOTE, [apiParams]);

@@ -1,7 +1,7 @@
 import type { Token } from '../../token';
-import { getParamsForToken } from './getParamsForToken';
+import { getAPIParamsForToken } from './getAPIParamsForToken';
 
-describe('getParamsForToken', () => {
+describe('getAPIParamsForToken', () => {
   it('should return the correct GetQuoteAPIParams object', () => {
     const from: Token = {
       name: 'ETH',
@@ -30,7 +30,7 @@ describe('getParamsForToken', () => {
       amountReference: 'from',
     };
 
-    const result = getParamsForToken({
+    const result = getAPIParamsForToken({
       from,
       to,
       amount,
@@ -67,7 +67,7 @@ describe('getParamsForToken', () => {
       amountReference: 'from',
     };
 
-    const result = getParamsForToken({
+    const result = getAPIParamsForToken({
       from,
       to,
       amount,
@@ -103,7 +103,7 @@ describe('getParamsForToken', () => {
       amount: '1500000000000000000',
       amountReference: 'from',
     };
-    const result = getParamsForToken({
+    const result = getAPIParamsForToken({
       from,
       to,
       amount,
@@ -139,7 +139,7 @@ describe('getParamsForToken', () => {
       amount: '1500000000000000000',
       amountReference: 'from',
     };
-    const result = getParamsForToken({
+    const result = getAPIParamsForToken({
       from,
       to,
       amount,

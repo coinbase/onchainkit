@@ -1,13 +1,13 @@
 import { CDP_GET_SWAP_TRADE } from '../../definitions/swap';
 import { sendRequest } from '../../queries/request';
-import { getParamsForToken } from './getParamsForToken';
-import { getTransaction } from './getTransaction';
+import { getAPIParamsForToken } from './getAPIParamsForToken';
+import { getSwapTransaction } from './getSwapTransaction';
 import type {
   BuildSwapTransactionParams,
-  Trade,
+  BuildSwapTransactionResponse,
+  SwapAPIResponse,
   SwapError,
   SwapAPIParams,
-  GetSwapResponse,
 } from '../types';
 
 /**
@@ -15,17 +15,17 @@ import type {
  */
 export async function buildSwapTransaction(
   params: BuildSwapTransactionParams,
-): Promise<GetSwapResponse> {
+): Promise<BuildSwapTransactionResponse> {
   // Default parameters
   const defaultParams = {
     amountReference: 'from',
     isAmountInDecimals: false,
   };
 
-  const apiParams = getParamsForToken({ ...defaultParams, ...params });
+  const apiParams = getAPIParamsForToken({ ...defaultParams, ...params });
 
   try {
-    const res = await sendRequest<SwapAPIParams, Trade>(CDP_GET_SWAP_TRADE, [apiParams]);
+    const res = await sendRequest<SwapAPIParams, SwapAPIResponse>(CDP_GET_SWAP_TRADE, [apiParams]);
     if (res.error) {
       return {
         code: res.error.code,
@@ -36,11 +36,11 @@ export async function buildSwapTransaction(
     const trade = res.result;
     return {
       approveTransaction: trade.approveTx
-        ? getTransaction(trade.approveTx, trade.chainId)
+        ? getSwapTransaction(trade.approveTx, trade.chainId)
         : undefined,
       fee: trade.fee,
       quote: trade.quote,
-      transaction: getTransaction(trade.tx, trade.chainId),
+      transaction: getSwapTransaction(trade.tx, trade.chainId),
       warning: trade.quote.warning,
     };
   } catch (error) {

@@ -2,7 +2,7 @@ import { getSwapQuote } from './getSwapQuote';
 import { sendRequest } from '../../queries/request';
 import { CDP_GET_SWAP_QUOTE } from '../../definitions/swap';
 import type { Token } from '../../token/types';
-import { getParamsForToken } from './getParamsForToken';
+import { getAPIParamsForToken } from './getAPIParamsForToken';
 
 jest.mock('../../queries/request');
 
@@ -38,7 +38,7 @@ describe('getSwapQuote', () => {
       to: DEGEN,
       amount: testAmount,
     };
-    const mockApiParams = getParamsForToken(mockParams);
+    const mockApiParams = getAPIParamsForToken(mockParams);
 
     const mockResponse = {
       id: 1,
@@ -88,7 +88,7 @@ describe('getSwapQuote', () => {
       to: DEGEN,
       amount: testAmount,
     };
-    const mockApiParams = getParamsForToken(mockParams);
+    const mockApiParams = getAPIParamsForToken(mockParams);
 
     const mockError = new Error('getSwapQuote: Error: Failed to send request');
     (sendRequest as jest.Mock).mockRejectedValue(mockError);
@@ -108,7 +108,7 @@ describe('getSwapQuote', () => {
       to: DEGEN,
       amount: testAmount,
     };
-    const mockApiParams = getParamsForToken(mockParams);
+    const mockApiParams = getAPIParamsForToken(mockParams);
 
     const mockResponse = {
       id: 1,

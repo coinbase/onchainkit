@@ -1,4 +1,4 @@
-import type { Address } from 'viem';
+import type { Address, Hex } from 'viem';
 import type { Token } from '../token/types';
 
 export type AddressOrETH = Address | 'ETH';
@@ -6,27 +6,27 @@ export type AddressOrETH = Address | 'ETH';
 /**
  * Note: exported as public Type
  */
-export type BuildSwapTransactionResponse = Swap | SwapError;
-
-export type BuildSwapTransactionParams = GetSwapQuoteParams & {
-  fromAddress: Address; // The address of the user
-};
+export type BuildSwapTransactionResponse =
+  | {
+      approveTransaction?: SwapTransaction; // The approval transaction
+      fee: Fee; // The fee for the swap
+      quote: Quote; // The quote for the swap
+      transaction: SwapTransaction; // The swap transaction
+      warning?: QuoteWarning; // The warning associated with the swap
+    }
+  | SwapError;
 
 /**
  * Note: exported as public Type
  */
+export type BuildSwapTransactionParams = GetSwapQuoteParams & {
+  fromAddress: Address; // The address of the user
+};
+
 export type Fee = {
   amount: string; // The amount of the fee
   baseAsset: Token; // The base asset for the fee
   percentage: string; // The percentage of the fee
-};
-
-export type GetSwapQuoteParams = {
-  from: Token; // The source token for the swap
-  to: Token; // The destination token for the swap
-  amount: string; // The amount to be swapped
-  amountReference?: string; // The reference amount for the swap
-  isAmountInDecimals?: boolean; // Whether the amount is in decimals
 };
 
 export type GetQuoteAPIParams = {
@@ -43,11 +43,19 @@ export type GetSwapAPIParams = GetQuoteAPIParams & {
 /**
  * Note: exported as public Type
  */
-export type GetSwapQuoteResponse = Quote | SwapError;
+export type GetSwapQuoteParams = {
+  from: Token; // The source token for the swap
+  to: Token; // The destination token for the swap
+  amount: string; // The amount to be swapped
+  amountReference?: string; // The reference amount for the swap
+  isAmountInDecimals?: boolean; // Whether the amount is in decimals
+};
 
 /**
  * Note: exported as public Type
  */
+export type GetSwapQuoteResponse = Quote | SwapError;
+
 export type Quote = {
   amountReference: string; // The reference amount for the quote
   from: Token; // The source token for the swap
@@ -60,9 +68,6 @@ export type Quote = {
   warning?: QuoteWarning; // The warning associated with the quote
 };
 
-/**
- * Note: exported as public Type
- */
 export type QuoteWarning = {
   description?: string; // The description of the warning
   message?: string; // The message of the warning
@@ -78,32 +83,19 @@ export type RawTransactionData = {
   value: string; // The value of the transaction
 };
 
-/**
- * Note: exported as public Type
- */
-export type Swap = {
-  approveTransaction?: Transaction; // The approval transaction
-  fee: Fee; // The fee for the swap
-  quote: Quote; // The quote for the swap
-  transaction: Transaction; // The swap transaction
-  warning?: QuoteWarning; // The warning associated with the swap
-};
-
 export type SwapAPIParams = GetQuoteAPIParams | GetSwapAPIParams;
 
-/**
- * Note: exported as public Type
- */
-export type SwapError = {
-  code: number; // The error code
-  error: string; // The error message
+export type SwapAPIResponse = {
+  approveTx?: RawTransactionData; // The approval transaction
+  chainId: string; // The chain ID
+  fee: Fee; // The fee for the trade
+  quote: Quote; // The quote for the trade
+  tx: RawTransactionData; // The trade transaction
 };
 
 /**
  * Note: exported as public Type
  */
-export type SwapParams = GetSwapQuoteParams | BuildSwapTransactionParams;
-
 export type SwapAmountInputReact = {
   amount?: string; // Token amount
   disabled?: boolean; // Whether the input is disabled
@@ -118,37 +110,34 @@ export type SwapAmountInputReact = {
 /**
  * Note: exported as public Type
  */
-export interface Transaction {
-  transaction: TransactionData;
-  withParams(params: TransactionParams): TransactionData;
-}
+export type SwapError = {
+  code: number; // The error code
+  error: string; // The error message
+};
+
+export type SwapParams = GetSwapQuoteParams | BuildSwapTransactionParams;
 
 /**
  * Note: exported as public Type
  */
-export type TransactionData = {
+export interface SwapTransaction {
+  transaction: Transaction; // The object developers should pass into Viem's signTransaction
+  withParams(params: TransactionParams): Transaction;
+}
+
+export type Transaction = {
   chainId: number; // The chain ID
-  data: `0x${string}`; // The data for the transaction
+  data: Hex; // The data for the transaction
   gas: bigint; // The gas limit
-  to: `0x${string}`; // The recipient address
+  to: Address; // The recipient address
   value: bigint; // The value of the transaction
   nonce?: number; // The nonce for the transaction
   maxFeePerGas?: bigint | undefined; // The maximum fee per gas
   maxPriorityFeePerGas?: bigint | undefined; // The maximum priority fee per gas
 };
-/**
- * Note: exported as public Type
- */
+
 export type TransactionParams = {
   nonce: number; // The nonce for the transaction
   maxFeePerGas: bigint | undefined; // The maximum fee per gas
   maxPriorityFeePerGas: bigint | undefined; // The maximum priority fee per gas
-};
-
-export type Trade = {
-  approveTx?: RawTransactionData; // The approval transaction
-  chainId: string; // The chain ID
-  fee: Fee; // The fee for the trade
-  quote: Quote; // The quote for the trade
-  tx: RawTransactionData; // The trade transaction
 };
