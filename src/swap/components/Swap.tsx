@@ -36,7 +36,7 @@ export function Swap({ account, children, onError, onSuccess }: SwapReact) {
           onSuccess?.(response);
         }
       } catch (error) {
-        console.log({ error });
+        onError?.(error as SwapError);
       }
     }
   }, [account, fromAmount, fromToken, toToken]);
@@ -53,7 +53,7 @@ export function Swap({ account, children, onError, onSuccess }: SwapReact) {
           setToAmount(response?.toAmount);
         }
       } catch (error) {
-        console.log({ error });
+        onError?.(error as SwapError);
       }
     }
   }, [fromAmount, fromToken, toToken]);

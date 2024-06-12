@@ -105,10 +105,6 @@ export type SwapAPIResponse = {
   tx: RawTransactionData; // The trade transaction
 };
 
-export type SwapButtonReact = {
-  onSubmit?: (params?: SwapParams) => void;
-};
-
 export type SwapContextType = {
   fromAmount: string;
   fromToken?: Token;
@@ -123,7 +119,7 @@ export type SwapContextType = {
 
 export type SwapParams = {
   amount: string;
-  fromAddress: `0x${string}`;
+  fromAddress: Address;
   from: Token;
   to: Token;
 };
