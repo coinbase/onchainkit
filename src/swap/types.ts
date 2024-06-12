@@ -1,5 +1,6 @@
-import type { Address, Hex } from 'viem';
+import type { Account, Address, Hex } from 'viem';
 import type { Token } from '../token/types';
+import { ReactNode } from 'react';
 
 export type AddressOrETH = Address | 'ETH';
 
@@ -108,6 +109,7 @@ export type SwapAmountInputReact = {
   swappableTokens: Token[]; // Tokens available for swap
   token?: Token; // Selected token
   tokenBalance?: string; // Amount of selected token user owns
+  type: string;
 };
 
 /**
@@ -142,21 +144,29 @@ export type TransactionParams = {
   maxFeePerGas: bigint | undefined; // The maximum fee per gas
   maxPriorityFeePerGas: bigint | undefined; // The maximum priority fee per gas
 };
-export type SwapTokensButtonReact = {
-  onClick: () => void;
-};
 
 export type SwapReact = {
-  fromAmount?: string; // The amount of the token to be sold
-  fromToken?: Token; // The token that the user is selling
-  fromTokenBalance?: string; // The balance of the token that the user is selling
-  // TODO: add argument to this function
-  onSubmit: () => void; // A callback function to submit the swap transaction
-  setFromAmount: (amount: string) => void; // A callback function to set the amount of the token to be sold
-  setFromToken: (token: Token) => void; // A callback function to set the token to be sold
-  setToToken: (token: Token) => void; // A callback function to set the token to be bought
-  swappableTokens: Token[]; // An array of tokens available for swapping
-  toAmount?: string; // The amount of the token to be bought
-  toToken?: Token; // The token that the user is buying
-  toTokenBalance?: string; // The balance of the token that the user is buying
+  account?: Account;
+  children: ReactNode;
+};
+
+export type SwapContextType = {
+  fromAmount: string;
+  setFromAmount: (a: string) => void;
+  toAmount: string;
+  setToAmount: (a: string) => void;
+  account?: Account;
+};
+
+export type SwapParams = {
+  fromAddress: `0x${string}`;
+  from: Token;
+  to: Token;
+  amount: string;
+};
+
+export type SwapButtonReact = {
+  onSubmit: (params?: SwapParams) => void;
+  fromToken: Token;
+  toToken: Token;
 };
