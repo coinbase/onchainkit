@@ -7,8 +7,6 @@ export function Swap({ account, children, fromToken, toToken }: SwapReact) {
   const [fromAmount, setFromAmount] = useState('');
   const [toAmount, setToAmount] = useState('');
 
-  const submitSwapTx = useCallback((params?: SwapParams) => {}, []);
-
   const handleSubmit = useCallback(async () => {
     if (account && fromToken && toToken && fromAmount) {
       const response = await buildSwapTransaction({
@@ -18,7 +16,7 @@ export function Swap({ account, children, fromToken, toToken }: SwapReact) {
         to: toToken,
       });
 
-      console.log({response})
+      // TODO: incomplete
     }
   }, []);
 

@@ -146,7 +146,7 @@ export type TransactionParams = {
 };
 
 export type SwapReact = {
-  account?: Account;
+  account: Account;
   children: ReactNode;
   fromToken?: Token;
   toToken?: Token;
