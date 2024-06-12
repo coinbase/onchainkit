@@ -153,7 +153,7 @@ export type SwapReact = {
 };
 
 export type SwapContextType = {
-  account?: Account;
+  account: Account;
   fromAmount: string;
   onSubmit: () => void;
   setFromAmount: (a: string) => void;
