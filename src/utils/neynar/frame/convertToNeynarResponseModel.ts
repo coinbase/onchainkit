@@ -1,5 +1,5 @@
-import { FrameValidationData } from '../../../frame/types';
-import { NeynarFrameValidationInternalModel } from './types';
+import type { FrameValidationData } from '../../../frame/types';
+import type { NeynarFrameValidationInternalModel } from './types';
 
 export function convertToNeynarResponseModel(data: any): FrameValidationData | undefined {
   if (!data) {

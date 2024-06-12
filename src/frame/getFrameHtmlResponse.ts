@@ -1,4 +1,4 @@
-import { FrameMetadataType } from './types';
+import type { FrameMetadataType } from './types';
 
 type FrameMetadataHTMLResponse = FrameMetadataType & {
   ogDescription?: string;
@@ -97,7 +97,7 @@ function getFrameHtmlResponse({
   }
 
   // Return the HTML string containing all the metadata.
-  let html = `<!DOCTYPE html>
+  const html = `<!DOCTYPE html>
 <html>
 <head>
   <meta property="og:description" content="${ogDescription || 'Frame description'}" />

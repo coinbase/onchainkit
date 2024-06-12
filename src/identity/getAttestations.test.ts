@@ -6,7 +6,7 @@ import { getAttestationsByFilter } from '../queries/attestations';
 import { getAttestations } from './getAttestations';
 import { easSupportedChains } from './easSupportedChains';
 import { base, opBNBTestnet } from 'viem/chains';
-import { GetAttestationsOptions } from './types';
+import type { GetAttestationsOptions } from './types';
 
 jest.mock('../queries/attestations');
 

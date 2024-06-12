@@ -1,6 +1,6 @@
 import { normalize } from 'viem/ens';
 import { publicClient } from '../../network/client';
-import { GetAvatar, GetAvatarReturnType } from '../types';
+import type { GetAvatar, GetAvatarReturnType } from '../types';
 
 export const getAvatar = async (params: GetAvatar): Promise<GetAvatarReturnType> => {
   return await publicClient.getEnsAvatar({

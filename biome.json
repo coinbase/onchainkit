@@ -44,10 +44,7 @@
       "coverage",
       "esm",
       "site",
-      "framegear",
-      "src/frame/",
-      "src/identity/",
-      "src/queries/"
+      "framegear"
     ]
   }
 }

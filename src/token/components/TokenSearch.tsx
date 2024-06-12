@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import { TokenSearchReact } from '../types';
+import type { TokenSearchReact } from '../types';
 import { TextInput } from './TextInput';
 import { useDebounce } from './useDebounce';
 

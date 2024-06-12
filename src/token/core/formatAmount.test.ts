@@ -1,4 +1,4 @@
-import { FormatAmountOptions } from '../types';
+import type { FormatAmountOptions } from '../types';
 import { formatAmount } from './formatAmount';
 
 describe('formatAmount', () => {

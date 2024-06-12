@@ -4,9 +4,9 @@
 import React from 'react';
 import '@testing-library/jest-dom';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import { Address } from 'viem';
+import type { Address } from 'viem';
 import { TokenSelectDropdown } from './TokenSelectDropdown';
-import { Token } from '../types';
+import type { Token } from '../types';
 
 describe('TokenSelectDropdown', () => {
   const setToken = jest.fn();

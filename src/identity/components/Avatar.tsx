@@ -1,7 +1,7 @@
 import { useAvatar } from '../hooks/useAvatar';
 import { useName } from '../hooks/useName';
 import { WithAvatarBadge } from './WithAvatarBadge';
-import { AvatarReact } from '../types';
+import type { AvatarReact } from '../types';
 import { cn } from '../../lib/utils';
 
 /**

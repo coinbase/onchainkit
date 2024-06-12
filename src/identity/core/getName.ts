@@ -1,6 +1,6 @@
 import { publicClient } from '../../network/client';
 import { getSlicedAddress } from '../getSlicedAddress';
-import { GetName, GetNameReturnType } from '../types';
+import type { GetName, GetNameReturnType } from '../types';
 
 /**
  * An asynchronous function to fetch the Ethereum Name Service (ENS)

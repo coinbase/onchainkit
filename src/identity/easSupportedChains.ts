@@ -1,5 +1,5 @@
 import type { Chain } from 'viem';
-import { EASChainDefinition } from './types';
+import type { EASChainDefinition } from './types';
 import { easChainBase } from '../definitions/base';
 import { easChainOptimism } from '../definitions/optimism';
 import { easChainBaseSepolia } from '../definitions/baseSepolia';
