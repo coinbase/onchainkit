@@ -104,7 +104,7 @@ export type SwapAmountInputReact = {
   displayMaxButton?: boolean; // Whether the max button is displayed
   label: string; // Descriptive label for the input field
   setAmount?: (amount: string) => void; // Callback function when the amount changes
-  setToken: () => void; // Callback function when the token selector is clicked
+  setToken: (token: Token) => void; // Callback function when the token selector is clicked
   swappableTokens: Token[]; // Tokens available for swap
   token?: Token; // Selected token
   tokenBalance?: string; // Amount of selected token user owns
@@ -141,4 +141,22 @@ export type TransactionParams = {
   nonce: number; // The nonce for the transaction
   maxFeePerGas: bigint | undefined; // The maximum fee per gas
   maxPriorityFeePerGas: bigint | undefined; // The maximum priority fee per gas
+};
+export type SwapTokensButtonReact = {
+  onClick: () => void;
+};
+
+export type SwapReact = {
+  fromAmount?: string; // The amount of the token to be sold
+  fromToken?: Token; // The token that the user is selling
+  fromTokenBalance?: string; // The balance of the token that the user is selling
+  // TODO: add argument to this function
+  onSubmit: () => void; // A callback function to submit the swap transaction
+  setFromAmount: (amount: string) => void; // A callback function to set the amount of the token to be sold
+  setFromToken: (token: Token) => void; // A callback function to set the token to be sold
+  setToToken: (token: Token) => void; // A callback function to set the token to be bought
+  swappableTokens: Token[]; // An array of tokens available for swapping
+  toAmount?: string; // The amount of the token to be bought
+  toToken?: Token; // The token that the user is buying
+  toTokenBalance?: string; // The balance of the token that the user is buying
 };
