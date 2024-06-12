@@ -1,15 +1,15 @@
 import { useCallback, useContext } from 'react';
 import { SwapContext } from '../context';
-import type { SwapButtonReact } from '../types';
+import { SwapButtonReact } from '../types';
 
-export function SwapButton({ fromToken, onSubmit, toToken }: SwapButtonReact) {
-  const { account, fromAmount } = useContext(SwapContext);
+export function SwapButton({ onSubmit }: SwapButtonReact) {
+  const { onSubmit: onSubmitSwap } = useContext(SwapContext);
 
   const handleSubmit = useCallback(() => {
-    if (account && fromToken && toToken && fromAmount) {
-      onSubmit({ fromAddress: account.address, from: fromToken, to: toToken, amount: fromAmount });
-    }
+    onSubmitSwap();
+    onSubmit?.();
   }, []);
+
   return (
     <div className="w-full p-4">
       <button

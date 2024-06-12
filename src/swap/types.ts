@@ -148,25 +148,26 @@ export type TransactionParams = {
 export type SwapReact = {
   account?: Account;
   children: ReactNode;
+  fromToken?: Token;
+  toToken?: Token;
 };
 
 export type SwapContextType = {
-  fromAmount: string;
-  setFromAmount: (a: string) => void;
-  toAmount: string;
-  setToAmount: (a: string) => void;
   account?: Account;
+  fromAmount: string;
+  onSubmit: () => void;
+  setFromAmount: (a: string) => void;
+  setToAmount: (a: string) => void;
+  toAmount: string;
 };
 
 export type SwapParams = {
+  amount: string;
   fromAddress: `0x${string}`;
   from: Token;
   to: Token;
-  amount: string;
 };
 
 export type SwapButtonReact = {
-  onSubmit: (params?: SwapParams) => void;
-  fromToken: Token;
-  toToken: Token;
+  onSubmit?: (params?: SwapParams) => void;
 };

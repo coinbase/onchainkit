@@ -13,7 +13,7 @@ export function SwapAmountInput({
   const handleAmountChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       if (isValidAmount(event.target.value)) {
-        setAmount(event.target.value);
+        setAmount?.(event.target.value);
       }
     },
     [setAmount],
@@ -21,7 +21,7 @@ export function SwapAmountInput({
 
   const handleMaxButtonClick = useCallback(() => {
     if (tokenBalance && isValidAmount(tokenBalance)) {
-      setAmount(tokenBalance);
+      setAmount?.(tokenBalance);
     }
   }, [tokenBalance, setAmount]);
 

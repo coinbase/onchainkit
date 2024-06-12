@@ -1,18 +1,34 @@
-import { useMemo, useState } from 'react';
-import type { SwapReact } from '../types';
+import { useCallback, useMemo, useState } from 'react';
+import type { SwapParams, SwapReact } from '../types';
 import { SwapContext } from '../context';
 
-export function Swap({ account, children }: SwapReact) {
+export function Swap({ account, children, fromToken, toToken }: SwapReact) {
   const [fromAmount, setFromAmount] = useState('');
   const [toAmount, setToAmount] = useState('');
 
+  const submitSwapTx = (params?: SwapParams) => {
+    // TODO: implement hook
+  };
+
+  const handleSubmit = useCallback(() => {
+    if (account && fromToken && toToken && fromAmount) {
+      submitSwapTx({
+        amount: fromAmount,
+        fromAddress: account.address,
+        from: fromToken,
+        to: toToken,
+      });
+    }
+  }, []);
+
   const value = useMemo(() => {
     return {
-      fromAmount,
-      setFromAmount,
-      toAmount,
-      setToAmount,
       account,
+      fromAmount,
+      onSubmit: handleSubmit,
+      setFromAmount,
+      setToAmount,
+      toAmount,
     };
   }, [account, fromAmount, setFromAmount, setToAmount, toAmount]);
 

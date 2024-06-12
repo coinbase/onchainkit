@@ -14,7 +14,7 @@ The `Swap` component is a comprehensive interface for users to execute token swa
 <Swap>
   <SwapAmountInputV2 type="from" label="Sell" token={fromToken} />
   <SwapAmountInputV2 type="to" label="Buy" token={toToken} />
-  <SwapButton onSubmit={onSubmit} fromToken={fromToken} toToken={toToken} />
+  <SwapButton onSubmit={onSubmit} />
 </Swap>
 ```
 
@@ -51,26 +51,7 @@ The `Swap` component is a comprehensive interface for users to execute token swa
         chainId: 8453,
       }}
     />
-    <SwapButton
-      onSubmit={() => {}}
-      fromToken={{
-        name: 'Ethereum',
-        address: '',
-        symbol: 'ETH',
-        decimals: 18,
-        image: 'https://wallet-api-production.s3.amazonaws.com/uploads/tokens/eth_288.png',
-        chainId: 8453,
-      }}
-      toToken={{
-        name: 'Dai',
-        address: '0x50c5725949a6f0c72e6c4a641f24049a917db0cb',
-        symbol: 'DAI',
-        decimals: 18,
-        image:
-          'https://d3r81g40ycuhqg.cloudfront.net/wallet/wais/d0/d7/d0d7784975771dbbac9a22c8c0c12928cc6f658cbcf2bbbf7c909f0fa2426dec-NmU4ZWViMDItOTQyYy00Yjk5LTkzODUtNGJlZmJiMTUxOTgy',
-        chainId: 8453,
-      }}
-    />
+    <SwapButton />
   </Swap>
 </App>
 
