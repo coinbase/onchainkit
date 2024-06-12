@@ -1,8 +1,8 @@
-import { getQuote } from './getQuote';
+import { getSwapQuote } from './getSwapQuote';
 import { sendRequest } from '../../queries/request';
-import { CDP_GETSWAPQUOTE } from '../../definitions/swap';
+import { CDP_GET_SWAP_QUOTE } from '../../definitions/swap';
 import type { Token } from '../../token/types';
-import { getParamsForToken } from './getParamsForToken';
+import { getAPIParamsForToken } from './getAPIParamsForToken';
 
 jest.mock('../../queries/request');
 
@@ -26,7 +26,7 @@ const DEGEN: Token = {
 const testAmount = '3305894409732200';
 const testAmountReference = 'from';
 
-describe('getQuote', () => {
+describe('getSwapQuote', () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
@@ -38,7 +38,7 @@ describe('getQuote', () => {
       to: DEGEN,
       amount: testAmount,
     };
-    const mockApiParams = getParamsForToken(mockParams);
+    const mockApiParams = getAPIParamsForToken(mockParams);
 
     const mockResponse = {
       id: 1,
@@ -73,12 +73,12 @@ describe('getQuote', () => {
 
     (sendRequest as jest.Mock).mockResolvedValue(mockResponse);
 
-    const quote = await getQuote(mockParams);
+    const quote = await getSwapQuote(mockParams);
 
     expect(quote).toEqual(mockResponse.result);
 
     expect(sendRequest).toHaveBeenCalledTimes(1);
-    expect(sendRequest).toHaveBeenCalledWith(CDP_GETSWAPQUOTE, [mockApiParams]);
+    expect(sendRequest).toHaveBeenCalledWith(CDP_GET_SWAP_QUOTE, [mockApiParams]);
   });
 
   it('should throw an error if sendRequest fails', async () => {
@@ -88,25 +88,27 @@ describe('getQuote', () => {
       to: DEGEN,
       amount: testAmount,
     };
-    const mockApiParams = getParamsForToken(mockParams);
+    const mockApiParams = getAPIParamsForToken(mockParams);
 
-    const mockError = new Error('getQuote: Error: Failed to send request');
+    const mockError = new Error('getSwapQuote: Error: Failed to send request');
     (sendRequest as jest.Mock).mockRejectedValue(mockError);
 
-    await expect(getQuote(mockParams)).rejects.toThrow('getQuote: Error: Failed to send request');
+    await expect(getSwapQuote(mockParams)).rejects.toThrow(
+      'getSwapQuote: Error: Failed to send request',
+    );
 
     expect(sendRequest).toHaveBeenCalledTimes(1);
-    expect(sendRequest).toHaveBeenCalledWith(CDP_GETSWAPQUOTE, [mockApiParams]);
+    expect(sendRequest).toHaveBeenCalledWith(CDP_GET_SWAP_QUOTE, [mockApiParams]);
   });
 
-  it('should return an error object from getQuote', async () => {
+  it('should return an error object from getSwapQuote', async () => {
     const mockParams = {
       amountReference: testAmountReference,
       from: ETH,
       to: DEGEN,
       amount: testAmount,
     };
-    const mockApiParams = getParamsForToken(mockParams);
+    const mockApiParams = getAPIParamsForToken(mockParams);
 
     const mockResponse = {
       id: 1,
@@ -119,13 +121,13 @@ describe('getQuote', () => {
 
     (sendRequest as jest.Mock).mockResolvedValue(mockResponse);
 
-    const error = await getQuote(mockParams);
+    const error = await getSwapQuote(mockParams);
     expect(error).toEqual({
       code: -1,
       error: 'Invalid response',
     });
 
     expect(sendRequest).toHaveBeenCalledTimes(1);
-    expect(sendRequest).toHaveBeenCalledWith(CDP_GETSWAPQUOTE, [mockApiParams]);
+    expect(sendRequest).toHaveBeenCalledWith(CDP_GET_SWAP_QUOTE, [mockApiParams]);
   });
 });

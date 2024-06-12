@@ -1,10 +1,9 @@
-import { RawTransactionData } from '../types';
-import { TransactionParams } from '../types';
-import { getTransaction } from './getTransaction';
+import { getSwapTransaction } from './getSwapTransaction';
+import type { RawTransactionData, TransactionParams } from '../types';
 
 jest.mock('../../queries/request');
 
-describe('getTransaction', () => {
+describe('getSwapTransaction', () => {
   it('should construct an unsigned transaction', () => {
     const tx: RawTransactionData = {
       data: '0x123456',
@@ -40,7 +39,7 @@ describe('getTransaction', () => {
       },
     };
 
-    const result = getTransaction(tx, chainId);
+    const result = getSwapTransaction(tx, chainId);
 
     expect(result.transaction).toEqual(expectedTransaction.transaction);
   });
@@ -69,7 +68,7 @@ describe('getTransaction', () => {
       },
     };
 
-    const result = getTransaction(tx, chainId);
+    const result = getSwapTransaction(tx, chainId);
 
     const params: TransactionParams = {
       nonce: 1,
