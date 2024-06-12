@@ -1,6 +1,6 @@
-import { decodeAbiParameters } from 'viem';
 import type { Address, Hex, BlockTag } from 'viem';
 import type { PublicClient } from 'viem';
+import { decodeAbiParameters } from 'viem';
 import type { UserOperation } from 'permissionless';
 
 type CheckAddressTypeOptions = {
@@ -36,7 +36,13 @@ export async function checkAddressType({
       return { type: 'EOA' };
     }
 
+    // We can check userOp initCode field is defined?
+      // I don't think so because we will only have the address, not a userOp. 
+      // initCode field is only defined when a smart wallet is being deployed?
+      // Not sure if this would work for undeployed smart wallets...
+
     // Step 3: Check if the address is a smart wallet by calling validateUserOp
+       // Call validateUserOp on the address? instead of checking the bytecode. 
     if (await validateUserOp(client, address)) {
       return { type: 'Smart Wallet' };
     }
@@ -46,24 +52,5 @@ export async function checkAddressType({
   } catch (error) {
     console.error('Error checking address type:', error);
     return { type: 'Smart Contract', error: 'Error checking address type' };
-  }
-}
-
-// const userOp = {
-//     sender: 'valid-proxy-address',
-//     } as unknown as UserOperation<'v0.6'>;
-// }
-
-async function validateUserOp(client: PublicClient, address: string): Promise<boolean> {
-  // call validateUserOp and check for errors
-  try {
-    const result = await client.callContract({
-      to: address,
-      data: '0x', // Replace with the actual method data for validateUserOp
-    });
-    return !!result;
-  } catch (error) {
-    console.error('Error validating user operation:', error);
-    return false;
   }
 }
