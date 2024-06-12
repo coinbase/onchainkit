@@ -9,37 +9,13 @@ The `TokenRow` component displays token information in a row format to be used i
 
 Token with an image url
 
-:::code-group
-
-```tsx [code]
+```tsx
 import { TokenRow } from '@coinbase/onchainkit/token';
 
 const token = { ... };
 
 <TokenRow token={token} />; // [!code focus]
 ```
-
-```html [return html]
-<button
-  data-testid="ockTokenRow_Container"
-  class="flex h-16 w-full cursor-pointer items-center justify-between bg-white px-2 py-1 hover:bg-[#cacbce] active:bg-[#bfc1c3]"
->
-  <span class="flex items-center gap-3">
-    <img
-      data-testid="ockTokenImage_Image"
-      src="https://dynamic-assets.coinbase.com/dbb4b4983bde81309ddab83eb598358eb44375b930b94687ebe38bc22e52c3b2125258ffb8477a5ef22e33d6bd72e32a506c391caa13af64c00e46613c3e5806/asset_icons/4113b082d21cc5fab17fc8f2d19fb996165bcce635e6900f7fc2d57c4ef33ae9.png"
-      style="width: 48px; height: 48px; border-radius: 50%; overflow: hidden;"
-    />
-    <span class="flex flex-col items-start">
-      <span class="font-medium leading-normal text-[#0A0B0D]">Ethereum</span>
-      <span class="font-normal leading-normal text-[#5B616E]">ETH</span>
-    </span>
-  </span>
-  <span data-testid="ockTokenRow_Amount" class="font-normal leading-normal text-[#5B616E]"></span>
-</button>
-```
-
-:::
 
 <App>
   <TokenRow
@@ -57,40 +33,13 @@ const token = { ... };
 
 Token without an image url
 
-:::code-group
-
-```tsx [code]
+```tsx
 import { TokenRow } from '@coinbase/onchainkit/token';
 
 const token = { ... };
 
 <TokenRow token={token} />; // [!code focus]
 ```
-
-```html [return html]
-<button
-  data-testid="ockTokenRow_Container"
-  class="flex h-16 w-full cursor-pointer items-center justify-between bg-white px-2 py-1 hover:bg-[#cacbce] active:bg-[#bfc1c3]"
->
-  <span class="flex items-center gap-3">
-    <div
-      data-testid="ockTokenImage_NoImage"
-      style="width: 48px; height: 48px; border-radius: 50%; overflow: hidden;"
-    >
-      <div style="background: rgb(26, 219, 158); width: 48px; height: 48px;"></div>
-    </div>
-    <span class="flex flex-col items-start">
-      <span class="font-medium leading-normal text-[#0A0B0D]">Ethereum</span>
-      <span class="font-normal leading-normal text-[#5B616E]">ETH</span>
-    </span>
-  </span>
-  <span data-testid="ockTokenRow_Amount" class="font-normal leading-normal text-[#5B616E]"
-    >1,000.00</span
-  >
-</button>
-```
-
-:::
 
 <App>
   <TokenRow
@@ -108,9 +57,7 @@ const token = { ... };
 
 Token with an amount
 
-:::code-group
-
-```tsx [code]
+```tsx
 import { TokenRow } from '@coinbase/onchainkit/token';
 
 const token = { ... };
@@ -118,50 +65,6 @@ const token = { ... };
 <TokenRow token={token} amount="1000" />; // [!code focus]
 <TokenRow token={token} amount="0.00234567" />; // [!code focus]
 ```
-
-```html [return html]
-<button
-  data-testid="ockTokenRow_Container"
-  class="flex h-16 w-full cursor-pointer items-center justify-between bg-white px-2 py-1 hover:bg-[#cacbce] active:bg-[#bfc1c3]"
->
-  <span class="flex items-center gap-3">
-    <img
-      data-testid="ockTokenImage_Image"
-      src="https://dynamic-assets.coinbase.com/dbb4b4983bde81309ddab83eb598358eb44375b930b94687ebe38bc22e52c3b2125258ffb8477a5ef22e33d6bd72e32a506c391caa13af64c00e46613c3e5806/asset_icons/4113b082d21cc5fab17fc8f2d19fb996165bcce635e6900f7fc2d57c4ef33ae9.png"
-      style="width: 48px; height: 48px; border-radius: 50%; overflow: hidden;"
-    />
-    <span class="flex flex-col items-start">
-      <span class="font-medium leading-normal text-[#0A0B0D]">Ethereum</span>
-      <span class="font-normal leading-normal text-[#5B616E]">ETH</span>
-    </span>
-  </span>
-  <span data-testid="ockTokenRow_Amount" class="font-normal leading-normal text-[#5B616E]"
-    >1,000.00</span
-  >
-</button>
-
-<button
-  data-testid="ockTokenRow_Container"
-  class="flex h-16 w-full cursor-pointer items-center justify-between bg-white px-2 py-1 hover:bg-[#cacbce] active:bg-[#bfc1c3]"
->
-  <span class="flex items-center gap-3">
-    <img
-      data-testid="ockTokenImage_Image"
-      src="https://dynamic-assets.coinbase.com/dbb4b4983bde81309ddab83eb598358eb44375b930b94687ebe38bc22e52c3b2125258ffb8477a5ef22e33d6bd72e32a506c391caa13af64c00e46613c3e5806/asset_icons/4113b082d21cc5fab17fc8f2d19fb996165bcce635e6900f7fc2d57c4ef33ae9.png"
-      style="width: 48px; height: 48px; border-radius: 50%; overflow: hidden;"
-    />
-    <span class="flex flex-col items-start">
-      <span class="font-medium leading-normal text-[#0A0B0D]">Ethereum</span>
-      <span class="font-normal leading-normal text-[#5B616E]">ETH</span>
-    </span>
-  </span>
-  <span data-testid="ockTokenRow_Amount" class="font-normal leading-normal text-[#5B616E]"
-    >0.00235</span
-  >
-</button>
-```
-
-:::
 
 <App>
   <TokenRow
@@ -192,9 +95,7 @@ const token = { ... };
 
 Variations with `hideImage` and `hideSymbol`
 
-:::code-group
-
-```tsx [code]
+```tsx
 import { TokenRow } from '@coinbase/onchainkit/token';
 
 const token = { ... };
@@ -203,52 +104,6 @@ const token = { ... };
 <TokenRow token={token} hideImage />; // [!code focus]
 <TokenRow token={token} hideSymbol hideImage />; // [!code focus]
 ```
-
-```html [return html]
-<button
-  data-testid="ockTokenRow_Container"
-  class="flex h-16 w-full cursor-pointer items-center justify-between bg-white px-2 py-1 hover:bg-[#cacbce] active:bg-[#bfc1c3]"
->
-  <span class="flex items-center gap-3">
-    <img
-      data-testid="ockTokenImage_Image"
-      src="https://dynamic-assets.coinbase.com/dbb4b4983bde81309ddab83eb598358eb44375b930b94687ebe38bc22e52c3b2125258ffb8477a5ef22e33d6bd72e32a506c391caa13af64c00e46613c3e5806/asset_icons/4113b082d21cc5fab17fc8f2d19fb996165bcce635e6900f7fc2d57c4ef33ae9.png"
-      style="width: 48px; height: 48px; border-radius: 50%; overflow: hidden;"
-    />
-    <span class="flex flex-col items-start">
-      <span class="font-medium leading-normal text-[#0A0B0D]">Ethereum</span>
-    </span>
-  </span>
-  <span data-testid="ockTokenRow_Amount" class="font-normal leading-normal text-[#5B616E]"></span>
-</button>
-
-<button
-  data-testid="ockTokenRow_Container"
-  class="flex h-16 w-full cursor-pointer items-center justify-between bg-white px-2 py-1 hover:bg-[#cacbce] active:bg-[#bfc1c3]"
->
-  <span class="flex items-center gap-3">
-    <span class="flex flex-col items-start">
-      <span class="font-medium leading-normal text-[#0A0B0D]">Ethereum</span>
-      <span class="font-normal leading-normal text-[#5B616E]">ETH</span>
-    </span>
-  </span>
-  <span data-testid="ockTokenRow_Amount" class="font-normal leading-normal text-[#5B616E]"></span>
-</button>
-
-<button
-  data-testid="ockTokenRow_Container"
-  class="flex h-16 w-full cursor-pointer items-center justify-between bg-white px-2 py-1 hover:bg-[#cacbce] active:bg-[#bfc1c3]"
->
-  <span class="flex items-center gap-3">
-    <span class="flex flex-col items-start">
-      <span class="font-medium leading-normal text-[#0A0B0D]">Ethereum</span>
-    </span>
-  </span>
-  <span data-testid="ockTokenRow_Amount" class="font-normal leading-normal text-[#5B616E]"></span>
-</button>
-```
-
-:::
 
 <App>
   <TokenRow

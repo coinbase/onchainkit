@@ -12,26 +12,10 @@ When an ENS avatar is not available, it defaults to blue color avatar.
 
 Address with an ENS avatar:
 
-:::code-group
-
-```tsx [code]
+```tsx
 import { Avatar } from '@coinbase/onchainkit/identity';
 <Avatar address="0x838aD0EAE54F99F1926dA7C3b6bFbF617389B4D9" />; // [!code focus]
 ```
-
-```html [return html]
-<img
-  className="rounded-full"
-  loading="lazy"
-  width="32"
-  height="32"
-  decoding="async"
-  src="https://euc.li/nickprince.eth"
-  alt="nickprince.eth"
-/>
-```
-
-:::
 
 <App>
   <Avatar address="0x838aD0EAE54F99F1926dA7C3b6bFbF617389B4D9" />
@@ -39,20 +23,10 @@ import { Avatar } from '@coinbase/onchainkit/identity';
 
 Address without an ENS avatar, and it defaults to a blue color avatar:
 
-:::code-group
-
-```tsx [code]
+```tsx
 import { Avatar } from '@coinbase/onchainkit/identity';
 <Avatar address="0x1234567890abcdef1234567890abcdef12345678" />; // [!code focus]
 ```
-
-```html [return html]
-<svg data-testid="ockAvatarSvg" width="32" height="32" xmlns="http://www.w3.org/2000/svg">
-  <circle cx="16" cy="16" r="16" fill="blue"></circle>
-</svg>
-```
-
-:::
 
 <App>
   <Avatar address="0x1234567890abcdef1234567890abcdef12345678" />
