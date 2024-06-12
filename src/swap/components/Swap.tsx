@@ -1,27 +1,22 @@
 import { useCallback, useMemo, useState } from 'react';
 import { cn } from '../../lib/utils';
 import { SwapContext } from '../context';
-import type { SwapError, SwapReact } from '../types';
-import type { Token } from '../../token';
 import { useGetSwapQuote } from '../hooks/useGetSwapQuote';
+import type { SwapReact } from '../types';
+import type { Token } from '../../token';
 
 export function Swap({ account, children, onError }: SwapReact) {
   const [fromAmount, setFromAmount] = useState('');
   const [fromToken, setFromToken] = useState<Token>();
   const [toAmount, setToAmount] = useState('');
   const [toToken, setToToken] = useState<Token>();
-  const [swapQuoteError, setSwapQuoteError] = useState('');
-  const [swapTransactionError, setSwapTransactionError] = useState('');
   const [lastTokenAmountUpdated, setLastTokenAmountUpdated] = useState<'to' | 'from' | undefined>();
 
   useGetSwapQuote({
     amountReference: lastTokenAmountUpdated,
     fromAmount,
     fromToken,
-    onError: (response: SwapError) => {
-      onError?.(response);
-      setSwapQuoteError(response?.error);
-    },
+    onError,
     onSuccess: () => setLastTokenAmountUpdated(undefined),
     setToAmount,
     setFromAmount,
@@ -84,11 +79,6 @@ export function Swap({ account, children, onError }: SwapReact) {
         >
           Swap
         </label>
-        {(swapQuoteError || swapTransactionError) && (
-          <p className={cn('p-4 text-center text-[14px] text-[red]')}>
-            {swapQuoteError || swapTransactionError}
-          </p>
-        )}
         {children}
       </div>
     </SwapContext.Provider>
