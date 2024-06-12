@@ -105,10 +105,15 @@ export type SwapAPIResponse = {
   tx: RawTransactionData; // The trade transaction
 };
 
+export type SwapButtonReact = {
+  onError?: (error: SwapError) => void;
+  onSuccess?: (swapTransaction: BuildSwapTransaction) => void;
+};
+
 export type SwapContextType = {
+  account: Account;
   fromAmount: string;
   fromToken?: Token;
-  onSubmit: () => void;
   setFromAmount: (a: string) => void;
   setFromToken: (t: Token) => void;
   setToAmount: (a: string) => void;
@@ -128,7 +133,6 @@ export type SwapReact = {
   account: Account;
   children: ReactNode;
   onError?: (error: SwapError) => void;
-  onSuccess?: (swapTransaction: BuildSwapTransaction) => void;
 };
 
 /**

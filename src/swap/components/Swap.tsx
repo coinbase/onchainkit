@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { buildSwapTransaction } from '../core/buildSwapTransaction';
 import { getSwapQuote } from '../core/getSwapQuote';
 import { cn } from '../../lib/utils';
 import { isSwapError } from '../utils';
@@ -7,7 +6,7 @@ import { SwapContext } from '../context';
 import type { SwapError, SwapReact } from '../types';
 import type { Token } from '../../token';
 
-export function Swap({ account, children, onError, onSuccess }: SwapReact) {
+export function Swap({ account, children, onError }: SwapReact) {
   const [fromAmount, setFromAmount] = useState('');
   const [fromToken, setFromToken] = useState<Token>();
   const [toAmount, setToAmount] = useState('');
@@ -15,29 +14,6 @@ export function Swap({ account, children, onError, onSuccess }: SwapReact) {
   const [swapQuoteError, setSwapQuoteError] = useState('');
   const [swapTransactionError, setSwapTransactionError] = useState('');
   const [lastTokenAmountUpdated, setLastTokenAmountUpdated] = useState<'to' | 'from' | undefined>();
-
-  const handleSubmit = useCallback(async () => {
-    setSwapQuoteError('');
-    setSwapTransactionError('');
-    if (account && fromToken && toToken && fromAmount) {
-      try {
-        const response = await buildSwapTransaction({
-          amount: fromAmount,
-          fromAddress: account.address,
-          from: fromToken,
-          to: toToken,
-        });
-        if (isSwapError(response)) {
-          setSwapTransactionError(response.error);
-          onError?.(response);
-        } else {
-          onSuccess?.(response);
-        }
-      } catch (error) {
-        onError?.(error as SwapError);
-      }
-    }
-  }, [account, fromAmount, fromToken, toToken]);
 
   const handleGetSwapQuote = useCallback(
     /* the reference amount for the swap */
@@ -110,9 +86,9 @@ export function Swap({ account, children, onError, onSuccess }: SwapReact) {
 
   const value = useMemo(() => {
     return {
+      account,
       fromAmount,
       fromToken,
-      onSubmit: handleSubmit,
       setFromAmount: handleFromAmountChange,
       setFromToken,
       setToAmount: handleToAmountChange,
@@ -121,13 +97,14 @@ export function Swap({ account, children, onError, onSuccess }: SwapReact) {
       toToken,
     };
   }, [
+    account,
     fromAmount,
     fromToken,
     handleFromAmountChange,
-    handleSubmit,
     handleToAmountChange,
     setToAmount,
     setToToken,
+    toAmount,
     toToken,
   ]);
 
