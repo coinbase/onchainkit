@@ -1,23 +1,24 @@
 import { useCallback, useMemo, useState } from 'react';
 import type { SwapParams, SwapReact } from '../types';
 import { SwapContext } from '../context';
+import { buildSwapTransaction } from '../core/buildSwapTransaction';
 
 export function Swap({ account, children, fromToken, toToken }: SwapReact) {
   const [fromAmount, setFromAmount] = useState('');
   const [toAmount, setToAmount] = useState('');
 
-  const submitSwapTx = (params?: SwapParams) => {
-    // TODO: implement hook
-  };
+  const submitSwapTx = useCallback((params?: SwapParams) => {}, []);
 
-  const handleSubmit = useCallback(() => {
+  const handleSubmit = useCallback(async () => {
     if (account && fromToken && toToken && fromAmount) {
-      submitSwapTx({
+      const response = await buildSwapTransaction({
         amount: fromAmount,
         fromAddress: account.address,
         from: fromToken,
         to: toToken,
       });
+
+      console.log({response})
     }
   }, []);
 
