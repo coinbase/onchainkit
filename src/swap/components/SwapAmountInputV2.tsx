@@ -4,6 +4,7 @@ import { isValidAmount } from '../utils';
 import { TokenChip } from '../../token';
 import { SwapContext } from '../context';
 import type { SwapAmountInputReact } from '../types';
+import { cn } from '../../lib/utils';
 
 export function SwapAmountInputV2({ amount, label, setAmount, token, type }: SwapAmountInputReact) {
   const { fromAmount, setFromAmount, setFromToken, setToAmount, setToToken, toAmount } =
@@ -45,7 +46,10 @@ export function SwapAmountInputV2({ amount, label, setAmount, token, type }: Swa
 
   return (
     <div
-      className="box-border flex w-full flex-col items-start gap-[11px] border-b border-solid  bg-[#FFF] p-4"
+      className={cn(
+        'box-border flex w-full flex-col items-start',
+        'gap-[11px] border-b border-solid  bg-[#FFF] p-4',
+      )}
       data-testid="ockSwapAmountInput_Container"
     >
       <div className="flex w-full items-center justify-between">
