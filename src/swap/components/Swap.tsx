@@ -14,6 +14,7 @@ export function Swap({ account, children, onError, onSuccess }: SwapReact) {
   const [toToken, setToToken] = useState<Token>();
   const [swapQuoteError, setSwapQuoteError] = useState('');
   const [swapTransactionError, setSwapTransactionError] = useState('');
+  const [lastTokenAmountUpdated, setLastTokenAmountUpdated] = useState<'to' | 'from' | undefined>();
 
   const handleSubmit = useCallback(async () => {
     setSwapQuoteError('');
@@ -38,37 +39,83 @@ export function Swap({ account, children, onError, onSuccess }: SwapReact) {
     }
   }, [account, fromAmount, fromToken, toToken]);
 
-  const handleGetSwapQuote = useCallback(async () => {
-    setSwapQuoteError('');
-    setSwapTransactionError('');
-    if (fromToken && toToken && fromAmount) {
-      try {
-        const response = await getSwapQuote({ from: fromToken, to: toToken, amount: fromAmount });
-        if (isSwapError(response)) {
-          setSwapQuoteError(response.error);
-        } else {
-          setToAmount(response?.toAmount);
+  const handleGetSwapQuote = useCallback(
+    /* the reference amount for the swap */
+    async (amountReference: 'to' | 'from') => {
+      setSwapQuoteError('');
+      setSwapTransactionError('');
+      if (fromToken && toToken && (fromAmount || toAmount) && amountReference) {
+        try {
+          const amount = amountReference === 'from' ? fromAmount : toAmount;
+          const response = await getSwapQuote({
+            from: fromToken,
+            to: toToken,
+            amount,
+            amountReference,
+          });
+          if (isSwapError(response)) {
+            setSwapQuoteError(response.error);
+          } else {
+            if (amountReference === 'from') {
+              setToAmount(response?.toAmount);
+            }
+            if (amountReference === 'to') {
+              setFromAmount(response?.fromAmount);
+            }
+            setLastTokenAmountUpdated(undefined);
+          }
+        } catch (error) {
+          onError?.(error as SwapError);
         }
-      } catch (error) {
-        onError?.(error as SwapError);
       }
-    }
-  }, [fromAmount, fromToken, toToken]);
+    },
+    [fromAmount, fromToken, toAmount, toToken],
+  );
 
   useEffect(() => {
-    if (fromToken && toToken && fromAmount) {
-      handleGetSwapQuote();
+    /* we only want to fetch the swap quote for fromToken
+    reference amount if the user last changed the fromAmount  */
+    if (fromToken && toToken && fromAmount && lastTokenAmountUpdated === 'from') {
+      handleGetSwapQuote('from');
     }
-  }, [fromAmount, fromToken, toToken]);
+  }, [fromAmount, fromToken, handleGetSwapQuote, lastTokenAmountUpdated, toToken]);
+
+  useEffect(() => {
+    /* we only want to fetch the swap quote for toToken
+    reference amount if the user last changed the toAmount  */
+    if (fromToken && toToken && toAmount && lastTokenAmountUpdated === 'to') {
+      handleGetSwapQuote('to');
+    }
+  }, [fromToken, handleGetSwapQuote, lastTokenAmountUpdated, toAmount, toToken]);
+
+  const handleToAmountChange = useCallback(
+    (amount: string) => {
+      if (lastTokenAmountUpdated !== 'to') {
+        setLastTokenAmountUpdated('to');
+      }
+      setToAmount(amount);
+    },
+    [lastTokenAmountUpdated, setLastTokenAmountUpdated, setToAmount],
+  );
+
+  const handleFromAmountChange = useCallback(
+    (amount: string) => {
+      if (lastTokenAmountUpdated !== 'from') {
+        setLastTokenAmountUpdated('from');
+      }
+      setFromAmount(amount);
+    },
+    [lastTokenAmountUpdated, setFromAmount, setLastTokenAmountUpdated],
+  );
 
   const value = useMemo(() => {
     return {
       fromAmount,
       fromToken,
       onSubmit: handleSubmit,
-      setFromAmount,
+      setFromAmount: handleFromAmountChange,
       setFromToken,
-      setToAmount,
+      setToAmount: handleToAmountChange,
       setToToken,
       toAmount,
       toToken,
@@ -76,11 +123,11 @@ export function Swap({ account, children, onError, onSuccess }: SwapReact) {
   }, [
     fromAmount,
     fromToken,
+    handleFromAmountChange,
     handleSubmit,
-    setFromAmount,
+    handleToAmountChange,
     setToAmount,
     setToToken,
-    toAmount,
     toToken,
   ]);
 
