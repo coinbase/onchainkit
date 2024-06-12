@@ -55,23 +55,29 @@ async function useGetSwapQuote({
         }
       }
     },
-    [fromAmount, fromToken, toAmount, toToken],
+    [fromAmount, fromToken, onError, onSuccess, setFromAmount, setToAmount, toAmount, toToken],
   );
 
   useEffect(() => {
     /* we only want to fetch the swap quote for fromToken
     reference amount if the user last changed the fromAmount  */
-    if (fromToken && toToken && fromAmount && amountReference === 'from') {
-      handleGetSwapQuote('from');
-    }
+    const fetchFromQuote = async () => {
+      if (fromToken && toToken && fromAmount && amountReference === 'from') {
+        await handleGetSwapQuote('from');
+      }
+    };
+    fetchFromQuote();
   }, [fromAmount, fromToken, handleGetSwapQuote, amountReference, toToken]);
 
   useEffect(() => {
     /* we only want to fetch the swap quote for toToken
     reference amount if the user last changed the toAmount  */
-    if (fromToken && toToken && toAmount && amountReference === 'to') {
-      handleGetSwapQuote('to');
-    }
+    const fetchToQuote = async () => {
+      if (fromToken && toToken && toAmount && amountReference === 'to') {
+        handleGetSwapQuote('to');
+      }
+    };
+    fetchToQuote();
   }, [fromToken, handleGetSwapQuote, amountReference, toAmount, toToken]);
 }
 
