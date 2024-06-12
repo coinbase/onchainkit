@@ -5,7 +5,7 @@ import { isSwapError } from '../utils';
 import { SwapContext } from '../context';
 import type { SwapButtonReact, SwapError } from '../types';
 
-export function SwapButton({ onError, onSuccess }: SwapButtonReact) {
+export function SwapButton({ onError, onSubmit }: SwapButtonReact) {
   const { account, fromAmount, fromToken, toToken } = useContext(SwapContext);
 
   const handleSubmit = useCallback(async () => {
@@ -20,7 +20,7 @@ export function SwapButton({ onError, onSuccess }: SwapButtonReact) {
         if (isSwapError(response)) {
           onError?.(response);
         } else {
-          onSuccess?.(response);
+          onSubmit?.(response);
         }
       } catch (error) {
         onError?.(error as SwapError);
