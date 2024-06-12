@@ -86,16 +86,6 @@ export type RawTransactionData = {
   value: string; // The value of the transaction
 };
 
-export type SwapAPIParams = GetQuoteAPIParams | GetSwapAPIParams;
-
-export type SwapAPIResponse = {
-  approveTx?: RawTransactionData; // The approval transaction
-  chainId: string; // The chain ID
-  fee: Fee; // The fee for the trade
-  quote: Quote; // The quote for the trade
-  tx: RawTransactionData; // The trade transaction
-};
-
 /**
  * Note: exported as public Type
  */
@@ -110,6 +100,47 @@ export type SwapAmountInputReact = {
   token?: Token; // Selected token
   tokenBalance?: string; // Amount of selected token user owns
   type: string;
+};
+
+export type SwapAPIParams = GetQuoteAPIParams | GetSwapAPIParams;
+
+export type SwapAPIResponse = {
+  approveTx?: RawTransactionData; // The approval transaction
+  chainId: string; // The chain ID
+  fee: Fee; // The fee for the trade
+  quote: Quote; // The quote for the trade
+  tx: RawTransactionData; // The trade transaction
+};
+
+export type SwapButtonReact = {
+  onSubmit?: (params?: SwapParams) => void;
+};
+
+export type SwapContextType = {
+  account: Account;
+  fromAmount: string;
+  fromToken?: Token;
+  onSubmit: () => void;
+  setFromAmount: (a: string) => void;
+  setFromToken: (t: Token) => void;
+  setToAmount: (a: string) => void;
+  setToToken: (t: Token) => void;
+  toAmount: string;
+  toToken?: Token;
+};
+
+export type SwapParams = {
+  amount: string;
+  fromAddress: `0x${string}`;
+  from: Token;
+  to: Token;
+};
+
+export type SwapReact = {
+  account: Account;
+  children: ReactNode;
+  fromToken?: Token;
+  toToken?: Token;
 };
 
 /**
@@ -143,31 +174,4 @@ export type TransactionParams = {
   nonce: number; // The nonce for the transaction
   maxFeePerGas: bigint | undefined; // The maximum fee per gas
   maxPriorityFeePerGas: bigint | undefined; // The maximum priority fee per gas
-};
-
-export type SwapReact = {
-  account: Account;
-  children: ReactNode;
-  fromToken?: Token;
-  toToken?: Token;
-};
-
-export type SwapContextType = {
-  account: Account;
-  fromAmount: string;
-  onSubmit: () => void;
-  setFromAmount: (a: string) => void;
-  setToAmount: (a: string) => void;
-  toAmount: string;
-};
-
-export type SwapParams = {
-  amount: string;
-  fromAddress: `0x${string}`;
-  from: Token;
-  to: Token;
-};
-
-export type SwapButtonReact = {
-  onSubmit?: (params?: SwapParams) => void;
 };

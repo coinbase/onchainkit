@@ -8,7 +8,7 @@ export function SwapButton({ onSubmit }: SwapButtonReact) {
   const handleSubmit = useCallback(() => {
     onSubmitSwap();
     onSubmit?.();
-  }, []);
+  }, [onSubmit, onSubmitSwap]);
 
   return (
     <div className="w-full p-4">
