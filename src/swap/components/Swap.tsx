@@ -1,10 +1,9 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { getSwapQuote } from '../core/getSwapQuote';
+import { useCallback, useMemo, useState } from 'react';
 import { cn } from '../../lib/utils';
-import { isSwapError } from '../utils';
 import { SwapContext } from '../context';
 import type { SwapError, SwapReact } from '../types';
 import type { Token } from '../../token';
+import { useGetSwapQuote } from '../hooks/useGetSwapQuote';
 
 export function Swap({ account, children, onError }: SwapReact) {
   const [fromAmount, setFromAmount] = useState('');
@@ -15,54 +14,20 @@ export function Swap({ account, children, onError }: SwapReact) {
   const [swapTransactionError, setSwapTransactionError] = useState('');
   const [lastTokenAmountUpdated, setLastTokenAmountUpdated] = useState<'to' | 'from' | undefined>();
 
-  const handleGetSwapQuote = useCallback(
-    /* the reference amount for the swap */
-    async (amountReference: 'to' | 'from') => {
-      setSwapQuoteError('');
-      setSwapTransactionError('');
-      if (fromToken && toToken && (fromAmount || toAmount) && amountReference) {
-        try {
-          const amount = amountReference === 'from' ? fromAmount : toAmount;
-          const response = await getSwapQuote({
-            from: fromToken,
-            to: toToken,
-            amount,
-            amountReference,
-          });
-          if (isSwapError(response)) {
-            setSwapQuoteError(response.error);
-          } else {
-            if (amountReference === 'from') {
-              setToAmount(response?.toAmount);
-            }
-            if (amountReference === 'to') {
-              setFromAmount(response?.fromAmount);
-            }
-            setLastTokenAmountUpdated(undefined);
-          }
-        } catch (error) {
-          onError?.(error as SwapError);
-        }
-      }
+  useGetSwapQuote({
+    amountReference: lastTokenAmountUpdated,
+    fromAmount,
+    fromToken,
+    onError: (response: SwapError) => {
+      onError?.(response);
+      setSwapQuoteError(response?.error);
     },
-    [fromAmount, fromToken, toAmount, toToken],
-  );
-
-  useEffect(() => {
-    /* we only want to fetch the swap quote for fromToken
-    reference amount if the user last changed the fromAmount  */
-    if (fromToken && toToken && fromAmount && lastTokenAmountUpdated === 'from') {
-      handleGetSwapQuote('from');
-    }
-  }, [fromAmount, fromToken, handleGetSwapQuote, lastTokenAmountUpdated, toToken]);
-
-  useEffect(() => {
-    /* we only want to fetch the swap quote for toToken
-    reference amount if the user last changed the toAmount  */
-    if (fromToken && toToken && toAmount && lastTokenAmountUpdated === 'to') {
-      handleGetSwapQuote('to');
-    }
-  }, [fromToken, handleGetSwapQuote, lastTokenAmountUpdated, toAmount, toToken]);
+    onSuccess: () => setLastTokenAmountUpdated(undefined),
+    setToAmount,
+    setFromAmount,
+    toAmount,
+    toToken,
+  });
 
   const handleToAmountChange = useCallback(
     (amount: string) => {
