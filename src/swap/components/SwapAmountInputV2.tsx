@@ -6,25 +6,25 @@ import { SwapContext } from '../context';
 import type { SwapAmountInputReact } from '../types';
 import { cn } from '../../lib/utils';
 
-export function SwapAmountInputV2({ amount, label, setAmount, token, type }: SwapAmountInputReact) {
+export function SwapAmountInputV2({ label, token, type }: SwapAmountInputReact) {
   const { fromAmount, setFromAmount, setFromToken, setToAmount, setToToken, toAmount } =
     useContext(SwapContext);
 
-  const contextAmount = useMemo(() => {
+  const amount = useMemo(() => {
     if (type === 'to') {
       return toAmount;
     }
     return fromAmount;
   }, [type, toAmount, fromAmount]);
 
-  const setContextAmount = useMemo(() => {
+  const setAmount = useMemo(() => {
     if (type === 'to') {
       return setToAmount;
     }
     return setFromAmount;
   }, [type, setToAmount, setFromAmount]);
 
-  const setContextToken = useMemo(() => {
+  const setToken = useMemo(() => {
     if (type === 'to') {
       return setToToken;
     }
@@ -33,13 +33,12 @@ export function SwapAmountInputV2({ amount, label, setAmount, token, type }: Swa
 
   useEffect(() => {
     if (token) {
-      setContextToken(token);
+      setToken(token);
     }
   }, [token]);
 
   const handleAmountChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     if (isValidAmount(event.target.value)) {
-      setContextAmount?.(event.target.value);
       setAmount?.(event.target.value);
     }
   }, []);
@@ -63,7 +62,7 @@ export function SwapAmountInputV2({ amount, label, setAmount, token, type }: Swa
         data-testid="ockSwapAmountInput_Input"
         onChange={handleAmountChange}
         placeholder="0"
-        value={amount || contextAmount}
+        value={amount}
       />
     </div>
   );

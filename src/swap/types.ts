@@ -131,6 +131,7 @@ export type SwapParams = {
 export type SwapReact = {
   account: Account;
   children: ReactNode;
+  onError?: (error: SwapError) => void;
   onSuccess?: (swapTransaction: BuildSwapTransaction) => void;
 };
 

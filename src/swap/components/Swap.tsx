@@ -10,7 +10,7 @@ function isSwapError(response: unknown): response is SwapError {
   return response !== null && typeof response === 'object' && 'error' in response;
 }
 
-export function Swap({ account, children }: SwapReact) {
+export function Swap({ account, children, onError, onSuccess }: SwapReact) {
   const [fromAmount, setFromAmount] = useState('');
   const [fromToken, setFromToken] = useState<Token>();
   const [toAmount, setToAmount] = useState('');
@@ -19,6 +19,8 @@ export function Swap({ account, children }: SwapReact) {
   const [swapTransactionError, setSwapTransactionError] = useState('');
 
   const handleSubmit = useCallback(async () => {
+    setSwapQuoteError('');
+    setSwapTransactionError('');
     if (account && fromToken && toToken && fromAmount) {
       try {
         const response = await buildSwapTransaction({
@@ -29,8 +31,9 @@ export function Swap({ account, children }: SwapReact) {
         });
         if (isSwapError(response)) {
           setSwapTransactionError(response.error);
+          onError?.(response);
         } else {
-          // TODO: complete
+          onSuccess?.(response);
         }
       } catch (error) {
         console.log({ error });
@@ -39,6 +42,8 @@ export function Swap({ account, children }: SwapReact) {
   }, [account, fromAmount, fromToken, toToken]);
 
   const handleGetSwapQuote = useCallback(async () => {
+    setSwapQuoteError('');
+    setSwapTransactionError('');
     if (fromToken && toToken && fromAmount) {
       try {
         const response = await getSwapQuote({ from: fromToken, to: toToken, amount: fromAmount });
@@ -89,11 +94,15 @@ export function Swap({ account, children }: SwapReact) {
           className={cn(
             'box-border w-full border-b border-solid  p-4 text-base',
             'font-semibold leading-6 text-[#030712]',
-            'shadow-[0px_4px_4px_0px_rgba(3,7,18,0.05)]',
           )}
         >
           Swap
         </label>
+        {(swapQuoteError || swapTransactionError) && (
+          <p className={cn('p-4 text-center text-[14px] text-[red]')}>
+            {swapQuoteError || swapTransactionError}
+          </p>
+        )}
         {children}
       </div>
     </SwapContext.Provider>

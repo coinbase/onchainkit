@@ -8,7 +8,7 @@ The `Swap` component is a comprehensive interface for users to execute token swa
 ## Usage
 
 ```tsx [code]
-<Swap account={account}>
+<Swap account={account} onError={onError} onSuccess={onSuccess}>
   <SwapAmountInputV2 label="Sell" token={fromToken} type="from" />
   <SwapAmountInputV2 label="Buy" token={toToken} type="to" />
   <SwapButton />
