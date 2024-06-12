@@ -1,8 +1,8 @@
-import { Address } from 'viem';
+import type { Address } from 'viem';
 import { getFrameMessage } from './getFrameMessage';
 import { getMockFrameRequest } from './getMockFrameRequest';
 import { neynarBulkUserLookup } from '../utils/neynar/user/neynarBulkUserLookup';
-import { FrameRequest } from './types';
+import type { FrameRequest } from './types';
 import { neynarFrameValidation } from '../utils/neynar/frame/neynarFrameValidation';
 
 jest.mock('../utils/neynar/user/neynarBulkUserLookup', () => {

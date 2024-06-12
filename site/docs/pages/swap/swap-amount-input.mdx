@@ -10,9 +10,7 @@ This component integrates the `TokenSelector` component to allow users to select
 
 ## Usage
 
-:::code-group
-
-```tsx [code]
+```tsx
 <SwapAmountInput
   amount={amount}
   label="Sell"
@@ -34,43 +32,6 @@ This component integrates the `TokenSelector` component to allow users to select
   tokenBalance={tokenBalance}
 />
 ```
-
-```html [return html]
-<div data-testid="ockSwapAmountInput_Container" class="ock-swapamountinput-container">
-  <div class="ock-swapamountinput-row">
-    <label class="ock-swapamountinput-label">Sell</label>
-  </div>
-  <div class="ock-swapamountinput-row">
-    <div class="ock-tokenselector-container">
-      <button data-testid="ockTokenSelector_Button" class="ock-tokenselector-button">
-        <span class="ock-tokenselector-label">Select</span>
-        <svg
-          data-testid="ockTokenSelector_CaretDown"
-          width="16"
-          height="17"
-          viewBox="0 0 16 17"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M12.95 4.85999L8.00001 9.80999L3.05001 4.85999L1.64001 6.27999L8.00001 12.64L14.36 6.27999L12.95 4.85999Z"
-            fill="#0A0B0D"
-          ></path>
-        </svg>
-      </button>
-    </div>
-    <button class="ock-swapamountinput-maxbutton">Max</button>
-  </div>
-  <input
-    class="ock-swapamountinput-input"
-    placeholder="0"
-    data-testid="ockSwapAmountInput_Input"
-    value=""
-  />
-</div>
-```
-
-:::
 
 ## Props
 

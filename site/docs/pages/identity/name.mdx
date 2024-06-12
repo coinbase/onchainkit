@@ -10,18 +10,10 @@ The `Name` component is used to display ENS names associated with Ethereum addre
 
 Address with an ENS:
 
-:::code-group
-
-```tsx [code]
+```tsx
 import { Name } from '@coinbase/onchainkit/identity';
 <Name address="0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1" />; // [!code focus]
 ```
-
-```html [return html]
-<span>zizzamia.eth</span>
-```
-
-:::
 
 <App>
   <Name address="0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1" />
@@ -29,18 +21,10 @@ import { Name } from '@coinbase/onchainkit/identity';
 
 Address with an ENS name, showing his address sliced:
 
-:::code-group
-
-```tsx [code]
+```tsx
 import { Name } from '@coinbase/onchainkit/identity';
 <Name address="0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1" showAddress />; // [!code focus]
 ```
-
-```html [return html]
-<span>0x02f...B6B1</span>
-```
-
-:::
 
 <App>
   <Name address="0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1" showAddress />
@@ -48,18 +32,10 @@ import { Name } from '@coinbase/onchainkit/identity';
 
 Address without an ENS name, and it defaults to his sliced address:
 
-:::code-group
-
-```tsx [code]
+```tsx
 import { Name } from '@coinbase/onchainkit/identity';
 <Name address="0x1234567890abcdef1234567890abcdef12345678" />; // [!code focus]
 ```
-
-```html [return html]
-<span>0x123...5678</span>
-```
-
-:::
 
 <App>
   <Name address="0x1234567890abcdef1234567890abcdef12345678" />

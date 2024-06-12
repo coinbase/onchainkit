@@ -44,14 +44,7 @@
       "coverage",
       "esm",
       "site",
-      "framegear",
-      "src/frame/",
-      "src/identity/",
-      "src/queries/",
-      "src/token/",
-      "src/utils/",
-      "src/wallet/",
-      "src/xmtp"
+      "framegear"
     ]
   }
 }

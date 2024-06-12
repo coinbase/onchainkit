@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { GetAvatarReturnType } from '../types';
+import type { GetAvatarReturnType } from '../types';
 import { getAvatar } from '../core/getAvatar';
 
 type UseAvatarOptions = {

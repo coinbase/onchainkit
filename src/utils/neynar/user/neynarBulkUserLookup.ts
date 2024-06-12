@@ -1,6 +1,6 @@
 import { getDataFromNeynar } from '../getDataFromNeynar';
 import { convertToNeynarResponseModel } from './convertToNeynarResponseModel';
-import { NeynarBulkUserLookupModel } from './types';
+import type { NeynarBulkUserLookupModel } from './types';
 
 export const NEYNAR_DEFAULT_API_KEY = 'NEYNAR_ONCHAIN_KIT';
 

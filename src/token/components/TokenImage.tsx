@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { TokenImageReact } from '../types';
+import type { TokenImageReact } from '../types';
 import { getTokenImageColor } from './getTokenImageColor';
 import { cn } from '../../lib/utils';
 

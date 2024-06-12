@@ -1,5 +1,5 @@
 import { Address } from 'viem';
-import { FrameRequest, MockFrameRequest, MockFrameRequestOptions } from './types';
+import type { FrameRequest, MockFrameRequest, MockFrameRequestOptions } from './types';
 
 /**
  * Modify a standard frame request to include simulated values (e.g., indicate the viewer

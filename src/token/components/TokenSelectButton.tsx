@@ -1,5 +1,5 @@
-import { ForwardedRef, forwardRef } from 'react';
-import { TokenSelectButtonReact } from '../types';
+import { type ForwardedRef, forwardRef } from 'react';
+import type { TokenSelectButtonReact } from '../types';
 import { TokenImage } from './TokenImage';
 
 function CaretUp() {

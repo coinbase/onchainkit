@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import { TokenRowReact } from '../types';
+import type { TokenRowReact } from '../types';
 import { formatAmount } from '../core/formatAmount';
 import { TokenImage } from './TokenImage';
 

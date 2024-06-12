@@ -1,4 +1,4 @@
-import { TokenChipReact } from '../types';
+import type { TokenChipReact } from '../types';
 
 /**
  * Small button that display a given token symbol and image.

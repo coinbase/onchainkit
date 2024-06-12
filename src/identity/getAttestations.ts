@@ -1,6 +1,6 @@
 import { getAttestationsByFilter } from '../queries/attestations';
 import { isChainSupported, easSupportedChains } from './easSupportedChains';
-import { Attestation, GetAttestationsOptions } from './types';
+import type { Attestation, GetAttestationsOptions } from './types';
 import type { Address, Chain } from 'viem';
 
 /**

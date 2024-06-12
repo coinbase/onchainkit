@@ -5,7 +5,7 @@ import React from 'react';
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import { TokenImage } from './TokenImage';
-import { Token } from '../types';
+import type { Token } from '../types';
 
 const tokenWithImage: Token = {
   name: 'Ethereum',
