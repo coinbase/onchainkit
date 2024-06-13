@@ -1,13 +1,14 @@
 import { useCallback, useContext, useEffect, useMemo } from 'react';
 
-import { isValidAmount } from '../../utils/isValidAmount';
-import { getRoundedAmount } from '../../utils/getRoundedAmount';
+import type { SwapAmountInputReact } from '../types';
+import type { UseBalanceReturnType } from 'wagmi';
+import { SwapContext } from '../context';
+import { TextLabel1, TextLabel2 } from '../../internal/text';
 import { TokenChip } from '../../token';
 import { cn } from '../../utils/cn';
-import { SwapContext } from '../context';
+import { getRoundedAmount } from '../../utils/getRoundedAmount';
+import { isValidAmount } from '../../utils/isValidAmount';
 import { useBalance } from 'wagmi';
-import type { UseBalanceReturnType } from 'wagmi';
-import type { SwapAmountInputReact } from '../types';
 
 export function SwapAmountInput({ label, token, type }: SwapAmountInputReact) {
   const {
@@ -77,40 +78,41 @@ export function SwapAmountInput({ label, token, type }: SwapAmountInputReact) {
     <div
       className={cn(
         'box-border flex w-full flex-col items-start',
-        'gap-[11px] border-b border-solid bg-[#FFF] p-4',
+        'border-b border-solid bg-[#E5E7EB] p-4 rounded-md my-0.5',
       )}
       data-testid="ockSwapAmountInput_Container"
     >
       <div className="flex w-full items-center justify-between">
-        <label className="font-semibold text-[#030712] text-sm">{label}</label>
-        {roundedBalance && (
-          <label className="font-normal text-gray-400 text-sm">{`Balance: ${roundedBalance}`}</label>
-        )}
+        <TextLabel2>{label}</TextLabel2>
       </div>
       <div className="flex w-full items-center justify-between">
+        <input
+          className="w-full border-[none] bg-transparent text-5xl text-gray-500 outline-none"
+          data-testid="ockSwapAmountInput_Input"
+          onChange={handleAmountChange}
+          placeholder="0.0"
+          value={amount}
+        />
         <TokenChip token={token} />
-        {type === 'from' && (
-          <button
-            className={cn(
-              'flex h-8 w-[58px] max-w-[200px] items-center rounded-[40px]',
-              'bg-gray-100 px-3 py-2 font-medium text-base',
-              'text-gray-500 not-italic leading-6',
-            )}
-            data-testid="ockSwapAmountInput_MaxButton"
-            disabled={roundedBalance === undefined}
-            onClick={handleMaxButtonClick}
-          >
-            Max
-          </button>
-        )}
       </div>
-      <input
-        className="w-full border-[none] bg-transparent text-5xl text-[black]"
-        data-testid="ockSwapAmountInput_Input"
-        onChange={handleAmountChange}
-        placeholder="0"
-        value={amount}
-      />
+      <div className="flex justify-between w-full mt-4">
+        <TextLabel2>~$0.0</TextLabel2>
+        <div>
+          {roundedBalance && (
+            <TextLabel2>{`Balance: ${roundedBalance}`}</TextLabel2>
+          )}
+          {type === 'from' && (
+            <button
+              className="flex py-1 px-2 items-center justify-center cursor-pointer"
+              data-testid="ockSwapAmountInput_MaxButton"
+              disabled={roundedBalance === undefined}
+              onClick={handleMaxButtonClick}
+            >
+              <TextLabel1 color="#4F46E5">Max</TextLabel1>
+            </button>
+          )}
+        </div>
+      </div>
     </div>
   );
 }

@@ -1,9 +1,10 @@
-import { useCallback, useContext } from 'react';
-import { cn } from '../../utils/cn';
-import { buildSwapTransaction } from '../core/buildSwapTransaction';
-import { isSwapError } from '../core/isSwapError';
-import { SwapContext } from '../context';
 import type { SwapButtonReact, SwapError } from '../types';
+import { SwapContext } from '../context';
+import { TextHeadline } from '../../internal/text';
+import { buildSwapTransaction } from '../core/buildSwapTransaction';
+import { cn } from '../../utils/cn';
+import { isSwapError } from '../core/isSwapError';
+import { useCallback, useContext } from 'react';
 
 export function SwapButton({ onError, onSubmit }: SwapButtonReact) {
   const { address, fromAmount, fromToken, toToken } = useContext(SwapContext);
@@ -29,17 +30,15 @@ export function SwapButton({ onError, onSubmit }: SwapButtonReact) {
   }, [address, fromAmount, fromToken, toToken]);
 
   return (
-    <div className="w-full p-4">
-      <button
-        className={cn(
-          'w-full rounded-[100px] bg-blue-700',
-          'px-4 py-3 font-medium text-base text-white leading-6',
-        )}
-        onClick={handleSubmit}
-        disabled={!fromAmount || !fromToken || !toToken}
-      >
-        Swap
-      </button>
-    </div>
+    <button
+      className={cn(
+        'w-full rounded-xl bg-indigo-600',
+        'px-4 py-3 font-medium text-base text-white leading-6 mt-4',
+      )}
+      onClick={handleSubmit}
+      disabled={!fromAmount || !fromToken || !toToken}
+    >
+      <TextHeadline color="white">Swap</TextHeadline>
+    </button>
   );
 }
