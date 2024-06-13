@@ -18,16 +18,6 @@ export function SwapAmountInput({ label, token, type }: SwapAmountInputReact) {
     toAmount,
   } = useContext(SwapContext);
 
-  const { data }: UseBalanceReturnType = useBalance({
-    address,
-  });
-
-  const roundedBalance = useMemo(() => {
-    if (data?.formatted) {
-      return Number(data?.formatted)?.toPrecision(5).toString();
-    }
-  }, [data]);
-
   const amount = useMemo(() => {
     if (type === "to") {
       return toAmount;
@@ -49,6 +39,17 @@ export function SwapAmountInput({ label, token, type }: SwapAmountInputReact) {
     return setFromToken;
   }, [type, setFromToken, setToToken]);
 
+  const { data: tokenBalanceData }: UseBalanceReturnType = useBalance({
+    address,
+    ...(token?.address && { token: token.address }),
+  });
+
+  const roundedBalance = useMemo(() => {
+    if (tokenBalanceData?.formatted && token?.address) {
+      return Number(tokenBalanceData?.formatted)?.toPrecision(5).toString();
+    }
+  }, [tokenBalanceData]);
+
   const handleAmountChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       if (isValidAmount(event.target.value)) {
@@ -59,10 +60,10 @@ export function SwapAmountInput({ label, token, type }: SwapAmountInputReact) {
   );
 
   const handleMaxButtonClick = useCallback(() => {
-    if (data?.formatted) {
-      setAmount?.(data?.formatted);
+    if (tokenBalanceData?.formatted) {
+      setAmount?.(tokenBalanceData?.formatted);
     }
-  }, [data, setAmount]);
+  }, [tokenBalanceData, setAmount]);
 
   useEffect(() => {
     if (token) {
