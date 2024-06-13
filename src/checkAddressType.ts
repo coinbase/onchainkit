@@ -1,25 +1,8 @@
-import type { Address } from 'viem';
-import { decodeAbiParameters, isAddress } from 'viem';
-import type { Hex, BlockTag } from 'viem';
+import 'viem/window';
+import { decodeAbiParameters, isAddress, createWalletClient, createPublicClient, http, custom } from 'viem';
 import { walletActionsEip5792 } from 'viem/experimental';
-import type { WalletClient } from 'viem';
-import { createPublicClient, http } from 'viem';
-import { baseSepolia } from 'viem/chains';
-
-import { createWalletClient, custom } from 'viem'
-import { mainnet } from 'viem/chains'
- 
-export const walletClient2 = createWalletClient({
-  chain: mainnet,
-  transport: http(),
-}).extend(walletActionsEip5792())
-
-// only use Viem because Wagmi is all hooks?
-
-const publicClient = createPublicClient({
-  chain: baseSepolia,
-  transport: http(),
-});
+import { base, baseSepolia, mainnet } from 'viem/chains';
+import type { Hex, BlockTag, Address } from 'viem';
 
 const CB_SW_PROXY_BYTECODE =
   '0x363d3d373d3d363d7f360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc545af43d6000803e6038573d6000fd5b3d6000f3';
@@ -27,11 +10,23 @@ const COINBASE_SMART_WALLET_V1_IMPLEMENTATION = '0x000100abaad02f1cfC8Bbe32bD5a5
 const ERC_1967_PROXY_IMPLEMENTATION_SLOT =
   '0x360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc';
 
-type walletClient = WalletClient & ReturnType<typeof walletActionsEip5792>;
+// export const walletClient = createWalletClient({
+//   chain: baseSepolia,
+//   transport: http(),
+// }).extend(walletActionsEip5792());
+
+export const walletClient = createWalletClient({
+  chain: mainnet,
+  transport: http("https://base-sepolia-nodes-dev.cbhq.net:8545")
+}).extend(walletActionsEip5792())
+
+const publicClient = createPublicClient({
+  chain: base,
+  transport: http('https://rpc.ankr.com/base_sepolia'),
+});
 
 type CheckAddressTypeOptions = {
   address: string;
-  walletClient: walletClient;
 };
 
 type CheckAddressTypeResponse =
@@ -40,7 +35,6 @@ type CheckAddressTypeResponse =
 
 export async function checkAddressType({
   address,
-  walletClient,
 }: CheckAddressTypeOptions): Promise<CheckAddressTypeResponse> {
   // Validate the input address
   if (!isAddress(`0x${address}`)) {
@@ -53,11 +47,7 @@ export async function checkAddressType({
     // Use wallet_getCapabilities to check if the address has capabilities
     let hasCapabilities = false;
     try {
-      // const capabilities = await walletClient.request({
-      //   method: 'wallet_getCapabilities',
-      //   params: [`0x${address}`],
-      // });
-      const capabilities = await walletClient2.getCapabilities({ account: `0x${address}` )
+      const capabilities = await walletClient.getCapabilities({ account: `0x${address}` });
 
       console.log('Capabilities:', capabilities);
 
@@ -65,8 +55,7 @@ export async function checkAddressType({
         hasCapabilities = true;
       }
     } catch (error) {
-      console.log('Error retrieving capabilities:', error);
-      console.log('Error retrieving capabilities, continuing to check if EOA');
+      console.log('Error retrieving capabilities, continuing to check if EOA: error: ', error);
     }
 
     // Get bytecode of the address
@@ -74,6 +63,7 @@ export async function checkAddressType({
     const code = await publicClient.getBytecode({ address: `0x${address}` });
 
     // Check if the address is an EOA (Externally Owned Account, no bytecode)
+    // An address is an EOA if it has no bytecode and no capabilities
     if (code === undefined && !hasCapabilities) {
       return { type: 'EOA' };
     }
