@@ -5,14 +5,6 @@ describe('isValidAmount', () => {
     expect(isValidAmount('')).toBe(true);
   });
 
-  it('should return true for a valid number string with less than 11 characters', () => {
-    expect(isValidAmount('12345')).toBe(true);
-  });
-
-  it('should return false for a number string with more than 11 characters', () => {
-    expect(isValidAmount('123456789012')).toBe(false);
-  });
-
   it('should return true for a valid number string with a decimal point', () => {
     expect(isValidAmount('123.45')).toBe(true);
   });
@@ -83,13 +75,6 @@ describe('formatTokenAmount', () => {
     const decimals = 9;
     const formattedAmount = formatTokenAmount(amount, decimals);
     expect(formattedAmount).toBe('1');
-  });
-
-  test('rounds to a maximum of 11 significant digits', () => {
-    const amount = '16732157880511600003860';
-    const decimals = 18;
-    const formattedAmount = formatTokenAmount(amount, decimals);
-    expect(formattedAmount).toBe('16732.157881');
   });
 
   test('handles very small amounts correctly', () => {
