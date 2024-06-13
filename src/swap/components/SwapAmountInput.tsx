@@ -1,11 +1,11 @@
-import { useCallback, useContext, useEffect, useMemo } from "react";
+import { useCallback, useContext, useEffect, useMemo } from 'react';
 
-import { isValidAmount } from "../utils";
-import { TokenChip } from "../../token";
-import { cn } from "../../utils/cn";
-import { SwapContext } from "../context";
-import type { SwapAmountInputReact } from "../types";
-import { useBalance, type UseBalanceReturnType } from "wagmi";
+import { isValidAmount } from '../utils';
+import { TokenChip } from '../../token';
+import { cn } from '../../utils/cn';
+import { SwapContext } from '../context';
+import type { SwapAmountInputReact } from '../types';
+import { useBalance, type UseBalanceReturnType } from 'wagmi';
 
 export function SwapAmountInput({ label, token, type }: SwapAmountInputReact) {
   const {
@@ -19,36 +19,38 @@ export function SwapAmountInput({ label, token, type }: SwapAmountInputReact) {
   } = useContext(SwapContext);
 
   const amount = useMemo(() => {
-    if (type === "to") {
+    if (type === 'to') {
       return toAmount;
     }
     return fromAmount;
   }, [type, toAmount, fromAmount]);
 
   const setAmount = useMemo(() => {
-    if (type === "to") {
+    if (type === 'to') {
       return setToAmount;
     }
     return setFromAmount;
   }, [type, setToAmount, setFromAmount]);
 
   const setToken = useMemo(() => {
-    if (type === "to") {
+    if (type === 'to') {
       return setToToken;
     }
     return setFromToken;
   }, [type, setFromToken, setToToken]);
 
-  const { data: tokenBalanceData }: UseBalanceReturnType = useBalance({
+  const balanceResponse: UseBalanceReturnType = useBalance({
     address,
     ...(token?.address && { token: token.address }),
   });
 
   const roundedBalance = useMemo(() => {
-    if (tokenBalanceData?.formatted && token?.address) {
-      return Number(tokenBalanceData?.formatted)?.toPrecision(5).toString();
+    if (balanceResponse?.data?.formatted && token?.address) {
+      return Number(balanceResponse?.data?.formatted)
+        ?.toPrecision(5)
+        .toString();
     }
-  }, [tokenBalanceData]);
+  }, [balanceResponse?.data]);
 
   const handleAmountChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -56,14 +58,14 @@ export function SwapAmountInput({ label, token, type }: SwapAmountInputReact) {
         setAmount?.(event.target.value);
       }
     },
-    [setAmount]
+    [setAmount],
   );
 
   const handleMaxButtonClick = useCallback(() => {
-    if (tokenBalanceData?.formatted) {
-      setAmount?.(tokenBalanceData?.formatted);
+    if (balanceResponse?.data?.formatted) {
+      setAmount?.(balanceResponse?.data?.formatted);
     }
-  }, [tokenBalanceData, setAmount]);
+  }, [balanceResponse?.data, setAmount]);
 
   useEffect(() => {
     if (token) {
@@ -74,8 +76,8 @@ export function SwapAmountInput({ label, token, type }: SwapAmountInputReact) {
   return (
     <div
       className={cn(
-        "box-border flex w-full flex-col items-start",
-        "gap-[11px] border-b border-solid bg-[#FFF] p-4"
+        'box-border flex w-full flex-col items-start',
+        'gap-[11px] border-b border-solid bg-[#FFF] p-4',
       )}
       data-testid="ockSwapAmountInput_Container"
     >
@@ -87,7 +89,7 @@ export function SwapAmountInput({ label, token, type }: SwapAmountInputReact) {
       </div>
       <div className="flex w-full items-center justify-between">
         <TokenChip token={token} />
-        {type === "from" && (
+        {type === 'from' && (
           <button
             className="flex h-8 w-[58px] max-w-[200px] items-center rounded-[40px] bg-gray-100 px-3 py-2 text-base font-medium not-italic leading-6 text-gray-500"
             data-testid="ockSwapAmountInput_MaxButton"
