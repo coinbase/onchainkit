@@ -3,8 +3,8 @@ title: Wallet Components & Utilities · OnchainKit
 description: Introduction to Wallet Components & Utilities
 ---
 
-import App from '../App';
 import AccountConnect from './AccountConnect';
+import { ComponentPreview } from '../../components/ComponentPreview';
 
 # Introduction to Wallet Components & Utilities
 
@@ -16,7 +16,15 @@ The available components are:
 
 - [`<ConnectAccount />`](/wallet/connect-account): Renders the connect button
 
-```tsx
+:::code-group
+
+<div data-title="Preview">
+  <ComponentPreview>
+    <AccountConnect />
+  </ComponentPreview>
+</div>
+
+```tsx [Code]
 <WagmiProvider config={wagmiConfig}>
   ...
   <div className="flex flex-grow">
@@ -40,9 +48,7 @@ The available components are:
 </WagmiProvider>
 ```
 
-<App>
-  <AccountConnect />
-</App>
+:::
 
 ## Required dependencies
 
