@@ -20,3 +20,8 @@ export function formatTokenAmount(amount: string, decimals: number) {
   const numberAmount = Number(amount) / Math.pow(10, decimals);
   return numberAmount.toString();
 }
+
+export function getRoundedAmount(balance: string, fractionDigits: number) {
+  const parsedBalance = parseFloat(balance);
+  return Number(parsedBalance)?.toFixed(fractionDigits).replace(/0+$/, '');
+}

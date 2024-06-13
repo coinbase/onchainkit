@@ -1,4 +1,9 @@
-import { formatTokenAmount, isSwapError, isValidAmount } from './utils'; // Adjust the import path as needed
+import {
+  formatTokenAmount,
+  getRoundedAmount,
+  isSwapError,
+  isValidAmount,
+} from './utils'; // Adjust the import path as needed
 
 describe('isValidAmount', () => {
   it('should return true for an empty string', () => {
@@ -96,5 +101,21 @@ describe('formatTokenAmount', () => {
     const decimals = 18;
     const formattedAmount = formatTokenAmount(amount, decimals);
     expect(formattedAmount).toBe('1000000000');
+  });
+});
+
+describe('getRoundedAmount', () => {
+  it('returns a rounded number with specified decimal places', () => {
+    const balance = '0.0002851826238227';
+    const fractionDigits = 5;
+    const result = getRoundedAmount(balance, fractionDigits);
+    expect(result).toBe('0.00029');
+  });
+
+  it('returns a rounded number with more decimal places than available', () => {
+    const balance = '123.456';
+    const fractionDigits = 10;
+    const result = getRoundedAmount(balance, fractionDigits);
+    expect(result).toBe('123.456');
   });
 });

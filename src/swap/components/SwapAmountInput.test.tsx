@@ -14,6 +14,12 @@ jest.mock('../../token', () => ({
   TokenChip: jest.fn(() => <div>TokenChip</div>),
 }));
 
+jest.mock('wagmi', () => {
+  return {
+    useBalance: jest.fn(),
+  };
+});
+
 const mockContextValue = {
   fromAmount: '10',
   setFromAmount: jest.fn(),
@@ -26,12 +32,19 @@ const mockContextValue = {
 
 const mockToken: Token = {
   name: 'ETH',
-  address: '',
+  address: '0x123456789',
   symbol: 'ETH',
   decimals: 18,
   image:
     'https://wallet-api-production.s3.amazonaws.com/uploads/tokens/eth_288.png',
   chainId: 8453,
+};
+
+const mockBalance = {
+  decimals: 18,
+  formatted: '0.0002851826238227',
+  symbol: 'ETH',
+  value: 285182623822700n,
 };
 
 describe('SwapAmountInput', () => {
@@ -47,6 +60,56 @@ describe('SwapAmountInput', () => {
     );
 
     expect(screen.getByText('From')).toBeInTheDocument();
+  });
+
+  it('renders from token input with max button and balance', () => {
+    (require('wagmi').useBalance as jest.Mock).mockReturnValue({
+      data: mockBalance,
+    });
+
+    render(
+      <SwapContext.Provider value={mockContextValue}>
+        <SwapAmountInput label="From" token={mockToken} type="from" />
+      </SwapContext.Provider>,
+    );
+    expect(screen.getByText('Balance: 0.00028518')).toBeInTheDocument();
+    expect(
+      screen.getByTestId('ockSwapAmountInput_MaxButton'),
+    ).toBeInTheDocument();
+  });
+
+  it('does not render max button for to token input', () => {
+    (require('wagmi').useBalance as jest.Mock).mockReturnValue({
+      data: mockBalance,
+    });
+
+    render(
+      <SwapContext.Provider value={mockContextValue}>
+        <SwapAmountInput label="From" token={mockToken} type="to" />
+      </SwapContext.Provider>,
+    );
+    expect(
+      screen.queryByTestId('ockSwapAmountInput_MaxButton'),
+    ).not.toBeInTheDocument();
+  });
+
+  it('updates input value with balance amount on max button click', () => {
+    (require('wagmi').useBalance as jest.Mock).mockReturnValue({
+      data: mockBalance,
+    });
+
+    render(
+      <SwapContext.Provider value={mockContextValue}>
+        <SwapAmountInput label="From" token={mockToken} type="from" />
+      </SwapContext.Provider>,
+    );
+
+    const maxButton = screen.getByTestId('ockSwapAmountInput_MaxButton');
+    fireEvent.click(maxButton);
+
+    expect(mockContextValue.setFromAmount).toHaveBeenCalledWith(
+      '0.0002851826238227',
+    );
   });
 
   it('displays the correct amount when this type is "from"', () => {
