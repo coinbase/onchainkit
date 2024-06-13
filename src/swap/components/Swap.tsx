@@ -95,7 +95,7 @@ export function Swap({ address, children, onError }: SwapReact) {
         <label
           className={cn(
             'box-border w-full border-b border-solid p-4 text-base',
-            'font-semibold leading-6 text-[#030712]',
+            'font-semibold text-[#030712] leading-6',
           )}
         >
           Swap
