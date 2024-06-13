@@ -2,4 +2,4 @@
 "@coinbase/onchainkit": patch
 ---
 
-- **fix**: 
+- **fix**: Swap type. By @zizzamia #532
