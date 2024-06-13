@@ -7,15 +7,15 @@ import { isBase } from '@coinbase/onchainkit';
 
 const baseChainId = 8453;
 isBase({ chainId: baseChainId });
-Output: true; // [!code hl]
+> true; // [!code hl]
 
 const baseSepoliaChainId = 84532;
 isBase({ chainId: baseSepoliaChainId });
-Output: true; // [!code hl]
+> true; // [!code hl]
 
 const ethereumMainnetChainId = 1;
 isBase({ chainId: ethereumMainnetChainId });
-Output: false; // [!code hl]
+> false; // [!code hl]
 ```
 
 ## Returns
