@@ -1,8 +1,8 @@
-import { memo } from "react";
-import type { TokenRowReact } from "../types";
-import { formatAmount } from "../core/formatAmount";
-import { TokenImage } from "./TokenImage";
-import { TextHeadline } from "../../text/TextHeadline";
+import { memo } from 'react';
+import type { TokenRowReact } from '../types';
+import { formatAmount } from '../core/formatAmount';
+import { TokenImage } from './TokenImage';
+import { TextHeadline } from '../../internal/text';
 
 export const TokenRow = memo(function TokenRow({
   token,

@@ -1,5 +1,5 @@
-import { TextBody } from "../../text/TextBody";
-import type { TokenChipReact } from "../types";
+import { TextBody } from '../../internal/text';
+import type { TokenChipReact } from '../types';
 
 /**
  * Small button that display a given token symbol and image.
@@ -14,7 +14,7 @@ export function TokenChip({ token, onClick }: TokenChipReact) {
       className="flex w-fit items-center rounded-2xl bg-[#eef0f3] py-1 pr-3 pl-1 hover:active:bg-[#bfc1c3] hover:bg-[#cacbce]"
       onClick={() => onClick?.(token)}
     >
-      <img className="mr-2 h-6 w-6" src={token.image || ""} />
+      <img className="mr-2 h-6 w-6" src={token.image || ''} />
       <TextBody>{token.symbol}</TextBody>
     </button>
   );

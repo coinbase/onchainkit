@@ -1,7 +1,7 @@
-import { type ForwardedRef, forwardRef } from "react";
-import type { TokenSelectButtonReact } from "../types";
-import { TokenImage } from "./TokenImage";
-import { TextBody } from "../../text/TextBody";
+import { type ForwardedRef, forwardRef } from 'react';
+import type { TokenSelectButtonReact } from '../types';
+import { TokenImage } from './TokenImage';
+import { TextBody } from '../../internal/text';
 
 function CaretUp() {
   return (
@@ -41,7 +41,7 @@ function CaretDown() {
 
 export const TokenSelectButton = forwardRef(function TokenSelectButton(
   { onClick, token, isOpen }: TokenSelectButtonReact,
-  ref: ForwardedRef<HTMLButtonElement>
+  ref: ForwardedRef<HTMLButtonElement>,
 ) {
   return (
     <button
