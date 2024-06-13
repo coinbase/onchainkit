@@ -4,6 +4,7 @@ description: Introduction to Token components and utilities
 ---
 
 import TokenSelector from '../../components/TokenSelector';
+import { ComponentPreview } from '../../components/ComponentPreview';
 import App from '../App';
 
 # Introduction to Token components and utilities
@@ -18,7 +19,15 @@ The available components are:
 - [`<TokenSearch />`](/token/token-search): Search component to search by name, symbol and address for a given list of tokens.
 - [`<TokenSelectDropdown />`](/token/token-select-dropdown): Dropdown component to select a token for a given list of tokens.
 
-```tsx
+:::code-group
+
+<div data-title="Preview">
+  <ComponentPreview>
+    <TokenSelector />
+  </ComponentPreview>
+</div>
+
+```tsx [Code]
 const [filteredTokens, setFilteredTokens] = useState<Token[]>([]);
 
 const handleChange = useCallback((value) => {
@@ -55,9 +64,7 @@ const handleChange = useCallback((value) => {
 </div>
 ```
 
-<App>
-  <TokenSelector />
-</App>
+:::
 
 ## Utilities
 
