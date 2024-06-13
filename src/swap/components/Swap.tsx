@@ -1,10 +1,10 @@
 import { useCallback, useMemo, useState } from 'react';
 import { cn } from '../../lib/utils';
 import { SwapContext } from '../context';
-import type { SwapError, SwapReact } from '../types';
-import type { Token } from '../../token';
 import { getSwapQuote } from '../core/getSwapQuote';
 import { isSwapError } from '../utils';
+import type { SwapError, SwapReact } from '../types';
+import type { Token } from '../../token';
 
 export function Swap({ account, children, onError }: SwapReact) {
   const [fromAmount, setFromAmount] = useState('');
