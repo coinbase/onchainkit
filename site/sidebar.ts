@@ -145,10 +145,6 @@ export const sidebar = [
             text: 'Swap',
             link: '/swap/swap',
           },
-          {
-            text: 'SwapAmountInput',
-            link: '/swap/swap-amount-input',
-          },
         ],
       },
       {
