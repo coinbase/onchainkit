@@ -17,11 +17,11 @@ export function isSwapError(response: unknown): response is SwapError {
 
 export function formatTokenAmount(amount: string, decimals: number) {
   // Convert the string amount to a number using decimals value
-  const numberAmount = Number(amount) / Math.pow(10, decimals);
+  const numberAmount = Number(amount) / 10 ** decimals;
   return numberAmount.toString();
 }
 
 export function getRoundedAmount(balance: string, fractionDigits: number) {
-  const parsedBalance = parseFloat(balance);
+  const parsedBalance = Number.parseFloat(balance);
   return Number(parsedBalance)?.toFixed(fractionDigits).replace(/0+$/, '');
 }
