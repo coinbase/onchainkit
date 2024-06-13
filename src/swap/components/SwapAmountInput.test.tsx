@@ -6,9 +6,9 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { SwapAmountInput } from './SwapAmountInput';
 import { SwapContext } from '../context';
-import { type Token, TokenChip } from '../../token';
+import { type Token } from '../../token';
 import type { SwapContextType } from '../types';
-import type { Account, Address } from 'viem';
+import type { Address } from 'viem';
 
 jest.mock('../../token', () => ({
   TokenChip: jest.fn(() => <div>TokenChip</div>),
@@ -49,7 +49,7 @@ describe('SwapAmountInput', () => {
     expect(screen.getByText('From')).toBeInTheDocument();
   });
 
-  it('displays the correct amount based on the type', () => {
+  it('displays the correct amount when this type is "from"', () => {
     render(
       <SwapContext.Provider value={mockContextValue}>
         <SwapAmountInput label="From" token={mockToken} type="from" />
@@ -60,7 +60,18 @@ describe('SwapAmountInput', () => {
     expect(input).toHaveValue('10');
   });
 
-  it('calls setAmount when valid input is entered', () => {
+  it('displays the correct amount when this type is "to"', () => {
+    render(
+      <SwapContext.Provider value={mockContextValue}>
+        <SwapAmountInput label="To" token={mockToken} type="to" />
+      </SwapContext.Provider>,
+    );
+
+    const input = screen.getByTestId('ockSwapAmountInput_Input');
+    expect(input).toHaveValue('20');
+  });
+
+  it('calls setFromAmount when type is "from" and valid input is entered', () => {
     render(
       <SwapContext.Provider value={mockContextValue}>
         <SwapAmountInput label="From" token={mockToken} type="from" />
@@ -71,6 +82,19 @@ describe('SwapAmountInput', () => {
     fireEvent.change(input, { target: { value: '15' } });
 
     expect(mockContextValue.setFromAmount).toHaveBeenCalledWith('15');
+  });
+
+  it('calls setToAmount when type is "to" and valid input is entered', () => {
+    render(
+      <SwapContext.Provider value={mockContextValue}>
+        <SwapAmountInput label="From" token={mockToken} type="to" />
+      </SwapContext.Provider>,
+    );
+
+    const input = screen.getByTestId('ockSwapAmountInput_Input');
+    fireEvent.change(input, { target: { value: '15' } });
+
+    expect(mockContextValue.setToAmount).toHaveBeenCalledWith('15');
   });
 
   it('does not call setAmount when invalid input is entered', () => {
@@ -86,7 +110,7 @@ describe('SwapAmountInput', () => {
     expect(mockContextValue.setFromAmount).not.toHaveBeenCalled();
   });
 
-  it('calls setToken when token prop is provided', () => {
+  it('calls setFromToken when type is "from" and token prop is provided', () => {
     render(
       <SwapContext.Provider value={mockContextValue}>
         <SwapAmountInput label="From" token={mockToken} type="from" />
@@ -94,5 +118,15 @@ describe('SwapAmountInput', () => {
     );
 
     expect(mockContextValue.setFromToken).toHaveBeenCalledWith(mockToken);
+  });
+
+  it('calls setToToken when type is "to" and token prop is provided', () => {
+    render(
+      <SwapContext.Provider value={mockContextValue}>
+        <SwapAmountInput label="To" token={mockToken} type="to" />
+      </SwapContext.Provider>,
+    );
+
+    expect(mockContextValue.setToToken).toHaveBeenCalledWith(mockToken);
   });
 });

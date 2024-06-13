@@ -16,7 +16,6 @@ export function SwapAmountInput({ label, token, type }: SwapAmountInputReact) {
     toAmount,
   } = useContext(SwapContext);
 
-  /* istanbul ignore next */
   const amount = useMemo(() => {
     if (type === 'to') {
       return toAmount;
@@ -24,7 +23,6 @@ export function SwapAmountInput({ label, token, type }: SwapAmountInputReact) {
     return fromAmount;
   }, [type, toAmount, fromAmount]);
 
-  /* istanbul ignore next */
   const setAmount = useMemo(() => {
     if (type === 'to') {
       return setToAmount;
@@ -32,7 +30,6 @@ export function SwapAmountInput({ label, token, type }: SwapAmountInputReact) {
     return setFromAmount;
   }, [type, setToAmount, setFromAmount]);
 
-  /* istanbul ignore next */
   const setToken = useMemo(() => {
     if (type === 'to') {
       return setToToken;
