@@ -4,14 +4,14 @@
 
 ### Patch Changes
 
-- 9fef5e9: - **feat**: added `Swap` component. By @abcrane123 & @kyhyco #522
+- **feat**: added `Swap` component. By @abcrane123 & @kyhyco #522 9fef5e9
 
 ## 0.20.1
 
 ### Patch Changes
 
-- ccb069e: - **feat**: added `buildSwapTransaction`. By @0xAlec & @zizzamia #503 #518
-  - **fix**: added tailwind utilities to exported styles.css. By @kyhyco #515
+- **feat**: added `buildSwapTransaction`. By @0xAlec & @zizzamia #503 #518 ccb069e
+- **fix**: added tailwind utilities to exported styles.css. By @kyhyco #515
 
 ## 0.20.0
 

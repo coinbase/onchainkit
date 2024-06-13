@@ -6,9 +6,9 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { SwapAmountInput } from './SwapAmountInput';
 import { SwapContext } from '../context';
-import { Token, TokenChip } from '../../token';
-import { SwapContextType } from '../types';
-import { Account, Address } from 'viem';
+import { type Token, TokenChip } from '../../token';
+import type { SwapContextType } from '../types';
+import type { Account, Address } from 'viem';
 
 jest.mock('../../token', () => ({
   TokenChip: jest.fn(() => <div>TokenChip</div>),

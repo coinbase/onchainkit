@@ -54,7 +54,7 @@ describe('isWalletASmartWallet', () => {
 
     (client.getBytecode as jest.Mock).mockResolvedValue(CB_SW_PROXY_BYTECODE);
     (client.request as jest.Mock).mockResolvedValue(
-      '0x' + CB_SW_V1_IMPLEMENTATION_ADDRESS.slice(2).padStart(64, '0'),
+      `0x${CB_SW_V1_IMPLEMENTATION_ADDRESS.slice(2).padStart(64, '0')}`,
     );
 
     const result = await isWalletASmartWallet({ client, userOp });

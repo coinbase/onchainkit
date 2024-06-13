@@ -13,7 +13,7 @@ export async function getVerifiedAddressesForFidNeynar(
     !responseBody.result.verifications ||
     responseBody.result.verifications.length === 0
   ) {
-    throw new Error('No verified addresses found for FID ' + fid);
+    throw new Error(`No verified addresses found for FID ${fid}`);
   }
   return responseBody.result.verifications;
 }

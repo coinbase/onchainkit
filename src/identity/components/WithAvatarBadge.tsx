@@ -21,7 +21,7 @@ function WithAvatarBadgeInner({ children, address }: WithAvatarBadgeInnerReact) 
   return (
     <div className="relative h-8 w-8" data-testid="ockAvatarBadgeContainer">
       {children}
-      {attestations && attestations[0] && (
+      {attestations?.[0] && (
         <div className="absolute -bottom-0.5 -right-0.5 flex h-[15px] w-[15px] items-center justify-center rounded-full bg-transparent">
           <div className="flex h-[11px] w-[11px] items-center justify-center">
             <Badge />

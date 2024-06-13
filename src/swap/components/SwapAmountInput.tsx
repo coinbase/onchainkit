@@ -53,7 +53,7 @@ export function SwapAmountInput({ label, token, type }: SwapAmountInputReact) {
     <div
       className={cn(
         'box-border flex w-full flex-col items-start',
-        'gap-[11px] border-b border-solid  bg-[#FFF] p-4',
+        'gap-[11px] border-b border-solid bg-[#FFF] p-4',
       )}
       data-testid="ockSwapAmountInput_Container"
     >

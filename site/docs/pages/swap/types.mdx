@@ -5,6 +5,50 @@ description: Glossary of Types in Swap components & utilities.
 
 # Types [Glossary of Types in Swap components & utilities.]
 
+## `BuildSwapTransaction`
+
+```ts
+type BuildSwapTransaction = {
+  approveTransaction?: SwapTransaction; // The approval transaction
+  fee: Fee; // The fee for the swap
+  quote: SwapQuote; // The quote for the swap
+  transaction: SwapTransaction; // The swap transaction
+  warning?: QuoteWarning; // The warning associated with the swap
+};
+```
+
+## `BuildSwapTransactionResponse`
+
+```ts
+type BuildSwapTransactionResponse = BuildSwapTransaction | SwapError;
+```
+
+## `BuildSwapTransactionParams`
+
+```ts
+type BuildSwapTransactionParams = GetSwapQuoteParams & {
+  fromAddress: Address; // The address of the user
+};
+```
+
+## `GetSwapQuoteParams`
+
+```ts
+export type GetSwapQuoteParams = {
+  from: Token; // The source token for the swap
+  to: Token; // The destination token for the swap
+  amount: string; // The amount to be swapped
+  amountReference?: string; // The reference amount for the swap
+  isAmountInDecimals?: boolean; // Whether the amount is in decimals
+};
+```
+
+## `GetSwapQuoteResponse`
+
+```ts
+export type GetSwapQuoteResponse = SwapQuote | SwapError;
+```
+
 ## `SwapAmountInputReact`
 
 ```ts
@@ -15,10 +59,19 @@ type SwapAmountInputReact = {
 };
 ```
 
+## `SwapError`
+
+```ts
+type SwapError = {
+  code: number; // The error code
+  error: string; // The error message
+};
+```
+
 ## `SwapReact`
 
 ```ts
-export type SwapReact = {
+type SwapReact = {
   account: Account; // Ethereum account
   children: ReactNode; // Children components to render
   onError?: (error: SwapError) => void; // Callback when swap is unsuccessful

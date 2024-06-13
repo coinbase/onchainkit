@@ -94,7 +94,7 @@ export function Swap({ account, children, onError }: SwapReact) {
       <div className="flex w-[400px] flex-col rounded-xl bg-white">
         <label
           className={cn(
-            'box-border w-full border-b border-solid  p-4 text-base',
+            'box-border w-full border-b border-solid p-4 text-base',
             'font-semibold leading-6 text-[#030712]',
           )}
         >

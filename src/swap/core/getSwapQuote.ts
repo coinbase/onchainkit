@@ -3,7 +3,7 @@ import { sendRequest } from '../../queries/request';
 import { getAPIParamsForToken } from './getAPIParamsForToken';
 import type {
   GetSwapQuoteResponse,
-  Quote,
+  SwapQuote,
   SwapError,
   GetSwapQuoteParams,
   SwapAPIParams,
@@ -21,7 +21,7 @@ export async function getSwapQuote(params: GetSwapQuoteParams): Promise<GetSwapQ
   const apiParams = getAPIParamsForToken({ ...defaultParams, ...params });
 
   try {
-    const res = await sendRequest<SwapAPIParams, Quote>(CDP_GET_SWAP_QUOTE, [apiParams]);
+    const res = await sendRequest<SwapAPIParams, SwapQuote>(CDP_GET_SWAP_QUOTE, [apiParams]);
     if (res.error) {
       return {
         code: res.error.code,

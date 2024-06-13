@@ -19,10 +19,10 @@ export function FrameMetadata({
   state,
   wrapper: Wrapper = Fragment,
 }: FrameMetadataReact) {
-  const button1 = buttons && buttons[0];
-  const button2 = buttons && buttons[1];
-  const button3 = buttons && buttons[2];
-  const button4 = buttons && buttons[3];
+  const button1 = buttons?.[0];
+  const button2 = buttons?.[1];
+  const button3 = buttons?.[2];
+  const button4 = buttons?.[3];
   const postUrlToUse = postUrl || post_url;
   const refreshPeriodToUse = refreshPeriod || refresh_period;
   const imageSrc = typeof image === 'string' ? image : image.src;
@@ -47,9 +47,7 @@ export function FrameMetadata({
       {!!(button1 && !!button1.action) && (
         <meta property="fc:frame:button:1:action" content={button1.action} />
       )}
-      {!!(button1 && button1.target) && (
-        <meta property="fc:frame:button:1:target" content={button1.target} />
-      )}
+      {!!button1?.target && <meta property="fc:frame:button:1:target" content={button1.target} />}
       {!!(button1 && button1.action === 'tx' && button1.postUrl) && (
         <meta property="fc:frame:button:1:post_url" content={button1.postUrl} />
       )}
@@ -58,9 +56,7 @@ export function FrameMetadata({
       {!!(button2 && !!button2.action) && (
         <meta property="fc:frame:button:2:action" content={button2.action} />
       )}
-      {!!(button2 && button2.target) && (
-        <meta property="fc:frame:button:2:target" content={button2.target} />
-      )}
+      {!!button2?.target && <meta property="fc:frame:button:2:target" content={button2.target} />}
       {!!(button2 && button2.action === 'tx' && button2.postUrl) && (
         <meta property="fc:frame:button:2:post_url" content={button2.postUrl} />
       )}
@@ -69,9 +65,7 @@ export function FrameMetadata({
       {!!(button3 && !!button3.action) && (
         <meta property="fc:frame:button:3:action" content={button3.action} />
       )}
-      {!!(button3 && button3.target) && (
-        <meta property="fc:frame:button:3:target" content={button3.target} />
-      )}
+      {!!button3?.target && <meta property="fc:frame:button:3:target" content={button3.target} />}
       {!!(button3 && button3.action === 'tx' && button3.postUrl) && (
         <meta property="fc:frame:button:3:post_url" content={button3.postUrl} />
       )}
@@ -80,9 +74,7 @@ export function FrameMetadata({
       {!!(button4 && !!button4.action) && (
         <meta property="fc:frame:button:4:action" content={button4.action} />
       )}
-      {!!(button4 && button4.target) && (
-        <meta property="fc:frame:button:4:target" content={button4.target} />
-      )}
+      {!!button4?.target && <meta property="fc:frame:button:4:target" content={button4.target} />}
       {!!(button4 && button4.action === 'tx' && button4.postUrl) && (
         <meta property="fc:frame:button:4:post_url" content={button4.postUrl} />
       )}
@@ -95,8 +87,8 @@ export function FrameMetadata({
 
       {!!isOpenFrame && <meta property="of:version" content="vNext" />}
 
-      {!!isOpenFrame && accepts && accepts['xmtp'] && (
-        <meta property={`of:accepts:xmtp`} content={accepts['xmtp']} />
+      {!!isOpenFrame && accepts && accepts.xmtp && (
+        <meta property={'of:accepts:xmtp'} content={accepts.xmtp} />
       )}
 
       {!!isOpenFrame && imageSrc && <meta property="of:image" content={imageSrc} />}

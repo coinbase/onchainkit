@@ -46,13 +46,12 @@ async function getFrameMessage(
       isValid: true,
       message: response,
     };
-  } else {
-    // Security best practice, don't return anything if we can't validate the frame.
-    return {
-      isValid: false,
-      message: undefined,
-    };
   }
+  // Security best practice, don't return anything if we can't validate the frame.
+  return {
+    isValid: false,
+    message: undefined,
+  };
 }
 
 export { getFrameMessage };
