@@ -2,9 +2,6 @@ import type { SwapError } from './types';
 
 // checks that input is a number
 export function isValidAmount(value: string) {
-  if (value.length > 11) {
-    return false;
-  }
   if (value === '') {
     return true;
   }
@@ -21,9 +18,7 @@ export function isSwapError(response: unknown): response is SwapError {
 export function formatTokenAmount(amount: string, decimals: number) {
   // Convert the string amount to a number using decimals value
   const numberAmount = Number(amount) / Math.pow(10, decimals);
-  // Round to a maximum of 11 significant digits
-  const roundedAmount = Number(numberAmount.toPrecision(11));
-  return roundedAmount.toString();
+  return numberAmount.toString();
 }
 
 export function getRoundedAmount(balance: string, fractionDigits: number) {

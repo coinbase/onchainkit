@@ -1,6 +1,6 @@
 {
   "name": "@coinbase/onchainkit",
-  "version": "0.20.5",
+  "version": "0.20.6",
   "type": "module",
   "repository": "https://github.com/coinbase/onchainkit.git",
   "license": "MIT",
@@ -68,13 +68,20 @@
   "packemon": [
     {
       "bundle": false,
-      "platform": ["browser"]
+      "platform": [
+        "browser"
+      ]
     }
   ],
   "publishConfig": {
     "access": "public"
   },
-  "files": ["esm/**/*", "lib/**/*", "src/", "src/**/*"],
+  "files": [
+    "esm/**/*",
+    "lib/**/*",
+    "src/",
+    "src/**/*"
+  ],
   "main": "./esm/index.js",
   "types": "./esm/index.d.ts",
   "module": "./esm/index.js",

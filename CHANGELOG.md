@@ -1,10 +1,17 @@
 # Changelog
 
+## 0.20.6
+
+### Patch Changes
+
+- 0225039: - **fix**: added Token amount formatter. By @abcrane123 #543 #544
+  - **chore**: more code cleanup. By @zizzamia #536 #537
+
 ## 0.20.5
 
 ### Patch Changes
 
-- 5a8cd45: - **fix**: Swap type. By @zizzamia #532
+- **fix**: `Swap` type. By @zizzamia #532 5a8cd45
 
 ## 0.20.4
 
