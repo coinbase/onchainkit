@@ -1,7 +1,7 @@
 import { useCallback, useContext } from 'react';
 import { cn } from '../../utils/cn';
 import { buildSwapTransaction } from '../core/buildSwapTransaction';
-import { isSwapError } from '../utils';
+import { isSwapError } from '../core/isSwapError';
 import { SwapContext } from '../context';
 import type { SwapButtonReact, SwapError } from '../types';
 

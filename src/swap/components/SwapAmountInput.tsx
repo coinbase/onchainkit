@@ -1,6 +1,7 @@
 import { useCallback, useContext, useEffect, useMemo } from 'react';
 
-import { getRoundedAmount, isValidAmount } from '../utils';
+import { isValidAmount } from '../../utils/isValidAmount';
+import { getRoundedAmount } from '../../utils/getRoundedAmount';
 import { TokenChip } from '../../token';
 import { cn } from '../../utils/cn';
 import { SwapContext } from '../context';
@@ -83,7 +84,7 @@ export function SwapAmountInput({ label, token, type }: SwapAmountInputReact) {
       <div className="flex w-full items-center justify-between">
         <label className="font-semibold text-[#030712] text-sm">{label}</label>
         {roundedBalance && (
-          <label className='font-normal text-gray-400 text-sm'>{`Balance: ${roundedBalance}`}</label>
+          <label className="font-normal text-gray-400 text-sm">{`Balance: ${roundedBalance}`}</label>
         )}
       </div>
       <div className="flex w-full items-center justify-between">

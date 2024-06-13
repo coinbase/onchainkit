@@ -7,6 +7,6 @@ type TextCaptionReact = {
 /* istanbul ignore next */
 export function TextCaption({ children }: TextCaptionReact) {
   return (
-    <span className='text-bold text-sans text-xs leading-4'>{children}</span>
+    <span className="text-bold text-sans text-xs leading-4">{children}</span>
   );
 }

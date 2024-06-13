@@ -6,7 +6,7 @@ type TextHeadlineReact = {
 
 export function TextHeadline({ children }: TextHeadlineReact) {
   return (
-    <span className='text-[#0A0B0D] text-base text-bold text-sans leading-normal'>
+    <span className="text-[#0A0B0D] text-base text-bold text-sans leading-normal">
       {children}
     </span>
   );

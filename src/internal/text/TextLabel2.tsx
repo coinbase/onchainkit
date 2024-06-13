@@ -7,7 +7,7 @@ type TextLabel2React = {
 /* istanbul ignore next */
 export function TextLabel2({ children }: TextLabel2React) {
   return (
-    <span className='text-[#0A0B0D] text-sans text-sm leading-5'>
+    <span className="text-[#0A0B0D] text-sans text-sm leading-5">
       {children}
     </span>
   );

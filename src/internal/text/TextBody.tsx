@@ -6,7 +6,7 @@ type TextBodyReact = {
 
 export function TextBody({ children }: TextBodyReact) {
   return (
-    <span className='text-base text-black text-sans leading-normal'>
+    <span className="text-base text-black text-sans leading-normal">
       {children}
     </span>
   );
