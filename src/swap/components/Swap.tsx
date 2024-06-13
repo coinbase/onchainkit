@@ -1,11 +1,10 @@
-import { useCallback, useMemo, useState } from 'react';
-import { cn } from '../../utils/cn';
-import { SwapContext } from '../context';
-import { getSwapQuote } from '../core/getSwapQuote';
-import { formatTokenAmount } from '../../utils/formatTokenAmount';
-import { isSwapError } from '../core/isSwapError';
 import type { SwapError, SwapReact } from '../types';
 import type { Token } from '../../token';
+import { SwapContext } from '../context';
+import { formatTokenAmount } from '../../utils/formatTokenAmount';
+import { getSwapQuote } from '../core/getSwapQuote';
+import { isSwapError } from '../core/isSwapError';
+import { useCallback, useMemo, useState } from 'react';
 
 export function Swap({ address, children, onError }: SwapReact) {
   const [fromAmount, setFromAmount] = useState('');
@@ -100,13 +99,8 @@ export function Swap({ address, children, onError }: SwapReact) {
 
   return (
     <SwapContext.Provider value={value}>
-      <div className="flex w-[400px] flex-col rounded-xl bg-white">
-        <label
-          className={cn(
-            'box-border w-full border-b border-solid p-4 text-base',
-            'font-semibold text-[#030712] leading-6',
-          )}
-        >
+      <div className="flex w-[400px] flex-col rounded-xl bg-gray-100 pt-6 pb-4 px-6">
+        <label className="text-base font-semibold text-[#030712] leading-6 mb-4">
           Swap
         </label>
         {children}
