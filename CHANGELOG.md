@@ -4,8 +4,8 @@
 
 ### Patch Changes
 
-- 0225039: - **fix**: added Token amount formatter. By @abcrane123 #543 #544
-  - **chore**: more code cleanup. By @zizzamia #536 #537
+- **fix**: added Token amount formatter. By @abcrane123 #543 #544 0225039
+- **chore**: more code cleanup. By @zizzamia #536 #537
 
 ## 0.20.5
 
