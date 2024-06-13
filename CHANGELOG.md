@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- 5cab65c: - **feat**: exported `Swap` components. By @zizzamia #530
+- **feat**: exported `Swap` components. By @zizzamia #530 5cab65c
 
 ## 0.20.2
 
