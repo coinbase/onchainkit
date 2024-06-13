@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.20.2
+
+### Patch Changes
+
+- 9fef5e9: - **feat**: added `Swap` component. By @abcrane123 & @kyhyco #522
+
 ## 0.20.1
 
 ### Patch Changes
