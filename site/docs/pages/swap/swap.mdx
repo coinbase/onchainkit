@@ -1,23 +1,23 @@
-import { Swap, SwapAmountInputV2, SwapButton } from '../../../../src/swap';
+import { Swap, SwapAmountInput, SwapButton } from '../../../../src/swap';
 import App from '../App';
 
 # `<Swap />`
 
-The `Swap` component is a comprehensive interface for users to execute token swaps. It includes two instances of the `SwapAmountInputV2` component, enabling users to specify the amount of tokens to sell and buy. Additionally, the component features a "Swap" button for initiating the transaction.
+The `Swap` component is a comprehensive interface for users to execute token swaps. It includes two instances of the `SwapAmountInput` component, enabling users to specify the amount of tokens to sell and buy. Additionally, the component features a "Swap" button for initiating the transaction.
 
 ## Usage
 
 ```tsx [code]
 <Swap account={account} onError={onError}>
-  <SwapAmountInputV2 label="Sell" token={fromToken} type="from" />
-  <SwapAmountInputV2 label="Buy" token={toToken} type="to" />
+  <SwapAmountInput label="Sell" token={fromToken} type="from" />
+  <SwapAmountInput label="Buy" token={toToken} type="to" />
   <SwapButton onError={onError} onSubmit={onSubmit} />
 </Swap>
 ```
 
 <App>
   <Swap>
-    <SwapAmountInputV2
+    <SwapAmountInput
       label="Sell"
       token={{
         name: 'Ethereum',
@@ -29,7 +29,7 @@ The `Swap` component is a comprehensive interface for users to execute token swa
       }}
       type="from"
     />
-    <SwapAmountInputV2
+    <SwapAmountInput
       label="Buy"
       token={{
         name: 'USDC',
