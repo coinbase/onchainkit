@@ -14,10 +14,6 @@ jest.mock('../../token', () => ({
   TokenChip: jest.fn(() => <div>TokenChip</div>),
 }));
 
-const mockAccount = {
-  address: '0x5FbDB2315678afecb367f032d93F642f64180aa3' as Address,
-} as Account;
-
 const mockContextValue = {
   fromAmount: '10',
   setFromAmount: jest.fn(),
@@ -25,7 +21,7 @@ const mockContextValue = {
   setToAmount: jest.fn(),
   setToToken: jest.fn(),
   toAmount: '20',
-  account: mockAccount,
+  address: '0x5FbDB2315678afecb367f032d93F642f64180aa3' as Address,
 } as SwapContextType;
 
 const mockToken: Token = {

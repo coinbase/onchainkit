@@ -105,7 +105,7 @@ export type SwapButtonReact = {
 };
 
 export type SwapContextType = {
-  account: Account;
+  address: Address; // Connected address from connector.
   fromAmount: string;
   fromToken?: Token;
   setFromAmount: (a: string) => void;
@@ -142,7 +142,7 @@ export type SwapParams = {
  * Note: exported as public Type
  */
 export type SwapReact = {
-  account: Account;
+  address: Address; // Connected address from connector.
   children: ReactNode;
   onError?: (error: SwapError) => void;
 };

@@ -6,14 +6,14 @@ import { SwapContext } from '../context';
 import type { SwapButtonReact, SwapError } from '../types';
 
 export function SwapButton({ onError, onSubmit }: SwapButtonReact) {
-  const { account, fromAmount, fromToken, toToken } = useContext(SwapContext);
+  const { address, fromAmount, fromToken, toToken } = useContext(SwapContext);
 
   const handleSubmit = useCallback(async () => {
-    if (account && fromToken && toToken && fromAmount) {
+    if (address && fromToken && toToken && fromAmount) {
       try {
         const response = await buildSwapTransaction({
           amount: fromAmount,
-          fromAddress: account.address,
+          fromAddress: address,
           from: fromToken,
           to: toToken,
         });
@@ -26,7 +26,7 @@ export function SwapButton({ onError, onSubmit }: SwapButtonReact) {
         onError?.(error as SwapError);
       }
     }
-  }, [account, fromAmount, fromToken, toToken]);
+  }, [address, fromAmount, fromToken, toToken]);
 
   return (
     <div className="w-full p-4">

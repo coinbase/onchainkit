@@ -6,7 +6,7 @@ import { isSwapError } from '../utils';
 import type { SwapError, SwapReact } from '../types';
 import type { Token } from '../../token';
 
-export function Swap({ account, children, onError }: SwapReact) {
+export function Swap({ address, children, onError }: SwapReact) {
   const [fromAmount, setFromAmount] = useState('');
   const [fromToken, setFromToken] = useState<Token>();
   const [toAmount, setToAmount] = useState('');
@@ -66,7 +66,7 @@ export function Swap({ account, children, onError }: SwapReact) {
 
   const value = useMemo(() => {
     return {
-      account,
+      address,
       fromAmount,
       fromToken,
       setFromAmount: handleFromAmountChange,
@@ -77,7 +77,7 @@ export function Swap({ account, children, onError }: SwapReact) {
       toToken,
     };
   }, [
-    account,
+    address,
     fromAmount,
     fromToken,
     handleFromAmountChange,
