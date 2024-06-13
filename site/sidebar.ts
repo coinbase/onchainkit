@@ -148,6 +148,16 @@ export const sidebar = [
         ],
       },
       {
+        text: 'Utilities',
+        collapsed: true,
+        items: [
+          {
+            text: 'getSwapQuote',
+            link: '/swap/get-swap-quote',
+          },
+        ],
+      },
+      {
         text: 'Types',
         link: '/swap/types',
       },
