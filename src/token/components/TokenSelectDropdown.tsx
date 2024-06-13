@@ -2,9 +2,13 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import type { TokenSelectDropdownReact } from '../types';
 import { TokenRow } from './TokenRow';
 import { TokenSelectButton } from './TokenSelectButton';
-import { cn } from '../../lib/utils';
+import { cn } from '../../utils/cn';
 
-export function TokenSelectDropdown({ options, setToken, token }: TokenSelectDropdownReact) {
+export function TokenSelectDropdown({
+  options,
+  setToken,
+  token,
+}: TokenSelectDropdownReact) {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleToggle = useCallback(() => {
@@ -17,8 +21,10 @@ export function TokenSelectDropdown({ options, setToken, token }: TokenSelectDro
   /* istanbul ignore next */
   const handleBlur = useCallback((event: MouseEvent) => {
     const isOutsideDropdown =
-      dropdownRef.current && !dropdownRef.current.contains(event.target as Node);
-    const isOutsideButton = buttonRef.current && !buttonRef.current.contains(event.target as Node);
+      dropdownRef.current &&
+      !dropdownRef.current.contains(event.target as Node);
+    const isOutsideButton =
+      buttonRef.current && !buttonRef.current.contains(event.target as Node);
 
     if (isOutsideDropdown && isOutsideButton) {
       setIsOpen(false);
@@ -39,7 +45,12 @@ export function TokenSelectDropdown({ options, setToken, token }: TokenSelectDro
 
   return (
     <div className={'relative'}>
-      <TokenSelectButton ref={buttonRef} onClick={handleToggle} isOpen={isOpen} token={token} />
+      <TokenSelectButton
+        ref={buttonRef}
+        onClick={handleToggle}
+        isOpen={isOpen}
+        token={token}
+      />
       {isOpen && (
         <div
           ref={dropdownRef}

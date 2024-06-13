@@ -13,5 +13,7 @@ export function isValidAmount(value: string) {
 }
 
 export function isSwapError(response: unknown): response is SwapError {
-  return response !== null && typeof response === 'object' && 'error' in response;
+  return (
+    response !== null && typeof response === 'object' && 'error' in response
+  );
 }

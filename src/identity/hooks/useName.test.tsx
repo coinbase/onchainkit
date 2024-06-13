@@ -5,7 +5,7 @@
 import { renderHook, waitFor } from '@testing-library/react';
 import { useName } from './useName';
 import { publicClient } from '../../network/client';
-import { getNewReactQueryTestProvider } from '../../test-utils/hooks/get-new-react-query-test-provider';
+import { getNewReactQueryTestProvider } from './getNewReactQueryTestProvider';
 
 jest.mock('../../network/client');
 
@@ -60,9 +60,12 @@ describe('useName', () => {
     mockGetEnsName.mockResolvedValue(testEnsName);
 
     // Use the renderHook function to create a test harness for the useName hook
-    const { result } = renderHook(() => useName({ address: testAddress, showAddress: true }), {
-      wrapper: getNewReactQueryTestProvider(),
-    });
+    const { result } = renderHook(
+      () => useName({ address: testAddress, showAddress: true }),
+      {
+        wrapper: getNewReactQueryTestProvider(),
+      },
+    );
 
     // Wait for the hook to finish fetching the ENS name
     await waitFor(() => {

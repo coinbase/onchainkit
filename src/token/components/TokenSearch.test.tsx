@@ -18,7 +18,9 @@ describe('TokenSearch component', () => {
 
     expect(handleChange).toHaveBeenCalledTimes(0);
 
-    await waitFor(() => expect(handleChange).toHaveBeenCalledWith('test'), { timeout: 300 });
+    await waitFor(() => expect(handleChange).toHaveBeenCalledWith('test'), {
+      timeout: 300,
+    });
 
     expect(handleChange).toHaveBeenCalledTimes(1);
   });
@@ -26,7 +28,9 @@ describe('TokenSearch component', () => {
   it('should call onChange immediately with no debounce delay', async () => {
     const handleChange = jest.fn();
 
-    const { getByRole } = render(<TokenSearch onChange={handleChange} delayMs={0} />);
+    const { getByRole } = render(
+      <TokenSearch onChange={handleChange} delayMs={0} />,
+    );
 
     const input = getByRole('textbox');
 
@@ -37,7 +41,9 @@ describe('TokenSearch component', () => {
 
   it('clears the input when the clear button is clicked', async () => {
     const handleChange = jest.fn();
-    const { getByTestId, getByRole } = render(<TokenSearch onChange={handleChange} />);
+    const { getByTestId, getByRole } = render(
+      <TokenSearch onChange={handleChange} />,
+    );
 
     const input = getByRole('textbox');
     fireEvent.change(input, { target: { value: 'test' } });

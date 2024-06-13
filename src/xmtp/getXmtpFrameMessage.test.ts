@@ -6,7 +6,8 @@ describe('getXmtpFrameMessage', () => {
     clientProtocol: 'xmtp@2024-02-09',
     untrustedData: {
       buttonIndex: 1,
-      opaqueConversationIdentifier: '8Yo5DAFCnhCA0DYjsnqMr5L2iRaXLyhUe+gSGDiEvVw=',
+      opaqueConversationIdentifier:
+        '8Yo5DAFCnhCA0DYjsnqMr5L2iRaXLyhUe+gSGDiEvVw=',
       walletAddress: '0x3AB6F6426210b5F52B780a0508ff6543d80cF317',
       url: 'https://fc-polls-five.vercel.app/polls/01032f47-e976-42ee-9e3d-3aac1324f4b8',
       timestamp: 1708107878809,
@@ -22,7 +23,8 @@ describe('getXmtpFrameMessage', () => {
     clientProtocol: 'xmtp@2024-02-09',
     untrustedData: {
       buttonIndex: 1,
-      opaqueConversationIdentifier: '8Yo5DAFCnhCA0DYjsnqMr5L2iRaXLyhUe+gSGDiEvVw=',
+      opaqueConversationIdentifier:
+        '8Yo5DAFCnhCA0DYjsnqMr5L2iRaXLyhUe+gSGDiEvVw=',
       walletAddress: 'foo',
       url: 'https://fc-polls-five.vercel.app/polls/01032f47-e976-42ee-9e3d-3aac1324f4b8',
       timestamp: 1708107878809,
@@ -62,7 +64,8 @@ describe('getXmtpFrameMessage', () => {
     const invalidResult = await getXmtpFrameMessage({
       untrustedData: {
         buttonIndex: 1,
-        opaqueConversationIdentifier: '8Yo5DAFCnhCA0DYjsnqMr5L2iRaXLyhUe+gSGDiEvVw=',
+        opaqueConversationIdentifier:
+          '8Yo5DAFCnhCA0DYjsnqMr5L2iRaXLyhUe+gSGDiEvVw=',
         walletAddress: 'foo',
         url: 'https://fc-polls-five.vercel.app/polls/01032f47-e976-42ee-9e3d-3aac1324f4b8',
         timestamp: 1708107878809,
@@ -82,7 +85,8 @@ describe('getXmtpFrameMessage', () => {
       clientProtocol: 'potato@2024-02-09',
       untrustedData: {
         buttonIndex: 1,
-        opaqueConversationIdentifier: '8Yo5DAFCnhCA0DYjsnqMr5L2iRaXLyhUe+gSGDiEvVw=',
+        opaqueConversationIdentifier:
+          '8Yo5DAFCnhCA0DYjsnqMr5L2iRaXLyhUe+gSGDiEvVw=',
         walletAddress: 'foo',
         url: 'https://fc-polls-five.vercel.app/polls/01032f47-e976-42ee-9e3d-3aac1324f4b8',
         timestamp: 1708107878809,

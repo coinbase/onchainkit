@@ -1,17 +1,18 @@
 import { getSwapQuote } from './getSwapQuote';
-import { sendRequest } from '../../queries/request';
+import { sendRequest } from '../../network/request';
 import { CDP_GET_SWAP_QUOTE } from '../../definitions/swap';
 import type { Token } from '../../token/types';
 import { getAPIParamsForToken } from './getAPIParamsForToken';
 
-jest.mock('../../queries/request');
+jest.mock('../../network/request');
 
 const ETH: Token = {
   name: 'ETH',
   address: '',
   symbol: 'ETH',
   decimals: 18,
-  image: 'https://wallet-api-production.s3.amazonaws.com/uploads/tokens/eth_288.png',
+  image:
+    'https://wallet-api-production.s3.amazonaws.com/uploads/tokens/eth_288.png',
   chainId: 8453,
 };
 const DEGEN: Token = {
@@ -48,7 +49,8 @@ describe('getSwapQuote', () => {
           address: '',
           chainId: 8453,
           decimals: 18,
-          image: 'https://wallet-api-production.s3.amazonaws.com/uploads/tokens/eth_288.png',
+          image:
+            'https://wallet-api-production.s3.amazonaws.com/uploads/tokens/eth_288.png',
           name: 'ETH',
           symbol: 'ETH',
         },
@@ -78,7 +80,9 @@ describe('getSwapQuote', () => {
     expect(quote).toEqual(mockResponse.result);
 
     expect(sendRequest).toHaveBeenCalledTimes(1);
-    expect(sendRequest).toHaveBeenCalledWith(CDP_GET_SWAP_QUOTE, [mockApiParams]);
+    expect(sendRequest).toHaveBeenCalledWith(CDP_GET_SWAP_QUOTE, [
+      mockApiParams,
+    ]);
   });
 
   it('should throw an error if sendRequest fails', async () => {
@@ -98,7 +102,9 @@ describe('getSwapQuote', () => {
     );
 
     expect(sendRequest).toHaveBeenCalledTimes(1);
-    expect(sendRequest).toHaveBeenCalledWith(CDP_GET_SWAP_QUOTE, [mockApiParams]);
+    expect(sendRequest).toHaveBeenCalledWith(CDP_GET_SWAP_QUOTE, [
+      mockApiParams,
+    ]);
   });
 
   it('should return an error object from getSwapQuote', async () => {
@@ -128,6 +134,8 @@ describe('getSwapQuote', () => {
     });
 
     expect(sendRequest).toHaveBeenCalledTimes(1);
-    expect(sendRequest).toHaveBeenCalledWith(CDP_GET_SWAP_QUOTE, [mockApiParams]);
+    expect(sendRequest).toHaveBeenCalledWith(CDP_GET_SWAP_QUOTE, [
+      mockApiParams,
+    ]);
   });
 });

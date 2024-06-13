@@ -2,13 +2,13 @@
  * @jest-environment jsdom
  */
 
-import { getAttestationsByFilter } from '../queries/attestations';
+import { getAttestationsByFilter } from '../network/attestations';
 import { getAttestations } from './getAttestations';
 import { easSupportedChains } from './easSupportedChains';
 import { base, opBNBTestnet } from 'viem/chains';
 import type { GetAttestationsOptions } from './types';
 
-jest.mock('../queries/attestations');
+jest.mock('../network/attestations');
 
 describe('getAttestations', () => {
   const mockAddress = '0x1234567890abcdef1234567890abcdef12345678';
@@ -20,7 +20,8 @@ describe('getAttestations', () => {
       id: '0x93016a60f13e7cfe0257116aedfce7088c2c0020787a325ea9f6b4ba11d07598',
       recipient: '0x44a7D120beA87455071cebB841eF91E6Ae21bC1a',
       revocationTime: 0,
-      schemaId: '0x1801901fabd0e6189356b4fb52bb0ab855276d84f7ec140839fbd1f6801ca065',
+      schemaId:
+        '0x1801901fabd0e6189356b4fb52bb0ab855276d84f7ec140839fbd1f6801ca065',
       timeCreated: 1707269100,
       txid: '0x88448267566c9546ff31b9e6be229fb960f12bec8bc441259c7b064ae4159d34',
     },
@@ -60,7 +61,9 @@ describe('getAttestations', () => {
   });
 
   it('handles errors from getAttestationsByFilter correctly', async () => {
-    (getAttestationsByFilter as jest.Mock).mockRejectedValue(new Error('Network error'));
+    (getAttestationsByFilter as jest.Mock).mockRejectedValue(
+      new Error('Network error'),
+    );
 
     const result = await getAttestations(mockAddress, base);
 
@@ -94,6 +97,10 @@ describe('getAttestations', () => {
     await getAttestations(mockAddress, base, customOptions);
 
     // Check if getAttestationsByFilter is called with the custom options
-    expect(getAttestationsByFilter).toHaveBeenCalledWith(mockAddress, base, customOptions);
+    expect(getAttestationsByFilter).toHaveBeenCalledWith(
+      mockAddress,
+      base,
+      customOptions,
+    );
   });
 });

@@ -1,19 +1,20 @@
 import { getAPIParamsForToken } from './getAPIParamsForToken';
 import { buildSwapTransaction } from './buildSwapTransaction';
 import { getSwapTransaction } from './getSwapTransaction';
-import { sendRequest } from '../../queries/request';
+import { sendRequest } from '../../network/request';
 import { CDP_GET_SWAP_TRADE } from '../../definitions/swap';
 import type { Token } from '../../token/types';
 import type { BuildSwapTransaction } from '../types';
 
-jest.mock('../../queries/request');
+jest.mock('../../network/request');
 
 const ETH: Token = {
   name: 'ETH',
   address: '',
   symbol: 'ETH',
   decimals: 18,
-  image: 'https://wallet-api-production.s3.amazonaws.com/uploads/tokens/eth_288.png',
+  image:
+    'https://wallet-api-production.s3.amazonaws.com/uploads/tokens/eth_288.png',
   chainId: 8453,
 };
 const DEGEN: Token = {
@@ -61,7 +62,8 @@ describe('buildSwapTransaction', () => {
             address: '',
             chainId: 8453,
             decimals: 18,
-            image: 'https://wallet-api-production.s3.amazonaws.com/uploads/tokens/eth_288.png',
+            image:
+              'https://wallet-api-production.s3.amazonaws.com/uploads/tokens/eth_288.png',
             name: 'ETH',
             symbol: 'ETH',
           },
@@ -118,17 +120,23 @@ describe('buildSwapTransaction', () => {
       warning: trade.quote.warning,
     };
 
-    const quote = (await buildSwapTransaction(mockParams)) as BuildSwapTransaction;
+    const quote = (await buildSwapTransaction(
+      mockParams,
+    )) as BuildSwapTransaction;
 
     expect(quote.approveTransaction?.transaction).toEqual(
       expectedResponse.approveTransaction?.transaction,
     );
-    expect(quote.transaction.transaction).toEqual(expectedResponse.transaction.transaction);
+    expect(quote.transaction.transaction).toEqual(
+      expectedResponse.transaction.transaction,
+    );
     expect(quote.fee).toEqual(expectedResponse.fee);
     expect(quote.warning).toEqual(expectedResponse.warning);
 
     expect(sendRequest).toHaveBeenCalledTimes(1);
-    expect(sendRequest).toHaveBeenCalledWith(CDP_GET_SWAP_TRADE, [mockApiParams]);
+    expect(sendRequest).toHaveBeenCalledWith(CDP_GET_SWAP_TRADE, [
+      mockApiParams,
+    ]);
   });
 
   it('should return a swap with an approve transaction', async () => {
@@ -166,7 +174,8 @@ describe('buildSwapTransaction', () => {
             address: '',
             chainId: 8453,
             decimals: 18,
-            image: 'https://wallet-api-production.s3.amazonaws.com/uploads/tokens/eth_288.png',
+            image:
+              'https://wallet-api-production.s3.amazonaws.com/uploads/tokens/eth_288.png',
             name: 'ETH',
             symbol: 'ETH',
           },
@@ -222,17 +231,23 @@ describe('buildSwapTransaction', () => {
       warning: trade.quote.warning,
     };
 
-    const quote = (await buildSwapTransaction(mockParams)) as BuildSwapTransaction;
+    const quote = (await buildSwapTransaction(
+      mockParams,
+    )) as BuildSwapTransaction;
 
     expect(quote.approveTransaction?.transaction).toEqual(
       expectedResponse.approveTransaction?.transaction,
     );
-    expect(quote.transaction.transaction).toEqual(expectedResponse.transaction.transaction);
+    expect(quote.transaction.transaction).toEqual(
+      expectedResponse.transaction.transaction,
+    );
     expect(quote.fee).toEqual(expectedResponse.fee);
     expect(quote.warning).toEqual(expectedResponse.warning);
 
     expect(sendRequest).toHaveBeenCalledTimes(1);
-    expect(sendRequest).toHaveBeenCalledWith(CDP_GET_SWAP_TRADE, [mockApiParams]);
+    expect(sendRequest).toHaveBeenCalledWith(CDP_GET_SWAP_TRADE, [
+      mockApiParams,
+    ]);
   });
 
   it('should throw an error if sendRequest fails', async () => {
@@ -245,7 +260,9 @@ describe('buildSwapTransaction', () => {
     };
     const mockApiParams = getAPIParamsForToken(mockParams);
 
-    const mockError = new Error('buildSwapTransaction: Error: Failed to send request');
+    const mockError = new Error(
+      'buildSwapTransaction: Error: Failed to send request',
+    );
     (sendRequest as jest.Mock).mockRejectedValue(mockError);
 
     await expect(buildSwapTransaction(mockParams)).rejects.toThrow(
@@ -253,7 +270,9 @@ describe('buildSwapTransaction', () => {
     );
 
     expect(sendRequest).toHaveBeenCalledTimes(1);
-    expect(sendRequest).toHaveBeenCalledWith(CDP_GET_SWAP_TRADE, [mockApiParams]);
+    expect(sendRequest).toHaveBeenCalledWith(CDP_GET_SWAP_TRADE, [
+      mockApiParams,
+    ]);
   });
 
   it('should return an error object from buildSwapTransaction', async () => {
@@ -284,6 +303,8 @@ describe('buildSwapTransaction', () => {
     });
 
     expect(sendRequest).toHaveBeenCalledTimes(1);
-    expect(sendRequest).toHaveBeenCalledWith(CDP_GET_SWAP_TRADE, [mockApiParams]);
+    expect(sendRequest).toHaveBeenCalledWith(CDP_GET_SWAP_TRADE, [
+      mockApiParams,
+    ]);
   });
 });

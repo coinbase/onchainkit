@@ -2,7 +2,10 @@ import { version } from '../../version';
 import { FetchError } from './exceptions/FetchError';
 import { NEYNAR_DEFAULT_API_KEY } from './frame/neynarFrameValidation';
 
-export async function getDataFromNeynar(url: string, apiKey: string = NEYNAR_DEFAULT_API_KEY) {
+export async function getDataFromNeynar(
+  url: string,
+  apiKey: string = NEYNAR_DEFAULT_API_KEY,
+) {
   const options = {
     method: 'GET',
     url: url,
@@ -15,7 +18,9 @@ export async function getDataFromNeynar(url: string, apiKey: string = NEYNAR_DEF
   };
   const resp = await fetch(options.url, options);
   if (resp.status !== 200) {
-    throw new FetchError(`non-200 status returned from neynar : ${resp.status}`);
+    throw new FetchError(
+      `non-200 status returned from neynar : ${resp.status}`,
+    );
   }
   return await resp.json();
 }

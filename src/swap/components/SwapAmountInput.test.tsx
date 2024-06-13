@@ -29,7 +29,8 @@ const mockToken: Token = {
   address: '',
   symbol: 'ETH',
   decimals: 18,
-  image: 'https://wallet-api-production.s3.amazonaws.com/uploads/tokens/eth_288.png',
+  image:
+    'https://wallet-api-production.s3.amazonaws.com/uploads/tokens/eth_288.png',
   chainId: 8453,
 };
 

@@ -17,7 +17,8 @@ jest.mock('../getSlicedAddress', () => ({
   getSlicedAddress: jest.fn(),
 }));
 
-const mockSliceAddress = (addr: string) => `${addr.slice(0, 6)}...${addr.slice(-4)}`;
+const mockSliceAddress = (addr: string) =>
+  `${addr.slice(0, 6)}...${addr.slice(-4)}`;
 
 describe('OnchainAddress', () => {
   const testAddress = '0x1234567890abcdef1234567890abcdef12345678';
@@ -29,7 +30,10 @@ describe('OnchainAddress', () => {
   });
 
   it('displays ENS name when available', () => {
-    (useName as jest.Mock).mockReturnValue({ data: testName, isLoading: false });
+    (useName as jest.Mock).mockReturnValue({
+      data: testName,
+      isLoading: false,
+    });
 
     render(<Name address={testAddress} />);
 
@@ -53,7 +57,9 @@ describe('OnchainAddress', () => {
 
     render(<Name address={testAddress} />);
 
-    expect(screen.queryByText(mockSliceAddress(testAddress))).not.toBeInTheDocument();
+    expect(
+      screen.queryByText(mockSliceAddress(testAddress)),
+    ).not.toBeInTheDocument();
     expect(getSlicedAddress).toHaveBeenCalledTimes(0);
   });
 

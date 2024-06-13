@@ -45,14 +45,18 @@ describe('neynar frame functions', () => {
     const resp = await neynarFrameValidation(message);
 
     expect(resp?.valid).toEqual(true);
-    expect(resp?.recasted).toEqual(mockedResponse.action.cast.viewer_context.recasted);
+    expect(resp?.recasted).toEqual(
+      mockedResponse.action.cast.viewer_context.recasted,
+    );
     expect(resp?.button).toEqual(mockedResponse.action.tapped_button.index);
     expect(resp?.input).toEqual(mockedResponse.action.input.text);
     expect(resp?.interactor?.fid).toEqual(mockedResponse.action.interactor.fid);
     expect(resp?.interactor?.verified_accounts).toEqual(
       mockedResponse.action.interactor.verifications,
     );
-    expect(resp?.following).toEqual(mockedResponse.action.interactor.viewer_context.following);
+    expect(resp?.following).toEqual(
+      mockedResponse.action.interactor.viewer_context.following,
+    );
   });
 
   it('fails on a non-200', async () => {

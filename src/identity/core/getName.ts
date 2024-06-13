@@ -7,7 +7,10 @@ import type { GetName, GetNameReturnType } from '../types';
  * name for a given Ethereum address. It returns the ENS name if it exists,
  * or null if it doesn't or in case of an error.
  */
-export const getName = async ({ address, showAddress }: GetName): Promise<GetNameReturnType> => {
+export const getName = async ({
+  address,
+  showAddress,
+}: GetName): Promise<GetNameReturnType> => {
   if (showAddress) {
     return getSlicedAddress(address);
   }

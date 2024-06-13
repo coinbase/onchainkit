@@ -11,7 +11,7 @@
   "javascript": {
     "formatter": {
       "enabled": true,
-      "lineWidth": 100,
+      "lineWidth": 80,
       "arrowParentheses": "always",
       "bracketSameLine": false,
       "quoteStyle": "single",

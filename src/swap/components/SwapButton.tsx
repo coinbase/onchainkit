@@ -1,5 +1,5 @@
 import { useCallback, useContext } from 'react';
-import { cn } from '../../lib/utils';
+import { cn } from '../../utils/cn';
 import { buildSwapTransaction } from '../core/buildSwapTransaction';
 import { isSwapError } from '../utils';
 import { SwapContext } from '../context';

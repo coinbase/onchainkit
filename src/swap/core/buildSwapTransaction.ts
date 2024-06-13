@@ -1,5 +1,5 @@
 import { CDP_GET_SWAP_TRADE } from '../../definitions/swap';
-import { sendRequest } from '../../queries/request';
+import { sendRequest } from '../../network/request';
 import { getAPIParamsForToken } from './getAPIParamsForToken';
 import { getSwapTransaction } from './getSwapTransaction';
 import type {
@@ -25,7 +25,10 @@ export async function buildSwapTransaction(
   const apiParams = getAPIParamsForToken({ ...defaultParams, ...params });
 
   try {
-    const res = await sendRequest<SwapAPIParams, SwapAPIResponse>(CDP_GET_SWAP_TRADE, [apiParams]);
+    const res = await sendRequest<SwapAPIParams, SwapAPIResponse>(
+      CDP_GET_SWAP_TRADE,
+      [apiParams],
+    );
     if (res.error) {
       return {
         code: res.error.code,

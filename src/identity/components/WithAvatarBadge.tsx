@@ -6,7 +6,10 @@ import type { WithAvatarBadgeInnerReact, WithAvatarBadgeReact } from '../types';
 const ERROR_MESSAGE =
   'EAS schemaId must provided in OnchainKitProvider context when using WithNameBadge showAttestation is true.';
 
-function WithAvatarBadgeInner({ children, address }: WithAvatarBadgeInnerReact) {
+function WithAvatarBadgeInner({
+  children,
+  address,
+}: WithAvatarBadgeInnerReact) {
   const onchainKitContext = useOnchainKit();
   // SchemaId is required to fetch attestations
   if (!onchainKitContext?.schemaId) {
@@ -32,9 +35,15 @@ function WithAvatarBadgeInner({ children, address }: WithAvatarBadgeInnerReact) 
   );
 }
 
-export function WithAvatarBadge({ children, showAttestation, address }: WithAvatarBadgeReact) {
+export function WithAvatarBadge({
+  children,
+  showAttestation,
+  address,
+}: WithAvatarBadgeReact) {
   if (!showAttestation) {
     return children;
   }
-  return <WithAvatarBadgeInner address={address}>{children}</WithAvatarBadgeInner>;
+  return (
+    <WithAvatarBadgeInner address={address}>{children}</WithAvatarBadgeInner>
+  );
 }

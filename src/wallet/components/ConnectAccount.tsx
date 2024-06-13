@@ -23,7 +23,9 @@ export function ConnectAccount({ children }: ConnectAccountReact) {
     if (children) {
       return children;
     }
-    return <div onClick={handleDisconnectWallet}>Connected wallet: {address}</div>;
+    return (
+      <div onClick={handleDisconnectWallet}>Connected wallet: {address}</div>
+    );
   };
 
   return (

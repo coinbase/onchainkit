@@ -57,8 +57,14 @@ describe('Avatar Component', () => {
   });
 
   it('should display ENS avatar when available', async () => {
-    (useAvatar as jest.Mock).mockReturnValue({ data: 'avatar_url', isLoading: false });
-    (useName as jest.Mock).mockReturnValue({ data: 'ens_name', isLoading: false });
+    (useAvatar as jest.Mock).mockReturnValue({
+      data: 'avatar_url',
+      isLoading: false,
+    });
+    (useName as jest.Mock).mockReturnValue({
+      data: 'ens_name',
+      isLoading: false,
+    });
 
     render(<Avatar address="0x123" className="custom-class" />);
 
@@ -74,9 +80,13 @@ describe('Avatar Component', () => {
     (useAvatar as jest.Mock).mockReturnValue({ data: null, isLoading: true });
     (useName as jest.Mock).mockReturnValue({ data: null, isLoading: true });
 
-    const CustomLoadingComponent = <div data-testid="ockAvatarCustomLoading">Loading...</div>;
+    const CustomLoadingComponent = (
+      <div data-testid="ockAvatarCustomLoading">Loading...</div>
+    );
 
-    render(<Avatar address="0x123" loadingComponent={CustomLoadingComponent} />);
+    render(
+      <Avatar address="0x123" loadingComponent={CustomLoadingComponent} />,
+    );
 
     const customLoadingElement = screen.getByTestId('ockAvatarCustomLoading');
     expect(customLoadingElement).toBeInTheDocument();
@@ -87,9 +97,13 @@ describe('Avatar Component', () => {
     (useAvatar as jest.Mock).mockReturnValue({ data: null, isLoading: false });
     (useName as jest.Mock).mockReturnValue({ data: null, isLoading: false });
 
-    const CustomDefaultComponent = <div data-testid="ockAvatarCustomDefault">Default Avatar</div>;
+    const CustomDefaultComponent = (
+      <div data-testid="ockAvatarCustomDefault">Default Avatar</div>
+    );
 
-    render(<Avatar address="0x123" defaultComponent={CustomDefaultComponent} />);
+    render(
+      <Avatar address="0x123" defaultComponent={CustomDefaultComponent} />,
+    );
 
     const customDefaultElement = screen.getByTestId('ockAvatarCustomDefault');
     expect(customDefaultElement).toBeInTheDocument();
@@ -102,8 +116,14 @@ describe('Avatar Component', () => {
       schemaId: '0xschema',
     });
     (useAttestations as jest.Mock).mockReturnValue([{}]);
-    (useAvatar as jest.Mock).mockReturnValue({ data: 'avatar_url', isLoading: false });
-    (useName as jest.Mock).mockReturnValue({ data: 'ens_name', isLoading: false });
+    (useAvatar as jest.Mock).mockReturnValue({
+      data: 'avatar_url',
+      isLoading: false,
+    });
+    (useName as jest.Mock).mockReturnValue({
+      data: 'ens_name',
+      isLoading: false,
+    });
 
     render(<Avatar address="0x123" showAttestation />);
 

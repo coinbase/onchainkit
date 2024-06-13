@@ -4,7 +4,7 @@ import {
   getAttestationsByFilter,
   attestationQuery,
 } from './attestations';
-import { createEasGraphQLClient } from '../network/createEasGraphQLClient';
+import { createEasGraphQLClient } from './createEasGraphQLClient';
 import { base } from 'viem/chains';
 
 jest.mock('../network/createEasGraphQLClient');
@@ -51,10 +51,17 @@ describe('EAS Attestation Service', () => {
       };
       (createEasGraphQLClient as jest.Mock).mockReturnValue(mockClient);
 
-      const result = await getAttestationsByFilter(mockAddress, base, mockFilters);
+      const result = await getAttestationsByFilter(
+        mockAddress,
+        base,
+        mockFilters,
+      );
 
       expect(createEasGraphQLClient).toHaveBeenCalledWith(base);
-      expect(mockClient.request).toHaveBeenCalledWith(attestationQuery, expect.any(Object));
+      expect(mockClient.request).toHaveBeenCalledWith(
+        attestationQuery,
+        expect.any(Object),
+      );
       expect(result).toEqual([]);
     });
   });

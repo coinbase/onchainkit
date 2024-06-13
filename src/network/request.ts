@@ -1,5 +1,4 @@
-import { getRPCUrl } from '../getRPCUrl';
-import { version } from '../version';
+import { getRPCUrl } from './getRPCUrl';
 
 export type JSONRPCError = {
   code: number;
@@ -34,7 +33,10 @@ const JSON_RPC_VERSION = '2.0';
  * @returns The JSON-RPC request body.
  * @template T - The type of the parameters.
  */
-export function buildRequestBody<T>(method: string, params: T[]): JSONRPCRequest<T> {
+export function buildRequestBody<T>(
+  method: string,
+  params: T[],
+): JSONRPCRequest<T> {
   return {
     id: 1,
     jsonrpc: JSON_RPC_VERSION,
@@ -51,7 +53,10 @@ export function buildRequestBody<T>(method: string, params: T[]): JSONRPCRequest
  * @returns A promise that resolves to the JSON-RPC response.
  * @throws If an error occurs while sending the request.
  */
-export async function sendRequest<T, V>(method: string, params: T[]): Promise<JSONRPCResult<V>> {
+export async function sendRequest<T, V>(
+  method: string,
+  params: T[],
+): Promise<JSONRPCResult<V>> {
   try {
     const body = buildRequestBody<T>(method, params);
     const url = getRPCUrl();
@@ -63,7 +68,9 @@ export async function sendRequest<T, V>(method: string, params: T[]): Promise<JS
     const data: JSONRPCResult<V> = await response.json();
     return data;
   } catch (error) {
-    console.log(`sendRequest: error sending request: ${(error as Error).message}`);
+    console.log(
+      `sendRequest: error sending request: ${(error as Error).message}`,
+    );
     throw error;
   }
 }

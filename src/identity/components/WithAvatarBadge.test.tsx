@@ -89,7 +89,9 @@ describe('WithAvatarBadge Component', () => {
       schemaId: null,
     });
 
-    const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+    const consoleSpy = jest
+      .spyOn(console, 'error')
+      .mockImplementation(() => {});
 
     render(
       <WithAvatarBadge address="0x123" showAttestation={true}>

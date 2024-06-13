@@ -2,13 +2,19 @@ import { useCallback, useContext, useEffect, useMemo } from 'react';
 
 import { isValidAmount } from '../utils';
 import { TokenChip } from '../../token';
-import { cn } from '../../lib/utils';
+import { cn } from '../../utils/cn';
 import { SwapContext } from '../context';
 import type { SwapAmountInputReact } from '../types';
 
 export function SwapAmountInput({ label, token, type }: SwapAmountInputReact) {
-  const { fromAmount, setFromAmount, setFromToken, setToAmount, setToToken, toAmount } =
-    useContext(SwapContext);
+  const {
+    fromAmount,
+    setFromAmount,
+    setFromToken,
+    setToAmount,
+    setToToken,
+    toAmount,
+  } = useContext(SwapContext);
 
   /* istanbul ignore next */
   const amount = useMemo(() => {

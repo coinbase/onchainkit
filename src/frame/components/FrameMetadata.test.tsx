@@ -11,27 +11,39 @@ describe('FrameMetadata', () => {
   });
 
   it('renders with image', () => {
-    const meta = render(<FrameMetadata image="https://example.com/image.png" />);
+    const meta = render(
+      <FrameMetadata image="https://example.com/image.png" />,
+    );
     expect(
-      meta.container.querySelector('meta[property="fc:frame:image"]')?.getAttribute('content'),
+      meta.container
+        .querySelector('meta[property="fc:frame:image"]')
+        ?.getAttribute('content'),
     ).toBe('https://example.com/image.png');
     expect(meta.container.querySelectorAll('meta').length).toBe(3);
   });
 
   it('renders with image src', () => {
-    const meta = render(<FrameMetadata image={{ src: 'https://example.com/image.png' }} />);
+    const meta = render(
+      <FrameMetadata image={{ src: 'https://example.com/image.png' }} />,
+    );
     expect(
-      meta.container.querySelector('meta[property="fc:frame:image"]')?.getAttribute('content'),
+      meta.container
+        .querySelector('meta[property="fc:frame:image"]')
+        ?.getAttribute('content'),
     ).toBe('https://example.com/image.png');
     expect(meta.container.querySelectorAll('meta').length).toBe(3);
   });
 
   it('renders with image aspect ratio', () => {
     const meta = render(
-      <FrameMetadata image={{ src: 'https://example.com/image.png', aspectRatio: '1:1' }} />,
+      <FrameMetadata
+        image={{ src: 'https://example.com/image.png', aspectRatio: '1:1' }}
+      />,
     );
     expect(
-      meta.container.querySelector('meta[property="fc:frame:image:aspect_ratio"]'),
+      meta.container.querySelector(
+        'meta[property="fc:frame:image:aspect_ratio"]',
+      ),
     ).not.toBeNull();
     expect(
       meta.container
@@ -43,22 +55,36 @@ describe('FrameMetadata', () => {
 
   it('renders with input', () => {
     const meta = render(
-      <FrameMetadata image="https://example.com/image.png" input={{ text: 'test' }} />,
+      <FrameMetadata
+        image="https://example.com/image.png"
+        input={{ text: 'test' }}
+      />,
     );
-    expect(meta.container.querySelector('meta[property="fc:frame:input:text"]')).not.toBeNull();
     expect(
-      meta.container.querySelector('meta[property="fc:frame:input:text"]')?.getAttribute('content'),
+      meta.container.querySelector('meta[property="fc:frame:input:text"]'),
+    ).not.toBeNull();
+    expect(
+      meta.container
+        .querySelector('meta[property="fc:frame:input:text"]')
+        ?.getAttribute('content'),
     ).toBe('test');
     expect(meta.container.querySelectorAll('meta').length).toBe(4);
   });
 
   it('renders with state', () => {
     const meta = render(
-      <FrameMetadata image="https://example.com/image.png" state={{ counter: 1 }} />,
+      <FrameMetadata
+        image="https://example.com/image.png"
+        state={{ counter: 1 }}
+      />,
     );
-    expect(meta.container.querySelector('meta[property="fc:frame:state"]')).not.toBeNull();
     expect(
-      meta.container.querySelector('meta[property="fc:frame:state"]')?.getAttribute('content'),
+      meta.container.querySelector('meta[property="fc:frame:state"]'),
+    ).not.toBeNull();
+    expect(
+      meta.container
+        .querySelector('meta[property="fc:frame:state"]')
+        ?.getAttribute('content'),
     ).toBe('%7B%22counter%22%3A1%7D');
     expect(meta.container.querySelectorAll('meta').length).toBe(4);
   });
@@ -70,9 +96,13 @@ describe('FrameMetadata', () => {
         state={{ counter: 1, xss: '<script>' }}
       />,
     );
-    expect(meta.container.querySelector('meta[property="fc:frame:state"]')).not.toBeNull();
     expect(
-      meta.container.querySelector('meta[property="fc:frame:state"]')?.getAttribute('content'),
+      meta.container.querySelector('meta[property="fc:frame:state"]'),
+    ).not.toBeNull();
+    expect(
+      meta.container
+        .querySelector('meta[property="fc:frame:state"]')
+        ?.getAttribute('content'),
     ).toBe('%7B%22counter%22%3A1%2C%22xss%22%3A%22%3Cscript%3E%22%7D');
     expect(meta.container.querySelectorAll('meta').length).toBe(4);
   });
@@ -81,19 +111,32 @@ describe('FrameMetadata', () => {
     const meta = render(
       <FrameMetadata
         image="https://example.com/image.png"
-        buttons={[{ label: 'button1' }, { label: 'button2', action: 'post_redirect' }]}
+        buttons={[
+          { label: 'button1' },
+          { label: 'button2', action: 'post_redirect' },
+        ]}
       />,
     );
     // Button 1
-    expect(meta.container.querySelector('meta[property="fc:frame:button:1"]')).not.toBeNull();
     expect(
-      meta.container.querySelector('meta[property="fc:frame:button:1"]')?.getAttribute('content'),
+      meta.container.querySelector('meta[property="fc:frame:button:1"]'),
+    ).not.toBeNull();
+    expect(
+      meta.container
+        .querySelector('meta[property="fc:frame:button:1"]')
+        ?.getAttribute('content'),
     ).toBe('button1');
-    expect(meta.container.querySelector('meta[property="fc:frame:button:1:action"]')).toBeNull();
-    // Button 2
-    expect(meta.container.querySelector('meta[property="fc:frame:button:2"]')).not.toBeNull();
     expect(
-      meta.container.querySelector('meta[property="fc:frame:button:2"]')?.getAttribute('content'),
+      meta.container.querySelector('meta[property="fc:frame:button:1:action"]'),
+    ).toBeNull();
+    // Button 2
+    expect(
+      meta.container.querySelector('meta[property="fc:frame:button:2"]'),
+    ).not.toBeNull();
+    expect(
+      meta.container
+        .querySelector('meta[property="fc:frame:button:2"]')
+        ?.getAttribute('content'),
     ).toBe('button2');
     expect(
       meta.container.querySelector('meta[property="fc:frame:button:2:action"]'),
@@ -114,21 +157,39 @@ describe('FrameMetadata', () => {
         buttons={[
           { label: 'button1' },
           { label: 'button2', action: 'post_redirect' },
-          { label: 'button3', action: 'mint', target: 'https://zizzamia.xyz/api/frame/mint' },
-          { label: 'button4', action: 'link', target: 'https://zizzamia.xyz/api/frame/link' },
+          {
+            label: 'button3',
+            action: 'mint',
+            target: 'https://zizzamia.xyz/api/frame/mint',
+          },
+          {
+            label: 'button4',
+            action: 'link',
+            target: 'https://zizzamia.xyz/api/frame/link',
+          },
         ]}
       />,
     );
     // Button 1
-    expect(meta.container.querySelector('meta[property="fc:frame:button:1"]')).not.toBeNull();
     expect(
-      meta.container.querySelector('meta[property="fc:frame:button:1"]')?.getAttribute('content'),
+      meta.container.querySelector('meta[property="fc:frame:button:1"]'),
+    ).not.toBeNull();
+    expect(
+      meta.container
+        .querySelector('meta[property="fc:frame:button:1"]')
+        ?.getAttribute('content'),
     ).toBe('button1');
-    expect(meta.container.querySelector('meta[property="fc:frame:button:1:action"]')).toBeNull();
-    // Button 2
-    expect(meta.container.querySelector('meta[property="fc:frame:button:2"]')).not.toBeNull();
     expect(
-      meta.container.querySelector('meta[property="fc:frame:button:2"]')?.getAttribute('content'),
+      meta.container.querySelector('meta[property="fc:frame:button:1:action"]'),
+    ).toBeNull();
+    // Button 2
+    expect(
+      meta.container.querySelector('meta[property="fc:frame:button:2"]'),
+    ).not.toBeNull();
+    expect(
+      meta.container
+        .querySelector('meta[property="fc:frame:button:2"]')
+        ?.getAttribute('content'),
     ).toBe('button2');
     expect(
       meta.container.querySelector('meta[property="fc:frame:button:2:action"]'),
@@ -139,9 +200,13 @@ describe('FrameMetadata', () => {
         ?.getAttribute('content'),
     ).toBe('post_redirect');
     // Button 3
-    expect(meta.container.querySelector('meta[property="fc:frame:button:3"]')).not.toBeNull();
     expect(
-      meta.container.querySelector('meta[property="fc:frame:button:3"]')?.getAttribute('content'),
+      meta.container.querySelector('meta[property="fc:frame:button:3"]'),
+    ).not.toBeNull();
+    expect(
+      meta.container
+        .querySelector('meta[property="fc:frame:button:3"]')
+        ?.getAttribute('content'),
     ).toBe('button3');
     expect(
       meta.container.querySelector('meta[property="fc:frame:button:3:action"]'),
@@ -160,9 +225,13 @@ describe('FrameMetadata', () => {
         ?.getAttribute('content'),
     ).toBe('https://zizzamia.xyz/api/frame/mint');
     // Button 4
-    expect(meta.container.querySelector('meta[property="fc:frame:button:4"]')).not.toBeNull();
     expect(
-      meta.container.querySelector('meta[property="fc:frame:button:4"]')?.getAttribute('content'),
+      meta.container.querySelector('meta[property="fc:frame:button:4"]'),
+    ).not.toBeNull();
+    expect(
+      meta.container
+        .querySelector('meta[property="fc:frame:button:4"]')
+        ?.getAttribute('content'),
     ).toBe('button4');
     expect(
       meta.container.querySelector('meta[property="fc:frame:button:4:action"]'),
@@ -186,18 +255,32 @@ describe('FrameMetadata', () => {
 
   it('renders with post_url', () => {
     const meta = render(
-      <FrameMetadata image="https://example.com/image.png" postUrl="https://example.com" />,
+      <FrameMetadata
+        image="https://example.com/image.png"
+        postUrl="https://example.com"
+      />,
     );
-    expect(meta.container.querySelector('meta[property="fc:frame:post_url"]')).not.toBeNull();
     expect(
-      meta.container.querySelector('meta[property="fc:frame:post_url"]')?.getAttribute('content'),
+      meta.container.querySelector('meta[property="fc:frame:post_url"]'),
+    ).not.toBeNull();
+    expect(
+      meta.container
+        .querySelector('meta[property="fc:frame:post_url"]')
+        ?.getAttribute('content'),
     ).toBe('https://example.com');
     expect(meta.container.querySelectorAll('meta').length).toBe(4);
   });
 
   it('renders with refresh_period', () => {
-    const meta = render(<FrameMetadata image="https://example.com/image.png" refreshPeriod={10} />);
-    expect(meta.container.querySelector('meta[property="fc:frame:refresh_period"]')).not.toBeNull();
+    const meta = render(
+      <FrameMetadata
+        image="https://example.com/image.png"
+        refreshPeriod={10}
+      />,
+    );
+    expect(
+      meta.container.querySelector('meta[property="fc:frame:refresh_period"]'),
+    ).not.toBeNull();
     expect(
       meta.container
         .querySelector('meta[property="fc:frame:refresh_period"]')
@@ -215,7 +298,9 @@ describe('FrameMetadata', () => {
     );
 
     expect(meta.container.querySelector('#wrapper')).not.toBeNull();
-    expect(meta.container.querySelector('meta[property="fc:frame:image"]')).not.toBeNull();
+    expect(
+      meta.container.querySelector('meta[property="fc:frame:image"]'),
+    ).not.toBeNull();
     expect(meta.container.querySelectorAll('meta').length).toBe(3);
   });
 
@@ -356,7 +441,9 @@ describe('FrameMetadata', () => {
         ?.getAttribute('content'),
     ).toBe('tx');
     expect(
-      meta.container.querySelector('meta[property="fc:frame:button:1:post_url"]'),
+      meta.container.querySelector(
+        'meta[property="fc:frame:button:1:post_url"]',
+      ),
     ).not.toBeNull();
     expect(
       meta.container
@@ -389,7 +476,9 @@ describe('FrameMetadata', () => {
         postUrl="post_url"
       />,
     );
-    expect(meta.container.querySelector('meta[property="fc:frame:button:1:target"')).toBeNull();
+    expect(
+      meta.container.querySelector('meta[property="fc:frame:button:1:target"'),
+    ).toBeNull();
     expect(meta.container.querySelectorAll('meta').length).toBe(6);
   });
 
@@ -401,31 +490,46 @@ describe('FrameMetadata', () => {
       />,
     );
     expect(
-      meta.container.querySelector('meta[property="og:description"]')?.getAttribute('content'),
+      meta.container
+        .querySelector('meta[property="og:description"]')
+        ?.getAttribute('content'),
     ).toBe('This is the description');
     expect(meta.container.querySelectorAll('meta').length).toBe(4);
   });
 
   it('should set og:title', () => {
     const meta = render(
-      <FrameMetadata image="https://example.com/image.png" ogTitle="This is the title" />,
+      <FrameMetadata
+        image="https://example.com/image.png"
+        ogTitle="This is the title"
+      />,
     );
-    expect(meta.container.querySelector('meta[property="og:title"]')?.getAttribute('content')).toBe(
-      'This is the title',
-    );
+    expect(
+      meta.container
+        .querySelector('meta[property="og:title"]')
+        ?.getAttribute('content'),
+    ).toBe('This is the title');
     expect(meta.container.querySelectorAll('meta').length).toBe(4);
   });
 
   it('should not render og:description and og:title if not provided', () => {
-    const meta = render(<FrameMetadata image="https://example.com/image.png" />);
-    expect(meta.container.querySelector('meta[property="og:description"]')).toBeNull();
-    expect(meta.container.querySelector('meta[property="og:title"]')).toBeNull();
+    const meta = render(
+      <FrameMetadata image="https://example.com/image.png" />,
+    );
+    expect(
+      meta.container.querySelector('meta[property="og:description"]'),
+    ).toBeNull();
+    expect(
+      meta.container.querySelector('meta[property="og:title"]'),
+    ).toBeNull();
     expect(meta.container.querySelectorAll('meta').length).toBe(3);
   });
 
   describe('when using isOpenFrame true', () => {
     it('renders', () => {
-      const meta = render(<FrameMetadata isOpenFrame image="https://example.com/image.png" />);
+      const meta = render(
+        <FrameMetadata isOpenFrame image="https://example.com/image.png" />,
+      );
       expect(meta.container.querySelectorAll('meta').length).toBe(5);
     });
 
@@ -438,7 +542,9 @@ describe('FrameMetadata', () => {
         />,
       );
       expect(
-        meta.container.querySelector('meta[property="of:accepts:xmtp"]')?.getAttribute('content'),
+        meta.container
+          .querySelector('meta[property="of:accepts:xmtp"]')
+          ?.getAttribute('content'),
       ).toBe('1.0.0');
       expect(meta.container.querySelectorAll('meta').length).toBe(6);
     });
@@ -452,7 +558,9 @@ describe('FrameMetadata', () => {
         />,
       );
       expect(
-        meta.container.querySelector('meta[property="of:image"]')?.getAttribute('content'),
+        meta.container
+          .querySelector('meta[property="of:image"]')
+          ?.getAttribute('content'),
       ).toBe('https://example.com/image.png');
       expect(meta.container.querySelectorAll('meta').length).toBe(6);
     });

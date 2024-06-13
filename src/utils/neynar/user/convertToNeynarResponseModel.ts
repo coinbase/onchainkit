@@ -1,7 +1,9 @@
 import { convertToNeynarUserModel } from './convertToNeynarUserModel';
 import type { NeynarBulkUserLookupModel } from './types';
 
-export function convertToNeynarResponseModel(data: any): NeynarBulkUserLookupModel | undefined {
+export function convertToNeynarResponseModel(
+  data: any,
+): NeynarBulkUserLookupModel | undefined {
   if (!data) {
     return;
   }

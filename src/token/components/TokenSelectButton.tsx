@@ -60,7 +60,9 @@ export const TokenSelectButton = forwardRef(function TokenSelectButton(
           </span>
         </>
       ) : (
-        <span className="text-base font-medium leading-normal text-[#0a0b0d]">Select</span>
+        <span className="text-base font-medium leading-normal text-[#0a0b0d]">
+          Select
+        </span>
       )}
       {isOpen ? <CaretUp /> : <CaretDown />}
     </button>

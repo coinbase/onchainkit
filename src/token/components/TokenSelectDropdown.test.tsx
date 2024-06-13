@@ -16,7 +16,8 @@ describe('TokenSelectDropdown', () => {
       address: '' as Address,
       symbol: 'ETH',
       decimals: 18,
-      image: 'https://wallet-api-production.s3.amazonaws.com/uploads/tokens/eth_288.png',
+      image:
+        'https://wallet-api-production.s3.amazonaws.com/uploads/tokens/eth_288.png',
       chainId: 8453,
     },
     {
@@ -64,7 +65,9 @@ describe('TokenSelectDropdown', () => {
     const button = screen.getByTestId('ockTokenSelectButton_Button');
     fireEvent.click(button);
 
-    expect(screen.getByTestId('ockTokenSelectDropdown_List')).toBeInTheDocument();
+    expect(
+      screen.getByTestId('ockTokenSelectDropdown_List'),
+    ).toBeInTheDocument();
 
     fireEvent.click(button);
 
