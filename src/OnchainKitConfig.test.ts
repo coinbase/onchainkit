@@ -1,6 +1,6 @@
 import { baseSepolia } from 'viem/chains';
 import { getOnchainKitConfig, setOnchainKitConfig } from './OnchainKitConfig';
-import { getRPCUrl } from './getRPCUrl';
+import { getRPCUrl } from './network/getRPCUrl';
 
 describe('OnchainKitConfig', () => {
   it('should have a get function to access the config', () => {

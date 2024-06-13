@@ -9,6 +9,5 @@ export const getNewReactQueryTestProvider = () => {
   function ReactQueryTestProvider({ children }: { children: React.ReactNode }) {
     return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
   }
-
   return ReactQueryTestProvider;
 };

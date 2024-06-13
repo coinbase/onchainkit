@@ -1,5 +1,5 @@
 import { baseSepolia } from 'viem/chains';
-import { getOnchainKitConfig, setOnchainKitConfig } from './OnchainKitConfig';
+import { getOnchainKitConfig, setOnchainKitConfig } from '../OnchainKitConfig';
 import { getRPCUrl } from './getRPCUrl';
 
 describe('OnchainKitConfig RPC URL', () => {

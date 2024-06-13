@@ -2,13 +2,13 @@
  * @jest-environment jsdom
  */
 
-import { getAttestationsByFilter } from '../queries/attestations';
+import { getAttestationsByFilter } from '../network/attestations';
 import { getAttestations } from './getAttestations';
 import { easSupportedChains } from './easSupportedChains';
 import { base, opBNBTestnet } from 'viem/chains';
 import type { GetAttestationsOptions } from './types';
 
-jest.mock('../queries/attestations');
+jest.mock('../network/attestations');
 
 describe('getAttestations', () => {
   const mockAddress = '0x1234567890abcdef1234567890abcdef12345678';

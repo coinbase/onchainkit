@@ -1,12 +1,12 @@
 import { getAPIParamsForToken } from './getAPIParamsForToken';
 import { buildSwapTransaction } from './buildSwapTransaction';
 import { getSwapTransaction } from './getSwapTransaction';
-import { sendRequest } from '../../queries/request';
+import { sendRequest } from '../../network/request';
 import { CDP_GET_SWAP_TRADE } from '../../definitions/swap';
 import type { Token } from '../../token/types';
 import type { BuildSwapTransaction } from '../types';
 
-jest.mock('../../queries/request');
+jest.mock('../../network/request');
 
 const ETH: Token = {
   name: 'ETH',

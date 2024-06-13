@@ -1,5 +1,4 @@
-import { getRPCUrl } from '../getRPCUrl';
-import { version } from '../version';
+import { getRPCUrl } from './getRPCUrl';
 
 export type JSONRPCError = {
   code: number;

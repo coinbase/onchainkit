@@ -7,10 +7,7 @@
   "scripts": {
     "build": "packemon build --addEngines --addFiles --declaration && npx packemon validate --no-license --no-people --no-repo && tailwindcss -i ./src/styles/index.css -o ./src/tailwind.css --minify && tailwindcss -i ./src/styles/index-with-tailwind.css -o ./src/styles.css --minify",
     "watch": "tailwind -i ./src/styles/index-with-tailwind.css -o ./src/styles.css --watch",
-    "check": "yarn format",
-    "format": "prettier --log-level warn --write .",
-    "format:check": "prettier --check .",
-    "format:biome": "biome format --write .",
+    "format": "biome format --write .",
     "lint": "biome lint --write .",
     "lint:unsafe": "biome lint --write --unsafe .",
     "test": "jest --testPathIgnorePatterns=\\.integ\\.",
@@ -72,20 +69,13 @@
   "packemon": [
     {
       "bundle": false,
-      "platform": [
-        "browser"
-      ]
+      "platform": ["browser"]
     }
   ],
   "publishConfig": {
     "access": "public"
   },
-  "files": [
-    "esm/**/*",
-    "lib/**/*",
-    "src/",
-    "src/**/*"
-  ],
+  "files": ["esm/**/*", "lib/**/*", "src/", "src/**/*"],
   "main": "./esm/index.js",
   "types": "./esm/index.d.ts",
   "module": "./esm/index.js",

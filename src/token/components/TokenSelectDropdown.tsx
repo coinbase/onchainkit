@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import type { TokenSelectDropdownReact } from '../types';
 import { TokenRow } from './TokenRow';
 import { TokenSelectButton } from './TokenSelectButton';
-import { cn } from '../../lib/utils';
+import { cn } from '../../utils/cn';
 
 export function TokenSelectDropdown({ options, setToken, token }: TokenSelectDropdownReact) {
   const [isOpen, setIsOpen] = useState(false);

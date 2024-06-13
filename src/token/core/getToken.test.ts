@@ -1,8 +1,8 @@
 import { getTokens } from './getTokens';
-import { sendRequest } from '../../queries/request';
+import { sendRequest } from '../../network/request';
 import { CDP_LIST_SWAP_ASSETS } from '../../definitions/swap';
 
-jest.mock('../../queries/request');
+jest.mock('../../network/request');
 
 describe('getTokens', () => {
   afterEach(() => {

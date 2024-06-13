@@ -2,7 +2,7 @@ import { useCallback, useContext, useEffect, useMemo } from 'react';
 
 import { isValidAmount } from '../utils';
 import { TokenChip } from '../../token';
-import { cn } from '../../lib/utils';
+import { cn } from '../../utils/cn';
 import { SwapContext } from '../context';
 import type { SwapAmountInputReact } from '../types';
 

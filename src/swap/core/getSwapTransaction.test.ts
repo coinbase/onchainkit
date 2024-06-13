@@ -1,7 +1,7 @@
 import { getSwapTransaction } from './getSwapTransaction';
 import type { RawTransactionData, TransactionParams } from '../types';
 
-jest.mock('../../queries/request');
+jest.mock('../../network/request');
 
 describe('getSwapTransaction', () => {
   it('should construct an unsigned transaction', () => {

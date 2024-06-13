@@ -1,10 +1,10 @@
 import { getSwapQuote } from './getSwapQuote';
-import { sendRequest } from '../../queries/request';
+import { sendRequest } from '../../network/request';
 import { CDP_GET_SWAP_QUOTE } from '../../definitions/swap';
 import type { Token } from '../../token/types';
 import { getAPIParamsForToken } from './getAPIParamsForToken';
 
-jest.mock('../../queries/request');
+jest.mock('../../network/request');
 
 const ETH: Token = {
   name: 'ETH',

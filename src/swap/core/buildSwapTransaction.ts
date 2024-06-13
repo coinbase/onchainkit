@@ -1,5 +1,5 @@
 import { CDP_GET_SWAP_TRADE } from '../../definitions/swap';
-import { sendRequest } from '../../queries/request';
+import { sendRequest } from '../../network/request';
 import { getAPIParamsForToken } from './getAPIParamsForToken';
 import { getSwapTransaction } from './getSwapTransaction';
 import type {
