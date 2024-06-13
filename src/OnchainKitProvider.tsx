@@ -3,7 +3,8 @@ import { checkHashLength } from './utils/checkHashLength';
 import { ONCHAIN_KIT_CONFIG, setOnchainKitConfig } from './OnchainKitConfig';
 import type { OnchainKitContextType, OnchainKitProviderReact } from './types';
 
-export const OnchainKitContext = createContext<OnchainKitContextType>(ONCHAIN_KIT_CONFIG);
+export const OnchainKitContext =
+  createContext<OnchainKitContextType>(ONCHAIN_KIT_CONFIG);
 
 /**
  * Provides the OnchainKit React Context to the app.
@@ -30,5 +31,9 @@ export function OnchainKitProvider({
     setOnchainKitConfig(onchainKitConfig);
     return onchainKitConfig;
   }, [address, chain, schemaId, apiKey, rpcUrl]);
-  return <OnchainKitContext.Provider value={value}>{children}</OnchainKitContext.Provider>;
+  return (
+    <OnchainKitContext.Provider value={value}>
+      {children}
+    </OnchainKitContext.Provider>
+  );
 }

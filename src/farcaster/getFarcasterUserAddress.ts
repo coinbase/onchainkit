@@ -26,14 +26,20 @@ async function getFarcasterUserAddress(
     const response: GetFarcasterUserAddressResponse = {};
 
     if (hasCustodyAddress) {
-      const custodyAddress = await getCustodyAddressForFidNeynar(fid, options?.neynarApiKey);
+      const custodyAddress = await getCustodyAddressForFidNeynar(
+        fid,
+        options?.neynarApiKey,
+      );
       if (custodyAddress) {
         response.custodyAddress = custodyAddress;
       }
     }
 
     if (hasVerifiedAddresses) {
-      const verifiedAddresses = await getVerifiedAddressesForFidNeynar(fid, options?.neynarApiKey);
+      const verifiedAddresses = await getVerifiedAddressesForFidNeynar(
+        fid,
+        options?.neynarApiKey,
+      );
       if (verifiedAddresses) {
         response.verifiedAddresses = verifiedAddresses;
       }

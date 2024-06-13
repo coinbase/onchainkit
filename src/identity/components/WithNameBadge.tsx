@@ -30,7 +30,11 @@ function WithNameBadgeInner({ children, address }: WithNameBadgeInnerReact) {
   );
 }
 
-export function WithNameBadge({ children, showAttestation, address }: WithNameBadgeReact) {
+export function WithNameBadge({
+  children,
+  showAttestation,
+  address,
+}: WithNameBadgeReact) {
   if (!showAttestation) {
     return children;
   }

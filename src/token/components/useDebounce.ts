@@ -1,6 +1,9 @@
 import { useLayoutEffect, useMemo, useRef } from 'react';
 
-export const useDebounce = (callback: (...args: any[]) => void, delay: number) => {
+export const useDebounce = (
+  callback: (...args: any[]) => void,
+  delay: number,
+) => {
   const callbackRef = useRef(callback);
 
   useLayoutEffect(() => {
@@ -9,7 +12,11 @@ export const useDebounce = (callback: (...args: any[]) => void, delay: number) =
 
   let timer: number | NodeJS.Timeout;
 
-  const debounce = (func: (...args: any[]) => void, delayMs: number, ...args: any[]) => {
+  const debounce = (
+    func: (...args: any[]) => void,
+    delayMs: number,
+    ...args: any[]
+  ) => {
     clearTimeout(timer);
     timer = setTimeout(() => {
       func(...args);

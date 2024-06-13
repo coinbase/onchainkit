@@ -33,7 +33,9 @@ export type Fee = {
   percentage: string; // The percentage of the fee
 };
 
-export type GetAPIParamsForToken = GetSwapQuoteParams | BuildSwapTransactionParams;
+export type GetAPIParamsForToken =
+  | GetSwapQuoteParams
+  | BuildSwapTransactionParams;
 
 export type GetQuoteAPIParams = {
   from: AddressOrETH | ''; // The source address or 'ETH' for Ethereum

@@ -35,7 +35,9 @@ describe('getName', () => {
   it('should return null client getName throws an error', async () => {
     const walletAddress = '0x1234';
     mockGetEnsName.mockRejectedValue(new Error('This is an error'));
-    await expect(getName({ address: walletAddress })).rejects.toThrow('This is an error');
+    await expect(getName({ address: walletAddress })).rejects.toThrow(
+      'This is an error',
+    );
   });
 
   it('should return address when showAddress is true', async () => {

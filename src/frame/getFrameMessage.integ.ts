@@ -5,7 +5,10 @@ describe('getFrameMessage integration tests', () => {
     const body = {
       untrustedData: {
         buttonIndex: 1,
-        castId: { fid: 194519, hash: '0x3d7c0dac1dd0ee588eb58d07105b14786cfca976' },
+        castId: {
+          fid: 194519,
+          hash: '0x3d7c0dac1dd0ee588eb58d07105b14786cfca976',
+        },
         fid: 194519,
         inputText: '',
         messageHash: '0x7099de8afb08984d53f56a02b28d0f96097bfd82',

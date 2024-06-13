@@ -1,4 +1,7 @@
-import { CB_SW_PROXY_BYTECODE, CB_SW_V1_IMPLEMENTATION_ADDRESS } from './constants';
+import {
+  CB_SW_PROXY_BYTECODE,
+  CB_SW_V1_IMPLEMENTATION_ADDRESS,
+} from './constants';
 import { isWalletASmartWallet } from './isWalletASmartWallet';
 import type { UserOperation } from 'permissionless';
 import type { PublicClient } from 'viem';
@@ -20,7 +23,11 @@ describe('isWalletASmartWallet', () => {
     );
 
     const result = await isWalletASmartWallet({ client, userOp });
-    expect(result).toEqual({ isSmartWallet: false, error: 'Invalid bytecode', code: 'W_ERR_1' });
+    expect(result).toEqual({
+      isSmartWallet: false,
+      error: 'Invalid bytecode',
+      code: 'W_ERR_1',
+    });
   });
 
   it('should return false when the implementation address does not match COINBASE_SMART_WALLET_V1_IMPLEMENTATION', async () => {
@@ -32,7 +39,9 @@ describe('isWalletASmartWallet', () => {
     const differentImplementationAddress =
       '0x0000000000000000000000000000000000000000000000000000000000000001';
 
-    (client.request as jest.Mock).mockResolvedValue(differentImplementationAddress);
+    (client.request as jest.Mock).mockResolvedValue(
+      differentImplementationAddress,
+    );
 
     const result = await isWalletASmartWallet({ client, userOp });
     expect(result).toEqual({
@@ -66,7 +75,9 @@ describe('isWalletASmartWallet', () => {
       sender: 'error-address',
     } as unknown as UserOperation<'v0.6'>;
 
-    (client.getBytecode as jest.Mock).mockRejectedValue(new Error('Failed to fetch bytecode'));
+    (client.getBytecode as jest.Mock).mockRejectedValue(
+      new Error('Failed to fetch bytecode'),
+    );
     (client.request as jest.Mock).mockResolvedValue(
       '0x0000000000000000000000000000000000000000000000000000000000000000',
     );

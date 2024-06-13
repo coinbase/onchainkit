@@ -34,7 +34,10 @@ describe('ConnectAccount Component', () => {
   });
 
   it('should display connected wallet when connected', async () => {
-    (useAccount as jest.Mock).mockReturnValue({ status: 'connected', address: '0x1234' });
+    (useAccount as jest.Mock).mockReturnValue({
+      status: 'connected',
+      address: '0x1234',
+    });
 
     render(<ConnectAccount />);
 
@@ -55,7 +58,10 @@ describe('ConnectAccount Component', () => {
   });
 
   it('should call disconnect when disconnect button is clicked', async () => {
-    (useAccount as jest.Mock).mockReturnValue({ status: 'connected', address: '0x1234' });
+    (useAccount as jest.Mock).mockReturnValue({
+      status: 'connected',
+      address: '0x1234',
+    });
 
     render(<ConnectAccount />);
 
@@ -67,7 +73,10 @@ describe('ConnectAccount Component', () => {
   });
 
   it('should render children when provided and is connected', async () => {
-    (useAccount as jest.Mock).mockReturnValue({ status: 'connected', address: '0x1234' });
+    (useAccount as jest.Mock).mockReturnValue({
+      status: 'connected',
+      address: '0x1234',
+    });
     render(<ConnectAccount>Custom Children</ConnectAccount>);
 
     await waitFor(() => {

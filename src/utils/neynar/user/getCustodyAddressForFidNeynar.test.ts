@@ -35,7 +35,10 @@ describe('getCustodyAddressForFidNeynar', () => {
     try {
       await getCustodyAddressForFidNeynar(42);
     } catch (e) {
-      expect(e).toHaveProperty('message', 'No custody address found for FID 42');
+      expect(e).toHaveProperty(
+        'message',
+        'No custody address found for FID 42',
+      );
     }
   });
 
@@ -47,7 +50,10 @@ describe('getCustodyAddressForFidNeynar', () => {
     try {
       await getCustodyAddressForFidNeynar(42);
     } catch (e) {
-      expect(e).toHaveProperty('message', 'No custody address found for FID 42');
+      expect(e).toHaveProperty(
+        'message',
+        'No custody address found for FID 42',
+      );
     }
   });
 });

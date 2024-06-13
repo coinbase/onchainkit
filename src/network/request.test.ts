@@ -56,7 +56,9 @@ describe('request', () => {
       const mockFetch = jest.fn().mockRejectedValue(mockError);
       global.fetch = mockFetch;
 
-      await expect(sendRequest('exampleMethod', ['param1', 'param2'])).rejects.toThrow(mockError);
+      await expect(
+        sendRequest('exampleMethod', ['param1', 'param2']),
+      ).rejects.toThrow(mockError);
     });
   });
 });

@@ -51,10 +51,17 @@ describe('EAS Attestation Service', () => {
       };
       (createEasGraphQLClient as jest.Mock).mockReturnValue(mockClient);
 
-      const result = await getAttestationsByFilter(mockAddress, base, mockFilters);
+      const result = await getAttestationsByFilter(
+        mockAddress,
+        base,
+        mockFilters,
+      );
 
       expect(createEasGraphQLClient).toHaveBeenCalledWith(base);
-      expect(mockClient.request).toHaveBeenCalledWith(attestationQuery, expect.any(Object));
+      expect(mockClient.request).toHaveBeenCalledWith(
+        attestationQuery,
+        expect.any(Object),
+      );
       expect(result).toEqual([]);
     });
   });

@@ -10,7 +10,13 @@ import type { NameReact } from '../types';
  * It displays the ENS name if available; otherwise, it shows either a sliced version of the address
  * or the full address, based on the 'sliced' prop. By default, 'sliced' is set to true.
  */
-export function Name({ address, className, showAddress, showAttestation, props }: NameReact) {
+export function Name({
+  address,
+  className,
+  showAddress,
+  showAttestation,
+  props,
+}: NameReact) {
   const { data: name, isLoading } = useName({ address, showAddress });
 
   // Wrapped in useMemo to prevent unnecessary recalculations.

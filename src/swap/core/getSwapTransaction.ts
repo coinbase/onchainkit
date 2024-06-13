@@ -1,5 +1,9 @@
 import type { Address, Hex } from 'viem';
-import type { RawTransactionData, SwapTransaction, Transaction } from '../types';
+import type {
+  RawTransactionData,
+  SwapTransaction,
+  Transaction,
+} from '../types';
 
 /**
  * Constructs an unsigned transaction.
@@ -10,7 +14,10 @@ import type { RawTransactionData, SwapTransaction, Transaction } from '../types'
  * Transactions can be used to transfer Ether between accounts,
  * execute smart contract code, deploy smart contracts, etc.
  */
-export function getSwapTransaction(rawTx: RawTransactionData, chainId: string): SwapTransaction {
+export function getSwapTransaction(
+  rawTx: RawTransactionData,
+  chainId: string,
+): SwapTransaction {
   const { data, gas, to, value } = rawTx;
 
   const tx: Transaction = {

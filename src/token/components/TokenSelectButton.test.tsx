@@ -13,24 +13,37 @@ describe('TokenSelectButton', () => {
     address: '0x123' as Address,
     symbol: 'ETH',
     decimals: 18,
-    image: 'https://wallet-api-production.s3.amazonaws.com/uploads/tokens/eth_288.png',
+    image:
+      'https://wallet-api-production.s3.amazonaws.com/uploads/tokens/eth_288.png',
     blockchain: 'eth',
     chainId: 8453,
   };
 
   it('renders correctly without a token', () => {
-    render(<TokenSelectButton token={undefined} onClick={jest.fn()} isOpen={false} />);
+    render(
+      <TokenSelectButton
+        token={undefined}
+        onClick={jest.fn()}
+        isOpen={false}
+      />,
+    );
 
     expect(screen.getByText('Select')).toBeInTheDocument();
     expect(screen.queryByTestId('ockTokenSelectButton_Symbol')).toBeNull();
-    expect(screen.getByTestId('ockTokenSelectButton_CaretDown')).toBeInTheDocument();
+    expect(
+      screen.getByTestId('ockTokenSelectButton_CaretDown'),
+    ).toBeInTheDocument();
   });
 
   it('renders correctly with a token when isOpen is true', () => {
-    render(<TokenSelectButton token={token} onClick={jest.fn()} isOpen={false} />);
+    render(
+      <TokenSelectButton token={token} onClick={jest.fn()} isOpen={false} />,
+    );
 
     expect(screen.getByText('ETH')).toBeInTheDocument();
-    expect(screen.getByTestId('ockTokenSelectButton_CaretDown')).toBeInTheDocument();
+    expect(
+      screen.getByTestId('ockTokenSelectButton_CaretDown'),
+    ).toBeInTheDocument();
     expect(screen.queryByTestId('ockTokenSelectButton_CaretUp')).toBeNull();
     expect(screen.queryByText('Select')).toBeNull();
   });
@@ -39,14 +52,18 @@ describe('TokenSelectButton', () => {
     render(<TokenSelectButton token={token} onClick={jest.fn()} isOpen />);
 
     expect(screen.getByText('ETH')).toBeInTheDocument();
-    expect(screen.getByTestId('ockTokenSelectButton_CaretUp')).toBeInTheDocument();
+    expect(
+      screen.getByTestId('ockTokenSelectButton_CaretUp'),
+    ).toBeInTheDocument();
     expect(screen.queryByTestId('ockTokenSelectButton_CaretDown')).toBeNull();
     expect(screen.queryByText('Select')).toBeNull();
   });
 
   it('handles click handler', () => {
     const onClick = jest.fn();
-    render(<TokenSelectButton token={token} onClick={onClick} isOpen={false} />);
+    render(
+      <TokenSelectButton token={token} onClick={onClick} isOpen={false} />,
+    );
 
     const button = screen.getByTestId('ockTokenSelectButton_Button');
     fireEvent.click(button);

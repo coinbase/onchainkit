@@ -35,7 +35,10 @@ describe('getVerifiedAddressesForFidNeynar', () => {
     try {
       await getVerifiedAddressesForFidNeynar(42);
     } catch (e) {
-      expect(e).toHaveProperty('message', 'No verified addresses found for FID 42');
+      expect(e).toHaveProperty(
+        'message',
+        'No verified addresses found for FID 42',
+      );
     }
   });
 
@@ -47,7 +50,10 @@ describe('getVerifiedAddressesForFidNeynar', () => {
     try {
       await getVerifiedAddressesForFidNeynar(42);
     } catch (e) {
-      expect(e).toHaveProperty('message', 'No verified addresses found for FID 42');
+      expect(e).toHaveProperty(
+        'message',
+        'No verified addresses found for FID 42',
+      );
     }
   });
 });

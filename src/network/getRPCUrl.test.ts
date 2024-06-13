@@ -14,7 +14,8 @@ describe('OnchainKitConfig RPC URL', () => {
   it('should return the correct config value', () => {
     const chain = baseSepolia;
     const apiKey = 'test-api-key';
-    const rpcUrl = 'https://api.developer.coinbase.com/rpc/v1/base-sepolia/test-api-key';
+    const rpcUrl =
+      'https://api.developer.coinbase.com/rpc/v1/base-sepolia/test-api-key';
     setOnchainKitConfig({ chain, apiKey });
     expect(getOnchainKitConfig('chain')).toEqual(chain);
     expect(getOnchainKitConfig('apiKey')).toEqual(apiKey);
@@ -25,7 +26,8 @@ describe('OnchainKitConfig RPC URL', () => {
     const chain = baseSepolia;
     const apiKey = 'test-api-key';
     const newApiKey = 'updated-api-key';
-    const expectedRpcUrl = 'https://api.developer.coinbase.com/rpc/v1/base-sepolia/updated-api-key';
+    const expectedRpcUrl =
+      'https://api.developer.coinbase.com/rpc/v1/base-sepolia/updated-api-key';
     setOnchainKitConfig({ chain, apiKey });
     expect(getOnchainKitConfig('chain')).toEqual(chain);
     expect(getOnchainKitConfig('apiKey')).toEqual(apiKey);
@@ -37,7 +39,8 @@ describe('OnchainKitConfig RPC URL', () => {
   it('should return the correct config value for a user-set rpc url', () => {
     const chain = baseSepolia;
     const apiKey = 'test-api-key';
-    const userRpcUrl = 'https://api.example.com/rpc/v1/base-sepolia/test-api-key';
+    const userRpcUrl =
+      'https://api.example.com/rpc/v1/base-sepolia/test-api-key';
     setOnchainKitConfig({ chain, apiKey, rpcUrl: userRpcUrl });
     expect(getOnchainKitConfig('chain')).toEqual(chain);
     expect(getOnchainKitConfig('apiKey')).toEqual(apiKey);

@@ -25,7 +25,10 @@ export async function buildSwapTransaction(
   const apiParams = getAPIParamsForToken({ ...defaultParams, ...params });
 
   try {
-    const res = await sendRequest<SwapAPIParams, SwapAPIResponse>(CDP_GET_SWAP_TRADE, [apiParams]);
+    const res = await sendRequest<SwapAPIParams, SwapAPIResponse>(
+      CDP_GET_SWAP_TRADE,
+      [apiParams],
+    );
     if (res.error) {
       return {
         code: res.error.code,

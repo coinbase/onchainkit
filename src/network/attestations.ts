@@ -22,7 +22,8 @@ type GetAttestationQueryVariablesFilters = {
 /**
  * Alias type for filter options when fetching attestations by filter.
  */
-export type GetAttestationsByFilterOptions = GetAttestationQueryVariablesFilters;
+export type GetAttestationsByFilterOptions =
+  GetAttestationQueryVariablesFilters;
 
 /**
  * Type representing the variables passed to the EAS Attestations GraphQL query.
@@ -126,7 +127,10 @@ export async function getAttestationsByFilter<TChain extends Chain>(
   filters: GetAttestationsByFilterOptions,
 ): Promise<GetAttestationsByFilterResponse> {
   const easGraphqlClient = createEasGraphQLClient(chain);
-  const attestationQueryVariables = getAttestationQueryVariables(address, filters);
+  const attestationQueryVariables = getAttestationQueryVariables(
+    address,
+    filters,
+  );
 
   const { attestations } = await easGraphqlClient.request<
     GetAttestationQueryResponse,

@@ -1,5 +1,9 @@
 import { Address } from 'viem';
-import type { FrameRequest, MockFrameRequest, MockFrameRequestOptions } from './types';
+import type {
+  FrameRequest,
+  MockFrameRequest,
+  MockFrameRequestOptions,
+} from './types';
 
 /**
  * Modify a standard frame request to include simulated values (e.g., indicate the viewer
@@ -21,7 +25,8 @@ function getMockFrameRequest(
       input: request.untrustedData.inputText,
       interactor: {
         fid: options?.interactor?.fid || 0,
-        custody_address: options?.interactor?.custody_address || '0xnotarealaddress',
+        custody_address:
+          options?.interactor?.custody_address || '0xnotarealaddress',
         verified_accounts: options?.interactor?.verified_accounts || [],
         verified_addresses: {
           eth_addresses: null,

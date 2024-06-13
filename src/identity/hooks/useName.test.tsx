@@ -60,9 +60,12 @@ describe('useName', () => {
     mockGetEnsName.mockResolvedValue(testEnsName);
 
     // Use the renderHook function to create a test harness for the useName hook
-    const { result } = renderHook(() => useName({ address: testAddress, showAddress: true }), {
-      wrapper: getNewReactQueryTestProvider(),
-    });
+    const { result } = renderHook(
+      () => useName({ address: testAddress, showAddress: true }),
+      {
+        wrapper: getNewReactQueryTestProvider(),
+      },
+    );
 
     // Wait for the hook to finish fetching the ENS name
     await waitFor(() => {

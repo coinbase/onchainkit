@@ -70,7 +70,8 @@ export const getFrameMetadata = ({
     metadata['of:version'] = 'vNext';
     if (accepts) {
       Object.keys(accepts).forEach((protocolIdentifier) => {
-        metadata[`of:accepts:${protocolIdentifier}`] = accepts[protocolIdentifier];
+        metadata[`of:accepts:${protocolIdentifier}`] =
+          accepts[protocolIdentifier];
       });
     }
     metadata['of:image'] = imageSrc;

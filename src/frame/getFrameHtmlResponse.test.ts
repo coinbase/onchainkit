@@ -51,7 +51,13 @@ describe('getFrameHtmlResponse', () => {
 
   it('should return correct HTML with image src', () => {
     const html = getFrameHtmlResponse({
-      buttons: [{ label: 'Mint', action: 'mint', target: 'https://zizzamia.xyz/api/frame/mint' }],
+      buttons: [
+        {
+          label: 'Mint',
+          action: 'mint',
+          target: 'https://zizzamia.xyz/api/frame/mint',
+        },
+      ],
       image: {
         src: 'https://zizzamia.xyz/park-1.png',
       },
@@ -75,7 +81,13 @@ describe('getFrameHtmlResponse', () => {
 
   it('should return correct HTML with 1:1 image aspect ratio', () => {
     const html = getFrameHtmlResponse({
-      buttons: [{ label: 'Mint', action: 'mint', target: 'https://zizzamia.xyz/api/frame/mint' }],
+      buttons: [
+        {
+          label: 'Mint',
+          action: 'mint',
+          target: 'https://zizzamia.xyz/api/frame/mint',
+        },
+      ],
       image: {
         src: 'https://zizzamia.xyz/park-1.png',
         aspectRatio: '1:1',
@@ -101,7 +113,13 @@ describe('getFrameHtmlResponse', () => {
 
   it('should return correct HTML with action mint', () => {
     const html = getFrameHtmlResponse({
-      buttons: [{ label: 'Mint', action: 'mint', target: 'https://zizzamia.xyz/api/frame/mint' }],
+      buttons: [
+        {
+          label: 'Mint',
+          action: 'mint',
+          target: 'https://zizzamia.xyz/api/frame/mint',
+        },
+      ],
       image: 'https://zizzamia.xyz/park-1.png',
     });
 
@@ -123,7 +141,13 @@ describe('getFrameHtmlResponse', () => {
 
   it('should return correct HTML with action link', () => {
     const html = getFrameHtmlResponse({
-      buttons: [{ label: 'Link', action: 'link', target: 'https://zizzamia.xyz/api/frame/link' }],
+      buttons: [
+        {
+          label: 'Link',
+          action: 'link',
+          target: 'https://zizzamia.xyz/api/frame/link',
+        },
+      ],
       image: 'https://zizzamia.xyz/park-1.png',
     });
 
@@ -145,7 +169,9 @@ describe('getFrameHtmlResponse', () => {
 
   it('should return correct HTML with action link, even if action is not explicitly set', () => {
     const html = getFrameHtmlResponse({
-      buttons: [{ label: 'Click', target: 'https://zizzamia.xyz/api/frame/click' }],
+      buttons: [
+        { label: 'Click', target: 'https://zizzamia.xyz/api/frame/click' },
+      ],
       image: 'https://zizzamia.xyz/park-1.png',
     });
 
@@ -167,7 +193,11 @@ describe('getFrameHtmlResponse', () => {
   it('should return correct HTML with action tx', () => {
     const html = getFrameHtmlResponse({
       buttons: [
-        { label: 'Transaction', action: 'tx', target: 'https://zizzamia.xyz/api/frame/tx' },
+        {
+          label: 'Transaction',
+          action: 'tx',
+          target: 'https://zizzamia.xyz/api/frame/tx',
+        },
         {
           label: 'Transaction 2',
           action: 'tx',
@@ -206,11 +236,15 @@ describe('getFrameHtmlResponse', () => {
     });
 
     expect(html).toContain('<meta property="fc:frame" content="vNext" />');
-    expect(html).toContain('<meta property="fc:frame:button:1" content="button1" />');
+    expect(html).toContain(
+      '<meta property="fc:frame:button:1" content="button1" />',
+    );
     expect(html).toContain(
       '<meta property="fc:frame:image" content="https://example.com/image.png" />',
     );
-    expect(html).toContain('<meta property="og:image" content="https://example.com/image.png" />');
+    expect(html).toContain(
+      '<meta property="og:image" content="https://example.com/image.png" />',
+    );
     expect(html).toContain(
       '<meta property="fc:frame:post_url" content="https://example.com/api/frame" />',
     );
@@ -227,7 +261,9 @@ describe('getFrameHtmlResponse', () => {
     expect(html).toContain(
       '<meta property="fc:frame:image" content="https://example.com/image.png" />',
     );
-    expect(html).toContain('<meta property="og:image" content="https://example.com/image.png" />');
+    expect(html).toContain(
+      '<meta property="og:image" content="https://example.com/image.png" />',
+    );
     expect(html).toContain(
       '<meta property="fc:frame:post_url" content="https://example.com/api/frame" />',
     );
@@ -244,8 +280,12 @@ describe('getFrameHtmlResponse', () => {
     expect(html).toContain(
       '<meta property="fc:frame:image" content="https://example.com/image.png" />',
     );
-    expect(html).toContain('<meta property="og:image" content="https://example.com/image.png" />');
-    expect(html).toContain('<meta property="fc:frame:button:1" content="button1" />');
+    expect(html).toContain(
+      '<meta property="og:image" content="https://example.com/image.png" />',
+    );
+    expect(html).toContain(
+      '<meta property="fc:frame:button:1" content="button1" />',
+    );
     expect(html).not.toContain('fc:frame:post_url');
   });
 
@@ -260,7 +300,9 @@ describe('getFrameHtmlResponse', () => {
     expect(html).toContain(
       '<meta property="fc:frame:image" content="https://example.com/image.png" />',
     );
-    expect(html).toContain('<meta property="fc:frame:button:1" content="button1" />');
+    expect(html).toContain(
+      '<meta property="fc:frame:button:1" content="button1" />',
+    );
     expect(html).toContain(
       '<meta property="fc:frame:post_url" content="https://example.com/api/frame" />',
     );
@@ -275,10 +317,18 @@ describe('getFrameHtmlResponse', () => {
     });
 
     expect(html).toContain('<meta property="fc:frame" content="vNext" />');
-    expect(html).toContain('<meta property="fc:frame:button:1" content="button1" />');
-    expect(html).toContain('<meta property="fc:frame:button:1:action" content="post" />');
-    expect(html).toContain('<meta property="fc:frame:image" content="image" />');
-    expect(html).toContain('<meta property="fc:frame:post_url" content="post_url" />');
+    expect(html).toContain(
+      '<meta property="fc:frame:button:1" content="button1" />',
+    );
+    expect(html).toContain(
+      '<meta property="fc:frame:button:1:action" content="post" />',
+    );
+    expect(html).toContain(
+      '<meta property="fc:frame:image" content="image" />',
+    );
+    expect(html).toContain(
+      '<meta property="fc:frame:post_url" content="post_url" />',
+    );
     expect(html).not.toContain('fc:frame:button:1:target');
   });
 
@@ -289,8 +339,12 @@ describe('getFrameHtmlResponse', () => {
       postUrl: 'post_url',
     });
 
-    expect(html).toContain('<meta property="og:description" content="Frame description" />');
-    expect(html).toContain('<meta property="og:title" content="Frame title" />');
+    expect(html).toContain(
+      '<meta property="og:description" content="Frame description" />',
+    );
+    expect(html).toContain(
+      '<meta property="og:title" content="Frame title" />',
+    );
   });
 
   it('should set og:description and og:title to provided values', () => {
@@ -302,19 +356,27 @@ describe('getFrameHtmlResponse', () => {
       ogTitle: 'title',
     });
 
-    expect(html).toContain('<meta property="og:description" content="description" />');
+    expect(html).toContain(
+      '<meta property="og:description" content="description" />',
+    );
     expect(html).toContain('<meta property="og:title" content="title" />');
   });
 
   it('should set a button link only once', () => {
     const html = getFrameHtmlResponse({
-      buttons: [{ label: 'button1', action: 'link', target: 'https://example.com' }],
+      buttons: [
+        { label: 'button1', action: 'link', target: 'https://example.com' },
+      ],
       image: 'image',
       postUrl: 'post_url',
     });
 
-    expect(html).toContain('<meta property="fc:frame:button:1" content="button1" />');
-    expect(html).toContain('<meta property="fc:frame:button:1:action" content="link" />');
+    expect(html).toContain(
+      '<meta property="fc:frame:button:1" content="button1" />',
+    );
+    expect(html).toContain(
+      '<meta property="fc:frame:button:1:action" content="link" />',
+    );
     expect(html).toContain(
       '<meta property="fc:frame:button:1:target" content="https://example.com" />',
     );
@@ -331,12 +393,22 @@ describe('getFrameHtmlResponse', () => {
 
   it('should set a target when action is post', () => {
     const html = getFrameHtmlResponse({
-      buttons: [{ label: 'button1', action: 'post', target: 'https://example.com/api/frame7' }],
+      buttons: [
+        {
+          label: 'button1',
+          action: 'post',
+          target: 'https://example.com/api/frame7',
+        },
+      ],
       image: 'image',
     });
 
-    expect(html).toContain('<meta property="fc:frame:button:1" content="button1" />');
-    expect(html).toContain('<meta property="fc:frame:button:1:action" content="post" />');
+    expect(html).toContain(
+      '<meta property="fc:frame:button:1" content="button1" />',
+    );
+    expect(html).toContain(
+      '<meta property="fc:frame:button:1:action" content="post" />',
+    );
     expect(html).toContain(
       '<meta property="fc:frame:button:1:target" content="https://example.com/api/frame7" />',
     );
@@ -353,12 +425,22 @@ describe('getFrameHtmlResponse', () => {
 
   it('should set a target when action is tx', () => {
     const html = getFrameHtmlResponse({
-      buttons: [{ label: 'Transaction', action: 'tx', target: 'https://example.com/api/tx7' }],
+      buttons: [
+        {
+          label: 'Transaction',
+          action: 'tx',
+          target: 'https://example.com/api/tx7',
+        },
+      ],
       image: 'image',
     });
 
-    expect(html).toContain('<meta property="fc:frame:button:1" content="Transaction" />');
-    expect(html).toContain('<meta property="fc:frame:button:1:action" content="tx" />');
+    expect(html).toContain(
+      '<meta property="fc:frame:button:1" content="Transaction" />',
+    );
+    expect(html).toContain(
+      '<meta property="fc:frame:button:1:action" content="tx" />',
+    );
     expect(html).toContain(
       '<meta property="fc:frame:button:1:target" content="https://example.com/api/tx7" />',
     );
@@ -381,11 +463,15 @@ describe('getFrameHtmlResponse', () => {
     });
 
     expect(html).toContain('<meta property="fc:frame" content="vNext" />');
-    expect(html).toContain('<meta property="fc:frame:button:1" content="button1" />');
+    expect(html).toContain(
+      '<meta property="fc:frame:button:1" content="button1" />',
+    );
     expect(html).toContain(
       '<meta property="fc:frame:image" content="https://example.com/image.png" />',
     );
-    expect(html).toContain('<meta property="og:image" content="https://example.com/image.png" />');
+    expect(html).toContain(
+      '<meta property="og:image" content="https://example.com/image.png" />',
+    );
     expect(html).toContain(
       '<meta property="fc:frame:post_url" content="https://example.com/api/frame" />',
     );
@@ -404,11 +490,15 @@ describe('getFrameHtmlResponse', () => {
     });
 
     expect(html).toContain('<meta property="fc:frame" content="vNext" />');
-    expect(html).toContain('<meta property="fc:frame:button:1" content="button1" />');
+    expect(html).toContain(
+      '<meta property="fc:frame:button:1" content="button1" />',
+    );
     expect(html).toContain(
       '<meta property="fc:frame:image" content="https://example.com/image.png" />',
     );
-    expect(html).toContain('<meta property="og:image" content="https://example.com/image.png" />');
+    expect(html).toContain(
+      '<meta property="og:image" content="https://example.com/image.png" />',
+    );
     expect(html).toContain(
       '<meta property="fc:frame:post_url" content="https://example.com/api/frame" />',
     );

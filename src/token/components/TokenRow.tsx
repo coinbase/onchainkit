@@ -19,13 +19,20 @@ export const TokenRow = memo(function TokenRow({
       <span className="flex items-center gap-3">
         {!hideImage && <TokenImage token={token} size={48} />}
         <span className="flex flex-col items-start">
-          <span className="font-medium leading-normal text-[#0A0B0D]">{token.name}</span>
+          <span className="font-medium leading-normal text-[#0A0B0D]">
+            {token.name}
+          </span>
           {!hideSymbol && (
-            <span className="font-normal leading-normal text-[#5B616E]">{token.symbol}</span>
+            <span className="font-normal leading-normal text-[#5B616E]">
+              {token.symbol}
+            </span>
           )}
         </span>
       </span>
-      <span data-testid="ockTokenRow_Amount" className="font-normal leading-normal text-[#5B616E]">
+      <span
+        data-testid="ockTokenRow_Amount"
+        className="font-normal leading-normal text-[#5B616E]"
+      >
         {formatAmount(amount, {
           minimumFractionDigits: 2,
           maximumFractionDigits: Number(amount) < 1 ? 5 : 2,

@@ -23,7 +23,8 @@ describe('OnchainKitConfig', () => {
     const chain = baseSepolia;
     const schemaId = '0x123';
     const apiKey = 'test-api-key';
-    const rpcUrl = 'https://api.developer.coinbase.com/rpc/v1/base-sepolia/test-api-key';
+    const rpcUrl =
+      'https://api.developer.coinbase.com/rpc/v1/base-sepolia/test-api-key';
     setOnchainKitConfig({ chain, schemaId, apiKey });
     expect(getOnchainKitConfig('chain')).toEqual(chain);
     expect(getOnchainKitConfig('schemaId')).toEqual(schemaId);
@@ -35,7 +36,8 @@ describe('OnchainKitConfig', () => {
     const chain = baseSepolia;
     const schemaId = '0x123';
     const apiKey = 'updated-api-key';
-    const rpcUrl = 'https://api.developer.coinbase.com/rpc/v1/base-sepolia/updated-api-key';
+    const rpcUrl =
+      'https://api.developer.coinbase.com/rpc/v1/base-sepolia/updated-api-key';
     setOnchainKitConfig({ chain, schemaId, apiKey, rpcUrl });
     expect(getOnchainKitConfig('chain')).toEqual(chain);
     expect(getOnchainKitConfig('schemaId')).toEqual(schemaId);

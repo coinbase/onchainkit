@@ -112,7 +112,13 @@ describe('getFrameMetadata', () => {
   it('should return the correct metadata with action mint', () => {
     expect(
       getFrameMetadata({
-        buttons: [{ label: 'Mint', action: 'mint', target: 'https://zizzamia.xyz/api/frame/mint' }],
+        buttons: [
+          {
+            label: 'Mint',
+            action: 'mint',
+            target: 'https://zizzamia.xyz/api/frame/mint',
+          },
+        ],
         image: 'https://zizzamia.xyz/park-1.png',
         input: {
           text: 'Tell me a boat story',
@@ -133,7 +139,13 @@ describe('getFrameMetadata', () => {
   it('should return the correct metadata with action link', () => {
     expect(
       getFrameMetadata({
-        buttons: [{ label: 'Link', action: 'link', target: 'https://zizzamia.xyz/frame/link' }],
+        buttons: [
+          {
+            label: 'Link',
+            action: 'link',
+            target: 'https://zizzamia.xyz/frame/link',
+          },
+        ],
         image: 'https://zizzamia.xyz/park-1.png',
         input: {
           text: 'Tell me a boat story',
@@ -155,7 +167,11 @@ describe('getFrameMetadata', () => {
     expect(
       getFrameMetadata({
         buttons: [
-          { label: 'Transaction', action: 'tx', target: 'https://zizzamia.xyz/api/frame/tx' },
+          {
+            label: 'Transaction',
+            action: 'tx',
+            target: 'https://zizzamia.xyz/api/frame/tx',
+          },
         ],
         image: 'https://zizzamia.xyz/park-1.png',
         input: {
@@ -193,7 +209,8 @@ describe('getFrameMetadata', () => {
       'fc:frame:button:1': 'Transaction',
       'fc:frame:button:1:action': 'tx',
       'fc:frame:button:1:target': 'https://zizzamia.xyz/api/frame/tx',
-      'fc:frame:button:1:post_url': 'https://zizzamia.xyz/api/frame/tx-post-url',
+      'fc:frame:button:1:post_url':
+        'https://zizzamia.xyz/api/frame/tx-post-url',
       'fc:frame:image': 'https://zizzamia.xyz/park-1.png',
       'fc:frame:post_url': 'https://zizzamia.xyz/api/frame',
     });
@@ -219,8 +236,16 @@ describe('getFrameMetadata', () => {
     expect(
       getFrameMetadata({
         buttons: [
-          { label: 'button1', action: 'post', target: 'https://zizzamia.xyz/api/frame1' },
-          { label: 'button2', action: 'post_redirect', target: 'https://zizzamia.xyz/api/frame2' },
+          {
+            label: 'button1',
+            action: 'post',
+            target: 'https://zizzamia.xyz/api/frame1',
+          },
+          {
+            label: 'button2',
+            action: 'post_redirect',
+            target: 'https://zizzamia.xyz/api/frame2',
+          },
           { label: 'button3', target: 'https://zizzamia.xyz/api/frame3' },
         ],
         image: 'image',
