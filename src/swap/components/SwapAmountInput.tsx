@@ -53,12 +53,12 @@ export function SwapAmountInput({ label, token, type }: SwapAmountInputReact) {
     <div
       className={cn(
         'box-border flex w-full flex-col items-start',
-        'gap-[11px] border-b border-solid  bg-[#FFF] p-4',
+        'gap-[11px] border-b border-solid bg-[#FFF] p-4',
       )}
       data-testid="ockSwapAmountInput_Container"
     >
       <div className="flex w-full items-center justify-between">
-        <label className="text-sm font-semibold text-[#030712]">{label}</label>
+        <label className='font-semibold text-[#030712] text-sm'>{label}</label>
       </div>
       <div className="flex w-full items-center justify-between">
         <TokenChip token={token} />

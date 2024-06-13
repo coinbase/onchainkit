@@ -21,7 +21,7 @@ function WithNameBadgeInner({ children, address }: WithNameBadgeInnerReact) {
   return (
     <div className="flex items-center" data-testid="ockNameBadgeContainer">
       {children}
-      {attestations && attestations[0] && (
+      {attestations?.[0] && (
         <div className="ml-1">
           <Badge />
         </div>

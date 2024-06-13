@@ -45,7 +45,7 @@ export const TokenSelectButton = forwardRef(function TokenSelectButton(
   return (
     <button
       data-testid="ockTokenSelectButton_Button"
-      className="flex w-fit items-center gap-2 rounded-2xl bg-[#eef0f3] px-3 py-1 outline-none hover:bg-[#cacbce] active:bg-[#bfc1c3]"
+      className='flex w-fit items-center gap-2 rounded-2xl bg-[#eef0f3] px-3 py-1 outline-none active:bg-[#bfc1c3] hover:bg-[#cacbce]'
       onClick={onClick}
       ref={ref}
     >
@@ -54,13 +54,13 @@ export const TokenSelectButton = forwardRef(function TokenSelectButton(
           <TokenImage token={token} size={16} />
           <span
             data-testid="ockTokenSelectButton_Symbol"
-            className="text-base font-medium leading-normal text-[#0a0b0d]"
+            className='font-medium text-[#0a0b0d] text-base leading-normal'
           >
             {token.symbol}
           </span>
         </>
       ) : (
-        <span className="text-base font-medium leading-normal text-[#0a0b0d]">Select</span>
+        <span className='font-medium text-[#0a0b0d] text-base leading-normal'>Select</span>
       )}
       {isOpen ? <CaretUp /> : <CaretDown />}
     </button>

@@ -5,6 +5,7 @@ export { SwapButton } from './components/SwapButton';
 export { buildSwapTransaction } from './core/buildSwapTransaction';
 export { getSwapQuote } from './core/getSwapQuote';
 export type {
+  BuildSwapTransaction,
   BuildSwapTransactionParams,
   BuildSwapTransactionResponse,
   GetSwapQuoteParams,
@@ -13,5 +14,6 @@ export type {
   SwapAmountInputReact,
   SwapButtonReact,
   SwapError,
+  SwapQuote,
   SwapTransaction,
 } from './types';

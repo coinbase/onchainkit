@@ -1,13 +1,16 @@
 import type { Account, Address, Hex } from 'viem';
 import type { Token } from '../token/types';
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
 export type AddressOrETH = Address | 'ETH';
 
+/**
+ * Note: exported as public Type
+ */
 export type BuildSwapTransaction = {
   approveTransaction?: SwapTransaction; // The approval transaction
   fee: Fee; // The fee for the swap
-  quote: Quote; // The quote for the swap
+  quote: SwapQuote; // The quote for the swap
   transaction: SwapTransaction; // The swap transaction
   warning?: QuoteWarning; // The warning associated with the swap
 };
@@ -57,19 +60,7 @@ export type GetSwapQuoteParams = {
 /**
  * Note: exported as public Type
  */
-export type GetSwapQuoteResponse = Quote | SwapError;
-
-export type Quote = {
-  amountReference: string; // The reference amount for the quote
-  from: Token; // The source token for the swap
-  fromAmount: string; // The amount of the source token
-  hasHighPriceImpact: boolean; // Whether the price impact is high
-  priceImpact: string; // The price impact of the swap
-  slippage: string; // The slippage of the swap
-  to: Token; // The destination token for the swap
-  toAmount: string; // The amount of the destination token
-  warning?: QuoteWarning; // The warning associated with the quote
-};
+export type GetSwapQuoteResponse = SwapQuote | SwapError;
 
 export type QuoteWarning = {
   description?: string; // The description of the warning
@@ -101,7 +92,7 @@ export type SwapAPIResponse = {
   approveTx?: RawTransactionData; // The approval transaction
   chainId: string; // The chain ID
   fee: Fee; // The fee for the trade
-  quote: Quote; // The quote for the trade
+  quote: SwapQuote; // The quote for the trade
   tx: RawTransactionData; // The trade transaction
 };
 
@@ -123,6 +114,21 @@ export type SwapContextType = {
   setToToken: (t: Token) => void;
   toAmount: string;
   toToken?: Token;
+};
+
+/**
+ * Note: exported as public Type
+ */
+export type SwapQuote = {
+  amountReference: string; // The reference amount for the quote
+  from: Token; // The source token for the swap
+  fromAmount: string; // The amount of the source token
+  hasHighPriceImpact: boolean; // Whether the price impact is high
+  priceImpact: string; // The price impact of the swap
+  slippage: string; // The slippage of the swap
+  to: Token; // The destination token for the swap
+  toAmount: string; // The amount of the destination token
+  warning?: QuoteWarning; // The warning associated with the quote
 };
 
 export type SwapParams = {
