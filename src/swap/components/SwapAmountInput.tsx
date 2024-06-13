@@ -90,7 +90,11 @@ export function SwapAmountInput({ label, token, type }: SwapAmountInputReact) {
         <TokenChip token={token} />
         {type === 'from' && (
           <button
-            className="flex h-8 w-[58px] max-w-[200px] items-center rounded-[40px] bg-gray-100 px-3 py-2 text-base font-medium not-italic leading-6 text-gray-500"
+            className={cn(
+              'flex h-8 w-[58px] max-w-[200px] items-center rounded-[40px]',
+              'bg-gray-100 px-3 py-2 text-base font-medium',
+              'not-italic leading-6 text-gray-500',
+            )}
             data-testid="ockSwapAmountInput_MaxButton"
             disabled={roundedBalance === undefined}
             onClick={handleMaxButtonClick}
