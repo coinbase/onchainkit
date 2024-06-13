@@ -10,7 +10,7 @@ Search by symbol
 
 :::code-group
 
-```tsx [code]
+```tsx [Code]
 import { setOnchainKitConfig } from '@coinbase/onchainkit';
 import { getTokens } from '@coinbase/onchainkit/token'; // [!code focus]
 
@@ -19,7 +19,7 @@ setOnchainKitConfig({ apiKey: 'YOUR_API_KEY' });
 const tokens = await getTokens({ limit: '1', search: 'degen' }); // [!code focus]
 ```
 
-```ts [return value]
+```ts [Result]
 [
   {
     address: '0x4ed4e862860bed51a9570b96d89af5e1b0efefed',
@@ -39,7 +39,7 @@ Search by name
 
 :::code-group
 
-```tsx [code]
+```tsx [Code]
 import { setOnchainKitConfig } from '@coinbase/onchainkit';
 import { getTokens } from '@coinbase/onchainkit/token'; // [!code focus]
 
@@ -48,7 +48,7 @@ setOnchainKitConfig({ apiKey: 'YOUR_API_KEY' });
 const tokens = await getTokens({ limit: '1', search: 'Wrapped Ether' }); // [!code focus]
 ```
 
-```ts [return value]
+```ts [Result]
 [
   {
     address: '0x4200000000000000000000000000000000000006',
@@ -68,7 +68,7 @@ Search by address
 
 :::code-group
 
-```tsx [code]
+```tsx [Code]
 import { setOnchainKitConfig } from '@coinbase/onchainkit';
 import { getTokens } from '@coinbase/onchainkit/token'; // [!code focus]
 
@@ -76,11 +76,11 @@ setOnchainKitConfig({ apiKey: 'YOUR_API_KEY' });
 
 const tokens = await getTokens({
   limit: '1',
-  search: '0x833589fcd6edb6e08f4c7c32d4f71b54bda02913',
-}); // [!code focus]
+  search: '0x833589fcd6edb6e08f4c7c32d4f71b54bda02913', // [!code focus]
+});
 ```
 
-```ts [return value]
+```ts [Result]
 [
   {
     address: '0x833589fcd6edb6e08f4c7c32d4f71b54bda02913',
