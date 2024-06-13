@@ -1,6 +1,7 @@
 import { type ForwardedRef, forwardRef } from 'react';
 import type { TokenSelectButtonReact } from '../types';
 import { TokenImage } from './TokenImage';
+import { TextBody } from '../../internal/text';
 
 function CaretUp() {
   return (
@@ -52,17 +53,12 @@ export const TokenSelectButton = forwardRef(function TokenSelectButton(
       {token ? (
         <>
           <TokenImage token={token} size={16} />
-          <span
-            data-testid="ockTokenSelectButton_Symbol"
-            className="font-medium text-[#0a0b0d] text-base leading-normal"
-          >
+          <TextBody data-testid="ockTokenSelectButton_Symbol">
             {token.symbol}
-          </span>
+          </TextBody>
         </>
       ) : (
-        <span className="font-medium text-[#0a0b0d] text-base leading-normal">
-          Select
-        </span>
+        <TextBody>Select</TextBody>
       )}
       {isOpen ? <CaretUp /> : <CaretDown />}
     </button>
