@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.20.4
+
+### Patch Changes
+
+- 5cab65c: - **feat**: exported `Swap` components. By @zizzamia #530
+
 ## 0.20.2
 
 ### Patch Changes
