@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
 type TextBodyReact = {
   children: ReactNode;
@@ -6,7 +6,7 @@ type TextBodyReact = {
 
 export function TextBody({ children }: TextBodyReact) {
   return (
-    <span className="text-sans text-base leading-normal text-black">
+    <span className="text-base text-black text-sans leading-normal">
       {children}
     </span>
   );

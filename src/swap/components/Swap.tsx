@@ -2,7 +2,8 @@ import { useCallback, useMemo, useState } from 'react';
 import { cn } from '../../utils/cn';
 import { SwapContext } from '../context';
 import { getSwapQuote } from '../core/getSwapQuote';
-import { formatTokenAmount, isSwapError } from '../utils';
+import { formatTokenAmount } from '../../utils/formatTokenAmount';
+import { isSwapError } from '../core/isSwapError';
 import type { SwapError, SwapReact } from '../types';
 import type { Token } from '../../token';
 

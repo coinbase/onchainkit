@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
 type TextHeadlineReact = {
   children: ReactNode;
@@ -6,7 +6,7 @@ type TextHeadlineReact = {
 
 export function TextHeadline({ children }: TextHeadlineReact) {
   return (
-    <span className="text-sans text-base leading-normal text-bold text-[#0A0B0D]">
+    <span className="text-[#0A0B0D] text-base text-bold text-sans leading-normal">
       {children}
     </span>
   );
