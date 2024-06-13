@@ -1,0 +1,59 @@
+root:
+- changed-files:
+  - any-glob-to-any-file: '*'
+
+framegear:
+- changed-files:
+  - any-glob-to-any-file: framegear/**
+
+documentation:
+- changed-files:
+  - any-glob-to-any-file: site/**
+
+'pkg: core':
+- changed-files:
+  - any-glob-to-any-file: src/core/**
+
+'pkg: definitions':
+- changed-files:
+  - any-glob-to-any-file: src/definitions/**
+
+'pkg: farcaster':
+- changed-files:
+  - any-glob-to-any-file: src/farcaster/**
+
+'pkg: frame':
+- changed-files:
+  - any-glob-to-any-file: src/frame/**
+
+'pkg: identity':
+- changed-files:
+  - any-glob-to-any-file: src/identity/**
+
+'pkg: network':
+- changed-files:
+  - any-glob-to-any-file: src/network/**
+
+'pkg: styles':
+- changed-files:
+  - any-glob-to-any-file: src/styles/**
+
+'pkg: swap':
+- changed-files:
+  - any-glob-to-any-file: src/swap/**
+
+'pkg: token':
+- changed-files:
+  - any-glob-to-any-file: src/token/**
+
+'pkg: utils':
+- changed-files:
+  - any-glob-to-any-file: src/utils/**
+
+'pkg: wallet':
+- changed-files:
+  - any-glob-to-any-file: src/wallet/**
+
+'pkg: xmtp':
+- changed-files:
+  - any-glob-to-any-file: src/xmtp/**
