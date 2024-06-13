@@ -8,7 +8,8 @@ const tokens: Token[] = [
     address: '',
     symbol: 'ETH',
     decimals: 18,
-    image: 'https://wallet-api-production.s3.amazonaws.com/uploads/tokens/eth_288.png',
+    image:
+      'https://wallet-api-production.s3.amazonaws.com/uploads/tokens/eth_288.png',
     blockchain: 'eth',
     chainId: 8453,
   },

@@ -17,7 +17,9 @@ const TOKEN_BALANCE_MAP: Record<string, string> = {
   DAI: '4.9',
 };
 
-export default function SwapAmountInputContainer({ children }: SwapAmountInputContainer) {
+export default function SwapAmountInputContainer({
+  children,
+}: SwapAmountInputContainer) {
   const [token, setToken] = useState<Token>();
   const [amount, setAmount] = useState('');
 
