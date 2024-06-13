@@ -1,10 +1,10 @@
-import { useCallback, useContext, useEffect, useMemo } from 'react';
+import { useCallback, useContext, useEffect, useMemo } from "react";
 
-import { isValidAmount } from '../utils';
-import { TokenChip } from '../../token';
-import { cn } from '../../utils/cn';
-import { SwapContext } from '../context';
-import type { SwapAmountInputReact } from '../types';
+import { isValidAmount } from "../utils";
+import { TokenChip } from "../../token";
+import { cn } from "../../utils/cn";
+import { SwapContext } from "../context";
+import type { SwapAmountInputReact } from "../types";
 
 export function SwapAmountInput({ label, token, type }: SwapAmountInputReact) {
   const {
@@ -16,25 +16,22 @@ export function SwapAmountInput({ label, token, type }: SwapAmountInputReact) {
     toAmount,
   } = useContext(SwapContext);
 
-  /* istanbul ignore next */
   const amount = useMemo(() => {
-    if (type === 'to') {
+    if (type === "to") {
       return toAmount;
     }
     return fromAmount;
   }, [type, toAmount, fromAmount]);
 
-  /* istanbul ignore next */
   const setAmount = useMemo(() => {
-    if (type === 'to') {
+    if (type === "to") {
       return setToAmount;
     }
     return setFromAmount;
   }, [type, setToAmount, setFromAmount]);
 
-  /* istanbul ignore next */
   const setToken = useMemo(() => {
-    if (type === 'to') {
+    if (type === "to") {
       return setToToken;
     }
     return setFromToken;
@@ -46,7 +43,7 @@ export function SwapAmountInput({ label, token, type }: SwapAmountInputReact) {
         setAmount?.(event.target.value);
       }
     },
-    [setAmount],
+    [setAmount]
   );
 
   useEffect(() => {
@@ -58,8 +55,8 @@ export function SwapAmountInput({ label, token, type }: SwapAmountInputReact) {
   return (
     <div
       className={cn(
-        'box-border flex w-full flex-col items-start',
-        'gap-[11px] border-b border-solid bg-[#FFF] p-4',
+        "box-border flex w-full flex-col items-start",
+        "gap-[11px] border-b border-solid bg-[#FFF] p-4"
       )}
       data-testid="ockSwapAmountInput_Container"
     >
