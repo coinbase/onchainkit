@@ -1,4 +1,4 @@
-import { isValidAmount, isSwapError } from './utils'; // Adjust the import path as needed
+import { formatTokenAmount, isSwapError, isValidAmount } from './utils'; // Adjust the import path as needed
 
 describe('isValidAmount', () => {
   it('should return true for an empty string', () => {
@@ -67,5 +67,49 @@ describe('isSwapError function', () => {
     const response = {};
 
     expect(isSwapError(response)).toBe(false);
+  });
+});
+
+describe('formatTokenAmount', () => {
+  test('formats amount correctly with 18 decimals', () => {
+    const amount = '100000000000000000';
+    const decimals = 18;
+    const formattedAmount = formatTokenAmount(amount, decimals);
+    expect(formattedAmount).toBe('0.1');
+  });
+
+  test('formats amount correctly with different decimals', () => {
+    const amount = '1000000000';
+    const decimals = 9;
+    const formattedAmount = formatTokenAmount(amount, decimals);
+    expect(formattedAmount).toBe('1');
+  });
+
+  test('rounds to a maximum of 11 significant digits', () => {
+    const amount = '16732157880511600003860';
+    const decimals = 18;
+    const formattedAmount = formatTokenAmount(amount, decimals);
+    expect(formattedAmount).toBe('16732.157881');
+  });
+
+  test('handles very small amounts correctly', () => {
+    const amount = '1';
+    const decimals = 18;
+    const formattedAmount = formatTokenAmount(amount, decimals);
+    expect(formattedAmount).toBe('1e-18');
+  });
+
+  test('handles zero amount correctly', () => {
+    const amount = '0';
+    const decimals = 18;
+    const formattedAmount = formatTokenAmount(amount, decimals);
+    expect(formattedAmount).toBe('0');
+  });
+
+  test('handles large amounts correctly', () => {
+    const amount = '1000000000000000000000000000';
+    const decimals = 18;
+    const formattedAmount = formatTokenAmount(amount, decimals);
+    expect(formattedAmount).toBe('1000000000');
   });
 });

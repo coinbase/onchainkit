@@ -17,3 +17,11 @@ export function isSwapError(response: unknown): response is SwapError {
     response !== null && typeof response === 'object' && 'error' in response
   );
 }
+
+export function formatTokenAmount(amount: string, decimals: number) {
+  // Convert the string amount to a number using decimals value
+  const numberAmount = Number(amount) / Math.pow(10, decimals);
+  // Round to a maximum of 11 significant digits
+  const roundedAmount = Number(numberAmount.toPrecision(11));
+  return roundedAmount.toString();
+}
