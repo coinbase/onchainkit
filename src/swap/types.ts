@@ -1,5 +1,6 @@
-import type { Address, Hex } from 'viem';
+import type { Account, Address, Hex } from 'viem';
 import type { Token } from '../token/types';
+import { ReactNode } from 'react';
 
 export type AddressOrETH = Address | 'ETH';
 
@@ -85,6 +86,15 @@ export type RawTransactionData = {
   value: string; // The value of the transaction
 };
 
+/**
+ * Note: exported as public Type
+ */
+export type SwapAmountInputReact = {
+  label: string; // Descriptive label for the input field
+  token: Token; // Selected token
+  type: 'to' | 'from';
+};
+
 export type SwapAPIParams = GetQuoteAPIParams | GetSwapAPIParams;
 
 export type SwapAPIResponse = {
@@ -95,18 +105,34 @@ export type SwapAPIResponse = {
   tx: RawTransactionData; // The trade transaction
 };
 
-/**
- * Note: exported as public Type
- */
-export type SwapAmountInputReact = {
-  amount?: string; // Token amount
-  disabled?: boolean; // Whether the input is disabled
-  label: string; // Descriptive label for the input field
-  setAmount: (amount: string) => void; // Callback function when the amount changes
-  setToken: () => void; // Callback function when the token selector is clicked
-  swappableTokens: Token[]; // Tokens available for swap
-  token?: Token; // Selected token
-  tokenBalance?: string; // Amount of selected token user owns
+export type SwapButtonReact = {
+  onError?: (error: SwapError) => void;
+  onSubmit?: (swapTransaction: BuildSwapTransaction) => void;
+};
+
+export type SwapContextType = {
+  account: Account;
+  fromAmount: string;
+  fromToken?: Token;
+  setFromAmount: (a: string) => void;
+  setFromToken: (t: Token) => void;
+  setToAmount: (a: string) => void;
+  setToToken: (t: Token) => void;
+  toAmount: string;
+  toToken?: Token;
+};
+
+export type SwapParams = {
+  amount: string;
+  fromAddress: Address;
+  from: Token;
+  to: Token;
+};
+
+export type SwapReact = {
+  account: Account;
+  children: ReactNode;
+  onError?: (error: SwapError) => void;
 };
 
 /**

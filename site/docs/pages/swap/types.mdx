@@ -9,13 +9,19 @@ description: Glossary of Types in Swap components & utilities.
 
 ```ts
 type SwapAmountInputReact = {
-  amount?: string; // Token amount
-  disabled?: boolean; // Whether the input is disabled
   label: string; // Descriptive label for the input field
-  setAmount: (amount: string) => void; // Callback function when the amount changes
-  setToken: () => void; // Callback function when the token selector is clicked
-  swappableTokens: Token[]; // Tokens available for swap
   token?: Token; // Selected token
-  tokenBalance?: string; // Amount of selected token user owns
+  type: 'to' | 'from'; // Identifies if component is for toToken or fromToken
+};
+```
+
+## `SwapReact`
+
+```ts
+export type SwapReact = {
+  account: Account; // Ethereum account
+  children: ReactNode; // Children components to render
+  onError?: (error: SwapError) => void; // Callback when swap is unsuccessful
+  onSuccess?: (swapTransaction: BuildSwapTransaction) => void; // Callback when swap is successful
 };
 ```

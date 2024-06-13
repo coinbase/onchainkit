@@ -1,4 +1,4 @@
-import { isValidAmount } from './utils'; // Adjust the import path as needed
+import { isValidAmount, isSwapError } from './utils'; // Adjust the import path as needed
 
 describe('isValidAmount', () => {
   it('should return true for an empty string', () => {
@@ -35,5 +35,37 @@ describe('isValidAmount', () => {
 
   it('should return false for a string with spaces', () => {
     expect(isValidAmount('123 45')).toBe(false);
+  });
+});
+
+describe('isSwapError function', () => {
+  it('returns true for a valid SwapError object', () => {
+    const response = {
+      error: 'Swap failed',
+      details: 'Insufficient balance',
+    };
+
+    expect(isSwapError(response)).toBe(true);
+  });
+
+  it('returns false for null or non-object inputs', () => {
+    expect(isSwapError(null)).toBe(false);
+    expect(isSwapError(undefined)).toBe(false);
+    expect(isSwapError('error')).toBe(false);
+    expect(isSwapError(123)).toBe(false);
+  });
+
+  it('returns false for objects without the "error" property', () => {
+    const response = {
+      message: 'An error occurred',
+    };
+
+    expect(isSwapError(response)).toBe(false);
+  });
+
+  it('returns false for empty objects', () => {
+    const response = {};
+
+    expect(isSwapError(response)).toBe(false);
   });
 });

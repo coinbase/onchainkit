@@ -142,8 +142,8 @@ export const sidebar = [
         text: 'Components',
         items: [
           {
-            text: 'SwapAmountInput',
-            link: '/swap/swap-amount-input',
+            text: 'Swap',
+            link: '/swap/swap',
           },
         ],
       },
