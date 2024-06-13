@@ -1,5 +1,5 @@
 import { TokenSearch } from '@coinbase/onchainkit/token';
-import App from '../App';
+import { ComponentPreview } from '../../components/ComponentPreview';
 
 # `<TokenSearch />`
 
@@ -11,7 +11,15 @@ If you want to handle debounce delay outside of this component, set `delayMs` to
 
 Use [`getTokens`](/token/get-tokens) and `<TokenSearch />` combined to search the [Tokens](/token/types#token).
 
-```tsx
+:::code-group
+
+<div data-title="Preview">
+  <ComponentPreview>
+    <TokenSearch onChange={(value) => console.log('Search term:', value)} delayMs={200} />
+  </ComponentPreview>
+</div>
+
+```tsx [Code]
 import { OnchainKitProvider } from '@coinbase/onchainkit';
 import { TokenSearch, getTokens } from '@coinbase/onchainkit/token'; // [!code focus]
 import type { Token } from '@coinbase/onchainkit/token'; // [!code focus]
@@ -37,9 +45,7 @@ const handleChange = useCallback((value) => {
 </OnchainKitProvider>
 ```
 
-<App>
-  <TokenSearch onChange={(value) => console.log('Search term:', value)} delayMs={200} />
-</App>
+:::
 
 ## Props
 
