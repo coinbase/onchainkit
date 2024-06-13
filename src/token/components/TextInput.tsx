@@ -18,13 +18,13 @@ export function TextInput({ placeholder, value, onChange }: TextInputReact) {
 
   return (
     <div className="relative flex items-center">
-      <div className='-translate-y-1/2 absolute top-1/2 left-4'>
+      <div className="absolute left-4 top-1/2 -translate-y-1/2">
         <SearchIcon />
       </div>
       <input
         data-testid="ockTextInput_Search"
         type="text"
-        className='w-full rounded-full border-2 border-[#eef0f3] border-solid bg-[#eef0f3] py-2 pr-5 pl-12 text-[#0A0B0D] placeholder-[#5B616E] outline-none hover:bg-[#cacbce] hover:focus:bg-[#eef0f3]'
+        className="w-full rounded-full border-2 border-solid border-[#eef0f3] bg-[#eef0f3] py-2 pl-12 pr-5 text-[#0A0B0D] placeholder-[#5B616E] outline-none hover:bg-[#cacbce] hover:focus:bg-[#eef0f3]"
         placeholder={placeholder}
         value={value}
         onChange={handleChange}
@@ -32,7 +32,7 @@ export function TextInput({ placeholder, value, onChange }: TextInputReact) {
       {value && (
         <button
           data-testid="ockTextInput_Clear"
-          className='-translate-y-1/2 absolute top-1/2 right-4'
+          className="absolute right-4 top-1/2 -translate-y-1/2"
           onClick={handleClear}
         >
           <svg

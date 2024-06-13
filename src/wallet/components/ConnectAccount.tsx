@@ -37,7 +37,7 @@ export function ConnectAccount({ children }: ConnectAccountReact) {
               type="button"
             >
               <div
-                className='font-medium text-black text-sm leading-5'
+                className="text-sm font-medium leading-5 text-black"
                 data-testid="ockConnectAccountButtonInner"
               >
                 Connect wallet

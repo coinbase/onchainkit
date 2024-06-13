@@ -33,7 +33,7 @@ export function SwapButton({ onError, onSubmit }: SwapButtonReact) {
       <button
         className={cn(
           'w-full rounded-[100px] bg-blue-700',
-          'px-4 py-3 font-medium text-base text-white leading-6',
+          'px-4 py-3 text-base font-medium leading-6 text-white',
         )}
         onClick={handleSubmit}
         disabled={!fromAmount || !fromToken || !toToken}
