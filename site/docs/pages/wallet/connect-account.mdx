@@ -1,5 +1,4 @@
-{/* import { ConnectAccount } from '../../../../src/wallet'; */}
-import App from '../App';
+import { ComponentPreview } from '../../components/ComponentPreview';
 import AccountConnect from './AccountConnect';
 
 # `<ConnectAccount />`
@@ -9,7 +8,15 @@ Smart Wallet to create or connect an account in seconds with no app or extension
 
 ## Usage
 
-```tsx
+:::code-group
+
+<div data-title="Preview">
+  <ComponentPreview>
+    <AccountConnect />
+  </ComponentPreview>
+</div>
+
+```tsx [Code]
 import { Avatar } from '@coinbase/onchainkit/identity';
 import { ConnectAccount } from '@coinbase/onchainkit/wallet'; // [!code focus]
 import { useAccount, useDisconnect } from 'wagmi';
@@ -40,24 +47,8 @@ function AccountConnect() {
 }
 ```
 
-<App>
-  <AccountConnect />
-</App>
+:::
 
 ## Props
 
 [`ConnectAccountReact`](/wallet/types#connectaccountreact)
-
-## CSS
-
-```css
-.ock-connectaccount {
-  @apply flex flex-grow;
-}
-.ock-connectaccount-button {
-  @apply inline-flex h-10 grow items-center justify-center gap-2 rounded-3xl bg-white px-4 py-2;
-}
-.ock-connectaccount-inner {
-  @apply text-sm font-medium leading-5 text-black;
-}
-```
