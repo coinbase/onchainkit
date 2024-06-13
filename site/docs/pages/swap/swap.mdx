@@ -5,18 +5,26 @@ import App from '../App';
 
 ### Alert! Component is actively in development. Stay tuned for upcoming releases.
 
-The `Swap` component is a comprehensive interface for users to execute token swaps. It includes two instances of the `SwapAmountInput` component, enabling users to specify the amount of tokens to sell and buy. Additionally, the component features a "Swap" button for initiating the transaction.
+The `Swap` component is a comprehensive interface for users to execute token swaps.
+
+It includes two instances of the `SwapAmountInput` component, enabling users to specify
+the amount of tokens to sell and buy. Additionally, the component features a "Swap" button
+for initiating the transaction.
 
 ## Usage
 
 ```tsx [code]
-<Swap account={account} onError={onError}>
+import { Swap, SwapAmountInput, SwapButton } from '@coinbase/onchainkit/swap';
+
+const address = '0x1234567890';
+
+<Swap address={address} onError={onError}>
   <SwapAmountInput label="Sell" token={fromToken} type="from" />
   <SwapAmountInput label="Buy" token={toToken} type="to" />
   <SwapButton onError={onError} onSubmit={onSubmit} />
-</Swap>
+</Swap>;
 ```
 
 ## Props
 
-[`SwapReact`](/swap/types#SwapReact)
+[`SwapReact`](/swap/types#swapreact)

@@ -72,7 +72,7 @@ type SwapError = {
 
 ```ts
 type SwapReact = {
-  account: Account; // Ethereum account
+  address: Address; // Connected address from connector.
   children: ReactNode; // Children components to render
   onError?: (error: SwapError) => void; // Callback when swap is unsuccessful
   onSuccess?: (swapTransaction: BuildSwapTransaction) => void; // Callback when swap is successful

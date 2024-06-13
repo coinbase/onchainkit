@@ -343,9 +343,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@coinbase/onchainkit@npm:0.20.1":
-  version: 0.20.1
-  resolution: "@coinbase/onchainkit@npm:0.20.1"
+"@coinbase/onchainkit@npm:0.20.4":
+  version: 0.20.4
+  resolution: "@coinbase/onchainkit@npm:0.20.4"
   dependencies:
     clsx: "npm:^2.1.1"
     tailwind-merge: "npm:^2.3.0"
@@ -359,7 +359,7 @@ __metadata:
     permissionless: ^0.1.29
     react: ^18
     react-dom: ^18
-  checksum: 01ba6b34aa1516b6aa5f68d84142e94c908bcc0430909637ae0e5b2dc773f010fd0bca1dc9d808dd40f8e4fcfae62435f2a8c74a5cfd0b0230292e0e3a045def
+  checksum: fa30dccf1c6069ff952085f5542aec2049635f78bcbf0f56052839e633de3af99a5eaef3da6f9336ef1d99fadbeb9197d89a4a4220c71f25e2c152cf01e47948
   languageName: node
   linkType: hard
 
@@ -7675,7 +7675,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "onchainkit@workspace:."
   dependencies:
-    "@coinbase/onchainkit": "npm:0.20.1"
+    "@coinbase/onchainkit": "npm:0.20.4"
     "@tanstack/react-query": "npm:^5.36.0"
     "@types/react": "npm:latest"
     graphql: "npm:14"
