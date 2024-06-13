@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- 5a8cd45: - **fix**: Swap type. By @zizzamia #532
+- **fix**: `Swap` type. By @zizzamia #532 5a8cd45
 
 ## 0.20.4
 
