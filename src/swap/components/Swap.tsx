@@ -2,7 +2,7 @@ import { useCallback, useMemo, useState } from 'react';
 import { cn } from '../../utils/cn';
 import { SwapContext } from '../context';
 import { getSwapQuote } from '../core/getSwapQuote';
-import { isSwapError } from '../utils';
+import { formatTokenAmount, isSwapError } from '../utils';
 import type { SwapError, SwapReact } from '../types';
 import type { Token } from '../../token';
 
@@ -11,32 +11,6 @@ export function Swap({ address, children, onError }: SwapReact) {
   const [fromToken, setFromToken] = useState<Token>();
   const [toAmount, setToAmount] = useState('');
   const [toToken, setToToken] = useState<Token>();
-
-  const handleToAmountChange = useCallback(
-    async (amount: string) => {
-      setToAmount(amount);
-      const hasRequiredFields = fromToken && toToken && amount;
-      if (!hasRequiredFields) {
-        return;
-      }
-      try {
-        const response = await getSwapQuote({
-          from: fromToken,
-          to: toToken,
-          amount,
-          amountReference: 'to',
-        });
-        if (isSwapError(response)) {
-          onError?.(response);
-          return;
-        }
-        setFromAmount(response?.fromAmount);
-      } catch (error) {
-        onError?.(error as SwapError);
-      }
-    },
-    [fromToken, toToken, setFromAmount, setToAmount],
-  );
 
   const handleFromAmountChange = useCallback(
     async (amount: string) => {
@@ -56,7 +30,41 @@ export function Swap({ address, children, onError }: SwapReact) {
           onError?.(response);
           return;
         }
-        setToAmount(response?.toAmount);
+        const formattedAmount = formatTokenAmount(
+          response?.toAmount,
+          response?.to?.decimals,
+        );
+        setToAmount(formattedAmount);
+      } catch (error) {
+        onError?.(error as SwapError);
+      }
+    },
+    [fromToken, toToken, setFromAmount, setToAmount],
+  );
+
+  const handleToAmountChange = useCallback(
+    async (amount: string) => {
+      setToAmount(amount);
+      const hasRequiredFields = fromToken && toToken && amount;
+      if (!hasRequiredFields) {
+        return;
+      }
+      try {
+        const response = await getSwapQuote({
+          from: fromToken,
+          to: toToken,
+          amount,
+          amountReference: 'to',
+        });
+        if (isSwapError(response)) {
+          onError?.(response);
+          return;
+        }
+        const formattedAmount = formatTokenAmount(
+          response.fromAmount,
+          response?.from?.decimals,
+        );
+        setFromAmount(formattedAmount);
       } catch (error) {
         onError?.(error as SwapError);
       }
