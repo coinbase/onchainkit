@@ -31,17 +31,20 @@ export function SwapAmountInputV2({ label, token, type }: SwapAmountInputReact) 
     return setFromToken;
   }, [type, setFromToken, setToToken]);
 
+  const handleAmountChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      if (isValidAmount(event.target.value)) {
+        setAmount?.(event.target.value);
+      }
+    },
+    [setAmount],
+  );
+
   useEffect(() => {
     if (token) {
       setToken(token);
     }
-  }, [token]);
-
-  const handleAmountChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-    if (isValidAmount(event.target.value)) {
-      setAmount?.(event.target.value);
-    }
-  }, []);
+  }, [token, setToken]);
 
   return (
     <div

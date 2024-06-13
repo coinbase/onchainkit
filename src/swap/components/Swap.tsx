@@ -1,47 +1,67 @@
 import { useCallback, useMemo, useState } from 'react';
 import { cn } from '../../lib/utils';
 import { SwapContext } from '../context';
-import { useGetSwapQuote } from '../hooks/useGetSwapQuote';
-import type { SwapReact } from '../types';
+import type { SwapError, SwapReact } from '../types';
 import type { Token } from '../../token';
+import { getSwapQuote } from '../core/getSwapQuote';
+import { isSwapError } from '../utils';
 
 export function Swap({ account, children, onError }: SwapReact) {
   const [fromAmount, setFromAmount] = useState('');
   const [fromToken, setFromToken] = useState<Token>();
   const [toAmount, setToAmount] = useState('');
   const [toToken, setToToken] = useState<Token>();
-  const [lastTokenAmountUpdated, setLastTokenAmountUpdated] = useState<'to' | 'from' | undefined>();
-
-  useGetSwapQuote({
-    amountReference: lastTokenAmountUpdated,
-    fromAmount,
-    fromToken,
-    onError,
-    onSuccess: () => setLastTokenAmountUpdated(undefined),
-    setToAmount,
-    setFromAmount,
-    toAmount,
-    toToken,
-  });
 
   const handleToAmountChange = useCallback(
-    (amount: string) => {
-      if (lastTokenAmountUpdated !== 'to') {
-        setLastTokenAmountUpdated('to');
-      }
+    async (amount: string) => {
       setToAmount(amount);
+      const hasRequiredFields = fromToken && toToken && amount;
+      if (!hasRequiredFields) {
+        return;
+      }
+      try {
+        const response = await getSwapQuote({
+          from: fromToken,
+          to: toToken,
+          amount,
+          amountReference: 'to',
+        });
+        if (isSwapError(response)) {
+          onError?.(response);
+          return;
+        }
+        setFromAmount(response?.fromAmount);
+      } catch (error) {
+        onError?.(error as SwapError);
+      }
     },
-    [lastTokenAmountUpdated, setLastTokenAmountUpdated, setToAmount],
+    [fromToken, toToken, setFromAmount, setToAmount],
   );
 
   const handleFromAmountChange = useCallback(
-    (amount: string) => {
-      if (lastTokenAmountUpdated !== 'from') {
-        setLastTokenAmountUpdated('from');
-      }
+    async (amount: string) => {
       setFromAmount(amount);
+      const hasRequiredFields = fromToken && toToken && amount;
+      if (!hasRequiredFields) {
+        return;
+      }
+      try {
+        const response = await getSwapQuote({
+          from: fromToken,
+          to: toToken,
+          amount,
+          amountReference: 'from',
+        });
+        if (isSwapError(response)) {
+          onError?.(response);
+          return;
+        }
+        setToAmount(response?.toAmount);
+      } catch (error) {
+        onError?.(error as SwapError);
+      }
     },
-    [lastTokenAmountUpdated, setFromAmount, setLastTokenAmountUpdated],
+    [fromToken, toToken, setFromAmount, setToAmount],
   );
 
   const value = useMemo(() => {
@@ -62,6 +82,7 @@ export function Swap({ account, children, onError }: SwapReact) {
     fromToken,
     handleFromAmountChange,
     handleToAmountChange,
+    setFromToken,
     setToAmount,
     setToToken,
     toAmount,
