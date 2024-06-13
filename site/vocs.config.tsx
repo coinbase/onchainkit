@@ -3,7 +3,8 @@ import { defineConfig } from 'vocs';
 import pkg from '../package.json';
 import { sidebar } from './sidebar';
 
-export const GOOGLE_ANALYTICS_ID = process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID ?? 'TEST_GA';
+export const GOOGLE_ANALYTICS_ID =
+  process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID ?? 'TEST_GA';
 
 const ONCHAINKIT_TITLE = 'OnchainKit';
 const ONCHAINKIT_DESCRIPTION = `React components and TypeScript utilities for top-tier onchain apps.`;
@@ -13,8 +14,12 @@ export default defineConfig({
   title: ONCHAINKIT_TITLE,
   titleTemplate: '%s · OnchainKit',
   description: ONCHAINKIT_DESCRIPTION,
-  ogImageUrl: 'https://vocs.dev/api/og?logo=%logo&title=%title&description=%description',
-  logoUrl: { light: '/favicon/48x48.png?v4-19-24', dark: '/favicon/48x48.png?v4-19-24' },
+  ogImageUrl:
+    'https://vocs.dev/api/og?logo=%logo&title=%title&description=%description',
+  logoUrl: {
+    light: '/favicon/48x48.png?v4-19-24',
+    dark: '/favicon/48x48.png?v4-19-24',
+  },
   async head({ path }) {
     const analytics = (
       <>

@@ -43,8 +43,8 @@
       ".next",
       "coverage",
       "esm",
-      "site",
-      "framegear"
+      "framegear",
+      "site/docs/dist/"
     ]
   }
 }

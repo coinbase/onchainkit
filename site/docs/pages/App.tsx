@@ -32,7 +32,9 @@ export default function App({ children }: { children: ReactNode }) {
   return (
     <WagmiProvider config={wagmiConfig}>
       <QueryClientProvider client={queryClient}>
-        <div style={{ display: 'flex', flexDirection: 'column' }}>{children}</div>
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          {children}
+        </div>
       </QueryClientProvider>
     </WagmiProvider>
   );
