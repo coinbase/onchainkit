@@ -105,6 +105,9 @@ export type SwapAPIResponse = {
   tx: RawTransactionData; // The trade transaction
 };
 
+/**
+ * Note: exported as public Type
+ */
 export type SwapButtonReact = {
   onError?: (error: SwapError) => void;
   onSubmit?: (swapTransaction: BuildSwapTransaction) => void;
@@ -129,6 +132,9 @@ export type SwapParams = {
   to: Token;
 };
 
+/**
+ * Note: exported as public Type
+ */
 export type SwapReact = {
   account: Account;
   children: ReactNode;
