@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.20.5
+
+### Patch Changes
+
+- 5a8cd45: - **fix**: Swap type. By @zizzamia #532
+
 ## 0.20.4
 
 ### Patch Changes
