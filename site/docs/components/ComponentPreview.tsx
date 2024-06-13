@@ -19,7 +19,11 @@ const wagmiConfig = createConfig({
   },
 });
 
-export function ComponentPreview(props: React.PropsWithChildren): JSX.Element {
+export function ComponentPreview(props: React.PropsWithChildren): JSX.Element | null {
+  const isServer = typeof window === 'undefined';
+  if (isServer) {
+    return null;
+  }
   return (
     <WagmiProvider config={wagmiConfig}>
       <QueryClientProvider client={queryClient}>
