@@ -1,11 +1,12 @@
 import { useCallback, useContext, useEffect, useMemo } from 'react';
 
-import { isValidAmount } from '../utils';
+import { getRoundedAmount, isValidAmount } from '../utils';
 import { TokenChip } from '../../token';
 import { cn } from '../../utils/cn';
 import { SwapContext } from '../context';
+import { useBalance } from 'wagmi';
+import type { UseBalanceReturnType } from 'wagmi';
 import type { SwapAmountInputReact } from '../types';
-import { useBalance, type UseBalanceReturnType } from 'wagmi';
 
 export function SwapAmountInput({ label, token, type }: SwapAmountInputReact) {
   const {
@@ -46,9 +47,7 @@ export function SwapAmountInput({ label, token, type }: SwapAmountInputReact) {
 
   const roundedBalance = useMemo(() => {
     if (balanceResponse?.data?.formatted && token?.address) {
-      return Number(balanceResponse?.data?.formatted)
-        ?.toPrecision(5)
-        .toString();
+      return getRoundedAmount(balanceResponse?.data?.formatted, 8);
     }
   }, [balanceResponse?.data]);
 

@@ -25,3 +25,8 @@ export function formatTokenAmount(amount: string, decimals: number) {
   const roundedAmount = Number(numberAmount.toPrecision(11));
   return roundedAmount.toString();
 }
+
+export function getRoundedAmount(balance: string, fractionDigits: number) {
+  const parsedBalance = parseFloat(balance);
+  return Number(parsedBalance)?.toFixed(fractionDigits).replace(/0+$/, '');
+}
