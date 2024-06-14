@@ -10,7 +10,7 @@ import { useBalance } from 'wagmi';
 import type { SwapAmountInputReact } from '../types';
 import type { UseBalanceReturnType } from 'wagmi';
 import type { Token } from '../../token';
-import { TextInput } from '../../token/components/TextInput';
+import { TextInput } from '../../internal/form/TextInput';
 
 /* istanbul ignore next */
 const noop = () => {};

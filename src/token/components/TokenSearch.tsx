@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react';
 import type { TokenSearchReact } from '../types';
-import { TextInput } from './TextInput';
 import { SearchIcon } from './SearchIcon';
+import { TextInput } from '../../internal/form/TextInput';
 
 export function TokenSearch({ onChange, delayMs = 200 }: TokenSearchReact) {
   const [value, setValue] = useState('');
