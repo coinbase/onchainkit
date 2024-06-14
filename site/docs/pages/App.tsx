@@ -26,6 +26,10 @@ const wagmiConfig = createConfig({
 });
 
 export default function App({ children }: { children: ReactNode }) {
+  const isServer = typeof window === 'undefined';
+  if (isServer) {
+    return null;
+  }
   const VITE_CDP_API_KEY = import.meta.env.VITE_CDP_API_KEY;
   return (
     <WagmiProvider config={wagmiConfig}>
