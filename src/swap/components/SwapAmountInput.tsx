@@ -52,6 +52,7 @@ export function SwapAmountInput({
       };
     }, [
       fromAmount,
+      fromToken,
       handleFromAmountChange,
       handleToAmountChange,
       setFromAmount,
@@ -59,6 +60,7 @@ export function SwapAmountInput({
       setToAmount,
       setToToken,
       toAmount,
+      toToken,
       type,
     ]);
 
