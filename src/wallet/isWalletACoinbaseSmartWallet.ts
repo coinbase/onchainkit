@@ -7,18 +7,18 @@ import {
 } from './constants';
 import type { Address, BlockTag, Hex } from 'viem';
 import type {
-  IsWalletASmartWalletOptions,
-  IsWalletASmartWalletResponse,
+  IsWalletACoinbaseSmartWalletOptions,
+  IsWalletACoinbaseSmartWalletResponse,
 } from './types';
 
 /**
  * Validates a User Operation by checking if the sender address
  * is a proxy with the expected bytecode.
  */
-export async function isWalletASmartWallet({
+export async function isWalletACoinbaseSmartWallet({
   client,
   userOp,
-}: IsWalletASmartWalletOptions): Promise<IsWalletASmartWalletResponse> {
+}: IsWalletACoinbaseSmartWalletOptions): Promise<IsWalletACoinbaseSmartWalletResponse> {
   try {
     const code = await client.getBytecode({ address: userOp.sender });
 
@@ -42,7 +42,7 @@ export async function isWalletASmartWallet({
     // Verify if the sender address bytecode matches the Coinbase Smart Wallet proxy bytecode
     if (code !== CB_SW_PROXY_BYTECODE) {
       return {
-        isSmartWallet: false,
+        isCoinbaseSmartWallet: false,
         error: 'Invalid bytecode',
         code: 'W_ERR_2',
       };
@@ -50,7 +50,7 @@ export async function isWalletASmartWallet({
   } catch (error) {
     console.error('Error retrieving bytecode:', error);
     return {
-      isSmartWallet: false,
+      isCoinbaseSmartWallet: false,
       error: 'Error retrieving bytecode',
       code: 'W_ERR_3',
     };
@@ -68,7 +68,7 @@ export async function isWalletASmartWallet({
   } catch (error) {
     console.error('Error retrieving implementation address:', error);
     return {
-      isSmartWallet: false,
+      isCoinbaseSmartWallet: false,
       error: 'Error retrieving implementation address',
       code: 'W_ERR_4',
     };
@@ -86,11 +86,11 @@ export async function isWalletASmartWallet({
     checksumAddress(CB_SW_V1_IMPLEMENTATION_ADDRESS)
   ) {
     return {
-      isSmartWallet: false,
+      isCoinbaseSmartWallet: false,
       error: 'Invalid implementation address',
       code: 'W_ERR_5',
     };
   }
 
-  return { isSmartWallet: true };
+  return { isCoinbaseSmartWallet: true };
 }

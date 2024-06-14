@@ -232,7 +232,7 @@ Coming soon
 ##### Wallet
 
 - [isValidAAEntrypoint](/wallet/is-valid-aa-entrypoint)
-- [isWalletASmartWallet](/wallet/is-wallet-a-smart-wallet)
+- [isWalletACoinbaseSmartWallet](/wallet/is-wallet-a-coinbase-smart-wallet)
 
 ##### Farcaster
 
