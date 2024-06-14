@@ -7,6 +7,7 @@
   "scripts": {
     "build": "packemon build --addEngines --addFiles --declaration && npx packemon validate --no-license --no-people --no-repo && tailwindcss -i ./src/styles/index.css -o ./src/tailwind.css --minify && tailwindcss -i ./src/styles/index-with-tailwind.css -o ./src/styles.css --minify",
     "ci:format": "biome ci --linter-enabled=false --organize-imports-enabled=false",
+    "ci:lint": "biome ci --formatter-enabled=false --organize-imports-enabled=false",
     "format": "biome format --write .",
     "lint": "biome lint --write .",
     "lint:unsafe": "biome lint --write --unsafe .",
@@ -20,16 +21,16 @@
     "watch": "tailwind -i ./src/styles/index-with-tailwind.css -o ./src/styles.css --watch"
   },
   "peerDependencies": {
-    "@tanstack/react-query": "^5",
     "@xmtp/frames-validator": "^0.6.0",
-    "graphql": "^14 || ^15 || ^16",
-    "graphql-request": "^6.1.0",
-    "permissionless": "^0.1.29",
     "react": "^18",
     "react-dom": "^18"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5",
     "clsx": "^2.1.1",
+    "graphql": "^14 || ^15 || ^16",
+    "graphql-request": "^6.1.0",
+    "permissionless": "^0.1.29",
     "tailwind-merge": "^2.3.0",
     "viem": "^2.13.8",
     "wagmi": "^2.9.11"
