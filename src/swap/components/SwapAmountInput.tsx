@@ -10,17 +10,20 @@ import { useBalance } from 'wagmi';
 import type { SwapAmountInputReact } from '../types';
 import type { UseBalanceReturnType } from 'wagmi';
 import type { Token } from '../../token';
+import { TextInput } from '../../internal/form/TextInput';
 
 export function SwapAmountInput({
   label,
-  swappableTokens,
   token,
   type,
+  swappableTokens,
 }: SwapAmountInputReact) {
   const {
     address,
     fromAmount,
     fromToken,
+    handleFromAmountChange,
+    handleToAmountChange,
     setFromAmount,
     setFromToken,
     setToAmount,
@@ -29,33 +32,37 @@ export function SwapAmountInput({
     toToken,
   } = useContext(SwapContext);
 
-  const amount = useMemo(() => {
-    if (type === 'to') {
-      return toAmount;
-    }
-    return fromAmount;
-  }, [type, toAmount, fromAmount]);
-
-  const setAmount = useMemo(() => {
-    if (type === 'to') {
-      return setToAmount;
-    }
-    return setFromAmount;
-  }, [type, setToAmount, setFromAmount]);
-
-  const setToken = useMemo(() => {
-    if (type === 'to') {
-      return setToToken;
-    }
-    return setFromToken;
-  }, [type, setFromToken, setToToken]);
-
-  const selectedToken = useMemo(() => {
-    if (type === 'to') {
-      return toToken;
-    }
-    return fromToken;
-  }, [fromToken, toToken, type]);
+  const { amount, setAmount, handleAmountChange, setToken, selectedToken } =
+    useMemo(() => {
+      if (type === 'to') {
+        return {
+          amount: toAmount,
+          selectedToken: toToken,
+          setAmount: setToAmount,
+          setToken: setToToken,
+          handleAmountChange: handleFromAmountChange,
+        };
+      }
+      return {
+        amount: fromAmount,
+        selectedToken: fromToken,
+        setAmount: setFromAmount,
+        setToken: setFromToken,
+        handleAmountChange: handleToAmountChange,
+      };
+    }, [
+      fromAmount,
+      fromToken,
+      handleFromAmountChange,
+      handleToAmountChange,
+      setFromAmount,
+      setFromToken,
+      setToAmount,
+      setToToken,
+      toAmount,
+      toToken,
+      type,
+    ]);
 
   const balanceResponse: UseBalanceReturnType = useBalance({
     address,
@@ -79,15 +86,6 @@ export function SwapAmountInput({
     }
     return swappableTokens?.filter((t: Token) => t.symbol !== toToken?.symbol);
   }, [fromToken, swappableTokens, toToken, type]);
-
-  const handleAmountChange = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-      if (isValidAmount(event.target.value)) {
-        setAmount?.(event.target.value);
-      }
-    },
-    [setAmount],
-  );
 
   const handleMaxButtonClick = useCallback(() => {
     if (balanceResponse?.data?.formatted) {
@@ -113,12 +111,15 @@ export function SwapAmountInput({
         <TextLabel2>{label}</TextLabel2>
       </div>
       <div className="flex w-full items-center justify-between">
-        <input
+        <TextInput
           className="w-full border-[none] bg-transparent text-5xl text-gray-500 outline-none"
           data-testid="ockSwapAmountInput_Input"
           onChange={handleAmountChange}
           placeholder="0.0"
           value={amount}
+          setValue={setAmount}
+          delayMs={200}
+          inputValidator={isValidAmount}
         />
         {filteredTokens && (
           <TokenSelectDropdown

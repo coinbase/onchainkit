@@ -30,7 +30,7 @@
         "useSortedClasses": "error"
       }
     },
-    "ignore": ["site/vocs.config.tsx", "src/token/components/useDebounce.ts"]
+    "ignore": ["site/vocs.config.tsx", "src/internal/form/useDebounce.ts"]
   },
   "json": {
     "formatter": {

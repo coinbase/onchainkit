@@ -22,13 +22,15 @@ jest.mock('wagmi', () => {
 });
 
 const mockContextValue = {
+  address: '0x5FbDB2315678afecb367f032d93F642f64180aa3' as Address,
   fromAmount: '10',
+  handleFromAmountChange: jest.fn(),
+  handleToAmountChange: jest.fn(),
   setFromAmount: jest.fn(),
   setFromToken: jest.fn(),
   setToAmount: jest.fn(),
   setToToken: jest.fn(),
   toAmount: '20',
-  address: '0x5FbDB2315678afecb367f032d93F642f64180aa3' as Address,
   toToken: {
     name: 'Ethereum',
     address: '',
@@ -168,7 +170,7 @@ describe('SwapAmountInput', () => {
       </SwapContext.Provider>,
     );
 
-    const input = screen.getByTestId('ockSwapAmountInput_Input');
+    const input = screen.getByTestId('ockTextInput_Input');
     expect(input).toHaveValue('10');
   });
 
@@ -179,7 +181,7 @@ describe('SwapAmountInput', () => {
       </SwapContext.Provider>,
     );
 
-    const input = screen.getByTestId('ockSwapAmountInput_Input');
+    const input = screen.getByTestId('ockTextInput_Input');
     expect(input).toHaveValue('20');
   });
 
@@ -190,7 +192,7 @@ describe('SwapAmountInput', () => {
       </SwapContext.Provider>,
     );
 
-    const input = screen.getByTestId('ockSwapAmountInput_Input');
+    const input = screen.getByTestId('ockTextInput_Input');
     fireEvent.change(input, { target: { value: '15' } });
 
     expect(mockContextValue.setFromAmount).toHaveBeenCalledWith('15');
@@ -203,7 +205,7 @@ describe('SwapAmountInput', () => {
       </SwapContext.Provider>,
     );
 
-    const input = screen.getByTestId('ockSwapAmountInput_Input');
+    const input = screen.getByTestId('ockTextInput_Input');
     fireEvent.change(input, { target: { value: '15' } });
 
     expect(mockContextValue.setToAmount).toHaveBeenCalledWith('15');
@@ -216,7 +218,7 @@ describe('SwapAmountInput', () => {
       </SwapContext.Provider>,
     );
 
-    const input = screen.getByTestId('ockSwapAmountInput_Input');
+    const input = screen.getByTestId('ockTextInput_Input');
     fireEvent.change(input, { target: { value: 'invalid' } });
 
     expect(mockContextValue.setFromAmount).not.toHaveBeenCalled();
