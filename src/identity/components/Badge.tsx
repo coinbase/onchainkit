@@ -23,6 +23,8 @@ export function Badge({
       }}
     >
       <svg
+        role="img"
+        aria-label="ock-attestation-icon"
         width="12"
         height="12"
         viewBox="0 0 12 12"
