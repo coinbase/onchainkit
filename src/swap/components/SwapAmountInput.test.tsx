@@ -6,7 +6,7 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { SwapAmountInput } from './SwapAmountInput';
 import { SwapContext } from '../context';
-import { TokenSelectDropdown, type Token } from '../../token';
+import type { Token } from '../../token';
 import type { SwapContextType } from '../types';
 import type { Address } from 'viem';
 
