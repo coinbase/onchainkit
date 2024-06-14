@@ -26,6 +26,7 @@ const mockContextValue = {
   fromAmount: '10',
   handleFromAmountChange: jest.fn(),
   handleToAmountChange: jest.fn(),
+  handleToggle: jest.fn(),
   setFromAmount: jest.fn(),
   setFromToken: jest.fn(),
   setToAmount: jest.fn(),

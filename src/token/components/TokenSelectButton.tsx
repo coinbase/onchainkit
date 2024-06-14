@@ -1,7 +1,7 @@
 import { type ForwardedRef, forwardRef } from 'react';
 import type { TokenSelectButtonReact } from '../types';
 import { TokenImage } from './TokenImage';
-import { TextBody } from '../../internal/text';
+import { TextHeadline } from '../../internal/text';
 
 function CaretUp() {
   return (
@@ -51,19 +51,21 @@ export const TokenSelectButton = forwardRef(function TokenSelectButton(
     <button
       type="button"
       data-testid="ockTokenSelectButton_Button"
-      className="flex w-fit items-center gap-2 rounded-2xl bg-[#eef0f3] px-3 py-1 outline-none active:bg-[#bfc1c3] hover:bg-[#cacbce]"
+      className="flex w-fit items-center gap-2 rounded-lg bg-[#eef0f3] px-3 py-1 shadow-[0px_8px_12px_0px_#5B616E1F] outline-none active:bg-[#bfc1c3] hover:bg-[#cacbce]"
       onClick={onClick}
       ref={ref}
     >
       {token ? (
         <>
-          <TokenImage token={token} size={16} />
-          <TextBody data-testid="ockTokenSelectButton_Symbol">
+          <div className="w-4">
+            <TokenImage token={token} size={16} />
+          </div>
+          <TextHeadline data-testid="ockTokenSelectButton_Symbol">
             {token.symbol}
-          </TextBody>
+          </TextHeadline>
         </>
       ) : (
-        <TextBody>Select</TextBody>
+        <TextHeadline>Select</TextHeadline>
       )}
       {isOpen ? <CaretUp /> : <CaretDown />}
     </button>

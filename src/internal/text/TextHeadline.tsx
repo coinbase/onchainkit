@@ -8,7 +8,7 @@ type TextHeadlineReact = {
 export function TextHeadline({ children, color = 'black' }: TextHeadlineReact) {
   return (
     <span
-      className={`text-${color} text-base text-bold text-sans leading-normal`}
+      className={`text-${color} font-bold text-base text-sans leading-normal`}
     >
       {children}
     </span>

@@ -115,6 +115,7 @@ export type SwapContextType = {
   setFromToken: (t: Token) => void;
   handleToAmountChange: (a: string) => void;
   handleFromAmountChange: (a: string) => void;
+  handleToggle: () => void;
   setToAmount: (a: string) => void;
   setToToken: (t: Token) => void;
   toAmount: string;

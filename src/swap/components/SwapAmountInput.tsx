@@ -103,7 +103,7 @@ export function SwapAmountInput({
     <div
       className={cn(
         'box-border flex w-full flex-col items-start',
-        'my-0.5 rounded-md border-b border-solid bg-[#E5E7EB] p-4',
+        'rounded-md border-b border-solid bg-[#E5E7EB] p-4',
       )}
       data-testid="ockSwapAmountInput_Container"
     >
@@ -128,10 +128,12 @@ export function SwapAmountInput({
             token={selectedToken}
           />
         )}
-        {token && !filteredTokens && <TokenChip token={token} />}
+        {selectedToken && !filteredTokens && (
+          <TokenChip token={selectedToken} />
+        )}
       </div>
       <div className="mt-4 flex w-full justify-between">
-        <TextLabel2>~$0.0</TextLabel2>
+        <TextLabel2>{''}</TextLabel2>
         <div>
           {roundedBalance && (
             <TextLabel2>{`Balance: ${roundedBalance}`}</TextLabel2>
@@ -141,10 +143,9 @@ export function SwapAmountInput({
               type="button"
               className="flex cursor-pointer items-center justify-center px-2 py-1"
               data-testid="ockSwapAmountInput_MaxButton"
-              disabled={roundedBalance === undefined}
               onClick={handleMaxButtonClick}
             >
-              <TextLabel1 color="#4F46E5">Max</TextLabel1>
+              <TextLabel1 color="indigo-600">Max</TextLabel1>
             </button>
           )}
         </div>

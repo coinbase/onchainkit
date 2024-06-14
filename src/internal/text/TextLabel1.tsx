@@ -6,9 +6,9 @@ type TextLabel1React = {
 };
 
 /* istanbul ignore next */
-export function TextLabel1({ children, color = '#0A0B0D' }: TextLabel1React) {
+export function TextLabel1({ children, color = 'black' }: TextLabel1React) {
   return (
-    <span className={`text-[${color}] text-bold text-sans text-sm leading-5`}>
+    <span className={`text-${color} font-bold text-sans text-sm leading-5`}>
       {children}
     </span>
   );
