@@ -27,13 +27,14 @@ export function SwapButton({ onError, onSubmit }: SwapButtonReact) {
         onError?.(error as SwapError);
       }
     }
-  }, [address, fromAmount, fromToken, toToken]);
+  }, [address, fromAmount, fromToken, onError, onSubmit, toToken]);
 
   return (
     <button
+      type="button"
       className={cn(
         'w-full rounded-xl bg-indigo-600',
-        'px-4 py-3 font-medium text-base text-white leading-6 mt-4',
+        'mt-4 px-4 py-3 font-medium text-base text-white leading-6',
       )}
       onClick={handleSubmit}
       disabled={!fromAmount || !fromToken || !toToken}

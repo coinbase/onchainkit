@@ -14,10 +14,6 @@ documentation:
 - changed-files:
   - any-glob-to-any-file: src/core/**
 
-'pkg: definitions':
-- changed-files:
-  - any-glob-to-any-file: src/definitions/**
-
 'pkg: farcaster':
 - changed-files:
   - any-glob-to-any-file: src/farcaster/**

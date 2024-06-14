@@ -1,4 +1,3 @@
-import { Address } from 'viem';
 import type {
   FrameRequest,
   MockFrameRequest,
@@ -42,7 +41,7 @@ function getMockFrameRequest(
       valid: true,
       raw: {
         valid: true,
-        // TODO: unjank
+        /* biome-ignore lint: code needs to be refactored */
         action: {} as any,
       },
     },

@@ -1,6 +1,7 @@
 import { version } from '../../version';
 import { FetchError } from './exceptions/FetchError';
 
+/* biome-ignore lint: code needs to be deprecated */
 export async function postDataToNeynar(url: string, apiKey: string, data: any) {
   const options = {
     method: 'POST',

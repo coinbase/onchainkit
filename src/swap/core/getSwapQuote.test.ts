@@ -1,6 +1,6 @@
 import { getSwapQuote } from './getSwapQuote';
 import { sendRequest } from '../../network/request';
-import { CDP_GET_SWAP_QUOTE } from '../../definitions/swap';
+import { CDP_GET_SWAP_QUOTE } from '../../network/definitions/swap';
 import type { Token } from '../../token/types';
 import { getAPIParamsForToken } from './getAPIParamsForToken';
 

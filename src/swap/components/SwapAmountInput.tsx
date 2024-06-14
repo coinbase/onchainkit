@@ -51,7 +51,7 @@ export function SwapAmountInput({ label, token, type }: SwapAmountInputReact) {
     if (balanceResponse?.data?.formatted && token?.address) {
       return getRoundedAmount(balanceResponse?.data?.formatted, 8);
     }
-  }, [balanceResponse?.data]);
+  }, [balanceResponse?.data, token]);
 
   const handleAmountChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -78,7 +78,7 @@ export function SwapAmountInput({ label, token, type }: SwapAmountInputReact) {
     <div
       className={cn(
         'box-border flex w-full flex-col items-start',
-        'border-b border-solid bg-[#E5E7EB] p-4 rounded-md my-0.5',
+        'my-0.5 rounded-md border-b border-solid bg-[#E5E7EB] p-4',
       )}
       data-testid="ockSwapAmountInput_Container"
     >
@@ -95,7 +95,7 @@ export function SwapAmountInput({ label, token, type }: SwapAmountInputReact) {
         />
         <TokenChip token={token} />
       </div>
-      <div className="flex justify-between w-full mt-4">
+      <div className="mt-4 flex w-full justify-between">
         <TextLabel2>~$0.0</TextLabel2>
         <div>
           {roundedBalance && (
@@ -103,7 +103,8 @@ export function SwapAmountInput({ label, token, type }: SwapAmountInputReact) {
           )}
           {type === 'from' && (
             <button
-              className="flex py-1 px-2 items-center justify-center cursor-pointer"
+              type="button"
+              className="flex cursor-pointer items-center justify-center px-2 py-1"
               data-testid="ockSwapAmountInput_MaxButton"
               disabled={roundedBalance === undefined}
               onClick={handleMaxButtonClick}
