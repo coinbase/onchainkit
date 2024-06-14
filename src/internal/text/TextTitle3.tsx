@@ -7,7 +7,7 @@ type TextTitle3React = {
 /* istanbul ignore next */
 export function TextTitle3({ children }: TextTitle3React) {
   return (
-    <span className="font-bold text-display text-gray-900 text-sans text-xl leading-7">
+    <span className="text-display text-gray-900 text-sans text-xl leading-7">
       {children}
     </span>
   );

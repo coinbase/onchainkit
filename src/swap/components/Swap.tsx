@@ -8,7 +8,7 @@ import { isSwapError } from '../core/isSwapError';
 import { SwapAmountInput } from './SwapAmountInput';
 import { SwapToggleButton } from './SwapToggleButton';
 import { SwapButton } from './SwapButton';
-import { TextTitle3 } from '../../internal/text';
+import { TextTitle3 } from '../../internal/text/TextTitle3';
 
 export function Swap({ address, children, onError }: SwapReact) {
   const [fromAmount, setFromAmount] = useState('');
