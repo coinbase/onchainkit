@@ -1,10 +1,13 @@
-import { useCallback, useMemo, useState } from 'react';
+import { Children, useCallback, useMemo, useState } from 'react';
 import type { SwapError, SwapReact } from '../types';
 import type { Token } from '../../token';
 import { SwapContext } from '../context';
 import { formatTokenAmount } from '../../utils/formatTokenAmount';
 import { getSwapQuote } from '../core/getSwapQuote';
 import { isSwapError } from '../core/isSwapError';
+import { SwapAmountInput } from './SwapAmountInput';
+import { SwapToggleButton } from './SwapToggleButton';
+import { SwapButton } from './SwapButton';
 
 export function Swap({ address, children, onError }: SwapReact) {
   const [fromAmount, setFromAmount] = useState('');
@@ -70,6 +73,13 @@ export function Swap({ address, children, onError }: SwapReact) {
     [fromToken, onError, toToken],
   );
 
+  const handleToggle = useCallback(() => {
+    setFromAmount(toAmount);
+    setToAmount(fromAmount);
+    setToToken(fromToken);
+    setFromToken(toToken);
+  }, [fromAmount, fromToken, toAmount, toToken]);
+
   const value = useMemo(() => {
     return {
       address,
@@ -77,6 +87,7 @@ export function Swap({ address, children, onError }: SwapReact) {
       fromToken,
       handleFromAmountChange,
       handleToAmountChange,
+      handleToggle,
       setFromAmount,
       setFromToken,
       setToToken,
@@ -90,9 +101,23 @@ export function Swap({ address, children, onError }: SwapReact) {
     fromToken,
     handleFromAmountChange,
     handleToAmountChange,
+    handleToggle,
     toAmount,
     toToken,
   ]);
+
+  const { inputs, toggleButton, swapButton } = useMemo(() => {
+    const childrenArray = Children.toArray(children);
+
+    return {
+      // @ts-ignore
+      inputs: childrenArray.filter(({ type }) => type === SwapAmountInput),
+      // @ts-ignore
+      toggleButton: childrenArray.find(({ type }) => type === SwapToggleButton),
+      // @ts-ignore
+      swapButton: childrenArray.find(({ type }) => type === SwapButton),
+    };
+  }, [children]);
 
   return (
     <SwapContext.Provider value={value}>
@@ -100,7 +125,10 @@ export function Swap({ address, children, onError }: SwapReact) {
         <label className="mb-4 font-semibold text-[#030712] text-base leading-6">
           Swap
         </label>
-        {children}
+        {inputs[0]}
+        <div className="relative h-1">{toggleButton}</div>
+        {inputs[1]}
+        {swapButton}
       </div>
     </SwapContext.Provider>
   );
