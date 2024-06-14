@@ -6,7 +6,8 @@
   "formatter": {
     "enabled": true,
     "indentWidth": 2,
-    "indentStyle": "space"
+    "indentStyle": "space",
+    "ignore": ["package.json"]
   },
   "javascript": {
     "formatter": {
