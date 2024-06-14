@@ -18,8 +18,39 @@ jest.mock('../../token', () => ({
 jest.mock('wagmi', () => {
   return {
     useBalance: jest.fn(),
+    useReadContract: jest.fn(),
   };
 });
+
+const mockETHTokenBalanceResponse = { data: 3304007277394n };
+const mockEthBalanceResponse = {
+  data: {
+    decimals: 18,
+    formatted: '0.0002851826238227',
+    symbol: 'ETH',
+    value: 285182623822700n,
+  },
+};
+
+const mockETHToken: Token = {
+  name: 'ETH',
+  address: '0x123456789',
+  symbol: 'ETH',
+  decimals: 18,
+  image:
+    'https://wallet-api-production.s3.amazonaws.com/uploads/tokens/eth_288.png',
+  chainId: 8453,
+};
+
+const mockToken: Token = {
+  name: 'USDC',
+  address: '0x833589fcd6edb6e08f4c7c32d4f71b54bda02913',
+  symbol: 'USDC',
+  decimals: 6,
+  image:
+    'https://d3r81g40ycuhqg.cloudfront.net/wallet/wais/44/2b/442b80bd16af0c0d9b22e03a16753823fe826e5bfd457292b55fa0ba8c1ba213-ZWUzYjJmZGUtMDYxNy00NDcyLTg0NjQtMWI4OGEwYjBiODE2',
+  chainId: 8453,
+};
 
 const mockContextValue = {
   address: '0x5FbDB2315678afecb367f032d93F642f64180aa3' as Address,
@@ -32,42 +63,9 @@ const mockContextValue = {
   setToAmount: jest.fn(),
   setToToken: jest.fn(),
   toAmount: '20',
-  toToken: {
-    name: 'Ethereum',
-    address: '',
-    symbol: 'ETH',
-    decimals: 18,
-    image:
-      'https://wallet-api-production.s3.amazonaws.com/uploads/tokens/eth_288.png',
-    chainId: 8453,
-  },
-  fromToken: {
-    name: 'USDC',
-    address: '0x833589fcd6edb6e08f4c7c32d4f71b54bda02913',
-    symbol: 'USDC',
-    decimals: 6,
-    image:
-      'https://d3r81g40ycuhqg.cloudfront.net/wallet/wais/44/2b/442b80bd16af0c0d9b22e03a16753823fe826e5bfd457292b55fa0ba8c1ba213-ZWUzYjJmZGUtMDYxNy00NDcyLTg0NjQtMWI4OGEwYjBiODE2',
-    chainId: 8453,
-  },
+  toToken: mockToken,
+  fromToken: mockETHToken,
 } as SwapContextType;
-
-const mockToken: Token = {
-  name: 'ETH',
-  address: '0x123456789',
-  symbol: 'ETH',
-  decimals: 18,
-  image:
-    'https://wallet-api-production.s3.amazonaws.com/uploads/tokens/eth_288.png',
-  chainId: 8453,
-};
-
-const mockBalance = {
-  decimals: 18,
-  formatted: '0.0002851826238227',
-  symbol: 'ETH',
-  value: 285182623822700n,
-};
 
 const mockSwappableTokens: Token[] = [
   {
@@ -107,7 +105,7 @@ describe('SwapAmountInput', () => {
   it('renders the component with the correct label and token', () => {
     render(
       <SwapContext.Provider value={mockContextValue}>
-        <SwapAmountInput label="From" token={mockToken} type="from" />
+        <SwapAmountInput label="From" token={mockETHToken} type="from" />
       </SwapContext.Provider>,
     );
 
@@ -115,13 +113,13 @@ describe('SwapAmountInput', () => {
   });
 
   it('renders from token input with max button and balance', () => {
-    (require('wagmi').useBalance as jest.Mock).mockReturnValue({
-      data: mockBalance,
-    });
+    (require('wagmi').useBalance as jest.Mock).mockReturnValue(
+      mockEthBalanceResponse,
+    );
 
     render(
       <SwapContext.Provider value={mockContextValue}>
-        <SwapAmountInput label="From" token={mockToken} type="from" />
+        <SwapAmountInput label="From" token={mockETHToken} type="from" />
       </SwapContext.Provider>,
     );
     expect(screen.getByText('Balance: 0.00028518')).toBeInTheDocument();
@@ -131,13 +129,13 @@ describe('SwapAmountInput', () => {
   });
 
   it('does not render max button for to token input', () => {
-    (require('wagmi').useBalance as jest.Mock).mockReturnValue({
-      data: mockBalance,
-    });
+    (require('wagmi').useBalance as jest.Mock).mockReturnValue(
+      mockEthBalanceResponse,
+    );
 
     render(
       <SwapContext.Provider value={mockContextValue}>
-        <SwapAmountInput label="From" token={mockToken} type="to" />
+        <SwapAmountInput label="From" token={mockETHToken} type="to" />
       </SwapContext.Provider>,
     );
     expect(
@@ -146,13 +144,13 @@ describe('SwapAmountInput', () => {
   });
 
   it('updates input value with balance amount on max button click', () => {
-    (require('wagmi').useBalance as jest.Mock).mockReturnValue({
-      data: mockBalance,
-    });
+    (require('wagmi').useBalance as jest.Mock).mockReturnValue(
+      mockEthBalanceResponse,
+    );
 
     render(
       <SwapContext.Provider value={mockContextValue}>
-        <SwapAmountInput label="From" token={mockToken} type="from" />
+        <SwapAmountInput label="From" token={mockETHToken} type="from" />
       </SwapContext.Provider>,
     );
 
@@ -164,10 +162,25 @@ describe('SwapAmountInput', () => {
     );
   });
 
-  it('displays the correct amount when this type is "from"', () => {
+  it('does not call setAmount when converted balance is undefined on max button click', () => {
+    (require('wagmi').useBalance as jest.Mock).mockReturnValue(undefined);
+
     render(
       <SwapContext.Provider value={mockContextValue}>
         <SwapAmountInput label="From" token={mockToken} type="from" />
+      </SwapContext.Provider>,
+    );
+
+    const maxButton = screen.getByTestId('ockSwapAmountInput_MaxButton');
+    fireEvent.click(maxButton);
+
+    expect(mockContextValue.setFromAmount).not.toHaveBeenCalled();
+  });
+
+  it('displays the correct amount when this type is "from"', () => {
+    render(
+      <SwapContext.Provider value={mockContextValue}>
+        <SwapAmountInput label="From" token={mockETHToken} type="from" />
       </SwapContext.Provider>,
     );
 
@@ -178,7 +191,7 @@ describe('SwapAmountInput', () => {
   it('displays the correct amount when this type is "to"', () => {
     render(
       <SwapContext.Provider value={mockContextValue}>
-        <SwapAmountInput label="To" token={mockToken} type="to" />
+        <SwapAmountInput label="To" token={mockETHToken} type="to" />
       </SwapContext.Provider>,
     );
 
@@ -189,7 +202,7 @@ describe('SwapAmountInput', () => {
   it('calls setFromAmount when type is "from" and valid input is entered', () => {
     render(
       <SwapContext.Provider value={mockContextValue}>
-        <SwapAmountInput label="From" token={mockToken} type="from" />
+        <SwapAmountInput label="From" token={mockETHToken} type="from" />
       </SwapContext.Provider>,
     );
 
@@ -202,7 +215,7 @@ describe('SwapAmountInput', () => {
   it('calls setToAmount when type is "to" and valid input is entered', () => {
     render(
       <SwapContext.Provider value={mockContextValue}>
-        <SwapAmountInput label="From" token={mockToken} type="to" />
+        <SwapAmountInput label="From" token={mockETHToken} type="to" />
       </SwapContext.Provider>,
     );
 
@@ -215,7 +228,7 @@ describe('SwapAmountInput', () => {
   it('does not call setAmount when invalid input is entered', () => {
     render(
       <SwapContext.Provider value={mockContextValue}>
-        <SwapAmountInput label="From" token={mockToken} type="from" />
+        <SwapAmountInput label="From" token={mockETHToken} type="from" />
       </SwapContext.Provider>,
     );
 
@@ -228,21 +241,38 @@ describe('SwapAmountInput', () => {
   it('calls setFromToken when type is "from" and token prop is provided', () => {
     render(
       <SwapContext.Provider value={mockContextValue}>
-        <SwapAmountInput label="From" token={mockToken} type="from" />
+        <SwapAmountInput label="From" token={mockETHToken} type="from" />
       </SwapContext.Provider>,
     );
 
-    expect(mockContextValue.setFromToken).toHaveBeenCalledWith(mockToken);
+    expect(mockContextValue.setFromToken).toHaveBeenCalledWith(mockETHToken);
   });
 
   it('calls setToToken when type is "to" and token prop is provided', () => {
+    render(
+      <SwapContext.Provider value={mockContextValue}>
+        <SwapAmountInput label="To" token={mockETHToken} type="to" />
+      </SwapContext.Provider>,
+    );
+
+    expect(mockContextValue.setToToken).toHaveBeenCalledWith(mockETHToken);
+  });
+
+  it('renders the correct balance', () => {
+    (require('wagmi').useBalance as jest.Mock).mockReturnValue(
+      mockEthBalanceResponse,
+    );
+    (require('wagmi').useReadContract as jest.Mock).mockReturnValue(
+      mockETHTokenBalanceResponse,
+    );
+
     render(
       <SwapContext.Provider value={mockContextValue}>
         <SwapAmountInput label="To" token={mockToken} type="to" />
       </SwapContext.Provider>,
     );
 
-    expect(mockContextValue.setToToken).toHaveBeenCalledWith(mockToken);
+    expect(screen.getByText('Balance: 3304007.277394')).toBeInTheDocument();
   });
 
   it('renders a TokenSelectDropdown component if swappableTokens are passed as prop', () => {

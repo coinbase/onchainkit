@@ -4,13 +4,15 @@ import { SwapContext } from '../context';
 import { TextLabel1, TextLabel2 } from '../../internal/text';
 import { TokenChip, TokenSelectDropdown } from '../../token';
 import { cn } from '../../utils/cn';
-import { getRoundedAmount } from '../../utils/getRoundedAmount';
-import { isValidAmount } from '../../utils/isValidAmount';
-import { useBalance } from 'wagmi';
-import type { SwapAmountInputReact } from '../types';
-import type { UseBalanceReturnType } from 'wagmi';
-import type { Token } from '../../token';
 import { TextInput } from '../../internal/form/TextInput';
+import { useBalance, useReadContract } from 'wagmi';
+import { isValidAmount } from '../../utils/isValidAmount';
+import { getTokenBalances } from '../core/getTokenBalances';
+import { erc20Abi } from 'viem';
+import type { Address } from 'viem';
+import type { UseBalanceReturnType, UseReadContractReturnType } from 'wagmi';
+import type { SwapAmountInputReact } from '../types';
+import type { Token } from '../../token';
 
 export function SwapAmountInput({
   label,
@@ -64,16 +66,33 @@ export function SwapAmountInput({
       type,
     ]);
 
-  const balanceResponse: UseBalanceReturnType = useBalance({
+  // returns ETH balance
+  const ethBalanceResponse: UseBalanceReturnType = useBalance({
     address,
-    ...(token?.address && { token: token.address }),
   });
 
-  const roundedBalance = useMemo(() => {
-    if (balanceResponse?.data?.formatted && token?.address) {
-      return getRoundedAmount(balanceResponse?.data?.formatted, 8);
-    }
-  }, [balanceResponse?.data, token]);
+  // returns erc20 token balance
+  const balanceResponse: UseReadContractReturnType = useReadContract({
+    abi: erc20Abi,
+    address: selectedToken?.address as Address,
+    functionName: 'balanceOf',
+    args: [address],
+    query: {
+      enabled: !!selectedToken?.address && !!address,
+    },
+  });
+
+  const { convertedBalance, roundedBalance } = useMemo(() => {
+    return getTokenBalances({
+      ethBalance: ethBalanceResponse?.data?.formatted,
+      tokenBalance: balanceResponse?.data as bigint,
+      token: selectedToken,
+    });
+  }, [
+    balanceResponse?.data,
+    ethBalanceResponse?.data?.formatted,
+    selectedToken,
+  ]);
 
   // we are mocking the token selectors so i'm not able
   // to test this since the components aren't actually rendering
@@ -88,10 +107,11 @@ export function SwapAmountInput({
   }, [fromToken, swappableTokens, toToken, type]);
 
   const handleMaxButtonClick = useCallback(() => {
-    if (balanceResponse?.data?.formatted) {
-      setAmount?.(balanceResponse?.data?.formatted);
+    if (!convertedBalance) {
+      return;
     }
-  }, [balanceResponse?.data, setAmount]);
+    setAmount?.(convertedBalance);
+  }, [convertedBalance, setAmount]);
 
   useEffect(() => {
     if (token) {
