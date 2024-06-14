@@ -39,7 +39,7 @@ export function Swap({ address, children, onError }: SwapReact) {
         onError?.(error as SwapError);
       }
     },
-    [fromToken, toToken, setFromAmount, setToAmount],
+    [fromToken, onError, toToken],
   );
 
   const handleToAmountChange = useCallback(
@@ -69,7 +69,7 @@ export function Swap({ address, children, onError }: SwapReact) {
         onError?.(error as SwapError);
       }
     },
-    [fromToken, toToken, setFromAmount, setToAmount],
+    [fromToken, onError, toToken],
   );
 
   const value = useMemo(() => {
@@ -90,17 +90,14 @@ export function Swap({ address, children, onError }: SwapReact) {
     fromToken,
     handleFromAmountChange,
     handleToAmountChange,
-    setFromToken,
-    setToAmount,
-    setToToken,
     toAmount,
     toToken,
   ]);
 
   return (
     <SwapContext.Provider value={value}>
-      <div className="flex w-[400px] flex-col rounded-xl bg-gray-100 pt-6 pb-4 px-6">
-        <label className="text-base font-semibold text-[#030712] leading-6 mb-4">
+      <div className="flex w-[400px] flex-col rounded-xl bg-gray-100 px-6 pt-6 pb-4">
+        <label className="mb-4 font-semibold text-[#030712] text-base leading-6">
           Swap
         </label>
         {children}

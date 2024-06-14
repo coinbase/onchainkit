@@ -35,6 +35,7 @@ export type GetAttestationsByFilterOptions =
 export type AttestationsQueryVariables = {
   distinct: string[];
   take: number;
+  /* biome-ignore lint: code needs to be deprecated */
   where: Record<string, any>;
 };
 
@@ -89,6 +90,7 @@ export function getAttestationQueryVariables(
   filters: GetAttestationQueryVariablesFilters,
 ): AttestationsQueryVariables {
   const checksummedAddress = getAddress(address);
+  /* biome-ignore lint: code needs to be deprecated */
   const conditions: Record<string, any> = {
     recipient: { equals: checksummedAddress },
     revoked: { equals: filters.revoked },

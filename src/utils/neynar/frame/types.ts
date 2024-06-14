@@ -16,11 +16,13 @@ export interface NeynarFrameValidationInternalModel {
       profile: {
         bio: {
           text: string;
+          /* biome-ignore lint: code needs to be deprecated */
           mentioned_profiles?: any[];
         };
       };
       follower_count: number;
       following_count: number;
+      /* biome-ignore lint: code needs to be deprecated */
       verifications: any[];
       verified_addresses: {
         eth_addresses: string[] | null;
@@ -62,11 +64,13 @@ export interface NeynarFrameValidationInternalModel {
         profile: {
           bio: {
             text: string;
+            /* biome-ignore lint: code needs to be deprecated */
             mentioned_profiles?: any[];
           };
         };
         follower_count: number;
         following_count: number;
+        /* biome-ignore lint: code needs to be deprecated */
         verifications: any[];
         active_status: string;
         viewer_context: {
@@ -121,11 +125,13 @@ export interface NeynarFrameValidationInternalModel {
         profile: {
           bio: {
             text: string;
+            /* biome-ignore lint: code needs to be deprecated */
             mentioned_profiles?: any[];
           };
         };
         follower_count: number;
         following_count: number;
+        /* biome-ignore lint: code needs to be deprecated */
         verifications: any[];
         active_status: string;
       }[];

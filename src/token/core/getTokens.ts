@@ -1,4 +1,4 @@
-import { CDP_LIST_SWAP_ASSETS } from '../../definitions/swap';
+import { CDP_LIST_SWAP_ASSETS } from '../../network/definitions/swap';
 import type {
   Token,
   GetTokensOptions,

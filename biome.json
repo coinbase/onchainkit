@@ -29,7 +29,8 @@
       "nursery": {
         "useSortedClasses": "error"
       }
-    }
+    },
+    "ignore": ["site/vocs.config.tsx", "src/token/components/useDebounce.ts"]
   },
   "json": {
     "formatter": {

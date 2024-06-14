@@ -1,5 +1,5 @@
 import { optimism } from 'viem/chains';
-import type { EASChainDefinition } from '../identity/types';
+import type { EASChainDefinition } from '../../identity/types';
 
 // More details in https://docs.optimism.io/chain/identity/schemas
 export const easChainOptimism: EASChainDefinition = {

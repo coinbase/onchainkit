@@ -67,6 +67,7 @@ export type FrameValidationResponse =
   | { isValid: true; message: FrameValidationData }
   | { isValid: false; message: undefined };
 
+/* biome-ignore lint: code needs to be refactored */
 export function convertToFrame(json: any) {
   return {
     fid: json.fid,
@@ -124,6 +125,7 @@ export type FrameImageMetadata = {
 export type FrameMetadataReact = FrameMetadataType & {
   ogDescription?: string;
   ogTitle?: string;
+  /* biome-ignore lint: code needs to be refactored */
   wrapper?: React.ComponentType<any>;
 };
 

@@ -69,6 +69,7 @@ export const getFrameMetadata = ({
   if (isOpenFrame) {
     metadata['of:version'] = 'vNext';
     if (accepts) {
+      /* biome-ignore lint: code needs to be refactored */
       Object.keys(accepts).forEach((protocolIdentifier) => {
         metadata[`of:accepts:${protocolIdentifier}`] =
           accepts[protocolIdentifier];

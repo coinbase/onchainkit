@@ -16,14 +16,16 @@ export function ConnectAccount({ children }: ConnectAccountReact) {
 
   const handleDisconnectWallet = useCallback(() => {
     disconnect({ connector });
-  }, [disconnect]);
+  }, [connector, disconnect]);
 
   const ConnectedChildren = () => {
-    // Children can be utilized to display customized content when the wallet is connected.
+    // Children can be utilized to display customized content
+    // when the wallet is connected.
     if (children) {
       return children;
     }
     return (
+      /* biome-ignore lint: code needs to be refactored */
       <div onClick={handleDisconnectWallet}>Connected wallet: {address}</div>
     );
   };

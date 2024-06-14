@@ -23,10 +23,9 @@ export const useDebounce = (
     }, delayMs);
   };
 
-  return useMemo(
-    () =>
-      (...args: any) =>
-        debounce(callbackRef.current, delay, ...args),
-    [delay],
-  );
+  return useMemo(() => {
+    return (...args: any) => {
+      return debounce(callbackRef.current, delay, ...args);
+    };
+  }, [delay]);
 };
