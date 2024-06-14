@@ -4,8 +4,9 @@ import { getRoundedAmount, isValidAmount } from '../utils';
 import { TokenChip } from '../../token';
 import { cn } from '../../utils/cn';
 import { SwapContext } from '../context';
-import { useBalance } from 'wagmi';
-import type { UseBalanceReturnType } from 'wagmi';
+import { erc20Abi } from 'viem';
+import { useBalance, useReadContract } from 'wagmi';
+import type { UseBalanceReturnType, UseReadContractReturnType } from 'wagmi';
 import type { SwapAmountInputReact } from '../types';
 
 export function SwapAmountInput({ label, token, type }: SwapAmountInputReact) {
@@ -40,16 +41,33 @@ export function SwapAmountInput({ label, token, type }: SwapAmountInputReact) {
     return setFromToken;
   }, [type, setFromToken, setToToken]);
 
-  const balanceResponse: UseBalanceReturnType = useBalance({
+  const ethBalanceResponse: UseBalanceReturnType = useBalance({
     address,
     ...(token?.address && { token: token.address }),
   });
 
-  const roundedBalance = useMemo(() => {
-    if (balanceResponse?.data?.formatted && token?.address) {
-      return getRoundedAmount(balanceResponse?.data?.formatted, 8);
+  const balanceResponse: UseReadContractReturnType = useReadContract({
+    abi: erc20Abi,
+    ...(token?.address && { address: token.address }),
+    functionName: 'balanceOf',
+    args: token?.address ? [token?.address] : [],
+    account: address,
+  });
+
+  const balance = useMemo(() => {
+    if (token?.symbol === 'ETH') {
+      return ethBalanceResponse?.data?.formatted;
     }
-  }, [balanceResponse?.data]);
+    // TODO: figure out what this return type looksl iike
+    return balanceResponse;
+  }, []);
+
+  const roundedBalance = useMemo(() => {
+    // TODO: use balance instead
+    if (ethBalanceResponse?.data?.formatted && token?.address) {
+      return getRoundedAmount(ethBalanceResponse?.data?.formatted, 8);
+    }
+  }, [ethBalanceResponse?.data]);
 
   const handleAmountChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -61,10 +79,11 @@ export function SwapAmountInput({ label, token, type }: SwapAmountInputReact) {
   );
 
   const handleMaxButtonClick = useCallback(() => {
-    if (balanceResponse?.data?.formatted) {
-      setAmount?.(balanceResponse?.data?.formatted);
+    // TODO: use balance instead
+    if (ethBalanceResponse?.data?.formatted) {
+      setAmount?.(ethBalanceResponse?.data?.formatted);
     }
-  }, [balanceResponse?.data, setAmount]);
+  }, [ethBalanceResponse?.data, setAmount]);
 
   useEffect(() => {
     if (token) {
