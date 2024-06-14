@@ -1,10 +1,10 @@
+import { useCallback, useMemo, useState } from 'react';
 import type { SwapError, SwapReact } from '../types';
 import type { Token } from '../../token';
 import { SwapContext } from '../context';
 import { formatTokenAmount } from '../../utils/formatTokenAmount';
 import { getSwapQuote } from '../core/getSwapQuote';
 import { isSwapError } from '../core/isSwapError';
-import { useCallback, useMemo, useState } from 'react';
 
 export function Swap({ address, children, onError }: SwapReact) {
   const [fromAmount, setFromAmount] = useState('');
@@ -77,10 +77,12 @@ export function Swap({ address, children, onError }: SwapReact) {
       address,
       fromAmount,
       fromToken,
-      setFromAmount: handleFromAmountChange,
+      handleFromAmountChange,
+      handleToAmountChange,
+      setFromAmount,
       setFromToken,
-      setToAmount: handleToAmountChange,
       setToToken,
+      setToAmount,
       toAmount,
       toToken,
     };

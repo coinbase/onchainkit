@@ -22,13 +22,15 @@ jest.mock('wagmi', () => {
 });
 
 const mockContextValue = {
+  address: '0x5FbDB2315678afecb367f032d93F642f64180aa3' as Address,
   fromAmount: '10',
+  handleFromAmountChange: jest.fn(),
+  handleToAmountChange: jest.fn(),
   setFromAmount: jest.fn(),
   setFromToken: jest.fn(),
   setToAmount: jest.fn(),
   setToToken: jest.fn(),
   toAmount: '20',
-  address: '0x5FbDB2315678afecb367f032d93F642f64180aa3' as Address,
   toToken: {
     name: 'Ethereum',
     address: '',

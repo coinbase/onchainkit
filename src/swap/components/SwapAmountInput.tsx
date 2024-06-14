@@ -12,19 +12,18 @@ import type { UseBalanceReturnType } from 'wagmi';
 import type { Token } from '../../token';
 import { TextInput } from '../../internal/form/TextInput';
 
-/* istanbul ignore next */
-const noop = () => {};
-
 export function SwapAmountInput({
   label,
-  swappableTokens,
   token,
   type,
+  swappableTokens,
 }: SwapAmountInputReact) {
   const {
     address,
     fromAmount,
     fromToken,
+    handleFromAmountChange,
+    handleToAmountChange,
     setFromAmount,
     setFromToken,
     setToAmount,
@@ -33,26 +32,32 @@ export function SwapAmountInput({
     toToken,
   } = useContext(SwapContext);
 
-  const amount = useMemo(() => {
+  const { amount, setAmount, handleAmountChange, setToken } = useMemo(() => {
     if (type === 'to') {
-      return toAmount;
+      return {
+        amount: toAmount,
+        setAmount: setToAmount,
+        setToken: setToToken,
+        handleAmountChange: handleFromAmountChange,
+      };
     }
-    return fromAmount;
-  }, [type, toAmount, fromAmount]);
-
-  const setAmount = useMemo(() => {
-    if (type === 'to') {
-      return setToAmount;
-    }
-    return setFromAmount;
-  }, [type, setToAmount, setFromAmount]);
-
-  const setToken = useMemo(() => {
-    if (type === 'to') {
-      return setToToken;
-    }
-    return setFromToken;
-  }, [type, setFromToken, setToToken]);
+    return {
+      amount: fromAmount,
+      setAmount: setFromAmount,
+      setToken: setFromToken,
+      handleAmountChange: handleToAmountChange,
+    };
+  }, [
+    fromAmount,
+    handleFromAmountChange,
+    handleToAmountChange,
+    setFromAmount,
+    setFromToken,
+    setToAmount,
+    setToToken,
+    toAmount,
+    type,
+  ]);
 
   const selectedToken = useMemo(() => {
     if (type === 'to') {
@@ -111,7 +116,7 @@ export function SwapAmountInput({
         <TextInput
           className="w-full border-[none] bg-transparent text-5xl text-gray-500 outline-none"
           data-testid="ockSwapAmountInput_Input"
-          onChange={noop}
+          onChange={handleAmountChange}
           placeholder="0.0"
           value={amount}
           setValue={setAmount}
