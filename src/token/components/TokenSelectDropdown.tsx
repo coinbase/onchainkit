@@ -44,7 +44,7 @@ export function TokenSelectDropdown({
   }, [handleBlur]);
 
   return (
-    <div className={'relative'}>
+    <div className="relative shrink-0">
       <TokenSelectButton
         ref={buttonRef}
         onClick={handleToggle}

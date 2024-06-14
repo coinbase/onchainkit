@@ -65,9 +65,12 @@ export const TokenSelectButton = forwardRef(function TokenSelectButton(
           </TextHeadline>
         </>
       ) : (
-        <TextHeadline>Select</TextHeadline>
+        <TextHeadline>Select token</TextHeadline>
       )}
-      {isOpen ? <CaretUp /> : <CaretDown />}
+      <div className="relative flex items-center justify-center">
+        <div className="absolute top-0 left-0 h-4 w-4" />
+        {isOpen ? <CaretUp /> : <CaretDown />}
+      </div>
     </button>
   );
 });
