@@ -2,6 +2,7 @@
 "@coinbase/onchainkit": patch
 ---
 
+- **fix**: swap `Token` pair mode. By @kyhyco #566
 - **feat**: added input delay to `SwapAmountInput`. By @kyhyco #563
 - **feat**: addeded swappable tokens to `SwapAmountInput`. By @abcrane123 #561
 - **fix**: updated Smart Wallet util. By @lukasrosario #564
