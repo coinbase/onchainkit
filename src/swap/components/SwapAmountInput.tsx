@@ -1,7 +1,5 @@
 import { useCallback, useContext, useEffect, useMemo } from 'react';
 
-import type { SwapAmountInputReact } from '../types';
-import type { UseBalanceReturnType } from 'wagmi';
 import { SwapContext } from '../context';
 import { TextLabel1, TextLabel2 } from '../../internal/text';
 import { TokenChip, TokenSelectDropdown } from '../../token';
@@ -9,6 +7,8 @@ import { cn } from '../../utils/cn';
 import { getRoundedAmount } from '../../utils/getRoundedAmount';
 import { isValidAmount } from '../../utils/isValidAmount';
 import { useBalance } from 'wagmi';
+import type { SwapAmountInputReact } from '../types';
+import type { UseBalanceReturnType } from 'wagmi';
 
 export function SwapAmountInput({
   label,
