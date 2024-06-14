@@ -15,16 +15,20 @@ export function getTokenBalances({
   tokenBalance,
 }: GetTokenBalancesParams) {
   return useMemo(() => {
-    let convertedBalance, roundedBalance;
     if (token?.symbol === 'ETH' && ethBalance) {
-      convertedBalance = ethBalance;
-      roundedBalance = getRoundedAmount(ethBalance, 8);
+      return {
+        convertedBalance: ethBalance,
+        roundedBalance: getRoundedAmount(ethBalance, 8),
+      };
     }
 
     if (token && tokenBalance) {
-      convertedBalance = formatUnits(tokenBalance, token?.decimals);
-      roundedBalance = getRoundedAmount(convertedBalance, 8);
+      const convertedBalance = formatUnits(tokenBalance, token?.decimals);
+      return {
+        convertedBalance,
+        roundedBalance: getRoundedAmount(convertedBalance, 8),
+      };
     }
-    return { convertedBalance, roundedBalance };
+    return { convertedBalance: '', roundedBalance: '' };
   }, [ethBalance, token, tokenBalance]);
 }
