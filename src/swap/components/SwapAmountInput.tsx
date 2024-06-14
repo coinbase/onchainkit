@@ -40,7 +40,7 @@ export function SwapAmountInput({
           selectedToken: toToken,
           setAmount: setToAmount,
           setToken: setToToken,
-          handleAmountChange: handleFromAmountChange,
+          handleAmountChange: handleToAmountChange,
         };
       }
       return {
@@ -48,7 +48,7 @@ export function SwapAmountInput({
         selectedToken: fromToken,
         setAmount: setFromAmount,
         setToken: setFromToken,
-        handleAmountChange: handleToAmountChange,
+        handleAmountChange: handleFromAmountChange,
       };
     }, [
       fromAmount,

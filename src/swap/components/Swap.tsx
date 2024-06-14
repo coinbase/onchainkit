@@ -14,7 +14,6 @@ export function Swap({ address, children, onError }: SwapReact) {
 
   const handleFromAmountChange = useCallback(
     async (amount: string) => {
-      setFromAmount(amount);
       const hasRequiredFields = fromToken && toToken && amount;
       if (!hasRequiredFields) {
         return;
@@ -44,7 +43,6 @@ export function Swap({ address, children, onError }: SwapReact) {
 
   const handleToAmountChange = useCallback(
     async (amount: string) => {
-      setToAmount(amount);
       const hasRequiredFields = fromToken && toToken && amount;
       if (!hasRequiredFields) {
         return;
