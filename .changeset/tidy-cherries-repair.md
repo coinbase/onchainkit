@@ -2,4 +2,4 @@
 "@coinbase/onchainkit": patch
 ---
 
-- **fix**: fix TokenSelectButton hit detection. By @kyhyco #577
+- **fix**: fix `TokenSelectButton` hit detection. By @kyhyco #577
