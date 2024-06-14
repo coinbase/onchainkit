@@ -4,9 +4,9 @@
 
 ### Patch Changes
 
-- 199c00f: - **feat**: added DM Sans. By @kyhyco #574
-  - **featt**: added Balance info in `Swap` components. By @abcrane123 #558
-  - **feat**: added `SwapToggleButton`. By @kyhyco #572
+- **feat**: added DM Sans. By @kyhyco #574 199c00f
+- **featt**: added Balance info in `Swap` components. By @abcrane123 #558
+- **feat**: added `SwapToggleButton`. By @kyhyco #572
 
 ## 0.20.9
 

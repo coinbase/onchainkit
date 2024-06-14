@@ -81,7 +81,9 @@ export default function SwapComponents() {
           <SwapButton onError={onError} onSubmit={onSubmit} />
         </Swap>
       ) : (
-        <p><ConnectAccount /></p>
+        <p>
+          <ConnectAccount />
+        </p>
       )}
     </main>
   );

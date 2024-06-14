@@ -1,8 +1,9 @@
 'use client';
 import type { ReactNode } from 'react';
+import { OnchainKitProvider } from '@coinbase/onchainkit';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { WagmiProvider, createConfig, http } from 'wagmi';
-import { baseSepolia } from 'wagmi/chains';
+import { base } from 'wagmi/chains';
 import { coinbaseWallet } from 'wagmi/connectors';
 
 import '@coinbase/onchainkit/styles.css';
@@ -11,16 +12,16 @@ import '@coinbase/onchainkit/styles.css';
 const queryClient = new QueryClient();
 
 const wagmiConfig = createConfig({
-  chains: [baseSepolia],
+  chains: [base],
   connectors: [
     coinbaseWallet({
-      appChainIds: [baseSepolia.id],
+      appChainIds: [base.id],
       appName: 'onchainkit',
     }),
   ],
   ssr: true,
   transports: {
-    [baseSepolia.id]: http(),
+    [base.id]: http(),
   },
 });
 
@@ -29,12 +30,15 @@ export default function App({ children }: { children: ReactNode }) {
   if (isServer) {
     return null;
   }
+  const NEXT_PUBLIC_CDP_API_KEY = window.NEXT_PUBLIC_CDP_API_KEY;
   return (
     <WagmiProvider config={wagmiConfig}>
       <QueryClientProvider client={queryClient}>
-        <div style={{ display: 'flex', flexDirection: 'column' }}>
-          {children}
-        </div>
+        <OnchainKitProvider apiKey={NEXT_PUBLIC_CDP_API_KEY} chain={base}>
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            {children}
+          </div>
+        </OnchainKitProvider>
       </QueryClientProvider>
     </WagmiProvider>
   );
