@@ -7,6 +7,8 @@ function CaretUp() {
   return (
     <svg
       data-testid="ockTokenSelectButton_CaretUp"
+      role="img"
+      aria-label="ock-caretup-icon"
       width="16"
       height="16"
       viewBox="0 0 16 16"
@@ -25,6 +27,8 @@ function CaretDown() {
   return (
     <svg
       data-testid="ockTokenSelectButton_CaretDown"
+      role="img"
+      aria-label="ock-caretdown-icon"
       width="16"
       height="17"
       viewBox="0 0 16 17"
@@ -45,6 +49,7 @@ export const TokenSelectButton = forwardRef(function TokenSelectButton(
 ) {
   return (
     <button
+      type="button"
       data-testid="ockTokenSelectButton_Button"
       className="flex w-fit items-center gap-2 rounded-2xl bg-[#eef0f3] px-3 py-1 outline-none active:bg-[#bfc1c3] hover:bg-[#cacbce]"
       onClick={onClick}

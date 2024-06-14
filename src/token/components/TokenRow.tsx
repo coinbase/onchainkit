@@ -14,6 +14,7 @@ export const TokenRow = memo(function TokenRow({
   return (
     <button
       data-testid="ockTokenRow_Container"
+      type="button"
       className="flex h-16 w-full cursor-pointer items-center justify-between bg-white px-2 py-1 active:bg-[#bfc1c3] hover:bg-[#cacbce]"
       onClick={() => onClick?.(token)}
     >

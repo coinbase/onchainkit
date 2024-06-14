@@ -1,6 +1,8 @@
 export function SearchIcon() {
   return (
     <svg
+      role="img"
+      aria-label="ock-search-icon"
       width="16"
       height="16"
       viewBox="0 0 16 16"

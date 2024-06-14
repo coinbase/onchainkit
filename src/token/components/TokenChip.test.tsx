@@ -32,7 +32,7 @@ describe('TokenChip Component', () => {
     expect(spanElement).toBeInTheDocument();
   });
 
-  it('should render without an image', async () => {
+  it('should render a placeholder if no image', async () => {
     const token = {
       address: '0x123' as Address,
       chainId: 1,
@@ -45,7 +45,7 @@ describe('TokenChip Component', () => {
     const buttonElement = screen.getByRole('button');
     expect(buttonElement).toBeInTheDocument();
 
-    const imgElement = screen.queryByRole('img');
+    const imgElement = screen.getByTestId('ockTokenImage_NoImage');
     const spanElement = within(buttonElement).getByText(token.symbol);
 
     expect(imgElement).toBeInTheDocument();
