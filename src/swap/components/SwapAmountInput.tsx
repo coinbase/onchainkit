@@ -13,8 +13,6 @@ import type { UseBalanceReturnType, UseReadContractReturnType } from 'wagmi';
 import type { SwapAmountInputReact } from '../types';
 import type { Token } from '../../token';
 
-
-
 export function SwapAmountInput({
   label,
   token,
