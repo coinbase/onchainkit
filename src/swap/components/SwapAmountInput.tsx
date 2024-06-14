@@ -132,7 +132,7 @@ export function SwapAmountInput({
       </div>
       <div className="flex w-full items-center justify-between">
         <TextInput
-          className="w-full border-[none] bg-transparent text-5xl text-gray-500 outline-none"
+          className="w-full border-[none] bg-transparent text-[2.5rem] text-display text-gray-900 text-sans leading-none outline-none"
           data-testid="ockSwapAmountInput_Input"
           onChange={handleAmountChange}
           placeholder="0.0"

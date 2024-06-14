@@ -8,6 +8,7 @@ import { isSwapError } from '../core/isSwapError';
 import { SwapAmountInput } from './SwapAmountInput';
 import { SwapToggleButton } from './SwapToggleButton';
 import { SwapButton } from './SwapButton';
+import { TextTitle3 } from '../../internal/text/TextTitle3';
 
 export function Swap({ address, children, onError }: SwapReact) {
   const [fromAmount, setFromAmount] = useState('');
@@ -121,10 +122,10 @@ export function Swap({ address, children, onError }: SwapReact) {
 
   return (
     <SwapContext.Provider value={value}>
-      <div className="flex w-[400px] flex-col rounded-xl bg-gray-100 px-6 pt-6 pb-4">
-        <label className="mb-4 font-semibold text-[#030712] text-base leading-6">
-          Swap
-        </label>
+      <div className="flex w-[500px] flex-col rounded-xl bg-gray-100 px-6 pt-6 pb-4">
+        <div className="mb-4">
+          <TextTitle3>Swap</TextTitle3>
+        </div>
         {inputs[0]}
         <div className="relative h-1">{toggleButton}</div>
         {inputs[1]}
