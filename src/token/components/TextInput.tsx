@@ -8,13 +8,16 @@ type TextInputReact = {
 };
 
 export function TextInput({ placeholder, value, onChange }: TextInputReact) {
-  const handleChange = useCallback((evt: ChangeEvent<HTMLInputElement>) => {
-    onChange(evt.target.value);
-  }, []);
+  const handleChange = useCallback(
+    (evt: ChangeEvent<HTMLInputElement>) => {
+      onChange(evt.target.value);
+    },
+    [onChange],
+  );
 
   const handleClear = useCallback(() => {
     onChange('');
-  }, []);
+  }, [onChange]);
 
   return (
     <div className="relative flex items-center">
@@ -31,11 +34,14 @@ export function TextInput({ placeholder, value, onChange }: TextInputReact) {
       />
       {value && (
         <button
+          type="button"
           data-testid="ockTextInput_Clear"
           className="-translate-y-1/2 absolute top-1/2 right-4"
           onClick={handleClear}
         >
           <svg
+            role="img"
+            aria-label="ock-close-icon"
             width="16"
             height="16"
             viewBox="0 0 16 16"

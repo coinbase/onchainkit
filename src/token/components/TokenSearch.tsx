@@ -10,15 +10,18 @@ export function TokenSearch({ onChange, delayMs = 200 }: TokenSearchReact) {
     onChange(value);
   }, delayMs);
 
-  const handleChange = useCallback((value: string) => {
-    setValue(value);
+  const handleChange = useCallback(
+    (value: string) => {
+      setValue(value);
 
-    if (delayMs > 0) {
-      handleDebounce(value);
-    } else {
-      onChange(value);
-    }
-  }, []);
+      if (delayMs > 0) {
+        handleDebounce(value);
+      } else {
+        onChange(value);
+      }
+    },
+    [onChange, handleDebounce, delayMs],
+  );
 
   return (
     <TextInput
