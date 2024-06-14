@@ -1,14 +1,15 @@
 import { useCallback } from 'react';
-import type { ChangeEvent, Dispatch, SetStateAction } from 'react';
+import type { ChangeEvent } from 'react';
 import { useDebounce } from './useDebounce';
 
 type TextInputReact = {
   className: string;
   delayMs: number;
-  onChange: (value: string) => void;
+  onChange: (s: string) => void;
   placeholder: string;
-  setValue: Dispatch<SetStateAction<string>>;
+  setValue: (s: string) => void;
   value: string;
+  inputValidator?: (s: string) => boolean;
 };
 
 export function TextInput({
@@ -18,6 +19,7 @@ export function TextInput({
   placeholder,
   setValue,
   value,
+  inputValidator = () => true,
 }: TextInputReact) {
   const handleDebounce = useDebounce((value) => {
     onChange(value);
@@ -26,15 +28,18 @@ export function TextInput({
   const handleChange = useCallback(
     (evt: ChangeEvent<HTMLInputElement>) => {
       const value = evt.target.value;
-      setValue(value);
 
-      if (delayMs > 0) {
-        handleDebounce(value);
-      } else {
-        onChange(value);
+      if (inputValidator(value)) {
+        setValue(value);
+
+        if (delayMs > 0) {
+          handleDebounce(value);
+        } else {
+          onChange(value);
+        }
       }
     },
-    [onChange, handleDebounce, delayMs, setValue],
+    [onChange, handleDebounce, delayMs, setValue, inputValidator],
   );
 
   return (
