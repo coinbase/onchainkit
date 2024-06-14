@@ -1,7 +1,7 @@
-import { useMemo } from "react";
-import type { Token } from "../../token";
-import { getRoundedAmount } from "../../utils/getRoundedAmount";
-import { formatUnits } from "viem";
+import { useMemo } from 'react';
+import { getRoundedAmount } from '../../utils/getRoundedAmount';
+import { formatUnits } from 'viem';
+import type { Token } from '../../token';
 
 type GetTokenBalancesParams = {
   token?: Token;
@@ -16,7 +16,7 @@ export function getTokenBalances({
 }: GetTokenBalancesParams) {
   return useMemo(() => {
     let convertedBalance, roundedBalance;
-    if (token?.symbol === "ETH" && ethBalance) {
+    if (token?.symbol === 'ETH' && ethBalance) {
       convertedBalance = ethBalance;
       roundedBalance = getRoundedAmount(ethBalance, 8);
     }
