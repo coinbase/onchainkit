@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.20.11
+
+### Patch Changes
+
+- 8aff0e8: - **fix**: fix `TokenSelectButton` hit detection. By @kyhyco #577
+
 ## 0.20.10
 
 ### Patch Changes
