@@ -73,19 +73,26 @@ export function SwapAmountInput({
   // returns erc20 token balance
   const balanceResponse: UseReadContractReturnType = useReadContract({
     abi: erc20Abi,
-    address: token.address as Address,
+    address: selectedToken?.address as Address,
     functionName: 'balanceOf',
     args: [address],
-    query: { enabled: !!token?.address && !!address },
+    query: {
+      enabled: !!selectedToken?.address && !!address,
+    },
   });
 
   const { convertedBalance, roundedBalance } = useMemo(() => {
     return getTokenBalances({
       ethBalance: ethBalanceResponse?.data?.formatted,
       tokenBalance: balanceResponse?.data as bigint,
-      token,
+      token: selectedToken,
     });
-  }, [balanceResponse?.data, ethBalanceResponse?.data?.formatted, token]);
+  }, [
+    balanceResponse?.data,
+    ethBalanceResponse?.data?.formatted,
+    selectedToken,
+    token,
+  ]);
 
   // we are mocking the token selectors so i'm not able
   // to test this since the components aren't actually rendering

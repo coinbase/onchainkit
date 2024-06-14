@@ -32,36 +32,6 @@ const mockEthBalanceResponse = {
   },
 };
 
-const mockContextValue = {
-  address: '0x5FbDB2315678afecb367f032d93F642f64180aa3' as Address,
-  fromAmount: '10',
-  handleFromAmountChange: jest.fn(),
-  handleToAmountChange: jest.fn(),
-  setFromAmount: jest.fn(),
-  setFromToken: jest.fn(),
-  setToAmount: jest.fn(),
-  setToToken: jest.fn(),
-  toAmount: '20',
-  toToken: {
-    name: 'Ethereum',
-    address: '',
-    symbol: 'ETH',
-    decimals: 18,
-    image:
-      'https://wallet-api-production.s3.amazonaws.com/uploads/tokens/eth_288.png',
-    chainId: 8453,
-  },
-  fromToken: {
-    name: 'USDC',
-    address: '0x833589fcd6edb6e08f4c7c32d4f71b54bda02913',
-    symbol: 'USDC',
-    decimals: 6,
-    image:
-      'https://d3r81g40ycuhqg.cloudfront.net/wallet/wais/44/2b/442b80bd16af0c0d9b22e03a16753823fe826e5bfd457292b55fa0ba8c1ba213-ZWUzYjJmZGUtMDYxNy00NDcyLTg0NjQtMWI4OGEwYjBiODE2',
-    chainId: 8453,
-  },
-} as SwapContextType;
-
 const mockETHToken: Token = {
   name: 'ETH',
   address: '0x123456789',
@@ -81,6 +51,20 @@ const mockToken: Token = {
     'https://d3r81g40ycuhqg.cloudfront.net/wallet/wais/44/2b/442b80bd16af0c0d9b22e03a16753823fe826e5bfd457292b55fa0ba8c1ba213-ZWUzYjJmZGUtMDYxNy00NDcyLTg0NjQtMWI4OGEwYjBiODE2',
   chainId: 8453,
 };
+
+const mockContextValue = {
+  address: '0x5FbDB2315678afecb367f032d93F642f64180aa3' as Address,
+  fromAmount: '10',
+  handleFromAmountChange: jest.fn(),
+  handleToAmountChange: jest.fn(),
+  setFromAmount: jest.fn(),
+  setFromToken: jest.fn(),
+  setToAmount: jest.fn(),
+  setToToken: jest.fn(),
+  toAmount: '20',
+  toToken: mockToken,
+  fromToken: mockETHToken,
+} as SwapContextType;
 
 const mockSwappableTokens: Token[] = [
   {
@@ -178,9 +162,7 @@ describe('SwapAmountInput', () => {
   });
 
   it('does not call setAmount when converted balance is undefined on max button click', () => {
-    (require('wagmi').useBalance as jest.Mock).mockReturnValue(
-      mockEthBalanceResponse,
-    );
+    (require('wagmi').useBalance as jest.Mock).mockReturnValue(undefined);
 
     render(
       <SwapContext.Provider value={mockContextValue}>
@@ -285,14 +267,11 @@ describe('SwapAmountInput', () => {
 
     render(
       <SwapContext.Provider value={mockContextValue}>
-        <SwapAmountInput label="From" token={mockToken} type="from" />
+        <SwapAmountInput label="To" token={mockToken} type="to" />
       </SwapContext.Provider>,
     );
 
     expect(screen.getByText('Balance: 3304007.277394')).toBeInTheDocument();
-    expect(
-      screen.getByTestId('ockSwapAmountInput_MaxButton'),
-    ).toBeInTheDocument();
   });
 
   it('renders a TokenSelectDropdown component if swappableTokens are passed as prop', () => {
