@@ -11,15 +11,6 @@ import { getTokenBalances } from '../core/getTokenBalances';
 import type { UseBalanceReturnType, UseReadContractReturnType } from 'wagmi';
 import type { SwapAmountInputReact } from '../types';
 
-const mockTokenBalanceResponse = { data: 3304007277394n };
-const mockETHBalanceResponse = {
-  data: {
-    decimals: 18,
-    formatted: '0.0002851826238227',
-    symbol: 'ETH',
-    value: 285182623822700n,
-  },
-};
 export function SwapAmountInput({ label, token, type }: SwapAmountInputReact) {
   const {
     address,

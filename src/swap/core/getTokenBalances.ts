@@ -1,4 +1,3 @@
-import { useMemo } from 'react';
 import { getRoundedAmount } from '../../utils/getRoundedAmount';
 import { formatUnits } from 'viem';
 import type { Token } from '../../token';
