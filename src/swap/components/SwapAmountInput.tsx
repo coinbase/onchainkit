@@ -128,9 +128,7 @@ export function SwapAmountInput({
             token={selectedToken}
           />
         )}
-        {selectedToken && !filteredTokens && (
-          <TokenChip token={selectedToken} />
-        )}
+        {token && !filteredTokens && <TokenChip token={token} />}
       </div>
       <div className="mt-4 flex w-full justify-between">
         <TextLabel2>~$0.0</TextLabel2>
