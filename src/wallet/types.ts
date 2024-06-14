@@ -18,7 +18,7 @@ export type IsValidAAEntrypointOptions = {
 /**
  * Note: exported as public Type
  */
-export type IsWalletASmartWalletOptions = {
+export type IsWalletACoinbaseSmartWalletOptions = {
   client: PublicClient;
   userOp: UserOperation<'v0.6'>;
 };
@@ -26,6 +26,6 @@ export type IsWalletASmartWalletOptions = {
 /**
  * Note: exported as public Type
  */
-export type IsWalletASmartWalletResponse =
-  | { isSmartWallet: true }
-  | { isSmartWallet: false; error: string; code: string };
+export type IsWalletACoinbaseSmartWalletResponse =
+  | { isCoinbaseSmartWallet: true }
+  | { isCoinbaseSmartWallet: false; error: string; code: string };
