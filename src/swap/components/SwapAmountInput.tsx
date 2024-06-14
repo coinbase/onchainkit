@@ -9,6 +9,7 @@ import { isValidAmount } from '../../utils/isValidAmount';
 import { useBalance } from 'wagmi';
 import type { SwapAmountInputReact } from '../types';
 import type { UseBalanceReturnType } from 'wagmi';
+import type { Token } from '../../token';
 
 export function SwapAmountInput({
   label,
@@ -72,9 +73,11 @@ export function SwapAmountInput({
   /* istanbul ignore next */
   const filteredTokens = useMemo(() => {
     if (type === 'to') {
-      return swappableTokens?.filter((t) => t.symbol !== fromToken?.symbol);
+      return swappableTokens?.filter(
+        (t: Token) => t.symbol !== fromToken?.symbol,
+      );
     }
-    return swappableTokens?.filter((t) => t.symbol !== toToken?.symbol);
+    return swappableTokens?.filter((t: Token) => t.symbol !== toToken?.symbol);
   }, [fromToken, swappableTokens, toToken, type]);
 
   const handleAmountChange = useCallback(
