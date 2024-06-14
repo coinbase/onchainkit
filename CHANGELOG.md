@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.20.10
+
+### Patch Changes
+
+- 199c00f: - **feat**: added DM Sans. By @kyhyco #574
+  - **featt**: added Balance info in `Swap` components. By @abcrane123 #558
+  - **feat**: added `SwapToggleButton`. By @kyhyco #572
+
 ## 0.20.9
 
 ### Patch Changes
