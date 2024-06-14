@@ -11,6 +11,15 @@ import { getTokenBalances } from '../core/getTokenBalances';
 import type { UseBalanceReturnType, UseReadContractReturnType } from 'wagmi';
 import type { SwapAmountInputReact } from '../types';
 
+const mockTokenBalanceResponse = { data: 3304007277394n };
+const mockETHBalanceResponse = {
+  data: {
+    decimals: 18,
+    formatted: '0.0002851826238227',
+    symbol: 'ETH',
+    value: 285182623822700n,
+  },
+};
 export function SwapAmountInput({ label, token, type }: SwapAmountInputReact) {
   const {
     address,
@@ -48,7 +57,7 @@ export function SwapAmountInput({ label, token, type }: SwapAmountInputReact) {
     address,
   });
 
-  // returns non-eth token balance
+  // returns erc20 token balance
   const balanceResponse: UseReadContractReturnType = useReadContract({
     abi: erc20Abi,
     address: token.address as Address,
@@ -57,11 +66,13 @@ export function SwapAmountInput({ label, token, type }: SwapAmountInputReact) {
     query: { enabled: !!token?.address && !!address },
   });
 
-  const { convertedBalance, roundedBalance } = getTokenBalances({
-    ethBalance: ethBalanceResponse?.data?.formatted,
-    tokenBalance: balanceResponse?.data as bigint,
-    token,
-  });
+  const { convertedBalance, roundedBalance } = useMemo(() => {
+    return getTokenBalances({
+      ethBalance: ethBalanceResponse?.data?.formatted,
+      tokenBalance: balanceResponse?.data as bigint,
+      token,
+    });
+  }, [balanceResponse?.data, ethBalanceResponse?.data?.formatted, token]);
 
   const handleAmountChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
