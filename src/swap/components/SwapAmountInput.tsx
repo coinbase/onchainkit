@@ -4,11 +4,12 @@ import { SwapContext } from '../context';
 import { TextLabel1, TextLabel2 } from '../../internal/text';
 import { TokenChip, TokenSelectDropdown } from '../../token';
 import { cn } from '../../utils/cn';
-import { Address, erc20Abi } from 'viem';
 import { TextInput } from '../../internal/form/TextInput';
 import { useBalance, useReadContract } from 'wagmi';
 import { isValidAmount } from '../../utils/isValidAmount';
 import { getTokenBalances } from '../core/getTokenBalances';
+import { erc20Abi } from 'viem';
+import type { Address } from 'viem';
 import type { UseBalanceReturnType, UseReadContractReturnType } from 'wagmi';
 import type { SwapAmountInputReact } from '../types';
 import type { Token } from '../../token';
@@ -91,7 +92,6 @@ export function SwapAmountInput({
     balanceResponse?.data,
     ethBalanceResponse?.data?.formatted,
     selectedToken,
-    token,
   ]);
 
   // we are mocking the token selectors so i'm not able
