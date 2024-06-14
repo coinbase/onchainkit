@@ -12,6 +12,7 @@ import type { Address } from 'viem';
 
 jest.mock('../../token', () => ({
   TokenChip: jest.fn(() => <div>TokenChip</div>),
+  TokenSelectDropdown: jest.fn(() => <div>TokenSelectDropdown</div>),
 }));
 
 jest.mock('wagmi', () => {
@@ -32,13 +33,33 @@ const mockEthBalanceResponse = {
 };
 
 const mockContextValue = {
+  address: '0x5FbDB2315678afecb367f032d93F642f64180aa3' as Address,
   fromAmount: '10',
+  handleFromAmountChange: jest.fn(),
+  handleToAmountChange: jest.fn(),
   setFromAmount: jest.fn(),
   setFromToken: jest.fn(),
   setToAmount: jest.fn(),
   setToToken: jest.fn(),
   toAmount: '20',
-  address: '0x5FbDB2315678afecb367f032d93F642f64180aa3' as Address,
+  toToken: {
+    name: 'Ethereum',
+    address: '',
+    symbol: 'ETH',
+    decimals: 18,
+    image:
+      'https://wallet-api-production.s3.amazonaws.com/uploads/tokens/eth_288.png',
+    chainId: 8453,
+  },
+  fromToken: {
+    name: 'USDC',
+    address: '0x833589fcd6edb6e08f4c7c32d4f71b54bda02913',
+    symbol: 'USDC',
+    decimals: 6,
+    image:
+      'https://d3r81g40ycuhqg.cloudfront.net/wallet/wais/44/2b/442b80bd16af0c0d9b22e03a16753823fe826e5bfd457292b55fa0ba8c1ba213-ZWUzYjJmZGUtMDYxNy00NDcyLTg0NjQtMWI4OGEwYjBiODE2',
+    chainId: 8453,
+  },
 } as SwapContextType;
 
 const mockETHToken: Token = {
@@ -60,6 +81,36 @@ const mockToken: Token = {
     'https://d3r81g40ycuhqg.cloudfront.net/wallet/wais/44/2b/442b80bd16af0c0d9b22e03a16753823fe826e5bfd457292b55fa0ba8c1ba213-ZWUzYjJmZGUtMDYxNy00NDcyLTg0NjQtMWI4OGEwYjBiODE2',
   chainId: 8453,
 };
+
+const mockSwappableTokens: Token[] = [
+  {
+    name: 'Ethereum',
+    address: '',
+    symbol: 'ETH',
+    decimals: 18,
+    image:
+      'https://wallet-api-production.s3.amazonaws.com/uploads/tokens/eth_288.png',
+    chainId: 8453,
+  },
+  {
+    name: 'USDC',
+    address: '0x833589fcd6edb6e08f4c7c32d4f71b54bda02913',
+    symbol: 'USDC',
+    decimals: 6,
+    image:
+      'https://d3r81g40ycuhqg.cloudfront.net/wallet/wais/44/2b/442b80bd16af0c0d9b22e03a16753823fe826e5bfd457292b55fa0ba8c1ba213-ZWUzYjJmZGUtMDYxNy00NDcyLTg0NjQtMWI4OGEwYjBiODE2',
+    chainId: 8453,
+  },
+  {
+    name: 'Dai',
+    address: '0x50c5725949a6f0c72e6c4a641f24049a917db0cb',
+    symbol: 'DAI',
+    decimals: 18,
+    image:
+      'https://d3r81g40ycuhqg.cloudfront.net/wallet/wais/d0/d7/d0d7784975771dbbac9a22c8c0c12928cc6f658cbcf2bbbf7c909f0fa2426dec-NmU4ZWViMDItOTQyYy00Yjk5LTkzODUtNGJlZmJiMTUxOTgy',
+    chainId: 8453,
+  },
+];
 
 describe('SwapAmountInput', () => {
   beforeEach(() => {
@@ -150,7 +201,7 @@ describe('SwapAmountInput', () => {
       </SwapContext.Provider>,
     );
 
-    const input = screen.getByTestId('ockSwapAmountInput_Input');
+    const input = screen.getByTestId('ockTextInput_Input');
     expect(input).toHaveValue('10');
   });
 
@@ -161,7 +212,7 @@ describe('SwapAmountInput', () => {
       </SwapContext.Provider>,
     );
 
-    const input = screen.getByTestId('ockSwapAmountInput_Input');
+    const input = screen.getByTestId('ockTextInput_Input');
     expect(input).toHaveValue('20');
   });
 
@@ -172,7 +223,7 @@ describe('SwapAmountInput', () => {
       </SwapContext.Provider>,
     );
 
-    const input = screen.getByTestId('ockSwapAmountInput_Input');
+    const input = screen.getByTestId('ockTextInput_Input');
     fireEvent.change(input, { target: { value: '15' } });
 
     expect(mockContextValue.setFromAmount).toHaveBeenCalledWith('15');
@@ -185,7 +236,7 @@ describe('SwapAmountInput', () => {
       </SwapContext.Provider>,
     );
 
-    const input = screen.getByTestId('ockSwapAmountInput_Input');
+    const input = screen.getByTestId('ockTextInput_Input');
     fireEvent.change(input, { target: { value: '15' } });
 
     expect(mockContextValue.setToAmount).toHaveBeenCalledWith('15');
@@ -198,7 +249,7 @@ describe('SwapAmountInput', () => {
       </SwapContext.Provider>,
     );
 
-    const input = screen.getByTestId('ockSwapAmountInput_Input');
+    const input = screen.getByTestId('ockTextInput_Input');
     fireEvent.change(input, { target: { value: 'invalid' } });
 
     expect(mockContextValue.setFromAmount).not.toHaveBeenCalled();
@@ -242,5 +293,32 @@ describe('SwapAmountInput', () => {
     expect(
       screen.getByTestId('ockSwapAmountInput_MaxButton'),
     ).toBeInTheDocument();
+  });
+
+  it('renders a TokenSelectDropdown component if swappableTokens are passed as prop', () => {
+    render(
+      <SwapContext.Provider value={mockContextValue}>
+        <SwapAmountInput
+          label="To"
+          swappableTokens={mockSwappableTokens}
+          token={mockToken}
+          type="to"
+        />
+      </SwapContext.Provider>,
+    );
+
+    const dropdown = screen.getByText('TokenSelectDropdown');
+    expect(dropdown).toBeInTheDocument();
+  });
+
+  it('renders a TokenChip component if swappableTokens are not passed as prop', () => {
+    render(
+      <SwapContext.Provider value={mockContextValue}>
+        <SwapAmountInput label="To" token={mockToken} type="to" />
+      </SwapContext.Provider>,
+    );
+
+    const dropdown = screen.getByText('TokenChip');
+    expect(dropdown).toBeInTheDocument();
   });
 });

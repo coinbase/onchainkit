@@ -234,8 +234,8 @@ export const sidebar = [
             link: '/wallet/is-valid-aa-entrypoint',
           },
           {
-            text: 'isWalletASmartWallet',
-            link: '/wallet/is-wallet-a-smart-wallet',
+            text: 'isWalletACoinbaseSmartWallet',
+            link: '/wallet/is-wallet-a-coinbase-smart-wallet',
           },
         ],
       },

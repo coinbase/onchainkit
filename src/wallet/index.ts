@@ -1,10 +1,10 @@
 // 🌲☀️🌲
 export { ConnectAccount } from './components/ConnectAccount';
 export { isValidAAEntrypoint } from './isValidAAEntrypoint';
-export { isWalletASmartWallet } from './isWalletASmartWallet';
+export { isWalletACoinbaseSmartWallet } from './isWalletACoinbaseSmartWallet';
 export type {
   ConnectAccountReact,
   IsValidAAEntrypointOptions,
-  IsWalletASmartWalletOptions,
-  IsWalletASmartWalletResponse,
+  IsWalletACoinbaseSmartWalletOptions,
+  IsWalletACoinbaseSmartWalletResponse,
 } from './types';

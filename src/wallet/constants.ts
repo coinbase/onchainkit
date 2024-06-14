@@ -7,3 +7,6 @@ export const CB_SW_V1_IMPLEMENTATION_ADDRESS =
 // The storage slot in the proxy contract that points to the implementation address.
 export const ERC_1967_PROXY_IMPLEMENTATION_SLOT =
   '0x360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc';
+// The Coinbase Smart Wallet factory address.
+export const CB_SW_FACTORY_ADDRESS =
+  '0x0BA5ED0c6AA8c49038F819E587E2633c4A9F428a';

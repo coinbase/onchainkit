@@ -84,6 +84,7 @@ export type RawTransactionData = {
  */
 export type SwapAmountInputReact = {
   label: string; // Descriptive label for the input field
+  swappableTokens?: Token[];
   token: Token; // Selected token
   type: 'to' | 'from';
 };
@@ -112,6 +113,8 @@ export type SwapContextType = {
   fromToken?: Token;
   setFromAmount: (a: string) => void;
   setFromToken: (t: Token) => void;
+  handleToAmountChange: (a: string) => void;
+  handleFromAmountChange: (a: string) => void;
   setToAmount: (a: string) => void;
   setToToken: (t: Token) => void;
   toAmount: string;

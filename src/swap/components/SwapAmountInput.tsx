@@ -2,46 +2,70 @@ import { useCallback, useContext, useEffect, useMemo } from 'react';
 
 import { SwapContext } from '../context';
 import { TextLabel1, TextLabel2 } from '../../internal/text';
-import { TokenChip } from '../../token';
+import { TokenChip, TokenSelectDropdown } from '../../token';
 import { cn } from '../../utils/cn';
 import { Address, erc20Abi } from 'viem';
+import { TextInput } from '../../internal/form/TextInput';
 import { useBalance, useReadContract } from 'wagmi';
 import { isValidAmount } from '../../utils/isValidAmount';
 import { getTokenBalances } from '../core/getTokenBalances';
 import type { UseBalanceReturnType, UseReadContractReturnType } from 'wagmi';
 import type { SwapAmountInputReact } from '../types';
+import type { Token } from '../../token';
 
-export function SwapAmountInput({ label, token, type }: SwapAmountInputReact) {
+
+
+export function SwapAmountInput({
+  label,
+  token,
+  type,
+  swappableTokens,
+}: SwapAmountInputReact) {
   const {
     address,
     fromAmount,
+    fromToken,
+    handleFromAmountChange,
+    handleToAmountChange,
     setFromAmount,
     setFromToken,
     setToAmount,
     setToToken,
     toAmount,
+    toToken,
   } = useContext(SwapContext);
 
-  const amount = useMemo(() => {
-    if (type === 'to') {
-      return toAmount;
-    }
-    return fromAmount;
-  }, [type, toAmount, fromAmount]);
-
-  const setAmount = useMemo(() => {
-    if (type === 'to') {
-      return setToAmount;
-    }
-    return setFromAmount;
-  }, [type, setToAmount, setFromAmount]);
-
-  const setToken = useMemo(() => {
-    if (type === 'to') {
-      return setToToken;
-    }
-    return setFromToken;
-  }, [type, setFromToken, setToToken]);
+  const { amount, setAmount, handleAmountChange, setToken, selectedToken } =
+    useMemo(() => {
+      if (type === 'to') {
+        return {
+          amount: toAmount,
+          selectedToken: toToken,
+          setAmount: setToAmount,
+          setToken: setToToken,
+          handleAmountChange: handleToAmountChange,
+        };
+      }
+      return {
+        amount: fromAmount,
+        selectedToken: fromToken,
+        setAmount: setFromAmount,
+        setToken: setFromToken,
+        handleAmountChange: handleFromAmountChange,
+      };
+    }, [
+      fromAmount,
+      fromToken,
+      handleFromAmountChange,
+      handleToAmountChange,
+      setFromAmount,
+      setFromToken,
+      setToAmount,
+      setToToken,
+      toAmount,
+      toToken,
+      type,
+    ]);
 
   // returns ETH balance
   const ethBalanceResponse: UseBalanceReturnType = useBalance({
@@ -65,14 +89,17 @@ export function SwapAmountInput({ label, token, type }: SwapAmountInputReact) {
     });
   }, [balanceResponse?.data, ethBalanceResponse?.data?.formatted, token]);
 
-  const handleAmountChange = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-      if (isValidAmount(event.target.value)) {
-        setAmount?.(event.target.value);
-      }
-    },
-    [setAmount],
-  );
+  // we are mocking the token selectors so i'm not able
+  // to test this since the components aren't actually rendering
+  /* istanbul ignore next */
+  const filteredTokens = useMemo(() => {
+    if (type === 'to') {
+      return swappableTokens?.filter(
+        (t: Token) => t.symbol !== fromToken?.symbol,
+      );
+    }
+    return swappableTokens?.filter((t: Token) => t.symbol !== toToken?.symbol);
+  }, [fromToken, swappableTokens, toToken, type]);
 
   const handleMaxButtonClick = useCallback(() => {
     if (!convertedBalance) {
@@ -99,14 +126,24 @@ export function SwapAmountInput({ label, token, type }: SwapAmountInputReact) {
         <TextLabel2>{label}</TextLabel2>
       </div>
       <div className="flex w-full items-center justify-between">
-        <input
+        <TextInput
           className="w-full border-[none] bg-transparent text-5xl text-gray-500 outline-none"
           data-testid="ockSwapAmountInput_Input"
           onChange={handleAmountChange}
           placeholder="0.0"
           value={amount}
+          setValue={setAmount}
+          delayMs={200}
+          inputValidator={isValidAmount}
         />
-        <TokenChip token={token} />
+        {filteredTokens && (
+          <TokenSelectDropdown
+            options={filteredTokens}
+            setToken={setToken}
+            token={selectedToken}
+          />
+        )}
+        {token && !filteredTokens && <TokenChip token={token} />}
       </div>
       <div className="mt-4 flex w-full justify-between">
         <TextLabel2>~$0.0</TextLabel2>

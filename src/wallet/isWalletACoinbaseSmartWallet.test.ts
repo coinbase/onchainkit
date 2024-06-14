@@ -2,15 +2,43 @@ import {
   CB_SW_PROXY_BYTECODE,
   CB_SW_V1_IMPLEMENTATION_ADDRESS,
 } from './constants';
-import { isWalletASmartWallet } from './isWalletASmartWallet';
+import { isWalletACoinbaseSmartWallet } from './isWalletACoinbaseSmartWallet';
 import type { UserOperation } from 'permissionless';
 import type { PublicClient } from 'viem';
 
-describe('isWalletASmartWallet', () => {
+describe('isWalletACoinbaseSmartWallet', () => {
   const client = {
     getBytecode: jest.fn(),
     request: jest.fn(),
   } as unknown as PublicClient;
+
+  it('should return false for an undeployed account that does not use the Smart Wallet factory', async () => {
+    const userOp = {
+      initCode: 'other-factory',
+    } as unknown as UserOperation<'v0.6'>;
+
+    (client.getBytecode as jest.Mock).mockReturnValue(undefined);
+
+    const result = await isWalletACoinbaseSmartWallet({ client, userOp });
+    expect(result).toEqual({
+      isCoinbaseSmartWallet: false,
+      error: 'Invalid factory address',
+      code: 'W_ERR_1',
+    });
+  });
+
+  it('should return true for an undeployed account that does use the Smart Wallet factory', async () => {
+    const userOp = {
+      initCode: '0x0BA5ED0c6AA8c49038F819E587E2633c4A9F428a1234',
+    } as unknown as UserOperation<'v0.6'>;
+
+    (client.getBytecode as jest.Mock).mockReturnValue(undefined);
+
+    const result = await isWalletACoinbaseSmartWallet({ client, userOp });
+    expect(result).toEqual({
+      isCoinbaseSmartWallet: true,
+    });
+  });
 
   it('should return false for an invalid sender proxy address', async () => {
     const userOp = {
@@ -22,11 +50,11 @@ describe('isWalletASmartWallet', () => {
       '0x0000000000000000000000000000000000000000000000000000000000000000',
     );
 
-    const result = await isWalletASmartWallet({ client, userOp });
+    const result = await isWalletACoinbaseSmartWallet({ client, userOp });
     expect(result).toEqual({
-      isSmartWallet: false,
+      isCoinbaseSmartWallet: false,
       error: 'Invalid bytecode',
-      code: 'W_ERR_1',
+      code: 'W_ERR_2',
     });
   });
 
@@ -43,11 +71,11 @@ describe('isWalletASmartWallet', () => {
       differentImplementationAddress,
     );
 
-    const result = await isWalletASmartWallet({ client, userOp });
+    const result = await isWalletACoinbaseSmartWallet({ client, userOp });
     expect(result).toEqual({
-      isSmartWallet: false,
+      isCoinbaseSmartWallet: false,
       error: 'Invalid implementation address',
-      code: 'W_ERR_4',
+      code: 'W_ERR_5',
     });
   });
 
@@ -66,8 +94,8 @@ describe('isWalletASmartWallet', () => {
       `0x${CB_SW_V1_IMPLEMENTATION_ADDRESS.slice(2).padStart(64, '0')}`,
     );
 
-    const result = await isWalletASmartWallet({ client, userOp });
-    expect(result).toEqual({ isSmartWallet: true });
+    const result = await isWalletACoinbaseSmartWallet({ client, userOp });
+    expect(result).toEqual({ isCoinbaseSmartWallet: true });
   });
 
   it('should return false when there is an error retrieving bytecode', async () => {
@@ -82,11 +110,11 @@ describe('isWalletASmartWallet', () => {
       '0x0000000000000000000000000000000000000000000000000000000000000000',
     );
 
-    const result = await isWalletASmartWallet({ client, userOp });
+    const result = await isWalletACoinbaseSmartWallet({ client, userOp });
     expect(result).toEqual({
-      isSmartWallet: false,
+      isCoinbaseSmartWallet: false,
       error: 'Error retrieving bytecode',
-      code: 'W_ERR_2',
+      code: 'W_ERR_3',
     });
   });
 
@@ -100,11 +128,11 @@ describe('isWalletASmartWallet', () => {
       new Error('Failed to fetch implementation address'),
     );
 
-    const result = await isWalletASmartWallet({ client, userOp });
+    const result = await isWalletACoinbaseSmartWallet({ client, userOp });
     expect(result).toEqual({
-      isSmartWallet: false,
+      isCoinbaseSmartWallet: false,
       error: 'Error retrieving implementation address',
-      code: 'W_ERR_3',
+      code: 'W_ERR_4',
     });
   });
 });

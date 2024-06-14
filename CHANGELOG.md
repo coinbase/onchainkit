@@ -1,14 +1,31 @@
 # Changelog
 
+## 0.20.9
+
+### Patch Changes
+
+- 5479818: - **fix**: fix get quote logic in `Swap` component. By @kyhyco #568
+
+## 0.20.8
+
+### Patch Changes
+
+- **fix**: swap `Token` pair mode. By @kyhyco #566 5347ea9
+- **feat**: added input delay to `SwapAmountInput`. By @kyhyco #563
+- **feat**: addeded swappable tokens to `SwapAmountInput`. By @abcrane123 #561
+- **fix**: updated Smart Wallet util. By @lukasrosario #564
+- **chore**: updated `isWalletASmartWallet` name to be `isWalletACoinbaseSmartWallet`. We want to explicitly state that this is checking for Coinbase Smart Wallets. By @cpcramer #562
+- **feat**: enableded linting in CI. By @zizzamia #559
+
 ## 0.20.7
 
 ### Patch Changes
 
-- 1cd548a: - **fix**: fix `Identity` components lint errors. By @kyhyco #555
-  - **fix**: fix `Token` component lint errors. By @kyhyco #554
-  - **feat**: updated `Swap` style. By @kyhyco #553
-  - **feat**: refactored and clean up internals. By @zizzamia #552
-  - **feat**: introduce `Inter` font-family and internal text components. By @kyhyco #506
+- **fix**: fix `Identity` components lint errors. By @kyhyco #555 1cd548a
+- **fix**: fix `Token` component lint errors. By @kyhyco #554
+- **feat**: updated `Swap` style. By @kyhyco #553
+- **feat**: refactored and clean up internals. By @zizzamia #552
+- **feat**: introduce `Inter` font-family and internal text components. By @kyhyco #506
 
 ## 0.20.6
 
