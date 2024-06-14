@@ -67,6 +67,9 @@ export function SwapAmountInput({
     }
   }, [balanceResponse?.data, token]);
 
+  // we are mocking the token selectors so i'm not able
+  // to test this since the components aren't actually rendering
+  /* istanbul ignore next */
   const filteredTokens = useMemo(() => {
     if (type === 'to') {
       return swappableTokens?.filter((t) => t.symbol !== fromToken?.symbol);

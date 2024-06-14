@@ -44,7 +44,7 @@ export function TokenSelectDropdown({
   }, [handleBlur]);
 
   return (
-    <div className={'relative'}>
+    <div className={'relative'} data-testid="ockTokenSelectDropdown_Container">
       <TokenSelectButton
         ref={buttonRef}
         onClick={handleToggle}
