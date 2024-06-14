@@ -51,7 +51,7 @@ export const TokenSelectButton = forwardRef(function TokenSelectButton(
     <button
       type="button"
       data-testid="ockTokenSelectButton_Button"
-      className="flex w-fit items-center gap-2 rounded-lg bg-[#eef0f3] px-3 py-1 outline-none active:bg-[#bfc1c3] hover:bg-[#cacbce] shadow-[0px_8px_12px_0px_#5B616E1F]"
+      className="flex w-fit items-center gap-2 rounded-lg bg-[#eef0f3] px-3 py-1 shadow-[0px_8px_12px_0px_#5B616E1F] outline-none active:bg-[#bfc1c3] hover:bg-[#cacbce]"
       onClick={onClick}
       ref={ref}
     >
