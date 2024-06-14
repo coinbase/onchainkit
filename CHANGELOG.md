@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- 5479818: - **fix**: fix get quote logic in `Swap` component. By @kyhyco #568
+- **fix**: fix get quote logic in `Swap` component. By @kyhyco #568 5479818
 
 ## 0.20.8
 
