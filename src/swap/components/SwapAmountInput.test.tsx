@@ -170,7 +170,7 @@ describe('SwapAmountInput', () => {
       </SwapContext.Provider>,
     );
 
-    const input = screen.getByTestId('ockTextInput_Search');
+    const input = screen.getByTestId('ockTextInput_Input');
     expect(input).toHaveValue('10');
   });
 
@@ -181,7 +181,7 @@ describe('SwapAmountInput', () => {
       </SwapContext.Provider>,
     );
 
-    const input = screen.getByTestId('ockTextInput_Search');
+    const input = screen.getByTestId('ockTextInput_Input');
     expect(input).toHaveValue('20');
   });
 
@@ -192,7 +192,7 @@ describe('SwapAmountInput', () => {
       </SwapContext.Provider>,
     );
 
-    const input = screen.getByTestId('ockTextInput_Search');
+    const input = screen.getByTestId('ockTextInput_Input');
     fireEvent.change(input, { target: { value: '15' } });
 
     expect(mockContextValue.setFromAmount).toHaveBeenCalledWith('15');
@@ -205,7 +205,7 @@ describe('SwapAmountInput', () => {
       </SwapContext.Provider>,
     );
 
-    const input = screen.getByTestId('ockTextInput_Search');
+    const input = screen.getByTestId('ockTextInput_Input');
     fireEvent.change(input, { target: { value: '15' } });
 
     expect(mockContextValue.setToAmount).toHaveBeenCalledWith('15');
@@ -218,7 +218,7 @@ describe('SwapAmountInput', () => {
       </SwapContext.Provider>,
     );
 
-    const input = screen.getByTestId('ockTextInput_Search');
+    const input = screen.getByTestId('ockTextInput_Input');
     fireEvent.change(input, { target: { value: 'invalid' } });
 
     expect(mockContextValue.setFromAmount).not.toHaveBeenCalled();

@@ -44,7 +44,7 @@ export function TextInput({
 
   return (
     <input
-      data-testid="ockTextInput_Search"
+      data-testid="ockTextInput_Input"
       type="text"
       className={className}
       placeholder={placeholder}
