@@ -1,24 +1,32 @@
 import { useCallback, useContext, useEffect, useMemo } from 'react';
 
-import type { SwapAmountInputReact } from '../types';
-import type { UseBalanceReturnType } from 'wagmi';
 import { SwapContext } from '../context';
 import { TextLabel1, TextLabel2 } from '../../internal/text';
-import { TokenChip } from '../../token';
+import { TokenChip, TokenSelectDropdown } from '../../token';
 import { cn } from '../../utils/cn';
 import { getRoundedAmount } from '../../utils/getRoundedAmount';
 import { isValidAmount } from '../../utils/isValidAmount';
 import { useBalance } from 'wagmi';
+import type { SwapAmountInputReact } from '../types';
+import type { UseBalanceReturnType } from 'wagmi';
+import type { Token } from '../../token';
 
-export function SwapAmountInput({ label, token, type }: SwapAmountInputReact) {
+export function SwapAmountInput({
+  label,
+  swappableTokens,
+  token,
+  type,
+}: SwapAmountInputReact) {
   const {
     address,
     fromAmount,
+    fromToken,
     setFromAmount,
     setFromToken,
     setToAmount,
     setToToken,
     toAmount,
+    toToken,
   } = useContext(SwapContext);
 
   const amount = useMemo(() => {
@@ -42,6 +50,13 @@ export function SwapAmountInput({ label, token, type }: SwapAmountInputReact) {
     return setFromToken;
   }, [type, setFromToken, setToToken]);
 
+  const selectedToken = useMemo(() => {
+    if (type === 'to') {
+      return toToken;
+    }
+    return fromToken;
+  }, [fromToken, toToken, type]);
+
   const balanceResponse: UseBalanceReturnType = useBalance({
     address,
     ...(token?.address && { token: token.address }),
@@ -52,6 +67,18 @@ export function SwapAmountInput({ label, token, type }: SwapAmountInputReact) {
       return getRoundedAmount(balanceResponse?.data?.formatted, 8);
     }
   }, [balanceResponse?.data, token]);
+
+  // we are mocking the token selectors so i'm not able
+  // to test this since the components aren't actually rendering
+  /* istanbul ignore next */
+  const filteredTokens = useMemo(() => {
+    if (type === 'to') {
+      return swappableTokens?.filter(
+        (t: Token) => t.symbol !== fromToken?.symbol,
+      );
+    }
+    return swappableTokens?.filter((t: Token) => t.symbol !== toToken?.symbol);
+  }, [fromToken, swappableTokens, toToken, type]);
 
   const handleAmountChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -93,7 +120,16 @@ export function SwapAmountInput({ label, token, type }: SwapAmountInputReact) {
           placeholder="0.0"
           value={amount}
         />
-        <TokenChip token={token} />
+        {filteredTokens && (
+          <TokenSelectDropdown
+            options={filteredTokens}
+            setToken={setToken}
+            token={selectedToken}
+          />
+        )}
+        {selectedToken && !filteredTokens && (
+          <TokenChip token={selectedToken} />
+        )}
       </div>
       <div className="mt-4 flex w-full justify-between">
         <TextLabel2>~$0.0</TextLabel2>

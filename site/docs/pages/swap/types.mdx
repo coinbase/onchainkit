@@ -54,6 +54,7 @@ export type GetSwapQuoteResponse = SwapQuote | SwapError;
 ```ts
 type SwapAmountInputReact = {
   label: string; // Descriptive label for the input field
+  swappableTokens?: Token[] // Swappable tokens
   token?: Token; // Selected token
   type: 'to' | 'from'; // Identifies if component is for toToken or fromToken
 };
