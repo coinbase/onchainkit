@@ -1,5 +1,6 @@
-import { decodeAbiParameters } from 'viem';
+import { checksumAddress, decodeAbiParameters } from 'viem';
 import {
+  CB_SW_FACTORY_ADDRESS,
   CB_SW_PROXY_BYTECODE,
   CB_SW_V1_IMPLEMENTATION_ADDRESS,
   ERC_1967_PROXY_IMPLEMENTATION_SLOT,
@@ -20,12 +21,30 @@ export async function isWalletASmartWallet({
 }: IsWalletASmartWalletOptions): Promise<IsWalletASmartWalletResponse> {
   try {
     const code = await client.getBytecode({ address: userOp.sender });
+
+    if (!code) {
+      // no code at address, check that the initCode is deploying a Coinbase Smart Wallet
+      // factory address is first 20 bytes of initCode after '0x'
+      const factoryAddress = userOp.initCode.slice(0, 42) as Address;
+      if (
+        checksumAddress(factoryAddress) !==
+        checksumAddress(CB_SW_FACTORY_ADDRESS)
+      ) {
+        return {
+          isSmartWallet: false,
+          error: 'Invalid factory address',
+          code: 'W_ERR_1',
+        };
+      }
+      return { isSmartWallet: true };
+    }
+
     // Verify if the sender address bytecode matches the Coinbase Smart Wallet proxy bytecode
     if (code !== CB_SW_PROXY_BYTECODE) {
       return {
         isSmartWallet: false,
         error: 'Invalid bytecode',
-        code: 'W_ERR_1',
+        code: 'W_ERR_2',
       };
     }
   } catch (error) {
@@ -33,7 +52,7 @@ export async function isWalletASmartWallet({
     return {
       isSmartWallet: false,
       error: 'Error retrieving bytecode',
-      code: 'W_ERR_2',
+      code: 'W_ERR_3',
     };
   }
 
@@ -51,7 +70,7 @@ export async function isWalletASmartWallet({
     return {
       isSmartWallet: false,
       error: 'Error retrieving implementation address',
-      code: 'W_ERR_3',
+      code: 'W_ERR_4',
     };
   }
 
@@ -62,11 +81,14 @@ export async function isWalletASmartWallet({
   )[0];
 
   // Verify if the implementation address matches the expected Coinbase Smart Wallet address
-  if (implementationAddress !== CB_SW_V1_IMPLEMENTATION_ADDRESS) {
+  if (
+    checksumAddress(implementationAddress) !==
+    checksumAddress(CB_SW_V1_IMPLEMENTATION_ADDRESS)
+  ) {
     return {
       isSmartWallet: false,
       error: 'Invalid implementation address',
-      code: 'W_ERR_4',
+      code: 'W_ERR_5',
     };
   }
 

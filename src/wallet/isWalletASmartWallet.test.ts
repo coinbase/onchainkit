@@ -12,6 +12,34 @@ describe('isWalletASmartWallet', () => {
     request: jest.fn(),
   } as unknown as PublicClient;
 
+  it('should return false for an undeployed account that does not use the Smart Wallet factory', async () => {
+    const userOp = {
+      initCode: 'other-factory',
+    } as unknown as UserOperation<'v0.6'>;
+
+    (client.getBytecode as jest.Mock).mockReturnValue(undefined);
+
+    const result = await isWalletASmartWallet({ client, userOp });
+    expect(result).toEqual({
+      isSmartWallet: false,
+      error: 'Invalid factory address',
+      code: 'W_ERR_1',
+    });
+  });
+
+  it('should return true for an undeployed account that does use the Smart Wallet factory', async () => {
+    const userOp = {
+      initCode: '0x0BA5ED0c6AA8c49038F819E587E2633c4A9F428a1234',
+    } as unknown as UserOperation<'v0.6'>;
+
+    (client.getBytecode as jest.Mock).mockReturnValue(undefined);
+
+    const result = await isWalletASmartWallet({ client, userOp });
+    expect(result).toEqual({
+      isSmartWallet: true,
+    });
+  });
+
   it('should return false for an invalid sender proxy address', async () => {
     const userOp = {
       sender: 'invalid-proxy-address',
@@ -26,7 +54,7 @@ describe('isWalletASmartWallet', () => {
     expect(result).toEqual({
       isSmartWallet: false,
       error: 'Invalid bytecode',
-      code: 'W_ERR_1',
+      code: 'W_ERR_2',
     });
   });
 
@@ -47,7 +75,7 @@ describe('isWalletASmartWallet', () => {
     expect(result).toEqual({
       isSmartWallet: false,
       error: 'Invalid implementation address',
-      code: 'W_ERR_4',
+      code: 'W_ERR_5',
     });
   });
 
@@ -86,7 +114,7 @@ describe('isWalletASmartWallet', () => {
     expect(result).toEqual({
       isSmartWallet: false,
       error: 'Error retrieving bytecode',
-      code: 'W_ERR_2',
+      code: 'W_ERR_3',
     });
   });
 
@@ -104,7 +132,7 @@ describe('isWalletASmartWallet', () => {
     expect(result).toEqual({
       isSmartWallet: false,
       error: 'Error retrieving implementation address',
-      code: 'W_ERR_3',
+      code: 'W_ERR_4',
     });
   });
 });
