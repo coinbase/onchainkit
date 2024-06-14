@@ -31,12 +31,12 @@ export async function isWalletACoinbaseSmartWallet({
         checksumAddress(CB_SW_FACTORY_ADDRESS)
       ) {
         return {
-          isSmartWallet: false,
+          isCoinbaseSmartWallet: false,
           error: 'Invalid factory address',
           code: 'W_ERR_1',
         };
       }
-      return { isSmartWallet: true };
+      return { isCoinbaseSmartWallet: true };
     }
 
     // Verify if the sender address bytecode matches the Coinbase Smart Wallet proxy bytecode

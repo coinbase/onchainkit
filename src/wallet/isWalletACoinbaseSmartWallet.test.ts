@@ -19,9 +19,9 @@ describe('isWalletACoinbaseSmartWallet', () => {
 
     (client.getBytecode as jest.Mock).mockReturnValue(undefined);
 
-    const result = await isWalletASmartWallet({ client, userOp });
+    const result = await isWalletACoinbaseSmartWallet({ client, userOp });
     expect(result).toEqual({
-      isSmartWallet: false,
+      isCoinbaseSmartWallet: false,
       error: 'Invalid factory address',
       code: 'W_ERR_1',
     });
@@ -34,9 +34,9 @@ describe('isWalletACoinbaseSmartWallet', () => {
 
     (client.getBytecode as jest.Mock).mockReturnValue(undefined);
 
-    const result = await isWalletASmartWallet({ client, userOp });
+    const result = await isWalletACoinbaseSmartWallet({ client, userOp });
     expect(result).toEqual({
-      isSmartWallet: true,
+      isCoinbaseSmartWallet: true,
     });
   });
 
