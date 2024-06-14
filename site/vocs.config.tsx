@@ -126,9 +126,7 @@ export default defineConfig({
   ],
   vite: {
     define: {
-      NEXT_PUBLIC_CDP_API_KEY: JSON.stringify(
-        process.env.NEXT_PUBLIC_CDP_API_KEY,
-      ),
+      VITE_CDP_API_KEY: JSON.stringify(process.env.NEXT_PUBLIC_CDP_API_KEY),
     },
   },
 });

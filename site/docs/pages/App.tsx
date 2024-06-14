@@ -26,15 +26,11 @@ const wagmiConfig = createConfig({
 });
 
 export default function App({ children }: { children: ReactNode }) {
-  const isServer = typeof window === 'undefined';
-  if (isServer) {
-    return null;
-  }
-  const NEXT_PUBLIC_CDP_API_KEY = window.NEXT_PUBLIC_CDP_API_KEY;
+  const VITE_CDP_API_KEY = import.meta.env.VITE_CDP_API_KEY;
   return (
     <WagmiProvider config={wagmiConfig}>
       <QueryClientProvider client={queryClient}>
-        <OnchainKitProvider apiKey={NEXT_PUBLIC_CDP_API_KEY} chain={base}>
+        <OnchainKitProvider apiKey={VITE_CDP_API_KEY} chain={base}>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             {children}
           </div>
