@@ -126,6 +126,23 @@ describe('SwapAmountInput', () => {
     );
   });
 
+  it('does not call setAmount when converted balance is undefined on max button click', () => {
+    (require('wagmi').useBalance as jest.Mock).mockReturnValue(
+      mockEthBalanceResponse,
+    );
+
+    render(
+      <SwapContext.Provider value={mockContextValue}>
+        <SwapAmountInput label="From" token={mockToken} type="from" />
+      </SwapContext.Provider>,
+    );
+
+    const maxButton = screen.getByTestId('ockSwapAmountInput_MaxButton');
+    fireEvent.click(maxButton);
+
+    expect(mockContextValue.setFromAmount).not.toHaveBeenCalled();
+  });
+
   it('displays the correct amount when this type is "from"', () => {
     render(
       <SwapContext.Provider value={mockContextValue}>
