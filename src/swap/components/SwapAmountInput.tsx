@@ -143,10 +143,9 @@ export function SwapAmountInput({
               type="button"
               className="flex cursor-pointer items-center justify-center px-2 py-1"
               data-testid="ockSwapAmountInput_MaxButton"
-              disabled={roundedBalance === undefined}
               onClick={handleMaxButtonClick}
             >
-              <TextLabel1 color="#4F46E5">Max</TextLabel1>
+              <TextLabel1 color="indigo-600">Max</TextLabel1>
             </button>
           )}
         </div>
