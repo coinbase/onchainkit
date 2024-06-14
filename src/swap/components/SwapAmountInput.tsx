@@ -10,6 +10,10 @@ import { useBalance } from 'wagmi';
 import type { SwapAmountInputReact } from '../types';
 import type { UseBalanceReturnType } from 'wagmi';
 import type { Token } from '../../token';
+import { TextInput } from '../../token/components/TextInput';
+
+/* istanbul ignore next */
+const noop = () => {};
 
 export function SwapAmountInput({
   label,
@@ -80,15 +84,6 @@ export function SwapAmountInput({
     return swappableTokens?.filter((t: Token) => t.symbol !== toToken?.symbol);
   }, [fromToken, swappableTokens, toToken, type]);
 
-  const handleAmountChange = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-      if (isValidAmount(event.target.value)) {
-        setAmount?.(event.target.value);
-      }
-    },
-    [setAmount],
-  );
-
   const handleMaxButtonClick = useCallback(() => {
     if (balanceResponse?.data?.formatted) {
       setAmount?.(balanceResponse?.data?.formatted);
@@ -113,12 +108,15 @@ export function SwapAmountInput({
         <TextLabel2>{label}</TextLabel2>
       </div>
       <div className="flex w-full items-center justify-between">
-        <input
+        <TextInput
           className="w-full border-[none] bg-transparent text-5xl text-gray-500 outline-none"
           data-testid="ockSwapAmountInput_Input"
-          onChange={handleAmountChange}
+          onChange={noop}
           placeholder="0.0"
           value={amount}
+          setValue={setAmount}
+          delayMs={200}
+          inputValidator={isValidAmount}
         />
         {filteredTokens && (
           <TokenSelectDropdown
