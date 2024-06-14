@@ -343,23 +343,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@coinbase/onchainkit@npm:0.20.4":
-  version: 0.20.4
-  resolution: "@coinbase/onchainkit@npm:0.20.4"
+"@coinbase/onchainkit@npm:0.20.7":
+  version: 0.20.7
+  resolution: "@coinbase/onchainkit@npm:0.20.7"
   dependencies:
+    "@tanstack/react-query": "npm:^5"
     clsx: "npm:^2.1.1"
+    graphql: "npm:^14 || ^15 || ^16"
+    graphql-request: "npm:^6.1.0"
+    permissionless: "npm:^0.1.29"
     tailwind-merge: "npm:^2.3.0"
     viem: "npm:^2.13.8"
     wagmi: "npm:^2.9.11"
   peerDependencies:
-    "@tanstack/react-query": ^5
     "@xmtp/frames-validator": ^0.6.0
-    graphql: ^14 || ^15 || ^16
-    graphql-request: ^6.1.0
-    permissionless: ^0.1.29
     react: ^18
     react-dom: ^18
-  checksum: fa30dccf1c6069ff952085f5542aec2049635f78bcbf0f56052839e633de3af99a5eaef3da6f9336ef1d99fadbeb9197d89a4a4220c71f25e2c152cf01e47948
+  checksum: b8a40b8c8b07511593829608e014721f13aaa0d4eeafaf973e22e27258e24d85c3a0623d6d58cbf0031a10dcacf3852dfb21aceef90408764a49978f7c48396f
   languageName: node
   linkType: hard
 
@@ -2668,21 +2668,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/query-core@npm:5.36.0":
-  version: 5.36.0
-  resolution: "@tanstack/query-core@npm:5.36.0"
-  checksum: e68b44eba933bcfb2a3f31ffd5db56c4102396e9598c9bf6e93ef924e625b755e21e4e3dcd919f158dc161dcc83e8249ddba20b71e6717d7d3db896c399f00f4
+"@tanstack/query-core@npm:5.45.0":
+  version: 5.45.0
+  resolution: "@tanstack/query-core@npm:5.45.0"
+  checksum: b1adb0e44a6294f8fc63d1f3915e657e29799ae761012a49430f2694f9fd4f7041984949f61d412ad43e5aaba3ea880ab89b3d2c309cb2860a2913029e9062e9
   languageName: node
   linkType: hard
 
-"@tanstack/react-query@npm:^5.36.0":
-  version: 5.36.0
-  resolution: "@tanstack/react-query@npm:5.36.0"
+"@tanstack/react-query@npm:^5":
+  version: 5.45.0
+  resolution: "@tanstack/react-query@npm:5.45.0"
   dependencies:
-    "@tanstack/query-core": "npm:5.36.0"
+    "@tanstack/query-core": "npm:5.45.0"
   peerDependencies:
     react: ^18.0.0
-  checksum: d6372ad8d956b1ee578afad3a062a1c8011c4cd72a659d99f626a94e1d3f5d73116c77709fdb8e332fe3f846770f76bf97f7415e32bca644bdb48a27da9c50f5
+  checksum: 0bff05c1a048c0f77f85d40adb165785b703b521a2e0f8cc6cd02185f41acd13d75b441ebe1b3887090a155f1f41c90e40079f567a1f00ed34f1f3908531dbb2
   languageName: node
   linkType: hard
 
@@ -5291,7 +5291,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"graphql-request@npm:6":
+"graphql-request@npm:^6.1.0":
   version: 6.1.0
   resolution: "graphql-request@npm:6.1.0"
   dependencies:
@@ -5303,12 +5303,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"graphql@npm:14":
-  version: 14.7.0
-  resolution: "graphql@npm:14.7.0"
-  dependencies:
-    iterall: "npm:^1.2.2"
-  checksum: 7f8085d4d8f4cd20bde0a2c327d21a0beaf2d0539775dc4fc093d2193c51f3c268ab43d11d539ce0ef26ffea227de7c7bd47788636bd66c5a944c95ad0870727
+"graphql@npm:^14 || ^15 || ^16":
+  version: 16.8.2
+  resolution: "graphql@npm:16.8.2"
+  checksum: 921a6321c4efe2540fd5a752093c1542f96cd10b3907b1a8044819f054e6e8a6bca78d93a8eada065a07dfd4e53d89eef99ebdced2c372453e05480e12d8652e
   languageName: node
   linkType: hard
 
@@ -6019,13 +6017,6 @@ __metadata:
   peerDependencies:
     ws: "*"
   checksum: 46f43b07edcf148acba735ddfc6ed985e1e124446043ea32b71023e67671e46619c8818eda8c34a9ac91cb37c475af12a3aeeee676a88a0aceb5d67a3082313f
-  languageName: node
-  linkType: hard
-
-"iterall@npm:^1.2.2":
-  version: 1.3.0
-  resolution: "iterall@npm:1.3.0"
-  checksum: 40de624e5fe937c4c0e511981b91caea9ff2142bfc0316cccc8506eaa03aa253820cc17c5bc5f0a98706c7268a373e5ebee9af9a0c8a359730cf7c05938b57b5
   languageName: node
   linkType: hard
 
@@ -7675,11 +7666,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "onchainkit@workspace:."
   dependencies:
-    "@coinbase/onchainkit": "npm:0.20.4"
-    "@tanstack/react-query": "npm:^5.36.0"
+    "@coinbase/onchainkit": "npm:0.20.7"
     "@types/react": "npm:latest"
-    graphql: "npm:14"
-    graphql-request: "npm:6"
     permissionless: "npm:^0.1.29"
     react: "npm:18"
     react-dom: "npm:18"

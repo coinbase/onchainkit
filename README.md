@@ -269,8 +269,14 @@ Check out the following places for more OnchainKit-related content:
 
 ## Authors
 
-- [@zizzamia](https://github.com/zizzamia) ([X](https://twitter.com/hey_shells), [Warpcast](https://warpcast.com/zizzamia)), Eng Lead
-- [@0xchiaroscuro](https://github.com/0xchiaroscuro) ([X](https://twitter.com/chiaroscuro), [Warpcast](https://warpcast.com/chiaroscuro)), Design Lead
+- [@zizzamia](https://github.com/zizzamia) ([X](https://twitter.com/hey_shells), [Warpcast](https://warpcast.com/zizzamia))
+- [@0xchiaroscuro](https://github.com/0xchiaroscuro) ([X](https://twitter.com/chiaroscuro), [Warpcast](https://warpcast.com/chiaroscuro))
+- [Ky Lee](https://github.com/kyhyco)
+- [Tina He](https://github.com/fakepixels)
+- Mind Apivessa
+- [Alec Chen](https://github.com/0xAlec)
+- [Alissa Crane](https://github.com/abcrane123)
+- [Paul Cramer](https://github.com/cpcramer)
 
 ## License
 

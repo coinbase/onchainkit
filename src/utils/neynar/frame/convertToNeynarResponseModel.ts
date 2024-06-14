@@ -2,6 +2,7 @@ import type { FrameValidationData } from '../../../frame/types';
 import type { NeynarFrameValidationInternalModel } from './types';
 
 export function convertToNeynarResponseModel(
+  /* biome-ignore lint: code needs to be deprecated */
   data: any,
 ): FrameValidationData | undefined {
   if (!data) {

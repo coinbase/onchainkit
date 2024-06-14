@@ -41,7 +41,7 @@ export function TokenSelectDropdown({
     return () => {
       document.removeEventListener('click', handleBlur);
     };
-  }, []);
+  }, [handleBlur]);
 
   return (
     <div className={'relative'}>

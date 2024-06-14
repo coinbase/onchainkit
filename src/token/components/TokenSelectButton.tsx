@@ -1,11 +1,14 @@
 import { type ForwardedRef, forwardRef } from 'react';
 import type { TokenSelectButtonReact } from '../types';
 import { TokenImage } from './TokenImage';
+import { TextBody } from '../../internal/text';
 
 function CaretUp() {
   return (
     <svg
       data-testid="ockTokenSelectButton_CaretUp"
+      role="img"
+      aria-label="ock-caretup-icon"
       width="16"
       height="16"
       viewBox="0 0 16 16"
@@ -24,6 +27,8 @@ function CaretDown() {
   return (
     <svg
       data-testid="ockTokenSelectButton_CaretDown"
+      role="img"
+      aria-label="ock-caretdown-icon"
       width="16"
       height="17"
       viewBox="0 0 16 17"
@@ -44,6 +49,7 @@ export const TokenSelectButton = forwardRef(function TokenSelectButton(
 ) {
   return (
     <button
+      type="button"
       data-testid="ockTokenSelectButton_Button"
       className="flex w-fit items-center gap-2 rounded-2xl bg-[#eef0f3] px-3 py-1 outline-none active:bg-[#bfc1c3] hover:bg-[#cacbce]"
       onClick={onClick}
@@ -52,17 +58,12 @@ export const TokenSelectButton = forwardRef(function TokenSelectButton(
       {token ? (
         <>
           <TokenImage token={token} size={16} />
-          <span
-            data-testid="ockTokenSelectButton_Symbol"
-            className="font-medium text-[#0a0b0d] text-base leading-normal"
-          >
+          <TextBody data-testid="ockTokenSelectButton_Symbol">
             {token.symbol}
-          </span>
+          </TextBody>
         </>
       ) : (
-        <span className="font-medium text-[#0a0b0d] text-base leading-normal">
-          Select
-        </span>
+        <TextBody>Select</TextBody>
       )}
       {isOpen ? <CaretUp /> : <CaretDown />}
     </button>

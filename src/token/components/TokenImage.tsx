@@ -18,7 +18,7 @@ export function TokenImage({ className, size = 24, token }: TokenImageReact) {
         height: `${size}px`,
       },
     };
-  }, [size]);
+  }, [size, name]);
 
   if (!image) {
     return (
@@ -35,6 +35,7 @@ export function TokenImage({ className, size = 24, token }: TokenImageReact) {
   return (
     <img
       className={className || 'ock-tokenimage'}
+      alt="token-image"
       data-testid="ockTokenImage_Image"
       style={styles.image}
       src={image}

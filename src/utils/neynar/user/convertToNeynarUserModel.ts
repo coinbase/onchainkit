@@ -1,6 +1,7 @@
 import type { NeynarUserModel } from './types';
 
 export function convertToNeynarUserModel(
+  /* biome-ignore lint: code needs to be deprecated */
   data: any,
 ): NeynarUserModel | undefined {
   if (!data) {

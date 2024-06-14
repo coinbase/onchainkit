@@ -1,10 +1,10 @@
-import { useCallback, useMemo, useState } from 'react';
-import { cn } from '../../utils/cn';
-import { SwapContext } from '../context';
-import { getSwapQuote } from '../core/getSwapQuote';
-import { formatTokenAmount, isSwapError } from '../utils';
 import type { SwapError, SwapReact } from '../types';
 import type { Token } from '../../token';
+import { SwapContext } from '../context';
+import { formatTokenAmount } from '../../utils/formatTokenAmount';
+import { getSwapQuote } from '../core/getSwapQuote';
+import { isSwapError } from '../core/isSwapError';
+import { useCallback, useMemo, useState } from 'react';
 
 export function Swap({ address, children, onError }: SwapReact) {
   const [fromAmount, setFromAmount] = useState('');
@@ -39,7 +39,7 @@ export function Swap({ address, children, onError }: SwapReact) {
         onError?.(error as SwapError);
       }
     },
-    [fromToken, toToken, setFromAmount, setToAmount],
+    [fromToken, onError, toToken],
   );
 
   const handleToAmountChange = useCallback(
@@ -69,7 +69,7 @@ export function Swap({ address, children, onError }: SwapReact) {
         onError?.(error as SwapError);
       }
     },
-    [fromToken, toToken, setFromAmount, setToAmount],
+    [fromToken, onError, toToken],
   );
 
   const value = useMemo(() => {
@@ -90,22 +90,14 @@ export function Swap({ address, children, onError }: SwapReact) {
     fromToken,
     handleFromAmountChange,
     handleToAmountChange,
-    setFromToken,
-    setToAmount,
-    setToToken,
     toAmount,
     toToken,
   ]);
 
   return (
     <SwapContext.Provider value={value}>
-      <div className="flex w-[400px] flex-col rounded-xl bg-white">
-        <label
-          className={cn(
-            'box-border w-full border-b border-solid p-4 text-base',
-            'font-semibold text-[#030712] leading-6',
-          )}
-        >
+      <div className="flex w-[400px] flex-col rounded-xl bg-gray-100 px-6 pt-6 pb-4">
+        <label className="mb-4 font-semibold text-[#030712] text-base leading-6">
           Swap
         </label>
         {children}
