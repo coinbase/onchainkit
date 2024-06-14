@@ -32,39 +32,35 @@ export function SwapAmountInput({
     toToken,
   } = useContext(SwapContext);
 
-  const { amount, setAmount, handleAmountChange, setToken } = useMemo(() => {
-    if (type === 'to') {
+  const { amount, setAmount, handleAmountChange, setToken, selectedToken } =
+    useMemo(() => {
+      if (type === 'to') {
+        return {
+          amount: toAmount,
+          selectedToken: toToken,
+          setAmount: setToAmount,
+          setToken: setToToken,
+          handleAmountChange: handleFromAmountChange,
+        };
+      }
       return {
-        amount: toAmount,
-        setAmount: setToAmount,
-        setToken: setToToken,
-        handleAmountChange: handleFromAmountChange,
+        amount: fromAmount,
+        selectedToken: fromToken,
+        setAmount: setFromAmount,
+        setToken: setFromToken,
+        handleAmountChange: handleToAmountChange,
       };
-    }
-    return {
-      amount: fromAmount,
-      setAmount: setFromAmount,
-      setToken: setFromToken,
-      handleAmountChange: handleToAmountChange,
-    };
-  }, [
-    fromAmount,
-    handleFromAmountChange,
-    handleToAmountChange,
-    setFromAmount,
-    setFromToken,
-    setToAmount,
-    setToToken,
-    toAmount,
-    type,
-  ]);
-
-  const selectedToken = useMemo(() => {
-    if (type === 'to') {
-      return toToken;
-    }
-    return fromToken;
-  }, [fromToken, toToken, type]);
+    }, [
+      fromAmount,
+      handleFromAmountChange,
+      handleToAmountChange,
+      setFromAmount,
+      setFromToken,
+      setToAmount,
+      setToToken,
+      toAmount,
+      type,
+    ]);
 
   const balanceResponse: UseBalanceReturnType = useBalance({
     address,
