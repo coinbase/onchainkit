@@ -32,6 +32,8 @@ export function Avatar({
     return (
       loadingComponent || (
         <svg
+          role="img"
+          aria-label="ock-avatar-loading-image"
           data-testid="ockAvatarLoadingSvg"
           width="32"
           height="32"
@@ -66,6 +68,8 @@ export function Avatar({
       <WithAvatarBadge showAttestation={showAttestation} address={address}>
         {defaultComponent || (
           <svg
+            role="img"
+            aria-label="ock-avatar-default-svg"
             data-testid="ockAvatarDefaultSvg"
             xmlns="http://www.w3.org/2000/svg"
             height="32"
@@ -80,6 +84,7 @@ export function Avatar({
 
   return (
     <WithAvatarBadge showAttestation={showAttestation} address={address}>
+      {/* biome-ignore lint: alt gets assigned */}
       <img
         className={cn('rounded-full', className)}
         loading="lazy"
