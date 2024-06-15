@@ -1,14 +1,15 @@
 import type { ReactNode } from 'react';
+import { cn } from '../../utils/cn';
 
 type TextLabel1React = {
   children: ReactNode;
-  color?: string;
+  className: string;
 };
 
 /* istanbul ignore next */
-export function TextLabel1({ children, color = 'black' }: TextLabel1React) {
+export function TextLabel1({ children, className }: TextLabel1React) {
   return (
-    <span className={`text-${color} font-bold text-sans text-sm leading-5`}>
+    <span className={cn('font-bold text-sans text-sm leading-5', className)}>
       {children}
     </span>
   );
