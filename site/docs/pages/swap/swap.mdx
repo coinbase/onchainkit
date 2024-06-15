@@ -15,13 +15,14 @@ for initiating the transaction.
 ## Usage
 
 ```tsx [code]
-import { Swap, SwapAmountInput, SwapButton } from '@coinbase/onchainkit/swap';
+import { Swap, SwapAmountInput, SwapButton, SwapToggleButton } from '@coinbase/onchainkit/swap';
 
 const address = '0x1234567890';
 
 <Swap address={address} onError={onError}>
-  <SwapAmountInput label="Sell" token={fromToken} type="from" />
-  <SwapAmountInput label="Buy" token={toToken} type="to" />
+  <SwapAmountInput label="Sell" swappableTokens={swappableTokens} token={fromToken} type="from" />
+  <SwapToggleButton />
+  <SwapAmountInput label="Buy" swappableTokens={swappableTokens} token={toToken} type="to" />
   <SwapButton onError={onError} onSubmit={onSubmit} />
 </Swap>;
 ```
