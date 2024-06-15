@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- 8aff0e8: - **fix**: fix `TokenSelectButton` hit detection. By @kyhyco #577
+- **fix**: fix `TokenSelectButton` hit detection. By @kyhyco #577 8aff0e8
 
 ## 0.20.10
 
