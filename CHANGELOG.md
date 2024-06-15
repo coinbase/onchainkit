@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.20.12
+
+### Patch Changes
+
+- fb26571: - **fix**: `SwapAmountInput` now correctly displays text styles. By @kyhyco #581
+
 ## 0.20.11
 
 ### Patch Changes
