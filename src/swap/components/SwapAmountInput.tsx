@@ -128,7 +128,7 @@ export function SwapAmountInput({
       data-testid="ockSwapAmountInput_Container"
     >
       <div className="flex w-full items-center justify-between">
-        <TextLabel2>{label}</TextLabel2>
+        <TextLabel2 className="text-gray-500">{label}</TextLabel2>
       </div>
       <div className="flex w-full items-center justify-between">
         <TextInput
@@ -154,9 +154,9 @@ export function SwapAmountInput({
       </div>
       <div className="mt-4 flex w-full justify-between">
         <TextLabel2>{''}</TextLabel2>
-        <div>
+        <div className="flex items-center">
           {roundedBalance && (
-            <TextLabel2>{`Balance: ${roundedBalance}`}</TextLabel2>
+            <TextLabel2 className="text-gray-500">{`Balance: ${roundedBalance}`}</TextLabel2>
           )}
           {type === 'from' && (
             <button
@@ -165,7 +165,7 @@ export function SwapAmountInput({
               data-testid="ockSwapAmountInput_MaxButton"
               onClick={handleMaxButtonClick}
             >
-              <TextLabel1 color="indigo-600">Max</TextLabel1>
+              <TextLabel1 className="text-indigo-600">Max</TextLabel1>
             </button>
           )}
         </div>

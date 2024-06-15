@@ -1,12 +1,14 @@
 import type { ReactNode } from 'react';
+import { cn } from '../../utils/cn';
 
 type TextLabel2React = {
   children: ReactNode;
+  className?: string;
 };
 
-export function TextLabel2({ children }: TextLabel2React) {
+export function TextLabel2({ children, className }: TextLabel2React) {
   return (
-    <span className="text-gray-500 text-sans text-sm leading-5">
+    <span className={cn('text-sans text-sm leading-5', className)}>
       {children}
     </span>
   );
