@@ -124,4 +124,9 @@ export default defineConfig({
       ],
     },
   ],
+  vite: {
+    define: {
+      VITE_CDP_API_KEY: JSON.stringify(process.env.VITE_CDP_API_KEY),
+    },
+  },
 });
