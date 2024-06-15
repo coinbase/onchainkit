@@ -1,6 +1,11 @@
 'use client';
 import { useCallback } from 'react';
-import { Swap, SwapAmountInput, SwapButton } from '@coinbase/onchainkit/swap';
+import {
+  Swap,
+  SwapAmountInput,
+  SwapButton,
+  SwapToggleButton,
+} from '@coinbase/onchainkit/swap';
 import { ConnectAccount } from '@coinbase/onchainkit/wallet';
 import { useAccount } from 'wagmi';
 import type {
@@ -72,6 +77,7 @@ export default function SwapComponents() {
             token={ETHToken}
             type="from"
           />
+          <SwapToggleButton />
           <SwapAmountInput
             label="Buy"
             swappableTokens={swappableTokens}
