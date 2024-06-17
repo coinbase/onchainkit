@@ -11,7 +11,7 @@ import { formatTokenAmount } from '../../utils/formatTokenAmount';
 import type { SwapError, SwapReact } from '../types';
 import type { Token } from '../../token';
 
-export function Swap({ address, children, onError }: SwapReact) {
+export function Swap({ address, children }: SwapReact) {
   const [error, setError] = useState<SwapError>();
   const [fromAmount, setFromAmount] = useState('');
   const [fromToken, setFromToken] = useState<Token>();
@@ -33,7 +33,6 @@ export function Swap({ address, children, onError }: SwapReact) {
         });
         if (isSwapError(response)) {
           setError(response);
-          onError?.(response);
           return;
         }
         const formattedAmount = formatTokenAmount(
@@ -43,10 +42,9 @@ export function Swap({ address, children, onError }: SwapReact) {
         setToAmount(formattedAmount);
       } catch (err) {
         setError(err as SwapError);
-        onError?.(err as SwapError);
       }
     },
-    [fromToken, onError, toToken],
+    [fromToken, toToken],
   );
 
   const handleToAmountChange = useCallback(
@@ -64,7 +62,6 @@ export function Swap({ address, children, onError }: SwapReact) {
         });
         if (isSwapError(response)) {
           setError(response);
-          onError?.(response);
           return;
         }
         const formattedAmount = formatTokenAmount(
@@ -74,10 +71,9 @@ export function Swap({ address, children, onError }: SwapReact) {
         setFromAmount(formattedAmount);
       } catch (err) {
         setError(err as SwapError);
-        onError?.(err as SwapError);
       }
     },
-    [fromToken, onError, toToken],
+    [fromToken, toToken],
   );
 
   const handleToggle = useCallback(() => {
@@ -96,6 +92,7 @@ export function Swap({ address, children, onError }: SwapReact) {
       handleFromAmountChange,
       handleToAmountChange,
       handleToggle,
+      setError,
       setFromAmount,
       setFromToken,
       setToToken,

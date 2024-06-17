@@ -1,5 +1,4 @@
-import { useContext } from 'react';
-import { SwapContext } from '../context';
+import { useSwapContext } from '../context';
 
 const toggleIcon = (
   <svg
@@ -32,7 +31,7 @@ const toggleIcon = (
 );
 
 export function SwapToggleButton() {
-  const { handleToggle } = useContext(SwapContext);
+  const { handleToggle } = useSwapContext();
   return (
     <button
       type="button"

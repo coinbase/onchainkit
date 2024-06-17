@@ -1,6 +1,6 @@
-import { useCallback, useContext, useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 
-import { SwapContext } from '../context';
+import { useSwapContext } from '../context';
 import { TextLabel1, TextLabel2 } from '../../internal/text';
 import { TokenChip, TokenSelectDropdown } from '../../token';
 import { cn } from '../../utils/cn';
@@ -33,7 +33,7 @@ export function SwapAmountInput({
     setToToken,
     toAmount,
     toToken,
-  } = useContext(SwapContext);
+  } = useSwapContext();
 
   const { amount, setAmount, handleAmountChange, setToken, selectedToken } =
     useMemo(() => {

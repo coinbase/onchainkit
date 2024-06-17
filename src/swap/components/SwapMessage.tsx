@@ -1,10 +1,10 @@
-import { useContext, useEffect, useState } from 'react';
-import { SwapContext } from '../context';
+import { useEffect, useState } from 'react';
+import { useSwapContext } from '../context';
 import { TextMessage } from '../../internal/text';
 
 export function SwapMessage() {
   const [message, setMessage] = useState<string>('');
-  const { error } = useContext(SwapContext);
+  const { error } = useSwapContext();
   useEffect(() => {
     if (!error) {
       setMessage('');

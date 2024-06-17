@@ -40,6 +40,7 @@ const mockContextValue = {
   setFromToken: jest.fn(),
   setToAmount: jest.fn(),
   setToToken: jest.fn(),
+  setError: jest.fn(),
   toAmount: '20',
   toToken: mockToken,
   fromToken: mockETHToken,
