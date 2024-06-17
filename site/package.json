@@ -10,6 +10,7 @@
   "dependencies": {
     "@coinbase/onchainkit": "0.20.14",
     "@types/react": "latest",
+    "@vercel/edge": "^1.1.1",
     "permissionless": "^0.1.29",
     "react": "18",
     "react-dom": "18",
