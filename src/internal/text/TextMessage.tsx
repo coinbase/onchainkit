@@ -7,7 +7,7 @@ type TextMessageReact = {
 /* istanbul ignore next */
 export function TextMessage({ children }: TextMessageReact) {
   return (
-    <span className='font-normal text-gray-900 text-sm leading-tight'>
+    <span className="font-normal text-gray-900 text-sm leading-tight">
       {children}
     </span>
   );
