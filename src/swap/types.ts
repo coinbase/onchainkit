@@ -156,6 +156,7 @@ export type SwapParams = {
 export type SwapReact = {
   address: Address; // Connected address from connector.
   children: ReactNode;
+  title?: string; // Title for the Swap component. (default: "Swap")
 };
 
 /**

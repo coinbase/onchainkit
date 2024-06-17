@@ -11,7 +11,7 @@ import { formatTokenAmount } from '../../utils/formatTokenAmount';
 import type { SwapError, SwapReact } from '../types';
 import type { Token } from '../../token';
 
-export function Swap({ address, children }: SwapReact) {
+export function Swap({ address, children, title = 'Swap' }: SwapReact) {
   const [error, setError] = useState<SwapError>();
   const [fromAmount, setFromAmount] = useState('');
   const [fromToken, setFromToken] = useState<Token>();
@@ -130,7 +130,7 @@ export function Swap({ address, children }: SwapReact) {
     <SwapContext.Provider value={value}>
       <div className="flex w-[500px] flex-col rounded-xl bg-gray-100 px-6 pt-6 pb-4">
         <div className="mb-4">
-          <TextTitle3 className="font-bold">Swap</TextTitle3>
+          <TextTitle3 className="font-bold">{title}</TextTitle3>
         </div>
         {inputs[0]}
         <div className="relative h-1">{toggleButton}</div>
