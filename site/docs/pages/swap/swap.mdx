@@ -72,6 +72,9 @@ export default function SwapComponents() {
     });
   }, [sendTransaction]);
 
+  // Disable SwapButton if additional checks required
+  const isDisabled = false;
+
   return ({ address ? (
     <Swap address={address}> // [!code focus]
       <SwapAmountInput // [!code focus]
@@ -85,7 +88,7 @@ export default function SwapComponents() {
         token={USDCToken} // [!code focus]
         type="to" // [!code focus]
       /> // [!code focus]
-      <SwapButton onSubmit={onSubmit} /> // [!code focus]
+      <SwapButton onSubmit={onSubmit} disabled={isDisabled} /> // [!code focus]
       <SwapMessage /> // [!code focus]
     </Swap> // [!code focus]
   ) : (
@@ -103,4 +106,4 @@ export default function SwapComponents() {
 - [`SwapReact`](/swap/types#swapreact)
 - [`SwapAmountInput`](/swap/types#swapamountinput)
 - [`SwapToggleButton`](/swap/types#swaptogglebutton)
-- [`SwapButton`](/swap/types#swapbutton)
+- [`SwapButtonReact`](/swap/types#swapbuttonreact)

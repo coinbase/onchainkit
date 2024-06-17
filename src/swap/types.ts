@@ -107,6 +107,7 @@ export type SwapAPIResponse = {
  * Note: exported as public Type
  */
 export type SwapButtonReact = {
+  disabled?: boolean; // Disables swap button
   onError?: (error: SwapError) => void;
   onSubmit?: (swapTransaction: BuildSwapTransaction) => void;
 };

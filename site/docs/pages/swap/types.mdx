@@ -85,6 +85,16 @@ type SwapAmountInputReact = {
 };
 ```
 
+## `SwapButtonReact`
+
+```ts
+type SwapButtonReact = {
+  disabled?: boolean; // Disables swap button 
+  onError?: (error: SwapError) => void; // Callback when error occurs
+  onSubmit?: (swapTransaction: BuildSwapTransaction) => void; // Callback to submit Swap
+};
+```
+
 ## `SwapError`
 
 ```ts
