@@ -89,8 +89,7 @@ type SwapAmountInputReact = {
 
 ```ts
 type SwapButtonReact = {
-  disabled?: boolean; // Disables swap button 
-  onError?: (error: SwapError) => void; // Callback when error occurs
+  disabled?: boolean; // Disables swap button
   onSubmit?: (swapTransaction: BuildSwapTransaction) => void; // Callback to submit Swap
 };
 ```
@@ -126,8 +125,6 @@ type SwapQuote = {
 type SwapReact = {
   address: Address; // Connected address from connector.
   children: ReactNode; // Children components to render
-  onError?: (error: SwapError) => void; // Callback when swap is unsuccessful
-  onSuccess?: (swapTransaction: BuildSwapTransaction) => void; // Callback when swap is successful
 };
 ```
 

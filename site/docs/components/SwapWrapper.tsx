@@ -1,26 +1,23 @@
 'use client';
-// import {
-//   Swap,
-//   SwapAmountInput,
-//   SwapButton,
-//   SwapMessage,
-//   SwapToggleButton,
-// } from '../../../src/swap/index.ts';
-import {
-  Swap,
-  SwapAmountInput,
-  SwapButton,
-  SwapMessage,
-  SwapToggleButton,
-} from '@coinbase/onchainkit/swap';
-import { ConnectAccount } from '@coinbase/onchainkit/wallet';
+import { useCallback, type ReactNode } from 'react';
 import { useAccount } from 'wagmi';
 // import { useSendTransaction } from 'wagmi';
+import type { BuildSwapTransaction } from '@coinbase/onchainkit/swap';
 import type { Token } from '@coinbase/onchainkit/token';
+import type { Address } from 'viem';
 
-export default function SwapComponents() {
+type SwapComponentsChildren = {
+  address: Address | undefined;
+  swappableTokens: Token[];
+  onSubmit: (b: BuildSwapTransaction) => void;
+};
+
+type SwapComponentsReact = {
+  children: (props: SwapComponentsChildren) => ReactNode;
+};
+
+export default function SwapComponents({ children }: SwapComponentsReact) {
   const { address } = useAccount();
-  // const { sendTransaction } = useSendTransaction();
 
   const DEGENToken: Token = {
     name: 'DEGEN',
@@ -64,32 +61,12 @@ export default function SwapComponents() {
 
   const swappableTokens = [DEGENToken, ETHToken, USDCToken, WETHToken];
 
+  const onSubmit = useCallback(() => {}, []);
+
   return (
     <main className="flex flex-col">
       <div className="flex items-center space-x-4">
-        {address ? (
-          <Swap address={address}>
-            <SwapAmountInput
-              label="Sell"
-              swappableTokens={swappableTokens}
-              token={ETHToken}
-              type="from"
-            />
-            <SwapToggleButton />
-            <SwapAmountInput
-              label="Buy"
-              swappableTokens={swappableTokens}
-              token={USDCToken}
-              type="to"
-            />
-            <SwapButton disabled={true} />
-            <SwapMessage />
-          </Swap>
-        ) : (
-          <p>
-            <ConnectAccount />
-          </p>
-        )}
+        {children({ address, swappableTokens, onSubmit })}
       </div>
     </main>
   );
