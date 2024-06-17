@@ -10,6 +10,7 @@ export type {
   BuildSwapTransaction,
   BuildSwapTransactionParams,
   BuildSwapTransactionResponse,
+  Fee,
   GetSwapQuoteParams,
   GetSwapQuoteResponse,
   SwapReact,

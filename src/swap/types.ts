@@ -1,4 +1,4 @@
-import type { Account, Address, Hex } from 'viem';
+import type { Address, Hex } from 'viem';
 import type { Token } from '../token/types';
 import type { ReactNode } from 'react';
 
@@ -27,6 +27,9 @@ export type BuildSwapTransactionParams = GetSwapQuoteParams & {
   fromAddress: Address; // The address of the user
 };
 
+/**
+ * Note: exported as public Type
+ */
 export type Fee = {
   amount: string; // The amount of the fee
   baseAsset: Token; // The base asset for the fee

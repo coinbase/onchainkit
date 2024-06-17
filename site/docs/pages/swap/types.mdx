@@ -36,6 +36,16 @@ type BuildSwapTransactionParams = {
 };
 ```
 
+## `Fee`
+
+```ts
+type Fee = {
+  amount: string; // The amount of the fee
+  baseAsset: Token; // The base asset for the fee
+  percentage: string; // The percentage of the fee
+};
+```
+
 ## `GetSwapQuoteParams`
 
 ```ts
