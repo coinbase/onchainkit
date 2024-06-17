@@ -20,7 +20,7 @@ export function getTokenBalances({
     };
   }
 
-  if (token && tokenBalance) {
+  if (token && (tokenBalance || tokenBalance === 0n)) {
     const convertedBalance = formatUnits(tokenBalance, token?.decimals);
     return {
       convertedBalance,

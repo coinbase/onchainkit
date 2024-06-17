@@ -6,7 +6,7 @@ import { buildSwapTransaction } from '../core/buildSwapTransaction';
 import { cn } from '../../utils/cn';
 import { isSwapError } from '../core/isSwapError';
 
-export function SwapButton({ disabled, onSubmit }: SwapButtonReact) {
+export function SwapButton({ disabled = false, onSubmit }: SwapButtonReact) {
   const { address, fromAmount, fromToken, toToken, setError } =
     useSwapContext();
 
