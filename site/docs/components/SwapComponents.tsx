@@ -1,5 +1,5 @@
 'use client';
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 // import {
 //   Swap,
 //   SwapAmountInput,
@@ -11,6 +11,7 @@ import {
   Swap,
   SwapAmountInput,
   SwapButton,
+  SwapMessage,
   SwapToggleButton,
 } from '@coinbase/onchainkit/swap';
 import { ConnectAccount } from '@coinbase/onchainkit/wallet';
@@ -22,9 +23,17 @@ import type {
 } from '@coinbase/onchainkit/swap';
 import type { Token } from '@coinbase/onchainkit/token';
 
+type PreparedTransaction = {
+  to: string;
+  value: string;
+  data: string;
+};
+
 export default function SwapComponents() {
   const { address } = useAccount();
   // const { sendTransaction } = useSendTransaction();
+  const [preparedTransaction, setPreparedTransaction] =
+    useState<PreparedTransaction | null>(null);
 
   const DEGENToken: Token = {
     name: 'DEGEN',
@@ -79,6 +88,7 @@ export default function SwapComponents() {
       //   value: transaction.value,
       //   data: transaction.data,
       // });
+      setPreparedTransaction(transaction);
     },
     [],
   );
@@ -88,29 +98,53 @@ export default function SwapComponents() {
   }, []);
 
   return (
-    <main className="flex items-center space-x-4">
-      {address ? (
-        <Swap address={address} onError={onError}>
-          <SwapAmountInput
-            label="Sell"
-            swappableTokens={swappableTokens}
-            token={ETHToken}
-            type="from"
-          />
-          <SwapToggleButton />
-          <SwapAmountInput
-            label="Buy"
-            swappableTokens={swappableTokens}
-            token={USDCToken}
-            type="to"
-          />
-          <SwapButton onError={onError} onSubmit={onSubmit} />
-        </Swap>
-      ) : (
-        <p>
-          <ConnectAccount />
-        </p>
-      )}
+    <main className="flex flex-col">
+      <div className="flex items-center space-x-4">
+        {address ? (
+          <Swap address={address} onError={onError}>
+            <SwapAmountInput
+              label="Sell"
+              swappableTokens={swappableTokens}
+              token={ETHToken}
+              type="from"
+            />
+            <SwapToggleButton />
+            <SwapAmountInput
+              label="Buy"
+              swappableTokens={swappableTokens}
+              token={USDCToken}
+              type="to"
+            />
+            <SwapButton onError={onError} onSubmit={onSubmit} />
+            <SwapMessage />
+          </Swap>
+        ) : (
+          <p>
+            <ConnectAccount />
+          </p>
+        )}
+      </div>
+      <div className="flex flex-col pt-4">
+        {address && preparedTransaction && (
+          <>
+            <p className="font-bold text-large">
+              Use Wagmi's sendTransaction in the onSubmit callback to complete
+              the submission in your application.
+            </p>
+            <pre>
+              {JSON.stringify(
+                {
+                  to: preparedTransaction?.to,
+                  value: `${preparedTransaction?.value}`,
+                  data: preparedTransaction?.data,
+                },
+                null,
+                2,
+              )}
+            </pre>
+          </>
+        )}
+      </div>
     </main>
   );
 }
