@@ -6,7 +6,7 @@ import { useCallback, useState } from 'react';
 //   SwapButton,
 //   SwapMessage,
 //   SwapToggleButton,
-// } from '../../../src/swap';
+// } from '../../../src/swap/index.ts';
 import {
   Swap,
   SwapAmountInput,
@@ -17,10 +17,7 @@ import {
 import { ConnectAccount } from '@coinbase/onchainkit/wallet';
 import { useAccount } from 'wagmi';
 // import { useSendTransaction } from 'wagmi';
-import type {
-  BuildSwapTransaction,
-  SwapError,
-} from '@coinbase/onchainkit/swap';
+import type { BuildSwapTransaction } from '@coinbase/onchainkit/swap';
 import type { Token } from '@coinbase/onchainkit/token';
 
 type PreparedTransaction = {
@@ -93,15 +90,11 @@ export default function SwapComponents() {
     [],
   );
 
-  const onError = useCallback((error: SwapError) => {
-    console.error('SwapError:', error);
-  }, []);
-
   return (
     <main className="flex flex-col">
       <div className="flex items-center space-x-4">
         {address ? (
-          <Swap address={address} onError={onError}>
+          <Swap address={address}>
             <SwapAmountInput
               label="Sell"
               swappableTokens={swappableTokens}
@@ -115,7 +108,7 @@ export default function SwapComponents() {
               token={USDCToken}
               type="to"
             />
-            <SwapButton onError={onError} onSubmit={onSubmit} />
+            <SwapButton onSubmit={onSubmit} />
             <SwapMessage />
           </Swap>
         ) : (

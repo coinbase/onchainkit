@@ -1,4 +1,3 @@
-{/* import { Swap, SwapAmountInput, SwapButton } from '../../../../src/swap'; */}
 import App from '../../components/App';
 import SwapComponents from '../../components/SwapComponents';
 
@@ -8,7 +7,7 @@ import SwapComponents from '../../components/SwapComponents';
 Component is actively in development. Stay tuned for upcoming releases.
 :::
 
-The `Swap` components provide a comprehensive interface for users to execute [Token](/token/types#token) swaps. 
+The `Swap` components provide a comprehensive interface for users to execute [Token](/token/types#token) swaps.
 
 Before using them, ensure you've completed all [Getting Started steps](/getting-started).
 
@@ -18,7 +17,7 @@ The components are designed to work together. For each component, ensure the fol
 - `<SwapToggleButton />` - Optional component to toggle between input types.
 - `<SwapButton />` - Set the onSubmit and onError callbacks.
 
-The `SwapButton` component prepares a swap transaction but does not submit it to the blockchain. 
+The `SwapButton` component prepares a swap transaction but does not submit it to the blockchain.
 You need to handle the transaction submission and confirmation in your application, as shown in the `onSubmit` code example.
 
 ## Usage
@@ -73,12 +72,8 @@ export default function SwapComponents() {
     });
   }, [sendTransaction]);
 
-  const onError = useCallback((error: SwapError) => {
-    console.error('SwapError:', error);
-  }, []);
-
   return ({ address ? (
-    <Swap address={address} onError={onError}> // [!code focus]
+    <Swap address={address}> // [!code focus]
       <SwapAmountInput // [!code focus]
         label="Sell" // [!code focus]
         token={ETHToken} // [!code focus]
@@ -90,7 +85,7 @@ export default function SwapComponents() {
         token={USDCToken} // [!code focus]
         type="to" // [!code focus]
       /> // [!code focus]
-      <SwapButton onError={onError} onSubmit={onSubmit} /> // [!code focus]
+      <SwapButton onSubmit={onSubmit} /> // [!code focus]
       <SwapMessage /> // [!code focus]
     </Swap> // [!code focus]
   ) : (
