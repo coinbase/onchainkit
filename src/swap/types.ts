@@ -71,6 +71,16 @@ export type GetSwapQuoteResponse = SwapQuote | SwapError;
 export type GetSwapStateParams = {
   fromTokenBalanceResponse: UseBalanceReturnType | UseReadContractReturnType;
   toTokenBalanceResponse: UseBalanceReturnType | UseReadContractReturnType;
+}
+
+export type GetSwapMessageParams = {
+  error?: SwapError;
+  fromAmount: string;
+  fromToken?: Token;
+  fromTokenBalance?: string;
+  statusMessage?: string;
+  toAmount: string;
+  toToken?: Token;
 };
 
 export type QuoteWarning = {
@@ -124,6 +134,7 @@ export type SwapContextType = {
   error?: SwapError;
   fromAmount: string;
   fromToken?: Token;
+  fromTokenBalance?: string;
   handleFromAmountChange: (a: string) => void;
   handleToAmountChange: (a: string) => void;
   handleToggle: () => void;
@@ -132,6 +143,7 @@ export type SwapContextType = {
   setError: (e: SwapError) => void;
   setFromAmount: (a: string) => void;
   setFromToken: (t: Token) => void;
+  setFromTokenBalance: (b: string) => void;
   setToAmount: (a: string) => void;
   setToToken: (t: Token) => void;
   setSwapLoadingState: (s: SwapLoadingState) => void;

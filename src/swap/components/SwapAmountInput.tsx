@@ -20,12 +20,14 @@ export function SwapAmountInput({
     convertedToTokenBalance,
     fromAmount,
     fromToken,
+    fromTokenBalance,
     handleFromAmountChange,
     handleToAmountChange,
     roundedFromTokenBalance,
     roundedToTokenBalance,
     setFromAmount,
     setFromToken,
+    setFromTokenBalance,
     setToAmount,
     setToToken,
     swapLoadingState,
@@ -110,6 +112,9 @@ export function SwapAmountInput({
     }
   }, [token, setToken]);
 
+  const hasInsufficientBalance =
+    type === 'from' && Number(convertedBalance) < Number(amount);
+
   return (
     <div
       className={cn(
@@ -126,7 +131,11 @@ export function SwapAmountInput({
       </div>
       <div className="flex w-full items-center justify-between">
         <TextInput
-          className="w-full border-[none] bg-transparent font-display text-[2.5rem] text-gray-900 leading-none outline-none"
+          className={cn(
+            'w-full border-[none] bg-transparent font-display text-[2.5rem]',
+            'leading-none outline-none',
+            hasInsufficientBalance ? 'text-[red]' : 'text-gray-900',
+          )}
           onChange={handleAmountChange}
           placeholder="0.0"
           value={amount}
