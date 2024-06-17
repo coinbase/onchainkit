@@ -14,4 +14,11 @@ describe('getRoundedAmount', () => {
     const result = getRoundedAmount(balance, fractionDigits);
     expect(result).toBe('123.456');
   });
+
+  it('handles 0 amount correctly', () => {
+    const balance = '0';
+    const fractionDigits = 10;
+    const result = getRoundedAmount(balance, fractionDigits);
+    expect(result).toBe('0');
+  });
 });
