@@ -229,7 +229,7 @@ export function Swap({ address, children, title = 'Swap' }: SwapReact) {
     toToken,
   ]);
 
-  const { inputs, toggleButton, swapButton } = useMemo(() => {
+  const { inputs, toggleButton, swapButton, swapMessage } = useMemo(() => {
     const childrenArray = Children.toArray(children);
     return {
       // @ts-ignore
@@ -238,6 +238,8 @@ export function Swap({ address, children, title = 'Swap' }: SwapReact) {
       toggleButton: childrenArray.find(({ type }) => type === SwapToggleButton),
       // @ts-ignore
       swapButton: childrenArray.find(({ type }) => type === SwapButton),
+      // @ts-ignore
+      swapMessage: childrenArray.find(({ type }) => type === SwapMessage),
     };
   }, [children]);
 
@@ -258,7 +260,7 @@ export function Swap({ address, children, title = 'Swap' }: SwapReact) {
         <div className="relative h-1">{toggleButton}</div>
         {inputs[1]}
         {swapButton}
-        <SwapMessage />
+        {swapMessage}
       </div>
     </SwapContext.Provider>
   );
