@@ -158,7 +158,7 @@ export const sidebar = [
           {
             text: 'buildSwapTransaction',
             link: '/swap/build-swap-transaction',
-          }
+          },
         ],
       },
       {
