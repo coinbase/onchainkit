@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.20.14
+
+### Patch Changes
+
+- cb44eba: - **feat**: simplified `Transaction` type in `Swap` experience. By @zizzamia #598
+  - **feat**: init `SwapMessage` component. By @zizzamia #596
+
 ## 0.20.13
 
 ### Patch Changes
