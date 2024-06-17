@@ -8,7 +8,7 @@
     "preview": "vocs preview"
   },
   "dependencies": {
-    "@coinbase/onchainkit": "0.20.12",
+    "@coinbase/onchainkit": "0.20.13",
     "@types/react": "latest",
     "permissionless": "^0.1.29",
     "react": "18",

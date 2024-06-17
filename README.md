@@ -222,7 +222,7 @@ If you're seeking basic TypeScript utilities, we have plenty of ready-to-use opt
 
 ##### Swap
 
-Coming soon
+- [getSwapQuote](https://onchainkit.xyz/swap/get-swap-quote)
 
 ##### Token
 
@@ -264,7 +264,7 @@ All our component designs are open-sourced. You can access the [Figma file](http
 
 Check out the following places for more OnchainKit-related content:
 
-- Follow [@zizzamia](https://github.com/zizzamia) ([X](https://twitter.com/zizzamia), [Warpcast](https://warpcast.com/zizzamia)) for project updates
+- Follow [@onchainkit](https://x.com/Onchainkit) or [@zizzamia](https://github.com/zizzamia) ([X](https://twitter.com/zizzamia), [Warpcast](https://warpcast.com/zizzamia)) for project updates
 - Join the discussions on our [OnchainKit warpcast channel](https://warpcast.com/~/channel/onchainkit)
 
 ## Authors
@@ -273,7 +273,7 @@ Check out the following places for more OnchainKit-related content:
 - [@0xchiaroscuro](https://github.com/0xchiaroscuro) ([X](https://twitter.com/chiaroscuro), [Warpcast](https://warpcast.com/chiaroscuro))
 - [Ky Lee](https://github.com/kyhyco)
 - [Tina He](https://github.com/fakepixels)
-- Mind Apivessa
+- [Mind Apivessa](https://github.com/mindapivessa)
 - [Alec Chen](https://github.com/0xAlec)
 - [Alissa Crane](https://github.com/abcrane123)
 - [Paul Cramer](https://github.com/cpcramer)
