@@ -83,6 +83,7 @@ export type RawTransactionData = {
  * Note: exported as public Type
  */
 export type SwapAmountInputReact = {
+  delayMs?: number; // The debounce delay in milliseconds
   label: string; // Descriptive label for the input field
   swappableTokens?: Token[];
   token: Token; // Selected token

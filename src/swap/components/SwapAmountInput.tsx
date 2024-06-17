@@ -15,6 +15,7 @@ import type { SwapAmountInputReact } from '../types';
 import type { Token } from '../../token';
 
 export function SwapAmountInput({
+  delayMs = 1000,
   label,
   token,
   type,
@@ -138,7 +139,7 @@ export function SwapAmountInput({
           placeholder="0.0"
           value={amount}
           setValue={setAmount}
-          delayMs={200}
+          delayMs={delayMs}
           inputValidator={isValidAmount}
         />
         {filteredTokens && (
