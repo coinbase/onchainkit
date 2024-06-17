@@ -12,6 +12,6 @@ export const getRPCUrl = () => {
   }
   return (
     ONCHAIN_KIT_CONFIG.rpcUrl ||
-    `https://api.developer.coinbase.com/rpc/v1/${ONCHAIN_KIT_CONFIG.chain.name.replace(" ", "-").toLowerCase()}/${ONCHAIN_KIT_CONFIG.apiKey}`
+    `https://api.developer.coinbase.com/rpc/v1/${ONCHAIN_KIT_CONFIG.chain.name.replace(' ', '-').toLowerCase()}/${ONCHAIN_KIT_CONFIG.apiKey}`
   );
 };
