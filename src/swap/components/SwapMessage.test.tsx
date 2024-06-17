@@ -6,9 +6,9 @@ import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { SwapMessage } from './SwapMessage';
 import { SwapContext } from '../context';
-import type { Token } from '../../token';
-import type { SwapContextType } from '../types';
 import type { Address } from 'viem';
+import type { SwapContextType, SwapError } from '../types';
+import type { Token } from '../../token';
 
 const mockETHToken: Token = {
   name: 'ETH',
@@ -56,6 +56,38 @@ describe('SwapMessage', () => {
         <SwapMessage />
       </SwapContext.Provider>,
     );
-    expect(screen.getByTestId('ockSwapMessage_Text')).toHaveTextContent('');
+    expect(screen.getByTestId('ockTextMessage_message')).toHaveTextContent('');
+  });
+
+  it('renders the component with a message when error code is -32602', () => {
+    render(
+      <SwapContext.Provider
+        value={{
+          ...mockContextValue,
+          error: { code: -32602 } as SwapError,
+        }}
+      >
+        <SwapMessage />
+      </SwapContext.Provider>,
+    );
+    expect(screen.getByTestId('ockTextMessage_message')).toHaveTextContent(
+      'Liquidity too low for the token',
+    );
+  });
+
+  it('renders the component with a message when error has an error message', () => {
+    render(
+      <SwapContext.Provider
+        value={{
+          ...mockContextValue,
+          error: { error: 'An error occurred' } as SwapError,
+        }}
+      >
+        <SwapMessage />
+      </SwapContext.Provider>,
+    );
+    expect(screen.getByTestId('ockTextMessage_message')).toHaveTextContent(
+      'An error occurred',
+    );
   });
 });

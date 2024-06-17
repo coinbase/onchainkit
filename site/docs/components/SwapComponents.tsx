@@ -105,7 +105,6 @@ export default function SwapComponents() {
             type="to"
           />
           <SwapButton onError={onError} onSubmit={onSubmit} />
-          <SwapMessage />
         </Swap>
       ) : (
         <p>

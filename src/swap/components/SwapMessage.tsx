@@ -8,13 +8,15 @@ export function SwapMessage() {
   useEffect(() => {
     if (!error) {
       setMessage('');
+    } else if (error.code === -32602) {
+      setMessage('Liquidity too low for the token');
     } else if (error.error) {
       setMessage(error.error);
     }
   }, [error]);
   return (
-    <div>
-      <TextMessage data-testid="ockSwapMessage_Text">{message}</TextMessage>
+    <div className="flex">
+      <TextMessage>{message}</TextMessage>
     </div>
   );
 }
