@@ -1,5 +1,4 @@
 'use client';
-import { useCallback, useState } from 'react';
 // import {
 //   Swap,
 //   SwapAmountInput,
@@ -17,20 +16,11 @@ import {
 import { ConnectAccount } from '@coinbase/onchainkit/wallet';
 import { useAccount } from 'wagmi';
 // import { useSendTransaction } from 'wagmi';
-import type { BuildSwapTransaction } from '@coinbase/onchainkit/swap';
 import type { Token } from '@coinbase/onchainkit/token';
-
-type PreparedTransaction = {
-  to: string;
-  value: string;
-  data: string;
-};
 
 export default function SwapComponents() {
   const { address } = useAccount();
   // const { sendTransaction } = useSendTransaction();
-  const [preparedTransaction, setPreparedTransaction] =
-    useState<PreparedTransaction | null>(null);
 
   const DEGENToken: Token = {
     name: 'DEGEN',
@@ -74,22 +64,6 @@ export default function SwapComponents() {
 
   const swappableTokens = [DEGENToken, ETHToken, USDCToken, WETHToken];
 
-  const onSubmit = useCallback(
-    async (swapTransaction: BuildSwapTransaction) => {
-      const { transaction } = swapTransaction;
-      console.log('Prepared swapTransaction:', transaction);
-      // Uncomment the following line to send the transaction
-      // for Localhost testing
-      // const tx = await sendTransaction({
-      //   to: transaction.to,
-      //   value: transaction.value,
-      //   data: transaction.data,
-      // });
-      setPreparedTransaction(transaction);
-    },
-    [],
-  );
-
   return (
     <main className="flex flex-col">
       <div className="flex items-center space-x-4">
@@ -108,34 +82,13 @@ export default function SwapComponents() {
               token={USDCToken}
               type="to"
             />
-            <SwapButton onSubmit={onSubmit} />
+            <SwapButton disabled={true} />
             <SwapMessage />
           </Swap>
         ) : (
           <p>
             <ConnectAccount />
           </p>
-        )}
-      </div>
-      <div className="flex flex-col pt-4">
-        {address && preparedTransaction && (
-          <>
-            <p className="font-bold text-large">
-              Use Wagmi's sendTransaction in the onSubmit callback to complete
-              the submission in your application.
-            </p>
-            <pre>
-              {JSON.stringify(
-                {
-                  to: preparedTransaction?.to,
-                  value: `${preparedTransaction?.value}`,
-                  data: preparedTransaction?.data,
-                },
-                null,
-                2,
-              )}
-            </pre>
-          </>
         )}
       </div>
     </main>

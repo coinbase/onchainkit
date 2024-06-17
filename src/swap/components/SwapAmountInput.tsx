@@ -112,7 +112,8 @@ export function SwapAmountInput({
       return;
     }
     setAmount?.(convertedBalance);
-  }, [convertedBalance, setAmount]);
+    handleAmountChange?.(convertedBalance);
+  }, [convertedBalance, setAmount, handleAmountChange]);
 
   useEffect(() => {
     if (token) {
