@@ -4,6 +4,7 @@ import { useCallback } from 'react';
 //   Swap,
 //   SwapAmountInput,
 //   SwapButton,
+//   SwapMessage,
 //   SwapToggleButton,
 // } from '../../../src/swap';
 import {
@@ -14,6 +15,7 @@ import {
 } from '@coinbase/onchainkit/swap';
 import { ConnectAccount } from '@coinbase/onchainkit/wallet';
 import { useAccount } from 'wagmi';
+// import { useSendTransaction } from 'wagmi';
 import type {
   BuildSwapTransaction,
   SwapError,
@@ -22,6 +24,7 @@ import type { Token } from '@coinbase/onchainkit/token';
 
 export default function SwapComponents() {
   const { address } = useAccount();
+  // const { sendTransaction } = useSendTransaction();
 
   const DEGENToken: Token = {
     name: 'DEGEN',
@@ -69,6 +72,13 @@ export default function SwapComponents() {
     async (swapTransaction: BuildSwapTransaction) => {
       const { transaction } = swapTransaction.transaction;
       console.log('Prepared swapTransaction:', transaction);
+      // Uncomment the following line to send the transaction
+      // for Localhost testing
+      // const tx = await sendTransaction({
+      //   to: transaction.to,
+      //   value: transaction.value,
+      //   data: transaction.data,
+      // });
     },
     [],
   );
@@ -95,6 +105,7 @@ export default function SwapComponents() {
             type="to"
           />
           <SwapButton onError={onError} onSubmit={onSubmit} />
+          <SwapMessage />
         </Swap>
       ) : (
         <p>

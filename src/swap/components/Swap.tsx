@@ -1,16 +1,18 @@
 import { Children, useCallback, useMemo, useState } from 'react';
-import type { SwapError, SwapReact } from '../types';
-import type { Token } from '../../token';
+import { SwapAmountInput } from './SwapAmountInput';
+import { SwapButton } from './SwapButton';
+import { SwapToggleButton } from './SwapToggleButton';
+import { SwapMessage } from './SwapMessage';
 import { SwapContext } from '../context';
-import { formatTokenAmount } from '../../utils/formatTokenAmount';
 import { getSwapQuote } from '../core/getSwapQuote';
 import { isSwapError } from '../core/isSwapError';
-import { SwapAmountInput } from './SwapAmountInput';
-import { SwapToggleButton } from './SwapToggleButton';
-import { SwapButton } from './SwapButton';
 import { TextTitle3 } from '../../internal/text/TextTitle3';
+import { formatTokenAmount } from '../../utils/formatTokenAmount';
+import type { SwapError, SwapReact } from '../types';
+import type { Token } from '../../token';
 
 export function Swap({ address, children, onError }: SwapReact) {
+  const [error, setError] = useState<SwapError>();
   const [fromAmount, setFromAmount] = useState('');
   const [fromToken, setFromToken] = useState<Token>();
   const [toAmount, setToAmount] = useState('');
@@ -30,6 +32,7 @@ export function Swap({ address, children, onError }: SwapReact) {
           amountReference: 'from',
         });
         if (isSwapError(response)) {
+          setError(response);
           onError?.(response);
           return;
         }
@@ -38,8 +41,9 @@ export function Swap({ address, children, onError }: SwapReact) {
           response?.to?.decimals,
         );
         setToAmount(formattedAmount);
-      } catch (error) {
-        onError?.(error as SwapError);
+      } catch (err) {
+        setError(err as SwapError);
+        onError?.(err as SwapError);
       }
     },
     [fromToken, onError, toToken],
@@ -59,6 +63,7 @@ export function Swap({ address, children, onError }: SwapReact) {
           amountReference: 'to',
         });
         if (isSwapError(response)) {
+          setError(response);
           onError?.(response);
           return;
         }
@@ -67,8 +72,9 @@ export function Swap({ address, children, onError }: SwapReact) {
           response?.from?.decimals,
         );
         setFromAmount(formattedAmount);
-      } catch (error) {
-        onError?.(error as SwapError);
+      } catch (err) {
+        setError(err as SwapError);
+        onError?.(err as SwapError);
       }
     },
     [fromToken, onError, toToken],
@@ -84,6 +90,7 @@ export function Swap({ address, children, onError }: SwapReact) {
   const value = useMemo(() => {
     return {
       address,
+      error,
       fromAmount,
       fromToken,
       handleFromAmountChange,
@@ -103,13 +110,13 @@ export function Swap({ address, children, onError }: SwapReact) {
     handleFromAmountChange,
     handleToAmountChange,
     handleToggle,
+    error,
     toAmount,
     toToken,
   ]);
 
-  const { inputs, toggleButton, swapButton } = useMemo(() => {
+  const { inputs, toggleButton, swapButton, swapMessage } = useMemo(() => {
     const childrenArray = Children.toArray(children);
-
     return {
       // @ts-ignore
       inputs: childrenArray.filter(({ type }) => type === SwapAmountInput),
@@ -117,6 +124,8 @@ export function Swap({ address, children, onError }: SwapReact) {
       toggleButton: childrenArray.find(({ type }) => type === SwapToggleButton),
       // @ts-ignore
       swapButton: childrenArray.find(({ type }) => type === SwapButton),
+      // @ts-ignore
+      swapMessage: childrenArray.find(({ type }) => type === SwapMessage),
     };
   }, [children]);
 
@@ -130,6 +139,7 @@ export function Swap({ address, children, onError }: SwapReact) {
         <div className="relative h-1">{toggleButton}</div>
         {inputs[1]}
         {swapButton}
+        {swapMessage}
       </div>
     </SwapContext.Provider>
   );
