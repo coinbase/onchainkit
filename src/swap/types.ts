@@ -85,9 +85,9 @@ export type RawTransactionData = {
 export type SwapAmountInputReact = {
   delayMs?: number; // The debounce delay in milliseconds
   label: string; // Descriptive label for the input field
-  swappableTokens?: Token[];
+  swappableTokens?: Token[];  // Swappable tokens
   token: Token; // Selected token
-  type: 'to' | 'from';
+  type: 'to' | 'from'; // Identifies if component is for toToken or fromToken
 };
 
 export type SwapAPIParams = GetQuoteAPIParams | GetSwapAPIParams;
