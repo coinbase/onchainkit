@@ -6,7 +6,7 @@ import { buildSwapTransaction } from '../core/buildSwapTransaction';
 import { cn } from '../../utils/cn';
 import { isSwapError } from '../core/isSwapError';
 
-export function SwapButton({ onSubmit }: SwapButtonReact) {
+export function SwapButton({ disabled, onSubmit }: SwapButtonReact) {
   const { address, fromAmount, fromToken, toToken, setError } =
     useSwapContext();
 
@@ -36,9 +36,10 @@ export function SwapButton({ onSubmit }: SwapButtonReact) {
       className={cn(
         'w-full rounded-xl bg-indigo-600',
         'mt-4 px-4 py-3 font-medium text-base text-white leading-6',
+        disabled ? 'opacity-[0.38]' : '',
       )}
       onClick={handleSubmit}
-      disabled={!fromAmount || !fromToken || !toToken}
+      disabled={!fromAmount || !fromToken || !toToken || disabled}
     >
       <TextHeadline color="white">Swap</TextHeadline>
     </button>
