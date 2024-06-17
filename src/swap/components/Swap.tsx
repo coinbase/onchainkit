@@ -6,7 +6,7 @@ import { SwapMessage } from './SwapMessage';
 import { SwapContext } from '../context';
 import { getSwapQuote } from '../core/getSwapQuote';
 import { isSwapError } from '../core/isSwapError';
-import { TextTitle3 } from '../../internal/text/TextTitle3';
+import { TextTitle3 } from '../../internal/text';
 import { formatTokenAmount } from '../../utils/formatTokenAmount';
 import type { SwapError, SwapReact } from '../types';
 import type { Token } from '../../token';
@@ -112,7 +112,12 @@ export function Swap({ address, children, title = 'Swap' }: SwapReact) {
     toToken,
   ]);
 
-  const { inputs, toggleButton, swapButton, swapMessage } = useMemo(() => {
+  const {
+    inputs = [],
+    toggleButton,
+    swapButton,
+    swapMessage,
+  } = useMemo(() => {
     const childrenArray = Children.toArray(children);
     return {
       // @ts-ignore
