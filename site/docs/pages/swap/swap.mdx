@@ -66,8 +66,12 @@ export default function SwapComponents() {
     const { transaction } = swapTransaction.transaction;
     console.log('Prepared swapTransaction:', transaction);
     // Transaction submission sample code
-    const result = await sendTransaction(transaction);
-  }, []);
+    const result = await sendTransaction({
+      to: transaction.to,
+      value: transaction.value,
+      data: transaction.data,
+    });
+  }, [sendTransaction]);
 
   const onError = useCallback((error: SwapError) => {
     console.error('SwapError:', error);

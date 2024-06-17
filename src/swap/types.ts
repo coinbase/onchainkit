@@ -110,6 +110,7 @@ export type SwapButtonReact = {
 
 export type SwapContextType = {
   address: Address; // Connected address from connector.
+  error?: SwapError;
   fromAmount: string;
   fromToken?: Token;
   setFromAmount: (a: string) => void;
