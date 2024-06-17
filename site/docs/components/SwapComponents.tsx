@@ -59,9 +59,13 @@ export default function SwapComponents() {
 
   const swappableTokens = [DEGENToken, ETHToken, USDCToken, WETHToken];
 
-  const onSubmit = useCallback((swapTransaction: BuildSwapTransaction) => {
-    console.log('swapTransaction:', swapTransaction);
-  }, []);
+  const onSubmit = useCallback(
+    async (swapTransaction: BuildSwapTransaction) => {
+      const { transaction } = swapTransaction.transaction;
+      console.log('Prepared swapTransaction:', transaction);
+    },
+    [],
+  );
 
   const onError = useCallback((error: SwapError) => {
     console.error('SwapError:', error);

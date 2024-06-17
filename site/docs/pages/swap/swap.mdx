@@ -8,25 +8,90 @@ import SwapComponents from '../../components/SwapComponents';
 Component is actively in development. Stay tuned for upcoming releases.
 :::
 
-The `Swap` component is a comprehensive interface for users to execute token swaps.
+The `Swap` components provide a comprehensive interface for users to execute [Token](/token/types#token) swaps. 
 
-It includes two instances of the `SwapAmountInput` component, enabling users to specify
-the amount of tokens to sell and buy. Additionally, the component features a "Swap" button
-for initiating the transaction.
+Before using them, ensure you've completed all [Getting Started steps](/onchainkit/getting-started).
+
+The components are designed to work together. For each component, ensure the following:
+- `<Swap />` - Set the user's address and error handling.
+- `<SwapAmountInput />` - Set the [Token](/token/types#token) to swap and specify the input type (`from` or `to`).
+- `<SwapToggleButton />` - Optional component to toggle between input types.
+- `<SwapButton />` - Set the onSubmit and onError callbacks.
+
+The `SwapButton` component prepares a swap transaction but does not submit it to the blockchain. 
+You need to handle the transaction submission and confirmation in your application, as shown in the `onSubmit` code example.
 
 ## Usage
 
 ```tsx [code]
-import { Swap, SwapAmountInput, SwapButton, SwapToggleButton } from '@coinbase/onchainkit/swap';
+import { useCallback } from 'react';
+import { // [!code focus]
+  Swap, // [!code focus]
+  SwapAmountInput, // [!code focus]
+  SwapToggleButton, // [!code focus]
+  SwapButton, // [!code focus]
+} from '@coinbase/onchainkit/swap'; // [!code focus]
+import { useAccount, sendTransaction } from 'wagmi';
+import type { // [!code focus]
+  BuildSwapTransaction, // [!code focus]
+  SwapError, // [!code focus]
+} from '@coinbase/onchainkit/swap'; // [!code focus]
+import type { Token } from '@coinbase/onchainkit/token';
 
-const address = '0x1234567890';
+export default function SwapComponents() {
+  const { address } = useAccount();
+  const { sendTransaction } = useSendTransaction();
 
-<Swap address={address} onError={onError}>
-  <SwapAmountInput label="Sell" swappableTokens={swappableTokens} token={fromToken} type="from" />
-  <SwapToggleButton />
-  <SwapAmountInput label="Buy" swappableTokens={swappableTokens} token={toToken} type="to" />
-  <SwapButton onError={onError} onSubmit={onSubmit} />
-</Swap>;
+  const ETHToken: Token = {
+    name: 'ETH',
+    address: '',
+    symbol: 'ETH',
+    decimals: 18,
+    image:
+      'https://wallet-api-production.s3.amazonaws.com/uploads/tokens/eth_288.png',
+    chainId: 8453,
+  };
+
+  const USDCToken: Token = {
+    name: 'USDC',
+    address: '0x833589fcd6edb6e08f4c7c32d4f71b54bda02913',
+    symbol: 'USDC',
+    decimals: 6,
+    image:
+      'https://d3r81g40ycuhqg.cloudfront.net/wallet/wais/44/2b/442b80bd16af0c0d9b22e03a16753823fe826e5bfd457292b55fa0ba8c1ba213-ZWUzYjJmZGUtMDYxNy00NDcyLTg0NjQtMWI4OGEwYjBiODE2',
+    chainId: 8453,
+  };
+
+  const onSubmit = useCallback((swapTransaction: BuildSwapTransaction) => {
+    const { transaction } = swapTransaction.transaction;
+    console.log('Prepared swapTransaction:', transaction);
+    // Transaction submission sample code
+    const result = await sendTransaction(transaction);
+  }, []);
+
+  const onError = useCallback((error: SwapError) => {
+    console.error('SwapError:', error);
+  }, []);
+
+  return ({ address ? (
+    <Swap address={address} onError={onError}> // [!code focus]
+      <SwapAmountInput // [!code focus]
+        label="Sell" // [!code focus]
+        token={ETHToken} // [!code focus]
+        type="from" // [!code focus]
+      /> // [!code focus]
+      <SwapToggleButton /> // [!code focus]
+      <SwapAmountInput // [!code focus]
+        label="Buy" // [!code focus]
+        token={USDCToken} // [!code focus]
+        type="to" // [!code focus]
+      /> // [!code focus]
+      <SwapButton onError={onError} onSubmit={onSubmit} /> // [!code focus]
+    </Swap> // [!code focus]
+  ) : (
+    <p>Connect wallet to use Swap components</p>
+  )});
+}
 ```
 
 <App>
@@ -35,4 +100,7 @@ const address = '0x1234567890';
 
 ## Props
 
-[`SwapReact`](/swap/types#swapreact)
+- [`SwapReact`](/swap/types#swapreact)
+- [`SwapAmountInput`](/swap/types#swapamountinput)
+- [`SwapToggleButton`](/swap/types#swaptogglebutton)
+- [`SwapButton`](/swap/types#swapbutton)
