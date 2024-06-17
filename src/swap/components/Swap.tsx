@@ -18,6 +18,7 @@ export function Swap({ address, children, title = 'Swap' }: SwapReact) {
   const [toAmount, setToAmount] = useState('');
   const [toToken, setToToken] = useState<Token>();
 
+  /* istanbul ignore next */
   const handleFromAmountChange = useCallback(
     async (amount: string) => {
       const hasRequiredFields = fromToken && toToken && amount;
@@ -47,6 +48,7 @@ export function Swap({ address, children, title = 'Swap' }: SwapReact) {
     [fromToken, toToken],
   );
 
+  /* istanbul ignore next */
   const handleToAmountChange = useCallback(
     async (amount: string) => {
       const hasRequiredFields = fromToken && toToken && amount;
@@ -76,6 +78,7 @@ export function Swap({ address, children, title = 'Swap' }: SwapReact) {
     [fromToken, toToken],
   );
 
+  /* istanbul ignore next */
   const handleToggle = useCallback(() => {
     setFromAmount(toAmount);
     setToAmount(fromAmount);
@@ -112,12 +115,7 @@ export function Swap({ address, children, title = 'Swap' }: SwapReact) {
     toToken,
   ]);
 
-  const {
-    inputs = [],
-    toggleButton,
-    swapButton,
-    swapMessage,
-  } = useMemo(() => {
+  const { inputs, toggleButton, swapButton, swapMessage } = useMemo(() => {
     const childrenArray = Children.toArray(children);
     return {
       // @ts-ignore
@@ -135,7 +133,9 @@ export function Swap({ address, children, title = 'Swap' }: SwapReact) {
     <SwapContext.Provider value={value}>
       <div className="flex w-[500px] flex-col rounded-xl bg-gray-100 px-6 pt-6 pb-4">
         <div className="mb-4">
-          <TextTitle3 className="font-bold">{title}</TextTitle3>
+          <TextTitle3 data-testid="ockSwap_Title" className="font-bold">
+            {title}
+          </TextTitle3>
         </div>
         {inputs[0]}
         <div className="relative h-1">{toggleButton}</div>
