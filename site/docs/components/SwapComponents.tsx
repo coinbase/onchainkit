@@ -1,19 +1,18 @@
 'use client';
 import { useCallback, useState } from 'react';
-// import {
-//   Swap,
-//   SwapAmountInput,
-//   SwapButton,
-//   SwapMessage,
-//   SwapToggleButton,
-// } from '../../../src/swap';
 import {
   Swap,
   SwapAmountInput,
   SwapButton,
   SwapMessage,
   SwapToggleButton,
-} from '@coinbase/onchainkit/swap';
+} from '../../../src/swap/index.ts';
+// import {
+//   Swap,
+//   SwapAmountInput,
+//   SwapButton,
+//   SwapToggleButton,
+// } from '@coinbase/onchainkit/swap';
 import { ConnectAccount } from '@coinbase/onchainkit/wallet';
 import { useAccount } from 'wagmi';
 // import { useSendTransaction } from 'wagmi';
@@ -90,7 +89,7 @@ export default function SwapComponents() {
       // });
       setPreparedTransaction(transaction);
     },
-    [],
+    []
   );
 
   const onError = useCallback((error: SwapError) => {
@@ -115,8 +114,7 @@ export default function SwapComponents() {
               token={USDCToken}
               type="to"
             />
-            <SwapButton onError={onError} onSubmit={onSubmit} />
-            <SwapMessage />
+            <SwapButton onError={onError} onSubmit={onSubmit} disabled={true} />
           </Swap>
         ) : (
           <p>
@@ -139,7 +137,7 @@ export default function SwapComponents() {
                   data: preparedTransaction?.data,
                 },
                 null,
-                2,
+                2
               )}
             </pre>
           </>

@@ -6,7 +6,7 @@ import { cn } from '../../utils/cn';
 import { isSwapError } from '../core/isSwapError';
 import { useCallback, useContext } from 'react';
 
-export function SwapButton({ onError, onSubmit }: SwapButtonReact) {
+export function SwapButton({ onError, onSubmit, disabled }: SwapButtonReact) {
   const { address, fromAmount, fromToken, toToken } = useContext(SwapContext);
 
   const handleSubmit = useCallback(async () => {
@@ -33,11 +33,12 @@ export function SwapButton({ onError, onSubmit }: SwapButtonReact) {
     <button
       type="button"
       className={cn(
-        'w-full rounded-xl bg-indigo-600',
-        'mt-4 px-4 py-3 font-medium text-base text-white leading-6',
+        'w-full rounded-xl',
+        disabled ? 'bg-slate-600' : 'bg-indigo-600',
+        'mt-4 px-4 py-3 font-medium text-base text-white leading-6'
       )}
       onClick={handleSubmit}
-      disabled={!fromAmount || !fromToken || !toToken}
+      disabled={!fromAmount || !fromToken || !toToken || disabled}
     >
       <TextHeadline color="white">Swap</TextHeadline>
     </button>

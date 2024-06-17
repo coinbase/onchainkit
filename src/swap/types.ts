@@ -106,6 +106,7 @@ export type SwapAPIResponse = {
 export type SwapButtonReact = {
   onError?: (error: SwapError) => void;
   onSubmit?: (swapTransaction: BuildSwapTransaction) => void;
+  disabled?: boolean;
 };
 
 export type SwapContextType = {
