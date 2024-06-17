@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.20.15
+
+### Patch Changes
+
+- **fix**: remove onError prop from Swap components. By @kyhyco #602 356fe39
+- **feat**: docs for `buildSwapTransaction` + cleanup. By @0xAlec #605 9eed9b5
+- **feat**: add optional disable prop to SwapButton. By @abcrane123 #604 3d71b4a
+- **fix**: error message from an unset api key. By @0xAlec #600 2adbe4f
+
 ## 0.20.14
 
 ### Patch Changes
