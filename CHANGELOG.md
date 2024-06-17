@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.20.13
+
+### Patch Changes
+
+- d26378f: - **feat**: added `delayMs` optional prop to `SwapAmountInput`. By @zizzamia #594
+  - **docs**: config update. By @kyhyco #586
+
 ## 0.20.12
 
 ### Patch Changes
