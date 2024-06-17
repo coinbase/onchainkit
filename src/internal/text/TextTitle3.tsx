@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { cn } from '../../utils/cn';
+import clsx from 'clsx';
 
 type TextTitle3React = {
   children: ReactNode;
@@ -10,7 +10,7 @@ type TextTitle3React = {
 export function TextTitle3({ children, className }: TextTitle3React) {
   return (
     <span
-      className={cn(
+      className={clsx(
         'text-display text-gray-900 text-sans text-xl leading-7',
         className,
       )}
