@@ -18,6 +18,9 @@ const wagmiConfig = createConfig({
     coinbaseWallet({
       appChainIds: [base.id],
       appName: 'onchainkit',
+      options: {
+        chainId: base.id,
+      },
     }),
   ],
   ssr: true,
