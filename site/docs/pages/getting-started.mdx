@@ -37,16 +37,22 @@ The `<OnchainKitProvider />` component equips your app with the essential contex
 Set the `chain` prop to your target chain and provide the API KEY to access the embedded APIs.
 
 ```tsx [code]
+'use client';
+import { ReactNode } from 'react';
 import { base } from 'viem/chains';
 import { OnchainKitProvider } from '@coinbase/onchainkit';
 
-const App = () => {
+type Props = { children: ReactNode };
+
+function OnchainProviders({ children }: Props) {
   return (
-    <OnchainKitProvider apiKey="YOUR_API_KEY" chain={base}>
+    <OnchainKitProvider apiKey="YOUR_PUBLIC_API_KEY" chain={base}>
       <YourKit />
     </OnchainKitProvider>
   );
 };
+
+export default OnchainProviders;
 ```
 
 Obtain an API key from the [Coinbase Developer Platform APIs](https://www.coinbase.com/developer-platform).
@@ -56,6 +62,69 @@ Obtain an API key from the [Coinbase Developer Platform APIs](https://www.coinba
   src="https://onchainkit.xyz/assets/copy-api-key.png"
   width="auto"
 />
+
+### Configure the WagmiProvider
+
+Many of OnchainKit's components require a WagmiProvider to access Wagmi utilities.
+
+If your application already includes these settings, you can skip this step.
+
+:::code-group
+
+```tsx [OnchainProviders.tsx]
+'use client';
+import { ReactNode } from 'react';
+import { OnchainKitProvider } from '@coinbase/onchainkit';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { base } from 'viem/chains';
+import { WagmiProvider } from 'wagmi';
+import { wagmiConfig } from './wagmi';
+
+type Props = { children: ReactNode };
+
+const queryClient = new QueryClient();
+
+function OnchainProviders({ children }: Props) {
+  return (
+    <WagmiProvider config={wagmiConfig}>
+      <QueryClientProvider client={queryClient}>
+        <OnchainKitProvider
+          apiKey={YOUR_PUBLIC_API_KEY}
+          chain={base}
+        >
+          {children}
+        </OnchainKitProvider>
+      </QueryClientProvider>
+    </WagmiProvider>
+  );
+}
+
+export default OnchainProviders;
+```
+
+```tsx [wagmi.ts]
+import { http, createConfig } from 'wagmi';
+import { base } from 'wagmi/chains';
+import { coinbaseWallet } from 'wagmi/connectors';
+
+export const wagmiConfig = createConfig({
+  chains: [base],
+  multiInjectedProviderDiscovery: false,
+  connectors: [
+    coinbaseWallet({
+      appName: 'yourAppName',
+      preference: 'all',
+      version: '4',
+    }),
+  ],
+  ssr: true,
+  transports: {
+    [base.id]: http(),
+  },
+});
+```
+
+:::
 
 ### Style your components
 
