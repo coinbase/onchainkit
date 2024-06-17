@@ -1,4 +1,4 @@
-import { ONCHAIN_KIT_CONFIG } from '../OnchainKitConfig';
+import { ONCHAIN_KIT_CONFIG } from "../OnchainKitConfig";
 
 /**
  * Access the RPC URL for OnchainKit.
@@ -7,11 +7,11 @@ import { ONCHAIN_KIT_CONFIG } from '../OnchainKitConfig';
 export const getRPCUrl = () => {
   if (!ONCHAIN_KIT_CONFIG.rpcUrl && !ONCHAIN_KIT_CONFIG.apiKey) {
     throw new Error(
-      'RPC URL Unset: You can use the Coinbase Developer Platform RPC by providing an API key in `setOnchainKitConfig`: https://portal.cdp.coinbase.com/products/templates',
+      'API Key Unset: You can use the Coinbase Developer Platform RPC by providing an API key in `OnchainKitProvider` or by manually calling `setOnchainKitConfig`: https://portal.cdp.coinbase.com/products/onchainkit'
     );
   }
   return (
     ONCHAIN_KIT_CONFIG.rpcUrl ||
-    `https://api.developer.coinbase.com/rpc/v1/${ONCHAIN_KIT_CONFIG.chain.name.replace(' ', '-').toLowerCase()}/${ONCHAIN_KIT_CONFIG.apiKey}`
+    `https://api.developer.coinbase.com/rpc/v1/${ONCHAIN_KIT_CONFIG.chain.name.replace(" ", "-").toLowerCase()}/${ONCHAIN_KIT_CONFIG.apiKey}`
   );
 };
