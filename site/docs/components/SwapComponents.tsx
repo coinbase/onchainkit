@@ -70,7 +70,7 @@ export default function SwapComponents() {
 
   const onSubmit = useCallback(
     async (swapTransaction: BuildSwapTransaction) => {
-      const { transaction } = swapTransaction.transaction;
+      const { transaction } = swapTransaction;
       console.log('Prepared swapTransaction:', transaction);
       // Uncomment the following line to send the transaction
       // for Localhost testing

@@ -63,7 +63,7 @@ export default function SwapComponents() {
   };
 
   const onSubmit = useCallback((swapTransaction: BuildSwapTransaction) => {
-    const { transaction } = swapTransaction.transaction;
+    const { transaction } = swapTransaction;
     console.log('Prepared swapTransaction:', transaction);
     // Transaction submission sample code
     const result = await sendTransaction({

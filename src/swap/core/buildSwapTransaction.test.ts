@@ -124,12 +124,10 @@ describe('buildSwapTransaction', () => {
       mockParams,
     )) as BuildSwapTransaction;
 
-    expect(quote.approveTransaction?.transaction).toEqual(
-      expectedResponse.approveTransaction?.transaction,
+    expect(quote.approveTransaction).toEqual(
+      expectedResponse.approveTransaction,
     );
-    expect(quote.transaction.transaction).toEqual(
-      expectedResponse.transaction.transaction,
-    );
+    expect(quote.transaction).toEqual(expectedResponse.transaction);
     expect(quote.fee).toEqual(expectedResponse.fee);
     expect(quote.warning).toEqual(expectedResponse.warning);
 
@@ -235,12 +233,10 @@ describe('buildSwapTransaction', () => {
       mockParams,
     )) as BuildSwapTransaction;
 
-    expect(quote.approveTransaction?.transaction).toEqual(
-      expectedResponse.approveTransaction?.transaction,
+    expect(quote.approveTransaction).toEqual(
+      expectedResponse.approveTransaction,
     );
-    expect(quote.transaction.transaction).toEqual(
-      expectedResponse.transaction.transaction,
-    );
+    expect(quote.transaction).toEqual(expectedResponse.transaction);
     expect(quote.fee).toEqual(expectedResponse.fee);
     expect(quote.warning).toEqual(expectedResponse.warning);
 
