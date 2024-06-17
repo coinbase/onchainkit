@@ -64,6 +64,15 @@ export type GetSwapQuoteParams = {
 export type GetSwapQuoteResponse = SwapQuote | SwapError;
 ```
 
+## `QuoteWarning`
+```ts
+type QuoteWarning = {
+  description?: string; // The description of the warning
+  message?: string; // The message of the warning
+  type?: string; // The type of the warning
+};
+```
+
 ## `SwapAmountInputReact`
 
 ```ts
