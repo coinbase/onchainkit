@@ -26,8 +26,23 @@ type BuildSwapTransactionResponse = BuildSwapTransaction | SwapError;
 ## `BuildSwapTransactionParams`
 
 ```ts
-type BuildSwapTransactionParams = GetSwapQuoteParams & {
+type BuildSwapTransactionParams = {
   fromAddress: Address; // The address of the user
+  from: Token; // The source token for the swap
+  to: Token; // The destination token for the swap
+  amount: string; // The amount to be swapped
+  amountReference?: string; // The reference amount for the swap
+  isAmountInDecimals?: boolean; // Whether the amount is in decimals
+};
+```
+
+## `Fee`
+
+```ts
+type Fee = {
+  amount: string; // The amount of the fee
+  baseAsset: Token; // The base asset for the fee
+  percentage: string; // The percentage of the fee
 };
 ```
 
@@ -49,6 +64,15 @@ export type GetSwapQuoteParams = {
 export type GetSwapQuoteResponse = SwapQuote | SwapError;
 ```
 
+## `QuoteWarning`
+```ts
+type QuoteWarning = {
+  description?: string; // The description of the warning
+  message?: string; // The message of the warning
+  type?: string; // The type of the warning
+};
+```
+
 ## `SwapAmountInputReact`
 
 ```ts
@@ -67,6 +91,22 @@ type SwapAmountInputReact = {
 type SwapError = {
   code: number; // The error code
   error: string; // The error message
+};
+```
+
+## `SwapQuote`
+
+```ts
+type SwapQuote = {
+  amountReference: string; // The reference amount for the quote
+  from: Token; // The source token for the swap
+  fromAmount: string; // The amount of the source token
+  hasHighPriceImpact: boolean; // Whether the price impact is high
+  priceImpact: string; // The price impact of the swap
+  slippage: string; // The slippage of the swap
+  to: Token; // The destination token for the swap
+  toAmount: string; // The amount of the destination token
+  warning?: QuoteWarning; // The warning associated with the quote
 };
 ```
 
