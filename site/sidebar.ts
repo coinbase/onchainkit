@@ -155,6 +155,10 @@ export const sidebar = [
             text: 'getSwapQuote',
             link: '/swap/get-swap-quote',
           },
+          {
+            text: 'buildSwapTransaction',
+            link: '/swap/build-swap-transaction',
+          }
         ],
       },
       {

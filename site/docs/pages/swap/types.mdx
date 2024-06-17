@@ -26,8 +26,13 @@ type BuildSwapTransactionResponse = BuildSwapTransaction | SwapError;
 ## `BuildSwapTransactionParams`
 
 ```ts
-type BuildSwapTransactionParams = GetSwapQuoteParams & {
+type BuildSwapTransactionParams = {
   fromAddress: Address; // The address of the user
+  from: Token; // The source token for the swap
+  to: Token; // The destination token for the swap
+  amount: string; // The amount to be swapped
+  amountReference?: string; // The reference amount for the swap
+  isAmountInDecimals?: boolean; // Whether the amount is in decimals
 };
 ```
 
