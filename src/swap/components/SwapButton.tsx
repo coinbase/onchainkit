@@ -1,13 +1,14 @@
+import { useCallback, useContext } from 'react';
 import type { SwapButtonReact, SwapError } from '../types';
 import { SwapContext } from '../context';
 import { TextHeadline } from '../../internal/text';
 import { buildSwapTransaction } from '../core/buildSwapTransaction';
 import { cn } from '../../utils/cn';
 import { isSwapError } from '../core/isSwapError';
-import { useCallback, useContext } from 'react';
 
-export function SwapButton({ onError, onSubmit }: SwapButtonReact) {
-  const { address, fromAmount, fromToken, toToken } = useContext(SwapContext);
+export function SwapButton({ onSubmit }: SwapButtonReact) {
+  const { address, fromAmount, fromToken, toToken, setError } =
+    useContext(SwapContext);
 
   const handleSubmit = useCallback(async () => {
     if (address && fromToken && toToken && fromAmount) {
@@ -19,15 +20,15 @@ export function SwapButton({ onError, onSubmit }: SwapButtonReact) {
           to: toToken,
         });
         if (isSwapError(response)) {
-          onError?.(response);
+          setError(response);
         } else {
           onSubmit?.(response);
         }
       } catch (error) {
-        onError?.(error as SwapError);
+        setError(error as SwapError);
       }
     }
-  }, [address, fromAmount, fromToken, onError, onSubmit, toToken]);
+  }, [address, fromAmount, fromToken, setError, onSubmit, toToken]);
 
   return (
     <button

@@ -113,11 +113,12 @@ export type SwapContextType = {
   error?: SwapError;
   fromAmount: string;
   fromToken?: Token;
+  handleFromAmountChange: (a: string) => void;
+  handleToAmountChange: (a: string) => void;
+  handleToggle: () => void;
+  setError: (e: SwapError) => void;
   setFromAmount: (a: string) => void;
   setFromToken: (t: Token) => void;
-  handleToAmountChange: (a: string) => void;
-  handleFromAmountChange: (a: string) => void;
-  handleToggle: () => void;
   setToAmount: (a: string) => void;
   setToToken: (t: Token) => void;
   toAmount: string;
@@ -152,7 +153,6 @@ export type SwapParams = {
 export type SwapReact = {
   address: Address; // Connected address from connector.
   children: ReactNode;
-  onError?: (error: SwapError) => void;
 };
 
 /**
