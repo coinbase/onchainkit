@@ -1,9 +1,5 @@
 import type { Address, Hex } from 'viem';
-import type {
-  RawTransactionData,
-  SwapTransaction,
-  Transaction,
-} from '../types';
+import type { RawTransactionData, Transaction } from '../types';
 
 /**
  * Constructs an unsigned transaction.
@@ -17,27 +13,13 @@ import type {
 export function getSwapTransaction(
   rawTx: RawTransactionData,
   chainId: string,
-): SwapTransaction {
+): Transaction {
   const { data, gas, to, value } = rawTx;
-
-  const tx: Transaction = {
+  return {
     chainId: Number(chainId),
     data: data as Hex,
     gas: BigInt(gas),
     to: to as Address,
     value: BigInt(value),
-  };
-
-  return {
-    transaction: tx,
-    withParams(params) {
-      const { nonce, maxFeePerGas, maxPriorityFeePerGas } = params;
-      return {
-        ...tx,
-        nonce,
-        maxFeePerGas,
-        maxPriorityFeePerGas,
-      };
-    },
   };
 }

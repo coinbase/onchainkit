@@ -8,10 +8,10 @@ export type AddressOrETH = Address | 'ETH';
  * Note: exported as public Type
  */
 export type BuildSwapTransaction = {
-  approveTransaction?: SwapTransaction; // The approval transaction
+  approveTransaction?: Transaction; //  // The approval transaction (https://metaschool.so/articles/what-are-erc20-approve-erc20-allowance-methods/)
   fee: Fee; // The fee for the swap
   quote: SwapQuote; // The quote for the swap
-  transaction: SwapTransaction; // The swap transaction
+  transaction: Transaction; // The object developers should pass into Wagmi's signTransaction
   warning?: QuoteWarning; // The warning associated with the swap
 };
 
@@ -166,24 +166,13 @@ export type SwapError = {
 /**
  * Note: exported as public Type
  */
-export interface SwapTransaction {
-  transaction: Transaction; // The object developers should pass into Viem's signTransaction
-  withParams(params: TransactionParams): Transaction;
-}
-
 export type Transaction = {
   chainId: number; // The chain ID
   data: Hex; // The data for the transaction
   gas: bigint; // The gas limit
-  to: Address; // The recipient address
-  value: bigint; // The value of the transaction
-  nonce?: number; // The nonce for the transaction
   maxFeePerGas?: bigint | undefined; // The maximum fee per gas
   maxPriorityFeePerGas?: bigint | undefined; // The maximum priority fee per gas
-};
-
-export type TransactionParams = {
-  nonce: number; // The nonce for the transaction
-  maxFeePerGas: bigint | undefined; // The maximum fee per gas
-  maxPriorityFeePerGas: bigint | undefined; // The maximum priority fee per gas
+  nonce?: number; // The nonce for the transaction
+  to: Address; // The recipient address
+  value: bigint; // The value of the transaction
 };
