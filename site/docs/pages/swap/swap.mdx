@@ -1,5 +1,7 @@
+import { ConnectAccount } from '@coinbase/onchainkit/wallet';
+import { Swap, SwapAmountInput, SwapButton, SwapMessage, SwapToggleButton } from '@coinbase/onchainkit/swap';
 import App from '../../components/App';
-import SwapComponents from '../../components/SwapComponents';
+import SwapWrapper from '../../components/SwapWrapper';
 
 # `<Swap />`
 
@@ -22,8 +24,11 @@ You need to handle the transaction submission and confirmation in your applicati
 
 ## Usage
 
+Example using `@coinbase/onchainkit/swap` and `@coinbase/onchainkit/wallet`.
+
 ```tsx [code]
 import { useCallback } from 'react';
+import { ConnectAccount } from '@coinbase/onchainkit/wallet';
 import { // [!code focus]
   Swap, // [!code focus]
   SwapAmountInput, // [!code focus]
@@ -41,25 +46,11 @@ export default function SwapComponents() {
   const { address } = useAccount();
   const { sendTransaction } = useSendTransaction();
 
-  const ETHToken: Token = {
-    name: 'ETH',
-    address: '',
-    symbol: 'ETH',
-    decimals: 18,
-    image:
-      'https://wallet-api-production.s3.amazonaws.com/uploads/tokens/eth_288.png',
-    chainId: 8453,
-  };
+  const ETHToken: Token = { ... };
 
-  const USDCToken: Token = {
-    name: 'USDC',
-    address: '0x833589fcd6edb6e08f4c7c32d4f71b54bda02913',
-    symbol: 'USDC',
-    decimals: 6,
-    image:
-      'https://d3r81g40ycuhqg.cloudfront.net/wallet/wais/44/2b/442b80bd16af0c0d9b22e03a16753823fe826e5bfd457292b55fa0ba8c1ba213-ZWUzYjJmZGUtMDYxNy00NDcyLTg0NjQtMWI4OGEwYjBiODE2',
-    chainId: 8453,
-  };
+  const USDCToken: Token = { ... };
+
+  const swappableTokens: Token[] = [ ... ];
 
   const onSubmit = useCallback((swapTransaction: BuildSwapTransaction) => {
     const { transaction } = swapTransaction;
@@ -72,33 +63,155 @@ export default function SwapComponents() {
     });
   }, [sendTransaction]);
 
-  // Disable SwapButton if additional checks required
-  const isDisabled = false;
-
   return ({ address ? (
     <Swap address={address}> // [!code focus]
       <SwapAmountInput // [!code focus]
         label="Sell" // [!code focus]
+        swappableTokens={swappableTokens} // [!code focus]
         token={ETHToken} // [!code focus]
         type="from" // [!code focus]
       /> // [!code focus]
       <SwapToggleButton /> // [!code focus]
       <SwapAmountInput // [!code focus]
         label="Buy" // [!code focus]
+        swappableTokens={swappableTokens} // [!code focus]
         token={USDCToken} // [!code focus]
         type="to" // [!code focus]
       /> // [!code focus]
-      <SwapButton onSubmit={onSubmit} disabled={isDisabled} /> // [!code focus]
+      <SwapButton onSubmit={onSubmit} /> // [!code focus]
       <SwapMessage /> // [!code focus]
     </Swap> // [!code focus]
   ) : (
-    <p>Connect wallet to use Swap components</p>
+    <ConnectAccount />
   )});
 }
 ```
 
 <App>
-  <SwapComponents />
+  <SwapWrapper>
+    {({ address, swappableTokens, onSubmit }) => {
+      if (address) {
+        return (
+          <Swap address={address}>
+            <SwapAmountInput
+              label="Sell"
+              swappableTokens={swappableTokens}
+              token={swappableTokens[1]}
+              type="from"
+            />
+            <SwapToggleButton />
+            <SwapAmountInput
+              label="Buy"
+              swappableTokens={swappableTokens}
+              token={swappableTokens[2]}
+              type="to"
+            />
+            <SwapButton onSubmit={onSubmit} />
+            <SwapMessage />
+          </Swap>
+        )
+      }
+      return <ConnectAccount />;
+    }}
+  </SwapWrapper>
+</App>
+
+You can adjust to only allow swap between a token pair.
+
+```tsx [code]
+// omitted for brevity
+
+<Swap address={address}> // [!code focus]
+  <SwapAmountInput // [!code focus]
+    label="Sell" // [!code focus]
+    token={ETHToken} // [!code focus]
+    type="from" // [!code focus]
+  /> // [!code focus]
+  <SwapToggleButton /> // [!code focus]
+  <SwapAmountInput // [!code focus]
+    label="Buy" // [!code focus]
+    token={USDCToken} // [!code focus]
+    type="to" // [!code focus]
+  /> // [!code focus]
+  <SwapButton onSubmit={onSubmit} /> // [!code focus]
+  <SwapMessage /> // [!code focus]
+</Swap> // [!code focus]
+}
+```
+
+<App>
+  <SwapWrapper>
+    {({ address, swappableTokens, onSubmit }) => {
+      if (address) {
+        return (
+          <Swap address={address}>
+            <SwapAmountInput
+              label="Sell"
+              token={swappableTokens[1]}
+              type="from"
+            />
+            <SwapToggleButton />
+            <SwapAmountInput
+              label="Buy"
+              token={swappableTokens[2]}
+              type="to"
+            />
+            <SwapButton onSubmit={onSubmit} />
+            <SwapMessage />
+          </Swap>
+        )
+      }
+      return <ConnectAccount />;
+    }}
+  </SwapWrapper>
+</App>
+
+You can remove `SwapToggleButton` to make swap unidirectional.
+
+```tsx [code]
+// omitted for brevity
+
+<Swap address={address}> // [!code focus]
+  <SwapAmountInput // [!code focus]
+    label="Sell" // [!code focus]
+    token={ETHToken} // [!code focus]
+    type="from" // [!code focus]
+  /> // [!code focus]
+  <SwapAmountInput // [!code focus]
+    label="Buy" // [!code focus]
+    token={USDCToken} // [!code focus]
+    type="to" // [!code focus]
+  /> // [!code focus]
+  <SwapButton onSubmit={onSubmit} /> // [!code focus]
+  <SwapMessage /> // [!code focus]
+</Swap> // [!code focus]
+}
+```
+
+<App>
+  <SwapWrapper>
+    {({ address, swappableTokens, onSubmit }) => {
+      if (address) {
+        return (
+          <Swap address={address}>
+            <SwapAmountInput
+              label="Sell"
+              token={swappableTokens[1]}
+              type="from"
+            />
+            <SwapAmountInput
+              label="Buy"
+              token={swappableTokens[2]}
+              type="to"
+            />
+            <SwapButton onSubmit={onSubmit} />
+            <SwapMessage />
+          </Swap>
+        )
+      }
+      return <ConnectAccount />;
+    }}
+  </SwapWrapper>
 </App>
 
 :::danger
