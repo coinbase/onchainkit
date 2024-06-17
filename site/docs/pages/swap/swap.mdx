@@ -89,7 +89,7 @@ export default function SwapComponents() {
 
 <App>
   <SwapWrapper>
-    {({ address, swappableTokens, onSubmit }) => {
+    {({ address, swappableTokens }) => {
       if (address) {
         return (
           <Swap address={address}>
@@ -106,7 +106,7 @@ export default function SwapComponents() {
               token={swappableTokens[2]}
               type="to"
             />
-            <SwapButton onSubmit={onSubmit} />
+            <SwapButton disabled />
             <SwapMessage />
           </Swap>
         )
@@ -115,6 +115,12 @@ export default function SwapComponents() {
     }}
   </SwapWrapper>
 </App>
+
+:::danger
+**Note: We've disabled the Swap button here as this interface is for demonstration purposes only.**
+
+To enable swaps on your app, leave the `disabled` prop as `false` (default value) and the component should work out of the box.
+:::
 
 You can adjust to only allow swap between a token pair.
 
@@ -141,7 +147,7 @@ You can adjust to only allow swap between a token pair.
 
 <App>
   <SwapWrapper>
-    {({ address, swappableTokens, onSubmit }) => {
+    {({ address, swappableTokens }) => {
       if (address) {
         return (
           <Swap address={address}>
@@ -156,7 +162,7 @@ You can adjust to only allow swap between a token pair.
               token={swappableTokens[2]}
               type="to"
             />
-            <SwapButton onSubmit={onSubmit} />
+            <SwapButton disabled />
             <SwapMessage />
           </Swap>
         )
@@ -190,7 +196,7 @@ You can remove `SwapToggleButton` to make swap unidirectional.
 
 <App>
   <SwapWrapper>
-    {({ address, swappableTokens, onSubmit }) => {
+    {({ address, swappableTokens }) => {
       if (address) {
         return (
           <Swap address={address}>
@@ -204,7 +210,7 @@ You can remove `SwapToggleButton` to make swap unidirectional.
               token={swappableTokens[2]}
               type="to"
             />
-            <SwapButton onSubmit={onSubmit} />
+            <SwapButton disabled />
             <SwapMessage />
           </Swap>
         )
@@ -213,12 +219,6 @@ You can remove `SwapToggleButton` to make swap unidirectional.
     }}
   </SwapWrapper>
 </App>
-
-:::danger
-**Note: We've disabled the Swap button here as this interface is for demonstration purposes only.**
-
-To enable swaps on your app, leave the `disabled` prop as `false` (default value) and the component should work out of the box.
-:::
 
 ## Props
 
