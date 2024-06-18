@@ -15,7 +15,11 @@
     "declarationDir": "dist/types",
     "outDir": "dist/es",
     "typeRoots": ["node_modules/@types", "./types"],
-    "rootDir": "src"
+    "rootDir": "src",
+    "baseUrl": ".",
+    "paths": {
+      ":ock/*": ["src/*"]
+    }
   },
   "include": ["src"],
   "exclude": ["node_modules", "**/*.test.*"]
