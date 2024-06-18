@@ -10,7 +10,7 @@ import { TextTitle3 } from '../../internal/text';
 import { formatTokenAmount } from '../../utils/formatTokenAmount';
 import { useBalance, useReadContract } from 'wagmi';
 import { erc20Abi, Address } from 'viem';
-import type { SwapError, SwapLoadingState, SwapReact } from '../types';
+import type { SwapError, SwapReact } from '../types';
 import type { Token } from '../../token';
 import type { UseBalanceReturnType, UseReadContractReturnType } from 'wagmi';
 import { getSwapState } from '../core/getSwapState';
@@ -22,10 +22,6 @@ export function Swap({ address, children, title = 'Swap' }: SwapReact) {
   const [fromToken, setFromToken] = useState<Token>();
   const [toAmount, setToAmount] = useState('');
   const [toToken, setToToken] = useState<Token>();
-  const [isLoading, setIsLoading] = useState<SwapLoadingState>({
-    isFromTokenBalanceLoading: false,
-    isToTokenBalanceLoading: false,
-  });
 
   // returns ETH balance
   const ethBalanceResponse: UseBalanceReturnType = useBalance({
@@ -74,6 +70,15 @@ export function Swap({ address, children, title = 'Swap' }: SwapReact) {
     toTokenBalanceResponse,
   ]);
 
+  const swapLoadingState = useMemo(() => {
+    return getSwapState({
+      fromTokenBalanceResponse: tokenBalanceResponses?.fromTokenBalance,
+      toTokenBalanceResponse: tokenBalanceResponses?.toTokenBalance,
+    });
+  }, [
+    toTokenBalanceResponse,
+  ]);
+
   const {
     convertedFromTokenBalance,
     roundedFromTokenBalance,
@@ -109,19 +114,6 @@ export function Swap({ address, children, title = 'Swap' }: SwapReact) {
     fromTokenBalanceResponse?.data,
     toToken,
     toTokenBalanceResponse?.data,
-  ]);
-
-  const swapLoadingState = useMemo(() => {
-    return getSwapState({
-      fromTokenBalanceResponse: tokenBalanceResponses?.fromTokenBalance,
-      toTokenBalanceResponse: tokenBalanceResponses?.toTokenBalance,
-    });
-  }, [
-    fromToken,
-    fromTokenBalanceResponse,
-    ethBalanceResponse,
-    toToken,
-    toTokenBalanceResponse,
   ]);
 
   /* istanbul ignore next */
