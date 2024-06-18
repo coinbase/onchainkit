@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.21.2
+
+### Patch Changes
+
+- 425f4fd: - **fix**: `Identity` matching `Name` component. By @zizzamia #624
+
 ## 0.21.1
 
 ### Patch Changes
