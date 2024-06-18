@@ -5,7 +5,7 @@ import { SwapToggleButton } from './SwapToggleButton';
 import { SwapMessage } from './SwapMessage';
 import { SwapContext } from '../context';
 import { getSwapQuote } from '../core/getSwapQuote';
-import { isETHBalanceResponse, isSwapError } from '../core/isSwapError';
+import { isSwapError } from '../core/isSwapError';
 import { TextTitle3 } from '../../internal/text';
 import { formatTokenAmount } from '../../utils/formatTokenAmount';
 import { useBalance, useReadContract } from 'wagmi';
