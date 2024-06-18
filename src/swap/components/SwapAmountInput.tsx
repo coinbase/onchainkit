@@ -22,11 +22,14 @@ export function SwapAmountInput({
   swappableTokens,
 }: SwapAmountInputReact) {
   const {
-    address,
+    convertedFromTokenBalance,
+    convertedToTokenBalance,
     fromAmount,
     fromToken,
     handleFromAmountChange,
     handleToAmountChange,
+    roundedFromTokenBalance,
+    roundedToTokenBalance,
     setFromAmount,
     setFromToken,
     setToAmount,
@@ -35,65 +38,80 @@ export function SwapAmountInput({
     toToken,
   } = useSwapContext();
 
-  const { amount, setAmount, handleAmountChange, setToken, selectedToken } =
-    useMemo(() => {
-      if (type === 'to') {
-        return {
-          amount: toAmount,
-          selectedToken: toToken,
-          setAmount: setToAmount,
-          setToken: setToToken,
-          handleAmountChange: handleToAmountChange,
-        };
-      }
-      return {
-        amount: fromAmount,
-        selectedToken: fromToken,
-        setAmount: setFromAmount,
-        setToken: setFromToken,
-        handleAmountChange: handleFromAmountChange,
-      };
-    }, [
-      fromAmount,
-      fromToken,
-      handleFromAmountChange,
-      handleToAmountChange,
-      setFromAmount,
-      setFromToken,
-      setToAmount,
-      setToToken,
-      toAmount,
-      toToken,
-      type,
-    ]);
-
-  // returns ETH balance
-  const ethBalanceResponse: UseBalanceReturnType = useBalance({
-    address,
-  });
-
-  // returns erc20 token balance
-  const balanceResponse: UseReadContractReturnType = useReadContract({
-    abi: erc20Abi,
-    address: selectedToken?.address as Address,
-    functionName: 'balanceOf',
-    args: [address],
-    query: {
-      enabled: !!selectedToken?.address && !!address,
-    },
-  });
-
-  const { convertedBalance, roundedBalance } = useMemo(() => {
-    return getTokenBalances({
-      ethBalance: ethBalanceResponse?.data?.formatted,
-      tokenBalance: balanceResponse?.data as bigint,
-      token: selectedToken,
-    });
-  }, [
-    balanceResponse?.data,
-    ethBalanceResponse?.data?.formatted,
+  const {
+    amount,
+    convertedBalance,
+    handleAmountChange,
+    roundedBalance,
+    setAmount,
+    setToken,
     selectedToken,
+  } = useMemo(() => {
+    if (type === 'to') {
+      return {
+        amount: toAmount,
+        convertedBalance: convertedToTokenBalance,
+        handleAmountChange: handleToAmountChange,
+        roundedBalance: roundedToTokenBalance,
+        selectedToken: toToken,
+        setAmount: setToAmount,
+        setToken: setToToken,
+      };
+    }
+    return {
+      amount: fromAmount,
+      convertedBalance: convertedFromTokenBalance,
+      handleAmountChange: handleFromAmountChange,
+      roundedBalance: roundedFromTokenBalance,
+      selectedToken: fromToken,
+      setAmount: setFromAmount,
+      setToken: setFromToken,
+    };
+  }, [
+    convertedFromTokenBalance,
+    convertedToTokenBalance,
+    fromAmount,
+    fromToken,
+    handleFromAmountChange,
+    handleToAmountChange,
+    roundedFromTokenBalance,
+    roundedToTokenBalance,
+    setFromAmount,
+    setFromToken,
+    setToAmount,
+    setToToken,
+    toAmount,
+    toToken,
+    type,
   ]);
+
+  // // returns ETH balance
+  // const ethBalanceResponse: UseBalanceReturnType = useBalance({
+  //   address,
+  // });
+
+  // // returns erc20 token balance
+  // const balanceResponse: UseReadContractReturnType = useReadContract({
+  //   abi: erc20Abi,
+  //   address: selectedToken?.address as Address,
+  //   functionName: 'balanceOf',
+  //   args: [address],
+  //   query: {
+  //     enabled: !!selectedToken?.address && !!address,
+  //   },
+  // });
+
+  // const { convertedBalance, roundedBalance } = useMemo(() => {
+  //   return getTokenBalances({
+  //     ethBalance: ethBalanceResponse?.data?.formatted,
+  //     tokenBalance: balanceResponse?.data as bigint,
+  //     token: selectedToken,
+  //   });
+  // }, [
+  //   balanceResponse?.data,
+  //   ethBalanceResponse?.data?.formatted,
+  //   selectedToken,
+  // ]);
 
   // we are mocking the token selectors so i'm not able
   // to test this since the components aren't actually rendering

@@ -1,15 +1,20 @@
-import { Children, useCallback, useMemo, useState } from 'react';
+import { Children, useCallback, useEffect, useMemo, useState } from 'react';
 import { SwapAmountInput } from './SwapAmountInput';
 import { SwapButton } from './SwapButton';
 import { SwapToggleButton } from './SwapToggleButton';
 import { SwapMessage } from './SwapMessage';
 import { SwapContext } from '../context';
 import { getSwapQuote } from '../core/getSwapQuote';
-import { isSwapError } from '../core/isSwapError';
+import { isETHBalanceResponse, isSwapError } from '../core/isSwapError';
 import { TextTitle3 } from '../../internal/text';
 import { formatTokenAmount } from '../../utils/formatTokenAmount';
-import type { SwapError, SwapReact } from '../types';
+import { useBalance, useReadContract } from 'wagmi';
+import { erc20Abi, Address } from 'viem';
+import type { SwapError, SwapLoadingState, SwapReact } from '../types';
 import type { Token } from '../../token';
+import type { UseBalanceReturnType, UseReadContractReturnType } from 'wagmi';
+import { getSwapState } from '../core/getSwapState';
+import { getTokenBalances } from '../core/getTokenBalances';
 
 export function Swap({ address, children, title = 'Swap' }: SwapReact) {
   const [error, setError] = useState<SwapError>();
@@ -17,6 +22,107 @@ export function Swap({ address, children, title = 'Swap' }: SwapReact) {
   const [fromToken, setFromToken] = useState<Token>();
   const [toAmount, setToAmount] = useState('');
   const [toToken, setToToken] = useState<Token>();
+  const [isLoading, setIsLoading] = useState<SwapLoadingState>({
+    isFromTokenBalanceLoading: false,
+    isToTokenBalanceLoading: false,
+  });
+
+  // returns ETH balance
+  const ethBalanceResponse: UseBalanceReturnType = useBalance({
+    address,
+  });
+
+  // returns erc20 token balance
+  const fromTokenBalanceResponse: UseReadContractReturnType = useReadContract({
+    abi: erc20Abi,
+    address: fromToken?.address as Address,
+    functionName: 'balanceOf',
+    args: [address],
+    query: {
+      enabled: !!fromToken?.address && !!address,
+    },
+  });
+
+  // returns erc20 token balance
+  const toTokenBalanceResponse: UseReadContractReturnType = useReadContract({
+    abi: erc20Abi,
+    address: toToken?.address as Address,
+    functionName: 'balanceOf',
+    args: [address],
+    query: {
+      enabled: !!toToken?.address && !!address,
+    },
+  });
+
+  const tokenBalanceResponses = useMemo(() => {
+    const fromTokenBalance = fromToken?.address
+      ? fromTokenBalanceResponse
+      : ethBalanceResponse;
+    const toTokenBalance = toToken?.address
+      ? toTokenBalanceResponse
+      : ethBalanceResponse;
+
+    return {
+      fromTokenBalance,
+      toTokenBalance,
+    };
+  }, [
+    fromToken,
+    ethBalanceResponse,
+    fromTokenBalanceResponse,
+    toToken,
+    toTokenBalanceResponse,
+  ]);
+
+  const {
+    convertedFromTokenBalance,
+    roundedFromTokenBalance,
+    convertedToTokenBalance,
+    roundedToTokenBalance,
+  } = useMemo(() => {
+    const {
+      convertedBalance: convertedFromTokenBalance,
+      roundedBalance: roundedFromTokenBalance,
+    } = getTokenBalances({
+      token: fromToken,
+      ethBalance: ethBalanceResponse?.data?.value,
+      tokenBalance: fromTokenBalanceResponse?.data as bigint,
+    });
+    const {
+      convertedBalance: convertedToTokenBalance,
+      roundedBalance: roundedToTokenBalance,
+    } = getTokenBalances({
+      token: toToken,
+      ethBalance: ethBalanceResponse?.data?.value,
+      tokenBalance: toTokenBalanceResponse?.data as bigint,
+    });
+
+    return {
+      convertedFromTokenBalance,
+      convertedToTokenBalance,
+      roundedFromTokenBalance,
+      roundedToTokenBalance,
+    };
+  }, [
+    ethBalanceResponse?.data,
+    fromToken,
+    fromTokenBalanceResponse?.data,
+    toToken,
+    toTokenBalanceResponse?.data,
+  ]);
+
+  const swapLoadingState = useMemo(() => {
+    return getSwapState({
+      fromTokenBalanceResponse: tokenBalanceResponses?.fromTokenBalance,
+      toTokenBalanceResponse: tokenBalanceResponses?.toTokenBalance,
+    });
+  }, [
+    fromToken,
+    fromTokenBalanceResponse,
+    ethBalanceResponse,
+    toToken,
+    toTokenBalanceResponse,
+  ]);
 
   /* istanbul ignore next */
   const handleFromAmountChange = useCallback(
@@ -89,28 +195,41 @@ export function Swap({ address, children, title = 'Swap' }: SwapReact) {
   const value = useMemo(() => {
     return {
       address,
+      convertedFromTokenBalance,
+      convertedToTokenBalance,
       error,
       fromAmount,
       fromToken,
       handleFromAmountChange,
       handleToAmountChange,
       handleToggle,
+      roundedFromTokenBalance,
+      roundedToTokenBalance,
       setError,
       setFromAmount,
       setFromToken,
       setToToken,
       setToAmount,
+      swapLoadingState,
       toAmount,
       toToken,
     };
   }, [
     address,
+    convertedFromTokenBalance,
+    convertedToTokenBalance,
+    error,
     fromAmount,
     fromToken,
     handleFromAmountChange,
     handleToAmountChange,
     handleToggle,
-    error,
+    setError,
+    setFromAmount,
+    setFromToken,
+    setToToken,
+    setToAmount,
+    swapLoadingState,
     toAmount,
     toToken,
   ]);
