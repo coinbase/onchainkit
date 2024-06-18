@@ -103,6 +103,7 @@ export type GetNameReturnType = string | null;
  */
 export type IdentityContextType = {
   address: Address; // The Ethereum address to fetch the avatar and name for.
+  schemaId?: Address | null; // The Ethereum address of the schema to use for EAS attestation.
 };
 
 /**
@@ -111,6 +112,7 @@ export type IdentityContextType = {
 export type IdentityReact = {
   address: Address; // The Ethereum address to fetch the avatar and name for.
   children: ReactNode;
+  schemaId?: Address | null; // The Ethereum address of the schema to use for EAS attestation.
 };
 
 /**
@@ -128,7 +130,7 @@ export type NameReact = {
 export type UseAttestations = {
   address: Address;
   chain: Chain;
-  schemaId: Address;
+  schemaId: Address | null;
 };
 
 export type WithAvatarBadgeInnerReact = {

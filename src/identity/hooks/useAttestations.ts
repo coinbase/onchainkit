@@ -10,6 +10,9 @@ export function useAttestations({
   chain,
   schemaId,
 }: UseAttestations): Attestation[] {
+  if (!schemaId) {
+    return [];
+  }
   const [attestations, setAttestations] = useState<Attestation[]>([]);
 
   useEffect(() => {

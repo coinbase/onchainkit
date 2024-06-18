@@ -96,6 +96,7 @@ type GetNameReturnType = string | null;
 ```ts
 type IdentityContextType = {
   address: Address; // The Ethereum address to fetch the avatar and name for.
+  schemaId?: Address | null; // The Ethereum address of the schema to use for EAS attestation.
 };
 ```
 
@@ -105,6 +106,7 @@ type IdentityContextType = {
 type IdentityReact = {
   address: Address; // The Ethereum address to fetch the avatar and name for.
   children: ReactNode;
+  schemaId?: Address | null; // The Ethereum address of the schema to use for EAS attestation.
 };
 ```
 

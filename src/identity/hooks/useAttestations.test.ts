@@ -16,6 +16,18 @@ describe('useAttestations', () => {
     jest.clearAllMocks();
   });
 
+  it('returns an empty array if no schemaId provided', async () => {
+    const address = '0xaddress';
+    const chain = base;
+    const schemaId = null;
+    const { result } = renderHook(() =>
+      useAttestations({ address, chain, schemaId }),
+    );
+    await waitFor(() => {
+      expect(result.current).toEqual([]);
+    });
+  });
+
   it('returns an empty array if no attestations found', async () => {
     (getAttestations as jest.Mock).mockReturnValue([]);
 

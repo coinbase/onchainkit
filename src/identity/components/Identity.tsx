@@ -4,12 +4,13 @@ import { Name } from './Name';
 import { IdentityContext } from '../context';
 import type { IdentityReact } from '../types';
 
-export function Identity({ address, children }: IdentityReact) {
+export function Identity({ address, children, schemaId }: IdentityReact) {
   const value = useMemo(() => {
     return {
       address,
+      schemaId,
     };
-  }, [address]);
+  }, [address, schemaId]);
 
   const { avatar, names } = useMemo(() => {
     const childrenArray = Children.toArray(children);
