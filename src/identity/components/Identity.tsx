@@ -17,7 +17,7 @@ export function Identity({ address, children }: IdentityReact) {
       // @ts-ignore
       avatar: childrenArray.filter(({ type }) => type === Avatar),
       // @ts-ignore
-      names: childrenArray.filter(({ type }) => type !== Name),
+      names: childrenArray.filter(({ type }) => type === Name),
     };
   }, [children]);
 
