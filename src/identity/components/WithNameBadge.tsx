@@ -12,7 +12,6 @@ function WithNameBadgeInner({ children, address }: WithNameBadgeInnerReact) {
       'Name: a SchemaId must be provided to the Identity or Avatar component.',
     );
   }
-
   const attestations = useAttestations({
     address,
     chain: chain,

@@ -25,15 +25,13 @@ describe('WithNameBadge Component', () => {
   it('should not render inner component', async () => {
     (useOnchainKit as jest.Mock).mockReturnValue({
       chain: base,
-      schemaId: '0xschema',
+      schemaId: '0xschema1',
     });
-
     render(
       <WithNameBadge address="0x123" showAttestation={false}>
         test
       </WithNameBadge>,
     );
-
     await waitFor(() => {
       const inner = screen.queryByTestId('ockNameBadgeContainer');
       expect(inner).toBeNull();
@@ -43,16 +41,14 @@ describe('WithNameBadge Component', () => {
   it('should not render badge', async () => {
     (useOnchainKit as jest.Mock).mockReturnValue({
       chain: base,
-      schemaId: '0xschema',
+      schemaId: '0xschema2',
     });
     (useAttestations as jest.Mock).mockReturnValue(null);
-
     render(
       <WithNameBadge address="0x123" showAttestation={true}>
         test
       </WithNameBadge>,
     );
-
     await waitFor(() => {
       const inner = screen.getByTestId('ockNameBadgeContainer');
       expect(inner).toBeInTheDocument();
@@ -64,17 +60,15 @@ describe('WithNameBadge Component', () => {
   it('should render badge', async () => {
     (useOnchainKit as jest.Mock).mockReturnValue({
       chain: base,
-      schemaId: '0xschema',
+      schemaId: '0xschema3',
     });
     const attestation = {};
     (useAttestations as jest.Mock).mockReturnValue([attestation]);
-
     render(
       <WithNameBadge address="0x123" showAttestation={true}>
         test
       </WithNameBadge>,
     );
-
     await waitFor(() => {
       const inner = screen.getByTestId('ockNameBadgeContainer');
       expect(inner).toBeInTheDocument();
@@ -83,24 +77,19 @@ describe('WithNameBadge Component', () => {
     });
   });
 
-  it('should log error message when schemaId is not provided', async () => {
+  it('should throw an error when no schemaId is provided and showAttestation is true', async () => {
     (useOnchainKit as jest.Mock).mockReturnValue({
       chain: base,
       schemaId: null,
     });
-
-    const errorSpy = jest.spyOn(console, 'error').mockImplementation();
-
-    render(
-      <WithNameBadge address="0x123" showAttestation={true}>
-        test
-      </WithNameBadge>,
-    );
-
-    await waitFor(() => {
-      expect(errorSpy).toHaveBeenCalledWith(
-        'EAS schemaId must provided in OnchainKitProvider context when using WithNameBadge showAttestation is true.',
+    expect(() => {
+      render(
+        <WithNameBadge address="0x1234" showAttestation>
+          test
+        </WithNameBadge>,
       );
-    });
+    }).toThrow(
+      'Name: a SchemaId must be provided to the Identity or Avatar component.',
+    );
   });
 });
