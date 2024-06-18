@@ -12,6 +12,10 @@ export const sidebar = [
         text: 'Contribution',
         link: '/guides/contribution',
       },
+      {
+        text: 'Tailwindcss Integration',
+        link: '/guides/tailwind',
+      },
     ],
   },
   {
