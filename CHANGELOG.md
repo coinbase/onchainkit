@@ -4,28 +4,28 @@
 
 ### Patch Changes
 
-- 425f4fd: - **fix**: `Identity` matching `Name` component. By @zizzamia #624
+- **fix**: `Identity` matching `Name` component. By @zizzamia #624 425f4fd
 
 ## 0.21.1
 
 ### Patch Changes
 
-- 0c9fdc9: - **feat**: added `Name` to `Identity`. By @zizzamia #622
+- **feat**: added `Name` to `Identity`. By @zizzamia #622 0c9fdc9
 
 ## 0.21.0
 
 ### Minor Changes
 
-- 5c7f076: - **feat**: intro `Identity` component. By @zizzamia #620
+- **feat**: intro `Identity` component. By @zizzamia #620 5c7f076
 
 ## 0.20.16
 
 ### Patch Changes
 
-- 693e145: - **feat**: added title prop to Swap component. By @kyhyco #615
-  - **fix**: handled edge case for Swap Balance. By @abcrane123 #612
-  - **docs**: updated doc site to 0.20.15 and include Swap component variations. By @kyhyco #609
-  - **feat**: disabled `SwapButton` in docs and removed `onSubmit`. by @0xAlec #608
+- **feat**: added title prop to Swap component. By @kyhyco #615 693e145
+- **fix**: handled edge case for Swap Balance. By @abcrane123 #612
+- **docs**: updated doc site to 0.20.15 and include Swap component variations. By @kyhyco #609
+- **feat**: disabled `SwapButton` in docs and removed `onSubmit`. by @0xAlec #608
 
 ## 0.20.15
 
