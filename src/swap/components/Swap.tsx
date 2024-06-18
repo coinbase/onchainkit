@@ -9,11 +9,12 @@ import { isSwapError } from '../core/isSwapError';
 import { TextTitle3 } from '../../internal/text';
 import { formatTokenAmount } from '../../utils/formatTokenAmount';
 import { useBalance, useReadContract } from 'wagmi';
-import { erc20Abi, Address } from 'viem';
+import { getTokenBalances } from '../core/getTokenBalances';
+import { erc20Abi } from 'viem';
+import type { Address } from 'viem';
 import type { SwapError, SwapQuoteLoadingState, SwapReact } from '../types';
 import type { Token } from '../../token';
 import type { UseBalanceReturnType, UseReadContractReturnType } from 'wagmi';
-import { getTokenBalances } from '../core/getTokenBalances';
 
 export function Swap({ address, children, title = 'Swap' }: SwapReact) {
   const [error, setError] = useState<SwapError>();
@@ -127,7 +128,7 @@ export function Swap({ address, children, title = 'Swap' }: SwapReact) {
         });
       }
     },
-    [fromToken, setSwapQuoteLoadingState, toToken],
+    [fromToken, toToken],
   );
 
   /* istanbul ignore next */
@@ -166,7 +167,7 @@ export function Swap({ address, children, title = 'Swap' }: SwapReact) {
         });
       }
     },
-    [fromToken, setSwapQuoteLoadingState, toToken],
+    [fromToken, toToken],
   );
 
   /* istanbul ignore next */
@@ -211,11 +212,6 @@ export function Swap({ address, children, title = 'Swap' }: SwapReact) {
     handleToggle,
     roundedFromTokenBalance,
     roundedToTokenBalance,
-    setError,
-    setFromAmount,
-    setFromToken,
-    setToToken,
-    setToAmount,
     swapQuoteLoadingState,
     toAmount,
     toToken,

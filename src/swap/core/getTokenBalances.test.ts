@@ -51,7 +51,7 @@ describe('getTokenBalances', () => {
     expect(result.roundedBalance).toBe('0.00028518');
   });
 
-  it.only('returns balances for ETH token with 0 balance', () => {
+  it('returns balances for ETH token with 0 balance', () => {
     const result = getTokenBalances({
       token: mockETHToken,
       ethBalance: mockZeroETHBalanceResponse?.data?.value,
