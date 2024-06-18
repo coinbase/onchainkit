@@ -16,7 +16,7 @@ export function SwapMessage() {
   }, [error]);
   return (
     <div className="flex">
-      <TextLabel2>{message}</TextLabel2>
+      <TextLabel2 data-testid="ockSwapMessage_Message">{message}</TextLabel2>
     </div>
   );
 }

@@ -57,7 +57,7 @@ describe('SwapMessage', () => {
         <SwapMessage />
       </SwapContext.Provider>,
     );
-    expect(screen.getByTestId('ockTextMessage_message')).toHaveTextContent('');
+    expect(screen.getByTestId('ockSwapMessage_Message')).toHaveTextContent('');
   });
 
   it('renders the component with a message when error code is -32602', () => {
@@ -71,7 +71,7 @@ describe('SwapMessage', () => {
         <SwapMessage />
       </SwapContext.Provider>,
     );
-    expect(screen.getByTestId('ockTextMessage_message')).toHaveTextContent(
+    expect(screen.getByTestId('ockSwapMessage_Message')).toHaveTextContent(
       'Liquidity too low for the token',
     );
   });
@@ -87,7 +87,7 @@ describe('SwapMessage', () => {
         <SwapMessage />
       </SwapContext.Provider>,
     );
-    expect(screen.getByTestId('ockTextMessage_message')).toHaveTextContent(
+    expect(screen.getByTestId('ockSwapMessage_Message')).toHaveTextContent(
       'An error occurred',
     );
   });
