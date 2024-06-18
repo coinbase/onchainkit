@@ -1,22 +1,22 @@
+import { Badge } from './Badge';
 import { useOnchainKit } from '../../useOnchainKit';
 import { useAttestations } from '../hooks/useAttestations';
-import { Badge } from './Badge';
+import { useIdentityContext } from '../context';
 import type { WithNameBadgeInnerReact, WithNameBadgeReact } from '../types';
 
-const ERROR_MESSAGE =
-  'EAS schemaId must provided in OnchainKitProvider context when using WithNameBadge showAttestation is true.';
-
 function WithNameBadgeInner({ children, address }: WithNameBadgeInnerReact) {
-  const onchainKitContext = useOnchainKit();
-  // SchemaId is required to fetch attestations
-  if (!onchainKitContext?.schemaId) {
-    console.error(ERROR_MESSAGE);
-    return children;
+  const { chain, schemaId } = useOnchainKit();
+  const { schemaId: contextSchemaId } = useIdentityContext();
+  if (!contextSchemaId && !schemaId) {
+    throw new Error(
+      'Name: a SchemaId must be provided to the Identity or Avatar component.',
+    );
   }
+
   const attestations = useAttestations({
     address,
-    chain: onchainKitContext?.chain,
-    schemaId: onchainKitContext?.schemaId,
+    chain: chain,
+    schemaId: contextSchemaId ?? schemaId,
   });
   return (
     <div className="flex items-center" data-testid="ockNameBadgeContainer">
