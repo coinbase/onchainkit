@@ -29,7 +29,7 @@ export function SwapAmountInput({
     setFromToken,
     setToAmount,
     setToToken,
-    swapLoadingState,
+    swapQuoteLoadingState,
     toAmount,
     toToken,
   } = useSwapContext();
@@ -38,7 +38,7 @@ export function SwapAmountInput({
     amount,
     convertedBalance,
     handleAmountChange,
-    isLoadingBalance,
+    isSwapQuoteLoading,
     roundedBalance,
     setAmount,
     setToken,
@@ -49,7 +49,7 @@ export function SwapAmountInput({
         amount: toAmount,
         convertedBalance: convertedToTokenBalance,
         handleAmountChange: handleToAmountChange,
-        isLoadingBalance: swapLoadingState.isToTokenBalanceLoading,
+        isSwapQuoteLoading: swapQuoteLoadingState.isToQuoteLoading,
         roundedBalance: roundedToTokenBalance,
         selectedToken: toToken,
         setAmount: setToAmount,
@@ -60,7 +60,7 @@ export function SwapAmountInput({
       amount: fromAmount,
       convertedBalance: convertedFromTokenBalance,
       handleAmountChange: handleFromAmountChange,
-      isLoadingBalance: swapLoadingState.isFromTokenBalanceLoading,
+      isSwapQuoteLoading: swapQuoteLoadingState.isFromQuoteLoading,
       roundedBalance: roundedFromTokenBalance,
       selectedToken: fromToken,
       setAmount: setFromAmount,
@@ -79,7 +79,7 @@ export function SwapAmountInput({
     setFromToken,
     setToAmount,
     setToToken,
-    swapLoadingState,
+    swapQuoteLoadingState,
     toAmount,
     toToken,
     type,
@@ -131,7 +131,7 @@ export function SwapAmountInput({
           setValue={setAmount}
           delayMs={delayMs}
           inputValidator={isValidAmount}
-          disabled={isLoadingBalance}
+          disabled={isSwapQuoteLoading}
         />
         {filteredTokens && (
           <TokenSelectDropdown

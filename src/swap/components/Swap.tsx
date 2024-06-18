@@ -10,10 +10,9 @@ import { TextTitle3 } from '../../internal/text';
 import { formatTokenAmount } from '../../utils/formatTokenAmount';
 import { useBalance, useReadContract } from 'wagmi';
 import { erc20Abi, Address } from 'viem';
-import type { SwapError, SwapReact } from '../types';
+import type { SwapError, SwapQuoteLoadingState, SwapReact } from '../types';
 import type { Token } from '../../token';
 import type { UseBalanceReturnType, UseReadContractReturnType } from 'wagmi';
-import { getSwapState } from '../core/getSwapState';
 import { getTokenBalances } from '../core/getTokenBalances';
 
 export function Swap({ address, children, title = 'Swap' }: SwapReact) {
@@ -22,6 +21,11 @@ export function Swap({ address, children, title = 'Swap' }: SwapReact) {
   const [fromToken, setFromToken] = useState<Token>();
   const [toAmount, setToAmount] = useState('');
   const [toToken, setToToken] = useState<Token>();
+  const [swapQuoteLoadingState, setSwapQuoteLoadingState] =
+    useState<SwapQuoteLoadingState>({
+      isFromQuoteLoading: false,
+      isToQuoteLoading: false,
+    });
 
   // returns ETH balance
   const ethBalanceResponse: UseBalanceReturnType = useBalance({
@@ -49,33 +53,6 @@ export function Swap({ address, children, title = 'Swap' }: SwapReact) {
       enabled: !!toToken?.address && !!address,
     },
   });
-
-  const tokenBalanceResponses = useMemo(() => {
-    const fromTokenBalance = fromToken?.address
-      ? fromTokenBalanceResponse
-      : ethBalanceResponse;
-    const toTokenBalance = toToken?.address
-      ? toTokenBalanceResponse
-      : ethBalanceResponse;
-
-    return {
-      fromTokenBalance,
-      toTokenBalance,
-    };
-  }, [
-    fromToken,
-    ethBalanceResponse,
-    fromTokenBalanceResponse,
-    toToken,
-    toTokenBalanceResponse,
-  ]);
-
-  const swapLoadingState = useMemo(() => {
-    return getSwapState({
-      fromTokenBalanceResponse: tokenBalanceResponses?.fromTokenBalance,
-      toTokenBalanceResponse: tokenBalanceResponses?.toTokenBalance,
-    });
-  }, [tokenBalanceResponses]);
 
   const {
     convertedFromTokenBalance,
@@ -122,6 +99,10 @@ export function Swap({ address, children, title = 'Swap' }: SwapReact) {
         return;
       }
       try {
+        setSwapQuoteLoadingState({
+          isToQuoteLoading: true,
+          isFromQuoteLoading: false,
+        });
         const response = await getSwapQuote({
           from: fromToken,
           to: toToken,
@@ -139,9 +120,14 @@ export function Swap({ address, children, title = 'Swap' }: SwapReact) {
         setToAmount(formattedAmount);
       } catch (err) {
         setError(err as SwapError);
+      } finally {
+        setSwapQuoteLoadingState({
+          isToQuoteLoading: false,
+          isFromQuoteLoading: false,
+        });
       }
     },
-    [fromToken, toToken],
+    [fromToken, setSwapQuoteLoadingState, toToken],
   );
 
   /* istanbul ignore next */
@@ -152,6 +138,10 @@ export function Swap({ address, children, title = 'Swap' }: SwapReact) {
         return;
       }
       try {
+        setSwapQuoteLoadingState({
+          isToQuoteLoading: false,
+          isFromQuoteLoading: true,
+        });
         const response = await getSwapQuote({
           from: fromToken,
           to: toToken,
@@ -169,9 +159,14 @@ export function Swap({ address, children, title = 'Swap' }: SwapReact) {
         setFromAmount(formattedAmount);
       } catch (err) {
         setError(err as SwapError);
+      } finally {
+        setSwapQuoteLoadingState({
+          isToQuoteLoading: false,
+          isFromQuoteLoading: false,
+        });
       }
     },
-    [fromToken, toToken],
+    [fromToken, setSwapQuoteLoadingState, toToken],
   );
 
   /* istanbul ignore next */
@@ -200,7 +195,7 @@ export function Swap({ address, children, title = 'Swap' }: SwapReact) {
       setFromToken,
       setToToken,
       setToAmount,
-      swapLoadingState,
+      swapQuoteLoadingState,
       toAmount,
       toToken,
     };
@@ -221,7 +216,7 @@ export function Swap({ address, children, title = 'Swap' }: SwapReact) {
     setFromToken,
     setToToken,
     setToAmount,
-    swapLoadingState,
+    swapQuoteLoadingState,
     toAmount,
     toToken,
   ]);

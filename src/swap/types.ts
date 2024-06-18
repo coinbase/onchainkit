@@ -134,14 +134,14 @@ export type SwapContextType = {
   setFromToken: (t: Token) => void;
   setToAmount: (a: string) => void;
   setToToken: (t: Token) => void;
-  swapLoadingState: SwapLoadingState;
+  swapQuoteLoadingState: SwapQuoteLoadingState;
   toAmount: string;
   toToken?: Token;
 };
 
-export type SwapLoadingState = {
-  isFromTokenBalanceLoading: boolean;
-  isToTokenBalanceLoading: boolean;
+export type SwapQuoteLoadingState = {
+  isFromQuoteLoading: boolean;
+  isToQuoteLoading: boolean;
 };
 
 /**
