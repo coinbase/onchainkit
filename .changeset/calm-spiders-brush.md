@@ -2,4 +2,4 @@
 "@coinbase/onchainkit": patch
 ---
 
-- **fix**:
+- **fix**: `Identity` matching `Name` component. By @zizzamia #624

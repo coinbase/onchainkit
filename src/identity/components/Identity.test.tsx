@@ -24,8 +24,11 @@ describe('Identity Component', () => {
   });
 
   it('should render the Identity component with Avatar', async () => {
-    (useAvatar as jest.Mock).mockReturnValue({ data: 'avatar_url', isLoading: false });
-    (useName as jest.Mock).mockReturnValue({data: 'name', isLoading: false });
+    (useAvatar as jest.Mock).mockReturnValue({
+      data: 'avatar_url',
+      isLoading: false,
+    });
+    (useName as jest.Mock).mockReturnValue({ data: 'name', isLoading: false });
     render(
       <Identity address="0x123456789">
         <Avatar />
@@ -37,7 +40,7 @@ describe('Identity Component', () => {
   });
 
   it('should render the Identity component with Name', async () => {
-    (useName as jest.Mock).mockReturnValue({data: 'name', isLoading: false });
+    (useName as jest.Mock).mockReturnValue({ data: 'name', isLoading: false });
     render(
       <Identity address="0x123456789">
         <Name />
@@ -49,8 +52,11 @@ describe('Identity Component', () => {
   });
 
   it('should render the Identity component with Avatar and Name', async () => {
-    (useAvatar as jest.Mock).mockReturnValue({ data: 'avatar_url', isLoading: false });
-    (useName as jest.Mock).mockReturnValue({data: 'name', isLoading: false });
+    (useAvatar as jest.Mock).mockReturnValue({
+      data: 'avatar_url',
+      isLoading: false,
+    });
+    (useName as jest.Mock).mockReturnValue({ data: 'name', isLoading: false });
     render(
       <Identity address="0x123456789">
         <Avatar />
