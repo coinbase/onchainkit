@@ -4,8 +4,8 @@ import type { Token } from '../../token';
 
 type GetTokenBalancesParams = {
   token?: Token;
-  ethBalance?: string;
   tokenBalance?: bigint;
+  ethBalance?: bigint;
 };
 
 export function getTokenBalances({
@@ -13,14 +13,18 @@ export function getTokenBalances({
   token,
   tokenBalance,
 }: GetTokenBalancesParams) {
-  if (token?.symbol === 'ETH' && ethBalance) {
+  if (token?.symbol === 'ETH' && (ethBalance || ethBalance === 0n)) {
+    const convertedBalance = formatUnits(ethBalance, token?.decimals);
     return {
-      convertedBalance: ethBalance,
-      roundedBalance: getRoundedAmount(ethBalance, 8),
+      convertedBalance: formatUnits(ethBalance, token?.decimals),
+      roundedBalance: getRoundedAmount(convertedBalance, 8),
     };
   }
-
-  if (token && (tokenBalance || tokenBalance === 0n)) {
+  if (
+    token &&
+    token?.symbol !== 'ETH' &&
+    (tokenBalance || tokenBalance === 0n)
+  ) {
     const convertedBalance = formatUnits(tokenBalance, token?.decimals);
     return {
       convertedBalance,

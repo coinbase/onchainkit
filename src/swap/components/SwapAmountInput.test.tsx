@@ -15,13 +15,6 @@ jest.mock('../../token', () => ({
   TokenSelectDropdown: jest.fn(() => <div>TokenSelectDropdown</div>),
 }));
 
-jest.mock('wagmi', () => {
-  return {
-    useBalance: jest.fn(),
-    useReadContract: jest.fn(),
-  };
-});
-
 const mockETHTokenBalanceResponse = { data: 3304007277394n };
 const mockEthBalanceResponse = {
   data: {
@@ -54,19 +47,28 @@ const mockToken: Token = {
 
 const mockContextValue = {
   address: '0x5FbDB2315678afecb367f032d93F642f64180aa3' as Address,
+  convertedFromTokenBalance: '0.0002851826238227',
   fromAmount: '10',
   handleFromAmountChange: jest.fn(),
   handleToAmountChange: jest.fn(),
   handleToggle: jest.fn(),
   setError: jest.fn(),
+  roundedFromTokenBalance: '0.00028518',
+  roundedToTokenBalance: '3304007.277394',
   setFromAmount: jest.fn(),
   setFromToken: jest.fn(),
   setToAmount: jest.fn(),
   setToToken: jest.fn(),
+  swapQuoteLoadingState: { isFromQuoteLoading: false, isToQuoteLoading: false },
   toAmount: '20',
   toToken: mockToken,
   fromToken: mockETHToken,
 } as SwapContextType;
+
+const mockContextValueWithoutConvertedBalance = {
+  ...mockContextValue,
+  convertedFromTokenBalance: undefined,
+};
 
 const mockSwappableTokens: Token[] = [
   {
@@ -114,10 +116,6 @@ describe('SwapAmountInput', () => {
   });
 
   it('renders from token input with max button and balance', () => {
-    (require('wagmi').useBalance as jest.Mock).mockReturnValue(
-      mockEthBalanceResponse,
-    );
-
     render(
       <SwapContext.Provider value={mockContextValue}>
         <SwapAmountInput label="From" token={mockETHToken} type="from" />
@@ -130,10 +128,6 @@ describe('SwapAmountInput', () => {
   });
 
   it('does not render max button for to token input', () => {
-    (require('wagmi').useBalance as jest.Mock).mockReturnValue(
-      mockEthBalanceResponse,
-    );
-
     render(
       <SwapContext.Provider value={mockContextValue}>
         <SwapAmountInput label="From" token={mockETHToken} type="to" />
@@ -145,10 +139,6 @@ describe('SwapAmountInput', () => {
   });
 
   it('updates input value with balance amount on max button click', () => {
-    (require('wagmi').useBalance as jest.Mock).mockReturnValue(
-      mockEthBalanceResponse,
-    );
-
     render(
       <SwapContext.Provider value={mockContextValue}>
         <SwapAmountInput label="From" token={mockETHToken} type="from" />
@@ -163,12 +153,10 @@ describe('SwapAmountInput', () => {
     );
   });
 
-  it('does not call setAmount when converted balance is undefined on max button click', () => {
-    (require('wagmi').useBalance as jest.Mock).mockReturnValue(undefined);
-
+  it('does not update input value with balance amount on max button click when convertedBalance is undefined', () => {
     render(
-      <SwapContext.Provider value={mockContextValue}>
-        <SwapAmountInput label="From" token={mockToken} type="from" />
+      <SwapContext.Provider value={mockContextValueWithoutConvertedBalance}>
+        <SwapAmountInput label="From" token={mockETHToken} type="from" />
       </SwapContext.Provider>,
     );
 
@@ -260,13 +248,6 @@ describe('SwapAmountInput', () => {
   });
 
   it('renders the correct balance', () => {
-    (require('wagmi').useBalance as jest.Mock).mockReturnValue(
-      mockEthBalanceResponse,
-    );
-    (require('wagmi').useReadContract as jest.Mock).mockReturnValue(
-      mockETHTokenBalanceResponse,
-    );
-
     render(
       <SwapContext.Provider value={mockContextValue}>
         <SwapAmountInput label="To" token={mockToken} type="to" />

@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import type { Address, Hex } from 'viem';
 import type { Token } from '../token/types';
+import type { UseBalanceReturnType, UseReadContractReturnType } from 'wagmi';
 
 export type AddressOrETH = Address | 'ETH';
 
@@ -67,6 +68,11 @@ export type GetSwapQuoteParams = {
  */
 export type GetSwapQuoteResponse = SwapQuote | SwapError;
 
+export type GetSwapStateParams = {
+  fromTokenBalanceResponse: UseBalanceReturnType | UseReadContractReturnType;
+  toTokenBalanceResponse: UseBalanceReturnType | UseReadContractReturnType;
+};
+
 export type QuoteWarning = {
   description?: string; // The description of the warning
   message?: string; // The message of the warning
@@ -113,19 +119,29 @@ export type SwapButtonReact = {
 
 export type SwapContextType = {
   address: Address; // Connected address from connector.
+  convertedFromTokenBalance?: string;
+  convertedToTokenBalance?: string;
   error?: SwapError;
   fromAmount: string;
   fromToken?: Token;
   handleFromAmountChange: (a: string) => void;
   handleToAmountChange: (a: string) => void;
   handleToggle: () => void;
+  roundedFromTokenBalance?: string;
+  roundedToTokenBalance?: string;
   setError: (e: SwapError) => void;
   setFromAmount: (a: string) => void;
   setFromToken: (t: Token) => void;
   setToAmount: (a: string) => void;
   setToToken: (t: Token) => void;
+  swapQuoteLoadingState: SwapQuoteLoadingState;
   toAmount: string;
   toToken?: Token;
+};
+
+export type SwapQuoteLoadingState = {
+  isFromQuoteLoading: boolean;
+  isToQuoteLoading: boolean;
 };
 
 /**
