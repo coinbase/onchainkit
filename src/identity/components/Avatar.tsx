@@ -72,7 +72,10 @@ export function Avatar({
   // If the ENS name or avatar is not available, it shows a default SVG avatar.
   if (!name || !avatar) {
     return (
-      <WithAvatarBadge showAttestation={showAttestation} address={address}>
+      <WithAvatarBadge
+        showAttestation={showAttestation}
+        address={contextAddress ?? address}
+      >
         {defaultComponent || (
           <svg
             role="img"
@@ -91,7 +94,10 @@ export function Avatar({
 
   // Otherwise, it displays the custom avatar obtained from ENS.
   return (
-    <WithAvatarBadge showAttestation={showAttestation} address={address}>
+    <WithAvatarBadge
+      showAttestation={showAttestation}
+      address={contextAddress ?? address}
+    >
       {/* biome-ignore lint: alt gets assigned */}
       <img
         className={cn('rounded-full', className)}

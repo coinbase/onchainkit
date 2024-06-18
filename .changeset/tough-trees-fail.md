@@ -2,4 +2,4 @@
 "@coinbase/onchainkit": minor
 ---
 
-dope
+- **feat**: intro `Identity` component. By @zizzamia #620

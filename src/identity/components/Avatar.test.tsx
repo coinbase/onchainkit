@@ -32,6 +32,14 @@ describe('Avatar Component', () => {
     jest.clearAllMocks();
   });
 
+  it('should throw an error when no address is provided', () => {
+    expect(() => {
+      render(<Avatar />);
+    }).toThrow(
+      'Avatar: an Ethereum address must be provided to the Identity or Avatar component.',
+    );
+  });
+
   it('should display loading indicator when loading', async () => {
     (useAvatar as jest.Mock).mockReturnValue({ data: null, isLoading: true });
     (useName as jest.Mock).mockReturnValue({ data: null, isLoading: true });

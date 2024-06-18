@@ -20,9 +20,12 @@ export function Identity({ address, children }: IdentityReact) {
 
   return (
     <IdentityContext.Provider value={value}>
-      <div className="flex h-10 items-center space-x-4">
+      <div
+        className="flex h-10 items-center space-x-4"
+        data-testid="ockIdentity_container"
+      >
         {avatar}
-        <div className="flex flex-col text-sm"></div>
+        <div className="flex flex-col text-sm" />
       </div>
     </IdentityContext.Provider>
   );

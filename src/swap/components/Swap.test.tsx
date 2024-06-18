@@ -80,7 +80,6 @@ describe('Swap component', () => {
     (require('wagmi').useReadContract as jest.Mock).mockReturnValue(
       mockETHTokenBalanceResponse,
     );
-
     render(
       <SwapContext.Provider value={mockContextValue}>
         <Swap address="0x123">
@@ -92,7 +91,6 @@ describe('Swap component', () => {
         </Swap>
       </SwapContext.Provider>,
     );
-
     await waitFor(() => {
       const title = screen.getByTestId('ockSwap_Title');
       expect(title).toBeInTheDocument();
@@ -101,14 +99,12 @@ describe('Swap component', () => {
 
   it('should render with custom title', () => {
     const title = 'Hello Onchain';
-
     render(
       <Swap address="0x123" title={title}>
         <div />
         <div />
       </Swap>,
     );
-
     const element = screen.getByText(title);
     expect(element).toBeInTheDocument();
   });
