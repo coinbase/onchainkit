@@ -18,6 +18,8 @@ export function SwapAmountInput({
   const {
     convertedFromTokenBalance,
     convertedToTokenBalance,
+    address,
+    error,
     fromAmount,
     fromToken,
     fromTokenBalance,
@@ -25,9 +27,12 @@ export function SwapAmountInput({
     handleToAmountChange,
     roundedFromTokenBalance,
     roundedToTokenBalance,
+    isLoading,
+    setError,
     setFromAmount,
     setFromToken,
     setFromTokenBalance,
+    setIsLoading,
     setToAmount,
     setToToken,
     swapLoadingState,
@@ -111,6 +116,48 @@ export function SwapAmountInput({
       setToken(token);
     }
   }, [token, setToken]);
+
+  // useEffect(() => {
+  //   let isBalanceLoading = balanceResponse?.isLoading;
+  //   if (token?.symbol === 'ETH') {
+  //     isBalanceLoading = ethBalanceResponse?.isLoading;
+  //   }
+  //   if (type === 'to' && isLoading?.toTokenBalance !== isBalanceLoading) {
+  //     setIsLoading({ ...isLoading, toTokenBalance: isBalanceLoading });
+  //   }
+  //   if (type === 'from' && isLoading?.fromTokenBalance !== isBalanceLoading) {
+  //     setIsLoading({ ...isLoading, fromTokenBalance: isBalanceLoading });
+  //   }
+  // }, [
+  //   balanceResponse?.isLoading,
+  //   ethBalanceResponse?.isLoading,
+  //   isLoading,
+  //   setIsLoading,
+  //   token,
+  //   type,
+  // ]);
+
+  // useEffect(() => {
+  //   if (
+  //     token?.symbol !== 'ETH' &&
+  //     balanceResponse?.error &&
+  //     error?.error !== balanceResponse?.error?.shortMessage
+  //   ) {
+  //     const error = { error: balanceResponse?.error?.shortMessage };
+  //     setError(error);
+  //   }
+  // }, [token, balanceResponse, setError]);
+
+  // useEffect(() => {
+  //   if (
+  //     token?.symbol === 'ETH' &&
+  //     ethBalanceResponse?.error &&
+  //     error?.error !== ethBalanceResponse?.error?.message
+  //   ) {
+  //     const error = { error: ethBalanceResponse?.error?.message };
+  //     setError(error);
+  //   }
+  // }, [token, ethBalanceResponse, setError]);
 
   const hasInsufficientBalance =
     type === 'from' && Number(convertedBalance) < Number(amount);

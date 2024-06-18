@@ -78,6 +78,7 @@ export type GetSwapMessageParams = {
   fromAmount: string;
   fromToken?: Token;
   fromTokenBalance?: string;
+  isLoading?: SwapLoadingState;
   statusMessage?: string;
   toAmount: string;
   toToken?: Token;
@@ -193,7 +194,7 @@ export type SwapReact = {
  * Note: exported as public Type
  */
 export type SwapError = {
-  code: number; // The error code
+  code?: number; // The error code
   error: string; // The error message
 };
 

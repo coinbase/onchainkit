@@ -3,6 +3,7 @@ import type { GetSwapMessageParams } from '../types';
 export enum SwapMessage {
   INCOMPLETE_FIELD = 'Complete the fields to continue',
   INSUFFICIENT_BALANCE = 'Insufficient balance',
+  IS_LOADING = 'Loading...',
   LOW_LIQUIDITY = 'Liquidity too low for the token"',
 }
 
@@ -13,9 +14,14 @@ export function getSwapMessage({
   fromAmount,
   fromToken,
   fromTokenBalance,
+  isLoading,
   toAmount,
   toToken,
 }: GetSwapMessageParams) {
+  // handle loading
+  if (isLoading && Object.values(isLoading).includes(true)) {
+    return SwapMessage.IS_LOADING;
+  }
   // amount exceeds balance
   if (Number(fromTokenBalance) < Number(fromAmount)) {
     return SwapMessage.INSUFFICIENT_BALANCE;
@@ -31,7 +37,6 @@ export function getSwapMessage({
     return SwapMessage.INCOMPLETE_FIELD;
   }
 
-  // TODO: handle loading
   // TODO: handle swap quote error
   // TODO: handle balance error
 
