@@ -75,9 +75,7 @@ export function Swap({ address, children, title = 'Swap' }: SwapReact) {
       fromTokenBalanceResponse: tokenBalanceResponses?.fromTokenBalance,
       toTokenBalanceResponse: tokenBalanceResponses?.toTokenBalance,
     });
-  }, [
-    toTokenBalanceResponse,
-  ]);
+  }, [tokenBalanceResponses]);
 
   const {
     convertedFromTokenBalance,

@@ -5,6 +5,7 @@ import { useDebounce } from './useDebounce';
 type TextInputReact = {
   className: string;
   delayMs: number;
+  disabled?: boolean;
   onChange: (s: string) => void;
   placeholder: string;
   setValue: (s: string) => void;
@@ -15,6 +16,7 @@ type TextInputReact = {
 export function TextInput({
   className,
   delayMs,
+  disabled = false,
   onChange,
   placeholder,
   setValue,
@@ -50,6 +52,7 @@ export function TextInput({
       placeholder={placeholder}
       value={value}
       onChange={handleChange}
+      disabled={disabled}
     />
   );
 }

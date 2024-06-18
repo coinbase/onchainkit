@@ -140,8 +140,8 @@ export type SwapContextType = {
 };
 
 export type SwapLoadingState = {
-  isFromTokenBalanceLoading?: boolean;
-  isToTokenBalanceLoading?: boolean;
+  isFromTokenBalanceLoading: boolean;
+  isToTokenBalanceLoading: boolean;
 };
 
 /**
