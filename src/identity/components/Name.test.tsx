@@ -29,14 +29,20 @@ describe('OnchainAddress', () => {
     (getSlicedAddress as jest.Mock).mockImplementation(mockSliceAddress);
   });
 
+  it('should throw an error when no address is provided', () => {
+    expect(() => {
+      render(<Name />);
+    }).toThrow(
+      'Name: an Ethereum address must be provided to the Identity or Name component.',
+    );
+  });
+
   it('displays ENS name when available', () => {
     (useName as jest.Mock).mockReturnValue({
       data: testName,
       isLoading: false,
     });
-
     render(<Name address={testAddress} />);
-
     expect(screen.getByText(testName)).toBeInTheDocument();
     expect(getSlicedAddress).toHaveBeenCalledTimes(0);
   });
@@ -46,17 +52,13 @@ describe('OnchainAddress', () => {
       data: mockSliceAddress(testAddress),
       isLoading: false,
     });
-
     render(<Name address={testAddress} />);
-
     expect(screen.getByText(mockSliceAddress(testAddress))).toBeInTheDocument();
   });
 
   it('displays empty when ens still fetching', () => {
     (useName as jest.Mock).mockReturnValue({ data: null, isLoading: true });
-
     render(<Name address={testAddress} />);
-
     expect(
       screen.queryByText(mockSliceAddress(testAddress)),
     ).not.toBeInTheDocument();
@@ -68,9 +70,7 @@ describe('OnchainAddress', () => {
       data: mockSliceAddress(testAddress),
       isLoading: false,
     });
-
     render(<Name address={testAddress} showAddress />);
-
     expect(screen.getByText(mockSliceAddress(testAddress))).toBeInTheDocument();
   });
 
@@ -79,9 +79,7 @@ describe('OnchainAddress', () => {
       data: null,
       isLoading: false,
     });
-
     render(<Name address={testAddress} />);
-
     expect(screen.getByText(mockSliceAddress(testAddress))).toBeInTheDocument();
   });
 });

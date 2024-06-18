@@ -98,6 +98,10 @@ export const sidebar = [
             link: '/identity/badge',
           },
           {
+            text: 'Identity',
+            link: '/identity/identity',
+          },
+          {
             text: 'Name',
             link: '/identity/name',
           },

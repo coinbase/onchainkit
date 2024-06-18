@@ -117,7 +117,7 @@ export type IdentityReact = {
  * Note: exported as public Type
  */
 export type NameReact = {
-  address: Address; // Ethereum address to be displayed.
+  address?: Address | null; // Ethereum address to be displayed.
   className?: string; // Optional CSS class for custom styling.
   props?: React.HTMLAttributes<HTMLSpanElement>; // Additional HTML attributes for the span element.
   showAddress?: boolean; // Whether to prefer to show the address instead of the ENS name.
