@@ -8,6 +8,9 @@ module.exports = {
     },
   },
   maxWorkers: 1,
+  moduleNameMapper: {
+    '^:ock/(.*)$': '<rootDir>/src/$1',
+  },
   modulePathIgnorePatterns: ['<rootDir>/framegear/'],
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
   transform: {
