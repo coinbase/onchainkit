@@ -12,10 +12,10 @@ export function TextAs({
   as,
   children,
   className,
-  variant = 'foreground',
+  color = 'foreground',
   ...props
 }: TextAsReact) {
-  const textColor = textColorMap[variant];
+  const textColor = textColorMap[color];
 
   return createElement(
     as,

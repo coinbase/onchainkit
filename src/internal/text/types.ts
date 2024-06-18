@@ -4,5 +4,5 @@ import type { textColorMap } from './textColorMap';
 export type TextReact = {
   'data-testid'?: string;
   children: ReactNode;
-  variant?: keyof typeof textColorMap;
+  color?: keyof typeof textColorMap;
 };

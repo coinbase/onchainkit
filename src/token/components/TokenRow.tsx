@@ -23,7 +23,7 @@ export const TokenRow = memo(function TokenRow({
         <span className="flex flex-col items-start">
           <TextHeadline>{token.name}</TextHeadline>
           {!hideSymbol && (
-            <TextBody variant="foreground-muted">{token.symbol}</TextBody>
+            <TextBody color="foreground-muted">{token.symbol}</TextBody>
           )}
         </span>
       </span>
