@@ -1,16 +1,12 @@
-import type { ReactNode } from 'react';
-import { cn } from '../../utils/cn';
+import { TextAs } from './TextAs';
+import type { TextReact } from './types';
 
-type TextLabel1React = {
-  children: ReactNode;
-  className: string;
-};
-
-/* istanbul ignore next */
-export function TextLabel1({ children, className }: TextLabel1React) {
+export function TextLabel1(props: TextReact) {
   return (
-    <span className={cn('font-bold text-sans text-sm leading-5', className)}>
-      {children}
-    </span>
+    <TextAs
+      as="span"
+      className="font-bold font-sans text-sm leading-5"
+      {...props}
+    />
   );
 }

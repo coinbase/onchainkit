@@ -41,7 +41,7 @@ export function SwapButton({ disabled = false, onSubmit }: SwapButtonReact) {
       onClick={handleSubmit}
       disabled={!fromAmount || !fromToken || !toToken || disabled}
     >
-      <TextHeadline color="white">Swap</TextHeadline>
+      <TextHeadline variant="inverse">Swap</TextHeadline>
     </button>
   );
 }

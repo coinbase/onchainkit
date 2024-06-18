@@ -1,13 +1,12 @@
-import type { ReactNode } from 'react';
+import { TextAs } from './TextAs';
+import type { TextReact } from './types';
 
-type TextBodyReact = {
-  children: ReactNode;
-};
-
-export function TextBody({ children }: TextBodyReact) {
+export function TextBody(props: TextReact) {
   return (
-    <span className="text-base text-black text-sans leading-normal">
-      {children}
-    </span>
+    <TextAs
+      as="span"
+      className="font-sans text-base leading-normal"
+      {...props}
+    />
   );
 }

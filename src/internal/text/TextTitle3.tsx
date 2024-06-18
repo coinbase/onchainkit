@@ -1,22 +1,12 @@
-import type { ReactNode } from 'react';
-import { clsx } from 'clsx';
+import { TextAs } from './TextAs';
+import type { TextReact } from './types';
 
-type TextTitle3React = {
-  children: ReactNode;
-  className?: string;
-};
-
-/* istanbul ignore next */
-export function TextTitle3({ children, className, ...props }: TextTitle3React) {
+export function TextTitle3(props: TextReact) {
   return (
-    <span
-      className={clsx(
-        'text-display text-gray-900 text-sans text-xl leading-7',
-        className,
-      )}
+    <TextAs
+      as="span"
+      className="font-bold font-display text-xl leading-7"
       {...props}
-    >
-      {children}
-    </span>
+    />
   );
 }

@@ -1,5 +1,2 @@
+@import url("./variables.css");
 @import url("../token/components/TokenSelectDropdown.css");
-
-.text-display {
-  font-family: DM Sans, sans-serif;
-}

@@ -2,7 +2,7 @@ import { memo } from 'react';
 import type { TokenRowReact } from '../types';
 import { formatAmount } from '../core/formatAmount';
 import { TokenImage } from './TokenImage';
-import { TextHeadline } from '../../internal/text';
+import { TextBody, TextHeadline } from '../../internal/text';
 
 export const TokenRow = memo(function TokenRow({
   token,
@@ -23,9 +23,7 @@ export const TokenRow = memo(function TokenRow({
         <span className="flex flex-col items-start">
           <TextHeadline>{token.name}</TextHeadline>
           {!hideSymbol && (
-            <span className="font-normal text-[#5B616E] leading-normal">
-              {token.symbol}
-            </span>
+            <TextBody variant="foreground-muted">{token.symbol}</TextBody>
           )}
         </span>
       </span>
