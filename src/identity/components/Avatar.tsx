@@ -1,3 +1,4 @@
+import { useIdentityContext } from '../context';
 import { useAvatar } from '../hooks/useAvatar';
 import { useName } from '../hooks/useName';
 import { WithAvatarBadge } from './WithAvatarBadge';
@@ -7,27 +8,32 @@ import { cn } from '../../utils/cn';
 /**
  * Represents an Avatar component that displays either a loading indicator,
  * a default avatar, or a custom avatar based on Ethereum Name Service (ENS).
- *
- * The component first attempts to retrieve the ENS name and avatar for the given Ethereum address.
- * If the data is still loading, it displays a loading SVG.
- *
- * If the ENS name or avatar is not available, it shows a default SVG avatar.
- * Otherwise, it displays the custom avatar obtained from ENS.
  */
 export function Avatar({
-  address,
+  address = null,
   className,
   defaultComponent,
   loadingComponent,
   props,
   showAttestation = false,
 }: AvatarReact) {
-  const { data: name, isLoading: isLoadingName } = useName({ address });
+  const { address: contextAddress } = useIdentityContext();
+  if (!contextAddress && !address) {
+    throw new Error(
+      'Avatar: an Ethereum address must be provided to the Identity or Avatar component.',
+    );
+  }
+
+  // The component first attempts to retrieve the ENS name and avatar for the given Ethereum address.
+  const { data: name, isLoading: isLoadingName } = useName({
+    address: contextAddress ?? address,
+  });
   const { data: avatar, isLoading: isLoadingAvatar } = useAvatar(
     { ensName: name ?? '' },
     { enabled: !!name },
   );
 
+  // If the data is still loading, it displays a loading SVG.
   if (isLoadingName || isLoadingAvatar) {
     return (
       loadingComponent || (
@@ -63,6 +69,7 @@ export function Avatar({
     );
   }
 
+  // If the ENS name or avatar is not available, it shows a default SVG avatar.
   if (!name || !avatar) {
     return (
       <WithAvatarBadge showAttestation={showAttestation} address={address}>
@@ -82,6 +89,7 @@ export function Avatar({
     );
   }
 
+  // Otherwise, it displays the custom avatar obtained from ENS.
   return (
     <WithAvatarBadge showAttestation={showAttestation} address={address}>
       {/* biome-ignore lint: alt gets assigned */}
