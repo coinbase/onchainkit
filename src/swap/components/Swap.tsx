@@ -213,6 +213,11 @@ export function Swap({ address, children, title = 'Swap' }: SwapReact) {
     roundedFromTokenBalance,
     roundedToTokenBalance,
     swapQuoteLoadingState,
+    setFromAmount,
+    setFromToken,
+    setSwapQuoteLoadingState,
+    setToAmount,
+    setToToken,
     toAmount,
     toToken,
   ]);
