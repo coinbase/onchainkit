@@ -1,10 +1,11 @@
+import type { ReactNode } from 'react';
 import type { Address, Chain } from 'viem';
 
 /**
  * Note: exported as public Type
  */
 export type AvatarReact = {
-  address: Address; // The Ethereum address to fetch the avatar for.
+  address?: Address | null; // The Ethereum address to fetch the avatar for.
   className?: string; // Optional additional CSS class to apply to the avatar.
   loadingComponent?: JSX.Element; // Optional custom component to display while the avatar data is loading.
   defaultComponent?: JSX.Element; // Optional custom component to display when no ENS name or avatar is available.
@@ -96,6 +97,21 @@ export type GetName = {
  * Note: exported as public Type
  */
 export type GetNameReturnType = string | null;
+
+/**
+ * Note: exported as public Type
+ */
+export type IdentityContextType = {
+  address: Address; // The Ethereum address to fetch the avatar and name for.
+};
+
+/**
+ * Note: exported as public Type
+ */
+export type IdentityReact = {
+  address: Address; // The Ethereum address to fetch the avatar and name for.
+  children: ReactNode;
+};
 
 /**
  * Note: exported as public Type

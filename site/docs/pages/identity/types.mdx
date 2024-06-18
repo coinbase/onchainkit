@@ -91,6 +91,23 @@ type GetName = {
 type GetNameReturnType = string | null;
 ```
 
+## `IdentityContextType`
+
+```ts
+type IdentityContextType = {
+  address: Address; // The Ethereum address to fetch the avatar and name for.
+};
+```
+
+## `IdentityReact`
+
+```ts
+type IdentityReact = {
+  address: Address; // The Ethereum address to fetch the avatar and name for.
+  children: ReactNode;
+};
+```
+
 ## `NameReact`
 
 ```ts

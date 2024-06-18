@@ -2,6 +2,7 @@
 export { Avatar } from './components/Avatar';
 export { Badge } from './components/Badge';
 export { Name } from './components/Name';
+export { Identity } from './components/Identity';
 export { getAvatar } from './core/getAvatar';
 export { getName } from './core/getName';
 export { useAvatar } from './hooks/useAvatar';
@@ -18,4 +19,6 @@ export type {
   GetAvatar,
   GetAvatarReturnType,
   GetNameReturnType,
+  IdentityReact,
+  IdentityContextType,
 } from './types';

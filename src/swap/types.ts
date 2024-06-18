@@ -1,6 +1,6 @@
+import type { ReactNode } from 'react';
 import type { Address, Hex } from 'viem';
 import type { Token } from '../token/types';
-import type { ReactNode } from 'react';
 
 export type AddressOrETH = Address | 'ETH';
 
