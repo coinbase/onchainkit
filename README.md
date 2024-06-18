@@ -223,6 +223,7 @@ If you're seeking basic TypeScript utilities, we have plenty of ready-to-use opt
 ##### Swap
 
 - [getSwapQuote](https://onchainkit.xyz/swap/get-swap-quote)
+- [buildSwapTransaction](https://onchainkit.xyz/swap/build-swap-transaction)
 
 ##### Token
 
@@ -272,11 +273,11 @@ Check out the following places for more OnchainKit-related content:
 - [@zizzamia](https://github.com/zizzamia) ([X](https://twitter.com/hey_shells), [Warpcast](https://warpcast.com/zizzamia))
 - [@0xchiaroscuro](https://github.com/0xchiaroscuro) ([X](https://twitter.com/chiaroscuro), [Warpcast](https://warpcast.com/chiaroscuro))
 - [Ky Lee](https://github.com/kyhyco)
-- [Tina He](https://github.com/fakepixels)
-- [Mind Apivessa](https://github.com/mindapivessa)
-- [Alec Chen](https://github.com/0xAlec)
-- [Alissa Crane](https://github.com/abcrane123)
-- [Paul Cramer](https://github.com/cpcramer)
+- [Tina He](https://github.com/fakepixels) ([X](https://twitter.com/fkpxls))
+- [Mind Apivessa](https://github.com/mindapivessa) ([X](https://twitter.com/spicypaprika_))
+- [Alec Chen](https://github.com/0xAlec) ([X](https://twitter.com/0xAlec))
+- [Alissa Crane](https://github.com/abcrane123) ([X](https://twitter.com/abcrane123))
+- [Paul Cramer](https://github.com/cpcramer) ([X](https://twitter.com/PaulCramer_))
 
 ## License
 

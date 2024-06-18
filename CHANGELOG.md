@@ -13,8 +13,8 @@
 
 ### Patch Changes
 
-- cb44eba: - **feat**: simplified `Transaction` type in `Swap` experience. By @zizzamia #598
-  - **feat**: init `SwapMessage` component. By @zizzamia #596
+- **feat**: simplified `Transaction` type in `Swap` experience. By @zizzamia #598 cb44eba
+- **feat**: init `SwapMessage` component. By @zizzamia #596
 
 ## 0.20.13
 
