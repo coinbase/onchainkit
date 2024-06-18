@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.21.1
+
+### Patch Changes
+
+- 0c9fdc9: - **feat**: added `Name` to `Identity`. By @zizzamia #622
+
 ## 0.21.0
 
 ### Minor Changes
