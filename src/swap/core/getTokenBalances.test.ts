@@ -34,7 +34,7 @@ describe('getTokenBalances', () => {
   it('returns balances for ETH token', () => {
     const result = getTokenBalances({
       token: mockETHToken,
-      ethBalance: mockETHBalanceResponse?.data?.formatted,
+      ethBalance: mockETHBalanceResponse?.data?.value,
       tokenBalance: mockTokenBalanceResponse?.data,
     });
 
@@ -45,7 +45,7 @@ describe('getTokenBalances', () => {
   it('returns balances for erc20 token', () => {
     const result = getTokenBalances({
       token: mockToken,
-      ethBalance: mockETHBalanceResponse?.data?.formatted,
+      ethBalance: mockETHBalanceResponse?.data?.value,
       tokenBalance: mockTokenBalanceResponse?.data,
     });
 
@@ -55,7 +55,7 @@ describe('getTokenBalances', () => {
 
   it('returns handles missing data correctly', () => {
     const result = getTokenBalances({
-      ethBalance: mockETHBalanceResponse?.data?.formatted,
+      ethBalance: mockETHBalanceResponse?.data?.value,
       tokenBalance: mockTokenBalanceResponse?.data,
     });
 

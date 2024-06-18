@@ -62,6 +62,7 @@ const mockContextValue = {
   setFromToken: jest.fn(),
   setToAmount: jest.fn(),
   setToToken: jest.fn(),
+  swapQuoteLoadingState: { isFromQuoteLoading: false, isToQuoteLoading: false },
   toAmount: '20',
   toToken: mockToken,
   fromToken: mockETHToken,
@@ -107,5 +108,27 @@ describe('Swap component', () => {
     );
     const element = screen.getByText(title);
     expect(element).toBeInTheDocument();
+  });
+
+  it('renders from token input with max button and balance', () => {
+    (require('wagmi').useBalance as jest.Mock).mockReturnValue(
+      mockEthBalanceResponse,
+    );
+
+    render(
+      <SwapContext.Provider value={mockContextValue}>
+        <Swap address="0x123">
+          <SwapAmountInput label="Sell" token={mockETHToken} type="from" />
+          <SwapToggleButton />
+          <SwapAmountInput label="Buy" token={mockToken} type="to" />
+          <SwapButton />
+          <SwapMessage />
+        </Swap>
+      </SwapContext.Provider>,
+    );
+    expect(screen.getByText('Balance: 0.00028518')).toBeInTheDocument();
+    expect(
+      screen.getByTestId('ockSwapAmountInput_MaxButton'),
+    ).toBeInTheDocument();
   });
 });
