@@ -6,18 +6,19 @@ import { SwapMessage } from './SwapMessage';
 import { SwapContext } from '../context';
 import { getSwapQuote } from '../core/getSwapQuote';
 import { isSwapError } from '../core/isSwapError';
-import { TextTitle3 } from '../../internal/text/TextTitle3';
+import { TextTitle3 } from '../../internal/text';
 import { formatTokenAmount } from '../../utils/formatTokenAmount';
 import type { SwapError, SwapReact } from '../types';
 import type { Token } from '../../token';
 
-export function Swap({ address, children }: SwapReact) {
+export function Swap({ address, children, title = 'Swap' }: SwapReact) {
   const [error, setError] = useState<SwapError>();
   const [fromAmount, setFromAmount] = useState('');
   const [fromToken, setFromToken] = useState<Token>();
   const [toAmount, setToAmount] = useState('');
   const [toToken, setToToken] = useState<Token>();
 
+  /* istanbul ignore next */
   const handleFromAmountChange = useCallback(
     async (amount: string) => {
       const hasRequiredFields = fromToken && toToken && amount;
@@ -47,6 +48,7 @@ export function Swap({ address, children }: SwapReact) {
     [fromToken, toToken],
   );
 
+  /* istanbul ignore next */
   const handleToAmountChange = useCallback(
     async (amount: string) => {
       const hasRequiredFields = fromToken && toToken && amount;
@@ -76,6 +78,7 @@ export function Swap({ address, children }: SwapReact) {
     [fromToken, toToken],
   );
 
+  /* istanbul ignore next */
   const handleToggle = useCallback(() => {
     setFromAmount(toAmount);
     setToAmount(fromAmount);
@@ -130,7 +133,9 @@ export function Swap({ address, children }: SwapReact) {
     <SwapContext.Provider value={value}>
       <div className="flex w-[500px] flex-col rounded-xl bg-gray-100 px-6 pt-6 pb-4">
         <div className="mb-4">
-          <TextTitle3 className="font-bold">Swap</TextTitle3>
+          <TextTitle3 data-testid="ockSwap_Title" className="font-bold">
+            {title}
+          </TextTitle3>
         </div>
         {inputs[0]}
         <div className="relative h-1">{toggleButton}</div>

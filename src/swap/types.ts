@@ -89,7 +89,7 @@ export type SwapAmountInputReact = {
   delayMs?: number; // The debounce delay in milliseconds
   label: string; // Descriptive label for the input field
   swappableTokens?: Token[]; // Swappable tokens
-  token: Token; // Selected token
+  token?: Token; // Selected token
   type: 'to' | 'from'; // Identifies if component is for toToken or fromToken
 };
 
@@ -156,6 +156,7 @@ export type SwapParams = {
 export type SwapReact = {
   address: Address; // Connected address from connector.
   children: ReactNode;
+  title?: string; // Title for the Swap component. (default: "Swap")
 };
 
 /**
