@@ -1,4 +1,4 @@
-import { Children, useCallback, useEffect, useMemo, useState } from 'react';
+import { Children, useCallback, useMemo, useState } from 'react';
 import { SwapAmountInput } from './SwapAmountInput';
 import { SwapButton } from './SwapButton';
 import { SwapToggleButton } from './SwapToggleButton';
