@@ -13,14 +13,18 @@ export function getTokenBalances({
   token,
   tokenBalance,
 }: GetTokenBalancesParams) {
-  if (token?.symbol === 'ETH' && ethBalance) {
+  if (token?.symbol === 'ETH' && (ethBalance || ethBalance === 0n)) {
     const convertedBalance = formatUnits(ethBalance, token?.decimals);
     return {
       convertedBalance: formatUnits(ethBalance, token?.decimals),
       roundedBalance: getRoundedAmount(convertedBalance, 8),
     };
   }
-  if (token && (tokenBalance || tokenBalance === 0n)) {
+  if (
+    token &&
+    token?.symbol !== 'ETH' &&
+    (tokenBalance || tokenBalance === 0n)
+  ) {
     const convertedBalance = formatUnits(tokenBalance, token?.decimals);
     return {
       convertedBalance,

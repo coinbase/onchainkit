@@ -2,12 +2,21 @@ import { getTokenBalances } from './getTokenBalances';
 import type { Token } from '../../token';
 
 const mockTokenBalanceResponse = { data: 3304007277394n };
+const mockZeroTokenBalanceResponse = { data: 0n };
 const mockETHBalanceResponse = {
   data: {
     decimals: 18,
     formatted: '0.0002851826238227',
     symbol: 'ETH',
     value: 285182623822700n,
+  },
+};
+const mockZeroETHBalanceResponse = {
+  data: {
+    decimals: 18,
+    formatted: '0',
+    symbol: 'ETH',
+    value: 0n,
   },
 };
 const mockETHToken: Token = {
@@ -42,6 +51,17 @@ describe('getTokenBalances', () => {
     expect(result.roundedBalance).toBe('0.00028518');
   });
 
+  it.only('returns balances for ETH token with 0 balance', () => {
+    const result = getTokenBalances({
+      token: mockETHToken,
+      ethBalance: mockZeroETHBalanceResponse?.data?.value,
+      tokenBalance: mockZeroTokenBalanceResponse?.data,
+    });
+
+    expect(result?.convertedBalance).toBe('0');
+    expect(result.roundedBalance).toBe('0');
+  });
+
   it('returns balances for erc20 token', () => {
     const result = getTokenBalances({
       token: mockToken,
@@ -51,6 +71,17 @@ describe('getTokenBalances', () => {
 
     expect(result?.convertedBalance).toBe('3304007.277394');
     expect(result.roundedBalance).toBe('3304007.277394');
+  });
+
+  it('returns balances for erc20 token with 0 balance', () => {
+    const result = getTokenBalances({
+      token: mockToken,
+      ethBalance: mockZeroETHBalanceResponse?.data?.value,
+      tokenBalance: mockZeroTokenBalanceResponse?.data,
+    });
+
+    expect(result?.convertedBalance).toBe('0');
+    expect(result.roundedBalance).toBe('0');
   });
 
   it('returns handles missing data correctly', () => {

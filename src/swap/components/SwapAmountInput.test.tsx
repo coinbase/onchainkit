@@ -65,6 +65,11 @@ const mockContextValue = {
   fromToken: mockETHToken,
 } as SwapContextType;
 
+const mockContextValueWithoutConvertedBalance = {
+  ...mockContextValue,
+  convertedFromTokenBalance: undefined,
+};
+
 const mockSwappableTokens: Token[] = [
   {
     name: 'Ethereum',
@@ -146,6 +151,19 @@ describe('SwapAmountInput', () => {
     expect(mockContextValue.setFromAmount).toHaveBeenCalledWith(
       '0.0002851826238227',
     );
+  });
+
+  it('does not update input value with balance amount on max button click when convertedBalance is undefined', () => {
+    render(
+      <SwapContext.Provider value={mockContextValueWithoutConvertedBalance}>
+        <SwapAmountInput label="From" token={mockETHToken} type="from" />
+      </SwapContext.Provider>,
+    );
+
+    const maxButton = screen.getByTestId('ockSwapAmountInput_MaxButton');
+    fireEvent.click(maxButton);
+
+    expect(mockContextValue.setFromAmount).not.toHaveBeenCalled();
   });
 
   it('displays the correct amount when this type is "from"', () => {
