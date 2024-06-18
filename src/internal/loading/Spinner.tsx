@@ -9,8 +9,8 @@ export function Spinner() {
     >
       <div
         className={cn(
-          'border-4 border-t-3 border-gray-200 animate-spin',
-          'border-t-blue-500 rounded-full px-2.5 py-2.5',
+          'animate-spin border-4 border-t-3 border-gray-200',
+          'rounded-full border-t-blue-500 px-2.5 py-2.5',
         )}
       ></div>
     </div>
