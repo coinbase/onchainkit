@@ -101,16 +101,16 @@ export type GetNameReturnType = string | null;
 /**
  * Note: exported as public Type
  */
-export type IdentityReact = {
+export type IdentityContextType = {
   address: Address; // The Ethereum address to fetch the avatar and name for.
-  children: ReactNode;
 };
 
 /**
  * Note: exported as public Type
  */
-export type IdentityContextType = {
+export type IdentityReact = {
   address: Address; // The Ethereum address to fetch the avatar and name for.
+  children: ReactNode;
 };
 
 /**
