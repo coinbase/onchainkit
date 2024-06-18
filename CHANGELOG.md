@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.21.0
+
+### Minor Changes
+
+- 5c7f076: - **feat**: intro `Identity` component. By @zizzamia #620
+
 ## 0.20.16
 
 ### Patch Changes
