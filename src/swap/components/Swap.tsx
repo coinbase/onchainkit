@@ -216,6 +216,8 @@ export function Swap({ address, children, title = 'Swap' }: SwapReact) {
     handleFromAmountChange,
     handleToAmountChange,
     handleToggle,
+    roundedFromTokenBalance,
+    roundedToTokenBalance,
     setError,
     setFromAmount,
     setFromToken,
