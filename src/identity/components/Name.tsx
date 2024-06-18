@@ -46,7 +46,7 @@ export function Name({
       showAttestation={showAttestation}
       address={contextAddress ?? address}
     >
-      <span className={className} {...props}>
+      <span className={className} data-testid="ockIdentity_Text" {...props}>
         {name ?? normalizedAddress}
       </span>
     </WithNameBadge>

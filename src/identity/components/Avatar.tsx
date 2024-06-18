@@ -101,6 +101,7 @@ export function Avatar({
       {/* biome-ignore lint: alt gets assigned */}
       <img
         className={cn('rounded-full', className)}
+        data-testid="ockAvatar_Image"
         loading="lazy"
         width="32"
         height="32"

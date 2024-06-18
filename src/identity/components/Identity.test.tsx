@@ -23,35 +23,40 @@ describe('Identity Component', () => {
     jest.clearAllMocks();
   });
 
-  it('should render the Identity component with Avatart', async () => {
-    (useAvatar as jest.Mock).mockReturnValue({ data: null, isLoading: true });
-    (useName as jest.Mock).mockReturnValue({ data: null, isLoading: true });
+  it('should render the Identity component with Avatar', async () => {
+    (useAvatar as jest.Mock).mockReturnValue({
+      data: 'avatar_url',
+      isLoading: false,
+    });
+    (useName as jest.Mock).mockReturnValue({ data: 'name', isLoading: false });
     render(
       <Identity address="0x123456789">
         <Avatar />
       </Identity>,
     );
     await waitFor(() => {
-      expect(screen.getByTestId('ockIdentity_container')).toBeInTheDocument();
+      expect(screen.getByTestId('ockAvatar_Image')).toBeInTheDocument();
     });
   });
 
   it('should render the Identity component with Name', async () => {
-    (useAvatar as jest.Mock).mockReturnValue({ data: null, isLoading: true });
-    (useName as jest.Mock).mockReturnValue({ data: null, isLoading: true });
+    (useName as jest.Mock).mockReturnValue({ data: 'name', isLoading: false });
     render(
       <Identity address="0x123456789">
         <Name />
       </Identity>,
     );
     await waitFor(() => {
-      expect(screen.getByTestId('ockIdentity_container')).toBeInTheDocument();
+      expect(screen.getByTestId('ockIdentity_Text')).toBeInTheDocument();
     });
   });
 
   it('should render the Identity component with Avatar and Name', async () => {
-    (useAvatar as jest.Mock).mockReturnValue({ data: null, isLoading: true });
-    (useName as jest.Mock).mockReturnValue({ data: null, isLoading: true });
+    (useAvatar as jest.Mock).mockReturnValue({
+      data: 'avatar_url',
+      isLoading: false,
+    });
+    (useName as jest.Mock).mockReturnValue({ data: 'name', isLoading: false });
     render(
       <Identity address="0x123456789">
         <Avatar />
@@ -59,7 +64,8 @@ describe('Identity Component', () => {
       </Identity>,
     );
     await waitFor(() => {
-      expect(screen.getByTestId('ockIdentity_container')).toBeInTheDocument();
+      expect(screen.getByTestId('ockAvatar_Image')).toBeInTheDocument();
+      expect(screen.getByTestId('ockIdentity_Text')).toBeInTheDocument();
     });
   });
 });
