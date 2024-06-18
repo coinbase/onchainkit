@@ -1,0 +1,30 @@
+{/* import { Avatar, Identity } from '../../../../src/identity'; */}
+import { Avatar, Identity } from '@coinbase/onchainkit/identity';
+
+import App from '../../components/App';
+
+# `<Identity />`
+
+:::warning
+Component is actively in development. Stay tuned for upcoming releases.
+:::
+
+## Usage
+
+```tsx
+import { Avatar, Identity } from '@coinbase/onchainkit/identity';
+
+<Identity address="0x838aD0EAE54F99F1926dA7C3b6bFbF617389B4D9"> // [!code focus]
+  <Avatar /> // [!code focus]
+</Identity> // [!code focus]
+```
+
+<App>
+  <Identity address="0x838aD0EAE54F99F1926dA7C3b6bFbF617389B4D9">
+    <Avatar />
+  </Identity>
+</App>
+
+## Props
+
+[`IdentityReact`](/identity/types#identityreact)
