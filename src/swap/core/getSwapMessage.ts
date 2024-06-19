@@ -1,6 +1,7 @@
 import type { GetSwapMessageParams } from '../types';
 
 export enum SwapMessage {
+  BALANCE_ERROR = 'Error fetching token balance',
   INCOMPLETE_FIELD = 'Complete the fields to continue',
   INSUFFICIENT_BALANCE = 'Insufficient balance',
   IS_LOADING = 'Loading...',
@@ -14,6 +15,7 @@ export function getSwapMessage({
   convertedFromTokenBalance,
   fromAmount,
   fromToken,
+  swapErrorState,
   swapLoadingState,
   toAmount,
   toToken,
@@ -27,6 +29,14 @@ export function getSwapMessage({
     return SwapMessage.IS_LOADING;
   }
 
+  // handle balance error
+  if (
+    swapErrorState?.fromTokenBalanceError ||
+    swapErrorState?.toTokenBalanceError
+  ) {
+    return SwapMessage.BALANCE_ERROR;
+  }
+
   // low liquidity
   if (error?.code === LOW_LIQUIDITY_ERROR_CODE) {
     return SwapMessage.LOW_LIQUIDITY;
@@ -38,7 +48,6 @@ export function getSwapMessage({
   }
 
   // TODO: handle swap quote error
-  // TODO: handle balance error
 
   if (error) {
     return error.error;

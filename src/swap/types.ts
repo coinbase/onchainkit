@@ -68,16 +68,12 @@ export type GetSwapQuoteParams = {
  */
 export type GetSwapQuoteResponse = SwapQuote | SwapError;
 
-export type GetSwapStateParams = {
-  fromTokenBalanceResponse: UseBalanceReturnType | UseReadContractReturnType;
-  toTokenBalanceResponse: UseBalanceReturnType | UseReadContractReturnType;
-};
-
 export type GetSwapMessageParams = {
   error?: SwapError;
   convertedFromTokenBalance?: string;
   fromAmount: string;
   fromToken?: Token;
+  swapErrorState?: SwapErrorState;
   swapLoadingState?: SwapLoadingState;
   statusMessage?: string;
   toAmount: string;
@@ -120,6 +116,13 @@ export type SwapAPIResponse = {
   tx: RawTransactionData; // The trade transaction
 };
 
+export type SwapErrorState = {
+  fromTokenBalanceError?: SwapError;
+  quoteError?: SwapError;
+  swapError?: SwapError;
+  toTokenBalanceError?: SwapError;
+};
+
 /**
  * Note: exported as public Type
  */
@@ -146,6 +149,7 @@ export type SwapContextType = {
   setFromToken: (t: Token) => void;
   setToAmount: (a: string) => void;
   setToToken: (t: Token) => void;
+  swapErrorState?: SwapErrorState;
   swapLoadingState: SwapLoadingState;
   setSwapLoadingState: (s: SwapLoadingState) => void;
   toAmount: string;
