@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- 8c873f1: - **feat**: added badge feature to `Identity` component. By @zizzamia #627
+- **feat**: added badge feature to `Identity` component. By @zizzamia #627 8c873f1
 
 ## 0.21.2
 
