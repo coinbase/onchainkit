@@ -14,7 +14,7 @@ const BLOCKED_COUNTRIES = [
 ];
 
 export const config = {
-  matcher: ['/temp-demo'],
+  matcher: ['/'],
 };
 
 export default function middleware(request: Request) {
