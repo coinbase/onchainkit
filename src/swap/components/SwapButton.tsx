@@ -39,7 +39,16 @@ export function SwapButton({ disabled = false, onSubmit }: SwapButtonReact) {
         setSwapLoadingState({ ...swapLoadingState, isSwapLoading: false });
       }
     }
-  }, [address, fromAmount, fromToken, setError, onSubmit, toToken]);
+  }, [
+    address,
+    fromAmount,
+    fromToken,
+    onSubmit,
+    setError,
+    setSwapLoadingState,
+    swapLoadingState,
+    toToken,
+  ]);
 
   const isDisabled =
     !fromAmount ||

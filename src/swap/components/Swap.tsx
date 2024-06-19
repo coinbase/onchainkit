@@ -128,7 +128,7 @@ export function Swap({ address, children, title = 'Swap' }: SwapReact) {
         });
       }
     },
-    [fromToken, toToken],
+    [fromToken, setSwapLoadingState, swapLoadingState, toToken],
   );
 
   /* istanbul ignore next */
@@ -167,7 +167,7 @@ export function Swap({ address, children, title = 'Swap' }: SwapReact) {
         });
       }
     },
-    [fromToken, toToken],
+    [fromToken, setSwapLoadingState, swapLoadingState, toToken],
   );
 
   /* istanbul ignore next */
