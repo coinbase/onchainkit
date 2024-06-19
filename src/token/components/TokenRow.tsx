@@ -2,7 +2,7 @@ import { memo } from 'react';
 import type { TokenRowReact } from '../types';
 import { formatAmount } from '../core/formatAmount';
 import { TokenImage } from './TokenImage';
-import { TextBody, TextHeadline } from '../../internal/text';
+import { cn, text } from '../../styles/theme';
 
 export const TokenRow = memo(function TokenRow({
   token,
@@ -21,15 +21,17 @@ export const TokenRow = memo(function TokenRow({
       <span className="flex items-center gap-3">
         {!hideImage && <TokenImage token={token} size={48} />}
         <span className="flex flex-col items-start">
-          <TextHeadline>{token.name}</TextHeadline>
+          <span className={cn(text.headline)}>{token.name}</span>
           {!hideSymbol && (
-            <TextBody color="foreground-muted">{token.symbol}</TextBody>
+            <span className={cn(text.body, 'text-foreground-muted')}>
+              {token.symbol}
+            </span>
           )}
         </span>
       </span>
       <span
         data-testid="ockTokenRow_Amount"
-        className="font-normal text-[#5B616E] leading-normal"
+        className={cn(text.body, 'text-foreground-muted')}
       >
         {formatAmount(amount, {
           minimumFractionDigits: 2,

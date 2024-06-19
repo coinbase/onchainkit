@@ -1,9 +1,8 @@
 import { useCallback } from 'react';
 import type { SwapButtonReact, SwapError } from '../types';
 import { useSwapContext } from '../context';
-import { TextHeadline } from '../../internal/text';
 import { buildSwapTransaction } from '../core/buildSwapTransaction';
-import { cn } from '../../utils/cn';
+import { cn, text } from '../../styles/theme';
 import { isSwapError } from '../core/isSwapError';
 
 export function SwapButton({ disabled = false, onSubmit }: SwapButtonReact) {
@@ -41,7 +40,7 @@ export function SwapButton({ disabled = false, onSubmit }: SwapButtonReact) {
       onClick={handleSubmit}
       disabled={!fromAmount || !fromToken || !toToken || disabled}
     >
-      <TextHeadline color="inverse">Swap</TextHeadline>
+      <span className={cn(text.headline, 'text-inverse')}>Swap</span>
     </button>
   );
 }

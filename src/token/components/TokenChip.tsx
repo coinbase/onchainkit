@@ -1,4 +1,4 @@
-import { TextBody } from '../../internal/text';
+import { text } from '../../styles/theme';
 import type { TokenChipReact } from '../types';
 import { TokenImage } from './TokenImage';
 
@@ -17,7 +17,7 @@ export function TokenChip({ token, onClick }: TokenChipReact) {
       onClick={() => onClick?.(token)}
     >
       <TokenImage token={token} size={24} />
-      <TextBody>{token.symbol}</TextBody>
+      <span className={text.body}>{token.symbol}</span>
     </button>
   );
 }

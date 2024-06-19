@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import type { TokenSelectDropdownReact } from '../types';
 import { TokenRow } from './TokenRow';
 import { TokenSelectButton } from './TokenSelectButton';
-import { cn } from '../../utils/cn';
+import { cn } from '../../styles/theme';
 
 export function TokenSelectDropdown({
   options,
