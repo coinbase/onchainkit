@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useSwapContext } from '../context';
-import { TextMessage } from '../../internal/text';
+import { TextLabel2 } from '../../internal/text';
 
 export function SwapMessage() {
   const [message, setMessage] = useState<string>('');
@@ -16,7 +16,7 @@ export function SwapMessage() {
   }, [error]);
   return (
     <div className="flex">
-      <TextMessage>{message}</TextMessage>
+      <TextLabel2 data-testid="ockSwapMessage_Message">{message}</TextLabel2>
     </div>
   );
 }

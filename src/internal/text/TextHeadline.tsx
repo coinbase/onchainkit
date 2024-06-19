@@ -1,16 +1,12 @@
-import type { ReactNode } from 'react';
+import { TextAs } from './TextAs';
+import type { TextReact } from './types';
 
-type TextHeadlineReact = {
-  children: ReactNode;
-  color?: string;
-};
-
-export function TextHeadline({ children, color = 'black' }: TextHeadlineReact) {
+export function TextHeadline(props: TextReact) {
   return (
-    <span
-      className={`text-${color} font-bold text-base text-sans leading-normal`}
-    >
-      {children}
-    </span>
+    <TextAs
+      as="span"
+      className="font-bold font-sans text-base leading-normal"
+      {...props}
+    />
   );
 }

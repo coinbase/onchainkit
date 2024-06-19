@@ -1,12 +1,13 @@
-import type { ReactNode } from 'react';
-
-type TextCaptionReact = {
-  children: ReactNode;
-};
+import { TextAs } from './TextAs';
+import type { TextReact } from './types';
 
 /* istanbul ignore next */
-export function TextCaption({ children }: TextCaptionReact) {
+export function TextCaption(props: TextReact) {
   return (
-    <span className="text-bold text-sans text-xs leading-4">{children}</span>
+    <TextAs
+      as="span"
+      className="font-sans text-bold text-xs leading-4"
+      {...props}
+    />
   );
 }

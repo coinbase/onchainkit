@@ -1,0 +1,73 @@
+---
+title: Tailwindcss Integration Guide
+description: Learn how to integrate tailwindcss with OnchainKit
+---
+
+# Tailwindcss Integration Guide
+
+:::warning
+Tailwindcss and theming is work in progress.
+
+Please check back this page as we add more ways to customize styles.
+:::
+
+In this guide, we will go over how to integrate `tailwindcss` with Onchainkit. OnchainKit comes with first class support for `tailwindcss`.
+
+First, add these extensions to your tailwind configuration.
+
+```javascript title="tailwind.config.js"
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: ['./src/**/*.{ts,tsx}'],
+  theme: {
+    fontFamily: {
+      sans: ['Inter', 'sans-serif'],
+    },
+    extend: { // [!code focus]
+      fontFamily: { // [!code focus]
+        display: 'DM Sans, sans-serif', // [!code focus]
+      }, // [!code focus]
+      textColor: { // [!code focus]
+        inverse: 'var(--text-inverse)', // [!code focus]
+        foreground: 'var(--text-foreground)', // [!code focus]
+        'foreground-muted': 'var(--text-foreground-muted)', // [!code focus]
+        error: 'var(--text-error)', // [!code focus]
+        primary: 'var(--text-primary)', // [!code focus]
+        success: 'var(--text-success)', // [!code focus]
+        warning: 'var(--text-warning)', // [!code focus]
+        disabled: 'var(--text-disabled)', // [!code focus]
+      }, // [!code focus]
+    },
+  },
+  plugins: [],
+};
+```
+
+Next, copy the following in your css file.
+
+```css
+@layer base {
+  :root {
+    --text-inverse: theme(colors.gray.50);
+    --text-foreground: theme(colors.gray.950);
+    --text-foreground-muted: theme(colors.gray.600);
+    --text-error: theme(colors.rose.600);
+    --text-primary: theme(colors.indigo.600);
+    --text-success: theme(colors.lime.600);
+    --text-warning: theme(colors.orange.600);
+    --text-disabled: theme(colors.gray.400);
+  }
+}
+
+// full dark mode support coming soon!
+```
+
+Lastly, import `tailwind.css` instead of `styles.css` at the root of your application.
+
+```javascript
+import '@coinbase/onchainkit/tailwind.css';
+```
+
+`tailwind.css` includes anything that is not defined in tailwind.
+
+That's it! From here, you can adjust global fonts and colors.
