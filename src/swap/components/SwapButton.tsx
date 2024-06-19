@@ -11,15 +11,17 @@ export function SwapButton({ disabled = false, onSubmit }: SwapButtonReact) {
     address,
     fromAmount,
     fromToken,
-    swapQuoteLoadingState,
     toAmount,
-    toToken,
     setError,
+    setSwapLoadingState,
+    swapLoadingState,
+    toToken,
   } = useSwapContext();
 
   const handleSubmit = useCallback(async () => {
     if (address && fromToken && toToken && fromAmount) {
       try {
+        setSwapLoadingState({ ...swapLoadingState, isSwapLoading: true });
         const response = await buildSwapTransaction({
           amount: fromAmount,
           fromAddress: address,
@@ -33,6 +35,8 @@ export function SwapButton({ disabled = false, onSubmit }: SwapButtonReact) {
         }
       } catch (error) {
         setError(error as SwapError);
+      } finally {
+        setSwapLoadingState({ ...swapLoadingState, isSwapLoading: false });
       }
     }
   }, [address, fromAmount, fromToken, setError, onSubmit, toToken]);
@@ -43,12 +47,7 @@ export function SwapButton({ disabled = false, onSubmit }: SwapButtonReact) {
     !toAmount ||
     !toToken ||
     disabled ||
-    swapQuoteLoadingState?.isFromQuoteLoading ||
-    swapQuoteLoadingState?.isToQuoteLoading;
-
-  const isLoading =
-    swapQuoteLoadingState?.isFromQuoteLoading ||
-    swapQuoteLoadingState?.isToQuoteLoading;
+    swapLoadingState?.isSwapLoading;
 
   return (
     <button
@@ -56,12 +55,12 @@ export function SwapButton({ disabled = false, onSubmit }: SwapButtonReact) {
       className={cn(
         'w-full rounded-xl bg-indigo-600',
         'mt-4 px-4 py-3 font-medium text-base text-white leading-6',
-        isDisabled && !isLoading ? 'opacity-[0.38]' : '',
+        isDisabled && !swapLoadingState?.isSwapLoading ? 'opacity-[0.38]' : '',
       )}
       onClick={handleSubmit}
       disabled={isDisabled}
     >
-      {isLoading ? (
+      {swapLoadingState?.isSwapLoading ? (
         <Spinner />
       ) : (
         <span className={cn(text.headline, 'text-inverse')}>Swap</span>

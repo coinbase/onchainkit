@@ -11,7 +11,7 @@ import { useBalance, useReadContract } from 'wagmi';
 import { getTokenBalances } from '../core/getTokenBalances';
 import { erc20Abi } from 'viem';
 import type { Address } from 'viem';
-import type { SwapError, SwapQuoteLoadingState, SwapReact } from '../types';
+import type { SwapError, SwapLoadingState, SwapReact } from '../types';
 import type { Token } from '../../token';
 import type { UseBalanceReturnType, UseReadContractReturnType } from 'wagmi';
 import { text } from '../../styles/theme';
@@ -22,11 +22,11 @@ export function Swap({ address, children, title = 'Swap' }: SwapReact) {
   const [fromToken, setFromToken] = useState<Token>();
   const [toAmount, setToAmount] = useState('');
   const [toToken, setToToken] = useState<Token>();
-  const [swapQuoteLoadingState, setSwapQuoteLoadingState] =
-    useState<SwapQuoteLoadingState>({
-      isFromQuoteLoading: false,
-      isToQuoteLoading: false,
-    });
+  const [swapLoadingState, setSwapLoadingState] = useState<SwapLoadingState>({
+    isFromQuoteLoading: false,
+    isSwapLoading: false,
+    isToQuoteLoading: false,
+  });
 
   // returns ETH balance
   const ethBalanceResponse: UseBalanceReturnType = useBalance({
@@ -100,9 +100,9 @@ export function Swap({ address, children, title = 'Swap' }: SwapReact) {
         return;
       }
       try {
-        setSwapQuoteLoadingState({
+        setSwapLoadingState({
+          ...swapLoadingState,
           isToQuoteLoading: true,
-          isFromQuoteLoading: false,
         });
         const response = await getSwapQuote({
           from: fromToken,
@@ -122,9 +122,9 @@ export function Swap({ address, children, title = 'Swap' }: SwapReact) {
       } catch (err) {
         setError(err as SwapError);
       } finally {
-        setSwapQuoteLoadingState({
+        setSwapLoadingState({
+          ...swapLoadingState,
           isToQuoteLoading: false,
-          isFromQuoteLoading: false,
         });
       }
     },
@@ -139,8 +139,8 @@ export function Swap({ address, children, title = 'Swap' }: SwapReact) {
         return;
       }
       try {
-        setSwapQuoteLoadingState({
-          isToQuoteLoading: false,
+        setSwapLoadingState({
+          ...swapLoadingState,
           isFromQuoteLoading: true,
         });
         const response = await getSwapQuote({
@@ -161,8 +161,8 @@ export function Swap({ address, children, title = 'Swap' }: SwapReact) {
       } catch (err) {
         setError(err as SwapError);
       } finally {
-        setSwapQuoteLoadingState({
-          isToQuoteLoading: false,
+        setSwapLoadingState({
+          ...swapLoadingState,
           isFromQuoteLoading: false,
         });
       }
@@ -196,7 +196,8 @@ export function Swap({ address, children, title = 'Swap' }: SwapReact) {
       setFromToken,
       setToToken,
       setToAmount,
-      swapQuoteLoadingState,
+      setSwapLoadingState,
+      swapLoadingState,
       toAmount,
       toToken,
     };
@@ -212,10 +213,11 @@ export function Swap({ address, children, title = 'Swap' }: SwapReact) {
     handleToggle,
     roundedFromTokenBalance,
     roundedToTokenBalance,
-    swapQuoteLoadingState,
+    swapLoadingState,
+    setError,
     setFromAmount,
     setFromToken,
-    setSwapQuoteLoadingState,
+    setSwapLoadingState,
     setToAmount,
     setToToken,
     toAmount,
