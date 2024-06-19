@@ -23,7 +23,7 @@ import type { UseBalanceReturnType, UseReadContractReturnType } from 'wagmi';
 import { background, cn, text } from '../../styles/theme';
 
 export function Swap({ address, children, title = 'Swap' }: SwapReact) {
-  const [error, setError] = useState<SwapError>();
+  const [swapErrorState, setSwapErrorState] = useState<SwapErrorState>();
   const [fromAmount, setFromAmount] = useState('');
   const [fromToken, setFromToken] = useState<Token>();
   const [toAmount, setToAmount] = useState('');
@@ -33,7 +33,7 @@ export function Swap({ address, children, title = 'Swap' }: SwapReact) {
     isSwapLoading: false,
     isToQuoteLoading: false,
   });
-  
+
   // returns ETH balance
   const ethBalanceResponse: UseBalanceReturnType = useBalance({
     address,
@@ -140,7 +140,7 @@ export function Swap({ address, children, title = 'Swap' }: SwapReact) {
           amountReference: 'from',
         });
         if (isSwapError(response)) {
-          setError(response);
+          setSwapErrorState({ ...swapErrorState, quoteError: response });
           return;
         }
         const formattedAmount = formatTokenAmount(
@@ -149,7 +149,7 @@ export function Swap({ address, children, title = 'Swap' }: SwapReact) {
         );
         setToAmount(formattedAmount);
       } catch (err) {
-        setError(err as SwapError);
+        setSwapErrorState({ ...swapErrorState, quoteError: err as SwapError });
       } finally {
         setSwapLoadingState({
           ...swapLoadingState,
@@ -179,7 +179,7 @@ export function Swap({ address, children, title = 'Swap' }: SwapReact) {
           amountReference: 'to',
         });
         if (isSwapError(response)) {
-          setError(response);
+          setSwapErrorState({ ...swapErrorState, quoteError: response });
           return;
         }
         const formattedAmount = formatTokenAmount(
@@ -188,7 +188,7 @@ export function Swap({ address, children, title = 'Swap' }: SwapReact) {
         );
         setFromAmount(formattedAmount);
       } catch (err) {
-        setError(err as SwapError);
+        setSwapErrorState({ ...swapErrorState, quoteError: err as SwapError });
       } finally {
         setSwapLoadingState({
           ...swapLoadingState,
@@ -213,7 +213,6 @@ export function Swap({ address, children, title = 'Swap' }: SwapReact) {
       address,
       convertedFromTokenBalance,
       convertedToTokenBalance,
-      error,
       fromAmount,
       fromToken,
       handleFromAmountChange,
@@ -221,13 +220,17 @@ export function Swap({ address, children, title = 'Swap' }: SwapReact) {
       handleToggle,
       roundedFromTokenBalance,
       roundedToTokenBalance,
-      setError,
+      setSwapErrorState,
       setFromAmount,
       setFromToken,
       setToToken,
       setToAmount,
       setSwapLoadingState,
-      swapErrorState: { fromTokenBalanceError, toTokenBalanceError },
+      swapErrorState: {
+        ...swapErrorState,
+        fromTokenBalanceError,
+        toTokenBalanceError,
+      },
       swapLoadingState,
       toAmount,
       toToken,
@@ -236,7 +239,6 @@ export function Swap({ address, children, title = 'Swap' }: SwapReact) {
     address,
     convertedFromTokenBalance,
     convertedToTokenBalance,
-    error,
     fromAmount,
     fromToken,
     fromTokenBalanceError,
@@ -246,7 +248,7 @@ export function Swap({ address, children, title = 'Swap' }: SwapReact) {
     roundedFromTokenBalance,
     roundedToTokenBalance,
     swapLoadingState,
-    setError,
+    setSwapErrorState,
     setFromAmount,
     setFromToken,
     setSwapLoadingState,

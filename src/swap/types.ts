@@ -69,7 +69,6 @@ export type GetSwapQuoteParams = {
 export type GetSwapQuoteResponse = SwapQuote | SwapError;
 
 export type GetSwapMessageParams = {
-  error?: SwapError;
   convertedFromTokenBalance?: string;
   fromAmount: string;
   fromToken?: Token;
@@ -135,7 +134,7 @@ export type SwapContextType = {
   address: Address; // Connected address from connector.
   convertedFromTokenBalance?: string;
   convertedToTokenBalance?: string;
-  error?: SwapError;
+  error?: SwapErrorState;
   fromAmount: string;
   fromToken?: Token;
   fromTokenBalance?: string;
@@ -144,7 +143,7 @@ export type SwapContextType = {
   handleToggle: () => void;
   roundedFromTokenBalance?: string;
   roundedToTokenBalance?: string;
-  setError: (e: SwapError) => void;
+  setSwapErrorState: (e: SwapErrorState) => void;
   setFromAmount: (a: string) => void;
   setFromToken: (t: Token) => void;
   setToAmount: (a: string) => void;

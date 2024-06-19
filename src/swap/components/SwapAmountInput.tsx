@@ -109,28 +109,6 @@ export function SwapAmountInput({
     }
   }, [token, setToken]);
 
-  // useEffect(() => {
-  //   if (
-  //     token?.symbol !== 'ETH' &&
-  //     balanceResponse?.error &&
-  //     error?.error !== balanceResponse?.error?.shortMessage
-  //   ) {
-  //     const error = { error: balanceResponse?.error?.shortMessage };
-  //     setError(error);
-  //   }
-  // }, [token, balanceResponse, setError]);
-
-  // useEffect(() => {
-  //   if (
-  //     token?.symbol === 'ETH' &&
-  //     ethBalanceResponse?.error &&
-  //     error?.error !== ethBalanceResponse?.error?.message
-  //   ) {
-  //     const error = { error: ethBalanceResponse?.error?.message };
-  //     setError(error);
-  //   }
-  // }, [token, ethBalanceResponse, setError]);
-
   const hasInsufficientBalance =
     type === 'from' && Number(convertedBalance) < Number(amount);
 

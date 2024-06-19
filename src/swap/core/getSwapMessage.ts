@@ -11,7 +11,6 @@ export enum SwapMessage {
 const LOW_LIQUIDITY_ERROR_CODE = -32602;
 
 export function getSwapMessage({
-  error,
   convertedFromTokenBalance,
   fromAmount,
   fromToken,
@@ -38,7 +37,12 @@ export function getSwapMessage({
   }
 
   // low liquidity
-  if (error?.code === LOW_LIQUIDITY_ERROR_CODE) {
+  if (
+    swapErrorState &&
+    Object.values(swapErrorState)?.find(
+      (error) => error?.code === LOW_LIQUIDITY_ERROR_CODE,
+    )
+  ) {
     return SwapMessage.LOW_LIQUIDITY;
   }
 
@@ -48,8 +52,7 @@ export function getSwapMessage({
   }
 
   // TODO: handle swap quote error
-
-  if (error) {
-    return error.error;
-  }
+  // if (error) {
+  //   return error.error;
+  // }
 }
