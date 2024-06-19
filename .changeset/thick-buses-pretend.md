@@ -2,4 +2,5 @@
 "@coinbase/onchainkit": patch
 ---
 
-- **feat**: Refactor balance api calls and add swap quote loading state. By @abcrane123 #630
+- **feat**: added theming to all `Text` components. By @kyhyco #632
+- **feat**: refactored balance api calls and add swap quote loading state. By @abcrane123 #630
