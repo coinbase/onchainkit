@@ -5,20 +5,20 @@ import { getSwapMessage } from '../core/getSwapMessage';
 export function SwapMessage() {
   const {
     error,
+    convertedFromTokenBalance,
     fromAmount,
     fromToken,
-    fromTokenBalance,
-    isLoading,
+    swapLoadingState,
     toAmount,
     toToken,
   } = useSwapContext();
 
   const message = getSwapMessage({
     error,
+    convertedFromTokenBalance,
     fromAmount,
     fromToken,
-    fromTokenBalance,
-    isLoading,
+    swapLoadingState,
     toAmount,
     toToken,
   });

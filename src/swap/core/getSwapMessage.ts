@@ -11,20 +11,20 @@ const LOW_LIQUIDITY_ERROR_CODE = -32602;
 
 export function getSwapMessage({
   error,
+  convertedFromTokenBalance,
   fromAmount,
   fromToken,
-  fromTokenBalance,
-  isLoading,
+  swapLoadingState,
   toAmount,
   toToken,
 }: GetSwapMessageParams) {
-  // handle loading
-  if (isLoading && Object.values(isLoading).includes(true)) {
-    return SwapMessage.IS_LOADING;
-  }
   // amount exceeds balance
-  if (Number(fromTokenBalance) < Number(fromAmount)) {
+  if (Number(convertedFromTokenBalance) < Number(fromAmount)) {
     return SwapMessage.INSUFFICIENT_BALANCE;
+  }
+  // handle loading
+  if (swapLoadingState && Object.values(swapLoadingState).includes(true)) {
+    return SwapMessage.IS_LOADING;
   }
 
   // low liquidity

@@ -18,21 +18,14 @@ export function SwapAmountInput({
   const {
     convertedFromTokenBalance,
     convertedToTokenBalance,
-    address,
-    error,
     fromAmount,
     fromToken,
-    fromTokenBalance,
     handleFromAmountChange,
     handleToAmountChange,
     roundedFromTokenBalance,
     roundedToTokenBalance,
-    isLoading,
-    setError,
     setFromAmount,
     setFromToken,
-    setFromTokenBalance,
-    setIsLoading,
     setToAmount,
     setToToken,
     swapLoadingState,
@@ -44,7 +37,6 @@ export function SwapAmountInput({
     amount,
     convertedBalance,
     handleAmountChange,
-    isSwapQuoteLoading,
     roundedBalance,
     setAmount,
     setToken,
@@ -118,26 +110,6 @@ export function SwapAmountInput({
   }, [token, setToken]);
 
   // useEffect(() => {
-  //   let isBalanceLoading = balanceResponse?.isLoading;
-  //   if (token?.symbol === 'ETH') {
-  //     isBalanceLoading = ethBalanceResponse?.isLoading;
-  //   }
-  //   if (type === 'to' && isLoading?.toTokenBalance !== isBalanceLoading) {
-  //     setIsLoading({ ...isLoading, toTokenBalance: isBalanceLoading });
-  //   }
-  //   if (type === 'from' && isLoading?.fromTokenBalance !== isBalanceLoading) {
-  //     setIsLoading({ ...isLoading, fromTokenBalance: isBalanceLoading });
-  //   }
-  // }, [
-  //   balanceResponse?.isLoading,
-  //   ethBalanceResponse?.isLoading,
-  //   isLoading,
-  //   setIsLoading,
-  //   token,
-  //   type,
-  // ]);
-
-  // useEffect(() => {
   //   if (
   //     token?.symbol !== 'ETH' &&
   //     balanceResponse?.error &&
@@ -189,7 +161,6 @@ export function SwapAmountInput({
           setValue={setAmount}
           delayMs={delayMs}
           inputValidator={isValidAmount}
-          disabled={isSwapQuoteLoading}
         />
         {filteredTokens && (
           <TokenSelectDropdown

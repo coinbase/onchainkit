@@ -20,7 +20,6 @@ export function Swap({ address, children, title = 'Swap' }: SwapReact) {
   const [error, setError] = useState<SwapError>();
   const [fromAmount, setFromAmount] = useState('');
   const [fromToken, setFromToken] = useState<Token>();
-  const [fromTokenBalance, setFromTokenBalance] = useState('');
   const [toAmount, setToAmount] = useState('');
   const [toToken, setToToken] = useState<Token>();
   const [swapLoadingState, setSwapLoadingState] = useState<SwapLoadingState>({
@@ -188,7 +187,6 @@ export function Swap({ address, children, title = 'Swap' }: SwapReact) {
       error,
       fromAmount,
       fromToken,
-      fromTokenBalance,
       handleFromAmountChange,
       handleToAmountChange,
       handleToggle,
@@ -197,7 +195,6 @@ export function Swap({ address, children, title = 'Swap' }: SwapReact) {
       setError,
       setFromAmount,
       setFromToken,
-      setFromTokenBalance,
       setToToken,
       setToAmount,
       setSwapLoadingState,
@@ -212,7 +209,6 @@ export function Swap({ address, children, title = 'Swap' }: SwapReact) {
     error,
     fromAmount,
     fromToken,
-    fromTokenBalance,
     handleFromAmountChange,
     handleToAmountChange,
     handleToggle,
