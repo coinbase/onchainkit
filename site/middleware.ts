@@ -3,6 +3,7 @@ import { geolocation, next } from '@vercel/edge';
 // List of blocked countries (ISO 3166-1 alpha-2 country codes)
 // North Korea (KP), Iran (IR), Syria (SY), Cuba (CU), Crimea (UA-43), Luhansk (UA-09), Donetsk (UA-14)
 const BLOCKED_COUNTRIES = [
+  'US',
   'KP',
   'IR',
   'SY',
@@ -14,7 +15,7 @@ const BLOCKED_COUNTRIES = [
 ];
 
 export const config = {
-  matcher: ['/'],
+  matcher: ['/temp-demo'],
 };
 
 export default function middleware(request: Request) {
