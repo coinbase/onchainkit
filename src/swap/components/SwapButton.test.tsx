@@ -20,8 +20,9 @@ const mockedIsSwapError = isSwapError as jest.MockedFunction<
   (response: unknown) => response is SwapError
 >;
 
-const mockSwapQuoteLoadingState = {
+const mockSwapLoadingState = {
   isFromQuoteLoading: false,
+  isSwapLoading: false,
   isToQuoteLoading: false,
 };
 
@@ -32,7 +33,8 @@ describe('SwapButton', () => {
       fromAmount: 100,
       fromToken: 'ETH',
       toAmount: 5,
-      swapQuoteLoadingState: mockSwapQuoteLoadingState,
+      setSwapLoadingState: jest.fn(),
+      swapLoadingState: mockSwapLoadingState,
       toToken: 'DAI',
       setError: jest.fn(),
     });
@@ -59,7 +61,8 @@ describe('SwapButton', () => {
       address: '0x123',
       fromAmount: 100,
       fromToken: 'ETH',
-      swapQuoteLoadingState: mockSwapQuoteLoadingState,
+      swapLoadingState: mockSwapLoadingState,
+      setSwapLoadingState: jest.fn(),
       toAmount: 5,
       toToken: 'DAI',
       setError,
@@ -85,7 +88,8 @@ describe('SwapButton', () => {
       address: '0x123',
       fromAmount: 100,
       fromToken: 'ETH',
-      swapQuoteLoadingState: mockSwapQuoteLoadingState,
+      setSwapLoadingState: jest.fn(),
+      swapLoadingState: mockSwapLoadingState,
       toAmount: 5,
       toToken: 'DAI',
       setError,
@@ -120,8 +124,10 @@ describe('SwapButton', () => {
       address: '0x123',
       fromAmount: 100,
       fromToken: 'ETH',
-      swapQuoteLoadingState: {
-        isFromQuoteLoading: true,
+      setSwapLoadingState: jest.fn(),
+      swapLoadingState: {
+        isFromQuoteLoading: false,
+        isSwapLoading: true,
         isToQuoteLoading: false,
       },
       toAmount: 5,
