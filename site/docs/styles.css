@@ -4,6 +4,19 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  :root {
+    --text-inverse: theme(colors.gray.50);
+    --text-foreground: theme(colors.gray.950);
+    --text-foreground-muted: theme(colors.gray.600);
+    --text-error: theme(colors.rose.600);
+    --text-primary: theme(colors.indigo.600);
+    --text-success: theme(colors.lime.600);
+    --text-warning: theme(colors.orange.600);
+    --text-disabled: theme(colors.gray.400);
+  }
+}
+
 #home-install .vocs_CodeGroup {
   display: flex;
   height: 100%;
