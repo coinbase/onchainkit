@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   coverageThreshold: {
     global: {
       branches: 100,
