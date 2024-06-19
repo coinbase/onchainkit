@@ -5,7 +5,7 @@ export enum SwapMessage {
   INCOMPLETE_FIELD = 'Complete the fields to continue',
   INSUFFICIENT_BALANCE = 'Insufficient balance',
   IS_LOADING = 'Loading...',
-  LOW_LIQUIDITY = 'Liquidity too low for the token"',
+  LOW_LIQUIDITY = 'Liquidity too low for the token',
 }
 
 const LOW_LIQUIDITY_ERROR_CODE = -32602;
