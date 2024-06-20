@@ -92,7 +92,7 @@ export function Swap({ address, children, title = 'Swap' }: SwapReact) {
     toTokenBalanceResponse?.data,
   ]);
 
-  /* istanbul ignore next */
+  /* istanbul ignore next, biome-ignore lint: need setState funcs */
   const handleFromAmountChange = useCallback(
     async (amount: string) => {
       const hasRequiredFields = fromToken && toToken && amount;
@@ -128,11 +128,10 @@ export function Swap({ address, children, title = 'Swap' }: SwapReact) {
         });
       }
     },
-    /* biome-ignore lint: need setState funcs */
     [fromToken, setSwapLoadingState, swapLoadingState, toToken],
   );
 
-  /* istanbul ignore next */
+  /* istanbul ignore next, biome-ignore lint: need setState funcs */
   const handleToAmountChange = useCallback(
     async (amount: string) => {
       const hasRequiredFields = fromToken && toToken && amount;
@@ -168,7 +167,6 @@ export function Swap({ address, children, title = 'Swap' }: SwapReact) {
         });
       }
     },
-    /* biome-ignore lint: need setState funcs */
     [fromToken, setSwapLoadingState, swapLoadingState, toToken],
   );
 
