@@ -72,7 +72,9 @@ describe('SwapMessage', () => {
       <SwapContext.Provider
         value={{
           ...mockContextValue,
-          swapErrorState: { swapError: { code: -32602 } as SwapError },
+          swapErrorState: {
+            swapError: { code: 'SWAP_QUOTE_LOW_LIQUIDITY_ERROR' } as SwapError,
+          },
         }}
       >
         <SwapMessage />
@@ -80,6 +82,64 @@ describe('SwapMessage', () => {
     );
     expect(screen.getByTestId('ockSwapMessage_Message')).toHaveTextContent(
       'Liquidity too low for the token',
+    );
+  });
+
+  it('renders the component with a message when amount exceeds maximum', () => {
+    render(
+      <SwapContext.Provider
+        value={{
+          ...mockContextValue,
+          convertedFromTokenBalance: '10',
+          fromAmount: '12',
+        }}
+      >
+        <SwapMessage />
+      </SwapContext.Provider>,
+    );
+    expect(screen.getByTestId('ockSwapMessage_Message')).toHaveTextContent(
+      'Insufficient balance',
+    );
+  });
+
+  it('renders the component with a message when there is a balance error', () => {
+    render(
+      <SwapContext.Provider
+        value={{
+          ...mockContextValue,
+          swapErrorState: {
+            fromTokenBalanceError: {
+              error: 'balance error',
+              code: 'SWAP_BALANCE_ERROR',
+            },
+          },
+        }}
+      >
+        <SwapMessage />
+      </SwapContext.Provider>,
+    );
+    expect(screen.getByTestId('ockSwapMessage_Message')).toHaveTextContent(
+      'Error fetching token balance',
+    );
+  });
+
+  it('renders the component with a message when loading', () => {
+    render(
+      <SwapContext.Provider
+        value={{
+          ...mockContextValue,
+          swapLoadingState: {
+            isFromQuoteLoading: true,
+            isToQuoteLoading: false,
+            isSwapLoading: false,
+          },
+        }}
+      >
+        <SwapMessage />
+      </SwapContext.Provider>,
+    );
+    expect(screen.getByTestId('ockSwapMessage_Message')).toHaveTextContent(
+      'Loading...',
     );
   });
 

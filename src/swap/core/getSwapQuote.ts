@@ -1,6 +1,7 @@
 import { CDP_GET_SWAP_QUOTE } from '../../network/definitions/swap';
 import { sendRequest } from '../../network/request';
 import { getAPIParamsForToken } from './getAPIParamsForToken';
+import { getSwapErrorCode } from './getSwapErrorCode';
 import type {
   GetSwapQuoteResponse,
   SwapQuote,
@@ -29,7 +30,7 @@ export async function getSwapQuote(
     );
     if (res.error) {
       return {
-        code: res.error.code,
+        code: getSwapErrorCode('quote', res.error?.code),
         error: res.error.message,
       } as SwapError;
     }

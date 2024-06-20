@@ -196,7 +196,7 @@ export type SwapReact = {
  * Note: exported as public Type
  */
 export type SwapError = {
-  code?: number; // The error code
+  code: string; // The error code
   error: string; // The error message
 };
 

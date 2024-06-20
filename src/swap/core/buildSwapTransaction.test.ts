@@ -285,7 +285,7 @@ describe('buildSwapTransaction', () => {
       id: 1,
       jsonrpc: '2.0',
       error: {
-        code: -1,
+        code: 'SWAP_ERROR',
         message: 'Invalid response',
       },
     };
@@ -294,7 +294,7 @@ describe('buildSwapTransaction', () => {
 
     const error = await buildSwapTransaction(mockParams);
     expect(error).toEqual({
-      code: -1,
+      code: 'SWAP_ERROR',
       error: 'Invalid response',
     });
 

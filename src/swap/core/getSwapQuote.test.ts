@@ -129,7 +129,7 @@ describe('getSwapQuote', () => {
 
     const error = await getSwapQuote(mockParams);
     expect(error).toEqual({
-      code: -1,
+      code: 'SWAP_QUOTE_ERROR',
       error: 'Invalid response',
     });
 

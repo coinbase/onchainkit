@@ -1,3 +1,4 @@
+import { LOW_LIQUIDITY_ERROR_CODE } from '../constants';
 import type { GetSwapMessageParams } from '../types';
 
 export enum SwapMessage {
@@ -7,8 +8,6 @@ export enum SwapMessage {
   IS_LOADING = 'Loading...',
   LOW_LIQUIDITY = 'Liquidity too low for the token',
 }
-
-const LOW_LIQUIDITY_ERROR_CODE = -32602;
 
 export function getSwapMessage({
   convertedFromTokenBalance,

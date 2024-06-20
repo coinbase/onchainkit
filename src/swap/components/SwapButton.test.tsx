@@ -33,6 +33,7 @@ describe('SwapButton', () => {
       fromAmount: 100,
       fromToken: 'ETH',
       toAmount: 5,
+      setSwapErrorState: jest.fn(),
       setSwapLoadingState: jest.fn(),
       swapLoadingState: mockSwapLoadingState,
       toToken: 'DAI',
@@ -56,20 +57,21 @@ describe('SwapButton', () => {
   });
 
   it('sets error if buildSwapTransaction throws an error', async () => {
-    const setError = jest.fn();
+    const setSwapErrorState = jest.fn();
     mockedUseSwapContext.mockReturnValueOnce({
       address: '0x123',
       fromAmount: 100,
       fromToken: 'ETH',
       swapLoadingState: mockSwapLoadingState,
+      setSwapErrorState,
       setSwapLoadingState: jest.fn(),
       toAmount: 5,
       toToken: 'DAI',
-      setError,
     });
-    mockedBuildSwapTransaction.mockRejectedValue(
-      new Error('Transaction error'),
-    );
+    mockedBuildSwapTransaction.mockRejectedValue({
+      error: 'Transaction error',
+      code: 'SWAP_ERROR',
+    });
 
     const { getByText } = render(
       <SwapButton disabled={false} onSubmit={jest.fn()} />,
@@ -77,22 +79,26 @@ describe('SwapButton', () => {
 
     fireEvent.click(getByText('Swap'));
 
+    const mockErrorState = {
+      swapError: { error: 'Transaction error', code: 'SWAP_ERROR' },
+    };
+
     await waitFor(() =>
-      expect(setError).toHaveBeenCalledWith(new Error('Transaction error')),
+      expect(setSwapErrorState).toHaveBeenCalledWith(mockErrorState),
     );
   });
 
   it('sets error if response is a swap error', async () => {
-    const setError = jest.fn();
+    const setSwapErrorState = jest.fn();
     mockedUseSwapContext.mockReturnValueOnce({
       address: '0x123',
       fromAmount: 100,
       fromToken: 'ETH',
+      setSwapErrorState,
       setSwapLoadingState: jest.fn(),
       swapLoadingState: mockSwapLoadingState,
       toAmount: 5,
       toToken: 'DAI',
-      setError,
     });
     mockedBuildSwapTransaction.mockResolvedValue('error-response');
     mockedIsSwapError.mockReturnValueOnce(true);
@@ -104,7 +110,9 @@ describe('SwapButton', () => {
     fireEvent.click(getByText('Swap'));
 
     await waitFor(() =>
-      expect(setError).toHaveBeenCalledWith('error-response'),
+      expect(setSwapErrorState).toHaveBeenCalledWith({
+        swapError: 'error-response',
+      }),
     );
   });
 
@@ -124,6 +132,7 @@ describe('SwapButton', () => {
       address: '0x123',
       fromAmount: 100,
       fromToken: 'ETH',
+      setSwapErrorState: jest.fn(),
       setSwapLoadingState: jest.fn(),
       swapLoadingState: {
         isFromQuoteLoading: false,

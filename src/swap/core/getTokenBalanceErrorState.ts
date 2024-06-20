@@ -1,3 +1,4 @@
+import { getSwapErrorCode } from './getSwapErrorCode';
 import type { Token } from '../../token';
 import type { UseBalanceReturnType, UseReadContractReturnType } from 'wagmi';
 
@@ -13,9 +14,15 @@ export function getTokenBalanceErrorState({
   tokenBalance,
 }: GetTokenBalancesErrorStateParams) {
   if (token?.symbol === 'ETH' && ethBalance?.error) {
-    return { error: ethBalance?.error?.message };
+    return {
+      error: ethBalance?.error?.message,
+      code: getSwapErrorCode('balance'),
+    };
   }
   if (token && token?.symbol !== 'ETH' && tokenBalance?.isError) {
-    return { error: tokenBalance?.error?.shortMessage };
+    return {
+      error: tokenBalance?.error?.shortMessage,
+      code: getSwapErrorCode('balance'),
+    };
   }
 }
