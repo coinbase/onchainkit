@@ -79,7 +79,7 @@ describe('SwapMessage', () => {
       </SwapContext.Provider>,
     );
     expect(screen.getByTestId('ockSwapMessage_Message')).toHaveTextContent(
-      'Invalid params or arguments',
+      'Liquidity too low for the token',
     );
   });
 

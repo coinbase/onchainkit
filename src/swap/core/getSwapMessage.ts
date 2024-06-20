@@ -5,10 +5,10 @@ export enum SwapMessage {
   INCOMPLETE_FIELD = 'Complete the fields to continue',
   INSUFFICIENT_BALANCE = 'Insufficient balance',
   IS_LOADING = 'Loading...',
-  INVALID_PARAMS = 'Invalid params or arguments',
+  LOW_LIQUIDITY = 'Liquidity too low for the token',
 }
 
-const INVALID_PARAMS_ERROR_CODE = -32602;
+const LOW_LIQUIDITY_ERROR_CODE = -32602;
 
 export function getSwapMessage({
   convertedFromTokenBalance,
@@ -49,10 +49,10 @@ export function getSwapMessage({
   // handle invalid params error
   if (
     Object.values(swapErrorState)?.find(
-      (error) => error?.code === INVALID_PARAMS_ERROR_CODE,
+      (error) => error?.code === LOW_LIQUIDITY_ERROR_CODE,
     )
   ) {
-    return SwapMessage.INVALID_PARAMS;
+    return SwapMessage.LOW_LIQUIDITY;
   }
 
   // handle general error
