@@ -106,7 +106,7 @@ export default function SwapComponents() {
               token={swappableTokens[2]}
               type="to"
             />
-            <SwapButton disabled />
+            <SwapButton />
             <SwapMessage />
           </Swap>
         )
@@ -117,9 +117,9 @@ export default function SwapComponents() {
 </App>
 
 :::danger
-**Note: We've disabled the Swap button here as this interface is for demonstration purposes only.**
+**Note: This interface is for demonstration purposes only.**
 
-To enable swaps on your app, leave the `disabled` prop as `false` (default value) and the component should work out of the box.
+The swap will execute and work out of the box when you implement the component in your own app.
 :::
 
 You can adjust to only allow swap between a token pair.
