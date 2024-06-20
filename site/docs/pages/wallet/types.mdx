@@ -38,10 +38,26 @@ export type IsWalletACoinbaseSmartWalletResponse =
   | { isCoinbaseSmartWallet: false; error: string; code: string };
 ```
 
+## `WalletContextType`
+
+```ts
+type WalletContextType = {
+  address?: Address | null; // The Ethereum address to fetch the avatar and name for.
+};
+```
+
 ## `WalletReact`
 
 ```ts
 type WalletReact = {
-  children: ReactNode;
+  children: React.ReactNode;
+};
+```
+
+## `WalletDropdownReact`
+
+```ts
+type WalletDropdownReact = {
+  children: React.ReactNode;
 };
 ```

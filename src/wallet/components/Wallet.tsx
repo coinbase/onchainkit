@@ -9,24 +9,20 @@ export function Wallet({ children }: WalletReact) {
     return {};
   }, []);
 
-  const { connectAccount, walletDropdown } = useMemo(() => {
+  const { connect, dropdown } = useMemo(() => {
     const childrenArray = Children.toArray(children);
     return {
       // @ts-ignore
-      connectAccount: childrenArray.filter(
-        ({ type }) => type === ConnectAccount,
-      ),
+      connect: childrenArray.filter(({ type }) => type === ConnectAccount),
       // @ts-ignore
-      walletDropdown: childrenArray.filter(
-        ({ type }) => type === WalletDropdown,
-      ),
+      dropdown: childrenArray.filter(({ type }) => type === WalletDropdown),
     };
   }, [children]);
 
   return (
     <WalletContext.Provider value={value}>
-      {connectAccount}
-      {walletDropdown}
+      {connect}
+      {dropdown}
     </WalletContext.Provider>
   );
 }
