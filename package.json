@@ -88,6 +88,7 @@
     "./package.json": "./package.json",
     "./styles.css": "./src/styles.css",
     "./tailwind.css": "./src/tailwind.css",
+    "./theme": "./esm/styles/theme.js",
     ".": {
       "types": "./esm/index.d.ts",
       "module": "./esm/index.js",
