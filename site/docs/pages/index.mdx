@@ -16,29 +16,15 @@ import FarcasterCastCard from '../components/FarcasterCastCard';
 import TokenSelector from '../components/TokenSelector';
 
 <div id="blobs">
-<div className="css-blurry-gradient" style={{ top: '-15%', left: 'calc(50% - 280px)' }} />
-<div className="css-blurry-gradient" style={{ 
-  top: '-15%', 
-  left: '50%', 
-  background: 'radial-gradient(circle at 50% 50%,#0078ff, #00a9ff)',
-  opacity: 0.3,
-  filter: 'blur(75px)',
-}} 
-/>
-<div className="css-blurry-gradient" style={{ top: '-15%', left: 'calc(50% + 280px)' }} />
-<div className="css-blurry-gradient" style={{ 
-  top: '45%', 
-  left: '90%', 
-  height: 220, 
-  width: 220
-}} />
-<div className="css-blurry-gradient" style={{
-  top: '35%',
-  left: '10%', 
-  height: 220, 
-  width: 220 
-}} />
+  <div className="css-blurry-gradient top-['-15%',] left-['calc(50%_-_280px)']"/>
+  <div className="css-blurry-gradient top-[-15%] opacity-30 blur-[75px] left-[10%]" style={{
+    background: 'radial-gradient(circle at 50% 50%, #4F46E5, #4F46E5)',
+  }} />
+  <div className="css-blurry-gradient" style={{ top: '-15%', left: 'calc(50% + 280px)' }} />
+  <div className="css-blurry-gradient" style={{ top: '45%', left: '90%', height: '220px', width: '220px' }} />
+  <div className="css-blurry-gradient" style={{ top: '35%', left: '10%', height: '220px', width: '220px' }} />
 </div>
+
 <div className="max-w-screen-xl mx-auto vp-doc relative px-[24px] mb-[26px] mt-0 md:px-0 md:mb-[64px]">
   <div className="mx-auto max-w-2xl">
     <div className="md:text-center flex flex-col gap-8 pt-48 pb-16">
@@ -103,7 +89,10 @@ bun add @coinbase/onchainkit
   schemaId="0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9"
 >
   <div className="flex h-10 items-center space-x-4">
-    <Avatar address="0x838aD0EAE54F99F1926dA7C3b6bFbF617389B4D9" showAttestation /> // [!code focus]
+    <Avatar
+      address="0x838aD0EAE54F99F1926dA7C3b6bFbF617389B4D9"
+      showAttestation
+    /> // [!code focus]
     <div className="flex flex-col text-sm">
       <b>
         <Name address="0x838aD0EAE54F99F1926dA7C3b6bFbF617389B4D9" /> // [!code focus]
@@ -222,7 +211,8 @@ setFilteredTokens(filteredTokens);
     <h2 className="basis-1/2 text-4xl md:text-6xl">Utilities</h2>
   </main>
   <p className="py-2 text-lg md:text-xl">
-    If you're seeking basic TypeScript utilities, we have plenty of ready-to-use options available.
+    If you're seeking basic TypeScript utilities, we have plenty of ready-to-use
+    options available.
   </p>
   <aside className="flex flex-col gap-10 pt-8 md:flex-row md:px-2">
     <ul>
@@ -255,7 +245,9 @@ setFilteredTokens(filteredTokens);
         <h3>Wallet</h3>
       </li>
       <li>[isValidAAEntrypoint](/wallet/is-valid-aa-entrypoint)</li>
-      <li>[isWalletACoinbaseSmartWallet](/wallet/is-wallet-a-coinbase-smart-wallet)</li>
+      <li>
+        [isWalletACoinbaseSmartWallet](/wallet/is-wallet-a-coinbase-smart-wallet)
+      </li>
     </ul>
     <ul>
       <li>
@@ -283,8 +275,8 @@ setFilteredTokens(filteredTokens);
   </main>
   <p className="py-2 text-lg md:text-xl">
     All our component designs are open-sourced. You can access the [Figma
-    file](https://www.figma.com/community/file/1370194397345450683) to use them for your onchain
-    project.
+    file](https://www.figma.com/community/file/1370194397345450683) to use them
+    for your onchain project.
   </p>
   <aside className="flex flex-col pt-10 md:flex-row md:px-2">
     <div>
@@ -336,7 +328,9 @@ setFilteredTokens(filteredTokens);
 
 <section>
   <main className="flex flex-col gap-4 md:flex-row">
-    <h2 className="basis-1/2 text-4xl md:text-6xl">Helping builders ship faster</h2>
+    <h2 className="basis-1/2 text-4xl md:text-6xl">
+      Helping builders ship faster
+    </h2>
   </main>
   <div className="overflow-x-scroll">
     <div className="flex flex-col gap-4 py-10 md:flex-row">

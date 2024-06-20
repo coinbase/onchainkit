@@ -8,6 +8,7 @@ export default {
   ],
   darkMode: 'class',
   important: true,
+  safelist: ['dark'],
   theme: {
     extend: {
       fontFamily: {
