@@ -29,6 +29,7 @@ export function Name({
 
   const badge = useMemo(() => {
     // @ts-ignore
+    // istanbul ignore next
     return Children.toArray(children).find(({ type }) => type === Badge);
   }, [children]);
 

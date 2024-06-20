@@ -17,8 +17,8 @@ export function Avatar({
   className,
   defaultComponent,
   loadingComponent,
-  props,
   children,
+  ...props
 }: AvatarReact) {
   const { address: contextAddress } = useIdentityContext();
   if (!contextAddress && !address) {
@@ -73,7 +73,10 @@ export function Avatar({
       )}
       {badge && (
         <DisplayBadge>
-          <div className="-bottom-0.5 -right-0.5 absolute flex h-[15px] w-[15px] items-center justify-center rounded-full bg-transparent">
+          <div
+            data-testid="ockAvatarBadgeContainer"
+            className="-bottom-0.5 -right-0.5 absolute flex h-[15px] w-[15px] items-center justify-center rounded-full bg-transparent"
+          >
             <div className="flex h-3 w-3 items-center justify-center">
               {badge}
             </div>

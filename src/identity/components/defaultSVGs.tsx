@@ -1,8 +1,8 @@
 export const defaultLoadingSVG = (
   <svg
+    data-testid="ockAvatarLoadingSvg"
     role="img"
     aria-label="ock-avatar-loading-image"
-    data-testid="ockAvatarLoadingSvg"
     width="32"
     height="32"
     viewBox="0 0 100 100"
@@ -31,6 +31,7 @@ export const defaultLoadingSVG = (
 
 export const defaultAvatarSVG = (
   <svg
+    data-testid="ockAvatarDefaultSvg"
     role="img"
     aria-label="ock-default-avatar"
     width="40"
