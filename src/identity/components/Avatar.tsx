@@ -6,7 +6,8 @@ import type { AvatarReact } from '../types';
 import { cn } from '../../styles/theme';
 import { DisplayBadge } from './DisplayBadge';
 import { Badge } from './Badge';
-import { defaultLoadingSVG, defaultAvatarSVG } from './defaultSVGs';
+import { defaultAvatarSVG } from './defaultAvatarSVG';
+import { defaultLoadingSVG } from './defaultLoadingSVG';
 
 /**
  * Represents an Avatar component that displays either a loading indicator,
