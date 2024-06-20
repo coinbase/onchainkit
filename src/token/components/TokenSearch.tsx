@@ -2,6 +2,7 @@ import { useCallback, useState } from 'react';
 import type { TokenSearchReact } from '../types';
 import { SearchIcon } from './SearchIcon';
 import { TextInput } from '../../internal/form/TextInput';
+import { cn, pressable } from '../../styles/theme';
 
 export function TokenSearch({ onChange, delayMs = 200 }: TokenSearchReact) {
   const [value, setValue] = useState('');
@@ -17,7 +18,10 @@ export function TokenSearch({ onChange, delayMs = 200 }: TokenSearchReact) {
         <SearchIcon />
       </div>
       <TextInput
-        className="w-full rounded-full border-2 border-[#eef0f3] border-solid bg-[#eef0f3] py-2 pr-5 pl-12 text-[#0A0B0D] placeholder-[#5B616E] outline-none hover:bg-[#cacbce] hover:focus:bg-[#eef0f3]"
+        className={cn(
+          pressable.alternate,
+          'w-full rounded-full border-2 border-[#eef0f3] border-solid py-2 pr-5 pl-12 text-[#0A0B0D] placeholder-[#5B616E] outline-none',
+        )}
         placeholder="Search for a token"
         value={value}
         setValue={setValue}

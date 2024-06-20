@@ -241,7 +241,7 @@ export function Swap({ address, children, title = 'Swap' }: SwapReact) {
 
   return (
     <SwapContext.Provider value={value}>
-      <div className="flex w-[500px] flex-col rounded-xl bg-gray-100 px-6 pt-6 pb-4">
+      <div className="flex w-[500px] flex-col rounded-xl bg-default px-6 pt-6 pb-4">
         <div className="mb-4">
           <h3 className={text.title3} data-testid="ockSwap_Title">
             {title}

@@ -2,7 +2,7 @@ import { memo } from 'react';
 import type { TokenRowReact } from '../types';
 import { formatAmount } from '../core/formatAmount';
 import { TokenImage } from './TokenImage';
-import { cn, text } from '../../styles/theme';
+import { cn, pressable, text } from '../../styles/theme';
 
 export const TokenRow = memo(function TokenRow({
   token,
@@ -15,7 +15,10 @@ export const TokenRow = memo(function TokenRow({
     <button
       data-testid="ockTokenRow_Container"
       type="button"
-      className="flex h-16 w-full cursor-pointer items-center justify-between bg-white px-2 py-1 active:bg-[#bfc1c3] hover:bg-[#cacbce]"
+      className={cn(
+        pressable.default,
+        'flex h-16 w-full items-center justify-between px-2 py-1',
+      )}
       onClick={() => onClick?.(token)}
     >
       <span className="flex items-center gap-3">

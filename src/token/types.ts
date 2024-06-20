@@ -1,4 +1,4 @@
-// 🌲☀️🌲
+// 🌲☀🌲
 import type { Address } from 'viem';
 
 /**
@@ -55,6 +55,7 @@ export type Token = {
 export type TokenChipReact = {
   token: Token;
   onClick?: (token: Token) => void;
+  className?: string;
 };
 
 /**

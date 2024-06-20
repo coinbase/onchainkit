@@ -1,3 +1,4 @@
+import { cn, pressable } from '../../styles/theme';
 import { useSwapContext } from '../context';
 
 const toggleIcon = (
@@ -35,7 +36,12 @@ export function SwapToggleButton() {
   return (
     <button
       type="button"
-      className="-translate-x-2/4 -translate-y-2/4 absolute top-2/4 left-2/4 flex h-12 w-12 cursor-pointer items-center justify-center rounded-lg border-4 border-gray-100 border-solid bg-[#E5E7EB]"
+      className={cn(
+        pressable.alternate,
+        '-translate-x-2/4 -translate-y-2/4 absolute top-2/4 left-2/4',
+        'flex h-12 w-12 items-center justify-center',
+        'rounded-lg border-4 border-gray-100 border-solid',
+      )}
       data-testid="SwapTokensButton"
       onClick={handleToggle}
     >

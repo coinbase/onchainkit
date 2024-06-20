@@ -1,7 +1,7 @@
 import { type ForwardedRef, forwardRef } from 'react';
 import type { TokenSelectButtonReact } from '../types';
 import { TokenImage } from './TokenImage';
-import { text } from '../../styles/theme';
+import { cn, pressable, text } from '../../styles/theme';
 
 function CaretUp() {
   return (
@@ -51,7 +51,11 @@ export const TokenSelectButton = forwardRef(function TokenSelectButton(
     <button
       type="button"
       data-testid="ockTokenSelectButton_Button"
-      className="flex w-fit items-center gap-2 rounded-lg bg-[#eef0f3] px-3 py-1 shadow-[0px_8px_12px_0px_#5B616E1F] outline-none active:bg-[#bfc1c3] hover:bg-[#cacbce]"
+      className={cn(
+        pressable.inverse,
+        pressable.shadow,
+        'flex w-fit items-center gap-2 rounded-lg px-3 py-1 outline-none',
+      )}
       onClick={onClick}
       ref={ref}
     >

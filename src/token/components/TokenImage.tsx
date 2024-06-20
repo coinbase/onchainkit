@@ -34,7 +34,7 @@ export function TokenImage({ className, size = 24, token }: TokenImageReact) {
 
   return (
     <img
-      className={className || 'ock-tokenimage'}
+      className={cn('overflow-hidden rounded-[50%]', className)}
       alt="token-image"
       data-testid="ockTokenImage_Image"
       style={styles.image}

@@ -15,4 +15,16 @@ export const text = {
   title3: 'font-bold font-display text-xl leading-7',
 } as const;
 
-export const pressable = {};
+export const pressable = {
+  default:
+    'cursor-pointer bg-default :hover:active:bg-default-active :hover:bg-default-hover',
+  alternate:
+    'cursor-pointer bg-alternate :hover:active:bg-alternate-active :hover:bg-alternate-hover',
+  inverse:
+    'cursor-pointer bg-inverse :hover:active:bg-inverse-active :hover:bg-inverse-hover',
+  primary:
+    'cursor-pointer bg-primary :hover:active:bg-primary-active :hover:bg-primary-hover',
+  secondary:
+    'cursor-pointer bg-secondary :hover:active:bg-secondary-active :hover:bg-secondary-hover',
+  shadow: 'shadow-[0px_8px_12px_0px_#5B616E1F]',
+} as const;

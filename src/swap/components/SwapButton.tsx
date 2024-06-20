@@ -62,7 +62,7 @@ export function SwapButton({ disabled = false, onSubmit }: SwapButtonReact) {
     <button
       type="button"
       className={cn(
-        'w-full rounded-xl bg-indigo-600',
+        'w-full rounded-xl bg-primary',
         'mt-4 px-4 py-3 font-medium text-base text-white leading-6',
         isDisabled && !swapLoadingState?.isSwapLoading ? 'opacity-[0.38]' : '',
       )}

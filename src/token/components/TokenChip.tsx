@@ -1,4 +1,4 @@
-import { text } from '../../styles/theme';
+import { cn, pressable, text } from '../../styles/theme';
 import type { TokenChipReact } from '../types';
 import { TokenImage } from './TokenImage';
 
@@ -8,16 +8,21 @@ import { TokenImage } from './TokenImage';
  * WARNING: This component is under development and
  *          may change in the next few weeks.
  */
-export function TokenChip({ token, onClick }: TokenChipReact) {
+export function TokenChip({ token, onClick, className }: TokenChipReact) {
   return (
     <button
       type="button"
       data-testid="ockTokenChip_Button"
-      className="flex w-fit shrink-0 items-center gap-2 rounded-2xl bg-[#eef0f3] py-1 pr-3 pl-1 shadow-[0px_8px_12px_0px_#5B616E1F] hover:active:bg-[#bfc1c3] hover:bg-[#cacbce]"
+      className={cn(
+        pressable.secondary,
+        pressable.shadow,
+        'flex w-fit shrink-0 items-center gap-2 rounded-lg py-1 pr-3 pl-1 ',
+        className,
+      )}
       onClick={() => onClick?.(token)}
     >
       <TokenImage token={token} size={24} />
-      <span className={text.body}>{token.symbol}</span>
+      <span className={text.headline}>{token.symbol}</span>
     </button>
   );
 }

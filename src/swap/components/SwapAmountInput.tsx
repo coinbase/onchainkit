@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo } from 'react';
 
 import { useSwapContext } from '../context';
 import { TokenChip, TokenSelectDropdown } from '../../token';
-import { cn, text } from '../../styles/theme';
+import { cn, pressable, text } from '../../styles/theme';
 import { TextInput } from '../../internal/form/TextInput';
 import { isValidAmount } from '../../utils/isValidAmount';
 import type { SwapAmountInputReact } from '../types';
@@ -114,7 +114,7 @@ export function SwapAmountInput({
     <div
       className={cn(
         'box-border flex w-full flex-col items-start',
-        'rounded-md border-b border-solid bg-[#E5E7EB] p-4',
+        'rounded-md border-b border-solid bg-alternate p-4',
       )}
       data-testid="ockSwapAmountInput_Container"
     >
@@ -142,7 +142,7 @@ export function SwapAmountInput({
           />
         )}
         {selectedToken && !filteredTokens && (
-          <TokenChip token={selectedToken} />
+          <TokenChip className={pressable.inverse} token={selectedToken} />
         )}
       </div>
       <div className="mt-4 flex w-full justify-between">
