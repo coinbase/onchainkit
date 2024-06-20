@@ -59,6 +59,7 @@ const mockContextValue = {
   setFromToken: jest.fn(),
   setToAmount: jest.fn(),
   setToToken: jest.fn(),
+  setSwapErrorState: jest.fn(),
   setSwapLoadingState: jest.fn(),
   swapLoadingState: {
     isFromQuoteLoading: false,

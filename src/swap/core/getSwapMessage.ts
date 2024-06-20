@@ -5,10 +5,10 @@ export enum SwapMessage {
   INCOMPLETE_FIELD = 'Complete the fields to continue',
   INSUFFICIENT_BALANCE = 'Insufficient balance',
   IS_LOADING = 'Loading...',
-  LOW_LIQUIDITY = 'Liquidity too low for the token',
+  INVALID_PARAMS = 'Invalid params or arguments',
 }
 
-const LOW_LIQUIDITY_ERROR_CODE = -32602;
+const INVALID_PARAMS_ERROR_CODE = -32602;
 
 export function getSwapMessage({
   convertedFromTokenBalance,
@@ -19,13 +19,23 @@ export function getSwapMessage({
   toAmount,
   toToken,
 }: GetSwapMessageParams) {
-  // amount exceeds balance
+  // handle amount exceeds balance
   if (Number(convertedFromTokenBalance) < Number(fromAmount)) {
     return SwapMessage.INSUFFICIENT_BALANCE;
   }
   // handle loading
   if (swapLoadingState && Object.values(swapLoadingState).includes(true)) {
     return SwapMessage.IS_LOADING;
+  }
+
+  // missing required fields
+  if (!fromAmount || !fromToken || !toAmount || !toToken) {
+    return SwapMessage.INCOMPLETE_FIELD;
+  }
+
+  // error states handled below
+  if (!swapErrorState) {
+    return '';
   }
 
   // handle balance error
@@ -36,23 +46,17 @@ export function getSwapMessage({
     return SwapMessage.BALANCE_ERROR;
   }
 
-  // low liquidity
+  // handle invalid params error
   if (
-    swapErrorState &&
     Object.values(swapErrorState)?.find(
-      (error) => error?.code === LOW_LIQUIDITY_ERROR_CODE,
+      (error) => error?.code === INVALID_PARAMS_ERROR_CODE,
     )
   ) {
-    return SwapMessage.LOW_LIQUIDITY;
+    return SwapMessage.INVALID_PARAMS;
   }
 
-  // missing required fields
-  if (!fromAmount || !fromToken || !toAmount || !toToken) {
-    return SwapMessage.INCOMPLETE_FIELD;
+  // handle general error
+  if (Object.values(swapErrorState).length) {
+    return Object.values(swapErrorState)[0]?.error;
   }
-
-  // TODO: handle swap quote error
-  // if (error) {
-  //   return error.error;
-  // }
 }

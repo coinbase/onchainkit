@@ -41,6 +41,7 @@ const mockContextValue = {
   setToAmount: jest.fn(),
   setToToken: jest.fn(),
   setError: jest.fn(),
+  setSwapErrorState: jest.fn(),
   setSwapLoadingState: jest.fn(),
   swapLoadingState: {
     isFromQuoteLoading: false,
@@ -71,14 +72,14 @@ describe('SwapMessage', () => {
       <SwapContext.Provider
         value={{
           ...mockContextValue,
-          error: { code: -32602 } as SwapError,
+          swapErrorState: { swapError: { code: -32602 } as SwapError },
         }}
       >
         <SwapMessage />
       </SwapContext.Provider>,
     );
     expect(screen.getByTestId('ockSwapMessage_Message')).toHaveTextContent(
-      'Liquidity too low for the token',
+      'Invalid params or arguments',
     );
   });
 
@@ -87,7 +88,9 @@ describe('SwapMessage', () => {
       <SwapContext.Provider
         value={{
           ...mockContextValue,
-          error: { error: 'An error occurred' } as SwapError,
+          swapErrorState: {
+            swapError: { error: 'An error occurred' } as SwapError,
+          },
         }}
       >
         <SwapMessage />
