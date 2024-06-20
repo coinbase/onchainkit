@@ -2,7 +2,7 @@ import { useCallback, useState } from 'react';
 import type { TokenSearchReact } from '../types';
 import { SearchIcon } from './SearchIcon';
 import { TextInput } from '../../internal/form/TextInput';
-import { cn, pressable } from '../../styles/theme';
+import { cn, color, pressable, text } from '../../styles/theme';
 
 export function TokenSearch({
   className,
@@ -24,7 +24,8 @@ export function TokenSearch({
       <TextInput
         className={cn(
           pressable.alternate,
-          'w-full rounded-xl border-2 border-[#eef0f3] border-solid py-2 pr-5 pl-12 text-[#0A0B0D] placeholder-[#5B616E] outline-none',
+          color.foreground,
+          'w-full rounded-xl border-2 border-[#eef0f3] border-solid py-2 pr-5 pl-12 placeholder-[#5B616E] outline-none',
           className,
         )}
         placeholder="Search for a token"

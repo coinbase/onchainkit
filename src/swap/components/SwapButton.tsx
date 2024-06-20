@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { useSwapContext } from '../context';
 import { buildSwapTransaction } from '../core/buildSwapTransaction';
-import { cn, text } from '../../styles/theme';
+import { background, cn, pressable, text } from '../../styles/theme';
 import { isSwapError } from '../core/isSwapError';
 import { Spinner } from '../../internal/loading/Spinner';
 import type { SwapButtonReact, SwapError } from '../types';
@@ -62,9 +62,10 @@ export function SwapButton({ disabled = false, onSubmit }: SwapButtonReact) {
     <button
       type="button"
       className={cn(
-        'w-full rounded-xl bg-primary',
+        background.primary,
+        'w-full rounded-xl',
         'mt-4 px-4 py-3 font-medium text-base text-white leading-6',
-        isDisabled && !swapLoadingState?.isSwapLoading ? 'opacity-[0.38]' : '',
+        isDisabled && !swapLoadingState?.isSwapLoading && pressable.disabled,
       )}
       onClick={handleSubmit}
       disabled={isDisabled}
