@@ -24,7 +24,7 @@ export function SwapMessage() {
   });
 
   return (
-    <div className="flex">
+    <div className="flex pt-2">
       <span className={text.label2} data-testid="ockSwapMessage_Message">
         {message}
       </span>
