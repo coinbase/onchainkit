@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import type { HTMLAttributes, ReactNode } from 'react';
 import type { Address, Chain } from 'viem';
 
 /**
@@ -11,6 +11,7 @@ export type AvatarReact = {
   defaultComponent?: JSX.Element; // Optional custom component to display when no ENS name or avatar is available.
   props?: React.ImgHTMLAttributes<HTMLImageElement>; // Optional additional image attributes to apply to the avatar.
   showAttestation?: boolean; // Optional flag to show the EAS attestation badge.
+  children?: ReactNode;
 };
 
 /**
@@ -121,11 +122,10 @@ export type IdentityReact = {
 export type NameReact = {
   address?: Address | null; // Ethereum address to be displayed.
   className?: string; // Optional CSS class for custom styling.
-  props?: React.HTMLAttributes<HTMLSpanElement>; // Additional HTML attributes for the span element.
   showAddress?: boolean; // Whether to prefer to show the address instead of the ENS name.
   showAttestation?: boolean; // Optional flag to show the EAS attestation badge.
   sliced?: boolean; // Determines if the address should be sliced when no ENS name is available.
-};
+} & Omit<HTMLAttributes<HTMLSpanElement>, 'color'>;
 
 export type UseAttestations = {
   address: Address;

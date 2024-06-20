@@ -11,7 +11,7 @@ export function Badge({
   tickerColor = 'white',
 }: BadgeReact) {
   // TODO: Implement the Badge component as span and CSS without an SVG element.
-  const badgeSize = borderColor ? '14px' : '12px';
+  const badgeSize = borderColor ? '18px' : '16px';
   return (
     <span
       className={cn('rounded-full border border-transparent', className)}
@@ -20,6 +20,8 @@ export function Badge({
         borderColor,
         height: badgeSize,
         width: badgeSize,
+        maxHeight: badgeSize,
+        maxWidth: badgeSize,
       }}
     >
       <svg
@@ -30,6 +32,7 @@ export function Badge({
         viewBox="0 0 12 12"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
+        className="h-full w-full"
       >
         <path
           d="M6 12C9.31371 12 12 9.31371 12 6C12 2.68629 9.31371 0 6 0C2.68629 0 0 2.68629 0 6C0 9.31371 2.68629 12 6 12Z"
