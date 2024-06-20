@@ -36,6 +36,8 @@ export function SwapButton({ disabled = false, onSubmit }: SwapButtonReact) {
         }
       } catch (error) {
         setSwapErrorState({ ...swapErrorState, swapError: error as SwapError });
+      } finally {
+        setSwapLoadingState({ ...swapLoadingState, isSwapLoading: false });
       }
     }
   }, [
@@ -45,6 +47,8 @@ export function SwapButton({ disabled = false, onSubmit }: SwapButtonReact) {
     onSubmit,
     setSwapErrorState,
     swapErrorState,
+    swapLoadingState,
+    setSwapLoadingState,
     toToken,
   ]);
 
