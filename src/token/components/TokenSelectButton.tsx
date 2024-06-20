@@ -44,7 +44,7 @@ function CaretDown() {
 }
 
 export const TokenSelectButton = forwardRef(function TokenSelectButton(
-  { onClick, token, isOpen }: TokenSelectButtonReact,
+  { onClick, token, isOpen, className }: TokenSelectButtonReact,
   ref: ForwardedRef<HTMLButtonElement>,
 ) {
   return (
@@ -55,6 +55,7 @@ export const TokenSelectButton = forwardRef(function TokenSelectButton(
         pressable.inverse,
         pressable.shadow,
         'flex w-fit items-center gap-2 rounded-lg px-3 py-1 outline-none',
+        className,
       )}
       onClick={onClick}
       ref={ref}

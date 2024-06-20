@@ -71,6 +71,7 @@ export type TokenImageReact = {
  * Note: exported as public Type
  */
 export type TokenRowReact = {
+  className?: string;
   token: Token;
   amount?: string;
   onClick?: (token: Token) => void;
@@ -82,14 +83,16 @@ export type TokenRowReact = {
  * Note: exported as public Type
  */
 export type TokenSearchReact = {
-  onChange: (value: string) => void;
+  className?: string;
   delayMs?: number;
+  onChange: (value: string) => void;
 };
 
 /**
  * Note: exported as public Type
  */
 export type TokenSelectButtonReact = {
+  className?: string;
   isOpen: boolean; // Determines carot icon direction
   onClick: () => void; // Button on click handler
   token?: Token; // Selected token

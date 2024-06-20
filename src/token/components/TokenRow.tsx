@@ -5,6 +5,7 @@ import { TokenImage } from './TokenImage';
 import { cn, pressable, text } from '../../styles/theme';
 
 export const TokenRow = memo(function TokenRow({
+  className,
   token,
   amount,
   onClick,
@@ -18,6 +19,7 @@ export const TokenRow = memo(function TokenRow({
       className={cn(
         pressable.default,
         'flex h-16 w-full items-center justify-between px-2 py-1',
+        className,
       )}
       onClick={() => onClick?.(token)}
     >

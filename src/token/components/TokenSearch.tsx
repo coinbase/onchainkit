@@ -4,7 +4,11 @@ import { SearchIcon } from './SearchIcon';
 import { TextInput } from '../../internal/form/TextInput';
 import { cn, pressable } from '../../styles/theme';
 
-export function TokenSearch({ onChange, delayMs = 200 }: TokenSearchReact) {
+export function TokenSearch({
+  className,
+  onChange,
+  delayMs = 200,
+}: TokenSearchReact) {
   const [value, setValue] = useState('');
 
   const handleClear = useCallback(() => {
@@ -20,7 +24,8 @@ export function TokenSearch({ onChange, delayMs = 200 }: TokenSearchReact) {
       <TextInput
         className={cn(
           pressable.alternate,
-          'w-full rounded-full border-2 border-[#eef0f3] border-solid py-2 pr-5 pl-12 text-[#0A0B0D] placeholder-[#5B616E] outline-none',
+          'w-full rounded-xl border-2 border-[#eef0f3] border-solid py-2 pr-5 pl-12 text-[#0A0B0D] placeholder-[#5B616E] outline-none',
+          className,
         )}
         placeholder="Search for a token"
         value={value}
