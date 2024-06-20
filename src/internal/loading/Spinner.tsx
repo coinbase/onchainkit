@@ -1,4 +1,4 @@
-import { cn } from '../../utils/cn';
+import { cn } from '../../styles/theme';
 
 /* istanbul ignore next */
 export function Spinner() {
