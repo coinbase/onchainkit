@@ -1,5 +1,4 @@
 {/* import { Avatar, Identity, Name } from '../../../../src/identity'; */}
-import { AccountConnect } from '@coinbase/onchainkit/wallet';
 
 import App from '../../components/App';
 
@@ -13,7 +12,8 @@ Component is actively in development. Stay tuned for upcoming releases.
 
 ```tsx
 import { Avatar, Name, Identity } from '@coinbase/onchainkit/identity';
-import { 
+import {
+  ConnectAccount,
   EthBalance, 
   Wallet, 
   WalletDropdown, 
@@ -42,7 +42,7 @@ import {
     </WalletDropdownItem>
     <WalletDropdownDisconnect />
   </WalletDropdown>
-</Identity>
+</Wallet>
 ```
 
 ## Props
