@@ -92,6 +92,7 @@ export function Swap({ address, children, title = 'Swap' }: SwapReact) {
     toTokenBalanceResponse?.data,
   ]);
 
+  /* biome-ignore lint: need setState funcs */
   /* istanbul ignore next */
   const handleFromAmountChange = useCallback(
     async (amount: string) => {
@@ -131,6 +132,7 @@ export function Swap({ address, children, title = 'Swap' }: SwapReact) {
     [fromToken, setSwapLoadingState, swapLoadingState, toToken],
   );
 
+  /* biome-ignore lint: need setState funcs */
   /* istanbul ignore next */
   const handleToAmountChange = useCallback(
     async (amount: string) => {
@@ -178,6 +180,7 @@ export function Swap({ address, children, title = 'Swap' }: SwapReact) {
     setFromToken(toToken);
   }, [fromAmount, fromToken, toAmount, toToken]);
 
+  /* biome-ignore lint: need setState funcs */
   const value = useMemo(() => {
     return {
       address,
