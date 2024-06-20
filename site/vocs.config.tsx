@@ -103,8 +103,12 @@ export default defineConfig({
   topNav: [
     { text: 'Docs', link: '/getting-started', match: '/docs' },
     {
-      text: 'Templates',
+      text: 'Onchain App Example',
       link: 'https://github.com/coinbase/build-onchain-apps',
+    },
+    {
+      text: 'Frame Example',
+      link: 'https://github.com/Zizzamia/a-frame-in-100-lines',
     },
     {
       text: pkg.version,
