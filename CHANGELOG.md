@@ -4,8 +4,8 @@
 
 ### Patch Changes
 
-- eb19002: - **feat**: update `lib` to `esm` for exported files. By @kyhyco #653
-  - **feat**: init Wallet component. By @zizzamia #654
+- **feat**: update `lib` to `esm` for exported files. By @kyhyco #653 eb19002
+- **feat**: init Wallet component. By @zizzamia #654
 
 ## 0.21.7
 
