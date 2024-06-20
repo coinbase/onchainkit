@@ -13,12 +13,17 @@ Please check back this page as we add more ways to customize styles.
 
 In this guide, we will go over how to integrate `tailwindcss` with Onchainkit. OnchainKit comes with first class support for `tailwindcss`.
 
-First, add these extensions to your tailwind configuration.
+First, update `content` and `theme.extend` in your tailwind configuration.
 
 ```javascript title="tailwind.config.js"
+import path from 'node:path'; // [!code focus]
+
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ['./src/**/*.{ts,tsx}'],
+  content: [
+    './src/**/*.{ts,tsx}'
+    path.join(path.dirname(require.resolve('@coinbase/onchainkit')), '**/*.js'), // [!code focus]
+  ],
   theme: {
     fontFamily: {
       sans: ['Inter', 'sans-serif'],
