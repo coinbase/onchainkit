@@ -29,3 +29,23 @@ export type IsWalletACoinbaseSmartWalletOptions = {
 export type IsWalletACoinbaseSmartWalletResponse =
   | { isCoinbaseSmartWallet: true }
   | { isCoinbaseSmartWallet: false; error: string; code: string };
+
+/**
+ * Note: exported as public Type
+ */
+export type WalletContextType = {
+};
+
+/**
+ * Note: exported as public Type
+ */
+export type WalletReact = {
+  children: React.ReactNode;
+};
+
+/**
+ * Note: exported as public Type
+ */
+export type WalletDropdownReact = {
+  children: React.ReactNode;
+};
