@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo } from 'react';
 
 import { useSwapContext } from '../context';
 import { TokenChip, TokenSelectDropdown } from '../../token';
-import { background, cn, pressable, text } from '../../styles/theme';
+import { background, cn, color, pressable, text } from '../../styles/theme';
 import { TextInput } from '../../internal/form/TextInput';
 import { isValidAmount } from '../../utils/isValidAmount';
 import type { SwapAmountInputReact } from '../types';
@@ -37,7 +37,6 @@ export function SwapAmountInput({
     amount,
     convertedBalance,
     handleAmountChange,
-    isSwapQuoteLoading,
     roundedBalance,
     setAmount,
     setToken,
@@ -110,6 +109,9 @@ export function SwapAmountInput({
     }
   }, [token, setToken]);
 
+  const hasInsufficientBalance =
+    type === 'from' && Number(convertedBalance) < Number(amount);
+
   return (
     <div
       className={cn(
@@ -126,14 +128,17 @@ export function SwapAmountInput({
       </div>
       <div className="flex w-full items-center justify-between">
         <TextInput
-          className="w-full border-[none] bg-transparent font-display text-[2.5rem] text-gray-900 leading-none outline-none"
+          className={cn(
+            'w-full border-[none] bg-transparent font-display text-[2.5rem]',
+            'leading-none outline-none',
+            hasInsufficientBalance ? color.error : color.foreground,
+          )}
           onChange={handleAmountChange}
           placeholder="0.0"
           value={amount}
           setValue={setAmount}
           delayMs={delayMs}
           inputValidator={isValidAmount}
-          disabled={isSwapQuoteLoading}
         />
         {filteredTokens && (
           <TokenSelectDropdown

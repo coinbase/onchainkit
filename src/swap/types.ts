@@ -1,7 +1,6 @@
 import type { ReactNode } from 'react';
 import type { Address, Hex } from 'viem';
 import type { Token } from '../token/types';
-import type { UseBalanceReturnType, UseReadContractReturnType } from 'wagmi';
 
 export type AddressOrETH = Address | 'ETH';
 
@@ -68,9 +67,15 @@ export type GetSwapQuoteParams = {
  */
 export type GetSwapQuoteResponse = SwapQuote | SwapError;
 
-export type GetSwapStateParams = {
-  fromTokenBalanceResponse: UseBalanceReturnType | UseReadContractReturnType;
-  toTokenBalanceResponse: UseBalanceReturnType | UseReadContractReturnType;
+export type GetSwapMessageParams = {
+  convertedFromTokenBalance?: string;
+  fromAmount: string;
+  fromToken?: Token;
+  swapErrorState?: SwapErrorState;
+  swapLoadingState?: SwapLoadingState;
+  statusMessage?: string;
+  toAmount: string;
+  toToken?: Token;
 };
 
 export type QuoteWarning = {
@@ -109,6 +114,13 @@ export type SwapAPIResponse = {
   tx: RawTransactionData; // The trade transaction
 };
 
+export type SwapErrorState = {
+  fromTokenBalanceError?: SwapError;
+  quoteError?: SwapError;
+  swapError?: SwapError;
+  toTokenBalanceError?: SwapError;
+};
+
 /**
  * Note: exported as public Type
  */
@@ -121,21 +133,23 @@ export type SwapContextType = {
   address: Address; // Connected address from connector.
   convertedFromTokenBalance?: string;
   convertedToTokenBalance?: string;
-  error?: SwapError;
+  error?: SwapErrorState;
   fromAmount: string;
   fromToken?: Token;
+  fromTokenBalance?: string;
   handleFromAmountChange: (a: string) => void;
   handleToAmountChange: (a: string) => void;
   handleToggle: () => void;
   roundedFromTokenBalance?: string;
   roundedToTokenBalance?: string;
-  setError: (e: SwapError) => void;
+  setSwapErrorState: (e: SwapErrorState) => void;
   setFromAmount: (a: string) => void;
   setFromToken: (t: Token) => void;
   setToAmount: (a: string) => void;
   setToToken: (t: Token) => void;
-  setSwapLoadingState: (s: SwapLoadingState) => void;
+  swapErrorState?: SwapErrorState;
   swapLoadingState: SwapLoadingState;
+  setSwapLoadingState: (s: SwapLoadingState) => void;
   toAmount: string;
   toToken?: Token;
 };
@@ -181,7 +195,7 @@ export type SwapReact = {
  * Note: exported as public Type
  */
 export type SwapError = {
-  code: number; // The error code
+  code: string; // The error code
   error: string; // The error message
 };
 

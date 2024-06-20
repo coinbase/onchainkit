@@ -9,15 +9,21 @@ import { isSwapError } from '../core/isSwapError';
 import { formatTokenAmount } from '../../utils/formatTokenAmount';
 import { useBalance, useReadContract } from 'wagmi';
 import { getTokenBalances } from '../core/getTokenBalances';
+import { getTokenBalanceErrorState } from '../core/getTokenBalanceErrorState';
 import { erc20Abi } from 'viem';
 import type { Address } from 'viem';
-import type { SwapError, SwapLoadingState, SwapReact } from '../types';
+import type {
+  SwapError,
+  SwapErrorState,
+  SwapLoadingState,
+  SwapReact,
+} from '../types';
 import type { Token } from '../../token';
 import type { UseBalanceReturnType, UseReadContractReturnType } from 'wagmi';
 import { background, cn, text } from '../../styles/theme';
 
 export function Swap({ address, children, title = 'Swap' }: SwapReact) {
-  const [error, setError] = useState<SwapError>();
+  const [swapErrorState, setSwapErrorState] = useState<SwapErrorState>();
   const [fromAmount, setFromAmount] = useState('');
   const [fromToken, setFromToken] = useState<Token>();
   const [toAmount, setToAmount] = useState('');
@@ -54,6 +60,29 @@ export function Swap({ address, children, title = 'Swap' }: SwapReact) {
       enabled: !!toToken?.address && !!address,
     },
   });
+
+  const { fromTokenBalanceError, toTokenBalanceError } = useMemo(() => {
+    const fromTokenBalanceError = getTokenBalanceErrorState({
+      token: fromToken,
+      ethBalance: ethBalanceResponse,
+      tokenBalance: fromTokenBalanceResponse,
+    });
+    const toTokenBalanceError = getTokenBalanceErrorState({
+      token: toToken,
+      ethBalance: ethBalanceResponse,
+      tokenBalance: toTokenBalanceResponse,
+    });
+    return {
+      fromTokenBalanceError,
+      toTokenBalanceError,
+    };
+  }, [
+    ethBalanceResponse,
+    fromToken,
+    fromTokenBalanceResponse,
+    toToken,
+    toTokenBalanceResponse,
+  ]);
 
   const {
     convertedFromTokenBalance,
@@ -111,7 +140,7 @@ export function Swap({ address, children, title = 'Swap' }: SwapReact) {
           amountReference: 'from',
         });
         if (isSwapError(response)) {
-          setError(response);
+          setSwapErrorState({ ...swapErrorState, quoteError: response });
           return;
         }
         const formattedAmount = formatTokenAmount(
@@ -120,7 +149,7 @@ export function Swap({ address, children, title = 'Swap' }: SwapReact) {
         );
         setToAmount(formattedAmount);
       } catch (err) {
-        setError(err as SwapError);
+        setSwapErrorState({ ...swapErrorState, quoteError: err as SwapError });
       } finally {
         setSwapLoadingState({
           ...swapLoadingState,
@@ -128,7 +157,7 @@ export function Swap({ address, children, title = 'Swap' }: SwapReact) {
         });
       }
     },
-    [fromToken, swapLoadingState, toToken],
+    [fromToken, swapErrorState, swapLoadingState, toToken],
   );
 
   /* istanbul ignore next */
@@ -150,7 +179,7 @@ export function Swap({ address, children, title = 'Swap' }: SwapReact) {
           amountReference: 'to',
         });
         if (isSwapError(response)) {
-          setError(response);
+          setSwapErrorState({ ...swapErrorState, quoteError: response });
           return;
         }
         const formattedAmount = formatTokenAmount(
@@ -159,7 +188,7 @@ export function Swap({ address, children, title = 'Swap' }: SwapReact) {
         );
         setFromAmount(formattedAmount);
       } catch (err) {
-        setError(err as SwapError);
+        setSwapErrorState({ ...swapErrorState, quoteError: err as SwapError });
       } finally {
         setSwapLoadingState({
           ...swapLoadingState,
@@ -167,7 +196,7 @@ export function Swap({ address, children, title = 'Swap' }: SwapReact) {
         });
       }
     },
-    [fromToken, swapLoadingState, toToken],
+    [fromToken, swapErrorState, swapLoadingState, toToken],
   );
 
   /* istanbul ignore next */
@@ -184,7 +213,6 @@ export function Swap({ address, children, title = 'Swap' }: SwapReact) {
       address,
       convertedFromTokenBalance,
       convertedToTokenBalance,
-      error,
       fromAmount,
       fromToken,
       handleFromAmountChange,
@@ -192,12 +220,17 @@ export function Swap({ address, children, title = 'Swap' }: SwapReact) {
       handleToggle,
       roundedFromTokenBalance,
       roundedToTokenBalance,
-      setError,
+      setSwapErrorState,
       setFromAmount,
       setFromToken,
       setToToken,
       setToAmount,
       setSwapLoadingState,
+      swapErrorState: {
+        ...swapErrorState,
+        fromTokenBalanceError,
+        toTokenBalanceError,
+      },
       swapLoadingState,
       toAmount,
       toToken,
@@ -206,23 +239,25 @@ export function Swap({ address, children, title = 'Swap' }: SwapReact) {
     address,
     convertedFromTokenBalance,
     convertedToTokenBalance,
-    error,
     fromAmount,
     fromToken,
+    fromTokenBalanceError,
     handleFromAmountChange,
     handleToAmountChange,
     handleToggle,
     roundedFromTokenBalance,
     roundedToTokenBalance,
-    swapLoadingState,
-    setError,
     setFromAmount,
     setFromToken,
-    setSwapLoadingState,
     setToAmount,
     setToToken,
+    setSwapErrorState,
+    setSwapLoadingState,
+    swapErrorState,
+    swapLoadingState,
     toAmount,
     toToken,
+    toTokenBalanceError,
   ]);
 
   const { inputs, toggleButton, swapButton, swapMessage } = useMemo(() => {

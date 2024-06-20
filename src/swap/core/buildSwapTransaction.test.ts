@@ -246,7 +246,7 @@ describe('buildSwapTransaction', () => {
     ]);
   });
 
-  it('should throw an error if sendRequest fails', async () => {
+  it('should return an error if sendRequest fails', async () => {
     const mockParams = {
       fromAddress: testFromAddress as `0x${string}`,
       amountReference: testAmountReference,
@@ -261,9 +261,11 @@ describe('buildSwapTransaction', () => {
     );
     (sendRequest as jest.Mock).mockRejectedValue(mockError);
 
-    await expect(buildSwapTransaction(mockParams)).rejects.toThrow(
-      'buildSwapTransaction: Error: Failed to send request',
-    );
+    const error = await buildSwapTransaction(mockParams);
+    expect(error).toEqual({
+      code: 'UNCAUGHT_SWAP_ERROR',
+      error: 'Something went wrong',
+    });
 
     expect(sendRequest).toHaveBeenCalledTimes(1);
     expect(sendRequest).toHaveBeenCalledWith(CDP_GET_SWAP_TRADE, [
@@ -285,7 +287,7 @@ describe('buildSwapTransaction', () => {
       id: 1,
       jsonrpc: '2.0',
       error: {
-        code: -1,
+        code: 'SWAP_ERROR',
         message: 'Invalid response',
       },
     };
@@ -294,7 +296,7 @@ describe('buildSwapTransaction', () => {
 
     const error = await buildSwapTransaction(mockParams);
     expect(error).toEqual({
-      code: -1,
+      code: 'SWAP_ERROR',
       error: 'Invalid response',
     });
 

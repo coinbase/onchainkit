@@ -11,11 +11,12 @@ export function SwapButton({ disabled = false, onSubmit }: SwapButtonReact) {
     address,
     fromAmount,
     fromToken,
-    toAmount,
-    setError,
-    setSwapLoadingState,
-    swapLoadingState,
     toToken,
+    toAmount,
+    swapErrorState,
+    swapLoadingState,
+    setSwapErrorState,
+    setSwapLoadingState,
   } = useSwapContext();
 
   const handleSubmit = useCallback(async () => {
@@ -29,12 +30,12 @@ export function SwapButton({ disabled = false, onSubmit }: SwapButtonReact) {
           to: toToken,
         });
         if (isSwapError(response)) {
-          setError(response);
+          setSwapErrorState({ ...swapErrorState, swapError: response });
         } else {
           onSubmit?.(response);
         }
       } catch (error) {
-        setError(error as SwapError);
+        setSwapErrorState({ ...swapErrorState, swapError: error as SwapError });
       } finally {
         setSwapLoadingState({ ...swapLoadingState, isSwapLoading: false });
       }
@@ -44,9 +45,10 @@ export function SwapButton({ disabled = false, onSubmit }: SwapButtonReact) {
     fromAmount,
     fromToken,
     onSubmit,
-    setError,
-    setSwapLoadingState,
+    setSwapErrorState,
+    swapErrorState,
     swapLoadingState,
+    setSwapLoadingState,
     toToken,
   ]);
 

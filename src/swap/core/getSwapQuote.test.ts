@@ -1,8 +1,8 @@
 import { getSwapQuote } from './getSwapQuote';
 import { sendRequest } from '../../network/request';
 import { CDP_GET_SWAP_QUOTE } from '../../network/definitions/swap';
-import type { Token } from '../../token/types';
 import { getAPIParamsForToken } from './getAPIParamsForToken';
+import type { Token } from '../../token/types';
 
 jest.mock('../../network/request');
 
@@ -85,7 +85,7 @@ describe('getSwapQuote', () => {
     ]);
   });
 
-  it('should throw an error if sendRequest fails', async () => {
+  it('should return an error if sendRequest fails', async () => {
     const mockParams = {
       amountReference: testAmountReference,
       from: ETH,
@@ -97,9 +97,11 @@ describe('getSwapQuote', () => {
     const mockError = new Error('getSwapQuote: Error: Failed to send request');
     (sendRequest as jest.Mock).mockRejectedValue(mockError);
 
-    await expect(getSwapQuote(mockParams)).rejects.toThrow(
-      'getSwapQuote: Error: Failed to send request',
-    );
+    const error = await getSwapQuote(mockParams);
+    expect(error).toEqual({
+      code: 'UNCAUGHT_SWAP_QUOTE_ERROR',
+      error: 'Something went wrong',
+    });
 
     expect(sendRequest).toHaveBeenCalledTimes(1);
     expect(sendRequest).toHaveBeenCalledWith(CDP_GET_SWAP_QUOTE, [
@@ -129,7 +131,7 @@ describe('getSwapQuote', () => {
 
     const error = await getSwapQuote(mockParams);
     expect(error).toEqual({
-      code: -1,
+      code: 'SWAP_QUOTE_ERROR',
       error: 'Invalid response',
     });
 
