@@ -78,7 +78,6 @@
   },
   "files": [
     "esm/**/*",
-    "lib/**/*",
     "src/",
     "src/**/*"
   ],
@@ -93,55 +92,55 @@
       "types": "./esm/index.d.ts",
       "module": "./esm/index.js",
       "import": "./esm/index.js",
-      "default": "./lib/index.js"
+      "default": "./esm/index.js"
     },
     "./core": {
       "types": "./esm/core/index.d.ts",
       "module": "./esm/core/index.js",
       "import": "./esm/core/index.js",
-      "default": "./lib/core/index.js"
+      "default": "./esm/core/index.js"
     },
     "./farcaster": {
       "types": "./esm/farcaster/index.d.ts",
       "module": "./esm/farcaster/index.js",
       "import": "./esm/farcaster/index.js",
-      "default": "./lib/farcaster/index.js"
+      "default": "./esm/farcaster/index.js"
     },
     "./frame": {
       "types": "./esm/frame/index.d.ts",
       "module": "./esm/frame/index.js",
       "import": "./esm/frame/index.js",
-      "default": "./lib/frame/index.js"
+      "default": "./esm/frame/index.js"
     },
     "./identity": {
       "types": "./esm/identity/index.d.ts",
       "module": "./esm/identity/index.js",
       "import": "./esm/identity/index.js",
-      "default": "./lib/identity/index.js"
+      "default": "./esm/identity/index.js"
     },
     "./swap": {
       "types": "./esm/swap/index.d.ts",
       "module": "./esm/swap/index.js",
       "import": "./esm/swap/index.js",
-      "default": "./lib/swap/index.js"
+      "default": "./esm/swap/index.js"
     },
     "./token": {
       "types": "./esm/token/index.d.ts",
       "module": "./esm/token/index.js",
       "import": "./esm/token/index.js",
-      "default": "./lib/token/index.js"
+      "default": "./esm/token/index.js"
     },
     "./xmtp": {
       "types": "./esm/xmtp/index.d.ts",
       "module": "./esm/xmtp/index.js",
       "import": "./esm/xmtp/index.js",
-      "default": "./lib/xmtp/index.js"
+      "default": "./esm/xmtp/index.js"
     },
     "./wallet": {
       "types": "./esm/wallet/index.d.ts",
       "module": "./esm/wallet/index.js",
       "import": "./esm/wallet/index.js",
-      "default": "./lib/wallet/index.js"
+      "default": "./esm/wallet/index.js"
     }
   },
   "packageManager": "yarn@4.0.2"
