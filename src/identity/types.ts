@@ -4,6 +4,14 @@ import type { Address, Chain } from 'viem';
 /**
  * Note: exported as public Type
  */
+export type AddressReact = {
+  address?: Address | null; // The Ethemreum address to render
+  className?: string; // className override for span element
+};
+
+/**
+ * Note: exported as public Type
+ */
 export type AvatarReact = {
   address?: Address | null; // The Ethereum address to fetch the avatar for.
   className?: string; // Optional additional CSS class to apply to the avatar.

@@ -94,6 +94,10 @@ export const sidebar = [
         text: 'Components',
         items: [
           {
+            text: 'Address',
+            link: '/identity/address',
+          },
+          {
             text: 'Avatar',
             link: '/identity/avatar',
           },
