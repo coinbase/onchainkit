@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.21.5
+
+### Patch Changes
+
+- 4b762a1: - **chore**: upgrade packemon to v4 and going forward support ESM only. By @kyhyco #616
+  - **feat**: enable geo blocking for restricted territories. By @cpcramer #614
+
 ## 0.21.4
 
 ### Patch Changes
