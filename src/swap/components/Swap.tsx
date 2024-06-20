@@ -1,3 +1,5 @@
+'use client';
+
 import { Children, useCallback, useMemo, useState } from 'react';
 import { SwapAmountInput } from './SwapAmountInput';
 import { SwapButton } from './SwapButton';

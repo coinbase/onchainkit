@@ -1,3 +1,5 @@
+'use client';
+
 import { useCallback } from 'react';
 import { useSwapContext } from '../context';
 import { buildSwapTransaction } from '../core/buildSwapTransaction';
