@@ -31,7 +31,7 @@ export function ConnectAccount({ children }: ConnectAccountReact) {
   };
 
   return (
-    <div className="flex grow" data-testid="ockConnectAccountButton">
+    <div className="flex grow" data-testid="ockConnectAccount_Container">
       {(() => {
         if (status === 'disconnected' || status === 'connecting') {
           return (
