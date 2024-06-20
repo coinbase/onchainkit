@@ -1,0 +1,50 @@
+{/* import { Avatar, Identity, Name } from '../../../../src/identity'; */}
+
+import App from '../../components/App';
+
+# `<Wallet />`
+
+:::warning
+Component is actively in development. Stay tuned for upcoming releases.
+:::
+
+## Usage
+
+```tsx
+import { Avatar, Name, Identity } from '@coinbase/onchainkit/identity';
+import {
+  ConnectAccount,
+  EthBalance, 
+  Wallet, 
+  WalletDropdown, 
+  WalletDropdownItem, 
+  WalletDropdownDisconnect
+} from '@coinbase/onchainkit/wallet';
+
+<Wallet>
+  <ConnectAccount>
+    <Identity>
+      <Avatar />
+      <Name />
+    </Identity>
+  </ConnectAccount>
+  <WalletDropdown>
+    <WalletDropdownItem>
+      <Identity>
+        <Avatar />
+        <Name showAttestation />
+        <Name showAddress />
+        <EthBalance>
+      </Identity>
+    </WalletDropdownItem>
+    <WalletDropdownItem>
+      <a href="link">Go to Wallet Dashboard<a>
+    </WalletDropdownItem>
+    <WalletDropdownDisconnect />
+  </WalletDropdown>
+</Wallet>
+```
+
+## Props
+
+[`WalletReact`](/identity/types#walletreact)
