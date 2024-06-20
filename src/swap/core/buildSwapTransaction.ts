@@ -48,6 +48,9 @@ export async function buildSwapTransaction(
       warning: trade.quote.warning,
     };
   } catch (error) {
-    throw new Error(`getSwap: ${error}`);
+    return {
+      code: getSwapErrorCode('uncaught-swap'),
+      error: 'Something went wrong',
+    };
   }
 }

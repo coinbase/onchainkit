@@ -6,6 +6,8 @@ import {
   GENERAL_SWAP_BALANCE_ERROR_CODE,
   GENERAL_SWAP_QUOTE_ERROR_CODE,
   LOW_LIQUIDITY_ERROR_CODE,
+  UNCAUGHT_SWAP_QUOTE_ERROR_CODE,
+  UNCAUGHT_SWAP_ERROR_CODE,
 } from '../constants';
 import { getSwapErrorCode } from './getSwapErrorCode';
 
@@ -28,6 +30,16 @@ describe('getSwapErrorCode', () => {
   it('should return GENERAL_SWAP_ERROR_CODE for context "swap" with no errorCode', () => {
     const result = getSwapErrorCode('swap');
     expect(result).toBe(GENERAL_SWAP_ERROR_CODE);
+  });
+
+  it('should return UNCAUGHT_SWAP_QUOTE_ERROR_CODE for context "uncaught-quote"', () => {
+    const result = getSwapErrorCode('uncaught-quote');
+    expect(result).toBe(UNCAUGHT_SWAP_QUOTE_ERROR_CODE);
+  });
+
+  it('should return UNCAUGHT_SWAP_ERROR_CODE for context "uncaught-swap" with no errorCode', () => {
+    const result = getSwapErrorCode('uncaught-swap');
+    expect(result).toBe(UNCAUGHT_SWAP_ERROR_CODE);
   });
 
   it('should return GENERAL_SWAP_ERROR_CODE for context "swap" with an unknown errorCode', () => {
