@@ -1,7 +1,6 @@
 import type { ReactNode } from 'react';
 import type { Address, Hex } from 'viem';
 import type { Token } from '../token/types';
-import type { UseBalanceReturnType, UseReadContractReturnType } from 'wagmi';
 
 export type AddressOrETH = Address | 'ETH';
 

@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo } from 'react';
 
 import { useSwapContext } from '../context';
 import { TokenChip, TokenSelectDropdown } from '../../token';
-import { background, cn, pressable, text } from '../../styles/theme';
+import { background, cn, color, pressable, text } from '../../styles/theme';
 import { TextInput } from '../../internal/form/TextInput';
 import { isValidAmount } from '../../utils/isValidAmount';
 import type { SwapAmountInputReact } from '../types';
@@ -131,7 +131,7 @@ export function SwapAmountInput({
           className={cn(
             'w-full border-[none] bg-transparent font-display text-[2.5rem]',
             'leading-none outline-none',
-            hasInsufficientBalance ? 'text-[red]' : 'text-gray-900',
+            hasInsufficientBalance ? color.error : color.foreground,
           )}
           onChange={handleAmountChange}
           placeholder="0.0"
