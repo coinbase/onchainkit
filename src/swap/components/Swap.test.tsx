@@ -62,7 +62,12 @@ const mockContextValue = {
   setFromToken: jest.fn(),
   setToAmount: jest.fn(),
   setToToken: jest.fn(),
-  swapQuoteLoadingState: { isFromQuoteLoading: false, isToQuoteLoading: false },
+  setSwapLoadingState: jest.fn(),
+  swapLoadingState: {
+    isFromQuoteLoading: false,
+    isSwapLoading: false,
+    isToQuoteLoading: false,
+  },
   toAmount: '20',
   toToken: mockToken,
   fromToken: mockETHToken,

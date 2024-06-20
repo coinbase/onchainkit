@@ -20,12 +20,21 @@ const mockedIsSwapError = isSwapError as jest.MockedFunction<
   (response: unknown) => response is SwapError
 >;
 
+const mockSwapLoadingState = {
+  isFromQuoteLoading: false,
+  isSwapLoading: false,
+  isToQuoteLoading: false,
+};
+
 describe('SwapButton', () => {
   beforeEach(() => {
     mockedUseSwapContext.mockReturnValue({
       address: '0x123',
       fromAmount: 100,
       fromToken: 'ETH',
+      toAmount: 5,
+      setSwapLoadingState: jest.fn(),
+      swapLoadingState: mockSwapLoadingState,
       toToken: 'DAI',
       setError: jest.fn(),
     });
@@ -52,6 +61,9 @@ describe('SwapButton', () => {
       address: '0x123',
       fromAmount: 100,
       fromToken: 'ETH',
+      swapLoadingState: mockSwapLoadingState,
+      setSwapLoadingState: jest.fn(),
+      toAmount: 5,
       toToken: 'DAI',
       setError,
     });
@@ -76,6 +88,9 @@ describe('SwapButton', () => {
       address: '0x123',
       fromAmount: 100,
       fromToken: 'ETH',
+      setSwapLoadingState: jest.fn(),
+      swapLoadingState: mockSwapLoadingState,
+      toAmount: 5,
       toToken: 'DAI',
       setError,
     });
@@ -101,5 +116,29 @@ describe('SwapButton', () => {
     fireEvent.click(button);
 
     expect(onSubmit).not.toHaveBeenCalled();
+  });
+
+  it('does renders a loading icon when swap is loading', () => {
+    const onSubmit = jest.fn();
+    mockedUseSwapContext.mockReturnValueOnce({
+      address: '0x123',
+      fromAmount: 100,
+      fromToken: 'ETH',
+      setSwapLoadingState: jest.fn(),
+      swapLoadingState: {
+        isFromQuoteLoading: false,
+        isSwapLoading: true,
+        isToQuoteLoading: false,
+      },
+      toAmount: 5,
+      toToken: 'DAI',
+    });
+    const { getByTestId } = render(
+      <SwapButton disabled={false} onSubmit={onSubmit} />,
+    );
+
+    const spinner = getByTestId('ockSpinner');
+
+    expect(spinner).toBeInTheDocument();
   });
 });
