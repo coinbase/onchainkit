@@ -6,7 +6,6 @@ import { SwapMessage } from './SwapMessage';
 import { SwapContext } from '../context';
 import { getSwapQuote } from '../core/getSwapQuote';
 import { isSwapError } from '../core/isSwapError';
-import { TextTitle3 } from '../../internal/text';
 import { formatTokenAmount } from '../../utils/formatTokenAmount';
 import { useBalance, useReadContract } from 'wagmi';
 import { getTokenBalances } from '../core/getTokenBalances';
@@ -15,6 +14,7 @@ import type { Address } from 'viem';
 import type { SwapError, SwapQuoteLoadingState, SwapReact } from '../types';
 import type { Token } from '../../token';
 import type { UseBalanceReturnType, UseReadContractReturnType } from 'wagmi';
+import { text } from '../../styles/theme';
 
 export function Swap({ address, children, title = 'Swap' }: SwapReact) {
   const [error, setError] = useState<SwapError>();
@@ -235,7 +235,9 @@ export function Swap({ address, children, title = 'Swap' }: SwapReact) {
     <SwapContext.Provider value={value}>
       <div className="flex w-[500px] flex-col rounded-xl bg-gray-100 px-6 pt-6 pb-4">
         <div className="mb-4">
-          <TextTitle3 data-testid="ockSwap_Title">{title}</TextTitle3>
+          <h3 className={text.title3} data-testid="ockSwap_Title">
+            {title}
+          </h3>
         </div>
         {inputs[0]}
         <div className="relative h-1">{toggleButton}</div>

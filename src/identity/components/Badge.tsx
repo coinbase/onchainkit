@@ -1,5 +1,5 @@
 import type { BadgeReact } from '../types';
-import { cn } from '../../utils/cn';
+import { cn } from '../../styles/theme';
 
 /**
  * Badge component.

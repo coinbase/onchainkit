@@ -3,7 +3,7 @@ import { useAvatar } from '../hooks/useAvatar';
 import { useName } from '../hooks/useName';
 import { WithAvatarBadge } from './WithAvatarBadge';
 import type { AvatarReact } from '../types';
-import { cn } from '../../utils/cn';
+import { cn } from '../../styles/theme';
 
 /**
  * Represents an Avatar component that displays either a loading indicator,

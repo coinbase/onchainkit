@@ -1,9 +1,8 @@
 import { useCallback, useEffect, useMemo } from 'react';
 
 import { useSwapContext } from '../context';
-import { TextLabel1, TextLabel2 } from '../../internal/text';
 import { TokenChip, TokenSelectDropdown } from '../../token';
-import { cn } from '../../utils/cn';
+import { cn, text } from '../../styles/theme';
 import { TextInput } from '../../internal/form/TextInput';
 import { isValidAmount } from '../../utils/isValidAmount';
 import type { SwapAmountInputReact } from '../types';
@@ -120,7 +119,9 @@ export function SwapAmountInput({
       data-testid="ockSwapAmountInput_Container"
     >
       <div className="flex w-full items-center justify-between">
-        <TextLabel2 color="foreground-muted">{label}</TextLabel2>
+        <span className={cn(text.label2, 'text-foreground-muted')}>
+          {label}
+        </span>
       </div>
       <div className="flex w-full items-center justify-between">
         <TextInput
@@ -145,10 +146,12 @@ export function SwapAmountInput({
         )}
       </div>
       <div className="mt-4 flex w-full justify-between">
-        <TextLabel2>{''}</TextLabel2>
+        <span className={cn(text.label2, 'text-foregroune-muted')}>{''}</span>
         <div className="flex items-center">
           {roundedBalance && (
-            <TextLabel2 color="foreground-muted">{`Balance: ${roundedBalance}`}</TextLabel2>
+            <span
+              className={cn(text.label2, 'text-foreground-muted')}
+            >{`Balance: ${roundedBalance}`}</span>
           )}
           {type === 'from' && (
             <button
@@ -157,7 +160,7 @@ export function SwapAmountInput({
               data-testid="ockSwapAmountInput_MaxButton"
               onClick={handleMaxButtonClick}
             >
-              <TextLabel1 color="primary">Max</TextLabel1>
+              <span className={cn(text.label1, 'text-primary')}>Max</span>
             </button>
           )}
         </div>
