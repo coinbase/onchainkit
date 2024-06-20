@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.21.7
+
+### Patch Changes
+
+- ac33e28: - **feat**: added loading state and spinner to `SwapButton`. By @abcrane123 #633
+
 ## 0.21.6
 
 ### Patch Changes
