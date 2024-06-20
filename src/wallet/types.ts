@@ -1,5 +1,5 @@
 import type { UserOperation } from 'permissionless';
-import type { PublicClient } from 'viem';
+import type { Address, PublicClient } from 'viem';
 
 /**
  * Note: exported as public Type
@@ -34,6 +34,7 @@ export type IsWalletACoinbaseSmartWalletResponse =
  * Note: exported as public Type
  */
 export type WalletContextType = {
+  address?: Address | null; // The Ethereum address to fetch the avatar and name for.
 };
 
 /**

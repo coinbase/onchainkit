@@ -13,9 +13,13 @@ export function Wallet({ children }: WalletReact) {
     const childrenArray = Children.toArray(children);
     return {
       // @ts-ignore
-      connectAccount: childrenArray.filter(({ type }) => type === ConnectAccount),
+      connectAccount: childrenArray.filter(
+        ({ type }) => type === ConnectAccount,
+      ),
       // @ts-ignore
-      walletDropdown: childrenArray.filter(({ type }) => type === WalletDropdown),
+      walletDropdown: childrenArray.filter(
+        ({ type }) => type === WalletDropdown,
+      ),
     };
   }, [children]);
 
