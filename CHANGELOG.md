@@ -4,8 +4,8 @@
 
 ### Patch Changes
 
-- bf26c81: - **feat**: added theming to all `Text` components. By @kyhyco #632
-  - **feat**: refactored balance api calls and add swap quote loading state. By @abcrane123 #630
+- **feat**: added theming to all `Text` components. By @kyhyco #632 bf26c81
+- **feat**: refactored balance api calls and add swap quote loading state. By @abcrane123 #630
 
 ## 0.21.3
 

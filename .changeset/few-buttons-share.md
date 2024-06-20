@@ -2,4 +2,5 @@
 "@coinbase/onchainkit": patch
 ---
 
-- **feat**: enable geo blocking for restricted territories by: @cpcramer #614
+- **chore**: upgrade packemon to v4 and going forward support ESM only. By @kyhyco #616
+- **feat**: enable geo blocking for restricted territories. By @cpcramer #614
