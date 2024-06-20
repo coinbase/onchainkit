@@ -1,5 +1,13 @@
-import type { ReactNode } from 'react';
+import type { HTMLAttributes, ImgHTMLAttributes, ReactNode } from 'react';
 import type { Address, Chain } from 'viem';
+
+/**
+ * Note: exported as public Type
+ */
+export type AddressReact = {
+  address?: Address | null; // The Ethemreum address to render
+  className?: string; // className override for span element
+};
 
 /**
  * Note: exported as public Type
@@ -9,9 +17,8 @@ export type AvatarReact = {
   className?: string; // Optional additional CSS class to apply to the avatar.
   loadingComponent?: JSX.Element; // Optional custom component to display while the avatar data is loading.
   defaultComponent?: JSX.Element; // Optional custom component to display when no ENS name or avatar is available.
-  props?: React.ImgHTMLAttributes<HTMLImageElement>; // Optional additional image attributes to apply to the avatar.
-  showAttestation?: boolean; // Optional flag to show the EAS attestation badge.
-};
+  children?: ReactNode; // Optional attestation by passing Badge component as its children
+} & ImgHTMLAttributes<HTMLImageElement>; // Optional additional image attributes to apply to the avatar.
 
 /**
  * Note: exported as public Type
@@ -121,11 +128,9 @@ export type IdentityReact = {
 export type NameReact = {
   address?: Address | null; // Ethereum address to be displayed.
   className?: string; // Optional CSS class for custom styling.
-  props?: React.HTMLAttributes<HTMLSpanElement>; // Additional HTML attributes for the span element.
-  showAddress?: boolean; // Whether to prefer to show the address instead of the ENS name.
-  showAttestation?: boolean; // Optional flag to show the EAS attestation badge.
   sliced?: boolean; // Determines if the address should be sliced when no ENS name is available.
-};
+  children?: ReactNode; // Optional attestation by passing Badge component as its children
+} & HTMLAttributes<HTMLSpanElement>; // Optional additional span attributes to apply to the name.
 
 export type UseAttestations = {
   address: Address;

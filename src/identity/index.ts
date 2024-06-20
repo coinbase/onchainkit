@@ -1,4 +1,5 @@
-// 🌲☀️🌲
+// 🌲☀🌲
+export { Address } from './components/Address';
 export { Avatar } from './components/Avatar';
 export { Badge } from './components/Badge';
 export { Name } from './components/Name';

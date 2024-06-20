@@ -51,27 +51,4 @@ describe('useName', () => {
       expect(result.current.isLoading).toBe(true);
     });
   });
-
-  it('returns the correct sliced address when showAddress is true', async () => {
-    const testAddress = '0x1234567890abcdef1234567890abcdef12345678';
-    const testEnsName = 'test.ens';
-
-    // Mock the getEnsName method of the publicClient
-    mockGetEnsName.mockResolvedValue(testEnsName);
-
-    // Use the renderHook function to create a test harness for the useName hook
-    const { result } = renderHook(
-      () => useName({ address: testAddress, showAddress: true }),
-      {
-        wrapper: getNewReactQueryTestProvider(),
-      },
-    );
-
-    // Wait for the hook to finish fetching the ENS name
-    await waitFor(() => {
-      // Check that the ENS name and loading state are correct
-      expect(result.current.data).toBe('0x123...5678');
-      expect(result.current.isLoading).toBe(false);
-    });
-  });
 });

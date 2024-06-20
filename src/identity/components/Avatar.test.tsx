@@ -10,6 +10,7 @@ import { useName } from '../hooks/useName';
 import { useAttestations } from '../hooks/useAttestations';
 import { useAvatar } from '../hooks/useAvatar';
 import { Avatar } from './Avatar';
+import { Badge } from './Badge';
 
 jest.mock('../../useOnchainKit', () => ({
   useOnchainKit: jest.fn(),
@@ -118,7 +119,7 @@ describe('Avatar Component', () => {
     expect(customDefaultElement).toHaveTextContent('Default Avatar');
   });
 
-  it('renders badge when showAttestation is true', async () => {
+  it('renders badge when Badge is passed as a child is true', async () => {
     (useOnchainKit as jest.Mock).mockReturnValue({
       chain: base,
       schemaId: '0xschema',
@@ -133,7 +134,11 @@ describe('Avatar Component', () => {
       isLoading: false,
     });
 
-    render(<Avatar address="0x123" showAttestation />);
+    render(
+      <Avatar address="0x123">
+        <Badge />
+      </Avatar>,
+    );
 
     await waitFor(() => {
       const inner = screen.getByTestId('ockAvatarBadgeContainer');
