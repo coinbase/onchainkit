@@ -6,8 +6,13 @@ import { getSwapErrorCode } from '../../swap/core/getSwapErrorCode';
 import type { Address } from 'viem';
 import type { Token } from '../../token';
 import type { UseReadContractReturnType } from 'wagmi';
+import type { SwapError } from '../../swap';
+import type { UseGetTokenBalanceResponse } from '../types';
 
-export function useGetTokenBalance(address: Address, token?: Token) {
+export function useGetTokenBalance(
+  address: Address,
+  token?: Token,
+): UseGetTokenBalanceResponse {
   const tokenBalanceResponse: UseReadContractReturnType = useReadContract({
     abi: erc20Abi,
     address: token?.address as Address,
@@ -18,7 +23,7 @@ export function useGetTokenBalance(address: Address, token?: Token) {
     },
   });
   return useMemo(() => {
-    let error;
+    let error: SwapError | undefined;
     if (tokenBalanceResponse?.error) {
       error = {
         error: tokenBalanceResponse?.error?.shortMessage,

@@ -5,14 +5,16 @@ import { getRoundedAmount } from '../../utils/getRoundedAmount';
 import { getSwapErrorCode } from '../../swap/core/getSwapErrorCode';
 import type { Address } from 'viem';
 import type { UseBalanceReturnType } from 'wagmi';
+import type { SwapError } from '../../swap';
+import type { UseGetETHBalanceResponse } from '../types';
 
 const ETH_DECIMALS = 18;
 
-export function useGetETHBalance(address: Address) {
+export function useGetETHBalance(address: Address): UseGetETHBalanceResponse {
   const ethBalanceResponse: UseBalanceReturnType = useBalance({ address });
 
   return useMemo(() => {
-    let error;
+    let error: SwapError | undefined;
     if (ethBalanceResponse?.error) {
       error = {
         error: ethBalanceResponse?.error?.message,
