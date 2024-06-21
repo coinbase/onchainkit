@@ -1,5 +1,30 @@
 # Changelog
 
+## 0.22.1
+
+### Patch Changes
+
+- b834572: - **feat**: Identity polish. By @kyhyco #675
+  - add `fill` theme
+  - update `Name` component default font color
+  - add `className` prop to `Identity`
+  - add `className` prop to `Badge` and remove styling props
+  - add `className` prop to `Avatar`
+  - fix using `address` prop on `Avatar` and `Name` component along with `Identity`
+  - remove `showAddress` from `getName`
+- 5c91955: feat: add `use client` directives to wallet components. By @roushou #668
+- 1b33742: feat: add `use client` directives to identity components. By @roushou #669
+- 1f8fcb1: - **docs**: force doc site to connect to base. By @kyhyco #613
+- 2198bed: -**chore**: Add test coverage and comments. By @abcrane123 #676
+- 097df0d: -**feat**: Add "everything you need to build onchain" section to the landing page. By @cpcramer #679
+- d4fdc77: - **docs**: Update docs with SwapMessage info. By @abcrane123 #662
+- a1b87f6: - **chore**: Refactor balance api calls into reusable hooks. By @abcrane123 #673
+- a822b92: feat: add `use client` directive to internal components. By @roushou #670
+- 0e9bd1b: - **chore**: Update the landing page View Docs button styling, title description, and href link behavior to always open in a new tab. By @cpcramer #660
+- 72138fe: -**chore**: Update swap messages and reset error states. By @abcrane123 #677
+- f5440ba: feat: add `use client` directives to swap components. By @roushou #655
+- 020c7d7: feat: add `use client` directives to token components. By @roushou #667
+
 ## 0.22.0
 
 ### Minor Changes
