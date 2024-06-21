@@ -1,3 +1,5 @@
+'use client';
+
 import { Children, useMemo } from 'react';
 import { IdentityContext } from '../context';
 import { Avatar } from './Avatar';
