@@ -107,6 +107,10 @@ export function Swap({ address, children, title = 'Swap' }: SwapReact) {
           ...swapLoadingState,
           isToQuoteLoading: true,
         });
+        setSwapErrorState({
+          ...swapErrorState,
+          quoteError: undefined,
+        });
         const response = await getSwapQuote({
           from: fromToken,
           to: toToken,
@@ -150,6 +154,10 @@ export function Swap({ address, children, title = 'Swap' }: SwapReact) {
         setSwapLoadingState({
           ...swapLoadingState,
           isFromQuoteLoading: true,
+        });
+        setSwapErrorState({
+          ...swapErrorState,
+          quoteError: undefined,
         });
         const response = await getSwapQuote({
           from: fromToken,

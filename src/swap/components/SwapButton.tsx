@@ -25,6 +25,7 @@ export function SwapButton({ disabled = false, onSubmit }: SwapButtonReact) {
     if (address && fromToken && toToken && fromAmount) {
       try {
         setSwapLoadingState({ ...swapLoadingState, isSwapLoading: true });
+        setSwapErrorState({ ...swapErrorState, swapError: undefined });
         const response = await buildSwapTransaction({
           amount: fromAmount,
           fromAddress: address,
