@@ -1,6 +1,6 @@
 'use client';
 
-import { Address } from 'viem';
+import type { Address } from 'viem';
 import type { ReactNode } from 'react';
 import { useOnchainKit } from '../../useOnchainKit';
 import { useAttestations } from '../hooks/useAttestations';

@@ -4,7 +4,7 @@
 
 import { getName } from './getName';
 import { publicClient } from '../../network/client';
-import { Address } from 'viem';
+import type { Address } from 'viem';
 import { getSlicedAddress } from '../getSlicedAddress';
 
 jest.mock('../../network/client');
