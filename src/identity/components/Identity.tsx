@@ -6,8 +6,14 @@ import { Avatar } from './Avatar';
 import { Name } from './Name';
 import { Address } from './Address';
 import type { IdentityReact } from '../types';
+import { background, cn } from '../../styles/theme';
 
-export function Identity({ address, children, schemaId }: IdentityReact) {
+export function Identity({
+  address,
+  children,
+  className,
+  schemaId,
+}: IdentityReact) {
   const value = useMemo(() => {
     return {
       address,
@@ -30,7 +36,11 @@ export function Identity({ address, children, schemaId }: IdentityReact) {
   return (
     <IdentityContext.Provider value={value}>
       <div
-        className="flex h-14 items-center space-x-4 bg-white px-2 py-1"
+        className={cn(
+          background.default,
+          'flex h-14 items-center space-x-4 px-2 py-1',
+          className,
+        )}
         data-testid="ockIdentity_container"
       >
         {avatar}

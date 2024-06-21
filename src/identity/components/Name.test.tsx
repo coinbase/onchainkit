@@ -97,13 +97,36 @@ describe('OnchainAddress', () => {
     expect(getSlicedAddress).toHaveBeenCalledWith(testAddress);
   });
 
-  it('renders badge when Badge is passed and user is attested', async () => {
+  it('renders badge when Badge is passed, user is attested and address set in Identity', async () => {
     (useIdentityContext as jest.Mock).mockReturnValue({
       address: testAddress,
       schemaId: '0x123',
     });
     (useAttestations as jest.Mock).mockReturnValue(['attestation']);
     (useName as jest.Mock).mockReturnValue({
+      data: 'ens_name',
+      isLoading: false,
+    });
+
+    render(
+      <Name address={testAddress}>
+        <Badge />
+      </Name>,
+    );
+
+    await waitFor(() => {
+      const badge = screen.getByTestId('ockBadge');
+      expect(badge).toBeInTheDocument();
+    });
+  });
+
+  it('renders badge when Badge is passed, user is attested and address set in Name', async () => {
+    (useIdentityContext as jest.Mock).mockReturnValue({
+      schemaId: '0x123',
+    });
+    (useAttestations as jest.Mock).mockReturnValue(['attestation']);
+    (useName as jest.Mock).mockReturnValue({
+      address: testAddress,
       data: 'ens_name',
       isLoading: false,
     });

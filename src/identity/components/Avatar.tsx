@@ -45,7 +45,7 @@ export function Avatar({
   }, [children]);
 
   const defaultAvatar = defaultComponent || (
-    <div className="h-8 w-8">{defaultAvatarSVG}</div>
+    <div className={cn('h-8 w-8', className)}>{defaultAvatarSVG}</div>
   );
 
   // If the data is still loading, it displays a loading SVG.
@@ -75,7 +75,7 @@ export function Avatar({
         defaultAvatar
       )}
       {badge && (
-        <DisplayBadge>
+        <DisplayBadge address={contextAddress ?? address}>
           <div
             data-testid="ockAvatarBadgeContainer"
             className="-bottom-0.5 -right-0.5 absolute flex h-[15px] w-[15px] items-center justify-center rounded-full bg-transparent"

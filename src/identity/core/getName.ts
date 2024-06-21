@@ -9,12 +9,10 @@ import type { GetName, GetNameReturnType } from '../types';
  */
 export const getName = async ({
   address,
-  showAddress,
 }: GetName): Promise<GetNameReturnType> => {
-  if (showAddress) {
-    return getSlicedAddress(address);
-  }
-  return await publicClient.getEnsName({
+  const ensName = await publicClient.getEnsName({
     address,
   });
+
+  return ensName ?? getSlicedAddress(address);
 };

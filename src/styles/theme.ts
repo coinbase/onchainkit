@@ -51,3 +51,14 @@ export const color = {
   warning: 'text-warning',
   disabled: 'text-disabled',
 } as const;
+
+export const fill = {
+  inverse: 'fill-inverse',
+  foreground: 'fill-foreground',
+  foregroundMuted: 'fill-foreground-muted',
+  error: 'fill-error',
+  primary: 'fill-primary',
+  success: 'fill-success',
+  warning: 'fill-warning',
+  disabled: 'fill-disabled',
+} as const;

@@ -24,10 +24,7 @@ export type AvatarReact = {
  * Note: exported as public Type
  */
 export type BadgeReact = {
-  backgroundColor?: string; // The background color of the badge.
-  borderColor?: string; // The border color of the badge.
   className?: string; // // Optional additional CSS class to apply to the badge.
-  tickerColor?: string; // The color of the checkmark.
 };
 
 /**
@@ -97,7 +94,6 @@ export type GetAvatarReturnType = string | null;
  */
 export type GetName = {
   address: Address;
-  showAddress?: boolean;
 };
 
 /**
@@ -119,6 +115,7 @@ export type IdentityContextType = {
 export type IdentityReact = {
   address: Address; // The Ethereum address to fetch the avatar and name for.
   children: ReactNode;
+  className?: string; // className override for top div element
   schemaId?: Address | null; // The Ethereum address of the schema to use for EAS attestation.
 };
 
