@@ -59,3 +59,10 @@
 .pane {
   background: white;
 }
+
+.badge {
+  background: white;
+  path {
+    fill: blue;
+  }
+}

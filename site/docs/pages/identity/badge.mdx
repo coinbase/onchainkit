@@ -10,20 +10,34 @@ Use `Badge` component along with [`Avatar`](/identity/avatar) or [`Name`](/ident
 
 Badge with default colors:
 
-```tsx
+
+:::code-group
+
+```tsx [tsx]
 import { Badge } from '@coinbase/onchainkit/identity';
-<Badge />; // [!code focus]
+<Badge className="badge" /> // [!code focus]
 ```
 
+```css [css]
+.badge {
+  background: white;
+  path {
+    fill: blue;
+  }
+}
+```
+
+:::
+
 <App>
-  <Badge />
+  <Badge className="badge" />
 </App>
 
 Badge with custom colors:
 
 ```tsx
 import { Badge } from '@coinbase/onchainkit/identity';
-<Badge backgroundColor="#7DA1F8" borderColor="white" />; // [!code focus]
+<Badge backgroundColor="#7DA1F8" borderColor="white" /> // [!code focus]
 ```
 
 <App>
@@ -48,15 +62,22 @@ const address = '0x838aD0EAE54F99F1926dA7C3b6bFbF617389B4D9';
 const COINBASE_VERIFIED_ACCOUNT_SCHEMA_ID =
   '0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9';
 
-<Identity schemaId={COINBASE_VERIFIED_ACCOUNT_SCHEMA_ID} className="bg-transparent">
+<Identity
+  className="bg-transparent"
+  schemaId={COINBASE_VERIFIED_ACCOUNT_SCHEMA_ID} // [!code focus]
+  address={address} // [!code focus]
+>
   <Name address={address}> // [!code focus]
     <Badge /> // [!code focus]
   </Name> // [!code focus]
-</Identity>;
+</Identity>
 ```
 
 <App>
-  <Identity schemaId="0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9" className="bg-transparent">
+  <Identity
+    className="bg-transparent"
+    schemaId="0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9"
+  >
     <Name address="0x838aD0EAE54F99F1926dA7C3b6bFbF617389B4D9">
       <Badge />
     </Name>
@@ -73,11 +94,14 @@ const address = '0x838aD0EAE54F99F1926dA7C3b6bFbF617389B4D9';
 const COINBASE_VERIFIED_ACCOUNT_SCHEMA_ID =
   '0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9';
 
-<Identity schemaId={COINBASE_VERIFIED_ACCOUNT_SCHEMA_ID} className="bg-transparent">
+<Identity
+  className="bg-transparent"
+  schemaId={COINBASE_VERIFIED_ACCOUNT_SCHEMA_ID} // [!code focus]
+>
   <Avatar address={address}> // [!code focus]
     <Badge /> // [!code focus]
   </Avatar> // [!code focus]
-</Identity>;
+</Identity>
 ```
 
 <App>
