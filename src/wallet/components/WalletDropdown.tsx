@@ -1,3 +1,5 @@
+'use client';
+
 import { Children, useMemo } from 'react';
 import { Identity } from '../../identity/components/Identity';
 import type { WalletDropdownReact } from '../types';
