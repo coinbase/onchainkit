@@ -25,7 +25,6 @@ export function useGetETHBalance(address: Address): UseGetETHBalanceResponse {
       !ethBalanceResponse?.data?.value &&
       ethBalanceResponse?.data?.value !== 0n
     ) {
-      // TODO: possibly throw error?
       return {
         convertedBalance: '',
         error,
