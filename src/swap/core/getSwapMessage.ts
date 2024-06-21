@@ -5,8 +5,10 @@ export enum SwapMessage {
   BALANCE_ERROR = 'Error fetching token balance',
   INCOMPLETE_FIELD = 'Complete the fields to continue',
   INSUFFICIENT_BALANCE = 'Insufficient balance',
-  IS_LOADING = 'Loading...',
   LOW_LIQUIDITY = 'Liquidity too low for the token',
+  SWAP_IN_PROGRESS = 'Swap in progress...',
+  FETCHING_QUOTE = 'Fetching quote...',
+  FETCHING_BALANCE = 'Fetching balance...',
 }
 
 export function getSwapMessage({
@@ -18,25 +20,6 @@ export function getSwapMessage({
   toAmount,
   toToken,
 }: GetSwapMessageParams) {
-  // handle amount exceeds balance
-  if (Number(convertedFromTokenBalance) < Number(fromAmount)) {
-    return SwapMessage.INSUFFICIENT_BALANCE;
-  }
-  // handle loading
-  if (swapLoadingState && Object.values(swapLoadingState).includes(true)) {
-    return SwapMessage.IS_LOADING;
-  }
-
-  // missing required fields
-  if (!fromAmount || !fromToken || !toAmount || !toToken) {
-    return SwapMessage.INCOMPLETE_FIELD;
-  }
-
-  // error states handled below
-  if (!swapErrorState) {
-    return '';
-  }
-
   // handle balance error
   if (
     swapErrorState?.fromTokenBalanceError ||
@@ -44,7 +27,27 @@ export function getSwapMessage({
   ) {
     return SwapMessage.BALANCE_ERROR;
   }
-
+  // handle amount exceeds balance
+  if (Number(convertedFromTokenBalance) < Number(fromAmount)) {
+    return SwapMessage.INSUFFICIENT_BALANCE;
+  }
+  if (swapLoadingState?.isSwapLoading) {
+    return SwapMessage.SWAP_IN_PROGRESS;
+  }
+  if (
+    swapLoadingState?.isFromQuoteLoading ||
+    swapLoadingState?.isToQuoteLoading
+  ) {
+    return SwapMessage.FETCHING_QUOTE;
+  }
+  // missing required fields
+  if (!fromAmount || !fromToken || !toAmount || !toToken) {
+    return SwapMessage.INCOMPLETE_FIELD;
+  }
+  // error states handled below
+  if (!swapErrorState) {
+    return '';
+  }
   // handle invalid params error
   if (
     Object.values(swapErrorState)?.find(
@@ -53,7 +56,6 @@ export function getSwapMessage({
   ) {
     return SwapMessage.LOW_LIQUIDITY;
   }
-
   // handle general error
   if (Object.values(swapErrorState).length) {
     return Object.values(swapErrorState)[0]?.error;
