@@ -75,7 +75,7 @@ export function Avatar({
         defaultAvatar
       )}
       {badge && (
-        <DisplayBadge>
+        <DisplayBadge address={contextAddress ?? address}>
           <div
             data-testid="ockAvatarBadgeContainer"
             className="-bottom-0.5 -right-0.5 absolute flex h-[15px] w-[15px] items-center justify-center rounded-full bg-transparent"

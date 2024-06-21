@@ -50,7 +50,9 @@ export function Name({
       >
         {name ?? getSlicedAddress(contextAddress ?? address)}
       </span>
-      {badge && <DisplayBadge>{badge}</DisplayBadge>}
+      {badge && (
+        <DisplayBadge address={contextAddress ?? address}>{badge}</DisplayBadge>
+      )}
     </div>
   );
 }
