@@ -1,5 +1,4 @@
-{/* import { Name } from '../../../../src/identity'; */}
-import { Name } from '@coinbase/onchainkit/identity';
+import { Badge, Name, Identity, } from '@coinbase/onchainkit/identity';
 import App from '../../components/App';
 
 # `<Name />`
@@ -19,15 +18,18 @@ import { Name } from '@coinbase/onchainkit/identity';
   <Name address="0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1" />
 </App>
 
-Address with an ENS name, showing his address sliced:
+Override styles via `className` prop:
 
 ```tsx
 import { Name } from '@coinbase/onchainkit/identity';
-<Name address="0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1" showAddress />; // [!code focus]
+<Name
+  className="bg-default"// [!code focus]
+  address="0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1"
+/>;
 ```
 
 <App>
-  <Name address="0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1" showAddress />
+  <Name className="bg-default px-2 py-1" address="0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1" />
 </App>
 
 Address without an ENS name, and it defaults to his sliced address:
@@ -39,6 +41,35 @@ import { Name } from '@coinbase/onchainkit/identity';
 
 <App>
   <Name address="0x1234567890abcdef1234567890abcdef12345678" />
+</App>
+
+Show attestation on ENV name with [`Badge`](/identity/badge) component.
+
+Use [`OnchainKitProvider`](/config/onchainkit-provider) or [`Identity`](/identity/identity) component with the `schemaId` prop.
+
+```tsx
+import { Badge, Name, Identity } from '@coinbase/onchainkit/identity'; // [!code focus]
+
+<Identity
+  schemaId="0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9"  // [!code focus]
+  address="0x838aD0EAE54F99F1926dA7C3b6bFbF617389B4D9"
+>
+  <Name> // [!code focus]
+    <Badge /> // [!code focus]
+  </Name> // [!code focus]
+</Identity>
+```
+
+<App>
+  <Identity
+    schemaId="0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9"
+    address="0x838aD0EAE54F99F1926dA7C3b6bFbF617389B4D9"
+    className="bg-transparent"
+  >
+    <Name >
+      <Badge />
+    </Name>
+  </Identity>
 </App>
 
 ## Props
