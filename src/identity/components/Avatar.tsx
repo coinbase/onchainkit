@@ -45,7 +45,7 @@ export function Avatar({
   }, [children]);
 
   const defaultAvatar = defaultComponent || (
-    <div className="h-8 w-8">{defaultAvatarSVG}</div>
+    <div className={cn('h-8 w-8', className)}>{defaultAvatarSVG}</div>
   );
 
   // If the data is still loading, it displays a loading SVG.
