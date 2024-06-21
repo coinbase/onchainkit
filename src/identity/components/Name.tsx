@@ -1,3 +1,5 @@
+'use client';
+
 import { Children, useMemo } from 'react';
 import { useIdentityContext } from '../context';
 import { getSlicedAddress } from '../getSlicedAddress';

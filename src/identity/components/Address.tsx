@@ -1,3 +1,5 @@
+'use client';
+
 import { useIdentityContext } from '../context';
 import { getSlicedAddress } from '../getSlicedAddress';
 import { cn, text } from '../../styles/theme';
