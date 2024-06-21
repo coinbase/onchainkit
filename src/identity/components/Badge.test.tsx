@@ -7,6 +7,7 @@ import '@testing-library/jest-dom';
 import { Badge } from './Badge';
 
 describe('WithAvatarBadge Component', () => {
+  const badgeStyle = 'height: 12px; width: 12px';
   it('should render the svg', async () => {
     render(<Badge />);
 
@@ -21,52 +22,10 @@ describe('WithAvatarBadge Component', () => {
 
     await waitFor(() => {
       const badge = screen.queryByTestId('ockBadge');
-      expect(badge).toHaveStyle('height: 16px; width: 16px;');
-      const bg = screen.queryByTestId('ockBadgeBackground');
-      expect(bg).toHaveAttribute('fill', '#0052FF');
+      expect(badge).toHaveStyle(badgeStyle);
+      expect(badge).toHaveClass('bg-primary');
       const ticker = screen.queryByTestId('ockBadgeTicker');
-      expect(ticker).toHaveAttribute('fill', 'white');
-    });
-  });
-
-  it('should render the badge with a red border', async () => {
-    render(<Badge borderColor="red" />);
-
-    await waitFor(() => {
-      const badge = screen.queryByTestId('ockBadge');
-      expect(badge).toHaveStyle(
-        'border-color: red; height: 18px; width: 18px;',
-      );
-      const bg = screen.queryByTestId('ockBadgeBackground');
-      expect(bg).toHaveAttribute('fill', '#0052FF');
-      const ticker = screen.queryByTestId('ockBadgeTicker');
-      expect(ticker).toHaveAttribute('fill', 'white');
-    });
-  });
-
-  it('should render the badge with a green background', async () => {
-    render(<Badge backgroundColor="green" />);
-
-    await waitFor(() => {
-      const badge = screen.queryByTestId('ockBadge');
-      expect(badge).toHaveStyle('height: 16px; width: 16px;');
-      const bg = screen.queryByTestId('ockBadgeBackground');
-      expect(bg).toHaveAttribute('fill', 'green');
-      const ticker = screen.queryByTestId('ockBadgeTicker');
-      expect(ticker).toHaveAttribute('fill', 'white');
-    });
-  });
-
-  it('should render the badge with a yellow ticker', async () => {
-    render(<Badge tickerColor="yellow" />);
-
-    await waitFor(() => {
-      const badge = screen.queryByTestId('ockBadge');
-      expect(badge).toHaveStyle('height: 16px; width: 16px;');
-      const bg = screen.queryByTestId('ockBadgeBackground');
-      expect(bg).toHaveAttribute('fill', '#0052FF');
-      const ticker = screen.queryByTestId('ockBadgeTicker');
-      expect(ticker).toHaveAttribute('fill', 'yellow');
+      expect(ticker).toHaveClass('fill-inverse');
     });
   });
 });
