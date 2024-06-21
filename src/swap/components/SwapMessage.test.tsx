@@ -139,7 +139,7 @@ describe('SwapMessage', () => {
       </SwapContext.Provider>,
     );
     expect(screen.getByTestId('ockSwapMessage_Message')).toHaveTextContent(
-      'Loading...',
+      'Fetching quote...',
     );
   });
 
