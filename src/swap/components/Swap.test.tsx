@@ -41,7 +41,7 @@ const mockToken: Token = {
   chainId: 8453,
 };
 
-const mockETHTokenBalanceResponse = { data: 3304007277394n };
+const mockTokenBalanceResponse = { data: 3304007277394n };
 const mockEthBalanceResponse = {
   data: {
     decimals: 18,
@@ -85,7 +85,7 @@ describe('Swap component', () => {
       mockEthBalanceResponse,
     );
     (require('wagmi').useReadContract as jest.Mock).mockReturnValue(
-      mockETHTokenBalanceResponse,
+      mockTokenBalanceResponse,
     );
     render(
       <SwapContext.Provider value={mockContextValue}>

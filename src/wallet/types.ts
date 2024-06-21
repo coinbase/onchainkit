@@ -1,5 +1,7 @@
 import type { UserOperation } from 'permissionless';
 import type { Address, PublicClient } from 'viem';
+import type { SwapError } from '../swap';
+import type { UseBalanceReturnType, UseReadContractReturnType } from 'wagmi';
 
 /**
  * Note: exported as public Type
@@ -29,6 +31,20 @@ export type IsWalletACoinbaseSmartWalletOptions = {
 export type IsWalletACoinbaseSmartWalletResponse =
   | { isCoinbaseSmartWallet: true }
   | { isCoinbaseSmartWallet: false; error: string; code: string };
+
+export type UseGetETHBalanceResponse = {
+  error?: SwapError;
+  response?: UseBalanceReturnType;
+  convertedBalance?: string;
+  roundedBalance?: string;
+};
+
+export type UseGetTokenBalanceResponse = {
+  error?: SwapError;
+  response?: UseReadContractReturnType;
+  convertedBalance?: string;
+  roundedBalance?: string;
+};
 
 /**
  * Note: exported as public Type
