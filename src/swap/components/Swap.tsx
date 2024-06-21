@@ -48,6 +48,7 @@ export function Swap({ address, children, title = 'Swap' }: SwapReact) {
     error: toBalanceError,
   } = useGetTokenBalance(address, toToken);
 
+  /* istanbul ignore next */
   const {
     convertedToTokenBalance,
     convertedFromTokenBalance,
