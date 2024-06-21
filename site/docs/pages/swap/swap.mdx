@@ -17,6 +17,7 @@ The components are designed to work together. For each component, ensure the fol
 - `<Swap />` - Set the user's address and error handling.
 - `<SwapAmountInput />` - Set the [Token](/token/types#token) to swap and specify the input type (`from` or `to`).
 - `<SwapToggleButton />` - Optional component to toggle between input types.
+- `<SwapMessage />` - Optional component that displays a message related to the swap operation's current state.
 - `<SwapButton />` - Set the onSubmit and onError callbacks.
 
 The `SwapButton` component prepares a swap transaction but does not submit it to the blockchain.
@@ -220,6 +221,54 @@ You can remove `SwapToggleButton` to make swap unidirectional.
   </SwapWrapper>
 </App>
 
+You can remove `SwapMessage` component.
+
+```tsx [code]
+// omitted for brevity
+
+<Swap address={address}> // [!code focus]
+  <SwapAmountInput // [!code focus]
+    label="Sell" // [!code focus]
+    token={ETHToken} // [!code focus]
+    type="from" // [!code focus]
+  /> // [!code focus]
+  <SwapToggleButton />
+  <SwapAmountInput // [!code focus]
+    label="Buy" // [!code focus]
+    token={USDCToken} // [!code focus]
+    type="to" // [!code focus]
+  /> // [!code focus]
+  <SwapButton onSubmit={onSubmit} /> // [!code focus]
+</Swap> // [!code focus]
+}
+```
+
+
+<App>
+  <SwapWrapper>
+    {({ address, swappableTokens }) => {
+      if (address) {
+        return (
+          <Swap address={address}>
+            <SwapAmountInput
+              label="Sell"
+              token={swappableTokens[1]}
+              type="from"
+            />
+            <SwapToggleButton />
+            <SwapAmountInput
+              label="Buy"
+              token={swappableTokens[2]}
+              type="to"
+            />
+            <SwapButton />
+          </Swap>
+        )
+      }
+      return <ConnectAccount />;
+    }}
+  </SwapWrapper>
+</App>
 ## Props
 
 - [`SwapReact`](/swap/types#swapreact)
