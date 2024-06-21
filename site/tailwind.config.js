@@ -10,6 +10,9 @@ export default {
   important: true,
   safelist: ['dark'],
   theme: {
+    fontFamily: {
+      sans: ['Inter', 'sans-serif'],
+    },
     extend: {
       fontFamily: {
         display: 'DM Sans, sans-serif',
