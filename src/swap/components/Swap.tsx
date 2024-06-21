@@ -7,9 +7,8 @@ import { SwapContext } from '../context';
 import { getSwapQuote } from '../core/getSwapQuote';
 import { isSwapError } from '../core/isSwapError';
 import { formatTokenAmount } from '../../utils/formatTokenAmount';
-import { getTokenBalanceErrorState } from '../core/getTokenBalanceErrorState';
 import { background, cn, text } from '../../styles/theme';
-import { useGetETHBalance } from '../core/useGetETHBalance';
+import { useGetETHBalance } from '../../wallet/core/useGetETHBalance';
 import { useGetTokenBalance } from '../core/useGetTokenBalance';
 import type {
   SwapError,
@@ -32,28 +31,31 @@ export function Swap({ address, children, title = 'Swap' }: SwapReact) {
   });
 
   const {
-    ethBalanceResponse,
     convertedBalance: convertedETHBalance,
     roundedBalance: roundedETHBalance,
+    error: ethBalanceError,
   } = useGetETHBalance(address);
 
+
   const {
-    tokenBalanceResponse: fromBalanceResponse,
     convertedBalance: convertedFromBalance,
+    error: fromBalanceError,
     roundedBalance: roundedFromBalance,
   } = useGetTokenBalance(address, fromToken);
 
   const {
-    tokenBalanceResponse: toBalanceResponse,
     convertedBalance: convertedToBalance,
     roundedBalance: roundedToBalance,
+    error: toBalanceError,
   } = useGetTokenBalance(address, toToken);
 
   const {
     convertedToTokenBalance,
     convertedFromTokenBalance,
+    fromTokenBalanceError,
     roundedFromTokenBalance,
     roundedToTokenBalance,
+    toTokenBalanceError,
   } = useMemo(() => {
     const isFromNativeToken = fromToken?.symbol === 'ETH';
     const isToNativeToken = toToken?.symbol === 'ETH';
@@ -61,6 +63,9 @@ export function Swap({ address, children, title = 'Swap' }: SwapReact) {
       convertedFromTokenBalance: isFromNativeToken
         ? convertedETHBalance
         : convertedFromBalance,
+      fromTokenBalanceError: isFromNativeToken
+        ? ethBalanceError
+        : fromBalanceError,
       roundedFromTokenBalance: isFromNativeToken
         ? roundedETHBalance
         : roundedFromBalance,
@@ -70,38 +75,20 @@ export function Swap({ address, children, title = 'Swap' }: SwapReact) {
       roundedToTokenBalance: isToNativeToken
         ? roundedETHBalance
         : roundedToBalance,
+      toTokenBalanceError: isToNativeToken ? ethBalanceError : toBalanceError,
     };
   }, [
     convertedFromBalance,
     convertedETHBalance,
     convertedToBalance,
+    ethBalanceError,
+    fromBalanceError,
     fromToken,
     roundedETHBalance,
     roundedFromBalance,
     roundedToBalance,
+    toBalanceError,
     toToken,
-  ]);
-
-  const { fromTokenBalanceError, toTokenBalanceError } = useMemo(() => {
-    const fromTokenBalanceError = getTokenBalanceErrorState({
-      token: fromToken,
-      ethBalance: ethBalanceResponse,
-      tokenBalance: fromBalanceResponse,
-    });
-    const toTokenBalanceError = getTokenBalanceErrorState({
-      token: toToken,
-      ethBalance: ethBalanceResponse,
-      tokenBalance: toBalanceResponse,
-    });
-    return {
-      fromTokenBalanceError,
-      toTokenBalanceError,
-    };
-  }, [
-    ethBalanceResponse,
-    fromToken,
-    toToken,
-    toBalanceResponse,
   ]);
 
   /* istanbul ignore next */
