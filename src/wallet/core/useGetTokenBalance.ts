@@ -46,5 +46,5 @@ export function useGetTokenBalance(address: Address, token?: Token) {
       response: tokenBalanceResponse,
       roundedBalance: getRoundedAmount(convertedBalance, 8),
     };
-  }, [address, token, tokenBalanceResponse]);
+  }, [token, tokenBalanceResponse]);
 }

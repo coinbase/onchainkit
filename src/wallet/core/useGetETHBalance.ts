@@ -42,5 +42,5 @@ export function useGetETHBalance(address: Address) {
       response: ethBalanceResponse,
       roundedBalance,
     };
-  }, [ethBalanceResponse, address]);
+  }, [ethBalanceResponse]);
 }
