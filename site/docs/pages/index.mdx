@@ -9,7 +9,7 @@ showOutline: false
 
 import { base } from 'viem/chains';
 import { OnchainKitProvider } from '@coinbase/onchainkit';
-import { Avatar, Badge, Name } from '@coinbase/onchainkit/identity';
+import { Address, Avatar, Badge, Name, Identity } from '@coinbase/onchainkit/identity';
 import AccountConnect from '../components/AccountConnect';
 import App from '../components/App';
 import FarcasterCastCard from '../components/FarcasterCastCard';
@@ -78,50 +78,38 @@ bun add @coinbase/onchainkit
   </main>
   <aside className="md:px-2">
     <p className="text-lg md:text-xl py-4">
-      Display ENS [avatars](/identity/avatar), Attestation [badges](/identity/badge), and ENS [names](/identity/name).
+      Display ENS [avatars](/identity/avatar), Attestation [badges](/identity/badge), ENS [names](/identity/name) and account [addresses](/identity/address).
     </p>
     <div className="flex grow flex-col md:flex-row">
       <div>
 
 ```tsx
-<OnchainKitProvider
-  chain={base}
+<Identity
+  address="0x838aD0EAE54F99F1926dA7C3b6bFbF617389B4D9"
   schemaId="0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9"
 >
-  <div className="flex h-10 items-center space-x-4">
-    <Avatar // [!code focus]
-      address="0x838aD0EAE54F99F1926dA7C3b6bFbF617389B4D9" // [!code focus]
-      showAttestation // [!code focus]
-    /> // [!code focus]
-    <div className="flex flex-col text-sm">
-      <b>
-        <Name address="0x838aD0EAE54F99F1926dA7C3b6bFbF617389B4D9" /> // [!code focus]
-      </b>
-      <Name address="0x838aD0EAE54F99F1926dA7C3b6bFbF617389B4D9" showAddress /> // [!code focus]
-    </div>
-  </div>
-</OnchainKitProvider>
+  <Avatar>
+    <Badge />
+  </Avatar>
+  <Name />
+  <Address />
+</Identity>
 ```
 
     </div>
     <div className='flex grow items-center justify-center h-24 md:h-auto'>
-
-<App>
-  <OnchainKitProvider
-    chain={base}
-    schemaId="0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9"
-  >
-    <div className="flex h-10 items-center space-x-4">
-      <Avatar address="0x838aD0EAE54F99F1926dA7C3b6bFbF617389B4D9" showAttestation />
-      <div className="flex flex-col text-sm">
-        <b>
-          <Name address="0x838aD0EAE54F99F1926dA7C3b6bFbF617389B4D9" />
-        </b>
-        <Name address="0x838aD0EAE54F99F1926dA7C3b6bFbF617389B4D9" showAddress />
-      </div>
-    </div>
-  </OnchainKitProvider>
-</App>
+      <App>
+        <Identity
+          schemaId="0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9"
+          address="0x838aD0EAE54F99F1926dA7C3b6bFbF617389B4D9"
+        >
+          <Avatar>
+            <Badge />
+          </Avatar>
+          <Name />
+          <Address />
+        </Identity>
+      </App>
       </div>
     </div>
   </aside>

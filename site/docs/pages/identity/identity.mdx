@@ -1,6 +1,4 @@
-{/* import { Avatar, Identity, Name, Badge } from '../../../../src/identity'; */}
-import { Avatar, Identity, Name, Badge } from '@coinbase/onchainkit/identity';
-
+import { Address, Avatar, Identity, Name, Badge } from '@coinbase/onchainkit/identity';
 import App from '../../components/App';
 
 # `<Identity />`
@@ -9,7 +7,11 @@ import App from '../../components/App';
 Component is actively in development. Stay tuned for upcoming releases.
 :::
 
+`Identity` is a React context provider and arranges identity components.
+
 ## Usage
+
+Show user avatar, name with attestation and address:
 
 ```tsx
 import { Avatar, Identity, Name, Badge, Address } from '@coinbase/onchainkit/identity';
@@ -35,6 +37,80 @@ import { Avatar, Identity, Name, Badge, Address } from '@coinbase/onchainkit/ide
     <Name>
       <Badge />
     </Name>
+    <Address />
+  </Identity>
+</App>
+
+
+Modify any styles with `className` prop.
+
+```tsx
+import { Avatar, Identity, Name, Badge, Address } from '@coinbase/onchainkit/identity';
+
+<Identity
+  address="0x838aD0EAE54F99F1926dA7C3b6bFbF617389B4D9"
+  schemaId="0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9"
+>
+  <Avatar>
+    <Badge className="bg-error" /> // [!code focus]
+  </Avatar>
+  <Name className="text-orange-600" /> // [!code focus]
+  <Address className="text-gray-50 font-bold"/> // [!code focus]
+</Identity>
+```
+
+<App>
+  <Identity
+    address="0x838aD0EAE54F99F1926dA7C3b6bFbF617389B4D9"
+    schemaId="0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9"
+  >
+    <Avatar>
+      <Badge className="bg-error" />
+    </Avatar>
+    <Name className="text-orange-600" />
+    <Address className="text-gray-50 font-bold"/>
+  </Identity>
+</App>
+
+Choose which identity components to render:
+
+```tsx
+import { Avatar, Identity, Name, Badge, Address } from '@coinbase/onchainkit/identity';
+
+<Identity address="0x838..." schemaId="0xf8b...">
+  <Avatar /> // [!code focus]
+  <Name> // [!code focus]
+    <Badge> // [!code focus]
+  </Name> // [!code focus]
+</Identity>
+
+<Identity address="0x838..." schemaId="0xf8b...">
+  <Name> // [!code focus]
+    <Badge> // [!code focus]
+  </Name> // [!code focus]
+  <Address /> // [!code focus]
+</Identity>
+```
+
+<App>
+  <Identity
+    address="0x838aD0EAE54F99F1926dA7C3b6bFbF617389B4D9"
+    schemaId="0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9"
+  >
+    <Avatar />
+    <Name>
+      <Badge />
+    </Name>
+  </Identity>
+  <Identity
+    address="0x838aD0EAE54F99F1926dA7C3b6bFbF617389B4D9"
+    schemaId="0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9"
+    className="mt-2"
+  >
+    <Name>
+      <Badge />
+    </Name>
+    <Address />
   </Identity>
 </App>
 

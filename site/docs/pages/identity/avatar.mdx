@@ -1,6 +1,4 @@
-{/* import { Avatar } from '../../../../src/identity'; */}
-import { Avatar } from '@coinbase/onchainkit/identity';
-
+import { Avatar, Badge, Identity } from '@coinbase/onchainkit/identity';
 import App from '../../components/App';
 
 # `<Avatar />`
@@ -21,7 +19,7 @@ import { Avatar } from '@coinbase/onchainkit/identity';
   <Avatar address="0x838aD0EAE54F99F1926dA7C3b6bFbF617389B4D9" />
 </App>
 
-Address without an ENS avatar, and it defaults to a blue color avatar:
+Address without an ENS avatar, and it defaults to a plain avatar:
 
 ```tsx
 import { Avatar } from '@coinbase/onchainkit/identity';
@@ -30,6 +28,50 @@ import { Avatar } from '@coinbase/onchainkit/identity';
 
 <App>
   <Avatar address="0x1234567890abcdef1234567890abcdef12345678" />
+</App>
+
+Override styles via `className` prop:
+
+```tsx
+import { Avatar } from '@coinbase/onchainkit/identity';
+<Avatar // [!code focus]
+  className="bg-white rounded-full" // [!code focus]
+  address="0x1234567890abcdef1234567890abcdef12345678"
+/>; // [!code focus]
+```
+
+<App>
+  <Avatar className="bg-white rounded-full" address="0x1234567890abcdef1234567890abcdef12345678" />
+</App>
+
+
+Show attestation on ENV avatar with [`Badge`](/identity/badge) component.
+
+Use [`OnchainKitProvider`](/config/onchainkit-provider) or [`Identity`](/identity/identity) component with the `schemaId` prop.
+
+```tsx
+import { Avatar, Badge, Identity } from '@coinbase/onchainkit/identity'; // [!code focus]
+
+<Identity
+  schemaId="0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9" // [!code focus]
+  address="0x838aD0EAE54F99F1926dA7C3b6bFbF617389B4D9"
+>
+  <Avatar > // [!code focus]
+    <Badge /> // [!code focus]
+  </Avatar> // [!code focus]
+</Identity>
+```
+
+<App>
+  <Identity
+    schemaId="0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9"
+    address="0x838aD0EAE54F99F1926dA7C3b6bFbF617389B4D9"
+    className="bg-transparent"
+  >
+    <Avatar >
+      <Badge />
+    </Avatar>
+  </Identity>
 </App>
 
 ## Props
