@@ -29,19 +29,19 @@ zizzamia.eth;
 
 :::
 
-Get a sliced address when `showAddress` is true:
+Get a sliced address when address does not have an ENS name:
 
 :::code-group
 
 ```tsx [code]
 import { getName } from '@coinbase/onchainkit/identity';
 
-const address = '0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1';
-const name = await getName({ address, showAddress: true });
+const address = '0x1234567890abcdef1234567890abcdef12345678';
+const name = await getName({ address });
 ```
 
 ```ts [return value]
-0x02f...B6B1
+0x123...5678
 ```
 
 :::
