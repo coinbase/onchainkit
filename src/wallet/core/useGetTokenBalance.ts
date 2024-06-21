@@ -33,7 +33,7 @@ export function useGetTokenBalance(address: Address, token?: Token) {
         convertedBalance: '',
         error,
         roundedBalance: '',
-        tokenBalanceResponse,
+        response: tokenBalanceResponse,
       };
     }
     const convertedBalance = formatUnits(

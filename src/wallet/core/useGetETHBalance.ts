@@ -7,6 +7,7 @@ import type { Address } from 'viem';
 import type { UseBalanceReturnType } from 'wagmi';
 
 const ETH_DECIMALS = 18;
+
 export function useGetETHBalance(address: Address) {
   const ethBalanceResponse: UseBalanceReturnType = useBalance({ address });
 
@@ -22,6 +23,7 @@ export function useGetETHBalance(address: Address) {
       !ethBalanceResponse?.data?.value &&
       ethBalanceResponse?.data?.value !== 0n
     ) {
+      // TODO: possibly throw error?
       return {
         convertedBalance: '',
         error,

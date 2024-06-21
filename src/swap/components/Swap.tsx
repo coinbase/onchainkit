@@ -62,15 +62,15 @@ export function Swap({ address, children, title = 'Swap' }: SwapReact) {
       convertedFromTokenBalance: isFromNativeToken
         ? convertedETHBalance
         : convertedFromBalance,
+      convertedToTokenBalance: isToNativeToken
+        ? convertedETHBalance
+        : convertedToBalance,
       fromTokenBalanceError: isFromNativeToken
         ? ethBalanceError
         : fromBalanceError,
       roundedFromTokenBalance: isFromNativeToken
         ? roundedETHBalance
         : roundedFromBalance,
-      convertedToTokenBalance: isToNativeToken
-        ? convertedETHBalance
-        : convertedToBalance,
       roundedToTokenBalance: isToNativeToken
         ? roundedETHBalance
         : roundedToBalance,
