@@ -101,6 +101,8 @@ export function Swap({ address, children, title = 'Swap' }: SwapReact) {
         return;
       }
       try {
+        /* when fromAmount changes we fetch quote for toAmount
+        so set isToQuoteLoading to true */
         setSwapLoadingState({
           ...swapLoadingState,
           isToQuoteLoading: true,
@@ -111,6 +113,8 @@ export function Swap({ address, children, title = 'Swap' }: SwapReact) {
           amount,
           amountReference: 'from',
         });
+        /* if request resolves to error response set the quoteError
+        property of error state to the SwapError response */
         if (isSwapError(response)) {
           setSwapErrorState({ ...swapErrorState, quoteError: response });
           return;
@@ -123,6 +127,7 @@ export function Swap({ address, children, title = 'Swap' }: SwapReact) {
       } catch (err) {
         setSwapErrorState({ ...swapErrorState, quoteError: err as SwapError });
       } finally {
+        /* reset loading state when quote request resolves */
         setSwapLoadingState({
           ...swapLoadingState,
           isToQuoteLoading: false,
@@ -140,6 +145,8 @@ export function Swap({ address, children, title = 'Swap' }: SwapReact) {
         return;
       }
       try {
+        /* when toAmount changes we fetch quote for fromAmount
+        so set isFromQuoteLoading to true */
         setSwapLoadingState({
           ...swapLoadingState,
           isFromQuoteLoading: true,
@@ -150,6 +157,8 @@ export function Swap({ address, children, title = 'Swap' }: SwapReact) {
           amount,
           amountReference: 'to',
         });
+        /* if request resolves to error response set the quoteError
+        property of error state to the SwapError response */
         if (isSwapError(response)) {
           setSwapErrorState({ ...swapErrorState, quoteError: response });
           return;
@@ -162,6 +171,7 @@ export function Swap({ address, children, title = 'Swap' }: SwapReact) {
       } catch (err) {
         setSwapErrorState({ ...swapErrorState, quoteError: err as SwapError });
       } finally {
+        /* reset loading state when quote request resolves */
         setSwapLoadingState({
           ...swapLoadingState,
           isFromQuoteLoading: false,

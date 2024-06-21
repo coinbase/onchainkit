@@ -1,6 +1,5 @@
 import { cn } from '../../styles/theme';
 
-/* istanbul ignore next */
 export function Spinner() {
   return (
     <div
