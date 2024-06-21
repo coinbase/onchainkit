@@ -7,11 +7,10 @@ import { SwapContext } from '../context';
 import { getSwapQuote } from '../core/getSwapQuote';
 import { isSwapError } from '../core/isSwapError';
 import { formatTokenAmount } from '../../utils/formatTokenAmount';
-import { useBalance, useReadContract } from 'wagmi';
-import { getTokenBalances } from '../core/getTokenBalances';
 import { getTokenBalanceErrorState } from '../core/getTokenBalanceErrorState';
-import { erc20Abi } from 'viem';
-import type { Address } from 'viem';
+import { background, cn, text } from '../../styles/theme';
+import { useGetETHBalance } from '../core/useGetETHBalance';
+import { useGetTokenBalance } from '../core/useGetTokenBalance';
 import type {
   SwapError,
   SwapErrorState,
@@ -19,8 +18,6 @@ import type {
   SwapReact,
 } from '../types';
 import type { Token } from '../../token';
-import type { UseBalanceReturnType, UseReadContractReturnType } from 'wagmi';
-import { background, cn, text } from '../../styles/theme';
 
 export function Swap({ address, children, title = 'Swap' }: SwapReact) {
   const [swapErrorState, setSwapErrorState] = useState<SwapErrorState>();
@@ -34,43 +31,67 @@ export function Swap({ address, children, title = 'Swap' }: SwapReact) {
     isToQuoteLoading: false,
   });
 
-  // returns ETH balance
-  const ethBalanceResponse: UseBalanceReturnType = useBalance({
-    address,
-  });
+  const {
+    ethBalanceResponse,
+    convertedBalance: convertedETHBalance,
+    roundedBalance: roundedETHBalance,
+  } = useGetETHBalance(address);
 
-  // returns erc20 token balance
-  const fromTokenBalanceResponse: UseReadContractReturnType = useReadContract({
-    abi: erc20Abi,
-    address: fromToken?.address as Address,
-    functionName: 'balanceOf',
-    args: [address],
-    query: {
-      enabled: !!fromToken?.address && !!address,
-    },
-  });
+  const {
+    tokenBalanceResponse: fromBalanceResponse,
+    convertedBalance: convertedFromBalance,
+    roundedBalance: roundedFromBalance,
+  } = useGetTokenBalance(address, fromToken);
 
-  // returns erc20 token balance
-  const toTokenBalanceResponse: UseReadContractReturnType = useReadContract({
-    abi: erc20Abi,
-    address: toToken?.address as Address,
-    functionName: 'balanceOf',
-    args: [address],
-    query: {
-      enabled: !!toToken?.address && !!address,
-    },
-  });
+  const {
+    tokenBalanceResponse: toBalanceResponse,
+    convertedBalance: convertedToBalance,
+    roundedBalance: roundedToBalance,
+  } = useGetTokenBalance(address, toToken);
+
+  const {
+    convertedToTokenBalance,
+    convertedFromTokenBalance,
+    roundedFromTokenBalance,
+    roundedToTokenBalance,
+  } = useMemo(() => {
+    const isFromNativeToken = fromToken?.symbol === 'ETH';
+    const isToNativeToken = toToken?.symbol === 'ETH';
+    return {
+      convertedFromTokenBalance: isFromNativeToken
+        ? convertedETHBalance
+        : convertedFromBalance,
+      roundedFromTokenBalance: isFromNativeToken
+        ? roundedETHBalance
+        : roundedFromBalance,
+      convertedToTokenBalance: isToNativeToken
+        ? convertedETHBalance
+        : convertedToBalance,
+      roundedToTokenBalance: isToNativeToken
+        ? roundedETHBalance
+        : roundedToBalance,
+    };
+  }, [
+    convertedFromBalance,
+    convertedETHBalance,
+    convertedToBalance,
+    fromToken,
+    roundedETHBalance,
+    roundedFromBalance,
+    roundedToBalance,
+    toToken,
+  ]);
 
   const { fromTokenBalanceError, toTokenBalanceError } = useMemo(() => {
     const fromTokenBalanceError = getTokenBalanceErrorState({
       token: fromToken,
       ethBalance: ethBalanceResponse,
-      tokenBalance: fromTokenBalanceResponse,
+      tokenBalance: fromBalanceResponse,
     });
     const toTokenBalanceError = getTokenBalanceErrorState({
       token: toToken,
       ethBalance: ethBalanceResponse,
-      tokenBalance: toTokenBalanceResponse,
+      tokenBalance: toBalanceResponse,
     });
     return {
       fromTokenBalanceError,
@@ -79,46 +100,8 @@ export function Swap({ address, children, title = 'Swap' }: SwapReact) {
   }, [
     ethBalanceResponse,
     fromToken,
-    fromTokenBalanceResponse,
     toToken,
-    toTokenBalanceResponse,
-  ]);
-
-  const {
-    convertedFromTokenBalance,
-    roundedFromTokenBalance,
-    convertedToTokenBalance,
-    roundedToTokenBalance,
-  } = useMemo(() => {
-    const {
-      convertedBalance: convertedFromTokenBalance,
-      roundedBalance: roundedFromTokenBalance,
-    } = getTokenBalances({
-      token: fromToken,
-      ethBalance: ethBalanceResponse?.data?.value,
-      tokenBalance: fromTokenBalanceResponse?.data as bigint,
-    });
-    const {
-      convertedBalance: convertedToTokenBalance,
-      roundedBalance: roundedToTokenBalance,
-    } = getTokenBalances({
-      token: toToken,
-      ethBalance: ethBalanceResponse?.data?.value,
-      tokenBalance: toTokenBalanceResponse?.data as bigint,
-    });
-
-    return {
-      convertedFromTokenBalance,
-      convertedToTokenBalance,
-      roundedFromTokenBalance,
-      roundedToTokenBalance,
-    };
-  }, [
-    ethBalanceResponse?.data,
-    fromToken,
-    fromTokenBalanceResponse?.data,
-    toToken,
-    toTokenBalanceResponse?.data,
+    toBalanceResponse,
   ]);
 
   /* istanbul ignore next */
