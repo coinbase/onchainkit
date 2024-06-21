@@ -94,7 +94,6 @@ export type GetAvatarReturnType = string | null;
  */
 export type GetName = {
   address: Address;
-  showAddress?: boolean;
 };
 
 /**
@@ -116,6 +115,7 @@ export type IdentityContextType = {
 export type IdentityReact = {
   address: Address; // The Ethereum address to fetch the avatar and name for.
   children: ReactNode;
+  className?: string; // className override for top div element
   schemaId?: Address | null; // The Ethereum address of the schema to use for EAS attestation.
 };
 
