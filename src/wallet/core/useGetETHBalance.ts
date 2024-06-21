@@ -4,10 +4,11 @@ import { formatUnits } from 'viem';
 import { getRoundedAmount } from '../../utils/getRoundedAmount';
 import { getSwapErrorCode } from '../../swap/core/getSwapErrorCode';
 import type { Address } from 'viem';
+import type { UseBalanceReturnType } from 'wagmi';
 
 const ETH_DECIMALS = 18;
 export function useGetETHBalance(address: Address) {
-  const ethBalanceResponse = useBalance({ address });
+  const ethBalanceResponse: UseBalanceReturnType = useBalance({ address });
 
   return useMemo(() => {
     let error;

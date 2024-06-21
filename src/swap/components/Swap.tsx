@@ -9,7 +9,7 @@ import { isSwapError } from '../core/isSwapError';
 import { formatTokenAmount } from '../../utils/formatTokenAmount';
 import { background, cn, text } from '../../styles/theme';
 import { useGetETHBalance } from '../../wallet/core/useGetETHBalance';
-import { useGetTokenBalance } from '../core/useGetTokenBalance';
+import { useGetTokenBalance } from '../../wallet/core/useGetTokenBalance';
 import type {
   SwapError,
   SwapErrorState,
@@ -35,7 +35,6 @@ export function Swap({ address, children, title = 'Swap' }: SwapReact) {
     roundedBalance: roundedETHBalance,
     error: ethBalanceError,
   } = useGetETHBalance(address);
-
 
   const {
     convertedBalance: convertedFromBalance,
