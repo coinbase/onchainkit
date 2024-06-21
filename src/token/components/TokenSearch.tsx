@@ -25,7 +25,7 @@ export function TokenSearch({
         className={cn(
           pressable.alternate,
           color.foreground,
-          'w-full rounded-xl border-2 border-[#eef0f3] border-solid py-2 pr-5 pl-12 placeholder-[#5B616E] outline-none',
+          'w-full rounded-xl py-2 pr-5 pl-12 placeholder-[#5B616E] outline-none',
           className,
         )}
         placeholder="Search for a token"
