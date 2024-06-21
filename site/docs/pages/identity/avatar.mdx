@@ -12,7 +12,7 @@ Address with an ENS avatar:
 
 ```tsx
 import { Avatar } from '@coinbase/onchainkit/identity';
-<Avatar address="0x838aD0EAE54F99F1926dA7C3b6bFbF617389B4D9" />; // [!code focus]
+<Avatar address="0x838aD0EAE54F99F1926dA7C3b6bFbF617389B4D9" /> // [!code focus]
 ```
 
 <App>
@@ -23,7 +23,7 @@ Address without an ENS avatar, and it defaults to a plain avatar:
 
 ```tsx
 import { Avatar } from '@coinbase/onchainkit/identity';
-<Avatar address="0x1234567890abcdef1234567890abcdef12345678" />; // [!code focus]
+<Avatar address="0x1234567890abcdef1234567890abcdef12345678" /> // [!code focus]
 ```
 
 <App>
@@ -37,13 +37,57 @@ import { Avatar } from '@coinbase/onchainkit/identity';
 <Avatar // [!code focus]
   className="bg-white rounded-full" // [!code focus]
   address="0x1234567890abcdef1234567890abcdef12345678"
-/>; // [!code focus]
+/> // [!code focus]
 ```
 
 <App>
   <Avatar className="bg-white rounded-full" address="0x1234567890abcdef1234567890abcdef12345678" />
 </App>
 
+Use `defaultComponent` prop to change the default avatar when ENS avatar is not found.
+
+Use `loadingComponent` prop to change the loading placeholder:
+
+```tsx
+import { Avatar } from '@coinbase/onchainkit/identity';
+<Avatar
+  address="0x1234567890abcdef1234567890abcdef12345678"
+  loadingComponent={( // [!code focus]
+    <div className="h-8 w-8"> // [!code focus]
+      <svg width="100%" height="100%" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"> // [!code focus]
+        <polygon points="6,1 14,1 19,6 19,14 14,19 6,19 1,14 1,6" fill="yellow" stroke="yellow" stroke-width="1"/> // [!code focus]
+      </svg> // [!code focus]
+    </div> // [!code focus]
+  )} // [!code focus]
+  defaultComponent={( // [!code focus]
+    <div className="h-8 w-8"> // [!code focus]
+      <svg width="100%" height="100%" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"> // [!code focus]
+        <polygon points="6,1 14,1 19,6 19,14 14,19 6,19 1,14 1,6" fill="green" stroke="green" stroke-width="1"/> // [!code focus]
+      </svg> // [!code focus]
+    </div> // [!code focus]
+  )} // [!code focus]
+/>
+```
+
+<App>
+  <Avatar
+    address="0x1234567890abcdef1234567890abcdef12345678"
+    loadingComponent={(
+      <div className="h-8 w-8">
+        <svg width="100%" height="100%" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="6,1 14,1 19,6 19,14 14,19 6,19 1,14 1,6" fill="yellow" stroke="yellow" stroke-width="1"/>
+        </svg>
+      </div>
+    )}
+    defaultComponent={(
+      <div className="h-8 w-8">
+        <svg width="100%" height="100%" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="6,1 14,1 19,6 19,14 14,19 6,19 1,14 1,6" fill="green" stroke="green" stroke-width="1"/>
+        </svg>
+      </div>
+    )}
+  />
+</App>
 
 Show attestation on ENV avatar with [`Badge`](/identity/badge) component.
 
