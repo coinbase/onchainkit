@@ -2,7 +2,7 @@
 "@coinbase/onchainkit": patch
 ---
 
-- **feat**: Identity polish
+- **feat**: Identity polish. By @kyhyco #675
   - add `fill` theme
   - update `Name` component default font color
   - add `className` prop to `Identity`
