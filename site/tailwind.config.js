@@ -18,7 +18,6 @@ export default {
         display: 'DM Sans, sans-serif',
       },
       textColor: {
-        'doc-primary': 'var(--doc-color-primary)',
         inverse: 'var(--text-inverse)',
         foreground: 'var(--text-foreground)',
         'foreground-muted': 'var(--text-foreground-muted)',

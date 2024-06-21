@@ -6,7 +6,6 @@
 
 @layer base {
   :root {
-    --doc-color-primary: theme(colors.blue.600);
     --text-inverse: theme(colors.gray.50);
     --text-foreground: theme(colors.gray.950);
     --text-foreground-muted: theme(colors.gray.600);
@@ -15,9 +14,6 @@
     --text-success: theme(colors.lime.600);
     --text-warning: theme(colors.orange.600);
     --text-disabled: theme(colors.gray.400);
-  }
-  .dark {
-    --doc-color-primary: theme(colors.red.300);
   }
 }
 
@@ -29,11 +25,6 @@
 
 #home-install .vocs_Tabs_content {
   flex: 1;
-}
-
-#home-install .vocs_Tabs_list {
-  background-color: transparent !important;
-  background-image: none !important;
 }
 
 #home-install .vocs_Code {
