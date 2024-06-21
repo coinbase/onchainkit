@@ -58,7 +58,7 @@ bun add @coinbase/onchainkit
 :::
 
       </div>
-      <a href="/getting-started" className="font-sans justify-self-end border rounded-xl border-solid border-white px-4 py-3 font-bold">
+      <a href="/getting-started" className="font-sans justify-self-end border rounded-xl border-solid border-white px-3 py-2 font-bold">
         View docs 
       </a>
     </div>
@@ -70,10 +70,40 @@ bun add @coinbase/onchainkit
   <hr className="md:mb-16 md:mt-32" />
 
 {' '}
+<section>
+  <main className="flex flex-col gap-3 md:flex-row space-y-[25px] font-normal">
+    <h2 className="basis-1/2 py-10 text-4xl md:text-5xl">Everything you need to build onchain</h2>
+    <aside className="md:px-2">
+      <p className="text-lg md:text-2xl py-4 w-[515px] shrink-0 font-normal text-[color:var(--gray-40,#89909E)]">
+        OnchainKit offers kits packed with React components and TypeScript utilities ready for action. 
+      </p>
+    </aside>
+  </main>
+  <div className="overflow-x-scroll flex flex-col gap-4 py-10 md:flex-row min-w-[32px]">
+    {[
+      { alt: "OnchainKit index frame", src: "assets/onchainkit-frame-1.png", text: "Frame", link: "/frame/frame-metadata" },
+      { alt: "OnchainKit identity frame", src: "assets/onchainkit-identity-2.png", text: "Identity", link: "/identity/introduction" },
+      { alt: "OnchainKit wallet frame", src: "assets/onchainkit-wallet-3.png", text: "Wallet", link: "/wallet/introduction" },
+      { alt: "OnchainKit tokens frame", src: "assets/onchainkit-tokens-2.png", text: "Tokens", link: "/token/introduction" },
+      { alt: "OnchainKit swap frame", src: "assets/onchainkit-swap-1.png", text: "Swap", link: "/swap/swap" },
+    ].map(({ alt, src, text, link }) => (
+      <div className="flex flex-col gap-4 py-10 md:flex-col" key={text}>
+        <img className="min-w-80 rounded-3xl" alt={alt} src={src} />
+        <p className="text-4xl md:text-2xl h-9 font-normal">{text}</p>
+        <a href={link} className="text-center w-32 font-sans border rounded-xl border-solid border-white px-3 py-2 font-bold no-underline">
+          View docs
+        </a>
+      </div>
+    ))}
+  </div>
+</section>
 
+<hr className="md:mb-16 md:mt-32" />
+
+{' '}
 <section>
   <main className="flex flex-col gap-4 md:flex-row">
-    <h2 className="basis-1/2 py-10 text-4xl md:text-6xl">Components</h2>
+    <h2 className="basis-1/2 py-10 text-4xl md:text-6xl font-normal">Components</h2>
   </main>
   <aside className="md:px-2">
     <p className="text-lg md:text-xl py-4">
@@ -195,7 +225,7 @@ setFilteredTokens(filteredTokens);
 
 <section>
   <main className="flex flex-row gap-1">
-    <h2 className="basis-1/2 text-4xl md:text-6xl">Utilities</h2>
+    <h2 className="basis-1/2 text-4xl md:text-6xl font-normal">Utilities</h2>
   </main>
   <p className="py-2 text-lg md:text-xl">
     If you're seeking basic TypeScript utilities, we have plenty of ready-to-use
@@ -258,7 +288,7 @@ setFilteredTokens(filteredTokens);
 
 <section>
   <main className="flex flex-col gap-4 md:flex-row">
-    <h2 className="basis-1/2 text-4xl md:text-6xl">Design</h2>
+    <h2 className="basis-1/2 text-4xl md:text-6xl font-normal">Design</h2>
   </main>
   <p className="py-2 text-lg md:text-xl">
     All our component designs are open-sourced. You can access the [Figma
@@ -315,7 +345,7 @@ setFilteredTokens(filteredTokens);
 
 <section>
   <main className="flex flex-col gap-4 md:flex-row">
-    <h2 className="basis-1/2 text-4xl md:text-6xl">
+    <h2 className="basis-1/2 text-4xl md:text-6xl font-normal">
       Helping builders ship faster
     </h2>
   </main>
@@ -335,7 +365,7 @@ setFilteredTokens(filteredTokens);
   <footer className="flex flex-col justify-center space-y-[25px]">
     <div className="flex max-w-[1400px] flex-col justify-between xl:flex-row xl:space-x-[25px]">
       <div className="space-y-[20px] xl:space-y-[40px]">
-        <h2 className="text-4xl md:text-9xl">OnchainKit</h2>
+        <h2 className="text-4xl md:text-9xl font-normal">OnchainKit</h2>
       </div>
       <div className="flex flex-row items-center space-x-[128px]">
         <ul className="flex space-x-[28px]">
