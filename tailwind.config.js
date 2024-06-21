@@ -9,6 +9,16 @@ export default {
       fontFamily: {
         display: 'DM Sans, sans-serif',
       },
+      fill: {
+        default: 'var(--bg-default)',
+        alternate: 'var(--bg-alternate)',
+        inverse: 'var(--bg-inverse)',
+        primary: 'var(--bg-primary)',
+        secondary: 'var(--bg-secondary)',
+        error: 'var(--bg-error)',
+        warning: 'var(--bg-warning)',
+        success: 'var(--bg-success)',
+      },
       textColor: {
         inverse: 'var(--text-inverse)',
         foreground: 'var(--text-foreground)',
