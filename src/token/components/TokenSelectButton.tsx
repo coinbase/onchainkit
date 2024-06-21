@@ -1,3 +1,5 @@
+'use client';
+
 import { type ForwardedRef, forwardRef } from 'react';
 import type { TokenSelectButtonReact } from '../types';
 import { TokenImage } from './TokenImage';

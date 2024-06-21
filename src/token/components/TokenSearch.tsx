@@ -1,3 +1,5 @@
+'use client';
+
 import { useCallback, useState } from 'react';
 import type { TokenSearchReact } from '../types';
 import { SearchIcon } from './SearchIcon';
