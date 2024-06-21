@@ -30,9 +30,8 @@ import TokenSelector from '../components/TokenSelector';
     <div className="md:text-center flex flex-col gap-8 pt-48 pb-16">
       <h1 className="text-center text-6xl md:text-9xl font-medium no-underline dark:text-white tracking-[-0.1rem]">OnchainKit</h1>
       <div className="text-center text-xl md:text-3xl dark:text-white">
-        <p className="leading-7 md:leading-none">
-          React components and TypeScript utilities to help you build top-tier onchain apps.
-        </p>
+        <p className="leading-7 md:leading-none">React components
+        and TypeScript utilities to help you build top-tier onchain apps.</p>
       </div>
     </div>
     <div className="flex flex-col md:flex-row space-between items-center gap-6 w-full">
@@ -58,7 +57,7 @@ bun add @coinbase/onchainkit
 :::
 
       </div>
-      <a href="/getting-started" className="font-sans justify-self-end border rounded-xl border-solid border-white px-4 py-3 font-bold">
+      <a href="/getting-started" className="font-sans justify-self-end border rounded-xl border-solid border-white px-3 py-2 font-bold">
         View docs 
       </a>
     </div>
@@ -72,7 +71,83 @@ bun add @coinbase/onchainkit
 {' '}
 
 <section>
-  <main className="flex flex-col gap-4 md:flex-row">
+  <main className="flex flex-col gap-3 md:flex-row space-y-[25px] font-normal">
+    <h2 className="basis-1/2 py-10 text-4xl md:text-5xl">Everything you need to build onchain</h2>
+      <aside className="md:px-2">
+      <p className="text-lg md:text-2xl py-4 w-[515px] shrink-0 font-normal text-[color:var(--gray-40,#89909E)]">
+        OnchainKit offers kits packed with React components and TypeScript utilities ready for action. 
+      </p>
+    </aside>
+  </main>
+    <div className="overflow-x-scroll flex flex-col gap-4 py-10 md:flex-row min-w-[32px]">
+      <div className="flex flex-col gap-4 py-10 md:flex-col">
+        <img className="min-w-80 rounded-3xl"
+          alt="OnchainKit index frame"
+          src="assets/onchainkit-frame-1.png"
+        />
+        <p className="text-4xl md:text-2xl h-9 font-normal">
+          Frame
+        </p>
+        <a href="/getting-started" className="text-center w-32 font-sans border rounded-xl border-solid border-white px-3 py-2 font-bold">
+          View docs 
+        </a>
+      </div>
+      <div className="flex flex-col gap-4 py-10 md:flex-col">
+        <img className="min-w-80 rounded-3xl"
+          alt="OnchainKit index frame"
+          src="assets/onchainkit-identity-2.png"
+        />
+        <p className="text-4xl md:text-2xl h-9 font-normal">
+          Identity
+        </p>
+        <a href="/getting-started" className="text-center w-32 font-sans border rounded-xl border-solid border-white px-3 py-2 font-bold">
+          View docs 
+        </a>
+      </div>
+      <div className="flex flex-col gap-4 py-10 md:flex-col">
+        <img className="min-w-80 rounded-3xl"
+          alt="OnchainKit index frame"
+          src="assets/onchainkit-wallet-3.png"
+        />
+        <p className="text-4xl md:text-2xl h-9 font-normal">
+          Wallet
+        </p>
+        <a href="/getting-started" className="text-center w-32 font-sans border rounded-xl border-solid border-white px-3 py-2 font-bold">
+          View docs 
+        </a>
+      </div>
+      <div className="flex flex-col gap-4 py-10 md:flex-col">
+        <img className="min-w-80 rounded-3xl"
+          alt="OnchainKit index frame"
+          src="assets/onchainkit-tokens-2.png"
+        />
+        <p className="text-4xl md:text-2xl h-9 font-normal">
+          Tokens
+        </p>
+        <a href="/getting-started" className="text-center w-32 font-sans border rounded-xl border-solid border-white px-3 py-2 font-bold">
+          View docs 
+        </a>
+      </div>
+      <div className="flex flex-col gap-4 py-10 md:flex-col">
+        <img className="min-w-80 rounded-3xl"
+          alt="OnchainKit index frame"
+          src="assets/onchainkit-swap-1.png"
+        />
+        <p className="text-4xl md:text-2xl h-9 font-normal">
+          Swap
+        </p>
+        <a href="/getting-started" className="text-center w-32 font-sans border rounded-xl border-solid border-white px-3 py-2 font-bold">
+          View docs 
+        </a>
+      </div>
+    </div>
+</section>
+
+<hr className="md:mb-16 md:mt-32" />
+{' '}
+
+<section>
+  <main className="flex flex-col gap-4 md:flex-row font-normal">
     <h2 className="basis-1/2 py-10 text-4xl md:text-6xl">Components</h2>
   </main>
   <aside className="md:px-2">
@@ -194,7 +269,7 @@ setFilteredTokens(filteredTokens);
 <hr className="my-8 md:my-20" />
 
 <section>
-  <main className="flex flex-row gap-1">
+  <main className="flex flex-row gap-1 font-normal">
     <h2 className="basis-1/2 text-4xl md:text-6xl">Utilities</h2>
   </main>
   <p className="py-2 text-lg md:text-xl">
@@ -257,7 +332,7 @@ setFilteredTokens(filteredTokens);
 <hr className="my-8 md:my-20" />
 
 <section>
-  <main className="flex flex-col gap-4 md:flex-row">
+  <main className="flex flex-col gap-4 md:flex-row font-normal">
     <h2 className="basis-1/2 text-4xl md:text-6xl">Design</h2>
   </main>
   <p className="py-2 text-lg md:text-xl">
@@ -314,7 +389,7 @@ setFilteredTokens(filteredTokens);
 <hr className="my-8 md:my-20" />
 
 <section>
-  <main className="flex flex-col gap-4 md:flex-row">
+  <main className="flex flex-col gap-4 md:flex-row font-normal">
     <h2 className="basis-1/2 text-4xl md:text-6xl">
       Helping builders ship faster
     </h2>
@@ -335,7 +410,7 @@ setFilteredTokens(filteredTokens);
   <footer className="flex flex-col justify-center space-y-[25px]">
     <div className="flex max-w-[1400px] flex-col justify-between xl:flex-row xl:space-x-[25px]">
       <div className="space-y-[20px] xl:space-y-[40px]">
-        <h2 className="text-4xl md:text-9xl">OnchainKit</h2>
+        <h2 className="text-4xl md:text-9xl font-normal">OnchainKit</h2>
       </div>
       <div className="flex flex-row items-center space-x-[128px]">
         <ul className="flex space-x-[28px]">
