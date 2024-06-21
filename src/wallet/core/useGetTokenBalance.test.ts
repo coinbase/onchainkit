@@ -13,7 +13,7 @@ jest.mock('wagmi', () => {
 });
 
 const mockTokenBalanceResponse = { data: 3304007277394n };
-const mockZeroETHBalanceResponse = {
+const mockZeroBalanceResponse = {
   data: 0n,
 };
 const mockErrorResponse = {
@@ -68,7 +68,7 @@ describe('useGetTokenBalance', () => {
   });
 
   it('should return zero balance when balance value is 0n', () => {
-    (useReadContract as jest.Mock).mockReturnValue(mockZeroETHBalanceResponse);
+    (useReadContract as jest.Mock).mockReturnValue(mockZeroBalanceResponse);
 
     const { result } = renderHook(() =>
       useGetTokenBalance(mockAddress, mockToken),
@@ -77,7 +77,7 @@ describe('useGetTokenBalance', () => {
     expect(result.current.convertedBalance).toBe('0');
     expect(result.current.roundedBalance).toBe('0');
     expect(result.current.error).toBeUndefined();
-    expect(result.current.response).toEqual(mockZeroETHBalanceResponse);
+    expect(result.current.response).toEqual(mockZeroBalanceResponse);
   });
 
   it('should return empty balance when balance value is not present', () => {
