@@ -45,7 +45,7 @@ export function Name({
     <div className="flex items-center gap-1">
       <span
         data-testid="ockIdentity_Text"
-        className={cn(text.body, className)}
+        className={cn(text.headline, className)}
         {...props}
       >
         {name ?? getSlicedAddress(contextAddress ?? address)}
