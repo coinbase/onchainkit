@@ -65,27 +65,27 @@ bun add @coinbase/onchainkit
 Add this at the top of your application entry point
 
 ```javascript
-import '@coinbase/onchainkit/styles.css';
+import "@coinbase/onchainkit/styles.css";
 ```
+
+For tailwindcss users, use this [Tailwindcss Integration Guide](https://onchainkit.xyz/guides/tailwind).
 
 ## Components
 
-#### Display ENS [avatars](https://onchainkit.xyz/identity/avatar), Attestation [badges](https://onchainkit.xyz/identity/badge), and ENS [names](https://onchainkit.xyz/identity/name).
+#### Display ENS [avatars](https://onchainkit.xyz/identity/avatar), Attestation [badges](https://onchainkit.xyz/identity/badge), ENS [names](https://onchainkit.xyz/identity/name) and account [addresses](https://onchainkit.xyz/identity/address).
 
 ```tsx
 const EAS_SCHEMA_ID = '0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9';
 const ACCOUNT_ADDRESS = '0x838aD0EAE54F99F1926dA7C3b6bFbF617389B4D9';
 
 <OnchainKitProvider chain={base} schemaId={EAS_SCHEMA_ID}>
-  <div className="flex h-10 items-center space-x-4">
-    <Avatar address={ACCOUNT_ADDRESS} showAttestation />
-    <div className="flex flex-col text-sm">
-      <b>
-        <Name address={ACCOUNT_ADDRESS} />
-      </b>
-      <Name address={ACCOUNT_ADDRESS} showAddress />
-    </div>
-  </div>
+  <Identity>
+    <Avatar />
+      <Badge />
+    </Avatar>
+    <Name />
+    <Address />
+  <Identity>
 </OnchainKitProvider>;
 ```
 
@@ -136,7 +136,7 @@ export default function HomePage() {
 ```tsx
 <div className="flex flex-grow">
   {(() => {
-    if (status === 'disconnected') {
+    if (status === "disconnected") {
       return <ConnectAccount />; // [!code focus]
     }
     return (
@@ -159,7 +159,7 @@ export default function HomePage() {
   <img alt="OnchainKit Wallet components" src="./site/docs/public/assets/onchainkit-wallet-2.png" width="auto">
 </picture>
 
-#### Search [Tokens](https://onchainkit.xyz/token/types#token) using [getTokens](https://onchainkit.xyz/token/get-tokens) and display them with [TokenSearch](https://onchainkit.xyz/token/token-search), [TokenChip](https://onchainkit.xyz/token/token-chip), and [TokenRow](https://onchainkit.xyz/token/token-row)
+#### Search [Tokens](https://onchainkit.xyz/token/types#token) using [getTokens](https://onchainkit.xyz/token/get-tokens) and display them with [TokenSearch](https://onchainkit.xyz/token/token-search), [TokenChip](https://onchainkit.xyz/token/token-chip), [TokenImage](https://onchainkit.xyz/token/token-image) and [TokenRow](https://onchainkit.xyz/token/token-row)
 
 ```tsx
 const [filteredTokens, setFilteredTokens] = useState<Token[]>([]);
@@ -205,6 +205,10 @@ getData(value);
 ## Utilities
 
 If you're seeking basic TypeScript utilities, we have plenty of ready-to-use options available.
+
+##### Config
+
+- [isBase](https://onchainkit.xyz/config/is-base)
 
 ##### Frames
 
