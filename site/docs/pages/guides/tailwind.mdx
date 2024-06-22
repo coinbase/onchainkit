@@ -28,21 +28,51 @@ export default {
     fontFamily: {
       sans: ['Inter', 'sans-serif'],
     },
-    extend: { // [!code focus]
-      fontFamily: { // [!code focus]
-        display: 'DM Sans, sans-serif', // [!code focus]
+    extend: {  // [!code focus]
+      fontFamily: {  // [!code focus]
+        display: 'DM Sans, sans-serif', // Set to font of your choice // [!code focus]
+      },  // [!code focus]
+      fill: {  // [!code focus]
+        default: 'var(--bg-default)',  // [!code focus]
+        alternate: 'var(--bg-alternate)',  // [!code focus]
+        inverse: 'var(--bg-inverse)',  // [!code focus]
+        primary: 'var(--bg-primary)',  // [!code focus]
+        secondary: 'var(--bg-secondary)',  // [!code focus]
+        error: 'var(--bg-error)',  // [!code focus]
+        warning: 'var(--bg-warning)',  // [!code focus]
+        success: 'var(--bg-success)',  // [!code focus]
+      },  // [!code focus]
+      textColor: {  // [!code focus]
+        inverse: 'var(--text-inverse)',  // [!code focus]
+        foreground: 'var(--text-foreground)',  // [!code focus]
+        'foreground-muted': 'var(--text-foreground-muted)',  // [!code focus]
+        error: 'var(--text-error)',  // [!code focus]
+        primary: 'var(--text-primary)',  // [!code focus]
+        success: 'var(--text-success)',  // [!code focus]
+        warning: 'var(--text-warning)',  // [!code focus]
+        disabled: 'var(--text-disabled)',  // [!code focus]
+      },  // [!code focus]
+      backgroundColor: {  // [!code focus]
+        default: 'var(--bg-default)',  // [!code focus]
+        'default-hover': 'var(--bg-default-hover)',  // [!code focus]
+        'default-active': 'var(--bg-default-active)',  // [!code focus]
+        alternate: 'var(--bg-alternate)',  // [!code focus]
+        'alternate-hover': 'var(--bg-alternate-hover)',  // [!code focus]
+        'alternate-active': 'var(--bg-alternate-active)',  // [!code focus]
+        inverse: 'var(--bg-inverse)',  // [!code focus]
+        'inverse-hover': 'var(--bg-inverse-hover)',  // [!code focus]
+        'inverse-active': 'var(--bg-inverse-active)',  // [!code focus]
+        primary: 'var(--bg-primary)',  // [!code focus]
+        'primary-hover': 'var(--bg-primary-hover)',  // [!code focus]
+        'primary-active': 'var(--bg-primary-active)',  // [!code focus]
+        secondary: 'var(--bg-secondary)',  // [!code focus]
+        'secondary-hover': 'var(--bg-secondary-hover)',  // [!code focus]
+        'secondary-active': 'var(--bg-secondary-active)',  // [!code focus]
+        error: 'var(--bg-error)',  // [!code focus]
+        warning: 'var(--bg-warning)',  // [!code focus]
+        success: 'var(--bg-success)',  // [!code focus]
       }, // [!code focus]
-      textColor: { // [!code focus]
-        inverse: 'var(--text-inverse)', // [!code focus]
-        foreground: 'var(--text-foreground)', // [!code focus]
-        'foreground-muted': 'var(--text-foreground-muted)', // [!code focus]
-        error: 'var(--text-error)', // [!code focus]
-        primary: 'var(--text-primary)', // [!code focus]
-        success: 'var(--text-success)', // [!code focus]
-        warning: 'var(--text-warning)', // [!code focus]
-        disabled: 'var(--text-disabled)', // [!code focus]
-      }, // [!code focus]
-    },
+    }, // [!code focus]
   },
   plugins: [],
 };
@@ -61,6 +91,25 @@ Next, copy the following in your css file.
     --text-success: theme(colors.lime.600);
     --text-warning: theme(colors.orange.600);
     --text-disabled: theme(colors.gray.400);
+
+    --bg-default: theme(colors.gray.50);
+    --bg-default-hover: theme(colors.gray.200);
+    --bg-default-active: theme(colors.gray.300);
+    --bg-alternate: theme(colors.gray.200);
+    --bg-alternate-hover: theme(colors.gray.300);
+    --bg-alternate-active: theme(colors.gray.400);
+    --bg-inverse: theme(colors.gray.100);
+    --bg-inverse-hover: theme(colors.gray.200);
+    --bg-inverse-active: theme(colors.gray.300);
+    --bg-primary: theme(colors.indigo.600);
+    --bg-primary-hover: theme(colors.indigo.700);
+    --bg-primary-active: theme(colors.indigo.800);
+    --bg-secondary: theme(colors.slate.200);
+    --bg-secondary-hover: theme(colors.slate.300);
+    --bg-secondary-active: theme(colors.slate.400);
+    --bg-error: theme(colors.rose.600);
+    --bg-warning: theme(colors.orange.600);
+    --bg-success: theme(colors.lime.300);
   }
 }
 
