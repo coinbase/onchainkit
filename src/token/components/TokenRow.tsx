@@ -1,5 +1,3 @@
-'use client';
-
 import { memo } from 'react';
 import type { TokenRowReact } from '../types';
 import { formatAmount } from '../core/formatAmount';
