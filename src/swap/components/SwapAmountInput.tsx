@@ -1,5 +1,3 @@
-'use client';
-
 import { useCallback, useEffect, useMemo } from 'react';
 
 import { useSwapContext } from '../context';

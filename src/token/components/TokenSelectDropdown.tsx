@@ -1,5 +1,3 @@
-'use client';
-
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type { TokenSelectDropdownReact } from '../types';
 import { TokenRow } from './TokenRow';

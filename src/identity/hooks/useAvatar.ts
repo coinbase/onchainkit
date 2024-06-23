@@ -1,5 +1,3 @@
-'use client';
-
 import { useQuery } from '@tanstack/react-query';
 import type { GetAvatarReturnType } from '../types';
 import { getAvatar } from '../core/getAvatar';

@@ -1,5 +1,3 @@
-'use client';
-
 import { useCallback } from 'react';
 import { useAccount, useConnect, useDisconnect } from 'wagmi';
 import type { ConnectAccountReact } from '../types';

@@ -1,5 +1,3 @@
-'use client';
-
 import type { Address } from 'viem';
 import type { ReactNode } from 'react';
 import { useOnchainKit } from '../../useOnchainKit';

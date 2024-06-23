@@ -1,5 +1,3 @@
-'use client';
-
 import { cn, pressable } from '../../styles/theme';
 import { useSwapContext } from '../context';
 

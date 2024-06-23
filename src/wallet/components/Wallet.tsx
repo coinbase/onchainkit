@@ -1,5 +1,3 @@
-'use client';
-
 import { Children, useMemo } from 'react';
 import { ConnectAccount } from './ConnectAccount';
 import { WalletDropdown } from './WalletDropdown';

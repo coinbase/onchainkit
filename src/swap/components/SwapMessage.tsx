@@ -1,5 +1,3 @@
-'use client';
-
 import { useSwapContext } from '../context';
 import { text } from '../../styles/theme';
 import { getSwapMessage } from '../core/getSwapMessage';
