@@ -1,5 +1,3 @@
-'use client';
-
 import { useMemo, Children } from 'react';
 import { useIdentityContext } from '../context';
 import { useAvatar } from '../hooks/useAvatar';
