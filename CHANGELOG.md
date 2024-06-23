@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.22.2
+
+### Patch Changes
+
+- ad7cd60: - **fix**: revert "use client". By @kyhyco #690
+
 ## 0.22.1
 
 ### Patch Changes
