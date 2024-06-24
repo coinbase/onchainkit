@@ -6,6 +6,10 @@ import { TokenChip } from './TokenChip';
 import { TokenRow } from './TokenRow';
 import { background, cn, text } from '../../styles/theme';
 
+const backdropStyle = {
+  background: 'rgba(226, 232, 240, 0.5)',
+};
+
 type TokenSelectModalInnerReact = {
   setToken: (t: Token) => void;
   closeModal: () => void;
@@ -18,7 +22,6 @@ function TokenSelectModalInner({
   closeModal,
   options,
 }: TokenSelectModalInnerReact) {
-  const [originalOverflowY] = useState(document.body.style.overflowY);
   const [filteredTokens, setFilteredTokens] = useState(options);
   const modalRef = useRef<HTMLDivElement>(null);
 
@@ -58,7 +61,6 @@ function TokenSelectModalInner({
   );
 
   useEffect(() => {
-    document.body.style.overflowY = 'hidden';
     // NOTE: this ensures that handleBlur doesn't get called on initial mount
     //       We need to use non-div elements to properly handle onblur events
     setTimeout(() => {
@@ -66,21 +68,17 @@ function TokenSelectModalInner({
     }, 0);
 
     return () => {
-      document.body.style.overflowY = originalOverflowY;
       document.removeEventListener('click', handleBlur);
     };
-  }, [handleBlur, originalOverflowY]);
+  }, [handleBlur]);
 
   return (
     <div
       data-testid="ockTokenSelectModal_Inner"
       className={cn(
-        'absolute left-0 z-50 flex h-full w-full items-center justify-center',
+        'fixed top-0 left-0 z-50 flex h-full w-full items-center justify-center',
       )}
-      style={{
-        top: window.scrollY,
-        background: 'rgba(226, 232, 240, 0.5)',
-      }}
+      style={backdropStyle}
     >
       <div
         ref={modalRef}
