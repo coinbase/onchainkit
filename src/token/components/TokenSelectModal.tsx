@@ -16,7 +16,6 @@ type TokenSelectModalInnerReact = {
   options: Token[];
 };
 
-/* istanbul ignore next */
 function TokenSelectModalInner({
   setToken,
   closeModal,
@@ -25,6 +24,7 @@ function TokenSelectModalInner({
   const [filteredTokens, setFilteredTokens] = useState(options);
   const modalRef = useRef<HTMLDivElement>(null);
 
+  // istanbul ignore next
   const handleBlur = useCallback(
     (event: MouseEvent) => {
       const isOutsideModal =
@@ -60,6 +60,7 @@ function TokenSelectModalInner({
     [options],
   );
 
+  // istanbul ignore next
   useEffect(() => {
     // NOTE: this ensures that handleBlur doesn't get called on initial mount
     //       We need to use non-div elements to properly handle onblur events
@@ -75,9 +76,7 @@ function TokenSelectModalInner({
   return (
     <div
       data-testid="ockTokenSelectModal_Inner"
-      className={cn(
-        'fixed top-0 left-0 z-50 flex h-full w-full items-center justify-center',
-      )}
+      className="fixed top-0 left-0 z-50 flex h-full w-full items-center justify-center"
       style={backdropStyle}
     >
       <div
@@ -140,7 +139,11 @@ function TokenSelectModalInner({
             </div>
           </div>
         ) : (
-          <div className="text-black text-body" style={{ minHeight: '368px' }}>
+          <div
+            data-testid="ockTokenSelectModal_NoTokens"
+            className="text-black text-body"
+            style={{ minHeight: '368px' }}
+          >
             No tokens found
           </div>
         )}

@@ -79,4 +79,57 @@ describe('TokenSelectModal', () => {
       screen.queryByTestId('ockTokenSelectModal_Inner'),
     ).not.toBeInTheDocument();
   });
+
+  it('should display no result when search returns an empty result', () => {
+    render(
+      <TokenSelectModal options={options} setToken={setToken} token={token} />,
+    );
+
+    const button = screen.getByTestId('ockTokenSelectButton_Button');
+    fireEvent.click(button);
+
+    const textInput = screen.getByTestId('ockTextInput_Input');
+
+    fireEvent.change(textInput, { target: { value: 'test' } });
+
+    expect(
+      screen.getByTestId('ockTokenSelectModal_NoTokens'),
+    ).toBeInTheDocument();
+  });
+
+  it('should display selected token when token chip is selected', () => {
+    render(
+      <TokenSelectModal options={options} setToken={setToken} token={token} />,
+    );
+
+    const button = screen.getByTestId('ockTokenSelectButton_Button');
+    fireEvent.click(button);
+
+    const textInput = screen.getByTestId('ockTextInput_Input');
+
+    fireEvent.change(textInput, { target: { value: 'eth' } });
+
+    const tokenChip = screen.getByTestId('ockTokenChip_Button');
+    fireEvent.click(tokenChip);
+
+    expect(button).toHaveTextContent('ETH');
+  });
+
+  it('should display selected token when token row is selected', () => {
+    render(
+      <TokenSelectModal options={options} setToken={setToken} token={token} />,
+    );
+
+    const button = screen.getByTestId('ockTokenSelectButton_Button');
+    fireEvent.click(button);
+
+    const textInput = screen.getByTestId('ockTextInput_Input');
+
+    fireEvent.change(textInput, { target: { value: 'eth' } });
+
+    const tokenChip = screen.getByTestId('ockTokenRow_Container');
+    fireEvent.click(tokenChip);
+
+    expect(button).toHaveTextContent('ETH');
+  });
 });

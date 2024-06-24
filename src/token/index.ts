@@ -1,4 +1,4 @@
-// 🌲☀️🌲
+// 🌲☀🌲
 export { TokenChip } from './components/TokenChip';
 export { TokenImage } from './components/TokenImage';
 export { TokenRow } from './components/TokenRow';

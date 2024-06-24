@@ -4,6 +4,7 @@ import {
   TokenRow,
   TokenSearch,
   TokenSelectDropdown,
+  TokenSelectModal,
   formatAmount,
   getTokens,
 } from './index'; // Adjust the path accordingly
@@ -27,6 +28,10 @@ describe('Module Exports', () => {
 
   it('should export TokenSelectDropdown', () => {
     expect(TokenSelectDropdown).toBeDefined();
+  });
+
+  it('should export TokenSelectModal', () => {
+    expect(TokenSelectModal).toBeDefined();
   });
 
   it('should export formatAmount', () => {
