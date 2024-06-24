@@ -36,7 +36,7 @@ The `<OnchainKitProvider />` component equips your app with the essential contex
 
 Set the `chain` prop to your target chain and provide the API KEY to access the embedded APIs.
 
-```tsx [code]
+```tsx [OnchainProviders.tsx]
 'use client';
 import { ReactNode } from 'react';
 import { base } from 'viem/chains';
@@ -75,27 +75,27 @@ If your application already includes these settings, you can skip this step.
 'use client';
 import { ReactNode } from 'react';
 import { OnchainKitProvider } from '@coinbase/onchainkit';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'; // [!code focus]
 import { base } from 'viem/chains';
-import { WagmiProvider } from 'wagmi';
-import { wagmiConfig } from './wagmi';
+import { WagmiProvider } from 'wagmi'; // [!code focus]
+import { wagmiConfig } from './wagmi'; // [!code focus]
 
 type Props = { children: ReactNode };
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient(); // [!code focus]
 
 function OnchainProviders({ children }: Props) {
   return (
-    <WagmiProvider config={wagmiConfig}>
-      <QueryClientProvider client={queryClient}>
+    <WagmiProvider config={wagmiConfig}> // [!code focus]
+      <QueryClientProvider client={queryClient}> // [!code focus]
         <OnchainKitProvider
           apiKey={YOUR_PUBLIC_API_KEY}
           chain={base}
         >
-          {children}
+          {children} // [!code focus]
         </OnchainKitProvider>
-      </QueryClientProvider>
-    </WagmiProvider>
+      </QueryClientProvider> // [!code focus]
+    </WagmiProvider> // [!code focus]
   );
 }
 
