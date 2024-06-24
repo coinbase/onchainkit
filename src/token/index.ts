@@ -15,4 +15,5 @@ export type {
   TokenChipReact,
   TokenRowReact,
   TokenSelectDropdownReact,
+  TokenSelectModalReact,
 } from './types';
