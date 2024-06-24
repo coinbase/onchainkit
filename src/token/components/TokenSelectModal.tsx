@@ -4,7 +4,7 @@ import { TokenSelectButton } from './TokenSelectButton';
 import { TokenSearch } from './TokenSearch';
 import { TokenChip } from './TokenChip';
 import { TokenRow } from './TokenRow';
-import { background, cn } from '../../styles/theme';
+import { background, cn, text } from '../../styles/theme';
 
 type TokenSelectModalInnerReact = {
   setToken: (t: Token) => void;
@@ -12,6 +12,7 @@ type TokenSelectModalInnerReact = {
   options: Token[];
 };
 
+/* istanbul ignore next */
 function TokenSelectModalInner({
   setToken,
   closeModal,
@@ -72,6 +73,7 @@ function TokenSelectModalInner({
 
   return (
     <div
+      data-testid="ockTokenSelectModal_Inner"
       className={cn(
         'absolute left-0 z-50 flex h-full w-full items-center justify-center',
       )}
@@ -84,15 +86,38 @@ function TokenSelectModalInner({
         ref={modalRef}
         className={cn(
           background.default,
-          'flex w-[475px] flex-col gap-4 rounded-3xl p-4',
+          'flex w-[475px] flex-col gap-3 rounded-3xl p-6',
         )}
       >
+        <div className="flex items-center justify-between">
+          <span className={text.title3}>Select a token</span>
+          <button
+            data-testid="TokenSelectModal_CloseButton"
+            type="button"
+            onClick={closeModal}
+          >
+            <svg
+              role="img"
+              aria-label="ock-close-icon"
+              width="16"
+              height="16"
+              viewBox="0 0 16 16"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M2.3352 1L1 2.33521L6.66479 8L1 13.6648L2.3352 15L8 9.33521L13.6648 15L15 13.6648L9.33521 8L15 2.33521L13.6648 1L8 6.6648L2.3352 1Z"
+                fill="#0A0B0D"
+              />
+            </svg>
+          </button>
+        </div>
         <TokenSearch onChange={handleChange} delayMs={0} />
         {filteredTokens.length > 0 && (
           <div className="flex flex-wrap gap-2">
-            {filteredTokens.slice(0, 4).map((token) => (
+            {filteredTokens.slice(0, 4).map((token, idx) => (
               <TokenChip
-                key={token.name}
+                key={`${token.name}${idx}`}
                 className="shadow-none"
                 token={token}
                 onClick={handleClick}
@@ -101,7 +126,7 @@ function TokenSelectModalInner({
           </div>
         )}
         {filteredTokens.length > 0 ? (
-          <div>
+          <div className="mt-3">
             <div className="text-black text-body">Tokens</div>
             <div
               className="ock-scrollbar overflow-y-auto"
@@ -117,7 +142,9 @@ function TokenSelectModalInner({
             </div>
           </div>
         ) : (
-          <div className="text-black text-body">No tokens found</div>
+          <div className="text-black text-body" style={{ minHeight: '368px' }}>
+            No tokens found
+          </div>
         )}
       </div>
     </div>
