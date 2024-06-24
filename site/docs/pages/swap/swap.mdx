@@ -36,7 +36,7 @@ import { // [!code focus]
   SwapToggleButton, // [!code focus]
   SwapButton, // [!code focus]
 } from '@coinbase/onchainkit/swap'; // [!code focus]
-import { useAccount, sendTransaction } from 'wagmi';
+import { useAccount, useSendTransaction } from 'wagmi';
 import type { // [!code focus]
   BuildSwapTransaction, // [!code focus]
   SwapError, // [!code focus]
@@ -47,9 +47,21 @@ export default function SwapComponents() {
   const { address } = useAccount();
   const { sendTransaction } = useSendTransaction();
 
-  const ETHToken: Token = { ... };
+  const ETHToken: Token = {     
+    address: "",
+    chainId: 8453,
+    decimals: 18,
+    name: "Ethereum",
+    symbol: "ETH", 
+    };
 
-  const USDCToken: Token = { ... };
+  const USDCToken: Token = { 
+    address: "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+    chainId: 8453,
+    decimals: 6,
+    name: "USDC",
+    symbol: "USDC",
+   };
 
   const swappableTokens: Token[] = [ ... ];
 
