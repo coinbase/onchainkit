@@ -5,7 +5,9 @@
   "repository": "https://github.com/coinbase/onchainkit.git",
   "license": "MIT",
   "scripts": {
-    "build": "packemon build --addEngines --addFiles --declaration && npx packemon validate --no-license --no-people --no-repo && tailwindcss -i ./src/styles/index.css -o ./src/tailwind.css --minify && tailwindcss -i ./src/styles/index-with-tailwind.css -o ./src/styles.css --minify",
+    "build": "yarn build:ts && yarn build:css",
+    "build:ts": "tsup",
+    "build:css": "tailwindcss -i ./src/styles/index.css -o ./src/tailwind.css --minify && tailwindcss -i ./src/styles/index-with-tailwind.css -o ./src/styles.css --minify",
     "ci:format": "biome ci --linter-enabled=false --organize-imports-enabled=false",
     "ci:lint": "biome ci --formatter-enabled=false --organize-imports-enabled=false",
     "format": "biome format --write .",
@@ -25,16 +27,6 @@
     "react-dom": "^18"
   },
   "dependencies": {
-    "@tanstack/react-query": "^5",
-    "clsx": "^2.1.1",
-    "graphql": "^14 || ^15 || ^16",
-    "graphql-request": "^6.1.0",
-    "permissionless": "^0.1.29",
-    "tailwind-merge": "^2.3.0",
-    "viem": "^2.13.8",
-    "wagmi": "^2.9.11"
-  },
-  "devDependencies": {
     "@biomejs/biome": "^1.8.0",
     "@changesets/changelog-github": "^0.4.8",
     "@changesets/cli": "^2.26.2",
@@ -44,104 +36,92 @@
     "@types/jest": "^29.5.12",
     "@types/react": "^18",
     "@types/react-dom": "^18",
-    "@xmtp/frames-validator": "^0.6.0",
     "autoprefixer": "^10.4.19",
-    "graphql": "^14",
-    "graphql-request": "^6.1.0",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
     "jest-extended": "^4.0.2",
-    "packemon": "3.3.1",
-    "permissionless": "^0.1.29",
     "react": "^18",
     "react-dom": "^18",
-    "rimraf": "^5.0.5",
     "tailwindcss": "^3.4.3",
     "ts-jest": "^29.1.2",
     "typescript": "~5.3.3",
+    "viem": "^2.13.8",
+    "wagmi": "^2.9.11"
+  },
+  "devDependencies": {
+    "@tanstack/react-query": "^5.24.1",
+    "@xmtp/frames-validator": "^0.6.0",
+    "clsx": "^2.1.1",
+    "graphql": "^14",
+    "graphql-request": "^6.1.0",
+    "permissionless": "^0.1.29",
+    "tailwind-merge": "^2.3.0",
+    "tsup": "^8.1.0",
     "viem": "^2.10.5",
     "wagmi": "^2.8.7"
   },
   "resolutions": {
     "react": "npm:react@^18"
   },
-  "packemon": [
-    {
-      "bundle": false,
-      "platform": [
-        "browser"
-      ]
-    }
-  ],
   "publishConfig": {
     "access": "public"
   },
   "files": [
-    "esm/**/*",
-    "src/",
-    "src/**/*"
+    "dist",
+    "src"
   ],
-  "main": "./esm/index.js",
-  "types": "./esm/index.d.ts",
-  "module": "./esm/index.js",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "module": "./dist/index.js",
   "exports": {
     "./package.json": "./package.json",
     "./styles.css": "./src/styles.css",
     "./tailwind.css": "./src/tailwind.css",
-    "./theme": "./esm/styles/theme.js",
+    "./theme": "./dist/styles/theme.js",
     ".": {
-      "types": "./esm/index.d.ts",
-      "module": "./esm/index.js",
-      "import": "./esm/index.js",
-      "default": "./esm/index.js"
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
     },
     "./core": {
-      "types": "./esm/core/index.d.ts",
-      "module": "./esm/core/index.js",
-      "import": "./esm/core/index.js",
-      "default": "./esm/core/index.js"
+      "types": "./dist/core/index.d.ts",
+      "import": "./dist/core/index.js",
+      "default": "./dist/core/index.js"
     },
     "./farcaster": {
-      "types": "./esm/farcaster/index.d.ts",
-      "module": "./esm/farcaster/index.js",
-      "import": "./esm/farcaster/index.js",
-      "default": "./esm/farcaster/index.js"
+      "types": "./dist/farcaster/index.d.ts",
+      "import": "./dist/farcaster/index.js",
+      "default": "./dist/farcaster/index.js"
     },
     "./frame": {
-      "types": "./esm/frame/index.d.ts",
-      "module": "./esm/frame/index.js",
-      "import": "./esm/frame/index.js",
-      "default": "./esm/frame/index.js"
+      "types": "./dist/frame/index.d.ts",
+      "import": "./dist/frame/index.js",
+      "default": "./dist/frame/index.js"
     },
     "./identity": {
-      "types": "./esm/identity/index.d.ts",
-      "module": "./esm/identity/index.js",
-      "import": "./esm/identity/index.js",
-      "default": "./esm/identity/index.js"
+      "types": "./dist/identity/index.d.ts",
+      "import": "./dist/identity/index.js",
+      "default": "./dist/identity/index.js"
     },
     "./swap": {
-      "types": "./esm/swap/index.d.ts",
-      "module": "./esm/swap/index.js",
-      "import": "./esm/swap/index.js",
-      "default": "./esm/swap/index.js"
+      "types": "./dist/swap/index.d.ts",
+      "import": "./dist/swap/index.js",
+      "default": "./dist/swap/index.js"
     },
     "./token": {
-      "types": "./esm/token/index.d.ts",
-      "module": "./esm/token/index.js",
-      "import": "./esm/token/index.js",
-      "default": "./esm/token/index.js"
+      "types": "./dist/token/index.d.ts",
+      "import": "./dist/token/index.js",
+      "default": "./dist/token/index.js"
     },
     "./xmtp": {
-      "types": "./esm/xmtp/index.d.ts",
-      "module": "./esm/xmtp/index.js",
-      "import": "./esm/xmtp/index.js",
-      "default": "./esm/xmtp/index.js"
+      "types": "./dist/xmtp/index.d.ts",
+      "import": "./dist/xmtp/index.js",
+      "default": "./dist/xmtp/index.js"
     },
     "./wallet": {
-      "types": "./esm/wallet/index.d.ts",
-      "module": "./esm/wallet/index.js",
-      "import": "./esm/wallet/index.js",
-      "default": "./esm/wallet/index.js"
+      "types": "./dist/wallet/index.d.ts",
+      "import": "./dist/wallet/index.js",
+      "default": "./dist/wallet/index.js"
     }
   },
   "packageManager": "yarn@4.0.2"

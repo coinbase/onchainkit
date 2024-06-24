@@ -44,7 +44,7 @@
       ".changeset",
       ".next",
       "coverage",
-      "esm",
+      "dist",
       "framegear",
       "site/docs/dist/"
     ]
