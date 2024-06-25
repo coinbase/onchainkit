@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.22.3
+
+### Patch Changes
+
+- 6ce8682: - **docs**: Update Swap component docs. Update wagmi import from sendTransaction to useSendTransaction. Add EthToken and USDCToken parameters. By @cpcramer #694
+- a16c5ed: - **docs**: Update getting started guide. Add OnchainProviders.tsx file name. Add code focus for the newly added OnchainProviders.tsx code in the ConfigureWagmiProvider step. By @cpcramer #692
+- 1ad6c98: - **fix**: Avatar component now handles className override correctly. By @kyhyco #697
+
 ## 0.22.2
 
 ### Patch Changes
