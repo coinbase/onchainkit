@@ -3,8 +3,8 @@ export const defaultLoadingSVG = (
     data-testid="ockAvatarLoadingSvg"
     role="img"
     aria-label="ock-avatar-loading-image"
-    width="32"
-    height="32"
+    width="100%"
+    height="100%"
     viewBox="0 0 100 100"
     xmlns="http://www.w3.org/2000/svg"
   >

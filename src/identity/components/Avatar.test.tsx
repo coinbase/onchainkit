@@ -78,10 +78,11 @@ describe('Avatar Component', () => {
     render(<Avatar address="0x123" className="custom-class" />);
 
     await waitFor(() => {
-      const imgElement = screen.getByRole('img');
+      const imgElement = screen.getByTestId('ockAvatar_Image');
       expect(imgElement).toHaveAttribute('src', 'avatar_url');
       expect(imgElement).toHaveAttribute('alt', 'ens_name');
-      expect(imgElement).toHaveClass('custom-class');
+      const containerElement = screen.getByTestId('ockAvatar_ImageContainer');
+      expect(containerElement).toHaveClass('custom-class');
     });
   });
 
@@ -141,7 +142,7 @@ describe('Avatar Component', () => {
     );
 
     await waitFor(() => {
-      const inner = screen.getByTestId('ockAvatarBadgeContainer');
+      const inner = screen.getByTestId('ockAvatar_BadgeContainer');
       expect(inner).toBeInTheDocument();
       const badge = screen.getByTestId('ockBadge');
       expect(badge).toBeInTheDocument();
