@@ -1,5 +1,5 @@
 import { ConnectAccount } from '@coinbase/onchainkit/wallet';
-import { Swap, SwapAmountInput, SwapButton, SwapMessage, SwapToggleButton } from '../../../../src/swap';
+import { Swap, SwapAmountInput, SwapButton, SwapMessage, SwapToggleButton } from '@coinbase/onchainkit/swap';
 import App from '../../components/App';
 import SwapWrapper from '../../components/SwapWrapper';
 
@@ -105,24 +105,22 @@ export default function SwapComponents() {
     {({ address, swappableTokens }) => {
       if (address) {
         return (
-          <Swap address={address} className={"bg-fuchsia-500"}>
+          <Swap address={address}>
             <SwapAmountInput
               label="Sell"
               swappableTokens={swappableTokens}
               token={swappableTokens[1]}
               type="from"
-              className={"bg-fuchsia-500"}
             />
-            <SwapToggleButton className={"bg-fuchsia-500"}/>
+            <SwapToggleButton />
             <SwapAmountInput
               label="Buy"
               swappableTokens={swappableTokens}
               token={swappableTokens[2]}
               type="to"
-              className={"bg-fuchsia-500"}
             />
-            <SwapButton className={"bg-fuchsia-500"}/>
-            <SwapMessage className={"bg-fuchsia-500"} />
+            <SwapButton />
+            <SwapMessage />
           </Swap>
         )
       }
@@ -178,7 +176,7 @@ You can adjust to only allow swap between a token pair.
               type="to"
             />
             <SwapButton disabled />
-            <SwapMessage  />
+            <SwapMessage />
           </Swap>
         )
       }
