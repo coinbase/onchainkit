@@ -127,6 +127,7 @@ export type SwapErrorState = {
 export type SwapButtonReact = {
   disabled?: boolean; // Disables swap button
   onSubmit?: (swapTransaction: BuildSwapTransaction) => void;
+  className?: string; // Optional className override for top div element.
 };
 
 export type SwapContextType = {
