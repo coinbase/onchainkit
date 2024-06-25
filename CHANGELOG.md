@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.23.1
+
+### Patch Changes
+
+- f4fcd2a: - **fix**: revert peer dependancy PRs.
+
 ## 0.22.3
 
 ### Patch Changes
