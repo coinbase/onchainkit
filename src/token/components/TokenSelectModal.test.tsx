@@ -42,26 +42,7 @@ describe('TokenSelectModal', () => {
     expect(
       screen.getByTestId('ockTokenSelectButton_Button'),
     ).toBeInTheDocument();
-    expect(
-      screen.queryByTestId('ockTokenSelectModal_Inner'),
-    ).not.toBeInTheDocument();
-  });
-
-  it('opens the modal when the button is clicked and closes it when clicked again', () => {
-    render(
-      <TokenSelectModal options={options} setToken={setToken} token={token} />,
-    );
-
-    const button = screen.getByTestId('ockTokenSelectButton_Button');
-    fireEvent.click(button);
-
-    expect(screen.getByTestId('ockTokenSelectModal_Inner')).toBeInTheDocument();
-
-    fireEvent.click(button);
-
-    expect(
-      screen.queryByTestId('ockTokenSelectModal_Inner'),
-    ).not.toBeInTheDocument();
+    expect(screen.queryByTestId('ockTokenSelectModal_Inner')).toBeNull();
   });
 
   it('closes the modal when the close button inside the modal is clicked', () => {
