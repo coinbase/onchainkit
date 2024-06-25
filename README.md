@@ -46,18 +46,18 @@ To integrate OnchainKit into your project, begin by installing the necessary pac
 
 ```bash
 # Yarn: Add library
-yarn add @coinbase/onchainkit
+yarn add @coinbase/onchainkit viem@^2 wagmi@^2 @tanstack/react-query@^5
 
 # or
 
 # Use NPM
-npm install @coinbase/onchainkit
+npm install @coinbase/onchainkit viem@^2 wagmi@^2 @tanstack/react-query@^5
 
 # Use PNPM
-pnpm add @coinbase/onchainkit
+pnpm add @coinbase/onchainkit viem@^2 wagmi@^2 @tanstack/react-query@^5
 
 # Use BUN
-bun add @coinbase/onchainkit
+bun add @coinbase/onchainkit viem@^2 wagmi@^2 @tanstack/react-query@^5
 ```
 
 ## CSS

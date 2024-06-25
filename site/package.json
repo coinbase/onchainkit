@@ -8,7 +8,8 @@
     "preview": "vocs preview"
   },
   "dependencies": {
-    "@coinbase/onchainkit": "0.22.3",
+    "@coinbase/onchainkit": "0.22.5",
+    "@tanstack/react-query": "^5.45.0",
     "@types/react": "latest",
     "@vercel/edge": "^1.1.1",
     "permissionless": "^0.1.29",
@@ -17,7 +18,9 @@
     "react-farcaster-embed": "^1.4.7",
     "tar": "^7.0.0",
     "typescript": "latest",
+    "viem": "^2.16.2",
     "vite": "^5.2.8",
-    "vocs": "1.0.0-alpha.52"
+    "vocs": "1.0.0-alpha.52",
+    "wagmi": "^2.10.6"
   }
 }
