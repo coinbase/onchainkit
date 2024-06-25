@@ -67,6 +67,13 @@ export type GetSwapQuoteParams = {
  */
 export type GetSwapQuoteResponse = SwapQuote | SwapError;
 
+/**
+ * Note: exported as public Type
+ */
+export type SwapMessageReact = {
+  className?: string; // Optional className override for top span element.
+}
+
 export type GetSwapMessageParams = {
   convertedFromTokenBalance?: string;
   fromAmount: string;
