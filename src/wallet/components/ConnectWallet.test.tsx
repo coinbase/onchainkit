@@ -5,7 +5,7 @@ import React from 'react';
 import '@testing-library/jest-dom';
 import { render, screen, waitFor } from '@testing-library/react';
 import { useAccount, useConnect, useDisconnect } from 'wagmi';
-import { ConnectAccount } from './ConnectAccount';
+import { ConnectWallet } from './ConnectWallet';
 
 jest.mock('wagmi', () => ({
   useAccount: jest.fn(),
@@ -13,7 +13,7 @@ jest.mock('wagmi', () => ({
   useDisconnect: jest.fn(),
 }));
 
-describe('ConnectAccount Component', () => {
+describe('ConnectWallet Component', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     (useAccount as jest.Mock).mockReturnValue({ status: 'disconnected' });
@@ -25,7 +25,7 @@ describe('ConnectAccount Component', () => {
   });
 
   it('should display connect wallet button when disconnected', async () => {
-    render(<ConnectAccount />);
+    render(<ConnectWallet />);
 
     await waitFor(() => {
       const connectWalletButton = screen.getByText('Connect wallet');
@@ -39,7 +39,7 @@ describe('ConnectAccount Component', () => {
       address: '0x1234',
     });
 
-    render(<ConnectAccount />);
+    render(<ConnectWallet />);
 
     await waitFor(() => {
       const connectedWallet = screen.getByText('Connected wallet: 0x1234');
@@ -48,7 +48,7 @@ describe('ConnectAccount Component', () => {
   });
 
   it('should call connect when connect button is clicked', async () => {
-    render(<ConnectAccount />);
+    render(<ConnectWallet />);
 
     await waitFor(() => {
       const connectWalletButton = screen.getByText('Connect wallet');
@@ -63,7 +63,7 @@ describe('ConnectAccount Component', () => {
       address: '0x1234',
     });
 
-    render(<ConnectAccount />);
+    render(<ConnectWallet />);
 
     await waitFor(() => {
       const connectedWallet = screen.getByText('Connected wallet: 0x1234');
@@ -77,7 +77,7 @@ describe('ConnectAccount Component', () => {
       status: 'connected',
       address: '0x1234',
     });
-    render(<ConnectAccount>Custom Children</ConnectAccount>);
+    render(<ConnectWallet>Custom Children</ConnectWallet>);
 
     await waitFor(() => {
       const customChildren = screen.getByText('Custom Children');

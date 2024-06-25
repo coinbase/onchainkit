@@ -1,5 +1,5 @@
 import { Children, useMemo } from 'react';
-import { ConnectAccount } from './ConnectAccount';
+import { ConnectWallet } from './ConnectWallet';
 import { WalletDropdown } from './WalletDropdown';
 import { WalletContext } from '../context';
 import type { WalletReact } from '../types';
@@ -13,7 +13,7 @@ export function Wallet({ children }: WalletReact) {
     const childrenArray = Children.toArray(children);
     return {
       // @ts-ignore
-      connect: childrenArray.filter(({ type }) => type === ConnectAccount),
+      connect: childrenArray.filter(({ type }) => type === ConnectWallet),
       // @ts-ignore
       dropdown: childrenArray.filter(({ type }) => type === WalletDropdown),
     };

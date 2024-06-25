@@ -7,6 +7,7 @@ import type { UseBalanceReturnType, UseReadContractReturnType } from 'wagmi';
  * Note: exported as public Type
  */
 export type ConnectAccountReact = {
+  label?: string;
   children?: React.ReactNode; // Children can be utilized to display customized content when the wallet is connected.
 };
 
