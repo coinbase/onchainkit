@@ -1,47 +1,24 @@
 # Changelog
 
-## 0.23.0
-
-### Minor Changes
-
-- 00ff527: - **fix**: move viem, wagmi and @tanstack/react-query to peerDepdencies
-
-  Breaking Changes
-
-  - viem, wagmi and @tanstack/react-query have been move to peerDepdencies
-  - install these by running `npm install viem@^2 wagmi@^2 @tanstack/react-query@^5`
-
-## 0.22.5
-
-### Patch Changes
-
-- 7a74000: - **fix**: Move @tanstack/react-query to peerDependencies. By @kyhyco #705
-
-## 0.22.4
-
-### Patch Changes
-
-- 5fa377e: - **fix**: move viem and wagmi to peer dependencies. By @kyhyco #701
-
 ## 0.22.3
 
 ### Patch Changes
 
-- 6ce8682: - **docs**: Update Swap component docs. Update wagmi import from sendTransaction to useSendTransaction. Add EthToken and USDCToken parameters. By @cpcramer #694
-- a16c5ed: - **docs**: Update getting started guide. Add OnchainProviders.tsx file name. Add code focus for the newly added OnchainProviders.tsx code in the ConfigureWagmiProvider step. By @cpcramer #692
-- 1ad6c98: - **fix**: Avatar component now handles className override correctly. By @kyhyco #697
+- **docs**: Update Swap component docs. Update wagmi import from sendTransaction to useSendTransaction. Add EthToken and USDCToken parameters. By @cpcramer #694 6ce8682
+- **docs**: Update getting started guide. Add OnchainProviders.tsx file name. Add code focus for the newly added OnchainProviders.tsx code in the ConfigureWagmiProvider step. By @cpcramer #692 a16c5ed
+- **fix**: Avatar component now handles className override correctly. By @kyhyco #697 1ad6c98
 
 ## 0.22.2
 
 ### Patch Changes
 
-- ad7cd60: - **fix**: revert "use client". By @kyhyco #690
+- **fix**: revert "use client". By @kyhyco #690 ad7cd60
 
 ## 0.22.1
 
 ### Patch Changes
 
-- b834572: - **feat**: Identity polish. By @kyhyco #675
+- **feat**: Identity polish. By @kyhyco #675 b834572
   - add `fill` theme
   - update `Name` component default font color
   - add `className` prop to `Identity`
@@ -49,44 +26,40 @@
   - add `className` prop to `Avatar`
   - fix using `address` prop on `Avatar` and `Name` component along with `Identity`
   - remove `showAddress` from `getName`
-- 5c91955: feat: add `use client` directives to wallet components. By @roushou #668
-- 1b33742: feat: add `use client` directives to identity components. By @roushou #669
-- 1f8fcb1: - **docs**: force doc site to connect to base. By @kyhyco #613
-- 2198bed: -**chore**: Add test coverage and comments. By @abcrane123 #676
-- 097df0d: -**feat**: Add "everything you need to build onchain" section to the landing page. By @cpcramer #679
-- d4fdc77: - **docs**: Update docs with SwapMessage info. By @abcrane123 #662
-- a1b87f6: - **chore**: Refactor balance api calls into reusable hooks. By @abcrane123 #673
-- a822b92: feat: add `use client` directive to internal components. By @roushou #670
-- 0e9bd1b: - **chore**: Update the landing page View Docs button styling, title description, and href link behavior to always open in a new tab. By @cpcramer #660
-- 72138fe: -**chore**: Update swap messages and reset error states. By @abcrane123 #677
-- f5440ba: feat: add `use client` directives to swap components. By @roushou #655
-- 020c7d7: feat: add `use client` directives to token components. By @roushou #667
+- **feat**: add `use client` directives components. By @roushou #668 #669 #670 #655 #667
+- **docs**: force doc site to connect to base. By @kyhyco #613 1f8fcb1
+- **chore**: Add test coverage and comments. By @abcrane123 #676 2198bed
+- **feat**: Add "everything you need to build onchain" section to the landing page. By @cpcramer #679 097df0d
+- **docs**: Update docs with SwapMessage info. By @abcrane123 #662 d4fdc77
+- **chore**: Refactor balance api calls into reusable hooks. By @abcrane123 #673 a1b87f6
+- **chore**: Update the landing page View Docs button styling, title description, and href link behavior to always open in a new tab. By @cpcramer #660 0e9bd1b
+- **chore**: Update swap messages and reset error states. By @abcrane123 #677 72138fe
 
 ## 0.22.0
 
 ### Minor Changes
 
-- 0903bf7: - **feat**: refactor Identity components and add Address component. By @kyhyco #641
+- **feat**: refactor Identity components and add Address component. By @kyhyco #641 0903bf7
 
-  Breaking Changes
+Breaking Changes
 
-  - `showAddress` has been removed from `Name` component.
-  - `showAttestion` has been removed from `Name` and `Avatar` components. Add `Badge` in `Name` or `Avatar` children to render attestations.
+- `showAddress` has been removed from `Name` component.
+- `showAttestion` has been removed from `Name` and `Avatar` components. Add `Badge` in `Name` or `Avatar` children to render attestations.
 
-  Features
+Features
 
-  - `Address` component handles rendering account address.
-  - `Address` component can be passed into `Identity` component
-  - Similar to `Name` component, `address` prop can be assigned to `Address` or `Identity` component
+- `Address` component handles rendering account address.
+- `Address` component can be passed into `Identity` component
+- Similar to `Name` component, `address` prop can be assigned to `Address` or `Identity` component
 
 ## 0.21.9
 
 ### Patch Changes
 
-- 78d38b0: - **docs**: fix ui regression on index.mdx. By @cpcramer #661
-  - **feat**: added background, pressable and color themes. By @kyhyco #642
-  - **docs**: updated Tailwind integration guide. By @kyhyco #636
-  - **feat**: updated `SwapMessage` component to display error and loading states. By @abcrane123 #611
+- **docs**: fix ui regression on index.mdx. By @cpcramer #661 78d38b0
+- **feat**: added background, pressable and color themes. By @kyhyco #642
+- **docs**: updated Tailwind integration guide. By @kyhyco #636
+- **feat**: updated `SwapMessage` component to display error and loading states. By @abcrane123 #611
 
 ## 0.21.8
 
