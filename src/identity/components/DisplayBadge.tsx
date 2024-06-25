@@ -15,7 +15,7 @@ export function DisplayBadge({ children, address }: DisplayBadgeReact) {
     useIdentityContext();
   if (!contextSchemaId && !schemaId) {
     throw new Error(
-      'Name: a SchemaId must be provided to the Identity or Avatar component.',
+      'Name: a SchemaId must be provided to the OnchainKitProvider or Identity component.',
     );
   }
   const attestations = useAttestations({
