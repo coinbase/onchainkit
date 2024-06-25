@@ -8,10 +8,9 @@ showOutline: false
 ---
 
 import { base } from 'viem/chains';
-import { OnchainKitProvider } from '@coinbase/onchainkit';
 import { Address, Avatar, Badge, Name, Identity } from '@coinbase/onchainkit/identity';
-import AccountConnect from '../components/AccountConnect';
 import App from '../components/App';
+import AccountConnect from '../components/AccountConnect';
 import FarcasterCastCard from '../components/FarcasterCastCard';
 import TokenSelector from '../components/TokenSelector';
 
@@ -136,9 +135,9 @@ bun add @coinbase/onchainkit viem@^2 wagmi@^2 @tanstack/react-query@^5
 ```
       </div>
       <div className='flex grow items-center justify-center h-24 md:h-auto'>
-<App>
-  <AccountConnect />
-</App>
+        <App>
+          <AccountConnect />
+        </App>
       </div>
     </div>
   </aside>
