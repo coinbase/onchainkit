@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- f4fcd2a: - **fix**: revert peer dependancy PRs.
+- **fix**: revert peer dependancy PRs. f4fcd2a
 
 ## 0.22.3
 
