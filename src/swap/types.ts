@@ -96,7 +96,6 @@ export type QuoteWarning = {
   description?: string; // The description of the warning
   message?: string; // The message of the warning
   type?: string; // The type of the warning
-  className?: string; // Optional className override for top element.
 };
 
 export type RawTransactionData = {

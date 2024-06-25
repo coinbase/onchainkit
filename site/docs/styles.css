@@ -31,6 +31,14 @@
   font-size: 14px;
 }
 
+/* ----------- Small ----------- */
+@media (min-width: 640px) {
+  .vocs_CodeBlock {
+    min-width: fit-content;
+
+  }
+}
+
 @media (max-width: 768px) {
   .vocs_CodeBlock {
     margin-left: auto;
@@ -43,8 +51,8 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, 0%);
-  width: 500px;
-  height: 500px;
+  max-width: 500px;
+  max-height: 500px;
   border-radius: 50% 22% 40% 80%;
   filter: blur(70px);
   background: radial-gradient(circle at 50% 50%, #0070ba, #003a5b);
