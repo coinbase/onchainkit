@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.22.5
+
+### Patch Changes
+
+- 7a74000: - **fix**: Move @tanstack/react-query to peerDependencies. By @kyhyco #705
+
 ## 0.22.4
 
 ### Patch Changes
