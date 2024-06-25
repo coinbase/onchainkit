@@ -8,9 +8,10 @@ showOutline: false
 ---
 
 import { base } from 'viem/chains';
+import { OnchainKitProvider } from '@coinbase/onchainkit';
 import { Address, Avatar, Badge, Name, Identity } from '@coinbase/onchainkit/identity';
-import App from '../components/App';
 import AccountConnect from '../components/AccountConnect';
+import App from '../components/App';
 import FarcasterCastCard from '../components/FarcasterCastCard';
 import TokenSelector from '../components/TokenSelector';
 
@@ -39,26 +40,26 @@ import TokenSelector from '../components/TokenSelector';
 :::code-group
 
 ```bash [npm]
-npm install @coinbase/onchainkit viem@^2 wagmi@^2 @tanstack/react-query@^5
+npm install @coinbase/onchainkit
 ```
 
 ```bash [yarn]
-yarn add @coinbase/onchainkit viem@^2 wagmi@^2 @tanstack/react-query@^5
+yarn add @coinbase/onchainkit
 ```
 
 ```bash [pnpm]
-pnpm add @coinbase/onchainkit viem@^2 wagmi@^2 @tanstack/react-query@^5
+pnpm add @coinbase/onchainkit
 ```
 
 ```bash [bun]
-bun add @coinbase/onchainkit viem@^2 wagmi@^2 @tanstack/react-query@^5
+bun add @coinbase/onchainkit
 ```
 
 :::
 
       </div>
       <a href="/getting-started" className="font-sans justify-self-end border rounded-xl border-solid border-white px-4 py-3 font-bold">
-        View docs
+        View docs 
       </a>
     </div>
 
@@ -135,9 +136,9 @@ bun add @coinbase/onchainkit viem@^2 wagmi@^2 @tanstack/react-query@^5
 ```
       </div>
       <div className='flex grow items-center justify-center h-24 md:h-auto'>
-        <App>
-          <AccountConnect />
-        </App>
+<App>
+  <AccountConnect />
+</App>
       </div>
     </div>
   </aside>
