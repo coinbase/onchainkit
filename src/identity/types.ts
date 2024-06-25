@@ -5,8 +5,8 @@ import type { Address, Chain } from 'viem';
  * Note: exported as public Type
  */
 export type AddressReact = {
-  address?: Address | null; // The Ethemreum address to render
-  className?: string; // className override for span element
+  address?: Address | null; // The Ethereum address to render.
+  className?: string; // Optional className override for top span element.
 };
 
 /**
@@ -14,7 +14,7 @@ export type AddressReact = {
  */
 export type AvatarReact = {
   address?: Address | null; // The Ethereum address to fetch the avatar for.
-  className?: string; // Optional additional CSS class to apply to the avatar.
+  className?: string; // Optional className override for top div element.
   loadingComponent?: JSX.Element; // Optional custom component to display while the avatar data is loading.
   defaultComponent?: JSX.Element; // Optional custom component to display when no ENS name or avatar is available.
   children?: ReactNode; // Optional attestation by passing Badge component as its children
@@ -24,7 +24,7 @@ export type AvatarReact = {
  * Note: exported as public Type
  */
 export type BadgeReact = {
-  className?: string; // // Optional additional CSS class to apply to the badge.
+  className?: string; // Optional className override for top span element.
 };
 
 /**
@@ -115,7 +115,7 @@ export type IdentityContextType = {
 export type IdentityReact = {
   address: Address; // The Ethereum address to fetch the avatar and name for.
   children: ReactNode;
-  className?: string; // className override for top div element
+  className?: string; // Optional className override for top div element.
   schemaId?: Address | null; // The Ethereum address of the schema to use for EAS attestation.
 };
 
@@ -124,7 +124,7 @@ export type IdentityReact = {
  */
 export type NameReact = {
   address?: Address | null; // Ethereum address to be displayed.
-  className?: string; // Optional CSS class for custom styling.
+  className?: string; // Optional className override for top span element.
   sliced?: boolean; // Determines if the address should be sliced when no ENS name is available.
   children?: ReactNode; // Optional attestation by passing Badge component as its children
 } & HTMLAttributes<HTMLSpanElement>; // Optional additional span attributes to apply to the name.
