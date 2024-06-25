@@ -24,19 +24,6 @@ function TokenSelectModalInner({
   const [filteredTokens, setFilteredTokens] = useState(options);
   const modalRef = useRef<HTMLDivElement>(null);
 
-  // istanbul ignore next
-  const handleBlur = useCallback(
-    (event: MouseEvent) => {
-      const isOutsideModal =
-        modalRef.current && !modalRef.current.contains(event.target as Node);
-
-      if (isOutsideModal) {
-        closeModal();
-      }
-    },
-    [closeModal],
-  );
-
   const handleClick = useCallback(
     (token: Token) => {
       setToken(token);
@@ -58,6 +45,19 @@ function TokenSelectModalInner({
       );
     },
     [options],
+  );
+
+  // istanbul ignore next
+  const handleBlur = useCallback(
+    (event: MouseEvent) => {
+      const isOutsideModal =
+        modalRef.current && !modalRef.current.contains(event.target as Node);
+
+      if (isOutsideModal) {
+        closeModal();
+      }
+    },
+    [closeModal],
   );
 
   // istanbul ignore next
@@ -167,17 +167,9 @@ export function TokenSelectModal({
     setIsOpen(true);
   }, []);
 
-  const handleToggle = useCallback(() => {
-    if (isOpen) {
-      closeModal();
-    } else {
-      openModal();
-    }
-  }, [isOpen, closeModal, openModal]);
-
   return (
     <>
-      <TokenSelectButton onClick={handleToggle} isOpen={isOpen} token={token} />
+      <TokenSelectButton onClick={openModal} isOpen={isOpen} token={token} />
       {isOpen && (
         <TokenSelectModalInner
           options={options}
