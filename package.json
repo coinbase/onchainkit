@@ -22,7 +22,9 @@
   "peerDependencies": {
     "@xmtp/frames-validator": "^0.6.0",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "viem": "^2",
+    "wagmi": "^2"
   },
   "dependencies": {
     "@tanstack/react-query": "^5",
@@ -30,9 +32,7 @@
     "graphql": "^14 || ^15 || ^16",
     "graphql-request": "^6.1.0",
     "permissionless": "^0.1.29",
-    "tailwind-merge": "^2.3.0",
-    "viem": "^2.13.8",
-    "wagmi": "^2.9.11"
+    "tailwind-merge": "^2.3.0"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.8.0",
