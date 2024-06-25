@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.22.4
+
+### Patch Changes
+
+- 5fa377e: - **fix**: move viem and wagmi to peer dependencies. By @kyhyco #701
+
 ## 0.22.3
 
 ### Patch Changes
