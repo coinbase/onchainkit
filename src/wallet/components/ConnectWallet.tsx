@@ -32,7 +32,7 @@ function ConnectedDropdownContent() {
     >
       <Identity
         address={address}
-        className={cn(pressable.default, 'px-5 py-3')}
+        className={cn(pressable.default, 'px-5 pb-3 pt-2')}
         schemaId={schemaId}
       >
         <Avatar />
@@ -54,7 +54,10 @@ function ConnectedDropdownContent() {
       </a>
       <button
         type="button"
-        className={cn(pressable.default, 'flex items-center gap-2 px-4 py-2')}
+        className={cn(
+          pressable.default,
+          'flex items-center gap-2 px-4 pt-2 pb-3',
+        )}
         onClick={handleDisconnect}
       >
         <div className="w-5">{disconnectSvg}</div>
