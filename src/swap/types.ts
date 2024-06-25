@@ -85,9 +85,6 @@ export type GetSwapMessageParams = {
   toToken?: Token;
 };
 
-/**
- * Note: exported as public Type
- */
 export type SwapToggleButtonReact = {
   className?: string; // Optional className override for top button element.
 };
