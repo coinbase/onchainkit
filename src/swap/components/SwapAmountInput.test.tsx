@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, getByTestId } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { SwapAmountInput } from './SwapAmountInput';
 import { SwapContext } from '../context';
@@ -288,5 +288,22 @@ describe('SwapAmountInput', () => {
 
     const dropdown = screen.getByText('TokenChip');
     expect(dropdown).toBeInTheDocument();
+  });
+
+  it('applies the given className to the button', async () => {
+    render(
+      <SwapContext.Provider value={mockContextValue}>
+        <SwapAmountInput
+          label="From"
+          token={mockETHToken}
+          type="from"
+          className="custom-class"
+        />
+      </SwapContext.Provider>,
+    );
+
+    expect(screen.getByTestId('ockSwapAmountInput_Container')).toHaveClass(
+      'custom-class',
+    );
   });
 });

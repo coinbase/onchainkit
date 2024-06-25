@@ -160,4 +160,16 @@ describe('SwapMessage', () => {
       'An error occurred',
     );
   });
+
+  it('applies the given className to the button', async () => {
+    render(
+      <SwapContext.Provider value={mockContextValue}>
+        <SwapMessage className="custom-class" />
+      </SwapContext.Provider>,
+    );
+
+    expect(screen.getByTestId('ockSwapMessage_Message')).toHaveClass(
+      'custom-class',
+    );
+  });
 });

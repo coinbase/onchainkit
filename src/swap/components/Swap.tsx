@@ -275,6 +275,7 @@ export function Swap({
           'flex w-[500px] flex-col rounded-xl px-6 pt-6 pb-4',
           className,
         )}
+        data-testid="ockSwap_Container"
       >
         <div className="mb-4">
           <h3 className={text.title3} data-testid="ockSwap_Title">

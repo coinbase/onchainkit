@@ -79,6 +79,7 @@ export function SwapButton({
       )}
       onClick={handleSubmit}
       disabled={isDisabled}
+      data-testid="ockSwapButton_Button"
     >
       {!isLoading ? (
         <Spinner />
