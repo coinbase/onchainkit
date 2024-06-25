@@ -1,4 +1,4 @@
-import { ReactNode, useCallback, useState } from 'react';
+import { type ReactNode, useCallback, useState } from 'react';
 import { useAccount, useConnect, useDisconnect } from 'wagmi';
 import type { ConnectAccountReact as ConnectWalletReact } from '../types';
 import { background, cn, color, pressable, text } from '../../styles/theme';
@@ -8,33 +8,26 @@ import { Spinner } from '../../internal/loading/Spinner';
 import { walletSvg } from './walletSvg';
 import { disconnectSvg } from './disconnectSvg';
 
-type ConnectedWalletReact = {
-  override: ReactNode;
-};
-
-function ConnectedWallet({ override }: ConnectedWalletReact) {
+function ConnectedDropdownContent() {
   const { schemaId } = useOnchainKit();
-  const [isOpen, setIsOpen] = useState(false);
   const { address } = useAccount();
   const { connectors } = useConnect();
   const { disconnect } = useDisconnect();
   const connector = connectors[0];
 
-  const handleDisconnectWallet = useCallback(() => {
+  const handleDisconnect = useCallback(() => {
     disconnect({ connector });
   }, [connector, disconnect]);
 
-  const handleToggle = useCallback(() => {
-    setIsOpen(!isOpen);
-  }, [isOpen]);
+  if (!address) {
+    return null;
+  }
 
-  if (!address) return null;
-
-  const dropdownContent = override ?? (
+  return (
     <div
       className={cn(
         background.default,
-        'absolute right-0 z-10 mt-1 flex flex-col rounded-xl w-max min-w-[250px] overflow-hidden',
+        'absolute right-0 z-10 mt-1 flex w-max min-w-[250px] flex-col overflow-hidden rounded-xl',
       )}
     >
       <Identity
@@ -49,24 +42,41 @@ function ConnectedWallet({ override }: ConnectedWalletReact) {
         <Address className={color.foregroundMuted} />
       </Identity>
       <a
-        className={cn(pressable.default, 'flex gap-2 items-center px-4 py-2')}
+        className={cn(pressable.default, 'flex items-center gap-2 px-4 py-2')}
         target="_blank"
         href="https://wallet.coinbase.com"
+        rel="noreferrer"
       >
         <div className="w-5">{walletSvg}</div>
         <span className={cn(text.body, 'shrink-0')}>
           Go to Wallet Dashboard
         </span>
       </a>
-      <div
-        className={cn(pressable.default, 'flex gap-2 items-center px-4 py-2')}
-        onClick={handleDisconnectWallet}
+      <button
+        type="button"
+        className={cn(pressable.default, 'flex items-center gap-2 px-4 py-2')}
+        onClick={handleDisconnect}
       >
         <div className="w-5">{disconnectSvg}</div>
         <span className={cn(text.body, 'shrink-0')}>Disconnect</span>
-      </div>
+      </button>
     </div>
   );
+}
+
+type ConnectedWalletReact = {
+  override: ReactNode;
+};
+
+function Connected({ override }: ConnectedWalletReact) {
+  const [isOpen, setIsOpen] = useState(false);
+  const { address } = useAccount();
+
+  const handleToggle = useCallback(() => {
+    setIsOpen(!isOpen);
+  }, [isOpen]);
+
+  if (!address) return null;
 
   return (
     <div className="relative shrink-0">
@@ -74,7 +84,7 @@ function ConnectedWallet({ override }: ConnectedWalletReact) {
         type="button"
         className={cn(
           pressable.secondary,
-          'px-4 py-3 rounded-xl',
+          'rounded-xl px-4 py-3',
           isOpen && 'bg-secondary-active',
         )}
         onClick={handleToggle}
@@ -84,7 +94,7 @@ function ConnectedWallet({ override }: ConnectedWalletReact) {
           <Name address={address} />
         </div>
       </button>
-      {isOpen && dropdownContent}
+      {isOpen && (override || <ConnectedDropdownContent />)}
     </div>
   );
 }
@@ -108,7 +118,7 @@ export function ConnectWallet({
             pressable.primary,
             text.headline,
             color.inverse,
-            'inline-flex items-center justify-center rounded-xl px-4 py-3 min-w-[153px]',
+            'inline-flex min-w-[153px] items-center justify-center rounded-xl px-4 py-3',
           )}
           onClick={() => connect({ connector })}
         >
@@ -128,7 +138,7 @@ export function ConnectWallet({
             pressable.primary,
             text.headline,
             color.inverse,
-            'inline-flex items-center justify-center rounded-xl px-4 py-3 min-w-[153px]',
+            'inline-flex min-w-[153px] items-center justify-center rounded-xl px-4 py-3',
             pressable.disabled,
           )}
           disabled
@@ -141,7 +151,7 @@ export function ConnectWallet({
 
   return (
     <div className="flex" data-testid="ockConnectAccount_Container">
-      <ConnectedWallet override={children} />
+      <Connected override={children} />
     </div>
   );
 }
