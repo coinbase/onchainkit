@@ -14,7 +14,7 @@ export function SwapAmountInput({
   token,
   type,
   swappableTokens,
-  className
+  className,
 }: SwapAmountInputReact) {
   const {
     convertedFromTokenBalance,
@@ -119,7 +119,7 @@ export function SwapAmountInput({
         background.alternate,
         'box-border flex w-full flex-col items-start',
         'rounded-md border-b border-solid p-4',
-        className
+        className,
       )}
       data-testid="ockSwapAmountInput_Container"
     >
@@ -168,7 +168,7 @@ export function SwapAmountInput({
               data-testid="ockSwapAmountInput_MaxButton"
               onClick={handleMaxButtonClick}
             >
-              <span className={cn(text.label1, 'text-primary' )}>Max</span>
+              <span className={cn(text.label1, 'text-primary')}>Max</span>
             </button>
           )}
         </div>

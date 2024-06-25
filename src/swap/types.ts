@@ -72,7 +72,7 @@ export type GetSwapQuoteResponse = SwapQuote | SwapError;
  */
 export type SwapMessageReact = {
   className?: string; // Optional className override for top span element.
-}
+};
 
 export type GetSwapMessageParams = {
   convertedFromTokenBalance?: string;
@@ -90,7 +90,7 @@ export type GetSwapMessageParams = {
  */
 export type SwapToggleButtonReact = {
   className?: string; // Optional className override for top button element.
-}
+};
 
 export type QuoteWarning = {
   description?: string; // The description of the warning

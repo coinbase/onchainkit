@@ -6,7 +6,11 @@ import { isSwapError } from '../core/isSwapError';
 import { Spinner } from '../../internal/loading/Spinner';
 import type { SwapButtonReact, SwapError } from '../types';
 
-export function SwapButton({ disabled = false, onSubmit, className }: SwapButtonReact) {
+export function SwapButton({
+  disabled = false,
+  onSubmit,
+  className,
+}: SwapButtonReact) {
   const {
     address,
     fromAmount,
@@ -61,7 +65,7 @@ export function SwapButton({ disabled = false, onSubmit, className }: SwapButton
     disabled ||
     swapLoadingState?.isSwapLoading;
 
-  const isLoading = !swapLoadingState?.isSwapLoading
+  const isLoading = !swapLoadingState?.isSwapLoading;
 
   return (
     <button
