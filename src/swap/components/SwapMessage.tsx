@@ -25,13 +25,11 @@ export function SwapMessage({ className }: SwapMessageReact) {
   });
 
   return (
-    <div className="flex pt-2">
-      <span
-        className={cn(text.label2, className)}
-        data-testid="ockSwapMessage_Message"
-      >
-        {message}
-      </span>
-    </div>
+    <div
+    className={cn("flex pt-2", text.label2, className)}
+    data-testid="ockSwapMessage_Message"
+  >
+    {message}
+  </div>
   );
 }
