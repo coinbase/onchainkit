@@ -36,7 +36,7 @@ export function Identity({
       <div
         className={cn(
           background.default,
-          'flex h-14 items-center space-x-4 px-2 py-1',
+          'flex items-center space-x-4 px-2 py-1',
           className,
         )}
         data-testid="ockIdentity_container"
