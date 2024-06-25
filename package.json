@@ -20,6 +20,7 @@
     "watch:tailwind": "tailwind -i ./src/styles/index.css -o ./src/tailwind.css --watch"
   },
   "peerDependencies": {
+    "@tanstack/react-query": "^5",
     "@xmtp/frames-validator": "^0.6.0",
     "react": "^18",
     "react-dom": "^18",
@@ -27,7 +28,6 @@
     "wagmi": "^2"
   },
   "dependencies": {
-    "@tanstack/react-query": "^5",
     "clsx": "^2.1.1",
     "graphql": "^14 || ^15 || ^16",
     "graphql-request": "^6.1.0",
