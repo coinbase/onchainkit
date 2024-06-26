@@ -43,7 +43,7 @@ describe('ConnectWallet', () => {
     });
   });
 
-  test('renders connect button when disconnected', () => {
+  it('renders connect button when disconnected', () => {
     render(<ConnectWallet label="Connect Wallet" />);
 
     const button = screen.getByTestId('ockConnectWallet_ConnectButton');
@@ -51,7 +51,7 @@ describe('ConnectWallet', () => {
     expect(button).toHaveTextContent('Connect Wallet');
   });
 
-  test('renders spinner when loading', () => {
+  it('renders spinner when loading', () => {
     (useConnect as jest.Mock).mockReturnValue({
       connectors: [{ id: 'mockConnector' }],
       connect: jest.fn(),
@@ -68,7 +68,7 @@ describe('ConnectWallet', () => {
     expect(spinner).toBeInTheDocument();
   });
 
-  test('renders children when connected', () => {
+  it('renders children when connected', () => {
     (useAccount as jest.Mock).mockReturnValue({
       address: '0x123',
       status: 'connected',
@@ -84,7 +84,7 @@ describe('ConnectWallet', () => {
     expect(connectedText).toBeInTheDocument();
   });
 
-  test('calls connect function when connect button is clicked', () => {
+  it('calls connect function when connect button is clicked', () => {
     const connectMock = jest.fn();
     (useConnect as jest.Mock).mockReturnValue({
       connectors: [{ id: 'mockConnector' }],
@@ -102,7 +102,7 @@ describe('ConnectWallet', () => {
     });
   });
 
-  test('toggles wallet modal on button click when connected', () => {
+  it('toggles wallet modal on button click when connected', () => {
     const setIsOpenMock = jest.fn();
     (useAccount as jest.Mock).mockReturnValue({
       address: '0x123',
@@ -123,5 +123,30 @@ describe('ConnectWallet', () => {
     fireEvent.click(button);
 
     expect(setIsOpenMock).toHaveBeenCalledWith(true);
+  });
+
+  it('applies bg-secondary-active class when isOpen is true', () => {
+    (useWalletContext as jest.Mock).mockReturnValue({
+      isOpen: true,
+      setIsOpen: jest.fn(),
+    });
+    (useAccount as jest.Mock).mockReturnValue({
+      address: '0x123',
+      status: 'connected',
+    });
+    (useConnect as jest.Mock).mockReturnValue({
+      connectors: [{ id: 'test-connector' }],
+      connect: jest.fn(),
+      status: 'idle',
+    });
+
+    render(
+      <ConnectWallet>
+        <span>Test Children</span>
+      </ConnectWallet>,
+    );
+
+    const button = screen.getByTestId('ockConnectWallet_Connected');
+    expect(button).toHaveClass('bg-secondary-active');
   });
 });

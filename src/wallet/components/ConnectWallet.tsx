@@ -66,6 +66,7 @@ export function ConnectWallet({
       <div className="flex gap-4" data-testid="ockConnectWallet_Container">
         <button
           type="button"
+          data-testid="ockConnectWallet_Connected"
           className={cn(
             pressable.secondary,
             'rounded-xl px-4 py-3',
