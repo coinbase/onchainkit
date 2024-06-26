@@ -1,4 +1,4 @@
-import { useIdentityContext } from '../context';
+import { useIdentityContext } from './IdentityProvider';
 import { getSlicedAddress } from '../getSlicedAddress';
 import { cn, text } from '../../styles/theme';
 import type { AddressReact } from '../types';

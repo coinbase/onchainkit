@@ -1,5 +1,5 @@
 import { useMemo, Children } from 'react';
-import { useIdentityContext } from '../context';
+import { useIdentityContext } from './IdentityProvider';
 import { useAvatar } from '../hooks/useAvatar';
 import { useName } from '../hooks/useName';
 import type { AvatarReact } from '../types';
