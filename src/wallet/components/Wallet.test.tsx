@@ -8,6 +8,7 @@ import { useAccount, useConnect, useDisconnect } from 'wagmi';
 import { ConnectWallet } from './ConnectWallet';
 import { WalletDropdown } from './WalletDropdown';
 import { Wallet } from './Wallet';
+import { mock } from '../../internal/testing/mock';
 
 jest.mock('wagmi', () => ({
   useAccount: jest.fn(),
@@ -18,12 +19,12 @@ jest.mock('wagmi', () => ({
 describe('Wallet Component', () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    (useAccount as jest.Mock).mockReturnValue({ status: 'disconnected' });
-    (useConnect as jest.Mock).mockReturnValue({
+    mock(useAccount).return({ status: 'disconnected' });
+    mock(useConnect).return({
       connectors: [{ name: 'injected' }],
       connect: jest.fn(),
     });
-    (useDisconnect as jest.Mock).mockReturnValue({ disconnect: jest.fn() });
+    mock(useDisconnect).return({ disconnect: jest.fn() });
   });
 
   it('should render the Wallet component with ConnectWallet', async () => {

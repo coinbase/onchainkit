@@ -7,6 +7,7 @@ import { render, screen } from '@testing-library/react';
 import { useAccount } from 'wagmi';
 import { WalletDropdown } from './WalletDropdown';
 import { useWalletContext } from './WalletProvider';
+import { mock } from '../../internal/testing/mock';
 
 jest.mock('wagmi', () => ({
   useAccount: jest.fn(),
@@ -16,10 +17,13 @@ jest.mock('./WalletProvider', () => ({
   useWalletContext: jest.fn(),
 }));
 
+const useWalletContextMock = mock(useWalletContext);
+const useAccountMock = mock(useAccount);
+
 describe('WalletDropdown', () => {
   it('renders null when isOpen is false', () => {
-    (useWalletContext as jest.Mock).mockReturnValue({ isOpen: false });
-    (useAccount as jest.Mock).mockReturnValue({ address: '0x123' });
+    useWalletContextMock.return({ isOpen: false });
+    useAccountMock.return({ address: '0x123' });
 
     render(<WalletDropdown>Test Children</WalletDropdown>);
 
@@ -27,8 +31,8 @@ describe('WalletDropdown', () => {
   });
 
   it('renders null when address is not provided', () => {
-    (useWalletContext as jest.Mock).mockReturnValue({ isOpen: true });
-    (useAccount as jest.Mock).mockReturnValue({ address: null });
+    useWalletContextMock.return({ isOpen: true });
+    useAccountMock.return({ address: null });
 
     render(<WalletDropdown>Test Children</WalletDropdown>);
 
@@ -36,8 +40,8 @@ describe('WalletDropdown', () => {
   });
 
   it('renders children when isOpen is true and address is provided', () => {
-    (useWalletContext as jest.Mock).mockReturnValue({ isOpen: true });
-    (useAccount as jest.Mock).mockReturnValue({ address: '0x123' });
+    useWalletContextMock.return({ isOpen: true });
+    useAccountMock.return({ address: '0x123' });
 
     render(<WalletDropdown>Test Children</WalletDropdown>);
 
