@@ -193,7 +193,6 @@ export function SwapProvider({
         setLoading(true);
 
         if (approveTransaction?.data) {
-          console.log('waiting for approveTransaction');
           const approveTxHash = await sendTransactionAsync({
             to: approveTransaction.to,
             value: approveTransaction.value,
@@ -206,7 +205,6 @@ export function SwapProvider({
           });
         }
 
-        console.log('waiting for approveTransaction');
 
         const txHash = await sendTransactionAsync({
           to: transaction.to,
