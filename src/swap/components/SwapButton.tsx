@@ -1,4 +1,3 @@
-import { useCallback } from 'react';
 import { background, cn, pressable, text } from '../../styles/theme';
 import { Spinner } from '../../internal/loading/Spinner';
 import { useSwapContext } from './SwapProvider';

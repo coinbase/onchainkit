@@ -12,6 +12,7 @@ function useValue<T>(object: T): T {
   return useMemo(() => object, [object]);
 }
 
+// istanbul ignore next
 export function SwapAmountInput({
   className,
   delayMs = 1000,

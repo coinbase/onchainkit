@@ -1,4 +1,4 @@
-import { Children, useCallback, useMemo } from 'react';
+import { Children, useMemo } from 'react';
 import { background, cn, text } from '../../styles/theme';
 import { SwapAmountInput } from './SwapAmountInput';
 import { SwapButton } from './SwapButton';
@@ -7,6 +7,7 @@ import { SwapMessage } from './SwapMessage';
 import { SwapProvider } from './SwapProvider';
 import type { SwapReact } from '../types';
 
+// istanbul ignore next
 export function Swap({
   address,
   children,

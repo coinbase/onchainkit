@@ -1,11 +1,10 @@
 import { getSwapMessage, SwapMessage } from './getSwapMessage';
 import { LOW_LIQUIDITY_ERROR_CODE } from '../constants';
-import type { GetSwapMessageParams } from '../types';
 import type { Token } from '../../token';
 
-const mockETHToken: Token = {
+const ETHToken: Token = {
   name: 'ETH',
-  address: '0x123456789',
+  address: '',
   symbol: 'ETH',
   decimals: 18,
   image:
@@ -13,7 +12,7 @@ const mockETHToken: Token = {
   chainId: 8453,
 };
 
-const mockToken: Token = {
+const USDCToken: Token = {
   name: 'USDC',
   address: '0x833589fcd6edb6e08f4c7c32d4f71b54bda02913',
   symbol: 'USDC',
@@ -23,120 +22,140 @@ const mockToken: Token = {
   chainId: 8453,
 };
 
-const mockSwapLoadingState = {
-  isFromQuoteLoading: false,
-  isSwapLoading: false,
-  isToQuoteLoading: false,
-};
-
 describe('getSwapMessage', () => {
-  it('returns BALANCE_ERROR when there is a token balance error', () => {
-    const params: GetSwapMessageParams = {
-      convertedFromTokenBalance: '100',
-      fromAmount: '50',
-      fromToken: mockETHToken,
-      swapErrorState: {
-        fromTokenBalanceError: {
-          error: 'some error',
-          code: 'SWAP_BALANCE_ERROR',
-        },
+  const baseParams = {
+    error: undefined,
+    from: {
+      error: undefined,
+      balance: '0',
+      amount: '0',
+      loading: false,
+      token: undefined,
+      setAmount: jest.fn(),
+      setLoading: jest.fn(),
+      setToken: jest.fn(),
+    },
+    to: {
+      error: undefined,
+      amount: '0',
+      loading: false,
+      token: undefined,
+      setAmount: jest.fn(),
+      setLoading: jest.fn(),
+      setToken: jest.fn(),
+    },
+    loading: false,
+  };
+
+  test('returns BALANCE_ERROR when from or to has an error', () => {
+    const params = {
+      ...baseParams,
+      from: {
+        ...baseParams.from,
+        error: { code: 'some_code', error: 'some error' },
       },
-      swapLoadingState: mockSwapLoadingState,
-      toAmount: '50',
-      toToken: mockToken,
     };
     expect(getSwapMessage(params)).toBe(SwapMessage.BALANCE_ERROR);
+
+    const params2 = {
+      ...baseParams,
+      to: {
+        ...baseParams.to,
+        error: { code: 'some_code', error: 'some error' },
+      },
+    };
+    expect(getSwapMessage(params2)).toBe(SwapMessage.BALANCE_ERROR);
   });
 
-  it('returns INSUFFICIENT_BALANCE when the amount exceeds balance', () => {
-    const params: GetSwapMessageParams = {
-      convertedFromTokenBalance: '50',
-      fromAmount: '100',
-      fromToken: mockETHToken,
-      swapLoadingState: mockSwapLoadingState,
-      toAmount: '50',
-      toToken: mockToken,
+  test('returns INSUFFICIENT_BALANCE when amount exceeds balance', () => {
+    const params = {
+      ...baseParams,
+      from: { ...baseParams.from, balance: '10', amount: '20' },
     };
     expect(getSwapMessage(params)).toBe(SwapMessage.INSUFFICIENT_BALANCE);
   });
 
-  it('returns SWAP_IN_PROGRESS when the swap is loading', () => {
-    const params: GetSwapMessageParams = {
-      convertedFromTokenBalance: '100',
-      fromAmount: '50',
-      fromToken: mockETHToken,
-      swapLoadingState: { ...mockSwapLoadingState, isSwapLoading: true },
-      toAmount: '50',
-      toToken: mockToken,
+  test('returns SWAP_IN_PROGRESS when loading is true', () => {
+    const params = {
+      ...baseParams,
+      loading: true,
     };
     expect(getSwapMessage(params)).toBe(SwapMessage.SWAP_IN_PROGRESS);
   });
 
-  it('returns FETCHING_QUOTE when a quote is loading', () => {
-    const params: GetSwapMessageParams = {
-      convertedFromTokenBalance: '100',
-      fromAmount: '50',
-      fromToken: mockETHToken,
-      swapLoadingState: { ...mockSwapLoadingState, isFromQuoteLoading: true },
-      toAmount: '50',
-      toToken: mockToken,
+  test('returns FETCHING_QUOTE when to or from loading is true', () => {
+    const params = {
+      ...baseParams,
+      from: { ...baseParams.from, loading: true },
     };
     expect(getSwapMessage(params)).toBe(SwapMessage.FETCHING_QUOTE);
+
+    const params2 = {
+      ...baseParams,
+      to: { ...baseParams.to, loading: true },
+    };
+    expect(getSwapMessage(params2)).toBe(SwapMessage.FETCHING_QUOTE);
   });
 
-  it('returns INCOMPLETE_FIELD when required fields are missing', () => {
-    const params: GetSwapMessageParams = {
-      convertedFromTokenBalance: '100',
-      fromAmount: '',
-      fromToken: mockETHToken,
-      swapLoadingState: mockSwapLoadingState,
-      toAmount: '50',
-      toToken: mockToken,
+  test('returns INCOMPLETE_FIELD when required fields are missing', () => {
+    const params = {
+      ...baseParams,
     };
     expect(getSwapMessage(params)).toBe(SwapMessage.INCOMPLETE_FIELD);
+
+    const params2 = {
+      ...baseParams,
+      from: {
+        ...baseParams.from,
+        amount: '10',
+        balance: '20',
+        token: ETHToken,
+      },
+    };
+    expect(getSwapMessage(params2)).toBe(SwapMessage.INCOMPLETE_FIELD);
+
+    const params3 = {
+      ...baseParams,
+      to: { ...baseParams.to, amount: '10', token: USDCToken },
+    };
+    expect(getSwapMessage(params3)).toBe(SwapMessage.INCOMPLETE_FIELD);
   });
 
-  it('returns LOW_LIQUIDITY when there is a low liquidity error', () => {
-    const params: GetSwapMessageParams = {
-      convertedFromTokenBalance: '100',
-      fromAmount: '50',
-      fromToken: mockETHToken,
-      swapErrorState: {
+  test('returns LOW_LIQUIDITY when error code is LOW_LIQUIDITY_ERROR_CODE', () => {
+    const params = {
+      ...baseParams,
+      from: { ...baseParams.from, balance: '10', amount: '5', token: ETHToken },
+      to: { ...baseParams.to, amount: '5', token: USDCToken },
+      error: {
         quoteError: {
-          error: 'some error',
           code: LOW_LIQUIDITY_ERROR_CODE,
+          error: 'Low liquidity error',
         },
       },
-      swapLoadingState: mockSwapLoadingState,
-      toAmount: '50',
-      toToken: mockToken,
     };
     expect(getSwapMessage(params)).toBe(SwapMessage.LOW_LIQUIDITY);
   });
 
-  it('returns the first general error message', () => {
-    const params: GetSwapMessageParams = {
-      convertedFromTokenBalance: '100',
-      fromAmount: '50',
-      fromToken: mockETHToken,
-      swapErrorState: {
-        swapError: { error: 'Some error occurred', code: 'GENERAL_SWAP_ERROR' },
+  test('returns the first error message when general error is present', () => {
+    const params = {
+      ...baseParams,
+      from: { ...baseParams.from, balance: '10', amount: '5', token: ETHToken },
+      to: { ...baseParams.to, amount: '5', token: USDCToken },
+      error: {
+        quoteError: {
+          code: 'general_error_code',
+          error: 'General error occurred',
+        },
       },
-      swapLoadingState: mockSwapLoadingState,
-      toAmount: '50',
-      toToken: mockToken,
     };
-    expect(getSwapMessage(params)).toBe('Some error occurred');
+    expect(getSwapMessage(params)).toBe('General error occurred');
   });
 
-  it('returns an empty string when there are no errors and no loading states', () => {
-    const params: GetSwapMessageParams = {
-      convertedFromTokenBalance: '100',
-      fromAmount: '50',
-      fromToken: mockETHToken,
-      swapLoadingState: mockSwapLoadingState,
-      toAmount: '50',
-      toToken: mockToken,
+  test('returns empty string when no error and all conditions are satisfied', () => {
+    const params = {
+      ...baseParams,
+      from: { ...baseParams.from, balance: '10', amount: '5', token: ETHToken },
+      to: { ...baseParams.to, amount: '5', token: USDCToken },
     };
     expect(getSwapMessage(params)).toBe('');
   });
