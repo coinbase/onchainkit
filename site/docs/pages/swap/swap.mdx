@@ -281,9 +281,69 @@ You can remove `SwapMessage` component.
     }}
   </SwapWrapper>
 </App>
+
+You can override component styles using `className`.
+
+```tsx [code]
+// omitted for brevity
+
+<Swap address={address} className='bg-gray-200'> // [!code focus]
+  <SwapAmountInput
+    label="Sell"
+    swappableTokens={swappableTokens}
+    token={swappableTokens[1]}
+    type="from"
+    className=' bg-white' // [!code focus]
+  />
+  <SwapToggleButton className='border-red-600 bg-white'/> // [!code focus]
+  <SwapAmountInput
+    label="Buy"
+    swappableTokens={swappableTokens}
+    token={swappableTokens[2]}
+    type="to"
+    className=' bg-white' // [!code focus]
+  />
+  <SwapButton className='bg-red-600'/> // [!code focus]
+  <SwapMessage className='text-red-600'/> // [!code focus]
+</Swap>
+}
+```
+
+<App>
+  <SwapWrapper>
+    {({ address, swappableTokens }) => {
+      if (address) {
+        return (
+          <Swap address={address} className='bg-gray-200'>
+            <SwapAmountInput
+              label="Sell"
+              swappableTokens={swappableTokens}
+              token={swappableTokens[1]}
+              type="from"
+              className=' bg-white'
+            />
+            <SwapToggleButton className='border-red-600 bg-white'/>
+            <SwapAmountInput
+              label="Buy"
+              swappableTokens={swappableTokens}
+              token={swappableTokens[2]}
+              type="to"
+              className=' bg-white'
+            />
+            <SwapButton className='bg-red-600'/>
+            <SwapMessage className='text-red-600'/>
+          </Swap>
+        )
+      }
+      return <ConnectAccount />;
+    }}
+  </SwapWrapper>
+</App>
+
 ## Props
 
 - [`SwapReact`](/swap/types#swapreact)
 - [`SwapAmountInput`](/swap/types#swapamountinput)
 - [`SwapToggleButton`](/swap/types#swaptogglebutton)
 - [`SwapButtonReact`](/swap/types#swapbuttonreact)
+- [`SwapMessageReact`](/swap/types#swapmessagereact)
