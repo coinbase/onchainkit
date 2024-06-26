@@ -1,7 +1,7 @@
 import { cn, pressable, text } from '../../styles/theme';
 import { walletSvg } from './walletSvg';
 
-export function GoToWalletDashboard() {
+export function WalletDropdownLinkToDashboard() {
   return (
     <a
       className={cn(pressable.default, 'flex items-center gap-2 px-4 py-2')}

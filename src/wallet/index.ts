@@ -1,7 +1,7 @@
 // 🌲☀🌲
 export { ConnectAccount } from './components/ConnectAccount';
 export { ConnectWallet } from './components/ConnectWallet';
-export { GoToWalletDashboard } from './components/GoToWalletDashboard';
+export { WalletDropdownLinkToDashboard } from './components/WalletDropdownLinkToDashboard';
 export { Wallet } from './components/Wallet';
 export { WalletDropdownDisconnect } from './components/WalletDropdownDisconnect';
 export { WalletDropdown } from './components/WalletDropdown';
