@@ -16,6 +16,7 @@ export type {
   SwapReact,
   SwapAmountInputReact,
   SwapButtonReact,
+  SwapMessageReact,
   SwapError,
   SwapQuote,
   Transaction,
