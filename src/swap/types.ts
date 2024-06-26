@@ -125,13 +125,13 @@ export type SwapContextType = {
   from: SwapUnit;
   to: SwapUnit;
   loading: boolean;
-  handleSubmit: (f: (swapTransaction: BuildSwapTransaction) => void) => void;
+  handleSubmit: () => void;
   handleToggle: () => void;
   handleAmountChange: (
     t: 'from' | 'to',
     amount: string,
     st?: Token,
-    dt?: Token,
+    dt?: Token
   ) => void;
 };
 
