@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.23.2
+
+### Patch Changes
+
+- f98d4bf: - **chore**: Remove unsupported fields from the Coinbase Wallet Provider. appChainIds and options. By @cpcramer #717
+- cc7cf73: - **docs**: Update Token Type docs with new className parameter. By @cpcramer #716
+- e6a2d77: - **feat**: Add Swap Kit component className override. By: @cpcramer #719
+
 ## 0.23.1
 
 ### Patch Changes
