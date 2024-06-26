@@ -9,7 +9,7 @@ import { useName } from '../hooks/useName';
 import { useAttestations } from '../hooks/useAttestations';
 import { Name } from './Name';
 import { Badge } from './Badge';
-import { useIdentityContext } from '../context';
+import { useIdentityContext } from './IdentityProvider';
 
 jest.mock('../hooks/useName', () => ({
   useName: jest.fn(),

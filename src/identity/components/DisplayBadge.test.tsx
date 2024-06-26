@@ -43,7 +43,7 @@ describe('DisplayBadge', () => {
         </DisplayBadge>,
       ),
     ).toThrow(
-      'Name: a SchemaId must be provided to the Identity or Avatar component.',
+      'Name: a SchemaId must be provided to the OnchainKitProvider or Identity component.',
     );
   });
 

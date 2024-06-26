@@ -1,9 +1,4 @@
-import { Children, useMemo } from 'react';
-import { Avatar } from './Avatar';
-import { Name } from './Name';
-import { Address } from './Address';
 import type { IdentityReact } from '../types';
-import { background, cn } from '../../styles/theme';
 import { IdentityProvider } from './IdentityProvider';
 import { IdentityLayout } from './IdentityLayout';
 
