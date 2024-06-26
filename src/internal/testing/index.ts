@@ -1,0 +1,1 @@
+export { mock } from './mock';
