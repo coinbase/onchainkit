@@ -3,7 +3,7 @@ import { cn, pressable, text } from '../../styles/theme';
 import { disconnectSvg } from './disconnectSvg';
 import { useCallback } from 'react';
 
-export function WalletDisconnect() {
+export function WalletDropdownDisconnect() {
   const { connectors } = useConnect();
   const { disconnect } = useDisconnect();
   const connector = connectors[0];
