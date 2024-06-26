@@ -97,7 +97,6 @@ export type SwapToggleButtonReact = {
  * Note: exported as public Type
  */
 export type SwapAmountInputReact = {
-  tokenSelectComponent: ReactNode;
   delayMs?: number; // The debounce delay in milliseconds
   label: string; // Descriptive label for the input field
   swappableTokens?: Token[]; // Swappable tokens

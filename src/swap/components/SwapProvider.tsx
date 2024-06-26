@@ -13,7 +13,6 @@ import { formatTokenAmount } from '../../utils/formatTokenAmount';
 import type {
   SwapError,
   SwapErrorState,
-  SwapLoadingState,
   BuildSwapTransaction,
   SwapContextType,
 } from '../types';

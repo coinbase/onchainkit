@@ -68,6 +68,8 @@ export function SwapAmountInput({
   const hasInsufficientBalance =
     type === 'from' && Number(source.balance) < Number(source.amount);
 
+  console.log('omg', source.token);
+
   return (
     <div
       className={cn(
