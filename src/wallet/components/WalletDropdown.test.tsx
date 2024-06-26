@@ -3,10 +3,12 @@
  */
 import React from 'react';
 import '@testing-library/jest-dom';
-import { render, screen } from '@testing-library/react';
+import { render, renderHook, screen } from '@testing-library/react';
 import { useAccount } from 'wagmi';
 import { WalletDropdown } from './WalletDropdown';
 import { useWalletContext } from './WalletProvider';
+import { Identity } from '../../identity';
+import { useIdentityContext } from '../../identity/components/IdentityProvider';
 
 jest.mock('wagmi', () => ({
   useAccount: jest.fn(),
@@ -42,5 +44,22 @@ describe('WalletDropdown', () => {
     render(<WalletDropdown>Test Children</WalletDropdown>);
 
     expect(screen.getByText('Test Children')).toBeInTheDocument();
+  });
+
+  it('injects address prop to Identity component', () => {
+    const address = '0x123';
+    (useWalletContext as jest.Mock).mockReturnValue({ isOpen: true });
+    (useAccount as jest.Mock).mockReturnValue({ address });
+
+    const { result } = renderHook(() => useIdentityContext(), {
+      wrapper: ({ children }) => (
+        <WalletDropdown>
+          <Identity>{children}</Identity>
+          <div />
+        </WalletDropdown>
+      ),
+    });
+
+    expect(result.current.address).toEqual(address);
   });
 });
