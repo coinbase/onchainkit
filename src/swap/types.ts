@@ -67,6 +67,13 @@ export type GetSwapQuoteParams = {
  */
 export type GetSwapQuoteResponse = SwapQuote | SwapError;
 
+/**
+ * Note: exported as public Type
+ */
+export type SwapMessageReact = {
+  className?: string; // Optional className override for top div element.
+};
+
 export type GetSwapMessageParams = {
   convertedFromTokenBalance?: string;
   fromAmount: string;
@@ -76,6 +83,10 @@ export type GetSwapMessageParams = {
   statusMessage?: string;
   toAmount: string;
   toToken?: Token;
+};
+
+export type SwapToggleButtonReact = {
+  className?: string; // Optional className override for top button element.
 };
 
 export type QuoteWarning = {
@@ -102,6 +113,7 @@ export type SwapAmountInputReact = {
   swappableTokens?: Token[]; // Swappable tokens
   token?: Token; // Selected token
   type: 'to' | 'from'; // Identifies if component is for toToken or fromToken
+  className?: string; // Optional className override for top div element.
 };
 
 export type SwapAPIParams = GetQuoteAPIParams | GetSwapAPIParams;
@@ -127,6 +139,7 @@ export type SwapErrorState = {
 export type SwapButtonReact = {
   disabled?: boolean; // Disables swap button
   onSubmit?: (swapTransaction: BuildSwapTransaction) => void;
+  className?: string; // Optional className override for top div element.
 };
 
 export type SwapContextType = {
@@ -189,6 +202,7 @@ export type SwapReact = {
   address: Address; // Connected address from connector.
   children: ReactNode;
   title?: string; // Title for the Swap component. (default: "Swap")
+  className?: string; // Optional className override for top div element.
 };
 
 /**

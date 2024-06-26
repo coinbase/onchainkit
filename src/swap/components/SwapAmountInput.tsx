@@ -14,6 +14,7 @@ export function SwapAmountInput({
   token,
   type,
   swappableTokens,
+  className,
 }: SwapAmountInputReact) {
   const {
     convertedFromTokenBalance,
@@ -118,6 +119,7 @@ export function SwapAmountInput({
         background.alternate,
         'box-border flex w-full flex-col items-start',
         'rounded-md border-b border-solid p-4',
+        className,
       )}
       data-testid="ockSwapAmountInput_Container"
     >

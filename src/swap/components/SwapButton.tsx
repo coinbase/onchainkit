@@ -6,7 +6,11 @@ import { isSwapError } from '../core/isSwapError';
 import { Spinner } from '../../internal/loading/Spinner';
 import type { SwapButtonReact, SwapError } from '../types';
 
-export function SwapButton({ disabled = false, onSubmit }: SwapButtonReact) {
+export function SwapButton({
+  disabled = false,
+  onSubmit,
+  className,
+}: SwapButtonReact) {
   const {
     address,
     fromAmount,
@@ -61,6 +65,8 @@ export function SwapButton({ disabled = false, onSubmit }: SwapButtonReact) {
     disabled ||
     swapLoadingState?.isSwapLoading;
 
+  const isLoading = !swapLoadingState?.isSwapLoading;
+
   return (
     <button
       type="button"
@@ -68,12 +74,14 @@ export function SwapButton({ disabled = false, onSubmit }: SwapButtonReact) {
         background.primary,
         'w-full rounded-xl',
         'mt-4 px-4 py-3 font-medium text-base text-white leading-6',
-        isDisabled && !swapLoadingState?.isSwapLoading && pressable.disabled,
+        isDisabled && !isLoading && pressable.disabled,
+        className,
       )}
       onClick={handleSubmit}
       disabled={isDisabled}
+      data-testid="ockSwapButton_Button"
     >
-      {swapLoadingState?.isSwapLoading ? (
+      {!isLoading ? (
         <Spinner />
       ) : (
         <span className={cn(text.headline, 'text-inverse')}>Swap</span>

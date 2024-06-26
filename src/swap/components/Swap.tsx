@@ -18,7 +18,12 @@ import type {
 } from '../types';
 import type { Token } from '../../token';
 
-export function Swap({ address, children, title = 'Swap' }: SwapReact) {
+export function Swap({
+  address,
+  children,
+  title = 'Swap',
+  className,
+}: SwapReact) {
   const [swapErrorState, setSwapErrorState] = useState<SwapErrorState>();
   const [fromAmount, setFromAmount] = useState('');
   const [fromToken, setFromToken] = useState<Token>();
@@ -268,7 +273,9 @@ export function Swap({ address, children, title = 'Swap' }: SwapReact) {
         className={cn(
           background.default,
           'flex w-[500px] flex-col rounded-xl px-6 pt-6 pb-4',
+          className,
         )}
+        data-testid="ockSwap_Container"
       >
         <div className="mb-4">
           <h3 className={text.title3} data-testid="ockSwap_Title">

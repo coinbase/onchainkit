@@ -126,7 +126,7 @@ describe('SwapButton', () => {
     expect(onSubmit).not.toHaveBeenCalled();
   });
 
-  it('does renders a loading icon when swap is loading', () => {
+  it('renders a loading icon when swap is loading', () => {
     const onSubmit = jest.fn();
     mockedUseSwapContext.mockReturnValueOnce({
       address: '0x123',
@@ -149,5 +149,19 @@ describe('SwapButton', () => {
     const spinner = getByTestId('ockSpinner');
 
     expect(spinner).toBeInTheDocument();
+  });
+
+  it('applies the given className to the button', async () => {
+    const { getByTestId } = render(
+      <SwapButton
+        disabled={false}
+        onSubmit={jest.fn()}
+        className="custom-class"
+      />,
+    );
+
+    const button = getByTestId('ockSwapButton_Button');
+
+    expect(button).toHaveClass('custom-class');
   });
 });

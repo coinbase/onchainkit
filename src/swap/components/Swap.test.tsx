@@ -137,4 +137,18 @@ describe('Swap component', () => {
       screen.getByTestId('ockSwapAmountInput_MaxButton'),
     ).toBeInTheDocument();
   });
+
+  it('renders the swap component with the given className', () => {
+    render(
+      <SwapContext.Provider value={mockContextValue}>
+        <Swap address="0x123" className="custom-class">
+          <div />
+          <div />
+        </Swap>
+      </SwapContext.Provider>,
+    );
+
+    const swapElement = screen.getByTestId('ockSwap_Container');
+    expect(swapElement).toHaveClass('custom-class');
+  });
 });
