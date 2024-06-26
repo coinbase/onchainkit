@@ -17,7 +17,7 @@ export function Wallet({ children }: WalletReact) {
 
   return (
     <WalletProvider>
-      <div className='relative w-fit shrink-0'>
+      <div className="relative w-fit shrink-0">
         {connect}
         {dropdown}
       </div>
