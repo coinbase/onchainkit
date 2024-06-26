@@ -18,14 +18,14 @@ export function ConnectWallet({
   }, [isOpen]);
 
   const connector = connectors[0];
-  const isLoading = connectStatus === 'pending';
+  const isLoading = connectStatus === 'pending' || status === 'connecting';
 
-  if (status === 'disconnected' || status === 'connecting') {
+  if (status === 'disconnected') {
     return (
       <div className="flex" data-testid="ockConnectWallet_Container">
         <button
           type="button"
-          data-testid="ockConnectAccountButtonInner"
+          data-testid="ockConnectWallet_ConnectButton"
           className={cn(
             pressable.primary,
             text.headline,

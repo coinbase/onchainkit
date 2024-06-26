@@ -1,87 +1,127 @@
 /**
  * @jest-environment jsdom
  */
-import React from 'react';
+import React, { ReactNode } from 'react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { render, screen, waitFor } from '@testing-library/react';
-import { useAccount, useConnect, useDisconnect } from 'wagmi';
 import { ConnectWallet } from './ConnectWallet';
+import { useAccount, useConnect } from 'wagmi';
+import { useWalletContext } from './WalletProvider';
 
 jest.mock('wagmi', () => ({
   useAccount: jest.fn(),
   useConnect: jest.fn(),
-  useDisconnect: jest.fn(),
 }));
 
-describe('ConnectWallet Component', () => {
+jest.mock('../../identity/components/IdentityProvider', () => ({
+  IdentityProvider: ({ children }: { children: ReactNode }) => (
+    <div>{children}</div>
+  ),
+}));
+
+jest.mock('./WalletProvider', () => ({
+  useWalletContext: jest.fn(),
+  WalletProvider: ({ children }: { children: ReactNode }) => (
+    <div>{children}</div>
+  ),
+}));
+
+describe('ConnectWallet', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
-    (useAccount as jest.Mock).mockReturnValue({ status: 'disconnected' });
+    (useAccount as jest.Mock).mockReturnValue({
+      address: '',
+      status: 'disconnected',
+    });
     (useConnect as jest.Mock).mockReturnValue({
-      connectors: [{ name: 'injected' }],
+      connectors: [{ id: 'mockConnector' }],
       connect: jest.fn(),
+      status: 'idle',
     });
-    (useDisconnect as jest.Mock).mockReturnValue({ disconnect: jest.fn() });
-  });
-
-  it('should display connect wallet button when disconnected', async () => {
-    render(<ConnectWallet />);
-
-    await waitFor(() => {
-      const connectWalletButton = screen.getByText('Connect wallet');
-      expect(connectWalletButton).toBeInTheDocument();
+    (useWalletContext as jest.Mock).mockReturnValue({
+      isOpen: false,
+      setIsOpen: jest.fn(),
     });
   });
 
-  it('should display connected wallet when connected', async () => {
+  test('renders connect button when disconnected', () => {
+    render(<ConnectWallet label="Connect Wallet" />);
+
+    const button = screen.getByTestId('ockConnectWallet_ConnectButton');
+    expect(button).toBeInTheDocument();
+    expect(button).toHaveTextContent('Connect Wallet');
+  });
+
+  test('renders spinner when loading', () => {
+    (useConnect as jest.Mock).mockReturnValue({
+      connectors: [{ id: 'mockConnector' }],
+      connect: jest.fn(),
+      status: 'pending',
+    });
     (useAccount as jest.Mock).mockReturnValue({
-      status: 'connected',
-      address: '0x1234',
+      address: '',
+      status: 'connecting',
     });
 
-    render(<ConnectWallet />);
+    render(<ConnectWallet label="Connect Wallet" />);
 
-    await waitFor(() => {
-      const connectedWallet = screen.getByText('Connected wallet: 0x1234');
-      expect(connectedWallet).toBeInTheDocument();
-    });
+    const spinner = screen.getByTestId('ockSpinner');
+    expect(spinner).toBeInTheDocument();
   });
 
-  it('should call connect when connect button is clicked', async () => {
-    render(<ConnectWallet />);
-
-    await waitFor(() => {
-      const connectWalletButton = screen.getByText('Connect wallet');
-      connectWalletButton.click();
-      expect(useConnect().connect).toHaveBeenCalled();
-    });
-  });
-
-  it('should call disconnect when disconnect button is clicked', async () => {
+  test('renders children when connected', () => {
     (useAccount as jest.Mock).mockReturnValue({
+      address: '0x123',
       status: 'connected',
-      address: '0x1234',
     });
 
-    render(<ConnectWallet />);
+    render(
+      <ConnectWallet label="Connect Wallet">
+        <div>Wallet Connected</div>
+      </ConnectWallet>,
+    );
 
-    await waitFor(() => {
-      const connectedWallet = screen.getByText('Connected wallet: 0x1234');
-      connectedWallet.click();
-      expect(useDisconnect().disconnect).toHaveBeenCalled();
+    const connectedText = screen.getByText('Wallet Connected');
+    expect(connectedText).toBeInTheDocument();
+  });
+
+  test('calls connect function when connect button is clicked', () => {
+    const connectMock = jest.fn();
+    (useConnect as jest.Mock).mockReturnValue({
+      connectors: [{ id: 'mockConnector' }],
+      connect: connectMock,
+      status: 'idle',
+    });
+
+    render(<ConnectWallet label="Connect Wallet" />);
+
+    const button = screen.getByTestId('ockConnectWallet_ConnectButton');
+    fireEvent.click(button);
+
+    expect(connectMock).toHaveBeenCalledWith({
+      connector: { id: 'mockConnector' },
     });
   });
 
-  it('should render children when provided and is connected', async () => {
+  test('toggles wallet modal on button click when connected', () => {
+    const setIsOpenMock = jest.fn();
     (useAccount as jest.Mock).mockReturnValue({
+      address: '0x123',
       status: 'connected',
-      address: '0x1234',
     });
-    render(<ConnectWallet>Custom Children</ConnectWallet>);
+    (useWalletContext as jest.Mock).mockReturnValue({
+      isOpen: false,
+      setIsOpen: setIsOpenMock,
+    });
 
-    await waitFor(() => {
-      const customChildren = screen.getByText('Custom Children');
-      expect(customChildren).toBeInTheDocument();
-    });
+    render(
+      <ConnectWallet label="Connect Wallet">
+        <div>Wallet Connected</div>
+      </ConnectWallet>,
+    );
+
+    const button = screen.getByText('Wallet Connected');
+    fireEvent.click(button);
+
+    expect(setIsOpenMock).toHaveBeenCalledWith(true);
   });
 });
