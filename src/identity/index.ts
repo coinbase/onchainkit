@@ -4,6 +4,7 @@ export { Avatar } from './components/Avatar';
 export { Badge } from './components/Badge';
 export { Name } from './components/Name';
 export { Identity } from './components/Identity';
+export { IdentityLayout } from './components/IdentityLayout';
 export { getAvatar } from './core/getAvatar';
 export { getName } from './core/getName';
 export { useAvatar } from './hooks/useAvatar';

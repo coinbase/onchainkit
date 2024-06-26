@@ -2,7 +2,7 @@ import type { Address } from 'viem';
 import type { ReactNode } from 'react';
 import { useOnchainKit } from '../../useOnchainKit';
 import { useAttestations } from '../hooks/useAttestations';
-import { useIdentityContext } from '../context';
+import { useIdentityContext } from './IdentityProvider';
 
 type DisplayBadgeReact = {
   children: ReactNode;
@@ -15,7 +15,7 @@ export function DisplayBadge({ children, address }: DisplayBadgeReact) {
     useIdentityContext();
   if (!contextSchemaId && !schemaId) {
     throw new Error(
-      'Name: a SchemaId must be provided to the Identity or Avatar component.',
+      'Name: a SchemaId must be provided to the OnchainKitProvider or Identity component.',
     );
   }
   const attestations = useAttestations({

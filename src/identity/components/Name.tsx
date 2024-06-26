@@ -1,5 +1,5 @@
 import { Children, useMemo } from 'react';
-import { useIdentityContext } from '../context';
+import { useIdentityContext } from './IdentityProvider';
 import { getSlicedAddress } from '../getSlicedAddress';
 import { useName } from '../hooks/useName';
 import type { NameReact } from '../types';

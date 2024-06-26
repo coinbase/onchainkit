@@ -2,11 +2,13 @@ import type { UserOperation } from 'permissionless';
 import type { Address, PublicClient } from 'viem';
 import type { SwapError } from '../swap';
 import type { UseBalanceReturnType, UseReadContractReturnType } from 'wagmi';
+import type { Dispatch, SetStateAction } from 'react';
 
 /**
  * Note: exported as public Type
  */
 export type ConnectAccountReact = {
+  label?: string;
   children?: React.ReactNode; // Children can be utilized to display customized content when the wallet is connected.
 };
 
@@ -51,6 +53,8 @@ export type UseGetTokenBalanceResponse = {
  */
 export type WalletContextType = {
   address?: Address | null; // The Ethereum address to fetch the avatar and name for.
+  isOpen: boolean;
+  setIsOpen: Dispatch<SetStateAction<boolean>>;
 };
 
 /**

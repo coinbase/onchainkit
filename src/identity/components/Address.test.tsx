@@ -5,10 +5,10 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { Address } from './Address';
-import { useIdentityContext } from '../context';
+import { useIdentityContext } from './IdentityProvider';
 import { getSlicedAddress } from '../getSlicedAddress';
 
-jest.mock('../context', () => ({
+jest.mock('./IdentityProvider', () => ({
   useIdentityContext: jest.fn(),
 }));
 
