@@ -5,7 +5,7 @@ import React from 'react';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { SwapButton } from './SwapButton';
-import { useSwapContext } from '../context';
+import { useSwapContext } from './SwapProvider';
 import { buildSwapTransaction } from '../core/buildSwapTransaction';
 import { isSwapError } from '../core/isSwapError';
 import type { SwapError } from '../types';
@@ -30,14 +30,17 @@ describe('SwapButton', () => {
   beforeEach(() => {
     mockedUseSwapContext.mockReturnValue({
       address: '0x123',
-      fromAmount: 100,
-      fromToken: 'ETH',
+      from: {
+        amount: 100,
+        token: 'ETH',
+      },
+      to: {
+        amount: 5,
+        token: 'DAI',
+      },
       toAmount: 5,
-      setSwapErrorState: jest.fn(),
-      setSwapLoadingState: jest.fn(),
-      swapLoadingState: mockSwapLoadingState,
-      toToken: 'DAI',
       setError: jest.fn(),
+      loading: mockSwapLoadingState,
     });
     mockedBuildSwapTransaction.mockResolvedValue('mocked-response');
     mockedIsSwapError.mockReturnValue(false);

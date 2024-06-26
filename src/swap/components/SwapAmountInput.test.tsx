@@ -52,7 +52,6 @@ const mockContextValue = {
   handleFromAmountChange: jest.fn(),
   handleToAmountChange: jest.fn(),
   handleToggle: jest.fn(),
-  setError: jest.fn(),
   roundedFromTokenBalance: '0.00028518',
   roundedToTokenBalance: '3304007.277394',
   setFromAmount: jest.fn(),

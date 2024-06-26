@@ -1,117 +1,72 @@
 import { useCallback, useEffect, useMemo } from 'react';
-
-import { useSwapContext } from '../context';
 import { TokenChip, TokenSelectDropdown } from '../../token';
 import { background, cn, color, pressable, text } from '../../styles/theme';
 import { TextInput } from '../../internal/form/TextInput';
 import { isValidAmount } from '../../utils/isValidAmount';
+import { getRoundedAmount } from '../../utils/getRoundedAmount';
+import { useSwapContext } from './SwapProvider';
 import type { SwapAmountInputReact } from '../types';
 import type { Token } from '../../token';
 
+function useValue<T>(object: T): T {
+  return useMemo(() => object, [object]);
+}
+
 export function SwapAmountInput({
+  className,
   delayMs = 1000,
   label,
   token,
   type,
   swappableTokens,
-  className,
 }: SwapAmountInputReact) {
-  const {
-    convertedFromTokenBalance,
-    convertedToTokenBalance,
-    fromAmount,
-    fromToken,
-    handleFromAmountChange,
-    handleToAmountChange,
-    roundedFromTokenBalance,
-    roundedToTokenBalance,
-    setFromAmount,
-    setFromToken,
-    setToAmount,
-    setToToken,
-    swapLoadingState,
-    toAmount,
-    toToken,
-  } = useSwapContext();
+  const { to, from, handleAmountChange } = useSwapContext();
 
-  const {
-    amount,
-    convertedBalance,
-    handleAmountChange,
-    roundedBalance,
-    setAmount,
-    setToken,
-    selectedToken,
-  } = useMemo(() => {
-    if (type === 'to') {
-      return {
-        amount: toAmount,
-        convertedBalance: convertedToTokenBalance,
-        handleAmountChange: handleToAmountChange,
-        isSwapQuoteLoading: swapLoadingState.isToQuoteLoading,
-        roundedBalance: roundedToTokenBalance,
-        selectedToken: toToken,
-        setAmount: setToAmount,
-        setToken: setToToken,
-      };
+  const source = useValue(type === 'from' ? from : to);
+  const destination = useValue(type === 'from' ? to : from);
+
+  useEffect(() => {
+    if (token) {
+      source.setToken(token);
     }
-    return {
-      amount: fromAmount,
-      convertedBalance: convertedFromTokenBalance,
-      handleAmountChange: handleFromAmountChange,
-      isSwapQuoteLoading: swapLoadingState.isFromQuoteLoading,
-      roundedBalance: roundedFromTokenBalance,
-      selectedToken: fromToken,
-      setAmount: setFromAmount,
-      setToken: setFromToken,
-    };
-  }, [
-    convertedFromTokenBalance,
-    convertedToTokenBalance,
-    fromAmount,
-    fromToken,
-    handleFromAmountChange,
-    handleToAmountChange,
-    roundedFromTokenBalance,
-    roundedToTokenBalance,
-    setFromAmount,
-    setFromToken,
-    setToAmount,
-    setToToken,
-    swapLoadingState,
-    toAmount,
-    toToken,
-    type,
-  ]);
+  }, [token, source.setToken]);
+
+  const handleMaxButtonClick = useCallback(() => {
+    if (!source.balance) {
+      return;
+    }
+    source.setAmount(source.balance);
+    handleAmountChange(type, source.balance);
+  }, [source.balance, source.setAmount, handleAmountChange, type]);
+
+  const handleChange = useCallback(
+    (amount: string) => {
+      handleAmountChange(type, amount);
+    },
+    [handleAmountChange, type],
+  );
+
+  const handleSetToken = useCallback(
+    (token: Token) => {
+      source.setToken(token);
+      handleAmountChange(type, source.amount, token);
+    },
+    [source.amount, source.setToken, handleAmountChange, type],
+  );
 
   // we are mocking the token selectors so i'm not able
   // to test this since the components aren't actually rendering
   /* istanbul ignore next */
-  const filteredTokens = useMemo(() => {
-    if (type === 'to') {
-      return swappableTokens?.filter(
-        (t: Token) => t.symbol !== fromToken?.symbol,
-      );
-    }
-    return swappableTokens?.filter((t: Token) => t.symbol !== toToken?.symbol);
-  }, [fromToken, swappableTokens, toToken, type]);
-
-  const handleMaxButtonClick = useCallback(() => {
-    if (!convertedBalance) {
-      return;
-    }
-    setAmount?.(convertedBalance);
-    handleAmountChange?.(convertedBalance);
-  }, [convertedBalance, setAmount, handleAmountChange]);
-
-  useEffect(() => {
-    if (token) {
-      setToken(token);
-    }
-  }, [token, setToken]);
+  const sourceTokenOptions = useMemo(() => {
+    return (
+      swappableTokens?.filter(
+        ({ symbol }: Token) => symbol !== destination.token?.symbol,
+      ) ?? []
+    );
+  }, [swappableTokens, destination.token]);
 
   const hasInsufficientBalance =
-    type === 'from' && Number(convertedBalance) < Number(amount);
+    type === 'from' && Number(source.balance) < Number(source.amount);
 
   return (
     <div
@@ -135,31 +90,33 @@ export function SwapAmountInput({
             'leading-none outline-none',
             hasInsufficientBalance ? color.error : color.foreground,
           )}
-          onChange={handleAmountChange}
           placeholder="0.0"
-          value={amount}
-          setValue={setAmount}
           delayMs={delayMs}
+          value={source.amount}
+          setValue={source.setAmount}
+          disabled={source.loading}
+          onChange={handleChange}
           inputValidator={isValidAmount}
         />
-        {filteredTokens && (
+        {sourceTokenOptions.length > 0 ? (
           <TokenSelectDropdown
-            options={filteredTokens}
-            setToken={setToken}
-            token={selectedToken}
+            token={source.token}
+            setToken={handleSetToken}
+            options={sourceTokenOptions}
           />
-        )}
-        {selectedToken && !filteredTokens && (
-          <TokenChip className={pressable.inverse} token={selectedToken} />
+        ) : (
+          source.token && (
+            <TokenChip className={pressable.inverse} token={source.token} />
+          )
         )}
       </div>
       <div className="mt-4 flex w-full justify-between">
         <span className={cn(text.label2, 'text-foregroune-muted')}>{''}</span>
         <div className="flex items-center">
-          {roundedBalance && (
+          {source.balance && (
             <span
               className={cn(text.label2, 'text-foreground-muted')}
-            >{`Balance: ${roundedBalance}`}</span>
+            >{`Balance: ${getRoundedAmount(source.balance, 8)}`}</span>
           )}
           {type === 'from' && (
             <button

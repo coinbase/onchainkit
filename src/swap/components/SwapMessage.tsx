@@ -1,27 +1,16 @@
-import { useSwapContext } from '../context';
-import { text, cn } from '../../styles/theme';
 import { getSwapMessage } from '../core/getSwapMessage';
+import { cn, text } from '../../styles/theme';
+import { useSwapContext } from './SwapProvider';
 import type { SwapMessageReact } from '../types';
 
 export function SwapMessage({ className }: SwapMessageReact) {
-  const {
-    convertedFromTokenBalance,
-    fromAmount,
-    fromToken,
-    swapErrorState,
-    swapLoadingState,
-    toAmount,
-    toToken,
-  } = useSwapContext();
+  const { to, from, error, loading } = useSwapContext();
 
   const message = getSwapMessage({
-    convertedFromTokenBalance,
-    fromAmount,
-    fromToken,
-    swapErrorState,
-    swapLoadingState,
-    toAmount,
-    toToken,
+    error,
+    from,
+    loading,
+    to,
   });
 
   return (
