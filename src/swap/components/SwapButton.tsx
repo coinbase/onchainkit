@@ -3,11 +3,7 @@ import { Spinner } from '../../internal/loading/Spinner';
 import { useSwapContext } from './SwapProvider';
 import type { SwapButtonReact } from '../types';
 
-export function SwapButton({
-  className,
-  disabled = false,
-  onSubmit,
-}: SwapButtonReact) {
+export function SwapButton({ className, disabled = false }: SwapButtonReact) {
   const { to, from, loading, handleSubmit } = useSwapContext();
 
   const isLoading = to.loading || from.loading || loading;
@@ -29,9 +25,9 @@ export function SwapButton({
         'mt-4 px-4 py-3 font-medium text-base text-white leading-6',
         isDisabled && pressable.disabled,
         text.headline,
-        className,
+        className
       )}
-      onClick={() => onSubmit && handleSubmit(onSubmit)}
+      onClick={() => handleSubmit()}
       disabled={isDisabled}
       data-testid="ockSwapButton_Button"
     >
