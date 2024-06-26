@@ -4,7 +4,7 @@
 import React from 'react';
 import '@testing-library/jest-dom';
 import { render, renderHook } from '@testing-library/react';
-import { Address } from 'viem';
+import type { Address } from 'viem';
 import { IdentityProvider, useIdentityContext } from './IdentityProvider';
 
 describe('IdentityProvider', () => {

@@ -2,7 +2,7 @@ import type { UserOperation } from 'permissionless';
 import type { Address, PublicClient } from 'viem';
 import type { SwapError } from '../swap';
 import type { UseBalanceReturnType, UseReadContractReturnType } from 'wagmi';
-import { Dispatch, SetStateAction } from 'react';
+import type { Dispatch, SetStateAction } from 'react';
 
 /**
  * Note: exported as public Type

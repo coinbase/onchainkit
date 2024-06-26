@@ -1,4 +1,4 @@
-import { Children, useMemo, ReactNode } from 'react';
+import { Children, useMemo, type ReactNode } from 'react';
 import { Avatar } from './Avatar';
 import { Name } from './Name';
 import { Address } from './Address';

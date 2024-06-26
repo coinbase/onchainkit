@@ -1,4 +1,4 @@
-import { ReactNode, useState } from 'react';
+import { type ReactNode, useState } from 'react';
 import { createContext, useContext } from 'react';
 import type { WalletContextType } from '../types';
 import { useValue } from '../../internal/hooks/useValue';

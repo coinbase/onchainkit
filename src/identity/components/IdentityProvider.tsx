@@ -1,5 +1,5 @@
-import { ReactNode, useState, createContext, useContext } from 'react';
-import { Address } from 'viem';
+import { type ReactNode, useState, createContext, useContext } from 'react';
+import type { Address } from 'viem';
 import { useValue } from '../../internal/hooks/useValue';
 import type { IdentityContextType } from '../types';
 

@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import React, { ReactNode } from 'react';
+import React, { type ReactNode } from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { ConnectWallet } from './ConnectWallet';
