@@ -10,6 +10,7 @@ export const IdentityContext = createContext<IdentityContextType>(emptyContext);
 export function useIdentityContext() {
   return useContext(IdentityContext);
 }
+
 type IdentityProvider = {
   address?: Address;
   children: ReactNode;

@@ -19,7 +19,7 @@ jest.mock('../getSlicedAddress', () => ({
   getSlicedAddress: jest.fn(),
 }));
 
-jest.mock('../context', () => ({
+jest.mock('./IdentityProvider', () => ({
   useIdentityContext: jest.fn(),
 }));
 

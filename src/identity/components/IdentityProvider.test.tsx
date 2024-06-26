@@ -12,14 +12,12 @@ describe('IdentityProvider', () => {
     const address: Address = '0x1234567890abcdef1234567890abcdef12345678';
     const schemaId: Address = '0xabcdefabcdefabcdefabcdefabcdefabcdef';
 
-    render(
-      <IdentityProvider address={address} schemaId={schemaId}>
-        <div />
-      </IdentityProvider>,
-    );
-
     const { result } = renderHook(() => useIdentityContext(), {
-      wrapper: IdentityProvider,
+      wrapper: ({ children }) => (
+        <IdentityProvider address={address} schemaId={schemaId}>
+          {children}
+        </IdentityProvider>
+      ),
     });
     expect(result.current.address).toEqual(address);
     expect(result.current.schemaId).toEqual(schemaId);

@@ -3,41 +3,44 @@
  */
 import React from 'react';
 import '@testing-library/jest-dom';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
+import { useAccount } from 'wagmi';
 import { WalletDropdown } from './WalletDropdown';
-import { Avatar } from '../../identity/components/Avatar';
-import { Identity } from '../../identity/components/Identity';
-import { useName } from '../../identity/hooks/useName';
-import { useAvatar } from '../../identity/hooks/useAvatar';
+import { useWalletContext } from './WalletProvider';
 
-jest.mock('../../identity/hooks/useAvatar', () => ({
-  useAvatar: jest.fn(),
+jest.mock('wagmi', () => ({
+  useAccount: jest.fn(),
 }));
 
-jest.mock('../../identity/hooks/useName', () => ({
-  useName: jest.fn(),
+jest.mock('./WalletProvider', () => ({
+  useWalletContext: jest.fn(),
 }));
 
-describe('WalletDropdown Component', () => {
-  beforeEach(() => {
-    jest.clearAllMocks();
+describe('WalletDropdown', () => {
+  it('renders null when isOpen is false', () => {
+    (useWalletContext as jest.Mock).mockReturnValue({ isOpen: false });
+    (useAccount as jest.Mock).mockReturnValue({ address: '0x123' });
+
+    render(<WalletDropdown>Test Children</WalletDropdown>);
+
+    expect(screen.queryByText('Test Children')).not.toBeInTheDocument();
   });
 
-  it('should render the Identity component with Avatar', async () => {
-    (useAvatar as jest.Mock).mockReturnValue({
-      data: 'avatar_url',
-      isLoading: false,
-    });
-    (useName as jest.Mock).mockReturnValue({ data: 'name', isLoading: false });
-    render(
-      <WalletDropdown>
-        <Identity address="0x123456789">
-          <Avatar />
-        </Identity>
-      </WalletDropdown>,
-    );
-    await waitFor(() => {
-      expect(screen.getByTestId('ockAvatar_Image')).toBeInTheDocument();
-    });
+  it('renders null when address is not provided', () => {
+    (useWalletContext as jest.Mock).mockReturnValue({ isOpen: true });
+    (useAccount as jest.Mock).mockReturnValue({ address: null });
+
+    render(<WalletDropdown>Test Children</WalletDropdown>);
+
+    expect(screen.queryByText('Test Children')).not.toBeInTheDocument();
+  });
+
+  it('renders children when isOpen is true and address is provided', () => {
+    (useWalletContext as jest.Mock).mockReturnValue({ isOpen: true });
+    (useAccount as jest.Mock).mockReturnValue({ address: '0x123' });
+
+    render(<WalletDropdown>Test Children</WalletDropdown>);
+
+    expect(screen.getByText('Test Children')).toBeInTheDocument();
   });
 });

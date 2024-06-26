@@ -2,7 +2,7 @@ import type { Address } from 'viem';
 import type { ReactNode } from 'react';
 import { useOnchainKit } from '../../useOnchainKit';
 import { useAttestations } from '../hooks/useAttestations';
-import { useIdentityContext } from '../context';
+import { useIdentityContext } from './IdentityProvider';
 
 type DisplayBadgeReact = {
   children: ReactNode;

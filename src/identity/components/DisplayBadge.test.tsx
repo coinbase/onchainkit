@@ -8,7 +8,7 @@ import { DisplayBadge } from './DisplayBadge';
 import { Badge } from './Badge';
 import { useOnchainKit } from '../../useOnchainKit';
 import { useAttestations } from '../hooks/useAttestations';
-import { useIdentityContext } from '../context';
+import { useIdentityContext } from './IdentityProvider';
 
 jest.mock('../../useOnchainKit', () => ({
   useOnchainKit: jest.fn(),
@@ -16,7 +16,7 @@ jest.mock('../../useOnchainKit', () => ({
 jest.mock('../hooks/useAttestations', () => ({
   useAttestations: jest.fn(),
 }));
-jest.mock('../context', () => ({
+jest.mock('./IdentityProvider', () => ({
   useIdentityContext: jest.fn(),
 }));
 
