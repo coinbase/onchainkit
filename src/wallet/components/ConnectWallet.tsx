@@ -7,6 +7,8 @@ import { useOnchainKit } from '../../useOnchainKit';
 import { Spinner } from '../../internal/loading/Spinner';
 import { walletSvg } from './walletSvg';
 import { disconnectSvg } from './disconnectSvg';
+import { IdentityProvider } from '../../identity/components/IdentityProvider';
+import { useWalletContext } from './WalletProvider';
 
 function ConnectedDropdownContent() {
   const { schemaId } = useOnchainKit();
@@ -82,7 +84,7 @@ function Connected({ override }: ConnectedWalletReact) {
   if (!address) return null;
 
   return (
-    <div className="relative shrink-0">
+    <div className="relative shrink-0 w-fit">
       <button
         type="button"
         className={cn(
@@ -106,14 +108,19 @@ export function ConnectWallet({
   label = 'Connect Wallet',
   children,
 }: ConnectWalletReact) {
-  const { status } = useAccount();
+  const { isOpen, setIsOpen } = useWalletContext();
+  const { address, status } = useAccount();
   const { connectors, connect, status: connectStatus } = useConnect();
+  const handleToggle = useCallback(() => {
+    setIsOpen(!isOpen);
+  }, [isOpen]);
+
   const connector = connectors[0];
   const isLoading = connectStatus === 'pending';
 
   if (status === 'disconnected' || status === 'connecting') {
     return (
-      <div className="flex" data-testid="ockConnectAccount_Container">
+      <div className="flex" data-testid="ockConnectWallet_Container">
         <button
           type="button"
           data-testid="ockConnectAccountButtonInner"
@@ -133,7 +140,7 @@ export function ConnectWallet({
 
   if (isLoading) {
     return (
-      <div className="flex" data-testid="ockConnectAccount_Container">
+      <div className="flex" data-testid="ockConnectWallet_Container">
         <button
           type="button"
           data-testid="ockConnectAccountButtonInner"
@@ -153,8 +160,20 @@ export function ConnectWallet({
   }
 
   return (
-    <div className="flex" data-testid="ockConnectAccount_Container">
-      <Connected override={children} />
-    </div>
+    <IdentityProvider address={address}>
+      <div className="flex gap-4" data-testid="ockConnectWallet_Container">
+        <button
+          type="button"
+          className={cn(
+            pressable.secondary,
+            'rounded-xl px-4 py-3',
+            isOpen && 'bg-secondary-active',
+          )}
+          onClick={handleToggle}
+        >
+          <div className="flex gap-2">{children}</div>
+        </button>
+      </div>
+    </IdentityProvider>
   );
 }
