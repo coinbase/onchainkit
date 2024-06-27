@@ -5,7 +5,7 @@ import { useWalletContext } from './WalletProvider';
 import { background, cn } from '../../styles/theme';
 import { Identity } from '../../identity/components/Identity';
 
-export function WalletDropdown({ children }: WalletDropdownReact) {
+export function WalletDropdown({ children, className }: WalletDropdownReact) {
   const { isOpen } = useWalletContext();
 
   const { address } = useAccount();
@@ -29,6 +29,7 @@ export function WalletDropdown({ children }: WalletDropdownReact) {
       className={cn(
         background.default,
         'absolute right-0 z-10 mt-1 flex w-max min-w-[250px] flex-col overflow-hidden rounded-xl pb-2',
+        className,
       )}
     >
       {childrenArray}
