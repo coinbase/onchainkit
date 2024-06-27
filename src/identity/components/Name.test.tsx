@@ -10,6 +10,7 @@ import { useAttestations } from '../hooks/useAttestations';
 import { Name } from './Name';
 import { Badge } from './Badge';
 import { useIdentityContext } from './IdentityProvider';
+import { silenceError } from '../../internal/testing';
 
 jest.mock('../hooks/useName', () => ({
   useName: jest.fn(),
@@ -43,11 +44,13 @@ describe('OnchainAddress', () => {
     (useIdentityContext as jest.Mock).mockReturnValue({
       schemaId: '0x123',
     });
+    const restore = silenceError();
     expect(() => {
       render(<Name />);
     }).toThrow(
       'Name: an Ethereum address must be provided to the Identity or Name component.',
     );
+    restore();
   });
 
   it('displays ENS name when available', () => {

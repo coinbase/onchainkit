@@ -2,25 +2,26 @@
 export { Address } from './components/Address';
 export { Avatar } from './components/Avatar';
 export { Badge } from './components/Badge';
-export { Name } from './components/Name';
+export { EthBalance } from './components/EthBalance';
 export { Identity } from './components/Identity';
 export { IdentityLayout } from './components/IdentityLayout';
+export { Name } from './components/Name';
+export { getAttestations } from './getAttestations';
 export { getAvatar } from './core/getAvatar';
 export { getName } from './core/getName';
+export { useAttestations } from './hooks/useAttestations';
 export { useAvatar } from './hooks/useAvatar';
 export { useName } from './hooks/useName';
-export { useAttestations } from './hooks/useAttestations';
-export { getAttestations } from './getAttestations';
 export type {
   Attestation,
   AvatarReact,
   BadgeReact,
-  EASSchemaUid,
   EASChainDefinition,
+  EASSchemaUid,
   GetAttestationsOptions,
   GetAvatar,
   GetAvatarReturnType,
   GetNameReturnType,
-  IdentityReact,
   IdentityContextType,
+  IdentityReact,
 } from './types';

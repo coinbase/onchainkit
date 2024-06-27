@@ -11,6 +11,7 @@ import { useAttestations } from '../hooks/useAttestations';
 import { useAvatar } from '../hooks/useAvatar';
 import { Avatar } from './Avatar';
 import { Badge } from './Badge';
+import { silenceError } from '../../internal/testing';
 
 jest.mock('../../useOnchainKit', () => ({
   useOnchainKit: jest.fn(),
@@ -34,11 +35,13 @@ describe('Avatar Component', () => {
   });
 
   it('should throw an error when no address is provided', () => {
+    const restore = silenceError();
     expect(() => {
       render(<Avatar />);
     }).toThrow(
       'Avatar: an Ethereum address must be provided to the Identity or Avatar component.',
     );
+    restore();
   });
 
   it('should display loading indicator when loading', async () => {
