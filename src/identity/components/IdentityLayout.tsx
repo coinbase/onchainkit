@@ -1,8 +1,21 @@
-import { Children, useMemo, type ReactNode } from 'react';
+import {
+  Children,
+  useMemo,
+  isValidElement,
+  type ReactNode,
+  type ReactElement,
+} from 'react';
 import { Avatar } from './Avatar';
 import { Name } from './Name';
 import { Address } from './Address';
-import { background, cn } from '../../styles/theme';
+import { background, cn, color } from '../../styles/theme';
+import { EthBalance } from './EthBalance';
+
+function findComponent<T>(component: React.ComponentType<T>) {
+  return (child: ReactNode): child is ReactElement<T> => {
+    return isValidElement(child) && child.type === component;
+  };
+}
 
 type IdentityLayoutReact = {
   children: ReactNode;
@@ -10,15 +23,13 @@ type IdentityLayoutReact = {
 };
 
 export function IdentityLayout({ children, className }: IdentityLayoutReact) {
-  const { avatar, name, addressComponent } = useMemo(() => {
+  const { avatar, name, address, ethBalance } = useMemo(() => {
     const childrenArray = Children.toArray(children);
     return {
-      // @ts-ignore
-      avatar: childrenArray.find(({ type }) => type === Avatar),
-      // @ts-ignore
-      name: childrenArray.find(({ type }) => type === Name),
-      // @ts-ignore
-      addressComponent: childrenArray.find(({ type }) => type === Address),
+      avatar: childrenArray.find(findComponent(Avatar)),
+      name: childrenArray.find(findComponent(Name)),
+      address: childrenArray.find(findComponent(Address)),
+      ethBalance: childrenArray.find(findComponent(EthBalance)),
     };
   }, [children]);
 
@@ -34,7 +45,15 @@ export function IdentityLayout({ children, className }: IdentityLayoutReact) {
       {avatar}
       <div className="flex flex-col">
         {name}
-        {addressComponent}
+        {address && !ethBalance && address}
+        {!address && ethBalance && ethBalance}
+        {address && ethBalance && (
+          <div className="flex items-center gap-1">
+            {address}
+            <span className={color.foregroundMuted}>·</span>
+            {ethBalance}
+          </div>
+        )}
       </div>
     </div>
   );

@@ -12,7 +12,7 @@ export function Address({ address = null, className }: AddressReact) {
   }
 
   return (
-    <span className={cn(text.label2, className)}>
+    <span data-testid="ockAddress" className={cn(text.label2, className)}>
       {getSlicedAddress(contextAddress ?? address)}
     </span>
   );

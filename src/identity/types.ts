@@ -72,6 +72,14 @@ export type EASChainDefinition = {
 };
 
 /**
+ * Note: exported as public Type
+ */
+export type EthBalanceReact = {
+  address?: Address;
+  className?: string;
+};
+
+/**
  * Attestation Options
  *
  * Note: exported as public Type
@@ -140,26 +148,4 @@ export type UseAttestations = {
   address: Address;
   chain: Chain;
   schemaId: Address | null;
-};
-
-export type WithAvatarBadgeInnerReact = {
-  children: React.ReactNode;
-  address: Address;
-};
-
-export type WithAvatarBadgeReact = {
-  children: React.ReactNode;
-  showAttestation: boolean;
-  address: Address;
-};
-
-export type WithNameBadgeInnerReact = {
-  children: React.ReactNode;
-  address: Address;
-};
-
-export type WithNameBadgeReact = {
-  children: React.ReactNode;
-  showAttestation?: boolean;
-  address: Address;
 };
