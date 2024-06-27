@@ -1,17 +1,5 @@
-{/* import { Avatar, Identity, Name } from '../../../../src/identity'; */}
+'use client';
 
-import App from '../../components/App';
-import { WalletDemo } from '../../components/WalletDemo';
-
-# `<Wallet />`
-
-:::warning
-Component is actively in development. Stay tuned for upcoming releases.
-:::
-
-## Usage
-
-```tsx
 import {
   ConnectWallet,
   Wallet,
@@ -55,12 +43,3 @@ export function WalletDemo() {
     </div>
   );
 }
-```
-
-<App>
-  <WalletDemo />
-</App>
-
-## Props
-
-[`WalletReact`](/identity/types#walletreact)
