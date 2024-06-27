@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.23.4
+
+### Patch Changes
+
+- 6a3fde5: - **feat**: add className to ConnectWallet and WalletDropdown components. By @kyhyco #737
+
 ## 0.23.3
 
 ### Patch Changes
