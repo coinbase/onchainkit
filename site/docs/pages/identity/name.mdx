@@ -15,7 +15,7 @@ import { Name } from '@coinbase/onchainkit/identity';
 ```
 
 <App>
-  <Name address="0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1" />
+  <Name className='bg-gray-300 rounded' address="0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1"/>
 </App>
 
 Override styles via `className` prop:
@@ -23,13 +23,13 @@ Override styles via `className` prop:
 ```tsx
 import { Name } from '@coinbase/onchainkit/identity';
 <Name
-  className="bg-default"// [!code focus]
+  className="bg-emerald-400"// [!code focus]
   address="0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1"
 />
 ```
 
 <App>
-  <Name className="bg-default px-2 py-1" address="0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1" />
+  <Name className="bg-emerald-400 px-2 py-1 rounded" address="0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1" />
 </App>
 
 Address without an ENS name, and it defaults to his sliced address:
@@ -40,7 +40,18 @@ import { Name } from '@coinbase/onchainkit/identity';
 ```
 
 <App>
-  <Name address="0x1234567890abcdef1234567890abcdef12345678" />
+  <Name className='bg-gray-300 rounded' address="0x435233231234567890abcdef1234567890abcdef12345678" />
+</App>
+
+Set `isSliced` to false, to display the full address if the ENS name is not found:
+
+```tsx
+import { Name } from '@coinbase/onchainkit/identity';
+<Name address="0x1234567890abcdef1234567890abcdef12345678" isSliced={false}/> // [!code focus]
+```
+
+<App>
+  <Name className='bg-gray-300 rounded' address="0x435233231234567890abcdef1234567890abcdef12345678" isSliced={false}/>
 </App>
 
 Show attestation on ENV name with [`Badge`](/identity/badge) component.
@@ -66,7 +77,7 @@ import { Badge, Name, Identity } from '@coinbase/onchainkit/identity'; // [!code
     address="0x838aD0EAE54F99F1926dA7C3b6bFbF617389B4D9"
     className="bg-transparent"
   >
-    <Name >
+    <Name className='bg-gray-300 rounded'>
       <Badge />
     </Name>
   </Identity>
