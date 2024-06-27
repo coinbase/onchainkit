@@ -3,12 +3,15 @@
  */
 import React from 'react';
 import '@testing-library/jest-dom';
-import { render, renderHook, screen } from '@testing-library/react';
+import { render, renderHook, screen, waitFor } from '@testing-library/react';
 import { useAccount } from 'wagmi';
 import { WalletDropdown } from './WalletDropdown';
 import { useWalletContext } from './WalletProvider';
 import { Identity } from '../../identity';
-import { useIdentityContext } from '../../identity/components/IdentityProvider';
+import {
+  IdentityProvider,
+  useIdentityContext,
+} from '../../identity/components/IdentityProvider';
 
 jest.mock('wagmi', () => ({
   useAccount: jest.fn(),
@@ -18,10 +21,19 @@ jest.mock('./WalletProvider', () => ({
   useWalletContext: jest.fn(),
 }));
 
+jest.mock('../../identity', () => ({
+  Identity: jest.fn(({ address, children }) => (
+    <IdentityProvider address={address}>{children}</IdentityProvider>
+  )),
+}));
+
+const useWalletContextMock = useWalletContext as jest.Mock;
+const useAccountMock = useAccount as jest.Mock;
+
 describe('WalletDropdown', () => {
   it('renders null when isOpen is false', () => {
-    (useWalletContext as jest.Mock).mockReturnValue({ isOpen: false });
-    (useAccount as jest.Mock).mockReturnValue({ address: '0x123' });
+    useWalletContextMock.mockReturnValue({ isOpen: false });
+    useAccountMock.mockReturnValue({ address: '0x123' });
 
     render(<WalletDropdown>Test Children</WalletDropdown>);
 
@@ -29,8 +41,8 @@ describe('WalletDropdown', () => {
   });
 
   it('renders null when address is not provided', () => {
-    (useWalletContext as jest.Mock).mockReturnValue({ isOpen: true });
-    (useAccount as jest.Mock).mockReturnValue({ address: null });
+    useWalletContextMock.mockReturnValue({ isOpen: true });
+    useAccountMock.mockReturnValue({ address: null });
 
     render(<WalletDropdown>Test Children</WalletDropdown>);
 
@@ -38,28 +50,29 @@ describe('WalletDropdown', () => {
   });
 
   it('renders children when isOpen is true and address is provided', () => {
-    (useWalletContext as jest.Mock).mockReturnValue({ isOpen: true });
-    (useAccount as jest.Mock).mockReturnValue({ address: '0x123' });
+    useWalletContextMock.mockReturnValue({ isOpen: true });
+    useAccountMock.mockReturnValue({ address: '0x123' });
 
     render(<WalletDropdown>Test Children</WalletDropdown>);
 
     expect(screen.getByText('Test Children')).toBeInTheDocument();
   });
 
-  it('injects address prop to Identity component', () => {
+  it('injects address prop to Identity component', async () => {
     const address = '0x123';
-    (useWalletContext as jest.Mock).mockReturnValue({ isOpen: true });
-    (useAccount as jest.Mock).mockReturnValue({ address });
+    useWalletContextMock.mockReturnValue({ isOpen: true });
+    useAccountMock.mockReturnValue({ address });
 
     const { result } = renderHook(() => useIdentityContext(), {
       wrapper: ({ children }) => (
         <WalletDropdown>
-          <Identity>{children}</Identity>
-          <div />
+          <Identity address="0x111">{children}</Identity>
         </WalletDropdown>
       ),
     });
 
-    expect(result.current.address).toEqual(address);
+    await waitFor(() => {
+      expect(result.current.address).toEqual(address);
+    });
   });
 });

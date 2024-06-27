@@ -1,8 +1,8 @@
+import { Children, cloneElement, isValidElement, useMemo } from 'react';
 import { useAccount } from 'wagmi';
 import type { WalletDropdownReact } from '../types';
 import { useWalletContext } from './WalletProvider';
 import { background, cn } from '../../styles/theme';
-import { Children, cloneElement, useMemo } from 'react';
 import { Identity } from '../../identity';
 
 export function WalletDropdown({ children }: WalletDropdownReact) {
@@ -11,15 +11,14 @@ export function WalletDropdown({ children }: WalletDropdownReact) {
   const { address } = useAccount();
 
   const childrenArray = useMemo(() => {
-    return Children.toArray(children).map((component) => {
-      // @ts-ignore
-      if (component.type === Identity) {
+    return Children.toArray(children).map((child) => {
+      if (isValidElement(child) && child.type === Identity) {
         // @ts-ignore
-        return cloneElement(component, { address });
+        return cloneElement(child, { address });
       }
-      return component;
+      return child;
     });
-  }, [children]);
+  }, [children, address]);
 
   if (!isOpen || !address) {
     return null;
