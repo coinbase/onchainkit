@@ -231,13 +231,12 @@ export const sidebar = [
   {
     text: 'Wallet',
     items: [
-      { text: 'Introduction', link: '/wallet/introduction' },
       {
         text: 'Components',
         items: [
           {
-            text: 'ConnectAccount',
-            link: '/wallet/connect-account',
+            text: 'Wallet',
+            link: '/wallet/wallet',
           },
         ],
       },
