@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import { useAccount, useConnect } from 'wagmi';
-import type { ConnectAccountReact as ConnectWalletReact } from '../types';
+import type { ConnectWalletReact } from '../types';
 import { cn, color, pressable, text } from '../../styles/theme';
 import { Spinner } from '../../internal/loading/Spinner';
 import { IdentityProvider } from '../../identity/components/IdentityProvider';
@@ -9,6 +9,7 @@ import { useWalletContext } from './WalletProvider';
 export function ConnectWallet({
   label = 'Connect Wallet',
   children,
+  className,
 }: ConnectWalletReact) {
   const { isOpen, setIsOpen } = useWalletContext();
   const { address, status } = useAccount();
@@ -31,6 +32,7 @@ export function ConnectWallet({
             text.headline,
             color.inverse,
             'inline-flex min-w-[153px] items-center justify-center rounded-xl px-4 py-3',
+            className,
           )}
           onClick={() => connect({ connector })}
         >
@@ -52,6 +54,7 @@ export function ConnectWallet({
             color.inverse,
             'inline-flex min-w-[153px] items-center justify-center rounded-xl px-4 py-3',
             pressable.disabled,
+            className,
           )}
           disabled
         >
@@ -71,6 +74,7 @@ export function ConnectWallet({
             pressable.secondary,
             'rounded-xl px-4 py-3',
             isOpen && 'bg-secondary-active hover:bg-secondary-active',
+            className,
           )}
           onClick={handleToggle}
         >

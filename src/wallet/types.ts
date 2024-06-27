@@ -15,6 +15,15 @@ export type ConnectAccountReact = {
 /**
  * Note: exported as public Type
  */
+export type ConnectWalletReact = {
+  label?: string; // Label when wallet is _not_ connected
+  children?: React.ReactNode; // Children can be utilized to display customized content when the wallet is connected.
+  className?: string; // Optional className override for button element
+};
+
+/**
+ * Note: exported as public Type
+ */
 export type IsValidAAEntrypointOptions = {
   entrypoint: string;
 };
