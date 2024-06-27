@@ -21,4 +21,11 @@ describe('getRoundedAmount', () => {
     const result = getRoundedAmount(balance, fractionDigits);
     expect(result).toBe('0');
   });
+
+  it('return 0 when user has more than 0 but less than the fractionDigits', () => {
+    const balance = '0.00004';
+    const fractionDigits = 4;
+    const result = getRoundedAmount(balance, fractionDigits);
+    expect(result).toBe('0');
+  });
 });

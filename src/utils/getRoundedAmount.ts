@@ -3,5 +3,13 @@ export function getRoundedAmount(balance: string, fractionDigits: number) {
     return balance;
   }
   const parsedBalance = Number.parseFloat(balance);
-  return Number(parsedBalance)?.toFixed(fractionDigits).replace(/0+$/, '');
+  const result = Number(parsedBalance)
+    ?.toFixed(fractionDigits)
+    .replace(/0+$/, '');
+
+  if (parsedBalance > 0 && Number.parseFloat(result) === 0) {
+    return '0';
+  }
+
+  return result;
 }
