@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import type { TokenSelectDropdownReact } from '../types';
 import { TokenRow } from './TokenRow';
 import { TokenSelectButton } from './TokenSelectButton';
-import { cn } from '../../styles/theme';
+import { background, cn } from '../../styles/theme';
 
 export function TokenSelectDropdown({
   options,
@@ -56,13 +56,14 @@ export function TokenSelectDropdown({
           ref={dropdownRef}
           data-testid="ockTokenSelectDropdown_List"
           className={cn(
-            'absolute z-10 mt-1 flex max-h-80 w-[250px] flex-col overflow-y-hidden rounded-lg',
+            'absolute right-0 z-10 mt-1 flex max-h-80 w-fit flex-col overflow-y-hidden rounded-lg',
             'ock-scrollbar',
           )}
         >
           <div className="overflow-y-auto bg-[#ffffff]">
             {options.map((token) => (
               <TokenRow
+                className={cn(background.inverse, 'px-4 py-2')}
                 key={token.name + token.address}
                 token={token}
                 onClick={() => {
