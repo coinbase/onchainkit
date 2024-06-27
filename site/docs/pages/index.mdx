@@ -10,7 +10,7 @@ showOutline: false
 import { base } from 'viem/chains';
 import { OnchainKitProvider } from '@coinbase/onchainkit';
 import { Address, Avatar, Badge, Name, Identity } from '@coinbase/onchainkit/identity';
-import AccountConnect from '../components/AccountConnect';
+import { WalletDemo } from '../components/WalletDemo';
 import App from '../components/App';
 import FarcasterCastCard from '../components/FarcasterCastCard';
 import TokenSelector from '../components/TokenSelector';
@@ -114,30 +114,30 @@ bun add @coinbase/onchainkit
   </aside>
   <aside className="md:px-2 pt-10">
     <p className="text-lg md:text-xl py-4">
-      Create or connect your wallet with [Connect Account](/wallet/connect-account), powered by [Smart Wallet](https://www.smartwallet.dev/why).
+      Create or connect your wallet with [Connect Wallet](/wallet/wallet), powered by [Smart Wallet](https://www.smartwallet.dev/why).
     </p>
     <div className="flex grow flex-col md:flex-row">
       <div>
 ```tsx
-<div className="flex flex-grow">
-  {(() => {
-    if (status === 'disconnected') {
-      return <ConnectAccount />; // [!code focus]
-    }
-    return (
-      <div className="flex h-8 w-8 items-center justify-center">
-        <button type="button" onClick={() => disconnect()}>
-          <Avatar address={address} />
-        </button>
-      </div>
-    );
-  })()}
-</div>
+      <Wallet> // [!code focus]
+        <ConnectWallet> // [!code focus]
+          <Avatar className="h-6 w-6" />
+          <Name />
+        </ConnectWallet> // [!code focus]
+        <WalletDropdown> // [!code focus]
+          <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick>
+          </Identity>
+          <WalletDropdownLink> // [!code focus]
+            Go to Wallet Dashboard // [!code focus]
+          </WalletDropdownLink> // [!code focus]
+          <WalletDropdownDisconnect /> // [!code focus]
+        </WalletDropdown> // [!code focus]
+      </Wallet> // [!code focus]
 ```
       </div>
       <div className='flex grow items-center justify-center h-24 md:h-auto'>
 <App>
-  <AccountConnect />
+  <WalletDemo />
 </App>
       </div>
     </div>
