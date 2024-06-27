@@ -1,21 +1,10 @@
-import {
-  Children,
-  useMemo,
-  isValidElement,
-  type ReactNode,
-  type ReactElement,
-} from 'react';
+import { Children, useMemo, type ReactNode } from 'react';
 import { Avatar } from './Avatar';
 import { Name } from './Name';
 import { Address } from './Address';
 import { background, cn, color } from '../../styles/theme';
 import { EthBalance } from './EthBalance';
-
-function findComponent<T>(component: React.ComponentType<T>) {
-  return (child: ReactNode): child is ReactElement<T> => {
-    return isValidElement(child) && child.type === component;
-  };
-}
+import { findComponent } from '../../internal/utils/findComponent';
 
 type IdentityLayoutReact = {
   children: ReactNode;
