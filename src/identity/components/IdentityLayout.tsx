@@ -3,7 +3,7 @@ import {
   useMemo,
   isValidElement,
   type ReactNode,
-  ReactElement,
+  type ReactElement,
 } from 'react';
 import { Avatar } from './Avatar';
 import { Name } from './Name';
