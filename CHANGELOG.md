@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.23.3
+
+### Patch Changes
+
+- 19a7f6f: - **docs**: Update Swap docs to include className override changes. Add new override example and image in the Swap page. By @cpcramer #722
+- 72f287b: - **feat**: add hasCopyAddressOnClick to Identity component. By @kyhyco #730 #734
+  - **feat**: add EthBalance component to identity. By @kyhyco #729
+  - **feat**: add ConnectWallet component. By @kyhyco #720 #728
+
 ## 0.23.2
 
 ### Patch Changes
