@@ -125,28 +125,14 @@ export function IdentityLayout({
       </div>
       {showPopover && (
         <div
-          className={cn(background.inverse, color.foreground, 'absolute z-10')}
-          style={{
-            top: 'calc(100% - 5px)',
-            left: '46px',
-            boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
-            borderRadius: '5px',
-            padding: '5px 10px',
-          }}
+          className={cn(
+            background.inverse,
+            color.foreground,
+            'absolute top-[calc(100%_-_5px)] left-[46px] z-10 rounded px-2 py-1 shadow-[0px_4px_8px_rgba(0,0,0,0.1)]',
+          )}
         >
           {popoverText}
-          <div
-            style={{
-              position: 'absolute',
-              top: '-5px',
-              left: '24px',
-              width: '0',
-              height: '0',
-              borderLeft: '5px solid transparent',
-              borderRight: '5px solid transparent',
-              borderBottom: '5px solid var(--bg-inverse)',
-            }}
-          />
+          <div className="absolute top-[-5px] left-6 h-0 w-0 border-x-[5px] border-x-transparent border-b-[5px] border-b-[color:var(--bg-inverse)] border-solid" />
         </div>
       )}
     </div>

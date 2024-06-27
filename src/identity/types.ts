@@ -132,7 +132,7 @@ export type IdentityReact = {
   children: ReactNode;
   className?: string; // Optional className override for top div element.
   schemaId?: Address | null; // The Ethereum address of the schema to use for EAS attestation.
-  copyAddressOnClick?: boolean;
+  hasCopyAddressOnClick?: boolean;
 };
 
 /**
