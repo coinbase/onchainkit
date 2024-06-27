@@ -1,24 +1,46 @@
-{/* import { Avatar, Identity, Name } from '../../../../src/identity'; */}
+---
+title: Wallet Components & Utilities · OnchainKit
+description: Introduction to Wallet Components & Utilities
+---
 
+import AccountConnect from '../../components/AccountConnect';
 import App from '../../components/App';
 import { WalletDemo } from '../../components/WalletDemo';
 
 # `<Wallet />`
 
-:::warning
-Component is actively in development. Stay tuned for upcoming releases.
-:::
+The Wallet components provide a comprehensive interface for users to connect their Smart Wallet, view their identity information, and manage their wallet connection. Before using them, ensure you've completed all Getting Started steps.
 
+## Components
+
+The components are designed to work together hierarchically. For each component, ensure the following:
+
+- `<Wallet />` - Serves as the main container for all wallet-related components.
+- `<ConnectWallet />` - Handles the wallet connection process. Place child components inside to customize the connect button appearance.
+- `<WalletDropdown />` - Contains additional wallet information and options. Place inside the `<Wallet />` component.
+- `<Identity />` - Displays user identity information. Place inside `<WalletDropdown />` for a complete profile view.
+- `<WalletDropdownLink />` - Creates a custom link within the dropdown. Use the `icon` prop to add an icon, and `href` to specify the destination.
+- `<WalletDropdownDisconnect />` - Provides a disconnect option within the dropdown.
+
+Additional components for customizing the wallet interface include:
+
+- `<Avatar />` - Displays the user's avatar image.
+- `<Name />` - Shows the user's name or ENS.
+- `<Badge />` - Can be used to display additional user status or information.
+- `<Address />` - Shows the user's wallet address.
+- `<EthBalance />` - Displays the user's ETH balance.
+
+The Wallet component automatically handles the wallet connection state and updates the UI accordingly. You need to wrap your application or relevant part of it with these components to provide a complete wallet interaction experience.
 ## Usage
 
-```tsx
-import {
-  ConnectWallet,
-  Wallet,
-  WalletDropdown,
-  WalletDropdownLink,
-  WalletDropdownDisconnect,
-} from '@coinbase/onchainkit/wallet';
+```tsx [code]
+import { // [!code focus]
+  ConnectWallet, // [!code focus]
+  Wallet, // [!code focus]
+  WalletDropdown, // [!code focus]
+  WalletDropdownLink, // [!code focus]
+  WalletDropdownDisconnect, // [!code focus]
+} from '@coinbase/onchainkit/wallet'; // [!code focus]
 import {
   Address,
   Avatar,
@@ -29,15 +51,15 @@ import {
 } from '@coinbase/onchainkit/identity';
 import { color } from '@coinbase/onchainkit/theme';
 
-export function WalletDemo() {
+export function WalletComponents() {
   return (
     <div className="flex justify-end">
-      <Wallet>
-        <ConnectWallet>
+      <Wallet> // [!code focus]
+        <ConnectWallet> // [!code focus]
           <Avatar className="h-6 w-6" />
           <Name />
-        </ConnectWallet>
-        <WalletDropdown>
+        </ConnectWallet> // [!code focus]
+        <WalletDropdown> // [!code focus]
           <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick>
             <Avatar />
             <Name>
@@ -46,12 +68,12 @@ export function WalletDemo() {
             <Address className={color.foregroundMuted} />
             <EthBalance />
           </Identity>
-          <WalletDropdownLink icon="wallet" href="https://wallet.coinbase.com">
-            Go to Wallet Dashboard
-          </WalletDropdownLink>
-          <WalletDropdownDisconnect />
-        </WalletDropdown>
-      </Wallet>
+          <WalletDropdownLink icon="wallet" href="https://wallet.coinbase.com"> // [!code focus]
+            Go to Wallet Dashboard // [!code focus]
+          </WalletDropdownLink> // [!code focus]
+          <WalletDropdownDisconnect /> // [!code focus]
+        </WalletDropdown> // [!code focus]
+      </Wallet> // [!code focus]
     </div>
   );
 }
@@ -61,6 +83,31 @@ export function WalletDemo() {
   <WalletDemo />
 </App>
 
-## Props
+## Required providers
 
-[`WalletReact`](/identity/types#walletreact)
+If you are using any of the provided components, you will need to install
+and configure `wagmi` and wrap your app in `<WagmiProvider>`.
+
+```tsx
+import { ReactNode } from 'react';
+import { WagmiProvider, createConfig, http } from 'wagmi';
+import { baseSepolia } from 'wagmi/chains';
+import { coinbaseWallet } from 'wagmi/connectors';
+
+const wagmiConfig = createConfig({
+  chains: [baseSepolia],
+  connectors: [
+    coinbaseWallet({
+      appName: 'onchainkit',
+    }),
+  ],
+  ssr: true,
+  transports: {
+    [baseSepolia.id]: http(),
+  },
+});
+
+function App({ children }: { children: ReactNode }) {
+  return <WagmiProvider config={wagmiConfig}>{children}</WagmiProvider>;
+}
+```

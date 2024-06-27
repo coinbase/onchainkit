@@ -5,43 +5,82 @@ description: Introduction to Wallet Components & Utilities
 
 import AccountConnect from '../../components/AccountConnect';
 import App from '../../components/App';
+import { WalletDemo } from '../../components/WalletDemo';
 
 # Introduction to Wallet Components & Utilities
 
-OnchainKit provides React components to help you connect with [Smart Wallet](https://www.smartwallet.dev/why).
+The Wallet components provide a comprehensive interface for users to connect their Smart Wallet, view their identity information, and manage their wallet connection. Before using them, ensure you've completed all Getting Started steps.
 
 ## Components
 
-The available components are:
+The components are designed to work together hierarchically. For each component, ensure the following:
 
-- [`<ConnectAccount />`](/wallet/connect-account): Renders the connect button
+- [`<Wallet />`](/wallet/wallet): Serves as the main container for all wallet-related components.
+- [`<ConnectWallet />`](/wallet/connect-wallet): Handles the wallet connection process. Place child components inside to customize the connect button appearance.
+- [`<WalletDropdown />`](/wallet/wallet-dropdown): Contains additional wallet information and options. Place inside the `<Wallet />` component.
+- [`<Identity />`](/wallet/identity): Displays user identity information. Place inside `<WalletDropdown />` for a complete profile view.
+- [`<WalletDropdownLink />`](/wallet/wallet-dropdown-link): Creates a custom link within the dropdown. Use the `icon` prop to add an icon, and `href` to specify the destination.
+- [`<WalletDropdownDisconnect />`](/wallet/wallet-dropdown-disconnect): Provides a disconnect option within the dropdown.
+
+Additional components for customizing the wallet interface include:
+
+- [`<Avatar />`](/wallet/avatar): Displays the user's avatar image.
+- [`<Name />`](/wallet/name): Shows the user's name or ENS.
+- [`<Badge />`](/wallet/badge): Can be used to display additional user status or information.
+- [`<Address />`](/wallet/address): Shows the user's wallet address.
+- [`<EthBalance />`](/wallet/eth-balance): Displays the user's ETH balance.
+
+The Wallet component automatically handles the wallet connection state and updates the UI accordingly. You need to wrap your application or relevant part of it with these components to provide a complete wallet interaction experience.
+## Usage
 
 ```tsx
-<WagmiProvider config={wagmiConfig}>
-  ...
-  <div className="flex flex-grow">
-    {(() => {
-      if (status === 'disconnected') {
-        return <ConnectAccount />; // [!code focus]
-      }
+import {
+  ConnectWallet,
+  Wallet,
+  WalletDropdown,
+  WalletDropdownLink,
+  WalletDropdownDisconnect,
+} from '@coinbase/onchainkit/wallet';
+import {
+  Address,
+  Avatar,
+  Name,
+  Badge,
+  Identity,
+  EthBalance,
+} from '@coinbase/onchainkit/identity';
+import { color } from '@coinbase/onchainkit/theme';
 
-      return (
-        <div className="flex h-8 w-8 items-center justify-center">
-          {address && (
-            <button type="button" onClick={() => disconnect()}>
-              <Avatar address={address} />
-            </button>
-          )}
-        </div>
-      );
-    })()}
-  </div>
-  ...
-</WagmiProvider>
+export function WalletDemo() {
+  return (
+    <div className="flex justify-end">
+      <Wallet>
+        <ConnectWallet>
+          <Avatar className="h-6 w-6" />
+          <Name />
+        </ConnectWallet>
+        <WalletDropdown>
+          <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick>
+            <Avatar />
+            <Name>
+              <Badge />
+            </Name>
+            <Address className={color.foregroundMuted} />
+            <EthBalance />
+          </Identity>
+          <WalletDropdownLink icon="wallet" href="https://wallet.coinbase.com">
+            Go to Wallet Dashboard
+          </WalletDropdownLink>
+          <WalletDropdownDisconnect />
+        </WalletDropdown>
+      </Wallet>
+    </div>
+  );
+}
 ```
 
 <App>
-  <AccountConnect />
+  <WalletDemo />
 </App>
 
 ## Required providers

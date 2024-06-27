@@ -19,7 +19,7 @@ import { color } from '@coinbase/onchainkit/theme';
 
 export function WalletDemo() {
   return (
-    <div className="flex justify-end">
+    <div className="flex justify-center mb-16">
       <Wallet>
         <ConnectWallet>
           <Avatar className="h-6 w-6" />
