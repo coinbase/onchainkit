@@ -78,4 +78,5 @@ export type WalletReact = {
  */
 export type WalletDropdownReact = {
   children: React.ReactNode;
+  className?: string; // Optional className override for top div element
 };
