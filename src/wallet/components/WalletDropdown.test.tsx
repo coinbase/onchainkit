@@ -7,7 +7,7 @@ import { render, renderHook, screen, waitFor } from '@testing-library/react';
 import { useAccount } from 'wagmi';
 import { WalletDropdown } from './WalletDropdown';
 import { useWalletContext } from './WalletProvider';
-import { Identity } from '../../identity';
+import { Identity } from '../../identity/components/Identity';
 import {
   IdentityProvider,
   useIdentityContext,
@@ -21,7 +21,7 @@ jest.mock('./WalletProvider', () => ({
   useWalletContext: jest.fn(),
 }));
 
-jest.mock('../../identity', () => ({
+jest.mock('../../identity/components/Identity', () => ({
   Identity: jest.fn(({ address, children }) => (
     <IdentityProvider address={address}>{children}</IdentityProvider>
   )),
@@ -66,7 +66,7 @@ describe('WalletDropdown', () => {
     const { result } = renderHook(() => useIdentityContext(), {
       wrapper: ({ children }) => (
         <WalletDropdown>
-          <Identity address="0x111">{children}</Identity>
+          <Identity>{children}</Identity>
         </WalletDropdown>
       ),
     });

@@ -3,7 +3,7 @@ import { useAccount } from 'wagmi';
 import type { WalletDropdownReact } from '../types';
 import { useWalletContext } from './WalletProvider';
 import { background, cn } from '../../styles/theme';
-import { Identity } from '../../identity';
+import { Identity } from '../../identity/components/Identity';
 
 export function WalletDropdown({ children }: WalletDropdownReact) {
   const { isOpen } = useWalletContext();

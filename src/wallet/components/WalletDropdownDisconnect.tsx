@@ -15,10 +15,7 @@ export function WalletDropdownDisconnect() {
   return (
     <button
       type="button"
-      className={cn(
-        pressable.default,
-        'flex items-center gap-2 px-4 pt-2 pb-3',
-      )}
+      className={cn(pressable.default, 'flex items-center gap-2 px-4 py-2')}
       onClick={handleDisconnect}
     >
       <div className="w-5">{disconnectSvg}</div>
