@@ -8,7 +8,7 @@ export function Identity({
   children,
   className,
   schemaId,
-  copyAddressOnClick,
+  hasCopyAddressOnClick = false,
 }: IdentityReact) {
   // istanbul ignore next
   const handleCopy = useCallback(async () => {
@@ -24,7 +24,7 @@ export function Identity({
   }, [address]);
 
   // istanbul ignore next
-  const onClick = copyAddressOnClick ? handleCopy : undefined;
+  const onClick = hasCopyAddressOnClick ? handleCopy : undefined;
 
   return (
     <IdentityProvider address={address} schemaId={schemaId}>
