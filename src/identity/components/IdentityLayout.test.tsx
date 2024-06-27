@@ -1,0 +1,76 @@
+/**
+ * @jest-environment jsdom
+ */
+import React from 'react';
+import '@testing-library/jest-dom';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { IdentityLayout } from './IdentityLayout';
+import { Avatar } from './Avatar';
+import { Name } from './Name';
+import { Address } from './Address';
+import { EthBalance } from './EthBalance';
+
+const handleCopy = jest.fn().mockResolvedValue(true);
+
+jest.mock('./Avatar', () => ({
+  Avatar: jest.fn(() => <div>Avatar</div>),
+}));
+
+jest.mock('./Name', () => ({
+  Name: jest.fn(() => <div>Name</div>),
+}));
+
+jest.mock('./Address', () => ({
+  Address: jest.fn(() => <div>Address</div>),
+}));
+
+jest.mock('./EthBalance', () => ({
+  EthBalance: jest.fn(() => <div>EthBalance</div>),
+}));
+
+const renderComponent = () => {
+  return render(
+    <IdentityLayout onClick={handleCopy} className="custom-class">
+      <Avatar />
+      <Name />
+      <Address />
+      <EthBalance />
+    </IdentityLayout>,
+  );
+};
+
+describe('IdentityLayout', () => {
+  it('shows popover on hover and hides on mouse leave', async () => {
+    renderComponent();
+
+    const container = screen.getByTestId('ockIdentity_container');
+    fireEvent.mouseEnter(container);
+
+    await waitFor(() => {
+      expect(screen.getByText('Copy')).toBeInTheDocument();
+    });
+
+    fireEvent.mouseLeave(container);
+
+    await waitFor(() => {
+      expect(screen.queryByText('Copy')).not.toBeInTheDocument();
+    });
+  });
+
+  it('changes popover text to "Copied" on click', async () => {
+    renderComponent();
+
+    const container = screen.getByTestId('ockIdentity_container');
+    fireEvent.mouseEnter(container);
+
+    await waitFor(() => {
+      expect(screen.getByText('Copy')).toBeInTheDocument();
+    });
+
+    fireEvent.click(container);
+
+    await waitFor(() => {
+      expect(screen.getByText('Copied')).toBeInTheDocument();
+    });
+  });
+});
