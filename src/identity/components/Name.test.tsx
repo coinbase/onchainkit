@@ -63,7 +63,6 @@ describe('OnchainAddress', () => {
     });
     render(<Name address={testAddress} />);
     expect(screen.getByText(testName)).toBeInTheDocument();
-    expect(getSlicedAddress).toHaveBeenCalledTimes(0);
   });
 
   it('displays sliced address when ENS name is not available', () => {
@@ -144,5 +143,34 @@ describe('OnchainAddress', () => {
       const badge = screen.getByTestId('ockBadge');
       expect(badge).toBeInTheDocument();
     });
+  });
+
+  it('displays sliced address when ENS name is not available and isSliced is set to true', () => {
+    (useIdentityContext as jest.Mock).mockReturnValue({
+      schemaId: '0x123',
+    });
+    (useName as jest.Mock).mockReturnValue({
+      data: null,
+      isLoading: false,
+    });
+    (getSlicedAddress as jest.Mock).mockReturnValue(
+      mockSliceAddress(testAddress),
+    );
+    render(<Name address={testAddress} isSliced={true} />);
+    expect(screen.getByText(mockSliceAddress(testAddress))).toBeInTheDocument();
+    expect(getSlicedAddress).toHaveBeenCalledWith(testAddress);
+  });
+
+  it('displays full address when isSliced is false and ENS name is not available', () => {
+    (useIdentityContext as jest.Mock).mockReturnValue({
+      schemaId: '0x123',
+    });
+    (useName as jest.Mock).mockReturnValue({
+      data: null,
+      isLoading: false,
+    });
+    render(<Name address={testAddress} isSliced={false} />);
+    expect(screen.getByText(testAddress)).toBeInTheDocument();
+    expect(getSlicedAddress).not.toHaveBeenCalled();
   });
 });

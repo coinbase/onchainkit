@@ -1,5 +1,4 @@
 import { publicClient } from '../../network/client';
-import { getSlicedAddress } from '../getSlicedAddress';
 import type { GetName, GetNameReturnType } from '../types';
 
 /**
@@ -14,5 +13,5 @@ export const getName = async ({
     address,
   });
 
-  return ensName ?? getSlicedAddress(address);
+  return ensName ?? null;
 };

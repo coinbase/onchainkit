@@ -12,6 +12,7 @@ import { cn, text } from '../../styles/theme';
  */
 export function Name({
   address = null,
+  isSliced = true,
   className,
   children,
   ...props
@@ -23,8 +24,10 @@ export function Name({
     );
   }
 
+  const displayAddress = contextAddress ?? address;
+
   const { data: name, isLoading } = useName({
-    address: contextAddress ?? address,
+    address: displayAddress,
   });
 
   const badge = useMemo(() => {
@@ -37,6 +40,10 @@ export function Name({
     return <span className={className} />;
   }
 
+  const formattedAddress = isSliced
+    ? getSlicedAddress(displayAddress)
+    : displayAddress;
+
   // It displays the ENS name if available; otherwise, it shows either a sliced version of the address
   // or the full address, based on the 'sliced' prop. By default, 'sliced' is set to true.
   return (
@@ -46,11 +53,9 @@ export function Name({
         className={cn(text.headline, className)}
         {...props}
       >
-        {name ?? getSlicedAddress(contextAddress ?? address)}
+        {name ?? formattedAddress}
       </span>
-      {badge && (
-        <DisplayBadge address={contextAddress ?? address}>{badge}</DisplayBadge>
-      )}
+      {badge && <DisplayBadge address={displayAddress}>{badge}</DisplayBadge>}
     </div>
   );
 }
