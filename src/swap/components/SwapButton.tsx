@@ -4,9 +4,10 @@ import { useSwapContext } from './SwapProvider';
 import type { SwapButtonReact } from '../types';
 
 export function SwapButton({ className, disabled = false }: SwapButtonReact) {
-  const { to, from, loading, handleSubmit } = useSwapContext();
+  const { to, from, loading, pendingTransaction, handleSubmit } =
+    useSwapContext();
 
-  const isLoading = to.loading || from.loading || loading;
+  const isLoading = to.loading || from.loading || loading || pendingTransaction;
 
   const isDisabled =
     !from.amount ||

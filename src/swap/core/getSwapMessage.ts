@@ -6,6 +6,7 @@ export enum SwapMessage {
   INCOMPLETE_FIELD = 'Complete the fields to continue',
   INSUFFICIENT_BALANCE = 'Insufficient balance',
   LOW_LIQUIDITY = 'Liquidity too low for the token',
+  CONFIRM_IN_WALLET = 'Confirm in wallet',
   SWAP_IN_PROGRESS = 'Swap in progress...',
   FETCHING_QUOTE = 'Fetching quote...',
   FETCHING_BALANCE = 'Fetching balance...',
@@ -15,6 +16,7 @@ export function getSwapMessage({
   error,
   from,
   loading,
+  pendingTransaction,
   to,
 }: GetSwapMessageParams) {
   // handle balance error
@@ -25,6 +27,11 @@ export function getSwapMessage({
   if (Number(from.balance) < Number(from.amount)) {
     return SwapMessage.INSUFFICIENT_BALANCE;
   }
+  // handle pending transaction
+  if (pendingTransaction) {
+    return SwapMessage.CONFIRM_IN_WALLET;
+  }
+  // handle loading states
   if (loading) {
     return SwapMessage.SWAP_IN_PROGRESS;
   }
