@@ -2,166 +2,102 @@
  * @jest-environment jsdom
  */
 import React from 'react';
-import { render, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
+import { render, screen, fireEvent } from '@testing-library/react';
 import { SwapButton } from './SwapButton';
-import { useSwapContext } from '../context';
-import { buildSwapTransaction } from '../core/buildSwapTransaction';
-import { isSwapError } from '../core/isSwapError';
-import type { SwapError } from '../types';
+import { useSwapContext } from './SwapProvider';
 
-jest.mock('../context');
-jest.mock('../core/buildSwapTransaction');
-jest.mock('../core/isSwapError');
+jest.mock('./SwapProvider', () => ({
+  useSwapContext: jest.fn(),
+}));
 
-const mockedUseSwapContext = useSwapContext as jest.Mock;
-const mockedBuildSwapTransaction = buildSwapTransaction as jest.Mock;
-const mockedIsSwapError = isSwapError as jest.MockedFunction<
-  (response: unknown) => response is SwapError
->;
+jest.mock('../../internal/loading/Spinner', () => ({
+  Spinner: () => <div data-testid="spinner">Loading...</div>,
+}));
 
-const mockSwapLoadingState = {
-  isFromQuoteLoading: false,
-  isSwapLoading: false,
-  isToQuoteLoading: false,
-};
+const useSwapContextMock = useSwapContext as jest.Mock;
 
 describe('SwapButton', () => {
+  const mockHandleSubmit = jest.fn();
+  const mockOnSubmit = jest.fn();
+
   beforeEach(() => {
-    mockedUseSwapContext.mockReturnValue({
-      address: '0x123',
-      fromAmount: 100,
-      fromToken: 'ETH',
-      toAmount: 5,
-      setSwapErrorState: jest.fn(),
-      setSwapLoadingState: jest.fn(),
-      swapLoadingState: mockSwapLoadingState,
-      toToken: 'DAI',
-      setError: jest.fn(),
-    });
-    mockedBuildSwapTransaction.mockResolvedValue('mocked-response');
-    mockedIsSwapError.mockReturnValue(false);
+    mockHandleSubmit.mockClear();
+    mockOnSubmit.mockClear();
   });
 
-  it('calls onSubmit with the transaction response if no error occurs', async () => {
-    const onSubmit = jest.fn();
-    const { getByText } = render(
-      <SwapButton disabled={false} onSubmit={onSubmit} />,
-    );
-
-    fireEvent.click(getByText('Swap'));
-
-    await waitFor(() =>
-      expect(onSubmit).toHaveBeenCalledWith('mocked-response'),
-    );
-  });
-
-  it('sets error if buildSwapTransaction throws an error', async () => {
-    const setSwapErrorState = jest.fn();
-    mockedUseSwapContext.mockReturnValueOnce({
-      address: '0x123',
-      fromAmount: 100,
-      fromToken: 'ETH',
-      swapLoadingState: mockSwapLoadingState,
-      setSwapErrorState,
-      setSwapLoadingState: jest.fn(),
-      toAmount: 5,
-      toToken: 'DAI',
-    });
-    mockedBuildSwapTransaction.mockRejectedValue({
-      error: 'Transaction error',
-      code: 'SWAP_ERROR',
+  it('renders button with text "Swap" when not loading', () => {
+    useSwapContextMock.mockReturnValue({
+      to: { loading: false, amount: 1, token: 'ETH' },
+      from: { loading: false, amount: 1, token: 'BTC' },
+      loading: false,
+      handleSubmit: mockHandleSubmit,
     });
 
-    const { getByText } = render(
-      <SwapButton disabled={false} onSubmit={jest.fn()} />,
-    );
+    render(<SwapButton onSubmit={mockOnSubmit} />);
 
-    fireEvent.click(getByText('Swap'));
-
-    const mockErrorState = {
-      swapError: { error: 'Transaction error', code: 'SWAP_ERROR' },
-    };
-
-    await waitFor(() =>
-      expect(setSwapErrorState).toHaveBeenCalledWith(mockErrorState),
-    );
+    const button = screen.getByTestId('ockSwapButton_Button');
+    expect(button).toHaveTextContent('Swap');
+    expect(button).not.toBeDisabled();
   });
 
-  it('sets error if response is a swap error', async () => {
-    const setSwapErrorState = jest.fn();
-    mockedUseSwapContext.mockReturnValueOnce({
-      address: '0x123',
-      fromAmount: 100,
-      fromToken: 'ETH',
-      setSwapErrorState,
-      setSwapLoadingState: jest.fn(),
-      swapLoadingState: mockSwapLoadingState,
-      toAmount: 5,
-      toToken: 'DAI',
+  it('renders Spinner when loading', () => {
+    useSwapContextMock.mockReturnValue({
+      to: { loading: true, amount: 1, token: 'ETH' },
+      from: { loading: false, amount: 1, token: 'BTC' },
+      loading: false,
+      handleSubmit: mockHandleSubmit,
     });
-    mockedBuildSwapTransaction.mockResolvedValue('error-response');
-    mockedIsSwapError.mockReturnValueOnce(true);
 
-    const { getByText } = render(
-      <SwapButton disabled={false} onSubmit={jest.fn()} />,
-    );
+    render(<SwapButton onSubmit={mockOnSubmit} />);
 
-    fireEvent.click(getByText('Swap'));
-
-    await waitFor(() =>
-      expect(setSwapErrorState).toHaveBeenCalledWith({
-        swapError: 'error-response',
-      }),
-    );
+    const button = screen.getByTestId('ockSwapButton_Button');
+    expect(screen.getByTestId('spinner')).toBeInTheDocument();
+    expect(button).toBeDisabled();
   });
 
-  it('does not call handleSubmit when disabled is true', () => {
-    const onSubmit = jest.fn();
-    const { getByText } = render(<SwapButton disabled onSubmit={onSubmit} />);
+  it('button is disabled when required fields are missing', () => {
+    useSwapContextMock.mockReturnValue({
+      to: { loading: false, amount: 1, token: 'ETH' },
+      from: { loading: false, amount: null, token: 'BTC' },
+      loading: false,
+      handleSubmit: mockHandleSubmit,
+    });
 
-    const button = getByText('Swap');
+    render(<SwapButton onSubmit={mockOnSubmit} />);
+
+    const button = screen.getByTestId('ockSwapButton_Button');
+    expect(button).toBeDisabled();
+  });
+
+  it('calls handleSubmit with onSubmit when clicked', () => {
+    useSwapContextMock.mockReturnValue({
+      to: { loading: false, amount: 1, token: 'ETH' },
+      from: { loading: false, amount: 1, token: 'BTC' },
+      loading: false,
+      handleSubmit: mockHandleSubmit,
+    });
+
+    render(<SwapButton onSubmit={mockOnSubmit} />);
+
+    const button = screen.getByTestId('ockSwapButton_Button');
     fireEvent.click(button);
 
-    expect(onSubmit).not.toHaveBeenCalled();
+    expect(mockHandleSubmit).toHaveBeenCalledWith(mockOnSubmit);
   });
 
-  it('renders a loading icon when swap is loading', () => {
-    const onSubmit = jest.fn();
-    mockedUseSwapContext.mockReturnValueOnce({
-      address: '0x123',
-      fromAmount: 100,
-      fromToken: 'ETH',
-      setSwapErrorState: jest.fn(),
-      setSwapLoadingState: jest.fn(),
-      swapLoadingState: {
-        isFromQuoteLoading: false,
-        isSwapLoading: true,
-        isToQuoteLoading: false,
-      },
-      toAmount: 5,
-      toToken: 'DAI',
+  it('applies additional className correctly', () => {
+    useSwapContextMock.mockReturnValue({
+      to: { loading: false, amount: 1, token: 'ETH' },
+      from: { loading: false, amount: 1, token: 'BTC' },
+      loading: false,
+      handleSubmit: mockHandleSubmit,
     });
-    const { getByTestId } = render(
-      <SwapButton disabled={false} onSubmit={onSubmit} />,
-    );
 
-    const spinner = getByTestId('ockSpinner');
+    const customClass = 'custom-class';
+    render(<SwapButton className={customClass} onSubmit={mockOnSubmit} />);
 
-    expect(spinner).toBeInTheDocument();
-  });
-
-  it('applies the given className to the button', async () => {
-    const { getByTestId } = render(
-      <SwapButton
-        disabled={false}
-        onSubmit={jest.fn()}
-        className="custom-class"
-      />,
-    );
-
-    const button = getByTestId('ockSwapButton_Button');
-
-    expect(button).toHaveClass('custom-class');
+    const button = screen.getByTestId('ockSwapButton_Button');
+    expect(button).toHaveClass(customClass);
   });
 });

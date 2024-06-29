@@ -1,5 +1,5 @@
 import { cn, pressable } from '../../styles/theme';
-import { useSwapContext } from '../context';
+import { useSwapContext } from './SwapProvider';
 import type { SwapToggleButtonReact } from '../types';
 
 const toggleIcon = (
@@ -34,6 +34,7 @@ const toggleIcon = (
 
 export function SwapToggleButton({ className }: SwapToggleButtonReact) {
   const { handleToggle } = useSwapContext();
+
   return (
     <button
       type="button"

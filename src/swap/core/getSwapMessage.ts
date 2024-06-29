@@ -12,52 +12,43 @@ export enum SwapMessage {
 }
 
 export function getSwapMessage({
-  convertedFromTokenBalance,
-  fromAmount,
-  fromToken,
-  swapErrorState,
-  swapLoadingState,
-  toAmount,
-  toToken,
+  error,
+  from,
+  loading,
+  to,
 }: GetSwapMessageParams) {
   // handle balance error
-  if (
-    swapErrorState?.fromTokenBalanceError ||
-    swapErrorState?.toTokenBalanceError
-  ) {
+  if (from.error || to.error) {
     return SwapMessage.BALANCE_ERROR;
   }
   // handle amount exceeds balance
-  if (Number(convertedFromTokenBalance) < Number(fromAmount)) {
+  if (Number(from.balance) < Number(from.amount)) {
     return SwapMessage.INSUFFICIENT_BALANCE;
   }
-  if (swapLoadingState?.isSwapLoading) {
+  if (loading) {
     return SwapMessage.SWAP_IN_PROGRESS;
   }
-  if (
-    swapLoadingState?.isFromQuoteLoading ||
-    swapLoadingState?.isToQuoteLoading
-  ) {
+  if (to.loading || from.loading) {
     return SwapMessage.FETCHING_QUOTE;
   }
   // missing required fields
-  if (!fromAmount || !fromToken || !toAmount || !toToken) {
+  if (!from.amount || !from.token || !to.amount || !to.token) {
     return SwapMessage.INCOMPLETE_FIELD;
   }
   // error states handled below
-  if (!swapErrorState) {
+  if (!error) {
     return '';
   }
   // handle invalid params error
   if (
-    Object.values(swapErrorState)?.find(
+    Object.values(error)?.find(
       (error) => error?.code === LOW_LIQUIDITY_ERROR_CODE,
     )
   ) {
     return SwapMessage.LOW_LIQUIDITY;
   }
   // handle general error
-  if (Object.values(swapErrorState).length) {
-    return Object.values(swapErrorState)[0]?.error;
+  if (Object.values(error).length) {
+    return Object.values(error)[0]?.error;
   }
 }

@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import type { ComponentType, Dispatch, ReactNode, SetStateAction } from 'react';
 import type { Address, Hex } from 'viem';
 import type { Token } from '../token/types';
 
@@ -67,26 +67,11 @@ export type GetSwapQuoteParams = {
  */
 export type GetSwapQuoteResponse = SwapQuote | SwapError;
 
-/**
- * Note: exported as public Type
- */
-export type SwapMessageReact = {
-  className?: string; // Optional className override for top div element.
-};
-
 export type GetSwapMessageParams = {
-  convertedFromTokenBalance?: string;
-  fromAmount: string;
-  fromToken?: Token;
-  swapErrorState?: SwapErrorState;
-  swapLoadingState?: SwapLoadingState;
-  statusMessage?: string;
-  toAmount: string;
-  toToken?: Token;
-};
-
-export type SwapToggleButtonReact = {
-  className?: string; // Optional className override for top button element.
+  error?: SwapErrorState;
+  loading?: boolean;
+  to: SwapUnit;
+  from: SwapUnit;
 };
 
 export type QuoteWarning = {
@@ -102,6 +87,10 @@ export type RawTransactionData = {
   gasPrice: string; // The gas price
   to: string; // The recipient address
   value: string; // The value of the transaction
+};
+
+export type SwapToggleButtonReact = {
+  className?: string;
 };
 
 /**
@@ -127,10 +116,8 @@ export type SwapAPIResponse = {
 };
 
 export type SwapErrorState = {
-  fromTokenBalanceError?: SwapError;
   quoteError?: SwapError;
   swapError?: SwapError;
-  toTokenBalanceError?: SwapError;
 };
 
 /**
@@ -138,38 +125,37 @@ export type SwapErrorState = {
  */
 export type SwapButtonReact = {
   disabled?: boolean; // Disables swap button
-  onSubmit?: (swapTransaction: BuildSwapTransaction) => void;
   className?: string; // Optional className override for top div element.
+  onSubmit: (swapTransaction: BuildSwapTransaction) => void;
+};
+
+export type SwapUnit = {
+  amount: string;
+  balance?: string;
+  error?: SwapError;
+  loading: boolean;
+  setAmount: Dispatch<SetStateAction<string>>;
+  setLoading: Dispatch<SetStateAction<boolean>>;
+  setToken: Dispatch<SetStateAction<Token | undefined>>;
+  token: Token | undefined;
 };
 
 export type SwapContextType = {
-  address: Address; // Connected address from connector.
-  convertedFromTokenBalance?: string;
-  convertedToTokenBalance?: string;
   error?: SwapErrorState;
-  fromAmount: string;
-  fromToken?: Token;
-  fromTokenBalance?: string;
-  handleFromAmountChange: (a: string) => void;
-  handleToAmountChange: (a: string) => void;
+  from: SwapUnit;
+  to: SwapUnit;
+  loading: boolean;
+  handleSubmit: (f: (swapTransaction: BuildSwapTransaction) => void) => void;
   handleToggle: () => void;
-  roundedFromTokenBalance?: string;
-  roundedToTokenBalance?: string;
-  setSwapErrorState: (e: SwapErrorState) => void;
-  setFromAmount: (a: string) => void;
-  setFromToken: (t: Token) => void;
-  setToAmount: (a: string) => void;
-  setToToken: (t: Token) => void;
-  swapErrorState?: SwapErrorState;
-  swapLoadingState: SwapLoadingState;
-  setSwapLoadingState: (s: SwapLoadingState) => void;
-  toAmount: string;
-  toToken?: Token;
+  handleAmountChange: (
+    t: 'from' | 'to',
+    amount: string,
+    st?: Token,
+    dt?: Token,
+  ) => void;
 };
 
 export type SwapLoadingState = {
-  isFromQuoteLoading: boolean;
-  isToQuoteLoading: boolean;
   isSwapLoading: boolean;
 };
 
@@ -211,6 +197,13 @@ export type SwapReact = {
 export type SwapError = {
   code: string; // The error code
   error: string; // The error message
+};
+
+/**
+ * Note: exported as public Type
+ */
+export type SwapMessageReact = {
+  className?: string;
 };
 
 /**
