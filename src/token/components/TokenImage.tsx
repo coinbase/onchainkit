@@ -11,11 +11,15 @@ export function TokenImage({ className, size = 24, token }: TokenImageReact) {
       image: {
         width: `${size}px`,
         height: `${size}px`,
+        minWidth: `${size}px`,
+        minHeight: `${size}px`,
       },
       placeholderImage: {
         background: getTokenImageColor(name),
         width: `${size}px`,
         height: `${size}px`,
+        minWidth: `${size}px`,
+        minHeight: `${size}px`,
       },
     };
   }, [size, name]);

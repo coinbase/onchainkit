@@ -18,7 +18,7 @@ export const TokenRow = memo(function TokenRow({
       type="button"
       className={cn(
         pressable.default,
-        'flex h-16 w-full items-center justify-between px-2 py-1',
+        'flex w-full items-center justify-between px-2 py-1',
         className,
       )}
       onClick={() => onClick?.(token)}
