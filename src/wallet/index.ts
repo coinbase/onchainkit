@@ -8,11 +8,13 @@ export { WalletDropdownLink } from './components/WalletDropdownLink';
 export { isValidAAEntrypoint } from './isValidAAEntrypoint';
 export { isWalletACoinbaseSmartWallet } from './isWalletACoinbaseSmartWallet';
 export type {
-  ConnectAccountReact,
+  ConnectWalletReact,
   IsValidAAEntrypointOptions,
   IsWalletACoinbaseSmartWalletOptions,
   IsWalletACoinbaseSmartWalletResponse,
   WalletContextType,
   WalletReact,
   WalletDropdownReact,
+  WalletDropdownDisconnectReact,
+  WalletDropdownLinkReact,
 } from './types';
