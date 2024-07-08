@@ -168,7 +168,7 @@ Simply place this at the top of your application's entry point to have the compo
 import '@coinbase/onchainkit/styles.css';
 ```
 
-For `tailwindcss` users, follow the [Tailwindcss Integration Guide](/guides/tailwind).
+For `tailwindcss` users, follow the [Tailwindcss Integration Guide](https://onchainkit.xyz/guides/tailwind).
 
 
 ## Components
