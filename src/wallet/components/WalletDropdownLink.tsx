@@ -26,7 +26,11 @@ export function WalletDropdownLink({
 
   return (
     <a
-      className={cn(pressable.default, 'flex items-center gap-2 px-4 py-2', className)}
+      className={cn(
+        pressable.default,
+        'flex items-center gap-2 px-4 py-2',
+        className,
+      )}
       href={href}
       target={target}
       rel={rel}
