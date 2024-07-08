@@ -230,7 +230,7 @@ export default function HomePage() {
 }
 ```
 
-#### Create or connect your wallet with [Connect Account](https://onchainkit.xyz/wallet/connect-account), powered by [Smart Wallet](https://www.smartwallet.dev/why).
+#### Create or connect your wallet with [Connect Wallet](https://onchainkit.xyz/wallet/wallet), powered by [Smart Wallet](https://www.smartwallet.dev/why).
 
 ```tsx
 <Wallet>
