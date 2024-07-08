@@ -1,15 +1,15 @@
 import { useCallback } from 'react';
 import { useAccount, useConnect } from 'wagmi';
-import type { ConnectWalletReact } from '../types';
 import { cn, color, pressable, text } from '../../styles/theme';
 import { Spinner } from '../../internal/loading/Spinner';
 import { IdentityProvider } from '../../identity/components/IdentityProvider';
 import { useWalletContext } from './WalletProvider';
+import type { ConnectWalletReact } from '../types';
 
 export function ConnectWallet({
-  label = 'Connect Wallet',
   children,
   className,
+  label = 'Connect Wallet',
 }: ConnectWalletReact) {
   const { isOpen, setIsOpen } = useWalletContext();
   const { address, status } = useAccount();

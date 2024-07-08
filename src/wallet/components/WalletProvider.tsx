@@ -1,7 +1,7 @@
-import { type ReactNode, useState } from 'react';
-import { createContext, useContext } from 'react';
-import type { WalletContextType } from '../types';
+import { createContext, useContext, useState } from 'react';
 import { useValue } from '../../internal/hooks/useValue';
+import type { ReactNode } from 'react';
+import type { WalletContextType } from '../types';
 
 const emptyContext = {} as WalletContextType;
 
@@ -13,12 +13,10 @@ type WalletProviderReact = {
 
 export function WalletProvider({ children }: WalletProviderReact) {
   const [isOpen, setIsOpen] = useState(false);
-
   const value = useValue({
     isOpen,
     setIsOpen,
   });
-
   return (
     <WalletContext.Provider value={value}>{children}</WalletContext.Provider>
   );

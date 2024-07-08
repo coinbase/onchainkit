@@ -89,10 +89,6 @@ export type RawTransactionData = {
   value: string; // The value of the transaction
 };
 
-export type SwapToggleButtonReact = {
-  className?: string;
-};
-
 /**
  * Note: exported as public Type
  */
@@ -203,6 +199,13 @@ export type SwapError = {
  * Note: exported as public Type
  */
 export type SwapMessageReact = {
+  className?: string;
+};
+
+/**
+ * Note: exported as public Type
+ */
+export type SwapToggleButtonReact = {
   className?: string;
 };
 
