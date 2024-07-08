@@ -1,8 +1,8 @@
 <p align="center">
   <a href="https://onchainkit.xyz">
     <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="./site/docs/public/logo/v0-22.png">
-      <img alt="OnchainKit logo vibes" src="./site/docs/public/logo/v0-22.png" width="auto">
+      <source media="(prefers-color-scheme: dark)" srcset="./site/docs/public/logo/v0-23.png">
+      <img alt="OnchainKit logo vibes" src="./site/docs/public/logo/v0-23.png" width="auto">
     </picture>
   </a>
 </p>
@@ -42,7 +42,11 @@ For documentation and guides, visit [onchainkit.xyz](https://onchainkit.xyz/).
 
 ## Quickstart
 
-To integrate OnchainKit into your project, begin by installing the necessary packages.
+You can use OnchainKit in an existing project, by installing OnchainKit as a dependency.
+
+### Install
+
+Let's install OnchainKit as a dependency along with its dependencies.
 
 ```bash
 # Yarn: Add library
@@ -60,33 +64,128 @@ pnpm add @coinbase/onchainkit
 bun add @coinbase/onchainkit
 ```
 
-## CSS
+### Configure the OnchainKitProvider
 
-Add this at the top of your application entry point
+The `<OnchainKitProvider />` component equips your app with the essential context to interact with OnchainKit components and utilities.
 
-```javascript
-import "@coinbase/onchainkit/styles.css";
+Set the `chain` prop to your target chain and provide the API KEY to access the embedded APIs.
+
+```tsx
+'use client';
+import { ReactNode } from 'react';
+import { base } from 'viem/chains';
+import { OnchainKitProvider } from '@coinbase/onchainkit';
+
+type Props = { children: ReactNode };
+
+function OnchainProviders({ children }: Props) {
+  return (
+    <OnchainKitProvider apiKey="YOUR_PUBLIC_API_KEY" chain={base}>
+      <YourKit />
+    </OnchainKitProvider>
+  );
+};
+
+export default OnchainProviders;
 ```
 
-For tailwindcss users, use this [Tailwindcss Integration Guide](https://onchainkit.xyz/guides/tailwind).
+Obtain an API key from the [Coinbase Developer Platform APIs](https://portal.cdp.coinbase.com/products/onchainkit).
+
+<img
+  alt="OnchainKit copy API KEY"
+  src="https://onchainkit.xyz/assets/copy-api-key-guide.png"
+  width="auto"
+/>
+
+### Configure the WagmiProvider
+
+Many of OnchainKit's components require a WagmiProvider to access Wagmi utilities.
+
+If your application already includes these settings, you can skip this step.
+
+OnchainProviders.tsx
+```tsx
+'use client';
+import { ReactNode } from 'react';
+import { OnchainKitProvider } from '@coinbase/onchainkit';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'; // [!code focus]
+import { base } from 'viem/chains';
+import { WagmiProvider } from 'wagmi'; // [!code focus]
+import { wagmiConfig } from './wagmi'; // [!code focus]
+
+type Props = { children: ReactNode };
+
+const queryClient = new QueryClient(); // [!code focus]
+
+function OnchainProviders({ children }: Props) {
+  return (
+    <WagmiProvider config={wagmiConfig}> // [!code focus]
+      <QueryClientProvider client={queryClient}> // [!code focus]
+        <OnchainKitProvider
+          apiKey={YOUR_PUBLIC_API_KEY}
+          chain={base}
+        >
+          {children} // [!code focus]
+        </OnchainKitProvider>
+      </QueryClientProvider> // [!code focus]
+    </WagmiProvider> // [!code focus]
+  );
+}
+
+export default OnchainProviders;
+```
+
+wagmi.ts
+```tsx
+import { http, createConfig } from 'wagmi';
+import { base } from 'wagmi/chains';
+import { coinbaseWallet } from 'wagmi/connectors';
+
+export const wagmiConfig = createConfig({
+  chains: [base],
+  multiInjectedProviderDiscovery: false,
+  connectors: [
+    coinbaseWallet({
+      appName: 'yourAppName',
+      preference: 'all',
+      version: '4',
+    }),
+  ],
+  ssr: true,
+  transports: {
+    [base.id]: http(),
+  },
+});
+```
+
+### Style your components
+
+All OnchainKit components come pre-configured with a style.
+
+Simply place this at the top of your application's entry point to have the components working out of the box.
+
+```javascript
+import '@coinbase/onchainkit/styles.css';
+```
+
+For `tailwindcss` users, follow the [Tailwindcss Integration Guide](https://onchainkit.xyz/guides/tailwind).
+
 
 ## Components
 
 #### Display ENS [avatars](https://onchainkit.xyz/identity/avatar), Attestation [badges](https://onchainkit.xyz/identity/badge), ENS [names](https://onchainkit.xyz/identity/name) and account [addresses](https://onchainkit.xyz/identity/address).
 
 ```tsx
-const EAS_SCHEMA_ID = '0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9';
-const ACCOUNT_ADDRESS = '0x838aD0EAE54F99F1926dA7C3b6bFbF617389B4D9';
-
-<OnchainKitProvider chain={base} schemaId={EAS_SCHEMA_ID}>
-  <Identity>
-    <Avatar />
-      <Badge />
-    </Avatar>
-    <Name />
-    <Address />
-  <Identity>
-</OnchainKitProvider>;
+<Identity
+  address="0x838aD0EAE54F99F1926dA7C3b6bFbF617389B4D9"
+  schemaId="0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9"
+>
+  <Avatar>
+    <Badge />
+  </Avatar>
+  <Name />
+  <Address />
+</Identity>
 ```
 
 <picture>
@@ -131,23 +230,29 @@ export default function HomePage() {
 }
 ```
 
-#### Create or connect your wallet with [Connect Account](https://onchainkit.xyz/wallet/connect-account), powered by [Smart Wallet](https://www.smartwallet.dev/why).
+#### Create or connect your wallet with [Connect Wallet](https://onchainkit.xyz/wallet/wallet), powered by [Smart Wallet](https://www.smartwallet.dev/why).
 
 ```tsx
-<div className="flex flex-grow">
-  {(() => {
-    if (status === "disconnected") {
-      return <ConnectAccount />; // [!code focus]
-    }
-    return (
-      <div className="flex h-8 w-8 items-center justify-center">
-        <button type="button" onClick={() => disconnect()}>
-          <Avatar address={address} />
-        </button>
-      </div>
-    );
-  })()}
-</div>
+<Wallet>
+  <ConnectWallet>
+    <Avatar className="h-6 w-6" />
+    <Name />
+  </ConnectWallet>
+  <WalletDropdown>
+    <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick>
+      <Avatar />
+      <Name>
+        <Badge />
+      </Name>
+      <Address />
+      <EthBalance />
+    </Identity>
+    <WalletDropdownLink icon="wallet" href="https://wallet.coinbase.com">
+      Go to Wallet Dashboard
+    </WalletDropdownLink>
+    <WalletDropdownDisconnect />
+  </WalletDropdown>
+</Wallet> 
 ```
 
 <picture>
