@@ -1,5 +1,4 @@
 // 🌲☀🌲
-export { ConnectAccount } from './components/ConnectAccount';
 export { ConnectWallet } from './components/ConnectWallet';
 export { Wallet } from './components/Wallet';
 export { WalletDropdown } from './components/WalletDropdown';
