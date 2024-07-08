@@ -1,5 +1,6 @@
-import { ConnectAccount } from '@coinbase/onchainkit/wallet';
+import { Avatar, Name } from '@coinbase/onchainkit/identity';
 import { Swap, SwapAmountInput, SwapButton, SwapMessage, SwapToggleButton } from '@coinbase/onchainkit/swap';
+import { Wallet, ConnectWallet } from '@coinbase/onchainkit/wallet';
 import App from '../../components/App';
 import SwapWrapper from '../../components/SwapWrapper';
 
@@ -29,13 +30,14 @@ Example using `@coinbase/onchainkit/swap` and `@coinbase/onchainkit/wallet`.
 
 ```tsx [code]
 import { useCallback } from 'react';
-import { ConnectAccount } from '@coinbase/onchainkit/wallet';
+import { Address, Name } from '@coinbase/onchainkit/identity';
 import { // [!code focus]
   Swap, // [!code focus]
   SwapAmountInput, // [!code focus]
   SwapToggleButton, // [!code focus]
   SwapButton, // [!code focus]
 } from '@coinbase/onchainkit/swap'; // [!code focus]
+import { Wallet, ConnectWallet } from '@coinbase/onchainkit/wallet';
 import { useAccount, useSendTransaction } from 'wagmi';
 import type { // [!code focus]
   BuildSwapTransaction, // [!code focus]
@@ -95,7 +97,12 @@ export default function SwapComponents() {
       <SwapMessage /> // [!code focus]
     </Swap> // [!code focus]
   ) : (
-    <ConnectAccount />
+    <Wallet>
+      <ConnectWallet>
+        <Avatar className="h-6 w-6" />
+        <Name />
+      </ConnectWallet>
+    </Wallet>
   )});
 }
 ```
@@ -124,7 +131,14 @@ export default function SwapComponents() {
           </Swap>
         )
       }
-      return <ConnectAccount />;
+      return <>
+        <Wallet>
+          <ConnectWallet>
+            <Avatar className="h-6 w-6" />
+            <Name />
+          </ConnectWallet>
+        </Wallet>
+      </>;
     }}
   </SwapWrapper>
 </App>
@@ -155,7 +169,6 @@ You can adjust to only allow swap between a token pair.
   <SwapButton onSubmit={onSubmit} /> // [!code focus]
   <SwapMessage /> // [!code focus]
 </Swap> // [!code focus]
-}
 ```
 
 <App>
@@ -180,7 +193,14 @@ You can adjust to only allow swap between a token pair.
           </Swap>
         )
       }
-      return <ConnectAccount />;
+      return <>
+        <Wallet>
+          <ConnectWallet>
+            <Avatar className="h-6 w-6" />
+            <Name />
+          </ConnectWallet>
+        </Wallet>
+      </>;
     }}
   </SwapWrapper>
 </App>
@@ -204,7 +224,6 @@ You can remove `SwapToggleButton` to make swap unidirectional.
   <SwapButton onSubmit={onSubmit} /> // [!code focus]
   <SwapMessage /> // [!code focus]
 </Swap> // [!code focus]
-}
 ```
 
 <App>
@@ -228,7 +247,14 @@ You can remove `SwapToggleButton` to make swap unidirectional.
           </Swap>
         )
       }
-      return <ConnectAccount />;
+      return <>
+        <Wallet>
+          <ConnectWallet>
+            <Avatar className="h-6 w-6" />
+            <Name />
+          </ConnectWallet>
+        </Wallet>
+      </>;
     }}
   </SwapWrapper>
 </App>
@@ -252,9 +278,7 @@ You can remove `SwapMessage` component.
   /> // [!code focus]
   <SwapButton onSubmit={onSubmit} /> // [!code focus]
 </Swap> // [!code focus]
-}
 ```
-
 
 <App>
   <SwapWrapper>
@@ -277,7 +301,14 @@ You can remove `SwapMessage` component.
           </Swap>
         )
       }
-      return <ConnectAccount />;
+      return <>
+        <Wallet>
+          <ConnectWallet>
+            <Avatar className="h-6 w-6" />
+            <Name />
+          </ConnectWallet>
+        </Wallet>
+      </>;
     }}
   </SwapWrapper>
 </App>
@@ -306,7 +337,6 @@ You can override component styles using `className`.
   <SwapButton className='bg-red-600'/> // [!code focus]
   <SwapMessage className='text-red-600'/> // [!code focus]
 </Swap>
-}
 ```
 
 <App>
@@ -335,7 +365,14 @@ You can override component styles using `className`.
           </Swap>
         )
       }
-      return <ConnectAccount />;
+      return <>
+        <Wallet>
+          <ConnectWallet>
+            <Avatar className="h-6 w-6" />
+            <Name />
+          </ConnectWallet>
+        </Wallet>
+      </>;
     }}
   </SwapWrapper>
 </App>
