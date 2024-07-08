@@ -4,24 +4,24 @@
 
 ### Patch Changes
 
-- 6a3fde5: - **feat**: add className to ConnectWallet and WalletDropdown components. By @kyhyco #737
+- **feat**: add className to ConnectWallet and WalletDropdown components. By @kyhyco #737 6a3fde5
 
 ## 0.23.3
 
 ### Patch Changes
 
-- 19a7f6f: - **docs**: Update Swap docs to include className override changes. Add new override example and image in the Swap page. By @cpcramer #722
-- 72f287b: - **feat**: add hasCopyAddressOnClick to Identity component. By @kyhyco #730 #734
-  - **feat**: add EthBalance component to identity. By @kyhyco #729
-  - **feat**: add ConnectWallet component. By @kyhyco #720 #728
+- **docs**: Update Swap docs to include className override changes. Add new override example and image in the Swap page. By @cpcramer #722 19a7f6f
+- **feat**: add hasCopyAddressOnClick to Identity component. By @kyhyco #730 #734 72f287b
+- **feat**: add EthBalance component to identity. By @kyhyco #729
+- **feat**: add ConnectWallet component. By @kyhyco #720 #728
 
 ## 0.23.2
 
 ### Patch Changes
 
-- f98d4bf: - **chore**: Remove unsupported fields from the Coinbase Wallet Provider. appChainIds and options. By @cpcramer #717
-- cc7cf73: - **docs**: Update Token Type docs with new className parameter. By @cpcramer #716
-- e6a2d77: - **feat**: Add Swap Kit component className override. By: @cpcramer #719
+- **chore**: Remove unsupported fields from the Coinbase Wallet Provider. appChainIds and options. By @cpcramer #717 f98d4bf
+- **docs**: Update Token Type docs with new className parameter. By @cpcramer #716 cc7cf73
+- **feat**: Add Swap Kit component className override. By: @cpcramer #719 e6a2d77
 
 ## 0.23.1
 
