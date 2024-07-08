@@ -235,7 +235,15 @@ export function SwapProvider({
         setLoading(false);
       }
     },
-    [address, handleError, from.amount, from.token, to.token]
+    [
+      address,
+      config,
+      handleError,
+      from.amount,
+      from.token,
+      sendTransactionAsync,
+      to.token,
+    ]
   );
 
   const value = useValue({
