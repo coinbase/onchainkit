@@ -38,6 +38,10 @@
   }
 }
 
+.vocs_Content {
+  padding: 0px;
+}
+
 .css-blurry-gradient {
   position: absolute;
   top: 50%;

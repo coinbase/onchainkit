@@ -7,25 +7,49 @@ layout: landing
 showOutline: false
 ---
 
-import { base } from 'viem/chains';
-import { OnchainKitProvider } from '@coinbase/onchainkit';
-import { Address, Avatar, Badge, Name, Identity } from '@coinbase/onchainkit/identity';
-import { Swap, SwapAmountInput, SwapButton, SwapMessage, SwapToggleButton } from '@coinbase/onchainkit/swap';
-import { Wallet, ConnectWallet } from '@coinbase/onchainkit/wallet';
-import App from '../components/App';
-import FarcasterCastCard from '../components/FarcasterCastCard';
-import SwapWrapper from '../components/SwapWrapper';
-import TokenSelector from '../components/TokenSelector';
-import { WalletDemo } from '../components/WalletDemo';
+import { base } from "viem/chains";
+import { OnchainKitProvider } from "@coinbase/onchainkit";
+import {
+  Address,
+  Avatar,
+  Badge,
+  Name,
+  Identity,
+} from "@coinbase/onchainkit/identity";
+import {
+  Swap,
+  SwapAmountInput,
+  SwapButton,
+  SwapMessage,
+  SwapToggleButton,
+} from "@coinbase/onchainkit/swap";
+import { Wallet, ConnectWallet } from "@coinbase/onchainkit/wallet";
+import App from "../components/App";
+import FarcasterCastCard from "../components/FarcasterCastCard";
+import SwapWrapper from "../components/SwapWrapper";
+import TokenSelector from "../components/TokenSelector";
+import { WalletDemo } from "../components/WalletDemo";
 
 <div id="blobs">
-  <div className="css-blurry-gradient top-['-15%',] left-['calc(50%_-_280px)']"/>
-  <div className="css-blurry-gradient top-[-15%] opacity-30 blur-[75px] left-[10%]" style={{
-    background: 'radial-gradient(circle at 50% 50%, #4F46E5, #4F46E5)',
-  }} />
-  <div className="css-blurry-gradient" style={{ top: '-15%', left: 'calc(50% + 280px)' }} />
-  <div className="css-blurry-gradient" style={{ top: '45%', left: '90%', height: '220px', width: '220px' }} />
-  <div className="css-blurry-gradient" style={{ top: '35%', left: '10%', height: '220px', width: '220px' }} />
+  <div className="css-blurry-gradient top-['-15%',] left-['calc(50%_-_280px)']" />
+  <div
+    className="css-blurry-gradient top-[-15%] opacity-30 blur-[75px] left-[10%]"
+    style={{
+      background: "radial-gradient(circle at 50% 50%, #4F46E5, #4F46E5)",
+    }}
+  />
+  <div
+    className="css-blurry-gradient"
+    style={{ top: "-15%", left: "calc(50% + 280px)" }}
+  />
+  <div
+    className="css-blurry-gradient"
+    style={{ top: "45%", left: "90%", height: "220px", width: "220px" }}
+  />
+  <div
+    className="css-blurry-gradient"
+    style={{ top: "35%", left: "10%", height: "220px", width: "220px" }}
+  />
 </div>
 
 <div className="max-w-screen-xl mx-auto vp-doc relative px-[24px] mb-[26px] mt-0 md:px-0 md:mb-[64px]">
@@ -34,7 +58,7 @@ import { WalletDemo } from '../components/WalletDemo';
       <h1 className="text-center text-6xl md:text-9xl font-medium no-underline dark:text-white tracking-[-0.1rem]">OnchainKit</h1>
       <div className="text-center text-xl md:text-3xl dark:text-white">
         <p className="leading-7 md:leading-none">
-          React components and TypeScript utilities to help you build top-tier onchain apps.
+          Build your onchain apps with ready-to-use React components and Typescript utilities.
         </p>
       </div>
     </div>
@@ -62,27 +86,86 @@ bun add @coinbase/onchainkit
 
       </div>
       <a href="/getting-started" className="font-sans justify-self-end border rounded-xl border-solid border-white px-4 py-3 font-bold">
-        View docs 
+        View docs
       </a>
     </div>
 
   </div>
 </div>
+<div className="flex justify-between items-center md:mb-[64px] mx-auto max-w-screen-xl">
+  <div className="text-[40px] dark:text-white font-normal w-[365px] leading-[48px] tracking-[-1.6px]">
+    <p>
+      Ready-to-use onchain components
+    </p>
+  </div>
+  <div className="flex gap-12">
+    <div className="flex flex-col items-center gap-3">
+      <div className="w-[70px] h-[70px] bg-gray-800 rounded-xl p-5">
+        <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path className="fill-gray-50" d="M27.5 15C27.5 21.9036 21.9036 27.5 15 27.5C15 27.5 15 27.5 15 27.5C14.973 27.5 14.9461 27.4999 14.9192 27.4997C14.5153 27.4972 14.1159 27.4755 13.722 27.4355C12.4613 27.3074 11.2561 26.9921 10.1344 26.5177C8.36951 25.7712 6.81171 24.6309 5.57122 23.2069C5.54692 23.179 5.52274 23.151 5.49869 23.1229C3.62914 20.9381 2.5 18.1009 2.5 15C2.5 8.09644 8.09644 2.5 15 2.5C21.9036 2.5 27.5 8.09644 27.5 15ZM18.75 11.25C18.75 9.17893 17.0711 7.5 15 7.5C12.9289 7.5 11.25 9.17893 11.25 11.25C11.25 13.3211 12.9289 15 15 15C17.0711 15 18.75 13.3211 18.75 11.25ZM15 25C18.4371 25 21.4692 23.266 23.2691 20.625C21.4692 17.984 18.4371 16.25 15 16.25C11.5629 16.25 8.53081 17.984 6.73084 20.625C8.53081 23.266 11.5629 25 15 25Z" fill="#030712"/>
+        </svg>
+      </div>
+      <p className="text-gray-50 text-center text-base not-italic font-normal leading-6">Identity</p>
+    </div>
+    <div className="flex flex-col items-center gap-3">
+      <div className="w-[70px] h-[70px] bg-gray-800 rounded-xl p-5">
+        <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path className="fill-gray-50" d="M27.5 15C27.5 21.9036 21.9036 27.5 15 27.5C15 27.5 15 27.5 15 27.5C14.973 27.5 14.9461 27.4999 14.9192 27.4997C14.5153 27.4972 14.1159 27.4755 13.722 27.4355C12.4613 27.3074 11.2561 26.9921 10.1344 26.5177C8.36951 25.7712 6.81171 24.6309 5.57122 23.2069C5.54692 23.179 5.52274 23.151 5.49869 23.1229C3.62914 20.9381 2.5 18.1009 2.5 15C2.5 8.09644 8.09644 2.5 15 2.5C21.9036 2.5 27.5 8.09644 27.5 15ZM18.75 11.25C18.75 9.17893 17.0711 7.5 15 7.5C12.9289 7.5 11.25 9.17893 11.25 11.25C11.25 13.3211 12.9289 15 15 15C17.0711 15 18.75 13.3211 18.75 11.25ZM15 25C18.4371 25 21.4692 23.266 23.2691 20.625C21.4692 17.984 18.4371 16.25 15 16.25C11.5629 16.25 8.53081 17.984 6.73084 20.625C8.53081 23.266 11.5629 25 15 25Z" fill="#030712"/>
+        </svg>
+      </div>
+      <p className="text-gray-50 text-center text-base not-italic font-normal leading-6">Wallet</p>
+    </div>
+    <div className="flex flex-col items-center gap-3">
+      <div className="w-[70px] h-[70px] bg-gray-800 rounded-xl p-5">
+        <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path className="fill-gray-50" d="M27.5 15C27.5 21.9036 21.9036 27.5 15 27.5C15 27.5 15 27.5 15 27.5C14.973 27.5 14.9461 27.4999 14.9192 27.4997C14.5153 27.4972 14.1159 27.4755 13.722 27.4355C12.4613 27.3074 11.2561 26.9921 10.1344 26.5177C8.36951 25.7712 6.81171 24.6309 5.57122 23.2069C5.54692 23.179 5.52274 23.151 5.49869 23.1229C3.62914 20.9381 2.5 18.1009 2.5 15C2.5 8.09644 8.09644 2.5 15 2.5C21.9036 2.5 27.5 8.09644 27.5 15ZM18.75 11.25C18.75 9.17893 17.0711 7.5 15 7.5C12.9289 7.5 11.25 9.17893 11.25 11.25C11.25 13.3211 12.9289 15 15 15C17.0711 15 18.75 13.3211 18.75 11.25ZM15 25C18.4371 25 21.4692 23.266 23.2691 20.625C21.4692 17.984 18.4371 16.25 15 16.25C11.5629 16.25 8.53081 17.984 6.73084 20.625C8.53081 23.266 11.5629 25 15 25Z" fill="#030712"/>
+        </svg>
+      </div>
+      <p className="text-gray-50 text-center text-base not-italic font-normal leading-6">Tokens</p>
+    </div>
+    <div className="flex flex-col items-center gap-3">
+      <div className="w-[70px] h-[70px] bg-gray-800 rounded-xl p-5">
+        <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path className="fill-gray-50" d="M27.5 15C27.5 21.9036 21.9036 27.5 15 27.5C15 27.5 15 27.5 15 27.5C14.973 27.5 14.9461 27.4999 14.9192 27.4997C14.5153 27.4972 14.1159 27.4755 13.722 27.4355C12.4613 27.3074 11.2561 26.9921 10.1344 26.5177C8.36951 25.7712 6.81171 24.6309 5.57122 23.2069C5.54692 23.179 5.52274 23.151 5.49869 23.1229C3.62914 20.9381 2.5 18.1009 2.5 15C2.5 8.09644 8.09644 2.5 15 2.5C21.9036 2.5 27.5 8.09644 27.5 15ZM18.75 11.25C18.75 9.17893 17.0711 7.5 15 7.5C12.9289 7.5 11.25 9.17893 11.25 11.25C11.25 13.3211 12.9289 15 15 15C17.0711 15 18.75 13.3211 18.75 11.25ZM15 25C18.4371 25 21.4692 23.266 23.2691 20.625C21.4692 17.984 18.4371 16.25 15 16.25C11.5629 16.25 8.53081 17.984 6.73084 20.625C8.53081 23.266 11.5629 25 15 25Z" fill="#030712"/>
+        </svg>
+      </div>
+      <p className="text-gray-50 text-center text-base not-italic font-normal leading-6">Swap</p>
+    </div>
+    <div className="flex flex-col items-center gap-3">
+      <div className="w-[70px] h-[70px] bg-gray-800 rounded-xl p-5">
+        <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path className="fill-gray-50" d="M27.5 15C27.5 21.9036 21.9036 27.5 15 27.5C15 27.5 15 27.5 15 27.5C14.973 27.5 14.9461 27.4999 14.9192 27.4997C14.5153 27.4972 14.1159 27.4755 13.722 27.4355C12.4613 27.3074 11.2561 26.9921 10.1344 26.5177C8.36951 25.7712 6.81171 24.6309 5.57122 23.2069C5.54692 23.179 5.52274 23.151 5.49869 23.1229C3.62914 20.9381 2.5 18.1009 2.5 15C2.5 8.09644 8.09644 2.5 15 2.5C21.9036 2.5 27.5 8.09644 27.5 15ZM18.75 11.25C18.75 9.17893 17.0711 7.5 15 7.5C12.9289 7.5 11.25 9.17893 11.25 11.25C11.25 13.3211 12.9289 15 15 15C17.0711 15 18.75 13.3211 18.75 11.25ZM15 25C18.4371 25 21.4692 23.266 23.2691 20.625C21.4692 17.984 18.4371 16.25 15 16.25C11.5629 16.25 8.53081 17.984 6.73084 20.625C8.53081 23.266 11.5629 25 15 25Z" fill="#030712"/>
+        </svg>
+      </div>
+      <p className="text-gray-50 text-center text-base not-italic font-normal leading-6">Transactions</p>
+    </div>
+    <div className="flex flex-col items-center gap-3">
+      <div className="w-[70px] h-[70px] bg-gray-800 rounded-xl p-5">
+        <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path className="fill-gray-50" d="M27.5 15C27.5 21.9036 21.9036 27.5 15 27.5C15 27.5 15 27.5 15 27.5C14.973 27.5 14.9461 27.4999 14.9192 27.4997C14.5153 27.4972 14.1159 27.4755 13.722 27.4355C12.4613 27.3074 11.2561 26.9921 10.1344 26.5177C8.36951 25.7712 6.81171 24.6309 5.57122 23.2069C5.54692 23.179 5.52274 23.151 5.49869 23.1229C3.62914 20.9381 2.5 18.1009 2.5 15C2.5 8.09644 8.09644 2.5 15 2.5C21.9036 2.5 27.5 8.09644 27.5 15ZM18.75 11.25C18.75 9.17893 17.0711 7.5 15 7.5C12.9289 7.5 11.25 9.17893 11.25 11.25C11.25 13.3211 12.9289 15 15 15C17.0711 15 18.75 13.3211 18.75 11.25ZM15 25C18.4371 25 21.4692 23.266 23.2691 20.625C21.4692 17.984 18.4371 16.25 15 16.25C11.5629 16.25 8.53081 17.984 6.73084 20.625C8.53081 23.266 11.5629 25 15 25Z" fill="#030712"/>
+        </svg>
+      </div>
+      <p className="text-gray-50 text-center text-base not-italic font-normal leading-6">Frame</p>
+    </div>
+  </div>
+</div>
 
-<main className="max-w-screen-xl mx-auto vp-doc relative px-0 mb-[26px] mt-0 md:mb-[64px]">
-  <hr className="md:mb-16 md:mt-32" />
+<main className="max-w-screen-xl mx-auto vp-doc relative px-0 mb-[26px] mt-0 md:mb-[64px] bg-gray-900">
 
 {' '}
 
 <section>
   <main className="flex flex-col gap-4 md:flex-row">
-    <h2 className="basis-1/2 py-10 text-4xl md:text-6xl">Components</h2>
+    <h3 className="basis-1/2 py-[15px] text-4xl md:text-4xl text-gray-50">Identity</h3>
   </main>
-  <aside className="md:px-2">
-    <p className="text-lg md:text-xl py-4">
+  <aside>
+    <p className="text-base md:text-base pb-[24px]">
       Display ENS [avatars](/identity/avatar), Attestation [badges](/identity/badge), ENS [names](/identity/name) and account [addresses](/identity/address).
     </p>
-    <div className="flex grow flex-col md:flex-row">
+    <a href="/swap/swap" className="flex justify-center items-center border border-indigo-400 text-indigo-400 font-bold leading-6 px-4 py-3 rounded-xl border-solid w-[180px]">
+      Start with Identity
+    </a>
+    <div className="flex grow flex-col md:flex-row pt-[44px]">
       <div>
 
 ```tsx
@@ -114,12 +197,19 @@ bun add @coinbase/onchainkit
       </App>
       </div>
     </div>
+
   </aside>
-  <aside className="md:px-2 pt-10">
-    <p className="text-lg md:text-xl py-4">
-      Create or connect your wallet with [Connect Wallet](/wallet/wallet), powered by [Smart Wallet](https://www.smartwallet.dev/why).
+  <main className="flex flex-col gap-4 md:flex-row pt-10">
+    <h3 className="basis-1/2 py-[15px] text-4xl md:text-4xl text-gray-50">Wallet</h3>
+  </main>
+  <aside>
+    <p className="text-base md:text-base pb-[24px]">
+      Create or connect your wallet with [Connect Wallet](/wallet/wallet), powered by [Smart Wallet](https://www.smartwallet.dev/why) and Paymaster.
     </p>
-    <div className="flex grow flex-col md:flex-row">
+    <a href="/wallet/wallet" className="flex justify-center items-center border border-indigo-400 text-indigo-400 font-bold leading-6 px-4 py-3 rounded-xl border-solid w-[180px]">
+      Start with Wallet
+    </a>
+    <div className="flex grow flex-col md:flex-row pt-[44px]">
       <div>
 ```tsx
 <Wallet> // [!code focus]
@@ -145,18 +235,25 @@ bun add @coinbase/onchainkit
 ```
       </div>
       <div className='flex grow items-center justify-center h-24 md:h-auto'>
-<App>
-  <WalletDemo />
-</App>
+        <App>
+          <WalletDemo />
+        </App>
       </div>
     </div>
   </aside>
+
+  <main className="flex flex-col gap-4 md:flex-row pt-10">
+    <h3 className="basis-1/2 py-[15px] text-4xl md:text-4xl text-gray-50">Tokens</h3>
+  </main>
   
-  <aside className="md:px-2 pt-10">
-    <p className="text-lg md:text-xl py-4">
+  <aside>
+    <p className="text-base md:text-base pb-[24px]">
       Search [Tokens](/token/types#token) using [getTokens](/token/get-tokens) and display them with [TokenSearch](/token/token-search), [TokenChip](/token/token-chip), and [TokenRow](/token/token-row).
     </p>
-    <div className="flex grow flex-col md:flex-row">
+    <a href="/token/introduction" className="flex justify-center items-center border border-indigo-400 text-indigo-400 font-bold leading-6 px-4 py-3 rounded-xl border-solid w-[180px]">
+      Start with Tokens
+    </a>
+    <div className="flex grow flex-col md:flex-row pt-[44px]">
       <div>
 ```tsx
 const [filteredTokens, setFilteredTokens] = useState<Token[]>([]);
@@ -197,11 +294,17 @@ setFilteredTokens(filteredTokens);
       </div>
     </div>
   </aside>
-  <aside className="md:px-2 pt-10">
-    <p className="text-lg md:text-xl py-4">
+  <main className="flex flex-col gap-4 md:flex-row pt-10">
+    <h3 className="basis-1/2 py-[15px] text-4xl md:text-4xl text-gray-50">Swap</h3>
+  </main>
+  <aside>
+    <p className="text-base md:text-base pb-[24px]">
       Swap [Tokens](/token/types#token) using the [Swap](/swap/swap) components.
     </p>
-    <div className="flex grow flex-col md:flex-row">
+    <a href="/swap/swap" className="flex justify-center items-center border border-indigo-400 text-indigo-400 font-bold leading-6 px-4 py-3 rounded-xl border-solid w-[180px]">
+      Start with Swap
+    </a>
+    <div className="flex grow flex-col md:flex-row pt-[44px]">
       <div>
 ```tsx
 <Swap address={address}> // [!code focus]
@@ -348,7 +451,10 @@ The swap will execute and work out of the box when you implement the component i
   </p>
   <aside className="flex flex-col pt-10 md:flex-row md:px-2">
     <div>
-      <a href="https://www.figma.com/community/file/1370194397345450683" target="_blank">
+      <a
+        href="https://www.figma.com/community/file/1370194397345450683"
+        target="_blank"
+      >
         <p>Figma - How to use</p>
         <img
           alt="OnchainKit logo vibes"
@@ -358,7 +464,10 @@ The swap will execute and work out of the box when you implement the component i
       </a>
     </div>
     <div>
-      <a href="https://www.figma.com/community/file/1370194397345450683" target="_blank">
+      <a
+        href="https://www.figma.com/community/file/1370194397345450683"
+        target="_blank"
+      >
         <p>Figma - Components</p>
         <img
           alt="OnchainKit logo vibes"
