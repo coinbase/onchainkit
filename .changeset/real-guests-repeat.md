@@ -1,5 +1,6 @@
 ---
-"@coinbase/onchainkit": patch
+"@coinbase/onchainkit": minor
 ---
 
-- **docs**: Add Wallet Demo margin to avoid overlapping neighbor divs. By @cpcramer #741
+- **chore**: Swap components internal refactor. By @kyhyco #746
+- **docs**: updated Connect Wallet docs and homepage example. By @cpcramer #740
