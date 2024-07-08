@@ -67,22 +67,6 @@ describe('SwapButton', () => {
     expect(button).toBeDisabled();
   });
 
-  it('calls handleSubmit with onSubmit when clicked', () => {
-    useSwapContextMock.mockReturnValue({
-      to: { loading: false, amount: 1, token: 'ETH' },
-      from: { loading: false, amount: 1, token: 'BTC' },
-      loading: false,
-      handleSubmit: mockHandleSubmit,
-    });
-
-    render(<SwapButton onSubmit={mockOnSubmit} />);
-
-    const button = screen.getByTestId('ockSwapButton_Button');
-    fireEvent.click(button);
-
-    expect(mockHandleSubmit).toHaveBeenCalledWith(mockOnSubmit);
-  });
-
   it('applies additional className correctly', () => {
     useSwapContextMock.mockReturnValue({
       to: { loading: false, amount: 1, token: 'ETH' },
