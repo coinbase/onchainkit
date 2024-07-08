@@ -26,7 +26,7 @@ export function SwapButton({ className, disabled = false }: SwapButtonReact) {
         'mt-4 px-4 py-3 font-medium text-base text-white leading-6',
         isDisabled && pressable.disabled,
         text.headline,
-        className
+        className,
       )}
       onClick={() => handleSubmit()}
       disabled={isDisabled}
