@@ -4,8 +4,12 @@
 
 ### Minor Changes
 
-- d638dc9: - **chore**: Swap components internal refactor. By @kyhyco #746
-  - **docs**: updated Connect Wallet docs and homepage example. By @cpcramer #740
+- **chore**: Swap components internal refactor. By @kyhyco #746 d638dc9
+
+Breaking Changes
+
+- `ConnectAccount` has been removed from `Wallet` module.
+- `ConnectWallet`'s `label` prop renamed to `text`.
 
 ## 0.23.4
 
