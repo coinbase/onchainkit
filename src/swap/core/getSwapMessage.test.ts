@@ -79,6 +79,14 @@ describe('getSwapMessage', () => {
     expect(getSwapMessage(params)).toBe(SwapMessage.INSUFFICIENT_BALANCE);
   });
 
+  test('returns CONFIRM IN WALLET when pending transaction', () => {
+    const params = {
+      ...baseParams,
+      pendingTransaction: true,
+    };
+    expect(getSwapMessage(params)).toBe(SwapMessage.CONFIRM_IN_WALLET);
+  });
+
   test('returns SWAP_IN_PROGRESS when loading is true', () => {
     const params = {
       ...baseParams,
