@@ -118,7 +118,6 @@ export type SwapAPIResponse = {
 export type SwapButtonReact = {
   disabled?: boolean; // Disables swap button
   className?: string; // Optional className override for top div element.
-  onSubmit: (swapTransaction: BuildSwapTransaction) => void;
 };
 
 export type SwapContextType = {
