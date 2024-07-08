@@ -1,15 +1,15 @@
 import { useCallback } from 'react';
 import { useAccount, useConnect } from 'wagmi';
-import type { ConnectWalletReact } from '../types';
-import { cn, color, pressable, text } from '../../styles/theme';
+import { cn, color, pressable, text as dsText } from '../../styles/theme';
 import { Spinner } from '../../internal/loading/Spinner';
 import { IdentityProvider } from '../../identity/components/IdentityProvider';
 import { useWalletContext } from './WalletProvider';
+import type { ConnectWalletReact } from '../types';
 
 export function ConnectWallet({
-  label = 'Connect Wallet',
   children,
   className,
+  text = 'Connect Wallet',
 }: ConnectWalletReact) {
   const { isOpen, setIsOpen } = useWalletContext();
   const { address, status } = useAccount();
@@ -29,14 +29,14 @@ export function ConnectWallet({
           data-testid="ockConnectWallet_ConnectButton"
           className={cn(
             pressable.primary,
-            text.headline,
+            dsText.headline,
             color.inverse,
             'inline-flex min-w-[153px] items-center justify-center rounded-xl px-4 py-3',
             className,
           )}
           onClick={() => connect({ connector })}
         >
-          <span className={cn(text.body, color.inverse)}>{label}</span>
+          <span className={cn(dsText.body, color.inverse)}>{text}</span>
         </button>
       </div>
     );
@@ -50,7 +50,7 @@ export function ConnectWallet({
           data-testid="ockConnectAccountButtonInner"
           className={cn(
             pressable.primary,
-            text.headline,
+            dsText.headline,
             color.inverse,
             'inline-flex min-w-[153px] items-center justify-center rounded-xl px-4 py-3',
             pressable.disabled,

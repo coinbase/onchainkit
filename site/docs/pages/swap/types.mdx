@@ -49,7 +49,7 @@ type Fee = {
 ## `GetSwapQuoteParams`
 
 ```ts
-export type GetSwapQuoteParams = {
+type GetSwapQuoteParams = {
   from: Token; // The source token for the swap
   to: Token; // The destination token for the swap
   amount: string; // The amount to be swapped
@@ -61,13 +61,13 @@ export type GetSwapQuoteParams = {
 ## `GetSwapQuoteResponse`
 
 ```ts
-export type GetSwapQuoteResponse = SwapQuote | SwapError;
+type GetSwapQuoteResponse = SwapQuote | SwapError;
 ```
 
 # `SwapMessageReact`
 
 ```ts
-export type SwapMessageReact = {
+type SwapMessageReact = {
   className?: string; // Optional className override for top div element.
 };
 ```
@@ -85,12 +85,12 @@ type QuoteWarning = {
 
 ```ts
 type SwapAmountInputReact = {
+  className?: string; // Optional className override for top div element.
   delayMs?: number; // The debounce delay in milliseconds
   label: string; // Descriptive label for the input field
   swappableTokens?: Token[];  // Swappable tokens
   token: Token; // Selected token
   type: 'to' | 'from'; // Identifies if component is for toToken or fromToken
-  className?: string; // Optional className override for top div element.
 };
 ```
 
@@ -98,9 +98,9 @@ type SwapAmountInputReact = {
 
 ```ts
 type SwapButtonReact = {
+  className?: string; // Optional className override for top div element.
   disabled?: boolean; // Disables swap button
   onSubmit?: (swapTransaction: BuildSwapTransaction) => void; // Callback to submit Swap
-  className?: string; // Optional className override for top div element.
 };
 ```
 
@@ -137,6 +137,14 @@ type SwapReact = {
   children: ReactNode; // Children components to render
   title?: string; // Title for the Swap component. (default: "Swap")
   className?: string; // Optional className override for top div element.
+};
+```
+
+## `SwapToggleButtonReact`
+
+```ts
+type SwapToggleButtonReact = {
+  className?: string;
 };
 ```
 

@@ -149,6 +149,8 @@ export default function SwapComponents() {
 The swap will execute and work out of the box when you implement the component in your own app.
 :::
 
+### Custom token pair
+
 You can adjust to only allow swap between a token pair.
 
 ```tsx [code]
@@ -205,6 +207,8 @@ You can adjust to only allow swap between a token pair.
   </SwapWrapper>
 </App>
 
+### Remove toggle button
+
 You can remove `SwapToggleButton` to make swap unidirectional.
 
 ```tsx [code]
@@ -259,6 +263,8 @@ You can remove `SwapToggleButton` to make swap unidirectional.
   </SwapWrapper>
 </App>
 
+### Remove swap message
+
 You can remove `SwapMessage` component.
 
 ```tsx [code]
@@ -312,6 +318,8 @@ You can remove `SwapMessage` component.
     }}
   </SwapWrapper>
 </App>
+
+### Override styles
 
 You can override component styles using `className`.
 
@@ -380,7 +388,7 @@ You can override component styles using `className`.
 ## Props
 
 - [`SwapReact`](/swap/types#swapreact)
-- [`SwapAmountInput`](/swap/types#swapamountinput)
-- [`SwapToggleButton`](/swap/types#swaptogglebutton)
+- [`SwapAmountInputReact`](/swap/types#swapamountinputreact)
 - [`SwapButtonReact`](/swap/types#swapbuttonreact)
 - [`SwapMessageReact`](/swap/types#swapmessagereact)
+- [`SwapToggleButtonReact`](/swap/types#swaptogglebuttonreact)
