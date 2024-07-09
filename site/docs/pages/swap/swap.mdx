@@ -112,7 +112,7 @@ export default function SwapComponents() {
               token={swappableTokens[2]}
               type="to"
             />
-            <SwapButton />
+            <SwapButton disabled />
             <SwapMessage />
           </Swap>
         )
@@ -289,7 +289,7 @@ You can remove `SwapMessage` component.
               token={swappableTokens[2]}
               type="to"
             />
-            <SwapButton />
+            <SwapButton disabled />
           </Swap>
         )
       }
@@ -354,7 +354,7 @@ You can override component styles using `className`.
               type="to"
               className='bg-white'
             />
-            <SwapButton className='bg-red-600'/>
+            <SwapButton className='bg-red-600' disabled />
             <SwapMessage className='text-red-600'/>
           </Swap>
         )
