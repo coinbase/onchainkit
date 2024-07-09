@@ -3,6 +3,7 @@ import {
   GENERAL_SWAP_BALANCE_ERROR_CODE,
   GENERAL_SWAP_QUOTE_ERROR_CODE,
   LOW_LIQUIDITY_ERROR_CODE,
+  TOO_MANY_REQUESTS_ERROR_CODE,
   UNCAUGHT_SWAP_ERROR_CODE,
   UNCAUGHT_SWAP_QUOTE_ERROR_CODE,
 } from '../constants';
@@ -12,6 +13,9 @@ export function getSwapErrorCode(
   errorCode?: number,
 ) {
   // TODO: handle additional error codes
+  if (errorCode === -32001) {
+    return TOO_MANY_REQUESTS_ERROR_CODE;
+  }
 
   if (errorCode === -32602) {
     return LOW_LIQUIDITY_ERROR_CODE;
