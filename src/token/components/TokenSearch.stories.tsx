@@ -1,6 +1,6 @@
 import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { fn } from '@storybook/test';
+import { expect, fn, userEvent, within } from '@storybook/test';
 import { TokenSearch } from './TokenSearch';
 import { getTokens } from '../core/getTokens';
 import type { Token } from '../types';
@@ -38,4 +38,19 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-export const Basic: Story = {};
+export const Basic: Story = {
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    const Input = canvas.getByPlaceholderText('Search for a token');
+
+    await userEvent.type(Input, 'eth', { delay: 300 });
+
+    const CloseButton = canvas.getByRole('button');
+    expect(CloseButton).not.toBeUndefined();
+
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+
+    await userEvent.click(CloseButton);
+  },
+};
