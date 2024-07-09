@@ -42,7 +42,6 @@ export function Name({
     return null;
   }
 
-  // It displays the ENS name if available.
   return (
     <div className="flex items-center gap-1">
       <span
