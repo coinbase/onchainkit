@@ -12,9 +12,10 @@ import { getSwapQuote } from '../core/getSwapQuote';
 import { formatTokenAmount } from '../../utils/formatTokenAmount';
 import type { SwapError, SwapErrorState, SwapContextType } from '../types';
 import type { Token } from '../../token';
-import type { Address } from 'viem';
+import type { Address, TransactionReceipt } from 'viem';
 import { useSendTransaction, useConfig, type BaseError } from 'wagmi';
 import { waitForTransactionReceipt } from '@wagmi/core';
+import { USER_REJECTED_ERROR_CODE } from '../constants';
 
 function useValue<T>(object: T): T {
   return useMemo(() => object, [object]);
@@ -164,7 +165,10 @@ export function SwapProvider({
   );
 
   const handleSubmit = useCallback(
-    async function handleSubmit() {
+    async function handleSubmit(
+      onError?: (error: SwapError) => void,
+      onSuccess?: (txReceipt: TransactionReceipt) => void | Promise<void>,
+    ) {
       if (!address || !from.token || !to.token || !from.amount) {
         return;
       }
@@ -173,6 +177,7 @@ export function SwapProvider({
       handleError({ swapError: undefined });
 
       try {
+        /* fetch the transaction */
         const response = await buildSwapTransaction({
           amount: from.amount,
           fromAddress: address,
@@ -186,6 +191,9 @@ export function SwapProvider({
 
         const { transaction, approveTransaction } = response;
 
+        /* for swaps from ERC-20 tokens, 
+          if there is an approveTransaction present,
+          request approval for the amount  */
         if (approveTransaction?.data) {
           setPendingTransaction(true);
           const approveTxHash = await sendTransactionAsync({
@@ -200,6 +208,7 @@ export function SwapProvider({
           setPendingTransaction(false);
         }
 
+        /* make the swap */
         setPendingTransaction(true);
         const txHash = await sendTransactionAsync({
           to: transaction.to,
@@ -209,10 +218,16 @@ export function SwapProvider({
         setPendingTransaction(false);
 
         setLoading(true);
-        await waitForTransactionReceipt(config, {
-          hash: txHash,
-          confirmations: 1,
-        });
+        const transactionObject: TransactionReceipt =
+          await waitForTransactionReceipt(config, {
+            hash: txHash,
+            confirmations: 1,
+          });
+
+        const callbackResult = onSuccess?.(transactionObject);
+        if (callbackResult instanceof Promise) {
+          await callbackResult;
+        }
 
         // TODO: refresh balances
       } catch (e) {
@@ -224,11 +239,12 @@ export function SwapProvider({
           setPendingTransaction(false);
           handleError({
             swapError: {
-              code: 'USER_REJECTED',
+              code: USER_REJECTED_ERROR_CODE,
               error: 'User rejected the request.',
             },
           });
         } else {
+          onError?.(e as SwapError);
           handleError({ swapError: e as SwapError });
         }
       } finally {

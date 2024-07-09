@@ -3,7 +3,12 @@ import { Spinner } from '../../internal/loading/Spinner';
 import { useSwapContext } from './SwapProvider';
 import type { SwapButtonReact } from '../types';
 
-export function SwapButton({ className, disabled = false }: SwapButtonReact) {
+export function SwapButton({
+  className,
+  onError,
+  onSuccess,
+  disabled = false,
+}: SwapButtonReact) {
   const { to, from, loading, pendingTransaction, handleSubmit } =
     useSwapContext();
 
@@ -28,7 +33,7 @@ export function SwapButton({ className, disabled = false }: SwapButtonReact) {
         text.headline,
         className,
       )}
-      onClick={() => handleSubmit()}
+      onClick={() => handleSubmit(onError, onSuccess)}
       disabled={isDisabled}
       data-testid="ockSwapButton_Button"
     >
