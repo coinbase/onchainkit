@@ -3,7 +3,11 @@ import { getSlicedAddress } from '../getSlicedAddress';
 import { cn, text } from '../../styles/theme';
 import type { AddressReact } from '../types';
 
-export function Address({ address = null, className }: AddressReact) {
+export function Address({
+  address = null,
+  className,
+  isSliced = true,
+}: AddressReact) {
   const { address: contextAddress } = useIdentityContext();
   if (!contextAddress && !address) {
     throw new Error(
@@ -11,9 +15,11 @@ export function Address({ address = null, className }: AddressReact) {
     );
   }
 
+  const accountAddress = contextAddress ?? address;
+
   return (
     <span data-testid="ockAddress" className={cn(text.label2, className)}>
-      {getSlicedAddress(contextAddress ?? address)}
+      {isSliced ? getSlicedAddress(accountAddress) : accountAddress}
     </span>
   );
 }
