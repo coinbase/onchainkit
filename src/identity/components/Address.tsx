@@ -15,11 +15,11 @@ export function Address({
     );
   }
 
-  const resolvedAddress = contextAddress ?? address;
+  const accountAddress = contextAddress ?? address;
 
   return (
     <span data-testid="ockAddress" className={cn(text.label2, className)}>
-      {isSliced ? getSlicedAddress(resolvedAddress) : resolvedAddress}
+      {isSliced ? getSlicedAddress(accountAddress) : accountAddress}
     </span>
   );
 }

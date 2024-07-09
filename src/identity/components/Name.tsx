@@ -24,10 +24,10 @@ export function Name({
     );
   }
 
-  const resolvedAddress = contextAddress ?? address;
+  const accountAddress = contextAddress ?? address;
 
   const { data: name, isLoading } = useName({
-    address: resolvedAddress,
+    address: accountAddress,
   });
 
   const badge = useMemo(() => {
@@ -41,8 +41,8 @@ export function Name({
   }
 
   const formattedAddress = isSliced
-    ? getSlicedAddress(resolvedAddress)
-    : resolvedAddress;
+    ? getSlicedAddress(accountAddress)
+    : accountAddress;
 
   // It displays the ENS name if available; otherwise, it shows either a sliced version of the address
   // or the full address, based on the 'sliced' prop. By default, 'sliced' is set to true.
@@ -55,7 +55,7 @@ export function Name({
       >
         {name ?? formattedAddress}
       </span>
-      {badge && <DisplayBadge address={resolvedAddress}>{badge}</DisplayBadge>}
+      {badge && <DisplayBadge address={accountAddress}>{badge}</DisplayBadge>}
     </div>
   );
 }
