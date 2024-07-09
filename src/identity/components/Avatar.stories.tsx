@@ -24,7 +24,7 @@ const meta = {
   },
   tags: ['autodocs'],
   args: {
-    address: '0x838ad0eae54f99f1926da7c3b6bfbf617389b4d9',
+    address: '0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1',
   },
 } satisfies Meta<typeof Avatar>;
 
