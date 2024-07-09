@@ -1,13 +1,17 @@
-import { LOW_LIQUIDITY_ERROR_CODE } from '../constants';
+import {
+  LOW_LIQUIDITY_ERROR_CODE,
+  USER_REJECTED_ERROR_CODE,
+} from '../constants';
 import type { GetSwapMessageParams } from '../types';
 
 export enum SwapMessage {
   BALANCE_ERROR = 'Error fetching token balance',
+  CONFIRM_IN_WALLET = 'Confirm in wallet',
   INCOMPLETE_FIELD = 'Complete the fields to continue',
   INSUFFICIENT_BALANCE = 'Insufficient balance',
   LOW_LIQUIDITY = 'Liquidity too low for the token',
-  CONFIRM_IN_WALLET = 'Confirm in wallet',
   SWAP_IN_PROGRESS = 'Swap in progress...',
+  USER_REJECTED = 'User rejected the transaction',
   FETCHING_QUOTE = 'Fetching quote...',
   FETCHING_BALANCE = 'Fetching balance...',
 }
@@ -46,13 +50,20 @@ export function getSwapMessage({
   if (!error) {
     return '';
   }
-  // handle invalid params error
+  // handle specific error codes
   if (
     Object.values(error)?.find(
       (error) => error?.code === LOW_LIQUIDITY_ERROR_CODE,
     )
   ) {
     return SwapMessage.LOW_LIQUIDITY;
+  }
+  if (
+    Object.values(error)?.find(
+      (error) => error?.code === USER_REJECTED_ERROR_CODE,
+    )
+  ) {
+    return SwapMessage.USER_REJECTED;
   }
   // handle general error
   if (Object.values(error).length) {
