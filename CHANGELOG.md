@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- 4a37815: - **feat**: init `Transaction` components. By @zizzamia #763
+- **feat**: init `Transaction` components. By @zizzamia #763 4a37815
 
 ## 0.24.1
 
@@ -22,6 +22,7 @@ Breaking Changes
 
 - `ConnectAccount` has been removed from `Wallet` module.
 - `ConnectWallet`'s `label` prop renamed to `text`.
+- Update `getName` and the `Name` component to return `null` if the ENS name is not found for the given address.
 
 ## 0.23.4
 
