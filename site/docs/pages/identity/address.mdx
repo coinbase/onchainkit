@@ -19,6 +19,8 @@ import { Address } from '@coinbase/onchainkit/identity';
   <Address className="bg-gray-300 rounded" address="0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1" />
 </App>
 
+### Display full address
+
 Set `isSliced` to false, to display the full address:
 
 ```tsx
@@ -30,7 +32,9 @@ import { Address } from '@coinbase/onchainkit/identity';
   <Address className="bg-gray-300 rounded" address="0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1" isSliced={false}/>
 </App>
 
-Override styles via `className` prop:
+### Override styles
+
+You can override component styles using `className`.
 
 ```tsx
 import { Address } from '@coinbase/onchainkit/identity';

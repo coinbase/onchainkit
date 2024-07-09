@@ -18,7 +18,9 @@ import { Name } from '@coinbase/onchainkit/identity';
   <Name className='bg-gray-300 rounded' address="0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1"/>
 </App>
 
-Override styles via `className` prop:
+### Override styles
+
+You can override component styles using `className`.
 
 ```tsx
 import { Name } from '@coinbase/onchainkit/identity';
@@ -32,16 +34,7 @@ import { Name } from '@coinbase/onchainkit/identity';
   <Name className="bg-emerald-400 px-2 py-1 rounded" address="0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1" />
 </App>
 
-Address without an ENS name, and it defaults to his sliced address:
-
-```tsx
-import { Name } from '@coinbase/onchainkit/identity';
-<Name address="0x1234567890abcdef1234567890abcdef12345678" /> // [!code focus]
-```
-
-<App>
-  <Name className='bg-gray-300 rounded' address="0x435233231234567890abcdef1234567890abcdef12345678"/>
-</App>
+### Add attestation badge
 
 Show attestation on ENV name with [`Badge`](/identity/badge) component.
 
