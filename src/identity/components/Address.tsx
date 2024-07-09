@@ -5,8 +5,8 @@ import type { AddressReact } from '../types';
 
 export function Address({
   address = null,
-  isSliced = true,
   className,
+  isSliced = true,
 }: AddressReact) {
   const { address: contextAddress } = useIdentityContext();
   if (!contextAddress && !address) {
