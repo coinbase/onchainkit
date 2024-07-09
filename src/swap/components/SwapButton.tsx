@@ -9,10 +9,11 @@ export function SwapButton({
   onSuccess,
   disabled = false,
 }: SwapButtonReact) {
-  const { to, from, loading, pendingTransaction, handleSubmit } =
+  const { to, from, loading, isTransactionPending, handleSubmit } =
     useSwapContext();
 
-  const isLoading = to.loading || from.loading || loading || pendingTransaction;
+  const isLoading =
+    to.loading || from.loading || loading || isTransactionPending;
 
   const isDisabled =
     !from.amount ||

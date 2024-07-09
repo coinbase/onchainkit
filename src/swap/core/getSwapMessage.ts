@@ -22,7 +22,7 @@ export function getSwapMessage({
   error,
   from,
   loading,
-  pendingTransaction,
+  isTransactionPending,
   to,
 }: GetSwapMessageParams) {
   // handle balance error
@@ -34,7 +34,7 @@ export function getSwapMessage({
     return SwapMessage.INSUFFICIENT_BALANCE;
   }
   // handle pending transaction
-  if (pendingTransaction) {
+  if (isTransactionPending) {
     return SwapMessage.CONFIRM_IN_WALLET;
   }
   // handle loading states
