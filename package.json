@@ -131,6 +131,12 @@
       "import": "./esm/token/index.js",
       "default": "./esm/token/index.js"
     },
+    "./transaction": {
+      "types": "./esm/transaction/index.d.ts",
+      "module": "./esm/transaction/index.js",
+      "import": "./esm/transaction/index.js",
+      "default": "./esm/transaction/index.js"
+    },
     "./xmtp": {
       "types": "./esm/xmtp/index.d.ts",
       "module": "./esm/xmtp/index.js",
