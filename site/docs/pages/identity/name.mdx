@@ -40,18 +40,7 @@ import { Name } from '@coinbase/onchainkit/identity';
 ```
 
 <App>
-  <Name className='bg-gray-300 rounded' address="0x435233231234567890abcdef1234567890abcdef12345678" />
-</App>
-
-Set `isSliced` to false, to display the full address if the ENS name is not found:
-
-```tsx
-import { Name } from '@coinbase/onchainkit/identity';
-<Name address="0x1234567890abcdef1234567890abcdef12345678" isSliced={false}/> // [!code focus]
-```
-
-<App>
-  <Name className='bg-gray-300 rounded' address="0x435233231234567890abcdef1234567890abcdef12345678" isSliced={false}/>
+  <Name className='bg-gray-300 rounded' address="0x435233231234567890abcdef1234567890abcdef12345678"/>
 </App>
 
 Show attestation on ENV name with [`Badge`](/identity/badge) component.
