@@ -19,10 +19,7 @@ The components are designed to work together. For each component, ensure the fol
 - `<SwapAmountInput />` - Set the [Token](/token/types#token) to swap and specify the input type (`from` or `to`).
 - `<SwapToggleButton />` - Optional component to toggle between input types.
 - `<SwapMessage />` - Optional component that displays a message related to the swap operation's current state.
-- `<SwapButton />` - Set the onSubmit and onError callbacks.
-
-The `SwapButton` component prepares a swap transaction but does not submit it to the blockchain.
-You need to handle the transaction submission and confirmation in your application, as shown in the `onSubmit` code example.
+- `<SwapButton />` - Set the onSuccess and onError callbacks.
 
 ## Usage
 
@@ -67,17 +64,6 @@ export default function SwapComponents() {
 
   const swappableTokens: Token[] = [ ... ];
 
-  const onSubmit = useCallback((swapTransaction: BuildSwapTransaction) => {
-    const { transaction } = swapTransaction;
-    console.log('Prepared swapTransaction:', transaction);
-    // Transaction submission sample code
-    const result = await sendTransaction({
-      to: transaction.to,
-      value: transaction.value,
-      data: transaction.data,
-    });
-  }, [sendTransaction]);
-
   return ({ address ? (
     <Swap address={address}> // [!code focus]
       <SwapAmountInput // [!code focus]
@@ -93,7 +79,7 @@ export default function SwapComponents() {
         token={USDCToken} // [!code focus]
         type="to" // [!code focus]
       /> // [!code focus]
-      <SwapButton onSubmit={onSubmit} /> // [!code focus]
+      <SwapButton /> // [!code focus]
       <SwapMessage /> // [!code focus]
     </Swap> // [!code focus]
   ) : (
@@ -168,7 +154,7 @@ You can adjust to only allow swap between a token pair.
     token={USDCToken} // [!code focus]
     type="to" // [!code focus]
   /> // [!code focus]
-  <SwapButton onSubmit={onSubmit} /> // [!code focus]
+  <SwapButton /> // [!code focus]
   <SwapMessage /> // [!code focus]
 </Swap> // [!code focus]
 ```
@@ -225,7 +211,7 @@ You can remove `SwapToggleButton` to make swap unidirectional.
     token={USDCToken} // [!code focus]
     type="to" // [!code focus]
   /> // [!code focus]
-  <SwapButton onSubmit={onSubmit} /> // [!code focus]
+  <SwapButton /> // [!code focus]
   <SwapMessage /> // [!code focus]
 </Swap> // [!code focus]
 ```
@@ -282,7 +268,7 @@ You can remove `SwapMessage` component.
     token={USDCToken} // [!code focus]
     type="to" // [!code focus]
   /> // [!code focus]
-  <SwapButton onSubmit={onSubmit} /> // [!code focus]
+  <SwapButton /> // [!code focus]
 </Swap> // [!code focus]
 ```
 
