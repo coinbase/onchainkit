@@ -82,7 +82,7 @@ export function SwapProvider({
   address: Address;
 }) {
   const [loading, setLoading] = useState(false);
-  const [pendingTransaction, setPendingTransaction] = useState(false);
+  const [isTransactionPending, setPendingTransaction] = useState(false);
 
   const [error, setError] = useState<SwapErrorState>();
   const handleError = useCallback(
@@ -267,7 +267,7 @@ export function SwapProvider({
     from,
     error,
     loading,
-    pendingTransaction,
+    isTransactionPending,
     handleAmountChange,
     handleToggle,
     handleSubmit,
