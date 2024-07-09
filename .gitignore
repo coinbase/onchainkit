@@ -57,3 +57,5 @@ package-lock.json
 # VitePress
 docs/.vitepress/cache
 docs/.vitepress/dist
+
+*storybook.log
