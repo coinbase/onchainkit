@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.24.2
+
+### Patch Changes
+
+- 4a37815: - **feat**: init `Transaction` components. By @zizzamia #763
+
 ## 0.24.1
 
 ### Patch Changes
