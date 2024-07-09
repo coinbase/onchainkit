@@ -14,15 +14,18 @@ const wagmiConfig = createConfig({
 
 const meta = {
   title: 'Swap/ToggleButton',
-  component: () => (
-    <WagmiProvider config={wagmiConfig}>
-      <QueryClientProvider client={new QueryClient()}>
-        <SwapProvider address="0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1">
-          <SwapToggleButton />
-        </SwapProvider>
-      </QueryClientProvider>
-    </WagmiProvider>
-  ),
+  decorators: [
+    (Story) => (
+      <WagmiProvider config={wagmiConfig}>
+        <QueryClientProvider client={new QueryClient()}>
+          <SwapProvider address="0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1">
+            <Story />
+          </SwapProvider>
+        </QueryClientProvider>
+      </WagmiProvider>
+    ),
+  ],
+  component: SwapToggleButton,
   parameters: {
     layout: 'centered',
   },
