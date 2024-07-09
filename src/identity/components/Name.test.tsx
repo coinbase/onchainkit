@@ -65,38 +65,23 @@ describe('OnchainAddress', () => {
     expect(screen.getByText(testName)).toBeInTheDocument();
   });
 
-  it('displays sliced address when ENS name is not available', () => {
+  it('returns null when ENS name is not available', () => {
     (useIdentityContext as jest.Mock).mockReturnValue({
-      schemaId: '0x123',
-    });
-    (useName as jest.Mock).mockReturnValue({
-      data: mockSliceAddress(testAddress),
-      isLoading: false,
-    });
-    render(<Name address={testAddress} />);
-    expect(screen.getByText(mockSliceAddress(testAddress))).toBeInTheDocument();
-  });
-
-  it('displays empty when ens still fetching', () => {
-    (useName as jest.Mock).mockReturnValue({ data: null, isLoading: true });
-    render(<Name address={testAddress} />);
-    expect(
-      screen.queryByText(mockSliceAddress(testAddress)),
-    ).not.toBeInTheDocument();
-    expect(getSlicedAddress).toHaveBeenCalledTimes(0);
-  });
-
-  it('displays sliced address when ENS name is not available', () => {
-    (useIdentityContext as jest.Mock).mockReturnValue({
-      address: undefined,
       schemaId: '0x123',
     });
     (useName as jest.Mock).mockReturnValue({
       data: null,
       isLoading: false,
     });
+    const { container } = render(<Name address={testAddress} />);
+    expect(container.firstChild).toBeNull();
+  });
+
+  it('displays empty when ens still fetching', () => {
+    (useName as jest.Mock).mockReturnValue({ data: null, isLoading: true });
     render(<Name address={testAddress} />);
-    expect(getSlicedAddress).toHaveBeenCalledWith(testAddress);
+    expect(screen.queryByText(testName)).not.toBeInTheDocument();
+    expect(getSlicedAddress).toHaveBeenCalledTimes(0);
   });
 
   it('renders badge when Badge is passed, user is attested and address set in Identity', async () => {
@@ -143,34 +128,5 @@ describe('OnchainAddress', () => {
       const badge = screen.getByTestId('ockBadge');
       expect(badge).toBeInTheDocument();
     });
-  });
-
-  it('displays sliced address when ENS name is not available and isSliced is set to true', () => {
-    (useIdentityContext as jest.Mock).mockReturnValue({
-      schemaId: '0x123',
-    });
-    (useName as jest.Mock).mockReturnValue({
-      data: null,
-      isLoading: false,
-    });
-    (getSlicedAddress as jest.Mock).mockReturnValue(
-      mockSliceAddress(testAddress),
-    );
-    render(<Name address={testAddress} isSliced={true} />);
-    expect(screen.getByText(mockSliceAddress(testAddress))).toBeInTheDocument();
-    expect(getSlicedAddress).toHaveBeenCalledWith(testAddress);
-  });
-
-  it('displays full address when isSliced is false and ENS name is not available', () => {
-    (useIdentityContext as jest.Mock).mockReturnValue({
-      schemaId: '0x123',
-    });
-    (useName as jest.Mock).mockReturnValue({
-      data: null,
-      isLoading: false,
-    });
-    render(<Name address={testAddress} isSliced={false} />);
-    expect(screen.getByText(testAddress)).toBeInTheDocument();
-    expect(getSlicedAddress).not.toHaveBeenCalled();
   });
 });
