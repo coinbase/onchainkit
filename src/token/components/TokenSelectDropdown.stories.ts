@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { fn } from '@storybook/test';
 import { TokenSelectDropdown } from './TokenSelectDropdown';
-import { Token } from '../types';
+import type { Token } from '../types';
 
 const tokens: Token[] = [
   {
