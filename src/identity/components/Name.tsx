@@ -1,6 +1,5 @@
 import { Children, useMemo } from 'react';
 import { useIdentityContext } from './IdentityProvider';
-import { getSlicedAddress } from '../getSlicedAddress';
 import { useName } from '../hooks/useName';
 import type { NameReact } from '../types';
 import { Badge } from './Badge';
@@ -12,7 +11,6 @@ import { cn, text } from '../../styles/theme';
  */
 export function Name({
   address = null,
-  isSliced = true,
   className,
   children,
   ...props
@@ -40,12 +38,11 @@ export function Name({
     return <span className={className} />;
   }
 
-  const formattedAddress = isSliced
-    ? getSlicedAddress(accountAddress)
-    : accountAddress;
+  if (!name) {
+    return null;
+  }
 
-  // It displays the ENS name if available; otherwise, it shows either a sliced version of the address
-  // or the full address, based on the 'sliced' prop. By default, 'sliced' is set to true.
+  // It displays the ENS name if available.
   return (
     <div className="flex items-center gap-1">
       <span
@@ -53,7 +50,7 @@ export function Name({
         className={cn(text.headline, className)}
         {...props}
       >
-        {name ?? formattedAddress}
+        {name}
       </span>
       {badge && <DisplayBadge address={accountAddress}>{badge}</DisplayBadge>}
     </div>

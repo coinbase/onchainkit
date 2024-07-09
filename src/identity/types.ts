@@ -143,7 +143,6 @@ export type NameReact = {
   address?: Address | null; // Ethereum address to be displayed.
   children?: ReactNode; // Optional attestation by passing Badge component as its children
   className?: string; // Optional className override for top span element.
-  isSliced?: boolean; // Determines if the displayed address should be sliced.
 } & HTMLAttributes<HTMLSpanElement>; // Optional additional span attributes to apply to the name.
 
 export type UseAttestations = {
