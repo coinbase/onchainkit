@@ -15,7 +15,7 @@ import { Name } from '@coinbase/onchainkit/identity';
 ```
 
 <App>
-  <Name className='bg-gray-300 rounded' address="0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1"/>
+  <Name address="0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1"/>
 </App>
 
 ### Override styles
@@ -25,7 +25,7 @@ You can override component styles using `className`.
 ```tsx
 import { Name } from '@coinbase/onchainkit/identity';
 <Name
-  className="bg-emerald-400"// [!code focus]
+  className="bg-emerald-400 px-2 py-1 rounded"// [!code focus]
   address="0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1"
 />
 ```
@@ -59,7 +59,7 @@ import { Badge, Name, Identity } from '@coinbase/onchainkit/identity'; // [!code
     address="0x838aD0EAE54F99F1926dA7C3b6bFbF617389B4D9"
     className="bg-transparent"
   >
-    <Name className='bg-gray-300 rounded'>
+    <Name>
       <Badge />
     </Name>
   </Identity>
