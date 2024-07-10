@@ -1,12 +1,16 @@
+/**
+ * @vitest-environment node
+ */
 import { getTokens } from './getTokens';
 import { sendRequest } from '../../network/request';
 import { CDP_LIST_SWAP_ASSETS } from '../../network/definitions/swap';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 
-jest.mock('../../network/request');
+vi.mock('../../network/request');
 
 describe('getTokens', () => {
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('should return an array of tokens', async () => {
@@ -32,7 +36,7 @@ describe('getTokens', () => {
       error: null,
     };
 
-    (sendRequest as jest.Mock).mockResolvedValue(mockResponse);
+    (sendRequest as vi.Mock).mockResolvedValue(mockResponse);
 
     const tokens = await getTokens();
 
@@ -76,7 +80,7 @@ describe('getTokens', () => {
       error: null,
     };
 
-    (sendRequest as jest.Mock).mockResolvedValue(mockResponse);
+    (sendRequest as vi.Mock).mockResolvedValue(mockResponse);
 
     const tokens = await getTokens({ limit: '1', page: '1' });
 
@@ -100,7 +104,7 @@ describe('getTokens', () => {
   it('should return an error object if sendRequest returns an error', async () => {
     const mockError = new Error('Request failed');
 
-    (sendRequest as jest.Mock).mockResolvedValue({
+    (sendRequest as vi.Mock).mockResolvedValue({
       result: null,
       error: {
         code: -1,
@@ -127,7 +131,7 @@ describe('getTokens', () => {
       'getTokens: error retrieving tokens: Token retrieval failed',
     );
 
-    (sendRequest as jest.Mock).mockRejectedValue(mockError);
+    (sendRequest as vi.Mock).mockRejectedValue(mockError);
 
     await expect(getTokens()).rejects.toThrow(
       'getTokens: error retrieving tokens: Token retrieval failed',

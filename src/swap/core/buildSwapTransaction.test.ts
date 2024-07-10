@@ -1,3 +1,6 @@
+/**
+ * @vitest-environment node
+ */
 import { getAPIParamsForToken } from './getAPIParamsForToken';
 import { buildSwapTransaction } from './buildSwapTransaction';
 import { getSwapTransaction } from './getSwapTransaction';
@@ -5,8 +8,9 @@ import { sendRequest } from '../../network/request';
 import { CDP_GET_SWAP_TRADE } from '../../network/definitions/swap';
 import type { Token } from '../../token/types';
 import type { BuildSwapTransaction } from '../types';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-jest.mock('../../network/request');
+vi.mock('../../network/request');
 
 const ETH: Token = {
   name: 'ETH',
@@ -32,7 +36,7 @@ const testAmountReference = 'from';
 
 describe('buildSwapTransaction', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('should return a swap', async () => {
@@ -107,7 +111,7 @@ describe('buildSwapTransaction', () => {
       },
     };
 
-    (sendRequest as jest.Mock).mockResolvedValue(mockResponse);
+    (sendRequest as vi.Mock).mockResolvedValue(mockResponse);
 
     const trade = mockResponse.result;
     const expectedResponse = {
@@ -216,7 +220,7 @@ describe('buildSwapTransaction', () => {
       },
     };
 
-    (sendRequest as jest.Mock).mockResolvedValue(mockResponse);
+    (sendRequest as vi.Mock).mockResolvedValue(mockResponse);
 
     const trade = mockResponse.result;
     const expectedResponse = {
@@ -259,7 +263,7 @@ describe('buildSwapTransaction', () => {
     const mockError = new Error(
       'buildSwapTransaction: Error: Failed to send request',
     );
-    (sendRequest as jest.Mock).mockRejectedValue(mockError);
+    (sendRequest as vi.Mock).mockRejectedValue(mockError);
 
     const error = await buildSwapTransaction(mockParams);
     expect(error).toEqual({
@@ -292,7 +296,7 @@ describe('buildSwapTransaction', () => {
       },
     };
 
-    (sendRequest as jest.Mock).mockResolvedValue(mockResponse);
+    (sendRequest as vi.Mock).mockResolvedValue(mockResponse);
 
     const error = await buildSwapTransaction(mockParams);
     expect(error).toEqual({

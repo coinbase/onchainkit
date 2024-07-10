@@ -1,6 +1,3 @@
-/**
- * @jest-environment jsdom
- */
 import {
   GENERAL_SWAP_ERROR_CODE,
   GENERAL_SWAP_BALANCE_ERROR_CODE,
@@ -10,6 +7,7 @@ import {
   UNCAUGHT_SWAP_ERROR_CODE,
 } from '../constants';
 import { getSwapErrorCode } from './getSwapErrorCode';
+import { describe, expect, it } from 'vitest';
 
 describe('getSwapErrorCode', () => {
   it('should return LOW_LIQUIDITY_ERROR_CODE for errorCode -32602', () => {

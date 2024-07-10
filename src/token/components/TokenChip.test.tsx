@@ -1,15 +1,13 @@
-/**
- * @jest-environment jsdom
- */
 import React from 'react';
 import '@testing-library/jest-dom';
 import { fireEvent, render, screen, within } from '@testing-library/react';
 import type { Address } from 'viem';
 import { TokenChip } from './TokenChip';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 describe('TokenChip Component', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('should render', async () => {
@@ -61,7 +59,7 @@ describe('TokenChip Component', () => {
       name: 'Ether',
       symbol: 'ETH',
     };
-    const handleClick = jest.fn();
+    const handleClick = vi.fn();
     render(<TokenChip token={token} onClick={handleClick} />);
 
     const button = screen.getByTestId('ockTokenChip_Button');

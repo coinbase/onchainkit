@@ -1,12 +1,10 @@
-/**
- * @jest-environment jsdom
- */
 import React from 'react';
 import '@testing-library/jest-dom';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { TokenSelectModal } from './TokenSelectModal';
 import type { Address } from 'viem';
 import type { Token } from '../types';
+import { describe, expect, it, vi } from 'vitest';
 
 const tokens: Token[] = [
   {
@@ -31,7 +29,7 @@ const tokens: Token[] = [
 
 describe('TokenSelectModal', () => {
   const options = tokens;
-  const setToken = jest.fn();
+  const setToken = vi.fn();
   const token = tokens[0];
 
   it('renders the TokenSelectButton and does not render TokenSelectModalInner initially', () => {

@@ -1,22 +1,19 @@
-/**
- * @jest-environment jsdom
- */
-
 import { getName } from './getName';
 import { publicClient } from '../../network/client';
 import type { Address } from 'viem';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-jest.mock('../../network/client');
+vi.mock('../../network/client');
 
-jest.mock('../getSlicedAddress', () => ({
-  getSlicedAddress: jest.fn(),
+vi.mock('../getSlicedAddress', () => ({
+  getSlicedAddress: vi.fn(),
 }));
 
 describe('getName', () => {
-  const mockGetEnsName = publicClient.getEnsName as jest.Mock;
+  const mockGetEnsName = publicClient.getEnsName as vi.Mock;
 
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('should return correct value from client getName', async () => {

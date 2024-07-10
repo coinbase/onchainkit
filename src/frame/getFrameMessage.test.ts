@@ -4,16 +4,17 @@ import { getMockFrameRequest } from './getMockFrameRequest';
 import { neynarBulkUserLookup } from '../utils/neynar/user/neynarBulkUserLookup';
 import type { FrameRequest } from './types';
 import { neynarFrameValidation } from '../utils/neynar/frame/neynarFrameValidation';
+import { describe, expect, it, vi } from 'vitest';
 
-jest.mock('../utils/neynar/user/neynarBulkUserLookup', () => {
+vi.mock('../utils/neynar/user/neynarBulkUserLookup', () => {
   return {
-    neynarBulkUserLookup: jest.fn(),
+    neynarBulkUserLookup: vi.fn(),
   };
 });
 
-jest.mock('../utils/neynar/frame/neynarFrameValidation', () => {
+vi.mock('../utils/neynar/frame/neynarFrameValidation', () => {
   return {
-    neynarFrameValidation: jest.fn(),
+    neynarFrameValidation: vi.fn(),
   };
 });
 
@@ -28,8 +29,8 @@ function mockNeynarResponse(
     fid: number;
     verifications?: string[] | undefined;
   },
-  lookupMock: jest.Mock,
-  frameValidationMock: jest.Mock = jest.fn(),
+  lookupMock: vi.Mock,
+  frameValidationMock: vi.Mock = vi.fn(),
 ) {
   const neynarResponse = {
     users: [
@@ -133,8 +134,8 @@ describe('getFrameValidatedMessage', () => {
         fid,
         verifications: addresses,
       },
-      neynarBulkUserLookup as jest.Mock,
-      neynarFrameValidation as jest.Mock,
+      neynarBulkUserLookup as vi.Mock,
+      neynarFrameValidation as vi.Mock,
     );
     const fakeFrameData = {
       trustedData: {},
@@ -157,8 +158,8 @@ describe('getFrameValidatedMessage', () => {
         fid,
         verifications: addresses,
       },
-      neynarBulkUserLookup as jest.Mock,
-      neynarFrameValidation as jest.Mock,
+      neynarBulkUserLookup as vi.Mock,
+      neynarFrameValidation as vi.Mock,
     );
     const fakeFrameData = {
       trustedData: {},

@@ -1,4 +1,8 @@
+/**
+ * @vitest-environment node
+ */
 import { getTokenImageColor } from './getTokenImageColor';
+import { describe, expect, it } from 'vitest';
 
 describe('getTokenImageColor', () => {
   it('should return a consistent color for the same string', () => {

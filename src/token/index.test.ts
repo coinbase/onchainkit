@@ -8,6 +8,7 @@ import {
   formatAmount,
   getTokens,
 } from './index'; // Adjust the path accordingly
+import { describe, expect, it } from 'vitest';
 
 describe('Module Exports', () => {
   it('should export TokenChip', () => {
