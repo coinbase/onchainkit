@@ -109,6 +109,7 @@ export type GetAvatarReturnType = string | null;
  */
 export type GetName = {
   address: Address;
+  chainId?: number;
 };
 
 /**
