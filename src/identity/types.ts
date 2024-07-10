@@ -13,6 +13,7 @@ import type { Address, Chain } from 'viem';
 export type AddressReact = {
   address?: Address | null; // The Ethereum address to render.
   className?: string; // Optional className override for top span element.
+  isSliced?: boolean; // Determines if the displayed address should be sliced.
 };
 
 /**
@@ -140,9 +141,8 @@ export type IdentityReact = {
  */
 export type NameReact = {
   address?: Address | null; // Ethereum address to be displayed.
-  className?: string; // Optional className override for top span element.
-  sliced?: boolean; // Determines if the address should be sliced when no ENS name is available.
   children?: ReactNode; // Optional attestation by passing Badge component as its children
+  className?: string; // Optional className override for top span element.
 } & HTMLAttributes<HTMLSpanElement>; // Optional additional span attributes to apply to the name.
 
 export type UseAttestations = {

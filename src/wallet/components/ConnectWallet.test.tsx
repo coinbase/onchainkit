@@ -44,7 +44,7 @@ describe('ConnectWallet', () => {
   });
 
   it('renders connect button when disconnected', () => {
-    render(<ConnectWallet label="Connect Wallet" />);
+    render(<ConnectWallet text="Connect Wallet" />);
 
     const button = screen.getByTestId('ockConnectWallet_ConnectButton');
     expect(button).toBeInTheDocument();
@@ -62,7 +62,7 @@ describe('ConnectWallet', () => {
       status: 'connecting',
     });
 
-    render(<ConnectWallet label="Connect Wallet" />);
+    render(<ConnectWallet text="Connect Wallet" />);
 
     const spinner = screen.getByTestId('ockSpinner');
     expect(spinner).toBeInTheDocument();
@@ -75,7 +75,7 @@ describe('ConnectWallet', () => {
     });
 
     render(
-      <ConnectWallet label="Connect Wallet">
+      <ConnectWallet text="Connect Wallet">
         <div>Wallet Connected</div>
       </ConnectWallet>,
     );
@@ -92,7 +92,7 @@ describe('ConnectWallet', () => {
       status: 'idle',
     });
 
-    render(<ConnectWallet label="Connect Wallet" />);
+    render(<ConnectWallet text="Connect Wallet" />);
 
     const button = screen.getByTestId('ockConnectWallet_ConnectButton');
     fireEvent.click(button);
@@ -114,7 +114,7 @@ describe('ConnectWallet', () => {
     });
 
     render(
-      <ConnectWallet label="Connect Wallet">
+      <ConnectWallet text="Connect Wallet">
         <div>Wallet Connected</div>
       </ConnectWallet>,
     );

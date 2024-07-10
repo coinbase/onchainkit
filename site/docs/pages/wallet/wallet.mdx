@@ -3,8 +3,23 @@ title: Wallet Components & Utilities · OnchainKit
 description: Introduction to Wallet Components & Utilities
 ---
 
-import App from '../../components/App';
-import { WalletDemo } from '../../components/WalletDemo';
+import { 
+  ConnectWallet,
+  Wallet,
+  WalletDropdown,
+  WalletDropdownLink,
+  WalletDropdownDisconnect,
+} from '@coinbase/onchainkit/wallet';
+import {
+  Address,
+  Avatar,
+  Name,
+  Badge,
+  Identity,
+  EthBalance,
+} from '@coinbase/onchainkit/identity';
+import { color } from '@coinbase/onchainkit/theme';
+import WalletComponents from '../../components/WalletComponents';
 
 # `<Wallet />`
 
@@ -78,9 +93,91 @@ export function WalletComponents() {
 }
 ```
 
-<App>
-  <WalletDemo />
-</App>
+<WalletComponents>
+  <Wallet>
+    <ConnectWallet>
+      <Avatar className="h-6 w-6" />
+      <Name />
+    </ConnectWallet>
+    <WalletDropdown>
+      <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick>
+        <Avatar />
+        <Name>
+          <Badge />
+        </Name>
+        <Address className={color.foregroundMuted} />
+        <EthBalance />
+      </Identity>
+      <WalletDropdownLink icon="wallet" href="https://wallet.coinbase.com">
+        Go to Wallet Dashboard
+      </WalletDropdownLink>
+      <WalletDropdownDisconnect />
+    </WalletDropdown>
+  </Wallet>
+</WalletComponents>
+
+### Override styles
+
+You can override component styles using `className`.
+
+```tsx [code]
+// omitted for brevity
+
+<Wallet>
+  <ConnectWallet className='bg-blue-800'>
+    <Avatar className="h-6 w-6" />
+    <Name className='text-white' />
+  </ConnectWallet>
+  <WalletDropdown>
+    <Identity 
+      className="px-4 pt-3 pb-2 hover:bg-blue-200" 
+      hasCopyAddressOnClick
+    >
+      <Avatar />
+      <Name>
+        <Badge />
+      </Name>
+      <Address />
+      <EthBalance />
+    </Identity>
+    <WalletDropdownLink 
+      className='hover:bg-blue-200' 
+      icon="wallet" 
+      href="https://wallet.coinbase.com"
+    >
+      Go to Wallet Dashboard
+    </WalletDropdownLink>
+    <WalletDropdownDisconnect className='hover:bg-blue-200' />
+  </WalletDropdown>
+</Wallet>
+```
+
+<WalletComponents>
+  <Wallet>
+    <ConnectWallet className='bg-blue-800'>
+      <Avatar className="h-6 w-6" />
+      <Name className='text-white' />
+    </ConnectWallet>
+    <WalletDropdown>
+      <Identity className="px-4 pt-3 pb-2 hover:bg-blue-200" hasCopyAddressOnClick>
+        <Avatar />
+        <Name>
+          <Badge />
+        </Name>
+        <Address className={color.foregroundMuted} />
+        <EthBalance />
+      </Identity>
+      <WalletDropdownLink 
+        className='hover:bg-blue-200' 
+        icon="wallet" 
+        href="https://wallet.coinbase.com"
+      >
+        Go to Wallet Dashboard
+      </WalletDropdownLink>
+      <WalletDropdownDisconnect className='hover:bg-blue-200' />
+    </WalletDropdown>
+  </Wallet>
+</WalletComponents>
 
 ## Required providers
 
@@ -110,3 +207,11 @@ function App({ children }: { children: ReactNode }) {
   return <WagmiProvider config={wagmiConfig}>{children}</WagmiProvider>;
 }
 ```
+
+## Props
+
+- [`WalletReact`](/wallet/types#walletreact)
+- [`ConnectWalletReact`](/wallet/types#connectwalletreact)
+- [`WalletDropdownReact`](/wallet/types#walletdropdownreact)
+- [`WalletDropdownDisconnectReact`](/wallet/types#walletdropdowndisconnectreact)
+- [`WalletDropdownLinkReact`](/wallet/types#walletdropdownlinkreact)

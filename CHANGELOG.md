@@ -1,11 +1,38 @@
 # Changelog
 
+## 0.24.3
+
+### Patch Changes
+
+- 8124f8c: - **feat**: added `isSliced` option to the `Address` component. This allows this component to render the full users address when set to false. Update `getName` and the `Name` component to return `null` if the ENS name is not found for the given address. By @cpcramer #737
+
+  Breaking Changes
+
+  - Update `getName` and the `Name` component to return `null` if the ENS name is not found for the given address.
+
+## 0.24.2
+
+### Patch Changes
+
+- **feat**: init `Transaction` components. By @zizzamia #763 4a37815
+
+## 0.24.1
+
+### Patch Changes
+
+- **feat**: exported `SwapToggleButtonReact`, `WalletDropdownDisconnectReact` and `WalletDropdownLinkReact` types. Added more custom option to `WalletDropdownLink` component. By @zizzamia #754 5959b49
+
 ## 0.24.0
 
 ### Minor Changes
 
-- d638dc9: - **chore**: Swap components internal refactor. By @kyhyco #746
-  - **docs**: updated Connect Wallet docs and homepage example. By @cpcramer #740
+- **chore**: Swap components internal refactor. By @kyhyco #746 d638dc9
+
+Breaking Changes
+
+- `ConnectAccount` has been removed from `Wallet` module.
+- `ConnectWallet`'s `label` prop renamed to `text`.
+- Update `getName` and the `Name` component to return `null` if the ENS name is not found for the given address.
 
 ## 0.23.4
 

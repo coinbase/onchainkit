@@ -1,6 +1,6 @@
 {
   "name": "@coinbase/onchainkit",
-  "version": "0.24.0",
+  "version": "0.24.3",
   "type": "module",
   "repository": "https://github.com/coinbase/onchainkit.git",
   "license": "MIT",
@@ -130,6 +130,12 @@
       "module": "./esm/token/index.js",
       "import": "./esm/token/index.js",
       "default": "./esm/token/index.js"
+    },
+    "./transaction": {
+      "types": "./esm/transaction/index.d.ts",
+      "module": "./esm/transaction/index.js",
+      "import": "./esm/transaction/index.js",
+      "default": "./esm/transaction/index.js"
     },
     "./xmtp": {
       "types": "./esm/xmtp/index.d.ts",

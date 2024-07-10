@@ -16,21 +16,36 @@ import { Address } from '@coinbase/onchainkit/identity';
 ```
 
 <App>
-  <Address  address="0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1" />
+  <Address className="bg-gray-300 rounded" address="0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1" />
 </App>
 
-Override styles via `className` prop:
+### Display full address
+
+Set `isSliced` to false, to display the full address:
+
+```tsx
+import { Address } from '@coinbase/onchainkit/identity';
+<Address address="0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1" isSliced={false}/> // [!code focus]
+```
+
+<App>
+  <Address className="bg-gray-300 rounded" address="0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1" isSliced={false}/>
+</App>
+
+### Override styles
+
+You can override component styles using `className`.
 
 ```tsx
 import { Address } from '@coinbase/onchainkit/identity';
 <Address
-  className="bg-white px-2 py-1" // [!code focus]
+  className="bg-emerald-400 px-2 py-1 rounded" // [!code focus]
   address="0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1"
 />
 ```
 
 <App>
-  <Address className="bg-white px-2 py-1" address="0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1" />
+  <Address className="bg-emerald-400 px-2 py-1" address="0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1"/>
 </App>
 
 ## Props

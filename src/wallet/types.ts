@@ -2,23 +2,15 @@ import type { UserOperation } from 'permissionless';
 import type { Address, PublicClient } from 'viem';
 import type { SwapError } from '../swap';
 import type { UseBalanceReturnType, UseReadContractReturnType } from 'wagmi';
-import type { Dispatch, SetStateAction } from 'react';
-
-/**
- * Note: exported as public Type
- */
-export type ConnectAccountReact = {
-  label?: string;
-  children?: React.ReactNode; // Children can be utilized to display customized content when the wallet is connected.
-};
+import type { Dispatch, ReactNode, SetStateAction } from 'react';
 
 /**
  * Note: exported as public Type
  */
 export type ConnectWalletReact = {
-  label?: string; // Label when wallet is _not_ connected
   children?: React.ReactNode; // Children can be utilized to display customized content when the wallet is connected.
   className?: string; // Optional className override for button element
+  text?: string; // Optional text override for button
 };
 
 /**
@@ -79,4 +71,24 @@ export type WalletReact = {
 export type WalletDropdownReact = {
   children: React.ReactNode;
   className?: string; // Optional className override for top div element
+};
+
+/**
+ * Note: exported as public Type
+ */
+export type WalletDropdownDisconnectReact = {
+  className?: string; // Optional className override for the element
+  text?: string; // Optional text override for the button
+};
+
+/**
+ * Note: exported as public Type
+ */
+export type WalletDropdownLinkReact = {
+  children: string;
+  className?: string; // Optional className override for the element
+  href: string;
+  icon?: 'wallet' & ReactNode;
+  rel?: string;
+  target?: string;
 };

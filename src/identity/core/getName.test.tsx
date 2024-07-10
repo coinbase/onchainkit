@@ -5,7 +5,6 @@
 import { getName } from './getName';
 import { publicClient } from '../../network/client';
 import type { Address } from 'viem';
-import { getSlicedAddress } from '../getSlicedAddress';
 
 jest.mock('../../network/client');
 
@@ -46,11 +45,11 @@ describe('getName', () => {
     );
   });
 
-  it('should return address when showAddress is true', async () => {
-    const walletAddress = '0x1234567890123456789012345678901234567890';
+  it('should return null when the ENS name is not found', async () => {
+    const walletAddress =
+      '0x1234567890123456789012345678901234567890' as Address;
     mockGetEnsName.mockResolvedValue(null);
-    getSlicedAddress;
-    await getName({ address: walletAddress });
-    expect(getSlicedAddress).toHaveBeenCalledWith(walletAddress);
+    const name = await getName({ address: walletAddress });
+    expect(name).toBe(null);
   });
 });

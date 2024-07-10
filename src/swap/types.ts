@@ -89,10 +89,6 @@ export type RawTransactionData = {
   value: string; // The value of the transaction
 };
 
-export type SwapToggleButtonReact = {
-  className?: string;
-};
-
 /**
  * Note: exported as public Type
  */
@@ -115,11 +111,6 @@ export type SwapAPIResponse = {
   tx: RawTransactionData; // The trade transaction
 };
 
-export type SwapErrorState = {
-  quoteError?: SwapError;
-  swapError?: SwapError;
-};
-
 /**
  * Note: exported as public Type
  */
@@ -127,17 +118,6 @@ export type SwapButtonReact = {
   disabled?: boolean; // Disables swap button
   className?: string; // Optional className override for top div element.
   onSubmit: (swapTransaction: BuildSwapTransaction) => void;
-};
-
-export type SwapUnit = {
-  amount: string;
-  balance?: string;
-  error?: SwapError;
-  loading: boolean;
-  setAmount: Dispatch<SetStateAction<string>>;
-  setLoading: Dispatch<SetStateAction<boolean>>;
-  setToken: Dispatch<SetStateAction<Token | undefined>>;
-  token: Token | undefined;
 };
 
 export type SwapContextType = {
@@ -153,6 +133,19 @@ export type SwapContextType = {
     st?: Token,
     dt?: Token,
   ) => void;
+};
+
+/**
+ * Note: exported as public Type
+ */
+export type SwapError = {
+  code: string; // The error code
+  error: string; // The error message
+};
+
+export type SwapErrorState = {
+  quoteError?: SwapError;
+  swapError?: SwapError;
 };
 
 export type SwapLoadingState = {
@@ -194,15 +187,25 @@ export type SwapReact = {
 /**
  * Note: exported as public Type
  */
-export type SwapError = {
-  code: string; // The error code
-  error: string; // The error message
+export type SwapMessageReact = {
+  className?: string;
+};
+
+export type SwapUnit = {
+  amount: string;
+  balance?: string;
+  error?: SwapError;
+  loading: boolean;
+  setAmount: Dispatch<SetStateAction<string>>;
+  setLoading: Dispatch<SetStateAction<boolean>>;
+  setToken: Dispatch<SetStateAction<Token | undefined>>;
+  token: Token | undefined;
 };
 
 /**
  * Note: exported as public Type
  */
-export type SwapMessageReact = {
+export type SwapToggleButtonReact = {
   className?: string;
 };
 

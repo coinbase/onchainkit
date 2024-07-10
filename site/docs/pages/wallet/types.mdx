@@ -5,6 +5,16 @@ description: Glossary of Types.
 
 # Types [Glossary of Types in Wallet components & utilities.]
 
+## `ConnectWalletReact`
+
+```ts
+type ConnectWalletReact = {
+  children?: React.ReactNode; // Children can be utilized to display customized content when the wallet is connected.
+  className?: string; // Optional className override for button element
+  text?: string; // Optional text override for button
+};
+```
+
 ## `IsValidAAEntrypointOptions`
 
 ```ts
@@ -51,5 +61,28 @@ type WalletReact = {
 ```ts
 type WalletDropdownReact = {
   children: React.ReactNode;
+  className?: string; // Optional className override for top div element
+};
+```
+
+## `WalletDropdownDisconnectReact`
+
+```ts
+export type WalletDropdownDisconnectReact = {
+ className?: string; // Optional className override for the element
+ text?: string; // Optional text override for the button
+};
+```
+
+## `WalletDropdownLinkReact`
+
+```ts
+export type WalletDropdownLinkReact = {
+  children: string;
+  className?: string; // Optional className override for the element
+  href: string;
+  icon?: 'wallet' & ReactNode;
+  rel?: string;
+  target?: string;
 };
 ```
