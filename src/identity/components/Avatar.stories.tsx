@@ -5,15 +5,13 @@ import { Badge } from './Badge';
 import { OnchainKitProvider } from '../../OnchainKitProvider';
 import { base } from 'viem/chains';
 
-const queryClient = new QueryClient();
-
 const meta = {
   title: 'Identity/Avatar',
   component: Avatar,
   decorators: [
     (Story) => {
       return (
-        <QueryClientProvider client={queryClient}>
+        <QueryClientProvider client={new QueryClient()}>
           <Story />
         </QueryClientProvider>
       );

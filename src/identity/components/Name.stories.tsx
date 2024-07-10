@@ -2,15 +2,13 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Name } from './Name';
 
-const queryClient = new QueryClient();
-
 const meta = {
   title: 'Identity/Name',
   component: Name,
   decorators: [
     (Story) => {
       return (
-        <QueryClientProvider client={queryClient}>
+        <QueryClientProvider client={new QueryClient()}>
           <Story />
         </QueryClientProvider>
       );

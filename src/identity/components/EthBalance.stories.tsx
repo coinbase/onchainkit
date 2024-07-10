@@ -4,8 +4,6 @@ import { EthBalance } from './EthBalance';
 import { WagmiProvider, createConfig, http } from 'wagmi';
 import { baseSepolia } from 'viem/chains';
 
-const queryClient = new QueryClient();
-
 const wagmiConfig = createConfig({
   chains: [baseSepolia],
   transports: {
@@ -20,7 +18,7 @@ const meta = {
     (Story) => {
       return (
         <WagmiProvider config={wagmiConfig}>
-          <QueryClientProvider client={queryClient}>
+          <QueryClientProvider client={new QueryClient()}>
             <Story />
           </QueryClientProvider>
         </WagmiProvider>
