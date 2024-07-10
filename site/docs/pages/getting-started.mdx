@@ -30,11 +30,50 @@ bun add @coinbase/onchainkit
 
 :::
 
+### Public API Key
+
+#### Obtain a Public API Key from the [Coinbase Developer Platform APIs](https://portal.cdp.coinbase.com/products/onchainkit).
+
+<img
+  alt="OnchainKit copy Public API Key"
+  src="https://onchainkit.xyz/assets/copy-api-key-guide.png"
+  width="auto"
+/>
+
+#### Create a .env file
+
+Create a new file in your project’s root directory and name it `.env`.
+
+<img
+  alt="OnchainKit define Public API Key"
+  src="https://onchainkit.xyz/assets/getting-started-create-env-file.png"
+  width="250"
+/>
+
+#### Define your Public API Key
+
+Set your Public API Key by assigning the value you copied from the Coinbase Developer Platform to the `PUBLIC_ONCHAINKIT_API_KEY` variable.
+
+```tsx [.env]
+PUBLIC_ONCHAINKIT_API_KEY=YOUR_PUBLIC_API_KEY
+```
+
+#### Access the Public API Key in your code
+
+```tsx [OnchainProviders.tsx]
+    <OnchainKitProvider 
+      apiKey={process.env.PUBLIC_ONCHAINKIT_API_KEY} // [!code focus] 
+      chain={base}
+    >
+      <YourComponents />
+    </OnchainKitProvider>
+```
+
 ### Configure the OnchainKitProvider
 
 The `<OnchainKitProvider />` component equips your app with the essential context to interact with OnchainKit components and utilities.
 
-Set the `chain` prop to your target chain and provide the API KEY to access the embedded APIs.
+Set the `chain` prop to your target chain and provide the Public API Key to access the embedded APIs.
 
 ```tsx [OnchainProviders.tsx]
 'use client';
@@ -46,22 +85,17 @@ type Props = { children: ReactNode };
 
 function OnchainProviders({ children }: Props) {
   return (
-    <OnchainKitProvider apiKey="YOUR_PUBLIC_API_KEY" chain={base}>
-      <YourKit />
+    <OnchainKitProvider
+      apiKey={process.env.PUBLIC_ONCHAINKIT_API_KEY} 
+      chain={base}
+    >
+      <YourComponents />
     </OnchainKitProvider>
   );
 };
 
 export default OnchainProviders;
 ```
-
-Obtain an API key from the [Coinbase Developer Platform APIs](https://portal.cdp.coinbase.com/products/onchainkit).
-
-<img
-  alt="OnchainKit copy API KEY"
-  src="https://onchainkit.xyz/assets/copy-api-key-guide.png"
-  width="auto"
-/>
 
 ### Configure the WagmiProvider
 
@@ -89,7 +123,7 @@ function OnchainProviders({ children }: Props) {
     <WagmiProvider config={wagmiConfig}> // [!code focus]
       <QueryClientProvider client={queryClient}> // [!code focus]
         <OnchainKitProvider
-          apiKey={YOUR_PUBLIC_API_KEY}
+          apiKey={process.env.PUBLIC_ONCHAINKIT_API_KEY}
           chain={base}
         >
           {children} // [!code focus]
