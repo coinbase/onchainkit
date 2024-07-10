@@ -32,7 +32,7 @@ bun add @coinbase/onchainkit
 
 ### Public API Key
 
-#### Obtain an Public API Key from the [Coinbase Developer Platform APIs](https://portal.cdp.coinbase.com/products/onchainkit).
+#### Obtain a Public API Key from the [Coinbase Developer Platform APIs](https://portal.cdp.coinbase.com/products/onchainkit).
 
 <img
   alt="OnchainKit copy API Key"
@@ -42,7 +42,7 @@ bun add @coinbase/onchainkit
 
 #### Create a .env file
 
-Create a new file in your project’s root directory and name it “.env”.
+Create a new file in your project’s root directory and name it `.env`.
 
 <img
   alt="OnchainKit copy API Key"
@@ -50,19 +50,19 @@ Create a new file in your project’s root directory and name it “.env”.
   width="250"
 />
 
-#### Define your API Key
+#### Define your Public API Key
 
-Set your API key by assigning the value you copied from the Coinbase Developer Platform to the `ONCHAINKIT_API_KEY` variable.
+Set your Public API Key by assigning the value you copied from the Coinbase Developer Platform to the `PUBLIC_ONCHAINKIT_API_KEY` variable.
 
 ```tsx [.env]
-ONCHAINKIT_API_KEY=YOUR_PUBLIC_API_KEY
+PUBLIC_ONCHAINKIT_API_KEY=YOUR_PUBLIC_API_KEY
 ```
 
 #### Access the Public API Key in your code
 
 ```tsx [OnchainProviders.tsx]
     <OnchainKitProvider 
-      apiKey={process.env.ONCHAINKIT_API_KEY} // [!code focus] 
+      apiKey={process.env.PUBLIC_ONCHAINKIT_API_KEY} // [!code focus] 
       chain={base}
     >
       <YourComponents />
@@ -86,7 +86,7 @@ type Props = { children: ReactNode };
 function OnchainProviders({ children }: Props) {
   return (
     <OnchainKitProvider
-      apiKey={process.env.ONCHAINKIT_API_KEY} 
+      apiKey={process.env.PUBLIC_ONCHAINKIT_API_KEY} 
       chain={base}
     >
       <YourComponents />
@@ -123,7 +123,7 @@ function OnchainProviders({ children }: Props) {
     <WagmiProvider config={wagmiConfig}> // [!code focus]
       <QueryClientProvider client={queryClient}> // [!code focus]
         <OnchainKitProvider
-          apiKey={process.env.ONCHAINKIT_API_KEY}
+          apiKey={process.env.PUBLIC_ONCHAINKIT_API_KEY}
           chain={base}
         >
           {children} // [!code focus]
