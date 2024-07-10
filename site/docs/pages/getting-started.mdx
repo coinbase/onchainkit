@@ -30,6 +30,48 @@ bun add @coinbase/onchainkit
 
 :::
 
+### API Key
+
+#### Obtain an API key from the [Coinbase Developer Platform APIs](https://portal.cdp.coinbase.com/products/onchainkit).
+
+<img
+  alt="OnchainKit copy API KEY"
+  src="https://onchainkit.xyz/assets/copy-api-key-guide.png"
+  width="auto"
+/>
+
+#### Create a .env file
+
+Create a new file in your project’s root directory and name it “.env”.
+
+<img
+  alt="OnchainKit copy API KEY"
+  src="https://onchainkit.xyz/assets/create-env-file.png"
+  width="auto"
+/>
+
+#### Define your API KEY
+```tsx [.env]
+ ONCHAINKIT_API_KEY
+```
+#### Assign the value
+Assign the value to the API key you copied from the Coinbase Developer Platform
+
+```tsx [.env]
+ONCHAINKIT_API_KEY=YOUR_PUBLIC_API_KEY
+```
+
+#### Access the API KEY in your code
+
+```tsx [OnchainProviders.tsx]
+    <OnchainKitProvider 
+      apiKey={process.env.ONCHAINKIT_API_KEY} // [!code focus] 
+      chain={base}
+    >
+      <YourKit />
+    </OnchainKitProvider>
+```
+
 ### Configure the OnchainKitProvider
 
 The `<OnchainKitProvider />` component equips your app with the essential context to interact with OnchainKit components and utilities.
@@ -46,7 +88,10 @@ type Props = { children: ReactNode };
 
 function OnchainProviders({ children }: Props) {
   return (
-    <OnchainKitProvider apiKey="YOUR_PUBLIC_API_KEY" chain={base}>
+    <OnchainKitProvider
+      apiKey={process.env.ONCHAINKIT_API_KEY} 
+      chain={base}
+    >
       <YourKit />
     </OnchainKitProvider>
   );
@@ -54,14 +99,6 @@ function OnchainProviders({ children }: Props) {
 
 export default OnchainProviders;
 ```
-
-Obtain an API key from the [Coinbase Developer Platform APIs](https://portal.cdp.coinbase.com/products/onchainkit).
-
-<img
-  alt="OnchainKit copy API KEY"
-  src="https://onchainkit.xyz/assets/copy-api-key-guide.png"
-  width="auto"
-/>
 
 ### Configure the WagmiProvider
 
@@ -89,7 +126,7 @@ function OnchainProviders({ children }: Props) {
     <WagmiProvider config={wagmiConfig}> // [!code focus]
       <QueryClientProvider client={queryClient}> // [!code focus]
         <OnchainKitProvider
-          apiKey={YOUR_PUBLIC_API_KEY}
+          apiKey={process.env.ONCHAINKIT_API_KEY}
           chain={base}
         >
           {children} // [!code focus]
