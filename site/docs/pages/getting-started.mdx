@@ -30,12 +30,12 @@ bun add @coinbase/onchainkit
 
 :::
 
-### API Key
+### Public API Key
 
-#### Obtain an API key from the [Coinbase Developer Platform APIs](https://portal.cdp.coinbase.com/products/onchainkit).
+#### Obtain an Public API Key from the [Coinbase Developer Platform APIs](https://portal.cdp.coinbase.com/products/onchainkit).
 
 <img
-  alt="OnchainKit copy API KEY"
+  alt="OnchainKit copy API Key"
   src="https://onchainkit.xyz/assets/copy-api-key-guide.png"
   width="auto"
 />
@@ -45,23 +45,23 @@ bun add @coinbase/onchainkit
 Create a new file in your project’s root directory and name it “.env”.
 
 <img
-  alt="OnchainKit copy API KEY"
+  alt="OnchainKit copy API Key"
   src="https://onchainkit.xyz/assets/getting-started-create-env-file.png"
-  width="auto"
+  width="250"
 />
 
-#### Define your API KEY
+#### Define your API Key
 ```tsx [.env]
  ONCHAINKIT_API_KEY
 ```
 #### Assign the value
-Assign the value to the API key you copied from the Coinbase Developer Platform
+Assign the value to the API Key you copied from the Coinbase Developer Platform
 
 ```tsx [.env]
 ONCHAINKIT_API_KEY=YOUR_PUBLIC_API_KEY
 ```
 
-#### Access the API KEY in your code
+#### Access the Public API Key in your code
 
 ```tsx [OnchainProviders.tsx]
     <OnchainKitProvider 
@@ -76,7 +76,7 @@ ONCHAINKIT_API_KEY=YOUR_PUBLIC_API_KEY
 
 The `<OnchainKitProvider />` component equips your app with the essential context to interact with OnchainKit components and utilities.
 
-Set the `chain` prop to your target chain and provide the API KEY to access the embedded APIs.
+Set the `chain` prop to your target chain and provide the API Key to access the embedded APIs.
 
 ```tsx [OnchainProviders.tsx]
 'use client';
