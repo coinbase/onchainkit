@@ -10,11 +10,17 @@ import { isSwapError } from '../core/isSwapError';
 import { useSwapBalances } from './useSwapBalances';
 import { getSwapQuote } from '../core/getSwapQuote';
 import { formatTokenAmount } from '../../utils/formatTokenAmount';
-import type { SwapError, SwapErrorState, SwapContextType } from '../types';
+import type {
+  SwapError,
+  SwapErrorState,
+  SwapContextType,
+  BuildSwapTransaction,
+} from '../types';
 import type { Token } from '../../token';
 import type { Address, TransactionReceipt } from 'viem';
-import { useSendTransaction, useConfig, type BaseError } from 'wagmi';
+import { useSendTransaction, useConfig, type BaseError, Config } from 'wagmi';
 import { waitForTransactionReceipt } from 'wagmi/actions';
+import { SendTransactionMutateAsync } from 'wagmi/query';
 import { USER_REJECTED_ERROR_CODE } from '../constants';
 
 function useValue<T>(object: T): T {
@@ -89,7 +95,7 @@ export function SwapProvider({
     (e: Record<string, SwapError | undefined>) => {
       setError({ ...error, ...e });
     },
-    [error],
+    [error]
   );
 
   const { from, to } = useFromTo(address);
@@ -112,7 +118,7 @@ export function SwapProvider({
       type: 'from' | 'to',
       amount: string,
       sToken?: Token,
-      dToken?: Token,
+      dToken?: Token
     ) => {
       const source = type === 'from' ? from : to;
       const destination = type === 'from' ? to : from;
@@ -150,7 +156,7 @@ export function SwapProvider({
 
         const formattedAmount = formatTokenAmount(
           response.toAmount,
-          response?.to?.decimals,
+          response?.to?.decimals
         );
 
         destination.setAmount(formattedAmount);
@@ -161,13 +167,13 @@ export function SwapProvider({
         destination.setLoading(false);
       }
     },
-    [from, to, handleError],
+    [from, to, handleError]
   );
 
   const handleSubmit = useCallback(
     async function handleSubmit(
       onError?: (error: SwapError) => void,
-      onSuccess?: (txReceipt: TransactionReceipt) => void | Promise<void>,
+      onSuccess?: (txReceipt: TransactionReceipt) => void | Promise<void>
     ) {
       if (!address || !from.token || !to.token || !from.amount) {
         return;
@@ -177,7 +183,6 @@ export function SwapProvider({
       handleError({ swapError: undefined });
 
       try {
-        /* fetch the transaction */
         const response = await buildSwapTransaction({
           amount: from.amount,
           fromAddress: address,
@@ -189,50 +194,19 @@ export function SwapProvider({
           return handleError({ swapError: response });
         }
 
-        const { transaction, approveTransaction } = response;
-
-        /* for swaps from ERC-20 tokens, 
-          if there is an approveTransaction present,
-          request approval for the amount  */
-        if (approveTransaction?.data) {
-          setPendingTransaction(true);
-          const approveTxHash = await sendTransactionAsync({
-            to: approveTransaction.to,
-            value: approveTransaction.value,
-            data: approveTransaction.data,
-          });
-          await waitForTransactionReceipt(config, {
-            hash: approveTxHash,
-            confirmations: 1,
-          });
-          setPendingTransaction(false);
-        }
-
-        /* make the swap */
-        setPendingTransaction(true);
-        const txHash = await sendTransactionAsync({
-          to: transaction.to,
-          value: transaction.value,
-          data: transaction.data,
+        processSwapTransaction({
+          swapTransaction: response,
+          config,
+          setPendingTransaction,
+          setLoading,
+          sendTransactionAsync,
+          onSuccess,
         });
-        setPendingTransaction(false);
-
-        setLoading(true);
-        const transactionObject: TransactionReceipt =
-          await waitForTransactionReceipt(config, {
-            hash: txHash,
-            confirmations: 1,
-          });
-
-        const callbackResult = onSuccess?.(transactionObject);
-        if (callbackResult instanceof Promise) {
-          await callbackResult;
-        }
 
         // TODO: refresh balances
       } catch (e) {
         const userRejected = (e as BaseError).message.includes(
-          'User rejected the request.',
+          'User rejected the request.'
         );
         if (userRejected) {
           setLoading(false);
@@ -259,7 +233,7 @@ export function SwapProvider({
       from.token,
       sendTransactionAsync,
       to.token,
-    ],
+    ]
   );
 
   const value = useValue({
@@ -274,4 +248,63 @@ export function SwapProvider({
   });
 
   return <SwapContext.Provider value={value}>{children}</SwapContext.Provider>;
+}
+
+export async function processSwapTransaction({
+  swapTransaction,
+  config,
+  setPendingTransaction,
+  setLoading,
+  sendTransactionAsync,
+  onSuccess,
+}: {
+  swapTransaction: BuildSwapTransaction;
+  config: Config;
+  setPendingTransaction: (value: React.SetStateAction<boolean>) => void;
+  setLoading: (value: React.SetStateAction<boolean>) => void;
+  sendTransactionAsync: SendTransactionMutateAsync<Config, unknown>;
+  onSuccess:
+    | ((txReceipt: TransactionReceipt) => void | Promise<void>)
+    | undefined;
+}) {
+  const { transaction, approveTransaction } = swapTransaction;
+
+  // for swaps from ERC-20 tokens,
+  // if there is an approveTransaction present,
+  // request approval for the amount
+  if (approveTransaction?.data) {
+    setPendingTransaction(true);
+    const approveTxHash = await sendTransactionAsync({
+      to: approveTransaction.to,
+      value: approveTransaction.value,
+      data: approveTransaction.data,
+    });
+    await waitForTransactionReceipt(config, {
+      hash: approveTxHash,
+      confirmations: 1,
+    });
+    setPendingTransaction(false);
+  }
+
+  // make the swap
+  setPendingTransaction(true);
+  const txHash = await sendTransactionAsync({
+    to: transaction.to,
+    value: transaction.value,
+    data: transaction.data,
+  });
+  setPendingTransaction(false);
+
+  // wait for swap to land onchain
+  setLoading(true);
+  const transactionObject = await waitForTransactionReceipt(config, {
+    hash: txHash,
+    confirmations: 1,
+  });
+
+  // user callback
+  const callbackResult = onSuccess?.(transactionObject);
+  if (callbackResult instanceof Promise) {
+    await callbackResult;
+  }
 }
