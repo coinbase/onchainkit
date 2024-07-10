@@ -289,6 +289,8 @@ setFilteredTokens(filteredTokens);
       </div>
     </div>
   </aside>
+
+
   <main id="swap" className="pt-[56px] flex flex-col gap-4 md:flex-row md:text-left text-center">
     <h3 className="basis-1/2 py-[15px] text-4xl md:text-4xl">Swap</h3>
   </main>
@@ -360,7 +362,57 @@ setFilteredTokens(filteredTokens);
       </div>
     </div>
   </aside>
+
+  <main id="frame" className="pt-[56px] flex flex-col gap-4 md:flex-row md:text-left text-center">
+    <h3 className="basis-1/2 py-[15px] text-4xl md:text-4xl">Frame</h3>
+  </main>
+  <aside className="pb-10">
+    <p className="text-base md:text-base pb-[24px] md:text-left text-center">
+      Test, build, and ship your Farcaster frames with [FrameMetadata](/frame/frame-metadata).
+    </p>
+    <a href="/frame/frame-metadata" className="mx-auto md:m-0 flex justify-center items-center border border-indigo-400 text-indigo-400 font-bold leading-6 px-4 py-3 rounded-xl border-solid w-[180px]">
+      Start with Frame
+    </a>
+    <div className="flex grow flex-col items-center md:flex-row pt-[44px]">
+      <div>
+```tsx
+ <FrameMetadata
+      buttons={[
+        {
+          label: 'Tell me the story',
+        },
+        {
+          action: 'link',
+          label: 'Link to Google',
+          target: 'https://www.google.com'
+        },
+        {
+          action: 'post_redirect',
+          label: 'Redirect to cute pictures',
+        },
+      ]}
+      image={{
+       src: 'https://zizzamia.xyz/park-3.png',
+       aspectRatio: '1:1'
+      }}
+      input={{
+        text: 'Tell me a boat story',
+      }}
+      state={{
+        counter: 1,
+      }}
+      postUrl="https://zizzamia.xyz/api/frame"
+    />
+```
+      </div>
+      <div className='flex grow items-center justify-center h-auto p-6'>
+        <img className="max-w-full w-[350px]" alt="OnchainKit figma" src="/assets/frame.png" width="auto" />
+      </div>
+    </div>
+  </aside>
 </section>
+
+
 
 
 {' '}
