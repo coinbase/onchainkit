@@ -14,7 +14,7 @@ import type { SwapError, SwapErrorState, SwapContextType } from '../types';
 import type { Token } from '../../token';
 import type { Address, TransactionReceipt } from 'viem';
 import { useSendTransaction, useConfig, type BaseError } from 'wagmi';
-import { waitForTransactionReceipt } from '@wagmi/core';
+import { waitForTransactionReceipt } from 'wagmi/actions';
 import { USER_REJECTED_ERROR_CODE } from '../constants';
 
 function useValue<T>(object: T): T {
