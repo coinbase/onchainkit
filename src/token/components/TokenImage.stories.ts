@@ -4,9 +4,6 @@ import { TokenImage } from './TokenImage';
 const meta = {
   title: 'Token/TokenImage',
   component: TokenImage,
-  parameters: {
-    layout: 'centered',
-  },
   tags: ['autodocs'],
   argTypes: {
     size: {

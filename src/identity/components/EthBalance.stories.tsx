@@ -25,9 +25,6 @@ const meta = {
       );
     },
   ],
-  parameters: {
-    layout: 'centered',
-  },
   tags: ['autodocs'],
   args: {
     address: '0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1',

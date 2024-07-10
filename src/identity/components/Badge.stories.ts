@@ -4,9 +4,6 @@ import { Badge } from './Badge';
 const meta = {
   title: 'Identity/Badge',
   component: Badge,
-  parameters: {
-    layout: 'centered',
-  },
   tags: ['autodocs'],
 } satisfies Meta<typeof Badge>;
 

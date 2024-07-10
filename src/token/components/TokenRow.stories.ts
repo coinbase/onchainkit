@@ -5,9 +5,6 @@ import { TokenRow } from './TokenRow';
 const meta = {
   title: 'Token/TokenRow',
   component: TokenRow,
-  parameters: {
-    layout: 'centered',
-  },
   tags: ['autodocs'],
   argTypes: {
     hideImage: {

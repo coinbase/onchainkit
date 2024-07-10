@@ -42,9 +42,6 @@ const meta = {
       <TokenSelectDropdown token={token} setToken={setToken} options={tokens} />
     );
   },
-  parameters: {
-    layout: 'centered',
-  },
   tags: ['autodocs'],
   argTypes: {},
   args: {

@@ -23,9 +23,6 @@ const meta = {
       </div>
     );
   },
-  parameters: {
-    layout: 'centered',
-  },
   tags: ['autodocs'],
   argTypes: {},
   args: {

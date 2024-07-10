@@ -5,9 +5,6 @@ import { TokenSelectButton } from './TokenSelectButton';
 const meta = {
   title: 'Token/TokenSelectButton',
   component: TokenSelectButton,
-  parameters: {
-    layout: 'centered',
-  },
   tags: ['autodocs'],
   argTypes: {},
   args: {

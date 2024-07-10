@@ -26,9 +26,6 @@ const meta = {
     ),
   ],
   component: SwapToggleButton,
-  parameters: {
-    layout: 'centered',
-  },
   tags: ['autodocs'],
 } satisfies Meta<typeof SwapToggleButton>;
 

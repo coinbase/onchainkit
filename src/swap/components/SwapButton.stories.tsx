@@ -27,9 +27,6 @@ const meta = {
     ),
   ],
   component: SwapButton,
-  parameters: {
-    layout: 'centered',
-  },
   tags: ['autodocs'],
   argTypes: {
     className: {

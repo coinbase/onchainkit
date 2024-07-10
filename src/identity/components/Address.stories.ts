@@ -4,9 +4,6 @@ import { Address } from './Address';
 const meta = {
   title: 'Identity/Address',
   component: Address,
-  parameters: {
-    layout: 'centered',
-  },
   tags: ['autodocs'],
   argTypes: {},
   args: {

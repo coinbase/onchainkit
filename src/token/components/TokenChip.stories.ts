@@ -5,9 +5,6 @@ import { TokenChip } from './TokenChip';
 const meta = {
   title: 'Token/TokenChip',
   component: TokenChip,
-  parameters: {
-    layout: 'centered',
-  },
   tags: ['autodocs'],
   argTypes: {},
   args: {

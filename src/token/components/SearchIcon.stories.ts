@@ -5,9 +5,6 @@ import { SearchIcon } from './SearchIcon';
 const meta = {
   title: 'Token/SearchIcon',
   component: SearchIcon,
-  parameters: {
-    layout: 'centered',
-  },
   tags: ['autodocs'],
   argTypes: {},
   args: { onClick: fn() },
