@@ -61,7 +61,8 @@ describe('getName', () => {
   });
 
   it('should return mainnet username', async () => {
-    const walletAddress = '0x1234567890123456789012345678901234567890' as Address;
+    const walletAddress =
+      '0x1234567890123456789012345678901234567890' as Address;
     const expectedEnsName = 'leo.eth';
     mockGetEnsName.mockResolvedValue(expectedEnsName);
     const name = await getName({ address: walletAddress, chainId: mainnet.id });
@@ -70,7 +71,8 @@ describe('getName', () => {
   });
 
   it('should return sepolia username', async () => {
-    const walletAddress = '0x1234567890123456789012345678901234567890' as Address;
+    const walletAddress =
+      '0x1234567890123456789012345678901234567890' as Address;
     const expectedEnsName = 'leo.test.eth';
     mockGetEnsName.mockResolvedValue(expectedEnsName);
     const name = await getName({ address: walletAddress, chainId: sepolia.id });
@@ -79,16 +81,21 @@ describe('getName', () => {
   });
 
   it('should return custom testnet chain username', async () => {
-    const walletAddress = '0x1234567890123456789012345678901234567890' as Address;
+    const walletAddress =
+      '0x1234567890123456789012345678901234567890' as Address;
     const expectedEnsName = 'leo.customtestnet.eth';
     mockReadContract.mockResolvedValue(expectedEnsName);
-    const name = await getName({ address: walletAddress, chainId: baseSepolia.id });
+    const name = await getName({
+      address: walletAddress,
+      chainId: baseSepolia.id,
+    });
     expect(name).toBe(expectedEnsName);
     expect(getChainPublicClient).toHaveBeenCalledWith(baseSepolia.id);
   });
 
   it('should return custom mainnet username', async () => {
-    const walletAddress = '0x1234567890123456789012345678901234567890' as Address;
+    const walletAddress =
+      '0x1234567890123456789012345678901234567890' as Address;
     const expectedEnsName = 'leo.custommainnet.eth';
     mockReadContract.mockResolvedValue(expectedEnsName);
     const name = await getName({ address: walletAddress, chainId: base.id });
@@ -97,10 +104,12 @@ describe('getName', () => {
   });
 
   it('should throw an error on unsupported chain', async () => {
-    const walletAddress = '0x1234567890123456789012345678901234567890' as Address;
-    await expect(getName({ address: walletAddress, chainId: optimism.id })).rejects.toThrow(
+    const walletAddress =
+      '0x1234567890123456789012345678901234567890' as Address;
+    await expect(
+      getName({ address: walletAddress, chainId: optimism.id }),
+    ).rejects.toThrow(
       'ChainId not supported, name resolution is only supported on 1, 11155111, 8453, 84532.',
     );
   });
-
 });

@@ -13,7 +13,6 @@ jest.mock('../../network/chains', () => ({
   getChainPublicClient: jest.fn(() => publicClient),
 }));
 
-
 describe('useName', () => {
   const mockGetEnsName = publicClient.getEnsName as jest.Mock;
 

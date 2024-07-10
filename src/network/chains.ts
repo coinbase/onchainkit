@@ -1,8 +1,8 @@
-import { createPublicClient, http } from "viem";
-import { Chain, base, baseSepolia, mainnet, sepolia } from "viem/chains";
+import { createPublicClient, http } from 'viem';
+import { Chain, base, baseSepolia, mainnet, sepolia } from 'viem/chains';
 
-export const baseChainsIds: Chain["id"][] = [base.id, baseSepolia.id];
-export const ensUniversalResolverChainIds: Chain["id"][] = [
+export const baseChainsIds: Chain['id'][] = [base.id, baseSepolia.id];
+export const ensUniversalResolverChainIds: Chain['id'][] = [
   mainnet.id,
   sepolia.id,
   ...baseChainsIds,
@@ -20,4 +20,4 @@ export function getChainPublicClient(chainId: number) {
     chain: chainsById[chainId],
     transport: http(),
   });
-};
+}

@@ -1,16 +1,16 @@
-import { mainnet } from "viem/chains";
-import type { GetName, GetNameReturnType } from "../types";
-import L2ResolverAbi from "../../abis/L2ResolverAbi";
+import { mainnet } from 'viem/chains';
+import type { GetName, GetNameReturnType } from '../types';
+import L2ResolverAbi from '../../abis/L2ResolverAbi';
 import {
   resolverAddressesByChainId,
   convertReverseNodeToBytes,
-} from "../../utils/ens";
+} from '../../utils/ens';
 import {
   baseChainsIds,
   chainsById,
   ensUniversalResolverChainIds,
   getChainPublicClient,
-} from "../../network/chains";
+} from '../../network/chains';
 
 /**
  * An asynchronous function to fetch the Ethereum Name Service (ENS)
@@ -30,8 +30,8 @@ export const getName = async ({
   if (!chainSupportsUniversalResolver) {
     throw Error(
       `ChainId not supported, name resolution is only supported on ${ensUniversalResolverChainIds.join(
-        ", "
-      )}.`
+        ', ',
+      )}.`,
     );
   }
 
@@ -42,13 +42,13 @@ export const getName = async ({
     const readContractArgs = {
       abi: L2ResolverAbi,
       address: resolverAddressesByChainId[chain.id],
-      functionName: "name",
+      functionName: 'name',
       args: [addressReverseNode],
       chainId: chain.id,
     };
 
     const baseEnsName = await client.readContract(readContractArgs);
-    return typeof baseEnsName === "string" ? baseEnsName : null;
+    return typeof baseEnsName === 'string' ? baseEnsName : null;
   }
 
   // ENS username
