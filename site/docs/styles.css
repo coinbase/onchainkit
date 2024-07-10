@@ -38,10 +38,6 @@
   }
 }
 
-.vocs_Content {
-  padding: 0px;
-}
-
 .css-blurry-gradient {
   position: absolute;
   top: 50%;
@@ -69,4 +65,24 @@
   path {
     fill: blue;
   }
+}
+
+
+.vocs_Content {
+  padding: 0px;
+  background-color: #030713;
+  padding-top: 60px;
+}
+
+.vocs_Header, .vocs_H1.vocs_Heading {
+  border: none;
+  padding: 15px 0;
+  font-size: 40px;
+  font-weight: 300;
+  letter-spacing: -1.6px;
+  line-height: 48px;
+}
+
+a.vocs_Anchor {
+  text-decoration: none;
 }
