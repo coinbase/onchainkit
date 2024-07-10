@@ -67,11 +67,9 @@
   }
 }
 
-
-.dark .vocs_Content {
-  padding: 0px;
+.dark .vocs_Content:has(#blobs) {
+  padding: 60px 0px 0px 0px;
   background-color: #030713;
-  padding-top: 60px;
 }
 
 .dark .css-main-container {
@@ -79,10 +77,11 @@
 }
 
 .dark .css-dark-container {
-  background-color:#030713 ;
+  background-color: #030713;
 }
 
-.vocs_Header, .vocs_H1.vocs_Heading {
+.vocs_Header,
+.vocs_H1.vocs_Heading {
   border: none;
   padding: 15px 0;
   font-size: 40px;
