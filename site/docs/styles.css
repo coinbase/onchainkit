@@ -68,10 +68,18 @@
 }
 
 
-.vocs_Content {
+.dark .vocs_Content {
   padding: 0px;
   background-color: #030713;
   padding-top: 60px;
+}
+
+.dark .css-main-container {
+  background-color: #111827;
+}
+
+.dark .css-dark-container {
+  background-color:#030713 ;
 }
 
 .vocs_Header, .vocs_H1.vocs_Heading {
