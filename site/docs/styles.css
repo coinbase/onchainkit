@@ -67,21 +67,36 @@
   }
 }
 
+.vocs_Content:has(#blobs) {
+  padding: 60px 0px 0px 0px;
+}
+
 .dark .vocs_Content:has(#blobs) {
   padding: 60px 0px 0px 0px;
   background-color: #030713;
+}
+
+.vocs_Content:has(#blobs) + .vocs_Footer {
+  display: none;
 }
 
 .dark .css-main-container {
   background-color: #111827;
 }
 
-.dark .css-dark-container {
+.css-main-container {
+  background-color: #f3f4f6;
+}
+
+.css-alternate-container {
+  background-color: white;
+}
+.dark .css-alternate-container {
   background-color: #030713;
 }
 
-.vocs_Header,
-.vocs_H1.vocs_Heading {
+#landing-page .vocs_Header,
+#landing-page .vocs_H1.vocs_Heading {
   border: none;
   padding: 15px 0;
   font-size: 40px;
@@ -90,6 +105,39 @@
   line-height: 48px;
 }
 
-a.vocs_Anchor {
+#landing-page a.vocs_Anchor {
   text-decoration: none;
+}
+
+.css-main-container a.vocs_Anchor {
+  color: #818cf8;
+}
+
+.dark #social-icons-list path {
+  fill: white;
+}
+
+.dark #alternate-button {
+  background-color: #818cf8;
+  color: #030712;
+}
+
+footer a.vocs_Anchor {
+  color: #030712;
+}
+
+.dark #landing-footer a.vocs_Anchor {
+  color: white;
+}
+
+#landing-footer a.vocs_Anchor {
+  color: black;
+}
+
+.dark #social-icons-list path {
+  fill: white;
+}
+
+#social-icons-list path {
+  fill: black;
 }
