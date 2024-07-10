@@ -1,5 +1,5 @@
 import { type Address, encodePacked, keccak256 } from 'viem';
-import { ADDRESS_REVERSE_NODE } from '../identity/constants';
+import { ADDRESS_REVERSE_NODE } from '../constants';
 
 // will convert an address to a reverse node (bytes32)
 // used for reverse resolution and resolver contract interaction

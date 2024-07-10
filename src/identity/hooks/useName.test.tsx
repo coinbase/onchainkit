@@ -8,8 +8,8 @@ import { publicClient } from '../../network/client';
 import { getNewReactQueryTestProvider } from './getNewReactQueryTestProvider';
 
 jest.mock('../../network/client');
-jest.mock('../../network/chains', () => ({
-  ...jest.requireActual('../../network/chains'),
+jest.mock('../../network/getChainPublicClient', () => ({
+  ...jest.requireActual('../../network/getChainPublicClient'),
   getChainPublicClient: jest.fn(() => publicClient),
 }));
 
