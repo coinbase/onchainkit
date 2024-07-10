@@ -209,7 +209,7 @@ bun add @coinbase/onchainkit
       Start with Wallet
     </a>
     <div className="flex grow md:flex-row pt-[44px] flex-col">
-      <div>
+      <div className="w-[664px] max-w-full">
 ```tsx
 <Wallet> // [!code focus]
   <ConnectWallet> // [!code focus]
@@ -273,7 +273,7 @@ bun add @coinbase/onchainkit
       Start with Tokens
     </a>
     <div className="flex grow md:flex-row pt-[44px] flex-col">
-      <div>
+      <div className="w-[664px] max-w-full">
 ```tsx
 const [filteredTokens, setFilteredTokens] = useState<Token[]>([]);
 ...
@@ -326,7 +326,7 @@ setFilteredTokens(filteredTokens);
       Start with Swap
     </a>
     <div className="flex grow flex-col items-center md:flex-row pt-[44px] md:pt-[20px]">
-      <div>
+      <div className="w-[664px] max-w-full">
 ```tsx
 <Swap address={address}> // [!code focus]
   <SwapAmountInput // [!code focus]
@@ -398,7 +398,7 @@ setFilteredTokens(filteredTokens);
       Start with Frame
     </a>
     <div className="flex grow flex-col items-center md:flex-row pt-[44px]">
-      <div>
+      <div className="w-[664px] max-w-full">
 ```tsx
  <FrameMetadata
       buttons={[
