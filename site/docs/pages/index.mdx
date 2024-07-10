@@ -149,7 +149,7 @@ bun add @coinbase/onchainkit
   </ul>
 </div>
 
-<main className="css-main-container items-center flex flex-col mx-auto vp-doc relative px-0 mb-[26px] mt-0 md:mb-[64px]">
+<main id="landing-page"  className="css-main-container items-center flex flex-col mx-auto vp-doc relative px-0 mt-0">
 
 {' '}
 
@@ -441,7 +441,7 @@ setFilteredTokens(filteredTokens);
 
 {' '}
 
-<section className="css-dark-container w-full flex flex-col items-center py-24">
+<section className="css-alternate-container w-full flex flex-col items-center py-24">
   <div className="w-[1225px] max-w-full flex flex-col justify-between">
     <div className="flex flex-col md:flex-row justify-between items-center pb-[20px]">
       <div>
@@ -460,7 +460,7 @@ setFilteredTokens(filteredTokens);
 
 {' '}
 
-<section className="css-dark-container w-full flex items-center justify-center">
+<section className="css-alternate-container w-full flex items-center justify-center">
   <aside className="flex flex-col pb-10 md:flex-row md:px-2 w-[940px]">
     <img alt="OnchainKit figma" src="/assets/onchain-figma.png" width="auto" />
   </aside>
@@ -469,7 +469,7 @@ setFilteredTokens(filteredTokens);
 
 {' '}
 
-<section className="css-dark-container w-full flex flex-col items-center py-24 gap-[72px]">
+<section className="css-alternate-container w-full flex flex-col items-center py-24 gap-[72px]">
   <div>
     <h3 className="basis-1/2 py-[15px] text-4xl md:text-4xl max-w-[525px] text-center">Builders ship faster with OnchainKit</h3>
   </div>
@@ -490,7 +490,7 @@ setFilteredTokens(filteredTokens);
 
 <hr className="my-8 md:my-20" />
 
-  <footer className="flex flex-col justify-center space-y-[25px] max-w-screen-xl w-full">
+  <footer id="landing-footer" className="flex flex-col justify-center space-y-[25px] max-w-screen-xl w-full pb-[30px]">
     <div className="flex flex-col md:flex-row md:items-end justify-between">
       <div className="flex flex-col justify-between xl:flex-row xl:space-x-[25px]">
         <div className="pt-[20px] xl:pt-[40px]">
@@ -498,7 +498,7 @@ setFilteredTokens(filteredTokens);
           <p className="leading-7 text-xl text-gray-400 px-0 py-6 max-w-[500px] md:text-left text-center">
             Build your onchain apps with ready-to-use React components and Typescript utilities.
           </p>
-          <a href="/getting-started" className="mx-auto md:mx-0 flex justify-center items-center bg-indigo-400 text-[#030712] font-bold leading-6 px-4 py-3 rounded-xl w-[180px]">
+          <a id="alternate-button" href="/getting-started" className="mx-auto md:mx-0 flex justify-center items-center bg-indigo-600 text-[white] font-bold leading-6 px-4 py-3 rounded-xl w-[180px]">
             Get started
           </a>
         </div>
@@ -510,7 +510,7 @@ setFilteredTokens(filteredTokens);
           <li>[Template](https://buildonchainapps.xyz/)</li>
           <li>[Figma](https://www.figma.com/community/file/1370194397345450683/onchainkit)</li>
         </ul>
-        <ul className="flex space-x-[28px]">
+        <ul id="social-icons-list" className="flex space-x-[28px]">
           <a href="https://github.com/coinbase/onchainkit" target="_blank">
             <svg width="20" height="19" viewBox="0 0 20 19" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path fillRule="evenodd" clipRule="evenodd" d="M10.0719 0.19519C4.83504 0.19519 0.601562 4.45988 0.601562 9.73589C0.601562 13.9533 3.3141 17.5232 7.07711 18.7867C7.54758 18.8817 7.71991 18.5814 7.71991 18.3289C7.71991 18.1077 7.70441 17.3495 7.70441 16.5596C5.06999 17.1283 4.5214 15.4223 4.5214 15.4223C4.09803 14.3166 3.47073 14.0324 3.47073 14.0324C2.60849 13.4479 3.53354 13.4479 3.53354 13.4479C4.48999 13.5111 4.99187 14.4272 4.99187 14.4272C5.83841 15.8803 7.20253 15.4698 7.75132 15.217C7.82963 14.6009 8.08067 14.1745 8.34721 13.9376C6.24608 13.7164 4.03541 12.8951 4.03541 9.23033C4.03541 8.1878 4.41148 7.33487 5.00738 6.67151C4.91336 6.43463 4.58401 5.45511 5.10159 4.1441C5.10159 4.1441 5.90122 3.89132 7.70421 5.12343C8.47614 4.91459 9.27221 4.80835 10.0719 4.80745C10.8715 4.80745 11.6867 4.91814 12.4394 5.12343C14.2426 3.89132 15.0422 4.1441 15.0422 4.1441C15.5598 5.45511 15.2302 6.43463 15.1362 6.67151C15.7478 7.33487 16.1084 8.1878 16.1084 9.23033C16.1084 12.8951 13.8977 13.7005 11.7809 13.9376C12.1259 14.2377 12.4237 14.8062 12.4237 15.7066C12.4237 16.9861 12.4082 18.0129 12.4082 18.3287C12.4082 18.5814 12.5807 18.8817 13.051 18.7869C16.814 17.523 19.5265 13.9533 19.5265 9.73589C19.542 4.45988 15.293 0.19519 10.0719 0.19519Z" fill="#F9FAFB"/>
