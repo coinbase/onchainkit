@@ -1,16 +1,12 @@
-/**
- * @jest-environment jsdom
- */
-
 import { getName } from './getName';
 import { publicClient } from '../../network/client';
 import type { Address } from 'viem';
-import { base, baseSepolia, mainnet, optimism, sepolia } from 'viem/chains';
-import { getChainPublicClient } from '../../network/getChainPublicClient';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-jest.mock('../../network/client');
-jest.mock('../getSlicedAddress', () => ({
-  getSlicedAddress: jest.fn(),
+vi.mock('../../network/client');
+
+vi.mock('../getSlicedAddress', () => ({
+  getSlicedAddress: vi.fn(),
 }));
 
 jest.mock('../../network/getChainPublicClient', () => ({
@@ -19,12 +15,10 @@ jest.mock('../../network/getChainPublicClient', () => ({
 }));
 
 describe('getName', () => {
-  const mockGetEnsName = publicClient.getEnsName as jest.Mock;
-  const mockReadContract = publicClient.readContract as jest.Mock;
-  const walletAddress = '0x1234567890123456789012345678901234567890' as Address;
+  const mockGetEnsName = publicClient.getEnsName as vi.Mock;
 
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('should return correct value from client getName', async () => {
@@ -46,7 +40,7 @@ describe('getName', () => {
   it('should return null client getName throws an error', async () => {
     mockGetEnsName.mockRejectedValue(new Error('This is an error'));
     await expect(getName({ address: walletAddress })).rejects.toThrow(
-      'This is an error',
+      'This is an error'
     );
   });
 
@@ -101,9 +95,9 @@ describe('getName', () => {
 
   it('should throw an error on unsupported chain', async () => {
     await expect(
-      getName({ address: walletAddress, chain: optimism }),
+      getName({ address: walletAddress, chain: optimism })
     ).rejects.toThrow(
-      'ChainId not supported, name resolution is only supported on Ethereum and Base.',
+      'ChainId not supported, name resolution is only supported on Ethereum and Base.'
     );
   });
 });

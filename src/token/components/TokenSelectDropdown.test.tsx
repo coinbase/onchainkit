@@ -1,15 +1,13 @@
-/**
- * @jest-environment jsdom
- */
 import React from 'react';
 import '@testing-library/jest-dom';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import type { Address } from 'viem';
 import { TokenSelectDropdown } from './TokenSelectDropdown';
 import type { Token } from '../types';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 describe('TokenSelectDropdown', () => {
-  const setToken = jest.fn();
+  const setToken = vi.fn();
   const options: Token[] = [
     {
       name: 'Ethereum',
@@ -32,7 +30,7 @@ describe('TokenSelectDropdown', () => {
   ];
 
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('renders the TokenSelectDropdown component', async () => {

@@ -1,7 +1,11 @@
+/**
+ * @vitest-environment node
+ */
 import { getSwapTransaction } from './getSwapTransaction';
 import type { RawTransactionData } from '../types';
+import { describe, expect, it, vi } from 'vitest';
 
-jest.mock('../../network/request');
+vi.mock('../../network/request');
 
 describe('getSwapTransaction', () => {
   it('should construct an unsigned transaction', () => {

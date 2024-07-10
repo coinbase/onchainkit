@@ -1,4 +1,8 @@
+/**
+ * @vitest-environment node
+ */
 import { isSwapError } from './isSwapError';
+import { describe, expect, it } from 'vitest';
 
 describe('isSwapError', () => {
   it('returns true for a valid SwapError object', () => {

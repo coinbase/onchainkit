@@ -1,4 +1,8 @@
+/**
+ * @vitest-environment node
+ */
 import { formatDecimals } from './formatDecimals';
+import { describe, expect, it } from 'vitest';
 
 describe('formatDecimals', () => {
   it('should format the amount correctly with default decimals when inputInDecimals is true', () => {

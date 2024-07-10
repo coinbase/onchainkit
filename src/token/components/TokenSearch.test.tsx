@@ -1,14 +1,12 @@
-/**
- * @jest-environment jsdom
- */
 import React from 'react';
 import '@testing-library/jest-dom';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import { TokenSearch } from './TokenSearch';
+import { describe, expect, it, vi } from 'vitest';
 
 describe('TokenSearch component', () => {
   it('should call onChange after the specified debounce delay', async () => {
-    const handleChange = jest.fn();
+    const handleChange = vi.fn();
 
     const { getByRole } = render(<TokenSearch onChange={handleChange} />);
 
@@ -26,7 +24,7 @@ describe('TokenSearch component', () => {
   });
 
   it('should call onChange immediately with no debounce delay', async () => {
-    const handleChange = jest.fn();
+    const handleChange = vi.fn();
 
     const { getByRole } = render(
       <TokenSearch onChange={handleChange} delayMs={0} />,
@@ -40,7 +38,7 @@ describe('TokenSearch component', () => {
   });
 
   it('clears the input when the clear button is clicked', async () => {
-    const handleChange = jest.fn();
+    const handleChange = vi.fn();
     const { getByTestId, getByRole } = render(
       <TokenSearch onChange={handleChange} />,
     );

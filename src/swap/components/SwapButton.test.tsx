@@ -1,25 +1,23 @@
-/**
- * @jest-environment jsdom
- */
 import React from 'react';
-import '@testing-library/jest-dom';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { SwapButton } from './SwapButton';
 import { useSwapContext } from './SwapProvider';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-jest.mock('./SwapProvider', () => ({
-  useSwapContext: jest.fn(),
+vi.mock('./SwapProvider', () => ({
+  useSwapContext: vi.fn(),
 }));
 
-jest.mock('../../internal/loading/Spinner', () => ({
+vi.mock('../../internal/loading/Spinner', () => ({
   Spinner: () => <div data-testid="spinner">Loading...</div>,
 }));
 
-const useSwapContextMock = useSwapContext as jest.Mock;
+// const useSwapContextMock = useSwapContext as vi.Mock;
+// const useSwapContextMock = vi.fn();
 
 describe('SwapButton', () => {
-  const mockHandleSubmit = jest.fn();
-  const mockOnSubmit = jest.fn();
+  const mockHandleSubmit = vi.fn();
+  const mockOnSubmit = vi.fn();
 
   beforeEach(() => {
     mockHandleSubmit.mockClear();

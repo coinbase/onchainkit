@@ -1,6 +1,10 @@
+/**
+ * @vitest-environment node
+ */
 import { getSwapMessage, SwapMessage } from './getSwapMessage';
 import { LOW_LIQUIDITY_ERROR_CODE } from '../constants';
 import type { Token } from '../../token';
+import { describe, expect, test, vi } from 'vitest';
 
 const ETHToken: Token = {
   name: 'ETH',
@@ -31,18 +35,18 @@ describe('getSwapMessage', () => {
       amount: '0',
       loading: false,
       token: undefined,
-      setAmount: jest.fn(),
-      setLoading: jest.fn(),
-      setToken: jest.fn(),
+      setAmount: vi.fn(),
+      setLoading: vi.fn(),
+      setToken: vi.fn(),
     },
     to: {
       error: undefined,
       amount: '0',
       loading: false,
       token: undefined,
-      setAmount: jest.fn(),
-      setLoading: jest.fn(),
-      setToken: jest.fn(),
+      setAmount: vi.fn(),
+      setLoading: vi.fn(),
+      setToken: vi.fn(),
     },
     loading: false,
   };

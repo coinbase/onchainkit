@@ -1,9 +1,7 @@
-/**
- * @jest-environment jsdom
- */
 import React from 'react';
 import { render } from '@testing-library/react';
 import { FrameMetadata } from './FrameMetadata';
+import { describe, it, expect } from 'vitest';
 
 describe('FrameMetadata', () => {
   it('renders', () => {
