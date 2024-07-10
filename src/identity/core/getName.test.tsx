@@ -6,15 +6,15 @@ import { getName } from './getName';
 import { publicClient } from '../../network/client';
 import type { Address } from 'viem';
 import { base, baseSepolia, mainnet, optimism, sepolia } from 'viem/chains';
-import { getChainPublicClient } from '../../network/chains';
+import { getChainPublicClient } from '../../network/getChainPublicClient';
 
 jest.mock('../../network/client');
 jest.mock('../getSlicedAddress', () => ({
   getSlicedAddress: jest.fn(),
 }));
 
-jest.mock('../../network/chains', () => ({
-  ...jest.requireActual('../../network/chains'),
+jest.mock('../../network/getChainPublicClient', () => ({
+  ...jest.requireActual('../../network/getChainPublicClient'),
   getChainPublicClient: jest.fn(() => publicClient),
 }));
 

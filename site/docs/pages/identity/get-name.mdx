@@ -46,28 +46,6 @@ const name = await getName({ address });
 
 :::
 
-Get name from another chain:
-
-:::code-group
-
-```tsx [code]
-import { getName } from '@coinbase/onchainkit/identity';
-import { base } from "viem/chains";
-
-const address = '0x1234567890abcdef1234567890abcdef12345678';
-const name = await getName({ address, chainId: base.id });
-```
-
-```ts [return value]
-zizzamia.base.eth;
-```
-
-:::
-
-:::warning
-The only supported chains are `mainnet`, `sepolia`, `base` & `baseSepolia`
-:::
-
 
 ## Returns
 
