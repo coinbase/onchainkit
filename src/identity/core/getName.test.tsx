@@ -103,6 +103,16 @@ describe('getName', () => {
     expect(getChainPublicClient).toHaveBeenCalledWith(base.id);
   });
 
+  it('should return null if user is not registered', async () => {
+    const walletAddress =
+      '0x1234567890123456789012345678901234567890' as Address;
+    const expectedEnsName = null;
+    mockReadContract.mockResolvedValue(expectedEnsName);
+    const name = await getName({ address: walletAddress, chainId: base.id });
+    expect(name).toBe(expectedEnsName);
+    expect(getChainPublicClient).toHaveBeenCalledWith(base.id);
+  });
+
   it('should throw an error on unsupported chain', async () => {
     const walletAddress =
       '0x1234567890123456789012345678901234567890' as Address;

@@ -11,6 +11,7 @@ import {
   ensUniversalResolverChainIds,
   getChainPublicClient,
 } from '../../network/chains';
+import { Abi, GetEnsNameReturnType } from 'viem';
 
 /**
  * An asynchronous function to fetch the Ethereum Name Service (ENS)
@@ -39,16 +40,13 @@ export const getName = async ({
 
   if (chainIsBase) {
     const addressReverseNode = convertReverseNodeToBytes(address);
-    const readContractArgs = {
+    const baseEnsName = await client.readContract({
       abi: L2ResolverAbi,
       address: resolverAddressesByChainId[chain.id],
       functionName: 'name',
       args: [addressReverseNode],
-      chainId: chain.id,
-    };
-
-    const baseEnsName = await client.readContract(readContractArgs);
-    return typeof baseEnsName === 'string' ? baseEnsName : null;
+    });
+    return baseEnsName ?? null;
   }
 
   // ENS username

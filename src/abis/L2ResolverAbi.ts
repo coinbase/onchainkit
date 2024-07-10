@@ -1,6 +1,4 @@
-import type { Abi } from 'viem';
-
-const L2ResolverAbi: Abi = [
+export default [
   {
     inputs: [
       {
@@ -1281,6 +1279,4 @@ const L2ResolverAbi: Abi = [
     stateMutability: 'view',
     type: 'function',
   },
-];
-
-export default L2ResolverAbi;
+] as const;
