@@ -1,5 +1,5 @@
 import { base, baseSepolia } from 'viem/chains';
-import { Address, encodePacked, keccak256 } from 'viem';
+import { type Address, encodePacked, keccak256 } from 'viem';
 
 export const ADDRESS_REVERSE_NODE =
   '0x91d1777781884d03a6757a803996e38de2a42967fb37eeaca72729271025a9e2';

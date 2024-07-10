@@ -25,7 +25,7 @@ export const getName = async ({
   const chainSupportsUniversalResolver =
     ensUniversalResolverChainIds.includes(chainId);
   const chainIsBase = baseChainsIds.includes(chainId);
-  let chain = chainsById[chainId];
+  const chain = chainsById[chainId];
 
   if (!chainSupportsUniversalResolver) {
     throw Error(
