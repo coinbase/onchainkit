@@ -12,6 +12,13 @@ export type isBaseOptions = {
 /**
  * Note: exported as public Type
  */
+export type isEthereumOptions = {
+  chainId: number;
+};
+
+/**
+ * Note: exported as public Type
+ */
 export type OnchainKitConfig = {
   address: Address | null; // Address is optional as we may not have an address for new users
   apiKey: string | null; // ApiKey for Coinbase Developer Platform APIs

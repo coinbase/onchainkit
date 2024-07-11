@@ -146,13 +146,13 @@ export type NameReact = {
   className?: string; // Optional className override for top span element.
 } & HTMLAttributes<HTMLSpanElement>; // Optional additional span attributes to apply to the name.
 
+/**
+ * Note: exported as public Type
+ */
+export type ResolverAddressesByChainIdMap = Record<number, Address>;
+
 export type UseAttestations = {
   address: Address;
   chain: Chain;
   schemaId: Address | null;
 };
-
-/**
- * Note: exported as public Type
- */
-export type ResolverAddressesByChainIdMap = Record<number, Address>;

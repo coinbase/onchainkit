@@ -4,8 +4,8 @@ import L2ResolverAbi from '../abis/L2ResolverAbi';
 import { getChainPublicClient } from '../../network/getChainPublicClient';
 import { RESOLVER_ADDRESSES_BY_CHAIN_ID } from '../constants';
 import { convertReverseNodeToBytes } from './convertReverseNodeToBytes';
-import { isBaseChain } from '../../network/isBaseChain';
-import { isEthereumChain } from '../../network/isEthereumChain';
+import { isEthereum } from '../../isEthereum';
+import { isBase } from '../../isBase';
 
 /**
  * An asynchronous function to fetch the Ethereum Name Service (ENS)
@@ -17,8 +17,8 @@ export const getName = async ({
   address,
   chain = mainnet,
 }: GetName): Promise<GetNameReturnType> => {
-  const chainIsBase = isBaseChain(chain.id);
-  const chainIsEthereum = isEthereumChain(chain.id);
+  const chainIsBase = isBase({ chainId: chain.id });
+  const chainIsEthereum = isEthereum({ chainId: chain.id });
   const chainSupportsUniversalResolver = chainIsEthereum || chainIsBase;
 
   if (!chainSupportsUniversalResolver) {
