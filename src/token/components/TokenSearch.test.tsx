@@ -1,5 +1,5 @@
 import React from 'react';
-import '@testing-library/vi-dom';
+import '@testing-library/jest-dom';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import { TokenSearch } from './TokenSearch';
 import { describe, expect, it, vi } from 'vitest';

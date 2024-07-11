@@ -3,7 +3,7 @@
  */
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import '@testing-library/vi-dom';
+import '@testing-library/jest-dom';
 import { SwapAmountInput } from './SwapAmountInput';
 import { useSwapContext } from './SwapProvider';
 import type { Token } from '../../token';

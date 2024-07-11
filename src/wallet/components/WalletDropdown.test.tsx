@@ -2,7 +2,7 @@
  * @vi-environment jsdom
  */
 import React from 'react';
-import '@testing-library/vi-dom';
+import '@testing-library/jest-dom';
 import { render, renderHook, screen, waitFor } from '@testing-library/react';
 import { useAccount } from 'wagmi';
 import { WalletDropdown } from './WalletDropdown';

@@ -3,7 +3,7 @@
  */
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import '@testing-library/vi-dom';
+import '@testing-library/jest-dom';
 import { EthBalance } from './EthBalance';
 import { useIdentityContext } from './IdentityProvider';
 import { useGetETHBalance } from '../../wallet/core/useGetETHBalance';

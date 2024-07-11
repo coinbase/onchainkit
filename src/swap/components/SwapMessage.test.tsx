@@ -3,7 +3,7 @@
  */
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import '@testing-library/vi-dom';
+import '@testing-library/jest-dom';
 import { SwapMessage } from './SwapMessage';
 import { useSwapContext } from './SwapProvider';
 import { getSwapMessage } from '../core/getSwapMessage';

@@ -2,7 +2,7 @@
  * @vi-environment jsdom
  */
 import React from 'react';
-import '@testing-library/vi-dom';
+import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import { DisplayBadge } from './DisplayBadge';
 import { Badge } from './Badge';

@@ -2,7 +2,7 @@
  * @vi-environment jsdom
  */
 import React, { type ReactNode } from 'react';
-import '@testing-library/vi-dom';
+import '@testing-library/jest-dom';
 import { findComponent } from './findComponent';
 
 const ToThe = () => <div>Name Component</div>;

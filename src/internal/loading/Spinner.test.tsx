@@ -3,7 +3,7 @@
  */
 import React from 'react';
 import { render } from '@testing-library/react';
-import '@testing-library/vi-dom';
+import '@testing-library/jest-dom';
 import { Spinner } from './Spinner';
 
 describe('Spinner component', () => {

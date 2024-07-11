@@ -3,7 +3,7 @@
  */
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import '@testing-library/vi-dom';
+import '@testing-library/jest-dom';
 import { Address } from './Address';
 import { useIdentityContext } from './IdentityProvider';
 import { getSlicedAddress } from '../getSlicedAddress';

@@ -3,7 +3,7 @@
  */
 import React from 'react';
 import { base } from 'viem/chains';
-import '@testing-library/vi-dom';
+import '@testing-library/jest-dom';
 import { render, screen, waitFor } from '@testing-library/react';
 import { useOnchainKit } from '../../useOnchainKit';
 import { useName } from '../hooks/useName';
