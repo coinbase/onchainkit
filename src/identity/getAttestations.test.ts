@@ -1,5 +1,5 @@
 /**
- * @vi-environment jsdom
+ * @vitest-environment jsdom
  */
 
 import { getAttestationsByFilter } from '../network/attestations';
@@ -7,6 +7,7 @@ import { getAttestations } from './getAttestations';
 import { easSupportedChains } from './easSupportedChains';
 import { base, opBNBTestnet } from 'viem/chains';
 import type { GetAttestationsOptions } from './types';
+import { vi } from 'vitest';
 
 vi.mock('../network/attestations');
 

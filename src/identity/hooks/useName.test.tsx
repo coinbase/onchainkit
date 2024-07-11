@@ -1,20 +1,21 @@
 /**
- * @vi-environment jsdom
+ * @vitest-environment jsdom
  */
 
 import { renderHook, waitFor } from '@testing-library/react';
 import { useName } from './useName';
 import { publicClient } from '../../network/client';
 import { getNewReactQueryTestProvider } from './getNewReactQueryTestProvider';
+import { describe, beforeEach, it, expect, vi, Mock } from 'vitest';
 
 vi.mock('../../network/client');
 vi.mock('../../network/getChainPublicClient', () => ({
-  ...vi.requireActual('../../network/getChainPublicClient'),
+  ...vi.importActual('../../network/getChainPublicClient'),
   getChainPublicClient: vi.fn(() => publicClient),
 }));
 
 describe('useName', () => {
-  const mockGetEnsName = publicClient.getEnsName as vi.Mock;
+  const mockGetEnsName = publicClient.getEnsName as Mock;
 
   beforeEach(() => {
     vi.clearAllMocks();

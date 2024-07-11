@@ -1,5 +1,5 @@
 /**
- * @vi-environment jsdom
+ * @vitest-environment jsdom
  */
 
 import { convertReverseNodeToBytes } from './convertReverseNodeToBytes';

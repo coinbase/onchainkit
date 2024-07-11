@@ -1,5 +1,5 @@
 /**
- * @vi-environment jsdom
+ * @vitest-environment jsdom
  */
 import { renderHook } from '@testing-library/react';
 import { useGetETHBalance } from './useGetETHBalance';
