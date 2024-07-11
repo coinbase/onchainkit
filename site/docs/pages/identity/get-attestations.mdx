@@ -55,13 +55,13 @@ const attestations = [
 ### Address
 
 ```ts
-type Address = `0x${string}`;
+type Address = `0x${string}`; // The address for which attestations are being queried.
 ```
 
 ### Chain
 
 ```ts
-type Chain = {
+type Chain = { // The blockchain of interest.
   id: string;
   name: string;
   network: string;
