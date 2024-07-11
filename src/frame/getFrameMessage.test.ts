@@ -12,8 +12,9 @@ vi.mock('../utils/neynar/user/neynarBulkUserLookup', () => {
   };
 });
 
-vi.mock('../utils/neynar/frame/neynarFrameValidation', () => {
+vi.mock('../utils/neynar/frame/neynarFrameValidation', async (importOriginal) => {
   return {
+    ...(await importOriginal() as any),
     neynarFrameValidation: vi.fn(),
   };
 });
