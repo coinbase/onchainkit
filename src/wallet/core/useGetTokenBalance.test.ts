@@ -39,7 +39,7 @@ describe('useGetTokenBalance', () => {
   });
 
   it('should return converted and rounded balance without error', () => {
-    (require('wagmi').useReadContract as Mock).mockReturnValue(
+    (useReadContract as Mock).mockReturnValue(
       mockTokenBalanceResponse,
     );
     const { result } = renderHook(() =>

@@ -42,7 +42,7 @@ describe('useGetETHBalance', () => {
   });
 
   it('should return converted and rounded balance without error', () => {
-    (require('wagmi').useBalance as Mock).mockReturnValue(
+    (useBalance as Mock).mockReturnValue(
       mockETHBalanceResponse,
     );
     const { result } = renderHook(() => useGetETHBalance(mockAddress));
