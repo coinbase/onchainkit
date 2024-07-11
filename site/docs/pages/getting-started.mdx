@@ -157,11 +157,13 @@ export const wagmiConfig = createConfig({
   },
 });
 ```
-
 :::
+
 ### Wrap Your App with OnchainProviders
 
 Wrap your app with the `OnchainProviders` component to enable OnchainKit components and utilities.
+
+:::code-group
 
 ```tsx [layout.tsx]
 import { OnchainProviders } from './OnchainProviders' // [!code focus]
@@ -174,6 +176,38 @@ export default function RootLayout({ children }) {
   )
 }  
 ```
+
+```tsx [OnchainProviders.tsx]
+'use client';
+import { ReactNode } from 'react';
+import { OnchainKitProvider } from '@coinbase/onchainkit';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { base } from 'viem/chains';
+import { WagmiProvider } from 'wagmi';
+import { wagmiConfig } from './wagmi';
+
+type Props = { children: ReactNode };
+
+const queryClient = new QueryClient();
+
+function OnchainProviders({ children }: Props) { // [!code focus]
+  return (
+    <WagmiProvider config={wagmiConfig}>
+      <QueryClientProvider client={queryClient}>
+        <OnchainKitProvider
+          apiKey={process.env.PUBLIC_ONCHAINKIT_API_KEY}
+          chain={base}
+        >
+          {children}
+        </OnchainKitProvider>
+      </QueryClientProvider>
+    </WagmiProvider>
+  );
+} // [!code focus]
+
+export default OnchainProviders; // [!code focus]
+```
+:::
 
 ### Style your components
 
