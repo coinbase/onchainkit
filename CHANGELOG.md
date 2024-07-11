@@ -4,11 +4,7 @@
 
 ### Patch Changes
 
-- 8124f8c: - **feat**: added `isSliced` option to the `Address` component. This allows this component to render the full users address when set to false. Update `getName` and the `Name` component to return `null` if the ENS name is not found for the given address. By @cpcramer #737
-
-  Breaking Changes
-
-  - Update `getName` and the `Name` component to return `null` if the ENS name is not found for the given address.
+- **feat**: added `isSliced` option to the `Address` component. This allows this component to render the full users address when set to false. Update `getName` and the `Name` component to return `null` if the ENS name is not found for the given address. By @cpcramer #737 8124f8c
 
 ## 0.24.2
 
