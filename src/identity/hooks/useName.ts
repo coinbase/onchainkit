@@ -1,10 +1,11 @@
 import { useQuery } from '@tanstack/react-query';
-import type { Address } from 'viem';
 import { getName } from '../core/getName';
+import type { Address, Chain } from 'viem';
 import type { GetNameReturnType } from '../types';
 
 type UseNameOptions = {
   address: Address; // The Ethereum address for which the ENS name is to be fetched.
+  chain?: Chain;
 };
 
 // Additional query options, including `enabled` and `cacheTime`
@@ -20,7 +21,7 @@ type UseNameQueryOptions = {
  *  - `{UseQueryResult}`: The rest of useQuery return values. including isLoading, isError, error, isFetching, refetch, etc.
  */
 export const useName = (
-  { address }: UseNameOptions,
+  { address, chain }: UseNameOptions,
   queryOptions?: UseNameQueryOptions,
 ) => {
   const { enabled = true, cacheTime } = queryOptions ?? {};
@@ -28,7 +29,7 @@ export const useName = (
   return useQuery<GetNameReturnType>({
     queryKey: ['useName', ensActionKey],
     queryFn: async () => {
-      return await getName({ address });
+      return await getName({ address, chain });
     },
     gcTime: cacheTime,
     enabled,
