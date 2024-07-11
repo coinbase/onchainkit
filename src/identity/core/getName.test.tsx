@@ -59,7 +59,7 @@ describe('getName', () => {
   it('should return mainnet username', async () => {
     const expectedEnsName = 'leo.eth';
     mockGetEnsName.mockResolvedValue(expectedEnsName);
-    const name = await getName({ address: walletAddress, chainId: mainnet.id });
+    const name = await getName({ address: walletAddress, chain: mainnet });
     expect(name).toBe(expectedEnsName);
     expect(getChainPublicClient).toHaveBeenCalledWith(mainnet);
   });
@@ -67,7 +67,7 @@ describe('getName', () => {
   it('should return sepolia username', async () => {
     const expectedEnsName = 'leo.test.eth';
     mockGetEnsName.mockResolvedValue(expectedEnsName);
-    const name = await getName({ address: walletAddress, chainId: sepolia.id });
+    const name = await getName({ address: walletAddress, chain: sepolia });
     expect(name).toBe(expectedEnsName);
     expect(getChainPublicClient).toHaveBeenCalledWith(sepolia);
   });
@@ -77,7 +77,7 @@ describe('getName', () => {
     mockReadContract.mockResolvedValue(expectedEnsName);
     const name = await getName({
       address: walletAddress,
-      chainId: baseSepolia.id,
+      chain: baseSepolia,
     });
     expect(name).toBe(expectedEnsName);
     expect(getChainPublicClient).toHaveBeenCalledWith(baseSepolia);
@@ -86,7 +86,7 @@ describe('getName', () => {
   it('should return custom mainnet username', async () => {
     const expectedEnsName = 'leo.custommainnet.eth';
     mockReadContract.mockResolvedValue(expectedEnsName);
-    const name = await getName({ address: walletAddress, chainId: base.id });
+    const name = await getName({ address: walletAddress, chain: base });
     expect(name).toBe(expectedEnsName);
     expect(getChainPublicClient).toHaveBeenCalledWith(base);
   });
@@ -94,14 +94,14 @@ describe('getName', () => {
   it('should return null if user is not registered', async () => {
     const expectedEnsName = null;
     mockReadContract.mockResolvedValue(expectedEnsName);
-    const name = await getName({ address: walletAddress, chainId: base.id });
+    const name = await getName({ address: walletAddress, chain: base });
     expect(name).toBe(expectedEnsName);
     expect(getChainPublicClient).toHaveBeenCalledWith(base);
   });
 
   it('should throw an error on unsupported chain', async () => {
     await expect(
-      getName({ address: walletAddress, chainId: optimism.id }),
+      getName({ address: walletAddress, chain: optimism }),
     ).rejects.toThrow(
       'ChainId not supported, name resolution is only supported on Ethereum and Base.',
     );
