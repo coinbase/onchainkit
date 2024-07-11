@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.24.4
+
+### Patch Changes
+
+- 19fd6b8: - **feat**: added `chain` option to `getName`, this will help add ENS support for L2 chains. By @kirkas #773
+  - **feat**: added `isEthereum` function, to help check if a chain is L1. By @kirkas #773
+  - **chore**: simplified type for `getAttestations`. By @zizzamia
+
 ## 0.24.3
 
 ### Patch Changes
