@@ -14,7 +14,7 @@ vi.mock('../utils/neynar/user/neynarBulkUserLookup', () => {
 
 vi.mock('../utils/neynar/frame/neynarFrameValidation', async (importOriginal) => {
   return {
-    ...(await importOriginal() as any),
+    ...(await importOriginal<typeof import('../utils/neynar/frame/neynarFrameValidation')>()),
     neynarFrameValidation: vi.fn(),
   };
 });
