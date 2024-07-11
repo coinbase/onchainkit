@@ -47,12 +47,12 @@
   height: 500px;
   border-radius: 50% 22% 40% 80%;
   filter: blur(70px);
-  background: radial-gradient(circle at 50% 50%, #0070ba, #003a5b);
+  background: radial-gradient(circle at 50% 50%, #818CF8, #818CF8);
   opacity: 0.6;
 }
 
 .dark .css-blurry-gradient {
-  background: radial-gradient(circle at 50% 50%, #b2fdff, rgba(0, 162, 255, 0));
+  background: radial-gradient(circle at 50% 50%, #6f79c5, #6f79c5);
   opacity: 0.2;
 }
 
