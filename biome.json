@@ -46,6 +46,7 @@
       "coverage",
       "esm",
       "framegear",
+      "dist",
       "site/docs/dist/"
     ]
   }
