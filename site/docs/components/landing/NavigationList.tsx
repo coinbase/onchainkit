@@ -133,18 +133,18 @@ const navItems = [
 
 export default function NavigationList() {
   return (
-    <ul className="flex gap-12 max-w-full flex-wrap justify-center md:justify-end">
+    <ul className="flex max-w-full flex-wrap justify-center gap-12 md:justify-end">
       {navItems.map((item) => {
         return (
           <li key={item?.label}>
             <a
               href={item.href}
-              className="flex flex-col items-center gap-3 group"
+              className="group flex flex-col items-center gap-3"
             >
-              <div className="w-[70px] h-[70px] bg-gray-800 rounded-xl p-5 group-hover:bg-gray-50">
+              <div className="h-[70px] w-[70px] rounded-xl bg-gray-800 p-5 group-hover:bg-gray-50">
                 {item.svg}
               </div>
-              <p className="text-center text-base not-italic font-normal leading-6">
+              <p className="text-center font-normal text-base not-italic leading-6">
                 {item.label}
               </p>
             </a>
