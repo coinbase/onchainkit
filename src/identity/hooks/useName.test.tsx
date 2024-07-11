@@ -8,6 +8,10 @@ import { publicClient } from '../../network/client';
 import { getNewReactQueryTestProvider } from './getNewReactQueryTestProvider';
 
 jest.mock('../../network/client');
+jest.mock('../../network/getChainPublicClient', () => ({
+  ...jest.requireActual('../../network/getChainPublicClient'),
+  getChainPublicClient: jest.fn(() => publicClient),
+}));
 
 describe('useName', () => {
   const mockGetEnsName = publicClient.getEnsName as jest.Mock;
