@@ -45,6 +45,7 @@ export const sidebar = [
         link: '/config/types',
       },
     ],
+    link: '/config/onchainkit-provider',
   },
   {
     text: 'Frame',
@@ -85,6 +86,7 @@ export const sidebar = [
         link: '/frame/types',
       },
     ],
+    link: '/frame/frame-metadata',
   },
   {
     text: 'Identity',
@@ -146,6 +148,7 @@ export const sidebar = [
         link: '/identity/types',
       },
     ],
+    link: '/identity/introduction',
   },
   {
     text: 'Swap',
@@ -178,6 +181,7 @@ export const sidebar = [
         link: '/swap/types',
       },
     ],
+    link: '/swap/swap',
   },
   {
     text: 'Token',
@@ -227,6 +231,7 @@ export const sidebar = [
         link: '/token/types',
       },
     ],
+    link: '/token/introduction',
   },
   {
     text: 'Wallet',
@@ -259,6 +264,7 @@ export const sidebar = [
         link: '/wallet/types',
       },
     ],
+    link: '/wallet/wallet',
   },
   {
     text: 'Farcaster',
@@ -282,6 +288,7 @@ export const sidebar = [
         link: '/farcaster/types',
       },
     ],
+    link: '/farcaster/introduction',
   },
   {
     text: 'XMTP',
@@ -302,5 +309,6 @@ export const sidebar = [
         ],
       },
     ],
+    link: '/xmtp/introduction',
   },
 ] as const satisfies Sidebar;

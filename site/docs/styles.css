@@ -47,12 +47,12 @@
   height: 500px;
   border-radius: 50% 22% 40% 80%;
   filter: blur(70px);
-  background: radial-gradient(circle at 50% 50%, #0070ba, #003a5b);
+  background: radial-gradient(circle at 50% 50%, #818CF8, #818CF8);
   opacity: 0.6;
 }
 
 .dark .css-blurry-gradient {
-  background: radial-gradient(circle at 50% 50%, #b2fdff, rgba(0, 162, 255, 0));
+  background: radial-gradient(circle at 50% 50%, #6f79c5, #6f79c5);
   opacity: 0.2;
 }
 
@@ -95,8 +95,8 @@
   background-color: #030713;
 }
 
-#landing-page .vocs_Header,
-#landing-page .vocs_H1.vocs_Heading {
+.landing-page .vocs_Header,
+.landing-page .vocs_H1.vocs_Heading {
   border: none;
   padding: 15px 0;
   font-size: 40px;
@@ -105,7 +105,7 @@
   line-height: 48px;
 }
 
-#landing-page a.vocs_Anchor {
+.landing-page a.vocs_Anchor {
   text-decoration: none;
 }
 
@@ -113,11 +113,11 @@
   color: #818cf8;
 }
 
-.dark #social-icons-list path {
+.dark .social-icons-list path {
   fill: white;
 }
 
-.dark #alternate-button {
+.dark .alternate-button {
   background-color: #818cf8;
   color: #030712;
 }
@@ -126,18 +126,18 @@ footer a.vocs_Anchor {
   color: #030712;
 }
 
-.dark #landing-footer a.vocs_Anchor {
+.dark .landing-footer a.vocs_Anchor {
   color: white;
 }
 
-#landing-footer a.vocs_Anchor {
+.landing-footer a.vocs_Anchor {
   color: black;
 }
 
-.dark #social-icons-list path {
+.dark .social-icons-list path {
   fill: white;
 }
 
-#social-icons-list path {
+.social-icons-list path {
   fill: black;
 }
