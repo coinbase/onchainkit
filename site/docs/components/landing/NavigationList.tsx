@@ -5,6 +5,7 @@ const identitySvg = (
     viewBox="0 0 30 30"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
+    aria-label="identity-svg"
   >
     <path
       className="fill-gray-50 group-hover:fill-gray-800"
@@ -21,6 +22,7 @@ const walletSvg = (
     viewBox="0 0 30 30"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
+    aria-label="wallet-svg"
   >
     <path
       className="fill-gray-50 group-hover:fill-gray-800"
@@ -42,6 +44,7 @@ const tokensSvg = (
     viewBox="0 0 30 30"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
+    aria-label="tokens-svg"
   >
     <path
       className="fill-gray-50 group-hover:fill-gray-800"
@@ -63,6 +66,7 @@ const swapSvg = (
     viewBox="0 0 30 30"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
+    aria-label="swap-svg"
   >
     <path
       className="fill-gray-50 group-hover:fill-gray-800"
@@ -84,6 +88,7 @@ const frameSvg = (
     viewBox="0 0 34 30"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
+    aria-label="frame-svg"
   >
     <path
       className="fill-gray-50 group-hover:fill-gray-800"
