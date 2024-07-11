@@ -136,7 +136,7 @@ export default function NavigationList() {
     <ul className="flex gap-12 max-w-full flex-wrap justify-center md:justify-end">
       {navItems.map((item) => {
         return (
-          <li>
+          <li key={item?.label}>
             <a
               href={item.href}
               className="flex flex-col items-center gap-3 group"
