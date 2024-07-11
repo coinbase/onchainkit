@@ -95,8 +95,8 @@
   background-color: #030713;
 }
 
-#landing-page .vocs_Header,
-#landing-page .vocs_H1.vocs_Heading {
+.landing-page .vocs_Header,
+.landing-page .vocs_H1.vocs_Heading {
   border: none;
   padding: 15px 0;
   font-size: 40px;
@@ -105,7 +105,7 @@
   line-height: 48px;
 }
 
-#landing-page a.vocs_Anchor {
+.landing-page a.vocs_Anchor {
   text-decoration: none;
 }
 
@@ -113,11 +113,11 @@
   color: #818cf8;
 }
 
-.dark #social-icons-list path {
+.dark .social-icons-list path {
   fill: white;
 }
 
-.dark #alternate-button {
+.dark .alternate-button {
   background-color: #818cf8;
   color: #030712;
 }
@@ -126,18 +126,18 @@ footer a.vocs_Anchor {
   color: #030712;
 }
 
-.dark #landing-footer a.vocs_Anchor {
+.dark .landing-footer a.vocs_Anchor {
   color: white;
 }
 
-#landing-footer a.vocs_Anchor {
+.landing-footer a.vocs_Anchor {
   color: black;
 }
 
-.dark #social-icons-list path {
+.dark .social-icons-list path {
   fill: white;
 }
 
-#social-icons-list path {
+.social-icons-list path {
   fill: black;
 }
