@@ -2,4 +2,6 @@
 "@coinbase/onchainkit": patch
 ---
 
-- **docs**: Update `Name` and `Address` docs code snippet and displayed component to fully match - removed some hidden styling for readablility to maximize authenticity. By @cpcramer #770
+- **feat**: added `chain` option to `getName`, this will help add ENS support for L2 chains. By @kirkas #773
+- **feat**: added `isEthereum` function, to help check if a chain is L1. By @kirkas #773
+- **chore**: simplified type for `getAttestations`. By @zizzamia

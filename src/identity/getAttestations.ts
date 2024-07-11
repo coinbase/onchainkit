@@ -6,19 +6,10 @@ import type { Address, Chain } from 'viem';
 /**
  * Fetches Ethereum Attestation Service (EAS) attestations for a given address and chain,
  * optionally filtered by schemas associated with the attestation.
- *
- * @param {Address} address - The address for which attestations are being queried.
- * @param {Chain} chain - The blockchain of interest.
- * @param {GetAttestationsOptions} [options] - Optional filtering options.
- *   options.revoked - Filter for revoked attestations (default: false).
- *   options.expirationTime - Unix timestamp to filter attestations based on expiration time (default: current time).
- *   options.limit - The maximum number of attestations to return (default: 10).
- * @returns {Promise<Attestation[]>} A promise that resolves to an array of EAS Attestations.
- * @throws Will throw an error if the request to the GraphQL API fails.
  */
-export async function getAttestations<TChain extends Chain>(
+export async function getAttestations(
   address: Address,
-  chain: TChain,
+  chain: Chain,
   options?: GetAttestationsOptions,
 ): Promise<Attestation[]> {
   try {
