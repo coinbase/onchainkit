@@ -159,6 +159,21 @@ export const wagmiConfig = createConfig({
 ```
 
 :::
+### Wrap Your App with OnchainProviders
+
+Wrap your app with the `OnchainProviders` component to enable OnchainKit components and utilities.
+
+```tsx [layout.tsx]
+import { OnchainProviders } from './OnchainProviders' // [!code focus]
+
+export default function RootLayout({ children }) {
+  return (
+    <OnchainProviders> // [!code focus]
+      { children }
+    </OnchainProviders> // [!code focus]
+  )
+}  
+```
 
 ### Style your components
 
