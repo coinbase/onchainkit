@@ -1,5 +1,5 @@
 /**
- * @jest-environment jsdom
+ * @vi-environment jsdom
  */
 
 import { renderHook, waitFor } from '@testing-library/react';
@@ -7,13 +7,13 @@ import { useAvatar } from './useAvatar';
 import { publicClient } from '../../network/client';
 import { getNewReactQueryTestProvider } from './getNewReactQueryTestProvider';
 
-jest.mock('../../network/client');
+vi.mock('../../network/client');
 
 describe('useAvatar', () => {
-  const mockGetEnsAvatar = publicClient.getEnsAvatar as jest.Mock;
+  const mockGetEnsAvatar = publicClient.getEnsAvatar as vi.Mock;
 
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('returns the correct ENS avatar and loading state', async () => {

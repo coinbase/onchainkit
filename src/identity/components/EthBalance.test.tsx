@@ -1,25 +1,25 @@
 /**
- * @jest-environment jsdom
+ * @vi-environment jsdom
  */
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import '@testing-library/jest-dom';
+import '@testing-library/vi-dom';
 import { EthBalance } from './EthBalance';
 import { useIdentityContext } from './IdentityProvider';
 import { useGetETHBalance } from '../../wallet/core/useGetETHBalance';
 import { getRoundedAmount } from '../../utils/getRoundedAmount';
 import { silenceError, mock } from '../../internal/testing';
 
-jest.mock('./IdentityProvider', () => ({
-  useIdentityContext: jest.fn(),
+vi.mock('./IdentityProvider', () => ({
+  useIdentityContext: vi.fn(),
 }));
 
-jest.mock('../../wallet/core/useGetETHBalance', () => ({
-  useGetETHBalance: jest.fn(),
+vi.mock('../../wallet/core/useGetETHBalance', () => ({
+  useGetETHBalance: vi.fn(),
 }));
 
-jest.mock('../../utils/getRoundedAmount', () => ({
-  getRoundedAmount: jest.fn(),
+vi.mock('../../utils/getRoundedAmount', () => ({
+  getRoundedAmount: vi.fn(),
 }));
 
 const useIdentityContextMock = mock(useIdentityContext);
@@ -31,9 +31,9 @@ describe('EthBalance', () => {
 
     const restore = silenceError();
     expect(() =>
-      render(<EthBalance address={undefined} className="" />),
+      render(<EthBalance address={undefined} className="" />)
     ).toThrow(
-      'Address: an Ethereum address must be provided to the Identity or EthBalance component.',
+      'Address: an Ethereum address must be provided to the Identity or EthBalance component.'
     );
     restore();
   });
@@ -46,7 +46,7 @@ describe('EthBalance', () => {
       convertedBalance: balance,
       error: null,
     });
-    (getRoundedAmount as jest.Mock).mockReturnValue('1.2346');
+    (getRoundedAmount as vi.Mock).mockReturnValue('1.2346');
 
     render(<EthBalance address={address} className="custom-class" />);
 
@@ -62,7 +62,7 @@ describe('EthBalance', () => {
     });
 
     const { container } = render(
-      <EthBalance address={address} className="custom-class" />,
+      <EthBalance address={address} className="custom-class" />
     );
     expect(container.firstChild).toBeNull();
   });

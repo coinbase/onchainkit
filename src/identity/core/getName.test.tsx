@@ -9,9 +9,9 @@ vi.mock('../getSlicedAddress', () => ({
   getSlicedAddress: vi.fn(),
 }));
 
-jest.mock('../../network/getChainPublicClient', () => ({
-  ...jest.requireActual('../../network/getChainPublicClient'),
-  getChainPublicClient: jest.fn(() => publicClient),
+vi.mock('../../network/getChainPublicClient', () => ({
+  ...vi.requireActual('../../network/getChainPublicClient'),
+  getChainPublicClient: vi.fn(() => publicClient),
 }));
 
 describe('getName', () => {

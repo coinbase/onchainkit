@@ -1,28 +1,28 @@
 /**
- * @jest-environment jsdom
+ * @vi-environment jsdom
  */
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import '@testing-library/jest-dom';
+import '@testing-library/vi-dom';
 import { SwapAmountInput } from './SwapAmountInput';
 import { useSwapContext } from './SwapProvider';
 import type { Token } from '../../token';
 import type { SwapContextType } from '../types';
 
-jest.mock('../../token', () => ({
-  TokenChip: jest.fn(() => <div>TokenChip</div>),
-  TokenSelectDropdown: jest.fn(() => <div>TokenSelectDropdown</div>),
+vi.mock('../../token', () => ({
+  TokenChip: vi.fn(() => <div>TokenChip</div>),
+  TokenSelectDropdown: vi.fn(() => <div>TokenSelectDropdown</div>),
 }));
 
-jest.mock('./SwapProvider', () => ({
-  useSwapContext: jest.fn(),
+vi.mock('./SwapProvider', () => ({
+  useSwapContext: vi.fn(),
 }));
 
-jest.mock('wagmi', () => ({
-  useBalance: jest.fn(),
+vi.mock('wagmi', () => ({
+  useBalance: vi.fn(),
 }));
 
-const useSwapContextMock = useSwapContext as jest.Mock;
+const useSwapContextMock = useSwapContext as vi.Mock;
 
 const mockETHToken: Token = {
   name: 'ETH',
@@ -48,24 +48,24 @@ const mockContextValue = {
   from: {
     amount: '10',
     balance: '0.0002851826238227',
-    setAmount: jest.fn(),
-    setLoading: jest.fn(),
-    setToken: jest.fn(),
+    setAmount: vi.fn(),
+    setLoading: vi.fn(),
+    setToken: vi.fn(),
     loading: false,
     token: undefined,
   },
   to: {
     amount: '20',
-    setAmount: jest.fn(),
-    setLoading: jest.fn(),
-    setToken: jest.fn(),
+    setAmount: vi.fn(),
+    setLoading: vi.fn(),
+    setToken: vi.fn(),
     loading: false,
     token: undefined,
   },
   loading: false,
-  handleToggle: jest.fn(),
-  handleSubmit: jest.fn(),
-  handleAmountChange: jest.fn(),
+  handleToggle: vi.fn(),
+  handleSubmit: vi.fn(),
+  handleAmountChange: vi.fn(),
 } as SwapContextType;
 
 const mockContextValueWithoutConvertedBalance = {
@@ -105,7 +105,7 @@ const mockSwappableTokens: Token[] = [
 
 const SwapProvider = describe('SwapAmountInput', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('renders the component with the correct label and token', () => {
@@ -120,7 +120,7 @@ const SwapProvider = describe('SwapAmountInput', () => {
     render(<SwapAmountInput label="From" token={mockETHToken} type="from" />);
     expect(screen.getByText('Balance: 0.00028518')).toBeInTheDocument();
     expect(
-      screen.getByTestId('ockSwapAmountInput_MaxButton'),
+      screen.getByTestId('ockSwapAmountInput_MaxButton')
     ).toBeInTheDocument();
   });
 
@@ -128,7 +128,7 @@ const SwapProvider = describe('SwapAmountInput', () => {
     useSwapContextMock.mockReturnValue(mockContextValue);
     render(<SwapAmountInput label="From" token={mockETHToken} type="to" />);
     expect(
-      screen.queryByTestId('ockSwapAmountInput_MaxButton'),
+      screen.queryByTestId('ockSwapAmountInput_MaxButton')
     ).not.toBeInTheDocument();
   });
 
@@ -140,7 +140,7 @@ const SwapProvider = describe('SwapAmountInput', () => {
     fireEvent.click(maxButton);
 
     expect(mockContextValue.from.setAmount).toHaveBeenCalledWith(
-      '0.0002851826238227',
+      '0.0002851826238227'
     );
   });
 
@@ -232,7 +232,7 @@ const SwapProvider = describe('SwapAmountInput', () => {
         swappableTokens={mockSwappableTokens}
         token={mockToken}
         type="to"
-      />,
+      />
     );
 
     const dropdown = screen.getByText('TokenSelectDropdown');
@@ -255,11 +255,11 @@ const SwapProvider = describe('SwapAmountInput', () => {
         token={mockETHToken}
         type="from"
         className="custom-class"
-      />,
+      />
     );
 
     expect(screen.getByTestId('ockSwapAmountInput_Container')).toHaveClass(
-      'custom-class',
+      'custom-class'
     );
   });
 });

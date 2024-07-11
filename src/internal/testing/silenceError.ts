@@ -1,5 +1,5 @@
 export const silenceError = () => {
-  const consoleErrorMock = jest
+  const consoleErrorMock = vi
     .spyOn(console, 'error')
     .mockImplementation(() => {});
   return () => consoleErrorMock.mockRestore();

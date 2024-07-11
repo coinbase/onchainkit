@@ -2,17 +2,17 @@ import { FetchError } from '../exceptions/FetchError';
 import { neynarFrameValidation } from './neynarFrameValidation';
 
 describe('neynar frame functions', () => {
-  const fetchMock = jest.fn();
+  const fetchMock = vi.fn();
   let status = 200;
 
   beforeEach(() => {
     status = 200;
-    global.fetch = jest.fn(() =>
+    global.fetch = vi.fn(() =>
       Promise.resolve({
         status,
         json: fetchMock,
-      }),
-    ) as jest.Mock;
+      })
+    ) as vi.Mock;
   });
 
   it('should return fetch response correctly', async () => {
@@ -46,16 +46,16 @@ describe('neynar frame functions', () => {
 
     expect(resp?.valid).toEqual(true);
     expect(resp?.recasted).toEqual(
-      mockedResponse.action.cast.viewer_context.recasted,
+      mockedResponse.action.cast.viewer_context.recasted
     );
     expect(resp?.button).toEqual(mockedResponse.action.tapped_button.index);
     expect(resp?.input).toEqual(mockedResponse.action.input.text);
     expect(resp?.interactor?.fid).toEqual(mockedResponse.action.interactor.fid);
     expect(resp?.interactor?.verified_accounts).toEqual(
-      mockedResponse.action.interactor.verifications,
+      mockedResponse.action.interactor.verifications
     );
     expect(resp?.following).toEqual(
-      mockedResponse.action.interactor.viewer_context.following,
+      mockedResponse.action.interactor.viewer_context.following
     );
   });
 

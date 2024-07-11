@@ -2,28 +2,28 @@ import { getFarcasterUserAddress } from './getFarcasterUserAddress';
 import { getCustodyAddressForFidNeynar } from '../utils/neynar/user/getCustodyAddressForFidNeynar';
 import { getVerifiedAddressesForFidNeynar } from '../utils/neynar/user/getVerifiedAddressesForFidNeynar';
 
-jest.mock('../utils/neynar/user/getCustodyAddressForFidNeynar');
-jest.mock('../utils/neynar/user/getVerifiedAddressesForFidNeynar');
+vi.mock('../utils/neynar/user/getCustodyAddressForFidNeynar');
+vi.mock('../utils/neynar/user/getVerifiedAddressesForFidNeynar');
 
 describe('getFarcasterUserAddress function', () => {
   beforeEach(() => {
     // Reset mocks before each test
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('should return null if any API call fails', async () => {
     const error = new Error('Something went wrong');
-    (getVerifiedAddressesForFidNeynar as jest.Mock).mockRejectedValue(error);
+    (getVerifiedAddressesForFidNeynar as vi.Mock).mockRejectedValue(error);
     const result = await getFarcasterUserAddress(123);
     expect(result).toBeNull();
   });
 
   it('should return both custody and verified addresses by default', async () => {
     const expectedCustodyAddress = 'mock-custody-address';
-    (getCustodyAddressForFidNeynar as jest.Mock).mockResolvedValue(
-      expectedCustodyAddress,
+    (getCustodyAddressForFidNeynar as vi.Mock).mockResolvedValue(
+      expectedCustodyAddress
     );
-    (getVerifiedAddressesForFidNeynar as jest.Mock).mockResolvedValue([
+    (getVerifiedAddressesForFidNeynar as vi.Mock).mockResolvedValue([
       expectedCustodyAddress,
     ]);
 
@@ -48,11 +48,11 @@ describe('getFarcasterUserAddress function', () => {
       'mock-verified-address-1',
       'mock-verified-address-2',
     ];
-    (getCustodyAddressForFidNeynar as jest.Mock).mockResolvedValue(
-      expectedCustodyAddress,
+    (getCustodyAddressForFidNeynar as vi.Mock).mockResolvedValue(
+      expectedCustodyAddress
     );
-    (getVerifiedAddressesForFidNeynar as jest.Mock).mockResolvedValue(
-      expectedVerifiedAddresses,
+    (getVerifiedAddressesForFidNeynar as vi.Mock).mockResolvedValue(
+      expectedVerifiedAddresses
     );
     const result = await getFarcasterUserAddress(123, {
       hasCustodyAddress: true,
@@ -66,8 +66,8 @@ describe('getFarcasterUserAddress function', () => {
 
   it('should only return custodyAddress  when hasVerifiedAddresses is false', async () => {
     const expectedCustodyAddress = 'mock-custody-address';
-    (getCustodyAddressForFidNeynar as jest.Mock).mockResolvedValue(
-      expectedCustodyAddress,
+    (getCustodyAddressForFidNeynar as vi.Mock).mockResolvedValue(
+      expectedCustodyAddress
     );
     const result = await getFarcasterUserAddress(123, {
       hasVerifiedAddresses: false,
@@ -80,8 +80,8 @@ describe('getFarcasterUserAddress function', () => {
       'mock-verified-address-1',
       'mock-verified-address-2',
     ];
-    (getVerifiedAddressesForFidNeynar as jest.Mock).mockResolvedValue(
-      expectedVerifiedAddresses,
+    (getVerifiedAddressesForFidNeynar as vi.Mock).mockResolvedValue(
+      expectedVerifiedAddresses
     );
     const result = await getFarcasterUserAddress(123, {
       hasCustodyAddress: false,
@@ -94,7 +94,7 @@ describe('getFarcasterUserAddress function', () => {
     expect(getCustodyAddressForFidNeynar).toHaveBeenCalledWith(123, undefined);
     expect(getVerifiedAddressesForFidNeynar).toHaveBeenCalledWith(
       123,
-      undefined,
+      undefined
     );
   });
 });

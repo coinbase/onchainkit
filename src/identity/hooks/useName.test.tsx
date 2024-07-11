@@ -1,5 +1,5 @@
 /**
- * @jest-environment jsdom
+ * @vi-environment jsdom
  */
 
 import { renderHook, waitFor } from '@testing-library/react';
@@ -7,17 +7,17 @@ import { useName } from './useName';
 import { publicClient } from '../../network/client';
 import { getNewReactQueryTestProvider } from './getNewReactQueryTestProvider';
 
-jest.mock('../../network/client');
-jest.mock('../../network/getChainPublicClient', () => ({
-  ...jest.requireActual('../../network/getChainPublicClient'),
-  getChainPublicClient: jest.fn(() => publicClient),
+vi.mock('../../network/client');
+vi.mock('../../network/getChainPublicClient', () => ({
+  ...vi.requireActual('../../network/getChainPublicClient'),
+  getChainPublicClient: vi.fn(() => publicClient),
 }));
 
 describe('useName', () => {
-  const mockGetEnsName = publicClient.getEnsName as jest.Mock;
+  const mockGetEnsName = publicClient.getEnsName as vi.Mock;
 
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('returns the correct ENS name and loading state', async () => {

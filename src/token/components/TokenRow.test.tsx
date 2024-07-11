@@ -1,5 +1,5 @@
 import React from 'react';
-import '@testing-library/jest-dom';
+import '@testing-library/vi-dom';
 import { render, screen, waitFor, fireEvent } from '@testing-library/react';
 import { TokenRow } from './TokenRow';
 import type { Token } from '../types';

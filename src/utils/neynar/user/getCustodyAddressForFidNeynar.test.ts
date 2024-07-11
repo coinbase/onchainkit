@@ -1,17 +1,17 @@
 import { getCustodyAddressForFidNeynar } from './getCustodyAddressForFidNeynar';
 
 describe('getCustodyAddressForFidNeynar', () => {
-  const fetchMock = jest.fn();
+  const fetchMock = vi.fn();
   let status = 200;
 
   beforeEach(() => {
     status = 200;
-    global.fetch = jest.fn(() =>
+    global.fetch = vi.fn(() =>
       Promise.resolve({
         status,
         json: fetchMock,
-      }),
-    ) as jest.Mock;
+      })
+    ) as vi.Mock;
   });
 
   it('should return mocked response correctly', async () => {
@@ -37,7 +37,7 @@ describe('getCustodyAddressForFidNeynar', () => {
     } catch (e) {
       expect(e).toHaveProperty(
         'message',
-        'No custody address found for FID 42',
+        'No custody address found for FID 42'
       );
     }
   });
@@ -52,7 +52,7 @@ describe('getCustodyAddressForFidNeynar', () => {
     } catch (e) {
       expect(e).toHaveProperty(
         'message',
-        'No custody address found for FID 42',
+        'No custody address found for FID 42'
       );
     }
   });

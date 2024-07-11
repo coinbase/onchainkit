@@ -1,5 +1,5 @@
 /**
- * @jest-environment jsdom
+ * @vi-environment jsdom
  */
 
 import { renderHook, waitFor } from '@testing-library/react';
@@ -7,13 +7,13 @@ import { base } from 'viem/chains';
 import { useAttestations } from './useAttestations';
 import { getAttestations } from '../getAttestations';
 
-jest.mock('../getAttestations', () => ({
-  getAttestations: jest.fn(),
+vi.mock('../getAttestations', () => ({
+  getAttestations: vi.fn(),
 }));
 
 describe('useAttestations', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('returns an empty array if no schemaId provided', async () => {
@@ -21,7 +21,7 @@ describe('useAttestations', () => {
     const chain = base;
     const schemaId = null;
     const { result } = renderHook(() =>
-      useAttestations({ address, chain, schemaId }),
+      useAttestations({ address, chain, schemaId })
     );
     await waitFor(() => {
       expect(result.current).toEqual([]);
@@ -29,13 +29,13 @@ describe('useAttestations', () => {
   });
 
   it('returns an empty array if no attestations found', async () => {
-    (getAttestations as jest.Mock).mockReturnValue([]);
+    (getAttestations as vi.Mock).mockReturnValue([]);
 
     const address = '0xaddress';
     const chain = base;
     const schemaId = '0xschema';
     const { result } = renderHook(() =>
-      useAttestations({ address, chain, schemaId }),
+      useAttestations({ address, chain, schemaId })
     );
 
     await waitFor(() => {
@@ -44,7 +44,7 @@ describe('useAttestations', () => {
   });
 
   it('returns attestations if found', async () => {
-    (getAttestations as jest.Mock).mockReturnValue([
+    (getAttestations as vi.Mock).mockReturnValue([
       {
         schemaId: '0xschema',
       },
@@ -54,7 +54,7 @@ describe('useAttestations', () => {
     const chain = base;
     const schemaId = '0xschema';
     const { result } = renderHook(() =>
-      useAttestations({ address, chain, schemaId }),
+      useAttestations({ address, chain, schemaId })
     );
 
     await waitFor(() => {

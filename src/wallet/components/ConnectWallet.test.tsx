@@ -1,26 +1,26 @@
 /**
- * @jest-environment jsdom
+ * @vi-environment jsdom
  */
 import React, { type ReactNode } from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import '@testing-library/jest-dom';
+import '@testing-library/vi-dom';
 import { ConnectWallet } from './ConnectWallet';
 import { useAccount, useConnect } from 'wagmi';
 import { useWalletContext } from './WalletProvider';
 
-jest.mock('wagmi', () => ({
-  useAccount: jest.fn(),
-  useConnect: jest.fn(),
+vi.mock('wagmi', () => ({
+  useAccount: vi.fn(),
+  useConnect: vi.fn(),
 }));
 
-jest.mock('../../identity/components/IdentityProvider', () => ({
+vi.mock('../../identity/components/IdentityProvider', () => ({
   IdentityProvider: ({ children }: { children: ReactNode }) => (
     <div>{children}</div>
   ),
 }));
 
-jest.mock('./WalletProvider', () => ({
-  useWalletContext: jest.fn(),
+vi.mock('./WalletProvider', () => ({
+  useWalletContext: vi.fn(),
   WalletProvider: ({ children }: { children: ReactNode }) => (
     <div>{children}</div>
   ),
@@ -28,18 +28,18 @@ jest.mock('./WalletProvider', () => ({
 
 describe('ConnectWallet', () => {
   beforeEach(() => {
-    (useAccount as jest.Mock).mockReturnValue({
+    (useAccount as vi.Mock).mockReturnValue({
       address: '',
       status: 'disconnected',
     });
-    (useConnect as jest.Mock).mockReturnValue({
+    (useConnect as vi.Mock).mockReturnValue({
       connectors: [{ id: 'mockConnector' }],
-      connect: jest.fn(),
+      connect: vi.fn(),
       status: 'idle',
     });
-    (useWalletContext as jest.Mock).mockReturnValue({
+    (useWalletContext as vi.Mock).mockReturnValue({
       isOpen: false,
-      setIsOpen: jest.fn(),
+      setIsOpen: vi.fn(),
     });
   });
 
@@ -52,12 +52,12 @@ describe('ConnectWallet', () => {
   });
 
   it('renders spinner when loading', () => {
-    (useConnect as jest.Mock).mockReturnValue({
+    (useConnect as vi.Mock).mockReturnValue({
       connectors: [{ id: 'mockConnector' }],
-      connect: jest.fn(),
+      connect: vi.fn(),
       status: 'pending',
     });
-    (useAccount as jest.Mock).mockReturnValue({
+    (useAccount as vi.Mock).mockReturnValue({
       address: '',
       status: 'connecting',
     });
@@ -69,7 +69,7 @@ describe('ConnectWallet', () => {
   });
 
   it('renders children when connected', () => {
-    (useAccount as jest.Mock).mockReturnValue({
+    (useAccount as vi.Mock).mockReturnValue({
       address: '0x123',
       status: 'connected',
     });
@@ -77,7 +77,7 @@ describe('ConnectWallet', () => {
     render(
       <ConnectWallet text="Connect Wallet">
         <div>Wallet Connected</div>
-      </ConnectWallet>,
+      </ConnectWallet>
     );
 
     const connectedText = screen.getByText('Wallet Connected');
@@ -85,8 +85,8 @@ describe('ConnectWallet', () => {
   });
 
   it('calls connect function when connect button is clicked', () => {
-    const connectMock = jest.fn();
-    (useConnect as jest.Mock).mockReturnValue({
+    const connectMock = vi.fn();
+    (useConnect as vi.Mock).mockReturnValue({
       connectors: [{ id: 'mockConnector' }],
       connect: connectMock,
       status: 'idle',
@@ -103,12 +103,12 @@ describe('ConnectWallet', () => {
   });
 
   it('toggles wallet modal on button click when connected', () => {
-    const setIsOpenMock = jest.fn();
-    (useAccount as jest.Mock).mockReturnValue({
+    const setIsOpenMock = vi.fn();
+    (useAccount as vi.Mock).mockReturnValue({
       address: '0x123',
       status: 'connected',
     });
-    (useWalletContext as jest.Mock).mockReturnValue({
+    (useWalletContext as vi.Mock).mockReturnValue({
       isOpen: false,
       setIsOpen: setIsOpenMock,
     });
@@ -116,7 +116,7 @@ describe('ConnectWallet', () => {
     render(
       <ConnectWallet text="Connect Wallet">
         <div>Wallet Connected</div>
-      </ConnectWallet>,
+      </ConnectWallet>
     );
 
     const button = screen.getByText('Wallet Connected');
@@ -126,24 +126,24 @@ describe('ConnectWallet', () => {
   });
 
   it('applies bg-secondary-active class when isOpen is true', () => {
-    (useWalletContext as jest.Mock).mockReturnValue({
+    (useWalletContext as vi.Mock).mockReturnValue({
       isOpen: true,
-      setIsOpen: jest.fn(),
+      setIsOpen: vi.fn(),
     });
-    (useAccount as jest.Mock).mockReturnValue({
+    (useAccount as vi.Mock).mockReturnValue({
       address: '0x123',
       status: 'connected',
     });
-    (useConnect as jest.Mock).mockReturnValue({
+    (useConnect as vi.Mock).mockReturnValue({
       connectors: [{ id: 'test-connector' }],
-      connect: jest.fn(),
+      connect: vi.fn(),
       status: 'idle',
     });
 
     render(
       <ConnectWallet>
         <span>Test Children</span>
-      </ConnectWallet>,
+      </ConnectWallet>
     );
 
     const button = screen.getByTestId('ockConnectWallet_Connected');

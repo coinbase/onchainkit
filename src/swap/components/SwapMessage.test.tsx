@@ -1,25 +1,25 @@
 /**
- * @jest-environment jsdom
+ * @vi-environment jsdom
  */
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import '@testing-library/jest-dom';
+import '@testing-library/vi-dom';
 import { SwapMessage } from './SwapMessage';
 import { useSwapContext } from './SwapProvider';
 import { getSwapMessage } from '../core/getSwapMessage';
 
-jest.mock('./SwapProvider', () => ({
-  useSwapContext: jest.fn(),
+vi.mock('./SwapProvider', () => ({
+  useSwapContext: vi.fn(),
 }));
 
-jest.mock('../core/getSwapMessage', () => ({
-  getSwapMessage: jest.fn(),
+vi.mock('../core/getSwapMessage', () => ({
+  getSwapMessage: vi.fn(),
 }));
 
-const useSwapContextMock = useSwapContext as jest.Mock;
+const useSwapContextMock = useSwapContext as vi.Mock;
 
 describe('SwapMessage', () => {
-  const mockGetSwapMessage = getSwapMessage as jest.Mock;
+  const mockGetSwapMessage = getSwapMessage as vi.Mock;
 
   beforeEach(() => {
     mockGetSwapMessage.mockClear();

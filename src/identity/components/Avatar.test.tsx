@@ -1,9 +1,9 @@
 /**
- * @jest-environment jsdom
+ * @vi-environment jsdom
  */
 import React from 'react';
 import { base } from 'viem/chains';
-import '@testing-library/jest-dom';
+import '@testing-library/vi-dom';
 import { render, screen, waitFor } from '@testing-library/react';
 import { useOnchainKit } from '../../useOnchainKit';
 import { useName } from '../hooks/useName';
@@ -13,25 +13,25 @@ import { Avatar } from './Avatar';
 import { Badge } from './Badge';
 import { silenceError } from '../../internal/testing';
 
-jest.mock('../../useOnchainKit', () => ({
-  useOnchainKit: jest.fn(),
+vi.mock('../../useOnchainKit', () => ({
+  useOnchainKit: vi.fn(),
 }));
 
-jest.mock('../hooks/useAttestations', () => ({
-  useAttestations: jest.fn(),
+vi.mock('../hooks/useAttestations', () => ({
+  useAttestations: vi.fn(),
 }));
 
-jest.mock('../hooks/useAvatar', () => ({
-  useAvatar: jest.fn(),
+vi.mock('../hooks/useAvatar', () => ({
+  useAvatar: vi.fn(),
 }));
 
-jest.mock('../hooks/useName', () => ({
-  useName: jest.fn(),
+vi.mock('../hooks/useName', () => ({
+  useName: vi.fn(),
 }));
 
 describe('Avatar Component', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('should throw an error when no address is provided', () => {
@@ -39,14 +39,14 @@ describe('Avatar Component', () => {
     expect(() => {
       render(<Avatar />);
     }).toThrow(
-      'Avatar: an Ethereum address must be provided to the Identity or Avatar component.',
+      'Avatar: an Ethereum address must be provided to the Identity or Avatar component.'
     );
     restore();
   });
 
   it('should display loading indicator when loading', async () => {
-    (useAvatar as jest.Mock).mockReturnValue({ data: null, isLoading: true });
-    (useName as jest.Mock).mockReturnValue({ data: null, isLoading: true });
+    (useAvatar as vi.Mock).mockReturnValue({ data: null, isLoading: true });
+    (useName as vi.Mock).mockReturnValue({ data: null, isLoading: true });
 
     render(<Avatar address="0x123" />);
 
@@ -57,8 +57,8 @@ describe('Avatar Component', () => {
   });
 
   it('should display default avatar when no ENS name or avatar is available', async () => {
-    (useAvatar as jest.Mock).mockReturnValue({ data: null, isLoading: false });
-    (useName as jest.Mock).mockReturnValue({ data: null, isLoading: false });
+    (useAvatar as vi.Mock).mockReturnValue({ data: null, isLoading: false });
+    (useName as vi.Mock).mockReturnValue({ data: null, isLoading: false });
 
     render(<Avatar address="0x123" />);
 
@@ -69,11 +69,11 @@ describe('Avatar Component', () => {
   });
 
   it('should display ENS avatar when available', async () => {
-    (useAvatar as jest.Mock).mockReturnValue({
+    (useAvatar as vi.Mock).mockReturnValue({
       data: 'avatar_url',
       isLoading: false,
     });
-    (useName as jest.Mock).mockReturnValue({
+    (useName as vi.Mock).mockReturnValue({
       data: 'ens_name',
       isLoading: false,
     });
@@ -90,15 +90,15 @@ describe('Avatar Component', () => {
   });
 
   it('renders custom loading component when provided', () => {
-    (useAvatar as jest.Mock).mockReturnValue({ data: null, isLoading: true });
-    (useName as jest.Mock).mockReturnValue({ data: null, isLoading: true });
+    (useAvatar as vi.Mock).mockReturnValue({ data: null, isLoading: true });
+    (useName as vi.Mock).mockReturnValue({ data: null, isLoading: true });
 
     const CustomLoadingComponent = (
       <div data-testid="ockAvatarCustomLoading">Loading...</div>
     );
 
     render(
-      <Avatar address="0x123" loadingComponent={CustomLoadingComponent} />,
+      <Avatar address="0x123" loadingComponent={CustomLoadingComponent} />
     );
 
     const customLoadingElement = screen.getByTestId('ockAvatarCustomLoading');
@@ -107,15 +107,15 @@ describe('Avatar Component', () => {
   });
 
   it('renders custom default component when no ENS name or avatar is available', () => {
-    (useAvatar as jest.Mock).mockReturnValue({ data: null, isLoading: false });
-    (useName as jest.Mock).mockReturnValue({ data: null, isLoading: false });
+    (useAvatar as vi.Mock).mockReturnValue({ data: null, isLoading: false });
+    (useName as vi.Mock).mockReturnValue({ data: null, isLoading: false });
 
     const CustomDefaultComponent = (
       <div data-testid="ockAvatarCustomDefault">Default Avatar</div>
     );
 
     render(
-      <Avatar address="0x123" defaultComponent={CustomDefaultComponent} />,
+      <Avatar address="0x123" defaultComponent={CustomDefaultComponent} />
     );
 
     const customDefaultElement = screen.getByTestId('ockAvatarCustomDefault');
@@ -124,16 +124,16 @@ describe('Avatar Component', () => {
   });
 
   it('renders badge when Badge is passed as a child is true', async () => {
-    (useOnchainKit as jest.Mock).mockReturnValue({
+    (useOnchainKit as vi.Mock).mockReturnValue({
       chain: base,
       schemaId: '0xschema',
     });
-    (useAttestations as jest.Mock).mockReturnValue([{}]);
-    (useAvatar as jest.Mock).mockReturnValue({
+    (useAttestations as vi.Mock).mockReturnValue([{}]);
+    (useAvatar as vi.Mock).mockReturnValue({
       data: 'avatar_url',
       isLoading: false,
     });
-    (useName as jest.Mock).mockReturnValue({
+    (useName as vi.Mock).mockReturnValue({
       data: 'ens_name',
       isLoading: false,
     });
@@ -141,7 +141,7 @@ describe('Avatar Component', () => {
     render(
       <Avatar address="0x123">
         <Badge />
-      </Avatar>,
+      </Avatar>
     );
 
     await waitFor(() => {

@@ -1,5 +1,5 @@
 import React from 'react';
-import '@testing-library/jest-dom';
+import '@testing-library/vi-dom';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import type { Address } from 'viem';
 import { TokenSelectDropdown } from './TokenSelectDropdown';
@@ -64,7 +64,7 @@ describe('TokenSelectDropdown', () => {
     fireEvent.click(button);
 
     expect(
-      screen.getByTestId('ockTokenSelectDropdown_List'),
+      screen.getByTestId('ockTokenSelectDropdown_List')
     ).toBeInTheDocument();
 
     fireEvent.click(button);

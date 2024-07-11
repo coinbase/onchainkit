@@ -1,14 +1,14 @@
 /**
- * @jest-environment jsdom
+ * @vi-environment jsdom
  */
 import { renderHook } from '@testing-library/react';
 import { useGetTokenBalance } from './useGetTokenBalance';
 import { useReadContract } from 'wagmi';
 import type { Token } from '../../token';
 
-jest.mock('wagmi', () => {
+vi.mock('wagmi', () => {
   return {
-    useReadContract: jest.fn(),
+    useReadContract: vi.fn(),
   };
 });
 
@@ -34,15 +34,15 @@ const mockToken: Token = {
 
 describe('useGetTokenBalance', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('should return converted and rounded balance without error', () => {
-    (require('wagmi').useReadContract as jest.Mock).mockReturnValue(
-      mockTokenBalanceResponse,
+    (require('wagmi').useReadContract as vi.Mock).mockReturnValue(
+      mockTokenBalanceResponse
     );
     const { result } = renderHook(() =>
-      useGetTokenBalance(mockAddress, mockToken),
+      useGetTokenBalance(mockAddress, mockToken)
     );
 
     expect(result.current.convertedBalance).toBe('3304007.277394');
@@ -52,10 +52,10 @@ describe('useGetTokenBalance', () => {
   });
 
   it('should return an error when useReadContract returns an error', () => {
-    (useReadContract as jest.Mock).mockReturnValue(mockErrorResponse);
+    (useReadContract as vi.Mock).mockReturnValue(mockErrorResponse);
 
     const { result } = renderHook(() =>
-      useGetTokenBalance(mockAddress, mockToken),
+      useGetTokenBalance(mockAddress, mockToken)
     );
 
     expect(result.current.convertedBalance).toBe('');
@@ -68,10 +68,10 @@ describe('useGetTokenBalance', () => {
   });
 
   it('should return zero balance when balance value is 0n', () => {
-    (useReadContract as jest.Mock).mockReturnValue(mockZeroBalanceResponse);
+    (useReadContract as vi.Mock).mockReturnValue(mockZeroBalanceResponse);
 
     const { result } = renderHook(() =>
-      useGetTokenBalance(mockAddress, mockToken),
+      useGetTokenBalance(mockAddress, mockToken)
     );
 
     expect(result.current.convertedBalance).toBe('0');
@@ -81,13 +81,13 @@ describe('useGetTokenBalance', () => {
   });
 
   it('should return empty balance when balance value is not present', () => {
-    (useReadContract as jest.Mock).mockReturnValue({
+    (useReadContract as vi.Mock).mockReturnValue({
       data: null,
       error: null,
     });
 
     const { result } = renderHook(() =>
-      useGetTokenBalance(mockAddress, mockToken),
+      useGetTokenBalance(mockAddress, mockToken)
     );
 
     expect(result.current.convertedBalance).toBe('');

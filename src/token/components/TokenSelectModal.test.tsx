@@ -1,5 +1,5 @@
 import React from 'react';
-import '@testing-library/jest-dom';
+import '@testing-library/vi-dom';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { TokenSelectModal } from './TokenSelectModal';
 import type { Address } from 'viem';
@@ -34,18 +34,18 @@ describe('TokenSelectModal', () => {
 
   it('renders the TokenSelectButton and does not render TokenSelectModalInner initially', () => {
     render(
-      <TokenSelectModal options={options} setToken={setToken} token={token} />,
+      <TokenSelectModal options={options} setToken={setToken} token={token} />
     );
 
     expect(
-      screen.getByTestId('ockTokenSelectButton_Button'),
+      screen.getByTestId('ockTokenSelectButton_Button')
     ).toBeInTheDocument();
     expect(screen.queryByTestId('ockTokenSelectModal_Inner')).toBeNull();
   });
 
   it('closes the modal when the close button inside the modal is clicked', () => {
     render(
-      <TokenSelectModal options={options} setToken={setToken} token={token} />,
+      <TokenSelectModal options={options} setToken={setToken} token={token} />
     );
 
     const button = screen.getByTestId('ockTokenSelectButton_Button');
@@ -55,13 +55,13 @@ describe('TokenSelectModal', () => {
     fireEvent.click(closeButton);
 
     expect(
-      screen.queryByTestId('ockTokenSelectModal_Inner'),
+      screen.queryByTestId('ockTokenSelectModal_Inner')
     ).not.toBeInTheDocument();
   });
 
   it('should display no result when search returns an empty result', () => {
     render(
-      <TokenSelectModal options={options} setToken={setToken} token={token} />,
+      <TokenSelectModal options={options} setToken={setToken} token={token} />
     );
 
     const button = screen.getByTestId('ockTokenSelectButton_Button');
@@ -72,13 +72,13 @@ describe('TokenSelectModal', () => {
     fireEvent.change(textInput, { target: { value: 'test' } });
 
     expect(
-      screen.getByTestId('ockTokenSelectModal_NoTokens'),
+      screen.getByTestId('ockTokenSelectModal_NoTokens')
     ).toBeInTheDocument();
   });
 
   it('should display selected token when token chip is selected', () => {
     render(
-      <TokenSelectModal options={options} setToken={setToken} token={token} />,
+      <TokenSelectModal options={options} setToken={setToken} token={token} />
     );
 
     const button = screen.getByTestId('ockTokenSelectButton_Button');
@@ -96,7 +96,7 @@ describe('TokenSelectModal', () => {
 
   it('should display selected token when token row is selected', () => {
     render(
-      <TokenSelectModal options={options} setToken={setToken} token={token} />,
+      <TokenSelectModal options={options} setToken={setToken} token={token} />
     );
 
     const button = screen.getByTestId('ockTokenSelectButton_Button');

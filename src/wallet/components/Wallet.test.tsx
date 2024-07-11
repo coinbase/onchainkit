@@ -1,29 +1,29 @@
 /**
- * @jest-environment jsdom
+ * @vi-environment jsdom
  */
 import React from 'react';
-import '@testing-library/jest-dom';
+import '@testing-library/vi-dom';
 import { render, screen, waitFor } from '@testing-library/react';
 import { useAccount, useConnect, useDisconnect } from 'wagmi';
 import { ConnectWallet } from './ConnectWallet';
 import { WalletDropdown } from './WalletDropdown';
 import { Wallet } from './Wallet';
 
-jest.mock('wagmi', () => ({
-  useAccount: jest.fn(),
-  useConnect: jest.fn(),
-  useDisconnect: jest.fn(),
+vi.mock('wagmi', () => ({
+  useAccount: vi.fn(),
+  useConnect: vi.fn(),
+  useDisconnect: vi.fn(),
 }));
 
 describe('Wallet Component', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
-    (useAccount as jest.Mock).mockReturnValue({ status: 'disconnected' });
-    (useConnect as jest.Mock).mockReturnValue({
+    vi.clearAllMocks();
+    (useAccount as vi.Mock).mockReturnValue({ status: 'disconnected' });
+    (useConnect as vi.Mock).mockReturnValue({
       connectors: [{ name: 'injected' }],
-      connect: jest.fn(),
+      connect: vi.fn(),
     });
-    (useDisconnect as jest.Mock).mockReturnValue({ disconnect: jest.fn() });
+    (useDisconnect as vi.Mock).mockReturnValue({ disconnect: vi.fn() });
   });
 
   it('should render the Wallet component with ConnectWallet', async () => {
@@ -33,11 +33,11 @@ describe('Wallet Component', () => {
         <WalletDropdown>
           <div />
         </WalletDropdown>
-      </Wallet>,
+      </Wallet>
     );
     await waitFor(() => {
       expect(
-        screen.getByTestId('ockConnectWallet_Container'),
+        screen.getByTestId('ockConnectWallet_Container')
       ).toBeInTheDocument();
     });
   });

@@ -1,20 +1,20 @@
 /**
- * @jest-environment jsdom
+ * @vi-environment jsdom
  */
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import '@testing-library/jest-dom';
+import '@testing-library/vi-dom';
 import { Address } from './Address';
 import { useIdentityContext } from './IdentityProvider';
 import { getSlicedAddress } from '../getSlicedAddress';
 import { mock, silenceError } from '../../internal/testing';
 
-jest.mock('./IdentityProvider', () => ({
-  useIdentityContext: jest.fn(),
+vi.mock('./IdentityProvider', () => ({
+  useIdentityContext: vi.fn(),
 }));
 
-jest.mock('../getSlicedAddress', () => ({
-  getSlicedAddress: jest.fn(),
+vi.mock('../getSlicedAddress', () => ({
+  getSlicedAddress: vi.fn(),
 }));
 
 const useIdentityContextMock = mock(useIdentityContext);
@@ -26,7 +26,7 @@ describe('Address component', () => {
   const mockAddress = '0x1234567890abcdef1234567890abcdef12345678';
 
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('should throw an error when no address is provided', () => {
@@ -35,15 +35,15 @@ describe('Address component', () => {
     expect(() => {
       render(<Address />);
     }).toThrow(
-      'Address: an Ethereum address must be provided to the Identity or Address component.',
+      'Address: an Ethereum address must be provided to the Identity or Address component.'
     );
     restore();
   });
 
   it('renders the sliced address when address supplied to Identity', () => {
     useIdentityContextMock.mockReturnValue({ address: mockAddress });
-    (getSlicedAddress as jest.Mock).mockReturnValue(
-      mockGetSlicedAddress(mockAddress),
+    (getSlicedAddress as vi.Mock).mockReturnValue(
+      mockGetSlicedAddress(mockAddress)
     );
 
     const { getByText } = render(<Address />);
@@ -52,8 +52,8 @@ describe('Address component', () => {
 
   it('renders the sliced address when address supplied to Identity', () => {
     useIdentityContextMock.mockReturnValue({});
-    (getSlicedAddress as jest.Mock).mockReturnValue(
-      mockGetSlicedAddress(mockAddress),
+    (getSlicedAddress as vi.Mock).mockReturnValue(
+      mockGetSlicedAddress(mockAddress)
     );
 
     const { getByText } = render(<Address address={mockAddress} />);
@@ -62,13 +62,13 @@ describe('Address component', () => {
 
   it('displays sliced address when ENS name is not available and isSliced is set to true', () => {
     useIdentityContextMock.mockReturnValue({});
-    (getSlicedAddress as jest.Mock).mockReturnValue(
-      mockGetSlicedAddress(mockAddress),
+    (getSlicedAddress as vi.Mock).mockReturnValue(
+      mockGetSlicedAddress(mockAddress)
     );
 
     render(<Address address={mockAddress} isSliced={true} />);
     expect(
-      screen.getByText(mockGetSlicedAddress(mockAddress)),
+      screen.getByText(mockGetSlicedAddress(mockAddress))
     ).toBeInTheDocument();
     expect(getSlicedAddress).toHaveBeenCalledWith(mockAddress);
   });

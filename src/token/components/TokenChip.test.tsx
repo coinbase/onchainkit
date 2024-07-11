@@ -1,5 +1,5 @@
 import React from 'react';
-import '@testing-library/jest-dom';
+import '@testing-library/vi-dom';
 import { fireEvent, render, screen, within } from '@testing-library/react';
 import type { Address } from 'viem';
 import { TokenChip } from './TokenChip';

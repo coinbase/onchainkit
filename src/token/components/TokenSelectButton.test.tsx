@@ -1,5 +1,5 @@
 import React from 'react';
-import '@testing-library/jest-dom';
+import '@testing-library/vi-dom';
 import { fireEvent, render, screen } from '@testing-library/react';
 import type { Address } from 'viem';
 import { TokenSelectButton } from './TokenSelectButton';
@@ -19,24 +19,24 @@ describe('TokenSelectButton', () => {
 
   it('renders correctly without a token', () => {
     render(
-      <TokenSelectButton token={undefined} onClick={vi.fn()} isOpen={false} />,
+      <TokenSelectButton token={undefined} onClick={vi.fn()} isOpen={false} />
     );
 
     expect(screen.getByText('Select token')).toBeInTheDocument();
     expect(screen.queryByTestId('ockTokenSelectButton_Symbol')).toBeNull();
     expect(
-      screen.getByTestId('ockTokenSelectButton_CaretDown'),
+      screen.getByTestId('ockTokenSelectButton_CaretDown')
     ).toBeInTheDocument();
   });
 
   it('renders correctly with a token when isOpen is true', () => {
     render(
-      <TokenSelectButton token={token} onClick={vi.fn()} isOpen={false} />,
+      <TokenSelectButton token={token} onClick={vi.fn()} isOpen={false} />
     );
 
     expect(screen.getByText('ETH')).toBeInTheDocument();
     expect(
-      screen.getByTestId('ockTokenSelectButton_CaretDown'),
+      screen.getByTestId('ockTokenSelectButton_CaretDown')
     ).toBeInTheDocument();
     expect(screen.queryByTestId('ockTokenSelectButton_CaretUp')).toBeNull();
     expect(screen.queryByText('Select token')).toBeNull();
@@ -47,7 +47,7 @@ describe('TokenSelectButton', () => {
 
     expect(screen.getByText('ETH')).toBeInTheDocument();
     expect(
-      screen.getByTestId('ockTokenSelectButton_CaretUp'),
+      screen.getByTestId('ockTokenSelectButton_CaretUp')
     ).toBeInTheDocument();
     expect(screen.queryByTestId('ockTokenSelectButton_CaretDown')).toBeNull();
     expect(screen.queryByText('Select token')).toBeNull();
@@ -56,7 +56,7 @@ describe('TokenSelectButton', () => {
   it('handles click handler', () => {
     const onClick = vi.fn();
     render(
-      <TokenSelectButton token={token} onClick={onClick} isOpen={false} />,
+      <TokenSelectButton token={token} onClick={onClick} isOpen={false} />
     );
 
     const button = screen.getByTestId('ockTokenSelectButton_Button');

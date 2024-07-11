@@ -27,8 +27,8 @@ describe('request', () => {
         result: 'exampleResult',
         id: 1,
       };
-      const mockFetch = jest.fn().mockResolvedValue({
-        json: jest.fn().mockResolvedValue(mockResponse),
+      const mockFetch = vi.fn().mockResolvedValue({
+        json: vi.fn().mockResolvedValue(mockResponse),
       });
       global.fetch = mockFetch;
 
@@ -53,11 +53,11 @@ describe('request', () => {
 
     it('should throw an error if an error occurs while sending the request', async () => {
       const mockError = new Error('Example error');
-      const mockFetch = jest.fn().mockRejectedValue(mockError);
+      const mockFetch = vi.fn().mockRejectedValue(mockError);
       global.fetch = mockFetch;
 
       await expect(
-        sendRequest('exampleMethod', ['param1', 'param2']),
+        sendRequest('exampleMethod', ['param1', 'param2'])
       ).rejects.toThrow(mockError);
     });
   });

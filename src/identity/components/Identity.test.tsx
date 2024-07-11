@@ -1,8 +1,8 @@
 /**
- * @jest-environment jsdom
+ * @vi-environment jsdom
  */
 import React from 'react';
-import '@testing-library/jest-dom';
+import '@testing-library/vi-dom';
 import { render, screen, waitFor } from '@testing-library/react';
 import { Avatar } from './Avatar';
 import { Name } from './Name';
@@ -14,15 +14,15 @@ import { Address } from './Address';
 import { EthBalance } from './EthBalance';
 import { mock } from '../../internal/testing';
 
-jest.mock('../hooks/useAvatar', () => ({
-  useAvatar: jest.fn(),
+vi.mock('../hooks/useAvatar', () => ({
+  useAvatar: vi.fn(),
 }));
-jest.mock('../hooks/useName', () => ({
-  useName: jest.fn(),
+vi.mock('../hooks/useName', () => ({
+  useName: vi.fn(),
 }));
 
-jest.mock('../../wallet/core/useGetETHBalance', () => ({
-  useGetETHBalance: jest.fn(),
+vi.mock('../../wallet/core/useGetETHBalance', () => ({
+  useGetETHBalance: vi.fn(),
 }));
 
 const useAvatarMock = mock(useAvatar);
@@ -31,7 +31,7 @@ const useGetETHBalanceMock = mock(useGetETHBalance);
 
 describe('Identity Component', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('should render the Identity component with Avatar', async () => {
@@ -43,7 +43,7 @@ describe('Identity Component', () => {
     render(
       <Identity address="0x123456789">
         <Avatar />
-      </Identity>,
+      </Identity>
     );
     await waitFor(() => {
       expect(screen.getByTestId('ockAvatar_Image')).toBeInTheDocument();
@@ -55,7 +55,7 @@ describe('Identity Component', () => {
     render(
       <Identity address="0x123456789">
         <Name />
-      </Identity>,
+      </Identity>
     );
     await waitFor(() => {
       expect(screen.getByTestId('ockIdentity_Text')).toBeInTheDocument();
@@ -72,7 +72,7 @@ describe('Identity Component', () => {
       <Identity address="0x123456789">
         <Avatar />
         <Name />
-      </Identity>,
+      </Identity>
     );
     await waitFor(() => {
       expect(screen.getByTestId('ockAvatar_Image')).toBeInTheDocument();
@@ -92,7 +92,7 @@ describe('Identity Component', () => {
         <Avatar />
         <Name />
         <Address />
-      </Identity>,
+      </Identity>
     );
 
     await waitFor(() => {
@@ -115,7 +115,7 @@ describe('Identity Component', () => {
         <Avatar />
         <Name />
         <EthBalance />
-      </Identity>,
+      </Identity>
     );
 
     await waitFor(() => {
@@ -139,7 +139,7 @@ describe('Identity Component', () => {
         <Name />
         <Address />
         <EthBalance />
-      </Identity>,
+      </Identity>
     );
 
     await waitFor(() => {

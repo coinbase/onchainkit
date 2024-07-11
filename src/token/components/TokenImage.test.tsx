@@ -1,5 +1,5 @@
 import React from 'react';
-import '@testing-library/jest-dom';
+import '@testing-library/vi-dom';
 import { render, screen } from '@testing-library/react';
 import { TokenImage } from './TokenImage';
 import type { Token } from '../types';
