@@ -4,6 +4,7 @@
 import { renderHook } from '@testing-library/react';
 import { useGetETHBalance } from './useGetETHBalance';
 import { useBalance } from 'wagmi';
+import { beforeEach, describe, expect, it, vi, Mock } from 'vitest';
 
 vi.mock('wagmi', () => {
   return {
@@ -41,7 +42,7 @@ describe('useGetETHBalance', () => {
   });
 
   it('should return converted and rounded balance without error', () => {
-    (require('wagmi').useBalance as vi.Mock).mockReturnValue(
+    (require('wagmi').useBalance as Mock).mockReturnValue(
       mockETHBalanceResponse,
     );
     const { result } = renderHook(() => useGetETHBalance(mockAddress));
@@ -53,7 +54,7 @@ describe('useGetETHBalance', () => {
   });
 
   it('should return an error when useBalance returns an error', () => {
-    (useBalance as vi.Mock).mockReturnValue(mockErrorResponse);
+    (useBalance as Mock).mockReturnValue(mockErrorResponse);
 
     const { result } = renderHook(() => useGetETHBalance(mockAddress));
 
@@ -67,7 +68,7 @@ describe('useGetETHBalance', () => {
   });
 
   it('should return zero balance when balance value is 0n', () => {
-    (useBalance as vi.Mock).mockReturnValue(mockZeroETHBalanceResponse);
+    (useBalance as Mock).mockReturnValue(mockZeroETHBalanceResponse);
 
     const { result } = renderHook(() => useGetETHBalance(mockAddress));
 
@@ -78,7 +79,7 @@ describe('useGetETHBalance', () => {
   });
 
   it('should return empty balance when balance value is not present', () => {
-    (useBalance as vi.Mock).mockReturnValue({
+    (useBalance as Mock).mockReturnValue({
       data: { value: null },
       error: null,
     });

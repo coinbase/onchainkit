@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { SwapButton } from './SwapButton';
 import { useSwapContext } from './SwapProvider';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { beforeEach, describe, expect, it, vi, Mock } from 'vitest';
 
 vi.mock('./SwapProvider', () => ({
   useSwapContext: vi.fn(),
@@ -12,8 +12,7 @@ vi.mock('../../internal/loading/Spinner', () => ({
   Spinner: () => <div data-testid="spinner">Loading...</div>,
 }));
 
-// const useSwapContextMock = useSwapContext as vi.Mock;
-// const useSwapContextMock = vi.fn();
+const useSwapContextMock = useSwapContext as Mock;
 
 describe('SwapButton', () => {
   const mockHandleSubmit = vi.fn();

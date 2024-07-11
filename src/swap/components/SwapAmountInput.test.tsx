@@ -8,6 +8,7 @@ import { SwapAmountInput } from './SwapAmountInput';
 import { useSwapContext } from './SwapProvider';
 import type { Token } from '../../token';
 import type { SwapContextType } from '../types';
+import { beforeEach, describe, expect, it, vi, Mock } from 'vitest';
 
 vi.mock('../../token', () => ({
   TokenChip: vi.fn(() => <div>TokenChip</div>),
@@ -22,7 +23,7 @@ vi.mock('wagmi', () => ({
   useBalance: vi.fn(),
 }));
 
-const useSwapContextMock = useSwapContext as vi.Mock;
+const useSwapContextMock = useSwapContext as Mock;
 
 const mockETHToken: Token = {
   name: 'ETH',

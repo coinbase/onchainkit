@@ -5,6 +5,7 @@ import { renderHook } from '@testing-library/react';
 import { useGetTokenBalance } from './useGetTokenBalance';
 import { useReadContract } from 'wagmi';
 import type { Token } from '../../token';
+import { beforeEach, describe, expect, it, vi, Mock } from 'vitest';
 
 vi.mock('wagmi', () => {
   return {
@@ -38,7 +39,7 @@ describe('useGetTokenBalance', () => {
   });
 
   it('should return converted and rounded balance without error', () => {
-    (require('wagmi').useReadContract as vi.Mock).mockReturnValue(
+    (require('wagmi').useReadContract as Mock).mockReturnValue(
       mockTokenBalanceResponse,
     );
     const { result } = renderHook(() =>
@@ -52,7 +53,7 @@ describe('useGetTokenBalance', () => {
   });
 
   it('should return an error when useReadContract returns an error', () => {
-    (useReadContract as vi.Mock).mockReturnValue(mockErrorResponse);
+    (useReadContract as Mock).mockReturnValue(mockErrorResponse);
 
     const { result } = renderHook(() =>
       useGetTokenBalance(mockAddress, mockToken),
@@ -68,7 +69,7 @@ describe('useGetTokenBalance', () => {
   });
 
   it('should return zero balance when balance value is 0n', () => {
-    (useReadContract as vi.Mock).mockReturnValue(mockZeroBalanceResponse);
+    (useReadContract as Mock).mockReturnValue(mockZeroBalanceResponse);
 
     const { result } = renderHook(() =>
       useGetTokenBalance(mockAddress, mockToken),
@@ -81,7 +82,7 @@ describe('useGetTokenBalance', () => {
   });
 
   it('should return empty balance when balance value is not present', () => {
-    (useReadContract as vi.Mock).mockReturnValue({
+    (useReadContract as Mock).mockReturnValue({
       data: null,
       error: null,
     });
