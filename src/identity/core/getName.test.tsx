@@ -21,13 +21,13 @@ jest.mock('../../network/getChainPublicClient', () => ({
 describe('getName', () => {
   const mockGetEnsName = publicClient.getEnsName as jest.Mock;
   const mockReadContract = publicClient.readContract as jest.Mock;
+  const walletAddress = '0x1234567890123456789012345678901234567890' as Address;
 
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
   it('should return correct value from client getName', async () => {
-    const walletAddress = '0x1234' as Address;
     const expectedEnsName = 'avatarUrl';
     mockGetEnsName.mockResolvedValue(expectedEnsName);
     const name = await getName({ address: walletAddress });
@@ -36,7 +36,6 @@ describe('getName', () => {
   });
 
   it('should return null name when client ', async () => {
-    const walletAddress = '0x1234' as Address;
     const expectedEnsName = 'avatarUrl';
     mockGetEnsName.mockResolvedValue(expectedEnsName);
     const name = await getName({ address: walletAddress });
@@ -45,7 +44,6 @@ describe('getName', () => {
   });
 
   it('should return null client getName throws an error', async () => {
-    const walletAddress = '0x1234' as Address;
     mockGetEnsName.mockRejectedValue(new Error('This is an error'));
     await expect(getName({ address: walletAddress })).rejects.toThrow(
       'This is an error',
@@ -53,36 +51,28 @@ describe('getName', () => {
   });
 
   it('should return null when the ENS name is not found', async () => {
-    const walletAddress =
-      '0x1234567890123456789012345678901234567890' as Address;
     mockGetEnsName.mockResolvedValue(null);
     const name = await getName({ address: walletAddress });
     expect(name).toBe(null);
   });
 
   it('should return mainnet username', async () => {
-    const walletAddress =
-      '0x1234567890123456789012345678901234567890' as Address;
     const expectedEnsName = 'leo.eth';
     mockGetEnsName.mockResolvedValue(expectedEnsName);
     const name = await getName({ address: walletAddress, chainId: mainnet.id });
     expect(name).toBe(expectedEnsName);
-    expect(getChainPublicClient).toHaveBeenCalledWith(mainnet.id);
+    expect(getChainPublicClient).toHaveBeenCalledWith(mainnet);
   });
 
   it('should return sepolia username', async () => {
-    const walletAddress =
-      '0x1234567890123456789012345678901234567890' as Address;
     const expectedEnsName = 'leo.test.eth';
     mockGetEnsName.mockResolvedValue(expectedEnsName);
     const name = await getName({ address: walletAddress, chainId: sepolia.id });
     expect(name).toBe(expectedEnsName);
-    expect(getChainPublicClient).toHaveBeenCalledWith(sepolia.id);
+    expect(getChainPublicClient).toHaveBeenCalledWith(sepolia);
   });
 
   it('should return custom testnet chain username', async () => {
-    const walletAddress =
-      '0x1234567890123456789012345678901234567890' as Address;
     const expectedEnsName = 'leo.customtestnet.eth';
     mockReadContract.mockResolvedValue(expectedEnsName);
     const name = await getName({
@@ -90,36 +80,30 @@ describe('getName', () => {
       chainId: baseSepolia.id,
     });
     expect(name).toBe(expectedEnsName);
-    expect(getChainPublicClient).toHaveBeenCalledWith(baseSepolia.id);
+    expect(getChainPublicClient).toHaveBeenCalledWith(baseSepolia);
   });
 
   it('should return custom mainnet username', async () => {
-    const walletAddress =
-      '0x1234567890123456789012345678901234567890' as Address;
     const expectedEnsName = 'leo.custommainnet.eth';
     mockReadContract.mockResolvedValue(expectedEnsName);
     const name = await getName({ address: walletAddress, chainId: base.id });
     expect(name).toBe(expectedEnsName);
-    expect(getChainPublicClient).toHaveBeenCalledWith(base.id);
+    expect(getChainPublicClient).toHaveBeenCalledWith(base);
   });
 
   it('should return null if user is not registered', async () => {
-    const walletAddress =
-      '0x1234567890123456789012345678901234567890' as Address;
     const expectedEnsName = null;
     mockReadContract.mockResolvedValue(expectedEnsName);
     const name = await getName({ address: walletAddress, chainId: base.id });
     expect(name).toBe(expectedEnsName);
-    expect(getChainPublicClient).toHaveBeenCalledWith(base.id);
+    expect(getChainPublicClient).toHaveBeenCalledWith(base);
   });
 
   it('should throw an error on unsupported chain', async () => {
-    const walletAddress =
-      '0x1234567890123456789012345678901234567890' as Address;
     await expect(
       getName({ address: walletAddress, chainId: optimism.id }),
     ).rejects.toThrow(
-      'ChainId not supported, name resolution is only supported on 1, 11155111, 8453, 84532.',
+      'ChainId not supported, name resolution is only supported on Ethereum and Base.',
     );
   });
 });

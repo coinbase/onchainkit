@@ -1,23 +1,9 @@
 import { createPublicClient, http } from 'viem';
-import { type Chain, base, baseSepolia, mainnet, sepolia } from 'viem/chains';
+import type { Chain } from 'viem/chains';
 
-export const baseChainsIds: Chain['id'][] = [base.id, baseSepolia.id];
-export const ensUniversalResolverChainIds: Chain['id'][] = [
-  mainnet.id,
-  sepolia.id,
-  ...baseChainsIds,
-];
-
-export const chainsById: Record<number, Chain> = {
-  [mainnet.id]: mainnet,
-  [sepolia.id]: sepolia,
-  [base.id]: base,
-  [baseSepolia.id]: baseSepolia,
-};
-
-export function getChainPublicClient(chainId: number) {
+export function getChainPublicClient(chain: Chain) {
   return createPublicClient({
-    chain: chainsById[chainId],
+    chain: chain,
     transport: http(),
   });
 }

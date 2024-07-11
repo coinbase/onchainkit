@@ -151,3 +151,8 @@ export type UseAttestations = {
   chain: Chain;
   schemaId: Address | null;
 };
+
+/**
+ * Note: exported as public Type
+ */
+export type ResolverAddressesByChainIdMap = Record<number, Address>;
