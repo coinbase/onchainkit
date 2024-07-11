@@ -10,7 +10,7 @@ describe('getVerifiedAddressesForFidNeynar', () => {
       Promise.resolve({
         status,
         json: fetchMock,
-      })
+      }),
     ) as vi.Mock;
   });
 
@@ -37,7 +37,7 @@ describe('getVerifiedAddressesForFidNeynar', () => {
     } catch (e) {
       expect(e).toHaveProperty(
         'message',
-        'No verified addresses found for FID 42'
+        'No verified addresses found for FID 42',
       );
     }
   });
@@ -52,7 +52,7 @@ describe('getVerifiedAddressesForFidNeynar', () => {
     } catch (e) {
       expect(e).toHaveProperty(
         'message',
-        'No verified addresses found for FID 42'
+        'No verified addresses found for FID 42',
       );
     }
   });

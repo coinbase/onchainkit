@@ -33,11 +33,11 @@ describe('Wallet Component', () => {
         <WalletDropdown>
           <div />
         </WalletDropdown>
-      </Wallet>
+      </Wallet>,
     );
     await waitFor(() => {
       expect(
-        screen.getByTestId('ockConnectWallet_Container')
+        screen.getByTestId('ockConnectWallet_Container'),
       ).toBeInTheDocument();
     });
   });

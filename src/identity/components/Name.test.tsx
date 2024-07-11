@@ -48,7 +48,7 @@ describe('OnchainAddress', () => {
     expect(() => {
       render(<Name />);
     }).toThrow(
-      'Name: an Ethereum address must be provided to the Identity or Name component.'
+      'Name: an Ethereum address must be provided to the Identity or Name component.',
     );
     restore();
   });
@@ -98,7 +98,7 @@ describe('OnchainAddress', () => {
     render(
       <Name address={testAddress}>
         <Badge />
-      </Name>
+      </Name>,
     );
 
     await waitFor(() => {
@@ -121,7 +121,7 @@ describe('OnchainAddress', () => {
     render(
       <Name address={testAddress}>
         <Badge />
-      </Name>
+      </Name>,
     );
 
     await waitFor(() => {

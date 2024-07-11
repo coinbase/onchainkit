@@ -77,7 +77,7 @@ describe('ConnectWallet', () => {
     render(
       <ConnectWallet text="Connect Wallet">
         <div>Wallet Connected</div>
-      </ConnectWallet>
+      </ConnectWallet>,
     );
 
     const connectedText = screen.getByText('Wallet Connected');
@@ -116,7 +116,7 @@ describe('ConnectWallet', () => {
     render(
       <ConnectWallet text="Connect Wallet">
         <div>Wallet Connected</div>
-      </ConnectWallet>
+      </ConnectWallet>,
     );
 
     const button = screen.getByText('Wallet Connected');
@@ -143,7 +143,7 @@ describe('ConnectWallet', () => {
     render(
       <ConnectWallet>
         <span>Test Children</span>
-      </ConnectWallet>
+      </ConnectWallet>,
     );
 
     const button = screen.getByTestId('ockConnectWallet_Connected');

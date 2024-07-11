@@ -43,7 +43,7 @@ describe('Identity Component', () => {
     render(
       <Identity address="0x123456789">
         <Avatar />
-      </Identity>
+      </Identity>,
     );
     await waitFor(() => {
       expect(screen.getByTestId('ockAvatar_Image')).toBeInTheDocument();
@@ -55,7 +55,7 @@ describe('Identity Component', () => {
     render(
       <Identity address="0x123456789">
         <Name />
-      </Identity>
+      </Identity>,
     );
     await waitFor(() => {
       expect(screen.getByTestId('ockIdentity_Text')).toBeInTheDocument();
@@ -72,7 +72,7 @@ describe('Identity Component', () => {
       <Identity address="0x123456789">
         <Avatar />
         <Name />
-      </Identity>
+      </Identity>,
     );
     await waitFor(() => {
       expect(screen.getByTestId('ockAvatar_Image')).toBeInTheDocument();
@@ -92,7 +92,7 @@ describe('Identity Component', () => {
         <Avatar />
         <Name />
         <Address />
-      </Identity>
+      </Identity>,
     );
 
     await waitFor(() => {
@@ -115,7 +115,7 @@ describe('Identity Component', () => {
         <Avatar />
         <Name />
         <EthBalance />
-      </Identity>
+      </Identity>,
     );
 
     await waitFor(() => {
@@ -139,7 +139,7 @@ describe('Identity Component', () => {
         <Name />
         <Address />
         <EthBalance />
-      </Identity>
+      </Identity>,
     );
 
     await waitFor(() => {

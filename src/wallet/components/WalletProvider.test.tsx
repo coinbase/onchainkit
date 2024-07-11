@@ -11,7 +11,7 @@ describe('useWalletContext', () => {
     render(
       <WalletProvider>
         <div />
-      </WalletProvider>
+      </WalletProvider>,
     );
 
     const { result } = renderHook(() => useWalletContext(), {

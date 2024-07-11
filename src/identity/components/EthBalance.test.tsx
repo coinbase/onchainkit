@@ -31,9 +31,9 @@ describe('EthBalance', () => {
 
     const restore = silenceError();
     expect(() =>
-      render(<EthBalance address={undefined} className="" />)
+      render(<EthBalance address={undefined} className="" />),
     ).toThrow(
-      'Address: an Ethereum address must be provided to the Identity or EthBalance component.'
+      'Address: an Ethereum address must be provided to the Identity or EthBalance component.',
     );
     restore();
   });
@@ -62,7 +62,7 @@ describe('EthBalance', () => {
     });
 
     const { container } = render(
-      <EthBalance address={address} className="custom-class" />
+      <EthBalance address={address} className="custom-class" />,
     );
     expect(container.firstChild).toBeNull();
   });

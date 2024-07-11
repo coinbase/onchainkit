@@ -54,13 +54,13 @@ describe('EAS Attestation Service', () => {
       const result = await getAttestationsByFilter(
         mockAddress,
         base,
-        mockFilters
+        mockFilters,
       );
 
       expect(createEasGraphQLClient).toHaveBeenCalledWith(base);
       expect(mockClient.request).toHaveBeenCalledWith(
         attestationQuery,
-        expect.any(Object)
+        expect.any(Object),
       );
       expect(result).toEqual([]);
     });

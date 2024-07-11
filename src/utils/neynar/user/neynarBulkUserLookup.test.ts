@@ -11,7 +11,7 @@ describe('neynar user functions', () => {
       Promise.resolve({
         status,
         json: fetchMock,
-      })
+      }),
     ) as vi.Mock;
   });
 

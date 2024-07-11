@@ -12,7 +12,7 @@ describe('getDataFromNeynar', () => {
       Promise.resolve({
         status,
         json: fetchMock,
-      })
+      }),
     ) as vi.Mock;
   });
 

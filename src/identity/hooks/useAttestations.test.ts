@@ -21,7 +21,7 @@ describe('useAttestations', () => {
     const chain = base;
     const schemaId = null;
     const { result } = renderHook(() =>
-      useAttestations({ address, chain, schemaId })
+      useAttestations({ address, chain, schemaId }),
     );
     await waitFor(() => {
       expect(result.current).toEqual([]);
@@ -35,7 +35,7 @@ describe('useAttestations', () => {
     const chain = base;
     const schemaId = '0xschema';
     const { result } = renderHook(() =>
-      useAttestations({ address, chain, schemaId })
+      useAttestations({ address, chain, schemaId }),
     );
 
     await waitFor(() => {
@@ -54,7 +54,7 @@ describe('useAttestations', () => {
     const chain = base;
     const schemaId = '0xschema';
     const { result } = renderHook(() =>
-      useAttestations({ address, chain, schemaId })
+      useAttestations({ address, chain, schemaId }),
     );
 
     await waitFor(() => {

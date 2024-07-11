@@ -44,7 +44,7 @@ describe('getName', () => {
   it('should return null client getName throws an error', async () => {
     mockGetEnsName.mockRejectedValue(new Error('This is an error'));
     await expect(getName({ address: walletAddress })).rejects.toThrow(
-      'This is an error'
+      'This is an error',
     );
   });
 
@@ -99,9 +99,9 @@ describe('getName', () => {
 
   it('should throw an error on unsupported chain', async () => {
     await expect(
-      getName({ address: walletAddress, chain: optimism })
+      getName({ address: walletAddress, chain: optimism }),
     ).rejects.toThrow(
-      'ChainId not supported, name resolution is only supported on Ethereum and Base.'
+      'ChainId not supported, name resolution is only supported on Ethereum and Base.',
     );
   });
 });

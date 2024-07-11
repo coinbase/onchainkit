@@ -21,7 +21,7 @@ describe('getFarcasterUserAddress function', () => {
   it('should return both custody and verified addresses by default', async () => {
     const expectedCustodyAddress = 'mock-custody-address';
     (getCustodyAddressForFidNeynar as vi.Mock).mockResolvedValue(
-      expectedCustodyAddress
+      expectedCustodyAddress,
     );
     (getVerifiedAddressesForFidNeynar as vi.Mock).mockResolvedValue([
       expectedCustodyAddress,
@@ -49,10 +49,10 @@ describe('getFarcasterUserAddress function', () => {
       'mock-verified-address-2',
     ];
     (getCustodyAddressForFidNeynar as vi.Mock).mockResolvedValue(
-      expectedCustodyAddress
+      expectedCustodyAddress,
     );
     (getVerifiedAddressesForFidNeynar as vi.Mock).mockResolvedValue(
-      expectedVerifiedAddresses
+      expectedVerifiedAddresses,
     );
     const result = await getFarcasterUserAddress(123, {
       hasCustodyAddress: true,
@@ -67,7 +67,7 @@ describe('getFarcasterUserAddress function', () => {
   it('should only return custodyAddress  when hasVerifiedAddresses is false', async () => {
     const expectedCustodyAddress = 'mock-custody-address';
     (getCustodyAddressForFidNeynar as vi.Mock).mockResolvedValue(
-      expectedCustodyAddress
+      expectedCustodyAddress,
     );
     const result = await getFarcasterUserAddress(123, {
       hasVerifiedAddresses: false,
@@ -81,7 +81,7 @@ describe('getFarcasterUserAddress function', () => {
       'mock-verified-address-2',
     ];
     (getVerifiedAddressesForFidNeynar as vi.Mock).mockResolvedValue(
-      expectedVerifiedAddresses
+      expectedVerifiedAddresses,
     );
     const result = await getFarcasterUserAddress(123, {
       hasCustodyAddress: false,
@@ -94,7 +94,7 @@ describe('getFarcasterUserAddress function', () => {
     expect(getCustodyAddressForFidNeynar).toHaveBeenCalledWith(123, undefined);
     expect(getVerifiedAddressesForFidNeynar).toHaveBeenCalledWith(
       123,
-      undefined
+      undefined,
     );
   });
 });

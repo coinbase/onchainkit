@@ -40,10 +40,10 @@ describe('DisplayBadge', () => {
       render(
         <DisplayBadge>
           <Badge />
-        </DisplayBadge>
-      )
+        </DisplayBadge>,
+      ),
     ).toThrow(
-      'Name: a SchemaId must be provided to the OnchainKitProvider or Identity component.'
+      'Name: a SchemaId must be provided to the OnchainKitProvider or Identity component.',
     );
   });
 
@@ -61,7 +61,7 @@ describe('DisplayBadge', () => {
     const { container } = render(
       <DisplayBadge>
         <Badge />
-      </DisplayBadge>
+      </DisplayBadge>,
     );
     expect(container.firstChild).toBeNull();
   });
@@ -80,7 +80,7 @@ describe('DisplayBadge', () => {
     render(
       <DisplayBadge>
         <Badge />
-      </DisplayBadge>
+      </DisplayBadge>,
     );
     expect(screen.getByTestId('ockBadge')).toBeInTheDocument();
   });

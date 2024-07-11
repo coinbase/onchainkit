@@ -35,7 +35,7 @@ describe('Address component', () => {
     expect(() => {
       render(<Address />);
     }).toThrow(
-      'Address: an Ethereum address must be provided to the Identity or Address component.'
+      'Address: an Ethereum address must be provided to the Identity or Address component.',
     );
     restore();
   });
@@ -43,7 +43,7 @@ describe('Address component', () => {
   it('renders the sliced address when address supplied to Identity', () => {
     useIdentityContextMock.mockReturnValue({ address: mockAddress });
     (getSlicedAddress as vi.Mock).mockReturnValue(
-      mockGetSlicedAddress(mockAddress)
+      mockGetSlicedAddress(mockAddress),
     );
 
     const { getByText } = render(<Address />);
@@ -53,7 +53,7 @@ describe('Address component', () => {
   it('renders the sliced address when address supplied to Identity', () => {
     useIdentityContextMock.mockReturnValue({});
     (getSlicedAddress as vi.Mock).mockReturnValue(
-      mockGetSlicedAddress(mockAddress)
+      mockGetSlicedAddress(mockAddress),
     );
 
     const { getByText } = render(<Address address={mockAddress} />);
@@ -63,12 +63,12 @@ describe('Address component', () => {
   it('displays sliced address when ENS name is not available and isSliced is set to true', () => {
     useIdentityContextMock.mockReturnValue({});
     (getSlicedAddress as vi.Mock).mockReturnValue(
-      mockGetSlicedAddress(mockAddress)
+      mockGetSlicedAddress(mockAddress),
     );
 
     render(<Address address={mockAddress} isSliced={true} />);
     expect(
-      screen.getByText(mockGetSlicedAddress(mockAddress))
+      screen.getByText(mockGetSlicedAddress(mockAddress)),
     ).toBeInTheDocument();
     expect(getSlicedAddress).toHaveBeenCalledWith(mockAddress);
   });

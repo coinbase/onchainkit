@@ -39,8 +39,8 @@ describe('getAttestations', () => {
       expect(e).toHaveProperty(
         'message',
         `Chain is not supported. Supported chains: ${Object.keys(
-          easSupportedChains
-        ).join(', ')}`
+          easSupportedChains,
+        ).join(', ')}`,
       );
     }
   });
@@ -65,7 +65,7 @@ describe('getAttestations', () => {
 
   it('handles errors from getAttestationsByFilter correctly', async () => {
     (getAttestationsByFilter as vi.Mock).mockRejectedValue(
-      new Error('Network error')
+      new Error('Network error'),
     );
 
     const result = await getAttestations(mockAddress, base);
@@ -103,7 +103,7 @@ describe('getAttestations', () => {
     expect(getAttestationsByFilter).toHaveBeenCalledWith(
       mockAddress,
       base,
-      customOptions
+      customOptions,
     );
   });
 });

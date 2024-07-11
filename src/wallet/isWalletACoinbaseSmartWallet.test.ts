@@ -47,7 +47,7 @@ describe('isWalletACoinbaseSmartWallet', () => {
 
     (client.getBytecode as vi.Mock).mockReturnValue('invalid bytecode');
     (client.request as vi.Mock).mockResolvedValue(
-      '0x0000000000000000000000000000000000000000000000000000000000000000'
+      '0x0000000000000000000000000000000000000000000000000000000000000000',
     );
 
     const result = await isWalletACoinbaseSmartWallet({ client, userOp });
@@ -68,7 +68,7 @@ describe('isWalletACoinbaseSmartWallet', () => {
       '0x0000000000000000000000000000000000000000000000000000000000000001';
 
     (client.request as vi.Mock).mockResolvedValue(
-      differentImplementationAddress
+      differentImplementationAddress,
     );
 
     const result = await isWalletACoinbaseSmartWallet({ client, userOp });
@@ -91,7 +91,7 @@ describe('isWalletACoinbaseSmartWallet', () => {
 
     (client.getBytecode as vi.Mock).mockResolvedValue(CB_SW_PROXY_BYTECODE);
     (client.request as vi.Mock).mockResolvedValue(
-      `0x${CB_SW_V1_IMPLEMENTATION_ADDRESS.slice(2).padStart(64, '0')}`
+      `0x${CB_SW_V1_IMPLEMENTATION_ADDRESS.slice(2).padStart(64, '0')}`,
     );
 
     const result = await isWalletACoinbaseSmartWallet({ client, userOp });
@@ -104,10 +104,10 @@ describe('isWalletACoinbaseSmartWallet', () => {
     } as unknown as UserOperation<'v0.6'>;
 
     (client.getBytecode as vi.Mock).mockRejectedValue(
-      new Error('Failed to fetch bytecode')
+      new Error('Failed to fetch bytecode'),
     );
     (client.request as vi.Mock).mockResolvedValue(
-      '0x0000000000000000000000000000000000000000000000000000000000000000'
+      '0x0000000000000000000000000000000000000000000000000000000000000000',
     );
 
     const result = await isWalletACoinbaseSmartWallet({ client, userOp });
@@ -125,7 +125,7 @@ describe('isWalletACoinbaseSmartWallet', () => {
 
     (client.getBytecode as vi.Mock).mockResolvedValue(CB_SW_PROXY_BYTECODE);
     (client.request as vi.Mock).mockRejectedValue(
-      new Error('Failed to fetch implementation address')
+      new Error('Failed to fetch implementation address'),
     );
 
     const result = await isWalletACoinbaseSmartWallet({ client, userOp });

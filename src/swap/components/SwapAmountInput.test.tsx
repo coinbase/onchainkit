@@ -120,7 +120,7 @@ const SwapProvider = describe('SwapAmountInput', () => {
     render(<SwapAmountInput label="From" token={mockETHToken} type="from" />);
     expect(screen.getByText('Balance: 0.00028518')).toBeInTheDocument();
     expect(
-      screen.getByTestId('ockSwapAmountInput_MaxButton')
+      screen.getByTestId('ockSwapAmountInput_MaxButton'),
     ).toBeInTheDocument();
   });
 
@@ -128,7 +128,7 @@ const SwapProvider = describe('SwapAmountInput', () => {
     useSwapContextMock.mockReturnValue(mockContextValue);
     render(<SwapAmountInput label="From" token={mockETHToken} type="to" />);
     expect(
-      screen.queryByTestId('ockSwapAmountInput_MaxButton')
+      screen.queryByTestId('ockSwapAmountInput_MaxButton'),
     ).not.toBeInTheDocument();
   });
 
@@ -140,7 +140,7 @@ const SwapProvider = describe('SwapAmountInput', () => {
     fireEvent.click(maxButton);
 
     expect(mockContextValue.from.setAmount).toHaveBeenCalledWith(
-      '0.0002851826238227'
+      '0.0002851826238227',
     );
   });
 
@@ -232,7 +232,7 @@ const SwapProvider = describe('SwapAmountInput', () => {
         swappableTokens={mockSwappableTokens}
         token={mockToken}
         type="to"
-      />
+      />,
     );
 
     const dropdown = screen.getByText('TokenSelectDropdown');
@@ -255,11 +255,11 @@ const SwapProvider = describe('SwapAmountInput', () => {
         token={mockETHToken}
         type="from"
         className="custom-class"
-      />
+      />,
     );
 
     expect(screen.getByTestId('ockSwapAmountInput_Container')).toHaveClass(
-      'custom-class'
+      'custom-class',
     );
   });
 });

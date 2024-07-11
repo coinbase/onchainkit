@@ -64,7 +64,7 @@ describe('TokenSelectDropdown', () => {
     fireEvent.click(button);
 
     expect(
-      screen.getByTestId('ockTokenSelectDropdown_List')
+      screen.getByTestId('ockTokenSelectDropdown_List'),
     ).toBeInTheDocument();
 
     fireEvent.click(button);

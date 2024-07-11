@@ -39,10 +39,10 @@ describe('useGetTokenBalance', () => {
 
   it('should return converted and rounded balance without error', () => {
     (require('wagmi').useReadContract as vi.Mock).mockReturnValue(
-      mockTokenBalanceResponse
+      mockTokenBalanceResponse,
     );
     const { result } = renderHook(() =>
-      useGetTokenBalance(mockAddress, mockToken)
+      useGetTokenBalance(mockAddress, mockToken),
     );
 
     expect(result.current.convertedBalance).toBe('3304007.277394');
@@ -55,7 +55,7 @@ describe('useGetTokenBalance', () => {
     (useReadContract as vi.Mock).mockReturnValue(mockErrorResponse);
 
     const { result } = renderHook(() =>
-      useGetTokenBalance(mockAddress, mockToken)
+      useGetTokenBalance(mockAddress, mockToken),
     );
 
     expect(result.current.convertedBalance).toBe('');
@@ -71,7 +71,7 @@ describe('useGetTokenBalance', () => {
     (useReadContract as vi.Mock).mockReturnValue(mockZeroBalanceResponse);
 
     const { result } = renderHook(() =>
-      useGetTokenBalance(mockAddress, mockToken)
+      useGetTokenBalance(mockAddress, mockToken),
     );
 
     expect(result.current.convertedBalance).toBe('0');
@@ -87,7 +87,7 @@ describe('useGetTokenBalance', () => {
     });
 
     const { result } = renderHook(() =>
-      useGetTokenBalance(mockAddress, mockToken)
+      useGetTokenBalance(mockAddress, mockToken),
     );
 
     expect(result.current.convertedBalance).toBe('');

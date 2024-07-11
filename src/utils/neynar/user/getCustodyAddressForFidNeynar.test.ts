@@ -10,7 +10,7 @@ describe('getCustodyAddressForFidNeynar', () => {
       Promise.resolve({
         status,
         json: fetchMock,
-      })
+      }),
     ) as vi.Mock;
   });
 
@@ -37,7 +37,7 @@ describe('getCustodyAddressForFidNeynar', () => {
     } catch (e) {
       expect(e).toHaveProperty(
         'message',
-        'No custody address found for FID 42'
+        'No custody address found for FID 42',
       );
     }
   });
@@ -52,7 +52,7 @@ describe('getCustodyAddressForFidNeynar', () => {
     } catch (e) {
       expect(e).toHaveProperty(
         'message',
-        'No custody address found for FID 42'
+        'No custody address found for FID 42',
       );
     }
   });

@@ -35,7 +35,7 @@ const renderComponent = () => {
       <Name />
       <Address />
       <EthBalance />
-    </IdentityLayout>
+    </IdentityLayout>,
   );
 };
 

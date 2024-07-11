@@ -27,7 +27,7 @@ describe('IdentityProvider', () => {
     render(
       <IdentityProvider>
         <div />
-      </IdentityProvider>
+      </IdentityProvider>,
     );
 
     const { result } = renderHook(() => useIdentityContext(), {

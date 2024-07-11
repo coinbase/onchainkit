@@ -57,7 +57,7 @@ describe('request', () => {
       global.fetch = mockFetch;
 
       await expect(
-        sendRequest('exampleMethod', ['param1', 'param2'])
+        sendRequest('exampleMethod', ['param1', 'param2']),
       ).rejects.toThrow(mockError);
     });
   });

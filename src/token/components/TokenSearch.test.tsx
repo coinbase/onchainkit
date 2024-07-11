@@ -27,7 +27,7 @@ describe('TokenSearch component', () => {
     const handleChange = vi.fn();
 
     const { getByRole } = render(
-      <TokenSearch onChange={handleChange} delayMs={0} />
+      <TokenSearch onChange={handleChange} delayMs={0} />,
     );
 
     const input = getByRole('textbox');
@@ -40,7 +40,7 @@ describe('TokenSearch component', () => {
   it('clears the input when the clear button is clicked', async () => {
     const handleChange = vi.fn();
     const { getByTestId, getByRole } = render(
-      <TokenSearch onChange={handleChange} />
+      <TokenSearch onChange={handleChange} />,
     );
 
     const input = getByRole('textbox');

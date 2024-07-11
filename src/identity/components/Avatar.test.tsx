@@ -39,7 +39,7 @@ describe('Avatar Component', () => {
     expect(() => {
       render(<Avatar />);
     }).toThrow(
-      'Avatar: an Ethereum address must be provided to the Identity or Avatar component.'
+      'Avatar: an Ethereum address must be provided to the Identity or Avatar component.',
     );
     restore();
   });
@@ -98,7 +98,7 @@ describe('Avatar Component', () => {
     );
 
     render(
-      <Avatar address="0x123" loadingComponent={CustomLoadingComponent} />
+      <Avatar address="0x123" loadingComponent={CustomLoadingComponent} />,
     );
 
     const customLoadingElement = screen.getByTestId('ockAvatarCustomLoading');
@@ -115,7 +115,7 @@ describe('Avatar Component', () => {
     );
 
     render(
-      <Avatar address="0x123" defaultComponent={CustomDefaultComponent} />
+      <Avatar address="0x123" defaultComponent={CustomDefaultComponent} />,
     );
 
     const customDefaultElement = screen.getByTestId('ockAvatarCustomDefault');
@@ -141,7 +141,7 @@ describe('Avatar Component', () => {
     render(
       <Avatar address="0x123">
         <Badge />
-      </Avatar>
+      </Avatar>,
     );
 
     await waitFor(() => {
