@@ -1,7 +1,9 @@
 import { getName } from './getName';
 import { publicClient } from '../../network/client';
 import type { Address } from 'viem';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { beforeEach, describe, expect, it, vi, Mock } from 'vitest';
+import { base, baseSepolia, mainnet, optimism, sepolia } from 'viem/chains';
+import { getChainPublicClient } from '../../network/getChainPublicClient';
 
 vi.mock('../../network/client');
 
@@ -10,12 +12,14 @@ vi.mock('../getSlicedAddress', () => ({
 }));
 
 vi.mock('../../network/getChainPublicClient', () => ({
-  ...vi.requireActual('../../network/getChainPublicClient'),
+  ...vi.importActual('../../network/getChainPublicClient'),
   getChainPublicClient: vi.fn(() => publicClient),
 }));
 
 describe('getName', () => {
-  const mockGetEnsName = publicClient.getEnsName as vi.Mock;
+  const mockGetEnsName = publicClient.getEnsName as Mock;
+  const mockReadContract = publicClient.readContract as Mock;
+  const walletAddress = '0x1234567890123456789012345678901234567890' as Address;
 
   beforeEach(() => {
     vi.clearAllMocks();
