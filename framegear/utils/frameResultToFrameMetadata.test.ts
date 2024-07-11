@@ -1,4 +1,5 @@
 import { frameResultToFrameMetadata } from './frameResultToFrameMetadata';
+import { describe, expect, it } from 'vitest';
 
 describe('frameResultToFrameMetadata', () => {
   const baseResult = {

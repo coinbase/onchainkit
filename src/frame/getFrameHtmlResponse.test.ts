@@ -1,4 +1,5 @@
 import { getFrameHtmlResponse } from './getFrameHtmlResponse';
+import { describe, expect, it, vi, Mock } from 'vitest';
 
 describe('getFrameHtmlResponse', () => {
   it('should return correct HTML with all parameters', () => {
