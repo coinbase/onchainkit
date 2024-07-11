@@ -6,7 +6,7 @@ import { renderHook, waitFor } from '@testing-library/react';
 import { useName } from './useName';
 import { publicClient } from '../../network/client';
 import { getNewReactQueryTestProvider } from './getNewReactQueryTestProvider';
-import { describe, beforeEach, it, expect, vi, Mock } from 'vitest';
+import { describe, beforeEach, it, expect, vi, type Mock } from 'vitest';
 
 vi.mock('../../network/client');
 vi.mock('../../network/getChainPublicClient', () => ({

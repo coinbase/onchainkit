@@ -4,7 +4,7 @@ import { getMockFrameRequest } from './getMockFrameRequest';
 import { neynarBulkUserLookup } from '../utils/neynar/user/neynarBulkUserLookup';
 import type { FrameRequest } from './types';
 import { neynarFrameValidation } from '../utils/neynar/frame/neynarFrameValidation';
-import { describe, expect, it, vi, Mock } from 'vitest';
+import { describe, expect, it, vi, type Mock } from 'vitest';
 
 vi.mock('../utils/neynar/user/neynarBulkUserLookup', () => {
   return {
@@ -12,12 +12,17 @@ vi.mock('../utils/neynar/user/neynarBulkUserLookup', () => {
   };
 });
 
-vi.mock('../utils/neynar/frame/neynarFrameValidation', async (importOriginal) => {
-  return {
-    ...(await importOriginal<typeof import('../utils/neynar/frame/neynarFrameValidation')>()),
-    neynarFrameValidation: vi.fn(),
-  };
-});
+vi.mock(
+  '../utils/neynar/frame/neynarFrameValidation',
+  async (importOriginal) => {
+    return {
+      ...(await importOriginal<
+        typeof import('../utils/neynar/frame/neynarFrameValidation')
+      >()),
+      neynarFrameValidation: vi.fn(),
+    };
+  },
+);
 
 function mockNeynarResponse(
   action: {

@@ -4,7 +4,7 @@
 import { renderHook } from '@testing-library/react';
 import { useGetETHBalance } from './useGetETHBalance';
 import { useBalance } from 'wagmi';
-import { beforeEach, describe, expect, it, vi, Mock } from 'vitest';
+import { beforeEach, describe, expect, it, vi, type Mock } from 'vitest';
 
 vi.mock('wagmi', () => {
   return {
@@ -42,9 +42,7 @@ describe('useGetETHBalance', () => {
   });
 
   it('should return converted and rounded balance without error', () => {
-    (useBalance as Mock).mockReturnValue(
-      mockETHBalanceResponse,
-    );
+    (useBalance as Mock).mockReturnValue(mockETHBalanceResponse);
     const { result } = renderHook(() => useGetETHBalance(mockAddress));
 
     expect(result.current.convertedBalance).toBe('0.0002851826238227');

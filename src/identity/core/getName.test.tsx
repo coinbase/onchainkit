@@ -1,7 +1,7 @@
 import { getName } from './getName';
 import { publicClient } from '../../network/client';
 import type { Address } from 'viem';
-import { beforeEach, describe, expect, it, vi, Mock } from 'vitest';
+import { beforeEach, describe, expect, it, vi, type Mock } from 'vitest';
 import { base, baseSepolia, mainnet, optimism, sepolia } from 'viem/chains';
 import { getChainPublicClient } from '../../network/getChainPublicClient';
 

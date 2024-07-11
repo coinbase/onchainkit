@@ -5,7 +5,7 @@ import { renderHook } from '@testing-library/react';
 import { useGetTokenBalance } from './useGetTokenBalance';
 import { useReadContract } from 'wagmi';
 import type { Token } from '../../token';
-import { beforeEach, describe, expect, it, vi, Mock } from 'vitest';
+import { beforeEach, describe, expect, it, vi, type Mock } from 'vitest';
 
 vi.mock('wagmi', () => {
   return {
@@ -39,9 +39,7 @@ describe('useGetTokenBalance', () => {
   });
 
   it('should return converted and rounded balance without error', () => {
-    (useReadContract as Mock).mockReturnValue(
-      mockTokenBalanceResponse,
-    );
+    (useReadContract as Mock).mockReturnValue(mockTokenBalanceResponse);
     const { result } = renderHook(() =>
       useGetTokenBalance(mockAddress, mockToken),
     );
