@@ -3,6 +3,7 @@
  */
 import React from 'react';
 import { base } from 'viem/chains';
+import { vi } from 'vitest';
 import '@testing-library/jest-dom';
 import { render, screen, waitFor } from '@testing-library/react';
 import { useOnchainKit } from '../../useOnchainKit';
@@ -11,8 +12,13 @@ import { useAttestations } from '../hooks/useAttestations';
 import { useAvatar } from '../hooks/useAvatar';
 import { Avatar } from './Avatar';
 import { Badge } from './Badge';
-import { silenceError } from '../../internal/testing';
 
+const silenceError = () => {
+  const consoleErrorMock = vi
+    .spyOn(console, 'error')
+    .mockImplementation(() => {});
+  return () => consoleErrorMock.mockRestore();
+};
 vi.mock('../../useOnchainKit', () => ({
   useOnchainKit: vi.fn(),
 }));

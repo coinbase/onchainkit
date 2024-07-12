@@ -2,6 +2,7 @@
  * @vitest-environment jsdom
  */
 import React from 'react';
+import { vi } from 'vitest';
 import '@testing-library/jest-dom';
 import { render, screen, waitFor } from '@testing-library/react';
 import { Avatar } from './Avatar';
@@ -12,7 +13,10 @@ import { useAvatar } from '../hooks/useAvatar';
 import { useGetETHBalance } from '../../wallet/core/useGetETHBalance';
 import { Address } from './Address';
 import { EthBalance } from './EthBalance';
-import { mock } from '../../internal/testing';
+
+function mock<T>(func: T) {
+  return func as vi.Mock;
+}
 
 vi.mock('../hooks/useAvatar', () => ({
   useAvatar: vi.fn(),
