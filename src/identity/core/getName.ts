@@ -39,11 +39,11 @@ export const getName = async ({
     });
 
     if (baseName) {
-      return baseName
-    } else {
-      // Default to mainnet
-      client = getChainPublicClient(mainnet)
+      return baseName;
     }
+
+    // Default to mainnet
+    client = getChainPublicClient(mainnet);
   }
 
   // ENS username
