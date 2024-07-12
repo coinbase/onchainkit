@@ -130,6 +130,16 @@ export type IdentityContextType = {
 /**
  * Note: exported as public Type
  */
+export type IdentityProviderReact = {
+  address?: Address;
+  children: ReactNode;
+  schemaId?: Address | null;
+  chain?: Chain;
+};
+
+/**
+ * Note: exported as public Type
+ */
 export type IdentityReact = {
   address?: Address; // The Ethereum address to fetch the avatar and name for.
   chain?: Chain; // Optional chain for domain resolution
