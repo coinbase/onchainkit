@@ -1,10 +1,14 @@
+/**
+ * @vitest-environment node
+ */
 import { getSwapQuote } from './getSwapQuote';
 import { sendRequest } from '../../network/request';
 import { CDP_GET_SWAP_QUOTE } from '../../network/definitions/swap';
 import { getAPIParamsForToken } from './getAPIParamsForToken';
 import type { Token } from '../../token/types';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 
-jest.mock('../../network/request');
+vi.mock('../../network/request');
 
 const ETH: Token = {
   name: 'ETH',
@@ -29,7 +33,7 @@ const testAmountReference = 'from';
 
 describe('getSwapQuote', () => {
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('should return a quote for a swap', async () => {
@@ -73,7 +77,7 @@ describe('getSwapQuote', () => {
       },
     };
 
-    (sendRequest as jest.Mock).mockResolvedValue(mockResponse);
+    (sendRequest as vi.Mock).mockResolvedValue(mockResponse);
 
     const quote = await getSwapQuote(mockParams);
 
@@ -95,7 +99,7 @@ describe('getSwapQuote', () => {
     const mockApiParams = getAPIParamsForToken(mockParams);
 
     const mockError = new Error('getSwapQuote: Error: Failed to send request');
-    (sendRequest as jest.Mock).mockRejectedValue(mockError);
+    (sendRequest as vi.Mock).mockRejectedValue(mockError);
 
     const error = await getSwapQuote(mockParams);
     expect(error).toEqual({
@@ -127,7 +131,7 @@ describe('getSwapQuote', () => {
       },
     };
 
-    (sendRequest as jest.Mock).mockResolvedValue(mockResponse);
+    (sendRequest as vi.Mock).mockResolvedValue(mockResponse);
 
     const error = await getSwapQuote(mockParams);
     expect(error).toEqual({

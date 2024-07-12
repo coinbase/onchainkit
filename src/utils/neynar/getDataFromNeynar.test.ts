@@ -3,17 +3,17 @@ import { NEYNAR_DEFAULT_API_KEY } from './frame/neynarFrameValidation';
 import { getDataFromNeynar } from './getDataFromNeynar';
 
 describe('getDataFromNeynar', () => {
-  const fetchMock = jest.fn();
+  const fetchMock = vi.fn();
   let status = 200;
 
   beforeEach(() => {
     status = 200;
-    global.fetch = jest.fn(() =>
+    global.fetch = vi.fn(() =>
       Promise.resolve({
         status,
         json: fetchMock,
       }),
-    ) as jest.Mock;
+    ) as vi.Mock;
   });
 
   it('should call fetch correctly', async () => {

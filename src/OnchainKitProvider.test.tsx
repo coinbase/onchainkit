@@ -1,6 +1,3 @@
-/**
- * @jest-environment jsdom
- */
 import React from 'react';
 import { base } from 'viem/chains';
 import { render, screen, waitFor } from '@testing-library/react';
@@ -10,6 +7,7 @@ import type { EASSchemaUid } from './identity/types';
 import { setOnchainKitConfig, ONCHAIN_KIT_CONFIG } from './OnchainKitConfig';
 import { OnchainKitProvider } from './OnchainKitProvider';
 import { useOnchainKit } from './useOnchainKit';
+import { describe, expect, it, vi } from 'vitest';
 
 const TestComponent = () => {
   const { schemaId, apiKey } = useOnchainKit();
@@ -21,8 +19,8 @@ const TestComponent = () => {
   );
 };
 
-jest.mock('./OnchainKitConfig', () => ({
-  setOnchainKitConfig: jest.fn(),
+vi.mock('./OnchainKitConfig', () => ({
+  setOnchainKitConfig: vi.fn(),
   ONCHAIN_KIT_CONFIG: {
     address: null,
     apiKey: null,

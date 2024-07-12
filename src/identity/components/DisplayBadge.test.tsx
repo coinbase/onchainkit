@@ -1,5 +1,5 @@
 /**
- * @jest-environment jsdom
+ * @vitest-environment jsdom
  */
 import React from 'react';
 import '@testing-library/jest-dom';
@@ -10,31 +10,31 @@ import { useOnchainKit } from '../../useOnchainKit';
 import { useAttestations } from '../hooks/useAttestations';
 import { useIdentityContext } from './IdentityProvider';
 
-jest.mock('../../useOnchainKit', () => ({
-  useOnchainKit: jest.fn(),
+vi.mock('../../useOnchainKit', () => ({
+  useOnchainKit: vi.fn(),
 }));
-jest.mock('../hooks/useAttestations', () => ({
-  useAttestations: jest.fn(),
+vi.mock('../hooks/useAttestations', () => ({
+  useAttestations: vi.fn(),
 }));
-jest.mock('./IdentityProvider', () => ({
-  useIdentityContext: jest.fn(),
+vi.mock('./IdentityProvider', () => ({
+  useIdentityContext: vi.fn(),
 }));
 
 describe('DisplayBadge', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('should throw an error if neither contextSchemaId nor schemaId is provided', () => {
-    (useOnchainKit as jest.Mock).mockReturnValue({
+    (useOnchainKit as vi.Mock).mockReturnValue({
       chain: 'test-chain',
       schemaId: null,
     });
-    (useIdentityContext as jest.Mock).mockReturnValue({
+    (useIdentityContext as vi.Mock).mockReturnValue({
       schemaId: null,
       address: '0x123',
     });
-    (useAttestations as jest.Mock).mockReturnValue([]);
+    (useAttestations as vi.Mock).mockReturnValue([]);
 
     expect(() =>
       render(
@@ -48,15 +48,15 @@ describe('DisplayBadge', () => {
   });
 
   it('should return null if attestations are empty', () => {
-    (useOnchainKit as jest.Mock).mockReturnValue({
+    (useOnchainKit as vi.Mock).mockReturnValue({
       chain: 'test-chain',
       schemaId: 'test-schema-id',
     });
-    (useIdentityContext as jest.Mock).mockReturnValue({
+    (useIdentityContext as vi.Mock).mockReturnValue({
       schemaId: null,
       address: '0x123',
     });
-    (useAttestations as jest.Mock).mockReturnValue([]);
+    (useAttestations as vi.Mock).mockReturnValue([]);
 
     const { container } = render(
       <DisplayBadge>
@@ -67,15 +67,15 @@ describe('DisplayBadge', () => {
   });
 
   it('should render children if attestations are not empty', () => {
-    (useOnchainKit as jest.Mock).mockReturnValue({
+    (useOnchainKit as vi.Mock).mockReturnValue({
       chain: 'test-chain',
       schemaId: 'test-schema-id',
     });
-    (useIdentityContext as jest.Mock).mockReturnValue({
+    (useIdentityContext as vi.Mock).mockReturnValue({
       schemaId: null,
       address: '0x123',
     });
-    (useAttestations as jest.Mock).mockReturnValue(['attestation1']);
+    (useAttestations as vi.Mock).mockReturnValue(['attestation1']);
 
     render(
       <DisplayBadge>

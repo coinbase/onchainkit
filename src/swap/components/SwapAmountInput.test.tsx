@@ -1,5 +1,5 @@
 /**
- * @jest-environment jsdom
+ * @vitest-environment jsdom
  */
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
@@ -8,21 +8,22 @@ import { SwapAmountInput } from './SwapAmountInput';
 import { useSwapContext } from './SwapProvider';
 import type { Token } from '../../token';
 import type { SwapContextType } from '../types';
+import { beforeEach, describe, expect, it, vi, type Mock } from 'vitest';
 
-jest.mock('../../token', () => ({
-  TokenChip: jest.fn(() => <div>TokenChip</div>),
-  TokenSelectDropdown: jest.fn(() => <div>TokenSelectDropdown</div>),
+vi.mock('../../token', () => ({
+  TokenChip: vi.fn(() => <div>TokenChip</div>),
+  TokenSelectDropdown: vi.fn(() => <div>TokenSelectDropdown</div>),
 }));
 
-jest.mock('./SwapProvider', () => ({
-  useSwapContext: jest.fn(),
+vi.mock('./SwapProvider', () => ({
+  useSwapContext: vi.fn(),
 }));
 
-jest.mock('wagmi', () => ({
-  useBalance: jest.fn(),
+vi.mock('wagmi', () => ({
+  useBalance: vi.fn(),
 }));
 
-const useSwapContextMock = useSwapContext as jest.Mock;
+const useSwapContextMock = useSwapContext as Mock;
 
 const mockETHToken: Token = {
   name: 'ETH',
@@ -48,24 +49,24 @@ const mockContextValue = {
   from: {
     amount: '10',
     balance: '0.0002851826238227',
-    setAmount: jest.fn(),
-    setLoading: jest.fn(),
-    setToken: jest.fn(),
+    setAmount: vi.fn(),
+    setLoading: vi.fn(),
+    setToken: vi.fn(),
     loading: false,
     token: undefined,
   },
   to: {
     amount: '20',
-    setAmount: jest.fn(),
-    setLoading: jest.fn(),
-    setToken: jest.fn(),
+    setAmount: vi.fn(),
+    setLoading: vi.fn(),
+    setToken: vi.fn(),
     loading: false,
     token: undefined,
   },
   loading: false,
-  handleToggle: jest.fn(),
-  handleSubmit: jest.fn(),
-  handleAmountChange: jest.fn(),
+  handleToggle: vi.fn(),
+  handleSubmit: vi.fn(),
+  handleAmountChange: vi.fn(),
 } as SwapContextType;
 
 const mockContextValueWithoutConvertedBalance = {
@@ -105,7 +106,7 @@ const mockSwappableTokens: Token[] = [
 
 const SwapProvider = describe('SwapAmountInput', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('renders the component with the correct label and token', () => {

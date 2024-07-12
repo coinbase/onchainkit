@@ -2,17 +2,17 @@ import { FetchError } from '../exceptions/FetchError';
 import { neynarFrameValidation } from './neynarFrameValidation';
 
 describe('neynar frame functions', () => {
-  const fetchMock = jest.fn();
+  const fetchMock = vi.fn();
   let status = 200;
 
   beforeEach(() => {
     status = 200;
-    global.fetch = jest.fn(() =>
+    global.fetch = vi.fn(() =>
       Promise.resolve({
         status,
         json: fetchMock,
       }),
-    ) as jest.Mock;
+    ) as vi.Mock;
   });
 
   it('should return fetch response correctly', async () => {

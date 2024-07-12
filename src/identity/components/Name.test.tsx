@@ -1,5 +1,5 @@
 /**
- * @jest-environment jsdom
+ * @vitest-environment jsdom
  */
 import React from 'react';
 import '@testing-library/jest-dom';
@@ -12,20 +12,20 @@ import { Badge } from './Badge';
 import { useIdentityContext } from './IdentityProvider';
 import { silenceError } from '../../internal/testing';
 
-jest.mock('../hooks/useName', () => ({
-  useName: jest.fn(),
+vi.mock('../hooks/useName', () => ({
+  useName: vi.fn(),
 }));
 
-jest.mock('../getSlicedAddress', () => ({
-  getSlicedAddress: jest.fn(),
+vi.mock('../getSlicedAddress', () => ({
+  getSlicedAddress: vi.fn(),
 }));
 
-jest.mock('./IdentityProvider', () => ({
-  useIdentityContext: jest.fn(),
+vi.mock('./IdentityProvider', () => ({
+  useIdentityContext: vi.fn(),
 }));
 
-jest.mock('../hooks/useAttestations', () => ({
-  useAttestations: jest.fn(),
+vi.mock('../hooks/useAttestations', () => ({
+  useAttestations: vi.fn(),
 }));
 
 const mockSliceAddress = (addr: string) =>
@@ -36,12 +36,12 @@ describe('OnchainAddress', () => {
   const testName = 'testname.eth';
 
   beforeEach(() => {
-    jest.clearAllMocks();
-    jest.spyOn(console, 'error').mockImplementation(jest.fn());
+    vi.clearAllMocks();
+    vi.spyOn(console, 'error').mockImplementation(vi.fn());
   });
 
   it('should throw an error when no address is provided', () => {
-    (useIdentityContext as jest.Mock).mockReturnValue({
+    (useIdentityContext as vi.Mock).mockReturnValue({
       schemaId: '0x123',
     });
     const restore = silenceError();
@@ -54,10 +54,10 @@ describe('OnchainAddress', () => {
   });
 
   it('displays ENS name when available', () => {
-    (useIdentityContext as jest.Mock).mockReturnValue({
+    (useIdentityContext as vi.Mock).mockReturnValue({
       schemaId: '0x123',
     });
-    (useName as jest.Mock).mockReturnValue({
+    (useName as vi.Mock).mockReturnValue({
       data: testName,
       isLoading: false,
     });
@@ -66,10 +66,10 @@ describe('OnchainAddress', () => {
   });
 
   it('returns null when ENS name is not available', () => {
-    (useIdentityContext as jest.Mock).mockReturnValue({
+    (useIdentityContext as vi.Mock).mockReturnValue({
       schemaId: '0x123',
     });
-    (useName as jest.Mock).mockReturnValue({
+    (useName as vi.Mock).mockReturnValue({
       data: null,
       isLoading: false,
     });
@@ -78,19 +78,19 @@ describe('OnchainAddress', () => {
   });
 
   it('displays empty when ens still fetching', () => {
-    (useName as jest.Mock).mockReturnValue({ data: null, isLoading: true });
+    (useName as vi.Mock).mockReturnValue({ data: null, isLoading: true });
     render(<Name address={testAddress} />);
     expect(screen.queryByText(testName)).not.toBeInTheDocument();
     expect(getSlicedAddress).toHaveBeenCalledTimes(0);
   });
 
   it('renders badge when Badge is passed, user is attested and address set in Identity', async () => {
-    (useIdentityContext as jest.Mock).mockReturnValue({
+    (useIdentityContext as vi.Mock).mockReturnValue({
       address: testAddress,
       schemaId: '0x123',
     });
-    (useAttestations as jest.Mock).mockReturnValue(['attestation']);
-    (useName as jest.Mock).mockReturnValue({
+    (useAttestations as vi.Mock).mockReturnValue(['attestation']);
+    (useName as vi.Mock).mockReturnValue({
       data: 'ens_name',
       isLoading: false,
     });
@@ -108,11 +108,11 @@ describe('OnchainAddress', () => {
   });
 
   it('renders badge when Badge is passed, user is attested and address set in Name', async () => {
-    (useIdentityContext as jest.Mock).mockReturnValue({
+    (useIdentityContext as vi.Mock).mockReturnValue({
       schemaId: '0x123',
     });
-    (useAttestations as jest.Mock).mockReturnValue(['attestation']);
-    (useName as jest.Mock).mockReturnValue({
+    (useAttestations as vi.Mock).mockReturnValue(['attestation']);
+    (useName as vi.Mock).mockReturnValue({
       address: testAddress,
       data: 'ens_name',
       isLoading: false,

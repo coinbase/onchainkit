@@ -1,5 +1,5 @@
 /**
- * @jest-environment jsdom
+ * @vitest-environment jsdom
  */
 import React from 'react';
 import { render, screen } from '@testing-library/react';
@@ -9,12 +9,12 @@ import { useIdentityContext } from './IdentityProvider';
 import { getSlicedAddress } from '../getSlicedAddress';
 import { mock, silenceError } from '../../internal/testing';
 
-jest.mock('./IdentityProvider', () => ({
-  useIdentityContext: jest.fn(),
+vi.mock('./IdentityProvider', () => ({
+  useIdentityContext: vi.fn(),
 }));
 
-jest.mock('../getSlicedAddress', () => ({
-  getSlicedAddress: jest.fn(),
+vi.mock('../getSlicedAddress', () => ({
+  getSlicedAddress: vi.fn(),
 }));
 
 const useIdentityContextMock = mock(useIdentityContext);
@@ -26,7 +26,7 @@ describe('Address component', () => {
   const mockAddress = '0x1234567890abcdef1234567890abcdef12345678';
 
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('should throw an error when no address is provided', () => {
@@ -42,7 +42,7 @@ describe('Address component', () => {
 
   it('renders the sliced address when address supplied to Identity', () => {
     useIdentityContextMock.mockReturnValue({ address: mockAddress });
-    (getSlicedAddress as jest.Mock).mockReturnValue(
+    (getSlicedAddress as vi.Mock).mockReturnValue(
       mockGetSlicedAddress(mockAddress),
     );
 
@@ -52,7 +52,7 @@ describe('Address component', () => {
 
   it('renders the sliced address when address supplied to Identity', () => {
     useIdentityContextMock.mockReturnValue({});
-    (getSlicedAddress as jest.Mock).mockReturnValue(
+    (getSlicedAddress as vi.Mock).mockReturnValue(
       mockGetSlicedAddress(mockAddress),
     );
 
@@ -62,7 +62,7 @@ describe('Address component', () => {
 
   it('displays sliced address when ENS name is not available and isSliced is set to true', () => {
     useIdentityContextMock.mockReturnValue({});
-    (getSlicedAddress as jest.Mock).mockReturnValue(
+    (getSlicedAddress as vi.Mock).mockReturnValue(
       mockGetSlicedAddress(mockAddress),
     );
 

@@ -1,23 +1,24 @@
 /**
- * @jest-environment jsdom
+ * @vitest-environment jsdom
  */
 
 import { renderHook, waitFor } from '@testing-library/react';
 import { useName } from './useName';
 import { publicClient } from '../../network/client';
 import { getNewReactQueryTestProvider } from './getNewReactQueryTestProvider';
+import { describe, beforeEach, it, expect, vi, type Mock } from 'vitest';
 
-jest.mock('../../network/client');
-jest.mock('../../network/getChainPublicClient', () => ({
-  ...jest.requireActual('../../network/getChainPublicClient'),
-  getChainPublicClient: jest.fn(() => publicClient),
+vi.mock('../../network/client');
+vi.mock('../../network/getChainPublicClient', () => ({
+  ...vi.importActual('../../network/getChainPublicClient'),
+  getChainPublicClient: vi.fn(() => publicClient),
 }));
 
 describe('useName', () => {
-  const mockGetEnsName = publicClient.getEnsName as jest.Mock;
+  const mockGetEnsName = publicClient.getEnsName as Mock;
 
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('returns the correct ENS name and loading state', async () => {

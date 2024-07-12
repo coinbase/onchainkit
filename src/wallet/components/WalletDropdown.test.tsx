@@ -1,5 +1,5 @@
 /**
- * @jest-environment jsdom
+ * @vitest-environment jsdom
  */
 import React from 'react';
 import '@testing-library/jest-dom';
@@ -13,22 +13,22 @@ import {
   useIdentityContext,
 } from '../../identity/components/IdentityProvider';
 
-jest.mock('wagmi', () => ({
-  useAccount: jest.fn(),
+vi.mock('wagmi', () => ({
+  useAccount: vi.fn(),
 }));
 
-jest.mock('./WalletProvider', () => ({
-  useWalletContext: jest.fn(),
+vi.mock('./WalletProvider', () => ({
+  useWalletContext: vi.fn(),
 }));
 
-jest.mock('../../identity/components/Identity', () => ({
-  Identity: jest.fn(({ address, children }) => (
+vi.mock('../../identity/components/Identity', () => ({
+  Identity: vi.fn(({ address, children }) => (
     <IdentityProvider address={address}>{children}</IdentityProvider>
   )),
 }));
 
-const useWalletContextMock = useWalletContext as jest.Mock;
-const useAccountMock = useAccount as jest.Mock;
+const useWalletContextMock = useWalletContext as vi.Mock;
+const useAccountMock = useAccount as vi.Mock;
 
 describe('WalletDropdown', () => {
   it('renders null when isOpen is false', () => {

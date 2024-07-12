@@ -1,30 +1,28 @@
-/**
- * @jest-environment jsdom
- */
-
 import { getName } from './getName';
 import { publicClient } from '../../network/client';
 import type { Address } from 'viem';
+import { beforeEach, describe, expect, it, vi, type Mock } from 'vitest';
 import { base, baseSepolia, mainnet, optimism, sepolia } from 'viem/chains';
 import { getChainPublicClient } from '../../network/getChainPublicClient';
 
-jest.mock('../../network/client');
-jest.mock('../getSlicedAddress', () => ({
-  getSlicedAddress: jest.fn(),
+vi.mock('../../network/client');
+
+vi.mock('../getSlicedAddress', () => ({
+  getSlicedAddress: vi.fn(),
 }));
 
-jest.mock('../../network/getChainPublicClient', () => ({
-  ...jest.requireActual('../../network/getChainPublicClient'),
-  getChainPublicClient: jest.fn(() => publicClient),
+vi.mock('../../network/getChainPublicClient', () => ({
+  ...vi.importActual('../../network/getChainPublicClient'),
+  getChainPublicClient: vi.fn(() => publicClient),
 }));
 
 describe('getName', () => {
-  const mockGetEnsName = publicClient.getEnsName as jest.Mock;
-  const mockReadContract = publicClient.readContract as jest.Mock;
+  const mockGetEnsName = publicClient.getEnsName as Mock;
+  const mockReadContract = publicClient.readContract as Mock;
   const walletAddress = '0x1234567890123456789012345678901234567890' as Address;
 
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('should return correct value from client getName', async () => {

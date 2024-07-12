@@ -1,14 +1,15 @@
 /**
- * @jest-environment jsdom
+ * @vitest-environment jsdom
  */
 import { renderHook } from '@testing-library/react';
 import { useGetTokenBalance } from './useGetTokenBalance';
 import { useReadContract } from 'wagmi';
 import type { Token } from '../../token';
+import { beforeEach, describe, expect, it, vi, type Mock } from 'vitest';
 
-jest.mock('wagmi', () => {
+vi.mock('wagmi', () => {
   return {
-    useReadContract: jest.fn(),
+    useReadContract: vi.fn(),
   };
 });
 
@@ -34,13 +35,11 @@ const mockToken: Token = {
 
 describe('useGetTokenBalance', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('should return converted and rounded balance without error', () => {
-    (require('wagmi').useReadContract as jest.Mock).mockReturnValue(
-      mockTokenBalanceResponse,
-    );
+    (useReadContract as Mock).mockReturnValue(mockTokenBalanceResponse);
     const { result } = renderHook(() =>
       useGetTokenBalance(mockAddress, mockToken),
     );
@@ -52,7 +51,7 @@ describe('useGetTokenBalance', () => {
   });
 
   it('should return an error when useReadContract returns an error', () => {
-    (useReadContract as jest.Mock).mockReturnValue(mockErrorResponse);
+    (useReadContract as Mock).mockReturnValue(mockErrorResponse);
 
     const { result } = renderHook(() =>
       useGetTokenBalance(mockAddress, mockToken),
@@ -68,7 +67,7 @@ describe('useGetTokenBalance', () => {
   });
 
   it('should return zero balance when balance value is 0n', () => {
-    (useReadContract as jest.Mock).mockReturnValue(mockZeroBalanceResponse);
+    (useReadContract as Mock).mockReturnValue(mockZeroBalanceResponse);
 
     const { result } = renderHook(() =>
       useGetTokenBalance(mockAddress, mockToken),
@@ -81,7 +80,7 @@ describe('useGetTokenBalance', () => {
   });
 
   it('should return empty balance when balance value is not present', () => {
-    (useReadContract as jest.Mock).mockReturnValue({
+    (useReadContract as Mock).mockReturnValue({
       data: null,
       error: null,
     });

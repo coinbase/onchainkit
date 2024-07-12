@@ -1,16 +1,14 @@
-/**
- * @jest-environment jsdom
- */
 import { getAvatar } from './getAvatar';
 import { publicClient } from '../../network/client';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-jest.mock('../../network/client');
+vi.mock('../../network/client');
 
 describe('getAvatar', () => {
-  const mockGetEnsAvatar = publicClient.getEnsAvatar as jest.Mock;
+  const mockGetEnsAvatar = publicClient.getEnsAvatar as vi.Mock;
 
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('should return correct avatar URL from client getAvatar', async () => {

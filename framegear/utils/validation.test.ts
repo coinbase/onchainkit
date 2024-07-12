@@ -1,4 +1,5 @@
 import { vNextSchema } from './validation';
+import { describe, expect, it } from 'vitest';
 
 const baseGoodDefinition = {
   'fc:frame': 'vNext',

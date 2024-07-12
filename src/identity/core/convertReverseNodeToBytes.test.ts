@@ -1,12 +1,12 @@
 /**
- * @jest-environment jsdom
+ * @vitest-environment jsdom
  */
 
 import { convertReverseNodeToBytes } from './convertReverseNodeToBytes';
 
 describe('convertReverseNodeToBytes', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('should return correct resolver data', async () => {

@@ -1,11 +1,9 @@
-/**
- * @jest-environment jsdom
- */
 import React from 'react';
 import '@testing-library/jest-dom';
 import { render, screen, waitFor, fireEvent } from '@testing-library/react';
 import { TokenRow } from './TokenRow';
 import type { Token } from '../types';
+import { describe, expect, it, vi } from 'vitest';
 
 const EXAMPLE_TOKEN: Token = {
   address: '0x1234',
@@ -78,7 +76,7 @@ describe('TokenRow component', () => {
   });
 
   it('should register a click on press', async () => {
-    const handleClick = jest.fn();
+    const handleClick = vi.fn();
     render(<TokenRow key="" token={EXAMPLE_TOKEN} onClick={handleClick} />);
 
     const tokenRow = screen.getByTestId('ockTokenRow_Container');

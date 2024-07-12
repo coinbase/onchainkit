@@ -1,5 +1,5 @@
 /**
- * @jest-environment jsdom
+ * @vitest-environment jsdom
  */
 import React from 'react';
 import '@testing-library/jest-dom';
@@ -14,15 +14,15 @@ import { Address } from './Address';
 import { EthBalance } from './EthBalance';
 import { mock } from '../../internal/testing';
 
-jest.mock('../hooks/useAvatar', () => ({
-  useAvatar: jest.fn(),
+vi.mock('../hooks/useAvatar', () => ({
+  useAvatar: vi.fn(),
 }));
-jest.mock('../hooks/useName', () => ({
-  useName: jest.fn(),
+vi.mock('../hooks/useName', () => ({
+  useName: vi.fn(),
 }));
 
-jest.mock('../../wallet/core/useGetETHBalance', () => ({
-  useGetETHBalance: jest.fn(),
+vi.mock('../../wallet/core/useGetETHBalance', () => ({
+  useGetETHBalance: vi.fn(),
 }));
 
 const useAvatarMock = mock(useAvatar);
@@ -31,7 +31,7 @@ const useGetETHBalanceMock = mock(useGetETHBalance);
 
 describe('Identity Component', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('should render the Identity component with Avatar', async () => {

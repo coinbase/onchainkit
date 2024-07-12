@@ -1,5 +1,5 @@
 /**
- * @jest-environment jsdom
+ * @vitest-environment jsdom
  */
 
 import { getAttestationsByFilter } from '../network/attestations';
@@ -7,8 +7,9 @@ import { getAttestations } from './getAttestations';
 import { easSupportedChains } from './easSupportedChains';
 import { base, opBNBTestnet } from 'viem/chains';
 import type { GetAttestationsOptions } from './types';
+import { vi } from 'vitest';
 
-jest.mock('../network/attestations');
+vi.mock('../network/attestations');
 
 describe('getAttestations', () => {
   const mockAddress = '0x1234567890abcdef1234567890abcdef12345678';
@@ -28,7 +29,7 @@ describe('getAttestations', () => {
   ];
 
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('throws an error for unsupported chains', () => {
@@ -37,13 +38,15 @@ describe('getAttestations', () => {
     } catch (e) {
       expect(e).toHaveProperty(
         'message',
-        `Chain is not supported. Supported chains: ${Object.keys(easSupportedChains).join(', ')}`,
+        `Chain is not supported. Supported chains: ${Object.keys(
+          easSupportedChains,
+        ).join(', ')}`,
       );
     }
   });
 
   it('fetches attestations for supported chains', async () => {
-    (getAttestationsByFilter as jest.Mock).mockResolvedValue(mockAttestations);
+    (getAttestationsByFilter as vi.Mock).mockResolvedValue(mockAttestations);
 
     const result = await getAttestations(mockAddress, base, mockOptions);
     expect(result).toEqual(mockAttestations); // Replace [] with expected mockAttestations once implemented
@@ -61,7 +64,7 @@ describe('getAttestations', () => {
   });
 
   it('handles errors from getAttestationsByFilter correctly', async () => {
-    (getAttestationsByFilter as jest.Mock).mockRejectedValue(
+    (getAttestationsByFilter as vi.Mock).mockRejectedValue(
       new Error('Network error'),
     );
 

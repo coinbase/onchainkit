@@ -1,11 +1,9 @@
-/**
- * @jest-environment jsdom
- */
 import React from 'react';
 import '@testing-library/jest-dom';
 import { fireEvent, render, screen } from '@testing-library/react';
 import type { Address } from 'viem';
 import { TokenSelectButton } from './TokenSelectButton';
+import { describe, expect, it, vi } from 'vitest';
 
 describe('TokenSelectButton', () => {
   const token = {
@@ -21,11 +19,7 @@ describe('TokenSelectButton', () => {
 
   it('renders correctly without a token', () => {
     render(
-      <TokenSelectButton
-        token={undefined}
-        onClick={jest.fn()}
-        isOpen={false}
-      />,
+      <TokenSelectButton token={undefined} onClick={vi.fn()} isOpen={false} />,
     );
 
     expect(screen.getByText('Select token')).toBeInTheDocument();
@@ -37,7 +31,7 @@ describe('TokenSelectButton', () => {
 
   it('renders correctly with a token when isOpen is true', () => {
     render(
-      <TokenSelectButton token={token} onClick={jest.fn()} isOpen={false} />,
+      <TokenSelectButton token={token} onClick={vi.fn()} isOpen={false} />,
     );
 
     expect(screen.getByText('ETH')).toBeInTheDocument();
@@ -49,7 +43,7 @@ describe('TokenSelectButton', () => {
   });
 
   it('renders correctly with a token when isOpen is false', () => {
-    render(<TokenSelectButton token={token} onClick={jest.fn()} isOpen />);
+    render(<TokenSelectButton token={token} onClick={vi.fn()} isOpen />);
 
     expect(screen.getByText('ETH')).toBeInTheDocument();
     expect(
@@ -60,7 +54,7 @@ describe('TokenSelectButton', () => {
   });
 
   it('handles click handler', () => {
-    const onClick = jest.fn();
+    const onClick = vi.fn();
     render(
       <TokenSelectButton token={token} onClick={onClick} isOpen={false} />,
     );

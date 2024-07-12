@@ -1,11 +1,9 @@
-/**
- * @jest-environment jsdom
- */
 import React from 'react';
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import { TokenImage } from './TokenImage';
 import type { Token } from '../types';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 const tokenWithImage: Token = {
   name: 'Ethereum',
@@ -28,7 +26,7 @@ const tokenWithNoImage: Token = {
 
 describe('TokenImage Component', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('should render token with image', async () => {

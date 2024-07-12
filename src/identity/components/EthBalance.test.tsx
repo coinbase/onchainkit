@@ -1,5 +1,5 @@
 /**
- * @jest-environment jsdom
+ * @vitest-environment jsdom
  */
 import React from 'react';
 import { render, screen } from '@testing-library/react';
@@ -10,16 +10,16 @@ import { useGetETHBalance } from '../../wallet/core/useGetETHBalance';
 import { getRoundedAmount } from '../../utils/getRoundedAmount';
 import { silenceError, mock } from '../../internal/testing';
 
-jest.mock('./IdentityProvider', () => ({
-  useIdentityContext: jest.fn(),
+vi.mock('./IdentityProvider', () => ({
+  useIdentityContext: vi.fn(),
 }));
 
-jest.mock('../../wallet/core/useGetETHBalance', () => ({
-  useGetETHBalance: jest.fn(),
+vi.mock('../../wallet/core/useGetETHBalance', () => ({
+  useGetETHBalance: vi.fn(),
 }));
 
-jest.mock('../../utils/getRoundedAmount', () => ({
-  getRoundedAmount: jest.fn(),
+vi.mock('../../utils/getRoundedAmount', () => ({
+  getRoundedAmount: vi.fn(),
 }));
 
 const useIdentityContextMock = mock(useIdentityContext);
@@ -46,7 +46,7 @@ describe('EthBalance', () => {
       convertedBalance: balance,
       error: null,
     });
-    (getRoundedAmount as jest.Mock).mockReturnValue('1.2346');
+    (getRoundedAmount as vi.Mock).mockReturnValue('1.2346');
 
     render(<EthBalance address={address} className="custom-class" />);
 

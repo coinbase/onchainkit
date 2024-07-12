@@ -1,14 +1,15 @@
 /**
- * @jest-environment jsdom
+ * @vitest-environment jsdom
  */
 import { renderHook } from '@testing-library/react';
 import { useGetETHBalance } from './useGetETHBalance';
 import { useBalance } from 'wagmi';
+import { beforeEach, describe, expect, it, vi, type Mock } from 'vitest';
 
-jest.mock('wagmi', () => {
+vi.mock('wagmi', () => {
   return {
-    useBalance: jest.fn(),
-    useReadContract: jest.fn(),
+    useBalance: vi.fn(),
+    useReadContract: vi.fn(),
   };
 });
 
@@ -37,13 +38,11 @@ const mockAddress = '0x123';
 
 describe('useGetETHBalance', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('should return converted and rounded balance without error', () => {
-    (require('wagmi').useBalance as jest.Mock).mockReturnValue(
-      mockETHBalanceResponse,
-    );
+    (useBalance as Mock).mockReturnValue(mockETHBalanceResponse);
     const { result } = renderHook(() => useGetETHBalance(mockAddress));
 
     expect(result.current.convertedBalance).toBe('0.0002851826238227');
@@ -53,7 +52,7 @@ describe('useGetETHBalance', () => {
   });
 
   it('should return an error when useBalance returns an error', () => {
-    (useBalance as jest.Mock).mockReturnValue(mockErrorResponse);
+    (useBalance as Mock).mockReturnValue(mockErrorResponse);
 
     const { result } = renderHook(() => useGetETHBalance(mockAddress));
 
@@ -67,7 +66,7 @@ describe('useGetETHBalance', () => {
   });
 
   it('should return zero balance when balance value is 0n', () => {
-    (useBalance as jest.Mock).mockReturnValue(mockZeroETHBalanceResponse);
+    (useBalance as Mock).mockReturnValue(mockZeroETHBalanceResponse);
 
     const { result } = renderHook(() => useGetETHBalance(mockAddress));
 
@@ -78,7 +77,7 @@ describe('useGetETHBalance', () => {
   });
 
   it('should return empty balance when balance value is not present', () => {
-    (useBalance as jest.Mock).mockReturnValue({
+    (useBalance as Mock).mockReturnValue({
       data: { value: null },
       error: null,
     });
