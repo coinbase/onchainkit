@@ -19,7 +19,7 @@ export function DisplayBadge({ children, address }: DisplayBadgeReact) {
     );
   }
   const attestations = useAttestations({
-    address: contextAddress ?? address,
+    address: address ?? contextAddress,
     chain: chain,
     schemaId: contextSchemaId ?? schemaId,
   });
