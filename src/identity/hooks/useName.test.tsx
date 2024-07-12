@@ -79,6 +79,30 @@ describe('useName', () => {
     });
   });
 
+  it('default to ENS name if custom chain name is not registered', async () => {
+    const testCustomChainEnsName = undefined;
+    const testEnsName = 'ethereum.eth';
+
+    // Mock the getEnsName method of the publicClient
+    mockReadContract.mockResolvedValue(testCustomChainEnsName);
+    mockGetEnsName.mockResolvedValue(testEnsName);
+
+    // Use the renderHook function to create a test harness for the useName hook
+    const { result } = renderHook(
+      () => useName({ address: testAddress, chain: base }),
+      {
+        wrapper: getNewReactQueryTestProvider(),
+      },
+    );
+
+    // Wait for the hook to finish fetching the ENS name
+    await waitFor(() => {
+      // Check that the ENS name and loading state are correct
+      expect(result.current.data).toBe(testEnsName);
+      expect(result.current.isLoading).toBe(false);
+    });
+  });
+
   it('returns error for unsupported chain ', async () => {
     // Use the renderHook function to create a test harness for the useName hook
     const { result } = renderHook(
