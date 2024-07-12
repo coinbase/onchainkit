@@ -3,6 +3,7 @@ import { BuildSwapTransaction } from '../types';
 import { createConfig, http } from 'wagmi';
 import { mainnet, sepolia } from 'wagmi/chains';
 import { mock } from 'wagmi/connectors';
+import { describe, expect, it, vi } from 'vitest';
 
 describe('processSwapTransaction', () => {
   it('should request approval and make the swap for ERC-20 tokens', async () => {
@@ -78,11 +79,11 @@ describe('processSwapTransaction', () => {
         [sepolia.id]: http(),
       },
     });
-    const setPendingTransaction = jest.fn();
-    const setLoading = jest.fn();
-    const sendTransactionAsync = jest.fn().mockResolvedValue('approveTxHash');
-    const waitForTransactionReceipt = jest.fn().mockResolvedValue({});
-    const onSuccess = jest.fn();
+    const setPendingTransaction = vi.fn();
+    const setLoading = vi.fn();
+    const sendTransactionAsync = vi.fn().mockResolvedValue('approveTxHash');
+    const waitForTransactionReceipt = vi.fn().mockResolvedValue({});
+    const onSuccess = vi.fn();
 
     await processSwapTransaction({
       swapTransaction,
@@ -181,11 +182,11 @@ describe('processSwapTransaction', () => {
         [sepolia.id]: http(),
       },
     });
-    const setPendingTransaction = jest.fn();
-    const setLoading = jest.fn();
-    const sendTransactionAsync = jest.fn().mockResolvedValue('txHash');
-    const waitForTransactionReceipt = jest.fn().mockResolvedValue({});
-    const onSuccess = jest.fn();
+    const setPendingTransaction = vi.fn();
+    const setLoading = vi.fn();
+    const sendTransactionAsync = vi.fn().mockResolvedValue('txHash');
+    const waitForTransactionReceipt = vi.fn().mockResolvedValue({});
+    const onSuccess = vi.fn();
 
     await processSwapTransaction({
       swapTransaction,
