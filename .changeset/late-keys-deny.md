@@ -1,5 +1,7 @@
 ---
 "@coinbase/onchainkit": patch
 ---
-- **feat**: Add added `chain` option to `useName`, this will help add ENS support for L2 chains. By @kirkas #781
-- **fix**: Modify `getName` to return a rejected promise instead of an error. By @kirkas #781
+- **feat**: Added `chain` option to `useName` component for L2 chain name resolution support. By @kirkas #781
+- **feat**: Added `chain` option to `<Name>` component for L2 chain name resolution support. By @kirkas #781
+- **fix**: Modified `getName` to return a rejected promise instead of an error. By @kirkas #781
+- **fix**: Disabled `retry` in `getNewReactQueryTestProvider` to run tests faster and avoid timeouts. By @kirkas #781

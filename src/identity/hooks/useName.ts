@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { getName } from '../core/getName';
 import type { Address, Chain } from 'viem';
 import type { GetNameReturnType } from '../types';
+import type { QueryOptions } from '@tanstack/react-query';
 
 type UseNameOptions = {
   address: Address; // The Ethereum address for which the ENS name is to be fetched.

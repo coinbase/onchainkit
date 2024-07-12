@@ -13,6 +13,7 @@ export function Name({
   address = null,
   className,
   children,
+  chain,
   ...props
 }: NameReact) {
   const { address: contextAddress } = useIdentityContext();
@@ -26,6 +27,7 @@ export function Name({
 
   const { data: name, isLoading } = useName({
     address: accountAddress,
+    chain,
   });
 
   const badge = useMemo(() => {

@@ -9,7 +9,6 @@ import { getNewReactQueryTestProvider } from './getNewReactQueryTestProvider';
 import { describe, beforeEach, it, expect, vi, type Mock } from 'vitest';
 import { base, optimism } from 'viem/chains';
 
-
 vi.mock('../../network/client');
 vi.mock('../../network/getChainPublicClient', () => ({
   ...vi.importActual('../../network/getChainPublicClient'),
@@ -20,7 +19,6 @@ describe('useName', () => {
   const mockGetEnsName = publicClient.getEnsName as Mock;
   const mockReadContract = publicClient.readContract as Mock;
   const testAddress = '0x123';
-
 
   beforeEach(() => {
     vi.clearAllMocks();
@@ -81,7 +79,7 @@ describe('useName', () => {
     });
   });
 
-  it('returns undefined unsupported chain ', async () => {
+  it('returns error for unsupported chain ', async () => {
     // Use the renderHook function to create a test harness for the useName hook
     const { result } = renderHook(
       () => useName({ address: testAddress, chain: optimism }),
@@ -94,6 +92,11 @@ describe('useName', () => {
     await waitFor(() => {
       // Check that the ENS name and loading state are correct
       expect(result.current.data).toBe(undefined);
+      expect(result.current.isLoading).toBe(false);
+      expect(result.current.isError).toBe(true);
+      expect(result.current.error).toBe(
+        'ChainId not supported, name resolution is only supported on Ethereum and Base.',
+      );
     });
   });
 });
