@@ -27,18 +27,23 @@ export const getName = async ({
     );
   }
 
-  const client = getChainPublicClient(chain);
+  let client = getChainPublicClient(chain);
 
   if (chainIsBase) {
     const addressReverseNode = convertReverseNodeToBytes(address);
-
-    const baseEnsName = await client.readContract({
+    const baseName = await client.readContract({
       abi: L2ResolverAbi,
       address: RESOLVER_ADDRESSES_BY_CHAIN_ID[chain.id],
       functionName: 'name',
       args: [addressReverseNode],
     });
-    return baseEnsName ?? null;
+
+    if (baseName) {
+      return baseName;
+    }
+
+    // Default to mainnet
+    client = getChainPublicClient(mainnet);
   }
 
   // ENS username

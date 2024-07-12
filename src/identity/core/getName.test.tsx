@@ -92,6 +92,17 @@ describe('getName', () => {
   it('should return null if user is not registered', async () => {
     const expectedEnsName = null;
     mockReadContract.mockResolvedValue(expectedEnsName);
+    mockGetEnsName.mockResolvedValue(expectedEnsName);
+    const name = await getName({ address: walletAddress, chain: base });
+    expect(name).toBe(expectedEnsName);
+    expect(getChainPublicClient).toHaveBeenCalledWith(base);
+  });
+
+  it('should default to ENS name if custom chain name is not registered', async () => {
+    const expectedBaseName = null;
+    const expectedEnsName = 'registered.eth';
+    mockReadContract.mockResolvedValue(expectedBaseName);
+    mockGetEnsName.mockResolvedValue(expectedEnsName);
     const name = await getName({ address: walletAddress, chain: base });
     expect(name).toBe(expectedEnsName);
     expect(getChainPublicClient).toHaveBeenCalledWith(base);
