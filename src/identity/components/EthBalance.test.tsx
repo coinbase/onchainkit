@@ -37,6 +37,8 @@ const useIdentityContextMock = mock(useIdentityContext);
 const useGetETHBalanceMock = mock(useGetETHBalance);
 
 describe('EthBalance', () => {
+  const testIdentityProviderAddress = '0xIdentityAddress';
+  const testEthBalanceComponentAddress = '0xEthBalanceComponentAddress';
   it('should throw an error if no address is provided', () => {
     useIdentityContextMock.mockReturnValue({ address: null });
 
@@ -50,7 +52,6 @@ describe('EthBalance', () => {
   });
 
   it('should display the balance if provided', () => {
-    const address = '0x1234567890abcdef';
     const balance = 1.23456789;
     useIdentityContextMock.mockReturnValue({ address: null });
     useGetETHBalanceMock.mockReturnValue({
@@ -59,13 +60,17 @@ describe('EthBalance', () => {
     });
     (getRoundedAmount as vi.Mock).mockReturnValue('1.2346');
 
-    render(<EthBalance address={address} className="custom-class" />);
+    render(
+      <EthBalance
+        address={testEthBalanceComponentAddress}
+        className="custom-class"
+      />,
+    );
 
     expect(screen.getByText('1.2346 ETH')).toBeInTheDocument();
   });
 
   it('should return null if balance is undefined or there is an error', () => {
-    const address = '0x1234567890abcdef';
     useIdentityContextMock.mockReturnValue({ address: null });
     useGetETHBalanceMock.mockReturnValue({
       convertedBalance: undefined,
@@ -73,8 +78,52 @@ describe('EthBalance', () => {
     });
 
     const { container } = render(
-      <EthBalance address={address} className="custom-class" />,
+      <EthBalance
+        address={testEthBalanceComponentAddress}
+        className="custom-class"
+      />,
     );
     expect(container.firstChild).toBeNull();
+  });
+
+  it('use identity context address if provided', () => {
+    const balance = 1.23456789;
+    useIdentityContextMock.mockReturnValue({
+      address: testIdentityProviderAddress,
+    });
+    useGetETHBalanceMock.mockReturnValue({
+      convertedBalance: balance,
+      error: null,
+    });
+    (getRoundedAmount as vi.Mock).mockReturnValue('1.2346');
+
+    render(<EthBalance className="custom-class" />);
+
+    expect(useGetETHBalanceMock).toHaveBeenCalledWith(
+      testIdentityProviderAddress,
+    );
+  });
+
+  it('use component address over identity context if both are provided', () => {
+    const balance = 1.23456789;
+    useIdentityContextMock.mockReturnValue({
+      address: testIdentityProviderAddress,
+    });
+    useGetETHBalanceMock.mockReturnValue({
+      convertedBalance: balance,
+      error: null,
+    });
+    (getRoundedAmount as vi.Mock).mockReturnValue('1.2346');
+
+    render(
+      <EthBalance
+        className="custom-class"
+        address={testEthBalanceComponentAddress}
+      />,
+    );
+
+    expect(useGetETHBalanceMock).toHaveBeenCalledWith(
+      testEthBalanceComponentAddress,
+    );
   });
 });

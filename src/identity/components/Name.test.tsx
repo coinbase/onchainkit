@@ -2,7 +2,7 @@
  * @vitest-environment jsdom
  */
 import React from 'react';
-import { vi } from 'vitest';
+import { vi, type Mock } from 'vitest';
 import '@testing-library/jest-dom';
 import { render, screen, waitFor } from '@testing-library/react';
 import { getSlicedAddress } from '../getSlicedAddress';
@@ -11,7 +11,7 @@ import { useAttestations } from '../hooks/useAttestations';
 import { Name } from './Name';
 import { Badge } from './Badge';
 import { useIdentityContext } from './IdentityProvider';
-import { baseSepolia } from 'viem/chains';
+import { base, baseSepolia, optimism } from 'viem/chains';
 
 const silenceError = () => {
   const consoleErrorMock = vi
@@ -39,9 +39,12 @@ vi.mock('../hooks/useAttestations', () => ({
 const mockSliceAddress = (addr: string) =>
   `${addr.slice(0, 6)}...${addr.slice(-4)}`;
 
-describe('OnchainAddress', () => {
-  const testAddress = '0x1234567890abcdef1234567890abcdef12345678';
+describe('Name', () => {
   const testName = 'testname.eth';
+  const testIdentityProviderAddress = '0xIdentityAddress';
+  const testNameComponentAddress = '0xNameComponentAddress';
+
+  const mockUseName = useName as Mock;
 
   beforeEach(() => {
     vi.clearAllMocks();
@@ -65,23 +68,101 @@ describe('OnchainAddress', () => {
     (useIdentityContext as vi.Mock).mockReturnValue({
       schemaId: '0x123',
     });
-    (useName as vi.Mock).mockReturnValue({
+    mockUseName.mockReturnValue({
       data: testName,
       isLoading: false,
     });
-    render(<Name address={testAddress} />);
+    render(<Name address={testNameComponentAddress} />);
     expect(screen.getByText(testName)).toBeInTheDocument();
+  });
+
+  it('use identity context address if provided', () => {
+    (useIdentityContext as vi.Mock).mockReturnValue({
+      schemaId: '0x123',
+      address: testIdentityProviderAddress,
+    });
+
+    mockUseName.mockReturnValue({
+      data: testName,
+      isLoading: false,
+    });
+
+    render(<Name />);
+
+    expect(mockUseName).toHaveBeenCalledWith({
+      address: testIdentityProviderAddress,
+      chain: undefined,
+    });
+  });
+
+  it('use identity context chain if provided', () => {
+    (useIdentityContext as vi.Mock).mockReturnValue({
+      schemaId: '0x123',
+      chain: optimism,
+    });
+
+    mockUseName.mockReturnValue({
+      data: testName,
+      isLoading: false,
+    });
+
+    render(<Name address={testNameComponentAddress} />);
+
+    expect(mockUseName).toHaveBeenCalledWith({
+      address: testNameComponentAddress,
+      chain: optimism,
+    });
+  });
+
+  it('use component address over identity context if both are provided', () => {
+    (useIdentityContext as vi.Mock).mockReturnValue({
+      schemaId: '0x123',
+      chain: optimism,
+      address: testIdentityProviderAddress,
+    });
+
+    mockUseName.mockReturnValue({
+      data: testName,
+      isLoading: false,
+    });
+
+    render(<Name address={testNameComponentAddress} />);
+
+    expect(mockUseName).toHaveBeenCalledWith({
+      address: testNameComponentAddress,
+      chain: optimism,
+    });
+  });
+
+  it('use component chain over identity context if both are provided', () => {
+    (useIdentityContext as vi.Mock).mockReturnValue({
+      schemaId: '0x123',
+      chain: optimism,
+      address: testIdentityProviderAddress,
+    });
+
+    mockUseName.mockReturnValue({
+      data: testName,
+      isLoading: false,
+    });
+
+    render(<Name address={testNameComponentAddress} chain={base} />);
+
+    expect(mockUseName).toHaveBeenCalledWith({
+      address: testNameComponentAddress,
+      chain: base,
+    });
   });
 
   it('displays custom chain ENS name when available', () => {
     (useIdentityContext as vi.Mock).mockReturnValue({
       schemaId: '0x123',
     });
-    (useName as vi.Mock).mockReturnValue({
+    mockUseName.mockReturnValue({
       data: testName,
       isLoading: false,
     });
-    render(<Name address={testAddress} chain={baseSepolia} />);
+    render(<Name address={testNameComponentAddress} chain={baseSepolia} />);
     expect(screen.getByText(testName)).toBeInTheDocument();
   });
 
@@ -89,34 +170,34 @@ describe('OnchainAddress', () => {
     (useIdentityContext as vi.Mock).mockReturnValue({
       schemaId: '0x123',
     });
-    (useName as vi.Mock).mockReturnValue({
+    mockUseName.mockReturnValue({
       data: null,
       isLoading: false,
     });
-    const { container } = render(<Name address={testAddress} />);
+    const { container } = render(<Name address={testNameComponentAddress} />);
     expect(container.firstChild).toBeNull();
   });
 
   it('displays empty when ens still fetching', () => {
-    (useName as vi.Mock).mockReturnValue({ data: null, isLoading: true });
-    render(<Name address={testAddress} />);
+    mockUseName.mockReturnValue({ data: null, isLoading: true });
+    render(<Name address={testNameComponentAddress} />);
     expect(screen.queryByText(testName)).not.toBeInTheDocument();
     expect(getSlicedAddress).toHaveBeenCalledTimes(0);
   });
 
   it('renders badge when Badge is passed, user is attested and address set in Identity', async () => {
     (useIdentityContext as vi.Mock).mockReturnValue({
-      address: testAddress,
+      address: testNameComponentAddress,
       schemaId: '0x123',
     });
     (useAttestations as vi.Mock).mockReturnValue(['attestation']);
-    (useName as vi.Mock).mockReturnValue({
+    mockUseName.mockReturnValue({
       data: 'ens_name',
       isLoading: false,
     });
 
     render(
-      <Name address={testAddress}>
+      <Name address={testNameComponentAddress}>
         <Badge />
       </Name>,
     );
@@ -132,14 +213,14 @@ describe('OnchainAddress', () => {
       schemaId: '0x123',
     });
     (useAttestations as vi.Mock).mockReturnValue(['attestation']);
-    (useName as vi.Mock).mockReturnValue({
-      address: testAddress,
+    mockUseName.mockReturnValue({
+      address: testNameComponentAddress,
       data: 'ens_name',
       isLoading: false,
     });
 
     render(
-      <Name address={testAddress}>
+      <Name address={testNameComponentAddress}>
         <Badge />
       </Name>,
     );

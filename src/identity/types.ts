@@ -122,6 +122,7 @@ export type GetNameReturnType = string | null;
  */
 export type IdentityContextType = {
   address: Address; // The Ethereum address to fetch the avatar and name for.
+  chain?: Chain; // Optional chain for domain resolution
   schemaId?: Address | null; // The Ethereum address of the schema to use for EAS attestation.
   setAddress: Dispatch<SetStateAction<Address>>;
 };
@@ -129,8 +130,19 @@ export type IdentityContextType = {
 /**
  * Note: exported as public Type
  */
+export type IdentityProviderReact = {
+  address?: Address;
+  children: ReactNode;
+  schemaId?: Address | null;
+  chain?: Chain;
+};
+
+/**
+ * Note: exported as public Type
+ */
 export type IdentityReact = {
   address?: Address; // The Ethereum address to fetch the avatar and name for.
+  chain?: Chain; // Optional chain for domain resolution
   children: ReactNode;
   className?: string; // Optional className override for top div element.
   schemaId?: Address | null; // The Ethereum address of the schema to use for EAS attestation.
@@ -143,8 +155,8 @@ export type IdentityReact = {
 export type NameReact = {
   address?: Address | null; // Ethereum address to be displayed.
   children?: ReactNode; // Optional attestation by passing Badge component as its children
-  className?: string; // Optional className override for top span element.
   chain?: Chain; // Optional chain for domain resolution
+  className?: string; // Optional className override for top span element.
 } & HTMLAttributes<HTMLSpanElement>; // Optional additional span attributes to apply to the name.
 
 /**
