@@ -103,6 +103,7 @@ export function SwapProvider({
   // For sending the swap transaction (and approval, if applicable)
   const { sendTransactionAsync } = useSendTransaction();
 
+  // Wagmi config, used for waitForTransactionReceipt
   const config = useConfig();
 
   /* istanbul ignore next */
