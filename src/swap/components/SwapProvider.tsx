@@ -100,6 +100,7 @@ export function SwapProvider({
 
   const { from, to } = useFromTo(address);
 
+  // For sending the swap transaction (and approval, if applicable)
   const { sendTransactionAsync } = useSendTransaction();
 
   const config = useConfig();
