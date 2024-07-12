@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.25.1
+
+### Patch Changes
+
+- 7ef7bac: - **fix**: modified `getName` to default to ENS name when custom chain name is not available. By @kirkas #792
+
 ## 0.25.0
 
 ### Minor Changes
