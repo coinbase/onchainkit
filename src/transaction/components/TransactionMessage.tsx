@@ -3,7 +3,8 @@ import { useTransactionContext } from './TransactionProvider';
 import type { TransactionMessageReact } from '../types';
 
 export function TransactionMessage({ className }: TransactionMessageReact) {
-  const { gasFee, isLoading, transactionId } = useTransactionContext();
+  const { address, contracts, gasFee, isLoading, transactionId } =
+    useTransactionContext();
 
   if (transactionId) {
     return (
@@ -41,12 +42,16 @@ export function TransactionMessage({ className }: TransactionMessageReact) {
     );
   }
 
-  return (
-    <div
-      className={cn('flex pt-2 justify-between', text.label2, className)}
-      data-testid="ockTransactionMessage_Message"
-    >
-      Complete the required fields to continue.
-    </div>
-  );
+  if (!contracts || !address) {
+    return (
+      <div
+        className={cn('flex pt-2 justify-between', text.label2, className)}
+        data-testid="ockTransactionMessage_Message"
+      >
+        Complete the required fields to continue.
+      </div>
+    );
+  }
+
+  return null;
 }
