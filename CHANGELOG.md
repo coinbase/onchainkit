@@ -4,18 +4,18 @@
 
 ### Patch Changes
 
-- beed765: - **feat**: Added `chain` option to `useName` function for L2 chain name resolution support. By @kirkas #781
-  - **feat**: Added `chain` option to `<Name>` component for L2 chain name resolution support. By @kirkas #781
-  - **fix**: Modified `getName` to return a rejected promise instead of an error. By @kirkas #781
-  - **fix**: Disabled `retry` in `getNewReactQueryTestProvider` to run tests faster and avoid timeouts. By @kirkas #781
+- **feat**: Added `chain` option to `useName` function for L2 chain name resolution support. By @kirkas #781 beed765
+- **feat**: Added `chain` option to `<Name>` component for L2 chain name resolution support. By @kirkas #781
+- **fix**: Modified `getName` to return a rejected promise instead of an error. By @kirkas #781
+- **fix**: Disabled `retry` in `getNewReactQueryTestProvider` to run tests faster and avoid timeouts. By @kirkas #781
 
 ## 0.24.4
 
 ### Patch Changes
 
-- 19fd6b8: - **feat**: added `chain` option to `getName`, this will help add ENS support for L2 chains. By @kirkas #773
-  - **feat**: added `isEthereum` function, to help check if a chain is L1. By @kirkas #773
-  - **chore**: simplified type for `getAttestations`. By @zizzamia
+- **feat**: added `chain` option to `getName`, this will help add ENS support for L2 chains. By @kirkas #773 19fd6b8
+- **feat**: added `isEthereum` function, to help check if a chain is L1. By @kirkas #773
+- **chore**: simplified type for `getAttestations`. By @zizzamia
 
 ## 0.24.3
 
