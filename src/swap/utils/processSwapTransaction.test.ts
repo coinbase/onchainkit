@@ -1,4 +1,4 @@
-import { processSwapTransaction } from './SwapProvider';
+import { processSwapTransaction } from './processSwapTransaction';
 import type { BuildSwapTransaction } from '../types';
 import { createConfig, http } from 'wagmi';
 import { mainnet, sepolia } from 'wagmi/chains';
