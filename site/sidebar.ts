@@ -91,7 +91,6 @@ export const sidebar = [
   {
     text: 'Identity',
     items: [
-      { text: 'Introduction', link: '/identity/introduction' },
       {
         text: 'Components',
         items: [
@@ -148,7 +147,6 @@ export const sidebar = [
         link: '/identity/types',
       },
     ],
-    link: '/identity/introduction',
   },
   {
     text: 'Swap',
@@ -186,7 +184,6 @@ export const sidebar = [
   {
     text: 'Token',
     items: [
-      { text: 'Introduction', link: '/token/introduction' },
       {
         text: 'Components',
         items: [
@@ -231,7 +228,6 @@ export const sidebar = [
         link: '/token/types',
       },
     ],
-    link: '/token/introduction',
   },
   {
     text: 'Wallet',
@@ -271,10 +267,6 @@ export const sidebar = [
     collapsed: true,
     items: [
       {
-        text: 'Introduction',
-        link: '/farcaster/introduction',
-      },
-      {
         text: 'Utilities',
         items: [
           {
@@ -288,13 +280,11 @@ export const sidebar = [
         link: '/farcaster/types',
       },
     ],
-    link: '/farcaster/introduction',
   },
   {
     text: 'XMTP',
     collapsed: true,
     items: [
-      { text: 'Introduction', link: '/xmtp/introduction' },
       {
         text: 'Utilities',
         items: [
@@ -309,6 +299,5 @@ export const sidebar = [
         ],
       },
     ],
-    link: '/xmtp/introduction',
   },
 ] as const satisfies Sidebar;
