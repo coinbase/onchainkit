@@ -30,7 +30,7 @@ export function Avatar({
 
   // The component first attempts to retrieve the ENS name and avatar for the given Ethereum address.
   const { data: name, isLoading: isLoadingName } = useName({
-    address: contextAddress ?? address,
+    address: address ?? contextAddress,
   });
   const { data: avatar, isLoading: isLoadingAvatar } = useAvatar(
     { ensName: name ?? '' },
@@ -80,7 +80,7 @@ export function Avatar({
         )}
       </div>
       {badge && (
-        <DisplayBadge address={contextAddress ?? address}>
+        <DisplayBadge address={address ?? contextAddress}>
           <div
             data-testid="ockAvatar_BadgeContainer"
             className="-bottom-0.5 -right-0.5 absolute flex h-[15px] w-[15px] items-center justify-center rounded-full bg-transparent"

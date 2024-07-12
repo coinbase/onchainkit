@@ -12,6 +12,11 @@ import { useAttestations } from '../hooks/useAttestations';
 import { useAvatar } from '../hooks/useAvatar';
 import { Avatar } from './Avatar';
 import { Badge } from './Badge';
+import { useIdentityContext } from './IdentityProvider';
+
+function mock<T>(func: T) {
+  return func as vi.Mock;
+}
 
 const silenceError = () => {
   const consoleErrorMock = vi
@@ -35,12 +40,26 @@ vi.mock('../hooks/useName', () => ({
   useName: vi.fn(),
 }));
 
+vi.mock('./IdentityProvider', () => ({
+  useIdentityContext: vi.fn(),
+}));
+
+const useIdentityContextMock = mock(useIdentityContext);
+const useAvatarMock = mock(useAvatar);
+const useNameMock = mock(useName);
+const useOnchainKitMock = mock(useOnchainKit);
+const useAttestationsMock = mock(useAttestations);
+
 describe('Avatar Component', () => {
+  const testIdentityProviderAddress = '0xIdentityAddress';
+  const testAvatarComponentAddress = '0xAvatarComponentAddress';
+
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
   it('should throw an error when no address is provided', () => {
+    useIdentityContextMock.mockReturnValue({ address: null });
     const restore = silenceError();
     expect(() => {
       render(<Avatar />);
@@ -51,10 +70,11 @@ describe('Avatar Component', () => {
   });
 
   it('should display loading indicator when loading', async () => {
-    (useAvatar as vi.Mock).mockReturnValue({ data: null, isLoading: true });
-    (useName as vi.Mock).mockReturnValue({ data: null, isLoading: true });
+    useIdentityContextMock.mockReturnValue({ address: null });
+    useAvatarMock.mockReturnValue({ data: null, isLoading: true });
+    useNameMock.mockReturnValue({ data: null, isLoading: true });
 
-    render(<Avatar address="0x123" />);
+    render(<Avatar address={testAvatarComponentAddress} />);
 
     await waitFor(() => {
       const svgElement = screen.getByTestId('ockAvatarLoadingSvg');
@@ -63,10 +83,11 @@ describe('Avatar Component', () => {
   });
 
   it('should display default avatar when no ENS name or avatar is available', async () => {
-    (useAvatar as vi.Mock).mockReturnValue({ data: null, isLoading: false });
-    (useName as vi.Mock).mockReturnValue({ data: null, isLoading: false });
+    useIdentityContextMock.mockReturnValue({ address: null });
+    useAvatarMock.mockReturnValue({ data: null, isLoading: false });
+    useNameMock.mockReturnValue({ data: null, isLoading: false });
 
-    render(<Avatar address="0x123" />);
+    render(<Avatar address={testAvatarComponentAddress} />);
 
     await waitFor(() => {
       const defaultAvatarElement = screen.getByTestId('ockAvatarDefaultSvg');
@@ -75,16 +96,19 @@ describe('Avatar Component', () => {
   });
 
   it('should display ENS avatar when available', async () => {
-    (useAvatar as vi.Mock).mockReturnValue({
+    useIdentityContextMock.mockReturnValue({ address: null });
+    useAvatarMock.mockReturnValue({
       data: 'avatar_url',
       isLoading: false,
     });
-    (useName as vi.Mock).mockReturnValue({
+    useNameMock.mockReturnValue({
       data: 'ens_name',
       isLoading: false,
     });
 
-    render(<Avatar address="0x123" className="custom-class" />);
+    render(
+      <Avatar address={testAvatarComponentAddress} className="custom-class" />,
+    );
 
     await waitFor(() => {
       const imgElement = screen.getByTestId('ockAvatar_Image');
@@ -96,15 +120,19 @@ describe('Avatar Component', () => {
   });
 
   it('renders custom loading component when provided', () => {
-    (useAvatar as vi.Mock).mockReturnValue({ data: null, isLoading: true });
-    (useName as vi.Mock).mockReturnValue({ data: null, isLoading: true });
+    useIdentityContextMock.mockReturnValue({ address: null });
+    useAvatarMock.mockReturnValue({ data: null, isLoading: true });
+    useNameMock.mockReturnValue({ data: null, isLoading: true });
 
     const CustomLoadingComponent = (
       <div data-testid="ockAvatarCustomLoading">Loading...</div>
     );
 
     render(
-      <Avatar address="0x123" loadingComponent={CustomLoadingComponent} />,
+      <Avatar
+        address={testAvatarComponentAddress}
+        loadingComponent={CustomLoadingComponent}
+      />,
     );
 
     const customLoadingElement = screen.getByTestId('ockAvatarCustomLoading');
@@ -113,15 +141,19 @@ describe('Avatar Component', () => {
   });
 
   it('renders custom default component when no ENS name or avatar is available', () => {
-    (useAvatar as vi.Mock).mockReturnValue({ data: null, isLoading: false });
-    (useName as vi.Mock).mockReturnValue({ data: null, isLoading: false });
+    useIdentityContextMock.mockReturnValue({ address: null });
+    useAvatarMock.mockReturnValue({ data: null, isLoading: false });
+    useNameMock.mockReturnValue({ data: null, isLoading: false });
 
     const CustomDefaultComponent = (
       <div data-testid="ockAvatarCustomDefault">Default Avatar</div>
     );
 
     render(
-      <Avatar address="0x123" defaultComponent={CustomDefaultComponent} />,
+      <Avatar
+        address={testAvatarComponentAddress}
+        defaultComponent={CustomDefaultComponent}
+      />,
     );
 
     const customDefaultElement = screen.getByTestId('ockAvatarCustomDefault');
@@ -130,22 +162,23 @@ describe('Avatar Component', () => {
   });
 
   it('renders badge when Badge is passed as a child is true', async () => {
-    (useOnchainKit as vi.Mock).mockReturnValue({
+    useIdentityContextMock.mockReturnValue({ address: null });
+    useOnchainKitMock.mockReturnValue({
       chain: base,
       schemaId: '0xschema',
     });
-    (useAttestations as vi.Mock).mockReturnValue([{}]);
-    (useAvatar as vi.Mock).mockReturnValue({
+    useAttestationsMock.mockReturnValue([{}]);
+    useAvatarMock.mockReturnValue({
       data: 'avatar_url',
       isLoading: false,
     });
-    (useName as vi.Mock).mockReturnValue({
+    useNameMock.mockReturnValue({
       data: 'ens_name',
       isLoading: false,
     });
 
     render(
-      <Avatar address="0x123">
+      <Avatar address={testAvatarComponentAddress}>
         <Badge />
       </Avatar>,
     );
@@ -155,6 +188,30 @@ describe('Avatar Component', () => {
       expect(inner).toBeInTheDocument();
       const badge = screen.getByTestId('ockBadge');
       expect(badge).toBeInTheDocument();
+    });
+  });
+
+  it('use identity context address if provided', () => {
+    useIdentityContextMock.mockReturnValue({
+      address: testIdentityProviderAddress,
+    });
+
+    render(<Avatar />);
+
+    expect(useNameMock).toHaveBeenCalledWith({
+      address: testIdentityProviderAddress,
+    });
+  });
+
+  it('use component address over identity context if both are provided', () => {
+    useIdentityContextMock.mockReturnValue({
+      address: testIdentityProviderAddress,
+    });
+
+    render(<Avatar address={testAvatarComponentAddress} />);
+
+    expect(useNameMock).toHaveBeenCalledWith({
+      address: testAvatarComponentAddress,
     });
   });
 });

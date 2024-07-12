@@ -34,7 +34,9 @@ const mockGetSlicedAddress = (addr: string) =>
   `${addr.slice(0, 5)}...${addr.slice(-4)}`;
 
 describe('Address component', () => {
-  const mockAddress = '0x1234567890abcdef1234567890abcdef12345678';
+  const testIdentityProviderAddress = '0xIdentityAddress';
+  const testAddressComponentAddress =
+    '0x1234567890abcdef1234567890abcdef12345678';
 
   beforeEach(() => {
     vi.clearAllMocks();
@@ -52,42 +54,68 @@ describe('Address component', () => {
   });
 
   it('renders the sliced address when address supplied to Identity', () => {
-    useIdentityContextMock.mockReturnValue({ address: mockAddress });
+    useIdentityContextMock.mockReturnValue({
+      address: testAddressComponentAddress,
+    });
     (getSlicedAddress as vi.Mock).mockReturnValue(
-      mockGetSlicedAddress(mockAddress),
+      mockGetSlicedAddress(testAddressComponentAddress),
     );
 
     const { getByText } = render(<Address />);
-    expect(getByText(mockGetSlicedAddress(mockAddress))).toBeInTheDocument();
+    expect(
+      getByText(mockGetSlicedAddress(testAddressComponentAddress)),
+    ).toBeInTheDocument();
   });
 
   it('renders the sliced address when address supplied to Identity', () => {
     useIdentityContextMock.mockReturnValue({});
     (getSlicedAddress as vi.Mock).mockReturnValue(
-      mockGetSlicedAddress(mockAddress),
+      mockGetSlicedAddress(testAddressComponentAddress),
     );
 
-    const { getByText } = render(<Address address={mockAddress} />);
-    expect(getByText(mockGetSlicedAddress(mockAddress))).toBeInTheDocument();
+    const { getByText } = render(
+      <Address address={testAddressComponentAddress} />,
+    );
+    expect(
+      getByText(mockGetSlicedAddress(testAddressComponentAddress)),
+    ).toBeInTheDocument();
   });
 
   it('displays sliced address when ENS name is not available and isSliced is set to true', () => {
     useIdentityContextMock.mockReturnValue({});
     (getSlicedAddress as vi.Mock).mockReturnValue(
-      mockGetSlicedAddress(mockAddress),
+      mockGetSlicedAddress(testAddressComponentAddress),
     );
 
-    render(<Address address={mockAddress} isSliced={true} />);
+    render(<Address address={testAddressComponentAddress} isSliced={true} />);
     expect(
-      screen.getByText(mockGetSlicedAddress(mockAddress)),
+      screen.getByText(mockGetSlicedAddress(testAddressComponentAddress)),
     ).toBeInTheDocument();
-    expect(getSlicedAddress).toHaveBeenCalledWith(mockAddress);
+    expect(getSlicedAddress).toHaveBeenCalledWith(testAddressComponentAddress);
   });
 
   it('displays full address when isSliced is false and ENS name is not available', () => {
     useIdentityContextMock.mockReturnValue({});
-    render(<Address address={mockAddress} isSliced={false} />);
-    expect(screen.getByText(mockAddress)).toBeInTheDocument();
+    render(<Address address={testAddressComponentAddress} isSliced={false} />);
+    expect(screen.getByText(testAddressComponentAddress)).toBeInTheDocument();
+    expect(getSlicedAddress).not.toHaveBeenCalled();
+  });
+
+  it('use identity context address if provided', () => {
+    useIdentityContextMock.mockReturnValue({
+      address: testIdentityProviderAddress,
+    });
+    render(<Address isSliced={false} />);
+    expect(screen.getByText(testIdentityProviderAddress)).toBeInTheDocument();
+    expect(getSlicedAddress).not.toHaveBeenCalled();
+  });
+
+  it('use component address over identity context if both are provided', () => {
+    useIdentityContextMock.mockReturnValue({
+      address: testIdentityProviderAddress,
+    });
+    render(<Address address={testAddressComponentAddress} isSliced={false} />);
+    expect(screen.getByText(testAddressComponentAddress)).toBeInTheDocument();
     expect(getSlicedAddress).not.toHaveBeenCalled();
   });
 });

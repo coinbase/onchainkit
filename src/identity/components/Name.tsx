@@ -23,8 +23,8 @@ export function Name({
     );
   }
 
-  const accountAddress = contextAddress ?? address;
-  const accountChain = contextChain ?? chain;
+  const accountAddress = address ?? contextAddress;
+  const accountChain = chain ?? contextChain;
 
   const { data: name, isLoading } = useName({
     address: accountAddress,

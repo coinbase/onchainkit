@@ -12,7 +12,7 @@ export function EthBalance({ address, className }: EthBalanceReact) {
   }
 
   const { convertedBalance: balance, error } = useGetETHBalance(
-    contextAddress ?? address,
+    address ?? contextAddress,
   );
 
   if (!balance || error) {

@@ -24,9 +24,9 @@ export function IdentityProvider(props: IdentityProvider) {
   const { chain: contextChain } = useOnchainKit();
   const value = useValue({
     address,
+    chain: props.chain ?? contextChain,
     schemaId: props.schemaId,
     setAddress,
-    chain: props.chain || contextChain,
   });
 
   return (

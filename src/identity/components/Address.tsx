@@ -15,7 +15,7 @@ export function Address({
     );
   }
 
-  const accountAddress = contextAddress ?? address;
+  const accountAddress = address ?? contextAddress;
 
   return (
     <span data-testid="ockAddress" className={cn(text.label2, className)}>
