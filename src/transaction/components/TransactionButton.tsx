@@ -1,8 +1,7 @@
-import { useCallback, useState } from 'react';
+import { useCallback } from 'react';
 import { background, cn, pressable, text } from '../../styles/theme';
 import { useTransactionContext } from './TransactionProvider';
-import { WriteContractsErrorType, writeContracts } from 'viem/experimental';
-import { useWriteContract } from 'wagmi';
+import { writeContracts } from 'viem/experimental';
 import { useConfig } from 'wagmi';
 import { base } from 'viem/chains';
 import type { TransactionButtonReact } from '../types';
@@ -21,9 +20,8 @@ export function TransactionButton({
     transactionId,
     setTransactionId,
   } = useTransactionContext();
-  const wagmiConfig = useConfig();
 
-  const { writeContract } = useWriteContract();
+  const wagmiConfig = useConfig();
 
   const handleSubmit = useCallback(async () => {
     try {
@@ -46,7 +44,8 @@ export function TransactionButton({
     }
   }, []);
 
-  const isDisabled = false;
+  // TODO: should disable if transactionId exists ?
+  const isDisabled = isLoading || !contracts || !address || transactionId;
 
   return (
     <button
