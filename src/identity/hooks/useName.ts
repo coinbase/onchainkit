@@ -1,19 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { getName } from '../core/getName';
-import type { Address, Chain } from 'viem';
-import type { GetNameReturnType } from '../types';
-import type { QueryOptions } from '@tanstack/react-query';
-
-type UseNameOptions = {
-  address: Address; // The Ethereum address for which the ENS name is to be fetched.
-  chain?: Chain;
-};
-
-// Additional query options, including `enabled` and `cacheTime`
-type UseNameQueryOptions = {
-  enabled?: boolean; // Whether the query should be enabled. Defaults to true.
-  cacheTime?: number; // Cache time in milliseconds.
-};
+import type { GetNameReturnType, UseNameOptions, UseNameQueryOptions } from '../types';
 
 /**
  * It leverages the `@tanstack/react-query` hook for fetching and optionally caching the ENS name
