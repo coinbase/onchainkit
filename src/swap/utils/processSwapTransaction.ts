@@ -1,4 +1,4 @@
-import { type Config } from 'wagmi';
+import type { Config } from 'wagmi';
 import { waitForTransactionReceipt } from 'wagmi/actions';
 import type { SendTransactionMutateAsync } from 'wagmi/query';
 import type { BuildSwapTransaction } from '../types';
