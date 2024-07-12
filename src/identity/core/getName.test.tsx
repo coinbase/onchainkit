@@ -100,7 +100,7 @@ describe('getName', () => {
   it('should throw an error on unsupported chain', async () => {
     await expect(
       getName({ address: walletAddress, chain: optimism }),
-    ).rejects.toThrow(
+    ).rejects.toBe(
       'ChainId not supported, name resolution is only supported on Ethereum and Base.',
     );
   });

@@ -120,6 +120,23 @@ export type GetNameReturnType = string | null;
 /**
  * Note: exported as public Type
  */
+export type UseNameOptions = {
+  address: Address; // The Ethereum address for which the ENS name is to be fetched.
+  chain?: Chain; // Optional chain for domain resolution
+};
+
+/**
+ * Note: exported as public Type
+ * Additional query options, including `enabled` and `cacheTime`
+ */
+export type UseNameQueryOptions = {
+  enabled?: boolean; // Whether the query should be enabled. Defaults to true.
+  cacheTime?: number; // Cache time in milliseconds.
+};
+
+/**
+ * Note: exported as public Type
+ */
 export type IdentityContextType = {
   address: Address; // The Ethereum address to fetch the avatar and name for.
   schemaId?: Address | null; // The Ethereum address of the schema to use for EAS attestation.
@@ -144,6 +161,7 @@ export type NameReact = {
   address?: Address | null; // Ethereum address to be displayed.
   children?: ReactNode; // Optional attestation by passing Badge component as its children
   className?: string; // Optional className override for top span element.
+  chain?: Chain; // Optional chain for domain resolution
 } & HTMLAttributes<HTMLSpanElement>; // Optional additional span attributes to apply to the name.
 
 /**

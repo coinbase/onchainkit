@@ -11,6 +11,7 @@ import { useAttestations } from '../hooks/useAttestations';
 import { Name } from './Name';
 import { Badge } from './Badge';
 import { useIdentityContext } from './IdentityProvider';
+import { baseSepolia } from 'viem/chains';
 
 const silenceError = () => {
   const consoleErrorMock = vi
@@ -69,6 +70,18 @@ describe('OnchainAddress', () => {
       isLoading: false,
     });
     render(<Name address={testAddress} />);
+    expect(screen.getByText(testName)).toBeInTheDocument();
+  });
+
+  it('displays custom chain ENS name when available', () => {
+    (useIdentityContext as vi.Mock).mockReturnValue({
+      schemaId: '0x123',
+    });
+    (useName as vi.Mock).mockReturnValue({
+      data: testName,
+      isLoading: false,
+    });
+    render(<Name address={testAddress} chain={baseSepolia} />);
     expect(screen.getByText(testName)).toBeInTheDocument();
   });
 

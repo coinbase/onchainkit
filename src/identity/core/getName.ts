@@ -22,7 +22,7 @@ export const getName = async ({
   const chainSupportsUniversalResolver = chainIsEthereum || chainIsBase;
 
   if (!chainSupportsUniversalResolver) {
-    throw Error(
+    return Promise.reject(
       'ChainId not supported, name resolution is only supported on Ethereum and Base.',
     );
   }

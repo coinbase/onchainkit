@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Name } from './Name';
+import { baseSepolia, optimism } from 'viem/chains';
 
 const meta = {
   title: 'Identity/Name',
@@ -31,5 +32,19 @@ export const Sliced: Story = {
   args: {
     address: '0x1234567891234567881234567891234567891234',
     sliced: true,
+  },
+};
+
+export const BaseSepolia: Story = {
+  args: {
+    address: '0x8c8F1a1e1bFdb15E7ed562efc84e5A588E68aD73',
+    chain: baseSepolia,
+  },
+};
+
+export const UnsupportedChain: Story = {
+  args: {
+    address: '0x8c8F1a1e1bFdb15E7ed562efc84e5A588E68aD73',
+    chain: optimism,
   },
 };
