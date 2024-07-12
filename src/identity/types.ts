@@ -17,6 +17,24 @@ export type AddressReact = {
 };
 
 /**
+ * Ethereum Attestation Service (EAS) Attestation
+ * GraphQL response for EAS Attestation
+ *
+ * Note: exported as public Type
+ */
+export type Attestation = {
+  attester: Address; // the attester who created the attestation.
+  decodedDataJson: string; // The attestation data decoded to JSON.
+  expirationTime: number; // The Unix timestamp when the attestation expires (0 for no expiration).
+  id: string; // The unique identifier of the attestation.
+  recipient: Address; // The Ethereum address of the recipient of the attestation.
+  revocationTime: number; // The Unix timestamp when the attestation was revoked, if applicable.
+  revoked: boolean; // A boolean indicating whether the attestation is revoked or not.
+  schemaId: EASSchemaUid; // The schema identifier associated with the attestation.
+  time: number; // The Unix timestamp when the attestation was created.
+};
+
+/**
  * Note: exported as public Type
  */
 export type AvatarReact = {
@@ -41,24 +59,6 @@ export type BadgeReact = {
  * Note: exported as public Type
  */
 export type EASSchemaUid = `0x${string}`;
-
-/**
- * Ethereum Attestation Service (EAS) Attestation
- * GraphQL response for EAS Attestation
- *
- * Note: exported as public Type
- */
-export type Attestation = {
-  attester: Address; // the attester who created the attestation.
-  decodedDataJson: string; // The attestation data decoded to JSON.
-  expirationTime: number; // The Unix timestamp when the attestation expires (0 for no expiration).
-  id: string; // The unique identifier of the attestation.
-  recipient: Address; // The Ethereum address of the recipient of the attestation.
-  revocationTime: number; // The Unix timestamp when the attestation was revoked, if applicable.
-  revoked: boolean; // A boolean indicating whether the attestation is revoked or not.
-  schemaId: EASSchemaUid; // The schema identifier associated with the attestation.
-  time: number; // The Unix timestamp when the attestation was created.
-};
 
 /**
  * Ethereum Attestation Service (EAS) Chain Definition
@@ -120,23 +120,6 @@ export type GetNameReturnType = string | null;
 /**
  * Note: exported as public Type
  */
-export type UseNameOptions = {
-  address: Address; // The Ethereum address for which the ENS name is to be fetched.
-  chain?: Chain; // Optional chain for domain resolution
-};
-
-/**
- * Note: exported as public Type
- * Additional query options, including `enabled` and `cacheTime`
- */
-export type UseNameQueryOptions = {
-  enabled?: boolean; // Whether the query should be enabled. Defaults to true.
-  cacheTime?: number; // Cache time in milliseconds.
-};
-
-/**
- * Note: exported as public Type
- */
 export type IdentityContextType = {
   address: Address; // The Ethereum address to fetch the avatar and name for.
   schemaId?: Address | null; // The Ethereum address of the schema to use for EAS attestation.
@@ -173,4 +156,21 @@ export type UseAttestations = {
   address: Address;
   chain: Chain;
   schemaId: Address | null;
+};
+
+/**
+ * Note: exported as public Type
+ */
+export type UseNameOptions = {
+  address: Address; // The Ethereum address for which the ENS name is to be fetched.
+  chain?: Chain; // Optional chain for domain resolution
+};
+
+/**
+ * Note: exported as public Type
+ * Additional query options, including `enabled` and `cacheTime`
+ */
+export type UseNameQueryOptions = {
+  enabled?: boolean; // Whether the query should be enabled. Defaults to true.
+  cacheTime?: number; // Cache time in milliseconds.
 };
