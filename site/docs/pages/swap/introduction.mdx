@@ -1,0 +1,109 @@
+---
+title: Swap components & utilities · OnchainKit
+description: Introduction to Swap components & utilities
+---
+import App from '../../components/App';
+import { Avatar, Name } from '@coinbase/onchainkit/identity';
+import { Swap, SwapAmountInput, SwapButton, SwapMessage, SwapToggleButton } from '@coinbase/onchainkit/swap';
+import { Wallet, ConnectWallet } from '@coinbase/onchainkit/wallet';
+import SwapWrapper from '../../components/SwapWrapper';
+
+# Introduction to Swap components & utilities
+
+OnchainKit provides TypeScript utilities and React components to help you build applications to execute Token swaps.
+
+## Components
+
+The available components are:
+
+- `<Swap />` - Set the user's address and error handling.
+- `<SwapAmountInput />` - Set the [Token](/token/types#token) to swap and specify the input type (`from` or `to`).
+- `<SwapToggleButton />` - Optional component to toggle between input types.
+- `<SwapMessage />` - Optional component that displays a message related to the swap operation's current state.
+- `<SwapButton />` - Set the onSubmit and onError callbacks.
+
+```tsx
+<Swap address={address}> // [!code focus]
+  <SwapAmountInput // [!code focus]
+    label="Sell" // [!code focus]
+    swappableTokens={swappableTokens} // [!code focus]
+    token={ETHToken} // [!code focus]
+    type="from" // [!code focus]
+  /> // [!code focus]
+  <SwapToggleButton /> // [!code focus]
+  <SwapAmountInput // [!code focus]
+    label="Buy" // [!code focus]
+    swappableTokens={swappableTokens} // [!code focus]
+    token={USDCToken} // [!code focus]
+    type="to" // [!code focus]
+  /> // [!code focus]
+  <SwapButton onSubmit={onSubmit} /> // [!code focus]
+  <SwapMessage /> // [!code focus]
+</Swap> // [!code focus]
+```
+      
+<App>
+  <SwapWrapper>
+    {({ address, swappableTokens }) => {
+      if (address) {
+        return (
+          <Swap address={address}>
+            <SwapAmountInput
+              label="Sell"
+              swappableTokens={swappableTokens}
+              token={swappableTokens[1]}
+              type="from"
+            />
+            <SwapToggleButton />
+            <SwapAmountInput
+              label="Buy"
+              swappableTokens={swappableTokens}
+              token={swappableTokens[2]}
+              type="to"
+            />
+            <SwapButton />
+            <SwapMessage />
+          </Swap>
+        )
+      }
+      return <>
+        <Wallet>
+          <ConnectWallet>
+            <Avatar className="h-6 w-6" />
+            <Name />
+          </ConnectWallet>
+        </Wallet>
+      </>;
+    }}
+  </SwapWrapper>
+</App>
+
+## Utilities
+
+The available utilities are:
+
+- [`getSwapQuote`](/swap/get-swap-quote): Get a quote for a swap between two Tokens.
+- [`buildSwapTransaction`](/swap/build-swap-transaction): Get an unsigned transaction for a swap between two Tokens.
+
+## Required providers
+
+If you are using any of the provided components, you will need to install and configure `@tanstack/react-query` and wrap your app in `<QueryClientProvider>`.
+
+```tsx
+import { Avatar } from '@coinbase/onchainkit/identity';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
+// Create a client
+const queryClient = new QueryClient();
+
+function App() {
+  return (
+    // Provide the client to your App
+    <QueryClientProvider client={queryClient}>
+      <Avatar address="0x1234567890abcdef1234567890abcdef12345678" />
+    </QueryClientProvider>
+  );
+}
+```
+
+See [Tanstack Query documentation](https://tanstack.com/query/v5/docs/framework/react/quick-start) for more info.
