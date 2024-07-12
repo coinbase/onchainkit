@@ -95,7 +95,7 @@ export function SwapProvider({
     (e: Record<string, SwapError | undefined>) => {
       setError({ ...error, ...e });
     },
-    [error]
+    [error],
   );
 
   const { from, to } = useFromTo(address);
@@ -118,7 +118,7 @@ export function SwapProvider({
       type: 'from' | 'to',
       amount: string,
       sToken?: Token,
-      dToken?: Token
+      dToken?: Token,
     ) => {
       const source = type === 'from' ? from : to;
       const destination = type === 'from' ? to : from;
@@ -156,7 +156,7 @@ export function SwapProvider({
 
         const formattedAmount = formatTokenAmount(
           response.toAmount,
-          response?.to?.decimals
+          response?.to?.decimals,
         );
 
         destination.setAmount(formattedAmount);
@@ -167,13 +167,13 @@ export function SwapProvider({
         destination.setLoading(false);
       }
     },
-    [from, to, handleError]
+    [from, to, handleError],
   );
 
   const handleSubmit = useCallback(
     async function handleSubmit(
       onError?: (error: SwapError) => void,
-      onSuccess?: (txReceipt: TransactionReceipt) => void | Promise<void>
+      onSuccess?: (txReceipt: TransactionReceipt) => void | Promise<void>,
     ) {
       if (!address || !from.token || !to.token || !from.amount) {
         return;
@@ -206,7 +206,7 @@ export function SwapProvider({
         // TODO: refresh balances
       } catch (e) {
         const userRejected = (e as BaseError).message.includes(
-          'User rejected the request.'
+          'User rejected the request.',
         );
         if (userRejected) {
           setLoading(false);
@@ -233,7 +233,7 @@ export function SwapProvider({
       from.token,
       sendTransactionAsync,
       to.token,
-    ]
+    ],
   );
 
   const value = useValue({
