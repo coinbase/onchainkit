@@ -296,7 +296,7 @@ setFilteredTokens(filteredTokens);
     token={USDCToken} // [!code focus]
     type="to" // [!code focus]
   /> // [!code focus]
-  <SwapButton onSubmit={onSubmit} /> // [!code focus]
+  <SwapButton /> // [!code focus]
   <SwapMessage /> // [!code focus]
 </Swap> // [!code focus]
 ```
@@ -321,7 +321,7 @@ setFilteredTokens(filteredTokens);
               token={swappableTokens[2]}
               type="to"
             />
-            <SwapButton />
+            <SwapButton disabled />
             <SwapMessage />
           </Swap>
         )
