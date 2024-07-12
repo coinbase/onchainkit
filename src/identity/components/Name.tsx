@@ -16,7 +16,7 @@ export function Name({
   chain,
   ...props
 }: NameReact) {
-  const { address: contextAddress } = useIdentityContext();
+  const { address: contextAddress, chain: contextChain } = useIdentityContext();
   if (!contextAddress && !address) {
     throw new Error(
       'Name: an Ethereum address must be provided to the Identity or Name component.',
@@ -24,10 +24,11 @@ export function Name({
   }
 
   const accountAddress = contextAddress ?? address;
+  const accountChain = contextChain ?? chain;
 
   const { data: name, isLoading } = useName({
     address: accountAddress,
-    chain,
+    chain: accountChain,
   });
 
   const badge = useMemo(() => {

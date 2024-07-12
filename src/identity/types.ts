@@ -124,6 +124,7 @@ export type IdentityContextType = {
   address: Address; // The Ethereum address to fetch the avatar and name for.
   schemaId?: Address | null; // The Ethereum address of the schema to use for EAS attestation.
   setAddress: Dispatch<SetStateAction<Address>>;
+  chain?: Chain; // Optional chain for domain resolution
 };
 
 /**
@@ -132,6 +133,7 @@ export type IdentityContextType = {
 export type IdentityReact = {
   address?: Address; // The Ethereum address to fetch the avatar and name for.
   children: ReactNode;
+  chain?: Chain; // Optional chain for domain resolution
   className?: string; // Optional className override for top div element.
   schemaId?: Address | null; // The Ethereum address of the schema to use for EAS attestation.
   hasCopyAddressOnClick?: boolean;
