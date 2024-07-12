@@ -161,7 +161,6 @@ export type NameReact = {
   address?: Address | null; // Ethereum address to be displayed.
   children?: ReactNode; // Optional attestation by passing Badge component as its children
   className?: string; // Optional className override for top span element.
-  chain?: Chain; // Optional chain for domain resolution
 } & HTMLAttributes<HTMLSpanElement>; // Optional additional span attributes to apply to the name.
 
 /**
