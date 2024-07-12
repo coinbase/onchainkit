@@ -3,6 +3,7 @@ import {
   GENERAL_SWAP_BALANCE_ERROR_CODE,
   GENERAL_SWAP_QUOTE_ERROR_CODE,
   LOW_LIQUIDITY_ERROR_CODE,
+  TOO_MANY_REQUESTS_ERROR_CODE,
   UNCAUGHT_SWAP_QUOTE_ERROR_CODE,
   UNCAUGHT_SWAP_ERROR_CODE,
 } from '../constants';
@@ -13,6 +14,11 @@ describe('getSwapErrorCode', () => {
   it('should return LOW_LIQUIDITY_ERROR_CODE for errorCode -32602', () => {
     const result = getSwapErrorCode('swap', -32602);
     expect(result).toBe(LOW_LIQUIDITY_ERROR_CODE);
+  });
+
+  it('should return TOO_MANY_REQUESTS_ERROR_CODE for errorCode -32001', () => {
+    const result = getSwapErrorCode('swap', -32001);
+    expect(result).toBe(TOO_MANY_REQUESTS_ERROR_CODE);
   });
 
   it('should return GENERAL_SWAP_QUOTE_ERROR_CODE for context "quote"', () => {

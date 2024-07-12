@@ -1,20 +1,24 @@
-import { LOW_LIQUIDITY_ERROR_CODE } from '../constants';
+import { getSwapError } from './getSwapError';
 import type { GetSwapMessageParams } from '../types';
 
 export enum SwapMessage {
   BALANCE_ERROR = 'Error fetching token balance',
+  CONFIRM_IN_WALLET = 'Confirm in wallet',
+  FETCHING_QUOTE = 'Fetching quote...',
+  FETCHING_BALANCE = 'Fetching balance...',
   INCOMPLETE_FIELD = 'Complete the fields to continue',
   INSUFFICIENT_BALANCE = 'Insufficient balance',
   LOW_LIQUIDITY = 'Liquidity too low for the token',
   SWAP_IN_PROGRESS = 'Swap in progress...',
-  FETCHING_QUOTE = 'Fetching quote...',
-  FETCHING_BALANCE = 'Fetching balance...',
+  TOO_MANY_REQUESTS = 'Too many requests. Please try again later.',
+  USER_REJECTED = 'User rejected the transaction',
 }
 
 export function getSwapMessage({
   error,
   from,
   loading,
+  isTransactionPending,
   to,
 }: GetSwapMessageParams) {
   // handle balance error
@@ -25,6 +29,11 @@ export function getSwapMessage({
   if (Number(from.balance) < Number(from.amount)) {
     return SwapMessage.INSUFFICIENT_BALANCE;
   }
+  // handle pending transaction
+  if (isTransactionPending) {
+    return SwapMessage.CONFIRM_IN_WALLET;
+  }
+  // handle loading states
   if (loading) {
     return SwapMessage.SWAP_IN_PROGRESS;
   }
@@ -35,20 +44,9 @@ export function getSwapMessage({
   if (!from.amount || !from.token || !to.amount || !to.token) {
     return SwapMessage.INCOMPLETE_FIELD;
   }
-  // error states handled below
   if (!error) {
     return '';
   }
-  // handle invalid params error
-  if (
-    Object.values(error)?.find(
-      (error) => error?.code === LOW_LIQUIDITY_ERROR_CODE,
-    )
-  ) {
-    return SwapMessage.LOW_LIQUIDITY;
-  }
-  // handle general error
-  if (Object.values(error).length) {
-    return Object.values(error)[0]?.error;
-  }
+  // handle specific error codes
+  return getSwapError(error);
 }

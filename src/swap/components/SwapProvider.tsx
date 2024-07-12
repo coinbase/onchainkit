@@ -5,19 +5,17 @@ import {
   useMemo,
   useState,
 } from 'react';
+import { useSendTransaction, useConfig, type BaseError } from 'wagmi';
+import { useSwapBalances } from './useSwapBalances';
+import { processSwapTransaction } from '../utils/processSwapTransaction';
 import { buildSwapTransaction } from '../core/buildSwapTransaction';
 import { isSwapError } from '../core/isSwapError';
-import { useSwapBalances } from './useSwapBalances';
 import { getSwapQuote } from '../core/getSwapQuote';
+import { USER_REJECTED_ERROR_CODE } from '../constants';
 import { formatTokenAmount } from '../../utils/formatTokenAmount';
-import type {
-  SwapError,
-  SwapErrorState,
-  BuildSwapTransaction,
-  SwapContextType,
-} from '../types';
+import type { SwapError, SwapErrorState, SwapContextType } from '../types';
 import type { Token } from '../../token';
-import type { Address } from 'viem';
+import type { Address, TransactionReceipt } from 'viem';
 
 function useValue<T>(object: T): T {
   return useMemo(() => object, [object]);
@@ -84,6 +82,7 @@ export function SwapProvider({
   address: Address;
 }) {
   const [loading, setLoading] = useState(false);
+  const [isTransactionPending, setPendingTransaction] = useState(false);
 
   const [error, setError] = useState<SwapErrorState>();
   const handleError = useCallback(
@@ -94,6 +93,12 @@ export function SwapProvider({
   );
 
   const { from, to } = useFromTo(address);
+
+  // For sending the swap transaction (and approval, if applicable)
+  const { sendTransactionAsync } = useSendTransaction();
+
+  // Wagmi config, used for waitForTransactionReceipt
+  const config = useConfig();
 
   /* istanbul ignore next */
   const handleToggle = useCallback(() => {
@@ -163,7 +168,8 @@ export function SwapProvider({
 
   const handleSubmit = useCallback(
     async function handleSubmit(
-      onSubmit?: (swapTransaction: BuildSwapTransaction) => void,
+      onError?: (error: SwapError) => void,
+      onSuccess?: (txReceipt: TransactionReceipt) => void | Promise<void>,
     ) {
       if (!address || !from.token || !to.token || !from.amount) {
         return;
@@ -184,14 +190,46 @@ export function SwapProvider({
           return handleError({ swapError: response });
         }
 
-        onSubmit?.(response);
+        await processSwapTransaction({
+          swapTransaction: response,
+          config,
+          setPendingTransaction,
+          setLoading,
+          sendTransactionAsync,
+          onSuccess,
+        });
+
+        // TODO: refresh balances
       } catch (e) {
-        handleError({ swapError: e as SwapError });
+        const userRejected = (e as BaseError).message.includes(
+          'User rejected the request.',
+        );
+        if (userRejected) {
+          setLoading(false);
+          setPendingTransaction(false);
+          handleError({
+            swapError: {
+              code: USER_REJECTED_ERROR_CODE,
+              error: 'User rejected the request.',
+            },
+          });
+        } else {
+          onError?.(e as SwapError);
+          handleError({ swapError: e as SwapError });
+        }
       } finally {
         setLoading(false);
       }
     },
-    [address, handleError, from.amount, from.token, to.token],
+    [
+      address,
+      config,
+      handleError,
+      from.amount,
+      from.token,
+      sendTransactionAsync,
+      to.token,
+    ],
   );
 
   const value = useValue({
@@ -199,6 +237,7 @@ export function SwapProvider({
     from,
     error,
     loading,
+    isTransactionPending,
     handleAmountChange,
     handleToggle,
     handleSubmit,

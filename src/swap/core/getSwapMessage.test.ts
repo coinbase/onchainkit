@@ -2,7 +2,11 @@
  * @vitest-environment node
  */
 import { getSwapMessage, SwapMessage } from './getSwapMessage';
-import { LOW_LIQUIDITY_ERROR_CODE } from '../constants';
+import {
+  LOW_LIQUIDITY_ERROR_CODE,
+  TOO_MANY_REQUESTS_ERROR_CODE,
+  USER_REJECTED_ERROR_CODE,
+} from '../constants';
 import type { Token } from '../../token';
 import { describe, expect, test, vi } from 'vitest';
 
@@ -79,6 +83,14 @@ describe('getSwapMessage', () => {
     expect(getSwapMessage(params)).toBe(SwapMessage.INSUFFICIENT_BALANCE);
   });
 
+  test('returns CONFIRM IN WALLET when pending transaction', () => {
+    const params = {
+      ...baseParams,
+      isTransactionPending: true,
+    };
+    expect(getSwapMessage(params)).toBe(SwapMessage.CONFIRM_IN_WALLET);
+  });
+
   test('returns SWAP_IN_PROGRESS when loading is true', () => {
     const params = {
       ...baseParams,
@@ -125,6 +137,21 @@ describe('getSwapMessage', () => {
     expect(getSwapMessage(params3)).toBe(SwapMessage.INCOMPLETE_FIELD);
   });
 
+  test('returns TOO_MANY_REQUESTS when error code is TOO_MANY_REQUESTS_ERROR_CODE', () => {
+    const params = {
+      ...baseParams,
+      from: { ...baseParams.from, balance: '10', amount: '5', token: ETHToken },
+      to: { ...baseParams.to, amount: '5', token: USDCToken },
+      error: {
+        quoteError: {
+          code: TOO_MANY_REQUESTS_ERROR_CODE,
+          error: 'Too many requests error',
+        },
+      },
+    };
+    expect(getSwapMessage(params)).toBe(SwapMessage.TOO_MANY_REQUESTS);
+  });
+
   test('returns LOW_LIQUIDITY when error code is LOW_LIQUIDITY_ERROR_CODE', () => {
     const params = {
       ...baseParams,
@@ -138,6 +165,21 @@ describe('getSwapMessage', () => {
       },
     };
     expect(getSwapMessage(params)).toBe(SwapMessage.LOW_LIQUIDITY);
+  });
+
+  test('returns USER_REJECTED when error code is USER_REJECTED_ERROR_CODE', () => {
+    const params = {
+      ...baseParams,
+      from: { ...baseParams.from, balance: '10', amount: '5', token: ETHToken },
+      to: { ...baseParams.to, amount: '5', token: USDCToken },
+      error: {
+        quoteError: {
+          code: USER_REJECTED_ERROR_CODE,
+          error: 'User rejected error',
+        },
+      },
+    };
+    expect(getSwapMessage(params)).toBe(SwapMessage.USER_REJECTED);
   });
 
   test('returns the first error message when general error is present', () => {

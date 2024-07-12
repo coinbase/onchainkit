@@ -1,5 +1,5 @@
 import type { ComponentType, Dispatch, ReactNode, SetStateAction } from 'react';
-import type { Address, Hex } from 'viem';
+import type { Address, Hex, TransactionReceipt } from 'viem';
 import type { Token } from '../token/types';
 
 export type AddressOrETH = Address | 'ETH';
@@ -70,6 +70,7 @@ export type GetSwapQuoteResponse = SwapQuote | SwapError;
 export type GetSwapMessageParams = {
   error?: SwapErrorState;
   loading?: boolean;
+  isTransactionPending?: boolean;
   to: SwapUnit;
   from: SwapUnit;
 };
@@ -117,7 +118,8 @@ export type SwapAPIResponse = {
 export type SwapButtonReact = {
   disabled?: boolean; // Disables swap button
   className?: string; // Optional className override for top div element.
-  onSubmit: (swapTransaction: BuildSwapTransaction) => void;
+  onError?: (error: SwapError) => void; // Callback function for error
+  onSuccess?: (txReceipt: TransactionReceipt) => void | Promise<void>; // Callback function for success
 };
 
 export type SwapContextType = {
@@ -125,7 +127,11 @@ export type SwapContextType = {
   from: SwapUnit;
   to: SwapUnit;
   loading: boolean;
-  handleSubmit: (f: (swapTransaction: BuildSwapTransaction) => void) => void;
+  isTransactionPending: boolean;
+  handleSubmit: (
+    onError?: (error: SwapError) => void,
+    onSuccess?: (txReceipt: TransactionReceipt) => void | Promise<void>,
+  ) => void;
   handleToggle: () => void;
   handleAmountChange: (
     t: 'from' | 'to',

@@ -6,11 +6,14 @@ import type { SwapButtonReact } from '../types';
 export function SwapButton({
   className,
   disabled = false,
-  onSubmit,
+  onError,
+  onSuccess,
 }: SwapButtonReact) {
-  const { to, from, loading, handleSubmit } = useSwapContext();
+  const { to, from, loading, isTransactionPending, handleSubmit } =
+    useSwapContext();
 
-  const isLoading = to.loading || from.loading || loading;
+  const isLoading =
+    to.loading || from.loading || loading || isTransactionPending;
 
   const isDisabled =
     !from.amount ||
@@ -31,7 +34,7 @@ export function SwapButton({
         text.headline,
         className,
       )}
-      onClick={() => onSubmit && handleSubmit(onSubmit)}
+      onClick={() => handleSubmit(onError, onSuccess)}
       disabled={isDisabled}
       data-testid="ockSwapButton_Button"
     >
