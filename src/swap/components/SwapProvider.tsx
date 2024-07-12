@@ -5,10 +5,14 @@ import {
   useMemo,
   useState,
 } from 'react';
+import { useSendTransaction, useConfig, type BaseError, Config } from 'wagmi';
+import { waitForTransactionReceipt } from 'wagmi/actions';
+import { SendTransactionMutateAsync } from 'wagmi/query';
+import { useSwapBalances } from './useSwapBalances';
 import { buildSwapTransaction } from '../core/buildSwapTransaction';
 import { isSwapError } from '../core/isSwapError';
-import { useSwapBalances } from './useSwapBalances';
 import { getSwapQuote } from '../core/getSwapQuote';
+import { USER_REJECTED_ERROR_CODE } from '../constants';
 import { formatTokenAmount } from '../../utils/formatTokenAmount';
 import type {
   SwapError,
@@ -18,10 +22,6 @@ import type {
 } from '../types';
 import type { Token } from '../../token';
 import type { Address, TransactionReceipt } from 'viem';
-import { useSendTransaction, useConfig, type BaseError, Config } from 'wagmi';
-import { waitForTransactionReceipt } from 'wagmi/actions';
-import { SendTransactionMutateAsync } from 'wagmi/query';
-import { USER_REJECTED_ERROR_CODE } from '../constants';
 
 function useValue<T>(object: T): T {
   return useMemo(() => object, [object]);
