@@ -1,5 +1,8 @@
-import { createContext, useContext } from 'react';
-import type { TransactionContextType } from '../types';
+import { createContext, useContext, useEffect, useState } from 'react';
+import type {
+  TransactionContextType,
+  TransactionProviderReact,
+} from '../types';
 import { useValue } from '../../internal/hooks/useValue';
 
 const emptyContext = {} as TransactionContextType;
@@ -18,13 +21,31 @@ export function useTransactionContext() {
 }
 
 export function TransactionProvider({
+  address,
   children,
-}: {
-  children: React.ReactNode;
-}) {
+  contracts,
+}: TransactionProviderReact) {
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [transactionId, setTransactionId] = useState('');
+  const [gasFee, setGasFee] = useState('');
+
+  useEffect(() => {
+    // TODO: replace with gas estimation call
+    setGasFee('0.03');
+  }, []);
+
   const value = useValue({
+    address,
+    contracts,
     error: undefined,
-    loading: false,
+    errorMessage,
+    gasFee,
+    isLoading,
+    setErrorMessage,
+    setIsLoading,
+    transactionId,
+    setTransactionId,
   });
 
   return (
