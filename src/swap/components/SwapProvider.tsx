@@ -5,9 +5,9 @@ import {
   useMemo,
   useState,
 } from 'react';
-import { useSendTransaction, useConfig, type BaseError, Config } from 'wagmi';
+import { useSendTransaction, useConfig, type BaseError, type Config } from 'wagmi';
 import { waitForTransactionReceipt } from 'wagmi/actions';
-import { SendTransactionMutateAsync } from 'wagmi/query';
+import type { SendTransactionMutateAsync } from 'wagmi/query';
 import { useSwapBalances } from './useSwapBalances';
 import { buildSwapTransaction } from '../core/buildSwapTransaction';
 import { isSwapError } from '../core/isSwapError';
@@ -196,7 +196,7 @@ export function SwapProvider({
           return handleError({ swapError: response });
         }
 
-        processSwapTransaction({
+        await processSwapTransaction({
           swapTransaction: response,
           config,
           setPendingTransaction,

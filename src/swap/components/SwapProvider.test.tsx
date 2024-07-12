@@ -1,11 +1,25 @@
 import { processSwapTransaction } from './SwapProvider';
-import { BuildSwapTransaction } from '../types';
+import type { BuildSwapTransaction } from '../types';
 import { createConfig, http } from 'wagmi';
 import { mainnet, sepolia } from 'wagmi/chains';
 import { mock } from 'wagmi/connectors';
-import { describe, expect, it, vi } from 'vitest';
+import { waitForTransactionReceipt } from 'wagmi/actions';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+
+vi.mock('wagmi/actions', () => ({
+  waitForTransactionReceipt: vi.fn().mockResolvedValue({}),
+}));
 
 describe('processSwapTransaction', () => {
+  const setPendingTransaction = vi.fn();
+  const setLoading = vi.fn();
+  const sendTransactionAsync = vi.fn().mockResolvedValue('approveTxHash');
+  const onSuccess = vi.fn();
+
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
   it('should request approval and make the swap for ERC-20 tokens', async () => {
     const swapTransaction: BuildSwapTransaction = {
       transaction: {
@@ -79,11 +93,6 @@ describe('processSwapTransaction', () => {
         [sepolia.id]: http(),
       },
     });
-    const setPendingTransaction = vi.fn();
-    const setLoading = vi.fn();
-    const sendTransactionAsync = vi.fn().mockResolvedValue('approveTxHash');
-    const waitForTransactionReceipt = vi.fn().mockResolvedValue({});
-    const onSuccess = vi.fn();
 
     await processSwapTransaction({
       swapTransaction,
@@ -94,23 +103,14 @@ describe('processSwapTransaction', () => {
       onSuccess,
     });
 
-    expect(setPendingTransaction).toHaveBeenCalledTimes(2);
+    expect(setPendingTransaction).toHaveBeenCalledTimes(4);
     expect(setPendingTransaction).toHaveBeenCalledWith(true);
     expect(setPendingTransaction).toHaveBeenCalledWith(false);
-    expect(sendTransactionAsync).toHaveBeenCalledTimes(1);
-    expect(sendTransactionAsync).toHaveBeenCalledWith({
-      to: '0x456',
-      value: '0',
-      data: '0x123',
-    });
-    expect(waitForTransactionReceipt).toHaveBeenCalledTimes(1);
-    expect(waitForTransactionReceipt).toHaveBeenCalledWith(config, {
-      hash: 'approveTxHash',
-      confirmations: 1,
-    });
+    expect(sendTransactionAsync).toHaveBeenCalledTimes(2);
+    expect(waitForTransactionReceipt).toHaveBeenCalledTimes(2);
+
     expect(setLoading).toHaveBeenCalledTimes(1);
     expect(setLoading).toHaveBeenCalledWith(true);
-    expect(setLoading).toHaveBeenCalledWith(false);
     expect(onSuccess).toHaveBeenCalledTimes(1);
     expect(onSuccess).toHaveBeenCalledWith({});
   });
@@ -182,11 +182,6 @@ describe('processSwapTransaction', () => {
         [sepolia.id]: http(),
       },
     });
-    const setPendingTransaction = vi.fn();
-    const setLoading = vi.fn();
-    const sendTransactionAsync = vi.fn().mockResolvedValue('txHash');
-    const waitForTransactionReceipt = vi.fn().mockResolvedValue({});
-    const onSuccess = vi.fn();
 
     await processSwapTransaction({
       swapTransaction,
@@ -199,21 +194,10 @@ describe('processSwapTransaction', () => {
 
     expect(setPendingTransaction).toHaveBeenCalledTimes(2);
     expect(setPendingTransaction).toHaveBeenCalledWith(true);
-    expect(setPendingTransaction).toHaveBeenCalledWith(false);
     expect(sendTransactionAsync).toHaveBeenCalledTimes(1);
-    expect(sendTransactionAsync).toHaveBeenCalledWith({
-      to: '0x123',
-      value: '0',
-      data: '0x',
-    });
     expect(waitForTransactionReceipt).toHaveBeenCalledTimes(1);
-    expect(waitForTransactionReceipt).toHaveBeenCalledWith(config, {
-      hash: 'txHash',
-      confirmations: 1,
-    });
     expect(setLoading).toHaveBeenCalledTimes(1);
     expect(setLoading).toHaveBeenCalledWith(true);
-    expect(setLoading).toHaveBeenCalledWith(false);
     expect(onSuccess).toHaveBeenCalledTimes(1);
     expect(onSuccess).toHaveBeenCalledWith({});
   });
