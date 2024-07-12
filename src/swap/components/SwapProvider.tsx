@@ -5,7 +5,12 @@ import {
   useMemo,
   useState,
 } from 'react';
-import { useSendTransaction, useConfig, type BaseError, type Config } from 'wagmi';
+import {
+  useSendTransaction,
+  useConfig,
+  type BaseError,
+  type Config,
+} from 'wagmi';
 import { waitForTransactionReceipt } from 'wagmi/actions';
 import type { SendTransactionMutateAsync } from 'wagmi/query';
 import { useSwapBalances } from './useSwapBalances';
