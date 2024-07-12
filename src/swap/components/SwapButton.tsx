@@ -5,9 +5,9 @@ import type { SwapButtonReact } from '../types';
 
 export function SwapButton({
   className,
+  disabled = false,
   onError,
   onSuccess,
-  disabled = false,
 }: SwapButtonReact) {
   const { to, from, loading, isTransactionPending, handleSubmit } =
     useSwapContext();
