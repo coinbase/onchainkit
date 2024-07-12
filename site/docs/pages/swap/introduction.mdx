@@ -2,11 +2,12 @@
 title: Swap components & utilities · OnchainKit
 description: Introduction to Swap components & utilities
 ---
+
 import App from '../../components/App';
+import SwapWrapper from '../../components/SwapWrapper';
 import { Avatar, Name } from '@coinbase/onchainkit/identity';
 import { Swap, SwapAmountInput, SwapButton, SwapMessage, SwapToggleButton } from '@coinbase/onchainkit/swap';
-import { Wallet, ConnectWallet } from '@coinbase/onchainkit/wallet';
-import SwapWrapper from '../../components/SwapWrapper';
+import { ConnectWallet, Wallet } from '@coinbase/onchainkit/wallet';
 
 # Introduction to Swap components & utilities
 
@@ -18,9 +19,9 @@ The available components are:
 
 - `<Swap />` - Set the user's address and error handling.
 - `<SwapAmountInput />` - Set the [Token](/token/types#token) to swap and specify the input type (`from` or `to`).
-- `<SwapToggleButton />` - Optional component to toggle between input types.
-- `<SwapMessage />` - Optional component that displays a message related to the swap operation's current state.
 - `<SwapButton />` - Set the onSubmit and onError callbacks.
+- `<SwapMessage />` - Optional component that displays a message related to the swap operation's current state.
+- `<SwapToggleButton />` - Optional component to toggle between input types.
 
 ```tsx
 <Swap address={address}> // [!code focus]
@@ -82,8 +83,8 @@ The available components are:
 
 The available utilities are:
 
-- [`getSwapQuote`](/swap/get-swap-quote): Get a quote for a swap between two Tokens.
 - [`buildSwapTransaction`](/swap/build-swap-transaction): Get an unsigned transaction for a swap between two Tokens.
+- [`getSwapQuote`](/swap/get-swap-quote): Get a quote for a swap between two Tokens.
 
 ## Required providers
 
