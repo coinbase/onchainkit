@@ -2,6 +2,7 @@
  * @vitest-environment jsdom
  */
 import React from 'react';
+import { vi } from 'vitest';
 import '@testing-library/jest-dom';
 import { render, screen, waitFor } from '@testing-library/react';
 import { getSlicedAddress } from '../getSlicedAddress';
@@ -10,7 +11,13 @@ import { useAttestations } from '../hooks/useAttestations';
 import { Name } from './Name';
 import { Badge } from './Badge';
 import { useIdentityContext } from './IdentityProvider';
-import { silenceError } from '../../internal/testing';
+
+const silenceError = () => {
+  const consoleErrorMock = vi
+    .spyOn(console, 'error')
+    .mockImplementation(() => {});
+  return () => consoleErrorMock.mockRestore();
+};
 
 vi.mock('../hooks/useName', () => ({
   useName: vi.fn(),

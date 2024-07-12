@@ -4,11 +4,22 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
+import { vi } from 'vitest';
 import { EthBalance } from './EthBalance';
 import { useIdentityContext } from './IdentityProvider';
 import { useGetETHBalance } from '../../wallet/core/useGetETHBalance';
 import { getRoundedAmount } from '../../utils/getRoundedAmount';
-import { silenceError, mock } from '../../internal/testing';
+
+function mock<T>(func: T) {
+  return func as vi.Mock;
+}
+
+const silenceError = () => {
+  const consoleErrorMock = vi
+    .spyOn(console, 'error')
+    .mockImplementation(() => {});
+  return () => consoleErrorMock.mockRestore();
+};
 
 vi.mock('./IdentityProvider', () => ({
   useIdentityContext: vi.fn(),

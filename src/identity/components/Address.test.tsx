@@ -2,12 +2,23 @@
  * @vitest-environment jsdom
  */
 import React from 'react';
+import { vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { Address } from './Address';
 import { useIdentityContext } from './IdentityProvider';
 import { getSlicedAddress } from '../getSlicedAddress';
-import { mock, silenceError } from '../../internal/testing';
+
+function mock<T>(func: T) {
+  return func as vi.Mock;
+}
+
+const silenceError = () => {
+  const consoleErrorMock = vi
+    .spyOn(console, 'error')
+    .mockImplementation(() => {});
+  return () => consoleErrorMock.mockRestore();
+};
 
 vi.mock('./IdentityProvider', () => ({
   useIdentityContext: vi.fn(),

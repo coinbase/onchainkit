@@ -4,7 +4,7 @@ import { render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
 import type { EASSchemaUid } from './identity/types';
-import { setOnchainKitConfig, ONCHAIN_KIT_CONFIG } from './OnchainKitConfig';
+import { setOnchainKitConfig } from './OnchainKitConfig';
 import { OnchainKitProvider } from './OnchainKitProvider';
 import { useOnchainKit } from './useOnchainKit';
 import { describe, expect, it, vi } from 'vitest';
