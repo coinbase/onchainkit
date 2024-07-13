@@ -5,6 +5,7 @@ import { Spinner } from '../../internal/loading/Spinner';
 import { IdentityProvider } from '../../identity/components/IdentityProvider';
 import { useWalletContext } from './WalletProvider';
 import type { ConnectWalletReact } from '../types';
+import { ConnectButton } from '@rainbow-me/rainbowkit';
 
 export function ConnectWallet({
   children,
@@ -18,27 +19,33 @@ export function ConnectWallet({
     setIsOpen(!isOpen);
   }, [isOpen, setIsOpen]);
 
+  console.log('ConnectWallet', { address, status, connectStatus, isOpen });
+
   const connector = connectors[0];
   const isLoading = connectStatus === 'pending' || status === 'connecting';
 
   if (status === 'disconnected') {
     return (
-      <div className="flex" data-testid="ockConnectWallet_Container">
-        <button
-          type="button"
-          data-testid="ockConnectWallet_ConnectButton"
-          className={cn(
-            pressable.primary,
-            dsText.headline,
-            color.inverse,
-            'inline-flex min-w-[153px] items-center justify-center rounded-xl px-4 py-3',
-            className,
-          )}
-          onClick={() => connect({ connector })}
-        >
-          <span className={cn(dsText.body, color.inverse)}>{text}</span>
-        </button>
-      </div>
+      <ConnectButton.Custom>
+        {({ openConnectModal }) => (
+          <div className="flex" data-testid="ockConnectWallet_Container">
+            <button
+              type="button"
+              data-testid="ockConnectWallet_ConnectButton"
+              className={cn(
+                pressable.primary,
+                dsText.headline,
+                color.inverse,
+                'inline-flex min-w-[153px] items-center justify-center rounded-xl px-4 py-3',
+                className,
+              )}
+              onClick={() => openConnectModal()}
+            >
+              <span className={cn(dsText.body, color.inverse)}>{text}</span>
+            </button>
+          </div>
+        )}
+      </ConnectButton.Custom>
     );
   }
 
