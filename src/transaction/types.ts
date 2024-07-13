@@ -2,7 +2,7 @@
 import type { ReactNode } from 'react';
 import type { Abi, Account, Address, ContractFunctionName, Hex } from 'viem';
 
-type Contract = {
+export type Contract = {
   address: Address;
   abi: Abi;
   functionName: ContractFunctionName;
@@ -40,6 +40,23 @@ export type TransactionError = {
 
 export type TransactionErrorState = {
   TransactionError?: TransactionError;
+};
+
+export type TransactionGasFeeReact = {
+  className?: string;
+  children: ReactNode;
+};
+
+export type TransactionGasFeeEstimateReact = {
+  className?: string;
+};
+
+export type TransactionGasFeeLabelReact = {
+  className?: string;
+};
+
+export type TransactionGasFeeSponsoredByReact = {
+  className?: string;
 };
 
 export type TransactionMessageReact = {
