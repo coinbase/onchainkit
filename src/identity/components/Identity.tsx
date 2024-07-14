@@ -1,8 +1,8 @@
-import type { IdentityReact } from '../types';
-import { IdentityProvider } from './IdentityProvider';
-import { IdentityLayout } from './IdentityLayout';
 import { useCallback } from 'react';
+import { IdentityLayout } from './IdentityLayout';
+import { IdentityProvider } from './IdentityProvider';
 import { useOnchainKit } from '../../useOnchainKit';
+import type { IdentityReact } from '../types';
 
 export function Identity({
   address,
@@ -18,8 +18,9 @@ export function Identity({
   const accountChain = contextChain || chain;
 
   const handleCopy = useCallback(async () => {
-    if (!address) return false;
-
+    if (!address) {
+      return false;
+    }
     try {
       await navigator.clipboard.writeText(address);
       return true;

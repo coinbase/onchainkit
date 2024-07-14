@@ -1,6 +1,6 @@
 import type { FrameMetadataType } from './types';
 
-type FrameMetadataHTMLResponse = FrameMetadataType & {
+type FrameMetadataHtmlResponse = FrameMetadataType & {
   ogDescription?: string;
   ogTitle?: string;
 };
@@ -22,7 +22,7 @@ function getFrameHtmlResponse({
   refreshPeriod,
   refresh_period,
   state,
-}: FrameMetadataHTMLResponse): string {
+}: FrameMetadataHtmlResponse): string {
   const imgSrc = typeof image === 'string' ? image : image.src;
   const ogImageHtml = `  <meta property="og:image" content="${imgSrc}" />\n`;
   let imageHtml = `  <meta property="fc:frame:image" content="${imgSrc}" />\n`;

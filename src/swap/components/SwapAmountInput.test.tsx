@@ -21,7 +21,7 @@ vi.mock('wagmi', () => ({
 
 const useSwapContextMock = useSwapContext as Mock;
 
-const mockETHToken: Token = {
+const mockEthToken: Token = {
   name: 'ETH',
   address: '0x123456789',
   symbol: 'ETH',
@@ -107,14 +107,14 @@ describe('SwapAmountInput', () => {
 
   it('renders the component with the correct label and token', () => {
     useSwapContextMock.mockReturnValue(mockContextValue);
-    render(<SwapAmountInput label="From" token={mockETHToken} type="from" />);
+    render(<SwapAmountInput label="From" token={mockEthToken} type="from" />);
 
     expect(screen.getByText('From')).toBeInTheDocument();
   });
 
   it('renders from token input with max button and balance', () => {
     useSwapContextMock.mockReturnValue(mockContextValue);
-    render(<SwapAmountInput label="From" token={mockETHToken} type="from" />);
+    render(<SwapAmountInput label="From" token={mockEthToken} type="from" />);
     expect(screen.getByText('Balance: 0.00028518')).toBeInTheDocument();
     expect(
       screen.getByTestId('ockSwapAmountInput_MaxButton'),
@@ -123,7 +123,7 @@ describe('SwapAmountInput', () => {
 
   it('does not render max button for to token input', () => {
     useSwapContextMock.mockReturnValue(mockContextValue);
-    render(<SwapAmountInput label="From" token={mockETHToken} type="to" />);
+    render(<SwapAmountInput label="From" token={mockEthToken} type="to" />);
     expect(
       screen.queryByTestId('ockSwapAmountInput_MaxButton'),
     ).not.toBeInTheDocument();
@@ -131,7 +131,7 @@ describe('SwapAmountInput', () => {
 
   it('updates input value with balance amount on max button click', () => {
     useSwapContextMock.mockReturnValue(mockContextValue);
-    render(<SwapAmountInput label="From" token={mockETHToken} type="from" />);
+    render(<SwapAmountInput label="From" token={mockEthToken} type="from" />);
 
     const maxButton = screen.getByTestId('ockSwapAmountInput_MaxButton');
     fireEvent.click(maxButton);
@@ -156,7 +156,7 @@ describe('SwapAmountInput', () => {
 
   it('displays the correct amount when this type is "from"', () => {
     useSwapContextMock.mockReturnValue(mockContextValue);
-    render(<SwapAmountInput label="From" token={mockETHToken} type="from" />);
+    render(<SwapAmountInput label="From" token={mockEthToken} type="from" />);
 
     const input = screen.getByTestId('ockTextInput_Input');
     expect(input).toHaveValue('10');
@@ -164,7 +164,7 @@ describe('SwapAmountInput', () => {
 
   it('displays the correct amount when this type is "to"', () => {
     useSwapContextMock.mockReturnValue(mockContextValue);
-    render(<SwapAmountInput label="To" token={mockETHToken} type="to" />);
+    render(<SwapAmountInput label="To" token={mockEthToken} type="to" />);
 
     const input = screen.getByTestId('ockTextInput_Input');
     expect(input).toHaveValue('20');
@@ -172,7 +172,7 @@ describe('SwapAmountInput', () => {
 
   it('calls setFromAmount when type is "from" and valid input is entered', () => {
     useSwapContextMock.mockReturnValue(mockContextValue);
-    render(<SwapAmountInput label="From" token={mockETHToken} type="from" />);
+    render(<SwapAmountInput label="From" token={mockEthToken} type="from" />);
 
     const input = screen.getByTestId('ockTextInput_Input');
     fireEvent.change(input, { target: { value: '15' } });
@@ -182,7 +182,7 @@ describe('SwapAmountInput', () => {
 
   it('calls setToAmount when type is "to" and valid input is entered', () => {
     useSwapContextMock.mockReturnValue(mockContextValue);
-    render(<SwapAmountInput label="From" token={mockETHToken} type="to" />);
+    render(<SwapAmountInput label="From" token={mockEthToken} type="to" />);
 
     const input = screen.getByTestId('ockTextInput_Input');
     fireEvent.change(input, { target: { value: '15' } });
@@ -192,7 +192,7 @@ describe('SwapAmountInput', () => {
 
   it('does not call setAmount when invalid input is entered', () => {
     useSwapContextMock.mockReturnValue(mockContextValue);
-    render(<SwapAmountInput label="From" token={mockETHToken} type="from" />);
+    render(<SwapAmountInput label="From" token={mockEthToken} type="from" />);
 
     const input = screen.getByTestId('ockTextInput_Input');
     fireEvent.change(input, { target: { value: 'invalid' } });
@@ -202,16 +202,16 @@ describe('SwapAmountInput', () => {
 
   it('calls setFromToken when type is "from" and token prop is provided', () => {
     useSwapContextMock.mockReturnValue(mockContextValue);
-    render(<SwapAmountInput label="From" token={mockETHToken} type="from" />);
+    render(<SwapAmountInput label="From" token={mockEthToken} type="from" />);
 
-    expect(mockContextValue.from.setToken).toHaveBeenCalledWith(mockETHToken);
+    expect(mockContextValue.from.setToken).toHaveBeenCalledWith(mockEthToken);
   });
 
   it('calls setToToken when type is "to" and token prop is provided', () => {
     useSwapContextMock.mockReturnValue(mockContextValue);
-    render(<SwapAmountInput label="To" token={mockETHToken} type="to" />);
+    render(<SwapAmountInput label="To" token={mockEthToken} type="to" />);
 
-    expect(mockContextValue.to.setToken).toHaveBeenCalledWith(mockETHToken);
+    expect(mockContextValue.to.setToken).toHaveBeenCalledWith(mockEthToken);
   });
 
   // it('renders the correct balance', () => {
@@ -249,7 +249,7 @@ describe('SwapAmountInput', () => {
     render(
       <SwapAmountInput
         label="From"
-        token={mockETHToken}
+        token={mockEthToken}
         type="from"
         className="custom-class"
       />,

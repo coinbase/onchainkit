@@ -42,7 +42,7 @@ describe('TokenSelectButton', () => {
   });
 
   it('renders correctly with a token when isOpen is false', () => {
-    render(<TokenSelectButton token={token} onClick={vi.fn()} isOpen />);
+    render(<TokenSelectButton token={token} onClick={vi.fn()} isOpen={true} />);
 
     expect(screen.getByText('ETH')).toBeInTheDocument();
     expect(

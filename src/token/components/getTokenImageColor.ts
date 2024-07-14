@@ -6,7 +6,7 @@ function hashStringToNumber(str: string) {
   return hash;
 }
 
-function numberToRGB(hash: number) {
+function numberToRgb(hash: number) {
   const h = Math.abs(hash) % 360;
   const s = (Math.abs(hash >> 8) % 31) + 50;
   const l = (Math.abs(hash >> 16) % 21) + 40;
@@ -15,5 +15,5 @@ function numberToRGB(hash: number) {
 
 export function getTokenImageColor(str: string) {
   const hash = hashStringToNumber(`${str}`);
-  return numberToRGB(hash);
+  return numberToRgb(hash);
 }

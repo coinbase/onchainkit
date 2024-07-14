@@ -2,7 +2,7 @@ import type { XmtpOpenFramesRequest } from '@xmtp/frames-validator';
 import { getXmtpFrameMessage } from './getXmtpFrameMessage';
 
 describe('getXmtpFrameMessage', () => {
-  const VALID_FRAME_MESSAGE = {
+  const validFrameMessage = {
     clientProtocol: 'xmtp@2024-02-09',
     untrustedData: {
       buttonIndex: 1,
@@ -19,7 +19,7 @@ describe('getXmtpFrameMessage', () => {
     },
   } as XmtpOpenFramesRequest;
 
-  const INVALID_FRAME_MESSAGE = {
+  const invalidFrameMessage = {
     clientProtocol: 'xmtp@2024-02-09',
     untrustedData: {
       buttonIndex: 1,
@@ -37,11 +37,11 @@ describe('getXmtpFrameMessage', () => {
   } as XmtpOpenFramesRequest;
 
   it('should correctly handle valid frames posts', async () => {
-    const result = await getXmtpFrameMessage(VALID_FRAME_MESSAGE);
+    const result = await getXmtpFrameMessage(validFrameMessage);
     expect(result.isValid).toBe(true);
 
     const { buttonIndex, opaqueConversationIdentifier, url, walletAddress } =
-      VALID_FRAME_MESSAGE.untrustedData;
+      validFrameMessage.untrustedData;
 
     expect(result.message).toEqual(
       expect.objectContaining({
@@ -55,7 +55,7 @@ describe('getXmtpFrameMessage', () => {
   });
 
   it('should fail validation on invalid posts', async () => {
-    const invalidResult = await getXmtpFrameMessage(INVALID_FRAME_MESSAGE);
+    const invalidResult = await getXmtpFrameMessage(invalidFrameMessage);
     expect(invalidResult.isValid).toBe(false);
     expect(invalidResult.message).toBeUndefined();
   });

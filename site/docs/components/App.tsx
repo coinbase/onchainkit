@@ -30,12 +30,12 @@ export default function App({ children }: { children: ReactNode }) {
   if (isServer) {
     return null;
   }
-  const VITE_CDP_API_KEY = import.meta.env.VITE_CDP_API_KEY;
+  const viteCdpApiKey = import.meta.env.VITE_CDP_API_KEY;
   return (
     <WagmiProvider config={wagmiConfig}>
       <QueryClientProvider client={queryClient}>
         <OnchainKitProvider
-          apiKey={VITE_CDP_API_KEY}
+          apiKey={viteCdpApiKey}
           chain={base}
           schemaId="0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9"
         >

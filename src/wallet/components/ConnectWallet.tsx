@@ -56,7 +56,7 @@ export function ConnectWallet({
             pressable.disabled,
             className,
           )}
-          disabled
+          disabled={true}
         >
           <Spinner />
         </button>

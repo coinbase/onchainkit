@@ -525,7 +525,10 @@ describe('FrameMetadata', () => {
   describe('when using isOpenFrame true', () => {
     it('renders', () => {
       const meta = render(
-        <FrameMetadata isOpenFrame image="https://example.com/image.png" />,
+        <FrameMetadata
+          isOpenFrame={true}
+          image="https://example.com/image.png"
+        />,
       );
       expect(meta.container.querySelectorAll('meta').length).toBe(5);
     });
@@ -534,7 +537,7 @@ describe('FrameMetadata', () => {
       const meta = render(
         <FrameMetadata
           accepts={{ xmtp: '1.0.0' }}
-          isOpenFrame
+          isOpenFrame={true}
           image="https://example.com/image.png"
         />,
       );
@@ -550,7 +553,7 @@ describe('FrameMetadata', () => {
       const meta = render(
         <FrameMetadata
           accepts={{ xmtp: '1.0.0' }}
-          isOpenFrame
+          isOpenFrame={true}
           image="https://example.com/image.png"
         />,
       );
