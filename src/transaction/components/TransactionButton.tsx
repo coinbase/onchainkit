@@ -4,8 +4,8 @@ import { useTransactionContext } from './TransactionProvider';
 import { writeContracts } from 'viem/experimental';
 import { useConfig } from 'wagmi';
 import { base } from 'viem/chains';
-import type { TransactionButtonReact } from '../types';
 import { Spinner } from '../../internal/loading/Spinner';
+import type { TransactionButtonReact } from '../types';
 
 export function TransactionButton({
   className,
