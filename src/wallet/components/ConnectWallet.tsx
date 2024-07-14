@@ -1,15 +1,18 @@
+import { ConnectButton as ConnectButtonRainboKit } from '@rainbow-me/rainbowkit';
 import { useCallback } from 'react';
 import { useAccount, useConnect } from 'wagmi';
-import { cn, color, pressable, text as dsText } from '../../styles/theme';
-import { Spinner } from '../../internal/loading/Spinner';
-import { IdentityProvider } from '../../identity/components/IdentityProvider';
+import { ConnectButton } from './ConnectButton';
 import { useWalletContext } from './WalletProvider';
+import { IdentityProvider } from '../../identity/components/IdentityProvider';
+import { Spinner } from '../../internal/loading/Spinner';
+import { cn, color, pressable, text as dsText } from '../../styles/theme';
 import type { ConnectWalletReact } from '../types';
 
 export function ConnectWallet({
   children,
   className,
   text = 'Connect Wallet',
+  withWalletAggregator = false,
 }: ConnectWalletReact) {
   const { isOpen, setIsOpen } = useWalletContext();
   const { address, status } = useAccount();
@@ -17,27 +20,32 @@ export function ConnectWallet({
   const handleToggle = useCallback(() => {
     setIsOpen(!isOpen);
   }, [isOpen, setIsOpen]);
-
   const connector = connectors[0];
   const isLoading = connectStatus === 'pending' || status === 'connecting';
 
   if (status === 'disconnected') {
+    if (withWalletAggregator) {
+      return (
+        <ConnectButtonRainboKit.Custom>
+          {({ openConnectModal }) => (
+            <div className="flex" data-testid="ockConnectWallet_Container">
+              <ConnectButton
+                className={className}
+                connectButtonOnClick={() => openConnectModal()}
+                text={text}
+              />
+            </div>
+          )}
+        </ConnectButtonRainboKit.Custom>
+      );
+    }
     return (
       <div className="flex" data-testid="ockConnectWallet_Container">
-        <button
-          type="button"
-          data-testid="ockConnectWallet_ConnectButton"
-          className={cn(
-            pressable.primary,
-            dsText.headline,
-            color.inverse,
-            'inline-flex min-w-[153px] items-center justify-center rounded-xl px-4 py-3',
-            className,
-          )}
-          onClick={() => connect({ connector })}
-        >
-          <span className={cn(dsText.body, color.inverse)}>{text}</span>
-        </button>
+        <ConnectButton
+          className={className}
+          connectButtonOnClick={() => connect({ connector })}
+          text={text}
+        />
       </div>
     );
   }

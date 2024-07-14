@@ -46,7 +46,7 @@ describe('ConnectWallet', () => {
   it('renders connect button when disconnected', () => {
     render(<ConnectWallet text="Connect Wallet" />);
 
-    const button = screen.getByTestId('ockConnectWallet_ConnectButton');
+    const button = screen.getByTestId('ockConnectButton');
     expect(button).toBeInTheDocument();
     expect(button).toHaveTextContent('Connect Wallet');
   });
@@ -94,7 +94,7 @@ describe('ConnectWallet', () => {
 
     render(<ConnectWallet text="Connect Wallet" />);
 
-    const button = screen.getByTestId('ockConnectWallet_ConnectButton');
+    const button = screen.getByTestId('ockConnectButton');
     fireEvent.click(button);
 
     expect(connectMock).toHaveBeenCalledWith({

@@ -1,15 +1,17 @@
 'use client';
-import App from './App.tsx';
+import AppWithRK from './AppWithRK.tsx';
 import type { ReactNode } from 'react';
 
 type WalletComponentsReact = {
   children: ReactNode;
 };
 
-export default function WalletComponents({ children }: WalletComponentsReact) {
+export default function WalletComponentsWithRK({
+  children,
+}: WalletComponentsReact) {
   return (
-    <App>
+    <AppWithRK>
       <div className="mt-10 mb-28 flex justify-center">{children}</div>
-    </App>
+    </AppWithRK>
   );
 }

@@ -1,7 +1,6 @@
 'use client';
 import { useCallback, type ReactNode } from 'react';
 import { useAccount } from 'wagmi';
-// import { useSendTransaction } from 'wagmi';
 import type { BuildSwapTransaction } from '@coinbase/onchainkit/swap';
 import type { Token } from '@coinbase/onchainkit/token';
 import type { Address } from 'viem';
