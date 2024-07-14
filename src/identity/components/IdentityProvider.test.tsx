@@ -1,9 +1,5 @@
-/**
- * @vitest-environment jsdom
- */
-import React from 'react';
 import '@testing-library/jest-dom';
-import { render, renderHook } from '@testing-library/react';
+import { renderHook } from '@testing-library/react';
 import type { Address, Chain } from 'viem';
 import { IdentityProvider, useIdentityContext } from './IdentityProvider';
 import { baseSepolia, optimism, sepolia } from 'viem/chains';

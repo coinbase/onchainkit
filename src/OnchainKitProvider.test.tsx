@@ -1,4 +1,3 @@
-import React from 'react';
 import { base } from 'viem/chains';
 import { render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';

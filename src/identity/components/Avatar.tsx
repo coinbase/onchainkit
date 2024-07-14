@@ -13,6 +13,7 @@ import { defaultLoadingSVG } from './defaultLoadingSVG';
  * Represents an Avatar component that displays either a loading indicator,
  * a default avatar, or a custom avatar based on Ethereum Name Service (ENS).
  */
+// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO Refactor this component
 export function Avatar({
   address = null,
   className,

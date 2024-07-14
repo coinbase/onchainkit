@@ -3,16 +3,15 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { expect, fn, userEvent, within } from '@storybook/test';
 import { TokenSearch } from './TokenSearch';
 import { getTokens } from '../core/getTokens';
-import type { Token } from '../types';
 
 const meta = {
   title: 'Token/TokenSearch',
   component: () => {
-    const [tokens, setTokens] = React.useState<Token[]>([]);
+    // const [tokens, setTokens] = React.useState<Token[]>([]);
 
     // TODO: This requires an API key
     const handleChange = React.useCallback(async () => {
-      const data = await getTokens();
+      const _data = await getTokens();
       // setTokens(data)
     }, []);
 

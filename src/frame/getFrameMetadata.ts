@@ -2,15 +2,6 @@ import type { FrameMetadataResponse, FrameMetadataType } from './types';
 
 /**
  * This function generates the metadata for a Farcaster Frame.
- * @param accepts: The types of protocol the frame accepts.
- * @param buttons: The buttons to use for the frame.
- * @param image: The image to use for the frame.
- * @param input: The text input to use for the frame.
- * @param isOpenFrame: Whether the frame uses the Open Frames standard.
- * @param postUrl: The URL to post the frame to.
- * @param refreshPeriod: The refresh period for the image used.
- * @param state: The serialized state (e.g. JSON) for the frame.
- * @returns The metadata for the frame.
  */
 export const getFrameMetadata = ({
   accepts = {},
@@ -23,6 +14,7 @@ export const getFrameMetadata = ({
   refreshPeriod,
   refresh_period,
   state,
+  // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO Refactor this component
 }: FrameMetadataType): FrameMetadataResponse => {
   const postUrlToUse = postUrl || post_url;
   const refreshPeriodToUse = refreshPeriod || refresh_period;

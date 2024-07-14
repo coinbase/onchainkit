@@ -1,7 +1,7 @@
 /**
  * @vitest-environment jsdom
  */
-import React, { type ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { ConnectWallet } from './ConnectWallet';

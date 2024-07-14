@@ -6,7 +6,7 @@ import {
 } from '../constants';
 import { SwapMessage } from './getSwapMessage';
 import type { SwapErrorState } from '../types';
-import { describe, expect, test, vi } from 'vitest';
+import { describe, expect, test } from 'vitest';
 
 describe('getSwapError', () => {
   test('returns TOO_MANY_REQUESTS when error code is TOO_MANY_REQUESTS_ERROR_CODE', () => {

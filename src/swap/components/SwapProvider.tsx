@@ -6,13 +6,13 @@ import {
   useState,
 } from 'react';
 import { useSendTransaction, useConfig, type BaseError } from 'wagmi';
-import { useSwapBalances } from './useSwapBalances';
 import { processSwapTransaction } from '../utils/processSwapTransaction';
 import { buildSwapTransaction } from '../core/buildSwapTransaction';
 import { isSwapError } from '../core/isSwapError';
 import { getSwapQuote } from '../core/getSwapQuote';
 import { USER_REJECTED_ERROR_CODE } from '../constants';
 import { formatTokenAmount } from '../../utils/formatTokenAmount';
+import { useFromTo } from '../utils/useFromTo';
 import type { SwapError, SwapErrorState, SwapContextType } from '../types';
 import type { Token } from '../../token';
 import type { Address, TransactionReceipt } from 'viem';
@@ -31,47 +31,6 @@ export function useSwapContext() {
     throw new Error('useSwapContext must be used within a Swap component');
   }
   return context;
-}
-
-function useFromTo(address: Address) {
-  const [fromAmount, setFromAmount] = useState('');
-  const [fromToken, setFromToken] = useState<Token>();
-  const [toAmount, setToAmount] = useState('');
-  const [toToken, setToToken] = useState<Token>();
-  const [toLoading, setToLoading] = useState(false);
-  const [fromLoading, setFromLoading] = useState(false);
-
-  const {
-    fromBalanceString,
-    fromTokenBalanceError,
-
-    toBalanceString,
-    toTokenBalanceError,
-  } = useSwapBalances({ address, fromToken, toToken });
-
-  const from = useValue({
-    balance: fromBalanceString,
-    amount: fromAmount,
-    setAmount: setFromAmount,
-    token: fromToken,
-    setToken: setFromToken,
-    loading: fromLoading,
-    setLoading: setFromLoading,
-    error: fromTokenBalanceError,
-  });
-
-  const to = useValue({
-    balance: toBalanceString,
-    amount: toAmount,
-    setAmount: setToAmount,
-    token: toToken,
-    setToken: setToToken,
-    loading: toLoading,
-    setLoading: setToLoading,
-    error: toTokenBalanceError,
-  });
-
-  return { from, to };
 }
 
 export function SwapProvider({
@@ -115,6 +74,7 @@ export function SwapProvider({
       amount: string,
       sToken?: Token,
       dToken?: Token,
+      // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO Refactor this component
     ) => {
       const source = type === 'from' ? from : to;
       const destination = type === 'from' ? to : from;
@@ -130,8 +90,8 @@ export function SwapProvider({
         return destination.setAmount('');
       }
 
-      /* when toAmount changes we fetch quote for fromAmount
-        so set isFromQuoteLoading to true */
+      // When toAmount changes we fetch quote for fromAmount
+      // so set isFromQuoteLoading to true
       destination.setLoading(true);
       handleError({
         quoteError: undefined,
@@ -144,8 +104,8 @@ export function SwapProvider({
           amount,
           amountReference: 'from',
         });
-        /* if request resolves to error response set the quoteError
-        property of error state to the SwapError response */
+        // If request resolves to error response set the quoteError
+        // property of error state to the SwapError response */
         if (isSwapError(response)) {
           return handleError({ quoteError: response });
         }
@@ -159,7 +119,7 @@ export function SwapProvider({
       } catch (err) {
         handleError({ quoteError: err as SwapError });
       } finally {
-        /* reset loading state when quote request resolves */
+        // reset loading state when quote request resolves
         destination.setLoading(false);
       }
     },
@@ -167,6 +127,7 @@ export function SwapProvider({
   );
 
   const handleSubmit = useCallback(
+    // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO Refactor this component
     async function handleSubmit(
       onError?: (error: SwapError) => void,
       onSuccess?: (txReceipt: TransactionReceipt) => void | Promise<void>,
