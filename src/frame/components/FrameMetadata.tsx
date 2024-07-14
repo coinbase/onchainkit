@@ -4,6 +4,7 @@ import type { FrameMetadataReact } from '../types';
 /**
  * This component is used to add React Frame Metadata to the page.
  */
+// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO Refactor this component
 export function FrameMetadata({
   accepts = {},
   buttons,

@@ -27,6 +27,9 @@
     "enabled": true,
     "rules": {
       "recommended": true,
+      "complexity": {
+        "noExcessiveCognitiveComplexity": "error"
+      },
       "nursery": {
         "useSortedClasses": "error"
       }
