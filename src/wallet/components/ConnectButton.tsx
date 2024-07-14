@@ -9,7 +9,7 @@ export function ConnectButton({
   return (
     <button
       type="button"
-      data-testid="ConnectButton"
+      data-testid="ockConnectButton"
       className={cn(
         pressable.primary,
         dsText.headline,
