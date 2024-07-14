@@ -13,7 +13,7 @@ vi.mock('wagmi', () => {
   };
 });
 
-const mockETHBalanceResponse = {
+const mockEthBalanceResponse = {
   data: {
     decimals: 18,
     formatted: '0.0002851826238227',
@@ -21,7 +21,7 @@ const mockETHBalanceResponse = {
     value: 285182623822700n,
   },
 };
-const mockZeroETHBalanceResponse = {
+const mockZeroEthBalanceResponse = {
   data: {
     decimals: 18,
     formatted: '0',
@@ -42,13 +42,13 @@ describe('useGetETHBalance', () => {
   });
 
   it('should return converted and rounded balance without error', () => {
-    (useBalance as Mock).mockReturnValue(mockETHBalanceResponse);
+    (useBalance as Mock).mockReturnValue(mockEthBalanceResponse);
     const { result } = renderHook(() => useGetETHBalance(mockAddress));
 
     expect(result.current.convertedBalance).toBe('0.0002851826238227');
     expect(result.current.roundedBalance).toBe('0.00028518');
     expect(result.current.error).toBeUndefined();
-    expect(result.current.response).toEqual(mockETHBalanceResponse);
+    expect(result.current.response).toEqual(mockEthBalanceResponse);
   });
 
   it('should return an error when useBalance returns an error', () => {
@@ -66,14 +66,14 @@ describe('useGetETHBalance', () => {
   });
 
   it('should return zero balance when balance value is 0n', () => {
-    (useBalance as Mock).mockReturnValue(mockZeroETHBalanceResponse);
+    (useBalance as Mock).mockReturnValue(mockZeroEthBalanceResponse);
 
     const { result } = renderHook(() => useGetETHBalance(mockAddress));
 
     expect(result.current.convertedBalance).toBe('0');
     expect(result.current.roundedBalance).toBe('0');
     expect(result.current.error).toBeUndefined();
-    expect(result.current.response).toEqual(mockZeroETHBalanceResponse);
+    expect(result.current.response).toEqual(mockZeroEthBalanceResponse);
   });
 
   it('should return empty balance when balance value is not present', () => {

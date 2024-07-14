@@ -30,7 +30,7 @@ vi.mock('../../utils/getRoundedAmount', () => ({
 }));
 
 const useIdentityContextMock = mock(useIdentityContext);
-const useGetETHBalanceMock = mock(useGetETHBalance);
+const useGetEthBalanceMock = mock(useGetETHBalance);
 
 describe('EthBalance', () => {
   const testIdentityProviderAddress = '0xIdentityAddress';
@@ -50,7 +50,7 @@ describe('EthBalance', () => {
   it('should display the balance if provided', () => {
     const balance = 1.23456789;
     useIdentityContextMock.mockReturnValue({ address: null });
-    useGetETHBalanceMock.mockReturnValue({
+    useGetEthBalanceMock.mockReturnValue({
       convertedBalance: balance,
       error: null,
     });
@@ -68,7 +68,7 @@ describe('EthBalance', () => {
 
   it('should return null if balance is undefined or there is an error', () => {
     useIdentityContextMock.mockReturnValue({ address: null });
-    useGetETHBalanceMock.mockReturnValue({
+    useGetEthBalanceMock.mockReturnValue({
       convertedBalance: undefined,
       error: 'Error message',
     });
@@ -87,7 +87,7 @@ describe('EthBalance', () => {
     useIdentityContextMock.mockReturnValue({
       address: testIdentityProviderAddress,
     });
-    useGetETHBalanceMock.mockReturnValue({
+    useGetEthBalanceMock.mockReturnValue({
       convertedBalance: balance,
       error: null,
     });
@@ -95,7 +95,7 @@ describe('EthBalance', () => {
 
     render(<EthBalance className="custom-class" />);
 
-    expect(useGetETHBalanceMock).toHaveBeenCalledWith(
+    expect(useGetEthBalanceMock).toHaveBeenCalledWith(
       testIdentityProviderAddress,
     );
   });
@@ -105,7 +105,7 @@ describe('EthBalance', () => {
     useIdentityContextMock.mockReturnValue({
       address: testIdentityProviderAddress,
     });
-    useGetETHBalanceMock.mockReturnValue({
+    useGetEthBalanceMock.mockReturnValue({
       convertedBalance: balance,
       error: null,
     });
@@ -118,7 +118,7 @@ describe('EthBalance', () => {
       />,
     );
 
-    expect(useGetETHBalanceMock).toHaveBeenCalledWith(
+    expect(useGetEthBalanceMock).toHaveBeenCalledWith(
       testEthBalanceComponentAddress,
     );
   });

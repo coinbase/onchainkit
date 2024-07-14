@@ -27,7 +27,7 @@ vi.mock('../../wallet/core/useGetETHBalance', () => ({
 
 const useAvatarMock = mock(useAvatar);
 const useNameMock = mock(useName);
-const useGetETHBalanceMock = mock(useGetETHBalance);
+const useGetEthBalanceMock = mock(useGetETHBalance);
 
 describe('Identity Component', () => {
   beforeEach(() => {
@@ -108,7 +108,7 @@ describe('Identity Component', () => {
       isLoading: false,
     });
     useNameMock.mockReturnValue({ data: 'name', isLoading: false });
-    useGetETHBalanceMock.mockReturnValue({ convertedBalance: '0.002' });
+    useGetEthBalanceMock.mockReturnValue({ convertedBalance: '0.002' });
 
     render(
       <Identity address="0x123456789">
@@ -131,7 +131,7 @@ describe('Identity Component', () => {
       isLoading: false,
     });
     useNameMock.mockReturnValue({ data: 'name', isLoading: false });
-    useGetETHBalanceMock.mockReturnValue({ convertedBalance: '0.002' });
+    useGetEthBalanceMock.mockReturnValue({ convertedBalance: '0.002' });
 
     render(
       <Identity address="0x123456789">

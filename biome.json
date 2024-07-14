@@ -46,9 +46,26 @@
       },
       "nursery": {
         "useSortedClasses": "error"
+      },
+      "style": {
+        "noImplicitBoolean": "error",
+        "noNamespace": "error",
+        "noNamespaceImport": "error",
+        "noNegationElse": "error",
+        "noParameterProperties": "error",
+        "noShoutyConstants": "error",
+        "useBlockStatements": "error",
+        "useCollapsedElseIf": "error",
+        "useConsistentArrayType": "error",
+        "useForOf": "error",
+        "useFragmentSyntax": "error",
+        "useShorthandArrayType": "error",
+        "useShorthandAssign": "error",
+        "useSingleCaseStatement": "error"
       }
     },
     "ignore": [
+      "site/env.d.ts",
       "site/tailwind.config.js",
       "site/vocs.config.tsx",
       "src/internal/form/useDebounce.ts"

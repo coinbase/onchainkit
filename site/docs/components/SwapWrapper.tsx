@@ -19,7 +19,7 @@ type SwapComponentsReact = {
 export default function SwapComponents({ children }: SwapComponentsReact) {
   const { address } = useAccount();
 
-  const DEGENToken: Token = {
+  const degenToken: Token = {
     name: 'DEGEN',
     address: '0x4ed4e862860bed51a9570b96d89af5e1b0efefed',
     symbol: 'DEGEN',
@@ -29,7 +29,7 @@ export default function SwapComponents({ children }: SwapComponentsReact) {
     chainId: 8453,
   };
 
-  const ETHToken: Token = {
+  const ethToken: Token = {
     name: 'ETH',
     address: '',
     symbol: 'ETH',
@@ -39,7 +39,7 @@ export default function SwapComponents({ children }: SwapComponentsReact) {
     chainId: 8453,
   };
 
-  const USDCToken: Token = {
+  const usdcToken: Token = {
     name: 'USDC',
     address: '0x833589fcd6edb6e08f4c7c32d4f71b54bda02913',
     symbol: 'USDC',
@@ -49,7 +49,7 @@ export default function SwapComponents({ children }: SwapComponentsReact) {
     chainId: 8453,
   };
 
-  const WETHToken: Token = {
+  const wethToken: Token = {
     name: 'Wrapped Ether',
     address: '0x4200000000000000000000000000000000000006',
     symbol: 'WETH',
@@ -59,7 +59,7 @@ export default function SwapComponents({ children }: SwapComponentsReact) {
     chainId: 8453,
   };
 
-  const swappableTokens = [DEGENToken, ETHToken, USDCToken, WETHToken];
+  const swappableTokens = [degenToken, ethToken, usdcToken, wethToken];
 
   const onSubmit = useCallback(() => {}, []);
 

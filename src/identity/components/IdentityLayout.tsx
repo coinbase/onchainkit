@@ -1,17 +1,11 @@
-import {
-  Children,
-  useMemo,
-  type ReactNode,
-  useCallback,
-  useState,
-  useEffect,
-} from 'react';
-import { Avatar } from './Avatar';
-import { Name } from './Name';
+import { Children, useMemo, useCallback, useState, useEffect } from 'react';
 import { Address } from './Address';
-import { background, cn, color, pressable } from '../../styles/theme';
+import { Avatar } from './Avatar';
 import { EthBalance } from './EthBalance';
+import { Name } from './Name';
 import { findComponent } from '../../internal/utils/findComponent';
+import { background, cn, color, pressable } from '../../styles/theme';
+import type { ReactNode } from 'react';
 
 // istanbul ignore next
 const noop = () => {};
@@ -51,11 +45,12 @@ export function usePopover(onClick?: () => Promise<boolean>) {
     } else {
       setShowPopover(false);
     }
-
     return () => clearTimeout(timer);
   }, [isHovered]);
 
-  if (!onClick) return {};
+  if (!onClick) {
+    return {};
+  }
 
   return {
     handleClick,

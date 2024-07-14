@@ -17,11 +17,11 @@ describe('getDataFromNeynar', () => {
   });
 
   it('should call fetch correctly', async () => {
-    const apiURLMock = 'https://api.neynar.com/v2/amazing-api';
-    await getDataFromNeynar(apiURLMock);
-    expect(global.fetch).toHaveBeenCalledWith(apiURLMock, {
+    const apiUrlMock = 'https://api.neynar.com/v2/amazing-api';
+    await getDataFromNeynar(apiUrlMock);
+    expect(global.fetch).toHaveBeenCalledWith(apiUrlMock, {
       method: 'GET',
-      url: apiURLMock,
+      url: apiUrlMock,
       headers: {
         accept: 'application/json',
         api_key: NEYNAR_DEFAULT_API_KEY,

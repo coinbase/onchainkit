@@ -17,12 +17,12 @@ describe('postDataToNeynar', () => {
   });
 
   it('should call fetch correctly', async () => {
-    const mockURL = 'https://api.neynar.com/v2/amazing-api';
+    const mockUrl = 'https://api.neynar.com/v2/amazing-api';
     const mockData = {};
-    await postDataToNeynar(mockURL, NEYNAR_DEFAULT_API_KEY, mockData);
-    expect(global.fetch).toHaveBeenCalledWith(mockURL, {
+    await postDataToNeynar(mockUrl, NEYNAR_DEFAULT_API_KEY, mockData);
+    expect(global.fetch).toHaveBeenCalledWith(mockUrl, {
       method: 'POST',
-      url: mockURL,
+      url: mockUrl,
       headers: {
         accept: 'application/json',
         api_key: NEYNAR_DEFAULT_API_KEY,

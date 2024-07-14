@@ -7,7 +7,7 @@ import { describe, expect, it } from 'vitest';
 
 const mockTokenBalanceResponse = { data: 3304007277394n };
 const mockZeroTokenBalanceResponse = { data: 0n };
-const mockETHBalanceResponse = {
+const mockEthBalanceResponse = {
   data: {
     decimals: 18,
     formatted: '0.0002851826238227',
@@ -15,7 +15,7 @@ const mockETHBalanceResponse = {
     value: 285182623822700n,
   },
 };
-const mockZeroETHBalanceResponse = {
+const mockZeroEthBalanceResponse = {
   data: {
     decimals: 18,
     formatted: '0',
@@ -23,7 +23,7 @@ const mockZeroETHBalanceResponse = {
     value: 0n,
   },
 };
-const mockETHToken: Token = {
+const mockEthToken: Token = {
   name: 'ETH',
   address: '0x123456789',
   symbol: 'ETH',
@@ -46,8 +46,8 @@ const mockToken: Token = {
 describe('getTokenBalances', () => {
   it('returns balances for ETH token', () => {
     const result = getTokenBalances({
-      token: mockETHToken,
-      ethBalance: mockETHBalanceResponse?.data?.value,
+      token: mockEthToken,
+      ethBalance: mockEthBalanceResponse?.data?.value,
       tokenBalance: mockTokenBalanceResponse?.data,
     });
 
@@ -57,8 +57,8 @@ describe('getTokenBalances', () => {
 
   it('returns balances for ETH token with 0 balance', () => {
     const result = getTokenBalances({
-      token: mockETHToken,
-      ethBalance: mockZeroETHBalanceResponse?.data?.value,
+      token: mockEthToken,
+      ethBalance: mockZeroEthBalanceResponse?.data?.value,
       tokenBalance: mockZeroTokenBalanceResponse?.data,
     });
 
@@ -69,7 +69,7 @@ describe('getTokenBalances', () => {
   it('returns balances for erc20 token', () => {
     const result = getTokenBalances({
       token: mockToken,
-      ethBalance: mockETHBalanceResponse?.data?.value,
+      ethBalance: mockEthBalanceResponse?.data?.value,
       tokenBalance: mockTokenBalanceResponse?.data,
     });
 
@@ -80,7 +80,7 @@ describe('getTokenBalances', () => {
   it('returns balances for erc20 token with 0 balance', () => {
     const result = getTokenBalances({
       token: mockToken,
-      ethBalance: mockZeroETHBalanceResponse?.data?.value,
+      ethBalance: mockZeroEthBalanceResponse?.data?.value,
       tokenBalance: mockZeroTokenBalanceResponse?.data,
     });
 
@@ -90,7 +90,7 @@ describe('getTokenBalances', () => {
 
   it('returns handles missing data correctly', () => {
     const result = getTokenBalances({
-      ethBalance: mockETHBalanceResponse?.data?.value,
+      ethBalance: mockEthBalanceResponse?.data?.value,
       tokenBalance: mockTokenBalanceResponse?.data,
     });
 
