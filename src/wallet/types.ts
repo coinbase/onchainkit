@@ -4,6 +4,12 @@ import type { SwapError } from '../swap';
 import type { UseBalanceReturnType, UseReadContractReturnType } from 'wagmi';
 import type { Dispatch, ReactNode, SetStateAction } from 'react';
 
+export type ConnectButtonReact = {
+  className?: string; // Optional className override for button element
+  connectButtonOnClick: () => void; // Function to call when the button is clicked
+  text: string; // Optional text override for button
+};
+
 /**
  * Note: exported as public Type
  */
@@ -11,6 +17,7 @@ export type ConnectWalletReact = {
   children?: React.ReactNode; // Children can be utilized to display customized content when the wallet is connected.
   className?: string; // Optional className override for button element
   text?: string; // Optional text override for button
+  withWalletAggregator?: boolean; // Optional flag to enable the wallet aggregator like RainbowKit
 };
 
 /**

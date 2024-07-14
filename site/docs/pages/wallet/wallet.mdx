@@ -20,6 +20,7 @@ import {
 } from '../../../../src/identity';
 import { color } from '@coinbase/onchainkit/theme';
 import WalletComponents from '../../components/WalletComponents';
+import WalletComponentsWithRK from '../../components/WalletComponentsWithRK';
 
 # `<Wallet />`
 
@@ -207,6 +208,64 @@ function App({ children }: { children: ReactNode }) {
   return <WagmiProvider config={wagmiConfig}>{children}</WagmiProvider>;
 }
 ```
+
+### With Wallet Aggregator
+
+You can ~~~
+
+```tsx [code]
+// omitted for brevity
+
+<Wallet>
+  <ConnectWallet withWalletAggregator>
+    <Avatar />
+    <Name />
+  </ConnectWallet>
+  <WalletDropdown>
+    <Identity hasCopyAddressOnClick>
+      <Avatar />
+      <Name>
+        <Badge />
+      </Name>
+      <Address />
+      <EthBalance />
+    </Identity>
+    <WalletDropdownLink 
+      icon="wallet" 
+      href="https://wallet.coinbase.com"
+    >
+      Go to Wallet Dashboard
+    </WalletDropdownLink>
+    <WalletDropdownDisconnect />
+  </WalletDropdown>
+</Wallet>
+```
+
+<WalletComponentsWithRK>
+  <Wallet>
+    <ConnectWallet withWalletAggregator>
+      <Avatar />
+      <Name />
+    </ConnectWallet>
+    <WalletDropdown>
+      <Identity hasCopyAddressOnClick>
+        <Avatar />
+        <Name>
+          <Badge />
+        </Name>
+        <Address className={color.foregroundMuted} />
+        <EthBalance />
+      </Identity>
+      <WalletDropdownLink 
+        icon="wallet" 
+        href="https://wallet.coinbase.com"
+      >
+        Go to Wallet Dashboard
+      </WalletDropdownLink>
+      <WalletDropdownDisconnect />
+    </WalletDropdown>
+  </Wallet>
+</WalletComponentsWithRK>
 
 ## Props
 

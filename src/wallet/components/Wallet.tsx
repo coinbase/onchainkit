@@ -17,10 +17,10 @@ export function Wallet({ children }: WalletReact) {
 
   return (
     <WalletProvider>
-        <div className="relative w-fit shrink-0">
-          {connect}
-          {dropdown}
-        </div>
+      <div className="relative w-fit shrink-0">
+        {connect}
+        {dropdown}
+      </div>
     </WalletProvider>
   );
 }
