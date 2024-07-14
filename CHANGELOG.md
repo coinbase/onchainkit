@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- 7ef7bac: - **fix**: modified `getName` to default to ENS name when custom chain name is not available. By @kirkas #792
+- **fix**: modified `getName` to default to ENS name when custom chain name is not available. By @kirkas #792 7ef7bac
 
 ## 0.25.0
 
