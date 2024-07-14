@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.25.2
+
+### Patch Changes
+
+- d80b01e: - **feat**: added RainbowKit support to the `ConnectWallet` component. By @zizzamia #797
+
 ## 0.25.1
 
 ### Patch Changes
