@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useSwapBalances } from '../hooks/useSwapBalances';
+import { useValue } from '../../internal/hooks/useValue';
 import type { Token } from '../../token';
 import type { Address } from 'viem';
 
@@ -14,7 +15,6 @@ export const useFromTo = (address: Address) => {
   const {
     fromBalanceString,
     fromTokenBalanceError,
-
     toBalanceString,
     toTokenBalanceError,
   } = useSwapBalances({ address, fromToken, toToken });
