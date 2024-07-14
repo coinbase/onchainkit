@@ -17,8 +17,8 @@ export function TransactionButton({
     isLoading,
     setErrorMessage,
     setIsLoading,
-    transactionId,
     setTransactionId,
+    transactionId,
   } = useTransactionContext();
 
   const wagmiConfig = useConfig();

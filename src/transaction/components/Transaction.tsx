@@ -1,4 +1,5 @@
 import { TransactionProvider } from './TransactionProvider';
+import { cn } from '../../styles/theme';
 import type { TransactionReact } from '../types';
 
 export function Transaction({
@@ -9,7 +10,9 @@ export function Transaction({
 }: TransactionReact) {
   return (
     <TransactionProvider address={address} contracts={contracts}>
-      <div className={className}>{children}</div>
+      <div className={cn(className, 'w-full gap-2 flex flex-col')}>
+        {children}
+      </div>
     </TransactionProvider>
   );
 }

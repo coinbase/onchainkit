@@ -42,11 +42,6 @@ export type TransactionErrorState = {
   TransactionError?: TransactionError;
 };
 
-export type TransactionGasFeeReact = {
-  className?: string;
-  children: ReactNode;
-};
-
 export type TransactionGasFeeEstimateReact = {
   className?: string;
 };
@@ -55,8 +50,26 @@ export type TransactionGasFeeLabelReact = {
   className?: string;
 };
 
+export type TransactionGasFeeReact = {
+  className?: string;
+  children: ReactNode;
+};
+
 export type TransactionGasFeeSponsoredByReact = {
   className?: string;
+};
+
+export type TransactionStatusActionReact = {
+  className?: string;
+};
+
+export type TransactionStatusLabelReact = {
+  className?: string;
+};
+
+export type TransactionStatusReact = {
+  className?: string;
+  children: ReactNode;
 };
 
 export type TransactionMessageReact = {
