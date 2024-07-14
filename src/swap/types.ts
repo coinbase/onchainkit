@@ -1,4 +1,4 @@
-import type { ComponentType, Dispatch, ReactNode, SetStateAction } from 'react';
+import type { Dispatch, ReactNode, SetStateAction } from 'react';
 import type { Address, Hex, TransactionReceipt } from 'viem';
 import type { Token } from '../token/types';
 

@@ -1,7 +1,3 @@
-/**
- * @vitest-environment jsdom
- */
-import React from 'react';
 import { base } from 'viem/chains';
 import { vi } from 'vitest';
 import '@testing-library/jest-dom';

@@ -28,13 +28,31 @@
     "rules": {
       "recommended": true,
       "complexity": {
-        "noExcessiveCognitiveComplexity": "error"
+        "noExcessiveCognitiveComplexity": {
+          "level": "error",
+          "options": {
+            "maxAllowedComplexity": 10
+          }
+        },
+        "noVoid": "error"
+      },
+      "correctness": {
+        "noConstantMathMinMaxClamp": "error",
+        "noNodejsModules": "error",
+        "noUnusedImports": "error",
+        "noUnusedPrivateClassMembers": "error",
+        "noUnusedVariables": "error",
+        "useArrayLiterals": "error"
       },
       "nursery": {
         "useSortedClasses": "error"
       }
     },
-    "ignore": ["site/vocs.config.tsx", "src/internal/form/useDebounce.ts"]
+    "ignore": [
+      "site/tailwind.config.js",
+      "site/vocs.config.tsx",
+      "src/internal/form/useDebounce.ts"
+    ]
   },
   "json": {
     "formatter": {

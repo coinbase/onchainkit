@@ -20,7 +20,7 @@ export async function getXmtpFrameMessage(payload: XmtpOpenFramesRequest) {
         identifier: verifiedWalletAddress,
       },
     };
-  } catch (e) {
+  } catch (_e) {
     return {
       isValid: false,
       message: undefined,

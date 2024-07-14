@@ -1,7 +1,3 @@
-/**
- * @vitest-environment jsdom
- */
-import React from 'react';
 import '@testing-library/jest-dom';
 import { render, screen, waitFor } from '@testing-library/react';
 import { useAccount, useConnect, useDisconnect } from 'wagmi';

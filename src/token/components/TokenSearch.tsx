@@ -2,7 +2,7 @@ import { useCallback, useState } from 'react';
 import type { TokenSearchReact } from '../types';
 import { SearchIcon } from './SearchIcon';
 import { TextInput } from '../../internal/form/TextInput';
-import { cn, color, pressable, text } from '../../styles/theme';
+import { cn, color, pressable } from '../../styles/theme';
 
 export function TokenSearch({
   className,

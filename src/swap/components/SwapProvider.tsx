@@ -127,6 +127,7 @@ export function SwapProvider({
   );
 
   const handleSubmit = useCallback(
+    // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO Refactor this component
     async function handleSubmit(
       onError?: (error: SwapError) => void,
       onSuccess?: (txReceipt: TransactionReceipt) => void | Promise<void>,

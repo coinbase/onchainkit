@@ -1,7 +1,3 @@
-/**
- * @vitest-environment jsdom
- */
-import React from 'react';
 import { vi, type Mock } from 'vitest';
 import '@testing-library/jest-dom';
 import { render, screen, waitFor } from '@testing-library/react';
@@ -35,9 +31,6 @@ vi.mock('./IdentityProvider', () => ({
 vi.mock('../hooks/useAttestations', () => ({
   useAttestations: vi.fn(),
 }));
-
-const mockSliceAddress = (addr: string) =>
-  `${addr.slice(0, 6)}...${addr.slice(-4)}`;
 
 describe('Name', () => {
   const testName = 'testname.eth';

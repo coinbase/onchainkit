@@ -102,8 +102,6 @@ describe('getTokens', () => {
   });
 
   it('should return an error object if sendRequest returns an error', async () => {
-    const mockError = new Error('Request failed');
-
     (sendRequest as vi.Mock).mockResolvedValue({
       result: null,
       error: {

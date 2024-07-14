@@ -1,7 +1,3 @@
-/**
- * @vitest-environment jsdom
- */
-import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { SwapAmountInput } from './SwapAmountInput';
@@ -69,10 +65,10 @@ const mockContextValue = {
   handleAmountChange: vi.fn(),
 } as SwapContextType;
 
-const mockContextValueWithoutConvertedBalance = {
-  ...mockContextValue,
-  convertedFromTokenBalance: undefined,
-};
+// const mockContextValueWithoutConvertedBalance = {
+//   ...mockContextValue,
+//   convertedFromTokenBalance: undefined,
+// };
 
 const mockSwappableTokens: Token[] = [
   {
@@ -104,7 +100,7 @@ const mockSwappableTokens: Token[] = [
   },
 ];
 
-const SwapProvider = describe('SwapAmountInput', () => {
+describe('SwapAmountInput', () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });

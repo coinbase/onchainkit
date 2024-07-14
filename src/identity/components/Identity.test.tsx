@@ -1,7 +1,3 @@
-/**
- * @vitest-environment jsdom
- */
-import React from 'react';
 import { vi } from 'vitest';
 import '@testing-library/jest-dom';
 import { render, screen, waitFor } from '@testing-library/react';
