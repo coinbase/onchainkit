@@ -2,4 +2,4 @@
 "@coinbase/onchainkit": patch
 ---
 
--**docs**: Add Terms of Service. By @cpcramer #000
+-**docs**: Add Terms of Service. By @cpcramer #806
