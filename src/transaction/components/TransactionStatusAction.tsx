@@ -1,42 +1,11 @@
-import { useMemo } from 'react';
-import { cn, color, text } from '../../styles/theme';
-import { useTransactionContext } from './TransactionProvider';
+import { cn, text } from '../../styles/theme';
+import { useGetTransactionStatus } from '../core/useGetTransactionStatus';
 import type { TransactionStatusActionReact } from '../types';
 
 export function TransactionStatusAction({
   className,
 }: TransactionStatusActionReact) {
-  const { errorMessage, isLoading, transactionId } = useTransactionContext();
-
-  // TODO: rethink ordering and add additional cases
-  const actionElement = useMemo(() => {
-    if (isLoading) {
-      return (
-        <a>
-          <span className={cn(text.label1, color.primary)}>
-            View on explorer
-          </span>
-        </a>
-      );
-    }
-    if (transactionId) {
-      return (
-        <a href={`https://basescan.org/tx/${transactionId}`} target="_blank">
-          <span className={cn(text.label1, color.primary)}>
-            View transaction
-          </span>
-        </a>
-      );
-    }
-    if (errorMessage) {
-      return (
-        <button>
-          <span className={cn(text.label1, color.primary)}>Try again</span>
-        </button>
-      );
-    }
-    return null;
-  }, [isLoading]);
+  const { actionElement } = useGetTransactionStatus();
 
   return <div className={cn(text.label2, className)}>{actionElement}</div>;
 }
