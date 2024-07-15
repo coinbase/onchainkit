@@ -1,12 +1,12 @@
 import { useMemo } from 'react';
-import { useReadContract } from 'wagmi';
 import { erc20Abi, formatUnits } from 'viem';
-import { getRoundedAmount } from '../../utils/getRoundedAmount';
-import { getSwapErrorCode } from '../../swap/core/getSwapErrorCode';
 import type { Address } from 'viem';
-import type { Token } from '../../token';
+import { useReadContract } from 'wagmi';
 import type { UseReadContractReturnType } from 'wagmi';
 import type { SwapError } from '../../swap';
+import { getSwapErrorCode } from '../../swap/core/getSwapErrorCode';
+import type { Token } from '../../token';
+import { getRoundedAmount } from '../../utils/getRoundedAmount';
 import type { UseGetTokenBalanceResponse } from '../types';
 
 export function useGetTokenBalance(

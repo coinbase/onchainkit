@@ -1,6 +1,6 @@
-import { getFarcasterUserAddress } from './getFarcasterUserAddress';
 import { getCustodyAddressForFidNeynar } from '../utils/neynar/user/getCustodyAddressForFidNeynar';
 import { getVerifiedAddressesForFidNeynar } from '../utils/neynar/user/getVerifiedAddressesForFidNeynar';
+import { getFarcasterUserAddress } from './getFarcasterUserAddress';
 
 vi.mock('../utils/neynar/user/getCustodyAddressForFidNeynar');
 vi.mock('../utils/neynar/user/getVerifiedAddressesForFidNeynar');

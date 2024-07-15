@@ -1,8 +1,8 @@
 import type { UserOperation } from 'permissionless';
-import type { Address, PublicClient } from 'viem';
-import type { SwapError } from '../swap';
-import type { UseBalanceReturnType, UseReadContractReturnType } from 'wagmi';
 import type { Dispatch, ReactNode, SetStateAction } from 'react';
+import type { Address, PublicClient } from 'viem';
+import type { UseBalanceReturnType, UseReadContractReturnType } from 'wagmi';
+import type { SwapError } from '../swap';
 
 export type ConnectButtonReact = {
   className?: string; // Optional className override for button element

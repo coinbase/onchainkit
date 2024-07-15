@@ -1,7 +1,7 @@
-import { useIdentityContext } from './IdentityProvider';
-import { getSlicedAddress } from '../getSlicedAddress';
 import { cn, text } from '../../styles/theme';
+import { getSlicedAddress } from '../getSlicedAddress';
 import type { AddressReact } from '../types';
+import { useIdentityContext } from './IdentityProvider';
 
 export function Address({
   address = null,

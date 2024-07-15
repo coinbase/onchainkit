@@ -1,8 +1,8 @@
 import { useMemo } from 'react';
+import type { Address } from 'viem';
+import type { Token } from '../../token';
 import { useGetETHBalance } from '../../wallet/core/useGetETHBalance';
 import { useGetTokenBalance } from '../../wallet/core/useGetTokenBalance';
-import type { Token } from '../../token';
-import type { Address } from 'viem';
 
 function useValue<T>(object: T): T {
   return useMemo(() => object, [object]);

@@ -1,6 +1,6 @@
 'use client';
-import App from './App.tsx';
 import type { ReactNode } from 'react';
+import App from './App.tsx';
 
 type WalletComponentsReact = {
   children: ReactNode;

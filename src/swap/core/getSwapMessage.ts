@@ -1,5 +1,5 @@
-import { getSwapError } from './getSwapError';
 import type { GetSwapMessageParams } from '../types';
+import { getSwapError } from './getSwapError';
 
 export enum SwapMessage {
   BALANCE_ERROR = 'Error fetching token balance',

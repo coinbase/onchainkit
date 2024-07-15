@@ -1,9 +1,9 @@
 'use client';
-import { useCallback, type ReactNode } from 'react';
-import { useAccount } from 'wagmi';
 import type { BuildSwapTransaction } from '@coinbase/onchainkit/swap';
 import type { Token } from '@coinbase/onchainkit/token';
+import { type ReactNode, useCallback } from 'react';
 import type { Address } from 'viem';
+import { useAccount } from 'wagmi';
 
 type SwapComponentsChildren = {
   address: Address | undefined;

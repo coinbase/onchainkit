@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { base } from 'viem/chains';
+import { OnchainKitProvider } from '../../OnchainKitProvider';
 import { Avatar } from './Avatar';
 import { Badge } from './Badge';
-import { OnchainKitProvider } from '../../OnchainKitProvider';
-import { base } from 'viem/chains';
 
 const meta = {
   title: 'Identity/Avatar',

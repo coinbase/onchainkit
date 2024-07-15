@@ -1,8 +1,8 @@
-import { useIdentityContext } from './IdentityProvider';
 import { cn, color, text } from '../../styles/theme';
-import type { EthBalanceReact } from '../types';
-import { useGetETHBalance } from '../../wallet/core/useGetETHBalance';
 import { getRoundedAmount } from '../../utils/getRoundedAmount';
+import { useGetETHBalance } from '../../wallet/core/useGetETHBalance';
+import type { EthBalanceReact } from '../types';
+import { useIdentityContext } from './IdentityProvider';
 export function EthBalance({ address, className }: EthBalanceReact) {
   const { address: contextAddress } = useIdentityContext();
   if (!contextAddress && !address) {

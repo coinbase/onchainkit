@@ -1,9 +1,9 @@
-import { vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
+import { vi } from 'vitest';
 import '@testing-library/jest-dom';
+import { getSlicedAddress } from '../getSlicedAddress';
 import { Address } from './Address';
 import { useIdentityContext } from './IdentityProvider';
-import { getSlicedAddress } from '../getSlicedAddress';
 
 function mock<T>(func: T) {
   return func as vi.Mock;

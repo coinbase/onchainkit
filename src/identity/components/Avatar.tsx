@@ -1,11 +1,11 @@
-import { useMemo, Children } from 'react';
-import { useIdentityContext } from './IdentityProvider';
+import { Children, useMemo } from 'react';
+import { cn } from '../../styles/theme';
 import { useAvatar } from '../hooks/useAvatar';
 import { useName } from '../hooks/useName';
 import type { AvatarReact } from '../types';
-import { cn } from '../../styles/theme';
-import { DisplayBadge } from './DisplayBadge';
 import { Badge } from './Badge';
+import { DisplayBadge } from './DisplayBadge';
+import { useIdentityContext } from './IdentityProvider';
 import { defaultAvatarSVG } from './defaultAvatarSVG';
 import { defaultLoadingSVG } from './defaultLoadingSVG';
 

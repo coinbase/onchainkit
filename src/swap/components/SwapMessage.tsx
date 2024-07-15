@@ -1,7 +1,7 @@
-import { getSwapMessage } from '../core/getSwapMessage';
 import { cn, text } from '../../styles/theme';
-import { useSwapContext } from './SwapProvider';
+import { getSwapMessage } from '../core/getSwapMessage';
 import type { SwapMessageReact } from '../types';
+import { useSwapContext } from './SwapProvider';
 
 export function SwapMessage({ className }: SwapMessageReact) {
   const { to, from, error, loading, isTransactionPending } = useSwapContext();

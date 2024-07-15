@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { Name } from './Name';
 import { baseSepolia, optimism } from 'viem/chains';
+import { Name } from './Name';
 
 const meta = {
   title: 'Identity/Name',

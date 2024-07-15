@@ -1,14 +1,14 @@
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { CDP_GET_SWAP_TRADE } from '../../network/definitions/swap';
+import { sendRequest } from '../../network/request';
+import type { Token } from '../../token/types';
+import type { BuildSwapTransaction } from '../types';
+import { buildSwapTransaction } from './buildSwapTransaction';
 /**
  * @vitest-environment node
  */
 import { getAPIParamsForToken } from './getAPIParamsForToken';
-import { buildSwapTransaction } from './buildSwapTransaction';
 import { getSwapTransaction } from './getSwapTransaction';
-import { sendRequest } from '../../network/request';
-import { CDP_GET_SWAP_TRADE } from '../../network/definitions/swap';
-import type { Token } from '../../token/types';
-import type { BuildSwapTransaction } from '../types';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 vi.mock('../../network/request');
 

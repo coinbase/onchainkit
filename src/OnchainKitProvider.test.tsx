@@ -1,12 +1,12 @@
-import { base } from 'viem/chains';
 import { render, screen, waitFor } from '@testing-library/react';
+import { base } from 'viem/chains';
 import '@testing-library/jest-dom';
 
-import type { EASSchemaUid } from './identity/types';
+import { describe, expect, it, vi } from 'vitest';
 import { setOnchainKitConfig } from './OnchainKitConfig';
 import { OnchainKitProvider } from './OnchainKitProvider';
+import type { EASSchemaUid } from './identity/types';
 import { useOnchainKit } from './useOnchainKit';
-import { describe, expect, it, vi } from 'vitest';
 
 const TestComponent = () => {
   const { schemaId, apiKey } = useOnchainKit();

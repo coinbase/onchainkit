@@ -1,7 +1,7 @@
 import { createContext, useMemo } from 'react';
-import { checkHashLength } from './utils/checkHashLength';
 import { ONCHAIN_KIT_CONFIG, setOnchainKitConfig } from './OnchainKitConfig';
 import type { OnchainKitContextType, OnchainKitProviderReact } from './types';
+import { checkHashLength } from './utils/checkHashLength';
 
 export const OnchainKitContext =
   createContext<OnchainKitContextType>(ONCHAIN_KIT_CONFIG);

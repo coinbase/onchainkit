@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
+import { cn } from '../../styles/theme';
 import type { TokenImageReact } from '../types';
 import { getTokenImageColor } from './getTokenImageColor';
-import { cn } from '../../styles/theme';
 
 export function TokenImage({ className, size = 24, token }: TokenImageReact) {
   const { image, name } = token;

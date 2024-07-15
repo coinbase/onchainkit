@@ -1,5 +1,5 @@
-import { type ReactElement, useState } from 'react';
 import type { Token } from '@coinbase/onchainkit/token';
+import { type ReactElement, useState } from 'react';
 
 type SwapAmountInputContainer = {
   children: (

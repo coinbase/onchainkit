@@ -1,12 +1,12 @@
 import { useCallback, useEffect, useMemo } from 'react';
-import { TokenChip, TokenSelectDropdown } from '../../token';
-import { background, cn, color, pressable, text } from '../../styles/theme';
 import { TextInput } from '../../internal/form/TextInput';
-import { isValidAmount } from '../../utils/isValidAmount';
-import { getRoundedAmount } from '../../utils/getRoundedAmount';
-import { useSwapContext } from './SwapProvider';
-import type { SwapAmountInputReact } from '../types';
+import { background, cn, color, pressable, text } from '../../styles/theme';
+import { TokenChip, TokenSelectDropdown } from '../../token';
 import type { Token } from '../../token';
+import { getRoundedAmount } from '../../utils/getRoundedAmount';
+import { isValidAmount } from '../../utils/isValidAmount';
+import type { SwapAmountInputReact } from '../types';
+import { useSwapContext } from './SwapProvider';
 
 function useValue<T>(object: T): T {
   return useMemo(() => object, [object]);

@@ -1,6 +1,6 @@
 import { createContext, useContext } from 'react';
-import type { TransactionContextType } from '../types';
 import { useValue } from '../../internal/hooks/useValue';
+import type { TransactionContextType } from '../types';
 
 const emptyContext = {} as TransactionContextType;
 

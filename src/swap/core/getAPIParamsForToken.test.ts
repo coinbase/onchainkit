@@ -1,9 +1,9 @@
+import { describe, expect, it } from 'vitest';
 /**
  * @vitest-environment node
  */
 import type { Token } from '../../token';
 import { getAPIParamsForToken } from './getAPIParamsForToken';
-import { describe, expect, it } from 'vitest';
 
 describe('getAPIParamsForToken', () => {
   it('should return the correct GetQuoteAPIParams object', () => {

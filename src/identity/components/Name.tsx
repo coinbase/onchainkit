@@ -1,10 +1,10 @@
 import { Children, useMemo } from 'react';
-import { useIdentityContext } from './IdentityProvider';
+import { cn, text } from '../../styles/theme';
 import { useName } from '../hooks/useName';
 import type { NameReact } from '../types';
 import { Badge } from './Badge';
 import { DisplayBadge } from './DisplayBadge';
-import { cn, text } from '../../styles/theme';
+import { useIdentityContext } from './IdentityProvider';
 
 /**
  * Name is a React component that renders the user name from an Ethereum address.

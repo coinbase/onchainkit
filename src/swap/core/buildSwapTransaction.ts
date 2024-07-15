@@ -1,15 +1,15 @@
 import { CDP_GET_SWAP_TRADE } from '../../network/definitions/swap';
 import { sendRequest } from '../../network/request';
-import { getAPIParamsForToken } from './getAPIParamsForToken';
-import { getSwapTransaction } from './getSwapTransaction';
-import { getSwapErrorCode } from './getSwapErrorCode';
 import type {
   BuildSwapTransactionParams,
   BuildSwapTransactionResponse,
+  SwapAPIParams,
   SwapAPIResponse,
   SwapError,
-  SwapAPIParams,
 } from '../types';
+import { getAPIParamsForToken } from './getAPIParamsForToken';
+import { getSwapErrorCode } from './getSwapErrorCode';
+import { getSwapTransaction } from './getSwapTransaction';
 
 /**
  * Retrieves an unsigned transaction for a swap from Token A to Token B.

@@ -1,13 +1,13 @@
-import { vi, type Mock } from 'vitest';
+import { type Mock, vi } from 'vitest';
 import '@testing-library/jest-dom';
 import { render, screen, waitFor } from '@testing-library/react';
+import { base, baseSepolia, optimism } from 'viem/chains';
 import { getSlicedAddress } from '../getSlicedAddress';
-import { useName } from '../hooks/useName';
 import { useAttestations } from '../hooks/useAttestations';
-import { Name } from './Name';
+import { useName } from '../hooks/useName';
 import { Badge } from './Badge';
 import { useIdentityContext } from './IdentityProvider';
-import { base, baseSepolia, optimism } from 'viem/chains';
+import { Name } from './Name';
 
 const silenceError = () => {
   const consoleErrorMock = vi
