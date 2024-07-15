@@ -51,25 +51,12 @@ export type TransactionGasFeeLabelReact = {
 };
 
 export type TransactionGasFeeReact = {
-  className?: string;
   children: ReactNode;
+  className?: string;
 };
 
 export type TransactionGasFeeSponsoredByReact = {
   className?: string;
-};
-
-export type TransactionStatusActionReact = {
-  className?: string;
-};
-
-export type TransactionStatusLabelReact = {
-  className?: string;
-};
-
-export type TransactionStatusReact = {
-  className?: string;
-  children: ReactNode;
 };
 
 export type TransactionMessageReact = {
@@ -90,4 +77,17 @@ export type TransactionReact = {
   children: ReactNode;
   className?: string;
   contracts?: Contract[];
+};
+
+export type TransactionStatusActionReact = {
+  className?: string;
+};
+
+export type TransactionStatusLabelReact = {
+  className?: string;
+};
+
+export type TransactionStatusReact = {
+  children: ReactNode;
+  className?: string;
 };
