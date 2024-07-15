@@ -42,13 +42,16 @@ const connectors = connectorsForWallets(
   },
 );
 
-const wagmiConfig = getDefaultConfig({
-  appName: 'onchainkit',
-  connectors,
-  projectId: VITE_WALLET_CONNECT_PROJECT_ID,
-  chains: [base],
-  ssr: true, // If your dApp uses server side rendering (SSR)
-});
+const wagmiConfig =
+  typeof window === 'undefined'
+    ? {}
+    : getDefaultConfig({
+        appName: 'onchainkit',
+        connectors,
+        projectId: VITE_WALLET_CONNECT_PROJECT_ID,
+        chains: [base],
+        ssr: true, // If your dApp uses server side rendering (SSR)
+      });
 
 export default function AppWithRK({ children }: { children: ReactNode }) {
   const isServer = typeof window === 'undefined';
