@@ -17,6 +17,7 @@ export default defineConfig({
         'node_modules/**',
         'onchainkit/esm/**',
         'site/**',
+        '**/*Svg.tsx',
       ],
       reportOnFailure: true,
       thresholds: {
