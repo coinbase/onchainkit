@@ -1,7 +1,7 @@
 'use client';
 import type { ReactNode } from 'react';
-// import { OnchainKitProvider } from '@coinbase/onchainkit';
-import { OnchainKitProvider } from '../../../src';
+import { OnchainKitProvider } from '@coinbase/onchainkit';
+// import { OnchainKitProvider } from '../../../src';
 import {
   RainbowKitProvider,
   connectorsForWallets,
@@ -16,8 +16,8 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { WagmiProvider } from 'wagmi';
 import { base } from 'wagmi/chains';
 
-// import '@coinbase/onchainkit/styles.css';
-import '../../../src/styles.css';
+import '@coinbase/onchainkit/styles.css';
+// import '../../../src/styles.css';
 import '@rainbow-me/rainbowkit/styles.css';
 
 const VITE_WALLET_CONNECT_PROJECT_ID =

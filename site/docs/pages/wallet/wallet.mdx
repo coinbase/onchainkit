@@ -20,6 +20,7 @@ import {
 } from '@coinbase/onchainkit/identity';
 import { color } from '@coinbase/onchainkit/theme';
 import WalletComponents from '../../components/WalletComponents';
+import WalletComponentsWithRk from '../../components/WalletComponentsWithRk';
 
 # `<Wallet />`
 
@@ -207,6 +208,141 @@ function App({ children }: { children: ReactNode }) {
   return <WagmiProvider config={wagmiConfig}>{children}</WagmiProvider>;
 }
 ```
+
+## Use wallet aggregator
+
+You can expand the wallet connection options by using the `withWalletAggregator` prop in the `<ConnectWallet />` component. This will present users with a list of recommended and other wallets to choose from.
+
+OnchainKit leverages [RainbowKit](https://www.rainbowkit.com/) to offer this feature. To use it correctly, follow these steps:
+1. Import the necessary components from RainbowKit.
+2. Create a list of recommended and other wallets.
+3. Use `getDefaultConfig` to configure the Wagmi provider.
+4. Wrap your app in the RainbowKit provider.
+
+:::code-group
+
+```tsx [myApp.tsx]
+// omitted for brevity
+
+<Wallet>
+  <ConnectWallet withWalletAggregator>
+    <Avatar className="h-6 w-6" />
+    <Name />
+  </ConnectWallet>
+  <WalletDropdown>
+    <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick>
+      <Avatar />
+      <Name>
+        <Badge />
+      </Name>
+      <Address />
+      <EthBalance />
+    </Identity>
+    <WalletDropdownLink 
+      icon="wallet" 
+      href="https://wallet.coinbase.com"
+    >
+      Go to Wallet Dashboard
+    </WalletDropdownLink>
+    <WalletDropdownDisconnect />
+  </WalletDropdown>
+</Wallet>
+```
+
+```tsx [OnchainProviders.tsx]
+'use client';
+import type { ReactNode } from 'react';
+import { OnchainKitProvider } from '@coinbase/onchainkit';
+import { // [!code focus]
+  RainbowKitProvider, // [!code focus]
+  connectorsForWallets, // [!code focus]
+  getDefaultConfig, // [!code focus]
+} from '@rainbow-me/rainbowkit'; // [!code focus]
+import { // [!code focus]
+  metaMaskWallet, // [!code focus]
+  rainbowWallet, // [!code focus]
+  coinbaseWallet, // [!code focus]
+} from '@rainbow-me/rainbowkit/wallets'; // [!code focus]
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { WagmiProvider } from 'wagmi';
+import { base } from 'wagmi/chains';
+
+import '@coinbase/onchainkit/styles.css';
+import '@rainbow-me/rainbowkit/styles.css'; // [!code focus]
+
+const queryClient = new QueryClient();
+
+const connectors = connectorsForWallets( // [!code focus]
+  [
+    {
+      groupName: 'Recommended Wallet',
+      wallets: [coinbaseWallet],
+    },
+    {
+      groupName: 'Other Wallets',
+      wallets: [rainbowWallet, metaMaskWallet],
+    },
+  ],
+  {
+    appName: 'onchainkit',
+    projectId: VITE_WALLET_CONNECT_PROJECT_ID,
+  },
+); // [!code focus]
+
+const wagmiConfig = getDefaultConfig({ // [!code focus]
+  appName: 'onchainkit',
+  connectors,
+  projectId: process.env.PUBLIC_WALLET_CONNECT_PROJECT_ID,
+  chains: [base],
+  ssr: true, // If your dApp uses server side rendering (SSR)
+}); // [!code focus]
+
+function OnchainProviders({ children }: Props) {
+  return (
+    <WagmiProvider config={wagmiConfig}>
+      <QueryClientProvider client={queryClient}>
+        <OnchainKitProvider
+          apiKey={process.env.PUBLIC_ONCHAINKIT_API_KEY}
+          chain={base}
+        >
+          <RainbowKitProvider modalSize="compact"> // [!code focus]
+            {children}
+          </RainbowKitProvider> // [!code focus]
+        </OnchainKitProvider>
+      </QueryClientProvider>
+    </WagmiProvider>
+  );
+} 
+
+export default OnchainProviders;
+```
+:::
+
+<WalletComponentsWithRk>
+  <Wallet>
+    <ConnectWallet withWalletAggregator>
+      <Avatar className="h-6 w-6" />
+      <Name />
+    </ConnectWallet>
+    <WalletDropdown>
+      <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick>
+        <Avatar />
+        <Name>
+          <Badge />
+        </Name>
+        <Address className={color.foregroundMuted} />
+        <EthBalance />
+      </Identity>
+      <WalletDropdownLink 
+        icon="wallet" 
+        href="https://wallet.coinbase.com"
+      >
+        Go to Wallet Dashboard
+      </WalletDropdownLink>
+      <WalletDropdownDisconnect />
+    </WalletDropdown>
+  </Wallet>
+</WalletComponentsWithRk>
 
 ## Props
 
