@@ -160,20 +160,20 @@ describe('Identity Component', () => {
     render(
       <Identity address="0x123456789" hasCopyAddressOnClick={true}>
         <div>Child Component</div>
-      </Identity>
+      </Identity>,
     );
 
     const identityLayout = screen.getByTestId('ockIdentity_container');
     fireEvent.click(identityLayout);
 
-    expect(navigator.clipboard.writeText).toHaveBeenCalledWith("0x123456789");
+    expect(navigator.clipboard.writeText).toHaveBeenCalledWith('0x123456789');
   });
 
   it('should not call handleCopy when address is not provided', async () => {
     render(
       <Identity address={null} hasCopyAddressOnClick={true}>
         <div>Child Component</div>
-      </Identity>
+      </Identity>,
     );
 
     const identityLayout = screen.getByTestId('ockIdentity_container');
@@ -183,7 +183,9 @@ describe('Identity Component', () => {
   });
 
   it('should log an error and return false when clipboard write fails', async () => {
-    const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+    const consoleErrorSpy = vi
+      .spyOn(console, 'error')
+      .mockImplementation(() => {});
     Object.assign(navigator, {
       clipboard: {
         writeText: vi.fn().mockRejectedValue(new Error('Failed to copy')),
@@ -193,15 +195,18 @@ describe('Identity Component', () => {
     render(
       <Identity address="0x123456789" hasCopyAddressOnClick={true}>
         <div>Child Component</div>
-      </Identity>
+      </Identity>,
     );
 
     const identityLayout = screen.getByTestId('ockIdentity_container');
     fireEvent.click(identityLayout);
 
-    expect(navigator.clipboard.writeText).toHaveBeenCalledWith("0x123456789");
+    expect(navigator.clipboard.writeText).toHaveBeenCalledWith('0x123456789');
     await waitFor(() => {
-      expect(consoleErrorSpy).toHaveBeenCalledWith('Failed to copy: ', expect.any(Error));
+      expect(consoleErrorSpy).toHaveBeenCalledWith(
+        'Failed to copy: ',
+        expect.any(Error),
+      );
     });
   });
 });
