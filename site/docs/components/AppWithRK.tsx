@@ -1,7 +1,6 @@
 'use client';
-import type { ReactNode } from 'react';
-// import { OnchainKitProvider } from '@coinbase/onchainkit';
-import { OnchainKitProvider } from '../../../src';
+import { OnchainKitProvider } from '@coinbase/onchainkit';
+// import { OnchainKitProvider } from '../../../src';
 import {
   RainbowKitProvider,
   connectorsForWallets,
@@ -15,9 +14,10 @@ import {
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { WagmiProvider } from 'wagmi';
 import { base } from 'wagmi/chains';
+import type { ReactNode } from 'react';
 
-// import '@coinbase/onchainkit/styles.css';
-import '../../../src/styles.css';
+import '@coinbase/onchainkit/styles.css';
+// import '../../../src/styles.css';
 import '@rainbow-me/rainbowkit/styles.css';
 
 const VITE_WALLET_CONNECT_PROJECT_ID =
@@ -42,13 +42,16 @@ const connectors = connectorsForWallets(
   },
 );
 
-const wagmiConfig = getDefaultConfig({
-  appName: 'onchainkit',
-  connectors,
-  projectId: VITE_WALLET_CONNECT_PROJECT_ID,
-  chains: [base],
-  ssr: true, // If your dApp uses server side rendering (SSR)
-});
+const wagmiConfig =
+  typeof window === 'undefined'
+    ? {}
+    : getDefaultConfig({
+        appName: 'onchainkit',
+        connectors,
+        projectId: VITE_WALLET_CONNECT_PROJECT_ID,
+        chains: [base],
+        ssr: true, // If your dApp uses server side rendering (SSR)
+      });
 
 export default function AppWithRK({ children }: { children: ReactNode }) {
   const isServer = typeof window === 'undefined';
