@@ -1,11 +1,10 @@
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import { background, cn, pressable, text } from '../../styles/theme';
 import { useTransactionContext } from './TransactionProvider';
-import { writeContracts } from 'viem/experimental';
-import { useConfig } from 'wagmi';
-import { base } from 'viem/chains';
+import { useWriteContracts } from 'wagmi/experimental';
 import { Spinner } from '../../internal/loading/Spinner';
 import type { TransactionButtonReact } from '../types';
+import type { TransactionExecutionError } from 'viem';
 
 export function TransactionButton({
   className,
@@ -21,28 +20,49 @@ export function TransactionButton({
     transactionId,
   } = useTransactionContext();
 
-  const wagmiConfig = useConfig();
+  const { status, writeContracts } = useWriteContracts({
+    mutation: {
+      onError: (e) => {
+        if (
+          (e as TransactionExecutionError).cause.name ==
+          'UserRejectedRequestError'
+        ) {
+          setErrorMessage('User rejected request');
+        } else {
+          setErrorMessage(e.message);
+        }
+      },
+      onSuccess: (id) => {
+        setTransactionId(id);
+        // do we need this?
+        // mutation.onSuccess(id);
+      },
+    },
+  });
 
   const handleSubmit = useCallback(async () => {
     try {
       setErrorMessage('');
       setIsLoading(true);
-      // const id = await writeContracts(wagmiConfig, {
-      //   contracts,
-      //   account: address,
-      //   chain: base,
-      // });
-
-      // TODO: remove - for testing purposes only
-      const id = 'transaction-id';
-      setTransactionId(id);
+      await writeContracts({
+        contracts,
+      });
     } catch (err) {
       console.log({ err });
-      setErrorMessage('an error occurred');
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  }, [contracts, setErrorMessage, setIsLoading]);
+
+  // TODO: can possibly handling loading state with status var
+  // useEffect(() => {
+  //   if (status === "pending" && !isLoading) {
+  //     setIsLoading(true);
+  //   }
+  //   if (status !== "pending" && isLoading) {
+  //     setIsLoading(false);
+  //   }
+  // }, [isLoading, status]);
 
   // TODO: should disable if transactionId exists ?
   const isDisabled = isLoading || !contracts || !address || transactionId;

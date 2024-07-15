@@ -1,37 +1,53 @@
 import { ReactNode } from 'react';
-import { erc20Abi } from 'viem';
 import { useAccount } from 'wagmi';
-import type { Abi, ContractFunctionName, Hex, Address } from 'viem';
+import type {
+  UseSendCallsParameters,
+  UseSendCallsReturnType,
+} from 'wagmi/experimental';
+import type { Config } from 'wagmi';
 
-// TODO: move to types file
-type Contract = {
-  address: Address;
-  abi: Abi;
-  functionName: ContractFunctionName;
-  args?: { to: Hex; data?: Hex; value?: bigint }[];
-};
-
-type TransactionWrapperChildren = {
-  address: Address | undefined;
-  contracts?: Contract[];
-};
+type TransactionWrapperChildren = UseSendCallsReturnType<
+  Config,
+  unknown
+>['sendCalls']['arguments'] & {
+  mutation?: UseSendCallsParameters<Config, unknown>['mutation'];
+} & { address: string };
 
 type TransactionWrapperReact = {
   children: (props: TransactionWrapperChildren) => ReactNode;
 };
+
+const myNFTABI = [
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [{ name: 'to', type: 'address' }],
+    name: 'safeMint',
+    outputs: [],
+  },
+] as const;
+
+const myNFTAddress = '0x119Ea671030FBf79AB93b436D2E20af6ea469a19';
 
 export default function TransactionWrapper({
   children,
 }: TransactionWrapperReact) {
   const { address } = useAccount();
 
-  // TODO: replace with actual contract
-  const contracts: Contract[] = [
+  const contracts = [
     {
-      address: '0xFBA3912Ca04dd458c843e2EE08967fC04f3579c2',
-      abi: erc20Abi,
-      functionName: 'approve',
+      address: myNFTAddress,
+      abi: myNFTABI,
+      functionName: 'safeMint',
+      args: [address],
     },
+    {
+      address: myNFTAddress,
+      abi: myNFTABI,
+      functionName: 'safeMint',
+      args: [address],
+    },
+    ,
   ];
   return (
     <main className="flex flex-col">

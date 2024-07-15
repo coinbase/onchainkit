@@ -1,6 +1,11 @@
 // 🌲☀🌲
 import type { ReactNode } from 'react';
 import type { Abi, Account, Address, ContractFunctionName, Hex } from 'viem';
+import type { Config } from 'wagmi';
+import type {
+  UseSendCallsParameters,
+  UseSendCallsReturnType,
+} from 'wagmi/experimental';
 
 export type Contract = {
   address: Address;
@@ -9,17 +14,19 @@ export type Contract = {
   args?: { to: Hex; data?: Hex; value?: bigint }[];
 };
 
-export type TransactionButtonReact = {
-  className?: string;
-  text?: string;
-};
+export type TransactionButtonReact = UseSendCallsReturnType<
+  Config,
+  unknown
+>['sendCalls']['arguments'] & {
+  mutation?: UseSendCallsParameters<Config, unknown>['mutation'];
+} & { className?: string; text?: string };
 
 /**
  * Note: exported as public Type
  */
 export type TransactionContextType = {
   address: Address;
-  contracts?: Contract[];
+  contracts: Contract[];
   error?: TransactionErrorState;
   errorMessage?: string;
   isLoading: boolean;
@@ -66,7 +73,7 @@ export type TransactionMessageReact = {
 export type TransactionProviderReact = {
   address: Address;
   children: ReactNode;
-  contracts?: Contract[];
+  contracts: Contract[];
 };
 
 /**
@@ -76,7 +83,7 @@ export type TransactionReact = {
   address: Address;
   children: ReactNode;
   className?: string;
-  contracts?: Contract[];
+  contracts: Contract[];
 };
 
 export type TransactionStatusActionReact = {
