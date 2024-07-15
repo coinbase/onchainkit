@@ -6,7 +6,8 @@
   "license": "MIT",
   "scripts": {
     "build": "packemon build --addEngines --addFiles --declaration && npx packemon validate --no-license --no-people --no-repo && tailwindcss -i ./src/styles/index.css -o ./src/tailwind.css --minify && tailwindcss -i ./src/styles/index-with-tailwind.css -o ./src/styles.css --minify",
-    "ci": "biome ci",
+    "ci:format": "biome ci --linter-enabled=false --organize-imports-enabled=false",
+    "ci:lint": "biome ci --formatter-enabled=false --organize-imports-enabled=false",
     "check": "biome check --write .",
     "format": "biome format --write .",
     "lint": "biome lint --write .",
