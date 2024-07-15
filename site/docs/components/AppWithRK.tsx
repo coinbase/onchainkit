@@ -2,9 +2,9 @@
 import { OnchainKitProvider } from '@coinbase/onchainkit';
 // import { OnchainKitProvider } from '../../../src';
 import {
+  RainbowKitProvider,
   connectorsForWallets,
   getDefaultConfig,
-  RainbowKitProvider,
 } from '@rainbow-me/rainbowkit';
 import {
   coinbaseWallet,

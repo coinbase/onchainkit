@@ -1,13 +1,13 @@
 import { describe, expect, it } from 'vitest';
 import {
-  formatAmount,
-  getTokens,
   TokenChip,
   TokenImage,
   TokenRow,
   TokenSearch,
   TokenSelectDropdown,
   TokenSelectModal,
+  formatAmount,
+  getTokens,
 } from './index'; // Adjust the path accordingly
 
 describe('Module Exports', () => {

@@ -1,5 +1,5 @@
 import type { Address } from 'viem';
-import { describe, expect, it, type Mock, vi } from 'vitest';
+import { type Mock, describe, expect, it, vi } from 'vitest';
 import { neynarFrameValidation } from '../utils/neynar/frame/neynarFrameValidation';
 import { neynarBulkUserLookup } from '../utils/neynar/user/neynarBulkUserLookup';
 import { getFrameMessage } from './getFrameMessage';
