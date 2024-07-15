@@ -1,5 +1,13 @@
-import { createContext, useContext, useEffect, useState } from 'react';
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 import { useValue } from '../../internal/hooks/useValue';
+import { useWriteContracts } from 'wagmi/experimental';
+import type { TransactionExecutionError } from 'viem';
 import type {
   TransactionContextType,
   TransactionProviderReact,
@@ -25,10 +33,40 @@ export function TransactionProvider({
   children,
   contracts,
 }: TransactionProviderReact) {
-  const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [transactionId, setTransactionId] = useState('');
   const [gasFee, setGasFee] = useState('');
+
+  const { status, writeContracts } = useWriteContracts({
+    mutation: {
+      onError: (e) => {
+        if (
+          (e as TransactionExecutionError).cause.name ==
+          'UserRejectedRequestError'
+        ) {
+          setErrorMessage('User rejected request');
+        } else {
+          setErrorMessage(e.message);
+        }
+      },
+      onSuccess: (id) => {
+        setTransactionId(id);
+        // do we need this?
+        // mutation.onSuccess(id);
+      },
+    },
+  });
+
+  const handleSubmit = useCallback(async () => {
+    try {
+      setErrorMessage('');
+      await writeContracts({
+        contracts,
+      });
+    } catch (err) {
+      console.log({ err });
+    }
+  }, [contracts, setErrorMessage]);
 
   useEffect(() => {
     // TODO: replace with gas estimation call
@@ -41,9 +79,9 @@ export function TransactionProvider({
     error: undefined,
     errorMessage,
     gasFee,
-    isLoading,
+    isLoading: status === 'pending',
+    onSubmit: handleSubmit,
     setErrorMessage,
-    setIsLoading,
     transactionId,
     setTransactionId,
   });

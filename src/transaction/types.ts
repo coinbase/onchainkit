@@ -31,10 +31,10 @@ export type TransactionContextType = {
   errorMessage?: string;
   isLoading: boolean;
   gasFee?: string;
+  onSubmit: () => void;
   setErrorMessage: (error: string) => void;
-  setIsLoading: (isLoading: boolean) => void;
-  transactionId?: string;
   setTransactionId: (id: string) => void;
+  transactionId?: string;
 };
 
 /**
