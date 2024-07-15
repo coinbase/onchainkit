@@ -19,7 +19,8 @@ const { data: name, isLoading } = useName({ address: '0x1234' });
 
 ```ts
 type UseNameOptions = {
-  address: `0x${string}`;
+  address: Address; // The Ethereum address for which the ENS name is to be fetched.
+  chain?: Chain; // Optional chain for domain resolution
 };
 
 type UseNameQueryOptions = {
