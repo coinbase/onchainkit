@@ -1,11 +1,16 @@
 import { ReactNode, useMemo } from 'react';
 import { useTransactionContext } from '../components/TransactionProvider';
 import { cn, color, text } from '../../styles/theme';
+import { useOnchainKit } from '../../useOnchainKit';
+import { getChainExplorer } from './getChainExplorer';
 
 export function useGetTransactionStatus() {
   const { errorMessage, isLoading, transactionId } = useTransactionContext();
+  const { chain } = useOnchainKit();
 
   return useMemo(() => {
+    const chainExplorer = getChainExplorer(chain.id);
+
     let actionElement: ReactNode = null;
     let label = 'Complete the required fields to continue';
     let labelClassName: string = color.foregroundMuted;
@@ -23,7 +28,7 @@ export function useGetTransactionStatus() {
     if (transactionId) {
       label = 'Successful!';
       actionElement = (
-        <a href={`https://basescan.org/tx/${transactionId}`} target="_blank">
+        <a href={`${chainExplorer}/tx/${transactionId}`} target="_blank">
           <span className={cn(text.label1, color.primary)}>
             View transaction
           </span>
@@ -41,5 +46,5 @@ export function useGetTransactionStatus() {
     }
 
     return { actionElement, label, labelClassName };
-  }, [errorMessage, isLoading, transactionId]);
+  }, [chain, errorMessage, isLoading, transactionId]);
 }
