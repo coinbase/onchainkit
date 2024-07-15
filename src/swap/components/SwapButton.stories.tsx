@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { fn } from '@storybook/test';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { baseSepolia } from 'viem/chains';
-import { http, WagmiProvider, createConfig } from 'wagmi';
+import { createConfig, http, WagmiProvider } from 'wagmi';
 import { SwapButton } from './SwapButton';
 import { SwapProvider } from './SwapProvider';
 

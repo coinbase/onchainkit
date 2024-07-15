@@ -8,7 +8,7 @@ import {
 /**
  * @vitest-environment node
  */
-import { SwapMessage, getSwapMessage } from './getSwapMessage';
+import { getSwapMessage, SwapMessage } from './getSwapMessage';
 
 const ethToken: Token = {
   name: 'ETH',

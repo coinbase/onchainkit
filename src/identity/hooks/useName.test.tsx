@@ -4,7 +4,7 @@
 
 import { renderHook, waitFor } from '@testing-library/react';
 import { base, optimism } from 'viem/chains';
-import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
+import { beforeEach, describe, expect, it, type Mock, vi } from 'vitest';
 import { publicClient } from '../../network/client';
 import { getNewReactQueryTestProvider } from './getNewReactQueryTestProvider';
 import { useName } from './useName';

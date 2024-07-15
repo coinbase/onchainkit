@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom';
 import { render, renderHook } from '@testing-library/react';
-import { WalletProvider, useWalletContext } from './WalletProvider';
+import { useWalletContext, WalletProvider } from './WalletProvider';
 
 describe('useWalletContext', () => {
   it('should return default context', () => {

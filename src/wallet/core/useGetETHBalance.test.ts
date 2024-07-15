@@ -2,7 +2,7 @@
  * @vitest-environment jsdom
  */
 import { renderHook } from '@testing-library/react';
-import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
+import { beforeEach, describe, expect, it, type Mock, vi } from 'vitest';
 import { useBalance } from 'wagmi';
 import { useGetETHBalance } from './useGetETHBalance';
 

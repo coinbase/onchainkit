@@ -1,8 +1,8 @@
 import {
   type ComponentType,
+  isValidElement,
   type ReactElement,
   type ReactNode,
-  isValidElement,
 } from 'react';
 
 export function findComponent<T>(component: ComponentType<T>) {

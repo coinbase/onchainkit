@@ -1,9 +1,9 @@
 import { base } from 'viem/chains';
 import {
-  type GetAttestationsByFilterOptions,
   attestationQuery,
   getAttestationQueryVariables,
   getAttestationsByFilter,
+  type GetAttestationsByFilterOptions,
 } from './attestations';
 import { createEasGraphQLClient } from './createEasGraphQLClient';
 
