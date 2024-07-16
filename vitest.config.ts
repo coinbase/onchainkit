@@ -18,7 +18,6 @@ export default defineConfig({
         'node_modules/**',
         'onchainkit/esm/**',
         'site/**',
-        
       ],
       reportOnFailure: true,
       thresholds: {
