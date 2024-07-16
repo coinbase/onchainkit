@@ -1,6 +1,6 @@
 // 🌲☀🌲
 import type { ReactNode } from 'react';
-import type { Abi, Account, Address, ContractFunctionName, Hex } from 'viem';
+import type { Abi, Address, ContractFunctionName, Hex } from 'viem';
 import type { Config } from 'wagmi';
 import type {
   UseSendCallsParameters,

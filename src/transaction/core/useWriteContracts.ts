@@ -15,7 +15,7 @@ export function useWriteContracts({
       mutation: {
         onError: (e) => {
           if (
-            (e as TransactionExecutionError).cause.name ==
+            (e as TransactionExecutionError).cause.name ===
             'UserRejectedRequestError'
           ) {
             setErrorMessage('User rejected request');

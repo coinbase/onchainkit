@@ -10,7 +10,7 @@ export function Transaction({
 }: TransactionReact) {
   return (
     <TransactionProvider address={address} contracts={contracts}>
-      <div className={cn(className, 'w-full gap-2 flex flex-col')}>
+      <div className={cn(className, 'flex w-full flex-col gap-2')}>
         {children}
       </div>
     </TransactionProvider>

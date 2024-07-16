@@ -1,6 +1,6 @@
-import { ReactNode } from 'react';
 import { useAccount } from 'wagmi';
 import type { Config } from 'wagmi';
+import type { ReactNode } from 'react';
 import type {
   UseSendCallsParameters,
   UseSendCallsReturnType,
@@ -47,11 +47,10 @@ export default function TransactionWrapper({
       functionName: 'safeMint',
       args: [address],
     },
-    ,
   ];
   return (
     <main className="flex flex-col">
-      <div className="flex items-center p-4 bg-white max-w-[450px] rounded-lg">
+      <div className="flex max-w-[450px] items-center rounded-lg bg-white p-4">
         {children({ address, contracts })}
       </div>
     </main>

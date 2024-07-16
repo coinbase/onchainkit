@@ -50,7 +50,7 @@ export function TransactionProvider({
     } catch (err) {
       console.log({ err });
     }
-  }, [contracts, setErrorMessage]);
+  }, [contracts, writeContracts]);
 
   useEffect(() => {
     // TODO: replace with gas estimation call
