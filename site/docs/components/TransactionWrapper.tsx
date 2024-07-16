@@ -1,10 +1,10 @@
 import { ReactNode } from 'react';
 import { useAccount } from 'wagmi';
+import type { Config } from 'wagmi';
 import type {
   UseSendCallsParameters,
   UseSendCallsReturnType,
 } from 'wagmi/experimental';
-import type { Config } from 'wagmi';
 
 type TransactionWrapperChildren = UseSendCallsReturnType<
   Config,
