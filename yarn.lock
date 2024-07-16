@@ -2208,10 +2208,10 @@ __metadata:
     tailwind-merge: "npm:^2.3.0"
     tailwindcss: "npm:^3.4.3"
     typescript: "npm:~5.3.3"
-    viem: "npm:^2.13.8"
+    viem: "npm:^2.17.4"
     vite: "npm:^5.3.3"
     vitest: "npm:^2.0.1"
-    wagmi: "npm:^2.9.11"
+    wagmi: "npm:^2.11.0"
   peerDependencies:
     "@xmtp/frames-validator": ^0.6.0
     react: ^18
@@ -5433,9 +5433,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@wagmi/connectors@npm:5.0.22":
-  version: 5.0.22
-  resolution: "@wagmi/connectors@npm:5.0.22"
+"@wagmi/connectors@npm:5.0.24":
+  version: 5.0.24
+  resolution: "@wagmi/connectors@npm:5.0.24"
   dependencies:
     "@coinbase/wallet-sdk": "npm:4.0.4"
     "@metamask/sdk": "npm:0.26.4"
@@ -5445,22 +5445,22 @@ __metadata:
     "@walletconnect/modal": "npm:2.6.2"
     cbw-sdk: "npm:@coinbase/wallet-sdk@3.9.3"
   peerDependencies:
-    "@wagmi/core": 2.11.7
+    "@wagmi/core": 2.12.0
     typescript: ">=5.0.4"
     viem: 2.x
   peerDependenciesMeta:
     typescript:
       optional: true
-  checksum: 26376a0bc14afd7fd395584d22f93be3c1ad01e12c8a55c9648ed6cbbeda038febd4edbd0376bf653baaaa6395af14f564dfe07e85a0425d33f0c43b6339f99a
+  checksum: 117f6549c6323bd7ea6f8d0c85c7983bbf85ac680bb53801988013c90c6544c0de285e2c36388b917b0461e0946b6181fca411a971b8913e7e66592c36612fa0
   languageName: node
   linkType: hard
 
-"@wagmi/core@npm:2.11.7":
-  version: 2.11.7
-  resolution: "@wagmi/core@npm:2.11.7"
+"@wagmi/core@npm:2.12.0":
+  version: 2.12.0
+  resolution: "@wagmi/core@npm:2.12.0"
   dependencies:
     eventemitter3: "npm:5.0.1"
-    mipd: "npm:0.0.5"
+    mipd: "npm:0.0.7"
     zustand: "npm:4.4.1"
   peerDependencies:
     "@tanstack/query-core": ">=5.0.0"
@@ -5471,7 +5471,7 @@ __metadata:
       optional: true
     typescript:
       optional: true
-  checksum: 148327aeeba49fb6164b9e0b093a4ef48536195c242e8ca018055abb019eda9b48254e680ee44852087268f711ae897c8afc42e65eab69c23ad630236b983b16
+  checksum: e7defa0c10e9e1be198b5abe115bedecdbcda02b61e90e72fa8e83bfec12e703ca7500d9c7f6efa915bf7c1a7e5cd4f058412a42a3fcc9a6b045468f24550d8a
   languageName: node
   linkType: hard
 
@@ -11554,17 +11554,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mipd@npm:0.0.5":
-  version: 0.0.5
-  resolution: "mipd@npm:0.0.5"
-  dependencies:
-    viem: "npm:^1.1.4"
+"mipd@npm:0.0.7":
+  version: 0.0.7
+  resolution: "mipd@npm:0.0.7"
   peerDependencies:
     typescript: ">=5.0.4"
   peerDependenciesMeta:
     typescript:
       optional: true
-  checksum: 6b0a82cdc9eec5c12132b46422799cf536b1062b307a6aa0ce57ef240c56bd2dd231a5eda367c8a8962cbff73dd1af6131b8d769e3b47a06f0fc9d148b56f3dd
+  checksum: c536e4fcdc15793b4538f72da389f8901a7eccb2e1eb55d8878f234a45f1c271064650e76fa2967b94743e19cc32ceab3c7b1e0dc614e28a45b0bbd6c987795d
   languageName: node
   linkType: hard
 
@@ -15383,7 +15381,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"viem@npm:^1.0.0, viem@npm:^1.1.4":
+"viem@npm:^1.0.0":
   version: 1.21.4
   resolution: "viem@npm:1.21.4"
   dependencies:
@@ -15401,27 +15399,6 @@ __metadata:
     typescript:
       optional: true
   checksum: 8b29c790181e44c4c95b9ffed1a8c1b6c2396eb949b95697cc390ca8c49d88ef9e2cd56bd4800b90a9bbc93681ae8d63045fc6fa06e00d84f532bef77967e751
-  languageName: node
-  linkType: hard
-
-"viem@npm:^2.13.8":
-  version: 2.17.4
-  resolution: "viem@npm:2.17.4"
-  dependencies:
-    "@adraffy/ens-normalize": "npm:1.10.0"
-    "@noble/curves": "npm:1.4.0"
-    "@noble/hashes": "npm:1.4.0"
-    "@scure/bip32": "npm:1.4.0"
-    "@scure/bip39": "npm:1.3.0"
-    abitype: "npm:1.0.5"
-    isows: "npm:1.0.4"
-    ws: "npm:8.17.1"
-  peerDependencies:
-    typescript: ">=5.0.4"
-  peerDependenciesMeta:
-    typescript:
-      optional: true
-  checksum: 8e44aaaba9865500f74be60e5e77473884a2157963114ec9cec491084bcc4f487ba296a473f6ebb7213ba21732727a98090e44dda4f17c5869f0f86faf48f214
   languageName: node
   linkType: hard
 
@@ -15443,6 +15420,27 @@ __metadata:
     typescript:
       optional: true
   checksum: 0881f4cb04353c3f801777f4d225228fe5dac62359d603ff932cd0645c3d623710381cd85a3b659657311a55dd87a12f646854b4ac6dfdac7493bfcdec2185a2
+  languageName: node
+  linkType: hard
+
+"viem@npm:^2.17.4":
+  version: 2.17.4
+  resolution: "viem@npm:2.17.4"
+  dependencies:
+    "@adraffy/ens-normalize": "npm:1.10.0"
+    "@noble/curves": "npm:1.4.0"
+    "@noble/hashes": "npm:1.4.0"
+    "@scure/bip32": "npm:1.4.0"
+    "@scure/bip39": "npm:1.3.0"
+    abitype: "npm:1.0.5"
+    isows: "npm:1.0.4"
+    ws: "npm:8.17.1"
+  peerDependencies:
+    typescript: ">=5.0.4"
+  peerDependenciesMeta:
+    typescript:
+      optional: true
+  checksum: 8e44aaaba9865500f74be60e5e77473884a2157963114ec9cec491084bcc4f487ba296a473f6ebb7213ba21732727a98090e44dda4f17c5869f0f86faf48f214
   languageName: node
   linkType: hard
 
@@ -15559,12 +15557,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"wagmi@npm:^2.9.11":
-  version: 2.10.10
-  resolution: "wagmi@npm:2.10.10"
+"wagmi@npm:^2.11.0":
+  version: 2.11.0
+  resolution: "wagmi@npm:2.11.0"
   dependencies:
-    "@wagmi/connectors": "npm:5.0.22"
-    "@wagmi/core": "npm:2.11.7"
+    "@wagmi/connectors": "npm:5.0.24"
+    "@wagmi/core": "npm:2.12.0"
     use-sync-external-store: "npm:1.2.0"
   peerDependencies:
     "@tanstack/react-query": ">=5.0.0"
@@ -15574,7 +15572,7 @@ __metadata:
   peerDependenciesMeta:
     typescript:
       optional: true
-  checksum: c1fde53074997ca2d5d1b2d8806e0671f35ea5f675a82d77e023810fe860b9630673bfc7dfed45e589338024a944f1d2595827cdd4c0c9057d899b08de041d47
+  checksum: 1b7fc33d5505f89537005f3db9deec1289dba062d1670058e1a3af70b4fb72a78154d551ea5fba48cc7d0448651f6e5a9225464a35572ca0c5e3646cb96898b0
   languageName: node
   linkType: hard
 
