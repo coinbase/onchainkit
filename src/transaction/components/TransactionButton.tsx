@@ -24,6 +24,7 @@ export function TransactionButton({
         className,
       )}
       onClick={onSubmit}
+      type="button"
     >
       {isLoading ? (
         <Spinner />

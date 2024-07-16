@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { useTransactionContext } from '../components/TransactionProvider';
 import { cn, color, text } from '../../styles/theme';
 import { useOnchainKit } from '../../useOnchainKit';
-import { getChainExplorer } from './getChainExplorer';
+import { getChainExplorer } from '../../network/getChainExplorer';
 import type { ReactNode } from 'react';
 
 export function useGetTransactionStatus() {
@@ -13,13 +13,13 @@ export function useGetTransactionStatus() {
     const chainExplorer = getChainExplorer(chain.id);
 
     let actionElement: ReactNode = null;
-    let label: string = '';
+    let label = '';
     let labelClassName: string = color.foregroundMuted;
 
     if (isLoading) {
       label = 'Transaction in progress...';
       actionElement = (
-        <a href="">
+        <a href={chainExplorer}>
           <span className={cn(text.label1, color.primary)}>
             View on explorer
           </span>
