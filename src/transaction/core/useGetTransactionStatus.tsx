@@ -12,7 +12,7 @@ export function useGetTransactionStatus() {
     const chainExplorer = getChainExplorer(chain.id);
 
     let actionElement: ReactNode = null;
-    let label = 'Complete the required fields to continue';
+    let label;
     let labelClassName: string = color.foregroundMuted;
 
     if (isLoading) {
