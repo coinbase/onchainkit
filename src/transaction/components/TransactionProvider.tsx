@@ -1,6 +1,16 @@
-import { createContext, useContext } from 'react';
-import type { TransactionContextType } from '../types';
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 import { useValue } from '../../internal/hooks/useValue';
+import { useWriteContracts } from '../core/useWriteContracts';
+import type {
+  TransactionContextType,
+  TransactionProviderReact,
+} from '../types';
 
 const emptyContext = {} as TransactionContextType;
 
@@ -18,13 +28,46 @@ export function useTransactionContext() {
 }
 
 export function TransactionProvider({
+  address,
   children,
-}: {
-  children: React.ReactNode;
-}) {
+  contracts,
+}: TransactionProviderReact) {
+  const [errorMessage, setErrorMessage] = useState('');
+  const [transactionId, setTransactionId] = useState('');
+  const [gasFee, setGasFee] = useState('');
+
+  const { status, writeContracts } = useWriteContracts({
+    setErrorMessage,
+    setTransactionId,
+  });
+
+  const handleSubmit = useCallback(async () => {
+    try {
+      setErrorMessage('');
+      await writeContracts({
+        contracts,
+      });
+    } catch (err) {
+      console.log({ err });
+    }
+  }, [contracts, writeContracts]);
+
+  useEffect(() => {
+    // TODO: replace with gas estimation call
+    setGasFee('0.03');
+  }, []);
+
   const value = useValue({
+    address,
+    contracts,
     error: undefined,
-    loading: false,
+    errorMessage,
+    gasFee,
+    isLoading: status === 'pending',
+    onSubmit: handleSubmit,
+    setErrorMessage,
+    transactionId,
+    setTransactionId,
   });
 
   return (

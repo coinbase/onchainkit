@@ -230,6 +230,21 @@ export const sidebar = [
     ],
   },
   {
+    text: 'Transaction',
+    items: [
+      {
+        text: 'Components',
+        items: [
+          {
+            text: 'Transaction',
+            link: '/transaction/transaction',
+          },
+        ],
+      },
+    ],
+    link: '/transaction/transaction',
+  },
+  {
     text: 'Wallet',
     items: [
       {
