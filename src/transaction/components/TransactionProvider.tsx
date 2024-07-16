@@ -6,8 +6,7 @@ import {
   useState,
 } from 'react';
 import { useValue } from '../../internal/hooks/useValue';
-import { useWriteContracts } from 'wagmi/experimental';
-import type { TransactionExecutionError } from 'viem';
+import { useWriteContracts } from '../core/useWriteContracts';
 import type {
   TransactionContextType,
   TransactionProviderReact,
@@ -38,23 +37,8 @@ export function TransactionProvider({
   const [gasFee, setGasFee] = useState('');
 
   const { status, writeContracts } = useWriteContracts({
-    mutation: {
-      onError: (e) => {
-        if (
-          (e as TransactionExecutionError).cause.name ==
-          'UserRejectedRequestError'
-        ) {
-          setErrorMessage('User rejected request');
-        } else {
-          setErrorMessage(e.message);
-        }
-      },
-      onSuccess: (id) => {
-        setTransactionId(id);
-        // do we need this?
-        // mutation.onSuccess(id);
-      },
-    },
+    setErrorMessage,
+    setTransactionId,
   });
 
   const handleSubmit = useCallback(async () => {
