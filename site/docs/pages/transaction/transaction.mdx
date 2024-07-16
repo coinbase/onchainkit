@@ -1,3 +1,5 @@
+import App from '../../components/App';
+import { Avatar, Name } from '@coinbase/onchainkit/identity';
 import { Transaction } from '../../../../src/transaction/components/Transaction';
 import { TransactionGasFee } from '../../../../src/transaction/components/TransactionGasFee';
 import { TransactionGasFeeLabel } from '../../../../src/transaction/components/TransactionGasFeeLabel';
@@ -7,9 +9,8 @@ import { TransactionButton } from '../../../../src/transaction/components/Transa
 import { TransactionStatus } from '../../../../src/transaction/components/TransactionStatus';
 import { TransactionStatusLabel } from '../../../../src/transaction/components/TransactionStatusLabel';
 import { TransactionStatusAction } from '../../../../src/transaction/components/TransactionStatusAction';
-
 import TransactionWrapper from '../../components/TransactionWrapper';
-import App from '../../components/App';
+import { Wallet, ConnectWallet } from '../../../../src/wallet';
 
 # `<Transaction />`
 
@@ -19,19 +20,32 @@ Component is actively in development. Stay tuned for upcoming releases.
 
 <App>
   <TransactionWrapper>
-    {({ address, contracts }) => (
-      <Transaction address={address} contracts={contracts}>
-        <TransactionButton />
-        <TransactionGasFee>
-          <TransactionGasFeeLabel />
-          <TransactionGasFeeEstimate />
-          <TransactionGasFeeSponsoredBy />
-        </TransactionGasFee>
-        <TransactionStatus>
-          <TransactionStatusLabel />
-          <TransactionStatusAction />
-        </TransactionStatus>
-      </Transaction>
-    )}
+    {({ address, contracts }) => {
+      if (address) {
+        return (
+          <Transaction address={address} contracts={contracts}>
+            <TransactionButton />
+            <TransactionGasFee>
+              <TransactionGasFeeLabel />
+              <TransactionGasFeeEstimate />
+              <TransactionGasFeeSponsoredBy />
+            </TransactionGasFee>
+            <TransactionStatus>
+              <TransactionStatusLabel />
+              <TransactionStatusAction />
+            </TransactionStatus>
+          </Transaction>
+        )
+      } else {
+        return (
+          <Wallet>
+          <ConnectWallet>
+            <Avatar className="h-6 w-6" />
+            <Name />
+          </ConnectWallet>
+        </Wallet>
+        )
+      }
+    }}
   </TransactionWrapper>
 </App>
