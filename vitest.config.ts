@@ -7,9 +7,10 @@ export default defineConfig({
         '**.js',
         '**.ts',
         '**/**.stories.**',
-        '**/index.ts',
-        '**/types.ts',
         '**/getMockFrameRequest.ts',
+        '**/index.ts',
+        '**/*Svg.tsx',
+        '**/types.ts',
         '.storybook/**',
         '.yarn/**',
         'esm/**',
@@ -17,7 +18,7 @@ export default defineConfig({
         'node_modules/**',
         'onchainkit/esm/**',
         'site/**',
-        '**/*Svg.tsx',
+        
       ],
       reportOnFailure: true,
       thresholds: {

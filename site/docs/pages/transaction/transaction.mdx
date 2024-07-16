@@ -17,35 +17,3 @@ import { Wallet, ConnectWallet } from '../../../../src/wallet';
 :::warning
 Component is actively in development. Stay tuned for upcoming releases.
 :::
-
-<App>
-  <TransactionWrapper>
-    {({ address, contracts }) => {
-      if (address) {
-        return (
-          <Transaction address={address} contracts={contracts}>
-            <TransactionButton />
-            <TransactionGasFee>
-              <TransactionGasFeeLabel />
-              <TransactionGasFeeEstimate />
-              <TransactionGasFeeSponsoredBy />
-            </TransactionGasFee>
-            <TransactionStatus>
-              <TransactionStatusLabel />
-              <TransactionStatusAction />
-            </TransactionStatus>
-          </Transaction>
-        )
-      } else {
-        return (
-          <Wallet>
-            <ConnectWallet>
-              <Avatar className="h-6 w-6" />
-              <Name />
-            </ConnectWallet>
-          </Wallet>
-        )
-      }
-    }}
-  </TransactionWrapper>
-</App>
