@@ -6,7 +6,7 @@ describe('TransactionGasFeeSponsoredBy', () => {
   it('renders with default sponsor', () => {
     render(<TransactionGasFeeSponsoredBy />);
 
-    const element = screen.getByText(`Coinbase`);
+    const element = screen.getByText('Coinbase');
     expect(element).toBeInTheDocument();
   });
 });

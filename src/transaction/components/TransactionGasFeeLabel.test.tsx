@@ -6,7 +6,7 @@ describe('TransactionGasFeeLabel', () => {
   it('renders child component correctly', () => {
     render(<TransactionGasFeeLabel />);
 
-    const element = screen.getByText(`Gas fee`);
+    const element = screen.getByText('Gas fee');
     expect(element).toBeInTheDocument();
   });
 });
