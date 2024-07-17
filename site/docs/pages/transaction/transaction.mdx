@@ -1,4 +1,3 @@
-import App from '../../components/App';
 import { Avatar, Name } from '@coinbase/onchainkit/identity';
 import { 
   Transaction, 
@@ -10,9 +9,10 @@ import {
   TransactionStatus,
   TransactionStatusLabel,
   TransactionStatusAction
-} from '../src/transaction';
+} from '@coinbase/onchainkit/transaction';
+import { Wallet, ConnectWallet } from '@coinbase/onchainkit/wallet';
+import App from '../../components/App';
 import TransactionWrapper from '../../components/TransactionWrapper';
-import { Wallet, ConnectWallet } from '../src/wallet';
 
 # `<Transaction />`
 
