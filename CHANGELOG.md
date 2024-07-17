@@ -4,16 +4,16 @@
 
 ### Patch Changes
 
-- 8e07918: - **chore**: exported `Transaction` components. By @zizzamia #820
+- **chore**: exported `Transaction` components. By @zizzamia #820 8e07918
 
 ## 0.25.3
 
 ### Patch Changes
 
-- 5c6ce95: - **feat**: added initial version of `Transaction` component. By @abcrane123 & @zizzamia #816 #787
-  - **feat**: updated Viem and Wagmi version. By @zizzamia #815
-  - **chore**: Add WalletDropdown Disconnect and Link tests. By @cpcramer #810
-  - **chore**: Add Identity unit tests. By @cpcramer #807
+- **feat**: added initial version of `Transaction` component. By @abcrane123 & @zizzamia #816 #787 5c6ce95
+- **feat**: updated Viem and Wagmi version. By @zizzamia #815
+- **chore**: Add WalletDropdown Disconnect and Link tests. By @cpcramer #810
+- **chore**: Add Identity unit tests. By @cpcramer #807
 
 ## 0.25.2
 
