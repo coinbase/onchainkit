@@ -1,8 +1,60 @@
 import App from '../../components/App';
 import { Avatar, Name } from '@coinbase/onchainkit/identity';
+import { Transaction } from '../../../../src/transaction/components/Transaction';
+import { TransactionGasFee } from '../../../../src/transaction/components/TransactionGasFee';
+import { TransactionGasFeeLabel } from '../../../../src/transaction/components/TransactionGasFeeLabel';
+import { TransactionGasFeeEstimate } from '../../../../src/transaction/components/TransactionGasFeeEstimate';
+import { TransactionGasFeeSponsoredBy } from '../../../../src/transaction/components/TransactionGasFeeSponsoredBy';
+import { TransactionButton } from '../../../../src/transaction/components/TransactionButton';
+import { TransactionStatus } from '../../../../src/transaction/components/TransactionStatus';
+import { TransactionStatusLabel } from '../../../../src/transaction/components/TransactionStatusLabel';
+import { TransactionStatusAction } from '../../../../src/transaction/components/TransactionStatusAction';
+import { TransactionToast } from '../../../../src/transaction/components/TransactionToast';
+import { TransactionToastAction } from '../../../../src/transaction/components/TransactionToastAction';
+import { TransactionToastIcon } from '../../../../src/transaction/components/TransactionToastIcon';
+import { TransactionToastLabel } from '../../../../src/transaction/components/TransactionToastLabel';
+import TransactionWrapper from '../../components/TransactionWrapper';
+import { Wallet, ConnectWallet } from '../../../../src/wallet';
 
 # `<Transaction />`
 
 :::warning
 Component is actively in development. Stay tuned for upcoming releases.
 :::
+
+<App>
+  <TransactionWrapper>
+    {({ address, contracts }) => {
+      if (address) {
+        return (
+          <Transaction address={address} contracts={contracts}>
+            <TransactionButton />
+            <TransactionGasFee>
+              <TransactionGasFeeLabel />
+              <TransactionGasFeeEstimate />
+              <TransactionGasFeeSponsoredBy />
+            </TransactionGasFee>
+            <TransactionStatus>
+              <TransactionStatusLabel />
+              <TransactionStatusAction />
+            </TransactionStatus>
+            <TransactionToast>
+              <TransactionToastIcon />
+              <TransactionToastLabel />
+              <TransactionToastAction />
+            </TransactionToast>
+          </Transaction>
+        )
+      } else {
+        return (
+          <Wallet>
+            <ConnectWallet>
+              <Avatar className="h-6 w-6" />
+              <Name />
+            </ConnectWallet>
+          </Wallet>
+        )
+      }
+    }}
+  </TransactionWrapper>
+</App>
