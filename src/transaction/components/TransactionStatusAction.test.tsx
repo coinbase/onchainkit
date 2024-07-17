@@ -10,7 +10,7 @@ vi.mock('../core/useGetTransactionStatus', () => ({
 describe('TransactionStatusAction', () => {
   it('renders transaction status action', () => {
     (useGetTransactionStatus as vi.Mock).mockReturnValue({
-      actionElement: <button>Try again</button>,
+      actionElement: <button type="button">Try again</button>,
     });
 
     render(<TransactionStatusAction className="custom-class" />);
