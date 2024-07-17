@@ -147,7 +147,7 @@ export const wagmiConfig = createConfig({
   connectors: [
     coinbaseWallet({
       appName: 'yourAppName',
-      preference: 'all',
+      preference: 'smartWalletOnly', // set this to `all` to use EOAs as well
       version: '4',
     }),
   ],
