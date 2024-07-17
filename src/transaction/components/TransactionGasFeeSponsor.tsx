@@ -1,9 +1,9 @@
 import { cn, color, text } from '../../styles/theme';
-import type { TransactionGasFeeSponsoredByReact } from '../types';
+import type { TransactionGasFeeSponsorReact } from '../types';
 
-export function TransactionGasFeeSponsoredBy({
+export function TransactionGasFeeSponsor({
   className,
-}: TransactionGasFeeSponsoredByReact) {
+}: TransactionGasFeeSponsorReact) {
   // TODO: replace with actual value
   const sponsoredBy = 'Coinbase';
 

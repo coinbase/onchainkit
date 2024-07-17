@@ -49,6 +49,21 @@ export type TransactionErrorState = {
   TransactionError?: TransactionError;
 };
 
+/**
+ * Note: exported as public Type
+ */
+export type TransactionReact = {
+  address: Address;
+  children: ReactNode;
+  className?: string;
+  contracts: Contract[];
+};
+
+export type TransactionGasFeeReact = {
+  children: ReactNode;
+  className?: string;
+};
+
 export type TransactionGasFeeEstimateReact = {
   className?: string;
 };
@@ -57,12 +72,7 @@ export type TransactionGasFeeLabelReact = {
   className?: string;
 };
 
-export type TransactionGasFeeReact = {
-  children: ReactNode;
-  className?: string;
-};
-
-export type TransactionGasFeeSponsoredByReact = {
+export type TransactionGasFeeSponsorReact = {
   className?: string;
 };
 
@@ -76,14 +86,9 @@ export type TransactionProviderReact = {
   contracts: Contract[];
 };
 
-/**
- * Note: exported as public Type
- */
-export type TransactionReact = {
-  address: Address;
+export type TransactionStatusReact = {
   children: ReactNode;
   className?: string;
-  contracts: Contract[];
 };
 
 export type TransactionStatusActionReact = {
@@ -91,10 +96,5 @@ export type TransactionStatusActionReact = {
 };
 
 export type TransactionStatusLabelReact = {
-  className?: string;
-};
-
-export type TransactionStatusReact = {
-  children: ReactNode;
   className?: string;
 };

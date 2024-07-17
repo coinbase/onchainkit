@@ -85,7 +85,7 @@
       "esm",
       "framegear",
       "dist",
-      "site/docs/dist/"
+      "site"
     ]
   }
 }
