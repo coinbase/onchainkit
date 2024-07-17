@@ -1,4 +1,4 @@
-import { cn, color, text } from '../../styles/theme';
+import { cn, text } from '../../styles/theme';
 import { useGetTransactionToast } from '../core/useGetTransactionToast';
 import type { TransactionToastIconReact } from '../types';
 

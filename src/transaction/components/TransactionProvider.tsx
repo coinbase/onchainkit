@@ -54,7 +54,7 @@ export function TransactionProvider({
       console.log({ err });
       setErrorMessage('Something went wrong');
     }
-  }, [contracts, writeContracts, setIsToastVisible, setErrorMessage]);
+  }, [contracts, writeContracts]);
 
   useEffect(() => {
     // TODO: replace with gas estimation call
