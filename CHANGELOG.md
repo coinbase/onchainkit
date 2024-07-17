@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.25.4
+
+### Patch Changes
+
+- 8e07918: - **chore**: exported `Transaction` components. By @zizzamia #820
+
 ## 0.25.3
 
 ### Patch Changes
