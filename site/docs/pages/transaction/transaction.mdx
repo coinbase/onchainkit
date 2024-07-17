@@ -20,6 +20,80 @@ import TransactionWrapper from '../../components/TransactionWrapper';
 Component is actively in development. Stay tuned for upcoming releases.
 :::
 
+```tsx [code]
+import { useCallback } from 'react';
+import { Avatar, Name } from '@coinbase/onchainkit/identity';
+import { // [!code focus]
+  Transaction, // [!code focus]
+  TransactionGasFee, // [!code focus]
+  TransactionGasFeeLabel, // [!code focus]
+  TransactionGasFeeEstimate, // [!code focus]
+  TransactionGasFeeSponsor, // [!code focus]
+  TransactionButton, // [!code focus]
+  TransactionStatus, // [!code focus]
+  TransactionStatusLabel, // [!code focus]
+  TransactionStatusAction // [!code focus]
+} from '@coinbase/onchainkit/transaction'; // [!code focus]
+import { Wallet, ConnectWallet } from '@coinbase/onchainkit/wallet';
+
+const myNFTABI = [
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [{ name: 'to', type: 'address' }],
+    name: 'safeMint',
+    outputs: [],
+  },
+] as const;
+const myNFTAddress = '0x119Ea671030FBf79AB93b436D2E20af6ea469a19';
+
+export default function TransactionComponents() {
+  const { address } = useAccount();
+
+  const contracts = [
+    {
+      address: myNFTAddress,
+      abi: myNFTABI,
+      functionName: 'safeMint',
+      args: [address],
+    },
+    {
+      address: myNFTAddress,
+      abi: myNFTABI,
+      functionName: 'safeMint',
+      args: [address],
+    },
+  ];
+
+  const swappableTokens: Token[] = [ ... ];
+
+  return ({ address ? (
+    <Transaction // [!code focus]
+      address={address} // [!code focus]
+      contracts={contracts} // [!code focus]
+    > // [!code focus]
+      <TransactionButton /> // [!code focus]
+      <TransactionGasFee> // [!code focus]
+        <TransactionGasFeeLabel /> // [!code focus]
+        <TransactionGasFeeEstimate /> // [!code focus]
+        <TransactionGasFeeSponsor /> // [!code focus]
+      </TransactionGasFee> // [!code focus]
+      <TransactionStatus> // [!code focus]
+        <TransactionStatusLabel /> // [!code focus]
+        <TransactionStatusAction /> // [!code focus]
+      </TransactionStatus> // [!code focus]
+    </Transaction> // [!code focus]
+  ) : (
+    <Wallet>
+      <ConnectWallet>
+        <Avatar className="h-6 w-6" />
+        <Name />
+      </ConnectWallet>
+    </Wallet>
+  )});
+}
+```
+
 <App>
   <TransactionWrapper>
     {({ address, contracts }) => {
