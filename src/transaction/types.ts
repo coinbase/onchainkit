@@ -38,6 +38,7 @@ export type TransactionContextType = {
   setTransactionId: (id: string) => void;
   status?: string;
   transactionId?: string;
+  transactionHash?: string;
 };
 
 /**

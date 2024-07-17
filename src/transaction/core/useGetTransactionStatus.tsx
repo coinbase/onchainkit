@@ -6,7 +6,7 @@ import { getChainExplorer } from '../../network/getChainExplorer';
 import type { ReactNode } from 'react';
 
 export function useGetTransactionStatus() {
-  const { errorMessage, isLoading, transactionId } = useTransactionContext();
+  const { errorMessage, isLoading, transactionHash } = useTransactionContext();
   const { chain } = useOnchainKit();
 
   return useMemo(() => {
@@ -26,11 +26,11 @@ export function useGetTransactionStatus() {
         </a>
       );
     }
-    if (transactionId) {
+    if (transactionHash) {
       label = 'Successful!';
       actionElement = (
         <a
-          href={`${chainExplorer}/tx/${transactionId}`}
+          href={`${chainExplorer}/tx/${transactionHash}`}
           target="_blank"
           rel="noreferrer"
         >
@@ -51,5 +51,5 @@ export function useGetTransactionStatus() {
     }
 
     return { actionElement, label, labelClassName };
-  }, [chain, errorMessage, isLoading, transactionId]);
+  }, [chain, errorMessage, isLoading, transactionHash]);
 }
