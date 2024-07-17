@@ -10,12 +10,12 @@ vi.mock('../core/useGetTransactionStatus', () => ({
 describe('TransactionStatusAction', () => {
   it('renders transaction status action', () => {
     (useGetTransactionStatus as vi.Mock).mockReturnValue({
-      actionElement: <button>Retry</button>,
+      actionElement: <button>Try again</button>,
     });
 
     render(<TransactionStatusAction className="custom-class" />);
 
-    const actionElement = screen.getByText('Retry');
+    const actionElement = screen.getByText('Try again');
     expect(actionElement).toBeInTheDocument();
     expect(actionElement.tagName).toBe('BUTTON');
   });
