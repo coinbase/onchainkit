@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.25.5
+
+### Patch Changes
+
+- 53ba268: - **feat**: adjust `writeContracts` functionality. By @zizzamia #826
+  - **feat**: added `Transaction` toast components. By @zizzamia #818
+  - **chore**: added unit tests to the `Transaction` component. By @cpcramer #817
+
 ## 0.25.4
 
 ### Patch Changes
