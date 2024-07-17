@@ -7,11 +7,13 @@ describe('TransactionStatus', () => {
     render(
       <TransactionStatus className="custom-class">
         <span>Transaction Status Content</span>
-      </TransactionStatus>
+      </TransactionStatus>,
     );
 
     const contentElement = screen.getByText('Transaction Status Content');
     expect(contentElement).toBeInTheDocument();
-    expect(contentElement.parentElement).toHaveClass('flex justify-between custom-class');
+    expect(contentElement.parentElement).toHaveClass(
+      'flex justify-between custom-class',
+    );
   });
 });

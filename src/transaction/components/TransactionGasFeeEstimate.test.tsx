@@ -16,5 +16,4 @@ describe('TransactionGasFeeEstimate', () => {
     const gasFeeElement = screen.getByText('0.03 ETH');
     expect(gasFeeElement).toBeInTheDocument();
   });
-
 });
