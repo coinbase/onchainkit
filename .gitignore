@@ -5,6 +5,7 @@ dist
 esm
 tmp
 /out-tsc
+site/docs/pages/src/
 site/vocs.config.tsx.timestamp*
 src/styles.css
 src/tailwind.css

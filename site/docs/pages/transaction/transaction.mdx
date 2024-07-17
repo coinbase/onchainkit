@@ -1,6 +1,53 @@
+import App from '../../components/App';
+import { Avatar, Name } from '@coinbase/onchainkit/identity';
+import { 
+  Transaction, 
+  TransactionGasFee,
+  TransactionGasFeeLabel,
+  TransactionGasFeeEstimate,
+  TransactionGasFeeSponsor,
+  TransactionButton,
+  TransactionStatus,
+  TransactionStatusLabel,
+  TransactionStatusAction
+} from '../src/transaction';
+import TransactionWrapper from '../../components/TransactionWrapper';
+import { Wallet, ConnectWallet } from '../src/wallet';
+
 # `<Transaction />`
 
 :::warning
 Component is actively in development. Stay tuned for upcoming releases.
 :::
 
+<App>
+  <TransactionWrapper>
+    {({ address, contracts }) => {
+      if (address) {
+        return (
+          <Transaction address={address} contracts={contracts}>
+            <TransactionButton />
+            <TransactionGasFee>
+              <TransactionGasFeeLabel />
+              <TransactionGasFeeEstimate />
+              <TransactionGasFeeSponsor />
+            </TransactionGasFee>
+            <TransactionStatus>
+              <TransactionStatusLabel />
+              <TransactionStatusAction />
+            </TransactionStatus>
+          </Transaction>
+        )
+      } else {
+        return (
+          <Wallet>
+            <ConnectWallet>
+              <Avatar className="h-6 w-6" />
+              <Name />
+            </ConnectWallet>
+          </Wallet>
+        )
+      }
+    }}
+  </TransactionWrapper>
+</App>
