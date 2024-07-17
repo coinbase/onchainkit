@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.25.3
+
+### Patch Changes
+
+- 5c6ce95: - **feat**: added initial version of `Transaction` component. By @abcrane123 & @zizzamia #816 #787
+  - **feat**: updated Viem and Wagmi version. By @zizzamia #815
+  - **chore**: Add WalletDropdown Disconnect and Link tests. By @cpcramer #810
+  - **chore**: Add Identity unit tests. By @cpcramer #807
+
 ## 0.25.2
 
 ### Patch Changes
