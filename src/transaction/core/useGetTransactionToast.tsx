@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { useTransactionContext } from '../components/TransactionProvider';
 import { cn, color, text } from '../../styles/theme';
 import { useOnchainKit } from '../../useOnchainKit';
-import { getChainExplorer } from './getChainExplorer';
+import { getChainExplorer } from '../../network/getChainExplorer';
 import { Spinner } from '../../internal/loading/Spinner';
 import type { ReactNode } from 'react';
 
