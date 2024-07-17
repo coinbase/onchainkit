@@ -30,10 +30,13 @@ export type TransactionContextType = {
   error?: TransactionErrorState;
   errorMessage?: string;
   isLoading: boolean;
+  isToastVisible: boolean;
   gasFee?: string;
   onSubmit: () => void;
   setErrorMessage: (error: string) => void;
+  setIsToastVisible: (isVisible: boolean) => void;
   setTransactionId: (id: string) => void;
+  status?: string;
   transactionId?: string;
 };
 
@@ -96,5 +99,22 @@ export type TransactionStatusActionReact = {
 };
 
 export type TransactionStatusLabelReact = {
+  className?: string;
+};
+
+export type TransactionToastActionReact = {
+  className?: string;
+};
+
+export type TransactionToastIconReact = {
+  className?: string;
+};
+
+export type TransactionToastLabelReact = {
+  className?: string;
+};
+
+export type TransactionToastReact = {
+  children: ReactNode;
   className?: string;
 };

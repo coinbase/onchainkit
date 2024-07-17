@@ -35,6 +35,7 @@ export function TransactionProvider({
   const [errorMessage, setErrorMessage] = useState('');
   const [transactionId, setTransactionId] = useState('');
   const [gasFee, setGasFee] = useState('');
+  const [isToastVisible, setIsToastVisible] = useState(false);
 
   const { status, writeContracts } = useWriteContracts({
     setErrorMessage,
@@ -44,13 +45,16 @@ export function TransactionProvider({
   const handleSubmit = useCallback(async () => {
     try {
       setErrorMessage('');
+      setIsToastVisible(true);
       await writeContracts({
         contracts,
       });
     } catch (err) {
+      // TODO: handle error better
       console.log({ err });
+      setErrorMessage('Something went wrong');
     }
-  }, [contracts, writeContracts]);
+  }, [contracts, writeContracts, setIsToastVisible, setErrorMessage]);
 
   useEffect(() => {
     // TODO: replace with gas estimation call
@@ -64,10 +68,13 @@ export function TransactionProvider({
     errorMessage,
     gasFee,
     isLoading: status === 'pending',
+    isToastVisible,
     onSubmit: handleSubmit,
     setErrorMessage,
-    transactionId,
+    setIsToastVisible,
     setTransactionId,
+    status,
+    transactionId,
   });
 
   return (
