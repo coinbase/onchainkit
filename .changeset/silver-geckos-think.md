@@ -2,4 +2,4 @@
 "@coinbase/onchainkit": patch
 ---
 
-export
+- **chore**: exported `Transaction` components. By @zizzamia #820
