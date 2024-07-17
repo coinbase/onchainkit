@@ -18,13 +18,14 @@ export function useGetTransactionStatus() {
 
     if (isLoading) {
       label = 'Transaction in progress...';
-      actionElement = (
-        <a href={chainExplorer}>
-          <span className={cn(text.label1, color.primary)}>
-            View on explorer
-          </span>
-        </a>
-      );
+      // TODO: add back when have correct link
+      // actionElement = (
+      //   <a href={chainExplorer}>
+      //     <span className={cn(text.label1, color.primary)}>
+      //       View on explorer
+      //     </span>
+      //   </a>
+      // );
     }
     if (transactionHash) {
       label = 'Successful!';
