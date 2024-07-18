@@ -44,6 +44,7 @@ export type TransactionReact = {
   children: ReactNode;
   className?: string;
   contracts: ContractFunctionParameters[];
+  /* biome-ignore lint: various possible error types */
   onError?: (e: any) => void;
 };
 
@@ -72,6 +73,7 @@ export type TransactionProviderReact = {
   address: Address;
   children: ReactNode;
   contracts: ContractFunctionParameters[];
+  /* biome-ignore lint: various possible error types */
   onError?: (e: any) => void;
 };
 

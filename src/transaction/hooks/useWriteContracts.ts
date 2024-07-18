@@ -2,6 +2,7 @@ import { useWriteContracts as useWriteContractsWagmi } from 'wagmi/experimental'
 import type { TransactionExecutionError } from 'viem';
 
 type UseWriteContractsParams = {
+  /* biome-ignore lint: various possible error types */
   onError?: (e: any) => void;
   setErrorMessage: (error: string) => void;
   setTransactionId: (id: string) => void;
