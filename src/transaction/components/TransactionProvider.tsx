@@ -6,8 +6,8 @@ import {
   useState,
 } from 'react';
 import { useValue } from '../../internal/hooks/useValue';
-import { useWriteContracts } from '../core/useWriteContracts';
-import { useCallsStatus } from '../core/useCallsStatus';
+import { useWriteContracts } from '../hooks/useWriteContracts';
+import { useCallsStatus } from '../hooks/useCallsStatus';
 import type {
   TransactionContextType,
   TransactionProviderReact,

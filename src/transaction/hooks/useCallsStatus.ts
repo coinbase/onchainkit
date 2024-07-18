@@ -9,8 +9,9 @@ export function useCallsStatus({ transactionId }: UseCallsStatusParams) {
     const { data } = useCallsStatusWagmi({
       id: transactionId,
       query: {
-        refetchInterval: (data) =>
-          data.state.data?.status === 'CONFIRMED' ? false : 1000,
+        refetchInterval: (data) => {
+          return data.state.data?.status === 'CONFIRMED' ? false : 1000;
+        },
       },
     });
 

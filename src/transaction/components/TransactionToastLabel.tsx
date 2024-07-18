@@ -1,5 +1,5 @@
 import { cn, color, text } from '../../styles/theme';
-import { useGetTransactionToast } from '../core/useGetTransactionToast';
+import { useGetTransactionToast } from '../hooks/useGetTransactionToast';
 import type { TransactionToastLabelReact } from '../types';
 
 export function TransactionToastLabel({
