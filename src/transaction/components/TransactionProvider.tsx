@@ -7,7 +7,7 @@ import {
 } from 'react';
 import { useValue } from '../../internal/hooks/useValue';
 import { useWriteContracts } from '../core/useWriteContracts';
-import { useCallsStatus } from 'wagmi/experimental';
+import { useCallsStatus } from '../core/useCallsStatus';
 import type {
   TransactionContextType,
   TransactionProviderReact,
@@ -43,13 +43,7 @@ export function TransactionProvider({
     setTransactionId,
   });
 
-  const { data: callsStatus } = useCallsStatus({
-    id: transactionId,
-    query: {
-      refetchInterval: (data) =>
-        data.state.data?.status === 'CONFIRMED' ? false : 1000,
-    },
-  });
+  const { transactionHash } = useCallsStatus({ transactionId });
 
   const handleSubmit = useCallback(async () => {
     try {
@@ -84,7 +78,7 @@ export function TransactionProvider({
     setTransactionId,
     status,
     transactionId,
-    transactionHash: callsStatus?.receipts?.[0]?.transactionHash,
+    transactionHash,
   });
 
   return (

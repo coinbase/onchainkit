@@ -39,7 +39,7 @@ const errorSVG = (
 );
 
 export function useGetTransactionToast() {
-  const { onSubmit, status, transactionId } = useTransactionContext();
+  const { onSubmit, status, transactionHash } = useTransactionContext();
   const { chain } = useOnchainKit();
 
   return useMemo(() => {
@@ -61,10 +61,10 @@ export function useGetTransactionToast() {
       icon = <Spinner className="px-1.5 py-1.5" />;
       label = 'Transaction in progress';
     }
-    if (transactionId) {
+    if (transactionHash) {
       actionElement = (
         <a
-          href={`${chainExplorer}/tx/${transactionId}`}
+          href={`${chainExplorer}/tx/${transactionHash}`}
           target="_blank"
           rel="noreferrer"
         >
@@ -87,5 +87,5 @@ export function useGetTransactionToast() {
     }
 
     return { actionElement, icon, label };
-  }, [chain, onSubmit, status, transactionId]);
+  }, [chain, onSubmit, status, transactionHash]);
 }
