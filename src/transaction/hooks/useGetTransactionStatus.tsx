@@ -6,7 +6,8 @@ import { getChainExplorer } from '../../network/getChainExplorer';
 import type { ReactNode } from 'react';
 
 export function useGetTransactionStatus() {
-  const { errorMessage, isLoading, transactionHash } = useTransactionContext();
+  const { errorMessage, isLoading, onSubmit, transactionHash } =
+    useTransactionContext();
   const { chain } = useOnchainKit();
 
   return useMemo(() => {
@@ -45,7 +46,7 @@ export function useGetTransactionStatus() {
       label = errorMessage;
       labelClassName = color.error;
       actionElement = (
-        <button type="button">
+        <button type="button" onClick={onSubmit}>
           <span className={cn(text.label1, color.primary)}>Try again</span>
         </button>
       );

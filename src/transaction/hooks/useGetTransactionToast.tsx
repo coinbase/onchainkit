@@ -39,7 +39,8 @@ const errorSVG = (
 );
 
 export function useGetTransactionToast() {
-  const { onSubmit, status, transactionHash } = useTransactionContext();
+  const { errorMessage, isLoading, onSubmit, transactionHash } =
+    useTransactionContext();
   const { chain } = useOnchainKit();
 
   return useMemo(() => {
@@ -49,15 +50,15 @@ export function useGetTransactionToast() {
     let label = '';
     let icon: ReactNode = null;
 
-    if (status === 'pending') {
-      actionElement = (
-        // TODO: update with correct url
-        <a href={chainExplorer}>
-          <span className={cn(text.label1, color.primary)}>
-            View block explorer
-          </span>
-        </a>
-      );
+    if (isLoading) {
+      // TODO: add back when have correct link
+      // actionElement = (
+      //   <a href={chainExplorer}>
+      //     <span className={cn(text.label1, color.primary)}>
+      //       View block explorer
+      //     </span>
+      //   </a>
+      // );
       icon = <Spinner className="px-1.5 py-1.5" />;
       label = 'Transaction in progress';
     }
@@ -76,16 +77,16 @@ export function useGetTransactionToast() {
       icon = successSVG;
       label = 'Successful';
     }
-    if (status === 'error') {
+    if (errorMessage) {
       actionElement = (
         <button type="button" onClick={onSubmit}>
           <span className={cn(text.label1, color.primary)}>Try again</span>
         </button>
       );
       icon = errorSVG;
-      label = 'Something went wrong';
+      label = errorMessage;
     }
 
     return { actionElement, icon, label };
-  }, [chain, onSubmit, status, transactionHash]);
+  }, [chain, isLoading, onSubmit, transactionHash]);
 }
