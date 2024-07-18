@@ -50,6 +50,11 @@
   transition: color 0.3s;
 }
 
+/* Code block styling */
+.vocs_Pre_wrapper pre {
+  background-color: transparent !important;
+}
+
 #home-install .vocs_CodeGroup {
   display: flex;
   height: 100%;
@@ -62,11 +67,6 @@
 
 #home-install .vocs_Code {
   font-size: 14px;
-}
-
-/* Code block styling */
-.vocs_Pre_wrapper pre {
-  background-color: transparent !important;
 }
 
 @media (max-width: 768px) {
@@ -118,10 +118,6 @@
   display: none;
 }
 
-.landing-page-hero .vocs_Paragraph {
-  line-height: 1.5;
-}
-
 .dark .css-main-container {
   background-color: #111827;
 }
@@ -135,6 +131,10 @@
 }
 .dark .css-alternate-container {
   background-color: #030713;
+}
+
+.landing-page-hero .vocs_Paragraph {
+  line-height: 1.5;
 }
 
 .landing-page .vocs_Header,
