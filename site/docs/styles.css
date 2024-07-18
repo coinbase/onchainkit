@@ -17,7 +17,6 @@
   }
 }
 
-/* Set background color and basic styling for all components */
 .vocs_CodeGroup,
 .vocs_Tabs_list,
 .vocs_Tabs_trigger,
@@ -50,7 +49,6 @@
   transition: color 0.3s;
 }
 
-/* Code block styling */
 .vocs_Pre_wrapper pre {
   background-color: transparent !important;
 }
