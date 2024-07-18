@@ -50,14 +50,16 @@ import WalletComponents from '../components/WalletComponents';
   <div className="mx-auto max-w-2xl">
     <div className="md:text-center flex flex-col gap-8 pt-[100px] pb-16">
       <h1 className="text-center text-6xl md:text-9xl font-medium no-underline dark:text-white tracking-[-0.1rem]">OnchainKit</h1>
-      <div className="text-center text-xl md:text-3xl dark:text-white">
-        <p className="leading-7 md:leading-none">
+      <div className="landing-page-hero text-center text-xl md:text-3xl dark:text-white">
+        <p>
           Build your onchain apps with ready-to-use React components and Typescript utilities.
         </p>
       </div>
     </div>
-    <div className="flex flex-col md:flex-row space-between items-center gap-6 w-full">
-      <div id="home-install" className="h-full grow">
+    <div className="flex flex-col items-center gap-6 w-full">
+      <div id="home-install" className="h-full w-9/12">
+
+{/* TODO: override background grey to match other components */}
 :::code-group
 
 ```bash [npm]
@@ -78,12 +80,11 @@ bun add @coinbase/onchainkit
 
 :::
 
-      </div>
-      <a href="/getting-started" className="font-sans justify-self-end border rounded-xl border-solid border border-indigo-400 text-indigo-400 px-4 py-3 font-bold">
+    </div>
+      <a href="/getting-started" className="font-sans border rounded-xl border-solid border-indigo-400 text-indigo-400 px-4 py-3 font-bold mt-4">
         View docs
       </a>
     </div>
-
   </div>
 </div>
 <div className="flex flex-col md:flex-row justify-between items-center md:mb-[64px] mx-auto max-w-[1225px] z-10 pt-[100px]">
@@ -493,10 +494,10 @@ setFilteredTokens(filteredTokens);
         </ul>
       </div>
     </div>
-    <p className="leading-7 text-xl text-gray-400 px-0 pt-16">
-      This project is licensed under the MIT License - see the [LICENSE.md](https://github.com/coinbase/onchainkit/blob/main/LICENSE.md) file for details.
+    <p className="leading-7 text-sm text-gray-400 px-0 pt-16">
+      This project is licensed under the [MIT License](https://github.com/coinbase/onchainkit/blob/main/LICENSE.md) · [Terms of Service](https://www.coinbase.com/legal/cloud/terms-of-service).
     </p>
-    <p className="leading-7 text-xl text-gray-400 px-0 pt-4">
+    <p className="leading-7 text-sm text-gray-400 px-0 pt-4">
       <a href="https://www.coinbase.com/legal/cloud/terms-of-service" target="_blank" rel="noopener noreferrer">
         Terms of Service
       </a>

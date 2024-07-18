@@ -31,6 +31,51 @@
   font-size: 14px;
 }
 
+/* Set background color for all components */
+.vocs_CodeGroup,
+.vocs_Tabs_list,
+.vocs_Tabs_trigger,
+.vocs_Tabs_content,
+.vocs_CodeBlock,
+.vocs_CodeTitle,
+.vocs_Pre_wrapper {
+  background-color: #1F2937 !important;
+}
+
+/* Overall container styling */
+.vocs_CodeGroup {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* Tab list container */
+.vocs_Tabs_list {
+  padding: 8px 8px 0;
+}
+
+/* Individual tab button styling */
+.vocs_Tabs_trigger {
+  color: #B0B0B0;
+  padding: 8px 16px;
+  border: none;
+  cursor: pointer;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  transition: color 0.3s;
+}
+
+/* Active tab button styling */
+.vocs_Tabs_trigger[data-state="active"] {
+  color: #FFFFFF;
+  font-weight: bold;
+}
+
+/* Code block styling */
+.vocs_Pre_wrapper pre {
+  background-color: transparent !important;
+  color: inherit !important;
+}
+
 @media (max-width: 768px) {
   .vocs_CodeBlock {
     margin-left: auto;
@@ -78,6 +123,10 @@
 
 .vocs_Content:has(#blobs) + .vocs_Footer {
   display: none;
+}
+
+.landing-page-hero .vocs_Paragraph {
+  line-height: 1.5;
 }
 
 .dark .css-main-container {
