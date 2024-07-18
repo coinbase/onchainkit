@@ -50,14 +50,15 @@ import WalletComponents from '../components/WalletComponents';
   <div className="mx-auto max-w-2xl">
     <div className="md:text-center flex flex-col gap-8 pt-[100px] pb-16">
       <h1 className="text-center text-6xl md:text-9xl font-medium no-underline dark:text-white tracking-[-0.1rem]">OnchainKit</h1>
-      <div className="text-center text-xl md:text-3xl dark:text-white">
-        <p className="leading-7 md:leading-none">
+      <div className="landing-page-hero text-center text-xl md:text-3xl dark:text-white">
+        <p>
           Build your onchain apps with ready-to-use React components and Typescript utilities.
         </p>
       </div>
     </div>
-    <div className="flex flex-col md:flex-row space-between items-center gap-6 w-full">
-      <div id="home-install" className="h-full grow">
+    <div className="flex flex-col items-center gap-6 w-full">
+      <div id="home-install" className="h-full w-9/12">
+
 :::code-group
 
 ```bash [npm]
@@ -78,12 +79,11 @@ bun add @coinbase/onchainkit
 
 :::
 
-      </div>
-      <a href="/getting-started" className="font-sans justify-self-end border rounded-xl border-solid border border-indigo-400 text-indigo-400 px-4 py-3 font-bold">
+    </div>
+      <a href="/getting-started" className="font-sans border rounded-xl border-solid border-indigo-400 text-indigo-400 px-4 py-3 font-bold mt-4">
         View docs
       </a>
     </div>
-
   </div>
 </div>
 <div className="flex flex-col md:flex-row justify-between items-center md:mb-[64px] mx-auto max-w-[1225px] z-10 pt-[100px]">
@@ -455,7 +455,7 @@ setFilteredTokens(filteredTokens);
     <div className="flex flex-col md:flex-row md:items-end justify-between">
       <div className="flex flex-col justify-between xl:flex-row xl:space-x-[25px]">
         <div className="pt-[20px] xl:pt-[40px]">
-          <h2 className="text-4xl md:text-9xl text-center md:text-left font-medium tracking-[-0.1rem]">OnchainKit</h2>
+          <h2 className="dark:text-white text-4xl md:text-9xl text-center md:text-left font-medium tracking-[-0.1rem]">OnchainKit</h2>
           <p className="leading-7 text-xl text-gray-400 px-0 py-6 max-w-[500px] md:text-left text-center">
             Build your onchain apps with ready-to-use React components and Typescript utilities.
           </p>
@@ -493,13 +493,8 @@ setFilteredTokens(filteredTokens);
         </ul>
       </div>
     </div>
-    <p className="leading-7 text-xl text-gray-400 px-0 pt-16">
-      This project is licensed under the MIT License - see the [LICENSE.md](https://github.com/coinbase/onchainkit/blob/main/LICENSE.md) file for details.
-    </p>
-    <p className="leading-7 text-xl text-gray-400 px-0 pt-4">
-      <a href="https://www.coinbase.com/legal/cloud/terms-of-service" target="_blank" rel="noopener noreferrer">
-        Terms of Service
-      </a>
+    <p className="leading-7 text-sm text-gray-400 px-0 pt-16">
+      This project is licensed under the [MIT License](https://github.com/coinbase/onchainkit/blob/main/LICENSE.md) · [Terms of Service](https://www.coinbase.com/legal/cloud/terms-of-service).
     </p>
   </footer>
 </main>

@@ -17,6 +17,44 @@
   }
 }
 
+.vocs_CodeGroup,
+.vocs_Tabs_list,
+.vocs_Tabs_trigger,
+.vocs_Tabs_content,
+.vocs_CodeBlock,
+.vocs_CodeTitle,
+.vocs_Pre_wrapper,
+.vocs_Heading::before,
+.vocs_Code {
+  background-color: #1F2937 !important;
+}
+
+.vocs_CodeGroup {
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.vocs_Tabs_list {
+  padding: 8px 8px 0;
+}
+
+.vocs_Tabs_trigger {
+  color: #F9FAFB;
+  padding: 8px 16px;
+  border: none;
+  cursor: pointer;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  transition: color 0.3s;
+}
+
+.vocs_Pre_wrapper pre {
+  background-color: transparent !important;
+}
+
 #home-install .vocs_CodeGroup {
   display: flex;
   height: 100%;
@@ -93,6 +131,10 @@
 }
 .dark .css-alternate-container {
   background-color: #030713;
+}
+
+.landing-page-hero .vocs_Paragraph {
+  line-height: 1.5;
 }
 
 .landing-page .vocs_Header,
