@@ -2,11 +2,15 @@ import { useWriteContracts as useWriteContractsWagmi } from 'wagmi/experimental'
 import type { TransactionExecutionError } from 'viem';
 
 type UseWriteContractsParams = {
+  onError?: (e: any) => void;
   setErrorMessage: (error: string) => void;
   setTransactionId: (id: string) => void;
 };
 
+const genericErrorMessage = 'Something went wrong. Please try again.';
+
 export function useWriteContracts({
+  onError,
   setErrorMessage,
   setTransactionId,
 }: UseWriteContractsParams) {
@@ -20,8 +24,9 @@ export function useWriteContracts({
           ) {
             setErrorMessage('Request denied.');
           } else {
-            setErrorMessage('Something went wrong. Please try again.');
+            setErrorMessage(genericErrorMessage);
           }
+          onError?.(e);
         },
         onSuccess: (id) => {
           setTransactionId(id);
@@ -30,7 +35,8 @@ export function useWriteContracts({
     });
     return { status, writeContracts };
   } catch (err) {
-    console.log({ err });
+    onError?.(err);
+    setErrorMessage(genericErrorMessage);
     return { status: 'error', writeContracts: () => {} };
   }
 }

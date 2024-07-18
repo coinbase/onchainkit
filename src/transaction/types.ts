@@ -44,6 +44,7 @@ export type TransactionReact = {
   children: ReactNode;
   className?: string;
   contracts: ContractFunctionParameters[];
+  onError?: (e: any) => void;
 };
 
 export type TransactionGasFeeReact = {
@@ -71,6 +72,7 @@ export type TransactionProviderReact = {
   address: Address;
   children: ReactNode;
   contracts: ContractFunctionParameters[];
+  onError?: (e: any) => void;
 };
 
 export type TransactionStatusReact = {

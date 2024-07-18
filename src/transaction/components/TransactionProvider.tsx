@@ -32,6 +32,7 @@ export function TransactionProvider({
   address,
   children,
   contracts,
+  onError,
 }: TransactionProviderReact) {
   const [errorMessage, setErrorMessage] = useState('');
   const [transactionId, setTransactionId] = useState('');
@@ -39,24 +40,19 @@ export function TransactionProvider({
   const [isToastVisible, setIsToastVisible] = useState(false);
 
   const { status, writeContracts } = useWriteContracts({
+    onError,
     setErrorMessage,
     setTransactionId,
   });
 
   const { transactionHash } = useCallsStatus({ transactionId });
 
-  const handleSubmit = useCallback(async () => {
-    try {
-      setErrorMessage('');
-      setIsToastVisible(true);
-      await writeContracts({
-        contracts,
-      });
-    } catch (err) {
-      // TODO: handle error better
-      console.log({ err });
-      setErrorMessage('Something went wrong');
-    }
+  const handleSubmit = useCallback(() => {
+    setErrorMessage('');
+    setIsToastVisible(true);
+    writeContracts({
+      contracts,
+    });
   }, [contracts, writeContracts]);
 
   useEffect(() => {
