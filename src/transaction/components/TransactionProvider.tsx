@@ -6,7 +6,8 @@ import {
   useState,
 } from 'react';
 import { useValue } from '../../internal/hooks/useValue';
-import { useWriteContracts } from '../core/useWriteContracts';
+import { useWriteContracts } from '../hooks/useWriteContracts';
+import { useCallsStatus } from '../hooks/useCallsStatus';
 import type {
   TransactionContextType,
   TransactionProviderReact,
@@ -42,6 +43,8 @@ export function TransactionProvider({
     setTransactionId,
   });
 
+  const { transactionHash } = useCallsStatus({ transactionId });
+
   const handleSubmit = useCallback(async () => {
     try {
       setErrorMessage('');
@@ -75,6 +78,7 @@ export function TransactionProvider({
     setTransactionId,
     status,
     transactionId,
+    transactionHash,
   });
 
   return (

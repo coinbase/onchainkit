@@ -1,0 +1,27 @@
+---
+title: Transaction components & utilities Types
+description: Glossary of Types in Transaction components & utilities.
+---
+
+# Types [Glossary of Types in Transaction components & utilities.]
+
+## `TransactionContext`
+
+```ts
+type TransactionContextType = {
+  address: Address;
+  contracts: ContractFunctionParameters[];
+  error?: TransactionErrorState;
+  errorMessage?: string;
+  isLoading: boolean;
+  isToastVisible: boolean;
+  gasFee?: string;
+  onSubmit: () => void;
+  setErrorMessage: (error: string) => void;
+  setIsToastVisible: (isVisible: boolean) => void;
+  setTransactionId: (id: string) => void;
+  status?: string;
+  transactionId?: string;
+  transactionHash?: string;
+};
+```

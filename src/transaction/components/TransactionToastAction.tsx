@@ -1,5 +1,5 @@
 import { cn, text } from '../../styles/theme';
-import { useGetTransactionToast } from '../core/useGetTransactionToast';
+import { useGetTransactionToast } from '../hooks/useGetTransactionToast';
 import type { TransactionToastActionReact } from '../types';
 
 export function TransactionToastAction({

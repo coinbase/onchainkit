@@ -1,5 +1,5 @@
 import { cn, text } from '../../styles/theme';
-import { useGetTransactionStatus } from '../core/useGetTransactionStatus';
+import { useGetTransactionStatus } from '../hooks/useGetTransactionStatus';
 import type { TransactionStatusLabelReact } from '../types';
 
 export function TransactionStatusLabel({
