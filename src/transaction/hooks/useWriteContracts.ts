@@ -1,5 +1,6 @@
 import { useWriteContracts as useWriteContractsWagmi } from 'wagmi/experimental';
-import type { TransactionExecutionError } from 'viem';
+import { getErrorMessage } from '../utils/getErrorMessage';
+import type { AbiFunctionNotFoundError, TransactionExecutionError } from 'viem';
 
 type UseWriteContractsParams = {
   setErrorMessage: (error: string) => void;
@@ -14,14 +15,13 @@ export function useWriteContracts({
     const { status, writeContracts } = useWriteContractsWagmi({
       mutation: {
         onError: (e) => {
-          if (
-            (e as TransactionExecutionError)?.cause?.name ===
-            'UserRejectedRequestError'
-          ) {
-            setErrorMessage('User rejected request');
-          } else {
-            setErrorMessage(e.message);
-          }
+          const errorMessage = getErrorMessage({
+            cause: (e as TransactionExecutionError)?.cause?.name,
+            name: e.name,
+            shortMessage: (e as AbiFunctionNotFoundError)?.shortMessage,
+            message: e.message,
+          });
+          setErrorMessage(errorMessage);
         },
         onSuccess: (id) => {
           setTransactionId(id);

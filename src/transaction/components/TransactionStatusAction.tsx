@@ -7,5 +7,9 @@ export function TransactionStatusAction({
 }: TransactionStatusActionReact) {
   const { actionElement } = useGetTransactionStatus();
 
-  return <div className={cn(text.label2, className)}>{actionElement}</div>;
+  return (
+    <div className={cn(text.label2, 'min-w-[70px]', className)}>
+      {actionElement}
+    </div>
+  );
 }

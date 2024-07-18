@@ -42,7 +42,7 @@ export function useGetTransactionStatus() {
       );
     }
     if (errorMessage) {
-      label = 'Something went wrong. Please try again.';
+      label = errorMessage;
       labelClassName = color.error;
       actionElement = (
         <button type="button">
