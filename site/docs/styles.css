@@ -23,7 +23,9 @@
 .vocs_Tabs_content,
 .vocs_CodeBlock,
 .vocs_CodeTitle,
-.vocs_Pre_wrapper {
+.vocs_Pre_wrapper,
+.vocs_Heading::before,
+.vocs_Code {
   background-color: #1F2937 !important;
 }
 
