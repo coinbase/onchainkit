@@ -79,24 +79,13 @@ export default defineConfig({
     },
   ],
   theme: {
-    accentColor: {
-      light: '#73F7FF',
-      dark: '#73F7FF',
-    },
+    accentColor: '#73F7FF',
+    colorScheme: 'dark',
     variables: {
       color: {
-        background: {
-          light: 'white',
-          dark: '#151A26',
-        },
-        backgroundDark: {
-          light: '#F5F5F5',
-          dark: '#0F131E',
-        },
-        textAccent: {
-          light: '#050F19',
-          dark: 'white',
-        },
+        background: '#151A26',
+        backgroundDark: '#0F131E',
+        textAccent: 'white',
       },
     },
   },
