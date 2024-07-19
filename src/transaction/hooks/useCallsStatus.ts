@@ -1,10 +1,17 @@
 import { useCallsStatus as useCallsStatusWagmi } from 'wagmi/experimental';
+import type { TransactionError } from '../types';
 
 type UseCallsStatusParams = {
+  onError?: (e: TransactionError) => void;
   transactionId: string;
 };
 
-export function useCallsStatus({ transactionId }: UseCallsStatusParams) {
+const uncaughtErrorCode = 'UNCAUGHT_CALL_STATUS_ERROR';
+
+export function useCallsStatus({
+  onError,
+  transactionId,
+}: UseCallsStatusParams) {
   try {
     const { data } = useCallsStatusWagmi({
       id: transactionId,
@@ -19,7 +26,7 @@ export function useCallsStatus({ transactionId }: UseCallsStatusParams) {
 
     return { status: data?.status, transactionHash };
   } catch (err) {
-    console.log(`useCallsStatusError: ${err}`);
+    onError?.({ code: uncaughtErrorCode, error: JSON.stringify(err) });
     return { status: 'error', transactionHash: undefined };
   }
 }

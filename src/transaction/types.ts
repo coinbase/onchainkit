@@ -10,7 +10,6 @@ export type TransactionButtonReact = { className?: string; text?: string };
 export type TransactionContextType = {
   address: Address;
   contracts: ContractFunctionParameters[];
-  error?: TransactionErrorState;
   errorMessage?: string;
   isLoading: boolean;
   isToastVisible: boolean;
@@ -44,6 +43,7 @@ export type TransactionReact = {
   children: ReactNode;
   className?: string;
   contracts: ContractFunctionParameters[];
+  onError?: (e: TransactionError) => void;
 };
 
 export type TransactionGasFeeReact = {
@@ -71,6 +71,7 @@ export type TransactionProviderReact = {
   address: Address;
   children: ReactNode;
   contracts: ContractFunctionParameters[];
+  onError?: (e: TransactionError) => void;
 };
 
 export type TransactionStatusReact = {
