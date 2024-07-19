@@ -88,5 +88,5 @@ export function useGetTransactionToast() {
     }
 
     return { actionElement, icon, label };
-  }, [chain, isLoading, onSubmit, transactionHash]);
+  }, [chain, errorMessage, isLoading, onSubmit, transactionHash]);
 }

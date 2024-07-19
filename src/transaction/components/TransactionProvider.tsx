@@ -45,7 +45,7 @@ export function TransactionProvider({
     setTransactionId,
   });
 
-  const { transactionHash } = useCallsStatus({ transactionId });
+  const { transactionHash } = useCallsStatus({ onError, transactionId });
 
   const handleSubmit = useCallback(() => {
     setErrorMessage('');
