@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { useReadContract } from 'wagmi';
 import { erc20Abi, formatUnits } from 'viem';
-import { getRoundedAmount } from '../../utils/getRoundedAmount';
+import { getRoundedAmount } from '../../internal/utils/getRoundedAmount';
 import { getSwapErrorCode } from '../../swap/core/getSwapErrorCode';
 import type { Address } from 'viem';
 import type { Token } from '../../token';

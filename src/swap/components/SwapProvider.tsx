@@ -11,7 +11,7 @@ import { buildSwapTransaction } from '../core/buildSwapTransaction';
 import { isSwapError } from '../core/isSwapError';
 import { getSwapQuote } from '../core/getSwapQuote';
 import { USER_REJECTED_ERROR_CODE } from '../constants';
-import { formatTokenAmount } from '../../utils/formatTokenAmount';
+import { formatTokenAmount } from '../../internal/utils/formatTokenAmount';
 import { useFromTo } from '../utils/useFromTo';
 import type { SwapError, SwapErrorState, SwapContextType } from '../types';
 import type { Token } from '../../token';

@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { useBalance } from 'wagmi';
 import { formatUnits } from 'viem';
-import { getRoundedAmount } from '../../utils/getRoundedAmount';
+import { getRoundedAmount } from '../../internal/utils/getRoundedAmount';
 import { getSwapErrorCode } from '../../swap/core/getSwapErrorCode';
 import type { Address } from 'viem';
 import type { UseBalanceReturnType } from 'wagmi';

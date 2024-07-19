@@ -4,7 +4,7 @@ import { vi } from 'vitest';
 import { EthBalance } from './EthBalance';
 import { useIdentityContext } from './IdentityProvider';
 import { useGetETHBalance } from '../../wallet/core/useGetETHBalance';
-import { getRoundedAmount } from '../../utils/getRoundedAmount';
+import { getRoundedAmount } from '../../internal/utils/getRoundedAmount';
 
 function mock<T>(func: T) {
   return func as vi.Mock;
@@ -25,7 +25,7 @@ vi.mock('../../wallet/core/useGetETHBalance', () => ({
   useGetETHBalance: vi.fn(),
 }));
 
-vi.mock('../../utils/getRoundedAmount', () => ({
+vi.mock('../../internal/utils/getRoundedAmount', () => ({
   getRoundedAmount: vi.fn(),
 }));
 

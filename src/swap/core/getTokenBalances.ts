@@ -1,4 +1,4 @@
-import { getRoundedAmount } from '../../utils/getRoundedAmount';
+import { getRoundedAmount } from '../../internal/utils/getRoundedAmount';
 import { formatUnits } from 'viem';
 import type { Token } from '../../token';
 
