@@ -1,11 +1,11 @@
-import { Children, useMemo, useCallback, useState, useEffect } from 'react';
+import { Children, useCallback, useEffect, useMemo, useState } from 'react';
+import type { ReactNode } from 'react';
+import { findComponent } from '../../internal/utils/findComponent';
+import { background, cn, color, pressable } from '../../styles/theme';
 import { Address } from './Address';
 import { Avatar } from './Avatar';
 import { EthBalance } from './EthBalance';
 import { Name } from './Name';
-import { findComponent } from '../../internal/utils/findComponent';
-import { background, cn, color, pressable } from '../../styles/theme';
-import type { ReactNode } from 'react';
 
 // istanbul ignore next
 const noop = () => {};

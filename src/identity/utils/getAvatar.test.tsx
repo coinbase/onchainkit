@@ -1,6 +1,6 @@
-import { getAvatar } from './getAvatar';
-import { publicClient } from '../../network/client';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { publicClient } from '../../network/client';
+import { getAvatar } from './getAvatar';
 
 vi.mock('../../network/client');
 

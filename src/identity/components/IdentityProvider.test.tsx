@@ -1,9 +1,9 @@
 import '@testing-library/jest-dom';
 import { renderHook } from '@testing-library/react';
 import type { Address, Chain } from 'viem';
-import { IdentityProvider, useIdentityContext } from './IdentityProvider';
 import { baseSepolia, optimism, sepolia } from 'viem/chains';
 import { OnchainKitProvider } from '../../OnchainKitProvider';
+import { IdentityProvider, useIdentityContext } from './IdentityProvider';
 
 describe('IdentityProvider', () => {
   it('provides context values from props', () => {

@@ -1,7 +1,7 @@
-import { getAttestationsByFilter } from '../network/attestations';
-import { isChainSupported, easSupportedChains } from './easSupportedChains';
-import type { Attestation, GetAttestationsOptions } from './types';
 import type { Address, Chain } from 'viem';
+import { getAttestationsByFilter } from '../../network/attestations';
+import type { Attestation, GetAttestationsOptions } from '../types';
+import { easSupportedChains, isChainSupported } from './easSupportedChains';
 
 /**
  * Fetches Ethereum Attestation Service (EAS) attestations for a given address and chain,

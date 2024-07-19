@@ -1,8 +1,8 @@
 import { useCallback } from 'react';
-import { IdentityLayout } from './IdentityLayout';
-import { IdentityProvider } from './IdentityProvider';
 import { useOnchainKit } from '../../useOnchainKit';
 import type { IdentityReact } from '../types';
+import { IdentityLayout } from './IdentityLayout';
+import { IdentityProvider } from './IdentityProvider';
 
 export function Identity({
   address,

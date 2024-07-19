@@ -1,11 +1,11 @@
 import { mainnet } from 'viem/chains';
-import type { GetName, GetNameReturnType } from '../types';
-import L2ResolverAbi from '../abis/L2ResolverAbi';
-import { getChainPublicClient } from '../../network/getChainPublicClient';
-import { RESOLVER_ADDRESSES_BY_CHAIN_ID } from '../constants';
-import { convertReverseNodeToBytes } from './convertReverseNodeToBytes';
-import { isEthereum } from '../../isEthereum';
 import { isBase } from '../../isBase';
+import { isEthereum } from '../../isEthereum';
+import { getChainPublicClient } from '../../network/getChainPublicClient';
+import L2ResolverAbi from '../abis/L2ResolverAbi';
+import { RESOLVER_ADDRESSES_BY_CHAIN_ID } from '../constants';
+import type { GetName, GetNameReturnType } from '../types';
+import { convertReverseNodeToBytes } from './convertReverseNodeToBytes';
 
 /**
  * An asynchronous function to fetch the Ethereum Name Service (ENS)

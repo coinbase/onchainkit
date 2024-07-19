@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { EthBalance } from './EthBalance';
-import { WagmiProvider, createConfig, http } from 'wagmi';
 import { baseSepolia } from 'viem/chains';
+import { http, WagmiProvider, createConfig } from 'wagmi';
+import { EthBalance } from './EthBalance';
 
 const wagmiConfig = createConfig({
   chains: [baseSepolia],

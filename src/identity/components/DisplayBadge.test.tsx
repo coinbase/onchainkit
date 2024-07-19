@@ -1,9 +1,9 @@
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
-import { DisplayBadge } from './DisplayBadge';
-import { Badge } from './Badge';
 import { useOnchainKit } from '../../useOnchainKit';
 import { useAttestations } from '../hooks/useAttestations';
+import { Badge } from './Badge';
+import { DisplayBadge } from './DisplayBadge';
 import { useIdentityContext } from './IdentityProvider';
 
 function mock<T>(func: T) {

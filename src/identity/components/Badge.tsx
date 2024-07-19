@@ -1,5 +1,5 @@
-import type { BadgeReact } from '../types';
 import { background, cn, fill } from '../../styles/theme';
+import type { BadgeReact } from '../types';
 
 /**
  * Badge component.
