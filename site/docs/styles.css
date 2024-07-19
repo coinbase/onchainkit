@@ -19,7 +19,6 @@
 
 .vocs_CodeGroup,
 .vocs_Tabs_list,
-.vocs_Tabs_trigger,
 .vocs_Tabs_content,
 .vocs_CodeBlock,
 .vocs_CodeTitle,
@@ -27,6 +26,11 @@
 .vocs_Heading::before,
 .vocs_Code {
   background-color: #1F2937 !important;
+  border-color: #1F2937 !important;
+}
+
+.vocs_Tabs_trigger {
+  background-color: #1F2937;
 }
 
 .vocs_CodeGroup {
