@@ -1,13 +1,12 @@
 /**
  * @vitest-environment jsdom
  */
-
 import { renderHook, waitFor } from '@testing-library/react';
 import { base } from 'viem/chains';
+import { getAttestations } from '../utils/getAttestations';
 import { useAttestations } from './useAttestations';
-import { getAttestations } from '../getAttestations';
 
-vi.mock('../getAttestations', () => ({
+vi.mock('../utils/getAttestations', () => ({
   getAttestations: vi.fn(),
 }));
 

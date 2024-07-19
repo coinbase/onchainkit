@@ -1,14 +1,14 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import '@testing-library/jest-dom';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import { Avatar } from './Avatar';
-import { Name } from './Name';
-import { Identity } from './Identity';
-import { useName } from '../hooks/useName';
-import { useAvatar } from '../hooks/useAvatar';
 import { useGetETHBalance } from '../../wallet/core/useGetETHBalance';
+import { useAvatar } from '../hooks/useAvatar';
+import { useName } from '../hooks/useName';
 import { Address } from './Address';
+import { Avatar } from './Avatar';
 import { EthBalance } from './EthBalance';
+import { Identity } from './Identity';
+import { Name } from './Name';
 
 function mock<T>(func: T) {
   return func as vi.Mock;

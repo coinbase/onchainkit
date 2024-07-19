@@ -1,13 +1,13 @@
-import { vi, type Mock } from 'vitest';
+import { type Mock, vi } from 'vitest';
 import '@testing-library/jest-dom';
 import { render, screen, waitFor } from '@testing-library/react';
-import { getSlicedAddress } from '../getSlicedAddress';
-import { useName } from '../hooks/useName';
+import { base, baseSepolia, optimism } from 'viem/chains';
 import { useAttestations } from '../hooks/useAttestations';
-import { Name } from './Name';
+import { useName } from '../hooks/useName';
+import { getSlicedAddress } from '../utils/getSlicedAddress';
 import { Badge } from './Badge';
 import { useIdentityContext } from './IdentityProvider';
-import { base, baseSepolia, optimism } from 'viem/chains';
+import { Name } from './Name';
 
 const silenceError = () => {
   const consoleErrorMock = vi
@@ -16,20 +16,20 @@ const silenceError = () => {
   return () => consoleErrorMock.mockRestore();
 };
 
+vi.mock('../hooks/useAttestations', () => ({
+  useAttestations: vi.fn(),
+}));
+
 vi.mock('../hooks/useName', () => ({
   useName: vi.fn(),
 }));
 
-vi.mock('../getSlicedAddress', () => ({
+vi.mock('../utils/getSlicedAddress', () => ({
   getSlicedAddress: vi.fn(),
 }));
 
 vi.mock('./IdentityProvider', () => ({
   useIdentityContext: vi.fn(),
-}));
-
-vi.mock('../hooks/useAttestations', () => ({
-  useAttestations: vi.fn(),
 }));
 
 describe('Name', () => {
