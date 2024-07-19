@@ -159,7 +159,7 @@ describe('Name', () => {
     expect(screen.getByText(testName)).toBeInTheDocument();
   });
 
-  it('returns null when ENS name is not available', () => {
+  it('displays sliced address when ENS name is not available', () => {
     (useIdentityContext as vi.Mock).mockReturnValue({
       schemaId: '0x123',
     });
@@ -167,8 +167,9 @@ describe('Name', () => {
       data: null,
       isLoading: false,
     });
-    const { container } = render(<Name address={testNameComponentAddress} />);
-    expect(container.firstChild).toBeNull();
+    (getSlicedAddress as vi.Mock).mockReturnValue('0xName...ess');
+    render(<Name address={testNameComponentAddress} />);
+    expect(screen.getByText('0xName...ess')).toBeInTheDocument();
   });
 
   it('displays empty when ens still fetching', () => {

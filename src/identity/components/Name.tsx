@@ -1,10 +1,11 @@
 import { Children, useMemo } from 'react';
+import { Badge } from './Badge';
+import { cn, text } from '../../styles/theme';
+import { DisplayBadge } from './DisplayBadge';
+import { getSlicedAddress } from '../getSlicedAddress';
 import { useIdentityContext } from './IdentityProvider';
 import { useName } from '../hooks/useName';
 import type { NameReact } from '../types';
-import { Badge } from './Badge';
-import { DisplayBadge } from './DisplayBadge';
-import { cn, text } from '../../styles/theme';
 
 /**
  * Name is a React component that renders the user name from an Ethereum address.
@@ -41,10 +42,6 @@ export function Name({
     return <span className={className} />;
   }
 
-  if (!name) {
-    return null;
-  }
-
   return (
     <div className="flex items-center gap-1">
       <span
@@ -52,7 +49,7 @@ export function Name({
         className={cn(text.headline, className)}
         {...props}
       >
-        {name}
+        {name || getSlicedAddress(accountAddress)}
       </span>
       {badge && <DisplayBadge address={accountAddress}>{badge}</DisplayBadge>}
     </div>
