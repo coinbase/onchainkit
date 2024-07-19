@@ -6,7 +6,7 @@ import type {
 import {
   NEYNAR_DEFAULT_API_KEY,
   neynarFrameValidation,
-} from '../utils/neynar/frame/neynarFrameValidation';
+} from '../network/neynar/frame/neynarFrameValidation';
 
 type FrameMessageOptions =
   | {

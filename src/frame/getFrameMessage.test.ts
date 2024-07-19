@@ -1,23 +1,23 @@
 import type { Address } from 'viem';
 import { getFrameMessage } from './getFrameMessage';
 import { getMockFrameRequest } from './getMockFrameRequest';
-import { neynarBulkUserLookup } from '../utils/neynar/user/neynarBulkUserLookup';
+import { neynarBulkUserLookup } from '../network/neynar/user/neynarBulkUserLookup';
 import type { FrameRequest } from './types';
-import { neynarFrameValidation } from '../utils/neynar/frame/neynarFrameValidation';
+import { neynarFrameValidation } from '../network/neynar/frame/neynarFrameValidation';
 import { describe, expect, it, vi, type Mock } from 'vitest';
 
-vi.mock('../utils/neynar/user/neynarBulkUserLookup', () => {
+vi.mock('../network/neynar/user/neynarBulkUserLookup', () => {
   return {
     neynarBulkUserLookup: vi.fn(),
   };
 });
 
 vi.mock(
-  '../utils/neynar/frame/neynarFrameValidation',
+  '../network/neynar/frame/neynarFrameValidation',
   async (importOriginal) => {
     return {
       ...(await importOriginal<
-        typeof import('../utils/neynar/frame/neynarFrameValidation')
+        typeof import('../network/neynar/frame/neynarFrameValidation')
       >()),
       neynarFrameValidation: vi.fn(),
     };

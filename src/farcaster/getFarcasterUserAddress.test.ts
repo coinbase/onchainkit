@@ -1,9 +1,9 @@
 import { getFarcasterUserAddress } from './getFarcasterUserAddress';
-import { getCustodyAddressForFidNeynar } from '../utils/neynar/user/getCustodyAddressForFidNeynar';
-import { getVerifiedAddressesForFidNeynar } from '../utils/neynar/user/getVerifiedAddressesForFidNeynar';
+import { getCustodyAddressForFidNeynar } from '../network/neynar/user/getCustodyAddressForFidNeynar';
+import { getVerifiedAddressesForFidNeynar } from '../network/neynar/user/getVerifiedAddressesForFidNeynar';
 
-vi.mock('../utils/neynar/user/getCustodyAddressForFidNeynar');
-vi.mock('../utils/neynar/user/getVerifiedAddressesForFidNeynar');
+vi.mock('../network/neynar/user/getCustodyAddressForFidNeynar');
+vi.mock('../network/neynar/user/getVerifiedAddressesForFidNeynar');
 
 describe('getFarcasterUserAddress function', () => {
   beforeEach(() => {
