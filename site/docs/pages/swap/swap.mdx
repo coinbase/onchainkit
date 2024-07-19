@@ -25,7 +25,7 @@ The components are designed to work together. For each component, ensure the fol
 
 Example using `@coinbase/onchainkit/swap` and `@coinbase/onchainkit/wallet`.
 
-```tsx [code]
+```tsx
 import { useCallback } from 'react';
 import { Address, Name } from '@coinbase/onchainkit/identity';
 import { // [!code focus]
@@ -139,7 +139,7 @@ The swap will execute and work out of the box when you implement the component i
 
 You can adjust to only allow swap between a token pair.
 
-```tsx [code]
+```tsx
 // omitted for brevity
 
 <Swap address={address}> // [!code focus]
@@ -197,7 +197,7 @@ You can adjust to only allow swap between a token pair.
 
 You can remove `SwapToggleButton` to make swap unidirectional.
 
-```tsx [code]
+```tsx
 // omitted for brevity
 
 <Swap address={address}> // [!code focus]
@@ -253,7 +253,7 @@ You can remove `SwapToggleButton` to make swap unidirectional.
 
 You can remove `SwapMessage` component.
 
-```tsx [code]
+```tsx
 // omitted for brevity
 
 <Swap address={address}> // [!code focus]
@@ -309,7 +309,7 @@ You can remove `SwapMessage` component.
 
 You can override component styles using `className`.
 
-```tsx [code]
+```tsx
 // omitted for brevity
 
 <Swap address={address} className='bg-gray-200'> // [!code focus]
