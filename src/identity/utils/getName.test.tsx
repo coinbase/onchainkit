@@ -1,6 +1,7 @@
 import type { Address } from 'viem';
 import { base, baseSepolia, mainnet, optimism, sepolia } from 'viem/chains';
-import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+import type { Mock } from 'vitest';
 import { publicClient } from '../../network/client';
 import { getChainPublicClient } from '../../network/getChainPublicClient';
 import { getName } from './getName';

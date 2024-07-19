@@ -1,7 +1,6 @@
 /**
  * @vitest-environment jsdom
  */
-
 import { renderHook, waitFor } from '@testing-library/react';
 import { publicClient } from '../../network/client';
 import { getNewReactQueryTestProvider } from './getNewReactQueryTestProvider';
