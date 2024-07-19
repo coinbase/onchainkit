@@ -4,9 +4,9 @@
 
 ### Patch Changes
 
-- 387e2b4: - **fix**: `Name` component to return the sliced address when no ENS name is found. By @cpcramer #842
-  - **feat**: polish `Transaction` component. By @abcrane123 #831 #835
-  - **chore**: fix TransactionGasFee test. By @cpcramer #830
+- **fix**: `Name` component to return the sliced address when no ENS name is found. By @cpcramer #842 387e2b4
+- **feat**: polish `Transaction` component. By @abcrane123 #831 #835
+- **chore**: fix TransactionGasFee test. By @cpcramer #830
 
 ## 0.25.5
 
