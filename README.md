@@ -379,13 +379,13 @@ Check out the following places for more OnchainKit-related content:
 
 ## Authors
 
-- [@zizzamia](https://github.com/zizzamia) ([X](https://twitter.com/hey_shells), [Warpcast](https://warpcast.com/zizzamia))
+- [Leonardo Zizzamia](https://github.com/zizzamia) ([X](https://twitter.com/zizzamia), [Warpcast](https://warpcast.com/zizzamia))
 - [Tina He](https://github.com/fakepixels) ([X](https://twitter.com/fkpxls))
-- [@0xchiaroscuro](https://github.com/0xchiaroscuro) ([X](https://twitter.com/chiaroscuro), [Warpcast](https://warpcast.com/chiaroscuro))
+- [Shelley Lai](https://github.com/0xchiaroscuro) ([X](https://twitter.com/chiaroscuro), [Warpcast](https://warpcast.com/chiaroscuro))
 - [Ky Lee](https://github.com/kyhyco)
 - [Mind Apivessa](https://github.com/mindapivessa) ([X](https://twitter.com/spicypaprika_))
-- [Alec Chen](https://github.com/0xAlec) ([X](https://twitter.com/0xAlec))
 - [Alissa Crane](https://github.com/abcrane123) ([X](https://twitter.com/abcrane123))
+- [Alec Chen](https://github.com/0xAlec) ([X](https://twitter.com/0xAlec))
 - [Paul Cramer](https://github.com/cpcramer) ([X](https://twitter.com/PaulCramer_))
 - [Léo Galley](https://github.com/kirkas)
 

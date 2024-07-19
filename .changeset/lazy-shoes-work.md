@@ -2,4 +2,5 @@
 "@coinbase/onchainkit": patch
 ---
 
-- **feat**: retrieve txn hash for chain explorer by: @abcrane123 #831
+- **feat**: polish `Transaction` component. By @abcrane123 #831 #835
+- **chore**: fix TransactionGasFee test. By @cpcramer #830
