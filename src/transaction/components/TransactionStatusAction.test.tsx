@@ -1,9 +1,9 @@
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 import { TransactionStatusAction } from './TransactionStatusAction';
-import { useGetTransactionStatus } from '../core/useGetTransactionStatus';
+import { useGetTransactionStatus } from '../hooks/useGetTransactionStatus';
 
-vi.mock('../core/useGetTransactionStatus', () => ({
+vi.mock('../hooks/useGetTransactionStatus', () => ({
   useGetTransactionStatus: vi.fn(),
 }));
 

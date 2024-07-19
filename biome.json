@@ -68,7 +68,7 @@
       "site/env.d.ts",
       "site/tailwind.config.js",
       "site/vocs.config.tsx",
-      "src/internal/form/useDebounce.ts"
+      "src/internal/hooks/useDebounce.ts"
     ]
   },
   "json": {

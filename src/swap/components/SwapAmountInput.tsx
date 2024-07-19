@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo } from 'react';
 import { TokenChip, TokenSelectDropdown } from '../../token';
 import { background, cn, color, pressable, text } from '../../styles/theme';
-import { TextInput } from '../../internal/form/TextInput';
+import { TextInput } from '../../internal/components/TextInput';
 import { isValidAmount } from '../../utils/isValidAmount';
 import { getRoundedAmount } from '../../utils/getRoundedAmount';
 import { useSwapContext } from './SwapProvider';

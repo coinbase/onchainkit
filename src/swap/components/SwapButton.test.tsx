@@ -7,7 +7,7 @@ vi.mock('./SwapProvider', () => ({
   useSwapContext: vi.fn(),
 }));
 
-vi.mock('../../internal/loading/Spinner', () => ({
+vi.mock('../../internal/components/Spinner', () => ({
   Spinner: () => <div data-testid="spinner">Loading...</div>,
 }));
 

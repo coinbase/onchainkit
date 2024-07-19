@@ -1,5 +1,5 @@
 import { background, cn, pressable, text } from '../../styles/theme';
-import { Spinner } from '../../internal/loading/Spinner';
+import { Spinner } from '../../internal/components/Spinner';
 import { useSwapContext } from './SwapProvider';
 import type { SwapButtonReact } from '../types';
 
