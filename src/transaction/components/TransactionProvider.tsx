@@ -63,7 +63,6 @@ export function TransactionProvider({
   const value = useValue({
     address,
     contracts,
-    error: undefined,
     errorMessage,
     gasFee,
     isLoading: status === 'pending',

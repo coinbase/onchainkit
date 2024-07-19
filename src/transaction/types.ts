@@ -10,7 +10,6 @@ export type TransactionButtonReact = { className?: string; text?: string };
 export type TransactionContextType = {
   address: Address;
   contracts: ContractFunctionParameters[];
-  error?: TransactionErrorState;
   errorMessage?: string;
   isLoading: boolean;
   isToastVisible: boolean;
