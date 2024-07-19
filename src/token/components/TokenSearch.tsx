@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react';
 import type { TokenSearchReact } from '../types';
 import { SearchIcon } from './SearchIcon';
-import { TextInput } from '../../internal/form/TextInput';
+import { TextInput } from '../../internal/components/TextInput';
 import { cn, color, pressable } from '../../styles/theme';
 
 export function TokenSearch({

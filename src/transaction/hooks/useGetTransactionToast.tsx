@@ -3,7 +3,7 @@ import { useTransactionContext } from '../components/TransactionProvider';
 import { cn, color, text } from '../../styles/theme';
 import { useOnchainKit } from '../../useOnchainKit';
 import { getChainExplorer } from '../../network/getChainExplorer';
-import { Spinner } from '../../internal/loading/Spinner';
+import { Spinner } from '../../internal/components/Spinner';
 import type { ReactNode } from 'react';
 
 const successSVG = (

@@ -4,7 +4,7 @@ import { useAccount, useConnect } from 'wagmi';
 import { ConnectButton } from './ConnectButton';
 import { useWalletContext } from './WalletProvider';
 import { IdentityProvider } from '../../identity/components/IdentityProvider';
-import { Spinner } from '../../internal/loading/Spinner';
+import { Spinner } from '../../internal/components/Spinner';
 import { cn, color, pressable, text as dsText } from '../../styles/theme';
 import type { ConnectWalletReact } from '../types';
 

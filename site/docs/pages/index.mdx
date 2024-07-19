@@ -356,33 +356,33 @@ setFilteredTokens(filteredTokens);
     <div className="flex grow flex-col items-center md:flex-row pt-[44px]">
       <div className="w-[664px] max-w-full">
 ```tsx
- <FrameMetadata
-      buttons={[
-        {
-          label: 'Tell me the story',
-        },
-        {
-          action: 'link',
-          label: 'Link to Google',
-          target: 'https://www.google.com'
-        },
-        {
-          action: 'post_redirect',
-          label: 'Redirect to cute pictures',
-        },
-      ]}
-      image={{
-       src: 'https://zizzamia.xyz/park-3.png',
-       aspectRatio: '1:1'
-      }}
-      input={{
-        text: 'Tell me a boat story',
-      }}
-      state={{
-        counter: 1,
-      }}
-      postUrl="https://zizzamia.xyz/api/frame"
-    />
+<FrameMetadata
+  buttons={[
+    {
+      label: 'Tell me the story',
+    },
+    {
+      action: 'link',
+      label: 'Link to Google',
+      target: 'https://www.google.com'
+    },
+    {
+      action: 'post_redirect',
+      label: 'Redirect to cute pictures',
+    },
+  ]}
+  image={{
+   src: 'https://zizzamia.xyz/park-3.png',
+   aspectRatio: '1:1'
+  }}
+  input={{
+    text: 'Tell me a boat story',
+  }}
+  state={{
+    counter: 1,
+  }}
+  postUrl="https://zizzamia.xyz/api/frame"
+/>
 ```
       </div>
       <div className='flex grow items-center justify-center h-auto p-6'>

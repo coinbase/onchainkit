@@ -61,12 +61,12 @@ PUBLIC_ONCHAINKIT_API_KEY=YOUR_PUBLIC_API_KEY
 #### Access the Public API Key in your code
 
 ```tsx [OnchainProviders.tsx]
-    <OnchainKitProvider 
-      apiKey={process.env.PUBLIC_ONCHAINKIT_API_KEY} // [!code focus] 
-      chain={base}
-    >
-      <YourComponents />
-    </OnchainKitProvider>
+<OnchainKitProvider 
+  apiKey={process.env.PUBLIC_ONCHAINKIT_API_KEY} // [!code focus] 
+  chain={base}
+>
+  <YourComponents />
+</OnchainKitProvider>
 ```
 
 ### Configure the OnchainKitProvider

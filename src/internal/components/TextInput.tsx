@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import type { ChangeEvent } from 'react';
-import { useDebounce } from './useDebounce';
+import { useDebounce } from '../hooks/useDebounce';
 
 type TextInputReact = {
   className: string;
