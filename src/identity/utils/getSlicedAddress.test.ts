@@ -5,6 +5,6 @@ describe('getSlicedAddress', () => {
     const address = getSlicedAddress(
       '0x1234567890123456789012345678901234567890',
     );
-    expect(address).toEqual('0x123...7890');
+    expect(address).toEqual('0x1234...7890');
   });
 });
