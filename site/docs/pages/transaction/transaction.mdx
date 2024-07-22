@@ -1,10 +1,6 @@
 import { Avatar, Name } from '@coinbase/onchainkit/identity';
 import { 
   Transaction, 
-  TransactionGasFee,
-  TransactionGasFeeLabel,
-  TransactionGasFeeEstimate,
-  TransactionGasFeeSponsor,
   TransactionButton,
   TransactionStatus,
   TransactionStatusLabel,
@@ -27,17 +23,14 @@ Component is not shipped yet. Stay tuned for upcoming releases.
 import { useCallback } from 'react';
 import { Avatar, Name } from '@coinbase/onchainkit/identity';
 import { // [!code focus]
-  Transaction, // [!code focus]
-  TransactionGasFee, // [!code focus]
-  TransactionGasFeeLabel, // [!code focus]
-  TransactionGasFeeEstimate, // [!code focus]
-  TransactionGasFeeSponsor, // [!code focus]
+  Transaction, // [!code focus]]
   TransactionButton, // [!code focus]
   TransactionStatus, // [!code focus]
   TransactionStatusLabel, // [!code focus]
   TransactionStatusAction // [!code focus]
 } from '@coinbase/onchainkit/transaction'; // [!code focus]
 import { Wallet, ConnectWallet } from '@coinbase/onchainkit/wallet';
+import { useAccount } from "wagmi";
 
 const myNFTABI = [
   {
@@ -68,24 +61,14 @@ export default function TransactionComponents() {
     },
   ];
 
-  const swappableTokens: Token[] = [ ... ];
-
-  return ({ address ? (
-    <Transaction // [!code focus]
-      address={address} // [!code focus]
-      contracts={contracts} // [!code focus]
-    > // [!code focus]
-      <TransactionButton /> // [!code focus]
-      <TransactionGasFee> // [!code focus]
-        <TransactionGasFeeLabel /> // [!code focus]
-        <TransactionGasFeeEstimate /> // [!code focus]
-        <TransactionGasFeeSponsor /> // [!code focus]
-      </TransactionGasFee> // [!code focus]
-      <TransactionStatus> // [!code focus]
-        <TransactionStatusLabel /> // [!code focus]
-        <TransactionStatusAction /> // [!code focus]
-      </TransactionStatus> // [!code focus]
-    </Transaction> // [!code focus]
+  return address ? (
+    <Transaction address={address} contracts={contracts}>  // [!code focus]
+      <TransactionButton />  // [!code focus]
+      <TransactionStatus>  // [!code focus]
+        <TransactionStatusLabel />  // [!code focus]
+        <TransactionStatusAction />  // [!code focus]
+      </TransactionStatus>  // [!code focus]
+    </Transaction>  // [!code focus]
   ) : (
     <Wallet>
       <ConnectWallet>
@@ -93,22 +76,17 @@ export default function TransactionComponents() {
         <Name />
       </ConnectWallet>
     </Wallet>
-  )});
+  );
 }
 ```
 
 <App>
   <TransactionWrapper>
-    {({ address, contracts }) => {
+    {({ address, contracts, onError }) => {
       if (address) {
         return (
-          <Transaction address={address} contracts={contracts}>
+          <Transaction address={address} contracts={contracts} onError={onError}>
             <TransactionButton />
-            <TransactionGasFee>
-              <TransactionGasFeeLabel />
-              <TransactionGasFeeEstimate />
-              <TransactionGasFeeSponsor />
-            </TransactionGasFee>
             <TransactionStatus>
               <TransactionStatusLabel />
               <TransactionStatusAction />
