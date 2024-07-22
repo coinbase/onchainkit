@@ -55,24 +55,6 @@ export function TransactionProvider({
 
   const { transactionHash } = useCallsStatus({ onError, transactionId });
 
-  const handleWriteContract = useCallback(
-    (contract: any) => {
-      console.log("running handleWriteContract");
-      writeContract(contract);
-    },
-    [writeContract]
-  );
-
-  const handleWriteContracts = useCallback(
-    (contractsToWrite: any) => {
-      console.log("running handleWriteContracts");
-      writeContracts({
-        contracts: contractsToWrite,
-      });
-    },
-    [writeContracts]
-  );
-
   const handleSubmit = useCallback(() => {
     setErrorMessage('');
     setIsToastVisible(true);
@@ -94,19 +76,24 @@ export function TransactionProvider({
   }, [contracts, writeContracts]);
 =======
 
-    console.log("Contracts: ", contracts);
-    console.log("Contracts length: ", contracts.length);
+    console.log('Contracts: ', contracts);
+    console.log('Contracts length: ', contracts.length);
 
+    // if multiple contracts then use writeContracts
+    // if single contract then use writeContract
     if (contracts.length > 1) {
-      handleWriteContracts(contracts);
-    } else if (contracts.length === 1) {
-      handleWriteContract(contracts[0]);
+      writeContracts({
+        contracts,
+      });
     } else {
-      console.error("No contracts provided");
-      setErrorMessage("No contracts provided");
+      writeContract(contracts[0]);
     }
+<<<<<<< HEAD
   }, [contracts, handleWriteContract, handleWriteContracts]);
 >>>>>>> 580397c (asdf)
+=======
+  }, [contracts, writeContracts, writeContract]);
+>>>>>>> 26b3742 (Save changes)
 
   useEffect(() => {
     // TODO: replace with gas estimation call
@@ -118,13 +105,14 @@ export function TransactionProvider({
     contracts,
     errorMessage,
     gasFee,
-    isLoading: statusWriteContract === 'pending' || statusWriteContracts === 'pending',
+    isLoading:
+      statusWriteContracts === 'pending' || statusWriteContract === 'pending',
     isToastVisible,
     onSubmit: handleSubmit,
     setErrorMessage,
     setIsToastVisible,
     setTransactionId,
-    status: contracts.length > 1 ? statusWriteContracts : statusWriteContract,
+    status: contracts.length > 1 ? statusWriteContracts : 'idle',
     transactionId,
     transactionHash,
   });

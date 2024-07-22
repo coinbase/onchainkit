@@ -1,6 +1,6 @@
-import { useWriteContract as useWriteContractWagmi } from "wagmi";
-import type { TransactionExecutionError } from "viem";
-import type { TransactionError } from "../types";
+import { useWriteContract as useWriteContractWagmi } from 'wagmi';
+import type { TransactionExecutionError } from 'viem';
+import type { TransactionError } from '../types';
 
 type UseWriteContractParams = {
   onError?: (e: TransactionError) => void;
@@ -8,9 +8,9 @@ type UseWriteContractParams = {
   setTransactionId: (id: string) => void;
 };
 
-const genericErrorMessage = "Something went wrong. Please try again.";
-const uncaughtErrorCode = "UNCAUGHT_WRITE_TRANSACTIONS_ERROR";
-const errorCode = "WRITE_TRANSACTIONS_ERROR";
+const genericErrorMessage = 'Something went wrong. Please try again.';
+const uncaughtErrorCode = 'UNCAUGHT_WRITE_TRANSACTIONS_ERROR';
+const errorCode = 'WRITE_TRANSACTIONS_ERROR';
 
 export function useWriteContract({
   onError,
@@ -23,9 +23,9 @@ export function useWriteContract({
         onError: (e) => {
           if (
             (e as TransactionExecutionError)?.cause?.name ===
-            "UserRejectedRequestError"
+            'UserRejectedRequestError'
           ) {
-            setErrorMessage("Request denied.");
+            setErrorMessage('Request denied.');
           } else {
             setErrorMessage(genericErrorMessage);
           }
@@ -40,6 +40,6 @@ export function useWriteContract({
   } catch (err) {
     onError?.({ code: uncaughtErrorCode, error: JSON.stringify(err) });
     setErrorMessage(genericErrorMessage);
-    return { status: "error", writeContract: () => {} };
+    return { status: 'error', writeContract: () => {} };
   }
 }
