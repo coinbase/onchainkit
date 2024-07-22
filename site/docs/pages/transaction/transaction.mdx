@@ -1,10 +1,7 @@
 import { Avatar, Name } from '@coinbase/onchainkit/identity';
 import { 
   Transaction, 
-  TransactionGasFee,
-  TransactionGasFeeLabel,
-  TransactionGasFeeEstimate,
-  TransactionGasFeeSponsor,
+  TransactionSponsor,
   TransactionButton,
   TransactionStatus,
   TransactionStatusLabel,
@@ -27,12 +24,9 @@ Component is not shipped yet. Stay tuned for upcoming releases.
 import { useCallback } from 'react';
 import { Avatar, Name } from '@coinbase/onchainkit/identity';
 import { // [!code focus]
-  Transaction, // [!code focus]
-  TransactionGasFee, // [!code focus]
-  TransactionGasFeeLabel, // [!code focus]
-  TransactionGasFeeEstimate, // [!code focus]
-  TransactionGasFeeSponsor, // [!code focus]
+  Transaction, // [!code focus]]
   TransactionButton, // [!code focus]
+  TransactionSponsor, // [!code focus]
   TransactionStatus, // [!code focus]
   TransactionStatusLabel, // [!code focus]
   TransactionStatusAction // [!code focus]
@@ -76,11 +70,7 @@ export default function TransactionComponents() {
       contracts={contracts} // [!code focus]
     > // [!code focus]
       <TransactionButton /> // [!code focus]
-      <TransactionGasFee> // [!code focus]
-        <TransactionGasFeeLabel /> // [!code focus]
-        <TransactionGasFeeEstimate /> // [!code focus]
-        <TransactionGasFeeSponsor /> // [!code focus]
-      </TransactionGasFee> // [!code focus]
+      <TransactionSponsor text="Coinbase" /> // [!code focus]
       <TransactionStatus> // [!code focus]
         <TransactionStatusLabel /> // [!code focus]
         <TransactionStatusAction /> // [!code focus]
@@ -99,16 +89,12 @@ export default function TransactionComponents() {
 
 <App>
   <TransactionWrapper>
-    {({ address, contracts }) => {
+    {({ address, contracts, onError }) => {
       if (address) {
         return (
-          <Transaction address={address} contracts={contracts}>
+          <Transaction address={address} contracts={contracts} onError={onError}>
             <TransactionButton />
-            <TransactionGasFee>
-              <TransactionGasFeeLabel />
-              <TransactionGasFeeEstimate />
-              <TransactionGasFeeSponsor />
-            </TransactionGasFee>
+            <TransactionSponsor text="Coinbase" />
             <TransactionStatus>
               <TransactionStatusLabel />
               <TransactionStatusAction />
