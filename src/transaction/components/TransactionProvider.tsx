@@ -8,7 +8,6 @@ import {
 import { useValue } from '../../internal/hooks/useValue';
 import { useWriteContracts } from '../hooks/useWriteContracts';
 import { useCallsStatus } from '../hooks/useCallsStatus';
-import { writeContract } from 'wagmi';
 import type {
   TransactionContextType,
   TransactionProviderReact,
@@ -51,17 +50,6 @@ export function TransactionProvider({
   const handleSubmit = useCallback(() => {
     setErrorMessage('');
     setIsToastVisible(true);
-    
-    // if multiple contracts then use writeContracts
-    // if single contract then use writeContract
-    if (contracts.length > 1) {
-      writeContracts({
-        contracts,
-      });
-    } else {
-      writeContract(contracts[0]);
-    }
-
     writeContracts({
       contracts,
     });
