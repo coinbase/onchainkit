@@ -1,5 +1,5 @@
 import { version } from '../../version';
-import { NEYNAR_DEFAULT_API_KEY } from './frame/neynarFrameValidation';
+import { NEYNAR_DEFAULT_API_KEY } from './neynarFrameValidation';
 import { postDataToNeynar } from './postDataToNeynar';
 
 describe('postDataToNeynar', () => {

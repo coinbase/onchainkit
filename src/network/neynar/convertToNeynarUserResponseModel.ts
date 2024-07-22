@@ -1,7 +1,7 @@
 import { convertToNeynarUserModel } from './convertToNeynarUserModel';
 import type { NeynarBulkUserLookupModel } from './types';
 
-export function convertToNeynarResponseModel(
+export function convertToNeynarUserResponseModel(
   /* biome-ignore lint: code needs to be deprecated */
   data: any,
 ): NeynarBulkUserLookupModel | undefined {

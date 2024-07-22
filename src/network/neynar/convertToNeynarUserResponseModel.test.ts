@@ -1,6 +1,6 @@
-import { convertToNeynarResponseModel } from './convertToNeynarResponseModel';
+import { convertToNeynarUserResponseModel } from './convertToNeynarUserResponseModel';
 
-describe('convertToNeynarResponseModel', () => {
+describe('convertToNeynarUserResponseModel', () => {
   const mockData = {
     fid: 1234,
     custody_address: '0x00123',
@@ -20,12 +20,12 @@ describe('convertToNeynarResponseModel', () => {
     const mockUsersData = {
       users: [mockData],
     };
-    const resp = convertToNeynarResponseModel(mockUsersData);
+    const resp = convertToNeynarUserResponseModel(mockUsersData);
     expect(resp).toEqual(mockUsersData);
   });
 
   it('should return undefined when data is empty', async () => {
-    const resp = convertToNeynarResponseModel(undefined);
+    const resp = convertToNeynarUserResponseModel(undefined);
     expect(resp).toEqual(undefined);
   });
 });

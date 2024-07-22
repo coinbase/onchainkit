@@ -1,4 +1,4 @@
-import { FetchError } from '../exceptions/FetchError';
+import { FetchError } from './FetchError';
 import { neynarBulkUserLookup } from './neynarBulkUserLookup';
 
 describe('neynar user functions', () => {
