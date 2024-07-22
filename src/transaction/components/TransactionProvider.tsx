@@ -6,6 +6,7 @@ import {
   useState,
 } from 'react';
 import { useValue } from '../../internal/hooks/useValue';
+import { useWriteContract } from '../hooks/useWriteContract';
 import { useWriteContracts } from '../hooks/useWriteContracts';
 import { useCallsStatus } from '../hooks/useCallsStatus';
 import { writeContract } from 'wagmi';
@@ -40,7 +41,13 @@ export function TransactionProvider({
   const [gasFee, setGasFee] = useState('');
   const [isToastVisible, setIsToastVisible] = useState(false);
 
-  const { status, writeContracts } = useWriteContracts({
+  const { status: statusWriteContract, writeContract } = useWriteContract({
+    onError,
+    setErrorMessage,
+    setTransactionId,
+  });
+
+  const { status: statusWriteContracts, writeContracts } = useWriteContracts({
     onError,
     setErrorMessage,
     setTransactionId,
@@ -48,9 +55,28 @@ export function TransactionProvider({
 
   const { transactionHash } = useCallsStatus({ onError, transactionId });
 
+  const handleWriteContract = useCallback(
+    (contract: any) => {
+      console.log("running handleWriteContract");
+      writeContract(contract);
+    },
+    [writeContract]
+  );
+
+  const handleWriteContracts = useCallback(
+    (contractsToWrite: any) => {
+      console.log("running handleWriteContracts");
+      writeContracts({
+        contracts: contractsToWrite,
+      });
+    },
+    [writeContracts]
+  );
+
   const handleSubmit = useCallback(() => {
     setErrorMessage('');
     setIsToastVisible(true);
+<<<<<<< HEAD
     
     // if multiple contracts then use writeContracts
     // if single contract then use writeContract
@@ -66,6 +92,21 @@ export function TransactionProvider({
       contracts,
     });
   }, [contracts, writeContracts]);
+=======
+
+    console.log("Contracts: ", contracts);
+    console.log("Contracts length: ", contracts.length);
+
+    if (contracts.length > 1) {
+      handleWriteContracts(contracts);
+    } else if (contracts.length === 1) {
+      handleWriteContract(contracts[0]);
+    } else {
+      console.error("No contracts provided");
+      setErrorMessage("No contracts provided");
+    }
+  }, [contracts, handleWriteContract, handleWriteContracts]);
+>>>>>>> 580397c (asdf)
 
   useEffect(() => {
     // TODO: replace with gas estimation call
@@ -77,13 +118,13 @@ export function TransactionProvider({
     contracts,
     errorMessage,
     gasFee,
-    isLoading: status === 'pending',
+    isLoading: statusWriteContract === 'pending' || statusWriteContracts === 'pending',
     isToastVisible,
     onSubmit: handleSubmit,
     setErrorMessage,
     setIsToastVisible,
     setTransactionId,
-    status,
+    status: contracts.length > 1 ? statusWriteContracts : statusWriteContract,
     transactionId,
     transactionHash,
   });
