@@ -2,7 +2,6 @@ import { Avatar, Name } from '@coinbase/onchainkit/identity';
 import { 
   Transaction, 
   TransactionButton,
-  TransactionSponsor,
   TransactionStatus,
   TransactionStatusLabel,
   TransactionStatusAction
@@ -26,7 +25,6 @@ import { Avatar, Name } from '@coinbase/onchainkit/identity';
 import { // [!code focus]
   Transaction, // [!code focus]]
   TransactionButton, // [!code focus]
-  TransactionSponsor, // [!code focus]
   TransactionStatus, // [!code focus]
   TransactionStatusLabel, // [!code focus]
   TransactionStatusAction // [!code focus]
@@ -66,7 +64,6 @@ export default function TransactionComponents() {
   return address ? (
     <Transaction address={address} contracts={contracts}>  // [!code focus]
       <TransactionButton />  // [!code focus]
-      <TransactionSponsor text="Coinbase" />  // [!code focus]
       <TransactionStatus>  // [!code focus]
         <TransactionStatusLabel />  // [!code focus]
         <TransactionStatusAction />  // [!code focus]
@@ -90,7 +87,6 @@ export default function TransactionComponents() {
         return (
           <Transaction address={address} contracts={contracts} onError={onError}>
             <TransactionButton />
-            <TransactionSponsor text="Coinbase" />
             <TransactionStatus>
               <TransactionStatusLabel />
               <TransactionStatusAction />
