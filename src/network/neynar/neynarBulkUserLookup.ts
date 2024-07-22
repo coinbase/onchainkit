@@ -1,4 +1,4 @@
-import { convertToNeynarResponseModel } from './convertToNeynarResponseModel';
+import { convertToNeynarUserResponseModel } from './convertToNeynarUserResponseModel';
 import { getDataFromNeynar } from './getDataFromNeynar';
 import type { NeynarBulkUserLookupModel } from './types';
 
@@ -10,5 +10,5 @@ export async function neynarBulkUserLookup(
 ): Promise<NeynarBulkUserLookupModel | undefined> {
   const url = `https://api.neynar.com/v2/farcaster/user/bulk?fids=${farcasterIDs.join(',')}`;
   const responseBody = await getDataFromNeynar(url, apiKey);
-  return convertToNeynarResponseModel(responseBody);
+  return convertToNeynarUserResponseModel(responseBody);
 }
