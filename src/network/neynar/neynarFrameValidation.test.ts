@@ -1,4 +1,4 @@
-import { FetchError } from '../exceptions/FetchError';
+import { FetchError } from './FetchError';
 import { neynarFrameValidation } from './neynarFrameValidation';
 
 describe('neynar frame functions', () => {

@@ -1,6 +1,6 @@
 import { version } from '../../version';
-import { NEYNAR_DEFAULT_API_KEY } from './frame/neynarFrameValidation';
 import { getDataFromNeynar } from './getDataFromNeynar';
+import { NEYNAR_DEFAULT_API_KEY } from './neynarFrameValidation';
 
 describe('getDataFromNeynar', () => {
   const fetchMock = vi.fn();

@@ -1,5 +1,5 @@
-import { getFrameHtmlResponse } from './getFrameHtmlResponse';
 import { describe, expect, it } from 'vitest';
+import { getFrameHtmlResponse } from './getFrameHtmlResponse';
 
 describe('getFrameHtmlResponse', () => {
   it('should return correct HTML with all parameters', () => {

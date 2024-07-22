@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react';
+import { describe, expect, it } from 'vitest';
 import { FrameMetadata } from './FrameMetadata';
-import { describe, it, expect } from 'vitest';
 
 describe('FrameMetadata', () => {
   it('renders', () => {

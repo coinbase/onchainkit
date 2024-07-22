@@ -1,4 +1,4 @@
-import type { FrameValidationData } from '../../../frame/types';
+import type { FrameValidationData } from '../../frame/types';
 import type { NeynarFrameValidationInternalModel } from './types';
 
 export function convertToNeynarResponseModel(

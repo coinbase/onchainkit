@@ -1,5 +1,5 @@
-import { getFrameMetadata } from './getFrameMetadata';
 import { describe, expect, it } from 'vitest';
+import { getFrameMetadata } from './getFrameMetadata';
 
 describe('getFrameMetadata', () => {
   it('should return the correct metadata', () => {

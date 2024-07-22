@@ -1,4 +1,4 @@
-import type { FrameMetadataResponse, FrameMetadataType } from './types';
+import type { FrameMetadataResponse, FrameMetadataType } from '../types';
 
 /**
  * This function generates the metadata for a Farcaster Frame.
