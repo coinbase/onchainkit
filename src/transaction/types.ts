@@ -46,23 +46,6 @@ export type TransactionReact = {
   onError?: (e: TransactionError) => void;
 };
 
-export type TransactionGasFeeReact = {
-  children: ReactNode;
-  className?: string;
-};
-
-export type TransactionGasFeeEstimateReact = {
-  className?: string;
-};
-
-export type TransactionGasFeeLabelReact = {
-  className?: string;
-};
-
-export type TransactionGasFeeSponsorReact = {
-  className?: string;
-};
-
 export type TransactionMessageReact = {
   className?: string;
 };
@@ -72,6 +55,11 @@ export type TransactionProviderReact = {
   children: ReactNode;
   contracts: ContractFunctionParameters[];
   onError?: (e: TransactionError) => void;
+};
+
+export type TransactionSponsorReact = {
+  className?: string;
+  text?: string;
 };
 
 export type TransactionStatusReact = {
