@@ -1,8 +1,8 @@
 import { Avatar, Name } from '@coinbase/onchainkit/identity';
 import { 
   Transaction, 
-  TransactionSponsor,
   TransactionButton,
+  TransactionSponsor,
   TransactionStatus,
   TransactionStatusLabel,
   TransactionStatusAction
@@ -32,6 +32,7 @@ import { // [!code focus]
   TransactionStatusAction // [!code focus]
 } from '@coinbase/onchainkit/transaction'; // [!code focus]
 import { Wallet, ConnectWallet } from '@coinbase/onchainkit/wallet';
+import { useAccount } from "wagmi";
 
 const myNFTABI = [
   {
@@ -62,20 +63,15 @@ export default function TransactionComponents() {
     },
   ];
 
-  const swappableTokens: Token[] = [ ... ];
-
-  return ({ address ? (
-    <Transaction // [!code focus]
-      address={address} // [!code focus]
-      contracts={contracts} // [!code focus]
-    > // [!code focus]
-      <TransactionButton /> // [!code focus]
-      <TransactionSponsor text="Coinbase" /> // [!code focus]
-      <TransactionStatus> // [!code focus]
-        <TransactionStatusLabel /> // [!code focus]
-        <TransactionStatusAction /> // [!code focus]
-      </TransactionStatus> // [!code focus]
-    </Transaction> // [!code focus]
+  return address ? (
+    <Transaction address={address} contracts={contracts}>  // [!code focus]
+      <TransactionButton />  // [!code focus]
+      <TransactionSponsor text="Coinbase" />  // [!code focus]
+      <TransactionStatus>  // [!code focus]
+        <TransactionStatusLabel />  // [!code focus]
+        <TransactionStatusAction />  // [!code focus]
+      </TransactionStatus>  // [!code focus]
+    </Transaction>  // [!code focus]
   ) : (
     <Wallet>
       <ConnectWallet>
@@ -83,7 +79,7 @@ export default function TransactionComponents() {
         <Name />
       </ConnectWallet>
     </Wallet>
-  )});
+  );
 }
 ```
 
