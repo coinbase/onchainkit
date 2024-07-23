@@ -1,8 +1,8 @@
 import { useCallback, useMemo } from 'react';
-import { cn } from '../../styles/theme';
-import { useTransactionContext } from './TransactionProvider';
 import { closeSvg } from '../../internal/svg/closeSvg';
+import { cn } from '../../styles/theme';
 import type { TransactionToastReact } from '../types';
+import { useTransactionContext } from './TransactionProvider';
 
 export function TransactionToast({
   children,

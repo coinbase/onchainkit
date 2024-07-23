@@ -1,12 +1,12 @@
 import { useMemo } from 'react';
+import type { ReactNode } from 'react';
 import { Spinner } from '../../internal/components/Spinner';
+import { errorSvg } from '../../internal/svg/errorSvg';
+import { successSvg } from '../../internal/svg/successSvg';
 import { getChainExplorer } from '../../network/getChainExplorer';
 import { cn, color, text } from '../../styles/theme';
 import { useOnchainKit } from '../../useOnchainKit';
 import { useTransactionContext } from '../components/TransactionProvider';
-import { successSvg } from '../../internal/svg/successSvg';
-import { errorSvg } from '../../internal/svg/errorSvg';
-import type { ReactNode } from 'react';
 
 export function useGetTransactionToast() {
   const { errorMessage, isLoading, onSubmit, status, transactionHash } =
