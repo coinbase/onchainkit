@@ -1,5 +1,5 @@
 import { ENTRYPOINT_ADDRESS_V06 } from 'permissionless';
-import type { IsValidAAEntrypointOptions } from './types';
+import type { IsValidAAEntrypointOptions } from '../types';
 
 /**
  * Verify the Account-Abstraction entrypoint before sponsoring a transaction.

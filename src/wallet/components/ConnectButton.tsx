@@ -1,4 +1,4 @@
-import { cn, color, pressable, text as dsText } from '../../styles/theme';
+import { cn, color, text as dsText, pressable } from '../../styles/theme';
 import type { ConnectButtonReact } from '../types';
 
 export function ConnectButton({

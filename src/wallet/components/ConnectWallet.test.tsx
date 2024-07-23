@@ -1,11 +1,11 @@
+import { fireEvent, render, screen } from '@testing-library/react';
 /**
  * @vitest-environment jsdom
  */
 import type { ReactNode } from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { ConnectWallet } from './ConnectWallet';
 import { useAccount, useConnect } from 'wagmi';
+import { ConnectWallet } from './ConnectWallet';
 import { useWalletContext } from './WalletProvider';
 
 vi.mock('wagmi', () => ({

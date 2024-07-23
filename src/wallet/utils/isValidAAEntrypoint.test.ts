@@ -1,5 +1,5 @@
-import { isValidAAEntrypoint } from './isValidAAEntrypoint';
 import { ENTRYPOINT_ADDRESS_V06 } from 'permissionless';
+import { isValidAAEntrypoint } from './isValidAAEntrypoint';
 
 describe('isValidAAEntrypoint', () => {
   it('should return true for a valid v6 entrypoint address', () => {

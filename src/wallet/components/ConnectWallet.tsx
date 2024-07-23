@@ -1,12 +1,12 @@
 import { ConnectButton as ConnectButtonRainboKit } from '@rainbow-me/rainbowkit';
 import { useCallback } from 'react';
 import { useAccount, useConnect } from 'wagmi';
-import { ConnectButton } from './ConnectButton';
-import { useWalletContext } from './WalletProvider';
 import { IdentityProvider } from '../../identity/components/IdentityProvider';
 import { Spinner } from '../../internal/components/Spinner';
-import { cn, color, pressable, text as dsText } from '../../styles/theme';
+import { cn, color, text as dsText, pressable } from '../../styles/theme';
 import type { ConnectWalletReact } from '../types';
+import { ConnectButton } from './ConnectButton';
+import { useWalletContext } from './WalletProvider';
 
 export function ConnectWallet({
   children,

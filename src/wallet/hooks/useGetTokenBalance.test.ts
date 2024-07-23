@@ -2,10 +2,10 @@
  * @vitest-environment jsdom
  */
 import { renderHook } from '@testing-library/react';
-import { useGetTokenBalance } from './useGetTokenBalance';
+import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useReadContract } from 'wagmi';
 import type { Token } from '../../token';
-import { beforeEach, describe, expect, it, vi, type Mock } from 'vitest';
+import { useGetTokenBalance } from './useGetTokenBalance';
 
 vi.mock('wagmi', () => {
   return {

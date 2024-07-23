@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { cn } from '../../styles/theme';
-import { useTransactionContext } from './TransactionProvider';
 import type { TransactionToastReact } from '../types';
+import { useTransactionContext } from './TransactionProvider';
 
 const closeSVG = (
   <svg

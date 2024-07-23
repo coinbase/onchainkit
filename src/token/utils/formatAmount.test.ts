@@ -1,9 +1,9 @@
+import { describe, expect, it } from 'vitest';
 /**
  * @vitest-environment node
  */
 import type { FormatAmountOptions } from '../types';
 import { formatAmount } from './formatAmount';
-import { describe, expect, it } from 'vitest';
 
 describe('formatAmount', () => {
   it('should return with commas with default options', () => {

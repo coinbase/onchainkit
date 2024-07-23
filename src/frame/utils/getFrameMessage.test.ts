@@ -1,7 +1,7 @@
 import type { Address } from 'viem';
 import { type Mock, describe, expect, it, vi } from 'vitest';
-import { neynarFrameValidation } from '../../network/neynar/neynarFrameValidation';
 import { neynarBulkUserLookup } from '../../network/neynar/neynarBulkUserLookup';
+import { neynarFrameValidation } from '../../network/neynar/neynarFrameValidation';
 import type { FrameRequest } from '../types';
 import { getFrameMessage } from './getFrameMessage';
 import { getMockFrameRequest } from './getMockFrameRequest';
