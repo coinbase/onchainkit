@@ -1,5 +1,5 @@
-import { convertToNeynarResponseModel } from './convertToNeynarResponseModel';
 import { describe, expect, it } from 'vitest';
+import { convertToNeynarResponseModel } from './convertToNeynarResponseModel';
 
 describe('convertToNeynarResponseModel', () => {
   it('should return undefined when no data is provided', () => {
@@ -54,7 +54,6 @@ describe('convertToNeynarResponseModel', () => {
         },
       },
       liked: true,
-      raw: mockData,
       recasted: false,
       state: {
         serialized: 'test serialized state',

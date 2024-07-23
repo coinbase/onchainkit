@@ -1,9 +1,9 @@
+import type { ReactNode } from 'react';
+import { describe, expect, it } from 'vitest';
 /**
  * @vitest-environment jsdom
  */
 import { findComponent } from './findComponent';
-import { describe, expect, it } from 'vitest';
-import type { ReactNode } from 'react';
 
 const ToThe = () => <div>Name Component</div>;
 const Moon = () => <div>Age Component</div>;
