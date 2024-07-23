@@ -1,32 +1,26 @@
 import type { TransactionExecutionError } from 'viem';
-import { useWriteContracts as useWriteContractsWagmi } from 'wagmi/experimental';
+import { useWriteContract as useWriteContractWagmi } from 'wagmi';
 import type { TransactionError } from '../types';
+import { genericErrorMessage } from './useWriteContracts';
 
-type UseWriteContractsParams = {
+type UseWriteContractParams = {
   onError?: (e: TransactionError) => void;
   setErrorMessage: (error: string) => void;
   setTransactionId: (id: string) => void;
 };
 
-export const genericErrorMessage = 'Something went wrong. Please try again.';
 const uncaughtErrorCode = 'UNCAUGHT_WRITE_TRANSACTIONS_ERROR';
 const errorCode = 'WRITE_TRANSACTIONS_ERROR';
-const eoaErrorMesssage = 'this request method is not supported';
 
-export function useWriteContracts({
+export function useWriteContract({
   onError,
   setErrorMessage,
   setTransactionId,
-}: UseWriteContractsParams) {
+}: UseWriteContractParams) {
   try {
-    const { status, writeContracts } = useWriteContractsWagmi({
+    const { status, writeContract, data } = useWriteContractWagmi({
       mutation: {
         onError: (e) => {
-          // Ignore EOA-specific error to fallback to writeContract
-          if (e.message.includes(eoaErrorMesssage)) {
-            return;
-          }
-
           if (
             (e as TransactionExecutionError)?.cause?.name ===
             'UserRejectedRequestError'
@@ -42,10 +36,10 @@ export function useWriteContracts({
         },
       },
     });
-    return { status, writeContracts };
+    return { status, writeContract, data };
   } catch (err) {
     onError?.({ code: uncaughtErrorCode, error: JSON.stringify(err) });
     setErrorMessage(genericErrorMessage);
-    return { status: 'error', writeContracts: () => {} };
+    return { status: 'error', writeContract: () => {} };
   }
 }

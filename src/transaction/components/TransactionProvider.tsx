@@ -1,7 +1,11 @@
 import { createContext, useCallback, useContext, useState } from 'react';
 import { useValue } from '../../internal/hooks/useValue';
 import { useCallsStatus } from '../hooks/useCallsStatus';
-import { useWriteContracts } from '../hooks/useWriteContracts';
+import { useWriteContract } from '../hooks/useWriteContract';
+import {
+  genericErrorMessage,
+  useWriteContracts,
+} from '../hooks/useWriteContracts';
 import type {
   TransactionContextType,
   TransactionProviderReact,
@@ -32,7 +36,17 @@ export function TransactionProvider({
   const [transactionId, setTransactionId] = useState('');
   const [isToastVisible, setIsToastVisible] = useState(false);
 
-  const { status, writeContracts } = useWriteContracts({
+  const { status: statusWriteContracts, writeContracts } = useWriteContracts({
+    onError,
+    setErrorMessage,
+    setTransactionId,
+  });
+
+  const {
+    status: statusWriteContract,
+    writeContract,
+    data: writeContractTransactionHash,
+  } = useWriteContract({
     onError,
     setErrorMessage,
     setTransactionId,
@@ -40,27 +54,46 @@ export function TransactionProvider({
 
   const { transactionHash } = useCallsStatus({ onError, transactionId });
 
-  const handleSubmit = useCallback(() => {
+  const fallbackToWriteContract = useCallback(async () => {
+    for (const contract of contracts) {
+      try {
+        await writeContract(contract);
+      } catch (_err) {
+        setErrorMessage(genericErrorMessage);
+      }
+    }
+  }, [contracts, writeContract]);
+
+  const handleSubmit = useCallback(async () => {
     setErrorMessage('');
     setIsToastVisible(true);
-    writeContracts({
-      contracts,
-    });
-  }, [contracts, writeContracts]);
+    try {
+      const result = await writeContracts({
+        contracts,
+      });
+
+      if (result === undefined) {
+        await fallbackToWriteContract();
+      }
+    } catch (_err) {
+      setErrorMessage(genericErrorMessage);
+    }
+  }, [contracts, writeContracts, fallbackToWriteContract]);
 
   const value = useValue({
     address,
     contracts,
     errorMessage,
-    isLoading: status === 'pending',
+    isLoading:
+      statusWriteContract === 'pending' || statusWriteContracts === 'pending',
     isToastVisible,
     onSubmit: handleSubmit,
     setErrorMessage,
     setIsToastVisible,
     setTransactionId,
-    status,
+    status: statusWriteContract || statusWriteContracts,
     transactionId,
-    transactionHash,
+    transactionHash: transactionHash || writeContractTransactionHash,
   });
 
   return (
