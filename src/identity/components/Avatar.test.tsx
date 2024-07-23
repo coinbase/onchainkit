@@ -1,4 +1,4 @@
-import { base } from 'viem/chains';
+import { base, baseSepolia, optimism } from 'viem/chains';
 import { vi } from 'vitest';
 import '@testing-library/jest-dom';
 import { render, screen, waitFor } from '@testing-library/react';
@@ -208,6 +208,39 @@ describe('Avatar Component', () => {
 
     expect(useNameMock).toHaveBeenCalledWith({
       address: testAvatarComponentAddress,
+    });
+  });
+
+  it('use identity context chain if provided', () => {
+    useIdentityContextMock.mockReturnValue({
+      chain: optimism,
+      address: testIdentityProviderAddress,
+    });
+
+    render(<Avatar />);
+
+    expect(useNameMock).toHaveBeenCalledWith({
+      address: testIdentityProviderAddress,
+      chain: optimism,
+    });
+  });
+
+  it('use component chain over identity context if both are provided', () => {
+    useIdentityContextMock.mockReturnValue({
+      chain: optimism,
+      address: testIdentityProviderAddress,
+    });
+
+    useNameMock.mockReturnValue({
+      data: 'ens_name',
+      isLoading: false,
+    });
+
+    render(<Avatar chain={baseSepolia} />);
+
+    expect(useNameMock).toHaveBeenCalledWith({
+      address: testIdentityProviderAddress,
+      chain: baseSepolia,
     });
   });
 });

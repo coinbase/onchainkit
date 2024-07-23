@@ -17,7 +17,8 @@ export const useName = (
   queryOptions?: UseNameQueryOptions,
 ) => {
   const { enabled = true, cacheTime } = queryOptions ?? {};
-  const ensActionKey = `ens-name-${address}`;
+  const chainActionKey = chain ? chain.id : 'default-chain';
+  const ensActionKey = `ens-name-${address}-${chainActionKey}`;
   return useQuery<GetNameReturnType>({
     queryKey: ['useName', ensActionKey],
     queryFn: async () => {

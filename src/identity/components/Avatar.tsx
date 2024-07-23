@@ -16,14 +16,19 @@ import { defaultLoadingSVG } from './defaultLoadingSVG';
 // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO Refactor this component
 export function Avatar({
   address = null,
+  chain,
   className,
   defaultComponent,
   loadingComponent,
   children,
   ...props
 }: AvatarReact) {
-  const { address: contextAddress } = useIdentityContext();
-  if (!contextAddress && !address) {
+  const { address: contextAddress, chain: contextChain } = useIdentityContext();
+
+  const accountAddress = address ?? contextAddress;
+  const accountChain = chain ?? contextChain;
+
+  if (!accountAddress) {
     throw new Error(
       'Avatar: an Ethereum address must be provided to the Identity or Avatar component.',
     );
@@ -32,7 +37,9 @@ export function Avatar({
   // The component first attempts to retrieve the ENS name and avatar for the given Ethereum address.
   const { data: name, isLoading: isLoadingName } = useName({
     address: address ?? contextAddress,
+    chain: accountChain,
   });
+
   const { data: avatar, isLoading: isLoadingAvatar } = useAvatar(
     { ensName: name ?? '' },
     { enabled: !!name },
