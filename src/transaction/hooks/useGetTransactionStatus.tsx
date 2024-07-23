@@ -55,5 +55,5 @@ export function useGetTransactionStatus() {
     }
 
     return { actionElement, label, labelClassName };
-  }, [chain, errorMessage, isLoading, onSubmit, transactionHash]);
+  }, [chain, errorMessage, isLoading, onSubmit, status, transactionHash]);
 }

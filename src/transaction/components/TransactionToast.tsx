@@ -46,7 +46,7 @@ export function TransactionToast({
   return (
     <div
       className={cn(
-        'flex items-center justify-between rounded-lg animate-enter',
+        'flex animate-enter items-center justify-between rounded-lg',
         'bg-gray-100 p-2 shadow-[0px_8px_24px_0px_rgba(0,0,0,0.12)]',
         '-translate-x-2/4 fixed bottom-5 left-2/4',
         className,
