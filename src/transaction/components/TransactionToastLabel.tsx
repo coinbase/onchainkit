@@ -7,7 +7,7 @@ export function TransactionToastLabel({
 }: TransactionToastLabelReact) {
   const { label } = useGetTransactionToast();
   return (
-    <div className={cn(text.label1, className)}>
+    <div className={cn(text.label1, 'text-nowrap', className)}>
       <p className={color.foreground}>{label}</p>
     </div>
   );
