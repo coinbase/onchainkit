@@ -1,23 +1,8 @@
 import { useCallback, useMemo } from 'react';
 import { cn } from '../../styles/theme';
-import type { TransactionToastReact } from '../types';
 import { useTransactionContext } from './TransactionProvider';
-
-const closeSVG = (
-  <svg
-    width="16"
-    height="16"
-    viewBox="0 0 16 16"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <title>Close SVG</title>
-    <path
-      d="M2.14921 1L1 2.1492L6.8508 8L1 13.8508L2.1492 15L8 9.1492L13.8508 15L15 13.8508L9.14921 8L15 2.1492L13.8508 1L8 6.8508L2.14921 1Z"
-      fill="#030712"
-    />
-  </svg>
-);
+import { closeSvg } from '../../internal/svg/closeSvg';
+import type { TransactionToastReact } from '../types';
 
 export function TransactionToast({
   children,
@@ -69,7 +54,7 @@ export function TransactionToast({
     >
       <div className="flex items-center gap-4 p-2">{children}</div>
       <button className="p-2" onClick={closeToast} type="button">
-        {closeSVG}
+        {closeSvg}
       </button>
     </div>
   );
