@@ -39,7 +39,7 @@ const errorSVG = (
 );
 
 export function useGetTransactionToast() {
-  const { errorMessage, isLoading, onSubmit, transactionHash } =
+  const { errorMessage, isLoading, onSubmit, status, transactionHash } =
     useTransactionContext();
   const { chain } = useOnchainKit();
 
@@ -62,6 +62,10 @@ export function useGetTransactionToast() {
       icon = <Spinner className="px-1.5 py-1.5" />;
       label = 'Transaction in progress';
     }
+    if (status === 'success') {
+      icon = successSVG;
+      label = 'Successful';
+    }
     if (transactionHash) {
       actionElement = (
         <a
@@ -74,8 +78,6 @@ export function useGetTransactionToast() {
           </span>
         </a>
       );
-      icon = successSVG;
-      label = 'Successful';
     }
     if (errorMessage) {
       actionElement = (

@@ -6,7 +6,7 @@ import { useOnchainKit } from '../../useOnchainKit';
 import { useTransactionContext } from '../components/TransactionProvider';
 
 export function useGetTransactionStatus() {
-  const { errorMessage, isLoading, onSubmit, transactionHash } =
+  const { errorMessage, isLoading, onSubmit, status, transactionHash } =
     useTransactionContext();
   const { chain } = useOnchainKit();
 
@@ -28,8 +28,10 @@ export function useGetTransactionStatus() {
       //   </a>
       // );
     }
+    if (status === 'success') {
+      label = 'Successful';
+    }
     if (transactionHash) {
-      label = 'Successful!';
       actionElement = (
         <a
           href={`${chainExplorer}/tx/${transactionHash}`}

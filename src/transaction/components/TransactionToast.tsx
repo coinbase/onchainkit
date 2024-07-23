@@ -23,13 +23,23 @@ export function TransactionToast({
   children,
   className,
 }: TransactionToastReact) {
-  const { isToastVisible, setIsToastVisible } = useTransactionContext();
+  const {
+    errorMessage,
+    isLoading,
+    isToastVisible,
+    setIsToastVisible,
+    status,
+    transactionHash,
+  } = useTransactionContext();
 
   const closeToast = useCallback(() => {
     setIsToastVisible(false);
   }, [setIsToastVisible]);
 
-  if (!isToastVisible) {
+  if (
+    !isToastVisible ||
+    (!isLoading && !transactionHash && !errorMessage && status !== 'success')
+  ) {
     return null;
   }
 
