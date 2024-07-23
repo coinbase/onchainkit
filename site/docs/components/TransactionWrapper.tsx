@@ -1,6 +1,6 @@
+import type { ReactNode } from 'react';
 import { useAccount } from 'wagmi';
 import type { Config } from 'wagmi';
-import type { ReactNode } from 'react';
 import type {
   UseSendCallsParameters,
   UseSendCallsReturnType,
@@ -40,7 +40,7 @@ export default function TransactionWrapper({
       abi: myNFTABI,
       functionName: 'safeMint',
       args: [address],
-    }
+    },
   ];
 
   function onError(error: Error) {

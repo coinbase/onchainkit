@@ -7,7 +7,7 @@ import {
   TransactionStatusAction
 } from '@coinbase/onchainkit/transaction';
 import { Wallet, ConnectWallet } from '@coinbase/onchainkit/wallet';
-import App from '../../components/App';
+import AppWithBaseSepolia from '../../components/AppWithBaseSepolia';
 import TransactionWrapper from '../../components/TransactionWrapper';
 
 # `<Transaction />`
@@ -52,13 +52,7 @@ export default function TransactionComponents() {
       abi: myNFTABI,
       functionName: 'safeMint',
       args: [address],
-    },
-    {
-      address: myNFTAddress,
-      abi: myNFTABI,
-      functionName: 'safeMint',
-      args: [address],
-    },
+    }
   ];
 
   return address ? (
@@ -80,7 +74,7 @@ export default function TransactionComponents() {
 }
 ```
 
-<App>
+<AppWithBaseSepolia>
   <TransactionWrapper>
     {({ address, contracts, onError }) => {
       if (address) {
@@ -105,4 +99,4 @@ export default function TransactionComponents() {
       }
     }}
   </TransactionWrapper>
-</App>
+</AppWithBaseSepolia>
