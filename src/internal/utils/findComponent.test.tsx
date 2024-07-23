@@ -1,9 +1,9 @@
 /**
  * @vitest-environment jsdom
  */
-import type { ReactNode } from 'react';
-import '@testing-library/jest-dom';
 import { findComponent } from './findComponent';
+import { describe, expect, it } from 'vitest';
+import type { ReactNode } from 'react';
 
 const ToThe = () => <div>Name Component</div>;
 const Moon = () => <div>Age Component</div>;
@@ -39,4 +39,5 @@ describe('findComponent', () => {
     const foundNameComponent = childrenArray.find(findComponent(ToThe));
     expect(foundNameComponent).toBeUndefined();
   });
+
 });
