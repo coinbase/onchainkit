@@ -10,12 +10,12 @@ import { type BaseError, useConfig, useSendTransaction } from 'wagmi';
 import { formatTokenAmount } from '../../internal/utils/formatTokenAmount';
 import type { Token } from '../../token';
 import { USER_REJECTED_ERROR_CODE } from '../constants';
+import { useFromTo } from '../hooks/useFromTo';
 import type { SwapContextType, SwapError, SwapErrorState } from '../types';
 import { buildSwapTransaction } from '../utils/buildSwapTransaction';
 import { getSwapQuote } from '../utils/getSwapQuote';
 import { isSwapError } from '../utils/isSwapError';
 import { processSwapTransaction } from '../utils/processSwapTransaction';
-import { useFromTo } from '../utils/useFromTo';
 
 function useValue<T>(object: T): T {
   return useMemo(() => object, [object]);
