@@ -33,7 +33,7 @@ export function TransactionToast({
       return 'top-[100px] left-2/4';
     }
     return 'bottom-5 left-2/4';
-  }, []);
+  }, [position]);
 
   if (
     !isToastVisible ||
