@@ -1,9 +1,9 @@
 import { renderHook } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 import { useValue } from '../../internal/hooks/useValue';
+import type { Token } from '../../token';
 import { useFromTo } from './useFromTo';
 import { useSwapBalances } from './useSwapBalances';
-import type { Token } from '../../token';
 
 vi.mock('./useSwapBalances', () => ({
   useSwapBalances: vi.fn(),
@@ -17,6 +17,7 @@ const USDC: Token = {
   address: '0x123',
   chainId: 1,
   decimals: 6,
+  image: null,
   name: 'USDC',
   symbol: 'USDC',
 };
