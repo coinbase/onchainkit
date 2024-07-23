@@ -5,8 +5,8 @@ export { TokenRow } from './components/TokenRow';
 export { TokenSearch } from './components/TokenSearch';
 export { TokenSelectDropdown } from './components/TokenSelectDropdown';
 export { TokenSelectModal } from './components/TokenSelectModal';
-export { formatAmount } from './core/formatAmount';
-export { getTokens } from './core/getTokens';
+export { formatAmount } from './utils/formatAmount';
+export { getTokens } from './utils/getTokens';
 export type {
   GetTokensError,
   GetTokensOptions,

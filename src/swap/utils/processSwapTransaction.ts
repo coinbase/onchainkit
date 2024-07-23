@@ -1,8 +1,8 @@
+import type { TransactionReceipt } from 'viem';
 import type { Config } from 'wagmi';
 import { waitForTransactionReceipt } from 'wagmi/actions';
 import type { SendTransactionMutateAsync } from 'wagmi/query';
 import type { BuildSwapTransaction } from '../types';
-import type { TransactionReceipt } from 'viem';
 
 export async function processSwapTransaction({
   swapTransaction,

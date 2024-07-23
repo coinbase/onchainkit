@@ -1,8 +1,8 @@
 import '@testing-library/jest-dom';
-import { render, screen, waitFor, fireEvent } from '@testing-library/react';
-import { TokenRow } from './TokenRow';
-import type { Token } from '../types';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
+import type { Token } from '../types';
+import { TokenRow } from './TokenRow';
 
 const EXAMPLE_TOKEN: Token = {
   address: '0x1234',

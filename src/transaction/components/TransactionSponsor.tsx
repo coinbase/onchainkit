@@ -1,6 +1,6 @@
 import { cn, color, text } from '../../styles/theme';
-import { useTransactionContext } from './TransactionProvider';
 import type { TransactionSponsorReact } from '../types';
+import { useTransactionContext } from './TransactionProvider';
 
 export function TransactionSponsor({
   className,

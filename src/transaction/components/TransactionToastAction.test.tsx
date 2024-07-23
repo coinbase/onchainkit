@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
-import { describe, it, expect, vi } from 'vitest';
-import { TransactionToastAction } from './TransactionToastAction';
+import { describe, expect, it, vi } from 'vitest';
 import { useGetTransactionToast } from '../hooks/useGetTransactionToast';
+import { TransactionToastAction } from './TransactionToastAction';
 
 vi.mock('../hooks/useGetTransactionToast', () => ({
   useGetTransactionToast: vi.fn(),

@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import '@testing-library/jest-dom';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import { useGetETHBalance } from '../../wallet/core/useGetETHBalance';
+import { useGetETHBalance } from '../../wallet/hooks/useGetETHBalance';
 import { useAvatar } from '../hooks/useAvatar';
 import { useName } from '../hooks/useName';
 import { Address } from './Address';
@@ -21,7 +21,7 @@ vi.mock('../hooks/useName', () => ({
   useName: vi.fn(),
 }));
 
-vi.mock('../../wallet/core/useGetETHBalance', () => ({
+vi.mock('../../wallet/hooks/useGetETHBalance', () => ({
   useGetETHBalance: vi.fn(),
 }));
 

@@ -1,13 +1,13 @@
 import '@testing-library/jest-dom';
 import { render, renderHook, screen, waitFor } from '@testing-library/react';
 import { useAccount } from 'wagmi';
-import { WalletDropdown } from './WalletDropdown';
-import { useWalletContext } from './WalletProvider';
 import { Identity } from '../../identity/components/Identity';
 import {
   IdentityProvider,
   useIdentityContext,
 } from '../../identity/components/IdentityProvider';
+import { WalletDropdown } from './WalletDropdown';
+import { useWalletContext } from './WalletProvider';
 
 vi.mock('wagmi', () => ({
   useAccount: vi.fn(),

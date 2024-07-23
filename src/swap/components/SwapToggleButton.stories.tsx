@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { SwapToggleButton } from './SwapToggleButton';
-import { SwapProvider } from './SwapProvider';
-import { WagmiProvider, createConfig, http } from 'wagmi';
-import { baseSepolia } from 'viem/chains';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { baseSepolia } from 'viem/chains';
+import { http, WagmiProvider, createConfig } from 'wagmi';
+import { SwapProvider } from './SwapProvider';
+import { SwapToggleButton } from './SwapToggleButton';
 
 const wagmiConfig = createConfig({
   chains: [baseSepolia],

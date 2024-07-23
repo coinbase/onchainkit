@@ -1,8 +1,8 @@
+import type { ReactNode } from 'react';
+import { describe, expect, it } from 'vitest';
 /**
  * @vitest-environment jsdom
  */
-import type { ReactNode } from 'react';
-import '@testing-library/jest-dom';
 import { findComponent } from './findComponent';
 
 const ToThe = () => <div>Name Component</div>;

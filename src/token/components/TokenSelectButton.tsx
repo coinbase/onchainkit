@@ -1,7 +1,7 @@
 import { type ForwardedRef, forwardRef } from 'react';
+import { cn, pressable, text } from '../../styles/theme';
 import type { TokenSelectButtonReact } from '../types';
 import { TokenImage } from './TokenImage';
-import { cn, pressable, text } from '../../styles/theme';
 
 function CaretUp() {
   return (

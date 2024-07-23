@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { background, cn } from '../../styles/theme';
 import type { TokenSelectDropdownReact } from '../types';
 import { TokenRow } from './TokenRow';
 import { TokenSelectButton } from './TokenSelectButton';
-import { background, cn } from '../../styles/theme';
 
 export function TokenSelectDropdown({
   options,

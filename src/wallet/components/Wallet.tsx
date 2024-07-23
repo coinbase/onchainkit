@@ -1,8 +1,8 @@
 import { Children, useMemo } from 'react';
+import type { WalletReact } from '../types';
 import { ConnectWallet } from './ConnectWallet';
 import { WalletDropdown } from './WalletDropdown';
 import { WalletProvider } from './WalletProvider';
-import type { WalletReact } from '../types';
 
 export function Wallet({ children }: WalletReact) {
   const { connect, dropdown } = useMemo(() => {

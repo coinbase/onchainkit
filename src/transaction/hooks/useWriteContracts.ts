@@ -1,5 +1,5 @@
-import { useWriteContracts as useWriteContractsWagmi } from 'wagmi/experimental';
 import type { TransactionExecutionError } from 'viem';
+import { useWriteContracts as useWriteContractsWagmi } from 'wagmi/experimental';
 import type { TransactionError } from '../types';
 
 type UseWriteContractsParams = {

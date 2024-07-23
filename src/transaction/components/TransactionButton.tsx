@@ -1,7 +1,7 @@
-import { background, cn, pressable, text } from '../../styles/theme';
-import { useTransactionContext } from './TransactionProvider';
 import { Spinner } from '../../internal/components/Spinner';
+import { background, cn, pressable, text } from '../../styles/theme';
 import type { TransactionButtonReact } from '../types';
+import { useTransactionContext } from './TransactionProvider';
 
 export function TransactionButton({
   className,

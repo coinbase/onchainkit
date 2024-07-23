@@ -1,6 +1,6 @@
-import { TransactionProvider } from './TransactionProvider';
 import { cn } from '../../styles/theme';
 import type { TransactionReact } from '../types';
+import { TransactionProvider } from './TransactionProvider';
 
 export function Transaction({
   address,

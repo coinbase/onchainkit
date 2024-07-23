@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom';
-import { render, fireEvent, waitFor } from '@testing-library/react';
-import { TokenSearch } from './TokenSearch';
+import { fireEvent, render, waitFor } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
+import { TokenSearch } from './TokenSearch';
 
 describe('TokenSearch component', () => {
   it('should call onChange after the specified debounce delay', async () => {

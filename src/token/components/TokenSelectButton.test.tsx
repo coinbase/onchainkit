@@ -1,8 +1,8 @@
 import '@testing-library/jest-dom';
 import { fireEvent, render, screen } from '@testing-library/react';
 import type { Address } from 'viem';
-import { TokenSelectButton } from './TokenSelectButton';
 import { describe, expect, it, vi } from 'vitest';
+import { TokenSelectButton } from './TokenSelectButton';
 
 describe('TokenSelectButton', () => {
   const token = {
