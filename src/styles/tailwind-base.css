@@ -2,33 +2,113 @@
 
 @layer base {
   :root {
-    --ock-text-inverse: theme(colors.gray.50);
-    --ock-text-foreground: theme(colors.gray.950);
-    --ock-text-foreground-muted: theme(colors.gray.600);
-    --ock-text-error: theme(colors.rose.600);
-    --ock-text-primary: theme(colors.indigo.600);
-    --ock-text-success: theme(colors.lime.600);
-    --ock-text-warning: theme(colors.orange.600);
-    --ock-text-disabled: theme(colors.gray.400);
+    --text-ock-inverse: theme(colors.gray.50);
+    --text-ock-foreground: theme(colors.gray.950);
+    --text-ock-foreground-muted: theme(colors.gray.600);
+    --text-ock-error: theme(colors.rose.600);
+    --text-ock-primary: theme(colors.indigo.600);
+    --text-ock-success: theme(colors.lime.600);
+    --text-ock-warning: theme(colors.orange.600);
+    --text-ock-disabled: theme(colors.gray.400);
 
-    --ock-bg-default: theme(colors.gray.50);
-    --ock-bg-default-hover: theme(colors.gray.200);
-    --ock-bg-default-active: theme(colors.gray.300);
-    --ock-bg-alternate: theme(colors.gray.200);
-    --ock-bg-alternate-hover: theme(colors.gray.300);
-    --ock-bg-alternate-active: theme(colors.gray.400);
-    --ock-bg-inverse: theme(colors.gray.100);
-    --ock-bg-inverse-hover: theme(colors.gray.200);
-    --ock-bg-inverse-active: theme(colors.gray.300);
-    --ock-bg-primary: theme(colors.indigo.600);
-    --ock-bg-primary-hover: theme(colors.indigo.700);
-    --ock-bg-primary-active: theme(colors.indigo.800);
-    --ock-bg-secondary: theme(colors.slate.200);
-    --ock-bg-secondary-hover: theme(colors.slate.300);
-    --ock-bg-secondary-active: theme(colors.slate.400);
-    --ock-bg-error: theme(colors.rose.600);
-    --ock-bg-warning: theme(colors.orange.600);
-    --ock-bg-success: theme(colors.lime.300);
+    --bg-ock-default: theme(colors.gray.50);
+    --bg-ock-default-hover: theme(colors.gray.200);
+    --bg-ock-default-active: theme(colors.gray.300);
+    --bg-ock-alternate: theme(colors.gray.200);
+    --bg-ock-alternate-hover: theme(colors.gray.300);
+    --bg-ock-alternate-active: theme(colors.gray.400);
+    --bg-ock-inverse: theme(colors.gray.100);
+    --bg-ock-inverse-hover: theme(colors.gray.200);
+    --bg-ock-inverse-active: theme(colors.gray.300);
+    --bg-ock-primary: theme(colors.indigo.600);
+    --bg-ock-primary-hover: theme(colors.indigo.700);
+    --bg-ock-primary-active: theme(colors.indigo.800);
+    --bg-ock-secondary: theme(colors.slate.200);
+    --bg-ock-secondary-hover: theme(colors.slate.300);
+    --bg-ock-secondary-active: theme(colors.slate.400);
+    --bg-ock-error: theme(colors.rose.600);
+    --bg-ock-warning: theme(colors.orange.600);
+    --bg-ock-success: theme(colors.lime.300);
+  }
+  /* Text */
+  .text-ock-inverse {
+    color: var(--text-ock-inverse);
+  }
+  .text-ock-foreground {
+    color: var(--text-ock-foreground);
+  }
+  .text-ock-foreground-muted {
+    color: var(--text-ock-foreground-muted);
+  }
+  .text-ock-error {
+    color: var(--text-ock-error);
+  }
+  .text-ock-primary {
+    color: var(--text-ock-primary);
+  }
+  .text-ock-success {
+    color: var(--text-ock-success);
+  }
+  .text-ock-warning {
+    color: var(--text-ock-warning);
+  }
+  .text-ock-disabled {
+    color: var(--text-ock-disabled);
+  }
+  /* Background */
+  .bg-ock-default {
+    background-color: var(--bg-ock-default);
+  }
+  .bg-ock-default-hover {
+    background-color: var(--bg-ock-default-hover);
+  }
+  .bg-ock-default-active {
+    background-color: var(--bg-ock-default-active);
+  }
+  .bg-ock-alternate {
+    background-color: var(--bg-ock-alternate);
+  }
+  .bg-ock-alternate-hover {
+    background-color: var(--bg-ock-alternate-hover);
+  }
+  .bg-ock-alternate-active {
+    background-color: var(--bg-ock-alternate-active);
+  }
+  .bg-ock-inverse {
+    background-color: var(--bg-ock-inverse);
+  }
+  .bg-ock-inverse-hover {
+    background-color: var(--bg-ock-inverse-hover);
+  }
+  .bg-ock-inverse-active {
+    background-color: var(--bg-ock-inverse-active);
+  }
+  .bg-ock-primary {
+    background-color: var(--bg-ock-primary);
+  }
+  .bg-ock-primary-hover {
+    background-color: var(--bg-ock-primary-hover);
+  }
+  .bg-ock-primary-active {
+    background-color: var(--bg-ock-primary-active);
+  }
+  .bg-ock-secondary {
+    background-color: var(--bg-ock-secondary);
+  }
+  .bg-ock-secondary-hover {
+    background-color: var(--bg-ock-secondary-hover);
+  }
+  .bg-ock-secondary-active {
+    background-color: var(--bg-ock-secondary-active);
+  }
+  .bg-ock-error {
+    background-color: var(--bg-ock-error);
+  }
+  .bg-ock-warning {
+    background-color: var(--bg-ock-warning);
+  }
+  .bg-ock-success {
+    background-color: var(--bg-ock-success);
   }
 }
 
