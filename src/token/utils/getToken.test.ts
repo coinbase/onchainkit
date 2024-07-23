@@ -1,10 +1,10 @@
+import { afterEach, describe, expect, it, vi } from 'vitest';
+import { CDP_LIST_SWAP_ASSETS } from '../../network/definitions/swap';
+import { sendRequest } from '../../network/request';
 /**
  * @vitest-environment node
  */
 import { getTokens } from './getTokens';
-import { sendRequest } from '../../network/request';
-import { CDP_LIST_SWAP_ASSETS } from '../../network/definitions/swap';
-import { afterEach, describe, expect, it, vi } from 'vitest';
 
 vi.mock('../../network/request');
 

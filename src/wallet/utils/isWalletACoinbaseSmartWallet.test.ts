@@ -1,10 +1,10 @@
+import type { UserOperation } from 'permissionless';
+import type { PublicClient } from 'viem';
 import {
   CB_SW_PROXY_BYTECODE,
   CB_SW_V1_IMPLEMENTATION_ADDRESS,
-} from './constants';
+} from '../constants';
 import { isWalletACoinbaseSmartWallet } from './isWalletACoinbaseSmartWallet';
-import type { UserOperation } from 'permissionless';
-import type { PublicClient } from 'viem';
 
 describe('isWalletACoinbaseSmartWallet', () => {
   const client = {

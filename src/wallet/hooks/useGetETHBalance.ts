@@ -1,11 +1,11 @@
 import { useMemo } from 'react';
-import { useBalance } from 'wagmi';
 import { formatUnits } from 'viem';
-import { getRoundedAmount } from '../../internal/utils/getRoundedAmount';
-import { getSwapErrorCode } from '../../swap/utils/getSwapErrorCode';
 import type { Address } from 'viem';
+import { useBalance } from 'wagmi';
 import type { UseBalanceReturnType } from 'wagmi';
+import { getRoundedAmount } from '../../internal/utils/getRoundedAmount';
 import type { SwapError } from '../../swap';
+import { getSwapErrorCode } from '../../swap/utils/getSwapErrorCode';
 import type { UseGetETHBalanceResponse } from '../types';
 
 const ETH_DECIMALS = 18;

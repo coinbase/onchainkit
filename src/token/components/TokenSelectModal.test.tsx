@@ -1,9 +1,9 @@
 import '@testing-library/jest-dom';
-import { render, screen, fireEvent } from '@testing-library/react';
-import { TokenSelectModal } from './TokenSelectModal';
+import { fireEvent, render, screen } from '@testing-library/react';
 import type { Address } from 'viem';
-import type { Token } from '../types';
 import { describe, expect, it, vi } from 'vitest';
+import type { Token } from '../types';
+import { TokenSelectModal } from './TokenSelectModal';
 
 const tokens: Token[] = [
   {

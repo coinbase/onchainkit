@@ -1,6 +1,6 @@
 import { createContext, useContext, useState } from 'react';
-import { useValue } from '../../internal/hooks/useValue';
 import type { ReactNode } from 'react';
+import { useValue } from '../../internal/hooks/useValue';
 import type { WalletContextType } from '../types';
 
 const emptyContext = {} as WalletContextType;

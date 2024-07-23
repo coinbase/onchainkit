@@ -1,8 +1,8 @@
-import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { expect, fn, userEvent, within } from '@storybook/test';
+import React from 'react';
+import { getTokens } from '../utils/getTokens';
 import { TokenSearch } from './TokenSearch';
-import { getTokens } from '../core/getTokens';
 
 const meta = {
   title: 'Token/TokenSearch',

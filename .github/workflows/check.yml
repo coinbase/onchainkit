@@ -1,4 +1,4 @@
-name: Kit Lint
+name: Kit Check
 on:
   push:
     branches: ['main']
@@ -24,5 +24,5 @@ jobs:
       - name: Kit Install dependencies
         run: npm install
 
-      - name: Kit Lint
-        run: npm run ci:lint
+      - name: Kit Check
+        run: npm run ci:check
