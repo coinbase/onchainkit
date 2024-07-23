@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { expect, fn, userEvent, within } from '@storybook/test';
 import React from 'react';
-import { getTokens } from '../core/getTokens';
+import { getTokens } from '../utils/getTokens';
 import { TokenSearch } from './TokenSearch';
 
 const meta = {
