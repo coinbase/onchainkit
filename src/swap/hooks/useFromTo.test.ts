@@ -1,5 +1,6 @@
 import { renderHook } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
+import { useValue } from '../../internal/hooks/useValue';
 import { useFromTo } from './useFromTo';
 import { useSwapBalances } from './useSwapBalances';
 
@@ -23,6 +24,13 @@ describe('useFromTo', () => {
       toBalanceString: '200',
       toTokenBalanceError: null,
     });
+
+    (useValue as vi.Mock).mockImplementation((props) => ({
+      ...props,
+      setAmount: vi.fn(),
+      setToken: vi.fn(),
+      setLoading: vi.fn(),
+    }));
 
     const { result } = renderHook(() => useFromTo('0x123'));
 
