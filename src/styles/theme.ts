@@ -24,7 +24,7 @@ export const pressable = {
   inverse:
     'cursor-pointer bg-ock-inverse active:bg-ock-inverse-active hover:bg-ock-inverse-hover',
   primary:
-    'cursor-pointer ock-bg-primary active:ock-bg-primary-active hover:ock-bg-primary-hover',
+    'cursor-pointer bg-ock-primary active:bg-ock-primary-active hover:bg-ock-primary-hover',
   secondary:
     'cursor-pointer bg-ock-secondary active:bg-ock-secondary-active hover:bg-ock-secondary-hover',
   shadow: 'shadow-[0px_8px_12px_0px_#5B616E1F]',
@@ -35,7 +35,7 @@ export const background = {
   default: 'bg-ock-default',
   alternate: 'bg-ock-alternate',
   inverse: 'bg-ock-inverse',
-  primary: 'ock-bg-primary',
+  primary: 'bg-ock-primary',
   secondary: 'bg-ock-secondary',
   error: 'bg-ock-error',
   warning: 'bg-ock-warning',
