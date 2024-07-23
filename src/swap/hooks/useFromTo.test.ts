@@ -1,35 +1,34 @@
-import { describe, expect, it, vi } from "vitest";
-import { useFromTo } from "./useFromTo";
-import { renderHook } from "@testing-library/react";
-import { useSwapBalances } from "./useSwapBalances";
+import { renderHook } from '@testing-library/react';
+import { describe, expect, it, vi } from 'vitest';
+import { useFromTo } from './useFromTo';
+import { useSwapBalances } from './useSwapBalances';
 
-
-vi.mock("./useSwapBalances", () => ({
+vi.mock('./useSwapBalances', () => ({
   useSwapBalances: vi.fn(),
 }));
 
-vi.mock("../../internal/hooks/useValue", () => ({
+vi.mock('../../internal/hooks/useValue', () => ({
   useValue: vi.fn(),
 }));
 
-describe("useFromTo", () => {
+describe('useFromTo', () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
-  it("should return correct values", () => {
+  it('should return correct values', () => {
     (useSwapBalances as vi.Mock).mockReturnValue({
-      fromBalanceString: "100",
+      fromBalanceString: '100',
       fromTokenBalanceError: null,
-      toBalanceString: "200",
+      toBalanceString: '200',
       toTokenBalanceError: null,
     });
 
-    const { result } = renderHook(() => useFromTo("0x123"));
+    const { result } = renderHook(() => useFromTo('0x123'));
 
     expect(result.current.from).toEqual({
-      balance: "100",
-      amount: "",
+      balance: '100',
+      amount: '',
       setAmount: expect.any(Function),
       token: undefined,
       setToken: expect.any(Function),
@@ -39,8 +38,8 @@ describe("useFromTo", () => {
     });
 
     expect(result.current.to).toEqual({
-      balance: "200",
-      amount: "",
+      balance: '200',
+      amount: '',
       setAmount: expect.any(Function),
       token: undefined,
       setToken: expect.any(Function),
