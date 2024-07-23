@@ -38,6 +38,8 @@ export function useWriteContract({
     });
     return { status, writeContract };
   } catch (err) {
+    console.log('ok');
+    console.error(err);
     onError?.({ code: uncaughtErrorCode, error: JSON.stringify(err) });
     setErrorMessage(genericErrorMessage);
     return { status: "error", writeContract: () => {} };

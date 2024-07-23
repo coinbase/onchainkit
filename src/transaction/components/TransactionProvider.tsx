@@ -6,7 +6,8 @@ import {
   useState,
 } from 'react';
 import { useValue } from '../../internal/hooks/useValue';
-import { useWriteContracts } from '../hooks/useWriteContracts';
+import { useWriteContract } from '../hooks/useWriteContract';
+// import { useWriteContracts } from '../hooks/useWriteContracts';
 import { useCallsStatus } from '../hooks/useCallsStatus';
 import type {
   TransactionContextType,
@@ -39,21 +40,30 @@ export function TransactionProvider({
   const [gasFee, setGasFee] = useState('');
   const [isToastVisible, setIsToastVisible] = useState(false);
 
-  const { status, writeContracts } = useWriteContracts({
+  // const { status, writeContracts } = useWriteContracts({
+  //   onError,
+  //   setErrorMessage,
+  //   setTransactionId,
+  // });
+
+  const { status, writeContract } = useWriteContract({
     onError,
     setErrorMessage,
     setTransactionId,
   });
+  console.log('potato.0')
 
   const { transactionHash } = useCallsStatus({ onError, transactionId });
 
   const handleSubmit = useCallback(() => {
     setErrorMessage('');
     setIsToastVisible(true);
-    writeContracts({
-      contracts,
-    });
-  }, [contracts, writeContracts]);
+    console.log('potato.1')
+    writeContract(
+      contracts[0],
+    );
+    console.log('potato.2')
+  }, [contracts, writeContract]);
 
   useEffect(() => {
     // TODO: replace with gas estimation call
