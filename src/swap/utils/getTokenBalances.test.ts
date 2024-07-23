@@ -1,9 +1,9 @@
+import { describe, expect, it } from 'vitest';
+import type { Token } from '../../token';
 /**
  * @vitest-environment node
  */
 import { getTokenBalances } from './getTokenBalances';
-import type { Token } from '../../token';
-import { describe, expect, it } from 'vitest';
 
 const mockTokenBalanceResponse = { data: 3304007277394n };
 const mockZeroTokenBalanceResponse = { data: 0n };

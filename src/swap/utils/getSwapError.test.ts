@@ -1,12 +1,12 @@
-import { getSwapError } from './getSwapError';
+import { describe, expect, test } from 'vitest';
 import {
   LOW_LIQUIDITY_ERROR_CODE,
   TOO_MANY_REQUESTS_ERROR_CODE,
   USER_REJECTED_ERROR_CODE,
 } from '../constants';
-import { SwapMessage } from './getSwapMessage';
 import type { SwapErrorState } from '../types';
-import { describe, expect, test } from 'vitest';
+import { getSwapError } from './getSwapError';
+import { SwapMessage } from './getSwapMessage';
 
 describe('getSwapError', () => {
   test('returns TOO_MANY_REQUESTS when error code is TOO_MANY_REQUESTS_ERROR_CODE', () => {

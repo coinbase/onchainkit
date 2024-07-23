@@ -1,9 +1,9 @@
+import { describe, expect, it, vi } from 'vitest';
+import type { RawTransactionData } from '../types';
 /**
  * @vitest-environment node
  */
 import { getSwapTransaction } from './getSwapTransaction';
-import type { RawTransactionData } from '../types';
-import { describe, expect, it, vi } from 'vitest';
 
 vi.mock('../../network/request');
 

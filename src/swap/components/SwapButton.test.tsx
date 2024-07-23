@@ -1,7 +1,7 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
+import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { SwapButton } from './SwapButton';
 import { useSwapContext } from './SwapProvider';
-import { beforeEach, describe, expect, it, vi, type Mock } from 'vitest';
 
 vi.mock('./SwapProvider', () => ({
   useSwapContext: vi.fn(),

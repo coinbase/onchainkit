@@ -1,9 +1,9 @@
-import { formatDecimals } from './formatDecimals';
 import type {
   BuildSwapTransactionParams,
   GetAPIParamsForToken,
   SwapAPIParams,
 } from '../types';
+import { formatDecimals } from './formatDecimals';
 
 /**
  * Converts parameters with `Token` to ones with address.

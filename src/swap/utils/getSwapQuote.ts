@@ -1,14 +1,14 @@
 import { CDP_GET_SWAP_QUOTE } from '../../network/definitions/swap';
 import { sendRequest } from '../../network/request';
+import type {
+  GetSwapQuoteParams,
+  GetSwapQuoteResponse,
+  SwapAPIParams,
+  SwapError,
+  SwapQuote,
+} from '../types';
 import { getAPIParamsForToken } from './getAPIParamsForToken';
 import { getSwapErrorCode } from './getSwapErrorCode';
-import type {
-  GetSwapQuoteResponse,
-  SwapQuote,
-  SwapError,
-  GetSwapQuoteParams,
-  SwapAPIParams,
-} from '../types';
 
 /**
  * Retrieves a quote for a swap from Token A to Token B.

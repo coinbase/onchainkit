@@ -1,11 +1,11 @@
+import type { ReadContractErrorType } from 'viem';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+import type { UseBalanceReturnType, UseReadContractReturnType } from 'wagmi';
+import type { Token } from '../../token';
 /**
  * @vitest-environment node
  */
 import { getTokenBalanceErrorState } from './getTokenBalanceErrorState';
-import type { Token } from '../../token';
-import type { UseBalanceReturnType, UseReadContractReturnType } from 'wagmi';
-import type { ReadContractErrorType } from 'viem';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 const ETH: Token = {
   name: 'ETH',

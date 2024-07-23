@@ -1,14 +1,14 @@
-/**
- * @vitest-environment node
- */
-import { getSwapMessage, SwapMessage } from './getSwapMessage';
+import { describe, expect, test, vi } from 'vitest';
+import type { Token } from '../../token';
 import {
   LOW_LIQUIDITY_ERROR_CODE,
   TOO_MANY_REQUESTS_ERROR_CODE,
   USER_REJECTED_ERROR_CODE,
 } from '../constants';
-import type { Token } from '../../token';
-import { describe, expect, test, vi } from 'vitest';
+/**
+ * @vitest-environment node
+ */
+import { SwapMessage, getSwapMessage } from './getSwapMessage';
 
 const ethToken: Token = {
   name: 'ETH',

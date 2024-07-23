@@ -1,5 +1,5 @@
-import { getRoundedAmount } from '../../internal/utils/getRoundedAmount';
 import { formatUnits } from 'viem';
+import { getRoundedAmount } from '../../internal/utils/getRoundedAmount';
 import type { Token } from '../../token';
 
 type GetTokenBalancesParams = {

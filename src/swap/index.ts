@@ -4,8 +4,8 @@ export { SwapAmountInput } from './components/SwapAmountInput';
 export { SwapButton } from './components/SwapButton';
 export { SwapMessage } from './components/SwapMessage';
 export { SwapToggleButton } from './components/SwapToggleButton';
-export { buildSwapTransaction } from './core/buildSwapTransaction';
-export { getSwapQuote } from './core/getSwapQuote';
+export { buildSwapTransaction } from './utils/buildSwapTransaction';
+export { getSwapQuote } from './utils/getSwapQuote';
 export type {
   BuildSwapTransaction,
   BuildSwapTransactionParams,
