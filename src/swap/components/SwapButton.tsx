@@ -1,7 +1,7 @@
-import { background, cn, pressable, text } from '../../styles/theme';
 import { Spinner } from '../../internal/components/Spinner';
-import { useSwapContext } from './SwapProvider';
+import { background, cn, pressable, text } from '../../styles/theme';
 import type { SwapButtonReact } from '../types';
+import { useSwapContext } from './SwapProvider';
 
 export function SwapButton({
   className,

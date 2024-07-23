@@ -1,10 +1,10 @@
-import { processSwapTransaction } from './processSwapTransaction';
-import type { BuildSwapTransaction } from '../types';
-import { createConfig, http } from 'wagmi';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { http, createConfig } from 'wagmi';
+import { waitForTransactionReceipt } from 'wagmi/actions';
 import { mainnet, sepolia } from 'wagmi/chains';
 import { mock } from 'wagmi/connectors';
-import { waitForTransactionReceipt } from 'wagmi/actions';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import type { BuildSwapTransaction } from '../types';
+import { processSwapTransaction } from './processSwapTransaction';
 
 vi.mock('wagmi/actions', () => ({
   waitForTransactionReceipt: vi.fn().mockResolvedValue({}),

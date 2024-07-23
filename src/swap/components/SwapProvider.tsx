@@ -1,21 +1,21 @@
 import {
   createContext,
-  useContext,
   useCallback,
+  useContext,
   useMemo,
   useState,
 } from 'react';
-import { useSendTransaction, useConfig, type BaseError } from 'wagmi';
-import { processSwapTransaction } from '../utils/processSwapTransaction';
-import { buildSwapTransaction } from '../utils/buildSwapTransaction';
-import { isSwapError } from '../utils/isSwapError';
-import { getSwapQuote } from '../utils/getSwapQuote';
-import { USER_REJECTED_ERROR_CODE } from '../constants';
-import { formatTokenAmount } from '../../internal/utils/formatTokenAmount';
-import { useFromTo } from '../utils/useFromTo';
-import type { SwapError, SwapErrorState, SwapContextType } from '../types';
-import type { Token } from '../../token';
 import type { Address, TransactionReceipt } from 'viem';
+import { type BaseError, useConfig, useSendTransaction } from 'wagmi';
+import { formatTokenAmount } from '../../internal/utils/formatTokenAmount';
+import type { Token } from '../../token';
+import { USER_REJECTED_ERROR_CODE } from '../constants';
+import type { SwapContextType, SwapError, SwapErrorState } from '../types';
+import { buildSwapTransaction } from '../utils/buildSwapTransaction';
+import { getSwapQuote } from '../utils/getSwapQuote';
+import { isSwapError } from '../utils/isSwapError';
+import { processSwapTransaction } from '../utils/processSwapTransaction';
+import { useFromTo } from '../utils/useFromTo';
 
 function useValue<T>(object: T): T {
   return useMemo(() => object, [object]);

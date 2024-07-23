@@ -1,6 +1,6 @@
 import { cn, pressable } from '../../styles/theme';
-import { useSwapContext } from './SwapProvider';
 import type { SwapToggleButtonReact } from '../types';
+import { useSwapContext } from './SwapProvider';
 
 const toggleIcon = (
   <svg

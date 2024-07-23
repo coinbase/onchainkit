@@ -1,12 +1,12 @@
+import { afterEach, describe, expect, it, vi } from 'vitest';
+import { CDP_GET_SWAP_QUOTE } from '../../network/definitions/swap';
+import { sendRequest } from '../../network/request';
+import type { Token } from '../../token/types';
+import { getAPIParamsForToken } from './getAPIParamsForToken';
 /**
  * @vitest-environment node
  */
 import { getSwapQuote } from './getSwapQuote';
-import { sendRequest } from '../../network/request';
-import { CDP_GET_SWAP_QUOTE } from '../../network/definitions/swap';
-import { getAPIParamsForToken } from './getAPIParamsForToken';
-import type { Token } from '../../token/types';
-import { afterEach, describe, expect, it, vi } from 'vitest';
 
 vi.mock('../../network/request');
 

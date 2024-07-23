@@ -1,6 +1,6 @@
-import { getSwapErrorCode } from './getSwapErrorCode';
-import type { Token } from '../../token';
 import type { UseBalanceReturnType, UseReadContractReturnType } from 'wagmi';
+import type { Token } from '../../token';
+import { getSwapErrorCode } from './getSwapErrorCode';
 
 type GetTokenBalancesErrorStateParams = {
   ethBalance?: UseBalanceReturnType;
