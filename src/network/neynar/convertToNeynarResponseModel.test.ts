@@ -54,6 +54,7 @@ describe('convertToNeynarResponseModel', () => {
         },
       },
       liked: true,
+      raw: mockData,
       recasted: false,
       state: {
         serialized: 'test serialized state',
