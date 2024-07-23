@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.26.1
+
+### Patch Changes
+
+- 3128263: - **fix**: copy popover style within the `IdenityLayout`. By @zizzamia #870
+  - **feat**: added toast animation for `TransactionToast` component. By @abcrane123 #865
+
 ## 0.26.0
 
 ### Minor Changes
