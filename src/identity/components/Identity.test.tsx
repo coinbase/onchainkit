@@ -163,7 +163,7 @@ describe('Identity Component', () => {
       </Identity>,
     );
 
-    const identityLayout = screen.getByTestId('ockIdentity_container');
+    const identityLayout = screen.getByTestId('ockIdentityLayout_container');
     fireEvent.click(identityLayout);
 
     expect(navigator.clipboard.writeText).toHaveBeenCalledWith('0x123456789');
@@ -176,7 +176,7 @@ describe('Identity Component', () => {
       </Identity>,
     );
 
-    const identityLayout = screen.getByTestId('ockIdentity_container');
+    const identityLayout = screen.getByTestId('ockIdentityLayout_container');
     fireEvent.click(identityLayout);
 
     expect(navigator.clipboard.writeText).not.toHaveBeenCalled();
@@ -198,7 +198,7 @@ describe('Identity Component', () => {
       </Identity>,
     );
 
-    const identityLayout = screen.getByTestId('ockIdentity_container');
+    const identityLayout = screen.getByTestId('ockIdentityLayout_container');
     fireEvent.click(identityLayout);
 
     expect(navigator.clipboard.writeText).toHaveBeenCalledWith('0x123456789');

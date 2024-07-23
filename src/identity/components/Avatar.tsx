@@ -1,4 +1,6 @@
 import { Children, useMemo } from 'react';
+import { defaultAvatarSVG } from '../../internal/svg/defaultAvatarSVG';
+import { defaultLoadingSVG } from '../../internal/svg/defaultLoadingSVG';
 import { cn } from '../../styles/theme';
 import { useAvatar } from '../hooks/useAvatar';
 import { useName } from '../hooks/useName';
@@ -6,8 +8,6 @@ import type { AvatarReact } from '../types';
 import { Badge } from './Badge';
 import { DisplayBadge } from './DisplayBadge';
 import { useIdentityContext } from './IdentityProvider';
-import { defaultAvatarSVG } from './defaultAvatarSVG';
-import { defaultLoadingSVG } from './defaultLoadingSVG';
 
 /**
  * Represents an Avatar component that displays either a loading indicator,
