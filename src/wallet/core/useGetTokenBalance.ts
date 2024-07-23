@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { useReadContract } from 'wagmi';
 import { erc20Abi, formatUnits } from 'viem';
 import { getRoundedAmount } from '../../internal/utils/getRoundedAmount';
-import { getSwapErrorCode } from '../../swap/core/getSwapErrorCode';
+import { getSwapErrorCode } from '../../swap/utils/getSwapErrorCode';
 import type { Address } from 'viem';
 import type { Token } from '../../token';
 import type { UseReadContractReturnType } from 'wagmi';

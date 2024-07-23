@@ -1,4 +1,4 @@
-import { getSwapMessage } from '../core/getSwapMessage';
+import { getSwapMessage } from '../utils/getSwapMessage';
 import { cn, text } from '../../styles/theme';
 import { useSwapContext } from './SwapProvider';
 import type { SwapMessageReact } from '../types';

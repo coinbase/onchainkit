@@ -7,9 +7,9 @@ import {
 } from 'react';
 import { useSendTransaction, useConfig, type BaseError } from 'wagmi';
 import { processSwapTransaction } from '../utils/processSwapTransaction';
-import { buildSwapTransaction } from '../core/buildSwapTransaction';
-import { isSwapError } from '../core/isSwapError';
-import { getSwapQuote } from '../core/getSwapQuote';
+import { buildSwapTransaction } from '../utils/buildSwapTransaction';
+import { isSwapError } from '../utils/isSwapError';
+import { getSwapQuote } from '../utils/getSwapQuote';
 import { USER_REJECTED_ERROR_CODE } from '../constants';
 import { formatTokenAmount } from '../../internal/utils/formatTokenAmount';
 import { useFromTo } from '../utils/useFromTo';
