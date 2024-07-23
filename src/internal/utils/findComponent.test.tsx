@@ -39,5 +39,4 @@ describe('findComponent', () => {
     const foundNameComponent = childrenArray.find(findComponent(ToThe));
     expect(foundNameComponent).toBeUndefined();
   });
-
 });

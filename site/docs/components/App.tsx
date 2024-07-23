@@ -1,14 +1,14 @@
 'use client';
-// import { OnchainKitProvider } from '@coinbase/onchainkit';
-import { OnchainKitProvider } from '../../../src';
+import { OnchainKitProvider } from '@coinbase/onchainkit';
+// import { OnchainKitProvider } from '../../../src';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import type { ReactNode } from 'react';
 import { http, WagmiProvider, createConfig } from 'wagmi';
 import { base } from 'wagmi/chains';
 import { coinbaseWallet } from 'wagmi/connectors';
 
-// import '@coinbase/onchainkit/styles.css';
-import '../../../src/styles.css';
+import '@coinbase/onchainkit/styles.css';
+// import '../../../src/styles.css';
 
 const queryClient = new QueryClient();
 
