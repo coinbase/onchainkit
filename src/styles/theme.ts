@@ -18,28 +18,28 @@ export const text = {
 
 export const pressable = {
   default:
-    'cursor-pointer bg-default active:bg-default-active hover:bg-default-hover',
+    'cursor-pointer ock-bg-default active:ock-bg-default-active hover:ock-bg-default-hover',
   alternate:
-    'cursor-pointer bg-alternate active:bg-alternate-active hover:bg-alternate-hover',
+    'cursor-pointer ock-bg-alternate active:ock-bg-alternate-active hover:ock-bg-alternate-hover',
   inverse:
-    'cursor-pointer bg-inverse active:bg-inverse-active hover:bg-inverse-hover',
+    'cursor-pointer ock-bg-inverse active:ock-bg-inverse-active hover:ock-bg-inverse-hover',
   primary:
-    'cursor-pointer bg-primary active:bg-primary-active hover:bg-primary-hover',
+    'cursor-pointer ock-bg-primary active:ock-bg-primary-active hover:ock-bg-primary-hover',
   secondary:
-    'cursor-pointer bg-secondary active:bg-secondary-active hover:bg-secondary-hover',
+    'cursor-pointer ock-bg-secondary active:ock-bg-secondary-active hover:ock-bg-secondary-hover',
   shadow: 'shadow-[0px_8px_12px_0px_#5B616E1F]',
   disabled: 'opacity-[0.38]',
 } as const;
 
 export const background = {
-  default: 'bg-default',
-  alternate: 'bg-alternate',
-  inverse: 'bg-inverse',
-  primary: 'bg-primary',
-  secondary: 'bg-secondary',
-  error: 'bg-error',
-  warning: 'bg-warning',
-  success: 'bg-success',
+  default: 'ock-bg-default',
+  alternate: 'ock-bg-alternate',
+  inverse: 'ock-bg-inverse',
+  primary: 'ock-bg-primary',
+  secondary: 'ock-bg-secondary',
+  error: 'ock-bg-error',
+  warning: 'ock-bg-warning',
+  success: 'ock-bg-success',
 } as const;
 
 export const color = {
