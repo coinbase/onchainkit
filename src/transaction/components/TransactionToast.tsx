@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { cn } from '../../styles/theme';
 import type { TransactionToastReact } from '../types';
 import { useTransactionContext } from './TransactionProvider';
@@ -22,6 +22,7 @@ const closeSVG = (
 export function TransactionToast({
   children,
   className,
+  position = 'bottom-center',
 }: TransactionToastReact) {
   const {
     errorMessage,
@@ -36,6 +37,19 @@ export function TransactionToast({
     setIsToastVisible(false);
   }, [setIsToastVisible]);
 
+  const positionClass = useMemo(() => {
+    if (position === 'bottom-right') {
+      return 'bottom-5 left-3/4';
+    }
+    if (position === 'top-right') {
+      return 'top-[100px] left-3/4';
+    }
+    if (position === 'top-center') {
+      return 'top-[100px] left-2/4';
+    }
+    return 'bottom-5 left-2/4';
+  }, []);
+
   if (
     !isToastVisible ||
     (!isLoading && !transactionHash && !errorMessage && status !== 'success')
@@ -48,7 +62,8 @@ export function TransactionToast({
       className={cn(
         'flex animate-enter items-center justify-between rounded-lg',
         'bg-gray-100 p-2 shadow-[0px_8px_24px_0px_rgba(0,0,0,0.12)]',
-        '-translate-x-2/4 fixed bottom-5 left-2/4',
+        '-translate-x-2/4 fixed z-20',
+        positionClass,
         className,
       )}
     >
