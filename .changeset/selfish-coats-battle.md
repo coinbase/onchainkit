@@ -1,8 +1,5 @@
 ---
-"@coinbase/onchainkit": patch
+"@coinbase/onchainkit": minor
 ---
 
--**chore**: Add unit tests for getChainExplorer. By @cpcramer #859
--**chore**: Add tests for convertToNeynarResponseModel. By @cpcramer #862
--**chore**: Add tests for Swap useFromTo. By @cpcramer #863
-
+- **feat**: added the `ock` prefix to the Tailwind configuration to prevent conflicting styles (#852) when using OnchainKit alongside an existing Tailwind setup. By @zizzamia #867
