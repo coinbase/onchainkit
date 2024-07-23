@@ -30,7 +30,7 @@ describe('useFromTo', () => {
   it('should return correct values', () => {
     (useSwapBalances as vi.Mock).mockReturnValue({
       fromBalanceString: '100',
-      fromTokenBalanceError: 'null',
+      fromTokenBalanceError: null,
       toBalanceString: '200',
       toTokenBalanceError: null,
     });
