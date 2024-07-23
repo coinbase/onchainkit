@@ -51,7 +51,7 @@ export function TransactionProvider({
   const handleSubmit = useCallback(() => {
     setErrorMessage('');
     setIsToastVisible(true);
-    
+
     // if multiple contracts then use writeContracts
     // if single contract then use writeContract
     if (contracts.length > 1) {

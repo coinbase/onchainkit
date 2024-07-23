@@ -4,7 +4,9 @@ import { getChainExplorer } from './getChainExplorer';
 
 describe('getChainExplorer', () => {
   it('should return the correct chain explorer for baseSepolia', () => {
-    expect(getChainExplorer(baseSepolia.id)).toBe('https://sepolia.basescan.org');
+    expect(getChainExplorer(baseSepolia.id)).toBe(
+      'https://sepolia.basescan.org',
+    );
   });
 
   it('should return the default chain explorer for other chains', () => {
