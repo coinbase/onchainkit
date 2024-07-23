@@ -40,18 +40,17 @@ export default function TransactionWrapper({
       abi: myNFTABI,
       functionName: 'safeMint',
       args: [address],
-    },
-    {
-      address: myNFTAddress,
-      abi: myNFTABI,
-      functionName: 'safeMint',
-      args: [address],
-    },
+    }
   ];
+
+  function onError(error: Error) {
+    console.error('TransactionWrapper:', error);
+  }
+
   return (
     <main className="flex flex-col">
       <div className="flex max-w-[450px] items-center rounded-lg bg-white p-4">
-        {children({ address, contracts })}
+        {children({ address, contracts, onError })}
       </div>
     </main>
   );
