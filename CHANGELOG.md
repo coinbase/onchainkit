@@ -4,8 +4,8 @@
 
 ### Patch Changes
 
-- a2eae6c: - **feat**: added `TransactionSponsor` component. By @abcrane123 #853
-  - **chore**: updated sliced address to display the first and last 4 characters. By @cpcramer #847
+- **feat**: added `TransactionSponsor` component. By @abcrane123 #853 a2eae6c
+- **chore**: updated sliced address to display the first and last 4 characters. By @cpcramer #847
 
 ## 0.25.6
 
