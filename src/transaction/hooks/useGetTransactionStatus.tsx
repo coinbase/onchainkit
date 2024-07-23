@@ -1,9 +1,9 @@
 import { useMemo } from 'react';
+import type { ReactNode } from 'react';
 import { getChainExplorer } from '../../network/getChainExplorer';
 import { cn, color, text } from '../../styles/theme';
 import { useOnchainKit } from '../../useOnchainKit';
 import { useTransactionContext } from '../components/TransactionProvider';
-import type { ReactNode } from 'react';
 
 export function useGetTransactionStatus() {
   const { errorMessage, isLoading, onSubmit, status, transactionHash } =
