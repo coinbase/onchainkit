@@ -3,6 +3,7 @@ import { cn, color, text } from '../../styles/theme';
 import { useGetETHBalance } from '../../wallet/hooks/useGetETHBalance';
 import type { EthBalanceReact } from '../types';
 import { useIdentityContext } from './IdentityProvider';
+
 export function EthBalance({ address, className }: EthBalanceReact) {
   const { address: contextAddress } = useIdentityContext();
   if (!contextAddress && !address) {

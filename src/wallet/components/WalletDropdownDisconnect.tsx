@@ -1,8 +1,8 @@
 import { useCallback } from 'react';
 import { useConnect, useDisconnect } from 'wagmi';
+import { disconnectSvg } from '../../internal/svg/disconnectSvg';
 import { cn, text as dsText, pressable } from '../../styles/theme';
 import type { WalletDropdownDisconnectReact } from '../types';
-import { disconnectSvg } from './disconnectSvg';
 
 export function WalletDropdownDisconnect({
   className,

@@ -1,7 +1,7 @@
 import { isValidElement, useMemo } from 'react';
+import { walletSvg } from '../../internal/svg/walletSvg';
 import { cn, pressable, text } from '../../styles/theme';
 import type { WalletDropdownLinkReact } from '../types';
-import { walletSvg } from './walletSvg';
 
 export function WalletDropdownLink({
   children,
