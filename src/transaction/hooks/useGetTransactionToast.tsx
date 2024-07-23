@@ -84,7 +84,7 @@ export function useGetTransactionToast() {
         </button>
       );
       icon = errorSVG;
-      label = errorMessage;
+      label = 'Something went wrong';
     }
 
     return { actionElement, icon, label };
