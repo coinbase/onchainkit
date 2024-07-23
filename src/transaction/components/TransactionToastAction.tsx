@@ -7,5 +7,9 @@ export function TransactionToastAction({
 }: TransactionToastActionReact) {
   const { actionElement } = useGetTransactionToast();
 
-  return <div className={cn(text.label1, className)}>{actionElement}</div>;
+  return (
+    <div className={cn(text.label1, 'text-nowrap', className)}>
+      {actionElement}
+    </div>
+  );
 }

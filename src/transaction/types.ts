@@ -90,4 +90,5 @@ export type TransactionToastLabelReact = {
 export type TransactionToastReact = {
   children: ReactNode;
   className?: string;
+  position?: 'top-center' | 'top-right' | 'bottom-center' | 'bottom-right';
 };

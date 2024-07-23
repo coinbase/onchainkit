@@ -30,6 +30,21 @@ export default {
       screens: {
         md: '848px',
       },
+      keyframes: {
+        fadeInRight: {
+          '0%': {
+            opacity: '0',
+            transform: 'translate(2rem)',
+          },
+          '100%': {
+            opacity: '1',
+            transform: 'translate(0)',
+          },
+        },
+      },
+      animation: {
+        enter: 'fadeInRight 500ms ease-out',
+      },
     },
   },
   plugins: [],
