@@ -100,3 +100,18 @@ export default function TransactionComponents() {
     }}
   </TransactionWrapper>
 </AppWithBaseSepolia>
+
+
+## Components
+
+The components are designed to work together hierarchically. For each component, ensure the following:
+
+- `<Transaction />` - Serves as the main container for all transaction-related components.
+- `<TransactionButton />` - Handles the transaction initiation process.
+- `<TransactionStatus />` - Contains transaction status information and actions.
+- `<TransactionStatusLabel />` - Displays the current status of the transaction.
+- `<TransactionStatusAction />` - Provides additional actions based on the transaction status.
+- `<TransactionToast />` - Displays a toast notification for the transaction status.
+- `<TransactionToastIcon />` - Displays an icon in the transaction toast notification.
+- `<TransactionToastLabel />` - Displays the label text in the transaction toast notification.
+- `<TransactionToastAction />` - Provides additional actions within the transaction toast notification.

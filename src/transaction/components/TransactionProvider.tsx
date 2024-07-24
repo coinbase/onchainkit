@@ -1,10 +1,4 @@
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useState,
-} from 'react';
+import { createContext, useCallback, useContext, useState } from 'react';
 import { useValue } from '../../internal/hooks/useValue';
 import { useCallsStatus } from '../hooks/useCallsStatus';
 import { useWriteContracts } from '../hooks/useWriteContracts';
@@ -36,7 +30,6 @@ export function TransactionProvider({
 }: TransactionProviderReact) {
   const [errorMessage, setErrorMessage] = useState('');
   const [transactionId, setTransactionId] = useState('');
-  const [gasFee, setGasFee] = useState('');
   const [isToastVisible, setIsToastVisible] = useState(false);
 
   const { status, writeContracts } = useWriteContracts({
@@ -55,16 +48,10 @@ export function TransactionProvider({
     });
   }, [contracts, writeContracts]);
 
-  useEffect(() => {
-    // TODO: replace with gas estimation call
-    setGasFee('0.03');
-  }, []);
-
   const value = useValue({
     address,
     contracts,
     errorMessage,
-    gasFee,
     isLoading: status === 'pending',
     isToastVisible,
     onSubmit: handleSubmit,
