@@ -1,6 +1,8 @@
-import { render } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import type React from 'react';
-import { describe, expect, it, vi } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { useWriteContract } from '../hooks/useWriteContract';
+import { useWriteContracts } from '../hooks/useWriteContracts';
 import type { TransactionContextType } from '../types';
 import {
   TransactionProvider,
@@ -9,6 +11,7 @@ import {
 
 vi.mock('../hooks/useWriteContracts', () => ({
   useWriteContracts: vi.fn(() => ({ status: 'idle', writeContracts: vi.fn() })),
+  genericErrorMessage: 'Something went wrong. Please try again.',
 }));
 
 vi.mock('../hooks/useWriteContract', () => ({
@@ -27,16 +30,24 @@ vi.mock('../../internal/hooks/useValue', () => ({
   useValue: vi.fn((value) => value),
 }));
 
+const mockUseWriteContracts = vi.mocked(useWriteContracts);
+const mockUseWriteContract = vi.mocked(useWriteContract);
+
 describe('TransactionProvider', () => {
+  let providedContext: TransactionContextType | undefined;
+
+  const TestComponent: React.FC = () => {
+    const context = useTransactionContext();
+    providedContext = context;
+    return null;
+  };
+
+  beforeEach(() => {
+    providedContext = undefined;
+    vi.clearAllMocks();
+  });
+
   it('should provide the transaction context to its children', () => {
-    let providedContext: TransactionContextType | undefined;
-
-    const TestComponent: React.FC = () => {
-      const context = useTransactionContext();
-      providedContext = context;
-      return null;
-    };
-
     render(
       <TransactionProvider address="0x123" contracts={[]} onError={() => {}}>
         <TestComponent />
@@ -55,5 +66,124 @@ describe('TransactionProvider', () => {
       expect(typeof providedContext.setIsToastVisible).toBe('function');
       expect(typeof providedContext.setTransactionId).toBe('function');
     }
+  });
+
+  it('should call writeContracts on onSubmit', async () => {
+    const mockWriteContracts = vi.fn();
+    mockUseWriteContracts.mockReturnValue({
+      status: 'idle',
+      writeContracts: mockWriteContracts,
+    });
+
+    const testContracts = [
+      {
+        abi: [{ name: 'safeMint', inputs: [], outputs: [] }],
+        address: '0x123',
+        functionName: 'safeMint',
+      },
+    ];
+    render(
+      <TransactionProvider
+        address="0x123"
+        contracts={testContracts}
+        onError={() => {}}
+      >
+        <TestComponent />
+      </TransactionProvider>,
+    );
+
+    await providedContext?.onSubmit();
+
+    await waitFor(() => {
+      expect(mockWriteContracts).toHaveBeenCalledWith({
+        contracts: testContracts,
+      });
+    });
+  });
+
+  it('should fallback to writeContract for EOA accounts', async () => {
+    const mockWriteContracts = vi.fn().mockResolvedValue(undefined);
+    const mockWriteContract = vi.fn();
+    mockUseWriteContracts.mockReturnValue({
+      status: 'idle',
+      writeContracts: mockWriteContracts,
+    });
+    mockUseWriteContract.mockReturnValue({
+      status: 'idle',
+      writeContract: mockWriteContract,
+      data: null,
+    });
+
+    const testContracts = [
+      {
+        abi: [{ name: 'safeMint', inputs: [], outputs: [] }],
+        address: '0x123',
+        functionName: 'safeMint',
+      },
+      {
+        abi: [{ name: 'safeMint', inputs: [], outputs: [] }],
+        address: '0x456',
+        functionName: 'safeMint',
+      },
+    ];
+
+    render(
+      <TransactionProvider
+        address="0x123"
+        contracts={testContracts}
+        onError={() => {}}
+      >
+        <TestComponent />
+      </TransactionProvider>,
+    );
+
+    await providedContext?.onSubmit();
+
+    await waitFor(() => {
+      expect(mockWriteContracts).toHaveBeenCalledWith({
+        contracts: testContracts,
+      });
+    });
+
+    await waitFor(() => {
+      expect(mockWriteContract).toHaveBeenCalledTimes(2);
+    });
+
+    await waitFor(() => {
+      expect(mockWriteContract).toHaveBeenNthCalledWith(1, {
+        abi: [{ name: 'safeMint', inputs: [], outputs: [] }],
+        address: '0x123',
+        functionName: 'safeMint',
+      });
+      expect(mockWriteContract).toHaveBeenNthCalledWith(2, {
+        abi: [{ name: 'safeMint', inputs: [], outputs: [] }],
+        address: '0x456',
+        functionName: 'safeMint',
+      });
+    });
+  });
+
+  it('should set error message on failure', async () => {
+    const mockWriteContracts = vi
+      .fn()
+      .mockRejectedValue(new Error('Test error'));
+    mockUseWriteContracts.mockReturnValue({
+      status: 'idle',
+      writeContracts: mockWriteContracts,
+    });
+
+    render(
+      <TransactionProvider address="0x123" contracts={[]} onError={() => {}}>
+        <TestComponent />
+      </TransactionProvider>,
+    );
+
+    await providedContext?.onSubmit();
+
+    await waitFor(() => {
+      expect(providedContext?.errorMessage).toBe(
+        'Something went wrong. Please try again.',
+      );
+    });
   });
 });
