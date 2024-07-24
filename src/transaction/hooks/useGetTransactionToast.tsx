@@ -32,10 +32,6 @@ export function useGetTransactionToast() {
       icon = <Spinner className="px-1.5 py-1.5" />;
       label = 'Transaction in progress';
     }
-    if (status === 'success') {
-      icon = successSvg;
-      label = 'Successful';
-    }
     if (transactionHash) {
       actionElement = (
         <a
@@ -48,6 +44,8 @@ export function useGetTransactionToast() {
           </span>
         </a>
       );
+      icon = successSvg;
+      label = 'Successful';
     }
     if (errorMessage) {
       actionElement = (

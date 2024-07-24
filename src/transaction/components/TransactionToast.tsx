@@ -35,10 +35,7 @@ export function TransactionToast({
     return 'bottom-5 left-2/4';
   }, [position]);
 
-  if (
-    !isToastVisible ||
-    (!isLoading && !transactionHash && !errorMessage && status !== 'success')
-  ) {
+  if (!isToastVisible || (!isLoading && !transactionHash && !errorMessage)) {
     return null;
   }
 

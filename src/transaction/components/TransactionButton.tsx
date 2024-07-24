@@ -7,11 +7,26 @@ export function TransactionButton({
   className,
   text: buttonText = 'Transact',
 }: TransactionButtonReact) {
-  const { address, contracts, isLoading, onSubmit, transactionId } =
-    useTransactionContext();
+  const {
+    address,
+    contracts,
+    errorMessage,
+    isLoading,
+    onSubmit,
+    status,
+    transactionHash,
+    transactionId,
+  } = useTransactionContext();
 
-  // TODO: should disable if transactionId exists ?
   const isDisabled = isLoading || !contracts || !address || transactionId;
+
+  // there is a delay between when txn is confirmed and
+  // call status returns isLoading true so the third
+  // condition here keeps spinner visible during that time
+  const displaySpinner =
+    isLoading ||
+    status === 'pending' ||
+    (transactionId && !transactionHash && !errorMessage);
 
   return (
     <button
@@ -26,7 +41,7 @@ export function TransactionButton({
       onClick={onSubmit}
       type="button"
     >
-      {isLoading ? (
+      {displaySpinner ? (
         <Spinner />
       ) : (
         <span className={cn(text.headline, 'text-inverse')}>{buttonText}</span>

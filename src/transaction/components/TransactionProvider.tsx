@@ -39,13 +39,16 @@ export function TransactionProvider({
   const [gasFee, setGasFee] = useState('');
   const [isToastVisible, setIsToastVisible] = useState(false);
 
-  const { status, writeContracts } = useWriteContracts({
+  const { status: writeContractsStatus, writeContracts } = useWriteContracts({
     onError,
     setErrorMessage,
     setTransactionId,
   });
 
-  const { transactionHash } = useCallsStatus({ onError, transactionId });
+  const { transactionHash, status: callStatus } = useCallsStatus({
+    onError,
+    transactionId,
+  });
 
   const handleSubmit = useCallback(() => {
     setErrorMessage('');
@@ -65,13 +68,13 @@ export function TransactionProvider({
     contracts,
     errorMessage,
     gasFee,
-    isLoading: status === 'pending',
+    isLoading: callStatus === 'PENDING',
     isToastVisible,
     onSubmit: handleSubmit,
     setErrorMessage,
     setIsToastVisible,
     setTransactionId,
-    status,
+    status: writeContractsStatus,
     transactionId,
     transactionHash,
   });
