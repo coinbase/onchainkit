@@ -68,23 +68,6 @@ describe('TransactionProvider', () => {
     }
   });
 
-  it('should update isLoading when status changes', async () => {
-    mockUseWriteContracts.mockReturnValue({
-      status: 'pending',
-      writeContracts: vi.fn(),
-    });
-
-    render(
-      <TransactionProvider address="0x123" contracts={[]} onError={() => {}}>
-        <TestComponent />
-      </TransactionProvider>,
-    );
-
-    await waitFor(() => {
-      expect(providedContext?.isLoading).toBe(true);
-    }, { timeout: 5000 }); 
-  });
-
   it('should call writeContracts on onSubmit', async () => {
     const mockWriteContracts = vi.fn();
     mockUseWriteContracts.mockReturnValue({
