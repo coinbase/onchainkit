@@ -68,7 +68,7 @@ describe('TransactionProvider', () => {
     }
   });
 
-  it('should update isLoading when status changes', () => {
+  it('should update isLoading when status changes', async () => {
     mockUseWriteContracts.mockReturnValue({
       status: 'pending',
       writeContracts: vi.fn(),
@@ -80,7 +80,9 @@ describe('TransactionProvider', () => {
       </TransactionProvider>,
     );
 
-    expect(providedContext?.isLoading).toBe(true);
+    await waitFor(() => {
+      expect(providedContext?.isLoading).toBe(true);
+    });
   });
 
   it('should call writeContracts on onSubmit', async () => {
@@ -103,9 +105,10 @@ describe('TransactionProvider', () => {
 
     await providedContext?.onSubmit();
 
-    expect(mockWriteContracts).toHaveBeenCalledWith({
-      contracts: testContracts,
-    });
+    await waitFor(() => {
+      expect(mockWriteContracts).toHaveBeenCalledWith({
+        contracts: testContracts,
+      });
   });
 
   it('should fallback to writeContract for EOA accounts', async () => {
@@ -134,12 +137,20 @@ describe('TransactionProvider', () => {
 
     await providedContext?.onSubmit();
 
-    expect(mockWriteContracts).toHaveBeenCalledWith({
-      contracts: testContracts,
+    await waitFor(() => {
+      expect(mockWriteContracts).toHaveBeenCalledWith({
+        contracts: testContracts,
+      });
     });
-    expect(mockWriteContract).toHaveBeenCalledTimes(2);
-    expect(mockWriteContract).toHaveBeenNthCalledWith(1, { foo: 'bar' }); // update
-    expect(mockWriteContract).toHaveBeenNthCalledWith(2, { blah: 'test' }); // update
+
+    await waitFor(() => {
+      expect(mockWriteContract).toHaveBeenCalledTimes(2);
+    });
+
+    await waitFor(() => {
+      expect(mockWriteContract).toHaveBeenNthCalledWith(1, { foo: 'bar' }); // update
+      expect(mockWriteContract).toHaveBeenNthCalledWith(2, { blah: 'test' }); // update
+    });
   });
 
   it('should set error message on failure', async () => {
