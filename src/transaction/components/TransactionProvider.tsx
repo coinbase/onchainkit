@@ -1,4 +1,10 @@
-import { createContext, useCallback, useContext, useState } from 'react';
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 import { useValue } from '../../internal/hooks/useValue';
 import { useCallsStatus } from '../hooks/useCallsStatus';
 import { useWriteContract } from '../hooks/useWriteContract';
@@ -31,6 +37,7 @@ export function TransactionProvider({
   children,
   contracts,
   onError,
+  onSuccess,
 }: TransactionProviderReact) {
   const [errorMessage, setErrorMessage] = useState('');
   const [transactionId, setTransactionId] = useState('');
@@ -86,6 +93,13 @@ export function TransactionProvider({
       setErrorMessage(genericErrorMessage);
     }
   }, [contracts, writeContracts, fallbackToWriteContract]);
+
+  useEffect(() => {
+    const txnHash = transactionHash || writeContractTransactionHash;
+    if (txnHash) {
+      onSuccess?.({ transactionHash: txnHash });
+    }
+  }, [transactionHash, writeContractTransactionHash]);
 
   const value = useValue({
     address,

@@ -47,10 +47,14 @@ export default function TransactionWrapper({
     console.error('TransactionWrapper:', error);
   }
 
+  function onSuccess(response: any) {
+    console.log('TransactionWrapperSuccessHandler', response)
+  }
+
   return (
     <main className="flex flex-col">
       <div className="flex max-w-[450px] items-center rounded-lg bg-white p-4">
-        {children({ address, contracts, onError })}
+        {children({ address, contracts, onError, onSuccess })}
       </div>
     </main>
   );

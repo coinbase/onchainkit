@@ -8,12 +8,14 @@ export function Transaction({
   children,
   contracts,
   onError,
+  onSuccess,
 }: TransactionReact) {
   return (
     <TransactionProvider
       address={address}
       contracts={contracts}
       onError={onError}
+      onSuccess={onSuccess}
     >
       <div className={cn(className, 'flex w-full flex-col gap-2')}>
         {children}
