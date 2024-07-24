@@ -241,6 +241,10 @@ export const sidebar = [
           },
         ],
       },
+      {
+        text: 'Types',
+        link: '/transaction/types',
+      },
     ],
     link: '/transaction/transaction',
   },

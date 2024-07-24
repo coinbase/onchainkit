@@ -13,7 +13,6 @@ export type TransactionContextType = {
   errorMessage?: string;
   isLoading: boolean;
   isToastVisible: boolean;
-  gasFee?: string;
   onSubmit: () => void;
   setErrorMessage: (error: string) => void;
   setIsToastVisible: (isVisible: boolean) => void;
@@ -31,10 +30,6 @@ export type TransactionError = {
   error: string; // The error message
 };
 
-export type TransactionErrorState = {
-  TransactionError?: TransactionError;
-};
-
 /**
  * Note: exported as public Type
  */
@@ -44,10 +39,6 @@ export type TransactionReact = {
   className?: string;
   contracts: ContractFunctionParameters[];
   onError?: (e: TransactionError) => void;
-};
-
-export type TransactionMessageReact = {
-  className?: string;
 };
 
 export type TransactionProviderReact = {
