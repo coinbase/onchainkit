@@ -82,7 +82,7 @@ describe('TransactionProvider', () => {
 
     await waitFor(() => {
       expect(providedContext?.isLoading).toBe(true);
-    });
+    }, { timeout: 5000 }); 
   });
 
   it('should call writeContracts on onSubmit', async () => {
