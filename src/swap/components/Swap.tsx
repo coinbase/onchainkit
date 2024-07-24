@@ -32,7 +32,7 @@ export function Swap({
   }, [children]);
 
   return (
-    <SwapProvider address={address} useAggregator={experimental?.useAggregator}>
+    <SwapProvider address={address} experimental={experimental}>
       <div
         className={cn(
           background.default,

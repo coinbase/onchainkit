@@ -36,12 +36,17 @@ export function useSwapContext() {
 export function SwapProvider({
   address,
   children,
-  useAggregator,
+  experimental,
 }: {
   address: Address;
   children: React.ReactNode;
-  useAggregator: boolean;
+  experimental: {
+    useAggregator: boolean; // Whether to use a DEX aggregator. (default: true)
+  };
 }) {
+  // Feature flags
+  const { useAggregator } = experimental;
+
   const [loading, setLoading] = useState(false);
   const [isTransactionPending, setPendingTransaction] = useState(false);
 
