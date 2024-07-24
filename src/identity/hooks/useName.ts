@@ -5,6 +5,7 @@ import type {
   UseNameQueryOptions,
 } from '../types';
 import { getName } from '../utils/getName';
+import { mainnet } from 'viem/chains';
 
 /**
  * It leverages the `@tanstack/react-query` hook for fetching and optionally caching the ENS name
@@ -13,12 +14,11 @@ import { getName } from '../utils/getName';
  *  - `{UseQueryResult}`: The rest of useQuery return values. including isLoading, isError, error, isFetching, refetch, etc.
  */
 export const useName = (
-  { address, chain }: UseNameOptions,
+  { address, chain = mainnet }: UseNameOptions,
   queryOptions?: UseNameQueryOptions,
 ) => {
   const { enabled = true, cacheTime } = queryOptions ?? {};
-  const chainActionKey = chain ? chain.id : 'default-chain';
-  const ensActionKey = `ens-name-${address}-${chainActionKey}`;
+  const ensActionKey = `ens-name-${address}-${chain.id}`;
   return useQuery<GetNameReturnType>({
     queryKey: ['useName', ensActionKey],
     queryFn: async () => {
