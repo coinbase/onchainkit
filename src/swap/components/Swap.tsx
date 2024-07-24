@@ -10,7 +10,7 @@ import { SwapToggleButton } from './SwapToggleButton';
 // istanbul ignore next
 export function Swap({
   address,
-  experimental = new Map<string, boolean>(),
+  experimental = { useAggregator: true },
   children,
   title = 'Swap',
   className,
@@ -32,10 +32,7 @@ export function Swap({
   }, [children]);
 
   return (
-    <SwapProvider
-      address={address}
-      useAggregator={experimental.get('useAggregators') || true}
-    >
+    <SwapProvider address={address} useAggregator={experimental?.useAggregator}>
       <div
         className={cn(
           background.default,

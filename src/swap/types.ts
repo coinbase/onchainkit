@@ -199,7 +199,9 @@ export type SwapReact = {
   address: Address; // Connected address from connector.
   children: ReactNode;
   className?: string; // Optional className override for top div element.
-  experimental?: Map<string, boolean>; // Experimental features
+  experimental?: {
+    useAggregator: boolean; // Whether to use a DEX aggregator. (default: true)
+  };
   title?: string; // Title for the Swap component. (default: "Swap")
 };
 
