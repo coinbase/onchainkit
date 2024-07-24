@@ -14,7 +14,7 @@ type TransactionButtonReact = {
 };
 ```
 
-## `TransactionContext`
+## `TransactionContextType`
 
 ```ts
 type TransactionContextType = {
@@ -42,6 +42,17 @@ type TransactionError = {
 };
 ```
 
+## `TransactionProviderReact`
+
+```ts
+type TransactionProviderReact = {
+  address: Address; // The wallet address to be provided to child components.
+  children: ReactNode; // The child components to be rendered within the provider component.
+  contracts: ContractFunctionParameters[]; // An array of contract function parameters provided to the child components.
+  onError?: (e: TransactionError) => void; // An optional callback function that handles errors within the provider.
+};
+```
+
 ## `TransactionReact`
 
 ```ts
@@ -51,17 +62,6 @@ type TransactionReact = {
   className?: string; // An optional CSS class name for styling the component.
   contracts: ContractFunctionParameters[]; // An array of contract function parameters for the transaction.
   onError?: (e: TransactionError) => void; // An optional callback function that handles transaction errors.
-};
-```
-
-## `TransactionProviderReact`
-
-```ts
-type TransactionProviderReact = {
-  address: Address; // The wallet address to be provided to child components.
-  children: ReactNode; // The child components to be rendered within the provider component.
-  contracts: ContractFunctionParameters[]; // An array of contract function parameters provided to the child components.
-  onError?: (e: TransactionError) => void; // An optional callback function that handles errors within the provider.
 };
 ```
 
