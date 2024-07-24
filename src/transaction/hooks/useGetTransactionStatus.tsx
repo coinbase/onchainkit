@@ -6,8 +6,14 @@ import { useOnchainKit } from '../../useOnchainKit';
 import { useTransactionContext } from '../components/TransactionProvider';
 
 export function useGetTransactionStatus() {
-  const { errorMessage, isLoading, onSubmit, status, transactionHash } =
-    useTransactionContext();
+  const {
+    errorMessage,
+    isLoading,
+    onSubmit,
+    status,
+    transactionHash,
+    transactionId,
+  } = useTransactionContext();
   const { chain } = useOnchainKit();
 
   return useMemo(() => {
@@ -17,7 +23,11 @@ export function useGetTransactionStatus() {
     let label = '';
     let labelClassName: string = color.foregroundMuted;
 
-    if (isLoading) {
+    if (status === 'pending') {
+      label = 'Confirm in wallet.';
+    }
+
+    if (isLoading || (transactionId && !transactionHash)) {
       label = 'Transaction in progress...';
       // TODO: add back when have correct link
       // actionElement = (
@@ -27,9 +37,6 @@ export function useGetTransactionStatus() {
       //     </span>
       //   </a>
       // );
-    }
-    if (status === 'success') {
-      label = 'Successful';
     }
     if (transactionHash) {
       actionElement = (
@@ -43,6 +50,7 @@ export function useGetTransactionStatus() {
           </span>
         </a>
       );
+      label = 'Successful';
     }
     if (errorMessage) {
       label = errorMessage;
@@ -55,5 +63,13 @@ export function useGetTransactionStatus() {
     }
 
     return { actionElement, label, labelClassName };
-  }, [chain, errorMessage, isLoading, onSubmit, status, transactionHash]);
+  }, [
+    chain,
+    errorMessage,
+    isLoading,
+    onSubmit,
+    status,
+    transactionHash,
+    transactionId,
+  ]);
 }

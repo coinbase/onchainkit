@@ -52,7 +52,10 @@ export function TransactionProvider({
     setTransactionId,
   });
 
-  const { transactionHash } = useCallsStatus({ onError, transactionId });
+  const { transactionHash, status: callStatus } = useCallsStatus({
+    onError,
+    transactionId,
+  });
 
   const fallbackToWriteContract = useCallback(async () => {
     // EOAs don't support batching, so we process contracts individually.
@@ -88,8 +91,7 @@ export function TransactionProvider({
     address,
     contracts,
     errorMessage,
-    isLoading:
-      statusWriteContract === 'pending' || statusWriteContracts === 'pending',
+    isLoading: callStatus === 'PENDING',
     isToastVisible,
     onSubmit: handleSubmit,
     setErrorMessage,

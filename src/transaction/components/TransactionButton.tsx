@@ -1,17 +1,33 @@
 import { Spinner } from '../../internal/components/Spinner';
 import { background, cn, pressable, text } from '../../styles/theme';
 import type { TransactionButtonReact } from '../types';
+import { isSpinnerDisplayed } from '../utils';
 import { useTransactionContext } from './TransactionProvider';
 
 export function TransactionButton({
   className,
   text: buttonText = 'Transact',
 }: TransactionButtonReact) {
-  const { address, contracts, isLoading, onSubmit, transactionId } =
-    useTransactionContext();
+  const {
+    address,
+    contracts,
+    errorMessage,
+    isLoading,
+    onSubmit,
+    status,
+    transactionHash,
+    transactionId,
+  } = useTransactionContext();
 
-  // TODO: should disable if transactionId exists ?
   const isDisabled = isLoading || !contracts || !address || transactionId;
+
+  const displaySpinner = isSpinnerDisplayed({
+    errorMessage,
+    isLoading,
+    status,
+    transactionHash,
+    transactionId,
+  });
 
   return (
     <button
@@ -26,7 +42,7 @@ export function TransactionButton({
       onClick={onSubmit}
       type="button"
     >
-      {isLoading ? (
+      {displaySpinner ? (
         <Spinner />
       ) : (
         <span className={cn(text.headline, 'text-inverse')}>{buttonText}</span>

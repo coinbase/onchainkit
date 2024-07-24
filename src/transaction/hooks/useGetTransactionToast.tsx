@@ -9,7 +9,7 @@ import { useOnchainKit } from '../../useOnchainKit';
 import { useTransactionContext } from '../components/TransactionProvider';
 
 export function useGetTransactionToast() {
-  const { errorMessage, isLoading, onSubmit, status, transactionHash } =
+  const { errorMessage, isLoading, onSubmit, transactionHash } =
     useTransactionContext();
   const { chain } = useOnchainKit();
 
@@ -32,10 +32,6 @@ export function useGetTransactionToast() {
       icon = <Spinner className="px-1.5 py-1.5" />;
       label = 'Transaction in progress';
     }
-    if (status === 'success') {
-      icon = successSvg;
-      label = 'Successful';
-    }
     if (transactionHash) {
       actionElement = (
         <a
@@ -48,6 +44,8 @@ export function useGetTransactionToast() {
           </span>
         </a>
       );
+      icon = successSvg;
+      label = 'Successful';
     }
     if (errorMessage) {
       actionElement = (
@@ -60,5 +58,5 @@ export function useGetTransactionToast() {
     }
 
     return { actionElement, icon, label };
-  }, [chain, errorMessage, isLoading, onSubmit, status, transactionHash]);
+  }, [chain, errorMessage, isLoading, onSubmit, transactionHash]);
 }
