@@ -75,7 +75,13 @@ describe('TransactionProvider', () => {
       writeContracts: mockWriteContracts,
     });
 
-    const testContracts = [{ foo: 'bar' }]; // TODO: Update to more realistic values
+    const testContracts = [
+      {
+        abi: [{ name: 'safeMint', inputs: [], outputs: [] }],
+        address: '0x123',
+        functionName: 'safeMint',
+      },
+    ];
     render(
       <TransactionProvider
         address="0x123"
@@ -108,7 +114,19 @@ describe('TransactionProvider', () => {
       data: null,
     });
 
-    const testContracts = [{ foo: 'bar' }, { blah: 'test' }]; // Get real data
+    const testContracts = [
+      {
+        abi: [{ name: 'safeMint', inputs: [], outputs: [] }],
+        address: '0x123',
+        functionName: 'safeMint',
+      },
+      {
+        abi: [{ name: 'safeMint', inputs: [], outputs: [] }],
+        address: '0x456',
+        functionName: 'safeMint',
+      },
+    ];
+
     render(
       <TransactionProvider
         address="0x123"
@@ -132,8 +150,16 @@ describe('TransactionProvider', () => {
     });
 
     await waitFor(() => {
-      expect(mockWriteContract).toHaveBeenNthCalledWith(1, { foo: 'bar' }); // update
-      expect(mockWriteContract).toHaveBeenNthCalledWith(2, { blah: 'test' }); // update
+      expect(mockWriteContract).toHaveBeenNthCalledWith(1, {
+        abi: [{ name: 'safeMint', inputs: [], outputs: [] }],
+        address: '0x123',
+        functionName: 'safeMint',
+      });
+      expect(mockWriteContract).toHaveBeenNthCalledWith(2, {
+        abi: [{ name: 'safeMint', inputs: [], outputs: [] }],
+        address: '0x456',
+        functionName: 'safeMint',
+      });
     });
   });
 
