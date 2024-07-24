@@ -126,7 +126,7 @@ export function SwapAmountInput({
               data-testid="ockSwapAmountInput_MaxButton"
               onClick={handleMaxButtonClick}
             >
-              <span className={cn(text.label1, 'text-primary')}>Max</span>
+              <span className={cn(text.label1, color.primary)}>Max</span>
             </button>
           )}
         </div>
