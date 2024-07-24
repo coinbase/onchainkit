@@ -1,5 +1,5 @@
 ---
-"@coinbase/onchainkit": minor
+"@coinbase/onchainkit": patch
 ---
 
--**feat**: Add EOA account support to Transaction Component. By @cpcramer #866
+- **feat**: added EOA account support to `Transaction` component. By @cpcramer #866
