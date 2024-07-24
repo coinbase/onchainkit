@@ -14,7 +14,6 @@ export function TransactionToast({
     isLoading,
     isToastVisible,
     setIsToastVisible,
-    status,
     transactionHash,
   } = useTransactionContext();
 
