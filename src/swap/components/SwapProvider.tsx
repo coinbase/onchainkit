@@ -126,7 +126,7 @@ export function SwapProvider({
         destination.setLoading(false);
       }
     },
-    [from, to, handleError],
+    [aggregator, from, to, handleError],
   );
 
   const handleSubmit = useCallback(
@@ -188,6 +188,7 @@ export function SwapProvider({
     },
     [
       address,
+      aggregator,
       config,
       handleError,
       from.amount,
