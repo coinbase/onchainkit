@@ -12,8 +12,10 @@ import TransactionWrapper from '../../components/TransactionWrapper';
 
 # `<Transaction />`
 
-The `<Transaction />` component is a high-level component that wraps the entire transaction flow. 
+The `<Transaction />` components provide a high-level wrap around the entire transaction flow. 
 It handles the transaction lifecycle, including gas estimation, fee sponsorship, and status updates.
+
+Before using them, ensure you've completed all [Getting Started steps](/getting-started).
 
 :::danger
 Component is not shipped yet. Stay tuned for upcoming releases.
@@ -115,3 +117,20 @@ The components are designed to work together hierarchically. For each component,
 - `<TransactionToastIcon />` - Displays an icon in the transaction toast notification.
 - `<TransactionToastLabel />` - Displays the label text in the transaction toast notification.
 - `<TransactionToastAction />` - Provides additional actions within the transaction toast notification.
+
+## Props
+
+- [`TransactionButtonReact`](/transaction/types#transactionbuttonreact)
+- [`TransactionContextType`](/transaction/types#transactioncontexttype)
+- [`TransactionError`](/transaction/types#transactionerror)
+- [`TransactionProviderReact`](/transaction/types#transactionproviderreact)
+- [`TransactionReact`](/transaction/types#transactionreact)
+- [`TransactionSponsorReact`](/transaction/types#transactionsponsorreact)
+- [`TransactionStatusReact`](/transaction/types#transactionstatusreact)
+- [`TransactionStatusActionReact`](/transaction/types#transactionstatusactionreact)
+- [`TransactionStatusLabelReact`](/transaction/types#transactionstatuslabelreact)
+- [`TransactionToastReact`](/transaction/types#transactiontoastreact)
+- [`TransactionToastActionReact`](/transaction/types#transactiontoastactionreact)
+- [`TransactionToastIconReact`](/transaction/types#transactiontoasticonreact)
+- [`TransactionToastLabelReact`](/transaction/types#transactiontoastlabelreact)
+```

@@ -99,6 +99,16 @@ type TransactionStatusLabelReact = {
 };
 ```
 
+## `TransactionToastReact`
+
+```ts
+type TransactionToastReact = {
+  children: ReactNode; // The child components to be rendered within the toast component.
+  className?: string; // An optional CSS class name for styling the toast component.
+  position?: 'top-center' | 'top-right' | 'bottom-center' | 'bottom-right'; // An optional position property to specify the toast's position on the screen.
+};
+```
+
 ## `TransactionToastActionReact`
 
 ```ts
@@ -120,15 +130,5 @@ type TransactionToastIconReact = {
 ```ts
 type TransactionToastLabelReact = {
   className?: string; // An optional CSS class name for styling.
-};
-```
-
-## `TransactionToastReact`
-
-```ts
-type TransactionToastReact = {
-  children: ReactNode; // The child components to be rendered within the toast component.
-  className?: string; // An optional CSS class name for styling the toast component.
-  position?: 'top-center' | 'top-right' | 'bottom-center' | 'bottom-right'; // An optional position property to specify the toast's position on the screen.
 };
 ```
