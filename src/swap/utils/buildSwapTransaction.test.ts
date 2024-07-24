@@ -41,7 +41,7 @@ describe('buildSwapTransaction', () => {
 
   it('should return a swap', async () => {
     const mockParams = {
-      aggregator: true,
+      useAggregator: true,
       fromAddress: testFromAddress as `0x${string}`,
       amountReference: testAmountReference,
       from: ETH,
@@ -144,7 +144,7 @@ describe('buildSwapTransaction', () => {
 
   it('should return a swap with an approve transaction', async () => {
     const mockParams = {
-      aggregator: true,
+      useAggregator: true,
       fromAddress: testFromAddress as `0x${string}`,
       amountReference: testAmountReference,
       from: DEGEN,
@@ -254,7 +254,7 @@ describe('buildSwapTransaction', () => {
 
   it('should return an error if sendRequest fails', async () => {
     const mockParams = {
-      aggregator: true,
+      useAggregator: true,
       fromAddress: testFromAddress as `0x${string}`,
       amountReference: testAmountReference,
       from: ETH,
@@ -282,7 +282,7 @@ describe('buildSwapTransaction', () => {
 
   it('should return an error object from buildSwapTransaction', async () => {
     const mockParams = {
-      aggregator: true,
+      useAggregator: true,
       fromAddress: testFromAddress as `0x${string}`,
       amountReference: testAmountReference,
       from: ETH,

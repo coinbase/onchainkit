@@ -25,7 +25,7 @@ export async function buildSwapTransaction(
 
   let apiParams = getAPIParamsForToken({ ...defaultParams, ...params });
 
-  if (!params.aggregator) {
+  if (!params.useAggregator) {
     apiParams = {
       v2Enabled: true,
       ...apiParams,
