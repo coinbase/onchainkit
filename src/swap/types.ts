@@ -75,6 +75,9 @@ export type GetSwapMessageParams = {
   from: SwapUnit;
 };
 
+/**
+ * Note: exported as public Type
+ */
 export type QuoteWarning = {
   description?: string; // The description of the warning
   message?: string; // The message of the warning
@@ -94,12 +97,12 @@ export type RawTransactionData = {
  * Note: exported as public Type
  */
 export type SwapAmountInputReact = {
+  className?: string; // Optional className override for top div element.
   delayMs?: number; // The debounce delay in milliseconds
   label: string; // Descriptive label for the input field
   swappableTokens?: Token[]; // Swappable tokens
   token?: Token; // Selected token
   type: 'to' | 'from'; // Identifies if component is for toToken or fromToken
-  className?: string; // Optional className override for top div element.
 };
 
 export type SwapAPIParams = GetQuoteAPIParams | GetSwapAPIParams;
@@ -116,8 +119,8 @@ export type SwapAPIResponse = {
  * Note: exported as public Type
  */
 export type SwapButtonReact = {
-  disabled?: boolean; // Disables swap button
   className?: string; // Optional className override for top div element.
+  disabled?: boolean; // Disables swap button
   onError?: (error: SwapError) => void; // Callback function for error
   onSuccess?: (txReceipt: TransactionReceipt) => void | Promise<void>; // Callback function for success
 };
@@ -161,6 +164,13 @@ export type SwapLoadingState = {
 /**
  * Note: exported as public Type
  */
+export type SwapMessageReact = {
+  className?: string; // Optional className override for top div element.
+};
+
+/**
+ * Note: exported as public Type
+ */
 export type SwapQuote = {
   amountReference: string; // The reference amount for the quote
   from: Token; // The source token for the swap
@@ -186,15 +196,15 @@ export type SwapParams = {
 export type SwapReact = {
   address: Address; // Connected address from connector.
   children: ReactNode;
-  title?: string; // Title for the Swap component. (default: "Swap")
   className?: string; // Optional className override for top div element.
+  title?: string; // Title for the Swap component. (default: "Swap")
 };
 
 /**
  * Note: exported as public Type
  */
-export type SwapMessageReact = {
-  className?: string;
+export type SwapToggleButtonReact = {
+  className?: string; // Optional className override for top div element.
 };
 
 export type SwapUnit = {
@@ -206,13 +216,6 @@ export type SwapUnit = {
   setLoading: Dispatch<SetStateAction<boolean>>;
   setToken: Dispatch<SetStateAction<Token | undefined>>;
   token: Token | undefined;
-};
-
-/**
- * Note: exported as public Type
- */
-export type SwapToggleButtonReact = {
-  className?: string;
 };
 
 /**

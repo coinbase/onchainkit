@@ -9,18 +9,12 @@ description: Glossary of Types in Swap components & utilities.
 
 ```ts
 type BuildSwapTransaction = {
-  approveTransaction?: Transaction; // The approval transaction (https://metaschool.so/articles/what-are-erc20-approve-erc20-allowance-methods/)
+  approveTransaction?: Transaction; //  // The approval transaction (https://metaschool.so/articles/what-are-erc20-approve-erc20-allowance-methods/)
   fee: Fee; // The fee for the swap
   quote: SwapQuote; // The quote for the swap
   transaction: Transaction; // The object developers should pass into Wagmi's signTransaction
   warning?: QuoteWarning; // The warning associated with the swap
 };
-```
-
-## `BuildSwapTransactionResponse`
-
-```ts
-type BuildSwapTransactionResponse = BuildSwapTransaction | SwapError;
 ```
 
 ## `BuildSwapTransactionParams`
@@ -34,6 +28,12 @@ type BuildSwapTransactionParams = {
   amountReference?: string; // The reference amount for the swap
   isAmountInDecimals?: boolean; // Whether the amount is in decimals
 };
+```
+
+## `BuildSwapTransactionResponse`
+
+```ts
+type BuildSwapTransactionResponse = BuildSwapTransaction | SwapError;
 ```
 
 ## `Fee`
@@ -64,14 +64,6 @@ type GetSwapQuoteParams = {
 type GetSwapQuoteResponse = SwapQuote | SwapError;
 ```
 
-# `SwapMessageReact`
-
-```ts
-type SwapMessageReact = {
-  className?: string; // Optional className override for top div element.
-};
-```
-
 ## `QuoteWarning`
 ```ts
 type QuoteWarning = {
@@ -88,8 +80,8 @@ type SwapAmountInputReact = {
   className?: string; // Optional className override for top div element.
   delayMs?: number; // The debounce delay in milliseconds
   label: string; // Descriptive label for the input field
-  swappableTokens?: Token[];  // Swappable tokens
-  token: Token; // Selected token
+  swappableTokens?: Token[]; // Swappable tokens
+  token?: Token; // Selected token
   type: 'to' | 'from'; // Identifies if component is for toToken or fromToken
 };
 ```
@@ -100,6 +92,8 @@ type SwapAmountInputReact = {
 type SwapButtonReact = {
   className?: string; // Optional className override for top div element.
   disabled?: boolean; // Disables swap button
+  onError?: (error: SwapError) => void; // Callback function for error
+  onSuccess?: (txReceipt: TransactionReceipt) => void | Promise<void>; // Callback function for success
 };
 ```
 
@@ -109,6 +103,14 @@ type SwapButtonReact = {
 type SwapError = {
   code: string; // The error code
   error: string; // The error message
+};
+```
+
+# `SwapMessageReact`
+
+```ts
+type SwapMessageReact = {
+  className?: string; // Optional className override for top div element.
 };
 ```
 
@@ -133,9 +135,9 @@ type SwapQuote = {
 ```ts
 type SwapReact = {
   address: Address; // Connected address from connector.
-  children: ReactNode; // Children components to render
-  title?: string; // Title for the Swap component. (default: "Swap")
+  children: ReactNode;
   className?: string; // Optional className override for top div element.
+  title?: string; // Title for the Swap component. (default: "Swap")
 };
 ```
 
@@ -143,7 +145,7 @@ type SwapReact = {
 
 ```ts
 type SwapToggleButtonReact = {
-  className?: string;
+  className?: string; // Optional className override for top div element.
 };
 ```
 
