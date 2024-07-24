@@ -15,7 +15,7 @@ import { getSwapTransaction } from './getSwapTransaction';
  * Retrieves an unsigned transaction for a swap from Token A to Token B.
  */
 export async function buildSwapTransaction(
-  params: BuildSwapTransactionParams
+  params: BuildSwapTransactionParams,
 ): Promise<BuildSwapTransactionResponse> {
   // Default parameters
   const defaultParams = {
@@ -35,7 +35,7 @@ export async function buildSwapTransaction(
   try {
     const res = await sendRequest<SwapAPIParams, SwapAPIResponse>(
       CDP_GET_SWAP_TRADE,
-      [apiParams]
+      [apiParams],
     );
     if (res.error) {
       return {
