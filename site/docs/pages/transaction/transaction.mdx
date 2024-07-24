@@ -78,10 +78,10 @@ export default function TransactionComponents() {
 
 <AppWithBaseSepolia>
   <TransactionWrapper>
-    {({ address, contracts, onError }) => {
+    {({ address, contracts, onError, onSuccess }) => {
       if (address) {
         return (
-          <Transaction address={address} contracts={contracts} onError={onError}>
+          <Transaction address={address} contracts={contracts} onError={onError} onSuccess={onSuccess}>
             <TransactionButton />
             <TransactionStatus>
               <TransactionStatusLabel />
