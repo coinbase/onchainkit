@@ -35,10 +35,12 @@ export function useSwapContext() {
 
 export function SwapProvider({
   address,
+  aggregator,
   children,
 }: {
-  children: React.ReactNode;
   address: Address;
+  aggregator: boolean;
+  children: React.ReactNode;
 }) {
   const [loading, setLoading] = useState(false);
   const [isTransactionPending, setPendingTransaction] = useState(false);
@@ -99,6 +101,7 @@ export function SwapProvider({
 
       try {
         const response = await getSwapQuote({
+          aggregator,
           from: source.token,
           to: destination.token,
           amount,
@@ -141,6 +144,7 @@ export function SwapProvider({
 
       try {
         const response = await buildSwapTransaction({
+          aggregator,
           amount: from.amount,
           fromAddress: address,
           from: from.token,

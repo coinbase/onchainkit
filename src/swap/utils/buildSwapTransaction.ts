@@ -23,7 +23,14 @@ export async function buildSwapTransaction(
     isAmountInDecimals: false,
   };
 
-  const apiParams = getAPIParamsForToken({ ...defaultParams, ...params });
+  var apiParams = getAPIParamsForToken({ ...defaultParams, ...params });
+
+  if (!params.aggregator) {
+    apiParams = {
+      v2Enabled: true,
+      ...apiParams,
+    };
+  }
 
   try {
     const res = await sendRequest<SwapAPIParams, SwapAPIResponse>(

@@ -10,6 +10,7 @@ import { SwapToggleButton } from './SwapToggleButton';
 // istanbul ignore next
 export function Swap({
   address,
+  aggregator = true,
   children,
   title = 'Swap',
   className,
@@ -31,7 +32,7 @@ export function Swap({
   }, [children]);
 
   return (
-    <SwapProvider address={address}>
+    <SwapProvider address={address} aggregator={aggregator}>
       <div
         className={cn(
           background.default,
