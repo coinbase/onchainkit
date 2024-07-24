@@ -1,11 +1,11 @@
 import { useQuery } from '@tanstack/react-query';
+import { mainnet } from 'viem/chains';
 import type {
   GetNameReturnType,
   UseNameOptions,
   UseNameQueryOptions,
 } from '../types';
 import { getName } from '../utils/getName';
-import { mainnet } from 'viem/chains';
 
 /**
  * It leverages the `@tanstack/react-query` hook for fetching and optionally caching the ENS name
