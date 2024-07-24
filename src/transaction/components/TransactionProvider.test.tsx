@@ -109,71 +109,72 @@ describe('TransactionProvider', () => {
       expect(mockWriteContracts).toHaveBeenCalledWith({
         contracts: testContracts,
       });
-  });
-
-  it('should fallback to writeContract for EOA accounts', async () => {
-    const mockWriteContracts = vi.fn().mockResolvedValue(undefined);
-    const mockWriteContract = vi.fn();
-    mockUseWriteContracts.mockReturnValue({
-      status: 'idle',
-      writeContracts: mockWriteContracts,
-    });
-    mockUseWriteContract.mockReturnValue({
-      status: 'idle',
-      writeContract: mockWriteContract,
-      data: null,
     });
 
-    const testContracts = [{ foo: 'bar' }, { blah: 'test' }]; // Get real data
-    render(
-      <TransactionProvider
-        address="0x123"
-        contracts={testContracts}
-        onError={() => {}}
-      >
-        <TestComponent />
-      </TransactionProvider>,
-    );
+    it('should fallback to writeContract for EOA accounts', async () => {
+      const mockWriteContracts = vi.fn().mockResolvedValue(undefined);
+      const mockWriteContract = vi.fn();
+      mockUseWriteContracts.mockReturnValue({
+        status: 'idle',
+        writeContracts: mockWriteContracts,
+      });
+      mockUseWriteContract.mockReturnValue({
+        status: 'idle',
+        writeContract: mockWriteContract,
+        data: null,
+      });
 
-    await providedContext?.onSubmit();
+      const testContracts = [{ foo: 'bar' }, { blah: 'test' }]; // Get real data
+      render(
+        <TransactionProvider
+          address="0x123"
+          contracts={testContracts}
+          onError={() => {}}
+        >
+          <TestComponent />
+        </TransactionProvider>,
+      );
 
-    await waitFor(() => {
-      expect(mockWriteContracts).toHaveBeenCalledWith({
-        contracts: testContracts,
+      await providedContext?.onSubmit();
+
+      await waitFor(() => {
+        expect(mockWriteContracts).toHaveBeenCalledWith({
+          contracts: testContracts,
+        });
+      });
+
+      await waitFor(() => {
+        expect(mockWriteContract).toHaveBeenCalledTimes(2);
+      });
+
+      await waitFor(() => {
+        expect(mockWriteContract).toHaveBeenNthCalledWith(1, { foo: 'bar' }); // update
+        expect(mockWriteContract).toHaveBeenNthCalledWith(2, { blah: 'test' }); // update
       });
     });
 
-    await waitFor(() => {
-      expect(mockWriteContract).toHaveBeenCalledTimes(2);
-    });
+    it('should set error message on failure', async () => {
+      const mockWriteContracts = vi
+        .fn()
+        .mockRejectedValue(new Error('Test error'));
+      mockUseWriteContracts.mockReturnValue({
+        status: 'idle',
+        writeContracts: mockWriteContracts,
+      });
 
-    await waitFor(() => {
-      expect(mockWriteContract).toHaveBeenNthCalledWith(1, { foo: 'bar' }); // update
-      expect(mockWriteContract).toHaveBeenNthCalledWith(2, { blah: 'test' }); // update
-    });
-  });
-
-  it('should set error message on failure', async () => {
-    const mockWriteContracts = vi
-      .fn()
-      .mockRejectedValue(new Error('Test error'));
-    mockUseWriteContracts.mockReturnValue({
-      status: 'idle',
-      writeContracts: mockWriteContracts,
-    });
-
-    render(
-      <TransactionProvider address="0x123" contracts={[]} onError={() => {}}>
-        <TestComponent />
-      </TransactionProvider>,
-    );
-
-    await providedContext?.onSubmit();
-
-    await waitFor(() => {
-      expect(providedContext?.errorMessage).toBe(
-        'Something went wrong. Please try again.',
+      render(
+        <TransactionProvider address="0x123" contracts={[]} onError={() => {}}>
+          <TestComponent />
+        </TransactionProvider>,
       );
+
+      await providedContext?.onSubmit();
+
+      await waitFor(() => {
+        expect(providedContext?.errorMessage).toBe(
+          'Something went wrong. Please try again.',
+        );
+      });
     });
   });
 });
