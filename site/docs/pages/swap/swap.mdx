@@ -10,13 +10,6 @@ The `Swap` components provide a comprehensive interface for users to execute [To
 
 Before using them, ensure you've completed all [Getting Started steps](/getting-started).
 
-The components are designed to work together. For each component, ensure the following:
-- `<Swap />` - Set the user's address and error handling.
-- `<SwapAmountInput />` - Set the [Token](/token/types#token) to swap and specify the input type (`from` or `to`).
-- `<SwapToggleButton />` - Optional component to toggle between input types.
-- `<SwapMessage />` - Optional component that displays a message related to the swap operation's current state.
-- `<SwapButton />` - Set the onSuccess and onError callbacks.
-
 ## Usage
 
 Example using `@coinbase/onchainkit/swap` and `@coinbase/onchainkit/wallet`.
@@ -366,6 +359,16 @@ You can override component styles using `className`.
     }}
   </SwapWrapper>
 </App>
+
+## Components
+
+The components are designed to work together hierarchically. For each component, ensure the following:
+
+- `<Swap />` - Set the user's address and error handling.
+- `<SwapAmountInput />` - Set the [Token](/token/types#token) to swap and specify the input type (`from` or `to`).
+- `<SwapToggleButton />` - Optional component to toggle between input types.
+- `<SwapMessage />` - Optional component that displays a message related to the swap operation's current state.
+- `<SwapButton />` - Set the onSuccess and onError callbacks.
 
 ## Props
 

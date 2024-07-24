@@ -11,7 +11,17 @@ export { TransactionToastIcon } from './components/TransactionToastIcon';
 export { TransactionToastAction } from './components/TransactionToastAction';
 export { TransactionToastLabel } from './components/TransactionToastLabel';
 export type {
+  TransactionButtonReact,
   TransactionContextType,
   TransactionError,
+  TransactionProviderReact,
   TransactionReact,
+  TransactionSponsorReact,
+  TransactionStatusReact,
+  TransactionStatusActionReact,
+  TransactionStatusLabelReact,
+  TransactionToastReact,
+  TransactionToastActionReact,
+  TransactionToastIconReact,
+  TransactionToastLabelReact,
 } from './types';

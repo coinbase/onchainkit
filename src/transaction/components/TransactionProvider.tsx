@@ -1,7 +1,11 @@
 import { createContext, useCallback, useContext, useState } from 'react';
 import { useValue } from '../../internal/hooks/useValue';
 import { useCallsStatus } from '../hooks/useCallsStatus';
-import { useWriteContracts } from '../hooks/useWriteContracts';
+import { useWriteContract } from '../hooks/useWriteContract';
+import {
+  genericErrorMessage,
+  useWriteContracts,
+} from '../hooks/useWriteContracts';
 import type {
   TransactionContextType,
   TransactionProviderReact,
@@ -32,7 +36,17 @@ export function TransactionProvider({
   const [transactionId, setTransactionId] = useState('');
   const [isToastVisible, setIsToastVisible] = useState(false);
 
-  const { status: writeContractsStatus, writeContracts } = useWriteContracts({
+  const { status: statusWriteContracts, writeContracts } = useWriteContracts({
+    onError,
+    setErrorMessage,
+    setTransactionId,
+  });
+
+  const {
+    status: statusWriteContract,
+    writeContract,
+    data: writeContractTransactionHash,
+  } = useWriteContract({
     onError,
     setErrorMessage,
     setTransactionId,
@@ -43,13 +57,35 @@ export function TransactionProvider({
     transactionId,
   });
 
-  const handleSubmit = useCallback(() => {
+  const fallbackToWriteContract = useCallback(async () => {
+    // EOAs don't support batching, so we process contracts individually.
+    // This gracefully handles accidental batching attempts with EOAs.
+    for (const contract of contracts) {
+      try {
+        await writeContract(contract);
+      } catch (_err) {
+        setErrorMessage(genericErrorMessage);
+      }
+    }
+  }, [contracts, writeContract]);
+
+  const handleSubmit = useCallback(async () => {
     setErrorMessage('');
     setIsToastVisible(true);
-    writeContracts({
-      contracts,
-    });
-  }, [contracts, writeContracts]);
+    try {
+      const result = await writeContracts({
+        contracts,
+      });
+
+      // EOA accounts always fail on writeContracts, returning undefined.
+      // Fallback to writeContract, which works for EOAs.
+      if (result === undefined) {
+        await fallbackToWriteContract();
+      }
+    } catch (_err) {
+      setErrorMessage(genericErrorMessage);
+    }
+  }, [contracts, writeContracts, fallbackToWriteContract]);
 
   const value = useValue({
     address,
@@ -61,9 +97,9 @@ export function TransactionProvider({
     setErrorMessage,
     setIsToastVisible,
     setTransactionId,
-    status: writeContractsStatus,
+    status: statusWriteContract || statusWriteContracts,
     transactionId,
-    transactionHash,
+    transactionHash: transactionHash || writeContractTransactionHash,
   });
 
   return (
