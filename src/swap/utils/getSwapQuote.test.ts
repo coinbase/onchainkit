@@ -38,6 +38,7 @@ describe('getSwapQuote', () => {
 
   it('should return a quote for a swap', async () => {
     const mockParams = {
+      aggregator: true,
       amountReference: testAmountReference,
       from: ETH,
       to: DEGEN,
@@ -91,6 +92,7 @@ describe('getSwapQuote', () => {
 
   it('should return an error if sendRequest fails', async () => {
     const mockParams = {
+      aggregator: true,
       amountReference: testAmountReference,
       from: ETH,
       to: DEGEN,
@@ -115,6 +117,7 @@ describe('getSwapQuote', () => {
 
   it('should return an error object from getSwapQuote', async () => {
     const mockParams = {
+      aggregator: true,
       amountReference: testAmountReference,
       from: ETH,
       to: DEGEN,
