@@ -9,7 +9,7 @@ import { useOnchainKit } from '../../useOnchainKit';
 import { useTransactionContext } from '../components/TransactionProvider';
 
 export function useGetTransactionToast() {
-  const { errorMessage, isLoading, onSubmit, status, transactionHash } =
+  const { errorMessage, isLoading, onSubmit, transactionHash } =
     useTransactionContext();
   const { chain } = useOnchainKit();
 
@@ -58,5 +58,5 @@ export function useGetTransactionToast() {
     }
 
     return { actionElement, icon, label };
-  }, [chain, errorMessage, isLoading, onSubmit, status, transactionHash]);
+  }, [chain, errorMessage, isLoading, onSubmit, transactionHash]);
 }
