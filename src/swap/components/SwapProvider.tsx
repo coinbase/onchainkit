@@ -35,12 +35,12 @@ export function useSwapContext() {
 
 export function SwapProvider({
   address,
-  aggregator,
   children,
+  useAggregator,
 }: {
   address: Address;
-  aggregator: boolean;
   children: React.ReactNode;
+  useAggregator: boolean;
 }) {
   const [loading, setLoading] = useState(false);
   const [isTransactionPending, setPendingTransaction] = useState(false);
@@ -101,11 +101,11 @@ export function SwapProvider({
 
       try {
         const response = await getSwapQuote({
-          aggregator,
-          from: source.token,
-          to: destination.token,
           amount,
           amountReference: 'from',
+          from: source.token,
+          to: destination.token,
+          useAggregator,
         });
         // If request resolves to error response set the quoteError
         // property of error state to the SwapError response */
@@ -126,7 +126,7 @@ export function SwapProvider({
         destination.setLoading(false);
       }
     },
-    [aggregator, from, to, handleError],
+    [from, to, useAggregator, handleError],
   );
 
   const handleSubmit = useCallback(
@@ -144,11 +144,11 @@ export function SwapProvider({
 
       try {
         const response = await buildSwapTransaction({
-          aggregator,
           amount: from.amount,
           fromAddress: address,
           from: from.token,
           to: to.token,
+          useAggregator,
         });
 
         if (isSwapError(response)) {
@@ -188,13 +188,13 @@ export function SwapProvider({
     },
     [
       address,
-      aggregator,
       config,
       handleError,
       from.amount,
       from.token,
       sendTransactionAsync,
       to.token,
+      useAggregator,
     ],
   );
 
