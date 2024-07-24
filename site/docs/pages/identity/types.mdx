@@ -19,6 +19,7 @@ type AddressReact = {
 ```ts
 type AvatarReact = {
   address?: Address | null; // The Ethereum address to fetch the avatar for.
+  chain?: Chain; // Optional chain for domain resolution
   className?: string; // Optional className override for top div element.
   loadingComponent?: JSX.Element; // Optional custom component to display while the avatar data is loading.
   defaultComponent?: JSX.Element; // Optional custom component to display when no ENS name or avatar is available.
