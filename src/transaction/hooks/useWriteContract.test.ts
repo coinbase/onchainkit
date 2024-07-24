@@ -7,6 +7,19 @@ vi.mock('wagmi', () => ({
   useWriteContract: vi.fn(),
 }));
 
+type UseWriteContractConfig = {
+  mutation: {
+    onError: (error: Error) => void;
+    onSuccess: (id: string) => void;
+  };
+};
+
+type MockUseWriteContractReturn = {
+  status: 'idle' | 'error' | 'loading' | 'success';
+  writeContract: ReturnType<typeof vi.fn>;
+  data: string | null;
+};
+
 describe('useWriteContract', () => {
   const mockSetErrorMessage = vi.fn();
   const mockSetTransactionId = vi.fn();
@@ -19,11 +32,11 @@ describe('useWriteContract', () => {
   it('should return wagmi hook data when successful', () => {
     const mockWriteContract = vi.fn();
     const mockData = 'mockTransactionData';
-    (useWriteContractWagmi as any).mockReturnValue({
+    (useWriteContractWagmi as ReturnType<typeof vi.fn>).mockReturnValue({
       status: 'idle',
       writeContract: mockWriteContract,
       data: mockData,
-    });
+    } as MockUseWriteContractReturn);
 
     const { result } = renderHook(() =>
       useWriteContract({
@@ -41,15 +54,18 @@ describe('useWriteContract', () => {
   it('should handle generic error', () => {
     const genericError = new Error('Something went wrong. Please try again.');
 
-    let onErrorCallback: ((error: any) => void) | undefined;
+    let onErrorCallback: ((error: Error) => void) | undefined;
 
-    (useWriteContractWagmi as any).mockImplementation(({ mutation }) => {
-      onErrorCallback = mutation.onError;
-      return {
-        writeContract: vi.fn(),
-        data: null,
-      };
-    });
+    (useWriteContractWagmi as ReturnType<typeof vi.fn>).mockImplementation(
+      ({ mutation }: UseWriteContractConfig) => {
+        onErrorCallback = mutation.onError;
+        return {
+          writeContract: vi.fn(),
+          data: null,
+          status: 'error',
+        } as MockUseWriteContractReturn;
+      },
+    );
 
     renderHook(() =>
       useWriteContract({
@@ -67,7 +83,7 @@ describe('useWriteContract', () => {
     );
     expect(mockOnError).toHaveBeenCalledWith({
       code: 'WRITE_TRANSACTIONS_ERROR',
-      error: 'Generic error',
+      error: 'Something went wrong. Please try again.',
     });
   });
 
@@ -76,13 +92,16 @@ describe('useWriteContract', () => {
 
     let onSuccessCallback: ((id: string) => void) | undefined;
 
-    (useWriteContractWagmi as any).mockImplementation(({ mutation }) => {
-      onSuccessCallback = mutation.onSuccess;
-      return {
-        writeContract: vi.fn(),
-        data: transactionId,
-      };
-    });
+    (useWriteContractWagmi as ReturnType<typeof vi.fn>).mockImplementation(
+      ({ mutation }: UseWriteContractConfig) => {
+        onSuccessCallback = mutation.onSuccess;
+        return {
+          writeContract: vi.fn(),
+          data: transactionId,
+          status: 'success',
+        } as MockUseWriteContractReturn;
+      },
+    );
 
     renderHook(() =>
       useWriteContract({
@@ -101,9 +120,11 @@ describe('useWriteContract', () => {
   it('should handle uncaught errors', () => {
     const uncaughtError = new Error('Uncaught error');
 
-    (useWriteContractWagmi as any).mockImplementation(() => {
-      throw uncaughtError;
-    });
+    (useWriteContractWagmi as ReturnType<typeof vi.fn>).mockImplementation(
+      () => {
+        throw uncaughtError;
+      },
+    );
 
     const { result } = renderHook(() =>
       useWriteContract({
