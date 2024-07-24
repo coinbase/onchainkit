@@ -12,6 +12,11 @@ type UseWriteContractParams = {
 const uncaughtErrorCode = 'UNCAUGHT_WRITE_TRANSACTIONS_ERROR';
 const errorCode = 'WRITE_TRANSACTIONS_ERROR';
 
+/**
+ * Wagmi hook for single contract transactions.
+ * Supports both EOAs and Smart Wallets.
+ * Does not support transaction batching or paymasters.
+ */
 export function useWriteContract({
   onError,
   setErrorMessage,

@@ -13,6 +13,12 @@ const uncaughtErrorCode = 'UNCAUGHT_WRITE_TRANSACTIONS_ERROR';
 const errorCode = 'WRITE_TRANSACTIONS_ERROR';
 const eoaErrorMesssage = 'this request method is not supported';
 
+/**
+ * useWriteContracts: Experimental Wagmi hook for batching transactions.
+ * Supports Smart Wallets.
+ * Does not support batch operations and capabilities such as paymasters.
+ * Does not support EOAs.
+ */
 export function useWriteContracts({
   onError,
   setErrorMessage,

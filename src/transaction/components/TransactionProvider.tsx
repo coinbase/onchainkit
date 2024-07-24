@@ -55,6 +55,8 @@ export function TransactionProvider({
   const { transactionHash } = useCallsStatus({ onError, transactionId });
 
   const fallbackToWriteContract = useCallback(async () => {
+    // EOAs don't support batching, so we process contracts individually.
+    // This gracefully handles accidental batching attempts with EOAs.
     for (const contract of contracts) {
       try {
         await writeContract(contract);
@@ -72,6 +74,8 @@ export function TransactionProvider({
         contracts,
       });
 
+      // EOA accounts always fail on writeContracts, returning undefined.
+      // Fallback to writeContract, which works for EOAs.
       if (result === undefined) {
         await fallbackToWriteContract();
       }
