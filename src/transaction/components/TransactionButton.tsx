@@ -1,6 +1,7 @@
 import { Spinner } from '../../internal/components/Spinner';
 import { background, cn, pressable, text } from '../../styles/theme';
 import type { TransactionButtonReact } from '../types';
+import { isSpinnerDisplayed } from '../utils';
 import { useTransactionContext } from './TransactionProvider';
 
 export function TransactionButton({
@@ -20,13 +21,13 @@ export function TransactionButton({
 
   const isDisabled = isLoading || !contracts || !address || transactionId;
 
-  // there is a delay between when txn is confirmed and
-  // call status returns isLoading true so the third
-  // condition here keeps spinner visible during that time
-  const displaySpinner =
-    isLoading ||
-    status === 'pending' ||
-    (transactionId && !transactionHash && !errorMessage);
+  const displaySpinner = isSpinnerDisplayed({
+    errorMessage,
+    isLoading,
+    status,
+    transactionHash,
+    transactionId,
+  });
 
   return (
     <button
