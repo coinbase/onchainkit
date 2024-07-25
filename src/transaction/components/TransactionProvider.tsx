@@ -12,6 +12,7 @@ import type {
   TransactionContextType,
   TransactionProviderReact,
 } from '../types';
+import { useWaitForTransactionReceipt } from 'wagmi';
 
 const emptyContext = {} as TransactionContextType;
 export const TransactionContext =
@@ -58,6 +59,10 @@ export function TransactionProvider({
   const { transactionHash, status: callStatus } = useCallsStatus({
     onError,
     transactionId,
+  });
+
+  const { data: receipt } = useWaitForTransactionReceipt({
+    hash: writeContractTransactionHash || transactionHash,
   });
 
   const fallbackToWriteContract = useCallback(async () => {
@@ -125,10 +130,12 @@ export function TransactionProvider({
     isLoading: callStatus === 'PENDING',
     isToastVisible,
     onSubmit: handleSubmit,
+    receipt,
     setErrorMessage,
     setIsToastVisible,
     setTransactionId,
-    status: statusWriteContract || statusWriteContracts,
+    statusWriteContracts,
+    statusWriteContract,
     transactionId,
     transactionHash: transactionHash || writeContractTransactionHash,
   });
