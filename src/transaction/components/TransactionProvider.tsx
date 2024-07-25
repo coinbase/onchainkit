@@ -1,5 +1,6 @@
 import { createContext, useCallback, useContext, useState } from 'react';
 import { useAccount, useSwitchChain } from 'wagmi';
+import { useWaitForTransactionReceipt } from 'wagmi';
 import { useValue } from '../../internal/hooks/useValue';
 import { METHOD_NOT_SUPPORTED_ERROR_SUBSTRING } from '../constants';
 import { useCallsStatus } from '../hooks/useCallsStatus';
@@ -12,7 +13,6 @@ import type {
   TransactionContextType,
   TransactionProviderReact,
 } from '../types';
-import { useWaitForTransactionReceipt } from 'wagmi';
 
 const emptyContext = {} as TransactionContextType;
 export const TransactionContext =
