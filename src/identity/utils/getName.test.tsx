@@ -116,4 +116,13 @@ describe('getName', () => {
       'ChainId not supported, name resolution is only supported on Ethereum and Base.',
     );
   });
+
+  it('should default to ENS when readContract throws an error', async () => {
+    const expectedEnsName = 'zizzamia.eth';
+    mockReadContract.mockRejectedValue(new Error('This is an error'));
+    mockGetEnsName.mockResolvedValue(expectedEnsName);
+    const name = await getName({ address: walletAddress, chain: base });
+    expect(name).toBe(expectedEnsName);
+    expect(getChainPublicClient).toHaveBeenCalledWith(base);
+  });
 });

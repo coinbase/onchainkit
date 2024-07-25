@@ -31,21 +31,23 @@ export const getName = async ({
 
   if (chainIsBase) {
     const addressReverseNode = convertReverseNodeToBytes(address);
-    const baseName = await client.readContract({
-      abi: L2ResolverAbi,
-      address: RESOLVER_ADDRESSES_BY_CHAIN_ID[chain.id],
-      functionName: 'name',
-      args: [addressReverseNode],
-    });
-
-    if (baseName) {
-      return baseName;
+    try {
+      const baseName = await client.readContract({
+        abi: L2ResolverAbi,
+        address: RESOLVER_ADDRESSES_BY_CHAIN_ID[chain.id],
+        functionName: 'name',
+        args: [addressReverseNode],
+      });
+      if (baseName) {
+        return baseName;
+      }
+    } catch (_error) {
+      // This is a best effort attempt, so we don't need to do anything here.
     }
-
-    // Default to mainnet
-    client = getChainPublicClient(mainnet);
   }
 
+  // Default to mainnet
+  client = getChainPublicClient(mainnet);
   // ENS username
   const ensName = await client.getEnsName({
     address,
