@@ -65,7 +65,7 @@ export function TransactionButton({
       {displaySpinner ? (
         <Spinner />
       ) : (
-        <span className={cn(text.headline, 'flex text-inverse justify-center')}>
+        <span className={cn(text.headline, 'flex justify-center text-inverse')}>
           {buttonContent}
         </span>
       )}
