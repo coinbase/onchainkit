@@ -1,4 +1,4 @@
-import { Avatar, Name } from "../src/identity";
+import { Avatar, Name } from '../src/identity';
 import {
   Transaction,
   TransactionButton,
@@ -42,15 +42,15 @@ import { // [!code focus]
 import { Wallet, ConnectWallet } from '@coinbase/onchainkit/wallet';
 import { useAccount } from "wagmi";
 
-export const clickAddress = "0x67c97D1FB8184F038592b2109F854dfb09C77C75";
+export const clickAddress = '0x67c97D1FB8184F038592b2109F854dfb09C77C75';
 
 export const clickAbi = [
   {
-    type: "function",
-    name: "click",
+    type: 'function',
+    name: 'click',
     inputs: [],
     outputs: [],
-    stateMutability: "nonpayable",
+    stateMutability: 'nonpayable',
   },
 ] as const;
 
@@ -61,7 +61,7 @@ export default function TransactionComponents() {
     {
       address: clickAddress,
       abi: clickAbi,
-      functionName: "click",
+      functionName: 'click',
       args: [],
     },
   ];
@@ -78,7 +78,7 @@ export default function TransactionComponents() {
   ) : (
     <Wallet>
       <ConnectWallet>
-        <Avatar className="h-6 w-6" />
+        <Avatar className='h-6 w-6' />
         <Name />
       </ConnectWallet>
     </Wallet>
@@ -97,7 +97,7 @@ export default function TransactionComponents() {
             contracts={contracts}
             capabilities={{
               paymasterService: {
-                url: "https://api.developer.coinbase.com/rpc/v1/base-sepolia/fsDbwDOLzfzHE6dxxdphhGPIjoSCxtt2", // conner's
+                url: 'https://api.developer.coinbase.com/rpc/v1/base-sepolia/fsDbwDOLzfzHE6dxxdphhGPIjoSCxtt2', // conner's
               },
             }}
             onError={onError}
@@ -114,7 +114,7 @@ export default function TransactionComponents() {
         return (
           <Wallet>
             <ConnectWallet>
-              <Avatar className="h-6 w-6" />
+              <Avatar className='h-6 w-6' />
               <Name />
             </ConnectWallet>
           </Wallet>
