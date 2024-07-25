@@ -22,18 +22,20 @@ export function useGetTransactionStatus() {
   return useMemo(() => {
     const chainExplorer = getChainExplorer(accountChainId);
 
+    const isPending =
+      statusWriteContract === 'pending' || statusWriteContracts === 'pending';
+
+    const isInProgress = isLoading || transactionId || transactionHash;
+
     let actionElement: ReactNode = null;
     let label = '';
     let labelClassName: string = color.foregroundMuted;
 
-    if (
-      statusWriteContract === 'pending' ||
-      statusWriteContracts === 'pending'
-    ) {
+    if (isPending) {
       label = 'Confirm in wallet.';
     }
 
-    if (isLoading || transactionId || transactionHash) {
+    if (isInProgress) {
       label = 'Transaction in progress...';
     }
 
