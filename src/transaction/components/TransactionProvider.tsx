@@ -38,16 +38,11 @@ export function TransactionProvider({
   chainId,
   contracts,
   capabilities,
-  // paymasterUrl,
   onError,
 }: TransactionProviderReact) {
   const [errorMessage, setErrorMessage] = useState('');
   const [transactionId, setTransactionId] = useState('');
   const [isToastVisible, setIsToastVisible] = useState(false);
-
-  console.log('chainId', chainId);
-  console.log('capabilities', capabilities);
-
   const account = useAccount();
   const { switchChainAsync } = useSwitchChain();
 
@@ -97,16 +92,11 @@ export function TransactionProvider({
         await switchChainAsync({ chainId });
       }
 
-      const result = await writeContractsAsync({
+      await writeContractsAsync({
         contracts,
-        capabilities, // { paymasterService: { url: string } }
+        capabilities,
       });
-
-      console.log('result', result);
     } catch (err: any) {
-      // not supported function
-      console.log('err', err);
-      console.log('err.message', err.message);
       // EOA accounts always fail on writeContracts, returning undefined.
       // Fallback to writeContract, which works for EOAs.
       if (err.message.includes(METHOD_NOT_SUPPORTED_ERROR_SUBSTRING)) {
@@ -121,7 +111,6 @@ export function TransactionProvider({
     }
   }, [contracts, writeContractsAsync, fallbackToWriteContract]);
 
-  // set context
   const value = useValue({
     address,
     chainId,

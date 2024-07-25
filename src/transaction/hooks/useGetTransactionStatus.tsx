@@ -14,10 +14,8 @@ export function useGetTransactionStatus() {
     transactionHash,
     transactionId,
   } = useTransactionContext();
-  // const { chain } = useOnchainKit();
 
   return useMemo(() => {
-    // const chainExplorer = getChainExplorer(chain.id);
     const chainExplorer = getChainExplorer(chainId);
 
     let actionElement: ReactNode = null;

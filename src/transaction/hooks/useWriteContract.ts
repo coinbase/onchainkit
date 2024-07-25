@@ -27,7 +27,6 @@ export function useWriteContract({
       useWriteContractWagmi({
         mutation: {
           onError: (e) => {
-            console.log('WE GOT HIM');
             if (
               (e as TransactionExecutionError)?.cause?.name ===
               'UserRejectedRequestError'

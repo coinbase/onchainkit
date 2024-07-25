@@ -31,13 +31,9 @@ export function useWriteContracts({
           console.log('settled', data, error, variables, context);
         },
         onError: (e) => {
-          console.log('error', e);
-          console.log('error', e.message);
           // Ignore EOA-specific error to fallback to writeContract
           if (e.message.includes(METHOD_NOT_SUPPORTED_ERROR_SUBSTRING)) {
-            console.log('message includes methodNotSupported');
             return;
-            // throw new Error(SEND_CALLS_NOT_SUPPORTED_ERROR);
           }
 
           if (
@@ -51,7 +47,6 @@ export function useWriteContracts({
           onError?.({ code: errorCode, error: e.message });
         },
         onSuccess: (id) => {
-          console.log('id', id);
           setTransactionId(id);
         },
       },
