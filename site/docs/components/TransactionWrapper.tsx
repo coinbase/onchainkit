@@ -17,9 +17,9 @@ type TransactionWrapperReact = {
   children: (props: TransactionWrapperChildren) => ReactNode;
 };
 
-export const clickAddress = '0x67c97D1FB8184F038592b2109F854dfb09C77C75';
+export const clickContractAddress = '0x67c97D1FB8184F038592b2109F854dfb09C77C75';
 
-export const clickAbi = [
+export const clickContractAbi = [
   {
     type: 'function',
     name: 'click',
@@ -36,8 +36,8 @@ export default function TransactionWrapper({
 
   const contracts = [
     {
-      address: clickAddress,
-      abi: clickAbi,
+      address: clickContractAddress,
+      abi: clickContractAbi,
       functionName: 'click',
       args: [],
     },
