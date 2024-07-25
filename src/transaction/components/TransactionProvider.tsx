@@ -30,6 +30,7 @@ export function TransactionProvider({
   address,
   children,
   contracts,
+  chainId,
   onError,
 }: TransactionProviderReact) {
   const [errorMessage, setErrorMessage] = useState('');

@@ -42,6 +42,8 @@ export type TransactionError = {
 export type TransactionProviderReact = {
   address: Address; // The wallet address to be provided to child components.
   children: ReactNode; // The child components to be rendered within the provider component.
+  chainId: number; // The chain ID for the transaction.
+  capabilities: Record<string, any>; // An object containing the capabilities for the transaction.
   contracts: ContractFunctionParameters[]; // An array of contract function parameters provided to the child components.
   onError?: (e: TransactionError) => void; // An optional callback function that handles errors within the provider.
 };
@@ -53,6 +55,8 @@ export type TransactionReact = {
   address: Address; // The wallet address involved in the transaction.
   children: ReactNode; // The child components to be rendered within the transaction component.
   className?: string; // An optional CSS class name for styling the component.
+  chainId: number; // The chain ID for the transaction.
+  capabilities: Record<string, any>; // An object containing the capabilities for the transaction.
   contracts: ContractFunctionParameters[]; // An array of contract function parameters for the transaction.
   onError?: (e: TransactionError) => void; // An optional callback function that handles transaction errors.
 };
