@@ -1,5 +1,5 @@
 ---
-"@coinbase/onchainkit": minor
+"@coinbase/onchainkit": patch
 ---
 
-**fix**: Fix `WalletDropdownDisconnect` to correclty disconnect all connectors. By @kirkas #895
+- **fix**: have `WalletDropdownDisconnect` to correclty disconnect all connectors. By @kirkas #895
