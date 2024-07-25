@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- 92a0cf0: - **fix**: fetch ens with `getName`. By @zizzamia #888
+- **fix**: fetch ens with `getName`. By @zizzamia #888 92a0cf0
 
 ## 0.26.2
 
