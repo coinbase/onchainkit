@@ -2,4 +2,4 @@
 "@coinbase/onchainkit": patch
 ---
 
-- **fix**: dope
+- **fix**: fetch ens with `getName`. By @zizzamia #888
