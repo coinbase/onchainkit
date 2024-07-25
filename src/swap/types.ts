@@ -41,10 +41,11 @@ export type GetAPIParamsForToken =
   | BuildSwapTransactionParams;
 
 export type GetQuoteAPIParams = {
-  from: AddressOrETH | ''; // The source address or 'ETH' for Ethereum
-  to: AddressOrETH | ''; // The destination address or 'ETH' for Ethereum
   amount: string; // The amount to be swapped
   amountReference?: string; // The reference amount for the swap
+  from: AddressOrETH | ''; // The source address or 'ETH' for Ethereum
+  to: AddressOrETH | ''; // The destination address or 'ETH' for Ethereum
+  v2Enabled?: boolean; // Whether to use V2 of the API (default: false)
 };
 
 export type GetSwapAPIParams = GetQuoteAPIParams & {
@@ -55,11 +56,12 @@ export type GetSwapAPIParams = GetQuoteAPIParams & {
  * Note: exported as public Type
  */
 export type GetSwapQuoteParams = {
-  from: Token; // The source token for the swap
-  to: Token; // The destination token for the swap
   amount: string; // The amount to be swapped
   amountReference?: string; // The reference amount for the swap
+  from: Token; // The source token for the swap
   isAmountInDecimals?: boolean; // Whether the amount is in decimals
+  to: Token; // The destination token for the swap
+  useAggregator: boolean; // Whether to use a DEX aggregator
 };
 
 /**
@@ -197,6 +199,9 @@ export type SwapReact = {
   address: Address; // Connected address from connector.
   children: ReactNode;
   className?: string; // Optional className override for top div element.
+  experimental?: {
+    useAggregator: boolean; // Whether to use a DEX aggregator. (default: true)
+  };
   title?: string; // Title for the Swap component. (default: "Swap")
 };
 

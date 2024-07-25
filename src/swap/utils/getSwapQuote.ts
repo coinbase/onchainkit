@@ -21,7 +21,14 @@ export async function getSwapQuote(
     amountReference: 'from',
     isAmountInDecimals: false,
   };
-  const apiParams = getAPIParamsForToken({ ...defaultParams, ...params });
+  let apiParams = getAPIParamsForToken({ ...defaultParams, ...params });
+
+  if (!params.useAggregator) {
+    apiParams = {
+      v2Enabled: true,
+      ...apiParams,
+    };
+  }
 
   try {
     const res = await sendRequest<SwapAPIParams, SwapQuote>(
