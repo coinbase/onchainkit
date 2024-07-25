@@ -63,7 +63,6 @@ export function useGetTransactionStatus() {
 
     return { actionElement, label, labelClassName };
   }, [
-    // chain
     chainId,
     errorMessage,
     isLoading,

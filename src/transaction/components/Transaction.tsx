@@ -14,9 +14,9 @@ export function Transaction({
   return (
     <TransactionProvider
       address={address}
-      contracts={contracts}
-      chainId={chainId}
       capabilities={capabilities}
+      chainId={chainId}
+      contracts={contracts}
       onError={onError}
     >
       <div className={cn(className, 'flex w-full flex-col gap-2')}>

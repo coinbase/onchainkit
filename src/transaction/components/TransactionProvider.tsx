@@ -34,10 +34,10 @@ export function useTransactionContext() {
 
 export function TransactionProvider({
   address,
-  children,
-  chainId,
-  contracts,
   capabilities,
+  chainId,
+  children,
+  contracts,
   onError,
 }: TransactionProviderReact) {
   const [errorMessage, setErrorMessage] = useState('');
