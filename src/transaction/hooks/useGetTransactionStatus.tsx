@@ -20,7 +20,7 @@ export function useGetTransactionStatus() {
   const accountChainId = chainId ?? useChainId();
   const isPending =
     statusWriteContract === 'pending' || statusWriteContracts === 'pending';
-  const isInProgress = isLoading || transactionId || transactionHash;
+  const isInProgress = isLoading || !!transactionId || !!transactionHash;
 
   return useMemo(() => {
     const chainExplorer = getChainExplorer(accountChainId);
