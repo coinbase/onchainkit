@@ -15,7 +15,7 @@ export type TransactionButtonReact = {
  */
 export type TransactionContextType = {
   address: Address; // The wallet address involved in the transaction.
-  chainId: number; // The chainId for the transaction.
+  chainId?: number; // The chainId for the transaction.
   contracts: ContractFunctionParameters[]; // An array of contracts for the transaction.
   errorMessage?: string; // An error message string if the transaction encounters an issue.
   isLoading: boolean; // A boolean indicating if the transaction is currently loading.
@@ -45,6 +45,14 @@ type SmartWalletCapabilities = Record<
     paymasterService?: PaymasterService;
   }
 >;
+
+/**
+ * Note: exported as public Type
+ */
+export type TransactionError = {
+  code: string; // The error code representing the type of transaction error.
+  error: string; // The error message providing details about the transaction error.
+};
 
 /**
  * Note: exported as public Type
