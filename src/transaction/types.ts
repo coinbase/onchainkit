@@ -39,9 +39,12 @@ type PaymasterService = {
 /**
  * Smart Wallet capabilities configuration
  */
-type SmartWalletCapabilities = Record<string, {
-  paymasterService?: PaymasterService;
-}>;
+type SmartWalletCapabilities = Record<
+  string,
+  {
+    paymasterService?: PaymasterService;
+  }
+>;
 
 /**
  * Note: exported as public Type

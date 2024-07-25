@@ -84,22 +84,32 @@ export function TransactionProvider({
     }
   }, [contracts, writeContract]);
 
+  const switchChain = async (targetChainId: number | undefined) => {
+    if (targetChainId && account.chainId !== targetChainId) {
+      await switchChainAsync({ chainId: targetChainId });
+    }
+  };
+
+  const executeContracts = async () => {
+    await writeContractsAsync({
+      contracts,
+      capabilities,
+    });
+  };
+
   const handleSubmit = useCallback(async () => {
     setErrorMessage('');
     setIsToastVisible(true);
     try {
-      if (chainId && account.chainId !== chainId) {
-        await switchChainAsync({ chainId });
-      }
-
-      await writeContractsAsync({
-        contracts,
-        capabilities,
-      });
-    } catch (err: any) {
+      await switchChain(chainId);
+      await executeContracts();
+    } catch (err) {
       // EOA accounts always fail on writeContracts, returning undefined.
       // Fallback to writeContract, which works for EOAs.
-      if (err.message.includes(METHOD_NOT_SUPPORTED_ERROR_SUBSTRING)) {
+      if (
+        err instanceof Error &&
+        err.message.includes(METHOD_NOT_SUPPORTED_ERROR_SUBSTRING)
+      ) {
         try {
           await fallbackToWriteContract();
         } catch (_err) {

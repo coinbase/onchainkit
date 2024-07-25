@@ -58,7 +58,7 @@ export function useWriteContracts({
     return {
       status: 'error',
       writeContracts: () => {},
-      writeContractsAsync: () => Promise<{}>,
+      writeContractsAsync: () => Promise.resolve({}),
     };
   }
 }
