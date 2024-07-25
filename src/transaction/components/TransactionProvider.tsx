@@ -111,7 +111,7 @@ export function TransactionProvider({
       setErrorMessage(genericErrorMessage);
     }
   };
-  
+
   const handleSubmit = useCallback(async () => {
     setErrorMessage('');
     setIsToastVisible(true);
@@ -121,7 +121,7 @@ export function TransactionProvider({
     } catch (err) {
       await handleSubmitErrors(err);
     }
-  }, [contracts, writeContractsAsync, fallbackToWriteContract, chainId]);
+  }, [chainId, contracts, executeContracts, fallbackToWriteContract, writeContractsAsync]);
 
   const value = useValue({
     address,
