@@ -17,24 +17,15 @@ export function isSpinnerDisplayed({
   transactionHash,
   transactionId,
 }: IsSpinnerDisplayedProps) {
-  if (hasReceipt) {
-    return false;
-  }
-  if (errorMessage) {
+  const isPending =
+    statusWriteContract === 'pending' || statusWriteContracts === 'pending';
+  const isInProgress = transactionId || transactionHash;
+
+  if (hasReceipt || errorMessage) {
     return false;
   }
 
-  if (isLoading) {
-    return true;
-  }
-
-  if (statusWriteContract === 'pending' || statusWriteContracts === 'pending') {
-    return true;
-  }
-  // there is a delay between when txn is confirmed and
-  // call status returns isLoading true so this
-  // condition keeps spinner visible during that time
-  if (transactionId || transactionHash) {
+  if (isLoading || isPending || isInProgress) {
     return true;
   }
 
