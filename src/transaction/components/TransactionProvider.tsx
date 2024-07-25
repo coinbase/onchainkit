@@ -1,9 +1,5 @@
 import { createContext, useCallback, useContext, useState } from 'react';
-import {
-  useAccount,
-  useSwitchChain,
-  useWaitForTransactionReceipt,
-} from 'wagmi';
+import { useAccount, useSwitchChain } from 'wagmi';
 import { useValue } from '../../internal/hooks/useValue';
 import { METHOD_NOT_SUPPORTED_ERROR_SUBSTRING } from '../constants';
 import { useCallsStatus } from '../hooks/useCallsStatus';
@@ -68,10 +64,6 @@ export function TransactionProvider({
     transactionId,
   });
 
-  const { data: receipt } = useWaitForTransactionReceipt({
-    hash: transactionHash,
-  });
-
   const fallbackToWriteContract = useCallback(async () => {
     // EOAs don't support batching, so we process contracts individually.
     // This gracefully handles accidental batching attempts with EOAs.
@@ -84,33 +76,39 @@ export function TransactionProvider({
     }
   }, [contracts, writeContract]);
 
-  const switchChain = async (targetChainId: number | undefined) => {
-    if (targetChainId && account.chainId !== targetChainId) {
-      await switchChainAsync({ chainId: targetChainId });
-    }
-  };
+  const switchChain = useCallback(
+    async (targetChainId: number | undefined) => {
+      if (targetChainId && account.chainId !== targetChainId) {
+        await switchChainAsync({ chainId: targetChainId });
+      }
+    },
+    [account.chainId, switchChainAsync],
+  );
 
-  const executeContracts = async () => {
+  const executeContracts = useCallback(async () => {
     await writeContractsAsync({
       contracts,
       capabilities,
     });
-  };
+  }, [writeContractsAsync, contracts, capabilities]);
 
-  const handleSubmitErrors = async (err: unknown) => {
-    if (
-      err instanceof Error &&
-      err.message.includes(METHOD_NOT_SUPPORTED_ERROR_SUBSTRING)
-    ) {
-      try {
-        await fallbackToWriteContract();
-      } catch (_err) {
+  const handleSubmitErrors = useCallback(
+    async (err: unknown) => {
+      if (
+        err instanceof Error &&
+        err.message.includes(METHOD_NOT_SUPPORTED_ERROR_SUBSTRING)
+      ) {
+        try {
+          await fallbackToWriteContract();
+        } catch (_err) {
+          setErrorMessage(genericErrorMessage);
+        }
+      } else {
         setErrorMessage(genericErrorMessage);
       }
-    } else {
-      setErrorMessage(genericErrorMessage);
-    }
-  };
+    },
+    [fallbackToWriteContract],
+  );
 
   const handleSubmit = useCallback(async () => {
     setErrorMessage('');
@@ -121,7 +119,7 @@ export function TransactionProvider({
     } catch (err) {
       await handleSubmitErrors(err);
     }
-  }, [chainId, contracts, executeContracts, fallbackToWriteContract, writeContractsAsync]);
+  }, [chainId, executeContracts, handleSubmitErrors, switchChain]);
 
   const value = useValue({
     address,
