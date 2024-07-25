@@ -12,12 +12,9 @@ import type {
   TransactionContextType,
   TransactionProviderReact,
 } from '../types';
-
 const emptyContext = {} as TransactionContextType;
-
 export const TransactionContext =
   createContext<TransactionContextType>(emptyContext);
-
 export function useTransactionContext() {
   const context = useContext(TransactionContext);
   if (context === emptyContext) {
@@ -27,7 +24,6 @@ export function useTransactionContext() {
   }
   return context;
 }
-
 export function TransactionProvider({
   address,
   capabilities,
@@ -41,26 +37,12 @@ export function TransactionProvider({
   const [isToastVisible, setIsToastVisible] = useState(false);
   const account = useAccount();
   const { switchChainAsync } = useSwitchChain();
-
-<<<<<<< Updated upstream
   const { status: statusWriteContracts, writeContractsAsync } =
     useWriteContracts({
       onError,
       setErrorMessage,
       setTransactionId,
     });
-=======
-  const { account } = useAccount();
-
-  const { switchChain } = useSwitchChain()
-
-  const { status: statusWriteContracts, writeContracts } = useWriteContracts({
-    onError,
-    setErrorMessage,
-    setTransactionId,
-  });
->>>>>>> Stashed changes
-
   const {
     status: statusWriteContract,
     writeContract,
@@ -70,7 +52,6 @@ export function TransactionProvider({
     setErrorMessage,
     setTransactionId,
   });
-
   const { transactionHash, status: callStatus } = useCallsStatus({
     onError,
     transactionId,
@@ -125,14 +106,6 @@ export function TransactionProvider({
   const handleSubmit = useCallback(async () => {
     setErrorMessage('');
     setIsToastVisible(true);
-<<<<<<< Updated upstream
-=======
-
-    if (chainId && account.chainId !== chainId) {
-      switchChain({ chainId })
-    }
-
->>>>>>> Stashed changes
     try {
       await switchChain(chainId);
       await executeContracts();
@@ -156,7 +129,6 @@ export function TransactionProvider({
     transactionId,
     transactionHash: transactionHash || writeContractTransactionHash,
   });
-
   return (
     <TransactionContext.Provider value={value}>
       {children}
