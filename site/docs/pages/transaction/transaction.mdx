@@ -26,6 +26,8 @@ Before using them, ensure you've completed all [Getting Started steps](/getting-
 Component is not shipped yet. Stay tuned for upcoming releases.
 :::
 
+## `Transaction` with `TransactionStatus` components
+
 ```tsx [code]
 import { useCallback } from 'react';
 import { Avatar, Name } from '@coinbase/onchainkit/identity';
@@ -36,10 +38,6 @@ import { // [!code focus]
   TransactionStatus, // [!code focus]
   TransactionStatusAction // [!code focus]
   TransactionStatusLabel, // [!code focus]
-  TransactionToast, // [!code focus]
-  TransactionToastAction // [!code focus]
-  TransactionToastIcon // [!code focus]
-  TransactionToastLabel, // [!code focus]
 } from '@coinbase/onchainkit/transaction'; // [!code focus]
 import { Wallet, ConnectWallet } from '@coinbase/onchainkit/wallet';
 import { useAccount } from "wagmi";
@@ -99,6 +97,47 @@ export default function TransactionComponents() {
               <TransactionStatusLabel />
               <TransactionStatusAction />
             </TransactionStatus>
+          </Transaction>
+        )
+      } else {
+        return (
+          <Wallet>
+            <ConnectWallet>
+              <Avatar className="h-6 w-6" />
+              <Name />
+            </ConnectWallet>
+          </Wallet>
+        )
+      }
+    }}
+  </TransactionWrapper>
+</AppWithBaseSepolia>
+
+
+## `Transaction` with `TransactionToast` components
+
+```tsx
+// ommited for brevity
+
+<Transaction address={address} contracts={contracts}>  // [!code focus]
+  <TransactionButton />  // [!code focus]
+  <TransactionSponsor text="Coinbase" /> // [!code focus]
+  <TransactionToast>  // [!code focus]
+    <TransactionToastIcon />  // [!code focus]
+    <TransactionToastLabel />  // [!code focus]
+    <TransactionToastAction />  // [!code focus]
+  </TransactionToast>  // [!code focus]
+</Transaction>  // [!code focus]
+```
+
+<AppWithBaseSepolia>
+  <TransactionWrapper>
+    {({ address, contracts, onError, onSuccess }) => {
+      if (address) {
+        return (
+          <Transaction address={address} contracts={contracts} onError={onError} onSuccess={onSuccess}>
+            <TransactionButton />
+            <TransactionSponsor text="Coinbase" />
             <TransactionToast>
               <TransactionToastIcon />
               <TransactionToastLabel />
@@ -119,7 +158,6 @@ export default function TransactionComponents() {
     }}
   </TransactionWrapper>
 </AppWithBaseSepolia>
-
 
 ## Components
 
