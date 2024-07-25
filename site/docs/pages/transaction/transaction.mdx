@@ -2,22 +2,17 @@ import { Avatar, Name } from '@coinbase/onchainkit/identity';
 import { 
   Transaction, 
   TransactionButton,
-  TransactionSponsor,
   TransactionStatus,
-  TransactionStatusAction,
   TransactionStatusLabel,
-  TransactionToast,
-  TransactionToastAction,
-  TransactionToastIcon,
-  TransactionToastLabel,
+  TransactionStatusAction
 } from '@coinbase/onchainkit/transaction';
 import { Wallet, ConnectWallet } from '@coinbase/onchainkit/wallet';
-import AppWithBaseSepolia from '../../components/AppWithBaseSepolia';
+import App from '../../components/App';
 import TransactionWrapper from '../../components/TransactionWrapper';
 
 # `<Transaction />`
 
-The `<Transaction />` components provide a high-level wrap around the entire transaction flow. 
+The `<Transaction />` components provide a high-level wrap around the entire transaction flow.
 It handles the transaction lifecycle, including gas estimation, fee sponsorship, and status updates.
 
 Before using them, ensure you've completed all [Getting Started steps](/getting-started).
@@ -26,58 +21,59 @@ Before using them, ensure you've completed all [Getting Started steps](/getting-
 Component is not shipped yet. Stay tuned for upcoming releases.
 :::
 
-## `Transaction` with `TransactionStatus` components
-
 ```tsx [code]
 import { useCallback } from 'react';
 import { Avatar, Name } from '@coinbase/onchainkit/identity';
-import { // [!code focus]
-  Transaction, // [!code focus]
+import {
+  // [!code focus]
+  Transaction, // [!code focus]]
   TransactionButton, // [!code focus]
-  TransactionSponsor, // [!code focus]
   TransactionStatus, // [!code focus]
-  TransactionStatusAction, // [!code focus]
   TransactionStatusLabel, // [!code focus]
+  TransactionStatusAction, // [!code focus]
 } from '@coinbase/onchainkit/transaction'; // [!code focus]
 import { Wallet, ConnectWallet } from '@coinbase/onchainkit/wallet';
-import { useAccount } from "wagmi";
+import { useAccount } from 'wagmi';
 
-const myNFTABI = [
+export const clickContractAddress = '0x67c97D1FB8184F038592b2109F854dfb09C77C75';
+export const clickContractAbi = [
   {
-    stateMutability: 'nonpayable',
     type: 'function',
-    inputs: [{ name: 'to', type: 'address' }],
-    name: 'safeMint',
+    name: 'click',
+    inputs: [],
     outputs: [],
+    stateMutability: 'nonpayable',
   },
 ] as const;
-const myNFTAddress = '0x119Ea671030FBf79AB93b436D2E20af6ea469a19';
 
 export default function TransactionComponents() {
   const { address } = useAccount();
 
   const contracts = [
     {
-      address: myNFTAddress,
-      abi: myNFTABI,
-      functionName: 'safeMint',
-      args: [address],
-    }
+      address: clickContractAddress,
+      abi: clickContractAbi,
+      functionName: 'click',
+      args: [],
+    },
   ];
 
   return address ? (
-    <Transaction address={address} contracts={contracts}>  // [!code focus]
-      <TransactionButton />  // [!code focus]
-      <TransactionSponsor text="Coinbase" /> // [!code focus]
-      <TransactionStatus>  // [!code focus]
-        <TransactionStatusLabel />  // [!code focus]
-        <TransactionStatusAction />  // [!code focus]
-      </TransactionStatus>  // [!code focus]
-    </Transaction>  // [!code focus]
+    <Transaction address={address} chainId={85432} contracts={contracts}>
+      {' '}
+      // [!code focus]
+      <TransactionButton /> // [!code focus]
+      <TransactionStatus>
+        {' '}
+        // [!code focus]
+        <TransactionStatusLabel /> // [!code focus]
+        <TransactionStatusAction /> // [!code focus]
+      </TransactionStatus> // [!code focus]
+    </Transaction> // [!code focus]
   ) : (
     <Wallet>
       <ConnectWallet>
-        <Avatar className="h-6 w-6" />
+        <Avatar className='h-6 w-6' />
         <Name />
       </ConnectWallet>
     </Wallet>
@@ -85,79 +81,42 @@ export default function TransactionComponents() {
 }
 ```
 
-<AppWithBaseSepolia>
+<App>
   <TransactionWrapper>
     {({ address, contracts, onError }) => {
       if (address) {
         return (
-          <Transaction address={address} contracts={contracts} onError={onError}>
+          <Transaction
+            address={address}
+            capabilities={{
+              paymasterService: {
+                url: 'https://api.developer.coinbase.com/rpc/v1/base-sepolia/KkgONfLFgUZKI8nnrttLbI78U2vyhtXg',
+              },
+            }}
+            chainId={84532}
+            contracts={contracts}
+            onError={onError}
+          >
             <TransactionButton />
-            <TransactionSponsor text="Coinbase" />
             <TransactionStatus>
               <TransactionStatusLabel />
               <TransactionStatusAction />
             </TransactionStatus>
           </Transaction>
-        )
+        );
       } else {
         return (
           <Wallet>
             <ConnectWallet>
-              <Avatar className="h-6 w-6" />
+              <Avatar className='h-6 w-6' />
               <Name />
             </ConnectWallet>
           </Wallet>
-        )
+        );
       }
     }}
   </TransactionWrapper>
-</AppWithBaseSepolia>
-
-## `Transaction` with `TransactionToast` components
-
-```tsx
-// ommited for brevity
-
-<Transaction address={address} contracts={contracts}>  // [!code focus]
-  <TransactionButton />  // [!code focus]
-  <TransactionSponsor text="Coinbase" /> // [!code focus]
-  <TransactionToast>  // [!code focus]
-    <TransactionToastIcon />  // [!code focus]
-    <TransactionToastLabel />  // [!code focus]
-    <TransactionToastAction />  // [!code focus]
-  </TransactionToast>  // [!code focus]
-</Transaction>  // [!code focus]
-```
-
-<AppWithBaseSepolia>
-  <TransactionWrapper>
-    {({ address, contracts, onError }) => {
-      if (address) {
-        return (
-          <Transaction address={address} contracts={contracts} onError={onError}>
-            <TransactionButton />
-            <TransactionSponsor text="Coinbase" />
-            <TransactionToast>
-              <TransactionToastIcon />
-              <TransactionToastLabel />
-              <TransactionToastAction />
-            </TransactionToast>
-          </Transaction>
-        )
-      } else {
-        return (
-          <Wallet>
-            <ConnectWallet>
-              <Avatar className="h-6 w-6" />
-              <Name />
-            </ConnectWallet>
-          </Wallet>
-        )
-      }
-    }}
-  </TransactionWrapper>
-</AppWithBaseSepolia>
-
+</App>
 
 ## Components
 
@@ -165,7 +124,6 @@ The components are designed to work together hierarchically. For each component,
 
 - `<Transaction />` - Serves as the main container for all transaction-related components.
 - `<TransactionButton />` - Handles the transaction initiation process.
-- `<TransactionSponsor />` - Displays information about the sponsorship of transaction gas fees.
 - `<TransactionStatus />` - Contains transaction status information and actions.
 - `<TransactionStatusLabel />` - Displays the current status of the transaction.
 - `<TransactionStatusAction />` - Provides additional actions based on the transaction status.
