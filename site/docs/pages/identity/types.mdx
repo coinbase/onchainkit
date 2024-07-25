@@ -14,6 +14,22 @@ type AddressReact = {
 };
 ```
 
+## `Attestation`
+
+```ts
+type Attestation = {
+  attester: Address; // the attester who created the attestation.
+  decodedDataJson: string; // The attestation data decoded to JSON.
+  expirationTime: number; // The Unix timestamp when the attestation expires (0 for no expiration).
+  id: string; // The unique identifier of the attestation.
+  recipient: Address; // The Ethereum address of the recipient of the attestation.
+  revocationTime: number; // The Unix timestamp when the attestation was revoked, if applicable.
+  revoked: boolean; // A boolean indicating whether the attestation is revocable or not.
+  schemaId: EASSchemaUid; // The schema identifier associated with the attestation.
+  time: number; // The Unix timestamp when the attestation was created.
+};
+```
+
 ## `AvatarReact`
 
 ```ts
@@ -35,26 +51,28 @@ type BadgeReact = {
 };
 ```
 
+## `BaseMainnetName`
+
+```ts
+export type BaseMainnetName = `${string}.base.eth`;
+```
+
+## `BaseName`
+
+```ts
+type BaseName = BaseMainnetName | BaseSepoliaName;
+```
+
+## `BaseSepoliaName`
+
+```ts
+type BaseSepoliaName = `${string}.basetest.eth`;
+```
+
 ## `EASSchemaUid`
 
 ```ts
 type EASSchemaUid = `0x${string}`;
-```
-
-## `Attestation`
-
-```ts
-type Attestation = {
-  attester: Address; // the attester who created the attestation.
-  decodedDataJson: string; // The attestation data decoded to JSON.
-  expirationTime: number; // The Unix timestamp when the attestation expires (0 for no expiration).
-  id: string; // The unique identifier of the attestation.
-  recipient: Address; // The Ethereum address of the recipient of the attestation.
-  revocationTime: number; // The Unix timestamp when the attestation was revoked, if applicable.
-  revoked: boolean; // A boolean indicating whether the attestation is revocable or not.
-  schemaId: EASSchemaUid; // The schema identifier associated with the attestation.
-  time: number; // The Unix timestamp when the attestation was created.
-};
 ```
 
 ## `GetAttestationsOptions`

@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- 6cf5f66: - **feat**: added experimental API for `Swap` components to enable UniswapRouter. By @0xAlec #878
+- **feat**: added experimental API for `Swap` components to enable UniswapRouter. By @0xAlec #878 6cf5f66
 
 ## 0.26.3
 
