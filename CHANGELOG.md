@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.26.3
+
+### Patch Changes
+
+- 92a0cf0: - **fix**: fetch ens with `getName`. By @zizzamia #888
+
 ## 0.26.2
 
 ### Patch Changes
