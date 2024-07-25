@@ -42,12 +42,24 @@ export function TransactionProvider({
   const account = useAccount();
   const { switchChainAsync } = useSwitchChain();
 
+<<<<<<< Updated upstream
   const { status: statusWriteContracts, writeContractsAsync } =
     useWriteContracts({
       onError,
       setErrorMessage,
       setTransactionId,
     });
+=======
+  const { account } = useAccount();
+
+  const { switchChain } = useSwitchChain()
+
+  const { status: statusWriteContracts, writeContracts } = useWriteContracts({
+    onError,
+    setErrorMessage,
+    setTransactionId,
+  });
+>>>>>>> Stashed changes
 
   const {
     status: statusWriteContract,
@@ -113,6 +125,14 @@ export function TransactionProvider({
   const handleSubmit = useCallback(async () => {
     setErrorMessage('');
     setIsToastVisible(true);
+<<<<<<< Updated upstream
+=======
+
+    if (chainId && account.chainId !== chainId) {
+      switchChain({ chainId })
+    }
+
+>>>>>>> Stashed changes
     try {
       await switchChain(chainId);
       await executeContracts();
