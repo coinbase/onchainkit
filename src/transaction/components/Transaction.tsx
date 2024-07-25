@@ -4,11 +4,11 @@ import { TransactionProvider } from './TransactionProvider';
 
 export function Transaction({
   address,
+  capabilities,
+  chainId,
   className,
   children,
   contracts,
-  chainId,
-  capabilities,
   onError,
 }: TransactionReact) {
   return (

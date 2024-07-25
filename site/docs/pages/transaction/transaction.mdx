@@ -92,13 +92,13 @@ export default function TransactionComponents() {
         return (
           <Transaction
             address={address}
-            chainId={84532}
-            contracts={contracts}
             capabilities={{
               paymasterService: {
                 url: 'https://api.developer.coinbase.com/rpc/v1/base-sepolia/KkgONfLFgUZKI8nnrttLbI78U2vyhtXg',
               },
             }}
+            chainId={84532}
+            contracts={contracts}
             onError={onError}
           >
             <TransactionButton />
