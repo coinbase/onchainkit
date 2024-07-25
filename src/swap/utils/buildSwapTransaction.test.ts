@@ -116,9 +116,7 @@ describe('buildSwapTransaction', () => {
 
     const trade = mockResponse.result;
     const expectedResponse = {
-      approveTransaction: trade.approveTx
-        ? getSwapTransaction(trade.approveTx, trade.chainId)
-        : undefined,
+      approveTransaction: undefined,
       fee: trade.fee,
       quote: trade.quote,
       transaction: getSwapTransaction(trade.tx, trade.chainId),
@@ -222,9 +220,7 @@ describe('buildSwapTransaction', () => {
 
     const trade = mockResponse.result;
     const expectedResponse = {
-      approveTransaction: trade.approveTx
-        ? getSwapTransaction(trade.approveTx, trade.chainId)
-        : undefined,
+      approveTransaction: undefined,
       fee: trade.fee,
       quote: trade.quote,
       transaction: getSwapTransaction(trade.tx, trade.chainId),
@@ -332,9 +328,7 @@ describe('buildSwapTransaction', () => {
 
     const trade = mockResponse.result;
     const expectedResponse = {
-      approveTransaction: trade.approveTx
-        ? getSwapTransaction(trade.approveTx, trade.chainId)
-        : undefined,
+      approveTransaction: getSwapTransaction(trade.approveTx, trade.chainId),
       fee: trade.fee,
       quote: trade.quote,
       transaction: getSwapTransaction(trade.tx, trade.chainId),
