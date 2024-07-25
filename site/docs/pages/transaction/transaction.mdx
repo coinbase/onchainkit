@@ -2,9 +2,14 @@ import { Avatar, Name } from '@coinbase/onchainkit/identity';
 import { 
   Transaction, 
   TransactionButton,
+  TransactionSponsor,
   TransactionStatus,
+  TransactionStatusAction,
   TransactionStatusLabel,
-  TransactionStatusAction
+  TransactionToast,
+  TransactionToastAction,
+  TransactionToastIcon,
+  TransactionToastLabel,
 } from '@coinbase/onchainkit/transaction';
 import { Wallet, ConnectWallet } from '@coinbase/onchainkit/wallet';
 import App from '../../components/App';
@@ -12,7 +17,7 @@ import TransactionWrapper from '../../components/TransactionWrapper';
 
 # `<Transaction />`
 
-The `<Transaction />` components provide a high-level wrap around the entire transaction flow.
+The `<Transaction />` components provide a high-level wrap around the entire transaction flow. 
 It handles the transaction lifecycle, including gas estimation, fee sponsorship, and status updates.
 
 Before using them, ensure you've completed all [Getting Started steps](/getting-started).
@@ -21,14 +26,17 @@ Before using them, ensure you've completed all [Getting Started steps](/getting-
 Component is not shipped yet. Stay tuned for upcoming releases.
 :::
 
+## `Transaction` with `TransactionStatus` components
+
 ```tsx [code]
 import { useCallback } from 'react';
 import { Avatar, Name } from '@coinbase/onchainkit/identity';
-import {
-  // [!code focus]
-  Transaction, // [!code focus]]
+import { // [!code focus]
+  Transaction, // [!code focus]
   TransactionButton, // [!code focus]
+  TransactionSponsor, // [!code focus]
   TransactionStatus, // [!code focus]
+  TransactionStatusAction, // [!code focus]
   TransactionStatusLabel, // [!code focus]
   TransactionStatusAction, // [!code focus]
 } from '@coinbase/onchainkit/transaction'; // [!code focus]
@@ -59,17 +67,14 @@ export default function TransactionComponents() {
   ];
 
   return address ? (
-    <Transaction address={address} chainId={85432} contracts={contracts}>
-      {' '}
-      // [!code focus]
-      <TransactionButton /> // [!code focus]
-      <TransactionStatus>
-        {' '}
-        // [!code focus]
-        <TransactionStatusLabel /> // [!code focus]
-        <TransactionStatusAction /> // [!code focus]
-      </TransactionStatus> // [!code focus]
-    </Transaction> // [!code focus]
+    <Transaction address={address} chainId={85432} contracts={contracts}>  // [!code focus]
+      <TransactionButton />  // [!code focus]
+      <TransactionSponsor text="Coinbase" /> // [!code focus]
+      <TransactionStatus>  // [!code focus]
+        <TransactionStatusLabel />  // [!code focus]
+        <TransactionStatusAction />  // [!code focus]
+      </TransactionStatus>  // [!code focus]
+    </Transaction>  // [!code focus]
   ) : (
     <Wallet>
       <ConnectWallet>
@@ -103,20 +108,66 @@ export default function TransactionComponents() {
               <TransactionStatusAction />
             </TransactionStatus>
           </Transaction>
-        );
+                )
       } else {
         return (
           <Wallet>
             <ConnectWallet>
-              <Avatar className='h-6 w-6' />
+              <Avatar className="h-6 w-6" />
               <Name />
             </ConnectWallet>
           </Wallet>
-        );
+        )
       }
     }}
   </TransactionWrapper>
-</App>
+</AppWithBaseSepolia>
+
+## `Transaction` with `TransactionToast` components
+
+```tsx
+// ommited for brevity
+
+<Transaction address={address} contracts={contracts}>  // [!code focus]
+  <TransactionButton />  // [!code focus]
+  <TransactionSponsor text="Coinbase" /> // [!code focus]
+  <TransactionToast>  // [!code focus]
+    <TransactionToastIcon />  // [!code focus]
+    <TransactionToastLabel />  // [!code focus]
+    <TransactionToastAction />  // [!code focus]
+  </TransactionToast>  // [!code focus]
+</Transaction>  // [!code focus]
+```
+
+<AppWithBaseSepolia>
+  <TransactionWrapper>
+    {({ address, contracts, onError }) => {
+      if (address) {
+        return (
+          <Transaction address={address} contracts={contracts} onError={onError}>
+            <TransactionButton />
+            <TransactionSponsor text="Coinbase" />
+            <TransactionToast>
+              <TransactionToastIcon />
+              <TransactionToastLabel />
+              <TransactionToastAction />
+            </TransactionToast>
+          </Transaction>
+        )
+      } else {
+        return (
+          <Wallet>
+            <ConnectWallet>
+              <Avatar className="h-6 w-6" />
+              <Name />
+            </ConnectWallet>
+          </Wallet>
+        )
+      }
+    }}
+  </TransactionWrapper>
+</AppWithBaseSepolia>
+
 
 ## Components
 
@@ -124,26 +175,11 @@ The components are designed to work together hierarchically. For each component,
 
 - `<Transaction />` - Serves as the main container for all transaction-related components.
 - `<TransactionButton />` - Handles the transaction initiation process.
+- `<TransactionSponsor />` - Displays information about the sponsorship of transaction gas fees.
 - `<TransactionStatus />` - Contains transaction status information and actions.
 - `<TransactionStatusLabel />` - Displays the current status of the transaction.
 - `<TransactionStatusAction />` - Provides additional actions based on the transaction status.
-- `<TransactionToast />` - Displays a toast notification for the transaction status.
-- `<TransactionToastIcon />` - Displays an icon in the transaction toast notification.
-- `<TransactionToastLabel />` - Displays the label text in the transaction toast notification.
-- `<TransactionToastAction />` - Provides additional actions within the transaction toast notification.
-
-## Props
-
-- [`TransactionButtonReact`](/transaction/types#transactionbuttonreact)
-- [`TransactionContextType`](/transaction/types#transactioncontexttype)
-- [`TransactionError`](/transaction/types#transactionerror)
-- [`TransactionProviderReact`](/transaction/types#transactionproviderreact)
-- [`TransactionReact`](/transaction/types#transactionreact)
-- [`TransactionSponsorReact`](/transaction/types#transactionsponsorreact)
-- [`TransactionStatusReact`](/transaction/types#transactionstatusreact)
-- [`TransactionStatusActionReact`](/transaction/types#transactionstatusactionreact)
-- [`TransactionStatusLabelReact`](/transaction/types#transactionstatuslabelreact)
-- [`TransactionToastReact`](/transaction/types#transactiontoastreact)
+	@@ -189,4 +147,4 @@ The components are designed to work together hierarchically. For each component,
 - [`TransactionToastActionReact`](/transaction/types#transactiontoastactionreact)
 - [`TransactionToastIconReact`](/transaction/types#transactiontoasticonreact)
 - [`TransactionToastLabelReact`](/transaction/types#transactiontoastlabelreact)
