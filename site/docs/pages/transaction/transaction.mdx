@@ -108,7 +108,7 @@ export default function TransactionComponents() {
               <TransactionStatusAction />
             </TransactionStatus>
           </Transaction>
-                )
+        )
       } else {
         return (
           <Wallet>
@@ -121,7 +121,7 @@ export default function TransactionComponents() {
       }
     }}
   </TransactionWrapper>
-</AppWithBaseSepolia>
+</App>
 
 ## `Transaction` with `TransactionToast` components
 
@@ -139,7 +139,7 @@ export default function TransactionComponents() {
 </Transaction>  // [!code focus]
 ```
 
-<AppWithBaseSepolia>
+<App>
   <TransactionWrapper>
     {({ address, contracts, onError }) => {
       if (address) {
