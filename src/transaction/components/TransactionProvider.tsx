@@ -10,6 +10,7 @@ import type {
   TransactionContextType,
   TransactionProviderReact,
 } from '../types';
+import { useWaitForTransactionReceipt } from 'wagmi';
 
 const emptyContext = {} as TransactionContextType;
 
@@ -57,10 +58,9 @@ export function TransactionProvider({
     transactionId,
   });
 
-  // receipt = successful
-  // const { data: receipt } = useWaitForTransactionReceipt({
-  //   hash: transactionHash,
-  // });
+  const { data: receipt } = useWaitForTransactionReceipt({
+    hash: transactionHash,
+  });
 
   const fallbackToWriteContract = useCallback(async () => {
     // EOAs don't support batching, so we process contracts individually.
@@ -99,11 +99,11 @@ export function TransactionProvider({
     isLoading: callStatus === 'PENDING',
     isToastVisible,
     onSubmit: handleSubmit,
+    receipt,
     setErrorMessage,
     setIsToastVisible,
     setTransactionId,
     status: statusWriteContract || statusWriteContracts,
-    // receipt,
     transactionId,
     transactionHash: transactionHash || writeContractTransactionHash,
   });

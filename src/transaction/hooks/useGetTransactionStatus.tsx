@@ -13,7 +13,7 @@ export function useGetTransactionStatus() {
     status,
     transactionHash,
     transactionId,
-    // receipt
+    receipt,
   } = useTransactionContext();
   const { chain } = useOnchainKit();
 
@@ -41,8 +41,7 @@ export function useGetTransactionStatus() {
         );
       }
     }
-    // if (receipt) 
-    if (transactionHash) {
+    if (receipt) {
       actionElement = (
         <a
           href={`${chainExplorer}/tx/${transactionHash}`}
@@ -75,6 +74,6 @@ export function useGetTransactionStatus() {
     status,
     transactionHash,
     transactionId,
-    // receipt
+    receipt,
   ]);
 }
