@@ -2,9 +2,14 @@ import { Avatar, Name } from '@coinbase/onchainkit/identity';
 import { 
   Transaction, 
   TransactionButton,
+  TransactionSponsor,
   TransactionStatus,
+  TransactionStatusAction,
   TransactionStatusLabel,
-  TransactionStatusAction
+  TransactionToast,
+  TransactionToastAction,
+  TransactionToastIcon,
+  TransactionToastLabel,
 } from '@coinbase/onchainkit/transaction';
 import { Wallet, ConnectWallet } from '@coinbase/onchainkit/wallet';
 import AppWithBaseSepolia from '../../components/AppWithBaseSepolia';
@@ -27,9 +32,14 @@ import { Avatar, Name } from '@coinbase/onchainkit/identity';
 import { // [!code focus]
   Transaction, // [!code focus]
   TransactionButton, // [!code focus]
+  TransactionSponsor, // [!code focus]
   TransactionStatus, // [!code focus]
-  TransactionStatusLabel, // [!code focus]
   TransactionStatusAction // [!code focus]
+  TransactionStatusLabel, // [!code focus]
+  TransactionToast, // [!code focus]
+  TransactionToastAction // [!code focus]
+  TransactionToastIcon // [!code focus]
+  TransactionToastLabel, // [!code focus]
 } from '@coinbase/onchainkit/transaction'; // [!code focus]
 import { Wallet, ConnectWallet } from '@coinbase/onchainkit/wallet';
 import { useAccount } from "wagmi";
@@ -60,6 +70,7 @@ export default function TransactionComponents() {
   return address ? (
     <Transaction address={address} contracts={contracts}>  // [!code focus]
       <TransactionButton />  // [!code focus]
+      <TransactionSponsor text="Coinbase" /> // [!code focus]
       <TransactionStatus>  // [!code focus]
         <TransactionStatusLabel />  // [!code focus]
         <TransactionStatusAction />  // [!code focus]
@@ -83,10 +94,16 @@ export default function TransactionComponents() {
         return (
           <Transaction address={address} contracts={contracts} onError={onError} onSuccess={onSuccess}>
             <TransactionButton />
+            <TransactionSponsor text="Coinbase" />
             <TransactionStatus>
               <TransactionStatusLabel />
               <TransactionStatusAction />
             </TransactionStatus>
+            <TransactionToast>
+              <TransactionToastIcon />
+              <TransactionToastLabel />
+              <TransactionToastAction />
+            </TransactionToast>
           </Transaction>
         )
       } else {
@@ -110,6 +127,7 @@ The components are designed to work together hierarchically. For each component,
 
 - `<Transaction />` - Serves as the main container for all transaction-related components.
 - `<TransactionButton />` - Handles the transaction initiation process.
+- `<TransactionSponsor />` - Displays information about the sponsorship of transaction gas fees.
 - `<TransactionStatus />` - Contains transaction status information and actions.
 - `<TransactionStatusLabel />` - Displays the current status of the transaction.
 - `<TransactionStatusAction />` - Provides additional actions based on the transaction status.
