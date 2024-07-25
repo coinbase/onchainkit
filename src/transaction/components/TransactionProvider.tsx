@@ -97,6 +97,21 @@ export function TransactionProvider({
     });
   };
 
+  const handleSubmitErrors = async (err: unknown) => {
+    if (
+      err instanceof Error &&
+      err.message.includes(METHOD_NOT_SUPPORTED_ERROR_SUBSTRING)
+    ) {
+      try {
+        await fallbackToWriteContract();
+      } catch (_err) {
+        setErrorMessage(genericErrorMessage);
+      }
+    } else {
+      setErrorMessage(genericErrorMessage);
+    }
+  };
+  
   const handleSubmit = useCallback(async () => {
     setErrorMessage('');
     setIsToastVisible(true);
@@ -104,22 +119,9 @@ export function TransactionProvider({
       await switchChain(chainId);
       await executeContracts();
     } catch (err) {
-      // EOA accounts always fail on writeContracts, returning undefined.
-      // Fallback to writeContract, which works for EOAs.
-      if (
-        err instanceof Error &&
-        err.message.includes(METHOD_NOT_SUPPORTED_ERROR_SUBSTRING)
-      ) {
-        try {
-          await fallbackToWriteContract();
-        } catch (_err) {
-          setErrorMessage(genericErrorMessage);
-        }
-      } else {
-        setErrorMessage(genericErrorMessage);
-      }
+      await handleSubmitErrors(err);
     }
-  }, [contracts, writeContractsAsync, fallbackToWriteContract]);
+  }, [contracts, writeContractsAsync, fallbackToWriteContract, chainId]);
 
   const value = useValue({
     address,
