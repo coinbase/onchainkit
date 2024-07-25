@@ -37,16 +37,6 @@ type PaymasterService = {
 };
 
 /**
- * Smart Wallet capabilities configuration
- */
-type SmartWalletCapabilities = Record<
-  string,
-  {
-    paymasterService?: PaymasterService;
-  }
->;
-
-/**
  * Note: exported as public Type
  */
 export type TransactionError = {
@@ -59,7 +49,7 @@ export type TransactionError = {
  */
 export type TransactionProviderReact = {
   address: Address; // The wallet address to be provided to child components.
-  capabilities?: SmartWalletCapabilities; // Capabilities that a wallet supports (e.g. paymasters, session keys, etc).
+  capabilities?: WalletCapabilities; // Capabilities that a wallet supports (e.g. paymasters, session keys, etc).
   chainId?: number; // The chainId for the transaction.
   children: ReactNode; // The child components to be rendered within the provider component.
   contracts: ContractFunctionParameters[]; // An array of contract function parameters provided to the child components.
@@ -71,7 +61,7 @@ export type TransactionProviderReact = {
  */
 export type TransactionReact = {
   address: Address; // The wallet address involved in the transaction.
-  capabilities?: SmartWalletCapabilities; // Capabilities that a wallet supports (e.g. paymasters, session keys, etc).
+  capabilities?: WalletCapabilities; // Capabilities that a wallet supports (e.g. paymasters, session keys, etc).
   chainId?: number; // The chainId for the transaction.
   children: ReactNode; // The child components to be rendered within the transaction component.
   className?: string; // An optional CSS class name for styling the component.
@@ -137,4 +127,13 @@ export type TransactionToastIconReact = {
  */
 export type TransactionToastLabelReact = {
   className?: string; // An optional CSS class name for styling.
+};
+
+/**
+ * Note: exported as public Type
+ *
+ * Wallet capabilities configuration
+ */
+export type WalletCapabilities = {
+  paymasterService?: PaymasterService;
 };
