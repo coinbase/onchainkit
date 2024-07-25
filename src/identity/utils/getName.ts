@@ -1,10 +1,10 @@
-import { mainnet } from 'viem/chains';
+import { base, mainnet } from 'viem/chains';
 import { isBase } from '../../isBase';
 import { isEthereum } from '../../isEthereum';
 import { getChainPublicClient } from '../../network/getChainPublicClient';
 import L2ResolverAbi from '../abis/L2ResolverAbi';
 import { RESOLVER_ADDRESSES_BY_CHAIN_ID } from '../constants';
-import type { GetName, GetNameReturnType } from '../types';
+import type { BaseName, GetName, GetNameReturnType } from '../types';
 import { convertReverseNodeToBytes } from './convertReverseNodeToBytes';
 
 /**
@@ -30,7 +30,7 @@ export const getName = async ({
   let client = getChainPublicClient(chain);
 
   if (chainIsBase) {
-    const addressReverseNode = convertReverseNodeToBytes(address);
+    const addressReverseNode = convertReverseNodeToBytes(address, base.id);
     try {
       const baseName = await client.readContract({
         abi: L2ResolverAbi,
@@ -39,7 +39,7 @@ export const getName = async ({
         args: [addressReverseNode],
       });
       if (baseName) {
-        return baseName;
+        return baseName as BaseName;
       }
     } catch (_error) {
       // This is a best effort attempt, so we don't need to do anything here.
