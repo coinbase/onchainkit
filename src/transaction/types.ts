@@ -45,7 +45,7 @@ export type TransactionProviderReact = {
   children: ReactNode; // The child components to be rendered within the provider component.
   contracts: ContractFunctionParameters[]; // An array of contract function parameters provided to the child components.
   chainId?: number;
-  capabilities?: Record<string, any>; // Support any capabilities
+  capabilities?: Record<string, any>; // Capabilities that a wallet supports (e.g. paymasters, session keys, etc).
   onError?: (e: TransactionError) => void; // An optional callback function that handles errors within the provider.
 };
 
@@ -57,7 +57,7 @@ export type TransactionReact = {
   children: ReactNode; // The child components to be rendered within the transaction component.
   className?: string; // An optional CSS class name for styling the component.
   chainId?: number;
-  capabilities?: Record<string, any>; // Support any capabilities
+  capabilities?: Record<string, any>; // Capabilities that a wallet supports (e.g. paymasters, session keys, etc).
   contracts: ContractFunctionParameters[]; // An array of contract function parameters for the transaction.
   onError?: (e: TransactionError) => void; // An optional callback function that handles transaction errors.
 };
