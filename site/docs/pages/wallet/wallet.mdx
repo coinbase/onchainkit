@@ -26,26 +26,6 @@ import WalletComponents from '../../components/WalletComponents';
 
 The Wallet components provide a comprehensive interface for users to connect their Smart Wallet, view their identity information, and manage their wallet connection. Before using them, ensure you've completed all Getting Started steps.
 
-## Components
-
-The components are designed to work together hierarchically. For each component, ensure the following:
-
-- `<Wallet />` - Serves as the main container for all wallet-related components.
-- `<ConnectWallet />` - Handles the wallet connection process. Place child components inside to customize the connect button appearance.
-- `<WalletDropdown />` - Contains additional wallet information and options. Place inside the `<Wallet />` component.
-- `<Identity />` - Displays user identity information. Place inside `<WalletDropdown />` for a complete profile view.
-- `<WalletDropdownLink />` - Creates a custom link within the dropdown. Use the `icon` prop to add an icon, and `href` to specify the destination.
-- `<WalletDropdownDisconnect />` - Provides a disconnect option within the dropdown.
-
-Additional components for customizing the wallet interface include:
-
-- `<Avatar />` - Displays the user's avatar image.
-- `<Name />` - Shows the user's name or ENS.
-- `<Badge />` - Can be used to display additional user status or information.
-- `<Address />` - Shows the user's wallet address.
-- `<EthBalance />` - Displays the user's ETH balance.
-
-The Wallet component automatically handles the wallet connection state and updates the UI accordingly. You need to wrap your application or relevant part of it with these components to provide a complete wallet interaction experience.
 ## Usage
 
 ```tsx
@@ -345,6 +325,27 @@ export default OnchainProviders;
     </Wallet>
   </div>
 </AppWithRK>
+
+## Components
+
+The components are designed to work together hierarchically. For each component, ensure the following:
+
+- `<Wallet />` - Serves as the main container for all wallet-related components.
+- `<ConnectWallet />` - Handles the wallet connection process. Place child components inside to customize the connect button appearance.
+- `<WalletDropdown />` - Contains additional wallet information and options. Place inside the `<Wallet />` component.
+- `<Identity />` - Displays user identity information. Place inside `<WalletDropdown />` for a complete profile view.
+- `<WalletDropdownLink />` - Creates a custom link within the dropdown. Use the `icon` prop to add an icon, and `href` to specify the destination.
+- `<WalletDropdownDisconnect />` - Provides a disconnect option within the dropdown.
+
+Additional components for customizing the wallet interface include:
+
+- `<Avatar />` - Displays the user's avatar image.
+- `<Name />` - Shows the user's name or ENS.
+- `<Badge />` - Can be used to display additional user status or information.
+- `<Address />` - Shows the user's wallet address.
+- `<EthBalance />` - Displays the user's ETH balance.
+
+The Wallet component automatically handles the wallet connection state and updates the UI accordingly. You need to wrap your application or relevant part of it with these components to provide a complete wallet interaction experience.
 
 ## Props
 
