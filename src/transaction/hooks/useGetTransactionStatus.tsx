@@ -18,14 +18,12 @@ export function useGetTransactionStatus() {
     transactionId,
   } = useTransactionContext();
   const accountChainId = chainId ?? useChainId();
+  const isPending =
+    statusWriteContract === 'pending' || statusWriteContracts === 'pending';
+  const isInProgress = isLoading || transactionId || transactionHash;
 
   return useMemo(() => {
     const chainExplorer = getChainExplorer(accountChainId);
-
-    const isPending =
-      statusWriteContract === 'pending' || statusWriteContracts === 'pending';
-
-    const isInProgress = isLoading || transactionId || transactionHash;
 
     let actionElement: ReactNode = null;
     let label = '';
@@ -71,12 +69,10 @@ export function useGetTransactionStatus() {
   }, [
     accountChainId,
     errorMessage,
-    isLoading,
+    isInProgress,
+    isPending,
     onSubmit,
     receipt,
-    statusWriteContract,
-    statusWriteContracts,
     transactionHash,
-    transactionId,
   ]);
 }
