@@ -166,20 +166,34 @@ export default function TransactionComponents() {
       }
     }}
   </TransactionWrapper>
-</AppWithBaseSepolia>
+</App>
 
 
 ## Components
-
 The components are designed to work together hierarchically. For each component, ensure the following:
-
 - `<Transaction />` - Serves as the main container for all transaction-related components.
 - `<TransactionButton />` - Handles the transaction initiation process.
 - `<TransactionSponsor />` - Displays information about the sponsorship of transaction gas fees.
 - `<TransactionStatus />` - Contains transaction status information and actions.
 - `<TransactionStatusLabel />` - Displays the current status of the transaction.
 - `<TransactionStatusAction />` - Provides additional actions based on the transaction status.
-	@@ -189,4 +147,4 @@ The components are designed to work together hierarchically. For each component,
+- `<TransactionToast />` - Displays a toast notification for the transaction status.
+- `<TransactionToastIcon />` - Displays an icon in the transaction toast notification.
+- `<TransactionToastLabel />` - Displays the label text in the transaction toast notification.
+- `<TransactionToastAction />` - Provides additional actions within the transaction toast notification.
+
+## Props
+
+- [`TransactionButtonReact`](/transaction/types#transactionbuttonreact)
+- [`TransactionContextType`](/transaction/types#transactioncontexttype)
+- [`TransactionError`](/transaction/types#transactionerror)
+- [`TransactionProviderReact`](/transaction/types#transactionproviderreact)
+- [`TransactionReact`](/transaction/types#transactionreact)
+- [`TransactionSponsorReact`](/transaction/types#transactionsponsorreact)
+- [`TransactionStatusReact`](/transaction/types#transactionstatusreact)
+- [`TransactionStatusActionReact`](/transaction/types#transactionstatusactionreact)
+- [`TransactionStatusLabelReact`](/transaction/types#transactionstatuslabelreact)
+- [`TransactionToastReact`](/transaction/types#transactiontoastreact)
 - [`TransactionToastActionReact`](/transaction/types#transactiontoastactionreact)
 - [`TransactionToastIconReact`](/transaction/types#transactiontoasticonreact)
 - [`TransactionToastLabelReact`](/transaction/types#transactiontoastlabelreact)
