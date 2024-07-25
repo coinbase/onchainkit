@@ -1,21 +1,21 @@
-import { createContext, useCallback, useContext, useState } from "react";
+import { createContext, useCallback, useContext, useState } from 'react';
 import {
   useAccount,
   useSwitchChain,
   useWaitForTransactionReceipt,
-} from "wagmi";
-import { useValue } from "../../internal/hooks/useValue";
-import { METHOD_NOT_SUPPORTED_ERROR_SUBSTRING } from "../constants";
-import { useCallsStatus } from "../hooks/useCallsStatus";
-import { useWriteContract } from "../hooks/useWriteContract";
+} from 'wagmi';
+import { useValue } from '../../internal/hooks/useValue';
+import { METHOD_NOT_SUPPORTED_ERROR_SUBSTRING } from '../constants';
+import { useCallsStatus } from '../hooks/useCallsStatus';
+import { useWriteContract } from '../hooks/useWriteContract';
 import {
   genericErrorMessage,
   useWriteContracts,
-} from "../hooks/useWriteContracts";
+} from '../hooks/useWriteContracts';
 import type {
   TransactionContextType,
   TransactionProviderReact,
-} from "../types";
+} from '../types';
 
 const emptyContext = {} as TransactionContextType;
 
@@ -26,7 +26,7 @@ export function useTransactionContext() {
   const context = useContext(TransactionContext);
   if (context === emptyContext) {
     throw new Error(
-      "useTransactionContext must be used within a Transaction component"
+      'useTransactionContext must be used within a Transaction component',
     );
   }
   return context;
@@ -41,12 +41,12 @@ export function TransactionProvider({
   // paymasterUrl,
   onError,
 }: TransactionProviderReact) {
-  const [errorMessage, setErrorMessage] = useState("");
-  const [transactionId, setTransactionId] = useState("");
+  const [errorMessage, setErrorMessage] = useState('');
+  const [transactionId, setTransactionId] = useState('');
   const [isToastVisible, setIsToastVisible] = useState(false);
 
-  console.log("chainId", chainId);
-  console.log("capabilities", capabilities);
+  console.log('chainId', chainId);
+  console.log('capabilities', capabilities);
 
   const account = useAccount();
   const { switchChainAsync } = useSwitchChain();
@@ -90,7 +90,7 @@ export function TransactionProvider({
   }, [contracts, writeContract]);
 
   const handleSubmit = useCallback(async () => {
-    setErrorMessage("");
+    setErrorMessage('');
     setIsToastVisible(true);
     try {
       if (chainId && account.chainId !== chainId) {
@@ -102,17 +102,17 @@ export function TransactionProvider({
         capabilities, // { paymasterService: { url: string } }
       });
 
-      console.log("result", result);
+      console.log('result', result);
     } catch (err: any) {
       // not supported function
-      console.log("err", err);
-      console.log("err.message", err.message);
+      console.log('err', err);
+      console.log('err.message', err.message);
       // EOA accounts always fail on writeContracts, returning undefined.
       // Fallback to writeContract, which works for EOAs.
       if (err.message.includes(METHOD_NOT_SUPPORTED_ERROR_SUBSTRING)) {
         try {
           await fallbackToWriteContract();
-        } catch (err) {
+        } catch (_err) {
           setErrorMessage(genericErrorMessage);
         }
       } else {
@@ -127,7 +127,7 @@ export function TransactionProvider({
     chainId,
     contracts,
     errorMessage,
-    isLoading: callStatus === "PENDING",
+    isLoading: callStatus === 'PENDING',
     isToastVisible,
     onSubmit: handleSubmit,
     setErrorMessage,
