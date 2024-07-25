@@ -9,7 +9,7 @@ import {
 import { Wallet, ConnectWallet } from '@coinbase/onchainkit/wallet';
 import AppWithBaseSepolia from '../../components/AppWithBaseSepolia';
 import TransactionWrapper from '../../components/TransactionWrapper';
-import SwitchTargetBaseSepolia from '../../components/switchTargetBaseSepolia';
+import SwitchNetworkBaseSepolia from '../../components/switchNetworkBaseSepolia';
 
 # `<Transaction />`
 
@@ -77,11 +77,11 @@ export default function TransactionComponents() {
 }
 ```
 <AppWithBaseSepolia>
-  <SwitchTargetBaseSepolia>
-    {({ isLoading, SwitchTargetBaseSepolia }) => (
+  <SwitchNetworkBaseSepolia>
+    {({ isLoading, SwitchNetworkBaseSepolia }) => (
       <div className="flex max-w-[450px] items-center rounded-lg bg-white p-1">
         <button 
-          onClick={SwitchTargetBaseSepolia} 
+          onClick={SwitchNetworkBaseSepolia} 
           disabled={isLoading}
           className="w-full bg-white text-black text-sm font-semibold py-1 px-2 rounded-lg shadow-sm hover:bg-gray-50 transition-colors"
         >
@@ -89,7 +89,7 @@ export default function TransactionComponents() {
         </button>
       </div>
     )}    
-  </SwitchTargetBaseSepolia>
+  </SwitchNetworkBaseSepolia>
 </AppWithBaseSepolia>
 
 <AppWithBaseSepolia>

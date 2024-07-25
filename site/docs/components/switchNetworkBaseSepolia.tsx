@@ -2,38 +2,38 @@ import { useSwitchChain, useAccount } from "wagmi";
 import { baseSepolia } from "wagmi/chains";
 import { useState, ReactNode } from "react";
 
-type SwitchTargetBaseSepoliaProps = {
+type SwitchNetworkBaseSepoliaProps = {
   children: (props: {
     isLoading: boolean;
-    SwitchTargetBaseSepolia: () => Promise<void>;
+    SwitchNetworkBaseSepolia: () => Promise<void>;
   }) => ReactNode;
 };
 
-export default function SwitchTargetBaseSepolia({
+export default function SwitchNetworkBaseSepolia({
   children,
-}: SwitchTargetBaseSepoliaProps) {
+}: SwitchNetworkBaseSepoliaProps) {
   const { switchChain } = useSwitchChain();
-  const { chain } = useAccount();
+  const { chain, isConnected } = useAccount();
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleSwitchTargetBaseSepolia = async () => {
+  const handleSwitchNetworkBaseSepolia = async () => {
     setIsLoading(true);
     try {
       await switchChain({ chainId: baseSepolia.id });
     } catch (error) {
-      console.error("switchTargetBaseSepolia:", error);
+      console.error("switchNetworkBaseSepolia:", error);
     } finally {
       setIsLoading(false);
     }
   };
 
-  // Don't render anything if already on Base Sepolia
-  if (chain?.id === baseSepolia.id) {
+  // Don't render anything if the wallet is not connected or already on Base Sepolia
+  if (!isConnected || chain?.id === baseSepolia.id) {
     return null;
   }
 
   return children({
     isLoading,
-    SwitchTargetBaseSepolia: handleSwitchTargetBaseSepolia,
+    SwitchNetworkBaseSepolia: handleSwitchNetworkBaseSepolia,
   });
 }
