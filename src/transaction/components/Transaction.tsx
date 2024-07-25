@@ -7,12 +7,16 @@ export function Transaction({
   className,
   children,
   contracts,
+  chainId,
+  capabilities,
   onError,
 }: TransactionReact) {
   return (
     <TransactionProvider
       address={address}
       contracts={contracts}
+      chainId={chainId}
+      capabilities={capabilities}
       onError={onError}
     >
       <div className={cn(className, 'flex w-full flex-col gap-2')}>

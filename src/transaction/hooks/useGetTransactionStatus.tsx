@@ -2,11 +2,11 @@ import { useMemo } from 'react';
 import type { ReactNode } from 'react';
 import { getChainExplorer } from '../../network/getChainExplorer';
 import { cn, color, text } from '../../styles/theme';
-import { useOnchainKit } from '../../useOnchainKit';
 import { useTransactionContext } from '../components/TransactionProvider';
 
 export function useGetTransactionStatus() {
   const {
+    chainId,
     errorMessage,
     isLoading,
     onSubmit,
@@ -14,10 +14,11 @@ export function useGetTransactionStatus() {
     transactionHash,
     transactionId,
   } = useTransactionContext();
-  const { chain } = useOnchainKit();
+  // const { chain } = useOnchainKit();
 
   return useMemo(() => {
-    const chainExplorer = getChainExplorer(chain.id);
+    // const chainExplorer = getChainExplorer(chain.id);
+    const chainExplorer = getChainExplorer(chainId);
 
     let actionElement: ReactNode = null;
     let label = '';
@@ -64,7 +65,8 @@ export function useGetTransactionStatus() {
 
     return { actionElement, label, labelClassName };
   }, [
-    chain,
+    // chain
+    chainId,
     errorMessage,
     isLoading,
     onSubmit,

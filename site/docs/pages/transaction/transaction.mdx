@@ -1,6 +1,6 @@
-import { Avatar, Name } from '@coinbase/onchainkit/identity';
-import { 
-  Transaction, 
+import { Avatar, Name } from "../src/identity";
+import {
+  Transaction,
   TransactionButton,
   TransactionSponsor,
   TransactionStatus,
@@ -17,7 +17,7 @@ import TransactionWrapper from '../../components/TransactionWrapper';
 
 # `<Transaction />`
 
-The `<Transaction />` components provide a high-level wrap around the entire transaction flow. 
+The `<Transaction />` components provide a high-level wrap around the entire transaction flow.
 It handles the transaction lifecycle, including gas estimation, fee sponsorship, and status updates.
 
 Before using them, ensure you've completed all [Getting Started steps](/getting-started).
@@ -42,27 +42,28 @@ import { // [!code focus]
 import { Wallet, ConnectWallet } from '@coinbase/onchainkit/wallet';
 import { useAccount } from "wagmi";
 
-const myNFTABI = [
+export const clickAddress = "0x67c97D1FB8184F038592b2109F854dfb09C77C75";
+
+export const clickAbi = [
   {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [{ name: 'to', type: 'address' }],
-    name: 'safeMint',
+    type: "function",
+    name: "click",
+    inputs: [],
     outputs: [],
+    stateMutability: "nonpayable",
   },
 ] as const;
-const myNFTAddress = '0x119Ea671030FBf79AB93b436D2E20af6ea469a19';
 
 export default function TransactionComponents() {
   const { address } = useAccount();
 
   const contracts = [
     {
-      address: myNFTAddress,
-      abi: myNFTABI,
-      functionName: 'safeMint',
-      args: [address],
-    }
+      address: clickAddress,
+      abi: clickAbi,
+      functionName: "click",
+      args: [],
+    },
   ];
 
   return address ? (
@@ -85,12 +86,22 @@ export default function TransactionComponents() {
 }
 ```
 
-<AppWithBaseSepolia>
+<App>
   <TransactionWrapper>
     {({ address, contracts, onError }) => {
       if (address) {
         return (
-          <Transaction address={address} contracts={contracts} onError={onError}>
+          <Transaction
+            address={address}
+            chainId={84532}
+            contracts={contracts}
+            capabilities={{
+              paymasterService: {
+                url: "https://api.developer.coinbase.com/rpc/v1/base-sepolia/fsDbwDOLzfzHE6dxxdphhGPIjoSCxtt2", // conner's
+              },
+            }}
+            onError={onError}
+          >
             <TransactionButton />
             <TransactionSponsor text="Coinbase" />
             <TransactionStatus>
@@ -98,7 +109,7 @@ export default function TransactionComponents() {
               <TransactionStatusAction />
             </TransactionStatus>
           </Transaction>
-        )
+        );
       } else {
         return (
           <Wallet>
@@ -107,7 +118,7 @@ export default function TransactionComponents() {
               <Name />
             </ConnectWallet>
           </Wallet>
-        )
+        );
       }
     }}
   </TransactionWrapper>
@@ -189,4 +200,7 @@ The components are designed to work together hierarchically. For each component,
 - [`TransactionToastActionReact`](/transaction/types#transactiontoastactionreact)
 - [`TransactionToastIconReact`](/transaction/types#transactiontoasticonreact)
 - [`TransactionToastLabelReact`](/transaction/types#transactiontoastlabelreact)
+
+```
+
 ```
