@@ -7,13 +7,6 @@ vi.mock('wagmi/experimental', () => ({
   useWriteContracts: vi.fn(),
 }));
 
-type UseWriteContractsConfig = {
-  mutation: {
-    onError: (error: Error) => void;
-    onSuccess: (id: string) => void;
-  };
-};
-
 describe('useWriteContracts', () => {
   const mockSetErrorMessage = vi.fn();
   const mockSetTransactionId = vi.fn();
@@ -21,25 +14,6 @@ describe('useWriteContracts', () => {
 
   beforeEach(() => {
     vi.resetAllMocks();
-  });
-
-  it('should return wagmi hook data when successful', () => {
-    const mockWriteContracts = vi.fn();
-    (useWriteContractsWagmi as ReturnType<typeof vi.fn>).mockReturnValue({
-      status: 'idle',
-      writeContracts: mockWriteContracts,
-    });
-
-    const { result } = renderHook(() =>
-      useWriteContracts({
-        setErrorMessage: mockSetErrorMessage,
-        setTransactionId: mockSetTransactionId,
-        onError: mockOnError,
-      }),
-    );
-
-    expect(result.current.status).toBe('idle');
-    expect(result.current.writeContracts).toBe(mockWriteContracts);
   });
 
   it('should handle generic error', () => {

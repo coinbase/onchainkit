@@ -1,5 +1,6 @@
 import type { TransactionExecutionError } from 'viem';
 import { useWriteContracts as useWriteContractsWagmi } from 'wagmi/experimental';
+import { METHOD_NOT_SUPPORTED_ERROR_SUBSTRING } from '../constants';
 import type { TransactionError } from '../types';
 
 type UseWriteContractsParams = {
@@ -11,7 +12,6 @@ type UseWriteContractsParams = {
 export const genericErrorMessage = 'Something went wrong. Please try again.';
 const uncaughtErrorCode = 'UNCAUGHT_WRITE_TRANSACTIONS_ERROR';
 const errorCode = 'WRITE_TRANSACTIONS_ERROR';
-const eoaErrorMesssage = 'this request method is not supported';
 
 /**
  * useWriteContracts: Experimental Wagmi hook for batching transactions.
@@ -25,11 +25,14 @@ export function useWriteContracts({
   setTransactionId,
 }: UseWriteContractsParams) {
   try {
-    const { status, writeContracts } = useWriteContractsWagmi({
+    const { status, writeContractsAsync } = useWriteContractsWagmi({
       mutation: {
+        onSettled(data, error, variables, context) {
+          console.log('settled', data, error, variables, context);
+        },
         onError: (e) => {
           // Ignore EOA-specific error to fallback to writeContract
-          if (e.message.includes(eoaErrorMesssage)) {
+          if (e.message.includes(METHOD_NOT_SUPPORTED_ERROR_SUBSTRING)) {
             return;
           }
 
@@ -48,10 +51,14 @@ export function useWriteContracts({
         },
       },
     });
-    return { status, writeContracts };
+    return { status, writeContractsAsync };
   } catch (err) {
     onError?.({ code: uncaughtErrorCode, error: JSON.stringify(err) });
     setErrorMessage(genericErrorMessage);
-    return { status: 'error', writeContracts: () => {} };
+    return {
+      status: 'error',
+      writeContracts: () => {},
+      writeContractsAsync: () => Promise.resolve({}),
+    };
   }
 }

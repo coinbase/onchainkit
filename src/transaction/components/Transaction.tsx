@@ -4,6 +4,8 @@ import { TransactionProvider } from './TransactionProvider';
 
 export function Transaction({
   address,
+  capabilities,
+  chainId,
   className,
   children,
   contracts,
@@ -12,6 +14,8 @@ export function Transaction({
   return (
     <TransactionProvider
       address={address}
+      capabilities={capabilities}
+      chainId={chainId}
       contracts={contracts}
       onError={onError}
     >

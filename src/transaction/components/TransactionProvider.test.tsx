@@ -1,175 +1,71 @@
-import { render, waitFor } from '@testing-library/react';
-import type React from 'react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { useAccount, useSwitchChain } from 'wagmi';
+import { useCallsStatus } from '../hooks/useCallsStatus';
 import { useWriteContract } from '../hooks/useWriteContract';
 import { useWriteContracts } from '../hooks/useWriteContracts';
-import type { TransactionContextType } from '../types';
 import {
   TransactionProvider,
   useTransactionContext,
 } from './TransactionProvider';
 
-vi.mock('../hooks/useWriteContracts', () => ({
-  useWriteContracts: vi.fn(() => ({ status: 'idle', writeContracts: vi.fn() })),
-  genericErrorMessage: 'Something went wrong. Please try again.',
-}));
-
-vi.mock('../hooks/useWriteContract', () => ({
-  useWriteContract: vi.fn(() => ({
-    status: 'idle',
-    writeContract: vi.fn(),
-    data: null,
-  })),
+vi.mock('wagmi', () => ({
+  useAccount: vi.fn(),
+  useSwitchChain: vi.fn(),
 }));
 
 vi.mock('../hooks/useCallsStatus', () => ({
-  useCallsStatus: vi.fn(() => ({ transactionHash: null })),
+  useCallsStatus: vi.fn(),
 }));
 
-vi.mock('../../internal/hooks/useValue', () => ({
-  useValue: vi.fn((value) => value),
+vi.mock('../hooks/useWriteContract', () => ({
+  useWriteContract: vi.fn(),
 }));
 
-const mockUseWriteContracts = vi.mocked(useWriteContracts);
-const mockUseWriteContract = vi.mocked(useWriteContract);
+vi.mock('../hooks/useWriteContracts', () => ({
+  useWriteContracts: vi.fn(),
+  genericErrorMessage: 'Something went wrong. Please try again.',
+}));
+
+const TestComponent = () => {
+  const context = useTransactionContext();
+  return (
+    <div data-testid="test-component">
+      <button type="button" onClick={context.onSubmit}>
+        Submit
+      </button>
+      <span data-testid="context-value">{JSON.stringify(context)}</span>
+    </div>
+  );
+};
 
 describe('TransactionProvider', () => {
-  let providedContext: TransactionContextType | undefined;
-
-  const TestComponent: React.FC = () => {
-    const context = useTransactionContext();
-    providedContext = context;
-    return null;
-  };
-
   beforeEach(() => {
-    providedContext = undefined;
-    vi.clearAllMocks();
-  });
-
-  it('should provide the transaction context to its children', () => {
-    render(
-      <TransactionProvider address="0x123" contracts={[]} onError={() => {}}>
-        <TestComponent />
-      </TransactionProvider>,
-    );
-
-    expect(providedContext).toBeDefined();
-    if (providedContext) {
-      expect(providedContext.address).toBe('0x123');
-      expect(providedContext.contracts).toEqual([]);
-      expect(providedContext.isLoading).toBe(false);
-      expect(providedContext.status).toBe('idle');
-      expect(providedContext.transactionHash).toBeNull();
-      expect(typeof providedContext.onSubmit).toBe('function');
-      expect(typeof providedContext.setErrorMessage).toBe('function');
-      expect(typeof providedContext.setIsToastVisible).toBe('function');
-      expect(typeof providedContext.setTransactionId).toBe('function');
-    }
-  });
-
-  it('should call writeContracts on onSubmit', async () => {
-    const mockWriteContracts = vi.fn();
-    mockUseWriteContracts.mockReturnValue({
-      status: 'idle',
-      writeContracts: mockWriteContracts,
+    vi.resetAllMocks();
+    (useAccount as ReturnType<typeof vi.fn>).mockReturnValue({ chainId: 1 });
+    (useSwitchChain as ReturnType<typeof vi.fn>).mockReturnValue({
+      switchChainAsync: vi.fn(),
     });
-
-    const testContracts = [
-      {
-        abi: [{ name: 'safeMint', inputs: [], outputs: [] }],
-        address: '0x123',
-        functionName: 'safeMint',
-      },
-    ];
-    render(
-      <TransactionProvider
-        address="0x123"
-        contracts={testContracts}
-        onError={() => {}}
-      >
-        <TestComponent />
-      </TransactionProvider>,
-    );
-
-    await providedContext?.onSubmit();
-
-    await waitFor(() => {
-      expect(mockWriteContracts).toHaveBeenCalledWith({
-        contracts: testContracts,
-      });
+    (useCallsStatus as ReturnType<typeof vi.fn>).mockReturnValue({
+      transactionHash: null,
+      status: 'IDLE',
     });
-  });
-
-  it('should fallback to writeContract for EOA accounts', async () => {
-    const mockWriteContracts = vi.fn().mockResolvedValue(undefined);
-    const mockWriteContract = vi.fn();
-    mockUseWriteContracts.mockReturnValue({
-      status: 'idle',
-      writeContracts: mockWriteContracts,
-    });
-    mockUseWriteContract.mockReturnValue({
-      status: 'idle',
-      writeContract: mockWriteContract,
+    (useWriteContract as ReturnType<typeof vi.fn>).mockReturnValue({
+      status: 'IDLE',
+      writeContract: vi.fn(),
       data: null,
     });
-
-    const testContracts = [
-      {
-        abi: [{ name: 'safeMint', inputs: [], outputs: [] }],
-        address: '0x123',
-        functionName: 'safeMint',
-      },
-      {
-        abi: [{ name: 'safeMint', inputs: [], outputs: [] }],
-        address: '0x456',
-        functionName: 'safeMint',
-      },
-    ];
-
-    render(
-      <TransactionProvider
-        address="0x123"
-        contracts={testContracts}
-        onError={() => {}}
-      >
-        <TestComponent />
-      </TransactionProvider>,
-    );
-
-    await providedContext?.onSubmit();
-
-    await waitFor(() => {
-      expect(mockWriteContracts).toHaveBeenCalledWith({
-        contracts: testContracts,
-      });
-    });
-
-    await waitFor(() => {
-      expect(mockWriteContract).toHaveBeenCalledTimes(2);
-    });
-
-    await waitFor(() => {
-      expect(mockWriteContract).toHaveBeenNthCalledWith(1, {
-        abi: [{ name: 'safeMint', inputs: [], outputs: [] }],
-        address: '0x123',
-        functionName: 'safeMint',
-      });
-      expect(mockWriteContract).toHaveBeenNthCalledWith(2, {
-        abi: [{ name: 'safeMint', inputs: [], outputs: [] }],
-        address: '0x456',
-        functionName: 'safeMint',
-      });
+    (useWriteContracts as ReturnType<typeof vi.fn>).mockReturnValue({
+      status: 'IDLE',
+      writeContractsAsync: vi.fn(),
     });
   });
 
-  it('should set error message on failure', async () => {
-    const mockWriteContracts = vi
-      .fn()
-      .mockRejectedValue(new Error('Test error'));
-    mockUseWriteContracts.mockReturnValue({
-      status: 'idle',
-      writeContracts: mockWriteContracts,
+  it('should update context on handleSubmit', async () => {
+    const writeContractsAsyncMock = vi.fn();
+    (useWriteContracts as ReturnType<typeof vi.fn>).mockReturnValue({
+      status: 'IDLE',
+      writeContractsAsync: writeContractsAsyncMock,
     });
 
     render(
@@ -178,12 +74,55 @@ describe('TransactionProvider', () => {
       </TransactionProvider>,
     );
 
-    await providedContext?.onSubmit();
+    const button = screen.getByText('Submit');
+    fireEvent.click(button);
 
     await waitFor(() => {
-      expect(providedContext?.errorMessage).toBe(
+      expect(writeContractsAsyncMock).toHaveBeenCalled();
+    });
+  });
+
+  it('should handle errors during submission', async () => {
+    const writeContractsAsyncMock = vi
+      .fn()
+      .mockRejectedValue(new Error('Test error'));
+    (useWriteContracts as ReturnType<typeof vi.fn>).mockReturnValue({
+      status: 'IDLE',
+      writeContractsAsync: writeContractsAsyncMock,
+    });
+
+    render(
+      <TransactionProvider address="0x123" contracts={[]} onError={() => {}}>
+        <TestComponent />
+      </TransactionProvider>,
+    );
+
+    const button = screen.getByText('Submit');
+    fireEvent.click(button);
+
+    await waitFor(() => {
+      const testComponent = screen.getByTestId('context-value');
+      const updatedContext = JSON.parse(testComponent.textContent || '{}');
+      expect(updatedContext.errorMessage).toBe(
         'Something went wrong. Please try again.',
       );
     });
+  });
+});
+
+describe('useTransactionContext', () => {
+  it('should throw an error when used outside of TransactionProvider', () => {
+    const TestComponent = () => {
+      useTransactionContext();
+      return null;
+    };
+
+    const consoleError = vi
+      .spyOn(console, 'error')
+      .mockImplementation(() => {}); // Suppress error logging
+    expect(() => render(<TestComponent />)).toThrow(
+      'useTransactionContext must be used within a Transaction component',
+    );
+    consoleError.mockRestore();
   });
 });

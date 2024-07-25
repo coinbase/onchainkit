@@ -17,17 +17,16 @@ type TransactionWrapperReact = {
   children: (props: TransactionWrapperChildren) => ReactNode;
 };
 
-const myNFTABI = [
+export const clickContractAddress = '0x67c97D1FB8184F038592b2109F854dfb09C77C75';
+export const clickContractAbi = [
   {
-    stateMutability: 'nonpayable',
     type: 'function',
-    inputs: [{ name: 'to', type: 'address' }],
-    name: 'safeMint',
+    name: 'click',
+    inputs: [],
     outputs: [],
+    stateMutability: 'nonpayable',
   },
 ] as const;
-
-const myNFTAddress = '0x119Ea671030FBf79AB93b436D2E20af6ea469a19';
 
 export default function TransactionWrapper({
   children,
@@ -36,10 +35,10 @@ export default function TransactionWrapper({
 
   const contracts = [
     {
-      address: myNFTAddress,
-      abi: myNFTABI,
-      functionName: 'safeMint',
-      args: [address],
+      address: clickContractAddress,
+      abi: clickContractAbi,
+      functionName: 'click',
+      args: [],
     },
   ];
 
@@ -48,8 +47,8 @@ export default function TransactionWrapper({
   }
 
   return (
-    <main className="flex flex-col">
-      <div className="flex max-w-[450px] items-center rounded-lg bg-white p-4">
+    <main className='flex flex-col'>
+      <div className='flex max-w-[450px] items-center rounded-lg bg-white p-4'>
         {children({ address, contracts, onError })}
       </div>
     </main>

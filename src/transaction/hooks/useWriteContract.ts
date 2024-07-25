@@ -23,25 +23,26 @@ export function useWriteContract({
   setTransactionId,
 }: UseWriteContractParams) {
   try {
-    const { status, writeContract, data } = useWriteContractWagmi({
-      mutation: {
-        onError: (e) => {
-          if (
-            (e as TransactionExecutionError)?.cause?.name ===
-            'UserRejectedRequestError'
-          ) {
-            setErrorMessage('Request denied.');
-          } else {
-            setErrorMessage(genericErrorMessage);
-          }
-          onError?.({ code: errorCode, error: e.message });
+    const { status, writeContract, writeContractAsync, data } =
+      useWriteContractWagmi({
+        mutation: {
+          onError: (e) => {
+            if (
+              (e as TransactionExecutionError)?.cause?.name ===
+              'UserRejectedRequestError'
+            ) {
+              setErrorMessage('Request denied.');
+            } else {
+              setErrorMessage(genericErrorMessage);
+            }
+            onError?.({ code: errorCode, error: e.message });
+          },
+          onSuccess: (id) => {
+            setTransactionId(id);
+          },
         },
-        onSuccess: (id) => {
-          setTransactionId(id);
-        },
-      },
-    });
-    return { status, writeContract, data };
+      });
+    return { status, writeContract, writeContractAsync, data };
   } catch (err) {
     onError?.({ code: uncaughtErrorCode, error: JSON.stringify(err) });
     setErrorMessage(genericErrorMessage);

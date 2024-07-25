@@ -1,5 +1,7 @@
 import { createContext, useCallback, useContext, useState } from 'react';
+import { useAccount, useSwitchChain } from 'wagmi';
 import { useValue } from '../../internal/hooks/useValue';
+import { METHOD_NOT_SUPPORTED_ERROR_SUBSTRING } from '../constants';
 import { useCallsStatus } from '../hooks/useCallsStatus';
 import { useWriteContract } from '../hooks/useWriteContract';
 import {
@@ -10,12 +12,9 @@ import type {
   TransactionContextType,
   TransactionProviderReact,
 } from '../types';
-
 const emptyContext = {} as TransactionContextType;
-
 export const TransactionContext =
   createContext<TransactionContextType>(emptyContext);
-
 export function useTransactionContext() {
   const context = useContext(TransactionContext);
   if (context === emptyContext) {
@@ -25,9 +24,10 @@ export function useTransactionContext() {
   }
   return context;
 }
-
 export function TransactionProvider({
   address,
+  capabilities,
+  chainId,
   children,
   contracts,
   onError,
@@ -35,13 +35,14 @@ export function TransactionProvider({
   const [errorMessage, setErrorMessage] = useState('');
   const [transactionId, setTransactionId] = useState('');
   const [isToastVisible, setIsToastVisible] = useState(false);
-
-  const { status: statusWriteContracts, writeContracts } = useWriteContracts({
-    onError,
-    setErrorMessage,
-    setTransactionId,
-  });
-
+  const account = useAccount();
+  const { switchChainAsync } = useSwitchChain();
+  const { status: statusWriteContracts, writeContractsAsync } =
+    useWriteContracts({
+      onError,
+      setErrorMessage,
+      setTransactionId,
+    });
   const {
     status: statusWriteContract,
     writeContract,
@@ -51,7 +52,6 @@ export function TransactionProvider({
     setErrorMessage,
     setTransactionId,
   });
-
   const { transactionHash, status: callStatus } = useCallsStatus({
     onError,
     transactionId,
@@ -69,26 +69,54 @@ export function TransactionProvider({
     }
   }, [contracts, writeContract]);
 
+  const switchChain = useCallback(
+    async (targetChainId: number | undefined) => {
+      if (targetChainId && account.chainId !== targetChainId) {
+        await switchChainAsync({ chainId: targetChainId });
+      }
+    },
+    [account.chainId, switchChainAsync],
+  );
+
+  const executeContracts = useCallback(async () => {
+    await writeContractsAsync({
+      contracts,
+      capabilities,
+    });
+  }, [writeContractsAsync, contracts, capabilities]);
+
+  const handleSubmitErrors = useCallback(
+    async (err: unknown) => {
+      if (
+        err instanceof Error &&
+        err.message.includes(METHOD_NOT_SUPPORTED_ERROR_SUBSTRING)
+      ) {
+        try {
+          await fallbackToWriteContract();
+        } catch (_err) {
+          setErrorMessage(genericErrorMessage);
+        }
+      } else {
+        setErrorMessage(genericErrorMessage);
+      }
+    },
+    [fallbackToWriteContract],
+  );
+
   const handleSubmit = useCallback(async () => {
     setErrorMessage('');
     setIsToastVisible(true);
     try {
-      const result = await writeContracts({
-        contracts,
-      });
-
-      // EOA accounts always fail on writeContracts, returning undefined.
-      // Fallback to writeContract, which works for EOAs.
-      if (result === undefined) {
-        await fallbackToWriteContract();
-      }
-    } catch (_err) {
-      setErrorMessage(genericErrorMessage);
+      await switchChain(chainId);
+      await executeContracts();
+    } catch (err) {
+      await handleSubmitErrors(err);
     }
-  }, [contracts, writeContracts, fallbackToWriteContract]);
+  }, [chainId, executeContracts, handleSubmitErrors, switchChain]);
 
   const value = useValue({
     address,
+    chainId,
     contracts,
     errorMessage,
     isLoading: callStatus === 'PENDING',
@@ -101,7 +129,6 @@ export function TransactionProvider({
     transactionId,
     transactionHash: transactionHash || writeContractTransactionHash,
   });
-
   return (
     <TransactionContext.Provider value={value}>
       {children}

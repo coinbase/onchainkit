@@ -15,6 +15,7 @@ export type TransactionButtonReact = {
  */
 export type TransactionContextType = {
   address: Address; // The wallet address involved in the transaction.
+  chainId: number; // The chainId for the transaction.
   contracts: ContractFunctionParameters[]; // An array of contracts for the transaction.
   errorMessage?: string; // An error message string if the transaction encounters an issue.
   isLoading: boolean; // A boolean indicating if the transaction is currently loading.
@@ -29,18 +30,29 @@ export type TransactionContextType = {
 };
 
 /**
- * Note: exported as public Type
+ * Paymaster service configuration
  */
-export type TransactionError = {
-  code: string; // The error code representing the type of transaction error.
-  error: string; // The error message providing details about the transaction error.
+type PaymasterService = {
+  url: string;
 };
+
+/**
+ * Smart Wallet capabilities configuration
+ */
+type SmartWalletCapabilities = Record<
+  string,
+  {
+    paymasterService?: PaymasterService;
+  }
+>;
 
 /**
  * Note: exported as public Type
  */
 export type TransactionProviderReact = {
   address: Address; // The wallet address to be provided to child components.
+  capabilities?: SmartWalletCapabilities; // Capabilities that a wallet supports (e.g. paymasters, session keys, etc).
+  chainId?: number; // The chainId for the transaction.
   children: ReactNode; // The child components to be rendered within the provider component.
   contracts: ContractFunctionParameters[]; // An array of contract function parameters provided to the child components.
   onError?: (e: TransactionError) => void; // An optional callback function that handles errors within the provider.
@@ -51,6 +63,8 @@ export type TransactionProviderReact = {
  */
 export type TransactionReact = {
   address: Address; // The wallet address involved in the transaction.
+  capabilities?: SmartWalletCapabilities; // Capabilities that a wallet supports (e.g. paymasters, session keys, etc).
+  chainId?: number; // The chainId for the transaction.
   children: ReactNode; // The child components to be rendered within the transaction component.
   className?: string; // An optional CSS class name for styling the component.
   contracts: ContractFunctionParameters[]; // An array of contract function parameters for the transaction.
