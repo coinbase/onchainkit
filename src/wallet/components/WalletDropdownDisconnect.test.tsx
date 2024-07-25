@@ -1,6 +1,7 @@
+import { useDisconnect } from 'wagmi';
+import { type Connector } from 'wagmi';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
-import { type Connector, useDisconnect } from 'wagmi';
 import { WalletDropdownDisconnect } from './WalletDropdownDisconnect';
 
 vi.mock('wagmi', () => ({

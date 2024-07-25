@@ -10,6 +10,8 @@ export function WalletDropdownDisconnect({
 }: WalletDropdownDisconnectReact) {
   const { disconnect, connectors } = useDisconnect();
   const handleDisconnect = useCallback(() => {
+    
+    // Disconnect all the connectors (wallets). Usually only one is connected
     connectors.map((connector) => disconnect({ connector }));
   }, [disconnect, connectors]);
 
