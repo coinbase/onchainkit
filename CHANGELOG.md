@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.26.8
+
+### Patch Changes
+
+- 69119dc: - **fix**: `WalletCapabilities` type in the Transaction component. By @zizzamia #908
+
 ## 0.26.7
 
 ### Patch Changes
