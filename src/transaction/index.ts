@@ -24,4 +24,5 @@ export type {
   TransactionToastActionReact,
   TransactionToastIconReact,
   TransactionToastLabelReact,
+  WalletCapabilities,
 } from './types';
