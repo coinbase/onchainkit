@@ -26,6 +26,7 @@ export type TransactionContextType = {
   status?: string; // An optional string indicating the current status of the transaction.
   transactionId?: string; // An optional string representing the ID of the transaction.
   transactionHash?: string; // An optional string representing the hash of the transaction.
+  // receipt
 };
 
 /**

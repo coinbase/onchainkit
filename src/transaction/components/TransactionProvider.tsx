@@ -57,6 +57,11 @@ export function TransactionProvider({
     transactionId,
   });
 
+  // receipt = successful
+  // const { data: receipt } = useWaitForTransactionReceipt({
+  //   hash: transactionHash,
+  // });
+
   const fallbackToWriteContract = useCallback(async () => {
     // EOAs don't support batching, so we process contracts individually.
     // This gracefully handles accidental batching attempts with EOAs.
@@ -98,6 +103,7 @@ export function TransactionProvider({
     setIsToastVisible,
     setTransactionId,
     status: statusWriteContract || statusWriteContracts,
+    // receipt,
     transactionId,
     transactionHash: transactionHash || writeContractTransactionHash,
   });

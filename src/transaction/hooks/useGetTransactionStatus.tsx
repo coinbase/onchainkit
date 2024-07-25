@@ -13,6 +13,7 @@ export function useGetTransactionStatus() {
     status,
     transactionHash,
     transactionId,
+    // receipt
   } = useTransactionContext();
   const { chain } = useOnchainKit();
 
@@ -27,17 +28,20 @@ export function useGetTransactionStatus() {
       label = 'Confirm in wallet.';
     }
 
-    if (isLoading || (transactionId && !transactionHash)) {
+    if (isLoading || transactionId || transactionHash) {
       label = 'Transaction in progress...';
       // TODO: add back when have correct link
-      // actionElement = (
-      //   <a href={chainExplorer}>
-      //     <span className={cn(text.label1, color.primary)}>
-      //       View on explorer
-      //     </span>
-      //   </a>
-      // );
+      if (transactionHash) {
+        actionElement = (
+          <a href={`${chainExplorer}/tx/${transactionHash}`}>
+            <span className={cn(text.label1, color.primary)}>
+              View transaction
+            </span>
+          </a>
+        );
+      }
     }
+    // if (receipt) 
     if (transactionHash) {
       actionElement = (
         <a
@@ -71,5 +75,6 @@ export function useGetTransactionStatus() {
     status,
     transactionHash,
     transactionId,
+    // receipt
   ]);
 }

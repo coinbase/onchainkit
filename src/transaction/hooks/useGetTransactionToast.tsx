@@ -20,7 +20,7 @@ export function useGetTransactionToast() {
     let label = '';
     let icon: ReactNode = null;
 
-    if (isLoading) {
+    if (isLoading || transactionHash) {
       // TODO: add back when have correct link
       // actionElement = (
       //   <a href={chainExplorer}>
@@ -32,6 +32,7 @@ export function useGetTransactionToast() {
       icon = <Spinner className="px-1.5 py-1.5" />;
       label = 'Transaction in progress';
     }
+    // if (receipt)
     if (transactionHash) {
       actionElement = (
         <a
