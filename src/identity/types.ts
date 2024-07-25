@@ -54,6 +54,21 @@ export type BadgeReact = {
 };
 
 /**
+ * Note: exported as public Type
+ */
+export type BaseMainnetName = `${string}.base.eth`;
+
+/**
+ * Note: exported as public Type
+ */
+export type BaseName = BaseMainnetName | BaseSepoliaName;
+
+/**
+ * Note: exported as public Type
+ */
+export type BaseSepoliaName = `${string}.basetest.eth`;
+
+/**
  * Ethereum Attestation Service (EAS) Schema Uid
  * The schema identifier associated with the EAS attestation.
  *
@@ -112,21 +127,6 @@ export type GetName = {
   address: Address;
   chain?: Chain;
 };
-
-/**
- * Note: exported as public Type
- */
-export type BaseMainnetName = `${string}.base.eth`;
-
-/**
- * Note: exported as public Type
- */
-export type BaseSepoliaName = `${string}.basetest.eth`;
-
-/**
- * Note: exported as public Type
- */
-export type BaseName = BaseMainnetName | BaseSepoliaName;
 
 /**
  * Note: exported as public Type
