@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.26.6
+
+### Patch Changes
+
+- 8e78166: - **fix**: have `WalletDropdownDisconnect` to correclty disconnect all connectors. By @kirkas #895
+
 ## 0.26.5
 
 ### Patch Changes
