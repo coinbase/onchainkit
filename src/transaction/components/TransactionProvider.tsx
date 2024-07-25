@@ -12,9 +12,11 @@ import type {
   TransactionContextType,
   TransactionProviderReact,
 } from '../types';
+
 const emptyContext = {} as TransactionContextType;
 export const TransactionContext =
   createContext<TransactionContextType>(emptyContext);
+
 export function useTransactionContext() {
   const context = useContext(TransactionContext);
   if (context === emptyContext) {
@@ -24,6 +26,7 @@ export function useTransactionContext() {
   }
   return context;
 }
+
 export function TransactionProvider({
   address,
   capabilities,

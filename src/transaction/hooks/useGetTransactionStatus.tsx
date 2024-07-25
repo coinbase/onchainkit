@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import type { ReactNode } from 'react';
+import { useChainId } from 'wagmi';
 import { getChainExplorer } from '../../network/getChainExplorer';
 import { cn, color, text } from '../../styles/theme';
 import { useTransactionContext } from '../components/TransactionProvider';
@@ -14,9 +15,10 @@ export function useGetTransactionStatus() {
     transactionHash,
     transactionId,
   } = useTransactionContext();
+  const accountChainId = chainId ?? useChainId();
 
   return useMemo(() => {
-    const chainExplorer = getChainExplorer(chainId);
+    const chainExplorer = getChainExplorer(accountChainId);
 
     let actionElement: ReactNode = null;
     let label = '';
@@ -63,7 +65,7 @@ export function useGetTransactionStatus() {
 
     return { actionElement, label, labelClassName };
   }, [
-    chainId,
+    accountChainId,
     errorMessage,
     isLoading,
     onSubmit,
