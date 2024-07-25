@@ -116,7 +116,22 @@ export type GetName = {
 /**
  * Note: exported as public Type
  */
-export type GetNameReturnType = string | null;
+export type BaseMainnetName = `${string}.base.eth`;
+
+/**
+ * Note: exported as public Type
+ */
+export type BaseSepoliaName = `${string}.basetest.eth`;
+
+/**
+ * Note: exported as public Type
+ */
+export type BaseName = BaseMainnetName | BaseSepoliaName;
+
+/**
+ * Note: exported as public Type
+ */
+export type GetNameReturnType = string | BaseName | null;
 
 /**
  * Note: exported as public Type
