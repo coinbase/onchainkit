@@ -1,4 +1,4 @@
-import { Avatar, Name } from '@coinbase/onchainkit/identity';
+import { Avatar, Name } from '../src/identity';
 import { 
   Transaction, 
   TransactionButton,
@@ -10,8 +10,8 @@ import {
   TransactionToastAction,
   TransactionToastIcon,
   TransactionToastLabel,
-} from '@coinbase/onchainkit/transaction';
-import { Wallet, ConnectWallet } from '@coinbase/onchainkit/wallet';
+} from '../src/transaction';
+import { Wallet, ConnectWallet } from '../src/wallet';
 import App from '../../components/App';
 import TransactionWrapper from '../../components/TransactionWrapper';
 
@@ -169,6 +169,11 @@ export default function TransactionComponents() {
 </App>
 
 ## Components
+
+    <div className="flex flex-col max-w-[648px] gap-6">
+      <img src="/assets/onchainkit-transaction-anatomy.png" />
+    </div>
+
 The components are designed to work together hierarchically. For each component, ensure the following:
 - `<Transaction />` - Serves as the main container for all transaction-related components.
 - `<TransactionButton />` - Handles the transaction initiation process.
