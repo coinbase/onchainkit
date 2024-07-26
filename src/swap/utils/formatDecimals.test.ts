@@ -36,7 +36,7 @@ describe('fromReadableAmount', () => {
 
   it('handles large numbers correctly', () => {
     expect(fromReadableAmount('1000000000000000000', 18)).toBe(
-      '1000000000000000000000000000000000000'
+      '1000000000000000000000000000000000000',
     );
   });
 });
@@ -68,7 +68,7 @@ describe('toReadableAmount', () => {
 
   it('handles large numbers correctly', () => {
     expect(toReadableAmount('1000000000000000000000000000000000000', 18)).toBe(
-      '1000000000000000000'
+      '1000000000000000000',
     );
   });
 });
@@ -100,12 +100,13 @@ describe('formatDecimals', () => {
   });
 
   it('handles large number of decimal places', () => {
-    expect(formatDecimals('1', true, 100)).toBe('0.' + '0'.repeat(99) + '1');
-    expect(formatDecimals('0.' + '0'.repeat(99) + '1', false, 100)).toBe('1');
+    expect(formatDecimals('1', true, 100)).toBe(`0.${'0'.repeat(99)}1`);
+    expect(formatDecimals(`0.${'0'.repeat(99)}1`, false, 100)).toBe('1');
   });
 
   it('throws error for invalid input', () => {
     expect(() => formatDecimals('abc', true, 18)).toThrow();
     expect(() => formatDecimals('', false, 18)).toThrow();
+    expect(() => formatDecimals('-1', false, 18)).toThrow();
   });
 });

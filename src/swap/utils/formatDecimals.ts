@@ -6,7 +6,7 @@ import JSBI from 'jsbi';
 export function formatDecimals(
   amount: string,
   inputInDecimals = true,
-  decimals = 18
+  decimals = 18,
 ): string {
   // Input validation
   if (typeof amount !== 'string' || amount.trim() === '') {
@@ -40,8 +40,8 @@ export function fromReadableAmount(amount: string, decimals: number): string {
     JSBI.BigInt(wholePart + trimmedFractionalPart),
     JSBI.exponentiate(
       JSBI.BigInt(10),
-      JSBI.BigInt(decimals - trimmedFractionalPart.length)
-    )
+      JSBI.BigInt(decimals - trimmedFractionalPart.length),
+    ),
   ).toString();
 }
 
