@@ -1,4 +1,4 @@
-import { createContext, useContext, } from 'react';
+import { createContext, useContext } from 'react';
 import { useValue } from '../../internal/hooks/useValue';
 import { useOnchainKit } from '../../useOnchainKit';
 import type { IdentityContextType, IdentityProviderReact } from '../types';

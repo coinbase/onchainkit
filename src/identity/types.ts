@@ -1,8 +1,4 @@
-import type {
-  HTMLAttributes,
-  ImgHTMLAttributes,
-  ReactNode,
-} from 'react';
+import type { HTMLAttributes, ImgHTMLAttributes, ReactNode } from 'react';
 import type { Address, Chain } from 'viem';
 
 /**
