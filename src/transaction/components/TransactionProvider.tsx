@@ -35,7 +35,6 @@ export function TransactionProvider({
   contracts,
   onError,
 }: TransactionProviderReact) {
-  // debugger;
   const [errorMessage, setErrorMessage] = useState('');
   const [transactionId, setTransactionId] = useState('');
   const [isToastVisible, setIsToastVisible] = useState(false);
