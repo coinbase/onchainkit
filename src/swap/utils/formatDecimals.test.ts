@@ -108,5 +108,7 @@ describe('formatDecimals', () => {
     expect(() => formatDecimals('abc', true, 18)).toThrow();
     expect(() => formatDecimals('', false, 18)).toThrow();
     expect(() => formatDecimals('-1', false, 18)).toThrow();
+    expect(() => formatDecimals('1', false, 1.1)).toThrow();
+    expect(() => formatDecimals('1', true, -1)).toThrow();
   });
 });
