@@ -1,8 +1,8 @@
 import { renderHook } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { useChainId } from 'wagmi';
 import { useTransactionContext } from '../components/TransactionProvider';
 import { useGetTransactionStatus } from './useGetTransactionStatus';
-import { useChainId } from 'wagmi';
 
 vi.mock('../components/TransactionProvider', () => ({
   useTransactionContext: vi.fn(),
