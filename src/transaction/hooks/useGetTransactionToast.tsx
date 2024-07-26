@@ -1,15 +1,16 @@
 import { useMemo } from 'react';
 import type { ReactNode } from 'react';
+import { useChainId } from 'wagmi';
 import { Spinner } from '../../internal/components/Spinner';
 import { errorSvg } from '../../internal/svg/errorSvg';
 import { successSvg } from '../../internal/svg/successSvg';
 import { getChainExplorer } from '../../network/getChainExplorer';
 import { cn, color, text } from '../../styles/theme';
-import { useOnchainKit } from '../../useOnchainKit';
 import { useTransactionContext } from '../components/TransactionProvider';
 
 export function useGetTransactionToast() {
   const {
+    chainId,
     errorMessage,
     isLoading,
     onSubmit,
@@ -17,12 +18,12 @@ export function useGetTransactionToast() {
     transactionHash,
     transactionId,
   } = useTransactionContext();
-  const { chain } = useOnchainKit();
+  const accountChainId = chainId ?? useChainId();
 
   const isInProgress = isLoading || !!transactionId || !!transactionHash;
 
   return useMemo(() => {
-    const chainExplorer = getChainExplorer(chain.id);
+    const chainExplorer = getChainExplorer(accountChainId);
 
     let actionElement: ReactNode = null;
     let label = '';
@@ -60,5 +61,12 @@ export function useGetTransactionToast() {
     }
 
     return { actionElement, icon, label };
-  }, [chain, errorMessage, isInProgress, onSubmit, receipt, transactionHash]);
+  }, [
+    accountChainId,
+    errorMessage,
+    isInProgress,
+    onSubmit,
+    receipt,
+    transactionHash,
+  ]);
 }
