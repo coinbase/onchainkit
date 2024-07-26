@@ -23,14 +23,15 @@ export function TransactionButton({
     transactionId,
   } = useTransactionContext();
 
+  const isInProgress =
+    statusWriteContract === 'pending' ||
+    statusWriteContracts === 'pending' ||
+    isLoading;
+  const isMissingProps = !contracts || !address;
+  const isWaitingForReceipt = transactionId || transactionHash;
+
   const isDisabled =
-    !receipt &&
-    (isLoading ||
-      !contracts ||
-      !address ||
-      transactionId ||
-      statusWriteContract === 'pending' ||
-      statusWriteContracts === 'pending');
+    !receipt && (isInProgress || isMissingProps || isWaitingForReceipt);
 
   const displaySpinner = isSpinnerDisplayed({
     errorMessage,
