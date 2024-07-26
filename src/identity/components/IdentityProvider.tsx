@@ -1,8 +1,7 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, } from 'react';
 import { useValue } from '../../internal/hooks/useValue';
 import { useOnchainKit } from '../../useOnchainKit';
 import type { IdentityContextType, IdentityProviderReact } from '../types';
-
 
 const emptyContext = {} as IdentityContextType;
 
@@ -12,7 +11,7 @@ export function useIdentityContext() {
   return useContext(IdentityContext);
 }
 
-export function IdentityProvider(props: IdentityProviderReact) {  
+export function IdentityProvider(props: IdentityProviderReact) {
   const { chain: contextChain } = useOnchainKit();
   const accountChain = props.chain ?? contextChain;
 

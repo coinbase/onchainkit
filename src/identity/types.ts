@@ -1,9 +1,7 @@
 import type {
-  Dispatch,
   HTMLAttributes,
   ImgHTMLAttributes,
   ReactNode,
-  SetStateAction,
 } from 'react';
 import type { Address, Chain } from 'viem';
 
