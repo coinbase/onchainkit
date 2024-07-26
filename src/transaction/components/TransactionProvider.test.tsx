@@ -1,6 +1,10 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { useAccount, useSwitchChain } from 'wagmi';
+import {
+  useAccount,
+  useSwitchChain,
+  useWaitForTransactionReceipt,
+} from 'wagmi';
 import { useCallsStatus } from '../hooks/useCallsStatus';
 import { useWriteContract } from '../hooks/useWriteContract';
 import { useWriteContracts } from '../hooks/useWriteContracts';
@@ -12,6 +16,7 @@ import {
 vi.mock('wagmi', () => ({
   useAccount: vi.fn(),
   useSwitchChain: vi.fn(),
+  useWaitForTransactionReceipt: vi.fn(),
 }));
 
 vi.mock('../hooks/useCallsStatus', () => ({
@@ -59,12 +64,15 @@ describe('TransactionProvider', () => {
       status: 'IDLE',
       writeContractsAsync: vi.fn(),
     });
+    (useWaitForTransactionReceipt as ReturnType<typeof vi.fn>).mockReturnValue({
+      receipt: undefined,
+    });
   });
 
   it('should update context on handleSubmit', async () => {
     const writeContractsAsyncMock = vi.fn();
     (useWriteContracts as ReturnType<typeof vi.fn>).mockReturnValue({
-      status: 'IDLE',
+      statusWriteContracts: 'IDLE',
       writeContractsAsync: writeContractsAsyncMock,
     });
 
@@ -87,7 +95,7 @@ describe('TransactionProvider', () => {
       .fn()
       .mockRejectedValue(new Error('Test error'));
     (useWriteContracts as ReturnType<typeof vi.fn>).mockReturnValue({
-      status: 'IDLE',
+      statusWriteContracts: 'IDLE',
       writeContractsAsync: writeContractsAsyncMock,
     });
 
