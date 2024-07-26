@@ -9,9 +9,17 @@ import { useOnchainKit } from '../../useOnchainKit';
 import { useTransactionContext } from '../components/TransactionProvider';
 
 export function useGetTransactionToast() {
-  const { errorMessage, isLoading, onSubmit, transactionHash } =
-    useTransactionContext();
+  const {
+    errorMessage,
+    isLoading,
+    onSubmit,
+    receipt,
+    transactionHash,
+    transactionId,
+  } = useTransactionContext();
   const { chain } = useOnchainKit();
+
+  const isInProgress = isLoading || !!transactionId || !!transactionHash;
 
   return useMemo(() => {
     const chainExplorer = getChainExplorer(chain.id);
@@ -20,15 +28,7 @@ export function useGetTransactionToast() {
     let label = '';
     let icon: ReactNode = null;
 
-    if (isLoading) {
-      // TODO: add back when have correct link
-      // actionElement = (
-      //   <a href={chainExplorer}>
-      //     <span className={cn(text.label1, color.primary)}>
-      //       View block explorer
-      //     </span>
-      //   </a>
-      // );
+    if (isInProgress) {
       icon = <Spinner className="px-1.5 py-1.5" />;
       label = 'Transaction in progress';
     }
@@ -44,6 +44,8 @@ export function useGetTransactionToast() {
           </span>
         </a>
       );
+    }
+    if (receipt) {
       icon = successSvg;
       label = 'Successful';
     }
@@ -58,5 +60,5 @@ export function useGetTransactionToast() {
     }
 
     return { actionElement, icon, label };
-  }, [chain, errorMessage, isLoading, onSubmit, transactionHash]);
+  }, [chain, errorMessage, isInProgress, onSubmit, receipt, transactionHash]);
 }

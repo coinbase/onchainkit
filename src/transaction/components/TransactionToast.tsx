@@ -13,8 +13,10 @@ export function TransactionToast({
     errorMessage,
     isLoading,
     isToastVisible,
+    receipt,
     setIsToastVisible,
     transactionHash,
+    transactionId,
   } = useTransactionContext();
 
   const closeToast = useCallback(() => {
@@ -34,7 +36,14 @@ export function TransactionToast({
     return 'bottom-5 left-2/4';
   }, [position]);
 
-  if (!isToastVisible || (!isLoading && !transactionHash && !errorMessage)) {
+  const isInProgress =
+    !receipt &&
+    !isLoading &&
+    !transactionHash &&
+    !errorMessage &&
+    !transactionId;
+
+  if (!isToastVisible || isInProgress) {
     return null;
   }
 

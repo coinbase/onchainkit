@@ -25,7 +25,7 @@ export type TransactionContextType = {
   isLoading: boolean; // A boolean indicating if the transaction is currently loading.
   isToastVisible: boolean; // A boolean indicating if the transaction toast notification is visible.
   onSubmit: () => void; // A function called when the transaction is submitted.
-  receipt?: TransactionReceipt;
+  receipt?: TransactionReceipt; // The receipt of the transaction
   setErrorMessage: (error: string) => void; // A function to set the error message for the transaction.
   setIsToastVisible: (isVisible: boolean) => void; // A function to set the visibility of the transaction toast.
   setTransactionId: (id: string) => void; // A function to set the transaction ID.
