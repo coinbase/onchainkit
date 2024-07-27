@@ -15,13 +15,10 @@ export function formatDecimals(
   if (!Number.isInteger(decimals) || decimals < 0) {
     throw new Error('Invalid input: decimals must be a non-negative integer');
   }
-  if (!/^-?(?:0|[1-9]\d*)(?:\.\d+)?$/.test(amount)) {
-    throw new Error('Invalid input: amount must be a valid number string');
+  if (!/^(?:0|[1-9]\d*)(?:\.\d+)?$/.test(amount)) {
+    throw new Error('Invalid input: amount must be a non-negative number string');
   }
-  if (amount.startsWith('-')) {
-    throw new Error('Invalid input: negative numbers are not allowed');
-  }
-
+  
   let result: string;
 
   if (inputInDecimals) {
