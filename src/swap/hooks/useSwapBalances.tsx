@@ -60,9 +60,9 @@ export function useSwapBalances({
 
     refetchBalances: async () => {
       await Promise.all([
-        ethBalanceResponse.refetch(),
-        fromBalanceResponse.refetch(),
-        toBalanceResponse.refetch(),
+        ethBalanceResponse?.refetch(),
+        fromBalanceResponse?.refetch(),
+        toBalanceResponse?.refetch(),
       ]);
     },
   });
