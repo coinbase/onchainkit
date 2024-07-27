@@ -58,7 +58,7 @@ export function SwapProvider({
     [error],
   );
 
-  const { from, to } = useFromTo(address);
+  const { from, to, refetchBalances } = useFromTo(address);
 
   // For sending the swap transaction (and approval, if applicable)
   const { sendTransactionAsync } = useSendTransaction();
@@ -171,6 +171,7 @@ export function SwapProvider({
 
         from.setAmount('');
         to.setAmount('');
+        await refetchBalances();
       } catch (e) {
         const userRejected = (e as BaseError).message.includes(
           'User rejected the request.',

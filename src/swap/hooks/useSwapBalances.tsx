@@ -17,14 +17,23 @@ export function useSwapBalances({
   fromToken?: Token;
   toToken?: Token;
 }) {
-  const { convertedBalance: convertedEthBalance, error: ethBalanceError } =
-    useGetETHBalance(address);
+  const {
+    convertedBalance: convertedEthBalance,
+    error: ethBalanceError,
+    response: ethBalanceResponse,
+  } = useGetETHBalance(address);
 
-  const { convertedBalance: convertedFromBalance, error: fromBalanceError } =
-    useGetTokenBalance(address, fromToken);
+  const {
+    convertedBalance: convertedFromBalance,
+    error: fromBalanceError,
+    response: fromBalanceResponse,
+  } = useGetTokenBalance(address, fromToken);
 
-  const { convertedBalance: convertedToBalance, error: toBalanceError } =
-    useGetTokenBalance(address, toToken);
+  const {
+    convertedBalance: convertedToBalance,
+    error: toBalanceError,
+    response: toBalanceResponse,
+  } = useGetTokenBalance(address, toToken);
 
   const isFromNativeToken = fromToken?.symbol === 'ETH';
   const isToNativeToken = toToken?.symbol === 'ETH';
@@ -48,5 +57,13 @@ export function useSwapBalances({
 
     toBalanceString,
     toTokenBalanceError,
+
+    refetchBalances: async () => {
+      await Promise.all([
+        ethBalanceResponse.refetch(),
+        fromBalanceResponse.refetch(),
+        toBalanceResponse.refetch(),
+      ]);
+    },
   });
 }
