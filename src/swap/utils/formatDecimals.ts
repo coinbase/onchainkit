@@ -16,9 +16,11 @@ export function formatDecimals(
     throw new Error('Invalid input: decimals must be a non-negative integer');
   }
   if (!/^(?:0|[1-9]\d*)(?:\.\d+)?$/.test(amount)) {
-    throw new Error('Invalid input: amount must be a non-negative number string');
+    throw new Error(
+      'Invalid input: amount must be a non-negative number string',
+    );
   }
-  
+
   let result: string;
 
   if (inputInDecimals) {
