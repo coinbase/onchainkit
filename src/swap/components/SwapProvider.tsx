@@ -168,10 +168,6 @@ export function SwapProvider({
           sendTransactionAsync,
           onSuccess,
         });
-
-        from.setAmount('');
-        to.setAmount('');
-        await refetchBalances();
       } catch (e) {
         const userRejected = (e as BaseError).message.includes(
           'User rejected the request.',
@@ -191,6 +187,9 @@ export function SwapProvider({
         }
       } finally {
         setLoading(false);
+        from.setAmount('');
+        to.setAmount('');
+        await refetchBalances();
       }
     },
     [
