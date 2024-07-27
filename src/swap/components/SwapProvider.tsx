@@ -169,7 +169,8 @@ export function SwapProvider({
           onSuccess,
         });
 
-        // TODO: refresh balances
+        from.setAmount('');
+        to.setAmount('');
       } catch (e) {
         const userRejected = (e as BaseError).message.includes(
           'User rejected the request.',
