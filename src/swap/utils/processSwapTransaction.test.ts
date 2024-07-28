@@ -23,11 +23,11 @@ describe('processSwapTransaction', () => {
     .mockResolvedValueOnce('txHash');
   const onSuccess = vi.fn();
   const onStart = vi.fn();
-  const onSuccessAsync = vi.fn().mockImplementation(async (txHash: string) => {
+  const onSuccessAsync = vi.fn().mockImplementation(async (_txHash: string) => {
     await new Promise((resolve) => setTimeout(resolve, 0));
   });
 
-  const onStartAsync = vi.fn().mockImplementation(async (txHash: string) => {
+  const onStartAsync = vi.fn().mockImplementation(async (_txHash: string) => {
     await new Promise((resolve) => setTimeout(resolve, 0));
   });
 
