@@ -422,29 +422,14 @@ describe('buildSwapTransaction', () => {
       from: ETH,
       to: DEGEN,
       amount: 'invalid',
+      isAmountInDecimals: false,
     };
-    const mockApiParams = getAPIParamsForToken(mockParams);
-
-    const mockResponse = {
-      id: 1,
-      jsonrpc: '2.0',
-      error: {
-        code: 'SWAP_ERROR',
-        message: 'Invalid response',
-      },
-    };
-
-    (sendRequest as vi.Mock).mockResolvedValue(mockResponse);
 
     const error = await buildSwapTransaction(mockParams);
     expect(error).toEqual({
-      code: 'SWAP_ERROR',
-      error: 'Invalid response',
+      code: 'UNCAUGHT_SWAP_ERROR',
+      error:
+        'Error: Invalid input: amount must be a non-negative number string',
     });
-
-    expect(sendRequest).toHaveBeenCalledTimes(1);
-    expect(sendRequest).toHaveBeenCalledWith(CDP_GET_SWAP_TRADE, [
-      mockApiParams,
-    ]);
   });
 });

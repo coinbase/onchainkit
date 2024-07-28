@@ -29,7 +29,7 @@ export async function buildSwapTransaction(
   } catch (_error) {
     return {
       code: getSwapErrorCode('uncaught-swap'),
-      error: 'Something went wrong',
+      error: `${_error}`,
     };
   }
 
