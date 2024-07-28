@@ -1,35 +1,33 @@
 type IsSpinnerDisplayedProps = {
   errorMessage?: string;
+  hasReceipt?: boolean;
   isLoading?: boolean;
-  status?: string;
+  statusWriteContract?: string;
+  statusWriteContracts?: string;
   transactionHash?: string;
   transactionId?: string;
 };
 
 export function isSpinnerDisplayed({
   errorMessage,
+  hasReceipt,
   isLoading,
-  status,
+  statusWriteContract,
+  statusWriteContracts,
   transactionHash,
   transactionId,
 }: IsSpinnerDisplayedProps) {
-  if (transactionHash) {
+  const isPending =
+    statusWriteContract === 'pending' || statusWriteContracts === 'pending';
+  const isInProgress = transactionId || transactionHash;
+
+  if (hasReceipt || errorMessage) {
     return false;
   }
-  if (errorMessage) {
-    return false;
-  }
-  if (isLoading) {
+
+  if (isLoading || isPending || isInProgress) {
     return true;
   }
-  if (status === 'pending') {
-    return true;
-  }
-  // there is a delay between when txn is confirmed and
-  // call status returns isLoading true so this
-  // condition keeps spinner visible during that time
-  if (transactionId) {
-    return true;
-  }
+
   return false;
 }

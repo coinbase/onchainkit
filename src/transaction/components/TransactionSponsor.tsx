@@ -6,8 +6,8 @@ export function TransactionSponsor({
   className,
   text: sponsorName,
 }: TransactionSponsorReact) {
-  const { status } = useTransactionContext();
-  if (status !== 'idle') {
+  const { statusWriteContract, statusWriteContracts } = useTransactionContext();
+  if (statusWriteContract !== 'idle' || statusWriteContracts !== 'idle') {
     return null;
   }
 

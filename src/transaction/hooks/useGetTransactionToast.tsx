@@ -1,34 +1,35 @@
 import { useMemo } from 'react';
 import type { ReactNode } from 'react';
+import { useChainId } from 'wagmi';
 import { Spinner } from '../../internal/components/Spinner';
 import { errorSvg } from '../../internal/svg/errorSvg';
 import { successSvg } from '../../internal/svg/successSvg';
 import { getChainExplorer } from '../../network/getChainExplorer';
 import { cn, color, text } from '../../styles/theme';
-import { useOnchainKit } from '../../useOnchainKit';
 import { useTransactionContext } from '../components/TransactionProvider';
 
 export function useGetTransactionToast() {
-  const { errorMessage, isLoading, onSubmit, transactionHash } =
-    useTransactionContext();
-  const { chain } = useOnchainKit();
+  const {
+    chainId,
+    errorMessage,
+    isLoading,
+    onSubmit,
+    receipt,
+    transactionHash,
+    transactionId,
+  } = useTransactionContext();
+  const accountChainId = chainId ?? useChainId();
+
+  const isInProgress = isLoading || !!transactionId || !!transactionHash;
 
   return useMemo(() => {
-    const chainExplorer = getChainExplorer(chain.id);
+    const chainExplorer = getChainExplorer(accountChainId);
 
     let actionElement: ReactNode = null;
     let label = '';
     let icon: ReactNode = null;
 
-    if (isLoading) {
-      // TODO: add back when have correct link
-      // actionElement = (
-      //   <a href={chainExplorer}>
-      //     <span className={cn(text.label1, color.primary)}>
-      //       View block explorer
-      //     </span>
-      //   </a>
-      // );
+    if (isInProgress) {
       icon = <Spinner className="px-1.5 py-1.5" />;
       label = 'Transaction in progress';
     }
@@ -44,6 +45,8 @@ export function useGetTransactionToast() {
           </span>
         </a>
       );
+    }
+    if (receipt) {
       icon = successSvg;
       label = 'Successful';
     }
@@ -58,5 +61,12 @@ export function useGetTransactionToast() {
     }
 
     return { actionElement, icon, label };
-  }, [chain, errorMessage, isLoading, onSubmit, transactionHash]);
+  }, [
+    accountChainId,
+    errorMessage,
+    isInProgress,
+    onSubmit,
+    receipt,
+    transactionHash,
+  ]);
 }

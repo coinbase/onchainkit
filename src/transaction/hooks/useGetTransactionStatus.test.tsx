@@ -1,5 +1,6 @@
 import { renderHook } from '@testing-library/react';
-import { describe, expect, it, vi } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { useChainId } from 'wagmi';
 import { useTransactionContext } from '../components/TransactionProvider';
 import { useGetTransactionStatus } from './useGetTransactionStatus';
 
@@ -7,10 +8,17 @@ vi.mock('../components/TransactionProvider', () => ({
   useTransactionContext: vi.fn(),
 }));
 
+vi.mock('wagmi', () => ({
+  useChainId: vi.fn(),
+}));
+
 describe('useGetTransactionStatus', () => {
+  beforeEach(() => {
+    (useChainId as vi.Mock).mockReturnValue(123);
+  });
   it('should return correct status and actionElement when transaction is pending', () => {
     (useTransactionContext as vi.Mock).mockReturnValue({
-      status: 'pending',
+      statusWriteContract: 'pending',
     });
 
     const { result } = renderHook(() => useGetTransactionStatus());
@@ -25,7 +33,19 @@ describe('useGetTransactionStatus', () => {
 
     const { result } = renderHook(() => useGetTransactionStatus());
 
-    expect(result.current.label).toBe('Successful');
+    expect(result.current.label).toBe('Transaction in progress...');
+    expect(result.current.actionElement).not.toBeNull();
+  });
+
+  it('should return correct status and actionElement when receipt exists', () => {
+    (useTransactionContext as vi.Mock).mockReturnValue({
+      receipt: 'receipt',
+      transactionHash: '123',
+    });
+
+    const { result } = renderHook(() => useGetTransactionStatus());
+
+    expect(result.current.label).toBe('Successful!');
     expect(result.current.actionElement).not.toBeNull();
   });
 

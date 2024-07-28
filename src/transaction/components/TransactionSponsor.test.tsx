@@ -10,7 +10,8 @@ vi.mock('./TransactionProvider', () => ({
 describe('TransactionSponsor', () => {
   it('renders correctly', () => {
     (useTransactionContext as vi.Mock).mockReturnValue({
-      status: 'idle',
+      statusWriteContract: 'idle',
+      statusWriteContracts: 'idle',
     });
     render(<TransactionSponsor />);
 
@@ -19,7 +20,8 @@ describe('TransactionSponsor', () => {
   });
   it('renders correctly when provided sponsor name as prop', () => {
     (useTransactionContext as vi.Mock).mockReturnValue({
-      status: 'idle',
+      statusWriteContract: 'idle',
+      statusWriteContracts: 'idle',
     });
     render(<TransactionSponsor text="Coinbase" />);
 

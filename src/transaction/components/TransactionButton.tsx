@@ -1,4 +1,6 @@
+import { useMemo } from 'react';
 import { Spinner } from '../../internal/components/Spinner';
+import { checkmarkSvg } from '../../internal/svg/checkmarkSvg';
 import { background, cn, pressable, text } from '../../styles/theme';
 import type { TransactionButtonReact } from '../types';
 import { isSpinnerDisplayed } from '../utils';
@@ -14,20 +16,39 @@ export function TransactionButton({
     errorMessage,
     isLoading,
     onSubmit,
-    status,
+    receipt,
+    statusWriteContract,
+    statusWriteContracts,
     transactionHash,
     transactionId,
   } = useTransactionContext();
 
-  const isDisabled = isLoading || !contracts || !address || transactionId;
+  const isInProgress =
+    statusWriteContract === 'pending' ||
+    statusWriteContracts === 'pending' ||
+    isLoading;
+  const isMissingProps = !contracts || !address;
+  const isWaitingForReceipt = transactionId || transactionHash;
+
+  const isDisabled =
+    !receipt && (isInProgress || isMissingProps || isWaitingForReceipt);
 
   const displaySpinner = isSpinnerDisplayed({
     errorMessage,
+    hasReceipt: !!receipt,
     isLoading,
-    status,
+    statusWriteContract,
+    statusWriteContracts,
     transactionHash,
     transactionId,
   });
+
+  const buttonContent = useMemo(() => {
+    if (receipt) {
+      return checkmarkSvg;
+    }
+    return buttonText;
+  }, [buttonText, receipt]);
 
   return (
     <button
@@ -45,7 +66,9 @@ export function TransactionButton({
       {displaySpinner ? (
         <Spinner />
       ) : (
-        <span className={cn(text.headline, 'text-inverse')}>{buttonText}</span>
+        <span className={cn(text.headline, 'flex justify-center text-inverse')}>
+          {buttonContent}
+        </span>
       )}
     </button>
   );
