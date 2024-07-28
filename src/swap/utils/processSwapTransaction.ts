@@ -35,10 +35,7 @@ export async function processSwapTransaction({
       value: approveTransaction.value,
       data: approveTransaction.data,
     });
-    const onStartCallback = onStart?.(approveTxHash);
-    if (onStartCallback instanceof Promise) {
-      await onStartCallback;
-    }
+    await Promise.resolve(onStart?.(approveTxHash));
     await waitForTransactionReceipt(config, {
       hash: approveTxHash,
       confirmations: 1,
@@ -53,10 +50,7 @@ export async function processSwapTransaction({
     value: transaction.value,
     data: transaction.data,
   });
-  const onStartCallback = onStart?.(txHash);
-  if (onStartCallback instanceof Promise) {
-    await onStartCallback;
-  }
+  await Promise.resolve(onStart?.(txHash));
 
   setPendingTransaction(false);
 
@@ -68,8 +62,5 @@ export async function processSwapTransaction({
   });
 
   // user callback
-  const onSuccessCallback = onSuccess?.(transactionObject);
-  if (onSuccessCallback instanceof Promise) {
-    await onSuccessCallback;
-  }
+  await Promise.resolve(onSuccess?.(transactionObject));
 }
