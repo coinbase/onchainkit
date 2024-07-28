@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.26.9
+
+### Patch Changes
+
+- 41e27f6: - **feat**: added wait for transaction receipt hook. By @abcrane123 #907
+
 ## 0.26.8
 
 ### Patch Changes
