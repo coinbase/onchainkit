@@ -413,4 +413,38 @@ describe('buildSwapTransaction', () => {
       mockApiParams,
     ]);
   });
+
+  it('should return an error object from buildSwapTransaction for invalid `amount` input', async () => {
+    const mockParams = {
+      useAggregator: true,
+      fromAddress: testFromAddress as `0x${string}`,
+      amountReference: testAmountReference,
+      from: ETH,
+      to: DEGEN,
+      amount: 'invalid',
+    };
+    const mockApiParams = getAPIParamsForToken(mockParams);
+
+    const mockResponse = {
+      id: 1,
+      jsonrpc: '2.0',
+      error: {
+        code: 'SWAP_ERROR',
+        message: 'Invalid response',
+      },
+    };
+
+    (sendRequest as vi.Mock).mockResolvedValue(mockResponse);
+
+    const error = await buildSwapTransaction(mockParams);
+    expect(error).toEqual({
+      code: 'SWAP_ERROR',
+      error: 'Invalid response',
+    });
+
+    expect(sendRequest).toHaveBeenCalledTimes(1);
+    expect(sendRequest).toHaveBeenCalledWith(CDP_GET_SWAP_TRADE, [
+      mockApiParams,
+    ]);
+  });
 });
