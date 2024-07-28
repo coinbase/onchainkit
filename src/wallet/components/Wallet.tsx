@@ -1,46 +1,52 @@
-import { Children, useMemo, useRef, useEffect } from 'react';
+import { Children, useEffect, useMemo, useRef } from 'react';
 import type { WalletReact } from '../types';
 import { ConnectWallet } from './ConnectWallet';
 import { WalletDropdown } from './WalletDropdown';
 import { WalletProvider, useWalletContext } from './WalletProvider';
 
-function WalletContent({ children }: WalletReact) {
+const WalletContent = ({ children }: WalletReact) => {
   const { isOpen, setIsOpen } = useWalletContext();
-  const containerRef = useRef<HTMLDivElement>(null);
+  const walletContainerRef = useRef<HTMLDivElement>(null);
 
   const { connect, dropdown } = useMemo(() => {
     const childrenArray = Children.toArray(children);
     return {
+      // @ts-ignore
       connect: childrenArray.filter(({ type }) => type === ConnectWallet),
+      // @ts-ignore
       dropdown: childrenArray.filter(({ type }) => type === WalletDropdown),
     };
   }, [children]);
 
+  // Handle clicking outside the wallet component to close the dropdown.
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (containerRef.current && !containerRef.current.contains(event.target as Node) && isOpen) {
+    const handleClickOutsideComponent = (event: MouseEvent) => {
+      if (
+        walletContainerRef.current &&
+        !walletContainerRef.current.contains(event.target as Node) &&
+        isOpen
+      ) {
         setIsOpen(false);
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
+    document.addEventListener('click', handleClickOutsideComponent);
+    return () =>
+      document.removeEventListener('click', handleClickOutsideComponent);
   }, [isOpen, setIsOpen]);
 
   return (
-    <div ref={containerRef} className="relative w-fit shrink-0">
+    <div ref={walletContainerRef} className="relative w-fit shrink-0">
       {connect}
       {isOpen && dropdown}
     </div>
   );
-}
+};
 
-export function Wallet({ children }: WalletReact) {
+export const Wallet = ({ children }: WalletReact) => {
   return (
     <WalletProvider>
       <WalletContent>{children}</WalletContent>
     </WalletProvider>
   );
-}
+};
