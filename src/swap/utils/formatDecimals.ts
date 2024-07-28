@@ -1,4 +1,5 @@
-import JSBI from 'jsbi';
+import { fromReadableAmount } from './fromReadableAmount';
+import { toReadableAmount } from './toReadableAmount';
 
 /**
  * Formats an amount according to the decimals. Defaults to 18 decimals for ERC-20s.
@@ -32,30 +33,4 @@ export function formatDecimals(
   }
 
   return result;
-}
-
-export function fromReadableAmount(amount: string, decimals: number): string {
-  const [wholePart, fractionalPart = ''] = amount.split('.');
-  const paddedFractionalPart = fractionalPart.padEnd(decimals, '0');
-  const trimmedFractionalPart = paddedFractionalPart.slice(0, decimals);
-  return JSBI.multiply(
-    JSBI.BigInt(wholePart + trimmedFractionalPart),
-    JSBI.exponentiate(
-      JSBI.BigInt(10),
-      JSBI.BigInt(decimals - trimmedFractionalPart.length),
-    ),
-  ).toString();
-}
-
-export function toReadableAmount(amount: string, decimals: number): string {
-  const bigIntAmount = JSBI.BigInt(amount);
-  const divisor = JSBI.exponentiate(JSBI.BigInt(10), JSBI.BigInt(decimals));
-  const wholePart = JSBI.divide(bigIntAmount, divisor).toString();
-  const fractionalPart = JSBI.remainder(bigIntAmount, divisor)
-    .toString()
-    .padStart(decimals, '0');
-  const trimmedFractionalPart = fractionalPart.replace(/0+$/, '');
-  return trimmedFractionalPart
-    ? `${wholePart}.${trimmedFractionalPart}`
-    : wholePart;
 }
