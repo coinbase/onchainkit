@@ -1,5 +1,5 @@
 import { base } from 'viem/chains';
-import { Avatar, Badge, Name, Identity } from '@coinbase/onchainkit/identity';
+import { Avatar, Badge, Name, Identity } from '../src/identity';
 import App from '../../components/App';
 
 # `<Badge />`
@@ -14,7 +14,7 @@ Badge with default colors:
 :::code-group
 
 ```tsx [tsx]
-import { Badge } from '@coinbase/onchainkit/identity';
+import { Badge } from '../src/identity';
 <Badge className="badge" /> // [!code focus]
 ```
 
@@ -22,7 +22,7 @@ import { Badge } from '@coinbase/onchainkit/identity';
 .badge {
   background: white;
   path {
-    fill: blue;
+    fill: green;
   }
 }
 ```
@@ -41,7 +41,7 @@ import { Badge } from '@coinbase/onchainkit/identity';
 ```
 
 <App>
-  <Badge backgroundColor="#7DA1F8" borderColor="white" tickerColor="#FDFDFD" />
+  <Badge backgroundColor="#7DA1F8" borderColor="white" tickerColor="black" />
 </App>
 
 ## Props
