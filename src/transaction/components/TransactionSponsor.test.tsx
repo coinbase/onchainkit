@@ -12,6 +12,7 @@ describe('TransactionSponsor', () => {
     (useTransactionContext as vi.Mock).mockReturnValue({
       statusWriteContract: 'idle',
       statusWriteContracts: 'idle',
+      hasPaymaster: true,
     });
     render(<TransactionSponsor />);
 
@@ -22,6 +23,7 @@ describe('TransactionSponsor', () => {
     (useTransactionContext as vi.Mock).mockReturnValue({
       statusWriteContract: 'idle',
       statusWriteContracts: 'idle',
+      hasPaymaster: true,
     });
     render(<TransactionSponsor text="Coinbase" />);
 
@@ -29,5 +31,15 @@ describe('TransactionSponsor', () => {
     expect(element).toBeInTheDocument();
     const sponsor = screen.getByText('Coinbase');
     expect(sponsor).toBeInTheDocument();
+  });
+  it('does not render if hasPaymaster is false', () => {
+    (useTransactionContext as vi.Mock).mockReturnValue({
+      statusWriteContract: 'idle',
+      statusWriteContracts: 'idle',
+      hasPaymaster: false,
+    });
+    render(<TransactionSponsor text="Coinbase" />);
+
+    expect(screen.queryByText('Free gas')).not.toBeInTheDocument();
   });
 });

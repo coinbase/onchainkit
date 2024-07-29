@@ -140,7 +140,7 @@ export function TransactionProvider({
     if (txnHash && receipt) {
       onSuccess?.({ transactionHash: txnHash, receipt });
     }
-  }, [receipt, transactionHash, writeContractTransactionHash]);
+  }, [onSuccess, receipt, transactionHash, writeContractTransactionHash]);
 
   const value = useValue({
     address,
