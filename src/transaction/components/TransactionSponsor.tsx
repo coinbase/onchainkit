@@ -6,8 +6,13 @@ export function TransactionSponsor({
   className,
   text: sponsorName,
 }: TransactionSponsorReact) {
-  const { statusWriteContract, statusWriteContracts } = useTransactionContext();
-  if (statusWriteContract !== 'idle' || statusWriteContracts !== 'idle') {
+  const { hasPaymaster, statusWriteContract, statusWriteContracts } =
+    useTransactionContext();
+  if (
+    statusWriteContract !== 'idle' ||
+    statusWriteContracts !== 'idle' ||
+    !hasPaymaster
+  ) {
     return null;
   }
 

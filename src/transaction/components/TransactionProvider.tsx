@@ -127,6 +127,7 @@ export function TransactionProvider({
     chainId,
     contracts,
     errorMessage,
+    hasPaymaster: !!capabilities?.paymasterService?.url,
     isLoading: callStatus === 'PENDING',
     isToastVisible,
     onSubmit: handleSubmit,
