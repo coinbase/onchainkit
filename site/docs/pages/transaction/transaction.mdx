@@ -15,6 +15,8 @@ import { Wallet, ConnectWallet } from '@coinbase/onchainkit/wallet';
 import App from '../../components/App';
 import TransactionWrapper from '../../components/TransactionWrapper';
 
+export const PAYMASTER_AND_BUNDLER_ENDPOINT = import.meta.env.VITE_CDP_PAYMASTER_AND_BUNDLER_ENDPOINT;
+
 # `<Transaction />`
 
 The `<Transaction />` components provide a high-level wrap around the entire transaction flow. 
@@ -88,11 +90,9 @@ export default function TransactionComponents() {
 <App>
   <TransactionWrapper>
     {({ address, contracts, onError, onSuccess }) => {
-      const paymasterAndBundlerEndpoint = import.meta.env.VITE_CDP_PAYMASTER_AND_BUNDLER_ENDPOINT
-      console.log("paymasterAndBundlerEndpoint: ", paymasterAndBundlerEndpoint)
       const capabilities = {
         paymasterService: {
-          url: paymasterAndBundlerEndpoint,
+          url: PAYMASTER_AND_BUNDLER_ENDPOINT,
         },
       }
       if (address) {
@@ -155,8 +155,6 @@ export default function TransactionComponents() {
   <TransactionWrapper>
     {({ address, contracts, onError }) => {
       if (address) {
-          const paymasterAndBundlerEndpoint = import.meta.env.VITE_CDP_PAYMASTER_AND_BUNDLER_ENDPOINT
-           console.log("paymasterAndBundlerEndpoint2: ", paymasterAndBundlerEndpoint)
         return (
           <Transaction 
             address={address} 
@@ -164,7 +162,7 @@ export default function TransactionComponents() {
             onError={onError} 
             capabilities={{
               paymasterService: {
-                url: paymasterAndBundlerEndpoint,
+                url: PAYMASTER_AND_BUNDLER_ENDPOINT,
               },
             }}
           >
