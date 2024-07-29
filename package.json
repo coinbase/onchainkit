@@ -38,7 +38,6 @@
     "clsx": "^2.1.1",
     "graphql": "^14 || ^15 || ^16",
     "graphql-request": "^6.1.0",
-    "jsbi": "^4.3.0",
     "permissionless": "^0.1.29",
     "tailwind-merge": "^2.3.0",
     "viem": "^2.17.4",

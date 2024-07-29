@@ -2198,7 +2198,6 @@ __metadata:
     clsx: "npm:^2.1.1"
     graphql: "npm:^14"
     graphql-request: "npm:^6.1.0"
-    jsbi: "npm:^4.3.0"
     jsdom: "npm:^24.1.0"
     packemon: "npm:3.3.1"
     permissionless: "npm:^0.1.29"
@@ -10762,14 +10761,7 @@ __metadata:
   checksum: 6746baaaeac312c4db8e75fa22331d9a04cccb7792d126ed8ce6a0bbcfef0cedaddd0c5098fade53db067c09fe00aa1c957674b4765610a8b06a5a189e46433b
   languageName: node
   linkType: hard
-
-"jsbi@npm:^4.3.0":
-  version: 4.3.0
-  resolution: "jsbi@npm:4.3.0"
-  checksum: 1817ac1b50ea3f4438bcd84cadc9aee7a8657829f65b55ea6f151f401dbbd3babedbfdd3e4f481bd7b5472abb7823efa640fd7e5eee7c30cea6431f7a8b74696
-  languageName: node
-  linkType: hard
-
+  
 "jsbn@npm:1.1.0":
   version: 1.1.0
   resolution: "jsbn@npm:1.1.0"
