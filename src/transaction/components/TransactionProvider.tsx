@@ -1,4 +1,10 @@
-import { createContext, useCallback, useContext, useState } from 'react';
+import {
+  createContext,
+  useCallback,
+  useEffect,
+  useContext,
+  useState,
+} from 'react';
 import type { TransactionExecutionError } from 'viem';
 import { useAccount, useSwitchChain } from 'wagmi';
 import { useWaitForTransactionReceipt } from 'wagmi';
@@ -36,6 +42,7 @@ export function TransactionProvider({
   children,
   contracts,
   onError,
+  onSuccess,
 }: TransactionProviderReact) {
   const [errorMessage, setErrorMessage] = useState('');
   const [transactionId, setTransactionId] = useState('');
@@ -127,6 +134,13 @@ export function TransactionProvider({
       await handleSubmitErrors(err);
     }
   }, [chainId, executeContracts, handleSubmitErrors, switchChain]);
+
+  useEffect(() => {
+    const txnHash = transactionHash || writeContractTransactionHash;
+    if (txnHash && receipt) {
+      onSuccess?.({ transactionHash: txnHash, receipt });
+    }
+  }, [receipt, transactionHash, writeContractTransactionHash]);
 
   const value = useValue({
     address,
