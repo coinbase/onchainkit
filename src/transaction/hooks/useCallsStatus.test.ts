@@ -1,10 +1,8 @@
 import { renderHook } from '@testing-library/react';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { useCallsStatus as useCallsStatusWagmi } from 'wagmi/experimental';
 import { useCallsStatus } from './useCallsStatus';
-import type { TransactionError } from '../types';
 
-// Mock the `useCallsStatusWagmi` hook
 vi.mock('wagmi/experimental', () => ({
   useCallsStatus: vi.fn(),
 }));
