@@ -2,6 +2,7 @@ import { createContext, useContext } from 'react';
 import { useValue } from '../../internal/hooks/useValue';
 import { useOnchainKit } from '../../useOnchainKit';
 import type { IdentityContextType, IdentityProviderReact } from '../types';
+import type { Address } from 'viem';
 
 const emptyContext = {} as IdentityContextType;
 
@@ -16,7 +17,7 @@ export function IdentityProvider(props: IdentityProviderReact) {
   const accountChain = props.chain ?? contextChain;
 
   const value = useValue({
-    address: props.address,
+    address: props.address || ('' as Address),
     chain: accountChain,
     schemaId: props.schemaId,
   });

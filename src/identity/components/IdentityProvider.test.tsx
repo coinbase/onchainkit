@@ -27,7 +27,7 @@ describe('IdentityProvider', () => {
     const { result } = renderHook(() => useIdentityContext(), {
       wrapper: IdentityProvider,
     });
-    expect(result.current.address).toEqual(undefined);
+    expect(result.current.address).toEqual('');
     expect(result.current.schemaId).toEqual(undefined);
     expect(result.current.chain.id).toEqual(84532); // defaults to base
   });
@@ -40,7 +40,7 @@ describe('IdentityProvider', () => {
         </OnchainKitProvider>
       ),
     });
-    expect(result.current.address).toEqual(undefined);
+    expect(result.current.address).toEqual('');
     expect(result.current.schemaId).toEqual(undefined);
     expect(result.current.chain.id).toEqual(optimism.id);
   });
@@ -53,7 +53,7 @@ describe('IdentityProvider', () => {
         </OnchainKitProvider>
       ),
     });
-    expect(result.current.address).toEqual(undefined);
+    expect(result.current.address).toEqual('');
     expect(result.current.schemaId).toEqual(undefined);
     expect(result.current.chain.id).toEqual(sepolia.id);
   });
