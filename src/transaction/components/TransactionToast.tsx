@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from 'react';
+import { useEffect, useCallback, useMemo } from 'react';
 import { closeSvg } from '../../internal/svg/closeSvg';
 import { cn } from '../../styles/theme';
 import type { TransactionToastReact } from '../types';
@@ -35,6 +35,22 @@ export function TransactionToast({
     }
     return 'bottom-5 left-2/4';
   }, [position]);
+
+  useEffect(() => {
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    // hide toast after 5 seconds once
+    // it reaches final state (success or error)
+    if (receipt || errorMessage) {
+      timer = setTimeout(() => {
+        setIsToastVisible(false);
+      }, 5000);
+    }
+    return () => {
+      if (timer) {
+        clearTimeout(timer);
+      }
+    };
+  }, [receipt, errorMessage]);
 
   const isInProgress =
     !receipt &&

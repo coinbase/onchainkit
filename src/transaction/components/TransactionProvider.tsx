@@ -1,4 +1,5 @@
 import { createContext, useCallback, useContext, useState } from 'react';
+import type { TransactionExecutionError } from 'viem';
 import { useAccount, useSwitchChain } from 'wagmi';
 import { useWaitForTransactionReceipt } from 'wagmi';
 import { useValue } from '../../internal/hooks/useValue';
@@ -9,7 +10,6 @@ import {
   genericErrorMessage,
   useWriteContracts,
 } from '../hooks/useWriteContracts';
-import type { TransactionExecutionError } from 'viem';
 import type {
   TransactionContextType,
   TransactionProviderReact,
