@@ -1,4 +1,13 @@
 export function toReadableAmount(amount: string, decimals: number): string {
+  // Check if the amount contains a decimal point
+  if (amount.includes('.')) {
+    const [wholePart, fractionalPart] = amount.split('.');
+    const paddedFractionalPart = fractionalPart.padEnd(decimals, '0');
+    const combinedAmount = wholePart + paddedFractionalPart;
+    return combinedAmount;
+  }
+
+  // If no decimal point, proceed with the original logic
   const bigIntAmount = BigInt(amount);
   const divisor = 10n ** BigInt(decimals);
   const wholePart = (bigIntAmount / divisor).toString();
