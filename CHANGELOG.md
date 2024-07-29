@@ -4,20 +4,20 @@
 
 ### Patch Changes
 
-- 41e27f6: - **feat**: added wait for transaction receipt hook. By @abcrane123 #907
+- **feat**: added wait for transaction receipt hook. By @abcrane123 #907 41e27f6
 
 ## 0.26.8
 
 ### Patch Changes
 
-- 69119dc: - **fix**: `WalletCapabilities` type in the Transaction component. By @zizzamia #908
+- **fix**: `WalletCapabilities` type in the Transaction component. By @zizzamia #908 69119dc
 
 ## 0.26.7
 
 ### Patch Changes
 
-- 04e1376: - **fix**: updatd Base mainnet L2 resolver address. By @kirkas #903
-  - **feat**: added `SmartWalletCapabilities` paymaster support in the `Transaction` component. By @ilikesymmetry @cpcramer #893
+- **fix**: updatd Base mainnet L2 resolver address. By @kirkas #903 04e1376
+- **feat**: added `SmartWalletCapabilities` paymaster support in the `Transaction` component. By @ilikesymmetry @cpcramer #893
 
 ## 0.26.6
 
