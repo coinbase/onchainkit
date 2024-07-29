@@ -90,7 +90,6 @@ export default function TransactionComponents() {
 <App>
   <TransactionWrapper>
     {({ address, contracts, onError, onSuccess }) => {
-      // const PAYMASTER_AND_BUNDLER_ENDPOINT = import.meta.env.VITE_CDP_PAYMASTER_AND_BUNDLER_ENDPOINT
       const capabilities = {
         paymasterService: {
           url: PAYMASTER_AND_BUNDLER_ENDPOINT,
@@ -155,7 +154,6 @@ export default function TransactionComponents() {
 <App>
   <TransactionWrapper>
     {({ address, contracts, onError }) => {
-      // const PAYMASTER_AND_BUNDLER_ENDPOINT = import.meta.env.VITE_CDP_PAYMASTER_AND_BUNDLER_ENDPOINT
       if (address) {
         return (
           <Transaction 
@@ -205,7 +203,6 @@ export default function TransactionComponents() {
 <App>
   <TransactionWrapper>
     {({ address, contracts, onError, onSuccess }) => {
-      // const PAYMASTER_AND_BUNDLER_ENDPOINT = import.meta.env.VITE_CDP_PAYMASTER_AND_BUNDLER_ENDPOINT
       if (address) {
         return (
           <Transaction
