@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.26.12
+
+### Patch Changes
+
+- 74bd1a0: - **fix**: handle edge case in `toReadableAmount`. By @0xAlec #934
+  - **fix**: hide sponsor if txn in progress. By @abcrane123 #931
+
 ## 0.26.11
 
 ### Patch Changes
