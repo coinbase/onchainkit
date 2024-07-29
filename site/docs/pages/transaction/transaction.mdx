@@ -127,6 +127,62 @@ export default function TransactionComponents() {
   </TransactionWrapper>
 </App>
 
+## `Transaction` with `TransactionToast` components
+
+```tsx
+// ommited for brevity
+
+<Transaction address={address} contracts={contracts}>  // [!code focus]
+  <TransactionButton />  // [!code focus]
+  <TransactionSponsor text="Coinbase" /> // [!code focus]
+  <TransactionToast>  // [!code focus]
+    <TransactionToastIcon />  // [!code focus]
+    <TransactionToastLabel />  // [!code focus]
+    <TransactionToastAction />  // [!code focus]
+  </TransactionToast>  // [!code focus]
+</Transaction>  // [!code focus]
+```
+
+<App>
+  <TransactionWrapper>
+    {({ address, contracts, onError, onSuccess }) => {
+      if (address) {
+        return (
+          <Transaction
+            address={address}
+            capabilities={{
+              paymasterService: {
+                url: PAYMASTER_AND_BUNDLER_ENDPOINT,
+              },
+            }}
+            chainId={84532}
+            contracts={contracts}
+            onError={onError}
+            onSuccess={onSuccess}
+          >
+            <TransactionButton />
+            <TransactionSponsor text="Coinbase" />
+            <TransactionToast>
+              <TransactionToastIcon />
+              <TransactionToastLabel />
+              <TransactionToastAction />
+            </TransactionToast>
+          </Transaction>
+        )
+      } else {
+        return (
+          <Wallet>
+            <ConnectWallet>
+              <Avatar className="h-6 w-6" />
+              <Name />
+            </ConnectWallet>
+          </Wallet>
+        )
+      }
+    }}
+  </TransactionWrapper>
+</App>
+
 ## `Transaction` with Paymaster Gas Sponsorship Capabilities
 ##### Obtain a Paymaster and Bundler endpoint from the [Coinbase Developer Platform Paymaster](https://portal.cdp.coinbase.com/products/bundler-and-paymaster).
 
@@ -168,62 +224,6 @@ export default function TransactionComponents() {
           >
             <TransactionButton />
             <TransactionSponsor text="OnchainKit" />
-          </Transaction>
-        )
-      } else {
-        return (
-          <Wallet>
-            <ConnectWallet>
-              <Avatar className="h-6 w-6" />
-              <Name />
-            </ConnectWallet>
-          </Wallet>
-        )
-      }
-    }}
-  </TransactionWrapper>
-</App>
-
-## `Transaction` with `TransactionToast` components
-
-```tsx
-// ommited for brevity
-
-<Transaction address={address} contracts={contracts}>  // [!code focus]
-  <TransactionButton />  // [!code focus]
-  <TransactionSponsor text="Coinbase" /> // [!code focus]
-  <TransactionToast>  // [!code focus]
-    <TransactionToastIcon />  // [!code focus]
-    <TransactionToastLabel />  // [!code focus]
-    <TransactionToastAction />  // [!code focus]
-  </TransactionToast>  // [!code focus]
-</Transaction>  // [!code focus]
-```
-
-<App>
-  <TransactionWrapper>
-    {({ address, contracts, onError, onSuccess }) => {
-      if (address) {
-        return (
-          <Transaction
-            address={address}
-            capabilities={{
-              paymasterService: {
-                url: PAYMASTER_AND_BUNDLER_ENDPOINT,
-              },
-            }}
-            chainId={84532}
-            contracts={contracts}
-            onError={onError}
-            onSuccess={onSuccess}
-          >
-            <TransactionButton />
-            <TransactionSponsor text="Coinbase" />
-            <TransactionToast>
-              <TransactionToastIcon />
-              <TransactionToastLabel />
-              <TransactionToastAction />
-            </TransactionToast>
           </Transaction>
         )
       } else {
