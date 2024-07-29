@@ -12,7 +12,7 @@ import { formatDecimals } from './formatDecimals';
  * Additionally adds default values for optional request fields.
  */
 export function getAPIParamsForToken(
-  params: GetAPIParamsForToken
+  params: GetAPIParamsForToken,
 ): SwapAPIParams | SwapError {
   const { from, to, amount, amountReference, isAmountInDecimals } = params;
   const { fromAddress } = params as BuildSwapTransactionParams;

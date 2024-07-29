@@ -124,11 +124,11 @@ describe('buildSwapTransaction', () => {
     };
 
     const quote = (await buildSwapTransaction(
-      mockParams
+      mockParams,
     )) as BuildSwapTransaction;
 
     expect(quote.approveTransaction).toEqual(
-      expectedResponse.approveTransaction
+      expectedResponse.approveTransaction,
     );
     expect(quote.transaction).toEqual(expectedResponse.transaction);
     expect(quote.fee).toEqual(expectedResponse.fee);
@@ -228,11 +228,11 @@ describe('buildSwapTransaction', () => {
     };
 
     const quote = (await buildSwapTransaction(
-      mockParams
+      mockParams,
     )) as BuildSwapTransaction;
 
     expect(quote.approveTransaction).toEqual(
-      expectedResponse.approveTransaction
+      expectedResponse.approveTransaction,
     );
     expect(quote.transaction).toEqual(expectedResponse.transaction);
     expect(quote.fee).toEqual(expectedResponse.fee);
@@ -336,11 +336,11 @@ describe('buildSwapTransaction', () => {
     };
 
     const quote = (await buildSwapTransaction(
-      mockParams
+      mockParams,
     )) as BuildSwapTransaction;
 
     expect(quote.approveTransaction).toEqual(
-      expectedResponse.approveTransaction
+      expectedResponse.approveTransaction,
     );
     expect(quote.transaction).toEqual(expectedResponse.transaction);
     expect(quote.fee).toEqual(expectedResponse.fee);
@@ -364,7 +364,7 @@ describe('buildSwapTransaction', () => {
     const mockApiParams = getAPIParamsForToken(mockParams);
 
     const mockError = new Error(
-      'buildSwapTransaction: Error: Failed to send request'
+      'buildSwapTransaction: Error: Failed to send request',
     );
     (sendRequest as vi.Mock).mockRejectedValue(mockError);
 
