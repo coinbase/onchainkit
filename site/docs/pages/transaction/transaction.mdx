@@ -15,6 +15,7 @@ import { Wallet, ConnectWallet } from '@coinbase/onchainkit/wallet';
 import App from '../../components/App';
 import TransactionWrapper from '../../components/TransactionWrapper';
 
+export const BASE_SEPOLIA_CHAIN_ID = 85432;
 export const PAYMASTER_AND_BUNDLER_ENDPOINT = import.meta.env.VITE_CDP_PAYMASTER_AND_BUNDLER_ENDPOINT;
 
 # `<Transaction />`
@@ -69,7 +70,7 @@ export default function TransactionComponents() {
   ];
 
   return address ? (
-    <Transaction address={address} chainId={85432} contracts={contracts}>  // [!code focus]
+    <Transaction address={address} chainId={BASE_SEPOLIA_CHAIN_ID} contracts={contracts}>  // [!code focus]
       <TransactionButton />  // [!code focus]
       <TransactionSponsor text="Coinbase" /> // [!code focus]
       <TransactionStatus>  // [!code focus]
@@ -100,7 +101,7 @@ export default function TransactionComponents() {
           <Transaction
             address={address}
             capabilities={capabilities}
-            chainId={84532}
+            chainId={BASE_SEPOLIA_CHAIN_ID}
             contracts={contracts}
             onError={onError}
             onSuccess={onSuccess}
@@ -196,12 +197,12 @@ export default function TransactionComponents() {
 // ommited for brevity
 <Transaction
   address={address}
-  contracts={contracts}
   capabilities={{ // [!code focus]
     paymasterService: { // [!code focus]
       url: process.env.PAYMASTER_AND_BUNDLER_ENDPOINT, // [!code focus]
     }, // [!code focus]
   }} // [!code focus]
+  contracts={contracts}
   >
   <TransactionButton />
   <TransactionSponsor text="OnchainKit" />
@@ -214,13 +215,14 @@ export default function TransactionComponents() {
         return (
           <Transaction 
             address={address} 
-            contracts={contracts} 
-            onError={onError} 
             capabilities={{
               paymasterService: {
                 url: PAYMASTER_AND_BUNDLER_ENDPOINT,
               },
             }}
+            chainId={BASE_SEPOLIA_CHAIN_ID}
+            contracts={contracts} 
+            onError={onError} 
           >
             <TransactionButton />
             <TransactionSponsor text="OnchainKit" />
