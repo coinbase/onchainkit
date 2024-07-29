@@ -6,12 +6,24 @@ export function TransactionSponsor({
   className,
   text: sponsorName,
 }: TransactionSponsorReact) {
-  const { hasPaymaster, statusWriteContract, statusWriteContracts } =
-    useTransactionContext();
+  const {
+    errorMessage,
+    hasPaymaster,
+    receipt,
+    statusWriteContract,
+    statusWriteContracts,
+    transactionHash,
+    transactionId,
+  } = useTransactionContext();
+
+  const transactionInProgress = transactionId || transactionHash;
   if (
     statusWriteContract !== 'idle' ||
     statusWriteContracts !== 'idle' ||
-    !hasPaymaster
+    !hasPaymaster ||
+    errorMessage ||
+    transactionInProgress ||
+    receipt
   ) {
     return null;
   }
