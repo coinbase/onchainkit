@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { closeSvg } from '../../internal/svg/closeSvg';
 import { cn } from '../../styles/theme';
 import type { TransactionToastReact } from '../types';
@@ -36,6 +36,22 @@ export function TransactionToast({
     return 'bottom-5 left-2/4';
   }, [position]);
 
+  useEffect(() => {
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    // hide toast after 5 seconds once
+    // it reaches final state (success or error)
+    if (receipt || errorMessage) {
+      timer = setTimeout(() => {
+        setIsToastVisible(false);
+      }, 5000);
+    }
+    return () => {
+      if (timer) {
+        clearTimeout(timer);
+      }
+    };
+  }, [errorMessage, receipt, setIsToastVisible]);
+
   const isInProgress =
     !receipt &&
     !isLoading &&
@@ -58,7 +74,12 @@ export function TransactionToast({
       )}
     >
       <div className="flex items-center gap-4 p-2">{children}</div>
-      <button className="p-2" onClick={closeToast} type="button">
+      <button
+        className="p-2"
+        onClick={closeToast}
+        type="button"
+        data-testid="ockCloseButton"
+      >
         {closeSvg}
       </button>
     </div>

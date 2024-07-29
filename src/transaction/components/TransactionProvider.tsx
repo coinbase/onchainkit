@@ -1,4 +1,11 @@
-import { createContext, useCallback, useContext, useState } from 'react';
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
+import type { TransactionExecutionError } from 'viem';
 import { useAccount, useSwitchChain } from 'wagmi';
 import { useWaitForTransactionReceipt } from 'wagmi';
 import { useValue } from '../../internal/hooks/useValue';
@@ -35,6 +42,7 @@ export function TransactionProvider({
   children,
   contracts,
   onError,
+  onSuccess,
 }: TransactionProviderReact) {
   const [errorMessage, setErrorMessage] = useState('');
   const [transactionId, setTransactionId] = useState('');
@@ -95,6 +103,8 @@ export function TransactionProvider({
 
   const handleSubmitErrors = useCallback(
     async (err: unknown) => {
+      // handles EOA writeContracts error
+      // (fallback to writeContract)
       if (
         err instanceof Error &&
         err.message.includes(METHOD_NOT_SUPPORTED_ERROR_SUBSTRING)
@@ -104,6 +114,13 @@ export function TransactionProvider({
         } catch (_err) {
           setErrorMessage(genericErrorMessage);
         }
+        // handles user rejected request error
+      } else if (
+        (err as TransactionExecutionError)?.cause?.name ===
+        'UserRejectedRequestError'
+      ) {
+        setErrorMessage('Request denied.');
+        // handles generic error
       } else {
         setErrorMessage(genericErrorMessage);
       }
@@ -122,11 +139,19 @@ export function TransactionProvider({
     }
   }, [chainId, executeContracts, handleSubmitErrors, switchChain]);
 
+  useEffect(() => {
+    const txnHash = transactionHash || writeContractTransactionHash;
+    if (txnHash && receipt) {
+      onSuccess?.({ transactionHash: txnHash, receipt });
+    }
+  }, [onSuccess, receipt, transactionHash, writeContractTransactionHash]);
+
   const value = useValue({
     address,
     chainId,
     contracts,
     errorMessage,
+    hasPaymaster: !!capabilities?.paymasterService?.url,
     isLoading: callStatus === 'PENDING',
     isToastVisible,
     onSubmit: handleSubmit,

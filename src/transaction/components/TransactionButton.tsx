@@ -8,6 +8,7 @@ import { useTransactionContext } from './TransactionProvider';
 
 export function TransactionButton({
   className,
+  disabled = false,
   text: buttonText = 'Transact',
 }: TransactionButtonReact) {
   const {
@@ -28,10 +29,11 @@ export function TransactionButton({
     statusWriteContracts === 'pending' ||
     isLoading;
   const isMissingProps = !contracts || !address;
-  const isWaitingForReceipt = transactionId || transactionHash;
+  const isWaitingForReceipt = !!transactionId || !!transactionHash;
 
   const isDisabled =
-    !receipt && (isInProgress || isMissingProps || isWaitingForReceipt);
+    !receipt &&
+    (isInProgress || isMissingProps || isWaitingForReceipt || disabled);
 
   const displaySpinner = isSpinnerDisplayed({
     errorMessage,
@@ -62,6 +64,7 @@ export function TransactionButton({
       )}
       onClick={onSubmit}
       type="button"
+      disabled={isDisabled}
     >
       {displaySpinner ? (
         <Spinner />

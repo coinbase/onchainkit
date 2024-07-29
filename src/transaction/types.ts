@@ -11,6 +11,7 @@ import type {
  */
 export type TransactionButtonReact = {
   className?: string; // An optional CSS class name for styling the button component.
+  disabled?: boolean; // A optional prop to disable the submit button
   text?: string; // An optional text to be displayed in the button component.
 };
 
@@ -22,6 +23,7 @@ export type TransactionContextType = {
   chainId?: number; // The chainId for the transaction.
   contracts: ContractFunctionParameters[]; // An array of contracts for the transaction.
   errorMessage?: string; // An error message string if the transaction encounters an issue.
+  hasPaymaster?: boolean; // A boolean indicating if app has paymaster configured
   isLoading: boolean; // A boolean indicating if the transaction is currently loading.
   isToastVisible: boolean; // A boolean indicating if the transaction toast notification is visible.
   onSubmit: () => void; // A function called when the transaction is submitted.
@@ -60,6 +62,7 @@ export type TransactionProviderReact = {
   children: ReactNode; // The child components to be rendered within the provider component.
   contracts: ContractFunctionParameters[]; // An array of contract function parameters provided to the child components.
   onError?: (e: TransactionError) => void; // An optional callback function that handles errors within the provider.
+  onSuccess?: (response: TransactionResponse) => void; // An optional callback function that exposes transaction hash
 };
 
 /**
@@ -73,6 +76,15 @@ export type TransactionReact = {
   className?: string; // An optional CSS class name for styling the component.
   contracts: ContractFunctionParameters[]; // An array of contract function parameters for the transaction.
   onError?: (e: TransactionError) => void; // An optional callback function that handles transaction errors.
+  onSuccess?: (response: TransactionResponse) => void; // An optional callback function that exposes transaction hash
+};
+
+/**
+ * Note: exported as public Type
+ */
+export type TransactionResponse = {
+  transactionHash: string; // Proof that a transaction was validated and added to the blockchain
+  receipt: TransactionReceipt; // The receipt of the transaction
 };
 
 /**
