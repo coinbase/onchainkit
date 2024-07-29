@@ -1,23 +1,25 @@
-import { AppContext } from "@/components/AppProvider";
-import { useContext } from "react";
+import { AppContext } from '@/components/AppProvider';
+import { useContext } from 'react';
 
 export function usePaymaster() {
-    const {chainId, paymasters} = useContext(AppContext)
-    const paymasterUrl = !chainId ? "" : paymasters?.[chainId]?.url ?? ""
-    const enabled = !chainId ? false : paymasters?.[chainId]?.enabled ?? false
+  const { chainId, paymasters } = useContext(AppContext);
+  const paymasterUrl = chainId ? paymasters?.[chainId]?.url ?? '' : '';
+  const enabled = chainId ? paymasters?.[chainId]?.enabled ?? false : false;
 
-    return {
-        paymasterUrl,
-        enabled
-    }
+  return {
+    paymasterUrl,
+    enabled,
+  };
 }
 
 export function useCapabilities() {
-    const {paymasterUrl, enabled} = usePaymaster()
+  const { paymasterUrl, enabled } = usePaymaster();
 
-    return enabled ? {
+  return enabled
+    ? {
         ...(paymasterUrl && {
-            paymasterService: { url: paymasterUrl }
-        })
-    } : undefined
+          paymasterService: { url: paymasterUrl },
+        }),
+      }
+    : undefined;
 }

@@ -1,44 +1,47 @@
 // AppContext.js
-import React, { createContext, useState, useEffect } from 'react';
-import {useConnect, useConnectors} from "wagmi"
+import type React from 'react';
+import { createContext, useEffect, useState } from 'react';
+import { useConnect, useConnectors } from 'wagmi';
 
 import { WalletPreference } from './form/wallet-type';
 
 export enum OnchainKitComponent {
-  Transaction="transaction",
-  Swap="swap"
+  Transaction = 'transaction',
+  Swap = 'swap',
 }
 export type Paymaster = {
-  url: string, 
-  enabled: boolean
-}
+  url: string;
+  enabled: boolean;
+};
 type State = {
-    activeComponent?: OnchainKitComponent
-    setActiveComponent?: (component: OnchainKitComponent) => void
-    walletType?: WalletPreference
-    setWalletType?: (walletType: WalletPreference) => void
-    clearWalletType?: () => void
-    chainId?: number,
-    setChainId?: (chainId: number) => void
-    paymasters?: Record<number, Paymaster> // paymasters is per network
-    setPaymaster?: (chainId: number, url: string, enabled: boolean) => void
-}
+  activeComponent?: OnchainKitComponent;
+  setActiveComponent?: (component: OnchainKitComponent) => void;
+  walletType?: WalletPreference;
+  setWalletType?: (walletType: WalletPreference) => void;
+  clearWalletType?: () => void;
+  chainId?: number;
+  setChainId?: (chainId: number) => void;
+  paymasters?: Record<number, Paymaster>; // paymasters is per network
+  setPaymaster?: (chainId: number, url: string, enabled: boolean) => void;
+};
 
 const defaultState: State = {
-    activeComponent: OnchainKitComponent.Transaction,
-    chainId: 85432,
-}
+  activeComponent: OnchainKitComponent.Transaction,
+  chainId: 85432,
+};
 
 export const AppContext = createContext(defaultState);
 
-export const AppProvider = ({ children }: {children: React.ReactNode}) => {
-  const {connect} = useConnect()
-  const connectors = useConnectors()
+export const AppProvider = ({ children }: { children: React.ReactNode }) => {
+  const { connect } = useConnect();
+  const connectors = useConnectors();
 
-  const [activeComponent, setActiveComponentState] = useState<OnchainKitComponent>();
+  const [activeComponent, setActiveComponentState] =
+    useState<OnchainKitComponent>();
   const [walletType, setWalletTypeState] = useState<WalletPreference>();
   const [chainId, setChainIdState] = useState<number>();
-  const [paymasters, setPaymastersState] = useState<Record<number,Paymaster>>();
+  const [paymasters, setPaymastersState] =
+    useState<Record<number, Paymaster>>();
 
   // Load initial values from localStorage
   useEffect(() => {
@@ -46,7 +49,7 @@ export const AppProvider = ({ children }: {children: React.ReactNode}) => {
     const storedWalletType = localStorage.getItem('walletType');
     const storedChainId = localStorage.getItem('chainId');
     const storedPaymasters = localStorage.getItem('paymasters');
-    
+
     if (storedActiveComponent) {
       setActiveComponent(storedActiveComponent as OnchainKitComponent);
     }
@@ -54,7 +57,7 @@ export const AppProvider = ({ children }: {children: React.ReactNode}) => {
       setWalletType(storedWalletType as WalletPreference);
     }
     if (storedChainId) {
-      setChainIdState(parseInt(storedChainId));
+      setChainIdState(Number.parseInt(storedChainId));
     }
     if (storedPaymasters) {
       setPaymastersState(JSON.parse(storedPaymasters));
@@ -63,12 +66,12 @@ export const AppProvider = ({ children }: {children: React.ReactNode}) => {
 
   // Connect to wallet if walletType changes
   useEffect(() => {
-    if (walletType === WalletPreference .SMART_WALLET) {
-      connect({connector: connectors[0]})
+    if (walletType === WalletPreference.SMART_WALLET) {
+      connect({ connector: connectors[0] });
     } else if (walletType === WalletPreference.EOA) {
-      connect({connector: connectors[1]})
+      connect({ connector: connectors[1] });
     }
-  }, [walletType])
+  }, [walletType]);
 
   // Update localStorage whenever the state changes
 
@@ -81,9 +84,9 @@ export const AppProvider = ({ children }: {children: React.ReactNode}) => {
     localStorage.setItem('walletType', newWalletType.toString());
     setWalletTypeState(newWalletType);
   }
-    
+
   function clearWalletType() {
-    localStorage.setItem('walletType', "");
+    localStorage.setItem('walletType', '');
     setWalletTypeState(undefined);
   }
 
@@ -95,24 +98,26 @@ export const AppProvider = ({ children }: {children: React.ReactNode}) => {
   const setPaymaster = (chainId: number, url: string, enabled: boolean) => {
     const newObj = {
       ...paymasters,
-      [chainId]: { url, enabled }
-    }
+      [chainId]: { url, enabled },
+    };
     localStorage.setItem('paymasters', JSON.stringify(newObj));
     setPaymastersState(newObj);
   };
 
   return (
-    <AppContext.Provider value={{ 
-      activeComponent, 
-      setActiveComponent, 
-      walletType, 
-      setWalletType, 
-      clearWalletType, 
-      chainId, 
-      setChainId, 
-      paymasters, 
-      setPaymaster 
-    }}>
+    <AppContext.Provider
+      value={{
+        activeComponent,
+        setActiveComponent,
+        walletType,
+        setWalletType,
+        clearWalletType,
+        chainId,
+        setChainId,
+        paymasters,
+        setPaymaster,
+      }}
+    >
       {children}
     </AppContext.Provider>
   );

@@ -1,19 +1,19 @@
-import { 
-    Swap, 
-    SwapAmountInput, 
-    SwapToggleButton, 
-    SwapButton, 
-    SwapMessage
-} from '@coinbase/onchainkit/swap'; 
+import {
+  Swap,
+  SwapAmountInput,
+  SwapButton,
+  SwapMessage,
+  SwapToggleButton,
+} from '@coinbase/onchainkit/swap';
 import type { Token } from '@coinbase/onchainkit/token';
 import { useContext } from 'react';
-import { useAccount, useSendTransaction } from 'wagmi';
+import { useAccount } from 'wagmi';
 import { AppContext } from '../AppProvider';
- 
+
 function SwapComponent() {
   const { address } = useAccount();
-  const {chainId} = useContext(AppContext)
- 
+  const { chainId } = useContext(AppContext);
+
   const degenToken: Token = {
     name: 'DEGEN',
     address: '0x4ed4e862860bed51a9570b96d89af5e1b0efefed',
@@ -55,51 +55,55 @@ function SwapComponent() {
   };
 
   const swappableTokens = [degenToken, ethToken, usdcToken, wethToken];
- 
+
   return (
-    <div className='relative w-full h-full'>
-      {!address ? (
-        <div className='w-full h-full flex flex-col justify-center text-center bg-[#000000] bg-opacity-50 z-10 absolute top-0 left-0 rounded-xl'>
-          <div className='bg-muted w-2/3 mx-auto p-6 rounded-md text-sm'>
+    <div className="relative w-full h-full">
+      {address ? (
+        chainId !== 8453 ? (
+          <div className="w-full h-full flex flex-col justify-center text-center bg-[#000000] bg-opacity-50 z-10 absolute top-0 left-0 rounded-xl">
+            <div className="bg-muted w-2/3 mx-auto p-6 rounded-md text-sm">
+              Swap Demo is only available on Base.
+              <br />
+              Please change your chain in settings.
+            </div>
+          </div>
+        ) : (
+          <></>
+        )
+      ) : (
+        <div className="w-full h-full flex flex-col justify-center text-center bg-[#000000] bg-opacity-50 z-10 absolute top-0 left-0 rounded-xl">
+          <div className="bg-muted w-2/3 mx-auto p-6 rounded-md text-sm">
             Swap Demo requires wallet.
             <br />
             Please connect in settings.
           </div>
         </div>
-      ) : chainId !== 8453 ? (
-        <div className='w-full h-full flex flex-col justify-center text-center bg-[#000000] bg-opacity-50 z-10 absolute top-0 left-0 rounded-xl'>
-          <div className='bg-muted w-2/3 mx-auto p-6 rounded-md text-sm'>
-            Swap Demo is only available on Base.
-            <br />
-            Please change your chain in settings.
-          </div>
-        </div>
-      ) : (<></>)}
+      )}
       <Swap address={address!} className="border bg-[#ffffff]">
         <SwapAmountInput
           label="Sell"
-          swappableTokens={swappableTokens} 
-          token={ethToken} 
+          swappableTokens={swappableTokens}
+          token={ethToken}
           type="from"
-          /> 
-        <SwapToggleButton /> 
+        />
+        <SwapToggleButton />
         <SwapAmountInput
           label="Buy"
-          swappableTokens={swappableTokens} 
-          token={usdcToken} 
+          swappableTokens={swappableTokens}
+          token={usdcToken}
           type="to"
-          /> 
-        <SwapButton /> 
-        <SwapMessage /> 
-      </Swap> 
+        />
+        <SwapButton />
+        <SwapMessage />
+      </Swap>
     </div>
   );
 }
 
 export default function SwapDemo() {
-    return (
-        <div className='mx-auto'>
-            <SwapComponent />
-        </div>
-    )
+  return (
+    <div className="mx-auto">
+      <SwapComponent />
+    </div>
+  );
 }

@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { AppProvider } from "@/components/AppProvider";
-import Demo from "@/components/Demo";
+import { AppProvider } from '@/components/AppProvider';
+import Demo from '@/components/Demo';
 
 export default function Home() {
   return (
