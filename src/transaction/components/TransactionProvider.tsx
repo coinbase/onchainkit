@@ -103,6 +103,8 @@ export function TransactionProvider({
 
   const handleSubmitErrors = useCallback(
     async (err: unknown) => {
+      // handles EOA writeContracts error
+      // (fallback to writeContract)
       if (
         err instanceof Error &&
         err.message.includes(METHOD_NOT_SUPPORTED_ERROR_SUBSTRING)
@@ -112,11 +114,13 @@ export function TransactionProvider({
         } catch (_err) {
           setErrorMessage(genericErrorMessage);
         }
+      // handles user rejected request error
       } else if (
         (err as TransactionExecutionError)?.cause?.name ===
         'UserRejectedRequestError'
       ) {
         setErrorMessage('Request denied.');
+      // handles generic error
       } else {
         setErrorMessage(genericErrorMessage);
       }
