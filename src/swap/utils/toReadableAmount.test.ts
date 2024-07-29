@@ -13,6 +13,7 @@ describe('toReadableAmount', () => {
   it('handles decimals correctly', () => {
     expect(toReadableAmount('1500000000000000000', 18)).toBe('1.5');
     expect(toReadableAmount('100000', 6)).toBe('0.1');
+    expect(toReadableAmount('1.500001', 6)).toBe('1500001');
   });
 
   it('handles very small numbers', () => {
@@ -34,4 +35,5 @@ describe('toReadableAmount', () => {
       '1000000000000000000',
     );
   });
+  
 });
