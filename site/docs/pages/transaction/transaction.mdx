@@ -90,7 +90,7 @@ export default function TransactionComponents() {
     {({ address, contracts, onError, onSuccess }) => {
       const capabilities = {
         paymasterService: {
-          url: 'https://api.developer.coinbase.com/rpc/v1/base-sepolia/KkgONfLFgUZKI8nnrttLbI78U2vyhtXg',
+          url: import.meta.env.VITE_CDP_PAYMASTER_AND_BUNDLER_ENDPOINT,
         },
       }
       if (address) {
@@ -160,7 +160,7 @@ export default function TransactionComponents() {
             onError={onError} 
             capabilities={{
               paymasterService: {
-                url: 'https://api.developer.coinbase.com/rpc/v1/base/KkgONfLFgUZKI8nnrttLbI78U2vyhtXg',
+                url: import.meta.env.VITE_CDP_PAYMASTER_AND_BUNDLER_ENDPOINT,
               },
             }}
           >
