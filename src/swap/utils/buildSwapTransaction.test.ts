@@ -427,9 +427,8 @@ describe('buildSwapTransaction', () => {
 
     const error = await buildSwapTransaction(mockParams);
     expect(error).toEqual({
-      code: 'UNCAUGHT_SWAP_ERROR',
-      error:
-        'Error: Invalid input: amount must be a non-negative number string',
+      code: 'INVALID_INPUT',
+      error: 'Invalid input: amount must be a number',
     });
   });
 });

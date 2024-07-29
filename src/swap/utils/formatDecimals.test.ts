@@ -36,10 +36,25 @@ describe('formatDecimals', () => {
   });
 
   it('throws error for invalid input', () => {
-    expect(() => formatDecimals('abc', true, 18)).toThrow();
-    expect(() => formatDecimals('', false, 18)).toThrow();
-    expect(() => formatDecimals('-1', false, 18)).toThrow();
-    expect(() => formatDecimals('1', false, 1.1)).toThrow();
-    expect(() => formatDecimals('1', true, -1)).toThrow();
+    expect(formatDecimals('abc', true, 18)).toEqual({
+      code: 'INVALID_INPUT',
+      error: 'Invalid input: amount must be a number',
+    });
+    expect(formatDecimals('', false, 18)).toEqual({
+      code: 'INVALID_INPUT',
+      error: 'Invalid input: amount must be a non-empty string',
+    });
+    expect(formatDecimals('-1', false, 18)).toEqual({
+      code: 'INVALID_INPUT',
+      error: 'Invalid input: amount must be a number',
+    });
+    expect(formatDecimals('1', false, 1.1)).toEqual({
+      code: 'INVALID_INPUT',
+      error: 'Invalid input: decimals must be a non-negative integer',
+    });
+    expect(formatDecimals('1', true, -1)).toEqual({
+      code: 'INVALID_INPUT',
+      error: 'Invalid input: decimals must be a non-negative integer',
+    });
   });
 });

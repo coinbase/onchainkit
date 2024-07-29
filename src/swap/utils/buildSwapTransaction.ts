@@ -23,15 +23,11 @@ export async function buildSwapTransaction(
     isAmountInDecimals: false,
   };
 
-  let apiParams: SwapAPIParams;
-  try {
-    apiParams = getAPIParamsForToken({ ...defaultParams, ...params });
-  } catch (_error) {
-    return {
-      code: getSwapErrorCode('uncaught-swap'),
-      error: `${_error}`,
-    };
+  const apiParamsOrError = getAPIParamsForToken({ ...defaultParams, ...params });
+  if ((apiParamsOrError as SwapError).error) {
+    return apiParamsOrError as SwapError;
   }
+  let apiParams = apiParamsOrError as SwapAPIParams;
 
   if (!params.useAggregator) {
     apiParams = {
