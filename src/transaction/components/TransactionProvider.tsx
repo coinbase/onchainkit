@@ -1,5 +1,6 @@
 import { createContext, useCallback, useContext, useState } from 'react';
 import { useAccount, useSwitchChain } from 'wagmi';
+import { useWaitForTransactionReceipt } from 'wagmi';
 import { useValue } from '../../internal/hooks/useValue';
 import { METHOD_NOT_SUPPORTED_ERROR_SUBSTRING } from '../constants';
 import { useCallsStatus } from '../hooks/useCallsStatus';
@@ -58,6 +59,10 @@ export function TransactionProvider({
   const { transactionHash, status: callStatus } = useCallsStatus({
     onError,
     transactionId,
+  });
+
+  const { data: receipt } = useWaitForTransactionReceipt({
+    hash: writeContractTransactionHash || transactionHash,
   });
 
   const fallbackToWriteContract = useCallback(async () => {
@@ -125,10 +130,12 @@ export function TransactionProvider({
     isLoading: callStatus === 'PENDING',
     isToastVisible,
     onSubmit: handleSubmit,
+    receipt,
     setErrorMessage,
     setIsToastVisible,
     setTransactionId,
-    status: statusWriteContract || statusWriteContracts,
+    statusWriteContracts,
+    statusWriteContract,
     transactionId,
     transactionHash: transactionHash || writeContractTransactionHash,
   });

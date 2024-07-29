@@ -11,11 +11,16 @@ export function useGetTransactionStatus() {
     errorMessage,
     isLoading,
     onSubmit,
-    status,
+    receipt,
+    statusWriteContract,
+    statusWriteContracts,
     transactionHash,
     transactionId,
   } = useTransactionContext();
   const accountChainId = chainId ?? useChainId();
+  const isPending =
+    statusWriteContract === 'pending' || statusWriteContracts === 'pending';
+  const isInProgress = isLoading || !!transactionId || !!transactionHash;
 
   return useMemo(() => {
     const chainExplorer = getChainExplorer(accountChainId);
@@ -24,21 +29,14 @@ export function useGetTransactionStatus() {
     let label = '';
     let labelClassName: string = color.foregroundMuted;
 
-    if (status === 'pending') {
+    if (isPending) {
       label = 'Confirm in wallet.';
     }
 
-    if (isLoading || (transactionId && !transactionHash)) {
+    if (isInProgress) {
       label = 'Transaction in progress...';
-      // TODO: add back when have correct link
-      // actionElement = (
-      //   <a href={chainExplorer}>
-      //     <span className={cn(text.label1, color.primary)}>
-      //       View on explorer
-      //     </span>
-      //   </a>
-      // );
     }
+
     if (transactionHash) {
       actionElement = (
         <a
@@ -51,8 +49,12 @@ export function useGetTransactionStatus() {
           </span>
         </a>
       );
-      label = 'Successful';
     }
+
+    if (receipt) {
+      label = 'Successful!';
+    }
+
     if (errorMessage) {
       label = errorMessage;
       labelClassName = color.error;
@@ -67,10 +69,10 @@ export function useGetTransactionStatus() {
   }, [
     accountChainId,
     errorMessage,
-    isLoading,
+    isInProgress,
+    isPending,
     onSubmit,
-    status,
+    receipt,
     transactionHash,
-    transactionId,
   ]);
 }

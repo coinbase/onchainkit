@@ -1,6 +1,10 @@
 // 🌲☀🌲
 import type { ReactNode } from 'react';
-import type { Address, ContractFunctionParameters } from 'viem';
+import type {
+  Address,
+  ContractFunctionParameters,
+  TransactionReceipt,
+} from 'viem';
 
 /**
  * Note: exported as public Type
@@ -21,10 +25,12 @@ export type TransactionContextType = {
   isLoading: boolean; // A boolean indicating if the transaction is currently loading.
   isToastVisible: boolean; // A boolean indicating if the transaction toast notification is visible.
   onSubmit: () => void; // A function called when the transaction is submitted.
+  receipt?: TransactionReceipt; // The receipt of the transaction
   setErrorMessage: (error: string) => void; // A function to set the error message for the transaction.
   setIsToastVisible: (isVisible: boolean) => void; // A function to set the visibility of the transaction toast.
   setTransactionId: (id: string) => void; // A function to set the transaction ID.
-  status?: string; // An optional string indicating the current status of the transaction.
+  statusWriteContract?: string; // An optional string indicating the current status of the transaction.
+  statusWriteContracts?: string; // An optional string indicating the current status of the transaction.
   transactionId?: string; // An optional string representing the ID of the transaction.
   transactionHash?: string; // An optional string representing the hash of the transaction.
 };
