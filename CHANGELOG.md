@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.26.10
+
+### Patch Changes
+
+- e4a9c5c: - **fix**: made `IdentityProvider` to use address directly when switching address. By @kirkas #910
+
 ## 0.26.9
 
 ### Patch Changes
