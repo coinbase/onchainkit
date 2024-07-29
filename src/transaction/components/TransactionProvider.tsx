@@ -114,13 +114,13 @@ export function TransactionProvider({
         } catch (_err) {
           setErrorMessage(genericErrorMessage);
         }
-      // handles user rejected request error
+        // handles user rejected request error
       } else if (
         (err as TransactionExecutionError)?.cause?.name ===
         'UserRejectedRequestError'
       ) {
         setErrorMessage('Request denied.');
-      // handles generic error
+        // handles generic error
       } else {
         setErrorMessage(genericErrorMessage);
       }
