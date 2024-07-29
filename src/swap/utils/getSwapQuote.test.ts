@@ -218,7 +218,7 @@ describe('getSwapQuote', () => {
     const error = await getSwapQuote(mockParams);
     expect(error).toEqual({
       code: 'INVALID_INPUT',
-      error: 'Invalid input: amount must be a number',
+      error: 'Invalid input: amount must be a non-negative number string',
     });
   });
 });

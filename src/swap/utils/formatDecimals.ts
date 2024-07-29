@@ -1,4 +1,3 @@
-import type { SwapError } from '../types';
 import { fromReadableAmount } from './fromReadableAmount';
 import { toReadableAmount } from './toReadableAmount';
 
@@ -9,27 +8,7 @@ export function formatDecimals(
   amount: string,
   inputInDecimals = true,
   decimals = 18,
-): string | SwapError {
-  // Input validation
-  if (typeof amount !== 'string' || amount.trim() === '') {
-    return {
-      code: 'INVALID_INPUT',
-      error: 'Invalid input: amount must be a non-empty string',
-    };
-  }
-  if (!Number.isInteger(decimals) || decimals < 0) {
-    return {
-      code: 'INVALID_INPUT',
-      error: 'Invalid input: decimals must be a non-negative integer',
-    };
-  }
-  if (!/^(?:0|[1-9]\d*)(?:\.\d+)?$/.test(amount)) {
-    return {
-      code: 'INVALID_INPUT',
-      error: 'Invalid input: amount must be a number',
-    };
-  }
-
+): string {
   let result: string;
 
   if (inputInDecimals) {
