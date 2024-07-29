@@ -1,65 +1,15 @@
-import { Children, useMemo, useCallback, useState, useEffect } from 'react';
+import { Children, useMemo } from 'react';
+import type { ReactNode } from 'react';
+import { findComponent } from '../../internal/utils/findComponent';
+import { background, cn, color, pressable } from '../../styles/theme';
+import { usePopover } from '../hooks/usePopover';
 import { Address } from './Address';
 import { Avatar } from './Avatar';
 import { EthBalance } from './EthBalance';
 import { Name } from './Name';
-import { findComponent } from '../../internal/utils/findComponent';
-import { background, cn, color, pressable } from '../../styles/theme';
-import type { ReactNode } from 'react';
 
 // istanbul ignore next
 const noop = () => {};
-
-export function usePopover(onClick?: () => Promise<boolean>) {
-  const [popoverText, setPopoverText] = useState('Copy');
-  const [showPopover, setShowPopover] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
-
-  const handleMouseEnter = useCallback(() => {
-    setPopoverText('Copy');
-    setIsHovered(true);
-  }, []);
-
-  const handleMouseLeave = useCallback(() => {
-    setIsHovered(false);
-    setShowPopover(false);
-  }, []);
-
-  const handleClick = useCallback(async () => {
-    if (onClick) {
-      const result = await onClick();
-      if (result) {
-        setPopoverText('Copied');
-        // istanbul ignore next
-        setTimeout(() => {
-          setShowPopover(false);
-        }, 1000);
-      }
-    }
-  }, [onClick]);
-
-  useEffect(() => {
-    let timer: NodeJS.Timeout;
-    if (isHovered) {
-      timer = setTimeout(() => setShowPopover(true), 200);
-    } else {
-      setShowPopover(false);
-    }
-    return () => clearTimeout(timer);
-  }, [isHovered]);
-
-  if (!onClick) {
-    return {};
-  }
-
-  return {
-    handleClick,
-    handleMouseEnter,
-    handleMouseLeave,
-    showPopover,
-    popoverText,
-  };
-}
 
 type IdentityLayoutReact = {
   children: ReactNode;
@@ -92,13 +42,13 @@ export function IdentityLayout({
 
   return (
     <div
-      data-testid="ockIdentity_container"
       className={cn(
         background.default,
         'flex items-center space-x-4 px-2 py-1',
         onClick && `${pressable.default} relative`,
         className,
       )}
+      data-testid="ockIdentityLayout_container"
       onClick={handleClick}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
@@ -125,9 +75,16 @@ export function IdentityLayout({
             color.foreground,
             'absolute top-[calc(100%_-_5px)] left-[46px] z-10 rounded px-2 py-1 shadow-[0px_4px_8px_rgba(0,0,0,0.1)]',
           )}
+          data-testid="ockIdentityLayout_copy"
         >
           {popoverText}
-          <div className="absolute top-[-5px] left-6 h-0 w-0 border-x-[5px] border-x-transparent border-b-[5px] border-b-[color:var(--bg-inverse)] border-solid" />
+          <div
+            className={cn(
+              'absolute top-[-5px] left-6 h-0 w-0',
+              'border-x-[5px] border-x-transparent border-b-[5px] border-b-[color:var(--bg-ock-inverse)] border-solid',
+            )}
+            data-testid="ockIdentityLayout_copyArrow"
+          />
         </div>
       )}
     </div>

@@ -1,35 +1,43 @@
 import { useMemo } from 'react';
-import { useTransactionContext } from '../components/TransactionProvider';
-import { cn, color, text } from '../../styles/theme';
-import { useOnchainKit } from '../../useOnchainKit';
-import { getChainExplorer } from '../../network/getChainExplorer';
 import type { ReactNode } from 'react';
+import { useChainId } from 'wagmi';
+import { getChainExplorer } from '../../network/getChainExplorer';
+import { cn, color, text } from '../../styles/theme';
+import { useTransactionContext } from '../components/TransactionProvider';
 
 export function useGetTransactionStatus() {
-  const { errorMessage, isLoading, onSubmit, transactionHash } =
-    useTransactionContext();
-  const { chain } = useOnchainKit();
+  const {
+    chainId,
+    errorMessage,
+    isLoading,
+    onSubmit,
+    receipt,
+    statusWriteContract,
+    statusWriteContracts,
+    transactionHash,
+    transactionId,
+  } = useTransactionContext();
+  const accountChainId = chainId ?? useChainId();
+  const isPending =
+    statusWriteContract === 'pending' || statusWriteContracts === 'pending';
+  const isInProgress = isLoading || !!transactionId || !!transactionHash;
 
   return useMemo(() => {
-    const chainExplorer = getChainExplorer(chain.id);
+    const chainExplorer = getChainExplorer(accountChainId);
 
     let actionElement: ReactNode = null;
     let label = '';
     let labelClassName: string = color.foregroundMuted;
 
-    if (isLoading) {
-      label = 'Transaction in progress...';
-      // TODO: add back when have correct link
-      // actionElement = (
-      //   <a href={chainExplorer}>
-      //     <span className={cn(text.label1, color.primary)}>
-      //       View on explorer
-      //     </span>
-      //   </a>
-      // );
+    if (isPending) {
+      label = 'Confirm in wallet.';
     }
+
+    if (isInProgress) {
+      label = 'Transaction in progress...';
+    }
+
     if (transactionHash) {
-      label = 'Successful!';
       actionElement = (
         <a
           href={`${chainExplorer}/tx/${transactionHash}`}
@@ -42,6 +50,11 @@ export function useGetTransactionStatus() {
         </a>
       );
     }
+
+    if (receipt) {
+      label = 'Successful!';
+    }
+
     if (errorMessage) {
       label = errorMessage;
       labelClassName = color.error;
@@ -53,5 +66,13 @@ export function useGetTransactionStatus() {
     }
 
     return { actionElement, label, labelClassName };
-  }, [chain, errorMessage, isLoading, onSubmit, transactionHash]);
+  }, [
+    accountChainId,
+    errorMessage,
+    isInProgress,
+    isPending,
+    onSubmit,
+    receipt,
+    transactionHash,
+  ]);
 }

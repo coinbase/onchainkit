@@ -1,9 +1,9 @@
 import '@testing-library/jest-dom';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import type { Address } from 'viem';
-import { TokenSelectDropdown } from './TokenSelectDropdown';
-import type { Token } from '../types';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+import type { Token } from '../types';
+import { TokenSelectDropdown } from './TokenSelectDropdown';
 
 describe('TokenSelectDropdown', () => {
   const setToken = vi.fn();

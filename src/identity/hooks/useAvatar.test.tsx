@@ -1,11 +1,10 @@
 /**
  * @vitest-environment jsdom
  */
-
 import { renderHook, waitFor } from '@testing-library/react';
-import { useAvatar } from './useAvatar';
 import { publicClient } from '../../network/client';
 import { getNewReactQueryTestProvider } from './getNewReactQueryTestProvider';
+import { useAvatar } from './useAvatar';
 
 vi.mock('../../network/client');
 

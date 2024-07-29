@@ -1,9 +1,9 @@
-import { vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
+import { vi } from 'vitest';
 import '@testing-library/jest-dom';
+import { getSlicedAddress } from '../utils/getSlicedAddress';
 import { Address } from './Address';
 import { useIdentityContext } from './IdentityProvider';
-import { getSlicedAddress } from '../getSlicedAddress';
 
 function mock<T>(func: T) {
   return func as vi.Mock;
@@ -16,12 +16,12 @@ const silenceError = () => {
   return () => consoleErrorMock.mockRestore();
 };
 
-vi.mock('./IdentityProvider', () => ({
-  useIdentityContext: vi.fn(),
+vi.mock('../utils/getSlicedAddress', () => ({
+  getSlicedAddress: vi.fn(),
 }));
 
-vi.mock('../getSlicedAddress', () => ({
-  getSlicedAddress: vi.fn(),
+vi.mock('./IdentityProvider', () => ({
+  useIdentityContext: vi.fn(),
 }));
 
 const useIdentityContextMock = mock(useIdentityContext);

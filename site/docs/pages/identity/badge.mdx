@@ -4,7 +4,7 @@ import App from '../../components/App';
 
 # `<Badge />`
 
-Use `Badge` component along with [`Avatar`](/identity/avatar) or [`Name`](/identity/name) components to display user attestation atteached to their account
+Use `Badge` component along with [`Avatar`](/identity/avatar) or [`Name`](/identity/name) components to display user attestations attached to their account
 
 ## Usage
 
@@ -20,9 +20,9 @@ import { Badge } from '@coinbase/onchainkit/identity';
 
 ```css [css]
 .badge {
-  background: white;
+  background: #4F46E5;
   path {
-    fill: blue;
+    fill: #F9FAFB;
   }
 }
 ```
@@ -37,11 +37,11 @@ Badge with custom colors:
 
 ```tsx
 import { Badge } from '@coinbase/onchainkit/identity';
-<Badge backgroundColor="#7DA1F8" borderColor="white" /> // [!code focus]
+<Badge className="bg-blue-400 border-white"/> // [!code focus]
 ```
 
 <App>
-  <Badge backgroundColor="#7DA1F8" borderColor="white" tickerColor="#FDFDFD" />
+  <Badge className="bg-blue-400 border-white"/>
 </App>
 
 ## Props

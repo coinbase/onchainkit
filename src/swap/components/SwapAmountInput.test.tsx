@@ -1,10 +1,10 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { SwapAmountInput } from './SwapAmountInput';
-import { useSwapContext } from './SwapProvider';
+import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import type { Token } from '../../token';
 import type { SwapContextType } from '../types';
-import { beforeEach, describe, expect, it, vi, type Mock } from 'vitest';
+import { SwapAmountInput } from './SwapAmountInput';
+import { useSwapContext } from './SwapProvider';
 
 vi.mock('../../token', () => ({
   TokenChip: vi.fn(() => <div>TokenChip</div>),

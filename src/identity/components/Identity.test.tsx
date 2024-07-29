@@ -1,14 +1,14 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import '@testing-library/jest-dom';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import { Avatar } from './Avatar';
-import { Name } from './Name';
-import { Identity } from './Identity';
-import { useName } from '../hooks/useName';
+import { useGetETHBalance } from '../../wallet/hooks/useGetETHBalance';
 import { useAvatar } from '../hooks/useAvatar';
-import { useGetETHBalance } from '../../wallet/core/useGetETHBalance';
+import { useName } from '../hooks/useName';
 import { Address } from './Address';
+import { Avatar } from './Avatar';
 import { EthBalance } from './EthBalance';
+import { Identity } from './Identity';
+import { Name } from './Name';
 
 function mock<T>(func: T) {
   return func as vi.Mock;
@@ -21,7 +21,7 @@ vi.mock('../hooks/useName', () => ({
   useName: vi.fn(),
 }));
 
-vi.mock('../../wallet/core/useGetETHBalance', () => ({
+vi.mock('../../wallet/hooks/useGetETHBalance', () => ({
   useGetETHBalance: vi.fn(),
 }));
 
@@ -163,7 +163,7 @@ describe('Identity Component', () => {
       </Identity>,
     );
 
-    const identityLayout = screen.getByTestId('ockIdentity_container');
+    const identityLayout = screen.getByTestId('ockIdentityLayout_container');
     fireEvent.click(identityLayout);
 
     expect(navigator.clipboard.writeText).toHaveBeenCalledWith('0x123456789');
@@ -176,7 +176,7 @@ describe('Identity Component', () => {
       </Identity>,
     );
 
-    const identityLayout = screen.getByTestId('ockIdentity_container');
+    const identityLayout = screen.getByTestId('ockIdentityLayout_container');
     fireEvent.click(identityLayout);
 
     expect(navigator.clipboard.writeText).not.toHaveBeenCalled();
@@ -198,7 +198,7 @@ describe('Identity Component', () => {
       </Identity>,
     );
 
-    const identityLayout = screen.getByTestId('ockIdentity_container');
+    const identityLayout = screen.getByTestId('ockIdentityLayout_container');
     fireEvent.click(identityLayout);
 
     expect(navigator.clipboard.writeText).toHaveBeenCalledWith('0x123456789');

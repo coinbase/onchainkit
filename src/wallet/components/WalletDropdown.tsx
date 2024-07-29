@@ -1,9 +1,9 @@
 import { Children, cloneElement, isValidElement, useMemo } from 'react';
 import { useAccount } from 'wagmi';
+import { Identity } from '../../identity/components/Identity';
+import { background, cn } from '../../styles/theme';
 import type { WalletDropdownReact } from '../types';
 import { useWalletContext } from './WalletProvider';
-import { background, cn } from '../../styles/theme';
-import { Identity } from '../../identity/components/Identity';
 
 export function WalletDropdown({ children, className }: WalletDropdownReact) {
   const { isOpen } = useWalletContext();

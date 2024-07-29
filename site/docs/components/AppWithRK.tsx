@@ -7,14 +7,14 @@ import {
   getDefaultConfig,
 } from '@rainbow-me/rainbowkit';
 import {
+  coinbaseWallet,
   metaMaskWallet,
   rainbowWallet,
-  coinbaseWallet,
 } from '@rainbow-me/rainbowkit/wallets';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import type { ReactNode } from 'react';
 import { WagmiProvider } from 'wagmi';
 import { base } from 'wagmi/chains';
-import type { ReactNode } from 'react';
 
 import '@coinbase/onchainkit/styles.css';
 // import '../../../src/styles.css';

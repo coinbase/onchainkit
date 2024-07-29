@@ -1,20 +1,18 @@
-import { useConnect, useDisconnect } from 'wagmi';
-import { cn, pressable, text as dsText } from '../../styles/theme';
-import { disconnectSvg } from './disconnectSvg';
 import { useCallback } from 'react';
+import { useDisconnect } from 'wagmi';
+import { disconnectSvg } from '../../internal/svg/disconnectSvg';
+import { cn, text as dsText, pressable } from '../../styles/theme';
 import type { WalletDropdownDisconnectReact } from '../types';
 
 export function WalletDropdownDisconnect({
   className,
   text = 'Disconnect',
 }: WalletDropdownDisconnectReact) {
-  const { connectors } = useConnect();
-  const { disconnect } = useDisconnect();
-  const connector = connectors[0];
-
+  const { disconnect, connectors } = useDisconnect();
   const handleDisconnect = useCallback(() => {
-    disconnect({ connector });
-  }, [connector, disconnect]);
+    // Disconnect all the connectors (wallets). Usually only one is connected
+    connectors.map((connector) => disconnect({ connector }));
+  }, [disconnect, connectors]);
 
   return (
     <button

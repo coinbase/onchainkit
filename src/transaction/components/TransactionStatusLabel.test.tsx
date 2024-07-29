@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
-import { describe, it, expect, vi } from 'vitest';
-import { TransactionStatusLabel } from './TransactionStatusLabel';
+import { describe, expect, it, vi } from 'vitest';
 import { useGetTransactionStatus } from '../hooks/useGetTransactionStatus';
+import { TransactionStatusLabel } from './TransactionStatusLabel';
 
 vi.mock('../hooks/useGetTransactionStatus', () => ({
   useGetTransactionStatus: vi.fn(),

@@ -1,14 +1,15 @@
 import { Avatar, Name } from '@coinbase/onchainkit/identity';
 import { 
   Transaction, 
-  TransactionGasFee,
-  TransactionGasFeeLabel,
-  TransactionGasFeeEstimate,
-  TransactionGasFeeSponsor,
   TransactionButton,
+  TransactionSponsor,
   TransactionStatus,
+  TransactionStatusAction,
   TransactionStatusLabel,
-  TransactionStatusAction
+  TransactionToast,
+  TransactionToastAction,
+  TransactionToastIcon,
+  TransactionToastLabel,
 } from '@coinbase/onchainkit/transaction';
 import { Wallet, ConnectWallet } from '@coinbase/onchainkit/wallet';
 import App from '../../components/App';
@@ -16,96 +17,94 @@ import TransactionWrapper from '../../components/TransactionWrapper';
 
 # `<Transaction />`
 
-:::warning
-Component is actively in development. Stay tuned for upcoming releases.
+The `<Transaction />` components provide a high-level wrap around the entire transaction flow. 
+It handles the transaction lifecycle, including gas estimation, fee sponsorship, and status updates.
+
+Before using them, ensure you've completed all [Getting Started steps](/getting-started).
+
+:::danger
+Component is not shipped yet. Stay tuned for upcoming releases.
 :::
+
+## `Transaction` with `TransactionStatus` components
 
 ```tsx [code]
 import { useCallback } from 'react';
 import { Avatar, Name } from '@coinbase/onchainkit/identity';
 import { // [!code focus]
   Transaction, // [!code focus]
-  TransactionGasFee, // [!code focus]
-  TransactionGasFeeLabel, // [!code focus]
-  TransactionGasFeeEstimate, // [!code focus]
-  TransactionGasFeeSponsor, // [!code focus]
   TransactionButton, // [!code focus]
+  TransactionSponsor, // [!code focus]
   TransactionStatus, // [!code focus]
+  TransactionStatusAction, // [!code focus]
   TransactionStatusLabel, // [!code focus]
-  TransactionStatusAction // [!code focus]
+  TransactionStatusAction, // [!code focus]
 } from '@coinbase/onchainkit/transaction'; // [!code focus]
 import { Wallet, ConnectWallet } from '@coinbase/onchainkit/wallet';
+import { useAccount } from 'wagmi';
 
-const myNFTABI = [
+export const clickContractAddress = '0x67c97D1FB8184F038592b2109F854dfb09C77C75';
+export const clickContractAbi = [
   {
-    stateMutability: 'nonpayable',
     type: 'function',
-    inputs: [{ name: 'to', type: 'address' }],
-    name: 'safeMint',
+    name: 'click',
+    inputs: [],
     outputs: [],
+    stateMutability: 'nonpayable',
   },
 ] as const;
-const myNFTAddress = '0x119Ea671030FBf79AB93b436D2E20af6ea469a19';
 
 export default function TransactionComponents() {
   const { address } = useAccount();
 
   const contracts = [
     {
-      address: myNFTAddress,
-      abi: myNFTABI,
-      functionName: 'safeMint',
-      args: [address],
-    },
-    {
-      address: myNFTAddress,
-      abi: myNFTABI,
-      functionName: 'safeMint',
-      args: [address],
+      address: clickContractAddress,
+      abi: clickContractAbi,
+      functionName: 'click',
+      args: [],
     },
   ];
 
-  const swappableTokens: Token[] = [ ... ];
-
-  return ({ address ? (
-    <Transaction // [!code focus]
-      address={address} // [!code focus]
-      contracts={contracts} // [!code focus]
-    > // [!code focus]
-      <TransactionButton /> // [!code focus]
-      <TransactionGasFee> // [!code focus]
-        <TransactionGasFeeLabel /> // [!code focus]
-        <TransactionGasFeeEstimate /> // [!code focus]
-        <TransactionGasFeeSponsor /> // [!code focus]
-      </TransactionGasFee> // [!code focus]
-      <TransactionStatus> // [!code focus]
-        <TransactionStatusLabel /> // [!code focus]
-        <TransactionStatusAction /> // [!code focus]
-      </TransactionStatus> // [!code focus]
-    </Transaction> // [!code focus]
+  return address ? (
+    <Transaction address={address} chainId={85432} contracts={contracts}>  // [!code focus]
+      <TransactionButton />  // [!code focus]
+      <TransactionSponsor text="Coinbase" /> // [!code focus]
+      <TransactionStatus>  // [!code focus]
+        <TransactionStatusLabel />  // [!code focus]
+        <TransactionStatusAction />  // [!code focus]
+      </TransactionStatus>  // [!code focus]
+    </Transaction>  // [!code focus]
   ) : (
     <Wallet>
       <ConnectWallet>
-        <Avatar className="h-6 w-6" />
+        <Avatar className='h-6 w-6' />
         <Name />
       </ConnectWallet>
     </Wallet>
-  )});
+  );
 }
 ```
-
 <App>
   <TransactionWrapper>
-    {({ address, contracts }) => {
+    {({ address, contracts, onError, onSuccess }) => {
+      const capabilities = {
+        paymasterService: {
+          url: import.meta.env.VITE_CDP_PAYMASTER_AND_BUNDLER_ENDPOINT,
+        },
+      }
       if (address) {
         return (
-          <Transaction address={address} contracts={contracts}>
+          <Transaction
+            address={address}
+            capabilities={capabilities}
+            chainId={84532}
+            contracts={contracts}
+            onError={onError}
+            onSuccess={onSuccess}
+          >
             <TransactionButton />
-            <TransactionGasFee>
-              <TransactionGasFeeLabel />
-              <TransactionGasFeeEstimate />
-              <TransactionGasFeeSponsor />
-            </TransactionGasFee>
+            <TransactionSponsor text="coinbase" />
             <TransactionStatus>
               <TransactionStatusLabel />
               <TransactionStatusAction />
@@ -125,3 +124,155 @@ export default function TransactionComponents() {
     }}
   </TransactionWrapper>
 </App>
+
+## `Transaction` with Paymaster Gas Sponsorship Capabilities
+##### Obtain a Paymaster and Bundler endpoint from the [Coinbase Developer Platform Paymaster](https://portal.cdp.coinbase.com/products/bundler-and-paymaster).
+
+<img
+  alt="OnchainKit Paymaster and Bundler endpoint"
+  title="OnchainKit Paymaster and Bundler endpoint"
+  src="/assets/onchainkit-components-paymaster-endpoint.png"
+  width="auto"
+/>
+```tsx
+// ommited for brevity
+<Transaction
+  address={address}
+  contracts={contracts}
+  capabilities={{ // [!code focus]
+    paymasterService: { // [!code focus]
+      url: process.env.PAYMASTER_AND_BUNDLER_ENDPOINT, // [!code focus]
+    }, // [!code focus]
+  }} // [!code focus]
+  >
+  <TransactionButton />
+  <TransactionSponsor text="OnchainKit" />
+</Transaction>
+```
+<App>
+  <TransactionWrapper>
+    {({ address, contracts, onError }) => {
+      if (address) {
+        return (
+          <Transaction 
+            address={address} 
+            contracts={contracts} 
+            onError={onError} 
+            capabilities={{
+              paymasterService: {
+                url: import.meta.env.VITE_CDP_PAYMASTER_AND_BUNDLER_ENDPOINT,
+              },
+            }}
+          >
+            <TransactionButton />
+            <TransactionSponsor text="OnchainKit" />
+          </Transaction>
+        )
+      } else {
+        return (
+          <Wallet>
+            <ConnectWallet>
+              <Avatar className="h-6 w-6" />
+              <Name />
+            </ConnectWallet>
+          </Wallet>
+        )
+      }
+    }}
+  </TransactionWrapper>
+</App>
+
+## `Transaction` with `TransactionToast` components
+
+```tsx
+// ommited for brevity
+
+<Transaction address={address} contracts={contracts}>  // [!code focus]
+  <TransactionButton />  // [!code focus]
+  <TransactionSponsor text="Coinbase" /> // [!code focus]
+  <TransactionToast>  // [!code focus]
+    <TransactionToastIcon />  // [!code focus]
+    <TransactionToastLabel />  // [!code focus]
+    <TransactionToastAction />  // [!code focus]
+  </TransactionToast>  // [!code focus]
+</Transaction>  // [!code focus]
+```
+
+<App>
+  <TransactionWrapper>
+    {({ address, contracts, onError, onSuccess }) => {
+      if (address) {
+        return (
+          <Transaction
+            address={address}
+            capabilities={{
+              paymasterService: {
+                url: 'https://api.developer.coinbase.com/rpc/v1/base-sepolia/KkgONfLFgUZKI8nnrttLbI78U2vyhtXg',
+              },
+            }}
+            chainId={84532}
+            contracts={contracts}
+            onError={onError}
+            onSuccess={onSuccess}
+          >
+            <TransactionButton />
+            <TransactionSponsor text="Coinbase" />
+            <TransactionToast>
+              <TransactionToastIcon />
+              <TransactionToastLabel />
+              <TransactionToastAction />
+            </TransactionToast>
+          </Transaction>
+        )
+      } else {
+        return (
+          <Wallet>
+            <ConnectWallet>
+              <Avatar className="h-6 w-6" />
+              <Name />
+            </ConnectWallet>
+          </Wallet>
+        )
+      }
+    }}
+  </TransactionWrapper>
+</App>
+
+## Components
+
+<div className="flex flex-col max-w-[648px] gap-6">
+  <img 
+    src="/assets/onchainkit-components-transaction-anatomy.png" 
+    alt="OnchainKit transaction anatomy component diagram"
+    title="Visual breakdown of OnchainKit transaction components"
+  />
+</div>
+
+The components are designed to work together hierarchically. For each component, ensure the following:
+- `<Transaction />` - Serves as the main container for all transaction-related components.
+- `<TransactionButton />` - Handles the transaction initiation process.
+- `<TransactionSponsor />` - Displays information about the sponsorship of transaction gas fees.
+- `<TransactionStatus />` - Contains transaction status information and actions.
+- `<TransactionStatusLabel />` - Displays the current status of the transaction.
+- `<TransactionStatusAction />` - Provides additional actions based on the transaction status.
+- `<TransactionToast />` - Displays a toast notification for the transaction status.
+- `<TransactionToastIcon />` - Displays an icon in the transaction toast notification.
+- `<TransactionToastLabel />` - Displays the label text in the transaction toast notification.
+- `<TransactionToastAction />` - Provides additional actions within the transaction toast notification.
+
+## Props
+
+- [`TransactionButtonReact`](/transaction/types#transactionbuttonreact)
+- [`TransactionContextType`](/transaction/types#transactioncontexttype)
+- [`TransactionError`](/transaction/types#transactionerror)
+- [`TransactionProviderReact`](/transaction/types#transactionproviderreact)
+- [`TransactionReact`](/transaction/types#transactionreact)
+- [`TransactionSponsorReact`](/transaction/types#transactionsponsorreact)
+- [`TransactionStatusReact`](/transaction/types#transactionstatusreact)
+- [`TransactionStatusActionReact`](/transaction/types#transactionstatusactionreact)
+- [`TransactionStatusLabelReact`](/transaction/types#transactionstatuslabelreact)
+- [`TransactionToastReact`](/transaction/types#transactiontoastreact)
+- [`TransactionToastActionReact`](/transaction/types#transactiontoastactionreact)
+- [`TransactionToastIconReact`](/transaction/types#transactiontoasticonreact)
+- [`TransactionToastLabelReact`](/transaction/types#transactiontoastlabelreact)
+```

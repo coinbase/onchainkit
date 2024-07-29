@@ -1,11 +1,11 @@
+import { base } from 'viem/chains';
 import {
   type GetAttestationsByFilterOptions,
+  attestationQuery,
   getAttestationQueryVariables,
   getAttestationsByFilter,
-  attestationQuery,
 } from './attestations';
 import { createEasGraphQLClient } from './createEasGraphQLClient';
-import { base } from 'viem/chains';
 
 vi.mock('../network/createEasGraphQLClient');
 

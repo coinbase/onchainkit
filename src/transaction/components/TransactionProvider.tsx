@@ -5,16 +5,23 @@ import {
   useEffect,
   useState,
 } from 'react';
+import type { TransactionExecutionError } from 'viem';
+import { useAccount, useSwitchChain } from 'wagmi';
+import { useWaitForTransactionReceipt } from 'wagmi';
 import { useValue } from '../../internal/hooks/useValue';
-import { useWriteContracts } from '../hooks/useWriteContracts';
+import { METHOD_NOT_SUPPORTED_ERROR_SUBSTRING } from '../constants';
 import { useCallsStatus } from '../hooks/useCallsStatus';
+import { useWriteContract } from '../hooks/useWriteContract';
+import {
+  genericErrorMessage,
+  useWriteContracts,
+} from '../hooks/useWriteContracts';
 import type {
   TransactionContextType,
   TransactionProviderReact,
 } from '../types';
 
 const emptyContext = {} as TransactionContextType;
-
 export const TransactionContext =
   createContext<TransactionContextType>(emptyContext);
 
@@ -30,52 +37,133 @@ export function useTransactionContext() {
 
 export function TransactionProvider({
   address,
+  capabilities,
+  chainId,
   children,
   contracts,
   onError,
+  onSuccess,
 }: TransactionProviderReact) {
   const [errorMessage, setErrorMessage] = useState('');
   const [transactionId, setTransactionId] = useState('');
-  const [gasFee, setGasFee] = useState('');
   const [isToastVisible, setIsToastVisible] = useState(false);
-
-  const { status, writeContracts } = useWriteContracts({
+  const account = useAccount();
+  const { switchChainAsync } = useSwitchChain();
+  const { status: statusWriteContracts, writeContractsAsync } =
+    useWriteContracts({
+      onError,
+      setErrorMessage,
+      setTransactionId,
+    });
+  const {
+    status: statusWriteContract,
+    writeContract,
+    data: writeContractTransactionHash,
+  } = useWriteContract({
     onError,
     setErrorMessage,
     setTransactionId,
   });
+  const { transactionHash, status: callStatus } = useCallsStatus({
+    onError,
+    transactionId,
+  });
 
-  const { transactionHash } = useCallsStatus({ onError, transactionId });
+  const { data: receipt } = useWaitForTransactionReceipt({
+    hash: writeContractTransactionHash || transactionHash,
+  });
 
-  const handleSubmit = useCallback(() => {
+  const fallbackToWriteContract = useCallback(async () => {
+    // EOAs don't support batching, so we process contracts individually.
+    // This gracefully handles accidental batching attempts with EOAs.
+    for (const contract of contracts) {
+      try {
+        await writeContract(contract);
+      } catch (_err) {
+        setErrorMessage(genericErrorMessage);
+      }
+    }
+  }, [contracts, writeContract]);
+
+  const switchChain = useCallback(
+    async (targetChainId: number | undefined) => {
+      if (targetChainId && account.chainId !== targetChainId) {
+        await switchChainAsync({ chainId: targetChainId });
+      }
+    },
+    [account.chainId, switchChainAsync],
+  );
+
+  const executeContracts = useCallback(async () => {
+    await writeContractsAsync({
+      contracts,
+      capabilities,
+    });
+  }, [writeContractsAsync, contracts, capabilities]);
+
+  const handleSubmitErrors = useCallback(
+    async (err: unknown) => {
+      // handles EOA writeContracts error
+      // (fallback to writeContract)
+      if (
+        err instanceof Error &&
+        err.message.includes(METHOD_NOT_SUPPORTED_ERROR_SUBSTRING)
+      ) {
+        try {
+          await fallbackToWriteContract();
+        } catch (_err) {
+          setErrorMessage(genericErrorMessage);
+        }
+        // handles user rejected request error
+      } else if (
+        (err as TransactionExecutionError)?.cause?.name ===
+        'UserRejectedRequestError'
+      ) {
+        setErrorMessage('Request denied.');
+        // handles generic error
+      } else {
+        setErrorMessage(genericErrorMessage);
+      }
+    },
+    [fallbackToWriteContract],
+  );
+
+  const handleSubmit = useCallback(async () => {
     setErrorMessage('');
     setIsToastVisible(true);
-    writeContracts({
-      contracts,
-    });
-  }, [contracts, writeContracts]);
+    try {
+      await switchChain(chainId);
+      await executeContracts();
+    } catch (err) {
+      await handleSubmitErrors(err);
+    }
+  }, [chainId, executeContracts, handleSubmitErrors, switchChain]);
 
   useEffect(() => {
-    // TODO: replace with gas estimation call
-    setGasFee('0.03');
-  }, []);
+    const txnHash = transactionHash || writeContractTransactionHash;
+    if (txnHash && receipt) {
+      onSuccess?.({ transactionHash: txnHash, receipt });
+    }
+  }, [onSuccess, receipt, transactionHash, writeContractTransactionHash]);
 
   const value = useValue({
     address,
+    chainId,
     contracts,
     errorMessage,
-    gasFee,
-    isLoading: status === 'pending',
+    hasPaymaster: !!capabilities?.paymasterService?.url,
+    isLoading: callStatus === 'PENDING',
     isToastVisible,
     onSubmit: handleSubmit,
+    receipt,
     setErrorMessage,
     setIsToastVisible,
     setTransactionId,
-    status,
+    statusWriteContracts,
+    statusWriteContract,
     transactionId,
-    transactionHash,
+    transactionHash: transactionHash || writeContractTransactionHash,
   });
-
   return (
     <TransactionContext.Provider value={value}>
       {children}

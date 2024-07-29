@@ -1,5 +1,5 @@
-import { getCustodyAddressForFidNeynar } from '../network/neynar/user/getCustodyAddressForFidNeynar';
-import { getVerifiedAddressesForFidNeynar } from '../network/neynar/user/getVerifiedAddressesForFidNeynar';
+import { getCustodyAddressForFidNeynar } from '../network/neynar/getCustodyAddressForFidNeynar';
+import { getVerifiedAddressesForFidNeynar } from '../network/neynar/getVerifiedAddressesForFidNeynar';
 import type { GetFarcasterUserAddressResponse } from './types';
 
 type GetFarcasterUserAddressOptions =

@@ -1,13 +1,13 @@
-import { useMemo, Children } from 'react';
-import { useIdentityContext } from './IdentityProvider';
+import { Children, useMemo } from 'react';
+import { defaultAvatarSVG } from '../../internal/svg/defaultAvatarSVG';
+import { defaultLoadingSVG } from '../../internal/svg/defaultLoadingSVG';
+import { cn } from '../../styles/theme';
 import { useAvatar } from '../hooks/useAvatar';
 import { useName } from '../hooks/useName';
 import type { AvatarReact } from '../types';
-import { cn } from '../../styles/theme';
-import { DisplayBadge } from './DisplayBadge';
 import { Badge } from './Badge';
-import { defaultAvatarSVG } from './defaultAvatarSVG';
-import { defaultLoadingSVG } from './defaultLoadingSVG';
+import { DisplayBadge } from './DisplayBadge';
+import { useIdentityContext } from './IdentityProvider';
 
 /**
  * Represents an Avatar component that displays either a loading indicator,
@@ -16,14 +16,19 @@ import { defaultLoadingSVG } from './defaultLoadingSVG';
 // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO Refactor this component
 export function Avatar({
   address = null,
+  chain,
   className,
   defaultComponent,
   loadingComponent,
   children,
   ...props
 }: AvatarReact) {
-  const { address: contextAddress } = useIdentityContext();
-  if (!contextAddress && !address) {
+  const { address: contextAddress, chain: contextChain } = useIdentityContext();
+
+  const accountAddress = address ?? contextAddress;
+  const accountChain = chain ?? contextChain;
+
+  if (!accountAddress) {
     throw new Error(
       'Avatar: an Ethereum address must be provided to the Identity or Avatar component.',
     );
@@ -32,7 +37,9 @@ export function Avatar({
   // The component first attempts to retrieve the ENS name and avatar for the given Ethereum address.
   const { data: name, isLoading: isLoadingName } = useName({
     address: address ?? contextAddress,
+    chain: accountChain,
   });
+
   const { data: avatar, isLoading: isLoadingAvatar } = useAvatar(
     { ensName: name ?? '' },
     { enabled: !!name },

@@ -1,12 +1,13 @@
 {
   "name": "@coinbase/onchainkit",
-  "version": "0.25.5",
+  "version": "0.26.12",
   "type": "module",
   "repository": "https://github.com/coinbase/onchainkit.git",
   "license": "MIT",
   "scripts": {
     "build": "packemon build --addEngines --addFiles --declaration && npx packemon validate --no-license --no-people --no-repo && tailwindcss -i ./src/styles/index.css -o ./src/tailwind.css --minify && tailwindcss -i ./src/styles/index-with-tailwind.css -o ./src/styles.css --minify",
-    "check": "biome check --write src/internal",
+    "check": "biome check --write .",
+    "ci:check": "biome ci --formatter-enabled=false --linter-enabled=false",
     "ci:format": "biome ci --linter-enabled=false --organize-imports-enabled=false",
     "ci:lint": "biome ci --formatter-enabled=false --organize-imports-enabled=false",
     "cp": "cp -R src site/docs/pages",

@@ -1,8 +1,8 @@
 import '@testing-library/jest-dom';
 import { fireEvent, render, screen, within } from '@testing-library/react';
 import type { Address } from 'viem';
-import { TokenChip } from './TokenChip';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { TokenChip } from './TokenChip';
 
 describe('TokenChip Component', () => {
   beforeEach(() => {

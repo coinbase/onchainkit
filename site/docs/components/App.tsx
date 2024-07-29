@@ -1,11 +1,11 @@
 'use client';
 import { OnchainKitProvider } from '@coinbase/onchainkit';
-// import { OnchainKitProvider } from '../../../src';
+// import { OnchainKitProvider } from '../pages/src/OnchainKitProvider';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { WagmiProvider, createConfig, http } from 'wagmi';
-import { baseSepolia } from 'wagmi/chains';
-import { coinbaseWallet } from 'wagmi/connectors';
 import type { ReactNode } from 'react';
+import { http, WagmiProvider, createConfig } from 'wagmi';
+import { base, baseSepolia } from 'wagmi/chains';
+import { coinbaseWallet } from 'wagmi/connectors';
 
 import '@coinbase/onchainkit/styles.css';
 // import '../../../src/styles.css';
@@ -13,15 +13,15 @@ import '@coinbase/onchainkit/styles.css';
 const queryClient = new QueryClient();
 
 const wagmiConfig = createConfig({
-  chains: [baseSepolia],
+  chains: [base, baseSepolia],
   connectors: [
     coinbaseWallet({
-      appName: 'onchainkit',
-      preference: 'smartWalletOnly'
+      appName: 'OnchainKit',
     }),
   ],
   ssr: true,
   transports: {
+    [base.id]: http(),
     [baseSepolia.id]: http(),
   },
 });
@@ -37,8 +37,8 @@ export default function App({ children }: { children: ReactNode }) {
       <QueryClientProvider client={queryClient}>
         <OnchainKitProvider
           apiKey={viteCdpApiKey}
-          chain={baseSepolia}
-          schemaId="0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9"
+          chain={base} // TODO: remove
+          schemaId='0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9'
         >
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             {children}

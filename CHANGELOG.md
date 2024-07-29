@@ -1,5 +1,112 @@
 # Changelog
 
+## 0.26.12
+
+### Patch Changes
+
+- 74bd1a0: - **fix**: handle edge case in `toReadableAmount`. By @0xAlec #934
+  - **fix**: hide sponsor if txn in progress. By @abcrane123 #931
+
+## 0.26.11
+
+### Patch Changes
+
+- **fix**: `formatDecimals` precision. By @0xAlec #912 5d9b4f8
+- **fix**: additional `Transaction` component QA. By @abcrane123 #923 #931
+
+## 0.26.10
+
+### Patch Changes
+
+- **fix**: made `IdentityProvider` to use address directly when switching address. By @kirkas #910 e4a9c5c
+
+## 0.26.9
+
+### Patch Changes
+
+- **feat**: added wait for transaction receipt hook. By @abcrane123 #907 41e27f6
+
+## 0.26.8
+
+### Patch Changes
+
+- **fix**: `WalletCapabilities` type in the Transaction component. By @zizzamia #908 69119dc
+
+## 0.26.7
+
+### Patch Changes
+
+- **fix**: updatd Base mainnet L2 resolver address. By @kirkas #903 04e1376
+- **feat**: added `SmartWalletCapabilities` paymaster support in the `Transaction` component. By @ilikesymmetry @cpcramer #893
+
+## 0.26.6
+
+### Patch Changes
+
+- **fix**: have `WalletDropdownDisconnect` to correclty disconnect all connectors. By @kirkas #895 8e78166
+
+## 0.26.5
+
+### Patch Changes
+
+- **feat**: added `convertChainIdToCoinType` function to convert a chainId to a coinTypeHex for ENSIP-19 reverse resolution. By @kirkas #891 3cfbdc0
+- **fix**: modified `convertReverseNodeToBytes` to use `convertChainIdToCoinType` instead of hardcoded resolver address. By @kirkas #891
+- **fix**: modified `useName` to return a type `BaseName` for extra type safety. By @kirkas #891
+- **feat**: Add more storybook scenarios for `<Name>`. By @kirkas #891
+
+## 0.26.4
+
+### Patch Changes
+
+- **feat**: added experimental API for `Swap` components to enable UniswapRouter. By @0xAlec #878 6cf5f66
+
+## 0.26.3
+
+### Patch Changes
+
+- **fix**: fetch ens with `getName`. By @zizzamia #888 92a0cf0
+
+## 0.26.2
+
+### Patch Changes
+
+- **fix**: colors for `Swap` components. By @zizzamia #879 6992cff
+- **chore**: adjust messaging related to transaction status. By @abcrane123 #875
+- **fix**: have `useName` hook to use `chain.id` in the query key to avoid overlap between chains. By @kirkas #869
+- **feat**: added EOA account support to `Transaction` component. By @cpcramer #866
+
+## 0.26.1
+
+### Patch Changes
+
+- **fix**: copy popover style within the `IdenityLayout`. By @zizzamia #870 3128263
+- **feat**: added toast animation for `TransactionToast` component. By @abcrane123 #865
+
+## 0.26.0
+
+### Minor Changes
+
+- **feat**: added the `ock` prefix to the Tailwind configuration to prevent conflicting styles (#852) when using OnchainKit alongside an existing Tailwind setup. By @zizzamia #867 ff8d359
+
+Breaking Changes
+
+For apps using OnchainKit with the same Tailwind variables, you might see style changes. We recommend following the guide at https://onchainkit.xyz/guides/tailwind or adjusting your custom OnchainKit styles. If you encounter any issues, reach out to [@zizzamia](https://twitter.com/Zizzamia) or [@onchainkit](https://twitter.com/onchainkit) on Twitter for immediate assistance.
+
+## 0.25.7
+
+### Patch Changes
+
+- **feat**: added `TransactionSponsor` component. By @abcrane123 #853 a2eae6c
+- **chore**: updated sliced address to display the first and last 4 characters. By @cpcramer #847
+
+## 0.25.6
+
+### Patch Changes
+
+- **fix**: `Name` component to return the sliced address when no ENS name is found. By @cpcramer #842 387e2b4
+- **feat**: polish `Transaction` component. By @abcrane123 #831 #835
+- **chore**: fix TransactionGasFee test. By @cpcramer #830
+
 ## 0.25.5
 
 ### Patch Changes

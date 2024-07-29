@@ -1,6 +1,6 @@
+import type { ReactNode } from 'react';
 import { useAccount } from 'wagmi';
 import type { Config } from 'wagmi';
-import type { ReactNode } from 'react';
 import type {
   UseSendCallsParameters,
   UseSendCallsReturnType,
@@ -17,17 +17,16 @@ type TransactionWrapperReact = {
   children: (props: TransactionWrapperChildren) => ReactNode;
 };
 
-const myNFTABI = [
+export const clickContractAddress = '0x67c97D1FB8184F038592b2109F854dfb09C77C75';
+export const clickContractAbi = [
   {
-    stateMutability: 'nonpayable',
     type: 'function',
-    inputs: [{ name: 'to', type: 'address' }],
-    name: 'safeMint',
+    name: 'click',
+    inputs: [],
     outputs: [],
+    stateMutability: 'nonpayable',
   },
 ] as const;
-
-const myNFTAddress = '0x119Ea671030FBf79AB93b436D2E20af6ea469a19';
 
 export default function TransactionWrapper({
   children,
@@ -36,22 +35,25 @@ export default function TransactionWrapper({
 
   const contracts = [
     {
-      address: myNFTAddress,
-      abi: myNFTABI,
-      functionName: 'safeMint',
-      args: [address],
-    },
-    {
-      address: myNFTAddress,
-      abi: myNFTABI,
-      functionName: 'safeMint',
-      args: [address],
+      address: clickContractAddress,
+      abi: clickContractAbi,
+      functionName: 'click',
+      args: [],
     },
   ];
+
+  function onError(error: Error) {
+    console.error('TransactionWrapper:', error);
+  }
+
+  function onSuccess(response: any) {
+    console.log('TransactionWrapperSuccessHandler', response)
+  }
+
   return (
-    <main className="flex flex-col">
-      <div className="flex max-w-[450px] items-center rounded-lg bg-white p-4">
-        {children({ address, contracts })}
+    <main className='flex flex-col'>
+      <div className='flex max-w-[450px] items-center rounded-lg bg-white p-4'>
+        {children({ address, contracts, onError, onSuccess })}
       </div>
     </main>
   );

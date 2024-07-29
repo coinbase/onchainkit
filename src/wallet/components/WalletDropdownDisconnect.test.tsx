@@ -1,23 +1,24 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
-import { useConnect, useDisconnect } from 'wagmi';
+import { useDisconnect } from 'wagmi';
+import type { Connector } from 'wagmi';
 import { WalletDropdownDisconnect } from './WalletDropdownDisconnect';
 
 vi.mock('wagmi', () => ({
-  useConnect: vi.fn(),
   useDisconnect: vi.fn(),
 }));
 
 describe('WalletDropdownDisconnect', () => {
+  const fakeConnectors: Connector[] = [{ id: 'mockConnector' }];
+  const mockUseDisconnect = useDisconnect as Mock;
   const mockDisconnect = vi.fn();
-  const mockConnect = {
-    connectors: [{ id: 'mockConnector' }],
-  };
 
   beforeEach(() => {
     vi.clearAllMocks();
-    (useConnect as vi.Mock).mockReturnValue(mockConnect);
-    (useDisconnect as vi.Mock).mockReturnValue({ disconnect: mockDisconnect });
+    mockUseDisconnect.mockReturnValue({
+      disconnect: mockDisconnect,
+      connectors: fakeConnectors,
+    });
   });
 
   it('renders correctly with default props', () => {
@@ -35,8 +36,12 @@ describe('WalletDropdownDisconnect', () => {
     render(<WalletDropdownDisconnect />);
     const button = screen.getByRole('button');
     fireEvent.click(button);
+    mockUseDisconnect.mockReturnValue({
+      disconnect: mockDisconnect,
+      connectors: fakeConnectors,
+    });
     expect(mockDisconnect).toHaveBeenCalledWith({
-      connector: mockConnect.connectors[0],
+      connector: fakeConnectors[0],
     });
   });
 });

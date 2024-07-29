@@ -1,10 +1,4 @@
-import type {
-  Dispatch,
-  HTMLAttributes,
-  ImgHTMLAttributes,
-  ReactNode,
-  SetStateAction,
-} from 'react';
+import type { HTMLAttributes, ImgHTMLAttributes, ReactNode } from 'react';
 import type { Address, Chain } from 'viem';
 
 /**
@@ -39,6 +33,7 @@ export type Attestation = {
  */
 export type AvatarReact = {
   address?: Address | null; // The Ethereum address to fetch the avatar for.
+  chain?: Chain; // Optional chain for domain resolution
   className?: string; // Optional className override for top div element.
   loadingComponent?: JSX.Element; // Optional custom component to display while the avatar data is loading.
   defaultComponent?: JSX.Element; // Optional custom component to display when no ENS name or avatar is available.
@@ -51,6 +46,21 @@ export type AvatarReact = {
 export type BadgeReact = {
   className?: string; // Optional className override for top span element.
 };
+
+/**
+ * Note: exported as public Type
+ */
+export type BaseMainnetName = `${string}.base.eth`;
+
+/**
+ * Note: exported as public Type
+ */
+export type BaseName = BaseMainnetName | BaseSepoliaName;
+
+/**
+ * Note: exported as public Type
+ */
+export type BaseSepoliaName = `${string}.basetest.eth`;
 
 /**
  * Ethereum Attestation Service (EAS) Schema Uid
@@ -115,7 +125,7 @@ export type GetName = {
 /**
  * Note: exported as public Type
  */
-export type GetNameReturnType = string | null;
+export type GetNameReturnType = string | BaseName | null;
 
 /**
  * Note: exported as public Type
@@ -124,7 +134,6 @@ export type IdentityContextType = {
   address: Address; // The Ethereum address to fetch the avatar and name for.
   chain?: Chain; // Optional chain for domain resolution
   schemaId?: Address | null; // The Ethereum address of the schema to use for EAS attestation.
-  setAddress: Dispatch<SetStateAction<Address>>;
 };
 
 /**

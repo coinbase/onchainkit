@@ -1,13 +1,13 @@
 /**
  * @vitest-environment jsdom
  */
-
 import { renderHook, waitFor } from '@testing-library/react';
-import { useName } from './useName';
+import { base, optimism } from 'viem/chains';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+import type { Mock } from 'vitest';
 import { publicClient } from '../../network/client';
 import { getNewReactQueryTestProvider } from './getNewReactQueryTestProvider';
-import { describe, beforeEach, it, expect, vi, type Mock } from 'vitest';
-import { base, optimism } from 'viem/chains';
+import { useName } from './useName';
 
 vi.mock('../../network/client');
 vi.mock('../../network/getChainPublicClient', () => ({

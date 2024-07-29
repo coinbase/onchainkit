@@ -1,21 +1,21 @@
 import {
   createContext,
-  useContext,
   useCallback,
+  useContext,
   useMemo,
   useState,
 } from 'react';
-import { useSendTransaction, useConfig, type BaseError } from 'wagmi';
-import { processSwapTransaction } from '../utils/processSwapTransaction';
-import { buildSwapTransaction } from '../core/buildSwapTransaction';
-import { isSwapError } from '../core/isSwapError';
-import { getSwapQuote } from '../core/getSwapQuote';
-import { USER_REJECTED_ERROR_CODE } from '../constants';
-import { formatTokenAmount } from '../../internal/utils/formatTokenAmount';
-import { useFromTo } from '../utils/useFromTo';
-import type { SwapError, SwapErrorState, SwapContextType } from '../types';
-import type { Token } from '../../token';
 import type { Address, TransactionReceipt } from 'viem';
+import { type BaseError, useConfig, useSendTransaction } from 'wagmi';
+import { formatTokenAmount } from '../../internal/utils/formatTokenAmount';
+import type { Token } from '../../token';
+import { USER_REJECTED_ERROR_CODE } from '../constants';
+import { useFromTo } from '../hooks/useFromTo';
+import type { SwapContextType, SwapError, SwapErrorState } from '../types';
+import { buildSwapTransaction } from '../utils/buildSwapTransaction';
+import { getSwapQuote } from '../utils/getSwapQuote';
+import { isSwapError } from '../utils/isSwapError';
+import { processSwapTransaction } from '../utils/processSwapTransaction';
 
 function useValue<T>(object: T): T {
   return useMemo(() => object, [object]);
@@ -36,10 +36,17 @@ export function useSwapContext() {
 export function SwapProvider({
   address,
   children,
+  experimental,
 }: {
-  children: React.ReactNode;
   address: Address;
+  children: React.ReactNode;
+  experimental: {
+    useAggregator: boolean; // Whether to use a DEX aggregator. (default: true)
+  };
 }) {
+  // Feature flags
+  const { useAggregator } = experimental;
+
   const [loading, setLoading] = useState(false);
   const [isTransactionPending, setPendingTransaction] = useState(false);
 
@@ -99,10 +106,11 @@ export function SwapProvider({
 
       try {
         const response = await getSwapQuote({
-          from: source.token,
-          to: destination.token,
           amount,
           amountReference: 'from',
+          from: source.token,
+          to: destination.token,
+          useAggregator,
         });
         // If request resolves to error response set the quoteError
         // property of error state to the SwapError response */
@@ -123,7 +131,7 @@ export function SwapProvider({
         destination.setLoading(false);
       }
     },
-    [from, to, handleError],
+    [from, to, useAggregator, handleError],
   );
 
   const handleSubmit = useCallback(
@@ -145,6 +153,7 @@ export function SwapProvider({
           fromAddress: address,
           from: from.token,
           to: to.token,
+          useAggregator,
         });
 
         if (isSwapError(response)) {
@@ -190,6 +199,7 @@ export function SwapProvider({
       from.token,
       sendTransactionAsync,
       to.token,
+      useAggregator,
     ],
   );
 

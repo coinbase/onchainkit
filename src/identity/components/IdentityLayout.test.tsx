@@ -1,10 +1,10 @@
 import '@testing-library/jest-dom';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import { IdentityLayout } from './IdentityLayout';
-import { Avatar } from './Avatar';
-import { Name } from './Name';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { Address } from './Address';
+import { Avatar } from './Avatar';
 import { EthBalance } from './EthBalance';
+import { IdentityLayout } from './IdentityLayout';
+import { Name } from './Name';
 
 const handleCopy = vi.fn().mockResolvedValue(true);
 
@@ -38,16 +38,12 @@ const renderComponent = () => {
 describe('IdentityLayout', () => {
   it('shows popover on hover and hides on mouse leave', async () => {
     renderComponent();
-
-    const container = screen.getByTestId('ockIdentity_container');
+    const container = screen.getByTestId('ockIdentityLayout_container');
     fireEvent.mouseEnter(container);
-
     await waitFor(() => {
       expect(screen.getByText('Copy')).toBeInTheDocument();
     });
-
     fireEvent.mouseLeave(container);
-
     await waitFor(() => {
       expect(screen.queryByText('Copy')).not.toBeInTheDocument();
     });
@@ -55,18 +51,29 @@ describe('IdentityLayout', () => {
 
   it('changes popover text to "Copied" on click', async () => {
     renderComponent();
-
-    const container = screen.getByTestId('ockIdentity_container');
+    const container = screen.getByTestId('ockIdentityLayout_container');
     fireEvent.mouseEnter(container);
-
     await waitFor(() => {
       expect(screen.getByText('Copy')).toBeInTheDocument();
     });
-
     fireEvent.click(container);
-
     await waitFor(() => {
       expect(screen.getByText('Copied')).toBeInTheDocument();
     });
+  });
+
+  it('renders children', () => {
+    renderComponent();
+    expect(screen.getByText('Avatar')).toBeInTheDocument();
+    expect(screen.getByText('Name')).toBeInTheDocument();
+    expect(screen.getByText('Address')).toBeInTheDocument();
+    expect(screen.getByText('EthBalance')).toBeInTheDocument();
+  });
+
+  it('renders with custom class', () => {
+    renderComponent();
+    expect(screen.getByTestId('ockIdentityLayout_container')).toHaveClass(
+      'custom-class',
+    );
   });
 });

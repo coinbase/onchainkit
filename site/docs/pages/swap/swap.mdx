@@ -6,26 +6,15 @@ import SwapWrapper from '../../components/SwapWrapper';
 
 # `<Swap />`
 
-:::warning
-Component is actively in development. Stay tuned for upcoming releases.
-:::
-
 The `Swap` components provide a comprehensive interface for users to execute [Token](/token/types#token) swaps.
 
 Before using them, ensure you've completed all [Getting Started steps](/getting-started).
-
-The components are designed to work together. For each component, ensure the following:
-- `<Swap />` - Set the user's address and error handling.
-- `<SwapAmountInput />` - Set the [Token](/token/types#token) to swap and specify the input type (`from` or `to`).
-- `<SwapToggleButton />` - Optional component to toggle between input types.
-- `<SwapMessage />` - Optional component that displays a message related to the swap operation's current state.
-- `<SwapButton />` - Set the onSuccess and onError callbacks.
 
 ## Usage
 
 Example using `@coinbase/onchainkit/swap` and `@coinbase/onchainkit/wallet`.
 
-```tsx [code]
+```tsx
 import { useCallback } from 'react';
 import { Address, Name } from '@coinbase/onchainkit/identity';
 import { // [!code focus]
@@ -139,7 +128,7 @@ The swap will execute and work out of the box when you implement the component i
 
 You can adjust to only allow swap between a token pair.
 
-```tsx [code]
+```tsx
 // omitted for brevity
 
 <Swap address={address}> // [!code focus]
@@ -197,7 +186,7 @@ You can adjust to only allow swap between a token pair.
 
 You can remove `SwapToggleButton` to make swap unidirectional.
 
-```tsx [code]
+```tsx
 // omitted for brevity
 
 <Swap address={address}> // [!code focus]
@@ -253,7 +242,7 @@ You can remove `SwapToggleButton` to make swap unidirectional.
 
 You can remove `SwapMessage` component.
 
-```tsx [code]
+```tsx
 // omitted for brevity
 
 <Swap address={address}> // [!code focus]
@@ -309,7 +298,7 @@ You can remove `SwapMessage` component.
 
 You can override component styles using `className`.
 
-```tsx [code]
+```tsx
 // omitted for brevity
 
 <Swap address={address} className='bg-gray-200'> // [!code focus]
@@ -370,6 +359,16 @@ You can override component styles using `className`.
     }}
   </SwapWrapper>
 </App>
+
+## Components
+
+The components are designed to work together hierarchically. For each component, ensure the following:
+
+- `<Swap />` - Set the user's address and error handling.
+- `<SwapAmountInput />` - Set the [Token](/token/types#token) to swap and specify the input type (`from` or `to`).
+- `<SwapToggleButton />` - Optional component to toggle between input types.
+- `<SwapMessage />` - Optional component that displays a message related to the swap operation's current state.
+- `<SwapButton />` - Set the onSuccess and onError callbacks.
 
 ## Props
 

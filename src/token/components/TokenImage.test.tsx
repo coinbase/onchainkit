@@ -1,8 +1,8 @@
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
-import { TokenImage } from './TokenImage';
-import type { Token } from '../types';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+import type { Token } from '../types';
+import { TokenImage } from './TokenImage';
 
 const tokenWithImage: Token = {
   name: 'Ethereum',

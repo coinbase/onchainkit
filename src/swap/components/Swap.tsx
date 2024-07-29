@@ -1,15 +1,16 @@
 import { Children, useMemo } from 'react';
 import { background, cn, text } from '../../styles/theme';
+import type { SwapReact } from '../types';
 import { SwapAmountInput } from './SwapAmountInput';
 import { SwapButton } from './SwapButton';
-import { SwapToggleButton } from './SwapToggleButton';
 import { SwapMessage } from './SwapMessage';
 import { SwapProvider } from './SwapProvider';
-import type { SwapReact } from '../types';
+import { SwapToggleButton } from './SwapToggleButton';
 
 // istanbul ignore next
 export function Swap({
   address,
+  experimental = { useAggregator: true },
   children,
   title = 'Swap',
   className,
@@ -31,7 +32,7 @@ export function Swap({
   }, [children]);
 
   return (
-    <SwapProvider address={address}>
+    <SwapProvider address={address} experimental={experimental}>
       <div
         className={cn(
           background.default,

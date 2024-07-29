@@ -1,14 +1,14 @@
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
+import { getSwapMessage } from '../utils/getSwapMessage';
 import { SwapMessage } from './SwapMessage';
 import { useSwapContext } from './SwapProvider';
-import { getSwapMessage } from '../core/getSwapMessage';
 
 vi.mock('./SwapProvider', () => ({
   useSwapContext: vi.fn(),
 }));
 
-vi.mock('../core/getSwapMessage', () => ({
+vi.mock('../utils/getSwapMessage', () => ({
   getSwapMessage: vi.fn(),
 }));
 

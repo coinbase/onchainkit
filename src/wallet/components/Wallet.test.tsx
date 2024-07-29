@@ -2,8 +2,8 @@ import '@testing-library/jest-dom';
 import { render, screen, waitFor } from '@testing-library/react';
 import { useAccount, useConnect, useDisconnect } from 'wagmi';
 import { ConnectWallet } from './ConnectWallet';
-import { WalletDropdown } from './WalletDropdown';
 import { Wallet } from './Wallet';
+import { WalletDropdown } from './WalletDropdown';
 
 vi.mock('wagmi', () => ({
   useAccount: vi.fn(),

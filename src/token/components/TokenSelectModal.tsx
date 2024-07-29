@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { background, cn, text } from '../../styles/theme';
 import type { Token, TokenSelectModalReact } from '../types';
-import { TokenSelectButton } from './TokenSelectButton';
-import { TokenSearch } from './TokenSearch';
 import { TokenChip } from './TokenChip';
 import { TokenRow } from './TokenRow';
-import { background, cn, text } from '../../styles/theme';
+import { TokenSearch } from './TokenSearch';
+import { TokenSelectButton } from './TokenSelectButton';
 
 const backdropStyle = {
   background: 'rgba(226, 232, 240, 0.5)',
