@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.26.11
+
+### Patch Changes
+
+- 5d9b4f8: - **fix**: `formatDecimals` precision. By @0xAlec #912
+  - **fix**: additional `Transaction` component QA. By @abcrane123 #923 #931
+
 ## 0.26.10
 
 ### Patch Changes
