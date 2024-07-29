@@ -21,7 +21,11 @@ export async function getSwapQuote(
     amountReference: 'from',
     isAmountInDecimals: false,
   };
-  let apiParams = getAPIParamsForToken({ ...defaultParams, ...params });
+  let apiParamsOrError = getAPIParamsForToken({ ...defaultParams, ...params });
+  if ((apiParamsOrError as SwapError).error) {
+    return apiParamsOrError as SwapError;
+  }
+  let apiParams = apiParamsOrError as SwapAPIParams;
 
   if (!params.useAggregator) {
     apiParams = {

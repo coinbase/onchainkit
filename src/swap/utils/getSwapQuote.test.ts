@@ -204,4 +204,21 @@ describe('getSwapQuote', () => {
       mockApiParams,
     ]);
   });
+
+  it('should return a SwapError from getSwapQuote for invalid `amount` input', async () => {
+    const mockParams = {
+      useAggregator: true,
+      amountReference: testAmountReference,
+      from: ETH,
+      to: DEGEN,
+      amount: 'invalid',
+      isAmountInDecimals: false,
+    };
+
+    const error = await getSwapQuote(mockParams);
+    expect(error).toEqual({
+      code: 'INVALID_INPUT',
+      error: 'Invalid input: amount must be a number',
+    });
+  });
 });
