@@ -46,6 +46,7 @@ Thumbs.db
 .nx/cache
 
 package-lock.json
+bun.lockb
 
 # Yarn
 .yarn/*

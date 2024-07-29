@@ -1,4 +1,4 @@
-# Onchainkit Demo
+# Onchainkit Playground
 
 Sandbox environment to stage new releases of OnchainKit on different popular web frameworks.
 
@@ -15,16 +15,13 @@ We plan to test on 3 frameworks:
 Navigate to NextJS (app router) demo app
 
 ```bash
-cd packages/nextjs-app
+cd nextjs-app-router
 ```
 
-(Optional) Update location of your `"pnpm"."overrides"."@coinbase/onchainkit"` if necessary in `package.json`.
-If you place the `onchainkit` repo right next to this one, you can skip this step and use the default.
-
-Intall dependencies and run app (must use `pnpm` for local overrides)
+Intall dependencies and run app
 
 ```bash
-pnpm install && pnpm run dev
+bun install && bun run dev
 ```
 
 ## Local development
