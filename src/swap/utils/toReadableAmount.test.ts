@@ -32,8 +32,7 @@ describe('toReadableAmount', () => {
 
   it('handles large numbers correctly', () => {
     expect(toReadableAmount('1000000000000000000000000000000000000', 18)).toBe(
-      '1000000000000000000',
+      '1000000000000000000'
     );
   });
-  
 });
