@@ -11,7 +11,12 @@ import { formatTokenAmount } from '../../internal/utils/formatTokenAmount';
 import type { Token } from '../../token';
 import { USER_REJECTED_ERROR_CODE } from '../constants';
 import { useFromTo } from '../hooks/useFromTo';
-import type { SwapContextType, SwapError, SwapErrorState } from '../types';
+import type {
+  SwapContextType,
+  SwapError,
+  SwapErrorState,
+  SwapHooks,
+} from '../types';
 import { buildSwapTransaction } from '../utils/buildSwapTransaction';
 import { getSwapQuote } from '../utils/getSwapQuote';
 import { isSwapError } from '../utils/isSwapError';
@@ -140,8 +145,8 @@ export function SwapProvider({
     // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO Refactor this component
     async function handleSubmit(
       onError?: (error: SwapError) => void,
-      onStart?: (txHash: string) => void | Promise<void>,
       onSuccess?: (txReceipt: TransactionReceipt) => void | Promise<void>,
+      onStatus?: SwapHooks,
     ) {
       if (!address || !from.token || !to.token || !from.amount) {
         return;
@@ -170,8 +175,8 @@ export function SwapProvider({
           setPendingTransaction,
           setLoading,
           sendTransactionAsync,
-          onStart,
           onSuccess,
+          onStatus,
         });
 
         // TODO: refresh balances
@@ -190,6 +195,7 @@ export function SwapProvider({
           });
         } else {
           onError?.(e as SwapError);
+          onStatus?.onError?.(e as SwapError);
           handleError({ swapError: e as SwapError });
         }
       } finally {
