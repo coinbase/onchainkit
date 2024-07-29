@@ -85,19 +85,19 @@ export default function TransactionComponents() {
   );
 }
 ```
-
 <App>
   <TransactionWrapper>
     {({ address, contracts, onError, onSuccess }) => {
+      const capabilities = {
+        paymasterService: {
+          url: import.meta.env.VITE_CDP_PAYMASTER_AND_BUNDLER_ENDPOINT,
+        },
+      }
       if (address) {
         return (
           <Transaction
             address={address}
-            capabilities={{
-              paymasterService: {
-                url: 'https://api.developer.coinbase.com/rpc/v1/base-sepolia/KkgONfLFgUZKI8nnrttLbI78U2vyhtXg',
-              },
-            }}
+            capabilities={capabilities}
             chainId={84532}
             contracts={contracts}
             onError={onError}
@@ -109,6 +109,63 @@ export default function TransactionComponents() {
               <TransactionStatusLabel />
               <TransactionStatusAction />
             </TransactionStatus>
+          </Transaction>
+        )
+      } else {
+        return (
+          <Wallet>
+            <ConnectWallet>
+              <Avatar className="h-6 w-6" />
+              <Name />
+            </ConnectWallet>
+          </Wallet>
+        )
+      }
+    }}
+  </TransactionWrapper>
+</App>
+
+## `Transaction` with Paymaster Gas Sponsorship Capabilities
+##### Obtain a Paymaster and Bundler endpoint from the [Coinbase Developer Platform Paymaster](https://portal.cdp.coinbase.com/products/bundler-and-paymaster).
+
+<img
+  alt="OnchainKit Paymaster and Bundler endpoint"
+  title="OnchainKit Paymaster and Bundler endpoint"
+  src="/assets/onchainkit-components-paymaster-endpoint.png"
+  width="auto"
+/>
+```tsx
+// ommited for brevity
+<Transaction
+  address={address}
+  contracts={contracts}
+  capabilities={{ // [!code focus]
+    paymasterService: { // [!code focus]
+      url: process.env.PAYMASTER_AND_BUNDLER_ENDPOINT, // [!code focus]
+    }, // [!code focus]
+  }} // [!code focus]
+  >
+  <TransactionButton />
+  <TransactionSponsor text="OnchainKit" />
+</Transaction>
+```
+<App>
+  <TransactionWrapper>
+    {({ address, contracts, onError }) => {
+      if (address) {
+        return (
+          <Transaction 
+            address={address} 
+            contracts={contracts} 
+            onError={onError} 
+            capabilities={{
+              paymasterService: {
+                url: import.meta.env.VITE_CDP_PAYMASTER_AND_BUNDLER_ENDPOINT,
+              },
+            }}
+          >
+            <TransactionButton />
+            <TransactionSponsor text="OnchainKit" />
           </Transaction>
         )
       } else {
