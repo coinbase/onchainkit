@@ -1,4 +1,4 @@
-import { useEffect, useCallback, useMemo } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { closeSvg } from '../../internal/svg/closeSvg';
 import { cn } from '../../styles/theme';
 import type { TransactionToastReact } from '../types';
@@ -50,7 +50,7 @@ export function TransactionToast({
         clearTimeout(timer);
       }
     };
-  }, [receipt, errorMessage]);
+  }, [errorMessage, receipt, setIsToastVisible]);
 
   const isInProgress =
     !receipt &&
