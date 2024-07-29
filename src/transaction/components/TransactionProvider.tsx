@@ -9,6 +9,7 @@ import {
   genericErrorMessage,
   useWriteContracts,
 } from '../hooks/useWriteContracts';
+import type { TransactionExecutionError } from 'viem';
 import type {
   TransactionContextType,
   TransactionProviderReact,
@@ -104,6 +105,11 @@ export function TransactionProvider({
         } catch (_err) {
           setErrorMessage(genericErrorMessage);
         }
+      } else if (
+        (err as TransactionExecutionError)?.cause?.name ===
+        'UserRejectedRequestError'
+      ) {
+        setErrorMessage('Request denied.');
       } else {
         setErrorMessage(genericErrorMessage);
       }
