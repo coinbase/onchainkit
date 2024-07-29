@@ -413,4 +413,22 @@ describe('buildSwapTransaction', () => {
       mockApiParams,
     ]);
   });
+
+  it('should return an error object from buildSwapTransaction for invalid `amount` input', async () => {
+    const mockParams = {
+      useAggregator: true,
+      fromAddress: testFromAddress as `0x${string}`,
+      amountReference: testAmountReference,
+      from: ETH,
+      to: DEGEN,
+      amount: 'invalid',
+      isAmountInDecimals: false,
+    };
+
+    const error = await buildSwapTransaction(mockParams);
+    expect(error).toEqual({
+      code: 'INVALID_INPUT',
+      error: 'Invalid input: amount must be a non-negative number string',
+    });
+  });
 });
