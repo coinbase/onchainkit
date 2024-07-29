@@ -1,5 +1,5 @@
 ---
-"@coinbase/onchainkit": minor
+"@coinbase/onchainkit": patch
 ---
 
-**fix**: Fix `IdentityProvider` to use address directly when switching address. By @kirkas #910
+- **fix**: made `IdentityProvider` to use address directly when switching address. By @kirkas #910
