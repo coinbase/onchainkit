@@ -37,5 +37,5 @@ yarn build
 In a separate terminal tab within `onchainkit-demo/packages/nextjs-app`, cancel your running app and reload.
 
 ```bash
-pnpm run reload
+bun run reload
 ```
