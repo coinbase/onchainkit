@@ -139,11 +139,11 @@ export default function TransactionComponents() {
 <Transaction
   address={address}
   contracts={contracts}
-  capabilities={{
-    paymasterService: {
-      url: process.env.PAYMASTER_AND_BUNDLER_ENDPOINT,
-    },
-  }}
+  capabilities={{ // [!code focus]
+    paymasterService: { // [!code focus]
+      url: process.env.PAYMASTER_AND_BUNDLER_ENDPOINT, // [!code focus]
+    }, // [!code focus]
+  }} // [!code focus]
   >
   <TransactionButton />
   <TransactionSponsor text="OnchainKit" />
