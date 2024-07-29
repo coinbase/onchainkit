@@ -74,7 +74,12 @@ export function TransactionToast({
       )}
     >
       <div className="flex items-center gap-4 p-2">{children}</div>
-      <button className="p-2" onClick={closeToast} type="button">
+      <button
+        className="p-2"
+        onClick={closeToast}
+        type="button"
+        data-testid="ockCloseButton"
+      >
         {closeSvg}
       </button>
     </div>
