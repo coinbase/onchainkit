@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- e4a9c5c: - **fix**: made `IdentityProvider` to use address directly when switching address. By @kirkas #910
+- **fix**: made `IdentityProvider` to use address directly when switching address. By @kirkas #910 e4a9c5c
 
 ## 0.26.9
 
