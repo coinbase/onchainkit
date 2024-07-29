@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext } from 'react';
 import type { Address } from 'viem';
 import { useValue } from '../../internal/hooks/useValue';
 import { useOnchainKit } from '../../useOnchainKit';
@@ -13,13 +13,13 @@ export function useIdentityContext() {
 }
 
 export function IdentityProvider(props: IdentityProviderReact) {
-  const [address, setAddress] = useState(props.address ?? ('' as Address));
   const { chain: contextChain } = useOnchainKit();
+  const accountChain = props.chain ?? contextChain;
+
   const value = useValue({
-    address,
-    chain: props.chain ?? contextChain,
+    address: props.address || ('' as Address),
+    chain: accountChain,
     schemaId: props.schemaId,
-    setAddress,
   });
 
   return (

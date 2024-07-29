@@ -1,10 +1,4 @@
-import type {
-  Dispatch,
-  HTMLAttributes,
-  ImgHTMLAttributes,
-  ReactNode,
-  SetStateAction,
-} from 'react';
+import type { HTMLAttributes, ImgHTMLAttributes, ReactNode } from 'react';
 import type { Address, Chain } from 'viem';
 
 /**
@@ -140,7 +134,6 @@ export type IdentityContextType = {
   address: Address; // The Ethereum address to fetch the avatar and name for.
   chain?: Chain; // Optional chain for domain resolution
   schemaId?: Address | null; // The Ethereum address of the schema to use for EAS attestation.
-  setAddress: Dispatch<SetStateAction<Address>>;
 };
 
 /**
