@@ -1,8 +1,8 @@
 import {
   createContext,
   useCallback,
-  useEffect,
   useContext,
+  useEffect,
   useState,
 } from 'react';
 import type { TransactionExecutionError } from 'viem';
