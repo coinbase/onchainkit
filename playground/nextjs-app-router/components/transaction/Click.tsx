@@ -34,7 +34,7 @@ export function Click() {
     >
       <TransactionButton text="Click" />
       {capabilities?.paymasterService?.url && (
-        <TransactionSponsor text="Coinbase" />
+        <TransactionSponsor />
       )}
       <TransactionStatus>
         <TransactionStatusLabel />
