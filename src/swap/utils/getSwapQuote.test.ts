@@ -93,6 +93,7 @@ describe('getSwapQuote', () => {
   it('should return a quote for a swap with useAggregator=false', async () => {
     const mockParams = {
       useAggregator: false,
+      slippage: '3',
       amountReference: testAmountReference,
       from: ETH,
       to: DEGEN,
@@ -143,7 +144,10 @@ describe('getSwapQuote', () => {
 
     expect(sendRequest).toHaveBeenCalledTimes(1);
     expect(sendRequest).toHaveBeenCalledWith(CDP_GET_SWAP_QUOTE, [
-      mockApiParams,
+      {
+        slippagePercentage: '3',
+        ...mockApiParams
+      },
     ]);
   });
 

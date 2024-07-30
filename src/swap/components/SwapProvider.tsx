@@ -133,7 +133,7 @@ export function SwapProvider({
         destination.setLoading(false);
       }
     },
-    [from, to, useAggregator, handleError],
+    [from, to, useAggregator, handleError, experimental.slippage],
   );
 
   const handleSubmit = useCallback(
@@ -156,6 +156,7 @@ export function SwapProvider({
           from: from.token,
           to: to.token,
           useAggregator,
+          slippage: experimental.slippage,
         });
 
         if (isSwapError(response)) {
@@ -202,6 +203,7 @@ export function SwapProvider({
       sendTransactionAsync,
       to.token,
       useAggregator,
+      experimental.slippage,
     ],
   );
 

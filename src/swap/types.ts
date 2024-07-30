@@ -46,6 +46,7 @@ export type GetQuoteAPIParams = {
   from: AddressOrETH | ''; // The source address or 'ETH' for Ethereum
   to: AddressOrETH | ''; // The destination address or 'ETH' for Ethereum
   v2Enabled?: boolean; // Whether to use V2 of the API (default: false)
+  slippagePercentage?: string; // The slippage percentage for the swap
 };
 
 export type GetSwapAPIParams = GetQuoteAPIParams & {

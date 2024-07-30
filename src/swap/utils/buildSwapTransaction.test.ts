@@ -247,6 +247,7 @@ describe('buildSwapTransaction', () => {
   it('should return a swap with an approve transaction', async () => {
     const mockParams = {
       useAggregator: true,
+      slippage: '3',
       fromAddress: testFromAddress as `0x${string}`,
       amountReference: testAmountReference,
       from: DEGEN,
@@ -348,7 +349,10 @@ describe('buildSwapTransaction', () => {
 
     expect(sendRequest).toHaveBeenCalledTimes(1);
     expect(sendRequest).toHaveBeenCalledWith(CDP_GET_SWAP_TRADE, [
-      mockApiParams,
+      {
+        slippagePercentage: '3',
+        ...mockApiParams
+      },
     ]);
   });
 
