@@ -17,6 +17,7 @@ export default defineConfig({
         'framegear/**',
         'node_modules/**',
         'onchainkit/esm/**',
+        'playground/**',
         'site/**',
       ],
       reportOnFailure: true,

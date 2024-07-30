@@ -82,9 +82,10 @@
       ".changeset",
       ".next",
       "coverage",
+      "dist",
       "esm",
       "framegear",
-      "dist",
+      "playground",
       "site"
     ]
   }
