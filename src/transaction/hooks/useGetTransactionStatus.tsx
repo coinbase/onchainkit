@@ -10,7 +10,6 @@ export function useGetTransactionStatus() {
     chainId,
     errorMessage,
     isLoading,
-    onSubmit,
     receipt,
     statusWriteContract,
     statusWriteContracts,
@@ -66,7 +65,6 @@ export function useGetTransactionStatus() {
     errorMessage,
     isInProgress,
     isPending,
-    onSubmit,
     receipt,
     transactionHash,
   ]);
