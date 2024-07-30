@@ -60,6 +60,7 @@ export type GetSwapQuoteParams = {
   amountReference?: string; // The reference amount for the swap
   from: Token; // The source token for the swap
   isAmountInDecimals?: boolean; // Whether the amount is in decimals
+  slippage?: string; // The slippage of the swap
   to: Token; // The destination token for the swap
   useAggregator: boolean; // Whether to use a DEX aggregator
 };

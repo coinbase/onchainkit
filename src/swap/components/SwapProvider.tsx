@@ -42,6 +42,7 @@ export function SwapProvider({
   children: React.ReactNode;
   experimental: {
     useAggregator: boolean; // Whether to use a DEX aggregator. (default: true)
+    slippage: string; // Maximum acceptable slippage for a swap. (default: 10) This is as a percent, not basis points
   };
 }) {
   // Feature flags
@@ -110,6 +111,7 @@ export function SwapProvider({
           amountReference: 'from',
           from: source.token,
           to: destination.token,
+          slippage: experimental.slippage,
           useAggregator,
         });
         // If request resolves to error response set the quoteError
