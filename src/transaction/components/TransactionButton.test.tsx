@@ -41,4 +41,16 @@ describe('TransactionButton', () => {
     const checkmark = screen.getByTestId('ockCheckmarkSvg');
     expect(checkmark).toBeInTheDocument();
   });
+
+  it('renders try again when error exists', () => {
+    (useTransactionContext as vi.Mock).mockReturnValue({
+      isLoading: true,
+      errorMessage: '123',
+    });
+
+    render(<TransactionButton text="Transact" />);
+
+    const text = screen.getByText('Try again');
+    expect(text).toBeInTheDocument();
+  });
 });
