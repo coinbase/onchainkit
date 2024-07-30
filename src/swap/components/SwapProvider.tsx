@@ -42,7 +42,7 @@ export function SwapProvider({
   children: React.ReactNode;
   experimental: {
     useAggregator: boolean; // Whether to use a DEX aggregator. (default: true)
-    slippage: string; // Maximum acceptable slippage for a swap. (default: 10) This is as a percent, not basis points
+    slippage?: string; // Maximum acceptable slippage for a swap. (default: 10) This is as a percent, not basis points
   };
 }) {
   // Feature flags

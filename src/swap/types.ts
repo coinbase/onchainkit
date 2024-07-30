@@ -203,7 +203,7 @@ export type SwapReact = {
   className?: string; // Optional className override for top div element.
   experimental?: {
     useAggregator: boolean; // Whether to use a DEX aggregator. (default: true)
-    slippage: string; // Maximum acceptable slippage for a swap. (default: 10) This is as a percent, not basis points
+    slippage?: string; // Maximum acceptable slippage for a swap. (default: 10) This is as a percent, not basis points
   };
   title?: string; // Title for the Swap component. (default: "Swap")
 };

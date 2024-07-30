@@ -10,7 +10,7 @@ import { SwapToggleButton } from './SwapToggleButton';
 // istanbul ignore next
 export function Swap({
   address,
-  experimental = { useAggregator: true, slippage: '10' },
+  experimental = { useAggregator: true },
   children,
   title = 'Swap',
   className,
