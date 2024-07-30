@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- 1110ec9: - **feat**: continued `Transaction` component QA. By @abcrane123 #944
+- **feat**: continued `Transaction` component QA. By @abcrane123 #944 1110ec9
 
 ## 0.26.12
 
