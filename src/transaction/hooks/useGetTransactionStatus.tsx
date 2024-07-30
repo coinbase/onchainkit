@@ -10,7 +10,6 @@ export function useGetTransactionStatus() {
     chainId,
     errorMessage,
     isLoading,
-    onSubmit,
     receipt,
     statusWriteContract,
     statusWriteContracts,
@@ -58,11 +57,6 @@ export function useGetTransactionStatus() {
     if (errorMessage) {
       label = errorMessage;
       labelClassName = color.error;
-      actionElement = (
-        <button type="button" onClick={onSubmit}>
-          <span className={cn(text.label1, color.primary)}>Try again</span>
-        </button>
-      );
     }
 
     return { actionElement, label, labelClassName };
@@ -71,7 +65,6 @@ export function useGetTransactionStatus() {
     errorMessage,
     isInProgress,
     isPending,
-    onSubmit,
     receipt,
     transactionHash,
   ]);

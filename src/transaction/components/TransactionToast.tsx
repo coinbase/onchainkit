@@ -7,6 +7,7 @@ import { useTransactionContext } from './TransactionProvider';
 export function TransactionToast({
   children,
   className,
+  delayMs = 3000,
   position = 'bottom-center',
 }: TransactionToastReact) {
   const {
@@ -43,14 +44,14 @@ export function TransactionToast({
     if (receipt || errorMessage) {
       timer = setTimeout(() => {
         setIsToastVisible(false);
-      }, 5000);
+      }, delayMs);
     }
     return () => {
       if (timer) {
         clearTimeout(timer);
       }
     };
-  }, [errorMessage, receipt, setIsToastVisible]);
+  }, [errorMessage, delayMs, receipt, setIsToastVisible]);
 
   const isInProgress =
     !receipt &&
