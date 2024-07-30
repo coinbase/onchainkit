@@ -15,7 +15,7 @@ import { Wallet, ConnectWallet } from '@coinbase/onchainkit/wallet';
 import App from '../../components/App';
 import TransactionWrapper from '../../components/TransactionWrapper';
 
-export const BASE_SEPOLIA_CHAIN_ID = 85432;
+export const BASE_SEPOLIA_CHAIN_ID = 84532;
 export const PAYMASTER_AND_BUNDLER_ENDPOINT = import.meta.env.VITE_CDP_PAYMASTER_AND_BUNDLER_ENDPOINT;
 
 # `<Transaction />`
@@ -156,7 +156,7 @@ export default function TransactionComponents() {
                 url: PAYMASTER_AND_BUNDLER_ENDPOINT,
               },
             }}
-            chainId={84532}
+            chainId={BASE_SEPOLIA_CHAIN_ID}
             contracts={contracts}
             onError={onError}
             onSuccess={onSuccess}
