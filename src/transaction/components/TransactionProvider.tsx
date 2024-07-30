@@ -98,13 +98,16 @@ export function TransactionProvider({
       }
     }
     setReceiptArray(receipts);
-  }, [transactionHashArray]);
+  }, [chainId, config, transactionHashArray]);
 
   useEffect(() => {
-    if (transactionHashArray.length === contracts.length && contracts?.length > 1) {
+    if (
+      transactionHashArray.length === contracts.length &&
+      contracts?.length > 1
+    ) {
       getTransactionReceipts();
     }
-  }, [contracts, transactionHashArray]);
+  }, [contracts, getTransactionReceipts, transactionHashArray]);
 
   const fallbackToWriteContract = useCallback(async () => {
     // EOAs don't support batching, so we process contracts individually.
