@@ -9,8 +9,8 @@ type UseWriteContractParams = {
   setTransactionId: (id: string) => void;
 };
 
-const uncaughtErrorCode = 'UNCAUGHT_WRITE_TRANSACTIONS_ERROR';
-const errorCode = 'WRITE_TRANSACTIONS_ERROR';
+const uncaughtErrorCode = 'UNCAUGHT_WRITE_TRANSACTION_ERROR';
+const errorCode = 'WRITE_TRANSACTION_ERROR';
 
 /**
  * Wagmi hook for single contract transactions.
@@ -23,29 +23,28 @@ export function useWriteContract({
   setTransactionId,
 }: UseWriteContractParams) {
   try {
-    const { status, writeContract, writeContractAsync, data } =
-      useWriteContractWagmi({
-        mutation: {
-          onError: (e) => {
-            if (
-              (e as TransactionExecutionError)?.cause?.name ===
-              'UserRejectedRequestError'
-            ) {
-              setErrorMessage('Request denied.');
-            } else {
-              setErrorMessage(genericErrorMessage);
-            }
-            onError?.({ code: errorCode, error: e.message });
-          },
-          onSuccess: (id) => {
-            setTransactionId(id);
-          },
+    const { status, writeContractAsync, data } = useWriteContractWagmi({
+      mutation: {
+        onError: (e) => {
+          if (
+            (e as TransactionExecutionError)?.cause?.name ===
+            'UserRejectedRequestError'
+          ) {
+            setErrorMessage('Request denied.');
+          } else {
+            setErrorMessage(genericErrorMessage);
+          }
+          onError?.({ code: errorCode, error: e.message });
         },
-      });
-    return { status, writeContract, writeContractAsync, data };
+        onSuccess: (id) => {
+          setTransactionId(id);
+        },
+      },
+    });
+    return { status, writeContractAsync, data };
   } catch (err) {
     onError?.({ code: uncaughtErrorCode, error: JSON.stringify(err) });
     setErrorMessage(genericErrorMessage);
-    return { status: 'error', writeContract: () => {} };
+    return { status: 'error', writeContractAsync: () => {} };
   }
 }

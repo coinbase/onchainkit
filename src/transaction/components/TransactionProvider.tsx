@@ -57,7 +57,7 @@ export function TransactionProvider({
     });
   const {
     status: statusWriteContract,
-    writeContract,
+    writeContractAsync,
     data: writeContractTransactionHash,
   } = useWriteContract({
     onError,
@@ -78,12 +78,12 @@ export function TransactionProvider({
     // This gracefully handles accidental batching attempts with EOAs.
     for (const contract of contracts) {
       try {
-        await writeContract(contract);
+        await writeContractAsync?.(contract);
       } catch (_err) {
         setErrorMessage(genericErrorMessage);
       }
     }
-  }, [contracts, writeContract]);
+  }, [contracts, writeContractAsync]);
 
   const switchChain = useCallback(
     async (targetChainId: number | undefined) => {
