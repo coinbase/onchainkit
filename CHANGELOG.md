@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.26.13
+
+### Patch Changes
+
+- 1110ec9: - **feat**: continued `Transaction` component QA. By @abcrane123 #944
+
 ## 0.26.12
 
 ### Patch Changes
