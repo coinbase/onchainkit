@@ -16,7 +16,7 @@ type UseWriteContractConfig = {
 
 type MockUseWriteContractReturn = {
   status: 'idle' | 'error' | 'loading' | 'success';
-  writeContract: ReturnType<typeof vi.fn>;
+  writeContractAsync: ReturnType<typeof vi.fn>;
   data: string | null;
 };
 
@@ -34,7 +34,7 @@ describe('useWriteContract', () => {
     const mockData = 'mockTransactionData';
     (useWriteContractWagmi as ReturnType<typeof vi.fn>).mockReturnValue({
       status: 'idle',
-      writeContract: mockWriteContract,
+      writeContractAsync: mockWriteContract,
       data: mockData,
     } as MockUseWriteContractReturn);
 
@@ -47,7 +47,7 @@ describe('useWriteContract', () => {
     );
 
     expect(result.current.status).toBe('idle');
-    expect(result.current.writeContract).toBe(mockWriteContract);
+    expect(result.current.writeContractAsync).toBe(mockWriteContract);
     expect(result.current.data).toBe(mockData);
   });
 
@@ -60,7 +60,7 @@ describe('useWriteContract', () => {
       ({ mutation }: UseWriteContractConfig) => {
         onErrorCallback = mutation.onError;
         return {
-          writeContract: vi.fn(),
+          writeContractAsync: vi.fn(),
           data: null,
           status: 'error',
         } as MockUseWriteContractReturn;
@@ -82,7 +82,7 @@ describe('useWriteContract', () => {
       'Something went wrong. Please try again.',
     );
     expect(mockOnError).toHaveBeenCalledWith({
-      code: 'WRITE_TRANSACTIONS_ERROR',
+      code: 'WRITE_TRANSACTION_ERROR',
       error: 'Something went wrong. Please try again.',
     });
   });
@@ -96,7 +96,7 @@ describe('useWriteContract', () => {
       ({ mutation }: UseWriteContractConfig) => {
         onSuccessCallback = mutation.onSuccess;
         return {
-          writeContract: vi.fn(),
+          writeContractAsync: vi.fn(),
           data: transactionId,
           status: 'success',
         } as MockUseWriteContractReturn;
@@ -135,12 +135,12 @@ describe('useWriteContract', () => {
     );
 
     expect(result.current.status).toBe('error');
-    expect(result.current.writeContract).toBeInstanceOf(Function);
+    expect(result.current.writeContractAsync).toBeInstanceOf(Function);
     expect(mockSetErrorMessage).toHaveBeenCalledWith(
       'Something went wrong. Please try again.',
     );
     expect(mockOnError).toHaveBeenCalledWith({
-      code: 'UNCAUGHT_WRITE_TRANSACTIONS_ERROR',
+      code: 'UNCAUGHT_WRITE_TRANSACTION_ERROR',
       error: JSON.stringify(uncaughtError),
     });
   });
