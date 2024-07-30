@@ -146,7 +146,7 @@ describe('getSwapQuote', () => {
     expect(sendRequest).toHaveBeenCalledWith(CDP_GET_SWAP_QUOTE, [
       {
         slippagePercentage: '3',
-        ...mockApiParams
+        ...mockApiParams,
       },
     ]);
   });

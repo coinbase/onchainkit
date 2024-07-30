@@ -351,7 +351,7 @@ describe('buildSwapTransaction', () => {
     expect(sendRequest).toHaveBeenCalledWith(CDP_GET_SWAP_TRADE, [
       {
         slippagePercentage: '3',
-        ...mockApiParams
+        ...mockApiParams,
       },
     ]);
   });
