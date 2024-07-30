@@ -2,9 +2,11 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import {
   useAccount,
+  useConfig,
   useSwitchChain,
   useWaitForTransactionReceipt,
 } from 'wagmi';
+import { waitForTransactionReceipt } from 'wagmi/actions';
 import { useCallsStatus } from '../hooks/useCallsStatus';
 import { useWriteContract } from '../hooks/useWriteContract';
 import { useWriteContracts } from '../hooks/useWriteContracts';
@@ -17,6 +19,8 @@ vi.mock('wagmi', () => ({
   useAccount: vi.fn(),
   useSwitchChain: vi.fn(),
   useWaitForTransactionReceipt: vi.fn(),
+  useConfig: vi.fn(),
+  waitForTransactionReceipt: vi.fn(),
 }));
 
 vi.mock('../hooks/useCallsStatus', () => ({

@@ -22,7 +22,7 @@ type MockUseWriteContractReturn = {
 
 describe('useWriteContract', () => {
   const mockSetErrorMessage = vi.fn();
-  const mockSetTransactionId = vi.fn();
+  const mockSetTransactionHashArray = vi.fn();
   const mockOnError = vi.fn();
 
   beforeEach(() => {
@@ -41,7 +41,7 @@ describe('useWriteContract', () => {
     const { result } = renderHook(() =>
       useWriteContract({
         setErrorMessage: mockSetErrorMessage,
-        setTransactionId: mockSetTransactionId,
+        setTransactionHashArray: mockSetTransactionHashArray,
         onError: mockOnError,
       }),
     );
@@ -70,7 +70,7 @@ describe('useWriteContract', () => {
     renderHook(() =>
       useWriteContract({
         setErrorMessage: mockSetErrorMessage,
-        setTransactionId: mockSetTransactionId,
+        setTransactionHashArray: mockSetTransactionHashArray,
         onError: mockOnError,
       }),
     );
@@ -106,7 +106,7 @@ describe('useWriteContract', () => {
     renderHook(() =>
       useWriteContract({
         setErrorMessage: mockSetErrorMessage,
-        setTransactionId: mockSetTransactionId,
+        setTransactionHashArray: mockSetTransactionHashArray,
         onError: mockOnError,
       }),
     );
@@ -114,7 +114,7 @@ describe('useWriteContract', () => {
     expect(onSuccessCallback).toBeDefined();
     onSuccessCallback?.(transactionId);
 
-    expect(mockSetTransactionId).toHaveBeenCalledWith(transactionId);
+    expect(mockSetTransactionHashArray).toHaveBeenCalledWith([transactionId]);
   });
 
   it('should handle uncaught errors', () => {
@@ -129,7 +129,7 @@ describe('useWriteContract', () => {
     const { result } = renderHook(() =>
       useWriteContract({
         setErrorMessage: mockSetErrorMessage,
-        setTransactionId: mockSetTransactionId,
+        setTransactionHashArray: mockSetTransactionHashArray,
         onError: mockOnError,
       }),
     );
