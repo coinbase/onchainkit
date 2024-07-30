@@ -53,4 +53,32 @@ describe('TransactionButton', () => {
     const text = screen.getByText('Try again');
     expect(text).toBeInTheDocument();
   });
+
+  it('should have disabled attribute when isDisabled is true', () => {
+    const { getByRole } = render(
+      <TransactionButton disabled={true} text="Submit" />,
+    );
+    const button = getByRole('button');
+    expect(button).toBeDisabled();
+  });
+
+  it('should have disabled attribute when txn is in progress', () => {
+    (useTransactionContext as vi.Mock).mockReturnValue({
+      isLoading: true,
+    });
+
+    const { getByRole } = render(<TransactionButton text="Submit" />);
+    const button = getByRole('button');
+    expect(button).toBeDisabled();
+  });
+
+  it('should have disabled when contracts are missing', () => {
+    (useTransactionContext as vi.Mock).mockReturnValue({
+      contracts: undefined,
+    });
+
+    const { getByRole } = render(<TransactionButton text="Submit" />);
+    const button = getByRole('button');
+    expect(button).toBeDisabled();
+  });
 });

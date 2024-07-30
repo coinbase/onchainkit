@@ -90,6 +90,35 @@ describe('TransactionProvider', () => {
     });
   });
 
+  it('should call onsuccess when receipt exists', async () => {
+    const onSuccessMock = vi.fn();
+    (useWaitForTransactionReceipt as ReturnType<typeof vi.fn>).mockReturnValue({
+      data: '123',
+    });
+
+    (useCallsStatus as ReturnType<typeof vi.fn>).mockReturnValue({
+      transactionHash: 'hash',
+    });
+
+    render(
+      <TransactionProvider
+        address="0x123"
+        contracts={[]}
+        onError={() => {}}
+        onSuccess={onSuccessMock}
+      >
+        <TestComponent />
+      </TransactionProvider>,
+    );
+
+    const button = screen.getByText('Submit');
+    fireEvent.click(button);
+
+    await waitFor(() => {
+      expect(onSuccessMock).toHaveBeenCalled();
+    });
+  });
+
   it('should handle errors during submission', async () => {
     const writeContractsAsyncMock = vi
       .fn()
