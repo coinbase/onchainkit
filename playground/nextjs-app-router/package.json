@@ -6,6 +6,7 @@
     "cp": "cp -R ../../esm ./onchainkit && cp -R ../../src ./onchainkit",
     "dev": "next dev",
     "build": "next build",
+    "build:link": "cd ./onchainkit && bun link",
     "build:prepare": "bun run build:onchainkit && bun run cp && bun i",
     "build:onchainkit": "cd ../.. && yarn build",
     "start": "next start",
