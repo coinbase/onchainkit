@@ -1,11 +1,17 @@
 # Changelog
 
+## 0.26.13
+
+### Patch Changes
+
+- 1110ec9: - **feat**: continued `Transaction` component QA. By @abcrane123 #944
+
 ## 0.26.12
 
 ### Patch Changes
 
-- 74bd1a0: - **fix**: handle edge case in `toReadableAmount`. By @0xAlec #934
-  - **fix**: hide sponsor if txn in progress. By @abcrane123 #931
+- **fix**: handle edge case in `toReadableAmount`. By @0xAlec #934 74bd1a0
+- **fix**: hide sponsor if txn in progress. By @abcrane123 #931
 
 ## 0.26.11
 
