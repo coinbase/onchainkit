@@ -72,7 +72,7 @@ export default function TransactionComponents() {
   return address ? (
     <Transaction address={address} chainId={BASE_SEPOLIA_CHAIN_ID} contracts={contracts}>  // [!code focus]
       <TransactionButton />  // [!code focus]
-      <TransactionSponsor text="Coinbase" /> // [!code focus]
+      <TransactionSponsor /> // [!code focus]
       <TransactionStatus>  // [!code focus]
         <TransactionStatusLabel />  // [!code focus]
         <TransactionStatusAction />  // [!code focus]
@@ -107,7 +107,7 @@ export default function TransactionComponents() {
             onSuccess={onSuccess}
           >
             <TransactionButton />
-            <TransactionSponsor text="coinbase" />
+            <TransactionSponsor />
             <TransactionStatus>
               <TransactionStatusLabel />
               <TransactionStatusAction />
@@ -135,7 +135,7 @@ export default function TransactionComponents() {
 
 <Transaction address={address} contracts={contracts}>  // [!code focus]
   <TransactionButton />  // [!code focus]
-  <TransactionSponsor text="Coinbase" /> // [!code focus]
+  <TransactionSponsor /> // [!code focus]
   <TransactionToast>  // [!code focus]
     <TransactionToastIcon />  // [!code focus]
     <TransactionToastLabel />  // [!code focus]
@@ -162,7 +162,7 @@ export default function TransactionComponents() {
             onSuccess={onSuccess}
           >
             <TransactionButton />
-            <TransactionSponsor text="Coinbase" />
+            <TransactionSponsor />
             <TransactionToast>
               <TransactionToastIcon />
               <TransactionToastLabel />
