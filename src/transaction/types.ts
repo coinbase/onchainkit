@@ -62,7 +62,7 @@ export type TransactionProviderReact = {
   children: ReactNode; // The child components to be rendered within the provider component.
   contracts: ContractFunctionParameters[]; // An array of contract function parameters provided to the child components.
   onError?: (e: TransactionError) => void; // An optional callback function that handles errors within the provider.
-  onSuccess?: (response: TransactionResponse) => void; // An optional callback function that exposes transaction hash
+  onSuccess?: (response: TransactionReceipt | TransactionReceipt[]) => void; // An optional callback function that exposes transaction hash
 };
 
 /**
@@ -76,15 +76,7 @@ export type TransactionReact = {
   className?: string; // An optional CSS class name for styling the component.
   contracts: ContractFunctionParameters[]; // An array of contract function parameters for the transaction.
   onError?: (e: TransactionError) => void; // An optional callback function that handles transaction errors.
-  onSuccess?: (response: TransactionResponse) => void; // An optional callback function that exposes transaction hash
-};
-
-/**
- * Note: exported as public Type
- */
-export type TransactionResponse = {
-  transactionHash: string; // Proof that a transaction was validated and added to the blockchain
-  receipt: TransactionReceipt; // The receipt of the transaction
+  onSuccess?: (response: TransactionReceipt | TransactionReceipt[]) => void; // An optional callback function that exposes transaction hash
 };
 
 /**

@@ -5,12 +5,13 @@ import {
   useEffect,
   useState,
 } from 'react';
-import type { TransactionExecutionError } from 'viem';
-import {
-  useAccount,
-  useSwitchChain,
-  useWaitForTransactionReceipt,
-} from 'wagmi';
+import type {
+  Address,
+  TransactionExecutionError,
+  TransactionReceipt,
+} from 'viem';
+import { useAccount, useConfig, useSwitchChain, useWaitForTransactionReceipt } from 'wagmi';
+import { waitForTransactionReceipt } from 'wagmi/actions';
 import { useValue } from '../../internal/hooks/useValue';
 import {
   GENERIC_ERROR_MESSAGE,
@@ -50,7 +51,12 @@ export function TransactionProvider({
   const [errorMessage, setErrorMessage] = useState('');
   const [transactionId, setTransactionId] = useState('');
   const [isToastVisible, setIsToastVisible] = useState(false);
+  const [transactionHashArray, setTransactionHashArray] = useState<Address[]>(
+    [],
+  );
+  const [receiptArray, setReceiptArray] = useState<TransactionReceipt[]>([]);
   const account = useAccount();
+  const config = useConfig();
   const { switchChainAsync } = useSwitchChain();
   const { status: statusWriteContracts, writeContractsAsync } =
     useWriteContracts({
@@ -65,7 +71,8 @@ export function TransactionProvider({
   } = useWriteContract({
     onError,
     setErrorMessage,
-    setTransactionId,
+    setTransactionHashArray,
+    transactionHashArray,
   });
   const { transactionHash, status: callStatus } = useCallsStatus({
     onError,
@@ -75,6 +82,29 @@ export function TransactionProvider({
   const { data: receipt } = useWaitForTransactionReceipt({
     hash: writeContractTransactionHash || transactionHash,
   });
+
+  const getTransactionReceipts = useCallback(async () => {
+    const receipts = [];
+    for (const hash of transactionHashArray) {
+      try {
+        const txnReceipt = await waitForTransactionReceipt(config, {
+          hash,
+          chainId,
+        });
+        receipts.push(txnReceipt);
+      } catch (err) {
+        console.error('getTransactionReceiptsError', err);
+        setErrorMessage(genericErrorMessage);
+      }
+    }
+    setReceiptArray(receipts);
+  }, [transactionHashArray]);
+
+  useEffect(() => {
+    if (transactionHashArray.length === contracts.length && contracts?.length > 1) {
+      getTransactionReceipts();
+    }
+  }, [contracts, transactionHashArray]);
 
   const fallbackToWriteContract = useCallback(async () => {
     // EOAs don't support batching, so we process contracts individually.
@@ -151,11 +181,12 @@ export function TransactionProvider({
   }, [chainId, executeContracts, handleSubmitErrors, switchChain]);
 
   useEffect(() => {
-    const txnHash = transactionHash || writeContractTransactionHash;
-    if (txnHash && receipt) {
-      onSuccess?.({ transactionHash: txnHash, receipt });
+    if (receiptArray?.length > 1) {
+      onSuccess?.(receiptArray);
+    } else if (receipt) {
+      onSuccess?.(receipt);
     }
-  }, [onSuccess, receipt, transactionHash, writeContractTransactionHash]);
+  }, [onSuccess, receipt, receiptArray]);
 
   const value = useValue({
     address,
