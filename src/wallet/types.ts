@@ -75,6 +75,13 @@ export type WalletReact = {
 /**
  * Note: exported as public Type
  */
+export type WalletDropdownBaseNameReact = {
+  className?: string; // Optional className override for the element
+};
+
+/**
+ * Note: exported as public Type
+ */
 export type WalletDropdownReact = {
   children: React.ReactNode;
   className?: string; // Optional className override for top div element
