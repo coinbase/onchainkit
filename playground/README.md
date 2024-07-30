@@ -21,21 +21,5 @@ cd nextjs-app-router
 Intall dependencies and run app
 
 ```bash
-bun install && bun run dev
-```
-
-## Local development
-
-Whenever you make a change to your local version of OnchainKit, we need to rebuild the package.
-
-Rebuild within a separate terminal tab on the `onchainkit` repo.
-
-```bash
-yarn build
-```
-
-In a separate terminal tab within `onchainkit-demo/packages/nextjs-app`, cancel your running app and reload.
-
-```bash
-bun run reload
+bun build:prepare && bun run dev
 ```
