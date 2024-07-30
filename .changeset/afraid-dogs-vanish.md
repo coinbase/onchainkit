@@ -2,4 +2,4 @@
 "@coinbase/onchainkit": patch
 ---
 
--**feat**: Implement WalletDropdownBaseName Sub-Component. By @cpcramer #913
+- **feat**: added `WalletDropdownBaseName` component. By @cpcramer #913

@@ -13,8 +13,9 @@ export type {
   IsWalletACoinbaseSmartWalletOptions,
   IsWalletACoinbaseSmartWalletResponse,
   WalletContextType,
-  WalletReact,
-  WalletDropdownReact,
+  WalletDropdownBaseNameReact,
   WalletDropdownDisconnectReact,
   WalletDropdownLinkReact,
+  WalletDropdownReact,
+  WalletReact,
 } from './types';
