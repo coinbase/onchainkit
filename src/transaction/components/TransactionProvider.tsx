@@ -79,8 +79,16 @@ export function TransactionProvider({
     for (const contract of contracts) {
       try {
         await writeContractAsync?.(contract);
-      } catch (_err) {
-        setErrorMessage(genericErrorMessage);
+      } catch (err) {
+        // if user rejected request
+        if (
+          (err as TransactionExecutionError)?.cause?.name ===
+          'UserRejectedRequestError'
+        ) {
+          setErrorMessage('Request denied.');
+        } else {
+          setErrorMessage(genericErrorMessage);
+        }
       }
     }
   }, [contracts, writeContractAsync]);
