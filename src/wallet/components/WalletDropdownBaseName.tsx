@@ -1,18 +1,17 @@
-import { base } from 'viem/chains';
+// import { base } from 'viem/chains';
 import { useAccount } from 'wagmi';
 import { useName } from '../../identity/hooks/useName';
 import { Spinner } from '../../internal/components/Spinner';
 import { baseNameSvg } from '../../internal/svg/baseNameSvg';
 import { cn, pressable, text } from '../../styles/theme';
 import type { WalletDropdownBaseNameReact } from '../types';
-import { useIdentityContext } from '../../identity/components/IdentityProvider'
+import { useWalletContext } from './WalletProvider';
 
 export function WalletDropdownBaseName({
   className,
 }: WalletDropdownBaseNameReact) {
   const { address } = useAccount();
-  const { chain } = useIdentityContext()
-  console.log("Chain : ", chain)
+  const { chain } = useWalletContext();
 
   if (!address || !chain) {
     return null;
