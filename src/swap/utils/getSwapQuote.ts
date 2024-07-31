@@ -36,9 +36,9 @@ export async function getSwapQuote(
       ...apiParams,
     };
   }
-  if (params.slippage) {
+  if (params.maxSlippage) {
     apiParams = {
-      slippagePercentage: params.slippage,
+      slippagePercentage: params.maxSlippage,
       ...apiParams,
     };
   }

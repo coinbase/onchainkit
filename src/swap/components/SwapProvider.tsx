@@ -42,7 +42,7 @@ export function SwapProvider({
   children: React.ReactNode;
   experimental: {
     useAggregator: boolean; // Whether to use a DEX aggregator. (default: true)
-    slippage?: string; // Maximum acceptable slippage for a swap. (default: 10) This is as a percent, not basis points
+    maxSlippage?: number; // Maximum acceptable slippage for a swap. (default: 10) This is as a percent, not basis points
   };
 }) {
   // Feature flags
@@ -111,7 +111,7 @@ export function SwapProvider({
           amountReference: 'from',
           from: source.token,
           to: destination.token,
-          slippage: experimental.slippage,
+          maxSlippage: experimental.maxSlippage?.toString(),
           useAggregator,
         });
         // If request resolves to error response set the quoteError
@@ -133,7 +133,7 @@ export function SwapProvider({
         destination.setLoading(false);
       }
     },
-    [from, to, useAggregator, handleError, experimental.slippage],
+    [from, to, useAggregator, handleError, experimental.maxSlippage],
   );
 
   const handleSubmit = useCallback(
@@ -156,7 +156,7 @@ export function SwapProvider({
           from: from.token,
           to: to.token,
           useAggregator,
-          slippage: experimental.slippage,
+          maxSlippage: experimental.maxSlippage?.toString(),
         });
 
         if (isSwapError(response)) {
@@ -203,7 +203,7 @@ export function SwapProvider({
       sendTransactionAsync,
       to.token,
       useAggregator,
-      experimental.slippage,
+      experimental.maxSlippage,
     ],
   );
 
