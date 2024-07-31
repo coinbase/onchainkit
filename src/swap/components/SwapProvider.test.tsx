@@ -1,12 +1,6 @@
 import React from 'react';
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import {
-  act,
-  render,
-  fireEvent,
-  screen,
-  waitFor,
-} from '@testing-library/react';
+import { act, render, fireEvent, screen } from '@testing-library/react';
 import { SwapProvider, useSwapContext } from './SwapProvider';
 import { getSwapQuote } from '../utils/getSwapQuote';
 import type { Token } from '../../token';
@@ -34,7 +28,7 @@ vi.mock('../utils/processSwapTransaction', () => ({
 
 const queryClient = new QueryClient();
 
-export const config = createConfig({
+const config = createConfig({
   chains: [base],
   connectors: [
     mock({
@@ -80,7 +74,7 @@ const renderWithProviders = (Component: React.ComponentType) => {
           <Component />
         </SwapProvider>
       </QueryClientProvider>
-    </WagmiProvider>
+    </WagmiProvider>,
   );
 };
 
@@ -123,21 +117,20 @@ describe('SwapProvider', () => {
   it('should handle submit correctly', async () => {
     const mockOnError = vi.fn();
     const mockOnSuccess = vi.fn();
-    let submitFunction: (
+    let _submitFunction: (
       onError?: (error: SwapError) => void,
-      onSuccess?: (txReceipt: TransactionReceipt) => void | Promise<void>
+      onSuccess?: (txReceipt: TransactionReceipt) => void | Promise<void>,
     ) => void;
 
     const TestComponent = () => {
       const { from, to, handleSubmit } = useSwapContext();
-      submitFunction = handleSubmit;
-
+      _submitFunction = handleSubmit;
+      // biome-ignore lint: hello
       React.useEffect(() => {
         from.setToken(ETH);
         from.setAmount('100');
         to.setToken(DEGEN);
       }, []);
-
       return (
         <button
           type="submit"
@@ -163,8 +156,7 @@ describe('SwapProvider', () => {
   it('should handle toggles', async () => {
     const TestComponent = () => {
       const { from, to, handleToggle } = useSwapContext();
-
-      // Trigger handleAmountChange when the component mounts
+      // biome-ignore lint: hello
       React.useEffect(() => {
         const initializeSwap = async () => {
           await act(async () => {
@@ -188,8 +180,7 @@ describe('SwapProvider', () => {
   it('should pass the correct slippage to getSwapQuote', async () => {
     const TestComponent = () => {
       const { from, to, handleAmountChange } = useSwapContext();
-
-      // Trigger handleAmountChange when the component mounts
+      // biome-ignore lint: hello
       React.useEffect(() => {
         const initializeSwap = () => {
           from.setToken(ETH);
@@ -215,15 +206,14 @@ describe('SwapProvider', () => {
         from: ETH,
         to: DEGEN,
         useAggregator: true,
-      })
+      }),
     );
   });
 
   it('should handle undefined in input', async () => {
     const TestComponent = () => {
       const { handleAmountChange } = useSwapContext();
-
-      // Trigger handleAmountChange when the component mounts
+      // biome-ignore lint: hello
       React.useEffect(() => {
         const initializeSwap = () => {
           handleAmountChange('from', '100', undefined, undefined);
