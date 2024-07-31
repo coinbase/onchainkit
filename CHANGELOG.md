@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.26.16
+
+### Patch Changes
+
+- 904e495: - **feat**: add `onStart` hook to `SwapButton`. By @0xAlec #914
+
 ## 0.26.15
 
 ### Patch Changes
