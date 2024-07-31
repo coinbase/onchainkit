@@ -93,6 +93,15 @@
   opacity: 0.6;
 }
 
+@media (max-width: 468px) {
+  .css-blurry-gradient {
+    display: none;
+  }
+  .css-blurry-gradient-mobile {
+    display: block;
+  }
+}
+
 .dark .css-blurry-gradient {
   background: radial-gradient(circle at 50% 50%, #6f79c5, #6f79c5);
   opacity: 0.2;

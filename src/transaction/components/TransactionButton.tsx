@@ -49,8 +49,11 @@ export function TransactionButton({
     if (receipt) {
       return checkmarkSvg;
     }
+    if (errorMessage) {
+      return 'Try again';
+    }
     return buttonText;
-  }, [buttonText, receipt]);
+  }, [buttonText, errorMessage, receipt]);
 
   return (
     <button

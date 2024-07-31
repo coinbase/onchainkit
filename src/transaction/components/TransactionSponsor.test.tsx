@@ -16,21 +16,8 @@ describe('TransactionSponsor', () => {
     });
     render(<TransactionSponsor />);
 
-    const element = screen.getByText('Free gas');
+    const element = screen.getByText('Zero transaction fee');
     expect(element).toBeInTheDocument();
-  });
-  it('renders correctly when provided sponsor name as prop', () => {
-    (useTransactionContext as vi.Mock).mockReturnValue({
-      statusWriteContract: 'idle',
-      statusWriteContracts: 'idle',
-      hasPaymaster: true,
-    });
-    render(<TransactionSponsor text="Coinbase" />);
-
-    const element = screen.getByText('Free gas');
-    expect(element).toBeInTheDocument();
-    const sponsor = screen.getByText('Coinbase');
-    expect(sponsor).toBeInTheDocument();
   });
   it('does not render if hasPaymaster is false', () => {
     (useTransactionContext as vi.Mock).mockReturnValue({
@@ -38,8 +25,8 @@ describe('TransactionSponsor', () => {
       statusWriteContracts: 'idle',
       hasPaymaster: false,
     });
-    render(<TransactionSponsor text="Coinbase" />);
+    render(<TransactionSponsor />);
 
-    expect(screen.queryByText('Free gas')).not.toBeInTheDocument();
+    expect(screen.queryByText('Zero transaction fee')).not.toBeInTheDocument();
   });
 });

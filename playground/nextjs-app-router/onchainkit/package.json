@@ -1,0 +1,87 @@
+{
+  "name": "@coinbase/onchainkit",
+  "version": "0.26.13",
+  "type": "module",
+  "repository": "https://github.com/coinbase/onchainkit.git",
+  "license": "MIT",
+  "peerDependencies": {
+    "@xmtp/frames-validator": "^0.6.0",
+    "react": "^18",
+    "react-dom": "^18"
+  },
+  "resolutions": {
+    "react": "npm:react@^18"
+  },
+  "files": [
+    "esm/**/*"
+  ],
+  "main": "./esm/index.js",
+  "types": "./esm/index.d.ts",
+  "module": "./esm/index.js",
+  "exports": {
+    "./package.json": "./package.json",
+    "./styles.css": "./src/styles.css",
+    "./tailwind.css": "./src/tailwind.css",
+    "./theme": "./esm/styles/theme.js",
+    ".": {
+      "types": "./esm/index.d.ts",
+      "module": "./esm/index.js",
+      "import": "./esm/index.js",
+      "default": "./esm/index.js"
+    },
+    "./core": {
+      "types": "./esm/core/index.d.ts",
+      "module": "./esm/core/index.js",
+      "import": "./esm/core/index.js",
+      "default": "./esm/core/index.js"
+    },
+    "./farcaster": {
+      "types": "./esm/farcaster/index.d.ts",
+      "module": "./esm/farcaster/index.js",
+      "import": "./esm/farcaster/index.js",
+      "default": "./esm/farcaster/index.js"
+    },
+    "./frame": {
+      "types": "./esm/frame/index.d.ts",
+      "module": "./esm/frame/index.js",
+      "import": "./esm/frame/index.js",
+      "default": "./esm/frame/index.js"
+    },
+    "./identity": {
+      "types": "./esm/identity/index.d.ts",
+      "module": "./esm/identity/index.js",
+      "import": "./esm/identity/index.js",
+      "default": "./esm/identity/index.js"
+    },
+    "./swap": {
+      "types": "./esm/swap/index.d.ts",
+      "module": "./esm/swap/index.js",
+      "import": "./esm/swap/index.js",
+      "default": "./esm/swap/index.js"
+    },
+    "./token": {
+      "types": "./esm/token/index.d.ts",
+      "module": "./esm/token/index.js",
+      "import": "./esm/token/index.js",
+      "default": "./esm/token/index.js"
+    },
+    "./transaction": {
+      "types": "./esm/transaction/index.d.ts",
+      "module": "./esm/transaction/index.js",
+      "import": "./esm/transaction/index.js",
+      "default": "./esm/transaction/index.js"
+    },
+    "./xmtp": {
+      "types": "./esm/xmtp/index.d.ts",
+      "module": "./esm/xmtp/index.js",
+      "import": "./esm/xmtp/index.js",
+      "default": "./esm/xmtp/index.js"
+    },
+    "./wallet": {
+      "types": "./esm/wallet/index.d.ts",
+      "module": "./esm/wallet/index.js",
+      "import": "./esm/wallet/index.js",
+      "default": "./esm/wallet/index.js"
+    }
+  }
+}

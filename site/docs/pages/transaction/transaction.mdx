@@ -15,16 +15,15 @@ import { Wallet, ConnectWallet } from '@coinbase/onchainkit/wallet';
 import App from '../../components/App';
 import TransactionWrapper from '../../components/TransactionWrapper';
 
+export const BASE_SEPOLIA_CHAIN_ID = 84532;
+export const PAYMASTER_AND_BUNDLER_ENDPOINT = import.meta.env.VITE_CDP_PAYMASTER_AND_BUNDLER_ENDPOINT;
+
 # `<Transaction />`
 
 The `<Transaction />` components provide a high-level wrap around the entire transaction flow. 
 It handles the transaction lifecycle, including gas estimation, fee sponsorship, and status updates.
 
 Before using them, ensure you've completed all [Getting Started steps](/getting-started).
-
-:::danger
-Component is not shipped yet. Stay tuned for upcoming releases.
-:::
 
 ## `Transaction` with `TransactionStatus` components
 
@@ -67,9 +66,9 @@ export default function TransactionComponents() {
   ];
 
   return address ? (
-    <Transaction address={address} chainId={85432} contracts={contracts}>  // [!code focus]
+    <Transaction address={address} chainId={BASE_SEPOLIA_CHAIN_ID} contracts={contracts}>  // [!code focus]
       <TransactionButton />  // [!code focus]
-      <TransactionSponsor text="Coinbase" /> // [!code focus]
+      <TransactionSponsor /> // [!code focus]
       <TransactionStatus>  // [!code focus]
         <TransactionStatusLabel />  // [!code focus]
         <TransactionStatusAction />  // [!code focus]
@@ -90,7 +89,7 @@ export default function TransactionComponents() {
     {({ address, contracts, onError, onSuccess }) => {
       const capabilities = {
         paymasterService: {
-          url: import.meta.env.VITE_CDP_PAYMASTER_AND_BUNDLER_ENDPOINT,
+          url: PAYMASTER_AND_BUNDLER_ENDPOINT,
         },
       }
       if (address) {
@@ -98,17 +97,73 @@ export default function TransactionComponents() {
           <Transaction
             address={address}
             capabilities={capabilities}
-            chainId={84532}
+            chainId={BASE_SEPOLIA_CHAIN_ID}
             contracts={contracts}
             onError={onError}
             onSuccess={onSuccess}
           >
             <TransactionButton />
-            <TransactionSponsor text="coinbase" />
+            <TransactionSponsor />
             <TransactionStatus>
               <TransactionStatusLabel />
               <TransactionStatusAction />
             </TransactionStatus>
+          </Transaction>
+        )
+      } else {
+        return (
+          <Wallet>
+            <ConnectWallet>
+              <Avatar className="h-6 w-6" />
+              <Name />
+            </ConnectWallet>
+          </Wallet>
+        )
+      }
+    }}
+  </TransactionWrapper>
+</App>
+
+## `Transaction` with `TransactionToast` components
+
+```tsx
+// ommited for brevity
+
+<Transaction address={address} contracts={contracts}>  // [!code focus]
+  <TransactionButton />  // [!code focus]
+  <TransactionSponsor /> // [!code focus]
+  <TransactionToast>  // [!code focus]
+    <TransactionToastIcon />  // [!code focus]
+    <TransactionToastLabel />  // [!code focus]
+    <TransactionToastAction />  // [!code focus]
+  </TransactionToast>  // [!code focus]
+</Transaction>  // [!code focus]
+```
+
+<App>
+  <TransactionWrapper>
+    {({ address, contracts, onError, onSuccess }) => {
+      if (address) {
+        return (
+          <Transaction
+            address={address}
+            capabilities={{
+              paymasterService: {
+                url: PAYMASTER_AND_BUNDLER_ENDPOINT,
+              },
+            }}
+            chainId={BASE_SEPOLIA_CHAIN_ID}
+            contracts={contracts}
+            onError={onError}
+            onSuccess={onSuccess}
+          >
+            <TransactionButton />
+            <TransactionSponsor />
+            <TransactionToast>
+              <TransactionToastIcon />
+              <TransactionToastLabel />
+              <TransactionToastAction />
+            </TransactionToast>
           </Transaction>
         )
       } else {
@@ -138,12 +193,12 @@ export default function TransactionComponents() {
 // ommited for brevity
 <Transaction
   address={address}
-  contracts={contracts}
   capabilities={{ // [!code focus]
     paymasterService: { // [!code focus]
       url: process.env.PAYMASTER_AND_BUNDLER_ENDPOINT, // [!code focus]
     }, // [!code focus]
   }} // [!code focus]
+  contracts={contracts}
   >
   <TransactionButton />
   <TransactionSponsor text="OnchainKit" />
@@ -156,72 +211,17 @@ export default function TransactionComponents() {
         return (
           <Transaction 
             address={address} 
-            contracts={contracts} 
-            onError={onError} 
             capabilities={{
               paymasterService: {
-                url: import.meta.env.VITE_CDP_PAYMASTER_AND_BUNDLER_ENDPOINT,
+                url: PAYMASTER_AND_BUNDLER_ENDPOINT,
               },
             }}
+            chainId={BASE_SEPOLIA_CHAIN_ID}
+            contracts={contracts} 
+            onError={onError} 
           >
             <TransactionButton />
             <TransactionSponsor text="OnchainKit" />
-          </Transaction>
-        )
-      } else {
-        return (
-          <Wallet>
-            <ConnectWallet>
-              <Avatar className="h-6 w-6" />
-              <Name />
-            </ConnectWallet>
-          </Wallet>
-        )
-      }
-    }}
-  </TransactionWrapper>
-</App>
-
-## `Transaction` with `TransactionToast` components
-
-```tsx
-// ommited for brevity
-
-<Transaction address={address} contracts={contracts}>  // [!code focus]
-  <TransactionButton />  // [!code focus]
-  <TransactionSponsor text="Coinbase" /> // [!code focus]
-  <TransactionToast>  // [!code focus]
-    <TransactionToastIcon />  // [!code focus]
-    <TransactionToastLabel />  // [!code focus]
-    <TransactionToastAction />  // [!code focus]
-  </TransactionToast>  // [!code focus]
-</Transaction>  // [!code focus]
-```
-
-<App>
-  <TransactionWrapper>
-    {({ address, contracts, onError, onSuccess }) => {
-      if (address) {
-        return (
-          <Transaction
-            address={address}
-            capabilities={{
-              paymasterService: {
-                url: 'https://api.developer.coinbase.com/rpc/v1/base-sepolia/KkgONfLFgUZKI8nnrttLbI78U2vyhtXg',
-              },
-            }}
-            chainId={84532}
-            contracts={contracts}
-            onError={onError}
-            onSuccess={onSuccess}
-          >
-            <TransactionButton />
-            <TransactionSponsor text="Coinbase" />
-            <TransactionToast>
-              <TransactionToastIcon />
-              <TransactionToastLabel />
-              <TransactionToastAction />
-            </TransactionToast>
           </Transaction>
         )
       } else {

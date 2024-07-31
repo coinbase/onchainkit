@@ -58,7 +58,6 @@ describe('useGetTransactionStatus', () => {
 
     expect(result.current.label).toBe('error');
     expect(result.current.labelClassName).toBe('text-ock-error');
-    expect(result.current.actionElement).not.toBeNull();
   });
 
   it('should return correct status and actionElement when no status available', () => {

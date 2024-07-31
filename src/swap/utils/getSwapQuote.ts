@@ -36,6 +36,12 @@ export async function getSwapQuote(
       ...apiParams,
     };
   }
+  if (params.maxSlippage) {
+    apiParams = {
+      slippagePercentage: params.maxSlippage,
+      ...apiParams,
+    };
+  }
 
   try {
     const res = await sendRequest<SwapAPIParams, SwapQuote>(
