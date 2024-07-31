@@ -46,6 +46,7 @@ export type GetQuoteAPIParams = {
   from: AddressOrETH | ''; // The source address or 'ETH' for Ethereum
   to: AddressOrETH | ''; // The destination address or 'ETH' for Ethereum
   v2Enabled?: boolean; // Whether to use V2 of the API (default: false)
+  slippagePercentage?: string; // The slippage percentage for the swap
 };
 
 export type GetSwapAPIParams = GetQuoteAPIParams & {
@@ -60,6 +61,7 @@ export type GetSwapQuoteParams = {
   amountReference?: string; // The reference amount for the swap
   from: Token; // The source token for the swap
   isAmountInDecimals?: boolean; // Whether the amount is in decimals
+  maxSlippage?: string; // The slippage of the swap
   to: Token; // The destination token for the swap
   useAggregator: boolean; // Whether to use a DEX aggregator
 };
@@ -124,6 +126,7 @@ export type SwapButtonReact = {
   className?: string; // Optional className override for top div element.
   disabled?: boolean; // Disables swap button
   onError?: (error: SwapError) => void; // Callback function for error
+  onStart?: (txHash: string) => void | Promise<void>; // Callback function for start
   onSuccess?: (txReceipt: TransactionReceipt) => void | Promise<void>; // Callback function for success
 };
 
@@ -135,6 +138,7 @@ export type SwapContextType = {
   isTransactionPending: boolean;
   handleSubmit: (
     onError?: (error: SwapError) => void,
+    onStart?: (txHash: string) => void | Promise<void>,
     onSuccess?: (txReceipt: TransactionReceipt) => void | Promise<void>,
   ) => void;
   handleToggle: () => void;
@@ -201,6 +205,7 @@ export type SwapReact = {
   className?: string; // Optional className override for top div element.
   experimental?: {
     useAggregator: boolean; // Whether to use a DEX aggregator. (default: true)
+    maxSlippage?: number; // Maximum acceptable slippage for a swap. (default: 10) This is as a percent, not basis points
   };
   title?: string; // Title for the Swap component. (default: "Swap")
 };

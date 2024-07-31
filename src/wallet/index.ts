@@ -2,6 +2,7 @@
 export { ConnectWallet } from './components/ConnectWallet';
 export { Wallet } from './components/Wallet';
 export { WalletDropdown } from './components/WalletDropdown';
+export { WalletDropdownBaseName } from './components/WalletDropdownBaseName';
 export { WalletDropdownDisconnect } from './components/WalletDropdownDisconnect';
 export { WalletDropdownLink } from './components/WalletDropdownLink';
 export { isValidAAEntrypoint } from './utils/isValidAAEntrypoint';
@@ -12,8 +13,9 @@ export type {
   IsWalletACoinbaseSmartWalletOptions,
   IsWalletACoinbaseSmartWalletResponse,
   WalletContextType,
-  WalletReact,
-  WalletDropdownReact,
+  WalletDropdownBaseNameReact,
   WalletDropdownDisconnectReact,
   WalletDropdownLinkReact,
+  WalletDropdownReact,
+  WalletReact,
 } from './types';

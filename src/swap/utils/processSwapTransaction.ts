@@ -10,6 +10,7 @@ export async function processSwapTransaction({
   setPendingTransaction,
   setLoading,
   sendTransactionAsync,
+  onStart,
   onSuccess,
 }: {
   swapTransaction: BuildSwapTransaction;
@@ -17,6 +18,7 @@ export async function processSwapTransaction({
   setPendingTransaction: (value: React.SetStateAction<boolean>) => void;
   setLoading: (value: React.SetStateAction<boolean>) => void;
   sendTransactionAsync: SendTransactionMutateAsync<Config, unknown>;
+  onStart: ((txHash: string) => void | Promise<void>) | undefined;
   onSuccess:
     | ((txReceipt: TransactionReceipt) => void | Promise<void>)
     | undefined;
@@ -33,6 +35,7 @@ export async function processSwapTransaction({
       value: approveTransaction.value,
       data: approveTransaction.data,
     });
+    await Promise.resolve(onStart?.(approveTxHash));
     await waitForTransactionReceipt(config, {
       hash: approveTxHash,
       confirmations: 1,
@@ -47,6 +50,8 @@ export async function processSwapTransaction({
     value: transaction.value,
     data: transaction.data,
   });
+  await Promise.resolve(onStart?.(txHash));
+
   setPendingTransaction(false);
 
   // wait for swap to land onchain
@@ -57,8 +62,5 @@ export async function processSwapTransaction({
   });
 
   // user callback
-  const callbackResult = onSuccess?.(transactionObject);
-  if (callbackResult instanceof Promise) {
-    await callbackResult;
-  }
+  await Promise.resolve(onSuccess?.(transactionObject));
 }

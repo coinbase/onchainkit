@@ -1,10 +1,28 @@
 # Changelog
 
+## 0.26.16
+
+### Patch Changes
+
+- 904e495: - **feat**: add `onStart` hook to `SwapButton`. By @0xAlec #914
+
+## 0.26.15
+
+### Patch Changes
+
+- 1c0ba1d: - **feat**: added experimental configurable maxSlippage feature for `Swap`. By @0xAlec #946
+
+## 0.26.14
+
+### Patch Changes
+
+- **feat**: added `WalletDropdownBaseName` component. By @cpcramer #913 d50b85d
+
 ## 0.26.13
 
 ### Patch Changes
 
-- 1110ec9: - **feat**: continued `Transaction` component QA. By @abcrane123 #944
+- **feat**: continued `Transaction` component QA. By @abcrane123 #944 1110ec9
 
 ## 0.26.12
 

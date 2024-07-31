@@ -18,7 +18,6 @@ const meta = {
   tags: ['autodocs'],
   args: {
     address: '0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1',
-    sliced: false,
   },
 } satisfies Meta<typeof Name>;
 
@@ -27,13 +26,6 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Basic: Story = {};
-
-export const Sliced: Story = {
-  args: {
-    address: '0x1234567891234567881234567891234567891234',
-    sliced: true,
-  },
-};
 
 export const BaseSepolia: Story = {
   args: {

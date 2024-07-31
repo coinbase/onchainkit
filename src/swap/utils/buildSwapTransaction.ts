@@ -38,6 +38,12 @@ export async function buildSwapTransaction(
       ...apiParams,
     };
   }
+  if (params.maxSlippage) {
+    apiParams = {
+      slippagePercentage: params.maxSlippage,
+      ...apiParams,
+    };
+  }
 
   try {
     const res = await sendRequest<SwapAPIParams, SwapAPIResponse>(

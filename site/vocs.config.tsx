@@ -110,6 +110,10 @@ export default defineConfig({
           text: 'Contributing',
           link: 'https://github.com/coinbase/onchainkit/blob/main/CONTRIBUTING.md',
         },
+        {
+          text: 'Report a bug',
+          link: 'https://github.com/coinbase/onchainkit/issues',
+        },
       ],
     },
   ],
