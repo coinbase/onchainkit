@@ -7,9 +7,10 @@ import {
   ConnectWallet,
   Wallet,
   WalletDropdown,
+  WalletDropdownBaseName,
   WalletDropdownLink,
   WalletDropdownDisconnect,
-} from '@coinbase/onchainkit/wallet';
+} from '../src/wallet';
 import {
   Address,
   Avatar,
@@ -17,7 +18,7 @@ import {
   Badge,
   Identity,
   EthBalance,
-} from '@coinbase/onchainkit/identity';
+} from '../src/identity';
 import { color } from '@coinbase/onchainkit/theme';
 import AppWithRK from '../../components/AppWithRK';
 import WalletComponents from '../../components/WalletComponents';
@@ -33,6 +34,7 @@ import { // [!code focus]
   ConnectWallet, // [!code focus]
   Wallet, // [!code focus]
   WalletDropdown, // [!code focus]
+  WalletDropdownBaseName,
   WalletDropdownLink, // [!code focus]
   WalletDropdownDisconnect, // [!code focus]
 } from '@coinbase/onchainkit/wallet'; // [!code focus]
@@ -63,6 +65,7 @@ export function WalletComponents() {
             <Address className={color.foregroundMuted} />
             <EthBalance />
           </Identity>
+          <WalletDropdownBaseName />
           <WalletDropdownLink icon="wallet" href="https://wallet.coinbase.com"> // [!code focus]
             Go to Wallet Dashboard // [!code focus]
           </WalletDropdownLink> // [!code focus]
@@ -89,6 +92,7 @@ export function WalletComponents() {
         <Address className={color.foregroundMuted} />
         <EthBalance />
       </Identity>
+      <WalletDropdownBaseName />
       <WalletDropdownLink icon="wallet" href="https://wallet.coinbase.com">
         Go to Wallet Dashboard
       </WalletDropdownLink>
@@ -121,6 +125,7 @@ You can override component styles using `className`.
       <Address />
       <EthBalance />
     </Identity>
+    < WalletDropdownBaseName />
     <WalletDropdownLink 
       className='hover:bg-blue-200' 
       icon="wallet" 
