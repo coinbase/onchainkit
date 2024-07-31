@@ -186,6 +186,26 @@ describe('SwapProvider', () => {
     );
   });
 
+  it('should handle undefined in input', async () => {
+    const TestComponent = () => {
+      const { handleAmountChange } = useSwapContext();
+
+      // Trigger handleAmountChange when the component mounts
+      React.useEffect(() => {
+        const initializeSwap = () => {
+          handleAmountChange('from', '100', undefined, undefined);
+        };
+        initializeSwap();
+      }, []);
+
+      return null;
+    };
+
+    await act(async () => {
+      renderWithProviders(TestComponent);
+    });
+  });
+
   beforeEach(async () => {
     vi.resetAllMocks();
     await act(async () => {
