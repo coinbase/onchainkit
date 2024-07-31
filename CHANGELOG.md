@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- d50b85d: - **feat**: added `WalletDropdownBaseName` component. By @cpcramer #913
+- **feat**: added `WalletDropdownBaseName` component. By @cpcramer #913 d50b85d
 
 ## 0.26.13
 
