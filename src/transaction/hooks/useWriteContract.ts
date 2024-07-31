@@ -1,16 +1,17 @@
 import type { TransactionExecutionError } from 'viem';
 import { useWriteContract as useWriteContractWagmi } from 'wagmi';
+import {
+  ERROR_CODE,
+  GENERIC_ERROR_MESSAGE,
+  UNCAUGHT_ERROR_CODE,
+} from '../constants';
 import type { TransactionError } from '../types';
-import { genericErrorMessage } from './useWriteContracts';
 
 type UseWriteContractParams = {
   onError?: (e: TransactionError) => void;
   setErrorMessage: (error: string) => void;
   setTransactionId: (id: string) => void;
 };
-
-const uncaughtErrorCode = 'UNCAUGHT_WRITE_TRANSACTION_ERROR';
-const errorCode = 'WRITE_TRANSACTION_ERROR';
 
 /**
  * Wagmi hook for single contract transactions.
@@ -32,9 +33,9 @@ export function useWriteContract({
           ) {
             setErrorMessage('Request denied.');
           } else {
-            setErrorMessage(genericErrorMessage);
+            setErrorMessage(GENERIC_ERROR_MESSAGE);
           }
-          onError?.({ code: errorCode, error: e.message });
+          onError?.({ code: ERROR_CODE, error: e.message });
         },
         onSuccess: (id) => {
           setTransactionId(id);
@@ -43,8 +44,8 @@ export function useWriteContract({
     });
     return { status, writeContractAsync, data };
   } catch (err) {
-    onError?.({ code: uncaughtErrorCode, error: JSON.stringify(err) });
-    setErrorMessage(genericErrorMessage);
+    onError?.({ code: UNCAUGHT_ERROR_CODE, error: JSON.stringify(err) });
+    setErrorMessage(GENERIC_ERROR_MESSAGE);
     return { status: 'error', writeContractAsync: () => {} };
   }
 }
