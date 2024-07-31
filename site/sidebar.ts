@@ -16,6 +16,10 @@ export const sidebar = [
         text: 'Tailwindcss Integration',
         link: '/guides/tailwind',
       },
+      {
+        text: 'Reporting a bug',
+        link: '/guides/reporting-bug',
+      },
     ],
   },
   {
