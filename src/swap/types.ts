@@ -126,6 +126,7 @@ export type SwapButtonReact = {
   className?: string; // Optional className override for top div element.
   disabled?: boolean; // Disables swap button
   onError?: (error: SwapError) => void; // Callback function for error
+  onStart?: (txHash: string) => void | Promise<void>; // Callback function for start
   onSuccess?: (txReceipt: TransactionReceipt) => void | Promise<void>; // Callback function for success
 };
 
@@ -137,6 +138,7 @@ export type SwapContextType = {
   isTransactionPending: boolean;
   handleSubmit: (
     onError?: (error: SwapError) => void,
+    onStart?: (txHash: string) => void | Promise<void>,
     onSuccess?: (txReceipt: TransactionReceipt) => void | Promise<void>,
   ) => void;
   handleToggle: () => void;

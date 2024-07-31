@@ -140,6 +140,7 @@ export function SwapProvider({
     // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO Refactor this component
     async function handleSubmit(
       onError?: (error: SwapError) => void,
+      onStart?: (txHash: string) => void | Promise<void>,
       onSuccess?: (txReceipt: TransactionReceipt) => void | Promise<void>,
     ) {
       if (!address || !from.token || !to.token || !from.amount) {
@@ -169,6 +170,7 @@ export function SwapProvider({
           setPendingTransaction,
           setLoading,
           sendTransactionAsync,
+          onStart,
           onSuccess,
         });
 
