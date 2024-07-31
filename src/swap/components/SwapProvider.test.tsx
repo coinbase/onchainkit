@@ -1,6 +1,12 @@
 import React from 'react';
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { act, render, fireEvent, screen } from '@testing-library/react';
+import {
+  act,
+  render,
+  fireEvent,
+  screen,
+  waitFor,
+} from '@testing-library/react';
 import { SwapProvider, useSwapContext } from './SwapProvider';
 import { getSwapQuote } from '../utils/getSwapQuote';
 import type { Token } from '../../token';
@@ -17,7 +23,9 @@ vi.mock('../utils/getSwapQuote', () => ({
 }));
 
 vi.mock('../utils/buildSwapTransaction', () => ({
-  buildSwapTransaction: vi.fn(),
+  buildSwapTransaction: vi
+    .fn()
+    .mockRejectedValue(new Error('buildSwapTransaction')),
 }));
 
 vi.mock('../utils/processSwapTransaction', () => ({
@@ -150,6 +158,31 @@ describe('SwapProvider', () => {
     });
 
     expect(buildSwapTransaction).toBeCalledTimes(1);
+  });
+
+  it('should handle toggles', async () => {
+    const TestComponent = () => {
+      const { from, to, handleToggle } = useSwapContext();
+
+      // Trigger handleAmountChange when the component mounts
+      React.useEffect(() => {
+        const initializeSwap = async () => {
+          await act(async () => {
+            from.setToken(ETH);
+            to.setToken(DEGEN);
+            handleToggle();
+          });
+        };
+        initializeSwap();
+        handleToggle();
+      }, []);
+
+      return null;
+    };
+
+    await act(async () => {
+      renderWithProviders(TestComponent);
+    });
   });
 
   it('should pass the correct slippage to getSwapQuote', async () => {
