@@ -1,4 +1,3 @@
-// import { base } from 'viem/chains';
 import { useAccount } from 'wagmi';
 import { useName } from '../../identity/hooks/useName';
 import { Spinner } from '../../internal/components/Spinner';
