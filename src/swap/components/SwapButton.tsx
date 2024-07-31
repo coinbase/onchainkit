@@ -7,8 +7,8 @@ export function SwapButton({
   className,
   disabled = false,
   onError,
+  onStart,
   onSuccess,
-  onStatus,
 }: SwapButtonReact) {
   const { to, from, loading, isTransactionPending, handleSubmit } =
     useSwapContext();
@@ -35,7 +35,7 @@ export function SwapButton({
         text.headline,
         className,
       )}
-      onClick={() => handleSubmit(onError, onSuccess, onStatus)}
+      onClick={() => handleSubmit(onError, onStart, onSuccess)}
       disabled={isDisabled}
       data-testid="ockSwapButton_Button"
     >
