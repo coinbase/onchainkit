@@ -93,7 +93,7 @@ describe('getSwapQuote', () => {
   it('should return a quote for a swap with useAggregator=false', async () => {
     const mockParams = {
       useAggregator: false,
-      slippage: '3',
+      maxSlippage: '3',
       amountReference: testAmountReference,
       from: ETH,
       to: DEGEN,

@@ -247,7 +247,7 @@ describe('buildSwapTransaction', () => {
   it('should return a swap with an approve transaction', async () => {
     const mockParams = {
       useAggregator: true,
-      slippage: '3',
+      maxSlippage: '3',
       fromAddress: testFromAddress as `0x${string}`,
       amountReference: testAmountReference,
       from: DEGEN,
