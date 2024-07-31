@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.26.15
+
+### Patch Changes
+
+- 1c0ba1d: - **feat**: added experimental configurable maxSlippage feature for `Swap`. By @0xAlec #946
+
 ## 0.26.14
 
 ### Patch Changes
