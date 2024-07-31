@@ -1,9 +1,9 @@
 import type { TransactionExecutionError } from 'viem';
 import { useWriteContracts as useWriteContractsWagmi } from 'wagmi/experimental';
 import {
-  TRANSACTIONS_ERROR_CODE,
   GENERIC_ERROR_MESSAGE,
   METHOD_NOT_SUPPORTED_ERROR_SUBSTRING,
+  TRANSACTIONS_ERROR_CODE,
   UNCAUGHT_TRANSACTIONS_ERROR_CODE,
 } from '../constants';
 import type { TransactionError } from '../types';
@@ -54,7 +54,10 @@ export function useWriteContracts({
     });
     return { status, writeContractsAsync };
   } catch (err) {
-    onError?.({ code: UNCAUGHT_TRANSACTIONS_ERROR_CODE, error: JSON.stringify(err) });
+    onError?.({
+      code: UNCAUGHT_TRANSACTIONS_ERROR_CODE,
+      error: JSON.stringify(err),
+    });
     setErrorMessage(GENERIC_ERROR_MESSAGE);
     return {
       status: 'error',
