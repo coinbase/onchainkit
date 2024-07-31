@@ -8,8 +8,8 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { createConfig, http, WagmiProvider } from 'wagmi';
 import { base } from 'wagmi/chains';
 import { mock } from 'wagmi/connectors';
-import { SwapError } from '../types';
-import { TransactionReceipt } from 'viem';
+import type { SwapError } from '../types';
+import type { TransactionReceipt } from 'viem';
 import { buildSwapTransaction } from '../utils/buildSwapTransaction';
 
 vi.mock('../utils/getSwapQuote', () => ({
@@ -72,7 +72,7 @@ const renderWithProviders = (Component: React.ComponentType) => {
           <Component />
         </SwapProvider>
       </QueryClientProvider>
-    </WagmiProvider>,
+    </WagmiProvider>
   );
 };
 
@@ -117,7 +117,7 @@ describe('SwapProvider', () => {
     const mockOnSuccess = vi.fn();
     let submitFunction: (
       onError?: (error: SwapError) => void,
-      onSuccess?: (txReceipt: TransactionReceipt) => void | Promise<void>,
+      onSuccess?: (txReceipt: TransactionReceipt) => void | Promise<void>
     ) => void;
 
     const TestComponent = () => {
@@ -131,7 +131,10 @@ describe('SwapProvider', () => {
       }, []);
 
       return (
-        <button onClick={() => handleSubmit(mockOnError, mockOnSuccess)}>
+        <button
+          type="submit"
+          onClick={() => handleSubmit(mockOnError, mockOnSuccess)}
+        >
           Submit Swap
         </button>
       );
@@ -179,7 +182,7 @@ describe('SwapProvider', () => {
         from: ETH,
         to: DEGEN,
         useAggregator: true,
-      }),
+      })
     );
   });
 
