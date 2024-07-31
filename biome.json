@@ -86,7 +86,8 @@
       "esm",
       "framegear",
       "playground",
-      "site"
+      "site",
+      "src/**/*.test.tsx"
     ]
   }
 }
