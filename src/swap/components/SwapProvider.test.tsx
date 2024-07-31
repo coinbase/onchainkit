@@ -1,16 +1,16 @@
-import React from 'react';
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { act, render, fireEvent, screen } from '@testing-library/react';
-import { SwapProvider, useSwapContext } from './SwapProvider';
-import { getSwapQuote } from '../utils/getSwapQuote';
-import type { Token } from '../../token';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { createConfig, http, WagmiProvider } from 'wagmi';
+import { act, fireEvent, render, screen } from '@testing-library/react';
+import React from 'react';
+import type { TransactionReceipt } from 'viem';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { http, WagmiProvider, createConfig } from 'wagmi';
 import { base } from 'wagmi/chains';
 import { mock } from 'wagmi/connectors';
+import type { Token } from '../../token';
 import type { SwapError } from '../types';
-import type { TransactionReceipt } from 'viem';
 import { buildSwapTransaction } from '../utils/buildSwapTransaction';
+import { getSwapQuote } from '../utils/getSwapQuote';
+import { SwapProvider, useSwapContext } from './SwapProvider';
 
 vi.mock('../utils/getSwapQuote', () => ({
   getSwapQuote: vi.fn(),
