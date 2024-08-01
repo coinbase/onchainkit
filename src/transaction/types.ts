@@ -122,7 +122,7 @@ export type TransactionStatusLabelReact = {
 export type TransactionToastReact = {
   children: ReactNode; // The child components to be rendered within the toast component.
   className?: string; // An optional CSS class name for styling the toast component.
-  delayMs?: number; // An optional value to customize time until toast disappears
+  durationMs?: number; // An optional value to customize time until toast disappears
   position?: 'top-center' | 'top-right' | 'bottom-center' | 'bottom-right'; // An optional position property to specify the toast's position on the screen.
 };
 
