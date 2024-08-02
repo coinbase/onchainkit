@@ -6,16 +6,19 @@ import {
   useState,
 } from 'react';
 import type { TransactionExecutionError } from 'viem';
-import { useAccount, useSwitchChain } from 'wagmi';
-import { useWaitForTransactionReceipt } from 'wagmi';
+import {
+  useAccount,
+  useSwitchChain,
+  useWaitForTransactionReceipt,
+} from 'wagmi';
 import { useValue } from '../../internal/hooks/useValue';
-import { METHOD_NOT_SUPPORTED_ERROR_SUBSTRING } from '../constants';
+import {
+  GENERIC_ERROR_MESSAGE,
+  METHOD_NOT_SUPPORTED_ERROR_SUBSTRING,
+} from '../constants';
 import { useCallsStatus } from '../hooks/useCallsStatus';
 import { useWriteContract } from '../hooks/useWriteContract';
-import {
-  genericErrorMessage,
-  useWriteContracts,
-} from '../hooks/useWriteContracts';
+import { useWriteContracts } from '../hooks/useWriteContracts';
 import type {
   TransactionContextType,
   TransactionProviderReact,
@@ -87,7 +90,7 @@ export function TransactionProvider({
         ) {
           setErrorMessage('Request denied.');
         } else {
-          setErrorMessage(genericErrorMessage);
+          setErrorMessage(GENERIC_ERROR_MESSAGE);
         }
       }
     }
@@ -120,7 +123,7 @@ export function TransactionProvider({
         try {
           await fallbackToWriteContract();
         } catch (_err) {
-          setErrorMessage(genericErrorMessage);
+          setErrorMessage(GENERIC_ERROR_MESSAGE);
         }
         // handles user rejected request error
       } else if (
@@ -130,7 +133,7 @@ export function TransactionProvider({
         setErrorMessage('Request denied.');
         // handles generic error
       } else {
-        setErrorMessage(genericErrorMessage);
+        setErrorMessage(GENERIC_ERROR_MESSAGE);
       }
     },
     [fallbackToWriteContract],

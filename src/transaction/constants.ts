@@ -1,3 +1,10 @@
-export const SEND_CALLS_NOT_SUPPORTED_ERROR = 'SEND_CALLS_NOT_SUPPORTED_ERROR';
+export const WRITE_CONTRACT_ERROR_CODE = 'WRITE_CONTRACT_ERROR';
+export const WRITE_CONTRACTS_ERROR_CODE = 'WRITE_CONTRACTS_ERROR';
+export const GENERIC_ERROR_MESSAGE = 'Something went wrong. Please try again.';
 export const METHOD_NOT_SUPPORTED_ERROR_SUBSTRING =
-  'this request method is not supported'; // most likely EOA
+  'this request method is not supported'; // most likely EOAexport const genericErrorMessage = 'Something went wrong. Please try again.';
+export const SEND_CALLS_NOT_SUPPORTED_ERROR = 'SEND_CALLS_NOT_SUPPORTED_ERROR';
+export const UNCAUGHT_WRITE_CONTRACT_ERROR_CODE =
+  'UNCAUGHT_WRITE_CONTRACT_ERROR';
+export const UNCAUGHT_WRITE_CONTRACTS_ERROR_CODE =
+  'UNCAUGHT_WRITE_WRITE_CONTRACTS_ERROR';

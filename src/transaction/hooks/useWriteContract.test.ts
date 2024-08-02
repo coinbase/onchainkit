@@ -82,7 +82,7 @@ describe('useWriteContract', () => {
       'Something went wrong. Please try again.',
     );
     expect(mockOnError).toHaveBeenCalledWith({
-      code: 'WRITE_TRANSACTION_ERROR',
+      code: 'WRITE_CONTRACT_ERROR',
       error: 'Something went wrong. Please try again.',
     });
   });
@@ -140,7 +140,7 @@ describe('useWriteContract', () => {
       'Something went wrong. Please try again.',
     );
     expect(mockOnError).toHaveBeenCalledWith({
-      code: 'UNCAUGHT_WRITE_TRANSACTION_ERROR',
+      code: 'UNCAUGHT_WRITE_CONTRACT_ERROR',
       error: JSON.stringify(uncaughtError),
     });
   });
