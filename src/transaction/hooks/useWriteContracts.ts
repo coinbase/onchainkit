@@ -3,8 +3,8 @@ import { useWriteContracts as useWriteContractsWagmi } from 'wagmi/experimental'
 import {
   GENERIC_ERROR_MESSAGE,
   METHOD_NOT_SUPPORTED_ERROR_SUBSTRING,
-  TRANSACTIONS_ERROR_CODE,
-  UNCAUGHT_TRANSACTIONS_ERROR_CODE,
+  UNCAUGHT_WRITE_CONTRACTS_ERROR_CODE,
+  WRITE_CONTRACTS_ERROR_CODE,
 } from '../constants';
 import type { TransactionError } from '../types';
 
@@ -45,7 +45,7 @@ export function useWriteContracts({
           } else {
             setErrorMessage(GENERIC_ERROR_MESSAGE);
           }
-          onError?.({ code: TRANSACTIONS_ERROR_CODE, error: e.message });
+          onError?.({ code: WRITE_CONTRACTS_ERROR_CODE, error: e.message });
         },
         onSuccess: (id) => {
           setTransactionId(id);
@@ -55,7 +55,7 @@ export function useWriteContracts({
     return { status, writeContractsAsync };
   } catch (err) {
     onError?.({
-      code: UNCAUGHT_TRANSACTIONS_ERROR_CODE,
+      code: UNCAUGHT_WRITE_CONTRACTS_ERROR_CODE,
       error: JSON.stringify(err),
     });
     setErrorMessage(GENERIC_ERROR_MESSAGE);
