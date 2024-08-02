@@ -4,13 +4,13 @@
 
 ### Patch Changes
 
-- 904e495: - **feat**: add `onStart` hook to `SwapButton`. By @0xAlec #914
+- **feat**: add `onStart` hook to `SwapButton`. By @0xAlec #914 904e495
 
 ## 0.26.15
 
 ### Patch Changes
 
-- 1c0ba1d: - **feat**: added experimental configurable maxSlippage feature for `Swap`. By @0xAlec #946
+- **feat**: added experimental configurable maxSlippage feature for `Swap`. By @0xAlec #946 1c0ba1d
 
 ## 0.26.14
 
