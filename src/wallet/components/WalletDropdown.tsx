@@ -6,6 +6,7 @@ import type { WalletDropdownReact } from '../types';
 import { useWalletContext } from './WalletProvider';
 
 export function WalletDropdown({ children, className }: WalletDropdownReact) {
+  // TODO: Do we need this isOpen logic here still?
   const { isOpen } = useWalletContext();
 
   const { address } = useAccount();

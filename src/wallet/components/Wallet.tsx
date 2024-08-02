@@ -5,6 +5,7 @@ import { WalletDropdown } from './WalletDropdown';
 import { WalletProvider, useWalletContext } from './WalletProvider';
 
 const WalletContent = ({ children }: WalletReact) => {
+  // TODO: Do we need this isOpen logic here still?
   const { isOpen, setIsOpen } = useWalletContext();
   const walletContainerRef = useRef<HTMLDivElement>(null);
 
