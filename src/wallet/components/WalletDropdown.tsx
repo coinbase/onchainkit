@@ -3,12 +3,8 @@ import { useAccount } from 'wagmi';
 import { Identity } from '../../identity/components/Identity';
 import { background, cn } from '../../styles/theme';
 import type { WalletDropdownReact } from '../types';
-import { useWalletContext } from './WalletProvider';
 
 export function WalletDropdown({ children, className }: WalletDropdownReact) {
-  // TODO: Do we need this isOpen logic here still?
-  const { isOpen } = useWalletContext();
-
   const { address } = useAccount();
 
   const childrenArray = useMemo(() => {
@@ -21,7 +17,7 @@ export function WalletDropdown({ children, className }: WalletDropdownReact) {
     });
   }, [children, address]);
 
-  if (!isOpen || !address) {
+  if (!address) {
     return null;
   }
 
