@@ -4,8 +4,10 @@ import { useChainId } from 'wagmi';
 import { getChainExplorer } from '../../network/getChainExplorer';
 import { cn, color, text } from '../../styles/theme';
 import { useTransactionContext } from '../components/TransactionProvider';
+import { useShowCallsStatus } from 'wagmi/experimental';
 
 export function useGetTransactionStatus() {
+  const { showCallsStatus } = useShowCallsStatus();
   const {
     chainId,
     errorMessage,
@@ -47,6 +49,16 @@ export function useGetTransactionStatus() {
             View transaction
           </span>
         </a>
+      );
+    }
+
+    if (transactionId) {
+      actionElement = (
+        <button onClick={() => showCallsStatus({ id: transactionId })}>
+          <span className={cn(text.label1, color.primary)}>
+            View transaction
+          </span>
+        </button>
       );
     }
 

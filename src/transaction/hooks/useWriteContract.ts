@@ -10,7 +10,6 @@ import type { TransactionError } from '../types';
 type UseWriteContractParams = {
   onError?: (e: TransactionError) => void;
   setErrorMessage: (error: string) => void;
-  setTransactionId: (id: string) => void;
 };
 
 /**
@@ -21,7 +20,6 @@ type UseWriteContractParams = {
 export function useWriteContract({
   onError,
   setErrorMessage,
-  setTransactionId,
 }: UseWriteContractParams) {
   try {
     const { status, writeContractAsync, data } = useWriteContractWagmi({
@@ -36,9 +34,6 @@ export function useWriteContract({
             setErrorMessage(GENERIC_ERROR_MESSAGE);
           }
           onError?.({ code: WRITE_CONTRACT_ERROR_CODE, error: e.message });
-        },
-        onSuccess: (id) => {
-          setTransactionId(id);
         },
       },
     });

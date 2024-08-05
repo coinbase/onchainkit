@@ -19,6 +19,7 @@ export function useCallsStatus({
         refetchInterval: (data) => {
           return data.state.data?.status === 'CONFIRMED' ? false : 1000;
         },
+        enabled: !!transactionId,
       },
     });
 

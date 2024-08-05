@@ -65,7 +65,6 @@ export function TransactionProvider({
   } = useWriteContract({
     onError,
     setErrorMessage,
-    setTransactionId,
   });
   const { transactionHash, status: callStatus } = useCallsStatus({
     onError,
