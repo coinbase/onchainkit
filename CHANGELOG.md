@@ -1,16 +1,28 @@
 # Changelog
 
+## 0.27.0
+
+### Minor Changes
+
+- f40b855: - **feat**: renamed `<TransactionToast>` prop from `delayMs` to `durationMs`. By @abcrane123 #967
+
+  Breaking Changes
+
+  The `delayMs` prop for the `<TransactionToast>` component has been renamed to `durationMs`. This change clarifies that `delay` refers to when something starts, while `duration` specifies how long it lasts.
+
+  Learn more about this component type at https://onchainkit.xyz/transaction/types#transactiontoastreact
+
 ## 0.26.16
 
 ### Patch Changes
 
-- 904e495: - **feat**: add `onStart` hook to `SwapButton`. By @0xAlec #914
+- **feat**: add `onStart` hook to `SwapButton`. By @0xAlec #914 904e495
 
 ## 0.26.15
 
 ### Patch Changes
 
-- 1c0ba1d: - **feat**: added experimental configurable maxSlippage feature for `Swap`. By @0xAlec #946
+- **feat**: added experimental configurable maxSlippage feature for `Swap`. By @0xAlec #946 1c0ba1d
 
 ## 0.26.14
 
