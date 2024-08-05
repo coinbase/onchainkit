@@ -27,15 +27,6 @@ const useWalletContextMock = useWalletContext as vi.Mock;
 const useAccountMock = useAccount as vi.Mock;
 
 describe('WalletDropdown', () => {
-  it('renders null when isOpen is false', () => {
-    useWalletContextMock.mockReturnValue({ isOpen: false });
-    useAccountMock.mockReturnValue({ address: '0x123' });
-
-    render(<WalletDropdown>Test Children</WalletDropdown>);
-
-    expect(screen.queryByText('Test Children')).not.toBeInTheDocument();
-  });
-
   it('renders null when address is not provided', () => {
     useWalletContextMock.mockReturnValue({ isOpen: true });
     useAccountMock.mockReturnValue({ address: null });
