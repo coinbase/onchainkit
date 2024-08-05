@@ -1,3 +1,5 @@
+import { fill } from '../../styles/theme';
+
 export const disconnectSvg = (
   <svg
     role="img"
@@ -10,11 +12,11 @@ export const disconnectSvg = (
   >
     <path
       d="M10.9735 2.69696L10.9735 4.52272L5.49622 4.52272L5.49622 15.4773L10.9735 15.4773L10.9735 17.303L3.67046 17.303L3.67046 2.69696L10.9735 2.69696Z"
-      fill="#0A0B0D"
+      className={fill.defaultReverse}
     />
     <path
       d="M13.4614 13.5207L16.7804 10.0235L13.4783 6.34848L12.1202 7.56872L13.4931 9.09667L7.32216 9.09667L7.32216 10.9224L13.4102 10.9224L12.1371 12.2639L13.4614 13.5207Z"
-      fill="#0A0B0D"
+      className={fill.defaultReverse}
     />
   </svg>
 );
