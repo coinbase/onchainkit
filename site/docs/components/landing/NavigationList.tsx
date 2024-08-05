@@ -81,6 +81,28 @@ const swapSvg = (
   </svg>
 );
 
+const transactionSvg = (
+  <svg
+    width="31"
+    height="30"
+    viewBox="0 0 31 30"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <title>Transaction SVG</title>
+    <path
+      className="fill-gray-50 group-hover:fill-gray-800"
+      d="M0.5 20V16.875H30.5L20.5 27.5L21.125 20H0.5Z"
+      fill="#F9FAFB"
+    />
+    <path
+      className="fill-gray-50 group-hover:fill-gray-800"
+      d="M30.5 10V13.125L0.5 13.125L10.5 2.5L9.875 10L30.5 10Z"
+      fill="#F9FAFB"
+    />
+  </svg>
+);
+
 const frameSvg = (
   <svg
     width="34"
@@ -128,6 +150,11 @@ const navItems = [
     href: '#swap',
     svg: swapSvg,
     label: 'Swap',
+  },
+  {
+    href: '#transaction',
+    svg: transactionSvg,
+    label: 'Transaction',
   },
   {
     href: '#frame',

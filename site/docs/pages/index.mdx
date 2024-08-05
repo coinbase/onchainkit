@@ -24,6 +24,15 @@ import NavigationList from '../components/landing/NavigationList';
 import SwapWrapper from '../components/SwapWrapper';
 import TokenSelector from '../components/TokenSelector';
 import WalletComponents from '../components/WalletComponents';
+import TransactionWrapper from '../components/TransactionWrapper';
+import { 
+  Transaction, 
+  TransactionButton,
+  TransactionSponsor,
+  TransactionStatus,
+  TransactionStatusAction,
+  TransactionStatusLabel,
+} from '@coinbase/onchainkit/transaction';
 
 <div id="blobs">
   <div
@@ -117,7 +126,7 @@ bun add @coinbase/onchainkit
     <p className="text-base md:text-base pb-[24px] md:text-left text-center">
       Display ENS [avatars](/identity/avatar), Attestation [badges](/identity/badge), ENS [names](/identity/name) and account [addresses](/identity/address).
     </p>
-    <a href="/identity/identity" className="mx-auto md:m-0 flex justify-center items-center border border-indigo-400 text-indigo-400 font-bold leading-6 px-4 py-3 rounded-xl border-solid w-[180px]">
+    <a href="/identity/identity" className="mx-auto md:m-0 flex justify-center items-center border border-indigo-400 text-indigo-400 font-bold leading-6 px-4 py-3 rounded-xl border-solid w-[210px]">
       Start with Identity
     </a>
     <div className="flex grow md:flex-row pt-[44px] flex-col">
@@ -165,7 +174,7 @@ bun add @coinbase/onchainkit
     <p className="text-base md:text-base pb-[24px] md:text-left text-center">
       Create or connect your wallet with [Connect Wallet](/wallet/wallet), powered by [Smart Wallet](https://www.smartwallet.dev/why).
     </p>
-    <a href="/wallet/wallet" className="mx-auto md:m-0  flex justify-center items-center border border-indigo-400 text-indigo-400 font-bold leading-6 px-4 py-3 rounded-xl border-solid w-[180px]">
+    <a href="/wallet/wallet" className="mx-auto md:m-0  flex justify-center items-center border border-indigo-400 text-indigo-400 font-bold leading-6 px-4 py-3 rounded-xl border-solid w-[210px]">
       Start with Wallet
     </a>
     <div className="flex grow md:flex-row pt-[44px] flex-col">
@@ -231,7 +240,7 @@ bun add @coinbase/onchainkit
     <p className="text-base md:text-base pb-[24px] md:text-left text-center">
       Search [Tokens](/token/types#token) using [getTokens](/token/get-tokens) and display them with [TokenSearch](/token/token-search), [TokenChip](/token/token-chip), and [TokenRow](/token/token-row).
     </p>
-    <a href="/token/token-chip" className="mx-auto md:m-0 flex justify-center items-center border border-indigo-400 text-indigo-400 font-bold leading-6 px-4 py-3 rounded-xl border-solid w-[180px]">
+    <a href="/token/token-chip" className="mx-auto md:m-0 flex justify-center items-center border border-indigo-400 text-indigo-400 font-bold leading-6 px-4 py-3 rounded-xl border-solid w-[210px]">
       Start with Tokens
     </a>
     <div className="flex grow md:flex-row pt-[44px] flex-col">
@@ -286,7 +295,7 @@ setFilteredTokens(filteredTokens);
     <p className="text-base md:text-base pb-[24px] md:text-left text-center">
       Swap [Tokens](/token/types#token) using the [Swap](/swap/swap) components.
     </p>
-    <a href="/swap/swap" className="mx-auto md:m-0 flex justify-center items-center border border-indigo-400 text-indigo-400 font-bold leading-6 px-4 py-3 rounded-xl border-solid w-[180px]">
+    <a href="/swap/swap" className="mx-auto md:m-0 flex justify-center items-center border border-indigo-400 text-indigo-400 font-bold leading-6 px-4 py-3 rounded-xl border-solid w-[210px]">
       Start with Swap
     </a>
     <div className="flex grow flex-col items-center md:flex-row pt-[44px] md:pt-[20px]">
@@ -351,6 +360,86 @@ setFilteredTokens(filteredTokens);
     </div>
   </aside>
 
+<main id="transaction" className="pt-[56px] flex flex-col gap-4 md:flex-row md:text-left text-center">
+  <a href="#transaction">
+    <h3 className="basis-1/2 py-[15px] text-4xl md:text-4xl">Transaction</h3>
+  </a>
+</main>
+<aside className="pb-6">
+  <p className="text-base md:text-base pb-[24px] md:text-left text-center">
+    Make a transaction with [Transaction](/transaction/transaction).
+  </p>
+  <a href="/transaction/transaction" className="mx-auto md:m-0 flex justify-center items-center border border-indigo-400 text-indigo-400 font-bold leading-6 px-4 py-3 rounded-xl border-solid w-[210px]">
+    Start with Transaction
+  </a>
+  <div className="flex grow md:flex-row pt-[44px] flex-col">
+    <div className="w-[664px] max-w-full">
+```tsx
+<Transaction // [!code focus]
+  address={address}
+  chainId={84532}
+  contracts={[
+    {
+      address: clickContractAddress,
+      abi: clickContractAbi,
+      functionName: 'click',
+      args: [],
+    },
+  ]}
+> // [!code focus]
+  <TransactionButton /> // [!code focus]
+  <TransactionSponsor /> // [!code focus]
+  <TransactionStatus> // [!code focus]
+    <TransactionStatusLabel /> // [!code focus]
+    <TransactionStatusAction /> // [!code focus]
+  </TransactionStatus> // [!code focus]
+</Transaction> // [!code focus]
+```
+    </div>
+    <div className='flex grow items-center justify-center h-24 mt-[50px] md:mt-0 md:h-auto'>
+      <App>
+        <TransactionWrapper>
+          {({ address, contracts, onError, onSuccess }) => {
+            const capabilities = {
+              paymasterService: {
+                url: import.meta.env.VITE_CDP_PAYMASTER_AND_BUNDLER_ENDPOINT,
+              },
+            }
+            if (address) {
+              return (
+                <Transaction
+                  address={address}
+                  capabilities={capabilities}
+                  chainId={84532}
+                  contracts={contracts}
+                  onError={onError}
+                  onSuccess={onSuccess}
+                >
+                <TransactionButton className="w-full md:w-[240px] px-4 py-2 text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 transition-colors" />
+                  <TransactionSponsor />
+                  <TransactionStatus>
+                    <TransactionStatusLabel />
+                    <TransactionStatusAction />
+                  </TransactionStatus>
+                </Transaction>
+              )
+            } else {
+              return (
+                <Wallet>
+                  <ConnectWallet>
+                    <Avatar className="h-6 w-6" />
+                    <Name />
+                  </ConnectWallet>
+                </Wallet>
+              )
+            }
+          }}
+        </TransactionWrapper>
+      </App>
+    </div>
+  </div>
+</aside>
+
   <main id="frame" className="pt-[56px] flex flex-col gap-4 md:flex-row md:text-left text-center">
     <a href="#frame">
       <h3 className="basis-1/2 py-[15px] text-4xl md:text-4xl">Frame</h3>
@@ -360,7 +449,7 @@ setFilteredTokens(filteredTokens);
     <p className="text-base md:text-base pb-[24px] md:text-left text-center">
       Test, build, and ship your Farcaster frames with [FrameMetadata](/frame/frame-metadata).
     </p>
-    <a href="/frame/frame-metadata" className="mx-auto md:m-0 flex justify-center items-center border border-indigo-400 text-indigo-400 font-bold leading-6 px-4 py-3 rounded-xl border-solid w-[180px]">
+    <a href="/frame/frame-metadata" className="mx-auto md:m-0 flex justify-center items-center border border-indigo-400 text-indigo-400 font-bold leading-6 px-4 py-3 rounded-xl border-solid w-[210px]">
       Start with Frame
     </a>
     <div className="flex grow flex-col items-center md:flex-row pt-[44px]">
