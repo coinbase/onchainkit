@@ -17,6 +17,8 @@ vi.mock('wagmi', () => ({
   useAccount: vi.fn(),
   useSwitchChain: vi.fn(),
   useWaitForTransactionReceipt: vi.fn(),
+  useConfig: vi.fn(),
+  waitForTransactionReceipt: vi.fn(),
 }));
 
 vi.mock('../hooks/useCallsStatus', () => ({
@@ -143,6 +145,53 @@ describe('TransactionProvider', () => {
       expect(updatedContext.errorMessage).toBe(
         'Something went wrong. Please try again.',
       );
+    });
+  });
+
+  it('should switch chains when required', async () => {
+    const switchChainAsyncMock = vi.fn();
+    (useSwitchChain as ReturnType<typeof vi.fn>).mockReturnValue({
+      switchChainAsync: switchChainAsyncMock,
+    });
+
+    render(
+      <TransactionProvider
+        address="0x123"
+        chainId={2}
+        contracts={[]}
+        onError={() => {}}
+      >
+        <TestComponent />
+      </TransactionProvider>,
+    );
+
+    const button = screen.getByText('Submit');
+    fireEvent.click(button);
+
+    await waitFor(() => {
+      expect(switchChainAsyncMock).toHaveBeenCalled();
+    });
+  });
+
+  it('should display toast on error', async () => {
+    (useWriteContracts as ReturnType<typeof vi.fn>).mockReturnValue({
+      statusWriteContracts: 'IDLE',
+      writeContractsAsync: vi.fn().mockRejectedValue(new Error('Test error')),
+    });
+
+    render(
+      <TransactionProvider address="0x123" contracts={[]} onError={() => {}}>
+        <TestComponent />
+      </TransactionProvider>,
+    );
+
+    const button = screen.getByText('Submit');
+    fireEvent.click(button);
+
+    await waitFor(() => {
+      const testComponent = screen.getByTestId('context-value');
+      const updatedContext = JSON.parse(testComponent.textContent || '{}');
+      expect(updatedContext.isToastVisible).toBe(true);
     });
   });
 });
