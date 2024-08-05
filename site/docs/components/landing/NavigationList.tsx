@@ -1,9 +1,9 @@
-import { frameSvg } from '../SVG/frameSvg.tsx';
-import { identitySvg } from '../SVG/identitySvg.tsx';
-import { swapSvg } from '../SVG/swapSvg.tsx';
-import { tokensSvg } from '../SVG/tokensSvg.tsx';
-import { transactionSvg } from '../SVG/transactionSvg.tsx';
-import { walletSvg } from '../SVG/walletSvg.tsx';
+import { frameSvg } from '../svg/frameSvg.tsx';
+import { identitySvg } from '../svg/identitySvg.tsx';
+import { swapSvg } from '../svg/swapSvg.tsx';
+import { tokensSvg } from '../svg/tokensSvg.tsx';
+import { transactionSvg } from '../svg/transactionSvg.tsx';
+import { walletSvg } from '../svg/walletSvg.tsx';
 
 const navItems = [
   {
