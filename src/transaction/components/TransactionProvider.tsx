@@ -10,7 +10,12 @@ import type {
   TransactionExecutionError,
   TransactionReceipt,
 } from 'viem';
-import { useAccount, useConfig, useSwitchChain, useWaitForTransactionReceipt } from 'wagmi';
+import {
+  useAccount,
+  useConfig,
+  useSwitchChain,
+  useWaitForTransactionReceipt,
+} from 'wagmi';
 import { waitForTransactionReceipt } from 'wagmi/actions';
 import { useValue } from '../../internal/hooks/useValue';
 import {
