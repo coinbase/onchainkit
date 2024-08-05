@@ -5,6 +5,16 @@
   fill: var(--bg-ock-default-reverse);
 }
 
+/* Placeholder */
+.placeholder-ock-default::placeholder {
+  color: var(--text-ock-foreground-muted);
+}
+
+/* Border */
+.border-ock-default {
+  border-color: var(--bg-ock-default);
+}
+
 /* Text */
 .text-ock-inverse {
   color: var(--text-ock-inverse);
@@ -87,7 +97,4 @@
 }
 .bg-ock-default-reverse {
   background-color: var(--bg-ock-default-reverse);
-}
-.border-ock-default {
-  border-color: var(--bg-ock-default);
 }

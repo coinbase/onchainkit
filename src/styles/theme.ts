@@ -61,3 +61,7 @@ export const fill = {
 export const border = {
   default: 'border-ock-default',
 } as const;
+
+export const placeholder = {
+  default: 'placeholder-ock-default',
+} as const;
