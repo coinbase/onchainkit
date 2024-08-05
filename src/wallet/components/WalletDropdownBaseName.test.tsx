@@ -1,10 +1,12 @@
 import type { UseQueryResult } from '@tanstack/react-query';
 import { render, screen } from '@testing-library/react';
 import type { GetAccountReturnType } from '@wagmi/core';
+import { base } from 'viem/chains';
 import { describe, expect, it, vi } from 'vitest';
 import { useAccount } from 'wagmi';
 import { useName } from '../../identity/hooks/useName';
 import { WalletDropdownBaseName } from './WalletDropdownBaseName';
+import { useWalletContext } from './WalletProvider';
 
 vi.mock('wagmi', () => ({
   useAccount: vi.fn(),
@@ -14,11 +16,18 @@ vi.mock('../../identity/hooks/useName', () => ({
   useName: vi.fn(),
 }));
 
+vi.mock('./WalletProvider', () => ({
+  useWalletContext: vi.fn(),
+}));
+
 describe('WalletDropdownBaseName', () => {
   it('should render "Claim a Basename" when no basename', () => {
     (useAccount as vi.Mock<[], Partial<GetAccountReturnType>>).mockReturnValue({
       address: '0x1234' as `0x${string}`,
       isConnected: true,
+    });
+    (useWalletContext as vi.Mock).mockReturnValue({
+      chain: base,
     });
     (
       useName as vi.Mock<[], Partial<UseQueryResult<string | null, Error>>>
@@ -39,6 +48,9 @@ describe('WalletDropdownBaseName', () => {
       address: '0x1234' as `0x${string}`,
       isConnected: true,
     });
+    (useWalletContext as vi.Mock).mockReturnValue({
+      chain: base,
+    });
     (
       useName as vi.Mock<[], Partial<UseQueryResult<string | null, Error>>>
     ).mockReturnValue({
@@ -57,6 +69,9 @@ describe('WalletDropdownBaseName', () => {
     (useAccount as vi.Mock<[], Partial<GetAccountReturnType>>).mockReturnValue({
       address: '0x1234' as `0x${string}`,
       isConnected: true,
+    });
+    (useWalletContext as vi.Mock).mockReturnValue({
+      chain: base,
     });
     (
       useName as vi.Mock<[], Partial<UseQueryResult<string | null, Error>>>
@@ -78,6 +93,9 @@ describe('WalletDropdownBaseName', () => {
     (useAccount as vi.Mock<[], Partial<GetAccountReturnType>>).mockReturnValue({
       address: undefined,
       isConnected: false,
+    });
+    (useWalletContext as vi.Mock).mockReturnValue({
+      chain: base,
     });
 
     const { container } = render(<WalletDropdownBaseName />);

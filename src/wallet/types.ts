@@ -1,6 +1,6 @@
 import type { UserOperation } from 'permissionless';
 import type { Dispatch, ReactNode, SetStateAction } from 'react';
-import type { Address, PublicClient } from 'viem';
+import type { Address, Chain, PublicClient } from 'viem';
 import type { UseBalanceReturnType, UseReadContractReturnType } from 'wagmi';
 import type { SwapError } from '../swap';
 
@@ -61,6 +61,7 @@ export type UseGetTokenBalanceResponse = {
  */
 export type WalletContextType = {
   address?: Address | null; // The Ethereum address to fetch the avatar and name for.
+  chain?: Chain; // Optional chain for domain resolution
   isOpen: boolean;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
 };
