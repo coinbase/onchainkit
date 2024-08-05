@@ -54,12 +54,10 @@ export const color = {
 } as const;
 
 export const fill = {
-  inverse: 'fill-inverse',
-  foreground: 'fill-foreground',
-  foregroundMuted: 'fill-foreground-muted',
-  error: 'fill-error',
-  primary: 'fill-primary',
-  success: 'fill-success',
-  warning: 'fill-warning',
-  disabled: 'fill-disabled',
+  defaultReverse: 'fill-ock-default-reverse',
+  inverse: 'fill-ock-inverse',
+} as const;
+
+export const border = {
+  default: 'border-ock-default',
 } as const;

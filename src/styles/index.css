@@ -1,1 +1,93 @@
 @import url("../token/components/TokenSelectDropdown.css");
+
+/* Fill */
+.fill-ock-default-reverse {
+  fill: var(--bg-ock-default-reverse);
+}
+
+/* Text */
+.text-ock-inverse {
+  color: var(--text-ock-inverse);
+}
+.text-ock-foreground {
+  color: var(--text-ock-foreground);
+}
+.text-ock-foreground-muted {
+  color: var(--text-ock-foreground-muted);
+}
+.text-ock-error {
+  color: var(--text-ock-error);
+}
+.text-ock-primary {
+  color: var(--text-ock-primary);
+}
+.text-ock-success {
+  color: var(--text-ock-success);
+}
+.text-ock-warning {
+  color: var(--text-ock-warning);
+}
+.text-ock-disabled {
+  color: var(--text-ock-disabled);
+}
+/* Background */
+.bg-ock-default {
+  background-color: var(--bg-ock-default);
+}
+.bg-ock-default-hover {
+  background-color: var(--bg-ock-default-hover);
+}
+.bg-ock-default-active {
+  background-color: var(--bg-ock-default-active);
+}
+.bg-ock-alternate {
+  background-color: var(--bg-ock-alternate);
+}
+.bg-ock-alternate-hover {
+  background-color: var(--bg-ock-alternate-hover);
+}
+.bg-ock-alternate-active {
+  background-color: var(--bg-ock-alternate-active);
+}
+.bg-ock-inverse {
+  background-color: var(--bg-ock-inverse);
+}
+.bg-ock-inverse-hover {
+  background-color: var(--bg-ock-inverse-hover);
+}
+.bg-ock-inverse-active {
+  background-color: var(--bg-ock-inverse-active);
+}
+.bg-ock-primary {
+  background-color: var(--bg-ock-primary);
+}
+.bg-ock-primary-hover {
+  background-color: var(--bg-ock-primary-hover);
+}
+.bg-ock-primary-active {
+  background-color: var(--bg-ock-primary-active);
+}
+.bg-ock-secondary {
+  background-color: var(--bg-ock-secondary);
+}
+.bg-ock-secondary-hover {
+  background-color: var(--bg-ock-secondary-hover);
+}
+.bg-ock-secondary-active {
+  background-color: var(--bg-ock-secondary-active);
+}
+.bg-ock-error {
+  background-color: var(--bg-ock-error);
+}
+.bg-ock-warning {
+  background-color: var(--bg-ock-warning);
+}
+.bg-ock-success {
+  background-color: var(--bg-ock-success);
+}
+.bg-ock-default-reverse {
+  background-color: var(--bg-ock-default-reverse);
+}
+.border-ock-default {
+  border-color: var(--bg-ock-default);
+}
