@@ -189,10 +189,10 @@ export function TransactionProvider({
   }, [chainId, executeContracts, handleSubmitErrors, switchChain]);
 
   useEffect(() => {
-    if (receiptArray?.length > 1) {
-      onSuccess?.(receiptArray);
+    if (receiptArray?.length) {
+      onSuccess?.({ transactionReceipts: receiptArray });
     } else if (receipt) {
-      onSuccess?.(receipt);
+      onSuccess?.({ transactionReceipts: [receipt] });
     }
   }, [onSuccess, receipt, receiptArray]);
 
