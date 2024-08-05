@@ -377,12 +377,12 @@ setFilteredTokens(filteredTokens);
 ```tsx
 <Transaction // [!code focus]
   address={address}
-  chainId={84532}
+  chainId={base.id}
   contracts={[
     {
-      address: clickContractAddress,
-      abi: clickContractAbi,
-      functionName: 'click',
+      address: CONTRACT_ADDRESS,
+      abi: CONTRACT_ABI,
+      functionName: CONTRACT_FUNCTION_NAME,
       args: [],
     },
   ]}
@@ -415,7 +415,7 @@ setFilteredTokens(filteredTokens);
                   onError={onError}
                   onSuccess={onSuccess}
                 >
-                <TransactionButton className="w-full md:w-[240px] px-4 py-2 text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 transition-colors" />
+                <TransactionButton className="w-[240px] px-4 py-2 text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 transition-colors" />
                   <TransactionSponsor />
                   <TransactionStatus>
                     <TransactionStatusLabel />
