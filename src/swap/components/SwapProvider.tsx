@@ -172,6 +172,7 @@ export function SwapProvider({
           sendTransactionAsync,
           onStart,
           onSuccess,
+          useAggregator,
         });
 
         // TODO: refresh balances
