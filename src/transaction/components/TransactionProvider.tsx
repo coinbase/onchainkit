@@ -94,7 +94,7 @@ export function TransactionProvider({
         receipts.push(txnReceipt);
       } catch (err) {
         console.error('getTransactionReceiptsError', err);
-        setErrorMessage(genericErrorMessage);
+        setErrorMessage(GENERIC_ERROR_MESSAGE);
       }
     }
     setReceiptArray(receipts);
