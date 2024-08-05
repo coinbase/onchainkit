@@ -2,5 +2,6 @@
 "@coinbase/onchainkit": patch
 ---
 
--**chore**: Organize const variables and update imports for the Transaction component. By @cpcramer #961
--**feat**: Add close wallet dropdown when clicking outside of the component's container. By @cpcramer #925
+- **fix**: added Base Names testnet compatibility. By @cpcramer #966
+- **chore**: organized const variables and update imports for the `Transaction` component. By @cpcramer #961
+- **fix**: added close wallet dropdown when clicking outside of the component's container. By @cpcramer #925

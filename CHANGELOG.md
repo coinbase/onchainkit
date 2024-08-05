@@ -4,13 +4,12 @@
 
 ### Minor Changes
 
-- f40b855: - **feat**: renamed `<TransactionToast>` prop from `delayMs` to `durationMs`. By @abcrane123 #967
+- **feat**: renamed `<TransactionToast>` prop from `delayMs` to `durationMs`. By @abcrane123 #967 f40b855
 
-  Breaking Changes
+Breaking Changes
+The `delayMs` prop for the `<TransactionToast>` component has been renamed to `durationMs`. Thischange clarifies that `delay` refers to when something starts, while `duration` specifies how longit lasts.
 
-  The `delayMs` prop for the `<TransactionToast>` component has been renamed to `durationMs`. This change clarifies that `delay` refers to when something starts, while `duration` specifies how long it lasts.
-
-  Learn more about this component type at https://onchainkit.xyz/transaction/types#transactiontoastreact
+Learn more about this component type at https://onchainkit.xyz/transactiontypes#transactiontoastreact
 
 ## 0.26.16
 
