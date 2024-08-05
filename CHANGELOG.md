@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.27.1
+
+### Patch Changes
+
+- a348e27: - **fix**: added Base Names testnet compatibility. By @cpcramer #966
+  - **chore**: organized const variables and update imports for the `Transaction` component. By @cpcramer #961
+  - **fix**: added close wallet dropdown when clicking outside of the component's container. By @cpcramer #925
+
 ## 0.27.0
 
 ### Minor Changes
