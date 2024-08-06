@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- 16c004b: - **feat**: added `Permit2` approval process for UniversalRouter in the `Swap` experiece. By @0xAlec #980
+- **feat**: added `Permit2` approval process for UniversalRouter in the `Swap` experiece. By @0xAlec #980 16c004b
 
 ## 0.28.0
 
