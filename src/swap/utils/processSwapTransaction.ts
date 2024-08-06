@@ -1,13 +1,13 @@
 import type { Address, TransactionReceipt } from 'viem';
+import { encodeFunctionData, parseAbi } from 'viem';
 import type { Config } from 'wagmi';
 import { waitForTransactionReceipt } from 'wagmi/actions';
 import type { SendTransactionMutateAsync } from 'wagmi/query';
 import {
-  UNIVERSALROUTER_CONTRACT_ADDRESS,
   PERMIT2_CONTRACT_ADDRESS,
+  UNIVERSALROUTER_CONTRACT_ADDRESS,
 } from '../constants';
 import type { BuildSwapTransaction } from '../types';
-import { encodeFunctionData, parseAbi } from 'viem';
 
 export async function processSwapTransaction({
   swapTransaction,
