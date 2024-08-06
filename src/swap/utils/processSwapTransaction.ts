@@ -68,7 +68,7 @@ export async function processSwapTransaction({
           quote.from.address as Address,
           UNIVERSALROUTER_CONTRACT_ADDRESS,
           BigInt(quote.fromAmount),
-          20_000_000_000_000,
+          20_000_000_000_000, // The deadline where the approval is no longer valid - see https://docs.uniswap.org/contracts/permit2/reference/allowance-transfer
         ],
       });
       const permitTxnHash = await sendTransactionAsync({
