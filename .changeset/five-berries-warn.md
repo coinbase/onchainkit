@@ -2,4 +2,4 @@
 "@coinbase/onchainkit": patch
 ---
 
-**feat**: add Permit2 approval process for UniversalRouter by @0xAlec #980
+- **feat**: added `Permit2` approval process for UniversalRouter in the `Swap` experiece. By @0xAlec #980
