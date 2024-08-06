@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import { cn, pressable, text } from '../../styles/theme';
+import { cn, pressable, text, color } from '../../styles/theme';
 import type { TokenRowReact } from '../types';
 import { formatAmount } from '../utils/formatAmount';
 import { TokenImage } from './TokenImage';
@@ -28,7 +28,7 @@ export const TokenRow = memo(function TokenRow({
         <span className="flex flex-col items-start">
           <span className={cn(text.headline)}>{token.name}</span>
           {!hideSymbol && (
-            <span className={cn(text.body, 'text-foreground-muted')}>
+            <span className={cn(text.body, color.foregroundMuted)}>
               {token.symbol}
             </span>
           )}
@@ -36,7 +36,7 @@ export const TokenRow = memo(function TokenRow({
       </span>
       <span
         data-testid="ockTokenRow_Amount"
-        className={cn(text.body, 'text-foreground-muted')}
+        className={cn(text.body, color.foregroundMuted)}
       >
         {formatAmount(amount, {
           minimumFractionDigits: 2,

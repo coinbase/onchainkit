@@ -18,6 +18,6 @@ describe('TransactionStatusLabel', () => {
 
     const label = screen.getByText('Successful!');
     expect(label).toBeInTheDocument();
-    expect(label).toHaveClass('text-foreground-muted');
+    expect(label).toHaveClass('text-ock-foreground-muted');
   });
 });
