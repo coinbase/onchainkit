@@ -80,9 +80,7 @@ export function SwapAmountInput({
       data-testid="ockSwapAmountInput_Container"
     >
       <div className="flex w-full items-center justify-between">
-        <span className={cn(text.label2, 'text-foreground-muted')}>
-          {label}
-        </span>
+        <span className={cn(text.label2, color.foregroundMuted)}>{label}</span>
       </div>
       <div className="flex w-full items-center justify-between">
         <TextInput
@@ -112,11 +110,11 @@ export function SwapAmountInput({
         )}
       </div>
       <div className="mt-4 flex w-full justify-between">
-        <span className={cn(text.label2, 'text-foregroune-muted')}>{''}</span>
+        <span className={cn(text.label2, color.foregroundMuted)}>{''}</span>
         <div className="flex items-center">
           {source.balance && (
             <span
-              className={cn(text.label2, 'text-foreground-muted')}
+              className={cn(text.label2, color.foregroundMuted)}
             >{`Balance: ${getRoundedAmount(source.balance, 8)}`}</span>
           )}
           {type === 'from' && (
