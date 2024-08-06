@@ -15,9 +15,6 @@ export type TransactionButtonReact = {
   text?: string; // An optional text to be displayed in the button component.
 };
 
-/**
- * Note: exported as public Type
- */
 export type TransactionContextType = {
   address: Address; // The wallet address involved in the transaction.
   chainId?: number; // The chainId for the transaction.
@@ -52,9 +49,6 @@ export type TransactionError = {
   error: string; // The error message providing details about the transaction error.
 };
 
-/**
- * Note: exported as public Type
- */
 export type TransactionProviderReact = {
   address: Address; // The wallet address to be provided to child components.
   capabilities?: WalletCapabilities; // Capabilities that a wallet supports (e.g. paymasters, session keys, etc).
