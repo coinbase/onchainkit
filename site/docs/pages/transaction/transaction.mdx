@@ -66,7 +66,11 @@ export default function TransactionComponents() {
   ];
 
   return address ? (
-    <Transaction address={address} chainId={BASE_SEPOLIA_CHAIN_ID} contracts={contracts}>  // [!code focus]
+    <Transaction // [!code focus]
+      address={address} // [!code focus]
+      chainId={BASE_SEPOLIA_CHAIN_ID} // [!code focus]
+      contracts={contracts} // [!code focus]
+    > // [!code focus]
       <TransactionButton />  // [!code focus]
       <TransactionSponsor /> // [!code focus]
       <TransactionStatus>  // [!code focus]
@@ -129,15 +133,18 @@ export default function TransactionComponents() {
 ```tsx
 // ommited for brevity
 
-<Transaction address={address} contracts={contracts}>  // [!code focus]
-  <TransactionButton />  // [!code focus]
+<Transaction  // [!code focus]
+  address={address} // [!code focus]
+  contracts={contracts} // [!code focus]
+>  // [!code focus]
+  <TransactionButton /> // [!code focus]
   <TransactionSponsor /> // [!code focus]
-  <TransactionToast>  // [!code focus]
-    <TransactionToastIcon />  // [!code focus]
-    <TransactionToastLabel />  // [!code focus]
-    <TransactionToastAction />  // [!code focus]
-  </TransactionToast>  // [!code focus]
-</Transaction>  // [!code focus]
+  <TransactionToast> // [!code focus]
+    <TransactionToastIcon /> // [!code focus]
+    <TransactionToastLabel /> // [!code focus]
+    <TransactionToastAction /> // [!code focus]
+  </TransactionToast> // [!code focus]
+</Transaction> // [!code focus]
 ```
 
 <App>
@@ -263,9 +270,7 @@ The components are designed to work together hierarchically. For each component,
 ## Props
 
 - [`TransactionButtonReact`](/transaction/types#transactionbuttonreact)
-- [`TransactionContextType`](/transaction/types#transactioncontexttype)
 - [`TransactionError`](/transaction/types#transactionerror)
-- [`TransactionProviderReact`](/transaction/types#transactionproviderreact)
 - [`TransactionReact`](/transaction/types#transactionreact)
 - [`TransactionSponsorReact`](/transaction/types#transactionsponsorreact)
 - [`TransactionStatusReact`](/transaction/types#transactionstatusreact)
