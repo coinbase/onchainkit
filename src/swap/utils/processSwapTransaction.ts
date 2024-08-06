@@ -51,9 +51,9 @@ export async function processSwapTransaction({
 
     // for the V2 API, we use Uniswap's UniversalRouter
     // this adds an additional transaction/step to the swap process
-    // the `approveTx` on the response will be an approval for the amount of the `from` token against `Permit2`
+    // the `approveTx` on the response will be an approval for the amount of the `from` token against `Permit2`, instead of an approval against the Router itself
     // we also need to make an extra transaction to `Permit2` to approve the UniversalRouter to spend the funds
-    // see more: https://blog.uniswap.org/permit2-and-universal-router
+    // read more: https://blog.uniswap.org/permit2-and-universal-router
     if (!useAggregator) {
       const permit2ContractAbi = parseAbi([
         'function approve(address token, address spender, uint160 amount, uint48 expiration) external',
