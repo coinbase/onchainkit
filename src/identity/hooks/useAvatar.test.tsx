@@ -1,5 +1,5 @@
 import { renderHook, waitFor } from '@testing-library/react';
-import { base, baseSepolia, mainnet } from 'viem/chains';
+import { base, baseSepolia, mainnet, optimism } from 'viem/chains';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { publicClient } from '../../network/client';
 import { getChainPublicClient } from '../../network/getChainPublicClient';
@@ -106,5 +106,32 @@ describe('useAvatar', () => {
     });
 
     expect(getChainPublicClient).toHaveBeenCalledWith(baseSepolia);
+  });
+
+  it('returns error for unsupported chain ', async () => {
+    const testEnsName = 'shrek.basetest.eth';
+    const testEnsAvatar = 'shrektestface';
+
+    // Mock the getEnsAvatar method of the publicClient
+    mockGetEnsAvatar.mockResolvedValue(testEnsAvatar);
+
+    // Use the renderHook function to create a test harness for the useAvatar hook
+    const { result } = renderHook(
+      () => useAvatar({ ensName: testEnsName, chain: optimism }),
+      {
+        wrapper: getNewReactQueryTestProvider(),
+      },
+    );
+
+    // Wait for the hook to finish fetching the ENS name
+    await waitFor(() => {
+      // Check that the ENS name and loading state are correct
+      expect(result.current.data).toBe(undefined);
+      expect(result.current.isLoading).toBe(false);
+      expect(result.current.isError).toBe(true);
+      expect(result.current.error).toBe(
+        'ChainId not supported, avatar resolution is only supported on Ethereum and Base.',
+      );
+    });
   });
 });

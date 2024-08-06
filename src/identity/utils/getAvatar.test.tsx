@@ -1,4 +1,4 @@
-import { base, baseSepolia, mainnet } from 'viem/chains';
+import { base, baseSepolia, mainnet, optimism } from 'viem/chains';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { publicClient } from '../../network/client';
 import { getChainPublicClient } from '../../network/getChainPublicClient';
@@ -107,5 +107,12 @@ describe('getAvatar', () => {
 
     // getAvatar defaulted to mainnet
     expect(getChainPublicClient).toHaveBeenCalledWith(mainnet);
+  });
+
+  it('should throw an error on unsupported chain', async () => {
+    const ensName = 'shrek.basetest.eth';
+    await expect(getAvatar({ ensName, chain: optimism })).rejects.toBe(
+      'ChainId not supported, avatar resolution is only supported on Ethereum and Base.',
+    );
   });
 });
