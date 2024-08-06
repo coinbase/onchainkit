@@ -424,5 +424,9 @@ describe('processSwapTransaction', () => {
     expect(setLoading).toHaveBeenCalledWith(true);
     expect(onSuccess).toHaveBeenCalledTimes(1);
     expect(onSuccess).toHaveBeenCalledWith({});
+    expect(onStart).toHaveBeenCalledTimes(3);
+    expect(onStart).toHaveBeenNthCalledWith(1, 'approveTxHash');
+    expect(onStart).toHaveBeenNthCalledWith(2, 'permit2TxHash');
+    expect(onStart).toHaveBeenNthCalledWith(3, 'txHash');
   });
 });
