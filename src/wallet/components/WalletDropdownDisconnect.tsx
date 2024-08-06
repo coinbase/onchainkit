@@ -19,13 +19,15 @@ export function WalletDropdownDisconnect({
       type="button"
       className={cn(
         pressable.default,
-        'flex items-center gap-2 px-4 py-2',
+        'relative flex items-center px-4 py-3',
         className,
       )}
       onClick={handleDisconnect}
     >
-      <div className="w-5">{disconnectSvg}</div>
-      <span className={cn(dsText.body, 'shrink-0')}>{text}</span>
+      <div className="-translate-y-1/2 absolute top-1/2 left-4 flex h-5 w-5 items-center justify-center">
+        {disconnectSvg}
+      </div>
+      <span className={cn(dsText.body, 'pl-[1.8125rem]')}>{text}</span>
     </button>
   );
 }

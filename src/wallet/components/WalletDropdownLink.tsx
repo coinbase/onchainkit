@@ -28,19 +28,17 @@ export function WalletDropdownLink({
     <a
       className={cn(
         pressable.default,
-        'flex items-center gap-2 px-4 py-2',
+        'relative flex items-center px-4 py-3',
         className,
       )}
       href={href}
       target={target}
       rel={rel}
     >
-      {iconSvg && (
-        <div className="flex items-center justify-center w-5 h-5">
-          {iconSvg}
-        </div>
-      )}
-      <span className={cn(text.body, 'flex-grow')}>{children}</span>
+      <div className="-translate-y-1/2 absolute top-1/2 left-4 flex h-5 w-5 items-center justify-center">
+        {iconSvg}
+      </div>
+      <span className={cn(text.body, 'pl-[1.8125rem]')}>{children}</span>
     </a>
   );
 }
