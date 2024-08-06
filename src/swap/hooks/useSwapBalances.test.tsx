@@ -23,8 +23,7 @@ describe('useSwapBalances', () => {
     address: '',
     symbol: 'ETH',
     decimals: 18,
-    image:
-      'test.png',
+    image: 'test.png',
     chainId: 8453,
   };
 
@@ -33,8 +32,7 @@ describe('useSwapBalances', () => {
     address: '0x833589fcd6edb6e08f4c7c32d4f71b54bda02913',
     symbol: 'USDC',
     decimals: 6,
-    image:
-      'test.png',
+    image: 'test.png',
     chainId: 8453,
   };
 
