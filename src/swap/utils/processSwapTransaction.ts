@@ -35,6 +35,8 @@ export async function processSwapTransaction({
   // for swaps from ERC-20 tokens,
   // if there is an approveTransaction present,
   // request approval for the amount
+  // for V1 API, `approveTx` will be an ERC-20 approval against the Router
+  // for V2 API, `approveTx` will be an ERC-20 approval against the `Permit2` contract
   if (approveTransaction?.data) {
     setPendingTransaction(true);
     const approveTxHash = await sendTransactionAsync({
@@ -49,10 +51,10 @@ export async function processSwapTransaction({
     });
     setPendingTransaction(false);
 
-    // for the V2 API, we use Uniswap's UniversalRouter
+    // for the V2 API, we use Uniswap's `UniversalRouter`, which uses `Permit2` for ERC-20 approvals
     // this adds an additional transaction/step to the swap process
-    // the `approveTx` on the response will be an approval for the amount of the `from` token against `Permit2`, instead of an approval against the Router itself
-    // we also need to make an extra transaction to `Permit2` to approve the UniversalRouter to spend the funds
+    // since we need to make an extra transaction to `Permit2` to allow the UniversalRouter to spend the approved funds
+    // this would typically be a (gasless) signature, but we're using a transaction here to allow batching for Smart Wallets
     // read more: https://blog.uniswap.org/permit2-and-universal-router
     if (!useAggregator) {
       setPendingTransaction(true);
