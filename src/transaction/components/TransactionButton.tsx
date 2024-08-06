@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { Spinner } from '../../internal/components/Spinner';
 import { checkmarkSvg } from '../../internal/svg/checkmarkSvg';
-import { background, cn, pressable, text } from '../../styles/theme';
+import { background, cn, color, pressable, text } from '../../styles/theme';
 import type { TransactionButtonReact } from '../types';
 import { isSpinnerDisplayed } from '../utils';
 import { useTransactionContext } from './TransactionProvider';
@@ -72,7 +72,9 @@ export function TransactionButton({
       {displaySpinner ? (
         <Spinner />
       ) : (
-        <span className={cn(text.headline, 'flex justify-center text-inverse')}>
+        <span
+          className={cn(text.headline, color.inverse, 'flex justify-center')}
+        >
           {buttonContent}
         </span>
       )}

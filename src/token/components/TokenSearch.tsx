@@ -1,6 +1,7 @@
 import { useCallback, useState } from 'react';
 import { TextInput } from '../../internal/components/TextInput';
-import { cn, color, pressable } from '../../styles/theme';
+import { closeSvg } from '../../internal/svg/closeSvg';
+import { cn, color, placeholder, pressable } from '../../styles/theme';
 import type { TokenSearchReact } from '../types';
 import { SearchIcon } from './SearchIcon';
 
@@ -25,7 +26,8 @@ export function TokenSearch({
         className={cn(
           pressable.alternate,
           color.foreground,
-          'w-full rounded-xl py-2 pr-5 pl-12 placeholder-[#5B616E] outline-none',
+          placeholder.default,
+          'w-full rounded-xl py-2 pr-5 pl-12 outline-none',
           className,
         )}
         placeholder="Search for a token"
@@ -41,20 +43,7 @@ export function TokenSearch({
           className="-translate-y-1/2 absolute top-1/2 right-4"
           onClick={handleClear}
         >
-          <svg
-            role="img"
-            aria-label="ock-close-icon"
-            width="16"
-            height="16"
-            viewBox="0 0 16 16"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M2.3352 1L1 2.33521L6.66479 8L1 13.6648L2.3352 15L8 9.33521L13.6648 15L15 13.6648L9.33521 8L15 2.33521L13.6648 1L8 6.6648L2.3352 1Z"
-              fill="#0A0B0D"
-            />
-          </svg>
+          {closeSvg}
         </button>
       )}
     </div>

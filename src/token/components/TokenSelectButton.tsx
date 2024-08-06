@@ -1,5 +1,5 @@
 import { type ForwardedRef, forwardRef } from 'react';
-import { cn, pressable, text } from '../../styles/theme';
+import { cn, fill, pressable, text } from '../../styles/theme';
 import type { TokenSelectButtonReact } from '../types';
 import { TokenImage } from './TokenImage';
 
@@ -17,7 +17,7 @@ function CaretUp() {
     >
       <path
         d="M3.05329 10.9866L7.99996 6.03997L12.9466 10.9866L14.1266 9.80663L7.99996 3.67997L1.87329 9.80663L3.05329 10.9866Z"
-        fill="#0A0B0D"
+        className={fill.defaultReverse}
       />
     </svg>
   );
@@ -37,7 +37,7 @@ function CaretDown() {
     >
       <path
         d="M12.95 4.85999L8.00001 9.80999L3.05001 4.85999L1.64001 6.27999L8.00001 12.64L14.36 6.27999L12.95 4.85999Z"
-        fill="#0A0B0D"
+        className={fill.defaultReverse}
       />
     </svg>
   );

@@ -21,7 +21,7 @@ describe('Badge Component', () => {
       expect(badge).toHaveStyle(badgeStyle);
       expect(badge).toHaveClass('bg-ock-primary');
       const ticker = screen.queryByTestId('ockBadgeTicker');
-      expect(ticker).toHaveClass('fill-inverse');
+      expect(ticker).toHaveClass('fill-ock-inverse');
     });
   });
 });

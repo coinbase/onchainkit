@@ -27,7 +27,7 @@ export const pressable = {
     'cursor-pointer bg-ock-primary active:bg-ock-primary-active hover:bg-ock-primary-hover',
   secondary:
     'cursor-pointer bg-ock-secondary active:bg-ock-secondary-active hover:bg-ock-secondary-hover',
-  shadow: 'shadow-[0px_8px_12px_0px_#5B616E1F]',
+  shadow: 'shadow-ock-default',
   disabled: 'opacity-[0.38]',
 } as const;
 
@@ -54,12 +54,14 @@ export const color = {
 } as const;
 
 export const fill = {
-  inverse: 'fill-inverse',
-  foreground: 'fill-foreground',
-  foregroundMuted: 'fill-foreground-muted',
-  error: 'fill-error',
-  primary: 'fill-primary',
-  success: 'fill-success',
-  warning: 'fill-warning',
-  disabled: 'fill-disabled',
+  defaultReverse: 'fill-ock-default-reverse',
+  inverse: 'fill-ock-inverse',
+} as const;
+
+export const border = {
+  default: 'border-ock-default',
+} as const;
+
+export const placeholder = {
+  default: 'placeholder-ock-default',
 } as const;
