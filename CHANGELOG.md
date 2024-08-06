@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.28.1
+
+### Patch Changes
+
+- 16c004b: - **feat**: added `Permit2` approval process for UniversalRouter in the `Swap` experiece. By @0xAlec #980
+
 ## 0.28.0
 
 ### Minor Changes
