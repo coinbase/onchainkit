@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.28.2
+
+### Patch Changes
+
+- d0e2a08: - **feat**: dark mode. By @kyhyco #977
+
 ## 0.28.1
 
 ### Patch Changes
