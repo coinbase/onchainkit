@@ -1,4 +1,7 @@
-@import url("../token/components/TokenSelectDropdown.css");
+/* Border */
+.border-ock-default {
+  border-color: var(--bg-ock-default);
+}
 
 /* Fill */
 .fill-ock-default-reverse {
@@ -10,9 +13,19 @@
   color: var(--text-ock-foreground-muted);
 }
 
-/* Border */
-.border-ock-default {
-  border-color: var(--bg-ock-default);
+/* Scrollbar */
+.ock-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #d1d5db #ffffff;
+}
+
+/* Shadow */
+.shadow-ock-default {
+  box-shadow: 0px 8px 12px 0px #5B616E1F;
+}
+
+.dark .shadow-ock-default {
+  box-shadow: 0px 8px 12px 0px #5B616E1F;
 }
 
 /* Text */

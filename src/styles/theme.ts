@@ -27,7 +27,7 @@ export const pressable = {
     'cursor-pointer bg-ock-primary active:bg-ock-primary-active hover:bg-ock-primary-hover',
   secondary:
     'cursor-pointer bg-ock-secondary active:bg-ock-secondary-active hover:bg-ock-secondary-hover',
-  shadow: 'shadow-[0px_8px_12px_0px_#5B616E1F]',
+  shadow: 'shadow-ock-default',
   disabled: 'opacity-[0.38]',
 } as const;
 
