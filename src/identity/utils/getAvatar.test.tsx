@@ -70,4 +70,42 @@ describe('getAvatar', () => {
     });
     expect(getChainPublicClient).toHaveBeenCalledWith(baseSepolia);
   });
+
+  it('should default to mainnet when base mainnet avatar is not available', async () => {
+    const ensName = 'shrek.base.eth';
+    const expectedAvatarUrl = null;
+
+    mockGetEnsAvatar.mockResolvedValue(expectedAvatarUrl);
+    const avatarUrl = await getAvatar({ ensName, chain: base });
+
+    expect(avatarUrl).toBe(null);
+    expect(mockGetEnsAvatar).toHaveBeenCalledWith({
+      name: ensName,
+      universalResolverAddress: RESOLVER_ADDRESSES_BY_CHAIN_ID[base.id],
+    });
+
+    expect(getChainPublicClient).toHaveBeenCalledWith(base);
+
+    // getAvatar defaulted to mainnet
+    expect(getChainPublicClient).toHaveBeenCalledWith(mainnet);
+  });
+
+  it('should default to mainnet when base sepolia avatar is not available', async () => {
+    const ensName = 'shrek.basetest.eth';
+    const expectedAvatarUrl = null;
+
+    mockGetEnsAvatar.mockResolvedValue(expectedAvatarUrl);
+
+    const avatarUrl = await getAvatar({ ensName, chain: baseSepolia });
+
+    expect(avatarUrl).toBe(expectedAvatarUrl);
+    expect(mockGetEnsAvatar).toHaveBeenCalledWith({
+      name: ensName,
+      universalResolverAddress: RESOLVER_ADDRESSES_BY_CHAIN_ID[baseSepolia.id],
+    });
+    expect(getChainPublicClient).toHaveBeenCalledWith(baseSepolia);
+
+    // getAvatar defaulted to mainnet
+    expect(getChainPublicClient).toHaveBeenCalledWith(mainnet);
+  });
 });
