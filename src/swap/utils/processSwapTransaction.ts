@@ -55,6 +55,7 @@ export async function processSwapTransaction({
     // we also need to make an extra transaction to `Permit2` to approve the UniversalRouter to spend the funds
     // read more: https://blog.uniswap.org/permit2-and-universal-router
     if (!useAggregator) {
+      setPendingTransaction(true);
       const permit2ContractAbi = parseAbi([
         'function approve(address token, address spender, uint160 amount, uint48 expiration) external',
       ]);
@@ -78,6 +79,7 @@ export async function processSwapTransaction({
         hash: permitTxnHash,
         confirmations: 1,
       });
+      setPendingTransaction(false);
     }
   }
 
