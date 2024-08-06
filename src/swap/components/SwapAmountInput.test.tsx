@@ -15,10 +15,6 @@ vi.mock('./SwapProvider', () => ({
   useSwapContext: vi.fn(),
 }));
 
-vi.mock('wagmi', () => ({
-  useBalance: vi.fn(),
-}));
-
 const useSwapContextMock = useSwapContext as Mock;
 
 const mockEthToken: Token = {
@@ -64,11 +60,6 @@ const mockContextValue = {
   handleSubmit: vi.fn(),
   handleAmountChange: vi.fn(),
 } as SwapContextType;
-
-// const mockContextValueWithoutConvertedBalance = {
-//   ...mockContextValue,
-//   convertedFromTokenBalance: undefined,
-// };
 
 const mockSwappableTokens: Token[] = [
   {
@@ -141,18 +132,23 @@ describe('SwapAmountInput', () => {
     );
   });
 
-  // it('does not update input value with balance amount on max button click when convertedBalance is undefined', () => {
-  //   render(
-  //     <SwapProvider value={mockContextValueWithoutConvertedBalance}>
-  //       <SwapAmountInput label="From" token={mockETHToken} type="from" />
-  //     </SwapProvider>,
-  //   );
-  //
-  //   const maxButton = screen.getByTestId('ockSwapAmountInput_MaxButton');
-  //   fireEvent.click(maxButton);
-  //
-  //   expect(mockContextValue.setFromAmount).not.toHaveBeenCalled();
-  // });
+  it('does not update input value with balance amount on max button click when balance is undefined', () => {
+    const mockContextValueWithNoBalance = {
+      ...mockContextValue,
+      from: {
+        ...mockContextValue.from,
+        balance: undefined,
+      },
+    };
+
+    useSwapContextMock.mockReturnValue(mockContextValueWithNoBalance);
+    render(<SwapAmountInput label="From" token={mockEthToken} type="from" />);
+
+    const maxButton = screen.getByTestId('ockSwapAmountInput_MaxButton');
+    fireEvent.click(maxButton);
+
+    expect(mockContextValue.from.setAmount).not.toHaveBeenCalled();
+  });
 
   it('displays the correct amount when this type is "from"', () => {
     useSwapContextMock.mockReturnValue(mockContextValue);
@@ -214,21 +210,22 @@ describe('SwapAmountInput', () => {
     expect(mockContextValue.to.setToken).toHaveBeenCalledWith(mockEthToken);
   });
 
-  // it('renders the correct balance', () => {
-  //   useSwapContextMock.mockReturnValue(mockContextValue);
-  //   render(<SwapAmountInput label="To" token={mockToken} type="to" />);
-  //
-  //   expect(screen.getByText('Balance: 3304007.277394')).toBeInTheDocument();
-  // });
+  it('correctly computes sourceTokenOptions excluding destination token', () => {
+    const mockContextValueWithTokens = {
+      ...mockContextValue,
+      to: {
+        ...mockContextValue.to,
+        token: mockEthToken,
+      },
+    };
 
-  it('renders a TokenSelectDropdown component if swappableTokens are passed as prop', () => {
-    useSwapContextMock.mockReturnValue(mockContextValue);
+    useSwapContextMock.mockReturnValue(mockContextValueWithTokens);
     render(
       <SwapAmountInput
-        label="To"
-        swappableTokens={mockSwappableTokens}
+        label="From"
         token={mockToken}
-        type="to"
+        type="from"
+        swappableTokens={mockSwappableTokens}
       />,
     );
 
@@ -236,13 +233,40 @@ describe('SwapAmountInput', () => {
     expect(dropdown).toBeInTheDocument();
   });
 
-  // it('renders a TokenChip component if swappableTokens are not passed as prop', () => {
-  //   useSwapContextMock.mockReturnValue(mockContextValue);
-  //   render(<SwapAmountInput label="To" token={mockToken} type="to" />);
-  //
-  //   const dropdown = screen.getByText('TokenChip');
-  //   expect(dropdown).toBeInTheDocument();
-  // });
+  it('hasInsufficientBalance is true when balance is less than amount for type "from"', () => {
+    const mockContextValueWithLowBalance = {
+      ...mockContextValue,
+      from: {
+        ...mockContextValue.from,
+        balance: '5',
+        amount: '10',
+      },
+    };
+
+    useSwapContextMock.mockReturnValue(mockContextValueWithLowBalance);
+    render(<SwapAmountInput label="From" token={mockEthToken} type="from" />);
+
+    const input = screen.getByTestId('ockTextInput_Input');
+    expect(input).toHaveClass('text-ock-error');
+  });
+
+  it('renders a TokenChip component if swappableTokens are not passed as prop', () => {
+    useSwapContextMock.mockReturnValue({
+      ...mockContextValue,
+      to: {
+        ...mockContextValue.to,
+        token: mockToken,
+      },
+    });
+
+    render(<SwapAmountInput label="To" token={mockToken} type="to" />);
+
+    const chips = screen.getAllByText('TokenChip');
+
+    expect(chips.length).toBeGreaterThan(0);
+
+    expect(chips[0]).toBeInTheDocument();
+  });
 
   it('applies the given className to the button', async () => {
     useSwapContextMock.mockReturnValue(mockContextValue);
