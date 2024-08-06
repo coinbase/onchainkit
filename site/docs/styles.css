@@ -17,16 +17,18 @@
   }
 }
 
-.vocs_CodeGroup,
-.vocs_Tabs_list,
-.vocs_Tabs_content,
-.vocs_CodeBlock,
-.vocs_CodeTitle,
-.vocs_Pre_wrapper,
-.vocs_Heading::before,
-.vocs_Code {
-  background-color: #1F2937 !important;
-  border-color: #1F2937 !important;
+.dark {
+  .vocs_CodeGroup,
+  .vocs_Tabs_list,
+  .vocs_Tabs_content,
+  .vocs_CodeBlock,
+  .vocs_CodeTitle,
+  .vocs_Pre_wrapper,
+  .vocs_Heading::before,
+  .vocs_Code {
+    background-color: #1F2937 !important;
+    border-color: #1F2937 !important;
+  }
 }
 
 .vocs_Tabs_trigger {
@@ -122,7 +124,7 @@
   padding: 60px 0px 0px 0px;
 }
 
-.dark .vocs_Content:has(#blobs) {
+.vocs_Content:has(#blobs) {
   padding: 60px 0px 0px 0px;
   background-color: #030713;
 }
@@ -131,7 +133,7 @@
   display: none;
 }
 
-.dark .css-main-container {
+.css-main-container {
   background-color: #111827;
 }
 

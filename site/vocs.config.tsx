@@ -80,12 +80,20 @@ export default defineConfig({
   ],
   theme: {
     accentColor: '#73F7FF',
-    colorScheme: 'dark',
     variables: {
       color: {
-        background: '#151A26',
-        backgroundDark: '#0F131E',
-        textAccent: 'white',
+        background: {
+          dark: '#151A26',
+          light: 'white',
+        },
+        backgroundDark: {
+          dark:  '#0F131E',
+          light:  '#F3F4F6',
+        },
+        textAccent: {
+          dark: 'white',
+          light: '#030712',
+        },
       },
     },
   },
