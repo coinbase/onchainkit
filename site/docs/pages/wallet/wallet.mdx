@@ -14,7 +14,6 @@ import {
   Address,
   Avatar,
   Name,
-  Badge,
   Identity,
   EthBalance,
 } from '@coinbase/onchainkit/identity';
@@ -40,7 +39,6 @@ import {
   Address,
   Avatar,
   Name,
-  Badge,
   Identity,
   EthBalance,
 } from '@coinbase/onchainkit/identity';
@@ -58,7 +56,6 @@ export function WalletComponents() {
           <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick>
             <Avatar />
             <Name>
-              <Badge />
             </Name>
             <Address className={color.foregroundMuted} />
             <EthBalance />
@@ -84,7 +81,6 @@ export function WalletComponents() {
       <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick>
         <Avatar />
         <Name>
-          <Badge />
         </Name>
         <Address className={color.foregroundMuted} />
         <EthBalance />
@@ -116,7 +112,6 @@ You can override component styles using `className`.
     >
       <Avatar />
       <Name>
-        <Badge />
       </Name>
       <Address />
       <EthBalance />
@@ -143,7 +138,6 @@ You can override component styles using `className`.
       <Identity className="px-4 pt-3 pb-2 hover:bg-blue-200" hasCopyAddressOnClick>
         <Avatar />
         <Name>
-          <Badge />
         </Name>
         <Address className={color.foregroundMuted} />
         <EthBalance />
@@ -185,7 +179,6 @@ You can override component text using `text`.
       <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick>
         <Avatar />
         <Name>
-          <Badge />
         </Name>
         <Address className={color.foregroundMuted} />
         <EthBalance />
@@ -251,7 +244,6 @@ OnchainKit leverages [RainbowKit](https://www.rainbowkit.com/) to offer this fea
     <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick>
       <Avatar />
       <Name>
-        <Badge />
       </Name>
       <Address />
       <EthBalance />
@@ -347,7 +339,6 @@ export default OnchainProviders;
         <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick>
           <Avatar />
           <Name>
-            <Badge />
           </Name>
           <Address className={color.foregroundMuted} />
           <EthBalance />
