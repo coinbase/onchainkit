@@ -8,6 +8,7 @@ import {
   Wallet,
   WalletDropdown,
   WalletDropdownLink,
+  WalletDropdownBaseName,
   WalletDropdownDisconnect,
 } from '@coinbase/onchainkit/wallet';
 import {
@@ -60,7 +61,7 @@ export function WalletComponents() {
             <EthBalance />
           </Identity>
           <WalletDropdownLink icon="wallet" href="https://wallet.coinbase.com"> // [!code focus]
-            Go to Wallet Dashboard // [!code focus]
+            Wallet // [!code focus]
           </WalletDropdownLink> // [!code focus]
           <WalletDropdownDisconnect /> // [!code focus]
         </WalletDropdown> // [!code focus]
@@ -84,8 +85,9 @@ export function WalletComponents() {
         <EthBalance />
       </Identity>
       <WalletDropdownLink icon="wallet" href="https://wallet.coinbase.com">
-        Go to Wallet Dashboard
+        Wallet
       </WalletDropdownLink>
+      <WalletDropdownBaseName />
       <WalletDropdownDisconnect />
     </WalletDropdown>
   </Wallet>
@@ -118,7 +120,7 @@ You can override component styles using `className`.
       icon="wallet" 
       href="https://wallet.coinbase.com"
     >
-      Go to Wallet Dashboard
+      Wallet
     </WalletDropdownLink>
     <WalletDropdownDisconnect className='hover:bg-blue-200' />
   </WalletDropdown>
@@ -143,7 +145,7 @@ You can override component styles using `className`.
         icon="wallet" 
         href="https://wallet.coinbase.com"
       >
-        Go to Wallet Dashboard
+        Wallet
       </WalletDropdownLink>
       <WalletDropdownDisconnect className='hover:bg-blue-200' />
     </WalletDropdown>
@@ -179,7 +181,7 @@ You can override component text using `text`.
         <EthBalance />
       </Identity>
       <WalletDropdownLink icon="wallet" href="https://wallet.coinbase.com">
-        Go to Wallet Dashboard
+        Wallet
       </WalletDropdownLink>
       <WalletDropdownDisconnect />
     </WalletDropdown>
@@ -246,7 +248,7 @@ OnchainKit leverages [RainbowKit](https://www.rainbowkit.com/) to offer this fea
       icon="wallet" 
       href="https://wallet.coinbase.com"
     >
-      Go to Wallet Dashboard
+      Wallet
     </WalletDropdownLink>
     <WalletDropdownDisconnect />
   </WalletDropdown>
@@ -340,7 +342,7 @@ export default OnchainProviders;
           icon="wallet" 
           href="https://wallet.coinbase.com"
         >
-          Go to Wallet Dashboard
+          Wallet
         </WalletDropdownLink>
         <WalletDropdownDisconnect />
       </WalletDropdown>

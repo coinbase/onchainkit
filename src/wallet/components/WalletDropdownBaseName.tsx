@@ -22,7 +22,7 @@ export function WalletDropdownBaseName({
   });
 
   const hasBaseUserName = !!baseName;
-  const title = hasBaseUserName ? 'Go to profile' : 'Claim a Basename';
+  const title = hasBaseUserName ? 'Profile' : 'Claim Basename';
   const href = hasBaseUserName
     ? `https://www.base.org/name/${baseName}`
     : 'https://www.base.org/names';

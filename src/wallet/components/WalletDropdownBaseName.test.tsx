@@ -21,7 +21,7 @@ vi.mock('./WalletProvider', () => ({
 }));
 
 describe('WalletDropdownBaseName', () => {
-  it('should render "Claim a Basename" when no basename', () => {
+  it('should render "Claim Basename" when no basename', () => {
     (useAccount as vi.Mock<[], Partial<GetAccountReturnType>>).mockReturnValue({
       address: '0x1234' as `0x${string}`,
       isConnected: true,
@@ -39,11 +39,11 @@ describe('WalletDropdownBaseName', () => {
     });
 
     render(<WalletDropdownBaseName />);
-    expect(screen.getByText('Claim a Basename')).toBeInTheDocument();
+    expect(screen.getByText('Claim Basename')).toBeInTheDocument();
     expect(screen.getByText('NEW')).toBeInTheDocument();
   });
 
-  it('should render "Go to profile" when basename exists', () => {
+  it('should render "Profile" when basename exists', () => {
     (useAccount as vi.Mock<[], Partial<GetAccountReturnType>>).mockReturnValue({
       address: '0x1234' as `0x${string}`,
       isConnected: true,
@@ -61,7 +61,7 @@ describe('WalletDropdownBaseName', () => {
     });
 
     render(<WalletDropdownBaseName />);
-    expect(screen.getByText('Go to profile')).toBeInTheDocument();
+    expect(screen.getByText('Profile')).toBeInTheDocument();
     expect(screen.queryByText('NEW')).not.toBeInTheDocument();
   });
 
@@ -84,8 +84,8 @@ describe('WalletDropdownBaseName', () => {
 
     render(<WalletDropdownBaseName />);
     expect(screen.getByTestId('ockSpinner')).toBeInTheDocument();
-    expect(screen.queryByText('Claim a Basename')).not.toBeInTheDocument();
-    expect(screen.queryByText('Go to profile')).not.toBeInTheDocument();
+    expect(screen.queryByText('Claim Basename')).not.toBeInTheDocument();
+    expect(screen.queryByText('Profile')).not.toBeInTheDocument();
     expect(screen.queryByText('NEW')).not.toBeInTheDocument();
   });
 
