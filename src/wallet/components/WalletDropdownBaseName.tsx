@@ -31,20 +31,24 @@ export function WalletDropdownBaseName({
     <a
       className={cn(
         pressable.default,
-        'flex items-center px-4 py-2',
+        'flex items-center gap-2 px-4 py-2',
         className,
       )}
       href={href}
       target="_blank"
       rel="noopener noreferrer"
     >
-      {baseNameSvg && <div className="mr-2 h-5 w-5">{baseNameSvg}</div>}
-      <div className="flex items-center">
+      {baseNameSvg && (
+        <div className="flex items-center justify-center w-5 h-5">
+          {baseNameSvg}
+        </div>
+      )}
+      <div className="flex items-center flex-grow">
         {isLoading ? (
           <Spinner />
         ) : (
           <>
-            <span className={cn(text.body, 'shrink-0')}>{title}</span>
+            <span className={cn(text.body, 'flex-grow')}>{title}</span>
             {!hasBaseUserName && (
               <span
                 className={cn(

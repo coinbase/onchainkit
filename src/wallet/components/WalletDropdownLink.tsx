@@ -35,8 +35,12 @@ export function WalletDropdownLink({
       target={target}
       rel={rel}
     >
-      {iconSvg && <div className="h-5 w-5">{iconSvg}</div>}
-      <span className={cn(text.body, 'shrink-0')}>{children}</span>
+      {iconSvg && (
+        <div className="flex items-center justify-center w-5 h-5">
+          {iconSvg}
+        </div>
+      )}
+      <span className={cn(text.body, 'flex-grow')}>{children}</span>
     </a>
   );
 }
