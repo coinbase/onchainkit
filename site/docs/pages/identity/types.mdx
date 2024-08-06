@@ -90,6 +90,7 @@ type GetAttestationsOptions = {
 
 ```ts
 type GetAvatar = {
+  chain?: Chain; // Optional chain for domain resolution
   ensName: string; // The ENS name to fetch the avatar for.
 };
 ```

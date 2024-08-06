@@ -1,29 +1,26 @@
 import { useQuery } from '@tanstack/react-query';
-import type { GetAvatarReturnType } from '../types';
+import { mainnet } from 'viem/chains';
+import type {
+  GetAvatarReturnType,
+  UseAvatarOptions,
+  UseAvatarQueryOptions,
+} from '../types';
 import { getAvatar } from '../utils/getAvatar';
-
-type UseAvatarOptions = {
-  ensName: string;
-};
-
-type UseAvatarQueryOptions = {
-  enabled?: boolean;
-  cacheTime?: number;
-};
 
 /**
  * Gets an ensName and resolves the Avatar
  */
 export const useAvatar = (
-  { ensName }: UseAvatarOptions,
+  { ensName, chain = mainnet }: UseAvatarOptions,
   queryOptions?: UseAvatarQueryOptions,
 ) => {
   const { enabled = true, cacheTime } = queryOptions ?? {};
-  const ensActionKey = `ens-avatar-${ensName}`;
+  const ensActionKey = `ens-avatar-${ensName}-${chain.id}`;
+
   return useQuery<GetAvatarReturnType>({
     queryKey: ['useAvatar', ensActionKey],
     queryFn: async () => {
-      return getAvatar({ ensName });
+      return getAvatar({ ensName, chain });
     },
     gcTime: cacheTime,
     enabled,

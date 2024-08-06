@@ -1,12 +1,19 @@
+import { base, baseSepolia, mainnet } from 'viem/chains';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { publicClient } from '../../network/client';
+import { getChainPublicClient } from '../../network/getChainPublicClient';
+import { RESOLVER_ADDRESSES_BY_CHAIN_ID } from '../constants';
 import { getAvatar } from './getAvatar';
 
 vi.mock('../../network/client');
 
+vi.mock('../../network/getChainPublicClient', () => ({
+  ...vi.importActual('../../network/getChainPublicClient'),
+  getChainPublicClient: vi.fn(() => publicClient),
+}));
+
 describe('getAvatar', () => {
   const mockGetEnsAvatar = publicClient.getEnsAvatar as vi.Mock;
-
   beforeEach(() => {
     vi.clearAllMocks();
   });
@@ -21,6 +28,7 @@ describe('getAvatar', () => {
 
     expect(avatarUrl).toBe(expectedAvatarUrl);
     expect(mockGetEnsAvatar).toHaveBeenCalledWith({ name: ensName });
+    expect(getChainPublicClient).toHaveBeenCalledWith(mainnet);
   });
 
   it('should return null when client getAvatar throws an error', async () => {
@@ -29,5 +37,37 @@ describe('getAvatar', () => {
     mockGetEnsAvatar.mockRejectedValue(new Error('This is an error'));
 
     await expect(getAvatar({ ensName })).rejects.toThrow('This is an error');
+  });
+
+  it('should resolve to base mainnet avatar', async () => {
+    const ensName = 'shrek.base.eth';
+    const expectedAvatarUrl = 'shrekface';
+
+    mockGetEnsAvatar.mockResolvedValue(expectedAvatarUrl);
+
+    const avatarUrl = await getAvatar({ ensName, chain: base });
+
+    expect(avatarUrl).toBe(expectedAvatarUrl);
+    expect(mockGetEnsAvatar).toHaveBeenCalledWith({
+      name: ensName,
+      universalResolverAddress: RESOLVER_ADDRESSES_BY_CHAIN_ID[base.id],
+    });
+    expect(getChainPublicClient).toHaveBeenCalledWith(base);
+  });
+
+  it('should resolve to base sepolia avatar', async () => {
+    const ensName = 'shrek.basetest.eth';
+    const expectedAvatarUrl = 'shrekfacetest';
+
+    mockGetEnsAvatar.mockResolvedValue(expectedAvatarUrl);
+
+    const avatarUrl = await getAvatar({ ensName, chain: baseSepolia });
+
+    expect(avatarUrl).toBe(expectedAvatarUrl);
+    expect(mockGetEnsAvatar).toHaveBeenCalledWith({
+      name: ensName,
+      universalResolverAddress: RESOLVER_ADDRESSES_BY_CHAIN_ID[baseSepolia.id],
+    });
+    expect(getChainPublicClient).toHaveBeenCalledWith(baseSepolia);
   });
 });
