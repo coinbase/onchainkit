@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- d0e2a08: - **feat**: dark mode. By @kyhyco #977
+- **feat**: dark mode. By @kyhyco #977 d0e2a08
 
 ## 0.28.1
 
