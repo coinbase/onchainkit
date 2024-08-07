@@ -17,20 +17,23 @@
   }
 }
 
-.vocs_CodeGroup,
-.vocs_Tabs_list,
-.vocs_Tabs_content,
-.vocs_CodeBlock,
-.vocs_CodeTitle,
-.vocs_Pre_wrapper,
-.vocs_Heading::before,
-.vocs_Code {
-  background-color: #1F2937 !important;
-  border-color: #1F2937 !important;
-}
+.dark {
+  .vocs_CodeGroup,
+  .vocs_Tabs_list,
+  .vocs_Tabs_content,
+  .vocs_CodeBlock,
+  .vocs_CodeTitle,
+  .vocs_Pre_wrapper,
+  .vocs_Heading::before,
+  .vocs_Code {
+    background-color: #1F2937 !important;
+    border-color: #1F2937 !important;
+  }
 
-.vocs_Tabs_trigger {
-  background-color: #1F2937;
+  .vocs_Tabs_trigger {
+    background-color: #1F2937;
+    color: #F9FAFB;
+  }
 }
 
 .vocs_CodeGroup {
@@ -46,7 +49,6 @@
 }
 
 .vocs_Tabs_trigger {
-  color: #F9FAFB;
   padding: 8px 16px;
   border: none;
   cursor: pointer;
@@ -120,18 +122,21 @@
 
 .vocs_Content:has(#blobs) {
   padding: 60px 0px 0px 0px;
+  background-color: #f9fafb;
 }
 
-.dark .vocs_Content:has(#blobs) {
-  padding: 60px 0px 0px 0px;
-  background-color: #030713;
+.dark {
+  .vocs_Content:has(#blobs) {
+    padding: 60px 0px 0px 0px;
+    background-color: #030713;
+  }
 }
 
 .vocs_Content:has(#blobs) + .vocs_Footer {
   display: none;
 }
 
-.dark .css-main-container {
+.css-main-container {
   background-color: #111827;
 }
 
@@ -158,6 +163,14 @@
   font-weight: 300;
   letter-spacing: -1.6px;
   line-height: 48px;
+  color: red;
+}
+
+.dark {
+  .landing-page .vocs_Header,
+  .landing-page .vocs_H1.vocs_Heading {
+    color: white;
+  }
 }
 
 .landing-page a.vocs_Anchor {
