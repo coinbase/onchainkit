@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { base } from 'viem/chains';
+import { base, baseSepolia } from 'viem/chains';
 import { OnchainKitProvider } from '../../OnchainKitProvider';
 import { Avatar } from './Avatar';
 import { Badge } from './Badge';
@@ -68,5 +68,33 @@ export const WithBadge: Story = {
   ],
   args: {
     children: <Badge />,
+  },
+};
+
+export const Base: Story = {
+  args: {
+    address: '0xFd3d8ffE248173B710b4e24a7E75ac4424853503',
+    chain: base,
+  },
+};
+
+export const BaseSepolia: Story = {
+  args: {
+    address: '0xf75ca27C443768EE1876b027272DC8E3d00B8a23',
+    chain: baseSepolia,
+  },
+};
+
+export const BaseDefaultToMainnet: Story = {
+  args: {
+    address: '0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045',
+    chain: base,
+  },
+};
+
+export const BaseSepoliaDefaultToMainnet: Story = {
+  args: {
+    address: '0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045',
+    chain: baseSepolia,
   },
 };

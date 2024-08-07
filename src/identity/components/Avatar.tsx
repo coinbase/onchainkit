@@ -36,12 +36,12 @@ export function Avatar({
 
   // The component first attempts to retrieve the ENS name and avatar for the given Ethereum address.
   const { data: name, isLoading: isLoadingName } = useName({
-    address: address ?? contextAddress,
+    address: accountAddress,
     chain: accountChain,
   });
 
   const { data: avatar, isLoading: isLoadingAvatar } = useAvatar(
-    { ensName: name ?? '' },
+    { ensName: name ?? '', chain: accountChain },
     { enabled: !!name },
   );
 

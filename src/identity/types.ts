@@ -107,6 +107,7 @@ export type GetAttestationsOptions = {
  */
 export type GetAvatar = {
   ensName: string; // The ENS name to fetch the avatar for.
+  chain?: Chain; // Optional chain for domain resolution
 };
 
 /**
@@ -177,6 +178,22 @@ export type UseAttestations = {
   address: Address;
   chain: Chain;
   schemaId: Address | null;
+};
+
+/**
+ * Note: exported as public Type
+ */
+export type UseAvatarOptions = {
+  ensName: string;
+  chain?: Chain; // Optional chain for domain resolution
+};
+
+/**
+ * Note: exported as public Type
+ */
+export type UseAvatarQueryOptions = {
+  enabled?: boolean;
+  cacheTime?: number;
 };
 
 /**

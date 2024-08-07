@@ -20,6 +20,7 @@ const { data: avatar, isLoading } = useAvatar({ ensName: 'vitalik.eth' });
 ```ts
 type UseAvatarOptions = {
   ensName: string;
+  chain?: Chain;
 };
 
 type UseAvatarQueryOptions = {

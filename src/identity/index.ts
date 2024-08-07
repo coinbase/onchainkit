@@ -26,4 +26,5 @@ export type {
   GetNameReturnType,
   IdentityContextType,
   IdentityReact,
+  UseAvatarOptions,
 } from './types';
