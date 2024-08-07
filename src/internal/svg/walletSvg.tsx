@@ -1,5 +1,3 @@
-import { fill } from '../../styles/theme';
-
 export const walletSvg = (
   <svg
     role="img"
