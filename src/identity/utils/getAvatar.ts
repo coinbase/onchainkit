@@ -1,11 +1,16 @@
 import { mainnet } from 'viem/chains';
 import { normalize } from 'viem/ens';
-import type { GetEnsAvatarReturnType } from 'wagmi/actions';
 import { isBase } from '../../isBase';
 import { isEthereum } from '../../isEthereum';
 import { getChainPublicClient } from '../../network/getChainPublicClient';
 import { RESOLVER_ADDRESSES_BY_CHAIN_ID } from '../constants';
 import type { GetAvatar, GetAvatarReturnType } from '../types';
+
+/**
+ * An asynchronous function to fetch the Ethereum Name Service (ENS)
+ * avatar for a given Ethereum name. It returns the ENS name if it exists,
+ * or null if it doesn't or in case of an error.
+ */
 
 export const getAvatar = async ({
   ensName,
@@ -31,7 +36,7 @@ export const getAvatar = async ({
       });
 
       if (baseEnsAvatar) {
-        return baseEnsAvatar as GetEnsAvatarReturnType;
+        return baseEnsAvatar;
       }
     } catch (_error) {
       // This is a best effort attempt, so we don't need to do anything here.

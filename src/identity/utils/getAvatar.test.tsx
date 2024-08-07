@@ -53,6 +53,7 @@ describe('getAvatar', () => {
       universalResolverAddress: RESOLVER_ADDRESSES_BY_CHAIN_ID[base.id],
     });
     expect(getChainPublicClient).toHaveBeenCalledWith(base);
+    expect(getChainPublicClient).not.toHaveBeenCalledWith(mainnet);
   });
 
   it('should resolve to base sepolia avatar', async () => {
@@ -69,44 +70,59 @@ describe('getAvatar', () => {
       universalResolverAddress: RESOLVER_ADDRESSES_BY_CHAIN_ID[baseSepolia.id],
     });
     expect(getChainPublicClient).toHaveBeenCalledWith(baseSepolia);
+    expect(getChainPublicClient).not.toHaveBeenCalledWith(mainnet);
   });
 
   it('should default to mainnet when base mainnet avatar is not available', async () => {
     const ensName = 'shrek.base.eth';
-    const expectedAvatarUrl = null;
+    const expectedBaseAvatarUrl = null;
+    const expectedMainnetAvatarUrl = 'mainnetname.eth';
 
-    mockGetEnsAvatar.mockResolvedValue(expectedAvatarUrl);
+    mockGetEnsAvatar
+      .mockResolvedValueOnce(expectedBaseAvatarUrl)
+      .mockResolvedValueOnce(expectedMainnetAvatarUrl);
+
     const avatarUrl = await getAvatar({ ensName, chain: base });
 
-    expect(avatarUrl).toBe(null);
-    expect(mockGetEnsAvatar).toHaveBeenCalledWith({
+    expect(avatarUrl).toBe(expectedMainnetAvatarUrl);
+    expect(mockGetEnsAvatar).toHaveBeenNthCalledWith(1, {
       name: ensName,
       universalResolverAddress: RESOLVER_ADDRESSES_BY_CHAIN_ID[base.id],
     });
-
-    expect(getChainPublicClient).toHaveBeenCalledWith(base);
+    expect(getChainPublicClient).toHaveBeenNthCalledWith(1, base);
 
     // getAvatar defaulted to mainnet
-    expect(getChainPublicClient).toHaveBeenCalledWith(mainnet);
+    expect(mockGetEnsAvatar).toHaveBeenNthCalledWith(2, {
+      name: ensName,
+      universalResolverAddress: undefined,
+    });
+    expect(getChainPublicClient).toHaveBeenNthCalledWith(2, mainnet);
   });
 
   it('should default to mainnet when base sepolia avatar is not available', async () => {
     const ensName = 'shrek.basetest.eth';
-    const expectedAvatarUrl = null;
+    const expectedBaseAvatarUrl = null;
+    const expectedMainnetAvatarUrl = 'mainnetname.eth';
 
-    mockGetEnsAvatar.mockResolvedValue(expectedAvatarUrl);
+    mockGetEnsAvatar
+      .mockResolvedValueOnce(expectedBaseAvatarUrl)
+      .mockResolvedValueOnce(expectedMainnetAvatarUrl);
 
     const avatarUrl = await getAvatar({ ensName, chain: baseSepolia });
 
-    expect(avatarUrl).toBe(expectedAvatarUrl);
-    expect(mockGetEnsAvatar).toHaveBeenCalledWith({
+    expect(avatarUrl).toBe(expectedMainnetAvatarUrl);
+    expect(mockGetEnsAvatar).toHaveBeenNthCalledWith(1, {
       name: ensName,
       universalResolverAddress: RESOLVER_ADDRESSES_BY_CHAIN_ID[baseSepolia.id],
     });
-    expect(getChainPublicClient).toHaveBeenCalledWith(baseSepolia);
+    expect(getChainPublicClient).toHaveBeenNthCalledWith(1, baseSepolia);
 
     // getAvatar defaulted to mainnet
-    expect(getChainPublicClient).toHaveBeenCalledWith(mainnet);
+    expect(mockGetEnsAvatar).toHaveBeenNthCalledWith(2, {
+      name: ensName,
+      universalResolverAddress: undefined,
+    });
+    expect(getChainPublicClient).toHaveBeenNthCalledWith(2, mainnet);
   });
 
   it('should throw an error on unsupported chain', async () => {
@@ -114,5 +130,33 @@ describe('getAvatar', () => {
     await expect(getAvatar({ ensName, chain: optimism })).rejects.toBe(
       'ChainId not supported, avatar resolution is only supported on Ethereum and Base.',
     );
+    expect(getChainPublicClient).not.toHaveBeenCalled();
+  });
+
+  it('should ignore base call error and default to mainnet', async () => {
+    const ensName = 'shrek.base.eth';
+    const expectedMainnetAvatarUrl = 'mainnetname.eth';
+
+    mockGetEnsAvatar
+      .mockImplementationOnce(() => {
+        throw new Error('thrown error');
+      })
+      .mockResolvedValueOnce(expectedMainnetAvatarUrl);
+
+    const avatarUrl = await getAvatar({ ensName, chain: base });
+
+    expect(avatarUrl).toBe(expectedMainnetAvatarUrl);
+    expect(mockGetEnsAvatar).toHaveBeenNthCalledWith(1, {
+      name: ensName,
+      universalResolverAddress: RESOLVER_ADDRESSES_BY_CHAIN_ID[base.id],
+    });
+    expect(getChainPublicClient).toHaveBeenNthCalledWith(1, base);
+
+    // getAvatar defaulted to mainnet
+    expect(mockGetEnsAvatar).toHaveBeenNthCalledWith(2, {
+      name: ensName,
+      universalResolverAddress: undefined,
+    });
+    expect(getChainPublicClient).toHaveBeenNthCalledWith(2, mainnet);
   });
 });

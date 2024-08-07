@@ -106,8 +106,8 @@ export type GetAttestationsOptions = {
  * Note: exported as public Type
  */
 export type GetAvatar = {
-  chain?: Chain; // Optional chain for domain resolution
   ensName: string; // The ENS name to fetch the avatar for.
+  chain?: Chain; // Optional chain for domain resolution
 };
 
 /**
