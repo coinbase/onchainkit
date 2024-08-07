@@ -11,7 +11,6 @@ import type { GetAvatar, GetAvatarReturnType } from '../types';
  * avatar for a given Ethereum name. It returns the ENS name if it exists,
  * or null if it doesn't or in case of an error.
  */
-
 export const getAvatar = async ({
   ensName,
   chain = mainnet,
