@@ -12,6 +12,7 @@ export { useAttestations } from './hooks/useAttestations';
 export { useAvatar } from './hooks/useAvatar';
 export { useName } from './hooks/useName';
 export type {
+  AddressReact,
   Attestation,
   AvatarReact,
   BadgeReact,
@@ -20,11 +21,17 @@ export type {
   BaseSepoliaName,
   EASChainDefinition,
   EASSchemaUid,
+  EthBalanceReact,
   GetAttestationsOptions,
   GetAvatar,
   GetAvatarReturnType,
+  GetName,
   GetNameReturnType,
   IdentityContextType,
   IdentityReact,
+  NameReact,
   UseAvatarOptions,
+  UseAvatarQueryOptions,
+  UseNameOptions,
+  UseNameQueryOptions,
 } from './types';

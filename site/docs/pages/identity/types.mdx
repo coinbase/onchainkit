@@ -75,6 +75,25 @@ type BaseSepoliaName = `${string}.basetest.eth`;
 type EASSchemaUid = `0x${string}`;
 ```
 
+## `EASChainDefinition`
+
+```ts
+type EASChainDefinition = {
+  easGraphqlAPI: string; // EAS GraphQL API endpoint
+  id: number; // blockchain source id
+  schemaUids: EASSchemaUid[]; // Array of EAS Schema UIDs
+};
+```
+
+## `EthBalanceReact`
+
+```ts
+type EthBalanceReact = {
+  address?: Address;
+  className?: string;
+};
+```
+
 ## `GetAttestationsOptions`
 
 ```ts
@@ -147,4 +166,40 @@ type NameReact = {
   chain?: Chain; // Optional chain for domain resolution
   className?: string; // Optional className override for top span element.
 } & HTMLAttributes<HTMLSpanElement>; // Optional additional span attributes to apply to the name.
+```
+
+## `UseAvatarOptions`
+
+```ts
+type UseAvatarOptions = {
+  ensName: string;
+  chain?: Chain; // Optional chain for domain resolution
+};
+```
+
+## `UseAvatarQueryOptions`
+
+```ts
+type UseAvatarQueryOptions = {
+  enabled?: boolean;
+  cacheTime?: number;
+};
+```
+
+## `UseNameOptions`
+
+```ts
+type UseNameOptions = {
+  address: Address; // The Ethereum address for which the ENS name is to be fetched.
+  chain?: Chain; // Optional chain for domain resolution
+};
+```
+
+## `UseNameQueryOptions`
+
+```ts
+type UseNameQueryOptions = {
+  enabled?: boolean; // Whether the query should be enabled. Defaults to true.
+  cacheTime?: number; // Cache time in milliseconds.
+};
 ```
