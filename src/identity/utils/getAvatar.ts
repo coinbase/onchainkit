@@ -53,7 +53,7 @@ export const getAvatar = async ({
     name: normalize(ensName),
   });
 
-  if(mainnetEnsAvatar) {
+  if (mainnetEnsAvatar) {
     return mainnetEnsAvatar;
   }
 

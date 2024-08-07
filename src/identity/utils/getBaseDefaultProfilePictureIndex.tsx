@@ -1,4 +1,4 @@
-import { sha256 } from "viem";
+import { sha256 } from 'viem';
 
 // Will return a an index between 0 and optionsLength
 export const getBaseDefaultProfilePictureIndex = (

@@ -1,4 +1,3 @@
-
 import { getBaseDefaultProfilePicture } from './getBaseDefaultProfilePicture';
 
 describe('getBaseDefaultProfilePicture', () => {

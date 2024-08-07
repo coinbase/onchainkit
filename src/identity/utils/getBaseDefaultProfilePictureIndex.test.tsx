@@ -1,4 +1,3 @@
-
 import { getBaseDefaultProfilePictureIndex } from './getBaseDefaultProfilePictureIndex';
 
 describe('getBaseDefaultProfilePictureIndex', () => {
@@ -13,6 +12,8 @@ describe('getBaseDefaultProfilePictureIndex', () => {
     expect(getBaseDefaultProfilePictureIndex('leo.base.eth', 7)).toBe(0);
     expect(getBaseDefaultProfilePictureIndex('leo.basetest.eth', 7)).toBe(3);
     expect(getBaseDefaultProfilePictureIndex('zimmania.base.eth', 7)).toBe(5);
-    expect(getBaseDefaultProfilePictureIndex('zimmania.basetest.eth', 7)).toBe(4);
+    expect(getBaseDefaultProfilePictureIndex('zimmania.basetest.eth', 7)).toBe(
+      4,
+    );
   });
 });

@@ -1,4 +1,3 @@
-
 import { isBasename } from './isBasename';
 
 describe('isBasename', () => {

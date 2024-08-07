@@ -125,7 +125,6 @@ describe('getAvatar', () => {
     expect(getChainPublicClient).toHaveBeenNthCalledWith(2, mainnet);
   });
 
-
   it('should use default base avatar when both mainnet and base mainnet avatar are not available', async () => {
     const ensName = 'shrek.base.eth';
     const expectedBaseAvatarUrl = null;
@@ -137,7 +136,9 @@ describe('getAvatar', () => {
 
     const avatarUrl = await getAvatar({ ensName, chain: base });
 
-    const avatarUrlIsUriData = avatarUrl?.startsWith('data:image/svg+xml;base64')
+    const avatarUrlIsUriData = avatarUrl?.startsWith(
+      'data:image/svg+xml;base64',
+    );
     expect(avatarUrlIsUriData).toBe(true);
     expect(mockGetEnsAvatar).toHaveBeenNthCalledWith(1, {
       name: ensName,
@@ -164,7 +165,9 @@ describe('getAvatar', () => {
 
     const avatarUrl = await getAvatar({ ensName, chain: baseSepolia });
 
-    const avatarUrlIsUriData = avatarUrl?.startsWith('data:image/svg+xml;base64')
+    const avatarUrlIsUriData = avatarUrl?.startsWith(
+      'data:image/svg+xml;base64',
+    );
     expect(avatarUrlIsUriData).toBe(true);
     expect(mockGetEnsAvatar).toHaveBeenNthCalledWith(1, {
       name: ensName,
