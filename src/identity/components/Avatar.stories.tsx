@@ -98,3 +98,17 @@ export const BaseSepoliaDefaultToMainnet: Story = {
     chain: baseSepolia,
   },
 };
+
+export const BaseDefaultProfile: Story = {
+  args: {
+    address: '0xdb39F11c909bFA976FdC27538152C1a0E4f0fCcA',
+    chain: base,
+  },
+};
+
+export const BaseSepoliaDefaultProfile: Story = {
+  args: {
+    address: '0x8c8F1a1e1bFdb15E7ed562efc84e5A588E68aD73',
+    chain: baseSepolia,
+  },
+};
