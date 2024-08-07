@@ -1,21 +1,23 @@
 import { fill } from '../../styles/theme';
 
-export const disconnectSvg = (
+export const baseNameSvg = (
   <svg
+    data-testid="ockbaseNameSvg"
     role="img"
-    aria-label="ock-disconnect-svg"
+    aria-label="ock-base-name"
     width="16"
     height="16"
     viewBox="0 0 16 16"
-    fill="none"
     xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    className="h-full w-full"
   >
     <path
-      d="M10.9735 2.69696L10.9735 4.52272L5.49622 4.52272L5.49622 15.4773L10.9735 15.4773L10.9735 17.303L3.67046 17.303L3.67046 2.69696L10.9735 2.69696Z"
+      d="M11.75 3.75C11.75 5.82107 10.0711 7.5 8 7.5C5.92893 7.5 4.25 5.82107 4.25 3.75C4.25 1.67893 5.92893 0 8 0C10.0711 0 11.75 1.67893 11.75 3.75Z"
       className={fill.defaultReverse}
     />
     <path
-      d="M13.4614 13.5207L16.7804 10.0235L13.4783 6.34848L12.1202 7.56872L13.4931 9.09667L7.32216 9.09667L7.32216 10.9224L13.4102 10.9224L12.1371 12.2639L13.4614 13.5207Z"
+      d="M10.99 8.01001C12.21 8.04001 13.3 8.80001 13.73 9.95001L16 16H0L2.27 9.95001C2.7 8.80001 3.79 8.03001 5.01 8.01001C5.05 8.04001 6.37 9.00001 8 9.00001C9.63 9.00001 10.95 8.04001 10.99 8.01001Z"
       className={fill.defaultReverse}
     />
   </svg>
