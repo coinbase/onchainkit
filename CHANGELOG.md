@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.28.3
+
+### Patch Changes
+
+- 031251d: - **fix**: wallet dark mode. By @kyhyco #995
+
 ## 0.28.2
 
 ### Patch Changes
