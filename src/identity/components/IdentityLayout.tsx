@@ -44,7 +44,7 @@ export function IdentityLayout({
     <div
       className={cn(
         background.default,
-        'flex items-center space-x-4 px-2 py-1',
+        'flex items-center space-x-4 px-4 py-1',
         onClick && `${pressable.default} relative`,
         className,
       )}

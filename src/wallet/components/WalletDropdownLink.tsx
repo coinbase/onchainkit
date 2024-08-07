@@ -35,10 +35,10 @@ export function WalletDropdownLink({
       target={target}
       rel={rel}
     >
-      <div className="-translate-y-1/2 absolute top-1/2 left-4 flex h-5 w-5 items-center justify-center">
+      <div className="absolute left-4 top-1/2 -translate-y-1/2 flex h-5 w-5 items-center justify-center">
         {iconSvg}
       </div>
-      <span className={cn(text.body, 'pl-[1.8125rem]')}>{children}</span>
+      <span className={cn(text.body, 'pl-6')}>{children}</span>
     </a>
   );
 }

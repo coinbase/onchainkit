@@ -8,15 +8,16 @@ import {
   Wallet,
   WalletDropdown,
   WalletDropdownLink,
+  WalletDropdownBaseName,
   WalletDropdownDisconnect,
-} from '@coinbase/onchainkit/wallet';
+} from '../src/wallet';
 import {
   Address,
   Avatar,
   Name,
   Identity,
   EthBalance,
-} from '@coinbase/onchainkit/identity';
+} from '../src/identity';
 import { color } from '@coinbase/onchainkit/theme';
 import AppWithRK from '../../components/AppWithRK';
 import WalletComponents from '../../components/WalletComponents';
@@ -86,6 +87,7 @@ export function WalletComponents() {
       <WalletDropdownLink icon="wallet" href="https://wallet.coinbase.com">
         Wallet
       </WalletDropdownLink>
+      <WalletDropdownBaseName />
       <WalletDropdownDisconnect />
     </WalletDropdown>
   </Wallet>

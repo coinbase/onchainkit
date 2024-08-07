@@ -41,7 +41,7 @@ export function WalletDropdownBaseName({
       <div className="-translate-y-1/2 absolute top-1/2 left-4 flex h-5 w-5 items-center justify-center">
         {baseNameSvg}
       </div>
-      <div className="flex w-full items-center pl-[1.8125rem]">
+      <div className="flex w-full items-center pl-6">
         {isLoading ? (
           <Spinner />
         ) : (
