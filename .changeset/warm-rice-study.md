@@ -1,5 +1,6 @@
 ---
-"@coinbase/onchainkit": minor
+"@coinbase/onchainkit": patch
 ---
-**feat**: Add `isBasename` and `getBaseDefaultProfilePicture` function to resolve to default avatars. By @kirkas #1002
-**feat**: Modify `getAvatar` to resolve default avatars, only for basenames. By @kirkas #1002
+
+- **feat**: added `isBasename` and `getBaseDefaultProfilePicture` function to resolve to default avatars. By @kirkas #1002
+- **feat**: modified `getAvatar` to resolve default avatars, only for basenames. By @kirkas #1002
