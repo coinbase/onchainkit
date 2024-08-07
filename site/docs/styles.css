@@ -137,11 +137,13 @@
 }
 
 .css-main-container {
-  background-color: #111827;
+  background-color: #f3f4f6;
 }
 
-.css-main-container {
-  background-color: #f3f4f6;
+.dark {
+  .css-main-container {
+    background-color: #111827;
+  }
 }
 
 .css-alternate-container {
