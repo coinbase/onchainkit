@@ -12,7 +12,7 @@ import { OnchainKitProvider } from '@coinbase/onchainkit';
 import { Address, Avatar, Badge, EthBalance, Name, Identity } from '@coinbase/onchainkit/identity';
 import { Swap, SwapAmountInput, SwapButton, SwapMessage, SwapToggleButton } from '@coinbase/onchainkit/swap';
 import { color } from '@coinbase/onchainkit/theme';
-import { 
+import {
   ConnectWallet,
   Wallet,
   WalletDropdown,
@@ -25,8 +25,8 @@ import SwapWrapper from '../components/SwapWrapper';
 import TokenSelector from '../components/TokenSelector';
 import WalletComponents from '../components/WalletComponents';
 import TransactionWrapper from '../components/TransactionWrapper';
-import { 
-  Transaction, 
+import {
+  Transaction,
   TransactionButton,
   TransactionSponsor,
   TransactionStatus,
@@ -68,8 +68,8 @@ import {
 <div className="max-w-[1225px] mx-auto vp-doc relative px-[24px] mb-[26px] mt-0 md:px-0 md:mb-[64px]">
   <div className="mx-auto max-w-2xl">
     <div className="md:text-center flex flex-col gap-8 pt-[100px] pb-16">
-      <h1 className="text-center text-6xl md:text-9xl font-medium no-underline dark:text-white tracking-[-0.1rem]">OnchainKit</h1>
-      <div className="landing-page-hero text-center text-xl md:text-3xl dark:text-white">
+      <h1 className="text-center text-6xl md:text-9xl font-medium no-underline text-black dark:text-white tracking-[-0.1rem]">OnchainKit</h1>
+      <div className="landing-page-hero text-center text-xl md:text-3xl text-black dark:text-white">
         <p>
           Build your onchain apps with ready-to-use React components and Typescript utilities.
         </p>
@@ -235,7 +235,7 @@ bun add @coinbase/onchainkit
       <h3 className="basis-1/2 py-[15px] text-4xl md:text-4xl">Tokens</h3>
     </a>
   </main>
-  
+
   <aside className="pb-6">
     <p className="text-base md:text-base pb-[24px] md:text-left text-center">
       Search [Tokens](/token/types#token) using [getTokens](/token/get-tokens) and display them with [TokenSearch](/token/token-search), [TokenChip](/token/token-chip), and [TokenRow](/token/token-row).
@@ -505,8 +505,8 @@ setFilteredTokens(filteredTokens);
       <p className="w-[450px] max-w-full text-[#8A919E] text-[28px] font-light leading-9 md:text-[28px] text-center md:text-left">Take ownership over design or collaborate efficiently with designers</p>
     </div>
     <aside className="mx-auto md:mx-0">
-      <a 
-        href="https://www.figma.com/community/file/1370194397345450683/onchainkit" 
+      <a
+        href="https://www.figma.com/community/file/1370194397345450683/onchainkit"
         className="flex justify-center items-center border border-indigo-400 text-indigo-400 font-bold leading-6 px-4 py-3 rounded-xl border-solid w-[180px]"
         target="_blank"
         rel="noopener noreferrer"
@@ -554,7 +554,7 @@ setFilteredTokens(filteredTokens);
     <div className="flex flex-col md:flex-row md:items-end justify-between">
       <div className="flex flex-col justify-between xl:flex-row xl:space-x-[25px]">
         <div className="pt-[20px] xl:pt-[40px]">
-          <h2 className="dark:text-white text-4xl md:text-9xl text-center md:text-left font-medium tracking-[-0.1rem]">OnchainKit</h2>
+          <h2 className="text-black dark:text-white text-4xl md:text-9xl text-center md:text-left font-medium tracking-[-0.1rem]">OnchainKit</h2>
           <p className="leading-7 text-xl text-gray-400 px-0 py-6 max-w-[500px] md:text-left text-center">
             Build your onchain apps with ready-to-use React components and Typescript utilities.
           </p>
@@ -585,7 +585,7 @@ setFilteredTokens(filteredTokens);
             <svg width="20" height="17" viewBox="0 0 20 17" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M17.5224 4.63938C17.534 4.80622 17.534 4.97306 17.534 5.14144C17.534 10.2719 13.6282 16.1889 6.48649 16.1889V16.1858C4.37679 16.1889 2.31092 15.5846 0.534897 14.4452C0.841664 14.4821 1.14997 14.5005 1.45904 14.5013C3.20739 14.5028 4.90575 13.9162 6.28121 12.836C4.61974 12.8045 3.16279 11.7212 2.65382 10.1397C3.23583 10.2519 3.83553 10.2289 4.40678 10.0728C2.59539 9.70681 1.2922 8.11531 1.2922 6.26702V6.21781C1.83193 6.51843 2.43624 6.68527 3.05439 6.70372C1.34833 5.56353 0.822443 3.29391 1.85269 1.51943C3.82399 3.94512 6.73252 5.41976 9.85478 5.57583C9.54186 4.22729 9.96933 2.81416 10.9781 1.86618C12.5419 0.396155 15.0014 0.471501 16.4714 2.03455C17.341 1.8631 18.1744 1.54403 18.9371 1.09196C18.6472 1.99073 18.0406 2.75419 17.2303 3.23933C17.9999 3.1486 18.7518 2.94255 19.4599 2.6281C18.9386 3.40924 18.282 4.08966 17.5224 4.63938Z" fill="#F9FAFB"/>
             </svg>
-          </a>  
+          </a>
           <a href="https://warpcast.com/~/channel/onchainkit" title="View OnchainKit Warpcast page" target="_blank">
             <img src="/assets/warpcast-logo.png" />
           </a>
