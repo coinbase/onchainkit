@@ -100,8 +100,8 @@ export default defineConfig({
   topNav: [
     { text: 'Docs', link: '/getting-started', match: '/docs' },
     {
-      text: 'Onchain App Example',
-      link: 'https://github.com/Zizzamia/an-onchain-app-in-100-components',
+      text: 'Onchain App Template',
+      link: 'https://github.com/coinbase/onchain-app-template',
     },
     {
       text: 'Frame Example',
