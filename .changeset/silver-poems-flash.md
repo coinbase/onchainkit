@@ -2,4 +2,4 @@
 "@coinbase/onchainkit": patch
 ---
 
--**chore**: Fix svg render. By @cpcramer #1011
+- **fix**: `Wallet` components svg render. By @cpcramer #1011
