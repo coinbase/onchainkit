@@ -11,44 +11,44 @@ OnchainKit comes with first class support for `tailwindcss`.
 
 ### Use default OnchainKit's style
 
-You can use the default styles without any customization. 
+You can use the default styles without any customization.
 Just place this at the top of your application's entry point to have the components work out of the box.
 
 ```javascript
 import '@coinbase/onchainkit/styles.css';
 ```
 
-### Customize OnchainKit's style with TailwindCSS
+### TailwindCSS Config
 
-Customize your application's styles by updating `content` and `theme.extend` in your Tailwind configuration, and directly accessing the `ock-` custom variable.
+Depending on your dark mode setup, you may have to add `safelist: ['dark']` to your tailwind config.
 
 ```javascript title="tailwind.config.js"
-import path from 'node:path'; // [!code focus]
-
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: [
-    './src/**/*.{ts,tsx}'
-    path.join(path.dirname(require.resolve('@coinbase/onchainkit')), '**/*.js'), // [!code focus]
-  ],
+  content: ['./src/**/*.{ts,tsx}'],
+  safelist: ['dark'], // [!code focus]
   theme: {
     fontFamily: {
       sans: ['Inter', 'sans-serif'],
-    },
-    extend: {  // [!code focus]
-      backgroundColor: {  // [!code focus]
-        primary: 'var(--bg-primary)',
-        'ock-primary': 'yellow',  // [!code focus]
-      },
     },
   },
   plugins: [],
 };
 ```
 
-Here is the full list of OnchainKit's custom variables:
+### Toggling light / dark mode
+
+There are many ways to handle color mode.
+
+In OnchainKit, toggling color mode works by adding / removing class name `dark` to the root html tag.
+
+### Colorscheme override
+
+To override default colorscheme, you need to modify the following css variables:
 
 ```css
+@tailwind base;
+
 @layer base {
   :root {
     --text-ock-inverse: theme(colors.gray.50);
@@ -78,10 +78,40 @@ Here is the full list of OnchainKit's custom variables:
     --bg-ock-error: theme(colors.rose.600);
     --bg-ock-warning: theme(colors.orange.600);
     --bg-ock-success: theme(colors.lime.300);
+    --bg-ock-default-reverse: theme(colors.gray.950);
+  }
+
+  .dark {
+    --text-ock-inverse: theme(colors.gray.950);
+    --text-ock-foreground: theme(colors.gray.50);
+    --text-ock-foreground-muted: theme(colors.gray.400);
+    --text-ock-error: theme(colors.rose.400);
+    --text-ock-primary: theme(colors.indigo.400);
+    --text-ock-success: theme(colors.lime.400);
+    --text-ock-warning: theme(colors.orange.400);
+    --text-ock-disabled: theme(colors.gray.600);
+    --bg-ock-default: theme(colors.gray.950);
+    --bg-ock-default-hover: theme(colors.gray.800);
+    --bg-ock-default-active: theme(colors.gray.700);
+    --bg-ock-alternate: theme(colors.gray.800);
+    --bg-ock-alternate-hover: theme(colors.gray.700);
+    --bg-ock-alternate-active: theme(colors.gray.600);
+    --bg-ock-inverse: theme(colors.gray.900);
+    --bg-ock-inverse-hover: theme(colors.gray.800);
+    --bg-ock-inverse-active: theme(colors.gray.700);
+    --bg-ock-primary: theme(colors.indigo.400);
+    --bg-ock-primary-hover: theme(colors.indigo.300);
+    --bg-ock-primary-active: theme(colors.indigo.200);
+    --bg-ock-secondary: theme(colors.slate.800);
+    --bg-ock-secondary-hover: theme(colors.slate.700);
+    --bg-ock-secondary-active: theme(colors.slate.600);
+    --bg-ock-error: theme(colors.rose.400);
+    --bg-ock-warning: theme(colors.orange.400);
+    --bg-ock-success: theme(colors.lime.700);
+    --bg-ock-default-reverse: theme(colors.gray.50);
   }
 }
 ```
 
 ::::
 
-Full dark mode support coming soon!
