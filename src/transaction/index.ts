@@ -13,6 +13,7 @@ export type {
   TransactionButtonReact,
   TransactionError,
   TransactionReact,
+  TransactionResponse,
   TransactionSponsorReact,
   TransactionStatusReact,
   TransactionStatusActionReact,
