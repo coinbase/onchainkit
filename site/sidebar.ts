@@ -3,8 +3,13 @@ import type { Sidebar } from 'vocs';
 export const sidebar = [
   {
     text: 'Introduction',
-    items: [{ text: 'Getting Started', link: '/getting-started' }],
-  },
+    items: [
+      { text: 'Getting Started', 
+        link: '/getting-started' },
+      
+      { text: 'Onchain App Template', 
+        link: '/build-your-first-onchain-app' },
+      ]},
   {
     text: 'Guides',
     items: [

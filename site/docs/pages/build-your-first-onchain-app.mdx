@@ -1,0 +1,72 @@
+
+# Build your first Onchain app
+
+Build your first Onchain app with OnchainKit's App Template. 
+
+Play with it live [here](https://onchain-app-template.vercel.app).
+
+<img
+  alt="Onchain app template"
+  src="https://onchainkit.xyz/assets/Onchain-app-template-1.png"
+  width="auto"
+/>
+
+::::steps
+
+### Install
+
+If you haven't yet, let's install OnchainKit as a dependency along with its dependencies.
+
+:::code-group
+
+```bash [npm]
+npm install @coinbase/onchainkit
+```
+
+```bash [yarn]
+yarn add @coinbase/onchainkit
+```
+
+```bash [pnpm]
+pnpm add @coinbase/onchainkit
+```
+
+```bash [bun]
+bun add @coinbase/onchainkit
+```
+
+:::
+
+### Fork the repo
+Fork our template repo [here](https://github.com/coinbase/onchainkit-app-template) or click "Use this template" button on Github.
+
+### Public API Key(s)
+
+Obtain a Public API Key from the [Coinbase Developer Platform APIs](https://portal.cdp.coinbase.com/products/onchainkit).
+
+<img
+  alt="OnchainKit copy Public API Key"
+  src="https://onchainkit.xyz/assets/copy-api-key-guide.png"
+  width="auto"
+/>
+
+In order to use RainbowKit, you'd also need to obtain a Wallet Connector project ID at [WalletConnect](https://cloud.walletconnect.org/app).
+
+
+#### Create a .env file
+
+Create a new file in your project’s root directory and name it `.env`.
+
+<img
+  alt="OnchainKit define Public API Key"
+  src="https://onchainkit.xyz/assets/getting-started-create-env-file.png"
+  width="250"
+/>
+
+```tsx [.env]
+PUBLIC_ONCHAINKIT_API_KEY=YOUR_PUBLIC_API_KEY
+PUBLIC_WALLETCONNECT_PROJECT_ID=YOUR_WALLETCONNECT_PROJECT_ID
+```
+
+### Follow the rest of the set up in [Get Started](/getting-started) page.
+
