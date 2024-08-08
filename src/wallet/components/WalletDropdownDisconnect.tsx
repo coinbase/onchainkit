@@ -24,7 +24,7 @@ export function WalletDropdownDisconnect({
       )}
       onClick={handleDisconnect}
     >
-      <div className="-translate-y-1/2 absolute top-1/2 left-4 flex h-5 w-5 items-center justify-center">
+      <div className="-translate-y-1/2 absolute top-1/2 left-4 flex h-4 w-4 items-center justify-center">
         {disconnectSvg}
       </div>
       <span className={cn(dsText.body, 'pl-6')}>{text}</span>
