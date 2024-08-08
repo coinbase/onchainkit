@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- c14ca17: - **fix**: `Wallet` components svg render. By @cpcramer #1011
+- **fix**: `Wallet` components svg render. By @cpcramer #1011 c14ca17
 
 ## 0.28.6
 
