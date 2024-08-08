@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.28.6
+
+### Patch Changes
+
+- 2169905: - **fix**: exported `TransactionResponse` type. By @abcrane123 #1007
+
 ## 0.28.5
 
 ### Patch Changes
