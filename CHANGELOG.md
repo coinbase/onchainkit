@@ -4,8 +4,8 @@
 
 ### Patch Changes
 
-- 9fbb7ec: - **feat**: added `isBasename` and `getBaseDefaultProfilePicture` function to resolve to default avatars. By @kirkas #1002
-  - **feat**: modified `getAvatar` to resolve default avatars, only for basenames. By @kirkas #1002
+- **feat**: added `isBasename` and `getBaseDefaultProfilePicture` function to resolve to default avatars. By @kirkas #1002 9fbb7ec
+- **feat**: modified `getAvatar` to resolve default avatars, only for basenames. By @kirkas #1002
 
 ## 0.28.4
 

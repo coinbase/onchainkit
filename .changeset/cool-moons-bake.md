@@ -2,4 +2,4 @@
 "@coinbase/onchainkit": patch
 ---
 
-- **fix**: Export TransactionResponse type. By @abcrane123 #1007
+- **fix**: exported `TransactionResponse` type. By @abcrane123 #1007
