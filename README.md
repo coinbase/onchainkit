@@ -370,6 +370,10 @@ All our component designs are open-sourced. You can access the [Figma file](http
   </picture>
 </a>
 
+## Onchain App Templates
+
+- [Simple App](https://github.com/coinbase/onchain-app-template)
+
 ## Community ☁️ 🌁 ☁️
 
 Check out the following places for more OnchainKit-related content:
