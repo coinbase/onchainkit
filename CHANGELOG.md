@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- 2169905: - **fix**: exported `TransactionResponse` type. By @abcrane123 #1007
+- **fix**: exported `TransactionResponse` type. By @abcrane123 #1007 2169905
 
 ## 0.28.5
 
