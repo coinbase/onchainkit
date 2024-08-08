@@ -67,6 +67,7 @@ export function useGetTransactionStatus() {
 
     if (receipt) {
       label = 'Successful!';
+      actionElement = null;
     }
 
     if (errorMessage) {

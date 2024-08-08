@@ -1,10 +1,12 @@
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import { Spinner } from '../../internal/components/Spinner';
-import { checkmarkSvg } from '../../internal/svg/checkmarkSvg';
 import { background, cn, color, pressable, text } from '../../styles/theme';
 import type { TransactionButtonReact } from '../types';
 import { isSpinnerDisplayed } from '../utils/isSpinnerDisplayed';
 import { useTransactionContext } from './TransactionProvider';
+import { useShowCallsStatus } from 'wagmi/experimental';
+import { useChainId } from 'wagmi';
+import { getChainExplorer } from '../../network/getChainExplorer';
 
 export function TransactionButton({
   className,
@@ -14,6 +16,7 @@ export function TransactionButton({
   const {
     address,
     contracts,
+    chainId,
     errorMessage,
     isLoading,
     onSubmit,
@@ -23,6 +26,9 @@ export function TransactionButton({
     transactionHash,
     transactionId,
   } = useTransactionContext();
+
+  const accountChainId = chainId ?? useChainId();
+  const { showCallsStatus } = useShowCallsStatus();
 
   const isInProgress =
     statusWriteContract === 'pending' ||
@@ -47,13 +53,28 @@ export function TransactionButton({
 
   const buttonContent = useMemo(() => {
     if (receipt) {
-      return checkmarkSvg;
+      return 'View transaction';
     }
     if (errorMessage) {
       return 'Try again';
     }
     return buttonText;
   }, [buttonText, errorMessage, receipt]);
+
+  const handleSubmit = useCallback(() => {
+    if (receipt && transactionId) {
+      showCallsStatus({ id: transactionId });
+    } else if (receipt) {
+      const chainExplorer = getChainExplorer(accountChainId);
+      window.open(
+        `${chainExplorer}/tx/${transactionHash}`,
+        '_blank',
+        'noopener,noreferrer',
+      );
+    } else {
+      onSubmit();
+    }
+  }, [accountChainId, receipt, transactionHash, transactionId]);
 
   return (
     <button
@@ -65,7 +86,7 @@ export function TransactionButton({
         text.headline,
         className,
       )}
-      onClick={onSubmit}
+      onClick={handleSubmit}
       type="button"
       disabled={isDisabled}
     >
