@@ -3,15 +3,21 @@ title: Wallet Components & Utilities · OnchainKit
 description: Introduction to Wallet Components & Utilities
 ---
 
-import {
+import { 
   ConnectWallet,
   Wallet,
   WalletDropdown,
+  WalletDropdownFundLink
   WalletDropdownLink,
   WalletDropdownDisconnect,
-  WalletDropdownFundLink,
-} from '../src/wallet';
-import { Address, Avatar, Name, Identity, EthBalance } from '../src/identity';
+} from '@coinbase/onchainkit/wallet';
+import {
+  Address,
+  Avatar,
+  Name,
+  Identity,
+  EthBalance,
+} from '@coinbase/onchainkit/identity';
 import { color } from '@coinbase/onchainkit/theme';
 import AppWithRK from '../../components/AppWithRK';
 import WalletComponents from '../../components/WalletComponents';
