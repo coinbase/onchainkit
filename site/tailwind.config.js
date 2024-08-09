@@ -2,6 +2,8 @@
 export default {
   content: ['./docs/**/*.{js,ts,jsx,tsx,md,mdx}'],
   important: true,
+  darkMode: ['class'],
+  safelist: ['dark'],
   theme: {
     fontFamily: {
       sans: ['Inter', 'sans-serif'],
