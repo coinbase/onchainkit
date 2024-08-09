@@ -262,6 +262,10 @@ export const sidebar = [
             text: 'Wallet',
             link: '/wallet/wallet',
           },
+          {
+            text: 'WalletDropdownFundLink',
+            link: '/wallet/wallet-dropdown-fund-link',
+          },
         ],
       },
       {
