@@ -51,7 +51,7 @@ describe('WalletDropdownFundLink', () => {
     // Check if window.open was called with the correct arguments
     expect(mockOpen).toHaveBeenCalledWith(
       expect.stringContaining('http://keys.coinbase.com/funding'),
-      'Coinbase Fund wallet',
+      'Coinbase Fund Wallet',
       expect.stringContaining('width=600,height=700'),
     );
 
@@ -84,7 +84,7 @@ describe('WalletDropdownFundLink', () => {
       const expectedTop = (768 - height) / 2;
       expect(mockOpen).toHaveBeenCalledWith(
         expect.stringContaining('http://keys.coinbase.com/funding'),
-        'Coinbase Fund wallet',
+        'Coinbase Fund Wallet',
         expect.stringContaining(
           `width=${width},height=${height},resizable,scrollbars=yes,status=1,left=${expectedLeft},top=${expectedTop}`,
         ),
