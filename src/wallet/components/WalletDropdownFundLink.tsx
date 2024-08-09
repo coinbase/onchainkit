@@ -45,30 +45,37 @@ export function WalletDropdownFundLink({
     window.open(url, 'Coinbase Fund Wallet', windowFeatures);
   };
 
-  const commonProps = {
-    className: cn(
-      pressable.default,
-      'relative flex items-center px-4 py-3',
-      className,
-    ),
-  };
+  const commonClassName = cn(
+    pressable.default,
+    'relative flex items-center px-4 py-3',
+    className
+  );
 
-  const linkProps =
-    openIn === 'tab'
-      ? {
-          ...commonProps,
-          href: `http://keys.coinbase.com/funding?dappName=${tabName}&dappUrl=${currentURL}`,
-          target,
-          rel,
-        }
-      : { ...commonProps, onClick: handleClick };
-
-  return (
-    <a {...linkProps}>
+  const linkContent = (
+    <>
       <div className="-translate-y-1/2 absolute top-1/2 left-4 flex h-4 w-4 items-center justify-center">
         {iconSvg}
       </div>
       <span className={cn(themeText.body, 'pl-6')}>{text}</span>
-    </a>
+    </>
   );
+
+  if (openIn === 'tab') {
+    return (
+      <a
+        className={commonClassName}
+        href={`http://keys.coinbase.com/funding?dappName=${tabName}&dappUrl=${currentURL}`}
+        target={target}
+        rel={rel}
+      >
+        {linkContent}
+      </a>
+    );
+  } else {
+    return (
+      <a className={commonClassName} onClick={handleClick}>
+        {linkContent}
+      </a>
+    );
+  }
 }
