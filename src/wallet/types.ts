@@ -121,3 +121,11 @@ export type WalletDropdownLinkReact = {
   rel?: string;
   target?: string;
 };
+
+export type WindowSizes = Record<
+  's' | 'm' | 'l',
+  {
+    width: string;
+    height: string;
+  }
+>;
