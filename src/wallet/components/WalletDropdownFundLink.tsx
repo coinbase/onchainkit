@@ -2,7 +2,8 @@ import { isValidElement, useMemo } from 'react';
 import { FundWalletSvg } from '../../internal/svg/fundWallet';
 import { cn, pressable, text as themeText } from '../../styles/theme';
 import { version } from '../../version';
-import type { WalletDropdownFundLinkReact, WindowSizes } from '../types';
+import type { WalletDropdownFundLinkReact } from '../types';
+import { getWindowDimensions } from '../utils/getWindowDimensions';
 
 export function WalletDropdownFundLink({
   className,
@@ -25,42 +26,15 @@ export function WalletDropdownFundLink({
   const currentURL = window.location.href;
   const tabName = document.title;
   const fundingUrl = `http://keys.coinbase.com/funding?dappName=${tabName}&dappUrl=${currentURL}&onchainkit=${version}`;
-  const windowSizes: WindowSizes = {
-    s: { width: '23vw', height: '28.75vw' },
-    m: { width: '29vw', height: '36.25vw' },
-    l: { width: '35vw', height: '43.75vw' },
-  };
 
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault();
-    const { width, height } = windowSizes[windowSize];
+    const { width, height } = getWindowDimensions(windowSize);
 
-    // Define minimum sizes (in pixels)
-    const minWidth = 280;
-    const minHeight = 350;
+    const left = Math.round((window.screen.width - width) / 2);
+    const top = Math.round((window.screen.height - height) / 2);
 
-    // Convert viewport units to pixels
-    const vwToPx = (vw: number) => (vw / 100) * window.innerWidth;
-
-    const widthPx = Math.max(
-      minWidth,
-      Math.round(vwToPx(Number.parseFloat(width))),
-    );
-    const heightPx = Math.max(
-      minHeight,
-      Math.round(vwToPx(Number.parseFloat(height))),
-    );
-
-    // Ensure the width and height don't exceed 90% of the viewport dimensions
-    const maxWidth = Math.round(window.innerWidth * 0.9);
-    const maxHeight = Math.round(window.innerHeight * 0.9);
-    const adjustedWidthPx = Math.min(widthPx, maxWidth);
-    const adjustedHeightPx = Math.min(heightPx, maxHeight);
-
-    const left = Math.round((window.screen.width - adjustedWidthPx) / 2);
-    const top = Math.round((window.screen.height - adjustedHeightPx) / 2);
-
-    const windowFeatures = `width=${adjustedWidthPx},height=${adjustedHeightPx},resizable,scrollbars=yes,status=1,left=${left},top=${top}`;
+    const windowFeatures = `width=${width},height=${height},resizable,scrollbars=yes,status=1,left=${left},top=${top}`;
     window.open(fundingUrl, 'Coinbase Fund Wallet', windowFeatures);
   };
 
