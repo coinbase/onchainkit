@@ -41,6 +41,17 @@ describe('useGetTransactionStatus', () => {
     expect(result.current.actionElement).not.toBeNull();
   });
 
+  it('should return correct status and actionElement when transaction id exists', () => {
+    (useTransactionContext as vi.Mock).mockReturnValue({
+      transactionId: 'ab123',
+    });
+
+    const { result } = renderHook(() => useGetTransactionStatus());
+
+    expect(result.current.label).toBe('Transaction in progress...');
+    expect(result.current.actionElement).not.toBeNull();
+  });
+
   it('should return correct status and actionElement when receipt exists', () => {
     (useTransactionContext as vi.Mock).mockReturnValue({
       receipt: 'receipt',
