@@ -99,8 +99,7 @@ export const sidebar = [
         text: 'Wallet',
         link: '/wallet/wallet',
       },
-    ],
-    link: '/config/onchainkit-provider',
+    ]
   },
   {
     text: 'Utilities',
