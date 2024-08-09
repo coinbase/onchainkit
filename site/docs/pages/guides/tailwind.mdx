@@ -26,6 +26,7 @@ Depending on your dark mode setup, you may have to add `safelist: ['dark']` to y
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ['./src/**/*.{ts,tsx}'],
+  darkMode: ['class'], // [!code focus]
   safelist: ['dark'], // [!code focus]
   theme: {
     fontFamily: {
