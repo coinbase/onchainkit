@@ -12,7 +12,7 @@ describe('WalletDropdownFundLink', () => {
     const linkElement = screen.getByRole('link');
     expect(linkElement).toBeInTheDocument();
     expect(linkElement).toHaveAttribute('href', FUNDING_URL);
-    expect(screen.getByText('Deposit Funds')).toBeInTheDocument();
+    expect(screen.getByText('Fund Wallet')).toBeInTheDocument();
   });
 
   it('renders correctly with custom icon element', () => {
@@ -22,7 +22,7 @@ describe('WalletDropdownFundLink', () => {
     const linkElement = screen.getByRole('link');
     expect(linkElement).toBeInTheDocument();
     expect(linkElement).toHaveAttribute('href', FUNDING_URL);
-    expect(screen.getByText('Deposit Funds')).toBeInTheDocument();
+    expect(screen.getByText('Fund Wallet')).toBeInTheDocument();
     expect(screen.getByLabelText('custom-icon')).toBeInTheDocument();
   });
 
@@ -45,7 +45,7 @@ describe('WalletDropdownFundLink', () => {
 
     render(<WalletDropdownFundLink openIn="window" />);
 
-    const linkElement = screen.getByText('Deposit Funds');
+    const linkElement = screen.getByText('Fund Wallet');
     fireEvent.click(linkElement);
 
     // Check if window.open was called with the correct arguments
@@ -77,7 +77,7 @@ describe('WalletDropdownFundLink', () => {
 
       render(<WalletDropdownFundLink openIn="window" windowSize={size} />);
 
-      const linkElement = screen.getByText('Deposit Funds');
+      const linkElement = screen.getByText('Fund Wallet');
       fireEvent.click(linkElement);
 
       const expectedLeft = (1024 - width) / 2;
