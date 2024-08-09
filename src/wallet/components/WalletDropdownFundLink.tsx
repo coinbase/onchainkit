@@ -7,10 +7,10 @@ export function WalletDropdownFundLink({
   className,
   icon,
   rel,
+  openIn = 'tab',
   target,
   text = 'Deposit Funds',
-  type = 'tab',
-  size = 'm',
+  windowSize = 'm',
 }: WalletDropdownFundLinkReact) {
   const iconSvg = useMemo(() => {
     if (icon === undefined) {
@@ -38,7 +38,7 @@ export function WalletDropdownFundLink({
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault();
     const url = `http://keys.coinbase.com/funding?dappName=${tabName}&dappUrl=${currentURL}`;
-    const { width, height } = windowSizes[size];
+    const { width, height } = windowSizes[windowSize];
     const left = (window.screen.width - width) / 2;
     const top = (window.screen.height - height) / 2;
     const windowFeatures = `width=${width},height=${height},resizable,scrollbars=yes,status=1,left=${left},top=${top}`;
@@ -54,7 +54,7 @@ export function WalletDropdownFundLink({
   };
 
   const linkProps =
-    type === 'tab'
+    openIn === 'tab'
       ? {
           ...commonProps,
           href: `http://keys.coinbase.com/funding?dappName=${tabName}&dappUrl=${currentURL}`,

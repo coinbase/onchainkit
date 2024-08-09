@@ -122,7 +122,7 @@ You can override component text using the `text` prop.
 
 ### Open in window
 
-You can override default link behavior to open the funding flow in a popup window by using the `type` prop.
+You can override default link behavior to open the funding flow in a popup window by using the `openIn` prop.
 
 ```tsx
 // omitted for brevity
@@ -133,7 +133,7 @@ You can override default link behavior to open the funding flow in a popup windo
   </ConnectWallet>
   <WalletDropdown>
     ...
-    <WalletDropdownFundLink type="window" /> // [!code focus]
+    <WalletDropdownFundLink openIn="window" /> // [!code focus]
   </WalletDropdown>
 </Wallet>
 ```
@@ -145,7 +145,7 @@ You can override default link behavior to open the funding flow in a popup windo
       <Name />
     </ConnectWallet>
     <WalletDropdown>
-      <WalletDropdownFundLink type="window" />
+      <WalletDropdownFundLink openIn="window" />
       <WalletDropdownDisconnect />
     </WalletDropdown>
   </Wallet>
@@ -153,7 +153,7 @@ You can override default link behavior to open the funding flow in a popup windo
 
 ### Customizing the window size
 
-When using popup mode, you're able to customize the size of the popup window using the `size` prop. Valid values are `s`, `m`, and `l`.
+When using popup mode, you're able to customize the size of the popup window using the `windowSize` prop. Valid values are `s`, `m`, and `l`.
 
 ```tsx
 // omitted for brevity
@@ -164,7 +164,7 @@ When using popup mode, you're able to customize the size of the popup window usi
   </ConnectWallet>
   <WalletDropdown>
     ...
-    <WalletDropdownFundLink type="window" size="s" /> // [!code focus]
+    <WalletDropdownFundLink openIn="window" windowSize="s" /> // [!code focus]
   </WalletDropdown>
 </Wallet>
 ```
@@ -176,7 +176,7 @@ When using popup mode, you're able to customize the size of the popup window usi
       <Name />
     </ConnectWallet>
     <WalletDropdown>
-      <WalletDropdownFundLink type="window" size="s" />
+      <WalletDropdownFundLink openIn="window" windowSize="s" />
       <WalletDropdownDisconnect />
     </WalletDropdown>
   </Wallet>

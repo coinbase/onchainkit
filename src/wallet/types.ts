@@ -104,10 +104,10 @@ export type WalletDropdownFundLinkReact = {
   href: string;
   icon?: ReactNode;
   rel?: string;
+  openIn?: 'window' | 'tab';
   target?: string;
   text?: string;
-  type?: 'window' | 'tab';
-  size?: 's' | 'm' | 'l';
+  windowSize?: 's' | 'm' | 'l';
 };
 
 /**
