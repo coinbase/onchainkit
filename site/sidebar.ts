@@ -30,6 +30,10 @@ export const sidebar = [
     text: 'Components',
     items: [
       {
+        text: 'FrameMetadata',
+        link: '/frame/frame-metadata',
+      },
+      {
         text: 'Identity',
         items: [
           {
@@ -53,10 +57,6 @@ export const sidebar = [
             link: '/identity/name',
           },
         ],
-      },
-      {
-        text: 'FrameMetadata',
-        link: '/frame/frame-metadata',
       },
       {
         text: 'OnchainKitProvider',
@@ -154,12 +154,12 @@ export const sidebar = [
         link: '/frame/get-frame-metadata',
       },
       {
-        text: 'getSwapQuote',
-        link: '/swap/get-swap-quote',
-      },
-      {
         text: 'getName',
         link: '/identity/get-name',
+      },
+      {
+        text: 'getSwapQuote',
+        link: '/swap/get-swap-quote',
       },
       {
         text: 'getTokens',
