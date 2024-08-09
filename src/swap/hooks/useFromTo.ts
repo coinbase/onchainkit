@@ -17,6 +17,7 @@ export const useFromTo = (address: Address) => {
     fromTokenBalanceError,
     toBalanceString,
     toTokenBalanceError,
+    refetchBalances,
   } = useSwapBalances({ address, fromToken, toToken });
 
   const from = useValue({
@@ -41,5 +42,5 @@ export const useFromTo = (address: Address) => {
     error: toTokenBalanceError,
   });
 
-  return { from, to };
+  return { from, to, refetchBalances };
 };
