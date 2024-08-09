@@ -1,6 +1,7 @@
 import { isValidElement, useMemo } from 'react';
 import { FundWalletSvg } from '../../internal/svg/fundWallet';
 import { cn, pressable, text as themeText } from '../../styles/theme';
+import { version } from '../../version';
 import type { WalletDropdownFundLinkReact } from '../types';
 
 export function WalletDropdownFundLink({
@@ -37,7 +38,7 @@ export function WalletDropdownFundLink({
 
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault();
-    const url = `http://keys.coinbase.com/funding?dappName=${tabName}&dappUrl=${currentURL}`;
+    const url = `http://keys.coinbase.com/funding?dappName=${tabName}&dappUrl=${currentURL}&onchainkit=${version}`;
     const { width, height } = windowSizes[windowSize];
     const left = (window.screen.width - width) / 2;
     const top = (window.screen.height - height) / 2;
