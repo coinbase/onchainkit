@@ -141,7 +141,7 @@ export const sidebar = [
           }
         ],
       },
-    ],
+    ]
   },
   {
     text: 'Utilities',
@@ -249,7 +249,7 @@ export const sidebar = [
           },
         ],
       },
-    ],
+    ]
   },
   {
     text: 'Types',
@@ -287,6 +287,6 @@ export const sidebar = [
         text: 'Wallet',
         link: '/wallet/types',
       },
-    ],
+    ]
   },
 ] as const satisfies Sidebar;
