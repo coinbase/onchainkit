@@ -107,3 +107,17 @@ export type WalletDropdownLinkReact = {
   rel?: string;
   target?: string;
 };
+
+/**
+ * Note: exported as public Type
+ */
+export type WalletDropdownFundLinkReact = {
+  className?: string; // Optional className override for the element
+  href: string;
+  icon?: ReactNode;
+  rel?: string;
+  target?: string;
+  text?: string;
+  type?: 'window' | 'tab';
+  size?: 's' | 'm' | 'l';
+};
