@@ -74,7 +74,14 @@ export function TransactionButton({
     } else {
       onSubmit();
     }
-  }, [accountChainId, receipt, transactionHash, transactionId]);
+  }, [
+    accountChainId,
+    onSubmit,
+    receipt,
+    showCallsStatus,
+    transactionHash,
+    transactionId,
+  ]);
 
   return (
     <button

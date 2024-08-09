@@ -53,7 +53,10 @@ export function useGetTransactionToast() {
     // SW will have txn id
     if (transactionId) {
       actionElement = (
-        <button onClick={() => showCallsStatus({ id: transactionId })}>
+        <button
+          onClick={() => showCallsStatus({ id: transactionId })}
+          type="button"
+        >
           <span className={cn(text.label1, color.primary)}>
             View transaction
           </span>
@@ -81,6 +84,8 @@ export function useGetTransactionToast() {
     isInProgress,
     onSubmit,
     receipt,
+    showCallsStatus,
     transactionHash,
+    transactionId,
   ]);
 }

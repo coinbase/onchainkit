@@ -57,7 +57,10 @@ export function useGetTransactionStatus() {
     // SW will have txn id
     if (transactionId) {
       actionElement = (
-        <button onClick={() => showCallsStatus({ id: transactionId })}>
+        <button
+          onClick={() => showCallsStatus({ id: transactionId })}
+          type="button"
+        >
           <span className={cn(text.label1, color.primary)}>
             View transaction
           </span>
@@ -82,6 +85,8 @@ export function useGetTransactionStatus() {
     isInProgress,
     isPending,
     receipt,
+    showCallsStatus,
     transactionHash,
+    transactionId,
   ]);
 }
