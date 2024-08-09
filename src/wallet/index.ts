@@ -16,8 +16,8 @@ export type {
   WalletContextType,
   WalletDropdownBaseNameReact,
   WalletDropdownDisconnectReact,
-  WalletDropdownLinkReact,
   WalletDropdownFundLinkReact,
+  WalletDropdownLinkReact,
   WalletDropdownReact,
   WalletReact,
 } from './types';
