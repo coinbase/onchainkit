@@ -69,10 +69,9 @@ describe('WalletDropdownFundLink', () => {
     { size: 'l', width: 800, height: 900 },
   ];
 
-  testCases.forEach(({ size, width, height }) => {
+  for (const { size, width, height } of testCases) {
     it(`opens a new window when clicked with type="window" and windowSize="${size}"`, () => {
       const mockOpen = vi.fn();
-      vi.stubGlobal('open', mockOpen);
       vi.stubGlobal('open', mockOpen);
       vi.stubGlobal('screen', { width: 1024, height: 768 });
 
@@ -94,5 +93,5 @@ describe('WalletDropdownFundLink', () => {
       vi.unstubAllGlobals();
       vi.clearAllMocks();
     });
-  });
+  }
 });

@@ -48,7 +48,7 @@ export function WalletDropdownFundLink({
   const commonClassName = cn(
     pressable.default,
     'relative flex items-center px-4 py-3',
-    className
+    className,
   );
 
   const linkContent = (
@@ -71,11 +71,10 @@ export function WalletDropdownFundLink({
         {linkContent}
       </a>
     );
-  } else {
-    return (
-      <a className={commonClassName} onClick={handleClick}>
-        {linkContent}
-      </a>
-    );
   }
+  return (
+    <button type="button" className={commonClassName} onClick={handleClick}>
+      {linkContent}
+    </button>
+  );
 }
