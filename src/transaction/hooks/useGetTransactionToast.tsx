@@ -7,6 +7,7 @@ import { successSvg } from '../../internal/svg/successSvg';
 import { getChainExplorer } from '../../network/getChainExplorer';
 import { cn, color, text } from '../../styles/theme';
 import { useTransactionContext } from '../components/TransactionProvider';
+import { useShowCallsStatus } from 'wagmi/experimental';
 
 export function useGetTransactionToast() {
   const {
@@ -22,6 +23,8 @@ export function useGetTransactionToast() {
 
   const isInProgress = isLoading || !!transactionId || !!transactionHash;
 
+  const { showCallsStatus } = useShowCallsStatus();
+
   return useMemo(() => {
     const chainExplorer = getChainExplorer(accountChainId);
 
@@ -33,6 +36,7 @@ export function useGetTransactionToast() {
       icon = <Spinner className="px-1.5 py-1.5" />;
       label = 'Transaction in progress';
     }
+    // EOA will have txn hash
     if (transactionHash) {
       actionElement = (
         <a
@@ -44,6 +48,16 @@ export function useGetTransactionToast() {
             View transaction
           </span>
         </a>
+      );
+    }
+    // SW will have txn id
+    if (transactionId) {
+      actionElement = (
+        <button onClick={() => showCallsStatus({ id: transactionId })}>
+          <span className={cn(text.label1, color.primary)}>
+            View transaction
+          </span>
+        </button>
       );
     }
     if (receipt) {
