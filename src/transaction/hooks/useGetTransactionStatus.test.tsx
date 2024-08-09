@@ -54,7 +54,7 @@ describe('useGetTransactionStatus', () => {
     const { result } = renderHook(() => useGetTransactionStatus());
 
     expect(result.current.label).toBe('Successful!');
-    expect(result.current.actionElement).not.toBeNull();
+    expect(result.current.actionElement).toBeNull();
   });
 
   it('should return correct status and actionElement when error occurs', () => {
