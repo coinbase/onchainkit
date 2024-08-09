@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo } from 'react';
 import { closeSvg } from '../../internal/svg/closeSvg';
-import { cn } from '../../styles/theme';
+import { background, cn } from '../../styles/theme';
 import type { TransactionToastReact } from '../types';
 import { useTransactionContext } from './TransactionProvider';
 
@@ -67,8 +67,9 @@ export function TransactionToast({
   return (
     <div
       className={cn(
+        background.default,
         'flex animate-enter items-center justify-between rounded-lg',
-        'bg-gray-100 p-2 shadow-[0px_8px_24px_0px_rgba(0,0,0,0.12)]',
+        'p-2 shadow-[0px_8px_24px_0px_rgba(0,0,0,0.12)]',
         '-translate-x-2/4 fixed z-20',
         positionClass,
         className,
