@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it } from 'vitest';
-import { getWindowDimensions } from './getWindowDimensions'; // Adjust the import path as needed
+import { getWindowDimensions } from './getWindowDimensions';
 
 describe('getWindowDimensions', () => {
   beforeEach(() => {
