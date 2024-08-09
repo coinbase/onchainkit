@@ -21,7 +21,7 @@ export function WalletDropdownFundLink({
       return icon;
     }
   }, [icon]);
-  
+
   const currentURL = window.location.href;
   const tabName = document.title;
   const fundingUrl = `http://keys.coinbase.com/funding?dappName=${tabName}&dappUrl=${currentURL}&onchainkit=${version}`;
