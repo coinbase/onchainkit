@@ -52,7 +52,7 @@ export default function TransactionWrapper({
 
   return (
     <main className='flex flex-col'>
-      <div className='flex max-w-[450px] items-center rounded-lg bg-white p-4 justify-center'>
+      <div className='flex max-w-[450px] items-center rounded-lg p-4 justify-center'>
         {children({ address, contracts, onError, onSuccess })}
       </div>
     </main>
