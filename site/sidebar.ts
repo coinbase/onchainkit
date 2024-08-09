@@ -20,83 +20,17 @@ export const sidebar = [
         text: 'Reporting a bug',
         link: '/guides/reporting-bug',
       },
-    ],
-  },
-  {
-    text: 'Config',
-    items: [
-      {
-        text: 'Components',
-        items: [
-          {
-            text: 'OnchainKitProvider',
-            link: '/config/onchainkit-provider',
-          },
-        ],
-      },
-      {
-        text: 'Utilities',
-        collapsed: true,
-        items: [
-          {
-            text: 'isBase',
-            link: '/config/is-base',
-          },
-        ],
-      },
-      {
-        text: 'Types',
-        link: '/config/types',
-      },
-    ],
-    link: '/config/onchainkit-provider',
-  },
-  {
-    text: 'Frame',
-    items: [
-      {
-        text: 'Components',
-        items: [
-          {
-            text: 'FrameMetadata',
-            link: '/frame/frame-metadata',
-          },
-        ],
-      },
-      {
-        text: 'Utilities',
-        collapsed: true,
-        items: [
-          {
-            text: 'getFrameHtmlResponse',
-            link: '/frame/get-frame-html-response',
-          },
-          {
-            text: 'getFrameMessage',
-            link: '/frame/get-frame-message',
-          },
-          {
-            text: 'getFrameMetadata',
-            link: '/frame/get-frame-metadata',
-          },
-        ],
-      },
       {
         text: 'Framegear',
         link: '/frame/framegear',
       },
-      {
-        text: 'Types',
-        link: '/frame/types',
-      },
     ],
-    link: '/frame/frame-metadata',
   },
   {
-    text: 'Identity',
+    text: 'Components',
     items: [
       {
-        text: 'Components',
+        text: 'Identity',
         items: [
           {
             text: 'Address',
@@ -121,75 +55,19 @@ export const sidebar = [
         ],
       },
       {
-        text: 'Utilities',
-        collapsed: true,
-        items: [
-          {
-            text: 'getAvatar',
-            link: '/identity/get-avatar',
-          },
-          {
-            text: 'getAttestations',
-            link: '/identity/get-attestations',
-          },
-          {
-            text: 'getName',
-            link: '/identity/get-name',
-          },
-          {
-            text: 'useName',
-            link: '/identity/use-name',
-          },
-          {
-            text: 'useAvatar',
-            link: '/identity/use-avatar',
-          },
-        ],
+        text: 'FrameMetadata',
+        link: '/frame/frame-metadata',
       },
       {
-        text: 'Types',
-        link: '/identity/types',
-      },
-    ],
-  },
-  {
-    text: 'Swap',
-    items: [
-      {
-        text: 'Components',
-        items: [
-          {
-            text: 'Swap',
-            link: '/swap/swap',
-          },
-        ],
+        text: 'OnchainKitProvider',
+        link: '/config/onchainkit-provider',
       },
       {
-        text: 'Utilities',
-        collapsed: true,
-        items: [
-          {
-            text: 'getSwapQuote',
-            link: '/swap/get-swap-quote',
-          },
-          {
-            text: 'buildSwapTransaction',
-            link: '/swap/build-swap-transaction',
-          },
-        ],
+        text: 'Swap',
+        link: '/swap/swap',
       },
       {
-        text: 'Types',
-        link: '/swap/types',
-      },
-    ],
-    link: '/swap/swap',
-  },
-  {
-    text: 'Token',
-    items: [
-      {
-        text: 'Components',
+        text: 'Token',
         items: [
           {
             text: 'TokenChip',
@@ -214,113 +92,130 @@ export const sidebar = [
         ],
       },
       {
-        text: 'Utilities',
-        collapsed: true,
-        items: [
-          {
-            text: 'formatAmount',
-            link: '/token/format-amount',
-          },
-          {
-            text: 'getTokens',
-            link: '/token/get-tokens',
-          },
-        ],
+        text: 'Transaction',
+        link: '/transaction/transaction',
       },
       {
-        text: 'Types',
-        link: '/token/types',
+        text: 'Wallet',
+        link: '/wallet/wallet',
       },
     ],
+    link: '/config/onchainkit-provider',
   },
   {
-    text: 'Transaction',
-    items: [
-      {
-        text: 'Components',
-        items: [
-          {
-            text: 'Transaction',
-            link: '/transaction/transaction',
-          },
-        ],
-      },
-      {
-        text: 'Types',
-        link: '/transaction/types',
-      },
-    ],
-    link: '/transaction/transaction',
-  },
-  {
-    text: 'Wallet',
-    items: [
-      {
-        text: 'Components',
-        items: [
-          {
-            text: 'Wallet',
-            link: '/wallet/wallet',
-          },
-        ],
-      },
-      {
-        text: 'Utilities',
-        collapsed: true,
-        items: [
-          {
-            text: 'isValidAAEntrypoint',
-            link: '/wallet/is-valid-aa-entrypoint',
-          },
-          {
-            text: 'isWalletACoinbaseSmartWallet',
-            link: '/wallet/is-wallet-a-coinbase-smart-wallet',
-          },
-        ],
-      },
-      {
-        text: 'Types',
-        link: '/wallet/types',
-      },
-    ],
-    link: '/wallet/wallet',
-  },
-  {
-    text: 'Farcaster',
+    text: 'Utilities',
     collapsed: true,
     items: [
       {
-        text: 'Utilities',
-        items: [
-          {
-            text: 'getFarcasterUserAddress',
-            link: '/farcaster/get-farcaster-user-address',
-          },
-        ],
+        text: 'buildSwapTransaction',
+        link: '/swap/build-swap-transaction',
       },
       {
-        text: 'Types',
+        text: 'formatAmount',
+        link: '/token/format-amount',
+      },
+      {
+        text: 'isBase',
+        link: '/config/is-base',
+      },
+      {
+        text: 'isXmtpFrameRequest',
+        link: '/xmtp/is-xmtp-frame-request',
+      },
+      {
+        text: 'isValidAAEntrypoint',
+        link: '/wallet/is-valid-aa-entrypoint',
+      },
+      {
+        text: 'isWalletACoinbaseSmartWallet',
+        link: '/wallet/is-wallet-a-coinbase-smart-wallet',
+      },
+      {
+        text: 'getAttestations',
+        link: '/identity/get-attestations',
+      },
+      {
+        text: 'getAvatar',
+        link: '/identity/get-avatar',
+      },
+      {
+        text: 'getFarcasterUserAddress',
+        link: '/farcaster/get-farcaster-user-address',
+      },
+      {
+        text: 'getFrameHtmlResponse',
+        link: '/frame/get-frame-html-response',
+      },
+      {
+        text: 'getFrameMessage',
+        link: '/frame/get-frame-message',
+      },
+      {
+        text: 'getFrameMetadata',
+        link: '/frame/get-frame-metadata',
+      },
+      {
+        text: 'getSwapQuote',
+        link: '/swap/get-swap-quote',
+      },
+      {
+        text: 'getName',
+        link: '/identity/get-name',
+      },
+      {
+        text: 'getTokens',
+        link: '/token/get-tokens',
+      },
+      {
+        text: 'getXmtpFrameMessage',
+        link: '/xmtp/get-xmtp-frame-message',
+      },
+      {
+        text: 'useAvatar',
+        link: '/identity/use-avatar',
+      },
+      {
+        text: 'useName',
+        link: '/identity/use-name',
+      },
+    ]
+  },
+  {
+    text: 'Types',
+    collapsed: true,
+    items: [
+      {
+        text: 'Config',
+        link: '/config/types',
+      },
+      {
+        text: 'Farcaster',
         link: '/farcaster/types',
       },
-    ],
-  },
-  {
-    text: 'XMTP',
-    collapsed: true,
-    items: [
       {
-        text: 'Utilities',
-        items: [
-          {
-            text: 'getXmtpFrameMessage',
-            link: '/xmtp/get-xmtp-frame-message',
-          },
-          {
-            text: 'isXmtpFrameRequest',
-            link: '/xmtp/is-xmtp-frame-request',
-          },
-        ],
+        text: 'Frame',
+        link: '/frame/types',
       },
-    ],
+      {
+        text: 'Identity',
+        link: '/identity/types',
+      },
+      {
+        text: 'Swap',
+        link: '/swap/types',
+      },
+      {
+        text: 'Token',
+        link: '/token/types',
+      },
+      {
+        text: 'Transaction',
+        link: '/transaction/types',
+      },
+      {
+        text: 'Wallet',
+        link: '/wallet/types',
+      },
+    ]
   },
 ] as const satisfies Sidebar;
