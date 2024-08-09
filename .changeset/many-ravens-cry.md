@@ -2,4 +2,4 @@
 "@coinbase/onchainkit": patch
 ---
 
--**chore**: Add testing to Transaction Toast. By @cpcramer #1022
+-**chore**: Add testing to Transaction Toast. By @cpcramer #1023
