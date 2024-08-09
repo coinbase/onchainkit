@@ -30,7 +30,6 @@ The Wallet Dropdown Fund Link provides an easy way for to access the [Funding](h
 
 ```tsx
 import {
-  // [!code focus]
   ConnectWallet,
   Wallet,
   WalletDropdown,
@@ -55,13 +54,11 @@ export function WalletComponents() {
           <Avatar className="h-6 w-6" />
           <Name />
         </ConnectWallet>
-        // [!code focus]
         <WalletDropdown>
-          // [!code focus]
           <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick>
             <Avatar />
             <Name />
-            <Address className={color.foregroundMuted} />
+            <Address />
             <EthBalance />
           </Identity>
           <WalletDropdownFundLink /> // [!code focus]
@@ -71,7 +68,6 @@ export function WalletComponents() {
           <WalletDropdownDisconnect />
         </WalletDropdown>
       </Wallet>
-      // [!code focus]
     </div>
   );
 }
