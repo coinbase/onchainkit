@@ -10,7 +10,7 @@ export function WalletDropdownFundLink({
   rel,
   openIn = 'tab',
   target,
-  text = 'Fund Wallet',
+  text = 'Fund wallet',
   windowSize = 'm',
 }: WalletDropdownFundLinkReact) {
   const iconSvg = useMemo(() => {

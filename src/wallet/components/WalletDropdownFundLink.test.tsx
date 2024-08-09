@@ -12,7 +12,7 @@ describe('WalletDropdownFundLink', () => {
     const linkElement = screen.getByRole('link');
     expect(linkElement).toBeInTheDocument();
     expect(linkElement).toHaveAttribute('href', FUNDING_URL);
-    expect(screen.getByText('Fund Wallet')).toBeInTheDocument();
+    expect(screen.getByText('Fund wallet')).toBeInTheDocument();
   });
 
   it('renders correctly with custom icon element', () => {
@@ -22,7 +22,7 @@ describe('WalletDropdownFundLink', () => {
     const linkElement = screen.getByRole('link');
     expect(linkElement).toBeInTheDocument();
     expect(linkElement).toHaveAttribute('href', FUNDING_URL);
-    expect(screen.getByText('Fund Wallet')).toBeInTheDocument();
+    expect(screen.getByText('Fund wallet')).toBeInTheDocument();
     expect(screen.getByLabelText('custom-icon')).toBeInTheDocument();
   });
 
@@ -45,13 +45,13 @@ describe('WalletDropdownFundLink', () => {
 
     render(<WalletDropdownFundLink openIn="window" />);
 
-    const linkElement = screen.getByText('Fund Wallet');
+    const linkElement = screen.getByText('Fund wallet');
     fireEvent.click(linkElement);
 
     // Check if window.open was called with the correct arguments
     expect(mockOpen).toHaveBeenCalledWith(
       expect.stringContaining('http://keys.coinbase.com/funding'),
-      'Coinbase Fund Wallet',
+      'Coinbase Fund wallet',
       expect.stringContaining('width=600,height=700'),
     );
 
@@ -77,14 +77,14 @@ describe('WalletDropdownFundLink', () => {
 
       render(<WalletDropdownFundLink openIn="window" windowSize={size} />);
 
-      const linkElement = screen.getByText('Fund Wallet');
+      const linkElement = screen.getByText('Fund wallet');
       fireEvent.click(linkElement);
 
       const expectedLeft = (1024 - width) / 2;
       const expectedTop = (768 - height) / 2;
       expect(mockOpen).toHaveBeenCalledWith(
         expect.stringContaining('http://keys.coinbase.com/funding'),
-        'Coinbase Fund Wallet',
+        'Coinbase Fund wallet',
         expect.stringContaining(
           `width=${width},height=${height},resizable,scrollbars=yes,status=1,left=${expectedLeft},top=${expectedTop}`,
         ),
