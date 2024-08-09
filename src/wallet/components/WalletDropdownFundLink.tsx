@@ -21,9 +21,10 @@ export function WalletDropdownFundLink({
       return icon;
     }
   }, [icon]);
-
+  
   const currentURL = window.location.href;
   const tabName = document.title;
+  const fundingUrl = `http://keys.coinbase.com/funding?dappName=${tabName}&dappUrl=${currentURL}&onchainkit=${version}`;
   const windowSizes: Record<
     's' | 'm' | 'l',
     {
@@ -38,12 +39,11 @@ export function WalletDropdownFundLink({
 
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault();
-    const url = `http://keys.coinbase.com/funding?dappName=${tabName}&dappUrl=${currentURL}&onchainkit=${version}`;
     const { width, height } = windowSizes[windowSize];
     const left = (window.screen.width - width) / 2;
     const top = (window.screen.height - height) / 2;
     const windowFeatures = `width=${width},height=${height},resizable,scrollbars=yes,status=1,left=${left},top=${top}`;
-    window.open(url, 'Coinbase Fund Wallet', windowFeatures);
+    window.open(fundingUrl, 'Coinbase Fund Wallet', windowFeatures);
   };
 
   const commonClassName = cn(
@@ -65,7 +65,7 @@ export function WalletDropdownFundLink({
     return (
       <a
         className={commonClassName}
-        href={`http://keys.coinbase.com/funding?dappName=${tabName}&dappUrl=${currentURL}`}
+        href={fundingUrl}
         target={target}
         rel={rel}
       >
