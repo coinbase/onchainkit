@@ -1,15 +1,15 @@
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
-import { useGetTransactionStatus } from '../hooks/useGetTransactionStatus';
+import { useGetTransactionLabel } from '../hooks/useGetTransactionLabel';
 import { TransactionStatusLabel } from './TransactionStatusLabel';
 
-vi.mock('../hooks/useGetTransactionStatus', () => ({
-  useGetTransactionStatus: vi.fn(),
+vi.mock('../hooks/useGetTransactionLabel', () => ({
+  useGetTransactionLabel: vi.fn(),
 }));
 
 describe('TransactionStatusLabel', () => {
   it('renders transaction status label', () => {
-    (useGetTransactionStatus as vi.Mock).mockReturnValue({
+    (useGetTransactionLabel as vi.Mock).mockReturnValue({
       label: 'Successful!',
       labelClassName: 'text-ock-foreground-muted',
     });

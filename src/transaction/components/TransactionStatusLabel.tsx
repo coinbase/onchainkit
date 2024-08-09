@@ -1,11 +1,13 @@
 import { cn, text } from '../../styles/theme';
-import { useGetTransactionStatus } from '../hooks/useGetTransactionStatus';
+import { useGetTransactionLabel } from '../hooks/useGetTransactionLabel';
 import type { TransactionStatusLabelReact } from '../types';
 
 export function TransactionStatusLabel({
   className,
 }: TransactionStatusLabelReact) {
-  const { label, labelClassName } = useGetTransactionStatus();
+  const { label, labelClassName } = useGetTransactionLabel({
+    context: 'status',
+  });
 
   return (
     <div className={cn(text.label2, className)}>
