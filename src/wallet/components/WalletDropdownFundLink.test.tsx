@@ -43,7 +43,7 @@ describe('WalletDropdownFundLink', () => {
     // Mock window.screen
     vi.stubGlobal('screen', { width: 1024, height: 768 });
 
-    render(<WalletDropdownFundLink type="window" />);
+    render(<WalletDropdownFundLink openIn="window" />);
 
     const linkElement = screen.getByText('Deposit Funds');
     fireEvent.click(linkElement);
@@ -57,5 +57,42 @@ describe('WalletDropdownFundLink', () => {
 
     // Clean up
     vi.unstubAllGlobals();
+  });
+
+  const testCases: Array<{
+    size: 's' | 'm' | 'l';
+    width: number;
+    height: number;
+  }> = [
+    { size: 's', width: 400, height: 500 },
+    { size: 'm', width: 600, height: 700 },
+    { size: 'l', width: 800, height: 900 },
+  ];
+
+  testCases.forEach(({ size, width, height }) => {
+    it(`opens a new window when clicked with type="window" and windowSize="${size}"`, () => {
+      const mockOpen = vi.fn();
+      vi.stubGlobal('open', mockOpen);
+      vi.stubGlobal('open', mockOpen);
+      vi.stubGlobal('screen', { width: 1024, height: 768 });
+
+      render(<WalletDropdownFundLink openIn="window" windowSize={size} />);
+
+      const linkElement = screen.getByText('Deposit Funds');
+      fireEvent.click(linkElement);
+
+      const expectedLeft = (1024 - width) / 2;
+      const expectedTop = (768 - height) / 2;
+      expect(mockOpen).toHaveBeenCalledWith(
+        expect.stringContaining('http://keys.coinbase.com/funding'),
+        'Coinbase Fund Wallet',
+        expect.stringContaining(
+          `width=${width},height=${height},resizable,scrollbars=yes,status=1,left=${expectedLeft},top=${expectedTop}`,
+        ),
+      );
+
+      vi.unstubAllGlobals();
+      vi.clearAllMocks();
+    });
   });
 });
