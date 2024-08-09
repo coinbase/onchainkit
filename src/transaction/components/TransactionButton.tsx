@@ -1,6 +1,8 @@
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
+import { useChainId } from 'wagmi';
+import { useShowCallsStatus } from 'wagmi/experimental';
 import { Spinner } from '../../internal/components/Spinner';
-import { checkmarkSvg } from '../../internal/svg/checkmarkSvg';
+import { getChainExplorer } from '../../network/getChainExplorer';
 import { background, cn, color, pressable, text } from '../../styles/theme';
 import type { TransactionButtonReact } from '../types';
 import { isSpinnerDisplayed } from '../utils';
@@ -14,6 +16,7 @@ export function TransactionButton({
   const {
     address,
     contracts,
+    chainId,
     errorMessage,
     isLoading,
     onSubmit,
@@ -23,6 +26,9 @@ export function TransactionButton({
     transactionHash,
     transactionId,
   } = useTransactionContext();
+
+  const accountChainId = chainId ?? useChainId();
+  const { showCallsStatus } = useShowCallsStatus();
 
   const isInProgress =
     statusWriteContract === 'pending' ||
@@ -47,13 +53,35 @@ export function TransactionButton({
 
   const buttonContent = useMemo(() => {
     if (receipt) {
-      return checkmarkSvg;
+      return 'View transaction';
     }
     if (errorMessage) {
       return 'Try again';
     }
     return buttonText;
   }, [buttonText, errorMessage, receipt]);
+
+  const handleSubmit = useCallback(() => {
+    if (receipt && transactionId) {
+      showCallsStatus({ id: transactionId });
+    } else if (receipt) {
+      const chainExplorer = getChainExplorer(accountChainId);
+      window.open(
+        `${chainExplorer}/tx/${transactionHash}`,
+        '_blank',
+        'noopener,noreferrer',
+      );
+    } else {
+      onSubmit();
+    }
+  }, [
+    accountChainId,
+    onSubmit,
+    receipt,
+    showCallsStatus,
+    transactionHash,
+    transactionId,
+  ]);
 
   return (
     <button
@@ -65,7 +93,7 @@ export function TransactionButton({
         text.headline,
         className,
       )}
-      onClick={onSubmit}
+      onClick={handleSubmit}
       type="button"
       disabled={isDisabled}
     >

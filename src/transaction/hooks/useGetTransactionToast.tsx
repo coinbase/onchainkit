@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import type { ReactNode } from 'react';
 import { useChainId } from 'wagmi';
+import { useShowCallsStatus } from 'wagmi/experimental';
 import { Spinner } from '../../internal/components/Spinner';
 import { errorSvg } from '../../internal/svg/errorSvg';
 import { successSvg } from '../../internal/svg/successSvg';
@@ -22,6 +23,8 @@ export function useGetTransactionToast() {
 
   const isInProgress = isLoading || !!transactionId || !!transactionHash;
 
+  const { showCallsStatus } = useShowCallsStatus();
+
   return useMemo(() => {
     const chainExplorer = getChainExplorer(accountChainId);
 
@@ -33,6 +36,7 @@ export function useGetTransactionToast() {
       icon = <Spinner className="px-1.5 py-1.5" />;
       label = 'Transaction in progress';
     }
+    // EOA will have txn hash
     if (transactionHash) {
       actionElement = (
         <a
@@ -44,6 +48,19 @@ export function useGetTransactionToast() {
             View transaction
           </span>
         </a>
+      );
+    }
+    // SW will have txn id
+    if (transactionId) {
+      actionElement = (
+        <button
+          onClick={() => showCallsStatus({ id: transactionId })}
+          type="button"
+        >
+          <span className={cn(text.label1, color.primary)}>
+            View transaction
+          </span>
+        </button>
       );
     }
     if (receipt) {
@@ -67,6 +84,8 @@ export function useGetTransactionToast() {
     isInProgress,
     onSubmit,
     receipt,
+    showCallsStatus,
     transactionHash,
+    transactionId,
   ]);
 }
