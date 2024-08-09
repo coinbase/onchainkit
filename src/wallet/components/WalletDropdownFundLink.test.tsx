@@ -1,9 +1,9 @@
 import { fireEvent, render, screen } from '@testing-library/react';
-import { describe, expect, it, vi } from 'vitest';
+import { expect, it, vi } from 'vitest';
+import { version } from '../../version';
 import { WalletDropdownFundLink } from './WalletDropdownFundLink';
 
-const FUNDING_URL =
-  'http://keys.coinbase.com/funding?dappName=&dappUrl=http://localhost:3000/';
+const FUNDING_URL = `http://keys.coinbase.com/funding?dappName=&dappUrl=http://localhost:3000/onchainkit=${version}`;
 
 describe('WalletDropdownFundLink', () => {
   it('renders correctly with default props', () => {
