@@ -1,10 +1,10 @@
 import { useMemo } from 'react';
+import { Spinner } from '../../internal/components/Spinner';
+import { errorSvg } from '../../internal/svg/errorSvg';
+import { successSvg } from '../../internal/svg/successSvg';
 import { cn, text } from '../../styles/theme';
 import type { TransactionToastIconReact } from '../types';
 import { useTransactionContext } from './TransactionProvider';
-import { Spinner } from '../../internal/components/Spinner';
-import { successSvg } from '../../internal/svg/successSvg';
-import { errorSvg } from '../../internal/svg/errorSvg';
 
 export function TransactionToastIcon({ className }: TransactionToastIconReact) {
   const { errorMessage, isLoading, receipt, transactionHash, transactionId } =
