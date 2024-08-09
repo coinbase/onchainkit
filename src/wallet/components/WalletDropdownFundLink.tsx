@@ -38,7 +38,7 @@ export function WalletDropdownFundLink({
     window.open(fundingUrl, 'Coinbase Fund Wallet', windowFeatures);
   };
 
-  const commonClassName = cn(
+  const overrideClassName = cn(
     pressable.default,
     'relative flex items-center px-4 py-3',
     className,
@@ -56,7 +56,7 @@ export function WalletDropdownFundLink({
   if (openIn === 'tab') {
     return (
       <a
-        className={commonClassName}
+        className={overrideClassName}
         href={fundingUrl}
         target={target}
         rel={rel}
@@ -66,7 +66,7 @@ export function WalletDropdownFundLink({
     );
   }
   return (
-    <button type="button" className={commonClassName} onClick={handleClick}>
+    <button type="button" className={overrideClassName} onClick={handleClick}>
       {linkContent}
     </button>
   );
