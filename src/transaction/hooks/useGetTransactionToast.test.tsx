@@ -46,6 +46,28 @@ describe('useGetTransactionToast', () => {
     expect(result.current.actionElement).not.toBeNull();
   });
 
+  it('should return correct status and actionElement when transaction id exists', () => {
+    (useTransactionContext as vi.Mock).mockReturnValue({
+      transactionId: 'ab123',
+    });
+
+    const { result } = renderHook(() => useGetTransactionToast());
+
+    expect(result.current.label).toBe('Transaction in progress');
+    expect(result.current.actionElement).not.toBeNull();
+  });
+
+  it('should return correct status and actionElement when transaction hash exists', () => {
+    (useTransactionContext as vi.Mock).mockReturnValue({
+      transactionHash: 'ab123',
+    });
+
+    const { result } = renderHook(() => useGetTransactionToast());
+
+    expect(result.current.label).toBe('Transaction in progress');
+    expect(result.current.actionElement).not.toBeNull();
+  });
+
   it('should return correct toast and actionElement when error occurs', () => {
     (useTransactionContext as vi.Mock).mockReturnValue({
       errorMessage: 'error',
