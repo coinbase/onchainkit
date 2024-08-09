@@ -1,5 +1,7 @@
 import { render, screen } from '@testing-library/react';
-import { describe, expect, it, vi } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { useChainId } from 'wagmi';
+import { useShowCallsStatus } from 'wagmi/experimental';
 import { TransactionButton } from './TransactionButton';
 import { useTransactionContext } from './TransactionProvider';
 
@@ -7,11 +9,21 @@ vi.mock('./TransactionProvider', () => ({
   useTransactionContext: vi.fn(),
 }));
 
+vi.mock('wagmi', () => ({
+  useChainId: vi.fn(),
+}));
+
 vi.mock('wagmi/experimental', () => ({
   useShowCallsStatus: vi.fn(),
 }));
 
 describe('TransactionButton', () => {
+  beforeEach(() => {
+    (useChainId as vi.Mock).mockReturnValue(123);
+    (useShowCallsStatus as vi.Mock).mockReturnValue({
+      showCallsStatus: vi.fn(),
+    });
+  });
   it('renders correctly', () => {
     (useTransactionContext as vi.Mock).mockReturnValue({
       isLoading: false,
@@ -34,7 +46,7 @@ describe('TransactionButton', () => {
     expect(spinner).toBeInTheDocument();
   });
 
-  it('renders checkmark svg correctly when receipt exists', () => {
+  it('renders view txn text when receipt exists', () => {
     (useTransactionContext as vi.Mock).mockReturnValue({
       isLoading: true,
       receipt: '123',
@@ -42,8 +54,8 @@ describe('TransactionButton', () => {
 
     render(<TransactionButton text="Transact" />);
 
-    const checkmark = screen.getByTestId('ockCheckmarkSvg');
-    expect(checkmark).toBeInTheDocument();
+    const text = screen.getByText('View transaction');
+    expect(text).toBeInTheDocument();
   });
 
   it('renders try again when error exists', () => {

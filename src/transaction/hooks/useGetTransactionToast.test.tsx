@@ -1,6 +1,7 @@
 import { renderHook } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { useChainId } from 'wagmi';
+import { useShowCallsStatus } from 'wagmi/experimental';
 import { useTransactionContext } from '../components/TransactionProvider';
 import { useGetTransactionToast } from './useGetTransactionToast';
 
@@ -12,9 +13,16 @@ vi.mock('wagmi', () => ({
   useChainId: vi.fn(),
 }));
 
+vi.mock('wagmi/experimental', () => ({
+  useShowCallsStatus: vi.fn(),
+}));
+
 describe('useGetTransactionToast', () => {
   beforeEach(() => {
     (useChainId as vi.Mock).mockReturnValue(123);
+    (useShowCallsStatus as vi.Mock).mockReturnValue({
+      showCallsStatus: vi.fn(),
+    });
   });
   it('should return correct toast and actionElement when transaction is loading', () => {
     (useTransactionContext as vi.Mock).mockReturnValue({
