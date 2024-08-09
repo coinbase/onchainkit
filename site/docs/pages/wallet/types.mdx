@@ -94,3 +94,18 @@ export type WalletDropdownLinkReact = {
   target?: string;
 };
 ```
+
+## `WalletDropdownFundLinkReact`
+
+```ts
+export type WalletDropdownFundLinkReact = {
+  className?: string; // Optional className override for the element
+  href: string;
+  icon?: ReactNode;
+  rel?: string;
+  target?: string;
+  text?: string;
+  type?: 'popup' | 'link';
+  size?: 's' | 'm' | 'l';
+};
+```
