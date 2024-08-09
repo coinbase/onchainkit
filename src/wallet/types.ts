@@ -99,18 +99,6 @@ export type WalletDropdownDisconnectReact = {
 /**
  * Note: exported as public Type
  */
-export type WalletDropdownLinkReact = {
-  children: string;
-  className?: string; // Optional className override for the element
-  href: string;
-  icon?: 'wallet' & ReactNode;
-  rel?: string;
-  target?: string;
-};
-
-/**
- * Note: exported as public Type
- */
 export type WalletDropdownFundLinkReact = {
   className?: string; // Optional className override for the element
   href: string;
@@ -120,4 +108,16 @@ export type WalletDropdownFundLinkReact = {
   text?: string;
   type?: 'window' | 'tab';
   size?: 's' | 'm' | 'l';
+};
+
+/**
+ * Note: exported as public Type
+ */
+export type WalletDropdownLinkReact = {
+  children: string;
+  className?: string; // Optional className override for the element
+  href: string;
+  icon?: 'wallet' & ReactNode;
+  rel?: string;
+  target?: string;
 };
