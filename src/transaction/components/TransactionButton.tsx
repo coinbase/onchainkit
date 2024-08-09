@@ -1,12 +1,12 @@
 import { useCallback, useMemo } from 'react';
+import { useChainId } from 'wagmi';
+import { useShowCallsStatus } from 'wagmi/experimental';
 import { Spinner } from '../../internal/components/Spinner';
+import { getChainExplorer } from '../../network/getChainExplorer';
 import { background, cn, color, pressable, text } from '../../styles/theme';
 import type { TransactionButtonReact } from '../types';
 import { isSpinnerDisplayed } from '../utils/isSpinnerDisplayed';
 import { useTransactionContext } from './TransactionProvider';
-import { useShowCallsStatus } from 'wagmi/experimental';
-import { useChainId } from 'wagmi';
-import { getChainExplorer } from '../../network/getChainExplorer';
 
 export function TransactionButton({
   className,
