@@ -1,25 +1,21 @@
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useMemo,
-  useState,
-} from 'react';
-import type { Address, TransactionReceipt } from 'viem';
+import { createContext, useCallback, useContext, useState } from 'react';
+import type { TransactionReceipt } from 'viem';
 import { type BaseError, useConfig, useSendTransaction } from 'wagmi';
+import { useValue } from '../../internal/hooks/useValue';
 import { formatTokenAmount } from '../../internal/utils/formatTokenAmount';
 import type { Token } from '../../token';
 import { USER_REJECTED_ERROR_CODE } from '../constants';
 import { useFromTo } from '../hooks/useFromTo';
-import type { SwapContextType, SwapError, SwapErrorState } from '../types';
+import type {
+  SwapContextType,
+  SwapError,
+  SwapErrorState,
+  SwapProviderReact,
+} from '../types';
 import { buildSwapTransaction } from '../utils/buildSwapTransaction';
 import { getSwapQuote } from '../utils/getSwapQuote';
 import { isSwapError } from '../utils/isSwapError';
 import { processSwapTransaction } from '../utils/processSwapTransaction';
-
-function useValue<T>(object: T): T {
-  return useMemo(() => object, [object]);
-}
 
 const emptyContext = {} as SwapContextType;
 
@@ -37,14 +33,7 @@ export function SwapProvider({
   address,
   children,
   experimental,
-}: {
-  address: Address;
-  children: React.ReactNode;
-  experimental: {
-    useAggregator: boolean; // Whether to use a DEX aggregator. (default: true)
-    maxSlippage?: number; // Maximum acceptable slippage for a swap. (default: 10) This is as a percent, not basis points
-  };
-}) {
+}: SwapProviderReact) {
   // Feature flags
   const { useAggregator } = experimental;
 

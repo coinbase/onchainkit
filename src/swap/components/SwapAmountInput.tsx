@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo } from 'react';
 import { TextInput } from '../../internal/components/TextInput';
+import { useValue } from '../../internal/hooks/useValue';
 import { getRoundedAmount } from '../../internal/utils/getRoundedAmount';
 import { isValidAmount } from '../../internal/utils/isValidAmount';
 import { background, cn, color, pressable, text } from '../../styles/theme';
@@ -7,10 +8,6 @@ import { TokenChip, TokenSelectDropdown } from '../../token';
 import type { Token } from '../../token';
 import type { SwapAmountInputReact } from '../types';
 import { useSwapContext } from './SwapProvider';
-
-function useValue<T>(object: T): T {
-  return useMemo(() => object, [object]);
-}
 
 // istanbul ignore next
 export function SwapAmountInput({
