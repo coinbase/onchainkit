@@ -6,6 +6,16 @@ import type {
   TransactionReceipt,
 } from 'viem';
 
+export type IsSpinnerDisplayedProps = {
+  errorMessage?: string;
+  hasReceipt?: boolean;
+  isLoading?: boolean;
+  statusWriteContract?: string;
+  statusWriteContracts?: string;
+  transactionHash?: string;
+  transactionId?: string;
+};
+
 /**
  * Note: exported as public Type
  */

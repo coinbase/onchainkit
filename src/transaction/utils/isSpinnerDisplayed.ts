@@ -1,12 +1,4 @@
-type IsSpinnerDisplayedProps = {
-  errorMessage?: string;
-  hasReceipt?: boolean;
-  isLoading?: boolean;
-  statusWriteContract?: string;
-  statusWriteContracts?: string;
-  transactionHash?: string;
-  transactionId?: string;
-};
+import type { IsSpinnerDisplayedProps } from '../types';
 
 export function isSpinnerDisplayed({
   errorMessage,

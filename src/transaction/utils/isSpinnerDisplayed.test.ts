@@ -1,4 +1,4 @@
-import { isSpinnerDisplayed } from './utils';
+import { isSpinnerDisplayed } from './isSpinnerDisplayed';
 
 describe('isSpinnerDisplayed', () => {
   it('should return true if transaction hash exists', () => {
