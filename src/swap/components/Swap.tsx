@@ -1,4 +1,5 @@
 import { Children, useMemo } from 'react';
+import { findComponent } from '../../internal/utils/findComponent';
 import { background, cn, text } from '../../styles/theme';
 import type { SwapReact } from '../types';
 import { SwapAmountInput } from './SwapAmountInput';
@@ -7,7 +8,6 @@ import { SwapMessage } from './SwapMessage';
 import { SwapProvider } from './SwapProvider';
 import { SwapToggleButton } from './SwapToggleButton';
 
-// istanbul ignore next
 export function Swap({
   address,
   experimental = { useAggregator: true },
@@ -18,16 +18,10 @@ export function Swap({
   const { inputs, toggleButton, swapButton, swapMessage } = useMemo(() => {
     const childrenArray = Children.toArray(children);
     return {
-      // @ts-ignore
-      inputs: childrenArray.filter(({ type }) => type === SwapAmountInput),
-      // @ts-ignore
-      toggleButton: childrenArray.find(({ type }) => type === SwapToggleButton),
-      swapButton: childrenArray.find(
-        // @ts-ignore
-        ({ type }) => type.name === SwapButton.name,
-      ),
-      // @ts-ignore
-      swapMessage: childrenArray.find(({ type }) => type === SwapMessage),
+      inputs: childrenArray.filter(findComponent(SwapAmountInput)),
+      toggleButton: childrenArray.find(findComponent(SwapToggleButton)),
+      swapButton: childrenArray.find(findComponent(SwapButton)),
+      swapMessage: childrenArray.find(findComponent(SwapMessage)),
     };
   }, [children]);
 
