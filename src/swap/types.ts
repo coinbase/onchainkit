@@ -196,6 +196,15 @@ export type SwapParams = {
   to: Token;
 };
 
+export type SwapProviderReact = {
+  address: Address;
+  children: React.ReactNode;
+  experimental: {
+    useAggregator: boolean; // Whether to use a DEX aggregator. (default: true)
+    maxSlippage?: number; // Maximum acceptable slippage for a swap. (default: 10) This is as a percent, not basis points
+  };
+};
+
 /**
  * Note: exported as public Type
  */
