@@ -1,12 +1,7 @@
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useMemo,
-  useState,
-} from 'react';
+import { createContext, useCallback, useContext, useState } from 'react';
 import type { Address, TransactionReceipt } from 'viem';
 import { type BaseError, useConfig, useSendTransaction } from 'wagmi';
+import { useValue } from '../../internal/hooks/useValue';
 import { formatTokenAmount } from '../../internal/utils/formatTokenAmount';
 import type { Token } from '../../token';
 import { USER_REJECTED_ERROR_CODE } from '../constants';
@@ -16,10 +11,6 @@ import { buildSwapTransaction } from '../utils/buildSwapTransaction';
 import { getSwapQuote } from '../utils/getSwapQuote';
 import { isSwapError } from '../utils/isSwapError';
 import { processSwapTransaction } from '../utils/processSwapTransaction';
-
-function useValue<T>(object: T): T {
-  return useMemo(() => object, [object]);
-}
 
 const emptyContext = {} as SwapContextType;
 
