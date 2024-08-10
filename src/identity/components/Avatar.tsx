@@ -1,6 +1,7 @@
 import { Children, useMemo } from 'react';
 import { defaultAvatarSVG } from '../../internal/svg/defaultAvatarSVG';
 import { defaultLoadingSVG } from '../../internal/svg/defaultLoadingSVG';
+import { findComponent } from '../../internal/utils/findComponent';
 import { cn } from '../../styles/theme';
 import { useAvatar } from '../hooks/useAvatar';
 import { useName } from '../hooks/useName';
@@ -46,8 +47,7 @@ export function Avatar({
   );
 
   const badge = useMemo(() => {
-    // @ts-ignore
-    return Children.toArray(children).find(({ type }) => type === Badge);
+    return Children.toArray(children).find(findComponent(Badge));
   }, [children]);
 
   const defaultAvatar = defaultComponent || defaultAvatarSVG;

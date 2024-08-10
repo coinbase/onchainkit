@@ -1,4 +1,5 @@
 import { Children, useEffect, useMemo, useRef } from 'react';
+import { findComponent } from '../../internal/utils/findComponent';
 import type { WalletReact } from '../types';
 import { ConnectWallet } from './ConnectWallet';
 import { WalletDropdown } from './WalletDropdown';
@@ -11,10 +12,8 @@ const WalletContent = ({ children }: WalletReact) => {
   const { connect, dropdown } = useMemo(() => {
     const childrenArray = Children.toArray(children);
     return {
-      // @ts-ignore
-      connect: childrenArray.filter(({ type }) => type === ConnectWallet),
-      // @ts-ignore
-      dropdown: childrenArray.filter(({ type }) => type === WalletDropdown),
+      connect: childrenArray.find(findComponent(ConnectWallet)),
+      dropdown: childrenArray.find(findComponent(WalletDropdown)),
     };
   }, [children]);
 

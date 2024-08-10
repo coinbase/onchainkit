@@ -1,4 +1,5 @@
 import { Children, useMemo } from 'react';
+import { findComponent } from '../../internal/utils/findComponent';
 import { cn, text } from '../../styles/theme';
 import { useName } from '../hooks/useName';
 import type { NameReact } from '../types';
@@ -33,9 +34,7 @@ export function Name({
   });
 
   const badge = useMemo(() => {
-    // @ts-ignore
-    // istanbul ignore next
-    return Children.toArray(children).find(({ type }) => type === Badge);
+    return Children.toArray(children).find(findComponent(Badge));
   }, [children]);
 
   if (isLoading) {
