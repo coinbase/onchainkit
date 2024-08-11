@@ -41,7 +41,12 @@ const TestComponent = () => {
       <button type="button" onClick={context.onSubmit}>
         Submit
       </button>
-      <span data-testid="context-value">{JSON.stringify(context)}</span>
+      <span data-testid="context-value-errorMessage">
+        {context.errorMessage}
+      </span>
+      <span data-testid="context-value-isToastVisible">
+        {`${context.isToastVisible}`}
+      </span>
     </div>
   );
 };
@@ -77,16 +82,13 @@ describe('TransactionProvider', () => {
       statusWriteContracts: 'IDLE',
       writeContractsAsync: writeContractsAsyncMock,
     });
-
     render(
-      <TransactionProvider address="0x123" contracts={[]} onError={() => {}}>
+      <TransactionProvider address="0x123" contracts={[]}>
         <TestComponent />
       </TransactionProvider>,
     );
-
     const button = screen.getByText('Submit');
     fireEvent.click(button);
-
     await waitFor(() => {
       expect(writeContractsAsyncMock).toHaveBeenCalled();
     });
@@ -97,25 +99,20 @@ describe('TransactionProvider', () => {
     (useWaitForTransactionReceipt as ReturnType<typeof vi.fn>).mockReturnValue({
       data: '123',
     });
-
     (useCallsStatus as ReturnType<typeof vi.fn>).mockReturnValue({
       transactionHash: 'hash',
     });
-
     render(
       <TransactionProvider
         address="0x123"
         contracts={[]}
-        onError={() => {}}
         onSuccess={onSuccessMock}
       >
         <TestComponent />
       </TransactionProvider>,
     );
-
     const button = screen.getByText('Submit');
     fireEvent.click(button);
-
     await waitFor(() => {
       expect(onSuccessMock).toHaveBeenCalled();
     });
@@ -129,20 +126,16 @@ describe('TransactionProvider', () => {
       statusWriteContracts: 'IDLE',
       writeContractsAsync: writeContractsAsyncMock,
     });
-
     render(
-      <TransactionProvider address="0x123" contracts={[]} onError={() => {}}>
+      <TransactionProvider address="0x123" contracts={[]}>
         <TestComponent />
       </TransactionProvider>,
     );
-
     const button = screen.getByText('Submit');
     fireEvent.click(button);
-
     await waitFor(() => {
-      const testComponent = screen.getByTestId('context-value');
-      const updatedContext = JSON.parse(testComponent.textContent || '{}');
-      expect(updatedContext.errorMessage).toBe(
+      const testComponent = screen.getByTestId('context-value-errorMessage');
+      expect(testComponent.textContent).toBe(
         'Something went wrong. Please try again.',
       );
     });
@@ -153,21 +146,13 @@ describe('TransactionProvider', () => {
     (useSwitchChain as ReturnType<typeof vi.fn>).mockReturnValue({
       switchChainAsync: switchChainAsyncMock,
     });
-
     render(
-      <TransactionProvider
-        address="0x123"
-        chainId={2}
-        contracts={[]}
-        onError={() => {}}
-      >
+      <TransactionProvider address="0x123" chainId={2} contracts={[]}>
         <TestComponent />
       </TransactionProvider>,
     );
-
     const button = screen.getByText('Submit');
     fireEvent.click(button);
-
     await waitFor(() => {
       expect(switchChainAsyncMock).toHaveBeenCalled();
     });
@@ -178,20 +163,16 @@ describe('TransactionProvider', () => {
       statusWriteContracts: 'IDLE',
       writeContractsAsync: vi.fn().mockRejectedValue(new Error('Test error')),
     });
-
     render(
-      <TransactionProvider address="0x123" contracts={[]} onError={() => {}}>
+      <TransactionProvider address="0x123" contracts={[]}>
         <TestComponent />
       </TransactionProvider>,
     );
-
     const button = screen.getByText('Submit');
     fireEvent.click(button);
-
     await waitFor(() => {
-      const testComponent = screen.getByTestId('context-value');
-      const updatedContext = JSON.parse(testComponent.textContent || '{}');
-      expect(updatedContext.isToastVisible).toBe(true);
+      const testComponent = screen.getByTestId('context-value-isToastVisible');
+      expect(testComponent.textContent).toBe('true');
     });
   });
 });
@@ -202,7 +183,6 @@ describe('useTransactionContext', () => {
       useTransactionContext();
       return null;
     };
-
     const consoleError = vi
       .spyOn(console, 'error')
       .mockImplementation(() => {}); // Suppress error logging

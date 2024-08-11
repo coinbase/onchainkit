@@ -5,7 +5,6 @@ import { base, opBNBTestnet } from 'viem/chains';
 import { vi } from 'vitest';
 import { getAttestationsByFilter } from '../../network/attestations';
 import type { GetAttestationsOptions } from '../types';
-import { easSupportedChains } from './easSupportedChains';
 import { getAttestations } from './getAttestations';
 
 vi.mock('../../network/attestations');
@@ -31,22 +30,17 @@ describe('getAttestations', () => {
     vi.clearAllMocks();
   });
 
-  it('throws an error for unsupported chains', () => {
-    try {
-      getAttestations(mockAddress, opBNBTestnet, mockOptions);
-    } catch (e) {
-      expect(e).toHaveProperty(
-        'message',
-        `Chain is not supported. Supported chains: ${Object.keys(
-          easSupportedChains,
-        ).join(', ')}`,
-      );
-    }
+  it('should return and empty array for unsupported chains', async () => {
+    const result = await getAttestations(
+      mockAddress,
+      opBNBTestnet,
+      mockOptions,
+    );
+    expect(result).toEqual([]);
   });
 
   it('fetches attestations for supported chains', async () => {
     (getAttestationsByFilter as vi.Mock).mockResolvedValue(mockAttestations);
-
     const result = await getAttestations(mockAddress, base, mockOptions);
     expect(result).toEqual(mockAttestations); // Replace [] with expected mockAttestations once implemented
   });
@@ -66,9 +60,7 @@ describe('getAttestations', () => {
     (getAttestationsByFilter as vi.Mock).mockRejectedValue(
       new Error('Network error'),
     );
-
     const result = await getAttestations(mockAddress, base);
-
     expect(result).toEqual([]);
   });
 
