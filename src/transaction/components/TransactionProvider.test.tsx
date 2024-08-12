@@ -175,6 +175,123 @@ describe('TransactionProvider', () => {
       expect(testComponent.textContent).toBe('true');
     });
   });
+
+  it('should not fetch receipts if contract list is empty', async () => {
+    const waitForTransactionReceiptMock = vi.fn();
+    render(
+      <TransactionProvider address="0x123" contracts={[]}>
+        <TestComponent />
+      </TransactionProvider>,
+    );
+    const button = screen.getByText('Submit');
+    fireEvent.click(button);
+    await waitFor(() => {
+      expect(waitForTransactionReceiptMock).not.toHaveBeenCalled();
+    });
+  });
+
+  it('should handle user rejected request', async () => {
+    const writeContractsAsyncMock = vi
+      .fn()
+      .mockRejectedValue({ cause: { name: 'UserRejectedRequestError' } });
+    (useWriteContracts as ReturnType<typeof vi.fn>).mockReturnValue({
+      statusWriteContracts: 'IDLE',
+      writeContractsAsync: writeContractsAsyncMock,
+    });
+
+    render(
+      <TransactionProvider address="0x123" contracts={[]}>
+        <TestComponent />
+      </TransactionProvider>,
+    );
+
+    const button = screen.getByText('Submit');
+    fireEvent.click(button);
+
+    await waitFor(() => {
+      const errorMessage = screen.getByTestId('context-value-errorMessage');
+      expect(errorMessage.textContent).toBe('Request denied.');
+    });
+  });
+
+  it('should call onSuccess when receipts are available', async () => {
+    const onSuccessMock = vi.fn();
+    (useWaitForTransactionReceipt as ReturnType<typeof vi.fn>).mockReturnValue({
+      data: { status: 'success' },
+    });
+    (useCallsStatus as ReturnType<typeof vi.fn>).mockReturnValue({
+      transactionHash: 'hash',
+    });
+
+    render(
+      <TransactionProvider
+        address="0x123"
+        contracts={[]}
+        onSuccess={onSuccessMock}
+      >
+        <TestComponent />
+      </TransactionProvider>,
+    );
+
+    await waitFor(() => {
+      expect(onSuccessMock).toHaveBeenCalledWith({
+        transactionReceipts: [{ status: 'success' }],
+      });
+    });
+  });
+
+  it('should handle chain switching', async () => {
+    const switchChainAsyncMock = vi.fn();
+    (useSwitchChain as ReturnType<typeof vi.fn>).mockReturnValue({
+      switchChainAsync: switchChainAsyncMock,
+    });
+    (useAccount as ReturnType<typeof vi.fn>).mockReturnValue({ chainId: 1 });
+
+    render(
+      <TransactionProvider address="0x123" chainId={2} contracts={[]}>
+        <TestComponent />
+      </TransactionProvider>,
+    );
+
+    const button = screen.getByText('Submit');
+    fireEvent.click(button);
+
+    await waitFor(() => {
+      expect(switchChainAsyncMock).toHaveBeenCalledWith({ chainId: 2 });
+    });
+  });
+
+  it('should handle generic error during fallback', async () => {
+    const writeContractsAsyncMock = vi
+      .fn()
+      .mockRejectedValue(new Error('Method not supported'));
+    const writeContractAsyncMock = vi
+      .fn()
+      .mockRejectedValue(new Error('Generic error'));
+    (useWriteContracts as ReturnType<typeof vi.fn>).mockReturnValue({
+      statusWriteContracts: 'IDLE',
+      writeContractsAsync: writeContractsAsyncMock,
+    });
+    (useWriteContract as ReturnType<typeof vi.fn>).mockReturnValue({
+      status: 'IDLE',
+      writeContractAsync: writeContractAsyncMock,
+    });
+
+    render(
+      <TransactionProvider address="0x123" contracts={[{}]}>
+        <TestComponent />
+      </TransactionProvider>,
+    );
+
+    const button = screen.getByText('Submit');
+    fireEvent.click(button);
+
+    await waitFor(() => {
+      expect(screen.getByTestId('context-value-errorMessage').textContent).toBe(
+        'Something went wrong. Please try again.',
+      );
+    });
+  });
 });
 
 describe('useTransactionContext', () => {
