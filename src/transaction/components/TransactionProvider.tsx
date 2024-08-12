@@ -26,6 +26,7 @@ import { useCallsStatus } from '../hooks/useCallsStatus';
 import { useWriteContract } from '../hooks/useWriteContract';
 import { useWriteContracts } from '../hooks/useWriteContracts';
 import type {
+  LifeCycleStateName,
   TransactionContextType,
   TransactionProviderReact,
 } from '../types';
@@ -51,18 +52,24 @@ export function TransactionProvider({
   children,
   contracts,
   onError,
+  onState,
   onSuccess,
 }: TransactionProviderReact) {
+  // Core Hooks
+  const account = useAccount();
+  const config = useConfig();
   const [errorMessage, setErrorMessage] = useState('');
-  const [transactionId, setTransactionId] = useState('');
   const [isToastVisible, setIsToastVisible] = useState(false);
+  const [receiptArray, setReceiptArray] = useState<TransactionReceipt[]>([]);
+  const [stateName, setStateName] = useState<LifeCycleStateName>('init'); // Components lifecycle state name
+  const [stateData, setStateData] = useState({}); // Components lifecycle state data
+  const [transactionId, setTransactionId] = useState('');
   const [transactionHashArray, setTransactionHashArray] = useState<Address[]>(
     [],
   );
-  const [receiptArray, setReceiptArray] = useState<TransactionReceipt[]>([]);
-  const account = useAccount();
-  const config = useConfig();
   const { switchChainAsync } = useSwitchChain();
+
+  // Hooks that depend from Core Hooks
   const { status: statusWriteContracts, writeContractsAsync } =
     useWriteContracts({
       onError,
@@ -83,7 +90,6 @@ export function TransactionProvider({
     onError,
     transactionId,
   });
-
   const { data: receipt } = useWaitForTransactionReceipt({
     hash: writeContractTransactionHash || transactionHash,
   });
