@@ -3,8 +3,8 @@ import type { ReactNode } from 'react';
 import type {
   Address,
   ContractFunctionParameters,
-  TransactionReceipt,
   Hex,
+  TransactionReceipt,
 } from 'viem';
 
 /**
@@ -24,8 +24,8 @@ export type IsSpinnerDisplayedProps = {
   errorMessage?: string;
   hasReceipt?: boolean;
   isLoading?: boolean;
-  statusWriteContract?: string;
-  statusWriteContracts?: string;
+  statusBatched?: string;
+  statusSingle?: string;
   transactionHash?: string;
   transactionId?: string;
 };
@@ -56,8 +56,8 @@ export type TransactionContextType = {
   setIsToastVisible: (isVisible: boolean) => void; // A function to set the visibility of the transaction toast.
   setLifeCycleStatus: (state: LifeCycleStatus) => void; // A function to set the lifecycle status of the component
   setTransactionId: (id: string) => void; // A function to set the transaction ID.
-  statusWriteContract?: string; // An optional string indicating the current status of the transaction.
-  statusWriteContracts?: string; // An optional string indicating the current status of the transaction.
+  statusBatched?: string; // An optional string indicating the current status of the transaction.
+  statusSingle?: string; // An optional string indicating the current status of the transaction.
   transactionId?: string; // An optional string representing the ID of the transaction.
   transactionHash?: string; // An optional string representing the hash of the transaction.
 };

@@ -18,16 +18,14 @@ export function TransactionButton({
     isLoading,
     onSubmit,
     receipt,
-    statusWriteContract,
-    statusWriteContracts,
+    statusSingle,
+    statusBatched,
     transactionHash,
     transactionId,
   } = useTransactionContext();
 
   const isInProgress =
-    statusWriteContract === 'pending' ||
-    statusWriteContracts === 'pending' ||
-    isLoading;
+    statusSingle === 'pending' || statusBatched === 'pending' || isLoading;
   const isMissingProps = !contracts || !address;
   const isWaitingForReceipt = !!transactionId || !!transactionHash;
 
@@ -39,8 +37,8 @@ export function TransactionButton({
     errorMessage,
     hasReceipt: !!receipt,
     isLoading,
-    statusWriteContract,
-    statusWriteContracts,
+    statusSingle,
+    statusBatched,
     transactionHash,
     transactionId,
   });

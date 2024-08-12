@@ -18,7 +18,7 @@ describe('useGetTransactionStatus', () => {
   });
   it('should return correct status and actionElement when transaction is pending', () => {
     (useTransactionContext as vi.Mock).mockReturnValue({
-      statusWriteContract: 'pending',
+      statusSingle: 'pending',
     });
     const { result } = renderHook(() => useGetTransactionStatus());
     expect(result.current.label).toBe('Confirm in wallet.');

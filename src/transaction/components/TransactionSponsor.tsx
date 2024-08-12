@@ -7,16 +7,16 @@ export function TransactionSponsor({ className }: TransactionSponsorReact) {
     errorMessage,
     hasPaymaster,
     receipt,
-    statusWriteContract,
-    statusWriteContracts,
+    statusSingle,
+    statusBatched,
     transactionHash,
     transactionId,
   } = useTransactionContext();
 
   const transactionInProgress = transactionId || transactionHash;
   if (
-    statusWriteContract !== 'idle' ||
-    statusWriteContracts !== 'idle' ||
+    statusSingle !== 'idle' ||
+    statusBatched !== 'idle' ||
     !hasPaymaster ||
     errorMessage ||
     transactionInProgress ||

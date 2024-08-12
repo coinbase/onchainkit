@@ -11,14 +11,13 @@ export function useGetTransactionStatus() {
     errorMessage,
     isLoading,
     receipt,
-    statusWriteContract,
-    statusWriteContracts,
+    statusSingle,
+    statusBatched,
     transactionHash,
     transactionId,
   } = useTransactionContext();
   const accountChainId = chainId ?? useChainId();
-  const isPending =
-    statusWriteContract === 'pending' || statusWriteContracts === 'pending';
+  const isPending = statusSingle === 'pending' || statusBatched === 'pending';
   const isInProgress = isLoading || !!transactionId || !!transactionHash;
 
   return useMemo(() => {

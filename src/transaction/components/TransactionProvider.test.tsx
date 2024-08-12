@@ -116,7 +116,7 @@ describe('TransactionProvider', () => {
   it('should update context on handleSubmit', async () => {
     const writeContractsAsyncMock = vi.fn();
     (useWriteContracts as ReturnType<typeof vi.fn>).mockReturnValue({
-      statusWriteContracts: 'IDLE',
+      statusBatched: 'IDLE',
       writeContractsAsync: writeContractsAsyncMock,
     });
     render(
@@ -160,7 +160,7 @@ describe('TransactionProvider', () => {
       .fn()
       .mockRejectedValue(new Error('Test error'));
     (useWriteContracts as ReturnType<typeof vi.fn>).mockReturnValue({
-      statusWriteContracts: 'IDLE',
+      statusBatched: 'IDLE',
       writeContractsAsync: writeContractsAsyncMock,
     });
     render(
@@ -197,7 +197,7 @@ describe('TransactionProvider', () => {
 
   it('should display toast on error', async () => {
     (useWriteContracts as ReturnType<typeof vi.fn>).mockReturnValue({
-      statusWriteContracts: 'IDLE',
+      statusBatched: 'IDLE',
       writeContractsAsync: vi.fn().mockRejectedValue(new Error('Test error')),
     });
     render(
@@ -232,7 +232,7 @@ describe('TransactionProvider', () => {
       .fn()
       .mockRejectedValue({ cause: { name: 'UserRejectedRequestError' } });
     (useWriteContracts as ReturnType<typeof vi.fn>).mockReturnValue({
-      statusWriteContracts: 'IDLE',
+      statusBatched: 'IDLE',
       writeContractsAsync: writeContractsAsyncMock,
     });
 
@@ -306,7 +306,7 @@ describe('TransactionProvider', () => {
       .fn()
       .mockRejectedValue(new Error('Generic error'));
     (useWriteContracts as ReturnType<typeof vi.fn>).mockReturnValue({
-      statusWriteContracts: 'IDLE',
+      statusBatched: 'IDLE',
       writeContractsAsync: writeContractsAsyncMock,
     });
     (useWriteContract as ReturnType<typeof vi.fn>).mockReturnValue({
