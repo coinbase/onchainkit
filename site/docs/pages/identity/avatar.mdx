@@ -1,11 +1,10 @@
-import { Avatar, Badge, Identity } from '../src/identity';
+import { Avatar, Badge, Identity } from '@coinbase/onchainkit/identity';
 import App from '../../components/App';
-import { base } from 'viem/chains';
 
 # `<Avatar />`
 
-The `Avatar` component is used to display ENS or [Basenames](https://www.base.org/names) avatar associated with Ethereum addresses.
-When an avatar is not available, it defaults to blue color avatar.
+The `Avatar` component is used to display ENS avatar associated with Ethereum addresses.
+When an ENS avatar is not available, it defaults to blue color avatar.
 
 ## Usage
 
@@ -20,7 +19,7 @@ import { Avatar } from '@coinbase/onchainkit/identity';
   <Avatar address="0x838aD0EAE54F99F1926dA7C3b6bFbF617389B4D9" />
 </App>
 
-Address without an ENS or Basenames avatar defaults to a plain avatar:
+Address without an ENS avatar, and it defaults to a plain avatar:
 
 ```tsx
 import { Avatar } from '@coinbase/onchainkit/identity';
@@ -29,20 +28,6 @@ import { Avatar } from '@coinbase/onchainkit/identity';
 
 <App>
   <Avatar address="0x1234567890abcdef1234567890abcdef12345678" />
-</App>
-
-
-Address with a Basename avatar:
-
-```tsx
-import { Avatar } from '@coinbase/onchainkit/identity';
-import { base } from 'viem/chains'; // [!code focus]
-
-<Avatar address="0x4bEf0221d6F7Dd0C969fe46a4e9b339a84F52FDF" chain={base} /> // [!code focus]
-```
-
-<App>
-  <Avatar address="0x4bEf0221d6F7Dd0C969fe46a4e9b339a84F52FDF" chain={base}/>
 </App>
 
 Override styles via `className` prop:
