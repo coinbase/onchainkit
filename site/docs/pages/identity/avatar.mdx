@@ -1,33 +1,45 @@
 import { Avatar, Badge, Identity } from '@coinbase/onchainkit/identity';
 import App from '../../components/App';
+import { base } from 'viem/chains';
 
 # `<Avatar />`
 
-The `Avatar` component is used to display ENS avatar associated with Ethereum addresses.
-When an ENS avatar is not available, it defaults to blue color avatar.
+The `Avatar` component is used to display ENS or [Basenames](https://www.base.org/names) avatar associated with Ethereum addresses.
+When an avatar is not available, it defaults to blue color avatar.
 
 ## Usage
 
 Address with an ENS avatar:
-
 ```tsx
 import { Avatar } from '@coinbase/onchainkit/identity';
 <Avatar address="0x838aD0EAE54F99F1926dA7C3b6bFbF617389B4D9" /> // [!code focus]
 ```
-
 <App>
   <Avatar address="0x838aD0EAE54F99F1926dA7C3b6bFbF617389B4D9" />
 </App>
 
-Address without an ENS avatar, and it defaults to a plain avatar:
+Address without an ENS or Basenames avatar defaults to a plain avatar:
 
 ```tsx
 import { Avatar } from '@coinbase/onchainkit/identity';
 <Avatar address="0x1234567890abcdef1234567890abcdef12345678" /> // [!code focus]
 ```
-
 <App>
   <Avatar address="0x1234567890abcdef1234567890abcdef12345678" />
+</App>
+
+
+Address with a Basename avatar:
+
+```tsx
+import { Avatar } from '@coinbase/onchainkit/identity';
+import { base } from 'viem/chains'; // [!code focus]
+
+<Avatar address="0x4bEf0221d6F7Dd0C969fe46a4e9b339a84F52FDF" chain={base} /> // [!code focus]
+```
+
+<App>
+  <Avatar address="0x4bEf0221d6F7Dd0C969fe46a4e9b339a84F52FDF" chain={base}/>
 </App>
 
 Override styles via `className` prop:
@@ -39,15 +51,11 @@ import { Avatar } from '@coinbase/onchainkit/identity';
   address="0x1234567890abcdef1234567890abcdef12345678"
 /> // [!code focus]
 ```
-
 <App>
   <Avatar className="bg-white rounded-full" address="0x1234567890abcdef1234567890abcdef12345678" />
 </App>
-
 Use `defaultComponent` prop to change the default avatar when ENS avatar is not found.
-
 Use `loadingComponent` prop to change the loading placeholder:
-
 ```tsx
 import { Avatar } from '@coinbase/onchainkit/identity';
 <Avatar
@@ -68,7 +76,6 @@ import { Avatar } from '@coinbase/onchainkit/identity';
   )} // [!code focus]
 />
 ```
-
 <App>
   <Avatar
     address="0x1234567890abcdef1234567890abcdef12345678"
@@ -88,14 +95,10 @@ import { Avatar } from '@coinbase/onchainkit/identity';
     )}
   />
 </App>
-
 Show attestation on ENV avatar with [`Badge`](/identity/badge) component.
-
 Use [`OnchainKitProvider`](/config/onchainkit-provider) or [`Identity`](/identity/identity) component with the `schemaId` prop.
-
 ```tsx
 import { Avatar, Badge, Identity } from '@coinbase/onchainkit/identity'; // [!code focus]
-
 <Identity
   schemaId="0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9" // [!code focus]
   address="0x838aD0EAE54F99F1926dA7C3b6bFbF617389B4D9"
@@ -105,7 +108,6 @@ import { Avatar, Badge, Identity } from '@coinbase/onchainkit/identity'; // [!co
   </Avatar> // [!code focus]
 </Identity>
 ```
-
 <App>
   <Identity
     schemaId="0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9"
@@ -117,7 +119,5 @@ import { Avatar, Badge, Identity } from '@coinbase/onchainkit/identity'; // [!co
     </Avatar>
   </Identity>
 </App>
-
 ## Props
-
 [`AvatarReact`](/identity/types#AvatarReact)
