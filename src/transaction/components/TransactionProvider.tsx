@@ -26,7 +26,7 @@ import { useCallsStatus } from '../hooks/useCallsStatus';
 import { useWriteContract } from '../hooks/useWriteContract';
 import { useWriteContracts } from '../hooks/useWriteContracts';
 import type {
-  LifeCycleStateName,
+  LifeCycleState,
   TransactionContextType,
   TransactionProviderReact,
 } from '../types';
@@ -60,9 +60,11 @@ export function TransactionProvider({
   const config = useConfig();
   const [errorMessage, setErrorMessage] = useState('');
   const [isToastVisible, setIsToastVisible] = useState(false);
+  const [lifeCycleState, setLifeCycleState] = useState<LifeCycleState>({
+    stateName: 'init',
+    stateData: {},
+  }); // Component lifecycle
   const [receiptArray, setReceiptArray] = useState<TransactionReceipt[]>([]);
-  const [stateName, setStateName] = useState<LifeCycleStateName>('init'); // Components lifecycle state name
-  const [stateData, setStateData] = useState({}); // Components lifecycle state data
   const [transactionId, setTransactionId] = useState('');
   const [transactionHashArray, setTransactionHashArray] = useState<Address[]>(
     [],
@@ -93,6 +95,16 @@ export function TransactionProvider({
   const { data: receipt } = useWaitForTransactionReceipt({
     hash: writeContractTransactionHash || transactionHash,
   });
+
+  // Component lifecycle emitters
+  useEffect(() => {
+    // Emit Error
+    if (lifeCycleState.stateName === 'error') {
+      onError?.(lifeCycleState.stateData);
+    }
+    // Emit State
+    onState?.(lifeCycleState.stateName, lifeCycleState.stateData);
+  }, [onState, lifeCycleState.stateData, lifeCycleState.stateName]);
 
   const getTransactionReceipts = useCallback(async () => {
     const receipts = [];

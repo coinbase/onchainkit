@@ -9,7 +9,15 @@ import type {
 /**
  * Note: exported as public Type
  */
-export type LifeCycleStateName = 'init';
+export type LifeCycleState =
+  | {
+      stateName: 'init';
+      stateData: {};
+    }
+  | {
+      stateName: 'error';
+      stateData: TransactionError;
+    };
 
 export type IsSpinnerDisplayedProps = {
   errorMessage?: string;
