@@ -84,10 +84,10 @@ export function WalletComponents() {
         <Address className={color.foregroundMuted} />
         <EthBalance />
       </Identity>
-      <WalletDropdownBaseName /> 
       <WalletDropdownLink icon="wallet" href="https://wallet.coinbase.com">
         Wallet
       </WalletDropdownLink>
+      <WalletDropdownBaseName /> 
       <WalletDropdownDisconnect />
     </WalletDropdown>
   </Wallet>
@@ -115,7 +115,6 @@ You can override component styles using `className`.
       <Address />
       <EthBalance />
     </Identity>
-    <WalletDropdownBaseName /> 
     <WalletDropdownLink 
       className='hover:bg-blue-200' 
       icon="wallet" 
@@ -123,6 +122,7 @@ You can override component styles using `className`.
     >
       Wallet
     </WalletDropdownLink>
+    <WalletDropdownBaseName /> 
     <WalletDropdownDisconnect className='hover:bg-blue-200' />
   </WalletDropdown>
 </Wallet>
@@ -141,7 +141,6 @@ You can override component styles using `className`.
         <Address className={color.foregroundMuted} />
         <EthBalance />
       </Identity>
-      <WalletDropdownBaseName /> 
       <WalletDropdownLink 
         className='hover:bg-blue-200' 
         icon="wallet" 
@@ -149,6 +148,7 @@ You can override component styles using `className`.
       >
         Wallet
       </WalletDropdownLink>
+      <WalletDropdownBaseName /> 
       <WalletDropdownDisconnect className='hover:bg-blue-200' />
     </WalletDropdown>
   </Wallet>
@@ -379,13 +379,13 @@ export default OnchainProviders;
           <Address className={color.foregroundMuted} />
           <EthBalance />
         </Identity>
-        <WalletDropdownBaseName /> 
         <WalletDropdownLink 
           icon="wallet" 
           href="https://wallet.coinbase.com"
         >
           Wallet
         </WalletDropdownLink>
+        <WalletDropdownBaseName /> 
         <WalletDropdownDisconnect />
       </WalletDropdown>
     </Wallet>
