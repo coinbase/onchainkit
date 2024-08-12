@@ -62,7 +62,7 @@ export function TransactionProvider({
   const [isToastVisible, setIsToastVisible] = useState(false);
   const [lifeCycleState, setLifeCycleState] = useState<LifeCycleState>({
     stateName: 'init',
-    stateData: {},
+    stateData: null,
   }); // Component lifecycle
   const [receiptArray, setReceiptArray] = useState<TransactionReceipt[]>([]);
   const [transactionId, setTransactionId] = useState('');
@@ -104,7 +104,7 @@ export function TransactionProvider({
     }
     // Emit State
     onState?.(lifeCycleState.stateName, lifeCycleState.stateData);
-  }, [onState, lifeCycleState.stateData, lifeCycleState.stateName]);
+  }, [onError, onState, lifeCycleState.stateData, lifeCycleState.stateName]);
 
   const getTransactionReceipts = useCallback(async () => {
     const receipts = [];

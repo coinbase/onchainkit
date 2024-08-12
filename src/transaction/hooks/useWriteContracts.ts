@@ -40,8 +40,8 @@ export function useWriteContracts({
             setErrorMessage(GENERIC_ERROR_MESSAGE);
           }
           setLifeCycleState({
-            stateName: 'error', 
-            stateDaat: { code: WRITE_CONTRACTS_ERROR_CODE, error: e.message }
+            stateName: 'error',
+            stateData: { code: WRITE_CONTRACTS_ERROR_CODE, error: e.message },
           });
         },
         onSuccess: (id) => {
@@ -52,12 +52,12 @@ export function useWriteContracts({
     return { status, writeContractsAsync };
   } catch (err) {
     setLifeCycleState({
-      stateName: 'error', 
+      stateName: 'error',
       stateData: {
-      code: UNCAUGHT_WRITE_CONTRACTS_ERROR_CODE,
-      error: JSON.stringify(err),
-    }
-  });
+        code: UNCAUGHT_WRITE_CONTRACTS_ERROR_CODE,
+        error: JSON.stringify(err),
+      },
+    });
     setErrorMessage(GENERIC_ERROR_MESSAGE);
     return {
       status: 'error',

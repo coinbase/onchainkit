@@ -13,8 +13,8 @@ import type { UseWriteContractParams } from '../types';
  * Does not support transaction batching or paymasters.
  */
 export function useWriteContract({
-  onError,
   setErrorMessage,
+  setLifeCycleState,
   setTransactionHashArray,
   transactionHashArray,
 }: UseWriteContractParams) {
@@ -30,7 +30,10 @@ export function useWriteContract({
           } else {
             setErrorMessage(GENERIC_ERROR_MESSAGE);
           }
-          onError?.({ code: WRITE_CONTRACT_ERROR_CODE, error: e.message });
+          setLifeCycleState({
+            stateName: 'error',
+            stateData: { code: WRITE_CONTRACT_ERROR_CODE, error: e.message },
+          });
         },
         onSuccess: (hash: Address) => {
           setTransactionHashArray(
@@ -41,9 +44,12 @@ export function useWriteContract({
     });
     return { status, writeContractAsync, data };
   } catch (err) {
-    onError?.({
-      code: UNCAUGHT_WRITE_CONTRACT_ERROR_CODE,
-      error: JSON.stringify(err),
+    setLifeCycleState({
+      stateName: 'error',
+      stateData: {
+        code: UNCAUGHT_WRITE_CONTRACT_ERROR_CODE,
+        error: JSON.stringify(err),
+      },
     });
     setErrorMessage(GENERIC_ERROR_MESSAGE);
     return { status: 'error', writeContractAsync: () => {} };
