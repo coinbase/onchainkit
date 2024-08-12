@@ -1,9 +1,6 @@
 import { fireEvent, render, screen } from '@testing-library/react';
-/**
- * @vitest-environment jsdom
- */
 import type { ReactNode } from 'react';
-import '@testing-library/jest-dom';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { useAccount, useConnect } from 'wagmi';
 import { ConnectWallet } from './ConnectWallet';
 import { useWalletContext } from './WalletProvider';
@@ -26,18 +23,27 @@ vi.mock('./WalletProvider', () => ({
   ),
 }));
 
+vi.mock('@rainbow-me/rainbowkit', () => ({
+  ConnectButton: {
+    Custom: ({
+      children,
+    }: { children: (props: { openConnectModal: () => void }) => ReactNode }) =>
+      children({ openConnectModal: vi.fn() }),
+  },
+}));
+
 describe('ConnectWallet', () => {
   beforeEach(() => {
-    (useAccount as vi.Mock).mockReturnValue({
+    vi.mocked(useAccount).mockReturnValue({
       address: '',
       status: 'disconnected',
     });
-    (useConnect as vi.Mock).mockReturnValue({
+    vi.mocked(useConnect).mockReturnValue({
       connectors: [{ id: 'mockConnector' }],
       connect: vi.fn(),
       status: 'idle',
     });
-    (useWalletContext as vi.Mock).mockReturnValue({
+    vi.mocked(useWalletContext).mockReturnValue({
       isOpen: false,
       setIsOpen: vi.fn(),
     });
@@ -52,12 +58,12 @@ describe('ConnectWallet', () => {
   });
 
   it('renders spinner when loading', () => {
-    (useConnect as vi.Mock).mockReturnValue({
+    vi.mocked(useConnect).mockReturnValue({
       connectors: [{ id: 'mockConnector' }],
       connect: vi.fn(),
       status: 'pending',
     });
-    (useAccount as vi.Mock).mockReturnValue({
+    vi.mocked(useAccount).mockReturnValue({
       address: '',
       status: 'connecting',
     });
@@ -69,7 +75,7 @@ describe('ConnectWallet', () => {
   });
 
   it('renders children when connected', () => {
-    (useAccount as vi.Mock).mockReturnValue({
+    vi.mocked(useAccount).mockReturnValue({
       address: '0x123',
       status: 'connected',
     });
@@ -86,7 +92,7 @@ describe('ConnectWallet', () => {
 
   it('calls connect function when connect button is clicked', () => {
     const connectMock = vi.fn();
-    (useConnect as vi.Mock).mockReturnValue({
+    vi.mocked(useConnect).mockReturnValue({
       connectors: [{ id: 'mockConnector' }],
       connect: connectMock,
       status: 'idle',
@@ -104,11 +110,11 @@ describe('ConnectWallet', () => {
 
   it('toggles wallet modal on button click when connected', () => {
     const setIsOpenMock = vi.fn();
-    (useAccount as vi.Mock).mockReturnValue({
+    vi.mocked(useAccount).mockReturnValue({
       address: '0x123',
       status: 'connected',
     });
-    (useWalletContext as vi.Mock).mockReturnValue({
+    vi.mocked(useWalletContext).mockReturnValue({
       isOpen: false,
       setIsOpen: setIsOpenMock,
     });
@@ -126,15 +132,15 @@ describe('ConnectWallet', () => {
   });
 
   it('applies bg-ock-secondary-active class when isOpen is true', () => {
-    (useWalletContext as vi.Mock).mockReturnValue({
+    vi.mocked(useWalletContext).mockReturnValue({
       isOpen: true,
       setIsOpen: vi.fn(),
     });
-    (useAccount as vi.Mock).mockReturnValue({
+    vi.mocked(useAccount).mockReturnValue({
       address: '0x123',
       status: 'connected',
     });
-    (useConnect as vi.Mock).mockReturnValue({
+    vi.mocked(useConnect).mockReturnValue({
       connectors: [{ id: 'test-connector' }],
       connect: vi.fn(),
       status: 'idle',
@@ -148,5 +154,52 @@ describe('ConnectWallet', () => {
 
     const button = screen.getByTestId('ockConnectWallet_Connected');
     expect(button).toHaveClass('bg-ock-secondary-active');
+  });
+
+  describe('withWalletAggregator', () => {
+    beforeEach(() => {
+      vi.mocked(useAccount).mockReturnValue({
+        address: '',
+        status: 'disconnected',
+      });
+      vi.mocked(useConnect).mockReturnValue({
+        connectors: [{ id: 'mockConnector' }],
+        connect: vi.fn(),
+        status: 'idle',
+      });
+    });
+
+    it('renders ConnectButtonRainboKit when withWalletAggregator is true', () => {
+      render(
+        <ConnectWallet text="Connect Wallet" withWalletAggregator={true} />,
+      );
+
+      const container = screen.getByTestId('ockConnectWallet_Container');
+      expect(container).toBeInTheDocument();
+
+      const connectButton = screen.getByTestId('ockConnectButton');
+      expect(connectButton).toBeInTheDocument();
+      expect(connectButton).toHaveTextContent('Connect Wallet');
+    });
+
+    it('renders regular ConnectButton when withWalletAggregator is false', () => {
+      const connectMock = vi.fn();
+      vi.mocked(useConnect).mockReturnValue({
+        connectors: [{ id: 'mockConnector' }],
+        connect: connectMock,
+        status: 'idle',
+      });
+
+      render(
+        <ConnectWallet text="Connect Wallet" withWalletAggregator={false} />,
+      );
+
+      const connectButton = screen.getByTestId('ockConnectButton');
+      fireEvent.click(connectButton);
+
+      expect(connectMock).toHaveBeenCalledWith({
+        connector: { id: 'mockConnector' },
+      });
+    });
   });
 });
