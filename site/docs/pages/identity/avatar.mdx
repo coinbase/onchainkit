@@ -1,5 +1,6 @@
-import { Avatar, Badge, Identity } from '@coinbase/onchainkit/identity';
+import { Avatar, Badge, Identity } from '../src/identity';
 import App from '../../components/App';
+import { base } from 'viem/chains';
 
 # `<Avatar />`
 
@@ -28,6 +29,20 @@ import { Avatar } from '@coinbase/onchainkit/identity';
 
 <App>
   <Avatar address="0x1234567890abcdef1234567890abcdef12345678" />
+</App>
+
+
+Address with a Basename avatar:
+
+```tsx
+import { Avatar } from '@coinbase/onchainkit/identity';
+import { base } from 'viem/chains'; // [!code focus]
+
+<Avatar address="0x4bEf0221d6F7Dd0C969fe46a4e9b339a84F52FDF" chain={base} /> // [!code focus]
+```
+
+<App>
+  <Avatar address="0x4bEf0221d6F7Dd0C969fe46a4e9b339a84F52FDF" chain={base}/>
 </App>
 
 Override styles via `className` prop:

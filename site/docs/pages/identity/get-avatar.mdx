@@ -8,14 +8,20 @@ use it with Next.js or any Node.js backend.
 
 Supported providers:
 
+- Basenames
 - ENS
 
 ## Usage
 
 ```tsx
 import { getAvatar } from '@coinbase/onchainkit/identity';
+import { base, mainnet } from 'viem/chains';
 
-const avatar = await getAvatar({ ensName: 'vitalik.eth' });
+// For Basename
+const baseAvatar = await getAvatar({ ensName: 'vitalik.base.eth', chain: base });
+
+// For ENS
+const ensAvatar = await getAvatar({ ensName: 'vitalik.eth', chain: mainnet });
 ```
 
 ## Returns

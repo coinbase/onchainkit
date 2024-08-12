@@ -10,14 +10,14 @@ import {
   WalletDropdownLink,
   WalletDropdownBaseName,
   WalletDropdownDisconnect,
-} from '@coinbase/onchainkit/wallet';
+} from '../src/wallet';
 import {
   Address,
   Avatar,
   Name,
   Identity,
   EthBalance,
-} from '@coinbase/onchainkit/identity';
+} from '../src/identity';
 import { color } from '@coinbase/onchainkit/theme';
 import AppWithRK from '../../components/AppWithRK';
 import WalletComponents from '../../components/WalletComponents';
@@ -33,7 +33,6 @@ import { // [!code focus]
   ConnectWallet, // [!code focus]
   Wallet, // [!code focus]
   WalletDropdown, // [!code focus]
-  WalletDropdownBaseName, // [!code focus]
   WalletDropdownLink, // [!code focus]
   WalletDropdownDisconnect, // [!code focus]
 } from '@coinbase/onchainkit/wallet'; // [!code focus]
@@ -61,7 +60,6 @@ export function WalletComponents() {
             <Address className={color.foregroundMuted} />
             <EthBalance />
           </Identity>
-          <WalletDropdownBaseName /> // [!code focus]
           <WalletDropdownLink icon="wallet" href="https://wallet.coinbase.com"> // [!code focus]
             Wallet // [!code focus]
           </WalletDropdownLink> // [!code focus]
@@ -187,6 +185,44 @@ You can override component text using `text`.
       <WalletDropdownLink icon="wallet" href="https://wallet.coinbase.com">
         Wallet
       </WalletDropdownLink>
+      <WalletDropdownDisconnect />
+    </WalletDropdown>
+  </Wallet>
+</WalletComponents>
+
+### Add Basenames support
+
+You can add Basenames support using the `<WalletDropdownBaseName />` component.
+
+```tsx
+// omitted for brevity
+
+<WalletDropdown>
+  <Identity className="px-4 pt-3 pb-2 hover:bg-blue-200" hasCopyAddressOnClick>
+    <Avatar />
+    <Name />
+    <Address className={color.foregroundMuted} />
+    <EthBalance />
+  </Identity>
+  <WalletDropdownBaseName /> // [!code focus]
+  <WalletDropdownDisconnect className='hover:bg-blue-200' />
+</WalletDropdown>
+```
+
+<WalletComponents>
+  <Wallet>
+    <ConnectWallet text="Log In">
+      <Avatar className="h-6 w-6" />
+      <Name />
+    </ConnectWallet>
+    <WalletDropdown>
+      <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick>
+        <Avatar />
+        <Name />
+        <Address className={color.foregroundMuted} />
+        <EthBalance />
+      </Identity>
+      <WalletDropdownBaseName />
       <WalletDropdownDisconnect />
     </WalletDropdown>
   </Wallet>
