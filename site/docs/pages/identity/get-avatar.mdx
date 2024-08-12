@@ -13,16 +13,38 @@ Supported providers:
 
 ## Usage
 
-```tsx
+Get Basename avatar:
+
+:::code-group
+```tsx [code]
 import { getAvatar } from '@coinbase/onchainkit/identity';
 import { base, mainnet } from 'viem/chains';
 
-// For Basename
-const baseAvatar = await getAvatar({ ensName: 'vitalik.base.eth', chain: base });
-
-// For ENS
-const ensAvatar = await getAvatar({ ensName: 'vitalik.eth', chain: mainnet });
+const baseAvatar = await getAvatar({ ensName: 'paulcramer.eth', chain: base });
 ```
+
+```ts [return value]
+https://zku9gdedgba48lmr.public.blob.vercel-storage.com/basenames/avatar/paul.base.eth/1722120524815/FWUzoZmJ_400x400-kWjr2gMvjNe9hHMs9Z9LxGVGIME3By.jpg
+```
+
+:::
+
+Get ENS avatar:
+
+:::code-group
+
+```tsx [code]
+import { getAvatar } from '@coinbase/onchainkit/identity';
+import { mainnet } from 'viem/chains';
+
+const ensAvatar = await getAvatar({ ensName: 'paulcramer.eth', chain: mainnet });
+```
+
+```ts [return value]
+https://euc.li/paulcramer.eth;
+```
+
+:::
 
 ## Returns
 
