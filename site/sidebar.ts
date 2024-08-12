@@ -27,11 +27,38 @@ export const sidebar = [
     ],
   },
   {
+    text: 'Templates',
+    items: [
+      {
+        text: 'Onchain App',
+        link: 'https://github.com/coinbase/onchain-app-template',
+      },
+      {
+        text: 'Frame in 100 lines',
+        link: 'https://github.com/Zizzamia/a-frame-in-100-lines',
+      },
+    ],
+  },
+  {
     text: 'Components',
     items: [
       {
-        text: 'FrameMetadata',
-        link: '/frame/frame-metadata',
+        text: 'Config',
+        items: [
+          {
+            text: 'OnchainKitProvider',
+            link: '/config/onchainkit-provider',
+          },
+        ],
+      },
+      {
+        text: 'Frame',
+        items: [
+          {
+            text: 'FrameMetadata',
+            link: '/frame/frame-metadata',
+          },
+        ],
       },
       {
         text: 'Identity',
@@ -59,12 +86,13 @@ export const sidebar = [
         ],
       },
       {
-        text: 'OnchainKitProvider',
-        link: '/config/onchainkit-provider',
-      },
-      {
         text: 'Swap',
-        link: '/swap/swap',
+        items: [
+          {
+            text: 'Swap',
+            link: '/swap/swap',
+          },
+        ],
       },
       {
         text: 'Token',
@@ -93,11 +121,21 @@ export const sidebar = [
       },
       {
         text: 'Transaction',
-        link: '/transaction/transaction',
+        items: [
+          {
+            text: 'Transaction',
+            link: '/transaction/transaction',
+          },
+        ],
       },
       {
         text: 'Wallet',
-        link: '/wallet/wallet',
+        items: [
+          {
+            text: 'Wallet',
+            link: '/wallet/wallet',
+          },
+        ],
       },
     ]
   },
@@ -106,76 +144,106 @@ export const sidebar = [
     collapsed: true,
     items: [
       {
-        text: 'buildSwapTransaction',
-        link: '/swap/build-swap-transaction',
+        text: 'Config',
+        items: [
+          {
+            text: 'isBase',
+            link: '/config/is-base',
+          },
+        ],
       },
       {
-        text: 'formatAmount',
-        link: '/token/format-amount',
+        text: 'Frame',
+        items: [
+          {
+            text: 'getFarcasterUserAddress',
+            link: '/farcaster/get-farcaster-user-address',
+          },
+          {
+            text: 'getFrameHtmlResponse',
+            link: '/frame/get-frame-html-response',
+          },
+          {
+            text: 'getFrameMessage',
+            link: '/frame/get-frame-message',
+          },
+          {
+            text: 'getFrameMetadata',
+            link: '/frame/get-frame-metadata',
+          },
+          {
+            text: 'getXmtpFrameMessage',
+            link: '/xmtp/get-xmtp-frame-message',
+          },
+          {
+            text: 'isXmtpFrameRequest',
+            link: '/xmtp/is-xmtp-frame-request',
+          },
+        ],
       },
       {
-        text: 'isBase',
-        link: '/config/is-base',
+        text: 'Identity',
+        items: [
+          {
+            text: 'getAttestations',
+            link: '/identity/get-attestations',
+          },
+          {
+            text: 'getAvatar',
+            link: '/identity/get-avatar',
+          },
+          {
+            text: 'getName',
+            link: '/identity/get-name',
+          },
+        ],
       },
       {
-        text: 'isXmtpFrameRequest',
-        link: '/xmtp/is-xmtp-frame-request',
+        text: 'Swap',
+        items: [
+          {
+            text: 'buildSwapTransaction',
+            link: '/swap/build-swap-transaction',
+          },
+          {
+            text: 'getSwapQuote',
+            link: '/swap/get-swap-quote',
+          },
+        ],
       },
       {
-        text: 'isValidAAEntrypoint',
-        link: '/wallet/is-valid-aa-entrypoint',
+        text: 'Token',
+        items: [
+          {
+            text: 'formatAmount',
+            link: '/token/format-amount',
+          },
+          {
+            text: 'getTokens',
+            link: '/token/get-tokens',
+          },
+          {
+            text: 'useAvatar',
+            link: '/identity/use-avatar',
+          },
+          {
+            text: 'useName',
+            link: '/identity/use-name',
+          },
+        ],
       },
       {
-        text: 'isWalletACoinbaseSmartWallet',
-        link: '/wallet/is-wallet-a-coinbase-smart-wallet',
-      },
-      {
-        text: 'getAttestations',
-        link: '/identity/get-attestations',
-      },
-      {
-        text: 'getAvatar',
-        link: '/identity/get-avatar',
-      },
-      {
-        text: 'getFarcasterUserAddress',
-        link: '/farcaster/get-farcaster-user-address',
-      },
-      {
-        text: 'getFrameHtmlResponse',
-        link: '/frame/get-frame-html-response',
-      },
-      {
-        text: 'getFrameMessage',
-        link: '/frame/get-frame-message',
-      },
-      {
-        text: 'getFrameMetadata',
-        link: '/frame/get-frame-metadata',
-      },
-      {
-        text: 'getName',
-        link: '/identity/get-name',
-      },
-      {
-        text: 'getSwapQuote',
-        link: '/swap/get-swap-quote',
-      },
-      {
-        text: 'getTokens',
-        link: '/token/get-tokens',
-      },
-      {
-        text: 'getXmtpFrameMessage',
-        link: '/xmtp/get-xmtp-frame-message',
-      },
-      {
-        text: 'useAvatar',
-        link: '/identity/use-avatar',
-      },
-      {
-        text: 'useName',
-        link: '/identity/use-name',
+        text: 'Wallet',
+        items: [
+          {
+            text: 'isValidAAEntrypoint',
+            link: '/wallet/is-valid-aa-entrypoint',
+          },
+          {
+            text: 'isWalletACoinbaseSmartWallet',
+            link: '/wallet/is-wallet-a-coinbase-smart-wallet',
+          },
+        ],
       },
     ]
   },
