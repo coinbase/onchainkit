@@ -1,7 +1,6 @@
 import { fireEvent, render, screen } from '@testing-library/react';
-import { describe, it, expect, beforeEach, vi } from 'vitest';
 import type { ReactNode } from 'react';
-import '@testing-library/jest-dom';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { useAccount, useConnect } from 'wagmi';
 import { ConnectWallet } from './ConnectWallet';
 import { useWalletContext } from './WalletProvider';
@@ -26,7 +25,9 @@ vi.mock('./WalletProvider', () => ({
 
 vi.mock('@rainbow-me/rainbowkit', () => ({
   ConnectButton: {
-    Custom: ({ children }: { children: (props: any) => ReactNode }) =>
+    Custom: ({
+      children,
+    }: { children: (props: { openConnectModal: () => void }) => ReactNode }) =>
       children({ openConnectModal: vi.fn() }),
   },
 }));
