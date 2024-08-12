@@ -2,29 +2,51 @@ import type { Sidebar } from 'vocs';
 
 export const sidebar = [
   {
-    text: 'Introduction',
-    items: [{ text: 'Getting Started', link: '/getting-started' }],
+    text: 'OnchainKit',
+    items: [
+      { 
+        text: 'Introduction', 
+        link: '/introduction',
+      },
+      { 
+        text: 'Getting Started', 
+        link: '/getting-started',
+      },
+    ],
   },
   {
     text: 'Guides',
     items: [
       {
-        text: 'Contribution',
+        text: 'Contribute',
         link: '/guides/contribution',
-      },
-      {
-        text: 'Tailwindcss Integration',
-        link: '/guides/tailwind',
-      },
-      {
-        text: 'Reporting a bug',
-        link: '/guides/reporting-bug',
       },
       {
         text: 'Framegear',
         link: '/frame/framegear',
       },
+      {
+        text: 'Report a bug',
+        link: '/guides/reporting-bug',
+      },
+      {
+        text: 'Tailwindcss Integration',
+        link: '/guides/tailwind',
+      },
     ],
+  },
+  {
+    text: 'Templates',
+    items: [
+      {
+        text: 'Onchain App',
+        link: 'https://github.com/coinbase/onchain-app-template',
+      },
+      {
+        text: 'Frame',
+        link: 'https://github.com/Zizzamia/a-frame-in-100-lines',
+      },
+    ]
   },
   {
     text: 'Components',
@@ -217,4 +239,22 @@ export const sidebar = [
       },
     ]
   },
+  {
+    text: 'Design Resources',
+    collapsed: true,
+    items: [
+      {
+        text: 'Figma UI Kit',
+        link: 'https://www.figma.com/community/file/1370194397345450683/onchainkit',
+      },
+    ]
+  },
+  {
+    text: 'Terms of Service', 
+    link: 'https://www.coinbase.com/legal/cloud/terms-of-service',
+  },
+  {
+    text: 'MIT License', 
+    link: 'https://github.com/coinbase/onchainkit/blob/main/LICENSE.md',
+  }
 ] as const satisfies Sidebar;

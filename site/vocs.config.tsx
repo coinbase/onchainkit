@@ -18,8 +18,11 @@ export default defineConfig({
   ogImageUrl:
     'https://vocs.dev/api/og?logo=%logo&title=%title&description=%description',
   logoUrl: {
-    light: '/favicon/48x48.png?v4-19-24',
-    dark: '/favicon/48x48.png?v4-19-24',
+    light: '/assets/onchainkit-logo.png',
+    dark: '/assets/onchainkit-logo.png',
+  },
+  font: { 
+    google: 'Inter'
   },
   async head({ path }) {
     const analytics = (
@@ -98,19 +101,10 @@ export default defineConfig({
     },
   },
   topNav: [
-    { text: 'Docs', link: '/getting-started', match: '/docs' },
-    {
-      text: 'Onchain App Template',
-      link: 'https://github.com/coinbase/onchain-app-template',
-    },
-    {
-      text: 'Frame Example',
-      link: 'https://github.com/Zizzamia/a-frame-in-100-lines',
-    },
     {
       text: pkg.version,
       items: [
-        {
+       {
           text: 'Changelog',
           link: 'https://github.com/coinbase/onchainkit/blob/main/CHANGELOG.md',
         },
