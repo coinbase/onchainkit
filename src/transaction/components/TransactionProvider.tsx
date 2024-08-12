@@ -74,8 +74,8 @@ export function TransactionProvider({
   // Hooks that depend from Core Hooks
   const { status: statusWriteContracts, writeContractsAsync } =
     useWriteContracts({
-      onError,
       setErrorMessage,
+      setLifeCycleState,
       setTransactionId,
     });
   const {
@@ -83,13 +83,13 @@ export function TransactionProvider({
     writeContractAsync,
     data: writeContractTransactionHash,
   } = useWriteContract({
-    onError,
     setErrorMessage,
+    setLifeCycleState,
     setTransactionHashArray,
     transactionHashArray,
   });
   const { transactionHash, status: callStatus } = useCallsStatus({
-    onError,
+    setLifeCycleState,
     transactionId,
   });
   const { data: receipt } = useWaitForTransactionReceipt({
