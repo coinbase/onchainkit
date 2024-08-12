@@ -16,10 +16,8 @@ export function isSpinnerDisplayed({
   if (hasReceipt || errorMessage) {
     return false;
   }
-
   if (isLoading || isPending || isInProgress) {
     return true;
   }
-
   return false;
 }

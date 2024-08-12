@@ -150,6 +150,24 @@ export type TransactionToastLabelReact = {
   className?: string; // An optional CSS class name for styling.
 };
 
+export type UseCallsStatusParams = {
+  onError?: (e: TransactionError) => void;
+  transactionId: string;
+};
+
+export type UseWriteContractParams = {
+  onError?: (e: TransactionError) => void;
+  setErrorMessage: (error: string) => void;
+  setTransactionHashArray: (ids: Address[]) => void;
+  transactionHashArray?: Address[];
+};
+
+export type UseWriteContractsParams = {
+  onError?: (e: TransactionError) => void;
+  setErrorMessage: (error: string) => void;
+  setTransactionId: (id: string) => void;
+};
+
 /**
  * Note: exported as public Type
  *

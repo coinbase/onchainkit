@@ -5,14 +5,7 @@ import {
   UNCAUGHT_WRITE_CONTRACT_ERROR_CODE,
   WRITE_CONTRACT_ERROR_CODE,
 } from '../constants';
-import type { TransactionError } from '../types';
-
-type UseWriteContractParams = {
-  onError?: (e: TransactionError) => void;
-  setErrorMessage: (error: string) => void;
-  setTransactionHashArray: (ids: Address[]) => void;
-  transactionHashArray?: Address[];
-};
+import type { UseWriteContractParams } from '../types';
 
 /**
  * Wagmi hook for single contract transactions.

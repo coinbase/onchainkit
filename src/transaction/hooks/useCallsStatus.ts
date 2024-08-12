@@ -1,10 +1,5 @@
 import { useCallsStatus as useCallsStatusWagmi } from 'wagmi/experimental';
-import type { TransactionError } from '../types';
-
-type UseCallsStatusParams = {
-  onError?: (e: TransactionError) => void;
-  transactionId: string;
-};
+import type { UseCallsStatusParams } from '../types';
 
 const uncaughtErrorCode = 'UNCAUGHT_CALL_STATUS_ERROR';
 
