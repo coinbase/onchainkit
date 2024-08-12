@@ -6,13 +6,7 @@ import {
   UNCAUGHT_WRITE_CONTRACTS_ERROR_CODE,
   WRITE_CONTRACTS_ERROR_CODE,
 } from '../constants';
-import type { TransactionError } from '../types';
-
-type UseWriteContractsParams = {
-  onError?: (e: TransactionError) => void;
-  setErrorMessage: (error: string) => void;
-  setTransactionId: (id: string) => void;
-};
+import type { UseWriteContractsParams } from '../types';
 
 /**
  * useWriteContracts: Experimental Wagmi hook for batching transactions.
