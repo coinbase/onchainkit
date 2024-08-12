@@ -135,6 +135,10 @@ export const sidebar = [
             text: 'Wallet',
             link: '/wallet/wallet',
           },
+          {
+            text: 'WalletDropdownBaseName',
+            link: '/wallet/wallet-dropdown-base-name',
+          }
         ],
       },
     ]

@@ -1,9 +1,10 @@
 import { Badge, Name, Identity, } from '@coinbase/onchainkit/identity';
 import App from '../../components/App';
+import { base } from 'viem/chains';
 
 # `<Name />`
 
-The `Name` component is used to display ENS names associated with Ethereum addresses.
+The `Name` component is used to display ENS or [Basenames](https://www.base.org/names) associated with Ethereum addresses.
 
 ## Usage
 
@@ -16,6 +17,18 @@ import { Name } from '@coinbase/onchainkit/identity';
 
 <App>
   <Name address="0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1"/>
+</App>
+
+Address with a Basename:
+
+```tsx
+import { Name } from '@coinbase/onchainkit/identity';
+import { base } from 'viem/chains'; // [!code focus]
+<Name address="0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1" chain={base} /> // [!code focus]
+```
+
+<App>
+  <Name address="0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1" chain={base}/>
 </App>
 
 ### Override styles

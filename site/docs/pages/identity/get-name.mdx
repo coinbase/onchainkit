@@ -8,6 +8,7 @@ use it with Next.js or any Node.js backend.
 
 Supported providers:
 
+- [Basenames](https://www.base.org/names)
 - ENS
 
 ## Usage
@@ -26,6 +27,25 @@ const name = await getName({ address });
 ```ts [return value]
 zizzamia.eth;
 ```
+
+:::
+
+Get Basename from an address:
+
+:::code-group
+
+```tsx [code]
+import { getName } from '@coinbase/onchainkit/identity';
+import { base } from 'viem/chains';
+
+const address = '0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1';
+const name = await getName({ address, chain: base });
+```
+
+```ts [return value]
+zizzamia.base.eth;
+```
+
 
 :::
 

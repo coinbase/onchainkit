@@ -16,6 +16,7 @@ import {
   ConnectWallet,
   Wallet,
   WalletDropdown,
+  WalletDropdownBaseName,
   WalletDropdownLink,
   WalletDropdownDisconnect,
 } from '@coinbase/onchainkit/wallet';
@@ -197,6 +198,7 @@ bun add @coinbase/onchainkit
     <WalletDropdownLink icon="wallet" href="https://wallet.coinbase.com"> // [!code focus]
       Wallet // [!code focus]
     </WalletDropdownLink> // [!code focus]
+    <WalletDropdownBaseName />
     <WalletDropdownDisconnect /> // [!code focus]
   </WalletDropdown> // [!code focus]
 </Wallet> // [!code focus]
@@ -221,6 +223,7 @@ bun add @coinbase/onchainkit
       <WalletDropdownLink icon="wallet" href="https://wallet.coinbase.com">
         Wallet
       </WalletDropdownLink>
+      <WalletDropdownBaseName />
       <WalletDropdownDisconnect />
     </WalletDropdown>
   </Wallet>
