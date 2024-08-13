@@ -254,6 +254,6 @@ export const sidebar = [
     link: 'https://www.coinbase.com/legal/cloud/terms-of-service', 
   },
   { text: 'MIT License', 
-    link: 'https://github.com/coinbase/onchainkit/blob/main/LICENSE.md', 
+    link: 'https://github.com/coinbase/onchainkit/blob/main/LICENSE.mdc', 
   },
 ] as const satisfies Sidebar;

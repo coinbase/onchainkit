@@ -2,50 +2,50 @@
 title: OnchainKit
 description: React components and TypeScript utilities for top-tier onchain apps.
 content:
-  width: 100%
+width: 100%
 showOutline: false
 ---
 
 <div className="w-full flex justify-center items-center">
-    <div className="w-6/12 py-16">
+    <div className="w-11/12 py-8 md:w-10/12 md:py-16">
         <div className=" flex justify-center items-center">
-            <img src="/assets/onchainkit-logomark.svg" />
+            <img src="/assets/onchainkit-logomark.svg" className="w-60 md:w-auto"/>
         </div>
-        <h1 className="text-center pt-6 pb-8 text-lg text-zinc-950">
+        <h1 className="text-base md:text-lg text-center pt-6 pb-8 text-zinc-950">
             Build your onchain apps with ready-to-use React components and Typescript utilities.
         </h1>
-    :::code-group
+        :::code-group
 
-```bash [npm]
-npm install @coinbase/onchainkit
-```
+        ```bash [npm]
+        npm install @coinbase/onchainkit
+        ```
 
-```bash [yarn]
-yarn add @coinbase/onchainkit
-```
+        ```bash [yarn]
+        yarn add @coinbase/onchainkit
+        ```
 
-```bash [pnpm]
-pnpm add @coinbase/onchainkit
-```
+        ```bash [pnpm]
+        pnpm add @coinbase/onchainkit
+        ```
 
-```bash [bun]
-bun add @coinbase/onchainkit
-```
+        ```bash [bun]
+        bun add @coinbase/onchainkit
+        ```
 
-:::
+        :::
     </div>
 </div>
 
-<div className="mx-44">
-    <img src="/assets/onchainkit-overview.png" />
+<div className="w-11/12 block m-auto md:w-10/12">
+    <img src="/assets/onchainkit-overview.png" className="w-full" />
 </div>
 
-<div className="w-10/12 mx-20 mt-20">
-     <h1 className="pt-4 pb-4 text-lg font-bold text-zinc-950 mx-36">
+<div className="w-11/12 mt-12 md:w-10/12 md:mt-20">
+     <h1 className="mx-4 pt-4 pb-4 text-lg font-bold text-zinc-950 md:mx-20">
         Ready-to-use-components
     </h1>
-    <div className="flex space-x-6 items-center justify-center">
-        <a href="/wallet/wallet" target="_blank" className="w-4/12 hover:bg-gray-50 p-4 rounded-lg">
+    <div className="grid grid-rows-1 grid-cols-1 gap-4 w-full md:mx-16 md:grid-rows-3 md:grid-cols-2">
+        <a href="/wallet/wallet" target="_blank" className="hover:bg-gray-50 p-4 rounded-lg">
             <img src="/assets/wallet-icon.svg" className="w-16px" />
             <div className="pt-3">
                 <h4 className="text-zinc-950 text-base font-bold">
@@ -56,7 +56,7 @@ bun add @coinbase/onchainkit
                 </p>
             </div>
         </a>
-        <a href="/transaction/transaction" target="_blank" className="w-4/12 hover:bg-gray-50 p-4 rounded-lg">
+        <a href="/transaction/transaction" target="_blank" className="hover:bg-gray-50 p-4 rounded-lg">
             <img src="/assets/transaction-icon.svg" className="w-16px" />
             <div className="pt-3">
                 <h4 className="text-zinc-950 text-base font-bold">
@@ -67,9 +67,7 @@ bun add @coinbase/onchainkit
                 </p>
             </div>
         </a>
-    </div>
-    <div className="flex space-x-6 items-center justify-center mt-4">
-        <a href="/swap/swap" target="_blank" className="w-4/12 hover:bg-gray-50 p-4 rounded-lg">
+        <a href="/swap/swap" target="_blank" className="hover:bg-gray-50 p-4 rounded-lg">
             <img src="/assets/swap-icon.svg" className="w-16px" />
             <div className="pt-3">
                 <h4 className="text-zinc-950 text-base font-bold">
@@ -80,7 +78,7 @@ bun add @coinbase/onchainkit
                 </p>
             </div>
         </a>
-        <a href="/token/token-chip" target="_blank" className="w-4/12 hover:bg-gray-50 p-4 rounded-lg">
+        <a href="/token/token-chip" target="_blank" className="hover:bg-gray-50 p-4 rounded-lg">
             <img src="/assets/token-icon.svg" className="w-16px" />
             <div className="pt-3">
                 <h4 className="text-zinc-950 text-base font-bold">
@@ -91,9 +89,7 @@ bun add @coinbase/onchainkit
                 </p>
             </div>
         </a>
-    </div>
-    <div className="flex space-x-6 items-center justify-center mt-4">
-        <a href="/identity/address" target="_blank" className="w-4/12 hover:bg-gray-50 p-4 rounded-lg">
+    <a href="/identity/address" target="_blank" className="hover:bg-gray-50 p-4 rounded-lg">
             <img src="/assets/identity-icon.svg" className="w-16px" />
             <div className="pt-3">
                 <h4 className="text-zinc-950 text-base font-bold">
@@ -104,7 +100,7 @@ bun add @coinbase/onchainkit
                 </p>
             </div>
         </a>
-        <a href="/frame-metadata" target="_blank" className="w-4/12 hover:bg-gray-50 p-4 rounded-lg">
+        <a href="/frame-metadata" target="_blank" className="hover:bg-gray-50 p-4 rounded-lg">
             <img src="/assets/frame-icon.svg" className="w-16px" />
             <div className="pt-3">
                 <h4 className="text-zinc-950 text-base font-bold">
@@ -119,11 +115,11 @@ bun add @coinbase/onchainkit
 </div>
 
 
-<div className="w-10/12 mx-20 mt-20">
-     <h1 className="pt-4 pb-4 text-lg font-bold text-zinc-950 mx-36">
+<div className="w-11/12 mt-12 md:w-10/12 md:mt-20">
+    <h1 className="mx-4 pt-4 pb-4 text-lg font-bold text-zinc-950 md:mx-20">
         Templates to help you get started in minutes
     </h1>
-    <div className="flex space-x-6 items-center justify-center mt-4 mx-36">
+    <div className="mx-4 grid grid-rows-1 grid-cols-1 gap-4 w-full md:mx-20 md:grid-cols-2">
         <a href="https://github.com/coinbase/onchain-app-template" target="_blank">
             <div className="w-full border-solid border-2 border-gray-50 rounded-md hover:bg-gray-50">
                 <img src="/assets/onchainkit-quickstart-template.png" className="rounded-t-lg w-full"/>
@@ -153,12 +149,12 @@ bun add @coinbase/onchainkit
     </div>
 </div>
 
-<div className="w-10/12 mx-20 my-20">
-     <h1 className="pt-4 pb-4 text-lg font-bold text-zinc-950 mx-36">
+<div className="w-11/12 mt-12 md:w-10/12 md:mt-20">
+    <h1 className="mx-4 pt-4 pb-4 text-lg font-bold text-zinc-950 md:mx-20">
         Builders ship faster with OnchainKit
     </h1>
-    <div className="flex space-x-6 items-center justify-center">
-        <div className="w-4/12 p-4 rounded-lg">
+    <div className="grid grid-rows-1 grid-cols-1 gap-4 w-full md:mx-16 md:grid-cols-2">
+        <div className="w-full p-4 rounded-lg">
             <img src="/assets/mochi-logo.svg" className="w-16px" />
             <div className="pt-3">
                 <h4 className="text-zinc-950 text-base font-bold">
@@ -172,7 +168,7 @@ bun add @coinbase/onchainkit
                 </div>
             </div>
         </div>
-        <div className="w-4/12 p-4 rounded-lg">
+        <div className="w-full p-4 rounded-lg">
             <img src="/assets/cattown-logo.svg" className="w-16px" />
             <div className="pt-3">
                 <h4 className="text-zinc-950 text-base font-bold">
@@ -189,14 +185,18 @@ bun add @coinbase/onchainkit
     </div>
 </div>
 
-<div className="px-6 py-4 bg-gray-50 rounded-xl mx-56">
-     <a href="/transaction/transaction" title="Start with Transaction Component" className="float-right md:m-0 flex justify-center items-center border border-indigo-600 text-indigo-600 font-bold px-2 py-2 rounded-lg border-solid w-[160px]">
-        Get featured
+<div className="w-11/12 mx-4 px-6 py-4 bg-gray-50 rounded-xl md:flex items-center justify-between md:mx-20 md:mt-16">
+    <div className="pb-2 md:pb-0">
+        <h4 className="text-zinc-950 text-base font-bold">
+            Build with OnchainKit and want to get featured?
+        </h4>
+        <p className="text-zinc-950 text-sm">
+            Create a pull request to get featured and reach more people.
+        </p>
+    </div>
+    <a href="/guides/get-featured">
+        <button className="hover:bg-gray-100 px-4 py-2 border border-solid border-indigo-600 rounded-lg text-indigo-600 text-sm font-bold">
+            Get featured
+        </button>
     </a>
-    <h4 className="text-zinc-950 text-base font-bold">
-        Build with OnchainKit and want to get featured?
-    </h4>
-    <p className="text-zinc-950 text-sm">
-         Create a pull request to get featured and reach more people.
-    </p>
 </div>
