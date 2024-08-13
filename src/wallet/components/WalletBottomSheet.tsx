@@ -2,12 +2,12 @@ import { Children, cloneElement, isValidElement, useMemo } from 'react';
 import { useAccount } from 'wagmi';
 import { Identity } from '../../identity/components/Identity';
 import { background, cn } from '../../styles/theme';
-import type { WalletDropdownReact } from '../types';
+import type { WalletBottomSheetReact } from '../types';
 
 export function WalletBottomSheet({
   children,
   className,
-}: WalletDropdownReact) {
+}: WalletBottomSheetReact) {
   const { address } = useAccount();
 
   const childrenArray = useMemo(() => {

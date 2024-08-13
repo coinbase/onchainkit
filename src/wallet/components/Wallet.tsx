@@ -2,7 +2,7 @@ import { Children, useEffect, useMemo, useRef } from 'react';
 import { findComponent } from '../../internal/utils/findComponent';
 import type { WalletReact } from '../types';
 import { ConnectWallet } from './ConnectWallet';
-import { WalletDetails } from './WalletDetails';
+import { WalletMenu } from './WalletMenu';
 import { WalletProvider, useWalletContext } from './WalletProvider';
 
 const WalletContent = ({ children }: WalletReact) => {
@@ -13,7 +13,7 @@ const WalletContent = ({ children }: WalletReact) => {
     const childrenArray = Children.toArray(children);
     return {
       connect: childrenArray.find(findComponent(ConnectWallet)),
-      menu: childrenArray.find(findComponent(WalletDetails)),
+      menu: childrenArray.find(findComponent(WalletMenu)),
     };
   }, [children]);
 
