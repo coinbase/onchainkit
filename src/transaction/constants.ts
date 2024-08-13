@@ -2,9 +2,13 @@ export const GENERIC_ERROR_MESSAGE = 'Something went wrong. Please try again.';
 // Most likely EOAexport const genericErrorMessage = 'Something went wrong. Please try again.';
 export const METHOD_NOT_SUPPORTED_ERROR_SUBSTRING =
   'this request method is not supported';
+export const SEND_CALL_ERROR_CODE = 'SEND_CALL_ERROR';
+export const SEND_CALLS_ERROR_CODE = 'SEND_CALLS_ERROR';
 export const SEND_CALLS_NOT_SUPPORTED_ERROR = 'SEND_CALLS_NOT_SUPPORTED_ERROR';
 export const TRANSACTION_TYPE_CALLS = 'TRANSACTION_TYPE_CALLS';
 export const TRANSACTION_TYPE_CONTRACTS = 'TRANSACTION_TYPE_CONTRACTS';
+export const UNCAUGHT_SEND_CALL_ERROR_CODE = 'UNCAUGHT_SEND_CALL_ERROR';
+export const UNCAUGHT_SEND_CALLS_ERROR_CODE = 'UNCAUGHT_SEND_CALLS_ERROR';
 export const UNCAUGHT_WRITE_CONTRACT_ERROR_CODE =
   'UNCAUGHT_WRITE_CONTRACT_ERROR';
 export const UNCAUGHT_WRITE_CONTRACTS_ERROR_CODE =
