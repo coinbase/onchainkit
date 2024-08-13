@@ -1,38 +1,33 @@
 import { 
-  Address,
-  Avatar,
-  EthBalance,
-  Identity,
-  Name 
-} from '@coinbase/onchainkit/identity';
-import { color } from '@coinbase/onchainkit/theme';
-import {
   ConnectWallet,
   Wallet,
   WalletDropdown,
+  WalletDropdownLink,
   WalletDropdownBaseName,
-  WalletDropdownDisconnect
+  WalletDropdownDisconnect,
 } from '@coinbase/onchainkit/wallet';
+import {
+  Address,
+  Avatar,
+  Name,
+  Identity,
+  EthBalance,
+} from '@coinbase/onchainkit/identity';
+import { color } from '@coinbase/onchainkit/theme';
 import WalletComponents from '../../components/WalletComponents';
 
-# `<WalletDropdownBaseName />`
+# `<WalletDropdownDisconnect />`
 
-The `WalletDropdownBaseName` component adds a [Basename](https://www.base.org/names) tab to the Wallet Component. This tab serves two purposes:
+The `WalletDropdownDisconnect` component is used to disconnect the wallet from the application.
 
-1. For users with a Basename: It provides a link to their Base Name profile page.
-2. For users without a Basename: It provides a link to a page where they can create one.
-
-This component enhances the wallet interface by providing easy access to Base Name functionality, whether for viewing an existing profile or setting up a new one.
-
-## Usage
+## Usage 
 
 ```tsx
 import {
   ConnectWallet,
   Wallet,
-  WalletDropdown,
-  WalletDropdownBaseName, // [!code focus]
-  WalletDropdownDisconnect,
+  WalletDropdown, 
+  WalletDropdownDisconnect, // [!code focus]
 } from '@coinbase/onchainkit/wallet';
 import {
   Address,
@@ -58,18 +53,17 @@ export function WalletComponents() {
             <Address className={color.foregroundMuted} />
             <EthBalance />
           </Identity>
-          <WalletDropdownBaseName /> // [!code focus] 
-          <WalletDropdownDisconnect />
+          <WalletDropdownDisconnect /> // [!code focus]
         </WalletDropdown>
       </Wallet>
     </div>
   );
-}
+}      
 ```
 
 <WalletComponents>
   <Wallet>
-    <ConnectWallet text="Log In">
+    <ConnectWallet>
       <Avatar className="h-6 w-6" />
       <Name />
     </ConnectWallet>
@@ -80,11 +74,10 @@ export function WalletComponents() {
         <Address className={color.foregroundMuted} />
         <EthBalance />
       </Identity>
-      <WalletDropdownBaseName />
       <WalletDropdownDisconnect />
     </WalletDropdown>
   </Wallet>
 </WalletComponents>
 
-## Props
-- [`WalletDropdownBaseNameReact`](/wallet/types#walletdropdownbasenamereact)
+## Props 
+- [`WalletDropdownDisconnectReact`](/wallet/types#walletdropdowndisconnectreact)
