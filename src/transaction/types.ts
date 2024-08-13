@@ -50,6 +50,7 @@ export type TransactionContextType = {
   receipt?: TransactionReceipt; // The receipt of the transaction
   setErrorMessage: (error: string) => void; // A function to set the error message for the transaction.
   setIsToastVisible: (isVisible: boolean) => void; // A function to set the visibility of the transaction toast.
+  setLifeCycleStatus: (state: LifeCycleStatus) => void; // A function to set the lifecycle status of the component
   setTransactionId: (id: string) => void; // A function to set the transaction ID.
   statusWriteContract?: string; // An optional string indicating the current status of the transaction.
   statusWriteContracts?: string; // An optional string indicating the current status of the transaction.

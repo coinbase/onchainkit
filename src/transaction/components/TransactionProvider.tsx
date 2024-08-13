@@ -232,6 +232,7 @@ export function TransactionProvider({
     receipt,
     setErrorMessage,
     setIsToastVisible,
+    setLifeCycleStatus,
     setTransactionId,
     statusWriteContracts,
     statusWriteContract,

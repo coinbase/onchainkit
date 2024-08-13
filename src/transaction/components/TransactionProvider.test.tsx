@@ -36,6 +36,12 @@ vi.mock('../hooks/useWriteContracts', () => ({
 
 const TestComponent = () => {
   const context = useTransactionContext();
+  const handleSetLifeCycleStatus = async () => {
+    context.setLifeCycleStatus({
+      statusName: 'error',
+      statusData: { code: 'code', error: 'error_long_messages' },
+    });
+  };
   return (
     <div data-testid="test-component">
       <button type="button" onClick={context.onSubmit}>
@@ -47,6 +53,9 @@ const TestComponent = () => {
       <span data-testid="context-value-isToastVisible">
         {`${context.isToastVisible}`}
       </span>
+      <button type="button" onClick={handleSetLifeCycleStatus}>
+        setLifeCycleStatus.error
+      </button>
     </div>
   );
 };
@@ -74,6 +83,18 @@ describe('TransactionProvider', () => {
     (useWaitForTransactionReceipt as ReturnType<typeof vi.fn>).mockReturnValue({
       receipt: undefined,
     });
+  });
+
+  it('should emit onError when setLifeCycleStatus is called with error', async () => {
+    const onErrorMock = vi.fn();
+    render(
+      <TransactionProvider address="0x123" contracts={[]} onError={onErrorMock}>
+        <TestComponent />
+      </TransactionProvider>,
+    );
+    const button = screen.getByText('setLifeCycleStatus.error');
+    fireEvent.click(button);
+    expect(onErrorMock).toHaveBeenCalled();
   });
 
   it('should update context on handleSubmit', async () => {
