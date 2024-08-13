@@ -1,6 +1,6 @@
 import { renderHook } from '@testing-library/react';
 import type { Hex } from 'viem';
-import { describe, expect, it, vi } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import {
   TRANSACTION_TYPE_CALLS,
   TRANSACTION_TYPE_CONTRACTS,
@@ -69,23 +69,6 @@ describe('useTransactionStatus', () => {
       statusBatched: undefined,
       statusSingle: undefined,
     });
-  });
-
-  it('should log "TransactionStatus" to stdout', () => {
-    const mockStdout = vi.spyOn(process.stdout, 'write');
-    renderHook(() =>
-      useTransactionStatus({
-        transactionType: TRANSACTION_TYPE_CONTRACTS,
-        writeContractTransactionHash: mockWriteContractTransactionHash,
-        statusWriteContracts: 'pending',
-        statusWriteContract: 'success',
-        sendTransactionHash: undefined,
-        statusSendCalls: undefined,
-        statusSendCall: undefined,
-      }),
-    );
-    expect(mockStdout).toHaveBeenCalledWith('TransactionStatus\n');
-    mockStdout.mockRestore();
   });
 
   it("should memoize the result and not re-compute on re-render if inputs haven't changed", () => {

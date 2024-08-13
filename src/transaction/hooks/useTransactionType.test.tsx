@@ -1,5 +1,5 @@
 import { renderHook } from '@testing-library/react';
-import { describe, expect, it, vi } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import {
   TRANSACTION_TYPE_CALLS,
   TRANSACTION_TYPE_CONTRACTS,
@@ -50,14 +50,5 @@ describe('useTransactionType', () => {
   it('should not throw an error when contracts is an empty array', () => {
     const { result } = renderHook(() => useTransactionType({ contracts: [] }));
     expect(result.current).toBe(TRANSACTION_TYPE_CONTRACTS);
-  });
-
-  it('should log "TransactionType" to stdout', () => {
-    const mockStdout = vi.spyOn(process.stdout, 'write');
-    renderHook(() =>
-      useTransactionType({ calls: [{ to: '0x123', data: '0x456' }] }),
-    );
-    expect(mockStdout).toHaveBeenCalledWith('TransactionType\n');
-    mockStdout.mockRestore();
   });
 });

@@ -31,7 +31,6 @@ export const useTransactionStatus = ({
   statusSendCall,
 }: TransactionStatusProps): TransactionStatusResult => {
   return useMemo(() => {
-    process.stdout.write('TransactionStatus\n');
     if (transactionType === TRANSACTION_TYPE_CONTRACTS) {
       return {
         singleTransactionHash: writeContractTransactionHash,

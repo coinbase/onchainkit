@@ -14,7 +14,6 @@ export const useTransactionType = ({
   contracts?: ContractFunctionParameters[];
 }) => {
   return useMemo(() => {
-    process.stdout.write('TransactionType\n');
     if (calls && contracts) {
       throw new Error(
         "Only one of 'calls' or 'contracts' should be defined, not both.",
