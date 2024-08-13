@@ -86,5 +86,35 @@ export function WalletComponents() {
   </Wallet>
 </WalletComponents>
 
+### Override styles
+
+You can override component styles using `className`.
+  
+  ```tsx
+  // omitted for brevity
+
+  <WalletDropdownBaseName className="hover:bg-red-500" /> // [!code focus] 
+  ```
+  
+<WalletComponents>
+  <Wallet>
+    <ConnectWallet text="Log In">
+      <Avatar className="h-6 w-6" />
+      <Name />
+    </ConnectWallet>
+    <WalletDropdown>
+      <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick>
+        <Avatar />
+        <Name />
+        <Address className={color.foregroundMuted} />
+        <EthBalance />
+      </Identity>
+      <WalletDropdownBaseName className="hover:bg-red-500"/>
+      <WalletDropdownDisconnect />
+    </WalletDropdown>
+  </Wallet>
+</WalletComponents>
+
+
 ## Props
 - [`WalletDropdownBaseNameReact`](/wallet/types#walletdropdownbasenamereact)
