@@ -73,6 +73,8 @@
 
 #home-install .vocs_Code {
   font-size: 14px;
+  background-color: #1F2937 !important;
+  border-color: #1F2937 !important;
 }
 
 @media (max-width: 768px) {
@@ -80,33 +82,6 @@
     margin-left: auto;
     margin-right: auto;
   }
-}
-
-.css-blurry-gradient {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, 0%);
-  width: 500px;
-  height: 500px;
-  border-radius: 50% 22% 40% 80%;
-  filter: blur(70px);
-  background: radial-gradient(circle at 50% 50%, #818CF8, #818CF8);
-  opacity: 0.6;
-}
-
-@media (max-width: 468px) {
-  .css-blurry-gradient {
-    display: none;
-  }
-  .css-blurry-gradient-mobile {
-    display: block;
-  }
-}
-
-.dark .css-blurry-gradient {
-  background: radial-gradient(circle at 50% 50%, #6f79c5, #6f79c5);
-  opacity: 0.2;
 }
 
 .pane {
@@ -142,7 +117,7 @@
 
 .dark {
   .css-main-container {
-    background-color: #0e121d;
+    background-color: #030712;
   }
 }
 
@@ -150,7 +125,7 @@
   background-color: white;
 }
 .dark .css-alternate-container {
-  background-color: #030713;
+  background-color: #030712;
 }
 
 .landing-page-hero .vocs_Paragraph {

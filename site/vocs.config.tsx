@@ -1,7 +1,7 @@
 import { FrameMetadata } from '@coinbase/onchainkit/frame';
 import { defineConfig } from 'vocs';
 import pkg from '../package.json';
-import { sidebar } from './sidebar';
+import { sidebar } from './sidebar.ts';
 
 export const GOOGLE_ANALYTICS_ID =
   process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID ?? 'TEST_GA';
@@ -79,7 +79,10 @@ export default defineConfig({
     },
   ],
   theme: {
-    accentColor: '#73F7FF',
+    accentColor: {
+      dark: '#818CF8',
+      light: '#4F46E5'
+    },
     variables: {
       color: {
         background: {
