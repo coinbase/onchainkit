@@ -103,7 +103,7 @@ export function TransactionProvider({
       onError?.(lifeCycleState.stateData);
     }
     // Emit State
-    onState?.(lifeCycleState.stateName, lifeCycleState.stateData);
+    onState?.(lifeCycleState);
   }, [onError, onState, lifeCycleState.stateData, lifeCycleState.stateName]);
 
   const getTransactionReceipts = useCallback(async () => {
