@@ -34,6 +34,23 @@ export const sidebar = [
     ],
   },
   {
+    text: 'Templates',
+    items: [
+      {
+        text: 'Quick start app',
+        link: 'https://github.com/coinbase/onchain-app-template',
+      },
+      {
+        text: 'Community one-page',
+        link: 'https://github.com/fakepixels/token-machine',
+      },
+      {
+        text: 'Frame',
+        link: 'https://github.com/Zizzamia/a-frame-in-100-lines',
+      },
+    ],
+  },
+  {
     text: 'Components',
     items: [
       {
@@ -223,5 +240,20 @@ export const sidebar = [
         link: '/wallet/types',
       },
     ]
+  },
+  {
+    text: 'Design Resources',
+    collapsed: true,
+    items: [
+      { text: 'Figma UI Kit', 
+        link: 'https://www.figma.com/community/file/1370194397345450683/onchainkit', 
+      },
+    ],
+  },
+  { text: 'Terms of Service', 
+    link: 'https://www.coinbase.com/legal/cloud/terms-of-service', 
+  },
+  { text: 'MIT License', 
+    link: 'https://github.com/coinbase/onchainkit/blob/main/LICENSE.md', 
   },
 ] as const satisfies Sidebar;
