@@ -10,7 +10,6 @@ import type {
   TransactionExecutionError,
   TransactionReceipt,
 } from 'viem';
-import type { ContractFunctionParameters } from 'viem';
 import {
   useAccount,
   useConfig,
@@ -28,6 +27,7 @@ import {
 import { useCallsStatus } from '../hooks/useCallsStatus';
 import { useSendCall } from '../hooks/useSendCall';
 import { useSendCalls } from '../hooks/useSendCalls';
+import { useSendEOATransactions } from '../hooks/useSendEOATransactions';
 import { useTransactionStatus } from '../hooks/useTransactionStatus';
 import { useTransactionType } from '../hooks/useTransactionType';
 import { useWriteContract } from '../hooks/useWriteContract';
@@ -195,48 +195,17 @@ export function TransactionProvider({
   }, [calls, contracts, getTransactionReceipts, transactionHashArray]);
 
   /*
-    Execute a single transaction using EOA-friendly function calls.
-    (either a call or a contract function)
-  */
-  const executeSingleTransaction = useCallback(
-    async ({
-      transaction,
-      transactionType,
-    }: {
-      transaction: CallsType | ContractFunctionParameters;
-      transactionType: string;
-    }) => {
-      if (transactionType === TRANSACTION_TYPE_CALLS) {
-        await sendTransactionAsync?.(transaction as CallsType);
-      }
-      if (transactionType === TRANSACTION_TYPE_CONTRACTS) {
-        await writeContractAsync?.(transaction as ContractFunctionParameters);
-      }
-    },
-    [sendTransactionAsync, writeContractAsync]
-  );
-
-  /*
-    Fallback to single transaction using EOA-friendly function calls.
+    Fallback to EOA-friendly Wagmi function calls.
     Called when the experimental hooks fail.
   */
-  const fallbackToSingleTransaction = useCallback(async () => {
-    try {
-      for (const transaction of contracts || calls || []) {
-        await executeSingleTransaction({ transaction, transactionType });
-      }
-    } catch (err) {
-      // if user rejected request
-      if (
-        (err as TransactionExecutionError)?.cause?.name ===
-        'UserRejectedRequestError'
-      ) {
-        setErrorMessage('Request denied.');
-      } else {
-        setErrorMessage(GENERIC_ERROR_MESSAGE);
-      }
-    }
-  }, [calls, contracts, executeSingleTransaction, transactionType]);
+  const sendEOATransactions = useSendEOATransactions({
+    contracts,
+    calls,
+    transactionType,
+    sendTransactionAsync,
+    writeContractAsync,
+    setErrorMessage,
+  });
 
   const switchChain = useCallback(
     async (targetChainId: number | undefined) => {
@@ -276,13 +245,13 @@ export function TransactionProvider({
   const handleSubmitErrors = useCallback(
     async (err: unknown) => {
       // handles EOA error
-      // (fallback to single transactions)
+      // use EOA Wagmi methods
       if (
         err instanceof Error &&
         err.message.includes(METHOD_NOT_SUPPORTED_ERROR_SUBSTRING)
       ) {
         try {
-          await fallbackToSingleTransaction();
+          await sendEOATransactions();
         } catch (_err) {
           setErrorMessage(GENERIC_ERROR_MESSAGE);
         }
@@ -297,7 +266,7 @@ export function TransactionProvider({
         setErrorMessage(GENERIC_ERROR_MESSAGE);
       }
     },
-    [fallbackToSingleTransaction]
+    [sendEOATransactions]
   );
 
   const handleSubmit = useCallback(async () => {
