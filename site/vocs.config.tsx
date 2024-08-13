@@ -77,6 +77,14 @@ export default defineConfig({
       icon: 'github',
       link: 'https://github.com/coinbase/onchainkit',
     },
+    {
+      icon: 'x',
+      link:'https://x.com/OnchainKit',
+    },
+    {
+      icon: 'warpcast',
+      link:'https://warpcast.com/onchainkit',
+    },
   ],
   theme: {
     accentColor: {
@@ -101,14 +109,9 @@ export default defineConfig({
     },
   },
   topNav: [
-    { text: 'Docs', link: '/getting-started', match: '/docs' },
-    {
-      text: 'Onchain App Template',
+    { 
+      text: 'Onchain App Template', 
       link: 'https://github.com/coinbase/onchain-app-template',
-    },
-    {
-      text: 'Frame Example',
-      link: 'https://github.com/Zizzamia/a-frame-in-100-lines',
     },
     {
       text: pkg.version,
