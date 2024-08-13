@@ -144,4 +144,40 @@ describe('useSendCall', () => {
       error: JSON.stringify(uncaughtError),
     });
   });
+
+  it('should handle user rejected request errors', () => {
+    const userRejectedError = new Error('User rejected request') as Error & {
+      cause: { name: string };
+    };
+    userRejectedError.cause = { name: 'UserRejectedRequestError' };
+
+    let onErrorCallback: ((error: Error) => void) | undefined;
+
+    (useSendTransactionWagmi as ReturnType<typeof vi.fn>).mockImplementation(
+      ({ mutation }: useSendCallConfig) => {
+        onErrorCallback = mutation.onError;
+        return {
+          sendTransactionAsync: vi.fn(),
+          status: 'success',
+        } as MockuseSendCallReturn;
+      },
+    );
+
+    renderHook(() =>
+      useSendCall({
+        setErrorMessage: mockSetErrorMessage,
+        setTransactionHashArray: mockSetTransactionHashArray,
+        onError: mockOnError,
+      }),
+    );
+
+    expect(onErrorCallback).toBeDefined();
+    onErrorCallback?.(userRejectedError);
+
+    expect(mockSetErrorMessage).toHaveBeenCalledWith('Request denied.');
+    expect(mockOnError).toHaveBeenCalledWith({
+      code: 'SEND_CALL_ERROR',
+      error: 'User rejected request',
+    });
+  });
 });

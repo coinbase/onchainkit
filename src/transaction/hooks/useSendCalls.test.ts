@@ -105,4 +105,70 @@ describe('useSendCalls', () => {
       error: JSON.stringify(uncaughtError),
     });
   });
+
+  it('should ignore EOA-specific errors', () => {
+    const eoaError = new Error('Error: this request method is not supported');
+
+    let onErrorCallback: ((error: Error) => void) | undefined;
+
+    (useSendCallsWagmi as ReturnType<typeof vi.fn>).mockImplementation(
+      ({ mutation }) => {
+        onErrorCallback = mutation.onError;
+        return {
+          writeContracts: vi.fn(),
+          status: 'error',
+        };
+      },
+    );
+
+    renderHook(() =>
+      useSendCalls({
+        setErrorMessage: mockSetErrorMessage,
+        setTransactionId: mockSetTransactionId,
+        onError: mockOnError,
+      }),
+    );
+
+    expect(onErrorCallback).toBeDefined();
+    onErrorCallback?.(eoaError);
+
+    expect(mockSetErrorMessage).not.toHaveBeenCalled();
+    expect(mockOnError).not.toHaveBeenCalled();
+  });
+
+  it('should handle user rejected request errors', () => {
+    const userRejectedError = new Error('User rejected request') as Error & {
+      cause: { name: string };
+    };
+    userRejectedError.cause = { name: 'UserRejectedRequestError' };
+
+    let onErrorCallback: ((error: Error) => void) | undefined;
+
+    (useSendCallsWagmi as ReturnType<typeof vi.fn>).mockImplementation(
+      ({ mutation }) => {
+        onErrorCallback = mutation.onError;
+        return {
+          writeContracts: vi.fn(),
+          status: 'error',
+        };
+      },
+    );
+
+    renderHook(() =>
+      useSendCalls({
+        setErrorMessage: mockSetErrorMessage,
+        setTransactionId: mockSetTransactionId,
+        onError: mockOnError,
+      }),
+    );
+
+    expect(onErrorCallback).toBeDefined();
+    onErrorCallback?.(userRejectedError);
+
+    expect(mockSetErrorMessage).toHaveBeenCalledWith('Request denied.');
+    expect(mockOnError).toHaveBeenCalledWith({
+      code: 'SEND_CALLS_ERROR',
+      error: 'User rejected request',
+    });
+  });
 });

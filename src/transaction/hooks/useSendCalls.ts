@@ -28,9 +28,7 @@ export function useSendCalls({
   try {
     const { status, sendCallsAsync } = useSendCallsWagmi({
       mutation: {
-        onSettled(data, error, variables, context) {
-          console.log('settled', data, error, variables, context);
-        },
+        onSettled() {},
         onError: (e) => {
           // Ignore EOA-specific error to fallback to writeContract
           if (e.message.includes(METHOD_NOT_SUPPORTED_ERROR_SUBSTRING)) {
@@ -54,8 +52,6 @@ export function useSendCalls({
     });
     return { status, sendCallsAsync };
   } catch (err) {
-    process.stdout.write('useSendCallsError\n');
-
     onError?.({
       code: UNCAUGHT_SEND_CALLS_ERROR_CODE,
       error: JSON.stringify(err),
