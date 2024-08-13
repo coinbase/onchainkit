@@ -28,7 +28,7 @@ describe('useSendCalls', () => {
           writeContracts: vi.fn(),
           status: 'error',
         };
-      }
+      },
     );
 
     renderHook(() =>
@@ -36,14 +36,14 @@ describe('useSendCalls', () => {
         setErrorMessage: mockSetErrorMessage,
         setTransactionId: mockSetTransactionId,
         onError: mockOnError,
-      })
+      }),
     );
 
     expect(onErrorCallback).toBeDefined();
     onErrorCallback?.(genericError);
 
     expect(mockSetErrorMessage).toHaveBeenCalledWith(
-      'Something went wrong. Please try again.'
+      'Something went wrong. Please try again.',
     );
     expect(mockOnError).toHaveBeenCalledWith({
       code: 'SEND_CALLS_ERROR',
@@ -63,7 +63,7 @@ describe('useSendCalls', () => {
           writeContracts: vi.fn(),
           status: 'success',
         };
-      }
+      },
     );
 
     renderHook(() =>
@@ -71,7 +71,7 @@ describe('useSendCalls', () => {
         setErrorMessage: mockSetErrorMessage,
         setTransactionId: mockSetTransactionId,
         onError: mockOnError,
-      })
+      }),
     );
 
     expect(onSuccessCallback).toBeDefined();
@@ -92,13 +92,13 @@ describe('useSendCalls', () => {
         setErrorMessage: mockSetErrorMessage,
         setTransactionId: mockSetTransactionId,
         onError: mockOnError,
-      })
+      }),
     );
 
     expect(result.current.status).toBe('error');
     expect(result.current.sendCallsAsync).toBeInstanceOf(Function);
     expect(mockSetErrorMessage).toHaveBeenCalledWith(
-      'Something went wrong. Please try again.'
+      'Something went wrong. Please try again.',
     );
     expect(mockOnError).toHaveBeenCalledWith({
       code: 'UNCAUGHT_SEND_CALLS_ERROR',

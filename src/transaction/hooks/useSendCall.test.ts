@@ -43,7 +43,7 @@ describe('useSendCall', () => {
         setErrorMessage: mockSetErrorMessage,
         setTransactionHashArray: mockSetTransactionHashArray,
         onError: mockOnError,
-      })
+      }),
     );
 
     expect(result.current.status).toBe('idle');
@@ -64,7 +64,7 @@ describe('useSendCall', () => {
           data: null,
           status: 'error',
         } as MockuseSendCallReturn;
-      }
+      },
     );
 
     renderHook(() =>
@@ -72,14 +72,14 @@ describe('useSendCall', () => {
         setErrorMessage: mockSetErrorMessage,
         setTransactionHashArray: mockSetTransactionHashArray,
         onError: mockOnError,
-      })
+      }),
     );
 
     expect(onErrorCallback).toBeDefined();
     onErrorCallback?.(genericError);
 
     expect(mockSetErrorMessage).toHaveBeenCalledWith(
-      'Something went wrong. Please try again.'
+      'Something went wrong. Please try again.',
     );
     expect(mockOnError).toHaveBeenCalledWith({
       code: 'SEND_CALL_ERROR',
@@ -100,7 +100,7 @@ describe('useSendCall', () => {
           data: transactionId,
           status: 'success',
         } as MockuseSendCallReturn;
-      }
+      },
     );
 
     renderHook(() =>
@@ -108,7 +108,7 @@ describe('useSendCall', () => {
         setErrorMessage: mockSetErrorMessage,
         setTransactionHashArray: mockSetTransactionHashArray,
         onError: mockOnError,
-      })
+      }),
     );
 
     expect(onSuccessCallback).toBeDefined();
@@ -123,7 +123,7 @@ describe('useSendCall', () => {
     (useSendTransactionWagmi as ReturnType<typeof vi.fn>).mockImplementation(
       () => {
         throw uncaughtError;
-      }
+      },
     );
 
     const { result } = renderHook(() =>
@@ -131,13 +131,13 @@ describe('useSendCall', () => {
         setErrorMessage: mockSetErrorMessage,
         setTransactionHashArray: mockSetTransactionHashArray,
         onError: mockOnError,
-      })
+      }),
     );
 
     expect(result.current.status).toBe('error');
     expect(result.current.sendTransactionAsync).toBeInstanceOf(Function);
     expect(mockSetErrorMessage).toHaveBeenCalledWith(
-      'Something went wrong. Please try again.'
+      'Something went wrong. Please try again.',
     );
     expect(mockOnError).toHaveBeenCalledWith({
       code: 'UNCAUGHT_SEND_CALL_ERROR',

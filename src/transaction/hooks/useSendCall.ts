@@ -41,7 +41,7 @@ export function useSendCall({
         },
         onSuccess: (hash: Address) => {
           setTransactionHashArray(
-            transactionHashArray ? transactionHashArray?.concat(hash) : [hash]
+            transactionHashArray ? transactionHashArray?.concat(hash) : [hash],
           );
         },
       },
