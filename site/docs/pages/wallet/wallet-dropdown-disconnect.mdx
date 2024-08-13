@@ -1,11 +1,3 @@
-import { 
-  ConnectWallet,
-  Wallet,
-  WalletDropdown,
-  WalletDropdownLink,
-  WalletDropdownBaseName,
-  WalletDropdownDisconnect,
-} from '@coinbase/onchainkit/wallet';
 import {
   Address,
   Avatar,
@@ -14,6 +6,14 @@ import {
   EthBalance,
 } from '@coinbase/onchainkit/identity';
 import { color } from '@coinbase/onchainkit/theme';
+import { 
+  ConnectWallet,
+  Wallet,
+  WalletDropdown,
+  WalletDropdownLink,
+  WalletDropdownBaseName,
+  WalletDropdownDisconnect,
+} from '@coinbase/onchainkit/wallet';
 import WalletComponents from '../../components/WalletComponents';
 
 # `<WalletDropdownDisconnect />`
@@ -24,12 +24,6 @@ The `WalletDropdownDisconnect` component is used to disconnect the wallet from t
 
 ```tsx
 import {
-  ConnectWallet,
-  Wallet,
-  WalletDropdown, 
-  WalletDropdownDisconnect, // [!code focus]
-} from '@coinbase/onchainkit/wallet';
-import {
   Address,
   Avatar,
   Name,
@@ -37,6 +31,12 @@ import {
   EthBalance,
 } from '@coinbase/onchainkit/identity';
 import { color } from '@coinbase/onchainkit/theme';
+import {
+  ConnectWallet,
+  Wallet,
+  WalletDropdown, 
+  WalletDropdownDisconnect, // [!code focus]
+} from '@coinbase/onchainkit/wallet';
 
 export function WalletComponents() {
   return (

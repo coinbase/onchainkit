@@ -28,13 +28,6 @@ This component enhances the wallet interface by providing easy access to Base Na
 
 ```tsx
 import {
-  ConnectWallet,
-  Wallet,
-  WalletDropdown,
-  WalletDropdownBaseName, // [!code focus]
-  WalletDropdownDisconnect,
-} from '@coinbase/onchainkit/wallet';
-import {
   Address,
   Avatar,
   Name,
@@ -42,6 +35,13 @@ import {
   EthBalance,
 } from '@coinbase/onchainkit/identity';
 import { color } from '@coinbase/onchainkit/theme';
+import {
+  ConnectWallet,
+  Wallet,
+  WalletDropdown,
+  WalletDropdownBaseName, // [!code focus]
+  WalletDropdownDisconnect,
+} from '@coinbase/onchainkit/wallet';
 
 export function WalletComponents() {
   return (

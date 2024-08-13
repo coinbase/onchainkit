@@ -24,13 +24,6 @@ The `WalletDropdownLink` creates a custom link within the dropdown. Use the icon
 
 ```tsx
 import {
-  ConnectWallet,
-  Wallet,
-  WalletDropdown, 
-  WalletDropdownLink, // [!code focus]
-  WalletDropdownDisconnect,
-} from '@coinbase/onchainkit/wallet';
-import {
   Address,
   Avatar,
   Name,
@@ -38,6 +31,13 @@ import {
   EthBalance,
 } from '@coinbase/onchainkit/identity';
 import { color } from '@coinbase/onchainkit/theme';
+import {
+  ConnectWallet,
+  Wallet,
+  WalletDropdown, 
+  WalletDropdownLink, // [!code focus]
+  WalletDropdownDisconnect,
+} from '@coinbase/onchainkit/wallet';
 
 export function WalletComponents() {
   return (
