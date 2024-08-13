@@ -8,6 +8,7 @@ export function Transaction({
   chainId,
   className,
   children,
+  calls,
   contracts,
   onError,
   onStatus,
@@ -17,6 +18,7 @@ export function Transaction({
     <TransactionProvider
       address={address}
       capabilities={capabilities}
+      calls={calls}
       chainId={chainId}
       contracts={contracts}
       onError={onError}

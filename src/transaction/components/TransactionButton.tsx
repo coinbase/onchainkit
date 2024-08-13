@@ -13,6 +13,7 @@ export function TransactionButton({
 }: TransactionButtonReact) {
   const {
     address,
+    calls,
     contracts,
     errorMessage,
     isLoading,
@@ -26,7 +27,7 @@ export function TransactionButton({
 
   const isInProgress =
     statusSingle === 'pending' || statusBatched === 'pending' || isLoading;
-  const isMissingProps = !contracts || !address;
+  const isMissingProps = (!calls && !contracts) || !address;
   const isWaitingForReceipt = !!transactionId || !!transactionHash;
 
   const isDisabled =
