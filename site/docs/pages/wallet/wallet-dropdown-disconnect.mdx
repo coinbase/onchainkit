@@ -79,5 +79,61 @@ export function WalletComponents() {
   </Wallet>
 </WalletComponents>
 
+### Override styles
+
+You can override component styles using `className`.
+  
+  ```tsx
+  // omitted for brevity
+
+  <WalletDropdownDisconnect className="hover:bg-red-500" /> // [!code focus] 
+  ```
+  
+<WalletComponents>
+  <Wallet>
+    <ConnectWallet text="Log In">
+      <Avatar className="h-6 w-6" />
+      <Name />
+    </ConnectWallet>
+    <WalletDropdown>
+      <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick>
+        <Avatar />
+        <Name />
+        <Address className={color.foregroundMuted} />
+        <EthBalance />
+      </Identity>
+      <WalletDropdownDisconnect className="hover:bg-red-500"/>
+    </WalletDropdown>
+  </Wallet>
+</WalletComponents>
+
+### Override text
+
+You can override component text using `text`.
+
+```tsx
+// omitted for brevity
+
+  <WalletDropdownDisconnect text="Log out" /> // [!code focus] 
+```
+
+<WalletComponents>
+  <Wallet>
+    <ConnectWallet text="Log In">
+      <Avatar className="h-6 w-6" />
+      <Name />
+    </ConnectWallet>
+    <WalletDropdown>
+      <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick>
+        <Avatar />
+        <Name />
+        <Address className={color.foregroundMuted} />
+        <EthBalance />
+      </Identity>
+      <WalletDropdownDisconnect text="Log out"/>
+    </WalletDropdown>
+  </Wallet>
+</WalletComponents>
+
 ## Props 
 - [`WalletDropdownDisconnectReact`](/wallet/types#walletdropdowndisconnectreact)
