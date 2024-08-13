@@ -9,14 +9,14 @@ import type {
 /**
  * Note: exported as public Type
  */
-export type LifeCycleState =
+export type LifeCycleStatus =
   | {
-      stateName: 'init';
-      stateData: null;
+      statusName: 'init';
+      statusData: null;
     }
   | {
-      stateName: 'error';
-      stateData: TransactionError;
+      statusName: 'error';
+      statusData: TransactionError;
     };
 
 export type IsSpinnerDisplayedProps = {
@@ -79,7 +79,7 @@ export type TransactionProviderReact = {
   children: ReactNode; // The child components to be rendered within the provider component.
   contracts: ContractFunctionParameters[]; // An array of contract function parameters provided to the child components.
   onError?: (e: TransactionError) => void; // An optional callback function that handles errors within the provider.
-  onState?: (lifeCycleState: LifeCycleState) => void; // An optional callback function that exposes the component lifecycle state
+  onStatus?: (lifeCycleStatus: LifeCycleStatus) => void; // An optional callback function that exposes the component lifecycle state
   onSuccess?: (response: TransactionResponse) => void; // An optional callback function that exposes the transaction receipts
 };
 
@@ -94,7 +94,7 @@ export type TransactionReact = {
   className?: string; // An optional CSS class name for styling the component.
   contracts: ContractFunctionParameters[]; // An array of contract function parameters for the transaction.
   onError?: (e: TransactionError) => void; // An optional callback function that handles transaction errors.
-  onState?: (lifeCycleState: LifeCycleState) => void; // An optional callback function that exposes the component lifecycle state
+  onStatus?: (lifeCycleStatus: LifeCycleStatus) => void; // An optional callback function that exposes the component lifecycle state
   onSuccess?: (response: TransactionResponse) => void; // An optional callback function that exposes the transaction receipts
 };
 
@@ -166,20 +166,20 @@ export type TransactionToastLabelReact = {
 };
 
 export type UseCallsStatusParams = {
-  setLifeCycleState: (state: LifeCycleState) => void;
+  setLifeCycleStatus: (state: LifeCycleStatus) => void;
   transactionId: string;
 };
 
 export type UseWriteContractParams = {
   setErrorMessage: (error: string) => void;
-  setLifeCycleState: (state: LifeCycleState) => void;
+  setLifeCycleStatus: (state: LifeCycleStatus) => void;
   setTransactionHashArray: (ids: Address[]) => void;
   transactionHashArray?: Address[];
 };
 
 export type UseWriteContractsParams = {
   setErrorMessage: (error: string) => void;
-  setLifeCycleState: (state: LifeCycleState) => void;
+  setLifeCycleStatus: (state: LifeCycleStatus) => void;
   setTransactionId: (id: string) => void;
 };
 

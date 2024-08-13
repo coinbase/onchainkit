@@ -4,7 +4,7 @@ import type { UseCallsStatusParams } from '../types';
 const uncaughtErrorCode = 'UNCAUGHT_CALL_STATUS_ERROR';
 
 export function useCallsStatus({
-  setLifeCycleState,
+  setLifeCycleStatus,
   transactionId,
 }: UseCallsStatusParams) {
   try {
@@ -20,9 +20,9 @@ export function useCallsStatus({
     const transactionHash = data?.receipts?.[0]?.transactionHash;
     return { status: data?.status, transactionHash };
   } catch (err) {
-    setLifeCycleState({
-      stateName: 'error',
-      stateData: { code: uncaughtErrorCode, error: JSON.stringify(err) },
+    setLifeCycleStatus({
+      statusName: 'error',
+      statusData: { code: uncaughtErrorCode, error: JSON.stringify(err) },
     });
     return { status: 'error', transactionHash: undefined };
   }

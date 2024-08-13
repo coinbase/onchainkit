@@ -16,7 +16,7 @@ import type { UseWriteContractsParams } from '../types';
  */
 export function useWriteContracts({
   setErrorMessage,
-  setLifeCycleState,
+  setLifeCycleStatus,
   setTransactionId,
 }: UseWriteContractsParams) {
   try {
@@ -39,9 +39,9 @@ export function useWriteContracts({
           } else {
             setErrorMessage(GENERIC_ERROR_MESSAGE);
           }
-          setLifeCycleState({
-            stateName: 'error',
-            stateData: { code: WRITE_CONTRACTS_ERROR_CODE, error: e.message },
+          setLifeCycleStatus({
+            statusName: 'error',
+            statusData: { code: WRITE_CONTRACTS_ERROR_CODE, error: e.message },
           });
         },
         onSuccess: (id) => {
@@ -51,9 +51,9 @@ export function useWriteContracts({
     });
     return { status, writeContractsAsync };
   } catch (err) {
-    setLifeCycleState({
-      stateName: 'error',
-      stateData: {
+    setLifeCycleStatus({
+      statusName: 'error',
+      statusData: {
         code: UNCAUGHT_WRITE_CONTRACTS_ERROR_CODE,
         error: JSON.stringify(err),
       },

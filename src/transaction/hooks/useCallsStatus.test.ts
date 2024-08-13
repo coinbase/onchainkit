@@ -24,22 +24,22 @@ describe('useCallsStatus', () => {
   });
 
   it('should handle errors and call onError callback', () => {
-    const mockSetLifeCycleState = vi.fn();
+    const mockSetLifeCycleStatus = vi.fn();
     const mockError = new Error('Test error');
     (useCallsStatusWagmi as ReturnType<typeof vi.fn>).mockImplementation(() => {
       throw mockError;
     });
     const { result } = renderHook(() =>
       useCallsStatus({
-        setLifeCycleState: mockSetLifeCycleState,
+        setLifeCycleStatus: mockSetLifeCycleStatus,
         transactionId,
       }),
     );
     expect(result.current.status).toBe('error');
     expect(result.current.transactionHash).toBeUndefined();
-    expect(mockSetLifeCycleState).toHaveBeenCalledWith({
-      stateName: 'error',
-      stateData: {
+    expect(mockSetLifeCycleStatus).toHaveBeenCalledWith({
+      statusName: 'error',
+      statusData: {
         code: 'UNCAUGHT_CALL_STATUS_ERROR',
         error: JSON.stringify(mockError),
       },

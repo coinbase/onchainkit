@@ -9,7 +9,7 @@ vi.mock('wagmi/experimental', () => ({
 
 describe('useWriteContracts', () => {
   const mockSetErrorMessage = vi.fn();
-  const mockSetLifeCycleState = vi.fn();
+  const mockSetLifeCycleStatus = vi.fn();
   const mockSetTransactionId = vi.fn();
 
   beforeEach(() => {
@@ -31,7 +31,7 @@ describe('useWriteContracts', () => {
     renderHook(() =>
       useWriteContracts({
         setErrorMessage: mockSetErrorMessage,
-        setLifeCycleState: mockSetLifeCycleState,
+        setLifeCycleStatus: mockSetLifeCycleStatus,
         setTransactionId: mockSetTransactionId,
       }),
     );
@@ -40,9 +40,9 @@ describe('useWriteContracts', () => {
     expect(mockSetErrorMessage).toHaveBeenCalledWith(
       'Something went wrong. Please try again.',
     );
-    expect(mockSetLifeCycleState).toHaveBeenCalledWith({
-      stateName: 'error',
-      stateData: {
+    expect(mockSetLifeCycleStatus).toHaveBeenCalledWith({
+      statusName: 'error',
+      statusData: {
         code: 'WRITE_CONTRACTS_ERROR',
         error: 'Something went wrong. Please try again.',
       },
@@ -64,7 +64,7 @@ describe('useWriteContracts', () => {
     renderHook(() =>
       useWriteContracts({
         setErrorMessage: mockSetErrorMessage,
-        setLifeCycleState: mockSetLifeCycleState,
+        setLifeCycleStatus: mockSetLifeCycleStatus,
         setTransactionId: mockSetTransactionId,
       }),
     );
@@ -83,7 +83,7 @@ describe('useWriteContracts', () => {
     const { result } = renderHook(() =>
       useWriteContracts({
         setErrorMessage: mockSetErrorMessage,
-        setLifeCycleState: mockSetLifeCycleState,
+        setLifeCycleStatus: mockSetLifeCycleStatus,
         setTransactionId: mockSetTransactionId,
       }),
     );
@@ -92,9 +92,9 @@ describe('useWriteContracts', () => {
     expect(mockSetErrorMessage).toHaveBeenCalledWith(
       'Something went wrong. Please try again.',
     );
-    expect(mockSetLifeCycleState).toHaveBeenCalledWith({
-      stateName: 'error',
-      stateData: {
+    expect(mockSetLifeCycleStatus).toHaveBeenCalledWith({
+      statusName: 'error',
+      statusData: {
         code: 'UNCAUGHT_WRITE_WRITE_CONTRACTS_ERROR',
         error: JSON.stringify(uncaughtError),
       },
