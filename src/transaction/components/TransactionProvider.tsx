@@ -10,6 +10,7 @@ import type {
   TransactionExecutionError,
   TransactionReceipt,
 } from 'viem';
+import type { ContractFunctionParameters } from 'viem';
 import {
   useAccount,
   useConfig,
@@ -21,12 +22,19 @@ import { useValue } from '../../internal/hooks/useValue';
 import {
   GENERIC_ERROR_MESSAGE,
   METHOD_NOT_SUPPORTED_ERROR_SUBSTRING,
+  TRANSACTION_TYPE_CALLS,
+  TRANSACTION_TYPE_CONTRACTS,
 } from '../constants';
 import { useCallsStatus } from '../hooks/useCallsStatus';
+import { useSendCall } from '../hooks/useSendCall';
+import { useSendCalls } from '../hooks/useSendCalls';
+import { useTransactionStatus } from '../hooks/useTransactionStatus';
+import { useTransactionType } from '../hooks/useTransactionType';
 import { useWriteContract } from '../hooks/useWriteContract';
 import { useWriteContracts } from '../hooks/useWriteContracts';
 import type {
   LifeCycleStatus,
+  CallsType,
   TransactionContextType,
   TransactionProviderReact,
 } from '../types';
@@ -39,7 +47,7 @@ export function useTransactionContext() {
   const context = useContext(TransactionContext);
   if (context === emptyContext) {
     throw new Error(
-      'useTransactionContext must be used within a Transaction component',
+      'useTransactionContext must be used within a Transaction component'
     );
   }
   return context;
@@ -50,6 +58,7 @@ export function TransactionProvider({
   capabilities,
   chainId,
   children,
+  calls,
   contracts,
   onError,
   onStatus,
@@ -67,11 +76,14 @@ export function TransactionProvider({
   const [receiptArray, setReceiptArray] = useState<TransactionReceipt[]>([]);
   const [transactionId, setTransactionId] = useState('');
   const [transactionHashArray, setTransactionHashArray] = useState<Address[]>(
-    [],
+    []
   );
   const { switchChainAsync } = useSwitchChain();
 
-  // Hooks that depend from Core Hooks
+  /*
+    useWriteContracts or useWriteContract
+    Used for contract calls with an ABI and functions.
+  */
   const { status: statusWriteContracts, writeContractsAsync } =
     useWriteContracts({
       setErrorMessage,
@@ -88,12 +100,55 @@ export function TransactionProvider({
     setTransactionHashArray,
     transactionHashArray,
   });
-  const { transactionHash, status: callStatus } = useCallsStatus({
-    setLifeCycleStatus,
-    transactionId,
+
+  /*
+    useSendCalls or useSendTransaction
+    Used for contract calls with raw calldata.
+  */
+  const { status: statusSendCalls, sendCallsAsync } = useSendCalls({
+    onError,
+    setErrorMessage,
+    setTransactionId,
   });
+  const {
+    status: statusSendCall,
+    sendTransactionAsync,
+    data: sendTransactionHash,
+  } = useSendCall({
+    onError,
+    setErrorMessage,
+    setTransactionHashArray,
+    transactionHashArray,
+  });
+
+  /*
+    Returns relevant information whether the transaction is using calldata or a contract call.
+    Throws an error if both calls and contracts are defined.
+    Throws an error if neither calls or contracts are defined.
+  */
+  const transactionType = useTransactionType({
+    calls,
+    contracts,
+  });
+  const { singleTransactionHash, statusBatched, statusSingle } =
+    useTransactionStatus({
+      transactionType,
+      writeContractTransactionHash,
+      statusWriteContracts,
+      statusWriteContract,
+      sendTransactionHash,
+      statusSendCalls,
+      statusSendCall,
+    });
+
+  const { transactionHash: batchedTransactionHash, status: callStatus } =
+    useCallsStatus({
+      setLifeCycleStatus,
+      transactionId,
+    });
+
   const { data: receipt } = useWaitForTransactionReceipt({
-    hash: writeContractTransactionHash || transactionHash,
+    hash: singleTransactionHash || batchedTransactionHash,
   });
 
   // Component lifecycle emitters
@@ -131,32 +186,57 @@ export function TransactionProvider({
 
   useEffect(() => {
     if (
-      transactionHashArray.length === contracts.length &&
-      contracts?.length > 1
+      (transactionHashArray.length === contracts?.length &&
+        contracts?.length > 1) ||
+      (transactionHashArray.length === calls?.length && calls?.length > 1)
     ) {
       getTransactionReceipts();
     }
-  }, [contracts, getTransactionReceipts, transactionHashArray]);
+  }, [calls, contracts, getTransactionReceipts, transactionHashArray]);
 
-  const fallbackToWriteContract = useCallback(async () => {
-    // EOAs don't support batching, so we process contracts individually.
-    // This gracefully handles accidental batching attempts with EOAs.
-    for (const contract of contracts) {
-      try {
-        await writeContractAsync?.(contract);
-      } catch (err) {
-        // if user rejected request
-        if (
-          (err as TransactionExecutionError)?.cause?.name ===
-          'UserRejectedRequestError'
-        ) {
-          setErrorMessage('Request denied.');
-        } else {
-          setErrorMessage(GENERIC_ERROR_MESSAGE);
-        }
+  /*
+    Execute a single transaction using EOA-friendly function calls.
+    (either a call or a contract function)
+  */
+  const executeSingleTransaction = useCallback(
+    async ({
+      transaction,
+      transactionType,
+    }: {
+      transaction: CallsType | ContractFunctionParameters;
+      transactionType: string;
+    }) => {
+      if (transactionType === TRANSACTION_TYPE_CALLS) {
+        await sendTransactionAsync?.(transaction as CallsType);
+      }
+      if (transactionType === TRANSACTION_TYPE_CONTRACTS) {
+        await writeContractAsync?.(transaction as ContractFunctionParameters);
+      }
+    },
+    [sendTransactionAsync, writeContractAsync]
+  );
+
+  /*
+    Fallback to single transaction using EOA-friendly function calls.
+    Called when the experimental hooks fail.
+  */
+  const fallbackToSingleTransaction = useCallback(async () => {
+    try {
+      for (const transaction of contracts || calls || []) {
+        await executeSingleTransaction({ transaction, transactionType });
+      }
+    } catch (err) {
+      // if user rejected request
+      if (
+        (err as TransactionExecutionError)?.cause?.name ===
+        'UserRejectedRequestError'
+      ) {
+        setErrorMessage('Request denied.');
+      } else {
+        setErrorMessage(GENERIC_ERROR_MESSAGE);
       }
     }
-  }, [contracts, writeContractAsync]);
+  }, [calls, contracts, executeSingleTransaction, transactionType]);
 
   const switchChain = useCallback(
     async (targetChainId: number | undefined) => {
@@ -164,26 +244,45 @@ export function TransactionProvider({
         await switchChainAsync({ chainId: targetChainId });
       }
     },
-    [account.chainId, switchChainAsync],
+    [account.chainId, switchChainAsync]
   );
 
-  const executeContracts = useCallback(async () => {
-    await writeContractsAsync({
-      contracts,
-      capabilities,
-    });
-  }, [writeContractsAsync, contracts, capabilities]);
+  /* 
+    Execute batched transactions using the experimental hooks.
+    Based off the transaction type (either contract functions or calls)
+  */
+  const executeBatchedTransactions = useCallback(async () => {
+    if (transactionType === TRANSACTION_TYPE_CONTRACTS && contracts) {
+      await writeContractsAsync({
+        contracts,
+        capabilities,
+      });
+    }
+    if (transactionType === TRANSACTION_TYPE_CALLS && calls) {
+      await sendCallsAsync({
+        calls,
+        capabilities,
+      });
+    }
+  }, [
+    writeContractsAsync,
+    sendCallsAsync,
+    calls,
+    contracts,
+    capabilities,
+    transactionType,
+  ]);
 
   const handleSubmitErrors = useCallback(
     async (err: unknown) => {
-      // handles EOA writeContracts error
-      // (fallback to writeContract)
+      // handles EOA error
+      // (fallback to single transactions)
       if (
         err instanceof Error &&
         err.message.includes(METHOD_NOT_SUPPORTED_ERROR_SUBSTRING)
       ) {
         try {
-          await fallbackToWriteContract();
+          await fallbackToSingleTransaction();
         } catch (_err) {
           setErrorMessage(GENERIC_ERROR_MESSAGE);
         }
@@ -198,7 +297,7 @@ export function TransactionProvider({
         setErrorMessage(GENERIC_ERROR_MESSAGE);
       }
     },
-    [fallbackToWriteContract],
+    [fallbackToSingleTransaction]
   );
 
   const handleSubmit = useCallback(async () => {
@@ -206,11 +305,11 @@ export function TransactionProvider({
     setIsToastVisible(true);
     try {
       await switchChain(chainId);
-      await executeContracts();
+      await executeBatchedTransactions();
     } catch (err) {
       await handleSubmitErrors(err);
     }
-  }, [chainId, executeContracts, handleSubmitErrors, switchChain]);
+  }, [chainId, executeBatchedTransactions, handleSubmitErrors, switchChain]);
 
   useEffect(() => {
     if (receiptArray?.length) {
@@ -222,6 +321,7 @@ export function TransactionProvider({
 
   const value = useValue({
     address,
+    calls,
     chainId,
     contracts,
     errorMessage,
@@ -234,10 +334,10 @@ export function TransactionProvider({
     setIsToastVisible,
     setLifeCycleStatus,
     setTransactionId,
-    statusWriteContracts,
-    statusWriteContract,
+    statusBatched,
+    statusSingle,
     transactionId,
-    transactionHash: transactionHash || writeContractTransactionHash,
+    transactionHash: batchedTransactionHash || singleTransactionHash,
   });
   return (
     <TransactionContext.Provider value={value}>

@@ -6,6 +6,8 @@ import {
   useWaitForTransactionReceipt,
 } from 'wagmi';
 import { useCallsStatus } from '../hooks/useCallsStatus';
+import { useSendCall } from '../hooks/useSendCall';
+import { useSendCalls } from '../hooks/useSendCalls';
 import { useWriteContract } from '../hooks/useWriteContract';
 import { useWriteContracts } from '../hooks/useWriteContracts';
 import {
@@ -29,8 +31,17 @@ vi.mock('../hooks/useWriteContract', () => ({
   useWriteContract: vi.fn(),
 }));
 
+vi.mock('../hooks/useSendCall', () => ({
+  useSendCall: vi.fn(),
+}));
+
 vi.mock('../hooks/useWriteContracts', () => ({
   useWriteContracts: vi.fn(),
+  genericErrorMessage: 'Something went wrong. Please try again.',
+}));
+
+vi.mock('../hooks/useSendCalls', () => ({
+  useSendCalls: vi.fn(),
   genericErrorMessage: 'Something went wrong. Please try again.',
 }));
 
@@ -80,49 +91,47 @@ describe('TransactionProvider', () => {
       status: 'IDLE',
       writeContractsAsync: vi.fn(),
     });
+    (useSendCall as ReturnType<typeof vi.fn>).mockReturnValue({
+      status: 'IDLE',
+      sendTransactionAsync: vi.fn(),
+    });
+    (useSendCalls as ReturnType<typeof vi.fn>).mockReturnValue({
+      status: 'IDLE',
+      sendCallsAsync: vi.fn(),
+    });
     (useWaitForTransactionReceipt as ReturnType<typeof vi.fn>).mockReturnValue({
       receipt: undefined,
     });
   });
 
-  it('should emit onError when setLifeCycleStatus is called with error', async () => {
-    const onErrorMock = vi.fn();
+  it('should update context on handleSubmit for calls', async () => {
+    const sendCallsAsyncMock = vi.fn();
+    (useSendCalls as ReturnType<typeof vi.fn>).mockReturnValue({
+      status: 'IDLE',
+      sendCallsAsync: sendCallsAsyncMock,
+    });
     render(
-      <TransactionProvider address="0x123" contracts={[]} onError={onErrorMock}>
+      <TransactionProvider address="0x123" calls={[]}>
         <TestComponent />
-      </TransactionProvider>,
+      </TransactionProvider>
     );
-    const button = screen.getByText('setLifeCycleStatus.error');
+    const button = screen.getByText('Submit');
     fireEvent.click(button);
-    expect(onErrorMock).toHaveBeenCalled();
+    await waitFor(() => {
+      expect(sendCallsAsyncMock).toHaveBeenCalled();
+    });
   });
 
-  it('should emit onStatus when setLifeCycleStatus is called', async () => {
-    const onStatusMock = vi.fn();
-    render(
-      <TransactionProvider
-        address="0x123"
-        contracts={[]}
-        onStatus={onStatusMock}
-      >
-        <TestComponent />
-      </TransactionProvider>,
-    );
-    const button = screen.getByText('setLifeCycleStatus.error');
-    fireEvent.click(button);
-    expect(onStatusMock).toHaveBeenCalled();
-  });
-
-  it('should update context on handleSubmit', async () => {
+  it('should update context on handleSubmit for contracts', async () => {
     const writeContractsAsyncMock = vi.fn();
     (useWriteContracts as ReturnType<typeof vi.fn>).mockReturnValue({
-      statusBatched: 'IDLE',
+      status: 'IDLE',
       writeContractsAsync: writeContractsAsyncMock,
     });
     render(
       <TransactionProvider address="0x123" contracts={[]}>
         <TestComponent />
-      </TransactionProvider>,
+      </TransactionProvider>
     );
     const button = screen.getByText('Submit');
     fireEvent.click(button);
@@ -146,7 +155,7 @@ describe('TransactionProvider', () => {
         onSuccess={onSuccessMock}
       >
         <TestComponent />
-      </TransactionProvider>,
+      </TransactionProvider>
     );
     const button = screen.getByText('Submit');
     fireEvent.click(button);
@@ -160,20 +169,20 @@ describe('TransactionProvider', () => {
       .fn()
       .mockRejectedValue(new Error('Test error'));
     (useWriteContracts as ReturnType<typeof vi.fn>).mockReturnValue({
-      statusBatched: 'IDLE',
+      status: 'IDLE',
       writeContractsAsync: writeContractsAsyncMock,
     });
     render(
       <TransactionProvider address="0x123" contracts={[]}>
         <TestComponent />
-      </TransactionProvider>,
+      </TransactionProvider>
     );
     const button = screen.getByText('Submit');
     fireEvent.click(button);
     await waitFor(() => {
       const testComponent = screen.getByTestId('context-value-errorMessage');
       expect(testComponent.textContent).toBe(
-        'Something went wrong. Please try again.',
+        'Something went wrong. Please try again.'
       );
     });
   });
@@ -186,7 +195,7 @@ describe('TransactionProvider', () => {
     render(
       <TransactionProvider address="0x123" chainId={2} contracts={[]}>
         <TestComponent />
-      </TransactionProvider>,
+      </TransactionProvider>
     );
     const button = screen.getByText('Submit');
     fireEvent.click(button);
@@ -197,13 +206,13 @@ describe('TransactionProvider', () => {
 
   it('should display toast on error', async () => {
     (useWriteContracts as ReturnType<typeof vi.fn>).mockReturnValue({
-      statusBatched: 'IDLE',
+      status: 'IDLE',
       writeContractsAsync: vi.fn().mockRejectedValue(new Error('Test error')),
     });
     render(
       <TransactionProvider address="0x123" contracts={[]}>
         <TestComponent />
-      </TransactionProvider>,
+      </TransactionProvider>
     );
     const button = screen.getByText('Submit');
     fireEvent.click(button);
@@ -218,7 +227,7 @@ describe('TransactionProvider', () => {
     render(
       <TransactionProvider address="0x123" contracts={[]}>
         <TestComponent />
-      </TransactionProvider>,
+      </TransactionProvider>
     );
     const button = screen.getByText('Submit');
     fireEvent.click(button);
@@ -232,14 +241,14 @@ describe('TransactionProvider', () => {
       .fn()
       .mockRejectedValue({ cause: { name: 'UserRejectedRequestError' } });
     (useWriteContracts as ReturnType<typeof vi.fn>).mockReturnValue({
-      statusBatched: 'IDLE',
+      status: 'IDLE',
       writeContractsAsync: writeContractsAsyncMock,
     });
 
     render(
       <TransactionProvider address="0x123" contracts={[]}>
         <TestComponent />
-      </TransactionProvider>,
+      </TransactionProvider>
     );
 
     const button = screen.getByText('Submit');
@@ -267,7 +276,7 @@ describe('TransactionProvider', () => {
         onSuccess={onSuccessMock}
       >
         <TestComponent />
-      </TransactionProvider>,
+      </TransactionProvider>
     );
 
     await waitFor(() => {
@@ -287,7 +296,7 @@ describe('TransactionProvider', () => {
     render(
       <TransactionProvider address="0x123" chainId={2} contracts={[]}>
         <TestComponent />
-      </TransactionProvider>,
+      </TransactionProvider>
     );
 
     const button = screen.getByText('Submit');
@@ -306,7 +315,7 @@ describe('TransactionProvider', () => {
       .fn()
       .mockRejectedValue(new Error('Generic error'));
     (useWriteContracts as ReturnType<typeof vi.fn>).mockReturnValue({
-      statusBatched: 'IDLE',
+      status: 'IDLE',
       writeContractsAsync: writeContractsAsyncMock,
     });
     (useWriteContract as ReturnType<typeof vi.fn>).mockReturnValue({
@@ -317,7 +326,7 @@ describe('TransactionProvider', () => {
     render(
       <TransactionProvider address="0x123" contracts={[{}]}>
         <TestComponent />
-      </TransactionProvider>,
+      </TransactionProvider>
     );
 
     const button = screen.getByText('Submit');
@@ -325,7 +334,7 @@ describe('TransactionProvider', () => {
 
     await waitFor(() => {
       expect(screen.getByTestId('context-value-errorMessage').textContent).toBe(
-        'Something went wrong. Please try again.',
+        'Something went wrong. Please try again.'
       );
     });
   });
@@ -341,7 +350,7 @@ describe('useTransactionContext', () => {
       .spyOn(console, 'error')
       .mockImplementation(() => {}); // Suppress error logging
     expect(() => render(<TestComponent />)).toThrow(
-      'useTransactionContext must be used within a Transaction component',
+      'useTransactionContext must be used within a Transaction component'
     );
     consoleError.mockRestore();
   });
