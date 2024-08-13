@@ -104,7 +104,13 @@ export function TransactionProvider({
     }
     // Emit State
     onState?.(lifeCycleState);
-  }, [onError, onState, lifeCycleState.stateData, lifeCycleState.stateName]);
+  }, [
+    onError,
+    onState,
+    lifeCycleState,
+    lifeCycleState.stateData, // Keep stateData, so that the effect runs when it changes
+    lifeCycleState.stateName, // Keep stateName, so that the effect runs when it changes
+  ]);
 
   const getTransactionReceipts = useCallback(async () => {
     const receipts = [];

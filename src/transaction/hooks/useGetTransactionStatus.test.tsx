@@ -20,9 +20,7 @@ describe('useGetTransactionStatus', () => {
     (useTransactionContext as vi.Mock).mockReturnValue({
       statusWriteContract: 'pending',
     });
-
     const { result } = renderHook(() => useGetTransactionStatus());
-
     expect(result.current.label).toBe('Confirm in wallet.');
   });
 
@@ -30,9 +28,7 @@ describe('useGetTransactionStatus', () => {
     (useTransactionContext as vi.Mock).mockReturnValue({
       transactionHash: 'ab123',
     });
-
     const { result } = renderHook(() => useGetTransactionStatus());
-
     expect(result.current.label).toBe('Transaction in progress...');
     expect(result.current.actionElement).not.toBeNull();
   });
@@ -42,9 +38,7 @@ describe('useGetTransactionStatus', () => {
       receipt: 'receipt',
       transactionHash: '123',
     });
-
     const { result } = renderHook(() => useGetTransactionStatus());
-
     expect(result.current.label).toBe('Successful!');
     expect(result.current.actionElement).not.toBeNull();
   });
@@ -53,9 +47,7 @@ describe('useGetTransactionStatus', () => {
     (useTransactionContext as vi.Mock).mockReturnValue({
       errorMessage: 'error',
     });
-
     const { result } = renderHook(() => useGetTransactionStatus());
-
     expect(result.current.label).toBe('error');
     expect(result.current.labelClassName).toBe('text-ock-error');
   });
@@ -64,9 +56,7 @@ describe('useGetTransactionStatus', () => {
     (useTransactionContext as vi.Mock).mockReturnValue({
       errorMessage: '',
     });
-
     const { result } = renderHook(() => useGetTransactionStatus());
-
     expect(result.current.label).toBe('');
     expect(result.current.actionElement).toBeNull();
   });

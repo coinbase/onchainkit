@@ -22,8 +22,8 @@ type MockUseWriteContractReturn = {
 
 describe('useWriteContract', () => {
   const mockSetErrorMessage = vi.fn();
+  const mockSetLifeCycleState = vi.fn();
   const mockSetTransactionHashArray = vi.fn();
-  const mockOnError = vi.fn();
 
   beforeEach(() => {
     vi.resetAllMocks();
@@ -37,15 +37,13 @@ describe('useWriteContract', () => {
       writeContractAsync: mockWriteContract,
       data: mockData,
     } as MockUseWriteContractReturn);
-
     const { result } = renderHook(() =>
       useWriteContract({
         setErrorMessage: mockSetErrorMessage,
+        setLifeCycleState: mockSetLifeCycleState,
         setTransactionHashArray: mockSetTransactionHashArray,
-        onError: mockOnError,
       }),
     );
-
     expect(result.current.status).toBe('idle');
     expect(result.current.writeContractAsync).toBe(mockWriteContract);
     expect(result.current.data).toBe(mockData);
@@ -53,9 +51,7 @@ describe('useWriteContract', () => {
 
   it('should handle generic error', () => {
     const genericError = new Error('Something went wrong. Please try again.');
-
     let onErrorCallback: ((error: Error) => void) | undefined;
-
     (useWriteContractWagmi as ReturnType<typeof vi.fn>).mockImplementation(
       ({ mutation }: UseWriteContractConfig) => {
         onErrorCallback = mutation.onError;
@@ -66,12 +62,11 @@ describe('useWriteContract', () => {
         } as MockUseWriteContractReturn;
       },
     );
-
     renderHook(() =>
       useWriteContract({
         setErrorMessage: mockSetErrorMessage,
+        setLifeCycleState: mockSetLifeCycleState,
         setTransactionHashArray: mockSetTransactionHashArray,
-        onError: mockOnError,
       }),
     );
 
@@ -81,17 +76,18 @@ describe('useWriteContract', () => {
     expect(mockSetErrorMessage).toHaveBeenCalledWith(
       'Something went wrong. Please try again.',
     );
-    expect(mockOnError).toHaveBeenCalledWith({
-      code: 'WRITE_CONTRACT_ERROR',
-      error: 'Something went wrong. Please try again.',
+    expect(mockSetLifeCycleState).toHaveBeenCalledWith({
+      stateName: 'error',
+      stateData: {
+        code: 'WRITE_CONTRACT_ERROR',
+        error: 'Something went wrong. Please try again.',
+      },
     });
   });
 
   it('should handle successful transaction', () => {
     const transactionId = '0x123';
-
     let onSuccessCallback: ((id: string) => void) | undefined;
-
     (useWriteContractWagmi as ReturnType<typeof vi.fn>).mockImplementation(
       ({ mutation }: UseWriteContractConfig) => {
         onSuccessCallback = mutation.onSuccess;
@@ -102,46 +98,43 @@ describe('useWriteContract', () => {
         } as MockUseWriteContractReturn;
       },
     );
-
     renderHook(() =>
       useWriteContract({
         setErrorMessage: mockSetErrorMessage,
+        setLifeCycleState: mockSetLifeCycleState,
         setTransactionHashArray: mockSetTransactionHashArray,
-        onError: mockOnError,
       }),
     );
-
     expect(onSuccessCallback).toBeDefined();
     onSuccessCallback?.(transactionId);
-
     expect(mockSetTransactionHashArray).toHaveBeenCalledWith([transactionId]);
   });
 
   it('should handle uncaught errors', () => {
     const uncaughtError = new Error('Uncaught error');
-
     (useWriteContractWagmi as ReturnType<typeof vi.fn>).mockImplementation(
       () => {
         throw uncaughtError;
       },
     );
-
     const { result } = renderHook(() =>
       useWriteContract({
         setErrorMessage: mockSetErrorMessage,
+        setLifeCycleState: mockSetLifeCycleState,
         setTransactionHashArray: mockSetTransactionHashArray,
-        onError: mockOnError,
       }),
     );
-
     expect(result.current.status).toBe('error');
     expect(result.current.writeContractAsync).toBeInstanceOf(Function);
     expect(mockSetErrorMessage).toHaveBeenCalledWith(
       'Something went wrong. Please try again.',
     );
-    expect(mockOnError).toHaveBeenCalledWith({
-      code: 'UNCAUGHT_WRITE_CONTRACT_ERROR',
-      error: JSON.stringify(uncaughtError),
+    expect(mockSetLifeCycleState).toHaveBeenCalledWith({
+      stateName: 'error',
+      stateData: {
+        code: 'UNCAUGHT_WRITE_CONTRACT_ERROR',
+        error: JSON.stringify(uncaughtError),
+      },
     });
   });
 });
