@@ -19,10 +19,6 @@ export type Web3Charge = {
   web3_data: Web3ChargeWeb3Data;
 };
 
-export type Web3ChargeWeb3DataSubsidizedPaymentsChainToTokens = {
-  [key: string]: any;
-};
-
 export type Web3ChargeWeb3DataSettlementCurrencyAddresses = {
   [key: string]: string;
 };
@@ -88,7 +84,6 @@ export type Web3ChargeWeb3DataFailureEventsItem = {
 export type Web3ChargeTimelineItemStatus =
   (typeof Web3ChargeTimelineItemStatus)[keyof typeof Web3ChargeTimelineItemStatus];
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const Web3ChargeTimelineItemStatus = {
   COMPLETED: "COMPLETED",
   EXPIRED: "EXPIRED",

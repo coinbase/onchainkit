@@ -1,6 +1,6 @@
 import { encodeFunctionData, erc20Abi, parseUnits } from "viem";
 import { base } from "viem/chains";
-import { Web3Charge } from "../../network/commerce/types/Web3Charge";
+import type { Web3Charge } from "../../network/commerce/types/Web3Charge";
 import { contractAbi } from "./TransfersContractAbi";
 
 const USDC_DECIMALS = 6;

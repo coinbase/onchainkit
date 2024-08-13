@@ -5,7 +5,7 @@ import { smartWalletConfig } from "./smartWalletConfig";
 import { hydrateCommerceCharge } from "../network/commerce/hydrateCommereCharge";
 import { useEffect, useState } from "react";
 import { getCommerceCharge } from "../network/commerce/getCommerceCharge";
-import { Web3Charge } from "../network/commerce/types/Web3Charge";
+import type { Web3Charge } from "../network/commerce/types/Web3Charge";
 import { base } from "viem/chains";
 import { getCommerceCallData } from "./utils/getCommerceCallData";
 
@@ -38,7 +38,7 @@ export function CommercePayButton({ chargeId }: CommercePayButtonProps) {
     }
     const interval = setInterval(() => {
       if (transactionCallsId && !transactionHash) {
-        void checkCallsStatus();
+        checkCallsStatus();
       }
     }, 2000);
     return () => {
@@ -46,7 +46,7 @@ export function CommercePayButton({ chargeId }: CommercePayButtonProps) {
         clearInterval(interval);
       }
     };
-  }, [transactionCallsId]);
+  }, [transactionCallsId, transactionHash]);
 
   useEffect(() => {
     async function loadCharge() {
@@ -54,13 +54,12 @@ export function CommercePayButton({ chargeId }: CommercePayButtonProps) {
         BASE_COMMERCE_URL,
         chargeId
       );
-      console.log({ chargeResponse });
       setCharge(chargeResponse.data);
     }
     if (!charge) {
-      void loadCharge();
+      loadCharge();
     }
-  }, [chargeId]);
+  }, [chargeId, charge]);
 
   const handlePayment = async () => {
     const { accounts } = await connect(smartWalletConfig, {
@@ -102,7 +101,7 @@ export function CommercePayButton({ chargeId }: CommercePayButtonProps) {
   }
   return (
     <div>
-      <button onClick={() => handlePayment()}>Pay with Crypto</button>
+      <button type="button" onClick={() => handlePayment()}>Pay with Crypto</button>
     </div>
   );
 }

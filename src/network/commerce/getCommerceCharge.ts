@@ -1,5 +1,5 @@
 import { FetchError } from "./FetchError";
-import { Web3Charge } from "./types/Web3Charge";
+import type { Web3Charge } from "./types/Web3Charge";
 
 export async function getCommerceCharge(
   baseUrl: string,
