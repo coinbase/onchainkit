@@ -38,7 +38,7 @@ export function WalletDropdownBaseName({
       target="_blank"
       rel="noopener noreferrer"
     >
-      <div className="-translate-y-1/2 absolute top-1/2 left-4 flex h-4 w-4 items-center justify-center">
+      <div className="-translate-y-1/2 absolute top-1/2 left-4 flex h-[1.125rem] w-[1.125rem] items-center justify-center">
         {baseNameSvg}
       </div>
       <div className="flex w-full items-center pl-6">
