@@ -22,8 +22,6 @@ export function WalletBottomSheet({
     });
   }, [children, address]);
 
-  console.log({ address });
-
   if (!address) {
     return null;
   }
