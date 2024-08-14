@@ -30,7 +30,7 @@ export function WalletBottomSheet({
 
   const handleOverlayClick = useCallback(() => {
     setIsOpen(false);
-  }, []);
+  }, [setIsOpen]);
 
   const handleEscKeyPress = useCallback(
     (event: React.KeyboardEvent<HTMLDivElement>) => {
@@ -38,7 +38,7 @@ export function WalletBottomSheet({
         setIsOpen(false);
       }
     },
-    [],
+    [setIsOpen],
   );
 
   if (!address) {
