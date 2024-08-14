@@ -1,4 +1,4 @@
-import { isValidElement, useMemo } from 'react';
+import { isValidElement, useCallback, useMemo } from 'react';
 import { FundWalletSvg } from '../../internal/svg/fundWallet';
 import { cn, pressable, text as themeText } from '../../styles/theme';
 import { version } from '../../version';
@@ -28,18 +28,21 @@ export function WalletDropdownFundLink({
   const tabName = document.title;
   const fundingUrl = `http://keys.coinbase.com/fund?dappName=${tabName}&dappUrl=${currentURL}&version=${version}&source=onchainkit`;
 
-  const handleClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    const { width, height } = getWindowDimensions(popupSize);
+  const handleClick = useCallback(
+    (e: React.MouseEvent) => {
+      e.preventDefault();
+      const { width, height } = getWindowDimensions(popupSize);
 
-    const left = Math.round((window.screen.width - width) / 2);
-    const top = Math.round((window.screen.height - height) / 2);
+      const left = Math.round((window.screen.width - width) / 2);
+      const top = Math.round((window.screen.height - height) / 2);
 
-    const windowFeatures =
-      popupFeatures ||
-      `width=${width},height=${height},resizable,scrollbars=yes,status=1,left=${left},top=${top}`;
-    window.open(fundingUrl, target, windowFeatures);
-  };
+      const windowFeatures =
+        popupFeatures ||
+        `width=${width},height=${height},resizable,scrollbars=yes,status=1,left=${left},top=${top}`;
+      window.open(fundingUrl, target, windowFeatures);
+    },
+    [fundingUrl, popupFeatures, popupSize, target],
+  );
 
   const overrideClassName = cn(
     pressable.default,
@@ -47,13 +50,16 @@ export function WalletDropdownFundLink({
     className,
   );
 
-  const linkContent = (
-    <>
-      <div className="-translate-y-1/2 absolute top-1/2 left-4 flex h-4 w-4 items-center justify-center">
-        {iconSvg}
-      </div>
-      <span className={cn(themeText.body, 'pl-6')}>{text}</span>
-    </>
+  const linkContent = useMemo(
+    () => (
+      <>
+        <div className="-translate-y-1/2 absolute top-1/2 left-4 flex h-4 w-4 items-center justify-center">
+          {iconSvg}
+        </div>
+        <span className={cn(themeText.body, 'pl-6')}>{text}</span>
+      </>
+    ),
+    [iconSvg, text],
   );
 
   if (openIn === 'tab') {
