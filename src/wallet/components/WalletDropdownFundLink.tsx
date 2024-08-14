@@ -9,6 +9,7 @@ export function WalletDropdownFundLink({
   className,
   icon,
   rel,
+  popupFeatures,
   openIn = 'tab',
   target,
   text = 'Fund wallet',
@@ -34,7 +35,9 @@ export function WalletDropdownFundLink({
     const left = Math.round((window.screen.width - width) / 2);
     const top = Math.round((window.screen.height - height) / 2);
 
-    const windowFeatures = `width=${width},height=${height},resizable,scrollbars=yes,status=1,left=${left},top=${top}`;
+    const windowFeatures =
+      popupFeatures ||
+      `width=${width},height=${height},resizable,scrollbars=yes,status=1,left=${left},top=${top}`;
     window.open(fundingUrl, 'Coinbase Fund Wallet', windowFeatures);
   };
 

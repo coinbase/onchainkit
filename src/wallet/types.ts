@@ -105,9 +105,10 @@ export type WalletDropdownFundLinkReact = {
   icon?: ReactNode;
   rel?: string;
   openIn?: 'popup' | 'tab'; // Whether to open the funding flow in a tab or a popup window
+  popupFeatures?: string; // Optional features override for the popup window if `openIn` is set to `popup`
+  popupSize?: 'sm' | 'md' | 'lg'; // Size of the popup window if `openIn` is set to `popup`
   target?: string; // Where to open the target if `openIn` is set to tab
   text?: string; // Optional text override
-  popupSize?: 'sm' | 'md' | 'lg'; // Size of the popup window if `openIn` is set to `popup`
 };
 
 /**
