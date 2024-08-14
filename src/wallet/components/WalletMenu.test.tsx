@@ -1,8 +1,8 @@
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import { useAccount } from 'wagmi';
-import { WalletMenu } from './WalletMenu';
 import useBreakpoints from '../../useBreakpoints';
+import { WalletMenu } from './WalletMenu';
 
 vi.mock('wagmi', () => ({
   useAccount: vi.fn(),

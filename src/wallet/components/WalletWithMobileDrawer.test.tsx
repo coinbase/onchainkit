@@ -1,11 +1,11 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { ConnectWallet } from './ConnectWallet';
-import { WalletWithMobileDrawer } from './WalletWithMobileDrawer';
-import { WalletMenu } from './WalletMenu';
-import { useWalletContext } from './WalletProvider';
 import { useAccount } from 'wagmi';
 import useBreakpoints from '../../useBreakpoints';
+import { ConnectWallet } from './ConnectWallet';
+import { WalletMenu } from './WalletMenu';
+import { useWalletContext } from './WalletProvider';
+import { WalletWithMobileDrawer } from './WalletWithMobileDrawer';
 
 vi.mock('./WalletProvider', () => ({
   useWalletContext: vi.fn(),
