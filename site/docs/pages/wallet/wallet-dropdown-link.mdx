@@ -15,7 +15,7 @@ import {
   WalletDropdownLink,
 } from '@coinbase/onchainkit/wallet';
 import WalletComponents from '../../components/WalletComponents';
-import { walletDropdownLinkCustomCatIconSvg } from '../../components/svg/walletDropdownLinkCustomCatIconSvg'
+import { walletDropdownLinkCustomBaseIconSvg } from '../../components/svg/walletDropdownLinkCustomBaseIconSvg'
 
 # `<WalletDropdownLink />`
 
@@ -93,7 +93,7 @@ Add a custom link to the wallet dropdown menu, allowing users to navigate to ext
 ```tsx
 // omitted for brevity
 <WalletDropdownLink // [!code focus] 
-  icon={CatIcon} // [!code focus] 
+  icon={BaseIcon} // [!code focus] 
   href="https://www.base.org/" // [!code focus] 
   rel="noopener noreferrer" // [!code focus] 
 > // [!code focus]
@@ -115,7 +115,7 @@ Add a custom link to the wallet dropdown menu, allowing users to navigate to ext
         <EthBalance />
       </Identity>
       <WalletDropdownLink 
-        icon={walletDropdownLinkCustomCatIconSvg} 
+        icon={walletDropdownLinkCustomBaseIconSvg} 
         href="https://www.base.org/" 
         rel="noopener noreferrer" 
       >
