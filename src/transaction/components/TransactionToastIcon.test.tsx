@@ -8,7 +8,7 @@ vi.mock('../components/TransactionProvider', () => ({
 }));
 
 describe('TransactionToastIcon', () => {
-  it('renders transaction toast icon when receipt exists', () => {
+  it('renders success icon when receipt exists', () => {
     (useTransactionContext as vi.Mock).mockReturnValue({
       receipt: '123',
     });
@@ -18,7 +18,7 @@ describe('TransactionToastIcon', () => {
     const iconElement = screen.getByTestId('ockSuccessSvg');
     expect(iconElement).toBeInTheDocument();
   });
-  it('renders transaction toast icon when receipt exists', () => {
+  it('renders error icon when error exists', () => {
     (useTransactionContext as vi.Mock).mockReturnValue({
       errorMessage: 'error',
     });
@@ -28,7 +28,7 @@ describe('TransactionToastIcon', () => {
     const iconElement = screen.getByTestId('ockErrorSvg');
     expect(iconElement).toBeInTheDocument();
   });
-  it('renders transaction toast icon when txn is in progress', () => {
+  it('renders loading icon when txn is in progress', () => {
     (useTransactionContext as vi.Mock).mockReturnValue({
       isLoading: true,
     });
@@ -37,5 +37,17 @@ describe('TransactionToastIcon', () => {
 
     const iconElement = screen.getByTestId('ockSpinner');
     expect(iconElement).toBeInTheDocument();
+  });
+  it('renders null when if no status exists', () => {
+    (useTransactionContext as vi.Mock).mockReturnValue({
+      isLoading: false,
+    });
+
+    const { container } = render(
+      <TransactionToastIcon className="test-class" />,
+    );
+
+    // Assert that nothing is rendered (container should be empty)
+    expect(container.firstChild).toBeNull();
   });
 });

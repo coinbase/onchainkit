@@ -23,5 +23,10 @@ export function TransactionToastIcon({ className }: TransactionToastIconReact) {
     }
     return null;
   }, [isInProgress, errorMessage, receipt]);
+
+  if (!icon) {
+    return null;
+  }
+
   return <div className={cn(text.label2, className)}>{icon}</div>;
 }
