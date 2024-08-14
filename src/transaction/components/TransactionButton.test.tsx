@@ -1,5 +1,7 @@
-import { render, screen } from '@testing-library/react';
-import { describe, expect, it, vi } from 'vitest';
+import { fireEvent, render, screen } from '@testing-library/react';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { useChainId } from 'wagmi';
+import { useShowCallsStatus } from 'wagmi/experimental';
 import { TransactionButton } from './TransactionButton';
 import { useTransactionContext } from './TransactionProvider';
 
@@ -80,5 +82,35 @@ describe('TransactionButton', () => {
     const { getByRole } = render(<TransactionButton text="Submit" />);
     const button = getByRole('button');
     expect(button).toBeDisabled();
+  });
+
+  it('should call showCallsStatus when receipt and transactionId exist', () => {
+    const showCallsStatus = vi.fn();
+    (useShowCallsStatus as vi.Mock).mockReturnValue({ showCallsStatus });
+    (useTransactionContext as vi.Mock).mockReturnValue({
+      receipt: '123',
+      transactionId: '456',
+    });
+
+    render(<TransactionButton text="Transact" />);
+    const button = screen.getByText('View transaction');
+    fireEvent.click(button);
+
+    expect(showCallsStatus).toHaveBeenCalledWith({ id: '456' });
+  });
+
+  it('should enable button when not in progress, not missing props, and not waiting for receipt', () => {
+    (useTransactionContext as vi.Mock).mockReturnValue({
+      isLoading: false,
+      contracts: {},
+      address: '0x123',
+      transactionId: undefined,
+      transactionHash: undefined,
+      receipt: undefined,
+    });
+
+    const { getByRole } = render(<TransactionButton text="Submit" />);
+    const button = getByRole('button');
+    expect(button).not.toBeDisabled();
   });
 });
