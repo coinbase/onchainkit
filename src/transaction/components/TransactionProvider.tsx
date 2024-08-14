@@ -21,13 +21,12 @@ import { useValue } from '../../internal/hooks/useValue';
 import {
   GENERIC_ERROR_MESSAGE,
   METHOD_NOT_SUPPORTED_ERROR_SUBSTRING,
-  TRANSACTION_TYPE_CALLS,
-  TRANSACTION_TYPE_CONTRACTS,
 } from '../constants';
 import { useCallsStatus } from '../hooks/useCallsStatus';
 import { useSendCall } from '../hooks/useSendCall';
 import { useSendCalls } from '../hooks/useSendCalls';
 import { useSendEOATransactions } from '../hooks/useSendEOATransactions';
+import { useSendSCWTransactions } from '../hooks/useSendSCWTransactions';
 import { useTransactionStatus } from '../hooks/useTransactionStatus';
 import { useTransactionType } from '../hooks/useTransactionType';
 import { useWriteContract } from '../hooks/useWriteContract';
@@ -217,30 +216,17 @@ export function TransactionProvider({
   );
 
   /* 
-    Execute batched transactions using the experimental hooks.
+    Execute batched transactions using Wagmi experimental hooks.
     Based off the transaction type (either contract functions or calls)
   */
-  const executeBatchedTransactions = useCallback(async () => {
-    if (transactionType === TRANSACTION_TYPE_CONTRACTS && contracts) {
-      await writeContractsAsync({
-        contracts,
-        capabilities,
-      });
-    }
-    if (transactionType === TRANSACTION_TYPE_CALLS && calls) {
-      await sendCallsAsync({
-        calls,
-        capabilities,
-      });
-    }
-  }, [
+  const sendSCWTransactions = useSendSCWTransactions({
+    transactionType,
+    contracts,
+    calls,
+    capabilities,
     writeContractsAsync,
     sendCallsAsync,
-    calls,
-    contracts,
-    capabilities,
-    transactionType,
-  ]);
+  });
 
   const handleSubmitErrors = useCallback(
     async (err: unknown) => {
@@ -274,11 +260,11 @@ export function TransactionProvider({
     setIsToastVisible(true);
     try {
       await switchChain(chainId);
-      await executeBatchedTransactions();
+      await sendSCWTransactions();
     } catch (err) {
       await handleSubmitErrors(err);
     }
-  }, [chainId, executeBatchedTransactions, handleSubmitErrors, switchChain]);
+  }, [chainId, sendSCWTransactions, handleSubmitErrors, switchChain]);
 
   useEffect(() => {
     if (receiptArray?.length) {
