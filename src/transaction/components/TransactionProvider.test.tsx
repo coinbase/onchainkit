@@ -97,6 +97,22 @@ describe('TransactionProvider', () => {
     expect(onErrorMock).toHaveBeenCalled();
   });
 
+  it('should emit onStatus when setLifeCycleStatus is called', async () => {
+    const onStatusMock = vi.fn();
+    render(
+      <TransactionProvider
+        address="0x123"
+        contracts={[]}
+        onStatus={onStatusMock}
+      >
+        <TestComponent />
+      </TransactionProvider>,
+    );
+    const button = screen.getByText('setLifeCycleStatus.error');
+    fireEvent.click(button);
+    expect(onStatusMock).toHaveBeenCalled();
+  });
+
   it('should update context on handleSubmit', async () => {
     const writeContractsAsyncMock = vi.fn();
     (useWriteContracts as ReturnType<typeof vi.fn>).mockReturnValue({
