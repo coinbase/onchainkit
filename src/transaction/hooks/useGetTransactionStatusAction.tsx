@@ -7,14 +7,8 @@ import { cn, color, text } from '../../styles/theme';
 import { useTransactionContext } from '../components/TransactionProvider';
 
 export function useGetTransactionStatusAction() {
-  const {
-    chainId,
-    errorMessage,
-    onSubmit,
-    receipt,
-    transactionHash,
-    transactionId,
-  } = useTransactionContext();
+  const { chainId, receipt, transactionHash, transactionId } =
+    useTransactionContext();
   const accountChainId = chainId ?? useChainId();
 
   const { showCallsStatus } = useShowCallsStatus();
@@ -60,8 +54,6 @@ export function useGetTransactionStatusAction() {
     return { actionElement };
   }, [
     accountChainId,
-    errorMessage,
-    onSubmit,
     receipt,
     showCallsStatus,
     transactionHash,
