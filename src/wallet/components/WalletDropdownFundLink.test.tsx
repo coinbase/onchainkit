@@ -44,7 +44,7 @@ describe('WalletDropdownFundLink', () => {
     // Mock window.screen
     vi.stubGlobal('screen', { width: 1024, height: 768 });
 
-    render(<WalletDropdownFundLink openIn="window" />);
+    render(<WalletDropdownFundLink openIn="popup" />);
 
     const linkElement = screen.getByText('Fund wallet');
     fireEvent.click(linkElement);
@@ -84,7 +84,7 @@ describe('WalletDropdownFundLink', () => {
 
       render(
         <WalletDropdownFundLink
-          openIn="window"
+          openIn="popup"
           popupSize={size as keyof typeof testCases}
         />,
       );
