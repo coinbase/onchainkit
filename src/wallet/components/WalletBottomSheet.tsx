@@ -64,6 +64,7 @@ export function WalletBottomSheet({
           `${isOpen ? 'translate-y-0' : 'translate-y-full'}`,
           className,
         )}
+        data-testid="ockWalletBottomSheet"
       >
         {childrenArray}
       </div>
