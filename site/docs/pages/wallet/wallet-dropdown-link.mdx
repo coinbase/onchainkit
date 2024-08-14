@@ -15,7 +15,7 @@ import {
   WalletDropdownLink,
 } from '@coinbase/onchainkit/wallet';
 import WalletComponents from '../../components/WalletComponents';
-import { walletDropdownLinkCustomIconSvg } from '../../components/svg/walletDropdownLinkCustomIconSvg'
+import { walletDropdownLinkCustomCatIconSvg } from '../../components/svg/walletDropdownLinkCustomCatIconSvg'
 
 # `<WalletDropdownLink />`
 
@@ -126,21 +126,6 @@ Add a custom link to the wallet dropdown menu, allowing users to navigate to ext
   </Wallet>
 </WalletComponents>
 
-{/*
-// custom content 
-
-children: Not an HTML attribute, but a React concept. It represents the content between opening and closing tags of a component.
-- <WalletDropdownLink href="#">
-  <span>Profile</span>
-  <span>👤</span>
-</WalletDropdownLink>
-
-  <span className="font-bold">Bold</span> and <span className="italic">Italic</span>
-
-  Or update text?   
-
-*/}
-
 ### Custom children components
 Accepts React children, enabling the use of custom elements, styled text, icons, and complex components.
 This allows for diverse customizations, including complex layouts and conditional rendering based on your app's state.
@@ -184,6 +169,7 @@ You can override component styles using className.
   Wallet // [!code focus]
 </WalletDropdownLink> // [!code focus]
 ```
+
 <WalletComponents>
   <Wallet>
     <ConnectWallet>
