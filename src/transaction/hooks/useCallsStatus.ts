@@ -1,8 +1,6 @@
 import { useCallsStatus as useCallsStatusWagmi } from 'wagmi/experimental';
 import type { UseCallsStatusParams } from '../types';
 
-const uncaughtErrorCode = 'UNCAUGHT_CALL_STATUS_ERROR';
-
 export function useCallsStatus({
   setLifeCycleStatus,
   transactionId,
@@ -22,7 +20,11 @@ export function useCallsStatus({
   } catch (err) {
     setLifeCycleStatus({
       statusName: 'error',
-      statusData: { code: uncaughtErrorCode, error: JSON.stringify(err) },
+      statusData: {
+        code: 'TmUCSh01',
+        error: JSON.stringify(err),
+        message: '',
+      },
     });
     return { status: 'error', transactionHash: undefined };
   }

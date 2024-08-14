@@ -40,8 +40,9 @@ describe('useCallsStatus', () => {
     expect(mockSetLifeCycleStatus).toHaveBeenCalledWith({
       statusName: 'error',
       statusData: {
-        code: 'UNCAUGHT_CALL_STATUS_ERROR',
+        code: 'TmUCSh01',
         error: JSON.stringify(mockError),
+        message: '',
       },
     });
   });
