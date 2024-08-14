@@ -5,7 +5,7 @@ import {
   useEffect,
   useState,
 } from 'react';
-import type { Address, TransactionReceipt } from 'viem';
+import type { Address } from 'viem';
 import {
   useAccount,
   useConfig,
@@ -62,7 +62,6 @@ export function TransactionProvider({
     statusName: 'init',
     statusData: null,
   }); // Component lifecycle
-  const [receiptArray, setReceiptArray] = useState<TransactionReceipt[]>([]);
   const [transactionId, setTransactionId] = useState('');
   const [transactionHashArray, setTransactionHashArray] = useState<Address[]>(
     [],
@@ -100,11 +99,19 @@ export function TransactionProvider({
       setErrorCode(lifeCycleStatus.statusData.code);
       onError?.(lifeCycleStatus.statusData);
     }
+    // Emit Success
+    if (lifeCycleStatus.statusName === 'success') {
+      setErrorMessage('');
+      onSuccess?.({
+        transactionReceipts: lifeCycleStatus.statusData.transactionReceipts,
+      });
+    }
     // Emit State
     onStatus?.(lifeCycleStatus);
   }, [
     onError,
     onStatus,
+    onSuccess,
     lifeCycleStatus,
     lifeCycleStatus.statusData, // Keep statusData, so that the effect runs when it changes
     lifeCycleStatus.statusName, // Keep statusName, so that the effect runs when it changes
@@ -130,7 +137,12 @@ export function TransactionProvider({
         });
       }
     }
-    setReceiptArray(receipts);
+    setLifeCycleStatus({
+      statusName: 'success',
+      statusData: {
+        transactionReceipts: receipts,
+      },
+    });
   }, [chainId, config, transactionHashArray]);
 
   useEffect(() => {
@@ -208,14 +220,6 @@ export function TransactionProvider({
       });
     }
   }, [chainId, executeContracts, fallbackToWriteContract, switchChain]);
-
-  useEffect(() => {
-    if (receiptArray?.length) {
-      onSuccess?.({ transactionReceipts: receiptArray });
-    } else if (receipt) {
-      onSuccess?.({ transactionReceipts: [receipt] });
-    }
-  }, [onSuccess, receipt, receiptArray]);
 
   const value = useValue({
     address,

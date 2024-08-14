@@ -17,6 +17,12 @@ export type LifeCycleStatus =
   | {
       statusName: 'error';
       statusData: TransactionError;
+    }
+  | {
+      statusName: 'success';
+      statusData: {
+        transactionReceipts: TransactionReceipt[];
+      };
     };
 
 export type IsSpinnerDisplayedProps = {
