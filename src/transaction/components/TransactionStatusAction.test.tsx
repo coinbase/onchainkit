@@ -1,15 +1,15 @@
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
-import { useGetTransactionAction } from '../hooks/useGetTransactionAction';
+import { useGetTransactionStatusAction } from '../hooks/useGetTransactionStatusAction';
 import { TransactionStatusAction } from './TransactionStatusAction';
 
-vi.mock('../hooks/useGetTransactionAction', () => ({
-  useGetTransactionAction: vi.fn(),
+vi.mock('../hooks/useGetTransactionStatusAction', () => ({
+  useGetTransactionStatusAction: vi.fn(),
 }));
 
 describe('TransactionStatusAction', () => {
   it('renders transaction status action', () => {
-    (useGetTransactionAction as vi.Mock).mockReturnValue({
+    (useGetTransactionStatusAction as vi.Mock).mockReturnValue({
       actionElement: <button type="button">Try again</button>,
     });
 
