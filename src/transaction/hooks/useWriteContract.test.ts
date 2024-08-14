@@ -71,7 +71,7 @@ describe('useWriteContract', () => {
     expect(mockSetLifeCycleStatus).toHaveBeenCalledWith({
       statusName: 'error',
       statusData: {
-        code: 'WRITE_CONTRACT_ERROR',
+        code: 'TmUWCh01',
         error: 'Something went wrong. Please try again.',
         message: 'Something went wrong. Please try again.',
       },
@@ -120,7 +120,7 @@ describe('useWriteContract', () => {
     expect(mockSetLifeCycleStatus).toHaveBeenCalledWith({
       statusName: 'error',
       statusData: {
-        code: 'UNCAUGHT_WRITE_CONTRACT_ERROR',
+        code: 'TmUWCh02',
         error: JSON.stringify(uncaughtError),
         message: 'Something went wrong. Please try again.',
       },

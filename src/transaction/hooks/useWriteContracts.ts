@@ -33,7 +33,7 @@ export function useWriteContracts({
           setLifeCycleStatus({
             statusName: 'error',
             statusData: {
-              code: 'TmUWCh01', // Transaction module UseWriteContracts hook 01 error
+              code: 'TmUWCSh01', // Transaction module UseWriteContracts hook 01 error
               error: e.message,
               message: errorMessage,
             },
@@ -49,7 +49,7 @@ export function useWriteContracts({
     setLifeCycleStatus({
       statusName: 'error',
       statusData: {
-        code: 'TmUWCh02',
+        code: 'TmUWCSh02',
         error: JSON.stringify(err),
         message: GENERIC_ERROR_MESSAGE,
       },

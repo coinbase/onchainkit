@@ -1,10 +1,6 @@
 import type { Address } from 'viem';
 import { useWriteContract as useWriteContractWagmi } from 'wagmi';
-import {
-  GENERIC_ERROR_MESSAGE,
-  UNCAUGHT_WRITE_CONTRACT_ERROR_CODE,
-  WRITE_CONTRACT_ERROR_CODE,
-} from '../constants';
+import { GENERIC_ERROR_MESSAGE } from '../constants';
 import type { UseWriteContractParams } from '../types';
 import { isUserRejectedRequestError } from '../utils/isUserRejectedRequestError';
 
@@ -28,7 +24,7 @@ export function useWriteContract({
           setLifeCycleStatus({
             statusName: 'error',
             statusData: {
-              code: WRITE_CONTRACT_ERROR_CODE,
+              code: 'TmUWCh01', // Transaction module UseWriteContract hook 01 error
               error: e.message,
               message: errorMessage,
             },
@@ -46,7 +42,7 @@ export function useWriteContract({
     setLifeCycleStatus({
       statusName: 'error',
       statusData: {
-        code: UNCAUGHT_WRITE_CONTRACT_ERROR_CODE,
+        code: 'TmUWCh02',
         error: JSON.stringify(err),
         message: GENERIC_ERROR_MESSAGE,
       },
