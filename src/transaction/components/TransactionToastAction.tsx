@@ -1,11 +1,11 @@
 import { cn, text } from '../../styles/theme';
-import { useGetTransactionAction } from '../hooks/useGetTransactionAction';
+import { useGetTransactionToastAction } from '../hooks/useGetTransactionToastAction';
 import type { TransactionToastActionReact } from '../types';
 
 export function TransactionToastAction({
   className,
 }: TransactionToastActionReact) {
-  const { actionElement } = useGetTransactionAction({ context: 'toast' });
+  const { actionElement } = useGetTransactionToastAction();
 
   return (
     <div className={cn(text.label1, 'text-nowrap', className)}>
