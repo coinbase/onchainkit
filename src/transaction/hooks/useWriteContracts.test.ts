@@ -1,4 +1,5 @@
 import { renderHook } from '@testing-library/react';
+import type { TransactionExecutionError } from 'viem';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { useWriteContracts as useWriteContractsWagmi } from 'wagmi/experimental';
 import { useWriteContracts } from './useWriteContracts';
@@ -38,9 +39,45 @@ describe('useWriteContracts', () => {
     expect(mockSetLifeCycleStatus).toHaveBeenCalledWith({
       statusName: 'error',
       statusData: {
-        code: 'WRITE_CONTRACTS_ERROR',
+        code: 'TmUWCh01',
         error: 'Something went wrong. Please try again.',
         message: 'Something went wrong. Please try again.',
+      },
+    });
+  });
+
+  it('should handle userRejectedRequestError', () => {
+    let onErrorCallback:
+      | ((error: TransactionExecutionError) => void)
+      | undefined;
+    (useWriteContractsWagmi as ReturnType<typeof vi.fn>).mockImplementation(
+      ({ mutation }: UseWriteContractsConfig) => {
+        onErrorCallback = mutation.onError;
+        return {
+          writeContracts: vi.fn(),
+          status: 'error',
+        };
+      },
+    );
+    renderHook(() =>
+      useWriteContracts({
+        setLifeCycleStatus: mockSetLifeCycleStatus,
+        setTransactionId: mockSetTransactionId,
+      }),
+    );
+    expect(onErrorCallback).toBeDefined();
+    onErrorCallback?.({
+      cause: {
+        name: 'UserRejectedRequestError',
+      },
+      message: 'Request denied.',
+    });
+    expect(mockSetLifeCycleStatus).toHaveBeenCalledWith({
+      statusName: 'error',
+      statusData: {
+        code: 'TmUWCh01',
+        error: 'Request denied.',
+        message: 'Request denied.',
       },
     });
   });
@@ -86,7 +123,7 @@ describe('useWriteContracts', () => {
     expect(mockSetLifeCycleStatus).toHaveBeenCalledWith({
       statusName: 'error',
       statusData: {
-        code: 'UNCAUGHT_WRITE_WRITE_CONTRACTS_ERROR',
+        code: 'TmUWCh02',
         error: JSON.stringify(uncaughtError),
         message: 'Something went wrong. Please try again.',
       },

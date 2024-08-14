@@ -2,8 +2,6 @@ import { useWriteContracts as useWriteContractsWagmi } from 'wagmi/experimental'
 import {
   GENERIC_ERROR_MESSAGE,
   METHOD_NOT_SUPPORTED_ERROR_SUBSTRING,
-  UNCAUGHT_WRITE_CONTRACTS_ERROR_CODE,
-  WRITE_CONTRACTS_ERROR_CODE,
 } from '../constants';
 import type { UseWriteContractsParams } from '../types';
 import { isUserRejectedRequestError } from '../utils/isUserRejectedRequestError';
@@ -35,7 +33,7 @@ export function useWriteContracts({
           setLifeCycleStatus({
             statusName: 'error',
             statusData: {
-              code: WRITE_CONTRACTS_ERROR_CODE,
+              code: 'TmUWCh01', // Transaction module UseWriteContracts hook 01 error
               error: e.message,
               message: errorMessage,
             },
@@ -51,7 +49,7 @@ export function useWriteContracts({
     setLifeCycleStatus({
       statusName: 'error',
       statusData: {
-        code: UNCAUGHT_WRITE_CONTRACTS_ERROR_CODE,
+        code: 'TmUWCh02',
         error: JSON.stringify(err),
         message: GENERIC_ERROR_MESSAGE,
       },
