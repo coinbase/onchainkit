@@ -33,7 +33,6 @@ import { useWriteContract } from '../hooks/useWriteContract';
 import { useWriteContracts } from '../hooks/useWriteContracts';
 import type {
   LifeCycleStatus,
-  CallsType,
   TransactionContextType,
   TransactionProviderReact,
 } from '../types';
@@ -46,7 +45,7 @@ export function useTransactionContext() {
   const context = useContext(TransactionContext);
   if (context === emptyContext) {
     throw new Error(
-      'useTransactionContext must be used within a Transaction component'
+      'useTransactionContext must be used within a Transaction component',
     );
   }
   return context;
@@ -75,7 +74,7 @@ export function TransactionProvider({
   const [receiptArray, setReceiptArray] = useState<TransactionReceipt[]>([]);
   const [transactionId, setTransactionId] = useState('');
   const [transactionHashArray, setTransactionHashArray] = useState<Address[]>(
-    []
+    [],
   );
   const { switchChainAsync } = useSwitchChain();
 
@@ -212,7 +211,7 @@ export function TransactionProvider({
         await switchChainAsync({ chainId: targetChainId });
       }
     },
-    [account.chainId, switchChainAsync]
+    [account.chainId, switchChainAsync],
   );
 
   /* 
@@ -252,7 +251,7 @@ export function TransactionProvider({
         setErrorMessage(GENERIC_ERROR_MESSAGE);
       }
     },
-    [sendEOATransactions]
+    [sendEOATransactions],
   );
 
   const handleSubmit = useCallback(async () => {

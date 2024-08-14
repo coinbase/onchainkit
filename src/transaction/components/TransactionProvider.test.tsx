@@ -113,7 +113,7 @@ describe('TransactionProvider', () => {
     render(
       <TransactionProvider address="0x123" calls={[]}>
         <TestComponent />
-      </TransactionProvider>
+      </TransactionProvider>,
     );
     const button = screen.getByText('Submit');
     fireEvent.click(button);
@@ -131,7 +131,7 @@ describe('TransactionProvider', () => {
     render(
       <TransactionProvider address="0x123" contracts={[]}>
         <TestComponent />
-      </TransactionProvider>
+      </TransactionProvider>,
     );
     const button = screen.getByText('Submit');
     fireEvent.click(button);
@@ -155,7 +155,7 @@ describe('TransactionProvider', () => {
         onSuccess={onSuccessMock}
       >
         <TestComponent />
-      </TransactionProvider>
+      </TransactionProvider>,
     );
     const button = screen.getByText('Submit');
     fireEvent.click(button);
@@ -175,14 +175,14 @@ describe('TransactionProvider', () => {
     render(
       <TransactionProvider address="0x123" contracts={[]}>
         <TestComponent />
-      </TransactionProvider>
+      </TransactionProvider>,
     );
     const button = screen.getByText('Submit');
     fireEvent.click(button);
     await waitFor(() => {
       const testComponent = screen.getByTestId('context-value-errorMessage');
       expect(testComponent.textContent).toBe(
-        'Something went wrong. Please try again.'
+        'Something went wrong. Please try again.',
       );
     });
   });
@@ -195,7 +195,7 @@ describe('TransactionProvider', () => {
     render(
       <TransactionProvider address="0x123" chainId={2} contracts={[]}>
         <TestComponent />
-      </TransactionProvider>
+      </TransactionProvider>,
     );
     const button = screen.getByText('Submit');
     fireEvent.click(button);
@@ -212,7 +212,7 @@ describe('TransactionProvider', () => {
     render(
       <TransactionProvider address="0x123" contracts={[]}>
         <TestComponent />
-      </TransactionProvider>
+      </TransactionProvider>,
     );
     const button = screen.getByText('Submit');
     fireEvent.click(button);
@@ -227,7 +227,7 @@ describe('TransactionProvider', () => {
     render(
       <TransactionProvider address="0x123" contracts={[]}>
         <TestComponent />
-      </TransactionProvider>
+      </TransactionProvider>,
     );
     const button = screen.getByText('Submit');
     fireEvent.click(button);
@@ -248,7 +248,7 @@ describe('TransactionProvider', () => {
     render(
       <TransactionProvider address="0x123" contracts={[]}>
         <TestComponent />
-      </TransactionProvider>
+      </TransactionProvider>,
     );
 
     const button = screen.getByText('Submit');
@@ -276,7 +276,7 @@ describe('TransactionProvider', () => {
         onSuccess={onSuccessMock}
       >
         <TestComponent />
-      </TransactionProvider>
+      </TransactionProvider>,
     );
 
     await waitFor(() => {
@@ -296,7 +296,7 @@ describe('TransactionProvider', () => {
     render(
       <TransactionProvider address="0x123" chainId={2} contracts={[]}>
         <TestComponent />
-      </TransactionProvider>
+      </TransactionProvider>,
     );
 
     const button = screen.getByText('Submit');
@@ -326,7 +326,7 @@ describe('TransactionProvider', () => {
     render(
       <TransactionProvider address="0x123" contracts={[{}]}>
         <TestComponent />
-      </TransactionProvider>
+      </TransactionProvider>,
     );
 
     const button = screen.getByText('Submit');
@@ -334,7 +334,7 @@ describe('TransactionProvider', () => {
 
     await waitFor(() => {
       expect(screen.getByTestId('context-value-errorMessage').textContent).toBe(
-        'Something went wrong. Please try again.'
+        'Something went wrong. Please try again.',
       );
     });
   });
@@ -350,7 +350,7 @@ describe('useTransactionContext', () => {
       .spyOn(console, 'error')
       .mockImplementation(() => {}); // Suppress error logging
     expect(() => render(<TestComponent />)).toThrow(
-      'useTransactionContext must be used within a Transaction component'
+      'useTransactionContext must be used within a Transaction component',
     );
     consoleError.mockRestore();
   });

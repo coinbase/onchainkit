@@ -130,7 +130,7 @@ describe('useWriteContract', () => {
       useWriteContract({
         setErrorMessage: mockSetErrorMessage,
         setTransactionHashArray: mockSetTransactionHashArray,
-        onError: mockOnError,
+        setLifeCycleStatus: mockSetLifeCycleStatus,
         transactionHashArray: [],
       }),
     );
@@ -191,7 +191,7 @@ describe('useWriteContract', () => {
       useWriteContract({
         setErrorMessage: mockSetErrorMessage,
         setTransactionHashArray: mockSetTransactionHashArray,
-        onError: mockOnError,
+        setLifeCycleStatus: mockSetLifeCycleStatus,
       }),
     );
 
@@ -199,9 +199,12 @@ describe('useWriteContract', () => {
     onErrorCallback?.(userRejectedError);
 
     expect(mockSetErrorMessage).toHaveBeenCalledWith('Request denied.');
-    expect(mockOnError).toHaveBeenCalledWith({
-      code: 'WRITE_CONTRACT_ERROR',
-      error: 'User rejected request',
+    expect(mockSetLifeCycleStatus).toHaveBeenCalledWith({
+      statusName: 'error',
+      statusData: {
+        code: 'WRITE_CONTRACT_ERROR',
+        error: userRejectedError.message,
+      },
     });
   });
 });

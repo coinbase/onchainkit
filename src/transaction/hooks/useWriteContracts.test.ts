@@ -19,9 +19,10 @@ describe('useWriteContracts', () => {
 
   it('should handle generic error', () => {
     const genericError = new Error('Something went wrong. Please try again.');
+
     let onErrorCallback: ((error: Error) => void) | undefined;
     (useWriteContractsWagmi as ReturnType<typeof vi.fn>).mockImplementation(
-      ({ mutation }: UseWriteContractsConfig) => {
+      ({ mutation }) => {
         onErrorCallback = mutation.onError;
         return {
           writeContracts: vi.fn(),
@@ -36,8 +37,10 @@ describe('useWriteContracts', () => {
         setTransactionId: mockSetTransactionId,
       }),
     );
+
     expect(onErrorCallback).toBeDefined();
     onErrorCallback?.(genericError);
+
     expect(mockSetErrorMessage).toHaveBeenCalledWith(
       'Something went wrong. Please try again.',
     );
@@ -54,7 +57,7 @@ describe('useWriteContracts', () => {
     const transactionId = '0x123';
     let onSuccessCallback: ((id: string) => void) | undefined;
     (useWriteContractsWagmi as ReturnType<typeof vi.fn>).mockImplementation(
-      ({ mutation }: UseWriteContractsConfig) => {
+      ({ mutation }) => {
         onSuccessCallback = mutation.onSuccess;
         return {
           writeContracts: vi.fn(),
@@ -103,13 +106,8 @@ describe('useWriteContracts', () => {
   });
 
   it('should ignore EOA-specific errors', () => {
-    const eoaError = new Error('Error: this request method is not supported');
-
-    let onErrorCallback: ((error: Error) => void) | undefined;
-
     (useWriteContractsWagmi as ReturnType<typeof vi.fn>).mockImplementation(
-      ({ mutation }) => {
-        onErrorCallback = mutation.onError;
+      ({ _mutation }) => {
         return {
           writeContracts: vi.fn(),
           status: 'error',
@@ -121,15 +119,12 @@ describe('useWriteContracts', () => {
       useWriteContracts({
         setErrorMessage: mockSetErrorMessage,
         setTransactionId: mockSetTransactionId,
-        onError: mockOnError,
+        setLifeCycleStatus: mockSetLifeCycleStatus,
       }),
     );
 
-    expect(onErrorCallback).toBeDefined();
-    onErrorCallback?.(eoaError);
-
     expect(mockSetErrorMessage).not.toHaveBeenCalled();
-    expect(mockOnError).not.toHaveBeenCalled();
+    expect(mockSetLifeCycleStatus).not.toHaveBeenCalled();
   });
 
   it('should handle user rejected request errors', () => {
@@ -154,7 +149,7 @@ describe('useWriteContracts', () => {
       useWriteContracts({
         setErrorMessage: mockSetErrorMessage,
         setTransactionId: mockSetTransactionId,
-        onError: mockOnError,
+        setLifeCycleStatus: mockSetLifeCycleStatus,
       }),
     );
 
@@ -162,9 +157,12 @@ describe('useWriteContracts', () => {
     onErrorCallback?.(userRejectedError);
 
     expect(mockSetErrorMessage).toHaveBeenCalledWith('Request denied.');
-    expect(mockOnError).toHaveBeenCalledWith({
-      code: 'WRITE_CONTRACTS_ERROR',
-      error: 'User rejected request',
+    expect(mockSetLifeCycleStatus).toHaveBeenCalledWith({
+      statusName: 'error',
+      statusData: {
+        code: 'WRITE_CONTRACTS_ERROR',
+        error: userRejectedError.message,
+      },
     });
   });
 
@@ -185,7 +183,7 @@ describe('useWriteContracts', () => {
       useWriteContracts({
         setErrorMessage: mockSetErrorMessage,
         setTransactionId: mockSetTransactionId,
-        onError: mockOnError,
+        setLifeCycleStatus: mockSetLifeCycleStatus,
       }),
     );
 
@@ -201,9 +199,12 @@ describe('useWriteContracts', () => {
     expect(mockSetErrorMessage).toHaveBeenCalledWith(
       'Something went wrong. Please try again.',
     );
-    expect(mockOnError).toHaveBeenCalledWith({
-      code: 'UNCAUGHT_WRITE_WRITE_CONTRACTS_ERROR',
-      error: JSON.stringify(uncaughtError),
+    expect(mockSetLifeCycleStatus).toHaveBeenCalledWith({
+      statusName: 'error',
+      statusData: {
+        code: 'UNCAUGHT_WRITE_WRITE_CONTRACTS_ERROR',
+        error: JSON.stringify(uncaughtError),
+      },
     });
   });
 });
