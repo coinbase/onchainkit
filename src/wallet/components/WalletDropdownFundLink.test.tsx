@@ -4,7 +4,7 @@ import { version } from '../../version';
 import type { WindowSizes } from '../types';
 import { WalletDropdownFundLink } from './WalletDropdownFundLink';
 
-const FUNDING_URL = `http://keys.coinbase.com/funding?dappName=&dappUrl=http://localhost:3000/&onchainkit=${version}`;
+const FUNDING_URL = `http://keys.coinbase.com/fund?dappName=&dappUrl=http://localhost:3000/&onchainkit=${version}`;
 
 describe('WalletDropdownFundLink', () => {
   it('renders correctly with default props', () => {
@@ -51,7 +51,7 @@ describe('WalletDropdownFundLink', () => {
 
     // Check if window.open was called with the correct arguments
     expect(mockOpen).toHaveBeenCalledWith(
-      expect.stringContaining('http://keys.coinbase.com/funding'),
+      expect.stringContaining('http://keys.coinbase.com/fund'),
       'Coinbase Fund Wallet',
       expect.stringContaining(
         'width=297,height=371,resizable,scrollbars=yes,status=1,left=364,top=199',
@@ -104,7 +104,7 @@ describe('WalletDropdownFundLink', () => {
       const expectedLeft = Math.round((screenWidth - expectedWidth) / 2);
       const expectedTop = Math.round((screenHeight - adjustedHeight) / 2);
       expect(mockOpen).toHaveBeenCalledWith(
-        expect.stringContaining('http://keys.coinbase.com/funding'),
+        expect.stringContaining('http://keys.coinbase.com/fund'),
         'Coinbase Fund Wallet',
         expect.stringContaining(
           `width=${expectedWidth},height=${adjustedHeight},resizable,scrollbars=yes,status=1,left=${expectedLeft},top=${expectedTop}`,
