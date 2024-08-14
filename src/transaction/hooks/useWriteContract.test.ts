@@ -1,8 +1,8 @@
 import { renderHook } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { useWriteContract as useWriteContractWagmi } from 'wagmi';
-import { useWriteContract } from './useWriteContract';
 import { isUserRejectedRequestError } from '../utils/isUserRejectedRequestError';
+import { useWriteContract } from './useWriteContract';
 
 vi.mock('wagmi', () => ({
   useWriteContract: vi.fn(),
