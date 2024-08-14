@@ -8,7 +8,6 @@ vi.mock('wagmi/experimental', () => ({
 }));
 
 describe('useWriteContracts', () => {
-  const mockSetErrorMessage = vi.fn();
   const mockSetLifeCycleStatus = vi.fn();
   const mockSetTransactionId = vi.fn();
 
@@ -30,21 +29,18 @@ describe('useWriteContracts', () => {
     );
     renderHook(() =>
       useWriteContracts({
-        setErrorMessage: mockSetErrorMessage,
         setLifeCycleStatus: mockSetLifeCycleStatus,
         setTransactionId: mockSetTransactionId,
       }),
     );
     expect(onErrorCallback).toBeDefined();
     onErrorCallback?.(genericError);
-    expect(mockSetErrorMessage).toHaveBeenCalledWith(
-      'Something went wrong. Please try again.',
-    );
     expect(mockSetLifeCycleStatus).toHaveBeenCalledWith({
       statusName: 'error',
       statusData: {
         code: 'WRITE_CONTRACTS_ERROR',
         error: 'Something went wrong. Please try again.',
+        message: 'Something went wrong. Please try again.',
       },
     });
   });
@@ -63,7 +59,6 @@ describe('useWriteContracts', () => {
     );
     renderHook(() =>
       useWriteContracts({
-        setErrorMessage: mockSetErrorMessage,
         setLifeCycleStatus: mockSetLifeCycleStatus,
         setTransactionId: mockSetTransactionId,
       }),
@@ -82,21 +77,18 @@ describe('useWriteContracts', () => {
     );
     const { result } = renderHook(() =>
       useWriteContracts({
-        setErrorMessage: mockSetErrorMessage,
         setLifeCycleStatus: mockSetLifeCycleStatus,
         setTransactionId: mockSetTransactionId,
       }),
     );
     expect(result.current.status).toBe('error');
     expect(result.current.writeContracts).toBeInstanceOf(Function);
-    expect(mockSetErrorMessage).toHaveBeenCalledWith(
-      'Something went wrong. Please try again.',
-    );
     expect(mockSetLifeCycleStatus).toHaveBeenCalledWith({
       statusName: 'error',
       statusData: {
         code: 'UNCAUGHT_WRITE_WRITE_CONTRACTS_ERROR',
         error: JSON.stringify(uncaughtError),
+        message: 'Something went wrong. Please try again.',
       },
     });
   });
