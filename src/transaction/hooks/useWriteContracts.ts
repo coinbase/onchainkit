@@ -59,7 +59,6 @@ export function useWriteContracts({
     setErrorMessage(GENERIC_ERROR_MESSAGE);
     return {
       status: 'error',
-      writeContracts: () => {},
       writeContractsAsync: () => Promise.resolve({}),
     };
   }

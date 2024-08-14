@@ -110,6 +110,37 @@ describe('useWriteContract', () => {
     expect(mockSetTransactionHashArray).toHaveBeenCalledWith([transactionId]);
   });
 
+  it('should handle successful transaction with empty `transactionHashArray`', () => {
+    const transactionId = '0x123';
+
+    let onSuccessCallback: ((id: string) => void) | undefined;
+
+    (useWriteContractWagmi as ReturnType<typeof vi.fn>).mockImplementation(
+      ({ mutation }: UseWriteContractConfig) => {
+        onSuccessCallback = mutation.onSuccess;
+        return {
+          writeContractAsync: vi.fn(),
+          data: transactionId,
+          status: 'success',
+        } as MockUseWriteContractReturn;
+      },
+    );
+
+    renderHook(() =>
+      useWriteContract({
+        setErrorMessage: mockSetErrorMessage,
+        setTransactionHashArray: mockSetTransactionHashArray,
+        onError: mockOnError,
+        transactionHashArray: [],
+      }),
+    );
+
+    expect(onSuccessCallback).toBeDefined();
+    onSuccessCallback?.(transactionId);
+
+    expect(mockSetTransactionHashArray).toHaveBeenCalledWith([transactionId]);
+  });
+
   it('should handle uncaught errors', () => {
     const uncaughtError = new Error('Uncaught error');
     (useWriteContractWagmi as ReturnType<typeof vi.fn>).mockImplementation(
@@ -135,6 +166,42 @@ describe('useWriteContract', () => {
         code: 'UNCAUGHT_WRITE_CONTRACT_ERROR',
         error: JSON.stringify(uncaughtError),
       },
+    });
+  });
+
+  it('should handle user rejected request errors', () => {
+    const userRejectedError = new Error('User rejected request') as Error & {
+      cause: { name: string };
+    };
+    userRejectedError.cause = { name: 'UserRejectedRequestError' };
+
+    let onErrorCallback: ((error: Error) => void) | undefined;
+
+    (useWriteContractWagmi as ReturnType<typeof vi.fn>).mockImplementation(
+      ({ mutation }) => {
+        onErrorCallback = mutation.onError;
+        return {
+          sendTransactionAsync: vi.fn(),
+          status: 'success',
+        };
+      },
+    );
+
+    renderHook(() =>
+      useWriteContract({
+        setErrorMessage: mockSetErrorMessage,
+        setTransactionHashArray: mockSetTransactionHashArray,
+        onError: mockOnError,
+      }),
+    );
+
+    expect(onErrorCallback).toBeDefined();
+    onErrorCallback?.(userRejectedError);
+
+    expect(mockSetErrorMessage).toHaveBeenCalledWith('Request denied.');
+    expect(mockOnError).toHaveBeenCalledWith({
+      code: 'WRITE_CONTRACT_ERROR',
+      error: 'User rejected request',
     });
   });
 });

@@ -59,7 +59,6 @@ export function useSendCalls({
     setErrorMessage(GENERIC_ERROR_MESSAGE);
     return {
       status: 'error',
-      sendCalls: () => {},
       sendCallsAsync: () => Promise.resolve({}),
     };
   }

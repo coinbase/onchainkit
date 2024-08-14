@@ -171,4 +171,41 @@ describe('useSendCalls', () => {
       error: 'User rejected request',
     });
   });
+
+  it('should return a fallback sendCallsAsync function when an error occurs', async () => {
+    const uncaughtError = new Error('Uncaught error');
+
+    const calls = [
+      { to: '0x789' as `0x${string}`, data: '0x123' as `0x${string}` },
+    ];
+
+    (useSendCallsWagmi as ReturnType<typeof vi.fn>).mockImplementation(() => {
+      throw uncaughtError;
+    });
+
+    const { result } = renderHook(() =>
+      useSendCalls({
+        setErrorMessage: mockSetErrorMessage,
+        setTransactionId: mockSetTransactionId,
+        onError: mockOnError,
+      }),
+    );
+
+    expect(result.current.status).toBe('error');
+    expect(result.current.sendCallsAsync).toBeInstanceOf(Function);
+
+    const sendResult = await result.current.sendCallsAsync({
+      calls,
+      capabilities: {},
+    });
+
+    expect(sendResult).toEqual({});
+    expect(mockSetErrorMessage).toHaveBeenCalledWith(
+      'Something went wrong. Please try again.',
+    );
+    expect(mockOnError).toHaveBeenCalledWith({
+      code: 'UNCAUGHT_SEND_CALLS_ERROR',
+      error: JSON.stringify(uncaughtError),
+    });
+  });
 });

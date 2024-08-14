@@ -1,4 +1,5 @@
 import { renderHook } from '@testing-library/react';
+import type { Hex } from 'viem';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { useWriteContracts as useWriteContractsWagmi } from 'wagmi/experimental';
 import { useWriteContracts } from './useWriteContracts';
@@ -88,7 +89,7 @@ describe('useWriteContracts', () => {
       }),
     );
     expect(result.current.status).toBe('error');
-    expect(result.current.writeContracts).toBeInstanceOf(Function);
+    expect(result.current.writeContractsAsync).toBeInstanceOf(Function);
     expect(mockSetErrorMessage).toHaveBeenCalledWith(
       'Something went wrong. Please try again.',
     );
@@ -164,6 +165,45 @@ describe('useWriteContracts', () => {
     expect(mockOnError).toHaveBeenCalledWith({
       code: 'WRITE_CONTRACTS_ERROR',
       error: 'User rejected request',
+    });
+  });
+
+  it('should return a fallback writeContractsAsync function when an error occurs', async () => {
+    const uncaughtError = new Error('Uncaught error');
+
+    const contracts = [
+      { address: '0x789' as Hex, abi: [], functionName: 'test' },
+    ];
+
+    (useWriteContractsWagmi as ReturnType<typeof vi.fn>).mockImplementation(
+      () => {
+        throw uncaughtError;
+      },
+    );
+
+    const { result } = renderHook(() =>
+      useWriteContracts({
+        setErrorMessage: mockSetErrorMessage,
+        setTransactionId: mockSetTransactionId,
+        onError: mockOnError,
+      }),
+    );
+
+    expect(result.current.status).toBe('error');
+    expect(result.current.writeContractsAsync).toBeInstanceOf(Function);
+
+    const writeResult = await result.current.writeContractsAsync({
+      contracts,
+      capabilities: {},
+    });
+
+    expect(writeResult).toEqual({});
+    expect(mockSetErrorMessage).toHaveBeenCalledWith(
+      'Something went wrong. Please try again.',
+    );
+    expect(mockOnError).toHaveBeenCalledWith({
+      code: 'UNCAUGHT_WRITE_WRITE_CONTRACTS_ERROR',
+      error: JSON.stringify(uncaughtError),
     });
   });
 });
