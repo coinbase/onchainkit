@@ -38,7 +38,7 @@ export function WalletDropdownFundLink({
     const windowFeatures =
       popupFeatures ||
       `width=${width},height=${height},resizable,scrollbars=yes,status=1,left=${left},top=${top}`;
-    window.open(fundingUrl, 'Coinbase Fund Wallet', windowFeatures);
+    window.open(fundingUrl, target, windowFeatures);
   };
 
   const overrideClassName = cn(
