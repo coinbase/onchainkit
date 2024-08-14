@@ -101,4 +101,22 @@ describe('WalletBottomSheet', () => {
 
     expect(setIsOpenMock).toHaveBeenCalledWith(false);
   });
+
+  it('closes the bottom sheet when Escape key is pressed', () => {
+    const setIsOpenMock = vi.fn();
+    useAccountMock.mockReturnValue({ address: '0x123' });
+    useWalletContextMock.mockReturnValue({
+      isOpen: true,
+      setIsOpen: setIsOpenMock,
+    });
+
+    render(<WalletBottomSheet>Content</WalletBottomSheet>);
+
+    fireEvent.keyDown(screen.getByRole('button'), {
+      key: 'Escape',
+      code: 'Escape',
+    });
+
+    expect(setIsOpenMock).toHaveBeenCalledWith(false);
+  });
 });
