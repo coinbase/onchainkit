@@ -15,8 +15,8 @@ import type { UseWriteContractsParams } from '../types';
  * Does not support EOAs.
  */
 export function useWriteContracts({
-  onError,
   setErrorMessage,
+  setLifeCycleStatus,
   setTransactionId,
 }: UseWriteContractsParams) {
   try {
@@ -39,7 +39,10 @@ export function useWriteContracts({
           } else {
             setErrorMessage(GENERIC_ERROR_MESSAGE);
           }
-          onError?.({ code: WRITE_CONTRACTS_ERROR_CODE, error: e.message });
+          setLifeCycleStatus({
+            statusName: 'error',
+            statusData: { code: WRITE_CONTRACTS_ERROR_CODE, error: e.message },
+          });
         },
         onSuccess: (id) => {
           setTransactionId(id);
@@ -48,9 +51,12 @@ export function useWriteContracts({
     });
     return { status, writeContractsAsync };
   } catch (err) {
-    onError?.({
-      code: UNCAUGHT_WRITE_CONTRACTS_ERROR_CODE,
-      error: JSON.stringify(err),
+    setLifeCycleStatus({
+      statusName: 'error',
+      statusData: {
+        code: UNCAUGHT_WRITE_CONTRACTS_ERROR_CODE,
+        error: JSON.stringify(err),
+      },
     });
     setErrorMessage(GENERIC_ERROR_MESSAGE);
     return {

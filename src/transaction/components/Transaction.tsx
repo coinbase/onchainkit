@@ -10,6 +10,7 @@ export function Transaction({
   children,
   contracts,
   onError,
+  onStatus,
   onSuccess,
 }: TransactionReact) {
   return (
@@ -19,6 +20,7 @@ export function Transaction({
       chainId={chainId}
       contracts={contracts}
       onError={onError}
+      onStatus={onStatus}
       onSuccess={onSuccess}
     >
       <div className={cn(className, 'flex w-full flex-col gap-2')}>

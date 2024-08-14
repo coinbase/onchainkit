@@ -15,34 +15,34 @@ describe('useCallsStatus', () => {
       status: 'CONFIRMED',
       receipts: [{ transactionHash: '0x123' }],
     };
-
     (useCallsStatusWagmi as ReturnType<typeof vi.fn>).mockReturnValue({
       data: mockData,
     });
-
     const { result } = renderHook(() => useCallsStatus({ transactionId }));
-
     expect(result.current.status).toBe('CONFIRMED');
     expect(result.current.transactionHash).toBe('0x123');
   });
 
   it('should handle errors and call onError callback', () => {
-    const mockOnError = vi.fn();
+    const mockSetLifeCycleStatus = vi.fn();
     const mockError = new Error('Test error');
-
     (useCallsStatusWagmi as ReturnType<typeof vi.fn>).mockImplementation(() => {
       throw mockError;
     });
-
     const { result } = renderHook(() =>
-      useCallsStatus({ transactionId, onError: mockOnError }),
+      useCallsStatus({
+        setLifeCycleStatus: mockSetLifeCycleStatus,
+        transactionId,
+      }),
     );
-
     expect(result.current.status).toBe('error');
     expect(result.current.transactionHash).toBeUndefined();
-    expect(mockOnError).toHaveBeenCalledWith({
-      code: 'UNCAUGHT_CALL_STATUS_ERROR',
-      error: JSON.stringify(mockError),
+    expect(mockSetLifeCycleStatus).toHaveBeenCalledWith({
+      statusName: 'error',
+      statusData: {
+        code: 'UNCAUGHT_CALL_STATUS_ERROR',
+        error: JSON.stringify(mockError),
+      },
     });
   });
 });

@@ -6,6 +6,19 @@ import type {
   TransactionReceipt,
 } from 'viem';
 
+/**
+ * Note: exported as public Type
+ */
+export type LifeCycleStatus =
+  | {
+      statusName: 'init';
+      statusData: null;
+    }
+  | {
+      statusName: 'error';
+      statusData: TransactionError;
+    };
+
 export type IsSpinnerDisplayedProps = {
   errorMessage?: string;
   hasReceipt?: boolean;
@@ -37,6 +50,7 @@ export type TransactionContextType = {
   receipt?: TransactionReceipt; // The receipt of the transaction
   setErrorMessage: (error: string) => void; // A function to set the error message for the transaction.
   setIsToastVisible: (isVisible: boolean) => void; // A function to set the visibility of the transaction toast.
+  setLifeCycleStatus: (state: LifeCycleStatus) => void; // A function to set the lifecycle status of the component
   setTransactionId: (id: string) => void; // A function to set the transaction ID.
   statusWriteContract?: string; // An optional string indicating the current status of the transaction.
   statusWriteContracts?: string; // An optional string indicating the current status of the transaction.
@@ -66,6 +80,7 @@ export type TransactionProviderReact = {
   children: ReactNode; // The child components to be rendered within the provider component.
   contracts: ContractFunctionParameters[]; // An array of contract function parameters provided to the child components.
   onError?: (e: TransactionError) => void; // An optional callback function that handles errors within the provider.
+  onStatus?: (lifeCycleStatus: LifeCycleStatus) => void; // An optional callback function that exposes the component lifecycle state
   onSuccess?: (response: TransactionResponse) => void; // An optional callback function that exposes the transaction receipts
 };
 
@@ -80,6 +95,7 @@ export type TransactionReact = {
   className?: string; // An optional CSS class name for styling the component.
   contracts: ContractFunctionParameters[]; // An array of contract function parameters for the transaction.
   onError?: (e: TransactionError) => void; // An optional callback function that handles transaction errors.
+  onStatus?: (lifeCycleStatus: LifeCycleStatus) => void; // An optional callback function that exposes the component lifecycle state
   onSuccess?: (response: TransactionResponse) => void; // An optional callback function that exposes the transaction receipts
 };
 
@@ -151,20 +167,20 @@ export type TransactionToastLabelReact = {
 };
 
 export type UseCallsStatusParams = {
-  onError?: (e: TransactionError) => void;
+  setLifeCycleStatus: (state: LifeCycleStatus) => void;
   transactionId: string;
 };
 
 export type UseWriteContractParams = {
-  onError?: (e: TransactionError) => void;
   setErrorMessage: (error: string) => void;
+  setLifeCycleStatus: (state: LifeCycleStatus) => void;
   setTransactionHashArray: (ids: Address[]) => void;
   transactionHashArray?: Address[];
 };
 
 export type UseWriteContractsParams = {
-  onError?: (e: TransactionError) => void;
   setErrorMessage: (error: string) => void;
+  setLifeCycleStatus: (state: LifeCycleStatus) => void;
   setTransactionId: (id: string) => void;
 };
 

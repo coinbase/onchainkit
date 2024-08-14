@@ -26,6 +26,7 @@ import { useCallsStatus } from '../hooks/useCallsStatus';
 import { useWriteContract } from '../hooks/useWriteContract';
 import { useWriteContracts } from '../hooks/useWriteContracts';
 import type {
+  LifeCycleStatus,
   TransactionContextType,
   TransactionProviderReact,
 } from '../types';
@@ -51,22 +52,30 @@ export function TransactionProvider({
   children,
   contracts,
   onError,
+  onStatus,
   onSuccess,
 }: TransactionProviderReact) {
+  // Core Hooks
+  const account = useAccount();
+  const config = useConfig();
   const [errorMessage, setErrorMessage] = useState('');
-  const [transactionId, setTransactionId] = useState('');
   const [isToastVisible, setIsToastVisible] = useState(false);
+  const [lifeCycleStatus, setLifeCycleStatus] = useState<LifeCycleStatus>({
+    statusName: 'init',
+    statusData: null,
+  }); // Component lifecycle
+  const [receiptArray, setReceiptArray] = useState<TransactionReceipt[]>([]);
+  const [transactionId, setTransactionId] = useState('');
   const [transactionHashArray, setTransactionHashArray] = useState<Address[]>(
     [],
   );
-  const [receiptArray, setReceiptArray] = useState<TransactionReceipt[]>([]);
-  const account = useAccount();
-  const config = useConfig();
   const { switchChainAsync } = useSwitchChain();
+
+  // Hooks that depend from Core Hooks
   const { status: statusWriteContracts, writeContractsAsync } =
     useWriteContracts({
-      onError,
       setErrorMessage,
+      setLifeCycleStatus,
       setTransactionId,
     });
   const {
@@ -74,19 +83,34 @@ export function TransactionProvider({
     writeContractAsync,
     data: writeContractTransactionHash,
   } = useWriteContract({
-    onError,
     setErrorMessage,
+    setLifeCycleStatus,
     setTransactionHashArray,
     transactionHashArray,
   });
   const { transactionHash, status: callStatus } = useCallsStatus({
-    onError,
+    setLifeCycleStatus,
     transactionId,
   });
-
   const { data: receipt } = useWaitForTransactionReceipt({
     hash: writeContractTransactionHash || transactionHash,
   });
+
+  // Component lifecycle emitters
+  useEffect(() => {
+    // Emit Error
+    if (lifeCycleStatus.statusName === 'error') {
+      onError?.(lifeCycleStatus.statusData);
+    }
+    // Emit State
+    onStatus?.(lifeCycleStatus);
+  }, [
+    onError,
+    onStatus,
+    lifeCycleStatus,
+    lifeCycleStatus.statusData, // Keep statusData, so that the effect runs when it changes
+    lifeCycleStatus.statusName, // Keep statusName, so that the effect runs when it changes
+  ]);
 
   const getTransactionReceipts = useCallback(async () => {
     const receipts = [];
@@ -208,6 +232,7 @@ export function TransactionProvider({
     receipt,
     setErrorMessage,
     setIsToastVisible,
+    setLifeCycleStatus,
     setTransactionId,
     statusWriteContracts,
     statusWriteContract,
