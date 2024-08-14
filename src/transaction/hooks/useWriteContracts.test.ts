@@ -39,7 +39,7 @@ describe('useWriteContracts', () => {
     expect(mockSetLifeCycleStatus).toHaveBeenCalledWith({
       statusName: 'error',
       statusData: {
-        code: 'TmUWCh01',
+        code: 'TmUWCSh01',
         error: 'Something went wrong. Please try again.',
         message: 'Something went wrong. Please try again.',
       },
@@ -75,7 +75,7 @@ describe('useWriteContracts', () => {
     expect(mockSetLifeCycleStatus).toHaveBeenCalledWith({
       statusName: 'error',
       statusData: {
-        code: 'TmUWCh01',
+        code: 'TmUWCSh01',
         error: 'Request denied.',
         message: 'Request denied.',
       },
@@ -123,7 +123,7 @@ describe('useWriteContracts', () => {
     expect(mockSetLifeCycleStatus).toHaveBeenCalledWith({
       statusName: 'error',
       statusData: {
-        code: 'TmUWCh02',
+        code: 'TmUWCSh02',
         error: JSON.stringify(uncaughtError),
         message: 'Something went wrong. Please try again.',
       },
