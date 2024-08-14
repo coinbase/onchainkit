@@ -13,7 +13,6 @@ import type { UseWriteContractParams } from '../types';
  * Does not support transaction batching or paymasters.
  */
 export function useWriteContract({
-  setErrorMessage,
   setLifeCycleStatus,
   setTransactionHashArray,
   transactionHashArray,
@@ -22,17 +21,20 @@ export function useWriteContract({
     const { status, writeContractAsync, data } = useWriteContractWagmi({
       mutation: {
         onError: (e) => {
+          let errorMessage = GENERIC_ERROR_MESSAGE;
           if (
             (e as TransactionExecutionError)?.cause?.name ===
             'UserRejectedRequestError'
           ) {
-            setErrorMessage('Request denied.');
-          } else {
-            setErrorMessage(GENERIC_ERROR_MESSAGE);
+            errorMessage = 'Request denied.';
           }
           setLifeCycleStatus({
             statusName: 'error',
-            statusData: { code: WRITE_CONTRACT_ERROR_CODE, error: e.message },
+            statusData: {
+              code: WRITE_CONTRACT_ERROR_CODE,
+              error: e.message,
+              message: errorMessage,
+            },
           });
         },
         onSuccess: (hash: Address) => {
@@ -49,9 +51,9 @@ export function useWriteContract({
       statusData: {
         code: UNCAUGHT_WRITE_CONTRACT_ERROR_CODE,
         error: JSON.stringify(err),
+        message: GENERIC_ERROR_MESSAGE,
       },
     });
-    setErrorMessage(GENERIC_ERROR_MESSAGE);
     return { status: 'error', writeContractAsync: () => {} };
   }
 }

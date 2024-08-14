@@ -15,7 +15,6 @@ import type { UseWriteContractsParams } from '../types';
  * Does not support EOAs.
  */
 export function useWriteContracts({
-  setErrorMessage,
   setLifeCycleStatus,
   setTransactionId,
 }: UseWriteContractsParams) {
@@ -30,18 +29,20 @@ export function useWriteContracts({
           if (e.message.includes(METHOD_NOT_SUPPORTED_ERROR_SUBSTRING)) {
             return;
           }
-
+          let errorMessage = GENERIC_ERROR_MESSAGE;
           if (
             (e as TransactionExecutionError)?.cause?.name ===
             'UserRejectedRequestError'
           ) {
-            setErrorMessage('Request denied.');
-          } else {
-            setErrorMessage(GENERIC_ERROR_MESSAGE);
+            errorMessage = 'Request denied.';
           }
           setLifeCycleStatus({
             statusName: 'error',
-            statusData: { code: WRITE_CONTRACTS_ERROR_CODE, error: e.message },
+            statusData: {
+              code: WRITE_CONTRACTS_ERROR_CODE,
+              error: e.message,
+              message: errorMessage,
+            },
           });
         },
         onSuccess: (id) => {
@@ -56,9 +57,9 @@ export function useWriteContracts({
       statusData: {
         code: UNCAUGHT_WRITE_CONTRACTS_ERROR_CODE,
         error: JSON.stringify(err),
+        message: GENERIC_ERROR_MESSAGE,
       },
     });
-    setErrorMessage(GENERIC_ERROR_MESSAGE);
     return {
       status: 'error',
       writeContracts: () => {},

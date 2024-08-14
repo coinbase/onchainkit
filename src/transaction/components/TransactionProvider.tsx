@@ -74,7 +74,6 @@ export function TransactionProvider({
   // Hooks that depend from Core Hooks
   const { status: statusWriteContracts, writeContractsAsync } =
     useWriteContracts({
-      setErrorMessage,
       setLifeCycleStatus,
       setTransactionId,
     });
@@ -83,7 +82,6 @@ export function TransactionProvider({
     writeContractAsync,
     data: writeContractTransactionHash,
   } = useWriteContract({
-    setErrorMessage,
     setLifeCycleStatus,
     setTransactionHashArray,
     transactionHashArray,
@@ -100,6 +98,7 @@ export function TransactionProvider({
   useEffect(() => {
     // Emit Error
     if (lifeCycleStatus.statusName === 'error') {
+      setErrorMessage(lifeCycleStatus.statusData.message);
       onError?.(lifeCycleStatus.statusData);
     }
     // Emit State
@@ -230,7 +229,6 @@ export function TransactionProvider({
     isToastVisible,
     onSubmit: handleSubmit,
     receipt,
-    setErrorMessage,
     setIsToastVisible,
     setLifeCycleStatus,
     setTransactionId,
