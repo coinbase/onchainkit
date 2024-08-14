@@ -19,9 +19,6 @@ export function useWriteContracts({
   try {
     const { status, writeContractsAsync } = useWriteContractsWagmi({
       mutation: {
-        onSettled(data, error, variables, context) {
-          console.log('settled', data, error, variables, context);
-        },
         onError: (e) => {
           // Ignore EOA-specific error to fallback to writeContract
           if (e.message.includes(METHOD_NOT_SUPPORTED_ERROR_SUBSTRING)) {
