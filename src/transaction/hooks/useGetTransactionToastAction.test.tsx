@@ -116,4 +116,42 @@ describe('useGetTransactionToastAction', () => {
 
     expect(result.current.actionElement).toBeNull();
   });
+
+  it('should prioritize transactionId over transactionHash when both are provided', () => {
+    const showCallsStatus = vi.fn();
+    (useTransactionContext as vi.Mock).mockReturnValue({
+      transactionHash: '0x123',
+      transactionId: 'ab123',
+    });
+    (useShowCallsStatus as vi.Mock).mockReturnValue({ showCallsStatus });
+
+    const { result } = renderHook(() => useGetTransactionToastAction());
+
+    const button = result.current.actionElement as JSX.Element;
+    expect(button.props.onClick).toBeDefined();
+    expect(button).not.toBeNull();
+  });
+
+  it('should use accountChainId from useChainId when chainId is not available in context', () => {
+    (useTransactionContext as vi.Mock).mockReturnValue({
+      chainId: undefined,
+      transactionHash: '0x123',
+    });
+
+    const { result } = renderHook(() => useGetTransactionToastAction());
+
+    expect(result.current.actionElement).toMatchInlineSnapshot(`
+      <a
+        href="https://etherscan.io/tx/0x123"
+        rel="noreferrer"
+        target="_blank"
+      >
+        <span
+          className="font-bold font-sans text-sm leading-5 text-ock-primary"
+        >
+          View transaction
+        </span>
+      </a>
+    `);
+  });
 });

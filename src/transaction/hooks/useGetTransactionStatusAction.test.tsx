@@ -71,7 +71,7 @@ describe('useGetTransactionStatusAction', () => {
     expect(button).not.toBeNull();
   });
 
-  it('should return actionElement when receipt exists', () => {
+  it('should return null when receipt exists', () => {
     (useTransactionContext as vi.Mock).mockReturnValue({
       receipt: 'receipt',
       transactionHash: '123',
