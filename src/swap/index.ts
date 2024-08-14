@@ -3,6 +3,7 @@ export { Swap } from './components/Swap';
 export { SwapAmountInput } from './components/SwapAmountInput';
 export { SwapButton } from './components/SwapButton';
 export { SwapMessage } from './components/SwapMessage';
+export { SwapSettings } from './components/SwapSettings';
 export { SwapToggleButton } from './components/SwapToggleButton';
 export type {
   BuildSwapTransaction,
@@ -16,6 +17,7 @@ export type {
   SwapMessageReact,
   SwapQuote,
   SwapReact,
+  SwapSettingsReact,
   SwapToggleButtonReact,
   Transaction,
 } from './types';

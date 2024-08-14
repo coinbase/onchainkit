@@ -1,5 +1,6 @@
 import { isValidElement, useMemo } from 'react';
 import { fundWalletSvg } from '../../internal/svg/fundWallet';
+import { swapSettingsSvg } from '../../internal/svg/swapSettings';
 import { walletSvg } from '../../internal/svg/walletSvg';
 
 export const useIcon = ({ icon }: { icon?: React.ReactNode }) => {
@@ -8,10 +9,12 @@ export const useIcon = ({ icon }: { icon?: React.ReactNode }) => {
       return null;
     }
     switch (icon) {
-      case 'wallet':
-        return walletSvg;
       case 'fundWallet':
         return fundWalletSvg;
+      case 'swapSettings':
+        return swapSettingsSvg;
+      case 'wallet':
+        return walletSvg;
     }
     if (isValidElement(icon)) {
       return icon;
