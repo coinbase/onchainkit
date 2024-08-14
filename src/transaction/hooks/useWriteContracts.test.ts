@@ -1,4 +1,5 @@
 import { renderHook } from '@testing-library/react';
+import type { TransactionExecutionError } from 'viem';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { useWriteContracts as useWriteContractsWagmi } from 'wagmi/experimental';
 import { useWriteContracts } from './useWriteContracts';
@@ -8,7 +9,6 @@ vi.mock('wagmi/experimental', () => ({
 }));
 
 describe('useWriteContracts', () => {
-  const mockSetErrorMessage = vi.fn();
   const mockSetLifeCycleStatus = vi.fn();
   const mockSetTransactionId = vi.fn();
 
@@ -30,21 +30,54 @@ describe('useWriteContracts', () => {
     );
     renderHook(() =>
       useWriteContracts({
-        setErrorMessage: mockSetErrorMessage,
         setLifeCycleStatus: mockSetLifeCycleStatus,
         setTransactionId: mockSetTransactionId,
       }),
     );
     expect(onErrorCallback).toBeDefined();
     onErrorCallback?.(genericError);
-    expect(mockSetErrorMessage).toHaveBeenCalledWith(
-      'Something went wrong. Please try again.',
-    );
     expect(mockSetLifeCycleStatus).toHaveBeenCalledWith({
       statusName: 'error',
       statusData: {
-        code: 'WRITE_CONTRACTS_ERROR',
+        code: 'TmUWCSh01',
         error: 'Something went wrong. Please try again.',
+        message: 'Something went wrong. Please try again.',
+      },
+    });
+  });
+
+  it('should handle userRejectedRequestError', () => {
+    let onErrorCallback:
+      | ((error: TransactionExecutionError) => void)
+      | undefined;
+    (useWriteContractsWagmi as ReturnType<typeof vi.fn>).mockImplementation(
+      ({ mutation }: UseWriteContractsConfig) => {
+        onErrorCallback = mutation.onError;
+        return {
+          writeContracts: vi.fn(),
+          status: 'error',
+        };
+      },
+    );
+    renderHook(() =>
+      useWriteContracts({
+        setLifeCycleStatus: mockSetLifeCycleStatus,
+        setTransactionId: mockSetTransactionId,
+      }),
+    );
+    expect(onErrorCallback).toBeDefined();
+    onErrorCallback?.({
+      cause: {
+        name: 'UserRejectedRequestError',
+      },
+      message: 'Request denied.',
+    });
+    expect(mockSetLifeCycleStatus).toHaveBeenCalledWith({
+      statusName: 'error',
+      statusData: {
+        code: 'TmUWCSh01',
+        error: 'Request denied.',
+        message: 'Request denied.',
       },
     });
   });
@@ -63,7 +96,6 @@ describe('useWriteContracts', () => {
     );
     renderHook(() =>
       useWriteContracts({
-        setErrorMessage: mockSetErrorMessage,
         setLifeCycleStatus: mockSetLifeCycleStatus,
         setTransactionId: mockSetTransactionId,
       }),
@@ -82,21 +114,18 @@ describe('useWriteContracts', () => {
     );
     const { result } = renderHook(() =>
       useWriteContracts({
-        setErrorMessage: mockSetErrorMessage,
         setLifeCycleStatus: mockSetLifeCycleStatus,
         setTransactionId: mockSetTransactionId,
       }),
     );
     expect(result.current.status).toBe('error');
     expect(result.current.writeContracts).toBeInstanceOf(Function);
-    expect(mockSetErrorMessage).toHaveBeenCalledWith(
-      'Something went wrong. Please try again.',
-    );
     expect(mockSetLifeCycleStatus).toHaveBeenCalledWith({
       statusName: 'error',
       statusData: {
-        code: 'UNCAUGHT_WRITE_WRITE_CONTRACTS_ERROR',
+        code: 'TmUWCSh02',
         error: JSON.stringify(uncaughtError),
+        message: 'Something went wrong. Please try again.',
       },
     });
   });

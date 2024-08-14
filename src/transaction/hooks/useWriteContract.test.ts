@@ -21,7 +21,6 @@ type MockUseWriteContractReturn = {
 };
 
 describe('useWriteContract', () => {
-  const mockSetErrorMessage = vi.fn();
   const mockSetLifeCycleStatus = vi.fn();
   const mockSetTransactionHashArray = vi.fn();
 
@@ -39,7 +38,6 @@ describe('useWriteContract', () => {
     } as MockUseWriteContractReturn);
     const { result } = renderHook(() =>
       useWriteContract({
-        setErrorMessage: mockSetErrorMessage,
         setLifeCycleStatus: mockSetLifeCycleStatus,
         setTransactionHashArray: mockSetTransactionHashArray,
       }),
@@ -64,23 +62,18 @@ describe('useWriteContract', () => {
     );
     renderHook(() =>
       useWriteContract({
-        setErrorMessage: mockSetErrorMessage,
         setLifeCycleStatus: mockSetLifeCycleStatus,
         setTransactionHashArray: mockSetTransactionHashArray,
       }),
     );
-
     expect(onErrorCallback).toBeDefined();
     onErrorCallback?.(genericError);
-
-    expect(mockSetErrorMessage).toHaveBeenCalledWith(
-      'Something went wrong. Please try again.',
-    );
     expect(mockSetLifeCycleStatus).toHaveBeenCalledWith({
       statusName: 'error',
       statusData: {
-        code: 'WRITE_CONTRACT_ERROR',
+        code: 'TmUWCh01',
         error: 'Something went wrong. Please try again.',
+        message: 'Something went wrong. Please try again.',
       },
     });
   });
@@ -100,7 +93,6 @@ describe('useWriteContract', () => {
     );
     renderHook(() =>
       useWriteContract({
-        setErrorMessage: mockSetErrorMessage,
         setLifeCycleStatus: mockSetLifeCycleStatus,
         setTransactionHashArray: mockSetTransactionHashArray,
       }),
@@ -119,21 +111,18 @@ describe('useWriteContract', () => {
     );
     const { result } = renderHook(() =>
       useWriteContract({
-        setErrorMessage: mockSetErrorMessage,
         setLifeCycleStatus: mockSetLifeCycleStatus,
         setTransactionHashArray: mockSetTransactionHashArray,
       }),
     );
     expect(result.current.status).toBe('error');
     expect(result.current.writeContractAsync).toBeInstanceOf(Function);
-    expect(mockSetErrorMessage).toHaveBeenCalledWith(
-      'Something went wrong. Please try again.',
-    );
     expect(mockSetLifeCycleStatus).toHaveBeenCalledWith({
       statusName: 'error',
       statusData: {
-        code: 'UNCAUGHT_WRITE_CONTRACT_ERROR',
+        code: 'TmUWCh02',
         error: JSON.stringify(uncaughtError),
+        message: 'Something went wrong. Please try again.',
       },
     });
   });

@@ -48,7 +48,6 @@ export type TransactionContextType = {
   isToastVisible: boolean; // A boolean indicating if the transaction toast notification is visible.
   onSubmit: () => void; // A function called when the transaction is submitted.
   receipt?: TransactionReceipt; // The receipt of the transaction
-  setErrorMessage: (error: string) => void; // A function to set the error message for the transaction.
   setIsToastVisible: (isVisible: boolean) => void; // A function to set the visibility of the transaction toast.
   setLifeCycleStatus: (state: LifeCycleStatus) => void; // A function to set the lifecycle status of the component
   setTransactionId: (id: string) => void; // A function to set the transaction ID.
@@ -71,6 +70,7 @@ type PaymasterService = {
 export type TransactionError = {
   code: string; // The error code representing the type of transaction error.
   error: string; // The error message providing details about the transaction error.
+  message: string; // The error message providing details about the transaction error.
 };
 
 export type TransactionProviderReact = {
@@ -172,14 +172,12 @@ export type UseCallsStatusParams = {
 };
 
 export type UseWriteContractParams = {
-  setErrorMessage: (error: string) => void;
   setLifeCycleStatus: (state: LifeCycleStatus) => void;
   setTransactionHashArray: (ids: Address[]) => void;
   transactionHashArray?: Address[];
 };
 
 export type UseWriteContractsParams = {
-  setErrorMessage: (error: string) => void;
   setLifeCycleStatus: (state: LifeCycleStatus) => void;
   setTransactionId: (id: string) => void;
 };

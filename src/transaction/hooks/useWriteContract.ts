@@ -1,11 +1,8 @@
-import type { Address, TransactionExecutionError } from 'viem';
+import type { Address } from 'viem';
 import { useWriteContract as useWriteContractWagmi } from 'wagmi';
-import {
-  GENERIC_ERROR_MESSAGE,
-  UNCAUGHT_WRITE_CONTRACT_ERROR_CODE,
-  WRITE_CONTRACT_ERROR_CODE,
-} from '../constants';
+import { GENERIC_ERROR_MESSAGE } from '../constants';
 import type { UseWriteContractParams } from '../types';
+import { isUserRejectedRequestError } from '../utils/isUserRejectedRequestError';
 
 /**
  * Wagmi hook for single contract transactions.
@@ -13,7 +10,6 @@ import type { UseWriteContractParams } from '../types';
  * Does not support transaction batching or paymasters.
  */
 export function useWriteContract({
-  setErrorMessage,
   setLifeCycleStatus,
   setTransactionHashArray,
   transactionHashArray,
@@ -22,17 +18,16 @@ export function useWriteContract({
     const { status, writeContractAsync, data } = useWriteContractWagmi({
       mutation: {
         onError: (e) => {
-          if (
-            (e as TransactionExecutionError)?.cause?.name ===
-            'UserRejectedRequestError'
-          ) {
-            setErrorMessage('Request denied.');
-          } else {
-            setErrorMessage(GENERIC_ERROR_MESSAGE);
-          }
+          const errorMessage = isUserRejectedRequestError(e)
+            ? 'Request denied.'
+            : GENERIC_ERROR_MESSAGE;
           setLifeCycleStatus({
             statusName: 'error',
-            statusData: { code: WRITE_CONTRACT_ERROR_CODE, error: e.message },
+            statusData: {
+              code: 'TmUWCh01', // Transaction module UseWriteContract hook 01 error
+              error: e.message,
+              message: errorMessage,
+            },
           });
         },
         onSuccess: (hash: Address) => {
@@ -47,11 +42,11 @@ export function useWriteContract({
     setLifeCycleStatus({
       statusName: 'error',
       statusData: {
-        code: UNCAUGHT_WRITE_CONTRACT_ERROR_CODE,
+        code: 'TmUWCh02',
         error: JSON.stringify(err),
+        message: GENERIC_ERROR_MESSAGE,
       },
     });
-    setErrorMessage(GENERIC_ERROR_MESSAGE);
     return { status: 'error', writeContractAsync: () => {} };
   }
 }

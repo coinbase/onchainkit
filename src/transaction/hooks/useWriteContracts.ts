@@ -1,12 +1,10 @@
-import type { TransactionExecutionError } from 'viem';
 import { useWriteContracts as useWriteContractsWagmi } from 'wagmi/experimental';
 import {
   GENERIC_ERROR_MESSAGE,
   METHOD_NOT_SUPPORTED_ERROR_SUBSTRING,
-  UNCAUGHT_WRITE_CONTRACTS_ERROR_CODE,
-  WRITE_CONTRACTS_ERROR_CODE,
 } from '../constants';
 import type { UseWriteContractsParams } from '../types';
+import { isUserRejectedRequestError } from '../utils/isUserRejectedRequestError';
 
 /**
  * useWriteContracts: Experimental Wagmi hook for batching transactions.
@@ -15,7 +13,6 @@ import type { UseWriteContractsParams } from '../types';
  * Does not support EOAs.
  */
 export function useWriteContracts({
-  setErrorMessage,
   setLifeCycleStatus,
   setTransactionId,
 }: UseWriteContractsParams) {
@@ -30,18 +27,16 @@ export function useWriteContracts({
           if (e.message.includes(METHOD_NOT_SUPPORTED_ERROR_SUBSTRING)) {
             return;
           }
-
-          if (
-            (e as TransactionExecutionError)?.cause?.name ===
-            'UserRejectedRequestError'
-          ) {
-            setErrorMessage('Request denied.');
-          } else {
-            setErrorMessage(GENERIC_ERROR_MESSAGE);
-          }
+          const errorMessage = isUserRejectedRequestError(e)
+            ? 'Request denied.'
+            : GENERIC_ERROR_MESSAGE;
           setLifeCycleStatus({
             statusName: 'error',
-            statusData: { code: WRITE_CONTRACTS_ERROR_CODE, error: e.message },
+            statusData: {
+              code: 'TmUWCSh01', // Transaction module UseWriteContracts hook 01 error
+              error: e.message,
+              message: errorMessage,
+            },
           });
         },
         onSuccess: (id) => {
@@ -54,11 +49,11 @@ export function useWriteContracts({
     setLifeCycleStatus({
       statusName: 'error',
       statusData: {
-        code: UNCAUGHT_WRITE_CONTRACTS_ERROR_CODE,
+        code: 'TmUWCSh02',
         error: JSON.stringify(err),
+        message: GENERIC_ERROR_MESSAGE,
       },
     });
-    setErrorMessage(GENERIC_ERROR_MESSAGE);
     return {
       status: 'error',
       writeContracts: () => {},
