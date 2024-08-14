@@ -25,7 +25,7 @@ export function WalletDropdownFundLink({
 
   const currentURL = window.location.href;
   const tabName = document.title;
-  const fundingUrl = `http://keys.coinbase.com/funding?dappName=${tabName}&dappUrl=${currentURL}&onchainkit=${version}`;
+  const fundingUrl = `http://keys.coinbase.com/fund?dappName=${tabName}&dappUrl=${currentURL}&onchainkit=${version}`;
 
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault();
