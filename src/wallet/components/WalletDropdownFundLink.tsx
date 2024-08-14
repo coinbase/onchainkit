@@ -12,7 +12,7 @@ export function WalletDropdownFundLink({
   openIn = 'tab',
   target,
   text = 'Fund wallet',
-  windowSize = 'm',
+  popupSize = 'md',
 }: WalletDropdownFundLinkReact) {
   const iconSvg = useMemo(() => {
     if (icon === undefined) {
@@ -29,7 +29,7 @@ export function WalletDropdownFundLink({
 
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault();
-    const { width, height } = getWindowDimensions(windowSize);
+    const { width, height } = getWindowDimensions(popupSize);
 
     const left = Math.round((window.screen.width - width) / 2);
     const top = Math.round((window.screen.height - height) / 2);

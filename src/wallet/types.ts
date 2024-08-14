@@ -107,7 +107,7 @@ export type WalletDropdownFundLinkReact = {
   openIn?: 'window' | 'tab'; // Whether to open the funding flow in a tab or a window
   target?: string; // Where to open the target if `openIn` is set to tab
   text?: string; // Optional text override
-  windowSize?: 's' | 'm' | 'l'; // Size of the popup window if `openIn` is set to window
+  popupSize?: 'sm' | 'md' | 'lg'; // Size of the popup window if `openIn` is set to window
 };
 
 /**
@@ -123,7 +123,7 @@ export type WalletDropdownLinkReact = {
 };
 
 export type WindowSizes = Record<
-  's' | 'm' | 'l',
+  'sm' | 'md' | 'lg',
   {
     width: string;
     height: string;

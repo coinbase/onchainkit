@@ -1,13 +1,13 @@
 import type { WindowSizes } from '../types';
 
-const windowSizes: WindowSizes = {
-  s: { width: '23vw', height: '28.75vw' },
-  m: { width: '29vw', height: '36.25vw' },
-  l: { width: '35vw', height: '43.75vw' },
+const popupSizes: WindowSizes = {
+  sm: { width: '23vw', height: '28.75vw' },
+  md: { width: '29vw', height: '36.25vw' },
+  lg: { width: '35vw', height: '43.75vw' },
 };
 
-export const getWindowDimensions = (size: keyof typeof windowSizes) => {
-  const { width, height } = windowSizes[size];
+export const getWindowDimensions = (size: keyof typeof popupSizes) => {
+  const { width, height } = popupSizes[size];
 
   // Define minimum sizes (in pixels)
   const minWidth = 280;

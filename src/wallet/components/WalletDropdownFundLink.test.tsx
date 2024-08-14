@@ -63,16 +63,16 @@ describe('WalletDropdownFundLink', () => {
   });
 
   const testCases: WindowSizes = {
-    s: { width: '23vw', height: '28.75vw' },
-    m: { width: '29vw', height: '36.25vw' },
-    l: { width: '35vw', height: '43.75vw' },
+    sm: { width: '23vw', height: '28.75vw' },
+    md: { width: '29vw', height: '36.25vw' },
+    lg: { width: '35vw', height: '43.75vw' },
   };
 
   const minWidth = 280;
   const minHeight = 350;
 
   for (const [size, { width, height }] of Object.entries(testCases)) {
-    it(`opens a new window when clicked with type="window" and windowSize="${size}"`, () => {
+    it(`opens a new window when clicked with type="window" and popupSize="${size}"`, () => {
       const mockOpen = vi.fn();
       const screenWidth = 1024;
       const screenHeight = 768;
@@ -85,7 +85,7 @@ describe('WalletDropdownFundLink', () => {
       render(
         <WalletDropdownFundLink
           openIn="window"
-          windowSize={size as keyof typeof testCases}
+          popupSize={size as keyof typeof testCases}
         />,
       );
 
