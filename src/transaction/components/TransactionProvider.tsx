@@ -118,8 +118,14 @@ export function TransactionProvider({
         });
         receipts.push(txnReceipt);
       } catch (err) {
-        console.error('getTransactionReceiptsError', err);
-        setErrorMessage(GENERIC_ERROR_MESSAGE);
+        setLifeCycleStatus({
+          statusName: 'error',
+          statusData: {
+            code: 'TmTPc01', // Transaction module TransactionProvider component 01 error
+            error: JSON.stringify(err),
+            message: GENERIC_ERROR_MESSAGE,
+          },
+        });
       }
     }
     setReceiptArray(receipts);
@@ -144,7 +150,14 @@ export function TransactionProvider({
         const errorMessage = isUserRejectedRequestError(err)
           ? 'Request denied.'
           : GENERIC_ERROR_MESSAGE;
-        setErrorMessage(errorMessage);
+        setLifeCycleStatus({
+          statusName: 'error',
+          statusData: {
+            code: 'TmTPc02', // Transaction module TransactionProvider component 02 error
+            error: JSON.stringify(err),
+            message: errorMessage,
+          },
+        });
       }
     }
   }, [contracts, writeContractAsync]);
@@ -165,30 +178,6 @@ export function TransactionProvider({
     });
   }, [writeContractsAsync, contracts, capabilities]);
 
-  const handleSubmitErrors = useCallback(
-    async (err: unknown) => {
-      // handles EOA writeContracts error
-      // (fallback to writeContract)
-      if (
-        err instanceof Error &&
-        err.message.includes(METHOD_NOT_SUPPORTED_ERROR_SUBSTRING)
-      ) {
-        try {
-          await fallbackToWriteContract();
-        } catch (_err) {
-          setErrorMessage(GENERIC_ERROR_MESSAGE);
-        }
-        // handles user rejected request error
-      } else if (isUserRejectedRequestError(err)) {
-        setErrorMessage('Request denied.');
-        // handles generic error
-      } else {
-        setErrorMessage(GENERIC_ERROR_MESSAGE);
-      }
-    },
-    [fallbackToWriteContract],
-  );
-
   const handleSubmit = useCallback(async () => {
     setErrorMessage('');
     setIsToastVisible(true);
@@ -196,9 +185,27 @@ export function TransactionProvider({
       await switchChain(chainId);
       await executeContracts();
     } catch (err) {
-      await handleSubmitErrors(err);
+      // handles EOA writeContracts error (fallback to writeContract)
+      if (
+        err instanceof Error &&
+        err.message.includes(METHOD_NOT_SUPPORTED_ERROR_SUBSTRING)
+      ) {
+        await fallbackToWriteContract();
+        return;
+      }
+      const errorMessage = isUserRejectedRequestError(err)
+        ? 'Request denied.'
+        : GENERIC_ERROR_MESSAGE;
+      setLifeCycleStatus({
+        statusName: 'error',
+        statusData: {
+          code: 'TmTPc03', // Transaction module TransactionProvider component 03 error
+          error: JSON.stringify(err),
+          message: errorMessage,
+        },
+      });
     }
-  }, [chainId, executeContracts, handleSubmitErrors, switchChain]);
+  }, [chainId, executeContracts, fallbackToWriteContract, switchChain]);
 
   useEffect(() => {
     if (receiptArray?.length) {
