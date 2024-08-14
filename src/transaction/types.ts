@@ -42,6 +42,7 @@ export type TransactionContextType = {
   address: Address; // The wallet address involved in the transaction.
   chainId?: number; // The chainId for the transaction.
   contracts: ContractFunctionParameters[]; // An array of contracts for the transaction.
+  errorCode?: string; // An error code string if the transaction encounters an issue.
   errorMessage?: string; // An error message string if the transaction encounters an issue.
   hasPaymaster?: boolean; // A boolean indicating if app has paymaster configured
   isLoading: boolean; // A boolean indicating if the transaction is currently loading.

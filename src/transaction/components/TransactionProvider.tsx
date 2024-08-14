@@ -56,6 +56,7 @@ export function TransactionProvider({
   const account = useAccount();
   const config = useConfig();
   const [errorMessage, setErrorMessage] = useState('');
+  const [errorCode, setErrorCode] = useState('');
   const [isToastVisible, setIsToastVisible] = useState(false);
   const [lifeCycleStatus, setLifeCycleStatus] = useState<LifeCycleStatus>({
     statusName: 'init',
@@ -96,6 +97,7 @@ export function TransactionProvider({
     // Emit Error
     if (lifeCycleStatus.statusName === 'error') {
       setErrorMessage(lifeCycleStatus.statusData.message);
+      setErrorCode(lifeCycleStatus.statusData.code);
       onError?.(lifeCycleStatus.statusData);
     }
     // Emit State
@@ -219,6 +221,7 @@ export function TransactionProvider({
     address,
     chainId,
     contracts,
+    errorCode,
     errorMessage,
     hasPaymaster: !!capabilities?.paymasterService?.url,
     isLoading: callStatus === 'PENDING',

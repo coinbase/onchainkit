@@ -48,6 +48,7 @@ const TestComponent = () => {
       <button type="button" onClick={context.onSubmit}>
         Submit
       </button>
+      <span data-testid="context-value-errorCode">{context.errorCode}</span>
       <span data-testid="context-value-errorMessage">
         {context.errorMessage}
       </span>
@@ -172,8 +173,10 @@ describe('TransactionProvider', () => {
     const button = screen.getByText('Submit');
     fireEvent.click(button);
     await waitFor(() => {
-      const testComponent = screen.getByTestId('context-value-errorMessage');
-      expect(testComponent.textContent).toBe(
+      expect(screen.getByTestId('context-value-errorCode').textContent).toBe(
+        'TmTPc03',
+      );
+      expect(screen.getByTestId('context-value-errorMessage').textContent).toBe(
         'Something went wrong. Please try again.',
       );
     });
@@ -339,6 +342,41 @@ describe('TransactionProvider', () => {
     const button = screen.getByText('Submit');
     fireEvent.click(button);
     await waitFor(() => {
+      expect(screen.getByTestId('context-value-errorCode').textContent).toBe(
+        'TmTPc03',
+      );
+      expect(screen.getByTestId('context-value-errorMessage').textContent).toBe(
+        'Something went wrong. Please try again.',
+      );
+    });
+  });
+
+  it('should call setLifeCycleStatus when calling fallbackToWriteContract when executeContracts fails', async () => {
+    const writeContractsAsyncMock = vi
+      .fn()
+      .mockRejectedValue(new Error(METHOD_NOT_SUPPORTED_ERROR_SUBSTRING));
+    const writeContractAsyncMock = vi
+      .fn()
+      .mockRejectedValue(new Error('Basic error'));
+    (useWriteContracts as ReturnType<typeof vi.fn>).mockReturnValue({
+      statusWriteContracts: 'IDLE',
+      writeContractsAsync: writeContractsAsyncMock,
+    });
+    (useWriteContract as ReturnType<typeof vi.fn>).mockReturnValue({
+      status: 'IDLE',
+      writeContractAsync: writeContractAsyncMock,
+    });
+    render(
+      <TransactionProvider address="0x123" contracts={[{}]}>
+        <TestComponent />
+      </TransactionProvider>,
+    );
+    const button = screen.getByText('Submit');
+    fireEvent.click(button);
+    await waitFor(() => {
+      expect(screen.getByTestId('context-value-errorCode').textContent).toBe(
+        'TmTPc02',
+      );
       expect(screen.getByTestId('context-value-errorMessage').textContent).toBe(
         'Something went wrong. Please try again.',
       );
