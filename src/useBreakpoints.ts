@@ -25,7 +25,7 @@ export function useBreakpoints() {
           return key;
         }
       }
-      return undefined;
+      return 'md';
     };
 
     // set initial breakpoint
