@@ -1,4 +1,4 @@
-export const walletDropdownLinkCustomIconSvg = (
+export const walletDropdownLinkCustomCatIconSvg = (
   <svg
     version="1.1"
     id="Layer_1"
