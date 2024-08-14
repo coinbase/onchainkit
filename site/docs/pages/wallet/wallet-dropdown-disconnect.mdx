@@ -83,11 +83,11 @@ export function WalletComponents() {
 
 You can override component styles using `className`.
   
-  ```tsx
-  // omitted for brevity
+```tsx
+// omitted for brevity
 
-  <WalletDropdownDisconnect className="hover:bg-red-500" /> // [!code focus] 
-  ```
+<WalletDropdownDisconnect className="hover:bg-red-500" /> // [!code focus] 
+```
   
 <WalletComponents>
   <Wallet>
@@ -102,7 +102,7 @@ You can override component styles using `className`.
         <Address className={color.foregroundMuted} />
         <EthBalance />
       </Identity>
-      <WalletDropdownDisconnect className="hover:bg-red-500"/>
+      <WalletDropdownDisconnect className="hover:bg-red-500" />
     </WalletDropdown>
   </Wallet>
 </WalletComponents>
@@ -114,7 +114,7 @@ You can override component text using `text`.
 ```tsx
 // omitted for brevity
 
-  <WalletDropdownDisconnect text="Log out" /> // [!code focus] 
+<WalletDropdownDisconnect text="Log out" /> // [!code focus] 
 ```
 
 <WalletComponents>
@@ -130,7 +130,7 @@ You can override component text using `text`.
         <Address className={color.foregroundMuted} />
         <EthBalance />
       </Identity>
-      <WalletDropdownDisconnect text="Log out"/>
+      <WalletDropdownDisconnect text="Log out" />
     </WalletDropdown>
   </Wallet>
 </WalletComponents>

@@ -15,6 +15,7 @@ import {
   WalletDropdownLink,
 } from '@coinbase/onchainkit/wallet';
 import WalletComponents from '../../components/WalletComponents';
+import { walletDropdownLinkCustomIconSvg } from '../../components/svg/walletDropdownLinkCustomIconSvg'
 
 # `<WalletDropdownLink />`
 
@@ -79,6 +80,124 @@ export function WalletComponents() {
         <EthBalance />
       </Identity>
       <WalletDropdownLink icon="wallet" href="https://wallet.coinbase.com">
+        Wallet
+      </WalletDropdownLink>
+      <WalletDropdownDisconnect />
+    </WalletDropdown>
+  </Wallet>
+</WalletComponents>
+
+### Custom link
+Add a custom link to the wallet dropdown menu, allowing users to navigate to external resources directly from the wallet interface.
+
+```tsx
+// omitted for brevity
+<WalletDropdownLink // [!code focus] 
+  icon={CatIcon} // [!code focus] 
+  href="https://www.basetokenstore.com/" // [!code focus] 
+  rel="noopener noreferrer" // [!code focus] 
+> // [!code focus]
+  Base Token Store // [!code focus]
+</WalletDropdownLink> // [!code focus]
+```
+
+<WalletComponents>
+  <Wallet>
+    <ConnectWallet>
+      <Avatar className="h-6 w-6" />
+      <Name />
+    </ConnectWallet>
+    <WalletDropdown>
+      <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick>
+        <Avatar />
+        <Name />
+        <Address className={color.foregroundMuted} />
+        <EthBalance />
+      </Identity>
+      <WalletDropdownLink 
+        icon={walletDropdownLinkCustomIconSvg} 
+        href="https://www.basetokenstore.com/" 
+        rel="noopener noreferrer" 
+      >
+        Base Token Store
+      </WalletDropdownLink>
+      <WalletDropdownDisconnect />
+    </WalletDropdown>
+  </Wallet>
+</WalletComponents>
+
+{/*
+// custom content 
+
+children: Not an HTML attribute, but a React concept. It represents the content between opening and closing tags of a component.
+- <WalletDropdownLink href="#">
+  <span>Profile</span>
+  <span>👤</span>
+</WalletDropdownLink>
+
+  <span className="font-bold">Bold</span> and <span className="italic">Italic</span>
+
+  Or update text?   
+
+*/}
+
+### Custom children components
+Accepts React children, enabling the use of custom elements, styled text, icons, and complex components.
+This allows for diverse customizations, including complex layouts and conditional rendering based on your app's state.
+
+```tsx
+// omitted for brevity
+<WalletDropdownLink icon="wallet" href="https://wallet.coinbase.com"> // [!code focus]
+  <span className="font-bold italic">Profile</span> // [!code focus]
+  <span> 🔵 </span> // [!code focus]
+</WalletDropdownLink> // [!code focus]
+```
+
+<WalletComponents>
+  <Wallet>
+    <ConnectWallet>
+      <Avatar className="h-6 w-6" />
+      <Name />
+    </ConnectWallet>
+    <WalletDropdown>
+      <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick>
+        <Avatar />
+        <Name />
+        <Address className={color.foregroundMuted} />
+        <EthBalance />
+      </Identity>
+      <WalletDropdownLink icon="wallet" href="https://wallet.coinbase.com">
+        <span className="font-bold italic">Profile</span>
+        <span> 🔵 </span>
+      </WalletDropdownLink>
+      <WalletDropdownDisconnect />
+    </WalletDropdown>
+  </Wallet>
+</WalletComponents>
+
+### Override styles
+You can override component styles using className.
+
+```tsx
+// omitted for brevity
+<WalletDropdownLink className="hover:bg-red-500" icon="wallet" href="https://wallet.coinbase.com" > // [!code focus]
+  Wallet // [!code focus]
+</WalletDropdownLink> // [!code focus]
+```
+<WalletComponents>
+  <Wallet>
+    <ConnectWallet>
+      <Avatar className="h-6 w-6" />
+      <Name />
+    </ConnectWallet>
+    <WalletDropdown>
+      <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick>
+        <Avatar />
+        <Name />
+        <Address className={color.foregroundMuted} />
+        <EthBalance />
+      </Identity>
+      <WalletDropdownLink className="hover:bg-red-500" icon="wallet" href="https://wallet.coinbase.com">
         Wallet
       </WalletDropdownLink>
       <WalletDropdownDisconnect />
