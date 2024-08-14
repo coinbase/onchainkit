@@ -64,6 +64,10 @@ export const sidebar = [
         text: 'Identity',
         items: [
           {
+            text: 'Identity',
+            link: '/identity/identity',
+          },
+          {
             text: 'Address',
             link: '/identity/address',
           },
@@ -74,10 +78,6 @@ export const sidebar = [
           {
             text: 'Badge',
             link: '/identity/badge',
-          },
-          {
-            text: 'Identity',
-            link: '/identity/identity',
           },
           {
             text: 'Name',
@@ -138,7 +138,15 @@ export const sidebar = [
           {
             text: 'WalletDropdownBaseName',
             link: '/wallet/wallet-dropdown-base-name',
-          }
+          },
+          {
+            text: 'WalletDropdownDisconnect',
+            link: '/wallet/wallet-dropdown-disconnect',
+          },
+          {
+            text: 'WalletDropdownLink',
+            link: '/wallet/wallet-dropdown-link',
+          },
         ],
       },
     ]
