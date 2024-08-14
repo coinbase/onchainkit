@@ -87,9 +87,8 @@ export type WalletDropdownDisconnectReact = {
 ```ts
 export type WalletDropdownFundLinkReact = {
   className?: string; // Optional className override for the element
-  href: string;
-  icon?: ReactNode;
-  rel?: string;
+  icon?: ReactNode; // Optional icon override
+  rel?: string; // Specifies the relationship between the current document and the linked document
   openIn?: 'popup' | 'tab'; // Whether to open the funding flow in a tab or a popup window
   target?: string; // Where to open the target if `openIn` is set to tab
   text?: string; // Optional text override
