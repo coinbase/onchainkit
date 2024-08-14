@@ -20,17 +20,17 @@ describe('getWindowDimensions', () => {
     window.innerWidth = 300;
     window.innerHeight = 400;
 
-    const result = getWindowDimensions('s');
+    const result = getWindowDimensions('sm');
     expect(result).toEqual({ width: 270, height: 350 });
   });
 
   it('should calculate correct dimensions for medium size', () => {
-    const result = getWindowDimensions('m');
+    const result = getWindowDimensions('md');
     expect(result).toEqual({ width: 290, height: 363 });
   });
 
   it('should calculate correct dimensions for large size', () => {
-    const result = getWindowDimensions('l');
+    const result = getWindowDimensions('lg');
     expect(result).toEqual({ width: 350, height: 438 });
   });
 
@@ -38,7 +38,7 @@ describe('getWindowDimensions', () => {
     window.innerWidth = 2000;
     window.innerHeight = 1500;
 
-    const result = getWindowDimensions('l');
+    const result = getWindowDimensions('lg');
     expect(result).toEqual({ width: 700, height: 875 });
   });
 
@@ -46,7 +46,7 @@ describe('getWindowDimensions', () => {
     window.innerWidth = 1920;
     window.innerHeight = 1080;
 
-    const result = getWindowDimensions('m');
+    const result = getWindowDimensions('md');
     expect(result).toEqual({ width: 557, height: 696 });
   });
 });
