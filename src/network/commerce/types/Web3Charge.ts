@@ -23,7 +23,9 @@ export type Web3ChargeWeb3DataSettlementCurrencyAddresses = {
   [key: string]: string;
 };
 
-export type Web3ChargeWeb3DataContractAddresses = { [key: string]: `0x${string}` };
+export type Web3ChargeWeb3DataContractAddresses = {
+  [key: string]: `0x${string}`;
+};
 
 export type Web3ChargeWeb3Data = {
   failure_events: Web3ChargeWeb3DataFailureEventsItem[];
@@ -85,13 +87,13 @@ export type Web3ChargeTimelineItemStatus =
   (typeof Web3ChargeTimelineItemStatus)[keyof typeof Web3ChargeTimelineItemStatus];
 
 export const Web3ChargeTimelineItemStatus = {
-  COMPLETED: "COMPLETED",
-  EXPIRED: "EXPIRED",
-  FAILED: "FAILED",
-  NEW: "NEW",
-  PENDING: "PENDING",
-  SIGNED: "SIGNED",
-  CANCELED: "CANCELED",
+  COMPLETED: 'COMPLETED',
+  EXPIRED: 'EXPIRED',
+  FAILED: 'FAILED',
+  NEW: 'NEW',
+  PENDING: 'PENDING',
+  SIGNED: 'SIGNED',
+  CANCELED: 'CANCELED',
 } as const;
 
 export type Web3ChargeTimelineItem = {
@@ -110,8 +112,8 @@ export type Web3ChargePricingType =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const Web3ChargePricingType = {
-  fixed_price: "fixed_price",
-  no_price: "no_price",
+  fixed_price: 'fixed_price',
+  no_price: 'no_price',
 } as const;
 
 export type Web3ChargePricing = {
@@ -130,7 +132,7 @@ export type Web3ChargeChargeKind =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const Web3ChargeChargeKind = {
-  WEB3: "WEB3",
+  WEB3: 'WEB3',
 } as const;
 
 export type Currency = {

@@ -1,10 +1,7 @@
-import { FetchError } from "./FetchError";
-import type { Web3Charge } from "./types/Web3Charge";
+import { FetchError } from './FetchError';
+import type { Web3Charge } from './types/Web3Charge';
 
-export async function getCommerceCharge(
-  baseUrl: string,
-  chargeId: string,
-) {
+export async function getCommerceCharge(baseUrl: string, chargeId: string) {
   const options = {
     method: 'GET',
     url: `${baseUrl}/charges/${chargeId}`,
@@ -19,5 +16,5 @@ export async function getCommerceCharge(
       `non-200 status returned from neynar : ${resp.status}`,
     );
   }
-  return await resp.json() as { data: Web3Charge };
+  return (await resp.json()) as { data: Web3Charge };
 }

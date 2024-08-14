@@ -1,7 +1,7 @@
-import { encodeFunctionData, erc20Abi, parseUnits } from "viem";
-import { base } from "viem/chains";
-import type { Web3Charge } from "../../network/commerce/types/Web3Charge";
-import { contractAbi } from "./TransfersContractAbi";
+import { encodeFunctionData, erc20Abi, parseUnits } from 'viem';
+import { base } from 'viem/chains';
+import type { Web3Charge } from '../../network/commerce/types/Web3Charge';
+import { contractAbi } from './TransfersContractAbi';
 
 const USDC_DECIMALS = 6;
 
@@ -30,7 +30,7 @@ export function getCommerceCallData(charge: Web3Charge) {
       to: recipient_currency,
       data: encodeFunctionData({
         abi: erc20Abi,
-        functionName: "approve",
+        functionName: 'approve',
         args: [
           contract_addresses[base.id],
           parseUnits(charge.pricing.settlement.amount, USDC_DECIMALS),
@@ -38,10 +38,10 @@ export function getCommerceCallData(charge: Web3Charge) {
       }),
     },
     transferTokenPreApprovedCall: {
-      to: contract_addresses["8453"],
+      to: contract_addresses['8453'],
       data: encodeFunctionData({
         abi: contractAbi,
-        functionName: "transferTokenPreApproved",
+        functionName: 'transferTokenPreApproved',
         args: [
           {
             id,

@@ -1,35 +1,35 @@
-import { connect } from "@wagmi/core";
-import { getCallsStatus, sendCalls } from "@wagmi/core/experimental";
-import { coinbaseWallet } from "wagmi/connectors";
-import { smartWalletConfig } from "./smartWalletConfig";
-import { hydrateCommerceCharge } from "../network/commerce/hydrateCommereCharge";
-import { useEffect, useState } from "react";
-import { getCommerceCharge } from "../network/commerce/getCommerceCharge";
-import type { Web3Charge } from "../network/commerce/types/Web3Charge";
-import { base } from "viem/chains";
-import { getCommerceCallData } from "./utils/getCommerceCallData";
+import { connect } from '@wagmi/core';
+import { getCallsStatus, sendCalls } from '@wagmi/core/experimental';
+import { useEffect, useState } from 'react';
+import { base } from 'viem/chains';
+import { coinbaseWallet } from 'wagmi/connectors';
+import { getCommerceCharge } from '../network/commerce/getCommerceCharge';
+import { hydrateCommerceCharge } from '../network/commerce/hydrateCommereCharge';
+import type { Web3Charge } from '../network/commerce/types/Web3Charge';
+import { smartWalletConfig } from './smartWalletConfig';
+import { getCommerceCallData } from './utils/getCommerceCallData';
 
 type CommercePayButtonProps = {
   chargeId: string;
 };
 
 const SMART_WALLET_CONNECTOR = coinbaseWallet({
-  preference: "smartWalletOnly",
+  preference: 'smartWalletOnly',
 });
 
-const BASE_COMMERCE_URL = "https://api.commerce.coinbase.com";
+const BASE_COMMERCE_URL = 'https://api.commerce.coinbase.com';
 
 export function CommercePayButton({ chargeId }: CommercePayButtonProps) {
   const [charge, setCharge] = useState<Web3Charge>();
-  const [transactionCallsId, setTransactionCallsId] = useState("");
-  const [transactionHash, setTransactionHash] = useState("");
+  const [transactionCallsId, setTransactionCallsId] = useState('');
+  const [transactionHash, setTransactionHash] = useState('');
 
   useEffect(() => {
     async function checkCallsStatus() {
       const { status, receipts } = await getCallsStatus(smartWalletConfig, {
         id: transactionCallsId,
       });
-      if (status === "CONFIRMED") {
+      if (status === 'CONFIRMED') {
         const transactionHash = receipts?.[0].transactionHash;
         if (transactionHash) {
           setTransactionHash(transactionHash);
@@ -52,7 +52,7 @@ export function CommercePayButton({ chargeId }: CommercePayButtonProps) {
     async function loadCharge() {
       const chargeResponse = await getCommerceCharge(
         BASE_COMMERCE_URL,
-        chargeId
+        chargeId,
       );
       setCharge(chargeResponse.data);
     }
@@ -73,7 +73,7 @@ export function CommercePayButton({ chargeId }: CommercePayButtonProps) {
     const { data: hydratedCharge } = await hydrateCommerceCharge(
       BASE_COMMERCE_URL,
       chargeId,
-      senderAddress
+      senderAddress,
     );
     const { tokenApprovalCall, transferTokenPreApprovedCall } =
       getCommerceCallData(hydratedCharge);
@@ -101,7 +101,9 @@ export function CommercePayButton({ chargeId }: CommercePayButtonProps) {
   }
   return (
     <div>
-      <button type="button" onClick={() => handlePayment()}>Pay with Crypto</button>
+      <button type="button" onClick={() => handlePayment()}>
+        Pay with Crypto
+      </button>
     </div>
   );
 }
