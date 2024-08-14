@@ -382,6 +382,34 @@ describe('TransactionProvider', () => {
       );
     });
   });
+
+  it('should call onSuccess when receiptArray has receipts', async () => {
+    const onSuccessMock = vi.fn();
+    const mockReceipt = { status: 'success' };
+
+    (useWaitForTransactionReceipt as ReturnType<typeof vi.fn>).mockReturnValue({
+      data: mockReceipt,
+    });
+
+    render(
+      <TransactionProvider
+        address="0x123"
+        contracts={[]}
+        onSuccess={onSuccessMock}
+      >
+        <TestComponent />
+      </TransactionProvider>,
+    );
+
+    const button = screen.getByText('Submit');
+    fireEvent.click(button);
+
+    await waitFor(() => {
+      expect(onSuccessMock).toHaveBeenCalledWith({
+        transactionReceipts: [mockReceipt],
+      });
+    });
+  });
 });
 
 describe('useTransactionContext', () => {

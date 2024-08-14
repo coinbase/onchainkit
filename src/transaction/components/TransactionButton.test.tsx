@@ -7,6 +7,10 @@ vi.mock('./TransactionProvider', () => ({
   useTransactionContext: vi.fn(),
 }));
 
+vi.mock('wagmi/experimental', () => ({
+  useShowCallsStatus: vi.fn(),
+}));
+
 describe('TransactionButton', () => {
   it('renders correctly', () => {
     (useTransactionContext as vi.Mock).mockReturnValue({
@@ -80,5 +84,20 @@ describe('TransactionButton', () => {
     const { getByRole } = render(<TransactionButton text="Submit" />);
     const button = getByRole('button');
     expect(button).toBeDisabled();
+  });
+
+  it('should enable button when not in progress, not missing props, and not waiting for receipt', () => {
+    (useTransactionContext as vi.Mock).mockReturnValue({
+      isLoading: false,
+      contracts: {},
+      address: '0x123',
+      transactionId: undefined,
+      transactionHash: undefined,
+      receipt: undefined,
+    });
+
+    const { getByRole } = render(<TransactionButton text="Submit" />);
+    const button = getByRole('button');
+    expect(button).not.toBeDisabled();
   });
 });
