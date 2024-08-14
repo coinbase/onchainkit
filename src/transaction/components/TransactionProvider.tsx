@@ -5,11 +5,7 @@ import {
   useEffect,
   useState,
 } from 'react';
-import type {
-  Address,
-  TransactionExecutionError,
-  TransactionReceipt,
-} from 'viem';
+import type { Address, TransactionReceipt } from 'viem';
 import {
   useAccount,
   useConfig,
@@ -30,6 +26,7 @@ import type {
   TransactionContextType,
   TransactionProviderReact,
 } from '../types';
+import { isUserRejectedRequestError } from '../utils/isUserRejectedRequestError';
 
 const emptyContext = {} as TransactionContextType;
 export const TransactionContext =
@@ -144,15 +141,10 @@ export function TransactionProvider({
       try {
         await writeContractAsync?.(contract);
       } catch (err) {
-        // if user rejected request
-        if (
-          (err as TransactionExecutionError)?.cause?.name ===
-          'UserRejectedRequestError'
-        ) {
-          setErrorMessage('Request denied.');
-        } else {
-          setErrorMessage(GENERIC_ERROR_MESSAGE);
-        }
+        const errorMessage = isUserRejectedRequestError(err)
+          ? 'Request denied.'
+          : GENERIC_ERROR_MESSAGE;
+        setErrorMessage(errorMessage);
       }
     }
   }, [contracts, writeContractAsync]);
@@ -187,10 +179,7 @@ export function TransactionProvider({
           setErrorMessage(GENERIC_ERROR_MESSAGE);
         }
         // handles user rejected request error
-      } else if (
-        (err as TransactionExecutionError)?.cause?.name ===
-        'UserRejectedRequestError'
-      ) {
+      } else if (isUserRejectedRequestError(err)) {
         setErrorMessage('Request denied.');
         // handles generic error
       } else {

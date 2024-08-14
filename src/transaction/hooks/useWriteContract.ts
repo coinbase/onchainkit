@@ -1,4 +1,4 @@
-import type { Address, TransactionExecutionError } from 'viem';
+import type { Address } from 'viem';
 import { useWriteContract as useWriteContractWagmi } from 'wagmi';
 import {
   GENERIC_ERROR_MESSAGE,
@@ -6,6 +6,7 @@ import {
   WRITE_CONTRACT_ERROR_CODE,
 } from '../constants';
 import type { UseWriteContractParams } from '../types';
+import { isUserRejectedRequestError } from '../utils/isUserRejectedRequestError';
 
 /**
  * Wagmi hook for single contract transactions.
@@ -21,13 +22,9 @@ export function useWriteContract({
     const { status, writeContractAsync, data } = useWriteContractWagmi({
       mutation: {
         onError: (e) => {
-          let errorMessage = GENERIC_ERROR_MESSAGE;
-          if (
-            (e as TransactionExecutionError)?.cause?.name ===
-            'UserRejectedRequestError'
-          ) {
-            errorMessage = 'Request denied.';
-          }
+          const errorMessage = isUserRejectedRequestError(e)
+            ? 'Request denied.'
+            : GENERIC_ERROR_MESSAGE;
           setLifeCycleStatus({
             statusName: 'error',
             statusData: {

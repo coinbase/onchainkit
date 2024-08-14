@@ -1,4 +1,3 @@
-import type { TransactionExecutionError } from 'viem';
 import { useWriteContracts as useWriteContractsWagmi } from 'wagmi/experimental';
 import {
   GENERIC_ERROR_MESSAGE,
@@ -7,6 +6,7 @@ import {
   WRITE_CONTRACTS_ERROR_CODE,
 } from '../constants';
 import type { UseWriteContractsParams } from '../types';
+import { isUserRejectedRequestError } from '../utils/isUserRejectedRequestError';
 
 /**
  * useWriteContracts: Experimental Wagmi hook for batching transactions.
@@ -29,13 +29,9 @@ export function useWriteContracts({
           if (e.message.includes(METHOD_NOT_SUPPORTED_ERROR_SUBSTRING)) {
             return;
           }
-          let errorMessage = GENERIC_ERROR_MESSAGE;
-          if (
-            (e as TransactionExecutionError)?.cause?.name ===
-            'UserRejectedRequestError'
-          ) {
-            errorMessage = 'Request denied.';
-          }
+          const errorMessage = isUserRejectedRequestError(e)
+            ? 'Request denied.'
+            : GENERIC_ERROR_MESSAGE;
           setLifeCycleStatus({
             statusName: 'error',
             statusData: {
