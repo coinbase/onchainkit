@@ -4,7 +4,7 @@ import { version } from '../../version';
 import type { WindowSizes } from '../types';
 import { WalletDropdownFundLink } from './WalletDropdownFundLink';
 
-const FUNDING_URL = `http://keys.coinbase.com/fund?dappName=&dappUrl=http://localhost:3000/&onchainkit=${version}`;
+const FUNDING_URL = `http://keys.coinbase.com/fund?dappName=&dappUrl=http://localhost:3000/&version=${version}&source=onchainkit`;
 
 describe('WalletDropdownFundLink', () => {
   it('renders correctly with default props', () => {
