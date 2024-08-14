@@ -4,6 +4,7 @@ import { useChainId } from 'wagmi';
 import { useShowCallsStatus } from 'wagmi/experimental';
 import { TransactionButton } from './TransactionButton';
 import { useTransactionContext } from './TransactionProvider';
+import { getChainExplorer } from '../../network/getChainExplorer';
 
 vi.mock('./TransactionProvider', () => ({
   useTransactionContext: vi.fn(),
@@ -15,6 +16,10 @@ vi.mock('wagmi', () => ({
 
 vi.mock('wagmi/experimental', () => ({
   useShowCallsStatus: vi.fn(),
+}));
+
+vi.mock('../../network/getChainExplorer', () => ({
+  getChainExplorer: vi.fn(),
 }));
 
 describe('TransactionButton', () => {
@@ -126,5 +131,46 @@ describe('TransactionButton', () => {
     const { getByRole } = render(<TransactionButton text="Submit" />);
     const button = getByRole('button');
     expect(button).not.toBeDisabled();
+  });
+
+  it('should open transaction link when only receipt exists', () => {
+    const onSubmit = vi.fn();
+    const chainExplorerUrl = 'https://explorer.com';
+    (useTransactionContext as vi.Mock).mockReturnValue({
+      receipt: 'receipt-123',
+      transactionId: undefined,
+      transactionHash: 'hash-789',
+      onSubmit,
+    });
+    (getChainExplorer as vi.Mock).mockReturnValue(chainExplorerUrl);
+    window.open = vi.fn();
+
+    render(<TransactionButton text="Transact" />);
+    const button = screen.getByText('View transaction');
+    fireEvent.click(button);
+
+    expect(window.open).toHaveBeenCalledWith(
+      `${chainExplorerUrl}/tx/hash-789`,
+      '_blank',
+      'noopener,noreferrer',
+    );
+    expect(onSubmit).not.toHaveBeenCalled();
+  });
+
+  it('should call onSubmit when neither receipt nor transactionId exists', () => {
+    const onSubmit = vi.fn();
+    (useTransactionContext as vi.Mock).mockReturnValue({
+      receipt: undefined,
+      transactionId: undefined,
+      onSubmit,
+      address: '123',
+      contracts: [{}],
+    });
+
+    render(<TransactionButton text="Transact" />);
+    const button = screen.getByText('Transact');
+    fireEvent.click(button);
+
+    expect(onSubmit).toHaveBeenCalled();
   });
 });

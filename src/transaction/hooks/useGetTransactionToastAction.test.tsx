@@ -154,4 +154,19 @@ describe('useGetTransactionToastAction', () => {
       </a>
     `);
   });
+
+  it('should call showCallsStatus when button is clicked', () => {
+    const showCallsStatus = vi.fn();
+    (useShowCallsStatus as vi.Mock).mockReturnValue({ showCallsStatus });
+    (useTransactionContext as vi.Mock).mockReturnValue({
+      transactionId: 'ab123',
+    });
+
+    const { result } = renderHook(() => useGetTransactionToastAction());
+
+    const button = result.current.actionElement as JSX.Element;
+    button.props.onClick();
+
+    expect(showCallsStatus).toHaveBeenCalledWith({ id: 'ab123' });
+  });
 });
