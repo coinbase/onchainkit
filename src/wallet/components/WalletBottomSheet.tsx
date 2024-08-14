@@ -1,4 +1,10 @@
-import { Children, cloneElement, isValidElement, useMemo } from 'react';
+import {
+  Children,
+  cloneElement,
+  isValidElement,
+  useCallback,
+  useMemo,
+} from 'react';
 import { useAccount } from 'wagmi';
 import { Identity } from '../../identity/components/Identity';
 import { background, cn } from '../../styles/theme';
@@ -22,6 +28,19 @@ export function WalletBottomSheet({
     });
   }, [children, address]);
 
+  const handleOverlayClick = useCallback(() => {
+    setIsOpen(false);
+  }, []);
+
+  const handleEscKeyPress = useCallback(
+    (event: React.KeyboardEvent<HTMLDivElement>) => {
+      if (event.key === 'Escape') {
+        setIsOpen(false);
+      }
+    },
+    [],
+  );
+
   if (!address) {
     return null;
   }
@@ -30,15 +49,17 @@ export function WalletBottomSheet({
     <>
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-20 z-40"
-          onClick={() => setIsOpen(false)} // Close drawer on overlay click
+          className="fixed inset-0 z-40 bg-black bg-opacity-20"
+          onClick={handleOverlayClick}
+          onKeyDown={handleEscKeyPress}
+          tabIndex={0}
         />
       )}
       <div
         className={cn(
           background.default,
-          'fixed bottom-0 left-0 right-0 z-50',
-          'rounded-[20px_20px_0_0] p-4 transform transition-transform',
+          'fixed right-0 bottom-0 left-0 z-50',
+          'transform rounded-[20px_20px_0_0] p-4 transition-transform',
           `${isOpen ? 'translate-y-0' : 'translate-y-full'}`,
           className,
         )}

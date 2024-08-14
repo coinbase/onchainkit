@@ -1,8 +1,8 @@
 import { useAccount } from 'wagmi';
 import useBreakpoints from '../../useBreakpoints';
-import { WalletMenuReact } from '../types';
-import { WalletDropdown } from './WalletDropdown';
+import type { WalletMenuReact } from '../types';
 import { WalletBottomSheet } from './WalletBottomSheet';
+import { WalletDropdown } from './WalletDropdown';
 
 export function WalletMenu({ children, className }: WalletMenuReact) {
   const breakpoint = useBreakpoints();
