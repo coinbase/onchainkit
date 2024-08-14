@@ -1,7 +1,7 @@
 import type { WindowSizes } from '../types';
 
 const popupSizes: WindowSizes = {
-  sm: { width: '23vw', height: '28.75vw' },
+  sm: { width: '24.67vw', height: '30.83vw' },
   md: { width: '29vw', height: '36.25vw' },
   lg: { width: '35vw', height: '43.75vw' },
 };
