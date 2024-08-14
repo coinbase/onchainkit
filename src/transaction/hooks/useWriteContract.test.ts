@@ -1,10 +1,15 @@
 import { renderHook } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { useWriteContract as useWriteContractWagmi } from 'wagmi';
+import { isUserRejectedRequestError } from '../utils/isUserRejectedRequestError';
 import { useWriteContract } from './useWriteContract';
 
 vi.mock('wagmi', () => ({
   useWriteContract: vi.fn(),
+}));
+
+vi.mock('../utils/isUserRejectedRequestError', () => ({
+  isUserRejectedRequestError: vi.fn(),
 }));
 
 type UseWriteContractConfig = {
@@ -78,6 +83,38 @@ describe('useWriteContract', () => {
     });
   });
 
+  it('should handle user rejected error', () => {
+    const useRejectedError = new Error('Request denied.');
+    let onErrorCallback: ((error: Error) => void) | undefined;
+    (useWriteContractWagmi as ReturnType<typeof vi.fn>).mockImplementation(
+      ({ mutation }: UseWriteContractConfig) => {
+        onErrorCallback = mutation.onError;
+        return {
+          writeContractAsync: vi.fn(),
+          data: null,
+          status: 'error',
+        } as MockUseWriteContractReturn;
+      },
+    );
+    (isUserRejectedRequestError as vi.Mock).mockReturnValue(true);
+    renderHook(() =>
+      useWriteContract({
+        setLifeCycleStatus: mockSetLifeCycleStatus,
+        setTransactionHashArray: mockSetTransactionHashArray,
+      }),
+    );
+    expect(onErrorCallback).toBeDefined();
+    onErrorCallback?.(useRejectedError);
+    expect(mockSetLifeCycleStatus).toHaveBeenCalledWith({
+      statusName: 'error',
+      statusData: {
+        code: 'TmUWCh01',
+        error: 'Request denied.',
+        message: 'Request denied.',
+      },
+    });
+  });
+
   it('should handle successful transaction', () => {
     const transactionId = '0x123';
     let onSuccessCallback: ((id: string) => void) | undefined;
@@ -100,6 +137,34 @@ describe('useWriteContract', () => {
     expect(onSuccessCallback).toBeDefined();
     onSuccessCallback?.(transactionId);
     expect(mockSetTransactionHashArray).toHaveBeenCalledWith([transactionId]);
+  });
+
+  it('should handle multiple successful transactions', () => {
+    const transactionId = '0x123';
+    let onSuccessCallback: ((id: string) => void) | undefined;
+    (useWriteContractWagmi as ReturnType<typeof vi.fn>).mockImplementation(
+      ({ mutation }: UseWriteContractConfig) => {
+        onSuccessCallback = mutation.onSuccess;
+        return {
+          writeContractAsync: vi.fn(),
+          data: transactionId,
+          status: 'success',
+        } as MockUseWriteContractReturn;
+      },
+    );
+    renderHook(() =>
+      useWriteContract({
+        setLifeCycleStatus: mockSetLifeCycleStatus,
+        setTransactionHashArray: mockSetTransactionHashArray,
+        transactionHashArray: ['0x1234'],
+      }),
+    );
+    expect(onSuccessCallback).toBeDefined();
+    onSuccessCallback?.(transactionId);
+    expect(mockSetTransactionHashArray).toHaveBeenCalledWith([
+      '0x1234',
+      transactionId,
+    ]);
   });
 
   it('should handle uncaught errors', () => {

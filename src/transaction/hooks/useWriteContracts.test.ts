@@ -82,6 +82,36 @@ describe('useWriteContracts', () => {
     });
   });
 
+  it('should handle EOA specific error to fallback to writeContract', () => {
+    let onErrorCallback:
+      | ((error: TransactionExecutionError) => void)
+      | undefined;
+    (useWriteContractsWagmi as ReturnType<typeof vi.fn>).mockImplementation(
+      ({ mutation }: UseWriteContractsConfig) => {
+        onErrorCallback = mutation.onError;
+        return {
+          writeContracts: vi.fn(),
+          status: 'error',
+          message: 'this request method is not supported',
+        };
+      },
+    );
+    renderHook(() =>
+      useWriteContracts({
+        setLifeCycleStatus: mockSetLifeCycleStatus,
+        setTransactionId: mockSetTransactionId,
+      }),
+    );
+    expect(onErrorCallback).toBeDefined();
+    onErrorCallback?.({
+      cause: {
+        name: 'eoa-error',
+      },
+      message: 'this request method is not supported',
+    });
+    expect(mockSetLifeCycleStatus).not.toHaveBeenCalled();
+  });
+
   it('should handle successful transaction', () => {
     const transactionId = '0x123';
     let onSuccessCallback: ((id: string) => void) | undefined;
