@@ -1,6 +1,6 @@
 import { fill } from '../../styles/theme';
 
-export const FundWalletSvg = (
+export const fundWalletSvg = (
   <svg
     role="img"
     aria-label="fund-wallet-svg"

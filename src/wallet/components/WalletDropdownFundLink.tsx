@@ -1,13 +1,13 @@
-import { isValidElement, useCallback, useMemo } from 'react';
-import { FundWalletSvg } from '../../internal/svg/fundWallet';
+import { useCallback, useMemo } from 'react';
 import { cn, pressable, text as themeText } from '../../styles/theme';
 import { version } from '../../version';
+import { useIcon } from '../hooks/useIcon';
 import type { WalletDropdownFundLinkReact } from '../types';
 import { getWindowDimensions } from '../utils/getWindowDimensions';
 
 export function WalletDropdownFundLink({
   className,
-  icon,
+  icon = 'fundWallet',
   rel,
   popupFeatures,
   openIn = 'tab',
@@ -15,14 +15,7 @@ export function WalletDropdownFundLink({
   text = 'Fund wallet',
   popupSize = 'md',
 }: WalletDropdownFundLinkReact) {
-  const iconSvg = useMemo(() => {
-    if (icon === undefined) {
-      return FundWalletSvg;
-    }
-    if (isValidElement(icon)) {
-      return icon;
-    }
-  }, [icon]);
+  const iconSvg = useIcon({ icon });
 
   const currentURL = window.location.href;
   const tabName = document.title;
