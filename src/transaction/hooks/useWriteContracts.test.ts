@@ -8,6 +8,11 @@ vi.mock('wagmi/experimental', () => ({
   useWriteContracts: vi.fn(),
 }));
 
+vi.mock('wagmi', () => ({
+  useConfig: vi.fn(),
+  useWriteContracts: vi.fn(),
+}));
+
 describe('useWriteContracts', () => {
   const mockSetLifeCycleStatus = vi.fn();
   const mockSetTransactionId = vi.fn();
