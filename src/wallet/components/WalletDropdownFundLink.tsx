@@ -9,7 +9,7 @@ import { getWindowDimensions } from '../utils/getWindowDimensions';
 export function WalletDropdownFundLink({
   className,
   icon = 'fundWallet',
-  openIn = 'tab',
+  openIn = 'popup',
   popupSize = 'md',
   rel,
   target,
