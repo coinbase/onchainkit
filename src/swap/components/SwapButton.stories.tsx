@@ -38,7 +38,6 @@ const meta = {
   },
   args: {
     disabled: true,
-    onSubmit: fn(),
   },
 } satisfies Meta<typeof SwapButton>;
 
