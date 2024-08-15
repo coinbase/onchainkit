@@ -1,4 +1,5 @@
 import { useCallback, useMemo } from 'react';
+import { useEffect, useState } from 'react';
 import { cn, pressable, text as themeText } from '../../styles/theme';
 import { version } from '../../version';
 import { useIcon } from '../hooks/useIcon';
@@ -15,11 +16,20 @@ export function WalletDropdownFundLink({
   text = 'Fund wallet',
   popupSize = 'md',
 }: WalletDropdownFundLinkReact) {
+  const [fundingUrl, setFundingUrl] = useState('');
+
   const iconSvg = useIcon({ icon });
 
-  const currentURL = window.location.href;
-  const tabName = document.title;
-  const fundingUrl = `http://keys.coinbase.com/fund?dappName=${tabName}&dappUrl=${currentURL}&version=${version}&source=onchainkit`;
+  useEffect(() => {
+    const currentURL = window.location.href;
+    const tabName = document.title;
+    const url = `http://keys.coinbase.com/fund?dappName=${encodeURIComponent(
+      tabName,
+    )}&dappUrl=${encodeURIComponent(currentURL)}&version=${encodeURIComponent(
+      version,
+    )}&source=onchainkit`;
+    setFundingUrl(url);
+  }, []);
 
   const handleClick = useCallback(
     (e: React.MouseEvent) => {
