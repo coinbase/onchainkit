@@ -5,6 +5,7 @@ import { isUserRejectedRequestError } from '../utils/isUserRejectedRequestError'
 import { useWriteContract } from './useWriteContract';
 
 vi.mock('wagmi', () => ({
+  useConfig: vi.fn(),
   useWriteContract: vi.fn(),
 }));
 
