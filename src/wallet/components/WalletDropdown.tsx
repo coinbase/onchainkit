@@ -1,10 +1,13 @@
 import { Children, cloneElement, isValidElement, useMemo } from 'react';
 import { useAccount } from 'wagmi';
+import useBreakpoints from '../../useBreakpoints';
 import { Identity } from '../../identity/components/Identity';
 import { background, cn } from '../../styles/theme';
 import type { WalletDropdownReact } from '../types';
+import { WalletBottomSheet } from './WalletBottomSheet';
 
 export function WalletDropdown({ children, className }: WalletDropdownReact) {
+  const breakpoint = useBreakpoints();
   const { address } = useAccount();
 
   const childrenArray = useMemo(() => {
@@ -19,6 +22,16 @@ export function WalletDropdown({ children, className }: WalletDropdownReact) {
 
   if (!address) {
     return null;
+  }
+
+  if (!breakpoint) {
+    return null;
+  }
+
+  if (breakpoint === 'sm') {
+    return (
+      <WalletBottomSheet className={className}>{children}</WalletBottomSheet>
+    );
   }
 
   return (

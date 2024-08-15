@@ -138,7 +138,6 @@ export type WalletMenuReact = {
   className?: string; // Optional className override for top div element
 };
 
-
 export type WindowSizes = Record<
   'sm' | 'md' | 'lg',
   {
@@ -146,3 +145,4 @@ export type WindowSizes = Record<
     height: string;
   }
 >;
+
