@@ -182,38 +182,6 @@ When using popup mode, you're able to customize the size of the popup window usi
   </Wallet>
 </WalletComponents>
 
-You're also able to manually set values for the popup window by providing a `popupFeatures` prop.
-See the [Mozilla docs](https://developer.mozilla.org/en-US/docs/Web/API/Window/open#windowfeatures) for documentation on this parameter.
-
-```tsx
-// omitted for brevity
-
-<Wallet>
-  <ConnectWallet>
-    ...
-  </ConnectWallet>
-  <WalletDropdown>
-    ...
-    <WalletDropdownFundLink
-      openIn="popup" // [!code focus]
-      popupFeatures="width=500,height=500" /> // [!code focus]
-  </WalletDropdown>
-</Wallet>
-```
-
-<WalletComponents>
-  <Wallet>
-    <ConnectWallet>
-      <Avatar className="h-6 w-6" />
-      <Name />
-    </ConnectWallet>
-    <WalletDropdown>
-      <WalletDropdownFundLink openIn="popup" popupFeatures="width=500,height=500" />
-      <WalletDropdownDisconnect />
-    </WalletDropdown>
-  </Wallet>
-</WalletComponents>
-
 ## Props
 
 - [`WalletDropdownFundLinkReact`](/wallet/types#walletdropdownfundlinkreact)
