@@ -9,12 +9,12 @@ import { getWindowDimensions } from '../utils/getWindowDimensions';
 export function WalletDropdownFundLink({
   className,
   icon = 'fundWallet',
-  rel,
-  popupFeatures,
   openIn = 'tab',
+  popupFeatures,
+  popupSize = 'md',
+  rel,
   target,
   text = 'Fund wallet',
-  popupSize = 'md',
 }: WalletDropdownFundLinkReact) {
   const [fundingUrl, setFundingUrl] = useState('');
 
