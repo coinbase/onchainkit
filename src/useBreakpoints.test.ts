@@ -1,5 +1,5 @@
 import { act, renderHook } from '@testing-library/react';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { useBreakpoints } from './useBreakpoints';
 
 const createMatchMediaMock = (query: string) => ({
@@ -41,7 +41,7 @@ describe('useBreakpoints', () => {
   });
 
   it('should return md when no breakpoints match', () => {
-    (window.matchMedia as jest.Mock) = (query: string) =>
+    (window.matchMedia as jest.Mock) = (_query: string) =>
       ({
         matches: false,
         addEventListener: vi.fn(),
