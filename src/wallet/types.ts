@@ -137,4 +137,3 @@ export type WindowSizes = Record<
     height: string;
   }
 >;
-

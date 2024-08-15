@@ -8,12 +8,7 @@ const createMatchMediaMock = (query: string) => ({
   removeEventListener: vi.fn(),
 });
 
-const mockMatchMedia = (query: string) => createMatchMediaMock(query);
-
 describe('useBreakpoints', () => {
-  beforeEach(() => {
-    (window.matchMedia as jest.Mock) = mockMatchMedia;
-  });
   it('should set the breakpoint based on the window size', () => {
     (window.matchMedia as jest.Mock) = createMatchMediaMock;
 
@@ -43,5 +38,18 @@ describe('useBreakpoints', () => {
     });
 
     expect(result.current).toBe('sm');
+  });
+
+  it('should return md when no breakpoints match', () => {
+    (window.matchMedia as jest.Mock) = (query: string) =>
+      ({
+        matches: false,
+        addEventListener: vi.fn(),
+        removeEventListener: vi.fn(),
+      }) as unknown as MediaQueryList;
+
+    const { result } = renderHook(() => useBreakpoints());
+
+    expect(result.current).toBe('md');
   });
 });

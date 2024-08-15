@@ -1,16 +1,34 @@
 import '@testing-library/jest-dom';
-import { render, screen } from '@testing-library/react';
+import { render, renderHook, screen, waitFor } from '@testing-library/react';
 import { useAccount } from 'wagmi';
+import { Identity } from '../../identity/components/Identity';
+import {
+  IdentityProvider,
+  useIdentityContext,
+} from '../../identity/components/IdentityProvider';
 import useBreakpoints from '../../useBreakpoints';
 import { WalletDropdown } from './WalletDropdown';
+import { useWalletContext } from './WalletProvider';
 
 vi.mock('wagmi', () => ({
   useAccount: vi.fn(),
 }));
 
+vi.mock('./WalletProvider', () => ({
+  useWalletContext: vi.fn(),
+}));
+
 vi.mock('../../useBreakpoints', () => ({
   default: vi.fn(),
 }));
+
+vi.mock('../../identity/components/Identity', () => ({
+  Identity: vi.fn(({ address, children }) => (
+    <IdentityProvider address={address}>{children}</IdentityProvider>
+  )),
+}));
+
+const useWalletContextMock = useWalletContext as vi.Mock;
 
 const useAccountMock = useAccount as vi.Mock;
 const useBreakpointsMock = useBreakpoints as vi.Mock;
@@ -20,13 +38,11 @@ describe('WalletDropdown', () => {
     vi.clearAllMocks();
   });
 
-  it('does not render anything if address is not available', () => {
-    useAccountMock.mockReturnValue({ address: null });
-    useBreakpointsMock.mockReturnValue('sm');
-
-    render(<WalletDropdown>Content</WalletDropdown>);
-
-    expect(screen.queryByText('Content')).not.toBeInTheDocument();
+  it('renders null when address is not provided', () => {
+    useAccountMock.mockReturnValue({ address: undefined });
+    useWalletContextMock.mockReturnValue({ isOpen: true });
+    render(<WalletDropdown>Test Children</WalletDropdown>);
+    expect(screen.queryByText('Test Children')).not.toBeInTheDocument();
   });
 
   it('does not render anything if breakpoint is not defined', () => {
@@ -60,5 +76,23 @@ describe('WalletDropdown', () => {
 
     expect(dropdown).toBeInTheDocument();
     expect(dropdown).toHaveClass('dropdown');
+  });
+
+  it('injects address prop to Identity component', async () => {
+    const address = '0x123';
+    useWalletContextMock.mockReturnValue({ isOpen: true });
+    useAccountMock.mockReturnValue({ address });
+
+    const { result } = renderHook(() => useIdentityContext(), {
+      wrapper: ({ children }) => (
+        <WalletDropdown>
+          <Identity>{children}</Identity>
+        </WalletDropdown>
+      ),
+    });
+
+    await waitFor(() => {
+      expect(result.current.address).toEqual(address);
+    });
   });
 });
