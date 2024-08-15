@@ -1,7 +1,7 @@
-import { PHASE_PRODUCTION_BUILD } from 'next/constants.js';
+import { PHASE_PRODUCTION_SERVER } from 'next/constants.js';
  
 export default (phase) => {
-  const isDev = phase === PHASE_PRODUCTION_BUILD;
+  const isDev = phase === PHASE_PRODUCTION_SERVER;
   /**
    * @type {import('next').NextConfig}
    */

@@ -4,9 +4,9 @@
 
 ### Patch Changes
 
-- a17237a: - **feat**: `WalletDropdownFundLink` small improvements. By @0xAlec #1070
-  - **feat**: better handling of `FrameButton` post actions. By @brendan-defi #1053
-  - **fix**: default accountChain for `Identity` component. By @zizzamia #1071
+- **feat**: `WalletDropdownFundLink` small improvements. By @0xAlec #1070 a17237a
+- **feat**: better handling of `FrameButton` post actions. By @brendan-defi #1053
+- **fix**: default accountChain for `Identity` component. By @zizzamia #1071
 
 ## 0.29.0
 
