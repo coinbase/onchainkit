@@ -1,4 +1,5 @@
 import type { FrameMetadataResponse, FrameMetadataType } from '../types';
+import { setFrameMetadataButtons } from './setFrameMetadataButtons';
 
 /**
  * This function generates the metadata for a Farcaster Frame.
@@ -36,18 +37,7 @@ export const getFrameMetadata = ({
     metadata['fc:frame:input:text'] = input.text;
   }
   if (buttons) {
-    buttons.forEach((button, index) => {
-      metadata[`fc:frame:button:${index + 1}`] = button.label;
-      if (button.action) {
-        metadata[`fc:frame:button:${index + 1}:action`] = button.action;
-      }
-      if (button.target) {
-        metadata[`fc:frame:button:${index + 1}:target`] = button.target;
-      }
-      if (button.action && button.action === 'tx' && button.postUrl) {
-        metadata[`fc:frame:button:${index + 1}:post_url`] = button.postUrl;
-      }
-    });
+    setFrameMetadataButtons(metadata, buttons);
   }
   if (postUrlToUse) {
     metadata['fc:frame:post_url'] = postUrlToUse;
