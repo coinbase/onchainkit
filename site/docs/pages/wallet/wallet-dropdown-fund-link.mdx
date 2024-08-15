@@ -1,0 +1,219 @@
+---
+title: Wallet Components & Utilities · OnchainKit
+description: Introduction to Wallet Components & Utilities
+---
+
+import { 
+  ConnectWallet,
+  Wallet,
+  WalletDropdown,
+  WalletDropdownFundLink,
+  WalletDropdownLink,
+  WalletDropdownDisconnect,
+} from '../src/wallet';
+import {
+  Address,
+  Avatar,
+  Name,
+  Identity,
+  EthBalance,
+} from '../src/identity';
+import { color } from '@coinbase/onchainkit/theme';
+import AppWithRK from '../../components/AppWithRK';
+import WalletComponents from '../../components/WalletComponents';
+
+# `<WalletDropdownFundLink />`
+
+The Wallet Dropdown Fund Link provides an easy way for to access the [Funding](https://keys.coinbase.com/funding) flow for a Coinbase Smart Wallet.
+
+## Usage
+
+```tsx
+import {
+  ConnectWallet,
+  Wallet,
+  WalletDropdown,
+  WalletDropdownLink,
+  WalletDropdownDisconnect,
+  WalletDropdownFundLink, // [!code focus]
+} from '@coinbase/onchainkit/wallet'; // [!code focus]
+import {
+  Address,
+  Avatar,
+  Name,
+  Identity,
+  EthBalance,
+} from '@coinbase/onchainkit/identity';
+import { color } from '@coinbase/onchainkit/theme';
+
+export function WalletComponents() {
+  return (
+    <div className="flex justify-end">
+      <Wallet>
+        <ConnectWallet>
+          <Avatar className="h-6 w-6" />
+          <Name />
+        </ConnectWallet>
+        <WalletDropdown>
+          <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick>
+            <Avatar />
+            <Name />
+            <Address />
+            <EthBalance />
+          </Identity>
+          <WalletDropdownFundLink /> // [!code focus]
+          <WalletDropdownLink icon="wallet" href="https://wallet.coinbase.com">
+            Wallet
+          </WalletDropdownLink>
+          <WalletDropdownDisconnect />
+        </WalletDropdown>
+      </Wallet>
+    </div>
+  );
+}
+```
+
+<WalletComponents>
+  <Wallet>
+    <ConnectWallet>
+      <Avatar className="h-6 w-6" />
+      <Name />
+    </ConnectWallet>
+    <WalletDropdown>
+      <WalletDropdownFundLink />
+      <WalletDropdownLink icon="wallet" href="https://wallet.coinbase.com">
+        Wallet
+      </WalletDropdownLink>
+      <WalletDropdownDisconnect />
+    </WalletDropdown>
+  </Wallet>
+</WalletComponents>
+
+### Override text
+
+You can override component text using the `text` prop.
+
+```tsx
+// omitted for brevity
+
+<Wallet>
+  <ConnectWallet>
+    ...
+  </ConnectWallet>
+  <WalletDropdown>
+    ...
+    <WalletDropdownFundLink text="Add crypto" /> // [!code focus]
+  </WalletDropdown>
+</Wallet>
+```
+
+<WalletComponents>
+  <Wallet>
+    <ConnectWallet>
+      <Avatar className="h-6 w-6" />
+      <Name />
+    </ConnectWallet>
+    <WalletDropdown>
+      <WalletDropdownFundLink text="Add crypto" />
+      <WalletDropdownDisconnect />
+    </WalletDropdown>
+  </Wallet>
+</WalletComponents>
+
+### Open in window
+
+You can override default link behavior to open the funding flow in a popup window by using the `openIn` prop.
+
+```tsx
+// omitted for brevity
+
+<Wallet>
+  <ConnectWallet>
+    ...
+  </ConnectWallet>
+  <WalletDropdown>
+    ...
+    <WalletDropdownFundLink openIn="popup" /> // [!code focus]
+  </WalletDropdown>
+</Wallet>
+```
+
+<WalletComponents>
+  <Wallet>
+    <ConnectWallet>
+      <Avatar className="h-6 w-6" />
+      <Name />
+    </ConnectWallet>
+    <WalletDropdown>
+      <WalletDropdownFundLink openIn="popup" />
+      <WalletDropdownDisconnect />
+    </WalletDropdown>
+  </Wallet>
+</WalletComponents>
+
+### Customizing the window size
+
+When using popup mode, you're able to customize the size of the popup window using the `popupSize` prop. Valid values are `sm`, `md`, and `lg`.
+
+```tsx
+// omitted for brevity
+
+<Wallet>
+  <ConnectWallet>
+    ...
+  </ConnectWallet>
+  <WalletDropdown>
+    ...
+    <WalletDropdownFundLink openIn="popup" popupSize="sm" /> // [!code focus]
+  </WalletDropdown>
+</Wallet>
+```
+
+<WalletComponents>
+  <Wallet>
+    <ConnectWallet>
+      <Avatar className="h-6 w-6" />
+      <Name />
+    </ConnectWallet>
+    <WalletDropdown>
+      <WalletDropdownFundLink openIn="popup" popupSize="sm" />
+      <WalletDropdownDisconnect />
+    </WalletDropdown>
+  </Wallet>
+</WalletComponents>
+
+You're also able to manually set values for the popup window by providing a `popupFeatures` prop.
+See the [Mozilla docs](https://developer.mozilla.org/en-US/docs/Web/API/Window/open#windowfeatures) for documentation on this parameter.
+
+```tsx
+// omitted for brevity
+
+<Wallet>
+  <ConnectWallet>
+    ...
+  </ConnectWallet>
+  <WalletDropdown>
+    ...
+    <WalletDropdownFundLink
+      openIn="popup" // [!code focus]
+      popupFeatures="width=500,height=500" /> // [!code focus]
+  </WalletDropdown>
+</Wallet>
+```
+
+<WalletComponents>
+  <Wallet>
+    <ConnectWallet>
+      <Avatar className="h-6 w-6" />
+      <Name />
+    </ConnectWallet>
+    <WalletDropdown>
+      <WalletDropdownFundLink openIn="popup" popupFeatures="width=500,height=500" />
+      <WalletDropdownDisconnect />
+    </WalletDropdown>
+  </Wallet>
+</WalletComponents>
+
+## Props
+
+- [`WalletDropdownFundLinkReact`](/wallet/types#walletdropdownfundlinkreact)
