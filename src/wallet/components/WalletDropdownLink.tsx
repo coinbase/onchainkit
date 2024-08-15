@@ -1,6 +1,5 @@
-import { isValidElement, useMemo } from 'react';
-import { walletSvg } from '../../internal/svg/walletSvg';
 import { cn, pressable, text } from '../../styles/theme';
+import { useIcon } from '../hooks/useIcon';
 import type { WalletDropdownLinkReact } from '../types';
 
 export function WalletDropdownLink({
@@ -11,18 +10,7 @@ export function WalletDropdownLink({
   rel,
   target,
 }: WalletDropdownLinkReact) {
-  const iconSvg = useMemo(() => {
-    if (icon === undefined) {
-      return null;
-    }
-    switch (icon) {
-      case 'wallet':
-        return walletSvg;
-    }
-    if (isValidElement(icon)) {
-      return icon;
-    }
-  }, [icon]);
+  const iconSvg = useIcon({ icon });
 
   return (
     <a

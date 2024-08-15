@@ -99,6 +99,20 @@ export type WalletDropdownDisconnectReact = {
 /**
  * Note: exported as public Type
  */
+export type WalletDropdownFundLinkReact = {
+  className?: string; // Optional className override for the element
+  icon?: ReactNode; // Optional icon override
+  openIn?: 'popup' | 'tab'; // Whether to open the funding flow in a tab or a popup window
+  popupFeatures?: string; // Optional features override for the popup window if `openIn` is set to `popup`
+  popupSize?: 'sm' | 'md' | 'lg'; // Size of the popup window if `openIn` is set to `popup`
+  rel?: string; // Specifies the relationship between the current document and the linked document
+  target?: string; // Where to open the target if `openIn` is set to tab
+  text?: string; // Optional text override
+};
+
+/**
+ * Note: exported as public Type
+ */
 export type WalletDropdownLinkReact = {
   children: string;
   className?: string; // Optional className override for the element
@@ -107,3 +121,11 @@ export type WalletDropdownLinkReact = {
   rel?: string;
   target?: string;
 };
+
+export type WindowSizes = Record<
+  'sm' | 'md' | 'lg',
+  {
+    width: string;
+    height: string;
+  }
+>;
