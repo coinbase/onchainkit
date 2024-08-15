@@ -130,14 +130,6 @@ export type WalletDropdownLinkReact = {
   target?: string;
 };
 
-/**
- * Note: exported as public Type
- */
-export type WalletMenuReact = {
-  children: React.ReactNode;
-  className?: string; // Optional className override for top div element
-};
-
 export type WindowSizes = Record<
   'sm' | 'md' | 'lg',
   {
