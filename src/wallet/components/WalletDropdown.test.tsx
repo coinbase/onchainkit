@@ -6,6 +6,7 @@ import {
   IdentityProvider,
   useIdentityContext,
 } from '../../identity/components/IdentityProvider';
+import useBreakpoints from '../../useBreakpoints';
 import { WalletDropdown } from './WalletDropdown';
 import { useWalletContext } from './WalletProvider';
 
@@ -17,6 +18,10 @@ vi.mock('./WalletProvider', () => ({
   useWalletContext: vi.fn(),
 }));
 
+vi.mock('../../useBreakpoints', () => ({
+  default: vi.fn(),
+}));
+
 vi.mock('../../identity/components/Identity', () => ({
   Identity: vi.fn(({ address, children }) => (
     <IdentityProvider address={address}>{children}</IdentityProvider>
@@ -24,25 +29,53 @@ vi.mock('../../identity/components/Identity', () => ({
 }));
 
 const useWalletContextMock = useWalletContext as vi.Mock;
+
 const useAccountMock = useAccount as vi.Mock;
+const useBreakpointsMock = useBreakpoints as vi.Mock;
 
 describe('WalletDropdown', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
   it('renders null when address is not provided', () => {
+    useAccountMock.mockReturnValue({ address: undefined });
     useWalletContextMock.mockReturnValue({ isOpen: true });
-    useAccountMock.mockReturnValue({ address: null });
-
     render(<WalletDropdown>Test Children</WalletDropdown>);
-
     expect(screen.queryByText('Test Children')).not.toBeInTheDocument();
   });
 
-  it('renders children when isOpen is true and address is provided', () => {
-    useWalletContextMock.mockReturnValue({ isOpen: true });
+  it('does not render anything if breakpoint is not defined', () => {
     useAccountMock.mockReturnValue({ address: '0x123' });
+    useBreakpointsMock.mockReturnValue(null);
 
-    render(<WalletDropdown>Test Children</WalletDropdown>);
+    render(<WalletDropdown>Content</WalletDropdown>);
 
-    expect(screen.getByText('Test Children')).toBeInTheDocument();
+    expect(screen.queryByText('Content')).not.toBeInTheDocument();
+  });
+
+  it('renders WalletBottomSheet when breakpoint is "sm"', () => {
+    useAccountMock.mockReturnValue({ address: '0x123' });
+    useBreakpointsMock.mockReturnValue('sm');
+
+    render(<WalletDropdown className="bottom-sheet">Content</WalletDropdown>);
+
+    const bottomSheet = screen.getByTestId('ockWalletBottomSheet');
+
+    expect(bottomSheet).toBeInTheDocument();
+    expect(bottomSheet).toHaveClass('bottom-sheet');
+  });
+
+  it('renders WalletDropdown when breakpoint is not "sm"', () => {
+    useAccountMock.mockReturnValue({ address: '0x123' });
+    useBreakpointsMock.mockReturnValue('md');
+
+    render(<WalletDropdown className="dropdown">Content</WalletDropdown>);
+
+    const dropdown = screen.getByTestId('ockWalletDropdown');
+
+    expect(dropdown).toBeInTheDocument();
+    expect(dropdown).toHaveClass('dropdown');
   });
 
   it('injects address prop to Identity component', async () => {
