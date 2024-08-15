@@ -29,6 +29,7 @@ export function ActiveComponent() {
             Transaction
           </SelectItem>
           <SelectItem value={OnchainKitComponent.Swap}>Swap</SelectItem>
+          <SelectItem value={OnchainKitComponent.Wallet}>Wallet</SelectItem>
         </SelectContent>
       </Select>
     </div>
