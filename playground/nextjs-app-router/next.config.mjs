@@ -1,18 +1,18 @@
 import { PHASE_PRODUCTION_BUILD } from 'next/constants.js';
  
-export default (phase, { defaultConfig }) => {
+export default (phase) => {
   console.log('\n\n\n\n\n\n\n')
   console.log('-------- YO 4 --------------');
-  console.log('phase', phase);
   console.log('env', process.env);
-  console.log('env.yo', defaultConfig.env);
   console.log('\n\n\n\n\n\n\n')
-  const isProd = phase === PHASE_PRODUCTION_BUILD;
+  const isProdBuild = phase === PHASE_PRODUCTION_BUILD;
+  const isVercelProd = process.env.VERCEL_ENV === 'production';
+  const assetPrefix = isProdBuild && isVercelProd ? 'https://onchainkit.xyz/playground' : '';
   /**
    * @type {import('next').NextConfig}
    */
   const nextConfig = {
-    assetPrefix: isProd ? 'https://onchainkit.xyz/playground' : undefined,
+    assetPrefix,
     typescript: {
       ignoreBuildErrors: true,
     }
