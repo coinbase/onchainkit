@@ -10,7 +10,6 @@ export function WalletDropdownFundLink({
   className,
   icon = 'fundWallet',
   openIn = 'tab',
-  popupFeatures,
   popupSize = 'md',
   rel,
   target,
@@ -39,12 +38,10 @@ export function WalletDropdownFundLink({
       const left = Math.round((window.screen.width - width) / 2);
       const top = Math.round((window.screen.height - height) / 2);
 
-      const windowFeatures =
-        popupFeatures ||
-        `width=${width},height=${height},resizable,scrollbars=yes,status=1,left=${left},top=${top}`;
+      const windowFeatures = `width=${width},height=${height},resizable,scrollbars=yes,status=1,left=${left},top=${top}`;
       window.open(fundingUrl, target, windowFeatures);
     },
-    [fundingUrl, popupFeatures, popupSize, target],
+    [fundingUrl, popupSize, target],
   );
 
   const overrideClassName = cn(
