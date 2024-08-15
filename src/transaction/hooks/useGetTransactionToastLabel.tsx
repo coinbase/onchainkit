@@ -5,6 +5,8 @@ import { useTransactionContext } from '../components/TransactionProvider';
 export function useGetTransactionToastLabel() {
   const { errorMessage, isLoading, receipt, transactionHash, transactionId } =
     useTransactionContext();
+
+  // user confirmed in wallet, txn in progress
   const isInProgress = isLoading || !!transactionId || !!transactionHash;
 
   return useMemo(() => {

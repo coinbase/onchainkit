@@ -12,6 +12,7 @@ export function TransactionToastIcon({ className }: TransactionToastIconReact) {
   const isInProgress = isLoading || !!transactionId || !!transactionHash;
 
   const icon = useMemo(() => {
+    // txn successful
     if (receipt) {
       return successSvg;
     }

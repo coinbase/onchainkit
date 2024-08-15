@@ -12,7 +12,10 @@ export function useGetTransactionStatusLabel() {
     transactionHash,
     transactionId,
   } = useTransactionContext();
+  // user confirmed in wallet, txn in progress
   const isInProgress = isLoading || !!transactionId || !!transactionHash;
+
+  // user started txn and needs to confirm in wallet
   const isPending =
     statusWriteContract === 'pending' || statusWriteContracts === 'pending';
 

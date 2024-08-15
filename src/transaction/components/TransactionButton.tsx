@@ -52,6 +52,7 @@ export function TransactionButton({
   });
 
   const buttonContent = useMemo(() => {
+    // txn successful
     if (receipt) {
       return 'View transaction';
     }
@@ -62,8 +63,10 @@ export function TransactionButton({
   }, [buttonText, errorMessage, receipt]);
 
   const handleSubmit = useCallback(() => {
+    // SW will have txn id so open in wallet
     if (receipt && transactionId) {
       showCallsStatus({ id: transactionId });
+      // EOA will not have txn id so open in explorer
     } else if (receipt) {
       const chainExplorer = getChainExplorer(accountChainId);
       window.open(
@@ -72,6 +75,7 @@ export function TransactionButton({
         'noopener,noreferrer',
       );
     } else {
+      // if no receipt, submit txn
       onSubmit();
     }
   }, [
