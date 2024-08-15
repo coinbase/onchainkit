@@ -1,7 +1,7 @@
 {
   "rewrites": [
     {
-      "source": "/playground/",
+      "source": "/playground",
       "destination": "https://onchainkit-bsvq.vercel.app/"
     },
     {
