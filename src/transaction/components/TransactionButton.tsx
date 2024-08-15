@@ -1,6 +1,8 @@
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
+import { useChainId } from 'wagmi';
+import { useShowCallsStatus } from 'wagmi/experimental';
 import { Spinner } from '../../internal/components/Spinner';
-import { checkmarkSvg } from '../../internal/svg/checkmarkSvg';
+import { getChainExplorer } from '../../network/getChainExplorer';
 import { background, cn, color, pressable, text } from '../../styles/theme';
 import type { TransactionButtonReact } from '../types';
 import { isSpinnerDisplayed } from '../utils/isSpinnerDisplayed';
@@ -14,6 +16,7 @@ export function TransactionButton({
   const {
     address,
     contracts,
+    chainId,
     errorMessage,
     isLoading,
     onSubmit,
@@ -23,6 +26,9 @@ export function TransactionButton({
     transactionHash,
     transactionId,
   } = useTransactionContext();
+
+  const accountChainId = chainId ?? useChainId();
+  const { showCallsStatus } = useShowCallsStatus();
 
   const isInProgress =
     statusWriteContract === 'pending' ||
@@ -46,14 +52,40 @@ export function TransactionButton({
   });
 
   const buttonContent = useMemo(() => {
+    // txn successful
     if (receipt) {
-      return checkmarkSvg;
+      return 'View transaction';
     }
     if (errorMessage) {
       return 'Try again';
     }
     return buttonText;
   }, [buttonText, errorMessage, receipt]);
+
+  const handleSubmit = useCallback(() => {
+    // SW will have txn id so open in wallet
+    if (receipt && transactionId) {
+      showCallsStatus({ id: transactionId });
+      // EOA will not have txn id so open in explorer
+    } else if (receipt) {
+      const chainExplorer = getChainExplorer(accountChainId);
+      window.open(
+        `${chainExplorer}/tx/${transactionHash}`,
+        '_blank',
+        'noopener,noreferrer',
+      );
+    } else {
+      // if no receipt, submit txn
+      onSubmit();
+    }
+  }, [
+    accountChainId,
+    onSubmit,
+    receipt,
+    showCallsStatus,
+    transactionHash,
+    transactionId,
+  ]);
 
   return (
     <button
@@ -65,7 +97,7 @@ export function TransactionButton({
         text.headline,
         className,
       )}
-      onClick={onSubmit}
+      onClick={handleSubmit}
       type="button"
       disabled={isDisabled}
     >
