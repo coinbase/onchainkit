@@ -8,6 +8,7 @@ import { WalletPreference } from './form/wallet-type';
 export enum OnchainKitComponent {
   Transaction = 'transaction',
   Swap = 'swap',
+  Wallet = 'wallet',
 }
 export type Paymaster = {
   url: string;

@@ -1,18 +1,31 @@
 import { fireEvent, render, screen } from '@testing-library/react';
-import { expect, it, vi } from 'vitest';
-import { version } from '../../version';
+import { afterEach, beforeEach, expect, it, vi } from 'vitest';
 import type { WindowSizes } from '../types';
 import { WalletDropdownFundLink } from './WalletDropdownFundLink';
 
-const FUNDING_URL = `http://keys.coinbase.com/fund?dappName=&dappUrl=http%3A%2F%2Flocalhost%3A3000%2F&version=${version}&source=onchainkit`;
-
 describe('WalletDropdownFundLink', () => {
+  beforeEach(() => {
+    // Mock window.location
+    vi.spyOn(window, 'location', 'get').mockReturnValue({
+      href: 'http://localhost:3000/',
+    } as Location);
+
+    // Mock document.title
+    Object.defineProperty(document, 'title', {
+      value: '',
+      writable: true,
+    });
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
   it('renders correctly with default props', () => {
     render(<WalletDropdownFundLink />);
 
-    const linkElement = screen.getByRole('link');
-    expect(linkElement).toBeInTheDocument();
-    expect(linkElement).toHaveAttribute('href', FUNDING_URL);
+    const buttonElement = screen.getByRole('button');
+    expect(buttonElement).toBeInTheDocument();
     expect(screen.getByText('Fund wallet')).toBeInTheDocument();
   });
 
@@ -20,9 +33,8 @@ describe('WalletDropdownFundLink', () => {
     const customIcon = <svg aria-label="custom-icon" />;
     render(<WalletDropdownFundLink icon={customIcon} />);
 
-    const linkElement = screen.getByRole('link');
-    expect(linkElement).toBeInTheDocument();
-    expect(linkElement).toHaveAttribute('href', FUNDING_URL);
+    const buttonElement = screen.getByRole('button');
+    expect(buttonElement).toBeInTheDocument();
     expect(screen.getByText('Fund wallet')).toBeInTheDocument();
     expect(screen.getByLabelText('custom-icon')).toBeInTheDocument();
   });
@@ -30,13 +42,12 @@ describe('WalletDropdownFundLink', () => {
   it('renders correctly with custom text', () => {
     render(<WalletDropdownFundLink text="test" />);
 
-    const linkElement = screen.getByRole('link');
-    expect(linkElement).toBeInTheDocument();
-    expect(linkElement).toHaveAttribute('href', FUNDING_URL);
+    const buttonElement = screen.getByRole('button');
+    expect(buttonElement).toBeInTheDocument();
     expect(screen.getByText('test')).toBeInTheDocument();
   });
 
-  it('opens a new window when clicked with type="window" (default size medium)', () => {
+  it('opens a new window when clicked with openIn="popup" (default size medium)', () => {
     // Mock window.open
     const mockOpen = vi.fn();
     vi.stubGlobal('open', mockOpen);
@@ -46,8 +57,8 @@ describe('WalletDropdownFundLink', () => {
 
     render(<WalletDropdownFundLink openIn="popup" />);
 
-    const linkElement = screen.getByText('Fund wallet');
-    fireEvent.click(linkElement);
+    const buttonElement = screen.getByText('Fund wallet');
+    fireEvent.click(buttonElement);
 
     // Check if window.open was called with the correct arguments
     expect(mockOpen).toHaveBeenCalledWith(
@@ -60,6 +71,18 @@ describe('WalletDropdownFundLink', () => {
 
     // Clean up
     vi.unstubAllGlobals();
+  });
+
+  it('renders as a link when openIn="tab"', () => {
+    render(<WalletDropdownFundLink openIn="tab" />);
+
+    const linkElement = screen.getByRole('link');
+    expect(linkElement).toBeInTheDocument();
+    expect(linkElement).toHaveAttribute(
+      'href',
+      expect.stringContaining('http://keys.coinbase.com/fund'),
+    );
+    expect(screen.getByText('Fund wallet')).toBeInTheDocument();
   });
 
   const testCases: WindowSizes = {

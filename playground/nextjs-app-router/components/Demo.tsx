@@ -7,6 +7,7 @@ import { WalletType } from '@/components/form/wallet-type';
 import { useContext } from 'react';
 import SwapDemo from './demo/Swap';
 import TransactionDemo from './demo/Transaction';
+import WalletDemo from './demo/Wallet';
 import { ActiveComponent } from './form/active-component';
 
 function Demo() {
@@ -15,7 +16,7 @@ function Demo() {
   console.log('activeComponent', activeComponent);
   console.log(
     'activeComponent is transaction',
-    activeComponent === OnchainKitComponent.Transaction,
+    activeComponent === OnchainKitComponent.Transaction
   );
 
   return (
@@ -43,6 +44,8 @@ function Demo() {
             <TransactionDemo />
           ) : activeComponent === OnchainKitComponent.Swap ? (
             <SwapDemo />
+          ) : activeComponent === OnchainKitComponent.Wallet ? (
+            <WalletDemo />
           ) : (
             <></>
           )}
