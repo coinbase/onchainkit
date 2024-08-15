@@ -133,10 +133,10 @@ describe('TransactionProvider', () => {
     });
   });
 
-  it('should call onsuccess when receipt exists', async () => {
+  it('should call onSuccess when one receipt exist', async () => {
     const onSuccessMock = vi.fn();
     (useWaitForTransactionReceipt as ReturnType<typeof vi.fn>).mockReturnValue({
-      data: '123',
+      data: { status: 'success' },
     });
     (useCallsStatus as ReturnType<typeof vi.fn>).mockReturnValue({
       transactionHash: 'hash',
@@ -144,7 +144,7 @@ describe('TransactionProvider', () => {
     render(
       <TransactionProvider
         address="0x123"
-        contracts={[]}
+        contracts={[{ address: '0x123', method: 'method' }]}
         onSuccess={onSuccessMock}
       >
         <TestComponent />
@@ -154,7 +154,14 @@ describe('TransactionProvider', () => {
     fireEvent.click(button);
     await waitFor(() => {
       expect(onSuccessMock).toHaveBeenCalled();
+      expect(onSuccessMock).toHaveBeenCalledWith({
+        transactionReceipts: [{ status: 'success' }],
+      });
     });
+  });
+
+  it('should call onSuccess when many receipts are available', async () => {
+    // todo: implement test
   });
 
   it('should handle errors during submission', async () => {
@@ -249,30 +256,6 @@ describe('TransactionProvider', () => {
     await waitFor(() => {
       const errorMessage = screen.getByTestId('context-value-errorMessage');
       expect(errorMessage.textContent).toBe('Request denied.');
-    });
-  });
-
-  it('should call onSuccess when receipts are available', async () => {
-    const onSuccessMock = vi.fn();
-    (useWaitForTransactionReceipt as ReturnType<typeof vi.fn>).mockReturnValue({
-      data: { status: 'success' },
-    });
-    (useCallsStatus as ReturnType<typeof vi.fn>).mockReturnValue({
-      transactionHash: 'hash',
-    });
-    render(
-      <TransactionProvider
-        address="0x123"
-        contracts={[]}
-        onSuccess={onSuccessMock}
-      >
-        <TestComponent />
-      </TransactionProvider>,
-    );
-    await waitFor(() => {
-      expect(onSuccessMock).toHaveBeenCalledWith({
-        transactionReceipts: [{ status: 'success' }],
-      });
     });
   });
 
@@ -380,34 +363,6 @@ describe('TransactionProvider', () => {
       expect(screen.getByTestId('context-value-errorMessage').textContent).toBe(
         'Something went wrong. Please try again.',
       );
-    });
-  });
-
-  it('should call onSuccess when receiptArray has receipts', async () => {
-    const onSuccessMock = vi.fn();
-    const mockReceipt = { status: 'success' };
-
-    (useWaitForTransactionReceipt as ReturnType<typeof vi.fn>).mockReturnValue({
-      data: mockReceipt,
-    });
-
-    render(
-      <TransactionProvider
-        address="0x123"
-        contracts={[]}
-        onSuccess={onSuccessMock}
-      >
-        <TestComponent />
-      </TransactionProvider>,
-    );
-
-    const button = screen.getByText('Submit');
-    fireEvent.click(button);
-
-    await waitFor(() => {
-      expect(onSuccessMock).toHaveBeenCalledWith({
-        transactionReceipts: [mockReceipt],
-      });
     });
   });
 });

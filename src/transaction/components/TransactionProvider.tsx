@@ -106,6 +106,7 @@ export function TransactionProvider({
         transactionReceipts: lifeCycleStatus.statusData.transactionReceipts,
       });
     }
+    console.log('lifeCycleStatus', lifeCycleStatus);
     // Emit State
     onStatus?.(lifeCycleStatus);
   }, [
@@ -137,6 +138,7 @@ export function TransactionProvider({
         });
       }
     }
+    console.log('getTransactionReceipts', receipts?.length);
     setLifeCycleStatus({
       statusName: 'success',
       statusData: {
@@ -147,6 +149,7 @@ export function TransactionProvider({
 
   // Trigger success status when receipts are generated from waitForTransactionReceipt
   useEffect(() => {
+    console.log('transactionHashArray', transactionHashArray?.length);
     if (
       transactionHashArray.length === contracts.length &&
       contracts?.length > 1
