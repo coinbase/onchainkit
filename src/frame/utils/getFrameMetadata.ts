@@ -44,7 +44,11 @@ export const getFrameMetadata = ({
       if (button.target) {
         metadata[`fc:frame:button:${index + 1}:target`] = button.target;
       }
-      if (button.action && (button.action === 'tx' || button.action === 'post') && button.postUrl) {
+      if (
+        button.action &&
+        (button.action === 'tx' || button.action === 'post') &&
+        button.postUrl
+      ) {
         metadata[`fc:frame:button:${index + 1}:post_url`] = button.postUrl;
       }
     });
