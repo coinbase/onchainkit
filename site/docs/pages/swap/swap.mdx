@@ -301,24 +301,22 @@ You can override component styles using `className`.
 ```tsx
 // omitted for brevity
 
-<Swap address={address} className='bg-gray-200'> // [!code focus]
+<Swap address={address}>
   <SwapAmountInput
     label="Sell"
     swappableTokens={swappableTokens}
     token={swappableTokens[1]}
     type="from"
-    className='bg-white' // [!code focus]
   />
-  <SwapToggleButton className='border-red-600 bg-white'/> // [!code focus]
+  <SwapToggleButton className='border-[#EA580C]'/> // [!code focus]
   <SwapAmountInput
     label="Buy"
     swappableTokens={swappableTokens}
     token={swappableTokens[2]}
     type="to"
-    className='bg-white' // [!code focus]
   />
-  <SwapButton className='bg-red-600'/> // [!code focus]
-  <SwapMessage className='text-red-600'/> // [!code focus]
+  <SwapButton className='bg-[#EA580C]'/> // [!code focus]
+  <SwapMessage />
 </Swap>
 ```
 
@@ -327,24 +325,22 @@ You can override component styles using `className`.
     {({ address, swappableTokens }) => {
       if (address) {
         return (
-          <Swap address={address} className='bg-gray-200'>
+          <Swap address={address} >
             <SwapAmountInput
               label="Sell"
               swappableTokens={swappableTokens}
               token={swappableTokens[1]}
               type="from"
-              className='bg-white'
             />
-            <SwapToggleButton className='border-red-600 bg-white'/>
+            <SwapToggleButton className='border-[#EA580C]' />
             <SwapAmountInput
               label="Buy"
               swappableTokens={swappableTokens}
               token={swappableTokens[2]}
               type="to"
-              className='bg-white'
             />
-            <SwapButton className='bg-red-600' disabled />
-            <SwapMessage className='text-red-600'/>
+            <SwapButton className='bg-[#EA580C]' disabled />
+            <SwapMessage/>
           </Swap>
         )
       }
