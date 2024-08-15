@@ -1,4 +1,4 @@
-import { FrameMetadataType } from "../types";
+import type { FrameMetadataType } from '../types';
 
 export function setFrameMetadataButtons(
   metadata: Record<string, string>,
