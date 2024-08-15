@@ -1,0 +1,16 @@
+{
+  "rewrites": [
+    {
+      "source": "/playground",
+      "destination": "https://onchainkit-bsvq.vercel.app/"
+    },
+    {
+      "source": "/",
+      "destination": "https://onchainkit-coinbase-vercel.vercel.app/"
+    },
+    {
+      "source": "/:match*",
+      "destination": "https://onchainkit-coinbase-vercel.vercel.app/:match*"
+    }
+  ]
+}
