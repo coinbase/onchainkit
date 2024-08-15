@@ -6,13 +6,13 @@ import {
   useState,
 } from 'react';
 import type { Address } from 'viem';
-import { waitForTransactionReceipt } from 'viem/actions';
 import {
   useAccount,
   useConfig,
   useSwitchChain,
   useWaitForTransactionReceipt,
 } from 'wagmi';
+import { waitForTransactionReceipt } from 'wagmi/actions';
 import { useValue } from '../../internal/hooks/useValue';
 import {
   GENERIC_ERROR_MESSAGE,
