@@ -23,6 +23,12 @@ export type LifeCycleStatus =
       statusData: {
         transactionReceipts: TransactionReceipt[];
       };
+    }
+  | {
+      statusName: 'transactionLegacyExecuted';
+      statusData: {
+        transactionHash: Address;
+      };
     };
 
 export type IsSpinnerDisplayedProps = {
@@ -179,8 +185,6 @@ export type UseCallsStatusParams = {
 };
 
 export type UseWriteContractParams = {
-  chainId?: number;
-  contracts: ContractFunctionParameters[];
   setLifeCycleStatus: (state: LifeCycleStatus) => void;
 };
 

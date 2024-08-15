@@ -28,7 +28,6 @@ type MockUseWriteContractReturn = {
 
 describe('useWriteContract', () => {
   const mockSetLifeCycleStatus = vi.fn();
-  const mockSetTransactionHashArray = vi.fn();
 
   beforeEach(() => {
     vi.resetAllMocks();
@@ -45,7 +44,6 @@ describe('useWriteContract', () => {
     const { result } = renderHook(() =>
       useWriteContract({
         setLifeCycleStatus: mockSetLifeCycleStatus,
-        setTransactionHashArray: mockSetTransactionHashArray,
       }),
     );
     expect(result.current.status).toBe('idle');
@@ -69,7 +67,6 @@ describe('useWriteContract', () => {
     renderHook(() =>
       useWriteContract({
         setLifeCycleStatus: mockSetLifeCycleStatus,
-        setTransactionHashArray: mockSetTransactionHashArray,
       }),
     );
     expect(onErrorCallback).toBeDefined();
@@ -101,7 +98,6 @@ describe('useWriteContract', () => {
     renderHook(() =>
       useWriteContract({
         setLifeCycleStatus: mockSetLifeCycleStatus,
-        setTransactionHashArray: mockSetTransactionHashArray,
       }),
     );
     expect(onErrorCallback).toBeDefined();
@@ -117,7 +113,7 @@ describe('useWriteContract', () => {
   });
 
   it('should handle successful transaction', () => {
-    const transactionId = '0x123';
+    const transactionId = '0x123456';
     let onSuccessCallback: ((id: string) => void) | undefined;
     (useWriteContractWagmi as ReturnType<typeof vi.fn>).mockImplementation(
       ({ mutation }: UseWriteContractConfig) => {
@@ -132,16 +128,20 @@ describe('useWriteContract', () => {
     renderHook(() =>
       useWriteContract({
         setLifeCycleStatus: mockSetLifeCycleStatus,
-        setTransactionHashArray: mockSetTransactionHashArray,
       }),
     );
     expect(onSuccessCallback).toBeDefined();
     onSuccessCallback?.(transactionId);
-    expect(mockSetTransactionHashArray).toHaveBeenCalledWith([transactionId]);
+    expect(mockSetLifeCycleStatus).toHaveBeenCalledWith({
+      statusName: 'transactionLegacyExecuted',
+      statusData: {
+        transactionHash: transactionId,
+      },
+    });
   });
 
   it('should handle multiple successful transactions', () => {
-    const transactionId = '0x123';
+    const transactionId = '0x12345678';
     let onSuccessCallback: ((id: string) => void) | undefined;
     (useWriteContractWagmi as ReturnType<typeof vi.fn>).mockImplementation(
       ({ mutation }: UseWriteContractConfig) => {
@@ -156,16 +156,28 @@ describe('useWriteContract', () => {
     renderHook(() =>
       useWriteContract({
         setLifeCycleStatus: mockSetLifeCycleStatus,
-        setTransactionHashArray: mockSetTransactionHashArray,
-        transactionHashArray: ['0x1234'],
       }),
     );
     expect(onSuccessCallback).toBeDefined();
     onSuccessCallback?.(transactionId);
-    expect(mockSetTransactionHashArray).toHaveBeenCalledWith([
-      '0x1234',
-      transactionId,
-    ]);
+    expect(mockSetLifeCycleStatus).toHaveBeenCalledWith({
+      statusName: 'transactionLegacyExecuted',
+      statusData: {
+        transactionHash: transactionId,
+      },
+    });
+    renderHook(() =>
+      useWriteContract({
+        setLifeCycleStatus: mockSetLifeCycleStatus,
+      }),
+    );
+    onSuccessCallback?.(transactionId);
+    expect(mockSetLifeCycleStatus).toHaveBeenCalledWith({
+      statusName: 'transactionLegacyExecuted',
+      statusData: {
+        transactionHash: transactionId,
+      },
+    });
   });
 
   it('should handle uncaught errors', () => {
@@ -178,7 +190,6 @@ describe('useWriteContract', () => {
     const { result } = renderHook(() =>
       useWriteContract({
         setLifeCycleStatus: mockSetLifeCycleStatus,
-        setTransactionHashArray: mockSetTransactionHashArray,
       }),
     );
     expect(result.current.status).toBe('error');
