@@ -17,6 +17,18 @@ export type LifeCycleStatus =
   | {
       statusName: 'error';
       statusData: TransactionError;
+    }
+  | {
+      statusName: 'success';
+      statusData: {
+        transactionReceipts: TransactionReceipt[];
+      };
+    }
+  | {
+      statusName: 'transactionLegacyExecuted';
+      statusData: {
+        transactionHashList: Address[];
+      };
     };
 
 export type IsSpinnerDisplayedProps = {
@@ -174,8 +186,7 @@ export type UseCallsStatusParams = {
 
 export type UseWriteContractParams = {
   setLifeCycleStatus: (state: LifeCycleStatus) => void;
-  setTransactionHashArray: (ids: Address[]) => void;
-  transactionHashArray?: Address[];
+  transactionHashList: Address[];
 };
 
 export type UseWriteContractsParams = {

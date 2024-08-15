@@ -37,10 +37,18 @@ vi.mock('../hooks/useWriteContracts', () => ({
 
 const TestComponent = () => {
   const context = useTransactionContext();
-  const handleSetLifeCycleStatus = async () => {
+  const handleStatusError = async () => {
     context.setLifeCycleStatus({
       statusName: 'error',
       statusData: { code: 'code', error: 'error_long_messages' },
+    });
+  };
+  const handleStatusTransactionLegacyExecuted = async () => {
+    context.setLifeCycleStatus({
+      statusName: 'transactionLegacyExecuted',
+      statusData: {
+        transactionHashList: ['hash12345678'],
+      },
     });
   };
   return (
@@ -55,8 +63,11 @@ const TestComponent = () => {
       <span data-testid="context-value-isToastVisible">
         {`${context.isToastVisible}`}
       </span>
-      <button type="button" onClick={handleSetLifeCycleStatus}>
+      <button type="button" onClick={handleStatusError}>
         setLifeCycleStatus.error
+      </button>
+      <button type="button" onClick={handleStatusTransactionLegacyExecuted}>
+        setLifeCycleStatus.transactionLegacyExecuted
       </button>
     </div>
   );
@@ -99,6 +110,29 @@ describe('TransactionProvider', () => {
     expect(onErrorMock).toHaveBeenCalled();
   });
 
+  it('should emit onStatus when setLifeCycleStatus is called with transactionLegacyExecuted', async () => {
+    const onStatusMock = vi.fn();
+    render(
+      <TransactionProvider
+        address="0x123"
+        contracts={[]}
+        onStatus={onStatusMock}
+      >
+        <TestComponent />
+      </TransactionProvider>,
+    );
+    const button = screen.getByText(
+      'setLifeCycleStatus.transactionLegacyExecuted',
+    );
+    fireEvent.click(button);
+    expect(onStatusMock).toHaveBeenCalledWith({
+      statusName: 'transactionLegacyExecuted',
+      statusData: {
+        transactionHashList: ['hash12345678'],
+      },
+    });
+  });
+
   it('should emit onStatus when setLifeCycleStatus is called', async () => {
     const onStatusMock = vi.fn();
     render(
@@ -113,6 +147,33 @@ describe('TransactionProvider', () => {
     const button = screen.getByText('setLifeCycleStatus.error');
     fireEvent.click(button);
     expect(onStatusMock).toHaveBeenCalled();
+  });
+
+  it('should emit onSuccess when one receipt exist', async () => {
+    const onSuccessMock = vi.fn();
+    (useWaitForTransactionReceipt as ReturnType<typeof vi.fn>).mockReturnValue({
+      data: { status: 'success' },
+    });
+    (useCallsStatus as ReturnType<typeof vi.fn>).mockReturnValue({
+      transactionHash: 'hash',
+    });
+    render(
+      <TransactionProvider
+        address="0x123"
+        contracts={[{ address: '0x123', method: 'method' }]}
+        onSuccess={onSuccessMock}
+      >
+        <TestComponent />
+      </TransactionProvider>,
+    );
+    const button = screen.getByText('Submit');
+    fireEvent.click(button);
+    await waitFor(() => {
+      expect(onSuccessMock).toHaveBeenCalled();
+      expect(onSuccessMock).toHaveBeenCalledWith({
+        transactionReceipts: [{ status: 'success' }],
+      });
+    });
   });
 
   it('should update context on handleSubmit', async () => {
@@ -130,30 +191,6 @@ describe('TransactionProvider', () => {
     fireEvent.click(button);
     await waitFor(() => {
       expect(writeContractsAsyncMock).toHaveBeenCalled();
-    });
-  });
-
-  it('should call onsuccess when receipt exists', async () => {
-    const onSuccessMock = vi.fn();
-    (useWaitForTransactionReceipt as ReturnType<typeof vi.fn>).mockReturnValue({
-      data: '123',
-    });
-    (useCallsStatus as ReturnType<typeof vi.fn>).mockReturnValue({
-      transactionHash: 'hash',
-    });
-    render(
-      <TransactionProvider
-        address="0x123"
-        contracts={[]}
-        onSuccess={onSuccessMock}
-      >
-        <TestComponent />
-      </TransactionProvider>,
-    );
-    const button = screen.getByText('Submit');
-    fireEvent.click(button);
-    await waitFor(() => {
-      expect(onSuccessMock).toHaveBeenCalled();
     });
   });
 
@@ -249,30 +286,6 @@ describe('TransactionProvider', () => {
     await waitFor(() => {
       const errorMessage = screen.getByTestId('context-value-errorMessage');
       expect(errorMessage.textContent).toBe('Request denied.');
-    });
-  });
-
-  it('should call onSuccess when receipts are available', async () => {
-    const onSuccessMock = vi.fn();
-    (useWaitForTransactionReceipt as ReturnType<typeof vi.fn>).mockReturnValue({
-      data: { status: 'success' },
-    });
-    (useCallsStatus as ReturnType<typeof vi.fn>).mockReturnValue({
-      transactionHash: 'hash',
-    });
-    render(
-      <TransactionProvider
-        address="0x123"
-        contracts={[]}
-        onSuccess={onSuccessMock}
-      >
-        <TestComponent />
-      </TransactionProvider>,
-    );
-    await waitFor(() => {
-      expect(onSuccessMock).toHaveBeenCalledWith({
-        transactionReceipts: [{ status: 'success' }],
-      });
     });
   });
 
@@ -380,34 +393,6 @@ describe('TransactionProvider', () => {
       expect(screen.getByTestId('context-value-errorMessage').textContent).toBe(
         'Something went wrong. Please try again.',
       );
-    });
-  });
-
-  it('should call onSuccess when receiptArray has receipts', async () => {
-    const onSuccessMock = vi.fn();
-    const mockReceipt = { status: 'success' };
-
-    (useWaitForTransactionReceipt as ReturnType<typeof vi.fn>).mockReturnValue({
-      data: mockReceipt,
-    });
-
-    render(
-      <TransactionProvider
-        address="0x123"
-        contracts={[]}
-        onSuccess={onSuccessMock}
-      >
-        <TestComponent />
-      </TransactionProvider>,
-    );
-
-    const button = screen.getByText('Submit');
-    fireEvent.click(button);
-
-    await waitFor(() => {
-      expect(onSuccessMock).toHaveBeenCalledWith({
-        transactionReceipts: [mockReceipt],
-      });
     });
   });
 });

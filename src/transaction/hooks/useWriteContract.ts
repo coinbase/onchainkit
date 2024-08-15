@@ -11,8 +11,7 @@ import { isUserRejectedRequestError } from '../utils/isUserRejectedRequestError'
  */
 export function useWriteContract({
   setLifeCycleStatus,
-  setTransactionHashArray,
-  transactionHashArray,
+  transactionHashList,
 }: UseWriteContractParams) {
   try {
     const { status, writeContractAsync, data } = useWriteContractWagmi({
@@ -31,9 +30,12 @@ export function useWriteContract({
           });
         },
         onSuccess: (hash: Address) => {
-          setTransactionHashArray(
-            transactionHashArray ? transactionHashArray?.concat(hash) : [hash],
-          );
+          setLifeCycleStatus({
+            statusName: 'transactionLegacyExecuted',
+            statusData: {
+              transactionHashList: [...transactionHashList, hash],
+            },
+          });
         },
       },
     });
