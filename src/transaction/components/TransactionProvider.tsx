@@ -99,17 +99,18 @@ export function TransactionProvider({
     }
     // Transaction Legacy Executed
     if (lifeCycleStatus.statusName === 'transactionLegacyExecuted') {
-      setTransactionHashList([
-        ...transactionHashList,
-        lifeCycleStatus.statusData.transactionHash,
-      ]);
-      // When all transactions are succesful, get the receipts
-      if (
-        transactionHashList.length === contracts.length &&
-        contracts?.length > 1
-      ) {
-        getTransactionLegacyReceipts();
-      }
+      // todo finish this
+      //setTransactionHashList([
+      //  ...transactionHashList,
+      //  lifeCycleStatus.statusData.transactionHash,
+      //]);
+      //// When all transactions are succesful, get the receipts
+      //if (
+      //  transactionHashList.length === contracts.length &&
+      //  contracts?.length > 1
+      //) {
+      //  getTransactionLegacyReceipts();
+      //}
     }
     // Success
     if (lifeCycleStatus.statusName === 'success') {
@@ -163,7 +164,6 @@ export function TransactionProvider({
         });
       }
     }
-    console.log('getTransactionReceipts', receipts?.length);
     setLifeCycleStatus({
       statusName: 'success',
       statusData: {
