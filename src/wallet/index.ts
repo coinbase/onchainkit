@@ -2,7 +2,6 @@
 export { ConnectWallet } from './components/ConnectWallet';
 export { Wallet } from './components/Wallet';
 export { WalletDropdown } from './components/WalletDropdown';
-export { WalletBottomSheet } from './components/WalletBottomSheet';
 export { WalletDropdownBaseName } from './components/WalletDropdownBaseName';
 export { WalletDropdownDisconnect } from './components/WalletDropdownDisconnect';
 export { WalletDropdownFundLink } from './components/WalletDropdownFundLink';
