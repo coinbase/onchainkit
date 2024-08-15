@@ -5,7 +5,7 @@
   "scripts": {
     "cp": "cp -R ../../esm ./onchainkit && cp -R ../../src ./onchainkit",
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build --no-lint",
     "build:clean": "rm -fr ./onchainkit/esm && rm -fr ./onchainkit/src",
     "build:link": "cd ./onchainkit && bun link && cd .. && bun link @coinbase/onchainkit",
     "build:prepare": "bun run build:onchainkit && bun run cp && bun i",
