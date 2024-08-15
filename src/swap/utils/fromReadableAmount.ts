@@ -4,6 +4,6 @@ export function fromReadableAmount(amount: string, decimals: number): string {
   const trimmedFractionalPart = paddedFractionalPart.slice(0, decimals);
   return (
     BigInt(wholePart + trimmedFractionalPart) *
-    10n ** BigInt(decimals - trimmedFractionalPart.length)
+    BigInt(10) ** BigInt(decimals - trimmedFractionalPart.length)
   ).toString();
 }

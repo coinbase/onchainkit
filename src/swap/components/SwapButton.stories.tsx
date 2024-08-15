@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { fn } from '@storybook/test';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { baseSepolia } from 'viem/chains';
 import { http, WagmiProvider, createConfig } from 'wagmi';
@@ -19,7 +18,10 @@ const meta = {
     (Story) => (
       <WagmiProvider config={wagmiConfig}>
         <QueryClientProvider client={new QueryClient()}>
-          <SwapProvider address="0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1">
+          <SwapProvider
+            address="0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1"
+            experimental={{ useAggregator: true }}
+          >
             <Story />
           </SwapProvider>
         </QueryClientProvider>
@@ -35,7 +37,6 @@ const meta = {
   },
   args: {
     disabled: true,
-    onSubmit: fn(),
   },
 } satisfies Meta<typeof SwapButton>;
 

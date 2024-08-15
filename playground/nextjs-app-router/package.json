@@ -9,7 +9,7 @@
     "build:clean": "rm -fr ./onchainkit/esm && rm -fr ./onchainkit/src",
     "build:link": "cd ./onchainkit && bun link && cd .. && bun link @coinbase/onchainkit",
     "build:prepare": "bun run build:onchainkit && bun run cp && bun i",
-    "build:onchainkit": "cd ../.. && yarn build",
+    "build:onchainkit": "cd ../.. && yarn install && yarn build",
     "start": "next start",
     "lint": "next lint"
   },
