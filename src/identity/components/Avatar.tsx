@@ -89,7 +89,7 @@ export function Avatar({
         )}
       </div>
       {badge && (
-        <DisplayBadge address={address ?? contextAddress}>
+        <DisplayBadge address={accountAddress}>
           <div
             data-testid="ockAvatar_BadgeContainer"
             className="-bottom-0.5 -right-0.5 absolute flex h-[15px] w-[15px] items-center justify-center rounded-full bg-transparent"
