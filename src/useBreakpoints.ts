@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 // tailwind breakpoints
-const breakpoints = {
+const BREAKPOINTS = {
   sm: '(max-width: 640px)',
   md: '(min-width: 641px) and (max-width: 768px)',
   lg: '(min-width: 769px) and (max-width: 1023px)',
@@ -19,7 +19,7 @@ export function useBreakpoints() {
   useEffect(() => {
     // get the current breakpoint based on media queries
     const getCurrentBreakpoint = () => {
-      const entries = Object.entries(breakpoints) as [string, string][];
+      const entries = Object.entries(BREAKPOINTS) as [string, string][];
       for (const [key, query] of entries) {
         if (window.matchMedia(query).matches) {
           return key;
