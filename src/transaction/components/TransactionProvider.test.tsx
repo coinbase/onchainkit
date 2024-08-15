@@ -46,8 +46,8 @@ const TestComponent = () => {
   const handleStatusTransactionLegacyExecuted = async () => {
     context.setLifeCycleStatus({
       statusName: 'transactionLegacyExecuted',
-      statusData: { 
-        transactionHash: 'hash12345678',
+      statusData: {
+        transactionHashList: ['hash12345678'],
       },
     });
   };
@@ -113,16 +113,22 @@ describe('TransactionProvider', () => {
   it('should emit onStatus when setLifeCycleStatus is called with transactionLegacyExecuted', async () => {
     const onStatusMock = vi.fn();
     render(
-      <TransactionProvider address="0x123" contracts={[]} onError={onStatusMock}>
+      <TransactionProvider
+        address="0x123"
+        contracts={[]}
+        onStatus={onStatusMock}
+      >
         <TestComponent />
       </TransactionProvider>,
     );
-    const button = screen.getByText('setLifeCycleStatus.transactionLegacyExecuted');
+    const button = screen.getByText(
+      'setLifeCycleStatus.transactionLegacyExecuted',
+    );
     fireEvent.click(button);
     expect(onStatusMock).toHaveBeenCalledWith({
       statusName: 'transactionLegacyExecuted',
-      statusData: { 
-        transactionHash: 'hash12345678',
+      statusData: {
+        transactionHashList: ['hash12345678'],
       },
     });
   });
@@ -168,10 +174,6 @@ describe('TransactionProvider', () => {
         transactionReceipts: [{ status: 'success' }],
       });
     });
-  });
-
-  it('should emit onSuccess when many receipts are available', async () => {
-    // todo: implement test
   });
 
   it('should update context on handleSubmit', async () => {

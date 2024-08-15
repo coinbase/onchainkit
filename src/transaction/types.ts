@@ -27,7 +27,7 @@ export type LifeCycleStatus =
   | {
       statusName: 'transactionLegacyExecuted';
       statusData: {
-        transactionHash: Address;
+        transactionHashList: Address[];
       };
     };
 
@@ -186,6 +186,7 @@ export type UseCallsStatusParams = {
 
 export type UseWriteContractParams = {
   setLifeCycleStatus: (state: LifeCycleStatus) => void;
+  transactionHashList: Address[];
 };
 
 export type UseWriteContractsParams = {
