@@ -217,6 +217,39 @@ describe('getFrameMetadata', () => {
     });
   });
 
+  it('should return the correct metadata with action post and post_url', () => {
+    expect(
+      getFrameMetadata({
+        buttons: [
+          {
+            label: 'Button1',
+            action: 'post',
+            postUrl: 'https://zizzamia.xyz/api/frame/post-url?queryParam=XXX',
+          },
+          {
+            label: 'Button2',
+            action: 'post',
+            postUrl: 'https://zizzamia.xyz/api/frame/post-url?queryParam=YYY',
+          },
+        ],
+        image: 'https://zizzamia.xyz/park-1.png',
+        postUrl: 'https://zizzamia.xyz/api/frame',
+      }),
+    ).toEqual({
+      'fc:frame': 'vNext',
+      'fc:frame:button:1': 'Button1',
+      'fc:frame:button:1:action': 'post',
+      'fc:frame:button:1:post_url':
+        'https://zizzamia.xyz/api/frame/post-url?queryParam=XXX',
+      'fc:frame:button:2': 'Button2',
+      'fc:frame:button:2:action': 'post',
+      'fc:frame:button:2:post_url':
+        'https://zizzamia.xyz/api/frame/post-url?queryParam=YYY',
+      'fc:frame:image': 'https://zizzamia.xyz/park-1.png',
+      'fc:frame:post_url': 'https://zizzamia.xyz/api/frame',
+    });
+  });
+
   it('should not render action target if action is not link, mint or tx', () => {
     expect(
       getFrameMetadata({
