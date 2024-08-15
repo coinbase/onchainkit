@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-// tailwind breakpoints
+// Tailwind breakpoints
 const BREAKPOINTS = {
   sm: '(max-width: 640px)',
   md: '(min-width: 641px) and (max-width: 768px)',
@@ -42,5 +42,3 @@ export function useBreakpoints() {
 
   return currentBreakpoint;
 }
-
-export default useBreakpoints;

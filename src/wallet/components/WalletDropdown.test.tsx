@@ -6,7 +6,7 @@ import {
   IdentityProvider,
   useIdentityContext,
 } from '../../identity/components/IdentityProvider';
-import useBreakpoints from '../../useBreakpoints';
+import { useBreakpoints } from '../../useBreakpoints';
 import { WalletDropdown } from './WalletDropdown';
 import { useWalletContext } from './WalletProvider';
 
@@ -19,7 +19,7 @@ vi.mock('./WalletProvider', () => ({
 }));
 
 vi.mock('../../useBreakpoints', () => ({
-  default: vi.fn(),
+  useBreakpoints: vi.fn(),
 }));
 
 vi.mock('../../identity/components/Identity', () => ({

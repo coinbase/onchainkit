@@ -36,18 +36,14 @@ describe('WalletBottomSheet', () => {
   it('renders null when address is not provided', () => {
     useWalletContextMock.mockReturnValue({ isOpen: true });
     useAccountMock.mockReturnValue({ address: null });
-
     render(<WalletBottomSheet>Test Children</WalletBottomSheet>);
-
     expect(screen.queryByText('Test Children')).not.toBeInTheDocument();
   });
 
   it('renders children when isOpen is true and address is provided', () => {
     useWalletContextMock.mockReturnValue({ isOpen: true });
     useAccountMock.mockReturnValue({ address: '0x123' });
-
     render(<WalletBottomSheet>Test Children</WalletBottomSheet>);
-
     expect(screen.getByText('Test Children')).toBeInTheDocument();
   });
 
@@ -55,7 +51,6 @@ describe('WalletBottomSheet', () => {
     const address = '0x123';
     useWalletContextMock.mockReturnValue({ isOpen: true });
     useAccountMock.mockReturnValue({ address });
-
     const { result } = renderHook(() => useIdentityContext(), {
       wrapper: ({ children }) => (
         <WalletBottomSheet>
@@ -63,7 +58,6 @@ describe('WalletBottomSheet', () => {
         </WalletBottomSheet>
       ),
     });
-
     await waitFor(() => {
       expect(result.current.address).toEqual(address);
     });
@@ -72,18 +66,14 @@ describe('WalletBottomSheet', () => {
   it('does not render overlay when isOpen is false', () => {
     useAccountMock.mockReturnValue({ address: '0x123' });
     useWalletContextMock.mockReturnValue({ isOpen: false, setIsOpen: vi.fn() });
-
     render(<WalletBottomSheet>Content</WalletBottomSheet>);
-
     expect(screen.queryByRole('button')).not.toBeInTheDocument();
   });
 
   it('renders overlay when isOpen is true', () => {
     useAccountMock.mockReturnValue({ address: '0x123' });
     useWalletContextMock.mockReturnValue({ isOpen: true, setIsOpen: vi.fn() });
-
     render(<WalletBottomSheet>Content</WalletBottomSheet>);
-
     expect(screen.getByRole('button')).toBeInTheDocument();
   });
 
@@ -94,11 +84,8 @@ describe('WalletBottomSheet', () => {
       isOpen: true,
       setIsOpen: setIsOpenMock,
     });
-
     render(<WalletBottomSheet>Content</WalletBottomSheet>);
-
     fireEvent.click(screen.getByRole('button'));
-
     expect(setIsOpenMock).toHaveBeenCalledWith(false);
   });
 
@@ -109,14 +96,11 @@ describe('WalletBottomSheet', () => {
       isOpen: true,
       setIsOpen: setIsOpenMock,
     });
-
     render(<WalletBottomSheet>Content</WalletBottomSheet>);
-
     fireEvent.keyDown(screen.getByRole('button'), {
       key: 'Escape',
       code: 'Escape',
     });
-
     expect(setIsOpenMock).toHaveBeenCalledWith(false);
   });
 });
