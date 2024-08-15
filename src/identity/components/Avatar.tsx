@@ -74,6 +74,7 @@ export function Avatar({
         {/* biome-ignore lint: alt gets assigned */}
         {displayAvatarImg ? (
           <img
+            className="min-h-full min-w-full object-cover"
             data-testid="ockAvatar_Image"
             loading="lazy"
             width="100%"
