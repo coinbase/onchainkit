@@ -5,6 +5,18 @@
       "destination": "https://onchainkit-bsvq.vercel.app/"
     },
     {
+      "source": "/playground/:match*",
+      "destination": "https://onchainkit-bsvq.vercel.app/:match*"
+    },
+    {
+      "source": "/templates/onchain-app",
+      "destination": "https://onchain-app-template.vercel.app/"
+    },
+    {
+      "source": "/templates/onchain-app/:match*",
+      "destination": "https://onchain-app-template.vercel.app/:match*"
+    },
+    {
       "source": "/",
       "destination": "https://onchainkit-coinbase-vercel.vercel.app/"
     },
