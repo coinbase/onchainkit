@@ -179,9 +179,9 @@ export type UseCallsStatusParams = {
 };
 
 export type UseWriteContractParams = {
+  chainId?: number;
+  contracts: ContractFunctionParameters[];
   setLifeCycleStatus: (state: LifeCycleStatus) => void;
-  setTransactionHashArray: (ids: Address[]) => void;
-  transactionHashArray?: Address[];
 };
 
 export type UseWriteContractsParams = {
