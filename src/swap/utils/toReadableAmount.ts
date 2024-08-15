@@ -9,7 +9,7 @@ export function toReadableAmount(amount: string, decimals: number): string {
 
   // If no decimal point, proceed with the original logic
   const bigIntAmount = BigInt(amount);
-  const divisor = 10n ** BigInt(decimals);
+  const divisor = BigInt(10) ** BigInt(decimals);
   const wholePart = (bigIntAmount / divisor).toString();
   const fractionalPart = (bigIntAmount % divisor)
     .toString()
