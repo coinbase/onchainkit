@@ -6,16 +6,14 @@ import { IdentityProvider } from './IdentityProvider';
 
 export function Identity({
   address,
+  chain,
   children,
   className,
-  schemaId,
   hasCopyAddressOnClick = false,
-  chain,
+  schemaId,
 }: IdentityReact) {
-  // istanbul ignore next
   const { chain: contextChain } = useOnchainKit();
-
-  const accountChain = contextChain || chain;
+  const accountChain = chain ?? contextChain;
 
   const handleCopy = useCallback(async () => {
     if (!address) {
@@ -30,7 +28,6 @@ export function Identity({
     }
   }, [address]);
 
-  // istanbul ignore next
   const onClick = hasCopyAddressOnClick ? handleCopy : undefined;
 
   return (
