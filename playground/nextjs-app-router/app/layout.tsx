@@ -7,7 +7,7 @@ import '@coinbase/onchainkit/styles.css';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'OnchainKit Demo',
+  title: 'OnchainKit Playground',
 };
 
 export default function RootLayout({

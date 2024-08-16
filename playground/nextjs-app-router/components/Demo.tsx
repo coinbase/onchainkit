@@ -32,8 +32,9 @@ function Demo() {
         <a
           target="_blank"
           className="hover:underline text-sm absolute bottom-6 left-6"
-          href="https://github.com/ilikesymmetry/onchainkit-demo"
+          href="https://github.com/coinbase/onchainkit/tree/main/playground"
           rel="noreferrer"
+          title="View OnchainKit Playground on GitHub"
         >
           View Github
         </a>
