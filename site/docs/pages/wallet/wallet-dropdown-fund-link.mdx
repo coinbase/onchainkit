@@ -3,12 +3,11 @@ title: Wallet Components & Utilities · OnchainKit
 description: Introduction to Wallet Components & Utilities
 ---
 
-import { 
+import {
   ConnectWallet,
   Wallet,
   WalletDropdown,
   WalletDropdownFundLink,
-  WalletDropdownLink,
   WalletDropdownDisconnect,
 } from '@coinbase/onchainkit/wallet';
 import {
@@ -18,8 +17,9 @@ import {
   Identity,
   EthBalance,
 } from '@coinbase/onchainkit/identity';
+import { color } from '@coinbase/onchainkit/theme';
 import WalletComponents from '../../components/WalletComponents';
-import { walletDropdownLinkCustomBaseIconSvg } from '../../components/svg/walletDropdownLinkCustomBaseIconSvg'
+import { walletDropdownLinkCustomBaseIconSvg } from '../../components/svg/walletDropdownLinkCustomBaseIconSvg';
 
 # `<WalletDropdownFundLink />`
 
@@ -32,7 +32,6 @@ import {
   ConnectWallet,
   Wallet,
   WalletDropdown,
-  WalletDropdownLink,
   WalletDropdownDisconnect,
   WalletDropdownFundLink, // [!code focus]
 } from '@coinbase/onchainkit/wallet'; // [!code focus]
@@ -61,9 +60,6 @@ export function WalletComponents() {
             <EthBalance />
           </Identity>
           <WalletDropdownFundLink /> // [!code focus]
-          <WalletDropdownLink icon="wallet" href="https://wallet.coinbase.com">
-            Wallet
-          </WalletDropdownLink>
           <WalletDropdownDisconnect />
         </WalletDropdown>
       </Wallet>
@@ -79,10 +75,13 @@ export function WalletComponents() {
       <Name />
     </ConnectWallet>
     <WalletDropdown>
+      <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick>
+        <Avatar />
+        <Name />
+        <Address className={color.foregroundMuted} />
+        <EthBalance />
+      </Identity>
       <WalletDropdownFundLink />
-      <WalletDropdownLink icon="wallet" href="https://wallet.coinbase.com">
-        Wallet
-      </WalletDropdownLink>
       <WalletDropdownDisconnect />
     </WalletDropdown>
   </Wallet>
@@ -94,16 +93,7 @@ You can override component text using the `text` prop.
 
 ```tsx
 // omitted for brevity
-
-<Wallet>
-  <ConnectWallet>
-    ...
-  </ConnectWallet>
-  <WalletDropdown>
-    ...
-    <WalletDropdownFundLink text="Add crypto" /> // [!code focus]
-  </WalletDropdown>
-</Wallet>
+<WalletDropdownFundLink text="Add crypto" /> // [!code focus]
 ```
 
 <WalletComponents>
@@ -121,20 +111,11 @@ You can override component text using the `text` prop.
 
 ### Override icon
 
-You can override component text using the `text` prop.
+You can override the icon using the `icon` prop.
 
 ```tsx
 // omitted for brevity
-
-<Wallet>
-  <ConnectWallet>
-    ...
-  </ConnectWallet>
-  <WalletDropdown>
-    ...
-    <WalletDropdownFundLink icon={baseIcon} /> // [!code focus]
-  </WalletDropdown>
-</Wallet>
+<WalletDropdownFundLink icon={baseIcon} /> // [!code focus]
 ```
 
 <WalletComponents>
@@ -144,7 +125,7 @@ You can override component text using the `text` prop.
       <Name />
     </ConnectWallet>
     <WalletDropdown>
-      <WalletDropdownFundLink icon={walletDropdownLinkCustomBaseIconSvg}/>
+      <WalletDropdownFundLink icon={walletDropdownLinkCustomBaseIconSvg} />
       <WalletDropdownDisconnect />
     </WalletDropdown>
   </Wallet>
@@ -157,15 +138,7 @@ You're able to customize the size of the popup window using the `popupSize` prop
 ```tsx
 // omitted for brevity
 
-<Wallet>
-  <ConnectWallet>
-    ...
-  </ConnectWallet>
-  <WalletDropdown>
-    ...
-    <WalletDropdownFundLink popupSize="sm" /> // [!code focus]
-  </WalletDropdown>
-</Wallet>
+<WalletDropdownFundLink popupSize="sm" /> // [!code focus]
 ```
 
 <WalletComponents>
@@ -181,23 +154,13 @@ You're able to customize the size of the popup window using the `popupSize` prop
   </Wallet>
 </WalletComponents>
 
-
 ### Override default behavior
 
 You can override default link behavior by using the `openIn` prop. Valid values are `popup` and `tab`.
 
 ```tsx
 // omitted for brevity
-
-<Wallet>
-  <ConnectWallet>
-    ...
-  </ConnectWallet>
-  <WalletDropdown>
-    ...
-    <WalletDropdownFundLink openIn="tab" target="_blank"/> // [!code focus]
-  </WalletDropdown>
-</Wallet>
+<WalletDropdownFundLink openIn="tab" target="_blank" /> // [!code focus]
 ```
 
 <WalletComponents>
@@ -207,7 +170,7 @@ You can override default link behavior by using the `openIn` prop. Valid values 
       <Name />
     </ConnectWallet>
     <WalletDropdown>
-      <WalletDropdownFundLink openIn="tab" target="_blank"/>
+      <WalletDropdownFundLink openIn="tab" target="_blank" />
       <WalletDropdownDisconnect />
     </WalletDropdown>
   </Wallet>
