@@ -7,6 +7,7 @@
   "scripts": {
     "build": "packemon build --addEngines --addFiles --declaration && npx packemon validate --no-license --no-people --no-repo && tailwindcss -i ./src/styles/index.css -o ./src/tailwind.css --minify && tailwindcss -i ./src/styles/index-with-tailwind.css -o ./src/styles.css --minify",
     "check": "biome check --write .",
+    "check:unsafe": "biome check . --fix --unsafe",
     "ci:check": "biome ci --formatter-enabled=false --linter-enabled=false",
     "ci:format": "biome ci --linter-enabled=false --organize-imports-enabled=false",
     "ci:lint": "biome ci --formatter-enabled=false --organize-imports-enabled=false",
@@ -111,6 +112,12 @@
       "module": "./esm/index.js",
       "import": "./esm/index.js",
       "default": "./esm/index.js"
+    },
+    "./api": {
+      "types": "./esm/api/index.d.ts",
+      "module": "./esm/api/index.js",
+      "import": "./esm/api/index.js",
+      "default": "./esm/api/index.js"
     },
     "./core": {
       "types": "./esm/core/index.d.ts",

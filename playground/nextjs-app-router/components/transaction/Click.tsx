@@ -22,8 +22,7 @@ export function Click() {
   const account = useAccount();
   const capabilities = useCapabilities();
   const contracts = clickContracts;
-
-  console.log('chainId', chainId);
+  console.log('Transaction.click.chainId:', chainId);
 
   return (
     <Transaction
@@ -33,9 +32,7 @@ export function Click() {
       capabilities={capabilities}
     >
       <TransactionButton text="Click" />
-      {capabilities?.paymasterService?.url && (
-        <TransactionSponsor />
-      )}
+      {capabilities?.paymasterService?.url && <TransactionSponsor />}
       <TransactionStatus>
         <TransactionStatusLabel />
         <TransactionStatusAction />

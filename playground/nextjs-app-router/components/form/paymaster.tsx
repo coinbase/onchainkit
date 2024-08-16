@@ -10,11 +10,19 @@ export function PaymasterUrl() {
   const { paymasterUrl, enabled } = usePaymaster();
 
   function changePaymasterUrl(url: string) {
-    setPaymaster?.(chainId!, url, !!url);
+    if (!chainId) {
+      console.log('Paymaster.changePaymasterUrl: chainId is not set');
+      return;
+    }
+    setPaymaster?.(chainId, url, !!url);
   }
 
   function changeEnabled(enabled: boolean) {
-    setPaymaster?.(chainId!, paymasterUrl, enabled);
+    if (!chainId) {
+      console.log('Paymaster.changeEnabled: chainId is not set');
+      return;
+    }
+    setPaymaster?.(chainId, paymasterUrl, enabled);
   }
 
   return (

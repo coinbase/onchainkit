@@ -21,5 +21,5 @@ cd nextjs-app-router
 Intall dependencies and run app
 
 ```bash
-bun build:link && bun build:prepare && bun dev
+bun build:prepare && bun build:link && bun dev
 ```

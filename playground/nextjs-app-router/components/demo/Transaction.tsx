@@ -12,45 +12,44 @@ import {
   TransactionToastIcon,
   TransactionToastLabel,
 } from '@coinbase/onchainkit/transaction';
-import { useContext } from 'react';
+import { useCallback, useContext, useEffect } from 'react';
 import type { Address } from 'viem';
 import { useAccount } from 'wagmi';
 import { AppContext } from '../AppProvider';
 
-function Click() {
+function TransactionDemo() {
   const { chainId } = useContext(AppContext);
   const account = useAccount();
   const capabilities = useCapabilities();
   const contracts = clickContracts;
-
-  console.log('chainId', chainId);
+  useEffect(() => {
+    console.log('Playground.Transaction.chainId:', chainId);
+  }, [chainId]);
+  const handleOnStatus = useCallback((status) => {
+    console.log('Playground.Transaction.onStatus:', status);
+  }, []);
 
   return (
-    <Transaction
-      chainId={chainId ?? 84532} // something breaks if we don't have default network?
-      address={account.address as Address}
-      contracts={contracts}
-      capabilities={capabilities}
-    >
-      <TransactionButton text="Click" />
-      <TransactionSponsor />
-      <TransactionStatus>
-        <TransactionStatusLabel />
-        <TransactionStatusAction />
-      </TransactionStatus>
-      <TransactionToast>
-        <TransactionToastIcon />
-        <TransactionToastLabel />
-        <TransactionToastAction />
-      </TransactionToast>
-    </Transaction>
-  );
-}
-
-function TransactionDemo() {
-  return (
-    <div className="grid gap-8 w-1/2 mx-auto">
-      <Click />
+    <div className="mx-auto grid w-1/2 gap-8">
+      <Transaction
+        chainId={chainId ?? 84532} // something breaks if we don't have default network?
+        address={account.address as Address}
+        contracts={contracts}
+        capabilities={capabilities}
+        onStatus={handleOnStatus}
+      >
+        <TransactionButton text="Click" />
+        <TransactionSponsor />
+        <TransactionStatus>
+          <TransactionStatusLabel />
+          <TransactionStatusAction />
+        </TransactionStatus>
+        <TransactionToast>
+          <TransactionToastIcon />
+          <TransactionToastLabel />
+          <TransactionToastAction />
+        </TransactionToast>
+      </Transaction>
     </div>
   );
 }

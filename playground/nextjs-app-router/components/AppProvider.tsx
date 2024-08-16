@@ -72,7 +72,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     } else if (walletType === WalletPreference.EOA) {
       connect({ connector: connectors[1] });
     }
-  }, [walletType]);
+  }, [connect, connectors, walletType]);
 
   // Update localStorage whenever the state changes
 
