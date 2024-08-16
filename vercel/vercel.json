@@ -1,6 +1,14 @@
 {
   "rewrites": [
     {
+      "source": "/coverage",
+      "destination": "https://onchainkit-coverage.vercel.app/"
+    },
+    {
+      "source": "/coverage/:match*",
+      "destination": "https://onchainkit-coverage.vercel.app/:match*"
+    },
+    {
       "source": "/playground",
       "destination": "https://onchainkit-bsvq.vercel.app/"
     },
