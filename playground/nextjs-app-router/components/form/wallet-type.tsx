@@ -34,7 +34,7 @@ export function WalletType() {
         <div className="flex items-center gap-2">
           <Label
             htmlFor="wallet-type-smart"
-            className="border cursor-pointer rounded-md p-2 flex items-center gap-2 [&:has(:checked)]:bg-muted"
+            className="flex cursor-pointer items-center gap-2 rounded-md border p-2 [&:has(:checked)]:bg-muted"
           >
             <RadioGroupItem
               id="wallet-type-smart"
@@ -44,17 +44,21 @@ export function WalletType() {
           </Label>
           <Label
             htmlFor="wallet-type-eoa"
-            className="border cursor-pointer rounded-md p-2 flex items-center gap-2 [&:has(:checked)]:bg-muted"
+            className="flex cursor-pointer items-center gap-2 rounded-md border p-2 [&:has(:checked)]:bg-muted"
           >
             <RadioGroupItem id="wallet-type-eoa" value={WalletPreference.EOA} />
             EOA
           </Label>
         </div>
-        <button className="text-xs hover:underline" onClick={disconnectAll}>
+        <button
+          type="button"
+          className="text-xs hover:underline"
+          onClick={disconnectAll}
+        >
           Disconnect all
         </button>
       </RadioGroup>
-      <div className="text-xs text-neutral-500">
+      <div className="text-neutral-500 text-xs">
         {account?.address
           ? `Connected: ${getSlicedAddress(account.address)}`
           : 'Click a type to connect'}

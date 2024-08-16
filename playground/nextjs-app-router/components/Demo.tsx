@@ -1,10 +1,9 @@
 'use client';
-
 import { AppContext, OnchainKitComponent } from '@/components/AppProvider';
 import { Chain } from '@/components/form/chain';
 import { PaymasterUrl } from '@/components/form/paymaster';
 import { WalletType } from '@/components/form/wallet-type';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import SwapDemo from './demo/Swap';
 import TransactionDemo from './demo/Transaction';
 import WalletDemo from './demo/Wallet';
@@ -12,17 +11,14 @@ import { ActiveComponent } from './form/active-component';
 
 function Demo() {
   const { activeComponent } = useContext(AppContext);
-
-  console.log('activeComponent', activeComponent);
-  console.log(
-    'activeComponent is transaction',
-    activeComponent === OnchainKitComponent.Transaction
-  );
+  useEffect(() => {
+    console.log('Playground.activeComponent:', activeComponent);
+  }, [activeComponent]);
 
   return (
     <>
-      <div className="hidden min-w-120 w-1/4 flex-col border-r bg-background p-6 sm:flex">
-        <div className="mb-12 text-lg font-semibold">OnchainKit Playground</div>
+      <div className="hidden w-1/4 min-w-120 flex-col border-r bg-background p-6 sm:flex">
+        <div className="mb-12 font-semibold text-lg">OnchainKit Playground</div>
         <form className="grid gap-8">
           <ActiveComponent />
           <WalletType />
@@ -31,7 +27,7 @@ function Demo() {
         </form>
         <a
           target="_blank"
-          className="hover:underline text-sm absolute bottom-6 left-6"
+          className="absolute bottom-6 left-6 text-sm hover:underline"
           href="https://github.com/coinbase/onchainkit/tree/main/playground"
           rel="noreferrer"
           title="View OnchainKit Playground on GitHub"
@@ -40,7 +36,7 @@ function Demo() {
         </a>
       </div>
       <div className="flex flex-1 flex-col">
-        <div className="flex flex-col justify-center w-full h-full">
+        <div className="flex h-full w-full flex-col justify-center">
           {activeComponent === OnchainKitComponent.Transaction ? (
             <TransactionDemo />
           ) : activeComponent === OnchainKitComponent.Swap ? (

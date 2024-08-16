@@ -57,11 +57,11 @@ function SwapComponent() {
   const swappableTokens = [degenToken, ethToken, usdcToken, wethToken];
 
   return (
-    <div className="relative w-full h-full">
+    <div className="relative h-full w-full">
       {address ? (
         chainId !== 8453 ? (
-          <div className="w-full h-full flex flex-col justify-center text-center bg-[#000000] bg-opacity-50 z-10 absolute top-0 left-0 rounded-xl">
-            <div className="bg-muted w-2/3 mx-auto p-6 rounded-md text-sm">
+          <div className="absolute top-0 left-0 z-10 flex h-full w-full flex-col justify-center rounded-xl bg-[#000000] bg-opacity-50 text-center">
+            <div className="mx-auto w-2/3 rounded-md bg-muted p-6 text-sm">
               Swap Demo is only available on Base.
               <br />
               Please change your chain in settings.
@@ -71,31 +71,35 @@ function SwapComponent() {
           <></>
         )
       ) : (
-        <div className="w-full h-full flex flex-col justify-center text-center bg-[#000000] bg-opacity-50 z-10 absolute top-0 left-0 rounded-xl">
-          <div className="bg-muted w-2/3 mx-auto p-6 rounded-md text-sm">
+        <div className="absolute top-0 left-0 z-10 flex h-full w-full flex-col justify-center rounded-xl bg-[#000000] bg-opacity-50 text-center">
+          <div className="mx-auto w-2/3 rounded-md bg-muted p-6 text-sm">
             Swap Demo requires wallet.
             <br />
             Please connect in settings.
           </div>
         </div>
       )}
-      <Swap address={address!} className="border bg-[#ffffff]">
-        <SwapAmountInput
-          label="Sell"
-          swappableTokens={swappableTokens}
-          token={ethToken}
-          type="from"
-        />
-        <SwapToggleButton />
-        <SwapAmountInput
-          label="Buy"
-          swappableTokens={swappableTokens}
-          token={usdcToken}
-          type="to"
-        />
-        <SwapButton disabled />
-        <SwapMessage />
-      </Swap>
+      {address ? (
+        <Swap address={address} className="border bg-[#ffffff]">
+          <SwapAmountInput
+            label="Sell"
+            swappableTokens={swappableTokens}
+            token={ethToken}
+            type="from"
+          />
+          <SwapToggleButton />
+          <SwapAmountInput
+            label="Buy"
+            swappableTokens={swappableTokens}
+            token={usdcToken}
+            type="to"
+          />
+          <SwapButton disabled={true} />
+          <SwapMessage />
+        </Swap>
+      ) : (
+        <></>
+      )}
     </div>
   );
 }
