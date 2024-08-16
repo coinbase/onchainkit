@@ -7,8 +7,7 @@ export function useGetTransactionStatusLabel() {
     errorMessage,
     isLoading,
     receipt,
-    statusWriteContract,
-    statusWriteContracts,
+    lifeCycleStatus,
     transactionHash,
     transactionId,
   } = useTransactionContext();
@@ -16,8 +15,7 @@ export function useGetTransactionStatusLabel() {
   const isInProgress = isLoading || !!transactionId || !!transactionHash;
 
   // user started txn and needs to confirm in wallet
-  const isPending =
-    statusWriteContract === 'pending' || statusWriteContracts === 'pending';
+  const isPending = lifeCycleStatus.statusName === 'transactionPending';
 
   return useMemo(() => {
     let label = '';

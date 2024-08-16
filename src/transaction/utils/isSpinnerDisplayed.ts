@@ -4,13 +4,11 @@ export function isSpinnerDisplayed({
   errorMessage,
   hasReceipt,
   isLoading,
-  statusWriteContract,
-  statusWriteContracts,
+  lifeCycleStatus,
   transactionHash,
   transactionId,
 }: IsSpinnerDisplayedProps) {
-  const isPending =
-    statusWriteContract === 'pending' || statusWriteContracts === 'pending';
+  const isPending = lifeCycleStatus.statusName === 'transactionPending';
   const isInProgress = transactionId || transactionHash;
 
   if (hasReceipt || errorMessage) {
