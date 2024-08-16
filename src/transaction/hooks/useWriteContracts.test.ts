@@ -134,29 +134,4 @@ describe('useWriteContracts', () => {
     onSuccessCallback?.(transactionId);
     expect(mockSetTransactionId).toHaveBeenCalledWith(transactionId);
   });
-
-  it('should handle uncaught errors', () => {
-    const uncaughtError = new Error('Uncaught error');
-    (useWriteContractsWagmi as ReturnType<typeof vi.fn>).mockImplementation(
-      () => {
-        throw uncaughtError;
-      },
-    );
-    const { result } = renderHook(() =>
-      useWriteContracts({
-        setLifeCycleStatus: mockSetLifeCycleStatus,
-        setTransactionId: mockSetTransactionId,
-      }),
-    );
-    expect(result.current.status).toBe('error');
-    expect(result.current.writeContracts).toBeInstanceOf(Function);
-    expect(mockSetLifeCycleStatus).toHaveBeenCalledWith({
-      statusName: 'error',
-      statusData: {
-        code: 'TmUWCSh02',
-        error: JSON.stringify(uncaughtError),
-        message: 'Something went wrong. Please try again.',
-      },
-    });
-  });
 });

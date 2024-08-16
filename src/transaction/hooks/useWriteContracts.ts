@@ -16,45 +16,29 @@ export function useWriteContracts({
   setLifeCycleStatus,
   setTransactionId,
 }: UseWriteContractsParams) {
-  try {
-    const { status, writeContractsAsync } = useWriteContractsWagmi({
-      mutation: {
-        onError: (e) => {
-          // Ignore EOA-specific error to fallback to writeContract
-          if (e.message.includes(METHOD_NOT_SUPPORTED_ERROR_SUBSTRING)) {
-            return;
-          }
-          const errorMessage = isUserRejectedRequestError(e)
-            ? 'Request denied.'
-            : GENERIC_ERROR_MESSAGE;
-          setLifeCycleStatus({
-            statusName: 'error',
-            statusData: {
-              code: 'TmUWCSh01', // Transaction module UseWriteContracts hook 01 error
-              error: e.message,
-              message: errorMessage,
-            },
-          });
-        },
-        onSuccess: (id) => {
-          setTransactionId(id);
-        },
+  const { status, writeContractsAsync } = useWriteContractsWagmi({
+    mutation: {
+      onError: (e) => {
+        // Ignore EOA-specific error to fallback to writeContract
+        if (e.message.includes(METHOD_NOT_SUPPORTED_ERROR_SUBSTRING)) {
+          return;
+        }
+        const errorMessage = isUserRejectedRequestError(e)
+          ? 'Request denied.'
+          : GENERIC_ERROR_MESSAGE;
+        setLifeCycleStatus({
+          statusName: 'error',
+          statusData: {
+            code: 'TmUWCSh01', // Transaction module UseWriteContracts hook 01 error
+            error: e.message,
+            message: errorMessage,
+          },
+        });
       },
-    });
-    return { status, writeContractsAsync };
-  } catch (err) {
-    setLifeCycleStatus({
-      statusName: 'error',
-      statusData: {
-        code: 'TmUWCSh02',
-        error: JSON.stringify(err),
-        message: GENERIC_ERROR_MESSAGE,
+      onSuccess: (id) => {
+        setTransactionId(id);
       },
-    });
-    return {
-      status: 'error',
-      writeContracts: () => {},
-      writeContractsAsync: () => Promise.resolve({}),
-    };
-  }
+    },
+  });
+  return { status, writeContractsAsync };
 }
