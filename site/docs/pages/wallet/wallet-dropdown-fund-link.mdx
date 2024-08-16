@@ -21,6 +21,7 @@ import {
 import { color } from '@coinbase/onchainkit/theme';
 import AppWithRK from '../../components/AppWithRK';
 import WalletComponents from '../../components/WalletComponents';
+import { walletDropdownLinkCustomBaseIconSvg } from '../../components/svg/walletDropdownLinkCustomBaseIconSvg'
 
 # `<WalletDropdownFundLink />`
 
@@ -120,9 +121,40 @@ You can override component text using the `text` prop.
   </Wallet>
 </WalletComponents>
 
+### Override icon
+
+You can override component text using the `text` prop.
+
+```tsx
+// omitted for brevity
+
+<Wallet>
+  <ConnectWallet>
+    ...
+  </ConnectWallet>
+  <WalletDropdown>
+    ...
+    <WalletDropdownFundLink icon={baseIcon} /> // [!code focus]
+  </WalletDropdown>
+</Wallet>
+```
+
+<WalletComponents>
+  <Wallet>
+    <ConnectWallet>
+      <Avatar className="h-6 w-6" />
+      <Name />
+    </ConnectWallet>
+    <WalletDropdown>
+      <WalletDropdownFundLink icon={walletDropdownLinkCustomBaseIconSvg}/>
+      <WalletDropdownDisconnect />
+    </WalletDropdown>
+  </Wallet>
+</WalletComponents>
+
 ### Customizing the popup size
 
-When using popup mode, you're able to customize the size of the popup window using the `popupSize` prop. Valid values are `sm`, `md`, and `lg`.
+You're able to customize the size of the popup window using the `popupSize` prop. Valid values are `sm`, `md`, and `lg`.
 
 ```tsx
 // omitted for brevity
@@ -151,9 +183,10 @@ When using popup mode, you're able to customize the size of the popup window usi
   </Wallet>
 </WalletComponents>
 
-### Open in window
 
-You can override default link behavior to open the funding flow in a popup window by using the `openIn` prop. Valid values are `popup` and `tab`
+### Override default behavior
+
+You can override default link behavior by using the `openIn` prop. Valid values are `popup` and `tab`.
 
 ```tsx
 // omitted for brevity
@@ -164,7 +197,7 @@ You can override default link behavior to open the funding flow in a popup windo
   </ConnectWallet>
   <WalletDropdown>
     ...
-    <WalletDropdownFundLink openIn="tab" /> // [!code focus]
+    <WalletDropdownFundLink openIn="tab" target="_blank"/> // [!code focus]
   </WalletDropdown>
 </Wallet>
 ```
@@ -176,7 +209,7 @@ You can override default link behavior to open the funding flow in a popup windo
       <Name />
     </ConnectWallet>
     <WalletDropdown>
-      <WalletDropdownFundLink openIn="tab" />
+      <WalletDropdownFundLink openIn="tab" target="_blank"/>
       <WalletDropdownDisconnect />
     </WalletDropdown>
   </Wallet>
