@@ -1,3 +1,4 @@
+import { expect } from 'vitest';
 import { getCustodyAddressForFidNeynar } from './getCustodyAddressForFidNeynar';
 
 describe('getCustodyAddressForFidNeynar', () => {
@@ -32,14 +33,10 @@ describe('getCustodyAddressForFidNeynar', () => {
       },
     };
     fetchMock.mockResolvedValue(mockedResponse);
-    try {
-      await getCustodyAddressForFidNeynar(42);
-    } catch (e) {
-      expect(e).toHaveProperty(
-        'message',
-        'No custody address found for FID 42',
-      );
-    }
+    expect.assertions(1);
+    await expect(getCustodyAddressForFidNeynar(42)).rejects.toEqual(
+      new Error('No custody address found for FID 42'),
+    );
   });
 
   it('throw an error on missing custodyAddress', async () => {
@@ -47,13 +44,9 @@ describe('getCustodyAddressForFidNeynar', () => {
       result: {},
     };
     fetchMock.mockResolvedValue(mockedResponse);
-    try {
-      await getCustodyAddressForFidNeynar(42);
-    } catch (e) {
-      expect(e).toHaveProperty(
-        'message',
-        'No custody address found for FID 42',
-      );
-    }
+    expect.assertions(1);
+    await expect(getCustodyAddressForFidNeynar(42)).rejects.toEqual(
+      new Error('No custody address found for FID 42'),
+    );
   });
 });

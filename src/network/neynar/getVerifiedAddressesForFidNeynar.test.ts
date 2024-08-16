@@ -1,3 +1,4 @@
+import { expect } from 'vitest';
 import { getVerifiedAddressesForFidNeynar } from './getVerifiedAddressesForFidNeynar';
 
 describe('getVerifiedAddressesForFidNeynar', () => {
@@ -32,14 +33,10 @@ describe('getVerifiedAddressesForFidNeynar', () => {
       },
     };
     fetchMock.mockResolvedValue(mockedResponse);
-    try {
-      await getVerifiedAddressesForFidNeynar(42);
-    } catch (e) {
-      expect(e).toHaveProperty(
-        'message',
-        'No verified addresses found for FID 42',
-      );
-    }
+    expect.assertions(1);
+    await expect(getVerifiedAddressesForFidNeynar(42)).rejects.toEqual(
+      new Error('No verified addresses found for FID 42'),
+    );
   });
 
   it('throw an error on missing verifications', async () => {
@@ -47,13 +44,9 @@ describe('getVerifiedAddressesForFidNeynar', () => {
       result: {},
     };
     fetchMock.mockResolvedValue(mockedResponse);
-    try {
-      await getVerifiedAddressesForFidNeynar(42);
-    } catch (e) {
-      expect(e).toHaveProperty(
-        'message',
-        'No verified addresses found for FID 42',
-      );
-    }
+    expect.assertions(1);
+    await expect(getVerifiedAddressesForFidNeynar(42)).rejects.toEqual(
+      new Error('No verified addresses found for FID 42'),
+    );
   });
 });
