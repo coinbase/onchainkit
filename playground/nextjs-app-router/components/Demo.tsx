@@ -22,7 +22,7 @@ function Demo() {
   return (
     <>
       <div className="hidden min-w-120 w-1/4 flex-col border-r bg-background p-6 sm:flex">
-        <div className="mb-12 text-lg font-semibold">OnchainKit Demo</div>
+        <div className="mb-12 text-lg font-semibold">OnchainKit Playground</div>
         <form className="grid gap-8">
           <ActiveComponent />
           <WalletType />
