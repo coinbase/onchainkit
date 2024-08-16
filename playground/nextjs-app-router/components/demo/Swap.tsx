@@ -93,7 +93,7 @@ function SwapComponent() {
           token={usdcToken}
           type="to"
         />
-        <SwapButton />
+        <SwapButton disabled />
         <SwapMessage />
       </Swap>
     </div>
