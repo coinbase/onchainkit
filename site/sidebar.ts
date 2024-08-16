@@ -144,6 +144,10 @@ export const sidebar = [
             link: '/wallet/wallet-dropdown-disconnect',
           },
           {
+            text: 'WalletDropdownFundLink',
+            link: '/wallet/wallet-dropdown-fund-link',
+          },
+          {
             text: 'WalletDropdownLink',
             link: '/wallet/wallet-dropdown-link',
           },
