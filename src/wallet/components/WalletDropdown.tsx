@@ -1,7 +1,7 @@
 import { Children, cloneElement, isValidElement, useMemo } from 'react';
 import { useAccount } from 'wagmi';
 import { Identity } from '../../identity/components/Identity';
-import { background, cn } from '../../styles/theme';
+import { pressable, cn } from '../../styles/theme';
 import { useBreakpoints } from '../../useBreakpoints';
 import type { WalletDropdownReact } from '../types';
 import { WalletBottomSheet } from './WalletBottomSheet';
@@ -37,7 +37,7 @@ export function WalletDropdown({ children, className }: WalletDropdownReact) {
   return (
     <div
       className={cn(
-        background.default,
+        pressable.default,
         'absolute right-0 z-10 mt-1 flex w-max min-w-[250px] flex-col overflow-hidden rounded-xl pb-2',
         className,
       )}

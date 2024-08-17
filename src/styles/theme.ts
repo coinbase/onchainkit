@@ -18,15 +18,15 @@ export const text = {
 
 export const pressable = {
   default:
-    'cursor-pointer bg-ock-default active:bg-ock-default-active hover:bg-ock-default-hover',
+    'cursor-pointer bg-ock-default active:bg-ock-default-active hover:bg-[var(--bg-ock-default-hover)]',
   alternate:
-    'cursor-pointer bg-ock-alternate active:bg-ock-alternate-active hover:bg-ock-alternate-hover',
+    'cursor-pointer bg-ock-alternate active:bg-ock-alternate-active hover:[var(--bg-ock-alternate-hover)]',
   inverse:
-    'cursor-pointer bg-ock-inverse active:bg-ock-inverse-active hover:bg-ock-inverse-hover',
+    'cursor-pointer bg-ock-inverse active:bg-ock-inverse-active hover:bg-[var(--bg-ock-inverse-hover)]',
   primary:
     'cursor-pointer bg-ock-primary active:bg-ock-primary-active hover:bg-[var(--bg-ock-primary-hover)]',
   secondary:
-    'cursor-pointer bg-ock-secondary active:bg-ock-secondary-active hover:bg-ock-secondary-hover',
+    'cursor-pointer bg-ock-secondary active:bg-ock-secondary-active hover:bg-[var(--bg-ock-secondary-hover)]',
   shadow: 'shadow-ock-default',
   disabled: 'opacity-[0.38]',
 } as const;

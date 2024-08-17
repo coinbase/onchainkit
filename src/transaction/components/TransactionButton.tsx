@@ -86,7 +86,7 @@ export function TransactionButton({
   return (
     <button
       className={cn(
-        pressable.primary,
+        background.primary,
         'w-full rounded-xl',
         'mt-4 px-4 py-3 font-medium text-base text-white leading-6',
         isDisabled && pressable.disabled,
