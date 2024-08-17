@@ -2,4 +2,4 @@
 "@coinbase/onchainkit": patch
 ---
 
--**chore**: Update Playground title and Github link. By @cpcramer #1081
+- **feat**: added `transactionIdle` and `transactionPending` to `lifeCycleStatus` in the Transaction experience. By @zizzamia #1088
