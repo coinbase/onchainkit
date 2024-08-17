@@ -119,6 +119,7 @@ export function TransactionProvider({
     lifeCycleStatus.statusName, // Keep statusName, so that the effect runs when it changes
   ]);
 
+  // Set transaction pending status when writeContracts or writeContract is pending
   useEffect(() => {
     if (
       statusWriteContracts === 'pending' ||
