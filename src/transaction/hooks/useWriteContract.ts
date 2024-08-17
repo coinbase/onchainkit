@@ -13,42 +13,30 @@ export function useWriteContract({
   setLifeCycleStatus,
   transactionHashList,
 }: UseWriteContractParams) {
-  try {
-    const { status, writeContractAsync, data } = useWriteContractWagmi({
-      mutation: {
-        onError: (e) => {
-          const errorMessage = isUserRejectedRequestError(e)
-            ? 'Request denied.'
-            : GENERIC_ERROR_MESSAGE;
-          setLifeCycleStatus({
-            statusName: 'error',
-            statusData: {
-              code: 'TmUWCh01', // Transaction module UseWriteContract hook 01 error
-              error: e.message,
-              message: errorMessage,
-            },
-          });
-        },
-        onSuccess: (hash: Address) => {
-          setLifeCycleStatus({
-            statusName: 'transactionLegacyExecuted',
-            statusData: {
-              transactionHashList: [...transactionHashList, hash],
-            },
-          });
-        },
+  const { status, writeContractAsync, data } = useWriteContractWagmi({
+    mutation: {
+      onError: (e) => {
+        const errorMessage = isUserRejectedRequestError(e)
+          ? 'Request denied.'
+          : GENERIC_ERROR_MESSAGE;
+        setLifeCycleStatus({
+          statusName: 'error',
+          statusData: {
+            code: 'TmUWCh01', // Transaction module UseWriteContract hook 01 error
+            error: e.message,
+            message: errorMessage,
+          },
+        });
       },
-    });
-    return { status, writeContractAsync, data };
-  } catch (err) {
-    setLifeCycleStatus({
-      statusName: 'error',
-      statusData: {
-        code: 'TmUWCh02',
-        error: JSON.stringify(err),
-        message: GENERIC_ERROR_MESSAGE,
+      onSuccess: (hash: Address) => {
+        setLifeCycleStatus({
+          statusName: 'transactionLegacyExecuted',
+          statusData: {
+            transactionHashList: [...transactionHashList, hash],
+          },
+        });
       },
-    });
-    return { status: 'error', writeContractAsync: () => {} };
-  }
+    },
+  });
+  return { status, writeContractAsync, data };
 }

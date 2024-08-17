@@ -7,6 +7,9 @@ import type {
 } from 'viem';
 
 /**
+ * List of transaction lifecycle statuses.
+ * The order of the statuses loosely follows the transaction lifecycle.
+ *
  * Note: exported as public Type
  */
 export type LifeCycleStatus =
@@ -19,15 +22,23 @@ export type LifeCycleStatus =
       statusData: TransactionError;
     }
   | {
-      statusName: 'success';
-      statusData: {
-        transactionReceipts: TransactionReceipt[];
-      };
+      statusName: 'transactionIdle'; // initial status prior to the mutation function executing
+      statusData: null;
+    }
+  | {
+      statusName: 'transactionPending'; // if the mutation is currently executing
+      statusData: null;
     }
   | {
       statusName: 'transactionLegacyExecuted';
       statusData: {
         transactionHashList: Address[];
+      };
+    }
+  | {
+      statusName: 'success'; // if the last mutation attempt was successful
+      statusData: {
+        transactionReceipts: TransactionReceipt[];
       };
     };
 
@@ -35,8 +46,7 @@ export type IsSpinnerDisplayedProps = {
   errorMessage?: string;
   hasReceipt?: boolean;
   isLoading?: boolean;
-  statusWriteContract?: string;
-  statusWriteContracts?: string;
+  lifeCycleStatus: LifeCycleStatus;
   transactionHash?: string;
   transactionId?: string;
 };
@@ -54,18 +64,17 @@ export type TransactionContextType = {
   address: Address; // The wallet address involved in the transaction.
   chainId?: number; // The chainId for the transaction.
   contracts: ContractFunctionParameters[]; // An array of contracts for the transaction.
-  errorCode?: string; // An error code string if the transaction encounters an issue.
+  errorCode?: string; // An error code used to localize errors and provide more context with unit-tests.
   errorMessage?: string; // An error message string if the transaction encounters an issue.
   hasPaymaster?: boolean; // A boolean indicating if app has paymaster configured
   isLoading: boolean; // A boolean indicating if the transaction is currently loading.
   isToastVisible: boolean; // A boolean indicating if the transaction toast notification is visible.
   onSubmit: () => void; // A function called when the transaction is submitted.
   receipt?: TransactionReceipt; // The receipt of the transaction
+  lifeCycleStatus: LifeCycleStatus; // The lifecycle status of the transaction.
   setIsToastVisible: (isVisible: boolean) => void; // A function to set the visibility of the transaction toast.
   setLifeCycleStatus: (state: LifeCycleStatus) => void; // A function to set the lifecycle status of the component
   setTransactionId: (id: string) => void; // A function to set the transaction ID.
-  statusWriteContract?: string; // An optional string indicating the current status of the transaction.
-  statusWriteContracts?: string; // An optional string indicating the current status of the transaction.
   transactionId?: string; // An optional string representing the ID of the transaction.
   transactionHash?: string; // An optional string representing the hash of the transaction.
 };

@@ -60,6 +60,9 @@ const TestComponent = () => {
       <span data-testid="context-value-errorMessage">
         {context.errorMessage}
       </span>
+      <span data-testid="context-value-lifeCycleStatus-statusName">
+        {context.lifeCycleStatus.statusName}
+      </span>
       <span data-testid="context-value-isToastVisible">
         {`${context.isToastVisible}`}
       </span>
@@ -82,15 +85,15 @@ describe('TransactionProvider', () => {
     });
     (useCallsStatus as ReturnType<typeof vi.fn>).mockReturnValue({
       transactionHash: null,
-      status: 'IDLE',
+      status: 'idle',
     });
     (useWriteContract as ReturnType<typeof vi.fn>).mockReturnValue({
-      status: 'IDLE',
+      status: 'idle',
       writeContract: vi.fn(),
       data: null,
     });
     (useWriteContracts as ReturnType<typeof vi.fn>).mockReturnValue({
-      status: 'IDLE',
+      status: 'idle',
       writeContractsAsync: vi.fn(),
     });
     (useWaitForTransactionReceipt as ReturnType<typeof vi.fn>).mockReturnValue({
@@ -176,10 +179,52 @@ describe('TransactionProvider', () => {
     });
   });
 
+  it('should set setLifeCycleStatus to transactionPending when writeContractsAsync is pending', async () => {
+    const writeContractsAsyncMock = vi.fn();
+    (useWriteContracts as ReturnType<typeof vi.fn>).mockReturnValue({
+      status: 'pending',
+      writeContractsAsync: writeContractsAsyncMock,
+    });
+    render(
+      <TransactionProvider address="0x123" contracts={[]}>
+        <TestComponent />
+      </TransactionProvider>,
+    );
+    const button = screen.getByText('Submit');
+    fireEvent.click(button);
+    await waitFor(() => {
+      expect(
+        screen.getByTestId('context-value-lifeCycleStatus-statusName')
+          .textContent,
+      ).toBe('transactionPending');
+    });
+  });
+
+  it('should set setLifeCycleStatus to transactionPending when writeContractAsync is pending', async () => {
+    const writeContractsAsyncMock = vi.fn();
+    (useWriteContract as ReturnType<typeof vi.fn>).mockReturnValue({
+      status: 'pending',
+      writeContractsAsync: writeContractsAsyncMock,
+    });
+    render(
+      <TransactionProvider address="0x123" contracts={[]}>
+        <TestComponent />
+      </TransactionProvider>,
+    );
+    const button = screen.getByText('Submit');
+    fireEvent.click(button);
+    await waitFor(() => {
+      expect(
+        screen.getByTestId('context-value-lifeCycleStatus-statusName')
+          .textContent,
+      ).toBe('transactionPending');
+    });
+  });
+
   it('should update context on handleSubmit', async () => {
     const writeContractsAsyncMock = vi.fn();
     (useWriteContracts as ReturnType<typeof vi.fn>).mockReturnValue({
-      statusWriteContracts: 'IDLE',
+      status: 'idle',
       writeContractsAsync: writeContractsAsyncMock,
     });
     render(
@@ -199,7 +244,7 @@ describe('TransactionProvider', () => {
       .fn()
       .mockRejectedValue(new Error('Test error'));
     (useWriteContracts as ReturnType<typeof vi.fn>).mockReturnValue({
-      statusWriteContracts: 'IDLE',
+      status: 'idle',
       writeContractsAsync: writeContractsAsyncMock,
     });
     render(
@@ -238,7 +283,7 @@ describe('TransactionProvider', () => {
 
   it('should display toast on error', async () => {
     (useWriteContracts as ReturnType<typeof vi.fn>).mockReturnValue({
-      statusWriteContracts: 'IDLE',
+      status: 'idle',
       writeContractsAsync: vi.fn().mockRejectedValue(new Error('Test error')),
     });
     render(
@@ -273,7 +318,7 @@ describe('TransactionProvider', () => {
       .fn()
       .mockRejectedValue({ cause: { name: 'UserRejectedRequestError' } });
     (useWriteContracts as ReturnType<typeof vi.fn>).mockReturnValue({
-      statusWriteContracts: 'IDLE',
+      status: 'idle',
       writeContractsAsync: writeContractsAsyncMock,
     });
     render(
@@ -313,7 +358,7 @@ describe('TransactionProvider', () => {
       .mockRejectedValue(new Error(METHOD_NOT_SUPPORTED_ERROR_SUBSTRING));
     const writeContractAsyncMock = vi.fn();
     (useWriteContracts as ReturnType<typeof vi.fn>).mockReturnValue({
-      statusWriteContracts: 'IDLE',
+      status: 'idle',
       writeContractsAsync: writeContractsAsyncMock,
     });
     (useWriteContract as ReturnType<typeof vi.fn>).mockReturnValue({
@@ -340,7 +385,7 @@ describe('TransactionProvider', () => {
       .fn()
       .mockRejectedValue(new Error('Generic error'));
     (useWriteContracts as ReturnType<typeof vi.fn>).mockReturnValue({
-      statusWriteContracts: 'IDLE',
+      status: 'idle',
       writeContractsAsync: writeContractsAsyncMock,
     });
     (useWriteContract as ReturnType<typeof vi.fn>).mockReturnValue({
@@ -372,7 +417,7 @@ describe('TransactionProvider', () => {
       .fn()
       .mockRejectedValue(new Error('Basic error'));
     (useWriteContracts as ReturnType<typeof vi.fn>).mockReturnValue({
-      statusWriteContracts: 'IDLE',
+      status: 'idle',
       writeContractsAsync: writeContractsAsyncMock,
     });
     (useWriteContract as ReturnType<typeof vi.fn>).mockReturnValue({

@@ -184,29 +184,4 @@ describe('useWriteContract', () => {
       },
     });
   });
-
-  it('should handle uncaught errors', () => {
-    const uncaughtError = new Error('Uncaught error');
-    (useWriteContractWagmi as ReturnType<typeof vi.fn>).mockImplementation(
-      () => {
-        throw uncaughtError;
-      },
-    );
-    const { result } = renderHook(() =>
-      useWriteContract({
-        setLifeCycleStatus: mockSetLifeCycleStatus,
-        transactionHashList: [],
-      }),
-    );
-    expect(result.current.status).toBe('error');
-    expect(result.current.writeContractAsync).toBeInstanceOf(Function);
-    expect(mockSetLifeCycleStatus).toHaveBeenCalledWith({
-      statusName: 'error',
-      statusData: {
-        code: 'TmUWCh02',
-        error: JSON.stringify(uncaughtError),
-        message: 'Something went wrong. Please try again.',
-      },
-    });
-  });
 });

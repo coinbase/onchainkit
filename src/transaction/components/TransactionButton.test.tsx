@@ -29,24 +29,23 @@ describe('TransactionButton', () => {
       showCallsStatus: vi.fn(),
     });
   });
+
   it('renders correctly', () => {
     (useTransactionContext as vi.Mock).mockReturnValue({
       isLoading: false,
+      lifeCycleStatus: { statusName: 'init', statusData: null },
     });
-
     render(<TransactionButton text="Transact" />);
-
     const contentElement = screen.getByText('Transact');
     expect(contentElement).toBeInTheDocument();
   });
 
   it('renders spinner correctly', () => {
     (useTransactionContext as vi.Mock).mockReturnValue({
+      lifeCycleStatus: { statusName: 'init', statusData: null },
       isLoading: true,
     });
-
     render(<TransactionButton text="Transact" />);
-
     const spinner = screen.getByTestId('ockSpinner');
     expect(spinner).toBeInTheDocument();
   });
@@ -54,11 +53,10 @@ describe('TransactionButton', () => {
   it('renders view txn text when receipt exists', () => {
     (useTransactionContext as vi.Mock).mockReturnValue({
       isLoading: true,
+      lifeCycleStatus: { statusName: 'init', statusData: null },
       receipt: '123',
     });
-
     render(<TransactionButton text="Transact" />);
-
     const text = screen.getByText('View transaction');
     expect(text).toBeInTheDocument();
   });
@@ -66,11 +64,10 @@ describe('TransactionButton', () => {
   it('renders try again when error exists', () => {
     (useTransactionContext as vi.Mock).mockReturnValue({
       isLoading: true,
+      lifeCycleStatus: { statusName: 'init', statusData: null },
       errorMessage: '123',
     });
-
     render(<TransactionButton text="Transact" />);
-
     const text = screen.getByText('Try again');
     expect(text).toBeInTheDocument();
   });
@@ -86,8 +83,8 @@ describe('TransactionButton', () => {
   it('should have disabled attribute when txn is in progress', () => {
     (useTransactionContext as vi.Mock).mockReturnValue({
       isLoading: true,
+      lifeCycleStatus: { statusName: 'init', statusData: null },
     });
-
     const { getByRole } = render(<TransactionButton text="Submit" />);
     const button = getByRole('button');
     expect(button).toBeDisabled();
@@ -96,8 +93,8 @@ describe('TransactionButton', () => {
   it('should have disabled when contracts are missing', () => {
     (useTransactionContext as vi.Mock).mockReturnValue({
       contracts: undefined,
+      lifeCycleStatus: { statusName: 'init', statusData: null },
     });
-
     const { getByRole } = render(<TransactionButton text="Submit" />);
     const button = getByRole('button');
     expect(button).toBeDisabled();
@@ -107,27 +104,26 @@ describe('TransactionButton', () => {
     const showCallsStatus = vi.fn();
     (useShowCallsStatus as vi.Mock).mockReturnValue({ showCallsStatus });
     (useTransactionContext as vi.Mock).mockReturnValue({
+      lifeCycleStatus: { statusName: 'init', statusData: null },
       receipt: '123',
       transactionId: '456',
     });
-
     render(<TransactionButton text="Transact" />);
     const button = screen.getByText('View transaction');
     fireEvent.click(button);
-
     expect(showCallsStatus).toHaveBeenCalledWith({ id: '456' });
   });
 
   it('should enable button when not in progress, not missing props, and not waiting for receipt', () => {
     (useTransactionContext as vi.Mock).mockReturnValue({
-      isLoading: false,
-      contracts: {},
       address: '0x123',
+      contracts: {},
+      isLoading: false,
+      lifeCycleStatus: { statusName: 'init', statusData: null },
       transactionId: undefined,
       transactionHash: undefined,
       receipt: undefined,
     });
-
     const { getByRole } = render(<TransactionButton text="Submit" />);
     const button = getByRole('button');
     expect(button).not.toBeDisabled();
@@ -137,6 +133,7 @@ describe('TransactionButton', () => {
     const onSubmit = vi.fn();
     const chainExplorerUrl = 'https://explorer.com';
     (useTransactionContext as vi.Mock).mockReturnValue({
+      lifeCycleStatus: { statusName: 'init', statusData: null },
       receipt: 'receipt-123',
       transactionId: undefined,
       transactionHash: 'hash-789',
@@ -144,11 +141,9 @@ describe('TransactionButton', () => {
     });
     (getChainExplorer as vi.Mock).mockReturnValue(chainExplorerUrl);
     window.open = vi.fn();
-
     render(<TransactionButton text="Transact" />);
     const button = screen.getByText('View transaction');
     fireEvent.click(button);
-
     expect(window.open).toHaveBeenCalledWith(
       `${chainExplorerUrl}/tx/hash-789`,
       '_blank',
@@ -160,17 +155,16 @@ describe('TransactionButton', () => {
   it('should call onSubmit when neither receipt nor transactionId exists', () => {
     const onSubmit = vi.fn();
     (useTransactionContext as vi.Mock).mockReturnValue({
-      receipt: undefined,
-      transactionId: undefined,
-      onSubmit,
       address: '123',
       contracts: [{}],
+      lifeCycleStatus: { statusName: 'init', statusData: null },
+      onSubmit,
+      receipt: undefined,
+      transactionId: undefined,
     });
-
     render(<TransactionButton text="Transact" />);
     const button = screen.getByText('Transact');
     fireEvent.click(button);
-
     expect(onSubmit).toHaveBeenCalled();
   });
 });
