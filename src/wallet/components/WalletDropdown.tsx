@@ -1,7 +1,7 @@
 import { Children, cloneElement, isValidElement, useMemo } from 'react';
 import { useAccount } from 'wagmi';
 import { Identity } from '../../identity/components/Identity';
-import { pressable, cn } from '../../styles/theme';
+import { cn, pressable } from '../../styles/theme';
 import { useBreakpoints } from '../../useBreakpoints';
 import type { WalletDropdownReact } from '../types';
 import { WalletBottomSheet } from './WalletBottomSheet';
