@@ -20,6 +20,14 @@ export default defineConfig({
         'playground/**',
         'site/**',
       ],
+      reporter: [
+        [
+          'html',
+          {
+            subdir: 'coverage',
+          },
+        ],
+      ],
       reportOnFailure: true,
       thresholds: {
         statements: 99.58,
