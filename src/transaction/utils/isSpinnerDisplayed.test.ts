@@ -1,19 +1,26 @@
+import type { LifeCycleStatus } from '../types';
 import { isSpinnerDisplayed } from './isSpinnerDisplayed';
 
 describe('isSpinnerDisplayed', () => {
-  it('should return true if transaction hash exists', () => {
-    const transactionHash = '123';
-    const errorMessage = '';
-    const statusWriteContract = '';
-    const statusWriteContracts = '';
-    const transactionId = '';
-    const isLoading = false;
+  let transactionHash: string;
+  let errorMessage: string;
+  let lifeCycleStatus: LifeCycleStatus;
+  let transactionId: string;
+  let isLoading: boolean;
 
+  beforeEach(() => {
+    transactionHash = '123';
+    errorMessage = '';
+    lifeCycleStatus = { statusName: 'init', statusData: null };
+    transactionId = '';
+    isLoading = false;
+  });
+
+  it('should return true if transaction hash exists', () => {
     const result = isSpinnerDisplayed({
       errorMessage,
       isLoading,
-      statusWriteContract,
-      statusWriteContracts,
+      lifeCycleStatus,
       transactionHash,
       transactionId,
     });
@@ -21,17 +28,14 @@ describe('isSpinnerDisplayed', () => {
   });
 
   it('should return true if isLoading', () => {
-    const transactionHash = '';
-    const errorMessage = '';
-    const statusWriteContract = '';
-    const statusWriteContracts = '';
-    const transactionId = '';
-    const isLoading = true;
+    transactionHash = '';
+    errorMessage = '';
+    transactionId = '';
+    isLoading = true;
     const result = isSpinnerDisplayed({
       errorMessage,
       isLoading,
-      statusWriteContract,
-      statusWriteContracts,
+      lifeCycleStatus,
       transactionHash,
       transactionId,
     });
@@ -39,17 +43,15 @@ describe('isSpinnerDisplayed', () => {
   });
 
   it('should return true if status is pending', () => {
-    const transactionHash = '';
-    const errorMessage = '';
-    const statusWriteContract = 'pending';
-    const statusWriteContracts = '';
-    const transactionId = '';
-    const isLoading = false;
+    transactionHash = '';
+    errorMessage = '';
+    lifeCycleStatus = { statusName: 'transactionPending', statusData: null };
+    transactionId = '';
+    isLoading = false;
     const result = isSpinnerDisplayed({
       errorMessage,
       isLoading,
-      statusWriteContract,
-      statusWriteContracts,
+      lifeCycleStatus,
       transactionHash,
       transactionId,
     });
@@ -57,17 +59,14 @@ describe('isSpinnerDisplayed', () => {
   });
 
   it('should return false if errorMessage exists', () => {
-    const transactionHash = '';
-    const errorMessage = 'error message';
-    const statusWriteContract = '';
-    const statusWriteContracts = '';
-    const transactionId = '';
-    const isLoading = false;
+    transactionHash = '';
+    errorMessage = 'error message';
+    transactionId = '';
+    isLoading = false;
     const result = isSpinnerDisplayed({
       errorMessage,
       isLoading,
-      statusWriteContract,
-      statusWriteContracts,
+      lifeCycleStatus,
       transactionHash,
       transactionId,
     });
@@ -75,17 +74,14 @@ describe('isSpinnerDisplayed', () => {
   });
 
   it('should return true if transaction id exists', () => {
-    const transactionHash = '';
-    const errorMessage = '';
-    const statusWriteContract = '';
-    const statusWriteContracts = '';
-    const transactionId = '123';
-    const isLoading = false;
+    transactionHash = '';
+    errorMessage = '';
+    transactionId = '123';
+    isLoading = false;
     const result = isSpinnerDisplayed({
       errorMessage,
       isLoading,
-      statusWriteContract,
-      statusWriteContracts,
+      lifeCycleStatus,
       transactionHash,
       transactionId,
     });

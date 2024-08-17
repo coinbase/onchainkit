@@ -10,8 +10,7 @@ vi.mock('./TransactionProvider', () => ({
 describe('TransactionSponsor', () => {
   it('renders correctly', () => {
     (useTransactionContext as vi.Mock).mockReturnValue({
-      statusWriteContract: 'idle',
-      statusWriteContracts: 'idle',
+      lifeCycleStatus: { statusName: 'transactionIdle', statusData: null },
       hasPaymaster: true,
     });
     render(<TransactionSponsor />);
@@ -21,8 +20,7 @@ describe('TransactionSponsor', () => {
   });
   it('does not render if hasPaymaster is false', () => {
     (useTransactionContext as vi.Mock).mockReturnValue({
-      statusWriteContract: 'idle',
-      statusWriteContracts: 'idle',
+      lifeCycleStatus: { statusName: 'transactionIdle', statusData: null },
       hasPaymaster: false,
     });
     render(<TransactionSponsor />);
