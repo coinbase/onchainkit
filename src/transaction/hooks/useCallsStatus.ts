@@ -15,7 +15,6 @@ export function useCallsStatus({
         enabled: !!transactionId,
       },
     });
-    console.log('useCallsStatus', data);
     const transactionHash = data?.receipts?.[0]?.transactionHash;
     return { status: data?.status, transactionHash };
   } catch (err) {
