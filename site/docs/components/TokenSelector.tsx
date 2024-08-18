@@ -77,7 +77,7 @@ function TokenSelector() {
       )}
       {filteredTokens.length > 0 ? (
         <div>
-          <div className="text-black dark:text-white text-body">Tokens</div>
+          <div className="text-black text-body dark:text-white">Tokens</div>
           <div>
             {filteredTokens.map((token) => (
               <TokenRow key={token.name} token={token} onClick={handleSelect} />

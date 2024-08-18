@@ -84,8 +84,7 @@
       "coverage",
       "dist",
       "esm",
-      "framegear",
-      "site"
+      "framegear"
     ]
   }
 }
