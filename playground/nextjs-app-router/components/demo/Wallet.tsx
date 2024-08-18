@@ -47,7 +47,7 @@ function WalletComponent() {
           </WalletDropdown>
         </Wallet>
       ) : (
-        <></>
+        <ConnectWallet>Connect Wallet</ConnectWallet>
       )}
     </div>
   );
