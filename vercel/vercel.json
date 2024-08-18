@@ -1,12 +1,15 @@
 {
+  "redirects": [
+    {
+      "source": "/coverage",
+      "destination": "/coverage/",
+      "permanent": false
+    }
+  ],
   "rewrites": [
     {
       "source": "/coverage/",
       "destination": "https://onchainkit-coverage.vercel.app/"
-    },
-    {
-      "source": "/coverage",
-      "destination": "https://onchainkit.xyz/coverage/"
     },
     {
       "source": "/coverage/:match*",
