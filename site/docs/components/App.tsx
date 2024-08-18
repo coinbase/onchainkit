@@ -38,7 +38,7 @@ export default function App({ children }: { children: ReactNode }) {
         <OnchainKitProvider
           apiKey={viteCdpApiKey}
           chain={base} // TODO: remove
-          schemaId='0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9'
+          schemaId="0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9"
         >
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             {children}

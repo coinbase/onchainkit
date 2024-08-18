@@ -1,3 +1,7 @@
+import type {
+  TransactionError,
+  TransactionResponse,
+} from '@coinbase/onchainkit/transaction';
 import type { ReactNode } from 'react';
 import { useAccount } from 'wagmi';
 import type { Config } from 'wagmi';
@@ -17,7 +21,8 @@ type TransactionWrapperReact = {
   children: (props: TransactionWrapperChildren) => ReactNode;
 };
 
-export const clickContractAddress = '0x67c97D1FB8184F038592b2109F854dfb09C77C75';
+export const clickContractAddress =
+  '0x67c97D1FB8184F038592b2109F854dfb09C77C75';
 export const clickContractAbi = [
   {
     type: 'function',
@@ -42,17 +47,17 @@ export default function TransactionWrapper({
     },
   ];
 
-  function onError(error: Error) {
-    console.error('TransactionWrapper:', error);
+  function onError(error: TransactionError) {
+    console.error('TransactionWrapper.onError:', error);
   }
 
-  function onSuccess(response: any) {
-    console.log('TransactionWrapperSuccessHandler', response)
+  function onSuccess(response: TransactionResponse) {
+    console.log('TransactionWrapper.onSuccess', response);
   }
 
   return (
-    <main className='flex flex-col'>
-      <div className='flex max-w-[450px] items-center rounded-lg p-4 justify-center'>
+    <main className="flex flex-col">
+      <div className="flex max-w-[450px] items-center justify-center rounded-lg p-4">
         {children({ address, contracts, onError, onSuccess })}
       </div>
     </main>

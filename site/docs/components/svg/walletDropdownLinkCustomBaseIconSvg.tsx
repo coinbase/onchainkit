@@ -9,6 +9,7 @@ export const walletDropdownLinkCustomBaseIconSvg = (
     viewBox="0 0 224 224"
     enable-background="new 0 0 224 224"
   >
+    <title>Wallet Dropdown Link Custom Base Icon SVG</title>
     <path
       fill="#0253FF"
       opacity="1.000000"
