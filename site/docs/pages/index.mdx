@@ -9,8 +9,8 @@ showOutline: false
 
 import { base } from 'viem/chains';
 import { OnchainKitProvider } from '@coinbase/onchainkit';
-import { Address, Avatar, Badge, EthBalance, Name, Identity } from '@coinbase/onchainkit/identity';
-import { Swap, SwapAmountInput, SwapButton, SwapMessage, SwapToggleButton } from '@coinbase/onchainkit/swap';
+import { Address, Avatar, Badge, EthBalance, Name, Identity } from './src/identity';
+import { Swap, SwapAmountInput, SwapButton, SwapMessage, SwapToggleButton } from './src/swap';
 import { color } from '@coinbase/onchainkit/theme';
 import {
   ConnectWallet,
@@ -19,7 +19,7 @@ import {
   WalletDropdownBaseName,
   WalletDropdownLink,
   WalletDropdownDisconnect,
-} from '@coinbase/onchainkit/wallet';
+} from './src/wallet';
 import App from '../components/App';
 import NavigationList from '../components/landing/NavigationList';
 import SwapWrapper from '../components/SwapWrapper';
@@ -33,7 +33,7 @@ import {
   TransactionStatus,
   TransactionStatusAction,
   TransactionStatusLabel,
-} from '@coinbase/onchainkit/transaction';
+} from './src/transaction';
 
 <div id="blobs">
   <div
@@ -100,7 +100,7 @@ bun add @coinbase/onchainkit
 :::
 
     </div>
-      <a href="/getting-started" title="View OnchainKit docs" className="font-sans border rounded-xl border-solid border-indigo-600 text-indigo-600 dark:border-indigo-400 dark:text-indigo-400 px-4 py-3 font-bold mt-4">
+      <a href="/getting-started" title="View OnchainKit docs" className="font-sans border rounded-xl border-solid border-indigo-600 text-indigo-600 hover:border-indigo-700 dark:border-indigo-400 dark:text-indigo-400 dark:hover:border-indigo-300 px-4 py-3 font-bold mt-4">
         View docs
       </a>
     </div>
@@ -127,7 +127,7 @@ bun add @coinbase/onchainkit
     <p className="text-base md:text-base pb-[24px] md:text-left text-center">
       Display ENS [avatars](/identity/avatar), Attestation [badges](/identity/badge), ENS [names](/identity/name) and account [addresses](/identity/address).
     </p>
-    <a href="/identity/identity" title="Start with Identity Component" className="mx-auto md:m-0 flex justify-center items-center border border-indigo-600 text-indigo-600 dark:border-indigo-400 dark:text-indigo-400 font-bold leading-6 px-4 py-3 rounded-xl border-solid w-[210px]">
+    <a href="/identity/identity" title="Start with Identity Component" className="mx-auto md:m-0 flex justify-center items-center border border-indigo-600 text-indigo-600 hover:border-indigo-700 dark:border-indigo-400 dark:text-indigo-400 dark:hover:border-indigo-300 font-bold leading-6 px-4 py-3 rounded-xl border-solid w-[210px]">
       Start with Identity
     </a>
     <div className="flex grow md:flex-row pt-[44px] flex-col">
@@ -175,7 +175,7 @@ bun add @coinbase/onchainkit
     <p className="text-base md:text-base pb-[24px] md:text-left text-center">
       Create or connect your wallet with [Connect Wallet](/wallet/wallet), powered by [Smart Wallet](https://www.smartwallet.dev/why).
     </p>
-    <a href="/wallet/wallet" title="Start with Wallet Component" className="mx-auto md:m-0  flex justify-center items-center border border-indigo-600 text-indigo-600 dark:border-indigo-400 dark:text-indigo-400 font-bold leading-6 px-4 py-3 rounded-xl border-solid w-[210px]">
+    <a href="/wallet/wallet" title="Start with Wallet Component" className="mx-auto md:m-0  flex justify-center items-center border border-indigo-600 text-indigo-600 hover:border-indigo-700 dark:border-indigo-400 dark:text-indigo-400 dark:hover:border-indigo-300 font-bold leading-6 px-4 py-3 rounded-xl border-solid w-[210px]">
       Start with Wallet
     </a>
     <div className="flex grow md:flex-row pt-[44px] flex-col">
@@ -243,7 +243,7 @@ bun add @coinbase/onchainkit
     <p className="text-base md:text-base pb-[24px] md:text-left text-center">
       Search [Tokens](/token/types#token) using [getTokens](/token/get-tokens) and display them with [TokenSearch](/token/token-search), [TokenChip](/token/token-chip), and [TokenRow](/token/token-row).
     </p>
-    <a href="/token/token-chip" title="Start with Tokens Component" className="mx-auto md:m-0 flex justify-center items-center border border-indigo-600 text-indigo-600 dark:border-indigo-400 dark:text-indigo-400 font-bold leading-6 px-4 py-3 rounded-xl border-solid w-[210px]">
+    <a href="/token/token-chip" title="Start with Tokens Component" className="mx-auto md:m-0 flex justify-center items-center border border-indigo-600 text-indigo-600 hover:border-indigo-700 dark:border-indigo-400 dark:text-indigo-400 dark:hover:border-indigo-300 font-bold leading-6 px-4 py-3 rounded-xl border-solid w-[210px]">
       Start with Tokens
     </a>
     <div className="flex grow md:flex-row pt-[44px] flex-col">
@@ -298,7 +298,7 @@ setFilteredTokens(filteredTokens);
     <p className="text-base md:text-base pb-[24px] md:text-left text-center">
       Swap [Tokens](/token/types#token) using the [Swap](/swap/swap) components.
     </p>
-    <a href="/swap/swap" title="Start with Swap Component" className="mx-auto md:m-0 flex justify-center items-center border border-indigo-600 text-indigo-600 dark:border-indigo-400 dark:text-indigo-400 font-bold leading-6 px-4 py-3 rounded-xl border-solid w-[210px]">
+    <a href="/swap/swap" title="Start with Swap Component" className="mx-auto md:m-0 flex justify-center items-center border border-indigo-600 text-indigo-600 hover:border-indigo-700 dark:border-indigo-400 dark:text-indigo-400 dark:hover:border-indigo-300 font-bold leading-6 px-4 py-3 rounded-xl border-solid w-[210px]">
       Start with Swap
     </a>
     <div className="flex grow flex-col items-center md:flex-row pt-[44px] md:pt-[20px]">
@@ -372,7 +372,7 @@ setFilteredTokens(filteredTokens);
   <p className="text-base md:text-base pb-[24px] md:text-left text-center">
     Trigger onchain operations and sponsor them with [Paymaster](https://www.coinbase.com/developer-platform/products/paymaster).
   </p>
-  <a href="/transaction/transaction" title="Start with Transaction Component" className="mx-auto md:m-0 flex justify-center items-center border border-indigo-600 text-indigo-600 dark:border-indigo-400 dark:text-indigo-400 font-bold leading-6 px-4 py-3 rounded-xl border-solid w-[210px]">
+  <a href="/transaction/transaction" title="Start with Transaction Component" className="mx-auto md:m-0 flex justify-center items-center border border-indigo-600 text-indigo-600 hover:border-indigo-700 dark:border-indigo-400 dark:text-indigo-400 dark:hover:border-indigo-300 font-bold leading-6 px-4 py-3 rounded-xl border-solid w-[210px]">
     Start with Transaction
   </a>
   <div className="flex grow md:flex-row pt-[44px] flex-col">
@@ -452,7 +452,7 @@ setFilteredTokens(filteredTokens);
     <p className="text-base md:text-base pb-[24px] md:text-left text-center">
       Test, build, and ship your Farcaster frames with [FrameMetadata](/frame/frame-metadata).
     </p>
-    <a href="/frame/frame-metadata" title="Start with Frame Component"  className="mx-auto md:m-0 flex justify-center items-center border border-indigo-600 text-indigo-600 dark:border-indigo-400 dark:text-indigo-400 font-bold leading-6 px-4 py-3 rounded-xl border-solid w-[210px]">
+    <a href="/frame/frame-metadata" title="Start with Frame Component"  className="mx-auto md:m-0 flex justify-center items-center border border-indigo-600 text-indigo-600 hover:border-indigo-700 dark:border-indigo-400 dark:text-indigo-400 dark:hover:border-indigo-300 font-bold leading-6 px-4 py-3 rounded-xl border-solid w-[210px]">
       Start with Frame
     </a>
     <div className="flex grow flex-col items-center md:flex-row pt-[44px]">
@@ -507,7 +507,7 @@ setFilteredTokens(filteredTokens);
     <aside className="mx-auto md:mx-0">
       <a
         href="https://www.figma.com/community/file/1370194397345450683/onchainkit"
-        className="flex justify-center items-center border border-indigo-600 text-indigo-600 dark:border-indigo-400 dark:text-indigo-400 font-bold leading-6 px-4 py-3 rounded-xl border-solid w-[180px]"
+        className="flex justify-center items-center border border-indigo-600 text-indigo-600 hover:border-indigo-700 dark:border-indigo-400 dark:text-indigo-400 dark:hover:border-indigo-300 font-bold leading-6 px-4 py-3 rounded-xl border-solid w-[180px]"
         target="_blank"
         rel="noopener noreferrer"
       >
