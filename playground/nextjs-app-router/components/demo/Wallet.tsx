@@ -22,33 +22,26 @@ function WalletComponent() {
 
   return (
     <div className="flex justify-end">
-      {address ? (
-        <Wallet>
-          <ConnectWallet>
-            <Avatar address={address} className="h-6 w-6" />
+      <Wallet>
+        <ConnectWallet>
+          <Avatar address={address} className="h-6 w-6" />
+          <Name />
+        </ConnectWallet>
+        <WalletDropdown>
+          <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick={true}>
+            <Avatar />
             <Name />
-          </ConnectWallet>
-          <WalletDropdown>
-            <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick={true}>
-              <Avatar />
-              <Name />
-              <Address className={color.foregroundMuted} />
-              <EthBalance />
-            </Identity>
-            <WalletDropdownBaseName />
-            <WalletDropdownLink
-              icon="wallet"
-              href="https://wallet.coinbase.com"
-            >
-              Wallet
-            </WalletDropdownLink>
-            <WalletDropdownFundLink />
-            <WalletDropdownDisconnect />
-          </WalletDropdown>
-        </Wallet>
-      ) : (
-        <></>
-      )}
+            <Address className={color.foregroundMuted} />
+            <EthBalance />
+          </Identity>
+          <WalletDropdownBaseName />
+          <WalletDropdownLink icon="wallet" href="https://wallet.coinbase.com">
+            Wallet
+          </WalletDropdownLink>
+          <WalletDropdownFundLink />
+          <WalletDropdownDisconnect />
+        </WalletDropdown>
+      </Wallet>
     </div>
   );
 }
