@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.29.2
+
+### Patch Changes
+
+- 704e160: - **fix**: better defined pressable classes were accessing the hover state variable. Update the `TransactionButton` and `WalletDropdown` to use our pre-existing pressable classes. By @cpcramer #1092
+  - **feat**: added `transactionIdle` and `transactionPending` to `lifeCycleStatus` in the Transaction experience. By @zizzamia #1088
+
 ## 0.29.1
 
 ### Patch Changes
