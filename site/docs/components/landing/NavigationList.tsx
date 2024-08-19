@@ -46,7 +46,7 @@ export default function NavigationList() {
               <div className="h-[70px] w-[70px] rounded-xl bg-gray-800 p-5 group-hover:bg-gray-50">
                 {item.svg}
               </div>
-              <p className="text-center font-normal text-base not-italic leading-6">
+              <p className="text-center font-normal text-base not-italic leading-6 text-gray-950 dark:text-gray-50">
                 {item.label}
               </p>
             </a>
