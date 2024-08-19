@@ -118,6 +118,226 @@ bun add @coinbase/onchainkit
 {' '}
 
 <section className="w-[1225px] max-w-full pt-[56px] px-1 md:px-0">
+  <main id="wallet" className="pt-[56px] flex flex-col gap-4 md:flex-row md:text-left text-center">
+    <a href="#wallet" title="Wallet Component details">
+      <h3 className="basis-1/2 py-[15px] text-4xl md:text-4xl">Wallet</h3>
+    </a>
+  </main>
+  <aside className="pb-6">
+    <p className="text-base md:text-base pb-[24px] md:text-left text-center">
+      Create or connect your wallet with [Connect Wallet](/wallet/wallet), powered by [Smart Wallet](https://www.smartwallet.dev/why).
+    </p>
+    <a href="/wallet/wallet" title="Start with Wallet Component" className="mx-auto md:m-0  flex justify-center items-center border border-indigo-600 text-indigo-600 hover:border-indigo-700 dark:border-indigo-400 dark:text-indigo-400 dark:hover:border-indigo-300 font-bold leading-6 px-4 py-3 rounded-xl border-solid w-[210px]">
+      Start with Wallet
+    </a>
+    <div className="flex grow md:flex-row pt-[44px] flex-col">
+      <div className="w-[664px] max-w-full">
+```tsx
+<Wallet>
+  <ConnectWallet>
+    <Avatar className="h-6 w-6" />
+    <Name />
+  </ConnectWallet>
+  <WalletDropdown>
+    <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick>
+      <Avatar />
+      <Name>
+        <Badge className="badge"/>
+      </Name>
+      <Address />
+      <EthBalance />
+    </Identity>
+    <WalletDropdownLink icon="wallet" href="https://wallet.coinbase.com">
+      Wallet
+    </WalletDropdownLink>
+    <WalletDropdownBaseName />
+    <WalletDropdownDisconnect />
+  </WalletDropdown>
+</Wallet>
+```
+      </div>
+      <div className='flex grow items-center justify-center h-24 mt-[50px] md:mt-0 md:h-auto'>
+<WalletComponents>
+  <Wallet>
+    <ConnectWallet>
+      <Avatar className="h-6 w-6" />
+      <Name />
+    </ConnectWallet>
+    <WalletDropdown>
+      <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick>
+        <Avatar />
+        <Name>
+          <Badge className="badge"/>
+        </Name>
+        <Address className={color.foregroundMuted} />
+        <EthBalance />
+      </Identity>
+      <WalletDropdownLink icon="wallet" href="https://wallet.coinbase.com">
+        Wallet
+      </WalletDropdownLink>
+      <WalletDropdownBaseName />
+      <WalletDropdownDisconnect />
+    </WalletDropdown>
+  </Wallet>
+</WalletComponents>
+      </div>
+    </div>
+  </aside>
+
+  <main id="transaction" className="pt-[56px] flex flex-col gap-4 md:flex-row md:text-left text-center">
+    <a href="#transaction" title="Transaction Component details">
+      <h3 className="basis-1/2 py-[15px] text-4xl md:text-4xl">Transaction</h3>
+    </a>
+  </main>
+  <aside className="pb-6">
+  <p className="text-base md:text-base pb-[24px] md:text-left text-center">
+    Trigger onchain operations and sponsor them with [Paymaster](https://www.coinbase.com/developer-platform/products/paymaster).
+  </p>
+  <a href="/transaction/transaction" title="Start with Transaction Component" className="mx-auto md:m-0 flex justify-center items-center border border-indigo-600 text-indigo-600 hover:border-indigo-700 dark:border-indigo-400 dark:text-indigo-400 dark:hover:border-indigo-300 font-bold leading-6 px-4 py-3 rounded-xl border-solid w-[210px]">
+    Start with Transaction
+  </a>
+  <div className="flex grow md:flex-row pt-[44px] flex-col">
+    <div className="w-[664px] max-w-full">
+```tsx
+<Transaction
+  address={address}
+  chainId={base.id}
+  contracts={[
+    {
+      address: CONTRACT_ADDRESS,
+      abi: CONTRACT_ABI,
+      functionName: CONTRACT_FUNCTION_NAME,
+      args: [],
+    },
+  ]}
+>
+  <TransactionButton />
+  <TransactionSponsor />
+  <TransactionStatus>
+    <TransactionStatusLabel />
+    <TransactionStatusAction />
+  </TransactionStatus>
+</Transaction>
+```
+    </div>
+    <div className='flex grow items-center justify-center h-24 mt-[50px] md:mt-0 md:h-auto'>
+      <App>
+        <TransactionWrapper>
+          {({ address, contracts, onError, onSuccess }) => {
+            const capabilities = {
+              paymasterService: {
+                url: import.meta.env.VITE_CDP_PAYMASTER_AND_BUNDLER_ENDPOINT,
+              },
+            }
+            if (address) {
+              return (
+                <Transaction
+                  address={address}
+                  capabilities={capabilities}
+                  chainId={84532}
+                  contracts={contracts}
+                  onError={onError}
+                  onSuccess={onSuccess}
+                >
+                <TransactionButton className="w-[240px] px-4 py-2 text-white rounded-lg hover:bg-indigo-700 transition-colors" />
+                  <TransactionSponsor />
+                  <TransactionStatus>
+                    <TransactionStatusLabel />
+                    <TransactionStatusAction />
+                  </TransactionStatus>
+                </Transaction>
+              )
+            } else {
+              return (
+                <Wallet>
+                  <ConnectWallet>
+                    <Avatar className="h-6 w-6" />
+                    <Name />
+                  </ConnectWallet>
+                </Wallet>
+              )
+            }
+          }}
+        </TransactionWrapper>
+      </App>
+    </div>
+  </div>
+</aside>
+
+  <main id="swap" className="pt-[56px] flex flex-col gap-4 md:flex-row md:text-left text-center">
+    <a href="#swap" title="Swap Component details">
+      <h3 className="basis-1/2 py-[15px] text-4xl md:text-4xl">Swap</h3>
+    </a>
+  </main>
+  <aside className="pb-6">
+    <p className="text-base md:text-base pb-[24px] md:text-left text-center">
+      Swap [Tokens](/token/types#token) using the [Swap](/swap/swap) components.
+    </p>
+    <a href="/swap/swap" title="Start with Swap Component" className="mx-auto md:m-0 flex justify-center items-center border border-indigo-600 text-indigo-600 hover:border-indigo-700 dark:border-indigo-400 dark:text-indigo-400 dark:hover:border-indigo-300 font-bold leading-6 px-4 py-3 rounded-xl border-solid w-[210px]">
+      Start with Swap
+    </a>
+    <div className="flex grow flex-col items-center md:flex-row pt-[44px] md:pt-[20px]">
+      <div className="w-[664px] max-w-full">
+```tsx
+<Swap address={address}>
+  <SwapAmountInput
+    label="Sell"
+    swappableTokens={swappableTokens}
+    token={ETHToken}
+    type="from"
+  />
+  <SwapToggleButton />
+  <SwapAmountInput
+    label="Buy"
+    swappableTokens={swappableTokens}
+    token={USDCToken}
+    type="to"
+  />
+  <SwapButton />
+  <SwapMessage />
+</Swap>
+```
+      </div>
+      <div className='flex grow items-center justify-center h-auto p-6'>
+<App>
+  <SwapWrapper>
+    {({ address, swappableTokens }) => {
+      if (address) {
+        return (
+          <Swap address={address}>
+            <SwapAmountInput
+              label="Sell"
+              swappableTokens={swappableTokens}
+              token={swappableTokens[1]}
+              type="from"
+            />
+            <SwapToggleButton />
+            <SwapAmountInput
+              label="Buy"
+              swappableTokens={swappableTokens}
+              token={swappableTokens[2]}
+              type="to"
+            />
+            <SwapButton disabled />
+            <SwapMessage />
+          </Swap>
+        )
+      }
+      return <>
+        <Wallet>
+          <ConnectWallet>
+            <Avatar className="h-6 w-6" />
+            <Name />
+          </ConnectWallet>
+        </Wallet>
+      </>;
+    }}
+  </SwapWrapper>
+</App>
+      </div>
+    </div>
+  </aside>
+
   <main id="identity" className="flex flex-col gap-4 md:flex-row md:text-left text-center">
     <a href="#identity" title="Identity Component details">
       <h3 className="basis-1/2 py-[15px] text-4xl md:text-4xl">Identity</h3>
@@ -166,283 +386,7 @@ bun add @coinbase/onchainkit
     </div>
 
   </aside>
-  <main id="wallet" className="pt-[56px] flex flex-col gap-4 md:flex-row md:text-left text-center">
-    <a href="#wallet" title="Wallet Component details">
-      <h3 className="basis-1/2 py-[15px] text-4xl md:text-4xl">Wallet</h3>
-    </a>
-  </main>
-  <aside className="pb-6">
-    <p className="text-base md:text-base pb-[24px] md:text-left text-center">
-      Create or connect your wallet with [Connect Wallet](/wallet/wallet), powered by [Smart Wallet](https://www.smartwallet.dev/why).
-    </p>
-    <a href="/wallet/wallet" title="Start with Wallet Component" className="mx-auto md:m-0  flex justify-center items-center border border-indigo-600 text-indigo-600 hover:border-indigo-700 dark:border-indigo-400 dark:text-indigo-400 dark:hover:border-indigo-300 font-bold leading-6 px-4 py-3 rounded-xl border-solid w-[210px]">
-      Start with Wallet
-    </a>
-    <div className="flex grow md:flex-row pt-[44px] flex-col">
-      <div className="w-[664px] max-w-full">
-```tsx
-<Wallet> // [!code focus]
-  <ConnectWallet> // [!code focus]
-    <Avatar className="h-6 w-6" />
-    <Name />
-  </ConnectWallet> // [!code focus]
-  <WalletDropdown> // [!code focus]
-    <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick>
-      <Avatar />
-      <Name>
-        <Badge className="badge"/>
-      </Name>
-      <Address />
-      <EthBalance />
-    </Identity>
-    <WalletDropdownLink icon="wallet" href="https://wallet.coinbase.com"> // [!code focus]
-      Wallet // [!code focus]
-    </WalletDropdownLink> // [!code focus]
-    <WalletDropdownBaseName />
-    <WalletDropdownDisconnect /> // [!code focus]
-  </WalletDropdown> // [!code focus]
-</Wallet> // [!code focus]
-```
-      </div>
-      <div className='flex grow items-center justify-center h-24 mt-[50px] md:mt-0 md:h-auto'>
-<WalletComponents>
-  <Wallet>
-    <ConnectWallet>
-      <Avatar className="h-6 w-6" />
-      <Name />
-    </ConnectWallet>
-    <WalletDropdown>
-      <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick>
-        <Avatar />
-        <Name>
-          <Badge className="badge"/>
-        </Name>
-        <Address className={color.foregroundMuted} />
-        <EthBalance />
-      </Identity>
-      <WalletDropdownLink icon="wallet" href="https://wallet.coinbase.com">
-        Wallet
-      </WalletDropdownLink>
-      <WalletDropdownBaseName />
-      <WalletDropdownDisconnect />
-    </WalletDropdown>
-  </Wallet>
-</WalletComponents>
-      </div>
-    </div>
-  </aside>
-
-
-  <main id="tokens" className="pt-[56px] flex flex-col gap-4 md:flex-row md:text-left text-center">
-    <a href="#tokens" title="Tokens Component details">
-      <h3 className="basis-1/2 py-[15px] text-4xl md:text-4xl">Tokens</h3>
-    </a>
-  </main>
-
-  <aside className="pb-6">
-    <p className="text-base md:text-base pb-[24px] md:text-left text-center">
-      Search [Tokens](/token/types#token) using [getTokens](/token/get-tokens) and display them with [TokenSearch](/token/token-search), [TokenChip](/token/token-chip), and [TokenRow](/token/token-row).
-    </p>
-    <a href="/token/token-chip" title="Start with Tokens Component" className="mx-auto md:m-0 flex justify-center items-center border border-indigo-600 text-indigo-600 hover:border-indigo-700 dark:border-indigo-400 dark:text-indigo-400 dark:hover:border-indigo-300 font-bold leading-6 px-4 py-3 rounded-xl border-solid w-[210px]">
-      Start with Tokens
-    </a>
-    <div className="flex grow md:flex-row pt-[44px] flex-col">
-      <div className="w-[664px] max-w-full">
-```tsx
-const [filteredTokens, setFilteredTokens] = useState<Token[]>([]);
-...
-
-const tokens: Token[] = await getTokens({ search: value }); // [!code focus]
-setFilteredTokens(filteredTokens);
-...
-
-<div className="flex flex-col gap-4 rounded-3xl bg-ock-inverse p-4">
-  <TokenSearch onChange={handleChange} delayMs={200} /> // [!code focus]
-  {filteredTokens.length > 0 && (
-    <div className="flex gap-2">
-      {filteredTokens.map((token) => (
-        <TokenChip key={token.name} token={token} onClick={handleSelect} /> // [!code focus]
-      ))}
-    </div>
-  )}
-  {filteredTokens.length > 0 ? (
-    <div>
-      <div className="text-body text-black dark:text-white">Tokens</div>
-      <div>
-        {filteredTokens.map((token) => (
-          <TokenRow key={token.name} token={token} onClick={handleSelect} /> // [!code focus]
-        ))}
-      </div>
-    </div>
-  ) : (
-    <div className="text-body text-black">No tokens found</div>
-  )}
-</div>
-```
-      </div>
-      <div className='flex grow items-center justify-center h-auto p-6'>
-<App>
-  <TokenSelector />
-</App>
-      </div>
-    </div>
-  </aside>
-
-
-  <main id="swap" className="pt-[56px] flex flex-col gap-4 md:flex-row md:text-left text-center">
-    <a href="#swap" title="Swap Component details">
-      <h3 className="basis-1/2 py-[15px] text-4xl md:text-4xl">Swap</h3>
-    </a>
-  </main>
-  <aside className="pb-6">
-    <p className="text-base md:text-base pb-[24px] md:text-left text-center">
-      Swap [Tokens](/token/types#token) using the [Swap](/swap/swap) components.
-    </p>
-    <a href="/swap/swap" title="Start with Swap Component" className="mx-auto md:m-0 flex justify-center items-center border border-indigo-600 text-indigo-600 hover:border-indigo-700 dark:border-indigo-400 dark:text-indigo-400 dark:hover:border-indigo-300 font-bold leading-6 px-4 py-3 rounded-xl border-solid w-[210px]">
-      Start with Swap
-    </a>
-    <div className="flex grow flex-col items-center md:flex-row pt-[44px] md:pt-[20px]">
-      <div className="w-[664px] max-w-full">
-```tsx
-<Swap address={address}> // [!code focus]
-  <SwapAmountInput // [!code focus]
-    label="Sell" // [!code focus]
-    swappableTokens={swappableTokens} // [!code focus]
-    token={ETHToken} // [!code focus]
-    type="from" // [!code focus]
-  /> // [!code focus]
-  <SwapToggleButton /> // [!code focus]
-  <SwapAmountInput // [!code focus]
-    label="Buy" // [!code focus]
-    swappableTokens={swappableTokens} // [!code focus]
-    token={USDCToken} // [!code focus]
-    type="to" // [!code focus]
-  /> // [!code focus]
-  <SwapButton /> // [!code focus]
-  <SwapMessage /> // [!code focus]
-</Swap> // [!code focus]
-```
-      </div>
-      <div className='flex grow items-center justify-center h-auto p-6'>
-<App>
-  <SwapWrapper>
-    {({ address, swappableTokens }) => {
-      if (address) {
-        return (
-          <Swap address={address}>
-            <SwapAmountInput
-              label="Sell"
-              swappableTokens={swappableTokens}
-              token={swappableTokens[1]}
-              type="from"
-            />
-            <SwapToggleButton />
-            <SwapAmountInput
-              label="Buy"
-              swappableTokens={swappableTokens}
-              token={swappableTokens[2]}
-              type="to"
-            />
-            <SwapButton disabled />
-            <SwapMessage />
-          </Swap>
-        )
-      }
-      return <>
-        <Wallet>
-          <ConnectWallet>
-            <Avatar className="h-6 w-6" />
-            <Name />
-          </ConnectWallet>
-        </Wallet>
-      </>;
-    }}
-  </SwapWrapper>
-</App>
-      </div>
-    </div>
-  </aside>
-
-<main id="transaction" className="pt-[56px] flex flex-col gap-4 md:flex-row md:text-left text-center">
-  <a href="#transaction" title="Transaction Component details">
-    <h3 className="basis-1/2 py-[15px] text-4xl md:text-4xl">Transaction</h3>
-  </a>
-</main>
-<aside className="pb-6">
-  <p className="text-base md:text-base pb-[24px] md:text-left text-center">
-    Trigger onchain operations and sponsor them with [Paymaster](https://www.coinbase.com/developer-platform/products/paymaster).
-  </p>
-  <a href="/transaction/transaction" title="Start with Transaction Component" className="mx-auto md:m-0 flex justify-center items-center border border-indigo-600 text-indigo-600 hover:border-indigo-700 dark:border-indigo-400 dark:text-indigo-400 dark:hover:border-indigo-300 font-bold leading-6 px-4 py-3 rounded-xl border-solid w-[210px]">
-    Start with Transaction
-  </a>
-  <div className="flex grow md:flex-row pt-[44px] flex-col">
-    <div className="w-[664px] max-w-full">
-```tsx
-<Transaction // [!code focus]
-  address={address}
-  chainId={base.id}
-  contracts={[
-    {
-      address: CONTRACT_ADDRESS,
-      abi: CONTRACT_ABI,
-      functionName: CONTRACT_FUNCTION_NAME,
-      args: [],
-    },
-  ]}
-> // [!code focus]
-  <TransactionButton /> // [!code focus]
-  <TransactionSponsor /> // [!code focus]
-  <TransactionStatus> // [!code focus]
-    <TransactionStatusLabel /> // [!code focus]
-    <TransactionStatusAction /> // [!code focus]
-  </TransactionStatus> // [!code focus]
-</Transaction> // [!code focus]
-```
-    </div>
-    <div className='flex grow items-center justify-center h-24 mt-[50px] md:mt-0 md:h-auto'>
-      <App>
-        <TransactionWrapper>
-          {({ address, contracts, onError, onSuccess }) => {
-            const capabilities = {
-              paymasterService: {
-                url: import.meta.env.VITE_CDP_PAYMASTER_AND_BUNDLER_ENDPOINT,
-              },
-            }
-            if (address) {
-              return (
-                <Transaction
-                  address={address}
-                  capabilities={capabilities}
-                  chainId={84532}
-                  contracts={contracts}
-                  onError={onError}
-                  onSuccess={onSuccess}
-                >
-                <TransactionButton className="w-[240px] px-4 py-2 text-white rounded-lg hover:bg-indigo-700 transition-colors" />
-                  <TransactionSponsor />
-                  <TransactionStatus>
-                    <TransactionStatusLabel />
-                    <TransactionStatusAction />
-                  </TransactionStatus>
-                </Transaction>
-              )
-            } else {
-              return (
-                <Wallet>
-                  <ConnectWallet>
-                    <Avatar className="h-6 w-6" />
-                    <Name />
-                  </ConnectWallet>
-                </Wallet>
-              )
-            }
-          }}
-        </TransactionWrapper>
-      </App>
-    </div>
-  </div>
-</aside>
-
+  
   <main id="frame" className="pt-[56px] flex flex-col gap-4 md:flex-row md:text-left text-center">
     <a href="#frame" title="Frame Component details">
       <h3 className="basis-1/2 py-[15px] text-4xl md:text-4xl">Frame</h3>
@@ -562,7 +506,7 @@ setFilteredTokens(filteredTokens);
       <div className="flex flex-col md:flex-row items-center md:space-x-[128px]">
         <ul className="flex space-x-[28px] py-3 md:py-0">
           <li>[Docs](/getting-started)</li>
-          <li>[Playground](https://onchainkit-bsvq.vercel.app/)</li>
+          <li>[Playground](https://onchainkit.xyz/playground)</li>
           <li>[Template](https://github.com/coinbase/onchain-app-template)</li>
           <li>[Figma](https://www.figma.com/community/file/1370194397345450683/onchainkit)</li>
         </ul>
