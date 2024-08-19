@@ -22,7 +22,6 @@ function WalletComponent() {
 
   return (
     <div className="flex justify-end">
-      {address ? (
         <Wallet>
           <ConnectWallet>
             <Avatar address={address} className="h-6 w-6" />
@@ -46,9 +45,6 @@ function WalletComponent() {
             <WalletDropdownDisconnect />
           </WalletDropdown>
         </Wallet>
-      ) : (
-        <ConnectWallet>Connect Wallet</ConnectWallet>
-      )}
     </div>
   );
 }
