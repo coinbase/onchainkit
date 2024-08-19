@@ -57,7 +57,7 @@
   transition: color 0.3s;
 }
 
-.vocs_Pre_wrapper pre {
+.dark .vocs_Pre_wrapper pre {
   background-color: transparent !important;
 }
 

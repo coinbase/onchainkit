@@ -20,7 +20,6 @@ export function usePopover(onClick?: () => Promise<boolean>) {
       const result = await onClick();
       if (result) {
         setPopoverText('Copied');
-        // istanbul ignore next
         setTimeout(() => {
           setShowPopover(false);
         }, 1000);

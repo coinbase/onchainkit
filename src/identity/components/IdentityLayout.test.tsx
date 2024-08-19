@@ -36,7 +36,22 @@ const renderComponent = () => {
 };
 
 describe('IdentityLayout', () => {
-  it('shows popover on hover and hides on mouse leave', async () => {
+  it('should render children', () => {
+    renderComponent();
+    expect(screen.getByText('Avatar')).toBeInTheDocument();
+    expect(screen.getByText('Name')).toBeInTheDocument();
+    expect(screen.getByText('Address')).toBeInTheDocument();
+    expect(screen.getByText('EthBalance')).toBeInTheDocument();
+  });
+
+  it('should render with custom class', () => {
+    renderComponent();
+    expect(screen.getByTestId('ockIdentityLayout_container')).toHaveClass(
+      'custom-class',
+    );
+  });
+
+  it('should show popover on hover and hides on mouse leave', async () => {
     renderComponent();
     const container = screen.getByTestId('ockIdentityLayout_container');
     fireEvent.mouseEnter(container);
@@ -49,7 +64,28 @@ describe('IdentityLayout', () => {
     });
   });
 
-  it('changes popover text to "Copied" on click', async () => {
+  it('should show popover on click and hides after 1s', async () => {
+    renderComponent();
+    const container = screen.getByTestId('ockIdentityLayout_container');
+    fireEvent.mouseEnter(container);
+    await waitFor(() => {
+      expect(screen.getByText('Copy')).toBeInTheDocument();
+    });
+    fireEvent.click(container);
+    await waitFor(() => {
+      expect(screen.getByText('Copied')).toBeInTheDocument();
+    });
+    await waitFor(
+      () => {
+        expect(screen.queryByText('Copied')).not.toBeInTheDocument();
+      },
+      {
+        timeout: 1001,
+      },
+    );
+  });
+
+  it('should change popover text to "Copied" on click', async () => {
     renderComponent();
     const container = screen.getByTestId('ockIdentityLayout_container');
     fireEvent.mouseEnter(container);
@@ -62,18 +98,21 @@ describe('IdentityLayout', () => {
     });
   });
 
-  it('renders children', () => {
+  it('should not show popover on key up', async () => {
     renderComponent();
-    expect(screen.getByText('Avatar')).toBeInTheDocument();
-    expect(screen.getByText('Name')).toBeInTheDocument();
-    expect(screen.getByText('Address')).toBeInTheDocument();
-    expect(screen.getByText('EthBalance')).toBeInTheDocument();
+    const container = screen.getByTestId('ockIdentityLayout_container');
+    fireEvent.keyUp(container);
+    await waitFor(() => {
+      expect(screen.queryByText('Copy')).not.toBeInTheDocument();
+    });
   });
 
-  it('renders with custom class', () => {
+  it('should not show popover on key down', async () => {
     renderComponent();
-    expect(screen.getByTestId('ockIdentityLayout_container')).toHaveClass(
-      'custom-class',
-    );
+    const container = screen.getByTestId('ockIdentityLayout_container');
+    fireEvent.keyDown(container);
+    await waitFor(() => {
+      expect(screen.queryByText('Copy')).not.toBeInTheDocument();
+    });
   });
 });
