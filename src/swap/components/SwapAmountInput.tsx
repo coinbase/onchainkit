@@ -9,7 +9,6 @@ import type { Token } from '../../token';
 import type { SwapAmountInputReact } from '../types';
 import { useSwapContext } from './SwapProvider';
 
-// istanbul ignore next
 export function SwapAmountInput({
   className,
   delayMs = 1000,
@@ -54,7 +53,6 @@ export function SwapAmountInput({
 
   // we are mocking the token selectors so i'm not able
   // to test this since the components aren't actually rendering
-  /* istanbul ignore next */
   const sourceTokenOptions = useMemo(() => {
     return (
       swappableTokens?.filter(

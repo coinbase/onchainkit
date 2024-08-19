@@ -56,7 +56,6 @@ export function SwapProvider({
   // Wagmi config, used for waitForTransactionReceipt
   const config = useConfig();
 
-  /* istanbul ignore next */
   const handleToggle = useCallback(() => {
     from.setAmount(to.amount);
     to.setAmount(from.amount);

@@ -8,7 +8,6 @@ import { Avatar } from './Avatar';
 import { EthBalance } from './EthBalance';
 import { Name } from './Name';
 
-// istanbul ignore next
 const noop = () => {};
 
 type IdentityLayoutReact = {

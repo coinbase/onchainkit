@@ -49,6 +49,24 @@ describe('IdentityLayout', () => {
     });
   });
 
+  it('shows popover on click and hides after 1s', async () => {
+    renderComponent();
+    const container = screen.getByTestId('ockIdentityLayout_container');
+    fireEvent.mouseEnter(container);
+    await waitFor(() => {
+      expect(screen.getByText('Copy')).toBeInTheDocument();
+    });
+    fireEvent.click(container);
+    await waitFor(() => {
+      expect(screen.getByText('Copied')).toBeInTheDocument();
+    });
+    await waitFor(() => {
+      expect(screen.queryByText('Copied')).not.toBeInTheDocument();
+    }, {
+      timeout: 1001,
+    });
+  });
+
   it('changes popover text to "Copied" on click', async () => {
     renderComponent();
     const container = screen.getByTestId('ockIdentityLayout_container');
