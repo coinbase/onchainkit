@@ -14,7 +14,7 @@ export function TransactionSponsor({ className }: TransactionSponsorReact) {
 
   const transactionInProgress = transactionId || transactionHash;
   if (
-    lifeCycleStatus.statusName !== 'transactionIdle' ||
+    lifeCycleStatus.statusName !== 'init' ||
     !hasPaymaster ||
     errorMessage ||
     transactionInProgress ||

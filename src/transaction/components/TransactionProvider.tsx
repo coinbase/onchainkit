@@ -43,7 +43,6 @@ export function useTransactionContext() {
 }
 
 export function TransactionProvider({
-  address,
   capabilities,
   chainId,
   children,
@@ -256,7 +255,6 @@ export function TransactionProvider({
   ]);
 
   const value = useValue({
-    address,
     chainId,
     contracts,
     errorCode,

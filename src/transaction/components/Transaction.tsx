@@ -3,7 +3,6 @@ import type { TransactionReact } from '../types';
 import { TransactionProvider } from './TransactionProvider';
 
 export function Transaction({
-  address,
   capabilities,
   chainId,
   className,
@@ -15,7 +14,6 @@ export function Transaction({
 }: TransactionReact) {
   return (
     <TransactionProvider
-      address={address}
       capabilities={capabilities}
       chainId={chainId}
       contracts={contracts}

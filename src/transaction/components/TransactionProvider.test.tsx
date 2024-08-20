@@ -104,7 +104,7 @@ describe('TransactionProvider', () => {
   it('should emit onError when setLifeCycleStatus is called with error', async () => {
     const onErrorMock = vi.fn();
     render(
-      <TransactionProvider address="0x123" contracts={[]} onError={onErrorMock}>
+      <TransactionProvider contracts={[]} onError={onErrorMock}>
         <TestComponent />
       </TransactionProvider>,
     );
@@ -116,11 +116,7 @@ describe('TransactionProvider', () => {
   it('should emit onStatus when setLifeCycleStatus is called with transactionLegacyExecuted', async () => {
     const onStatusMock = vi.fn();
     render(
-      <TransactionProvider
-        address="0x123"
-        contracts={[]}
-        onStatus={onStatusMock}
-      >
+      <TransactionProvider contracts={[]} onStatus={onStatusMock}>
         <TestComponent />
       </TransactionProvider>,
     );
@@ -139,11 +135,7 @@ describe('TransactionProvider', () => {
   it('should emit onStatus when setLifeCycleStatus is called', async () => {
     const onStatusMock = vi.fn();
     render(
-      <TransactionProvider
-        address="0x123"
-        contracts={[]}
-        onStatus={onStatusMock}
-      >
+      <TransactionProvider contracts={[]} onStatus={onStatusMock}>
         <TestComponent />
       </TransactionProvider>,
     );
@@ -162,7 +154,6 @@ describe('TransactionProvider', () => {
     });
     render(
       <TransactionProvider
-        address="0x123"
         contracts={[{ address: '0x123', method: 'method' }]}
         onSuccess={onSuccessMock}
       >
@@ -186,7 +177,7 @@ describe('TransactionProvider', () => {
       writeContractsAsync: writeContractsAsyncMock,
     });
     render(
-      <TransactionProvider address="0x123" contracts={[]}>
+      <TransactionProvider contracts={[]}>
         <TestComponent />
       </TransactionProvider>,
     );
@@ -207,7 +198,7 @@ describe('TransactionProvider', () => {
       writeContractsAsync: writeContractsAsyncMock,
     });
     render(
-      <TransactionProvider address="0x123" contracts={[]}>
+      <TransactionProvider contracts={[]}>
         <TestComponent />
       </TransactionProvider>,
     );
@@ -228,7 +219,7 @@ describe('TransactionProvider', () => {
       writeContractsAsync: writeContractsAsyncMock,
     });
     render(
-      <TransactionProvider address="0x123" contracts={[]}>
+      <TransactionProvider contracts={[]}>
         <TestComponent />
       </TransactionProvider>,
     );
@@ -248,7 +239,7 @@ describe('TransactionProvider', () => {
       writeContractsAsync: writeContractsAsyncMock,
     });
     render(
-      <TransactionProvider address="0x123" contracts={[]}>
+      <TransactionProvider contracts={[]}>
         <TestComponent />
       </TransactionProvider>,
     );
@@ -270,7 +261,7 @@ describe('TransactionProvider', () => {
       switchChainAsync: switchChainAsyncMock,
     });
     render(
-      <TransactionProvider address="0x123" chainId={2} contracts={[]}>
+      <TransactionProvider chainId={2} contracts={[]}>
         <TestComponent />
       </TransactionProvider>,
     );
@@ -287,7 +278,7 @@ describe('TransactionProvider', () => {
       writeContractsAsync: vi.fn().mockRejectedValue(new Error('Test error')),
     });
     render(
-      <TransactionProvider address="0x123" contracts={[]}>
+      <TransactionProvider contracts={[]}>
         <TestComponent />
       </TransactionProvider>,
     );
@@ -302,7 +293,7 @@ describe('TransactionProvider', () => {
   it('should not fetch receipts if contract list is empty', async () => {
     const waitForTransactionReceiptMock = vi.fn();
     render(
-      <TransactionProvider address="0x123" contracts={[]}>
+      <TransactionProvider contracts={[]}>
         <TestComponent />
       </TransactionProvider>,
     );
@@ -322,7 +313,7 @@ describe('TransactionProvider', () => {
       writeContractsAsync: writeContractsAsyncMock,
     });
     render(
-      <TransactionProvider address="0x123" contracts={[]}>
+      <TransactionProvider contracts={[]}>
         <TestComponent />
       </TransactionProvider>,
     );
@@ -341,7 +332,7 @@ describe('TransactionProvider', () => {
     });
     (useAccount as ReturnType<typeof vi.fn>).mockReturnValue({ chainId: 1 });
     render(
-      <TransactionProvider address="0x123" chainId={2} contracts={[]}>
+      <TransactionProvider chainId={2} contracts={[]}>
         <TestComponent />
       </TransactionProvider>,
     );
@@ -362,11 +353,11 @@ describe('TransactionProvider', () => {
       writeContractsAsync: writeContractsAsyncMock,
     });
     (useWriteContract as ReturnType<typeof vi.fn>).mockReturnValue({
-      status: 'IDLE',
+      status: 'idle',
       writeContractAsync: writeContractAsyncMock,
     });
     render(
-      <TransactionProvider address="0x123" contracts={[{}]}>
+      <TransactionProvider contracts={[{}]}>
         <TestComponent />
       </TransactionProvider>,
     );
@@ -389,11 +380,11 @@ describe('TransactionProvider', () => {
       writeContractsAsync: writeContractsAsyncMock,
     });
     (useWriteContract as ReturnType<typeof vi.fn>).mockReturnValue({
-      status: 'IDLE',
+      status: 'idle',
       writeContractAsync: writeContractAsyncMock,
     });
     render(
-      <TransactionProvider address="0x123" contracts={[{}]}>
+      <TransactionProvider contracts={[{}]}>
         <TestComponent />
       </TransactionProvider>,
     );
@@ -421,11 +412,11 @@ describe('TransactionProvider', () => {
       writeContractsAsync: writeContractsAsyncMock,
     });
     (useWriteContract as ReturnType<typeof vi.fn>).mockReturnValue({
-      status: 'IDLE',
+      status: 'idle',
       writeContractAsync: writeContractAsyncMock,
     });
     render(
-      <TransactionProvider address="0x123" contracts={[{}]}>
+      <TransactionProvider contracts={[{}]}>
         <TestComponent />
       </TransactionProvider>,
     );
@@ -437,6 +428,38 @@ describe('TransactionProvider', () => {
       );
       expect(screen.getByTestId('context-value-errorMessage').textContent).toBe(
         'Something went wrong. Please try again.',
+      );
+    });
+  });
+
+  it('should call setLifeCycleStatus when calling fallbackToWriteContract when user rejects request', async () => {
+    const writeContractsAsyncMock = vi
+      .fn()
+      .mockRejectedValue(new Error(METHOD_NOT_SUPPORTED_ERROR_SUBSTRING));
+    const writeContractAsyncMock = vi
+      .fn()
+      .mockRejectedValue({ cause: { name: 'UserRejectedRequestError' } });
+    (useWriteContracts as ReturnType<typeof vi.fn>).mockReturnValue({
+      status: 'idle',
+      writeContractsAsync: writeContractsAsyncMock,
+    });
+    (useWriteContract as ReturnType<typeof vi.fn>).mockReturnValue({
+      status: 'idle',
+      writeContractAsync: writeContractAsyncMock,
+    });
+    render(
+      <TransactionProvider contracts={[{}]}>
+        <TestComponent />
+      </TransactionProvider>,
+    );
+    const button = screen.getByText('Submit');
+    fireEvent.click(button);
+    await waitFor(() => {
+      expect(screen.getByTestId('context-value-errorCode').textContent).toBe(
+        'TmTPc02',
+      );
+      expect(screen.getByTestId('context-value-errorMessage').textContent).toBe(
+        'Request denied.',
       );
     });
   });
