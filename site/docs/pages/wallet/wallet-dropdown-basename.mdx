@@ -10,19 +10,19 @@ import {
   ConnectWallet,
   Wallet,
   WalletDropdown,
-  WalletDropdownBaseName,
+  WalletDropdownBasename,
   WalletDropdownDisconnect
 } from '@coinbase/onchainkit/wallet';
 import WalletComponents from '../../components/WalletComponents';
 
-# `<WalletDropdownBaseName />`
+# `<WalletDropdownBasename />`
 
-The `WalletDropdownBaseName` component adds a [Basename](https://www.base.org/names) tab to the Wallet Component. This tab serves two purposes:
+The `WalletDropdownBasename` component adds a [Basename](https://www.base.org/names) tab to the Wallet Component. This tab serves two purposes:
 
-1. For users with a Basename: It provides a link to their Base Name profile page.
+1. For users with a Basename: It provides a link to their Basename profile page.
 2. For users without a Basename: It provides a link to a page where they can create one.
 
-This component enhances the wallet interface by providing easy access to Base Name functionality, whether for viewing an existing profile or setting up a new one.
+This component enhances the wallet interface by providing easy access to Basename functionality, whether for viewing an existing profile or setting up a new one.
 
 ## Usage
 
@@ -39,7 +39,7 @@ import {
   ConnectWallet,
   Wallet,
   WalletDropdown,
-  WalletDropdownBaseName, // [!code focus]
+  WalletDropdownBasename, // [!code focus]
   WalletDropdownDisconnect,
 } from '@coinbase/onchainkit/wallet';
 
@@ -58,7 +58,7 @@ export function WalletComponents() {
             <Address className={color.foregroundMuted} />
             <EthBalance />
           </Identity>
-          <WalletDropdownBaseName /> // [!code focus] 
+          <WalletDropdownBasename /> // [!code focus] 
           <WalletDropdownDisconnect />
         </WalletDropdown>
       </Wallet>
@@ -93,7 +93,7 @@ You can override component styles using `className`.
 ```tsx
 // omitted for brevity
 
-<WalletDropdownBaseName className="hover:bg-red-500" /> // [!code focus] 
+<WalletDropdownBasename className="hover:bg-red-500" /> // [!code focus] 
 ```
   
 <WalletComponents>
@@ -109,11 +109,11 @@ You can override component styles using `className`.
         <Address className={color.foregroundMuted} />
         <EthBalance />
       </Identity>
-      <WalletDropdownBaseName className="hover:bg-red-500"/>
+      <WalletDropdownBasename className="hover:bg-red-500"/>
       <WalletDropdownDisconnect />
     </WalletDropdown>
   </Wallet>
 </WalletComponents>
 
 ## Props
-- [`WalletDropdownBaseNameReact`](/wallet/types#walletdropdownbasenamereact)
+- [`WalletDropdownBasenameReact`](/wallet/types#walletdropdownbasenamereact)
