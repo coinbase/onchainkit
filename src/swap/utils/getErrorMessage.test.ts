@@ -1,56 +1,47 @@
-import { describe, expect, test } from 'vitest';
+import { describe, expect } from 'vitest';
 import {
   LOW_LIQUIDITY_ERROR_CODE,
   TOO_MANY_REQUESTS_ERROR_CODE,
   USER_REJECTED_ERROR_CODE,
 } from '../constants';
-import type { SwapErrorState } from '../types';
-import { getSwapError } from './getSwapError';
+import type { SwapError } from '../types';
+import { getErrorMessage } from './getErrorMessage';
 import { SwapMessage } from './getSwapMessage';
 
 describe('getSwapError', () => {
-  test('returns TOO_MANY_REQUESTS when error code is TOO_MANY_REQUESTS_ERROR_CODE', () => {
-    const error: SwapErrorState = {
-      quoteError: {
-        code: TOO_MANY_REQUESTS_ERROR_CODE,
-        error: 'Too many requests error',
-      },
+  it('should return TOO_MANY_REQUESTS when error code is TOO_MANY_REQUESTS_ERROR_CODE', () => {
+    const error: SwapError = {
+      code: TOO_MANY_REQUESTS_ERROR_CODE,
+      error: 'Too many requests error',
+      message: '',
     };
-    expect(getSwapError(error)).toBe(SwapMessage.TOO_MANY_REQUESTS);
+    expect(getErrorMessage(error)).toBe(SwapMessage.TOO_MANY_REQUESTS);
   });
 
-  test('returns LOW_LIQUIDITY when error code is LOW_LIQUIDITY_ERROR_CODE', () => {
-    const error: SwapErrorState = {
-      quoteError: {
-        code: LOW_LIQUIDITY_ERROR_CODE,
-        error: 'Low liquidity error',
-      },
+  it('should return LOW_LIQUIDITY when error code is LOW_LIQUIDITY_ERROR_CODE', () => {
+    const error: SwapError = {
+      code: LOW_LIQUIDITY_ERROR_CODE,
+      error: 'Low liquidity error',
+      message: '',
     };
-    expect(getSwapError(error)).toBe(SwapMessage.LOW_LIQUIDITY);
+    expect(getErrorMessage(error)).toBe(SwapMessage.LOW_LIQUIDITY);
   });
 
-  test('returns USER_REJECTED when error code is USER_REJECTED_ERROR_CODE', () => {
-    const error: SwapErrorState = {
-      quoteError: {
-        code: USER_REJECTED_ERROR_CODE,
-        error: 'User rejected error',
-      },
+  it('should return USER_REJECTED when error code is USER_REJECTED_ERROR_CODE', () => {
+    const error: SwapError = {
+      code: USER_REJECTED_ERROR_CODE,
+      error: 'User rejected error',
+      message: '',
     };
-    expect(getSwapError(error)).toBe(SwapMessage.USER_REJECTED);
+    expect(getErrorMessage(error)).toBe(SwapMessage.USER_REJECTED);
   });
 
-  test('returns the first error message when general error is present', () => {
-    const error: SwapErrorState = {
-      quoteError: {
-        code: 'general_error_code',
-        error: 'General error occurred',
-      },
+  it('should return the first error message when general error is present', () => {
+    const error: SwapError = {
+      code: 'general_error_code',
+      error: 'General error occurred',
+      message: '',
     };
-    expect(getSwapError(error)).toBe('General error occurred');
-  });
-
-  test('returns undefined when no error', () => {
-    const error: SwapErrorState = {};
-    expect(getSwapError(error)).toBeUndefined();
+    expect(getErrorMessage(error)).toBe('');
   });
 });

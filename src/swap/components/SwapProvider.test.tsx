@@ -1,12 +1,6 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import {
-  act,
-  fireEvent,
-  render,
-  renderHook,
-  screen,
-} from '@testing-library/react';
-import React from 'react';
+import { fireEvent, render, renderHook, screen } from '@testing-library/react';
+import React, { act } from 'react';
 import type { TransactionReceipt } from 'viem';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { http, WagmiProvider, createConfig } from 'wagmi';
@@ -291,13 +285,21 @@ describe('SwapProvider', () => {
     expect(result.current.to.loading).toBe(false);
   });
 
-  it('should handle quote error', async () => {
-    vi.mocked(getSwapQuote).mockRejectedValueOnce(new Error('Quote error'));
+  it('should setLifeCycleStatus to error when getSwapQuote returns an error', async () => {
+    const mockError = new Error('Test error');
+    vi.mocked(getSwapQuote).mockRejectedValueOnce(mockError);
     const { result } = renderHook(() => useSwapContext(), { wrapper });
     await act(async () => {
       result.current.handleAmountChange('from', '10', ETH_TOKEN, DEGEN_TOKEN);
     });
-    expect(result.current.error?.quoteError).toBeDefined();
+    expect(result.current.lifeCycleStatus).toEqual({
+      statusName: 'error',
+      statusData: {
+        code: 'TmSPc01',
+        error: JSON.stringify(mockError),
+        message: '',
+      },
+    });
   });
 
   it('should handle empty amount input', async () => {

@@ -113,7 +113,7 @@ export function SwapProvider({
           useAggregator,
         });
         // If request resolves to error response set the quoteError
-        // property of error state to the SwapError response */
+        // property of error state to the SwapError response
         if (isSwapError(response)) {
           setLifeCycleStatus({
             statusName: 'error',
