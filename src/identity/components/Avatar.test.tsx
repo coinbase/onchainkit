@@ -71,7 +71,7 @@ describe('Avatar Component', () => {
     useNameMock.mockReturnValue({ data: null, isLoading: true });
     render(<Avatar address={testAvatarComponentAddress} />);
     await waitFor(() => {
-      const svgElement = screen.getByTestId('ockAvatarLoadingSvg');
+      const svgElement = screen.getByTestId('ock-defaultLoadingSVG');
       expect(svgElement).toBeInTheDocument();
     });
   });
@@ -82,7 +82,7 @@ describe('Avatar Component', () => {
     useNameMock.mockReturnValue({ data: null, isLoading: false });
     render(<Avatar address={testAvatarComponentAddress} />);
     await waitFor(() => {
-      const defaultAvatarElement = screen.getByTestId('ockAvatarDefaultSvg');
+      const defaultAvatarElement = screen.getByTestId('ock-defaultAvatarSVG');
       expect(defaultAvatarElement).toBeInTheDocument();
     });
   });
