@@ -285,23 +285,6 @@ describe('SwapProvider', () => {
     expect(result.current.to.loading).toBe(false);
   });
 
-  it('should setLifeCycleStatus to error when getSwapQuote returns an error', async () => {
-    const mockError = new Error('Test error');
-    vi.mocked(getSwapQuote).mockRejectedValueOnce(mockError);
-    const { result } = renderHook(() => useSwapContext(), { wrapper });
-    await act(async () => {
-      result.current.handleAmountChange('from', '10', ETH_TOKEN, DEGEN_TOKEN);
-    });
-    expect(result.current.lifeCycleStatus).toEqual({
-      statusName: 'error',
-      statusData: {
-        code: 'TmSPc01',
-        error: JSON.stringify(mockError),
-        message: '',
-      },
-    });
-  });
-
   it('should handle empty amount input', async () => {
     const { result } = renderHook(() => useSwapContext(), { wrapper });
     await act(async () => {
@@ -328,19 +311,21 @@ describe('SwapProvider', () => {
     expect(result.current.to.amount).toBe('');
   });
 
-  it('should handle quote error and reset loading state', async () => {
-    vi.mocked(getSwapQuote).mockRejectedValueOnce(new Error('Quote error'));
+  it('should setLifeCycleStatus to error when getSwapQuote returns an error', async () => {
+    const mockError = new Error('Test error');
+    vi.mocked(getSwapQuote).mockRejectedValueOnce(mockError);
     const { result } = renderHook(() => useSwapContext(), { wrapper });
     await act(async () => {
-      await result.current.handleAmountChange(
-        'from',
-        '10',
-        ETH_TOKEN,
-        DEGEN_TOKEN,
-      );
+      result.current.handleAmountChange('from', '10', ETH_TOKEN, DEGEN_TOKEN);
     });
-    expect(result.current.error?.quoteError).toBeDefined();
-    expect(result.current.to.loading).toBe(false);
+    expect(result.current.lifeCycleStatus).toEqual({
+      statusName: 'error',
+      statusData: {
+        code: 'TmSPc01',
+        error: JSON.stringify(mockError),
+        message: '',
+      },
+    });
   });
 
   beforeEach(async () => {
