@@ -1,47 +1,9 @@
 import { type ForwardedRef, forwardRef } from 'react';
-import { cn, fill, pressable, text } from '../../styles/theme';
+import { cn, pressable, text } from '../../styles/theme';
 import type { TokenSelectButtonReact } from '../types';
 import { TokenImage } from './TokenImage';
-
-function CaretUp() {
-  return (
-    <svg
-      data-testid="ockTokenSelectButton_CaretUp"
-      role="img"
-      aria-label="ock-caretup-icon"
-      width="16"
-      height="16"
-      viewBox="0 0 16 16"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M3.05329 10.9866L7.99996 6.03997L12.9466 10.9866L14.1266 9.80663L7.99996 3.67997L1.87329 9.80663L3.05329 10.9866Z"
-        className={fill.defaultReverse}
-      />
-    </svg>
-  );
-}
-
-function CaretDown() {
-  return (
-    <svg
-      data-testid="ockTokenSelectButton_CaretDown"
-      role="img"
-      aria-label="ock-caretdown-icon"
-      width="16"
-      height="17"
-      viewBox="0 0 16 17"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M12.95 4.85999L8.00001 9.80999L3.05001 4.85999L1.64001 6.27999L8.00001 12.64L14.36 6.27999L12.95 4.85999Z"
-        className={fill.defaultReverse}
-      />
-    </svg>
-  );
-}
+import { caretDownSvg } from '../../internal/svg/caretDownSvg';
+import { caretUpSvg } from '../../internal/svg/caretUpSvg';
 
 export const TokenSelectButton = forwardRef(function TokenSelectButton(
   { onClick, token, isOpen, className }: TokenSelectButtonReact,
@@ -77,7 +39,7 @@ export const TokenSelectButton = forwardRef(function TokenSelectButton(
       )}
       <div className="relative flex items-center justify-center">
         <div className="absolute top-0 left-0 h-4 w-4" />
-        {isOpen ? <CaretUp /> : <CaretDown />}
+        {isOpen ? {caretUpSvg} : {caretDownSvg} }
       </div>
     </button>
   );
