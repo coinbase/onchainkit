@@ -77,6 +77,14 @@ export default defineConfig({
       icon: 'github',
       link: 'https://github.com/coinbase/onchainkit',
     },
+    {
+      icon: 'x',
+      link: 'https://x.com/Onchainkit',
+    },
+    {
+      icon: 'warpcast',
+      link: 'https://warpcast.com/~/channel/onchainkit',
+    },
   ],
   theme: {
     accentColor: '#73F7FF',
