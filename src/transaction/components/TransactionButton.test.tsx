@@ -1,6 +1,6 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { useChainId } from 'wagmi';
+import { useAccount, useChainId } from 'wagmi';
 import { useShowCallsStatus } from 'wagmi/experimental';
 import { getChainExplorer } from '../../network/getChainExplorer';
 import { TransactionButton } from './TransactionButton';
@@ -12,6 +12,7 @@ vi.mock('./TransactionProvider', () => ({
 
 vi.mock('wagmi', () => ({
   useChainId: vi.fn(),
+  useAccount: vi.fn(),
 }));
 
 vi.mock('wagmi/experimental', () => ({
@@ -25,6 +26,7 @@ vi.mock('../../network/getChainExplorer', () => ({
 describe('TransactionButton', () => {
   beforeEach(() => {
     (useChainId as vi.Mock).mockReturnValue(123);
+    (useAccount as vi.Mock).mockReturnValue({ address: '123' });
     (useShowCallsStatus as vi.Mock).mockReturnValue({
       showCallsStatus: vi.fn(),
     });
@@ -116,7 +118,6 @@ describe('TransactionButton', () => {
 
   it('should enable button when not in progress, not missing props, and not waiting for receipt', () => {
     (useTransactionContext as vi.Mock).mockReturnValue({
-      address: '0x123',
       contracts: {},
       isLoading: false,
       lifeCycleStatus: { statusName: 'init', statusData: null },
