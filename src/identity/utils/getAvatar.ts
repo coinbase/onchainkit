@@ -4,7 +4,7 @@ import { isBase } from '../../isBase';
 import { isEthereum } from '../../isEthereum';
 import { getChainPublicClient } from '../../network/getChainPublicClient';
 import { RESOLVER_ADDRESSES_BY_CHAIN_ID } from '../constants';
-import type { BaseName, GetAvatar, GetAvatarReturnType } from '../types';
+import type { Basename, GetAvatar, GetAvatarReturnType } from '../types';
 import { getBaseDefaultProfilePicture } from './getBaseDefaultProfilePicture';
 import { isBasename } from './isBasename';
 
@@ -57,9 +57,9 @@ export const getAvatar = async ({
     return mainnetEnsAvatar;
   }
 
-  // 3. If username is a basename (.base.eth / .basetest.eth), use default basename avatars
+  // 3. If username is a Basename (.base.eth / .basetest.eth), use default Basename avatars
   if (usernameIsBasename) {
-    return getBaseDefaultProfilePicture(ensName as BaseName);
+    return getBaseDefaultProfilePicture(ensName as Basename);
   }
 
   // 4. No avatars to display
