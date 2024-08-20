@@ -1,38 +1,38 @@
-import { connect } from '@wagmi/core';
-import { getCallsStatus, sendCalls } from '@wagmi/core/experimental';
-import { useEffect, useState } from 'react';
-import { base } from 'viem/chains';
-import { coinbaseWallet } from 'wagmi/connectors';
-import { getCommerceCharge } from '../network/commerce/getCommerceCharge';
-import { hydrateCommerceCharge } from '../network/commerce/hydrateCommereCharge';
-import type { Web3Charge } from '../network/commerce/types/Web3Charge';
-import { smartWalletConfig } from './smartWalletConfig';
-import { getCommerceCallData } from './utils/getCommerceCallData';
+import { getCallsStatus } from '@wagmi/core/experimental';
+import { useCallback, useEffect, useState } from 'react';
+import { useConfig } from 'wagmi';
+import { usePayCharge } from './hooks/usePayCharge';
 
 type CommercePayButtonProps = {
   chargeId: string;
+  onSuccess?: ({
+    transactionHash,
+    commerceReceiptUrl,
+  }: {
+    transactionHash: string;
+    commerceReceiptUrl: string;
+  }) => void;
+  onError?: (err: Error) => void;
 };
-
-const SMART_WALLET_CONNECTOR = coinbaseWallet({
-  preference: 'smartWalletOnly',
-});
 
 const BASE_COMMERCE_URL = 'https://api.commerce.coinbase.com';
 
-export function CommercePayButton({ chargeId }: CommercePayButtonProps) {
-  const [charge, setCharge] = useState<Web3Charge>();
+export function CommercePayButton({ chargeId, onSuccess, onError }: CommercePayButtonProps) {
   const [transactionCallsId, setTransactionCallsId] = useState('');
   const [transactionHash, setTransactionHash] = useState('');
+  const { payCharge } = usePayCharge()
+  const config = useConfig();
 
   useEffect(() => {
     async function checkCallsStatus() {
-      const { status, receipts } = await getCallsStatus(smartWalletConfig, {
+      const { status, receipts } = await getCallsStatus(config, {
         id: transactionCallsId,
       });
       if (status === 'CONFIRMED') {
         const transactionHash = receipts?.[0].transactionHash;
         if (transactionHash) {
           setTransactionHash(transactionHash);
+          onSuccess?.({ transactionHash, commerceReceiptUrl: `https://commerce.coinbase.com/pay/${chargeId}/receipt` })
         }
       }
     }
@@ -48,44 +48,11 @@ export function CommercePayButton({ chargeId }: CommercePayButtonProps) {
     };
   }, [transactionCallsId, transactionHash]);
 
-  useEffect(() => {
-    async function loadCharge() {
-      const chargeResponse = await getCommerceCharge(
-        BASE_COMMERCE_URL,
-        chargeId,
-      );
-      setCharge(chargeResponse.data);
-    }
-    if (!charge) {
-      loadCharge();
-    }
-  }, [chargeId, charge]);
+  const handlePayment = useCallback(async () => {
+    const { paymentCallsId } = await payCharge({ chargeId, wagmiConfig: config, commerceUrl: BASE_COMMERCE_URL})
+    setTransactionCallsId(paymentCallsId);
+  }, [payCharge, chargeId, config, setTransactionCallsId]);
 
-  const handlePayment = async () => {
-    const { accounts } = await connect(smartWalletConfig, {
-      connector: SMART_WALLET_CONNECTOR,
-      chainId: base.id,
-    });
-    const senderAddress = accounts[0];
-    if (!senderAddress) {
-      return;
-    }
-    const { data: hydratedCharge } = await hydrateCommerceCharge(
-      BASE_COMMERCE_URL,
-      chargeId,
-      senderAddress,
-    );
-    const { tokenApprovalCall, transferTokenPreApprovedCall } =
-      getCommerceCallData(hydratedCharge);
-
-    const callsId = await sendCalls(smartWalletConfig, {
-      calls: [tokenApprovalCall, transferTokenPreApprovedCall],
-    });
-    setTransactionCallsId(callsId);
-  };
-  if (!charge) {
-    return <div>Loading...</div>;
-  }
   if (!transactionHash && transactionCallsId) {
     return <div>Processing...</div>;
   }
@@ -101,7 +68,7 @@ export function CommercePayButton({ chargeId }: CommercePayButtonProps) {
   }
   return (
     <div>
-      <button type="button" onClick={() => handlePayment()}>
+      <button className="rounded-full border border-black bg-black px-4 py-2 text-black transition hover:bg-gray-1000" type="button" onClick={() => handlePayment()}>
         Pay with Crypto
       </button>
     </div>
