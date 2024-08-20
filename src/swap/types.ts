@@ -72,7 +72,7 @@ export type GetSwapQuoteParams = {
 export type GetSwapQuoteResponse = SwapQuote | SwapError;
 
 export type GetSwapMessageParams = {
-  error?: SwapErrorState;
+  error?: SwapError;
   loading?: boolean;
   isTransactionPending?: boolean;
   to: SwapUnit;
@@ -151,7 +151,7 @@ export type SwapButtonReact = {
 };
 
 export type SwapContextType = {
-  error?: SwapErrorState;
+  error?: SwapError;
   from: SwapUnit;
   lifeCycleStatus: LifeCycleStatus;
   loading: boolean;
