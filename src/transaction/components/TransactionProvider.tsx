@@ -108,7 +108,7 @@ export function TransactionProvider({
         transactionReceipts: lifeCycleStatus.statusData.transactionReceipts,
       });
     }
-    // Emit State
+    // Emit Status
     onStatus?.(lifeCycleStatus);
   }, [
     onError,
