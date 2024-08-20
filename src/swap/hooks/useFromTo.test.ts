@@ -1,7 +1,7 @@
 import { renderHook } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 import { useValue } from '../../internal/hooks/useValue';
-import type { Token } from '../../token';
+import { USDC_TOKEN } from '../mocks';
 import { useFromTo } from './useFromTo';
 import { useSwapBalances } from './useSwapBalances';
 
@@ -12,15 +12,6 @@ vi.mock('./useSwapBalances', () => ({
 vi.mock('../../internal/hooks/useValue', () => ({
   useValue: vi.fn(),
 }));
-
-const USDC: Token = {
-  address: '0x123',
-  chainId: 1,
-  decimals: 6,
-  image: null,
-  name: 'USDC',
-  symbol: 'USDC',
-};
 
 describe('useFromTo', () => {
   beforeEach(() => {
@@ -39,7 +30,7 @@ describe('useFromTo', () => {
       ...props,
       amount: '100',
       setAmount: vi.fn(),
-      token: USDC,
+      token: USDC_TOKEN,
       setToken: vi.fn(),
       setLoading: vi.fn(),
     }));
@@ -50,7 +41,7 @@ describe('useFromTo', () => {
       balance: '100',
       amount: '100',
       setAmount: expect.any(Function),
-      token: USDC,
+      token: USDC_TOKEN,
       setToken: expect.any(Function),
       loading: false,
       setLoading: expect.any(Function),
@@ -61,7 +52,7 @@ describe('useFromTo', () => {
       balance: '200',
       amount: '100',
       setAmount: expect.any(Function),
-      token: USDC,
+      token: USDC_TOKEN,
       setToken: expect.any(Function),
       loading: false,
       setLoading: expect.any(Function),

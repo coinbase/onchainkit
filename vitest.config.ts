@@ -9,6 +9,7 @@ export default defineConfig({
         '**/**.stories.**',
         '**/getMockFrameRequest.ts',
         '**/index.ts',
+        '**/mocks.tsx',
         '**/*Svg.tsx',
         '**/types.ts',
         '.storybook/**',

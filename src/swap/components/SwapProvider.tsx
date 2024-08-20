@@ -199,6 +199,7 @@ export function SwapProvider({
             swapError: {
               code: USER_REJECTED_ERROR_CODE,
               error: 'User rejected the request.',
+              message: '',
             },
           });
         } else {

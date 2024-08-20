@@ -12,7 +12,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { http, WagmiProvider, createConfig } from 'wagmi';
 import { base } from 'wagmi/chains';
 import { mock } from 'wagmi/connectors';
-import type { Token } from '../../token';
+import { DEGEN_TOKEN, ETH_TOKEN } from '../mocks';
 import type { SwapError } from '../types';
 import { buildSwapTransaction } from '../utils/buildSwapTransaction';
 import { getSwapQuote } from '../utils/getSwapQuote';
@@ -50,25 +50,6 @@ const config = createConfig({
   },
 });
 
-const ETH: Token = {
-  name: 'ETH',
-  address: '',
-  symbol: 'ETH',
-  decimals: 18,
-  image:
-    'https://wallet-api-production.s3.amazonaws.com/uploads/tokens/eth_288.png',
-  chainId: 8453,
-};
-const DEGEN: Token = {
-  name: 'DEGEN',
-  address: '0x4ed4e862860bed51a9570b96d89af5e1b0efefed',
-  symbol: 'DEGEN',
-  decimals: 18,
-  image:
-    'https://d3r81g40ycuhqg.cloudfront.net/wallet/wais/3b/bf/3bbf118b5e6dc2f9e7fc607a6e7526647b4ba8f0bea87125f971446d57b296d2-MDNmNjY0MmEtNGFiZi00N2I0LWIwMTItMDUyMzg2ZDZhMWNm',
-  chainId: 8453,
-};
-
 const renderWithProviders = (Component: React.ComponentType) => {
   const mockAddress = '0x1234567890123456789012345678901234567890';
   const mockExperimental = { useAggregator: true, maxSlippage: 10 };
@@ -103,15 +84,12 @@ describe('useSwapContext', () => {
       useSwapContext();
       return null;
     };
-
     // Suppress console.error for this test to avoid noisy output
     const originalError = console.error;
     console.error = vi.fn();
-
     expect(() => {
       render(<TestComponent />);
     }).toThrow('useSwapContext must be used within a Swap component');
-
     // Restore console.error
     console.error = originalError;
   });
@@ -125,7 +103,6 @@ describe('useSwapContext', () => {
       expect(context.handleAmountChange).toBeDefined();
       return null;
     };
-
     await act(async () => {
       renderWithProviders(TestComponent);
     });
@@ -140,15 +117,14 @@ describe('SwapProvider', () => {
       onError?: (error: SwapError) => void,
       onSuccess?: (txReceipt: TransactionReceipt) => void | Promise<void>,
     ) => void;
-
     const TestComponent = () => {
       const { from, to, handleSubmit } = useSwapContext();
       _submitFunction = handleSubmit;
       // biome-ignore lint: hello
       React.useEffect(() => {
-        from.setToken(ETH);
+        from.setToken(ETH_TOKEN);
         from.setAmount('100');
-        to.setToken(DEGEN);
+        to.setToken(DEGEN_TOKEN);
       }, []);
       return (
         <button
@@ -159,16 +135,13 @@ describe('SwapProvider', () => {
         </button>
       );
     };
-
     await act(async () => {
       renderWithProviders(TestComponent);
     });
-
     // Trigger the submit
     await act(async () => {
       fireEvent.click(screen.getByText('Submit Swap'));
     });
-
     expect(buildSwapTransaction).toBeCalledTimes(1);
   });
 
@@ -179,18 +152,16 @@ describe('SwapProvider', () => {
       React.useEffect(() => {
         const initializeSwap = async () => {
           await act(async () => {
-            from.setToken(ETH);
-            to.setToken(DEGEN);
+            from.setToken(ETH_TOKEN);
+            to.setToken(DEGEN_TOKEN);
             handleToggle();
           });
         };
         initializeSwap();
         handleToggle();
       }, []);
-
       return null;
     };
-
     await act(async () => {
       renderWithProviders(TestComponent);
     });
@@ -202,28 +173,25 @@ describe('SwapProvider', () => {
       // biome-ignore lint: hello
       React.useEffect(() => {
         const initializeSwap = () => {
-          from.setToken(ETH);
-          to.setToken(DEGEN);
-          handleAmountChange('from', '100', ETH, DEGEN);
+          from.setToken(ETH_TOKEN);
+          to.setToken(DEGEN_TOKEN);
+          handleAmountChange('from', '100', ETH_TOKEN, DEGEN_TOKEN);
         };
         initializeSwap();
       }, []);
-
       return null;
     };
-
     await act(async () => {
       renderWithProviders(TestComponent);
     });
-
     // Assert that getSwapQuote was called with the correct parameters
     expect(getSwapQuote).toHaveBeenCalledWith(
       expect.objectContaining({
         maxSlippage: '10',
         amount: '100',
         amountReference: 'from',
-        from: ETH,
-        to: DEGEN,
+        from: ETH_TOKEN,
+        to: DEGEN_TOKEN,
         useAggregator: true,
       }),
     );
@@ -239,10 +207,8 @@ describe('SwapProvider', () => {
         };
         initializeSwap();
       }, []);
-
       return null;
     };
-
     await act(async () => {
       renderWithProviders(TestComponent);
     });
@@ -250,7 +216,6 @@ describe('SwapProvider', () => {
 
   it('should initialize with empty values', () => {
     const { result } = renderHook(() => useSwapContext(), { wrapper });
-
     expect(result.current.from.token).toBeUndefined();
     expect(result.current.from.amount).toBe('');
     expect(result.current.to.token).toBeUndefined();
@@ -259,18 +224,15 @@ describe('SwapProvider', () => {
 
   it('should toggle tokens and amounts', async () => {
     const { result } = renderHook(() => useSwapContext(), { wrapper });
-
     await act(async () => {
-      result.current.from.setToken(ETH);
+      result.current.from.setToken(ETH_TOKEN);
       result.current.from.setAmount('10');
-      result.current.to.setToken(DEGEN);
+      result.current.to.setToken(DEGEN_TOKEN);
       result.current.to.setAmount('1000');
     });
-
     await act(async () => {
       result.current.handleToggle();
     });
-
     expect(result.current.from.token?.symbol).toBe('DEGEN');
     expect(result.current.from.amount).toBe('1000');
     expect(result.current.to.token?.symbol).toBe('ETH');
@@ -279,68 +241,68 @@ describe('SwapProvider', () => {
 
   it('should handle submit with missing data', async () => {
     const { result } = renderHook(() => useSwapContext(), { wrapper });
-
     await act(async () => {
       result.current.handleSubmit();
     });
-
     expect(result.current.error).toBeUndefined();
-
     expect(result.current.loading).toBe(false);
   });
 
   it('should update amount and trigger quote', async () => {
     const { result } = renderHook(() => useSwapContext(), { wrapper });
-
     await act(async () => {
-      result.current.handleAmountChange('from', '10', ETH, DEGEN);
+      result.current.handleAmountChange('from', '10', ETH_TOKEN, DEGEN_TOKEN);
     });
-
     expect(getSwapQuote).toHaveBeenCalled();
     expect(result.current.to.loading).toBe(false);
   });
 
   it('should handle quote error', async () => {
     vi.mocked(getSwapQuote).mockRejectedValueOnce(new Error('Quote error'));
-
     const { result } = renderHook(() => useSwapContext(), { wrapper });
-
     await act(async () => {
-      result.current.handleAmountChange('from', '10', ETH, DEGEN);
+      result.current.handleAmountChange('from', '10', ETH_TOKEN, DEGEN_TOKEN);
     });
-
     expect(result.current.error?.quoteError).toBeDefined();
   });
 
   it('should handle empty amount input', async () => {
     const { result } = renderHook(() => useSwapContext(), { wrapper });
-
     await act(async () => {
-      await result.current.handleAmountChange('from', '', ETH, DEGEN);
+      await result.current.handleAmountChange(
+        'from',
+        '',
+        ETH_TOKEN,
+        DEGEN_TOKEN,
+      );
     });
-
     expect(result.current.to.amount).toBe('');
   });
 
   it('should handle zero amount input', async () => {
     const { result } = renderHook(() => useSwapContext(), { wrapper });
-
     await act(async () => {
-      await result.current.handleAmountChange('from', '0', ETH, DEGEN);
+      await result.current.handleAmountChange(
+        'from',
+        '0',
+        ETH_TOKEN,
+        DEGEN_TOKEN,
+      );
     });
-
     expect(result.current.to.amount).toBe('');
   });
 
   it('should handle quote error and reset loading state', async () => {
     vi.mocked(getSwapQuote).mockRejectedValueOnce(new Error('Quote error'));
-
     const { result } = renderHook(() => useSwapContext(), { wrapper });
-
     await act(async () => {
-      await result.current.handleAmountChange('from', '10', ETH, DEGEN);
+      await result.current.handleAmountChange(
+        'from',
+        '10',
+        ETH_TOKEN,
+        DEGEN_TOKEN,
+      );
     });
-
     expect(result.current.error?.quoteError).toBeDefined();
     expect(result.current.to.loading).toBe(false);
   });

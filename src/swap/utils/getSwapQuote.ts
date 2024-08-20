@@ -59,6 +59,7 @@ export async function getSwapQuote(
     return {
       code: getSwapErrorCode('uncaught-quote'),
       error: 'Something went wrong',
+      message: '',
     };
   }
 }
