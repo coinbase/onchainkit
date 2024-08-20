@@ -2,4 +2,4 @@
 "@coinbase/onchainkit": patch
 ---
 
-- **patch**: Remove address prop and fix sponsor component. By @abcrane123 #1114
+- **patch**: Remove unneccessary address prop from Transaction component and fix issue where Sponsor component isn't visible. By @abcrane123 #1114
