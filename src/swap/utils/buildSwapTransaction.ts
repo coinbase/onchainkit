@@ -54,7 +54,8 @@ export async function buildSwapTransaction(
       return {
         code: getSwapErrorCode('swap', res.error?.code),
         error: res.error.message,
-      } as SwapError;
+        message: '',
+      };
     }
 
     const trade = res.result;
@@ -71,6 +72,7 @@ export async function buildSwapTransaction(
     return {
       code: getSwapErrorCode('uncaught-swap'),
       error: 'Something went wrong',
+      message: '',
     };
   }
 }

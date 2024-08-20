@@ -1,4 +1,10 @@
-import { createContext, useCallback, useContext, useState } from 'react';
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 import type { TransactionReceipt } from 'viem';
 import { type BaseError, useConfig, useSendTransaction } from 'wagmi';
 import { useValue } from '../../internal/hooks/useValue';
@@ -7,6 +13,7 @@ import type { Token } from '../../token';
 import { USER_REJECTED_ERROR_CODE } from '../constants';
 import { useFromTo } from '../hooks/useFromTo';
 import type {
+  LifeCycleStatus,
   SwapContextType,
   SwapError,
   SwapErrorState,
@@ -33,14 +40,20 @@ export function SwapProvider({
   address,
   children,
   experimental,
+  onStatus,
 }: SwapProviderReact) {
   // Feature flags
   const { useAggregator } = experimental;
 
+  // Core Hooks
   const [loading, setLoading] = useState(false);
   const [isTransactionPending, setPendingTransaction] = useState(false);
-
+  const [lifeCycleStatus, setLifeCycleStatus] = useState<LifeCycleStatus>({
+    statusName: 'init',
+    statusData: null,
+  }); // Component lifecycle
   const [error, setError] = useState<SwapErrorState>();
+
   const handleError = useCallback(
     (e: Record<string, SwapError | undefined>) => {
       setError({ ...error, ...e });
@@ -55,6 +68,17 @@ export function SwapProvider({
 
   // Wagmi config, used for waitForTransactionReceipt
   const config = useConfig();
+
+  // Component lifecycle emitters
+  useEffect(() => {
+    // Emit Status
+    onStatus?.(lifeCycleStatus);
+  }, [
+    onStatus,
+    lifeCycleStatus,
+    lifeCycleStatus.statusData, // Keep statusData, so that the effect runs when it changes
+    lifeCycleStatus.statusName, // Keep statusName, so that the effect runs when it changes
+  ]);
 
   const handleToggle = useCallback(() => {
     from.setAmount(to.amount);
@@ -175,6 +199,7 @@ export function SwapProvider({
             swapError: {
               code: USER_REJECTED_ERROR_CODE,
               error: 'User rejected the request.',
+              message: '',
             },
           });
         } else {
@@ -199,14 +224,16 @@ export function SwapProvider({
   );
 
   const value = useValue({
-    to,
-    from,
     error,
+    from,
     loading,
-    isTransactionPending,
     handleAmountChange,
     handleToggle,
     handleSubmit,
+    lifeCycleStatus,
+    isTransactionPending,
+    setLifeCycleStatus,
+    to,
   });
 
   return <SwapContext.Provider value={value}>{children}</SwapContext.Provider>;

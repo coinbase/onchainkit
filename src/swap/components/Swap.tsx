@@ -10,10 +10,11 @@ import { SwapToggleButton } from './SwapToggleButton';
 
 export function Swap({
   address,
-  experimental = { useAggregator: true },
   children,
-  title = 'Swap',
   className,
+  experimental = { useAggregator: true },
+  onStatus,
+  title = 'Swap',
 }: SwapReact) {
   const { inputs, toggleButton, swapButton, swapMessage } = useMemo(() => {
     const childrenArray = Children.toArray(children);
@@ -26,7 +27,11 @@ export function Swap({
   }, [children]);
 
   return (
-    <SwapProvider address={address} experimental={experimental}>
+    <SwapProvider
+      address={address}
+      experimental={experimental}
+      onStatus={onStatus}
+    >
       <div
         className={cn(
           background.default,

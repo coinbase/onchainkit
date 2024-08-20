@@ -88,6 +88,22 @@ export type QuoteWarning = {
   type?: string; // The type of the warning
 };
 
+/**
+ * List of swap lifecycle statuses.
+ * The order of the statuses loosely follows the swap lifecycle.
+ *
+ * Note: exported as public Type
+ */
+export type LifeCycleStatus =
+  | {
+      statusName: 'init';
+      statusData: null;
+    }
+  | {
+      statusName: 'error';
+      statusData: SwapError;
+    };
+
 export type RawTransactionData = {
   data: string; // The transaction data
   from: string; // The sender address
@@ -133,29 +149,32 @@ export type SwapButtonReact = {
 export type SwapContextType = {
   error?: SwapErrorState;
   from: SwapUnit;
-  to: SwapUnit;
+  lifeCycleStatus: LifeCycleStatus;
   loading: boolean;
   isTransactionPending: boolean;
-  handleSubmit: (
-    onError?: (error: SwapError) => void,
-    onStart?: (txHash: string) => void | Promise<void>,
-    onSuccess?: (txReceipt: TransactionReceipt) => void | Promise<void>,
-  ) => void;
-  handleToggle: () => void;
   handleAmountChange: (
     t: 'from' | 'to',
     amount: string,
     st?: Token,
     dt?: Token,
   ) => void;
+  handleSubmit: (
+    onError?: (error: SwapError) => void,
+    onStart?: (txHash: string) => void | Promise<void>,
+    onSuccess?: (txReceipt: TransactionReceipt) => void | Promise<void>,
+  ) => void;
+  handleToggle: () => void;
+  setLifeCycleStatus: (state: LifeCycleStatus) => void; // A function to set the lifecycle status of the component
+  to: SwapUnit;
 };
 
 /**
  * Note: exported as public Type
  */
 export type SwapError = {
-  code: string; // The error code
-  error: string; // The error message
+  code: string; // The error code representing the type of swap error.
+  error: string; // The error message providing details about the swap error.
+  message: string; // The error message providing details about the swap error.
 };
 
 export type SwapErrorState = {
@@ -203,6 +222,7 @@ export type SwapProviderReact = {
     useAggregator: boolean; // Whether to use a DEX aggregator. (default: true)
     maxSlippage?: number; // Maximum acceptable slippage for a swap. (default: 10) This is as a percent, not basis points
   };
+  onStatus?: (lifeCycleStatus: LifeCycleStatus) => void; // An optional callback function that exposes the component lifecycle status
 };
 
 /**
@@ -216,6 +236,7 @@ export type SwapReact = {
     useAggregator: boolean; // Whether to use a DEX aggregator. (default: true)
     maxSlippage?: number; // Maximum acceptable slippage for a swap. (default: 10) This is as a percent, not basis points
   };
+  onStatus?: (lifeCycleStatus: LifeCycleStatus) => void; // An optional callback function that exposes the component lifecycle status
   title?: string; // Title for the Swap component. (default: "Swap")
 };
 

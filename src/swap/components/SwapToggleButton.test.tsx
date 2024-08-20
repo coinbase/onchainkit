@@ -13,18 +13,14 @@ describe('SwapToggleButton', () => {
     (useSwapContext as jest.Mock).mockReturnValue({
       handleToggle: handleToggleMock,
     });
-
     render(<SwapToggleButton />);
-
     const button = screen.getByTestId('SwapTokensButton');
     fireEvent.click(button);
-
     expect(handleToggleMock).toHaveBeenCalled();
   });
 
   it('should render with correct classes', () => {
     render(<SwapToggleButton className="custom-class" />);
-
     const button = screen.getByTestId('SwapTokensButton');
     expect(button).toHaveClass('custom-class');
   });

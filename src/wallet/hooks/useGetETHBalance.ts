@@ -17,8 +17,9 @@ export function useGetETHBalance(address: Address): UseGetETHBalanceResponse {
     let error: SwapError | undefined;
     if (ethBalanceResponse?.error) {
       error = {
-        error: ethBalanceResponse?.error?.message,
         code: getSwapErrorCode('balance'),
+        error: ethBalanceResponse?.error?.message,
+        message: '',
       };
     }
     if (

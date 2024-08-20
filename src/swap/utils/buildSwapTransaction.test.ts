@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { CDP_GET_SWAP_TRADE } from '../../network/definitions/swap';
 import { sendRequest } from '../../network/request';
-import type { Token } from '../../token/types';
+import { DEGEN_TOKEN, ETH_TOKEN } from '../mocks';
 import type { BuildSwapTransaction } from '../types';
 import { buildSwapTransaction } from './buildSwapTransaction';
 /**
@@ -12,24 +12,6 @@ import { getSwapTransaction } from './getSwapTransaction';
 
 vi.mock('../../network/request');
 
-const ETH: Token = {
-  name: 'ETH',
-  address: '',
-  symbol: 'ETH',
-  decimals: 18,
-  image:
-    'https://wallet-api-production.s3.amazonaws.com/uploads/tokens/eth_288.png',
-  chainId: 8453,
-};
-const DEGEN: Token = {
-  name: 'DEGEN',
-  address: '0x4ed4e862860bed51a9570b96d89af5e1b0efefed',
-  symbol: 'DEGEN',
-  decimals: 18,
-  image:
-    'https://d3r81g40ycuhqg.cloudfront.net/wallet/wais/3b/bf/3bbf118b5e6dc2f9e7fc607a6e7526647b4ba8f0bea87125f971446d57b296d2-MDNmNjY0MmEtNGFiZi00N2I0LWIwMTItMDUyMzg2ZDZhMWNm',
-  chainId: 8453,
-};
 const testFromAddress = '0x6Cd01c0F55ce9E0Bf78f5E90f72b4345b16d515d';
 const testAmount = '3305894409732200';
 const testAmountReference = 'from';
@@ -44,8 +26,8 @@ describe('buildSwapTransaction', () => {
       useAggregator: true,
       fromAddress: testFromAddress as `0x${string}`,
       amountReference: testAmountReference,
-      from: ETH,
-      to: DEGEN,
+      from: ETH_TOKEN,
+      to: DEGEN_TOKEN,
       amount: testAmount,
     };
     const mockApiParams = getAPIParamsForToken(mockParams);
@@ -111,9 +93,7 @@ describe('buildSwapTransaction', () => {
         chainId: '8453',
       },
     };
-
     (sendRequest as vi.Mock).mockResolvedValue(mockResponse);
-
     const trade = mockResponse.result;
     const expectedResponse = {
       approveTransaction: undefined,
@@ -122,18 +102,15 @@ describe('buildSwapTransaction', () => {
       transaction: getSwapTransaction(trade.tx, trade.chainId),
       warning: trade.quote.warning,
     };
-
     const quote = (await buildSwapTransaction(
       mockParams,
     )) as BuildSwapTransaction;
-
     expect(quote.approveTransaction).toEqual(
       expectedResponse.approveTransaction,
     );
     expect(quote.transaction).toEqual(expectedResponse.transaction);
     expect(quote.fee).toEqual(expectedResponse.fee);
     expect(quote.warning).toEqual(expectedResponse.warning);
-
     expect(sendRequest).toHaveBeenCalledTimes(1);
     expect(sendRequest).toHaveBeenCalledWith(CDP_GET_SWAP_TRADE, [
       mockApiParams,
@@ -145,15 +122,14 @@ describe('buildSwapTransaction', () => {
       useAggregator: false,
       fromAddress: testFromAddress as `0x${string}`,
       amountReference: testAmountReference,
-      from: ETH,
-      to: DEGEN,
+      from: ETH_TOKEN,
+      to: DEGEN_TOKEN,
       amount: testAmount,
     };
     const mockApiParams = {
       v2Enabled: true,
       ...getAPIParamsForToken(mockParams),
     };
-
     const mockResponse = {
       id: 1,
       jsonrpc: '2.0',
@@ -167,24 +143,8 @@ describe('buildSwapTransaction', () => {
           value: '100000000000000',
         },
         quote: {
-          from: {
-            address: '',
-            chainId: 8453,
-            decimals: 18,
-            image:
-              'https://wallet-api-production.s3.amazonaws.com/uploads/tokens/eth_288.png',
-            name: 'ETH',
-            symbol: 'ETH',
-          },
-          to: {
-            address: '0x4ed4e862860bed51a9570b96d89af5e1b0efefed',
-            chainId: 8453,
-            decimals: 18,
-            image:
-              'https://d3r81g40ycuhqg.cloudfront.net/wallet/wais/3b/bf/3bbf118b5e6dc2f9e7fc607a6e7526647b4ba8f0bea87125f971446d57b296d2-MDNmNjY0MmEtNGFiZi00N2I0LWIwMTItMDUyMzg2ZDZhMWNm',
-            name: 'DEGEN',
-            symbol: 'DEGEN',
-          },
+          from: ETH_TOKEN,
+          to: DEGEN_TOKEN,
           fromAmount: '100000000000000',
           toAmount: '19395353519910973703',
           amountReference: 'from',
@@ -215,9 +175,7 @@ describe('buildSwapTransaction', () => {
         chainId: '8453',
       },
     };
-
     (sendRequest as vi.Mock).mockResolvedValue(mockResponse);
-
     const trade = mockResponse.result;
     const expectedResponse = {
       approveTransaction: undefined,
@@ -226,18 +184,15 @@ describe('buildSwapTransaction', () => {
       transaction: getSwapTransaction(trade.tx, trade.chainId),
       warning: trade.quote.warning,
     };
-
     const quote = (await buildSwapTransaction(
       mockParams,
     )) as BuildSwapTransaction;
-
     expect(quote.approveTransaction).toEqual(
       expectedResponse.approveTransaction,
     );
     expect(quote.transaction).toEqual(expectedResponse.transaction);
     expect(quote.fee).toEqual(expectedResponse.fee);
     expect(quote.warning).toEqual(expectedResponse.warning);
-
     expect(sendRequest).toHaveBeenCalledTimes(1);
     expect(sendRequest).toHaveBeenCalledWith(CDP_GET_SWAP_TRADE, [
       mockApiParams,
@@ -250,12 +205,11 @@ describe('buildSwapTransaction', () => {
       maxSlippage: '3',
       fromAddress: testFromAddress as `0x${string}`,
       amountReference: testAmountReference,
-      from: DEGEN,
-      to: ETH,
+      from: DEGEN_TOKEN,
+      to: ETH_TOKEN,
       amount: testAmount,
     };
     const mockApiParams = getAPIParamsForToken(mockParams);
-
     const mockResponse = {
       id: 1,
       jsonrpc: '2.0',
@@ -277,24 +231,8 @@ describe('buildSwapTransaction', () => {
           value: '100000000000000',
         },
         quote: {
-          from: {
-            address: '',
-            chainId: 8453,
-            decimals: 18,
-            image:
-              'https://wallet-api-production.s3.amazonaws.com/uploads/tokens/eth_288.png',
-            name: 'ETH',
-            symbol: 'ETH',
-          },
-          to: {
-            address: '0x4ed4e862860bed51a9570b96d89af5e1b0efefed',
-            chainId: 8453,
-            decimals: 18,
-            image:
-              'https://d3r81g40ycuhqg.cloudfront.net/wallet/wais/3b/bf/3bbf118b5e6dc2f9e7fc607a6e7526647b4ba8f0bea87125f971446d57b296d2-MDNmNjY0MmEtNGFiZi00N2I0LWIwMTItMDUyMzg2ZDZhMWNm',
-            name: 'DEGEN',
-            symbol: 'DEGEN',
-          },
+          from: ETH_TOKEN,
+          to: DEGEN_TOKEN,
           fromAmount: '100000000000000',
           toAmount: '19395353519910973703',
           amountReference: 'from',
@@ -324,9 +262,7 @@ describe('buildSwapTransaction', () => {
         chainId: '8453',
       },
     };
-
     (sendRequest as vi.Mock).mockResolvedValue(mockResponse);
-
     const trade = mockResponse.result;
     const expectedResponse = {
       approveTransaction: getSwapTransaction(trade.approveTx, trade.chainId),
@@ -335,18 +271,15 @@ describe('buildSwapTransaction', () => {
       transaction: getSwapTransaction(trade.tx, trade.chainId),
       warning: trade.quote.warning,
     };
-
     const quote = (await buildSwapTransaction(
       mockParams,
     )) as BuildSwapTransaction;
-
     expect(quote.approveTransaction).toEqual(
       expectedResponse.approveTransaction,
     );
     expect(quote.transaction).toEqual(expectedResponse.transaction);
     expect(quote.fee).toEqual(expectedResponse.fee);
     expect(quote.warning).toEqual(expectedResponse.warning);
-
     expect(sendRequest).toHaveBeenCalledTimes(1);
     expect(sendRequest).toHaveBeenCalledWith(CDP_GET_SWAP_TRADE, [
       {
@@ -361,23 +294,21 @@ describe('buildSwapTransaction', () => {
       useAggregator: true,
       fromAddress: testFromAddress as `0x${string}`,
       amountReference: testAmountReference,
-      from: ETH,
-      to: DEGEN,
+      from: ETH_TOKEN,
+      to: DEGEN_TOKEN,
       amount: testAmount,
     };
     const mockApiParams = getAPIParamsForToken(mockParams);
-
     const mockError = new Error(
       'buildSwapTransaction: Error: Failed to send request',
     );
     (sendRequest as vi.Mock).mockRejectedValue(mockError);
-
     const error = await buildSwapTransaction(mockParams);
     expect(error).toEqual({
       code: 'UNCAUGHT_SWAP_ERROR',
       error: 'Something went wrong',
+      message: '',
     });
-
     expect(sendRequest).toHaveBeenCalledTimes(1);
     expect(sendRequest).toHaveBeenCalledWith(CDP_GET_SWAP_TRADE, [
       mockApiParams,
@@ -389,12 +320,11 @@ describe('buildSwapTransaction', () => {
       useAggregator: true,
       fromAddress: testFromAddress as `0x${string}`,
       amountReference: testAmountReference,
-      from: ETH,
-      to: DEGEN,
+      from: ETH_TOKEN,
+      to: DEGEN_TOKEN,
       amount: testAmount,
     };
     const mockApiParams = getAPIParamsForToken(mockParams);
-
     const mockResponse = {
       id: 1,
       jsonrpc: '2.0',
@@ -403,15 +333,13 @@ describe('buildSwapTransaction', () => {
         message: 'Invalid response',
       },
     };
-
     (sendRequest as vi.Mock).mockResolvedValue(mockResponse);
-
     const error = await buildSwapTransaction(mockParams);
     expect(error).toEqual({
       code: 'SWAP_ERROR',
       error: 'Invalid response',
+      message: '',
     });
-
     expect(sendRequest).toHaveBeenCalledTimes(1);
     expect(sendRequest).toHaveBeenCalledWith(CDP_GET_SWAP_TRADE, [
       mockApiParams,
@@ -423,16 +351,16 @@ describe('buildSwapTransaction', () => {
       useAggregator: true,
       fromAddress: testFromAddress as `0x${string}`,
       amountReference: testAmountReference,
-      from: ETH,
-      to: DEGEN,
+      from: ETH_TOKEN,
+      to: DEGEN_TOKEN,
       amount: 'invalid',
       isAmountInDecimals: false,
     };
-
     const error = await buildSwapTransaction(mockParams);
     expect(error).toEqual({
       code: 'INVALID_INPUT',
       error: 'Invalid input: amount must be a non-negative number string',
+      message: '',
     });
   });
 });

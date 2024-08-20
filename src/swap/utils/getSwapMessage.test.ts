@@ -1,34 +1,14 @@
 import { describe, expect, test, vi } from 'vitest';
-import type { Token } from '../../token';
 import {
   LOW_LIQUIDITY_ERROR_CODE,
   TOO_MANY_REQUESTS_ERROR_CODE,
   USER_REJECTED_ERROR_CODE,
 } from '../constants';
+import { ETH_TOKEN, USDC_TOKEN } from '../mocks';
 /**
  * @vitest-environment node
  */
 import { SwapMessage, getSwapMessage } from './getSwapMessage';
-
-const ethToken: Token = {
-  name: 'ETH',
-  address: '',
-  symbol: 'ETH',
-  decimals: 18,
-  image:
-    'https://wallet-api-production.s3.amazonaws.com/uploads/tokens/eth_288.png',
-  chainId: 8453,
-};
-
-const usdcToken: Token = {
-  name: 'USDC',
-  address: '0x833589fcd6edb6e08f4c7c32d4f71b54bda02913',
-  symbol: 'USDC',
-  decimals: 6,
-  image:
-    'https://d3r81g40ycuhqg.cloudfront.net/wallet/wais/44/2b/442b80bd16af0c0d9b22e03a16753823fe826e5bfd457292b55fa0ba8c1ba213-ZWUzYjJmZGUtMDYxNy00NDcyLTg0NjQtMWI4OGEwYjBiODE2',
-  chainId: 8453,
-};
 
 describe('getSwapMessage', () => {
   const baseParams = {
@@ -125,14 +105,14 @@ describe('getSwapMessage', () => {
         ...baseParams.from,
         amount: '10',
         balance: '20',
-        token: ethToken,
+        token: ETH_TOKEN,
       },
     };
     expect(getSwapMessage(params2)).toBe(SwapMessage.INCOMPLETE_FIELD);
 
     const params3 = {
       ...baseParams,
-      to: { ...baseParams.to, amount: '10', token: usdcToken },
+      to: { ...baseParams.to, amount: '10', token: USDC_TOKEN },
     };
     expect(getSwapMessage(params3)).toBe(SwapMessage.INCOMPLETE_FIELD);
   });
@@ -140,8 +120,13 @@ describe('getSwapMessage', () => {
   test('returns TOO_MANY_REQUESTS when error code is TOO_MANY_REQUESTS_ERROR_CODE', () => {
     const params = {
       ...baseParams,
-      from: { ...baseParams.from, balance: '10', amount: '5', token: ethToken },
-      to: { ...baseParams.to, amount: '5', token: usdcToken },
+      from: {
+        ...baseParams.from,
+        balance: '10',
+        amount: '5',
+        token: ETH_TOKEN,
+      },
+      to: { ...baseParams.to, amount: '5', token: USDC_TOKEN },
       error: {
         quoteError: {
           code: TOO_MANY_REQUESTS_ERROR_CODE,
@@ -155,8 +140,13 @@ describe('getSwapMessage', () => {
   test('returns LOW_LIQUIDITY when error code is LOW_LIQUIDITY_ERROR_CODE', () => {
     const params = {
       ...baseParams,
-      from: { ...baseParams.from, balance: '10', amount: '5', token: ethToken },
-      to: { ...baseParams.to, amount: '5', token: usdcToken },
+      from: {
+        ...baseParams.from,
+        balance: '10',
+        amount: '5',
+        token: ETH_TOKEN,
+      },
+      to: { ...baseParams.to, amount: '5', token: USDC_TOKEN },
       error: {
         quoteError: {
           code: LOW_LIQUIDITY_ERROR_CODE,
@@ -170,8 +160,13 @@ describe('getSwapMessage', () => {
   test('returns USER_REJECTED when error code is USER_REJECTED_ERROR_CODE', () => {
     const params = {
       ...baseParams,
-      from: { ...baseParams.from, balance: '10', amount: '5', token: ethToken },
-      to: { ...baseParams.to, amount: '5', token: usdcToken },
+      from: {
+        ...baseParams.from,
+        balance: '10',
+        amount: '5',
+        token: ETH_TOKEN,
+      },
+      to: { ...baseParams.to, amount: '5', token: USDC_TOKEN },
       error: {
         quoteError: {
           code: USER_REJECTED_ERROR_CODE,
@@ -185,8 +180,13 @@ describe('getSwapMessage', () => {
   test('returns the first error message when general error is present', () => {
     const params = {
       ...baseParams,
-      from: { ...baseParams.from, balance: '10', amount: '5', token: ethToken },
-      to: { ...baseParams.to, amount: '5', token: usdcToken },
+      from: {
+        ...baseParams.from,
+        balance: '10',
+        amount: '5',
+        token: ETH_TOKEN,
+      },
+      to: { ...baseParams.to, amount: '5', token: USDC_TOKEN },
       error: {
         quoteError: {
           code: 'general_error_code',
@@ -200,8 +200,13 @@ describe('getSwapMessage', () => {
   test('returns empty string when no error and all conditions are satisfied', () => {
     const params = {
       ...baseParams,
-      from: { ...baseParams.from, balance: '10', amount: '5', token: ethToken },
-      to: { ...baseParams.to, amount: '5', token: usdcToken },
+      from: {
+        ...baseParams.from,
+        balance: '10',
+        amount: '5',
+        token: ETH_TOKEN,
+      },
+      to: { ...baseParams.to, amount: '5', token: USDC_TOKEN },
     };
     expect(getSwapMessage(params)).toBe('');
   });

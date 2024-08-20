@@ -44,7 +44,6 @@ describe('useGetETHBalance', () => {
   it('should return converted and rounded balance without error', () => {
     (useBalance as Mock).mockReturnValue(mockEthBalanceResponse);
     const { result } = renderHook(() => useGetETHBalance(mockAddress));
-
     expect(result.current.convertedBalance).toBe('0.0002851826238227');
     expect(result.current.roundedBalance).toBe('0.00028518');
     expect(result.current.error).toBeUndefined();
@@ -53,23 +52,20 @@ describe('useGetETHBalance', () => {
 
   it('should return an error when useBalance returns an error', () => {
     (useBalance as Mock).mockReturnValue(mockErrorResponse);
-
     const { result } = renderHook(() => useGetETHBalance(mockAddress));
-
     expect(result.current.convertedBalance).toBe('');
     expect(result.current.roundedBalance).toBe('');
     expect(result.current.error).toEqual({
       error: mockErrorResponse.error.message,
       code: 'SWAP_BALANCE_ERROR',
+      message: '',
     });
     expect(result.current.response).toEqual(mockErrorResponse);
   });
 
   it('should return zero balance when balance value is 0n', () => {
     (useBalance as Mock).mockReturnValue(mockZeroEthBalanceResponse);
-
     const { result } = renderHook(() => useGetETHBalance(mockAddress));
-
     expect(result.current.convertedBalance).toBe('0');
     expect(result.current.roundedBalance).toBe('0');
     expect(result.current.error).toBeUndefined();
@@ -81,9 +77,7 @@ describe('useGetETHBalance', () => {
       data: { value: null },
       error: null,
     });
-
     const { result } = renderHook(() => useGetETHBalance(mockAddress));
-
     expect(result.current.convertedBalance).toBe('');
     expect(result.current.roundedBalance).toBe('');
     expect(result.current.error).toBeUndefined();
