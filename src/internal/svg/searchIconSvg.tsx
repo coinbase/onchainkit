@@ -3,7 +3,7 @@ import { fill } from '../../styles/theme';
 export const searchIconSvg = (
   <svg
     role="img"
-    aria-label="ock-search-icon"
+    aria-label="ock-searchIconSvg"
     width="16"
     height="16"
     viewBox="0 0 16 16"

@@ -3,7 +3,7 @@ import { fill } from '../../styles/theme';
 export const badgeSvg = (
   <svg
     role="img"
-    aria-label="ock-attestation-icon"
+    aria-label="ock-badgeSvg"
     width="12"
     height="12"
     viewBox="0 0 12 12"

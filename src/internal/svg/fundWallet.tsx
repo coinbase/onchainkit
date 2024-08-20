@@ -3,7 +3,7 @@ import { fill } from '../../styles/theme';
 export const fundWalletSvg = (
   <svg
     role="img"
-    aria-label="fund-wallet-svg"
+    aria-label="ock-fundWalletSvg"
     width="18"
     height="18"
     viewBox="0 0 18 18"

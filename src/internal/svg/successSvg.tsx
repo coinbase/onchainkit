@@ -1,5 +1,6 @@
 export const successSvg = (
   <svg
+    aria-label="ock-successSvg"
     width="16"
     height="16"
     viewBox="0 0 16 16"

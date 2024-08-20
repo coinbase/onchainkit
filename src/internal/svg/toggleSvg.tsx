@@ -3,7 +3,7 @@ import { fill } from '../../styles/theme';
 export const toggleSvg = (
   <svg
     role="img"
-    aria-label="ock-toggle-icon"
+    aria-label="ock-toggleSvg"
     width="16"
     height="17"
     viewBox="0 0 16 17"

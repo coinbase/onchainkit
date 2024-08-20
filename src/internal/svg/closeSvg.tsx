@@ -2,6 +2,7 @@ import { fill } from '../../styles/theme';
 
 export const closeSvg = (
   <svg
+    aria-label="ock-closeSvg"
     width="16"
     height="16"
     viewBox="0 0 16 16"

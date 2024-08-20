@@ -2,9 +2,9 @@ import { fill } from '../../styles/theme';
 
 export const caretDownSvg = (
   <svg
-    data-testid="ockTokenSelectButton_CaretDown"
+    data-testid="ock-caretDownSvg"
     role="img"
-    aria-label="ock-caretdown-icon"
+    aria-label="ock-caretDownSvg"
     width="16"
     height="17"
     viewBox="0 0 16 17"
