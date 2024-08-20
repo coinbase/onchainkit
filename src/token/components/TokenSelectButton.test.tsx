@@ -23,9 +23,7 @@ describe('TokenSelectButton', () => {
 
     expect(screen.getByText('Select token')).toBeInTheDocument();
     expect(screen.queryByTestId('ockTokenSelectButton_Symbol')).toBeNull();
-    expect(
-      screen.getByTestId('ockTokenSelectButton_CaretDown'),
-    ).toBeInTheDocument();
+    expect(screen.getByTestId('ock-caretDownSvg')).toBeInTheDocument();
   });
 
   it('renders correctly with a token when isOpen is true', () => {
@@ -34,10 +32,8 @@ describe('TokenSelectButton', () => {
     );
 
     expect(screen.getByText('ETH')).toBeInTheDocument();
-    expect(
-      screen.getByTestId('ockTokenSelectButton_CaretDown'),
-    ).toBeInTheDocument();
-    expect(screen.queryByTestId('ockTokenSelectButton_CaretUp')).toBeNull();
+    expect(screen.getByTestId('ock-caretDownSvg')).toBeInTheDocument();
+    expect(screen.queryByTestId('ock-caretUpSvg')).toBeNull();
     expect(screen.queryByText('Select token')).toBeNull();
   });
 
@@ -45,10 +41,8 @@ describe('TokenSelectButton', () => {
     render(<TokenSelectButton token={token} onClick={vi.fn()} isOpen={true} />);
 
     expect(screen.getByText('ETH')).toBeInTheDocument();
-    expect(
-      screen.getByTestId('ockTokenSelectButton_CaretUp'),
-    ).toBeInTheDocument();
-    expect(screen.queryByTestId('ockTokenSelectButton_CaretDown')).toBeNull();
+    expect(screen.getByTestId('ock-caretUpSvg')).toBeInTheDocument();
+    expect(screen.queryByTestId('ock-caretDownSvg')).toBeNull();
     expect(screen.queryByText('Select token')).toBeNull();
   });
 

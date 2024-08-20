@@ -1,17 +1,18 @@
 import { fill } from '../../styles/theme';
 
-export const closeSvg = (
+export const caretUpSvg = (
   <svg
-    aria-label="ock-closeSvg"
+    data-testid="ock-caretUpSvg"
+    role="img"
+    aria-label="ock-caretUpSvg"
     width="16"
     height="16"
     viewBox="0 0 16 16"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
   >
-    <title>Close SVG</title>
     <path
-      d="M2.14921 1L1 2.1492L6.8508 8L1 13.8508L2.1492 15L8 9.1492L13.8508 15L15 13.8508L9.14921 8L15 2.1492L13.8508 1L8 6.8508L2.14921 1Z"
+      d="M3.05329 10.9866L7.99996 6.03997L12.9466 10.9866L14.1266 9.80663L7.99996 3.67997L1.87329 9.80663L3.05329 10.9866Z"
       className={fill.defaultReverse}
     />
   </svg>

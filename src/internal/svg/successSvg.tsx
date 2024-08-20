@@ -1,11 +1,12 @@
 export const successSvg = (
   <svg
+    aria-label="ock-successSvg"
     width="16"
     height="16"
     viewBox="0 0 16 16"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
-    data-testid="ockSuccessSvg"
+    data-testid="ock-successSvg"
   >
     <title>Success SVG</title>
     <path

@@ -5,7 +5,7 @@ export const checkmarkSvg = (
     viewBox="0 0 25 24"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
-    data-testid="ockCheckmarkSvg"
+    data-testid="ock-checkmarkSvg"
   >
     <title>Checkmark SVG</title>
     <path

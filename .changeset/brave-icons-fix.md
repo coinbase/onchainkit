@@ -3,3 +3,4 @@
 ---
 
 - **patch**: Remove unneccessary address prop from Transaction component and fix issue where Sponsor component isn't visible. By @abcrane123 #1114
+- **chore**: Move SVG images to the /src/internal/svg folder. By @cpcramer #1113
