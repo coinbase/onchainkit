@@ -3,8 +3,9 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vocs dev",
-    "build": "vocs build",
+    "generate": "node generateSandpackFiles.cjs",
+    "dev": "yarn generate && vocs dev",
+    "build": "node generate && vocs build",
     "preview": "vocs preview"
   },
   "dependencies": {

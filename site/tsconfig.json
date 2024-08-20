@@ -16,5 +16,5 @@
     "strict": true,
     "useDefineForClassFields": true
   },
-  "include": ["**/*.ts", "**/*.tsx"]
+  "include": ["**/*.ts", "**/*.tsx", "generateSandpackFiles.js"]
 }

@@ -14,9 +14,10 @@ import {
 import { Wallet, ConnectWallet } from '@coinbase/onchainkit/wallet';
 import App from '../../components/App';
 import TransactionWrapper from '../../components/TransactionWrapper';
+import { default as SandpackTransactionButton } from '../../components/sandpack/TransactionButton';
 
 export const BASE_SEPOLIA_CHAIN_ID = 84532;
-export const PAYMASTER_AND_BUNDLER_ENDPOINT = import.meta.env.VITE_CDP_PAYMASTER_AND_BUNDLER_ENDPOINT;
+export const PAYMASTER_AND_BUNDLER_ENDPOINT = '' //import.meta.env.VITE_CDP_PAYMASTER_AND_BUNDLER_ENDPOINT;
 
 # `<Transaction />`
 
@@ -25,108 +26,10 @@ It handles the transaction lifecycle, including gas estimation, fee sponsorship,
 
 Before using them, ensure you've completed all [Getting Started steps](/getting-started).
 
-## `Transaction` with `TransactionStatus` components
-
-```tsx [code]
-import { useCallback } from 'react';
-import { Avatar, Name } from '@coinbase/onchainkit/identity';
-import { // [!code focus]
-  Transaction, // [!code focus]
-  TransactionButton, // [!code focus]
-  TransactionSponsor, // [!code focus]
-  TransactionStatus, // [!code focus]
-  TransactionStatusAction, // [!code focus]
-  TransactionStatusLabel, // [!code focus]
-  TransactionStatusAction, // [!code focus]
-} from '@coinbase/onchainkit/transaction'; // [!code focus]
-import { Wallet, ConnectWallet } from '@coinbase/onchainkit/wallet';
-import { useAccount } from 'wagmi';
-
-export const clickContractAddress = '0x67c97D1FB8184F038592b2109F854dfb09C77C75';
-export const clickContractAbi = [
-  {
-    type: 'function',
-    name: 'click',
-    inputs: [],
-    outputs: [],
-    stateMutability: 'nonpayable',
-  },
-] as const;
-
-export default function TransactionComponents() {
-  const { address } = useAccount();
-
-  const contracts = [
-    {
-      address: clickContractAddress,
-      abi: clickContractAbi,
-      functionName: 'click',
-      args: [],
-    },
-  ];
-
-  return address ? (
-    <Transaction // [!code focus]
-      address={address} // [!code focus]
-      chainId={BASE_SEPOLIA_CHAIN_ID} // [!code focus]
-      contracts={contracts} // [!code focus]
-    > // [!code focus]
-      <TransactionButton />  // [!code focus]
-      <TransactionSponsor /> // [!code focus]
-      <TransactionStatus>  // [!code focus]
-        <TransactionStatusLabel />  // [!code focus]
-        <TransactionStatusAction />  // [!code focus]
-      </TransactionStatus>  // [!code focus]
-    </Transaction>  // [!code focus]
-  ) : (
-    <Wallet>
-      <ConnectWallet>
-        <Avatar className='h-6 w-6' />
-        <Name />
-      </ConnectWallet>
-    </Wallet>
-  );
-}
-```
 <App>
-  <TransactionWrapper>
-    {({ address, contracts, onError, onSuccess }) => {
-      const capabilities = {
-        paymasterService: {
-          url: PAYMASTER_AND_BUNDLER_ENDPOINT,
-        },
-      }
-      if (address) {
-        return (
-          <Transaction
-            address={address}
-            capabilities={capabilities}
-            chainId={BASE_SEPOLIA_CHAIN_ID}
-            contracts={contracts}
-            onError={onError}
-            onSuccess={onSuccess}
-          >
-            <TransactionButton />
-            <TransactionSponsor />
-            <TransactionStatus>
-              <TransactionStatusLabel />
-              <TransactionStatusAction />
-            </TransactionStatus>
-          </Transaction>
-        )
-      } else {
-        return (
-          <Wallet>
-            <ConnectWallet>
-              <Avatar className="h-6 w-6" />
-              <Name />
-            </ConnectWallet>
-          </Wallet>
-        )
-      }
-    }}
-  </TransactionWrapper>
+  <SandpackTransactionButton/>
 </App>
+
 
 ## `Transaction` with `TransactionToast` components
 
