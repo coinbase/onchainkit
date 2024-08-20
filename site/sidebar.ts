@@ -136,8 +136,8 @@ export const sidebar = [
             link: '/wallet/wallet',
           },
           {
-            text: 'WalletDropdownBasename',
-            link: '/wallet/wallet-dropdown-basename',
+            text: 'WalletDropdownBaseName',
+            link: '/wallet/wallet-dropdown-base-name',
           },
           {
             text: 'WalletDropdownDisconnect',
