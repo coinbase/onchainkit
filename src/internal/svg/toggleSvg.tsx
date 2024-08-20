@@ -9,7 +9,7 @@ export const toggleSvg = (
     viewBox="0 0 16 17"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
-    data-testid="SwapIcon"
+    data-testid="ock-toggleSvg"
   >
     <g clipPath="url(#clip0_2077_4627)">
       <path
