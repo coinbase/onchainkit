@@ -143,6 +143,12 @@
       "import": "./esm/identity/index.js",
       "default": "./esm/identity/index.js"
     },
+    "./pay": {
+      "types": "./esm/pay/index.d.ts",
+      "module": "./esm/pay/index.js",
+      "import": "./esm/pay/index.js",
+      "default": "./esm/pay/index.js"
+    },
     "./swap": {
       "types": "./esm/swap/index.d.ts",
       "module": "./esm/swap/index.js",
