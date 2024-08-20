@@ -55,7 +55,7 @@ export type BaseMainnetName = `${string}.base.eth`;
 /**
  * Note: exported as public Type
  */
-export type BaseName = BaseMainnetName | BaseSepoliaName;
+export type Basename = BaseMainnetName | BaseSepoliaName;
 
 /**
  * Note: exported as public Type
@@ -126,7 +126,7 @@ export type GetName = {
 /**
  * Note: exported as public Type
  */
-export type GetNameReturnType = string | BaseName | null;
+export type GetNameReturnType = string | Basename | null;
 
 /**
  * Note: exported as public Type
