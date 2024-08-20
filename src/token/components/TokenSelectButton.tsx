@@ -39,7 +39,7 @@ export const TokenSelectButton = forwardRef(function TokenSelectButton(
       )}
       <div className="relative flex items-center justify-center">
         <div className="absolute top-0 left-0 h-4 w-4" />
-        {isOpen ? {caretUpSvg} : {caretDownSvg} }
+        {isOpen ? caretUpSvg : caretDownSvg}
       </div>
     </button>
   );
