@@ -4,7 +4,7 @@
 import { renderHook } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useReadContract } from 'wagmi';
-import type { Token } from '../../token';
+import { USDC_TOKEN } from '../../swap/mocks';
 import { useGetTokenBalance } from './useGetTokenBalance';
 
 vi.mock('wagmi', () => {
@@ -23,15 +23,6 @@ const mockErrorResponse = {
   },
 };
 const mockAddress = '0x123';
-const mockToken: Token = {
-  name: 'USDC',
-  address: '0x833589fcd6edb6e08f4c7c32d4f71b54bda02913',
-  symbol: 'USDC',
-  decimals: 6,
-  image:
-    'https://d3r81g40ycuhqg.cloudfront.net/wallet/wais/44/2b/442b80bd16af0c0d9b22e03a16753823fe826e5bfd457292b55fa0ba8c1ba213-ZWUzYjJmZGUtMDYxNy00NDcyLTg0NjQtMWI4OGEwYjBiODE2',
-  chainId: 8453,
-};
 
 describe('useGetTokenBalance', () => {
   beforeEach(() => {
@@ -41,9 +32,8 @@ describe('useGetTokenBalance', () => {
   it('should return converted and rounded balance without error', () => {
     (useReadContract as Mock).mockReturnValue(mockTokenBalanceResponse);
     const { result } = renderHook(() =>
-      useGetTokenBalance(mockAddress, mockToken),
+      useGetTokenBalance(mockAddress, USDC_TOKEN),
     );
-
     expect(result.current.convertedBalance).toBe('3304007.277394');
     expect(result.current.roundedBalance).toBe('3304007.277394');
     expect(result.current.error).toBeUndefined();
@@ -52,27 +42,24 @@ describe('useGetTokenBalance', () => {
 
   it('should return an error when useReadContract returns an error', () => {
     (useReadContract as Mock).mockReturnValue(mockErrorResponse);
-
     const { result } = renderHook(() =>
-      useGetTokenBalance(mockAddress, mockToken),
+      useGetTokenBalance(mockAddress, USDC_TOKEN),
     );
-
     expect(result.current.convertedBalance).toBe('');
     expect(result.current.roundedBalance).toBe('');
     expect(result.current.error).toEqual({
       error: mockErrorResponse.error.shortMessage,
       code: 'SWAP_BALANCE_ERROR',
+      message: '',
     });
     expect(result.current.response).toEqual(mockErrorResponse);
   });
 
   it('should return zero balance when balance value is 0n', () => {
     (useReadContract as Mock).mockReturnValue(mockZeroBalanceResponse);
-
     const { result } = renderHook(() =>
-      useGetTokenBalance(mockAddress, mockToken),
+      useGetTokenBalance(mockAddress, USDC_TOKEN),
     );
-
     expect(result.current.convertedBalance).toBe('0');
     expect(result.current.roundedBalance).toBe('0');
     expect(result.current.error).toBeUndefined();
@@ -84,11 +71,9 @@ describe('useGetTokenBalance', () => {
       data: null,
       error: null,
     });
-
     const { result } = renderHook(() =>
-      useGetTokenBalance(mockAddress, mockToken),
+      useGetTokenBalance(mockAddress, USDC_TOKEN),
     );
-
     expect(result.current.convertedBalance).toBe('');
     expect(result.current.roundedBalance).toBe('');
     expect(result.current.error).toBeUndefined();

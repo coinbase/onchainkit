@@ -52,7 +52,8 @@ export async function getSwapQuote(
       return {
         code: getSwapErrorCode('quote', res.error?.code),
         error: res.error.message,
-      } as SwapError;
+        message: '',
+      };
     }
     return res.result;
   } catch (_error) {

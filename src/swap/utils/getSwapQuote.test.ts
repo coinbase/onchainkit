@@ -31,24 +31,8 @@ describe('getSwapQuote', () => {
       id: 1,
       jsonrpc: '2.0',
       result: {
-        from: {
-          address: '',
-          chainId: 8453,
-          decimals: 18,
-          image:
-            'https://wallet-api-production.s3.amazonaws.com/uploads/tokens/eth_288.png',
-          name: 'ETH',
-          symbol: 'ETH',
-        },
-        to: {
-          address: '0x4ed4e862860bed51a9570b96d89af5e1b0efefed',
-          chainId: 8453,
-          decimals: 18,
-          image:
-            'https://d3r81g40ycuhqg.cloudfront.net/wallet/wais/3b/bf/3bbf118b5e6dc2f9e7fc607a6e7526647b4ba8f0bea87125f971446d57b296d2-MDNmNjY0MmEtNGFiZi00N2I0LWIwMTItMDUyMzg2ZDZhMWNm',
-          name: 'DEGEN',
-          symbol: 'DEGEN',
-        },
+        from: ETH_TOKEN,
+        to: DEGEN_TOKEN,
         fromAmount: '100000000000000000',
         toAmount: '16732157880511600003860',
         amountReference: 'from',
@@ -84,24 +68,8 @@ describe('getSwapQuote', () => {
       id: 1,
       jsonrpc: '2.0',
       result: {
-        from: {
-          address: '',
-          chainId: 8453,
-          decimals: 18,
-          image:
-            'https://wallet-api-production.s3.amazonaws.com/uploads/tokens/eth_288.png',
-          name: 'ETH',
-          symbol: 'ETH',
-        },
-        to: {
-          address: '0x4ed4e862860bed51a9570b96d89af5e1b0efefed',
-          chainId: 8453,
-          decimals: 18,
-          image:
-            'https://d3r81g40ycuhqg.cloudfront.net/wallet/wais/3b/bf/3bbf118b5e6dc2f9e7fc607a6e7526647b4ba8f0bea87125f971446d57b296d2-MDNmNjY0MmEtNGFiZi00N2I0LWIwMTItMDUyMzg2ZDZhMWNm',
-          name: 'DEGEN',
-          symbol: 'DEGEN',
-        },
+        from: ETH_TOKEN,
+        to: DEGEN_TOKEN,
         fromAmount: '100000000000000000',
         toAmount: '16732157880511600003860',
         amountReference: 'from',
@@ -168,6 +136,7 @@ describe('getSwapQuote', () => {
     expect(error).toEqual({
       code: 'SWAP_QUOTE_ERROR',
       error: 'Invalid response',
+      message: '',
     });
     expect(sendRequest).toHaveBeenCalledTimes(1);
     expect(sendRequest).toHaveBeenCalledWith(CDP_GET_SWAP_QUOTE, [

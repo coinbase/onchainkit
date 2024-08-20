@@ -143,24 +143,8 @@ describe('buildSwapTransaction', () => {
           value: '100000000000000',
         },
         quote: {
-          from: {
-            address: '',
-            chainId: 8453,
-            decimals: 18,
-            image:
-              'https://wallet-api-production.s3.amazonaws.com/uploads/tokens/eth_288.png',
-            name: 'ETH',
-            symbol: 'ETH',
-          },
-          to: {
-            address: '0x4ed4e862860bed51a9570b96d89af5e1b0efefed',
-            chainId: 8453,
-            decimals: 18,
-            image:
-              'https://d3r81g40ycuhqg.cloudfront.net/wallet/wais/3b/bf/3bbf118b5e6dc2f9e7fc607a6e7526647b4ba8f0bea87125f971446d57b296d2-MDNmNjY0MmEtNGFiZi00N2I0LWIwMTItMDUyMzg2ZDZhMWNm',
-            name: 'DEGEN',
-            symbol: 'DEGEN',
-          },
+          from: ETH_TOKEN,
+          to: DEGEN_TOKEN,
           fromAmount: '100000000000000',
           toAmount: '19395353519910973703',
           amountReference: 'from',
@@ -247,24 +231,8 @@ describe('buildSwapTransaction', () => {
           value: '100000000000000',
         },
         quote: {
-          from: {
-            address: '',
-            chainId: 8453,
-            decimals: 18,
-            image:
-              'https://wallet-api-production.s3.amazonaws.com/uploads/tokens/eth_288.png',
-            name: 'ETH',
-            symbol: 'ETH',
-          },
-          to: {
-            address: '0x4ed4e862860bed51a9570b96d89af5e1b0efefed',
-            chainId: 8453,
-            decimals: 18,
-            image:
-              'https://d3r81g40ycuhqg.cloudfront.net/wallet/wais/3b/bf/3bbf118b5e6dc2f9e7fc607a6e7526647b4ba8f0bea87125f971446d57b296d2-MDNmNjY0MmEtNGFiZi00N2I0LWIwMTItMDUyMzg2ZDZhMWNm',
-            name: 'DEGEN',
-            symbol: 'DEGEN',
-          },
+          from: ETH_TOKEN,
+          to: DEGEN_TOKEN,
           fromAmount: '100000000000000',
           toAmount: '19395353519910973703',
           amountReference: 'from',
@@ -339,6 +307,7 @@ describe('buildSwapTransaction', () => {
     expect(error).toEqual({
       code: 'UNCAUGHT_SWAP_ERROR',
       error: 'Something went wrong',
+      message: '',
     });
     expect(sendRequest).toHaveBeenCalledTimes(1);
     expect(sendRequest).toHaveBeenCalledWith(CDP_GET_SWAP_TRADE, [
@@ -369,6 +338,7 @@ describe('buildSwapTransaction', () => {
     expect(error).toEqual({
       code: 'SWAP_ERROR',
       error: 'Invalid response',
+      message: '',
     });
     expect(sendRequest).toHaveBeenCalledTimes(1);
     expect(sendRequest).toHaveBeenCalledWith(CDP_GET_SWAP_TRADE, [

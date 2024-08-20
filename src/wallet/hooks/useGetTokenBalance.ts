@@ -26,8 +26,9 @@ export function useGetTokenBalance(
     let error: SwapError | undefined;
     if (tokenBalanceResponse?.error) {
       error = {
-        error: tokenBalanceResponse?.error?.shortMessage,
         code: getSwapErrorCode('balance'),
+        error: tokenBalanceResponse?.error?.shortMessage,
+        message: '',
       };
     }
     if (
