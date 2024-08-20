@@ -66,11 +66,11 @@
   color: #030712;
 }
 
-#home-footer-list .vocs_Anchor.vocs_Link.vocs_Link_accent_underlined {
+.vocs_Anchor.vocs_Link.vocs_Link_accent_underlined {
   color: #030712;
 }
 
-.dark #home-footer-list .vocs_Anchor.vocs_Link.vocs_Link_accent_underlined {
+.dark .vocs_Anchor.vocs_Link.vocs_Link_accent_underlined {
   color: #F9FAFB;
 }
 
