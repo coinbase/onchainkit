@@ -102,6 +102,10 @@ export type LifeCycleStatus =
   | {
       statusName: 'error';
       statusData: SwapError;
+    }
+  | {
+      statusName: 'amountChange';
+      statusData: null;
     };
 
 export type RawTransactionData = {
@@ -175,11 +179,6 @@ export type SwapError = {
   code: string; // The error code representing the type of swap error.
   error: string; // The error message providing details about the swap error.
   message: string; // The error message providing details about the swap error.
-};
-
-export type SwapErrorState = {
-  quoteError?: SwapError;
-  swapError?: SwapError;
 };
 
 export type SwapLoadingState = {
