@@ -61,7 +61,7 @@ export type TransactionButtonReact = {
 };
 
 export type TransactionContextType = {
-  address: Address; // The wallet address involved in the transaction.
+  address?: Address; // The wallet address involved in the transaction.
   chainId?: number; // The chainId for the transaction.
   contracts: ContractFunctionParameters[]; // An array of contracts for the transaction.
   errorCode?: string; // An error code used to localize errors and provide more context with unit-tests.
@@ -96,7 +96,7 @@ export type TransactionError = {
 };
 
 export type TransactionProviderReact = {
-  address: Address; // The wallet address to be provided to child components.
+  address?: Address; // The wallet address to be provided to child components.
   capabilities?: WalletCapabilities; // Capabilities that a wallet supports (e.g. paymasters, session keys, etc).
   chainId?: number; // The chainId for the transaction.
   children: ReactNode; // The child components to be rendered within the provider component.
@@ -110,7 +110,7 @@ export type TransactionProviderReact = {
  * Note: exported as public Type
  */
 export type TransactionReact = {
-  address: Address; // The wallet address involved in the transaction.
+  address?: Address; // The wallet address involved in the transaction (defaults to connected account if not provided).
   capabilities?: WalletCapabilities; // Capabilities that a wallet supports (e.g. paymasters, session keys, etc).
   chainId?: number; // The chainId for the transaction.
   children: ReactNode; // The child components to be rendered within the transaction component.

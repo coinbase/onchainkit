@@ -256,7 +256,7 @@ export function TransactionProvider({
   ]);
 
   const value = useValue({
-    address,
+    address: address || account.address,
     chainId,
     contracts,
     errorCode,
