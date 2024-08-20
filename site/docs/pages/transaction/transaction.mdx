@@ -72,7 +72,6 @@ export default function TransactionComponents() {
 
   return address ? (
     <Transaction // [!code focus]
-      address={address} // [!code focus]
       chainId={BASE_SEPOLIA_CHAIN_ID} // [!code focus]
       contracts={contracts} // [!code focus]
     > // [!code focus]
@@ -104,7 +103,6 @@ export default function TransactionComponents() {
       if (address) {
         return (
           <Transaction
-            address={address}
             capabilities={capabilities}
             chainId={BASE_SEPOLIA_CHAIN_ID}
             contracts={contracts}
@@ -139,7 +137,6 @@ export default function TransactionComponents() {
 // ommited for brevity
 
 <Transaction  // [!code focus]
-  address={address} // [!code focus]
   contracts={contracts} // [!code focus]
 >  // [!code focus]
   <TransactionButton /> // [!code focus]
@@ -158,7 +155,6 @@ export default function TransactionComponents() {
       if (address) {
         return (
           <Transaction
-            address={address}
             capabilities={{
               paymasterService: {
                 url: PAYMASTER_AND_BUNDLER_ENDPOINT,
@@ -204,7 +200,6 @@ export default function TransactionComponents() {
 ```tsx
 // ommited for brevity
 <Transaction
-  address={address}
   capabilities={{ // [!code focus]
     paymasterService: { // [!code focus]
       url: process.env.PAYMASTER_AND_BUNDLER_ENDPOINT, // [!code focus]
@@ -221,8 +216,7 @@ export default function TransactionComponents() {
     {({ address, contracts, onError }) => {
       if (address) {
         return (
-          <Transaction 
-            address={address} 
+          <Transaction  
             capabilities={{
               paymasterService: {
                 url: PAYMASTER_AND_BUNDLER_ENDPOINT,

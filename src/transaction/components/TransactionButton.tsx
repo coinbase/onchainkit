@@ -1,5 +1,5 @@
 import { useCallback, useMemo } from 'react';
-import { useChainId } from 'wagmi';
+import { useAccount, useChainId } from 'wagmi';
 import { useShowCallsStatus } from 'wagmi/experimental';
 import { Spinner } from '../../internal/components/Spinner';
 import { getChainExplorer } from '../../network/getChainExplorer';
@@ -14,7 +14,6 @@ export function TransactionButton({
   text: buttonText = 'Transact',
 }: TransactionButtonReact) {
   const {
-    address,
     contracts,
     chainId,
     errorMessage,
@@ -25,6 +24,8 @@ export function TransactionButton({
     transactionHash,
     transactionId,
   } = useTransactionContext();
+
+  const { address } = useAccount();
 
   const accountChainId = chainId ?? useChainId();
   const { showCallsStatus } = useShowCallsStatus();
