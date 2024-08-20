@@ -1,14 +1,14 @@
 import { useAccount } from 'wagmi';
 import { useName } from '../../identity/hooks/useName';
 import { Spinner } from '../../internal/components/Spinner';
-import { basenameSvg } from '../../internal/svg/basenameSvg';
+import { baseNameSvg } from '../../internal/svg/baseNameSvg';
 import { cn, pressable, text } from '../../styles/theme';
-import type { WalletDropdownBasenameReact } from '../types';
+import type { WalletDropdownBaseNameReact } from '../types';
 import { useWalletContext } from './WalletProvider';
 
-export function WalletDropdownBasename({
+export function WalletDropdownBaseName({
   className,
-}: WalletDropdownBasenameReact) {
+}: WalletDropdownBaseNameReact) {
   const { address } = useAccount();
   const { chain } = useWalletContext();
 
@@ -16,15 +16,15 @@ export function WalletDropdownBasename({
     return null;
   }
 
-  const { data: basename, isLoading } = useName({
+  const { data: baseName, isLoading } = useName({
     address,
     chain,
   });
 
-  const hasBaseUserName = !!basename;
+  const hasBaseUserName = !!baseName;
   const title = hasBaseUserName ? 'Profile' : 'Claim Basename';
   const href = hasBaseUserName
-    ? `https://www.base.org/name/${basename}`
+    ? `https://www.base.org/name/${baseName}`
     : 'https://www.base.org/names';
 
   return (
@@ -39,7 +39,7 @@ export function WalletDropdownBasename({
       rel="noopener noreferrer"
     >
       <div className="-translate-y-1/2 absolute top-1/2 left-4 flex h-[1.125rem] w-[1.125rem] items-center justify-center">
-        {basenameSvg}
+        {baseNameSvg}
       </div>
       <div className="flex w-full items-center pl-6">
         {isLoading ? (

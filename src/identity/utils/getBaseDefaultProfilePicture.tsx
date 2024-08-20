@@ -1,8 +1,8 @@
 import { BASE_DEFAULT_PROFILE_PICTURES } from '../constants';
-import type { Basename } from '../types';
+import type { BaseName } from '../types';
 import { getBaseDefaultProfilePictureIndex } from './getBaseDefaultProfilePictureIndex';
 
-export const getBaseDefaultProfilePicture = (username: Basename) => {
+export const getBaseDefaultProfilePicture = (username: BaseName) => {
   const profilePictureIndex = getBaseDefaultProfilePictureIndex(
     username,
     BASE_DEFAULT_PROFILE_PICTURES.length,

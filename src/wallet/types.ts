@@ -84,7 +84,7 @@ export type WalletBottomSheetReact = {
 /**
  * Note: exported as public Type
  */
-export type WalletDropdownBasenameReact = {
+export type WalletDropdownBaseNameReact = {
   className?: string; // Optional className override for the element
 };
 

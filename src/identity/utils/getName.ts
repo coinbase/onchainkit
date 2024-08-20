@@ -4,7 +4,7 @@ import { isEthereum } from '../../isEthereum';
 import { getChainPublicClient } from '../../network/getChainPublicClient';
 import L2ResolverAbi from '../abis/L2ResolverAbi';
 import { RESOLVER_ADDRESSES_BY_CHAIN_ID } from '../constants';
-import type { Basename, GetName, GetNameReturnType } from '../types';
+import type { BaseName, GetName, GetNameReturnType } from '../types';
 import { convertReverseNodeToBytes } from './convertReverseNodeToBytes';
 
 /**
@@ -32,14 +32,14 @@ export const getName = async ({
   if (chainIsBase) {
     const addressReverseNode = convertReverseNodeToBytes(address, base.id);
     try {
-      const basename = await client.readContract({
+      const baseName = await client.readContract({
         abi: L2ResolverAbi,
         address: RESOLVER_ADDRESSES_BY_CHAIN_ID[chain.id],
         functionName: 'name',
         args: [addressReverseNode],
       });
-      if (basename) {
-        return basename as Basename;
+      if (baseName) {
+        return baseName as BaseName;
       }
     } catch (_error) {
       // This is a best effort attempt, so we don't need to do anything here.

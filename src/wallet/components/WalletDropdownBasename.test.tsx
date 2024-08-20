@@ -5,7 +5,7 @@ import { base } from 'viem/chains';
 import { describe, expect, it, vi } from 'vitest';
 import { useAccount } from 'wagmi';
 import { useName } from '../../identity/hooks/useName';
-import { WalletDropdownBasename } from './WalletDropdownBasename';
+import { WalletDropdownBaseName } from './WalletDropdownBaseName';
 import { useWalletContext } from './WalletProvider';
 
 vi.mock('wagmi', () => ({
@@ -20,7 +20,7 @@ vi.mock('./WalletProvider', () => ({
   useWalletContext: vi.fn(),
 }));
 
-describe('WalletDropdownBasename', () => {
+describe('WalletDropdownBaseName', () => {
   it('should render "Claim Basename" when no basename', () => {
     (useAccount as vi.Mock<[], Partial<GetAccountReturnType>>).mockReturnValue({
       address: '0x1234' as `0x${string}`,
@@ -38,7 +38,7 @@ describe('WalletDropdownBasename', () => {
       error: null,
     });
 
-    render(<WalletDropdownBasename />);
+    render(<WalletDropdownBaseName />);
     expect(screen.getByText('Claim Basename')).toBeInTheDocument();
     expect(screen.getByText('NEW')).toBeInTheDocument();
   });
@@ -60,7 +60,7 @@ describe('WalletDropdownBasename', () => {
       error: null,
     });
 
-    render(<WalletDropdownBasename />);
+    render(<WalletDropdownBaseName />);
     expect(screen.getByText('Profile')).toBeInTheDocument();
     expect(screen.queryByText('NEW')).not.toBeInTheDocument();
   });
@@ -82,7 +82,7 @@ describe('WalletDropdownBasename', () => {
       error: null,
     });
 
-    render(<WalletDropdownBasename />);
+    render(<WalletDropdownBaseName />);
     expect(screen.getByTestId('ockSpinner')).toBeInTheDocument();
     expect(screen.queryByText('Claim Basename')).not.toBeInTheDocument();
     expect(screen.queryByText('Profile')).not.toBeInTheDocument();
@@ -98,7 +98,7 @@ describe('WalletDropdownBasename', () => {
       chain: base,
     });
 
-    const { container } = render(<WalletDropdownBasename />);
+    const { container } = render(<WalletDropdownBaseName />);
     expect(container.firstChild).toBeNull();
   });
 });

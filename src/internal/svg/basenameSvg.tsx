@@ -1,8 +1,8 @@
 import { fill } from '../../styles/theme';
 
-export const basenameSvg = (
+export const baseNameSvg = (
   <svg
-    data-testid="ockBasenameSvg"
+    data-testid="ockbaseNameSvg"
     role="img"
     aria-label="ock-base-name"
     width="100%"

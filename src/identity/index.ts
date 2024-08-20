@@ -17,7 +17,7 @@ export type {
   AvatarReact,
   BadgeReact,
   BaseMainnetName,
-  Basename,
+  BaseName,
   BaseSepoliaName,
   EASChainDefinition,
   EASSchemaUid,
