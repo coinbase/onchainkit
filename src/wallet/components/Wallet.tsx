@@ -1,4 +1,4 @@
-import { Children, useEffect, useMemo, useRef } from 'react';
+import { Children, useEffect, useMemo, useState, useRef } from 'react';
 import { findComponent } from '../../internal/utils/findComponent';
 import type { WalletReact } from '../types';
 import { ConnectWallet } from './ConnectWallet';
@@ -43,6 +43,16 @@ const WalletContent = ({ children }: WalletReact) => {
 };
 
 export const Wallet = ({ children }: WalletReact) => {
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  if (!isClient) {
+    return null;
+  }
+
   return (
     <WalletProvider>
       <WalletContent>{children}</WalletContent>
