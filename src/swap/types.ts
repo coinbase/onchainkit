@@ -149,6 +149,7 @@ export type SwapButtonReact = {
 export type SwapContextType = {
   error?: SwapErrorState;
   from: SwapUnit;
+  lifeCycleStatus: LifeCycleStatus;
   loading: boolean;
   isTransactionPending: boolean;
   handleAmountChange: (

@@ -50,21 +50,6 @@ const config = createConfig({
   },
 });
 
-const renderWithProviders = (Component: React.ComponentType) => {
-  const mockAddress = '0x1234567890123456789012345678901234567890';
-  const mockExperimental = { useAggregator: true, maxSlippage: 10 };
-
-  return render(
-    <WagmiProvider config={config}>
-      <QueryClientProvider client={queryClient}>
-        <SwapProvider address={mockAddress} experimental={mockExperimental}>
-          <Component />
-        </SwapProvider>
-      </QueryClientProvider>
-    </WagmiProvider>,
-  );
-};
-
 const wrapper = ({ children }) => (
   <WagmiProvider config={config}>
     <QueryClientProvider client={queryClient}>
@@ -77,6 +62,47 @@ const wrapper = ({ children }) => (
     </QueryClientProvider>
   </WagmiProvider>
 );
+
+const renderWithProviders = (
+  Component: React.ComponentType,
+  onStatus = vi.fn(),
+) => {
+  const mockAddress = '0x1234567890123456789012345678901234567890';
+  const mockExperimental = { useAggregator: true, maxSlippage: 10 };
+  return render(
+    <WagmiProvider config={config}>
+      <QueryClientProvider client={queryClient}>
+        <SwapProvider
+          address={mockAddress}
+          experimental={mockExperimental}
+          onStatus={onStatus}
+        >
+          <Component />
+        </SwapProvider>
+      </QueryClientProvider>
+    </WagmiProvider>,
+  );
+};
+
+const TestSwapComponent = () => {
+  const context = useSwapContext();
+  const handleStatusError = async () => {
+    context.setLifeCycleStatus({
+      statusName: 'error',
+      statusData: { code: 'code', error: 'error_long_messages', message: '' },
+    });
+  };
+  return (
+    <div data-testid="test-component">
+      <span data-testid="context-value-lifeCycleStatus-statusName">
+        {context.lifeCycleStatus.statusName}
+      </span>
+      <button type="button" onClick={handleStatusError}>
+        setLifeCycleStatus.error
+      </button>
+    </div>
+  );
+};
 
 describe('useSwapContext', () => {
   it('should throw an error when used outside of SwapProvider', () => {
@@ -110,6 +136,14 @@ describe('useSwapContext', () => {
 });
 
 describe('SwapProvider', () => {
+  it('should emit onStatus when setLifeCycleStatus is called with error', async () => {
+    const onStatusMock = vi.fn();
+    renderWithProviders(TestSwapComponent, onStatusMock);
+    const button = screen.getByText('setLifeCycleStatus.error');
+    fireEvent.click(button);
+    expect(onStatusMock).toHaveBeenCalled();
+  });
+
   it('should handle submit correctly', async () => {
     const mockOnError = vi.fn();
     const mockOnSuccess = vi.fn();

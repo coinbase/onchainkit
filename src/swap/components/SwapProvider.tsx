@@ -230,6 +230,7 @@ export function SwapProvider({
     handleAmountChange,
     handleToggle,
     handleSubmit,
+    lifeCycleStatus,
     isTransactionPending,
     setLifeCycleStatus,
     to,
