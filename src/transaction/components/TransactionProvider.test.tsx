@@ -440,6 +440,38 @@ describe('TransactionProvider', () => {
       );
     });
   });
+
+  it('should call setLifeCycleStatus when calling fallbackToWriteContract when user rejects request', async () => {
+    const writeContractsAsyncMock = vi
+      .fn()
+      .mockRejectedValue(new Error(METHOD_NOT_SUPPORTED_ERROR_SUBSTRING));
+    const writeContractAsyncMock = vi
+      .fn()
+      .mockRejectedValue({ cause: { name: 'UserRejectedRequestError' } });
+    (useWriteContracts as ReturnType<typeof vi.fn>).mockReturnValue({
+      status: 'idle',
+      writeContractsAsync: writeContractsAsyncMock,
+    });
+    (useWriteContract as ReturnType<typeof vi.fn>).mockReturnValue({
+      status: 'IDLE',
+      writeContractAsync: writeContractAsyncMock,
+    });
+    render(
+      <TransactionProvider address="0x123" contracts={[{}]}>
+        <TestComponent />
+      </TransactionProvider>,
+    );
+    const button = screen.getByText('Submit');
+    fireEvent.click(button);
+    await waitFor(() => {
+      expect(screen.getByTestId('context-value-errorCode').textContent).toBe(
+        'TmTPc02',
+      );
+      expect(screen.getByTestId('context-value-errorMessage').textContent).toBe(
+        'Request denied.',
+      );
+    });
+  });
 });
 
 describe('useTransactionContext', () => {
