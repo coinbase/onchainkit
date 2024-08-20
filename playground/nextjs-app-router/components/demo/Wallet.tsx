@@ -35,7 +35,11 @@ function WalletComponent() {
             <EthBalance />
           </Identity>
           <WalletDropdownBaseName />
-          <WalletDropdownLink icon="wallet" href="https://wallet.coinbase.com" target="_blank">
+          <WalletDropdownLink
+            icon="wallet"
+            href="https://wallet.coinbase.com"
+            target="_blank"
+          >
             Wallet
           </WalletDropdownLink>
           <WalletDropdownFundLink />
