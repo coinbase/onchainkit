@@ -1,4 +1,4 @@
-import { fill } from "../../styles/theme";
+import { fill } from '../../styles/theme';
 
 export const toggleSvg = (
   <svg

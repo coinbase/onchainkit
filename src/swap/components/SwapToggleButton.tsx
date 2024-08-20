@@ -1,7 +1,7 @@
+import { toggleSvg } from '../../internal/svg/toggleSvg';
 import { border, cn, pressable } from '../../styles/theme';
 import type { SwapToggleButtonReact } from '../types';
 import { useSwapContext } from './SwapProvider';
-import { toggleSvg } from '../../internal/svg/toggleSvg';
 
 export function SwapToggleButton({ className }: SwapToggleButtonReact) {
   const { handleToggle } = useSwapContext();

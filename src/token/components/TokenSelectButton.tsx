@@ -1,9 +1,9 @@
 import { type ForwardedRef, forwardRef } from 'react';
+import { caretDownSvg } from '../../internal/svg/caretDownSvg';
+import { caretUpSvg } from '../../internal/svg/caretUpSvg';
 import { cn, pressable, text } from '../../styles/theme';
 import type { TokenSelectButtonReact } from '../types';
 import { TokenImage } from './TokenImage';
-import { caretDownSvg } from '../../internal/svg/caretDownSvg';
-import { caretUpSvg } from '../../internal/svg/caretUpSvg';
 
 export const TokenSelectButton = forwardRef(function TokenSelectButton(
   { onClick, token, isOpen, className }: TokenSelectButtonReact,

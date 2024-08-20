@@ -1,9 +1,9 @@
 import { useCallback, useState } from 'react';
 import { TextInput } from '../../internal/components/TextInput';
 import { closeSvg } from '../../internal/svg/closeSvg';
+import { searchIconSvg } from '../../internal/svg/searchIconSvg';
 import { cn, color, placeholder, pressable } from '../../styles/theme';
 import type { TokenSearchReact } from '../types';
-import { searchIconSvg } from '../../internal/svg/searchIconSvg';
 
 export function TokenSearch({
   className,
