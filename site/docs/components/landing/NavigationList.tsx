@@ -43,7 +43,7 @@ export default function NavigationList() {
               href={item.href}
               className="group flex flex-col items-center gap-3"
             >
-              <div className="h-[70px] w-[70px] rounded-xl bg-gray-800 p-5 group-hover:bg-gray-50">
+              <div className="h-[70px] w-[70px] rounded-xl dark:first-letter:bg-gray-800 p-5 dark:bg-gray-800 dark:group-hover:bg-gray-700 bg-gray-200 group-hover:bg-gray-300">
                 {item.svg}
               </div>
               <p className="text-center font-normal text-base text-gray-950 not-italic leading-6 dark:text-gray-50">
