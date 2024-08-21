@@ -30,7 +30,7 @@ export async function processSwapTransaction({
       data: approveTransaction.data,
     });
     setLifecycleStatus({
-      statusName: 'transactionApproved',
+      statusName: useAggregator ? 'erc20Approved' : 'permit2Approved',
       statusData: {
         transactionHash: approveTxHash,
       },
