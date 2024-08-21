@@ -1,9 +1,8 @@
-import React from "react";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
-import { WalletDropdownDisconnect } from "./WalletDropdownDisconnect";
-import { http, WagmiProvider, createConfig } from "wagmi";
-import { baseSepolia } from "viem/chains";
+import { baseSepolia } from 'viem/chains';
+import { http, WagmiProvider, createConfig } from 'wagmi';
+import { WalletDropdownDisconnect } from './WalletDropdownDisconnect';
 
 const wagmiConfig = createConfig({
   chains: [baseSepolia],
@@ -13,7 +12,7 @@ const wagmiConfig = createConfig({
 });
 
 export default {
-  title: "Wallet/WalletDropdownDisconnect",
+  title: 'Wallet/WalletDropdownDisconnect',
   component: WalletDropdownDisconnect,
   decorators: [
     (Story) => (
