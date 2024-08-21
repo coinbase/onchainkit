@@ -156,6 +156,33 @@ export const sidebar = [
     ],
   },
   {
+    text: 'API',
+    items: [
+      {
+        text: 'Swap',
+        items: [
+          {
+            text: 'buildSwapTransaction',
+            link: '/swap/build-swap-transaction',
+          },
+          {
+            text: 'getSwapQuote',
+            link: '/swap/get-swap-quote',
+          },
+        ],
+      },
+      {
+        text: 'Token',
+        items: [
+          {
+            text: 'getTokens',
+            link: '/token/get-tokens',
+          },
+        ],
+      },
+    ],
+  },
+  {
     text: 'Utilities',
     collapsed: true,
     items: [
@@ -212,18 +239,13 @@ export const sidebar = [
             text: 'getName',
             link: '/identity/get-name',
           },
-        ],
-      },
-      {
-        text: 'Swap',
-        items: [
           {
-            text: 'buildSwapTransaction',
-            link: '/swap/build-swap-transaction',
+            text: 'useAvatar',
+            link: '/identity/use-avatar',
           },
           {
-            text: 'getSwapQuote',
-            link: '/swap/get-swap-quote',
+            text: 'useName',
+            link: '/identity/use-name',
           },
         ],
       },
@@ -233,18 +255,6 @@ export const sidebar = [
           {
             text: 'formatAmount',
             link: '/token/format-amount',
-          },
-          {
-            text: 'getTokens',
-            link: '/token/get-tokens',
-          },
-          {
-            text: 'useAvatar',
-            link: '/identity/use-avatar',
-          },
-          {
-            text: 'useName',
-            link: '/identity/use-name',
           },
         ],
       },
