@@ -103,7 +103,7 @@ export function SwapProvider({
       if (source.token === undefined || destination.token === undefined) {
         return;
       }
-      if (amount === '' || Number.parseFloat(amount) === 0) {
+      if (amount === '' || amount === '.' || Number.parseFloat(amount) === 0) {
         return destination.setAmount('');
       }
 

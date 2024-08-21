@@ -33,7 +33,7 @@ export function getAPIParamsForToken(
       message: '',
     };
   }
-  if (!/^(?:0|[1-9]\d*)(?:\.\d+)?$/.test(amount)) {
+  if (!/^(?:0|[1-9]\d*|\.\d+)(?:\.\d*)?$/.test(amount)) {
     return {
       code: 'INVALID_INPUT',
       error: 'Invalid input: amount must be a non-negative number string',
