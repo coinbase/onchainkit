@@ -2,4 +2,4 @@
 "@coinbase/onchainkit": patch
 ---
 
-**feat**: `useSendCall` and `useSendCalls` by @0xAlec #1130
+**feat**: add `useSendCall` and `useSendCalls` hooks to support call-type transactions in `Transaction` component by @0xAlec #1130
