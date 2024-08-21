@@ -200,6 +200,16 @@ export type UseWriteContractsParams = {
   setTransactionId: (id: string) => void;
 };
 
+export type UseSendCallParams = {
+  setLifeCycleStatus: (state: LifeCycleStatus) => void;
+  transactionHashList: Address[];
+};
+
+export type UseSendCallsParams = {
+  setLifeCycleStatus: (state: LifeCycleStatus) => void;
+  setTransactionId: (id: string) => void;
+};
+
 /**
  * Note: exported as public Type
  *
