@@ -67,7 +67,7 @@ export async function processSwapTransaction({
         value: 0n,
       });
       setLifecycleStatus({
-        statusName: 'transactionPermit',
+        statusName: 'erc20Approved',
         statusData: {
           transactionPermit: permitTxnHash, // Check with Alec what this should be
         },
