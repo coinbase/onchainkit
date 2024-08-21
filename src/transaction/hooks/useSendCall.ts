@@ -22,7 +22,7 @@ export function useSendCall({
         setLifeCycleStatus({
           statusName: 'error',
           statusData: {
-            code: 'TmUWCh01', // Transaction module UseWriteContract hook 01 error
+            code: 'TmUSCh01', // Transaction module UseSendCall hook 01 error
             error: e.message,
             message: errorMessage,
           },
