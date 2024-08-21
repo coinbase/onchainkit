@@ -22,7 +22,7 @@ type UseSendCallConfig = {
 
 type MockUseSendCallReturn = {
   status: 'idle' | 'error' | 'loading' | 'success';
-  sendTransactionAsync: ReturnType<typeof vi.fn>;
+  sendCallAsync: ReturnType<typeof vi.fn>;
   data: string | null;
 };
 
@@ -40,7 +40,7 @@ describe('useSendCall', () => {
       status: 'idle',
       sendTransactionAsync: mockSendTransaction,
       data: mockData,
-    } as MockUseSendCallReturn);
+    });
     const { result } = renderHook(() =>
       useSendCall({
         setLifeCycleStatus: mockSetLifeCycleStatus,
@@ -48,7 +48,7 @@ describe('useSendCall', () => {
       }),
     );
     expect(result.current.status).toBe('idle');
-    expect(result.current.sendTransactionAsync).toBe(mockSendTransaction);
+    expect(result.current.sendCallAsync).toBe(mockSendTransaction);
     expect(result.current.data).toBe(mockData);
   });
 
@@ -59,7 +59,7 @@ describe('useSendCall', () => {
       ({ mutation }: UseSendCallConfig) => {
         onErrorCallback = mutation.onError;
         return {
-          sendTransactionAsync: vi.fn(),
+          sendCallAsync: vi.fn(),
           data: null,
           status: 'error',
         } as MockUseSendCallReturn;
@@ -90,7 +90,7 @@ describe('useSendCall', () => {
       ({ mutation }: UseSendCallConfig) => {
         onErrorCallback = mutation.onError;
         return {
-          sendTransactionAsync: vi.fn(),
+          sendCallAsync: vi.fn(),
           data: null,
           status: 'error',
         } as MockUseSendCallReturn;
@@ -122,7 +122,7 @@ describe('useSendCall', () => {
       ({ mutation }: UseSendCallConfig) => {
         onSuccessCallback = mutation.onSuccess;
         return {
-          sendTransactionAsync: vi.fn(),
+          sendCallAsync: vi.fn(),
           data: transactionHash,
           status: 'success',
         } as MockUseSendCallReturn;
@@ -151,7 +151,7 @@ describe('useSendCall', () => {
       ({ mutation }: UseSendCallConfig) => {
         onSuccessCallback = mutation.onSuccess;
         return {
-          sendTransactionAsync: vi.fn(),
+          sendCallAsync: vi.fn(),
           data: transactionHash,
           status: 'success',
         } as MockUseSendCallReturn;

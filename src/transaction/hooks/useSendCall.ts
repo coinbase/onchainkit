@@ -13,7 +13,11 @@ export function useSendCall({
   setLifeCycleStatus,
   transactionHashList,
 }: UseSendCallParams) {
-  const { status, sendTransactionAsync, data } = useSendCallWagmi({
+  const {
+    status,
+    sendTransactionAsync: sendCallAsync,
+    data,
+  } = useSendCallWagmi({
     mutation: {
       onError: (e) => {
         const errorMessage = isUserRejectedRequestError(e)
@@ -38,5 +42,5 @@ export function useSendCall({
       },
     },
   });
-  return { status, sendTransactionAsync, data };
+  return { status, sendCallAsync, data };
 }
