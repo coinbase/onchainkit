@@ -110,21 +110,15 @@ export type LifeCycleStatus =
       statusData: null;
     }
   | {
-      statusName: 'transactionApproved';
+      statusName: 'erc20Approved';
       statusData: {
-        transactionHash: Address;
+        transactionHash: Hex;
       };
     }
   | {
-      statusName: 'transactionPermit'; // Need to triple check this
+      statusName: 'permit2Approved';
       statusData: {
-        transactionPermit: Address;
-      };
-    }
-  | {
-      statusName: 'transactionPermitApproved'; // Need to triple check this
-      statusData: {
-        transactionHash: Address;
+        transactionHash: Hex;
       };
     }
   | {
