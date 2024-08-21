@@ -13,7 +13,9 @@ export function Swap({
   children,
   className,
   experimental = { useAggregator: true },
+  onError,
   onStatus,
+  onSuccess,
   title = 'Swap',
 }: SwapReact) {
   const { inputs, toggleButton, swapButton, swapMessage } = useMemo(() => {
@@ -30,7 +32,9 @@ export function Swap({
     <SwapProvider
       address={address}
       experimental={experimental}
+      onError={onError}
       onStatus={onStatus}
+      onSuccess={onSuccess}
     >
       <div
         className={cn(

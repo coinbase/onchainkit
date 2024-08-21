@@ -40,7 +40,9 @@ export function SwapProvider({
   address,
   children,
   experimental,
+  onError,
   onStatus,
+  onSuccess,
 }: SwapProviderReact) {
   // Feature flags
   const { useAggregator } = experimental;
@@ -58,10 +60,20 @@ export function SwapProvider({
 
   // Component lifecycle emitters
   useEffect(() => {
+    // Error
+    if (lifeCycleStatus.statusName === 'error') {
+      onError?.(lifeCycleStatus.statusData);
+    }
+    // Success
+    if (lifeCycleStatus.statusName === 'success') {
+      onSuccess?.(lifeCycleStatus.statusData.transactionReceipt);
+    }
     // Emit Status
     onStatus?.(lifeCycleStatus);
   }, [
+    onError,
     onStatus,
+    onSuccess,
     lifeCycleStatus,
     lifeCycleStatus.statusData, // Keep statusData, so that the effect runs when it changes
     lifeCycleStatus.statusName, // Keep statusName, so that the effect runs when it changes

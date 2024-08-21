@@ -106,6 +106,12 @@ export type LifeCycleStatus =
   | {
       statusName: 'amountChange';
       statusData: null;
+    }
+  | {
+      statusName: 'success';
+      statusData: {
+        transactionReceipt: TransactionReceipt;
+      };
     };
 
 export type RawTransactionData = {
@@ -221,7 +227,9 @@ export type SwapProviderReact = {
     useAggregator: boolean; // Whether to use a DEX aggregator. (default: true)
     maxSlippage?: number; // Maximum acceptable slippage for a swap. (default: 10) This is as a percent, not basis points
   };
-  onStatus?: (lifeCycleStatus: LifeCycleStatus) => void; // An optional callback function that exposes the component lifecycle status
+  onError?: (error: SwapError) => void; // An optional callback function that handles errors within the provider.
+  onStatus?: (lifeCycleStatus: LifeCycleStatus) => void; // An optional callback function that exposes the component lifecycle state
+  onSuccess?: (transactionReceipt: TransactionReceipt) => void; // An optional callback function that exposes the transaction receipt
 };
 
 /**
@@ -235,7 +243,9 @@ export type SwapReact = {
     useAggregator: boolean; // Whether to use a DEX aggregator. (default: true)
     maxSlippage?: number; // Maximum acceptable slippage for a swap. (default: 10) This is as a percent, not basis points
   };
-  onStatus?: (lifeCycleStatus: LifeCycleStatus) => void; // An optional callback function that exposes the component lifecycle status
+  onError?: (error: SwapError) => void; // An optional callback function that handles errors within the provider.
+  onStatus?: (lifeCycleStatus: LifeCycleStatus) => void; // An optional callback function that exposes the component lifecycle state
+  onSuccess?: (transactionReceipt: TransactionReceipt) => void; // An optional callback function that exposes the transaction receipt
   title?: string; // Title for the Swap component. (default: "Swap")
 };
 
