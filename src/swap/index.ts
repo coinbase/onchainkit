@@ -13,6 +13,7 @@ export type {
   Fee,
   GetSwapQuoteParams,
   GetSwapQuoteResponse,
+  LifeCycleStatus,
   QuoteWarning,
   SwapAmountInputReact,
   SwapButtonReact,

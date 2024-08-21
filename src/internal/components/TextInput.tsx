@@ -33,7 +33,6 @@ export function TextInput({
 
       if (inputValidator(value)) {
         setValue(value);
-
         if (delayMs > 0) {
           handleDebounce(value);
         } else {
