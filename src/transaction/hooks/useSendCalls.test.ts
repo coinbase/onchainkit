@@ -76,7 +76,7 @@ describe('useSendCalls', () => {
     expect(mockSetLifeCycleStatus).toHaveBeenCalledWith({
       statusName: 'error',
       statusData: {
-        code: 'TmUWCh01',
+        code: 'TmUSCSh01',
         error: GENERIC_ERROR_MESSAGE,
         message: GENERIC_ERROR_MESSAGE,
       },
@@ -110,7 +110,7 @@ describe('useSendCalls', () => {
     expect(mockSetLifeCycleStatus).toHaveBeenCalledWith({
       statusName: 'error',
       statusData: {
-        code: 'TmUWCh01',
+        code: 'TmUSCSh01',
         error: 'Request denied.',
         message: 'Request denied.',
       },
