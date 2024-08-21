@@ -1,4 +1,4 @@
-import { CommerceApiError } from "../types/errorResponse";
+import type { CommerceApiError } from '../types/errorResponse';
 
 export async function parseCommerceApiError(resp: Response): Promise<Error> {
   const baseErrorMessage = `${resp.status} response from Commerce`;

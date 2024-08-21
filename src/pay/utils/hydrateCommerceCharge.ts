@@ -1,18 +1,18 @@
-import type { CommerceCharge } from "../types/charge";
-import { base } from "viem/chains";
-import { parseCommerceApiError } from "./handleCommerceApiError";
+import { base } from 'viem/chains';
+import type { CommerceCharge } from '../types/charge';
+import { parseCommerceApiError } from './handleCommerceApiError';
 
 export async function hydrateCommerceCharge(
   baseUrl: string,
   chargeId: string,
-  senderAddress: string
+  senderAddress: string,
 ) {
   const options = {
-    method: "PUT",
+    method: 'PUT',
     url: `${baseUrl}/charges/${chargeId}/hydrate`,
     headers: {
-      accept: "application/json",
-      "content-type": "application/json",
+      accept: 'application/json',
+      'content-type': 'application/json',
     },
     body: JSON.stringify({
       chain_id: base.id,
