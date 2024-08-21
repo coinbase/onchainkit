@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.29.5
+
+### Patch Changes
+
+- 07c5af6: - **feat**: exported `buildSwapTransaction`, `getSwapQuote` and `getTokens` from API module. By @zizzamia #1133
+  - **feat**: added `useSendCall` and `useSendCalls` hooks to support call-type transactions in `Transaction` component. By @0xAlec #1130
+
 ## 0.29.4
 
 ### Patch Changes
