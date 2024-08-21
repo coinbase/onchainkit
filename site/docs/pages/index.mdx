@@ -9,8 +9,8 @@ showOutline: false
 
 import { base } from 'viem/chains';
 import { OnchainKitProvider } from '@coinbase/onchainkit';
-import { Address, Avatar, Badge, EthBalance, Name, Identity } from './src/identity';
-import { Swap, SwapAmountInput, SwapButton, SwapMessage, SwapToggleButton } from './src/swap';
+import { Address, Avatar, Badge, EthBalance, Name, Identity } from '@coinbase/onchainkit/identity';
+import { Swap, SwapAmountInput, SwapButton, SwapMessage, SwapToggleButton } from '@coinbase/onchainkit/swap';
 import { color } from '@coinbase/onchainkit/theme';
 import {
   ConnectWallet,
@@ -19,7 +19,7 @@ import {
   WalletDropdownBasename,
   WalletDropdownLink,
   WalletDropdownDisconnect,
-} from './src/wallet';
+} from '@coinbase/onchainkit/wallet';
 import App from '../components/App';
 import NavigationList from '../components/landing/NavigationList';
 import SwapWrapper from '../components/SwapWrapper';
@@ -33,7 +33,7 @@ import {
   TransactionStatus,
   TransactionStatusAction,
   TransactionStatusLabel,
-} from './src/transaction';
+} from '@coinbase/onchainkit/transaction';
 
 <div id="blobs">
   <div
