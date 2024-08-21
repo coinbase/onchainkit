@@ -62,10 +62,12 @@ const wrapper = ({ children }) => (
   </WagmiProvider>
 );
 
-const renderWithProviders = (
-  Component: React.ComponentType,
+const renderWithProviders = ({
+  Component,
+  onError = vi.fn(),
   onStatus = vi.fn(),
-) => {
+  onSuccess = vi.fn(),
+}) => {
   const mockAddress = '0x1234567890123456789012345678901234567890';
   const mockExperimental = { useAggregator: true, maxSlippage: 10 };
   return render(
@@ -74,7 +76,9 @@ const renderWithProviders = (
         <SwapProvider
           address={mockAddress}
           experimental={mockExperimental}
+          onError={onError}
           onStatus={onStatus}
+          onSuccess={onSuccess}
         >
           <Component />
         </SwapProvider>
@@ -98,6 +102,12 @@ const TestSwapComponent = () => {
       statusData: { code: 'code', error: 'error_long_messages', message: '' },
     });
   };
+  const handleStatusSuccess = async () => {
+    context.setLifeCycleStatus({
+      statusName: 'success',
+      statusData: { receipt: ['0x123'] },
+    });
+  };
   return (
     <div data-testid="test-component">
       <span data-testid="context-value-lifeCycleStatus-statusName">
@@ -110,6 +120,9 @@ const TestSwapComponent = () => {
       )}
       <button type="button" onClick={handleStatusError}>
         setLifeCycleStatus.error
+      </button>
+      <button type="button" onClick={handleStatusSuccess}>
+        setLifeCycleStatus.success
       </button>
       <button
         type="submit"
@@ -125,7 +138,7 @@ describe('useSwapContext', () => {
   beforeEach(async () => {
     vi.resetAllMocks();
     await act(async () => {
-      renderWithProviders(() => null);
+      renderWithProviders({ Component: () => null });
     });
   });
 
@@ -158,15 +171,37 @@ describe('useSwapContext', () => {
       return null;
     };
     await act(async () => {
-      renderWithProviders(TestComponent);
+      renderWithProviders({ Component: TestComponent });
     });
   });
 });
 
 describe('SwapProvider', () => {
+  it('should emit onError when setLifeCycleStatus is called with error', async () => {
+    const onErrorMock = vi.fn();
+    renderWithProviders({ Component: TestSwapComponent, onError: onErrorMock });
+    const button = screen.getByText('setLifeCycleStatus.error');
+    fireEvent.click(button);
+    expect(onErrorMock).toHaveBeenCalled();
+  });
+
+  it('should emit onSuccess when setLifeCycleStatus is called with success', async () => {
+    const onSuccessMock = vi.fn();
+    renderWithProviders({
+      Component: TestSwapComponent,
+      onSuccess: onSuccessMock,
+    });
+    const button = screen.getByText('setLifeCycleStatus.success');
+    fireEvent.click(button);
+    expect(onSuccessMock).toHaveBeenCalled();
+  });
+
   it('should emit onStatus when setLifeCycleStatus is called with error', async () => {
     const onStatusMock = vi.fn();
-    renderWithProviders(TestSwapComponent, onStatusMock);
+    renderWithProviders({
+      Component: TestSwapComponent,
+      onStatus: onStatusMock,
+    });
     const button = screen.getByText('setLifeCycleStatus.error');
     fireEvent.click(button);
     expect(onStatusMock).toHaveBeenCalled();
@@ -190,7 +225,7 @@ describe('SwapProvider', () => {
       return null;
     };
     await act(async () => {
-      renderWithProviders(TestComponent);
+      renderWithProviders({ Component: TestComponent });
     });
   });
 
@@ -209,7 +244,7 @@ describe('SwapProvider', () => {
       return null;
     };
     await act(async () => {
-      renderWithProviders(TestComponent);
+      renderWithProviders({ Component: TestComponent });
     });
     // Assert that getSwapQuote was called with the correct parameters
     expect(getSwapQuote).toHaveBeenCalledWith(
@@ -237,7 +272,7 @@ describe('SwapProvider', () => {
       return null;
     };
     await act(async () => {
-      renderWithProviders(TestComponent);
+      renderWithProviders({ Component: TestComponent });
     });
   });
 
@@ -349,7 +384,7 @@ describe('SwapProvider', () => {
 
   it('should handle submit correctly', async () => {
     await act(async () => {
-      renderWithProviders(TestSwapComponent);
+      renderWithProviders({ Component: TestSwapComponent });
     });
     await act(async () => {
       fireEvent.click(screen.getByText('Swap'));
@@ -360,7 +395,7 @@ describe('SwapProvider', () => {
   it('should setLifeCycleStatus to error when buildSwapTransaction throws an error', async () => {
     const mockError = new Error('Test error');
     vi.mocked(buildSwapTransaction).mockRejectedValueOnce(mockError);
-    renderWithProviders(TestSwapComponent);
+    renderWithProviders({ Component: TestSwapComponent });
     fireEvent.click(screen.getByText('Swap'));
     await waitFor(() => {
       expect(
@@ -380,7 +415,7 @@ describe('SwapProvider', () => {
       error: 'Something went wrong',
       message: '',
     });
-    renderWithProviders(TestSwapComponent);
+    renderWithProviders({ Component: TestSwapComponent });
     fireEvent.click(screen.getByText('Swap'));
     await waitFor(() => {
       expect(

@@ -51,7 +51,7 @@ export function SwapAmountInput({
     [source.amount, source.setToken, handleAmountChange, type],
   );
 
-  // we are mocking the token selectors so i'm not able
+  // We are mocking the token selectors so I'm not able
   // to test this since the components aren't actually rendering
   const sourceTokenOptions = useMemo(() => {
     return (
