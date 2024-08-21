@@ -58,6 +58,7 @@ export function SwapProvider({
 
   // Component lifecycle emitters
   useEffect(() => {
+    console.log('status', lifeCycleStatus);
     // Emit Status
     onStatus?.(lifeCycleStatus);
   }, [
@@ -117,7 +118,11 @@ export function SwapProvider({
         if (isSwapError(response)) {
           setLifeCycleStatus({
             statusName: 'error',
-            statusData: response,
+            statusData: {
+              code: response.code,
+              error: response.error,
+              message: '',
+            },
           });
           return;
         }
@@ -160,6 +165,7 @@ export function SwapProvider({
         statusName: 'init',
         statusData: null,
       });
+      console.log('handleSubmit');
 
       try {
         const response = await buildSwapTransaction({
@@ -170,11 +176,17 @@ export function SwapProvider({
           useAggregator,
           maxSlippage: experimental.maxSlippage?.toString(),
         });
+        console.log('handleSubmit.response', response);
 
         if (isSwapError(response)) {
+          console.log('handleSubmit.response.1');
           setLifeCycleStatus({
             statusName: 'error',
-            statusData: response,
+            statusData: {
+              code: response.code,
+              error: response.error,
+              message: response.message,
+            },
           });
           return;
         }
