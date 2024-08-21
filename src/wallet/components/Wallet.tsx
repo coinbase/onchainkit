@@ -49,6 +49,7 @@ export const Wallet = ({ children }: WalletReact) => {
     setIsClient(true);
   }, []);
 
+  // prevents SSR hydration issue
   if (!isClient) {
     return null;
   }
