@@ -2,9 +2,9 @@ import { renderHook } from '@testing-library/react';
 import type { TransactionExecutionError } from 'viem';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { useSendCalls as useSendCallsWagmi } from 'wagmi/experimental';
-import { useSendCalls } from './useSendCalls';
 import { GENERIC_ERROR_MESSAGE } from '../constants';
 import { isUserRejectedRequestError } from '../utils/isUserRejectedRequestError';
+import { useSendCalls } from './useSendCalls';
 
 vi.mock('wagmi/experimental', () => ({
   useSendCalls: vi.fn(),
