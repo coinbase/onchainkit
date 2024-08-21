@@ -1,35 +1,20 @@
-import type { Address, TransactionReceipt } from 'viem';
+import type { Address } from 'viem';
 import { encodeFunctionData, parseAbi } from 'viem';
-import type { Config } from 'wagmi';
 import { waitForTransactionReceipt } from 'wagmi/actions';
-import type { SendTransactionMutateAsync } from 'wagmi/query';
 import {
   PERMIT2_CONTRACT_ADDRESS,
   UNIVERSALROUTER_CONTRACT_ADDRESS,
 } from '../constants';
-import type { BuildSwapTransaction } from '../types';
+import type { ProcessSwapTransactionParams } from '../types';
 
 export async function processSwapTransaction({
-  swapTransaction,
   config,
-  setPendingTransaction,
-  setLoading,
   sendTransactionAsync,
-  onStart,
-  onSuccess,
+  setLifecycleStatus,
+  setPendingTransaction,
+  swapTransaction,
   useAggregator,
-}: {
-  swapTransaction: BuildSwapTransaction;
-  config: Config;
-  setPendingTransaction: (value: React.SetStateAction<boolean>) => void;
-  setLoading: (value: React.SetStateAction<boolean>) => void;
-  sendTransactionAsync: SendTransactionMutateAsync<Config, unknown>;
-  onStart: ((txHash: string) => void | Promise<void>) | undefined;
-  onSuccess:
-    | ((txReceipt: TransactionReceipt) => void | Promise<void>)
-    | undefined;
-  useAggregator: boolean;
-}) {
+}: ProcessSwapTransactionParams) {
   const { transaction, approveTransaction, quote } = swapTransaction;
 
   // for swaps from ERC-20 tokens,
@@ -44,7 +29,12 @@ export async function processSwapTransaction({
       value: approveTransaction.value,
       data: approveTransaction.data,
     });
-    await Promise.resolve(onStart?.(approveTxHash));
+    setLifecycleStatus({
+      statusName: 'transactionApproved',
+      statusData: {
+        transactionHash: approveTxHash,
+      },
+    });
     await waitForTransactionReceipt(config, {
       hash: approveTxHash,
       confirmations: 1,
@@ -76,7 +66,12 @@ export async function processSwapTransaction({
         data: data,
         value: 0n,
       });
-      await Promise.resolve(onStart?.(permitTxnHash));
+      setLifecycleStatus({
+        statusName: 'transactionPermit',
+        statusData: {
+          transactionPermit: permitTxnHash, // Check with Alec what this should be
+        },
+      });
       await waitForTransactionReceipt(config, {
         hash: permitTxnHash,
         confirmations: 1,
@@ -92,17 +87,24 @@ export async function processSwapTransaction({
     value: transaction.value,
     data: transaction.data,
   });
-  await Promise.resolve(onStart?.(txHash));
-
+  setLifecycleStatus({
+    statusName: 'transactionPermitApproved',
+    statusData: {
+      transactionHash: txHash, // Check with Alec what this should be
+    },
+  });
   setPendingTransaction(false);
 
   // wait for swap to land onchain
   setLoading(true);
-  const transactionObject = await waitForTransactionReceipt(config, {
+  const transactionReceipt = await waitForTransactionReceipt(config, {
     hash: txHash,
     confirmations: 1,
   });
-
-  // user callback
-  await Promise.resolve(onSuccess?.(transactionObject));
+  setLifecycleStatus({
+    statusName: 'success',
+    statusData: {
+      transactionReceipt: transactionReceipt,
+    },
+  });
 }
