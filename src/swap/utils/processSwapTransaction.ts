@@ -87,12 +87,6 @@ export async function processSwapTransaction({
     value: transaction.value,
     data: transaction.data,
   });
-  setLifecycleStatus({
-    statusName: 'transactionPermitApproved',
-    statusData: {
-      transactionHash: txHash, // Check with Alec what this should be
-    },
-  });
   setPendingTransaction(false);
 
   // wait for swap to land onchain
