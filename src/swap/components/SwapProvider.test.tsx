@@ -103,6 +103,11 @@ const TestSwapComponent = () => {
       <span data-testid="context-value-lifeCycleStatus-statusName">
         {context.lifeCycleStatus.statusName}
       </span>
+      {context.lifeCycleStatus.statusName === 'error' && (
+        <span data-testid="context-value-lifeCycleStatus-statusData-code">
+          {context.lifeCycleStatus.statusData.code}
+        </span>
+      )}
       <button type="button" onClick={handleStatusError}>
         setLifeCycleStatus.error
       </button>
@@ -352,6 +357,23 @@ describe('SwapProvider', () => {
     expect(buildSwapTransaction).toBeCalledTimes(1);
   });
 
+  it('should setLifeCycleStatus to error when buildSwapTransaction throws an error', async () => {
+    const mockError = new Error('Test error');
+    vi.mocked(buildSwapTransaction).mockRejectedValueOnce(mockError);
+    renderWithProviders(TestSwapComponent);
+    fireEvent.click(screen.getByText('Swap'));
+    await waitFor(() => {
+      expect(
+        screen.getByTestId('context-value-lifeCycleStatus-statusName')
+          .textContent,
+      ).toBe('error');
+      expect(
+        screen.getByTestId('context-value-lifeCycleStatus-statusData-code')
+          .textContent,
+      ).toBe('TmSPc02');
+    });
+  });
+
   it('should setLifeCycleStatus to error when buildSwapTransaction returns an error', async () => {
     vi.mocked(buildSwapTransaction).mockResolvedValueOnce({
       code: getSwapErrorCode('uncaught-swap'),
@@ -365,6 +387,10 @@ describe('SwapProvider', () => {
         screen.getByTestId('context-value-lifeCycleStatus-statusName')
           .textContent,
       ).toBe('error');
+      expect(
+        screen.getByTestId('context-value-lifeCycleStatus-statusData-code')
+          .textContent,
+      ).toBe('UNCAUGHT_SWAP_ERROR');
     });
   });
 });
