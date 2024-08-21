@@ -31,7 +31,7 @@ export function ConnectWallet({
             <div className="flex" data-testid="ockConnectWallet_Container">
               <ConnectButton
                 className={className}
-                connectButtonOnClick={() => openConnectModal()}
+                onClick={() => openConnectModal()}
                 text={text}
               />
             </div>
@@ -43,7 +43,7 @@ export function ConnectWallet({
       <div className="flex" data-testid="ockConnectWallet_Container">
         <ConnectButton
           className={className}
-          connectButtonOnClick={() => connect({ connector })}
+          onClick={() => connect({ connector })}
           text={text}
         />
       </div>
