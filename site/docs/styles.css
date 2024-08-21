@@ -236,3 +236,8 @@ footer a.vocs_Anchor {
 .social-icons-list path {
   fill: black;
 }
+
+/* Fill */
+.fill-ock-default-reverse {
+  fill: var(--bg-ock-default-reverse);
+}
