@@ -1,20 +1,19 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import {
-  act,
   fireEvent,
   render,
   renderHook,
   screen,
+  waitFor,
 } from '@testing-library/react';
-import React from 'react';
-import type { TransactionReceipt } from 'viem';
+import React, { act, useEffect } from 'react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { http, WagmiProvider, createConfig } from 'wagmi';
 import { base } from 'wagmi/chains';
 import { mock } from 'wagmi/connectors';
 import { DEGEN_TOKEN, ETH_TOKEN } from '../mocks';
-import type { SwapError } from '../types';
 import { buildSwapTransaction } from '../utils/buildSwapTransaction';
+import { getSwapErrorCode } from '../utils/getSwapErrorCode';
 import { getSwapQuote } from '../utils/getSwapQuote';
 import { SwapProvider, useSwapContext } from './SwapProvider';
 
@@ -85,7 +84,14 @@ const renderWithProviders = (
 };
 
 const TestSwapComponent = () => {
+  const mockOnError = vi.fn();
+  const mockOnSuccess = vi.fn();
   const context = useSwapContext();
+  useEffect(() => {
+    context.from.setToken(ETH_TOKEN);
+    context.from.setAmount('100');
+    context.to.setToken(DEGEN_TOKEN);
+  }, [context]);
   const handleStatusError = async () => {
     context.setLifeCycleStatus({
       statusName: 'error',
@@ -97,14 +103,36 @@ const TestSwapComponent = () => {
       <span data-testid="context-value-lifeCycleStatus-statusName">
         {context.lifeCycleStatus.statusName}
       </span>
+      {context.lifeCycleStatus.statusName === 'error' && (
+        <span data-testid="context-value-lifeCycleStatus-statusData-code">
+          {context.lifeCycleStatus.statusData.code}
+        </span>
+      )}
       <button type="button" onClick={handleStatusError}>
         setLifeCycleStatus.error
+      </button>
+      <button
+        type="submit"
+        onClick={() => context.handleSubmit(mockOnError, mockOnSuccess)}
+      >
+        Swap
       </button>
     </div>
   );
 };
 
 describe('useSwapContext', () => {
+  beforeEach(async () => {
+    vi.resetAllMocks();
+    await act(async () => {
+      renderWithProviders(() => null);
+    });
+  });
+
+  afterEach(() => {
+    vi.clearAllMocks();
+  });
+
   it('should throw an error when used outside of SwapProvider', () => {
     const TestComponent = () => {
       useSwapContext();
@@ -142,41 +170,6 @@ describe('SwapProvider', () => {
     const button = screen.getByText('setLifeCycleStatus.error');
     fireEvent.click(button);
     expect(onStatusMock).toHaveBeenCalled();
-  });
-
-  it('should handle submit correctly', async () => {
-    const mockOnError = vi.fn();
-    const mockOnSuccess = vi.fn();
-    let _submitFunction: (
-      onError?: (error: SwapError) => void,
-      onSuccess?: (txReceipt: TransactionReceipt) => void | Promise<void>,
-    ) => void;
-    const TestComponent = () => {
-      const { from, to, handleSubmit } = useSwapContext();
-      _submitFunction = handleSubmit;
-      // biome-ignore lint: hello
-      React.useEffect(() => {
-        from.setToken(ETH_TOKEN);
-        from.setAmount('100');
-        to.setToken(DEGEN_TOKEN);
-      }, []);
-      return (
-        <button
-          type="submit"
-          onClick={() => handleSubmit(mockOnError, mockOnSuccess)}
-        >
-          Submit Swap
-        </button>
-      );
-    };
-    await act(async () => {
-      renderWithProviders(TestComponent);
-    });
-    // Trigger the submit
-    await act(async () => {
-      fireEvent.click(screen.getByText('Submit Swap'));
-    });
-    expect(buildSwapTransaction).toBeCalledTimes(1);
   });
 
   it('should handle toggles', async () => {
@@ -291,15 +284,6 @@ describe('SwapProvider', () => {
     expect(result.current.to.loading).toBe(false);
   });
 
-  it('should handle quote error', async () => {
-    vi.mocked(getSwapQuote).mockRejectedValueOnce(new Error('Quote error'));
-    const { result } = renderHook(() => useSwapContext(), { wrapper });
-    await act(async () => {
-      result.current.handleAmountChange('from', '10', ETH_TOKEN, DEGEN_TOKEN);
-    });
-    expect(result.current.error?.quoteError).toBeDefined();
-  });
-
   it('should handle empty amount input', async () => {
     const { result } = renderHook(() => useSwapContext(), { wrapper });
     await act(async () => {
@@ -326,29 +310,87 @@ describe('SwapProvider', () => {
     expect(result.current.to.amount).toBe('');
   });
 
-  it('should handle quote error and reset loading state', async () => {
-    vi.mocked(getSwapQuote).mockRejectedValueOnce(new Error('Quote error'));
+  it('should setLifeCycleStatus to error when getSwapQuote throws an error', async () => {
+    const mockError = new Error('Test error');
+    vi.mocked(getSwapQuote).mockRejectedValueOnce(mockError);
     const { result } = renderHook(() => useSwapContext(), { wrapper });
     await act(async () => {
-      await result.current.handleAmountChange(
-        'from',
-        '10',
-        ETH_TOKEN,
-        DEGEN_TOKEN,
-      );
+      result.current.handleAmountChange('from', '10', ETH_TOKEN, DEGEN_TOKEN);
     });
-    expect(result.current.error?.quoteError).toBeDefined();
-    expect(result.current.to.loading).toBe(false);
+    expect(result.current.lifeCycleStatus).toEqual({
+      statusName: 'error',
+      statusData: {
+        code: 'TmSPc01',
+        error: JSON.stringify(mockError),
+        message: '',
+      },
+    });
   });
 
-  beforeEach(async () => {
-    vi.resetAllMocks();
+  it('should setLifeCycleStatus to error when getSwapQuote returns an error', async () => {
+    vi.mocked(getSwapQuote).mockResolvedValueOnce({
+      code: getSwapErrorCode('uncaught-quote'),
+      error: 'Something went wrong',
+      message: '',
+    });
+    const { result } = renderHook(() => useSwapContext(), { wrapper });
     await act(async () => {
-      renderWithProviders(() => null);
+      result.current.handleAmountChange('from', '10', ETH_TOKEN, DEGEN_TOKEN);
+    });
+    expect(result.current.lifeCycleStatus).toEqual({
+      statusName: 'error',
+      statusData: {
+        code: 'UNCAUGHT_SWAP_QUOTE_ERROR',
+        error: 'Something went wrong',
+        message: '',
+      },
     });
   });
 
-  afterEach(() => {
-    vi.clearAllMocks();
+  it('should handle submit correctly', async () => {
+    await act(async () => {
+      renderWithProviders(TestSwapComponent);
+    });
+    await act(async () => {
+      fireEvent.click(screen.getByText('Swap'));
+    });
+    expect(buildSwapTransaction).toBeCalledTimes(1);
+  });
+
+  it('should setLifeCycleStatus to error when buildSwapTransaction throws an error', async () => {
+    const mockError = new Error('Test error');
+    vi.mocked(buildSwapTransaction).mockRejectedValueOnce(mockError);
+    renderWithProviders(TestSwapComponent);
+    fireEvent.click(screen.getByText('Swap'));
+    await waitFor(() => {
+      expect(
+        screen.getByTestId('context-value-lifeCycleStatus-statusName')
+          .textContent,
+      ).toBe('error');
+      expect(
+        screen.getByTestId('context-value-lifeCycleStatus-statusData-code')
+          .textContent,
+      ).toBe('TmSPc02');
+    });
+  });
+
+  it('should setLifeCycleStatus to error when buildSwapTransaction returns an error', async () => {
+    vi.mocked(buildSwapTransaction).mockResolvedValueOnce({
+      code: getSwapErrorCode('uncaught-swap'),
+      error: 'Something went wrong',
+      message: '',
+    });
+    renderWithProviders(TestSwapComponent);
+    fireEvent.click(screen.getByText('Swap'));
+    await waitFor(() => {
+      expect(
+        screen.getByTestId('context-value-lifeCycleStatus-statusName')
+          .textContent,
+      ).toBe('error');
+      expect(
+        screen.getByTestId('context-value-lifeCycleStatus-statusData-code')
+          .textContent,
+      ).toBe('UNCAUGHT_SWAP_ERROR');
+    });
   });
 });

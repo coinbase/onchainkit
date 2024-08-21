@@ -6,7 +6,8 @@ import {
   useState,
 } from 'react';
 import type { TransactionReceipt } from 'viem';
-import { type BaseError, useConfig, useSendTransaction } from 'wagmi';
+import { useConfig, useSendTransaction } from 'wagmi';
+import type { BaseError } from 'wagmi';
 import { useValue } from '../../internal/hooks/useValue';
 import { formatTokenAmount } from '../../internal/utils/formatTokenAmount';
 import type { Token } from '../../token';
@@ -16,7 +17,6 @@ import type {
   LifeCycleStatus,
   SwapContextType,
   SwapError,
-  SwapErrorState,
   SwapProviderReact,
 } from '../types';
 import { buildSwapTransaction } from '../utils/buildSwapTransaction';
@@ -46,28 +46,15 @@ export function SwapProvider({
   const { useAggregator } = experimental;
 
   // Core Hooks
+  const config = useConfig();
   const [loading, setLoading] = useState(false);
   const [isTransactionPending, setPendingTransaction] = useState(false);
   const [lifeCycleStatus, setLifeCycleStatus] = useState<LifeCycleStatus>({
     statusName: 'init',
     statusData: null,
   }); // Component lifecycle
-  const [error, setError] = useState<SwapErrorState>();
-
-  const handleError = useCallback(
-    (e: Record<string, SwapError | undefined>) => {
-      setError({ ...error, ...e });
-    },
-    [error],
-  );
-
   const { from, to } = useFromTo(address);
-
-  // For sending the swap transaction (and approval, if applicable)
-  const { sendTransactionAsync } = useSendTransaction();
-
-  // Wagmi config, used for waitForTransactionReceipt
-  const config = useConfig();
+  const { sendTransactionAsync } = useSendTransaction(); // Sending the transaction (and approval, if applicable)
 
   // Component lifecycle emitters
   useEffect(() => {
@@ -83,7 +70,6 @@ export function SwapProvider({
   const handleToggle = useCallback(() => {
     from.setAmount(to.amount);
     to.setAmount(from.amount);
-
     from.setToken(to.token);
     to.setToken(from.token);
   }, [from, to]);
@@ -105,7 +91,6 @@ export function SwapProvider({
       if (source.token === undefined || destination.token === undefined) {
         return;
       }
-
       if (amount === '' || Number.parseFloat(amount) === 0) {
         return destination.setAmount('');
       }
@@ -113,8 +98,9 @@ export function SwapProvider({
       // When toAmount changes we fetch quote for fromAmount
       // so set isFromQuoteLoading to true
       destination.setLoading(true);
-      handleError({
-        quoteError: undefined,
+      setLifeCycleStatus({
+        statusName: 'amountChange',
+        statusData: null,
       });
 
       try {
@@ -127,9 +113,17 @@ export function SwapProvider({
           useAggregator,
         });
         // If request resolves to error response set the quoteError
-        // property of error state to the SwapError response */
+        // property of error state to the SwapError response
         if (isSwapError(response)) {
-          return handleError({ quoteError: response });
+          setLifeCycleStatus({
+            statusName: 'error',
+            statusData: {
+              code: response.code,
+              error: response.error,
+              message: '',
+            },
+          });
+          return;
         }
 
         const formattedAmount = formatTokenAmount(
@@ -139,13 +133,20 @@ export function SwapProvider({
 
         destination.setAmount(formattedAmount);
       } catch (err) {
-        handleError({ quoteError: err as SwapError });
+        setLifeCycleStatus({
+          statusName: 'error',
+          statusData: {
+            code: 'TmSPc01', // Transaction module SwapProvider component 01 error
+            error: JSON.stringify(err),
+            message: '',
+          },
+        });
       } finally {
         // reset loading state when quote request resolves
         destination.setLoading(false);
       }
     },
-    [from, to, useAggregator, handleError, experimental.maxSlippage],
+    [from, experimental.maxSlippage, to, useAggregator],
   );
 
   const handleSubmit = useCallback(
@@ -158,9 +159,11 @@ export function SwapProvider({
       if (!address || !from.token || !to.token || !from.amount) {
         return;
       }
-
       setLoading(true);
-      handleError({ swapError: undefined });
+      setLifeCycleStatus({
+        statusName: 'init',
+        statusData: null,
+      });
 
       try {
         const response = await buildSwapTransaction({
@@ -173,7 +176,15 @@ export function SwapProvider({
         });
 
         if (isSwapError(response)) {
-          return handleError({ swapError: response });
+          setLifeCycleStatus({
+            statusName: 'error',
+            statusData: {
+              code: response.code,
+              error: response.error,
+              message: response.message,
+            },
+          });
+          return;
         }
 
         await processSwapTransaction({
@@ -195,8 +206,9 @@ export function SwapProvider({
         if (userRejected) {
           setLoading(false);
           setPendingTransaction(false);
-          handleError({
-            swapError: {
+          setLifeCycleStatus({
+            statusName: 'error',
+            statusData: {
               code: USER_REJECTED_ERROR_CODE,
               error: 'User rejected the request.',
               message: '',
@@ -204,7 +216,14 @@ export function SwapProvider({
           });
         } else {
           onError?.(e as SwapError);
-          handleError({ swapError: e as SwapError });
+          setLifeCycleStatus({
+            statusName: 'error',
+            statusData: {
+              code: 'TmSPc02', // Transaction module SwapProvider component 02 error
+              error: JSON.stringify(e),
+              message: '',
+            },
+          });
         }
       } finally {
         setLoading(false);
@@ -213,7 +232,6 @@ export function SwapProvider({
     [
       address,
       config,
-      handleError,
       from.amount,
       from.token,
       sendTransactionAsync,
@@ -224,7 +242,6 @@ export function SwapProvider({
   );
 
   const value = useValue({
-    error,
     from,
     loading,
     handleAmountChange,
