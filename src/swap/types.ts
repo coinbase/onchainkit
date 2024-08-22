@@ -110,16 +110,19 @@ export type LifeCycleStatus =
       statusData: null;
     }
   | {
-      statusName: 'erc20Approved';
+      statusName: 'transactionPending';
+      statusData: null;
+    }
+  | {
+      statusName: 'transactionApproved';
       statusData: {
         transactionHash: Hex;
+        transactionType: 'ERC20' | 'Permit2';
       };
     }
   | {
-      statusName: 'permit2Approved';
-      statusData: {
-        transactionHash: Hex;
-      };
+      statusName: 'swapPending';
+      statusData: null;
     }
   | {
       statusName: 'success';
@@ -130,8 +133,7 @@ export type LifeCycleStatus =
 
 export type ProcessSwapTransactionParams = {
   config: Config;
-  setLifecycleStatus: (state: LifeCycleStatus) => void;
-  setPendingTransaction: (value: React.SetStateAction<boolean>) => void;
+  setLifeCycleStatus: (state: LifeCycleStatus) => void;
   sendTransactionAsync: SendTransactionMutateAsync<Config, unknown>;
   swapTransaction: BuildSwapTransaction;
   useAggregator: boolean;

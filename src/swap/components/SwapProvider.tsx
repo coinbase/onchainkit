@@ -5,7 +5,6 @@ import {
   useEffect,
   useState,
 } from 'react';
-import type { TransactionReceipt } from 'viem';
 import { useConfig, useSendTransaction } from 'wagmi';
 import type { BaseError } from 'wagmi';
 import { useValue } from '../../internal/hooks/useValue';
@@ -64,8 +63,19 @@ export function SwapProvider({
     if (lifeCycleStatus.statusName === 'error') {
       onError?.(lifeCycleStatus.statusData);
     }
+    if (lifeCycleStatus.statusName === 'transactionPending') {
+      setPendingTransaction(true);
+    }
+    if (lifeCycleStatus.statusName === 'transactionApproved') {
+      setPendingTransaction(false);
+    }
+    if (lifeCycleStatus.statusName === 'swapPending') {
+      setPendingTransaction(true);
+      setLoading(true);
+    }
     // Success
     if (lifeCycleStatus.statusName === 'success') {
+      setPendingTransaction(false);
       onSuccess?.(lifeCycleStatus.statusData.transactionReceipt);
     }
     // Emit Status
@@ -163,11 +173,7 @@ export function SwapProvider({
 
   const handleSubmit = useCallback(
     // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO Refactor this component
-    async function handleSubmit(
-      onError?: (error: SwapError) => void,
-      onStart?: (txHash: string) => void | Promise<void>,
-      onSuccess?: (txReceipt: TransactionReceipt) => void | Promise<void>,
-    ) {
+    async function handleSubmit(onError?: (error: SwapError) => void) {
       if (!address || !from.token || !to.token || !from.amount) {
         return;
       }
@@ -200,13 +206,10 @@ export function SwapProvider({
         }
 
         await processSwapTransaction({
-          swapTransaction: response,
           config,
-          setPendingTransaction,
-          setLoading,
           sendTransactionAsync,
-          onStart,
-          onSuccess,
+          setLifeCycleStatus,
+          swapTransaction: response,
           useAggregator,
         });
 
