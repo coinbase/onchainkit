@@ -172,8 +172,6 @@ export type SwapAPIResponse = {
 export type SwapButtonReact = {
   className?: string; // Optional className override for top div element.
   disabled?: boolean; // Disables swap button
-  onError?: (error: SwapError) => void; // Callback function for error
-  onSuccess?: (txReceipt: TransactionReceipt) => void | Promise<void>; // Callback function for success
 };
 
 export type SwapContextType = {
@@ -188,10 +186,7 @@ export type SwapContextType = {
     st?: Token,
     dt?: Token,
   ) => void;
-  handleSubmit: (
-    onError?: (error: SwapError) => void,
-    onSuccess?: (txReceipt: TransactionReceipt) => void | Promise<void>,
-  ) => void;
+  handleSubmit: () => void;
   handleToggle: () => void;
   setLifeCycleStatus: (state: LifeCycleStatus) => void; // A function to set the lifecycle status of the component
   to: SwapUnit;

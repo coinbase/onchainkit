@@ -10,12 +10,10 @@ import type { BaseError } from 'wagmi';
 import { useValue } from '../../internal/hooks/useValue';
 import { formatTokenAmount } from '../../internal/utils/formatTokenAmount';
 import type { Token } from '../../token';
-import { USER_REJECTED_ERROR_CODE } from '../constants';
 import { useFromTo } from '../hooks/useFromTo';
 import type {
   LifeCycleStatus,
   SwapContextType,
-  SwapError,
   SwapProviderReact,
 } from '../types';
 import { buildSwapTransaction } from '../utils/buildSwapTransaction';
@@ -171,7 +169,7 @@ export function SwapProvider({
 
   const handleSubmit = useCallback(
     // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO Refactor this component
-    async function handleSubmit(onError?: (error: SwapError) => void) {
+    async () => {
       if (!address || !from.token || !to.token || !from.amount) {
         return;
       }
@@ -222,17 +220,16 @@ export function SwapProvider({
           setLifeCycleStatus({
             statusName: 'error',
             statusData: {
-              code: USER_REJECTED_ERROR_CODE,
+              code: 'TmSPc02',
               error: 'User rejected the request.',
               message: '',
             },
           });
         } else {
-          onError?.(e as SwapError);
           setLifeCycleStatus({
             statusName: 'error',
             statusData: {
-              code: 'TmSPc02', // Transaction module SwapProvider component 02 error
+              code: 'TmSPc03', // Transaction module SwapProvider component 02 error
               error: JSON.stringify(e),
               message: '',
             },

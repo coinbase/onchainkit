@@ -435,6 +435,23 @@ describe('SwapProvider', () => {
     expect(buildSwapTransaction).toBeCalledTimes(1);
   });
 
+  it('should setLifeCycleStatus to error when buildSwapTransaction throws an "User rejected the request." error', async () => {
+    const mockError = new Error('User rejected the request.');
+    vi.mocked(buildSwapTransaction).mockRejectedValueOnce(mockError);
+    renderWithProviders({ Component: TestSwapComponent });
+    fireEvent.click(screen.getByText('Swap'));
+    await waitFor(() => {
+      expect(
+        screen.getByTestId('context-value-lifeCycleStatus-statusName')
+          .textContent,
+      ).toBe('error');
+      expect(
+        screen.getByTestId('context-value-lifeCycleStatus-statusData-code')
+          .textContent,
+      ).toBe('TmSPc02');
+    });
+  });
+
   it('should setLifeCycleStatus to error when buildSwapTransaction throws an error', async () => {
     const mockError = new Error('Test error');
     vi.mocked(buildSwapTransaction).mockRejectedValueOnce(mockError);
@@ -448,7 +465,7 @@ describe('SwapProvider', () => {
       expect(
         screen.getByTestId('context-value-lifeCycleStatus-statusData-code')
           .textContent,
-      ).toBe('TmSPc02');
+      ).toBe('TmSPc03');
     });
   });
 
