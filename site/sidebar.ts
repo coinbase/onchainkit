@@ -163,11 +163,11 @@ export const sidebar = [
         items: [
           {
             text: 'buildSwapTransaction',
-            link: '/swap/build-swap-transaction',
+            link: '/api/build-swap-transaction',
           },
           {
             text: 'getSwapQuote',
-            link: '/swap/get-swap-quote',
+            link: '/api/get-swap-quote',
           },
         ],
       },
@@ -176,7 +176,7 @@ export const sidebar = [
         items: [
           {
             text: 'getTokens',
-            link: '/token/get-tokens',
+            link: '/api/get-tokens',
           },
         ],
       },
