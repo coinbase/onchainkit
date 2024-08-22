@@ -18,6 +18,7 @@ import type {
 } from '../types';
 import { buildSwapTransaction } from '../utils/buildSwapTransaction';
 import { getSwapQuote } from '../utils/getSwapQuote';
+import { isReadyToSwap } from '../utils/isReadyToSwap';
 import { isSwapError } from '../utils/isSwapError';
 import { processSwapTransaction } from '../utils/processSwapTransaction';
 
@@ -59,19 +60,21 @@ export function SwapProvider({
   useEffect(() => {
     // Error
     if (lifeCycleStatus.statusName === 'error') {
+      setLoading(false);
+      setPendingTransaction(false);
       onError?.(lifeCycleStatus.statusData);
     }
     if (lifeCycleStatus.statusName === 'transactionPending') {
-      setPendingTransaction(true);
       setLoading(true);
+      setPendingTransaction(true);
     }
     if (lifeCycleStatus.statusName === 'transactionApproved') {
       setPendingTransaction(false);
     }
     // Success
     if (lifeCycleStatus.statusName === 'success') {
-      setPendingTransaction(false);
       setLoading(false);
+      setPendingTransaction(false);
       onSuccess?.(lifeCycleStatus.statusData.transactionReceipt);
     }
     // Emit Status
@@ -167,89 +170,78 @@ export function SwapProvider({
     [from, experimental.maxSlippage, to, useAggregator],
   );
 
-  const handleSubmit = useCallback(
-    // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO Refactor this component
-    async () => {
-      if (!address || !from.token || !to.token || !from.amount) {
+  const handleSubmit = useCallback(async () => {
+    if (!isReadyToSwap(address, from.token, to.token, from.amount)) {
+      return;
+    }
+    setLifeCycleStatus({
+      statusName: 'init',
+      statusData: null,
+    });
+
+    try {
+      const response = await buildSwapTransaction({
+        amount: from.amount,
+        fromAddress: address,
+        from: from.token,
+        to: to.token,
+        useAggregator,
+        maxSlippage: experimental.maxSlippage?.toString(),
+      });
+      if (isSwapError(response)) {
+        setLifeCycleStatus({
+          statusName: 'error',
+          statusData: {
+            code: response.code,
+            error: response.error,
+            message: response.message,
+          },
+        });
         return;
       }
-      setLoading(true);
-      setLifeCycleStatus({
-        statusName: 'init',
-        statusData: null,
+      await processSwapTransaction({
+        config,
+        sendTransactionAsync,
+        setLifeCycleStatus,
+        swapTransaction: response,
+        useAggregator,
       });
 
-      try {
-        const response = await buildSwapTransaction({
-          amount: from.amount,
-          fromAddress: address,
-          from: from.token,
-          to: to.token,
-          useAggregator,
-          maxSlippage: experimental.maxSlippage?.toString(),
+      // TODO: refresh balances
+    } catch (e) {
+      const userRejected = (e as BaseError).message.includes(
+        'User rejected the request.',
+      );
+      if (userRejected) {
+        setLifeCycleStatus({
+          statusName: 'error',
+          statusData: {
+            code: 'TmSPc02',
+            error: 'User rejected the request.',
+            message: '',
+          },
         });
-
-        if (isSwapError(response)) {
-          setLifeCycleStatus({
-            statusName: 'error',
-            statusData: {
-              code: response.code,
-              error: response.error,
-              message: response.message,
-            },
-          });
-          return;
-        }
-
-        await processSwapTransaction({
-          config,
-          sendTransactionAsync,
-          setLifeCycleStatus,
-          swapTransaction: response,
-          useAggregator,
+      } else {
+        setLifeCycleStatus({
+          statusName: 'error',
+          statusData: {
+            code: 'TmSPc03', // Transaction module SwapProvider component 02 error
+            error: JSON.stringify(e),
+            message: '',
+          },
         });
-
-        // TODO: refresh balances
-      } catch (e) {
-        const userRejected = (e as BaseError).message.includes(
-          'User rejected the request.',
-        );
-        if (userRejected) {
-          setLoading(false);
-          setPendingTransaction(false);
-          setLifeCycleStatus({
-            statusName: 'error',
-            statusData: {
-              code: 'TmSPc02',
-              error: 'User rejected the request.',
-              message: '',
-            },
-          });
-        } else {
-          setLifeCycleStatus({
-            statusName: 'error',
-            statusData: {
-              code: 'TmSPc03', // Transaction module SwapProvider component 02 error
-              error: JSON.stringify(e),
-              message: '',
-            },
-          });
-        }
-      } finally {
-        setLoading(false);
       }
-    },
-    [
-      address,
-      config,
-      from.amount,
-      from.token,
-      sendTransactionAsync,
-      to.token,
-      useAggregator,
-      experimental.maxSlippage,
-    ],
-  );
+    }
+  }, [
+    address,
+    config,
+    from.amount,
+    from.token,
+    sendTransactionAsync,
+    to.token,
+    useAggregator,
+    experimental.maxSlippage,
+  ]);
 
   const value = useValue({
     from,
