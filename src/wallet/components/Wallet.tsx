@@ -1,4 +1,4 @@
-import { Children, useEffect, useMemo, useRef, useState } from 'react';
+import { Children, useEffect, useMemo, useRef } from 'react';
 import { findComponent } from '../../internal/utils/findComponent';
 import type { WalletReact } from '../types';
 import { ConnectWallet } from './ConnectWallet';

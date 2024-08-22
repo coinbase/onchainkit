@@ -1,13 +1,13 @@
 import { Children, useMemo } from 'react';
 import { findComponent } from '../../internal/utils/findComponent';
 import { background, cn, text } from '../../styles/theme';
+import { useIsMounted } from '../../useIsMounted';
 import type { SwapReact } from '../types';
 import { SwapAmountInput } from './SwapAmountInput';
 import { SwapButton } from './SwapButton';
 import { SwapMessage } from './SwapMessage';
 import { SwapProvider } from './SwapProvider';
 import { SwapToggleButton } from './SwapToggleButton';
-import { useIsMounted } from '../../useIsMounted';
 
 export function Swap({
   address,
