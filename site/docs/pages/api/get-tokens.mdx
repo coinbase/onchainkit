@@ -2,7 +2,7 @@
 
 The `getTokens` function retrieves a list of tokens on Base by searching for the name, symbol, or address of a token.
 
-The utility uses the [Coinbase Developer Platform APIs](https://www.coinbase.com/developer-platform) to retrieve the token's data. To use the API, make sure to have an `API_KEY` and set this before using `getTokens`.
+Before using them, make sure to obtain a Public API Key from the [Coinbase Developer Platform APIs](https://portal.cdp.coinbase.com/products/onchainkit).
 
 ## Usage
 
@@ -12,7 +12,7 @@ Search by symbol
 
 ```tsx [code]
 import { setOnchainKitConfig } from '@coinbase/onchainkit';
-import { getTokens } from '@coinbase/onchainkit/token'; // [!code focus]
+import { getTokens } from '@coinbase/onchainkit/api'; // [!code focus]
 
 setOnchainKitConfig({ apiKey: 'YOUR_API_KEY' });
 
@@ -41,7 +41,7 @@ Search by name
 
 ```tsx [code]
 import { setOnchainKitConfig } from '@coinbase/onchainkit';
-import { getTokens } from '@coinbase/onchainkit/token'; // [!code focus]
+import { getTokens } from '@coinbase/onchainkit/api'; // [!code focus]
 
 setOnchainKitConfig({ apiKey: 'YOUR_API_KEY' });
 
@@ -70,7 +70,7 @@ Search by address
 
 ```tsx [code]
 import { setOnchainKitConfig } from '@coinbase/onchainkit';
-import { getTokens } from '@coinbase/onchainkit/token'; // [!code focus]
+import { getTokens } from '@coinbase/onchainkit/api'; // [!code focus]
 
 setOnchainKitConfig({ apiKey: 'YOUR_API_KEY' });
 
