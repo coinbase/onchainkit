@@ -1,6 +1,6 @@
 'use client';
 
-import { ENVIRONMENT, ENVARS } from '@/lib/constants';
+import { ENVARS, ENVIRONMENT } from '@/lib/constants';
 import { OnchainKitProvider } from '@coinbase/onchainkit';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import type { ReactNode } from 'react';

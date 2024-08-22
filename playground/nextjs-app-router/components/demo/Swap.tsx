@@ -1,3 +1,4 @@
+import { ENVARS, ENVIRONMENT } from '@/lib/constants';
 import {
   Swap,
   SwapAmountInput,
@@ -9,7 +10,6 @@ import type { Token } from '@coinbase/onchainkit/token';
 import { useContext } from 'react';
 import { useAccount } from 'wagmi';
 import { AppContext } from '../AppProvider';
-import { ENVARS, ENVIRONMENT } from '@/lib/constants';
 
 function SwapComponent() {
   const { address } = useAccount();
