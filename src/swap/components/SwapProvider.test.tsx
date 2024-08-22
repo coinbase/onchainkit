@@ -102,6 +102,21 @@ const TestSwapComponent = () => {
       statusData: { code: 'code', error: 'error_long_messages', message: '' },
     });
   };
+  const handleStatusTransactionPending = async () => {
+    context.setLifeCycleStatus({
+      statusName: 'transactionPending',
+      statusData: null,
+    });
+  };
+  const handleStatusTransactionApproved = async () => {
+    context.setLifeCycleStatus({
+      statusName: 'transactionApproved',
+      statusData: {
+        transactionHash: '0x123',
+        transactionType: 'ERC20',
+      },
+    });
+  };
   const handleStatusSuccess = async () => {
     context.setLifeCycleStatus({
       statusName: 'success',
@@ -120,6 +135,12 @@ const TestSwapComponent = () => {
       )}
       <button type="button" onClick={handleStatusError}>
         setLifeCycleStatus.error
+      </button>
+      <button type="button" onClick={handleStatusTransactionPending}>
+        setLifeCycleStatus.transactionPending
+      </button>
+      <button type="button" onClick={handleStatusTransactionApproved}>
+        setLifeCycleStatus.transactionApproved
       </button>
       <button type="button" onClick={handleStatusSuccess}>
         setLifeCycleStatus.success
@@ -183,6 +204,28 @@ describe('SwapProvider', () => {
     const button = screen.getByText('setLifeCycleStatus.error');
     fireEvent.click(button);
     expect(onErrorMock).toHaveBeenCalled();
+  });
+
+  it('should emit onStatus when setLifeCycleStatus is called with transactionPending', async () => {
+    const onStatusMock = vi.fn();
+    renderWithProviders({
+      Component: TestSwapComponent,
+      onStatus: onStatusMock,
+    });
+    const button = screen.getByText('setLifeCycleStatus.transactionPending');
+    fireEvent.click(button);
+    expect(onStatusMock).toHaveBeenCalled();
+  });
+
+  it('should emit onStatus when setLifeCycleStatus is called with transactionApproved', async () => {
+    const onStatusMock = vi.fn();
+    renderWithProviders({
+      Component: TestSwapComponent,
+      onStatus: onStatusMock,
+    });
+    const button = screen.getByText('setLifeCycleStatus.transactionApproved');
+    fireEvent.click(button);
+    expect(onStatusMock).toHaveBeenCalled();
   });
 
   it('should emit onSuccess when setLifeCycleStatus is called with success', async () => {

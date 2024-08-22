@@ -1,5 +1,7 @@
 import type { Dispatch, ReactNode, SetStateAction } from 'react';
 import type { Address, Hex, TransactionReceipt } from 'viem';
+import type { Config } from 'wagmi';
+import type { SendTransactionMutateAsync } from 'wagmi/query';
 import type { Token } from '../token/types';
 
 export type AddressOrETH = Address | 'ETH';
@@ -108,11 +110,30 @@ export type LifeCycleStatus =
       statusData: null;
     }
   | {
+      statusName: 'transactionPending';
+      statusData: null;
+    }
+  | {
+      statusName: 'transactionApproved';
+      statusData: {
+        transactionHash: Hex;
+        transactionType: 'ERC20' | 'Permit2';
+      };
+    }
+  | {
       statusName: 'success';
       statusData: {
         transactionReceipt: TransactionReceipt;
       };
     };
+
+export type ProcessSwapTransactionParams = {
+  config: Config;
+  setLifeCycleStatus: (state: LifeCycleStatus) => void;
+  sendTransactionAsync: SendTransactionMutateAsync<Config, unknown>;
+  swapTransaction: BuildSwapTransaction;
+  useAggregator: boolean;
+};
 
 export type RawTransactionData = {
   data: string; // The transaction data
@@ -152,7 +173,6 @@ export type SwapButtonReact = {
   className?: string; // Optional className override for top div element.
   disabled?: boolean; // Disables swap button
   onError?: (error: SwapError) => void; // Callback function for error
-  onStart?: (txHash: string) => void | Promise<void>; // Callback function for start
   onSuccess?: (txReceipt: TransactionReceipt) => void | Promise<void>; // Callback function for success
 };
 
@@ -170,7 +190,6 @@ export type SwapContextType = {
   ) => void;
   handleSubmit: (
     onError?: (error: SwapError) => void,
-    onStart?: (txHash: string) => void | Promise<void>,
     onSuccess?: (txReceipt: TransactionReceipt) => void | Promise<void>,
   ) => void;
   handleToggle: () => void;
