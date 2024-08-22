@@ -21,12 +21,13 @@ type BuildSwapTransaction = {
 
 ```ts
 type BuildSwapTransactionParams = {
-  fromAddress: Address; // The address of the user
-  from: Token; // The source token for the swap
-  to: Token; // The destination token for the swap
   amount: string; // The amount to be swapped
   amountReference?: string; // The reference amount for the swap
+  from: Token; // The source token for the swap
+  fromAddress: Address; // The address of the user
   isAmountInDecimals?: boolean; // Whether the amount is in decimals
+  maxSlippage?: string; // The slippage of the swap
+  to: Token; // The destination token for the swap
 };
 ```
 
@@ -50,11 +51,12 @@ type Fee = {
 
 ```ts
 type GetSwapQuoteParams = {
-  from: Token; // The source token for the swap
-  to: Token; // The destination token for the swap
   amount: string; // The amount to be swapped
   amountReference?: string; // The reference amount for the swap
+  from: Token; // The source token for the swap
   isAmountInDecimals?: boolean; // Whether the amount is in decimals
+  maxSlippage?: string; // The slippage of the swap
+  to: Token; // The destination token for the swap
 };
 ```
 
@@ -65,12 +67,48 @@ type GetSwapQuoteResponse = SwapQuote | SwapError;
 ```
 
 ## `QuoteWarning`
+
 ```ts
 type QuoteWarning = {
   description?: string; // The description of the warning
   message?: string; // The message of the warning
   type?: string; // The type of the warning
 };
+```
+
+## `LifeCycleStatus`
+
+```ts
+type LifeCycleStatus =
+  | {
+      statusName: 'init';
+      statusData: null;
+    }
+  | {
+      statusName: 'error';
+      statusData: SwapError;
+    }
+  | {
+      statusName: 'amountChange';
+      statusData: null;
+    }
+  | {
+      statusName: 'transactionPending';
+      statusData: null;
+    }
+  | {
+      statusName: 'transactionApproved';
+      statusData: {
+        transactionHash: Hex;
+        transactionType: 'ERC20' | 'Permit2';
+      };
+    }
+  | {
+      statusName: 'success';
+      statusData: {
+        transactionReceipt: TransactionReceipt;
+      };
+    };
 ```
 
 ## `SwapAmountInputReact`
@@ -92,8 +130,6 @@ type SwapAmountInputReact = {
 type SwapButtonReact = {
   className?: string; // Optional className override for top div element.
   disabled?: boolean; // Disables swap button
-  onError?: (error: SwapError) => void; // Callback function for error
-  onSuccess?: (txReceipt: TransactionReceipt) => void | Promise<void>; // Callback function for success
 };
 ```
 
@@ -101,8 +137,9 @@ type SwapButtonReact = {
 
 ```ts
 type SwapError = {
-  code: string; // The error code
-  error: string; // The error message
+  code: string; // The error code representing the type of swap error.
+  error: string; // The error message providing details about the swap error.
+  message: string; // The error message providing details about the swap error.
 };
 ```
 
@@ -137,6 +174,9 @@ type SwapReact = {
   address: Address; // Connected address from connector.
   children: ReactNode;
   className?: string; // Optional className override for top div element.
+  onError?: (error: SwapError) => void; // An optional callback function that handles errors within the provider.
+  onStatus?: (lifeCycleStatus: LifeCycleStatus) => void; // An optional callback function that exposes the component lifecycle state
+  onSuccess?: (transactionReceipt: TransactionReceipt) => void; // An optional callback function that exposes the transaction receipt
   title?: string; // Title for the Swap component. (default: "Swap")
 };
 ```
