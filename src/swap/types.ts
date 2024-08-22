@@ -121,10 +121,6 @@ export type LifeCycleStatus =
       };
     }
   | {
-      statusName: 'swapPending';
-      statusData: null;
-    }
-  | {
       statusName: 'success';
       statusData: {
         transactionReceipt: TransactionReceipt;

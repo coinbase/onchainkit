@@ -65,17 +65,15 @@ export function SwapProvider({
     }
     if (lifeCycleStatus.statusName === 'transactionPending') {
       setPendingTransaction(true);
+      setLoading(true);
     }
     if (lifeCycleStatus.statusName === 'transactionApproved') {
       setPendingTransaction(false);
     }
-    if (lifeCycleStatus.statusName === 'swapPending') {
-      setPendingTransaction(true);
-      setLoading(true);
-    }
     // Success
     if (lifeCycleStatus.statusName === 'success') {
       setPendingTransaction(false);
+      setLoading(false);
       onSuccess?.(lifeCycleStatus.statusData.transactionReceipt);
     }
     // Emit Status

@@ -164,7 +164,7 @@ describe('processSwapTransaction', () => {
     });
     expect(setLifeCycleStatus).toHaveBeenCalledTimes(2);
     expect(setLifeCycleStatus).toHaveBeenCalledWith({
-      statusName: 'swapPending',
+      statusName: 'transactionPending',
       statusData: null,
     });
     expect(sendTransactionAsync).toHaveBeenCalledTimes(1);

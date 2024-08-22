@@ -87,7 +87,7 @@ export async function processSwapTransaction({
 
   // make the swap
   setLifeCycleStatus({
-    statusName: 'swapPending',
+    statusName: 'transactionPending',
     statusData: null,
   });
   const txHash = await sendTransactionAsync({
