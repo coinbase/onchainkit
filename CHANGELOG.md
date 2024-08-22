@@ -4,111 +4,110 @@
 
 ### Minor Changes
 
-- ed2379e: - **feat**: Moved the `onError` and `onSuccess` lifecycle listeners from the `<SwapButton>` component to the `<Swap>` component. By @zizzamia #1139
+- **feat**: Moved the `onError` and `onSuccess` lifecycle listeners from the `<SwapButton>` component to the `<Swap>` component. By @zizzamia #1139 ed2379e
 
-  Breaking Changes
-  OnchainKit standardizes lifecycle listeners with three callbacks: `onError`, `onSuccess`, and `onStatus`. The `onError` and `onSuccess` callbacks handle only the `error` and `success` states, respectively. In contrast, the `onStatus` callback provides more granular phases of each component's experience.
+Breaking Changes
+OnchainKit standardizes lifecycle listeners with three callbacks: `onError`, `onSuccess`, and `onStatus`. The `onError` and `onSuccess` callbacks handle only the `error` and `success` states,respectively. In contrast, the `onStatus` callback provides more granular phases of each component's experience.
 
-  Before, we used `onError` and `onSuccess` in the `<SwapButton />` component.
+Before, we used `onError` and `onSuccess` in the `<SwapButton />` component.
 
-  ```ts
-  const handleOnError = useCallback((error) => {
-    console.log(error);
-  }, []);
+```ts
+const handleOnError = useCallback((error) => {
+  console.log(error);
+}, []);
+const handleOnSuccess = useCallback((response) => {
+  console.log(response);
+}, []);
 
-  const handleOnSuccess = useCallback((response) => {
-    console.log(response);
-  }, []);
+...
 
-  ...
+<Swap address={address}>
+  <SwapAmountInput
+    label="Sell"
+    swappableTokens={swappableTokens}
+    token={ETHToken}
+    type="from"
+  />
+  <SwapToggleButton />
+  <SwapAmountInput
+    label="Buy"
+    swappableTokens={swappableTokens}
+    token={USDCToken}
+    type="to"
+  />
+  <SwapButton
+    onError={handleOnError}
+    onSuccess={handleOnSuccess}
+  />
+  <SwapMessage />
+</Swap>
+```
 
-  <Swap address={address}>
-    <SwapAmountInput
-      label="Sell"
-      swappableTokens={swappableTokens}
-      token={ETHToken}
-      type="from"
-    />
-    <SwapToggleButton />
-    <SwapAmountInput
-      label="Buy"
-      swappableTokens={swappableTokens}
-      token={USDCToken}
-      type="to"
-    />
-    <SwapButton
-      onError={handleOnError}
-      onSuccess={handleOnSuccess}
-    />
-    <SwapMessage />
-  </Swap>
-  ```
+After, we use `onStatus` in the `<Swap />` component.
 
-  After, we use `onStatus` in the `<Swap />` component.
+```ts
+const handleOnStatus = useCallback((lifeCycleStatus: LifeCycleStatus) => {
+  console.log('Status:', lifeCycleStatus);
+}, []);
 
-  ```ts
-  const handleOnStatus = useCallback((lifeCycleStatus: LifeCycleStatus) => {
-    console.log('Status:', lifeCycleStatus);
-  }, []);
+...
 
-  ...
+<Swap
+  address={address}
+  onStatus={handleOnStatus}
+>
+  <SwapAmountInput
+    label="Sell"
+    swappableTokens={swappableTokens}
+    token={ETHToken}
+    type="from"
+  />
+  <SwapToggleButton />
+  <SwapAmountInput
+    label="Buy"
+    swappableTokens={swappableTokens}
+    token={USDCToken}
+    type="to"
+  />
+  <SwapButton />
+  <SwapMessage />
+</Swap>
+```
 
-  <Swap
-    address={address}
-    onStatus={handleOnStatus}
-  >
-    <SwapAmountInput
-      label="Sell"
-      swappableTokens={swappableTokens}
-      token={ETHToken}
-      type="from"
-    />
-    <SwapToggleButton />
-    <SwapAmountInput
-      label="Buy"
-      swappableTokens={swappableTokens}
-      token={USDCToken}
-      type="to"
-    />
-    <SwapButton />
-    <SwapMessage />
-  </Swap>
-  ```
+The `onStatus` callback will expose
 
-  The `onStatus` callback will expose
-
-  ```ts
-  export type LifeCycleStatus =
-    | {
-        statusName: "init";
-        statusData: null;
-      }
-    | {
-        statusName: "error";
-        statusData: SwapError;
-      }
-    | {
-        statusName: "amountChange";
-        statusData: null;
-      }
-    | {
-        statusName: "transactionPending";
-        statusData: null;
-      }
-    | {
-        statusName: "transactionApproved";
-        statusData: {
-          transactionHash: Hex;
-          transactionType: "ERC20" | "Permit2";
-        };
-      }
-    | {
-        statusName: "success";
-        statusData: {
-          transactionReceipt: TransactionReceipt;
-        };
+```ts
+export type LifeCycleStatus =
+  | {
+      statusName: "init";
+      statusData: null;
+    }
+  | {
+      statusName: "error";
+      statusData: SwapError;
+    }
+  | {
+      statusName: "amountChange";
+      statusData: null;
+    }
+  | {
+      statusName: "transactionPending";
+      statusData: null;
+    }
+  | {
+      statusName: "transactionApproved";
+      statusData: {
+        transactionHash: Hex;
+        transactionType: "ERC20" | "Permit2";
       };
-  ```
+    }
+  | {
+      statusName: "success";
+      statusData: {
+        transactionReceipt: TransactionReceipt;
+      };
+    };
+```
 
 ## 0.29.5
 
