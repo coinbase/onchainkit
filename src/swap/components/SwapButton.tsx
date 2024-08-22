@@ -3,12 +3,7 @@ import { background, cn, color, pressable, text } from '../../styles/theme';
 import type { SwapButtonReact } from '../types';
 import { useSwapContext } from './SwapProvider';
 
-export function SwapButton({
-  className,
-  disabled = false,
-  onError,
-  onSuccess,
-}: SwapButtonReact) {
+export function SwapButton({ className, disabled = false }: SwapButtonReact) {
   const { to, from, loading, isTransactionPending, handleSubmit } =
     useSwapContext();
 
@@ -34,7 +29,7 @@ export function SwapButton({
         text.headline,
         className,
       )}
-      onClick={() => handleSubmit(onError, onSuccess)}
+      onClick={() => handleSubmit()}
       disabled={isDisabled}
       data-testid="ockSwapButton_Button"
     >
