@@ -3,6 +3,7 @@ import { http, createConfig } from 'wagmi';
 import { waitForTransactionReceipt } from 'wagmi/actions';
 import { mainnet, sepolia } from 'wagmi/chains';
 import { mock } from 'wagmi/connectors';
+import { DEGEN_TOKEN, ETH_TOKEN, USDC_TOKEN } from '../mocks';
 import type { BuildSwapTransaction } from '../types';
 import { processSwapTransaction } from './processSwapTransaction';
 
@@ -11,8 +12,7 @@ vi.mock('wagmi/actions', () => ({
 }));
 
 describe('processSwapTransaction', () => {
-  const setPendingTransaction = vi.fn();
-  const setLoading = vi.fn();
+  const setLifeCycleStatus = vi.fn();
   const sendTransactionAsync = vi
     .fn()
     .mockResolvedValueOnce('approveTxHash')
@@ -26,15 +26,6 @@ describe('processSwapTransaction', () => {
     .mockResolvedValueOnce('approveTxHash')
     .mockResolvedValueOnce('permit2TxHash')
     .mockResolvedValueOnce('txHash');
-  const onSuccess = vi.fn();
-  const onStart = vi.fn();
-  const onSuccessAsync = vi.fn().mockImplementation(async (_txHash: string) => {
-    await new Promise((resolve) => setTimeout(resolve, 0));
-  });
-
-  const onStartAsync = vi.fn().mockImplementation(async (_txHash: string) => {
-    await new Promise((resolve) => setTimeout(resolve, 0));
-  });
 
   beforeEach(() => {
     vi.clearAllMocks();
@@ -84,15 +75,7 @@ describe('processSwapTransaction', () => {
         warning: undefined,
       },
       fee: {
-        baseAsset: {
-          name: 'DEGEN',
-          address: '0x4ed4e862860bed51a9570b96d89af5e1b0efefed',
-          symbol: 'DEGEN',
-          decimals: 18,
-          image:
-            'https://d3r81g40ycuhqg.cloudfront.net/wallet/wais/3b/bf/3bbf118b5e6dc2f9e7fc607a6e7526647b4ba8f0bea87125f971446d57b296d2-MDNmNjY0MmEtNGFiZi00N2I0LWIwMTItMDUyMzg2ZDZhMWNm',
-          chainId: 8453,
-        },
+        baseAsset: DEGEN_TOKEN,
         percentage: '1',
         amount: '195912661817282562',
       },
@@ -113,31 +96,20 @@ describe('processSwapTransaction', () => {
         [sepolia.id]: http(),
       },
     });
-
     await processSwapTransaction({
-      swapTransaction,
       config,
-      setPendingTransaction,
-      setLoading,
       sendTransactionAsync,
-      onSuccess,
-      onStart,
+      setLifeCycleStatus,
+      swapTransaction,
       useAggregator: true,
     });
-
-    expect(setPendingTransaction).toHaveBeenCalledTimes(4);
-    expect(setPendingTransaction).toHaveBeenCalledWith(true);
-    expect(setPendingTransaction).toHaveBeenCalledWith(false);
+    expect(setLifeCycleStatus).toHaveBeenCalledTimes(4);
+    expect(setLifeCycleStatus).toHaveBeenCalledWith({
+      statusName: 'transactionPending',
+      statusData: null,
+    });
     expect(sendTransactionAsync).toHaveBeenCalledTimes(2);
     expect(waitForTransactionReceipt).toHaveBeenCalledTimes(2);
-
-    expect(setLoading).toHaveBeenCalledTimes(1);
-    expect(setLoading).toHaveBeenCalledWith(true);
-    expect(onSuccess).toHaveBeenCalledTimes(1);
-    expect(onSuccess).toHaveBeenCalledWith({});
-    expect(onStart).toHaveBeenCalledTimes(2);
-    expect(onStart).toHaveBeenNthCalledWith(1, 'approveTxHash');
-    expect(onStart).toHaveBeenNthCalledWith(2, 'txHash');
   });
 
   it('should make the swap for non-ERC-20 tokens', async () => {
@@ -151,24 +123,8 @@ describe('processSwapTransaction', () => {
       },
       approveTransaction: undefined,
       quote: {
-        from: {
-          address: '',
-          chainId: 8453,
-          decimals: 18,
-          image:
-            'https://wallet-api-production.s3.amazonaws.com/uploads/tokens/eth_288.png',
-          name: 'ETH',
-          symbol: 'ETH',
-        },
-        to: {
-          address: '0x4ed4e862860bed51a9570b96d89af5e1b0efefed',
-          chainId: 8453,
-          decimals: 18,
-          image:
-            'https://d3r81g40ycuhqg.cloudfront.net/wallet/wais/3b/bf/3bbf118b5e6dc2f9e7fc607a6e7526647b4ba8f0bea87125f971446d57b296d2-MDNmNjY0MmEtNGFiZi00N2I0LWIwMTItMDUyMzg2ZDZhMWNm',
-          name: 'DEGEN',
-          symbol: 'DEGEN',
-        },
+        from: ETH_TOKEN,
+        to: DEGEN_TOKEN,
         fromAmount: '100000000000000',
         toAmount: '19395353519910973703',
         amountReference: 'from',
@@ -178,15 +134,7 @@ describe('processSwapTransaction', () => {
         warning: undefined,
       },
       fee: {
-        baseAsset: {
-          name: 'DEGEN',
-          address: '0x4ed4e862860bed51a9570b96d89af5e1b0efefed',
-          symbol: 'DEGEN',
-          decimals: 18,
-          image:
-            'https://d3r81g40ycuhqg.cloudfront.net/wallet/wais/3b/bf/3bbf118b5e6dc2f9e7fc607a6e7526647b4ba8f0bea87125f971446d57b296d2-MDNmNjY0MmEtNGFiZi00N2I0LWIwMTItMDUyMzg2ZDZhMWNm',
-          chainId: 8453,
-        },
+        baseAsset: DEGEN_TOKEN,
         percentage: '1',
         amount: '195912661817282562',
       },
@@ -207,26 +155,20 @@ describe('processSwapTransaction', () => {
         [sepolia.id]: http(),
       },
     });
-
     await processSwapTransaction({
-      swapTransaction,
       config,
-      setPendingTransaction,
-      setLoading,
       sendTransactionAsync,
-      onSuccess,
-      onStart,
+      setLifeCycleStatus,
+      swapTransaction,
       useAggregator: true,
     });
-
-    expect(setPendingTransaction).toHaveBeenCalledTimes(2);
-    expect(setPendingTransaction).toHaveBeenCalledWith(true);
+    expect(setLifeCycleStatus).toHaveBeenCalledTimes(2);
+    expect(setLifeCycleStatus).toHaveBeenCalledWith({
+      statusName: 'swapPending',
+      statusData: null,
+    });
     expect(sendTransactionAsync).toHaveBeenCalledTimes(1);
     expect(waitForTransactionReceipt).toHaveBeenCalledTimes(1);
-    expect(setLoading).toHaveBeenCalledTimes(1);
-    expect(setLoading).toHaveBeenCalledWith(true);
-    expect(onSuccess).toHaveBeenCalledTimes(1);
-    expect(onSuccess).toHaveBeenCalledWith({});
   });
 
   it('should successfully call relevant async lifecycle hooks', async () => {
@@ -246,24 +188,8 @@ describe('processSwapTransaction', () => {
         gas: 0n,
       },
       quote: {
-        from: {
-          address: '',
-          chainId: 8453,
-          decimals: 18,
-          image:
-            'https://wallet-api-production.s3.amazonaws.com/uploads/tokens/eth_288.png',
-          name: 'ETH',
-          symbol: 'ETH',
-        },
-        to: {
-          address: '0x4ed4e862860bed51a9570b96d89af5e1b0efefed',
-          chainId: 8453,
-          decimals: 18,
-          image:
-            'https://d3r81g40ycuhqg.cloudfront.net/wallet/wais/3b/bf/3bbf118b5e6dc2f9e7fc607a6e7526647b4ba8f0bea87125f971446d57b296d2-MDNmNjY0MmEtNGFiZi00N2I0LWIwMTItMDUyMzg2ZDZhMWNm',
-          name: 'DEGEN',
-          symbol: 'DEGEN',
-        },
+        from: ETH_TOKEN,
+        to: DEGEN_TOKEN,
         fromAmount: '100000000000000',
         toAmount: '19395353519910973703',
         amountReference: 'from',
@@ -273,15 +199,7 @@ describe('processSwapTransaction', () => {
         warning: undefined,
       },
       fee: {
-        baseAsset: {
-          name: 'DEGEN',
-          address: '0x4ed4e862860bed51a9570b96d89af5e1b0efefed',
-          symbol: 'DEGEN',
-          decimals: 18,
-          image:
-            'https://d3r81g40ycuhqg.cloudfront.net/wallet/wais/3b/bf/3bbf118b5e6dc2f9e7fc607a6e7526647b4ba8f0bea87125f971446d57b296d2-MDNmNjY0MmEtNGFiZi00N2I0LWIwMTItMDUyMzg2ZDZhMWNm',
-          chainId: 8453,
-        },
+        baseAsset: DEGEN_TOKEN,
         percentage: '1',
         amount: '195912661817282562',
       },
@@ -302,31 +220,20 @@ describe('processSwapTransaction', () => {
         [sepolia.id]: http(),
       },
     });
-
     await processSwapTransaction({
-      swapTransaction,
       config,
-      setPendingTransaction,
-      setLoading,
       sendTransactionAsync: sendTransactionAsync2,
-      onSuccess: onSuccessAsync,
-      onStart: onStartAsync,
+      setLifeCycleStatus,
+      swapTransaction,
       useAggregator: true,
     });
-
-    expect(setPendingTransaction).toHaveBeenCalledTimes(4);
-    expect(setPendingTransaction).toHaveBeenCalledWith(true);
-    expect(setPendingTransaction).toHaveBeenCalledWith(false);
+    expect(setLifeCycleStatus).toHaveBeenCalledTimes(4);
+    expect(setLifeCycleStatus).toHaveBeenCalledWith({
+      statusName: 'transactionPending',
+      statusData: null,
+    });
     expect(sendTransactionAsync2).toHaveBeenCalledTimes(2);
     expect(waitForTransactionReceipt).toHaveBeenCalledTimes(2);
-
-    expect(setLoading).toHaveBeenCalledTimes(1);
-    expect(setLoading).toHaveBeenCalledWith(true);
-    expect(onSuccessAsync).toHaveBeenCalledTimes(1);
-    expect(onSuccessAsync).toHaveBeenCalledWith({});
-    expect(onStartAsync).toHaveBeenCalledTimes(2);
-    expect(onStartAsync).toHaveBeenNthCalledWith(1, 'approveTxHash');
-    expect(onStartAsync).toHaveBeenNthCalledWith(2, 'txHash');
   });
 
   it('should successfully use Permit2 approval process for `useAggregators`=false', async () => {
@@ -346,24 +253,8 @@ describe('processSwapTransaction', () => {
         gas: 0n,
       },
       quote: {
-        from: {
-          name: 'USDC',
-          address: '0x833589fcd6edb6e08f4c7c32d4f71b54bda02913',
-          symbol: 'USDC',
-          decimals: 6,
-          image:
-            'https://d3r81g40ycuhqg.cloudfront.net/wallet/wais/44/2b/442b80bd16af0c0d9b22e03a16753823fe826e5bfd457292b55fa0ba8c1ba213-ZWUzYjJmZGUtMDYxNy00NDcyLTg0NjQtMWI4OGEwYjBiODE2',
-          chainId: 8453,
-        },
-        to: {
-          address: '0x4ed4e862860bed51a9570b96d89af5e1b0efefed',
-          chainId: 8453,
-          decimals: 18,
-          image:
-            'https://d3r81g40ycuhqg.cloudfront.net/wallet/wais/3b/bf/3bbf118b5e6dc2f9e7fc607a6e7526647b4ba8f0bea87125f971446d57b296d2-MDNmNjY0MmEtNGFiZi00N2I0LWIwMTItMDUyMzg2ZDZhMWNm',
-          name: 'DEGEN',
-          symbol: 'DEGEN',
-        },
+        from: USDC_TOKEN,
+        to: DEGEN_TOKEN,
         fromAmount: '100000000000000',
         toAmount: '19395353519910973703',
         amountReference: 'from',
@@ -373,15 +264,7 @@ describe('processSwapTransaction', () => {
         warning: undefined,
       },
       fee: {
-        baseAsset: {
-          name: 'DEGEN',
-          address: '0x4ed4e862860bed51a9570b96d89af5e1b0efefed',
-          symbol: 'DEGEN',
-          decimals: 18,
-          image:
-            'https://d3r81g40ycuhqg.cloudfront.net/wallet/wais/3b/bf/3bbf118b5e6dc2f9e7fc607a6e7526647b4ba8f0bea87125f971446d57b296d2-MDNmNjY0MmEtNGFiZi00N2I0LWIwMTItMDUyMzg2ZDZhMWNm',
-          chainId: 8453,
-        },
+        baseAsset: DEGEN_TOKEN,
         percentage: '1',
         amount: '195912661817282562',
       },
@@ -402,31 +285,19 @@ describe('processSwapTransaction', () => {
         [sepolia.id]: http(),
       },
     });
-
     await processSwapTransaction({
-      swapTransaction,
       config,
-      setPendingTransaction,
-      setLoading,
       sendTransactionAsync: sendTransactionAsyncPermit2,
-      onSuccess,
-      onStart,
+      setLifeCycleStatus,
+      swapTransaction,
       useAggregator: false,
     });
-
-    expect(setPendingTransaction).toHaveBeenCalledTimes(6);
-    expect(setPendingTransaction).toHaveBeenCalledWith(true);
-    expect(setPendingTransaction).toHaveBeenCalledWith(false);
+    expect(setLifeCycleStatus).toHaveBeenCalledTimes(6);
+    expect(setLifeCycleStatus).toHaveBeenCalledWith({
+      statusName: 'transactionPending',
+      statusData: null,
+    });
     expect(sendTransactionAsyncPermit2).toHaveBeenCalledTimes(3);
     expect(waitForTransactionReceipt).toHaveBeenCalledTimes(3);
-
-    expect(setLoading).toHaveBeenCalledTimes(1);
-    expect(setLoading).toHaveBeenCalledWith(true);
-    expect(onSuccess).toHaveBeenCalledTimes(1);
-    expect(onSuccess).toHaveBeenCalledWith({});
-    expect(onStart).toHaveBeenCalledTimes(3);
-    expect(onStart).toHaveBeenNthCalledWith(1, 'approveTxHash');
-    expect(onStart).toHaveBeenNthCalledWith(2, 'permit2TxHash');
-    expect(onStart).toHaveBeenNthCalledWith(3, 'txHash');
   });
 });
