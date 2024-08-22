@@ -1,3 +1,4 @@
+import { ENVIRONMENT, ENVIRONMENT_VARIABLES } from '@/lib/constants';
 import {
   Swap,
   SwapAmountInput,
@@ -94,7 +95,11 @@ function SwapComponent() {
             token={usdcToken}
             type="to"
           />
-          <SwapButton disabled={true} />
+          <SwapButton
+            disabled={
+              ENVIRONMENT_VARIABLES[ENVIRONMENT.ENVIRONMENT] === 'production'
+            }
+          />
           <SwapMessage />
         </Swap>
       ) : (
