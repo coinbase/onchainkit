@@ -18,4 +18,18 @@ describe('isUserRejectedRequestError', () => {
     };
     expect(isUserRejectedRequestError(error)).toBe(false);
   });
+
+  it('should return true if error message includes User rejected the request.', () => {
+    const error = {
+      message: 'User rejected the request.',
+    };
+    expect(isUserRejectedRequestError(error)).toBe(true);
+  });
+
+  it('should return false if error message does not include User rejected the request.', () => {
+    const error = {
+      message: 'Error',
+    };
+    expect(isUserRejectedRequestError(error)).toBe(false);
+  });
 });

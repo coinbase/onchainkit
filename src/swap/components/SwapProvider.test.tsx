@@ -465,7 +465,7 @@ describe('SwapProvider', () => {
       expect(
         screen.getByTestId('context-value-lifeCycleStatus-statusData-code')
           .textContent,
-      ).toBe('TmSPc03');
+      ).toBe('TmSPc02');
     });
   });
 

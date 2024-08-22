@@ -6,10 +6,11 @@ import {
   useState,
 } from 'react';
 import { useConfig, useSendTransaction } from 'wagmi';
-import type { BaseError } from 'wagmi';
 import { useValue } from '../../internal/hooks/useValue';
 import { formatTokenAmount } from '../../internal/utils/formatTokenAmount';
 import type { Token } from '../../token';
+import { GENERIC_ERROR_MESSAGE } from '../../transaction/constants';
+import { isUserRejectedRequestError } from '../../transaction/utils/isUserRejectedRequestError';
 import { useFromTo } from '../hooks/useFromTo';
 import type {
   LifeCycleStatus,
@@ -18,7 +19,6 @@ import type {
 } from '../types';
 import { buildSwapTransaction } from '../utils/buildSwapTransaction';
 import { getSwapQuote } from '../utils/getSwapQuote';
-import { isReadyToSwap } from '../utils/isReadyToSwap';
 import { isSwapError } from '../utils/isSwapError';
 import { processSwapTransaction } from '../utils/processSwapTransaction';
 
@@ -171,7 +171,7 @@ export function SwapProvider({
   );
 
   const handleSubmit = useCallback(async () => {
-    if (!isReadyToSwap(address, from.token, to.token, from.amount)) {
+    if (!address || !from.token || !to.token || !from.amount) {
       return;
     }
     setLifeCycleStatus({
@@ -208,29 +208,18 @@ export function SwapProvider({
       });
 
       // TODO: refresh balances
-    } catch (e) {
-      const userRejected = (e as BaseError).message.includes(
-        'User rejected the request.',
-      );
-      if (userRejected) {
-        setLifeCycleStatus({
-          statusName: 'error',
-          statusData: {
-            code: 'TmSPc02',
-            error: 'User rejected the request.',
-            message: '',
-          },
-        });
-      } else {
-        setLifeCycleStatus({
-          statusName: 'error',
-          statusData: {
-            code: 'TmSPc03', // Transaction module SwapProvider component 02 error
-            error: JSON.stringify(e),
-            message: '',
-          },
-        });
-      }
+    } catch (err) {
+      const errorMessage = isUserRejectedRequestError(err)
+        ? 'Request denied.'
+        : GENERIC_ERROR_MESSAGE;
+      setLifeCycleStatus({
+        statusName: 'error',
+        statusData: {
+          code: 'TmSPc02', // Transaction module SwapProvider component 02 error
+          error: JSON.stringify(err),
+          message: errorMessage,
+        },
+      });
     }
   }, [
     address,
