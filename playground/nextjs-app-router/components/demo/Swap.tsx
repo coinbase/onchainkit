@@ -97,7 +97,7 @@ function SwapComponent() {
           />
           <SwapButton
             disabled={
-              ENVIRONMENT_VARIABLES[ENVIRONMENT.ENVIRONMENT] != 'preview'
+              ENVIRONMENT_VARIABLES[ENVIRONMENT.ENVIRONMENT] === 'production'
             }
           />
           <SwapMessage />
