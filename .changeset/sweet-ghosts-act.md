@@ -70,3 +70,37 @@ const handleOnStatus = useCallback((lifeCycleStatus: LifeCycleStatus) => {
   <SwapMessage />
 </Swap>
 ```
+
+The `onStatus` callback will expose
+```ts
+export type LifeCycleStatus =
+  | {
+      statusName: 'init';
+      statusData: null;
+    }
+  | {
+      statusName: 'error';
+      statusData: SwapError;
+    }
+  | {
+      statusName: 'amountChange';
+      statusData: null;
+    }
+  | {
+      statusName: 'transactionPending';
+      statusData: null;
+    }
+  | {
+      statusName: 'transactionApproved';
+      statusData: {
+        transactionHash: Hex;
+        transactionType: 'ERC20' | 'Permit2';
+      };
+    }
+  | {
+      statusName: 'success';
+      statusData: {
+        transactionReceipt: TransactionReceipt;
+      };
+    };
+```
