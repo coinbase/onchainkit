@@ -7,6 +7,7 @@ import { SwapButton } from './SwapButton';
 import { SwapMessage } from './SwapMessage';
 import { SwapProvider } from './SwapProvider';
 import { SwapToggleButton } from './SwapToggleButton';
+import { useIsMounted } from '../../useIsMounted';
 
 export function Swap({
   address,
@@ -25,6 +26,13 @@ export function Swap({
       swapMessage: childrenArray.find(findComponent(SwapMessage)),
     };
   }, [children]);
+
+  const isMounted = useIsMounted();
+
+  // prevents SSR hydration issue
+  if (!isMounted) {
+    return null;
+  }
 
   return (
     <SwapProvider

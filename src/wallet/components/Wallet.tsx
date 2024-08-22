@@ -4,6 +4,7 @@ import type { WalletReact } from '../types';
 import { ConnectWallet } from './ConnectWallet';
 import { WalletDropdown } from './WalletDropdown';
 import { WalletProvider, useWalletContext } from './WalletProvider';
+import { useIsMounted } from '../../useIsMounted';
 
 const WalletContent = ({ children }: WalletReact) => {
   const { isOpen, setIsOpen } = useWalletContext();
@@ -43,14 +44,10 @@ const WalletContent = ({ children }: WalletReact) => {
 };
 
 export const Wallet = ({ children }: WalletReact) => {
-  const [isClient, setIsClient] = useState(false);
-
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
+  const isMounted = useIsMounted();
 
   // prevents SSR hydration issue
-  if (!isClient) {
+  if (!isMounted) {
     return null;
   }
 
