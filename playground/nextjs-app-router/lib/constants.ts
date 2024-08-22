@@ -18,5 +18,5 @@ type EnvironmentKey = (typeof ENVIRONMENT)[keyof typeof ENVIRONMENT];
 
 export const ENVARS: Record<EnvironmentKey, string | undefined> = {
   [ENVIRONMENT.API_KEY]: process.env.NEXT_PUBLIC_OCK_API_KEY,
-  [ENVIRONMENT.ENVIRONMENT]: process.env.VERCEL_ENV,
+  [ENVIRONMENT.ENVIRONMENT]: process.env.NEXT_PUBLIC_VERCEL_ENV,
 };

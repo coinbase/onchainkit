@@ -95,9 +95,7 @@ function SwapComponent() {
             token={usdcToken}
             type="to"
           />
-          <SwapButton
-            disabled={ENVARS[ENVIRONMENT.ENVIRONMENT] != 'development'}
-          />
+          <SwapButton disabled={ENVARS[ENVIRONMENT.ENVIRONMENT] != 'preview'} />
           <SwapMessage />
         </Swap>
       ) : (
