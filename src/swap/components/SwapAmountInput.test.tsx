@@ -206,7 +206,6 @@ describe('SwapAmountInput', () => {
       typeof useSwapContext
     >;
     useSwapContextMock.mockReturnValue(mockContextValue);
-
     render(
       <SwapAmountInput
         label="From"
@@ -214,13 +213,11 @@ describe('SwapAmountInput', () => {
         swappableTokens={mockSwappableTokens}
       />,
     );
-
     const tokenSelectDropdown = screen.getByTestId(
       'mock-token-select-dropdown',
     );
     expect(tokenSelectDropdown).toBeDefined();
     expect(tokenSelectDropdown.textContent).toContain('USDC');
-
     fireEvent.click(tokenSelectDropdown);
     expect(mockContextValue.from.setToken).toHaveBeenCalledWith(USDC_TOKEN);
     expect(mockContextValue.handleAmountChange).toHaveBeenCalledWith(
@@ -228,9 +225,7 @@ describe('SwapAmountInput', () => {
       '10',
       USDC_TOKEN,
     );
-
     vi.clearAllMocks();
-
     fireEvent.keyDown(tokenSelectDropdown, { key: 'Enter' });
     expect(mockContextValue.from.setToken).toHaveBeenCalledWith(USDC_TOKEN);
     expect(mockContextValue.handleAmountChange).toHaveBeenCalledWith(
