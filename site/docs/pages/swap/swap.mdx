@@ -20,8 +20,7 @@ Before using them, ensure you've completed all [Getting Started steps](/getting-
 Example using `@coinbase/onchainkit/swap` and `@coinbase/onchainkit/wallet`.
 
 ```tsx
-import { useCallback } from 'react';
-import { Address, Name } from '@coinbase/onchainkit/identity';
+import { Name } from '@coinbase/onchainkit/identity';
 import { // [!code focus]
   Swap, // [!code focus]
   SwapAmountInput, // [!code focus]
@@ -29,36 +28,31 @@ import { // [!code focus]
   SwapButton, // [!code focus]
 } from '@coinbase/onchainkit/swap'; // [!code focus]
 import { Wallet, ConnectWallet } from '@coinbase/onchainkit/wallet';
-import { useAccount, useSendTransaction } from 'wagmi';
-import type { // [!code focus]
-  BuildSwapTransaction, // [!code focus]
-  SwapError, // [!code focus]
-} from '@coinbase/onchainkit/swap'; // [!code focus]
+import { useAccount } from 'wagmi';
 import type { Token } from '@coinbase/onchainkit/token';
 
 export default function SwapComponents() {
   const { address } = useAccount();
-  const { sendTransaction } = useSendTransaction();
 
-  const ETHToken: Token = {     
+  const ETHToken: Token = {
     address: "",
     chainId: 8453,
     decimals: 18,
     name: "Ethereum",
-    symbol: "ETH", 
-    };
+    symbol: "ETH",
+  };
 
-  const USDCToken: Token = { 
+  const USDCToken: Token = {
     address: "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
     chainId: 8453,
     decimals: 6,
     name: "USDC",
     symbol: "USDC",
-   };
+  };
 
   const swappableTokens: Token[] = [ ... ];
 
-  return ({ address ? (
+  return address ? (
     <Swap address={address}> // [!code focus]
       <SwapAmountInput // [!code focus]
         label="Sell" // [!code focus]
@@ -83,7 +77,7 @@ export default function SwapComponents() {
         <Name />
       </ConnectWallet>
     </Wallet>
-  )});
+  );
 }
 ```
 
