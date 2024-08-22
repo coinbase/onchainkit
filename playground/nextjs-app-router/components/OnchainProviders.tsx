@@ -1,6 +1,6 @@
 'use client';
 
-import { ENVARS, ENVIRONMENT } from '@/lib/constants';
+import { ENVIRONMENT, ENVIRONMENT_VARIABLES } from '@/lib/constants';
 import { OnchainKitProvider } from '@coinbase/onchainkit';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import type { ReactNode } from 'react';
@@ -34,7 +34,7 @@ function OnchainProviders({ children }: { children: ReactNode }) {
     <WagmiProvider config={config} reconnectOnMount={false}>
       <QueryClientProvider client={queryClient}>
         <OnchainKitProvider
-          apiKey={ENVARS[ENVIRONMENT.API_KEY]}
+          apiKey={ENVIRONMENT_VARIABLES[ENVIRONMENT.API_KEY]}
           chain={base}
           schemaId="0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9"
         >
