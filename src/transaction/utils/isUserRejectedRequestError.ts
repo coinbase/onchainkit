@@ -8,7 +8,7 @@ export function isUserRejectedRequestError(err: unknown) {
     return true;
   }
   if (
-    (err as TransactionExecutionError).message.includes(
+    (err as TransactionExecutionError)?.message?.includes(
       'User rejected the request.',
     )
   ) {
