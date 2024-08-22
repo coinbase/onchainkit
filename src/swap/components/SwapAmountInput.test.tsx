@@ -9,7 +9,22 @@ import { useSwapContext } from './SwapProvider';
 
 vi.mock('../../token', () => ({
   TokenChip: vi.fn(() => <div>TokenChip</div>),
-  TokenSelectDropdown: vi.fn(() => <div>TokenSelectDropdown</div>),
+  TokenSelectDropdown: vi.fn(({ setToken, options }) => (
+    <div
+      data-testid="mock-token-select-dropdown"
+      onClick={() => setToken(options[1])}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          setToken(options[1]);
+        }
+      }}
+      role="button"
+      tabIndex={0}
+    >
+      TokenSelectDropdown {mockSwappableTokens[1].symbol}
+    </div>
+  )),
 }));
 
 vi.mock('./SwapProvider', () => ({
@@ -182,8 +197,42 @@ describe('SwapAmountInput', () => {
         swappableTokens={mockSwappableTokens}
       />,
     );
-    const dropdown = screen.getByText('TokenSelectDropdown');
+    const dropdown = screen.getByText(/TokenSelectDropdown/i);
     expect(dropdown).toBeInTheDocument();
+  });
+
+  it('should correctly select a token from the dropdown using mouse and keyboard', () => {
+    const useSwapContextMock = useSwapContext as vi.MockedFunction<
+      typeof useSwapContext
+    >;
+    useSwapContextMock.mockReturnValue(mockContextValue);
+    render(
+      <SwapAmountInput
+        label="From"
+        type="from"
+        swappableTokens={mockSwappableTokens}
+      />,
+    );
+    const tokenSelectDropdown = screen.getByTestId(
+      'mock-token-select-dropdown',
+    );
+    expect(tokenSelectDropdown).toBeDefined();
+    expect(tokenSelectDropdown.textContent).toContain('USDC');
+    fireEvent.click(tokenSelectDropdown);
+    expect(mockContextValue.from.setToken).toHaveBeenCalledWith(USDC_TOKEN);
+    expect(mockContextValue.handleAmountChange).toHaveBeenCalledWith(
+      'from',
+      '10',
+      USDC_TOKEN,
+    );
+    vi.clearAllMocks();
+    fireEvent.keyDown(tokenSelectDropdown, { key: 'Enter' });
+    expect(mockContextValue.from.setToken).toHaveBeenCalledWith(USDC_TOKEN);
+    expect(mockContextValue.handleAmountChange).toHaveBeenCalledWith(
+      'from',
+      '10',
+      USDC_TOKEN,
+    );
   });
 
   it('should hasInsufficientBalance be true when balance is less than amount for type "from"', () => {
