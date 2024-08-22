@@ -1,10 +1,10 @@
 import { Children, useEffect, useMemo, useRef } from 'react';
 import { findComponent } from '../../internal/utils/findComponent';
+import { useIsMounted } from '../../useIsMounted';
 import type { WalletReact } from '../types';
 import { ConnectWallet } from './ConnectWallet';
 import { WalletDropdown } from './WalletDropdown';
 import { WalletProvider, useWalletContext } from './WalletProvider';
-import { useIsMounted } from '../../useIsMounted';
 
 const WalletContent = ({ children }: WalletReact) => {
   const { isOpen, setIsOpen } = useWalletContext();
