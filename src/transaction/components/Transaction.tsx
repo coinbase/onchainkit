@@ -1,4 +1,5 @@
 import { cn } from '../../styles/theme';
+import { useIsMounted } from '../../useIsMounted';
 import type { TransactionReact } from '../types';
 import { TransactionProvider } from './TransactionProvider';
 
@@ -12,6 +13,13 @@ export function Transaction({
   onStatus,
   onSuccess,
 }: TransactionReact) {
+  const isMounted = useIsMounted();
+
+  // prevents SSR hydration issue
+  if (!isMounted) {
+    return null;
+  }
+
   return (
     <TransactionProvider
       capabilities={capabilities}

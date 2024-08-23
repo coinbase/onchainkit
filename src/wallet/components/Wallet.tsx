@@ -1,5 +1,6 @@
 import { Children, useEffect, useMemo, useRef } from 'react';
 import { findComponent } from '../../internal/utils/findComponent';
+import { useIsMounted } from '../../useIsMounted';
 import type { WalletReact } from '../types';
 import { ConnectWallet } from './ConnectWallet';
 import { WalletDropdown } from './WalletDropdown';
@@ -43,6 +44,13 @@ const WalletContent = ({ children }: WalletReact) => {
 };
 
 export const Wallet = ({ children }: WalletReact) => {
+  const isMounted = useIsMounted();
+
+  // prevents SSR hydration issue
+  if (!isMounted) {
+    return null;
+  }
+
   return (
     <WalletProvider>
       <WalletContent>{children}</WalletContent>

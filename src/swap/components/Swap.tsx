@@ -1,6 +1,7 @@
 import { Children, useMemo } from 'react';
 import { findComponent } from '../../internal/utils/findComponent';
 import { background, cn, text } from '../../styles/theme';
+import { useIsMounted } from '../../useIsMounted';
 import type { SwapReact } from '../types';
 import { SwapAmountInput } from './SwapAmountInput';
 import { SwapButton } from './SwapButton';
@@ -27,6 +28,13 @@ export function Swap({
       swapMessage: childrenArray.find(findComponent(SwapMessage)),
     };
   }, [children]);
+
+  const isMounted = useIsMounted();
+
+  // prevents SSR hydration issue
+  if (!isMounted) {
+    return null;
+  }
 
   return (
     <SwapProvider
