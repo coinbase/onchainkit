@@ -1,11 +1,7 @@
-import { CDP_LIST_SWAP_ASSETS } from '../../network/definitions/swap';
-import { sendRequest } from '../../network/request';
-import type {
-  GetTokensError,
-  GetTokensOptions,
-  GetTokensResponse,
-  Token,
-} from '../types';
+import { CDP_LIST_SWAP_ASSETS } from '../network/definitions/swap';
+import { sendRequest } from '../network/request';
+import type { GetTokensError, Token } from '../token/types';
+import type { GetTokensOptions, GetTokensResponse } from './types';
 
 /**
  * Retrieves a list of tokens on Base.

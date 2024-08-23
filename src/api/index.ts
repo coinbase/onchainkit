@@ -3,4 +3,4 @@
 export { buildSwapTransaction } from '../swap/utils/buildSwapTransaction';
 export { getSwapQuote } from '../swap/utils/getSwapQuote';
 // Token
-export { getTokens } from '../token/utils/getTokens';
+export { getTokens } from './getTokens';

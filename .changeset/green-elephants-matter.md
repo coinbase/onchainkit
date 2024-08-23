@@ -2,4 +2,5 @@
 "@coinbase/onchainkit": patch
 ---
 
-- **fix**: Handle SSR hydration issues. @abcrane123 #1117
+- **feat**: moving `getTokens` under the API module. By @zizzamia
+- **fix**: handled SSR hydration issues. By @abcrane123 #1117
