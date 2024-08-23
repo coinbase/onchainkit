@@ -82,4 +82,21 @@ describe('useGetTokenBalance', () => {
       error: null,
     });
   });
+
+  it('should return empty balance when address is undefined', () => {
+    (useReadContract as Mock).mockReturnValue({
+      data: null,
+      error: null,
+    });
+    const { result } = renderHook(() =>
+      useGetTokenBalance(undefined, USDC_TOKEN),
+    );
+    expect(result.current.convertedBalance).toBe('');
+    expect(result.current.roundedBalance).toBe('');
+    expect(result.current.error).toBeUndefined();
+    expect(result.current.response).toEqual({
+      data: null,
+      error: null,
+    });
+  });
 });
