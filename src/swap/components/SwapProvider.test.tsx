@@ -209,6 +209,33 @@ describe('SwapProvider', () => {
     });
   });
 
+  it('should call setError when setLifeCycleStatus is called with error', async () => {
+    const { result } = renderHook(() => useSwapContext(), { wrapper });
+    const errorStatusData = {
+      code: 'code',
+      error: 'error_long_messages',
+      message: 'test',
+    };
+    await act(async () => {
+      result.current.setLifeCycleStatus({
+        statusName: 'error',
+        statusData: errorStatusData,
+      });
+    });
+    expect(result.current.error).toBe(errorStatusData);
+  });
+
+  it('should call setError with undefined when setLifeCycleStatus is called with success', async () => {
+    const { result } = renderHook(() => useSwapContext(), { wrapper });
+    await act(async () => {
+      result.current.setLifeCycleStatus({
+        statusName: 'success',
+        statusData: { receipt: ['0x123'] },
+      });
+    });
+    expect(result.current.error).toBeUndefined();
+  });
+
   it('should emit onError when setLifeCycleStatus is called with error', async () => {
     const onErrorMock = vi.fn();
     renderWithProviders({ Component: TestSwapComponent, onError: onErrorMock });
