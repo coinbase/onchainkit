@@ -55,6 +55,7 @@ For documentation and guides, visit [onchainkit.xyz](https://onchainkit.xyz/).
 - [Shelley Lai](https://github.com/0xchiaroscuro) ([X](https://twitter.com/hey_shells), [Warpcast](https://warpcast.com/chiaroscuro))
 - [Ky Lee](https://github.com/kyhyco)
 - [Léo Galley](https://github.com/kirkas)
+- [Adam Lessey](https://github.com/alessey) ([X](https://twitter.com/alessey))
 
 ## License
 
