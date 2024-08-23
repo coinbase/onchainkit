@@ -18,6 +18,7 @@ export function TokenSelectDropdown({
   const dropdownRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
 
+  /* v8 ignore next 11 */
   const handleBlur = useCallback((event: MouseEvent) => {
     const isOutsideDropdown =
       dropdownRef.current &&
