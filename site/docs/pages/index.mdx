@@ -200,7 +200,6 @@ bun add @coinbase/onchainkit
     <div className="w-[664px] max-w-full">
 ```tsx
 <Transaction
-  address={address}
   chainId={base.id}
   contracts={[
     {
@@ -232,7 +231,6 @@ bun add @coinbase/onchainkit
             if (address) {
               return (
                 <Transaction
-                  address={address}
                   capabilities={capabilities}
                   chainId={84532}
                   contracts={contracts}
@@ -279,7 +277,7 @@ bun add @coinbase/onchainkit
     <div className="flex grow flex-col items-center md:flex-row pt-[44px] md:pt-[20px]">
       <div className="w-[664px] max-w-full">
 ```tsx
-<Swap address={address}>
+<Swap>
   <SwapAmountInput
     label="Sell"
     swappableTokens={swappableTokens}
@@ -304,7 +302,7 @@ bun add @coinbase/onchainkit
     {({ address, swappableTokens }) => {
       if (address) {
         return (
-          <Swap address={address}>
+          <Swap>
             <SwapAmountInput
               label="Sell"
               swappableTokens={swappableTokens}
