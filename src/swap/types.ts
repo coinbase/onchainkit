@@ -2,9 +2,8 @@ import type { Dispatch, ReactNode, SetStateAction } from 'react';
 import type { Address, Hex, TransactionReceipt } from 'viem';
 import type { Config } from 'wagmi';
 import type { SendTransactionMutateAsync } from 'wagmi/query';
+import type { RawTransactionData } from '../api/types';
 import type { Token } from '../token/types';
-
-export type AddressOrETH = Address | 'ETH';
 
 /**
  * Note: exported as public Type
@@ -25,53 +24,11 @@ export type BuildSwapTransactionResponse = BuildSwapTransaction | SwapError;
 /**
  * Note: exported as public Type
  */
-export type BuildSwapTransactionParams = GetSwapQuoteParams & {
-  fromAddress: Address; // The address of the user
-};
-
-/**
- * Note: exported as public Type
- */
 export type Fee = {
   amount: string; // The amount of the fee
   baseAsset: Token; // The base asset for the fee
   percentage: string; // The percentage of the fee
 };
-
-export type GetAPIParamsForToken =
-  | GetSwapQuoteParams
-  | BuildSwapTransactionParams;
-
-export type GetQuoteAPIParams = {
-  amount: string; // The amount to be swapped
-  amountReference?: string; // The reference amount for the swap
-  from: AddressOrETH | ''; // The source address or 'ETH' for Ethereum
-  to: AddressOrETH | ''; // The destination address or 'ETH' for Ethereum
-  v2Enabled?: boolean; // Whether to use V2 of the API (default: false)
-  slippagePercentage?: string; // The slippage percentage for the swap
-};
-
-export type GetSwapAPIParams = GetQuoteAPIParams & {
-  fromAddress: Address; // The address of the user
-};
-
-/**
- * Note: exported as public Type
- */
-export type GetSwapQuoteParams = {
-  amount: string; // The amount to be swapped
-  amountReference?: string; // The reference amount for the swap
-  from: Token; // The source token for the swap
-  isAmountInDecimals?: boolean; // Whether the amount is in decimals
-  maxSlippage?: string; // The slippage of the swap
-  to: Token; // The destination token for the swap
-  useAggregator: boolean; // Whether to use a DEX aggregator
-};
-
-/**
- * Note: exported as public Type
- */
-export type GetSwapQuoteResponse = SwapQuote | SwapError;
 
 export type GetSwapMessageParams = {
   error?: SwapError;
@@ -135,15 +92,6 @@ export type ProcessSwapTransactionParams = {
   useAggregator: boolean;
 };
 
-export type RawTransactionData = {
-  data: string; // The transaction data
-  from: string; // The sender address
-  gas: string; // The gas limit
-  gasPrice: string; // The gas price
-  to: string; // The recipient address
-  value: string; // The value of the transaction
-};
-
 /**
  * Note: exported as public Type
  */
@@ -155,8 +103,6 @@ export type SwapAmountInputReact = {
   token?: Token; // Selected token
   type: 'to' | 'from'; // Identifies if component is for toToken or fromToken
 };
-
-export type SwapAPIParams = GetQuoteAPIParams | GetSwapAPIParams;
 
 export type SwapAPIResponse = {
   approveTx?: RawTransactionData; // The approval transaction

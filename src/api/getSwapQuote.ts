@@ -1,14 +1,14 @@
-import { CDP_GET_SWAP_QUOTE } from '../../network/definitions/swap';
-import { sendRequest } from '../../network/request';
+import { CDP_GET_SWAP_QUOTE } from '../network/definitions/swap';
+import { sendRequest } from '../network/request';
+import type { SwapQuote } from '../swap/types';
+import { getSwapErrorCode } from '../swap/utils/getSwapErrorCode';
 import type {
+  APIError,
   GetSwapQuoteParams,
   GetSwapQuoteResponse,
   SwapAPIParams,
-  SwapError,
-  SwapQuote,
-} from '../types';
-import { getAPIParamsForToken } from './getAPIParamsForToken';
-import { getSwapErrorCode } from './getSwapErrorCode';
+} from './types';
+import { getAPIParamsForToken } from './utils/getAPIParamsForToken';
 
 /**
  * Retrieves a quote for a swap from Token A to Token B.
@@ -25,8 +25,8 @@ export async function getSwapQuote(
     ...defaultParams,
     ...params,
   });
-  if ((apiParamsOrError as SwapError).error) {
-    return apiParamsOrError as SwapError;
+  if ((apiParamsOrError as APIError).error) {
+    return apiParamsOrError as APIError;
   }
   let apiParams = apiParamsOrError as SwapAPIParams;
 

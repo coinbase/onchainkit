@@ -6,6 +6,8 @@ import {
   useState,
 } from 'react';
 import { useAccount, useConfig, useSendTransaction } from 'wagmi';
+import { buildSwapTransaction } from '../../api/buildSwapTransaction';
+import { getSwapQuote } from '../../api/getSwapQuote';
 import { useValue } from '../../internal/hooks/useValue';
 import { formatTokenAmount } from '../../internal/utils/formatTokenAmount';
 import type { Token } from '../../token';
@@ -17,8 +19,6 @@ import type {
   SwapContextType,
   SwapProviderReact,
 } from '../types';
-import { buildSwapTransaction } from '../utils/buildSwapTransaction';
-import { getSwapQuote } from '../utils/getSwapQuote';
 import { isSwapError } from '../utils/isSwapError';
 import { processSwapTransaction } from '../utils/processSwapTransaction';
 
