@@ -1,15 +1,15 @@
-import { CDP_GET_SWAP_TRADE } from '../../network/definitions/swap';
-import { sendRequest } from '../../network/request';
+import { CDP_GET_SWAP_TRADE } from '../network/definitions/swap';
+import { sendRequest } from '../network/request';
+import type { BuildSwapTransactionResponse } from '../swap';
+import type { SwapAPIResponse } from '../swap/types';
+import { getSwapErrorCode } from '../swap/utils/getSwapErrorCode';
 import type {
+  APIError,
   BuildSwapTransactionParams,
-  BuildSwapTransactionResponse,
   SwapAPIParams,
-  SwapAPIResponse,
-  SwapError,
-} from '../types';
-import { getAPIParamsForToken } from './getAPIParamsForToken';
-import { getSwapErrorCode } from './getSwapErrorCode';
-import { getSwapTransaction } from './getSwapTransaction';
+} from './types';
+import { getAPIParamsForToken } from './utils/getAPIParamsForToken';
+import { getSwapTransaction } from './utils/getSwapTransaction';
 
 /**
  * Retrieves an unsigned transaction for a swap from Token A to Token B.
@@ -27,8 +27,8 @@ export async function buildSwapTransaction(
     ...defaultParams,
     ...params,
   });
-  if ((apiParamsOrError as SwapError).error) {
-    return apiParamsOrError as SwapError;
+  if ((apiParamsOrError as APIError).error) {
+    return apiParamsOrError as APIError;
   }
   let apiParams = apiParamsOrError as SwapAPIParams;
 

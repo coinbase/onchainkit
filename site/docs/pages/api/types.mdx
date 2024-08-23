@@ -1,0 +1,42 @@
+---
+title: API types
+description: Glossary of Types.
+---
+
+# Types [Glossary of Types in APIs.]
+
+## `APIError`
+
+```ts
+type APIError = {
+  code: string; // The Error code
+  error: string; // The Error long message
+  message: string; // The Error short message
+};
+```
+
+## `GetTokensOptions`
+
+```ts
+type GetTokensOptions = {
+  code: string; // The Error code
+  error: string; // The Error long message
+  message: string; // The Error short message
+};
+```
+
+## `GetTokensOptions`
+
+```ts
+type GetTokensOptions = {
+  limit?: string; // The maximum number of tokens to return (default: 50)
+  search?: string; // A string to search for in the token name, symbol or address
+  page?: string; // The page number to return (default: 1)
+};
+```
+
+## `GetTokensResponse`
+
+```ts
+type GetTokensResponse = Token[] | APIError;
+```

@@ -1,5 +1,5 @@
 import type { Address, Hex } from 'viem';
-import type { RawTransactionData, Transaction } from '../types';
+import type { RawTransactionData, Transaction } from '../../swap/types';
 
 /**
  * Constructs an unsigned transaction.
