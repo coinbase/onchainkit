@@ -49,7 +49,7 @@ export function SwapProvider({
   // Core Hooks
   const config = useConfig();
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<SwapError | null>();
+  const [error, setError] = useState<SwapError>();
   const [isTransactionPending, setPendingTransaction] = useState(false);
   const [lifeCycleStatus, setLifeCycleStatus] = useState<LifeCycleStatus>({
     statusName: 'init',
@@ -68,7 +68,7 @@ export function SwapProvider({
       onError?.(lifeCycleStatus.statusData);
     }
     if (lifeCycleStatus.statusName === 'amountChange') {
-      setError(null);
+      setError(undefined);
     }
     if (lifeCycleStatus.statusName === 'transactionPending') {
       setLoading(true);
