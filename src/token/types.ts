@@ -18,14 +18,6 @@ export type FormatAmountResponse = string; // See Number.prototype.toLocaleStrin
 /**
  * Note: exported as public Type
  */
-export type GetTokensError = {
-  code: number; // The Error code
-  error: string; // The Error message
-};
-
-/**
- * Note: exported as public Type
- */
 export type Token = {
   address: Address | ''; // The address of the token contract, this value will be empty for native ETH
   chainId: number; // The chain id of the token contract

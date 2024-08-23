@@ -1,6 +1,6 @@
 import { CDP_LIST_SWAP_ASSETS } from '../network/definitions/swap';
 import { sendRequest } from '../network/request';
-import type { GetTokensError, Token } from '../token/types';
+import type { Token } from '../token/types';
 import type { GetTokensOptions, GetTokensResponse } from './types';
 
 /**
@@ -14,7 +14,6 @@ export async function getTokens(
     limit: '50',
     page: '1',
   };
-
   const filters = { ...defaultFilter, ...options };
 
   try {
@@ -24,12 +23,17 @@ export async function getTokens(
     );
     if (res.error) {
       return {
-        code: res.error.code,
-        error: res.error.message,
-      } as GetTokensError;
+        code: 'AmGTa01',
+        error: res.error.code.toString(),
+        message: res.error.message,
+      };
     }
     return res.result;
   } catch (error) {
-    throw new Error(`getTokens: ${error}`);
+    return {
+      code: 'AmGTa02', // Api module Get Tokens api Error O2
+      error: JSON.stringify(error),
+      message: 'Request failed',
+    };
   }
 }

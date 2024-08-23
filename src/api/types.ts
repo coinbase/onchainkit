@@ -1,4 +1,13 @@
-import type { GetTokensError, Token } from '../token/types';
+import type { Token } from '../token/types';
+
+/**
+ * Note: exported as public Type
+ */
+export type APIError = {
+  code: string; // The Error code
+  error: string; // The Error long message
+  message: string; // The Error short message
+};
 
 /**
  * Note: exported as public Type
@@ -12,4 +21,4 @@ export type GetTokensOptions = {
 /**
  * Note: exported as public Type
  */
-export type GetTokensResponse = Token[] | GetTokensError;
+export type GetTokensResponse = Token[] | APIError;

@@ -7,7 +7,6 @@ export { TokenSelectDropdown } from './components/TokenSelectDropdown';
 export { TokenSelectModal } from './components/TokenSelectModal';
 export { formatAmount } from './utils/formatAmount';
 export type {
-  GetTokensError,
   Token,
   TokenChipReact,
   TokenRowReact,

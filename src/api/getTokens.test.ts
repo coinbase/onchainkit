@@ -104,8 +104,9 @@ describe('getTokens', () => {
     });
     const error = await getTokens();
     expect(error).toEqual({
-      code: -1,
-      error: 'Request failed',
+      code: 'AmGTa01',
+      error: '-1',
+      message: 'Request failed',
     });
     expect(sendRequest).toHaveBeenCalledTimes(1);
     expect(sendRequest).toHaveBeenCalledWith(CDP_LIST_SWAP_ASSETS, [
@@ -118,9 +119,12 @@ describe('getTokens', () => {
       'getTokens: error retrieving tokens: Token retrieval failed',
     );
     (sendRequest as vi.Mock).mockRejectedValue(mockError);
-    await expect(getTokens()).rejects.toThrow(
-      'getTokens: error retrieving tokens: Token retrieval failed',
-    );
+    const error = await getTokens();
+    expect(error).toEqual({
+      code: 'AmGTa02',
+      error: JSON.stringify(mockError),
+      message: 'Request failed',
+    });
     expect(sendRequest).toHaveBeenCalledTimes(1);
     expect(sendRequest).toHaveBeenCalledWith(CDP_LIST_SWAP_ASSETS, [
       { limit: '50', page: '1' },
