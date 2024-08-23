@@ -87,7 +87,6 @@ function SwapComponent() {
       )}
       {address ? (
         <Swap
-          address={address}
           className="border bg-[#ffffff]"
           onStatus={handleOnStatus}
         >
