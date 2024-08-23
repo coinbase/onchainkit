@@ -27,7 +27,7 @@ export function WalletDropdownDisconnect({
       <div className="absolute left-4 flex h-[1.125rem] w-[1.125rem] items-center justify-center">
         {disconnectSvg}
       </div>
-      <span className={cn(dsText.body, 'pl-8')}>{text}</span>
+      <span className={cn(dsText.body, 'pl-6')}>{text}</span>
     </button>
   );
 }
