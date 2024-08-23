@@ -1,14 +1,14 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { CDP_GET_SWAP_QUOTE } from '../../network/definitions/swap';
-import { sendRequest } from '../../network/request';
-import { DEGEN_TOKEN, ETH_TOKEN } from '../mocks';
-import { getAPIParamsForToken } from './getAPIParamsForToken';
+import { CDP_GET_SWAP_QUOTE } from '../network/definitions/swap';
+import { sendRequest } from '../network/request';
+import { DEGEN_TOKEN, ETH_TOKEN } from '../swap/mocks';
 /**
  * @vitest-environment node
  */
 import { getSwapQuote } from './getSwapQuote';
+import { getAPIParamsForToken } from './utils/getAPIParamsForToken';
 
-vi.mock('../../network/request');
+vi.mock('../network/request');
 
 const testAmount = '3305894409732200';
 const testAmountReference = 'from';

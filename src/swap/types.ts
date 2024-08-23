@@ -91,15 +91,6 @@ export type ProcessSwapTransactionParams = {
   useAggregator: boolean;
 };
 
-export type RawTransactionData = {
-  data: string; // The transaction data
-  from: string; // The sender address
-  gas: string; // The gas limit
-  gasPrice: string; // The gas price
-  to: string; // The recipient address
-  value: string; // The value of the transaction
-};
-
 /**
  * Note: exported as public Type
  */

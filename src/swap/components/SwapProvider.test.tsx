@@ -11,17 +11,17 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { http, WagmiProvider, createConfig, useAccount } from 'wagmi';
 import { base } from 'wagmi/chains';
 import { mock } from 'wagmi/connectors';
+import { buildSwapTransaction } from '../../api/buildSwapTransaction';
+import { getSwapQuote } from '../../api/getSwapQuote';
 import { DEGEN_TOKEN, ETH_TOKEN } from '../mocks';
-import { buildSwapTransaction } from '../utils/buildSwapTransaction';
 import { getSwapErrorCode } from '../utils/getSwapErrorCode';
-import { getSwapQuote } from '../utils/getSwapQuote';
 import { SwapProvider, useSwapContext } from './SwapProvider';
 
-vi.mock('../utils/getSwapQuote', () => ({
+vi.mock('../../api/getSwapQuote', () => ({
   getSwapQuote: vi.fn(),
 }));
 
-vi.mock('../utils/buildSwapTransaction', () => ({
+vi.mock('../../api/buildSwapTransaction', () => ({
   buildSwapTransaction: vi
     .fn()
     .mockRejectedValue(new Error('buildSwapTransaction')),

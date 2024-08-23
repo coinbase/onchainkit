@@ -69,4 +69,13 @@ export type GetTokensOptions = {
  */
 export type GetTokensResponse = Token[] | APIError;
 
+export type RawTransactionData = {
+  data: string; // The transaction data
+  from: string; // The sender address
+  gas: string; // The gas limit
+  gasPrice: string; // The gas price
+  to: string; // The recipient address
+  value: string; // The value of the transaction
+};
+
 export type SwapAPIParams = GetQuoteAPIParams | GetSwapAPIParams;
