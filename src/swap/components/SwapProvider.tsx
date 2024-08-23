@@ -76,6 +76,7 @@ export function SwapProvider({
     }
     // Success
     if (lifeCycleStatus.statusName === 'success') {
+      setError(undefined);
       setLoading(false);
       setPendingTransaction(false);
       onSuccess?.(lifeCycleStatus.statusData.transactionReceipt);
