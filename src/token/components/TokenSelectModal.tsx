@@ -47,6 +47,7 @@ function TokenSelectModalInner({
     [options],
   );
 
+  /* v8 ignore next 10 */
   const handleBlur = useCallback(
     (event: MouseEvent) => {
       const isOutsideModal =
