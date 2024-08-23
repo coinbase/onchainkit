@@ -10,7 +10,7 @@ import type { UseGetETHBalanceResponse } from '../types';
 
 const ETH_DECIMALS = 18;
 
-export function useGetETHBalance(address: Address): UseGetETHBalanceResponse {
+export function useGetETHBalance(address?: Address): UseGetETHBalanceResponse {
   const ethBalanceResponse: UseBalanceReturnType = useBalance({ address });
 
   return useMemo(() => {

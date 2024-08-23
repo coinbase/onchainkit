@@ -10,7 +10,6 @@ import { SwapProvider } from './SwapProvider';
 import { SwapToggleButton } from './SwapToggleButton';
 
 export function Swap({
-  address,
   children,
   className,
   experimental = { useAggregator: true },
@@ -38,7 +37,6 @@ export function Swap({
 
   return (
     <SwapProvider
-      address={address}
       experimental={experimental}
       onError={onError}
       onStatus={onStatus}
