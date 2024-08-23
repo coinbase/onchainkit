@@ -17,6 +17,7 @@ import { useFromTo } from '../hooks/useFromTo';
 import type {
   LifeCycleStatus,
   SwapContextType,
+  SwapError,
   SwapProviderReact,
 } from '../types';
 import { isSwapError } from '../utils/isSwapError';
@@ -48,6 +49,7 @@ export function SwapProvider({
   // Core Hooks
   const config = useConfig();
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<SwapError>();
   const [isTransactionPending, setPendingTransaction] = useState(false);
   const [lifeCycleStatus, setLifeCycleStatus] = useState<LifeCycleStatus>({
     statusName: 'init',
@@ -62,6 +64,7 @@ export function SwapProvider({
     if (lifeCycleStatus.statusName === 'error') {
       setLoading(false);
       setPendingTransaction(false);
+      setError(lifeCycleStatus.statusData);
       onError?.(lifeCycleStatus.statusData);
     }
     if (lifeCycleStatus.statusName === 'transactionPending') {
@@ -233,6 +236,7 @@ export function SwapProvider({
   ]);
 
   const value = useValue({
+    error,
     from,
     loading,
     handleAmountChange,
