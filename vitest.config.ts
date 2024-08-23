@@ -23,10 +23,10 @@ export default defineConfig({
       ],
       reportOnFailure: true,
       thresholds: {
-        statements: 99.75,
-        branches: 99.81,
+        statements: 100,
+        branches: 99.86,
         functions: 100,
-        lines: 99.75,
+        lines: 100,
       },
     },
     environment: 'jsdom',
