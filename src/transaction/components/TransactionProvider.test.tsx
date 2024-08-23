@@ -5,6 +5,7 @@ import {
   useSwitchChain,
   useWaitForTransactionReceipt,
 } from 'wagmi';
+import { waitForTransactionReceipt } from 'wagmi/actions';
 import { METHOD_NOT_SUPPORTED_ERROR_SUBSTRING } from '../constants';
 import { useCallsStatus } from '../hooks/useCallsStatus';
 import { useWriteContract } from '../hooks/useWriteContract';
@@ -19,6 +20,10 @@ vi.mock('wagmi', () => ({
   useSwitchChain: vi.fn(),
   useWaitForTransactionReceipt: vi.fn(),
   useConfig: vi.fn(),
+  waitForTransactionReceipt: vi.fn(),
+}));
+
+vi.mock('wagmi/actions', () => ({
   waitForTransactionReceipt: vi.fn(),
 }));
 
@@ -51,6 +56,15 @@ const TestComponent = () => {
       },
     });
   };
+  const handleStatusTransactionLegacyExecutedMultipleContracts = async () => {
+    context.setLifeCycleStatus({
+      statusName: 'transactionLegacyExecuted',
+      statusData: {
+        transactionHashList: ['hash12345678', 'hash12345678'],
+      },
+    });
+  };
+
   return (
     <div data-testid="test-component">
       <button type="button" onClick={context.onSubmit}>
@@ -71,6 +85,12 @@ const TestComponent = () => {
       </button>
       <button type="button" onClick={handleStatusTransactionLegacyExecuted}>
         setLifeCycleStatus.transactionLegacyExecuted
+      </button>
+      <button
+        type="button"
+        onClick={handleStatusTransactionLegacyExecutedMultipleContracts}
+      >
+        setLifeCycleStatus.transactionLegacyExecutedMultipleContracts
       </button>
     </div>
   );
@@ -167,6 +187,59 @@ describe('TransactionProvider', () => {
       expect(onSuccessMock).toHaveBeenCalledWith({
         transactionReceipts: [{ status: 'success' }],
       });
+    });
+  });
+
+  it('should emit onSuccess for multiple contracts using legacy transactions', async () => {
+    const onSuccessMock = vi.fn();
+    (waitForTransactionReceipt as ReturnType<typeof vi.fn>).mockReturnValue(
+      'hash12345678',
+    );
+    render(
+      <TransactionProvider
+        contracts={[
+          { address: '0x123', method: 'method' },
+          { address: '0x123', method: 'method' },
+        ]}
+        onSuccess={onSuccessMock}
+      >
+        <TestComponent />
+      </TransactionProvider>,
+    );
+    const button = screen.getByText(
+      'setLifeCycleStatus.transactionLegacyExecutedMultipleContracts',
+    );
+    fireEvent.click(button);
+    await waitFor(() => {
+      expect(onSuccessMock).toHaveBeenCalled();
+      expect(onSuccessMock).toHaveBeenCalledWith({
+        transactionReceipts: ['hash12345678', 'hash12345678'],
+      });
+    });
+  });
+
+  it('should emit onError when legacy transactions fail', async () => {
+    const onErrorMock = vi.fn();
+    (waitForTransactionReceipt as ReturnType<typeof vi.fn>).mockRejectedValue(
+      new Error('error getting transaction receipt'),
+    );
+    render(
+      <TransactionProvider
+        contracts={[
+          { address: '0x123', method: 'method' },
+          { address: '0x123', method: 'method' },
+        ]}
+        onError={onErrorMock}
+      >
+        <TestComponent />
+      </TransactionProvider>,
+    );
+    const button = screen.getByText(
+      'setLifeCycleStatus.transactionLegacyExecutedMultipleContracts',
+    );
+    fireEvent.click(button);
+    await waitFor(() => {
+      expect(onErrorMock).toHaveBeenCalled();
     });
   });
 
@@ -287,20 +360,6 @@ describe('TransactionProvider', () => {
     await waitFor(() => {
       const testComponent = screen.getByTestId('context-value-isToastVisible');
       expect(testComponent.textContent).toBe('true');
-    });
-  });
-
-  it('should not fetch receipts if contract list is empty', async () => {
-    const waitForTransactionReceiptMock = vi.fn();
-    render(
-      <TransactionProvider contracts={[]}>
-        <TestComponent />
-      </TransactionProvider>,
-    );
-    const button = screen.getByText('Submit');
-    fireEvent.click(button);
-    await waitFor(() => {
-      expect(waitForTransactionReceiptMock).not.toHaveBeenCalled();
     });
   });
 
