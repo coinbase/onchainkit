@@ -2,6 +2,7 @@ import type { Dispatch, ReactNode, SetStateAction } from 'react';
 import type { Address, Hex, TransactionReceipt } from 'viem';
 import type { Config } from 'wagmi';
 import type { SendTransactionMutateAsync } from 'wagmi/query';
+import type { RawTransactionData } from '../api/types';
 import type { Token } from '../token/types';
 
 /**
