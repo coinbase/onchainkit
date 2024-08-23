@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 import type { ChangeEvent } from 'react';
 import { useDebounce } from '../hooks/useDebounce';
 
-type TextInputReact = {
+export type TextInputReact = {
   className: string;
   delayMs: number;
   disabled?: boolean;

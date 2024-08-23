@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo } from 'react';
-import { TextInput } from '../../internal/components/TextInput';
+import { ScaledTextInput } from '../../internal/components/ScaledTextInput';
 import { useValue } from '../../internal/hooks/useValue';
 import { getRoundedAmount } from '../../internal/utils/getRoundedAmount';
 import { isValidAmount } from '../../internal/utils/isValidAmount';
@@ -78,7 +78,7 @@ export function SwapAmountInput({
         <span className={cn(text.label2, color.foregroundMuted)}>{label}</span>
       </div>
       <div className="flex w-full items-center justify-between">
-        <TextInput
+        <ScaledTextInput
           className={cn(
             'w-full border-[none] bg-transparent font-display text-[2.5rem]',
             'leading-none outline-none',
