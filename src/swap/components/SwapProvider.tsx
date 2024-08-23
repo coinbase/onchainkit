@@ -67,6 +67,9 @@ export function SwapProvider({
       setError(lifeCycleStatus.statusData);
       onError?.(lifeCycleStatus.statusData);
     }
+    if (lifeCycleStatus.statusName === 'amountChange') {
+      setError(undefined);
+    }
     if (lifeCycleStatus.statusName === 'transactionPending') {
       setLoading(true);
       setPendingTransaction(true);
