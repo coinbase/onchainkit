@@ -235,7 +235,6 @@ export type SwapParams = {
 };
 
 export type SwapProviderReact = {
-  address: Address;
   children: React.ReactNode;
   experimental: {
     useAggregator: boolean; // Whether to use a DEX aggregator. (default: true)
@@ -250,7 +249,6 @@ export type SwapProviderReact = {
  * Note: exported as public Type
  */
 export type SwapReact = {
-  address: Address; // Connected address from connector.
   children: ReactNode;
   className?: string; // Optional className override for top div element.
   experimental?: {

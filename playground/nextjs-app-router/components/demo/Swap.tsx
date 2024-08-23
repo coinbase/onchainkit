@@ -86,11 +86,7 @@ function SwapComponent() {
         </div>
       )}
       {address ? (
-        <Swap
-          address={address}
-          className="border bg-[#ffffff]"
-          onStatus={handleOnStatus}
-        >
+        <Swap className="border bg-[#ffffff]" onStatus={handleOnStatus}>
           <SwapAmountInput
             label="Sell"
             swappableTokens={swappableTokens}

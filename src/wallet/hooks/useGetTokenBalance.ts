@@ -10,14 +10,14 @@ import type { Token } from '../../token';
 import type { UseGetTokenBalanceResponse } from '../types';
 
 export function useGetTokenBalance(
-  address: Address,
+  address?: Address,
   token?: Token,
 ): UseGetTokenBalanceResponse {
   const tokenBalanceResponse: UseReadContractReturnType = useReadContract({
     abi: erc20Abi,
     address: token?.address as Address,
     functionName: 'balanceOf',
-    args: [address],
+    args: address ? [address] : [],
     query: {
       enabled: !!token?.address && !!address,
     },

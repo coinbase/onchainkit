@@ -5,7 +5,7 @@ import {
   useEffect,
   useState,
 } from 'react';
-import { useConfig, useSendTransaction } from 'wagmi';
+import { useAccount, useConfig, useSendTransaction } from 'wagmi';
 import { useValue } from '../../internal/hooks/useValue';
 import { formatTokenAmount } from '../../internal/utils/formatTokenAmount';
 import type { Token } from '../../token';
@@ -35,13 +35,13 @@ export function useSwapContext() {
 }
 
 export function SwapProvider({
-  address,
   children,
   experimental,
   onError,
   onStatus,
   onSuccess,
 }: SwapProviderReact) {
+  const { address } = useAccount();
   // Feature flags
   const { useAggregator } = experimental;
 

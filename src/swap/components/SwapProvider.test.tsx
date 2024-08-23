@@ -8,7 +8,7 @@ import {
 } from '@testing-library/react';
 import React, { act, useEffect } from 'react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { http, WagmiProvider, createConfig } from 'wagmi';
+import { http, WagmiProvider, createConfig, useAccount } from 'wagmi';
 import { base } from 'wagmi/chains';
 import { mock } from 'wagmi/connectors';
 import { DEGEN_TOKEN, ETH_TOKEN } from '../mocks';
@@ -31,6 +31,13 @@ vi.mock('../utils/processSwapTransaction', () => ({
   processSwapTransaction: vi.fn(),
 }));
 
+vi.mock('wagmi', async (importOriginal) => {
+  return {
+    ...(await importOriginal<typeof import('wagmi')>()),
+    useAccount: vi.fn(),
+  };
+});
+
 const queryClient = new QueryClient();
 
 const config = createConfig({
@@ -52,10 +59,7 @@ const config = createConfig({
 const wrapper = ({ children }) => (
   <WagmiProvider config={config}>
     <QueryClientProvider client={queryClient}>
-      <SwapProvider
-        address="0x1234567890123456789012345678901234567890"
-        experimental={{ useAggregator: true, maxSlippage: 5 }}
-      >
+      <SwapProvider experimental={{ useAggregator: true, maxSlippage: 5 }}>
         {children}
       </SwapProvider>
     </QueryClientProvider>
@@ -68,13 +72,11 @@ const renderWithProviders = ({
   onStatus = vi.fn(),
   onSuccess = vi.fn(),
 }) => {
-  const mockAddress = '0x1234567890123456789012345678901234567890';
   const mockExperimental = { useAggregator: true, maxSlippage: 10 };
   return render(
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
         <SwapProvider
-          address={mockAddress}
           experimental={mockExperimental}
           onError={onError}
           onStatus={onStatus}
@@ -158,6 +160,9 @@ const TestSwapComponent = () => {
 describe('useSwapContext', () => {
   beforeEach(async () => {
     vi.resetAllMocks();
+    (useAccount as ReturnType<typeof vi.fn>).mockReturnValue({
+      address: '0x123',
+    });
     await act(async () => {
       renderWithProviders({ Component: () => null });
     });
@@ -198,6 +203,12 @@ describe('useSwapContext', () => {
 });
 
 describe('SwapProvider', () => {
+  beforeEach(async () => {
+    (useAccount as ReturnType<typeof vi.fn>).mockReturnValue({
+      address: '0x123',
+    });
+  });
+
   it('should emit onError when setLifeCycleStatus is called with error', async () => {
     const onErrorMock = vi.fn();
     renderWithProviders({ Component: TestSwapComponent, onError: onErrorMock });

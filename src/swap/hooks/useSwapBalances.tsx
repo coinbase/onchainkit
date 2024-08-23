@@ -9,7 +9,7 @@ export function useSwapBalances({
   fromToken,
   toToken,
 }: {
-  address: Address;
+  address?: Address;
   fromToken?: Token;
   toToken?: Token;
 }) {

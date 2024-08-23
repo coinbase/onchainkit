@@ -4,7 +4,7 @@ import { useValue } from '../../internal/hooks/useValue';
 import type { Token } from '../../token';
 import { useSwapBalances } from './useSwapBalances';
 
-export const useFromTo = (address: Address) => {
+export const useFromTo = (address?: Address) => {
   const [fromAmount, setFromAmount] = useState('');
   const [fromToken, setFromToken] = useState<Token>();
   const [toAmount, setToAmount] = useState('');
