@@ -72,7 +72,6 @@ const renderWithProviders = ({
   onStatus = vi.fn(),
   onSuccess = vi.fn(),
 }) => {
-  const mockAddress = '0x1234567890123456789012345678901234567890';
   const mockExperimental = { useAggregator: true, maxSlippage: 10 };
   return render(
     <WagmiProvider config={config}>
