@@ -332,7 +332,7 @@ describe('SwapProvider', () => {
 
   it('should pass the correct slippage to getSwapQuote', async () => {
     const TestComponent = () => {
-      const { from, to, handleAmountChange } = useSwapContext();
+      const { handleAmountChange } = useSwapContext();
       // biome-ignore lint: hello
       React.useEffect(() => {
         const initializeSwap = () => {
@@ -364,7 +364,7 @@ describe('SwapProvider', () => {
       React.useEffect(() => {
         const initializeSwap = () => {
           handleAmountChange('to', '100', ETH_TOKEN, DEGEN_TOKEN);
-      };
+        };
         initializeSwap();
       }, []);
       return null;
