@@ -104,6 +104,12 @@ const TestSwapComponent = () => {
       statusData: { code: 'code', error: 'error_long_messages', message: '' },
     });
   };
+  const handleStatusAmountChange = async () => {
+    context.setLifeCycleStatus({
+      statusName: 'amountChange',
+      statusData: null,
+    });
+  };
   const handleStatusTransactionPending = async () => {
     context.setLifeCycleStatus({
       statusName: 'transactionPending',
@@ -137,6 +143,9 @@ const TestSwapComponent = () => {
       )}
       <button type="button" onClick={handleStatusError}>
         setLifeCycleStatus.error
+      </button>
+      <button type="button" onClick={handleStatusAmountChange}>
+        setLifeCycleStatus.amountChange
       </button>
       <button type="button" onClick={handleStatusTransactionPending}>
         setLifeCycleStatus.transactionPending
@@ -244,6 +253,17 @@ describe('SwapProvider', () => {
     expect(onErrorMock).toHaveBeenCalled();
   });
 
+  it('should emit onStatus when setLifeCycleStatus is called with amountChange', async () => {
+    const onStatusMock = vi.fn();
+    renderWithProviders({
+      Component: TestSwapComponent,
+      onStatus: onStatusMock,
+    });
+    const button = screen.getByText('setLifeCycleStatus.amountChange');
+    fireEvent.click(button);
+    expect(onStatusMock).toHaveBeenCalled();
+  });
+
   it('should emit onStatus when setLifeCycleStatus is called with transactionPending', async () => {
     const onStatusMock = vi.fn();
     renderWithProviders({
@@ -327,12 +347,40 @@ describe('SwapProvider', () => {
     await act(async () => {
       renderWithProviders({ Component: TestComponent });
     });
-    // Assert that getSwapQuote was called with the correct parameters
     expect(getSwapQuote).toHaveBeenCalledWith(
       expect.objectContaining({
         maxSlippage: '10',
         amount: '100',
         amountReference: 'from',
+        from: ETH_TOKEN,
+        to: DEGEN_TOKEN,
+        useAggregator: true,
+      }),
+    );
+  });
+
+  it('should pass the correct amountReference to getSwapQuote', async () => {
+    const TestComponent = () => {
+      const { from, to, handleAmountChange } = useSwapContext();
+      // biome-ignore lint: hello
+      React.useEffect(() => {
+        const initializeSwap = () => {
+          from.setToken(ETH_TOKEN);
+          to.setToken(DEGEN_TOKEN);
+          handleAmountChange('to', '100', ETH_TOKEN, DEGEN_TOKEN);
+        };
+        initializeSwap();
+      }, []);
+      return null;
+    };
+    await act(async () => {
+      renderWithProviders({ Component: TestComponent });
+    });
+    expect(getSwapQuote).toHaveBeenCalledWith(
+      expect.objectContaining({
+        maxSlippage: '10',
+        amount: '100',
+        amountReference: 'to',
         from: ETH_TOKEN,
         to: DEGEN_TOKEN,
         useAggregator: true,
