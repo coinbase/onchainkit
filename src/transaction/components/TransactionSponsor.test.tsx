@@ -11,17 +11,17 @@ describe('TransactionSponsor', () => {
   it('should render correctly', () => {
     (useTransactionContext as vi.Mock).mockReturnValue({
       lifeCycleStatus: { statusName: 'init', statusData: null },
-      hasPaymaster: true,
+      paymasterUrl: 'paymasterUrl',
     });
     render(<TransactionSponsor />);
     const element = screen.getByText('Zero transaction fee');
     expect(element).toBeInTheDocument();
   });
 
-  it('should not render if hasPaymaster is false', () => {
+  it('should not render if paymasterUrl is null', () => {
     (useTransactionContext as vi.Mock).mockReturnValue({
       lifeCycleStatus: { statusName: 'init', statusData: null },
-      hasPaymaster: false,
+      paymasterUrl: null,
     });
     render(<TransactionSponsor />);
     expect(screen.queryByText('Zero transaction fee')).not.toBeInTheDocument();
@@ -30,7 +30,7 @@ describe('TransactionSponsor', () => {
   it('should not render if statusName is not init', () => {
     (useTransactionContext as vi.Mock).mockReturnValue({
       lifeCycleStatus: { statusName: 'blah', statusData: null },
-      hasPaymaster: false,
+      paymasterUrl: null,
     });
     render(<TransactionSponsor />);
     expect(screen.queryByText('Zero transaction fee')).not.toBeInTheDocument();
@@ -39,7 +39,7 @@ describe('TransactionSponsor', () => {
   it('should render if statusName is init', () => {
     (useTransactionContext as vi.Mock).mockReturnValue({
       lifeCycleStatus: { statusName: 'init', statusData: null },
-      hasPaymaster: true,
+      paymasterUrl: 'paymasterUrl',
     });
     render(<TransactionSponsor />);
     const element = screen.getByText('Zero transaction fee');

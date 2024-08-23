@@ -65,10 +65,10 @@ export type TransactionContextType = {
   contracts: ContractFunctionParameters[]; // An array of contracts for the transaction.
   errorCode?: string; // An error code used to localize errors and provide more context with unit-tests.
   errorMessage?: string; // An error message string if the transaction encounters an issue.
-  hasPaymaster?: boolean; // A boolean indicating if app has paymaster configured
   isLoading: boolean; // A boolean indicating if the transaction is currently loading.
   isToastVisible: boolean; // A boolean indicating if the transaction toast notification is visible.
   onSubmit: () => void; // A function called when the transaction is submitted.
+  paymasterUrl: string | null; // The paymaster URL for the transaction.
   receipt?: TransactionReceipt; // The receipt of the transaction
   lifeCycleStatus: LifeCycleStatus; // The lifecycle status of the transaction.
   setIsToastVisible: (isVisible: boolean) => void; // A function to set the visibility of the transaction toast.

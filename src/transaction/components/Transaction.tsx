@@ -14,7 +14,6 @@ export function Transaction({
   onSuccess,
 }: TransactionReact) {
   const isMounted = useIsMounted();
-
   // prevents SSR hydration issue
   if (!isMounted) {
     return null;

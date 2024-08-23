@@ -5,8 +5,8 @@ import { useTransactionContext } from './TransactionProvider';
 export function TransactionSponsor({ className }: TransactionSponsorReact) {
   const {
     errorMessage,
-    hasPaymaster,
     lifeCycleStatus,
+    paymasterUrl,
     receipt,
     transactionHash,
     transactionId,
@@ -15,7 +15,7 @@ export function TransactionSponsor({ className }: TransactionSponsorReact) {
   const transactionInProgress = transactionId || transactionHash;
   if (
     lifeCycleStatus.statusName !== 'init' ||
-    !hasPaymaster ||
+    !paymasterUrl ||
     errorMessage ||
     transactionInProgress ||
     receipt
