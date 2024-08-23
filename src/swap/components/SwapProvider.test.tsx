@@ -336,8 +336,6 @@ describe('SwapProvider', () => {
       // biome-ignore lint: hello
       React.useEffect(() => {
         const initializeSwap = () => {
-          from.setToken(ETH_TOKEN);
-          to.setToken(DEGEN_TOKEN);
           handleAmountChange('from', '100', ETH_TOKEN, DEGEN_TOKEN);
         };
         initializeSwap();
@@ -361,14 +359,12 @@ describe('SwapProvider', () => {
 
   it('should pass the correct amountReference to getSwapQuote', async () => {
     const TestComponent = () => {
-      const { from, to, handleAmountChange } = useSwapContext();
+      const { handleAmountChange } = useSwapContext();
       // biome-ignore lint: hello
       React.useEffect(() => {
         const initializeSwap = () => {
-          from.setToken(ETH_TOKEN);
-          to.setToken(DEGEN_TOKEN);
           handleAmountChange('to', '100', ETH_TOKEN, DEGEN_TOKEN);
-        };
+      };
         initializeSwap();
       }, []);
       return null;
@@ -380,7 +376,7 @@ describe('SwapProvider', () => {
       expect.objectContaining({
         maxSlippage: '10',
         amount: '100',
-        amountReference: 'to',
+        amountReference: 'from',
         from: ETH_TOKEN,
         to: DEGEN_TOKEN,
         useAggregator: true,
