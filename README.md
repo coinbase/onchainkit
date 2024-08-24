@@ -20,6 +20,12 @@
       <img src="https://img.shields.io/npm/v/@coinbase/onchainkit?colorA=f6f8fa&colorB=f6f8fa&style=flat" alt="Version">
     </picture>
   </a>
+  <a href="https://onchainkit.xyz/coverage">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="https://img.shields.io/badge/coverage-100%25-green">
+      <img src="https://img.shields.io/badge/coverage-100%25-green" alt="Code coverage">
+    </picture>
+  </a>
   <a href="https://github.com/coinbase/onchainkit/blob/main/LICENSE.md" target="_blank" rel="noopener noreferrer">
     <picture>
       <source media="(prefers-color-scheme: dark)" srcset="https://img.shields.io/npm/l/@coinbase/onchainkit?colorA=21262d&colorB=21262d&style=flat">

@@ -278,6 +278,10 @@ export const sidebar = [
     collapsed: true,
     items: [
       {
+        text: 'API',
+        link: '/api/types',
+      },
+      {
         text: 'Config',
         link: '/config/types',
       },

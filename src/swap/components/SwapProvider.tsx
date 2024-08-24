@@ -153,12 +153,10 @@ export function SwapProvider({
           });
           return;
         }
-
         const formattedAmount = formatTokenAmount(
           response.toAmount,
-          response?.to?.decimals,
+          response.to.decimals,
         );
-
         destination.setAmount(formattedAmount);
       } catch (err) {
         setLifeCycleStatus({
