@@ -35,7 +35,7 @@ function Demo() {
           View Github
         </a>
       </div>
-      <div className="flex flex-1 flex-col">
+      <div className="flex flex-1 flex-col bg-[linear-gradient(to_right,#f0f0f0_1px,transparent_1px),linear-gradient(to_bottom,#f0f0f0_1px,transparent_1px)] bg-[size:6rem_4rem]">
         <div className="flex h-full w-full flex-col justify-center">
           {activeComponent === OnchainKitComponent.Transaction ? (
             <TransactionDemo />
