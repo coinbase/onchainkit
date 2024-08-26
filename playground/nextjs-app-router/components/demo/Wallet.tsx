@@ -10,6 +10,7 @@ import {
   ConnectWallet,
   Wallet,
   WalletDropdown,
+  WalletDropdownBasename,
   WalletDropdownDisconnect,
   WalletDropdownFundLink,
   WalletDropdownLink,
@@ -33,7 +34,7 @@ function WalletComponent() {
             <Address className={color.foregroundMuted} />
             <EthBalance />
           </Identity>
-          <WalletDropdownBaseName />
+          <WalletDropdownBasename />
           <WalletDropdownLink
             icon="wallet"
             href="https://wallet.coinbase.com"
