@@ -30,19 +30,19 @@ export async function buildSwapTransaction(
   if ((apiParamsOrError as APIError).error) {
     return apiParamsOrError as APIError;
   }
-  let apiParams = apiParamsOrError as SwapAPIParams;
+  const apiParams = apiParamsOrError as SwapAPIParams;
 
   if (!params.useAggregator) {
-    apiParams = {
-      v2Enabled: true,
-      ...apiParams,
-    };
+    apiParams.v2Enabled = true;
   }
   if (params.maxSlippage) {
-    apiParams = {
-      slippagePercentage: params.maxSlippage,
-      ...apiParams,
-    };
+    let slippage = params.maxSlippage;
+    // Adjust slippage for V1 API (aggregator)
+    // V1 expects slippage in tenths of a percent (e.g., 30 = 3%)
+    if (params.useAggregator) {
+      slippage = (Number(slippage) * 10).toString();
+    }
+    apiParams.slippagePercentage = slippage;
   }
 
   try {
