@@ -26,6 +26,7 @@ import type {
   TransactionContextType,
   TransactionProviderReact,
 } from '../types';
+import { getPaymasterUrl } from '../utils/getPaymasterUrl';
 import { isUserRejectedRequestError } from '../utils/isUserRejectedRequestError';
 
 const emptyContext = {} as TransactionContextType;
@@ -43,7 +44,6 @@ export function useTransactionContext() {
 }
 
 export function TransactionProvider({
-  address,
   capabilities,
   chainId,
   children,
@@ -256,16 +256,15 @@ export function TransactionProvider({
   ]);
 
   const value = useValue({
-    address,
     chainId,
     contracts,
     errorCode,
     errorMessage,
-    hasPaymaster: !!capabilities?.paymasterService?.url,
     isLoading: callStatus === 'PENDING',
     isToastVisible,
     lifeCycleStatus,
     onSubmit: handleSubmit,
+    paymasterUrl: getPaymasterUrl(capabilities),
     receipt,
     setIsToastVisible,
     setLifeCycleStatus,

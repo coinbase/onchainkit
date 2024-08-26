@@ -9,11 +9,12 @@ If you want to handle debounce delay outside of this component, set `delayMs` to
 
 ## Usage
 
-Use [`getTokens`](/token/get-tokens) and `<TokenSearch />` combined to search the [Tokens](/token/types#token).
+Use [`getTokens`](/api/get-tokens) and `<TokenSearch />` combined to search the [Tokens](/token/types#token).
 
 ```tsx
 import { OnchainKitProvider } from '@coinbase/onchainkit';
-import { TokenSearch, getTokens } from '@coinbase/onchainkit/token'; // [!code focus]
+import { getTokens } from '@coinbase/onchainkit/api'; // [!code focus]
+import { TokenSearch } from '@coinbase/onchainkit/token'; // [!code focus]
 import type { Token } from '@coinbase/onchainkit/token'; // [!code focus]
 
 ...

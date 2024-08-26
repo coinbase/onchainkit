@@ -27,7 +27,7 @@ describe('WalletDropdownLink', () => {
     expect(linkElement).toBeInTheDocument();
     expect(linkElement).toHaveAttribute('href', 'https://example.com');
     expect(screen.getByText('Link Text')).toBeInTheDocument();
-    expect(screen.getByLabelText('ock-wallet-svg')).toBeInTheDocument();
+    expect(screen.getByLabelText('ock-walletSvg')).toBeInTheDocument();
   });
 
   it('renders correctly with custom icon element', () => {

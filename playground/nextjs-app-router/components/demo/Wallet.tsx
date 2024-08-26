@@ -10,7 +10,7 @@ import {
   ConnectWallet,
   Wallet,
   WalletDropdown,
-  WalletDropdownBaseName,
+  WalletDropdownBasename,
   WalletDropdownDisconnect,
   WalletDropdownFundLink,
   WalletDropdownLink,

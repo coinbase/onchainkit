@@ -1,10 +1,10 @@
+import { formatDecimals } from '../../swap/utils/formatDecimals';
 import type {
+  APIError,
   BuildSwapTransactionParams,
   GetAPIParamsForToken,
   SwapAPIParams,
-  SwapError,
 } from '../types';
-import { formatDecimals } from './formatDecimals';
 
 /**
  * Converts parameters with `Token` to ones with address.
@@ -13,7 +13,7 @@ import { formatDecimals } from './formatDecimals';
  */
 export function getAPIParamsForToken(
   params: GetAPIParamsForToken,
-): SwapAPIParams | SwapError {
+): SwapAPIParams | APIError {
   const { from, to, amount, amountReference, isAmountInDecimals } = params;
   const { fromAddress } = params as BuildSwapTransactionParams;
   const decimals = amountReference === 'from' ? from.decimals : to.decimals;
@@ -33,7 +33,7 @@ export function getAPIParamsForToken(
       message: '',
     };
   }
-  if (!/^(?:0|[1-9]\d*)(?:\.\d+)?$/.test(amount)) {
+  if (!/^(?:0|[1-9]\d*|\.\d+)(?:\.\d*)?$/.test(amount)) {
     return {
       code: 'INVALID_INPUT',
       error: 'Invalid input: amount must be a non-negative number string',

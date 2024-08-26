@@ -1,4 +1,6 @@
+import { ENVIRONMENT, ENVIRONMENT_VARIABLES } from '@/lib/constants';
 import {
+  type LifeCycleStatus,
   Swap,
   SwapAmountInput,
   SwapButton,
@@ -6,7 +8,7 @@ import {
   SwapToggleButton,
 } from '@coinbase/onchainkit/swap';
 import type { Token } from '@coinbase/onchainkit/token';
-import { useContext } from 'react';
+import { useCallback, useContext } from 'react';
 import { useAccount } from 'wagmi';
 import { AppContext } from '../AppProvider';
 
@@ -56,6 +58,10 @@ function SwapComponent() {
 
   const swappableTokens = [degenToken, ethToken, usdcToken, wethToken];
 
+  const handleOnStatus = useCallback((lifeCycleStatus: LifeCycleStatus) => {
+    console.log('Status:', lifeCycleStatus);
+  }, []);
+
   return (
     <div className="relative h-full w-full">
       {address ? (
@@ -80,7 +86,7 @@ function SwapComponent() {
         </div>
       )}
       {address ? (
-        <Swap address={address} className="border bg-[#ffffff]">
+        <Swap className="border bg-[#ffffff]" onStatus={handleOnStatus}>
           <SwapAmountInput
             label="Sell"
             swappableTokens={swappableTokens}
@@ -94,7 +100,11 @@ function SwapComponent() {
             token={usdcToken}
             type="to"
           />
-          <SwapButton disabled={true} />
+          <SwapButton
+            disabled={
+              ENVIRONMENT_VARIABLES[ENVIRONMENT.ENVIRONMENT] === 'production'
+            }
+          />
           <SwapMessage />
         </Swap>
       ) : (

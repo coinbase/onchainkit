@@ -5,22 +5,21 @@ import {
   useEffect,
   useState,
 } from 'react';
-import type { TransactionReceipt } from 'viem';
-import { type BaseError, useConfig, useSendTransaction } from 'wagmi';
+import { useAccount, useConfig, useSendTransaction } from 'wagmi';
+import { buildSwapTransaction } from '../../api/buildSwapTransaction';
+import { getSwapQuote } from '../../api/getSwapQuote';
 import { useValue } from '../../internal/hooks/useValue';
 import { formatTokenAmount } from '../../internal/utils/formatTokenAmount';
 import type { Token } from '../../token';
-import { USER_REJECTED_ERROR_CODE } from '../constants';
+import { GENERIC_ERROR_MESSAGE } from '../../transaction/constants';
+import { isUserRejectedRequestError } from '../../transaction/utils/isUserRejectedRequestError';
 import { useFromTo } from '../hooks/useFromTo';
 import type {
   LifeCycleStatus,
   SwapContextType,
   SwapError,
-  SwapErrorState,
   SwapProviderReact,
 } from '../types';
-import { buildSwapTransaction } from '../utils/buildSwapTransaction';
-import { getSwapQuote } from '../utils/getSwapQuote';
 import { isSwapError } from '../utils/isSwapError';
 import { processSwapTransaction } from '../utils/processSwapTransaction';
 
@@ -37,44 +36,60 @@ export function useSwapContext() {
 }
 
 export function SwapProvider({
-  address,
   children,
   experimental,
+  onError,
   onStatus,
+  onSuccess,
 }: SwapProviderReact) {
+  const { address } = useAccount();
   // Feature flags
   const { useAggregator } = experimental;
 
   // Core Hooks
+  const config = useConfig();
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<SwapError>();
   const [isTransactionPending, setPendingTransaction] = useState(false);
   const [lifeCycleStatus, setLifeCycleStatus] = useState<LifeCycleStatus>({
     statusName: 'init',
     statusData: null,
   }); // Component lifecycle
-  const [error, setError] = useState<SwapErrorState>();
-
-  const handleError = useCallback(
-    (e: Record<string, SwapError | undefined>) => {
-      setError({ ...error, ...e });
-    },
-    [error],
-  );
-
   const { from, to } = useFromTo(address);
-
-  // For sending the swap transaction (and approval, if applicable)
-  const { sendTransactionAsync } = useSendTransaction();
-
-  // Wagmi config, used for waitForTransactionReceipt
-  const config = useConfig();
+  const { sendTransactionAsync } = useSendTransaction(); // Sending the transaction (and approval, if applicable)
 
   // Component lifecycle emitters
   useEffect(() => {
+    // Error
+    if (lifeCycleStatus.statusName === 'error') {
+      setLoading(false);
+      setPendingTransaction(false);
+      setError(lifeCycleStatus.statusData);
+      onError?.(lifeCycleStatus.statusData);
+    }
+    if (lifeCycleStatus.statusName === 'amountChange') {
+      setError(undefined);
+    }
+    if (lifeCycleStatus.statusName === 'transactionPending') {
+      setLoading(true);
+      setPendingTransaction(true);
+    }
+    if (lifeCycleStatus.statusName === 'transactionApproved') {
+      setPendingTransaction(false);
+    }
+    // Success
+    if (lifeCycleStatus.statusName === 'success') {
+      setError(undefined);
+      setLoading(false);
+      setPendingTransaction(false);
+      onSuccess?.(lifeCycleStatus.statusData.transactionReceipt);
+    }
     // Emit Status
     onStatus?.(lifeCycleStatus);
   }, [
+    onError,
     onStatus,
+    onSuccess,
     lifeCycleStatus,
     lifeCycleStatus.statusData, // Keep statusData, so that the effect runs when it changes
     lifeCycleStatus.statusName, // Keep statusName, so that the effect runs when it changes
@@ -83,7 +98,6 @@ export function SwapProvider({
   const handleToggle = useCallback(() => {
     from.setAmount(to.amount);
     to.setAmount(from.amount);
-
     from.setToken(to.token);
     to.setToken(from.token);
   }, [from, to]);
@@ -105,16 +119,16 @@ export function SwapProvider({
       if (source.token === undefined || destination.token === undefined) {
         return;
       }
-
-      if (amount === '' || Number.parseFloat(amount) === 0) {
+      if (amount === '' || amount === '.' || Number.parseFloat(amount) === 0) {
         return destination.setAmount('');
       }
 
       // When toAmount changes we fetch quote for fromAmount
       // so set isFromQuoteLoading to true
       destination.setLoading(true);
-      handleError({
-        quoteError: undefined,
+      setLifeCycleStatus({
+        statusName: 'amountChange',
+        statusData: null,
       });
 
       try {
@@ -127,101 +141,101 @@ export function SwapProvider({
           useAggregator,
         });
         // If request resolves to error response set the quoteError
-        // property of error state to the SwapError response */
+        // property of error state to the SwapError response
         if (isSwapError(response)) {
-          return handleError({ quoteError: response });
+          setLifeCycleStatus({
+            statusName: 'error',
+            statusData: {
+              code: response.code,
+              error: response.error,
+              message: '',
+            },
+          });
+          return;
         }
-
         const formattedAmount = formatTokenAmount(
           response.toAmount,
-          response?.to?.decimals,
+          response.to.decimals,
         );
-
         destination.setAmount(formattedAmount);
       } catch (err) {
-        handleError({ quoteError: err as SwapError });
+        setLifeCycleStatus({
+          statusName: 'error',
+          statusData: {
+            code: 'TmSPc01', // Transaction module SwapProvider component 01 error
+            error: JSON.stringify(err),
+            message: '',
+          },
+        });
       } finally {
         // reset loading state when quote request resolves
         destination.setLoading(false);
       }
     },
-    [from, to, useAggregator, handleError, experimental.maxSlippage],
+    [from, experimental.maxSlippage, to, useAggregator],
   );
 
-  const handleSubmit = useCallback(
-    // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO Refactor this component
-    async function handleSubmit(
-      onError?: (error: SwapError) => void,
-      onStart?: (txHash: string) => void | Promise<void>,
-      onSuccess?: (txReceipt: TransactionReceipt) => void | Promise<void>,
-    ) {
-      if (!address || !from.token || !to.token || !from.amount) {
+  const handleSubmit = useCallback(async () => {
+    if (!address || !from.token || !to.token || !from.amount) {
+      return;
+    }
+    setLifeCycleStatus({
+      statusName: 'init',
+      statusData: null,
+    });
+
+    try {
+      const response = await buildSwapTransaction({
+        amount: from.amount,
+        fromAddress: address,
+        from: from.token,
+        to: to.token,
+        useAggregator,
+        maxSlippage: experimental.maxSlippage?.toString(),
+      });
+      if (isSwapError(response)) {
+        setLifeCycleStatus({
+          statusName: 'error',
+          statusData: {
+            code: response.code,
+            error: response.error,
+            message: response.message,
+          },
+        });
         return;
       }
+      await processSwapTransaction({
+        config,
+        sendTransactionAsync,
+        setLifeCycleStatus,
+        swapTransaction: response,
+        useAggregator,
+      });
 
-      setLoading(true);
-      handleError({ swapError: undefined });
-
-      try {
-        const response = await buildSwapTransaction({
-          amount: from.amount,
-          fromAddress: address,
-          from: from.token,
-          to: to.token,
-          useAggregator,
-          maxSlippage: experimental.maxSlippage?.toString(),
-        });
-
-        if (isSwapError(response)) {
-          return handleError({ swapError: response });
-        }
-
-        await processSwapTransaction({
-          swapTransaction: response,
-          config,
-          setPendingTransaction,
-          setLoading,
-          sendTransactionAsync,
-          onStart,
-          onSuccess,
-          useAggregator,
-        });
-
-        // TODO: refresh balances
-      } catch (e) {
-        const userRejected = (e as BaseError).message.includes(
-          'User rejected the request.',
-        );
-        if (userRejected) {
-          setLoading(false);
-          setPendingTransaction(false);
-          handleError({
-            swapError: {
-              code: USER_REJECTED_ERROR_CODE,
-              error: 'User rejected the request.',
-              message: '',
-            },
-          });
-        } else {
-          onError?.(e as SwapError);
-          handleError({ swapError: e as SwapError });
-        }
-      } finally {
-        setLoading(false);
-      }
-    },
-    [
-      address,
-      config,
-      handleError,
-      from.amount,
-      from.token,
-      sendTransactionAsync,
-      to.token,
-      useAggregator,
-      experimental.maxSlippage,
-    ],
-  );
+      // TODO: refresh balances
+    } catch (err) {
+      const errorMessage = isUserRejectedRequestError(err)
+        ? 'Request denied.'
+        : GENERIC_ERROR_MESSAGE;
+      setLifeCycleStatus({
+        statusName: 'error',
+        statusData: {
+          code: 'TmSPc02', // Transaction module SwapProvider component 02 error
+          error: JSON.stringify(err),
+          message: errorMessage,
+        },
+      });
+    }
+  }, [
+    address,
+    config,
+    from.amount,
+    from.token,
+    sendTransactionAsync,
+    to.token,
+    useAggregator,
+    experimental.maxSlippage,
+  ]);
 
   const value = useValue({
     error,

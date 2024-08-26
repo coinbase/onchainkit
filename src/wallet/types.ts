@@ -6,7 +6,7 @@ import type { SwapError } from '../swap';
 
 export type ConnectButtonReact = {
   className?: string; // Optional className override for button element
-  connectButtonOnClick: () => void; // Function to call when the button is clicked
+  onClick: () => void; // Function to call when the button is clicked
   text: string; // Optional text override for button
 };
 
@@ -84,7 +84,7 @@ export type WalletBottomSheetReact = {
 /**
  * Note: exported as public Type
  */
-export type WalletDropdownBaseNameReact = {
+export type WalletDropdownBasenameReact = {
   className?: string; // Optional className override for the element
 };
 

@@ -1,4 +1,4 @@
-import { describe, expect, test, vi } from 'vitest';
+import { describe, expect, vi } from 'vitest';
 import {
   LOW_LIQUIDITY_ERROR_CODE,
   TOO_MANY_REQUESTS_ERROR_CODE,
@@ -35,7 +35,7 @@ describe('getSwapMessage', () => {
     loading: false,
   };
 
-  test('returns BALANCE_ERROR when from or to has an error', () => {
+  it('should return BALANCE_ERROR when from or to has an error', () => {
     const params = {
       ...baseParams,
       from: {
@@ -55,7 +55,7 @@ describe('getSwapMessage', () => {
     expect(getSwapMessage(params2)).toBe(SwapMessage.BALANCE_ERROR);
   });
 
-  test('returns INSUFFICIENT_BALANCE when amount exceeds balance', () => {
+  it('should return INSUFFICIENT_BALANCE when amount exceeds balance', () => {
     const params = {
       ...baseParams,
       from: { ...baseParams.from, balance: '10', amount: '20' },
@@ -63,7 +63,7 @@ describe('getSwapMessage', () => {
     expect(getSwapMessage(params)).toBe(SwapMessage.INSUFFICIENT_BALANCE);
   });
 
-  test('returns CONFIRM IN WALLET when pending transaction', () => {
+  it('should return CONFIRM IN WALLET when pending transaction', () => {
     const params = {
       ...baseParams,
       isTransactionPending: true,
@@ -71,7 +71,7 @@ describe('getSwapMessage', () => {
     expect(getSwapMessage(params)).toBe(SwapMessage.CONFIRM_IN_WALLET);
   });
 
-  test('returns SWAP_IN_PROGRESS when loading is true', () => {
+  it('should return SWAP_IN_PROGRESS when loading is true', () => {
     const params = {
       ...baseParams,
       loading: true,
@@ -79,7 +79,7 @@ describe('getSwapMessage', () => {
     expect(getSwapMessage(params)).toBe(SwapMessage.SWAP_IN_PROGRESS);
   });
 
-  test('returns FETCHING_QUOTE when to or from loading is true', () => {
+  it('should return FETCHING_QUOTE when to or from loading is true', () => {
     const params = {
       ...baseParams,
       from: { ...baseParams.from, loading: true },
@@ -93,7 +93,7 @@ describe('getSwapMessage', () => {
     expect(getSwapMessage(params2)).toBe(SwapMessage.FETCHING_QUOTE);
   });
 
-  test('returns INCOMPLETE_FIELD when required fields are missing', () => {
+  it('should return INCOMPLETE_FIELD when required fields are missing', () => {
     const params = {
       ...baseParams,
     };
@@ -117,7 +117,7 @@ describe('getSwapMessage', () => {
     expect(getSwapMessage(params3)).toBe(SwapMessage.INCOMPLETE_FIELD);
   });
 
-  test('returns TOO_MANY_REQUESTS when error code is TOO_MANY_REQUESTS_ERROR_CODE', () => {
+  it('should return TOO_MANY_REQUESTS when error code is TOO_MANY_REQUESTS_ERROR_CODE', () => {
     const params = {
       ...baseParams,
       from: {
@@ -128,16 +128,15 @@ describe('getSwapMessage', () => {
       },
       to: { ...baseParams.to, amount: '5', token: USDC_TOKEN },
       error: {
-        quoteError: {
-          code: TOO_MANY_REQUESTS_ERROR_CODE,
-          error: 'Too many requests error',
-        },
+        code: TOO_MANY_REQUESTS_ERROR_CODE,
+        error: 'Too many requests error',
+        message: '',
       },
     };
     expect(getSwapMessage(params)).toBe(SwapMessage.TOO_MANY_REQUESTS);
   });
 
-  test('returns LOW_LIQUIDITY when error code is LOW_LIQUIDITY_ERROR_CODE', () => {
+  it('should return LOW_LIQUIDITY when error code is LOW_LIQUIDITY_ERROR_CODE', () => {
     const params = {
       ...baseParams,
       from: {
@@ -148,16 +147,15 @@ describe('getSwapMessage', () => {
       },
       to: { ...baseParams.to, amount: '5', token: USDC_TOKEN },
       error: {
-        quoteError: {
-          code: LOW_LIQUIDITY_ERROR_CODE,
-          error: 'Low liquidity error',
-        },
+        code: LOW_LIQUIDITY_ERROR_CODE,
+        error: 'Low liquidity error',
+        message: '',
       },
     };
     expect(getSwapMessage(params)).toBe(SwapMessage.LOW_LIQUIDITY);
   });
 
-  test('returns USER_REJECTED when error code is USER_REJECTED_ERROR_CODE', () => {
+  it('should return USER_REJECTED when error code is USER_REJECTED_ERROR_CODE', () => {
     const params = {
       ...baseParams,
       from: {
@@ -168,16 +166,15 @@ describe('getSwapMessage', () => {
       },
       to: { ...baseParams.to, amount: '5', token: USDC_TOKEN },
       error: {
-        quoteError: {
-          code: USER_REJECTED_ERROR_CODE,
-          error: 'User rejected error',
-        },
+        code: USER_REJECTED_ERROR_CODE,
+        error: 'User rejected error',
+        message: '',
       },
     };
     expect(getSwapMessage(params)).toBe(SwapMessage.USER_REJECTED);
   });
 
-  test('returns the first error message when general error is present', () => {
+  it('should return the first error message when general error is present', () => {
     const params = {
       ...baseParams,
       from: {
@@ -188,16 +185,15 @@ describe('getSwapMessage', () => {
       },
       to: { ...baseParams.to, amount: '5', token: USDC_TOKEN },
       error: {
-        quoteError: {
-          code: 'general_error_code',
-          error: 'General error occurred',
-        },
+        code: 'general_error_code',
+        error: 'General error occurred',
+        message: '',
       },
     };
-    expect(getSwapMessage(params)).toBe('General error occurred');
+    expect(getSwapMessage(params)).toBe('');
   });
 
-  test('returns empty string when no error and all conditions are satisfied', () => {
+  it('should return empty string when no error and all conditions are satisfied', () => {
     const params = {
       ...baseParams,
       from: {

@@ -1,11 +1,156 @@
 # Changelog
 
+## 0.31.0
+
+### Minor Changes
+
+- **fix**: error message in `Swap` experience. By @zizzamia & @0xAlec #1154 #1153 #1155 4382d93
+- **fix**: removed `address` prop from `Swap` component. By @abcrane123 #1145
+- **feat**: moving `getTokens`, `buildSwapTransaction` and `getSwapQuote` under the API module. By @zizzamia #1146 #1151
+- **fix**: handled SSR hydration issues. By @abcrane123 #1117
+
+Breaking Changes
+We streamlined the `Swap` experience to match the `Transaction` experience by eliminating the need for an `address` prop, making it work automatically.
+
+All APIs within OnchainKit are now consolidated under the `@coinbase/onchainkit/api` module. There's no change in functionality; simply import them from the `api` module.
+
+## 0.30.0
+
+### Minor Changes
+
+- **feat**: Moved the `onError` and `onSuccess` lifecycle listeners from the `<SwapButton>` component to the `<Swap>` component. By @zizzamia #1139 ed2379e
+
+Breaking Changes
+OnchainKit standardizes lifecycle listeners with three callbacks: `onError`, `onSuccess`, and `onStatus`. The `onError` and `onSuccess` callbacks handle only the `error` and `success` states,respectively. In contrast, the `onStatus` callback provides more granular phases of each component's experience.
+
+Before, we used `onError` and `onSuccess` in the `<SwapButton />` component.
+
+```ts
+const handleOnError = useCallback((error) => {
+  console.log(error);
+}, []);
+const handleOnSuccess = useCallback((response) => {
+  console.log(response);
+}, []);
+
+...
+
+<Swap address={address}>
+  <SwapAmountInput
+    label="Sell"
+    swappableTokens={swappableTokens}
+    token={ETHToken}
+    type="from"
+  />
+  <SwapToggleButton />
+  <SwapAmountInput
+    label="Buy"
+    swappableTokens={swappableTokens}
+    token={USDCToken}
+    type="to"
+  />
+  <SwapButton
+    onError={handleOnError}
+    onSuccess={handleOnSuccess}
+  />
+  <SwapMessage />
+</Swap>
+```
+
+After, we use `onStatus` in the `<Swap />` component.
+
+```ts
+const handleOnStatus = useCallback((lifeCycleStatus: LifeCycleStatus) => {
+  console.log('Status:', lifeCycleStatus);
+}, []);
+
+...
+
+<Swap
+  address={address}
+  onStatus={handleOnStatus}
+>
+  <SwapAmountInput
+    label="Sell"
+    swappableTokens={swappableTokens}
+    token={ETHToken}
+    type="from"
+  />
+  <SwapToggleButton />
+  <SwapAmountInput
+    label="Buy"
+    swappableTokens={swappableTokens}
+    token={USDCToken}
+    type="to"
+  />
+  <SwapButton />
+  <SwapMessage />
+</Swap>
+```
+
+The `onStatus` callback will expose
+
+```ts
+export type LifeCycleStatus =
+  | {
+      statusName: "init";
+      statusData: null;
+    }
+  | {
+      statusName: "error";
+      statusData: SwapError;
+    }
+  | {
+      statusName: "amountChange";
+      statusData: null;
+    }
+  | {
+      statusName: "transactionPending";
+      statusData: null;
+    }
+  | {
+      statusName: "transactionApproved";
+      statusData: {
+        transactionHash: Hex;
+        transactionType: "ERC20" | "Permit2";
+      };
+    }
+  | {
+      statusName: "success";
+      statusData: {
+        transactionReceipt: TransactionReceipt;
+      };
+    };
+```
+
+## 0.29.5
+
+### Patch Changes
+
+- **feat**: exported `buildSwapTransaction`, `getSwapQuote` and `getTokens` from API module. By @zizzamia #1133 07c5af6
+- **feat**: added `useSendCall` and `useSendCalls` hooks to support call-type transactions in `Transaction` component. By @0xAlec #1130
+
+## 0.29.4
+
+### Patch Changes
+
+- **feat**: moved `onSuccess` and `onError` for Swap component at top level. By @zizzamia #1123 886d974
+- **patch**: removed unneccessary address prop from `Transaction` component and fix issue where Sponsor component isn't visible. By @abcrane123 #1114
+- **chore**: updated disconnect SVG image. By @cpcramer #1103
+- **fix**: improved issue with Swap where it wasn't fetching quote for amount without a leading 0. By @abcrane123 #1128
+
+## 0.29.3
+
+### Patch Changes
+
+- **chore**: Update all cases of BaseName to Basename. Update `WalletDropdownBaseName` to `WalletDropdownBasename`. Update the identity type `BaseName` to `Basename` and `WalletDropdownBaseNameReact` to `WalletDropdownBasenameReact`. By @cpcramer #1110 3d47932
+
 ## 0.29.2
 
 ### Patch Changes
 
-- 704e160: - **fix**: better defined pressable classes were accessing the hover state variable. Update the `TransactionButton` and `WalletDropdown` to use our pre-existing pressable classes. By @cpcramer #1092
-  - **feat**: added `transactionIdle` and `transactionPending` to `lifeCycleStatus` in the Transaction experience. By @zizzamia #1088
+- **fix**: better defined pressable classes were accessing the hover state variable. Update the `TransactionButton` and `WalletDropdown` to use our pre-existing pressable classes. By @cpcramer #1092 704e160
+- **feat**: added `transactionIdle` and `transactionPending` to `lifeCycleStatus` in the Transaction experience. By @zizzamia #1088
 
 ## 0.29.1
 

@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 /**
  * @vitest-environment node
  */
-import { DEGEN_TOKEN, ETH_TOKEN } from '../mocks';
+import { DEGEN_TOKEN, ETH_TOKEN } from '../../swap/mocks';
 import { getAPIParamsForToken } from './getAPIParamsForToken';
 
 describe('getAPIParamsForToken', () => {

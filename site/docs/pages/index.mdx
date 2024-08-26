@@ -16,7 +16,7 @@ import {
   ConnectWallet,
   Wallet,
   WalletDropdown,
-  WalletDropdownBaseName,
+  WalletDropdownBasename,
   WalletDropdownLink,
   WalletDropdownDisconnect,
 } from '@coinbase/onchainkit/wallet';
@@ -150,7 +150,7 @@ bun add @coinbase/onchainkit
     <WalletDropdownLink icon="wallet" href="https://wallet.coinbase.com">
       Wallet
     </WalletDropdownLink>
-    <WalletDropdownBaseName />
+    <WalletDropdownBasename />
     <WalletDropdownDisconnect />
   </WalletDropdown>
 </Wallet>
@@ -175,7 +175,7 @@ bun add @coinbase/onchainkit
       <WalletDropdownLink icon="wallet" href="https://wallet.coinbase.com">
         Wallet
       </WalletDropdownLink>
-      <WalletDropdownBaseName />
+      <WalletDropdownBasename />
       <WalletDropdownDisconnect />
     </WalletDropdown>
   </Wallet>
@@ -200,7 +200,6 @@ bun add @coinbase/onchainkit
     <div className="w-[664px] max-w-full">
 ```tsx
 <Transaction
-  address={address}
   chainId={base.id}
   contracts={[
     {
@@ -232,7 +231,6 @@ bun add @coinbase/onchainkit
             if (address) {
               return (
                 <Transaction
-                  address={address}
                   capabilities={capabilities}
                   chainId={84532}
                   contracts={contracts}
@@ -279,7 +277,7 @@ bun add @coinbase/onchainkit
     <div className="flex grow flex-col items-center md:flex-row pt-[44px] md:pt-[20px]">
       <div className="w-[664px] max-w-full">
 ```tsx
-<Swap address={address}>
+<Swap>
   <SwapAmountInput
     label="Sell"
     swappableTokens={swappableTokens}
@@ -304,7 +302,7 @@ bun add @coinbase/onchainkit
     {({ address, swappableTokens }) => {
       if (address) {
         return (
-          <Swap address={address}>
+          <Swap>
             <SwapAmountInput
               label="Sell"
               swappableTokens={swappableTokens}
@@ -503,10 +501,11 @@ bun add @coinbase/onchainkit
           </a>
         </div>
       </div>
-      <div className="flex flex-col md:flex-row items-center md:space-x-[128px]">
+      <div className="flex flex-col gap-4 items-center md:items-end py-3 md:py-0">
         <ul className="flex space-x-[28px] py-3 md:py-0">
           <li>[Docs](/getting-started)</li>
           <li>[Playground](https://onchainkit.xyz/playground)</li>
+          <li>[Coverage 100%](https://onchainkit.xyz/coverage)</li>
           <li>[Template](https://github.com/coinbase/onchain-app-template)</li>
           <li>[Figma](https://www.figma.com/community/file/1370194397345450683/onchainkit)</li>
         </ul>

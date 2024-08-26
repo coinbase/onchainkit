@@ -136,8 +136,8 @@ export const sidebar = [
             link: '/wallet/wallet',
           },
           {
-            text: 'WalletDropdownBaseName',
-            link: '/wallet/wallet-dropdown-base-name',
+            text: 'WalletDropdownBasename',
+            link: '/wallet/wallet-dropdown-basename',
           },
           {
             text: 'WalletDropdownDisconnect',
@@ -150,6 +150,33 @@ export const sidebar = [
           {
             text: 'WalletDropdownLink',
             link: '/wallet/wallet-dropdown-link',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    text: 'API',
+    items: [
+      {
+        text: 'Swap',
+        items: [
+          {
+            text: 'buildSwapTransaction',
+            link: '/api/build-swap-transaction',
+          },
+          {
+            text: 'getSwapQuote',
+            link: '/api/get-swap-quote',
+          },
+        ],
+      },
+      {
+        text: 'Token',
+        items: [
+          {
+            text: 'getTokens',
+            link: '/api/get-tokens',
           },
         ],
       },
@@ -212,18 +239,13 @@ export const sidebar = [
             text: 'getName',
             link: '/identity/get-name',
           },
-        ],
-      },
-      {
-        text: 'Swap',
-        items: [
           {
-            text: 'buildSwapTransaction',
-            link: '/swap/build-swap-transaction',
+            text: 'useAvatar',
+            link: '/identity/use-avatar',
           },
           {
-            text: 'getSwapQuote',
-            link: '/swap/get-swap-quote',
+            text: 'useName',
+            link: '/identity/use-name',
           },
         ],
       },
@@ -233,18 +255,6 @@ export const sidebar = [
           {
             text: 'formatAmount',
             link: '/token/format-amount',
-          },
-          {
-            text: 'getTokens',
-            link: '/token/get-tokens',
-          },
-          {
-            text: 'useAvatar',
-            link: '/identity/use-avatar',
-          },
-          {
-            text: 'useName',
-            link: '/identity/use-name',
           },
         ],
       },
@@ -267,6 +277,10 @@ export const sidebar = [
     text: 'Types',
     collapsed: true,
     items: [
+      {
+        text: 'API',
+        link: '/api/types',
+      },
       {
         text: 'Config',
         link: '/config/types',

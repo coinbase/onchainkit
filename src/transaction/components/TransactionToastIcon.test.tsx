@@ -15,7 +15,7 @@ describe('TransactionToastIcon', () => {
 
     render(<TransactionToastIcon className="custom-class" />);
 
-    const iconElement = screen.getByTestId('ockSuccessSvg');
+    const iconElement = screen.getByTestId('ock-successSvg');
     expect(iconElement).toBeInTheDocument();
   });
   it('renders error icon when error exists', () => {
@@ -25,7 +25,7 @@ describe('TransactionToastIcon', () => {
 
     render(<TransactionToastIcon className="custom-class" />);
 
-    const iconElement = screen.getByTestId('ockErrorSvg');
+    const iconElement = screen.getByTestId('ock-errorSvg');
     expect(iconElement).toBeInTheDocument();
   });
   it('renders loading icon when txn is in progress', () => {

@@ -1,8 +1,9 @@
 import type { Dispatch, ReactNode, SetStateAction } from 'react';
 import type { Address, Hex, TransactionReceipt } from 'viem';
+import type { Config } from 'wagmi';
+import type { SendTransactionMutateAsync } from 'wagmi/query';
+import type { RawTransactionData } from '../api/types';
 import type { Token } from '../token/types';
-
-export type AddressOrETH = Address | 'ETH';
 
 /**
  * Note: exported as public Type
@@ -23,56 +24,14 @@ export type BuildSwapTransactionResponse = BuildSwapTransaction | SwapError;
 /**
  * Note: exported as public Type
  */
-export type BuildSwapTransactionParams = GetSwapQuoteParams & {
-  fromAddress: Address; // The address of the user
-};
-
-/**
- * Note: exported as public Type
- */
 export type Fee = {
   amount: string; // The amount of the fee
   baseAsset: Token; // The base asset for the fee
   percentage: string; // The percentage of the fee
 };
 
-export type GetAPIParamsForToken =
-  | GetSwapQuoteParams
-  | BuildSwapTransactionParams;
-
-export type GetQuoteAPIParams = {
-  amount: string; // The amount to be swapped
-  amountReference?: string; // The reference amount for the swap
-  from: AddressOrETH | ''; // The source address or 'ETH' for Ethereum
-  to: AddressOrETH | ''; // The destination address or 'ETH' for Ethereum
-  v2Enabled?: boolean; // Whether to use V2 of the API (default: false)
-  slippagePercentage?: string; // The slippage percentage for the swap
-};
-
-export type GetSwapAPIParams = GetQuoteAPIParams & {
-  fromAddress: Address; // The address of the user
-};
-
-/**
- * Note: exported as public Type
- */
-export type GetSwapQuoteParams = {
-  amount: string; // The amount to be swapped
-  amountReference?: string; // The reference amount for the swap
-  from: Token; // The source token for the swap
-  isAmountInDecimals?: boolean; // Whether the amount is in decimals
-  maxSlippage?: string; // The slippage of the swap
-  to: Token; // The destination token for the swap
-  useAggregator: boolean; // Whether to use a DEX aggregator
-};
-
-/**
- * Note: exported as public Type
- */
-export type GetSwapQuoteResponse = SwapQuote | SwapError;
-
 export type GetSwapMessageParams = {
-  error?: SwapErrorState;
+  error?: SwapError;
   loading?: boolean;
   isTransactionPending?: boolean;
   to: SwapUnit;
@@ -102,15 +61,35 @@ export type LifeCycleStatus =
   | {
       statusName: 'error';
       statusData: SwapError;
+    }
+  | {
+      statusName: 'amountChange';
+      statusData: null;
+    }
+  | {
+      statusName: 'transactionPending';
+      statusData: null;
+    }
+  | {
+      statusName: 'transactionApproved';
+      statusData: {
+        transactionHash: Hex;
+        transactionType: 'ERC20' | 'Permit2';
+      };
+    }
+  | {
+      statusName: 'success';
+      statusData: {
+        transactionReceipt: TransactionReceipt;
+      };
     };
 
-export type RawTransactionData = {
-  data: string; // The transaction data
-  from: string; // The sender address
-  gas: string; // The gas limit
-  gasPrice: string; // The gas price
-  to: string; // The recipient address
-  value: string; // The value of the transaction
+export type ProcessSwapTransactionParams = {
+  config: Config;
+  setLifeCycleStatus: (state: LifeCycleStatus) => void;
+  sendTransactionAsync: SendTransactionMutateAsync<Config, unknown>;
+  swapTransaction: BuildSwapTransaction;
+  useAggregator: boolean;
 };
 
 /**
@@ -124,8 +103,6 @@ export type SwapAmountInputReact = {
   token?: Token; // Selected token
   type: 'to' | 'from'; // Identifies if component is for toToken or fromToken
 };
-
-export type SwapAPIParams = GetQuoteAPIParams | GetSwapAPIParams;
 
 export type SwapAPIResponse = {
   approveTx?: RawTransactionData; // The approval transaction
@@ -141,13 +118,10 @@ export type SwapAPIResponse = {
 export type SwapButtonReact = {
   className?: string; // Optional className override for top div element.
   disabled?: boolean; // Disables swap button
-  onError?: (error: SwapError) => void; // Callback function for error
-  onStart?: (txHash: string) => void | Promise<void>; // Callback function for start
-  onSuccess?: (txReceipt: TransactionReceipt) => void | Promise<void>; // Callback function for success
 };
 
 export type SwapContextType = {
-  error?: SwapErrorState;
+  error?: SwapError;
   from: SwapUnit;
   lifeCycleStatus: LifeCycleStatus;
   loading: boolean;
@@ -158,11 +132,7 @@ export type SwapContextType = {
     st?: Token,
     dt?: Token,
   ) => void;
-  handleSubmit: (
-    onError?: (error: SwapError) => void,
-    onStart?: (txHash: string) => void | Promise<void>,
-    onSuccess?: (txReceipt: TransactionReceipt) => void | Promise<void>,
-  ) => void;
+  handleSubmit: () => void;
   handleToggle: () => void;
   setLifeCycleStatus: (state: LifeCycleStatus) => void; // A function to set the lifecycle status of the component
   to: SwapUnit;
@@ -175,11 +145,6 @@ export type SwapError = {
   code: string; // The error code representing the type of swap error.
   error: string; // The error message providing details about the swap error.
   message: string; // The error message providing details about the swap error.
-};
-
-export type SwapErrorState = {
-  quoteError?: SwapError;
-  swapError?: SwapError;
 };
 
 export type SwapLoadingState = {
@@ -216,27 +181,29 @@ export type SwapParams = {
 };
 
 export type SwapProviderReact = {
-  address: Address;
   children: React.ReactNode;
   experimental: {
     useAggregator: boolean; // Whether to use a DEX aggregator. (default: true)
     maxSlippage?: number; // Maximum acceptable slippage for a swap. (default: 10) This is as a percent, not basis points
   };
-  onStatus?: (lifeCycleStatus: LifeCycleStatus) => void; // An optional callback function that exposes the component lifecycle status
+  onError?: (error: SwapError) => void; // An optional callback function that handles errors within the provider.
+  onStatus?: (lifeCycleStatus: LifeCycleStatus) => void; // An optional callback function that exposes the component lifecycle state
+  onSuccess?: (transactionReceipt: TransactionReceipt) => void; // An optional callback function that exposes the transaction receipt
 };
 
 /**
  * Note: exported as public Type
  */
 export type SwapReact = {
-  address: Address; // Connected address from connector.
   children: ReactNode;
   className?: string; // Optional className override for top div element.
   experimental?: {
     useAggregator: boolean; // Whether to use a DEX aggregator. (default: true)
     maxSlippage?: number; // Maximum acceptable slippage for a swap. (default: 10) This is as a percent, not basis points
   };
-  onStatus?: (lifeCycleStatus: LifeCycleStatus) => void; // An optional callback function that exposes the component lifecycle status
+  onError?: (error: SwapError) => void; // An optional callback function that handles errors within the provider.
+  onStatus?: (lifeCycleStatus: LifeCycleStatus) => void; // An optional callback function that exposes the component lifecycle state
+  onSuccess?: (transactionReceipt: TransactionReceipt) => void; // An optional callback function that exposes the transaction receipt
   title?: string; // Title for the Swap component. (default: "Swap")
 };
 

@@ -61,15 +61,14 @@ export type TransactionButtonReact = {
 };
 
 export type TransactionContextType = {
-  address: Address; // The wallet address involved in the transaction.
   chainId?: number; // The chainId for the transaction.
   contracts: ContractFunctionParameters[]; // An array of contracts for the transaction.
   errorCode?: string; // An error code used to localize errors and provide more context with unit-tests.
   errorMessage?: string; // An error message string if the transaction encounters an issue.
-  hasPaymaster?: boolean; // A boolean indicating if app has paymaster configured
   isLoading: boolean; // A boolean indicating if the transaction is currently loading.
   isToastVisible: boolean; // A boolean indicating if the transaction toast notification is visible.
   onSubmit: () => void; // A function called when the transaction is submitted.
+  paymasterUrl: string | null; // The paymaster URL for the transaction.
   receipt?: TransactionReceipt; // The receipt of the transaction
   lifeCycleStatus: LifeCycleStatus; // The lifecycle status of the transaction.
   setIsToastVisible: (isVisible: boolean) => void; // A function to set the visibility of the transaction toast.
@@ -96,7 +95,6 @@ export type TransactionError = {
 };
 
 export type TransactionProviderReact = {
-  address: Address; // The wallet address to be provided to child components.
   capabilities?: WalletCapabilities; // Capabilities that a wallet supports (e.g. paymasters, session keys, etc).
   chainId?: number; // The chainId for the transaction.
   children: ReactNode; // The child components to be rendered within the provider component.
@@ -110,7 +108,6 @@ export type TransactionProviderReact = {
  * Note: exported as public Type
  */
 export type TransactionReact = {
-  address: Address; // The wallet address involved in the transaction.
   capabilities?: WalletCapabilities; // Capabilities that a wallet supports (e.g. paymasters, session keys, etc).
   chainId?: number; // The chainId for the transaction.
   children: ReactNode; // The child components to be rendered within the transaction component.
@@ -199,6 +196,16 @@ export type UseWriteContractParams = {
 };
 
 export type UseWriteContractsParams = {
+  setLifeCycleStatus: (state: LifeCycleStatus) => void;
+  setTransactionId: (id: string) => void;
+};
+
+export type UseSendCallParams = {
+  setLifeCycleStatus: (state: LifeCycleStatus) => void;
+  transactionHashList: Address[];
+};
+
+export type UseSendCallsParams = {
   setLifeCycleStatus: (state: LifeCycleStatus) => void;
   setTransactionId: (id: string) => void;
 };

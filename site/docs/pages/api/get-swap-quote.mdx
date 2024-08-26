@@ -2,12 +2,17 @@
 
 The `getSwapQuote` function is used to get a quote for a swap between two Tokens.
 
+Before using them, make sure to obtain a Public API Key from the [Coinbase Developer Platform APIs](https://portal.cdp.coinbase.com/products/onchainkit).
+
 ## Usage
 
 :::code-group
 
 ```tsx [code]
-import { getSwapQuote } from '@coinbase/onchainkit/swap';
+import { setOnchainKitConfig } from '@coinbase/onchainkit';
+import { getSwapQuote } from '@coinbase/onchainkit/api';
+
+setOnchainKitConfig({ apiKey: 'YOUR_API_KEY' });
 
 const fromToken: Token = {
   name: 'ETH',
@@ -65,8 +70,8 @@ const quote = await getSwapQuote({
 
 ## Returns
 
-[`Promise<GetSwapQuoteResponse>`](/swap/types#getswapquoteresponse)
+[`Promise<GetSwapQuoteResponse>`](/api/types#getswapquoteresponse)
 
 ## Parameters
 
-[`GetSwapQuoteParams`](/swap/types#getswapquoteparams)
+[`GetSwapQuoteParams`](/api/types#getswapquoteparams)

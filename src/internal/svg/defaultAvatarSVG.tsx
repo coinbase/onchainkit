@@ -2,9 +2,9 @@ import { fill } from '../../styles/theme';
 
 export const defaultAvatarSVG = (
   <svg
-    data-testid="ockAvatarDefaultSvg"
+    data-testid="ock-defaultAvatarSVG"
     role="img"
-    aria-label="ock-default-avatar"
+    aria-label="ock-defaultAvatarSVG"
     width="100%"
     height="100%"
     viewBox="0 0 40 40"

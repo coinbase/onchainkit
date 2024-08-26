@@ -3,7 +3,7 @@ import type { ConnectButtonReact } from '../types';
 
 export function ConnectButton({
   className,
-  connectButtonOnClick,
+  onClick,
   text,
 }: ConnectButtonReact) {
   return (
@@ -17,7 +17,7 @@ export function ConnectButton({
         'inline-flex min-w-[153px] items-center justify-center rounded-xl px-4 py-3',
         className,
       )}
-      onClick={() => connectButtonOnClick()}
+      onClick={onClick}
     >
       <span className={cn(dsText.body, color.inverse)}>{text}</span>
     </button>
