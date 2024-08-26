@@ -4,9 +4,9 @@ export { SwapAmountInput } from './components/SwapAmountInput';
 export { SwapButton } from './components/SwapButton';
 export { SwapMessage } from './components/SwapMessage';
 export { SwapSettings } from './components/SwapSettings';
+export { SwapSettingsSlippageDescription } from './components/SwapSettingsSlippageDescription';
 export { SwapSettingsSlippageInput } from './components/SwapSettingsSlippageInput';
 export { SwapSettingsSlippageTitle } from './components/SwapSettingsSlippageTitle';
-export { SwapSettingsSlippageDescription } from './components/SwapSettingsSlippageDescription';
 export { SwapToggleButton } from './components/SwapToggleButton';
 export type {
   BuildSwapTransaction,
@@ -21,9 +21,9 @@ export type {
   SwapQuote,
   SwapReact,
   SwapSettingsReact,
+  SwapSettingsSlippageDescriptionReact,
   SwapSettingsSlippageInputReact,
   SwapSettingsSlippageTitleReact,
-  SwapSettingsSlippageDescriptionReact,
   SwapToggleButtonReact,
   Transaction,
 } from './types';

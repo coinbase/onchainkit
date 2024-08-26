@@ -1,126 +1,95 @@
-import { useCallback, useState } from 'react';
-import {
-  background,
-  cn,
-  color,
-  pressable,
-  text as themeText,
-} from '../../styles/theme';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { background, border, cn, pressable, text } from '../../styles/theme';
 import { useBreakpoints } from '../../useBreakpoints';
 import { useIcon } from '../../wallet/hooks/useIcon';
 import type { SwapSettingsReact } from '../types';
+import { SwapSettingsSlippageLayout } from './SwapSettingsSlippageLayout';
+import { SwapSettingsSlippageLayoutBottomSheet } from './SwapSettingsSlippageLayoutBottomSheet';
 
 export function SwapSettings({
+  children,
   className,
   icon = 'swapSettings',
-  text = '',
+  text: buttonText = '',
 }: SwapSettingsReact) {
-  const [isOpen, setIsOpen] = useState(false);
-  const [slippageMode, setSlippageMode] = useState<'Auto' | 'Custom'>('Auto');
-  const [customSlippage, setCustomSlippage] = useState('0.5');
   const breakpoint = useBreakpoints();
+  const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   const handleToggle = useCallback(() => {
     setIsOpen(!isOpen);
   }, [isOpen]);
 
+  const handleClickOutsideComponent = (event: MouseEvent) => {
+    if (
+      dropdownRef.current &&
+      !dropdownRef.current.contains(event.target as Node)
+    ) {
+      setIsOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutsideComponent);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutsideComponent);
+    };
+  }, [handleClickOutsideComponent]);
+
   const iconSvg = useIcon({ icon });
-
-  if (!breakpoint) {
-    return null;
-  }
-
-  // Placeholder for SwapSettingsBottomSheet
-  // Implement mobile version here, similar to WalletBottomSheet
-  if (breakpoint === 'sm') {
-    return <div>Mobile version not implemented</div>;
-  }
 
   return (
     <div
       className={cn(
-        background.default,
-        className,
         'flex w-full items-center justify-end space-x-1',
+        className,
       )}
       data-testid="ockSwapSettings_Settings"
     >
-      <span className={themeText.body}>{text}</span>
-      <div className="relative">
+      {buttonText && <span className={cn(text.body)}>{buttonText}</span>}
+      <div className={cn('relative', isOpen && 'group')} ref={dropdownRef}>
         <button
           type="button"
           aria-label="Toggle swap settings"
-          className="rounded-full p-2 opacity-50 transition-opacity hover:opacity-100"
+          className={cn(
+            pressable.default,
+            'rounded-full p-2 opacity-50 transition-opacity hover:opacity-100',
+          )}
           onClick={handleToggle}
         >
           {iconSvg}
         </button>
-        {isOpen && (
+        {breakpoint === 'sm' ? (
           <div
             className={cn(
-              pressable.default,
+              background.inverse,
+              pressable.shadow,
+              'fixed inset-x-0 z-50 transition-[bottom] duration-300 ease-in-out',
+              '-bottom-[12.875rem] h-[12.875rem] rounded-t-lg group-[]:bottom-0',
               className,
-              'absolute right-0 z-10 mt-1 w-[350px] rounded-xl shadow-lg',
             )}
-            data-testid="ockSwapSettingsDropdown"
+            data-testid="ockSwapSettingsSlippageLayoutBottomSheet_container"
           >
-            <div className="p-4">
-              <h3 className={cn(themeText.caption, 'mb-2 text-base')}>
-                Max. slippage
-              </h3>
-              <p className={cn(themeText.body, color.foregroundMuted, 'mb-2')}>
-                Your swap will revert if the prices change by more than the
-                selected percentage.
-              </p>
-              <div className="mb-4 flex items-center justify-between">
-                <div className="flex space-x-2 px-1 py-2">
-                  <button
-                    className={cn(
-                      'items-center gap-1 rounded-xl px-4 py-2 font-sans text-base leading-5',
-                      slippageMode === 'Auto'
-                        ? 'bg-blue-100 text-blue-600'
-                        : 'bg-gray-100 text-gray-600',
-                    )}
-                    onClick={() => setSlippageMode('Auto')}
-                  >
-                    Auto
-                  </button>
-                  <button
-                    className={cn(
-                      themeText.label1,
-                      'items-center gap-1 rounded-xl px-4 py-2 text-base',
-                      slippageMode === 'Custom'
-                        ? 'bg-blue-100 text-blue-600'
-                        : 'bg-gray-100 text-gray-600',
-                    )}
-                    onClick={() => setSlippageMode('Custom')}
-                  >
-                    Custom
-                  </button>
-                </div>
-                <div className="flex items-center">
-                  <input
-                    type="text"
-                    value={customSlippage}
-                    onChange={(e) => setCustomSlippage(e.target.value)}
-                    className={cn(
-                      background.default,
-                      'w-16 rounded-l-md border-t border-b border-l px-2 py-1 text-left',
-                    )}
-                    disabled={slippageMode === 'Auto'}
-                  />
-                  <span
-                    className={cn(
-                      background.default,
-                      'rounded-r-md border border-l-0 px-2 py-1 focus:outline-none',
-                    )}
-                  >
-                    %
-                  </span>
-                </div>
-              </div>
-            </div>
+            <SwapSettingsSlippageLayoutBottomSheet className={className}>
+              {children}
+            </SwapSettingsSlippageLayoutBottomSheet>
           </div>
+        ) : (
+          isOpen && (
+            <div
+              className={cn(
+                border.default,
+                background.default,
+                pressable.shadow,
+                'absolute right-0 z-10 mt-1 w-[21.75rem] rounded-lg',
+              )}
+              data-testid="ockSwapSettingsDropdown"
+            >
+              <SwapSettingsSlippageLayout>
+                {children}
+              </SwapSettingsSlippageLayout>
+            </div>
+          )
         )}
       </div>
     </div>

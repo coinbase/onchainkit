@@ -37,7 +37,6 @@ export function Swap({
   if (!isMounted) {
     return null;
   }
-
   return (
     <SwapProvider
       experimental={experimental}
@@ -60,7 +59,7 @@ export function Swap({
           >
             {title}
           </h3>
-          <div>{swapSettings}</div>
+          {swapSettings}
         </div>
         {inputs[0]}
         <div className="relative h-1">{toggleButton}</div>
