@@ -60,6 +60,7 @@ export const fill = {
 
 export const border = {
   default: 'border-ock-default',
+  defaultActive: 'border-ock-default-active',
 } as const;
 
 export const placeholder = {

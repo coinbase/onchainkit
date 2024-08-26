@@ -6,3 +6,4 @@
 - **chore**: Add Swap Settings Slippage Description. By @cpcramer #1192
 - **chore**: Add Swap Settings Slippage Title. By @cpcramer #1191
 - **chore**: Add slippage support to the Swap Component. By @cpcramer #1189
+- **chore**: Add Swap Settings Slippage Input component. By @cpcramer #1195

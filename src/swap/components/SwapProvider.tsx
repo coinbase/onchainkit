@@ -65,6 +65,14 @@ export function SwapProvider({
   // Refreshes balances and inputs post-swap
   const resetInputs = useResetInputs({ from, to });
 
+  // Manages max slippage state
+  const [maxSlippage, setMaxSlippageState] = useState(
+    experimental.maxSlippage ?? 3,
+  );
+  const setMaxSlippage = useCallback((maxSlippage: number) => {
+    setMaxSlippageState(maxSlippage);
+  }, []);
+
   // Component lifecycle emitters
   useEffect(() => {
     // Error
@@ -189,7 +197,7 @@ export function SwapProvider({
           amountReference: 'from',
           from: source.token,
           to: destination.token,
-          maxSlippage: experimental.maxSlippage?.toString(),
+          maxSlippage: maxSlippage.toString(),
           useAggregator,
         });
         // If request resolves to error response set the quoteError
@@ -236,7 +244,7 @@ export function SwapProvider({
         destination.setLoading(false);
       }
     },
-    [from, experimental.maxSlippage, to, useAggregator],
+    [from, maxSlippage, to, useAggregator],
   );
 
   const handleSubmit = useCallback(async () => {
@@ -257,7 +265,7 @@ export function SwapProvider({
         from: from.token,
         to: to.token,
         useAggregator,
-        maxSlippage: experimental.maxSlippage?.toString(),
+        maxSlippage: maxSlippage?.toString(),
       });
       if (isSwapError(response)) {
         setLifeCycleStatus({
@@ -297,6 +305,7 @@ export function SwapProvider({
     config,
     from.amount,
     from.token,
+    maxSlippage,
     sendTransactionAsync,
     to.token,
     useAggregator,
@@ -313,7 +322,9 @@ export function SwapProvider({
     handleSubmit,
     lifeCycleStatus,
     isTransactionPending,
+    maxSlippage,
     setLifeCycleStatus,
+    setMaxSlippage,
     to,
   });
 
