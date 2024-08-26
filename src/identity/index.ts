@@ -5,9 +5,11 @@ export { Badge } from './components/Badge';
 export { EthBalance } from './components/EthBalance';
 export { Identity } from './components/Identity';
 export { Name } from './components/Name';
+export { isBasename } from './utils/isBasename';
 export { getAttestations } from './utils/getAttestations';
 export { getAvatar } from './utils/getAvatar';
 export { getName } from './utils/getName';
+export { useAddress } from './hooks/useAddress';
 export { useAttestations } from './hooks/useAttestations';
 export { useAvatar } from './hooks/useAvatar';
 export { useName } from './hooks/useName';
@@ -22,6 +24,8 @@ export type {
   EASChainDefinition,
   EASSchemaUid,
   EthBalanceReact,
+  GetAddress,
+  GetAddressReturnType,
   GetAttestationsOptions,
   GetAvatar,
   GetAvatarReturnType,
@@ -30,8 +34,8 @@ export type {
   IdentityContextType,
   IdentityReact,
   NameReact,
+  UseAddressOptions,
   UseAvatarOptions,
-  UseAvatarQueryOptions,
+  UseQueryOptions,
   UseNameOptions,
-  UseNameQueryOptions,
 } from './types';

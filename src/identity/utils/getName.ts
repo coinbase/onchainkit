@@ -12,7 +12,6 @@ import { convertReverseNodeToBytes } from './convertReverseNodeToBytes';
  * name for a given Ethereum address. It returns the ENS name if it exists,
  * or null if it doesn't or in case of an error.
  */
-
 export const getName = async ({
   address,
   chain = mainnet,
