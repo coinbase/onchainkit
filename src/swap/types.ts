@@ -154,7 +154,9 @@ export type SwapContextType = {
   ) => void;
   handleSubmit: () => void;
   handleToggle: () => void;
+  maxSlippage: number;
   setLifeCycleStatus: (state: LifeCycleStatus) => void; // A function to set the lifecycle status of the component
+  setMaxSlippage: (maxSlippage: number) => void; // A function to set the maximum slippage
   to: SwapUnit;
 };
 
@@ -231,9 +233,39 @@ export type SwapReact = {
  * Note: exported as public Type
  */
 export type SwapSettingsReact = {
+  children: React.ReactNode;
   className?: string; // Optional className override for top div element.
   icon?: ReactNode; // Optional icon override
   text?: string; // Optional text override
+};
+
+/**
+ * Note: exported as public Type
+ */
+export type SwapSettingsSlippageTitleReact = {
+  children: ReactNode;
+  className?: string; // Optional className override for top div element.
+};
+
+/**
+ * Note: exported as public Type
+ */
+export type SwapSettingsSlippageDescriptionReact = {
+  children: ReactNode;
+  className?: string; // Optional className override for top div element.
+};
+
+/**
+ * Note: exported as public Type
+ */
+export type SwapSettingsSlippageInputReact = {
+  className?: string; // Optional className override for top div element.
+  defaultSlippage?: number; // Optional default slippage value in pecentage.
+};
+
+export type SwapSettingsSlippageLayoutReact = {
+  children: ReactNode;
+  className?: string; // Optional className override for top div element.
 };
 
 /**

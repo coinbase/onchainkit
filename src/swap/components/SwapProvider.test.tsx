@@ -688,4 +688,59 @@ describe('SwapProvider', () => {
       ).toBe('UNCAUGHT_SWAP_ERROR');
     });
   });
+
+  it('should update maxSlippage when setMaxSlippage is called', async () => {
+    const { result } = renderHook(() => useSwapContext(), { wrapper });
+    expect(result.current.maxSlippage).toBe(5);
+    await act(async () => {
+      result.current.setMaxSlippage(15);
+    });
+    expect(result.current.maxSlippage).toBe(15);
+  });
+
+  it('should use updated maxSlippage in handleAmountChange', async () => {
+    const { result } = renderHook(() => useSwapContext(), { wrapper });
+    await act(async () => {
+      result.current.setMaxSlippage(20);
+    });
+    await act(async () => {
+      result.current.handleAmountChange('from', '10', ETH_TOKEN, DEGEN_TOKEN);
+    });
+    expect(getSwapQuote).toHaveBeenCalledWith(
+      expect.objectContaining({
+        maxSlippage: '20',
+        amount: '10',
+        amountReference: 'from',
+        from: ETH_TOKEN,
+        to: DEGEN_TOKEN,
+        useAggregator: true,
+      }),
+    );
+  });
+
+  describe('SwapProvider - MaxSlippage Initialization', () => {
+    const createWrapper =
+      (experimental) =>
+      ({ children }) => (
+        <WagmiProvider config={config}>
+          <QueryClientProvider client={queryClient}>
+            <SwapProvider experimental={experimental}>{children}</SwapProvider>
+          </QueryClientProvider>
+        </WagmiProvider>
+      );
+
+    it('should initialize maxSlippage with experimental.maxSlippage when provided', () => {
+      const { result } = renderHook(() => useSwapContext(), {
+        wrapper: createWrapper({ maxSlippage: 15, useAggregator: true }),
+      });
+      expect(result.current.maxSlippage).toBe(15);
+    });
+
+    it('should initialize maxSlippage with default value when experimental.maxSlippage is not provided', () => {
+      const { result } = renderHook(() => useSwapContext(), {
+        wrapper: createWrapper({ useAggregator: true }),
+      });
+      expect(result.current.maxSlippage).toBe(3);
+    });
+  });
 });
