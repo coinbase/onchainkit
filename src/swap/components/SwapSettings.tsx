@@ -1,11 +1,5 @@
 import { useCallback, useState } from 'react';
-import {
-  background,
-  cn,
-  color,
-  pressable,
-  text as themeText,
-} from '../../styles/theme';
+import { cn } from '../../styles/theme';
 import { useBreakpoints } from '../../useBreakpoints';
 import { useIcon } from '../../wallet/hooks/useIcon';
 import type { SwapSettingsReact } from '../types';
@@ -39,13 +33,12 @@ export function SwapSettings({
   return (
     <div
       className={cn(
-        background.default,
         className,
         'flex w-full items-center justify-end space-x-1',
       )}
       data-testid="ockSwapSettings_Settings"
     >
-      <span className={themeText.body}>{text}</span>
+      <span className="font-sans text-base leading-normal">{text}</span>
       <div className="relative">
         <button
           type="button"
@@ -58,66 +51,57 @@ export function SwapSettings({
         {isOpen && (
           <div
             className={cn(
-              pressable.default,
               className,
-              'absolute right-0 z-10 mt-1 w-[350px] rounded-xl shadow-lg',
+              'absolute right-0 z-10 mt-1 w-[21.75rem] rounded-lg border border-gray-300 bg-gray-50 p-4 shadow-lg dark:border-gray-700 dark:bg-gray-950',
             )}
             data-testid="ockSwapSettingsDropdown"
           >
-            <div className="p-4">
-              <h3 className={cn(themeText.caption, 'mb-2 text-base')}>
-                Max. slippage
-              </h3>
-              <p className={cn(themeText.body, color.foregroundMuted, 'mb-2')}>
-                Your swap will revert if the prices change by more than the
-                selected percentage.
-              </p>
-              <div className="mb-4 flex items-center justify-between">
-                <div className="flex space-x-2 px-1 py-2">
-                  <button
-                    className={cn(
-                      'items-center gap-1 rounded-xl px-4 py-2 font-sans text-base leading-5',
-                      slippageMode === 'Auto'
-                        ? 'bg-blue-100 text-blue-600'
-                        : 'bg-gray-100 text-gray-600',
-                    )}
-                    onClick={() => setSlippageMode('Auto')}
-                  >
-                    Auto
-                  </button>
-                  <button
-                    className={cn(
-                      themeText.label1,
-                      'items-center gap-1 rounded-xl px-4 py-2 text-base',
-                      slippageMode === 'Custom'
-                        ? 'bg-blue-100 text-blue-600'
-                        : 'bg-gray-100 text-gray-600',
-                    )}
-                    onClick={() => setSlippageMode('Custom')}
-                  >
-                    Custom
-                  </button>
-                </div>
-                <div className="flex items-center">
-                  <input
-                    type="text"
-                    value={customSlippage}
-                    onChange={(e) => setCustomSlippage(e.target.value)}
-                    className={cn(
-                      background.default,
-                      'w-16 rounded-l-md border-t border-b border-l px-2 py-1 text-left',
-                    )}
-                    disabled={slippageMode === 'Auto'}
-                  />
-                  <span
-                    className={cn(
-                      background.default,
-                      'rounded-r-md border border-l-0 px-2 py-1 focus:outline-none',
-                    )}
-                  >
-                    %
-                  </span>
-                </div>
+            <h3 className="mb-2 font-semibold text-base text-gray-950 leading-normal dark:text-gray-50">
+              Max. slippage
+            </h3>
+            <p className="mb-2 font-normal font-sans text-gray-600 text-xs leading-4 dark:text-gray-400">
+              Your swap will revert if the prices change by more than the
+              selected percentage.
+            </p>
+
+            <div className="flex items-center gap-2 dark:border-gray-700 dark:bg-gray-950">
+              <div className="flex flex-1 rounded-xl border border-gray-300 bg-gray-100 p-1 dark:border-gray-700 dark:bg-gray-950">
+                <button
+                  type="button"
+                  className={cn(
+                    'flex-1 rounded-lg px-3 py-1 font-medium text-sm transition-colors dark:bg-gray-950 dark:text-gray-50',
+                    slippageMode === 'Auto'
+                      ? 'bg-white text-blue-600 shadow-sm dark:bg-indigo-900'
+                      : 'text-gray-600 hover:bg-gray-200 dark:hover:bg-gray-700',
+                  )}
+                  onClick={() => setSlippageMode('Auto')}
+                >
+                  Auto
+                </button>
+                <button
+                  type="button"
+                  className={cn(
+                    'flex-1 rounded-lg px-3 py-1 font-medium text-sm transition-colors dark:bg-gray-950 dark:text-gray-50',
+                    slippageMode === 'Custom'
+                      ? 'bg-white text-blue-600 shadow-sm dark:bg-indigo-900'
+                      : 'text-gray-600 hover:bg-gray-200 dark:hover:bg-gray-700',
+                  )}
+                  onClick={() => setSlippageMode('Custom')}
+                >
+                  Custom
+                </button>
+              </div>
+              <div className="flex items-center justify-between rounded-lg border border-gray-300 bg-white px-2 py-1 dark:border-gray-700 dark:bg-gray-950">
+                <input
+                  type="text"
+                  value={customSlippage}
+                  onChange={(e) => setCustomSlippage(e.target.value)}
+                  className="w-12 bg-transparent pl-1 font-normal font-sans text-gray-900 text-sm leading-6 focus:outline-none dark:text-gray-50"
+                  disabled={slippageMode === 'Auto'}
+                />
+                <span className="ml-1 font-normal font-sans text-gray-400 text-sm leading-6 dark:bg-gray-950 dark:text-gray-50 ">
+                  %
+                </span>
               </div>
             </div>
           </div>
