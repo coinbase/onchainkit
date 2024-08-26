@@ -266,6 +266,11 @@ export type SwapSettingsSlippageInputReact = {
   defaultSlippage?: number; // Optional default slippage value in pecentage.
 };
 
+export type SwapSettingsSlippageLayoutReact = {
+  children: ReactNode;
+  className?: string; // Optional className override for top div element.
+};
+
 /**
  * Note: exported as public Type
  */
