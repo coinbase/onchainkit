@@ -30,7 +30,7 @@ export type JSONRPCResult<T> = {
  */
 export function buildRequestBody<T>(
   method: string,
-  params: T[]
+  params: T[],
 ): JSONRPCRequest<T> {
   return {
     id: 1,
@@ -50,7 +50,7 @@ export function buildRequestBody<T>(
  */
 export async function sendRequest<T, V>(
   method: string,
-  params: T[]
+  params: T[],
 ): Promise<JSONRPCResult<V>> {
   try {
     const body = buildRequestBody<T>(method, params);
@@ -64,7 +64,7 @@ export async function sendRequest<T, V>(
     return data;
   } catch (error) {
     console.log(
-      `sendRequest: error sending request: ${(error as Error).message}`
+      `sendRequest: error sending request: ${(error as Error).message}`,
     );
     throw error;
   }
