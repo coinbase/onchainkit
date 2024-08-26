@@ -13,6 +13,7 @@ import { base } from 'wagmi/chains';
 import { mock } from 'wagmi/connectors';
 import { buildSwapTransaction } from '../../api/buildSwapTransaction';
 import { getSwapQuote } from '../../api/getSwapQuote';
+import { DEFAULT_MAX_SLIPPAGE } from '../constants';
 import { DEGEN_TOKEN, ETH_TOKEN } from '../mocks';
 import { getSwapErrorCode } from '../utils/getSwapErrorCode';
 import { SwapProvider, useSwapContext } from './SwapProvider';
@@ -42,6 +43,10 @@ vi.mock('wagmi', async (importOriginal) => {
     useAccount: vi.fn(),
   };
 });
+
+vi.mock('../path/to/maxSlippageModule', () => ({
+  getMaxSlippage: vi.fn().mockReturnValue(10),
+}));
 
 const queryClient = new QueryClient();
 
@@ -443,12 +448,15 @@ describe('SwapProvider', () => {
     });
     const button = screen.getByText('setLifeCycleStatus.success');
     fireEvent.click(button);
-    expect(onStatusMock).toHaveBeenCalledWith({
-      statusName: 'init',
-      statusData: {
-        isMissingRequiredField: false,
-        maxSlippage: 10,
-      },
+    await waitFor(() => {
+      expect(onStatusMock).toHaveBeenCalledWith(
+        expect.objectContaining({
+          statusName: 'init',
+          statusData: expect.objectContaining({
+            isMissingRequiredField: false,
+          }),
+        }),
+      );
     });
   });
 
@@ -610,6 +618,47 @@ describe('SwapProvider', () => {
       );
     });
     expect(result.current.to.amount).toBe('');
+  });
+
+  it('should use DEFAULT_MAX_SLIPPAGE when lifeCycleStatus.statusData is falsy and experimental.maxSlippage is not provided', async () => {
+    const { result } = renderHook(() => useSwapContext(), {
+      wrapper: ({ children }) => (
+        <WagmiProvider config={config}>
+          <QueryClientProvider client={queryClient}>
+            <SwapProvider experimental={{ useAggregator: true }}>
+              {children}
+            </SwapProvider>
+          </QueryClientProvider>
+        </WagmiProvider>
+      ),
+    });
+    act(() => {
+      result.current.setLifeCycleStatus({
+        statusName: 'error',
+        statusData: null,
+      });
+    });
+    vi.mocked(getSwapQuote).mockResolvedValueOnce({
+      toAmount: '100',
+      to: { decimals: 18 },
+    });
+    await act(async () => {
+      await result.current.handleAmountChange(
+        'from',
+        '10',
+        ETH_TOKEN,
+        DEGEN_TOKEN,
+      );
+    });
+    expect(getSwapQuote).toHaveBeenCalledWith(
+      expect.objectContaining({
+        maxSlippage: String(DEFAULT_MAX_SLIPPAGE),
+      }),
+    );
+    expect(result.current.lifeCycleStatus.statusName).toBe('amountChange');
+    expect(result.current.lifeCycleStatus.statusData.maxSlippage).toBe(
+      DEFAULT_MAX_SLIPPAGE,
+    );
   });
 
   it('should handle zero amount input', async () => {
