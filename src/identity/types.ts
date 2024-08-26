@@ -118,10 +118,23 @@ export type GetAvatarReturnType = string | null;
 /**
  * Note: exported as public Type
  */
+export type GetAddress = {
+  name: string | Basename;
+  chain?: Chain;
+};
+
+/**
+ * Note: exported as public Type
+ */
 export type GetName = {
   address: Address;
   chain?: Chain;
 };
+
+/**
+ * Note: exported as public Type
+ */
+export type GetAddressReturnType = Address | null;
 
 /**
  * Note: exported as public Type
@@ -177,6 +190,14 @@ export type UseAttestations = {
 /**
  * Note: exported as public Type
  */
+export type UseAddressOptions = {
+  name: string | Basename; // The ENS or Basename for which the Ethereum address is to be fetched
+  chain?: Chain; // Optional chain for domain resolution
+};
+
+/**
+ * Note: exported as public Type
+ */
 export type UseAvatarOptions = {
   ensName: string;
   chain?: Chain; // Optional chain for domain resolution
@@ -185,7 +206,7 @@ export type UseAvatarOptions = {
 /**
  * Note: exported as public Type
  */
-export type UseAvatarQueryOptions = {
+export type UseQueryOptions = {
   enabled?: boolean;
   cacheTime?: number;
 };
@@ -196,13 +217,4 @@ export type UseAvatarQueryOptions = {
 export type UseNameOptions = {
   address: Address; // The Ethereum address for which the ENS name is to be fetched.
   chain?: Chain; // Optional chain for domain resolution
-};
-
-/**
- * Note: exported as public Type
- * Additional query options, including `enabled` and `cacheTime`
- */
-export type UseNameQueryOptions = {
-  enabled?: boolean; // Whether the query should be enabled. Defaults to true.
-  cacheTime?: number; // Cache time in milliseconds.
 };

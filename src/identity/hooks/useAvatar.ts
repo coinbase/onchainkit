@@ -3,7 +3,7 @@ import { mainnet } from 'viem/chains';
 import type {
   GetAvatarReturnType,
   UseAvatarOptions,
-  UseAvatarQueryOptions,
+  UseQueryOptions,
 } from '../types';
 import { getAvatar } from '../utils/getAvatar';
 
@@ -12,7 +12,7 @@ import { getAvatar } from '../utils/getAvatar';
  */
 export const useAvatar = (
   { ensName, chain = mainnet }: UseAvatarOptions,
-  queryOptions?: UseAvatarQueryOptions,
+  queryOptions?: UseQueryOptions,
 ) => {
   const { enabled = true, cacheTime } = queryOptions ?? {};
   const ensActionKey = `ens-avatar-${ensName}-${chain.id}`;

@@ -5,6 +5,7 @@ export { Badge } from './components/Badge';
 export { EthBalance } from './components/EthBalance';
 export { Identity } from './components/Identity';
 export { Name } from './components/Name';
+export { isBasename } from './utils/isBasename';
 export { getAttestations } from './utils/getAttestations';
 export { getAvatar } from './utils/getAvatar';
 export { getName } from './utils/getName';
@@ -31,7 +32,6 @@ export type {
   IdentityReact,
   NameReact,
   UseAvatarOptions,
-  UseAvatarQueryOptions,
+  UseQueryOptions,
   UseNameOptions,
-  UseNameQueryOptions,
 } from './types';

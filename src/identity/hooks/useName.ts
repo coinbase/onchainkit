@@ -3,7 +3,7 @@ import { mainnet } from 'viem/chains';
 import type {
   GetNameReturnType,
   UseNameOptions,
-  UseNameQueryOptions,
+  UseQueryOptions,
 } from '../types';
 import { getName } from '../utils/getName';
 
@@ -15,7 +15,7 @@ import { getName } from '../utils/getName';
  */
 export const useName = (
   { address, chain = mainnet }: UseNameOptions,
-  queryOptions?: UseNameQueryOptions,
+  queryOptions?: UseQueryOptions,
 ) => {
   const { enabled = true, cacheTime } = queryOptions ?? {};
   const ensActionKey = `ens-name-${address}-${chain.id}`;

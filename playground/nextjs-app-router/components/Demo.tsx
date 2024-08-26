@@ -4,6 +4,7 @@ import { Chain } from '@/components/form/chain';
 import { PaymasterUrl } from '@/components/form/paymaster';
 import { WalletType } from '@/components/form/wallet-type';
 import { useContext, useEffect } from 'react';
+import IdentityDemo from './demo/Identity';
 import SwapDemo from './demo/Swap';
 import TransactionDemo from './demo/Transaction';
 import WalletDemo from './demo/Wallet';
@@ -37,7 +38,9 @@ function Demo() {
       </div>
       <div className="flex flex-1 flex-col bg-[linear-gradient(to_right,#f0f0f0_1px,transparent_1px),linear-gradient(to_bottom,#f0f0f0_1px,transparent_1px)] bg-[size:6rem_4rem]">
         <div className="flex h-full w-full flex-col justify-center">
-          {activeComponent === OnchainKitComponent.Transaction ? (
+          {activeComponent === OnchainKitComponent.Identity ? (
+            <IdentityDemo />
+          ) : activeComponent === OnchainKitComponent.Transaction ? (
             <TransactionDemo />
           ) : activeComponent === OnchainKitComponent.Swap ? (
             <SwapDemo />
