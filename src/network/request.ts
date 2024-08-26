@@ -1,3 +1,4 @@
+import { JSON_HEADERS, JSON_RPC_VERSION, POST_METHOD } from './constants';
 import { getRPCUrl } from './getRPCUrl';
 
 export type JSONRPCError = {
@@ -18,12 +19,6 @@ export type JSONRPCResult<T> = {
   jsonrpc: string;
   result: T;
 };
-
-const POST_METHOD = 'POST';
-const JSON_HEADERS = {
-  'Content-Type': 'application/json',
-};
-const JSON_RPC_VERSION = '2.0';
 
 /**
  * Builds a JSON-RPC request body.
