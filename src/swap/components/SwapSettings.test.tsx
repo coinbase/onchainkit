@@ -1,35 +1,26 @@
 import { fireEvent, render, screen } from '@testing-library/react';
-import { describe, expect, it, vi } from 'vitest';
-import { useBreakpoints } from '../../useBreakpoints';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { useIcon } from '../../wallet/hooks/useIcon';
 import { SwapSettings } from './SwapSettings';
-
-vi.mock('../../useBreakpoints', () => ({
-  useBreakpoints: vi.fn(),
-}));
 
 vi.mock('../../wallet/hooks/useIcon', () => ({
   useIcon: vi.fn(),
 }));
 
-const useBreakpointsMock = useBreakpoints as vi.Mock;
 const useIconMock = useIcon as vi.Mock;
 
 describe('SwapSettings', () => {
   beforeEach(() => {
     useIconMock.mockReturnValue(<svg data-testid="default-icon" />);
-    useBreakpointsMock.mockReturnValue('md');
   });
 
   it('renders with default title', () => {
-    useBreakpointsMock.mockReturnValue('md');
     render(<SwapSettings />);
     const settingsContainer = screen.getByTestId('ockSwapSettings_Settings');
     expect(settingsContainer.textContent).toBe('');
   });
 
   it('renders with custom title', () => {
-    useBreakpointsMock.mockReturnValue('md');
     render(<SwapSettings text="Custom" />);
     expect(screen.getByText('Custom')).toBeInTheDocument();
   });
@@ -40,7 +31,6 @@ describe('SwapSettings', () => {
   });
 
   it('applies correct classes to the button', () => {
-    useBreakpointsMock.mockReturnValue('md');
     render(<SwapSettings />);
     const button = screen.getByRole('button', {
       name: /toggle swap settings/i,
@@ -50,71 +40,20 @@ describe('SwapSettings', () => {
     );
   });
 
-  it('renders null when breakpoint is falsy', () => {
-    useBreakpointsMock.mockReturnValue(null);
-    const { container } = render(<SwapSettings />);
-    expect(container.firstChild).toBeNull();
-  });
-
-  it('renders mobile version for sm breakpoint', () => {
-    useBreakpointsMock.mockReturnValue('sm');
-    render(<SwapSettings />);
-    expect(
-      screen.getByText('Mobile version not implemented'),
-    ).toBeInTheDocument();
-  });
-
   it('toggles settings dropdown on button click', () => {
-    useBreakpointsMock.mockReturnValue('md');
-    render(<SwapSettings />);
+    const MockChild = () => <div data-testid="mock-child">Mock Child</div>;
+    render(
+      <SwapSettings>
+        <MockChild />
+      </SwapSettings>,
+    );
     const button = screen.getByRole('button', {
       name: /toggle swap settings/i,
     });
-
     fireEvent.click(button);
-    expect(screen.getByTestId('ockSwapSettingsDropdown')).toBeInTheDocument();
-
+    expect(screen.getByTestId('mock-child')).toBeInTheDocument();
     fireEvent.click(button);
-    expect(
-      screen.queryByTestId('ockSwapSettingsDropdown'),
-    ).not.toBeInTheDocument();
-  });
-
-  it('switches between Auto and Custom slippage modes', () => {
-    render(<SwapSettings />);
-    fireEvent.click(
-      screen.getByRole('button', { name: /toggle swap settings/i }),
-    );
-
-    const autoButton = screen.getByRole('button', { name: /auto/i });
-    const customButton = screen.getByRole('button', { name: /custom/i });
-    const input = screen.getByRole('textbox');
-
-    expect(autoButton).toHaveClass('bg-white');
-    expect(autoButton).toHaveClass('text-blue-600');
-    expect(customButton).not.toHaveClass('bg-white');
-    expect(customButton).not.toHaveClass('text-blue-600');
-    expect(input).toBeDisabled();
-
-    fireEvent.click(customButton);
-    expect(autoButton).not.toHaveClass('bg-white');
-    expect(autoButton).not.toHaveClass('text-blue-600');
-    expect(customButton).toHaveClass('bg-white');
-    expect(customButton).toHaveClass('text-blue-600');
-    expect(input).not.toBeDisabled();
-  });
-
-  it('updates custom slippage value', () => {
-    useBreakpointsMock.mockReturnValue('md');
-    render(<SwapSettings />);
-    fireEvent.click(
-      screen.getByRole('button', { name: /toggle swap settings/i }),
-    );
-
-    fireEvent.click(screen.getByRole('button', { name: /custom/i }));
-    const input = screen.getByRole('textbox');
-    fireEvent.change(input, { target: { value: '1.5' } });
-    expect(input).toHaveValue('1.5');
+    expect(screen.queryByTestId('mock-child')).not.toBeInTheDocument();
   });
 
   it('renders custom icon when provided', () => {
@@ -125,35 +64,76 @@ describe('SwapSettings', () => {
     expect(useIconMock).toHaveBeenCalledWith({ icon: customIcon });
   });
 
-  it('handles all interactions and state changes', () => {
-    useBreakpointsMock.mockReturnValue('md');
-    render(<SwapSettings />);
-    fireEvent.click(
-      screen.getByRole('button', { name: /toggle swap settings/i }),
+  it('closes dropdown when clicking outside', () => {
+    const MockChild = () => <div data-testid="mock-child">Mock Child</div>;
+    render(
+      <div>
+        <SwapSettings>
+          <MockChild />
+        </SwapSettings>
+        <div data-testid="outside">Outside</div>
+      </div>,
     );
-    expect(screen.getByTestId('ockSwapSettingsDropdown')).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /auto/i })).toHaveClass(
-      'bg-white',
+    const button = screen.getByRole('button', {
+      name: /toggle swap settings/i,
+    });
+    fireEvent.click(button);
+    expect(screen.getByTestId('mock-child')).toBeInTheDocument();
+    fireEvent.mouseDown(screen.getByTestId('outside'));
+    expect(screen.queryByTestId('mock-child')).not.toBeInTheDocument();
+  });
+
+  it('renders children correctly', () => {
+    const MockChild = () => <div data-testid="mock-child">Mock Child</div>;
+    render(
+      <SwapSettings>
+        <MockChild />
+        <div>Another child</div>
+      </SwapSettings>,
     );
-    expect(screen.getByRole('textbox')).toBeDisabled();
-    expect(screen.getByRole('textbox')).toHaveValue('0.5');
-    fireEvent.click(screen.getByRole('button', { name: /custom/i }));
-    expect(screen.getByRole('button', { name: /custom/i })).toHaveClass(
-      'bg-white',
+    const button = screen.getByRole('button', {
+      name: /toggle swap settings/i,
+    });
+    fireEvent.click(button);
+    expect(screen.getByTestId('mock-child')).toBeInTheDocument();
+    expect(screen.getByText('Another child')).toBeInTheDocument();
+  });
+
+  it('handles non-element children', () => {
+    render(
+      <SwapSettings>
+        <div>Valid child</div>
+        {null}
+        {undefined}
+        {false}
+        {42}
+      </SwapSettings>,
     );
-    expect(screen.getByRole('textbox')).not.toBeDisabled();
-    fireEvent.change(screen.getByRole('textbox'), { target: { value: '1.5' } });
-    expect(screen.getByRole('textbox')).toHaveValue('1.5');
-    fireEvent.click(screen.getByRole('button', { name: /auto/i }));
-    expect(screen.getByRole('button', { name: /auto/i })).toHaveClass(
-      'bg-white',
+    const button = screen.getByRole('button', {
+      name: /toggle swap settings/i,
+    });
+    fireEvent.click(button);
+    expect(screen.getByText('Valid child')).toBeInTheDocument();
+  });
+
+  it('applies custom className', () => {
+    render(<SwapSettings className="custom-class" />);
+    const container = screen.getByTestId('ockSwapSettings_Settings');
+    expect(container).toHaveClass('custom-class');
+  });
+
+  it('keeps dropdown open when clicking inside', () => {
+    const MockChild = () => <div data-testid="mock-child">Mock Child</div>;
+    render(
+      <SwapSettings>
+        <MockChild />
+      </SwapSettings>,
     );
-    expect(screen.getByRole('textbox')).toBeDisabled();
-    fireEvent.click(
-      screen.getByRole('button', { name: /toggle swap settings/i }),
-    );
-    expect(
-      screen.queryByTestId('ockSwapSettingsDropdown'),
-    ).not.toBeInTheDocument();
+    const button = screen.getByRole('button', {
+      name: /toggle swap settings/i,
+    });
+    fireEvent.click(button);
+    fireEvent.mouseDown(screen.getByTestId('mock-child'));
+    expect(screen.getByTestId('mock-child')).toBeInTheDocument();
   });
 });
