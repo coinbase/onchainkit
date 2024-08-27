@@ -93,4 +93,104 @@ describe('SwapMessage', () => {
     const messageDiv = screen.getByTestId('ockSwapMessage_Message');
     expect(messageDiv).toHaveClass(customClass);
   });
+
+  test('sets isMissingRequiredFields to true when from.amount is missing', () => {
+    const mockContext = {
+      to: { amount: 1, token: 'ETH' },
+      from: { amount: null, token: 'DAI' }, // from.amount is missing
+      error: null,
+      loading: false,
+      isTransactionPending: false,
+      address: '0x123',
+    };
+
+    useSwapContextMock.mockReturnValue(mockContext);
+
+    render(<SwapMessage />);
+
+    expect(mockGetSwapMessage).toHaveBeenCalledWith({
+      address: '0x123',
+      error: null,
+      from: { amount: null, token: 'DAI' },
+      loading: false,
+      isMissingRequiredFields: true,
+      isTransactionPending: false,
+      to: { amount: 1, token: 'ETH' },
+    });
+  });
+
+  test('sets isMissingRequiredFields to true when from.token is missing', () => {
+    const mockContext = {
+      to: { amount: 1, token: 'ETH' },
+      from: { amount: 1, token: null }, // from.token is missing
+      error: null,
+      loading: false,
+      isTransactionPending: false,
+      address: '0x123',
+    };
+
+    useSwapContextMock.mockReturnValue(mockContext);
+
+    render(<SwapMessage />);
+
+    expect(mockGetSwapMessage).toHaveBeenCalledWith({
+      address: '0x123',
+      error: null,
+      from: { amount: 1, token: null },
+      loading: false,
+      isMissingRequiredFields: true,
+      isTransactionPending: false,
+      to: { amount: 1, token: 'ETH' },
+    });
+  });
+
+  test('sets isMissingRequiredFields to true when to.amount is missing', () => {
+    const mockContext = {
+      to: { amount: null, token: 'ETH' }, // to.amount is missing
+      from: { amount: 1, token: 'DAI' },
+      error: null,
+      loading: false,
+      isTransactionPending: false,
+      address: '0x123',
+    };
+
+    useSwapContextMock.mockReturnValue(mockContext);
+
+    render(<SwapMessage />);
+
+    expect(mockGetSwapMessage).toHaveBeenCalledWith({
+      address: '0x123',
+      error: null,
+      from: { amount: 1, token: 'DAI' },
+      loading: false,
+      isMissingRequiredFields: true,
+      isTransactionPending: false,
+      to: { amount: null, token: 'ETH' },
+    });
+  });
+
+  test('sets isMissingRequiredFields to true when to.token is missing', () => {
+    const mockContext = {
+      to: { amount: 1, token: null }, // to.token is missing
+      from: { amount: 1, token: 'DAI' },
+      error: null,
+      loading: false,
+      isTransactionPending: false,
+      address: '0x123',
+    };
+
+    useSwapContextMock.mockReturnValue(mockContext);
+
+    render(<SwapMessage />);
+
+    expect(mockGetSwapMessage).toHaveBeenCalledWith({
+      address: '0x123',
+      error: null,
+      from: { amount: 1, token: 'DAI' },
+      loading: false,
+      isMissingRequiredFields: true,
+      isTransactionPending: false,
+      to: { amount: 1, token: null },
+    });
+  });
 });
