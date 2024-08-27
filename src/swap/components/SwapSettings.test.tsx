@@ -1,76 +1,88 @@
-import { fireEvent, render, screen } from '@testing-library/react';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import '@testing-library/jest-dom';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { vi } from 'vitest';
 import { useIcon } from '../../wallet/hooks/useIcon';
 import { SwapSettings } from './SwapSettings';
+import { SwapSettingsSlippageDescription } from './SwapSettingsSlippageDescription';
+import { SwapSettingsSlippageInput } from './SwapSettingsSlippageInput';
+import { SwapSettingsSlippageTitle } from './SwapSettingsSlippageTitle';
+import { SwapSettingsSlippageToggle } from './SwapSettingsSlippageToggle';
 
 vi.mock('../../wallet/hooks/useIcon', () => ({
-  useIcon: vi.fn(),
+  useIcon: vi.fn(() => <svg data-testid="mock-icon" />),
 }));
 
-const useIconMock = useIcon as vi.Mock;
+vi.mock('./SwapSettingsSlippageLayout', () => ({
+  SwapSettingsSlippageLayout: vi.fn(({ children }) => (
+    <div data-testid="mock-layout">{children}</div>
+  )),
+}));
+
+vi.mock('./SwapSettingsSlippageTitle', () => ({
+  SwapSettingsSlippageTitle: vi.fn(() => <div>Title</div>),
+}));
+
+vi.mock('./SwapSettingsSlippageDescription', () => ({
+  SwapSettingsSlippageDescription: vi.fn(() => <div>Description</div>),
+}));
+
+vi.mock('./SwapSettingsSlippageToggle', () => ({
+  SwapSettingsSlippageToggle: vi.fn(() => <div>Toggle</div>),
+}));
+
+vi.mock('./SwapSettingsSlippageInput', () => ({
+  SwapSettingsSlippageInput: vi.fn(() => <div>Input</div>),
+}));
+
+const renderComponent = (props = {}) => {
+  return render(
+    <SwapSettings {...props}>
+      <SwapSettingsSlippageTitle />
+      <SwapSettingsSlippageDescription />
+      <SwapSettingsSlippageToggle />
+      <SwapSettingsSlippageInput />
+    </SwapSettings>,
+  );
+};
 
 describe('SwapSettings', () => {
-  beforeEach(() => {
-    useIconMock.mockReturnValue(<svg data-testid="default-icon" />);
+  it('should render with default props', () => {
+    renderComponent();
+    expect(screen.getByTestId('ockSwapSettings_Settings')).toBeInTheDocument();
+    expect(screen.getByTestId('mock-icon')).toBeInTheDocument();
   });
 
-  it('renders with default title', () => {
-    render(<SwapSettings />);
-    const settingsContainer = screen.getByTestId('ockSwapSettings_Settings');
-    expect(settingsContainer.textContent).toBe('');
-  });
-
-  it('renders with custom title', () => {
-    render(<SwapSettings text="Custom" />);
-    expect(screen.getByText('Custom')).toBeInTheDocument();
-  });
-
-  it('renders default icon when no custom icon is provided', () => {
-    render(<SwapSettings />);
-    expect(screen.getByTestId('default-icon')).toBeInTheDocument();
-  });
-
-  it('applies correct classes to the button', () => {
-    render(<SwapSettings />);
-    const button = screen.getByRole('button', {
-      name: /toggle swap settings/i,
-    });
-    expect(button).toHaveClass(
-      'rounded-full p-2 opacity-50 transition-opacity hover:opacity-100',
+  it('should render with custom text and className', () => {
+    renderComponent({ text: 'Custom Text', className: 'custom-class' });
+    expect(screen.getByText('Custom Text')).toBeInTheDocument();
+    expect(screen.getByTestId('ockSwapSettings_Settings')).toHaveClass(
+      'custom-class',
     );
   });
 
-  it('toggles settings dropdown on button click', () => {
-    const MockChild = () => <div data-testid="mock-child">Mock Child</div>;
-    render(
-      <SwapSettings>
-        <MockChild />
-      </SwapSettings>,
-    );
+  it('should toggle dropdown on button click', async () => {
+    renderComponent();
     const button = screen.getByRole('button', {
       name: /toggle swap settings/i,
     });
+
     fireEvent.click(button);
-    expect(screen.getByTestId('mock-child')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByTestId('ockSwapSettingsDropdown')).toBeInTheDocument();
+    });
+
     fireEvent.click(button);
-    expect(screen.queryByTestId('mock-child')).not.toBeInTheDocument();
+    await waitFor(() => {
+      expect(
+        screen.queryByTestId('ockSwapSettingsDropdown'),
+      ).not.toBeInTheDocument();
+    });
   });
 
-  it('renders custom icon when provided', () => {
-    const customIcon = 'customIcon';
-    useIconMock.mockReturnValue(<svg data-testid="custom-icon" />);
-    render(<SwapSettings icon={customIcon} />);
-    expect(screen.getByTestId('custom-icon')).toBeInTheDocument();
-    expect(useIconMock).toHaveBeenCalledWith({ icon: customIcon });
-  });
-
-  it('closes dropdown when clicking outside', () => {
-    const MockChild = () => <div data-testid="mock-child">Mock Child</div>;
+  it('should close dropdown when clicking outside', async () => {
     render(
       <div>
-        <SwapSettings>
-          <MockChild />
-        </SwapSettings>
+        <SwapSettings />
         <div data-testid="outside">Outside</div>
       </div>,
     );
@@ -78,62 +90,79 @@ describe('SwapSettings', () => {
       name: /toggle swap settings/i,
     });
     fireEvent.click(button);
-    expect(screen.getByTestId('mock-child')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByTestId('ockSwapSettingsDropdown')).toBeInTheDocument();
+    });
     fireEvent.mouseDown(screen.getByTestId('outside'));
-    expect(screen.queryByTestId('mock-child')).not.toBeInTheDocument();
+    await waitFor(() => {
+      expect(
+        screen.queryByTestId('ockSwapSettingsDropdown'),
+      ).not.toBeInTheDocument();
+    });
   });
 
-  it('renders children correctly', () => {
-    const MockChild = () => <div data-testid="mock-child">Mock Child</div>;
+  it('should render children components when dropdown is open', async () => {
+    renderComponent();
+    const button = screen.getByRole('button', {
+      name: /toggle swap settings/i,
+    });
+    fireEvent.click(button);
+
+    await waitFor(() => {
+      expect(screen.getByTestId('mock-layout')).toBeInTheDocument();
+      expect(screen.getByText('Title')).toBeInTheDocument();
+      expect(screen.getByText('Description')).toBeInTheDocument();
+      expect(screen.getByText('Toggle')).toBeInTheDocument();
+      expect(screen.getByText('Input')).toBeInTheDocument();
+    });
+  });
+
+  it('should use custom icon when provided', () => {
+    renderComponent({ icon: 'custom-icon' });
+    expect(useIcon).toHaveBeenCalledWith({ icon: 'custom-icon' });
+  });
+
+  it('should keep dropdown open when clicking inside', async () => {
+    renderComponent();
+    const button = screen.getByRole('button', {
+      name: /toggle swap settings/i,
+    });
+    fireEvent.click(button);
+    await waitFor(() => {
+      expect(screen.getByTestId('ockSwapSettingsDropdown')).toBeInTheDocument();
+    });
+    fireEvent.mouseDown(screen.getByTestId('ockSwapSettingsDropdown'));
+    expect(screen.getByTestId('ockSwapSettingsDropdown')).toBeInTheDocument();
+  });
+
+  it('should remove event listener on unmount', () => {
+    const removeEventListenerSpy = vi.spyOn(document, 'removeEventListener');
+    const { unmount } = renderComponent();
+    unmount();
+    expect(removeEventListenerSpy).toHaveBeenCalledWith(
+      'mousedown',
+      expect.any(Function),
+    );
+    removeEventListenerSpy.mockRestore();
+  });
+
+  it('should handle non-valid React elements as children', async () => {
     render(
       <SwapSettings>
-        <MockChild />
-        <div>Another child</div>
+        <SwapSettingsSlippageTitle />
+        Plain text child
+        <SwapSettingsSlippageInput />
       </SwapSettings>,
     );
     const button = screen.getByRole('button', {
       name: /toggle swap settings/i,
     });
     fireEvent.click(button);
-    expect(screen.getByTestId('mock-child')).toBeInTheDocument();
-    expect(screen.getByText('Another child')).toBeInTheDocument();
-  });
-
-  it('handles non-element children', () => {
-    render(
-      <SwapSettings>
-        <div>Valid child</div>
-        {null}
-        {undefined}
-        {false}
-        {42}
-      </SwapSettings>,
-    );
-    const button = screen.getByRole('button', {
-      name: /toggle swap settings/i,
+    await waitFor(() => {
+      expect(screen.getByTestId('ockSwapSettingsDropdown')).toBeInTheDocument();
+      expect(screen.getByText('Title')).toBeInTheDocument();
+      expect(screen.getByText('Plain text child')).toBeInTheDocument();
+      expect(screen.getByText('Input')).toBeInTheDocument();
     });
-    fireEvent.click(button);
-    expect(screen.getByText('Valid child')).toBeInTheDocument();
-  });
-
-  it('applies custom className', () => {
-    render(<SwapSettings className="custom-class" />);
-    const container = screen.getByTestId('ockSwapSettings_Settings');
-    expect(container).toHaveClass('custom-class');
-  });
-
-  it('keeps dropdown open when clicking inside', () => {
-    const MockChild = () => <div data-testid="mock-child">Mock Child</div>;
-    render(
-      <SwapSettings>
-        <MockChild />
-      </SwapSettings>,
-    );
-    const button = screen.getByRole('button', {
-      name: /toggle swap settings/i,
-    });
-    fireEvent.click(button);
-    fireEvent.mouseDown(screen.getByTestId('mock-child'));
-    expect(screen.getByTestId('mock-child')).toBeInTheDocument();
   });
 });

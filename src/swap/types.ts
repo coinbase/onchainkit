@@ -4,7 +4,6 @@ import type { Config } from 'wagmi';
 import type { SendTransactionMutateAsync } from 'wagmi/query';
 import type { RawTransactionData } from '../api/types';
 import type { Token } from '../token/types';
-import { SlippageLabel } from './components/SlippageLabel';
 
 /**
  * Note: exported as public Type
@@ -221,14 +220,7 @@ export type SwapSettingsReact = {
 /**
  * Note: exported as public Type
  */
-export type SwapSettingsSlippageReact = {
-  className?: string; // Optional className override for top div element.
-};
-
-/**
- * Note: exported as public Type
- */
-export type SlippageLabelReact = {
+export type SwapSettingsSlippageTitleReact = {
   children: ReactNode;
   className?: string; // Optional className override for top div element.
 };
@@ -236,7 +228,7 @@ export type SlippageLabelReact = {
 /**
  * Note: exported as public Type
  */
-export type SlippageDescriptionReact = {
+export type SwapSettingsSlippageDescriptionReact = {
   children: ReactNode;
   className?: string; // Optional className override for top div element.
 };
@@ -244,18 +236,27 @@ export type SlippageDescriptionReact = {
 /**
  * Note: exported as public Type
  */
-export type SlippageToggleReact = {
+export type SwapSettingsSlippageToggleReact = {
   className?: string; // Optional className override for top div element.
+  customSlippageEnabled: boolean; // Flag to indicate if custom slippage input is enabled
+  onToggle: (enabled: boolean) => void; // Function to toggle custom slippage input
 };
 
 /**
  * Note: exported as public Type
  */
-export type SlippageInputReact = {
+export type SwapSettingsSlippageInputReact = {
   className?: string; // Optional className override for top div element.
-  defaultSlippage?: string; // Default slippage value
-  slippageMode: 'Auto' | 'Custom'; // The slippage mode
-}
+  defaultSlippage?: number; // Optional default slippage value in pecentage.
+  customSlippageEnabled?: boolean; // Optional flag to indicate if custom slippage input is enabled
+};
+
+export type SwapSettingsSlippageLayoutReact = {
+  children: ReactNode;
+  className?: string; // Optional className override for top div element.
+  customSlippageEnabled: boolean; // Flag to indicate if custom slippage input is enabled
+  onToggleCustomSlippage: (enabled: boolean) => void; // Function to toggle custom slippage
+};
 
 /**
  * Note: exported as public Type

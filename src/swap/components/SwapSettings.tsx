@@ -1,9 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Children, cloneElement, isValidElement, useMemo } from 'react';
 import { cn } from '../../styles/theme';
 import { useIcon } from '../../wallet/hooks/useIcon';
 import type { SwapSettingsReact } from '../types';
-import { SlippageLayout } from './SlippageLayout';
+import { SwapSettingsSlippageLayout } from './SwapSettingsSlippageLayout';
 
 export function SwapSettings({
   children,
@@ -12,17 +11,8 @@ export function SwapSettings({
   text = '',
 }: SwapSettingsReact) {
   const [isOpen, setIsOpen] = useState(false);
+  const [customSlippageEnabled, setCustomSlippageEnabled] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
-
-  const childrenArray = useMemo(() => {
-    return Children.toArray(children).map((child) => {
-      if (isValidElement(child)) {
-        // @ts-ignore
-        return cloneElement(child);
-      }
-      return child;
-    });
-  }, [children]);
 
   const handleToggle = useCallback(() => {
     setIsOpen(!isOpen);
@@ -54,7 +44,9 @@ export function SwapSettings({
       )}
       data-testid="ockSwapSettings_Settings"
     >
-      <span className="font-sans text-base leading-normal">{text}</span>
+      {text && (
+        <span className="font-sans text-base leading-normal">{text}</span>
+      )}
       <div className="relative" ref={dropdownRef}>
         <button
           type="button"
@@ -67,12 +59,17 @@ export function SwapSettings({
         {isOpen && (
           <div
             className={cn(
-              'absolute right-0 z-10 mt-1 w-[21.75rem] rounded-lg border border-gray-300 bg-gray-50 shadow-lg dark:border-gray-700 dark:bg-gray-950',
+              'absolute right-0 z-10 mt-1 w-[21.75rem] rounded-lg border border-gray-300',
+              'bg-gray-50 shadow-lg dark:border-gray-700 dark:bg-gray-950',
             )}
             data-testid="ockSwapSettingsDropdown"
           >
-            {/* {childrenArray} */}
-            <SlippageLayout>{childrenArray}</SlippageLayout>
+            <SwapSettingsSlippageLayout
+              customSlippageEnabled={customSlippageEnabled}
+              onToggleCustomSlippage={setCustomSlippageEnabled}
+            >
+              {children}
+            </SwapSettingsSlippageLayout>
           </div>
         )}
       </div>

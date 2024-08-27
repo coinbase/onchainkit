@@ -5,6 +5,11 @@ import {
   SwapAmountInput,
   SwapButton,
   SwapMessage,
+  SwapSettings,
+  SwapSettingsSlippageDescription,
+  SwapSettingsSlippageInput,
+  SwapSettingsSlippageTitle,
+  SwapSettingsSlippageToggle,
   SwapToggleButton,
 } from '@coinbase/onchainkit/swap';
 import type { Token } from '@coinbase/onchainkit/token';
@@ -87,6 +92,15 @@ function SwapComponent() {
       )}
       {address ? (
         <Swap className="border bg-[#ffffff]" onStatus={handleOnStatus}>
+          <SwapSettings>
+            <SwapSettingsSlippageTitle>Max. slippage</SwapSettingsSlippageTitle>
+            <SwapSettingsSlippageDescription>
+              Your swap will revert if the prices change by more than the
+              selected percentage.
+            </SwapSettingsSlippageDescription>
+            <SwapSettingsSlippageToggle />
+            <SwapSettingsSlippageInput />
+          </SwapSettings>
           <SwapAmountInput
             label="Sell"
             swappableTokens={swappableTokens}
