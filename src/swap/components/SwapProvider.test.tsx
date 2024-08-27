@@ -249,6 +249,18 @@ describe('SwapProvider', () => {
     expect(result.current.error).toBeUndefined();
   });
 
+  it('should reset inputs when setLifeCycleStatus is called with success', async () => {
+    const { result } = renderHook(() => useSwapContext(), { wrapper });
+    await act(async () => {
+      result.current.setLifeCycleStatus({
+        statusName: 'success',
+        statusData: { receipt: ['0x123'] },
+      });
+    });
+    expect(result.current.from.amount).toBe('');
+    expect(result.current.to.amount).toBe('');
+  });
+
   it('should emit onError when setLifeCycleStatus is called with error', async () => {
     const onErrorMock = vi.fn();
     renderWithProviders({ Component: TestSwapComponent, onError: onErrorMock });
