@@ -1,9 +1,9 @@
 'use client';
-import { useContext, useEffect, useState } from 'react';
 import { AppContext, OnchainKitComponent } from '@/components/AppProvider';
 import { Chain } from '@/components/form/chain';
 import { PaymasterUrl } from '@/components/form/paymaster';
 import { WalletType } from '@/components/form/wallet-type';
+import { useContext, useEffect, useState } from 'react';
 import IdentityDemo from './demo/Identity';
 import SwapDemo from './demo/Swap';
 import TransactionDemo from './demo/Transaction';
@@ -32,9 +32,7 @@ function Demo() {
         <div className="mb-12 font-semibold text-lg">OnchainKit Playground</div>
         <button
           onClick={toggleDarkMode}
-          className="rounded border border-gray-300 bg-white px-3 py-2 text-black 
-          transition-colors hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-800 
-          dark:text-white dark:hover:bg-gray-700"
+          className="rounded border border-gray-300 bg-white px-3 py-2 text-black transition-colors hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700"
         >
           {isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
         </button>
@@ -54,10 +52,7 @@ function Demo() {
           View Github
         </a>
       </div>
-      <div
-        className="flex flex-1 flex-col bg-[linear-gradient(to_right,#f0f0f0_1px,transparent_1px),
-      linear-gradient(to_bottom,#f0f0f0_1px,transparent_1px)] bg-[size:6rem_4rem]"
-      >
+      <div className="linear-gradient(to_bottom,#f0f0f0_1px,transparent_1px)] flex flex-1 flex-col bg-[linear-gradient(to_right,#f0f0f0_1px,transparent_1px), bg-[size:6rem_4rem]">
         <div className="flex h-full w-full flex-col justify-center">
           {activeComponent === OnchainKitComponent.Identity ? (
             <IdentityDemo />
