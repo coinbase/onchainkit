@@ -60,6 +60,16 @@ export function SwapProvider({
   const { from, to } = useFromTo(address);
   const { sendTransactionAsync } = useSendTransaction(); // Sending the transaction (and approval, if applicable)
 
+  // Refreshes balances and inputs post-swap
+  const resetInputs = useCallback(async () => {
+    await Promise.all([
+      from.refetch(),
+      to.refetch(),
+      from.setAmount(''),
+      to.setAmount(''),
+    ]);
+  }, [from, to]);
+
   // Component lifecycle emitters
   useEffect(() => {
     // Error
@@ -83,6 +93,7 @@ export function SwapProvider({
     if (lifeCycleStatus.statusName === 'success') {
       setError(undefined);
       setLoading(false);
+      resetInputs();
       setPendingTransaction(false);
       onSuccess?.(lifeCycleStatus.statusData.transactionReceipt);
     }
