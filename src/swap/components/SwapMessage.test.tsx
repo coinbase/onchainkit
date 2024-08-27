@@ -1,9 +1,9 @@
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
+import { beforeEach, describe, expect, it } from 'vitest';
 import { getSwapMessage } from '../utils/getSwapMessage';
 import { SwapMessage } from './SwapMessage';
 import { useSwapContext } from './SwapProvider';
-import { beforeEach, describe, expect, it } from 'vitest';
 
 vi.mock('./SwapProvider', () => ({
   useSwapContext: vi.fn(),
@@ -30,12 +30,9 @@ describe('SwapMessage', () => {
       error: null,
       loading: false,
     };
-
     useSwapContextMock.mockReturnValue(mockContext);
     mockGetSwapMessage.mockReturnValue(mockMessage);
-
     render(<SwapMessage className="test-class" />);
-
     const messageDiv = screen.getByTestId('ockSwapMessage_Message');
     expect(messageDiv).toHaveTextContent(mockMessage);
     expect(messageDiv).toHaveClass('test-class');
@@ -49,12 +46,9 @@ describe('SwapMessage', () => {
       error: 'Error occurred',
       loading: false,
     };
-
     useSwapContextMock.mockReturnValue(mockContext);
     mockGetSwapMessage.mockReturnValue(mockMessage);
-
     render(<SwapMessage />);
-
     const messageDiv = screen.getByTestId('ockSwapMessage_Message');
     expect(messageDiv).toHaveTextContent(mockMessage);
   });
@@ -67,12 +61,9 @@ describe('SwapMessage', () => {
       error: null,
       loading: true,
     };
-
     useSwapContextMock.mockReturnValue(mockContext);
     mockGetSwapMessage.mockReturnValue(mockMessage);
-
     render(<SwapMessage />);
-
     const messageDiv = screen.getByTestId('ockSwapMessage_Message');
     expect(messageDiv).toHaveTextContent(mockMessage);
   });
@@ -87,10 +78,8 @@ describe('SwapMessage', () => {
 
     useSwapContextMock.mockReturnValue(mockContext);
     mockGetSwapMessage.mockReturnValue('');
-
     const customClass = 'custom-class';
     render(<SwapMessage className={customClass} />);
-
     const messageDiv = screen.getByTestId('ockSwapMessage_Message');
     expect(messageDiv).toHaveClass(customClass);
   });
@@ -104,11 +93,8 @@ describe('SwapMessage', () => {
       isTransactionPending: false,
       address: '0x123',
     };
-
     useSwapContextMock.mockReturnValue(mockContext);
-
     render(<SwapMessage />);
-
     expect(mockGetSwapMessage).toHaveBeenCalledWith({
       address: '0x123',
       error: null,
@@ -129,11 +115,8 @@ describe('SwapMessage', () => {
       isTransactionPending: false,
       address: '0x123',
     };
-
     useSwapContextMock.mockReturnValue(mockContext);
-
     render(<SwapMessage />);
-
     expect(mockGetSwapMessage).toHaveBeenCalledWith({
       address: '0x123',
       error: null,
@@ -154,11 +137,8 @@ describe('SwapMessage', () => {
       isTransactionPending: false,
       address: '0x123',
     };
-
     useSwapContextMock.mockReturnValue(mockContext);
-
     render(<SwapMessage />);
-
     expect(mockGetSwapMessage).toHaveBeenCalledWith({
       address: '0x123',
       error: null,
@@ -179,11 +159,8 @@ describe('SwapMessage', () => {
       isTransactionPending: false,
       address: '0x123',
     };
-
     useSwapContextMock.mockReturnValue(mockContext);
-
     render(<SwapMessage />);
-
     expect(mockGetSwapMessage).toHaveBeenCalledWith({
       address: '0x123',
       error: null,
