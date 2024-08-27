@@ -7,11 +7,15 @@ export function SwapMessage({ className }: SwapMessageReact) {
   const { address, to, from, error, loading, isTransactionPending } =
     useSwapContext();
 
+  const isMissingRequiredFields =
+    !from.amount || !from.token || !to.amount || !to.token;
+
   const message = getSwapMessage({
     address,
     error,
     from,
     loading,
+    isMissingRequiredFields,
     isTransactionPending,
     to,
   });

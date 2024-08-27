@@ -35,6 +35,7 @@ export type GetSwapMessageParams = {
   error?: SwapError;
   loading?: boolean;
   isTransactionPending?: boolean;
+  isMissingRequiredFields?: boolean;
   to: SwapUnit;
   from: SwapUnit;
 };

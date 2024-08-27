@@ -20,6 +20,7 @@ export function getSwapMessage({
   error,
   from,
   loading,
+  isMissingRequiredFields,
   isTransactionPending,
   to,
 }: GetSwapMessageParams) {
@@ -43,7 +44,7 @@ export function getSwapMessage({
     return SwapMessage.FETCHING_QUOTE;
   }
   // missing required fields
-  if (!from.amount || !from.token || !to.amount || !to.token) {
+  if (isMissingRequiredFields) {
     return SwapMessage.INCOMPLETE_FIELD;
   }
   if (!error) {
