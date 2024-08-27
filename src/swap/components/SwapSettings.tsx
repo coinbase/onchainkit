@@ -3,6 +3,7 @@ import { Children, cloneElement, isValidElement, useMemo } from 'react';
 import { cn } from '../../styles/theme';
 import { useIcon } from '../../wallet/hooks/useIcon';
 import type { SwapSettingsReact } from '../types';
+import { SlippageLayout } from './SlippageLayout';
 
 export function SwapSettings({
   children,
@@ -70,7 +71,8 @@ export function SwapSettings({
             )}
             data-testid="ockSwapSettingsDropdown"
           >
-            {childrenArray}
+            {/* {childrenArray} */}
+            <SlippageLayout>{childrenArray}</SlippageLayout>
           </div>
         )}
       </div>

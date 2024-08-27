@@ -4,6 +4,7 @@ import type { Config } from 'wagmi';
 import type { SendTransactionMutateAsync } from 'wagmi/query';
 import type { RawTransactionData } from '../api/types';
 import type { Token } from '../token/types';
+import { SlippageLabel } from './components/SlippageLabel';
 
 /**
  * Note: exported as public Type
@@ -223,6 +224,38 @@ export type SwapSettingsReact = {
 export type SwapSettingsSlippageReact = {
   className?: string; // Optional className override for top div element.
 };
+
+/**
+ * Note: exported as public Type
+ */
+export type SlippageLabelReact = {
+  children: ReactNode;
+  className?: string; // Optional className override for top div element.
+};
+
+/**
+ * Note: exported as public Type
+ */
+export type SlippageDescriptionReact = {
+  children: ReactNode;
+  className?: string; // Optional className override for top div element.
+};
+
+/**
+ * Note: exported as public Type
+ */
+export type SlippageToggleReact = {
+  className?: string; // Optional className override for top div element.
+};
+
+/**
+ * Note: exported as public Type
+ */
+export type SlippageInputReact = {
+  className?: string; // Optional className override for top div element.
+  defaultSlippage?: string; // Default slippage value
+  slippageMode: 'Auto' | 'Custom'; // The slippage mode
+}
 
 /**
  * Note: exported as public Type

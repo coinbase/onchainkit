@@ -1,4 +1,8 @@
 // 🌲☀🌲
+export { SlippageDescription } from './components/SlippageDescription';
+export { SlippageInput } from './components/SlippageInput';
+export { SlippageLabel } from './components/SlippageLabel';
+export { SlippageToggle } from './components/SlippageToggle';
 export { Swap } from './components/Swap';
 export { SwapAmountInput } from './components/SwapAmountInput';
 export { SwapButton } from './components/SwapButton';
@@ -12,6 +16,10 @@ export type {
   Fee,
   LifeCycleStatus,
   QuoteWarning,
+  SlippageDescriptionReact,
+  SlippageInputReact,
+  SlippageLabelReact,
+  SlippageToggleReact,
   SwapAmountInputReact,
   SwapButtonReact,
   SwapError,
