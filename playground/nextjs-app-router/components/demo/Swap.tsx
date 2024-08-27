@@ -64,52 +64,39 @@ function SwapComponent() {
 
   return (
     <div className="relative h-full w-full">
-      {address ? (
-        chainId !== 8453 ? (
-          <div className="absolute top-0 left-0 z-10 flex h-full w-full flex-col justify-center rounded-xl bg-[#000000] bg-opacity-50 text-center">
-            <div className="mx-auto w-2/3 rounded-md bg-muted p-6 text-sm">
-              Swap Demo is only available on Base.
-              <br />
-              Please change your chain in settings.
-            </div>
-          </div>
-        ) : (
-          <></>
-        )
-      ) : (
+      {chainId !== 8453 ? (
         <div className="absolute top-0 left-0 z-10 flex h-full w-full flex-col justify-center rounded-xl bg-[#000000] bg-opacity-50 text-center">
           <div className="mx-auto w-2/3 rounded-md bg-muted p-6 text-sm">
-            Swap Demo requires wallet.
+            Swap Demo is only available on Base.
             <br />
-            Please connect in settings.
+            Please change your chain in settings.
           </div>
         </div>
-      )}
-      {address ? (
-        <Swap className="border bg-[#ffffff]" onStatus={handleOnStatus}>
-          <SwapAmountInput
-            label="Sell"
-            swappableTokens={swappableTokens}
-            token={ethToken}
-            type="from"
-          />
-          <SwapToggleButton />
-          <SwapAmountInput
-            label="Buy"
-            swappableTokens={swappableTokens}
-            token={usdcToken}
-            type="to"
-          />
-          <SwapButton
-            disabled={
-              ENVIRONMENT_VARIABLES[ENVIRONMENT.ENVIRONMENT] === 'production'
-            }
-          />
-          <SwapMessage />
-        </Swap>
       ) : (
         <></>
       )}
+
+      <Swap className="border bg-[#ffffff]" onStatus={handleOnStatus}>
+        <SwapAmountInput
+          label="Sell"
+          swappableTokens={swappableTokens}
+          token={ethToken}
+          type="from"
+        />
+        <SwapToggleButton />
+        <SwapAmountInput
+          label="Buy"
+          swappableTokens={swappableTokens}
+          token={usdcToken}
+          type="to"
+        />
+        <SwapButton
+          disabled={
+            ENVIRONMENT_VARIABLES[ENVIRONMENT.ENVIRONMENT] === 'production'
+          }
+        />
+        <SwapMessage />
+      </Swap>
     </div>
   );
 }
