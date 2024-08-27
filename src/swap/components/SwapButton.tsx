@@ -1,7 +1,7 @@
 import { Avatar, Name } from '../../identity';
 import { Spinner } from '../../internal/components/Spinner';
 import { background, cn, color, pressable, text } from '../../styles/theme';
-import { Wallet, ConnectWallet } from '../../wallet';
+import { ConnectWallet, Wallet } from '../../wallet';
 import type { SwapButtonReact } from '../types';
 import { useSwapContext } from './SwapProvider';
 
@@ -23,7 +23,7 @@ export function SwapButton({ className, disabled = false }: SwapButtonReact) {
   // prompt user to connect wallet
   if (!isDisabled && !address) {
     return (
-      <Wallet className="w-full mt-4">
+      <Wallet className="mt-4 w-full">
         <ConnectWallet className="w-full">
           <Avatar className="h-6 w-6" />
           <Name />

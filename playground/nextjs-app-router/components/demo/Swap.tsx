@@ -9,11 +9,9 @@ import {
 } from '@coinbase/onchainkit/swap';
 import type { Token } from '@coinbase/onchainkit/token';
 import { useCallback, useContext } from 'react';
-import { useAccount } from 'wagmi';
 import { AppContext } from '../AppProvider';
 
 function SwapComponent() {
-  const { address } = useAccount();
   const { chainId } = useContext(AppContext);
 
   const degenToken: Token = {
