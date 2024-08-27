@@ -24,6 +24,10 @@ export const sidebar = [
         text: 'Framegear',
         link: '/frame/framegear',
       },
+      {
+        text: 'Use Basename',
+        link: '/guides/use-basename-in-onchain-app',
+      },
     ],
   },
   {
@@ -242,6 +246,10 @@ export const sidebar = [
           {
             text: 'getName',
             link: '/identity/get-name',
+          },
+          {
+            text: 'useAddress',
+            link: '/identity/use-address',
           },
           {
             text: 'useAvatar',
