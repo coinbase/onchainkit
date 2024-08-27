@@ -2,4 +2,6 @@
 "@coinbase/onchainkit": patch
 ---
 
-- **chore**: Remove the bottom WalletDropdown padding and instead apply the bottom padding directly on the WalletDropdownDisconnect component. This fixes a bug where the WalletDropdown bottom padding would unintentionally change on:hover. @cpcramer #1156
+- **chore**: fixed bug where the WalletDropdown bottom padding would unintentionally change on:hover. By @cpcramer #1156
+- **feat**: added `onchainkit-version` header to API requests. By @0xAlec #1169
+- **feat**: introduced `getAddress` and `useAddress` utilities to easily retrieve an address from ENS name or basename. By @zizzamia #1170g
