@@ -3,6 +3,7 @@ import '@testing-library/jest-dom';
 import { getSwapMessage } from '../utils/getSwapMessage';
 import { SwapMessage } from './SwapMessage';
 import { useSwapContext } from './SwapProvider';
+import { beforeEach, describe, expect, it } from 'vitest';
 
 vi.mock('./SwapProvider', () => ({
   useSwapContext: vi.fn(),
@@ -21,7 +22,7 @@ describe('SwapMessage', () => {
     mockGetSwapMessage.mockClear();
   });
 
-  test('renders message returned by getSwapMessage', () => {
+  it('renders message returned by getSwapMessage', () => {
     const mockMessage = 'Swap message';
     const mockContext = {
       to: {},
@@ -40,7 +41,7 @@ describe('SwapMessage', () => {
     expect(messageDiv).toHaveClass('test-class');
   });
 
-  test('renders with error message', () => {
+  it('renders with error message', () => {
     const mockMessage = 'Error occurred';
     const mockContext = {
       to: {},
@@ -58,7 +59,7 @@ describe('SwapMessage', () => {
     expect(messageDiv).toHaveTextContent(mockMessage);
   });
 
-  test('renders with loading message', () => {
+  it('renders with loading message', () => {
     const mockMessage = 'Loading...';
     const mockContext = {
       to: {},
@@ -76,7 +77,7 @@ describe('SwapMessage', () => {
     expect(messageDiv).toHaveTextContent(mockMessage);
   });
 
-  test('applies additional className correctly', () => {
+  it('applies additional className correctly', () => {
     const mockContext = {
       to: {},
       from: {},
@@ -94,7 +95,7 @@ describe('SwapMessage', () => {
     expect(messageDiv).toHaveClass(customClass);
   });
 
-  test('sets isMissingRequiredFields to true when from.amount is missing', () => {
+  it('sets isMissingRequiredFields to true when from.amount is missing', () => {
     const mockContext = {
       to: { amount: 1, token: 'ETH' },
       from: { amount: null, token: 'DAI' }, // from.amount is missing
@@ -119,10 +120,10 @@ describe('SwapMessage', () => {
     });
   });
 
-  test('sets isMissingRequiredFields to true when from.token is missing', () => {
+  it('sets isMissingRequiredFields to true when from.token is missing', () => {
     const mockContext = {
       to: { amount: 1, token: 'ETH' },
-      from: { amount: 1, token: null }, // from.token is missing
+      from: { amount: 1, token: null },
       error: null,
       loading: false,
       isTransactionPending: false,
@@ -144,9 +145,9 @@ describe('SwapMessage', () => {
     });
   });
 
-  test('sets isMissingRequiredFields to true when to.amount is missing', () => {
+  it('sets isMissingRequiredFields to true when to.amount is missing', () => {
     const mockContext = {
-      to: { amount: null, token: 'ETH' }, // to.amount is missing
+      to: { amount: null, token: 'ETH' },
       from: { amount: 1, token: 'DAI' },
       error: null,
       loading: false,
@@ -169,9 +170,9 @@ describe('SwapMessage', () => {
     });
   });
 
-  test('sets isMissingRequiredFields to true when to.token is missing', () => {
+  it('sets isMissingRequiredFields to true when to.token is missing', () => {
     const mockContext = {
-      to: { amount: 1, token: null }, // to.token is missing
+      to: { amount: 1, token: null },
       from: { amount: 1, token: 'DAI' },
       error: null,
       loading: false,
