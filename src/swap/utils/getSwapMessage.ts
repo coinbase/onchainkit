@@ -4,7 +4,6 @@ import { getErrorMessage } from './getErrorMessage';
 export enum SwapMessage {
   BALANCE_ERROR = 'Error fetching token balance',
   CONFIRM_IN_WALLET = 'Confirm in wallet',
-  CONNECT_WALLET = 'Connect your wallet to continue',
   FETCHING_QUOTE = 'Fetching quote...',
   FETCHING_BALANCE = 'Fetching balance...',
   INCOMPLETE_FIELD = 'Complete the fields to continue',
