@@ -31,6 +31,7 @@ export type Fee = {
 };
 
 export type GetSwapMessageParams = {
+  address?: Address;
   error?: SwapError;
   loading?: boolean;
   isTransactionPending?: boolean;
@@ -121,6 +122,7 @@ export type SwapButtonReact = {
 };
 
 export type SwapContextType = {
+  address?: Address;
   error?: SwapError;
   from: SwapUnit;
   lifeCycleStatus: LifeCycleStatus;

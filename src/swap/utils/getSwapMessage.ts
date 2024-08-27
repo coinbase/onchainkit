@@ -4,6 +4,7 @@ import { getErrorMessage } from './getErrorMessage';
 export enum SwapMessage {
   BALANCE_ERROR = 'Error fetching token balance',
   CONFIRM_IN_WALLET = 'Confirm in wallet',
+  CONNECT_WALLET = 'Connect your wallet to continue',
   FETCHING_QUOTE = 'Fetching quote...',
   FETCHING_BALANCE = 'Fetching balance...',
   INCOMPLETE_FIELD = 'Complete the fields to continue',
@@ -15,6 +16,7 @@ export enum SwapMessage {
 }
 
 export function getSwapMessage({
+  address,
   error,
   from,
   loading,
@@ -25,8 +27,8 @@ export function getSwapMessage({
   if (from.error || to.error) {
     return SwapMessage.BALANCE_ERROR;
   }
-  // handle amount exceeds balance
-  if (Number(from.balance) < Number(from.amount)) {
+  // handle amount exceeds balance (if connected)
+  if (address && Number(from.balance) < Number(from.amount)) {
     return SwapMessage.INSUFFICIENT_BALANCE;
   }
   // handle pending transaction

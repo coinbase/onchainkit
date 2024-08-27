@@ -17,7 +17,7 @@ export function SwapAmountInput({
   type,
   swappableTokens,
 }: SwapAmountInputReact) {
-  const { to, from, handleAmountChange } = useSwapContext();
+  const { address, to, from, handleAmountChange } = useSwapContext();
 
   const source = useValue(type === 'from' ? from : to);
   const destination = useValue(type === 'from' ? to : from);
@@ -82,7 +82,7 @@ export function SwapAmountInput({
           className={cn(
             'w-full border-[none] bg-transparent font-display text-[2.5rem]',
             'leading-none outline-none',
-            hasInsufficientBalance ? color.error : color.foreground,
+            hasInsufficientBalance && address ? color.error : color.foreground,
           )}
           placeholder="0.0"
           delayMs={delayMs}
@@ -112,7 +112,7 @@ export function SwapAmountInput({
               className={cn(text.label2, color.foregroundMuted)}
             >{`Balance: ${getRoundedAmount(source.balance, 8)}`}</span>
           )}
-          {type === 'from' && (
+          {type === 'from' && address && (
             <button
               type="button"
               className="flex cursor-pointer items-center justify-center px-2 py-1"

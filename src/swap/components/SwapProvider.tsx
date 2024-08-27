@@ -238,6 +238,7 @@ export function SwapProvider({
   ]);
 
   const value = useValue({
+    address,
     error,
     from,
     loading,

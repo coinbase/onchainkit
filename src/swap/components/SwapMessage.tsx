@@ -4,9 +4,11 @@ import { getSwapMessage } from '../utils/getSwapMessage';
 import { useSwapContext } from './SwapProvider';
 
 export function SwapMessage({ className }: SwapMessageReact) {
-  const { to, from, error, loading, isTransactionPending } = useSwapContext();
+  const { address, to, from, error, loading, isTransactionPending } =
+    useSwapContext();
 
   const message = getSwapMessage({
+    address,
     error,
     from,
     loading,
