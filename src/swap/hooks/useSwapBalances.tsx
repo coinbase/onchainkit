@@ -13,14 +13,23 @@ export function useSwapBalances({
   fromToken?: Token;
   toToken?: Token;
 }) {
-  const { convertedBalance: convertedEthBalance, error: ethBalanceError } =
-    useGetETHBalance(address);
+  const {
+    convertedBalance: convertedEthBalance,
+    error: ethBalanceError,
+    response: ethBalanceResponse,
+  } = useGetETHBalance(address);
 
-  const { convertedBalance: convertedFromBalance, error: fromBalanceError } =
-    useGetTokenBalance(address, fromToken);
+  const {
+    convertedBalance: convertedFromBalance,
+    error: fromBalanceError,
+    response: _fromTokenResponse,
+  } = useGetTokenBalance(address, fromToken);
 
-  const { convertedBalance: convertedToBalance, error: toBalanceError } =
-    useGetTokenBalance(address, toToken);
+  const {
+    convertedBalance: convertedToBalance,
+    error: toBalanceError,
+    response: _toTokenResponse,
+  } = useGetTokenBalance(address, toToken);
 
   const isFromNativeToken = fromToken?.symbol === 'ETH';
   const isToNativeToken = toToken?.symbol === 'ETH';
@@ -37,6 +46,12 @@ export function useSwapBalances({
   const toTokenBalanceError = isToNativeToken
     ? ethBalanceError
     : toBalanceError;
+  const fromTokenResponse = isFromNativeToken
+    ? ethBalanceResponse
+    : _fromTokenResponse;
+  const toTokenResponse = isToNativeToken
+    ? ethBalanceResponse
+    : _toTokenResponse;
 
   return useValue({
     fromBalanceString,
@@ -44,5 +59,8 @@ export function useSwapBalances({
 
     toBalanceString,
     toTokenBalanceError,
+
+    fromTokenResponse,
+    toTokenResponse,
   });
 }

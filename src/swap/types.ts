@@ -141,7 +141,7 @@ export type SwapContextType = {
     t: 'from' | 'to',
     amount: string,
     st?: Token,
-    dt?: Token,
+    dt?: Token
   ) => void;
   handleSubmit: () => void;
   handleToggle: () => void;
@@ -156,6 +156,23 @@ export type SwapError = {
   code: string; // The error code representing the type of swap error.
   error: string; // The error message providing details about the swap error.
   message: string; // The error message providing details about the swap error.
+};
+
+export type SwapErrorState = {
+  quoteError?: SwapError;
+  swapError?: SwapError;
+};
+
+export type SwapInput = {
+  balance: string | undefined;
+  amount: string;
+  setAmount: React.Dispatch<React.SetStateAction<string>>;
+  token: Token | undefined;
+  setToken: React.Dispatch<React.SetStateAction<Token | undefined>>;
+  loading: boolean;
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  error: SwapError | undefined;
+  refetch: () => Promise<void>;
 };
 
 export type SwapLoadingState = {
