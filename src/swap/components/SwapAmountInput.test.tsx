@@ -34,6 +34,7 @@ vi.mock('./SwapProvider', () => ({
 const useSwapContextMock = useSwapContext as Mock;
 
 const mockContextValue = {
+  address: '0x123',
   from: {
     amount: '10',
     balance: '0.0002851826238227',
@@ -82,6 +83,14 @@ describe('SwapAmountInput', () => {
   it('should not render max button for to token input', () => {
     useSwapContextMock.mockReturnValue(mockContextValue);
     render(<SwapAmountInput label="From" token={ETH_TOKEN} type="to" />);
+    expect(
+      screen.queryByTestId('ockSwapAmountInput_MaxButton'),
+    ).not.toBeInTheDocument();
+  });
+
+  it('should not render max button if wallet not connected', () => {
+    useSwapContextMock.mockReturnValue({ ...mockContextValue, address: '' });
+    render(<SwapAmountInput label="From" token={ETH_TOKEN} type="from" />);
     expect(
       screen.queryByTestId('ockSwapAmountInput_MaxButton'),
     ).not.toBeInTheDocument();
