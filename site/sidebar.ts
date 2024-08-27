@@ -228,6 +228,10 @@ export const sidebar = [
         text: 'Identity',
         items: [
           {
+            text: 'getAddress',
+            link: '/identity/get-address',
+          },
+          {
             text: 'getAttestations',
             link: '/identity/get-attestations',
           },

@@ -9,8 +9,9 @@ description: Glossary of Types in Identity components & utilities.
 
 ```ts
 type AddressReact = {
-  address?: Address | null; // The Ethereum address to render
+  address?: Address | null; // The Ethereum address to render.
   className?: string; // Optional className override for top span element.
+  isSliced?: boolean; // Determines if the displayed address should be sliced.
 };
 ```
 
@@ -94,6 +95,21 @@ type EthBalanceReact = {
 };
 ```
 
+## `GetAddress`
+
+```ts
+type GetAddress = {
+  name: string | Basename;
+  chain?: Chain;
+};
+```
+
+## `GetAddressReturnType`
+
+```ts
+type GetAddressReturnType = Address | null;
+```
+
 ## `GetAttestationsOptions`
 
 ```ts
@@ -168,6 +184,15 @@ type NameReact = {
 } & HTMLAttributes<HTMLSpanElement>; // Optional additional span attributes to apply to the name.
 ```
 
+## `UseAddressOptions`
+
+```ts
+type UseAddressOptions = {
+  name: string | Basename; // The ENS or Basename for which the Ethereum address is to be fetched
+  chain?: Chain; // Optional chain for domain resolution
+};
+```
+
 ## `UseAvatarOptions`
 
 ```ts
@@ -177,10 +202,10 @@ type UseAvatarOptions = {
 };
 ```
 
-## `UseAvatarQueryOptions`
+## `UseQueryOptions`
 
 ```ts
-type UseAvatarQueryOptions = {
+type UseQueryOptions = {
   enabled?: boolean;
   cacheTime?: number;
 };
@@ -192,14 +217,5 @@ type UseAvatarQueryOptions = {
 type UseNameOptions = {
   address: Address; // The Ethereum address for which the ENS name is to be fetched.
   chain?: Chain; // Optional chain for domain resolution
-};
-```
-
-## `UseNameQueryOptions`
-
-```ts
-type UseNameQueryOptions = {
-  enabled?: boolean; // Whether the query should be enabled. Defaults to true.
-  cacheTime?: number; // Cache time in milliseconds.
 };
 ```
