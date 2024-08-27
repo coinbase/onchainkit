@@ -141,7 +141,7 @@ export type SwapContextType = {
     t: 'from' | 'to',
     amount: string,
     st?: Token,
-    dt?: Token
+    dt?: Token,
   ) => void;
   handleSubmit: () => void;
   handleToggle: () => void;

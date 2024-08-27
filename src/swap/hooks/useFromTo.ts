@@ -6,7 +6,7 @@ import type { SwapInput } from '../types';
 import { useSwapBalances } from './useSwapBalances';
 
 export const useFromTo = (
-  address?: Address
+  address?: Address,
 ): {
   from: SwapInput;
   to: SwapInput;
