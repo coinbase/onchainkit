@@ -73,7 +73,6 @@ describe('useFromTo', () => {
       fromTokenResponse: { refetch: mockFromRefetch },
       toTokenResponse: { refetch: mockToRefetch },
     });
-
     (useValue as vi.Mock).mockImplementation((props) => ({
       ...props,
       refetch: props.refetch,

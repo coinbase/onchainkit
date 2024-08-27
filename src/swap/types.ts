@@ -30,6 +30,14 @@ export type Fee = {
   percentage: string; // The percentage of the fee
 };
 
+/**
+ * Note: exported as public Type
+ */
+export type FromTo = {
+  from: SwapUnit;
+  to: SwapUnit;
+};
+
 export type GetSwapMessageParams = {
   address?: Address;
   error?: SwapError;
@@ -163,18 +171,6 @@ export type SwapErrorState = {
   swapError?: SwapError;
 };
 
-export type SwapInput = {
-  balance: string | undefined;
-  amount: string;
-  setAmount: React.Dispatch<React.SetStateAction<string>>;
-  token: Token | undefined;
-  setToken: React.Dispatch<React.SetStateAction<Token | undefined>>;
-  loading: boolean;
-  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
-  error: SwapError | undefined;
-  refetch: () => Promise<void>;
-};
-
 export type SwapLoadingState = {
   isSwapLoading: boolean;
 };
@@ -247,6 +243,7 @@ export type SwapUnit = {
   balance?: string;
   error?: SwapError;
   loading: boolean;
+  refetch: () => Promise<void>;
   setAmount: Dispatch<SetStateAction<string>>;
   setLoading: Dispatch<SetStateAction<boolean>>;
   setToken: Dispatch<SetStateAction<Token | undefined>>;
