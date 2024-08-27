@@ -32,7 +32,11 @@ function Demo() {
         <div className="mb-12 font-semibold text-lg">OnchainKit Playground</div>
         <button
           onClick={toggleDarkMode}
-          className="rounded border border-gray-300 bg-white px-3 py-2 text-black transition-colors hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700"
+          className={`rounded border px-3 py-2 transition-colors ${
+            isDarkMode
+              ? 'border-gray-600 bg-gray-800 text-white hover:bg-gray-700'
+              : 'border-gray-300 bg-white text-black hover:bg-gray-100'
+          }`}
         >
           {isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
         </button>
