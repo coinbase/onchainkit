@@ -17,14 +17,9 @@ const { data: name, isLoading } = useName({ address: '0x1234' });
 
 ## Returns
 
-```ts
-type UseNameOptions = {
-  address: Address; // The Ethereum address for which the ENS name is to be fetched.
-  chain?: Chain; // Optional chain for domain resolution
-};
+[`useQuery<Promise<GetAddressReturnType>>`](/identity/types#getaddressreturntype)
 
-type UseNameQueryOptions = {
-  enabled?: boolean;
-  cacheTime?: number;
-};
-```
+## Parameters
+
+[`UseNameOptions`](/identity/types#usenameoptions)
+[`UseQueryOptions`](/identity/types#usequeryoptions)

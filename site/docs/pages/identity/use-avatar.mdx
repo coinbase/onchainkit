@@ -17,14 +17,9 @@ const { data: avatar, isLoading } = useAvatar({ ensName: 'vitalik.eth' });
 
 ## Returns
 
-```ts
-type UseAvatarOptions = {
-  ensName: string;
-  chain?: Chain;
-};
+[`useQuery<Promise<GetAddressReturnType>>`](/identity/types#getaddressreturntype)
 
-type UseAvatarQueryOptions = {
-  enabled?: boolean;
-  cacheTime?: number;
-};
-```
+## Parameters
+
+[`UseAvatarOptions`](/identity/types#useavataroptions)
+[`UseQueryOptions`](/identity/types#usequeryoptions)
