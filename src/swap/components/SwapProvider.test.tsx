@@ -6,7 +6,7 @@ import {
   screen,
   waitFor,
 } from '@testing-library/react';
-import React, { act, useEffect } from 'react';
+import React, { act, useCallback, useEffect } from 'react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { http, WagmiProvider, createConfig, useAccount } from 'wagmi';
 import { base } from 'wagmi/chains';
@@ -16,6 +16,11 @@ import { getSwapQuote } from '../../api/getSwapQuote';
 import { DEGEN_TOKEN, ETH_TOKEN } from '../mocks';
 import { getSwapErrorCode } from '../utils/getSwapErrorCode';
 import { SwapProvider, useSwapContext } from './SwapProvider';
+
+const mockResetFunction = vi.fn();
+vi.mock('../hooks/useResetInputs', () => ({
+  useResetInputs: () => useCallback(mockResetFunction, []),
+}));
 
 vi.mock('../../api/getSwapQuote', () => ({
   getSwapQuote: vi.fn(),
@@ -217,6 +222,7 @@ describe('useSwapContext', () => {
 
 describe('SwapProvider', () => {
   beforeEach(async () => {
+    vi.resetAllMocks();
     (useAccount as ReturnType<typeof vi.fn>).mockReturnValue({
       address: '0x123',
     });
@@ -254,11 +260,15 @@ describe('SwapProvider', () => {
     await act(async () => {
       result.current.setLifeCycleStatus({
         statusName: 'success',
-        statusData: { receipt: ['0x123'] },
+        statusData: { transactionReceipt: '0x123' },
       });
     });
-    expect(result.current.from.amount).toBe('');
-    expect(result.current.to.amount).toBe('');
+
+    await waitFor(() => {
+      expect(mockResetFunction).toHaveBeenCalled();
+    });
+
+    expect(mockResetFunction).toHaveBeenCalledTimes(1);
   });
 
   it('should emit onError when setLifeCycleStatus is called with error', async () => {

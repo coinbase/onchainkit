@@ -14,6 +14,7 @@ import type { Token } from '../../token';
 import { GENERIC_ERROR_MESSAGE } from '../../transaction/constants';
 import { isUserRejectedRequestError } from '../../transaction/utils/isUserRejectedRequestError';
 import { useFromTo } from '../hooks/useFromTo';
+import { useResetInputs } from '../hooks/useResetInputs';
 import type {
   LifeCycleStatus,
   SwapContextType,
@@ -61,14 +62,7 @@ export function SwapProvider({
   const { sendTransactionAsync } = useSendTransaction(); // Sending the transaction (and approval, if applicable)
 
   // Refreshes balances and inputs post-swap
-  const resetInputs = useCallback(async () => {
-    await Promise.all([
-      from.refetch(),
-      to.refetch(),
-      from.setAmount(''),
-      to.setAmount(''),
-    ]);
-  }, [from, to]);
+  const resetInputs = useResetInputs({ from, to });
 
   // Component lifecycle emitters
   useEffect(() => {
