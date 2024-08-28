@@ -1,3 +1,7 @@
+import { Name, } from '@coinbase/onchainkit/identity';
+import App from '../../components/App';
+import { base } from 'viem/chains';
+
 ---
 title: Use Basename · OnchainKit
 description: Integrate Basenames into your onchain app, in just a few steps.
@@ -21,7 +25,23 @@ Already using OnchainKit? Update to the latest version and choose from the follo
 
 ### React Component with `<Name>`
 
-ok
+Use the [`<Name>`](/identity/name) component to display Basenames associated with Ethereum addresses.
+
+The `chain` prop is optional and setting to Base it what makes the component switch from ENS to Basenames.
+
+```tsx
+import { Name } from '@coinbase/onchainkit/identity';
+import { base } from 'viem/chains';
+
+const address = '0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1';
+
+// omitted component code for brevity
+<Name address={address} chain={base} />
+```
+
+<App>
+  <Name address="0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1" chain={base}/>
+</App>
 
 ### React Hook with `useName`
 
@@ -29,4 +49,22 @@ ok
 
 ### Typescript utility with `getName`
 
-ok
+Use the [`getName`](/identity/get-name) function to get Basenames associated with Ethereum addresses.
+
+Because it's a pure function, you can use it in any TypeScript project, like Vue, Angular, Svelte or Node.js .
+
+```tsx
+
+:::code-group
+
+```tsx [code]
+import { getName } from '@coinbase/onchainkit/identity';
+import { base } from 'viem/chains';
+
+const address = '0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1';
+const name = await getName({ address, chain: base });
+```
+
+```ts [return value]
+zizzamia.base.eth;
+```
