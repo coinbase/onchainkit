@@ -22,42 +22,42 @@ describe('useFromTo', () => {
     (useSwapBalances as vi.Mock).mockReturnValue({
       fromBalanceString: '100',
       fromTokenBalanceError: null,
+      fromTokenResponse: { refetch: vi.fn() },
       toBalanceString: '200',
       toTokenBalanceError: null,
-      fromTokenResponse: { refetch: vi.fn() },
       toTokenResponse: { refetch: vi.fn() },
     });
     (useValue as vi.Mock).mockImplementation((props) => ({
       ...props,
       amount: '100',
-      setAmount: vi.fn(),
-      token: USDC_TOKEN,
-      setToken: vi.fn(),
-      setLoading: vi.fn(),
       response: props.response,
+      setAmount: vi.fn(),
+      setLoading: vi.fn(),
+      setToken: vi.fn(),
+      token: USDC_TOKEN,
     }));
     const { result } = renderHook(() => useFromTo('0x123'));
     expect(result.current.from).toEqual({
-      balance: '100',
       amount: '100',
-      setAmount: expect.any(Function),
-      token: USDC_TOKEN,
-      setToken: expect.any(Function),
-      loading: false,
-      setLoading: expect.any(Function),
+      balance: '100',
       error: null,
+      loading: false,
       response: { refetch: expect.any(Function) },
+      setAmount: expect.any(Function),
+      setLoading: expect.any(Function),
+      setToken: expect.any(Function),
+      token: USDC_TOKEN,
     });
     expect(result.current.to).toEqual({
-      balance: '200',
       amount: '100',
-      setAmount: expect.any(Function),
-      token: USDC_TOKEN,
-      setToken: expect.any(Function),
-      loading: false,
-      setLoading: expect.any(Function),
+      balance: '200',
       error: null,
+      loading: false,
       response: { refetch: expect.any(Function) },
+      setAmount: expect.any(Function),
+      setLoading: expect.any(Function),
+      setToken: expect.any(Function),
+      token: USDC_TOKEN,
     });
   });
 

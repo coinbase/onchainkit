@@ -56,11 +56,10 @@ export function useSwapBalances({
   return useValue({
     fromBalanceString,
     fromTokenBalanceError,
+    fromTokenResponse,
 
     toBalanceString,
     toTokenBalanceError,
-
-    fromTokenResponse,
     toTokenResponse,
   });
 }

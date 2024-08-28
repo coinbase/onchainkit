@@ -239,7 +239,7 @@ export type SwapUnit = {
   balance?: string;
   error?: SwapError;
   loading: boolean;
-  response: UseBalanceReturnType | UseReadContractReturnType | undefined;
+  response?: UseBalanceReturnType | UseReadContractReturnType;
   setAmount: Dispatch<SetStateAction<string>>;
   setLoading: Dispatch<SetStateAction<boolean>>;
   setToken: Dispatch<SetStateAction<Token | undefined>>;
