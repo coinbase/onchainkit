@@ -12,6 +12,7 @@ import { SwapMessage, getSwapMessage } from './getSwapMessage';
 
 describe('getSwapMessage', () => {
   const baseParams = {
+    address: '0x123',
     error: undefined,
     from: {
       error: undefined,
@@ -33,6 +34,7 @@ describe('getSwapMessage', () => {
       setToken: vi.fn(),
     },
     loading: false,
+    isMissingRequiredFields: false,
   };
 
   it('should return BALANCE_ERROR when from or to has an error', () => {
@@ -96,25 +98,9 @@ describe('getSwapMessage', () => {
   it('should return INCOMPLETE_FIELD when required fields are missing', () => {
     const params = {
       ...baseParams,
+      isMissingRequiredFields: true,
     };
     expect(getSwapMessage(params)).toBe(SwapMessage.INCOMPLETE_FIELD);
-
-    const params2 = {
-      ...baseParams,
-      from: {
-        ...baseParams.from,
-        amount: '10',
-        balance: '20',
-        token: ETH_TOKEN,
-      },
-    };
-    expect(getSwapMessage(params2)).toBe(SwapMessage.INCOMPLETE_FIELD);
-
-    const params3 = {
-      ...baseParams,
-      to: { ...baseParams.to, amount: '10', token: USDC_TOKEN },
-    };
-    expect(getSwapMessage(params3)).toBe(SwapMessage.INCOMPLETE_FIELD);
   });
 
   it('should return TOO_MANY_REQUESTS when error code is TOO_MANY_REQUESTS_ERROR_CODE', () => {

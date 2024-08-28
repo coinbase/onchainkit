@@ -1,10 +1,11 @@
 import { Spinner } from '../../internal/components/Spinner';
 import { background, cn, color, pressable, text } from '../../styles/theme';
+import { ConnectWallet } from '../../wallet';
 import type { SwapButtonReact } from '../types';
 import { useSwapContext } from './SwapProvider';
 
 export function SwapButton({ className, disabled = false }: SwapButtonReact) {
-  const { to, from, loading, isTransactionPending, handleSubmit } =
+  const { address, to, from, loading, isTransactionPending, handleSubmit } =
     useSwapContext();
 
   const isLoading =
@@ -17,6 +18,11 @@ export function SwapButton({ className, disabled = false }: SwapButtonReact) {
     !to.token ||
     disabled ||
     isLoading;
+
+  // prompt user to connect wallet
+  if (!isDisabled && !address) {
+    return <ConnectWallet className="mt-4 w-full" />;
+  }
 
   return (
     <button

@@ -31,9 +31,11 @@ export type Fee = {
 };
 
 export type GetSwapMessageParams = {
+  address?: Address;
   error?: SwapError;
   loading?: boolean;
   isTransactionPending?: boolean;
+  isMissingRequiredFields?: boolean;
   to: SwapUnit;
   from: SwapUnit;
 };
@@ -56,7 +58,9 @@ export type QuoteWarning = {
 export type LifeCycleStatus =
   | {
       statusName: 'init';
-      statusData: null;
+      statusData: {
+        isMissingRequiredField: boolean;
+      };
     }
   | {
       statusName: 'error';
@@ -64,7 +68,13 @@ export type LifeCycleStatus =
     }
   | {
       statusName: 'amountChange';
-      statusData: null;
+      statusData: {
+        amountFrom: string;
+        amountTo: string;
+        tokenFrom?: Token;
+        tokenTo?: Token;
+        isMissingRequiredField: boolean;
+      };
     }
   | {
       statusName: 'transactionPending';
@@ -121,6 +131,7 @@ export type SwapButtonReact = {
 };
 
 export type SwapContextType = {
+  address?: Address; // Used to check if user is connected in SwapButton
   error?: SwapError;
   from: SwapUnit;
   lifeCycleStatus: LifeCycleStatus;

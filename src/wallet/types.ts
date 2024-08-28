@@ -71,6 +71,7 @@ export type WalletContextType = {
  */
 export type WalletReact = {
   children: React.ReactNode;
+  className?: string;
 };
 
 /**

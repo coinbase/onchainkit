@@ -15,9 +15,11 @@ export enum SwapMessage {
 }
 
 export function getSwapMessage({
+  address,
   error,
   from,
   loading,
+  isMissingRequiredFields,
   isTransactionPending,
   to,
 }: GetSwapMessageParams) {
@@ -25,8 +27,8 @@ export function getSwapMessage({
   if (from.error || to.error) {
     return SwapMessage.BALANCE_ERROR;
   }
-  // handle amount exceeds balance
-  if (Number(from.balance) < Number(from.amount)) {
+  // handle amount exceeds balance (if connected)
+  if (address && Number(from.balance) < Number(from.amount)) {
     return SwapMessage.INSUFFICIENT_BALANCE;
   }
   // handle pending transaction
@@ -41,7 +43,7 @@ export function getSwapMessage({
     return SwapMessage.FETCHING_QUOTE;
   }
   // missing required fields
-  if (!from.amount || !from.token || !to.amount || !to.token) {
+  if (isMissingRequiredFields) {
     return SwapMessage.INCOMPLETE_FIELD;
   }
   if (!error) {
