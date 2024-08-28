@@ -1,6 +1,7 @@
 import '@testing-library/jest-dom';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import { vi } from 'vitest';
+import { beforeEach, vi } from 'vitest';
+import { useBreakpoints } from '../../useBreakpoints';
 import { useIcon } from '../../wallet/hooks/useIcon';
 import { SwapSettings } from './SwapSettings';
 import { SwapSettingsSlippageDescription } from './SwapSettingsSlippageDescription';
@@ -34,6 +35,12 @@ vi.mock('./SwapSettingsSlippageInput', () => ({
   SwapSettingsSlippageInput: vi.fn(() => <div>Input</div>),
 }));
 
+vi.mock('../../useBreakpoints', () => ({
+  useBreakpoints: vi.fn(),
+}));
+
+const useBreakpointsMock = useBreakpoints as vi.Mock;
+
 const renderComponent = (props = {}) => {
   return render(
     <SwapSettings {...props}>
@@ -46,6 +53,11 @@ const renderComponent = (props = {}) => {
 };
 
 describe('SwapSettings', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+    useBreakpointsMock.mockReturnValue('md'); // Default to 'md' breakpoint
+  });
+
   it('should render with default props', () => {
     renderComponent();
     expect(screen.getByTestId('ockSwapSettings_Settings')).toBeInTheDocument();
@@ -107,7 +119,6 @@ describe('SwapSettings', () => {
       name: /toggle swap settings/i,
     });
     fireEvent.click(button);
-
     await waitFor(() => {
       expect(screen.getByTestId('mock-layout')).toBeInTheDocument();
       expect(screen.getByText('Title')).toBeInTheDocument();
@@ -164,5 +175,17 @@ describe('SwapSettings', () => {
       expect(screen.getByText('Plain text child')).toBeInTheDocument();
       expect(screen.getByText('Input')).toBeInTheDocument();
     });
+  });
+
+  it('renders SwapSettingsSlippageLayoutBottomSheet when breakpoint is "sm"', () => {
+    useBreakpointsMock.mockReturnValue('sm');
+    renderComponent();
+    const button = screen.getByRole('button', {
+      name: /toggle swap settings/i,
+    });
+    fireEvent.click(button);
+    expect(
+      screen.getByTestId('ockSwapSettingsSlippageLayoutBottomSheet_container'),
+    ).toBeInTheDocument();
   });
 });

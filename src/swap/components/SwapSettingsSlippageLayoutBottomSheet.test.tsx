@@ -24,7 +24,6 @@ vi.mock('./SwapSettingsSlippageDescription', () => ({
 vi.mock('./SwapSettingsSlippageToggle', () => ({
   SwapSettingsSlippageToggle: ({
     customSlippageEnabled,
-    onToggle,
   }: { customSlippageEnabled: boolean; onToggle: () => void }) => (
     <div data-testid="mock-toggle">
       Toggle {customSlippageEnabled ? 'Enabled' : 'Disabled'}
