@@ -1,0 +1,95 @@
+---
+title: Lyfecycle Status · OnchainKit
+description: How to influences the behavior of your components and onchain data with Lifecycle Status.
+---
+
+# Lyfecycle Status
+
+OnchainKit is a design system that offers common components for onchain applications 
+and allows you to manage the state of APIs and onchain transactions seamlessly within those components.
+
+To give you complete control over the state of your components and the data they fetch, 
+OnchainKit introduces a **Lifecycle Status**.
+
+## What is the Lifecycle Status?
+
+The lifecycle status is the drummer of your components, maintaining a consistent tempo and rhythm for your components and the data they fetch. 🥁
+
+It influences how the components work together and how you, as the developer, can tap into the rhythm and customize the behavior of your components. 🎶
+
+## How to listen to the Lifecycle status
+
+The Lifecycle Status is a TypeScript object that provides easy access to the `statusName` and `statusData` properties, 
+allowing you to stay informed and responsive.
+
+```ts
+import type { LifecycleStatus } from '@coinbase/onchainkit/transaction';
+
+const handleOnStatus = useCallback(status: LifecycleStatus) => {
+  console.log('LifecycleStatus', status);
+}, []);
+
+<Transaction onStatus={handleOnStatus}>
+  // omitted component code for brevity
+</Transaction>
+```
+
+## Lifecycle Status vibes 🎸
+
+The Lifecycle Status includes 3 states common to all components:
+- **init**: the component is initialized and ready for use.
+
+```ts
+{
+  statusName: 'init';
+  statusData: null;
+}
+```
+
+- **success**: the component has successfully completed its main action, such as `swap` or `transaction`.
+
+```ts
+{
+  statusName: 'success';
+  statusData: {
+    // the data returned from the API or onchain operation
+  };
+}
+```
+
+- **error**: the component has encountered an issue while fetching API data, executing an on-chain operation, or needs to display a visual message to the user.
+
+```ts
+{
+  statusName: 'error';
+  statusData: {
+    code: string; // The error code representing the location of the error
+    error: string; // The error message providing developer details
+    message: string; // The error message providing user-facing details
+  };
+}
+```
+
+Each component brings its own unique experience, and we have explored both the swap and transaction processes.
+
+## Lifecycle Status with [`<Swap />`](/swap/swap)
+
+The Swap component has 3 additional states:
+- **Approve**: The component is waiting for the user to approve the transaction.
+- **Swap**: The component is waiting for the user to confirm the swap.
+- **Complete**: The component has successfully completed the swap.
+
+## Lifecycle Status with [`<Transaction />`](/transaction/transaction)
+
+The Transaction component has 3 additional states:
+- **Approve**: The component is waiting for the user to approve the transaction.
+- **Confirm**: The component is waiting for the user to confirm the transaction.
+- **Complete**: The component has successfully completed the transaction.
+
+## How to contribute to the Lifecycle Status
+
+The lifecycle status is excitingly new for OnchainKit, and we are continuously iterating to make it even better.
+
+As you use it, we welcome your input via [GitHub issues](https://github.com/coinbase/onchainkit/issues).
+
+Your feedback helps us create an enhanced experience for everyone.
