@@ -167,11 +167,6 @@ export type SwapError = {
   message: string; // The error message providing details about the swap error.
 };
 
-export type SwapErrorState = {
-  quoteError?: SwapError;
-  swapError?: SwapError;
-};
-
 export type SwapLoadingState = {
   isSwapLoading: boolean;
 };
