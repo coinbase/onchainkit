@@ -69,7 +69,7 @@ export function SwapSettings({
               'fixed inset-x-0 bottom-0 z-50',
               'transform transition-transform',
               `${isOpen ? 'translate-y-0' : 'translate-y-full'}`,
-              'rounded-t-lg bg-gray-800 shadow-lg h-[20vh]',
+              'h-[20vh] rounded-t-lg bg-gray-800 shadow-lg',
               className,
             )}
             data-testid="ockSwapSettingsSlippageLayoutBottomSheet_container"

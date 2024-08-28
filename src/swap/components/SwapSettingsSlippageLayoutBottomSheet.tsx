@@ -45,7 +45,7 @@ export function SwapSettingsSlippageLayoutBottomSheet({
   return (
     <div
       className={cn(
-        'right-0 z-10 w-full h-full rounded-lg border border-gray-300 bg-gray-50',
+        'right-0 z-10 h-full w-full rounded-lg border border-gray-300 bg-gray-50',
         'p-4 shadow-lg dark:border-gray-700 dark:bg-gray-950',
         className,
       )}
