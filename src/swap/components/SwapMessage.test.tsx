@@ -22,7 +22,7 @@ describe('SwapMessage', () => {
     mockGetSwapMessage.mockClear();
   });
 
-  it('renders message returned by getSwapMessage', () => {
+  it('should render message returned by getSwapMessage', () => {
     const mockMessage = 'Swap message';
     const mockContext = {
       to: {},
@@ -38,7 +38,7 @@ describe('SwapMessage', () => {
     expect(messageDiv).toHaveClass('test-class');
   });
 
-  it('renders with error message', () => {
+  it('should render with error message', () => {
     const mockMessage = 'Error occurred';
     const mockContext = {
       to: {},
@@ -53,7 +53,7 @@ describe('SwapMessage', () => {
     expect(messageDiv).toHaveTextContent(mockMessage);
   });
 
-  it('renders with loading message', () => {
+  it('should render with loading message', () => {
     const mockMessage = 'Loading...';
     const mockContext = {
       to: {},
@@ -68,7 +68,7 @@ describe('SwapMessage', () => {
     expect(messageDiv).toHaveTextContent(mockMessage);
   });
 
-  it('applies additional className correctly', () => {
+  it('should apply additional className correctly', () => {
     const mockContext = {
       to: {},
       from: {},
@@ -84,7 +84,7 @@ describe('SwapMessage', () => {
     expect(messageDiv).toHaveClass(customClass);
   });
 
-  it('sets isMissingRequiredFields to true when from.amount is missing', () => {
+  it('should set isMissingRequiredFields to true when from.amount is missing', () => {
     const mockContext = {
       to: { amount: 1, token: 'ETH' },
       from: { amount: null, token: 'DAI' }, // from.amount is missing
@@ -106,7 +106,7 @@ describe('SwapMessage', () => {
     });
   });
 
-  it('sets isMissingRequiredFields to true when from.token is missing', () => {
+  it('should set isMissingRequiredFields to true when from.token is missing', () => {
     const mockContext = {
       to: { amount: 1, token: 'ETH' },
       from: { amount: 1, token: null },
@@ -128,7 +128,7 @@ describe('SwapMessage', () => {
     });
   });
 
-  it('sets isMissingRequiredFields to true when to.amount is missing', () => {
+  it('should set isMissingRequiredFields to true when to.amount is missing', () => {
     const mockContext = {
       to: { amount: null, token: 'ETH' },
       from: { amount: 1, token: 'DAI' },
@@ -150,7 +150,7 @@ describe('SwapMessage', () => {
     });
   });
 
-  it('sets isMissingRequiredFields to true when to.token is missing', () => {
+  it('should set isMissingRequiredFields to true when to.token is missing', () => {
     const mockContext = {
       to: { amount: 1, token: null },
       from: { amount: 1, token: 'DAI' },
