@@ -3,28 +3,49 @@
 The `useName` hook is used to get name from an onchain identity provider
 for a given address.
 
-Supported providers:
-
-- ENS
-
 ## Usage
 
-```tsx
+Get ENS name from an address:
+
+:::code-group
+
+```tsx [code]
 import { useName } from '@coinbase/onchainkit/identity';
 
-const { data: name, isLoading } = useName({ address: '0x1234' });
+const address = '0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1';
+const { data: name, isLoading } = await useName({ address });
 ```
+
+```ts [return value]
+{ data: 'zizzamia.eth', isLoading: false }
+```
+
+:::
+
+Get Basename from an address:
+
+:::code-group
+
+```tsx [code]
+import { getName } from '@coinbase/onchainkit/identity';
+import { base } from 'viem/chains';
+
+const address = '0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1';
+const { data: name, isLoading } = await useName({ address, chain: base });
+```
+
+```ts [return value]
+{ data: 'zizzamia.base.eth', isLoading: false }
+```
+
+:::
+
 
 ## Returns
 
-```ts
-type UseNameOptions = {
-  address: Address; // The Ethereum address for which the ENS name is to be fetched.
-  chain?: Chain; // Optional chain for domain resolution
-};
+[`useQuery<Promise<GetAddressReturnType>>`](/identity/types#getaddressreturntype)
 
-type UseNameQueryOptions = {
-  enabled?: boolean;
-  cacheTime?: number;
-};
-```
+## Parameters
+
+[`UseNameOptions`](/identity/types#usenameoptions)
+[`UseQueryOptions`](/identity/types#usequeryoptions)

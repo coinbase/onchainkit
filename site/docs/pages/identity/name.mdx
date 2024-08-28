@@ -1,4 +1,4 @@
-import { Badge, Name, Identity, } from '@coinbase/onchainkit/identity';
+import { Badge, Name, Identity } from '@coinbase/onchainkit/identity';
 import App from '../../components/App';
 import { base } from 'viem/chains';
 
@@ -12,7 +12,9 @@ Address with an ENS:
 
 ```tsx
 import { Name } from '@coinbase/onchainkit/identity';
-<Name address="0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1" /> // [!code focus]
+
+const address = '0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1';
+<Name address={address} /> // [!code focus]
 ```
 
 <App>
@@ -24,7 +26,9 @@ Address with a Basename:
 ```tsx
 import { Name } from '@coinbase/onchainkit/identity';
 import { base } from 'viem/chains'; // [!code focus]
-<Name address="0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1" chain={base} /> // [!code focus]
+
+const address = '0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1';
+<Name address={address} chain={base} /> // [!code focus]
 ```
 
 <App>
@@ -37,9 +41,11 @@ You can override component styles using `className`.
 
 ```tsx
 import { Name } from '@coinbase/onchainkit/identity';
+
+const address = '0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1';
 <Name
+  address={address}
   className="bg-emerald-400 px-2 py-1 rounded"// [!code focus]
-  address="0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1"
 />
 ```
 
@@ -56,9 +62,10 @@ Use [`OnchainKitProvider`](/config/onchainkit-provider) or [`Identity`](/identit
 ```tsx
 import { Badge, Name, Identity } from '@coinbase/onchainkit/identity'; // [!code focus]
 
+const address = '0x838aD0EAE54F99F1926dA7C3b6bFbF617389B4D9';
 <Identity
+  address={address}
   schemaId="0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9"  // [!code focus]
-  address="0x838aD0EAE54F99F1926dA7C3b6bFbF617389B4D9"
 >
   <Name> // [!code focus]
     <Badge /> // [!code focus]

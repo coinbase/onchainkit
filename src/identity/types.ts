@@ -91,8 +91,19 @@ export type EthBalanceReact = {
 };
 
 /**
- * Attestation Options
- *
+ * Note: exported as public Type
+ */
+export type GetAddress = {
+  name: string | Basename;
+  chain?: Chain;
+};
+
+/**
+ * Note: exported as public Type
+ */
+export type GetAddressReturnType = Address | null;
+
+/**
  * Note: exported as public Type
  */
 export type GetAttestationsOptions = {
@@ -118,23 +129,10 @@ export type GetAvatarReturnType = string | null;
 /**
  * Note: exported as public Type
  */
-export type GetAddress = {
-  name: string | Basename;
-  chain?: Chain;
-};
-
-/**
- * Note: exported as public Type
- */
 export type GetName = {
   address: Address;
   chain?: Chain;
 };
-
-/**
- * Note: exported as public Type
- */
-export type GetAddressReturnType = Address | null;
 
 /**
  * Note: exported as public Type
