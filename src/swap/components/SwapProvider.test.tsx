@@ -107,7 +107,11 @@ const TestSwapComponent = () => {
   const handleStatusAmountChange = async () => {
     context.setLifeCycleStatus({
       statusName: 'amountChange',
-      statusData: null,
+      statusData: {
+        amountFrom: '',
+        amountTo: '',
+        isMissingRequiredField: false,
+      },
     });
   };
   const handleStatusTransactionPending = async () => {
@@ -262,6 +266,84 @@ describe('SwapProvider', () => {
     const button = screen.getByText('setLifeCycleStatus.amountChange');
     fireEvent.click(button);
     expect(onStatusMock).toHaveBeenCalled();
+  });
+
+  it('should update lifecycle status correctly after fetching quote for to token', async () => {
+    vi.mocked(getSwapQuote).mockResolvedValueOnce({
+      toAmount: '10',
+      to: {
+        decimals: 10,
+      },
+    });
+    const { result } = renderHook(() => useSwapContext(), { wrapper });
+    await act(async () => {
+      result.current.handleAmountChange('from', '10', ETH_TOKEN, DEGEN_TOKEN);
+    });
+    expect(result.current.lifeCycleStatus).toStrictEqual({
+      statusName: 'amountChange',
+      statusData: {
+        amountFrom: '10',
+        amountTo: '1e-9',
+        isMissingRequiredField: false,
+        tokenFrom: {
+          address: '',
+          name: 'ETH',
+          symbol: 'ETH',
+          chainId: 8453,
+          decimals: 18,
+          image:
+            'https://wallet-api-production.s3.amazonaws.com/uploads/tokens/eth_288.png',
+        },
+        tokenTo: {
+          address: '0x4ed4e862860bed51a9570b96d89af5e1b0efefed',
+          name: 'DEGEN',
+          symbol: 'DEGEN',
+          chainId: 8453,
+          decimals: 18,
+          image:
+            'https://d3r81g40ycuhqg.cloudfront.net/wallet/wais/3b/bf/3bbf118b5e6dc2f9e7fc607a6e7526647b4ba8f0bea87125f971446d57b296d2-MDNmNjY0MmEtNGFiZi00N2I0LWIwMTItMDUyMzg2ZDZhMWNm',
+        },
+      },
+    });
+  });
+
+  it('should update lifecycle status correctly after fetching quote for from token', async () => {
+    vi.mocked(getSwapQuote).mockResolvedValueOnce({
+      toAmount: '10',
+      to: {
+        decimals: 10,
+      },
+    });
+    const { result } = renderHook(() => useSwapContext(), { wrapper });
+    await act(async () => {
+      result.current.handleAmountChange('to', '10', ETH_TOKEN, DEGEN_TOKEN);
+    });
+    expect(result.current.lifeCycleStatus).toStrictEqual({
+      statusName: 'amountChange',
+      statusData: {
+        amountFrom: '1e-9',
+        amountTo: '10',
+        isMissingRequiredField: false,
+        tokenTo: {
+          address: '',
+          name: 'ETH',
+          symbol: 'ETH',
+          chainId: 8453,
+          decimals: 18,
+          image:
+            'https://wallet-api-production.s3.amazonaws.com/uploads/tokens/eth_288.png',
+        },
+        tokenFrom: {
+          address: '0x4ed4e862860bed51a9570b96d89af5e1b0efefed',
+          name: 'DEGEN',
+          symbol: 'DEGEN',
+          chainId: 8453,
+          decimals: 18,
+          image:
+            'https://d3r81g40ycuhqg.cloudfront.net/wallet/wais/3b/bf/3bbf118b5e6dc2f9e7fc607a6e7526647b4ba8f0bea87125f971446d57b296d2-MDNmNjY0MmEtNGFiZi00N2I0LWIwMTItMDUyMzg2ZDZhMWNm',
+        },
+      },
+    });
   });
 
   it('should emit onStatus when setLifeCycleStatus is called with transactionPending', async () => {
