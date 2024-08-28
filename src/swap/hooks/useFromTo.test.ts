@@ -27,7 +27,6 @@ describe('useFromTo', () => {
       fromTokenResponse: { refetch: vi.fn() },
       toTokenResponse: { refetch: vi.fn() },
     });
-
     (useValue as vi.Mock).mockImplementation((props) => ({
       ...props,
       amount: '100',
@@ -37,9 +36,7 @@ describe('useFromTo', () => {
       setLoading: vi.fn(),
       response: props.response,
     }));
-
     const { result } = renderHook(() => useFromTo('0x123'));
-
     expect(result.current.from).toEqual({
       balance: '100',
       amount: '100',
@@ -51,7 +48,6 @@ describe('useFromTo', () => {
       error: null,
       response: { refetch: expect.any(Function) },
     });
-
     expect(result.current.to).toEqual({
       balance: '200',
       amount: '100',

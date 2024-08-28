@@ -263,7 +263,6 @@ describe('SwapProvider', () => {
         statusData: { transactionReceipt: '0x123' },
       });
     });
-
     await waitFor(() => {
       expect(mockResetFunction).toHaveBeenCalled();
     });
