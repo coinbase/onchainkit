@@ -11,7 +11,7 @@ export function SwapMessage({ className }: SwapMessageReact) {
     error,
     loading,
     isTransactionPending,
-    lifeCycleStatus: { statusData, statusName },
+    lifeCycleStatus: { statusData },
   } = useSwapContext();
 
   const isMissingRequiredFields =
