@@ -5,11 +5,41 @@ for a given address.
 
 ## Usage
 
-```tsx
+Get ENS name from an address:
+
+:::code-group
+
+```tsx [code]
 import { useName } from '@coinbase/onchainkit/identity';
 
-const { data: name, isLoading } = useName({ address: '0x1234' });
+const address = '0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1';
+const { data: name, isLoading } = await useName({ address });
 ```
+
+```ts [return value]
+{ data: 'zizzamia.eth', isLoading: false }
+```
+
+:::
+
+Get Basename from an address:
+
+:::code-group
+
+```tsx [code]
+import { getName } from '@coinbase/onchainkit/identity';
+import { base } from 'viem/chains';
+
+const address = '0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1';
+const { data: name, isLoading } = await useName({ address, chain: base });
+```
+
+```ts [return value]
+{ data: 'zizzamia.base.eth', isLoading: false }
+```
+
+:::
+
 
 ## Returns
 

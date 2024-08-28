@@ -22,7 +22,7 @@ New to OnchainKit? Follow the [Getting Started](/getting-started) guide to insta
 
 Already using OnchainKit? Update to the latest version and choose from the following steps: a React component approach, a React hook, or a pure TypeScript utility function.
 
-### React Component with `<Name>`
+### React component with `<Name>`
 
 Use the [`<Name>`](/identity/name) component to display Basenames associated with Ethereum addresses.
 
@@ -42,9 +42,29 @@ const address = '0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1';
   <Name address="0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1" chain={base}/>
 </App>
 
-### React Hook with `useName`
+### React hook with `useName`
 
-ok
+Use the [`useName`](/identity/use-name) hook to get Basenames associated with Ethereum addresses.
+
+The hook can be useful when you want to build a custom component and still rely on the OnchainKit for the data fetching logic.
+
+```tsx
+
+:::code-group
+
+```tsx [code]
+import { getName } from '@coinbase/onchainkit/identity';
+import { base } from 'viem/chains';
+
+const address = '0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1';
+const { data: name, isLoading } = await useName({ address, chain: base });
+```
+
+```ts [return value]
+{ data: 'zizzamia.base.eth', isLoading: false }
+```
+
+:::
 
 ### Typescript utility with `getName`
 
@@ -67,3 +87,5 @@ const name = await getName({ address, chain: base });
 ```ts [return value]
 zizzamia.base.eth;
 ```
+
+:::
