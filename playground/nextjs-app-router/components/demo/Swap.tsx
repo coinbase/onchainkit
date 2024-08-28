@@ -61,18 +61,26 @@ function SwapComponent() {
   }, []);
 
   return (
-    <div className="relative h-full w-full">
+    <div className="relative h-full w-full flex flex-col items-center">
       {chainId !== 8453 ? (
         <div className="absolute top-0 left-0 z-10 flex h-full w-full flex-col justify-center rounded-xl bg-[#000000] bg-opacity-50 text-center">
           <div className="mx-auto w-2/3 rounded-md bg-muted p-6 text-sm">
             Swap Demo is only available on Base.
             <br />
-            Please change your chain in settings.
+            You're connected to a different network. Switch to Base to continue
+            using the app.
           </div>
         </div>
       ) : (
         <></>
       )}
+
+      {ENVIRONMENT_VARIABLES[ENVIRONMENT.ENVIRONMENT] === 'production' &&
+      chainId === 8453 ? (
+        <div className="italic mb-5">
+          Note: Swap is disabled on production. To test, run the app locally.
+        </div>
+      ) : null}
 
       <Swap className="border bg-[#ffffff]" onStatus={handleOnStatus}>
         <SwapAmountInput
