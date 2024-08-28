@@ -5,8 +5,8 @@ import type { FromTo } from '../types';
 export const useResetInputs = ({ from, to }: FromTo) => {
   return useCallback(async () => {
     await Promise.all([
-      from.refetch(),
-      to.refetch(),
+      from.response?.refetch(),
+      to.response?.refetch(),
       from.setAmount(''),
       to.setAmount(''),
     ]);
