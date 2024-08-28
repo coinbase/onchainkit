@@ -131,7 +131,7 @@ export type SwapButtonReact = {
 };
 
 export type SwapContextType = {
-  address?: Address;
+  address?: Address; // Used to check if user is connected in SwapButton
   error?: SwapError;
   from: SwapUnit;
   lifeCycleStatus: LifeCycleStatus;
