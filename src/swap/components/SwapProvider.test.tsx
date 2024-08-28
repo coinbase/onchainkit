@@ -266,7 +266,6 @@ describe('SwapProvider', () => {
     await waitFor(() => {
       expect(mockResetFunction).toHaveBeenCalled();
     });
-
     expect(mockResetFunction).toHaveBeenCalledTimes(1);
   });
 
