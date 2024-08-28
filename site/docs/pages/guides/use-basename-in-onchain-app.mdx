@@ -16,17 +16,21 @@ You can integrate [Basenames](https://www.base.org/names) into your app with few
 
 ::::steps
 
-### Install OnchainKit
+### New to OnchainKit?
 
-New to OnchainKit? Follow the [Getting Started](/getting-started) guide to install the package.
+Follow the [Getting Started](/getting-started) guide to install the package.
 
-Already using OnchainKit? Update to the latest version and choose from the following steps: a React component approach, a React hook, or a pure TypeScript utility function.
+### Already using OnchainKit?
 
-### React component with `<Name>`
+Update to the latest version and choose from the following steps: a React component approach, a React hook, or a pure TypeScript utility function.
+
+::::
+
+## React component with `<Name>`
 
 Use the [`<Name>`](/identity/name) component to display Basenames associated with Ethereum addresses.
 
-The `chain` prop is optional and setting to Base it what makes the component switch from ENS to Basenames.
+The `chain` prop is optional and setting to Base, it's what makes the component switch from ENS to Basenames.
 
 ```tsx
 import { Name } from '@coinbase/onchainkit/identity';
@@ -42,13 +46,11 @@ const address = '0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1';
   <Name address="0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1" chain={base}/>
 </App>
 
-### React hook with `useName`
+## React hook with `useName`
 
 Use the [`useName`](/identity/use-name) hook to get Basenames associated with Ethereum addresses.
 
-The hook can be useful when you want to build a custom component and still rely on the OnchainKit for the data fetching logic.
-
-```tsx
+The hook is incredibly useful for building custom components while leveraging OnchainKit for efficient data fetching.
 
 :::code-group
 
@@ -66,13 +68,11 @@ const { data: name, isLoading } = await useName({ address, chain: base });
 
 :::
 
-### Typescript utility with `getName`
+## Typescript utility with `getName`
 
 Use the [`getName`](/identity/get-name) function to get Basenames associated with Ethereum addresses.
 
-Because it's a pure function, you can use it in any TypeScript project, like Vue, Angular, Svelte or Node.js .
-
-```tsx
+Being a pure function, it seamlessly integrates into any TypeScript project, including Vue, Angular, Svelte, or Node.js.
 
 :::code-group
 
