@@ -9,7 +9,7 @@ import SwapDemo from './demo/Swap';
 import TransactionDemo from './demo/Transaction';
 import WalletDemo from './demo/Wallet';
 import { ActiveComponent } from './form/active-component';
-      
+
 // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO Refactor this component
 function Demo() {
   const { activeComponent } = useContext(AppContext);
