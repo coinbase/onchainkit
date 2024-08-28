@@ -53,7 +53,9 @@ export function SwapProvider({
   const [isTransactionPending, setPendingTransaction] = useState(false);
   const [lifeCycleStatus, setLifeCycleStatus] = useState<LifeCycleStatus>({
     statusName: 'init',
-    statusData: null,
+    statusData: {
+      isMissingRequiredField: true,
+    },
   }); // Component lifecycle
   const { from, to } = useFromTo(address);
   const { sendTransactionAsync } = useSendTransaction(); // Sending the transaction (and approval, if applicable)
@@ -215,7 +217,9 @@ export function SwapProvider({
     }
     setLifeCycleStatus({
       statusName: 'init',
-      statusData: null,
+      statusData: {
+        isMissingRequiredField: false,
+      },
     });
 
     try {

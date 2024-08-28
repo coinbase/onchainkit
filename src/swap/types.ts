@@ -58,7 +58,9 @@ export type QuoteWarning = {
 export type LifeCycleStatus =
   | {
       statusName: 'init';
-      statusData: null;
+      statusData: {
+        isMissingRequiredField: boolean;
+      };
     }
   | {
       statusName: 'error';

@@ -4,11 +4,20 @@ import { getSwapMessage } from '../utils/getSwapMessage';
 import { useSwapContext } from './SwapProvider';
 
 export function SwapMessage({ className }: SwapMessageReact) {
-  const { address, to, from, error, loading, isTransactionPending } =
-    useSwapContext();
+  const {
+    address,
+    to,
+    from,
+    error,
+    loading,
+    isTransactionPending,
+    lifeCycleStatus: { statusData, statusName },
+  } = useSwapContext();
 
   const isMissingRequiredFields =
-    !from.amount || !from.token || !to.amount || !to.token;
+    !!statusData &&
+    'isMissingRequiredField' in statusData &&
+    statusData?.isMissingRequiredField;
 
   const message = getSwapMessage({
     address,
