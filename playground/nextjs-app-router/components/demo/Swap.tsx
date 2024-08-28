@@ -9,10 +9,13 @@ import {
 } from '@coinbase/onchainkit/swap';
 import type { Token } from '@coinbase/onchainkit/token';
 import { useCallback, useContext } from 'react';
+import { base } from 'viem/chains';
 import { AppContext } from '../AppProvider';
 
 function SwapComponent() {
   const { chainId } = useContext(AppContext);
+
+  console.log('base', base.id);
 
   const degenToken: Token = {
     name: 'DEGEN',
@@ -21,7 +24,7 @@ function SwapComponent() {
     decimals: 18,
     image:
       'https://d3r81g40ycuhqg.cloudfront.net/wallet/wais/3b/bf/3bbf118b5e6dc2f9e7fc607a6e7526647b4ba8f0bea87125f971446d57b296d2-MDNmNjY0MmEtNGFiZi00N2I0LWIwMTItMDUyMzg2ZDZhMWNm',
-    chainId: 8453,
+    chainId: base.id,
   };
 
   const ethToken: Token = {
@@ -31,7 +34,7 @@ function SwapComponent() {
     decimals: 18,
     image:
       'https://wallet-api-production.s3.amazonaws.com/uploads/tokens/eth_288.png',
-    chainId: 8453,
+    chainId: base.id,
   };
 
   const usdcToken: Token = {
@@ -41,7 +44,7 @@ function SwapComponent() {
     decimals: 6,
     image:
       'https://d3r81g40ycuhqg.cloudfront.net/wallet/wais/44/2b/442b80bd16af0c0d9b22e03a16753823fe826e5bfd457292b55fa0ba8c1ba213-ZWUzYjJmZGUtMDYxNy00NDcyLTg0NjQtMWI4OGEwYjBiODE2',
-    chainId: 8453,
+    chainId: base.id,
   };
 
   const wethToken: Token = {
@@ -51,7 +54,7 @@ function SwapComponent() {
     decimals: 6,
     image:
       'https://d3r81g40ycuhqg.cloudfront.net/wallet/wais/47/bc/47bc3593c2dec7c846b66b7ba5f6fa6bd69ec34f8ebb931f2a43072e5aaac7a8-YmUwNmRjZDUtMjczYy00NDFiLWJhZDUtMzgwNjFmYWM0Njkx',
-    chainId: 8453,
+    chainId: base.id,
   };
 
   const swappableTokens = [degenToken, ethToken, usdcToken, wethToken];
@@ -62,7 +65,7 @@ function SwapComponent() {
 
   return (
     <div className="relative flex h-full w-full flex-col items-center">
-      {chainId !== 8453 ? (
+      {chainId !== base.id ? (
         <div className="absolute top-0 left-0 z-10 flex h-full w-full flex-col justify-center rounded-xl bg-[#000000] bg-opacity-50 text-center">
           <div className="mx-auto w-2/3 rounded-md bg-muted p-6 text-sm">
             Swap Demo is only available on Base.
@@ -76,7 +79,7 @@ function SwapComponent() {
       )}
 
       {ENVIRONMENT_VARIABLES[ENVIRONMENT.ENVIRONMENT] === 'production' &&
-      chainId === 8453 ? (
+      chainId === base.id ? (
         <div className="mb-5 italic">
           Note: Swap is disabled on production. To test, run the app locally.
         </div>
