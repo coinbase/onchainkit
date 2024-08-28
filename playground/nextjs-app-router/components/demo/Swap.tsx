@@ -91,7 +91,7 @@ function SwapComponent() {
         </div>
       )}
       {address ? (
-        <Swap className="border bg-[#ffffff]" onStatus={handleOnStatus}>
+        <Swap className="border" onStatus={handleOnStatus}>
           <SwapSettings>
             <SwapSettingsSlippageTitle>Max. slippage</SwapSettingsSlippageTitle>
             <SwapSettingsSlippageDescription>

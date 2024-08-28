@@ -1,8 +1,10 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { cn } from '../../styles/theme';
+import { useBreakpoints } from '../../useBreakpoints';
 import { useIcon } from '../../wallet/hooks/useIcon';
 import type { SwapSettingsReact } from '../types';
 import { SwapSettingsSlippageLayout } from './SwapSettingsSlippageLayout';
+import { SwapSettingsSlippageLayoutBottomSheet } from './SwapSettingsSlippageLayoutBottomSheet';
 
 export function SwapSettings({
   children,
@@ -10,6 +12,7 @@ export function SwapSettings({
   icon = 'swapSettings',
   text = '',
 }: SwapSettingsReact) {
+  const breakpoint = useBreakpoints();
   const [isOpen, setIsOpen] = useState(false);
   const [customSlippageEnabled, setCustomSlippageEnabled] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -36,6 +39,10 @@ export function SwapSettings({
 
   const iconSvg = useIcon({ icon });
 
+  if (!breakpoint) {
+    return null;
+  }
+
   return (
     <div
       className={cn(
@@ -56,21 +63,42 @@ export function SwapSettings({
         >
           {iconSvg}
         </button>
-        {isOpen && (
+        {isOpen && breakpoint === 'sm' ? (
           <div
             className={cn(
-              'absolute right-0 z-10 mt-1 w-[21.75rem] rounded-lg border border-gray-300',
-              'bg-gray-50 shadow-lg dark:border-gray-700 dark:bg-gray-950',
+              'fixed inset-x-0 bottom-0 z-50',
+              'transform transition-transform',
+              `${isOpen ? 'translate-y-0' : 'translate-y-full'}`,
+              'rounded-t-lg bg-gray-800 shadow-lg',
+              className,
             )}
-            data-testid="ockSwapSettingsDropdown"
+            data-testid="ockSwapSettingsSlippageLayoutBottomSheet_container"
           >
-            <SwapSettingsSlippageLayout
+            <SwapSettingsSlippageLayoutBottomSheet
               customSlippageEnabled={customSlippageEnabled}
               onToggleCustomSlippage={setCustomSlippageEnabled}
+              className={className}
             >
               {children}
-            </SwapSettingsSlippageLayout>
+            </SwapSettingsSlippageLayoutBottomSheet>
           </div>
+        ) : (
+          isOpen && (
+            <div
+              className={cn(
+                'absolute right-0 z-10 mt-1 w-[21.75rem] rounded-lg border border-gray-300',
+                'bg-gray-50 shadow-lg dark:border-gray-700 dark:bg-gray-950',
+              )}
+              data-testid="ockSwapSettingsDropdown"
+            >
+              <SwapSettingsSlippageLayout
+                customSlippageEnabled={customSlippageEnabled}
+                onToggleCustomSlippage={setCustomSlippageEnabled}
+              >
+                {children}
+              </SwapSettingsSlippageLayout>
+            </div>
+          )
         )}
       </div>
     </div>
