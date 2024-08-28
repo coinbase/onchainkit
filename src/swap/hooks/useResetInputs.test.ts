@@ -49,11 +49,9 @@ describe('useResetInputs', () => {
     const { result } = renderHook(() =>
       useResetInputs({ from: mockFrom, to: mockTo }),
     );
-
     await act(async () => {
       await result.current();
     });
-
     expect(mockFrom.refetch).toHaveBeenCalledTimes(1);
     expect(mockTo.refetch).toHaveBeenCalledTimes(1);
     expect(mockFrom.setAmount).toHaveBeenCalledWith('');
@@ -64,11 +62,8 @@ describe('useResetInputs', () => {
     const { result, rerender } = renderHook(() =>
       useResetInputs({ from: mockFrom, to: mockTo }),
     );
-
     const firstRender = result.current;
-
     rerender();
-
     expect(result.current).toBe(firstRender);
   });
 
@@ -77,15 +72,12 @@ describe('useResetInputs', () => {
       ({ from, to }) => useResetInputs({ from, to }),
       { initialProps: { from: mockFrom, to: mockTo } },
     );
-
     const firstRender = result.current;
-
     const newMockFrom = {
       ...mockFrom,
       refetch: vi.fn().mockResolvedValue(undefined),
     };
     rerender({ from: newMockFrom, to: mockTo });
-
     expect(result.current).not.toBe(firstRender);
   });
 
@@ -98,15 +90,12 @@ describe('useResetInputs', () => {
       refetch: vi.fn().mockRejectedValue(new Error('To refetch error')),
       setAmount: vi.fn(),
     };
-
     const { result } = renderHook(() =>
       useResetInputs({ from: errorMockFrom, to: errorMockTo }),
     );
-
     await act(async () => {
       await expect(result.current()).rejects.toThrow('From refetch error');
     });
-
     expect(errorMockFrom.refetch).toHaveBeenCalledTimes(1);
     expect(errorMockTo.refetch).toHaveBeenCalledTimes(1);
     expect(errorMockFrom.setAmount).toHaveBeenCalledWith('');

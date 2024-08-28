@@ -68,7 +68,6 @@ describe('useFromTo', () => {
   it('should call fromTokenResponse.refetch when from.refetch is called', async () => {
     const mockFromRefetch = vi.fn().mockResolvedValue(undefined);
     const mockToRefetch = vi.fn().mockResolvedValue(undefined);
-
     (useSwapBalances as vi.Mock).mockReturnValue({
       fromTokenResponse: { refetch: mockFromRefetch },
       toTokenResponse: { refetch: mockToRefetch },
@@ -77,13 +76,10 @@ describe('useFromTo', () => {
       ...props,
       refetch: props.refetch,
     }));
-
     const { result } = renderHook(() => useFromTo('0x123'));
-
     await act(async () => {
       await result.current.from.refetch();
     });
-
     expect(mockFromRefetch).toHaveBeenCalledTimes(1);
     expect(mockToRefetch).not.toHaveBeenCalled();
   });
@@ -91,23 +87,18 @@ describe('useFromTo', () => {
   it('should call toTokenResponse.refetch when to.refetch is called', async () => {
     const mockFromRefetch = vi.fn().mockResolvedValue(undefined);
     const mockToRefetch = vi.fn().mockResolvedValue(undefined);
-
     (useSwapBalances as vi.Mock).mockReturnValue({
       fromTokenResponse: { refetch: mockFromRefetch },
       toTokenResponse: { refetch: mockToRefetch },
     });
-
     (useValue as vi.Mock).mockImplementation((props) => ({
       ...props,
       refetch: props.refetch,
     }));
-
     const { result } = renderHook(() => useFromTo('0x123'));
-
     await act(async () => {
       await result.current.to.refetch();
     });
-
     expect(mockToRefetch).toHaveBeenCalledTimes(1);
     expect(mockFromRefetch).not.toHaveBeenCalled();
   });
@@ -117,20 +108,14 @@ describe('useFromTo', () => {
       fromTokenResponse: null,
       toTokenResponse: null,
     });
-
     (useValue as vi.Mock).mockImplementation((props) => ({
       ...props,
       refetch: props.refetch,
     }));
-
     const { result } = renderHook(() => useFromTo('0x123'));
-
     await act(async () => {
       await result.current.from.refetch();
       await result.current.to.refetch();
     });
-
-    // Expect no errors to be thrown
-    expect(true).toBe(true);
   });
 });
