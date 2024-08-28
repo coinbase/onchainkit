@@ -116,7 +116,19 @@ export function SwapProvider({
       source.token = sToken ?? source.token;
       destination.token = dToken ?? destination.token;
 
+      // if token is missing alert user via isMissingRequiredField
       if (source.token === undefined || destination.token === undefined) {
+        setLifeCycleStatus({
+          statusName: 'amountChange',
+          statusData: {
+            amountFrom: from.amount,
+            amountTo: to.amount,
+            tokenFrom: from.token,
+            tokenTo: to.token,
+            // token is missing
+            isMissingRequiredField: true,
+          },
+        });
         return;
       }
       if (amount === '' || amount === '.' || Number.parseFloat(amount) === 0) {
@@ -128,7 +140,17 @@ export function SwapProvider({
       destination.setLoading(true);
       setLifeCycleStatus({
         statusName: 'amountChange',
-        statusData: null,
+        statusData: {
+          // when fetching quote, the previous
+          // amount is irrelevant
+          amountFrom: type === 'from' ? amount : '',
+          amountTo: type === 'to' ? amount : '',
+          tokenFrom: from.token,
+          tokenTo: to.token,
+          // when fetching quote, the destination
+          // amount is missing
+          isMissingRequiredField: true,
+        },
       });
 
       try {
@@ -158,6 +180,18 @@ export function SwapProvider({
           response.to.decimals,
         );
         destination.setAmount(formattedAmount);
+        setLifeCycleStatus({
+          statusName: 'amountChange',
+          statusData: {
+            amountFrom: type === 'from' ? amount : formattedAmount,
+            amountTo: type === 'to' ? amount : formattedAmount,
+            tokenFrom: from.token,
+            tokenTo: to.token,
+            // if quote was fetched successfully, we
+            // have all required fields
+            isMissingRequiredField: !formattedAmount,
+          },
+        });
       } catch (err) {
         setLifeCycleStatus({
           statusName: 'error',

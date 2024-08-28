@@ -66,7 +66,13 @@ export type LifeCycleStatus =
     }
   | {
       statusName: 'amountChange';
-      statusData: null;
+      statusData: {
+        amountFrom: string;
+        amountTo: string;
+        tokenFrom?: Token;
+        tokenTo?: Token;
+        isMissingRequiredField: boolean;
+      };
     }
   | {
       statusName: 'transactionPending';
