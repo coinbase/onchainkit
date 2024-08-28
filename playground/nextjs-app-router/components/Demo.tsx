@@ -9,7 +9,8 @@ import SwapDemo from './demo/Swap';
 import TransactionDemo from './demo/Transaction';
 import WalletDemo from './demo/Wallet';
 import { ActiveComponent } from './form/active-component';
-
+      
+// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO Refactor this component
 function Demo() {
   const { activeComponent } = useContext(AppContext);
   const [isDarkMode, setIsDarkMode] = useState(true);
@@ -31,6 +32,7 @@ function Demo() {
       <div className="hidden w-1/4 min-w-120 flex-col border-r bg-background p-6 sm:flex">
         <div className="mb-12 font-semibold text-lg">OnchainKit Playground</div>
         <button
+          type="button"
           onClick={toggleDarkMode}
           className={`rounded border px-3 py-2 transition-colors ${
             isDarkMode
