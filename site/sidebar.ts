@@ -9,8 +9,16 @@ export const sidebar = [
     text: 'Guides',
     items: [
       {
-        text: 'Contribution',
-        link: '/guides/contribution',
+        text: 'Lifecycle Status',
+        link: '/guides/lifecycle-status',
+      },
+      {
+        text: 'Use Basename',
+        link: '/guides/use-basename-in-onchain-app',
+      },
+      {
+        text: 'Framegear',
+        link: '/frame/framegear',
       },
       {
         text: 'Tailwindcss Integration',
@@ -21,12 +29,8 @@ export const sidebar = [
         link: '/guides/reporting-bug',
       },
       {
-        text: 'Framegear',
-        link: '/frame/framegear',
-      },
-      {
-        text: 'Use Basename',
-        link: '/guides/use-basename-in-onchain-app',
+        text: 'Contribution',
+        link: '/guides/contribution',
       },
     ],
   },

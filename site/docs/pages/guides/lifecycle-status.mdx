@@ -5,11 +5,18 @@ description: How to influences the behavior of your components and onchain data 
 
 # Lyfecycle Status
 
+<img
+  alt="OnchainKit copy Public API Key"
+  src="../assets/onchainkit-lifecycle-status-vibes.png"
+  width="auto"
+/>
+
 OnchainKit is a design system that offers common components for onchain applications 
 and allows you to manage the state of APIs and onchain transactions seamlessly within those components.
 
 To give you complete control over the state of your components and the data they fetch, 
 OnchainKit introduces a **Lifecycle Status**.
+
 
 ## What is the Lifecycle Status?
 
@@ -37,7 +44,10 @@ const handleOnStatus = useCallback(status: LifecycleStatus) => {
 ## Lifecycle Status vibes 🎸
 
 The Lifecycle Status includes 3 states common to all components:
-- **init**: the component is initialized and ready for use.
+
+### `init`
+
+The component is initialized and ready for use.
 
 ```ts
 {
@@ -46,7 +56,9 @@ The Lifecycle Status includes 3 states common to all components:
 }
 ```
 
-- **success**: the component has successfully completed its main action, such as `swap` or `transaction`.
+### `success`
+
+The component has successfully completed its main action, such as `swap` or `transaction`.
 
 ```ts
 {
@@ -57,7 +69,9 @@ The Lifecycle Status includes 3 states common to all components:
 }
 ```
 
-- **error**: the component has encountered an issue while fetching API data, executing an on-chain operation, or needs to display a visual message to the user.
+### `error`
+
+The component has encountered an issue while fetching API data, executing an on-chain operation, or needs to display a visual message to the user.
 
 ```ts
 {
@@ -74,21 +88,109 @@ Each component brings its own unique experience, and we have explored both the s
 
 ## Lifecycle Status with [`<Swap />`](/swap/swap)
 
-The Swap component has 3 additional states:
-- **Approve**: The component is waiting for the user to approve the transaction.
-- **Swap**: The component is waiting for the user to confirm the swap.
-- **Complete**: The component has successfully completed the swap.
+### `amountChange`
+
+The component is waiting for the user to approve the transaction.
+
+```ts
+{
+  statusName: 'amountChange';
+  statusData: {
+  };
+}
+```
+
+### `transactionPending`
+
+The component is waiting for the user to confirm the swap.
+
+```ts
+{
+  statusName: 'transactionPending';
+  statusData: {
+  };
+}
+```
+
+### `transactionApproved`
+
+The component is waiting for the user to confirm the swap.
+
+```ts
+{
+  statusName: 'transactionApproved';
+  statusData: {
+  };
+}
+```
+
+### `success`
+
+The component is waiting for the user to confirm the swap.
+
+```ts
+{
+  statusName: 'success';
+  statusData: {
+    transactionReceipt: TransactionReceipt;
+  };
+}
+```
 
 ## Lifecycle Status with [`<Transaction />`](/transaction/transaction)
 
-The Transaction component has 3 additional states:
-- **Approve**: The component is waiting for the user to approve the transaction.
-- **Confirm**: The component is waiting for the user to confirm the transaction.
-- **Complete**: The component has successfully completed the transaction.
+### `transactionIdle`
+
+The component is waiting for the user to confirm the swap.
+
+```ts
+{
+  statusName: 'success';
+  statusData: {
+  };
+}
+```
+
+### `transactionPending`
+
+The component is waiting for the user to confirm the swap.
+
+```ts
+{
+  statusName: 'success';
+  statusData: {
+  };
+}
+```
+
+### `transactionLegacyExecuted`
+
+The component is waiting for the user to confirm the swap.
+
+```ts
+{
+  statusName: 'success';
+  statusData: {
+  };
+}
+```
+
+### `success`
+
+The component is waiting for the user to confirm the swap.
+
+```ts
+{
+  statusName: 'success';
+  statusData: {
+    transactionReceipts: TransactionReceipt[];
+  };
+}
+```
 
 ## How to contribute to the Lifecycle Status
 
-The lifecycle status is excitingly new for OnchainKit, and we are continuously iterating to make it even better.
+The lifecycle status is **new** for OnchainKit, and we are continuously iterating to make it better.
 
 As you use it, we welcome your input via [GitHub issues](https://github.com/coinbase/onchainkit/issues).
 
