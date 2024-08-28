@@ -8,7 +8,6 @@ export type {
   BuildSwapTransaction,
   BuildSwapTransactionResponse,
   Fee,
-  FromTo,
   LifeCycleStatus,
   QuoteWarning,
   SwapAmountInputReact,

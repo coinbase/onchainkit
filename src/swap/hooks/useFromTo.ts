@@ -31,9 +31,7 @@ export const useFromTo = (address?: Address): FromTo => {
     loading: fromLoading,
     setLoading: setFromLoading,
     error: fromTokenBalanceError,
-    refetch: async () => {
-      await fromTokenResponse?.refetch();
-    },
+    response: fromTokenResponse,
   });
 
   const to = useValue({
@@ -45,9 +43,7 @@ export const useFromTo = (address?: Address): FromTo => {
     loading: toLoading,
     setLoading: setToLoading,
     error: toTokenBalanceError,
-    refetch: async () => {
-      await toTokenResponse?.refetch();
-    },
+    response: toTokenResponse,
   });
 
   return { from, to };

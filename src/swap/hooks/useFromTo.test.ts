@@ -35,7 +35,7 @@ describe('useFromTo', () => {
       token: USDC_TOKEN,
       setToken: vi.fn(),
       setLoading: vi.fn(),
-      refetch: vi.fn(),
+      response: props.response,
     }));
 
     const { result } = renderHook(() => useFromTo('0x123'));
@@ -49,7 +49,7 @@ describe('useFromTo', () => {
       loading: false,
       setLoading: expect.any(Function),
       error: null,
-      refetch: expect.any(Function),
+      response: { refetch: expect.any(Function) },
     });
 
     expect(result.current.to).toEqual({
@@ -61,11 +61,11 @@ describe('useFromTo', () => {
       loading: false,
       setLoading: expect.any(Function),
       error: null,
-      refetch: expect.any(Function),
+      response: { refetch: expect.any(Function) },
     });
   });
 
-  it('should call fromTokenResponse.refetch when from.refetch is called', async () => {
+  it('should call fromTokenResponse.refetch when from.response.refetch is called', async () => {
     const mockFromRefetch = vi.fn().mockResolvedValue(undefined);
     const mockToRefetch = vi.fn().mockResolvedValue(undefined);
     (useSwapBalances as vi.Mock).mockReturnValue({
@@ -74,17 +74,17 @@ describe('useFromTo', () => {
     });
     (useValue as vi.Mock).mockImplementation((props) => ({
       ...props,
-      refetch: props.refetch,
+      response: props.response,
     }));
     const { result } = renderHook(() => useFromTo('0x123'));
     await act(async () => {
-      await result.current.from.refetch();
+      await result.current.from.response?.refetch();
     });
     expect(mockFromRefetch).toHaveBeenCalledTimes(1);
     expect(mockToRefetch).not.toHaveBeenCalled();
   });
 
-  it('should call toTokenResponse.refetch when to.refetch is called', async () => {
+  it('should call toTokenResponse.refetch when to.response.refetch is called', async () => {
     const mockFromRefetch = vi.fn().mockResolvedValue(undefined);
     const mockToRefetch = vi.fn().mockResolvedValue(undefined);
     (useSwapBalances as vi.Mock).mockReturnValue({
@@ -93,29 +93,13 @@ describe('useFromTo', () => {
     });
     (useValue as vi.Mock).mockImplementation((props) => ({
       ...props,
-      refetch: props.refetch,
+      response: props.response,
     }));
     const { result } = renderHook(() => useFromTo('0x123'));
     await act(async () => {
-      await result.current.to.refetch();
+      await result.current.to.response?.refetch();
     });
     expect(mockToRefetch).toHaveBeenCalledTimes(1);
     expect(mockFromRefetch).not.toHaveBeenCalled();
-  });
-
-  it('should handle null fromTokenResponse and toTokenResponse', async () => {
-    (useSwapBalances as vi.Mock).mockReturnValue({
-      fromTokenResponse: null,
-      toTokenResponse: null,
-    });
-    (useValue as vi.Mock).mockImplementation((props) => ({
-      ...props,
-      refetch: props.refetch,
-    }));
-    const { result } = renderHook(() => useFromTo('0x123'));
-    await act(async () => {
-      await result.current.from.refetch();
-      await result.current.to.refetch();
-    });
   });
 });
