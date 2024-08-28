@@ -21,7 +21,7 @@ export default function IdentityDemo() {
     ensName: 'zizzamia.eth',
   });
   const { data: avatarBasename } = useAvatar({
-    ensName: 'zizzamia.eth',
+    ensName: 'zizzamia.base.eth',
     chain: base,
   });
   const { data: name } = useName({ address: demoAddress });
