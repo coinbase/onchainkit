@@ -2,6 +2,8 @@ import { createContext, useMemo } from 'react';
 import { ONCHAIN_KIT_CONFIG, setOnchainKitConfig } from './OnchainKitConfig';
 import { checkHashLength } from './internal/utils/checkHashLength';
 import type { OnchainKitContextType, OnchainKitProviderReact } from './types';
+import { useAccount } from 'wagmi';
+import { useCapabilitiesSafe } from './useCapabilitiesSafe';
 
 export const OnchainKitContext =
   createContext<OnchainKitContextType>(ONCHAIN_KIT_CONFIG);
@@ -20,17 +22,22 @@ export function OnchainKitProvider({
   if (schemaId && !checkHashLength(schemaId, 64)) {
     throw Error('EAS schemaId must be 64 characters prefixed with "0x"');
   }
+  const account = useAccount();
+  const walletCapabilities = useCapabilitiesSafe({ chain });
+
   const value = useMemo(() => {
     const onchainKitConfig = {
-      address: address ?? null,
+      address: address ?? null, // this can maybe be updated to account.address
       apiKey: apiKey ?? null,
+      capabilities: walletCapabilities ?? null,
       chain: chain,
       rpcUrl: rpcUrl ?? null,
       schemaId: schemaId ?? null,
     };
     setOnchainKitConfig(onchainKitConfig);
     return onchainKitConfig;
-  }, [address, chain, schemaId, apiKey, rpcUrl]);
+  }, [account, address, chain, schemaId, apiKey, rpcUrl]);
+
   return (
     <OnchainKitContext.Provider value={value}>
       {children}
