@@ -3,7 +3,7 @@ import {
   PAY_INVALID_CHARGE_ERROR_CODE,
   PAY_INVALID_PARAMETER_ERROR_CODE,
   PAY_TOO_MANY_REQUESTS_ERROR_CODE,
-} from "../constants";
+} from '../constants';
 
 export function getPayErrorCode(errorCode?: number) {
   if (errorCode === -32001) {

@@ -1,4 +1,5 @@
 import type { Address } from 'viem';
+import type { HydratedCharge } from '../pay/types';
 import type { SwapQuote } from '../swap/types';
 import type { Token } from '../token/types';
 
@@ -79,3 +80,22 @@ export type RawTransactionData = {
 };
 
 export type SwapAPIParams = GetQuoteAPIParams | GetSwapAPIParams;
+
+/**
+ * Note: exported as public Type
+ */
+export type HydrateChargeParams = {
+  sender: Address; // The address of the wallet paying
+  chargeId: string; // The ID of the Commerce Charge to be paid
+};
+
+export type HydrateChargeAPIParams = {
+  sender: Address; // The address of the wallet paying
+  chainId: 8453; // The Chain ID of the payment Network (only Base is supported)
+  chargeId: string; // The ID of the Commerce Charge to be paid
+};
+
+/**
+ * Note: exported as public Type
+ */
+export type HydrateChargeResponse = HydratedCharge | APIError;
