@@ -267,7 +267,7 @@ describe('SwapProvider', () => {
       expect(mockResetFunction).toHaveBeenCalled();
     });
     expect(mockResetFunction).toHaveBeenCalledTimes(1);
-    expect(result.current.lifeCycleStatus.statusName).toEqual('init')
+    expect(result.current.lifeCycleStatus.statusName).toEqual('init');
   });
 
   it('should emit onError when setLifeCycleStatus is called with error', async () => {
