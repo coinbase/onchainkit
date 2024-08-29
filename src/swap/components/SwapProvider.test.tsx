@@ -255,7 +255,7 @@ describe('SwapProvider', () => {
     expect(result.current.error).toBeUndefined();
   });
 
-  it('should reset inputs when setLifeCycleStatus is called with success', async () => {
+  it('should reset inputs and lifeCycleStatus to init when setLifeCycleStatus is called with success', async () => {
     const { result } = renderHook(() => useSwapContext(), { wrapper });
     await act(async () => {
       result.current.setLifeCycleStatus({
@@ -267,6 +267,7 @@ describe('SwapProvider', () => {
       expect(mockResetFunction).toHaveBeenCalled();
     });
     expect(mockResetFunction).toHaveBeenCalledTimes(1);
+    expect(result.current.lifeCycleStatus.statusName).toEqual('init')
   });
 
   it('should emit onError when setLifeCycleStatus is called with error', async () => {

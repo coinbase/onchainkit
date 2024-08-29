@@ -93,6 +93,19 @@ export function SwapProvider({
     }
     // Emit Status
     onStatus?.(lifeCycleStatus);
+
+    // Reset lifecycle status after a success
+    if (
+      lifeCycleStatus.statusName !== 'init' &&
+      lifeCycleStatus.statusName === 'success'
+    ) {
+      setLifeCycleStatus({
+        statusName: 'init',
+        statusData: {
+          isMissingRequiredField: false,
+        },
+      });
+    }
   }, [
     onError,
     onStatus,
