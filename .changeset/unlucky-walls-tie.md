@@ -1,5 +1,6 @@
 ---
-"@coinbase/onchainkit": minor
+"@coinbase/onchainkit": patch
 ---
 
-**feat**: Swap success state - refetch balances and clear inputs by @0xAlec #1089
+- **patch**: refetch balances and clear inputs after Swap succeeds. By @0xAlec #1089
+- **patch**: Add connect wallet functionality to Swap component for disconnected user. By @abcrane123 #1173
