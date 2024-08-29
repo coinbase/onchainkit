@@ -102,6 +102,7 @@ export function SwapProvider({
     onError,
     onStatus,
     onSuccess,
+    hasHandledSuccess,
     lifeCycleStatus,
     lifeCycleStatus.statusData, // Keep statusData, so that the effect runs when it changes
     lifeCycleStatus.statusName, // Keep statusName, so that the effect runs when it changes
