@@ -1,5 +1,6 @@
 import { PAY_HYDRATE_CHARGE } from '../network/definitions/pay';
 import { sendRequest } from '../network/request';
+import { UNCAUGHT_HYDRATE_CHARGE_ERROR_CODE } from '../pay/constants';
 import { getPayErrorCode } from '../pay/utils/getPayErrorCode';
 import type {
   HydrateChargeAPIParams,
@@ -32,7 +33,7 @@ export async function hydrateCharge({
     return res.result;
   } catch (_error) {
     return {
-      code: getPayErrorCode(),
+      code: UNCAUGHT_HYDRATE_CHARGE_ERROR_CODE,
       error: 'Something went wrong',
       message: '',
     };
