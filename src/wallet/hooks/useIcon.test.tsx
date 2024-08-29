@@ -1,6 +1,7 @@
 import { renderHook } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 import { fundWalletSvg } from '../../internal/svg/fundWallet';
+import { swapSettingsSvg } from '../../internal/svg/swapSettings';
 import { walletSvg } from '../../internal/svg/walletSvg';
 import { useIcon } from './useIcon';
 
@@ -59,5 +60,10 @@ describe('useIcon', () => {
     const initialResult = result.current;
     rerender({ icon: customIcon });
     expect(result.current).toBe(initialResult);
+  });
+
+  it('should return swapSettingsSvg when icon is "swapSettings"', () => {
+    const { result } = renderHook(() => useIcon({ icon: 'swapSettings' }));
+    expect(result.current).toBe(swapSettingsSvg);
   });
 });
