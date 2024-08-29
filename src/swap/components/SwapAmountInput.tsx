@@ -69,7 +69,7 @@ export function SwapAmountInput({
       className={cn(
         background.alternate,
         'box-border flex w-full flex-col items-start',
-        'rounded-md p-4 h-[148px]',
+        'h-[148px] rounded-md p-4',
         className,
       )}
       data-testid="ockSwapAmountInput_Container"

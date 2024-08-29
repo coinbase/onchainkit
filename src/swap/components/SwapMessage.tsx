@@ -31,7 +31,7 @@ export function SwapMessage({ className }: SwapMessageReact) {
 
   return (
     <div
-      className={cn('flex pt-2 h-7', text.label2, className)}
+      className={cn('flex h-7 pt-2', text.label2, className)}
       data-testid="ockSwapMessage_Message"
     >
       {message}
