@@ -40,9 +40,9 @@ describe('useFromTo', () => {
     expect(result.current.from).toEqual({
       amount: '100',
       balance: '100',
+      balanceResponse: { refetch: expect.any(Function) },
       error: null,
       loading: false,
-      response: { refetch: expect.any(Function) },
       setAmount: expect.any(Function),
       setLoading: expect.any(Function),
       setToken: expect.any(Function),
@@ -51,9 +51,9 @@ describe('useFromTo', () => {
     expect(result.current.to).toEqual({
       amount: '100',
       balance: '200',
+      balanceResponse: { refetch: expect.any(Function) },
       error: null,
       loading: false,
-      response: { refetch: expect.any(Function) },
       setAmount: expect.any(Function),
       setLoading: expect.any(Function),
       setToken: expect.any(Function),
@@ -74,7 +74,7 @@ describe('useFromTo', () => {
     }));
     const { result } = renderHook(() => useFromTo('0x123'));
     await act(async () => {
-      await result.current.from.response?.refetch();
+      await result.current.from.balanceResponse?.refetch();
     });
     expect(mockFromRefetch).toHaveBeenCalledTimes(1);
     expect(mockToRefetch).not.toHaveBeenCalled();
@@ -93,7 +93,7 @@ describe('useFromTo', () => {
     }));
     const { result } = renderHook(() => useFromTo('0x123'));
     await act(async () => {
-      await result.current.to.response?.refetch();
+      await result.current.to.balanceResponse?.refetch();
     });
     expect(mockToRefetch).toHaveBeenCalledTimes(1);
     expect(mockFromRefetch).not.toHaveBeenCalled();

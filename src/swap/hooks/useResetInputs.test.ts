@@ -10,6 +10,7 @@ describe('useResetInputs', () => {
   const mockToTokenResponse = { refetch: vi.fn().mockResolvedValue(undefined) };
   const mockFrom: SwapUnit = {
     balance: '100',
+    balanceResponse: mockFromTokenResponse,
     amount: '50',
     setAmount: vi.fn(),
     token: undefined,
@@ -17,10 +18,10 @@ describe('useResetInputs', () => {
     loading: false,
     setLoading: vi.fn(),
     error: undefined,
-    response: mockFromTokenResponse,
   };
   const mockTo: SwapUnit = {
     balance: '200',
+    balanceResponse: mockToTokenResponse,
     amount: '75',
     setAmount: vi.fn(),
     token: undefined,
@@ -28,7 +29,6 @@ describe('useResetInputs', () => {
     loading: false,
     setLoading: vi.fn(),
     error: undefined,
-    response: mockToTokenResponse,
   };
 
   beforeEach(() => {

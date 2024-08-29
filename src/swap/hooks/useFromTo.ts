@@ -24,6 +24,7 @@ export const useFromTo = (address?: Address): FromTo => {
 
   const from = useValue({
     balance: fromBalanceString,
+    balanceResponse: fromTokenResponse,
     amount: fromAmount,
     setAmount: setFromAmount,
     token: fromToken,
@@ -31,11 +32,11 @@ export const useFromTo = (address?: Address): FromTo => {
     loading: fromLoading,
     setLoading: setFromLoading,
     error: fromTokenBalanceError,
-    response: fromTokenResponse,
   });
 
   const to = useValue({
     balance: toBalanceString,
+    balanceResponse: toTokenResponse,
     amount: toAmount,
     setAmount: setToAmount,
     token: toToken,
@@ -43,7 +44,6 @@ export const useFromTo = (address?: Address): FromTo => {
     loading: toLoading,
     setLoading: setToLoading,
     error: toTokenBalanceError,
-    response: toTokenResponse,
   });
 
   return { from, to };
