@@ -1,6 +1,10 @@
 import type { Dispatch, ReactNode, SetStateAction } from 'react';
 import type { Address, Hex, TransactionReceipt } from 'viem';
-import type { Config } from 'wagmi';
+import type {
+  Config,
+  UseBalanceReturnType,
+  UseReadContractReturnType,
+} from 'wagmi';
 import type { SendTransactionMutateAsync } from 'wagmi/query';
 import type { RawTransactionData } from '../api/types';
 import type { Token } from '../token/types';
@@ -28,6 +32,11 @@ export type Fee = {
   amount: string; // The amount of the fee
   baseAsset: Token; // The base asset for the fee
   percentage: string; // The percentage of the fee
+};
+
+export type FromTo = {
+  from: SwapUnit;
+  to: SwapUnit;
 };
 
 export type GetSwapMessageParams = {
@@ -228,6 +237,7 @@ export type SwapToggleButtonReact = {
 export type SwapUnit = {
   amount: string;
   balance?: string;
+  balanceResponse?: UseBalanceReturnType | UseReadContractReturnType;
   error?: SwapError;
   loading: boolean;
   setAmount: Dispatch<SetStateAction<string>>;

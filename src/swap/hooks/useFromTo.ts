@@ -2,9 +2,10 @@ import { useState } from 'react';
 import type { Address } from 'viem';
 import { useValue } from '../../internal/hooks/useValue';
 import type { Token } from '../../token';
+import type { FromTo } from '../types';
 import { useSwapBalances } from './useSwapBalances';
 
-export const useFromTo = (address?: Address) => {
+export const useFromTo = (address?: Address): FromTo => {
   const [fromAmount, setFromAmount] = useState('');
   const [fromToken, setFromToken] = useState<Token>();
   const [toAmount, setToAmount] = useState('');
@@ -17,10 +18,13 @@ export const useFromTo = (address?: Address) => {
     fromTokenBalanceError,
     toBalanceString,
     toTokenBalanceError,
+    fromTokenResponse,
+    toTokenResponse,
   } = useSwapBalances({ address, fromToken, toToken });
 
   const from = useValue({
     balance: fromBalanceString,
+    balanceResponse: fromTokenResponse,
     amount: fromAmount,
     setAmount: setFromAmount,
     token: fromToken,
@@ -32,6 +36,7 @@ export const useFromTo = (address?: Address) => {
 
   const to = useValue({
     balance: toBalanceString,
+    balanceResponse: toTokenResponse,
     amount: toAmount,
     setAmount: setToAmount,
     token: toToken,

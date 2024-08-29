@@ -14,6 +14,7 @@ import type { Token } from '../../token';
 import { GENERIC_ERROR_MESSAGE } from '../../transaction/constants';
 import { isUserRejectedRequestError } from '../../transaction/utils/isUserRejectedRequestError';
 import { useFromTo } from '../hooks/useFromTo';
+import { useResetInputs } from '../hooks/useResetInputs';
 import type {
   LifeCycleStatus,
   SwapContextType,
@@ -60,6 +61,9 @@ export function SwapProvider({
   const { from, to } = useFromTo(address);
   const { sendTransactionAsync } = useSendTransaction(); // Sending the transaction (and approval, if applicable)
 
+  // Refreshes balances and inputs post-swap
+  const resetInputs = useResetInputs({ from, to });
+
   // Component lifecycle emitters
   useEffect(() => {
     // Error
@@ -83,6 +87,7 @@ export function SwapProvider({
     if (lifeCycleStatus.statusName === 'success') {
       setError(undefined);
       setLoading(false);
+      resetInputs();
       setPendingTransaction(false);
       onSuccess?.(lifeCycleStatus.statusData.transactionReceipt);
     }
@@ -95,6 +100,7 @@ export function SwapProvider({
     lifeCycleStatus,
     lifeCycleStatus.statusData, // Keep statusData, so that the effect runs when it changes
     lifeCycleStatus.statusName, // Keep statusName, so that the effect runs when it changes
+    resetInputs,
   ]);
 
   const handleToggle = useCallback(() => {
