@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { act, render, screen, waitFor } from '@testing-library/react';
 import { base } from 'viem/chains';
 import '@testing-library/jest-dom';
 
@@ -11,6 +11,7 @@ import { mock } from 'wagmi/connectors';
 import { setOnchainKitConfig } from './OnchainKitConfig';
 import { OnchainKitProvider } from './OnchainKitProvider';
 import type { EASSchemaUid } from './identity/types';
+import { useCapabilitiesSafe } from './useCapabilitiesSafe';
 import { useOnchainKit } from './useOnchainKit';
 
 const queryClient = new QueryClient();
@@ -25,6 +26,7 @@ const mockConfig = createConfig({
     [base.id]: http(),
   },
 });
+vi.mock('./useCapabilitiesSafe');
 
 const TestComponent = () => {
   const { schemaId, apiKey } = useOnchainKit();
@@ -110,7 +112,7 @@ describe('OnchainKitProvider', () => {
     }).not.toThrow();
   });
 
-  it('should call setOnchainKitConfig with the correct values', async () => {
+  it('should call setOnchainKitConfig with the correct default values', async () => {
     render(
       <WagmiProvider config={mockConfig}>
         <QueryClientProvider client={queryClient}>
@@ -124,11 +126,71 @@ describe('OnchainKitProvider', () => {
     expect(setOnchainKitConfig).toHaveBeenCalledWith({
       address: null,
       apiKey,
-      capabilities: {
-        paymaster: false,
-        batching: false,
-        funding: false,
-      },
+      capabilities: null,
+      chain: base,
+      rpcUrl: null,
+      schemaId,
+    });
+  });
+
+  it('should call setOnchainKitConfig when capabilities are found', async () => {
+    const capabilities = {
+      paymaster: true,
+      batching: true,
+      funding: true,
+    };
+    vi.mocked(useCapabilitiesSafe).mockReturnValue(capabilities);
+    await act(async () => {
+      render(
+        <WagmiProvider config={mockConfig}>
+          <QueryClientProvider client={queryClient}>
+            <OnchainKitProvider
+              chain={base}
+              schemaId={schemaId}
+              apiKey={apiKey}
+            >
+              <TestComponent />
+            </OnchainKitProvider>
+          </QueryClientProvider>
+        </WagmiProvider>,
+      );
+    });
+    expect(setOnchainKitConfig).toHaveBeenCalledWith({
+      address: null,
+      apiKey,
+      capabilities,
+      chain: base,
+      rpcUrl: null,
+      schemaId,
+    });
+  });
+
+  it('should call setOnchainKitConfig when capabilities are not found', async () => {
+    const capabilities = {
+      paymaster: false,
+      batching: false,
+      funding: false,
+    };
+    vi.mocked(useCapabilitiesSafe).mockReturnValue(capabilities);
+    await act(async () => {
+      render(
+        <WagmiProvider config={mockConfig}>
+          <QueryClientProvider client={queryClient}>
+            <OnchainKitProvider
+              chain={base}
+              schemaId={schemaId}
+              apiKey={apiKey}
+            >
+              <TestComponent />
+            </OnchainKitProvider>
+          </QueryClientProvider>
+        </WagmiProvider>,
+      );
+    });
+    expect(setOnchainKitConfig).toHaveBeenCalledWith({
+      address: null,
+      apiKey,
+      capabilities,
       chain: base,
       rpcUrl: null,
       schemaId,
