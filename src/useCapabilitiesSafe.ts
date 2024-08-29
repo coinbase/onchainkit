@@ -1,4 +1,4 @@
-import { Chain } from 'viem';
+import type { Chain } from 'viem';
 import { useAccount } from 'wagmi';
 import { useCapabilities } from 'wagmi/experimental';
 import type { WalletCapabilities } from './types';

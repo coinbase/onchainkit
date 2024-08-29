@@ -1,8 +1,8 @@
 import { createContext, useMemo } from 'react';
+import { useAccount } from 'wagmi';
 import { ONCHAIN_KIT_CONFIG, setOnchainKitConfig } from './OnchainKitConfig';
 import { checkHashLength } from './internal/utils/checkHashLength';
 import type { OnchainKitContextType, OnchainKitProviderReact } from './types';
-import { useAccount } from 'wagmi';
 import { useCapabilitiesSafe } from './useCapabilitiesSafe';
 
 export const OnchainKitContext =

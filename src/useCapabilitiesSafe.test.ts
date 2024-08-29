@@ -1,8 +1,8 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { renderHook } from '@testing-library/react';
-import { useCapabilitiesSafe } from './useCapabilitiesSafe';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { useAccount } from 'wagmi';
 import { useCapabilities } from 'wagmi/experimental';
+import { useCapabilitiesSafe } from './useCapabilitiesSafe';
 
 vi.mock('wagmi', () => ({
   useAccount: vi.fn(),
@@ -24,7 +24,7 @@ describe('useCapabilitiesSafe', () => {
   it('should return all capabilities as false when not connected', () => {
     (useAccount as vi.Mock).mockReturnValue({ isConnected: false });
     const { result } = renderHook(() =>
-      useCapabilitiesSafe({ chain: mockChain })
+      useCapabilitiesSafe({ chain: mockChain }),
     );
     expect(result.current).toEqual({
       paymaster: false,
@@ -39,7 +39,7 @@ describe('useCapabilitiesSafe', () => {
       connector: { id: 'io.metamask' },
     });
     const { result } = renderHook(() =>
-      useCapabilitiesSafe({ chain: mockChain })
+      useCapabilitiesSafe({ chain: mockChain }),
     );
     expect(result.current).toEqual({
       paymaster: false,
@@ -63,7 +63,7 @@ describe('useCapabilitiesSafe', () => {
       },
     });
     const { result } = renderHook(() =>
-      useCapabilitiesSafe({ chain: mockChain })
+      useCapabilitiesSafe({ chain: mockChain }),
     );
     expect(result.current).toEqual({
       paymaster: true,
@@ -79,7 +79,7 @@ describe('useCapabilitiesSafe', () => {
     });
     (useCapabilities as vi.Mock).mockReturnValue({ data: undefined });
     const { result } = renderHook(() =>
-      useCapabilitiesSafe({ chain: mockChain })
+      useCapabilitiesSafe({ chain: mockChain }),
     );
     expect(result.current).toEqual({
       paymaster: false,
@@ -95,7 +95,7 @@ describe('useCapabilitiesSafe', () => {
     });
     (useCapabilities as vi.Mock).mockReturnValue({ data: {} });
     const { result } = renderHook(() =>
-      useCapabilitiesSafe({ chain: mockChain })
+      useCapabilitiesSafe({ chain: mockChain }),
     );
     expect(result.current).toEqual({
       paymaster: false,
