@@ -6,7 +6,7 @@ description: How to influences the behavior of your components and onchain data 
 # Lyfecycle Status
 
 <img
-  alt="OnchainKit Lyfecycle Status vibes"
+  alt="OnchainKit Lyfecycle Status"
   src="https://onchainkit.xyz/assets/onchainkit-lifecycle-status-vibes.png"
   width="auto"
 />
@@ -43,7 +43,7 @@ const handleOnStatus = useCallback(status: LifecycleStatus) => {
 </Transaction>
 ```
 
-## Lifecycle Status vibes 🎸
+## Lifecycle Status
 
 The Lifecycle Status includes 3 states common to all components:
 
@@ -112,7 +112,8 @@ Any of the Swap Input fields have been updated.
 
 ### `transactionPending`
 
-The transaction is pending ...
+The transaction has been submitted to the network but has not yet been confirmed to be included in a block. 
+During this pending state, the transaction is waiting to be validated by the network's consensus mechanism.
 
 ```ts
 {
@@ -123,7 +124,8 @@ The transaction is pending ...
 
 ### `transactionApproved`
 
-The transaction is approved ...
+The transaction has been verified to be valid and it has been included in a block
+however the transaction is not yet finalized.
 
 ```ts
 {
@@ -137,7 +139,7 @@ The transaction is approved ...
 
 ### `success`
 
-The swap is ...
+The transaction has been added to the blockchain and the transaction is considered final.
 
 ```ts
 {
@@ -152,7 +154,7 @@ The swap is ...
 
 ### `transactionIdle`
 
-The transaction is ...
+The transaction component is waiting for the user to take action.
 
 ```ts
 {
@@ -163,7 +165,8 @@ The transaction is ...
 
 ### `transactionPending`
 
-The transaction is ...
+The transaction has been submitted to the network but has not yet been confirmed to be included in a block. 
+During this pending state, the transaction is waiting to be validated by the network's consensus mechanism.
 
 ```ts
 {
@@ -187,7 +190,7 @@ The transaction is ...
 
 ### `success`
 
-The transaction is ...
+The transaction has been added to the blockchain and the transaction is considered final.
 
 ```ts
 {
