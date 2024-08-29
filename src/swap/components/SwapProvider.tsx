@@ -104,7 +104,9 @@ export function SwapProvider({
   ]);
 
   useEffect(() => {
-    // Reset inputs after status reset
+    // Reset inputs after status reset. `resetInputs` is dependent
+    // on 'from' and 'to' so moved to separate useEffect to
+    // prevents multiple calls to `onStatus`
     if (lifeCycleStatus.statusName === 'init' && hasHandledSuccess) {
       setHasHandledSuccess(false);
       resetInputs();
