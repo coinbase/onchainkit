@@ -6,12 +6,12 @@ description: How to influences the behavior of your components and onchain data 
 # Lyfecycle Status
 
 <img
-  alt="OnchainKit copy Public API Key"
-  src="../assets/onchainkit-lifecycle-status-vibes.png"
+  alt="OnchainKit Lyfecycle Status vibes"
+  src="https://onchainkit.xyz/assets/onchainkit-lifecycle-status-vibes.png"
   width="auto"
 />
 
-OnchainKit is a design system that offers common components for onchain applications 
+OnchainKit is a design system that offers components for onchain applications 
 and allows you to manage the state of APIs and onchain transactions seamlessly within those components.
 
 To give you complete control over the state of your components and the data they fetch, 
@@ -20,9 +20,11 @@ OnchainKit introduces a **Lifecycle Status**.
 
 ## What is the Lifecycle Status?
 
-The lifecycle status is the drummer of your components, maintaining a consistent tempo and rhythm for your components and the data they fetch. 🥁
+The lifecycle status is the drummer of your components, maintaining a consistent tempo and 
+rhythm for your components and the data they fetch. 🥁
 
-It influences how the components work together and how you, as the developer, can tap into the rhythm and customize the behavior of your components. 🎶
+It influences how the components work together and how you, as the developer, 
+can tap into the rhythm and customize the behavior of your components. 🎶
 
 ## How to listen to the Lifecycle status
 
@@ -71,7 +73,8 @@ The component has successfully completed its main action, such as `swap` or `tra
 
 ### `error`
 
-The component has encountered an issue while fetching API data, executing an on-chain operation, or needs to display a visual message to the user.
+The component has encountered an issue while fetching API data, executing an onchain operation, 
+or needs to display a visual message to the user.
 
 ```ts
 {
@@ -84,49 +87,57 @@ The component has encountered an issue while fetching API data, executing an on-
 }
 ```
 
+<br />
+
 Each component brings its own unique experience, and we have explored both the swap and transaction processes.
 
 ## Lifecycle Status with [`<Swap />`](/swap/swap)
 
 ### `amountChange`
 
-The component is waiting for the user to approve the transaction.
+Any of the Swap Input fields have been updated.
 
 ```ts
 {
   statusName: 'amountChange';
   statusData: {
+    amountFrom: string;
+    amountTo: string;
+    tokenFrom?: Token;
+    tokenTo?: Token;
+    isMissingRequiredField: boolean;
   };
 }
 ```
 
 ### `transactionPending`
 
-The component is waiting for the user to confirm the swap.
+The transaction is pending ...
 
 ```ts
 {
   statusName: 'transactionPending';
-  statusData: {
-  };
+  statusData: null;
 }
 ```
 
 ### `transactionApproved`
 
-The component is waiting for the user to confirm the swap.
+The transaction is approved ...
 
 ```ts
 {
   statusName: 'transactionApproved';
   statusData: {
+    transactionHash: Hex;
+    transactionType: 'ERC20' | 'Permit2';
   };
 }
 ```
 
 ### `success`
 
-The component is waiting for the user to confirm the swap.
+The swap is ...
 
 ```ts
 {
@@ -141,43 +152,42 @@ The component is waiting for the user to confirm the swap.
 
 ### `transactionIdle`
 
-The component is waiting for the user to confirm the swap.
+The transaction is ...
 
 ```ts
 {
-  statusName: 'success';
-  statusData: {
-  };
+  statusName: 'transactionIdle';
+  statusData: null;
 }
 ```
 
 ### `transactionPending`
 
-The component is waiting for the user to confirm the swap.
+The transaction is ...
 
 ```ts
 {
-  statusName: 'success';
-  statusData: {
-  };
+  statusName: 'transactionPending';
+  statusData: null;
 }
 ```
 
 ### `transactionLegacyExecuted`
 
-The component is waiting for the user to confirm the swap.
+The transaction is ...
 
 ```ts
 {
-  statusName: 'success';
+  statusName: 'transactionLegacyExecuted';
   statusData: {
+    transactionHashList: Address[];
   };
 }
 ```
 
 ### `success`
 
-The component is waiting for the user to confirm the swap.
+The transaction is ...
 
 ```ts
 {
