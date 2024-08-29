@@ -23,6 +23,7 @@ describe('useCapabilitiesSafe', () => {
 
   it('should return all capabilities as false when not connected', () => {
     (useAccount as vi.Mock).mockReturnValue({ isConnected: false });
+    (useCapabilities as vi.Mock).mockReturnValue({ data: undefined });
     const { result } = renderHook(() =>
       useCapabilitiesSafe({ chain: mockChain }),
     );
@@ -38,6 +39,7 @@ describe('useCapabilitiesSafe', () => {
       isConnected: true,
       connector: { id: 'io.metamask' },
     });
+    (useCapabilities as vi.Mock).mockReturnValue({ data: undefined });
     const { result } = renderHook(() =>
       useCapabilitiesSafe({ chain: mockChain }),
     );
