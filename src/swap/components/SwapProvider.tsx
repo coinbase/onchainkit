@@ -67,10 +67,6 @@ export function SwapProvider({
 
   // Component lifecycle emitters
   useEffect(() => {
-    if (lifeCycleStatus.statusName === 'init' && hasHandledSuccess) {
-      setHasHandledSuccess(false);
-      resetInputs();
-    }
     // Error
     if (lifeCycleStatus.statusName === 'error') {
       setLoading(false);
@@ -102,14 +98,21 @@ export function SwapProvider({
     onError,
     onStatus,
     onSuccess,
-    hasHandledSuccess,
     lifeCycleStatus,
     lifeCycleStatus.statusData, // Keep statusData, so that the effect runs when it changes
     lifeCycleStatus.statusName, // Keep statusName, so that the effect runs when it changes
-    resetInputs,
   ]);
 
   useEffect(() => {
+    // Reset inputs after status reset
+    if (lifeCycleStatus.statusName === 'init' && hasHandledSuccess) {
+      setHasHandledSuccess(false);
+      resetInputs();
+    }
+  }, [hasHandledSuccess, lifeCycleStatus.statusName, resetInputs]);
+
+  useEffect(() => {
+    // Reset status to init after success has been handled
     if (lifeCycleStatus.statusName === 'success' && hasHandledSuccess) {
       setLifeCycleStatus({
         statusName: 'init',
