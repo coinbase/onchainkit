@@ -399,6 +399,22 @@ describe('SwapProvider', () => {
     expect(onSuccessMock).toHaveBeenCalled();
   });
 
+  it('should reset status to init when setLifeCycleStatus is called with success', async () => {
+    const onStatusMock = vi.fn();
+    renderWithProviders({
+      Component: TestSwapComponent,
+      onStatus: onStatusMock,
+    });
+    const button = screen.getByText('setLifeCycleStatus.success');
+    fireEvent.click(button);
+    expect(onStatusMock).toHaveBeenCalledWith({
+      statusName: 'init',
+      statusData: {
+        isMissingRequiredField: false,
+      },
+    });
+  });
+
   it('should emit onStatus when setLifeCycleStatus is called with error', async () => {
     const onStatusMock = vi.fn();
     renderWithProviders({

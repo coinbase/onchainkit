@@ -58,6 +58,7 @@ export function SwapProvider({
       isMissingRequiredField: true,
     },
   }); // Component lifecycle
+  const [hasHandledSuccess, setHasHandledSuccess] = useState(false);
   const { from, to } = useFromTo(address);
   const { sendTransactionAsync } = useSendTransaction(); // Sending the transaction (and approval, if applicable)
 
@@ -87,9 +88,9 @@ export function SwapProvider({
     if (lifeCycleStatus.statusName === 'success') {
       setError(undefined);
       setLoading(false);
-      resetInputs();
       setPendingTransaction(false);
       onSuccess?.(lifeCycleStatus.statusData.transactionReceipt);
+      setHasHandledSuccess(true);
     }
     // Emit Status
     onStatus?.(lifeCycleStatus);
@@ -100,8 +101,29 @@ export function SwapProvider({
     lifeCycleStatus,
     lifeCycleStatus.statusData, // Keep statusData, so that the effect runs when it changes
     lifeCycleStatus.statusName, // Keep statusName, so that the effect runs when it changes
-    resetInputs,
   ]);
+
+  useEffect(() => {
+    // Reset inputs after status reset. `resetInputs` is dependent
+    // on 'from' and 'to' so moved to separate useEffect to
+    // prevents multiple calls to `onStatus`
+    if (lifeCycleStatus.statusName === 'init' && hasHandledSuccess) {
+      setHasHandledSuccess(false);
+      resetInputs();
+    }
+  }, [hasHandledSuccess, lifeCycleStatus.statusName, resetInputs]);
+
+  useEffect(() => {
+    // Reset status to init after success has been handled
+    if (lifeCycleStatus.statusName === 'success' && hasHandledSuccess) {
+      setLifeCycleStatus({
+        statusName: 'init',
+        statusData: {
+          isMissingRequiredField: false,
+        },
+      });
+    }
+  }, [hasHandledSuccess, lifeCycleStatus.statusName]);
 
   const handleToggle = useCallback(() => {
     from.setAmount(to.amount);
