@@ -30,10 +30,13 @@ export async function buildSwapTransaction(
   if ((apiParamsOrError as APIError).error) {
     return apiParamsOrError as APIError;
   }
-  const apiParams = apiParamsOrError as SwapAPIParams;
+  let apiParams = apiParamsOrError as SwapAPIParams;
 
   if (!params.useAggregator) {
-    apiParams.v2Enabled = true;
+    apiParams = {
+      v2Enabled: true,
+      ...apiParams,
+    };
   }
   if (params.maxSlippage) {
     let slippage = params.maxSlippage;
