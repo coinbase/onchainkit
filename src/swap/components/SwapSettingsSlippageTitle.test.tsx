@@ -18,7 +18,7 @@ describe('SwapSettingsSlippageTitle', () => {
     render(<SwapSettingsSlippageTitle>Test</SwapSettingsSlippageTitle>);
     const heading = screen.getByText('Test');
     expect(heading.className).toContain(
-      'mb-2 font-semibold text-base --text-ock-foreground leading-normal',
+      '--text-ock-foreground mb-2 font-semibold text-base leading-normal',
     );
   });
 
@@ -31,7 +31,7 @@ describe('SwapSettingsSlippageTitle', () => {
     const heading = screen.getByText('Test');
     expect(heading.className).toContain('custom-class');
     expect(heading.className).toContain(
-      'mb-2 font-semibold text-base --text-ock-foreground leading-normal',
+      '--text-ock-foreground mb-2 font-semibold text-base leading-normal',
     );
   });
 
