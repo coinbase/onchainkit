@@ -39,13 +39,16 @@ export async function buildSwapTransaction(
     };
   }
   if (params.maxSlippage) {
-    let slippage = params.maxSlippage;
+    let slippagePercentage = params.maxSlippage;
     // Adjust slippage for V1 API (aggregator)
     // V1 expects slippage in tenths of a percent (e.g., 30 = 3%)
     if (params.useAggregator) {
-      slippage = (Number(slippage) * 10).toString();
+      slippagePercentage = (Number(params.maxSlippage) * 10).toString();
     }
-    apiParams.slippagePercentage = slippage;
+    apiParams = {
+      slippagePercentage,
+      ...apiParams,
+    };
   }
 
   try {
