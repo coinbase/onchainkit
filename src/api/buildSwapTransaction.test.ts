@@ -283,7 +283,7 @@ describe('buildSwapTransaction', () => {
     expect(sendRequest).toHaveBeenCalledTimes(1);
     expect(sendRequest).toHaveBeenCalledWith(CDP_GET_SWAP_TRADE, [
       {
-        slippagePercentage: '3',
+        slippagePercentage: '30',
         ...mockApiParams,
       },
     ]);
@@ -362,5 +362,24 @@ describe('buildSwapTransaction', () => {
       error: 'Invalid input: amount must be a non-negative number string',
       message: '',
     });
+  });
+
+  it('should adjust slippage for aggregator', async () => {
+    const mockParams = {
+      useAggregator: true,
+      maxSlippage: '3',
+      fromAddress: testFromAddress as `0x${string}`,
+      amountReference: testAmountReference,
+      from: ETH_TOKEN,
+      to: DEGEN_TOKEN,
+      amount: testAmount,
+    };
+    await buildSwapTransaction(mockParams);
+    expect(sendRequest).toHaveBeenCalledTimes(1);
+    expect(sendRequest).toHaveBeenCalledWith(CDP_GET_SWAP_TRADE, [
+      expect.objectContaining({
+        slippagePercentage: '30',
+      }),
+    ]);
   });
 });

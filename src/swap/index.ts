@@ -18,6 +18,7 @@ export type {
   SwapMessageReact,
   SwapQuote,
   SwapReact,
+  SwapSettingsReact,
   SwapSettingsSlippageTitleReact,
   SwapSettingsSlippageDescriptionReact,
   SwapToggleButtonReact,
