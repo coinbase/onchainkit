@@ -10,7 +10,7 @@ import type {
 } from './types';
 
 export async function buildPayTransaction({
-  payerAddress,
+  address,
   chainId,
   chargeId,
 }: BuildPayTransactionParams): Promise<BuildPayTransactionResponse> {
@@ -27,7 +27,7 @@ export async function buildPayTransaction({
       BuildPayTransactionResponse
     >(PAY_HYDRATE_CHARGE, [
       {
-        sender: payerAddress,
+        sender: address,
         chainId: chainId,
         chargeId,
       },

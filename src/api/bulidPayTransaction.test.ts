@@ -33,7 +33,7 @@ describe('buildPayTransaction', () => {
 
   it('should return a Pay Transaction', async () => {
     const mockParams: BuildPayTransactionParams = {
-      payerAddress: MOCK_VALID_PAYER_ADDRESS,
+      address: MOCK_VALID_PAYER_ADDRESS,
       chainId: base.id,
       chargeId: MOCK_VALID_CHARGE_ID,
     };
@@ -56,7 +56,7 @@ describe('buildPayTransaction', () => {
 
   it('should return an error for chains other than Base', async () => {
     const mockParams: BuildPayTransactionParams = {
-      payerAddress: MOCK_VALID_PAYER_ADDRESS,
+      address: MOCK_VALID_PAYER_ADDRESS,
       chainId: mainnet.id,
       chargeId: MOCK_VALID_CHARGE_ID,
     };
@@ -75,7 +75,7 @@ describe('buildPayTransaction', () => {
 
   it('should return an error if sendRequest fails', async () => {
     const mockParams: BuildPayTransactionParams = {
-      payerAddress: MOCK_VALID_PAYER_ADDRESS,
+      address: MOCK_VALID_PAYER_ADDRESS,
       chainId: base.id,
       chargeId: MOCK_VALID_CHARGE_ID,
     };
@@ -108,7 +108,7 @@ describe('buildPayTransaction', () => {
 
   it('should return an error object from buildPayTransaction', async () => {
     const mockParams: BuildPayTransactionParams = {
-      payerAddress: MOCK_VALID_PAYER_ADDRESS,
+      address: MOCK_VALID_PAYER_ADDRESS,
       chainId: base.id,
       chargeId: MOCK_INVALID_CHARGE_ID,
     };
