@@ -1,8 +1,8 @@
-import type { FrameMetadataType } from "../types";
+import type { FrameMetadataType } from '../types';
 
-export function setFrameHtmlButtons(buttons: FrameMetadataType["buttons"]) {
+export function setFrameHtmlButtons(buttons: FrameMetadataType['buttons']) {
   if (!buttons) {
-    return "";
+    return '';
   }
 
   return buttons
@@ -22,7 +22,7 @@ export function setFrameHtmlButtons(buttons: FrameMetadataType["buttons"]) {
       }
       if (
         button.action &&
-        (button.action === "tx" || button.action === "post") &&
+        (button.action === 'tx' || button.action === 'post') &&
         button.postUrl
       ) {
         buttonHtml += `  <meta property="fc:frame:button:${
@@ -31,5 +31,5 @@ export function setFrameHtmlButtons(buttons: FrameMetadataType["buttons"]) {
       }
       return buttonHtml;
     })
-    .join("");
+    .join('');
 }
