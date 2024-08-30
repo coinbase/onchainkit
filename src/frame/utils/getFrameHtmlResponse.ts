@@ -1,4 +1,5 @@
 import type { FrameMetadataType } from '../types';
+import { setFrameHtmlButtons } from './setFrameHtmlButtons';
 
 type FrameMetadataHtmlResponse = FrameMetadataType & {
   ogDescription?: string;
@@ -43,21 +44,7 @@ function getFrameHtmlResponse({
   // Set the button metadata if it exists.
   let buttonsHtml = '';
   if (buttons) {
-    buttonsHtml = buttons
-      .map((button, index) => {
-        let buttonHtml = `  <meta property="fc:frame:button:${index + 1}" content="${button.label}" />\n`;
-        if (button.action) {
-          buttonHtml += `  <meta property="fc:frame:button:${index + 1}:action" content="${button.action}" />\n`;
-        }
-        if (button.target) {
-          buttonHtml += `  <meta property="fc:frame:button:${index + 1}:target" content="${button.target}" />\n`;
-        }
-        if (button.action && button.action === 'tx' && button.postUrl) {
-          buttonHtml += `  <meta property="fc:frame:button:${index + 1}:post_url" content="${button.postUrl}" />\n`;
-        }
-        return buttonHtml;
-      })
-      .join('');
+    buttonsHtml = setFrameHtmlButtons(buttons);
   }
 
   // Set the post_url metadata if it exists.
