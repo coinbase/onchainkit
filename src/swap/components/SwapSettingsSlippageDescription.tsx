@@ -8,7 +8,7 @@ export function SwapSettingsSlippageDescription({
   return (
     <p
       className={cn(
-        'mb-2 font-normal font-sans text-gray-600 text-xs leading-4 dark:text-gray-400"',
+        'mb-2 font-normal font-sans text-xs leading-4 text-ock-foreground-muted"',
         className,
       )}
     >
