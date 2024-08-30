@@ -81,7 +81,7 @@ export function SwapSettingsSlippageInput({
           className={cn(
             background.default,
             border.defaultActive,
-            'flex h-9 items-center justify-between rounded-lg border px-2 py-1 w-24',
+            'flex h-9 w-24 items-center justify-between rounded-lg border px-2 py-1',
             currentMode === 'Auto' && 'opacity-50',
           )}
         >
@@ -102,7 +102,7 @@ export function SwapSettingsSlippageInput({
             className={cn(
               background.default,
               color.foreground,
-              'ml-1 font-normal font-sanstext-sm flex-shrink-0 leading-6',
+              'ml-1 flex-shrink-0 font-normal font-sanstext-sm leading-6',
             )}
           >
             %
