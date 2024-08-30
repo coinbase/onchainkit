@@ -309,7 +309,6 @@ export function SwapProvider({
     sendTransactionAsync,
     to.token,
     useAggregator,
-    experimental.maxSlippage,
   ]);
 
   const value = useValue({
