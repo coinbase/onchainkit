@@ -22,7 +22,7 @@ describe('SwapSettingsSlippageDescription', () => {
     );
     const paragraph = screen.getByText('Test');
     expect(paragraph.className).toContain(
-      'mb-2 font-normal font-sans text-gray-600 text-xs leading-4 dark:text-gray-400',
+      'mb-2 font-normal font-sans text-ock-foreground-muted text-xs leading-4',
     );
   });
 
@@ -35,7 +35,7 @@ describe('SwapSettingsSlippageDescription', () => {
     const paragraph = screen.getByText('Test');
     expect(paragraph.className).toContain('custom-class');
     expect(paragraph.className).toContain(
-      'mb-2 font-normal font-sans text-gray-600 text-xs leading-4 dark:text-gray-400',
+      'mb-2 font-normal font-sans text-ock-foreground-muted text-xs leading-4',
     );
   });
 
