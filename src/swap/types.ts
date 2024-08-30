@@ -230,6 +230,14 @@ export type SwapReact = {
 /**
  * Note: exported as public Type
  */
+export type SwapSettingsSlippageTitleReact = {
+  children: ReactNode;
+  className?: string; // Optional className override for top div element.
+};
+
+/**
+ * Note: exported as public Type
+ */
 export type SwapSettingsSlippageDescriptionReact = {
   children: ReactNode;
   className?: string; // Optional className override for top div element.
