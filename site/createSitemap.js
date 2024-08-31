@@ -15,7 +15,7 @@ const generator = SitemapGenerator('https://onchainkit.xyz', {
   },
   filepath: './docs/public/sitemap.xml',
   lastMod: true,
-  stripQuerystring: false
+  stripQuerystring: false,
 });
 
 generator.on('done', () => {
