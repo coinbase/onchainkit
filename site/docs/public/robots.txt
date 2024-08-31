@@ -1,0 +1,22 @@
+User-Agent: facebookexternalhit
+Allow: /
+
+User-Agent: Twitterbot
+Allow: /
+
+User-Agent: LinkedInBot
+Allow: /
+
+User-Agent: WhatsApp
+Allow: /
+
+User-agent: Slackbot
+Allow: /
+
+User-agent: Discordbot
+Allow: /
+
+User-Agent: *
+Disallow: /coverage/*
+
+Sitemap: https://onchainkit.xyz/sitemap.xml
