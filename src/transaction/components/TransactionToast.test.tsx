@@ -1,5 +1,5 @@
 import { fireEvent, render, screen } from '@testing-library/react';
-import { describe, expect, it, vi } from 'vitest';
+import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useTransactionContext } from './TransactionProvider';
 import { TransactionToast } from './TransactionToast';
 
@@ -13,7 +13,7 @@ describe('TransactionToast', () => {
   });
 
   it('renders children correctly', () => {
-    (useTransactionContext as vi.Mock).mockReturnValue({
+    (useTransactionContext as Mock).mockReturnValue({
       isLoading: true,
       isToastVisible: true,
     });
@@ -29,7 +29,7 @@ describe('TransactionToast', () => {
   });
 
   it('does not render when not visible', () => {
-    (useTransactionContext as vi.Mock).mockReturnValue({
+    (useTransactionContext as Mock).mockReturnValue({
       errorMessage: '',
       isLoading: false,
       isToastVisible: false,
@@ -45,7 +45,7 @@ describe('TransactionToast', () => {
 
   it('closes when the close button is clicked', () => {
     const setIsToastVisible = vi.fn();
-    (useTransactionContext as vi.Mock).mockReturnValue({
+    (useTransactionContext as Mock).mockReturnValue({
       errorMessage: '',
       isLoading: false,
       isToastVisible: true,
@@ -62,7 +62,7 @@ describe('TransactionToast', () => {
   });
 
   it('displays loading state correctly', () => {
-    (useTransactionContext as vi.Mock).mockReturnValue({
+    (useTransactionContext as Mock).mockReturnValue({
       isLoading: true,
       isToastVisible: true,
       transactionHash: '',
@@ -76,7 +76,7 @@ describe('TransactionToast', () => {
 
   it('displays transaction hash when available', () => {
     const mockTransactionHash = '0x123';
-    (useTransactionContext as vi.Mock).mockReturnValue({
+    (useTransactionContext as Mock).mockReturnValue({
       isLoading: false,
       isToastVisible: true,
       transactionHash: mockTransactionHash,
@@ -90,7 +90,7 @@ describe('TransactionToast', () => {
 
   it('displays error message when present', () => {
     const mockErrorMessage = 'Transaction failed';
-    (useTransactionContext as vi.Mock).mockReturnValue({
+    (useTransactionContext as Mock).mockReturnValue({
       isLoading: false,
       isToastVisible: true,
       transactionHash: '',
@@ -103,7 +103,7 @@ describe('TransactionToast', () => {
   });
 
   it('does not render when in progress', () => {
-    (useTransactionContext as vi.Mock).mockReturnValue({
+    (useTransactionContext as Mock).mockReturnValue({
       isLoading: false,
       isToastVisible: true,
       transactionHash: '',
@@ -118,7 +118,7 @@ describe('TransactionToast', () => {
   });
 
   it('applies correct position class for bottom-right', () => {
-    (useTransactionContext as vi.Mock).mockReturnValue({
+    (useTransactionContext as Mock).mockReturnValue({
       isLoading: false,
       isToastVisible: true,
       transactionHash: '0x123',
@@ -136,7 +136,7 @@ describe('TransactionToast', () => {
   });
 
   it('applies correct position class for top-right', () => {
-    (useTransactionContext as vi.Mock).mockReturnValue({
+    (useTransactionContext as Mock).mockReturnValue({
       isLoading: false,
       isToastVisible: true,
       transactionHash: '0x123',
@@ -154,7 +154,7 @@ describe('TransactionToast', () => {
   });
 
   it('applies correct position class for top-center', () => {
-    (useTransactionContext as vi.Mock).mockReturnValue({
+    (useTransactionContext as Mock).mockReturnValue({
       isLoading: false,
       isToastVisible: true,
       transactionHash: '0x123',
@@ -172,7 +172,7 @@ describe('TransactionToast', () => {
   });
 
   it('applies default position class when not specified', () => {
-    (useTransactionContext as vi.Mock).mockReturnValue({
+    (useTransactionContext as Mock).mockReturnValue({
       isLoading: false,
       isToastVisible: true,
       transactionHash: '0x123',
@@ -190,7 +190,7 @@ describe('TransactionToast', () => {
   it('hides toast after specified duration when receipt is available', () => {
     vi.useFakeTimers();
     const setIsToastVisible = vi.fn();
-    (useTransactionContext as vi.Mock).mockReturnValue({
+    (useTransactionContext as Mock).mockReturnValue({
       isLoading: false,
       isToastVisible: true,
       transactionHash: '',
@@ -209,7 +209,7 @@ describe('TransactionToast', () => {
   it('hides toast after specified duration when error message is present', () => {
     vi.useFakeTimers();
     const setIsToastVisible = vi.fn();
-    (useTransactionContext as vi.Mock).mockReturnValue({
+    (useTransactionContext as Mock).mockReturnValue({
       isLoading: false,
       isToastVisible: true,
       transactionHash: '',

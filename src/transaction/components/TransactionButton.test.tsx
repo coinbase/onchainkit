@@ -1,5 +1,5 @@
 import { fireEvent, render, screen } from '@testing-library/react';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useAccount, useChainId } from 'wagmi';
 import { useShowCallsStatus } from 'wagmi/experimental';
 import { getChainExplorer } from '../../network/getChainExplorer';
@@ -25,15 +25,15 @@ vi.mock('../../network/getChainExplorer', () => ({
 
 describe('TransactionButton', () => {
   beforeEach(() => {
-    (useChainId as vi.Mock).mockReturnValue(123);
-    (useAccount as vi.Mock).mockReturnValue({ address: '123' });
-    (useShowCallsStatus as vi.Mock).mockReturnValue({
+    (useChainId as Mock).mockReturnValue(123);
+    (useAccount as Mock).mockReturnValue({ address: '123' });
+    (useShowCallsStatus as Mock).mockReturnValue({
       showCallsStatus: vi.fn(),
     });
   });
 
   it('renders correctly', () => {
-    (useTransactionContext as vi.Mock).mockReturnValue({
+    (useTransactionContext as Mock).mockReturnValue({
       isLoading: false,
       lifeCycleStatus: { statusName: 'init', statusData: null },
     });
@@ -43,7 +43,7 @@ describe('TransactionButton', () => {
   });
 
   it('renders spinner correctly', () => {
-    (useTransactionContext as vi.Mock).mockReturnValue({
+    (useTransactionContext as Mock).mockReturnValue({
       lifeCycleStatus: { statusName: 'init', statusData: null },
       isLoading: true,
     });
@@ -53,7 +53,7 @@ describe('TransactionButton', () => {
   });
 
   it('renders view txn text when receipt exists', () => {
-    (useTransactionContext as vi.Mock).mockReturnValue({
+    (useTransactionContext as Mock).mockReturnValue({
       isLoading: true,
       lifeCycleStatus: { statusName: 'init', statusData: null },
       receipt: '123',
@@ -64,7 +64,7 @@ describe('TransactionButton', () => {
   });
 
   it('renders try again when error exists', () => {
-    (useTransactionContext as vi.Mock).mockReturnValue({
+    (useTransactionContext as Mock).mockReturnValue({
       isLoading: true,
       lifeCycleStatus: { statusName: 'init', statusData: null },
       errorMessage: '123',
@@ -83,7 +83,7 @@ describe('TransactionButton', () => {
   });
 
   it('should have disabled attribute when txn is in progress', () => {
-    (useTransactionContext as vi.Mock).mockReturnValue({
+    (useTransactionContext as Mock).mockReturnValue({
       isLoading: true,
       lifeCycleStatus: { statusName: 'init', statusData: null },
     });
@@ -93,7 +93,7 @@ describe('TransactionButton', () => {
   });
 
   it('should have disabled when contracts are missing', () => {
-    (useTransactionContext as vi.Mock).mockReturnValue({
+    (useTransactionContext as Mock).mockReturnValue({
       contracts: undefined,
       lifeCycleStatus: { statusName: 'init', statusData: null },
     });
@@ -104,8 +104,8 @@ describe('TransactionButton', () => {
 
   it('should call showCallsStatus when receipt and transactionId exist', () => {
     const showCallsStatus = vi.fn();
-    (useShowCallsStatus as vi.Mock).mockReturnValue({ showCallsStatus });
-    (useTransactionContext as vi.Mock).mockReturnValue({
+    (useShowCallsStatus as Mock).mockReturnValue({ showCallsStatus });
+    (useTransactionContext as Mock).mockReturnValue({
       lifeCycleStatus: { statusName: 'init', statusData: null },
       receipt: '123',
       transactionId: '456',
@@ -117,7 +117,7 @@ describe('TransactionButton', () => {
   });
 
   it('should enable button when not in progress, not missing props, and not waiting for receipt', () => {
-    (useTransactionContext as vi.Mock).mockReturnValue({
+    (useTransactionContext as Mock).mockReturnValue({
       contracts: {},
       isLoading: false,
       lifeCycleStatus: { statusName: 'init', statusData: null },
@@ -133,14 +133,14 @@ describe('TransactionButton', () => {
   it('should open transaction link when only receipt exists', () => {
     const onSubmit = vi.fn();
     const chainExplorerUrl = 'https://explorer.com';
-    (useTransactionContext as vi.Mock).mockReturnValue({
+    (useTransactionContext as Mock).mockReturnValue({
       lifeCycleStatus: { statusName: 'init', statusData: null },
       receipt: 'receipt-123',
       transactionId: undefined,
       transactionHash: 'hash-789',
       onSubmit,
     });
-    (getChainExplorer as vi.Mock).mockReturnValue(chainExplorerUrl);
+    (getChainExplorer as Mock).mockReturnValue(chainExplorerUrl);
     window.open = vi.fn();
     render(<TransactionButton text="Transact" />);
     const button = screen.getByText('View transaction');
@@ -155,7 +155,7 @@ describe('TransactionButton', () => {
 
   it('should call onSubmit when neither receipt nor transactionId exists', () => {
     const onSubmit = vi.fn();
-    (useTransactionContext as vi.Mock).mockReturnValue({
+    (useTransactionContext as Mock).mockReturnValue({
       address: '123',
       contracts: [{}],
       lifeCycleStatus: { statusName: 'init', statusData: null },

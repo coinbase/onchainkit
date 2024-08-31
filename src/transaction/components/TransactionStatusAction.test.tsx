@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { describe, expect, it, vi } from 'vitest';
+import { type Mock, describe, expect, it, vi } from 'vitest';
 import { useGetTransactionStatusAction } from '../hooks/useGetTransactionStatusAction';
 import { TransactionStatusAction } from './TransactionStatusAction';
 
@@ -9,7 +9,7 @@ vi.mock('../hooks/useGetTransactionStatusAction', () => ({
 
 describe('TransactionStatusAction', () => {
   it('renders transaction status action', () => {
-    (useGetTransactionStatusAction as vi.Mock).mockReturnValue({
+    (useGetTransactionStatusAction as Mock).mockReturnValue({
       actionElement: <button type="button">Try again</button>,
     });
 

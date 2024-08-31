@@ -2,7 +2,7 @@
  * @vitest-environment jsdom
  */
 import { base, opBNBTestnet } from 'viem/chains';
-import { vi } from 'vitest';
+import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { getAttestationsByFilter } from '../../network/attestations';
 import type { GetAttestationsOptions } from '../types';
 import { getAttestations } from './getAttestations';
@@ -40,7 +40,7 @@ describe('getAttestations', () => {
   });
 
   it('fetches attestations for supported chains', async () => {
-    (getAttestationsByFilter as vi.Mock).mockResolvedValue(mockAttestations);
+    (getAttestationsByFilter as Mock).mockResolvedValue(mockAttestations);
     const result = await getAttestations(mockAddress, base, mockOptions);
     expect(result).toEqual(mockAttestations); // Replace [] with expected mockAttestations once implemented
   });
@@ -57,7 +57,7 @@ describe('getAttestations', () => {
   });
 
   it('handles errors from getAttestationsByFilter correctly', async () => {
-    (getAttestationsByFilter as vi.Mock).mockRejectedValue(
+    (getAttestationsByFilter as Mock).mockRejectedValue(
       new Error('Network error'),
     );
     const result = await getAttestations(mockAddress, base);

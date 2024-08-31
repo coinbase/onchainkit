@@ -1,3 +1,4 @@
+import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { FetchError } from './FetchError';
 import { neynarBulkUserLookup } from './neynarBulkUserLookup';
 
@@ -12,7 +13,7 @@ describe('neynar user functions', () => {
         status,
         json: fetchMock,
       }),
-    ) as vi.Mock;
+    ) as Mock;
   });
 
   it('should return fetch response correctly', async () => {

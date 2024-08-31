@@ -1,5 +1,5 @@
 import { renderHook } from '@testing-library/react';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useSendTransaction as useSendCallWagmi } from 'wagmi';
 import { GENERIC_ERROR_MESSAGE } from '../constants';
 import { isUserRejectedRequestError } from '../utils/isUserRejectedRequestError';
@@ -96,7 +96,7 @@ describe('useSendCall', () => {
         } as MockUseSendCallReturn;
       },
     );
-    (isUserRejectedRequestError as vi.Mock).mockReturnValue(true);
+    (isUserRejectedRequestError as Mock).mockReturnValue(true);
     renderHook(() =>
       useSendCall({
         setLifeCycleStatus: mockSetLifeCycleStatus,

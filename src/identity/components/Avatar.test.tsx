@@ -1,5 +1,5 @@
 import { base, baseSepolia, optimism } from 'viem/chains';
-import { vi } from 'vitest';
+import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import '@testing-library/jest-dom';
 import { render, screen, waitFor } from '@testing-library/react';
 import { useOnchainKit } from '../../useOnchainKit';
@@ -11,7 +11,7 @@ import { Badge } from './Badge';
 import { useIdentityContext } from './IdentityProvider';
 
 function mock<T>(func: T) {
-  return func as vi.Mock;
+  return func as Mock;
 }
 
 const silenceError = () => {

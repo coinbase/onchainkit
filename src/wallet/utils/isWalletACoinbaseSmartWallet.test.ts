@@ -1,5 +1,6 @@
 import type { UserOperation } from 'permissionless';
 import type { PublicClient } from 'viem';
+import { type Mock, describe, expect, it, vi } from 'vitest';
 import {
   CB_SW_PROXY_BYTECODE,
   CB_SW_V1_IMPLEMENTATION_ADDRESS,
@@ -17,7 +18,7 @@ describe('isWalletACoinbaseSmartWallet', () => {
       initCode: 'other-factory',
     } as unknown as UserOperation<'v0.6'>;
 
-    (client.getBytecode as vi.Mock).mockReturnValue(undefined);
+    (client.getBytecode as Mock).mockReturnValue(undefined);
 
     const result = await isWalletACoinbaseSmartWallet({ client, userOp });
     expect(result).toEqual({
@@ -32,7 +33,7 @@ describe('isWalletACoinbaseSmartWallet', () => {
       initCode: '0x0BA5ED0c6AA8c49038F819E587E2633c4A9F428a1234',
     } as unknown as UserOperation<'v0.6'>;
 
-    (client.getBytecode as vi.Mock).mockReturnValue(undefined);
+    (client.getBytecode as Mock).mockReturnValue(undefined);
 
     const result = await isWalletACoinbaseSmartWallet({ client, userOp });
     expect(result).toEqual({
@@ -45,8 +46,8 @@ describe('isWalletACoinbaseSmartWallet', () => {
       sender: 'invalid-proxy-address',
     } as unknown as UserOperation<'v0.6'>;
 
-    (client.getBytecode as vi.Mock).mockReturnValue('invalid bytecode');
-    (client.request as vi.Mock).mockResolvedValue(
+    (client.getBytecode as Mock).mockReturnValue('invalid bytecode');
+    (client.request as Mock).mockResolvedValue(
       '0x0000000000000000000000000000000000000000000000000000000000000000',
     );
 
@@ -63,13 +64,11 @@ describe('isWalletACoinbaseSmartWallet', () => {
       sender: 'valid-proxy-address',
     } as unknown as UserOperation<'v0.6'>;
 
-    (client.getBytecode as vi.Mock).mockResolvedValue(CB_SW_PROXY_BYTECODE);
+    (client.getBytecode as Mock).mockResolvedValue(CB_SW_PROXY_BYTECODE);
     const differentImplementationAddress =
       '0x0000000000000000000000000000000000000000000000000000000000000001';
 
-    (client.request as vi.Mock).mockResolvedValue(
-      differentImplementationAddress,
-    );
+    (client.request as Mock).mockResolvedValue(differentImplementationAddress);
 
     const result = await isWalletACoinbaseSmartWallet({ client, userOp });
     expect(result).toEqual({
@@ -89,8 +88,8 @@ describe('isWalletACoinbaseSmartWallet', () => {
       sender: 'valid-proxy-address',
     } as unknown as UserOperation<'v0.6'>;
 
-    (client.getBytecode as vi.Mock).mockResolvedValue(CB_SW_PROXY_BYTECODE);
-    (client.request as vi.Mock).mockResolvedValue(
+    (client.getBytecode as Mock).mockResolvedValue(CB_SW_PROXY_BYTECODE);
+    (client.request as Mock).mockResolvedValue(
       `0x${CB_SW_V1_IMPLEMENTATION_ADDRESS.slice(2).padStart(64, '0')}`,
     );
 
@@ -103,10 +102,10 @@ describe('isWalletACoinbaseSmartWallet', () => {
       sender: 'error-address',
     } as unknown as UserOperation<'v0.6'>;
 
-    (client.getBytecode as vi.Mock).mockRejectedValue(
+    (client.getBytecode as Mock).mockRejectedValue(
       new Error('Failed to fetch bytecode'),
     );
-    (client.request as vi.Mock).mockResolvedValue(
+    (client.request as Mock).mockResolvedValue(
       '0x0000000000000000000000000000000000000000000000000000000000000000',
     );
 
@@ -123,8 +122,8 @@ describe('isWalletACoinbaseSmartWallet', () => {
       sender: 'valid-proxy-address',
     } as unknown as UserOperation<'v0.6'>;
 
-    (client.getBytecode as vi.Mock).mockResolvedValue(CB_SW_PROXY_BYTECODE);
-    (client.request as vi.Mock).mockRejectedValue(
+    (client.getBytecode as Mock).mockResolvedValue(CB_SW_PROXY_BYTECODE);
+    (client.request as Mock).mockRejectedValue(
       new Error('Failed to fetch implementation address'),
     );
 

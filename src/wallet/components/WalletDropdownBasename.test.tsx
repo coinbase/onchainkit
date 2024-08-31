@@ -2,7 +2,7 @@ import type { UseQueryResult } from '@tanstack/react-query';
 import { render, screen } from '@testing-library/react';
 import type { GetAccountReturnType } from '@wagmi/core';
 import { base } from 'viem/chains';
-import { describe, expect, it, vi } from 'vitest';
+import { type Mock, describe, expect, it, vi } from 'vitest';
 import { useAccount } from 'wagmi';
 import { useName } from '../../identity/hooks/useName';
 import { WalletDropdownBasename } from './WalletDropdownBasename';
@@ -22,15 +22,15 @@ vi.mock('./WalletProvider', () => ({
 
 describe('WalletDropdownBasename', () => {
   it('should render "Claim Basename" when no basename', () => {
-    (useAccount as vi.Mock<[], Partial<GetAccountReturnType>>).mockReturnValue({
+    (useAccount as Mock<[], Partial<GetAccountReturnType>>).mockReturnValue({
       address: '0x1234' as `0x${string}`,
       isConnected: true,
     });
-    (useWalletContext as vi.Mock).mockReturnValue({
+    (useWalletContext as Mock).mockReturnValue({
       chain: base,
     });
     (
-      useName as vi.Mock<[], Partial<UseQueryResult<string | null, Error>>>
+      useName as Mock<[], Partial<UseQueryResult<string | null, Error>>>
     ).mockReturnValue({
       data: null,
       isLoading: false,
@@ -44,15 +44,15 @@ describe('WalletDropdownBasename', () => {
   });
 
   it('should render "Profile" when basename exists', () => {
-    (useAccount as vi.Mock<[], Partial<GetAccountReturnType>>).mockReturnValue({
+    (useAccount as Mock<[], Partial<GetAccountReturnType>>).mockReturnValue({
       address: '0x1234' as `0x${string}`,
       isConnected: true,
     });
-    (useWalletContext as vi.Mock).mockReturnValue({
+    (useWalletContext as Mock).mockReturnValue({
       chain: base,
     });
     (
-      useName as vi.Mock<[], Partial<UseQueryResult<string | null, Error>>>
+      useName as Mock<[], Partial<UseQueryResult<string | null, Error>>>
     ).mockReturnValue({
       data: 'test.base',
       isLoading: false,
@@ -66,15 +66,15 @@ describe('WalletDropdownBasename', () => {
   });
 
   it('should render Spinner when loading', () => {
-    (useAccount as vi.Mock<[], Partial<GetAccountReturnType>>).mockReturnValue({
+    (useAccount as Mock<[], Partial<GetAccountReturnType>>).mockReturnValue({
       address: '0x1234' as `0x${string}`,
       isConnected: true,
     });
-    (useWalletContext as vi.Mock).mockReturnValue({
+    (useWalletContext as Mock).mockReturnValue({
       chain: base,
     });
     (
-      useName as vi.Mock<[], Partial<UseQueryResult<string | null, Error>>>
+      useName as Mock<[], Partial<UseQueryResult<string | null, Error>>>
     ).mockReturnValue({
       data: null,
       isLoading: true,
@@ -90,11 +90,11 @@ describe('WalletDropdownBasename', () => {
   });
 
   it('should return null if there is no address', () => {
-    (useAccount as vi.Mock<[], Partial<GetAccountReturnType>>).mockReturnValue({
+    (useAccount as Mock<[], Partial<GetAccountReturnType>>).mockReturnValue({
       address: undefined,
       isConnected: false,
     });
-    (useWalletContext as vi.Mock).mockReturnValue({
+    (useWalletContext as Mock).mockReturnValue({
       chain: base,
     });
 

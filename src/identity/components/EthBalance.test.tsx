@@ -1,13 +1,13 @@
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { vi } from 'vitest';
+import { type Mock, describe, expect, it, vi } from 'vitest';
 import { getRoundedAmount } from '../../internal/utils/getRoundedAmount';
 import { useGetETHBalance } from '../../wallet/hooks/useGetETHBalance';
 import { EthBalance } from './EthBalance';
 import { useIdentityContext } from './IdentityProvider';
 
 function mock<T>(func: T) {
-  return func as vi.Mock;
+  return func as Mock;
 }
 
 const silenceError = () => {
@@ -54,7 +54,7 @@ describe('EthBalance', () => {
       convertedBalance: balance,
       error: null,
     });
-    (getRoundedAmount as vi.Mock).mockReturnValue('1.2346');
+    (getRoundedAmount as Mock).mockReturnValue('1.2346');
 
     render(
       <EthBalance
@@ -91,7 +91,7 @@ describe('EthBalance', () => {
       convertedBalance: balance,
       error: null,
     });
-    (getRoundedAmount as vi.Mock).mockReturnValue('1.2346');
+    (getRoundedAmount as Mock).mockReturnValue('1.2346');
 
     render(<EthBalance className="custom-class" />);
 
@@ -109,7 +109,7 @@ describe('EthBalance', () => {
       convertedBalance: balance,
       error: null,
     });
-    (getRoundedAmount as vi.Mock).mockReturnValue('1.2346');
+    (getRoundedAmount as Mock).mockReturnValue('1.2346');
 
     render(
       <EthBalance

@@ -1,6 +1,6 @@
 import { renderHook, waitFor } from '@testing-library/react';
 import { base, baseSepolia, mainnet, optimism } from 'viem/chains';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { publicClient } from '../../network/client';
 import { getChainPublicClient } from '../../network/getChainPublicClient';
 import { getNewReactQueryTestProvider } from './getNewReactQueryTestProvider';
@@ -14,7 +14,7 @@ vi.mock('../../network/getChainPublicClient', () => ({
 }));
 
 describe('useAvatar', () => {
-  const mockGetEnsAvatar = publicClient.getEnsAvatar as vi.Mock;
+  const mockGetEnsAvatar = publicClient.getEnsAvatar as Mock;
 
   beforeEach(() => {
     vi.clearAllMocks();

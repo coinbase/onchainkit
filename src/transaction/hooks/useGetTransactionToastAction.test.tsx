@@ -1,5 +1,5 @@
 import { renderHook } from '@testing-library/react';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useChainId } from 'wagmi';
 import { useShowCallsStatus } from 'wagmi/experimental';
 import { getChainExplorer } from '../../network/getChainExplorer';
@@ -26,15 +26,15 @@ const mockGetChainExplorer = 'https://etherscan.io';
 
 describe('useGetTransactionToastAction', () => {
   beforeEach(() => {
-    (useChainId as vi.Mock).mockReturnValue(123);
-    (useShowCallsStatus as vi.Mock).mockReturnValue({
+    (useChainId as Mock).mockReturnValue(123);
+    (useShowCallsStatus as Mock).mockReturnValue({
       showCallsStatus: vi.fn(),
     });
-    (getChainExplorer as vi.Mock).mockReturnValue(mockGetChainExplorer);
+    (getChainExplorer as Mock).mockReturnValue(mockGetChainExplorer);
   });
 
   it('should return actionElement when transaction hash exists', () => {
-    (useTransactionContext as vi.Mock).mockReturnValue({
+    (useTransactionContext as Mock).mockReturnValue({
       transactionHash: '0x123',
     });
 
@@ -56,13 +56,13 @@ describe('useGetTransactionToastAction', () => {
   });
 
   it('should return actionElement when transaction id exists', () => {
-    (useTransactionContext as vi.Mock).mockReturnValue({
+    (useTransactionContext as Mock).mockReturnValue({
       transactionId: 'ab123',
       onSubmit: vi.fn(),
     });
 
     const showCallsStatus = vi.fn();
-    (useShowCallsStatus as vi.Mock).mockReturnValue({ showCallsStatus });
+    (useShowCallsStatus as Mock).mockReturnValue({ showCallsStatus });
 
     const { result } = renderHook(() => useGetTransactionToastAction());
 
@@ -72,7 +72,7 @@ describe('useGetTransactionToastAction', () => {
   });
 
   it('should return actionElement when receipt exists', () => {
-    (useTransactionContext as vi.Mock).mockReturnValue({
+    (useTransactionContext as Mock).mockReturnValue({
       receipt: 'receipt',
       transactionHash: '0x123',
     });
@@ -96,7 +96,7 @@ describe('useGetTransactionToastAction', () => {
 
   it('should return actionElement when error occurs', () => {
     const onSubmitMock = vi.fn();
-    (useTransactionContext as vi.Mock).mockReturnValue({
+    (useTransactionContext as Mock).mockReturnValue({
       errorMessage: 'error',
       onSubmit: onSubmitMock,
     });
@@ -108,7 +108,7 @@ describe('useGetTransactionToastAction', () => {
   });
 
   it('should return actionElement when no status available', () => {
-    (useTransactionContext as vi.Mock).mockReturnValue({
+    (useTransactionContext as Mock).mockReturnValue({
       errorMessage: '',
     });
 
@@ -119,11 +119,11 @@ describe('useGetTransactionToastAction', () => {
 
   it('should prioritize transactionId over transactionHash when both are provided', () => {
     const showCallsStatus = vi.fn();
-    (useTransactionContext as vi.Mock).mockReturnValue({
+    (useTransactionContext as Mock).mockReturnValue({
       transactionHash: '0x123',
       transactionId: 'ab123',
     });
-    (useShowCallsStatus as vi.Mock).mockReturnValue({ showCallsStatus });
+    (useShowCallsStatus as Mock).mockReturnValue({ showCallsStatus });
 
     const { result } = renderHook(() => useGetTransactionToastAction());
 
@@ -133,7 +133,7 @@ describe('useGetTransactionToastAction', () => {
   });
 
   it('should use accountChainId from useChainId when chainId is not available in context', () => {
-    (useTransactionContext as vi.Mock).mockReturnValue({
+    (useTransactionContext as Mock).mockReturnValue({
       chainId: undefined,
       transactionHash: '0x123',
     });
@@ -157,8 +157,8 @@ describe('useGetTransactionToastAction', () => {
 
   it('should call showCallsStatus when button is clicked', () => {
     const showCallsStatus = vi.fn();
-    (useShowCallsStatus as vi.Mock).mockReturnValue({ showCallsStatus });
-    (useTransactionContext as vi.Mock).mockReturnValue({
+    (useShowCallsStatus as Mock).mockReturnValue({ showCallsStatus });
+    (useTransactionContext as Mock).mockReturnValue({
       transactionId: 'ab123',
     });
 

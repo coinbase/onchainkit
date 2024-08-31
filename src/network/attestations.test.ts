@@ -1,4 +1,5 @@
 import { base } from 'viem/chains';
+import { type Mock, describe, expect, it, vi } from 'vitest';
 import {
   type GetAttestationsByFilterOptions,
   attestationQuery,
@@ -49,7 +50,7 @@ describe('EAS Attestation Service', () => {
           attestations: [],
         }),
       };
-      (createEasGraphQLClient as vi.Mock).mockReturnValue(mockClient);
+      (createEasGraphQLClient as Mock).mockReturnValue(mockClient);
 
       const result = await getAttestationsByFilter(
         mockAddress,

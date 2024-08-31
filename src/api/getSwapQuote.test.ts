@@ -1,4 +1,4 @@
-import { afterEach, describe, expect, it, vi } from 'vitest';
+import { type Mock, afterEach, describe, expect, it, vi } from 'vitest';
 import { CDP_GET_SWAP_QUOTE } from '../network/definitions/swap';
 import { sendRequest } from '../network/request';
 import { DEGEN_TOKEN, ETH_TOKEN } from '../swap/mocks';
@@ -42,7 +42,7 @@ describe('getSwapQuote', () => {
         slippage: '3',
       },
     };
-    (sendRequest as vi.Mock).mockResolvedValue(mockResponse);
+    (sendRequest as Mock).mockResolvedValue(mockResponse);
     const quote = await getSwapQuote(mockParams);
     expect(quote).toEqual(mockResponse.result);
     expect(sendRequest).toHaveBeenCalledTimes(1);
@@ -79,7 +79,7 @@ describe('getSwapQuote', () => {
         slippage: '3',
       },
     };
-    (sendRequest as vi.Mock).mockResolvedValue(mockResponse);
+    (sendRequest as Mock).mockResolvedValue(mockResponse);
     const quote = await getSwapQuote(mockParams);
     expect(quote).toEqual(mockResponse.result);
     expect(sendRequest).toHaveBeenCalledTimes(1);
@@ -101,7 +101,7 @@ describe('getSwapQuote', () => {
     };
     const mockApiParams = getAPIParamsForToken(mockParams);
     const mockError = new Error('getSwapQuote: Error: Failed to send request');
-    (sendRequest as vi.Mock).mockRejectedValue(mockError);
+    (sendRequest as Mock).mockRejectedValue(mockError);
     const error = await getSwapQuote(mockParams);
     expect(error).toEqual({
       code: 'UNCAUGHT_SWAP_QUOTE_ERROR',
@@ -131,7 +131,7 @@ describe('getSwapQuote', () => {
         message: 'Invalid response',
       },
     };
-    (sendRequest as vi.Mock).mockResolvedValue(mockResponse);
+    (sendRequest as Mock).mockResolvedValue(mockResponse);
     const error = await getSwapQuote(mockParams);
     expect(error).toEqual({
       code: 'SWAP_QUOTE_ERROR',

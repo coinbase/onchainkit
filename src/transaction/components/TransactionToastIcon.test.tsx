@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { describe, expect, it, vi } from 'vitest';
+import { type Mock, describe, expect, it, vi } from 'vitest';
 import { useTransactionContext } from '../components/TransactionProvider';
 import { TransactionToastIcon } from './TransactionToastIcon';
 
@@ -9,7 +9,7 @@ vi.mock('../components/TransactionProvider', () => ({
 
 describe('TransactionToastIcon', () => {
   it('renders success icon when receipt exists', () => {
-    (useTransactionContext as vi.Mock).mockReturnValue({
+    (useTransactionContext as Mock).mockReturnValue({
       receipt: '123',
     });
 
@@ -19,7 +19,7 @@ describe('TransactionToastIcon', () => {
     expect(iconElement).toBeInTheDocument();
   });
   it('renders error icon when error exists', () => {
-    (useTransactionContext as vi.Mock).mockReturnValue({
+    (useTransactionContext as Mock).mockReturnValue({
       errorMessage: 'error',
     });
 
@@ -29,7 +29,7 @@ describe('TransactionToastIcon', () => {
     expect(iconElement).toBeInTheDocument();
   });
   it('renders loading icon when txn is in progress', () => {
-    (useTransactionContext as vi.Mock).mockReturnValue({
+    (useTransactionContext as Mock).mockReturnValue({
       isLoading: true,
     });
 
@@ -39,7 +39,7 @@ describe('TransactionToastIcon', () => {
     expect(iconElement).toBeInTheDocument();
   });
   it('renders null when if no status exists', () => {
-    (useTransactionContext as vi.Mock).mockReturnValue({
+    (useTransactionContext as Mock).mockReturnValue({
       isLoading: false,
     });
 
