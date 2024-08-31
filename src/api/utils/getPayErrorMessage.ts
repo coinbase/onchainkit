@@ -4,7 +4,7 @@ import {
   PAY_INVALID_PARAMETER_ERROR_MESSAGE,
   PAY_TOO_MANY_REQUESTS_ERROR_MESSAGE,
   UNCAUGHT_PAY_ERROR_MESSAGE,
-} from '../constants';
+} from '../../pay/constants';
 
 export function getPayErrorMessage(errorCode?: number) {
   if (!errorCode) {

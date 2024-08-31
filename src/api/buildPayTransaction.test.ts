@@ -18,7 +18,7 @@ import {
   MOCK_INVALID_CHARGE_ID,
   MOCK_VALID_CHARGE_ID,
   MOCK_VALID_PAYER_ADDRESS,
-} from './fixtures/buildPayTransactionFixtures';
+} from './mocks';
 import type {
   BuildPayTransactionParams,
   HydrateChargeAPIParams,
@@ -42,7 +42,6 @@ describe('buildPayTransaction', () => {
       chargeId: MOCK_VALID_CHARGE_ID,
       chainId: base.id,
     };
-
     (sendRequest as Mock).mockResolvedValue(
       MOCK_HYDRATE_CHARGE_SUCCESS_RESPONSE,
     );
@@ -60,13 +59,12 @@ describe('buildPayTransaction', () => {
       chainId: mainnet.id,
       chargeId: MOCK_VALID_CHARGE_ID,
     };
-
     (sendRequest as Mock).mockResolvedValue(
       MOCK_HYDRATE_CHARGE_SUCCESS_RESPONSE,
     );
     const error = await buildPayTransaction(mockParams);
     expect(error).toEqual({
-      code: 'AmBPT01',
+      code: 'AmBPTa01',
       error: 'Pay Transactions must be on Base',
       message: PAY_UNSUPPORTED_CHAIN_ERROR_MESSAGE,
     });
@@ -84,7 +82,6 @@ describe('buildPayTransaction', () => {
       chargeId: MOCK_VALID_CHARGE_ID,
       chainId: base.id,
     };
-
     (sendRequest as Mock).mockResolvedValue(
       MOCK_HYDRATE_CHARGE_SUCCESS_RESPONSE,
     );
@@ -100,7 +97,7 @@ describe('buildPayTransaction', () => {
     (sendRequest as Mock).mockRejectedValue(mockError);
     const error = await buildPayTransaction(mockParams);
     expect(error).toEqual({
-      code: 'AmBPT03',
+      code: 'AmBPTa03',
       error: 'Something went wrong',
       message: UNCAUGHT_PAY_ERROR_MESSAGE,
     });
@@ -122,7 +119,7 @@ describe('buildPayTransaction', () => {
     );
     const error = await buildPayTransaction(mockParams);
     expect(error).toEqual({
-      code: 'AmBPT02',
+      code: 'AmBPTa02',
       error: 'method not found - Not found',
       message: PAY_INVALID_CHARGE_ERROR_MESSAGE,
     });
