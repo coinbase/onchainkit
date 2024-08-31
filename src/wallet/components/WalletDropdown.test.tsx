@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom';
 import { render, renderHook, screen, waitFor } from '@testing-library/react';
-import { type Mock, beforeEach, describe, it, vi } from 'vitest';
+import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useAccount } from 'wagmi';
 import { Identity } from '../../identity/components/Identity';
 import {

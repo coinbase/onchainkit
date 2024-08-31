@@ -22,7 +22,7 @@ vi.mock('./WalletProvider', () => ({
 
 describe('WalletDropdownBasename', () => {
   it('should render "Claim Basename" when no basename', () => {
-    (useAccount as Mock<[], Partial<GetAccountReturnType>>).mockReturnValue({
+    (useAccount as Mock<() => Partial<GetAccountReturnType>>).mockReturnValue({
       address: '0x1234' as `0x${string}`,
       isConnected: true,
     });
@@ -30,7 +30,7 @@ describe('WalletDropdownBasename', () => {
       chain: base,
     });
     (
-      useName as Mock<[], Partial<UseQueryResult<string | null, Error>>>
+      useName as Mock<() => Partial<UseQueryResult<string | null, Error>>>
     ).mockReturnValue({
       data: null,
       isLoading: false,
@@ -44,7 +44,7 @@ describe('WalletDropdownBasename', () => {
   });
 
   it('should render "Profile" when basename exists', () => {
-    (useAccount as Mock<[], Partial<GetAccountReturnType>>).mockReturnValue({
+    (useAccount as Mock<() => Partial<GetAccountReturnType>>).mockReturnValue({
       address: '0x1234' as `0x${string}`,
       isConnected: true,
     });
@@ -52,7 +52,7 @@ describe('WalletDropdownBasename', () => {
       chain: base,
     });
     (
-      useName as Mock<[], Partial<UseQueryResult<string | null, Error>>>
+      useName as Mock<() => Partial<UseQueryResult<string | null, Error>>>
     ).mockReturnValue({
       data: 'test.base',
       isLoading: false,
@@ -66,7 +66,7 @@ describe('WalletDropdownBasename', () => {
   });
 
   it('should render Spinner when loading', () => {
-    (useAccount as Mock<[], Partial<GetAccountReturnType>>).mockReturnValue({
+    (useAccount as Mock<() => Partial<GetAccountReturnType>>).mockReturnValue({
       address: '0x1234' as `0x${string}`,
       isConnected: true,
     });
@@ -74,9 +74,9 @@ describe('WalletDropdownBasename', () => {
       chain: base,
     });
     (
-      useName as Mock<[], Partial<UseQueryResult<string | null, Error>>>
+      useName as Mock<() => Partial<UseQueryResult<string | null, Error>>>
     ).mockReturnValue({
-      data: null,
+      data: undefined,
       isLoading: true,
       isError: false,
       error: null,
@@ -90,7 +90,7 @@ describe('WalletDropdownBasename', () => {
   });
 
   it('should return null if there is no address', () => {
-    (useAccount as Mock<[], Partial<GetAccountReturnType>>).mockReturnValue({
+    (useAccount as Mock<() => Partial<GetAccountReturnType>>).mockReturnValue({
       address: undefined,
       isConnected: false,
     });
