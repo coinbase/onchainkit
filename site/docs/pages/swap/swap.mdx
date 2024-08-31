@@ -20,12 +20,13 @@ Before using them, ensure you've completed all [Getting Started steps](/getting-
 Example using `@coinbase/onchainkit/swap` and `@coinbase/onchainkit/wallet`.
 
 ```tsx
-import { Name } from '@coinbase/onchainkit/identity';
+import { Avatar, Name } from '@coinbase/onchainkit/identity';
 import { // [!code focus]
   Swap, // [!code focus]
   SwapAmountInput, // [!code focus]
   SwapToggleButton, // [!code focus]
   SwapButton, // [!code focus]
+  SwapMessage, // [!code focus]
 } from '@coinbase/onchainkit/swap'; // [!code focus]
 import { Wallet, ConnectWallet } from '@coinbase/onchainkit/wallet';
 import { useAccount } from 'wagmi';
