@@ -64,6 +64,14 @@ const mockContextValue = {
   handleToggle: vi.fn(),
   handleSubmit: vi.fn(),
   handleAmountChange: vi.fn(),
+  lifeCycleStatus: {
+    statusName: 'init',
+    statusData: {
+      isMissingRequiredField: false,
+    },
+  },
+  isTransactionPending: false,
+  setLifeCycleStatus: vi.fn(),
 } as SwapContextType;
 
 const mockSwappableTokens: Token[] = [ETH_TOKEN, USDC_TOKEN, DAI_TOKEN];
