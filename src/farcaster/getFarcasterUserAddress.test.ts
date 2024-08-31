@@ -1,3 +1,4 @@
+import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { getCustodyAddressForFidNeynar } from '../network/neynar/getCustodyAddressForFidNeynar';
 import { getVerifiedAddressesForFidNeynar } from '../network/neynar/getVerifiedAddressesForFidNeynar';
 import { getFarcasterUserAddress } from './getFarcasterUserAddress';
@@ -13,17 +14,17 @@ describe('getFarcasterUserAddress function', () => {
 
   it('should return null if any API call fails', async () => {
     const error = new Error('Something went wrong');
-    (getVerifiedAddressesForFidNeynar as vi.Mock).mockRejectedValue(error);
+    (getVerifiedAddressesForFidNeynar as Mock).mockRejectedValue(error);
     const result = await getFarcasterUserAddress(123);
     expect(result).toBeNull();
   });
 
   it('should return both custody and verified addresses by default', async () => {
     const expectedCustodyAddress = 'mock-custody-address';
-    (getCustodyAddressForFidNeynar as vi.Mock).mockResolvedValue(
+    (getCustodyAddressForFidNeynar as Mock).mockResolvedValue(
       expectedCustodyAddress,
     );
-    (getVerifiedAddressesForFidNeynar as vi.Mock).mockResolvedValue([
+    (getVerifiedAddressesForFidNeynar as Mock).mockResolvedValue([
       expectedCustodyAddress,
     ]);
 
@@ -48,10 +49,10 @@ describe('getFarcasterUserAddress function', () => {
       'mock-verified-address-1',
       'mock-verified-address-2',
     ];
-    (getCustodyAddressForFidNeynar as vi.Mock).mockResolvedValue(
+    (getCustodyAddressForFidNeynar as Mock).mockResolvedValue(
       expectedCustodyAddress,
     );
-    (getVerifiedAddressesForFidNeynar as vi.Mock).mockResolvedValue(
+    (getVerifiedAddressesForFidNeynar as Mock).mockResolvedValue(
       expectedVerifiedAddresses,
     );
     const result = await getFarcasterUserAddress(123, {
@@ -66,7 +67,7 @@ describe('getFarcasterUserAddress function', () => {
 
   it('should only return custodyAddress  when hasVerifiedAddresses is false', async () => {
     const expectedCustodyAddress = 'mock-custody-address';
-    (getCustodyAddressForFidNeynar as vi.Mock).mockResolvedValue(
+    (getCustodyAddressForFidNeynar as Mock).mockResolvedValue(
       expectedCustodyAddress,
     );
     const result = await getFarcasterUserAddress(123, {
@@ -80,7 +81,7 @@ describe('getFarcasterUserAddress function', () => {
       'mock-verified-address-1',
       'mock-verified-address-2',
     ];
-    (getVerifiedAddressesForFidNeynar as vi.Mock).mockResolvedValue(
+    (getVerifiedAddressesForFidNeynar as Mock).mockResolvedValue(
       expectedVerifiedAddresses,
     );
     const result = await getFarcasterUserAddress(123, {

@@ -1,6 +1,6 @@
 import { renderHook } from '@testing-library/react';
 import type { TransactionExecutionError } from 'viem';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useSendCalls as useSendCallsWagmi } from 'wagmi/experimental';
 import { GENERIC_ERROR_MESSAGE } from '../constants';
 import { isUserRejectedRequestError } from '../utils/isUserRejectedRequestError';
@@ -64,7 +64,7 @@ describe('useSendCalls', () => {
         };
       },
     );
-    (isUserRejectedRequestError as vi.Mock).mockReturnValue(false);
+    (isUserRejectedRequestError as Mock).mockReturnValue(false);
     renderHook(() =>
       useSendCalls({
         setLifeCycleStatus: mockSetLifeCycleStatus,
@@ -98,7 +98,7 @@ describe('useSendCalls', () => {
         };
       },
     );
-    (isUserRejectedRequestError as vi.Mock).mockReturnValue(true);
+    (isUserRejectedRequestError as Mock).mockReturnValue(true);
     renderHook(() =>
       useSendCalls({
         setLifeCycleStatus: mockSetLifeCycleStatus,

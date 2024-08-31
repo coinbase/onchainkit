@@ -1,5 +1,5 @@
 import { renderHook } from '@testing-library/react';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useChainId } from 'wagmi';
 import { useShowCallsStatus } from 'wagmi/experimental';
 import { getChainExplorer } from '../../network/getChainExplorer';
@@ -25,15 +25,15 @@ vi.mock('../../network/getChainExplorer', () => ({
 const mockGetChainExplorer = 'https://etherscan.io';
 describe('useGetTransactionStatusLabel', () => {
   beforeEach(() => {
-    (useChainId as vi.Mock).mockReturnValue(123);
-    (useShowCallsStatus as vi.Mock).mockReturnValue({
+    (useChainId as Mock).mockReturnValue(123);
+    (useShowCallsStatus as Mock).mockReturnValue({
       showCallsStatus: vi.fn(),
     });
-    (getChainExplorer as vi.Mock).mockReturnValue(mockGetChainExplorer);
+    (getChainExplorer as Mock).mockReturnValue(mockGetChainExplorer);
   });
 
   it('should return correct status when transaction is pending', () => {
-    (useTransactionContext as vi.Mock).mockReturnValue({
+    (useTransactionContext as Mock).mockReturnValue({
       lifeCycleStatus: { statusName: 'transactionPending', statusData: null },
     });
     const { result } = renderHook(() => useGetTransactionStatusLabel());
@@ -41,7 +41,7 @@ describe('useGetTransactionStatusLabel', () => {
   });
 
   it('should return status when transaction hash exists', () => {
-    (useTransactionContext as vi.Mock).mockReturnValue({
+    (useTransactionContext as Mock).mockReturnValue({
       lifeCycleStatus: { statusName: 'init', statusData: null },
       transactionHash: '0x123',
     });
@@ -50,19 +50,19 @@ describe('useGetTransactionStatusLabel', () => {
   });
 
   it('should return status when transaction id exists', () => {
-    (useTransactionContext as vi.Mock).mockReturnValue({
+    (useTransactionContext as Mock).mockReturnValue({
       lifeCycleStatus: { statusName: 'init', statusData: null },
       transactionId: 'ab123',
       onSubmit: vi.fn(),
     });
     const showCallsStatus = vi.fn();
-    (useShowCallsStatus as vi.Mock).mockReturnValue({ showCallsStatus });
+    (useShowCallsStatus as Mock).mockReturnValue({ showCallsStatus });
     const { result } = renderHook(() => useGetTransactionStatusLabel());
     expect(result.current.label).toBe('Transaction in progress...');
   });
 
   it('should return status when receipt exists', () => {
-    (useTransactionContext as vi.Mock).mockReturnValue({
+    (useTransactionContext as Mock).mockReturnValue({
       lifeCycleStatus: { statusName: 'init', statusData: null },
       receipt: 'receipt',
       transactionHash: '123',
@@ -72,7 +72,7 @@ describe('useGetTransactionStatusLabel', () => {
   });
 
   it('should return status when error occurs', () => {
-    (useTransactionContext as vi.Mock).mockReturnValue({
+    (useTransactionContext as Mock).mockReturnValue({
       lifeCycleStatus: { statusName: 'init', statusData: null },
       errorMessage: 'error',
     });
@@ -81,7 +81,7 @@ describe('useGetTransactionStatusLabel', () => {
   });
 
   it('should return status when no status available', () => {
-    (useTransactionContext as vi.Mock).mockReturnValue({
+    (useTransactionContext as Mock).mockReturnValue({
       lifeCycleStatus: { statusName: 'init', statusData: null },
       errorMessage: '',
     });

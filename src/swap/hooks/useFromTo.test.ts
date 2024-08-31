@@ -1,5 +1,5 @@
 import { act, renderHook } from '@testing-library/react';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useValue } from '../../internal/hooks/useValue';
 import { USDC_TOKEN } from '../mocks';
 import { useFromTo } from './useFromTo';
@@ -19,7 +19,7 @@ describe('useFromTo', () => {
   });
 
   it('should return correct values', () => {
-    (useSwapBalances as vi.Mock).mockReturnValue({
+    (useSwapBalances as Mock).mockReturnValue({
       fromBalanceString: '100',
       fromTokenBalanceError: null,
       fromTokenResponse: { refetch: vi.fn() },
@@ -27,7 +27,7 @@ describe('useFromTo', () => {
       toTokenBalanceError: null,
       toTokenResponse: { refetch: vi.fn() },
     });
-    (useValue as vi.Mock).mockImplementation((props) => ({
+    (useValue as Mock).mockImplementation((props) => ({
       ...props,
       amount: '100',
       response: props.response,
@@ -64,11 +64,11 @@ describe('useFromTo', () => {
   it('should call fromTokenResponse.refetch when from.response.refetch is called', async () => {
     const mockFromRefetch = vi.fn().mockResolvedValue(undefined);
     const mockToRefetch = vi.fn().mockResolvedValue(undefined);
-    (useSwapBalances as vi.Mock).mockReturnValue({
+    (useSwapBalances as Mock).mockReturnValue({
       fromTokenResponse: { refetch: mockFromRefetch },
       toTokenResponse: { refetch: mockToRefetch },
     });
-    (useValue as vi.Mock).mockImplementation((props) => ({
+    (useValue as Mock).mockImplementation((props) => ({
       ...props,
       response: props.response,
     }));
@@ -83,11 +83,11 @@ describe('useFromTo', () => {
   it('should call toTokenResponse.refetch when to.response.refetch is called', async () => {
     const mockFromRefetch = vi.fn().mockResolvedValue(undefined);
     const mockToRefetch = vi.fn().mockResolvedValue(undefined);
-    (useSwapBalances as vi.Mock).mockReturnValue({
+    (useSwapBalances as Mock).mockReturnValue({
       fromTokenResponse: { refetch: mockFromRefetch },
       toTokenResponse: { refetch: mockToRefetch },
     });
-    (useValue as vi.Mock).mockImplementation((props) => ({
+    (useValue as Mock).mockImplementation((props) => ({
       ...props,
       response: props.response,
     }));

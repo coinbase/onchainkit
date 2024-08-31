@@ -1,12 +1,12 @@
 import { render, screen } from '@testing-library/react';
-import { vi } from 'vitest';
+import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import '@testing-library/jest-dom';
 import { getSlicedAddress } from '../utils/getSlicedAddress';
 import { Address } from './Address';
 import { useIdentityContext } from './IdentityProvider';
 
 function mock<T>(func: T) {
-  return func as vi.Mock;
+  return func as Mock;
 }
 
 const silenceError = () => {
@@ -53,7 +53,7 @@ describe('Address component', () => {
     useIdentityContextMock.mockReturnValue({
       address: testAddressComponentAddress,
     });
-    (getSlicedAddress as vi.Mock).mockReturnValue(
+    (getSlicedAddress as Mock).mockReturnValue(
       mockGetSlicedAddress(testAddressComponentAddress),
     );
 
@@ -65,7 +65,7 @@ describe('Address component', () => {
 
   it('renders the sliced address when address supplied to Identity', () => {
     useIdentityContextMock.mockReturnValue({});
-    (getSlicedAddress as vi.Mock).mockReturnValue(
+    (getSlicedAddress as Mock).mockReturnValue(
       mockGetSlicedAddress(testAddressComponentAddress),
     );
 
@@ -79,7 +79,7 @@ describe('Address component', () => {
 
   it('displays sliced address when ENS name is not available and isSliced is set to true', () => {
     useIdentityContextMock.mockReturnValue({});
-    (getSlicedAddress as vi.Mock).mockReturnValue(
+    (getSlicedAddress as Mock).mockReturnValue(
       mockGetSlicedAddress(testAddressComponentAddress),
     );
 

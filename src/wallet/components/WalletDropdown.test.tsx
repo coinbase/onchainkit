@@ -1,5 +1,6 @@
 import '@testing-library/jest-dom';
 import { render, renderHook, screen, waitFor } from '@testing-library/react';
+import { type Mock, beforeEach, describe, it, vi } from 'vitest';
 import { useAccount } from 'wagmi';
 import { Identity } from '../../identity/components/Identity';
 import {
@@ -28,10 +29,10 @@ vi.mock('../../identity/components/Identity', () => ({
   )),
 }));
 
-const useWalletContextMock = useWalletContext as vi.Mock;
+const useWalletContextMock = useWalletContext as Mock;
 
-const useAccountMock = useAccount as vi.Mock;
-const useBreakpointsMock = useBreakpoints as vi.Mock;
+const useAccountMock = useAccount as Mock;
+const useBreakpointsMock = useBreakpoints as Mock;
 
 describe('WalletDropdown', () => {
   beforeEach(() => {

@@ -1,5 +1,5 @@
 import { base, baseSepolia, mainnet } from 'viem/chains';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { publicClient } from '../../network/client';
 import { getChainPublicClient } from '../../network/getChainPublicClient';
 import { getAddress } from './getAddress';
@@ -12,7 +12,7 @@ vi.mock('../../network/getChainPublicClient', () => ({
 }));
 
 describe('getAddress', () => {
-  const mockGetEnsAddress = publicClient.getEnsAddress as vi.Mock;
+  const mockGetEnsAddress = publicClient.getEnsAddress as Mock;
   beforeEach(() => {
     vi.clearAllMocks();
   });

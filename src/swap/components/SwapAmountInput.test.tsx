@@ -1,6 +1,14 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
+import {
+  type Mock,
+  type MockedFunction,
+  beforeEach,
+  describe,
+  expect,
+  it,
+  vi,
+} from 'vitest';
 import type { Token } from '../../token';
 import { DAI_TOKEN, ETH_TOKEN, USDC_TOKEN } from '../mocks';
 import type { SwapContextType } from '../types';
@@ -211,7 +219,7 @@ describe('SwapAmountInput', () => {
   });
 
   it('should correctly select a token from the dropdown using mouse and keyboard', () => {
-    const useSwapContextMock = useSwapContext as vi.MockedFunction<
+    const useSwapContextMock = useSwapContext as MockedFunction<
       typeof useSwapContext
     >;
     useSwapContextMock.mockReturnValue(mockContextValue);
