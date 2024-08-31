@@ -69,6 +69,7 @@ export type LifeCycleStatus =
       statusName: 'init';
       statusData: {
         isMissingRequiredField: boolean;
+        maxSlippage: number;
       };
     }
   | {
@@ -83,6 +84,7 @@ export type LifeCycleStatus =
         tokenFrom?: Token;
         tokenTo?: Token;
         isMissingRequiredField: boolean;
+        maxSlippage: number;
       };
     }
   | {
@@ -154,9 +156,7 @@ export type SwapContextType = {
   ) => void;
   handleSubmit: () => void;
   handleToggle: () => void;
-  maxSlippage: number;
   setLifeCycleStatus: (state: LifeCycleStatus) => void; // A function to set the lifecycle status of the component
-  setMaxSlippage: (maxSlippage: number) => void; // A function to set the maximum slippage
   to: SwapUnit;
 };
 

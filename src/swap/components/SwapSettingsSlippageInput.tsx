@@ -1,19 +1,38 @@
 import { type ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { background, border, cn, color, pressable } from '../../styles/theme';
-import type { SwapSettingsSlippageInputReact } from '../types';
+import type { SwapSettingsSlippageInputReact, LifeCycleStatus } from '../types';
 import { useSwapContext } from './SwapProvider';
 
 export function SwapSettingsSlippageInput({
   className,
   defaultSlippage = 3,
 }: SwapSettingsSlippageInputReact) {
-  const { maxSlippage, setMaxSlippage } = useSwapContext();
-  const [slippageValue, setSlippageValue] = useState(maxSlippage.toString());
+  const { lifeCycleStatus, setLifeCycleStatus } = useSwapContext();
+
   const [currentMode, setCurrentMode] = useState<'Auto' | 'Custom'>('Auto');
+  const [slippageValue, setSlippageValue] = useState(
+    defaultSlippage.toString(),
+  );
 
   useEffect(() => {
-    setSlippageValue(maxSlippage.toString());
-  }, [maxSlippage]);
+    if (lifeCycleStatus.statusName === 'init') {
+      setLifeCycleStatus({
+        statusName: 'init',
+        statusData: {
+          ...lifeCycleStatus.statusData,
+          maxSlippage: Number(slippageValue),
+        },
+      });
+    } else if (lifeCycleStatus.statusName === 'amountChange') {
+      setLifeCycleStatus({
+        statusName: 'amountChange',
+        statusData: {
+          ...lifeCycleStatus.statusData,
+          maxSlippage: Number(slippageValue),
+        },
+      });
+    }
+  }, [slippageValue, setLifeCycleStatus, lifeCycleStatus]);
 
   // Handles changes in the slippage input field
   // Updates the slippage value and sets the max slippage if the input is a valid number
@@ -21,12 +40,8 @@ export function SwapSettingsSlippageInput({
     (e: ChangeEvent<HTMLInputElement>) => {
       const newValue = e.target.value;
       setSlippageValue(newValue);
-      const numericValue = Number.parseFloat(newValue);
-      if (!Number.isNaN(numericValue)) {
-        setMaxSlippage(numericValue);
-      }
     },
-    [setMaxSlippage],
+    [],
   );
 
   // Handles changes between Auto and Custom modes
@@ -35,11 +50,10 @@ export function SwapSettingsSlippageInput({
     (mode: 'Auto' | 'Custom') => {
       setCurrentMode(mode);
       if (mode === 'Auto') {
-        setMaxSlippage(defaultSlippage);
         setSlippageValue(defaultSlippage.toString());
       }
     },
-    [defaultSlippage, setMaxSlippage],
+    [defaultSlippage],
   );
 
   return (
