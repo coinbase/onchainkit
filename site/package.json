@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "vocs dev",
     "build": "vocs build",
-    "preview": "vocs preview"
+    "preview": "vocs preview",
+    "sitemap": "node createSitemap.js"
   },
   "dependencies": {
     "@coinbase/onchainkit": "0.31.2",
@@ -15,9 +16,13 @@
     "react": "18",
     "react-dom": "18",
     "react-farcaster-embed": "^1.4.7",
+    "sitemap-generator": "^8.5.1",
     "tar": "^7.0.0",
     "typescript": "latest",
     "vite": "^5.3.4",
     "vocs": "1.0.0-alpha.55"
+  },
+  "devDependencies": {
+    "@types/sitemap-generator": "^8"
   }
 }
