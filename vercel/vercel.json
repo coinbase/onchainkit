@@ -6,6 +6,17 @@
       "permanent": false
     },
     {
+      "source": "/",
+      "has": [
+        {
+          "type": "host",
+          "value": "buildonchainapps.xyz"
+        }
+      ],
+      "destination": "https://onchainkit.xyz/guides/build-onchain-apps",
+      "permanent": false
+    },
+    {
       "source": "/:path*",
       "has": [
         {
