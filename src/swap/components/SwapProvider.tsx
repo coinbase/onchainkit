@@ -254,7 +254,13 @@ export function SwapProvider({
         destination.setLoading(false);
       }
     },
-    [from, to, useAggregator, experimental.maxSlippage, lifeCycleStatus.statusData],
+    [
+      from,
+      to,
+      useAggregator,
+      experimental.maxSlippage,
+      lifeCycleStatus.statusData,
+    ],
   );
 
   const handleSubmit = useCallback(async () => {
