@@ -4,6 +4,17 @@
       "source": "/coverage",
       "destination": "/coverage/",
       "permanent": false
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "buildonchainapps.xyz"
+        }
+      ],
+      "destination": "/guides/build-onchain-apps",
+      "permanent": false
     }
   ],
   "rewrites": [
