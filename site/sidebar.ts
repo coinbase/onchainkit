@@ -17,6 +17,10 @@ export const sidebar = [
         link: '/guides/use-basename-in-onchain-app',
       },
       {
+        text: 'Build Onchain Apps',
+        link: '/guides/build-onchain-apps',
+      },
+      {
         text: 'Framegear',
         link: '/frame/framegear',
       },

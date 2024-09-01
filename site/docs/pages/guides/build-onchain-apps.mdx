@@ -1,0 +1,100 @@
+---
+title: Build Onchain Apps · OnchainKit
+description: Our onchain app template streamlines your initial app setup and seamlessly integrates onchain components with web2 infrastructure, saving you weeks of effort.
+---
+
+# Build Onchain Apps with OnchainKit ⛵️ 🌊
+
+Build your first onchain app effortlessly with OnchainKit's **app template**. Save weeks of initial setup 
+and easily integrate onchain components with web2 infrastructure.
+
+Our opinionated approach streamlines early decisions, making your development process smoother.
+
+Whether you're a hackathon participant or an ambitious entrepreneur aiming to build the next big thing, this template is tailored for you.
+
+<img
+  alt="Build Onchain Apps with OnchainKit"
+  src="https://onchainkit.xyz/assets/onchain-app-template-1.png"
+  width="auto"
+/>
+
+Play with it live [here](https://onchain-app-template.vercel.app).
+
+## Out of the box
+
+- Next.js v14 with App routing 🏗️
+- Ethereum L2 support through Base 🔵
+- Easy account creation with Smart Wallet
+- Live examples for Minting and Paymaster experiences with wagmi and Viem 🚀
+- Latest styling best practices with Tailwind CSS 💅
+- Easy maintenance with linting, formatting, and tests ✅
+
+## Getting Started
+
+::::steps
+
+### Fork the repo
+
+Go to https://github.com/coinbase/onchain-app-template and click on the "Use this template" button to create a new repository based on the template.
+
+<img
+  alt="Use OnchainKit template"
+  src="https://onchainkit.xyz/assets/use-onchain-app-template.png"
+  width="auto"
+/>
+
+### Public API Key(s)
+
+Obtain a Public API Key from the [Coinbase Developer Platform APIs](https://portal.cdp.coinbase.com/products/onchainkit).
+
+<img
+  alt="OnchainKit copy Public API Key"
+  src="https://onchainkit.xyz/assets/copy-api-key-guide.png"
+  width="auto"
+/>
+
+In order to use RainbowKit, you'd also need to obtain a Wallet Connector project ID at [WalletConnect](https://cloud.walletconnect.com/app).
+
+### Create a .env file
+
+Create a new file in your project’s root directory and name it `.env`.
+
+<img
+  alt="OnchainKit define Public API Key"
+  src="https://onchainkit.xyz/assets/getting-started-create-env-file.png"
+  width="250"
+/>
+
+```tsx [.env]
+NEXT_PUBLIC_CDP_API_KEY=YOUR_PUBLIC_API_KEY
+NEXT_PUBLIC_WC_PROJECT_ID=YOUR_WALLETCONNECT_PROJECT_ID
+```
+
+### Install dependencies
+
+In your new onchain app repository, run the following commands to install the dependencies:
+
+```bash
+# Install bun in case you don't have it
+bun curl -fsSL <https://bun.sh/install> | bash
+
+# Install packages
+bun i
+```
+
+### Run the app
+
+Now you are ready to run the app and start building onchain experiences!
+
+```bash
+# Run Next app
+bun run dev
+```
+
+::::
+
+## Need more help?
+
+If you have any questions or need help, feel free to reach out to us on [Discord](https://discord.gg/8gW3h6w5) 
+or open a [Github issue](https://github.com/coinbase/onchainkit/issues) or DMs us 
+on X at [@onchainkit](https://x.com/onchainkit), [@zizzamia](https://x.com/zizzamia), [@fkpxls](https://x.com/fkpxls).
