@@ -13,7 +13,7 @@ function updateMaxSlippage(
   status: LifeCycleStatus,
   newMaxSlippage: number,
 ): LifeCycleStatus {
-  if (status.statusName === 'amountChange') {
+  if (['init', 'amountChange'].includes(status.statusName)) {
     return {
       statusName: 'amountChange',
       statusData: {
@@ -34,14 +34,14 @@ export function SwapSettingsSlippageInput({
 }: SwapSettingsSlippageInputReact) {
   const { lifeCycleStatus, setLifeCycleStatus } = useSwapContext();
   const [currentMode, setCurrentMode] = useState<'Auto' | 'Custom'>(() =>
-    lifeCycleStatus.statusName === 'amountChange' &&
+    ['init', 'amountChange'].includes(lifeCycleStatus.statusName) &&
     hasMaxSlippage(lifeCycleStatus.statusData) &&
     lifeCycleStatus.statusData.maxSlippage !== defaultSlippage
       ? 'Custom'
       : 'Auto',
   );
   const [slippageValue, setSlippageValue] = useState(() =>
-    lifeCycleStatus.statusName === 'amountChange' &&
+    ['init', 'amountChange'].includes(lifeCycleStatus.statusName) &&
     hasMaxSlippage(lifeCycleStatus.statusData)
       ? lifeCycleStatus.statusData.maxSlippage.toString()
       : defaultSlippage.toString(),
@@ -51,7 +51,7 @@ export function SwapSettingsSlippageInput({
     const newSlippage = Number(slippageValue);
     if (
       !Number.isNaN(newSlippage) &&
-      lifeCycleStatus.statusName === 'amountChange' &&
+      ['init', 'amountChange'].includes(lifeCycleStatus.statusName) &&
       hasMaxSlippage(lifeCycleStatus.statusData) &&
       newSlippage !== lifeCycleStatus.statusData.maxSlippage
     ) {
