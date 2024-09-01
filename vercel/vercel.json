@@ -4,6 +4,11 @@
       "source": "/coverage",
       "destination": "/coverage/",
       "permanent": false
+    },
+    {
+      "source": "https://buildonchainapps.xyz",
+      "destination": "https://onchainkit.xyz/guides/build-onchain-apps",
+      "permanent": false
     }
   ],
   "rewrites": [
