@@ -9,7 +9,7 @@ export function SwapSettingsSlippageInput({
 }: SwapSettingsSlippageInputReact) {
   const { setLifeCycleStatus } = useSwapContext();
   const [slippage, setSlippage] = useState(defaultSlippage);
-  const [isAutoMode, setIsAutoMode] = useState(true);
+  const [isAutoSlippageSetting, setIsAutoSlippageSetting] = useState(true);
 
   const updateSlippage = (newSlippage: number) => {
     setSlippage(newSlippage);
@@ -26,8 +26,8 @@ export function SwapSettingsSlippageInput({
     }
   };
 
-  const handleModeChange = (auto: boolean) => {
-    setIsAutoMode(auto);
+  const handleSlippageSettingChange = (auto: boolean) => {
+    setIsAutoSlippageSetting(auto);
     if (auto) {
       updateSlippage(defaultSlippage);
     }
@@ -50,21 +50,21 @@ export function SwapSettingsSlippageInput({
             'flex h-9 flex-1 rounded-xl border p-1',
           )}
         >
-          {['Auto', 'Custom'].map((mode) => (
+          {['Auto', 'Custom'].map((slippageSetting) => (
             <button
-              key={mode}
+              key={slippageSetting}
               type="button"
               className={cn(
                 pressable.default,
                 color.foreground,
                 'flex-1 rounded-lg px-3 py-1 font-medium text-sm transition-colors',
-                isAutoMode === (mode === 'Auto')
+                isAutoSlippageSetting === (slippageSetting === 'Auto')
                   ? cn(background.inverse, color.primary, pressable.shadow)
                   : color.foregroundMuted,
               )}
-              onClick={() => handleModeChange(mode === 'Auto')}
+              onClick={() => handleSlippageSettingChange(slippageSetting === 'Auto')}
             >
-              {mode}
+              {slippageSetting}
             </button>
           ))}
         </div>
@@ -73,18 +73,18 @@ export function SwapSettingsSlippageInput({
             background.default,
             border.defaultActive,
             'flex h-9 w-24 items-center justify-between rounded-lg border px-2 py-1',
-            isAutoMode && 'opacity-50',
+            isAutoSlippageSetting && 'opacity-50',
           )}
         >
           <input
             type="text"
             value={slippage}
             onChange={(e) => handleSlippageChange(e.target.value)}
-            disabled={isAutoMode}
+            disabled={isAutoSlippageSetting}
             className={cn(
               color.foreground,
               'w-full flex-grow bg-transparent pl-1 font-normal text-sm leading-6 focus:outline-none',
-              isAutoMode && 'cursor-not-allowed',
+              isAutoSlippageSetting && 'cursor-not-allowed',
             )}
           />
           <span
