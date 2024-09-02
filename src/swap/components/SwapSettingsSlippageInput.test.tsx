@@ -10,9 +10,8 @@ vi.mock('./SwapProvider', () => ({
   }),
 }));
 
-vi.mock('../../styles/theme', () => ({
-  cn: (...args: unknown[]) =>
-    args.filter((arg) => typeof arg === 'string').join(' '),
+vi.mock('../styles/theme', () => ({
+  cn: (...args: string[]) => args.join(' '),
 }));
 
 describe('SwapSettingsSlippageInput', () => {
@@ -96,10 +95,10 @@ describe('SwapSettingsSlippageInput', () => {
   it('applies correct styles in Auto mode', () => {
     render(<SwapSettingsSlippageInput />);
     expect(screen.getByRole('button', { name: 'Auto' })).toHaveClass(
-      'bg-white text-blue-600 shadow-sm',
+      'cursor-pointer active:bg-ock-default-active hover:bg-[var(--bg-ock-default-hover)] flex-1 rounded-lg px-3 py-1 font-medium text-sm transition-colors bg-ock-inverse text-ock-primary shadow-ock-default',
     );
     expect(screen.getByRole('button', { name: 'Custom' })).toHaveClass(
-      'text-gray-600 hover:bg-gray-200',
+      'cursor-pointer bg-ock-default active:bg-ock-default-active hover:bg-[var(--bg-ock-default-hover)] flex-1 rounded-lg px-3 py-1 font-medium text-sm transition-colors text-ock-foreground-muted',
     );
     expect(screen.getByRole('textbox').parentElement).toHaveClass('opacity-50');
   });
@@ -108,10 +107,10 @@ describe('SwapSettingsSlippageInput', () => {
     render(<SwapSettingsSlippageInput />);
     fireEvent.click(screen.getByRole('button', { name: 'Custom' }));
     expect(screen.getByRole('button', { name: 'Auto' })).toHaveClass(
-      'text-gray-600 hover:bg-gray-200',
+      'cursor-pointer bg-ock-default active:bg-ock-default-active hover:bg-[var(--bg-ock-default-hover)] flex-1 rounded-lg px-3 py-1 font-medium text-sm transition-colors text-ock-foreground-muted',
     );
     expect(screen.getByRole('button', { name: 'Custom' })).toHaveClass(
-      'bg-white text-blue-600 shadow-sm',
+      'cursor-pointer active:bg-ock-default-active hover:bg-[var(--bg-ock-default-hover)] flex-1 rounded-lg px-3 py-1 font-medium text-sm transition-colors bg-ock-inverse text-ock-primary shadow-ock-default',
     );
     expect(screen.getByRole('textbox').parentElement).not.toHaveClass(
       'opacity-50',
