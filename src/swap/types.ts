@@ -86,6 +86,12 @@ export type LifeCycleStatus =
       };
     }
   | {
+      statusName: 'slippageChange';
+      statusData: {
+        maxSlippage: number;
+      };
+    }
+  | {
       statusName: 'transactionPending';
       statusData: null;
     }
