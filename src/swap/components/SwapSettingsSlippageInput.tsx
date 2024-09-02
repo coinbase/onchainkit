@@ -19,10 +19,10 @@ export function SwapSettingsSlippageInput({
     });
   };
 
-  const handleSlippageChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const numericValue = Number.parseFloat(e.target.value);
-    if (!Number.isNaN(numericValue)) {
-      updateSlippage(numericValue);
+  const handleSlippageChange = (newSlippage: string) => {
+    const newSlippageNumber = Number.parseFloat(newSlippage);
+    if (!Number.isNaN(newSlippageNumber)) {
+      updateSlippage(newSlippageNumber);
     }
   };
 
@@ -73,7 +73,7 @@ export function SwapSettingsSlippageInput({
           <input
             type="text"
             value={slippage}
-            onChange={handleSlippageChange}
+            onChange={(e) => handleSlippageChange(e.target.value)}
             disabled={isAutoMode}
             className={cn(
               'flex-grow bg-transparent pl-1 font-normal font-sans text-gray-900',
