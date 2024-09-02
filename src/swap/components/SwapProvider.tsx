@@ -56,7 +56,6 @@ export function SwapProvider({
     statusName: 'init',
     statusData: {
       isMissingRequiredField: true,
-      maxSlippage: experimental.maxSlippage ?? 3,
     },
   }); // Component lifecycle
   const [hasHandledSuccess, setHasHandledSuccess] = useState(false);
@@ -65,18 +64,6 @@ export function SwapProvider({
 
   // Refreshes balances and inputs post-swap
   const resetInputs = useResetInputs({ from, to });
-
-  // Get maxSlippage from lifeCycleStatus or fallback to experimental or default value
-  const getMaxSlippage = useCallback((): number => {
-    if (
-      lifeCycleStatus.statusData &&
-      'maxSlippage' in lifeCycleStatus.statusData &&
-      typeof lifeCycleStatus.statusData.maxSlippage === 'number'
-    ) {
-      return lifeCycleStatus.statusData.maxSlippage;
-    }
-    return experimental.maxSlippage ?? 3;
-  }, [lifeCycleStatus.statusData, experimental.maxSlippage]);
 
   // Component lifecycle emitters
   useEffect(() => {
@@ -133,11 +120,10 @@ export function SwapProvider({
         statusName: 'init',
         statusData: {
           isMissingRequiredField: false,
-          maxSlippage: experimental.maxSlippage ?? 3,
         },
       });
     }
-  }, [hasHandledSuccess, experimental.maxSlippage, lifeCycleStatus.statusName]); // do we need experimental.maxSlippage
+  }, [hasHandledSuccess, lifeCycleStatus.statusName]);
 
   const handleToggle = useCallback(() => {
     from.setAmount(to.amount);
@@ -156,7 +142,6 @@ export function SwapProvider({
     ) => {
       const source = type === 'from' ? from : to;
       const destination = type === 'from' ? to : from;
-      const maxSlippage = getMaxSlippage();
 
       source.token = sToken ?? source.token;
       destination.token = dToken ?? destination.token;
@@ -172,7 +157,6 @@ export function SwapProvider({
             tokenTo: to.token,
             // token is missing
             isMissingRequiredField: true,
-            maxSlippage,
           },
         });
         return;
@@ -196,7 +180,6 @@ export function SwapProvider({
           // when fetching quote, the destination
           // amount is missing
           isMissingRequiredField: true,
-          maxSlippage,
         },
       });
 
@@ -206,7 +189,7 @@ export function SwapProvider({
           amountReference: 'from',
           from: source.token,
           to: destination.token,
-          maxSlippage: maxSlippage.toString(),
+          maxSlippage: experimental.maxSlippage?.toString(),
           useAggregator,
         });
         // If request resolves to error response set the quoteError
@@ -237,7 +220,6 @@ export function SwapProvider({
             // if quote was fetched successfully, we
             // have all required fields
             isMissingRequiredField: !formattedAmount,
-            maxSlippage,
           },
         });
       } catch (err) {
@@ -254,20 +236,17 @@ export function SwapProvider({
         destination.setLoading(false);
       }
     },
-    [from, experimental.maxSlippage, to, useAggregator], // maybe can remove experimental.maxSlippage
+    [from, experimental.maxSlippage, to, useAggregator],
   );
 
   const handleSubmit = useCallback(async () => {
     if (!address || !from.token || !to.token || !from.amount) {
       return;
     }
-    const maxSlippage = getMaxSlippage();
-
     setLifeCycleStatus({
       statusName: 'init',
       statusData: {
         isMissingRequiredField: false,
-        maxSlippage,
       },
     });
 
@@ -278,7 +257,7 @@ export function SwapProvider({
         from: from.token,
         to: to.token,
         useAggregator,
-        maxSlippage: maxSlippage.toString(),
+        maxSlippage: experimental.maxSlippage?.toString(),
       });
       if (isSwapError(response)) {
         setLifeCycleStatus({
@@ -298,6 +277,7 @@ export function SwapProvider({
         swapTransaction: response,
         useAggregator,
       });
+
       // TODO: refresh balances
     } catch (err) {
       const errorMessage = isUserRejectedRequestError(err)
@@ -320,20 +300,19 @@ export function SwapProvider({
     sendTransactionAsync,
     to.token,
     useAggregator,
-    experimental.maxSlippage, // Do we need?
-    lifeCycleStatus.statusData,
+    experimental.maxSlippage,
   ]);
 
   const value = useValue({
     address,
     error,
     from,
+    loading,
     handleAmountChange,
     handleToggle,
     handleSubmit,
-    isTransactionPending,
     lifeCycleStatus,
-    loading,
+    isTransactionPending,
     setLifeCycleStatus,
     to,
   });

@@ -69,7 +69,6 @@ export type LifeCycleStatus =
       statusName: 'init';
       statusData: {
         isMissingRequiredField: boolean;
-        maxSlippage: number;
       };
     }
   | {
@@ -84,7 +83,6 @@ export type LifeCycleStatus =
         tokenFrom?: Token;
         tokenTo?: Token;
         isMissingRequiredField: boolean;
-        maxSlippage: number;
       };
     }
   | {

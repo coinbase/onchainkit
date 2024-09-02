@@ -1,74 +1,59 @@
 import { type ChangeEvent, useCallback, useEffect, useState } from 'react';
-import { background, border, cn, color, pressable } from '../../styles/theme';
+import { cn } from '../../styles/theme';
 import type { SwapSettingsSlippageInputReact } from '../types';
-import { hasMaxSlippage } from '../utils/hasMaxSlippage';
-import { updateMaxSlippage } from '../utils/updateMaxSlippage';
 import { useSwapContext } from './SwapProvider';
 
 export function SwapSettingsSlippageInput({
   className,
   defaultSlippage = 3,
 }: SwapSettingsSlippageInputReact) {
-  const { lifeCycleStatus, setLifeCycleStatus } = useSwapContext();
+  const { maxSlippage, setMaxSlippage } = useSwapContext();
+  const [slippageValue, setSlippageValue] = useState(maxSlippage.toString());
+  const [currentMode, setCurrentMode] = useState<'Auto' | 'Custom'>('Auto');
 
-  const initialSlippage = hasMaxSlippage(lifeCycleStatus.statusData)
-    ? lifeCycleStatus.statusData.maxSlippage
-    : defaultSlippage;
-
-  const [currentMode, setCurrentMode] = useState<'Auto' | 'Custom'>(
-    initialSlippage !== defaultSlippage ? 'Custom' : 'Auto',
-  );
-  const [slippageValue, setSlippageValue] = useState(
-    initialSlippage.toString(),
-  );
-
-  // Update lifecycle status when slippage value changes
   useEffect(() => {
-    const newSlippage = Number(slippageValue);
-    if (
-      hasMaxSlippage(lifeCycleStatus.statusData) &&
-      newSlippage !== lifeCycleStatus.statusData.maxSlippage
-    ) {
-      setLifeCycleStatus(updateMaxSlippage(lifeCycleStatus, newSlippage));
-    }
-  }, [slippageValue, lifeCycleStatus, setLifeCycleStatus]);
+    setSlippageValue(maxSlippage.toString());
+  }, [maxSlippage]);
 
-  // Handle changes to the slippage input field
+  // Handles changes in the slippage input field
+  // Updates the slippage value and sets the max slippage if the input is a valid number
   const handleSlippageChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
-      setSlippageValue(e.target.value);
-      setCurrentMode('Custom');
+      const newValue = e.target.value;
+      setSlippageValue(newValue);
+      const numericValue = Number.parseFloat(newValue);
+      if (!Number.isNaN(numericValue)) {
+        setMaxSlippage(numericValue);
+      }
     },
-    [],
+    [setMaxSlippage],
   );
 
-  // Handle changes between Auto and Custom modes
+  // Handles changes between Auto and Custom modes
+  // Resets to default slippage when switching to Auto mode
   const handleModeChange = useCallback(
     (mode: 'Auto' | 'Custom') => {
       setCurrentMode(mode);
       if (mode === 'Auto') {
+        setMaxSlippage(defaultSlippage);
         setSlippageValue(defaultSlippage.toString());
-        setLifeCycleStatus(updateMaxSlippage(lifeCycleStatus, defaultSlippage));
       }
     },
-    [defaultSlippage, setLifeCycleStatus, lifeCycleStatus],
+    [defaultSlippage, setMaxSlippage],
   );
 
   return (
     <div className={className}>
       <div
         className={cn(
-          background.default,
-          border.defaultActive,
-          'flex items-center gap-2',
+          'flex items-center gap-2 dark:border-gray-700 dark:bg-gray-950',
           className,
         )}
       >
         <div
           className={cn(
-            background.default,
-            border.defaultActive,
-            'flex h-9 flex-1 rounded-xl border p-1',
+            'flex h-9 flex-1 rounded-xl border border-gray-300',
+            'bg-gray-100 p-1 dark:border-gray-700 dark:bg-gray-950',
           )}
         >
           {['Auto', 'Custom'].map((mode) => (
@@ -76,12 +61,11 @@ export function SwapSettingsSlippageInput({
               key={mode}
               type="button"
               className={cn(
-                pressable.default,
-                color.foreground,
                 'flex-1 rounded-lg px-3 py-1 font-medium text-sm transition-colors',
+                'dark:bg-gray-950 dark:text-gray-50',
                 currentMode === mode
-                  ? cn(background.inverse, color.primary, pressable.shadow)
-                  : color.foregroundMuted,
+                  ? 'bg-white text-blue-600 shadow-sm dark:bg-indigo-900'
+                  : 'text-gray-600 hover:bg-gray-200 dark:hover:bg-gray-700',
               )}
               onClick={() => handleModeChange(mode as 'Auto' | 'Custom')}
             >
@@ -91,9 +75,9 @@ export function SwapSettingsSlippageInput({
         </div>
         <div
           className={cn(
-            background.default,
-            border.defaultActive,
-            'flex h-9 w-24 items-center justify-between rounded-lg border px-2 py-1',
+            'flex h-9 items-center justify-between rounded-lg border border-gray-300',
+            'bg-white px-2 py-1 dark:border-gray-700 dark:bg-gray-950',
+            'w-24',
             currentMode === 'Auto' && 'opacity-50',
           )}
         >
@@ -103,16 +87,16 @@ export function SwapSettingsSlippageInput({
             onChange={handleSlippageChange}
             disabled={currentMode === 'Auto'}
             className={cn(
-              color.foreground,
-              'w-full flex-grow bg-transparent pl-1 font-normal text-sm leading-6 focus:outline-none',
+              'flex-grow bg-transparent pl-1 font-normal font-sans text-gray-900',
+              'text-sm leading-6 focus:outline-none dark:text-gray-50',
+              'w-full',
               currentMode === 'Auto' && 'cursor-not-allowed',
             )}
           />
           <span
             className={cn(
-              background.default,
-              color.foreground,
-              'ml-1 flex-shrink-0 font-normal text-sm leading-6',
+              'ml-1 font-normal font-sans text-gray-400 text-sm',
+              'flex-shrink-0 leading-6 dark:bg-gray-950 dark:text-gray-50',
             )}
           >
             %
