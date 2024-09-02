@@ -1,57 +1,31 @@
 import { type ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { background, border, cn, color, pressable } from '../../styles/theme';
-import type { LifeCycleStatus, SwapSettingsSlippageInputReact } from '../types';
+import type { SwapSettingsSlippageInputReact } from '../types';
+import { hasMaxSlippage } from '../utils/hasMaxSlippage';
+import { updateMaxSlippage } from '../utils/updateMaxSlippage';
 import { useSwapContext } from './SwapProvider';
-
-function hasMaxSlippage(
-  statusData: any,
-): statusData is { maxSlippage: number } {
-  return statusData?.maxSlippage !== undefined;
-}
-
-function updateMaxSlippage(
-  status: LifeCycleStatus,
-  newMaxSlippage: number,
-): LifeCycleStatus {
-  if (['init', 'amountChange'].includes(status.statusName)) {
-    return {
-      statusName: 'amountChange',
-      statusData: {
-        ...status.statusData,
-        amountFrom: '',
-        amountTo: '',
-        isMissingRequiredField: true,
-        maxSlippage: newMaxSlippage,
-      },
-    };
-  }
-  return status;
-}
 
 export function SwapSettingsSlippageInput({
   className,
   defaultSlippage = 3,
 }: SwapSettingsSlippageInputReact) {
   const { lifeCycleStatus, setLifeCycleStatus } = useSwapContext();
-  const [currentMode, setCurrentMode] = useState<'Auto' | 'Custom'>(() =>
-    ['init', 'amountChange'].includes(lifeCycleStatus.statusName) &&
-    hasMaxSlippage(lifeCycleStatus.statusData) &&
-    lifeCycleStatus.statusData.maxSlippage !== defaultSlippage
-      ? 'Custom'
-      : 'Auto',
+
+  const initialSlippage = hasMaxSlippage(lifeCycleStatus.statusData)
+    ? lifeCycleStatus.statusData.maxSlippage
+    : defaultSlippage;
+
+  const [currentMode, setCurrentMode] = useState<'Auto' | 'Custom'>(
+    initialSlippage !== defaultSlippage ? 'Custom' : 'Auto',
   );
-  const [slippageValue, setSlippageValue] = useState(() =>
-    ['init', 'amountChange'].includes(lifeCycleStatus.statusName) &&
-    hasMaxSlippage(lifeCycleStatus.statusData)
-      ? lifeCycleStatus.statusData.maxSlippage.toString()
-      : defaultSlippage.toString(),
+  const [slippageValue, setSlippageValue] = useState(
+    initialSlippage.toString(),
   );
 
+  // Update lifecycle status when slippage value changes
   useEffect(() => {
     const newSlippage = Number(slippageValue);
     if (
-      !Number.isNaN(newSlippage) &&
-      ['init', 'amountChange'].includes(lifeCycleStatus.statusName) &&
       hasMaxSlippage(lifeCycleStatus.statusData) &&
       newSlippage !== lifeCycleStatus.statusData.maxSlippage
     ) {
@@ -59,6 +33,7 @@ export function SwapSettingsSlippageInput({
     }
   }, [slippageValue, lifeCycleStatus, setLifeCycleStatus]);
 
+  // Handle changes to the slippage input field
   const handleSlippageChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
       setSlippageValue(e.target.value);
@@ -67,6 +42,7 @@ export function SwapSettingsSlippageInput({
     [],
   );
 
+  // Handle changes between Auto and Custom modes
   const handleModeChange = useCallback(
     (mode: 'Auto' | 'Custom') => {
       setCurrentMode(mode);

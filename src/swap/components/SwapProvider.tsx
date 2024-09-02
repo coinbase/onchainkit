@@ -67,7 +67,7 @@ export function SwapProvider({
   const resetInputs = useResetInputs({ from, to });
 
   // Get maxSlippage from lifeCycleStatus or fallback to experimental or default value
-  const getMaxSlippage = (): number => {
+  const getMaxSlippage = useCallback((): number => {
     if (
       lifeCycleStatus.statusData &&
       'maxSlippage' in lifeCycleStatus.statusData &&
@@ -76,7 +76,7 @@ export function SwapProvider({
       return lifeCycleStatus.statusData.maxSlippage;
     }
     return experimental.maxSlippage ?? 3;
-  };
+  }, [lifeCycleStatus.statusData, experimental.maxSlippage]);
 
   // Component lifecycle emitters
   useEffect(() => {
@@ -137,7 +137,7 @@ export function SwapProvider({
         },
       });
     }
-  }, [hasHandledSuccess, lifeCycleStatus.statusName, experimental.maxSlippage]);
+  }, [hasHandledSuccess, experimental.maxSlippage, lifeCycleStatus.statusName]); // do we need experimental.maxSlippage
 
   const handleToggle = useCallback(() => {
     from.setAmount(to.amount);
@@ -254,13 +254,7 @@ export function SwapProvider({
         destination.setLoading(false);
       }
     },
-    [
-      from,
-      to,
-      useAggregator,
-      experimental.maxSlippage,
-      lifeCycleStatus.statusData,
-    ],
+    [from, experimental.maxSlippage, to, useAggregator], // maybe can remove experimental.maxSlippage
   );
 
   const handleSubmit = useCallback(async () => {
@@ -326,7 +320,7 @@ export function SwapProvider({
     sendTransactionAsync,
     to.token,
     useAggregator,
-    experimental.maxSlippage,
+    experimental.maxSlippage, // Do we need?
     lifeCycleStatus.statusData,
   ]);
 
@@ -334,12 +328,12 @@ export function SwapProvider({
     address,
     error,
     from,
-    loading,
     handleAmountChange,
     handleToggle,
     handleSubmit,
-    lifeCycleStatus,
     isTransactionPending,
+    lifeCycleStatus,
+    loading,
     setLifeCycleStatus,
     to,
   });
