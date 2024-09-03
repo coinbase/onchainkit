@@ -1,12 +1,21 @@
 # Changelog
 
+## 0.31.3
+
+### Patch Changes
+
+- a417d30: - **feat**: added `buildPayTransaction` utilities for making RPC calls to hydrate a charge and build a pay transaction in preparation for `Pay` button. By @avidreder #1177
+  - **feat**: implemented custom slippage support sub-components in the `Swap` component. By @cpcramer #1187 #1192 #1191 #1195 #1196 #1206
+  - **docs**: added Build Onchain Apps guide using OnchainKit's `app template`. By @zizzamia #1202
+  - **fix**: updated v1 `Swap` API to pass the correct slippage unit of measurement. By @cpcramer #1189
+
 ## 0.31.2
 
 ### Patch Changes
 
-  - **feat**: added connect wallet functionality to Swap component for disconnected users. By @abcrane123 #1173
-  - **fix**: added logic to refetch balances and clear inputs after Swap succeeds. By @0xAlec #1089
-  - **fix**: adjusted Swap component style to prevent UI shifting. By @abcrane123 #1184
+- **feat**: added connect wallet functionality to Swap component for disconnected users. By @abcrane123 #1173
+- **fix**: added logic to refetch balances and clear inputs after Swap succeeds. By @0xAlec #1089
+- **fix**: adjusted Swap component style to prevent UI shifting. By @abcrane123 #1184
 
 ## 0.31.1
 
@@ -109,30 +118,30 @@ The `onStatus` callback will expose
 ```ts
 export type LifeCycleStatus =
   | {
-      statusName: "init";
+      statusName: 'init';
       statusData: null;
     }
   | {
-      statusName: "error";
+      statusName: 'error';
       statusData: SwapError;
     }
   | {
-      statusName: "amountChange";
+      statusName: 'amountChange';
       statusData: null;
     }
   | {
-      statusName: "transactionPending";
+      statusName: 'transactionPending';
       statusData: null;
     }
   | {
-      statusName: "transactionApproved";
+      statusName: 'transactionApproved';
       statusData: {
         transactionHash: Hex;
-        transactionType: "ERC20" | "Permit2";
+        transactionType: 'ERC20' | 'Permit2';
       };
     }
   | {
-      statusName: "success";
+      statusName: 'success';
       statusData: {
         transactionReceipt: TransactionReceipt;
       };
