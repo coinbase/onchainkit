@@ -27,10 +27,14 @@ export function OnchainKitProvider({
     const onchainKitConfig = {
       address: address ?? null, // this can maybe be updated to account.address
       apiKey: apiKey ?? null,
-      capabilities: walletCapabilities ?? null,
       chain: chain,
       rpcUrl: rpcUrl ?? null,
       schemaId: schemaId ?? null,
+      walletCapabilities: walletCapabilities ?? {
+        paymasterServiceEnabled: false,
+        atomicBatchEnabled: false,
+        auxiliaryFundsEnabled: false,
+      },
     };
     setOnchainKitConfig(onchainKitConfig);
     return onchainKitConfig;

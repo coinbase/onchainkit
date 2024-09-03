@@ -126,18 +126,18 @@ describe('OnchainKitProvider', () => {
     expect(setOnchainKitConfig).toHaveBeenCalledWith({
       address: null,
       apiKey,
-      capabilities: null,
       chain: base,
       rpcUrl: null,
       schemaId,
+      walletCapabilities: null,
     });
   });
 
   it('should call setOnchainKitConfig when capabilities are found', async () => {
-    const capabilities = {
-      paymaster: true,
-      batching: true,
-      funding: true,
+    const walletCapabilities = {
+      paymasterServiceEnabled: true,
+      atomicBatchEnabled: true,
+      auxiliaryFundsEnabled: true,
     };
     vi.mocked(useCapabilitiesSafe).mockReturnValue(capabilities);
     await act(async () => {
@@ -158,15 +158,15 @@ describe('OnchainKitProvider', () => {
     expect(setOnchainKitConfig).toHaveBeenCalledWith({
       address: null,
       apiKey,
-      capabilities,
       chain: base,
       rpcUrl: null,
       schemaId,
+      walletCapabilities,
     });
   });
 
   it('should call setOnchainKitConfig when capabilities are not found', async () => {
-    const capabilities = {
+    const walletCapabilities = {
       paymaster: false,
       batching: false,
       funding: false,
@@ -190,10 +190,10 @@ describe('OnchainKitProvider', () => {
     expect(setOnchainKitConfig).toHaveBeenCalledWith({
       address: null,
       apiKey,
-      capabilities,
       chain: base,
       rpcUrl: null,
       schemaId,
+      walletCapabilities,
     });
   });
 });
