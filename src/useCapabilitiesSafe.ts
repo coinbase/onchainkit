@@ -1,12 +1,11 @@
-import type { Chain } from 'viem';
 import { useAccount } from 'wagmi';
 import { useCapabilities } from 'wagmi/experimental';
 import type { WalletCapabilities } from './types';
 
 export function useCapabilitiesSafe({
-  chain,
+  chainId,
 }: {
-  chain: Chain;
+  chainId: number;
 }): WalletCapabilities {
   const { connector, isConnected } = useAccount();
 
@@ -16,7 +15,7 @@ export function useCapabilitiesSafe({
 
   const { data: capabilities } = useCapabilities({ query: { enabled } });
 
-  if (!capabilities || !capabilities[chain.id]) {
+  if (!capabilities || !capabilities[chainId]) {
     return {
       paymasterServiceEnabled: false,
       atomicBatchEnabled: false,
@@ -25,9 +24,8 @@ export function useCapabilitiesSafe({
   }
 
   return {
-    paymasterServiceEnabled:
-      capabilities[chain.id]?.paymasterService?.supported,
-    atomicBatchEnabled: capabilities[chain.id]?.atomicBatch?.supported,
-    auxiliaryFundsEnabled: capabilities[chain.id]?.auxiliaryFunds?.supported,
+    paymasterServiceEnabled: capabilities[chainId]?.paymasterService?.supported,
+    atomicBatchEnabled: capabilities[chainId]?.atomicBatch?.supported,
+    auxiliaryFundsEnabled: capabilities[chainId]?.auxiliaryFunds?.supported,
   };
 }

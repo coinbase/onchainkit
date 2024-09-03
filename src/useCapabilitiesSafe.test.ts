@@ -13,9 +13,7 @@ vi.mock('wagmi/experimental', () => ({
 }));
 
 describe('useCapabilitiesSafe', () => {
-  const mockChain = {
-    id: 1,
-  };
+  const mockChainId = 1;
   const walletCapabilitiesTrue = {
     paymasterServiceEnabled: true,
     atomicBatchEnabled: true,
@@ -35,7 +33,7 @@ describe('useCapabilitiesSafe', () => {
     (useAccount as vi.Mock).mockReturnValue({ isConnected: false });
     (useCapabilities as vi.Mock).mockReturnValue({ data: undefined });
     const { result } = renderHook(() =>
-      useCapabilitiesSafe({ chain: mockChain }),
+      useCapabilitiesSafe({ chainId: mockChainId }),
     );
     expect(result.current).toEqual(walletCapabilitiesFalse);
   });
@@ -47,7 +45,7 @@ describe('useCapabilitiesSafe', () => {
     });
     (useCapabilities as vi.Mock).mockReturnValue({ data: undefined });
     const { result } = renderHook(() =>
-      useCapabilitiesSafe({ chain: mockChain }),
+      useCapabilitiesSafe({ chainId: mockChainId }),
     );
     expect(result.current).toEqual(walletCapabilitiesFalse);
   });
@@ -67,7 +65,7 @@ describe('useCapabilitiesSafe', () => {
       },
     });
     const { result } = renderHook(() =>
-      useCapabilitiesSafe({ chain: mockChain }),
+      useCapabilitiesSafe({ chainId: mockChainId }),
     );
     expect(result.current).toEqual(walletCapabilitiesTrue);
   });
@@ -79,7 +77,7 @@ describe('useCapabilitiesSafe', () => {
     });
     (useCapabilities as vi.Mock).mockReturnValue({ data: undefined });
     const { result } = renderHook(() =>
-      useCapabilitiesSafe({ chain: mockChain }),
+      useCapabilitiesSafe({ chainId: mockChainId }),
     );
     expect(result.current).toEqual(walletCapabilitiesFalse);
   });
@@ -91,7 +89,7 @@ describe('useCapabilitiesSafe', () => {
     });
     (useCapabilities as vi.Mock).mockReturnValue({ data: {} });
     const { result } = renderHook(() =>
-      useCapabilitiesSafe({ chain: mockChain }),
+      useCapabilitiesSafe({ chainId: mockChainId }),
     );
     expect(result.current).toEqual(walletCapabilitiesFalse);
   });

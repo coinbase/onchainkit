@@ -21,7 +21,7 @@ export function OnchainKitProvider({
   if (schemaId && !checkHashLength(schemaId, 64)) {
     throw Error('EAS schemaId must be 64 characters prefixed with "0x"');
   }
-  const walletCapabilities = useCapabilitiesSafe({ chain });
+  const walletCapabilities = useCapabilitiesSafe({ chainId: chain.id });
 
   const value = useMemo(() => {
     const onchainKitConfig = {
