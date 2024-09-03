@@ -2,4 +2,4 @@
 "@coinbase/onchainkit": patch
 ---
 
-- **feat**: implemented slippage support in the `Swap` component with settings UI. Incorporates slippage functionality into the `Swap` component, including a dedicated settings section with a title, description, and input field for configuring slippage preference. By @cpcramer #1187 #1192 #1191 #1189 #1195 #1196 #1206
+- **feat**: implemented custom slippage support sub-components in the `Swap` component. By @cpcramer #1187 #1192 #1191 #1189 #1195 #1196 #1206
