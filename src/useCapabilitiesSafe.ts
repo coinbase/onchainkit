@@ -7,15 +7,13 @@ export function useCapabilitiesSafe({
 }: {
   chainId: number;
 }): WalletCapabilities {
-  const { connector, isConnected } = useAccount();
+  const { isConnected } = useAccount();
 
-  // Metamask doesn't support wallet_getCapabilities
-  const isMetamaskWallet = connector?.id === 'io.metamask';
-  const enabled = isConnected && !isMetamaskWallet;
+  const { data: capabilities, error } = useCapabilities({
+    query: { enabled: isConnected },
+  });
 
-  const { data: capabilities } = useCapabilities({ query: { enabled } });
-
-  if (!capabilities || !capabilities[chainId]) {
+  if (error || !capabilities || !capabilities[chainId]) {
     return {
       paymasterServiceEnabled: false,
       atomicBatchEnabled: false,

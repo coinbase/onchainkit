@@ -38,12 +38,12 @@ describe('useCapabilitiesSafe', () => {
     expect(result.current).toEqual(walletCapabilitiesFalse);
   });
 
-  it('should return all capabilities as false for Metamask wallet', () => {
-    (useAccount as vi.Mock).mockReturnValue({
-      isConnected: true,
-      connector: { id: 'io.metamask' },
+  it('should return all capabilities as false when there is an error', () => {
+    (useAccount as vi.Mock).mockReturnValue({ isConnected: true });
+    (useCapabilities as vi.Mock).mockReturnValue({
+      data: undefined,
+      error: new Error('Some error'),
     });
-    (useCapabilities as vi.Mock).mockReturnValue({ data: undefined });
     const { result } = renderHook(() =>
       useCapabilitiesSafe({ chainId: mockChainId }),
     );
