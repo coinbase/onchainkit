@@ -29,8 +29,8 @@ export function useCapabilitiesSafe({
     false;
 
   return {
-    paymaster: paymasterServiceEnabled,
-    batching: atomicBatchEnabled,
-    funding: auxiliaryFundsEnabled,
+    paymasterServiceEnabled,
+    atomicBatchEnabled,
+    auxiliaryFundsEnabled,
   };
 }

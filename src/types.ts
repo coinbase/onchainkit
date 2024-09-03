@@ -51,7 +51,7 @@ export type OnchainKitProviderReact = {
  * Note: exported as public Type
  */
 export type WalletCapabilities = {
-  paymaster: boolean; // If the wallet supports ERC-4337 Paymasters for gas sponsorship
-  batching: boolean; // If the wallet supports atomic batching of transactions
-  funding: boolean; // If the wallet supports auxiliary funding of accounts (e.g. Magic Spend)
+  paymasterServiceEnabled: boolean; // If the wallet supports ERC-4337 Paymasters for gas sponsorship
+  atomicBatchEnabled: boolean; // If the wallet supports atomic batching of transactions
+  auxiliaryFundsEnabled: boolean; // If the wallet supports auxiliary funding of accounts (e.g. Magic Spend)
 };
