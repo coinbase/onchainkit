@@ -6,14 +6,14 @@ import type { OnchainKitConfig, SetOnchainKitConfig } from './types';
 export const ONCHAIN_KIT_CONFIG: OnchainKitConfig = {
   address: null,
   apiKey: null,
-  capabilities: {
-    paymaster: false,
-    batching: false,
-    funding: false,
-  },
   chain: baseSepolia,
   rpcUrl: null,
   schemaId: null,
+  walletCapabilities: {
+    atomicBatchEnabled: false,
+    auxiliaryFundsEnabled: false,
+    paymasterServiceEnabled: false,
+  },
 };
 
 /**
