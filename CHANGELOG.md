@@ -1,11 +1,5 @@
 # Changelog
 
-## 0.31.3
-
-### Patch Changes
-
-- **feat**: added slippage support in the `Swap` component with a new settings UI, including a dedicated settings section with a title, description, and input field for configuring max slippage preference. By @cpcramer #1187 #1192 #1191 #1189 #1195 #1196 #1206
-
 ## 0.31.2
 
 ### Patch Changes
