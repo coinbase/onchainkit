@@ -3,6 +3,10 @@
   border-color: var(--bg-ock-default);
 }
 
+.border-ock-default-active {
+  border-color: var(--bg-ock-default-active);
+}
+
 /* Fill */
 .fill-ock-default-reverse {
   fill: var(--bg-ock-default-reverse);

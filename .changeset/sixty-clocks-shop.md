@@ -2,7 +2,4 @@
 "@coinbase/onchainkit": patch
 ---
 
-- **chore**: Add Swap settings SVG. By @cpcramer #1187
-- **chore**: Add Swap Settings Slippage Description. By @cpcramer #1192
-- **chore**: Add Swap Settings Slippage Title. By @cpcramer #1191
-- **chore**: Add slippage support to the Swap Component. By @cpcramer #1189
+- **feat**: Implement slippage support in Swap component with settings UI. This combined feat incorporates slippage functionality into the Swap component, including a dedicated settings section with a title, description, and input field for configuring slippage tolerance. By @cpcramer #1187 #1192 #1191 #1189 #1195

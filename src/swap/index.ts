@@ -3,6 +3,7 @@ export { Swap } from './components/Swap';
 export { SwapAmountInput } from './components/SwapAmountInput';
 export { SwapButton } from './components/SwapButton';
 export { SwapMessage } from './components/SwapMessage';
+export { SwapSettingsSlippageInput } from './components/SwapSettingsSlippageInput';
 export { SwapSettingsSlippageTitle } from './components/SwapSettingsSlippageTitle';
 export { SwapSettingsSlippageDescription } from './components/SwapSettingsSlippageDescription';
 export { SwapToggleButton } from './components/SwapToggleButton';
@@ -19,6 +20,7 @@ export type {
   SwapQuote,
   SwapReact,
   SwapSettingsReact,
+  SwapSettingsSlippageInputReact,
   SwapSettingsSlippageTitleReact,
   SwapSettingsSlippageDescriptionReact,
   SwapToggleButtonReact,

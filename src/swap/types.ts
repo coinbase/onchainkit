@@ -86,6 +86,12 @@ export type LifeCycleStatus =
       };
     }
   | {
+      statusName: 'slippageChange';
+      statusData: {
+        maxSlippage: number;
+      };
+    }
+  | {
       statusName: 'transactionPending';
       statusData: null;
     }
@@ -250,6 +256,14 @@ export type SwapSettingsSlippageTitleReact = {
 export type SwapSettingsSlippageDescriptionReact = {
   children: ReactNode;
   className?: string; // Optional className override for top div element.
+};
+
+/**
+ * Note: exported as public Type
+ */
+export type SwapSettingsSlippageInputReact = {
+  className?: string; // Optional className override for top div element.
+  defaultSlippage?: number; // Optional default slippage value in pecentage.
 };
 
 /**
