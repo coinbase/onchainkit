@@ -16,21 +16,18 @@ export function useCapabilitiesSafe({
 
   const { data: capabilities } = useCapabilities({ query: { enabled } });
 
-  const atomicBatchEnabled =
-    (capabilities && capabilities[chain.id]?.atomicBatch?.supported === true) ??
-    false;
-  const paymasterServiceEnabled =
-    (capabilities &&
-      capabilities[chain.id]?.paymasterService?.supported === true) ??
-    false;
-  const auxiliaryFundsEnabled =
-    (capabilities &&
-      capabilities[chain.id]?.auxiliaryFunds?.supported === true) ??
-    false;
+  if (!capabilities || !capabilities[chain.id]) {
+    return {
+      paymasterServiceEnabled: false,
+      atomicBatchEnabled: false,
+      auxiliaryFundsEnabled: false,
+    };
+  }
 
   return {
-    paymasterServiceEnabled,
-    atomicBatchEnabled,
-    auxiliaryFundsEnabled,
+    paymasterServiceEnabled:
+      capabilities[chain.id]?.paymasterService?.supported,
+    atomicBatchEnabled: capabilities[chain.id]?.atomicBatch?.supported,
+    auxiliaryFundsEnabled: capabilities[chain.id]?.auxiliaryFunds?.supported,
   };
 }
