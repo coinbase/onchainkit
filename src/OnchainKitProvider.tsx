@@ -38,7 +38,7 @@ export function OnchainKitProvider({
     };
     setOnchainKitConfig(onchainKitConfig);
     return onchainKitConfig;
-  }, [address, chain, schemaId, apiKey, rpcUrl, walletCapabilities]);
+  }, [address, apiKey, chain, rpcUrl, schemaId, walletCapabilities]);
   return (
     <OnchainKitContext.Provider value={value}>
       {children}
