@@ -43,10 +43,14 @@ vi.mock('./OnchainKitConfig', () => ({
   ONCHAIN_KIT_CONFIG: {
     address: null,
     apiKey: null,
-    capabilities: null,
     chain: base,
     rpcUrl: null,
     schemaId: null,
+    walletCapabilities: {
+      paymasterServiceEnabled: false,
+      atomicBatchEnabled: false,
+      auxiliaryFundsEnabled: false,
+    },
   },
 }));
 describe('OnchainKitProvider', () => {
@@ -129,7 +133,11 @@ describe('OnchainKitProvider', () => {
       chain: base,
       rpcUrl: null,
       schemaId,
-      walletCapabilities: null,
+      walletCapabilities: {
+        paymasterServiceEnabled: false,
+        atomicBatchEnabled: false,
+        auxiliaryFundsEnabled: false,
+      },
     });
   });
 
@@ -139,7 +147,7 @@ describe('OnchainKitProvider', () => {
       atomicBatchEnabled: true,
       auxiliaryFundsEnabled: true,
     };
-    vi.mocked(useCapabilitiesSafe).mockReturnValue(capabilities);
+    vi.mocked(useCapabilitiesSafe).mockReturnValue(walletCapabilities);
     await act(async () => {
       render(
         <WagmiProvider config={mockConfig}>
@@ -167,11 +175,11 @@ describe('OnchainKitProvider', () => {
 
   it('should call setOnchainKitConfig when capabilities are not found', async () => {
     const walletCapabilities = {
-      paymaster: false,
-      batching: false,
-      funding: false,
+      paymasterServiceEnabled: false,
+      atomicBatchEnabled: false,
+      auxiliaryFundsEnabled: false,
     };
-    vi.mocked(useCapabilitiesSafe).mockReturnValue(capabilities);
+    vi.mocked(useCapabilitiesSafe).mockReturnValue(walletCapabilities);
     await act(async () => {
       render(
         <WagmiProvider config={mockConfig}>

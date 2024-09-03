@@ -16,6 +16,16 @@ describe('useCapabilitiesSafe', () => {
   const mockChain = {
     id: 1,
   };
+  const walletCapabilitiesTrue = {
+    paymasterServiceEnabled: true,
+    atomicBatchEnabled: true,
+    auxiliaryFundsEnabled: true,
+  };
+  const walletCapabilitiesFalse = {
+    paymasterServiceEnabled: false,
+    atomicBatchEnabled: false,
+    auxiliaryFundsEnabled: false,
+  };
 
   beforeEach(() => {
     vi.resetAllMocks();
@@ -27,11 +37,7 @@ describe('useCapabilitiesSafe', () => {
     const { result } = renderHook(() =>
       useCapabilitiesSafe({ chain: mockChain }),
     );
-    expect(result.current).toEqual({
-      paymaster: false,
-      batching: false,
-      funding: false,
-    });
+    expect(result.current).toEqual(walletCapabilitiesFalse);
   });
 
   it('should return all capabilities as false for Metamask wallet', () => {
@@ -43,11 +49,7 @@ describe('useCapabilitiesSafe', () => {
     const { result } = renderHook(() =>
       useCapabilitiesSafe({ chain: mockChain }),
     );
-    expect(result.current).toEqual({
-      paymaster: false,
-      batching: false,
-      funding: false,
-    });
+    expect(result.current).toEqual(walletCapabilitiesFalse);
   });
 
   it('should return correct capabilities when connected and not Metamask', () => {
@@ -60,18 +62,14 @@ describe('useCapabilitiesSafe', () => {
         1: {
           atomicBatch: { supported: true },
           paymasterService: { supported: true },
-          auxiliaryFunds: { supported: false },
+          auxiliaryFunds: { supported: true },
         },
       },
     });
     const { result } = renderHook(() =>
       useCapabilitiesSafe({ chain: mockChain }),
     );
-    expect(result.current).toEqual({
-      paymaster: true,
-      batching: true,
-      funding: false,
-    });
+    expect(result.current).toEqual(walletCapabilitiesTrue);
   });
 
   it('should handle undefined capabilities', () => {
@@ -83,11 +81,7 @@ describe('useCapabilitiesSafe', () => {
     const { result } = renderHook(() =>
       useCapabilitiesSafe({ chain: mockChain }),
     );
-    expect(result.current).toEqual({
-      paymaster: false,
-      batching: false,
-      funding: false,
-    });
+    expect(result.current).toEqual(walletCapabilitiesFalse);
   });
 
   it('should handle missing chain capabilities', () => {
@@ -99,10 +93,6 @@ describe('useCapabilitiesSafe', () => {
     const { result } = renderHook(() =>
       useCapabilitiesSafe({ chain: mockChain }),
     );
-    expect(result.current).toEqual({
-      paymaster: false,
-      batching: false,
-      funding: false,
-    });
+    expect(result.current).toEqual(walletCapabilitiesFalse);
   });
 });
