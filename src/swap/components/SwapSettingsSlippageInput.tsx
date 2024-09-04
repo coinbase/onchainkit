@@ -18,7 +18,7 @@ export function SwapSettingsSlippageInput({
       return lifeCycleStatus.statusData.maxSlippage;
     }
     return defaultSlippage;
-  }, [lifeCycleStatus.statusName, defaultSlippage]);
+  }, [lifeCycleStatus.statusName, lifeCycleStatus.statusData, defaultSlippage]);
 
   // Set initial slippage values to match previous selection or default,
   // ensuring consistency when dropdown is reopened
