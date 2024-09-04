@@ -59,7 +59,6 @@ export function Swap({
           >
             {title}
           </h3>
-          {swapSettings}
         </div>
         {inputs[0]}
         <div className="relative h-1">{toggleButton}</div>

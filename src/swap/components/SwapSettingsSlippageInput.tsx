@@ -29,7 +29,7 @@ export function SwapSettingsSlippageInput({
   const [slippageSetting, setSlippageSetting] = useState(
     getMaxSlippage() === defaultSlippage
       ? SLIPPAGE_SETTINGS.AUTO
-      : SLIPPAGE_SETTINGS.CUSTOM,
+      : SLIPPAGE_SETTINGS.CUSTOM
   );
 
   const updateSlippage = useCallback(
@@ -40,23 +40,25 @@ export function SwapSettingsSlippageInput({
         statusData: { maxSlippage: newSlippage },
       });
     },
-    [setLifeCycleStatus],
+    [setLifeCycleStatus]
   );
 
   // Handles user input for custom slippage
   // Parses the input and updates slippage if valid
   const handleSlippageChange = useCallback(
     (newSlippage: string) => {
+      // Empty '' when the input field is cleared.
       if (newSlippage === '') {
         setSlippage(0);
-      } else {
-        const newSlippageNumber = Number.parseFloat(newSlippage);
-        if (!Number.isNaN(newSlippageNumber)) {
-          updateSlippage(newSlippageNumber);
-        }
+        return;
+      }
+
+      const newSlippageNumber = Number.parseFloat(newSlippage);
+      if (!Number.isNaN(newSlippageNumber)) {
+        updateSlippage(newSlippageNumber);
       }
     },
-    [updateSlippage],
+    [updateSlippage]
   );
 
   // Toggles between auto and custom slippage settings
@@ -68,7 +70,7 @@ export function SwapSettingsSlippageInput({
         updateSlippage(defaultSlippage);
       }
     },
-    [updateSlippage, defaultSlippage],
+    [updateSlippage, defaultSlippage]
   );
 
   return (
@@ -77,14 +79,14 @@ export function SwapSettingsSlippageInput({
         background.default,
         border.defaultActive,
         'flex items-center gap-2',
-        className,
+        className
       )}
     >
       <fieldset
         className={cn(
           background.default,
           border.defaultActive,
-          'flex h-9 flex-1 rounded-xl border p-1',
+          'flex h-9 flex-1 rounded-xl border p-1'
         )}
       >
         <legend className="sr-only">Slippage Setting</legend>
@@ -99,7 +101,7 @@ export function SwapSettingsSlippageInput({
               // Highlight the button if it is selected
               slippageSetting === setting
                 ? cn(background.inverse, color.primary, pressable.shadow)
-                : color.foregroundMuted,
+                : color.foregroundMuted
             )}
             onClick={() => handleSlippageSettingChange(setting)}
           >
@@ -112,7 +114,7 @@ export function SwapSettingsSlippageInput({
           background.default,
           border.defaultActive,
           'flex h-9 w-24 items-center justify-between rounded-lg border px-2 py-1',
-          slippageSetting === SLIPPAGE_SETTINGS.AUTO && 'opacity-50',
+          slippageSetting === SLIPPAGE_SETTINGS.AUTO && 'opacity-50'
         )}
       >
         <label htmlFor="slippage-input" className="sr-only">
@@ -127,14 +129,14 @@ export function SwapSettingsSlippageInput({
           className={cn(
             color.foreground,
             'w-full flex-grow bg-transparent pl-1 font-normal text-sm leading-6 focus:outline-none',
-            slippageSetting === SLIPPAGE_SETTINGS.AUTO && 'cursor-not-allowed',
+            slippageSetting === SLIPPAGE_SETTINGS.AUTO && 'cursor-not-allowed'
           )}
         />
         <span
           className={cn(
             background.default,
             color.foreground,
-            'ml-1 flex-shrink-0 font-normal text-sm leading-6',
+            'ml-1 flex-shrink-0 font-normal text-sm leading-6'
           )}
         >
           %
