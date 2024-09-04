@@ -18,10 +18,6 @@ describe('processSwapTransaction', () => {
     .fn()
     .mockResolvedValueOnce('approveTxHash')
     .mockResolvedValueOnce('txHash');
-  const sendTransactionAsync2 = vi
-    .fn()
-    .mockResolvedValueOnce('approveTxHash')
-    .mockResolvedValueOnce('txHash');
   const sendTransactionAsyncPermit2 = vi
     .fn()
     .mockResolvedValueOnce('approveTxHash')
