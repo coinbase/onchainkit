@@ -20,8 +20,9 @@ export function useCapabilitiesSafe({
   }
 
   return {
-    hasPaymasterService: capabilities[chainId]?.paymasterService?.supported,
-    hasAtomicBatch: capabilities[chainId]?.atomicBatch?.supported,
-    hasAuxiliaryFunds: capabilities[chainId]?.auxiliaryFunds?.supported,
+    hasPaymasterService:
+      capabilities[chainId].paymasterService?.supported ?? false,
+    hasAtomicBatch: capabilities[chainId].atomicBatch?.supported ?? false,
+    hasAuxiliaryFunds: capabilities[chainId].auxiliaryFunds?.supported ?? false,
   };
 }

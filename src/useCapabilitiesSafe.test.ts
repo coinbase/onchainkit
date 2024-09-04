@@ -50,7 +50,7 @@ describe('useCapabilitiesSafe', () => {
     expect(result.current).toEqual(walletCapabilitiesFalse);
   });
 
-  it('should return correct capabilities when connected and not Metamask', () => {
+  it('should return correct capabilities when connected', () => {
     (useAccount as vi.Mock).mockReturnValue({
       isConnected: true,
       connector: { id: 'some.other.wallet' },
@@ -88,6 +88,22 @@ describe('useCapabilitiesSafe', () => {
       connector: { id: 'some.other.wallet' },
     });
     (useCapabilities as vi.Mock).mockReturnValue({ data: {} });
+    const { result } = renderHook(() =>
+      useCapabilitiesSafe({ chainId: mockChainId }),
+    );
+    expect(result.current).toEqual(walletCapabilitiesFalse);
+  });
+
+  it('should handle missing capabilities', () => {
+    (useAccount as vi.Mock).mockReturnValue({
+      isConnected: true,
+      connector: { id: 'some.other.wallet' },
+    });
+    (useCapabilities as vi.Mock).mockReturnValue({
+      data: {
+        1: {},
+      },
+    });
     const { result } = renderHook(() =>
       useCapabilitiesSafe({ chainId: mockChainId }),
     );
