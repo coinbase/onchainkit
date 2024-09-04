@@ -13,6 +13,7 @@ export async function processSwapTransaction({
   setLifeCycleStatus,
   swapTransaction,
   useAggregator,
+  maxSlippage,
 }: ProcessSwapTransactionParams) {
   const { transaction, approveTransaction, quote } = swapTransaction;
 
@@ -24,7 +25,9 @@ export async function processSwapTransaction({
   if (approveTransaction?.data) {
     setLifeCycleStatus({
       statusName: 'transactionPending',
-      statusData: null,
+      statusData: {
+        maxSlippage,
+      },
     });
     const approveTxHash = await sendTransactionAsync({
       to: approveTransaction.to,
@@ -36,6 +39,7 @@ export async function processSwapTransaction({
       statusData: {
         transactionHash: approveTxHash,
         transactionType: useAggregator ? 'ERC20' : 'Permit2',
+        maxSlippage,
       },
     });
     await waitForTransactionReceipt(config, {
@@ -51,7 +55,9 @@ export async function processSwapTransaction({
     if (!useAggregator) {
       setLifeCycleStatus({
         statusName: 'transactionPending',
-        statusData: null,
+        statusData: {
+          maxSlippage,
+        },
       });
       const permit2ContractAbi = parseAbi([
         'function approve(address token, address spender, uint160 amount, uint48 expiration) external',
@@ -76,6 +82,7 @@ export async function processSwapTransaction({
         statusData: {
           transactionHash: permitTxnHash,
           transactionType: 'ERC20',
+          maxSlippage,
         },
       });
       await waitForTransactionReceipt(config, {
@@ -88,7 +95,9 @@ export async function processSwapTransaction({
   // make the swap
   setLifeCycleStatus({
     statusName: 'transactionPending',
-    statusData: null,
+    statusData: {
+      maxSlippage,
+    },
   });
   const txHash = await sendTransactionAsync({
     to: transaction.to,
@@ -105,6 +114,7 @@ export async function processSwapTransaction({
     statusName: 'success',
     statusData: {
       transactionReceipt: transactionReceipt,
+      maxSlippage,
     },
   });
 }

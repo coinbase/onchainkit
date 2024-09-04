@@ -121,6 +121,7 @@ export type ProcessSwapTransactionParams = {
   sendTransactionAsync: SendTransactionMutateAsync<Config, unknown>;
   swapTransaction: BuildSwapTransaction;
   useAggregator: boolean;
+  maxSlippage: number;
 };
 
 /**

@@ -3,6 +3,7 @@ import { http, createConfig } from 'wagmi';
 import { waitForTransactionReceipt } from 'wagmi/actions';
 import { mainnet, sepolia } from 'wagmi/chains';
 import { mock } from 'wagmi/connectors';
+import { PERMIT2_CONTRACT_ADDRESS } from '../constants';
 import { DEGEN_TOKEN, ETH_TOKEN, USDC_TOKEN } from '../mocks';
 import type { BuildSwapTransaction } from '../types';
 import { processSwapTransaction } from './processSwapTransaction';
@@ -26,6 +27,23 @@ describe('processSwapTransaction', () => {
     .mockResolvedValueOnce('approveTxHash')
     .mockResolvedValueOnce('permit2TxHash')
     .mockResolvedValueOnce('txHash');
+
+  const config = createConfig({
+    chains: [mainnet, sepolia],
+    connectors: [
+      mock({
+        accounts: [
+          '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266',
+          '0x70997970c51812dc3a010c7d01b50e0d17dc79c8',
+          '0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC',
+        ],
+      }),
+    ],
+    transports: {
+      [mainnet.id]: http(),
+      [sepolia.id]: http(),
+    },
+  });
 
   beforeEach(() => {
     vi.clearAllMocks();
@@ -80,33 +98,32 @@ describe('processSwapTransaction', () => {
         amount: '195912661817282562',
       },
     };
-    const config = createConfig({
-      chains: [mainnet, sepolia],
-      connectors: [
-        mock({
-          accounts: [
-            '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266',
-            '0x70997970c51812dc3a010c7d01b50e0d17dc79c8',
-            '0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC',
-          ],
-        }),
-      ],
-      transports: {
-        [mainnet.id]: http(),
-        [sepolia.id]: http(),
-      },
-    });
+
     await processSwapTransaction({
       config,
       sendTransactionAsync,
       setLifeCycleStatus,
       swapTransaction,
       useAggregator: true,
+      maxSlippage: 3,
     });
+
     expect(setLifeCycleStatus).toHaveBeenCalledTimes(4);
-    expect(setLifeCycleStatus).toHaveBeenCalledWith({
+    expect(setLifeCycleStatus).toHaveBeenNthCalledWith(1, {
       statusName: 'transactionPending',
-      statusData: null,
+      statusData: { maxSlippage: 3 },
+    });
+    expect(setLifeCycleStatus).toHaveBeenNthCalledWith(2, {
+      statusName: 'transactionApproved',
+      statusData: {
+        transactionHash: 'approveTxHash',
+        transactionType: 'ERC20',
+        maxSlippage: 3,
+      },
+    });
+    expect(setLifeCycleStatus).toHaveBeenNthCalledWith(3, {
+      statusName: 'transactionPending',
+      statusData: { maxSlippage: 3 },
     });
     expect(sendTransactionAsync).toHaveBeenCalledTimes(2);
     expect(waitForTransactionReceipt).toHaveBeenCalledTimes(2);
@@ -139,104 +156,26 @@ describe('processSwapTransaction', () => {
         amount: '195912661817282562',
       },
     };
-    const config = createConfig({
-      chains: [mainnet, sepolia],
-      connectors: [
-        mock({
-          accounts: [
-            '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266',
-            '0x70997970c51812dc3a010c7d01b50e0d17dc79c8',
-            '0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC',
-          ],
-        }),
-      ],
-      transports: {
-        [mainnet.id]: http(),
-        [sepolia.id]: http(),
-      },
-    });
+
     await processSwapTransaction({
       config,
       sendTransactionAsync,
       setLifeCycleStatus,
       swapTransaction,
       useAggregator: true,
+      maxSlippage: 3,
     });
+
     expect(setLifeCycleStatus).toHaveBeenCalledTimes(2);
-    expect(setLifeCycleStatus).toHaveBeenCalledWith({
+    expect(setLifeCycleStatus).toHaveBeenNthCalledWith(1, {
       statusName: 'transactionPending',
-      statusData: null,
+      statusData: { maxSlippage: 3 },
     });
     expect(sendTransactionAsync).toHaveBeenCalledTimes(1);
     expect(waitForTransactionReceipt).toHaveBeenCalledTimes(1);
   });
 
-  it('should successfully call relevant async lifecycle hooks', async () => {
-    const swapTransaction: BuildSwapTransaction = {
-      transaction: {
-        to: '0x123',
-        value: 0n,
-        data: '0x',
-        chainId: 8453,
-        gas: 0n,
-      },
-      approveTransaction: {
-        to: '0x456',
-        value: 0n,
-        data: '0x123',
-        chainId: 8453,
-        gas: 0n,
-      },
-      quote: {
-        from: ETH_TOKEN,
-        to: DEGEN_TOKEN,
-        fromAmount: '100000000000000',
-        toAmount: '19395353519910973703',
-        amountReference: 'from',
-        priceImpact: '0.94',
-        hasHighPriceImpact: false,
-        slippage: '3',
-        warning: undefined,
-      },
-      fee: {
-        baseAsset: DEGEN_TOKEN,
-        percentage: '1',
-        amount: '195912661817282562',
-      },
-    };
-    const config = createConfig({
-      chains: [mainnet, sepolia],
-      connectors: [
-        mock({
-          accounts: [
-            '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266',
-            '0x70997970c51812dc3a010c7d01b50e0d17dc79c8',
-            '0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC',
-          ],
-        }),
-      ],
-      transports: {
-        [mainnet.id]: http(),
-        [sepolia.id]: http(),
-      },
-    });
-    await processSwapTransaction({
-      config,
-      sendTransactionAsync: sendTransactionAsync2,
-      setLifeCycleStatus,
-      swapTransaction,
-      useAggregator: true,
-    });
-    expect(setLifeCycleStatus).toHaveBeenCalledTimes(4);
-    expect(setLifeCycleStatus).toHaveBeenCalledWith({
-      statusName: 'transactionPending',
-      statusData: null,
-    });
-    expect(sendTransactionAsync2).toHaveBeenCalledTimes(2);
-    expect(waitForTransactionReceipt).toHaveBeenCalledTimes(2);
-  });
-
-  it('should successfully use Permit2 approval process for `useAggregators`=false', async () => {
+  it('should successfully use Permit2 approval process for `useAggregator`=false', async () => {
     const swapTransaction: BuildSwapTransaction = {
       transaction: {
         to: '0x123',
@@ -269,35 +208,49 @@ describe('processSwapTransaction', () => {
         amount: '195912661817282562',
       },
     };
-    const config = createConfig({
-      chains: [mainnet, sepolia],
-      connectors: [
-        mock({
-          accounts: [
-            '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266',
-            '0x70997970c51812dc3a010c7d01b50e0d17dc79c8',
-            '0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC',
-          ],
-        }),
-      ],
-      transports: {
-        [mainnet.id]: http(),
-        [sepolia.id]: http(),
-      },
-    });
+
     await processSwapTransaction({
       config,
       sendTransactionAsync: sendTransactionAsyncPermit2,
       setLifeCycleStatus,
       swapTransaction,
       useAggregator: false,
+      maxSlippage: 3,
     });
+
     expect(setLifeCycleStatus).toHaveBeenCalledTimes(6);
-    expect(setLifeCycleStatus).toHaveBeenCalledWith({
+    expect(setLifeCycleStatus).toHaveBeenNthCalledWith(1, {
       statusName: 'transactionPending',
-      statusData: null,
+      statusData: { maxSlippage: 3 },
+    });
+    expect(setLifeCycleStatus).toHaveBeenNthCalledWith(2, {
+      statusName: 'transactionApproved',
+      statusData: {
+        transactionHash: 'approveTxHash',
+        transactionType: 'Permit2',
+        maxSlippage: 3,
+      },
+    });
+    expect(setLifeCycleStatus).toHaveBeenNthCalledWith(3, {
+      statusName: 'transactionPending',
+      statusData: { maxSlippage: 3 },
+    });
+    expect(setLifeCycleStatus).toHaveBeenNthCalledWith(4, {
+      statusName: 'transactionApproved',
+      statusData: {
+        transactionHash: 'permit2TxHash',
+        transactionType: 'ERC20',
+        maxSlippage: 3,
+      },
     });
     expect(sendTransactionAsyncPermit2).toHaveBeenCalledTimes(3);
     expect(waitForTransactionReceipt).toHaveBeenCalledTimes(3);
+
+    // Check if the Permit2 transaction is called with the correct parameters
+    expect(sendTransactionAsyncPermit2).toHaveBeenNthCalledWith(2, {
+      to: PERMIT2_CONTRACT_ADDRESS,
+      data: expect.any(String),
+      value: 0n,
+    });
   });
 });
