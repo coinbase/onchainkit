@@ -13,15 +13,16 @@ export function useCapabilitiesSafe({
 
   if (error || !capabilities || !capabilities[chainId]) {
     return {
-      paymasterServiceEnabled: false,
-      atomicBatchEnabled: false,
-      auxiliaryFundsEnabled: false,
+      hasPaymasterServiceEnabled: false,
+      hasAtomicBatchEnabled: false,
+      hasAuxiliaryFundsEnabled: false,
     };
   }
 
   return {
-    paymasterServiceEnabled: capabilities[chainId]?.paymasterService?.supported,
-    atomicBatchEnabled: capabilities[chainId]?.atomicBatch?.supported,
-    auxiliaryFundsEnabled: capabilities[chainId]?.auxiliaryFunds?.supported,
+    hasPaymasterServiceEnabled:
+      capabilities[chainId]?.paymasterService?.supported,
+    hasAtomicBatchEnabled: capabilities[chainId]?.atomicBatch?.supported,
+    hasAuxiliaryFundsEnabled: capabilities[chainId]?.auxiliaryFunds?.supported,
   };
 }

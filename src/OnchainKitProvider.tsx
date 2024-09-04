@@ -31,9 +31,9 @@ export function OnchainKitProvider({
       rpcUrl: rpcUrl ?? null,
       schemaId: schemaId ?? null,
       walletCapabilities: walletCapabilities ?? {
-        atomicBatchEnabled: false,
-        auxiliaryFundsEnabled: false,
-        paymasterServiceEnabled: false,
+        hasAtomicBatchEnabled: false,
+        hasAuxiliaryFundsEnabled: false,
+        hasPaymasterServiceEnabled: false,
       },
     };
     setOnchainKitConfig(onchainKitConfig);
