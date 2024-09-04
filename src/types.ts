@@ -47,6 +47,10 @@ export type OnchainKitProviderReact = {
   schemaId?: EASSchemaUid;
 };
 
+export type UseCapabilitiesSafeParams = {
+  chainId: number;
+};
+
 /**
  * Note: exported as public Type
  */

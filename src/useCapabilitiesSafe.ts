@@ -1,12 +1,10 @@
 import { useAccount } from 'wagmi';
 import { useCapabilities } from 'wagmi/experimental';
-import type { WalletCapabilities } from './types';
+import type { UseCapabilitiesSafeParams, WalletCapabilities } from './types';
 
 export function useCapabilitiesSafe({
   chainId,
-}: {
-  chainId: number;
-}): WalletCapabilities {
+}: UseCapabilitiesSafeParams): WalletCapabilities {
   const { isConnected } = useAccount();
 
   const { data: capabilities, error } = useCapabilities({
