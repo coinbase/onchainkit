@@ -69,6 +69,7 @@ export type LifeCycleStatus =
       statusName: 'init';
       statusData: {
         isMissingRequiredField: boolean;
+        maxSlippage: number;
       };
     }
   | {
@@ -80,6 +81,7 @@ export type LifeCycleStatus =
       statusData: {
         amountFrom: string;
         amountTo: string;
+        maxSlippage: number;
         tokenFrom?: Token;
         tokenTo?: Token;
         isMissingRequiredField: boolean;
@@ -93,11 +95,14 @@ export type LifeCycleStatus =
     }
   | {
       statusName: 'transactionPending';
-      statusData: null;
+      statusData: {
+        maxSlippage: number;
+      };
     }
   | {
       statusName: 'transactionApproved';
       statusData: {
+        maxSlippage: number;
         transactionHash: Hex;
         transactionType: 'ERC20' | 'Permit2';
       };
@@ -105,6 +110,7 @@ export type LifeCycleStatus =
   | {
       statusName: 'success';
       statusData: {
+        maxSlippage: number;
         transactionReceipt: TransactionReceipt;
       };
     };
@@ -156,7 +162,7 @@ export type SwapContextType = {
     t: 'from' | 'to',
     amount: string,
     st?: Token,
-    dt?: Token,
+    dt?: Token
   ) => void;
   handleSubmit: () => void;
   handleToggle: () => void;

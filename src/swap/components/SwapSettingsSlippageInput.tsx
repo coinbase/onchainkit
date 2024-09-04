@@ -14,10 +14,7 @@ export function SwapSettingsSlippageInput({
 }: SwapSettingsSlippageInputReact) {
   const { setLifeCycleStatus, lifeCycleStatus } = useSwapContext();
   const getMaxSlippage = () => {
-    if (
-      !!lifeCycleStatus.statusData &&
-      'maxSlippage' in lifeCycleStatus.statusData
-    ) {
+    if (lifeCycleStatus.statusName !== 'error') {
       return lifeCycleStatus.statusData.maxSlippage;
     }
     return defaultSlippage;
