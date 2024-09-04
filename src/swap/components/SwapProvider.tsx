@@ -193,7 +193,7 @@ export function SwapProvider({
           amountReference: 'from',
           from: source.token,
           to: destination.token,
-          maxSlippage: experimental.maxSlippage?.toString(),
+          maxSlippage: maxSlippage.toString(),
           useAggregator,
         });
         // If request resolves to error response set the quoteError
@@ -263,7 +263,7 @@ export function SwapProvider({
         from: from.token,
         to: to.token,
         useAggregator,
-        maxSlippage: experimental.maxSlippage?.toString(),
+        maxSlippage: maxSlippage.toString(),
       });
       if (isSwapError(response)) {
         setLifeCycleStatus({
