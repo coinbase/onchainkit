@@ -2,6 +2,7 @@ import { createContext, useMemo } from 'react';
 import { ONCHAIN_KIT_CONFIG, setOnchainKitConfig } from './OnchainKitConfig';
 import { checkHashLength } from './internal/utils/checkHashLength';
 import type { OnchainKitContextType, OnchainKitProviderReact } from './types';
+import { useCapabilitiesSafe } from './useCapabilitiesSafe';
 
 export const OnchainKitContext =
   createContext<OnchainKitContextType>(ONCHAIN_KIT_CONFIG);
@@ -20,6 +21,8 @@ export function OnchainKitProvider({
   if (schemaId && !checkHashLength(schemaId, 64)) {
     throw Error('EAS schemaId must be 64 characters prefixed with "0x"');
   }
+  const walletCapabilities = useCapabilitiesSafe({ chainId: chain.id });
+
   const value = useMemo(() => {
     const onchainKitConfig = {
       address: address ?? null,
@@ -27,10 +30,15 @@ export function OnchainKitProvider({
       chain: chain,
       rpcUrl: rpcUrl ?? null,
       schemaId: schemaId ?? null,
+      walletCapabilities: walletCapabilities ?? {
+        hasAtomicBatch: false,
+        hasAuxiliaryFunds: false,
+        hasPaymasterService: false,
+      },
     };
     setOnchainKitConfig(onchainKitConfig);
     return onchainKitConfig;
-  }, [address, chain, schemaId, apiKey, rpcUrl]);
+  }, [address, apiKey, chain, rpcUrl, schemaId, walletCapabilities]);
   return (
     <OnchainKitContext.Provider value={value}>
       {children}

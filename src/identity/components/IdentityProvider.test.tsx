@@ -1,9 +1,28 @@
 import '@testing-library/jest-dom';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { renderHook } from '@testing-library/react';
 import type { Address, Chain } from 'viem';
 import { baseSepolia, optimism, sepolia } from 'viem/chains';
 import { OnchainKitProvider } from '../../OnchainKitProvider';
 import { IdentityProvider, useIdentityContext } from './IdentityProvider';
+
+import { describe, expect, it } from 'vitest';
+import { WagmiProvider } from 'wagmi';
+import { http, createConfig } from 'wagmi';
+import { mock } from 'wagmi/connectors';
+
+const queryClient = new QueryClient();
+const mockConfig = createConfig({
+  chains: [sepolia],
+  connectors: [
+    mock({
+      accounts: ['0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266'],
+    }),
+  ],
+  transports: {
+    [sepolia.id]: http(),
+  },
+});
 
 describe('IdentityProvider', () => {
   it('provides context values from props', () => {
@@ -35,9 +54,13 @@ describe('IdentityProvider', () => {
   it('use onchainkit context chain if provided', () => {
     const { result } = renderHook(() => useIdentityContext(), {
       wrapper: ({ children }) => (
-        <OnchainKitProvider chain={optimism}>
-          <IdentityProvider>{children}</IdentityProvider>
-        </OnchainKitProvider>
+        <WagmiProvider config={mockConfig}>
+          <QueryClientProvider client={queryClient}>
+            <OnchainKitProvider chain={optimism}>
+              <IdentityProvider>{children}</IdentityProvider>
+            </OnchainKitProvider>
+          </QueryClientProvider>
+        </WagmiProvider>
       ),
     });
     expect(result.current.address).toEqual('');
@@ -48,9 +71,13 @@ describe('IdentityProvider', () => {
   it('use identity context chain over onchainkit context if both are provided', () => {
     const { result } = renderHook(() => useIdentityContext(), {
       wrapper: ({ children }) => (
-        <OnchainKitProvider chain={optimism}>
-          <IdentityProvider chain={sepolia}>{children}</IdentityProvider>
-        </OnchainKitProvider>
+        <WagmiProvider config={mockConfig}>
+          <QueryClientProvider client={queryClient}>
+            <OnchainKitProvider chain={optimism}>
+              <IdentityProvider chain={sepolia}>{children}</IdentityProvider>
+            </OnchainKitProvider>
+          </QueryClientProvider>
+        </WagmiProvider>
       ),
     });
     expect(result.current.address).toEqual('');
