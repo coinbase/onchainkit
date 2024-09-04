@@ -691,4 +691,26 @@ describe('SwapProvider', () => {
       ).toBe('UNCAUGHT_SWAP_ERROR');
     });
   });
+
+  it('should use default maxSlippage when not provided in experimental', async () => {
+    const TestComponent = () => {
+      const { lifeCycleStatus } = useSwapContext();
+      if (lifeCycleStatus.statusName === 'init') {
+        expect(lifeCycleStatus.statusData.maxSlippage).toBe(3);
+      }
+      return null;
+    };
+    const customWrapper = ({ children }) => (
+      <WagmiProvider config={config}>
+        <QueryClientProvider client={queryClient}>
+          <SwapProvider experimental={{ useAggregator: true }}>
+            {children}
+          </SwapProvider>
+        </QueryClientProvider>
+      </WagmiProvider>
+    );
+    await act(async () => {
+      renderHook(() => <TestComponent />, { wrapper: customWrapper });
+    });
+  });
 });
