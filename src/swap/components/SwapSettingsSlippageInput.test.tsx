@@ -3,7 +3,10 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { SwapSettingsSlippageInput } from './SwapSettingsSlippageInput';
 
 const mockSetLifeCycleStatus = vi.fn();
-let mockLifeCycleStatus = { statusData: { maxSlippage: 3 } };
+let mockLifeCycleStatus = {
+  statusName: 'initial',
+  statusData: { maxSlippage: 3 },
+};
 
 vi.mock('./SwapProvider', () => ({
   useSwapContext: () => ({
@@ -19,7 +22,10 @@ vi.mock('../styles/theme', () => ({
 describe('SwapSettingsSlippageInput', () => {
   beforeEach(() => {
     mockSetLifeCycleStatus.mockClear();
-    mockLifeCycleStatus = { statusData: { maxSlippage: 3 } };
+    mockLifeCycleStatus = {
+      statusName: 'initial',
+      statusData: { maxSlippage: 3 },
+    };
   });
 
   it('renders with default props', () => {
@@ -38,7 +44,7 @@ describe('SwapSettingsSlippageInput', () => {
   });
 
   it('uses provided defaultSlippage', () => {
-    mockLifeCycleStatus = { statusData: {} };
+    mockLifeCycleStatus = { statusName: 'error', statusData: {} };
     render(<SwapSettingsSlippageInput defaultSlippage={1.5} />);
     expect(screen.getByRole('textbox')).toHaveValue('1.5');
   });
@@ -60,7 +66,7 @@ describe('SwapSettingsSlippageInput', () => {
   });
 
   it('switches between Auto and Custom modes', () => {
-    mockLifeCycleStatus = { statusData: {} };
+    mockLifeCycleStatus = { statusName: 'error', statusData: {} };
     render(<SwapSettingsSlippageInput defaultSlippage={1.5} />);
     const input = screen.getByRole('textbox');
     expect(input).toBeDisabled();
