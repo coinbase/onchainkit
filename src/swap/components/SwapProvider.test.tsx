@@ -692,15 +692,12 @@ describe('SwapProvider', () => {
     });
   });
 
-  it('should use default maxSlippage when not provided in experimental', async () => {
-    const TestComponent = () => {
+  it('should use default maxSlippage when not provided in experimental', () => {
+    const useTestHook = () => {
       const { lifeCycleStatus } = useSwapContext();
-      if (lifeCycleStatus.statusName === 'init') {
-        expect(lifeCycleStatus.statusData.maxSlippage).toBe(3);
-      }
-      return null;
+      return lifeCycleStatus;
     };
-    const customWrapper = ({ children }) => (
+    const wrapper = ({ children }) => (
       <WagmiProvider config={config}>
         <QueryClientProvider client={queryClient}>
           <SwapProvider experimental={{ useAggregator: true }}>
@@ -709,8 +706,10 @@ describe('SwapProvider', () => {
         </QueryClientProvider>
       </WagmiProvider>
     );
-    await act(async () => {
-      renderHook(() => <TestComponent />, { wrapper: customWrapper });
-    });
+    const { result } = renderHook(() => useTestHook(), { wrapper });
+    expect(result.current.statusName).toBe('init');
+    if (result.current.statusName === 'init') {
+      expect(result.current.statusData.maxSlippage).toBe(3);
+    }
   });
 });
