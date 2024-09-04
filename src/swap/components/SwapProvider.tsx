@@ -46,7 +46,7 @@ export function SwapProvider({
   const { address } = useAccount();
   // Feature flags
   const { useAggregator } = experimental;
-  const maxSlippage = experimental.maxSlippage || 3;
+  const [maxSlippage, setMaxSlippage] = useState(experimental.maxSlippage || 3);
   // Core Hooks
   const config = useConfig();
   const [loading, setLoading] = useState(false);
@@ -193,7 +193,7 @@ export function SwapProvider({
           amountReference: 'from',
           from: source.token,
           to: destination.token,
-          maxSlippage: maxSlippage.toString(),
+          maxSlippage: experimental.maxSlippage?.toString(),
           useAggregator,
         });
         // If request resolves to error response set the quoteError
@@ -263,7 +263,7 @@ export function SwapProvider({
         from: from.token,
         to: to.token,
         useAggregator,
-        maxSlippage: maxSlippage.toString(),
+        maxSlippage: experimental.maxSlippage?.toString(),
       });
       if (isSwapError(response)) {
         setLifeCycleStatus({
@@ -278,11 +278,11 @@ export function SwapProvider({
       }
       await processSwapTransaction({
         config,
+        maxSlippage,
         sendTransactionAsync,
         setLifeCycleStatus,
         swapTransaction: response,
         useAggregator,
-        maxSlippage,
       });
 
       // TODO: refresh balances

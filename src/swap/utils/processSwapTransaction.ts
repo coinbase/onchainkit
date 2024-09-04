@@ -9,11 +9,11 @@ import type { ProcessSwapTransactionParams } from '../types';
 
 export async function processSwapTransaction({
   config,
+  maxSlippage,
   sendTransactionAsync,
   setLifeCycleStatus,
   swapTransaction,
   useAggregator,
-  maxSlippage,
 }: ProcessSwapTransactionParams) {
   const { transaction, approveTransaction, quote } = swapTransaction;
 
