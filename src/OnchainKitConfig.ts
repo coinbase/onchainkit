@@ -10,9 +10,9 @@ export const ONCHAIN_KIT_CONFIG: OnchainKitConfig = {
   rpcUrl: null,
   schemaId: null,
   walletCapabilities: {
-    hasAtomicBatchEnabled: false,
-    hasAuxiliaryFundsEnabled: false,
-    hasPaymasterServiceEnabled: false,
+    hasAtomicBatch: false,
+    hasAuxiliaryFunds: false,
+    hasPaymasterService: false,
   },
 };
 

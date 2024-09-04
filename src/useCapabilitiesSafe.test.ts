@@ -15,14 +15,14 @@ vi.mock('wagmi/experimental', () => ({
 describe('useCapabilitiesSafe', () => {
   const mockChainId = 1;
   const walletCapabilitiesTrue = {
-    hasAtomicBatchEnabled: true,
-    hasAuxiliaryFundsEnabled: true,
-    hasPaymasterServiceEnabled: true,
+    hasAtomicBatch: true,
+    hasAuxiliaryFunds: true,
+    hasPaymasterService: true,
   };
   const walletCapabilitiesFalse = {
-    hasAtomicBatchEnabled: false,
-    hasAuxiliaryFundsEnabled: false,
-    hasPaymasterServiceEnabled: false,
+    hasAtomicBatch: false,
+    hasAuxiliaryFunds: false,
+    hasPaymasterService: false,
   };
 
   beforeEach(() => {

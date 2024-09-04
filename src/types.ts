@@ -55,7 +55,7 @@ export type UseCapabilitiesSafeParams = {
  * Note: exported as public Type
  */
 export type WalletCapabilities = {
-  hasPaymasterServiceEnabled: boolean; // If the wallet supports ERC-4337 Paymasters for gas sponsorship
-  hasAtomicBatchEnabled: boolean; // If the wallet supports atomic batching of transactions
-  hasAuxiliaryFundsEnabled: boolean; // If the wallet supports auxiliary funding of accounts (e.g. Magic Spend)
+  hasPaymasterService: boolean; // If the wallet supports ERC-4337 Paymasters for gas sponsorship
+  hasAtomicBatch: boolean; // If the wallet supports atomic batching of transactions
+  hasAuxiliaryFunds: boolean; // If the wallet supports auxiliary funding of accounts (e.g. Magic Spend)
 };
