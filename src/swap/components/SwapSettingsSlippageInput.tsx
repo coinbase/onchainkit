@@ -23,7 +23,8 @@ export function SwapSettingsSlippageInput({
     return defaultSlippage;
   };
 
-  // TODO: Add comment about how we do these checks so the dropdown opens to the correct slippage value and button that it left off on
+  // Set initial slippage values to match previous selection or default,
+  // ensuring consistency when dropdown is reopened
   const [slippage, setSlippage] = useState(getMaxSlippage());
   const [slippageSetting, setSlippageSetting] = useState(
     getMaxSlippage() === defaultSlippage
