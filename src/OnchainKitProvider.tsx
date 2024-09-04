@@ -25,7 +25,7 @@ export function OnchainKitProvider({
 
   const value = useMemo(() => {
     const onchainKitConfig = {
-      address: address ?? null, // this can maybe be updated to account.address
+      address: address ?? null,
       apiKey: apiKey ?? null,
       chain: chain,
       rpcUrl: rpcUrl ?? null,
