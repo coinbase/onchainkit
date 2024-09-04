@@ -20,14 +20,14 @@ export function SwapSettings({
     setIsOpen(!isOpen);
   }, [isOpen]);
 
-  const handleClickOutsideComponent = (event: MouseEvent) => {
+  const handleClickOutsideComponent = useCallback((event: MouseEvent) => {
     if (
       dropdownRef.current &&
       !dropdownRef.current.contains(event.target as Node)
     ) {
       setIsOpen(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutsideComponent);
