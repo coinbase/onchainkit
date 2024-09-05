@@ -83,6 +83,7 @@ export function TransactionButton({
     address,
     accountChainId,
     connectAsync,
+    connectors[0],
     onSubmit,
     receipt,
     showCallsStatus,
