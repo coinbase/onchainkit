@@ -5,7 +5,7 @@ import { mainnet, sepolia } from 'wagmi/chains';
 import { mock } from 'wagmi/connectors';
 import { PERMIT2_CONTRACT_ADDRESS } from '../constants';
 import { DEGEN_TOKEN, ETH_TOKEN, USDC_TOKEN } from '../mocks';
-import type { BuildSwapTransaction } from '../types';
+import type { BuildSwapTransaction, LifeCycleStatus } from '../types';
 import { processSwapTransaction } from './processSwapTransaction';
 
 vi.mock('wagmi/actions', () => ({
@@ -40,6 +40,14 @@ describe('processSwapTransaction', () => {
       [sepolia.id]: http(),
     },
   });
+
+  const defaultLifeCycleStatus: LifeCycleStatus = {
+    statusName: 'init',
+    statusData: {
+      isMissingRequiredField: false,
+      maxSlippage: 3,
+    },
+  };
 
   beforeEach(() => {
     vi.clearAllMocks();
@@ -94,16 +102,14 @@ describe('processSwapTransaction', () => {
         amount: '195912661817282562',
       },
     };
-
     await processSwapTransaction({
       config,
       sendTransactionAsync,
       setLifeCycleStatus,
       swapTransaction,
       useAggregator: true,
-      maxSlippage: 3,
+      lifeCycleStatus: defaultLifeCycleStatus,
     });
-
     expect(setLifeCycleStatus).toHaveBeenCalledTimes(4);
     expect(setLifeCycleStatus).toHaveBeenNthCalledWith(1, {
       statusName: 'transactionPending',
@@ -152,16 +158,14 @@ describe('processSwapTransaction', () => {
         amount: '195912661817282562',
       },
     };
-
     await processSwapTransaction({
       config,
       sendTransactionAsync,
       setLifeCycleStatus,
       swapTransaction,
       useAggregator: true,
-      maxSlippage: 3,
+      lifeCycleStatus: defaultLifeCycleStatus,
     });
-
     expect(setLifeCycleStatus).toHaveBeenCalledTimes(2);
     expect(setLifeCycleStatus).toHaveBeenNthCalledWith(1, {
       statusName: 'transactionPending',
@@ -204,16 +208,14 @@ describe('processSwapTransaction', () => {
         amount: '195912661817282562',
       },
     };
-
     await processSwapTransaction({
       config,
       sendTransactionAsync: sendTransactionAsyncPermit2,
       setLifeCycleStatus,
       swapTransaction,
       useAggregator: false,
-      maxSlippage: 3,
+      lifeCycleStatus: defaultLifeCycleStatus,
     });
-
     expect(setLifeCycleStatus).toHaveBeenCalledTimes(6);
     expect(setLifeCycleStatus).toHaveBeenNthCalledWith(1, {
       statusName: 'transactionPending',
@@ -241,8 +243,6 @@ describe('processSwapTransaction', () => {
     });
     expect(sendTransactionAsyncPermit2).toHaveBeenCalledTimes(3);
     expect(waitForTransactionReceipt).toHaveBeenCalledTimes(3);
-
-    // Check if the Permit2 transaction is called with the correct parameters
     expect(sendTransactionAsyncPermit2).toHaveBeenNthCalledWith(2, {
       to: PERMIT2_CONTRACT_ADDRESS,
       data: expect.any(String),
