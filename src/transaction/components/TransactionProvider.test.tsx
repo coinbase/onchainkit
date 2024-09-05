@@ -6,6 +6,7 @@ import {
   useWaitForTransactionReceipt,
 } from 'wagmi';
 import { waitForTransactionReceipt } from 'wagmi/actions';
+import { useOnchainKit } from '../../useOnchainKit';
 import { METHOD_NOT_SUPPORTED_ERROR_SUBSTRING } from '../constants';
 import { useCallsStatus } from '../hooks/useCallsStatus';
 import { useWriteContract } from '../hooks/useWriteContract';
@@ -38,6 +39,10 @@ vi.mock('../hooks/useWriteContract', () => ({
 vi.mock('../hooks/useWriteContracts', () => ({
   useWriteContracts: vi.fn(),
   genericErrorMessage: 'Something went wrong. Please try again.',
+}));
+
+vi.mock('../../useOnchainKit', () => ({
+  useOnchainKit: vi.fn(),
 }));
 
 const TestComponent = () => {
@@ -118,6 +123,13 @@ describe('TransactionProvider', () => {
     });
     (useWaitForTransactionReceipt as ReturnType<typeof vi.fn>).mockReturnValue({
       receipt: undefined,
+    });
+    (useOnchainKit as ReturnType<typeof vi.fn>).mockReturnValue({
+      walletCapabilities: {
+        hasAtomicBatch: false,
+        hasPaymasterService: false,
+        hasAuxiliaryFunds: false,
+      },
     });
   });
 
@@ -291,6 +303,11 @@ describe('TransactionProvider', () => {
       status: 'idle',
       writeContractsAsync: writeContractsAsyncMock,
     });
+    (useOnchainKit as ReturnType<typeof vi.fn>).mockReturnValue({
+      walletCapabilities: {
+        hasAtomicBatch: true,
+      },
+    });
     render(
       <TransactionProvider contracts={[]}>
         <TestComponent />
@@ -310,6 +327,11 @@ describe('TransactionProvider', () => {
     (useWriteContracts as ReturnType<typeof vi.fn>).mockReturnValue({
       status: 'idle',
       writeContractsAsync: writeContractsAsyncMock,
+    });
+    (useOnchainKit as ReturnType<typeof vi.fn>).mockReturnValue({
+      walletCapabilities: {
+        hasAtomicBatch: true,
+      },
     });
     render(
       <TransactionProvider contracts={[]}>
@@ -371,6 +393,11 @@ describe('TransactionProvider', () => {
       status: 'idle',
       writeContractsAsync: writeContractsAsyncMock,
     });
+    (useOnchainKit as ReturnType<typeof vi.fn>).mockReturnValue({
+      walletCapabilities: {
+        hasAtomicBatch: true,
+      },
+    });
     render(
       <TransactionProvider contracts={[]}>
         <TestComponent />
@@ -428,16 +455,9 @@ describe('TransactionProvider', () => {
   });
 
   it('should handle generic error during fallback', async () => {
-    const writeContractsAsyncMock = vi
-      .fn()
-      .mockRejectedValue(new Error('Method not supported'));
     const writeContractAsyncMock = vi
       .fn()
       .mockRejectedValue(new Error('Generic error'));
-    (useWriteContracts as ReturnType<typeof vi.fn>).mockReturnValue({
-      status: 'idle',
-      writeContractsAsync: writeContractsAsyncMock,
-    });
     (useWriteContract as ReturnType<typeof vi.fn>).mockReturnValue({
       status: 'idle',
       writeContractAsync: writeContractAsyncMock,
@@ -451,7 +471,7 @@ describe('TransactionProvider', () => {
     fireEvent.click(button);
     await waitFor(() => {
       expect(screen.getByTestId('context-value-errorCode').textContent).toBe(
-        'TmTPc03',
+        'TmTPc02',
       );
       expect(screen.getByTestId('context-value-errorMessage').textContent).toBe(
         'Something went wrong. Please try again.',

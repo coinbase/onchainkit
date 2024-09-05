@@ -14,10 +14,8 @@ import {
 } from 'wagmi';
 import { waitForTransactionReceipt } from 'wagmi/actions';
 import { useValue } from '../../internal/hooks/useValue';
-import {
-  GENERIC_ERROR_MESSAGE,
-  METHOD_NOT_SUPPORTED_ERROR_SUBSTRING,
-} from '../constants';
+import { useOnchainKit } from '../../useOnchainKit';
+import { GENERIC_ERROR_MESSAGE } from '../constants';
 import { useCallsStatus } from '../hooks/useCallsStatus';
 import { useWriteContract } from '../hooks/useWriteContract';
 import { useWriteContracts } from '../hooks/useWriteContracts';
@@ -64,6 +62,9 @@ export function TransactionProvider({
   }); // Component lifecycle
   const [transactionId, setTransactionId] = useState('');
   const [transactionHashList, setTransactionHashList] = useState<Address[]>([]);
+
+  // Retrieve wallet capabilities
+  const { walletCapabilities } = useOnchainKit();
 
   const { switchChainAsync } = useSwitchChain();
 
@@ -219,21 +220,19 @@ export function TransactionProvider({
     setErrorMessage('');
     setIsToastVisible(true);
     try {
+      // Switch chain before attempting transactions
       await switchChain(chainId);
-      await writeContractsAsync({
-        contracts,
-        capabilities,
-      });
-    } catch (err) {
-      // When writeContracts does not work, fallback to writeContract
-      // writeContracts so far worksl only with Smart Wallets
-      if (
-        err instanceof Error &&
-        err.message.includes(METHOD_NOT_SUPPORTED_ERROR_SUBSTRING)
-      ) {
+      if (walletCapabilities.hasAtomicBatch) {
+        // Use experiemental hook if the wallet supports atomic batch
+        await writeContractsAsync({
+          contracts,
+          capabilities,
+        });
+      } else {
+        // Use fallback if the wallet does not support atomic batch
         await fallbackToWriteContract();
-        return;
       }
+    } catch (err) {
       const errorMessage = isUserRejectedRequestError(err)
         ? 'Request denied.'
         : GENERIC_ERROR_MESSAGE;
@@ -253,6 +252,7 @@ export function TransactionProvider({
     fallbackToWriteContract,
     switchChain,
     writeContractsAsync,
+    walletCapabilities.hasAtomicBatch,
   ]);
 
   const value = useValue({
