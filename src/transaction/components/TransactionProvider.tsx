@@ -252,6 +252,7 @@ export function TransactionProvider({
     fallbackToWriteContract,
     switchChain,
     writeContractsAsync,
+    walletCapabilities.hasAtomicBatch,
   ]);
 
   const value = useValue({
