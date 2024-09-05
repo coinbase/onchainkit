@@ -1,10 +1,17 @@
 import { postFrame } from '@/utils/postFrame';
 import { frameResultsAtom, mockFrameOptionsAtom } from '@/utils/store';
 import { useAtom } from 'jotai';
-import { ChangeEvent, PropsWithChildren, useCallback, useMemo, useState } from 'react';
+import {
+  ChangeEvent,
+  PropsWithChildren,
+  useCallback,
+  useMemo,
+  useState,
+} from 'react';
 import { ExternalLinkIcon, ResetIcon, RocketIcon } from '@radix-ui/react-icons';
 import { useRedirectModal } from '@/components/RedirectModalContext/RedirectModalContext';
 import { FrameMetadataWithImageObject } from '@/utils/frameResultToFrameMetadata';
+import { useTextInputs } from '@/contexts/TextInputs';
 
 export function Frame() {
   const [results] = useAtom(frameResultsAtom);
@@ -19,14 +26,14 @@ export function Frame() {
 }
 
 function ValidFrame({ metadata }: { metadata: FrameMetadataWithImageObject }) {
-  const [inputText, setInputText] = useState('');
+  const { inputText, setInputText } = useTextInputs();
   const { image, input, buttons } = metadata;
   const imageAspectRatioClassname =
     metadata.image.aspectRatio === '1:1' ? 'aspect-square' : 'aspect-[1.91/1]';
 
   const handleInputChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => setInputText(e.target.value),
-    [],
+    [setInputText]
   );
 
   return (
@@ -43,6 +50,7 @@ function ValidFrame({ metadata }: { metadata: FrameMetadataWithImageObject }) {
             className="bg-input-light border-light rounded-lg border p-2 text-black"
             type="text"
             placeholder={input.text}
+            value={inputText}
             onChange={handleInputChange}
           />
         )}
@@ -58,7 +66,7 @@ function ValidFrame({ metadata }: { metadata: FrameMetadataWithImageObject }) {
               >
                 {button.label}
               </FrameButton>
-            ) : null,
+            ) : null
           )}
         </div>
       </div>
@@ -104,6 +112,7 @@ function FrameButton({
   const [isLoading, setIsLoading] = useState(false);
   const [_, setResults] = useAtom(frameResultsAtom);
   const [mockFrameOptions] = useAtom(mockFrameOptionsAtom);
+  const { setInputText } = useTextInputs();
 
   const handleClick = useCallback(async () => {
     if (button?.action === 'post' || button?.action === 'post_redirect') {
@@ -125,7 +134,7 @@ function FrameButton({
             network: 0,
             timestamp: 0,
           },
-          mockFrameOptions,
+          mockFrameOptions
         );
         // TODO: handle when result is not defined
         if (result) {
@@ -139,6 +148,7 @@ function FrameButton({
         confirmAction();
       }
       setIsLoading(false);
+      setInputText('');
       return;
     } else if (button?.action === 'link') {
       const onConfirm = () => window.open(button.target, '_blank');
@@ -149,11 +159,20 @@ function FrameButton({
 
 You can test this action on the official Warpcast validator: https://warpcast.com/~/developers/frames
 
-(must deploy frame to a publicly accessible URL)`,
+(must deploy frame to a publicly accessible URL)`
       );
     }
     // TODO: implement other actions (mint, etc.)
-  }, [button, index, inputText, mockFrameOptions, openModal, setResults, state]);
+  }, [
+    button,
+    index,
+    inputText,
+    mockFrameOptions,
+    openModal,
+    setResults,
+    state,
+    setInputText,
+  ]);
 
   const buttonIcon = useMemo(() => {
     switch (button?.action) {
@@ -192,7 +211,11 @@ function MockFrameOptions() {
     <fieldset>
       <label>
         Following{' '}
-        <input onChange={toggleFollowing} type="checkbox" checked={!!mockFrameOptions.following} />
+        <input
+          onChange={toggleFollowing}
+          type="checkbox"
+          checked={!!mockFrameOptions.following}
+        />
       </label>
     </fieldset>
   );
