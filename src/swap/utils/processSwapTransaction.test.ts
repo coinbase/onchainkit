@@ -5,7 +5,11 @@ import { mainnet, sepolia } from 'wagmi/chains';
 import { mock } from 'wagmi/connectors';
 import { PERMIT2_CONTRACT_ADDRESS } from '../constants';
 import { DEGEN_TOKEN, ETH_TOKEN, USDC_TOKEN } from '../mocks';
-import type { BuildSwapTransaction, LifeCycleStatus } from '../types';
+import type {
+  BuildSwapTransaction,
+  LifeCycleStatus,
+  SwapError,
+} from '../types';
 import { processSwapTransaction } from './processSwapTransaction';
 
 vi.mock('wagmi/actions', () => ({
@@ -248,5 +252,56 @@ describe('processSwapTransaction', () => {
       data: expect.any(String),
       value: 0n,
     });
+  });
+
+  it('should use default maxSlippage when lifeCycleStatus is error', async () => {
+    const errorLifeCycleStatus: LifeCycleStatus = {
+      statusName: 'error',
+      statusData: {
+        code: 'UNKNOWN_ERROR',
+        message: 'Some error occurred',
+      } as SwapError,
+    };
+    const swapTransaction: BuildSwapTransaction = {
+      transaction: {
+        to: '0x123',
+        value: 0n,
+        data: '0x',
+        chainId: 8453,
+        gas: 0n,
+      },
+      approveTransaction: undefined,
+      quote: {
+        from: ETH_TOKEN,
+        to: DEGEN_TOKEN,
+        fromAmount: '100000000000000',
+        toAmount: '19395353519910973703',
+        amountReference: 'from',
+        priceImpact: '0.94',
+        hasHighPriceImpact: false,
+        slippage: '3',
+        warning: undefined,
+      },
+      fee: {
+        baseAsset: DEGEN_TOKEN,
+        percentage: '1',
+        amount: '195912661817282562',
+      },
+    };
+    await processSwapTransaction({
+      config,
+      sendTransactionAsync,
+      setLifeCycleStatus,
+      swapTransaction,
+      useAggregator: true,
+      lifeCycleStatus: errorLifeCycleStatus,
+    });
+    expect(setLifeCycleStatus).toHaveBeenCalledTimes(2);
+    expect(setLifeCycleStatus).toHaveBeenNthCalledWith(1, {
+      statusName: 'transactionPending',
+      statusData: { maxSlippage: 3 },
+    });
+    expect(sendTransactionAsync).toHaveBeenCalledTimes(1);
+    expect(waitForTransactionReceipt).toHaveBeenCalledTimes(1);
   });
 });
