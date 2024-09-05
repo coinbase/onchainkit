@@ -46,7 +46,7 @@ export function WalletDropdownFundLink({
 
   const overrideClassName = cn(
     pressable.default,
-    'relative flex items-center px-4 py-3',
+    'relative flex items-center px-4 py-3 w-full',
     className,
   );
 

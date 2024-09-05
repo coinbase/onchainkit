@@ -19,7 +19,7 @@ export function WalletDropdownDisconnect({
       type="button"
       className={cn(
         pressable.default,
-        'relative flex items-center px-4 pt-3 pb-4',
+        'relative flex w-full items-center px-4 pt-3 pb-4',
         className,
       )}
       onClick={handleDisconnect}
