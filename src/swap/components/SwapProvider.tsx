@@ -306,6 +306,7 @@ export function SwapProvider({
     config,
     from.amount,
     from.token,
+    lifeCycleStatus,
     maxSlippage,
     sendTransactionAsync,
     to.token,
