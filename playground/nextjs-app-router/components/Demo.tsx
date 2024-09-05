@@ -6,6 +6,7 @@ import { SwapConfig } from '@/components/form/swap-config';
 import { WalletType } from '@/components/form/wallet-type';
 import { useContext, useEffect, useState } from 'react';
 import IdentityDemo from './demo/Identity';
+import PayDemo from './demo/Pay';
 import SwapDemo from './demo/Swap';
 import TransactionDemo from './demo/Transaction';
 import WalletDemo from './demo/Wallet';
@@ -62,7 +63,9 @@ function Demo() {
   return (
     <>
       <div
-        className={`absolute top-0 right-0 bottom-0 left-0 z-20 flex w-full min-w-120 flex-col border-r bg-background p-6 transition-[height] sm:static sm:z-0 sm:w-1/4 ${sideBarVisible ? 'h-full min-h-screen' : 'h-[5rem] overflow-hidden'}`}
+        className={`absolute top-0 right-0 bottom-0 left-0 z-20 flex w-full min-w-120 flex-col border-r bg-background p-6 transition-[height] sm:static sm:z-0 sm:w-1/4 ${
+          sideBarVisible ? 'h-full min-h-screen' : 'h-[5rem] overflow-hidden'
+        }`}
       >
         <div className="mb-12 flex justify-between">
           <div className="self-center font-semibold text-xl">
@@ -71,7 +74,9 @@ function Demo() {
           <button
             type="button"
             onClick={toggleSidebar}
-            className={`${buttonStyles} px-1 transition-transform sm:hidden ${sideBarVisible ? '-rotate-90' : 'rotate-90'}`}
+            className={`${buttonStyles} px-1 transition-transform sm:hidden ${
+              sideBarVisible ? '-rotate-90' : 'rotate-90'
+            }`}
           >
             <span className="pl-2">&rang;</span>
           </button>
