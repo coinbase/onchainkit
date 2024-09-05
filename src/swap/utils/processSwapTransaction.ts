@@ -9,13 +9,18 @@ import type { ProcessSwapTransactionParams } from '../types';
 
 export async function processSwapTransaction({
   config,
-  maxSlippage,
+  lifeCycleStatus,
   sendTransactionAsync,
   setLifeCycleStatus,
   swapTransaction,
   useAggregator,
 }: ProcessSwapTransactionParams) {
   const { transaction, approveTransaction, quote } = swapTransaction;
+
+  const maxSlippage =
+    lifeCycleStatus.statusName !== 'error'
+      ? lifeCycleStatus.statusData.maxSlippage
+      : 3;
 
   // for swaps from ERC-20 tokens,
   // if there is an approveTransaction present,

@@ -280,7 +280,7 @@ export function SwapProvider({
       }
       await processSwapTransaction({
         config,
-        maxSlippage,
+        lifeCycleStatus,
         sendTransactionAsync,
         setLifeCycleStatus,
         swapTransaction: response,

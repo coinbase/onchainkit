@@ -117,11 +117,11 @@ export type LifeCycleStatus =
 
 export type ProcessSwapTransactionParams = {
   config: Config;
+  lifeCycleStatus: LifeCycleStatus;
   setLifeCycleStatus: (state: LifeCycleStatus) => void;
   sendTransactionAsync: SendTransactionMutateAsync<Config, unknown>;
   swapTransaction: BuildSwapTransaction;
   useAggregator: boolean;
-  maxSlippage: number;
 };
 
 /**
