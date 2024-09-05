@@ -1,5 +1,5 @@
 import { useCallback, useMemo } from 'react';
-import { useAccount, useChainId } from 'wagmi';
+import { useAccount, useChainId, useConnect } from 'wagmi';
 import { useShowCallsStatus } from 'wagmi/experimental';
 import { Spinner } from '../../internal/components/Spinner';
 import { getChainExplorer } from '../../network/getChainExplorer';
@@ -26,13 +26,14 @@ export function TransactionButton({
   } = useTransactionContext();
 
   const { address } = useAccount();
+  const { connectAsync, connectors } = useConnect();
 
   const accountChainId = chainId ?? useChainId();
   const { showCallsStatus } = useShowCallsStatus();
 
   const isInProgress =
     lifeCycleStatus.statusName === 'transactionPending' || isLoading;
-  const isMissingProps = !contracts || !address;
+  const isMissingProps = !contracts;
   const isWaitingForReceipt = !!transactionId || !!transactionHash;
 
   const isDisabled =
@@ -59,7 +60,10 @@ export function TransactionButton({
     return buttonText;
   }, [buttonText, errorMessage, receipt]);
 
-  const handleSubmit = useCallback(() => {
+  const handleSubmit = useCallback(async () => {
+    if (!address) {
+      await connectAsync({ connector: connectors[0] });
+    }
     // SW will have txn id so open in wallet
     if (receipt && transactionId) {
       showCallsStatus({ id: transactionId });
@@ -76,7 +80,9 @@ export function TransactionButton({
       onSubmit();
     }
   }, [
+    address,
     accountChainId,
+    connectAsync,
     onSubmit,
     receipt,
     showCallsStatus,
