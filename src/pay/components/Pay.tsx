@@ -1,3 +1,4 @@
+import type { LifeCycleStatus } from '../../transaction';
 import { useIsMounted } from '../../useIsMounted';
 import { PayProvider } from './PayProvider';
 
@@ -6,11 +7,13 @@ export function Pay({
   chargeId,
   children,
   className,
+  onStatus,
 }: {
   chainId: number;
   chargeId: string;
   children: React.ReactNode;
   className?: string;
+  onStatus?: (status: LifeCycleStatus) => void;
 }) {
   const isMounted = useIsMounted();
   // prevents SSR hydration issue
@@ -19,7 +22,12 @@ export function Pay({
   }
 
   return (
-    <PayProvider chargeId={chargeId} chainId={chainId} className={className}>
+    <PayProvider
+      chargeId={chargeId}
+      chainId={chainId}
+      className={className}
+      onStatus={onStatus}
+    >
       {children}
     </PayProvider>
   );

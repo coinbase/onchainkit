@@ -1,30 +1,43 @@
-import { useContext } from 'react';
+import { ENVIRONMENT, ENVIRONMENT_VARIABLES } from '@/lib/constants';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import { Pay, PayButton } from '../../onchainkit/src/pay';
-import {
-  TransactionSponsor,
-  TransactionToast,
-  TransactionToastIcon,
-  TransactionToastLabel,
-  TransactionToastAction,
-} from '../../onchainkit/src/transaction';
 import { AppContext } from '../AppProvider';
 
 function PayComponent() {
   const { chainId } = useContext(AppContext);
+  const [chargeId, setChargeId] = useState(null);
+
+  const handleOnStatus = useCallback((status) => {
+    console.log('Playground.Pay.onStatus:', status);
+  }, []);
+
+  const createCharge = useCallback(async () => {
+    const res = await fetch(
+      `${ENVIRONMENT_VARIABLES[ENVIRONMENT.API_URL]}/api/createCharge`,
+      {
+        method: 'POST',
+      }
+    );
+    const data = await res.json();
+    console.log('Charge id', data.id);
+    setChargeId(data.id);
+  }, []);
+
+  useEffect(() => {
+    createCharge();
+  }, [createCharge]);
 
   return (
-    <Pay
-      chainId={chainId || 8453}
-      chargeId={'91df412e-0997-42ab-8a71-99d61158197d'}
-    >
-      <TransactionToast>
-        <TransactionToastIcon />
-        <TransactionToastLabel />
-        <TransactionToastAction />
-      </TransactionToast>
-      <PayButton />
-      <TransactionSponsor />
-    </Pay>
+    chargeId && (
+      <Pay
+        key={chargeId}
+        chainId={chainId || 8453}
+        chargeId={chargeId}
+        onStatus={handleOnStatus}
+      >
+        <PayButton />
+      </Pay>
+    )
   );
 }
 
