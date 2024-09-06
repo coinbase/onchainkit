@@ -1,5 +1,5 @@
 import { useCapabilities } from '@/lib/hooks';
-import { clickCalls, clickContracts } from '@/lib/transactions';
+import { clickContracts } from '@/lib/transactions';
 import {
   Transaction,
   TransactionButton,
@@ -13,15 +13,12 @@ import {
   TransactionToastLabel,
 } from '@coinbase/onchainkit/transaction';
 import { useContext } from 'react';
-import { useAccount } from 'wagmi';
 import { AppContext } from '../AppProvider';
 
 export function Click() {
   const { chainId } = useContext(AppContext);
-  const account = useAccount();
   const capabilities = useCapabilities();
   const contracts = clickContracts;
-  const calls = clickCalls;
   console.log('Transaction.click.chainId:', chainId);
 
   return (

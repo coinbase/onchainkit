@@ -28,9 +28,8 @@ export const useTransactionType = ({
   walletCapabilities: WalletCapabilities;
 }) => {
   return useMemo(() => {
-    const transactionType = calls
-      ? TRANSACTION_TYPE_CALLS
-      : TRANSACTION_TYPE_CONTRACTS;
+    const transactionType =
+      calls || !contracts ? TRANSACTION_TYPE_CALLS : TRANSACTION_TYPE_CONTRACTS;
 
     const singleOrBatched = walletCapabilities.hasAtomicBatch
       ? 'batch'
@@ -42,5 +41,10 @@ export const useTransactionType = ({
       transactionType,
       transactionStatus,
     };
-  }, [calls, transactionStatuses, walletCapabilities.hasAtomicBatch]);
+  }, [
+    calls,
+    contracts,
+    transactionStatuses,
+    walletCapabilities.hasAtomicBatch,
+  ]);
 };
