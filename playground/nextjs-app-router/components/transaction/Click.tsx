@@ -1,5 +1,5 @@
 import { useCapabilities } from '@/lib/hooks';
-import { clickContracts } from '@/lib/transactions';
+import { clickCalls, clickContracts } from '@/lib/transactions';
 import {
   Transaction,
   TransactionButton,
@@ -22,12 +22,12 @@ export function Click() {
   const account = useAccount();
   const capabilities = useCapabilities();
   const contracts = clickContracts;
+  const calls = clickCalls;
   console.log('Transaction.click.chainId:', chainId);
 
   return (
     <Transaction
       chainId={chainId ?? 84532} // something breaks if we don't have default network?
-      address={account.address as Address}
       contracts={contracts}
       capabilities={capabilities}
     >

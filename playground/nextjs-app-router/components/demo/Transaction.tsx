@@ -1,5 +1,5 @@
 import { useCapabilities } from '@/lib/hooks';
-import { clickContracts } from '@/lib/transactions';
+import { clickCalls, clickContracts } from '@/lib/transactions';
 import {
   Transaction,
   TransactionButton,
@@ -13,15 +13,13 @@ import {
   TransactionToastLabel,
 } from '@coinbase/onchainkit/transaction';
 import { useCallback, useContext, useEffect } from 'react';
-import type { Address } from 'viem';
-import { useAccount } from 'wagmi';
-import { AppContext } from '../AppProvider';
+import { AppContext, TransactionTypes } from '../AppProvider';
 
 function TransactionDemo() {
-  const { chainId } = useContext(AppContext);
-  const account = useAccount();
+  const { chainId, transactionType } = useContext(AppContext);
   const capabilities = useCapabilities();
   const contracts = clickContracts;
+  const calls = clickCalls;
   useEffect(() => {
     console.log('Playground.Transaction.chainId:', chainId);
   }, [chainId]);
@@ -29,12 +27,15 @@ function TransactionDemo() {
     console.log('Playground.Transaction.onStatus:', status);
   }, []);
 
+  console.log('Playground.Transaction.transactionType:', transactionType);
+
   return (
     <div className="mx-auto grid w-1/2 gap-8">
       <Transaction
         chainId={chainId ?? 84532} // something breaks if we don't have default network?
-        address={account.address as Address}
-        contracts={contracts}
+        {...(transactionType === TransactionTypes.Calls
+          ? { calls }
+          : { contracts })}
         capabilities={capabilities}
         onStatus={handleOnStatus}
       >
