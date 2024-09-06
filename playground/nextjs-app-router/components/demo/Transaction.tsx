@@ -27,7 +27,14 @@ function TransactionDemo() {
     console.log('Playground.Transaction.onStatus:', status);
   }, []);
 
-  console.log('Playground.Transaction.transactionType:', transactionType);
+  useEffect(() => {
+    console.log('Playground.Transaction.transactionType:', transactionType);
+    if (transactionType === TransactionTypes.Calls) {
+      console.log('Playground.Transaction.calls:', calls);
+    } else {
+      console.log('Playground.Transaction.contracts:', contracts);
+    }
+  }, [transactionType, calls, contracts]);
 
   return (
     <div className="mx-auto grid w-1/2 gap-8">
