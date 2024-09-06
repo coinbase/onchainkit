@@ -86,7 +86,7 @@ export function TransactionProvider({
   // Sets transactions
   useEffect(() => {
     setTransactions(calls || contracts || []);
-  }, []);
+  }, [calls, contracts]);
 
   /*
     useWriteContracts or useWriteContract
@@ -299,15 +299,7 @@ export function TransactionProvider({
         },
       });
     }
-  }, [
-    chainId,
-    capabilities,
-    sendWalletTransactions,
-    switchChain,
-    transactions,
-    writeContractsAsync,
-    walletCapabilities.hasAtomicBatch,
-  ]);
+  }, [chainId, sendWalletTransactions, switchChain]);
 
   const value = useValue({
     chainId,

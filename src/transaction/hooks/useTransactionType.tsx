@@ -42,5 +42,5 @@ export const useTransactionType = ({
       transactionType,
       transactionStatus,
     };
-  }, [calls, contracts]);
+  }, [calls, transactionStatuses, walletCapabilities.hasAtomicBatch]);
 };
