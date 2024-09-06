@@ -33,6 +33,7 @@ export const useSendWalletTransactions = ({
   sendCallAsync?: SendTransactionMutateAsync<Config, unknown> | (() => void);
   walletCapabilities: OCKWalletCapabilities;
 }) => {
+  // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO Refactor this hook once Wagmi exposes experimental types
   return useCallback(async () => {
     // Batched transactions
     if (walletCapabilities.hasAtomicBatch) {
