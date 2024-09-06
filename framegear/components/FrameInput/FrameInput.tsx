@@ -1,16 +1,19 @@
+import { useCallback, useState } from 'react';
 import { fetchFrame } from '@/utils/fetchFrame';
 import { frameResultsAtom } from '@/utils/store';
 import { useAtom } from 'jotai';
-import { useCallback, useState } from 'react';
+import { useTextInputs } from '@/contexts/TextInputs';
 
 export function FrameInput() {
   const [url, setUrl] = useState('');
   const [_, setResults] = useAtom(frameResultsAtom);
+  const { setInputText } = useTextInputs();
 
   const getResults = useCallback(async () => {
     const result = await fetchFrame(url);
     setResults((prev) => [...prev, result]);
-  }, [setResults, url]);
+    setInputText('');
+  }, [setInputText, setResults, url]);
 
   return (
     <div className="grid grid-cols-[3fr_1fr] gap-4">
