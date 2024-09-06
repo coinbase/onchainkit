@@ -9,9 +9,23 @@ export const clickContracts = [
     functionName: 'click',
     args: [],
   },
+  {
+    address: deployedContracts[85432].click,
+    abi: clickAbi,
+    functionName: 'click',
+    args: [],
+  },
 ];
 
 export const clickCalls = [
+  {
+    data: encodeFunctionData({
+      abi: clickAbi,
+      functionName: 'click',
+      args: [],
+    }),
+    to: deployedContracts[85432].click,
+  },
   {
     data: encodeFunctionData({
       abi: clickAbi,
