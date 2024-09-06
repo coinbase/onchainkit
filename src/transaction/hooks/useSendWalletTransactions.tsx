@@ -27,10 +27,10 @@ export const useSendWalletTransactions = ({
   capabilities?: WalletCapabilities;
   // biome-ignore lint: cannot find module 'wagmi/experimental/query'
   writeContractsAsync: any;
-  writeContractAsync?: WriteContractMutateAsync<Config, unknown> | (() => void);
+  writeContractAsync: WriteContractMutateAsync<Config, unknown> | (() => void);
   // biome-ignore lint: cannot find module 'wagmi/experimental/query'
   sendCallsAsync: any;
-  sendCallAsync?: SendTransactionMutateAsync<Config, unknown> | (() => void);
+  sendCallAsync: SendTransactionMutateAsync<Config, unknown> | (() => void);
   walletCapabilities: OCKWalletCapabilities;
 }) => {
   // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO Refactor this hook once Wagmi exposes experimental types
@@ -53,9 +53,9 @@ export const useSendWalletTransactions = ({
       // Non-batched transactions
       for (const transaction of transactions) {
         if (transactionType === TRANSACTION_TYPE_CALLS) {
-          await sendCallAsync?.(transaction as Call);
+          await sendCallAsync(transaction as Call);
         } else {
-          await writeContractAsync?.(transaction as ContractFunctionParameters);
+          await writeContractAsync(transaction as ContractFunctionParameters);
         }
       }
     }
