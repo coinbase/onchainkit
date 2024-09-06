@@ -1,16 +1,16 @@
 import { useCallback } from 'react';
 import type { ContractFunctionParameters } from 'viem';
-import {
-  TRANSACTION_TYPE_CALLS,
-  TRANSACTION_TYPE_CONTRACTS,
-} from '../constants';
 import type { Config } from 'wagmi';
 import type {
   SendTransactionMutateAsync,
   WriteContractMutateAsync,
 } from 'wagmi/query';
-import type { Call, WalletCapabilities } from '../types';
 import type { WalletCapabilities as OCKWalletCapabilities } from '../../types';
+import {
+  TRANSACTION_TYPE_CALLS,
+  TRANSACTION_TYPE_CONTRACTS,
+} from '../constants';
+import type { Call, WalletCapabilities } from '../types';
 
 export const useSendWalletTransactions = ({
   transactions,

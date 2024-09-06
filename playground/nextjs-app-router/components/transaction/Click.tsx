@@ -13,7 +13,6 @@ import {
   TransactionToastLabel,
 } from '@coinbase/onchainkit/transaction';
 import { useContext } from 'react';
-import type { Address } from 'viem';
 import { useAccount } from 'wagmi';
 import { AppContext } from '../AppProvider';
 

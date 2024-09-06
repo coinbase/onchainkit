@@ -69,7 +69,7 @@ export function TransactionButton({
       window.open(
         `${chainExplorer}/tx/${transactionHash}`,
         '_blank',
-        'noopener,noreferrer'
+        'noopener,noreferrer',
       );
     } else {
       // if no receipt, submit txn
@@ -92,7 +92,7 @@ export function TransactionButton({
         'mt-4 px-4 py-3 font-medium text-base text-white leading-6',
         isDisabled && pressable.disabled,
         text.headline,
-        className
+        className,
       )}
       onClick={handleSubmit}
       type="button"

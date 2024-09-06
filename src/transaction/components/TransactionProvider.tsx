@@ -17,6 +17,10 @@ import { useValue } from '../../internal/hooks/useValue';
 import { useOnchainKit } from '../../useOnchainKit';
 import { GENERIC_ERROR_MESSAGE } from '../constants';
 import { useCallsStatus } from '../hooks/useCallsStatus';
+import { useSendCall } from '../hooks/useSendCall';
+import { useSendCalls } from '../hooks/useSendCalls';
+import { useSendWalletTransactions } from '../hooks/useSendWalletTransactions';
+import { useTransactionType } from '../hooks/useTransactionType';
 import { useWriteContract } from '../hooks/useWriteContract';
 import { useWriteContracts } from '../hooks/useWriteContracts';
 import type {
@@ -27,10 +31,6 @@ import type {
 } from '../types';
 import { getPaymasterUrl } from '../utils/getPaymasterUrl';
 import { isUserRejectedRequestError } from '../utils/isUserRejectedRequestError';
-import { useSendCalls } from '../hooks/useSendCalls';
-import { useSendCall } from '../hooks/useSendCall';
-import { useTransactionType } from '../hooks/useTransactionType';
-import { useSendWalletTransactions } from '../hooks/useSendWalletTransactions';
 
 const emptyContext = {} as TransactionContextType;
 export const TransactionContext =
@@ -40,7 +40,7 @@ export function useTransactionContext() {
   const context = useContext(TransactionContext);
   if (context === emptyContext) {
     throw new Error(
-      'useTransactionContext must be used within a Transaction component'
+      'useTransactionContext must be used within a Transaction component',
     );
   }
   return context;
@@ -276,7 +276,7 @@ export function TransactionProvider({
         await switchChainAsync({ chainId: targetChainId });
       }
     },
-    [account.chainId, switchChainAsync]
+    [account.chainId, switchChainAsync],
   );
 
   const handleSubmit = useCallback(async () => {

@@ -1,11 +1,11 @@
 import { useMemo } from 'react';
-import type { ContractFunctionParameters, Hex } from 'viem';
+import type { ContractFunctionParameters } from 'viem';
+import type { WalletCapabilities } from '../../types';
 import {
   TRANSACTION_TYPE_CALLS,
   TRANSACTION_TYPE_CONTRACTS,
 } from '../constants';
 import type { Call } from '../types';
-import { WalletCapabilities } from '../../types';
 
 export const useTransactionType = ({
   calls,
