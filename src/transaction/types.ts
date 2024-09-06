@@ -78,6 +78,7 @@ export type TransactionContextType = {
   setIsToastVisible: (isVisible: boolean) => void; // A function to set the visibility of the transaction toast.
   setLifeCycleStatus: (state: LifeCycleStatus) => void; // A function to set the lifecycle status of the component
   setTransactionId: (id: string) => void; // A function to set the transaction ID.
+  transactions: Call[] | ContractFunctionParameters[]; // An array of transactions for the component.
   transactionId?: string; // An optional string representing the ID of the transaction.
   transactionHash?: string; // An optional string representing the hash of the transaction.
 };
