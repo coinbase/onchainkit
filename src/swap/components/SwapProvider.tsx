@@ -46,7 +46,9 @@ export function SwapProvider({
   const { address } = useAccount();
   // Feature flags
   const { useAggregator } = experimental;
-
+  const [maxSlippage, _setMaxSlippage] = useState(
+    experimental.maxSlippage || 3,
+  );
   // Core Hooks
   const config = useConfig();
   const [loading, setLoading] = useState(false);
@@ -56,6 +58,7 @@ export function SwapProvider({
     statusName: 'init',
     statusData: {
       isMissingRequiredField: true,
+      maxSlippage,
     },
   }); // Component lifecycle
   const [hasHandledSuccess, setHasHandledSuccess] = useState(false);
@@ -120,10 +123,11 @@ export function SwapProvider({
         statusName: 'init',
         statusData: {
           isMissingRequiredField: false,
+          maxSlippage,
         },
       });
     }
-  }, [hasHandledSuccess, lifeCycleStatus.statusName]);
+  }, [hasHandledSuccess, lifeCycleStatus.statusName, maxSlippage]);
 
   const handleToggle = useCallback(() => {
     from.setAmount(to.amount);
@@ -153,6 +157,7 @@ export function SwapProvider({
           statusData: {
             amountFrom: from.amount,
             amountTo: to.amount,
+            maxSlippage,
             tokenFrom: from.token,
             tokenTo: to.token,
             // token is missing
@@ -175,6 +180,7 @@ export function SwapProvider({
           // amount is irrelevant
           amountFrom: type === 'from' ? amount : '',
           amountTo: type === 'to' ? amount : '',
+          maxSlippage,
           tokenFrom: from.token,
           tokenTo: to.token,
           // when fetching quote, the destination
@@ -189,7 +195,7 @@ export function SwapProvider({
           amountReference: 'from',
           from: source.token,
           to: destination.token,
-          maxSlippage: experimental.maxSlippage?.toString(),
+          maxSlippage: maxSlippage.toString(),
           useAggregator,
         });
         // If request resolves to error response set the quoteError
@@ -215,6 +221,7 @@ export function SwapProvider({
           statusData: {
             amountFrom: type === 'from' ? amount : formattedAmount,
             amountTo: type === 'to' ? amount : formattedAmount,
+            maxSlippage,
             tokenFrom: from.token,
             tokenTo: to.token,
             // if quote was fetched successfully, we
@@ -236,7 +243,7 @@ export function SwapProvider({
         destination.setLoading(false);
       }
     },
-    [from, experimental.maxSlippage, to, useAggregator],
+    [from, maxSlippage, to, useAggregator],
   );
 
   const handleSubmit = useCallback(async () => {
@@ -247,6 +254,7 @@ export function SwapProvider({
       statusName: 'init',
       statusData: {
         isMissingRequiredField: false,
+        maxSlippage,
       },
     });
 
@@ -257,7 +265,7 @@ export function SwapProvider({
         from: from.token,
         to: to.token,
         useAggregator,
-        maxSlippage: experimental.maxSlippage?.toString(),
+        maxSlippage: maxSlippage.toString(),
       });
       if (isSwapError(response)) {
         setLifeCycleStatus({
@@ -272,6 +280,7 @@ export function SwapProvider({
       }
       await processSwapTransaction({
         config,
+        lifeCycleStatus,
         sendTransactionAsync,
         setLifeCycleStatus,
         swapTransaction: response,
@@ -297,10 +306,11 @@ export function SwapProvider({
     config,
     from.amount,
     from.token,
+    lifeCycleStatus,
+    maxSlippage,
     sendTransactionAsync,
     to.token,
     useAggregator,
-    experimental.maxSlippage,
   ]);
 
   const value = useValue({

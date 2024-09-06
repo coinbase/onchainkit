@@ -3,10 +3,15 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { SwapSettingsSlippageInput } from './SwapSettingsSlippageInput';
 
 const mockSetLifeCycleStatus = vi.fn();
+let mockLifeCycleStatus = {
+  statusName: 'initial',
+  statusData: { maxSlippage: 3 },
+};
 
 vi.mock('./SwapProvider', () => ({
   useSwapContext: () => ({
     setLifeCycleStatus: mockSetLifeCycleStatus,
+    lifeCycleStatus: mockLifeCycleStatus,
   }),
 }));
 
@@ -17,6 +22,10 @@ vi.mock('../styles/theme', () => ({
 describe('SwapSettingsSlippageInput', () => {
   beforeEach(() => {
     mockSetLifeCycleStatus.mockClear();
+    mockLifeCycleStatus = {
+      statusName: 'initial',
+      statusData: { maxSlippage: 3 },
+    };
   });
 
   it('renders with default props', () => {
@@ -35,6 +44,7 @@ describe('SwapSettingsSlippageInput', () => {
   });
 
   it('uses provided defaultSlippage', () => {
+    mockLifeCycleStatus = { statusName: 'error', statusData: {} };
     render(<SwapSettingsSlippageInput defaultSlippage={1.5} />);
     expect(screen.getByRole('textbox')).toHaveValue('1.5');
   });
@@ -56,6 +66,7 @@ describe('SwapSettingsSlippageInput', () => {
   });
 
   it('switches between Auto and Custom modes', () => {
+    mockLifeCycleStatus = { statusName: 'error', statusData: {} };
     render(<SwapSettingsSlippageInput defaultSlippage={1.5} />);
     const input = screen.getByRole('textbox');
     expect(input).toBeDisabled();
@@ -115,5 +126,65 @@ describe('SwapSettingsSlippageInput', () => {
     expect(screen.getByRole('textbox').parentElement).not.toHaveClass(
       'opacity-50',
     );
+  });
+
+  it('handles empty input correctly', () => {
+    render(<SwapSettingsSlippageInput />);
+    fireEvent.click(screen.getByRole('button', { name: 'Custom' }));
+    fireEvent.change(screen.getByRole('textbox'), { target: { value: '' } });
+    expect(screen.getByRole('textbox')).toHaveValue('0');
+    expect(mockSetLifeCycleStatus).not.toHaveBeenCalled();
+  });
+
+  it('uses lifeCycleStatus maxSlippage when available', () => {
+    mockLifeCycleStatus = {
+      statusName: 'updated',
+      statusData: { maxSlippage: 4.5 },
+    };
+    render(<SwapSettingsSlippageInput />);
+    expect(screen.getByRole('textbox')).toHaveValue('4.5');
+  });
+
+  it('defaults to Custom mode when lifeCycleStatus maxSlippage differs from default', () => {
+    mockLifeCycleStatus = {
+      statusName: 'updated',
+      statusData: { maxSlippage: 4.5 },
+    };
+    render(<SwapSettingsSlippageInput defaultSlippage={3} />);
+    expect(screen.getByRole('button', { name: 'Custom' })).toHaveClass(
+      'bg-ock-inverse text-ock-primary shadow-ock-default',
+    );
+    expect(screen.getByRole('textbox')).not.toBeDisabled();
+  });
+
+  it('handles non-numeric input correctly', () => {
+    render(<SwapSettingsSlippageInput />);
+    fireEvent.click(screen.getByRole('button', { name: 'Custom' }));
+    fireEvent.change(screen.getByRole('textbox'), { target: { value: 'abc' } });
+    expect(screen.getByRole('textbox')).toHaveValue('3');
+    expect(mockSetLifeCycleStatus).not.toHaveBeenCalled();
+  });
+
+  it('updates slippage when switching from Custom to Auto', () => {
+    render(<SwapSettingsSlippageInput defaultSlippage={3} />);
+    fireEvent.click(screen.getByRole('button', { name: 'Custom' }));
+    fireEvent.change(screen.getByRole('textbox'), { target: { value: '5' } });
+    fireEvent.click(screen.getByRole('button', { name: 'Auto' }));
+    expect(screen.getByRole('textbox')).toHaveValue('3');
+    expect(mockSetLifeCycleStatus).toHaveBeenLastCalledWith({
+      statusName: 'slippageChange',
+      statusData: { maxSlippage: 3 },
+    });
+  });
+
+  it('maintains custom value when in Custom mode', () => {
+    render(<SwapSettingsSlippageInput defaultSlippage={3} />);
+    fireEvent.click(screen.getByRole('button', { name: 'Custom' }));
+    fireEvent.change(screen.getByRole('textbox'), { target: { value: '5' } });
+    expect(screen.getByRole('textbox')).toHaveValue('5');
+    fireEvent.click(screen.getByRole('button', { name: 'Auto' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Custom' }));
+    fireEvent.change(screen.getByRole('textbox'), { target: { value: '7' } });
+    expect(screen.getByRole('textbox')).toHaveValue('7');
   });
 });

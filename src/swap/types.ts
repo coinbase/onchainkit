@@ -69,6 +69,7 @@ export type LifeCycleStatus =
       statusName: 'init';
       statusData: {
         isMissingRequiredField: boolean;
+        maxSlippage: number;
       };
     }
   | {
@@ -80,6 +81,7 @@ export type LifeCycleStatus =
       statusData: {
         amountFrom: string;
         amountTo: string;
+        maxSlippage: number;
         tokenFrom?: Token;
         tokenTo?: Token;
         isMissingRequiredField: boolean;
@@ -93,11 +95,14 @@ export type LifeCycleStatus =
     }
   | {
       statusName: 'transactionPending';
-      statusData: null;
+      statusData: {
+        maxSlippage: number;
+      };
     }
   | {
       statusName: 'transactionApproved';
       statusData: {
+        maxSlippage: number;
         transactionHash: Hex;
         transactionType: 'ERC20' | 'Permit2';
       };
@@ -105,12 +110,14 @@ export type LifeCycleStatus =
   | {
       statusName: 'success';
       statusData: {
+        maxSlippage: number;
         transactionReceipt: TransactionReceipt;
       };
     };
 
 export type ProcessSwapTransactionParams = {
   config: Config;
+  lifeCycleStatus: LifeCycleStatus;
   setLifeCycleStatus: (state: LifeCycleStatus) => void;
   sendTransactionAsync: SendTransactionMutateAsync<Config, unknown>;
   swapTransaction: BuildSwapTransaction;
@@ -237,6 +244,7 @@ export type SwapReact = {
  * Note: exported as public Type
  */
 export type SwapSettingsReact = {
+  children: ReactNode;
   className?: string; // Optional className override for top div element.
   icon?: ReactNode; // Optional icon override
   text?: string; // Optional text override

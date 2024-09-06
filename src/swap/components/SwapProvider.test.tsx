@@ -249,7 +249,7 @@ describe('SwapProvider', () => {
     await act(async () => {
       result.current.setLifeCycleStatus({
         statusName: 'success',
-        statusData: { receipt: ['0x123'] },
+        statusData: { receipt: ['0x123'], maxSlippage: 5 },
       });
     });
     expect(result.current.error).toBeUndefined();
@@ -260,7 +260,7 @@ describe('SwapProvider', () => {
     await act(async () => {
       result.current.setLifeCycleStatus({
         statusName: 'success',
-        statusData: { transactionReceipt: '0x123' },
+        statusData: { transactionReceipt: '0x123', maxSlippage: 5 },
       });
     });
     await waitFor(() => {
@@ -305,6 +305,7 @@ describe('SwapProvider', () => {
         amountFrom: '10',
         amountTo: '1e-9',
         isMissingRequiredField: false,
+        maxSlippage: 5,
         tokenFrom: {
           address: '',
           name: 'ETH',
@@ -344,6 +345,7 @@ describe('SwapProvider', () => {
         amountFrom: '1e-9',
         amountTo: '10',
         isMissingRequiredField: false,
+        maxSlippage: 5,
         tokenTo: {
           address: '',
           name: 'ETH',
@@ -411,6 +413,7 @@ describe('SwapProvider', () => {
       statusName: 'init',
       statusData: {
         isMissingRequiredField: false,
+        maxSlippage: 10,
       },
     });
   });
@@ -687,5 +690,26 @@ describe('SwapProvider', () => {
           .textContent,
       ).toBe('UNCAUGHT_SWAP_ERROR');
     });
+  });
+
+  it('should use default maxSlippage when not provided in experimental', () => {
+    const useTestHook = () => {
+      const { lifeCycleStatus } = useSwapContext();
+      return lifeCycleStatus;
+    };
+    const wrapper = ({ children }) => (
+      <WagmiProvider config={config}>
+        <QueryClientProvider client={queryClient}>
+          <SwapProvider experimental={{ useAggregator: true }}>
+            {children}
+          </SwapProvider>
+        </QueryClientProvider>
+      </WagmiProvider>
+    );
+    const { result } = renderHook(() => useTestHook(), { wrapper });
+    expect(result.current.statusName).toBe('init');
+    if (result.current.statusName === 'init') {
+      expect(result.current.statusData.maxSlippage).toBe(3);
+    }
   });
 });
