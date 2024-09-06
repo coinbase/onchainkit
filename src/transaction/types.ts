@@ -64,9 +64,7 @@ export type TransactionButtonReact = {
 };
 
 export type TransactionContextType = {
-  calls?: Call[]; // An array of calls for the transaction. Mutually exclusive with the `contracts` prop.
   chainId?: number; // The chainId for the transaction.
-  contracts?: ContractFunctionParameters[]; // An array of contracts for the transaction. Mutually exclusive with the `calls` prop.
   errorCode?: string; // An error code used to localize errors and provide more context with unit-tests.
   errorMessage?: string; // An error message string if the transaction encounters an issue.
   isLoading: boolean; // A boolean indicating if the transaction is currently loading.
