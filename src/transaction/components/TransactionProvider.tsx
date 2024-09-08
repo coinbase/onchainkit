@@ -68,6 +68,9 @@ export function TransactionProvider({
   }); // Component lifecycle
   const [transactionId, setTransactionId] = useState('');
   const [transactionHashList, setTransactionHashList] = useState<Address[]>([]);
+  const [transactions, setTransactions] = useState<
+    Call[] | ContractFunctionParameters[]
+  >([]);
 
   // Retrieve wallet capabilities
   const { walletCapabilities } = useOnchainKit();
@@ -104,10 +107,8 @@ export function TransactionProvider({
     setTransactions(calls || contracts || []);
   }, [calls, contracts]);
 
-  /*
-    useWriteContracts or useWriteContract
-    Used for contract calls with an ABI and functions.
-  */
+  // useWriteContracts or useWriteContract
+  // Used for contract calls with an ABI and functions.
   const { status: statusWriteContracts, writeContractsAsync } =
     useWriteContracts({
       setLifeCycleStatus,
@@ -121,10 +122,8 @@ export function TransactionProvider({
     setLifeCycleStatus,
     transactionHashList,
   });
-  /*
-    useSendCalls or useSendCall
-    Used for contract calls with raw calldata.
-  */
+  // useSendCalls or useSendCall
+  // Used for contract calls with raw calldata.
   const { status: statusSendCalls, sendCallsAsync } = useSendCalls({
     setLifeCycleStatus,
     setTransactionId,
@@ -138,18 +137,8 @@ export function TransactionProvider({
     transactionHashList,
   });
 
-  /* 
-    Transactions
-    Can be of type call or contracts.
-  */
-  const [transactions, setTransactions] = useState<
-    Call[] | ContractFunctionParameters[]
-  >([]);
-
-  /*
-    Transaction type and status
-    Returns the appropriate transaction type and status based on the provided calls or contracts, as well as the wallet capabilities.
-  */
+  // Transaction type and status
+  // Returns the appropriate transaction type and status based on the provided props and wallet capabilities.
   const { transactionType, transactionStatus } = useTransactionType({
     calls,
     contracts,
@@ -169,11 +158,8 @@ export function TransactionProvider({
   const singleTransactionHash =
     writeContractTransactionHash || sendCallTransactionHash;
 
-  /*
-    useSendWalletTransactions
-    Used to send transactions based on the transaction type.
-    Can be of type calls or contracts.
-  */
+  // useSendWalletTransactions
+  //  Used to send transactions based on the transaction type.Can be of type calls or contracts.
   const sendWalletTransactions = useSendWalletTransactions({
     transactions,
     transactionType,
