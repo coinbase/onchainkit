@@ -100,9 +100,11 @@ type PaymasterService = {
 
 export type sendBatchedTransactionsParams = {
   capabilities?: WalletCapabilities;
+  // biome-ignore lint: cannot find module 'wagmi/experimental/query'
   sendCallsAsync: any;
   transactions?: Call[] | ContractFunctionParameters[];
   transactionType: string;
+  // biome-ignore lint: cannot find module 'wagmi/experimental/query'
   writeContractsAsync: any;
 };
 
