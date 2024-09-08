@@ -1,27 +1,56 @@
 import { ConnectButton as ConnectButtonRainboKit } from '@rainbow-me/rainbowkit';
-import { useCallback } from 'react';
+import { Children, isValidElement, useCallback, useMemo } from 'react';
+import type { ReactNode } from 'react';
 import { useAccount, useConnect } from 'wagmi';
 import { IdentityProvider } from '../../identity/components/IdentityProvider';
 import { Spinner } from '../../internal/components/Spinner';
+import { findComponent } from '../../internal/utils/findComponent';
 import { cn, color, text as dsText, pressable } from '../../styles/theme';
 import type { ConnectWalletReact } from '../types';
 import { ConnectButton } from './ConnectButton';
+import { ConnectWalletText } from './ConnectWalletText';
 import { useWalletContext } from './WalletProvider';
 
 export function ConnectWallet({
   children,
   className,
+  // In a few version we will officially depracate this prop,
+  // but for now we will keep it for backward compatibility.
   text = 'Connect Wallet',
   withWalletAggregator = false,
 }: ConnectWalletReact) {
+  // Core Hooks
   const { isOpen, setIsOpen } = useWalletContext();
-  const { address, status } = useAccount();
+  const { address: accountAddress, status } = useAccount();
   const { connectors, connect, status: connectStatus } = useConnect();
+
+  // Get connectWalletText from children when present,
+  // this is used to customize the connect wallet button text
+  const { connectWalletText } = useMemo(() => {
+    const childrenArray = Children.toArray(children);
+    return {
+      connectWalletText: childrenArray.find(findComponent(ConnectWalletText)),
+    };
+  }, [children]);
+
+  // Remove connectWalletText from children if present
+  const childrenWithoutConnectWalletText = useMemo(() => {
+    return Children.map(children, (child: ReactNode) => {
+      if (isValidElement(child) && child.type === ConnectWalletText) {
+        return null;
+      }
+      return child;
+    });
+  }, [children]);
+
+  // Wallet connect status
+  const connector = connectors[0];
+  const isLoading = connectStatus === 'pending' || status === 'connecting';
+
+  // Handles
   const handleToggle = useCallback(() => {
     setIsOpen(!isOpen);
   }, [isOpen, setIsOpen]);
-  const connector = connectors[0];
-  const isLoading = connectStatus === 'pending' || status === 'connecting';
 
   if (status === 'disconnected') {
     if (withWalletAggregator) {
@@ -31,6 +60,7 @@ export function ConnectWallet({
             <div className="flex" data-testid="ockConnectWallet_Container">
               <ConnectButton
                 className={className}
+                connectWalletText={connectWalletText}
                 onClick={() => openConnectModal()}
                 text={text}
               />
@@ -43,6 +73,7 @@ export function ConnectWallet({
       <div className="flex" data-testid="ockConnectWallet_Container">
         <ConnectButton
           className={className}
+          connectWalletText={connectWalletText}
           onClick={() => connect({ connector })}
           text={text}
         />
@@ -73,7 +104,7 @@ export function ConnectWallet({
   }
 
   return (
-    <IdentityProvider address={address}>
+    <IdentityProvider address={accountAddress}>
       <div className="flex gap-4" data-testid="ockConnectWallet_Container">
         <button
           type="button"
@@ -86,7 +117,7 @@ export function ConnectWallet({
           )}
           onClick={handleToggle}
         >
-          <div className="flex gap-2">{children}</div>
+          <div className="flex gap-2">{childrenWithoutConnectWalletText}</div>
         </button>
       </div>
     </IdentityProvider>

@@ -6,6 +6,7 @@ import type { SwapError } from '../swap';
 
 export type ConnectButtonReact = {
   className?: string; // Optional className override for button element
+  connectWalletText: ReactNode | null; // Optional text override for button
   onClick: () => void; // Function to call when the button is clicked
   text: string; // Optional text override for button
 };
@@ -16,8 +17,17 @@ export type ConnectButtonReact = {
 export type ConnectWalletReact = {
   children?: React.ReactNode; // Children can be utilized to display customized content when the wallet is connected.
   className?: string; // Optional className override for button element
+  /** @deprecated Prefer `ConnectWalletTexxt component` */
   text?: string; // Optional text override for button
   withWalletAggregator?: boolean; // Optional flag to enable the wallet aggregator like RainbowKit
+};
+
+/**
+ * Note: exported as public Type
+ */
+export type ConnectWalletTextReact = {
+  children: React.ReactNode; // The text to display
+  className?: string; // Optional className override for the element
 };
 
 /**

@@ -3,6 +3,7 @@ import type { ReactNode } from 'react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { useAccount, useConnect } from 'wagmi';
 import { ConnectWallet } from './ConnectWallet';
+import { ConnectWalletText } from './ConnectWalletText';
 import { useWalletContext } from './WalletProvider';
 
 const openConnectModalMock = vi.fn();
@@ -143,6 +144,22 @@ describe('ConnectWallet', () => {
     );
     const button = screen.getByTestId('ockConnectWallet_Connected');
     expect(button).toHaveClass('bg-ock-secondary-active');
+  });
+
+  it('should not render ConnectWalletText when children are present', () => {
+    vi.mocked(useAccount).mockReturnValue({
+      address: '0x123',
+      status: 'connected',
+    });
+    render(
+      <ConnectWallet>
+        <ConnectWalletText>Not Render</ConnectWalletText>
+        <div>Wallet Ciao</div>
+      </ConnectWallet>,
+    );
+    const connectedText = screen.getByText('Wallet Ciao');
+    expect(connectedText).toBeInTheDocument();
+    expect(screen.queryByText('Not Render')).not.toBeInTheDocument();
   });
 
   describe('withWalletAggregator', () => {

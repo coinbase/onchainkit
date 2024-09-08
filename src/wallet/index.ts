@@ -1,5 +1,6 @@
 // 🌲☀🌲
 export { ConnectWallet } from './components/ConnectWallet';
+export { ConnectWalletText } from './components/ConnectWalletText';
 export { Wallet } from './components/Wallet';
 export { WalletDropdown } from './components/WalletDropdown';
 export { WalletDropdownBasename } from './components/WalletDropdownBasename';
@@ -10,6 +11,7 @@ export { isValidAAEntrypoint } from './utils/isValidAAEntrypoint';
 export { isWalletACoinbaseSmartWallet } from './utils/isWalletACoinbaseSmartWallet';
 export type {
   ConnectWalletReact,
+  ConnectWalletTextReact,
   IsValidAAEntrypointOptions,
   IsWalletACoinbaseSmartWalletOptions,
   IsWalletACoinbaseSmartWalletResponse,

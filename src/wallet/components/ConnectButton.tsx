@@ -3,7 +3,9 @@ import type { ConnectButtonReact } from '../types';
 
 export function ConnectButton({
   className,
+  connectWalletText,
   onClick,
+  // Text will be deprecated in the future
   text,
 }: ConnectButtonReact) {
   return (
@@ -19,7 +21,11 @@ export function ConnectButton({
       )}
       onClick={onClick}
     >
-      <span className={cn(dsText.body, color.inverse)}>{text}</span>
+      {connectWalletText ? (
+        connectWalletText
+      ) : (
+        <span className={cn(dsText.body, color.inverse)}>{text}</span>
+      )}
     </button>
   );
 }
