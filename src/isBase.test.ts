@@ -21,4 +21,18 @@ describe('isBase', () => {
     const result = isBase({ chainId });
     expect(result).toEqual(true);
   });
+
+  it('should return true when isMainnetOnly is true and chainId is mainnet', () => {
+    const chainId = base.id;
+    const isMainnetOnly = true;
+    const result = isBase({ chainId, isMainnetOnly });
+    expect(result).toEqual(true);
+  });
+
+  it('should return false when isMainnetOnly is true and chainId is not mainnet', () => {
+    const chainId = baseSepolia.id;
+    const isMainnetOnly = true;
+    const result = isBase({ chainId, isMainnetOnly });
+    expect(result).toEqual(false);
+  });
 });

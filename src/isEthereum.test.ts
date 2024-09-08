@@ -13,4 +13,16 @@ describe('isEthereum', () => {
   it('should return false for other chains for testnet', () => {
     expect(isEthereum({ chainId: optimism.id })).toBeFalsy();
   });
+
+  it('should return true when isMainnetOnly is true and chainId is mainnet', () => {
+    expect(
+      isEthereum({ chainId: mainnet.id, isMainnetOnly: true }),
+    ).toBeTruthy();
+  });
+
+  it('should return false when isMainnetOnly is true and chainId is not mainnet', () => {
+    expect(
+      isEthereum({ chainId: sepolia.id, isMainnetOnly: true }),
+    ).toBeFalsy();
+  });
 });

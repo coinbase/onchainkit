@@ -7,6 +7,7 @@ import type { EASSchemaUid } from './identity/types';
  */
 export type isBaseOptions = {
   chainId: number;
+  isMainnetOnly?: boolean; // If the chainId check is only allowed on mainnet
 };
 
 /**
@@ -14,6 +15,7 @@ export type isBaseOptions = {
  */
 export type isEthereumOptions = {
   chainId: number;
+  isMainnetOnly?: boolean; // If the chainId check is only allowed on mainnet
 };
 
 /**
