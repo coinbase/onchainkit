@@ -222,8 +222,9 @@ export function TransactionProvider({
   // When all transactions are succesful, get the receipts
   useEffect(() => {
     if (
-      transactionHashList.length !== transactions.length ||
-      transactions.length < 2
+      transactions &&
+      (transactionHashList.length !== transactions.length ||
+        transactions.length < 2)
     ) {
       return;
     }

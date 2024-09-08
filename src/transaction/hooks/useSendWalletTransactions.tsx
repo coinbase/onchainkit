@@ -22,7 +22,7 @@ export const useSendWalletTransactions = ({
   sendCallAsync,
   walletCapabilities,
 }: {
-  transactions: Call[] | ContractFunctionParameters[];
+  transactions?: Call[] | ContractFunctionParameters[];
   transactionType: string;
   capabilities?: WalletCapabilities;
   // biome-ignore lint: cannot find module 'wagmi/experimental/query'
@@ -35,6 +35,9 @@ export const useSendWalletTransactions = ({
 }) => {
   // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO Refactor this hook once Wagmi exposes experimental types
   return useCallback(async () => {
+    if (!transactions) {
+      return;
+    }
     // Batched transactions
     if (walletCapabilities.hasAtomicBatch) {
       if (transactionType === TRANSACTION_TYPE_CONTRACTS && transactions) {

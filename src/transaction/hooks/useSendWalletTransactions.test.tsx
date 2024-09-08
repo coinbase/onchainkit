@@ -94,4 +94,27 @@ describe('useSendWalletTransactions', () => {
     expect(sendCallAsync).toHaveBeenNthCalledWith(1, transactions[0]);
     expect(sendCallAsync).toHaveBeenNthCalledWith(2, transactions[1]);
   });
+
+  it('should handle no transactions', async () => {
+    const writeContractsAsync = vi.fn();
+    const writeContractAsync = vi.fn();
+    const sendCallsAsync = vi.fn();
+    const sendCallAsync = vi.fn();
+    const { result } = renderHook(() =>
+      useSendWalletTransactions({
+        transactions: undefined,
+        transactionType: TRANSACTION_TYPE_CONTRACTS,
+        writeContractsAsync,
+        writeContractAsync,
+        sendCallsAsync,
+        sendCallAsync,
+        walletCapabilities: { hasAtomicBatch: false },
+      }),
+    );
+    await result.current();
+    expect(writeContractsAsync).not.toHaveBeenCalled();
+    expect(writeContractAsync).not.toHaveBeenCalled();
+    expect(sendCallsAsync).not.toHaveBeenCalled();
+    expect(sendCallAsync).not.toHaveBeenCalled();
+  });
 });
