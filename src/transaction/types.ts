@@ -1,4 +1,3 @@
-// 🌲☀🌲
 import type { ReactNode } from 'react';
 import type {
   Address,
@@ -6,6 +5,12 @@ import type {
   Hex,
   TransactionReceipt,
 } from 'viem';
+import type { WalletCapabilities as OnchainKitWalletCapabilities } from '../types';
+// 🌲☀🌲
+import {
+  TRANSACTION_TYPE_CALLS,
+  TRANSACTION_TYPE_CONTRACTS,
+} from './constants';
 
 export type Call = { to: Hex; data?: Hex; value?: bigint };
 
@@ -213,6 +218,22 @@ export type UseSendCallParams = {
 export type UseSendCallsParams = {
   setLifeCycleStatus: (state: LifeCycleStatus) => void;
   setTransactionId: (id: string) => void;
+};
+
+export type UseTransactionTypeParams = {
+  calls?: Call[];
+  contracts?: ContractFunctionParameters[];
+  transactionStatuses: {
+    [TRANSACTION_TYPE_CALLS]: {
+      single: string;
+      batch: string;
+    };
+    [TRANSACTION_TYPE_CONTRACTS]: {
+      single: string;
+      batch: string;
+    };
+  };
+  walletCapabilities: OnchainKitWalletCapabilities;
 };
 
 /**
