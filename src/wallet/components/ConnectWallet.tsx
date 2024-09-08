@@ -1,6 +1,7 @@
 import { ConnectButton as ConnectButtonRainboKit } from '@rainbow-me/rainbowkit';
 import { Children, useCallback, useMemo } from 'react';
 import { useAccount, useConnect } from 'wagmi';
+import { Avatar, Name } from '../../identity';
 import { IdentityProvider } from '../../identity/components/IdentityProvider';
 import { Spinner } from '../../internal/components/Spinner';
 import { findComponent } from '../../internal/utils/findComponent';
@@ -20,12 +21,14 @@ export function ConnectWallet({
 }: ConnectWalletReact) {
   // Core Hooks
   const { isOpen, setIsOpen } = useWalletContext();
-  const { address, status } = useAccount();
+  const { address: accountAddress, status } = useAccount();
   const { connectors, connect, status: connectStatus } = useConnect();
-  const { connectWalletText } = useMemo(() => {
+  const { avatar, connectWalletText, name } = useMemo(() => {
     const childrenArray = Children.toArray(children);
     return {
+      avatar: childrenArray.find(findComponent(Avatar)),
       connectWalletText: childrenArray.find(findComponent(ConnectWalletText)),
+      name: childrenArray.find(findComponent(Name)),
     };
   }, [children]);
 
@@ -90,7 +93,7 @@ export function ConnectWallet({
   }
 
   return (
-    <IdentityProvider address={address}>
+    <IdentityProvider address={accountAddress}>
       <div className="flex gap-4" data-testid="ockConnectWallet_Container">
         <button
           type="button"
@@ -103,7 +106,10 @@ export function ConnectWallet({
           )}
           onClick={handleToggle}
         >
-          <div className="flex gap-2">{children}</div>
+          <div className="flex gap-2">
+            {avatar}
+            {name}
+          </div>
         </button>
       </div>
     </IdentityProvider>

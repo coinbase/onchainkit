@@ -21,8 +21,11 @@ export function ConnectButton({
       )}
       onClick={onClick}
     >
-      (connectWalletText ? ({connectWalletText}) : (
-      <span className={cn(dsText.body, color.inverse)}>{text}</span>)
+      {connectWalletText ? (
+        connectWalletText
+      ) : (
+        <span className={cn(dsText.body, color.inverse)}>{text}</span>
+      )}
     </button>
   );
 }
