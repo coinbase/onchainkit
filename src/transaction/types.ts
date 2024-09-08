@@ -98,6 +98,21 @@ type PaymasterService = {
   url: string;
 };
 
+export type sendBatchedTransactionsParams = {
+  capabilities?: WalletCapabilities;
+  sendCallsAsync: any;
+  transactions?: Call[] | ContractFunctionParameters[];
+  transactionType: string;
+  writeContractsAsync: any;
+};
+
+export type sendSingleTransactionParams = {
+  sendCallAsync: SendTransactionMutateAsync<Config, unknown> | (() => void);
+  transactions: Call[] | ContractFunctionParameters[];
+  transactionType: string;
+  writeContractAsync: WriteContractMutateAsync<Config, unknown> | (() => void);
+};
+
 /**
  * Note: exported as public Type
  */
@@ -226,16 +241,16 @@ export type UseSendCallsParams = {
 };
 
 export type UseSendWalletTransactionsParams = {
-  transactions?: Call[] | ContractFunctionParameters[];
-  transactionType: string;
   capabilities?: WalletCapabilities;
-  // biome-ignore lint: cannot find module 'wagmi/experimental/query'
-  writeContractsAsync: any;
-  writeContractAsync: WriteContractMutateAsync<Config, unknown> | (() => void);
   // biome-ignore lint: cannot find module 'wagmi/experimental/query'
   sendCallsAsync: any;
   sendCallAsync: SendTransactionMutateAsync<Config, unknown> | (() => void);
+  transactions?: Call[] | ContractFunctionParameters[];
+  transactionType: string;
   walletCapabilities: OnchainKitWalletCapabilities;
+  // biome-ignore lint: cannot find module 'wagmi/experimental/query'
+  writeContractsAsync: any;
+  writeContractAsync: WriteContractMutateAsync<Config, unknown> | (() => void);
 };
 
 export type UseTransactionTypeParams = {
