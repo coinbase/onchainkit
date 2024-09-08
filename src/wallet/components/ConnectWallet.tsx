@@ -1,7 +1,7 @@
 import { ConnectButton as ConnectButtonRainboKit } from '@rainbow-me/rainbowkit';
-import { Children, useCallback, useMemo } from 'react';
+import { Children, isValidElement, useCallback, useMemo } from 'react';
+import type { ReactNode } from 'react';
 import { useAccount, useConnect } from 'wagmi';
-import { Avatar, Name } from '../../identity';
 import { IdentityProvider } from '../../identity/components/IdentityProvider';
 import { Spinner } from '../../internal/components/Spinner';
 import { findComponent } from '../../internal/utils/findComponent';
@@ -23,13 +23,24 @@ export function ConnectWallet({
   const { isOpen, setIsOpen } = useWalletContext();
   const { address: accountAddress, status } = useAccount();
   const { connectors, connect, status: connectStatus } = useConnect();
-  const { avatar, connectWalletText, name } = useMemo(() => {
+
+  // Get connectWalletText from children when present,
+  // this is used to customize the connect wallet button text
+  const { connectWalletText } = useMemo(() => {
     const childrenArray = Children.toArray(children);
     return {
-      avatar: childrenArray.find(findComponent(Avatar)),
       connectWalletText: childrenArray.find(findComponent(ConnectWalletText)),
-      name: childrenArray.find(findComponent(Name)),
     };
+  }, [children]);
+
+  // Remove connectWalletText from children if present
+  const childrenWithoutConnectWalletText = useMemo(() => {
+    return Children.map(children, (child: ReactNode) => {
+      if (isValidElement(child) && child.type === ConnectWalletText) {
+        return null;
+      }
+      return child;
+    });
   }, [children]);
 
   // Wallet connect status
@@ -106,10 +117,7 @@ export function ConnectWallet({
           )}
           onClick={handleToggle}
         >
-          <div className="flex gap-2">
-            {avatar}
-            {name}
-          </div>
+          <div className="flex gap-2">{childrenWithoutConnectWalletText}</div>
         </button>
       </div>
     </IdentityProvider>
