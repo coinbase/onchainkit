@@ -1,11 +1,13 @@
 import { ConnectButton as ConnectButtonRainboKit } from '@rainbow-me/rainbowkit';
-import { useCallback } from 'react';
+import { Children, useCallback, useMemo } from 'react';
 import { useAccount, useConnect } from 'wagmi';
 import { IdentityProvider } from '../../identity/components/IdentityProvider';
 import { Spinner } from '../../internal/components/Spinner';
+import { findComponent } from '../../internal/utils/findComponent';
 import { cn, color, text as dsText, pressable } from '../../styles/theme';
 import type { ConnectWalletReact } from '../types';
 import { ConnectButton } from './ConnectButton';
+import { ConnectWalletText } from './ConnectWalletText';
 import { useWalletContext } from './WalletProvider';
 
 export function ConnectWallet({
@@ -14,14 +16,25 @@ export function ConnectWallet({
   text = 'Connect Wallet',
   withWalletAggregator = false,
 }: ConnectWalletReact) {
+  // Core Hooks
   const { isOpen, setIsOpen } = useWalletContext();
   const { address, status } = useAccount();
   const { connectors, connect, status: connectStatus } = useConnect();
+  const { connectWalletText } = useMemo(() => {
+    const childrenArray = Children.toArray(children);
+    return {
+      connectWalletText: childrenArray.find(findComponent(ConnectWalletText)),
+    };
+  }, [children]);
+
+  // Wallet connect status
+  const connector = connectors[0];
+  const isLoading = connectStatus === 'pending' || status === 'connecting';
+
+  // Handles
   const handleToggle = useCallback(() => {
     setIsOpen(!isOpen);
   }, [isOpen, setIsOpen]);
-  const connector = connectors[0];
-  const isLoading = connectStatus === 'pending' || status === 'connecting';
 
   if (status === 'disconnected') {
     if (withWalletAggregator) {
@@ -31,6 +44,7 @@ export function ConnectWallet({
             <div className="flex" data-testid="ockConnectWallet_Container">
               <ConnectButton
                 className={className}
+                connectWalletText={connectWalletText}
                 onClick={() => openConnectModal()}
                 text={text}
               />
@@ -43,6 +57,7 @@ export function ConnectWallet({
       <div className="flex" data-testid="ockConnectWallet_Container">
         <ConnectButton
           className={className}
+          connectWalletText={connectWalletText}
           onClick={() => connect({ connector })}
           text={text}
         />

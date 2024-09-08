@@ -10,6 +10,16 @@ description: Glossary of OnchainKit top-level Types.
 ```ts
 type isBaseOptions = {
   chainId: number;
+  isMainnetOnly?: boolean; // If the chainId check is only allowed on mainnet
+};
+```
+
+## `isEthereumOptions`
+
+```ts
+type isEthereumOptions = {
+  chainId: number;
+  isMainnetOnly?: boolean; // If the chainId check is only allowed on mainnet
 };
 ```
 
