@@ -50,8 +50,9 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     useState<OnchainKitComponent>();
   const [walletType, setWalletTypeState] = useState<WalletPreference>();
   const [chainId, setChainIdState] = useState<number>();
-  const [transactionType, setTransactionTypeState] =
-    useState<TransactionTypes>();
+  const [transactionType, setTransactionTypeState] = useState<TransactionTypes>(
+    TransactionTypes.Contracts,
+  );
   const [paymasters, setPaymastersState] =
     useState<Record<number, Paymaster>>();
 
