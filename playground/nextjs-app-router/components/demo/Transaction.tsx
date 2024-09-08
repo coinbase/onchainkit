@@ -46,7 +46,10 @@ function TransactionDemo() {
         capabilities={capabilities}
         onStatus={handleOnStatus}
       >
-        <TransactionButton text="Click" disabled={!chainId && !transactionType}/>
+        <TransactionButton
+          text="Click"
+          disabled={!chainId && !transactionType}
+        />
         <TransactionSponsor />
         <TransactionStatus>
           <TransactionStatusLabel />
