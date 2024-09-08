@@ -64,6 +64,13 @@ vi.mock('../../useOnchainKit', () => ({
   useOnchainKit: vi.fn(),
 }));
 
+const silenceError = () => {
+  const consoleErrorMock = vi
+    .spyOn(console, 'error')
+    .mockImplementation(() => {});
+  return () => consoleErrorMock.mockRestore();
+};
+
 const TestComponent = () => {
   const context = useTransactionContext();
   const handleStatusError = async () => {
@@ -91,6 +98,9 @@ const TestComponent = () => {
 
   return (
     <div data-testid="test-component">
+      <span data-testid="transactions">
+        {JSON.stringify(context.transactions)}
+      </span>
       <button type="button" onClick={context.onSubmit}>
         Submit
       </button>
@@ -479,6 +489,58 @@ describe('TransactionProvider', () => {
     await waitFor(() => {
       expect(switchChainAsyncMock).toHaveBeenCalledWith({ chainId: 2 });
     });
+  });
+
+  it('should set transactions based on contracts', async () => {
+    const contracts = [{ address: '0x123', method: 'method' }];
+    render(
+      <TransactionProvider contracts={contracts}>
+        <TestComponent />
+      </TransactionProvider>,
+    );
+    await waitFor(() => {
+      const transactionsElement = screen.getByTestId('transactions');
+      expect(transactionsElement.textContent).toBe(JSON.stringify(contracts));
+    });
+  });
+
+  it('should set transactions based on calls', async () => {
+    const calls = [{ to: '0x456', data: '0xabcdef' }];
+    render(
+      <TransactionProvider calls={calls}>
+        <TestComponent />
+      </TransactionProvider>,
+    );
+    await waitFor(() => {
+      const transactionsElement = screen.getByTestId('transactions');
+      expect(transactionsElement.textContent).toBe(JSON.stringify(calls));
+    });
+  });
+
+  it('should throw an error when neither contracts nor calls are provided', async () => {
+    const restore = silenceError();
+    expect(() => {
+      render(
+        <TransactionProvider>
+          <div>Test</div>
+        </TransactionProvider>,
+      );
+    }).toThrowError('Transaction: One of contracts or calls must be provided.');
+    restore();
+  });
+
+  it('should throw an error when both contracts and calls are provided', async () => {
+    const restore = silenceError();
+    expect(() => {
+      render(
+        <TransactionProvider contracts={[{}]} calls={[{}]}>
+          <div>Test</div>
+        </TransactionProvider>,
+      );
+    }).toThrowError(
+      'Transaction: Only one of contracts or calls can be provided.',
+    );
+    restore();
   });
 });
 

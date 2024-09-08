@@ -69,7 +69,7 @@ export function TransactionProvider({
   const [transactionId, setTransactionId] = useState('');
   const [transactionHashList, setTransactionHashList] = useState<Address[]>([]);
   const [transactions, setTransactions] = useState<
-    Call[] | ContractFunctionParameters[]
+    Call[] | ContractFunctionParameters[] | undefined
   >([]);
 
   // Retrieve wallet capabilities
@@ -79,34 +79,18 @@ export function TransactionProvider({
 
   // Validate `calls` and `contracts` props
   if (!contracts && !calls) {
-    console.error('One of contracts or calls must be provided.');
-    setLifeCycleStatus({
-      statusName: 'error',
-      statusData: {
-        code: 'TmTPc04', // Transaction module TransactionProvider component 02 error
-        error: 'One of contracts or calls must be provided.',
-        message: 'One of contracts or calls must be provided.',
-      },
-    });
-    return;
+    throw new Error('Transaction: One of contracts or calls must be provided.');
   }
   if (calls && contracts) {
-    console.error('Only one of contracts or calls can be provided.');
-    setLifeCycleStatus({
-      statusName: 'error',
-      statusData: {
-        code: 'TmTPc05', // Transaction module TransactionProvider component 02 error
-        error: 'Only one of contracts or calls can be provided.',
-        message: 'Only one of contracts or calls can be provided..',
-      },
-    });
-    return;
+    throw new Error(
+      'Transaction: Only one of contracts or calls can be provided.',
+    );
   }
   // Sets transactions
   // We use the `transactions` variable to represent either calls or contracts.
   // `Calls` and `contracts` are only top level props, everything inside the component should manipulate the `transactions` variable
   useEffect(() => {
-    setTransactions(calls || contracts || []);
+    setTransactions(calls || contracts);
   }, [calls, contracts]);
 
   // useWriteContracts or useWriteContract
