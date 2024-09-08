@@ -6,9 +6,17 @@ import type { isBaseOptions } from './types';
  *  - Checks if the paymaster operations chain id is valid
  *  - Only allows the Base and Base Sepolia chain ids
  */
-export function isBase({ chainId }: isBaseOptions): boolean {
-  if (chainId !== baseSepolia.id && chainId !== base.id) {
-    return false;
+export function isBase({
+  chainId,
+  isMainnetOnly = false,
+}: isBaseOptions): boolean {
+  // If only Base mainnet
+  if (isMainnetOnly && chainId === base.id) {
+    return true;
   }
-  return true;
+  // If only Base or Base Sepolia
+  if (!isMainnetOnly && (chainId === baseSepolia.id || chainId === base.id)) {
+    return true;
+  }
+  return false;
 }
