@@ -76,11 +76,27 @@ export function TransactionProvider({
 
   // Validate `calls` and `contracts` props
   if (!contracts && !calls) {
-    setErrorMessage('One of contracts or calls must be provided.');
+    console.error('One of contracts or calls must be provided.');
+    setLifeCycleStatus({
+      statusName: 'error',
+      statusData: {
+        code: 'TmTPc04', // Transaction module TransactionProvider component 02 error
+        error: 'One of contracts or calls must be provided.',
+        message: 'One of contracts or calls must be provided.',
+      },
+    });
     return;
   }
   if (calls && contracts) {
-    setErrorMessage('Only one of contracts or calls can be provided.');
+    console.error('Only one of contracts or calls can be provided.');
+    setLifeCycleStatus({
+      statusName: 'error',
+      statusData: {
+        code: 'TmTPc05', // Transaction module TransactionProvider component 02 error
+        error: 'Only one of contracts or calls can be provided.',
+        message: 'Only one of contracts or calls can be provided..',
+      },
+    });
     return;
   }
   // Sets transactions
