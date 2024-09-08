@@ -5,6 +5,9 @@ import {
 } from '../constants';
 import type { UseTransactionTypeParams } from '../types';
 
+// In the `Transaction` component either `calls` and `contracts` can be passed as props for transactions.
+// This hook is used to determine the transaction type based on the props passed.
+// It will also return the appropriate transaction status based on the transaction type.
 export const useTransactionType = ({
   calls,
   contracts,
