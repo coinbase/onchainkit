@@ -1,16 +1,11 @@
 import { useCallback } from 'react';
 import type { ContractFunctionParameters } from 'viem';
-import type { Config } from 'wagmi';
-import type {
-  SendTransactionMutateAsync,
-  WriteContractMutateAsync,
-} from 'wagmi/query';
-import type { WalletCapabilities as OCKWalletCapabilities } from '../../types';
 import {
   TRANSACTION_TYPE_CALLS,
   TRANSACTION_TYPE_CONTRACTS,
 } from '../constants';
-import type { Call, WalletCapabilities } from '../types';
+import type { UseSendWalletTransactionsParams } from '../types';
+import type { Call } from '../types';
 
 export const useSendWalletTransactions = ({
   transactions,
@@ -21,18 +16,7 @@ export const useSendWalletTransactions = ({
   sendCallsAsync,
   sendCallAsync,
   walletCapabilities,
-}: {
-  transactions?: Call[] | ContractFunctionParameters[];
-  transactionType: string;
-  capabilities?: WalletCapabilities;
-  // biome-ignore lint: cannot find module 'wagmi/experimental/query'
-  writeContractsAsync: any;
-  writeContractAsync: WriteContractMutateAsync<Config, unknown> | (() => void);
-  // biome-ignore lint: cannot find module 'wagmi/experimental/query'
-  sendCallsAsync: any;
-  sendCallAsync: SendTransactionMutateAsync<Config, unknown> | (() => void);
-  walletCapabilities: OCKWalletCapabilities;
-}) => {
+}: UseSendWalletTransactionsParams) => {
   // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO Refactor this hook once Wagmi exposes experimental types
   return useCallback(async () => {
     if (!transactions) {

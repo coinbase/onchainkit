@@ -5,6 +5,11 @@ import type {
   Hex,
   TransactionReceipt,
 } from 'viem';
+import type { Config } from 'wagmi';
+import type {
+  SendTransactionMutateAsync,
+  WriteContractMutateAsync,
+} from 'wagmi/query';
 import type { WalletCapabilities as OnchainKitWalletCapabilities } from '../types';
 // 🌲☀🌲
 import {
@@ -218,6 +223,19 @@ export type UseSendCallParams = {
 export type UseSendCallsParams = {
   setLifeCycleStatus: (state: LifeCycleStatus) => void;
   setTransactionId: (id: string) => void;
+};
+
+export type UseSendWalletTransactionsParams = {
+  transactions?: Call[] | ContractFunctionParameters[];
+  transactionType: string;
+  capabilities?: WalletCapabilities;
+  // biome-ignore lint: cannot find module 'wagmi/experimental/query'
+  writeContractsAsync: any;
+  writeContractAsync: WriteContractMutateAsync<Config, unknown> | (() => void);
+  // biome-ignore lint: cannot find module 'wagmi/experimental/query'
+  sendCallsAsync: any;
+  sendCallAsync: SendTransactionMutateAsync<Config, unknown> | (() => void);
+  walletCapabilities: OnchainKitWalletCapabilities;
 };
 
 export type UseTransactionTypeParams = {
