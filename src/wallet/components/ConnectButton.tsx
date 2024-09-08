@@ -5,6 +5,7 @@ export function ConnectButton({
   className,
   connectWalletText,
   onClick,
+  // Text will be deprecated in the future
   text,
 }: ConnectButtonReact) {
   return (
