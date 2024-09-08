@@ -103,6 +103,8 @@ export function TransactionProvider({
     return;
   }
   // Sets transactions
+  // We use the `transactions` variable to represent either calls or contracts.
+  // `Calls` and `contracts` are only top level props, everything inside the component should manipulate the `transactions` variable
   useEffect(() => {
     setTransactions(calls || contracts || []);
   }, [calls, contracts]);
