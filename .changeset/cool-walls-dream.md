@@ -2,4 +2,4 @@
 '@coinbase/onchainkit': patch
 ---
 
-ok
+- **feat**: added `isMainnetOnly` to `isBase` and `isEthereum` utilities. By @zizzamia #1167

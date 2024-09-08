@@ -205,6 +205,10 @@ export const sidebar = [
             text: 'isBase',
             link: '/config/is-base',
           },
+          {
+            text: 'isEthereum',
+            link: '/config/is-ethereum',
+          },
         ],
       },
       {
