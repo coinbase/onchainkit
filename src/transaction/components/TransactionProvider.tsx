@@ -82,11 +82,13 @@ export function TransactionProvider({
 
   // Validate `calls` and `contracts` props
   if (!contracts && !calls) {
-    throw new Error('Transaction: One of contracts or calls must be provided.');
+    throw new Error(
+      'Transaction: One of contracts or calls must be provided as a prop to the Transaction component.',
+    );
   }
   if (calls && contracts) {
     throw new Error(
-      'Transaction: Only one of contracts or calls can be provided.',
+      'Transaction: Only one of contracts or calls can be provided as a prop to the Transaction component.',
     );
   }
 
