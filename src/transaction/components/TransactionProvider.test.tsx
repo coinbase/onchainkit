@@ -505,7 +505,9 @@ describe('TransactionProvider', () => {
           <div>Test</div>
         </TransactionProvider>,
       );
-    }).toThrowError('Transaction: One of contracts or calls must be provided.');
+    }).toThrowError(
+      'Transaction: One of contracts or calls must be provided as a prop to the Transaction component.',
+    );
     restore();
   });
 
@@ -518,7 +520,7 @@ describe('TransactionProvider', () => {
         </TransactionProvider>,
       );
     }).toThrowError(
-      'Transaction: Only one of contracts or calls can be provided.',
+      'Transaction: Only one of contracts or calls can be provided as a prop to the Transaction component.',
     );
     restore();
   });
