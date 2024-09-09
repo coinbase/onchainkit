@@ -141,14 +141,14 @@ export function TransactionProvider({
   // useSendWalletTransactions
   // Used to send transactions based on the transaction type. Can be of type calls or contracts.
   const sendWalletTransactions = useSendWalletTransactions({
+    capabilities,
+    sendCallAsync,
+    sendCallsAsync,
     transactions,
     transactionType,
-    capabilities,
-    writeContractsAsync,
-    writeContractAsync,
-    sendCallsAsync,
-    sendCallAsync,
     walletCapabilities,
+    writeContractAsync,
+    writeContractsAsync,
   });
 
   const { transactionHash: batchedTransactionHash, status: callStatus } =
