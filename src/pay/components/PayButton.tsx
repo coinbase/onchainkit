@@ -1,40 +1,74 @@
+import { useMemo } from 'react';
 import { Spinner } from '../../internal/components/Spinner';
-import { coinbasePaySvg } from '../../internal/svg/coinbasePaySvg';
-import { cn, text as styleText } from '../../styles/theme';
+import { cn, color, pressable, text as styleText } from '../../styles/theme';
+import { useIcon } from '../../useIcon';
 import { usePayContext } from './PayProvider';
 
-export function PayButton({ text = 'Pay with Crypto' }: { text?: string }) {
-  const { lifeCycleStatus, handleSubmit } = usePayContext();
+export function PayButton({
+  className,
+  coinbaseBranded,
+  disabled,
+  icon,
+  text = 'Pay',
+}: {
+  className?: string;
+  coinbaseBranded?: boolean;
+  disabled?: boolean;
+  icon?: React.ReactNode;
+  text?: string;
+}) {
+  if (coinbaseBranded) {
+    icon = 'coinbasePay';
+    text = 'Pay with Crypto';
+  }
+  const { lifeCycleStatus, onSubmit } = usePayContext();
+  const iconSvg = useIcon({ icon });
 
   const isLoading = lifeCycleStatus?.statusName === 'transactionPending';
+  const isDisabled = disabled || isLoading;
+  const buttonText = useMemo(() => {
+    if (lifeCycleStatus?.statusName === 'success') {
+      return 'View payment details';
+    }
+    return text;
+  }, [lifeCycleStatus?.statusName, text]);
+  const shouldRenderIcon = buttonText === text && iconSvg;
 
   return (
     <button
       className={cn(
+        coinbaseBranded ? pressable.coinbaseBranding : pressable.primary,
         'w-full rounded-xl',
         'mt-4 px-4 py-3 font-medium text-base text-white leading-6',
+        isDisabled && pressable.disabled,
         styleText.headline,
-        isLoading
-          ? 'bg-[#9DBCFE]'
-          : 'bg-[#0052FF] hover:bg-[#0045D8] active:bg-[#003AC2]',
-        'transition-colors duration-200',
-        'flex items-center justify-center',
-        'h-[52px]',
-        'min-w-[200px]',
+        className,
       )}
-      onClick={handleSubmit}
+      onClick={onSubmit}
       type="button"
+      disabled={isDisabled}
     >
-      {isLoading ? (
-        <Spinner className="w-5 h-5" />
-      ) : (
-        <>
-          <div className="w-5 h-5 mr-2 flex items-center justify-center shrink-0">
-            {coinbasePaySvg}
-          </div>
-          <span className={cn(styleText.headline, 'text-white')}>{text}</span>
-        </>
-      )}
+      <div className="flex items-center justify-center whitespace-nowrap">
+        {isLoading ? (
+          <Spinner className="w-5 h-5" />
+        ) : (
+          <>
+            {shouldRenderIcon && (
+              <div className="w-5 h-5 mr-2 flex items-center justify-center shrink-0">
+                {iconSvg}
+              </div>
+            )}
+            <span
+              className={cn(
+                styleText.headline,
+                coinbaseBranded ? 'text-white' : color.inverse,
+              )}
+            >
+              {buttonText}
+            </span>
+          </>
+        )}
+      </div>
     </button>
   );
 }

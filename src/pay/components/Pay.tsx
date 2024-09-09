@@ -1,3 +1,4 @@
+import { cn } from '../../styles/theme';
 import type { LifeCycleStatus } from '../../transaction';
 import { useIsMounted } from '../../useIsMounted';
 import { PayProvider } from './PayProvider';
@@ -28,7 +29,9 @@ export function Pay({
       className={className}
       onStatus={onStatus}
     >
-      {children}
+      <div className={cn(className, 'flex w-full flex-col gap-2')}>
+        {children}
+      </div>
     </PayProvider>
   );
 }

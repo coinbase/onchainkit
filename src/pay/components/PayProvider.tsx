@@ -11,13 +11,19 @@ import { useAccount, useConnect } from 'wagmi';
 import { useWaitForTransactionReceipt } from 'wagmi';
 import { useValue } from '../../internal/hooks/useValue';
 import type { LifeCycleStatus } from '../../transaction';
+import {
+  GENERIC_ERROR_MESSAGE,
+  USER_REJECTED_ERROR,
+} from '../../transaction/constants';
 import { useCallsStatus } from '../../transaction/hooks/useCallsStatus';
 import { useWriteContracts } from '../../transaction/hooks/useWriteContracts';
+import { isUserRejectedRequestError } from '../../transaction/utils/isUserRejectedRequestError';
 import { useCommerceContracts } from '../hooks/useCommerceContracts';
 
 type PayContextType = {
-  handleSubmit: () => void;
+  errorMessage?: string;
   lifeCycleStatus?: LifeCycleStatus;
+  onSubmit: () => void;
   setLifeCycleStatus: (status: LifeCycleStatus) => void;
 };
 
@@ -28,7 +34,7 @@ export function usePayContext() {
   const context = useContext(PayContext);
   if (context === emptyContext) {
     throw new Error(
-      'usePayContext must be used within a Transaction component',
+      'usePayContext must be used within a Pay component',
     );
   }
   return context;
@@ -60,6 +66,7 @@ export function PayProvider({
     undefined,
   );
   const [transactionId, setTransactionId] = useState('');
+  const [errorMessage, setErrorMessage] = useState<string>('');
   // Component lifecycle
   const [lifeCycleStatus, setLifeCycleStatus] = useState<LifeCycleStatus>({
     statusName: 'init',
@@ -72,6 +79,7 @@ export function PayProvider({
     chainId,
     chargeId,
     contractsRef,
+    setErrorMessage,
   });
   const { status, writeContractsAsync } = useWriteContracts({
     setLifeCycleStatus,
@@ -118,32 +126,69 @@ export function PayProvider({
   }, [receipt]);
 
   const handleSubmit = useCallback(async () => {
-    if (isConnected) {
-      // Fetch contracts
-      await fetchContracts();
-    } else {
-      // Prompt for wallet connection
-      await connectAsync({ connector: connectors[0] });
-    }
+    try {
+      if (lifeCycleStatus.statusName === 'success') {
+        // Open Coinbase Commerce receipt
+        window.open(
+          `https://commerce.coinbase.com/pay/${chargeId}/receipt`,
+          '_blank',
+          'noopener,noreferrer',
+        );
+        return;
+      }
 
-    if (contractsRef.current) {
-      await writeContractsAsync({
-        contracts: contractsRef.current,
-      });
-    } else {
-      console.error('Contracts are not available');
+      if (isConnected) {
+        // Fetch contracts
+        await fetchContracts();
+      } else {
+        // Prompt for wallet connection
+        await connectAsync({ connector: connectors[0] });
+      }
+
+      if (contractsRef.current) {
+        await writeContractsAsync({
+          contracts: contractsRef.current,
+        });
+      } else {
+        console.error('Contracts are not available');
+        setErrorMessage(GENERIC_ERROR_MESSAGE);
+        setLifeCycleStatus({
+          statusName: 'error',
+          statusData: {
+            code: 'PmPPc01', // Pay module PayProvider component 01 error
+            error: 'Contracts are not available',
+            message: GENERIC_ERROR_MESSAGE,
+          },
+        });
+      }
+    } catch (error) {
+      if (isUserRejectedRequestError(error)) {
+        setErrorMessage(USER_REJECTED_ERROR);
+      } else {
+        setErrorMessage(GENERIC_ERROR_MESSAGE);
+        setLifeCycleStatus({
+          statusName: 'error',
+          statusData: {
+            code: 'PmPPc02', // Pay module PayProvider component 02 error
+            error: JSON.stringify(error),
+            message: GENERIC_ERROR_MESSAGE,
+          },
+        });
+      }
     }
   }, [
-    isConnected,
     connectAsync,
     connectors,
-    writeContractsAsync,
+    isConnected,
+    lifeCycleStatus.statusName,
     setLifeCycleStatus,
+    writeContractsAsync,
   ]);
 
   const value = useValue({
-    handleSubmit,
+    errorMessage,
     lifeCycleStatus,
+    onSubmit: handleSubmit,
     setLifeCycleStatus,
   });
   return <PayContext.Provider value={value}>{children}</PayContext.Provider>;

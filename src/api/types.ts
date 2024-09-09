@@ -101,7 +101,6 @@ export type GetTokensResponse = Token[] | APIError;
 
 export type HydrateChargeAPIParams = {
   sender: Address; // The address of the wallet paying
-  chainId: number; // The Chain ID of the payment Network (only Base is supported)
   chargeId: string; // The ID of the Commerce Charge to be paid
 };
 

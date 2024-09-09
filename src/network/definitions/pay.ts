@@ -1,1 +1,1 @@
-export const PAY_HYDRATE_CHARGE = 'pay_hydrateCharge';
+export const CDP_HYDRATE_CHARGE = 'cdp_hydrateCharge';

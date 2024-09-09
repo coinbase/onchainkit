@@ -1,7 +1,5 @@
-import { base } from 'viem/chains';
-import { PAY_HYDRATE_CHARGE } from '../network/definitions/pay';
+import { CDP_HYDRATE_CHARGE } from '../network/definitions/pay';
 import { sendRequest } from '../network/request';
-import { PAY_UNSUPPORTED_CHAIN_ERROR_MESSAGE } from '../pay/constants';
 import type {
   BuildPayTransactionParams,
   BuildPayTransactionResponse,
@@ -11,24 +9,15 @@ import { getPayErrorMessage } from './utils/getPayErrorMessage';
 
 export async function buildPayTransaction({
   address,
-  chainId,
   chargeId,
 }: BuildPayTransactionParams): Promise<BuildPayTransactionResponse> {
-  if (chainId !== base.id) {
-    return {
-      code: 'AmBPTa01', // Api Module Build Pay Transaction Error 01
-      error: 'Pay Transactions must be on Base',
-      message: PAY_UNSUPPORTED_CHAIN_ERROR_MESSAGE,
-    };
-  }
   try {
     const res = await sendRequest<
       HydrateChargeAPIParams,
       BuildPayTransactionResponse
-    >(PAY_HYDRATE_CHARGE, [
+    >(CDP_HYDRATE_CHARGE, [
       {
         sender: address,
-        chainId: chainId,
         chargeId,
       },
     ]);

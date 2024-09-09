@@ -1,6 +1,6 @@
 import { ENVIRONMENT, ENVIRONMENT_VARIABLES } from '@/lib/constants';
 import { useCallback, useContext, useEffect, useState } from 'react';
-import { Pay, PayButton } from '../../onchainkit/src/pay';
+import { Pay, PayButton, PayStatus } from '../../onchainkit/src/pay';
 import { AppContext } from '../AppProvider';
 
 function PayComponent() {
@@ -16,7 +16,7 @@ function PayComponent() {
       `${ENVIRONMENT_VARIABLES[ENVIRONMENT.API_URL]}/api/createCharge`,
       {
         method: 'POST',
-      }
+      },
     );
     const data = await res.json();
     console.log('Charge id', data.id);
@@ -28,23 +28,22 @@ function PayComponent() {
   }, [createCharge]);
 
   return (
-    chargeId && (
-      <Pay
-        key={chargeId}
-        chainId={chainId || 8453}
-        chargeId={chargeId}
-        onStatus={handleOnStatus}
-      >
-        <PayButton />
-      </Pay>
-    )
+    <div className="mx-auto grid w-1/2 gap-8">
+      {chargeId && (
+        <Pay
+          key={chargeId}
+          chainId={chainId || 8453}
+          chargeId={chargeId}
+          onStatus={handleOnStatus}
+        >
+          <PayButton coinbaseBranded={true} />
+          <PayStatus />
+        </Pay>
+      )}
+    </div>
   );
 }
 
 export default function PayDemo() {
-  return (
-    <div className="mx-auto">
-      <PayComponent />
-    </div>
-  );
+  return <PayComponent />;
 }

@@ -1,4 +1,4 @@
-import { type ContractFunctionParameters, erc20Abi, parseUnits } from 'viem';
+import { type ContractFunctionParameters, erc20Abi } from 'viem';
 import type { PayTransaction } from '../../api/types';
 
 const commerceAbi = [
@@ -70,7 +70,10 @@ export function getCommerceContracts({
       address: callData.recipientCurrency,
       abi: erc20Abi,
       functionName: 'approve',
-      args: [metaData.contractAddress, parseUnits(callData.recipientAmount, 6)],
+      args: [
+        metaData.contractAddress,
+        BigInt(callData.recipientAmount) + BigInt(callData.feeAmount),
+      ],
     },
     {
       address: metaData.contractAddress,

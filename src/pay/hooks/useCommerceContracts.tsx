@@ -10,6 +10,7 @@ type UseCommerceContractsParams = {
   contractsRef: React.MutableRefObject<
     ContractFunctionParameters[] | undefined
   >;
+  setErrorMessage: React.Dispatch<React.SetStateAction<string>>;
 };
 
 export const useCommerceContracts = ({
@@ -17,6 +18,7 @@ export const useCommerceContracts = ({
   chainId,
   chargeId,
   contractsRef,
+  setErrorMessage,
 }: UseCommerceContractsParams) => {
   return useCallback(async () => {
     if (!address) return;
@@ -24,12 +26,11 @@ export const useCommerceContracts = ({
     try {
       const response = await buildPayTransaction({
         address,
-        chainId,
         chargeId,
       });
 
       if ('error' in response) {
-        console.error('Error in Commerce API call:', response.error);
+        setErrorMessage(response.error);
         return;
       }
 
@@ -38,7 +39,10 @@ export const useCommerceContracts = ({
       });
       contractsRef.current = commerceContracts;
     } catch (error) {
-      console.error('Error fetching contracts:', error);
+      console.error('Unexpected error fetching contracts:', error);
+      if (error instanceof Error) {
+        setErrorMessage(error.message);
+      }
     }
   }, [address, contractsRef, chainId, chargeId]);
 };
