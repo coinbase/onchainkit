@@ -5,7 +5,7 @@ import {
   useEffect,
   useState,
 } from 'react';
-import type { Address, ContractFunctionParameters } from 'viem';
+import type { Address } from 'viem';
 import {
   useAccount,
   useConfig,
@@ -15,16 +15,18 @@ import {
 import { waitForTransactionReceipt } from 'wagmi/actions';
 import { useValue } from '../../internal/hooks/useValue';
 import { useOnchainKit } from '../../useOnchainKit';
-import { GENERIC_ERROR_MESSAGE } from '../constants';
+import {
+  GENERIC_ERROR_MESSAGE,
+  TRANSACTION_TYPE_CALLS,
+  TRANSACTION_TYPE_CONTRACTS,
+} from '../constants';
 import { useCallsStatus } from '../hooks/useCallsStatus';
 import { useSendCall } from '../hooks/useSendCall';
 import { useSendCalls } from '../hooks/useSendCalls';
 import { useSendWalletTransactions } from '../hooks/useSendWalletTransactions';
-import { useTransactionType } from '../hooks/useTransactionType';
 import { useWriteContract } from '../hooks/useWriteContract';
 import { useWriteContracts } from '../hooks/useWriteContracts';
 import type {
-  Call,
   LifeCycleStatus,
   TransactionContextType,
   TransactionProviderReact,
@@ -68,9 +70,10 @@ export function TransactionProvider({
   }); // Component lifecycle
   const [transactionId, setTransactionId] = useState('');
   const [transactionHashList, setTransactionHashList] = useState<Address[]>([]);
-  const [transactions, setTransactions] = useState<
-    Call[] | ContractFunctionParameters[] | undefined
-  >([]);
+  const transactions = calls || contracts;
+  const transactionType = calls
+    ? TRANSACTION_TYPE_CALLS
+    : TRANSACTION_TYPE_CONTRACTS;
 
   // Retrieve wallet capabilities
   const { walletCapabilities } = useOnchainKit();
@@ -86,12 +89,6 @@ export function TransactionProvider({
       'Transaction: Only one of contracts or calls can be provided.',
     );
   }
-  // Sets transactions
-  // We use the `transactions` variable to represent either calls or contracts.
-  // `Calls` and `contracts` are only top level props, everything inside the component should manipulate the `transactions` variable
-  useEffect(() => {
-    setTransactions(calls || contracts);
-  }, [calls, contracts]);
 
   // useWriteContracts or useWriteContract
   // Used for contract calls with an ABI and functions.
@@ -123,29 +120,26 @@ export function TransactionProvider({
     transactionHashList,
   });
 
-  // Transaction type and status
-  // Returns the appropriate transaction type and status based on the provided props and wallet capabilities.
-  const { transactionType, transactionStatus } = useTransactionType({
-    calls,
-    contracts,
-    transactionStatuses: {
-      TRANSACTION_TYPE_CALLS: {
-        single: statusSendCall,
-        batch: statusSendCalls,
-      },
-      TRANSACTION_TYPE_CONTRACTS: {
-        single: statusWriteContract,
-        batch: statusWriteContracts,
-      },
-    },
-    walletCapabilities,
-  });
+  // Transaction Status
+  // For batched, use statusSendCalls or statusWriteContracts
+  // For single, use statusSendCall or statusWriteContract
+  const transactionStatuses = walletCapabilities.hasAtomicBatch
+    ? {
+        [TRANSACTION_TYPE_CALLS]: statusSendCalls,
+        [TRANSACTION_TYPE_CONTRACTS]: statusWriteContracts,
+      }
+    : {
+        [TRANSACTION_TYPE_CALLS]: statusSendCall,
+        [TRANSACTION_TYPE_CONTRACTS]: statusWriteContract,
+      };
+  const transactionStatus = transactionStatuses[transactionType];
+
   // Transaction hash for single transaction (non-batched)
   const singleTransactionHash =
     writeContractTransactionHash || sendCallTransactionHash;
 
   // useSendWalletTransactions
-  //  Used to send transactions based on the transaction type.Can be of type calls or contracts.
+  // Used to send transactions based on the transaction type. Can be of type calls or contracts.
   const sendWalletTransactions = useSendWalletTransactions({
     transactions,
     transactionType,
@@ -222,9 +216,9 @@ export function TransactionProvider({
   // When all transactions are succesful, get the receipts
   useEffect(() => {
     if (
-      transactions &&
-      (transactionHashList.length !== transactions.length ||
-        transactions.length < 2)
+      !transactions ||
+      transactionHashList.length !== transactions.length ||
+      transactions.length < 2
     ) {
       return;
     }

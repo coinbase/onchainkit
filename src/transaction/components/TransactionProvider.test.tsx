@@ -11,7 +11,6 @@ import { useCallsStatus } from '../hooks/useCallsStatus';
 import { useSendCall } from '../hooks/useSendCall';
 import { useSendCalls } from '../hooks/useSendCalls';
 import { useSendWalletTransactions } from '../hooks/useSendWalletTransactions';
-import { useTransactionType } from '../hooks/useTransactionType';
 import { useWriteContract } from '../hooks/useWriteContract';
 import { useWriteContracts } from '../hooks/useWriteContracts';
 import {
@@ -42,10 +41,6 @@ vi.mock('../hooks/useWriteContract', () => ({
 vi.mock('../hooks/useWriteContracts', () => ({
   useWriteContracts: vi.fn(),
   genericErrorMessage: 'Something went wrong. Please try again.',
-}));
-
-vi.mock('../hooks/useTransactionType', () => ({
-  useTransactionType: vi.fn(),
 }));
 
 vi.mock('../hooks/useSendCall', () => ({
@@ -157,10 +152,6 @@ describe('TransactionProvider', () => {
     (useSendCalls as ReturnType<typeof vi.fn>).mockReturnValue({
       status: 'idle',
       sendCallsAsync: vi.fn(),
-    });
-    (useTransactionType as ReturnType<typeof vi.fn>).mockReturnValue({
-      transactionType: 'single',
-      transactionStatus: 'idle',
     });
     (useWaitForTransactionReceipt as ReturnType<typeof vi.fn>).mockReturnValue({
       receipt: undefined,
@@ -302,9 +293,10 @@ describe('TransactionProvider', () => {
       status: 'pending',
       writeContractsAsync: writeContractsAsyncMock,
     });
-    (useTransactionType as ReturnType<typeof vi.fn>).mockReturnValue({
-      transactionType: 'batch',
-      transactionStatus: 'pending',
+    (useOnchainKit as ReturnType<typeof vi.fn>).mockReturnValue({
+      walletCapabilities: {
+        hasAtomicBatch: true,
+      },
     });
     render(
       <TransactionProvider contracts={[]}>
@@ -327,10 +319,6 @@ describe('TransactionProvider', () => {
       status: 'pending',
       writeContractsAsync: writeContractsAsyncMock,
     });
-    (useTransactionType as ReturnType<typeof vi.fn>).mockReturnValue({
-      transactionType: 'single',
-      transactionStatus: 'pending',
-    });
     render(
       <TransactionProvider contracts={[]}>
         <TestComponent />
@@ -352,10 +340,6 @@ describe('TransactionProvider', () => {
       walletCapabilities: {
         hasAtomicBatch: true,
       },
-    });
-    (useTransactionType as ReturnType<typeof vi.fn>).mockReturnValue({
-      transactionType: 'batch',
-      transactionStatus: 'idle',
     });
     (useSendWalletTransactions as ReturnType<typeof vi.fn>).mockReturnValue(
       sendWalletTransactionsMock,
@@ -447,10 +431,6 @@ describe('TransactionProvider', () => {
     (useWriteContracts as ReturnType<typeof vi.fn>).mockReturnValue({
       status: 'idle',
       writeContractsAsync: writeContractsAsyncMock,
-    });
-    (useTransactionType as ReturnType<typeof vi.fn>).mockReturnValue({
-      transactionType: 'batch',
-      transactionStatus: 'idle',
     });
     (useSendWalletTransactions as ReturnType<typeof vi.fn>).mockReturnValue(
       sendWalletTransactionsMock,
