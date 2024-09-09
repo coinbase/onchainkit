@@ -3,6 +3,7 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useMemo,
   useState,
 } from 'react';
 import type { Address } from 'viem';
@@ -125,16 +126,25 @@ export function TransactionProvider({
   // Transaction Status
   // For batched, use statusSendCalls or statusWriteContracts
   // For single, use statusSendCall or statusWriteContract
-  const transactionStatuses = walletCapabilities.hasAtomicBatch
-    ? {
-        [TRANSACTION_TYPE_CALLS]: statusSendCalls,
-        [TRANSACTION_TYPE_CONTRACTS]: statusWriteContracts,
-      }
-    : {
-        [TRANSACTION_TYPE_CALLS]: statusSendCall,
-        [TRANSACTION_TYPE_CONTRACTS]: statusWriteContract,
-      };
-  const transactionStatus = transactionStatuses[transactionType];
+  const transactionStatus = useMemo(() => {
+    const transactionStatuses = walletCapabilities.hasAtomicBatch
+      ? {
+          [TRANSACTION_TYPE_CALLS]: statusSendCalls,
+          [TRANSACTION_TYPE_CONTRACTS]: statusWriteContracts,
+        }
+      : {
+          [TRANSACTION_TYPE_CALLS]: statusSendCall,
+          [TRANSACTION_TYPE_CONTRACTS]: statusWriteContract,
+        };
+    return transactionStatuses[transactionType];
+  }, [
+    statusSendCalls,
+    statusWriteContracts,
+    statusSendCall,
+    statusWriteContract,
+    transactionType,
+    walletCapabilities.hasAtomicBatch,
+  ]);
 
   // Transaction hash for single transaction (non-batched)
   const singleTransactionHash =
