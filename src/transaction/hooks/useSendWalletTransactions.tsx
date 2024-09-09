@@ -3,15 +3,16 @@ import type { UseSendWalletTransactionsParams } from '../types';
 import { sendBatchedTransactions } from '../utils/sendBatchedTransactions';
 import { sendSingleTransactions } from '../utils/sendSingleTransactions';
 
+// Sends transactions to the wallet using the appropriate hook based on Transaction props and wallet capabilities
 export const useSendWalletTransactions = ({
+  capabilities,
+  sendCallAsync,
+  sendCallsAsync,
   transactions,
   transactionType,
-  capabilities,
-  writeContractsAsync,
-  writeContractAsync,
-  sendCallsAsync,
-  sendCallAsync,
   walletCapabilities,
+  writeContractAsync,
+  writeContractsAsync,
 }: UseSendWalletTransactionsParams) => {
   return useCallback(async () => {
     if (!transactions) {

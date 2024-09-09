@@ -11,13 +11,16 @@ export const sendBatchedTransactions = async ({
   transactionType,
   writeContractsAsync,
 }: sendBatchedTransactionsParams) => {
-  if (transactionType === TRANSACTION_TYPE_CONTRACTS && transactions) {
+  if (!transactions) {
+    return;
+  }
+  if (transactionType === TRANSACTION_TYPE_CONTRACTS) {
     await writeContractsAsync({
       contracts: transactions,
       capabilities,
     });
   }
-  if (transactionType === TRANSACTION_TYPE_CALLS && transactions) {
+  if (transactionType === TRANSACTION_TYPE_CALLS) {
     await sendCallsAsync({
       calls: transactions,
       capabilities,
