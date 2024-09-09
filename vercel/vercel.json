@@ -61,5 +61,16 @@
       "source": "/:match*",
       "destination": "https://onchainkit-coinbase-vercel.vercel.app/:match*"
     }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "x-robots-tag",
+          "value": "index, follow"
+        }
+      ]
+    }
   ]
 }
