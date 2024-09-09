@@ -1,6 +1,6 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { act, fireEvent, render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { useAccount, useChainId } from 'wagmi';
+import { useAccount, useChainId, useConnect } from 'wagmi';
 import { useShowCallsStatus } from 'wagmi/experimental';
 import { getChainExplorer } from '../../network/getChainExplorer';
 import { TransactionButton } from './TransactionButton';
@@ -13,6 +13,7 @@ vi.mock('./TransactionProvider', () => ({
 vi.mock('wagmi', () => ({
   useChainId: vi.fn(),
   useAccount: vi.fn(),
+  useConnect: vi.fn(),
 }));
 
 vi.mock('wagmi/experimental', () => ({
@@ -29,6 +30,10 @@ describe('TransactionButton', () => {
     (useAccount as vi.Mock).mockReturnValue({ address: '123' });
     (useShowCallsStatus as vi.Mock).mockReturnValue({
       showCallsStatus: vi.fn(),
+    });
+    (useConnect as vi.Mock).mockReturnValue({
+      connectAsync: vi.fn(),
+      connectors: {},
     });
   });
 
@@ -128,6 +133,34 @@ describe('TransactionButton', () => {
     const { getByRole } = render(<TransactionButton text="Submit" />);
     const button = getByRole('button');
     expect(button).not.toBeDisabled();
+  });
+
+  it('should prompt for connection when address is missing', async () => {
+    const onSubmit = vi.fn();
+    const mockConnectAsync = vi.fn();
+    const mockConnector = { id: 'test' };
+    (useAccount as vi.Mock).mockReturnValue({ address: undefined });
+    (useConnect as vi.Mock).mockReturnValue({
+      connectAsync: mockConnectAsync,
+      connectors: [mockConnector],
+    });
+    (useTransactionContext as vi.Mock).mockReturnValue({
+      contracts: {},
+      isLoading: false,
+      lifeCycleStatus: { statusName: 'init', statusData: null },
+      transactionId: undefined,
+      transactionHash: undefined,
+      receipt: undefined,
+      onSubmit,
+    });
+    render(<TransactionButton text="Transact" />);
+    const button = screen.getByText('Transact');
+    await act(async () => {
+      fireEvent.click(button);
+    });
+    expect(mockConnectAsync).toHaveBeenCalled();
+    expect(mockConnectAsync).toHaveBeenCalledWith({ connector: mockConnector });
+    expect(onSubmit).toHaveBeenCalled();
   });
 
   it('should open transaction link when only receipt exists', () => {
