@@ -155,11 +155,8 @@ export const contracts = [
 
 ### Listen to `LifeCycleStatus`
 
-Gain complete control over your transaction experience and data access by 
-utilizing the `LifeCycleStatus` object available through the `onStatus` prop.
-
-The Lifecycle Status is a TypeScript object that offers easy access 
-to the `statusName` and `statusData` properties, keeping you informed and responsive.
+Take full control of your transactions data with the `LifeCycleStatus` object via the `onStatus` prop. 
+This TypeScript object provides `statusName` and `statusData` to keep you informed.
 
 ```tsx
 import type { LifeCycleStatus } from '@coinbase/onchainkit/transaction'; // [!code focus]
