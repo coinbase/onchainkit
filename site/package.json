@@ -20,7 +20,7 @@
     "tar": "^7.0.0",
     "typescript": "latest",
     "vite": "^5.3.4",
-    "vocs": "1.0.0-alpha.55"
+    "vocs": "1.0.0-alpha.58"
   },
   "devDependencies": {
     "@types/sitemap-generator": "^8"

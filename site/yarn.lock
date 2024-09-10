@@ -8088,7 +8088,7 @@ __metadata:
     tar: "npm:^7.0.0"
     typescript: "npm:latest"
     vite: "npm:^5.3.4"
-    vocs: "npm:1.0.0-alpha.55"
+    vocs: "npm:1.0.0-alpha.58"
   languageName: unknown
   linkType: soft
 
@@ -10684,9 +10684,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vocs@npm:1.0.0-alpha.55":
-  version: 1.0.0-alpha.55
-  resolution: "vocs@npm:1.0.0-alpha.55"
+"vocs@npm:1.0.0-alpha.58":
+  version: 1.0.0-alpha.58
+  resolution: "vocs@npm:1.0.0-alpha.58"
   dependencies:
     "@floating-ui/react": "npm:^0.26.6"
     "@hono/node-server": "npm:^1.2.3"
@@ -10754,7 +10754,7 @@ __metadata:
     react-dom: ^18.2.0
   bin:
     vocs: _lib/cli/index.js
-  checksum: 7283fb64669b000959708ad839b604517b06106df7f8f384db6678782e2730802f31d930020652a4e81f810607b568ae7787c8b5e4497004f869f744639ec594
+  checksum: 99e6f36f832490ea8afd78e04c7d0508b317b96c065e50e9c34dc5340b65cd7c4a20e6a86175f56a40b099f05e53300b99205217e9b696a20721611a00baaf23
   languageName: node
   linkType: hard
 
