@@ -80,7 +80,7 @@ export function SwapAmountInput({
       <div className="flex w-full items-center justify-between">
         <TextInput
           className={cn(
-            'w-full border-[none] bg-transparent font-display text-[2.5rem]',
+            'mr-2 w-full border-[none] bg-transparent font-display text-[2.5rem]',
             'leading-none outline-none',
             hasInsufficientBalance && address ? color.error : color.foreground,
           )}
