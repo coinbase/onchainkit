@@ -58,12 +58,12 @@ export default function TransactionWrapper({
 
   function onStatus(status: LifeCycleStatus) {
     console.log('LifecycleStatus', status);
-  };
+  }
 
   return (
     <main className="flex flex-col">
       <div className="flex max-w-[450px] items-center justify-center rounded-lg p-4">
-        {children({ address, contracts, onError, onSuccess, onStatus})}
+        {children({ address, contracts, onError, onSuccess, onStatus })}
       </div>
     </main>
   );
