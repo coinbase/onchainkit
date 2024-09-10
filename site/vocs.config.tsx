@@ -21,6 +21,13 @@ export default defineConfig({
     light: '/favicon/48x48.png?v4-19-24',
     dark: '/favicon/48x48.png?v4-19-24',
   },
+  twoslash: {
+    compilerOptions: {
+      allowUmdGlobalAccess: true,
+      esModuleInterop: true,
+      module: 200, //ModuleKind.Preserve,
+    },
+  },
   async head({ path }) {
     const analytics = (
       <>

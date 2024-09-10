@@ -44,7 +44,8 @@ Execute one or multiple `contracts` using the Transaction component. Each `contr
 
 :::code-group
 
-```tsx [TransactionComponents.tsx]
+```tsx twoslash [TransactionComponents.tsx]
+// @noErrors: 2307 - cannot find module './contracts' or its corresponding type declarations
 import { useCallback } from 'react';
 import { Avatar, Name } from '@coinbase/onchainkit/identity';
 import { // [!code focus]
@@ -59,11 +60,15 @@ import type { LifeCycleStatus } from '@coinbase/onchainkit/transaction';
 import { Wallet, ConnectWallet } from '@coinbase/onchainkit/wallet';
 import { useAccount } from 'wagmi';
 import { contracts } from './contracts'; // [!code focus]
+// ---cut-start---
+
+const BASE_SEPOLIA_CHAIN_ID = 84532;
+// ---cut-end---
 
 export default function TransactionComponents() {
   const { address } = useAccount();
-
-  const handleOnStatus = useCallback(status: LifeCycleStatus) => {
+  
+  const handleOnStatus = useCallback((status: LifeCycleStatus) => {
     console.log('LifecycleStatus', status);
   }, []);
 
@@ -91,7 +96,7 @@ export default function TransactionComponents() {
 };
 ```
 
-```ts [contracts.ts]
+```ts twoslash [contracts.ts]
 const clickContractAddress = '0x67c97D1FB8184F038592b2109F854dfb09C77C75';
 const clickContractAbi = [
   {
@@ -158,12 +163,26 @@ export const contracts = [
 Take full control of your transactions data with the `LifeCycleStatus` object via the `onStatus` prop. 
 This TypeScript object provides `statusName` and `statusData` to keep you informed.
 
-```tsx
+```tsx twoslash
+// @noErrors: 2307 - cannot find module './contracts' or its corresponding type declarations
+import { useCallback } from 'react';
+import {
+  Transaction,
+  TransactionButton,
+  TransactionSponsor,
+  TransactionStatus,
+  TransactionToast,
+  TransactionToastIcon,
+  TransactionToastLabel,
+  TransactionToastAction,
+} from '@coinbase/onchainkit/transaction';
+import { contracts } from './contracts';
+// ---cut-before---
 import type { LifeCycleStatus } from '@coinbase/onchainkit/transaction'; // [!code focus]
 
 // ommited for brevity
 
-const handleOnStatus = useCallback(status: LifeCycleStatus) => { // [!code focus]
+const handleOnStatus = useCallback((status: LifeCycleStatus) => { // [!code focus]
   console.log('LifecycleStatus', status); // [!code focus]
 }, []); // [!code focus]
 
@@ -185,7 +204,10 @@ const handleOnStatus = useCallback(status: LifeCycleStatus) => { // [!code focus
 
 The Lifecycle Status features six states for the transaction experience.
 
-```ts
+```ts twoslash
+import type { TransactionError } from "@coinbase/onchainkit/transaction";
+import type { Address, TransactionReceipt } from "viem";
+// ---cut-before---
 type LifeCycleStatus =
   | {
       statusName: 'init';
@@ -230,7 +252,10 @@ Obtain a Paymaster and Bundler endpoint from the [Coinbase Developer Platform](h
   width="auto"
 />
 
-```tsx
+```tsx twoslash
+// @noErrors: 2580 2304 - Cannot find name 'process', Cannot find name 'contracts'
+import { Transaction, TransactionButton, TransactionSponsor } from "@coinbase/onchainkit/transaction"
+// ---cut-before---
 // ommited for brevity
 <Transaction
   capabilities={{ // [!code focus]
@@ -241,7 +266,7 @@ Obtain a Paymaster and Bundler endpoint from the [Coinbase Developer Platform](h
   contracts={contracts}
   >
   <TransactionButton />
-  <TransactionSponsor text="OnchainKit" />
+  <TransactionSponsor />
 </Transaction>
 ```
 
