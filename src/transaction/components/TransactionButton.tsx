@@ -14,13 +14,13 @@ export function TransactionButton({
   text: buttonText = 'Transact',
 }: TransactionButtonReact) {
   const {
-    contracts,
     chainId,
     errorMessage,
     isLoading,
     lifeCycleStatus,
     onSubmit,
     receipt,
+    transactions,
     transactionHash,
     transactionId,
   } = useTransactionContext();
@@ -32,7 +32,7 @@ export function TransactionButton({
 
   const isInProgress =
     lifeCycleStatus.statusName === 'transactionPending' || isLoading;
-  const isMissingProps = !contracts || !address;
+  const isMissingProps = !transactions || !address;
   const isWaitingForReceipt = !!transactionId || !!transactionHash;
 
   const isDisabled =

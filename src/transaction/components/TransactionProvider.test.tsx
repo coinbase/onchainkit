@@ -7,8 +7,10 @@ import {
 } from 'wagmi';
 import { waitForTransactionReceipt } from 'wagmi/actions';
 import { useOnchainKit } from '../../useOnchainKit';
-import { METHOD_NOT_SUPPORTED_ERROR_SUBSTRING } from '../constants';
 import { useCallsStatus } from '../hooks/useCallsStatus';
+import { useSendCall } from '../hooks/useSendCall';
+import { useSendCalls } from '../hooks/useSendCalls';
+import { useSendWalletTransactions } from '../hooks/useSendWalletTransactions';
 import { useWriteContract } from '../hooks/useWriteContract';
 import { useWriteContracts } from '../hooks/useWriteContracts';
 import {
@@ -41,9 +43,28 @@ vi.mock('../hooks/useWriteContracts', () => ({
   genericErrorMessage: 'Something went wrong. Please try again.',
 }));
 
+vi.mock('../hooks/useSendCall', () => ({
+  useSendCall: vi.fn(),
+}));
+
+vi.mock('../hooks/useSendCalls', () => ({
+  useSendCalls: vi.fn(),
+}));
+
+vi.mock('../hooks/useSendWalletTransactions', () => ({
+  useSendWalletTransactions: vi.fn(),
+}));
+
 vi.mock('../../useOnchainKit', () => ({
   useOnchainKit: vi.fn(),
 }));
+
+const silenceError = () => {
+  const consoleErrorMock = vi
+    .spyOn(console, 'error')
+    .mockImplementation(() => {});
+  return () => consoleErrorMock.mockRestore();
+};
 
 const TestComponent = () => {
   const context = useTransactionContext();
@@ -72,6 +93,9 @@ const TestComponent = () => {
 
   return (
     <div data-testid="test-component">
+      <span data-testid="transactions">
+        {JSON.stringify(context.transactions)}
+      </span>
       <button type="button" onClick={context.onSubmit}>
         Submit
       </button>
@@ -120,6 +144,14 @@ describe('TransactionProvider', () => {
     (useWriteContracts as ReturnType<typeof vi.fn>).mockReturnValue({
       status: 'idle',
       writeContractsAsync: vi.fn(),
+    });
+    (useSendCall as ReturnType<typeof vi.fn>).mockReturnValue({
+      status: 'idle',
+      sendCallAsync: vi.fn(),
+    });
+    (useSendCalls as ReturnType<typeof vi.fn>).mockReturnValue({
+      status: 'idle',
+      sendCallsAsync: vi.fn(),
     });
     (useWaitForTransactionReceipt as ReturnType<typeof vi.fn>).mockReturnValue({
       receipt: undefined,
@@ -261,6 +293,11 @@ describe('TransactionProvider', () => {
       status: 'pending',
       writeContractsAsync: writeContractsAsyncMock,
     });
+    (useOnchainKit as ReturnType<typeof vi.fn>).mockReturnValue({
+      walletCapabilities: {
+        hasAtomicBatch: true,
+      },
+    });
     render(
       <TransactionProvider contracts={[]}>
         <TestComponent />
@@ -298,25 +335,24 @@ describe('TransactionProvider', () => {
   });
 
   it('should update context on handleSubmit', async () => {
-    const writeContractsAsyncMock = vi.fn();
-    (useWriteContracts as ReturnType<typeof vi.fn>).mockReturnValue({
-      status: 'idle',
-      writeContractsAsync: writeContractsAsyncMock,
-    });
+    const sendWalletTransactionsMock = vi.fn();
     (useOnchainKit as ReturnType<typeof vi.fn>).mockReturnValue({
       walletCapabilities: {
         hasAtomicBatch: true,
       },
     });
+    (useSendWalletTransactions as ReturnType<typeof vi.fn>).mockReturnValue(
+      sendWalletTransactionsMock,
+    );
     render(
-      <TransactionProvider contracts={[]}>
+      <TransactionProvider contracts={[{}]}>
         <TestComponent />
       </TransactionProvider>,
     );
     const button = screen.getByText('Submit');
     fireEvent.click(button);
     await waitFor(() => {
-      expect(writeContractsAsyncMock).toHaveBeenCalled();
+      expect(sendWalletTransactionsMock).toHaveBeenCalled();
     });
   });
 
@@ -389,10 +425,16 @@ describe('TransactionProvider', () => {
     const writeContractsAsyncMock = vi
       .fn()
       .mockRejectedValue({ cause: { name: 'UserRejectedRequestError' } });
+    const sendWalletTransactionsMock = vi.fn().mockRejectedValue({
+      cause: { name: 'UserRejectedRequestError' },
+    });
     (useWriteContracts as ReturnType<typeof vi.fn>).mockReturnValue({
       status: 'idle',
       writeContractsAsync: writeContractsAsyncMock,
     });
+    (useSendWalletTransactions as ReturnType<typeof vi.fn>).mockReturnValue(
+      sendWalletTransactionsMock,
+    );
     (useOnchainKit as ReturnType<typeof vi.fn>).mockReturnValue({
       walletCapabilities: {
         hasAtomicBatch: true,
@@ -429,118 +471,58 @@ describe('TransactionProvider', () => {
     });
   });
 
-  it('should call fallbackToWriteContract when executeContracts fails', async () => {
-    const writeContractsAsyncMock = vi
-      .fn()
-      .mockRejectedValue(new Error(METHOD_NOT_SUPPORTED_ERROR_SUBSTRING));
-    const writeContractAsyncMock = vi.fn();
-    (useWriteContracts as ReturnType<typeof vi.fn>).mockReturnValue({
-      status: 'idle',
-      writeContractsAsync: writeContractsAsyncMock,
-    });
-    (useWriteContract as ReturnType<typeof vi.fn>).mockReturnValue({
-      status: 'idle',
-      writeContractAsync: writeContractAsyncMock,
-    });
+  it('should set transactions based on contracts', async () => {
+    const contracts = [{ address: '0x123', method: 'method' }];
     render(
-      <TransactionProvider contracts={[{}]}>
+      <TransactionProvider contracts={contracts}>
         <TestComponent />
       </TransactionProvider>,
     );
-    const button = screen.getByText('Submit');
-    fireEvent.click(button);
     await waitFor(() => {
-      expect(writeContractAsyncMock).toHaveBeenCalled();
+      const transactionsElement = screen.getByTestId('transactions');
+      expect(transactionsElement.textContent).toBe(JSON.stringify(contracts));
     });
   });
 
-  it('should handle generic error during fallback', async () => {
-    const writeContractAsyncMock = vi
-      .fn()
-      .mockRejectedValue(new Error('Generic error'));
-    (useWriteContract as ReturnType<typeof vi.fn>).mockReturnValue({
-      status: 'idle',
-      writeContractAsync: writeContractAsyncMock,
-    });
+  it('should set transactions based on calls', async () => {
+    const calls = [{ to: '0x456', data: '0xabcdef' }];
     render(
-      <TransactionProvider contracts={[{}]}>
+      <TransactionProvider calls={calls}>
         <TestComponent />
       </TransactionProvider>,
     );
-    const button = screen.getByText('Submit');
-    fireEvent.click(button);
     await waitFor(() => {
-      expect(screen.getByTestId('context-value-errorCode').textContent).toBe(
-        'TmTPc02',
-      );
-      expect(screen.getByTestId('context-value-errorMessage').textContent).toBe(
-        'Something went wrong. Please try again.',
-      );
+      const transactionsElement = screen.getByTestId('transactions');
+      expect(transactionsElement.textContent).toBe(JSON.stringify(calls));
     });
   });
 
-  it('should call setLifeCycleStatus when calling fallbackToWriteContract when executeContracts fails', async () => {
-    const writeContractsAsyncMock = vi
-      .fn()
-      .mockRejectedValue(new Error(METHOD_NOT_SUPPORTED_ERROR_SUBSTRING));
-    const writeContractAsyncMock = vi
-      .fn()
-      .mockRejectedValue(new Error('Basic error'));
-    (useWriteContracts as ReturnType<typeof vi.fn>).mockReturnValue({
-      status: 'idle',
-      writeContractsAsync: writeContractsAsyncMock,
-    });
-    (useWriteContract as ReturnType<typeof vi.fn>).mockReturnValue({
-      status: 'idle',
-      writeContractAsync: writeContractAsyncMock,
-    });
-    render(
-      <TransactionProvider contracts={[{}]}>
-        <TestComponent />
-      </TransactionProvider>,
+  it('should throw an error when neither contracts nor calls are provided', async () => {
+    const restore = silenceError();
+    expect(() => {
+      render(
+        <TransactionProvider>
+          <div>Test</div>
+        </TransactionProvider>,
+      );
+    }).toThrowError(
+      'Transaction: One of contracts or calls must be provided as a prop to the Transaction component.',
     );
-    const button = screen.getByText('Submit');
-    fireEvent.click(button);
-    await waitFor(() => {
-      expect(screen.getByTestId('context-value-errorCode').textContent).toBe(
-        'TmTPc02',
-      );
-      expect(screen.getByTestId('context-value-errorMessage').textContent).toBe(
-        'Something went wrong. Please try again.',
-      );
-    });
+    restore();
   });
 
-  it('should call setLifeCycleStatus when calling fallbackToWriteContract when user rejects request', async () => {
-    const writeContractsAsyncMock = vi
-      .fn()
-      .mockRejectedValue(new Error(METHOD_NOT_SUPPORTED_ERROR_SUBSTRING));
-    const writeContractAsyncMock = vi
-      .fn()
-      .mockRejectedValue({ cause: { name: 'UserRejectedRequestError' } });
-    (useWriteContracts as ReturnType<typeof vi.fn>).mockReturnValue({
-      status: 'idle',
-      writeContractsAsync: writeContractsAsyncMock,
-    });
-    (useWriteContract as ReturnType<typeof vi.fn>).mockReturnValue({
-      status: 'idle',
-      writeContractAsync: writeContractAsyncMock,
-    });
-    render(
-      <TransactionProvider contracts={[{}]}>
-        <TestComponent />
-      </TransactionProvider>,
+  it('should throw an error when both contracts and calls are provided', async () => {
+    const restore = silenceError();
+    expect(() => {
+      render(
+        <TransactionProvider contracts={[{}]} calls={[{}]}>
+          <div>Test</div>
+        </TransactionProvider>,
+      );
+    }).toThrowError(
+      'Transaction: Only one of contracts or calls can be provided as a prop to the Transaction component.',
     );
-    const button = screen.getByText('Submit');
-    fireEvent.click(button);
-    await waitFor(() => {
-      expect(screen.getByTestId('context-value-errorCode').textContent).toBe(
-        'TmTPc02',
-      );
-      expect(screen.getByTestId('context-value-errorMessage').textContent).toBe(
-        'Request denied.',
-      );
-    });
+    restore();
   });
 });
 

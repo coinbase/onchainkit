@@ -11,6 +11,12 @@ export enum OnchainKitComponent {
   Transaction = 'transaction',
   Wallet = 'wallet',
 }
+
+export enum TransactionTypes {
+  Calls = 'calls',
+  Contracts = 'contracts',
+}
+
 export type Paymaster = {
   url: string;
   enabled: boolean;
@@ -23,6 +29,8 @@ type State = {
   clearWalletType?: () => void;
   chainId?: number;
   setChainId?: (chainId: number) => void;
+  transactionType?: TransactionTypes;
+  setTransactionType?: (transactionType: TransactionTypes) => void;
   paymasters?: Record<number, Paymaster>; // paymasters is per network
   setPaymaster?: (chainId: number, url: string, enabled: boolean) => void;
 };
@@ -42,6 +50,9 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     useState<OnchainKitComponent>();
   const [walletType, setWalletTypeState] = useState<WalletPreference>();
   const [chainId, setChainIdState] = useState<number>();
+  const [transactionType, setTransactionTypeState] = useState<TransactionTypes>(
+    TransactionTypes.Contracts,
+  );
   const [paymasters, setPaymastersState] =
     useState<Record<number, Paymaster>>();
 
@@ -51,6 +62,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     const storedWalletType = localStorage.getItem('walletType');
     const storedChainId = localStorage.getItem('chainId');
     const storedPaymasters = localStorage.getItem('paymasters');
+    const storedTransactionType = localStorage.getItem('transactionType');
 
     if (storedActiveComponent) {
       setActiveComponent(storedActiveComponent as OnchainKitComponent);
@@ -63,6 +75,9 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     }
     if (storedPaymasters) {
       setPaymastersState(JSON.parse(storedPaymasters));
+    }
+    if (storedTransactionType) {
+      setTransactionTypeState(storedTransactionType as TransactionTypes);
     }
   }, []);
 
@@ -106,6 +121,11 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     setPaymastersState(newObj);
   };
 
+  const setTransactionType = (transactionType: TransactionTypes) => {
+    localStorage.setItem('transactionType', transactionType.toString());
+    setTransactionTypeState(transactionType);
+  };
+
   return (
     <AppContext.Provider
       value={{
@@ -118,6 +138,8 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         setChainId,
         paymasters,
         setPaymaster,
+        transactionType,
+        setTransactionType,
       }}
     >
       {children}

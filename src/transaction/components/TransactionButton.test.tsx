@@ -92,9 +92,9 @@ describe('TransactionButton', () => {
     expect(button).toBeDisabled();
   });
 
-  it('should have disabled when contracts are missing', () => {
+  it('should have disabled when transactions are missing', () => {
     (useTransactionContext as vi.Mock).mockReturnValue({
-      contracts: undefined,
+      transactions: undefined,
       lifeCycleStatus: { statusName: 'init', statusData: null },
     });
     const { getByRole } = render(<TransactionButton text="Submit" />);
@@ -118,9 +118,9 @@ describe('TransactionButton', () => {
 
   it('should enable button when not in progress, not missing props, and not waiting for receipt', () => {
     (useTransactionContext as vi.Mock).mockReturnValue({
-      contracts: {},
       isLoading: false,
       lifeCycleStatus: { statusName: 'init', statusData: null },
+      transactions: [],
       transactionId: undefined,
       transactionHash: undefined,
       receipt: undefined,
@@ -157,7 +157,7 @@ describe('TransactionButton', () => {
     const onSubmit = vi.fn();
     (useTransactionContext as vi.Mock).mockReturnValue({
       address: '123',
-      contracts: [{}],
+      transactions: [{}],
       lifeCycleStatus: { statusName: 'init', statusData: null },
       onSubmit,
       receipt: undefined,

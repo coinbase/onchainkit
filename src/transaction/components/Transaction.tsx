@@ -4,6 +4,7 @@ import type { TransactionReact } from '../types';
 import { TransactionProvider } from './TransactionProvider';
 
 export function Transaction({
+  calls,
   capabilities,
   chainId,
   className,
@@ -21,6 +22,7 @@ export function Transaction({
 
   return (
     <TransactionProvider
+      calls={calls}
       capabilities={capabilities}
       chainId={chainId}
       contracts={contracts}

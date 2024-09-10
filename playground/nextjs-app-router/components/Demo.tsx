@@ -9,6 +9,7 @@ import SwapDemo from './demo/Swap';
 import TransactionDemo from './demo/Transaction';
 import WalletDemo from './demo/Wallet';
 import { ActiveComponent } from './form/active-component';
+import { TransactionOptions } from './form/transaction-options';
 
 // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO Refactor this component
 function Demo() {
@@ -46,6 +47,7 @@ function Demo() {
           <ActiveComponent />
           <WalletType />
           <Chain />
+          <TransactionOptions />
           <PaymasterUrl />
         </form>
         <a
