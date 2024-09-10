@@ -1,4 +1,5 @@
 import type {
+  LifeCycleStatus,
   TransactionError,
   TransactionResponse,
 } from '@coinbase/onchainkit/transaction';
@@ -55,10 +56,14 @@ export default function TransactionWrapper({
     console.log('TransactionWrapper.onSuccess', response);
   }
 
+  function onStatus(status: LifeCycleStatus) {
+    console.log('LifecycleStatus', status);
+  };
+
   return (
     <main className="flex flex-col">
       <div className="flex max-w-[450px] items-center justify-center rounded-lg p-4">
-        {children({ address, contracts, onError, onSuccess })}
+        {children({ address, contracts, onError, onSuccess, onStatus})}
       </div>
     </main>
   );
