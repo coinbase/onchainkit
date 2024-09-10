@@ -5,11 +5,46 @@ description: Glossary of Types in Transaction components & utilities.
 
 # Types [Glossary of Types in Transaction components & utilities.]
 
+## `LifeCycleStatus`
+
+```ts
+type LifeCycleStatus =
+  | {
+      statusName: 'init';
+      statusData: null;
+    }
+  | {
+      statusName: 'error';
+      statusData: TransactionError;
+    }
+  | {
+      statusName: 'transactionIdle'; // initial status prior to the mutation function executing
+      statusData: null;
+    }
+  | {
+      statusName: 'transactionPending'; // if the mutation is currently executing
+      statusData: null;
+    }
+  | {
+      statusName: 'transactionLegacyExecuted';
+      statusData: {
+        transactionHashList: Address[];
+      };
+    }
+  | {
+      statusName: 'success'; // if the last mutation attempt was successful
+      statusData: {
+        transactionReceipts: TransactionReceipt[];
+      };
+    };
+```
+
 ## `TransactionButtonReact`
 
 ```ts
 type TransactionButtonReact = {
   className?: string; // An optional CSS class name for styling the button component.
+  disabled?: boolean; // A optional prop to disable the submit button
   text?: string; // An optional text to be displayed in the button component.
 };
 ```
@@ -20,6 +55,7 @@ type TransactionButtonReact = {
 type TransactionError = {
   code: string; // The error code representing the type of transaction error.
   error: string; // The error message providing details about the transaction error.
+  message: string; // The error message providing details about the transaction error.
 };
 ```
 
@@ -27,10 +63,13 @@ type TransactionError = {
 
 ```ts
 type TransactionReact = {
+  capabilities?: WalletCapabilities; // Capabilities that a wallet supports (e.g. paymasters, session keys, etc).
+  chainId?: number; // The chainId for the transaction.
   children: ReactNode; // The child components to be rendered within the transaction component.
   className?: string; // An optional CSS class name for styling the component.
   contracts: ContractFunctionParameters[]; // An array of contract function parameters for the transaction.
   onError?: (e: TransactionError) => void; // An optional callback function that handles transaction errors.
+  onStatus?: (lifeCycleStatus: LifeCycleStatus) => void; // An optional callback function that exposes the component lifecycle state
   onSuccess?: (response: TransactionResponse) => void; // An optional callback function that exposes the transaction receipts
 };
 ```
