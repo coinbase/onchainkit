@@ -58,6 +58,11 @@ export type QuoteWarning = {
   type?: string; // The type of the warning
 };
 
+type LifecycleStatusDataShared = {
+  isMissingRequiredField: boolean;
+  maxSlippage: number;
+};
+
 /**
  * List of swap lifecycle statuses.
  * The order of the statuses loosely follows the swap lifecycle.
@@ -67,52 +72,41 @@ export type QuoteWarning = {
 export type LifeCycleStatus =
   | {
       statusName: 'init';
-      statusData: {
-        isMissingRequiredField: boolean;
-        maxSlippage: number;
-      };
+      statusData: LifecycleStatusDataShared;
     }
   | {
       statusName: 'error';
-      statusData: SwapError;
+      statusData: SwapError & LifecycleStatusDataShared;
     }
   | {
       statusName: 'amountChange';
       statusData: {
         amountFrom: string;
         amountTo: string;
-        maxSlippage: number;
         tokenFrom?: Token;
         tokenTo?: Token;
-        isMissingRequiredField: boolean;
-      };
+      } & LifecycleStatusDataShared;
     }
   | {
       statusName: 'slippageChange';
-      statusData: {
-        maxSlippage: number;
-      };
+      statusData: LifecycleStatusDataShared;
     }
   | {
       statusName: 'transactionPending';
-      statusData: {
-        maxSlippage: number;
-      };
+      statusData: LifecycleStatusDataShared;
     }
   | {
       statusName: 'transactionApproved';
       statusData: {
-        maxSlippage: number;
         transactionHash: Hex;
         transactionType: 'ERC20' | 'Permit2';
-      };
+      } & LifecycleStatusDataShared;
     }
   | {
       statusName: 'success';
       statusData: {
-        maxSlippage: number;
         transactionReceipt: TransactionReceipt;
-      };
+      } & LifecycleStatusDataShared;
     };
 
 export type ProcessSwapTransactionParams = {

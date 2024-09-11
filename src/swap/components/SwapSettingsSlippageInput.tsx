@@ -34,7 +34,10 @@ export function SwapSettingsSlippageInput({
       setSlippage(newSlippage);
       setLifeCycleStatus({
         statusName: 'slippageChange',
-        statusData: { maxSlippage: newSlippage },
+        statusData: {
+          isMissingRequiredField: false,
+          maxSlippage: newSlippage,
+        },
       });
     },
     [setLifeCycleStatus],

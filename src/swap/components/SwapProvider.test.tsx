@@ -106,7 +106,14 @@ const TestSwapComponent = () => {
   const handleStatusError = async () => {
     context.setLifeCycleStatus({
       statusName: 'error',
-      statusData: { code: 'code', error: 'error_long_messages', message: '' },
+      statusData: {
+        code: 'code',
+        error: 'error_long_messages',
+        message: '',
+        // LifecycleStatus shared data
+        isMissingRequiredField: false,
+        maxSlippage: 3,
+      },
     });
   };
   const handleStatusAmountChange = async () => {
@@ -115,14 +122,20 @@ const TestSwapComponent = () => {
       statusData: {
         amountFrom: '',
         amountTo: '',
+        // LifecycleStatus shared data
         isMissingRequiredField: false,
+        maxSlippage: 3,
       },
     });
   };
   const handleStatusTransactionPending = async () => {
     context.setLifeCycleStatus({
       statusName: 'transactionPending',
-      statusData: null,
+      statusData: {
+        // LifecycleStatus shared data
+        isMissingRequiredField: false,
+        maxSlippage: 3,
+      },
     });
   };
   const handleStatusTransactionApproved = async () => {
@@ -131,13 +144,21 @@ const TestSwapComponent = () => {
       statusData: {
         transactionHash: '0x123',
         transactionType: 'ERC20',
+        // LifecycleStatus shared data
+        isMissingRequiredField: false,
+        maxSlippage: 3,
       },
     });
   };
   const handleStatusSuccess = async () => {
     context.setLifeCycleStatus({
       statusName: 'success',
-      statusData: { receipt: ['0x123'] },
+      statusData: {
+        receipt: ['0x123'],
+        // LifecycleStatus shared data
+        isMissingRequiredField: false,
+        maxSlippage: 3,
+      },
     });
   };
   return (
@@ -234,6 +255,9 @@ describe('SwapProvider', () => {
       code: 'code',
       error: 'error_long_messages',
       message: 'test',
+      // LifecycleStatus shared data
+      isMissingRequiredField: false,
+      maxSlippage: 3,
     };
     await act(async () => {
       result.current.setLifeCycleStatus({
@@ -249,7 +273,12 @@ describe('SwapProvider', () => {
     await act(async () => {
       result.current.setLifeCycleStatus({
         statusName: 'success',
-        statusData: { receipt: ['0x123'], maxSlippage: 5 },
+        statusData: {
+          receipt: ['0x123'],
+          // LifecycleStatus shared data
+          isMissingRequiredField: false,
+          maxSlippage: 5,
+        },
       });
     });
     expect(result.current.error).toBeUndefined();
@@ -260,7 +289,12 @@ describe('SwapProvider', () => {
     await act(async () => {
       result.current.setLifeCycleStatus({
         statusName: 'success',
-        statusData: { transactionReceipt: '0x123', maxSlippage: 5 },
+        statusData: {
+          transactionReceipt: '0x123',
+          // LifecycleStatus shared data
+          isMissingRequiredField: false,
+          maxSlippage: 5,
+        },
       });
     });
     await waitFor(() => {
@@ -604,6 +638,9 @@ describe('SwapProvider', () => {
         code: 'TmSPc01',
         error: JSON.stringify(mockError),
         message: '',
+        // LifecycleStatus shared data
+        isMissingRequiredField: true,
+        maxSlippage: 5,
       },
     });
   });
@@ -624,6 +661,9 @@ describe('SwapProvider', () => {
         code: 'UNCAUGHT_SWAP_QUOTE_ERROR',
         error: 'Something went wrong',
         message: '',
+        // LifecycleStatus shared data
+        isMissingRequiredField: true,
+        maxSlippage: 5,
       },
     });
   });
@@ -677,6 +717,9 @@ describe('SwapProvider', () => {
       code: getSwapErrorCode('uncaught-swap'),
       error: 'Something went wrong',
       message: '',
+      // LifecycleStatus shared data
+      isMissingRequiredField: false,
+      maxSlippage: 3,
     });
     renderWithProviders({ Component: TestSwapComponent });
     fireEvent.click(screen.getByText('Swap'));

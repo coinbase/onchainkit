@@ -122,12 +122,18 @@ export function SwapProvider({
       setLifeCycleStatus({
         statusName: 'init',
         statusData: {
-          isMissingRequiredField: false,
+          isMissingRequiredField:
+            lifeCycleStatus.statusData.isMissingRequiredField,
           maxSlippage,
         },
       });
     }
-  }, [hasHandledSuccess, lifeCycleStatus.statusName, maxSlippage]);
+  }, [
+    hasHandledSuccess,
+    lifeCycleStatus.statusData,
+    lifeCycleStatus.statusName,
+    maxSlippage,
+  ]);
 
   const handleToggle = useCallback(() => {
     from.setAmount(to.amount);
@@ -180,12 +186,12 @@ export function SwapProvider({
           // amount is irrelevant
           amountFrom: type === 'from' ? amount : '',
           amountTo: type === 'to' ? amount : '',
-          maxSlippage,
-          tokenFrom: from.token,
-          tokenTo: to.token,
           // when fetching quote, the destination
           // amount is missing
           isMissingRequiredField: true,
+          maxSlippage,
+          tokenFrom: from.token,
+          tokenTo: to.token,
         },
       });
 
@@ -207,6 +213,10 @@ export function SwapProvider({
               code: response.code,
               error: response.error,
               message: '',
+              // LifecycleStatus shared data
+              isMissingRequiredField:
+                lifeCycleStatus.statusData.isMissingRequiredField,
+              maxSlippage,
             },
           });
           return;
@@ -221,12 +231,12 @@ export function SwapProvider({
           statusData: {
             amountFrom: type === 'from' ? amount : formattedAmount,
             amountTo: type === 'to' ? amount : formattedAmount,
-            maxSlippage,
-            tokenFrom: from.token,
-            tokenTo: to.token,
             // if quote was fetched successfully, we
             // have all required fields
             isMissingRequiredField: !formattedAmount,
+            maxSlippage,
+            tokenFrom: from.token,
+            tokenTo: to.token,
           },
         });
       } catch (err) {
@@ -236,6 +246,10 @@ export function SwapProvider({
             code: 'TmSPc01', // Transaction module SwapProvider component 01 error
             error: JSON.stringify(err),
             message: '',
+            // LifecycleStatus shared data
+            isMissingRequiredField:
+              lifeCycleStatus.statusData.isMissingRequiredField,
+            maxSlippage,
           },
         });
       } finally {
@@ -243,7 +257,7 @@ export function SwapProvider({
         destination.setLoading(false);
       }
     },
-    [from, maxSlippage, to, useAggregator],
+    [from, lifeCycleStatus, maxSlippage, to, useAggregator],
   );
 
   const handleSubmit = useCallback(async () => {
@@ -274,6 +288,10 @@ export function SwapProvider({
             code: response.code,
             error: response.error,
             message: response.message,
+            // LifecycleStatus shared data
+            isMissingRequiredField:
+              lifeCycleStatus.statusData.isMissingRequiredField,
+            maxSlippage,
           },
         });
         return;
@@ -298,6 +316,10 @@ export function SwapProvider({
           code: 'TmSPc02', // Transaction module SwapProvider component 02 error
           error: JSON.stringify(err),
           message: errorMessage,
+          // LifecycleStatus shared data
+          isMissingRequiredField:
+            lifeCycleStatus.statusData.isMissingRequiredField,
+          maxSlippage,
         },
       });
     }
