@@ -48,7 +48,7 @@ export function SwapProvider({
   // Feature flags
   const { useAggregator } = experimental;
   const [initialMaxSlippage, _setInitialMaxSlippage] = useState(
-    experimental.maxSlippage || DEFAULT_MAX_SLIPPAGE,
+    experimental.maxSlippage || DEFAULT_MAX_SLIPPAGE
   );
   // Core Hooks
   const config = useConfig();
@@ -137,12 +137,11 @@ export function SwapProvider({
       });
     }
   }, [
+    getMaxSlippage,
     hasHandledSuccess,
     lifeCycleStatus.statusData,
     lifeCycleStatus.statusName,
-    maxSlippage,
   ]);
-  }, [getMaxSlippage, hasHandledSuccess, lifeCycleStatus.statusName]);
 
   const handleToggle = useCallback(() => {
     from.setAmount(to.amount);
@@ -156,7 +155,7 @@ export function SwapProvider({
       type: 'from' | 'to',
       amount: string,
       sToken?: Token,
-      dToken?: Token,
+      dToken?: Token
       // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO Refactor this component
     ) => {
       const maxSlippage = getMaxSlippage();
@@ -233,7 +232,7 @@ export function SwapProvider({
         }
         const formattedAmount = formatTokenAmount(
           response.toAmount,
-          response.to.decimals,
+          response.to.decimals
         );
         destination.setAmount(formattedAmount);
         setLifeCycleStatus({
@@ -267,7 +266,7 @@ export function SwapProvider({
         destination.setLoading(false);
       }
     },
-    [from, lifeCycleStatus, getMaxSlippage, to, useAggregator],
+    [from, lifeCycleStatus, getMaxSlippage, to, useAggregator]
   );
 
   const handleSubmit = useCallback(async () => {
