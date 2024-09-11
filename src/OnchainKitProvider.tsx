@@ -1,8 +1,8 @@
 import { createContext, useMemo } from 'react';
 import { ONCHAIN_KIT_CONFIG, setOnchainKitConfig } from './OnchainKitConfig';
+import { useCapabilitiesSafe } from './internal/hooks/useCapabilitiesSafe';
 import { checkHashLength } from './internal/utils/checkHashLength';
 import type { OnchainKitContextType, OnchainKitProviderReact } from './types';
-import { useCapabilitiesSafe } from './useCapabilitiesSafe';
 
 export const OnchainKitContext =
   createContext<OnchainKitContextType>(ONCHAIN_KIT_CONFIG);

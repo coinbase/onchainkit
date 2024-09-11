@@ -11,7 +11,7 @@ import { mock } from 'wagmi/connectors';
 import { setOnchainKitConfig } from './OnchainKitConfig';
 import { OnchainKitProvider } from './OnchainKitProvider';
 import type { EASSchemaUid } from './identity/types';
-import { useCapabilitiesSafe } from './useCapabilitiesSafe';
+import { useCapabilitiesSafe } from './internal/hooks/useCapabilitiesSafe';
 import { useOnchainKit } from './useOnchainKit';
 
 const queryClient = new QueryClient();
@@ -26,7 +26,7 @@ const mockConfig = createConfig({
     [base.id]: http(),
   },
 });
-vi.mock('./useCapabilitiesSafe');
+vi.mock('./internal/hooks/useCapabilitiesSafe');
 
 const TestComponent = () => {
   const { schemaId, apiKey } = useOnchainKit();
