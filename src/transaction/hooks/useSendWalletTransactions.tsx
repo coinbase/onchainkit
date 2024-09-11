@@ -1,4 +1,5 @@
 import { useCallback } from 'react';
+import { Capabilities } from '../../constants';
 import type { UseSendWalletTransactionsParams } from '../types';
 import { sendBatchedTransactions } from '../utils/sendBatchedTransactions';
 import { sendSingleTransactions } from '../utils/sendSingleTransactions';
@@ -18,7 +19,7 @@ export const useSendWalletTransactions = ({
     if (!transactions) {
       return;
     }
-    if (walletCapabilities['atomicBatch']?.supported) {
+    if (walletCapabilities[Capabilities.AtomicBatch].supported) {
       // Batched transactions
       await sendBatchedTransactions({
         capabilities,
