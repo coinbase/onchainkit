@@ -13,7 +13,6 @@ import { base } from 'wagmi/chains';
 import { mock } from 'wagmi/connectors';
 import { buildSwapTransaction } from '../../api/buildSwapTransaction';
 import { getSwapQuote } from '../../api/getSwapQuote';
-import { DEFAULT_MAX_SLIPPAGE } from '../constants';
 import { DEGEN_TOKEN, ETH_TOKEN } from '../mocks';
 import { getSwapErrorCode } from '../utils/getSwapErrorCode';
 import { SwapProvider, useSwapContext } from './SwapProvider';
