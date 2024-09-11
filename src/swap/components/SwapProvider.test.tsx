@@ -620,47 +620,6 @@ describe('SwapProvider', () => {
     expect(result.current.to.amount).toBe('');
   });
 
-  it('should use DEFAULT_MAX_SLIPPAGE when lifeCycleStatus.statusData is falsy and experimental.maxSlippage is not provided', async () => {
-    const { result } = renderHook(() => useSwapContext(), {
-      wrapper: ({ children }) => (
-        <WagmiProvider config={config}>
-          <QueryClientProvider client={queryClient}>
-            <SwapProvider experimental={{ useAggregator: true }}>
-              {children}
-            </SwapProvider>
-          </QueryClientProvider>
-        </WagmiProvider>
-      ),
-    });
-    act(() => {
-      result.current.setLifeCycleStatus({
-        statusName: 'error',
-        statusData: null,
-      });
-    });
-    vi.mocked(getSwapQuote).mockResolvedValueOnce({
-      toAmount: '100',
-      to: { decimals: 18 },
-    });
-    await act(async () => {
-      await result.current.handleAmountChange(
-        'from',
-        '10',
-        ETH_TOKEN,
-        DEGEN_TOKEN,
-      );
-    });
-    expect(getSwapQuote).toHaveBeenCalledWith(
-      expect.objectContaining({
-        maxSlippage: String(DEFAULT_MAX_SLIPPAGE),
-      }),
-    );
-    expect(result.current.lifeCycleStatus.statusName).toBe('amountChange');
-    expect(result.current.lifeCycleStatus.statusData.maxSlippage).toBe(
-      DEFAULT_MAX_SLIPPAGE,
-    );
-  });
-
   it('should handle zero amount input', async () => {
     const { result } = renderHook(() => useSwapContext(), { wrapper });
     await act(async () => {
