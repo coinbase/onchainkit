@@ -5,7 +5,6 @@ import {
   PERMIT2_CONTRACT_ADDRESS,
   UNIVERSALROUTER_CONTRACT_ADDRESS,
 } from '../constants';
-import { DEFAULT_MAX_SLIPPAGE } from '../constants';
 import type { ProcessSwapTransactionParams } from '../types';
 
 export async function processSwapTransaction({
@@ -17,7 +16,7 @@ export async function processSwapTransaction({
   useAggregator,
 }: ProcessSwapTransactionParams) {
   const { transaction, approveTransaction, quote } = swapTransaction;
-  
+
   // for swaps from ERC-20 tokens,
   // if there is an approveTransaction present,
   // request approval for the amount

@@ -48,7 +48,7 @@ export function SwapProvider({
   // Feature flags
   const { useAggregator } = experimental;
   const [initialMaxSlippage, _setInitialMaxSlippage] = useState(
-    experimental.maxSlippage || DEFAULT_MAX_SLIPPAGE
+    experimental.maxSlippage || DEFAULT_MAX_SLIPPAGE,
   );
   // Core Hooks
   const config = useConfig();
@@ -69,12 +69,6 @@ export function SwapProvider({
   // Refreshes balances and inputs post-swap
   const resetInputs = useResetInputs({ from, to });
 
-  const getMaxSlippage = useCallback(() => {
-    if (lifeCycleStatus.statusData && lifeCycleStatus.statusName !== 'error') {
-      return lifeCycleStatus.statusData.maxSlippage;
-    }
-    return experimental.maxSlippage || DEFAULT_MAX_SLIPPAGE;
-  }, [lifeCycleStatus, experimental.maxSlippage]);
   // Component lifecycle emitters
   useEffect(() => {
     // Error
@@ -124,7 +118,7 @@ export function SwapProvider({
   }, [hasHandledSuccess, lifeCycleStatus.statusName, resetInputs]);
 
   useEffect(() => {
-    const maxSlippage = getMaxSlippage();
+    const maxSlippage = lifeCycleStatus.statusData.maxSlippage;
     // Reset status to init after success has been handled
     if (lifeCycleStatus.statusName === 'success' && hasHandledSuccess) {
       setLifeCycleStatus({
@@ -137,7 +131,6 @@ export function SwapProvider({
       });
     }
   }, [
-    getMaxSlippage,
     hasHandledSuccess,
     lifeCycleStatus.statusData,
     lifeCycleStatus.statusName,
@@ -155,10 +148,10 @@ export function SwapProvider({
       type: 'from' | 'to',
       amount: string,
       sToken?: Token,
-      dToken?: Token
+      dToken?: Token,
       // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO Refactor this component
     ) => {
-      const maxSlippage = getMaxSlippage();
+      const maxSlippage = lifeCycleStatus.statusData.maxSlippage;
       const source = type === 'from' ? from : to;
       const destination = type === 'from' ? to : from;
 
@@ -232,7 +225,7 @@ export function SwapProvider({
         }
         const formattedAmount = formatTokenAmount(
           response.toAmount,
-          response.to.decimals
+          response.to.decimals,
         );
         destination.setAmount(formattedAmount);
         setLifeCycleStatus({
@@ -266,14 +259,14 @@ export function SwapProvider({
         destination.setLoading(false);
       }
     },
-    [from, lifeCycleStatus, getMaxSlippage, to, useAggregator]
+    [from, lifeCycleStatus, to, useAggregator],
   );
 
   const handleSubmit = useCallback(async () => {
     if (!address || !from.token || !to.token || !from.amount) {
       return;
     }
-    const maxSlippage = getMaxSlippage();
+    const maxSlippage = lifeCycleStatus.statusData.maxSlippage;
     setLifeCycleStatus({
       statusName: 'init',
       statusData: {
@@ -338,7 +331,6 @@ export function SwapProvider({
     config,
     from.amount,
     from.token,
-    getMaxSlippage,
     lifeCycleStatus,
     sendTransactionAsync,
     to.token,
