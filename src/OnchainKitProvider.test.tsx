@@ -46,11 +46,7 @@ vi.mock('./OnchainKitConfig', () => ({
     chain: base,
     rpcUrl: null,
     schemaId: null,
-    walletCapabilities: {
-      hasPaymasterService: false,
-      hasAtomicBatch: false,
-      hasAuxiliaryFunds: false,
-    },
+    walletCapabilities: {},
   },
 }));
 describe('OnchainKitProvider', () => {
@@ -133,19 +129,21 @@ describe('OnchainKitProvider', () => {
       chain: base,
       rpcUrl: null,
       schemaId,
-      walletCapabilities: {
-        hasPaymasterService: false,
-        hasAtomicBatch: false,
-        hasAuxiliaryFunds: false,
-      },
+      walletCapabilities: {},
     });
   });
 
   it('should call setOnchainKitConfig when capabilities are found', async () => {
     const walletCapabilities = {
-      hasPaymasterService: true,
-      hasAtomicBatch: true,
-      hasAuxiliaryFunds: true,
+      atomicBatch: {
+        supported: true,
+      },
+      paymasterService: {
+        supported: true,
+      },
+      auxiliaryFunds: {
+        supported: true,
+      },
     };
     vi.mocked(useCapabilitiesSafe).mockReturnValue(walletCapabilities);
     await act(async () => {
@@ -174,11 +172,7 @@ describe('OnchainKitProvider', () => {
   });
 
   it('should call setOnchainKitConfig when capabilities are not found', async () => {
-    const walletCapabilities = {
-      hasPaymasterService: false,
-      hasAtomicBatch: false,
-      hasAuxiliaryFunds: false,
-    };
+    const walletCapabilities = {};
     vi.mocked(useCapabilitiesSafe).mockReturnValue(walletCapabilities);
     await act(async () => {
       render(

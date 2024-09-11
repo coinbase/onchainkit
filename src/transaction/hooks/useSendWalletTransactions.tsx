@@ -45,6 +45,6 @@ export const useSendWalletTransactions = ({
     capabilities,
     transactions,
     transactionType,
-    walletCapabilities.hasAtomicBatch,
+    walletCapabilities,
   ]);
 };
