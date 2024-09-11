@@ -6,12 +6,13 @@ The `isWalletASmartCoinbaseWallet` utility is designed to verify if a given send
 
 :::code-group
 
-```tsx [code]
+```tsx twoslash [code]
+// @noErrors: 2352 2801 2719
 import { isWalletACoinbaseSmartWallet } from '@coinbase/onchainkit/wallet';
 import { http } from 'viem';
 import { baseSepolia } from 'viem/chains';
 import type { UserOperation } from 'permissionless';
-import type { PublicClient } from 'viem';
+import { type PublicClient, createPublicClient } from 'viem';
 
 export const publicClient = createPublicClient({
   chain: baseSepolia,

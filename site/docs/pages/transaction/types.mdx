@@ -11,10 +11,10 @@ description: Glossary of Types in Transaction components & utilities.
 type Call = { to: Hex; data?: Hex; value?: bigint };
 ```
 
-## `LifeCycleStatus`
+## `LifecycleStatus`
 
 ```ts
-type LifeCycleStatus =
+type LifecycleStatus =
   | {
       statusName: 'init';
       statusData: null;
@@ -76,7 +76,7 @@ type TransactionReact = {
   className?: string; // An optional CSS class name for styling the component.
   contracts?: ContractFunctionParameters[]; // An array of contract function parameters for the transaction. Mutually exclusive with the `calls` prop.
   onError?: (e: TransactionError) => void; // An optional callback function that handles transaction errors.
-  onStatus?: (lifeCycleStatus: LifeCycleStatus) => void; // An optional callback function that exposes the component lifecycle state
+  onStatus?: (lifecycleStatus: LifecycleStatus) => void; // An optional callback function that exposes the component lifecycle state
   onSuccess?: (response: TransactionResponse) => void; // An optional callback function that exposes the transaction receipts
 };
 ```

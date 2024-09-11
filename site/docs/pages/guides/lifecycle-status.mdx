@@ -31,10 +31,13 @@ can tap into the rhythm and customize the behavior of your components. 🎶
 The Lifecycle Status is a TypeScript object that provides easy access to the `statusName` and `statusData` properties, 
 allowing you to stay informed and responsive.
 
-```ts
+```tsx twoslash
+import { useCallback } from 'react';
+import { Transaction } from '@coinbase/onchainkit/transaction';
+// ---cut-before---
 import type { LifeCycleStatus } from '@coinbase/onchainkit/transaction';
 
-const handleOnStatus = useCallback(status: LifeCycleStatus) => {
+const handleOnStatus = useCallback((status: LifeCycleStatus) => {
   console.log('LifecycleStatus', status);
 }, []);
 

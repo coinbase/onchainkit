@@ -1,4 +1,3 @@
-{/* import { TokenSelectDropdown } from '../../../../src/token'; */}
 import { TokenSelectDropdown } from '@coinbase/onchainkit/token';
 import TokenSelectorContainer from '../../components/TokenSelectorContainer.tsx';
 import App from '../../components/App';
@@ -9,7 +8,11 @@ The `TokenSelectDropdown` component is a dropdown component that selects a token
 
 ## Usage
 
-```tsx
+```tsx twoslash
+import { TokenSelectDropdown, Token } from '@coinbase/onchainkit/token';
+const token = {} as Token;
+const setToken = (token: Token) => {};
+// ---cut-before---
 <TokenSelectDropdown // [!code focus]
   token={token} // [!code focus]
   setToken={setToken} // [!code focus]

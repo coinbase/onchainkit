@@ -7,7 +7,8 @@ Note that if the `message` is not valid, it will be undefined.
 
 ## Usage
 
-```ts
+```ts twoslash
+// @noErrors: 2307 1128 - Cannot find module 'next/server', Declaration or statement expected
 import { FrameRequest, getFrameMessage } from '@coinbase/onchainkit/frame'; // [!code focus]
 import { NextRequest, NextResponse } from 'next/server';
 
@@ -38,10 +39,19 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
 
 Default to OnchainKit's default key.
 
-```ts
+```ts twoslash
+// @noErrors: 2307 - Cannot find module 'next/server'
+import { FrameRequest, getFrameMessage } from '@coinbase/onchainkit/frame'; // [!code focus]
+import { NextRequest, NextResponse } from 'next/server';
+
+async function getResponse(req: NextRequest): Promise<NextResponse> {
+  const frameRequest: FrameRequest = await req.json();
+// ---cut-before---
 const { isValid, message } = await getFrameMessage(frameRequest, {
   neynarApiKey: 'MY_NEYNAR_API_KEY', // [!code focus]
 });
+// ---cut-after---
+}
 ```
 
 ### options.castReactionContext
@@ -50,10 +60,19 @@ const { isValid, message } = await getFrameMessage(frameRequest, {
 
 Whether to cast the reaction context. Default: true
 
-```ts
+```ts twoslash
+// @noErrors: 2307 - Cannot find module 'next/server'
+import { FrameRequest, getFrameMessage } from '@coinbase/onchainkit/frame'; // [!code focus]
+import { NextRequest, NextResponse } from 'next/server';
+
+async function getResponse(req: NextRequest): Promise<NextResponse> {
+  const frameRequest: FrameRequest = await req.json();
+// ---cut-before---
 const { isValid, message } = await getFrameMessage(frameRequest, {
   castReactionContext: true, // [!code focus]
 });
+// ---cut-after---
+}
 ```
 
 ### options.followContext
@@ -62,8 +81,17 @@ const { isValid, message } = await getFrameMessage(frameRequest, {
 
 Whether to follow the context. Default: true
 
-```ts
+```ts twoslash
+// @noErrors: 2307 - Cannot find module 'next/server'
+import { FrameRequest, getFrameMessage } from '@coinbase/onchainkit/frame'; // [!code focus]
+import { NextRequest, NextResponse } from 'next/server';
+
+async function getResponse(req: NextRequest): Promise<NextResponse> {
+  const frameRequest: FrameRequest = await req.json();
+// ---cut-before---
 const { isValid, message } = await getFrameMessage(frameRequest, {
   followContext: true, // [!code focus]
 });
+// ---cut-after---
+}
 ```

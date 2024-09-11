@@ -1,6 +1,7 @@
 # `isXmtpFrameRequest`
 
-```ts
+```ts twoslash
+// @noErrors: 2307 - Cannot find module 'next/server'
 import { FrameRequest } from '@coinbase/onchainkit/frame';
 import { isXmtpFrameRequest } from '@coinbase/onchainkit/xmtp'; // [!code focus]
 import { NextResponse } from 'next/server';
@@ -8,8 +9,6 @@ import { NextResponse } from 'next/server';
 async function getResponse(req: any): Promise<NextResponse> {
   const body: FrameRequest = await req.json();
   if (isXmtpFrameRequest(body)) {
-    // [!code focus]
-    // [!code focus]
     // ...
   }
 }

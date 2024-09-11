@@ -9,7 +9,8 @@ By default, both **custody** and **verified** addresses are provided.
 
 ## Usage
 
-```ts
+```ts twoslash
+// @noErrors: 2304 2552 - Cannot find name 'fid', Cannot find name 'options'
 import { getFarcasterUserAddress } from '@coinbase/onchainkit/farcaster';
 
 const userAddress = await getFarcasterUserAddress(fid, options); // [!code focus]
@@ -35,7 +36,10 @@ Farcaster ID
 
 Default to onchain-kit's default key.
 
-```ts
+```ts twoslash
+// @noErrors: 2304 - Cannot find name 'fid'
+import { getFarcasterUserAddress } from '@coinbase/onchainkit/farcaster';
+// ---cut-before---
 const userAddress = await getFarcasterUserAddress(fid, {
   neynarApiKey: 'MY_NEYNAR_API_KEY', // [!code focus]
 });
@@ -47,7 +51,10 @@ const userAddress = await getFarcasterUserAddress(fid, {
 
 Optional options to specify if the client wants custody addresses. Default to true.
 
-```ts
+```ts twoslash
+// @noErrors: 2304 - Cannot find name 'fid'
+import { getFarcasterUserAddress } from '@coinbase/onchainkit/farcaster';
+// ---cut-before---
 const userAddress = await getFarcasterUserAddress(fid, {
   hasCustodyAddress: false, // [!code focus]
 });
@@ -59,7 +66,10 @@ const userAddress = await getFarcasterUserAddress(fid, {
 
 Optional options to specify if the client wants verified addresses. Default to true.
 
-```ts
+```ts twoslash
+// @noErrors: 2304 - Cannot find name 'fid'
+import { getFarcasterUserAddress } from '@coinbase/onchainkit/farcaster';
+// ---cut-before---
 const userAddress = await getFarcasterUserAddress(fid, {
   hasVerifiedAddresses: false, // [!code focus]
 });

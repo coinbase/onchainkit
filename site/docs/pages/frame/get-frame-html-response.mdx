@@ -6,7 +6,8 @@ It generates a valid HTML string response with a frame and utilizes `FrameMetada
 
 ## Usage
 
-```ts
+```ts twoslash
+// @noErrors: 2307 1128 - Cannot find module 'next/server', Declaration or statement expected
 // Step 1. import getFrameHtmlResponse from @coinbase/onchainkit
 import { getFrameHtmlResponse } from '@coinbase/onchainkit/frame';
 import { NextRequest, NextResponse } from 'next/server';
@@ -31,7 +32,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
 
 export async function POST(req: NextRequest): Promise<Response> {
   return getResponse(req);
-}
+};
 ```
 
 ## Returns

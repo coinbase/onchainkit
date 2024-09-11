@@ -61,7 +61,12 @@ PUBLIC_ONCHAINKIT_API_KEY=YOUR_PUBLIC_API_KEY
 
 #### Access the Public API Key in your code
 
-```tsx [OnchainProviders.tsx]
+```tsx twoslash [OnchainProviders.tsx]
+// @noErrors: 2580 2304 - cannot find name 'process', cannot find name 'YourComponents'
+import { OnchainKitProvider } from '@coinbase/onchainkit';
+import { base } from 'wagmi/chains';
+
+// ---cut-before---
 <OnchainKitProvider 
   apiKey={process.env.PUBLIC_ONCHAINKIT_API_KEY} // [!code focus] 
   chain={base}
@@ -76,7 +81,8 @@ The `<OnchainKitProvider />` component equips your app with the essential contex
 
 Set the `chain` prop to your target chain and provide the Public API Key to access the embedded APIs.
 
-```tsx [OnchainProviders.tsx]
+```tsx twoslash [OnchainProviders.tsx]
+// @noErrors: 2580 - cannot find name 'process'
 'use client';
 import { ReactNode } from 'react';
 import { base } from 'viem/chains';
@@ -90,7 +96,7 @@ function OnchainProviders({ children }: Props) {
       apiKey={process.env.PUBLIC_ONCHAINKIT_API_KEY} 
       chain={base}
     >
-      <YourComponents />
+      {children}
     </OnchainKitProvider>
   );
 };
@@ -105,8 +111,8 @@ Many of OnchainKit's components require a WagmiProvider to access Wagmi utilitie
 If your application already includes these settings, you can skip this step.
 
 :::code-group
-
-```tsx [OnchainProviders.tsx]
+```tsx twoslash [OnchainProviders.tsx]
+// @noErrors: 2307 2580 - cannot find 'process', cannot find './wagmi'
 'use client';
 import { ReactNode } from 'react';
 import { OnchainKitProvider } from '@coinbase/onchainkit';
@@ -137,7 +143,7 @@ function OnchainProviders({ children }: Props) {
 export default OnchainProviders;
 ```
 
-```tsx [wagmi.ts]
+```tsx twoslash [wagmi.ts]
 import { http, createConfig } from 'wagmi';
 import { base } from 'wagmi/chains';
 import { coinbaseWallet } from 'wagmi/connectors';
@@ -166,7 +172,8 @@ Wrap your app with the `OnchainProviders` component to enable OnchainKit compone
 
 :::code-group
 
-```tsx [layout.tsx]
+```tsx twoslash [layout.tsx]
+// @noErrors: 2307 7031 2304 - cannot find module './OnChainProviders', children has implicit any
 import { OnchainProviders } from './OnchainProviders' // [!code focus]
 
 export default function RootLayout({ children }) {
@@ -178,7 +185,8 @@ export default function RootLayout({ children }) {
 }  
 ```
 
-```tsx [OnchainProviders.tsx]
+```tsx twoslash [OnchainProviders.tsx]
+// @noErrors: 2307 2580 - cannot find 'process', cannot find './wagmi'
 'use client';
 import { ReactNode } from 'react';
 import { OnchainKitProvider } from '@coinbase/onchainkit';

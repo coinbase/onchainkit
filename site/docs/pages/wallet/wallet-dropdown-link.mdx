@@ -23,7 +23,7 @@ The `WalletDropdownLink` component creates customizable, interactive links withi
 
 ## Usage 
 
-```tsx
+```tsx twoslash
 import {
   Address,
   Avatar,
@@ -90,7 +90,12 @@ export function WalletComponents() {
 ### Custom link
 Add a custom link to the wallet dropdown menu, allowing users to navigate to external resources directly from the wallet interface.
 
-```tsx
+```tsx twoslash
+// @noErrors: 2304 Cannot find name 'BaseIcon'
+import {
+  WalletDropdownLink,
+} from '@coinbase/onchainkit/wallet';
+// ---cut-before---
 // omitted for brevity
 <WalletDropdownLink // [!code focus] 
   icon={BaseIcon} // [!code focus] 
@@ -130,7 +135,12 @@ Add a custom link to the wallet dropdown menu, allowing users to navigate to ext
 Accepts React children, enabling the use of custom elements, styled text, icons, and complex components.
 This allows for diverse customizations, including complex layouts and conditional rendering based on your app's state.
 
-```tsx
+```tsx twoslash
+// @noErrors: 2322 - type 'Element' is not assignable to type 'string'
+import {
+  WalletDropdownLink,
+} from '@coinbase/onchainkit/wallet';
+// ---cut-before---
 // omitted for brevity
 <WalletDropdownLink icon="wallet" href="https://keys.coinbase.com"> // [!code focus]
   <span className="font-bold italic">Profile</span> // [!code focus]
@@ -163,7 +173,11 @@ This allows for diverse customizations, including complex layouts and conditiona
 ### Override styles
 You can override component styles using className.
 
-```tsx
+```tsx twoslash
+import {
+  WalletDropdownLink,
+} from '@coinbase/onchainkit/wallet';
+// ---cut-before---
 // omitted for brevity
 <WalletDropdownLink className="hover:bg-red-500" icon="wallet" href="https://keys.coinbase.com" > // [!code focus]
   Wallet // [!code focus]
