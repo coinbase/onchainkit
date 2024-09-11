@@ -18,8 +18,8 @@ import { useFromTo } from '../hooks/useFromTo';
 import { useResetInputs } from '../hooks/useResetInputs';
 import type {
   LifeCycleStatus,
+  LifeCycleStatusUpdate,
   SwapContextType,
-  SwapError,
   SwapProviderReact,
 } from '../types';
 import { isSwapError } from '../utils/isSwapError';
@@ -52,16 +52,30 @@ export function SwapProvider({
   const { useAggregator } = experimental;
   // Core Hooks
   const accountConfig = useConfig();
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<SwapError>();
-  const [isTransactionPending, setPendingTransaction] = useState(false);
   const [lifeCycleStatus, setLifeCycleStatus] = useState<LifeCycleStatus>({
     statusName: 'init',
-    statusData: {
+    statusData: null,
+    sharedData: {
       isMissingRequiredField: true,
       maxSlippage: config.maxSlippage,
     },
   }); // Component lifecycle
+
+  // Update lifecycle status, sharedData will be persisted by default
+  const updateLifeCycleStatus = useCallback(
+    (newStatus: LifeCycleStatusUpdate) => {
+      setLifeCycleStatus(
+        (prevStatus: LifeCycleStatus) =>
+          ({
+            statusName: newStatus.statusName,
+            statusData: newStatus.statusData,
+            sharedData: { ...prevStatus.sharedData, ...newStatus.sharedData },
+          }) as LifeCycleStatus,
+      );
+    },
+    [],
+  );
+
   const [hasHandledSuccess, setHasHandledSuccess] = useState(false);
   const { from, to } = useFromTo(address);
   const { sendTransactionAsync } = useSendTransaction(); // Sending the transaction (and approval, if applicable)
@@ -73,26 +87,10 @@ export function SwapProvider({
   useEffect(() => {
     // Error
     if (lifeCycleStatus.statusName === 'error') {
-      setLoading(false);
-      setPendingTransaction(false);
-      setError(lifeCycleStatus.statusData);
       onError?.(lifeCycleStatus.statusData);
-    }
-    if (lifeCycleStatus.statusName === 'amountChange') {
-      setError(undefined);
-    }
-    if (lifeCycleStatus.statusName === 'transactionPending') {
-      setLoading(true);
-      setPendingTransaction(true);
-    }
-    if (lifeCycleStatus.statusName === 'transactionApproved') {
-      setPendingTransaction(false);
     }
     // Success
     if (lifeCycleStatus.statusName === 'success') {
-      setError(undefined);
-      setLoading(false);
-      setPendingTransaction(false);
       onSuccess?.(lifeCycleStatus.statusData.transactionReceipt);
       setHasHandledSuccess(true);
     }
@@ -118,30 +116,36 @@ export function SwapProvider({
   }, [hasHandledSuccess, lifeCycleStatus.statusName, resetInputs]);
 
   useEffect(() => {
-    const maxSlippage = lifeCycleStatus.statusData.maxSlippage;
     // Reset status to init after success has been handled
     if (lifeCycleStatus.statusName === 'success' && hasHandledSuccess) {
-      setLifeCycleStatus({
+      updateLifeCycleStatus({
         statusName: 'init',
-        statusData: {
-          isMissingRequiredField:
-            lifeCycleStatus.statusData.isMissingRequiredField,
-          maxSlippage,
-        },
+        statusData: null,
       });
     }
-  }, [
-    hasHandledSuccess,
-    lifeCycleStatus.statusData,
-    lifeCycleStatus.statusName,
-  ]);
+  }, [hasHandledSuccess, lifeCycleStatus.statusName, updateLifeCycleStatus]);
 
   const handleToggle = useCallback(() => {
     from.setAmount(to.amount);
     to.setAmount(from.amount);
     from.setToken(to.token);
     to.setToken(from.token);
-  }, [from, to]);
+
+    updateLifeCycleStatus({
+      statusName: 'amountChange',
+      statusData: {
+        amountFrom: from.amount,
+        amountTo: to.amount,
+        tokenFrom: from.token,
+        tokenTo: to.token,
+      },
+      sharedData: {
+        // token is missing
+        isMissingRequiredField:
+          !from.token || !to.token || !from.amount || !to.amount,
+      },
+    });
+  }, [from, to, updateLifeCycleStatus]);
 
   const handleAmountChange = useCallback(
     async (
@@ -151,7 +155,7 @@ export function SwapProvider({
       dToken?: Token,
       // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO Refactor this component
     ) => {
-      const maxSlippage = lifeCycleStatus.statusData.maxSlippage;
+      const maxSlippage = lifeCycleStatus.sharedData.maxSlippage;
       const source = type === 'from' ? from : to;
       const destination = type === 'from' ? to : from;
 
@@ -160,14 +164,15 @@ export function SwapProvider({
 
       // if token is missing alert user via isMissingRequiredField
       if (source.token === undefined || destination.token === undefined) {
-        setLifeCycleStatus({
+        updateLifeCycleStatus({
           statusName: 'amountChange',
           statusData: {
             amountFrom: from.amount,
             amountTo: to.amount,
-            maxSlippage,
             tokenFrom: from.token,
             tokenTo: to.token,
+          },
+          sharedData: {
             // token is missing
             isMissingRequiredField: true,
           },
@@ -181,19 +186,20 @@ export function SwapProvider({
       // When toAmount changes we fetch quote for fromAmount
       // so set isFromQuoteLoading to true
       destination.setLoading(true);
-      setLifeCycleStatus({
+      updateLifeCycleStatus({
         statusName: 'amountChange',
         statusData: {
           // when fetching quote, the previous
           // amount is irrelevant
           amountFrom: type === 'from' ? amount : '',
           amountTo: type === 'to' ? amount : '',
+          tokenFrom: from.token,
+          tokenTo: to.token,
+        },
+        sharedData: {
           // when fetching quote, the destination
           // amount is missing
           isMissingRequiredField: true,
-          maxSlippage,
-          tokenFrom: from.token,
-          tokenTo: to.token,
         },
       });
 
@@ -209,16 +215,12 @@ export function SwapProvider({
         // If request resolves to error response set the quoteError
         // property of error state to the SwapError response
         if (isSwapError(response)) {
-          setLifeCycleStatus({
+          updateLifeCycleStatus({
             statusName: 'error',
             statusData: {
               code: response.code,
               error: response.error,
               message: '',
-              // LifecycleStatus shared data
-              isMissingRequiredField:
-                lifeCycleStatus.statusData.isMissingRequiredField,
-              maxSlippage,
             },
           });
           return;
@@ -228,30 +230,27 @@ export function SwapProvider({
           response.to.decimals,
         );
         destination.setAmount(formattedAmount);
-        setLifeCycleStatus({
+        updateLifeCycleStatus({
           statusName: 'amountChange',
           statusData: {
             amountFrom: type === 'from' ? amount : formattedAmount,
             amountTo: type === 'to' ? amount : formattedAmount,
-            // if quote was fetched successfully, we
-            // have all required fields
-            isMissingRequiredField: !formattedAmount,
-            maxSlippage,
             tokenFrom: from.token,
             tokenTo: to.token,
           },
+          sharedData: {
+            // if quote was fetched successfully, we
+            // have all required fields
+            isMissingRequiredField: !formattedAmount,
+          },
         });
       } catch (err) {
-        setLifeCycleStatus({
+        updateLifeCycleStatus({
           statusName: 'error',
           statusData: {
             code: 'TmSPc01', // Transaction module SwapProvider component 01 error
             error: JSON.stringify(err),
             message: '',
-            // LifecycleStatus shared data
-            isMissingRequiredField:
-              lifeCycleStatus.statusData.isMissingRequiredField,
-            maxSlippage,
           },
         });
       } finally {
@@ -259,23 +258,26 @@ export function SwapProvider({
         destination.setLoading(false);
       }
     },
-    [from, lifeCycleStatus, to, useAggregator],
+    [from, to, lifeCycleStatus, updateLifeCycleStatus, useAggregator],
   );
 
   const handleSubmit = useCallback(async () => {
     if (!address || !from.token || !to.token || !from.amount) {
       return;
     }
-    const maxSlippage = lifeCycleStatus.statusData.maxSlippage;
-    setLifeCycleStatus({
-      statusName: 'init',
-      statusData: {
-        isMissingRequiredField: false,
-        maxSlippage,
-      },
-    });
+
+    // is this needed?  odd to have init here
+    // updateLifeCycleStatus({
+    //   statusName: 'init',
+    //   statusData: null,
+    //   sharedData: {
+    //     isMissingRequiredField: false,
+    //     maxSlippage: initialMaxSlippage,
+    //   },
+    // });
 
     try {
+      const maxSlippage = lifeCycleStatus.sharedData.maxSlippage;
       const response = await buildSwapTransaction({
         amount: from.amount,
         fromAddress: address,
@@ -285,25 +287,20 @@ export function SwapProvider({
         useAggregator,
       });
       if (isSwapError(response)) {
-        setLifeCycleStatus({
+        updateLifeCycleStatus({
           statusName: 'error',
           statusData: {
             code: response.code,
             error: response.error,
             message: response.message,
-            // LifecycleStatus shared data
-            isMissingRequiredField:
-              lifeCycleStatus.statusData.isMissingRequiredField,
-            maxSlippage,
           },
         });
         return;
       }
       await processSwapTransaction({
         config: accountConfig,
-        lifeCycleStatus,
         sendTransactionAsync,
-        setLifeCycleStatus,
+        updateLifeCycleStatus,
         swapTransaction: response,
         useAggregator,
       });
@@ -313,16 +310,12 @@ export function SwapProvider({
       const errorMessage = isUserRejectedRequestError(err)
         ? 'Request denied.'
         : GENERIC_ERROR_MESSAGE;
-      setLifeCycleStatus({
+      updateLifeCycleStatus({
         statusName: 'error',
         statusData: {
           code: 'TmSPc02', // Transaction module SwapProvider component 02 error
           error: JSON.stringify(err),
           message: errorMessage,
-          // LifecycleStatus shared data
-          isMissingRequiredField:
-            lifeCycleStatus.statusData.isMissingRequiredField,
-          maxSlippage,
         },
       });
     }
@@ -334,20 +327,18 @@ export function SwapProvider({
     lifeCycleStatus,
     sendTransactionAsync,
     to.token,
+    updateLifeCycleStatus,
     useAggregator,
   ]);
 
   const value = useValue({
     address,
-    error,
     from,
-    loading,
     handleAmountChange,
     handleToggle,
     handleSubmit,
     lifeCycleStatus,
-    isTransactionPending,
-    setLifeCycleStatus,
+    updateLifeCycleStatus,
     to,
   });
 

@@ -12,13 +12,13 @@ export function SwapSettingsSlippageInput({
   className,
   defaultSlippage = 3,
 }: SwapSettingsSlippageInputReact) {
-  const { setLifeCycleStatus, lifeCycleStatus } = useSwapContext();
+  const { updateLifeCycleStatus, lifeCycleStatus } = useSwapContext();
   const getMaxSlippage = useCallback(() => {
     if (lifeCycleStatus.statusName !== 'error') {
-      return lifeCycleStatus.statusData.maxSlippage;
+      return lifeCycleStatus.sharedData.maxSlippage;
     }
     return defaultSlippage;
-  }, [lifeCycleStatus.statusName, lifeCycleStatus.statusData, defaultSlippage]);
+  }, [lifeCycleStatus.statusName, lifeCycleStatus.sharedData, defaultSlippage]);
 
   // Set initial slippage values to match previous selection or default,
   // ensuring consistency when dropdown is reopened
@@ -32,15 +32,14 @@ export function SwapSettingsSlippageInput({
   const updateSlippage = useCallback(
     (newSlippage: number) => {
       setSlippage(newSlippage);
-      setLifeCycleStatus({
+      updateLifeCycleStatus({
         statusName: 'slippageChange',
-        statusData: {
-          isMissingRequiredField: false,
+        sharedData: {
           maxSlippage: newSlippage,
         },
       });
     },
-    [setLifeCycleStatus],
+    [updateLifeCycleStatus],
   );
 
   // Handles user input for custom slippage

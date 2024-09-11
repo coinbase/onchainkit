@@ -5,11 +5,19 @@ import type { SwapButtonReact } from '../types';
 import { useSwapContext } from './SwapProvider';
 
 export function SwapButton({ className, disabled = false }: SwapButtonReact) {
-  const { address, to, from, loading, isTransactionPending, handleSubmit } =
-    useSwapContext();
+  const {
+    address,
+    to,
+    from,
+    lifeCycleStatus: { statusName },
+    handleSubmit,
+  } = useSwapContext();
 
   const isLoading =
-    to.loading || from.loading || loading || isTransactionPending;
+    to.loading ||
+    from.loading ||
+    statusName === 'transactionPending' ||
+    statusName === 'transactionApproved';
 
   const isDisabled =
     !from.amount ||

@@ -25,10 +25,7 @@ export type FromTo = {
 
 export type GetSwapMessageParams = {
   address?: Address;
-  error?: SwapError;
-  loading?: boolean;
-  isTransactionPending?: boolean;
-  isMissingRequiredFields?: boolean;
+  lifeCycleStatus: LifeCycleStatus;
   to: SwapUnit;
   from: SwapUnit;
 };
@@ -56,11 +53,13 @@ type LifecycleStatusDataShared = {
 export type LifeCycleStatus =
   | {
       statusName: 'init';
-      statusData: LifecycleStatusDataShared;
+      statusData: null;
+      sharedData: LifecycleStatusDataShared;
     }
   | {
       statusName: 'error';
-      statusData: SwapError & LifecycleStatusDataShared;
+      statusData: SwapError;
+      sharedData: LifecycleStatusDataShared;
     }
   | {
       statusName: 'amountChange';
@@ -69,34 +68,42 @@ export type LifeCycleStatus =
         amountTo: string;
         tokenFrom?: Token;
         tokenTo?: Token;
-      } & LifecycleStatusDataShared;
+      };
+      sharedData: LifecycleStatusDataShared;
     }
   | {
       statusName: 'slippageChange';
-      statusData: LifecycleStatusDataShared;
+      statusData: null;
+      sharedData: LifecycleStatusDataShared;
     }
   | {
       statusName: 'transactionPending';
-      statusData: LifecycleStatusDataShared;
+      statusData: null;
+      sharedData: LifecycleStatusDataShared;
     }
   | {
       statusName: 'transactionApproved';
       statusData: {
         transactionHash: Hex;
         transactionType: 'ERC20' | 'Permit2';
-      } & LifecycleStatusDataShared;
+      };
+      sharedData: LifecycleStatusDataShared;
     }
   | {
       statusName: 'success';
       statusData: {
         transactionReceipt: TransactionReceipt;
-      } & LifecycleStatusDataShared;
+      };
+      sharedData: LifecycleStatusDataShared;
     };
+
+export type LifeCycleStatusUpdate = Omit<LifeCycleStatus, 'sharedData'> & {
+  sharedData?: Partial<LifecycleStatusDataShared>;
+};
 
 export type ProcessSwapTransactionParams = {
   config: Config;
-  lifeCycleStatus: LifeCycleStatus;
-  setLifeCycleStatus: (state: LifeCycleStatus) => void;
+  updateLifeCycleStatus: (state: LifeCycleStatusUpdate) => void;
   sendTransactionAsync: SendTransactionMutateAsync<Config, unknown>;
   swapTransaction: BuildSwapTransaction;
   useAggregator: boolean;
@@ -132,11 +139,8 @@ export type SwapButtonReact = {
 
 export type SwapContextType = {
   address?: Address; // Used to check if user is connected in SwapButton
-  error?: SwapError;
   from: SwapUnit;
   lifeCycleStatus: LifeCycleStatus;
-  loading: boolean;
-  isTransactionPending: boolean;
   handleAmountChange: (
     t: 'from' | 'to',
     amount: string,
@@ -145,7 +149,7 @@ export type SwapContextType = {
   ) => void;
   handleSubmit: () => void;
   handleToggle: () => void;
-  setLifeCycleStatus: (state: LifeCycleStatus) => void; // A function to set the lifecycle status of the component
+  updateLifeCycleStatus: (state: LifeCycleStatusUpdate) => void; // A function to set the lifecycle status of the component
   to: SwapUnit;
 };
 
