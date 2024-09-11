@@ -218,7 +218,7 @@ export function TransactionProvider({
         statusData: null,
       });
     }
-  }, [lifeCycleStatus.statusName, transactionStatus]);
+  }, [transactionStatus]);
 
   // Reset status to pending when executing multiple transactions with EOA
   useEffect(() => {
@@ -245,7 +245,7 @@ export function TransactionProvider({
         transactionReceipts: [receipt],
       },
     });
-  }, [receipt]);
+  }, [receipt, transactionHashList.length]);
 
   // When all transactions are succesful, get the receipts
   useEffect(() => {
