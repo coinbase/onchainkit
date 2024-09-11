@@ -453,6 +453,7 @@ describe('SwapProvider', () => {
           statusName: 'init',
           statusData: expect.objectContaining({
             isMissingRequiredField: false,
+            maxSlippage: 3,
           }),
         }),
       );
