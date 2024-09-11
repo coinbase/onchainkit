@@ -17,11 +17,7 @@ export async function processSwapTransaction({
   useAggregator,
 }: ProcessSwapTransactionParams) {
   const { transaction, approveTransaction, quote } = swapTransaction;
-  const maxSlippage =
-    lifeCycleStatus.statusName !== 'error'
-      ? lifeCycleStatus.statusData.maxSlippage
-      : DEFAULT_MAX_SLIPPAGE;
-
+  
   // for swaps from ERC-20 tokens,
   // if there is an approveTransaction present,
   // request approval for the amount
