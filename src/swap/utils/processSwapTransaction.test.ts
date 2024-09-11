@@ -1,11 +1,11 @@
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { http, createConfig } from 'wagmi';
 import { waitForTransactionReceipt } from 'wagmi/actions';
 import { mainnet, sepolia } from 'wagmi/chains';
 import { mock } from 'wagmi/connectors';
+import type { BuildSwapTransaction } from '../../api/types';
 import { PERMIT2_CONTRACT_ADDRESS } from '../constants';
 import { DEGEN_TOKEN, ETH_TOKEN, USDC_TOKEN } from '../mocks';
-import type { BuildSwapTransaction, LifeCycleStatus } from '../types';
 import { processSwapTransaction } from './processSwapTransaction';
 
 vi.mock('wagmi/actions', () => ({
@@ -13,16 +13,9 @@ vi.mock('wagmi/actions', () => ({
 }));
 
 describe('processSwapTransaction', () => {
-  const setLifeCycleStatus = vi.fn();
-  const sendTransactionAsync = vi
-    .fn()
-    .mockResolvedValueOnce('approveTxHash')
-    .mockResolvedValueOnce('txHash');
-  const sendTransactionAsyncPermit2 = vi
-    .fn()
-    .mockResolvedValueOnce('approveTxHash')
-    .mockResolvedValueOnce('permit2TxHash')
-    .mockResolvedValueOnce('txHash');
+  const updateLifeCycleStatus = vi.fn();
+  let sendTransactionAsync: Mock;
+  let sendTransactionAsyncPermit2: Mock;
 
   const config = createConfig({
     chains: [mainnet, sepolia],
@@ -41,16 +34,19 @@ describe('processSwapTransaction', () => {
     },
   });
 
-  const defaultLifeCycleStatus: LifeCycleStatus = {
-    statusName: 'init',
-    statusData: {
-      isMissingRequiredField: false,
-      maxSlippage: 3,
-    },
-  };
-
   beforeEach(() => {
     vi.clearAllMocks();
+
+    sendTransactionAsync = vi
+      .fn()
+      .mockResolvedValueOnce('approveTxHash')
+      .mockResolvedValueOnce('txHash');
+
+    sendTransactionAsyncPermit2 = vi
+      .fn()
+      .mockResolvedValueOnce('approveTxHash')
+      .mockResolvedValueOnce('permit2TxHash')
+      .mockResolvedValueOnce('txHash');
   });
 
   it('should request approval and make the swap for ERC-20 tokens', async () => {
@@ -105,35 +101,29 @@ describe('processSwapTransaction', () => {
     await processSwapTransaction({
       config,
       sendTransactionAsync,
-      setLifeCycleStatus,
+      updateLifeCycleStatus,
       swapTransaction,
       useAggregator: true,
-      lifeCycleStatus: defaultLifeCycleStatus,
     });
-    expect(setLifeCycleStatus).toHaveBeenCalledTimes(4);
-    expect(setLifeCycleStatus).toHaveBeenNthCalledWith(1, {
+    expect(updateLifeCycleStatus).toHaveBeenCalledTimes(5);
+    expect(updateLifeCycleStatus).toHaveBeenNthCalledWith(1, {
       statusName: 'transactionPending',
-      statusData: {
-        isMissingRequiredField: false,
-        maxSlippage: 3,
-      },
     });
-    expect(setLifeCycleStatus).toHaveBeenNthCalledWith(2, {
+    expect(updateLifeCycleStatus).toHaveBeenNthCalledWith(2, {
       statusName: 'transactionApproved',
       statusData: {
         transactionHash: 'approveTxHash',
         transactionType: 'ERC20',
-        // LifecycleStatus shared data
-        isMissingRequiredField: false,
-        maxSlippage: 3,
       },
     });
-    expect(setLifeCycleStatus).toHaveBeenNthCalledWith(3, {
+    expect(updateLifeCycleStatus).toHaveBeenNthCalledWith(3, {
       statusName: 'transactionPending',
+    });
+    expect(updateLifeCycleStatus).toHaveBeenNthCalledWith(4, {
+      statusName: 'transactionApproved',
       statusData: {
-        // LifecycleStatus shared data
-        isMissingRequiredField: false,
-        maxSlippage: 3,
+        transactionHash: 'txHash',
+        transactionType: 'ERC20',
       },
     });
     expect(sendTransactionAsync).toHaveBeenCalledTimes(2);
@@ -170,18 +160,19 @@ describe('processSwapTransaction', () => {
     await processSwapTransaction({
       config,
       sendTransactionAsync,
-      setLifeCycleStatus,
+      updateLifeCycleStatus,
       swapTransaction,
       useAggregator: true,
-      lifeCycleStatus: defaultLifeCycleStatus,
     });
-    expect(setLifeCycleStatus).toHaveBeenCalledTimes(2);
-    expect(setLifeCycleStatus).toHaveBeenNthCalledWith(1, {
+    expect(updateLifeCycleStatus).toHaveBeenCalledTimes(3);
+    expect(updateLifeCycleStatus).toHaveBeenNthCalledWith(1, {
       statusName: 'transactionPending',
+    });
+    expect(updateLifeCycleStatus).toHaveBeenNthCalledWith(2, {
+      statusName: 'transactionApproved',
       statusData: {
-        // LifecycleStatus shared data
-        isMissingRequiredField: false,
-        maxSlippage: 3,
+        transactionHash: 'approveTxHash',
+        transactionType: 'ERC20',
       },
     });
     expect(sendTransactionAsync).toHaveBeenCalledTimes(1);
@@ -224,46 +215,39 @@ describe('processSwapTransaction', () => {
     await processSwapTransaction({
       config,
       sendTransactionAsync: sendTransactionAsyncPermit2,
-      setLifeCycleStatus,
+      updateLifeCycleStatus,
       swapTransaction,
       useAggregator: false,
-      lifeCycleStatus: defaultLifeCycleStatus,
     });
-    expect(setLifeCycleStatus).toHaveBeenCalledTimes(6);
-    expect(setLifeCycleStatus).toHaveBeenNthCalledWith(1, {
+    expect(updateLifeCycleStatus).toHaveBeenCalledTimes(7);
+    expect(updateLifeCycleStatus).toHaveBeenNthCalledWith(1, {
       statusName: 'transactionPending',
-      statusData: {
-        // LifecycleStatus shared data
-        isMissingRequiredField: false,
-        maxSlippage: 3,
-      },
     });
-    expect(setLifeCycleStatus).toHaveBeenNthCalledWith(2, {
+    expect(updateLifeCycleStatus).toHaveBeenNthCalledWith(2, {
       statusName: 'transactionApproved',
       statusData: {
         transactionHash: 'approveTxHash',
         transactionType: 'Permit2',
-        // LifecycleStatus shared data
-        isMissingRequiredField: false,
-        maxSlippage: 3,
       },
     });
-    expect(setLifeCycleStatus).toHaveBeenNthCalledWith(3, {
+    expect(updateLifeCycleStatus).toHaveBeenNthCalledWith(3, {
       statusName: 'transactionPending',
-      statusData: {
-        // LifecycleStatus shared data
-        isMissingRequiredField: false,
-        maxSlippage: 3,
-      },
     });
-    expect(setLifeCycleStatus).toHaveBeenNthCalledWith(4, {
+    expect(updateLifeCycleStatus).toHaveBeenNthCalledWith(4, {
       statusName: 'transactionApproved',
       statusData: {
         transactionHash: 'permit2TxHash',
         transactionType: 'ERC20',
-        // LifecycleStatus shared data
-        isMissingRequiredField: false,
-        maxSlippage: 3,
+      },
+    });
+    expect(updateLifeCycleStatus).toHaveBeenNthCalledWith(5, {
+      statusName: 'transactionPending',
+    });
+    expect(updateLifeCycleStatus).toHaveBeenNthCalledWith(6, {
+      statusName: 'transactionApproved',
+      statusData: {
+        transactionHash: 'txHash',
+        transactionType: 'Permit2',
       },
     });
     expect(sendTransactionAsyncPermit2).toHaveBeenCalledTimes(3);
@@ -273,64 +257,5 @@ describe('processSwapTransaction', () => {
       data: expect.any(String),
       value: 0n,
     });
-  });
-
-  it('should use default maxSlippage when lifeCycleStatus is error', async () => {
-    const errorLifeCycleStatus: LifeCycleStatus = {
-      statusName: 'error',
-      statusData: {
-        code: 'UNKNOWN_ERROR',
-        error: 'Some error occurred',
-        message: 'Some error occurred',
-        // LifecycleStatus shared data
-        isMissingRequiredField: false,
-        maxSlippage: 3,
-      },
-    };
-    const swapTransaction: BuildSwapTransaction = {
-      transaction: {
-        to: '0x123',
-        value: 0n,
-        data: '0x',
-        chainId: 8453,
-        gas: 0n,
-      },
-      approveTransaction: undefined,
-      quote: {
-        from: ETH_TOKEN,
-        to: DEGEN_TOKEN,
-        fromAmount: '100000000000000',
-        toAmount: '19395353519910973703',
-        amountReference: 'from',
-        priceImpact: '0.94',
-        hasHighPriceImpact: false,
-        slippage: '3',
-        warning: undefined,
-      },
-      fee: {
-        baseAsset: DEGEN_TOKEN,
-        percentage: '1',
-        amount: '195912661817282562',
-      },
-    };
-    await processSwapTransaction({
-      config,
-      sendTransactionAsync,
-      setLifeCycleStatus,
-      swapTransaction,
-      useAggregator: true,
-      lifeCycleStatus: errorLifeCycleStatus,
-    });
-    expect(setLifeCycleStatus).toHaveBeenCalledTimes(2);
-    expect(setLifeCycleStatus).toHaveBeenNthCalledWith(1, {
-      statusName: 'transactionPending',
-      statusData: {
-        // LifecycleStatus shared data
-        isMissingRequiredField: false,
-        maxSlippage: 3,
-      },
-    });
-    expect(sendTransactionAsync).toHaveBeenCalledTimes(1);
-    expect(waitForTransactionReceipt).toHaveBeenCalledTimes(1);
   });
 });

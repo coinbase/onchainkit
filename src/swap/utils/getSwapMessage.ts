@@ -16,11 +16,8 @@ export enum SwapMessage {
 
 export function getSwapMessage({
   address,
-  error,
   from,
-  loading,
-  isMissingRequiredFields,
-  isTransactionPending,
+  lifeCycleStatus,
   to,
 }: GetSwapMessageParams) {
   // handle balance error
@@ -32,23 +29,25 @@ export function getSwapMessage({
     return SwapMessage.INSUFFICIENT_BALANCE;
   }
   // handle pending transaction
-  if (isTransactionPending) {
+  if (lifeCycleStatus.statusName === 'transactionPending') {
     return SwapMessage.CONFIRM_IN_WALLET;
   }
   // handle loading states
-  if (loading) {
+  if (lifeCycleStatus.statusName === 'transactionApproved') {
     return SwapMessage.SWAP_IN_PROGRESS;
   }
   if (to.loading || from.loading) {
     return SwapMessage.FETCHING_QUOTE;
   }
   // missing required fields
-  if (isMissingRequiredFields) {
+  if (lifeCycleStatus.statusData.isMissingRequiredField) {
     return SwapMessage.INCOMPLETE_FIELD;
   }
-  if (!error) {
-    return '';
-  }
+
   // handle specific error codes
-  return getErrorMessage(error);
+  if (lifeCycleStatus.statusName === 'error') {
+    return getErrorMessage(lifeCycleStatus.statusData);
+  }
+
+  return '';
 }

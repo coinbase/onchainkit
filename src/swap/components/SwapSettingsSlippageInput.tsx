@@ -12,7 +12,7 @@ export function SwapSettingsSlippageInput({
   className,
   defaultSlippage = 3,
 }: SwapSettingsSlippageInputReact) {
-  const { setLifeCycleStatus, lifeCycleStatus } = useSwapContext();
+  const { updateLifeCycleStatus, lifeCycleStatus } = useSwapContext();
   const getMaxSlippage = useCallback(() => {
     if (lifeCycleStatus.statusName !== 'error') {
       return lifeCycleStatus.statusData.maxSlippage;
@@ -32,15 +32,14 @@ export function SwapSettingsSlippageInput({
   const updateSlippage = useCallback(
     (newSlippage: number) => {
       setSlippage(newSlippage);
-      setLifeCycleStatus({
+      updateLifeCycleStatus({
         statusName: 'slippageChange',
         statusData: {
-          isMissingRequiredField: false,
           maxSlippage: newSlippage,
         },
       });
     },
-    [setLifeCycleStatus],
+    [updateLifeCycleStatus],
   );
 
   // Handles user input for custom slippage

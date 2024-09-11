@@ -11,8 +11,10 @@ import {
   SwapSettingsSlippageTitle,
   SwapToggleButton,
 } from '@coinbase/onchainkit/swap';
+import type { SwapError } from '@coinbase/onchainkit/swap';
 import type { Token } from '@coinbase/onchainkit/token';
 import { useCallback, useContext } from 'react';
+import type { TransactionReceipt } from 'viem';
 import { base } from 'viem/chains';
 import { AppContext } from '../AppProvider';
 
@@ -65,6 +67,17 @@ function SwapComponent() {
     console.log('Status:', lifeCycleStatus);
   }, []);
 
+  const handleOnSuccess = useCallback(
+    (transactionReceipt: TransactionReceipt) => {
+      console.log('Success:', transactionReceipt);
+    },
+    [],
+  );
+
+  const handleOnError = useCallback((swapError: SwapError) => {
+    console.log('Error:', swapError);
+  }, []);
+
   return (
     <div className="relative flex h-full w-full flex-col items-center">
       {chainId !== base.id ? (
@@ -87,7 +100,12 @@ function SwapComponent() {
         </div>
       ) : null}
 
-      <Swap className="border" onStatus={handleOnStatus}>
+      <Swap
+        className="border"
+        onStatus={handleOnStatus}
+        onSuccess={handleOnSuccess}
+        onError={handleOnError}
+      >
         <SwapSettings>
           <SwapSettingsSlippageTitle>Max. slippage</SwapSettingsSlippageTitle>
           <SwapSettingsSlippageDescription>

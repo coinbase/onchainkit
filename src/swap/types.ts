@@ -25,10 +25,7 @@ export type FromTo = {
 
 export type GetSwapMessageParams = {
   address?: Address;
-  error?: SwapError;
-  loading?: boolean;
-  isTransactionPending?: boolean;
-  isMissingRequiredFields?: boolean;
+  lifeCycleStatus: LifeCycleStatus;
   to: SwapUnit;
   from: SwapUnit;
 };
@@ -42,7 +39,7 @@ export type QuoteWarning = {
   type?: string; // The type of the warning
 };
 
-type LifecycleStatusDataShared = {
+type LifeCycleStatusDataShared = {
   isMissingRequiredField: boolean;
   maxSlippage: number;
 };
@@ -56,11 +53,11 @@ type LifecycleStatusDataShared = {
 export type LifeCycleStatus =
   | {
       statusName: 'init';
-      statusData: LifecycleStatusDataShared;
+      statusData: LifeCycleStatusDataShared;
     }
   | {
       statusName: 'error';
-      statusData: SwapError & LifecycleStatusDataShared;
+      statusData: SwapError & LifeCycleStatusDataShared;
     }
   | {
       statusName: 'amountChange';
@@ -69,34 +66,69 @@ export type LifeCycleStatus =
         amountTo: string;
         tokenFrom?: Token;
         tokenTo?: Token;
-      } & LifecycleStatusDataShared;
+      } & LifeCycleStatusDataShared;
     }
   | {
       statusName: 'slippageChange';
-      statusData: LifecycleStatusDataShared;
+      statusData: LifeCycleStatusDataShared;
     }
   | {
       statusName: 'transactionPending';
-      statusData: LifecycleStatusDataShared;
+      statusData: LifeCycleStatusDataShared;
     }
   | {
       statusName: 'transactionApproved';
       statusData: {
         transactionHash: Hex;
         transactionType: 'ERC20' | 'Permit2';
-      } & LifecycleStatusDataShared;
+      } & LifeCycleStatusDataShared;
     }
   | {
       statusName: 'success';
       statusData: {
         transactionReceipt: TransactionReceipt;
-      } & LifecycleStatusDataShared;
+      } & LifeCycleStatusDataShared;
     };
+
+// make all keys in T optional if they are in K
+type PartialKeys<T, K extends keyof T> = Omit<T, K> &
+  Partial<Pick<T, K>> extends infer O
+  ? { [P in keyof O]: O[P] }
+  : never;
+
+// check if all keys in T are a key of LifeCycleStatusDataShared
+type AllKeysInShared<T> = keyof T extends keyof LifeCycleStatusDataShared
+  ? true
+  : false;
+
+/**
+ * LifeCycleStatus updater type
+ * Used to type the statuses used to update LifeCycleStatus
+ * LifeCycleStatusData is persisted across state updates allowing SharedData to be optional except for in init step
+ */
+export type LifeCycleStatusUpdate = LifeCycleStatus extends infer T
+  ? T extends { statusName: infer N; statusData: infer D }
+    ? { statusName: N } & (N extends 'init' // statusData required in statusName "init"
+        ? { statusData: D }
+        : AllKeysInShared<D> extends true // is statusData is LifeCycleStatusDataShared, make optional
+          ? {
+              statusData?: PartialKeys<
+                D,
+                keyof D & keyof LifeCycleStatusDataShared
+              >;
+            } // make all keys in LifeCycleStatusDataShared optional
+          : {
+              statusData: PartialKeys<
+                D,
+                keyof D & keyof LifeCycleStatusDataShared
+              >;
+            })
+    : never
+  : never;
 
 export type ProcessSwapTransactionParams = {
   config: Config;
-  lifeCycleStatus: LifeCycleStatus;
-  setLifeCycleStatus: (state: LifeCycleStatus) => void;
+  updateLifeCycleStatus: (state: LifeCycleStatusUpdate) => void;
   sendTransactionAsync: SendTransactionMutateAsync<Config, unknown>;
   swapTransaction: BuildSwapTransaction;
   useAggregator: boolean;
@@ -132,11 +164,8 @@ export type SwapButtonReact = {
 
 export type SwapContextType = {
   address?: Address; // Used to check if user is connected in SwapButton
-  error?: SwapError;
   from: SwapUnit;
   lifeCycleStatus: LifeCycleStatus;
-  loading: boolean;
-  isTransactionPending: boolean;
   handleAmountChange: (
     t: 'from' | 'to',
     amount: string,
@@ -145,7 +174,7 @@ export type SwapContextType = {
   ) => void;
   handleSubmit: () => void;
   handleToggle: () => void;
-  setLifeCycleStatus: (state: LifeCycleStatus) => void; // A function to set the lifecycle status of the component
+  updateLifeCycleStatus: (state: LifeCycleStatusUpdate) => void; // A function to set the lifecycle status of the component
   to: SwapUnit;
 };
 

@@ -13,7 +13,7 @@ let mockLifeCycleStatus = {
 
 vi.mock('./SwapProvider', () => ({
   useSwapContext: () => ({
-    setLifeCycleStatus: mockSetLifeCycleStatus,
+    updateLifeCycleStatus: mockSetLifeCycleStatus,
     lifeCycleStatus: mockLifeCycleStatus,
   }),
 }));
@@ -63,7 +63,6 @@ describe('SwapSettingsSlippageInput', () => {
     expect(mockSetLifeCycleStatus).toHaveBeenCalledWith({
       statusName: 'slippageChange',
       statusData: {
-        isMissingRequiredField: false,
         maxSlippage: 2.5,
       },
     });
@@ -88,7 +87,6 @@ describe('SwapSettingsSlippageInput', () => {
     expect(mockSetLifeCycleStatus).toHaveBeenCalledWith({
       statusName: 'slippageChange',
       statusData: {
-        isMissingRequiredField: false,
         maxSlippage: 1.5,
       },
     });
@@ -112,7 +110,6 @@ describe('SwapSettingsSlippageInput', () => {
     expect(mockSetLifeCycleStatus).toHaveBeenCalledWith({
       statusName: 'slippageChange',
       statusData: {
-        isMissingRequiredField: false,
         maxSlippage: 2.75,
       },
     });
@@ -195,7 +192,6 @@ describe('SwapSettingsSlippageInput', () => {
     expect(mockSetLifeCycleStatus).toHaveBeenLastCalledWith({
       statusName: 'slippageChange',
       statusData: {
-        isMissingRequiredField: false,
         maxSlippage: 3,
       },
     });
