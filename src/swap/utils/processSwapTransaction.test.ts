@@ -5,11 +5,7 @@ import { mainnet, sepolia } from 'wagmi/chains';
 import { mock } from 'wagmi/connectors';
 import { PERMIT2_CONTRACT_ADDRESS } from '../constants';
 import { DEGEN_TOKEN, ETH_TOKEN, USDC_TOKEN } from '../mocks';
-import type {
-  BuildSwapTransaction,
-  LifeCycleStatus,
-  SwapError,
-} from '../types';
+import type { BuildSwapTransaction, LifeCycleStatus } from '../types';
 import { processSwapTransaction } from './processSwapTransaction';
 
 vi.mock('wagmi/actions', () => ({
@@ -117,19 +113,28 @@ describe('processSwapTransaction', () => {
     expect(setLifeCycleStatus).toHaveBeenCalledTimes(4);
     expect(setLifeCycleStatus).toHaveBeenNthCalledWith(1, {
       statusName: 'transactionPending',
-      statusData: { maxSlippage: 3 },
+      statusData: {
+        isMissingRequiredField: false,
+        maxSlippage: 3,
+      },
     });
     expect(setLifeCycleStatus).toHaveBeenNthCalledWith(2, {
       statusName: 'transactionApproved',
       statusData: {
         transactionHash: 'approveTxHash',
         transactionType: 'ERC20',
+        // LifecycleStatus shared data
+        isMissingRequiredField: false,
         maxSlippage: 3,
       },
     });
     expect(setLifeCycleStatus).toHaveBeenNthCalledWith(3, {
       statusName: 'transactionPending',
-      statusData: { maxSlippage: 3 },
+      statusData: {
+        // LifecycleStatus shared data
+        isMissingRequiredField: false,
+        maxSlippage: 3,
+      },
     });
     expect(sendTransactionAsync).toHaveBeenCalledTimes(2);
     expect(waitForTransactionReceipt).toHaveBeenCalledTimes(2);
@@ -173,7 +178,11 @@ describe('processSwapTransaction', () => {
     expect(setLifeCycleStatus).toHaveBeenCalledTimes(2);
     expect(setLifeCycleStatus).toHaveBeenNthCalledWith(1, {
       statusName: 'transactionPending',
-      statusData: { maxSlippage: 3 },
+      statusData: {
+        // LifecycleStatus shared data
+        isMissingRequiredField: false,
+        maxSlippage: 3,
+      },
     });
     expect(sendTransactionAsync).toHaveBeenCalledTimes(1);
     expect(waitForTransactionReceipt).toHaveBeenCalledTimes(1);
@@ -223,25 +232,37 @@ describe('processSwapTransaction', () => {
     expect(setLifeCycleStatus).toHaveBeenCalledTimes(6);
     expect(setLifeCycleStatus).toHaveBeenNthCalledWith(1, {
       statusName: 'transactionPending',
-      statusData: { maxSlippage: 3 },
+      statusData: {
+        // LifecycleStatus shared data
+        isMissingRequiredField: false,
+        maxSlippage: 3,
+      },
     });
     expect(setLifeCycleStatus).toHaveBeenNthCalledWith(2, {
       statusName: 'transactionApproved',
       statusData: {
         transactionHash: 'approveTxHash',
         transactionType: 'Permit2',
+        // LifecycleStatus shared data
+        isMissingRequiredField: false,
         maxSlippage: 3,
       },
     });
     expect(setLifeCycleStatus).toHaveBeenNthCalledWith(3, {
       statusName: 'transactionPending',
-      statusData: { maxSlippage: 3 },
+      statusData: {
+        // LifecycleStatus shared data
+        isMissingRequiredField: false,
+        maxSlippage: 3,
+      },
     });
     expect(setLifeCycleStatus).toHaveBeenNthCalledWith(4, {
       statusName: 'transactionApproved',
       statusData: {
         transactionHash: 'permit2TxHash',
         transactionType: 'ERC20',
+        // LifecycleStatus shared data
+        isMissingRequiredField: false,
         maxSlippage: 3,
       },
     });
@@ -259,8 +280,12 @@ describe('processSwapTransaction', () => {
       statusName: 'error',
       statusData: {
         code: 'UNKNOWN_ERROR',
+        error: 'Some error occurred',
         message: 'Some error occurred',
-      } as SwapError,
+        // LifecycleStatus shared data
+        isMissingRequiredField: false,
+        maxSlippage: 3,
+      },
     };
     const swapTransaction: BuildSwapTransaction = {
       transaction: {
@@ -299,7 +324,11 @@ describe('processSwapTransaction', () => {
     expect(setLifeCycleStatus).toHaveBeenCalledTimes(2);
     expect(setLifeCycleStatus).toHaveBeenNthCalledWith(1, {
       statusName: 'transactionPending',
-      statusData: { maxSlippage: 3 },
+      statusData: {
+        // LifecycleStatus shared data
+        isMissingRequiredField: false,
+        maxSlippage: 3,
+      },
     });
     expect(sendTransactionAsync).toHaveBeenCalledTimes(1);
     expect(waitForTransactionReceipt).toHaveBeenCalledTimes(1);

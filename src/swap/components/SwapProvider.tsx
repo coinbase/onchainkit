@@ -180,12 +180,12 @@ export function SwapProvider({
           // amount is irrelevant
           amountFrom: type === 'from' ? amount : '',
           amountTo: type === 'to' ? amount : '',
-          maxSlippage,
-          tokenFrom: from.token,
-          tokenTo: to.token,
           // when fetching quote, the destination
           // amount is missing
           isMissingRequiredField: true,
+          maxSlippage,
+          tokenFrom: from.token,
+          tokenTo: to.token,
         },
       });
 
@@ -207,6 +207,9 @@ export function SwapProvider({
               code: response.code,
               error: response.error,
               message: '',
+              // LifecycleStatus shared data
+              isMissingRequiredField: false,
+              maxSlippage,
             },
           });
           return;
@@ -221,12 +224,12 @@ export function SwapProvider({
           statusData: {
             amountFrom: type === 'from' ? amount : formattedAmount,
             amountTo: type === 'to' ? amount : formattedAmount,
-            maxSlippage,
-            tokenFrom: from.token,
-            tokenTo: to.token,
             // if quote was fetched successfully, we
             // have all required fields
             isMissingRequiredField: !formattedAmount,
+            maxSlippage,
+            tokenFrom: from.token,
+            tokenTo: to.token,
           },
         });
       } catch (err) {
@@ -236,6 +239,9 @@ export function SwapProvider({
             code: 'TmSPc01', // Transaction module SwapProvider component 01 error
             error: JSON.stringify(err),
             message: '',
+            // LifecycleStatus shared data
+            isMissingRequiredField: false,
+            maxSlippage,
           },
         });
       } finally {
@@ -274,6 +280,9 @@ export function SwapProvider({
             code: response.code,
             error: response.error,
             message: response.message,
+            // LifecycleStatus shared data
+            isMissingRequiredField: false,
+            maxSlippage,
           },
         });
         return;
@@ -298,6 +307,9 @@ export function SwapProvider({
           code: 'TmSPc02', // Transaction module SwapProvider component 02 error
           error: JSON.stringify(err),
           message: errorMessage,
+          // LifecycleStatus shared data
+          isMissingRequiredField: false,
+          maxSlippage,
         },
       });
     }

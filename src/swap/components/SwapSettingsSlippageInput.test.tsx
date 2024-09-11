@@ -4,8 +4,11 @@ import { SwapSettingsSlippageInput } from './SwapSettingsSlippageInput';
 
 const mockSetLifeCycleStatus = vi.fn();
 let mockLifeCycleStatus = {
-  statusName: 'initial',
-  statusData: { maxSlippage: 3 },
+  statusName: 'init',
+  statusData: {
+    isMissingRequiredField: false,
+    maxSlippage: 3,
+  },
 };
 
 vi.mock('./SwapProvider', () => ({
@@ -23,8 +26,11 @@ describe('SwapSettingsSlippageInput', () => {
   beforeEach(() => {
     mockSetLifeCycleStatus.mockClear();
     mockLifeCycleStatus = {
-      statusName: 'initial',
-      statusData: { maxSlippage: 3 },
+      statusName: 'init',
+      statusData: {
+        isMissingRequiredField: false,
+        maxSlippage: 3,
+      },
     };
   });
 
@@ -56,7 +62,10 @@ describe('SwapSettingsSlippageInput', () => {
     expect(screen.getByRole('textbox')).toHaveValue('2.5');
     expect(mockSetLifeCycleStatus).toHaveBeenCalledWith({
       statusName: 'slippageChange',
-      statusData: { maxSlippage: 2.5 },
+      statusData: {
+        isMissingRequiredField: false,
+        maxSlippage: 2.5,
+      },
     });
   });
 
@@ -78,7 +87,10 @@ describe('SwapSettingsSlippageInput', () => {
     expect(input).toHaveValue('1.5');
     expect(mockSetLifeCycleStatus).toHaveBeenCalledWith({
       statusName: 'slippageChange',
-      statusData: { maxSlippage: 1.5 },
+      statusData: {
+        isMissingRequiredField: false,
+        maxSlippage: 1.5,
+      },
     });
   });
 
@@ -99,7 +111,10 @@ describe('SwapSettingsSlippageInput', () => {
     expect(screen.getByRole('textbox')).toHaveValue('2.75');
     expect(mockSetLifeCycleStatus).toHaveBeenCalledWith({
       statusName: 'slippageChange',
-      statusData: { maxSlippage: 2.75 },
+      statusData: {
+        isMissingRequiredField: false,
+        maxSlippage: 2.75,
+      },
     });
   });
 
@@ -139,7 +154,10 @@ describe('SwapSettingsSlippageInput', () => {
   it('uses lifeCycleStatus maxSlippage when available', () => {
     mockLifeCycleStatus = {
       statusName: 'updated',
-      statusData: { maxSlippage: 4.5 },
+      statusData: {
+        isMissingRequiredField: false,
+        maxSlippage: 4.5,
+      },
     };
     render(<SwapSettingsSlippageInput />);
     expect(screen.getByRole('textbox')).toHaveValue('4.5');
@@ -148,7 +166,10 @@ describe('SwapSettingsSlippageInput', () => {
   it('defaults to Custom mode when lifeCycleStatus maxSlippage differs from default', () => {
     mockLifeCycleStatus = {
       statusName: 'updated',
-      statusData: { maxSlippage: 4.5 },
+      statusData: {
+        isMissingRequiredField: false,
+        maxSlippage: 4.5,
+      },
     };
     render(<SwapSettingsSlippageInput defaultSlippage={3} />);
     expect(screen.getByRole('button', { name: 'Custom' })).toHaveClass(
@@ -173,7 +194,10 @@ describe('SwapSettingsSlippageInput', () => {
     expect(screen.getByRole('textbox')).toHaveValue('3');
     expect(mockSetLifeCycleStatus).toHaveBeenLastCalledWith({
       statusName: 'slippageChange',
-      statusData: { maxSlippage: 3 },
+      statusData: {
+        inMissingRequiredField: false,
+        maxSlippage: 3,
+      },
     });
   });
 

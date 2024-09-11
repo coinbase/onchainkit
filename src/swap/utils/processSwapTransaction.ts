@@ -17,11 +17,6 @@ export async function processSwapTransaction({
 }: ProcessSwapTransactionParams) {
   const { transaction, approveTransaction, quote } = swapTransaction;
 
-  const maxSlippage =
-    lifeCycleStatus.statusName !== 'error'
-      ? lifeCycleStatus.statusData.maxSlippage
-      : 3;
-
   // for swaps from ERC-20 tokens,
   // if there is an approveTransaction present,
   // request approval for the amount
@@ -31,7 +26,10 @@ export async function processSwapTransaction({
     setLifeCycleStatus({
       statusName: 'transactionPending',
       statusData: {
-        maxSlippage,
+        // LifecycleStatus shared data
+        isMissingRequiredField:
+          lifeCycleStatus.statusData.isMissingRequiredField,
+        maxSlippage: lifeCycleStatus.statusData.maxSlippage,
       },
     });
     const approveTxHash = await sendTransactionAsync({
@@ -44,7 +42,10 @@ export async function processSwapTransaction({
       statusData: {
         transactionHash: approveTxHash,
         transactionType: useAggregator ? 'ERC20' : 'Permit2',
-        maxSlippage,
+        // LifecycleStatus shared data
+        isMissingRequiredField:
+          lifeCycleStatus.statusData.isMissingRequiredField,
+        maxSlippage: lifeCycleStatus.statusData.maxSlippage,
       },
     });
     await waitForTransactionReceipt(config, {
@@ -61,7 +62,10 @@ export async function processSwapTransaction({
       setLifeCycleStatus({
         statusName: 'transactionPending',
         statusData: {
-          maxSlippage,
+          // LifecycleStatus shared data
+          isMissingRequiredField:
+            lifeCycleStatus.statusData.isMissingRequiredField,
+          maxSlippage: lifeCycleStatus.statusData.maxSlippage,
         },
       });
       const permit2ContractAbi = parseAbi([
@@ -87,7 +91,10 @@ export async function processSwapTransaction({
         statusData: {
           transactionHash: permitTxnHash,
           transactionType: 'ERC20',
-          maxSlippage,
+          // LifecycleStatus shared data
+          isMissingRequiredField:
+            lifeCycleStatus.statusData.isMissingRequiredField,
+          maxSlippage: lifeCycleStatus.statusData.maxSlippage,
         },
       });
       await waitForTransactionReceipt(config, {
@@ -101,7 +108,9 @@ export async function processSwapTransaction({
   setLifeCycleStatus({
     statusName: 'transactionPending',
     statusData: {
-      maxSlippage,
+      // LifecycleStatus shared data
+      isMissingRequiredField: lifeCycleStatus.statusData.isMissingRequiredField,
+      maxSlippage: lifeCycleStatus.statusData.maxSlippage,
     },
   });
   const txHash = await sendTransactionAsync({
@@ -119,7 +128,9 @@ export async function processSwapTransaction({
     statusName: 'success',
     statusData: {
       transactionReceipt: transactionReceipt,
-      maxSlippage,
+      // LifecycleStatus shared data
+      isMissingRequiredField: lifeCycleStatus.statusData.isMissingRequiredField,
+      maxSlippage: lifeCycleStatus.statusData.maxSlippage,
     },
   });
 }
