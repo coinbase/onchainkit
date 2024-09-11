@@ -122,12 +122,18 @@ export function SwapProvider({
       setLifeCycleStatus({
         statusName: 'init',
         statusData: {
-          isMissingRequiredField: false,
+          isMissingRequiredField:
+            lifeCycleStatus.statusData.isMissingRequiredField,
           maxSlippage,
         },
       });
     }
-  }, [hasHandledSuccess, lifeCycleStatus.statusName, maxSlippage]);
+  }, [
+    hasHandledSuccess,
+    lifeCycleStatus.statusData,
+    lifeCycleStatus.statusName,
+    maxSlippage,
+  ]);
 
   const handleToggle = useCallback(() => {
     from.setAmount(to.amount);
@@ -208,7 +214,8 @@ export function SwapProvider({
               error: response.error,
               message: '',
               // LifecycleStatus shared data
-              isMissingRequiredField: false,
+              isMissingRequiredField:
+                lifeCycleStatus.statusData.isMissingRequiredField,
               maxSlippage,
             },
           });
@@ -240,7 +247,8 @@ export function SwapProvider({
             error: JSON.stringify(err),
             message: '',
             // LifecycleStatus shared data
-            isMissingRequiredField: false,
+            isMissingRequiredField:
+              lifeCycleStatus.statusData.isMissingRequiredField,
             maxSlippage,
           },
         });
@@ -249,7 +257,7 @@ export function SwapProvider({
         destination.setLoading(false);
       }
     },
-    [from, maxSlippage, to, useAggregator],
+    [from, lifeCycleStatus, maxSlippage, to, useAggregator],
   );
 
   const handleSubmit = useCallback(async () => {
@@ -281,7 +289,8 @@ export function SwapProvider({
             error: response.error,
             message: response.message,
             // LifecycleStatus shared data
-            isMissingRequiredField: false,
+            isMissingRequiredField:
+              lifeCycleStatus.statusData.isMissingRequiredField,
             maxSlippage,
           },
         });
@@ -308,7 +317,8 @@ export function SwapProvider({
           error: JSON.stringify(err),
           message: errorMessage,
           // LifecycleStatus shared data
-          isMissingRequiredField: false,
+          isMissingRequiredField:
+            lifeCycleStatus.statusData.isMissingRequiredField,
           maxSlippage,
         },
       });
