@@ -639,7 +639,7 @@ describe('SwapProvider', () => {
         error: JSON.stringify(mockError),
         message: '',
         // LifecycleStatus shared data
-        isMissingRequiredField: false,
+        isMissingRequiredField: true,
         maxSlippage: 5,
       },
     });
@@ -662,7 +662,7 @@ describe('SwapProvider', () => {
         error: 'Something went wrong',
         message: '',
         // LifecycleStatus shared data
-        isMissingRequiredField: false,
+        isMissingRequiredField: true,
         maxSlippage: 5,
       },
     });
