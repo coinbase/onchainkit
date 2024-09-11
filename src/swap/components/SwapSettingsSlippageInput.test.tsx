@@ -195,7 +195,7 @@ describe('SwapSettingsSlippageInput', () => {
     expect(mockSetLifeCycleStatus).toHaveBeenLastCalledWith({
       statusName: 'slippageChange',
       statusData: {
-        inMissingRequiredField: false,
+        isMissingRequiredField: false,
         maxSlippage: 3,
       },
     });
