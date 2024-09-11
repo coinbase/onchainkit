@@ -9,11 +9,7 @@ export const ONCHAIN_KIT_CONFIG: OnchainKitConfig = {
   chain: baseSepolia,
   rpcUrl: null,
   schemaId: null,
-  walletCapabilities: {
-    hasAtomicBatch: false,
-    hasAuxiliaryFunds: false,
-    hasPaymasterService: false,
-  },
+  walletCapabilities: {},
 };
 
 /**

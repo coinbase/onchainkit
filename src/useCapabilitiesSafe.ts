@@ -1,6 +1,7 @@
+import type { WalletCapabilities } from 'viem';
 import { useAccount } from 'wagmi';
 import { useCapabilities } from 'wagmi/experimental';
-import type { UseCapabilitiesSafeParams, WalletCapabilities } from './types';
+import type { UseCapabilitiesSafeParams } from './types';
 
 export function useCapabilitiesSafe({
   chainId,
@@ -12,17 +13,8 @@ export function useCapabilitiesSafe({
   });
 
   if (error || !capabilities || !capabilities[chainId]) {
-    return {
-      hasPaymasterService: false,
-      hasAtomicBatch: false,
-      hasAuxiliaryFunds: false,
-    };
+    return {};
   }
 
-  return {
-    hasPaymasterService:
-      capabilities[chainId].paymasterService?.supported ?? false,
-    hasAtomicBatch: capabilities[chainId].atomicBatch?.supported ?? false,
-    hasAuxiliaryFunds: capabilities[chainId].auxiliaryFunds?.supported ?? false,
-  };
+  return capabilities[chainId];
 }

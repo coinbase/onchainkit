@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import type { Address, Chain } from 'viem';
+import type { Address, Chain, WalletCapabilities } from 'viem';
 import type { EASSchemaUid } from './identity/types';
 
 /**
@@ -51,13 +51,4 @@ export type OnchainKitProviderReact = {
 
 export type UseCapabilitiesSafeParams = {
   chainId: number;
-};
-
-/**
- * Note: exported as public Type
- */
-export type WalletCapabilities = {
-  hasPaymasterService: boolean; // If the wallet supports ERC-4337 Paymasters for gas sponsorship
-  hasAtomicBatch: boolean; // If the wallet supports atomic batching of transactions
-  hasAuxiliaryFunds: boolean; // If the wallet supports auxiliary funding of accounts (e.g. Magic Spend)
 };
