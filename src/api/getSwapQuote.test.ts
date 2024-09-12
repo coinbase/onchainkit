@@ -223,9 +223,7 @@ describe('getSwapQuote', () => {
       },
     };
     (sendRequest as vi.Mock).mockResolvedValue(mockResponse);
-
     await getSwapQuote(mockParams);
-
     expect(sendRequest).toHaveBeenCalledTimes(1);
     expect(sendRequest).toHaveBeenCalledWith(CDP_GET_SWAP_QUOTE, [
       {
