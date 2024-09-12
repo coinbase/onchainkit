@@ -9,8 +9,12 @@ export { SwapSettingsSlippageInput } from './components/SwapSettingsSlippageInpu
 export { SwapSettingsSlippageTitle } from './components/SwapSettingsSlippageTitle';
 export { SwapToggleButton } from './components/SwapToggleButton';
 export type {
+  /** @deprecated Prefer import from `api` module */
   BuildSwapTransaction,
+  /** @deprecated Prefer import from `api` module */
   BuildSwapTransactionResponse,
+} from '../api/types';
+export type {
   Fee,
   LifeCycleStatus,
   QuoteWarning,

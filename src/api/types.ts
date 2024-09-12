@@ -1,5 +1,5 @@
 import type { Address } from 'viem';
-import type { SwapQuote } from '../swap/types';
+import type { Fee, QuoteWarning, SwapQuote, Transaction } from '../swap/types';
 import type { Token } from '../token/types';
 
 export type AddressOrETH = Address | 'ETH';
@@ -16,9 +16,39 @@ export type APIError = {
 /**
  * Note: exported as public Type
  */
+export type BuildPayTransactionParams = {
+  address: Address; // The address of the wallet paying
+  chainId: number; // The Chain ID of the payment Network (only Base is supported)
+  chargeId: string; // The ID of the Commerce Charge to be paid
+};
+
+/**
+ * Note: exported as public Type
+ */
+export type BuildPayTransactionResponse = PayTransaction | APIError;
+
+/**
+ * Note: exported as public Type
+ */
+export type BuildSwapTransaction = {
+  approveTransaction?: Transaction; // ERC20 approve transaction which allows token holders to authorize spending
+  fee: Fee; // The fee for the swap
+  quote: SwapQuote; // The quote for the swap
+  transaction: Transaction; // The object developers should pass into Wagmi's signTransaction
+  warning?: QuoteWarning; // The warning associated with the swap
+};
+
+/**
+ * Note: exported as public Type
+ */
 export type BuildSwapTransactionParams = GetSwapQuoteParams & {
   fromAddress: Address; // The address of the user
 };
+
+/**
+ * Note: exported as public Type
+ */
+export type BuildSwapTransactionResponse = BuildSwapTransaction | APIError;
 
 export type GetAPIParamsForToken =
   | GetSwapQuoteParams
@@ -60,34 +90,14 @@ export type GetSwapQuoteResponse = SwapQuote | APIError;
  */
 export type GetTokensOptions = {
   limit?: string; // The maximum number of tokens to return (default: 50)
-  search?: string; // A string to search for in the token name, symbol or address
   page?: string; // The page number to return (default: 1)
+  search?: string; // A string to search for in the token name, symbol or address
 };
 
 /**
  * Note: exported as public Type
  */
 export type GetTokensResponse = Token[] | APIError;
-
-export type RawTransactionData = {
-  data: string; // The transaction data
-  from: string; // The sender address
-  gas: string; // The gas limit
-  gasPrice: string; // The gas price
-  to: string; // The recipient address
-  value: string; // The value of the transaction
-};
-
-export type SwapAPIParams = GetQuoteAPIParams | GetSwapAPIParams;
-
-/**
- * Note: exported as public Type
- */
-export type BuildPayTransactionParams = {
-  address: Address; // The address of the wallet paying
-  chainId: number; // The Chain ID of the payment Network (only Base is supported)
-  chargeId: string; // The ID of the Commerce Charge to be paid
-};
 
 export type HydrateChargeAPIParams = {
   sender: Address; // The address of the wallet paying
@@ -119,7 +129,13 @@ export type PayTransaction = {
   };
 };
 
-/**
- * Note: exported as public Type
- */
-export type BuildPayTransactionResponse = PayTransaction | APIError;
+export type RawTransactionData = {
+  data: string; // The transaction data
+  from: string; // The sender address
+  gas: string; // The gas limit
+  gasPrice: string; // The gas price
+  to: string; // The recipient address
+  value: string; // The value of the transaction
+};
+
+export type SwapAPIParams = GetQuoteAPIParams | GetSwapAPIParams;

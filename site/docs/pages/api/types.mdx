@@ -15,12 +15,46 @@ type APIError = {
 };
 ```
 
+## `BuildPayTransactionParams`
+
+```ts
+type BuildPayTransactionParams = {
+  address: Address; // The address of the wallet paying
+  chainId: number; // The Chain ID of the payment Network (only Base is supported)
+  chargeId: string; // The ID of the Commerce Charge to be paid
+};
+```
+
+## `BuildPayTransactionResponse`
+
+```ts
+type BuildPayTransactionResponse = PayTransaction | APIError;
+```
+
+## `BuildSwapTransaction`
+
+```ts
+type BuildSwapTransaction = {
+  approveTransaction?: Transaction; // ERC20 approve transaction which allows token holders to authorize spending
+  fee: Fee; // The fee for the swap
+  quote: SwapQuote; // The quote for the swap
+  transaction: Transaction; // The object developers should pass into Wagmi's signTransaction
+  warning?: QuoteWarning; // The warning associated with the swap
+};
+```
+
 ## `BuildSwapTransactionParams`
 
 ```ts
 type BuildSwapTransactionParams = GetSwapQuoteParams & {
   fromAddress: Address; // The address of the user
 };
+```
+
+## `BuildSwapTransactionResponse`
+
+```ts
+type BuildSwapTransactionResponse = BuildSwapTransaction | APIError;
 ```
 
 ## `GetSwapQuoteParams`
@@ -48,8 +82,8 @@ type GetSwapQuoteResponse = SwapQuote | APIError;
 ```ts
 type GetTokensOptions = {
   limit?: string; // The maximum number of tokens to return (default: 50)
-  search?: string; // A string to search for in the token name, symbol or address
   page?: string; // The page number to return (default: 1)
+  search?: string; // A string to search for in the token name, symbol or address
 };
 ```
 

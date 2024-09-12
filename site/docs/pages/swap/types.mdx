@@ -5,37 +5,6 @@ description: Glossary of Types in Swap components & utilities.
 
 # Types [Glossary of Types in Swap components & utilities.]
 
-## `BuildSwapTransaction`
-
-```ts
-type BuildSwapTransaction = {
-  approveTransaction?: Transaction; // The approval transaction (https://metaschool.so/articles/what-are-erc20-approve-erc20-allowance-methods/)
-  fee: Fee; // The fee for the swap
-  quote: SwapQuote; // The quote for the swap
-  transaction: Transaction; // The object developers should pass into Wagmi's signTransaction
-  warning?: QuoteWarning; // The warning associated with the swap
-};
-```
-
-## `BuildSwapTransactionParams`
-
-```ts
-type BuildSwapTransactionParams = {
-  amount: string; // The amount to be swapped
-  amountReference?: string; // The reference amount for the swap
-  from: Token; // The source token for the swap
-  fromAddress: Address; // The address of the user
-  isAmountInDecimals?: boolean; // Whether the amount is in decimals
-  maxSlippage?: string; // The slippage of the swap
-  to: Token; // The destination token for the swap
-};
-```
-
-## `BuildSwapTransactionResponse`
-
-```ts
-type BuildSwapTransactionResponse = BuildSwapTransaction | SwapError;
-```
 
 ## `Fee`
 
@@ -45,25 +14,6 @@ type Fee = {
   baseAsset: Token; // The base asset for the fee
   percentage: string; // The percentage of the fee
 };
-```
-
-## `GetSwapQuoteParams`
-
-```ts
-type GetSwapQuoteParams = {
-  amount: string; // The amount to be swapped
-  amountReference?: string; // The reference amount for the swap
-  from: Token; // The source token for the swap
-  isAmountInDecimals?: boolean; // Whether the amount is in decimals
-  maxSlippage?: string; // The slippage of the swap
-  to: Token; // The destination token for the swap
-};
-```
-
-## `GetSwapQuoteResponse`
-
-```ts
-type GetSwapQuoteResponse = SwapQuote | SwapError;
 ```
 
 ## `QuoteWarning`
@@ -79,35 +29,49 @@ type QuoteWarning = {
 ## `LifeCycleStatus`
 
 ```ts
+type LifecycleStatusDataShared = {
+  isMissingRequiredField: boolean;
+  maxSlippage: number;
+};
+
 type LifeCycleStatus =
   | {
       statusName: 'init';
-      statusData: null;
+      statusData: LifecycleStatusDataShared;
     }
   | {
       statusName: 'error';
-      statusData: SwapError;
+      statusData: SwapError & LifecycleStatusDataShared;
     }
   | {
       statusName: 'amountChange';
-      statusData: null;
+      statusData: {
+        amountFrom: string;
+        amountTo: string;
+        tokenFrom?: Token;
+        tokenTo?: Token;
+      } & LifecycleStatusDataShared;
+    }
+  | {
+      statusName: 'slippageChange';
+      statusData: LifecycleStatusDataShared;
     }
   | {
       statusName: 'transactionPending';
-      statusData: null;
+      statusData: LifecycleStatusDataShared;
     }
   | {
       statusName: 'transactionApproved';
       statusData: {
         transactionHash: Hex;
         transactionType: 'ERC20' | 'Permit2';
-      };
+      } & LifecycleStatusDataShared;
     }
   | {
       statusName: 'success';
       statusData: {
         transactionReceipt: TransactionReceipt;
-      };
+      } & LifecycleStatusDataShared;
     };
 ```
 
@@ -177,6 +141,44 @@ type SwapReact = {
   onStatus?: (lifeCycleStatus: LifeCycleStatus) => void; // An optional callback function that exposes the component lifecycle state
   onSuccess?: (transactionReceipt: TransactionReceipt) => void; // An optional callback function that exposes the transaction receipt
   title?: string; // Title for the Swap component. (default: "Swap")
+};
+```
+
+## `SwapSettingsReact`
+
+```ts
+type SwapSettingsReact = {
+  children: ReactNode;
+  className?: string; // Optional className override for top div element.
+  icon?: ReactNode; // Optional icon override
+  text?: string; // Optional text override
+};
+```
+
+## `SwapSettingsSlippageDescriptionReact`
+
+```ts
+type SwapSettingsSlippageDescriptionReact = {
+  children: ReactNode;
+  className?: string; // Optional className override for top div element.
+};
+```
+
+## `SwapSettingsSlippageInputReact`
+
+```ts
+type SwapSettingsSlippageInputReact = {
+  className?: string; // Optional className override for top div element.
+  defaultSlippage?: number; // Optional default slippage value in pecentage.
+};
+```
+
+## `SwapSettingsSlippageTitleReact`
+
+```ts
+type SwapSettingsSlippageTitleReact = {
+  children: ReactNode;
+  className?: string; // Optional className override for top div element.
 };
 ```
 
