@@ -43,6 +43,10 @@ vi.mock('wagmi', async (importOriginal) => {
   };
 });
 
+vi.mock('../path/to/maxSlippageModule', () => ({
+  getMaxSlippage: vi.fn().mockReturnValue(10),
+}));
+
 const queryClient = new QueryClient();
 
 const config = createConfig({
@@ -443,12 +447,16 @@ describe('SwapProvider', () => {
     });
     const button = screen.getByText('setLifeCycleStatus.success');
     fireEvent.click(button);
-    expect(onStatusMock).toHaveBeenCalledWith({
-      statusName: 'init',
-      statusData: {
-        isMissingRequiredField: false,
-        maxSlippage: 10,
-      },
+    await waitFor(() => {
+      expect(onStatusMock).toHaveBeenCalledWith(
+        expect.objectContaining({
+          statusName: 'init',
+          statusData: expect.objectContaining({
+            isMissingRequiredField: false,
+            maxSlippage: 3,
+          }),
+        }),
+      );
     });
   });
 

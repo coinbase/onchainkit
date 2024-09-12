@@ -13,6 +13,7 @@ import { formatTokenAmount } from '../../internal/utils/formatTokenAmount';
 import type { Token } from '../../token';
 import { GENERIC_ERROR_MESSAGE } from '../../transaction/constants';
 import { isUserRejectedRequestError } from '../../transaction/utils/isUserRejectedRequestError';
+import { DEFAULT_MAX_SLIPPAGE } from '../constants';
 import { useFromTo } from '../hooks/useFromTo';
 import { useResetInputs } from '../hooks/useResetInputs';
 import type {
@@ -46,8 +47,8 @@ export function SwapProvider({
   const { address } = useAccount();
   // Feature flags
   const { useAggregator } = experimental;
-  const [maxSlippage, _setMaxSlippage] = useState(
-    experimental.maxSlippage || 3,
+  const [initialMaxSlippage, _setInitialMaxSlippage] = useState(
+    experimental.maxSlippage || DEFAULT_MAX_SLIPPAGE,
   );
   // Core Hooks
   const config = useConfig();
@@ -58,7 +59,7 @@ export function SwapProvider({
     statusName: 'init',
     statusData: {
       isMissingRequiredField: true,
-      maxSlippage,
+      maxSlippage: initialMaxSlippage,
     },
   }); // Component lifecycle
   const [hasHandledSuccess, setHasHandledSuccess] = useState(false);
@@ -117,6 +118,7 @@ export function SwapProvider({
   }, [hasHandledSuccess, lifeCycleStatus.statusName, resetInputs]);
 
   useEffect(() => {
+    const maxSlippage = lifeCycleStatus.statusData.maxSlippage;
     // Reset status to init after success has been handled
     if (lifeCycleStatus.statusName === 'success' && hasHandledSuccess) {
       setLifeCycleStatus({
@@ -132,7 +134,6 @@ export function SwapProvider({
     hasHandledSuccess,
     lifeCycleStatus.statusData,
     lifeCycleStatus.statusName,
-    maxSlippage,
   ]);
 
   const handleToggle = useCallback(() => {
@@ -150,6 +151,7 @@ export function SwapProvider({
       dToken?: Token,
       // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO Refactor this component
     ) => {
+      const maxSlippage = lifeCycleStatus.statusData.maxSlippage;
       const source = type === 'from' ? from : to;
       const destination = type === 'from' ? to : from;
 
@@ -200,8 +202,8 @@ export function SwapProvider({
           amount,
           amountReference: 'from',
           from: source.token,
+          maxSlippage: String(maxSlippage),
           to: destination.token,
-          maxSlippage: maxSlippage.toString(),
           useAggregator,
         });
         // If request resolves to error response set the quoteError
@@ -257,13 +259,14 @@ export function SwapProvider({
         destination.setLoading(false);
       }
     },
-    [from, lifeCycleStatus, maxSlippage, to, useAggregator],
+    [from, lifeCycleStatus, to, useAggregator],
   );
 
   const handleSubmit = useCallback(async () => {
     if (!address || !from.token || !to.token || !from.amount) {
       return;
     }
+    const maxSlippage = lifeCycleStatus.statusData.maxSlippage;
     setLifeCycleStatus({
       statusName: 'init',
       statusData: {
@@ -277,9 +280,9 @@ export function SwapProvider({
         amount: from.amount,
         fromAddress: address,
         from: from.token,
+        maxSlippage: String(maxSlippage),
         to: to.token,
         useAggregator,
-        maxSlippage: maxSlippage.toString(),
       });
       if (isSwapError(response)) {
         setLifeCycleStatus({
@@ -329,7 +332,6 @@ export function SwapProvider({
     from.amount,
     from.token,
     lifeCycleStatus,
-    maxSlippage,
     sendTransactionAsync,
     to.token,
     useAggregator,
