@@ -9,7 +9,6 @@ export const ONCHAIN_KIT_CONFIG: OnchainKitConfig = {
   chain: baseSepolia,
   rpcUrl: null,
   schemaId: null,
-  walletCapabilities: {},
 };
 
 /**
