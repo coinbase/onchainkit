@@ -6,7 +6,7 @@ import type {
   UseReadContractReturnType,
 } from 'wagmi';
 import type { SendTransactionMutateAsync } from 'wagmi/query';
-import type { RawTransactionData } from '../api/types';
+import type { BuildSwapTransaction, RawTransactionData } from '../api/types';
 import type { Token } from '../token/types';
 
 /**
@@ -231,14 +231,6 @@ export type SwapSettingsReact = {
 /**
  * Note: exported as public Type
  */
-export type SwapSettingsSlippageTitleReact = {
-  children: ReactNode;
-  className?: string; // Optional className override for top div element.
-};
-
-/**
- * Note: exported as public Type
- */
 export type SwapSettingsSlippageDescriptionReact = {
   children: ReactNode;
   className?: string; // Optional className override for top div element.
@@ -253,6 +245,14 @@ export type SwapSettingsSlippageInputReact = {
 };
 
 export type SwapSettingsSlippageLayoutReact = {
+  children: ReactNode;
+  className?: string; // Optional className override for top div element.
+};
+
+/**
+ * Note: exported as public Type
+ */
+export type SwapSettingsSlippageTitleReact = {
   children: ReactNode;
   className?: string; // Optional className override for top div element.
 };
