@@ -13,6 +13,7 @@ import { formatTokenAmount } from '../../internal/utils/formatTokenAmount';
 import type { Token } from '../../token';
 import { GENERIC_ERROR_MESSAGE } from '../../transaction/constants';
 import { isUserRejectedRequestError } from '../../transaction/utils/isUserRejectedRequestError';
+import { DEFAULT_MAX_SLIPPAGE } from '../constants';
 import { useFromTo } from '../hooks/useFromTo';
 import { useResetInputs } from '../hooks/useResetInputs';
 import type {
@@ -38,7 +39,9 @@ export function useSwapContext() {
 
 export function SwapProvider({
   children,
-  config,
+  config = {
+    maxSlippage: DEFAULT_MAX_SLIPPAGE,
+  },
   experimental,
   onError,
   onStatus,

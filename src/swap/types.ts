@@ -193,7 +193,7 @@ export type SwapParams = {
 
 export type SwapProviderReact = {
   children: React.ReactNode;
-  config: {
+  config?: {
     maxSlippage: number; // Maximum acceptable slippage for a swap. (default: 10) This is as a percent, not basis points
   };
   experimental: {
@@ -211,7 +211,7 @@ export type SwapReact = {
   children: ReactNode;
   className?: string; // Optional className override for top div element.
   config?: {
-    maxSlippage?: number; // Maximum acceptable slippage for a swap. (default: 10) This is as a percent, not basis points
+    maxSlippage: number; // Maximum acceptable slippage for a swap. (default: 10) This is as a percent, not basis points
   };
   experimental?: {
     useAggregator: boolean; // Whether to use a DEX aggregator. (default: true)
