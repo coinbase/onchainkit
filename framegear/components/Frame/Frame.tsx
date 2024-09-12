@@ -12,6 +12,7 @@ import { ExternalLinkIcon, ResetIcon, RocketIcon } from '@radix-ui/react-icons';
 import { useRedirectModal } from '@/components/RedirectModalContext/RedirectModalContext';
 import { FrameMetadataWithImageObject } from '@/utils/frameResultToFrameMetadata';
 import { useTextInputs } from '@/contexts/TextInputs';
+import clsx from 'clsx';
 
 export function Frame() {
   const [results] = useAtom(frameResultsAtom);
@@ -28,8 +29,9 @@ export function Frame() {
 function ValidFrame({ metadata }: { metadata: FrameMetadataWithImageObject }) {
   const { inputText, setInputText } = useTextInputs();
   const { image, input, buttons } = metadata;
-  const imageAspectRatioClassname =
-    metadata.image.aspectRatio === '1:1' ? 'aspect-square' : 'aspect-[1.91/1]';
+  const imageAspectRatioClassname = clsx(
+    metadata.image.aspectRatio === '1:1' ? 'aspect-square' : 'aspect-[1.91/1]'
+  );
 
   const handleInputChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => setInputText(e.target.value),
@@ -38,10 +40,17 @@ function ValidFrame({ metadata }: { metadata: FrameMetadataWithImageObject }) {
 
   return (
     <div>
-      {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
-        className={`w-full rounded-t-xl ${imageAspectRatioClassname} ${image.src ? "object-cover" : "object-contain"}`}
-        src={image.src ? image.src : "https://demofree.sirv.com/nope-not-here.jpg?w=750"}
+        className={clsx(
+          'w-full rounded-t-xl',
+          imageAspectRatioClassname,
+          image.src ? 'object-cover' : 'object-contain'
+        )}
+        src={
+          image.src
+            ? image.src
+            : 'https://demofree.sirv.com/nope-not-here.jpg?w=750'
+        }
         alt=""
       />
       <div className="bg-button-gutter-light dark:bg-content-light flex flex-col gap-2 rounded-b-xl px-4 py-2">
@@ -76,10 +85,6 @@ function ValidFrame({ metadata }: { metadata: FrameMetadataWithImageObject }) {
 }
 
 function ErrorFrame() {
-  // TODO: implement -- decide how to handle
-  // - simply show an error?
-  // - best effort rendering of what they do have?
-  // - maybe just ValidFrame with a red border?
   return <PlaceholderFrame />;
 }
 
@@ -116,14 +121,12 @@ function FrameButton({
 
   const handleClick = useCallback(async () => {
     if (button?.action === 'post' || button?.action === 'post_redirect') {
-      // TODO: collect user options (follow, like, etc.) and include
       const confirmAction = async () => {
         const result = await postFrame(
           {
             buttonIndex: index,
             url: (button as any).postUrl!,
             state: JSON.stringify(state),
-            // TODO: make these user-input-driven
             castId: {
               fid: 0,
               hash: '0xthisisnotreal',
@@ -136,7 +139,6 @@ function FrameButton({
           },
           mockFrameOptions
         );
-        // TODO: handle when result is not defined
         if (result) {
           setResults((prev) => [...prev, result]);
         }
@@ -162,7 +164,6 @@ You can test this action on the official Warpcast validator: https://warpcast.co
 (must deploy frame to a publicly accessible URL)`
       );
     }
-    // TODO: implement other actions (mint, etc.)
   }, [
     button,
     index,
@@ -189,7 +190,10 @@ You can test this action on the official Warpcast validator: https://warpcast.co
 
   return (
     <button
-      className="border-button flex w-[45%] grow items-center justify-center gap-1 rounded-lg border bg-white px-4 py-2 text-black"
+      className={clsx(
+        'border-button flex w-[45%] grow items-center justify-center gap-1 rounded-lg border bg-white px-4 py-2 text-black',
+        isLoading || (button?.action === 'mint' && 'disabled:opacity-50')
+      )}
       type="button"
       onClick={handleClick}
       disabled={isLoading || button?.action === 'mint'}
