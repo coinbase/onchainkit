@@ -55,7 +55,7 @@ export function WalletComponents() {
             <Address className={color.foregroundMuted} />
             <EthBalance />
           </Identity>
-          <WalletDropdownLink icon="wallet" href="https://wallet.coinbase.com"> // [!code focus]
+          <WalletDropdownLink icon="wallet" href="https://keys.coinbase.com"> // [!code focus]
             Wallet // [!code focus]
           </WalletDropdownLink> // [!code focus]
           <WalletDropdownDisconnect />
@@ -79,7 +79,7 @@ export function WalletComponents() {
         <Address className={color.foregroundMuted} />
         <EthBalance />
       </Identity>
-      <WalletDropdownLink icon="wallet" href="https://wallet.coinbase.com">
+      <WalletDropdownLink icon="wallet" href="https://keys.coinbase.com">
         Wallet
       </WalletDropdownLink>
       <WalletDropdownDisconnect />
@@ -132,7 +132,7 @@ This allows for diverse customizations, including complex layouts and conditiona
 
 ```tsx
 // omitted for brevity
-<WalletDropdownLink icon="wallet" href="https://wallet.coinbase.com"> // [!code focus]
+<WalletDropdownLink icon="wallet" href="https://keys.coinbase.com"> // [!code focus]
   <span className="font-bold italic">Profile</span> // [!code focus]
   <span> 🔵 </span> // [!code focus]
 </WalletDropdownLink> // [!code focus]
@@ -151,7 +151,7 @@ This allows for diverse customizations, including complex layouts and conditiona
         <Address className={color.foregroundMuted} />
         <EthBalance />
       </Identity>
-      <WalletDropdownLink icon="wallet" href="https://wallet.coinbase.com">
+      <WalletDropdownLink icon="wallet" href="https://keys.coinbase.com">
         <span className="font-bold italic">Profile</span>
         <span> 🔵 </span>
       </WalletDropdownLink>
@@ -165,7 +165,7 @@ You can override component styles using className.
 
 ```tsx
 // omitted for brevity
-<WalletDropdownLink className="hover:bg-red-500" icon="wallet" href="https://wallet.coinbase.com" > // [!code focus]
+<WalletDropdownLink className="hover:bg-red-500" icon="wallet" href="https://keys.coinbase.com" > // [!code focus]
   Wallet // [!code focus]
 </WalletDropdownLink> // [!code focus]
 ```
@@ -183,7 +183,7 @@ You can override component styles using className.
         <Address className={color.foregroundMuted} />
         <EthBalance />
       </Identity>
-      <WalletDropdownLink className="hover:bg-red-500" icon="wallet" href="https://wallet.coinbase.com">
+      <WalletDropdownLink className="hover:bg-red-500" icon="wallet" href="https://keys.coinbase.com">
         Wallet
       </WalletDropdownLink>
       <WalletDropdownDisconnect />

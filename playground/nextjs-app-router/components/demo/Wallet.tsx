@@ -39,7 +39,7 @@ function WalletComponent() {
           <WalletDropdownBasename />
           <WalletDropdownLink
             icon="wallet"
-            href="https://wallet.coinbase.com"
+            href="https://keys.coinbase.com"
             target="_blank"
           >
             Wallet
