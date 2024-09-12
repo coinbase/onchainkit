@@ -1612,7 +1612,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@biomejs/biome@npm:^1.8.0":
+"@biomejs/biome@npm:1.8.3":
   version: 1.8.3
   resolution: "@biomejs/biome@npm:1.8.3"
   dependencies:
@@ -2172,7 +2172,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@coinbase/onchainkit@workspace:."
   dependencies:
-    "@biomejs/biome": "npm:^1.8.0"
+    "@biomejs/biome": "npm:1.8.3"
     "@changesets/changelog-github": "npm:^0.4.8"
     "@changesets/cli": "npm:^2.26.2"
     "@chromatic-com/storybook": "npm:^1.7.0"
