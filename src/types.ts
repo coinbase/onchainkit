@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import type { Address, Chain, WalletCapabilities } from 'viem';
+import type { Address, Chain } from 'viem';
 import type { EASSchemaUid } from './identity/types';
 
 /**
@@ -27,7 +27,6 @@ export type OnchainKitConfig = {
   rpcUrl: string | null; // RPC URL for onchain requests. Defaults to using CDP Node if the API Key is set
   chain: Chain; // Chain must be provided as we need to know which chain to use
   schemaId: EASSchemaUid | null; // SchemaId is optional as not all apps need to use EAS
-  walletCapabilities: WalletCapabilities; // Capabilities of the wallet - see EIP-5792
 };
 
 export type SetOnchainKitConfig = Partial<OnchainKitConfig>;

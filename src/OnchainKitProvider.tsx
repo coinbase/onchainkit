@@ -30,7 +30,6 @@ export function OnchainKitProvider({
       chain: chain,
       rpcUrl: rpcUrl ?? null,
       schemaId: schemaId ?? null,
-      walletCapabilities: walletCapabilities ?? {},
     };
     setOnchainKitConfig(onchainKitConfig);
     return onchainKitConfig;
