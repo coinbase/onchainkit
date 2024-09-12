@@ -1,6 +1,5 @@
 import { createContext, useMemo } from 'react';
 import { ONCHAIN_KIT_CONFIG, setOnchainKitConfig } from './OnchainKitConfig';
-import { useCapabilitiesSafe } from './internal/hooks/useCapabilitiesSafe';
 import { checkHashLength } from './internal/utils/checkHashLength';
 import type { OnchainKitContextType, OnchainKitProviderReact } from './types';
 
@@ -21,7 +20,6 @@ export function OnchainKitProvider({
   if (schemaId && !checkHashLength(schemaId, 64)) {
     throw Error('EAS schemaId must be 64 characters prefixed with "0x"');
   }
-  const walletCapabilities = useCapabilitiesSafe({ chainId: chain.id });
 
   const value = useMemo(() => {
     const onchainKitConfig = {
@@ -33,7 +31,7 @@ export function OnchainKitProvider({
     };
     setOnchainKitConfig(onchainKitConfig);
     return onchainKitConfig;
-  }, [address, apiKey, chain, rpcUrl, schemaId, walletCapabilities]);
+  }, [address, apiKey, chain, rpcUrl, schemaId]);
   return (
     <OnchainKitContext.Provider value={value}>
       {children}
