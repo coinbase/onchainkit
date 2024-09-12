@@ -49,7 +49,7 @@ vi.mock('../path/to/maxSlippageModule', () => ({
 
 const queryClient = new QueryClient();
 
-const config = createConfig({
+const accountConfig = createConfig({
   chains: [base],
   connectors: [
     mock({
@@ -66,9 +66,12 @@ const config = createConfig({
 });
 
 const wrapper = ({ children }) => (
-  <WagmiProvider config={config}>
+  <WagmiProvider config={accountConfig}>
     <QueryClientProvider client={queryClient}>
-      <SwapProvider experimental={{ useAggregator: true, maxSlippage: 5 }}>
+      <SwapProvider
+        config={{ maxSlippage: 5 }}
+        experimental={{ useAggregator: true }}
+      >
         {children}
       </SwapProvider>
     </QueryClientProvider>
@@ -81,11 +84,13 @@ const renderWithProviders = ({
   onStatus = vi.fn(),
   onSuccess = vi.fn(),
 }) => {
-  const mockExperimental = { useAggregator: true, maxSlippage: 10 };
+  const config = { maxSlippage: 10 };
+  const mockExperimental = { useAggregator: true };
   return render(
-    <WagmiProvider config={config}>
+    <WagmiProvider config={accountConfig}>
       <QueryClientProvider client={queryClient}>
         <SwapProvider
+          config={config}
           experimental={mockExperimental}
           onError={onError}
           onStatus={onStatus}
@@ -748,10 +753,11 @@ describe('SwapProvider', () => {
       const { lifeCycleStatus } = useSwapContext();
       return lifeCycleStatus;
     };
+    const config = { maxSlippage: 3 };
     const wrapper = ({ children }) => (
-      <WagmiProvider config={config}>
+      <WagmiProvider config={accountConfig}>
         <QueryClientProvider client={queryClient}>
-          <SwapProvider experimental={{ useAggregator: true }}>
+          <SwapProvider config={config} experimental={{ useAggregator: true }}>
             {children}
           </SwapProvider>
         </QueryClientProvider>

@@ -39,6 +39,9 @@ export function useSwapContext() {
 
 export function SwapProvider({
   children,
+  config = {
+    maxSlippage: DEFAULT_MAX_SLIPPAGE,
+  },
   experimental,
   onError,
   onStatus,
@@ -47,11 +50,8 @@ export function SwapProvider({
   const { address } = useAccount();
   // Feature flags
   const { useAggregator } = experimental;
-  const [initialMaxSlippage, _setInitialMaxSlippage] = useState(
-    experimental.maxSlippage || DEFAULT_MAX_SLIPPAGE,
-  );
   // Core Hooks
-  const config = useConfig();
+  const accountConfig = useConfig();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<SwapError>();
   const [isTransactionPending, setPendingTransaction] = useState(false);
@@ -59,7 +59,7 @@ export function SwapProvider({
     statusName: 'init',
     statusData: {
       isMissingRequiredField: true,
-      maxSlippage: initialMaxSlippage,
+      maxSlippage: config.maxSlippage,
     },
   }); // Component lifecycle
   const [hasHandledSuccess, setHasHandledSuccess] = useState(false);
@@ -300,7 +300,7 @@ export function SwapProvider({
         return;
       }
       await processSwapTransaction({
-        config,
+        config: accountConfig,
         lifeCycleStatus,
         sendTransactionAsync,
         setLifeCycleStatus,
@@ -327,8 +327,8 @@ export function SwapProvider({
       });
     }
   }, [
+    accountConfig,
     address,
-    config,
     from.amount,
     from.token,
     lifeCycleStatus,

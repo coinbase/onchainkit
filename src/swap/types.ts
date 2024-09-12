@@ -193,9 +193,11 @@ export type SwapParams = {
 
 export type SwapProviderReact = {
   children: React.ReactNode;
+  config?: {
+    maxSlippage: number; // Maximum acceptable slippage for a swap. (default: 10) This is as a percent, not basis points
+  };
   experimental: {
     useAggregator: boolean; // Whether to use a DEX aggregator. (default: true)
-    maxSlippage?: number; // Maximum acceptable slippage for a swap. (default: 10) This is as a percent, not basis points
   };
   onError?: (error: SwapError) => void; // An optional callback function that handles errors within the provider.
   onStatus?: (lifeCycleStatus: LifeCycleStatus) => void; // An optional callback function that exposes the component lifecycle state
@@ -208,9 +210,11 @@ export type SwapProviderReact = {
 export type SwapReact = {
   children: ReactNode;
   className?: string; // Optional className override for top div element.
+  config?: {
+    maxSlippage: number; // Maximum acceptable slippage for a swap. (default: 10) This is as a percent, not basis points
+  };
   experimental?: {
     useAggregator: boolean; // Whether to use a DEX aggregator. (default: true)
-    maxSlippage?: number; // Maximum acceptable slippage for a swap. (default: 10) This is as a percent, not basis points
   };
   onError?: (error: SwapError) => void; // An optional callback function that handles errors within the provider.
   onStatus?: (lifeCycleStatus: LifeCycleStatus) => void; // An optional callback function that exposes the component lifecycle state
