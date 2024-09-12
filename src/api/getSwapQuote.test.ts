@@ -160,4 +160,77 @@ describe('getSwapQuote', () => {
       message: '',
     });
   });
+
+  it('should adjust slippage for V1 API when useAggregator is true', async () => {
+    const mockParams = {
+      useAggregator: true,
+      maxSlippage: '3',
+      amountReference: testAmountReference,
+      from: ETH_TOKEN,
+      to: DEGEN_TOKEN,
+      amount: testAmount,
+    };
+    const mockApiParams = getAPIParamsForToken(mockParams);
+    const mockResponse = {
+      id: 1,
+      jsonrpc: '2.0',
+      result: {
+        from: ETH_TOKEN,
+        to: DEGEN_TOKEN,
+        fromAmount: '100000000000000000',
+        toAmount: '16732157880511600003860',
+        amountReference: 'from',
+        priceImpact: '0.07',
+        chainId: 8453,
+        hasHighPriceImpact: false,
+        slippage: '30',
+      },
+    };
+    (sendRequest as vi.Mock).mockResolvedValue(mockResponse);
+    await getSwapQuote(mockParams);
+    expect(sendRequest).toHaveBeenCalledTimes(1);
+    expect(sendRequest).toHaveBeenCalledWith(CDP_GET_SWAP_QUOTE, [
+      {
+        ...mockApiParams,
+        slippagePercentage: '30',
+      },
+    ]);
+  });
+
+  it('should not adjust slippage when useAggregator is false', async () => {
+    const mockParams = {
+      useAggregator: false,
+      maxSlippage: '3',
+      amountReference: testAmountReference,
+      from: ETH_TOKEN,
+      to: DEGEN_TOKEN,
+      amount: testAmount,
+    };
+    const mockApiParams = getAPIParamsForToken(mockParams);
+    const mockResponse = {
+      id: 1,
+      jsonrpc: '2.0',
+      result: {
+        from: ETH_TOKEN,
+        to: DEGEN_TOKEN,
+        fromAmount: '100000000000000000',
+        toAmount: '16732157880511600003860',
+        amountReference: 'from',
+        priceImpact: '0.07',
+        chainId: 8453,
+        hasHighPriceImpact: false,
+        slippage: '3',
+      },
+    };
+    (sendRequest as vi.Mock).mockResolvedValue(mockResponse);
+    await getSwapQuote(mockParams);
+    expect(sendRequest).toHaveBeenCalledTimes(1);
+    expect(sendRequest).toHaveBeenCalledWith(CDP_GET_SWAP_QUOTE, [
+      {
+        ...mockApiParams,
+        v2Enabled: true,
+        slippagePercentage: '3',
+      },
+    ]);
+  });
 });
