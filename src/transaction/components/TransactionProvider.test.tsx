@@ -6,7 +6,7 @@ import {
   useWaitForTransactionReceipt,
 } from 'wagmi';
 import { waitForTransactionReceipt } from 'wagmi/actions';
-import { useOnchainKit } from '../../useOnchainKit';
+import { useCapabilitiesSafe } from '../../internal/hooks/useCapabilitiesSafe';
 import { useCallsStatus } from '../hooks/useCallsStatus';
 import { useSendCall } from '../hooks/useSendCall';
 import { useSendCalls } from '../hooks/useSendCalls';
@@ -55,8 +55,8 @@ vi.mock('../hooks/useSendWalletTransactions', () => ({
   useSendWalletTransactions: vi.fn(),
 }));
 
-vi.mock('../../useOnchainKit', () => ({
-  useOnchainKit: vi.fn(),
+vi.mock('../../internal/hooks/useCapabilitiesSafe', () => ({
+  useCapabilitiesSafe: vi.fn(),
 }));
 
 const silenceError = () => {
@@ -156,13 +156,7 @@ describe('TransactionProvider', () => {
     (useWaitForTransactionReceipt as ReturnType<typeof vi.fn>).mockReturnValue({
       receipt: undefined,
     });
-    (useOnchainKit as ReturnType<typeof vi.fn>).mockReturnValue({
-      walletCapabilities: {
-        hasAtomicBatch: false,
-        hasPaymasterService: false,
-        hasAuxiliaryFunds: false,
-      },
-    });
+    (useCapabilitiesSafe as ReturnType<typeof vi.fn>).mockReturnValue({});
   });
 
   it('should emit onError when setLifeCycleStatus is called with error', async () => {
@@ -293,10 +287,10 @@ describe('TransactionProvider', () => {
       status: 'pending',
       writeContractsAsync: writeContractsAsyncMock,
     });
-    (useOnchainKit as ReturnType<typeof vi.fn>).mockReturnValue({
-      walletCapabilities: {
-        hasAtomicBatch: true,
-      },
+    (useCapabilitiesSafe as ReturnType<typeof vi.fn>).mockReturnValue({
+      atomicBatch: { supported: true },
+      paymasterService: { supported: true },
+      auxiliaryFunds: { supported: true },
     });
     render(
       <TransactionProvider contracts={[]}>
@@ -336,10 +330,10 @@ describe('TransactionProvider', () => {
 
   it('should update context on handleSubmit', async () => {
     const sendWalletTransactionsMock = vi.fn();
-    (useOnchainKit as ReturnType<typeof vi.fn>).mockReturnValue({
-      walletCapabilities: {
-        hasAtomicBatch: true,
-      },
+    (useCapabilitiesSafe as ReturnType<typeof vi.fn>).mockReturnValue({
+      atomicBatch: { supported: true },
+      paymasterService: { supported: true },
+      auxiliaryFunds: { supported: true },
     });
     (useSendWalletTransactions as ReturnType<typeof vi.fn>).mockReturnValue(
       sendWalletTransactionsMock,
@@ -364,10 +358,10 @@ describe('TransactionProvider', () => {
       status: 'idle',
       writeContractsAsync: writeContractsAsyncMock,
     });
-    (useOnchainKit as ReturnType<typeof vi.fn>).mockReturnValue({
-      walletCapabilities: {
-        hasAtomicBatch: true,
-      },
+    (useCapabilitiesSafe as ReturnType<typeof vi.fn>).mockReturnValue({
+      atomicBatch: { supported: true },
+      paymasterService: { supported: true },
+      auxiliaryFunds: { supported: true },
     });
     render(
       <TransactionProvider contracts={[]}>
@@ -435,10 +429,10 @@ describe('TransactionProvider', () => {
     (useSendWalletTransactions as ReturnType<typeof vi.fn>).mockReturnValue(
       sendWalletTransactionsMock,
     );
-    (useOnchainKit as ReturnType<typeof vi.fn>).mockReturnValue({
-      walletCapabilities: {
-        hasAtomicBatch: true,
-      },
+    (useCapabilitiesSafe as ReturnType<typeof vi.fn>).mockReturnValue({
+      atomicBatch: { supported: true },
+      paymasterService: { supported: true },
+      auxiliaryFunds: { supported: true },
     });
     render(
       <TransactionProvider contracts={[]}>

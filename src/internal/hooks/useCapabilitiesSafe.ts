@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import type { WalletCapabilities } from 'viem';
 import { useAccount } from 'wagmi';
 import { useCapabilities } from 'wagmi/experimental';
@@ -12,9 +13,11 @@ export function useCapabilitiesSafe({
     query: { enabled: isConnected },
   });
 
-  if (error || !capabilities || !capabilities[chainId]) {
-    return {};
-  }
+  return useMemo(() => {
+    if (error || !capabilities || !capabilities[chainId]) {
+      return {};
+    }
 
-  return capabilities[chainId];
+    return capabilities[chainId];
+  }, [capabilities, chainId, error]);
 }

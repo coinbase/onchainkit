@@ -19,7 +19,7 @@ export const useSendWalletTransactions = ({
     if (!transactions) {
       return;
     }
-    if (walletCapabilities[Capabilities.AtomicBatch].supported) {
+    if (walletCapabilities[Capabilities.AtomicBatch]?.supported) {
       // Batched transactions
       await sendBatchedTransactions({
         capabilities,
