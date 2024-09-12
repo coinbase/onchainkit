@@ -31,7 +31,7 @@ export type BuildPayTransactionResponse = PayTransaction | APIError;
  * Note: exported as public Type
  */
 export type BuildSwapTransaction = {
-  approveTransaction?: Transaction; // The approval transaction (https://metaschool.so/articles/what-are-erc20-approve-erc20-allowance-methods/)
+  approveTransaction?: Transaction; // ERC20 approve transaction which allows token holders to authorize spending
   fee: Fee; // The fee for the swap
   quote: SwapQuote; // The quote for the swap
   transaction: Transaction; // The object developers should pass into Wagmi's signTransaction
