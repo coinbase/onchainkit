@@ -14,7 +14,7 @@ import { getAPIParamsForToken } from './utils/getAPIParamsForToken';
  * Retrieves a quote for a swap from Token A to Token B.
  */
 export async function getSwapQuote(
-  params: GetSwapQuoteParams,
+  params: GetSwapQuoteParams
 ): Promise<GetSwapQuoteResponse> {
   // Default parameters
   const defaultParams = {
@@ -37,8 +37,14 @@ export async function getSwapQuote(
     };
   }
   if (params.maxSlippage) {
+    let slippagePercentage = params.maxSlippage;
+    // Adjust slippage for V1 API (aggregator)
+    // V1 expects slippage in tenths of a percent (e.g., 30 = 3%)
+    if (params.useAggregator) {
+      slippagePercentage = (Number(params.maxSlippage) * 10).toString();
+    }
     apiParams = {
-      slippagePercentage: params.maxSlippage,
+      slippagePercentage: slippagePercentage,
       ...apiParams,
     };
   }
@@ -46,7 +52,7 @@ export async function getSwapQuote(
   try {
     const res = await sendRequest<SwapAPIParams, SwapQuote>(
       CDP_GET_SWAP_QUOTE,
-      [apiParams],
+      [apiParams]
     );
     if (res.error) {
       return {
