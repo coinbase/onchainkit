@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- **feat**: added calls support to `Transaction` component. by @0xAlec #1220
+- **feat**: added calls support to `Transaction` component. By @0xAlec #1220
 - **feat**: added `ConnectWalletText` to help customize style within `ConnectWallet`. By @zizzamia #1116 #1222
 - **feat**: added `isMainnetOnly` to `isBase` and `isEthereum` utilities. By @zizzamia #1167 #1221
 - **fix**: fixed issue with inputText state persisting to latter Framegear frames. By @brendan-defi #1218
@@ -14,7 +14,7 @@
 ### Patch Changes
 
 - **feat**: added support for `EIP-5792` (https://eips.ethereum.org/EIPS/eip-5792) in `OnchainKitProvider`. By@0xAlec #1181
-- **fix**: adjusted hover styling for the `Fund` and `Disconnect` wallet components in mobile view. By@cpcramer #1211
+- **fix**: adjusted hover styling for the `Fund` and `Disconnect` wallet components in mobile view. By @cpcramer #1211
 - **feat** added `walletCapabilities` for atomic batching (`useWriteContracts` vs `useWriteContract`) in`Transaction` component. By @0xAlec #1214
 
 ## 0.31.3
