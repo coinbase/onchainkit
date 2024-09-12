@@ -40,8 +40,8 @@ function ValidFrame({ metadata }: { metadata: FrameMetadataWithImageObject }) {
     <div>
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
-        className={`w-full rounded-t-xl ${imageAspectRatioClassname} object-cover`}
-        src={image.src}
+        className={`w-full rounded-t-xl ${imageAspectRatioClassname} ${image.src ? "object-cover" : "object-contain"}`}
+        src={image.src ? image.src : "https://demofree.sirv.com/nope-not-here.jpg?w=750"}
         alt=""
       />
       <div className="bg-button-gutter-light dark:bg-content-light flex flex-col gap-2 rounded-b-xl px-4 py-2">
