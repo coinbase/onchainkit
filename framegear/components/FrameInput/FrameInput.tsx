@@ -8,11 +8,14 @@ export function FrameInput() {
   const [url, setUrl] = useState('');
   const [_, setResults] = useAtom(frameResultsAtom);
   const { setInputText } = useTextInputs();
+  const [isLoading, setIsLoading] = useState(false);
 
   const getResults = useCallback(async () => {
+    setIsLoading(true)
     const result = await fetchFrame(url);
     setResults((prev) => [...prev, result]);
     setInputText('');
+    setIsLoading(false)
   }, [setInputText, setResults, url]);
 
   return (
@@ -28,12 +31,12 @@ export function FrameInput() {
         />
       </label>
       <button
-        className="h-[40px] self-end rounded-full bg-white text-black"
+        className={`h-[40px] self-end rounded-full ${isLoading ? "bg-neutral-800 text-white" : "bg-white text-black"}`}
         type="button"
         onClick={getResults}
         disabled={url.length < 1}
       >
-        Fetch
+        {isLoading ? "Loading..." : "Fetch"}
       </button>
     </div>
   );
