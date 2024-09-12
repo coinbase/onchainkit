@@ -14,7 +14,7 @@ import { getAPIParamsForToken } from './utils/getAPIParamsForToken';
  * Retrieves a quote for a swap from Token A to Token B.
  */
 export async function getSwapQuote(
-  params: GetSwapQuoteParams
+  params: GetSwapQuoteParams,
 ): Promise<GetSwapQuoteResponse> {
   // Default parameters
   const defaultParams = {
@@ -52,7 +52,7 @@ export async function getSwapQuote(
   try {
     const res = await sendRequest<SwapAPIParams, SwapQuote>(
       CDP_GET_SWAP_QUOTE,
-      [apiParams]
+      [apiParams],
     );
     if (res.error) {
       return {

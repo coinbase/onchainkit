@@ -161,7 +161,6 @@ describe('getSwapQuote', () => {
     });
   });
 
-
   it('should adjust slippage for V1 API when useAggregator is true', async () => {
     const mockParams = {
       useAggregator: true,
@@ -224,9 +223,9 @@ describe('getSwapQuote', () => {
       },
     };
     (sendRequest as vi.Mock).mockResolvedValue(mockResponse);
-    
+
     await getSwapQuote(mockParams);
-    
+
     expect(sendRequest).toHaveBeenCalledTimes(1);
     expect(sendRequest).toHaveBeenCalledWith(CDP_GET_SWAP_QUOTE, [
       {
