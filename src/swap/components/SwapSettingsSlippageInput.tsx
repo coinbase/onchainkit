@@ -1,5 +1,6 @@
 import { useCallback, useState } from 'react';
 import { background, border, cn, color, pressable } from '../../styles/theme';
+import { DEFAULT_MAX_SLIPPAGE } from '../constants';
 import type { SwapSettingsSlippageInputReact } from '../types';
 import { useSwapContext } from './SwapProvider';
 
@@ -10,21 +11,17 @@ const SLIPPAGE_SETTINGS = {
 
 export function SwapSettingsSlippageInput({
   className,
-  defaultSlippage = 3,
 }: SwapSettingsSlippageInputReact) {
   const { setLifeCycleStatus, lifeCycleStatus } = useSwapContext();
   const getMaxSlippage = useCallback(() => {
-    if (lifeCycleStatus.statusName !== 'error') {
-      return lifeCycleStatus.statusData.maxSlippage;
-    }
-    return defaultSlippage;
-  }, [lifeCycleStatus.statusName, lifeCycleStatus.statusData, defaultSlippage]);
+    return lifeCycleStatus.statusData.maxSlippage;
+  }, [lifeCycleStatus.statusData]);
 
   // Set initial slippage values to match previous selection or default,
   // ensuring consistency when dropdown is reopened
   const [slippage, setSlippage] = useState(getMaxSlippage());
   const [slippageSetting, setSlippageSetting] = useState(
-    getMaxSlippage() === defaultSlippage
+    getMaxSlippage() === DEFAULT_MAX_SLIPPAGE
       ? SLIPPAGE_SETTINGS.AUTO
       : SLIPPAGE_SETTINGS.CUSTOM,
   );
@@ -67,10 +64,10 @@ export function SwapSettingsSlippageInput({
     (setting: string) => {
       setSlippageSetting(setting);
       if (setting === SLIPPAGE_SETTINGS.AUTO) {
-        updateSlippage(defaultSlippage);
+        updateSlippage(DEFAULT_MAX_SLIPPAGE);
       }
     },
-    [updateSlippage, defaultSlippage],
+    [updateSlippage],
   );
 
   return (
