@@ -1,11 +1,11 @@
 import { CDP_GET_SWAP_TRADE } from '../network/definitions/swap';
 import { sendRequest } from '../network/request';
-import type { BuildSwapTransactionResponse } from '../swap';
 import type { SwapAPIResponse } from '../swap/types';
 import { getSwapErrorCode } from '../swap/utils/getSwapErrorCode';
 import type {
   APIError,
   BuildSwapTransactionParams,
+  BuildSwapTransactionResponse,
   SwapAPIParams,
 } from './types';
 import { getAPIParamsForToken } from './utils/getAPIParamsForToken';

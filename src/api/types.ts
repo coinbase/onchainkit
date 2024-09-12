@@ -1,5 +1,5 @@
 import type { Address } from 'viem';
-import type { SwapQuote } from '../swap/types';
+import type { Fee, QuoteWarning, SwapQuote, Transaction } from '../swap/types';
 import type { Token } from '../token/types';
 
 export type AddressOrETH = Address | 'ETH';
@@ -30,9 +30,25 @@ export type BuildPayTransactionResponse = PayTransaction | APIError;
 /**
  * Note: exported as public Type
  */
+export type BuildSwapTransaction = {
+  approveTransaction?: Transaction; // The approval transaction (https://metaschool.so/articles/what-are-erc20-approve-erc20-allowance-methods/)
+  fee: Fee; // The fee for the swap
+  quote: SwapQuote; // The quote for the swap
+  transaction: Transaction; // The object developers should pass into Wagmi's signTransaction
+  warning?: QuoteWarning; // The warning associated with the swap
+};
+
+/**
+ * Note: exported as public Type
+ */
 export type BuildSwapTransactionParams = GetSwapQuoteParams & {
   fromAddress: Address; // The address of the user
 };
+
+/**
+ * Note: exported as public Type
+ */
+export type BuildSwapTransactionResponse = BuildSwapTransaction | APIError;
 
 export type GetAPIParamsForToken =
   | GetSwapQuoteParams

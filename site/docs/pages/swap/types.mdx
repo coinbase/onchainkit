@@ -3,6 +3,7 @@ title: Swap components & utilities Types
 description: Glossary of Types in Swap components & utilities.
 ---
 
+
 # Types [Glossary of Types in Swap components & utilities.]
 
 ## `BuildSwapTransaction`
@@ -15,26 +16,6 @@ type BuildSwapTransaction = {
   transaction: Transaction; // The object developers should pass into Wagmi's signTransaction
   warning?: QuoteWarning; // The warning associated with the swap
 };
-```
-
-## `BuildSwapTransactionParams`
-
-```ts
-type BuildSwapTransactionParams = {
-  amount: string; // The amount to be swapped
-  amountReference?: string; // The reference amount for the swap
-  from: Token; // The source token for the swap
-  fromAddress: Address; // The address of the user
-  isAmountInDecimals?: boolean; // Whether the amount is in decimals
-  maxSlippage?: string; // The slippage of the swap
-  to: Token; // The destination token for the swap
-};
-```
-
-## `BuildSwapTransactionResponse`
-
-```ts
-type BuildSwapTransactionResponse = BuildSwapTransaction | SwapError;
 ```
 
 ## `Fee`

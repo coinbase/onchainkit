@@ -12,22 +12,6 @@ import type { Token } from '../token/types';
 /**
  * Note: exported as public Type
  */
-export type BuildSwapTransaction = {
-  approveTransaction?: Transaction; // The approval transaction (https://metaschool.so/articles/what-are-erc20-approve-erc20-allowance-methods/)
-  fee: Fee; // The fee for the swap
-  quote: SwapQuote; // The quote for the swap
-  transaction: Transaction; // The object developers should pass into Wagmi's signTransaction
-  warning?: QuoteWarning; // The warning associated with the swap
-};
-
-/**
- * Note: exported as public Type
- */
-export type BuildSwapTransactionResponse = BuildSwapTransaction | SwapError;
-
-/**
- * Note: exported as public Type
- */
 export type Fee = {
   amount: string; // The amount of the fee
   baseAsset: Token; // The base asset for the fee
