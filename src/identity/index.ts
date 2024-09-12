@@ -6,6 +6,7 @@ export { EthBalance } from './components/EthBalance';
 export { Identity } from './components/Identity';
 export { Name } from './components/Name';
 export { isBasename } from './utils/isBasename';
+export { getAddress } from './utils/getAddress';
 export { getAttestations } from './utils/getAttestations';
 export { getAvatar } from './utils/getAvatar';
 export { getName } from './utils/getName';
