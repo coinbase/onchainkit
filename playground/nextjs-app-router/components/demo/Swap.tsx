@@ -87,7 +87,11 @@ function SwapComponent() {
         </div>
       ) : null}
 
-      <Swap className="border" onStatus={handleOnStatus}>
+      <Swap
+        className="border"
+        onStatus={handleOnStatus}
+        experimental={{ useAggregator: false }}
+      >
         <SwapSettings>
           <SwapSettingsSlippageTitle>Max. slippage</SwapSettingsSlippageTitle>
           <SwapSettingsSlippageDescription>
