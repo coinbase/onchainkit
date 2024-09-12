@@ -49,7 +49,7 @@ function ValidFrame({ metadata }: { metadata: FrameMetadataWithImageObject }) {
         src={
           image.src
             ? image.src
-            : 'https://demofree.sirv.com/nope-not-here.jpg?w=750'
+            : "/image_not_found.png"
         }
         alt=""
       />
