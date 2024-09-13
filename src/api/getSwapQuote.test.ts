@@ -186,7 +186,7 @@ describe('getSwapQuote', () => {
         slippage: '30',
       },
     };
-    (sendRequest as vi.Mock).mockResolvedValue(mockResponse);
+    (sendRequest as Mock).mockResolvedValue(mockResponse);
     await getSwapQuote(mockParams);
     expect(sendRequest).toHaveBeenCalledTimes(1);
     expect(sendRequest).toHaveBeenCalledWith(CDP_GET_SWAP_QUOTE, [
@@ -222,7 +222,7 @@ describe('getSwapQuote', () => {
         slippage: '3',
       },
     };
-    (sendRequest as vi.Mock).mockResolvedValue(mockResponse);
+    (sendRequest as Mock).mockResolvedValue(mockResponse);
     await getSwapQuote(mockParams);
     expect(sendRequest).toHaveBeenCalledTimes(1);
     expect(sendRequest).toHaveBeenCalledWith(CDP_GET_SWAP_QUOTE, [

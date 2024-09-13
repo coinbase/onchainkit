@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import { beforeEach, vi } from 'vitest';
+import { type Mock, beforeEach, vi } from 'vitest';
 import { useBreakpoints } from '../../useBreakpoints';
 import { useIcon } from '../../wallet/hooks/useIcon';
 import { SwapSettings } from './SwapSettings';
@@ -40,7 +40,7 @@ vi.mock('../../useBreakpoints', () => ({
   useBreakpoints: vi.fn(),
 }));
 
-const useBreakpointsMock = useBreakpoints as vi.Mock;
+const useBreakpointsMock = useBreakpoints as Mock;
 
 const renderComponent = (props = {}) => {
   return render(

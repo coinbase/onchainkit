@@ -1,5 +1,5 @@
 import { renderHook } from '@testing-library/react';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useAccount } from 'wagmi';
 import { useCapabilities } from 'wagmi/experimental';
 import { useCapabilitiesSafe } from './useCapabilitiesSafe';
@@ -30,8 +30,8 @@ describe('useCapabilitiesSafe', () => {
   });
 
   it('should return all capabilities as false when not connected', () => {
-    (useAccount as vi.Mock).mockReturnValue({ isConnected: false });
-    (useCapabilities as vi.Mock).mockReturnValue({ data: undefined });
+    (useAccount as Mock).mockReturnValue({ isConnected: false });
+    (useCapabilities as Mock).mockReturnValue({ data: undefined });
     const { result } = renderHook(() =>
       useCapabilitiesSafe({ chainId: mockChainId }),
     );
@@ -39,8 +39,8 @@ describe('useCapabilitiesSafe', () => {
   });
 
   it('should return all capabilities as false when there is an error', () => {
-    (useAccount as vi.Mock).mockReturnValue({ isConnected: true });
-    (useCapabilities as vi.Mock).mockReturnValue({
+    (useAccount as Mock).mockReturnValue({ isConnected: true });
+    (useCapabilities as Mock).mockReturnValue({
       data: undefined,
       error: new Error('Some error'),
     });
@@ -51,11 +51,11 @@ describe('useCapabilitiesSafe', () => {
   });
 
   it('should return correct capabilities when connected', () => {
-    (useAccount as vi.Mock).mockReturnValue({
+    (useAccount as Mock).mockReturnValue({
       isConnected: true,
       connector: { id: 'some.other.wallet' },
     });
-    (useCapabilities as vi.Mock).mockReturnValue({
+    (useCapabilities as Mock).mockReturnValue({
       data: {
         1: {
           atomicBatch: { supported: true },
@@ -71,11 +71,11 @@ describe('useCapabilitiesSafe', () => {
   });
 
   it('should handle undefined capabilities', () => {
-    (useAccount as vi.Mock).mockReturnValue({
+    (useAccount as Mock).mockReturnValue({
       isConnected: true,
       connector: { id: 'some.other.wallet' },
     });
-    (useCapabilities as vi.Mock).mockReturnValue({ data: undefined });
+    (useCapabilities as Mock).mockReturnValue({ data: undefined });
     const { result } = renderHook(() =>
       useCapabilitiesSafe({ chainId: mockChainId }),
     );
@@ -83,11 +83,11 @@ describe('useCapabilitiesSafe', () => {
   });
 
   it('should handle missing chain capabilities', () => {
-    (useAccount as vi.Mock).mockReturnValue({
+    (useAccount as Mock).mockReturnValue({
       isConnected: true,
       connector: { id: 'some.other.wallet' },
     });
-    (useCapabilities as vi.Mock).mockReturnValue({ data: {} });
+    (useCapabilities as Mock).mockReturnValue({ data: {} });
     const { result } = renderHook(() =>
       useCapabilitiesSafe({ chainId: mockChainId }),
     );
@@ -95,11 +95,11 @@ describe('useCapabilitiesSafe', () => {
   });
 
   it('should handle missing capabilities', () => {
-    (useAccount as vi.Mock).mockReturnValue({
+    (useAccount as Mock).mockReturnValue({
       isConnected: true,
       connector: { id: 'some.other.wallet' },
     });
-    (useCapabilities as vi.Mock).mockReturnValue({
+    (useCapabilities as Mock).mockReturnValue({
       data: {
         1: {},
       },
