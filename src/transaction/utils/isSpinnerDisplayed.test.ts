@@ -1,3 +1,4 @@
+import { describe, expect, beforeEach, it } from 'vitest';
 import type { LifeCycleStatus } from '../types';
 import { isSpinnerDisplayed } from './isSpinnerDisplayed';
 

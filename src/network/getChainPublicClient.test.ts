@@ -4,6 +4,7 @@
 
 import { base } from 'viem/chains';
 import { getChainPublicClient } from './getChainPublicClient';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 describe('getChainPublicClient', () => {
   beforeEach(() => {

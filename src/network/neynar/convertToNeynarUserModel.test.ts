@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest';
 import { convertToNeynarUserModel } from './convertToNeynarUserModel';
 
 describe('convertToNeynarUserModel', () => {

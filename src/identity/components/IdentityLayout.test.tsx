@@ -5,6 +5,7 @@ import { Avatar } from './Avatar';
 import { EthBalance } from './EthBalance';
 import { IdentityLayout } from './IdentityLayout';
 import { Name } from './Name';
+import { describe, expect, it, vi } from 'vitest';
 
 const handleCopy = vi.fn().mockResolvedValue(true);
 
