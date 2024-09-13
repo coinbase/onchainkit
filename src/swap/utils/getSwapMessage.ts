@@ -1,18 +1,6 @@
+import { SwapMessage } from '../constants';
 import type { GetSwapMessageParams } from '../types';
 import { getErrorMessage } from './getErrorMessage';
-
-export enum SwapMessage {
-  BALANCE_ERROR = 'Error fetching token balance',
-  CONFIRM_IN_WALLET = 'Confirm in wallet',
-  FETCHING_QUOTE = 'Fetching quote...',
-  FETCHING_BALANCE = 'Fetching balance...',
-  INCOMPLETE_FIELD = 'Complete the fields to continue',
-  INSUFFICIENT_BALANCE = 'Insufficient balance',
-  LOW_LIQUIDITY = 'Liquidity too low for the token',
-  SWAP_IN_PROGRESS = 'Swap in progress...',
-  TOO_MANY_REQUESTS = 'Too many requests. Please try again later.',
-  USER_REJECTED = 'User rejected the transaction',
-}
 
 export function getSwapMessage({
   address,

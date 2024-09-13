@@ -1,6 +1,7 @@
-import { describe, expect, vi } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import {
   LOW_LIQUIDITY_ERROR_CODE,
+  SwapMessage,
   TOO_MANY_REQUESTS_ERROR_CODE,
   USER_REJECTED_ERROR_CODE,
 } from '../constants';
@@ -8,7 +9,7 @@ import { ETH_TOKEN, USDC_TOKEN } from '../mocks';
 /**
  * @vitest-environment node
  */
-import { SwapMessage, getSwapMessage } from './getSwapMessage';
+import { getSwapMessage } from './getSwapMessage';
 
 describe('getSwapMessage', () => {
   const baseParams = {
