@@ -2,7 +2,7 @@ import {
   TRANSACTION_TYPE_CALLS,
   TRANSACTION_TYPE_CONTRACTS,
 } from '../constants';
-import type { sendBatchedTransactionsParams } from '../types';
+import type { SendBatchedTransactionsParams } from '../types';
 
 export const sendBatchedTransactions = async ({
   capabilities,
@@ -10,7 +10,7 @@ export const sendBatchedTransactions = async ({
   transactions,
   transactionType,
   writeContractsAsync,
-}: sendBatchedTransactionsParams) => {
+}: SendBatchedTransactionsParams) => {
   if (!transactions) {
     return;
   }

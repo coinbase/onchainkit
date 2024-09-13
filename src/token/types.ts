@@ -31,7 +31,7 @@ export type Token = {
  * Note: exported as public Type
  */
 export type TokenChipReact = {
-  token: Token;
+  token: Token; // Rendered token
   onClick?: (token: Token) => void;
   className?: string;
 };
@@ -41,7 +41,7 @@ export type TokenChipReact = {
  */
 export type TokenImageReact = {
   className?: string; // Optional additional CSS class to apply to the component
-  size?: number;
+  size?: number; // size of the image in px (default: 24)
   token: Token;
 };
 
@@ -49,12 +49,12 @@ export type TokenImageReact = {
  * Note: exported as public Type
  */
 export type TokenRowReact = {
+  amount?: string; // Token amount
   className?: string;
-  token: Token;
-  amount?: string;
-  onClick?: (token: Token) => void;
-  hideSymbol?: boolean;
   hideImage?: boolean;
+  hideSymbol?: boolean;
+  onClick?: (token: Token) => void; // Component on click handler
+  token: Token; // Rendered token
 };
 
 /**
@@ -62,8 +62,8 @@ export type TokenRowReact = {
  */
 export type TokenSearchReact = {
   className?: string;
-  delayMs?: number;
-  onChange: (value: string) => void;
+  delayMs?: number; // Debounce delay in milliseconds
+  onChange: (value: string) => void; // Search callback function
 };
 
 /**

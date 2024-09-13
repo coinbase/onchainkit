@@ -1,3 +1,4 @@
+// 🌲☀🌲
 import type { ReactNode } from 'react';
 import type {
   Address,
@@ -11,7 +12,6 @@ import type {
   WriteContractMutateAsync,
 } from 'wagmi/query';
 import type { WalletCapabilities as OnchainKitWalletCapabilities } from '../types';
-// 🌲☀🌲
 import {
   TRANSACTION_TYPE_CALLS,
   TRANSACTION_TYPE_CONTRACTS,
@@ -91,14 +91,11 @@ export type TransactionContextType = {
   transactionHash?: string; // An optional string representing the hash of the transaction.
 };
 
-/**
- * Paymaster service configuration
- */
 type PaymasterService = {
   url: string;
 };
 
-export type sendBatchedTransactionsParams = {
+export type SendBatchedTransactionsParams = {
   capabilities?: WalletCapabilities;
   // biome-ignore lint: cannot find module 'wagmi/experimental/query'
   sendCallsAsync: any;
@@ -108,7 +105,7 @@ export type sendBatchedTransactionsParams = {
   writeContractsAsync: any;
 };
 
-export type sendSingleTransactionParams = {
+export type SendSingleTransactionParams = {
   sendCallAsync: SendTransactionMutateAsync<Config, unknown> | (() => void);
   transactions: Call[] | ContractFunctionParameters[];
   transactionType: string;

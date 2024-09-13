@@ -5,39 +5,20 @@ description: Glossary of Types in Token components & utilities.
 
 # Types [Glossary of Types in Token components & utilities.]
 
-## `GetTokensError`
-
-```ts
-type GetTokensError = {
-  code: number; // The Error code
-  error: string; // The Error message
-};
-```
-
-## `GetTokensResponse`
-
-```ts
-type GetTokensResponse = Token[] | GetTokensError;
-```
-
-## `GetTokensOptions`
-
-```ts
-type GetTokensOptions = {
-  limit?: string; // The maximum number of tokens to return (default: 50)
-  search?: string; // A string to search for in the token name, symbol or address
-  page?: string; // The page number to return (default: 1)
-};
-```
-
 ## `FormatAmountOptions`
 
 ```ts
-export type FormatAmountOptions = {
+type FormatAmountOptions = {
   locale?: string; // User locale (default: browser locale)
   minimumFractionDigits?: number; // Minimum fraction digits for number decimals (default: 0)
   maximumFractionDigits?: number; // Maximum fraction digits for number decimals (default: 0)
 };
+```
+
+## `FormatAmountResponse`
+
+```ts
+type FormatAmountResponse = string; // See Number.prototype.toLocaleString for more info
 ```
 
 ## `Token`
@@ -58,6 +39,8 @@ type Token = {
 ```ts
 type TokenChipReact = {
   token: Token; // Rendered token
+  onClick?: (token: Token) => void;
+  className?: string;
 };
 ```
 
@@ -65,8 +48,9 @@ type TokenChipReact = {
 
 ```ts
 type TokenImageReact = {
-  src: string | null; // url for the token images
-  size: number; // size of the image in px (default: 24)
+  className?: string; // Optional additional CSS class to apply to the component
+  size?: number; // size of the image in px (default: 24)
+  token: Token;
 };
 ```
 
@@ -74,25 +58,50 @@ type TokenImageReact = {
 
 ```ts
 type TokenRowReact = {
-  token: Token; // Rendered token
   amount?: string; // Token amount
-  onClick: (token: Token) => void; // Component on click handler
+  className?: string;
+  hideImage?: boolean;
+  hideSymbol?: boolean;
+  onClick?: (token: Token) => void; // Component on click handler
+  token: Token; // Rendered token
 };
 ```
 
 ## `TokenSearchReact`
 
 ```ts
-export type TokenSearchReact = {
-  onChange: (value: string) => void; // Search callback function
+type TokenSearchReact = {
+  className?: string;
   delayMs?: number; // Debounce delay in milliseconds
+  onChange: (value: string) => void; // Search callback function
 };
 ```
 
-## `TokenSearchReact`
+## `TokenSelectButtonReact`
 
 ```ts
-export type TokenSelectDropdownReact = {
+type TokenSelectDropdownReact = {
+  className?: string;
+  isOpen: boolean; // Determines carot icon direction
+  onClick: () => void; // Button on click handler
+  token?: Token; // Selected token
+};
+```
+
+## `TokenSelectDropdownReact`
+
+```ts
+type TokenSelectDropdownReact = {
+  options: Token[]; // List of tokens
+  setToken: (token: Token) => void; // Token setter
+  token?: Token; // Selected token
+};
+```
+
+## `TokenSelectModalReact`
+
+```ts
+type TokenSelectModalReact = {
   options: Token[]; // List of tokens
   setToken: (token: Token) => void; // Token setter
   token?: Token; // Selected token
