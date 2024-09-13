@@ -40,6 +40,7 @@ function ValidFrame({ metadata }: { metadata: FrameMetadataWithImageObject }) {
 
   return (
     <div>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         className={clsx(
           'w-full rounded-t-xl',
@@ -85,6 +86,10 @@ function ValidFrame({ metadata }: { metadata: FrameMetadataWithImageObject }) {
 }
 
 function ErrorFrame() {
+   // TODO: implement -- decide how to handle
+  // - simply show an error?
+  // - best effort rendering of what they do have?
+  // - maybe just ValidFrame with a red border?
   return <PlaceholderFrame />;
 }
 
@@ -121,12 +126,14 @@ function FrameButton({
 
   const handleClick = useCallback(async () => {
     if (button?.action === 'post' || button?.action === 'post_redirect') {
+      // TODO: collect user options (follow, like, etc.) and include
       const confirmAction = async () => {
         const result = await postFrame(
           {
             buttonIndex: index,
             url: (button as any).postUrl!,
             state: JSON.stringify(state),
+            // TODO: make these user-input-driven
             castId: {
               fid: 0,
               hash: '0xthisisnotreal',
@@ -139,6 +146,7 @@ function FrameButton({
           },
           mockFrameOptions
         );
+        // TODO: handle when result is not defined
         if (result) {
           setResults((prev) => [...prev, result]);
         }
@@ -164,6 +172,7 @@ You can test this action on the official Warpcast validator: https://warpcast.co
 (must deploy frame to a publicly accessible URL)`
       );
     }
+    // TODO: implement other actions (mint, etc.)
   }, [
     button,
     index,
