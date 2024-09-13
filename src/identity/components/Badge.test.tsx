@@ -1,7 +1,7 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { Badge } from './Badge';
 import { describe, expect, it } from 'vitest';
+import { Badge } from './Badge';
 
 describe('Badge Component', () => {
   const badgeStyle = 'height: 12px; width: 12px';

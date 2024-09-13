@@ -5,7 +5,6 @@ import type { Address, Chain } from 'viem';
 import { baseSepolia, optimism, sepolia } from 'viem/chains';
 import { OnchainKitProvider } from '../../OnchainKitProvider';
 import { IdentityProvider, useIdentityContext } from './IdentityProvider';
-import { describe, expect, it } from 'vitest';
 
 import { describe, expect, it } from 'vitest';
 import { WagmiProvider } from 'wagmi';

@@ -3,8 +3,8 @@
  */
 
 import { base } from 'viem/chains';
-import { getChainPublicClient } from './getChainPublicClient';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { getChainPublicClient } from './getChainPublicClient';
 
 describe('getChainPublicClient', () => {
   beforeEach(() => {
