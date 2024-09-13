@@ -5,6 +5,12 @@ description: Glossary of Types in Transaction components & utilities.
 
 # Types [Glossary of Types in Transaction components & utilities.]
 
+## `Call`
+
+```ts
+type Call = { to: Hex; data?: Hex; value?: bigint };
+```
+
 ## `LifeCycleStatus`
 
 ```ts
@@ -63,11 +69,12 @@ type TransactionError = {
 
 ```ts
 type TransactionReact = {
+  calls?: Call[]; // An array of calls to be made in the transaction. Mutually exclusive with the `contracts` prop.
   capabilities?: WalletCapabilities; // Capabilities that a wallet supports (e.g. paymasters, session keys, etc).
   chainId?: number; // The chainId for the transaction.
   children: ReactNode; // The child components to be rendered within the transaction component.
   className?: string; // An optional CSS class name for styling the component.
-  contracts: ContractFunctionParameters[]; // An array of contract function parameters for the transaction.
+  contracts?: ContractFunctionParameters[]; // An array of contract function parameters for the transaction. Mutually exclusive with the `calls` prop.
   onError?: (e: TransactionError) => void; // An optional callback function that handles transaction errors.
   onStatus?: (lifeCycleStatus: LifeCycleStatus) => void; // An optional callback function that exposes the component lifecycle state
   onSuccess?: (response: TransactionResponse) => void; // An optional callback function that exposes the transaction receipts
