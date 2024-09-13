@@ -40,20 +40,26 @@ function ValidFrame({ metadata }: { metadata: FrameMetadataWithImageObject }) {
 
   return (
     <div>
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        className={clsx(
-          'w-full rounded-t-xl',
-          imageAspectRatioClassname,
-          image.src ? 'object-cover' : 'object-contain'
-        )}
-        src={
-          image.src
-            ? image.src
-            : "/image_not_found.png"
-        }
-        alt=""
-      />
+      {image.src ? (
+        <>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            className={clsx(
+              'w-full rounded-t-xl',
+              imageAspectRatioClassname,
+              image.src ? 'object-cover' : 'object-contain'
+            )}
+            src={image.src}
+            alt=""
+          />
+        </>
+      ) : (
+        <div
+          className={`${imageAspectRatioClassname} flex items-center justify-center`}
+        >
+          <h3>No Image Found</h3>
+        </div>
+      )}
       <div className="bg-button-gutter-light dark:bg-content-light flex flex-col gap-2 rounded-b-xl px-4 py-2">
         {!!input && (
           <input
@@ -86,7 +92,7 @@ function ValidFrame({ metadata }: { metadata: FrameMetadataWithImageObject }) {
 }
 
 function ErrorFrame() {
-   // TODO: implement -- decide how to handle
+  // TODO: implement -- decide how to handle
   // - simply show an error?
   // - best effort rendering of what they do have?
   // - maybe just ValidFrame with a red border?
