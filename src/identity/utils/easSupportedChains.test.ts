@@ -1,4 +1,5 @@
 import { base, baseSepolia, optimism, zora } from 'viem/chains';
+import { describe, expect, it } from 'vitest';
 import { getChainEASGraphQLAPI } from './easSupportedChains';
 
 describe('easSupportedChains', () => {

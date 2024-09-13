@@ -1,5 +1,5 @@
 import { renderHook } from '@testing-library/react';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useChainId } from 'wagmi';
 import { useShowCallsStatus } from 'wagmi/experimental';
 import { getChainExplorer } from '../../network/getChainExplorer';
@@ -26,14 +26,14 @@ const mockGetChainExplorer = 'https://etherscan.io';
 
 describe('useGetTransactionToastLabel', () => {
   beforeEach(() => {
-    (useChainId as vi.Mock).mockReturnValue(123);
-    (useShowCallsStatus as vi.Mock).mockReturnValue({
+    (useChainId as Mock).mockReturnValue(123);
+    (useShowCallsStatus as Mock).mockReturnValue({
       showCallsStatus: vi.fn(),
     });
-    (getChainExplorer as vi.Mock).mockReturnValue(mockGetChainExplorer);
+    (getChainExplorer as Mock).mockReturnValue(mockGetChainExplorer);
   });
   it('should return correct toast and actionElement when transaction is loading', () => {
-    (useTransactionContext as vi.Mock).mockReturnValue({
+    (useTransactionContext as Mock).mockReturnValue({
       isLoading: true,
     });
 
@@ -43,7 +43,7 @@ describe('useGetTransactionToastLabel', () => {
   });
 
   it('should return status when transaction hash exists', () => {
-    (useTransactionContext as vi.Mock).mockReturnValue({
+    (useTransactionContext as Mock).mockReturnValue({
       transactionHash: '0x123',
     });
 
@@ -53,13 +53,13 @@ describe('useGetTransactionToastLabel', () => {
   });
 
   it('should return status when transaction id exists', () => {
-    (useTransactionContext as vi.Mock).mockReturnValue({
+    (useTransactionContext as Mock).mockReturnValue({
       transactionId: 'ab123',
       onSubmit: vi.fn(),
     });
 
     const showCallsStatus = vi.fn();
-    (useShowCallsStatus as vi.Mock).mockReturnValue({ showCallsStatus });
+    (useShowCallsStatus as Mock).mockReturnValue({ showCallsStatus });
 
     const { result } = renderHook(() => useGetTransactionToastLabel());
 
@@ -67,7 +67,7 @@ describe('useGetTransactionToastLabel', () => {
   });
 
   it('should return status when receipt exists', () => {
-    (useTransactionContext as vi.Mock).mockReturnValue({
+    (useTransactionContext as Mock).mockReturnValue({
       receipt: 'receipt',
       transactionHash: '0x123',
     });
@@ -79,7 +79,7 @@ describe('useGetTransactionToastLabel', () => {
 
   it('should return status when error occurs', () => {
     const onSubmitMock = vi.fn();
-    (useTransactionContext as vi.Mock).mockReturnValue({
+    (useTransactionContext as Mock).mockReturnValue({
       errorMessage: 'error',
       onSubmit: onSubmitMock,
     });
@@ -90,7 +90,7 @@ describe('useGetTransactionToastLabel', () => {
   });
 
   it('should return status when no status available', () => {
-    (useTransactionContext as vi.Mock).mockReturnValue({
+    (useTransactionContext as Mock).mockReturnValue({
       errorMessage: '',
     });
 

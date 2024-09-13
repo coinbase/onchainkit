@@ -1,4 +1,4 @@
-import { expect } from 'vitest';
+import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { getVerifiedAddressesForFidNeynar } from './getVerifiedAddressesForFidNeynar';
 
 describe('getVerifiedAddressesForFidNeynar', () => {
@@ -12,7 +12,7 @@ describe('getVerifiedAddressesForFidNeynar', () => {
         status,
         json: fetchMock,
       }),
-    ) as vi.Mock;
+    ) as Mock;
   });
 
   it('should return mocked response correctly', async () => {

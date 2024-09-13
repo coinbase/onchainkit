@@ -1,5 +1,6 @@
 import '@testing-library/jest-dom';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { describe, expect, it, vi } from 'vitest';
 import { Address } from './Address';
 import { Avatar } from './Avatar';
 import { EthBalance } from './EthBalance';

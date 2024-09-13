@@ -1,5 +1,5 @@
 import { renderHook } from '@testing-library/react';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useWriteContract as useWriteContractWagmi } from 'wagmi';
 import { isUserRejectedRequestError } from '../utils/isUserRejectedRequestError';
 import { useWriteContract } from './useWriteContract';
@@ -95,7 +95,7 @@ describe('useWriteContract', () => {
         } as MockUseWriteContractReturn;
       },
     );
-    (isUserRejectedRequestError as vi.Mock).mockReturnValue(true);
+    (isUserRejectedRequestError as Mock).mockReturnValue(true);
     renderHook(() =>
       useWriteContract({
         setLifeCycleStatus: mockSetLifeCycleStatus,

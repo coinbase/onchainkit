@@ -1,3 +1,4 @@
+import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { version } from '../../version';
 import { getDataFromNeynar } from './getDataFromNeynar';
 import { NEYNAR_DEFAULT_API_KEY } from './neynarFrameValidation';
@@ -13,7 +14,7 @@ describe('getDataFromNeynar', () => {
         status,
         json: fetchMock,
       }),
-    ) as vi.Mock;
+    ) as Mock;
   });
 
   it('should call fetch correctly', async () => {

@@ -1,5 +1,6 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
+import { describe, expect, it } from 'vitest';
 import { Badge } from './Badge';
 
 describe('Badge Component', () => {

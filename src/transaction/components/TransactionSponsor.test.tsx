@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { describe, expect, it, vi } from 'vitest';
+import { type Mock, describe, expect, it, vi } from 'vitest';
 import { useTransactionContext } from './TransactionProvider';
 import { TransactionSponsor } from './TransactionSponsor';
 
@@ -9,7 +9,7 @@ vi.mock('./TransactionProvider', () => ({
 
 describe('TransactionSponsor', () => {
   it('should render correctly', () => {
-    (useTransactionContext as vi.Mock).mockReturnValue({
+    (useTransactionContext as Mock).mockReturnValue({
       lifeCycleStatus: { statusName: 'init', statusData: null },
       paymasterUrl: 'paymasterUrl',
     });
@@ -19,7 +19,7 @@ describe('TransactionSponsor', () => {
   });
 
   it('should not render if paymasterUrl is null', () => {
-    (useTransactionContext as vi.Mock).mockReturnValue({
+    (useTransactionContext as Mock).mockReturnValue({
       lifeCycleStatus: { statusName: 'init', statusData: null },
       paymasterUrl: null,
     });
@@ -28,7 +28,7 @@ describe('TransactionSponsor', () => {
   });
 
   it('should not render if statusName is not init', () => {
-    (useTransactionContext as vi.Mock).mockReturnValue({
+    (useTransactionContext as Mock).mockReturnValue({
       lifeCycleStatus: { statusName: 'blah', statusData: null },
       paymasterUrl: null,
     });
@@ -37,7 +37,7 @@ describe('TransactionSponsor', () => {
   });
 
   it('should render if statusName is init', () => {
-    (useTransactionContext as vi.Mock).mockReturnValue({
+    (useTransactionContext as Mock).mockReturnValue({
       lifeCycleStatus: { statusName: 'init', statusData: null },
       paymasterUrl: 'paymasterUrl',
     });

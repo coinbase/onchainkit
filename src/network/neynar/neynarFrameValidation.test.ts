@@ -1,3 +1,4 @@
+import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { FetchError } from './FetchError';
 import { neynarFrameValidation } from './neynarFrameValidation';
 
@@ -12,7 +13,7 @@ describe('neynar frame functions', () => {
         status,
         json: fetchMock,
       }),
-    ) as vi.Mock;
+    ) as Mock;
   });
 
   it('should return fetch response correctly', async () => {

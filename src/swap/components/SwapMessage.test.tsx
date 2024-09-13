@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { beforeEach, describe, expect, it } from 'vitest';
+import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { getSwapMessage } from '../utils/getSwapMessage';
 import { SwapMessage } from './SwapMessage';
 import { useSwapContext } from './SwapProvider';
@@ -13,10 +13,10 @@ vi.mock('../utils/getSwapMessage', () => ({
   getSwapMessage: vi.fn(),
 }));
 
-const useSwapContextMock = useSwapContext as vi.Mock;
+const useSwapContextMock = useSwapContext as Mock;
 
 describe('SwapMessage', () => {
-  const mockGetSwapMessage = getSwapMessage as vi.Mock;
+  const mockGetSwapMessage = getSwapMessage as Mock;
 
   beforeEach(() => {
     mockGetSwapMessage.mockClear();

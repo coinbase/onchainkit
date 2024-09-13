@@ -1,4 +1,5 @@
 import { base } from 'viem/chains';
+import { describe, expect, it } from 'vitest';
 import { createEasGraphQLClient } from './createEasGraphQLClient';
 
 describe('createEasGraphQLClient', () => {

@@ -3,6 +3,7 @@
  */
 
 import { base } from 'viem/chains';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { convertReverseNodeToBytes } from './convertReverseNodeToBytes';
 
 describe('convertReverseNodeToBytes', () => {

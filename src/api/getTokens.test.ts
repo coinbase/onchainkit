@@ -1,4 +1,4 @@
-import { afterEach, describe, expect, it, vi } from 'vitest';
+import { type Mock, afterEach, describe, expect, it, vi } from 'vitest';
 import { CDP_LIST_SWAP_ASSETS } from '../network/definitions/swap';
 import { sendRequest } from '../network/request';
 /**
@@ -35,7 +35,7 @@ describe('getTokens', () => {
       ],
       error: null,
     };
-    (sendRequest as vi.Mock).mockResolvedValue(mockResponse);
+    (sendRequest as Mock).mockResolvedValue(mockResponse);
     const tokens = await getTokens();
     expect(tokens).toEqual([
       {
@@ -75,7 +75,7 @@ describe('getTokens', () => {
       ],
       error: null,
     };
-    (sendRequest as vi.Mock).mockResolvedValue(mockResponse);
+    (sendRequest as Mock).mockResolvedValue(mockResponse);
     const tokens = await getTokens({ limit: '1', page: '1' });
     expect(tokens).toEqual([
       {
@@ -94,7 +94,7 @@ describe('getTokens', () => {
   });
 
   it('should return an error object if sendRequest returns an error', async () => {
-    (sendRequest as vi.Mock).mockResolvedValue({
+    (sendRequest as Mock).mockResolvedValue({
       result: null,
       error: {
         code: -1,
@@ -118,7 +118,7 @@ describe('getTokens', () => {
     const mockError = new Error(
       'getTokens: error retrieving tokens: Token retrieval failed',
     );
-    (sendRequest as vi.Mock).mockRejectedValue(mockError);
+    (sendRequest as Mock).mockRejectedValue(mockError);
     const error = await getTokens();
     expect(error).toEqual({
       code: 'AmGTa02',

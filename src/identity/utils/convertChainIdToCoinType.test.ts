@@ -3,6 +3,7 @@
  */
 
 import { arbitrum, base, mainnet, optimism } from 'viem/chains';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { convertChainIdToCoinType } from './convertChainIdToCoinType';
 
 describe('convertChainIdToCoinType', () => {

@@ -6,6 +6,7 @@ import {
   screen,
   waitFor,
 } from '@testing-library/react';
+import { type Mock, describe, expect, it, vi } from 'vitest';
 import { useAccount } from 'wagmi';
 import { Identity } from '../../identity/components/Identity';
 import {
@@ -29,8 +30,8 @@ vi.mock('../../identity/components/Identity', () => ({
   )),
 }));
 
-const useWalletContextMock = useWalletContext as vi.Mock;
-const useAccountMock = useAccount as vi.Mock;
+const useWalletContextMock = useWalletContext as Mock;
+const useAccountMock = useAccount as Mock;
 
 describe('WalletBottomSheet', () => {
   it('renders null when address is not provided', () => {
