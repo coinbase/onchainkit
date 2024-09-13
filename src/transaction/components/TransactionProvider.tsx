@@ -7,6 +7,7 @@ import {
   useState,
 } from 'react';
 import type { Address } from 'viem';
+import { baseSepolia } from 'viem/chains';
 import {
   useAccount,
   useConfig,
@@ -79,7 +80,7 @@ export function TransactionProvider({
 
   // Retrieve wallet capabilities
   const walletCapabilities = useCapabilitiesSafe({
-    chainId: chainId || 84532,
+    chainId: chainId || baseSepolia.id,
   }); // defaults to Base Sepolia if not provided
 
   const { switchChainAsync } = useSwitchChain();
