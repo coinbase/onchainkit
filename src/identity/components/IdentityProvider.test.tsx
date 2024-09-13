@@ -48,7 +48,7 @@ describe('IdentityProvider', () => {
     });
     expect(result.current.address).toEqual('');
     expect(result.current.schemaId).toEqual(undefined);
-    expect(result.current.chain?.id).toEqual(84532); // defaults to base
+    expect(result.current.chain.id).toEqual(84532); // defaults to base
   });
 
   it('use onchainkit context chain if provided', () => {
@@ -65,7 +65,7 @@ describe('IdentityProvider', () => {
     });
     expect(result.current.address).toEqual('');
     expect(result.current.schemaId).toEqual(undefined);
-    expect(result.current.chain?.id).toEqual(optimism.id);
+    expect(result.current.chain.id).toEqual(optimism.id);
   });
 
   it('use identity context chain over onchainkit context if both are provided', () => {
@@ -82,6 +82,6 @@ describe('IdentityProvider', () => {
     });
     expect(result.current.address).toEqual('');
     expect(result.current.schemaId).toEqual(undefined);
-    expect(result.current.chain?.id).toEqual(sepolia.id);
+    expect(result.current.chain.id).toEqual(sepolia.id);
   });
 });

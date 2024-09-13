@@ -171,7 +171,7 @@ describe('Identity Component', () => {
 
   it('should not call handleCopy when address is not provided', async () => {
     render(
-      <Identity address={undefined} hasCopyAddressOnClick={true}>
+      <Identity address={null} hasCopyAddressOnClick={true}>
         <div>Child Component</div>
       </Identity>,
     );
