@@ -17,7 +17,7 @@ export function Swap({
     maxSlippage: DEFAULT_MAX_SLIPPAGE,
   },
   className,
-  experimental = { useAggregator: true },
+  experimental = { useAggregator: false },
   onError,
   onStatus,
   onSuccess,
