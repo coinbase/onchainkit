@@ -23,7 +23,7 @@ type UseSendCallsConfig = {
 };
 
 describe('useSendCalls', () => {
-  const mockSetLifeCycleStatus = vi.fn();
+  const mockSetLifecycleStatus = vi.fn();
   const mockSetTransactionId = vi.fn();
 
   beforeEach(() => {
@@ -40,7 +40,7 @@ describe('useSendCalls', () => {
     });
     const { result } = renderHook(() =>
       useSendCalls({
-        setLifeCycleStatus: mockSetLifeCycleStatus,
+        setLifecycleStatus: mockSetLifecycleStatus,
         setTransactionId: mockSetTransactionId,
       }),
     );
@@ -67,13 +67,13 @@ describe('useSendCalls', () => {
     (isUserRejectedRequestError as Mock).mockReturnValue(false);
     renderHook(() =>
       useSendCalls({
-        setLifeCycleStatus: mockSetLifeCycleStatus,
+        setLifecycleStatus: mockSetLifecycleStatus,
         setTransactionId: mockSetTransactionId,
       }),
     );
     expect(onErrorCallback).toBeDefined();
     onErrorCallback?.(genericError as TransactionExecutionError);
-    expect(mockSetLifeCycleStatus).toHaveBeenCalledWith({
+    expect(mockSetLifecycleStatus).toHaveBeenCalledWith({
       statusName: 'error',
       statusData: {
         code: 'TmUSCSh01',
@@ -101,13 +101,13 @@ describe('useSendCalls', () => {
     (isUserRejectedRequestError as Mock).mockReturnValue(true);
     renderHook(() =>
       useSendCalls({
-        setLifeCycleStatus: mockSetLifeCycleStatus,
+        setLifecycleStatus: mockSetLifecycleStatus,
         setTransactionId: mockSetTransactionId,
       }),
     );
     expect(onErrorCallback).toBeDefined();
     onErrorCallback?.(userRejectedError as TransactionExecutionError);
-    expect(mockSetLifeCycleStatus).toHaveBeenCalledWith({
+    expect(mockSetLifecycleStatus).toHaveBeenCalledWith({
       statusName: 'error',
       statusData: {
         code: 'TmUSCSh01',
@@ -132,7 +132,7 @@ describe('useSendCalls', () => {
     );
     renderHook(() =>
       useSendCalls({
-        setLifeCycleStatus: mockSetLifeCycleStatus,
+        setLifecycleStatus: mockSetLifecycleStatus,
         setTransactionId: mockSetTransactionId,
       }),
     );

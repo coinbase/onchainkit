@@ -17,7 +17,7 @@ export function TransactionButton({
     chainId,
     errorMessage,
     isLoading,
-    lifeCycleStatus,
+    lifecycleStatus,
     onSubmit,
     receipt,
     transactions,
@@ -31,7 +31,7 @@ export function TransactionButton({
   const { showCallsStatus } = useShowCallsStatus();
 
   const isInProgress =
-    lifeCycleStatus.statusName === 'transactionPending' || isLoading;
+    lifecycleStatus.statusName === 'transactionPending' || isLoading;
   const isMissingProps = !transactions || !address;
   const isWaitingForReceipt = !!transactionId || !!transactionHash;
 
@@ -43,7 +43,7 @@ export function TransactionButton({
     errorMessage,
     hasReceipt: !!receipt,
     isLoading,
-    lifeCycleStatus,
+    lifecycleStatus,
     transactionHash,
     transactionId,
   });

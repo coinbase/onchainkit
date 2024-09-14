@@ -16,7 +16,7 @@ export type {
 } from '../api/types';
 export type {
   Fee,
-  LifeCycleStatus,
+  LifecycleStatus,
   QuoteWarning,
   SwapAmountInputReact,
   SwapButtonReact,

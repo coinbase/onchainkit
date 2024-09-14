@@ -27,7 +27,7 @@ describe('SwapMessage', () => {
     const mockContext = {
       to: {},
       from: {},
-      lifeCycleStatus: { statusName: 'init', statusData: null },
+      lifecycleStatus: { statusName: 'init', statusData: null },
     };
     useSwapContextMock.mockReturnValue(mockContext);
     mockGetSwapMessage.mockReturnValue(mockMessage);
@@ -42,7 +42,7 @@ describe('SwapMessage', () => {
     const mockContext = {
       to: {},
       from: {},
-      lifeCycleStatus: {
+      lifecycleStatus: {
         statusName: 'error',
         statusData: { message: 'Error occurred' },
       },
@@ -59,7 +59,7 @@ describe('SwapMessage', () => {
     const mockContext = {
       to: {},
       from: {},
-      lifeCycleStatus: { statusName: 'transactionPending', statusData: null },
+      lifecycleStatus: { statusName: 'transactionPending', statusData: null },
     };
     useSwapContextMock.mockReturnValue(mockContext);
     mockGetSwapMessage.mockReturnValue(mockMessage);
@@ -73,7 +73,7 @@ describe('SwapMessage', () => {
     const mockContext = {
       to: {},
       from: {},
-      lifeCycleStatus: { statusName: 'transactionApproved', statusData: null },
+      lifecycleStatus: { statusName: 'transactionApproved', statusData: null },
     };
     useSwapContextMock.mockReturnValue(mockContext);
     mockGetSwapMessage.mockReturnValue(mockMessage);
@@ -86,7 +86,7 @@ describe('SwapMessage', () => {
     const mockContext = {
       to: {},
       from: {},
-      lifeCycleStatus: { statusName: 'init', statusData: null },
+      lifecycleStatus: { statusName: 'init', statusData: null },
     };
 
     useSwapContextMock.mockReturnValue(mockContext);
@@ -98,7 +98,7 @@ describe('SwapMessage', () => {
   });
 
   it('should set isMissingRequiredFields to true when reflected in statusData', () => {
-    const mockLifeCycleStatus = {
+    const mockLifecycleStatus = {
       statusName: 'init',
       statusData: { isMissingRequiredField: true },
     };
@@ -106,14 +106,14 @@ describe('SwapMessage', () => {
       to: { amount: 1, token: 'ETH' },
       from: { amount: null, token: 'DAI' },
       address: '0x123',
-      lifeCycleStatus: mockLifeCycleStatus,
+      lifecycleStatus: mockLifecycleStatus,
     };
     useSwapContextMock.mockReturnValue(mockContext);
     render(<SwapMessage />);
     expect(mockGetSwapMessage).toHaveBeenCalledWith({
       address: '0x123',
       from: { amount: null, token: 'DAI' },
-      lifeCycleStatus: mockLifeCycleStatus,
+      lifecycleStatus: mockLifecycleStatus,
       to: { amount: 1, token: 'ETH' },
     });
   });

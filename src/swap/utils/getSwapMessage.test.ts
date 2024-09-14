@@ -33,7 +33,7 @@ describe('getSwapMessage', () => {
       setLoading: vi.fn(),
       setToken: vi.fn(),
     },
-    lifeCycleStatus: {
+    lifecycleStatus: {
       statusName: 'init',
       statusData: { isMissingRequiredField: false, maxSlippage: 3 },
     },
@@ -70,7 +70,7 @@ describe('getSwapMessage', () => {
   it('should return CONFIRM IN WALLET when pending transaction', () => {
     const params = {
       ...baseParams,
-      lifeCycleStatus: { statusName: 'transactionPending', statusData: null },
+      lifecycleStatus: { statusName: 'transactionPending', statusData: null },
     };
     expect(getSwapMessage(params)).toBe(SwapMessage.CONFIRM_IN_WALLET);
   });
@@ -78,7 +78,7 @@ describe('getSwapMessage', () => {
   it('should return SWAP_IN_PROGRESS when loading is true', () => {
     const params = {
       ...baseParams,
-      lifeCycleStatus: { statusName: 'transactionApproved', statusData: null },
+      lifecycleStatus: { statusName: 'transactionApproved', statusData: null },
     };
     expect(getSwapMessage(params)).toBe(SwapMessage.SWAP_IN_PROGRESS);
   });
@@ -100,7 +100,7 @@ describe('getSwapMessage', () => {
   it('should return INCOMPLETE_FIELD when required fields are missing', () => {
     const params = {
       ...baseParams,
-      lifeCycleStatus: {
+      lifecycleStatus: {
         statusName: 'init',
         statusData: { isMissingRequiredField: true },
       },
@@ -118,7 +118,7 @@ describe('getSwapMessage', () => {
         token: ETH_TOKEN,
       },
       to: { ...baseParams.to, amount: '5', token: USDC_TOKEN },
-      lifeCycleStatus: {
+      lifecycleStatus: {
         statusName: 'error',
         statusData: {
           code: TOO_MANY_REQUESTS_ERROR_CODE,
@@ -140,7 +140,7 @@ describe('getSwapMessage', () => {
         token: ETH_TOKEN,
       },
       to: { ...baseParams.to, amount: '5', token: USDC_TOKEN },
-      lifeCycleStatus: {
+      lifecycleStatus: {
         statusName: 'error',
         statusData: {
           code: LOW_LIQUIDITY_ERROR_CODE,
@@ -162,7 +162,7 @@ describe('getSwapMessage', () => {
         token: ETH_TOKEN,
       },
       to: { ...baseParams.to, amount: '5', token: USDC_TOKEN },
-      lifeCycleStatus: {
+      lifecycleStatus: {
         statusName: 'error',
         statusData: {
           code: USER_REJECTED_ERROR_CODE,
@@ -184,7 +184,7 @@ describe('getSwapMessage', () => {
         token: ETH_TOKEN,
       },
       to: { ...baseParams.to, amount: '5', token: USDC_TOKEN },
-      lifeCycleStatus: {
+      lifecycleStatus: {
         statusName: 'error',
         statusData: {
           code: 'general_error_code',

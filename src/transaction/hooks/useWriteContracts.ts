@@ -13,7 +13,7 @@ import { isUserRejectedRequestError } from '../utils/isUserRejectedRequestError'
  * Does not support EOAs.
  */
 export function useWriteContracts({
-  setLifeCycleStatus,
+  setLifecycleStatus,
   setTransactionId,
 }: UseWriteContractsParams) {
   const { status, writeContractsAsync } = useWriteContractsWagmi({
@@ -26,7 +26,7 @@ export function useWriteContracts({
         const errorMessage = isUserRejectedRequestError(e)
           ? 'Request denied.'
           : GENERIC_ERROR_MESSAGE;
-        setLifeCycleStatus({
+        setLifecycleStatus({
           statusName: 'error',
           statusData: {
             code: 'TmUWCSh01', // Transaction module UseWriteContracts hook 01 error

@@ -27,7 +27,7 @@ type MockUseSendCallReturn = {
 };
 
 describe('useSendCall', () => {
-  const mockSetLifeCycleStatus = vi.fn();
+  const mockSetLifecycleStatus = vi.fn();
 
   beforeEach(() => {
     vi.resetAllMocks();
@@ -43,7 +43,7 @@ describe('useSendCall', () => {
     });
     const { result } = renderHook(() =>
       useSendCall({
-        setLifeCycleStatus: mockSetLifeCycleStatus,
+        setLifecycleStatus: mockSetLifecycleStatus,
         transactionHashList: [],
       }),
     );
@@ -67,13 +67,13 @@ describe('useSendCall', () => {
     );
     renderHook(() =>
       useSendCall({
-        setLifeCycleStatus: mockSetLifeCycleStatus,
+        setLifecycleStatus: mockSetLifecycleStatus,
         transactionHashList: [],
       }),
     );
     expect(onErrorCallback).toBeDefined();
     onErrorCallback?.(genericError);
-    expect(mockSetLifeCycleStatus).toHaveBeenCalledWith({
+    expect(mockSetLifecycleStatus).toHaveBeenCalledWith({
       statusName: 'error',
       statusData: {
         code: 'TmUSCh01',
@@ -99,13 +99,13 @@ describe('useSendCall', () => {
     (isUserRejectedRequestError as Mock).mockReturnValue(true);
     renderHook(() =>
       useSendCall({
-        setLifeCycleStatus: mockSetLifeCycleStatus,
+        setLifecycleStatus: mockSetLifecycleStatus,
         transactionHashList: [],
       }),
     );
     expect(onErrorCallback).toBeDefined();
     onErrorCallback?.(userRejectedError);
-    expect(mockSetLifeCycleStatus).toHaveBeenCalledWith({
+    expect(mockSetLifecycleStatus).toHaveBeenCalledWith({
       statusName: 'error',
       statusData: {
         code: 'TmUSCh01',
@@ -130,13 +130,13 @@ describe('useSendCall', () => {
     );
     renderHook(() =>
       useSendCall({
-        setLifeCycleStatus: mockSetLifeCycleStatus,
+        setLifecycleStatus: mockSetLifecycleStatus,
         transactionHashList: [],
       }),
     );
     expect(onSuccessCallback).toBeDefined();
     onSuccessCallback?.(transactionHash);
-    expect(mockSetLifeCycleStatus).toHaveBeenCalledWith({
+    expect(mockSetLifecycleStatus).toHaveBeenCalledWith({
       statusName: 'transactionLegacyExecuted',
       statusData: {
         transactionHashList: [transactionHash],
@@ -159,13 +159,13 @@ describe('useSendCall', () => {
     );
     renderHook(() =>
       useSendCall({
-        setLifeCycleStatus: mockSetLifeCycleStatus,
+        setLifecycleStatus: mockSetLifecycleStatus,
         transactionHashList: [],
       }),
     );
     expect(onSuccessCallback).toBeDefined();
     onSuccessCallback?.(transactionHash);
-    expect(mockSetLifeCycleStatus).toHaveBeenCalledWith({
+    expect(mockSetLifecycleStatus).toHaveBeenCalledWith({
       statusName: 'transactionLegacyExecuted',
       statusData: {
         transactionHashList: [transactionHash],
@@ -173,12 +173,12 @@ describe('useSendCall', () => {
     });
     renderHook(() =>
       useSendCall({
-        setLifeCycleStatus: mockSetLifeCycleStatus,
+        setLifecycleStatus: mockSetLifecycleStatus,
         transactionHashList: [transactionHash],
       }),
     );
     onSuccessCallback?.(transactionHash);
-    expect(mockSetLifeCycleStatus).toHaveBeenCalledWith({
+    expect(mockSetLifecycleStatus).toHaveBeenCalledWith({
       statusName: 'transactionLegacyExecuted',
       statusData: {
         transactionHashList: [transactionHash, transactionHash],

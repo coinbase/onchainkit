@@ -17,8 +17,8 @@ import { DEFAULT_MAX_SLIPPAGE } from '../constants';
 import { useFromTo } from '../hooks/useFromTo';
 import { useResetInputs } from '../hooks/useResetInputs';
 import type {
-  LifeCycleStatus,
-  LifeCycleStatusUpdate,
+  LifecycleStatus,
+  LifecycleStatusUpdate,
   SwapContextType,
   SwapProviderReact,
 } from '../types';
@@ -52,7 +52,7 @@ export function SwapProvider({
   const { useAggregator } = experimental;
   // Core Hooks
   const accountConfig = useConfig();
-  const [lifeCycleStatus, setLifeCycleStatus] = useState<LifeCycleStatus>({
+  const [lifecycleStatus, setLifecycleStatus] = useState<LifecycleStatus>({
     statusName: 'init',
     statusData: {
       isMissingRequiredField: true,
@@ -61,9 +61,9 @@ export function SwapProvider({
   }); // Component lifecycle
 
   // Update lifecycle status, statusData will be persisted for the full lifeCycle
-  const updateLifeCycleStatus = useCallback(
-    (newStatus: LifeCycleStatusUpdate) => {
-      setLifeCycleStatus((prevStatus: LifeCycleStatus) => {
+  const updateLifecycleStatus = useCallback(
+    (newStatus: LifecycleStatusUpdate) => {
+      setLifecycleStatus((prevStatus: LifecycleStatus) => {
         // do not persist errors
         const persistedStatusData =
           prevStatus.statusName === 'error'
@@ -77,7 +77,7 @@ export function SwapProvider({
             ...persistedStatusData,
             ...newStatus.statusData,
           },
-        } as LifeCycleStatus;
+        } as LifecycleStatus;
       });
     },
     [],
@@ -93,39 +93,39 @@ export function SwapProvider({
   // Component lifecycle emitters
   useEffect(() => {
     // Error
-    if (lifeCycleStatus.statusName === 'error') {
-      onError?.(lifeCycleStatus.statusData);
+    if (lifecycleStatus.statusName === 'error') {
+      onError?.(lifecycleStatus.statusData);
     }
     // Success
-    if (lifeCycleStatus.statusName === 'success') {
-      onSuccess?.(lifeCycleStatus.statusData.transactionReceipt);
+    if (lifecycleStatus.statusName === 'success') {
+      onSuccess?.(lifecycleStatus.statusData.transactionReceipt);
       setHasHandledSuccess(true);
     }
     // Emit Status
-    onStatus?.(lifeCycleStatus);
+    onStatus?.(lifecycleStatus);
   }, [
     onError,
     onStatus,
     onSuccess,
-    lifeCycleStatus,
-    lifeCycleStatus.statusData, // Keep statusData, so that the effect runs when it changes
-    lifeCycleStatus.statusName, // Keep statusName, so that the effect runs when it changes
+    lifecycleStatus,
+    lifecycleStatus.statusData, // Keep statusData, so that the effect runs when it changes
+    lifecycleStatus.statusName, // Keep statusName, so that the effect runs when it changes
   ]);
 
   useEffect(() => {
     // Reset inputs after status reset. `resetInputs` is dependent
     // on 'from' and 'to' so moved to separate useEffect to
     // prevents multiple calls to `onStatus`
-    if (lifeCycleStatus.statusName === 'init' && hasHandledSuccess) {
+    if (lifecycleStatus.statusName === 'init' && hasHandledSuccess) {
       setHasHandledSuccess(false);
       resetInputs();
     }
-  }, [hasHandledSuccess, lifeCycleStatus.statusName, resetInputs]);
+  }, [hasHandledSuccess, lifecycleStatus.statusName, resetInputs]);
 
   useEffect(() => {
     // Reset status to init after success has been handled
-    if (lifeCycleStatus.statusName === 'success' && hasHandledSuccess) {
-      updateLifeCycleStatus({
+    if (lifecycleStatus.statusName === 'success' && hasHandledSuccess) {
+      updateLifecycleStatus({
         statusName: 'init',
         statusData: {
           isMissingRequiredField: true,
@@ -136,8 +136,8 @@ export function SwapProvider({
   }, [
     config.maxSlippage,
     hasHandledSuccess,
-    lifeCycleStatus.statusName,
-    updateLifeCycleStatus,
+    lifecycleStatus.statusName,
+    updateLifecycleStatus,
   ]);
 
   const handleToggle = useCallback(() => {
@@ -146,7 +146,7 @@ export function SwapProvider({
     from.setToken(to.token);
     to.setToken(from.token);
 
-    updateLifeCycleStatus({
+    updateLifecycleStatus({
       statusName: 'amountChange',
       statusData: {
         amountFrom: from.amount,
@@ -158,7 +158,7 @@ export function SwapProvider({
           !from.token || !to.token || !from.amount || !to.amount,
       },
     });
-  }, [from, to, updateLifeCycleStatus]);
+  }, [from, to, updateLifecycleStatus]);
 
   const handleAmountChange = useCallback(
     async (
@@ -176,7 +176,7 @@ export function SwapProvider({
 
       // if token is missing alert user via isMissingRequiredField
       if (source.token === undefined || destination.token === undefined) {
-        updateLifeCycleStatus({
+        updateLifecycleStatus({
           statusName: 'amountChange',
           statusData: {
             amountFrom: from.amount,
@@ -196,7 +196,7 @@ export function SwapProvider({
       // When toAmount changes we fetch quote for fromAmount
       // so set isFromQuoteLoading to true
       destination.setLoading(true);
-      updateLifeCycleStatus({
+      updateLifecycleStatus({
         statusName: 'amountChange',
         statusData: {
           // when fetching quote, the previous
@@ -212,7 +212,7 @@ export function SwapProvider({
       });
 
       try {
-        const maxSlippage = lifeCycleStatus.statusData.maxSlippage;
+        const maxSlippage = lifecycleStatus.statusData.maxSlippage;
         const response = await getSwapQuote({
           amount,
           amountReference: 'from',
@@ -224,7 +224,7 @@ export function SwapProvider({
         // If request resolves to error response set the quoteError
         // property of error state to the SwapError response
         if (isSwapError(response)) {
-          updateLifeCycleStatus({
+          updateLifecycleStatus({
             statusName: 'error',
             statusData: {
               code: response.code,
@@ -239,7 +239,7 @@ export function SwapProvider({
           response.to.decimals,
         );
         destination.setAmount(formattedAmount);
-        updateLifeCycleStatus({
+        updateLifecycleStatus({
           statusName: 'amountChange',
           statusData: {
             amountFrom: type === 'from' ? amount : formattedAmount,
@@ -252,7 +252,7 @@ export function SwapProvider({
           },
         });
       } catch (err) {
-        updateLifeCycleStatus({
+        updateLifecycleStatus({
           statusName: 'error',
           statusData: {
             code: 'TmSPc01', // Transaction module SwapProvider component 01 error
@@ -265,7 +265,7 @@ export function SwapProvider({
         destination.setLoading(false);
       }
     },
-    [from, to, lifeCycleStatus, updateLifeCycleStatus, useAggregator],
+    [from, to, lifecycleStatus, updateLifecycleStatus, useAggregator],
   );
 
   const handleSubmit = useCallback(async () => {
@@ -274,7 +274,7 @@ export function SwapProvider({
     }
 
     try {
-      const maxSlippage = lifeCycleStatus.statusData.maxSlippage;
+      const maxSlippage = lifecycleStatus.statusData.maxSlippage;
       const response = await buildSwapTransaction({
         amount: from.amount,
         fromAddress: address,
@@ -284,7 +284,7 @@ export function SwapProvider({
         useAggregator,
       });
       if (isSwapError(response)) {
-        updateLifeCycleStatus({
+        updateLifecycleStatus({
           statusName: 'error',
           statusData: {
             code: response.code,
@@ -297,7 +297,7 @@ export function SwapProvider({
       await processSwapTransaction({
         config: accountConfig,
         sendTransactionAsync,
-        updateLifeCycleStatus,
+        updateLifecycleStatus,
         swapTransaction: response,
         useAggregator,
       });
@@ -307,7 +307,7 @@ export function SwapProvider({
       const errorMessage = isUserRejectedRequestError(err)
         ? 'Request denied.'
         : GENERIC_ERROR_MESSAGE;
-      updateLifeCycleStatus({
+      updateLifecycleStatus({
         statusName: 'error',
         statusData: {
           code: 'TmSPc02', // Transaction module SwapProvider component 02 error
@@ -321,10 +321,10 @@ export function SwapProvider({
     address,
     from.amount,
     from.token,
-    lifeCycleStatus,
+    lifecycleStatus,
     sendTransactionAsync,
     to.token,
-    updateLifeCycleStatus,
+    updateLifecycleStatus,
     useAggregator,
   ]);
 
@@ -334,8 +334,8 @@ export function SwapProvider({
     handleAmountChange,
     handleToggle,
     handleSubmit,
-    lifeCycleStatus,
-    updateLifeCycleStatus,
+    lifecycleStatus,
+    updateLifecycleStatus,
     to,
   });
 

@@ -69,13 +69,13 @@ const silenceError = () => {
 const TestComponent = () => {
   const context = useTransactionContext();
   const handleStatusError = async () => {
-    context.setLifeCycleStatus({
+    context.setLifecycleStatus({
       statusName: 'error',
       statusData: { code: 'code', error: 'error_long_messages' },
     });
   };
   const handleStatusTransactionLegacyExecuted = async () => {
-    context.setLifeCycleStatus({
+    context.setLifecycleStatus({
       statusName: 'transactionLegacyExecuted',
       statusData: {
         transactionHashList: ['hash12345678'],
@@ -83,7 +83,7 @@ const TestComponent = () => {
     });
   };
   const handleStatusTransactionLegacyExecutedMultipleContracts = async () => {
-    context.setLifeCycleStatus({
+    context.setLifecycleStatus({
       statusName: 'transactionLegacyExecuted',
       statusData: {
         transactionHashList: ['hash12345678', 'hash12345678'],
@@ -103,23 +103,23 @@ const TestComponent = () => {
       <span data-testid="context-value-errorMessage">
         {context.errorMessage}
       </span>
-      <span data-testid="context-value-lifeCycleStatus-statusName">
-        {context.lifeCycleStatus.statusName}
+      <span data-testid="context-value-lifecycleStatus-statusName">
+        {context.lifecycleStatus.statusName}
       </span>
       <span data-testid="context-value-isToastVisible">
         {`${context.isToastVisible}`}
       </span>
       <button type="button" onClick={handleStatusError}>
-        setLifeCycleStatus.error
+        setLifecycleStatus.error
       </button>
       <button type="button" onClick={handleStatusTransactionLegacyExecuted}>
-        setLifeCycleStatus.transactionLegacyExecuted
+        setLifecycleStatus.transactionLegacyExecuted
       </button>
       <button
         type="button"
         onClick={handleStatusTransactionLegacyExecutedMultipleContracts}
       >
-        setLifeCycleStatus.transactionLegacyExecutedMultipleContracts
+        setLifecycleStatus.transactionLegacyExecutedMultipleContracts
       </button>
     </div>
   );
@@ -165,19 +165,19 @@ describe('TransactionProvider', () => {
     });
   });
 
-  it('should emit onError when setLifeCycleStatus is called with error', async () => {
+  it('should emit onError when setLifecycleStatus is called with error', async () => {
     const onErrorMock = vi.fn();
     render(
       <TransactionProvider contracts={[]} onError={onErrorMock}>
         <TestComponent />
       </TransactionProvider>,
     );
-    const button = screen.getByText('setLifeCycleStatus.error');
+    const button = screen.getByText('setLifecycleStatus.error');
     fireEvent.click(button);
     expect(onErrorMock).toHaveBeenCalled();
   });
 
-  it('should emit onStatus when setLifeCycleStatus is called with transactionLegacyExecuted', async () => {
+  it('should emit onStatus when setLifecycleStatus is called with transactionLegacyExecuted', async () => {
     const onStatusMock = vi.fn();
     render(
       <TransactionProvider contracts={[]} onStatus={onStatusMock}>
@@ -185,7 +185,7 @@ describe('TransactionProvider', () => {
       </TransactionProvider>,
     );
     const button = screen.getByText(
-      'setLifeCycleStatus.transactionLegacyExecuted',
+      'setLifecycleStatus.transactionLegacyExecuted',
     );
     fireEvent.click(button);
     expect(onStatusMock).toHaveBeenCalledWith({
@@ -196,14 +196,14 @@ describe('TransactionProvider', () => {
     });
   });
 
-  it('should emit onStatus when setLifeCycleStatus is called', async () => {
+  it('should emit onStatus when setLifecycleStatus is called', async () => {
     const onStatusMock = vi.fn();
     render(
       <TransactionProvider contracts={[]} onStatus={onStatusMock}>
         <TestComponent />
       </TransactionProvider>,
     );
-    const button = screen.getByText('setLifeCycleStatus.error');
+    const button = screen.getByText('setLifecycleStatus.error');
     fireEvent.click(button);
     expect(onStatusMock).toHaveBeenCalled();
   });
@@ -251,7 +251,7 @@ describe('TransactionProvider', () => {
       </TransactionProvider>,
     );
     const button = screen.getByText(
-      'setLifeCycleStatus.transactionLegacyExecutedMultipleContracts',
+      'setLifecycleStatus.transactionLegacyExecutedMultipleContracts',
     );
     fireEvent.click(button);
     await waitFor(() => {
@@ -279,7 +279,7 @@ describe('TransactionProvider', () => {
       </TransactionProvider>,
     );
     const button = screen.getByText(
-      'setLifeCycleStatus.transactionLegacyExecutedMultipleContracts',
+      'setLifecycleStatus.transactionLegacyExecutedMultipleContracts',
     );
     fireEvent.click(button);
     await waitFor(() => {
@@ -287,7 +287,7 @@ describe('TransactionProvider', () => {
     });
   });
 
-  it('should set setLifeCycleStatus to transactionPending when writeContractsAsync is pending', async () => {
+  it('should set setLifecycleStatus to transactionPending when writeContractsAsync is pending', async () => {
     const writeContractsAsyncMock = vi.fn();
     (useWriteContracts as ReturnType<typeof vi.fn>).mockReturnValue({
       status: 'pending',
@@ -307,13 +307,13 @@ describe('TransactionProvider', () => {
     fireEvent.click(button);
     await waitFor(() => {
       expect(
-        screen.getByTestId('context-value-lifeCycleStatus-statusName')
+        screen.getByTestId('context-value-lifecycleStatus-statusName')
           .textContent,
       ).toBe('transactionPending');
     });
   });
 
-  it('should set setLifeCycleStatus to transactionPending when writeContractAsync is pending', async () => {
+  it('should set setLifecycleStatus to transactionPending when writeContractAsync is pending', async () => {
     const writeContractsAsyncMock = vi.fn();
     (useWriteContract as ReturnType<typeof vi.fn>).mockReturnValue({
       status: 'pending',
@@ -328,7 +328,7 @@ describe('TransactionProvider', () => {
     fireEvent.click(button);
     await waitFor(() => {
       expect(
-        screen.getByTestId('context-value-lifeCycleStatus-statusName')
+        screen.getByTestId('context-value-lifecycleStatus-statusName')
           .textContent,
       ).toBe('transactionPending');
     });

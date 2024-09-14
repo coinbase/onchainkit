@@ -9,7 +9,7 @@ vi.mock('wagmi/experimental', () => ({
 }));
 
 describe('useWriteContracts', () => {
-  const mockSetLifeCycleStatus = vi.fn();
+  const mockSetLifecycleStatus = vi.fn();
   const mockSetTransactionId = vi.fn();
 
   beforeEach(() => {
@@ -30,13 +30,13 @@ describe('useWriteContracts', () => {
     );
     renderHook(() =>
       useWriteContracts({
-        setLifeCycleStatus: mockSetLifeCycleStatus,
+        setLifecycleStatus: mockSetLifecycleStatus,
         setTransactionId: mockSetTransactionId,
       }),
     );
     expect(onErrorCallback).toBeDefined();
     onErrorCallback?.(genericError);
-    expect(mockSetLifeCycleStatus).toHaveBeenCalledWith({
+    expect(mockSetLifecycleStatus).toHaveBeenCalledWith({
       statusName: 'error',
       statusData: {
         code: 'TmUWCSh01',
@@ -61,7 +61,7 @@ describe('useWriteContracts', () => {
     );
     renderHook(() =>
       useWriteContracts({
-        setLifeCycleStatus: mockSetLifeCycleStatus,
+        setLifecycleStatus: mockSetLifecycleStatus,
         setTransactionId: mockSetTransactionId,
       }),
     );
@@ -72,7 +72,7 @@ describe('useWriteContracts', () => {
       },
       message: 'Request denied.',
     });
-    expect(mockSetLifeCycleStatus).toHaveBeenCalledWith({
+    expect(mockSetLifecycleStatus).toHaveBeenCalledWith({
       statusName: 'error',
       statusData: {
         code: 'TmUWCSh01',
@@ -98,7 +98,7 @@ describe('useWriteContracts', () => {
     );
     renderHook(() =>
       useWriteContracts({
-        setLifeCycleStatus: mockSetLifeCycleStatus,
+        setLifecycleStatus: mockSetLifecycleStatus,
         setTransactionId: mockSetTransactionId,
       }),
     );
@@ -109,7 +109,7 @@ describe('useWriteContracts', () => {
       },
       message: 'this request method is not supported',
     });
-    expect(mockSetLifeCycleStatus).not.toHaveBeenCalled();
+    expect(mockSetLifecycleStatus).not.toHaveBeenCalled();
   });
 
   it('should handle successful transaction', () => {
@@ -126,7 +126,7 @@ describe('useWriteContracts', () => {
     );
     renderHook(() =>
       useWriteContracts({
-        setLifeCycleStatus: mockSetLifeCycleStatus,
+        setLifecycleStatus: mockSetLifecycleStatus,
         setTransactionId: mockSetTransactionId,
       }),
     );

@@ -5,7 +5,7 @@ import { getErrorMessage } from './getErrorMessage';
 export function getSwapMessage({
   address,
   from,
-  lifeCycleStatus,
+  lifecycleStatus,
   to,
 }: GetSwapMessageParams) {
   // handle balance error
@@ -17,24 +17,24 @@ export function getSwapMessage({
     return SwapMessage.INSUFFICIENT_BALANCE;
   }
   // handle pending transaction
-  if (lifeCycleStatus.statusName === 'transactionPending') {
+  if (lifecycleStatus.statusName === 'transactionPending') {
     return SwapMessage.CONFIRM_IN_WALLET;
   }
   // handle loading states
-  if (lifeCycleStatus.statusName === 'transactionApproved') {
+  if (lifecycleStatus.statusName === 'transactionApproved') {
     return SwapMessage.SWAP_IN_PROGRESS;
   }
   if (to.loading || from.loading) {
     return SwapMessage.FETCHING_QUOTE;
   }
   // missing required fields
-  if (lifeCycleStatus.statusData.isMissingRequiredField) {
+  if (lifecycleStatus.statusData.isMissingRequiredField) {
     return SwapMessage.INCOMPLETE_FIELD;
   }
 
   // handle specific error codes
-  if (lifeCycleStatus.statusName === 'error') {
-    return getErrorMessage(lifeCycleStatus.statusData);
+  if (lifecycleStatus.statusName === 'error') {
+    return getErrorMessage(lifecycleStatus.statusData);
   }
 
   return '';

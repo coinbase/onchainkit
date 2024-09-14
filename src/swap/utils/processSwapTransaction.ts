@@ -10,7 +10,7 @@ import type { ProcessSwapTransactionParams } from '../types';
 export async function processSwapTransaction({
   config,
   sendTransactionAsync,
-  updateLifeCycleStatus,
+  updateLifecycleStatus,
   swapTransaction,
   useAggregator,
 }: ProcessSwapTransactionParams) {
@@ -22,7 +22,7 @@ export async function processSwapTransaction({
   // for V1 API, `approveTx` will be an ERC-20 approval against the Router
   // for V2 API, `approveTx` will be an ERC-20 approval against the `Permit2` contract
   if (approveTransaction?.data) {
-    updateLifeCycleStatus({
+    updateLifecycleStatus({
       statusName: 'transactionPending',
     });
     const approveTxHash = await sendTransactionAsync({
@@ -30,7 +30,7 @@ export async function processSwapTransaction({
       value: approveTransaction.value,
       data: approveTransaction.data,
     });
-    updateLifeCycleStatus({
+    updateLifecycleStatus({
       statusName: 'transactionApproved',
       statusData: {
         transactionHash: approveTxHash,
@@ -48,7 +48,7 @@ export async function processSwapTransaction({
     // this would typically be a (gasless) signature, but we're using a transaction here to allow batching for Smart Wallets
     // read more: https://blog.uniswap.org/permit2-and-universal-router
     if (!useAggregator) {
-      updateLifeCycleStatus({
+      updateLifecycleStatus({
         statusName: 'transactionPending',
       });
       const permit2ContractAbi = parseAbi([
@@ -69,7 +69,7 @@ export async function processSwapTransaction({
         data: data,
         value: 0n,
       });
-      updateLifeCycleStatus({
+      updateLifecycleStatus({
         statusName: 'transactionApproved',
         statusData: {
           transactionHash: permitTxnHash,
@@ -84,7 +84,7 @@ export async function processSwapTransaction({
   }
 
   // make the swap
-  updateLifeCycleStatus({
+  updateLifecycleStatus({
     statusName: 'transactionPending',
   });
   const txHash = await sendTransactionAsync({
@@ -92,7 +92,7 @@ export async function processSwapTransaction({
     value: transaction.value,
     data: transaction.data,
   });
-  updateLifeCycleStatus({
+  updateLifecycleStatus({
     statusName: 'transactionApproved',
     statusData: {
       transactionHash: txHash,
@@ -104,7 +104,7 @@ export async function processSwapTransaction({
     hash: txHash,
     confirmations: 1,
   });
-  updateLifeCycleStatus({
+  updateLifecycleStatus({
     statusName: 'success',
     statusData: {
       transactionReceipt: transactionReceipt,

@@ -2,7 +2,7 @@ import { useCallsStatus as useCallsStatusWagmi } from 'wagmi/experimental';
 import type { UseCallsStatusParams } from '../types';
 
 export function useCallsStatus({
-  setLifeCycleStatus,
+  setLifecycleStatus,
   transactionId,
 }: UseCallsStatusParams) {
   try {
@@ -18,7 +18,7 @@ export function useCallsStatus({
     const transactionHash = data?.receipts?.[0]?.transactionHash;
     return { status: data?.status, transactionHash };
   } catch (err) {
-    setLifeCycleStatus({
+    setLifecycleStatus({
       statusName: 'error',
       statusData: {
         code: 'TmUCSh01',

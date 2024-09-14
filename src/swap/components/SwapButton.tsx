@@ -9,7 +9,7 @@ export function SwapButton({ className, disabled = false }: SwapButtonReact) {
     address,
     to,
     from,
-    lifeCycleStatus: { statusName },
+    lifecycleStatus: { statusName },
     handleSubmit,
   } = useSwapContext();
 

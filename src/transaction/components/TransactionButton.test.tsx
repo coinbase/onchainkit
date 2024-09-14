@@ -35,7 +35,7 @@ describe('TransactionButton', () => {
   it('renders correctly', () => {
     (useTransactionContext as Mock).mockReturnValue({
       isLoading: false,
-      lifeCycleStatus: { statusName: 'init', statusData: null },
+      lifecycleStatus: { statusName: 'init', statusData: null },
     });
     render(<TransactionButton text="Transact" />);
     const contentElement = screen.getByText('Transact');
@@ -44,7 +44,7 @@ describe('TransactionButton', () => {
 
   it('renders spinner correctly', () => {
     (useTransactionContext as Mock).mockReturnValue({
-      lifeCycleStatus: { statusName: 'init', statusData: null },
+      lifecycleStatus: { statusName: 'init', statusData: null },
       isLoading: true,
     });
     render(<TransactionButton text="Transact" />);
@@ -55,7 +55,7 @@ describe('TransactionButton', () => {
   it('renders view txn text when receipt exists', () => {
     (useTransactionContext as Mock).mockReturnValue({
       isLoading: true,
-      lifeCycleStatus: { statusName: 'init', statusData: null },
+      lifecycleStatus: { statusName: 'init', statusData: null },
       receipt: '123',
     });
     render(<TransactionButton text="Transact" />);
@@ -66,7 +66,7 @@ describe('TransactionButton', () => {
   it('renders try again when error exists', () => {
     (useTransactionContext as Mock).mockReturnValue({
       isLoading: true,
-      lifeCycleStatus: { statusName: 'init', statusData: null },
+      lifecycleStatus: { statusName: 'init', statusData: null },
       errorMessage: '123',
     });
     render(<TransactionButton text="Transact" />);
@@ -85,7 +85,7 @@ describe('TransactionButton', () => {
   it('should have disabled attribute when txn is in progress', () => {
     (useTransactionContext as Mock).mockReturnValue({
       isLoading: true,
-      lifeCycleStatus: { statusName: 'init', statusData: null },
+      lifecycleStatus: { statusName: 'init', statusData: null },
     });
     const { getByRole } = render(<TransactionButton text="Submit" />);
     const button = getByRole('button');
@@ -95,7 +95,7 @@ describe('TransactionButton', () => {
   it('should have disabled when transactions are missing', () => {
     (useTransactionContext as Mock).mockReturnValue({
       transactions: undefined,
-      lifeCycleStatus: { statusName: 'init', statusData: null },
+      lifecycleStatus: { statusName: 'init', statusData: null },
     });
     const { getByRole } = render(<TransactionButton text="Submit" />);
     const button = getByRole('button');
@@ -106,7 +106,7 @@ describe('TransactionButton', () => {
     const showCallsStatus = vi.fn();
     (useShowCallsStatus as Mock).mockReturnValue({ showCallsStatus });
     (useTransactionContext as Mock).mockReturnValue({
-      lifeCycleStatus: { statusName: 'init', statusData: null },
+      lifecycleStatus: { statusName: 'init', statusData: null },
       receipt: '123',
       transactionId: '456',
     });
@@ -119,7 +119,7 @@ describe('TransactionButton', () => {
   it('should enable button when not in progress, not missing props, and not waiting for receipt', () => {
     (useTransactionContext as Mock).mockReturnValue({
       isLoading: false,
-      lifeCycleStatus: { statusName: 'init', statusData: null },
+      lifecycleStatus: { statusName: 'init', statusData: null },
       transactions: [],
       transactionId: undefined,
       transactionHash: undefined,
@@ -134,7 +134,7 @@ describe('TransactionButton', () => {
     const onSubmit = vi.fn();
     const chainExplorerUrl = 'https://explorer.com';
     (useTransactionContext as Mock).mockReturnValue({
-      lifeCycleStatus: { statusName: 'init', statusData: null },
+      lifecycleStatus: { statusName: 'init', statusData: null },
       receipt: 'receipt-123',
       transactionId: undefined,
       transactionHash: 'hash-789',
@@ -158,7 +158,7 @@ describe('TransactionButton', () => {
     (useTransactionContext as Mock).mockReturnValue({
       address: '123',
       transactions: [{}],
-      lifeCycleStatus: { statusName: 'init', statusData: null },
+      lifecycleStatus: { statusName: 'init', statusData: null },
       onSubmit,
       receipt: undefined,
       transactionId: undefined,

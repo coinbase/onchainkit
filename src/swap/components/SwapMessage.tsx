@@ -4,12 +4,12 @@ import { getSwapMessage } from '../utils/getSwapMessage';
 import { useSwapContext } from './SwapProvider';
 
 export function SwapMessage({ className }: SwapMessageReact) {
-  const { address, to, from, lifeCycleStatus } = useSwapContext();
+  const { address, to, from, lifecycleStatus } = useSwapContext();
 
   const message = getSwapMessage({
     address,
     from,
-    lifeCycleStatus,
+    lifecycleStatus,
     to,
   });
 
