@@ -9,9 +9,8 @@ import type { ProcessSwapTransactionParams } from '../types';
 
 export async function processSwapTransaction({
   config,
-  lifeCycleStatus,
   sendTransactionAsync,
-  setLifeCycleStatus,
+  updateLifeCycleStatus,
   swapTransaction,
   useAggregator,
 }: ProcessSwapTransactionParams) {
@@ -23,29 +22,19 @@ export async function processSwapTransaction({
   // for V1 API, `approveTx` will be an ERC-20 approval against the Router
   // for V2 API, `approveTx` will be an ERC-20 approval against the `Permit2` contract
   if (approveTransaction?.data) {
-    setLifeCycleStatus({
+    updateLifeCycleStatus({
       statusName: 'transactionPending',
-      statusData: {
-        // LifecycleStatus shared data
-        isMissingRequiredField:
-          lifeCycleStatus.statusData.isMissingRequiredField,
-        maxSlippage: lifeCycleStatus.statusData.maxSlippage,
-      },
     });
     const approveTxHash = await sendTransactionAsync({
       to: approveTransaction.to,
       value: approveTransaction.value,
       data: approveTransaction.data,
     });
-    setLifeCycleStatus({
+    updateLifeCycleStatus({
       statusName: 'transactionApproved',
       statusData: {
         transactionHash: approveTxHash,
         transactionType: useAggregator ? 'ERC20' : 'Permit2',
-        // LifecycleStatus shared data
-        isMissingRequiredField:
-          lifeCycleStatus.statusData.isMissingRequiredField,
-        maxSlippage: lifeCycleStatus.statusData.maxSlippage,
       },
     });
     await waitForTransactionReceipt(config, {
@@ -59,14 +48,8 @@ export async function processSwapTransaction({
     // this would typically be a (gasless) signature, but we're using a transaction here to allow batching for Smart Wallets
     // read more: https://blog.uniswap.org/permit2-and-universal-router
     if (!useAggregator) {
-      setLifeCycleStatus({
+      updateLifeCycleStatus({
         statusName: 'transactionPending',
-        statusData: {
-          // LifecycleStatus shared data
-          isMissingRequiredField:
-            lifeCycleStatus.statusData.isMissingRequiredField,
-          maxSlippage: lifeCycleStatus.statusData.maxSlippage,
-        },
       });
       const permit2ContractAbi = parseAbi([
         'function approve(address token, address spender, uint160 amount, uint48 expiration) external',
@@ -86,15 +69,11 @@ export async function processSwapTransaction({
         data: data,
         value: 0n,
       });
-      setLifeCycleStatus({
+      updateLifeCycleStatus({
         statusName: 'transactionApproved',
         statusData: {
           transactionHash: permitTxnHash,
           transactionType: 'ERC20',
-          // LifecycleStatus shared data
-          isMissingRequiredField:
-            lifeCycleStatus.statusData.isMissingRequiredField,
-          maxSlippage: lifeCycleStatus.statusData.maxSlippage,
         },
       });
       await waitForTransactionReceipt(config, {
@@ -105,32 +84,30 @@ export async function processSwapTransaction({
   }
 
   // make the swap
-  setLifeCycleStatus({
+  updateLifeCycleStatus({
     statusName: 'transactionPending',
-    statusData: {
-      // LifecycleStatus shared data
-      isMissingRequiredField: lifeCycleStatus.statusData.isMissingRequiredField,
-      maxSlippage: lifeCycleStatus.statusData.maxSlippage,
-    },
   });
   const txHash = await sendTransactionAsync({
     to: transaction.to,
     value: transaction.value,
     data: transaction.data,
   });
-
+  updateLifeCycleStatus({
+    statusName: 'transactionApproved',
+    statusData: {
+      transactionHash: txHash,
+      transactionType: useAggregator ? 'ERC20' : 'Permit2',
+    },
+  });
   // wait for swap to land onchain
   const transactionReceipt = await waitForTransactionReceipt(config, {
     hash: txHash,
     confirmations: 1,
   });
-  setLifeCycleStatus({
+  updateLifeCycleStatus({
     statusName: 'success',
     statusData: {
       transactionReceipt: transactionReceipt,
-      // LifecycleStatus shared data
-      isMissingRequiredField: lifeCycleStatus.statusData.isMissingRequiredField,
-      maxSlippage: lifeCycleStatus.statusData.maxSlippage,
     },
   });
 }

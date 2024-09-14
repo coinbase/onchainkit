@@ -13,8 +13,7 @@ import { getSwapMessage } from './getSwapMessage';
 
 describe('getSwapMessage', () => {
   const baseParams = {
-    address: '0x123',
-    error: undefined,
+    address: '0x123' as `0x${string}`,
     from: {
       error: undefined,
       balance: '0',
@@ -34,8 +33,10 @@ describe('getSwapMessage', () => {
       setLoading: vi.fn(),
       setToken: vi.fn(),
     },
-    loading: false,
-    isMissingRequiredFields: false,
+    lifeCycleStatus: {
+      statusName: 'init',
+      statusData: { isMissingRequiredField: false, maxSlippage: 3 },
+    },
   };
 
   it('should return BALANCE_ERROR when from or to has an error', () => {
@@ -69,7 +70,7 @@ describe('getSwapMessage', () => {
   it('should return CONFIRM IN WALLET when pending transaction', () => {
     const params = {
       ...baseParams,
-      isTransactionPending: true,
+      lifeCycleStatus: { statusName: 'transactionPending', statusData: null },
     };
     expect(getSwapMessage(params)).toBe(SwapMessage.CONFIRM_IN_WALLET);
   });
@@ -77,7 +78,7 @@ describe('getSwapMessage', () => {
   it('should return SWAP_IN_PROGRESS when loading is true', () => {
     const params = {
       ...baseParams,
-      loading: true,
+      lifeCycleStatus: { statusName: 'transactionApproved', statusData: null },
     };
     expect(getSwapMessage(params)).toBe(SwapMessage.SWAP_IN_PROGRESS);
   });
@@ -99,7 +100,10 @@ describe('getSwapMessage', () => {
   it('should return INCOMPLETE_FIELD when required fields are missing', () => {
     const params = {
       ...baseParams,
-      isMissingRequiredFields: true,
+      lifeCycleStatus: {
+        statusName: 'init',
+        statusData: { isMissingRequiredField: true },
+      },
     };
     expect(getSwapMessage(params)).toBe(SwapMessage.INCOMPLETE_FIELD);
   });
@@ -114,10 +118,13 @@ describe('getSwapMessage', () => {
         token: ETH_TOKEN,
       },
       to: { ...baseParams.to, amount: '5', token: USDC_TOKEN },
-      error: {
-        code: TOO_MANY_REQUESTS_ERROR_CODE,
-        error: 'Too many requests error',
-        message: '',
+      lifeCycleStatus: {
+        statusName: 'error',
+        statusData: {
+          code: TOO_MANY_REQUESTS_ERROR_CODE,
+          error: 'Too many requests error',
+          message: '',
+        },
       },
     };
     expect(getSwapMessage(params)).toBe(SwapMessage.TOO_MANY_REQUESTS);
@@ -133,10 +140,13 @@ describe('getSwapMessage', () => {
         token: ETH_TOKEN,
       },
       to: { ...baseParams.to, amount: '5', token: USDC_TOKEN },
-      error: {
-        code: LOW_LIQUIDITY_ERROR_CODE,
-        error: 'Low liquidity error',
-        message: '',
+      lifeCycleStatus: {
+        statusName: 'error',
+        statusData: {
+          code: LOW_LIQUIDITY_ERROR_CODE,
+          error: 'Low liquidity error',
+          message: '',
+        },
       },
     };
     expect(getSwapMessage(params)).toBe(SwapMessage.LOW_LIQUIDITY);
@@ -152,10 +162,13 @@ describe('getSwapMessage', () => {
         token: ETH_TOKEN,
       },
       to: { ...baseParams.to, amount: '5', token: USDC_TOKEN },
-      error: {
-        code: USER_REJECTED_ERROR_CODE,
-        error: 'User rejected error',
-        message: '',
+      lifeCycleStatus: {
+        statusName: 'error',
+        statusData: {
+          code: USER_REJECTED_ERROR_CODE,
+          error: 'User rejected error',
+          message: '',
+        },
       },
     };
     expect(getSwapMessage(params)).toBe(SwapMessage.USER_REJECTED);
@@ -171,10 +184,13 @@ describe('getSwapMessage', () => {
         token: ETH_TOKEN,
       },
       to: { ...baseParams.to, amount: '5', token: USDC_TOKEN },
-      error: {
-        code: 'general_error_code',
-        error: 'General error occurred',
-        message: '',
+      lifeCycleStatus: {
+        statusName: 'error',
+        statusData: {
+          code: 'general_error_code',
+          error: 'General error occurred',
+          message: '',
+        },
       },
     };
     expect(getSwapMessage(params)).toBe('');

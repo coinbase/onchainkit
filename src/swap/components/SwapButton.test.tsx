@@ -31,7 +31,7 @@ describe('SwapButton', () => {
       address: '0x123',
       to: { loading: false, amount: 1, token: 'ETH' },
       from: { loading: false, amount: 1, token: 'BTC' },
-      loading: false,
+      lifeCycleStatus: { statusName: 'init' },
       handleSubmit: mockHandleSubmit,
     });
     render(<SwapButton />);
@@ -44,7 +44,33 @@ describe('SwapButton', () => {
     useSwapContextMock.mockReturnValue({
       to: { loading: true, amount: 1, token: 'ETH' },
       from: { loading: false, amount: 1, token: 'BTC' },
-      loading: false,
+      lifeCycleStatus: { statusName: 'init' },
+      handleSubmit: mockHandleSubmit,
+    });
+    render(<SwapButton />);
+    const button = screen.getByTestId('ockSwapButton_Button');
+    expect(screen.getByTestId('spinner')).toBeInTheDocument();
+    expect(button).toBeDisabled();
+  });
+
+  it('should render Spinner when transaction is pending', () => {
+    useSwapContextMock.mockReturnValue({
+      to: { loading: false, amount: 1, token: 'ETH' },
+      from: { loading: false, amount: 1, token: 'BTC' },
+      lifeCycleStatus: { statusName: 'transactionPending' },
+      handleSubmit: mockHandleSubmit,
+    });
+    render(<SwapButton />);
+    const button = screen.getByTestId('ockSwapButton_Button');
+    expect(screen.getByTestId('spinner')).toBeInTheDocument();
+    expect(button).toBeDisabled();
+  });
+
+  it('should render Spinner when transaction is approved', () => {
+    useSwapContextMock.mockReturnValue({
+      to: { loading: false, amount: 1, token: 'ETH' },
+      from: { loading: false, amount: 1, token: 'BTC' },
+      lifeCycleStatus: { statusName: 'transactionApproved' },
       handleSubmit: mockHandleSubmit,
     });
     render(<SwapButton />);
@@ -57,7 +83,7 @@ describe('SwapButton', () => {
     useSwapContextMock.mockReturnValue({
       to: { loading: false, amount: 1, token: 'ETH' },
       from: { loading: false, amount: null, token: 'BTC' },
-      loading: false,
+      lifeCycleStatus: { statusName: 'init' },
       handleSubmit: mockHandleSubmit,
     });
     render(<SwapButton />);
@@ -70,7 +96,7 @@ describe('SwapButton', () => {
       address: '0x123',
       to: { loading: false, amount: 1, token: 'ETH' },
       from: { loading: false, amount: 1, token: 'BTC' },
-      loading: false,
+      lifeCycleStatus: { statusName: 'init' },
       handleSubmit: mockHandleSubmit,
     });
     render(<SwapButton />);
@@ -84,7 +110,7 @@ describe('SwapButton', () => {
       address: '0x123',
       to: { loading: false, amount: 1, token: 'ETH' },
       from: { loading: false, amount: 1, token: 'BTC' },
-      loading: false,
+      lifeCycleStatus: { statusName: 'init' },
       handleSubmit: mockHandleSubmit,
     });
     const customClass = 'custom-class';
@@ -97,7 +123,7 @@ describe('SwapButton', () => {
     useSwapContextMock.mockReturnValue({
       to: { loading: false, amount: 1, token: 'ETH' },
       from: { loading: false, amount: 1, token: 'BTC' },
-      loading: false,
+      lifeCycleStatus: { statusName: 'init' },
       handleSubmit: mockHandleSubmit,
     });
     vi.mocked(useAccount).mockReturnValue({
