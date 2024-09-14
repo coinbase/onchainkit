@@ -2,4 +2,4 @@
 '@coinbase/onchainkit': minor
 ---
 
-- **fix**: removed `mt-4` from `<TransactionButton>`, ensuring the primary component maintains a clean and consistent design without outer margin.
+- **fix**: removed `mt-4` from `<TransactionButton>`, ensuring the primary component maintains a clean and consistent design without outer margin. By @zizzamia #1258
