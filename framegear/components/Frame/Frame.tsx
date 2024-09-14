@@ -12,6 +12,7 @@ import { ExternalLinkIcon, ResetIcon, RocketIcon } from '@radix-ui/react-icons';
 import { useRedirectModal } from '@/components/RedirectModalContext/RedirectModalContext';
 import { FrameMetadataWithImageObject } from '@/utils/frameResultToFrameMetadata';
 import { useTextInputs } from '@/contexts/TextInputs';
+import clsx from 'clsx';
 
 export function Frame() {
   const [results] = useAtom(frameResultsAtom);
@@ -28,8 +29,9 @@ export function Frame() {
 function ValidFrame({ metadata }: { metadata: FrameMetadataWithImageObject }) {
   const { inputText, setInputText } = useTextInputs();
   const { image, input, buttons } = metadata;
-  const imageAspectRatioClassname =
-    metadata.image.aspectRatio === '1:1' ? 'aspect-square' : 'aspect-[1.91/1]';
+  const imageAspectRatioClassname = clsx(
+    metadata.image.aspectRatio === '1:1' ? 'aspect-square' : 'aspect-[1.91/1]'
+  );
 
   const handleInputChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => setInputText(e.target.value),
@@ -38,12 +40,26 @@ function ValidFrame({ metadata }: { metadata: FrameMetadataWithImageObject }) {
 
   return (
     <div>
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        className={`w-full rounded-t-xl ${imageAspectRatioClassname} object-cover`}
-        src={image.src}
-        alt=""
-      />
+      {image.src ? (
+        <>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            className={clsx(
+              'w-full rounded-t-xl',
+              imageAspectRatioClassname,
+              image.src ? 'object-cover' : 'object-contain'
+            )}
+            src={image.src}
+            alt=""
+          />
+        </>
+      ) : (
+        <div
+          className={`${imageAspectRatioClassname} flex items-center justify-center`}
+        >
+          <h3>No Image Found</h3>
+        </div>
+      )}
       <div className="bg-button-gutter-light dark:bg-content-light flex flex-col gap-2 rounded-b-xl px-4 py-2">
         {!!input && (
           <input
@@ -189,7 +205,10 @@ You can test this action on the official Warpcast validator: https://warpcast.co
 
   return (
     <button
-      className="border-button flex w-[45%] grow items-center justify-center gap-1 rounded-lg border bg-white px-4 py-2 text-black"
+      className={clsx(
+        'border-button flex w-[45%] grow items-center justify-center gap-1 rounded-lg border bg-white px-4 py-2 text-black',
+        isLoading || (button?.action === 'mint' && 'disabled:opacity-50')
+      )}
       type="button"
       onClick={handleClick}
       disabled={isLoading || button?.action === 'mint'}
