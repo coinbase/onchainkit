@@ -1,10 +1,10 @@
 import {
   LOW_LIQUIDITY_ERROR_CODE,
+  SwapMessage,
   TOO_MANY_REQUESTS_ERROR_CODE,
   USER_REJECTED_ERROR_CODE,
 } from '../constants';
 import type { SwapError } from '../types';
-import { SwapMessage } from './getSwapMessage';
 
 export function getErrorMessage(error: SwapError): string | undefined {
   // error states handled below
