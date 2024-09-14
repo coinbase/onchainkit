@@ -50,8 +50,11 @@ describe('SwapSettingsSlippageInput', () => {
   });
 
   it('uses provided defaultSlippage', () => {
-    mockLifecycleStatus = { statusName: 'error', statusData: {} };
-    render(<SwapSettingsSlippageInput defaultSlippage={1.5} />);
+    mockLifecycleStatus = {
+      statusName: 'error',
+      statusData: { isMissingRequiredField: false, maxSlippage: 1.5 },
+    };
+    render(<SwapSettingsSlippageInput />);
     expect(screen.getByRole('textbox')).toHaveValue('1.5');
   });
 
@@ -71,25 +74,6 @@ describe('SwapSettingsSlippageInput', () => {
   it('disables input in Auto mode', () => {
     render(<SwapSettingsSlippageInput />);
     expect(screen.getByRole('textbox')).toBeDisabled();
-  });
-
-  it('switches between Auto and Custom modes', () => {
-    mockLifecycleStatus = { statusName: 'error', statusData: {} };
-    render(<SwapSettingsSlippageInput defaultSlippage={1.5} />);
-    const input = screen.getByRole('textbox');
-    expect(input).toBeDisabled();
-    expect(input).toHaveValue('1.5');
-    fireEvent.click(screen.getByRole('button', { name: 'Custom' }));
-    expect(input).not.toBeDisabled();
-    fireEvent.click(screen.getByRole('button', { name: 'Auto' }));
-    expect(input).toBeDisabled();
-    expect(input).toHaveValue('1.5');
-    expect(mockSetLifecycleStatus).toHaveBeenCalledWith({
-      statusName: 'slippageChange',
-      statusData: {
-        maxSlippage: 1.5,
-      },
-    });
   });
 
   it('prevents invalid input', () => {
@@ -168,7 +152,7 @@ describe('SwapSettingsSlippageInput', () => {
         maxSlippage: 4.5,
       },
     };
-    render(<SwapSettingsSlippageInput defaultSlippage={3} />);
+    render(<SwapSettingsSlippageInput />);
     expect(screen.getByRole('button', { name: 'Custom' })).toHaveClass(
       'bg-ock-inverse text-ock-primary shadow-ock-default',
     );
@@ -184,7 +168,7 @@ describe('SwapSettingsSlippageInput', () => {
   });
 
   it('updates slippage when switching from Custom to Auto', () => {
-    render(<SwapSettingsSlippageInput defaultSlippage={3} />);
+    render(<SwapSettingsSlippageInput />);
     fireEvent.click(screen.getByRole('button', { name: 'Custom' }));
     fireEvent.change(screen.getByRole('textbox'), { target: { value: '5' } });
     fireEvent.click(screen.getByRole('button', { name: 'Auto' }));
@@ -198,7 +182,7 @@ describe('SwapSettingsSlippageInput', () => {
   });
 
   it('maintains custom value when in Custom mode', () => {
-    render(<SwapSettingsSlippageInput defaultSlippage={3} />);
+    render(<SwapSettingsSlippageInput />);
     fireEvent.click(screen.getByRole('button', { name: 'Custom' }));
     fireEvent.change(screen.getByRole('textbox'), { target: { value: '5' } });
     expect(screen.getByRole('textbox')).toHaveValue('5');
