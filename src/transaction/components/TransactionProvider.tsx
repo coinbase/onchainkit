@@ -28,7 +28,7 @@ import { useSendWalletTransactions } from '../hooks/useSendWalletTransactions';
 import { useWriteContract } from '../hooks/useWriteContract';
 import { useWriteContracts } from '../hooks/useWriteContracts';
 import type {
-  LifeCycleStatus,
+  LifecycleStatus,
   TransactionContextType,
   TransactionProviderReact,
 } from '../types';
@@ -65,7 +65,7 @@ export function TransactionProvider({
   const [errorMessage, setErrorMessage] = useState('');
   const [errorCode, setErrorCode] = useState('');
   const [isToastVisible, setIsToastVisible] = useState(false);
-  const [lifeCycleStatus, setLifeCycleStatus] = useState<LifeCycleStatus>({
+  const [lifecycleStatus, setLifecycleStatus] = useState<LifecycleStatus>({
     statusName: 'init',
     statusData: null,
   }); // Component lifecycle
@@ -97,7 +97,7 @@ export function TransactionProvider({
   // Used for contract calls with an ABI and functions.
   const { status: statusWriteContracts, writeContractsAsync } =
     useWriteContracts({
-      setLifeCycleStatus,
+      setLifecycleStatus,
       setTransactionId,
     });
   const {
@@ -105,13 +105,13 @@ export function TransactionProvider({
     writeContractAsync,
     data: writeContractTransactionHash,
   } = useWriteContract({
-    setLifeCycleStatus,
+    setLifecycleStatus,
     transactionHashList,
   });
   // useSendCalls or useSendCall
   // Used for contract calls with raw calldata.
   const { status: statusSendCalls, sendCallsAsync } = useSendCalls({
-    setLifeCycleStatus,
+    setLifecycleStatus,
     setTransactionId,
   });
   const {
@@ -119,7 +119,7 @@ export function TransactionProvider({
     sendCallAsync,
     data: sendCallTransactionHash,
   } = useSendCall({
-    setLifeCycleStatus,
+    setLifecycleStatus,
     transactionHashList,
   });
 
@@ -165,7 +165,7 @@ export function TransactionProvider({
 
   const { transactionHash: batchedTransactionHash, status: callStatus } =
     useCallsStatus({
-      setLifeCycleStatus,
+      setLifecycleStatus,
       transactionId,
     });
   const { data: receipt } = useWaitForTransactionReceipt({
@@ -176,36 +176,36 @@ export function TransactionProvider({
   useEffect(() => {
     setErrorMessage('');
     // Error
-    if (lifeCycleStatus.statusName === 'error') {
-      setErrorMessage(lifeCycleStatus.statusData.message);
-      setErrorCode(lifeCycleStatus.statusData.code);
-      onError?.(lifeCycleStatus.statusData);
+    if (lifecycleStatus.statusName === 'error') {
+      setErrorMessage(lifecycleStatus.statusData.message);
+      setErrorCode(lifecycleStatus.statusData.code);
+      onError?.(lifecycleStatus.statusData);
     }
     // Transaction Legacy Executed
-    if (lifeCycleStatus.statusName === 'transactionLegacyExecuted') {
-      setTransactionHashList(lifeCycleStatus.statusData.transactionHashList);
+    if (lifecycleStatus.statusName === 'transactionLegacyExecuted') {
+      setTransactionHashList(lifecycleStatus.statusData.transactionHashList);
     }
     // Success
-    if (lifeCycleStatus.statusName === 'success') {
+    if (lifecycleStatus.statusName === 'success') {
       onSuccess?.({
-        transactionReceipts: lifeCycleStatus.statusData.transactionReceipts,
+        transactionReceipts: lifecycleStatus.statusData.transactionReceipts,
       });
     }
     // Emit Status
-    onStatus?.(lifeCycleStatus);
+    onStatus?.(lifecycleStatus);
   }, [
     onError,
     onStatus,
     onSuccess,
-    lifeCycleStatus,
-    lifeCycleStatus.statusData, // Keep statusData, so that the effect runs when it changes
-    lifeCycleStatus.statusName, // Keep statusName, so that the effect runs when it changes
+    lifecycleStatus,
+    lifecycleStatus.statusData, // Keep statusData, so that the effect runs when it changes
+    lifecycleStatus.statusName, // Keep statusName, so that the effect runs when it changes
   ]);
 
   // Set transaction pending status when writeContracts or writeContract is pending
   useEffect(() => {
     if (transactionStatus === 'pending') {
-      setLifeCycleStatus({
+      setLifecycleStatus({
         statusName: 'transactionPending',
         statusData: null,
       });
@@ -217,7 +217,7 @@ export function TransactionProvider({
     if (!receipt) {
       return;
     }
-    setLifeCycleStatus({
+    setLifecycleStatus({
       statusName: 'success',
       statusData: {
         transactionReceipts: [receipt],
@@ -247,7 +247,7 @@ export function TransactionProvider({
         });
         receipts.push(txnReceipt);
       } catch (err) {
-        setLifeCycleStatus({
+        setLifecycleStatus({
           statusName: 'error',
           statusData: {
             code: 'TmTPc01', // Transaction module TransactionProvider component 01 error
@@ -257,7 +257,7 @@ export function TransactionProvider({
         });
       }
     }
-    setLifeCycleStatus({
+    setLifecycleStatus({
       statusName: 'success',
       statusData: {
         transactionReceipts: receipts,
@@ -285,7 +285,7 @@ export function TransactionProvider({
       const errorMessage = isUserRejectedRequestError(err)
         ? 'Request denied.'
         : GENERIC_ERROR_MESSAGE;
-      setLifeCycleStatus({
+      setLifecycleStatus({
         statusName: 'error',
         statusData: {
           code: 'TmTPc03', // Transaction module TransactionProvider component 03 error
@@ -302,12 +302,12 @@ export function TransactionProvider({
     errorMessage,
     isLoading: callStatus === 'PENDING',
     isToastVisible,
-    lifeCycleStatus,
+    lifecycleStatus,
     onSubmit: handleSubmit,
     paymasterUrl: getPaymasterUrl(capabilities),
     receipt,
     setIsToastVisible,
-    setLifeCycleStatus,
+    setLifecycleStatus,
     setTransactionId,
     transactions,
     transactionId,

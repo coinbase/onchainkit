@@ -1,18 +1,18 @@
 import { beforeEach, describe, expect, it } from 'vitest';
-import type { LifeCycleStatus } from '../types';
+import type { LifecycleStatus } from '../types';
 import { isSpinnerDisplayed } from './isSpinnerDisplayed';
 
 describe('isSpinnerDisplayed', () => {
   let transactionHash: string;
   let errorMessage: string;
-  let lifeCycleStatus: LifeCycleStatus;
+  let lifecycleStatus: LifecycleStatus;
   let transactionId: string;
   let isLoading: boolean;
 
   beforeEach(() => {
     transactionHash = '123';
     errorMessage = '';
-    lifeCycleStatus = { statusName: 'init', statusData: null };
+    lifecycleStatus = { statusName: 'init', statusData: null };
     transactionId = '';
     isLoading = false;
   });
@@ -21,7 +21,7 @@ describe('isSpinnerDisplayed', () => {
     const result = isSpinnerDisplayed({
       errorMessage,
       isLoading,
-      lifeCycleStatus,
+      lifecycleStatus,
       transactionHash,
       transactionId,
     });
@@ -36,7 +36,7 @@ describe('isSpinnerDisplayed', () => {
     const result = isSpinnerDisplayed({
       errorMessage,
       isLoading,
-      lifeCycleStatus,
+      lifecycleStatus,
       transactionHash,
       transactionId,
     });
@@ -46,13 +46,13 @@ describe('isSpinnerDisplayed', () => {
   it('should return true if status is pending', () => {
     transactionHash = '';
     errorMessage = '';
-    lifeCycleStatus = { statusName: 'transactionPending', statusData: null };
+    lifecycleStatus = { statusName: 'transactionPending', statusData: null };
     transactionId = '';
     isLoading = false;
     const result = isSpinnerDisplayed({
       errorMessage,
       isLoading,
-      lifeCycleStatus,
+      lifecycleStatus,
       transactionHash,
       transactionId,
     });
@@ -67,7 +67,7 @@ describe('isSpinnerDisplayed', () => {
     const result = isSpinnerDisplayed({
       errorMessage,
       isLoading,
-      lifeCycleStatus,
+      lifecycleStatus,
       transactionHash,
       transactionId,
     });
@@ -82,7 +82,7 @@ describe('isSpinnerDisplayed', () => {
     const result = isSpinnerDisplayed({
       errorMessage,
       isLoading,
-      lifeCycleStatus,
+      lifecycleStatus,
       transactionHash,
       transactionId,
     });

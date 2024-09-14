@@ -10,7 +10,7 @@ import { isUserRejectedRequestError } from '../utils/isUserRejectedRequestError'
  * Does not support EOAs.
  */
 export function useSendCalls({
-  setLifeCycleStatus,
+  setLifecycleStatus,
   setTransactionId,
 }: UseSendCallsParams) {
   const { status, sendCallsAsync, data } = useSendCallsWagmi({
@@ -19,7 +19,7 @@ export function useSendCalls({
         const errorMessage = isUserRejectedRequestError(e)
           ? 'Request denied.'
           : GENERIC_ERROR_MESSAGE;
-        setLifeCycleStatus({
+        setLifecycleStatus({
           statusName: 'error',
           statusData: {
             code: 'TmUSCSh01', // Transaction module UseSendCalls hook 01 error

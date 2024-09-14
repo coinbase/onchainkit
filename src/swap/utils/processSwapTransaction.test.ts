@@ -13,7 +13,7 @@ vi.mock('wagmi/actions', () => ({
 }));
 
 describe('processSwapTransaction', () => {
-  const updateLifeCycleStatus = vi.fn();
+  const updateLifecycleStatus = vi.fn();
   let sendTransactionAsync: Mock;
   let sendTransactionAsyncPermit2: Mock;
 
@@ -101,25 +101,25 @@ describe('processSwapTransaction', () => {
     await processSwapTransaction({
       config,
       sendTransactionAsync,
-      updateLifeCycleStatus,
+      updateLifecycleStatus,
       swapTransaction,
       useAggregator: true,
     });
-    expect(updateLifeCycleStatus).toHaveBeenCalledTimes(5);
-    expect(updateLifeCycleStatus).toHaveBeenNthCalledWith(1, {
+    expect(updateLifecycleStatus).toHaveBeenCalledTimes(5);
+    expect(updateLifecycleStatus).toHaveBeenNthCalledWith(1, {
       statusName: 'transactionPending',
     });
-    expect(updateLifeCycleStatus).toHaveBeenNthCalledWith(2, {
+    expect(updateLifecycleStatus).toHaveBeenNthCalledWith(2, {
       statusName: 'transactionApproved',
       statusData: {
         transactionHash: 'approveTxHash',
         transactionType: 'ERC20',
       },
     });
-    expect(updateLifeCycleStatus).toHaveBeenNthCalledWith(3, {
+    expect(updateLifecycleStatus).toHaveBeenNthCalledWith(3, {
       statusName: 'transactionPending',
     });
-    expect(updateLifeCycleStatus).toHaveBeenNthCalledWith(4, {
+    expect(updateLifecycleStatus).toHaveBeenNthCalledWith(4, {
       statusName: 'transactionApproved',
       statusData: {
         transactionHash: 'txHash',
@@ -160,15 +160,15 @@ describe('processSwapTransaction', () => {
     await processSwapTransaction({
       config,
       sendTransactionAsync,
-      updateLifeCycleStatus,
+      updateLifecycleStatus,
       swapTransaction,
       useAggregator: true,
     });
-    expect(updateLifeCycleStatus).toHaveBeenCalledTimes(3);
-    expect(updateLifeCycleStatus).toHaveBeenNthCalledWith(1, {
+    expect(updateLifecycleStatus).toHaveBeenCalledTimes(3);
+    expect(updateLifecycleStatus).toHaveBeenNthCalledWith(1, {
       statusName: 'transactionPending',
     });
-    expect(updateLifeCycleStatus).toHaveBeenNthCalledWith(2, {
+    expect(updateLifecycleStatus).toHaveBeenNthCalledWith(2, {
       statusName: 'transactionApproved',
       statusData: {
         transactionHash: 'approveTxHash',
@@ -215,35 +215,35 @@ describe('processSwapTransaction', () => {
     await processSwapTransaction({
       config,
       sendTransactionAsync: sendTransactionAsyncPermit2,
-      updateLifeCycleStatus,
+      updateLifecycleStatus,
       swapTransaction,
       useAggregator: false,
     });
-    expect(updateLifeCycleStatus).toHaveBeenCalledTimes(7);
-    expect(updateLifeCycleStatus).toHaveBeenNthCalledWith(1, {
+    expect(updateLifecycleStatus).toHaveBeenCalledTimes(7);
+    expect(updateLifecycleStatus).toHaveBeenNthCalledWith(1, {
       statusName: 'transactionPending',
     });
-    expect(updateLifeCycleStatus).toHaveBeenNthCalledWith(2, {
+    expect(updateLifecycleStatus).toHaveBeenNthCalledWith(2, {
       statusName: 'transactionApproved',
       statusData: {
         transactionHash: 'approveTxHash',
         transactionType: 'Permit2',
       },
     });
-    expect(updateLifeCycleStatus).toHaveBeenNthCalledWith(3, {
+    expect(updateLifecycleStatus).toHaveBeenNthCalledWith(3, {
       statusName: 'transactionPending',
     });
-    expect(updateLifeCycleStatus).toHaveBeenNthCalledWith(4, {
+    expect(updateLifecycleStatus).toHaveBeenNthCalledWith(4, {
       statusName: 'transactionApproved',
       statusData: {
         transactionHash: 'permit2TxHash',
         transactionType: 'ERC20',
       },
     });
-    expect(updateLifeCycleStatus).toHaveBeenNthCalledWith(5, {
+    expect(updateLifecycleStatus).toHaveBeenNthCalledWith(5, {
       statusName: 'transactionPending',
     });
-    expect(updateLifeCycleStatus).toHaveBeenNthCalledWith(6, {
+    expect(updateLifecycleStatus).toHaveBeenNthCalledWith(6, {
       statusName: 'transactionApproved',
       statusData: {
         transactionHash: 'txHash',

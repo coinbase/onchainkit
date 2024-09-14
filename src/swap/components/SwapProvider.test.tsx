@@ -113,7 +113,7 @@ const TestSwapComponent = () => {
     context.to.setToken(DEGEN_TOKEN);
   }, [context]);
   const handleStatusError = async () => {
-    context.updateLifeCycleStatus({
+    context.updateLifecycleStatus({
       statusName: 'error',
       statusData: {
         code: 'code',
@@ -123,7 +123,7 @@ const TestSwapComponent = () => {
     });
   };
   const handleStatusAmountChange = async () => {
-    context.updateLifeCycleStatus({
+    context.updateLifecycleStatus({
       statusName: 'amountChange',
       statusData: {
         amountFrom: '',
@@ -132,12 +132,12 @@ const TestSwapComponent = () => {
     });
   };
   const handleStatusTransactionPending = async () => {
-    context.updateLifeCycleStatus({
+    context.updateLifecycleStatus({
       statusName: 'transactionPending',
     });
   };
   const handleStatusTransactionApproved = async () => {
-    context.updateLifeCycleStatus({
+    context.updateLifecycleStatus({
       statusName: 'transactionApproved',
       statusData: {
         transactionHash: '0x123',
@@ -146,7 +146,7 @@ const TestSwapComponent = () => {
     });
   };
   const handleStatusSuccess = async () => {
-    context.updateLifeCycleStatus({
+    context.updateLifecycleStatus({
       statusName: 'success',
       statusData: {
         transactionReceipt: { transactionHash: '0x123' },
@@ -155,28 +155,28 @@ const TestSwapComponent = () => {
   };
   return (
     <div data-testid="test-component">
-      <span data-testid="context-value-lifeCycleStatus-statusName">
-        {context.lifeCycleStatus.statusName}
+      <span data-testid="context-value-lifecycleStatus-statusName">
+        {context.lifecycleStatus.statusName}
       </span>
-      {context.lifeCycleStatus.statusName === 'error' && (
-        <span data-testid="context-value-lifeCycleStatus-statusData-code">
-          {context.lifeCycleStatus.statusData.code}
+      {context.lifecycleStatus.statusName === 'error' && (
+        <span data-testid="context-value-lifecycleStatus-statusData-code">
+          {context.lifecycleStatus.statusData.code}
         </span>
       )}
       <button type="button" onClick={handleStatusError}>
-        setLifeCycleStatus.error
+        setLifecycleStatus.error
       </button>
       <button type="button" onClick={handleStatusAmountChange}>
-        setLifeCycleStatus.amountChange
+        setLifecycleStatus.amountChange
       </button>
       <button type="button" onClick={handleStatusTransactionPending}>
-        setLifeCycleStatus.transactionPending
+        setLifecycleStatus.transactionPending
       </button>
       <button type="button" onClick={handleStatusTransactionApproved}>
-        setLifeCycleStatus.transactionApproved
+        setLifecycleStatus.transactionApproved
       </button>
       <button type="button" onClick={handleStatusSuccess}>
-        setLifeCycleStatus.success
+        setLifecycleStatus.success
       </button>
       <button
         type="submit"
@@ -241,10 +241,10 @@ describe('SwapProvider', () => {
     });
   });
 
-  it('should reset inputs when setLifeCycleStatus is called with success', async () => {
+  it('should reset inputs when setLifecycleStatus is called with success', async () => {
     const { result } = renderHook(() => useSwapContext(), { wrapper });
     await act(async () => {
-      result.current.updateLifeCycleStatus({
+      result.current.updateLifecycleStatus({
         statusName: 'success',
         statusData: {
           transactionReceipt: { transactionHash: '0x123' },
@@ -257,21 +257,21 @@ describe('SwapProvider', () => {
     expect(mockResetFunction).toHaveBeenCalledTimes(1);
   });
 
-  it('should emit onError when setLifeCycleStatus is called with error', async () => {
+  it('should emit onError when setLifecycleStatus is called with error', async () => {
     const onErrorMock = vi.fn();
     renderWithProviders({ Component: TestSwapComponent, onError: onErrorMock });
-    const button = screen.getByText('setLifeCycleStatus.error');
+    const button = screen.getByText('setLifecycleStatus.error');
     fireEvent.click(button);
     expect(onErrorMock).toHaveBeenCalled();
   });
 
-  it('should emit onStatus when setLifeCycleStatus is called with amountChange', async () => {
+  it('should emit onStatus when setLifecycleStatus is called with amountChange', async () => {
     const onStatusMock = vi.fn();
     renderWithProviders({
       Component: TestSwapComponent,
       onStatus: onStatusMock,
     });
-    const button = screen.getByText('setLifeCycleStatus.amountChange');
+    const button = screen.getByText('setLifecycleStatus.amountChange');
     fireEvent.click(button);
     expect(onStatusMock).toHaveBeenCalled();
   });
@@ -282,7 +282,7 @@ describe('SwapProvider', () => {
       Component: TestSwapComponent,
       onStatus: onStatusMock,
     });
-    fireEvent.click(screen.getByText('setLifeCycleStatus.transactionPending'));
+    fireEvent.click(screen.getByText('setLifecycleStatus.transactionPending'));
     expect(onStatusMock).toHaveBeenLastCalledWith({
       statusName: 'transactionPending',
       statusData: {
@@ -290,7 +290,7 @@ describe('SwapProvider', () => {
         maxSlippage: 10,
       },
     });
-    fireEvent.click(screen.getByText('setLifeCycleStatus.transactionApproved'));
+    fireEvent.click(screen.getByText('setLifecycleStatus.transactionApproved'));
     expect(onStatusMock).toHaveBeenLastCalledWith({
       statusName: 'transactionApproved',
       statusData: {
@@ -308,7 +308,7 @@ describe('SwapProvider', () => {
       Component: TestSwapComponent,
       onStatus: onStatusMock,
     });
-    fireEvent.click(screen.getByText('setLifeCycleStatus.error'));
+    fireEvent.click(screen.getByText('setLifecycleStatus.error'));
     expect(onStatusMock).toHaveBeenLastCalledWith({
       statusName: 'error',
       statusData: {
@@ -319,7 +319,7 @@ describe('SwapProvider', () => {
         maxSlippage: 10,
       },
     });
-    fireEvent.click(screen.getByText('setLifeCycleStatus.transactionPending'));
+    fireEvent.click(screen.getByText('setLifecycleStatus.transactionPending'));
     expect(onStatusMock).toHaveBeenLastCalledWith({
       statusName: 'transactionPending',
       statusData: {
@@ -340,7 +340,7 @@ describe('SwapProvider', () => {
     await act(async () => {
       result.current.handleAmountChange('from', '10', ETH_TOKEN, DEGEN_TOKEN);
     });
-    expect(result.current.lifeCycleStatus).toStrictEqual({
+    expect(result.current.lifecycleStatus).toStrictEqual({
       statusName: 'amountChange',
       statusData: {
         amountFrom: '10',
@@ -380,7 +380,7 @@ describe('SwapProvider', () => {
     await act(async () => {
       result.current.handleAmountChange('to', '10', ETH_TOKEN, DEGEN_TOKEN);
     });
-    expect(result.current.lifeCycleStatus).toStrictEqual({
+    expect(result.current.lifecycleStatus).toStrictEqual({
       statusName: 'amountChange',
       statusData: {
         amountFrom: '1e-9',
@@ -409,46 +409,46 @@ describe('SwapProvider', () => {
     });
   });
 
-  it('should emit onStatus when setLifeCycleStatus is called with transactionPending', async () => {
+  it('should emit onStatus when setLifecycleStatus is called with transactionPending', async () => {
     const onStatusMock = vi.fn();
     renderWithProviders({
       Component: TestSwapComponent,
       onStatus: onStatusMock,
     });
-    const button = screen.getByText('setLifeCycleStatus.transactionPending');
+    const button = screen.getByText('setLifecycleStatus.transactionPending');
     fireEvent.click(button);
     expect(onStatusMock).toHaveBeenCalled();
   });
 
-  it('should emit onStatus when setLifeCycleStatus is called with transactionApproved', async () => {
+  it('should emit onStatus when setLifecycleStatus is called with transactionApproved', async () => {
     const onStatusMock = vi.fn();
     renderWithProviders({
       Component: TestSwapComponent,
       onStatus: onStatusMock,
     });
-    const button = screen.getByText('setLifeCycleStatus.transactionApproved');
+    const button = screen.getByText('setLifecycleStatus.transactionApproved');
     fireEvent.click(button);
     expect(onStatusMock).toHaveBeenCalled();
   });
 
-  it('should emit onSuccess when setLifeCycleStatus is called with success', async () => {
+  it('should emit onSuccess when setLifecycleStatus is called with success', async () => {
     const onSuccessMock = vi.fn();
     renderWithProviders({
       Component: TestSwapComponent,
       onSuccess: onSuccessMock,
     });
-    const button = screen.getByText('setLifeCycleStatus.success');
+    const button = screen.getByText('setLifecycleStatus.success');
     fireEvent.click(button);
     expect(onSuccessMock).toHaveBeenCalled();
   });
 
-  it('should reset status to init when setLifeCycleStatus is called with success', async () => {
+  it('should reset status to init when setLifecycleStatus is called with success', async () => {
     const onStatusMock = vi.fn();
     renderWithProviders({
       Component: TestSwapComponent,
       onStatus: onStatusMock,
     });
-    const button = screen.getByText('setLifeCycleStatus.success');
+    const button = screen.getByText('setLifecycleStatus.success');
     fireEvent.click(button);
     await waitFor(() => {
       expect(onStatusMock).toHaveBeenCalledWith(
@@ -463,13 +463,13 @@ describe('SwapProvider', () => {
     });
   });
 
-  it('should emit onStatus when setLifeCycleStatus is called with error', async () => {
+  it('should emit onStatus when setLifecycleStatus is called with error', async () => {
     const onStatusMock = vi.fn();
     renderWithProviders({
       Component: TestSwapComponent,
       onStatus: onStatusMock,
     });
-    const button = screen.getByText('setLifeCycleStatus.error');
+    const button = screen.getByText('setLifecycleStatus.error');
     fireEvent.click(button);
     expect(onStatusMock).toHaveBeenCalled();
   });
@@ -627,14 +627,14 @@ describe('SwapProvider', () => {
     expect(result.current.to.amount).toBe('');
   });
 
-  it('should setLifeCycleStatus to error when getSwapQuote throws an error', async () => {
+  it('should setLifecycleStatus to error when getSwapQuote throws an error', async () => {
     const mockError = new Error('Test error');
     vi.mocked(getSwapQuote).mockRejectedValueOnce(mockError);
     const { result } = renderHook(() => useSwapContext(), { wrapper });
     await act(async () => {
       result.current.handleAmountChange('from', '10', ETH_TOKEN, DEGEN_TOKEN);
     });
-    expect(result.current.lifeCycleStatus).toEqual({
+    expect(result.current.lifecycleStatus).toEqual({
       statusName: 'error',
       statusData: expect.objectContaining({
         code: 'TmSPc01',
@@ -644,7 +644,7 @@ describe('SwapProvider', () => {
     });
   });
 
-  it('should setLifeCycleStatus to error when getSwapQuote returns an error', async () => {
+  it('should setLifecycleStatus to error when getSwapQuote returns an error', async () => {
     vi.mocked(getSwapQuote).mockResolvedValueOnce({
       code: getSwapErrorCode('uncaught-quote'),
       error: 'Something went wrong',
@@ -654,7 +654,7 @@ describe('SwapProvider', () => {
     await act(async () => {
       result.current.handleAmountChange('from', '10', ETH_TOKEN, DEGEN_TOKEN);
     });
-    expect(result.current.lifeCycleStatus).toEqual({
+    expect(result.current.lifecycleStatus).toEqual({
       statusName: 'error',
       statusData: expect.objectContaining({
         code: 'UNCAUGHT_SWAP_QUOTE_ERROR',
@@ -688,41 +688,41 @@ describe('SwapProvider', () => {
     expect(buildSwapTransaction).not.toBeCalled();
   });
 
-  it('should setLifeCycleStatus to error when buildSwapTransaction throws an "User rejected the request." error', async () => {
+  it('should setLifecycleStatus to error when buildSwapTransaction throws an "User rejected the request." error', async () => {
     const mockError = new Error('User rejected the request.');
     vi.mocked(buildSwapTransaction).mockRejectedValueOnce(mockError);
     renderWithProviders({ Component: TestSwapComponent });
     fireEvent.click(screen.getByText('Swap'));
     await waitFor(() => {
       expect(
-        screen.getByTestId('context-value-lifeCycleStatus-statusName')
+        screen.getByTestId('context-value-lifecycleStatus-statusName')
           .textContent,
       ).toBe('error');
       expect(
-        screen.getByTestId('context-value-lifeCycleStatus-statusData-code')
+        screen.getByTestId('context-value-lifecycleStatus-statusData-code')
           .textContent,
       ).toBe('TmSPc02');
     });
   });
 
-  it('should setLifeCycleStatus to error when buildSwapTransaction throws an error', async () => {
+  it('should setLifecycleStatus to error when buildSwapTransaction throws an error', async () => {
     const mockError = new Error('Test error');
     vi.mocked(buildSwapTransaction).mockRejectedValueOnce(mockError);
     renderWithProviders({ Component: TestSwapComponent });
     fireEvent.click(screen.getByText('Swap'));
     await waitFor(() => {
       expect(
-        screen.getByTestId('context-value-lifeCycleStatus-statusName')
+        screen.getByTestId('context-value-lifecycleStatus-statusName')
           .textContent,
       ).toBe('error');
       expect(
-        screen.getByTestId('context-value-lifeCycleStatus-statusData-code')
+        screen.getByTestId('context-value-lifecycleStatus-statusData-code')
           .textContent,
       ).toBe('TmSPc02');
     });
   });
 
-  it('should setLifeCycleStatus to error when buildSwapTransaction returns an error', async () => {
+  it('should setLifecycleStatus to error when buildSwapTransaction returns an error', async () => {
     vi.mocked(buildSwapTransaction).mockResolvedValueOnce({
       code: getSwapErrorCode('uncaught-swap'),
       error: 'Something went wrong',
@@ -732,11 +732,11 @@ describe('SwapProvider', () => {
     fireEvent.click(screen.getByText('Swap'));
     await waitFor(() => {
       expect(
-        screen.getByTestId('context-value-lifeCycleStatus-statusName')
+        screen.getByTestId('context-value-lifecycleStatus-statusName')
           .textContent,
       ).toBe('error');
       expect(
-        screen.getByTestId('context-value-lifeCycleStatus-statusData-code')
+        screen.getByTestId('context-value-lifecycleStatus-statusData-code')
           .textContent,
       ).toBe('UNCAUGHT_SWAP_ERROR');
     });
@@ -744,8 +744,8 @@ describe('SwapProvider', () => {
 
   it('should use default maxSlippage when not provided in experimental', () => {
     const useTestHook = () => {
-      const { lifeCycleStatus } = useSwapContext();
-      return lifeCycleStatus;
+      const { lifecycleStatus } = useSwapContext();
+      return lifecycleStatus;
     };
     const config = { maxSlippage: 3 };
     const wrapper = ({ children }) => (

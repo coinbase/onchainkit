@@ -10,7 +10,7 @@ vi.mock('./TransactionProvider', () => ({
 describe('TransactionSponsor', () => {
   it('should render correctly', () => {
     (useTransactionContext as Mock).mockReturnValue({
-      lifeCycleStatus: { statusName: 'init', statusData: null },
+      lifecycleStatus: { statusName: 'init', statusData: null },
       paymasterUrl: 'paymasterUrl',
     });
     render(<TransactionSponsor />);
@@ -20,7 +20,7 @@ describe('TransactionSponsor', () => {
 
   it('should not render if paymasterUrl is null', () => {
     (useTransactionContext as Mock).mockReturnValue({
-      lifeCycleStatus: { statusName: 'init', statusData: null },
+      lifecycleStatus: { statusName: 'init', statusData: null },
       paymasterUrl: null,
     });
     render(<TransactionSponsor />);
@@ -29,7 +29,7 @@ describe('TransactionSponsor', () => {
 
   it('should not render if statusName is not init', () => {
     (useTransactionContext as Mock).mockReturnValue({
-      lifeCycleStatus: { statusName: 'blah', statusData: null },
+      lifecycleStatus: { statusName: 'blah', statusData: null },
       paymasterUrl: null,
     });
     render(<TransactionSponsor />);
@@ -38,7 +38,7 @@ describe('TransactionSponsor', () => {
 
   it('should render if statusName is init', () => {
     (useTransactionContext as Mock).mockReturnValue({
-      lifeCycleStatus: { statusName: 'init', statusData: null },
+      lifecycleStatus: { statusName: 'init', statusData: null },
       paymasterUrl: 'paymasterUrl',
     });
     render(<TransactionSponsor />);

@@ -26,7 +26,7 @@ type MockUseWriteContractReturn = {
 };
 
 describe('useWriteContract', () => {
-  const mockSetLifeCycleStatus = vi.fn();
+  const mockSetLifecycleStatus = vi.fn();
 
   beforeEach(() => {
     vi.resetAllMocks();
@@ -42,7 +42,7 @@ describe('useWriteContract', () => {
     } as MockUseWriteContractReturn);
     const { result } = renderHook(() =>
       useWriteContract({
-        setLifeCycleStatus: mockSetLifeCycleStatus,
+        setLifecycleStatus: mockSetLifecycleStatus,
         transactionHashList: [],
       }),
     );
@@ -66,13 +66,13 @@ describe('useWriteContract', () => {
     );
     renderHook(() =>
       useWriteContract({
-        setLifeCycleStatus: mockSetLifeCycleStatus,
+        setLifecycleStatus: mockSetLifecycleStatus,
         transactionHashList: [],
       }),
     );
     expect(onErrorCallback).toBeDefined();
     onErrorCallback?.(genericError);
-    expect(mockSetLifeCycleStatus).toHaveBeenCalledWith({
+    expect(mockSetLifecycleStatus).toHaveBeenCalledWith({
       statusName: 'error',
       statusData: {
         code: 'TmUWCh01',
@@ -98,13 +98,13 @@ describe('useWriteContract', () => {
     (isUserRejectedRequestError as Mock).mockReturnValue(true);
     renderHook(() =>
       useWriteContract({
-        setLifeCycleStatus: mockSetLifeCycleStatus,
+        setLifecycleStatus: mockSetLifecycleStatus,
         transactionHashList: [],
       }),
     );
     expect(onErrorCallback).toBeDefined();
     onErrorCallback?.(useRejectedError);
-    expect(mockSetLifeCycleStatus).toHaveBeenCalledWith({
+    expect(mockSetLifecycleStatus).toHaveBeenCalledWith({
       statusName: 'error',
       statusData: {
         code: 'TmUWCh01',
@@ -129,13 +129,13 @@ describe('useWriteContract', () => {
     );
     renderHook(() =>
       useWriteContract({
-        setLifeCycleStatus: mockSetLifeCycleStatus,
+        setLifecycleStatus: mockSetLifecycleStatus,
         transactionHashList: [],
       }),
     );
     expect(onSuccessCallback).toBeDefined();
     onSuccessCallback?.(transactionId);
-    expect(mockSetLifeCycleStatus).toHaveBeenCalledWith({
+    expect(mockSetLifecycleStatus).toHaveBeenCalledWith({
       statusName: 'transactionLegacyExecuted',
       statusData: {
         transactionHashList: [transactionId],
@@ -158,13 +158,13 @@ describe('useWriteContract', () => {
     );
     renderHook(() =>
       useWriteContract({
-        setLifeCycleStatus: mockSetLifeCycleStatus,
+        setLifecycleStatus: mockSetLifecycleStatus,
         transactionHashList: [],
       }),
     );
     expect(onSuccessCallback).toBeDefined();
     onSuccessCallback?.(transactionId);
-    expect(mockSetLifeCycleStatus).toHaveBeenCalledWith({
+    expect(mockSetLifecycleStatus).toHaveBeenCalledWith({
       statusName: 'transactionLegacyExecuted',
       statusData: {
         transactionHashList: [transactionId],
@@ -172,12 +172,12 @@ describe('useWriteContract', () => {
     });
     renderHook(() =>
       useWriteContract({
-        setLifeCycleStatus: mockSetLifeCycleStatus,
+        setLifecycleStatus: mockSetLifecycleStatus,
         transactionHashList: [transactionId],
       }),
     );
     onSuccessCallback?.(transactionId);
-    expect(mockSetLifeCycleStatus).toHaveBeenCalledWith({
+    expect(mockSetLifecycleStatus).toHaveBeenCalledWith({
       statusName: 'transactionLegacyExecuted',
       statusData: {
         transactionHashList: [transactionId, transactionId],

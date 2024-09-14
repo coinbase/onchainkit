@@ -10,7 +10,7 @@ import { isUserRejectedRequestError } from '../utils/isUserRejectedRequestError'
  * Does not support transaction batching or paymasters.
  */
 export function useSendCall({
-  setLifeCycleStatus,
+  setLifecycleStatus,
   transactionHashList,
 }: UseSendCallParams) {
   const {
@@ -23,7 +23,7 @@ export function useSendCall({
         const errorMessage = isUserRejectedRequestError(e)
           ? 'Request denied.'
           : GENERIC_ERROR_MESSAGE;
-        setLifeCycleStatus({
+        setLifecycleStatus({
           statusName: 'error',
           statusData: {
             code: 'TmUSCh01', // Transaction module UseSendCall hook 01 error
@@ -33,7 +33,7 @@ export function useSendCall({
         });
       },
       onSuccess: (hash: Address) => {
-        setLifeCycleStatus({
+        setLifecycleStatus({
           statusName: 'transactionLegacyExecuted',
           statusData: {
             transactionHashList: [...transactionHashList, hash],

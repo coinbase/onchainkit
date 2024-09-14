@@ -25,7 +25,7 @@ export type Call = { to: Hex; data?: Hex; value?: bigint };
  *
  * Note: exported as public Type
  */
-export type LifeCycleStatus =
+export type LifecycleStatus =
   | {
       statusName: 'init';
       statusData: null;
@@ -59,7 +59,7 @@ export type IsSpinnerDisplayedProps = {
   errorMessage?: string;
   hasReceipt?: boolean;
   isLoading?: boolean;
-  lifeCycleStatus: LifeCycleStatus;
+  lifecycleStatus: LifecycleStatus;
   transactionHash?: string;
   transactionId?: string;
 };
@@ -82,9 +82,9 @@ export type TransactionContextType = {
   onSubmit: () => void; // A function called when the transaction is submitted.
   paymasterUrl: string | null; // The paymaster URL for the transaction.
   receipt?: TransactionReceipt; // The receipt of the transaction
-  lifeCycleStatus: LifeCycleStatus; // The lifecycle status of the transaction.
+  lifecycleStatus: LifecycleStatus; // The lifecycle status of the transaction.
   setIsToastVisible: (isVisible: boolean) => void; // A function to set the visibility of the transaction toast.
-  setLifeCycleStatus: (state: LifeCycleStatus) => void; // A function to set the lifecycle status of the component
+  setLifecycleStatus: (state: LifecycleStatus) => void; // A function to set the lifecycle status of the component
   setTransactionId: (id: string) => void; // A function to set the transaction ID.
   transactions?: Call[] | ContractFunctionParameters[]; // An array of transactions for the component.
   transactionId?: string; // An optional string representing the ID of the transaction.
@@ -128,7 +128,7 @@ export type TransactionProviderReact = {
   children: ReactNode; // The child components to be rendered within the provider component.
   contracts?: ContractFunctionParameters[]; // An array of contract function parameters provided to the child components. Mutually exclusive with the `calls` prop.
   onError?: (e: TransactionError) => void; // An optional callback function that handles errors within the provider.
-  onStatus?: (lifeCycleStatus: LifeCycleStatus) => void; // An optional callback function that exposes the component lifecycle state
+  onStatus?: (lifecycleStatus: LifecycleStatus) => void; // An optional callback function that exposes the component lifecycle state
   onSuccess?: (response: TransactionResponse) => void; // An optional callback function that exposes the transaction receipts
 };
 
@@ -143,7 +143,7 @@ export type TransactionReact = {
   className?: string; // An optional CSS class name for styling the component.
   contracts?: ContractFunctionParameters[]; // An array of contract function parameters for the transaction. Mutually exclusive with the `calls` prop.
   onError?: (e: TransactionError) => void; // An optional callback function that handles transaction errors.
-  onStatus?: (lifeCycleStatus: LifeCycleStatus) => void; // An optional callback function that exposes the component lifecycle state
+  onStatus?: (lifecycleStatus: LifecycleStatus) => void; // An optional callback function that exposes the component lifecycle state
   onSuccess?: (response: TransactionResponse) => void; // An optional callback function that exposes the transaction receipts
 };
 
@@ -215,27 +215,27 @@ export type TransactionToastLabelReact = {
 };
 
 export type UseCallsStatusParams = {
-  setLifeCycleStatus: (state: LifeCycleStatus) => void;
+  setLifecycleStatus: (state: LifecycleStatus) => void;
   transactionId: string;
 };
 
 export type UseWriteContractParams = {
-  setLifeCycleStatus: (state: LifeCycleStatus) => void;
+  setLifecycleStatus: (state: LifecycleStatus) => void;
   transactionHashList: Address[];
 };
 
 export type UseWriteContractsParams = {
-  setLifeCycleStatus: (state: LifeCycleStatus) => void;
+  setLifecycleStatus: (state: LifecycleStatus) => void;
   setTransactionId: (id: string) => void;
 };
 
 export type UseSendCallParams = {
-  setLifeCycleStatus: (state: LifeCycleStatus) => void;
+  setLifecycleStatus: (state: LifecycleStatus) => void;
   transactionHashList: Address[];
 };
 
 export type UseSendCallsParams = {
-  setLifeCycleStatus: (state: LifeCycleStatus) => void;
+  setLifecycleStatus: (state: LifecycleStatus) => void;
   setTransactionId: (id: string) => void;
 };
 

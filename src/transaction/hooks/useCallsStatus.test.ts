@@ -24,20 +24,20 @@ describe('useCallsStatus', () => {
   });
 
   it('should handle errors and call onError callback', () => {
-    const mockSetLifeCycleStatus = vi.fn();
+    const mockSetLifecycleStatus = vi.fn();
     const mockError = new Error('Test error');
     (useCallsStatusWagmi as ReturnType<typeof vi.fn>).mockImplementation(() => {
       throw mockError;
     });
     const { result } = renderHook(() =>
       useCallsStatus({
-        setLifeCycleStatus: mockSetLifeCycleStatus,
+        setLifecycleStatus: mockSetLifecycleStatus,
         transactionId,
       }),
     );
     expect(result.current.status).toBe('error');
     expect(result.current.transactionHash).toBeUndefined();
-    expect(mockSetLifeCycleStatus).toHaveBeenCalledWith({
+    expect(mockSetLifecycleStatus).toHaveBeenCalledWith({
       statusName: 'error',
       statusData: {
         code: 'TmUCSh01',
@@ -86,7 +86,7 @@ describe('useCallsStatus', () => {
   });
 
   it('should not fetch data when transactionId is not provided', () => {
-    const mockSetLifeCycleStatus = vi.fn();
+    const mockSetLifecycleStatus = vi.fn();
     const mockData = undefined;
 
     (useCallsStatusWagmi as ReturnType<typeof vi.fn>).mockReturnValue({
@@ -95,7 +95,7 @@ describe('useCallsStatus', () => {
 
     const { result } = renderHook(() =>
       useCallsStatus({
-        setLifeCycleStatus: mockSetLifeCycleStatus,
+        setLifecycleStatus: mockSetLifecycleStatus,
         transactionId: undefined,
       }),
     );

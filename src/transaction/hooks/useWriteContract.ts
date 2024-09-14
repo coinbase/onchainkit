@@ -10,7 +10,7 @@ import { isUserRejectedRequestError } from '../utils/isUserRejectedRequestError'
  * Does not support transaction batching or paymasters.
  */
 export function useWriteContract({
-  setLifeCycleStatus,
+  setLifecycleStatus,
   transactionHashList,
 }: UseWriteContractParams) {
   const { status, writeContractAsync, data } = useWriteContractWagmi({
@@ -19,7 +19,7 @@ export function useWriteContract({
         const errorMessage = isUserRejectedRequestError(e)
           ? 'Request denied.'
           : GENERIC_ERROR_MESSAGE;
-        setLifeCycleStatus({
+        setLifecycleStatus({
           statusName: 'error',
           statusData: {
             code: 'TmUWCh01', // Transaction module UseWriteContract hook 01 error
@@ -29,7 +29,7 @@ export function useWriteContract({
         });
       },
       onSuccess: (hash: Address) => {
-        setLifeCycleStatus({
+        setLifecycleStatus({
           statusName: 'transactionLegacyExecuted',
           statusData: {
             transactionHashList: [...transactionHashList, hash],
