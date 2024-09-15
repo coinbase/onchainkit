@@ -89,7 +89,7 @@ export function TransactionButton({
       className={cn(
         pressable.primary,
         'w-full rounded-xl',
-        'mt-4 px-4 py-3 font-medium text-base text-white leading-6',
+        'px-4 py-3 font-medium text-base text-white leading-6',
         isDisabled && pressable.disabled,
         text.headline,
         className,
