@@ -10,4 +10,7 @@
 - **feat**: enhanced Framegear Home component with layout, loading state, and placeholder improvements. By @adarshswaminath #1241
 
 Breaking Changes
-wip
+
+The `<TransactionButton>` will no longer have a preset margin, allowing you to customize your app's spacing. Please check your app to see if you need to add a 4px margin. We aim to provide more neutral spacing, giving you the flexibility to add margin as needed.
+
+The `LifeCycleStatus` type is now renamed `LifecycleStatus`. This update aligns with React's lifecycle naming best practices, ensuring a smoother experience with your app. Please take note of this improvement.
