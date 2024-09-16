@@ -23,6 +23,7 @@ export async function executeSingleTransactions({
     });
 
     if (transactions.length === 3) {
+      // Permit2 has 3 transactions, 2nd to last is the `Permit2` approval
       if (i === transactions.length - 3) {
         updateLifecycleStatus({
           statusName: 'transactionApproved',
@@ -33,6 +34,7 @@ export async function executeSingleTransactions({
         });
       }
     }
+    // 2nd to last transaction is the `ERC20` approval
     if (i === transactions.length - 2) {
       updateLifecycleStatus({
         statusName: 'transactionApproved',
