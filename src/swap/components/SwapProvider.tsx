@@ -330,6 +330,7 @@ export function SwapProvider({
 
   const value = useValue({
     address,
+    config,
     from,
     handleAmountChange,
     handleToggle,

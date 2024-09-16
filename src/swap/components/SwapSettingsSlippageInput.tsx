@@ -12,23 +12,22 @@ const SLIPPAGE_SETTINGS = {
 export function SwapSettingsSlippageInput({
   className,
 }: SwapSettingsSlippageInputReact) {
-  const { updateLifecycleStatus, lifecycleStatus } = useSwapContext();
-  const getMaxSlippage = useCallback(() => {
-    return lifecycleStatus.statusData.maxSlippage;
-  }, [lifecycleStatus.statusData]);
+  const {
+    updateLifecycleStatus,
+    lifecycleStatus,
+    config: { maxSlippage: defaultMaxSlippage },
+  } = useSwapContext();
 
   // Set initial slippage values to match previous selection or default,
   // ensuring consistency when dropdown is reopened
-  const [slippage, setSlippage] = useState(getMaxSlippage());
   const [slippageSetting, setSlippageSetting] = useState(
-    getMaxSlippage() === DEFAULT_MAX_SLIPPAGE
+    lifecycleStatus.statusData.maxSlippage === defaultMaxSlippage
       ? SLIPPAGE_SETTINGS.AUTO
       : SLIPPAGE_SETTINGS.CUSTOM,
   );
 
   const updateSlippage = useCallback(
     (newSlippage: number) => {
-      setSlippage(newSlippage);
       updateLifecycleStatus({
         statusName: 'slippageChange',
         statusData: {
@@ -39,20 +38,15 @@ export function SwapSettingsSlippageInput({
     [updateLifecycleStatus],
   );
 
-  // Handles user input for custom slippage
-  // Parses the input and updates slippage if valid
+  // Handles user input for custom slippage.
+  // Parses the input and updates slippage state.
   const handleSlippageChange = useCallback(
     (newSlippage: string) => {
-      // Empty '' when the input field is cleared.
-      if (newSlippage === '') {
-        setSlippage(0);
-        return;
-      }
+      const parsedSlippage = Number.parseFloat(newSlippage);
+      const isValidNumber = !isNaN(parsedSlippage);
 
-      const newSlippageNumber = Number.parseFloat(newSlippage);
-      if (!Number.isNaN(newSlippageNumber)) {
-        updateSlippage(newSlippageNumber);
-      }
+      // Update slippage to parsed value if valid, otherwise set to 0
+      updateSlippage(isValidNumber ? parsedSlippage : 0);
     },
     [updateSlippage],
   );
@@ -119,7 +113,7 @@ export function SwapSettingsSlippageInput({
         <input
           id="slippage-input"
           type="text"
-          value={slippage}
+          value={lifecycleStatus.statusData.maxSlippage}
           onChange={(e) => handleSlippageChange(e.target.value)}
           disabled={slippageSetting === SLIPPAGE_SETTINGS.AUTO}
           className={cn(

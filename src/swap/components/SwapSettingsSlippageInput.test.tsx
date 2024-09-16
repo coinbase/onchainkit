@@ -1,5 +1,6 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { DEFAULT_MAX_SLIPPAGE } from '../constants';
 import { SwapSettingsSlippageInput } from './SwapSettingsSlippageInput';
 
 const mockSetLifecycleStatus = vi.fn();
@@ -7,7 +8,7 @@ let mockLifecycleStatus = {
   statusName: 'init',
   statusData: {
     isMissingRequiredField: false,
-    maxSlippage: 3,
+    maxSlippage: DEFAULT_MAX_SLIPPAGE,
   },
 };
 
@@ -15,6 +16,7 @@ vi.mock('./SwapProvider', () => ({
   useSwapContext: () => ({
     updateLifecycleStatus: mockSetLifecycleStatus,
     lifecycleStatus: mockLifecycleStatus,
+    config: { maxSlippage: DEFAULT_MAX_SLIPPAGE },
   }),
 }));
 
@@ -29,14 +31,16 @@ describe('SwapSettingsSlippageInput', () => {
       statusName: 'init',
       statusData: {
         isMissingRequiredField: false,
-        maxSlippage: 3,
+        maxSlippage: DEFAULT_MAX_SLIPPAGE,
       },
     };
   });
 
   it('renders with default props', () => {
     render(<SwapSettingsSlippageInput />);
-    expect(screen.getByRole('textbox')).toHaveValue('3');
+    expect(screen.getByRole('textbox')).toHaveValue(
+      DEFAULT_MAX_SLIPPAGE.toString(),
+    );
     expect(screen.getByText('%')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Auto' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Custom' })).toBeInTheDocument();
@@ -58,11 +62,13 @@ describe('SwapSettingsSlippageInput', () => {
     expect(screen.getByRole('textbox')).toHaveValue('1.5');
   });
 
-  it('allows input changes in Custom mode', () => {
+  it('allows input changes in Custom mode but maintains default value', () => {
     render(<SwapSettingsSlippageInput />);
     fireEvent.click(screen.getByRole('button', { name: 'Custom' }));
     fireEvent.change(screen.getByRole('textbox'), { target: { value: '2.5' } });
-    expect(screen.getByRole('textbox')).toHaveValue('2.5');
+    expect(screen.getByRole('textbox')).toHaveValue(
+      DEFAULT_MAX_SLIPPAGE.toString(),
+    );
     expect(mockSetLifecycleStatus).toHaveBeenCalledWith({
       statusName: 'slippageChange',
       statusData: {
@@ -76,12 +82,19 @@ describe('SwapSettingsSlippageInput', () => {
     expect(screen.getByRole('textbox')).toBeDisabled();
   });
 
-  it('prevents invalid input', () => {
+  it('handles invalid input by maintaining default value', () => {
     render(<SwapSettingsSlippageInput />);
     fireEvent.click(screen.getByRole('button', { name: 'Custom' }));
     fireEvent.change(screen.getByRole('textbox'), { target: { value: 'abc' } });
-    expect(screen.getByRole('textbox')).toHaveValue('3');
-    expect(mockSetLifecycleStatus).not.toHaveBeenCalled();
+    expect(screen.getByRole('textbox')).toHaveValue(
+      DEFAULT_MAX_SLIPPAGE.toString(),
+    );
+    expect(mockSetLifecycleStatus).toHaveBeenCalledWith({
+      statusName: 'slippageChange',
+      statusData: {
+        maxSlippage: 0,
+      },
+    });
   });
 
   it('handles decimal input correctly', () => {
@@ -90,7 +103,9 @@ describe('SwapSettingsSlippageInput', () => {
     fireEvent.change(screen.getByRole('textbox'), {
       target: { value: '2.75' },
     });
-    expect(screen.getByRole('textbox')).toHaveValue('2.75');
+    expect(screen.getByRole('textbox')).toHaveValue(
+      DEFAULT_MAX_SLIPPAGE.toString(),
+    );
     expect(mockSetLifecycleStatus).toHaveBeenCalledWith({
       statusName: 'slippageChange',
       statusData: {
@@ -124,12 +139,19 @@ describe('SwapSettingsSlippageInput', () => {
     );
   });
 
-  it('handles empty input correctly', () => {
+  it('handles empty input by maintaining default value', () => {
     render(<SwapSettingsSlippageInput />);
     fireEvent.click(screen.getByRole('button', { name: 'Custom' }));
     fireEvent.change(screen.getByRole('textbox'), { target: { value: '' } });
-    expect(screen.getByRole('textbox')).toHaveValue('0');
-    expect(mockSetLifecycleStatus).not.toHaveBeenCalled();
+    expect(screen.getByRole('textbox')).toHaveValue(
+      DEFAULT_MAX_SLIPPAGE.toString(),
+    );
+    expect(mockSetLifecycleStatus).toHaveBeenCalledWith({
+      statusName: 'slippageChange',
+      statusData: {
+        maxSlippage: 0,
+      },
+    });
   });
 
   it('uses lifecycleStatus maxSlippage when available', () => {
@@ -159,12 +181,19 @@ describe('SwapSettingsSlippageInput', () => {
     expect(screen.getByRole('textbox')).not.toBeDisabled();
   });
 
-  it('handles non-numeric input correctly', () => {
+  it('handles non-numeric input by maintaining default value', () => {
     render(<SwapSettingsSlippageInput />);
     fireEvent.click(screen.getByRole('button', { name: 'Custom' }));
     fireEvent.change(screen.getByRole('textbox'), { target: { value: 'abc' } });
-    expect(screen.getByRole('textbox')).toHaveValue('3');
-    expect(mockSetLifecycleStatus).not.toHaveBeenCalled();
+    expect(screen.getByRole('textbox')).toHaveValue(
+      DEFAULT_MAX_SLIPPAGE.toString(),
+    );
+    expect(mockSetLifecycleStatus).toHaveBeenCalledWith({
+      statusName: 'slippageChange',
+      statusData: {
+        maxSlippage: 0,
+      },
+    });
   });
 
   it('updates slippage when switching from Custom to Auto', () => {
@@ -172,23 +201,33 @@ describe('SwapSettingsSlippageInput', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Custom' }));
     fireEvent.change(screen.getByRole('textbox'), { target: { value: '5' } });
     fireEvent.click(screen.getByRole('button', { name: 'Auto' }));
-    expect(screen.getByRole('textbox')).toHaveValue('3');
+    expect(screen.getByRole('textbox')).toHaveValue(
+      DEFAULT_MAX_SLIPPAGE.toString(),
+    );
     expect(mockSetLifecycleStatus).toHaveBeenLastCalledWith({
       statusName: 'slippageChange',
       statusData: {
-        maxSlippage: 3,
+        maxSlippage: DEFAULT_MAX_SLIPPAGE,
       },
     });
   });
 
-  it('maintains custom value when in Custom mode', () => {
+  it('maintains default value when switching between Auto and Custom mode', () => {
     render(<SwapSettingsSlippageInput />);
+    expect(screen.getByRole('textbox')).toHaveValue(
+      DEFAULT_MAX_SLIPPAGE.toString(),
+    );
     fireEvent.click(screen.getByRole('button', { name: 'Custom' }));
+    expect(screen.getByRole('textbox')).toHaveValue(
+      DEFAULT_MAX_SLIPPAGE.toString(),
+    );
     fireEvent.change(screen.getByRole('textbox'), { target: { value: '5' } });
-    expect(screen.getByRole('textbox')).toHaveValue('5');
+    expect(screen.getByRole('textbox')).toHaveValue(
+      DEFAULT_MAX_SLIPPAGE.toString(),
+    );
     fireEvent.click(screen.getByRole('button', { name: 'Auto' }));
-    fireEvent.click(screen.getByRole('button', { name: 'Custom' }));
-    fireEvent.change(screen.getByRole('textbox'), { target: { value: '7' } });
-    expect(screen.getByRole('textbox')).toHaveValue('7');
+    expect(screen.getByRole('textbox')).toHaveValue(
+      DEFAULT_MAX_SLIPPAGE.toString(),
+    );
   });
 });

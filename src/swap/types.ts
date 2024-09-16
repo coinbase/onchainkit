@@ -164,6 +164,9 @@ export type SwapButtonReact = {
 
 export type SwapContextType = {
   address?: Address; // Used to check if user is connected in SwapButton
+  config: {
+    maxSlippage: number; // Maximum acceptable slippage for a swap. (default: 10) This is as a percent, not basis points
+  };
   from: SwapUnit;
   lifecycleStatus: LifecycleStatus;
   handleAmountChange: (
