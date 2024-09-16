@@ -294,7 +294,7 @@ describe('SwapProvider', () => {
   });
 
   it('should handle `useCallsStatus` for batched transactions', async () => {
-    const {} = renderHook(() => useSwapContext(), { wrapper });
+    renderHook(() => useSwapContext(), { wrapper });
     const mockData = {
       status: 'CONFIRMED',
       receipts: [{}],
@@ -332,7 +332,7 @@ describe('SwapProvider', () => {
       },
     );
 
-    const {} = renderHook(() => useSwapContext(), { wrapper });
+    renderHook(() => useSwapContext(), { wrapper });
   });
 
   it('should use the appropriate refetch interval for non-CONFIRMED', async () => {
@@ -350,7 +350,7 @@ describe('SwapProvider', () => {
       },
     );
 
-    const {} = renderHook(() => useSwapContext(), { wrapper });
+    renderHook(() => useSwapContext(), { wrapper });
   });
 
   it('should emit onError when setLifecycleStatus is called with error', async () => {

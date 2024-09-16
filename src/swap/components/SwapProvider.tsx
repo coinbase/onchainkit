@@ -58,7 +58,7 @@ export function SwapProvider({
   // Core Hooks
   const accountConfig = useConfig();
   const [callsId, setCallsId] = useState<Hex>();
-  const { data } = useCallsStatus({
+  const callsStatus = useCallsStatus({
     id: callsId || '0x',
     query: {
       refetchInterval: (query) => {
@@ -79,7 +79,7 @@ export function SwapProvider({
   const awaitCallsStatus = useAwaitCalls({
     accountConfig,
     config,
-    data,
+    callsStatus,
     setLifecycleStatus,
   });
 
@@ -355,7 +355,6 @@ export function SwapProvider({
     lifecycleStatus,
     sendCallsAsync,
     sendTransactionAsync,
-    setCallsId,
     to.token,
     updateLifecycleStatus,
     useAggregator,
