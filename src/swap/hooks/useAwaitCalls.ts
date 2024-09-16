@@ -1,4 +1,5 @@
 import { useCallback } from 'react';
+import type { WalletCallReceipt } from 'viem';
 import type { Config } from 'wagmi';
 import { waitForTransactionReceipt } from 'wagmi/actions';
 import type { LifecycleStatus } from '../types';
@@ -13,7 +14,10 @@ export function useAwaitCalls({
   config: {
     maxSlippage: number;
   };
-  data: any;
+  data: {
+    status: 'PENDING' | 'CONFIRMED';
+    receipts?: WalletCallReceipt<bigint, 'success' | 'reverted'>[] | undefined;
+  };
   setLifecycleStatus: React.Dispatch<React.SetStateAction<LifecycleStatus>>;
 }) {
   return useCallback(async () => {
