@@ -104,6 +104,10 @@ export const sidebar = [
             text: 'Swap',
             link: '/swap/swap',
           },
+          {
+            text: 'SwapSettings',
+            link: '/swap/swap-settings',
+          },
         ],
       },
       {
