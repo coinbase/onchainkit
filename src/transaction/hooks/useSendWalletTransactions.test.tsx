@@ -19,7 +19,7 @@ describe('useSendWalletTransactions', () => {
 
   it('should handle batched transactions', async () => {
     const transactions = [{ to: '0x123', data: '0x456' }];
-    const capabilities = { someCapability: true };
+    const capabilities = {};
     const { result } = renderHook(() =>
       useSendWalletTransactions({
         transactions,
@@ -29,7 +29,11 @@ describe('useSendWalletTransactions', () => {
         writeContractAsync: vi.fn(),
         sendCallsAsync: vi.fn(),
         sendCallAsync: vi.fn(),
-        walletCapabilities: { hasAtomicBatch: true },
+        walletCapabilities: {
+          atomicBatch: {
+            supported: true,
+          },
+        },
       }),
     );
     await result.current();
@@ -56,7 +60,11 @@ describe('useSendWalletTransactions', () => {
         writeContractAsync: vi.fn(),
         sendCallsAsync: vi.fn(),
         sendCallAsync: vi.fn(),
-        walletCapabilities: { hasAtomicBatch: false },
+        walletCapabilities: {
+          atomicBatch: {
+            supported: false,
+          },
+        },
       }),
     );
     await result.current();
@@ -84,5 +92,31 @@ describe('useSendWalletTransactions', () => {
     await result.current();
     expect(sendBatchedTransactions).not.toHaveBeenCalled();
     expect(sendSingleTransactions).not.toHaveBeenCalled();
+  });
+
+  it('should handle empty walletCapabilities', async () => {
+    const transactions = [
+      { to: '0x123', data: '0x456' },
+      { to: '0x789', data: '0xabc' },
+    ];
+    const { result } = renderHook(() =>
+      useSendWalletTransactions({
+        transactions,
+        transactionType: TRANSACTION_TYPE_CALLS,
+        capabilities: undefined,
+        writeContractsAsync: vi.fn(),
+        writeContractAsync: vi.fn(),
+        sendCallsAsync: vi.fn(),
+        sendCallAsync: vi.fn(),
+        walletCapabilities: {},
+      }),
+    );
+    await result.current();
+    expect(sendSingleTransactions).toHaveBeenCalledWith({
+      sendCallAsync: expect.any(Function),
+      transactions,
+      transactionType: TRANSACTION_TYPE_CALLS,
+      writeContractAsync: expect.any(Function),
+    });
   });
 });

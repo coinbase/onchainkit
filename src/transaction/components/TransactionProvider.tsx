@@ -7,6 +7,7 @@ import {
   useState,
 } from 'react';
 import type { Address } from 'viem';
+import { baseSepolia } from 'viem/chains';
 import {
   useAccount,
   useConfig,
@@ -14,8 +15,9 @@ import {
   useWaitForTransactionReceipt,
 } from 'wagmi';
 import { waitForTransactionReceipt } from 'wagmi/actions';
+import { Capabilities } from '../../constants';
+import { useCapabilitiesSafe } from '../../internal/hooks/useCapabilitiesSafe';
 import { useValue } from '../../internal/hooks/useValue';
-import { useOnchainKit } from '../../useOnchainKit';
 import {
   GENERIC_ERROR_MESSAGE,
   TRANSACTION_TYPE_CALLS,
@@ -77,7 +79,9 @@ export function TransactionProvider({
     : TRANSACTION_TYPE_CONTRACTS;
 
   // Retrieve wallet capabilities
-  const { walletCapabilities } = useOnchainKit();
+  const walletCapabilities = useCapabilitiesSafe({
+    chainId: chainId || baseSepolia.id,
+  }); // defaults to Base Sepolia if not provided
 
   const { switchChainAsync } = useSwitchChain();
 
@@ -127,7 +131,8 @@ export function TransactionProvider({
   // For batched, use statusSendCalls or statusWriteContracts
   // For single, use statusSendCall or statusWriteContract
   const transactionStatus = useMemo(() => {
-    const transactionStatuses = walletCapabilities.hasAtomicBatch
+    const transactionStatuses = walletCapabilities[Capabilities.AtomicBatch]
+      ?.supported
       ? {
           [TRANSACTION_TYPE_CALLS]: statusSendCalls,
           [TRANSACTION_TYPE_CONTRACTS]: statusWriteContracts,
@@ -143,7 +148,7 @@ export function TransactionProvider({
     statusSendCall,
     statusWriteContract,
     transactionType,
-    walletCapabilities.hasAtomicBatch,
+    walletCapabilities[Capabilities.AtomicBatch],
   ]);
 
   // Transaction hash for single transaction (non-batched)

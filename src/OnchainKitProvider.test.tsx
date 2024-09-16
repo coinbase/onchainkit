@@ -1,4 +1,4 @@
-import { act, render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import { base } from 'viem/chains';
 import '@testing-library/jest-dom';
 
@@ -11,7 +11,6 @@ import { mock } from 'wagmi/connectors';
 import { setOnchainKitConfig } from './OnchainKitConfig';
 import { OnchainKitProvider } from './OnchainKitProvider';
 import type { EASSchemaUid } from './identity/types';
-import { useCapabilitiesSafe } from './useCapabilitiesSafe';
 import { useOnchainKit } from './useOnchainKit';
 
 const queryClient = new QueryClient();
@@ -26,7 +25,6 @@ const mockConfig = createConfig({
     [base.id]: http(),
   },
 });
-vi.mock('./useCapabilitiesSafe');
 
 const TestComponent = () => {
   const { schemaId, apiKey } = useOnchainKit();
@@ -46,13 +44,9 @@ vi.mock('./OnchainKitConfig', () => ({
     chain: base,
     rpcUrl: null,
     schemaId: null,
-    walletCapabilities: {
-      hasPaymasterService: false,
-      hasAtomicBatch: false,
-      hasAuxiliaryFunds: false,
-    },
   },
 }));
+
 describe('OnchainKitProvider', () => {
   const schemaId: EASSchemaUid = `0x${'1'.repeat(64)}`;
   const apiKey = 'test-api-key';
@@ -116,7 +110,7 @@ describe('OnchainKitProvider', () => {
     }).not.toThrow();
   });
 
-  it('should call setOnchainKitConfig with the correct default values', async () => {
+  it('should call setOnchainKitConfig with the correct values', async () => {
     render(
       <WagmiProvider config={mockConfig}>
         <QueryClientProvider client={queryClient}>
@@ -133,75 +127,6 @@ describe('OnchainKitProvider', () => {
       chain: base,
       rpcUrl: null,
       schemaId,
-      walletCapabilities: {
-        hasPaymasterService: false,
-        hasAtomicBatch: false,
-        hasAuxiliaryFunds: false,
-      },
-    });
-  });
-
-  it('should call setOnchainKitConfig when capabilities are found', async () => {
-    const walletCapabilities = {
-      hasPaymasterService: true,
-      hasAtomicBatch: true,
-      hasAuxiliaryFunds: true,
-    };
-    vi.mocked(useCapabilitiesSafe).mockReturnValue(walletCapabilities);
-    await act(async () => {
-      render(
-        <WagmiProvider config={mockConfig}>
-          <QueryClientProvider client={queryClient}>
-            <OnchainKitProvider
-              chain={base}
-              schemaId={schemaId}
-              apiKey={apiKey}
-            >
-              <TestComponent />
-            </OnchainKitProvider>
-          </QueryClientProvider>
-        </WagmiProvider>,
-      );
-    });
-    expect(setOnchainKitConfig).toHaveBeenCalledWith({
-      address: null,
-      apiKey,
-      chain: base,
-      rpcUrl: null,
-      schemaId,
-      walletCapabilities,
-    });
-  });
-
-  it('should call setOnchainKitConfig when capabilities are not found', async () => {
-    const walletCapabilities = {
-      hasPaymasterService: false,
-      hasAtomicBatch: false,
-      hasAuxiliaryFunds: false,
-    };
-    vi.mocked(useCapabilitiesSafe).mockReturnValue(walletCapabilities);
-    await act(async () => {
-      render(
-        <WagmiProvider config={mockConfig}>
-          <QueryClientProvider client={queryClient}>
-            <OnchainKitProvider
-              chain={base}
-              schemaId={schemaId}
-              apiKey={apiKey}
-            >
-              <TestComponent />
-            </OnchainKitProvider>
-          </QueryClientProvider>
-        </WagmiProvider>,
-      );
-    });
-    expect(setOnchainKitConfig).toHaveBeenCalledWith({
-      address: null,
-      apiKey,
-      chain: base,
-      rpcUrl: null,
-      schemaId,
-      walletCapabilities,
     });
   });
 });

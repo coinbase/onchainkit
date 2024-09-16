@@ -11,5 +11,4 @@ export type {
   OnchainKitConfig,
   OnchainKitContextType,
   OnchainKitProviderReact,
-  WalletCapabilities,
 } from './types';
