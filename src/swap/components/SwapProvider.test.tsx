@@ -9,10 +9,13 @@ import {
 import React, { act, useCallback, useEffect } from 'react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { http, WagmiProvider, createConfig, useAccount } from 'wagmi';
+import { waitForTransactionReceipt } from 'wagmi/actions';
 import { base } from 'wagmi/chains';
 import { mock } from 'wagmi/connectors';
+import { useCallsStatus, useSendCalls } from 'wagmi/experimental';
 import { buildSwapTransaction } from '../../api/buildSwapTransaction';
 import { getSwapQuote } from '../../api/getSwapQuote';
+import { useCapabilitiesSafe } from '../../internal/hooks/useCapabilitiesSafe';
 import { DEGEN_TOKEN, ETH_TOKEN } from '../mocks';
 import { getSwapErrorCode } from '../utils/getSwapErrorCode';
 import { SwapProvider, useSwapContext } from './SwapProvider';
@@ -42,6 +45,24 @@ vi.mock('wagmi', async (importOriginal) => {
     useAccount: vi.fn(),
   };
 });
+
+const mockAwaitCalls = vi.fn();
+vi.mock('../hooks/useAwaitCalls', () => ({
+  useAwaitCalls: () => useCallback(mockAwaitCalls, []),
+}));
+
+vi.mock('../../internal/hooks/useCapabilitiesSafe', () => ({
+  useCapabilitiesSafe: vi.fn(),
+}));
+
+vi.mock('wagmi/actions', () => ({
+  waitForTransactionReceipt: vi.fn(),
+}));
+
+vi.mock('wagmi/experimental', () => ({
+  useCallsStatus: vi.fn(),
+  useSendCalls: vi.fn(),
+}));
 
 vi.mock('../path/to/maxSlippageModule', () => ({
   getMaxSlippage: vi.fn().mockReturnValue(10),
@@ -194,6 +215,13 @@ describe('useSwapContext', () => {
     (useAccount as ReturnType<typeof vi.fn>).mockReturnValue({
       address: '0x123',
     });
+    (useCallsStatus as ReturnType<typeof vi.fn>).mockReturnValue({
+      data: {},
+    });
+    (useSendCalls as ReturnType<typeof vi.fn>).mockReturnValue({
+      status: 'idle',
+      sendCallsAsync: vi.fn(),
+    });
     await act(async () => {
       renderWithProviders({ Component: () => null });
     });
@@ -239,6 +267,16 @@ describe('SwapProvider', () => {
     (useAccount as ReturnType<typeof vi.fn>).mockReturnValue({
       address: '0x123',
     });
+    (useCallsStatus as ReturnType<typeof vi.fn>).mockImplementation(
+      ({ query }) => {
+        return { data: {} };
+      },
+    );
+    (useSendCalls as ReturnType<typeof vi.fn>).mockReturnValue({
+      status: 'idle',
+      sendCallsAsync: vi.fn(),
+    });
+    (useCapabilitiesSafe as ReturnType<typeof vi.fn>).mockReturnValue({});
   });
 
   it('should reset inputs when setLifecycleStatus is called with success', async () => {
@@ -255,6 +293,66 @@ describe('SwapProvider', () => {
       expect(mockResetFunction).toHaveBeenCalled();
     });
     expect(mockResetFunction).toHaveBeenCalledTimes(1);
+  });
+
+  it('should handle `useCallsStatus` for batched transactions', async () => {
+    const { result } = renderHook(() => useSwapContext(), { wrapper });
+    const mockData = {
+      status: 'CONFIRMED',
+      receipts: [{}],
+    };
+    (useCapabilitiesSafe as ReturnType<typeof vi.fn>).mockReturnValue({
+      atomicBatch: { supported: true },
+      paymasterService: { supported: true },
+      auxiliaryFunds: { supported: true },
+    });
+    (waitForTransactionReceipt as ReturnType<typeof vi.fn>).mockResolvedValue({
+      transactionHash: 'receiptHash',
+    });
+    (useCallsStatus as ReturnType<typeof vi.fn>).mockReturnValue({
+      data: mockData,
+    });
+    await waitFor(() => {
+      expect(mockAwaitCalls).toHaveBeenCalled();
+    });
+    expect(mockAwaitCalls).toHaveBeenCalledTimes(1);
+  });
+
+  it('should use the appropriate refetch interval for CONFIRMED', async () => {
+    const mockData = {
+      status: 'CONFIRMED',
+      receipts: [{}],
+    };
+    // Mocking useCallsStatusWagmi to return the specific data and simulate refetchInterval logic
+    (useCallsStatus as ReturnType<typeof vi.fn>).mockImplementation(
+      ({ query }) => {
+        const refetchInterval = query.refetchInterval({
+          state: { data: mockData },
+        });
+        expect(refetchInterval).toBe(false);
+        return { data: mockData };
+      },
+    );
+
+    const { result } = renderHook(() => useSwapContext(), { wrapper });
+  });
+
+  it('should use the appropriate refetch interval for non-CONFIRMED', async () => {
+    const mockData = {
+      status: 'PENDING',
+    };
+    // Mocking useCallsStatusWagmi to return the specific data and simulate refetchInterval logic
+    (useCallsStatus as ReturnType<typeof vi.fn>).mockImplementation(
+      ({ query }) => {
+        const refetchInterval = query.refetchInterval({
+          state: { data: mockData },
+        });
+        expect(refetchInterval).toBe(1000);
+        return { data: mockData };
+      },
+    );
+
+    const { result } = renderHook(() => useSwapContext(), { wrapper });
   });
 
   it('should emit onError when setLifecycleStatus is called with error', async () => {

@@ -8,7 +8,6 @@ import {
 import type { Hex } from 'viem';
 import { base } from 'viem/chains';
 import { useAccount, useConfig, useSendTransaction } from 'wagmi';
-import { waitForTransactionReceipt } from 'wagmi/actions';
 import { useCallsStatus, useSendCalls } from 'wagmi/experimental';
 import { buildSwapTransaction } from '../../api/buildSwapTransaction';
 import { getSwapQuote } from '../../api/getSwapQuote';
@@ -19,6 +18,7 @@ import type { Token } from '../../token';
 import { GENERIC_ERROR_MESSAGE } from '../../transaction/constants';
 import { isUserRejectedRequestError } from '../../transaction/utils/isUserRejectedRequestError';
 import { DEFAULT_MAX_SLIPPAGE } from '../constants';
+import { useAwaitCalls } from '../hooks/useAwaitCalls';
 import { useFromTo } from '../hooks/useFromTo';
 import { useResetInputs } from '../hooks/useResetInputs';
 import type {
@@ -76,30 +76,17 @@ export function SwapProvider({
     },
   }); // Component lifecycle
 
+  const awaitCallsStatus = useAwaitCalls({
+    accountConfig,
+    config,
+    data,
+    setLifecycleStatus,
+  });
+
   // Lifecycle listener for batched transactions
   useEffect(() => {
-    const awaitCallsConfirmation = async () => {
-      if (data?.status === 'CONFIRMED' && data?.receipts) {
-        const transactionReceipt = await waitForTransactionReceipt(
-          accountConfig,
-          {
-            confirmations: 1,
-            hash: data.receipts[data.receipts.length - 1].transactionHash,
-          },
-        );
-        setLifecycleStatus({
-          statusName: 'success',
-          statusData: {
-            isMissingRequiredField: false,
-            maxSlippage: config.maxSlippage,
-            transactionReceipt,
-          },
-        });
-      }
-    };
-
-    awaitCallsConfirmation();
-  }, [data]);
+    awaitCallsStatus();
+  }, []);
 
   // Update lifecycle status, statusData will be persisted for the full lifeCycle
   const updateLifecycleStatus = useCallback(
