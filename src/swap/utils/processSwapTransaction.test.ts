@@ -4,18 +4,29 @@ import { waitForTransactionReceipt } from 'wagmi/actions';
 import { mainnet, sepolia } from 'wagmi/chains';
 import { mock } from 'wagmi/connectors';
 import type { BuildSwapTransaction } from '../../api/types';
+import { Capabilities } from '../../constants';
 import { PERMIT2_CONTRACT_ADDRESS } from '../constants';
 import { DEGEN_TOKEN, ETH_TOKEN, USDC_TOKEN } from '../mocks';
 import { processSwapTransaction } from './processSwapTransaction';
 
 vi.mock('wagmi/actions', () => ({
-  waitForTransactionReceipt: vi.fn().mockResolvedValue({}),
+  waitForTransactionReceipt: vi.fn().mockResolvedValue({
+    transactionHash: 'receiptHash',
+  }),
 }));
 
 describe('processSwapTransaction', () => {
   const updateLifecycleStatus = vi.fn();
   let sendTransactionAsync: Mock;
   let sendTransactionAsyncPermit2: Mock;
+  let sendCallsAsync: Mock;
+  let setCallsId: Mock;
+  const walletCapabilities = {
+    [Capabilities.AtomicBatch]: { supported: false },
+  };
+  const mockTransactionReceipt = {
+    transactionHash: 'receiptHash',
+  };
 
   const config = createConfig({
     chains: [mainnet, sepolia],
@@ -47,6 +58,9 @@ describe('processSwapTransaction', () => {
       .mockResolvedValueOnce('approveTxHash')
       .mockResolvedValueOnce('permit2TxHash')
       .mockResolvedValueOnce('txHash');
+
+    sendCallsAsync = vi.fn().mockResolvedValue('callsId');
+    setCallsId = vi.fn();
   });
 
   it('should request approval and make the swap for ERC-20 tokens', async () => {
@@ -101,11 +115,14 @@ describe('processSwapTransaction', () => {
     await processSwapTransaction({
       config,
       sendTransactionAsync,
+      sendCallsAsync,
+      setCallsId,
       updateLifecycleStatus,
       swapTransaction,
       useAggregator: true,
+      walletCapabilities,
     });
-    expect(updateLifecycleStatus).toHaveBeenCalledTimes(5);
+    expect(updateLifecycleStatus).toHaveBeenCalledTimes(4);
     expect(updateLifecycleStatus).toHaveBeenNthCalledWith(1, {
       statusName: 'transactionPending',
     });
@@ -120,10 +137,9 @@ describe('processSwapTransaction', () => {
       statusName: 'transactionPending',
     });
     expect(updateLifecycleStatus).toHaveBeenNthCalledWith(4, {
-      statusName: 'transactionApproved',
+      statusName: 'success',
       statusData: {
-        transactionHash: 'txHash',
-        transactionType: 'ERC20',
+        transactionReceipt: mockTransactionReceipt,
       },
     });
     expect(sendTransactionAsync).toHaveBeenCalledTimes(2);
@@ -160,19 +176,21 @@ describe('processSwapTransaction', () => {
     await processSwapTransaction({
       config,
       sendTransactionAsync,
+      sendCallsAsync,
+      setCallsId,
       updateLifecycleStatus,
       swapTransaction,
       useAggregator: true,
+      walletCapabilities,
     });
-    expect(updateLifecycleStatus).toHaveBeenCalledTimes(3);
+    expect(updateLifecycleStatus).toHaveBeenCalledTimes(2);
     expect(updateLifecycleStatus).toHaveBeenNthCalledWith(1, {
       statusName: 'transactionPending',
     });
     expect(updateLifecycleStatus).toHaveBeenNthCalledWith(2, {
-      statusName: 'transactionApproved',
+      statusName: 'success',
       statusData: {
-        transactionHash: 'approveTxHash',
-        transactionType: 'ERC20',
+        transactionReceipt: mockTransactionReceipt,
       },
     });
     expect(sendTransactionAsync).toHaveBeenCalledTimes(1);
@@ -215,11 +233,14 @@ describe('processSwapTransaction', () => {
     await processSwapTransaction({
       config,
       sendTransactionAsync: sendTransactionAsyncPermit2,
+      sendCallsAsync,
+      setCallsId,
       updateLifecycleStatus,
       swapTransaction,
       useAggregator: false,
+      walletCapabilities,
     });
-    expect(updateLifecycleStatus).toHaveBeenCalledTimes(7);
+    expect(updateLifecycleStatus).toHaveBeenCalledTimes(6);
     expect(updateLifecycleStatus).toHaveBeenNthCalledWith(1, {
       statusName: 'transactionPending',
     });
@@ -244,10 +265,9 @@ describe('processSwapTransaction', () => {
       statusName: 'transactionPending',
     });
     expect(updateLifecycleStatus).toHaveBeenNthCalledWith(6, {
-      statusName: 'transactionApproved',
+      statusName: 'success',
       statusData: {
-        transactionHash: 'txHash',
-        transactionType: 'Permit2',
+        transactionReceipt: mockTransactionReceipt,
       },
     });
     expect(sendTransactionAsyncPermit2).toHaveBeenCalledTimes(3);
@@ -256,6 +276,59 @@ describe('processSwapTransaction', () => {
       to: PERMIT2_CONTRACT_ADDRESS,
       data: expect.any(String),
       value: 0n,
+    });
+  });
+
+  it('should process atomic batch transactions', async () => {
+    const swapTransaction: BuildSwapTransaction = {
+      transaction: {
+        to: '0x123',
+        value: 0n,
+        data: '0x',
+        chainId: 1,
+        gas: 0n,
+      },
+      approveTransaction: {
+        to: '0x456',
+        value: 0n,
+        data: '0x123',
+        chainId: 1,
+        gas: 0n,
+      },
+      quote: {
+        from: USDC_TOKEN,
+        to: DEGEN_TOKEN,
+        fromAmount: '100000000000000',
+        toAmount: '19395353519910973703',
+        amountReference: 'from',
+        priceImpact: '0.94',
+        hasHighPriceImpact: false,
+        slippage: '3',
+        warning: undefined,
+      },
+      fee: {
+        baseAsset: DEGEN_TOKEN,
+        percentage: '1',
+        amount: '195912661817282562',
+      },
+    };
+
+    await processSwapTransaction({
+      config,
+      sendTransactionAsync,
+      sendCallsAsync,
+      setCallsId,
+      updateLifecycleStatus,
+      swapTransaction,
+      useAggregator: false,
+      walletCapabilities: { [Capabilities.AtomicBatch]: { supported: true } },
+    });
+
+    expect(sendCallsAsync).toHaveBeenCalledTimes(1);
+    expect(setCallsId).toHaveBeenCalledWith('callsId');
+    expect(updateLifecycleStatus).toHaveBeenCalledTimes(1);
+    expect(updateLifecycleStatus).toHaveBeenCalledWith({
+      statusName: 'transactionPending',
     });
   });
 });

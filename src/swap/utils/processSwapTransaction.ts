@@ -91,12 +91,24 @@ export async function processSwapTransaction({
         hash: txHash,
         confirmations: 1,
       });
+
+      if (transactions.length === 3) {
+        if (i === transactions.length - 3) {
+          updateLifecycleStatus({
+            statusName: 'transactionApproved',
+            statusData: {
+              transactionHash: txHash,
+              transactionType: 'Permit2',
+            },
+          });
+        }
+      }
       if (i === transactions.length - 2) {
         updateLifecycleStatus({
           statusName: 'transactionApproved',
           statusData: {
             transactionHash: txHash,
-            transactionType: useAggregator ? 'ERC20' : 'Permit2',
+            transactionType: 'ERC20',
           },
         });
       }
