@@ -34,5 +34,5 @@ export function useAwaitCalls({
         },
       });
     }
-  }, [accountConfig, config.maxSlippage, data]);
+  }, [accountConfig, config.maxSlippage, data, setLifecycleStatus]);
 }

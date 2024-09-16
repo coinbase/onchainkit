@@ -59,7 +59,7 @@ export function SwapProvider({
   const accountConfig = useConfig();
   const [callsId, setCallsId] = useState<Hex>();
   const { data } = useCallsStatus({
-    id: callsId!,
+    id: callsId || '0x',
     query: {
       refetchInterval: (query) => {
         return query.state.data?.status === 'CONFIRMED' ? false : 1000;
@@ -86,7 +86,7 @@ export function SwapProvider({
   // Lifecycle listener for batched transactions
   useEffect(() => {
     awaitCallsStatus();
-  }, []);
+  }, [awaitCallsStatus]);
 
   // Update lifecycle status, statusData will be persisted for the full lifeCycle
   const updateLifecycleStatus = useCallback(
@@ -353,10 +353,13 @@ export function SwapProvider({
     from.amount,
     from.token,
     lifecycleStatus,
+    sendCallsAsync,
     sendTransactionAsync,
+    setCallsId,
     to.token,
     updateLifecycleStatus,
     useAggregator,
+    walletCapabilities,
   ]);
 
   const value = useValue({

@@ -267,11 +267,9 @@ describe('SwapProvider', () => {
     (useAccount as ReturnType<typeof vi.fn>).mockReturnValue({
       address: '0x123',
     });
-    (useCallsStatus as ReturnType<typeof vi.fn>).mockImplementation(
-      ({ query }) => {
-        return { data: {} };
-      },
-    );
+    (useCallsStatus as ReturnType<typeof vi.fn>).mockReturnValue({
+      data: {},
+    });
     (useSendCalls as ReturnType<typeof vi.fn>).mockReturnValue({
       status: 'idle',
       sendCallsAsync: vi.fn(),
@@ -296,7 +294,7 @@ describe('SwapProvider', () => {
   });
 
   it('should handle `useCallsStatus` for batched transactions', async () => {
-    const { result } = renderHook(() => useSwapContext(), { wrapper });
+    const {} = renderHook(() => useSwapContext(), { wrapper });
     const mockData = {
       status: 'CONFIRMED',
       receipts: [{}],
@@ -334,7 +332,7 @@ describe('SwapProvider', () => {
       },
     );
 
-    const { result } = renderHook(() => useSwapContext(), { wrapper });
+    const {} = renderHook(() => useSwapContext(), { wrapper });
   });
 
   it('should use the appropriate refetch interval for non-CONFIRMED', async () => {
@@ -352,7 +350,7 @@ describe('SwapProvider', () => {
       },
     );
 
-    const { result } = renderHook(() => useSwapContext(), { wrapper });
+    const {} = renderHook(() => useSwapContext(), { wrapper });
   });
 
   it('should emit onError when setLifecycleStatus is called with error', async () => {
