@@ -1,13 +1,12 @@
-import type { Address, TransactionReceipt } from 'viem';
+import type { Address } from 'viem';
 import { encodeFunctionData, parseAbi } from 'viem';
-import { waitForTransactionReceipt } from 'wagmi/actions';
-import { Capabilities } from '../../constants';
 import type { Call } from '../../transaction/types';
 import {
   PERMIT2_CONTRACT_ADDRESS,
   UNIVERSALROUTER_CONTRACT_ADDRESS,
 } from '../constants';
 import type { ProcessSwapTransactionParams } from '../types';
+import { executeSwapTransactions } from './executeSwapTransactions';
 
 export async function processSwapTransaction({
   config,
@@ -67,61 +66,13 @@ export async function processSwapTransaction({
     data: transaction.data,
   });
 
-  let transactionReceipt: TransactionReceipt | undefined;
-  if (walletCapabilities[Capabilities.AtomicBatch]?.supported) {
-    // For batched transactions, we'll use `SwapProvider` to listen for calls to emit the `success` state
-    // We have to do this due to an error with Wagmi's `getCallsStatus` not sending requests properly to the Wallet server - https://wagmi.sh/core/api/actions/getCallsStatus
-    updateLifecycleStatus({
-      statusName: 'transactionPending',
-    });
-    const callsId = await sendCallsAsync({
-      calls: transactions,
-    });
-    setCallsId(callsId);
-  } else {
-    // Execute the non-batched transactions sequentially
-
-    for (let i = 0; i < transactions.length; i++) {
-      const tx = transactions[i];
-      updateLifecycleStatus({
-        statusName: 'transactionPending',
-      });
-      const txHash = await sendTransactionAsync(tx);
-      transactionReceipt = await waitForTransactionReceipt(config, {
-        hash: txHash,
-        confirmations: 1,
-      });
-
-      if (transactions.length === 3) {
-        if (i === transactions.length - 3) {
-          updateLifecycleStatus({
-            statusName: 'transactionApproved',
-            statusData: {
-              transactionHash: txHash,
-              transactionType: 'Permit2',
-            },
-          });
-        }
-      }
-      if (i === transactions.length - 2) {
-        updateLifecycleStatus({
-          statusName: 'transactionApproved',
-          statusData: {
-            transactionHash: txHash,
-            transactionType: 'ERC20',
-          },
-        });
-      }
-    }
-  }
-
-  // For non-batched transactions, emit the last transaction receipt
-  if (transactionReceipt) {
-    updateLifecycleStatus({
-      statusName: 'success',
-      statusData: {
-        transactionReceipt,
-      },
-    });
-  }
+  await executeSwapTransactions({
+    config,
+    sendCallsAsync,
+    sendTransactionAsync,
+    setCallsId,
+    updateLifecycleStatus,
+    walletCapabilities,
+    transactions,
+  });
 }

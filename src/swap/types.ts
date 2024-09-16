@@ -13,6 +13,18 @@ import type {
 import type { SendTransactionMutateAsync } from 'wagmi/query';
 import type { BuildSwapTransaction, RawTransactionData } from '../api/types';
 import type { Token } from '../token/types';
+import type { Call } from '../transaction/types';
+
+export type ExecuteSwapTransactionParams = {
+  config: Config;
+  // biome-ignore lint: cannot find module 'wagmi/experimental/query'
+  sendCallsAsync: any;
+  sendTransactionAsync: SendTransactionMutateAsync<Config, unknown>;
+  setCallsId: Dispatch<SetStateAction<Hex | undefined>>;
+  updateLifecycleStatus: (state: LifecycleStatusUpdate) => void;
+  transactions: Call[];
+  walletCapabilities: WalletCapabilities;
+};
 
 /**
  * Note: exported as public Type
