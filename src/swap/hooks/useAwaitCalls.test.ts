@@ -18,8 +18,10 @@ describe('useAwaitCalls', () => {
     const { result } = renderHook(() =>
       useAwaitCalls({
         accountConfig: mockAccountConfig,
+        callsStatus: {
+          data: { status: 'PENDING' },
+        },
         config: mockConfig,
-        data: { status: 'PENDING' },
         setLifecycleStatus: mockSetLifecycleStatus,
       }),
     );
@@ -42,8 +44,10 @@ describe('useAwaitCalls', () => {
     const { result } = renderHook(() =>
       useAwaitCalls({
         accountConfig: mockAccountConfig,
+        callsStatus: {
+          data: mockData,
+        },
         config: mockConfig,
-        data: mockData,
         setLifecycleStatus: mockSetLifecycleStatus,
       }),
     );
