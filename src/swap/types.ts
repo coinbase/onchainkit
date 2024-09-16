@@ -26,6 +26,13 @@ export type ExecuteSwapTransactionParams = {
   walletCapabilities: WalletCapabilities;
 };
 
+export type ExecuteSingleTransactionsParams = {
+  config: Config;
+  sendTransactionAsync: SendTransactionMutateAsync<Config, unknown>;
+  updateLifecycleStatus: (state: LifecycleStatusUpdate) => void;
+  transactions: Call[];
+};
+
 /**
  * Note: exported as public Type
  */

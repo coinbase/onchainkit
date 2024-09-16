@@ -1,7 +1,6 @@
-import type { TransactionReceipt } from 'viem';
-import { waitForTransactionReceipt } from 'wagmi/actions';
 import { Capabilities } from '../../constants';
 import type { ExecuteSwapTransactionParams } from '../types';
+import { executeSingleTransactions } from './executeSingleTransactions';
 
 export async function executeSwapTransactions({
   config,
@@ -12,8 +11,6 @@ export async function executeSwapTransactions({
   walletCapabilities,
   transactions,
 }: ExecuteSwapTransactionParams) {
-  let transactionReceipt: TransactionReceipt | undefined;
-
   if (walletCapabilities[Capabilities.AtomicBatch]?.supported) {
     // For batched transactions, we'll use `SwapProvider` to listen for calls to emit the `success` state
     updateLifecycleStatus({
@@ -24,48 +21,11 @@ export async function executeSwapTransactions({
     });
     setCallsId(callsId);
   } else {
-    // Execute the non-batched transactions sequentially
-    for (let i = 0; i < transactions.length; i++) {
-      const tx = transactions[i];
-      updateLifecycleStatus({
-        statusName: 'transactionPending',
-      });
-      const txHash = await sendTransactionAsync(tx);
-      transactionReceipt = await waitForTransactionReceipt(config, {
-        hash: txHash,
-        confirmations: 1,
-      });
-
-      if (transactions.length === 3) {
-        if (i === transactions.length - 3) {
-          updateLifecycleStatus({
-            statusName: 'transactionApproved',
-            statusData: {
-              transactionHash: txHash,
-              transactionType: 'Permit2',
-            },
-          });
-        }
-      }
-      if (i === transactions.length - 2) {
-        updateLifecycleStatus({
-          statusName: 'transactionApproved',
-          statusData: {
-            transactionHash: txHash,
-            transactionType: 'ERC20',
-          },
-        });
-      }
-    }
-  }
-
-  // For non-batched transactions, emit the last transaction receipt
-  if (transactionReceipt) {
-    updateLifecycleStatus({
-      statusName: 'success',
-      statusData: {
-        transactionReceipt,
-      },
+    await executeSingleTransactions({
+      config,
+      sendTransactionAsync,
+      transactions,
+      updateLifecycleStatus,
     });
   }
 }
