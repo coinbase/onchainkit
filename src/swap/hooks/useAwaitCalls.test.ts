@@ -8,7 +8,9 @@ vi.mock('wagmi/actions', () => ({
 }));
 
 describe('useAwaitCalls', () => {
-  const mockAccountConfig = {} as any;
+  const mockAccountConfig = {
+    address: '0x123',
+  };
   const mockConfig = { maxSlippage: 0.1 };
   const mockSetLifecycleStatus = vi.fn();
 
