@@ -125,7 +125,7 @@ export type TransactionError = {
 export type TransactionProviderReact = {
   calls?: Call[]; // An array of calls for the transaction. Mutually exclusive with the `contracts` prop.
   capabilities?: WalletCapabilities; // Capabilities that a wallet supports (e.g. paymasters, session keys, etc).
-  chainId?: number; // The chainId for the transaction.
+  chainId: number; // The chainId for the transaction.
   children: ReactNode; // The child components to be rendered within the provider component.
   contracts?: ContractFunctionParameters[]; // An array of contract function parameters provided to the child components. Mutually exclusive with the `calls` prop.
   onError?: (e: TransactionError) => void; // An optional callback function that handles errors within the provider.

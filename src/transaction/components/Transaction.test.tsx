@@ -1,23 +1,45 @@
 import { render, screen } from '@testing-library/react';
-import { describe, expect, it, vi } from 'vitest';
+import { base, baseSepolia } from 'viem/chains';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { useOnchainKit } from '../../useOnchainKit';
 import { Transaction } from './Transaction';
 import { TransactionProvider } from './TransactionProvider';
 
+function mock<T>(func: T) {
+  return func as vi.Mock;
+}
+
 vi.mock('./TransactionProvider', () => ({
-  TransactionProvider: vi.fn(({ children }: { children: React.ReactNode }) => (
-    <div>{children}</div>
-  )),
+  TransactionProvider: vi.fn(
+    ({ chainId, children }: { chainId: number; children: React.ReactNode }) => (
+      <div>
+        <div>{children}</div>
+        <div>{`chainId: ${chainId}`}</div>
+      </div>
+    ),
+  ),
 }));
+
+vi.mock('../../useOnchainKit', () => ({
+  useOnchainKit: vi.fn(),
+}));
+
+const useOnchainKitMock = mock(useOnchainKit);
 
 describe('Transaction', () => {
   beforeEach(() => {
+    useOnchainKitMock.mockReturnValue({
+      chain: baseSepolia,
+    });
+  });
+
+  afterEach(() => {
     vi.clearAllMocks();
   });
 
-  it('should renders the children inside the TransactionProvider', () => {
+  it('should render the children inside the TransactionProvider', () => {
     render(
       <Transaction
-        address="0x123"
         capabilities={{}}
         chainId={123}
         className="test-class"
@@ -31,10 +53,9 @@ describe('Transaction', () => {
     expect(screen.getByText('Test Child')).toBeInTheDocument();
   });
 
-  it('should applies the correct className', () => {
+  it('should apply the correct className', () => {
     render(
       <Transaction
-        address="0x123"
         capabilities={{}}
         chainId={123}
         className="test-class"
@@ -56,7 +77,6 @@ describe('Transaction', () => {
     const onSuccess = vi.fn();
     render(
       <Transaction
-        address="0x123"
         capabilities={{}}
         chainId={123}
         className="test-class"
@@ -70,5 +90,36 @@ describe('Transaction', () => {
     );
     // Checking if the TransactionProvider is called
     expect(TransactionProvider).toHaveBeenCalledTimes(1);
+  });
+
+  it('should use the chainId from the context if not provided', () => {
+    render(
+      <Transaction
+        capabilities={{}}
+        className="test-class"
+        contracts={[]}
+        onError={vi.fn()}
+        onSuccess={vi.fn()}
+      >
+        <div>Test Child</div>
+      </Transaction>,
+    );
+    expect(screen.getByText(`chainId: ${baseSepolia.id}`)).toBeInTheDocument();
+  });
+
+  it('should use the provided chainId if provided', () => {
+    render(
+      <Transaction
+        capabilities={{}}
+        chainId={base.id}
+        className="test-class"
+        contracts={[]}
+        onError={vi.fn()}
+        onSuccess={vi.fn()}
+      >
+        <div>Test Child</div>
+      </Transaction>,
+    );
+    expect(screen.getByText(`chainId: ${base.id}`)).toBeInTheDocument();
   });
 });
