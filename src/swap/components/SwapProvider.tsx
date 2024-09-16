@@ -5,9 +5,14 @@ import {
   useEffect,
   useState,
 } from 'react';
+import type { Hex } from 'viem';
+import { base } from 'viem/chains';
 import { useAccount, useConfig, useSendTransaction } from 'wagmi';
+import { waitForTransactionReceipt } from 'wagmi/actions';
+import { useCallsStatus, useSendCalls } from 'wagmi/experimental';
 import { buildSwapTransaction } from '../../api/buildSwapTransaction';
 import { getSwapQuote } from '../../api/getSwapQuote';
+import { useCapabilitiesSafe } from '../../internal/hooks/useCapabilitiesSafe';
 import { useValue } from '../../internal/hooks/useValue';
 import { formatTokenAmount } from '../../internal/utils/formatTokenAmount';
 import type { Token } from '../../token';
@@ -52,6 +57,17 @@ export function SwapProvider({
   const { useAggregator } = experimental;
   // Core Hooks
   const accountConfig = useConfig();
+  const [callsId, setCallsId] = useState<Hex>();
+  const { data } = useCallsStatus({
+    id: callsId!,
+    query: {
+      refetchInterval: (query) => {
+        return query.state.data?.status === 'CONFIRMED' ? false : 1000;
+      },
+      enabled: callsId !== undefined,
+    },
+  });
+  const walletCapabilities = useCapabilitiesSafe({ chainId: base.id }); // Swap is only available on Base
   const [lifecycleStatus, setLifecycleStatus] = useState<LifecycleStatus>({
     statusName: 'init',
     statusData: {
@@ -59,6 +75,31 @@ export function SwapProvider({
       maxSlippage: config.maxSlippage,
     },
   }); // Component lifecycle
+
+  // Lifecycle listener for batched transactions
+  useEffect(() => {
+    const awaitCallsConfirmation = async () => {
+      if (data?.status === 'CONFIRMED' && data?.receipts) {
+        const transactionReceipt = await waitForTransactionReceipt(
+          accountConfig,
+          {
+            confirmations: 1,
+            hash: data.receipts[data.receipts.length - 1].transactionHash,
+          },
+        );
+        setLifecycleStatus({
+          statusName: 'success',
+          statusData: {
+            isMissingRequiredField: false,
+            maxSlippage: config.maxSlippage,
+            transactionReceipt,
+          },
+        });
+      }
+    };
+
+    awaitCallsConfirmation();
+  }, [data]);
 
   // Update lifecycle status, statusData will be persisted for the full lifeCycle
   const updateLifecycleStatus = useCallback(
@@ -86,6 +127,7 @@ export function SwapProvider({
   const [hasHandledSuccess, setHasHandledSuccess] = useState(false);
   const { from, to } = useFromTo(address);
   const { sendTransactionAsync } = useSendTransaction(); // Sending the transaction (and approval, if applicable)
+  const { sendCallsAsync } = useSendCalls(); // Atomic Batch transactions (and approval, if applicable)
 
   // Refreshes balances and inputs post-swap
   const resetInputs = useResetInputs({ from, to });
@@ -296,14 +338,16 @@ export function SwapProvider({
       }
       await processSwapTransaction({
         config: accountConfig,
+        sendCallsAsync,
         sendTransactionAsync,
-        updateLifecycleStatus,
+        setCallsId,
         swapTransaction: response,
+        updateLifecycleStatus,
         useAggregator,
+        walletCapabilities,
       });
-
-      // TODO: refresh balances
     } catch (err) {
+      console.log('Error', err);
       const errorMessage = isUserRejectedRequestError(err)
         ? 'Request denied.'
         : GENERIC_ERROR_MESSAGE;
