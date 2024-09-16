@@ -1,5 +1,10 @@
 import type { Dispatch, ReactNode, SetStateAction } from 'react';
-import type { Address, Hex, TransactionReceipt } from 'viem';
+import type {
+  Address,
+  Hex,
+  TransactionReceipt,
+  WalletCapabilities,
+} from 'viem';
 import type {
   Config,
   UseBalanceReturnType,
@@ -128,10 +133,14 @@ export type LifecycleStatusUpdate = LifecycleStatus extends infer T
 
 export type ProcessSwapTransactionParams = {
   config: Config;
-  updateLifecycleStatus: (state: LifecycleStatusUpdate) => void;
+  // biome-ignore lint: cannot find module 'wagmi/experimental/query'
+  sendCallsAsync: any;
   sendTransactionAsync: SendTransactionMutateAsync<Config, unknown>;
+  setCallsId: Dispatch<SetStateAction<Hex | undefined>>;
   swapTransaction: BuildSwapTransaction;
+  updateLifecycleStatus: (state: LifecycleStatusUpdate) => void;
   useAggregator: boolean;
+  walletCapabilities: WalletCapabilities;
 };
 
 /**
