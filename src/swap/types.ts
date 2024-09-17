@@ -186,8 +186,13 @@ export type SwapButtonReact = {
   disabled?: boolean; // Disables swap button
 };
 
+type SwapConfig = {
+  maxSlippage: number; // Maximum acceptable slippage for a swap. (default: 10) This is as a percent, not basis points;
+};
+
 export type SwapContextType = {
   address?: Address; // Used to check if user is connected in SwapButton
+  config: SwapConfig;
   from: SwapUnit;
   lifecycleStatus: LifecycleStatus;
   handleAmountChange: (
@@ -263,9 +268,7 @@ export type SwapProviderReact = {
 export type SwapReact = {
   children: ReactNode;
   className?: string; // Optional className override for top div element.
-  config?: {
-    maxSlippage: number; // Maximum acceptable slippage for a swap. (default: 10) This is as a percent, not basis points
-  };
+  config?: SwapConfig;
   experimental?: {
     useAggregator: boolean; // Whether to use a DEX aggregator. (default: true)
   };
