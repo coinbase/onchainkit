@@ -69,9 +69,15 @@ describe('sendSwapTransactions', () => {
     expect(sendCallsAsync).toHaveBeenCalledTimes(1);
     expect(sendCallsAsync).toHaveBeenCalledWith({ calls: transactions });
     expect(setCallsId).toHaveBeenCalledWith('callsId');
-    expect(updateLifecycleStatus).toHaveBeenCalledTimes(1);
-    expect(updateLifecycleStatus).toHaveBeenCalledWith({
+    expect(updateLifecycleStatus).toHaveBeenCalledTimes(2);
+    expect(updateLifecycleStatus).toHaveBeenNthCalledWith(1, {
       statusName: 'transactionPending',
+    });
+    expect(updateLifecycleStatus).toHaveBeenNthCalledWith(2, {
+      statusName: 'transactionApproved',
+      statusData: {
+        transactionType: 'Batched',
+      },
     });
   });
 

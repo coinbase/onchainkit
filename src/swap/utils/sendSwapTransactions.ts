@@ -19,6 +19,12 @@ export async function sendSwapTransactions({
     const callsId = await sendCallsAsync({
       calls: transactions,
     });
+    updateLifecycleStatus({
+      statusName: 'transactionApproved',
+      statusData: {
+        transactionType: 'Batched',
+      },
+    });
     setCallsId(callsId);
   } else {
     await sendSingleTransactions({

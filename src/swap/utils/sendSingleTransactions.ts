@@ -17,10 +17,6 @@ export async function sendSingleTransactions({
       statusName: 'transactionPending',
     });
     const txHash = await sendTransactionAsync(tx);
-    transactionReceipt = await waitForTransactionReceipt(config, {
-      hash: txHash,
-      confirmations: 1,
-    });
 
     if (transactions.length === 3) {
       // Permit2 has 3 transactions, 2nd to last is the `Permit2` approval
@@ -44,6 +40,11 @@ export async function sendSingleTransactions({
         },
       });
     }
+
+    transactionReceipt = await waitForTransactionReceipt(config, {
+      hash: txHash,
+      confirmations: 1,
+    });
   }
 
   // For non-batched transactions, emit the last transaction receipt

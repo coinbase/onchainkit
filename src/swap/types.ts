@@ -103,8 +103,8 @@ export type LifecycleStatus =
   | {
       statusName: 'transactionApproved';
       statusData: {
-        transactionHash: Hex;
-        transactionType: 'ERC20' | 'Permit2';
+        transactionHash?: Hex;
+        transactionType: 'ERC20' | 'Permit2' | 'Batched';
       } & LifecycleStatusDataShared;
     }
   | {
