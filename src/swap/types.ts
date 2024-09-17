@@ -1,5 +1,10 @@
 import type { Dispatch, ReactNode, SetStateAction } from 'react';
-import type { Address, Hex, TransactionReceipt } from 'viem';
+import type {
+  Address,
+  Hex,
+  TransactionReceipt,
+  WalletCapabilities,
+} from 'viem';
 import type {
   Config,
   UseBalanceReturnType,
@@ -8,6 +13,25 @@ import type {
 import type { SendTransactionMutateAsync } from 'wagmi/query';
 import type { BuildSwapTransaction, RawTransactionData } from '../api/types';
 import type { Token } from '../token/types';
+import type { Call } from '../transaction/types';
+
+export type SendSwapTransactionParams = {
+  config: Config;
+  // biome-ignore lint: cannot find module 'wagmi/experimental/query'
+  sendCallsAsync: any;
+  sendTransactionAsync: SendTransactionMutateAsync<Config, unknown>;
+  setCallsId: Dispatch<SetStateAction<Hex | undefined>>;
+  updateLifecycleStatus: (state: LifecycleStatusUpdate) => void;
+  transactions: Call[];
+  walletCapabilities: WalletCapabilities;
+};
+
+export type SendSingleTransactionsParams = {
+  config: Config;
+  sendTransactionAsync: SendTransactionMutateAsync<Config, unknown>;
+  updateLifecycleStatus: (state: LifecycleStatusUpdate) => void;
+  transactions: Call[];
+};
 
 /**
  * Note: exported as public Type
