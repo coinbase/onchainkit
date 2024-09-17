@@ -13,9 +13,9 @@ export function SwapSettingsSlippageInput({
   className,
 }: SwapSettingsSlippageInputReact) {
   const {
+    config: { maxSlippage: defaultMaxSlippage },
     updateLifecycleStatus,
     lifecycleStatus,
-    config: { maxSlippage: defaultMaxSlippage },
   } = useSwapContext();
 
   // Set initial slippage values to match previous selection or default,
@@ -28,12 +28,14 @@ export function SwapSettingsSlippageInput({
 
   const updateSlippage = useCallback(
     (newSlippage: number) => {
-      updateLifecycleStatus({
-        statusName: 'slippageChange',
-        statusData: {
-          maxSlippage: newSlippage,
-        },
-      });
+      if (newSlippage !== lifecycleStatus.statusData.maxSlippage) {
+        updateLifecycleStatus({
+          statusName: 'slippageChange',
+          statusData: {
+            maxSlippage: newSlippage,
+          },
+        });
+      }
     },
     [updateLifecycleStatus],
   );

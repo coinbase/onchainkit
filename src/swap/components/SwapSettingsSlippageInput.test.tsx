@@ -207,7 +207,7 @@ describe('SwapSettingsSlippageInput', () => {
     expect(mockSetLifecycleStatus).toHaveBeenLastCalledWith({
       statusName: 'slippageChange',
       statusData: {
-        maxSlippage: DEFAULT_MAX_SLIPPAGE,
+        maxSlippage: 5,
       },
     });
   });
