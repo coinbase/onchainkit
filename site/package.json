@@ -19,7 +19,7 @@
     "sitemap-generator": "^8.5.1",
     "tar": "^7.0.0",
     "typescript": "latest",
-    "vite": "^5.3.4",
+    "vite": "^5.3.6",
     "vocs": "1.0.0-alpha.58"
   },
   "devDependencies": {
