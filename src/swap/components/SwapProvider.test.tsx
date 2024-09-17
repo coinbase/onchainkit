@@ -287,7 +287,7 @@ describe('SwapProvider', () => {
   });
 
   it('should handle batched transactions', async () => {
-    renderHook(() => useSwapContext(), { wrapper });
+    const { result } = renderHook(() => useSwapContext(), { wrapper });
     (useCapabilitiesSafe as ReturnType<typeof vi.fn>).mockReturnValue({
       atomicBatch: { supported: true },
       paymasterService: { supported: true },
@@ -295,6 +295,14 @@ describe('SwapProvider', () => {
     });
     (waitForTransactionReceipt as ReturnType<typeof vi.fn>).mockResolvedValue({
       transactionHash: 'receiptHash',
+    });
+    await act(async () => {
+      result.current.updateLifecycleStatus({
+        statusName: 'transactionApproved',
+        statusData: {
+          transactionType: 'Batched',
+        },
+      });
     });
     await waitFor(() => {
       expect(mockAwaitCalls).toHaveBeenCalled();

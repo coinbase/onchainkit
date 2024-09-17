@@ -20,7 +20,6 @@ export type SendSwapTransactionParams = {
   // biome-ignore lint: cannot find module 'wagmi/experimental/query'
   sendCallsAsync: any;
   sendTransactionAsync: SendTransactionMutateAsync<Config, unknown>;
-  setCallsId: Dispatch<SetStateAction<Hex | undefined>>; // For atomic batched transactions only, used in `useCallsStatus`
   transactions: Call[]; // A list of transactions to execute
   updateLifecycleStatus: (state: LifecycleStatusUpdate) => void;
   walletCapabilities: WalletCapabilities; // EIP-5792 wallet capabilities
@@ -103,6 +102,7 @@ export type LifecycleStatus =
   | {
       statusName: 'transactionApproved';
       statusData: {
+        callsId?: Hex;
         transactionHash?: Hex;
         transactionType: 'ERC20' | 'Permit2' | 'Batched';
       } & LifecycleStatusDataShared;
@@ -154,7 +154,6 @@ export type ProcessSwapTransactionParams = {
   config: Config;
   // biome-ignore lint: cannot find module 'wagmi/experimental/query'
   sendCallsAsync: any;
-  setCallsId: Dispatch<SetStateAction<Hex | undefined>>; // For atomic batched transactions only, used in `useCallsStatus`
   sendTransactionAsync: SendTransactionMutateAsync<Config, unknown>;
   swapTransaction: BuildSwapTransaction; // The response from the Swap API
   updateLifecycleStatus: (state: LifecycleStatusUpdate) => void;
@@ -355,9 +354,9 @@ export type Transaction = {
 
 export type UseAwaitCallsParams = {
   accountConfig: Config;
-  callsId: string | undefined;
   config: {
     maxSlippage: number;
   };
+  lifecycleStatus: LifecycleStatus;
   setLifecycleStatus: React.Dispatch<React.SetStateAction<LifecycleStatus>>;
 };

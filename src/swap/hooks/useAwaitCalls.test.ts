@@ -2,6 +2,7 @@ import { act, renderHook } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { waitForTransactionReceipt } from 'wagmi/actions';
 import { useCallsStatus } from 'wagmi/experimental';
+import type { LifecycleStatus } from '../types';
 import { useAwaitCalls } from './useAwaitCalls';
 
 vi.mock('wagmi/actions', () => ({
@@ -18,7 +19,15 @@ describe('useAwaitCalls', () => {
   };
   const mockConfig = { maxSlippage: 0.1 };
   const mockSetLifecycleStatus = vi.fn();
-  const mockCallsId = '0x456';
+  const mockLifecycleStatus: LifecycleStatus = {
+    statusName: 'transactionApproved',
+    statusData: {
+      callsId: '0x456',
+      transactionType: 'Batched',
+      isMissingRequiredField: false,
+      maxSlippage: 0.5,
+    },
+  };
 
   beforeEach(() => {
     vi.clearAllMocks();
@@ -34,8 +43,8 @@ describe('useAwaitCalls', () => {
     const { result } = renderHook(() =>
       useAwaitCalls({
         accountConfig: mockAccountConfig,
-        callsId: mockCallsId,
         config: mockConfig,
+        lifecycleStatus: mockLifecycleStatus,
         setLifecycleStatus: mockSetLifecycleStatus,
       }),
     );
@@ -48,7 +57,7 @@ describe('useAwaitCalls', () => {
 
   it('should call waitForTransactionReceipt and update lifecycle status when data status is CONFIRMED', async () => {
     const mockTransactionReceipt = { blockNumber: 123 };
-    (waitForTransactionReceipt as jest.Mock).mockResolvedValue(
+    (waitForTransactionReceipt as vi.Mock).mockResolvedValue(
       mockTransactionReceipt,
     );
     const mockData = {
@@ -61,8 +70,8 @@ describe('useAwaitCalls', () => {
     const { result } = renderHook(() =>
       useAwaitCalls({
         accountConfig: mockAccountConfig,
-        callsId: mockCallsId,
         config: mockConfig,
+        lifecycleStatus: mockLifecycleStatus,
         setLifecycleStatus: mockSetLifecycleStatus,
       }),
     );
@@ -98,8 +107,8 @@ describe('useAwaitCalls', () => {
     renderHook(() =>
       useAwaitCalls({
         accountConfig: mockAccountConfig,
-        callsId: mockCallsId,
         config: mockConfig,
+        lifecycleStatus: mockLifecycleStatus,
         setLifecycleStatus: mockSetLifecycleStatus,
       }),
     );
@@ -121,8 +130,8 @@ describe('useAwaitCalls', () => {
     renderHook(() =>
       useAwaitCalls({
         accountConfig: mockAccountConfig,
-        callsId: mockCallsId,
         config: mockConfig,
+        lifecycleStatus: mockLifecycleStatus,
         setLifecycleStatus: mockSetLifecycleStatus,
       }),
     );
@@ -130,7 +139,7 @@ describe('useAwaitCalls', () => {
     expect(result).toBe(1000);
   });
 
-  it('should disable the query when callsId is undefined', () => {
+  it('should disable the query when lifecycleStatus is not transactionApproved', () => {
     let queryEnabled: boolean | undefined;
     (useCallsStatus as ReturnType<typeof vi.fn>).mockImplementation(
       ({ query }) => {
@@ -141,11 +150,30 @@ describe('useAwaitCalls', () => {
     renderHook(() =>
       useAwaitCalls({
         accountConfig: mockAccountConfig,
-        callsId: undefined,
         config: mockConfig,
+        lifecycleStatus: { statusName: 'init' },
         setLifecycleStatus: mockSetLifecycleStatus,
       }),
     );
     expect(queryEnabled).toBe(false);
+  });
+
+  it('should enable the query when lifecycleStatus is transactionApproved', () => {
+    let queryEnabled: boolean | undefined;
+    (useCallsStatus as ReturnType<typeof vi.fn>).mockImplementation(
+      ({ query }) => {
+        queryEnabled = query.enabled;
+        return { data: {} };
+      },
+    );
+    renderHook(() =>
+      useAwaitCalls({
+        accountConfig: mockAccountConfig,
+        config: mockConfig,
+        lifecycleStatus: mockLifecycleStatus,
+        setLifecycleStatus: mockSetLifecycleStatus,
+      }),
+    );
+    expect(queryEnabled).toBe(true);
   });
 });

@@ -17,7 +17,6 @@ describe('sendSwapTransactions', () => {
   const updateLifecycleStatus = vi.fn();
   let sendTransactionAsync: Mock;
   let sendCallsAsync: Mock;
-  let setCallsId: Mock;
   const mockTransactionReceipt = {
     transactionHash: 'receiptHash',
   };
@@ -49,7 +48,6 @@ describe('sendSwapTransactions', () => {
       .mockResolvedValueOnce('txHash3');
 
     sendCallsAsync = vi.fn().mockResolvedValue('callsId');
-    setCallsId = vi.fn();
   });
 
   it('should execute atomic batch transactions when supported', async () => {
@@ -61,14 +59,12 @@ describe('sendSwapTransactions', () => {
       config,
       sendTransactionAsync,
       sendCallsAsync,
-      setCallsId,
       updateLifecycleStatus,
       walletCapabilities: { [Capabilities.AtomicBatch]: { supported: true } },
       transactions,
     });
     expect(sendCallsAsync).toHaveBeenCalledTimes(1);
     expect(sendCallsAsync).toHaveBeenCalledWith({ calls: transactions });
-    expect(setCallsId).toHaveBeenCalledWith('callsId');
     expect(updateLifecycleStatus).toHaveBeenCalledTimes(2);
     expect(updateLifecycleStatus).toHaveBeenNthCalledWith(1, {
       statusName: 'transactionPending',
@@ -76,6 +72,7 @@ describe('sendSwapTransactions', () => {
     expect(updateLifecycleStatus).toHaveBeenNthCalledWith(2, {
       statusName: 'transactionApproved',
       statusData: {
+        callsId: 'callsId',
         transactionType: 'Batched',
       },
     });
@@ -90,7 +87,6 @@ describe('sendSwapTransactions', () => {
       config,
       sendTransactionAsync,
       sendCallsAsync,
-      setCallsId,
       updateLifecycleStatus,
       walletCapabilities: { [Capabilities.AtomicBatch]: { supported: false } },
       transactions,
@@ -129,7 +125,6 @@ describe('sendSwapTransactions', () => {
       config,
       sendTransactionAsync,
       sendCallsAsync,
-      setCallsId,
       updateLifecycleStatus,
       walletCapabilities: { [Capabilities.AtomicBatch]: { supported: false } },
       transactions,

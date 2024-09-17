@@ -5,7 +5,6 @@ import {
   useEffect,
   useState,
 } from 'react';
-import type { Hex } from 'viem';
 import { base } from 'viem/chains';
 import { useAccount, useConfig, useSendTransaction } from 'wagmi';
 import { useSendCalls } from 'wagmi/experimental';
@@ -57,7 +56,6 @@ export function SwapProvider({
   const { useAggregator } = experimental;
   // Core Hooks
   const accountConfig = useConfig();
-  const [callsId, setCallsId] = useState<Hex>();
   const walletCapabilities = useCapabilitiesSafe({ chainId: base.id }); // Swap is only available on Base
   const [lifecycleStatus, setLifecycleStatus] = useState<LifecycleStatus>({
     statusName: 'init',
@@ -66,18 +64,6 @@ export function SwapProvider({
       maxSlippage: config.maxSlippage,
     },
   }); // Component lifecycle
-
-  const awaitCallsStatus = useAwaitCalls({
-    accountConfig,
-    callsId,
-    config,
-    setLifecycleStatus,
-  });
-
-  // Lifecycle listener for batched transactions
-  useEffect(() => {
-    awaitCallsStatus();
-  }, [awaitCallsStatus]);
 
   // Update lifecycle status, statusData will be persisted for the full lifeCycle
   const updateLifecycleStatus = useCallback(
@@ -109,12 +95,26 @@ export function SwapProvider({
 
   // Refreshes balances and inputs post-swap
   const resetInputs = useResetInputs({ from, to });
+  // Awaits calls
+  const awaitCallsStatus = useAwaitCalls({
+    accountConfig,
+    config,
+    lifecycleStatus,
+    setLifecycleStatus,
+  });
 
   // Component lifecycle emitters
   useEffect(() => {
     // Error
     if (lifecycleStatus.statusName === 'error') {
       onError?.(lifecycleStatus.statusData);
+    }
+    // Transaction approved
+    if (
+      lifecycleStatus.statusName === 'transactionApproved' &&
+      lifecycleStatus.statusData.transactionType === 'Batched'
+    ) {
+      awaitCallsStatus();
     }
     // Success
     if (lifecycleStatus.statusName === 'success') {
@@ -318,7 +318,6 @@ export function SwapProvider({
         config: accountConfig,
         sendCallsAsync,
         sendTransactionAsync,
-        setCallsId,
         swapTransaction: response,
         updateLifecycleStatus,
         useAggregator,

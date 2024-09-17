@@ -20,7 +20,6 @@ describe('processSwapTransaction', () => {
   let sendTransactionAsync: Mock;
   let sendTransactionAsyncPermit2: Mock;
   let sendCallsAsync: Mock;
-  let setCallsId: Mock;
   const walletCapabilities = {
     [Capabilities.AtomicBatch]: { supported: false },
   };
@@ -60,7 +59,6 @@ describe('processSwapTransaction', () => {
       .mockResolvedValueOnce('txHash');
 
     sendCallsAsync = vi.fn().mockResolvedValue('callsId');
-    setCallsId = vi.fn();
   });
 
   it('should request approval and make the swap for ERC-20 tokens', async () => {
@@ -116,7 +114,6 @@ describe('processSwapTransaction', () => {
       config,
       sendTransactionAsync,
       sendCallsAsync,
-      setCallsId,
       updateLifecycleStatus,
       swapTransaction,
       useAggregator: true,
@@ -177,7 +174,6 @@ describe('processSwapTransaction', () => {
       config,
       sendTransactionAsync,
       sendCallsAsync,
-      setCallsId,
       updateLifecycleStatus,
       swapTransaction,
       useAggregator: true,
@@ -234,7 +230,6 @@ describe('processSwapTransaction', () => {
       config,
       sendTransactionAsync: sendTransactionAsyncPermit2,
       sendCallsAsync,
-      setCallsId,
       updateLifecycleStatus,
       swapTransaction,
       useAggregator: false,
@@ -317,7 +312,6 @@ describe('processSwapTransaction', () => {
       config,
       sendTransactionAsync,
       sendCallsAsync,
-      setCallsId,
       updateLifecycleStatus,
       swapTransaction,
       useAggregator: false,
@@ -325,7 +319,6 @@ describe('processSwapTransaction', () => {
     });
 
     expect(sendCallsAsync).toHaveBeenCalledTimes(1);
-    expect(setCallsId).toHaveBeenCalledWith('callsId');
     expect(updateLifecycleStatus).toHaveBeenCalledTimes(2);
     expect(updateLifecycleStatus).toHaveBeenNthCalledWith(1, {
       statusName: 'transactionPending',
@@ -333,6 +326,7 @@ describe('processSwapTransaction', () => {
     expect(updateLifecycleStatus).toHaveBeenNthCalledWith(2, {
       statusName: 'transactionApproved',
       statusData: {
+        callsId: 'callsId',
         transactionType: 'Batched',
       },
     });

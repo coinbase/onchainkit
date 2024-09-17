@@ -5,12 +5,17 @@ import type { UseAwaitCallsParams } from '../types';
 
 export function useAwaitCalls({
   accountConfig,
-  callsId,
   config,
+  lifecycleStatus,
   setLifecycleStatus,
 }: UseAwaitCallsParams) {
+  const callsId =
+    lifecycleStatus.statusName === 'transactionApproved'
+      ? lifecycleStatus.statusData?.callsId
+      : undefined;
+
   const { data } = useCallsStatus({
-    id: callsId || '0x',
+    id: callsId || '',
     query: {
       refetchInterval: (query) => {
         return query.state.data?.status === 'CONFIRMED' ? false : 1000;
