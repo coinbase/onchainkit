@@ -88,7 +88,7 @@ describe('useAwaitCalls', () => {
       status: 'CONFIRMED',
       receipts: [{}],
     };
-    let refetchIntervalFn: Function;
+    let refetchIntervalFn: typeof vi.fn;
     (useCallsStatus as ReturnType<typeof vi.fn>).mockImplementation(
       ({ query }) => {
         refetchIntervalFn = query.refetchInterval;
@@ -111,7 +111,7 @@ describe('useAwaitCalls', () => {
     const mockData = {
       status: 'PENDING',
     };
-    let refetchIntervalFn: Function;
+    let refetchIntervalFn: typeof vi.fn;
     (useCallsStatus as ReturnType<typeof vi.fn>).mockImplementation(
       ({ query }) => {
         refetchIntervalFn = query.refetchInterval;
