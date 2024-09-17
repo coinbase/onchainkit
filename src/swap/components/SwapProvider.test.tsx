@@ -8,7 +8,14 @@ import {
 } from '@testing-library/react';
 import React, { act, useCallback, useEffect } from 'react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { http, WagmiProvider, createConfig, useAccount } from 'wagmi';
+import {
+  http,
+  WagmiProvider,
+  createConfig,
+  useAccount,
+  useChainId,
+  useSwitchChain,
+} from 'wagmi';
 import { waitForTransactionReceipt } from 'wagmi/actions';
 import { base } from 'wagmi/chains';
 import { mock } from 'wagmi/connectors';
@@ -39,10 +46,13 @@ vi.mock('../utils/processSwapTransaction', () => ({
   processSwapTransaction: vi.fn(),
 }));
 
+const mockSwitchChain = vi.fn();
 vi.mock('wagmi', async (importOriginal) => {
   return {
     ...(await importOriginal<typeof import('wagmi')>()),
     useAccount: vi.fn(),
+    useChainId: vi.fn(),
+    useSwitchChain: vi.fn(),
   };
 });
 
@@ -214,9 +224,13 @@ describe('useSwapContext', () => {
     (useAccount as ReturnType<typeof vi.fn>).mockReturnValue({
       address: '0x123',
     });
+    (useChainId as ReturnType<typeof vi.fn>).mockReturnValue(8453);
     (useSendCalls as ReturnType<typeof vi.fn>).mockReturnValue({
       status: 'idle',
       sendCallsAsync: vi.fn(),
+    });
+    (useSwitchChain as ReturnType<typeof vi.fn>).mockReturnValue({
+      switchChainAsync: mockSwitchChain,
     });
     await act(async () => {
       renderWithProviders({ Component: () => null });
@@ -263,11 +277,36 @@ describe('SwapProvider', () => {
     (useAccount as ReturnType<typeof vi.fn>).mockReturnValue({
       address: '0x123',
     });
+    (useChainId as ReturnType<typeof vi.fn>).mockReturnValue(8453);
     (useSendCalls as ReturnType<typeof vi.fn>).mockReturnValue({
       status: 'idle',
       sendCallsAsync: vi.fn(),
     });
+    (useSwitchChain as ReturnType<typeof vi.fn>).mockReturnValue({
+      switchChainAsync: mockSwitchChain,
+    });
     (useCapabilitiesSafe as ReturnType<typeof vi.fn>).mockReturnValue({});
+  });
+
+  it('handleSubmit should switch chain to Base correctly for non-Base chainIds', async () => {
+    (useChainId as ReturnType<typeof vi.fn>).mockReturnValue(1);
+    await act(async () => {
+      renderWithProviders({ Component: TestSwapComponent });
+    });
+    await act(async () => {
+      fireEvent.click(screen.getByText('Swap'));
+    });
+    expect(mockSwitchChain).toBeCalledTimes(1);
+  });
+
+  it('handleSubmit should not switch chain to Base if chainId is already set to Base', async () => {
+    await act(async () => {
+      renderWithProviders({ Component: TestSwapComponent });
+    });
+    await act(async () => {
+      fireEvent.click(screen.getByText('Swap'));
+    });
+    expect(mockSwitchChain).toBeCalledTimes(0);
   });
 
   it('should reset inputs when setLifecycleStatus is called with success', async () => {
