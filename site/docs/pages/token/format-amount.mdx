@@ -6,10 +6,10 @@ The `formatAmount` utility is designed for consistent number formatting.
 
 :::code-group
 
-```tsx [code]
+```tsx twoslash [code]
 import { formatAmount } from '@coinbase/onchainkit/token';
 
-const amount = formatAmount(10000, { minimumFractionDigits: 2 });
+const amount = formatAmount('10000', { minimumFractionDigits: 2 });
 ```
 
 ```ts [return value]

@@ -12,7 +12,8 @@ You can also use `getXmtpFrameMessage` to access useful information such as:
 
 Note that if the `message` is not valid, it will be undefined.
 
-```ts
+```ts twoslash
+// @noErrors: 2307 2339 - Cannot find module 'next/server', Property 'verifiedWalletAddress' does not exist on type
 import { isXmtpFrameRequest, getXmtpFrameMessage } from '@coinbase/onchainkit/xmtp'; // [!code focus]
 import { NextResponse } from 'next/server';
 import type { FrameRequest } from '@coinbase/onchainkit/frame';

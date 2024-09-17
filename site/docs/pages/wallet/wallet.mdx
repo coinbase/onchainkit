@@ -27,7 +27,7 @@ The Wallet components provide a comprehensive interface for users to connect the
 
 ## Usage
 
-```tsx
+```tsx twoslash
 import { // [!code focus]
   ConnectWallet, // [!code focus]
   Wallet, // [!code focus]
@@ -95,7 +95,23 @@ export function WalletComponents() {
 
 You can override component styles using `className`.
 
-```tsx
+```tsx twoslash
+import {
+  ConnectWallet,
+  Wallet,
+  WalletDropdown,
+  WalletDropdownLink,
+  WalletDropdownDisconnect,
+} from '@coinbase/onchainkit/wallet';
+import {
+  Address,
+  Avatar,
+  Name,
+  Identity,
+  EthBalance,
+} from '@coinbase/onchainkit/identity';
+import { color } from '@coinbase/onchainkit/theme';
+// ---cut-before---
 // omitted for brevity
 
 <Wallet>
@@ -154,7 +170,16 @@ You can override component styles using `className`.
 
 You can override component text using `text`.
 
-```tsx
+```tsx twoslash
+import {
+  ConnectWallet,
+  Wallet,
+} from '@coinbase/onchainkit/wallet';
+import {
+  Avatar,
+  Name,
+} from '@coinbase/onchainkit/identity';
+// ---cut-before---
 // omitted for brevity
 
 <Wallet>
@@ -191,7 +216,7 @@ You can override component text using `text`.
 If you are using any of the provided components, you will need to install
 and configure `wagmi` and wrap your app in `<WagmiProvider>`.
 
-```tsx
+```tsx twoslash
 import { ReactNode } from 'react';
 import { WagmiProvider, createConfig, http } from 'wagmi';
 import { baseSepolia } from 'wagmi/chains';
@@ -227,7 +252,22 @@ OnchainKit leverages [RainbowKit](https://www.rainbowkit.com/) to offer this fea
 
 :::code-group
 
-```tsx [myApp.tsx]
+```tsx twoslash [myApp.tsx]
+import {
+  ConnectWallet,
+  Wallet,
+  WalletDropdown,
+  WalletDropdownLink,
+  WalletDropdownDisconnect,
+} from '@coinbase/onchainkit/wallet';
+import {
+  Address,
+  Avatar,
+  Name,
+  Identity,
+  EthBalance,
+} from '@coinbase/onchainkit/identity';
+// ---cut-before---
 // omitted for brevity
 
 <Wallet>
@@ -253,7 +293,8 @@ OnchainKit leverages [RainbowKit](https://www.rainbowkit.com/) to offer this fea
 </Wallet>
 ```
 
-```tsx [OnchainProviders.tsx]
+```tsx twoslash [OnchainProviders.tsx]
+// @noErrors: 2304 2322 - Cannot find VITE_WALLET_CONNECT_PROJECT_ID, Canoot find name Props
 'use client';
 import type { ReactNode } from 'react';
 import { OnchainKitProvider } from '@coinbase/onchainkit';

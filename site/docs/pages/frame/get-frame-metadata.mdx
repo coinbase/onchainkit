@@ -4,7 +4,8 @@ With Next.js App routing, use the `getFrameMetadata()` inside your `page.ts` to 
 
 ## Usage
 
-```ts
+```ts twoslash
+// @noErrors: 2307 1005 1161 - Cannot find module 'next', Cannot find module './home'
 // Step 1. import getFrameMetadata from @coinbase/onchainkit
 import { getFrameMetadata } from '@coinbase/onchainkit/frame';
 import type { Metadata } from 'next';
@@ -31,7 +32,7 @@ export const metadata: Metadata = {
 
 export default function Page() {
   return <HomePage />;
-}
+};
 ```
 
 ## Returns

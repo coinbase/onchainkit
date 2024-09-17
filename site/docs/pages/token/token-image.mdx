@@ -11,16 +11,26 @@ With `token` props has no image, render partial token symbol and deterministic d
 
 `TokenImage` with an url
 
-```tsx
+```tsx twoslash
+// @noErrors: 2739 - missing properties from Token
+import { TokenImage } from '@coinbase/onchainkit/token';
+<div>
+// ---cut-before---
 <TokenImage
-  src="https://dynamic-assets.coinbase.com/dbb4b4983bde81309ddab83eb598358eb44375b930b94687ebe38bc22e52c3b2125258ffb8477a5ef22e33d6bd72e32a506c391caa13af64c00e46613c3e5806/asset_icons/4113b082d21cc5fab17fc8f2d19fb996165bcce635e6900f7fc2d57c4ef33ae9.png"
+  token={{
+    image: "https://dynamic-assets.coinbase.com/dbb4b4983bde81309ddab83eb598358eb44375b930b94687ebe38bc22e52c3b2125258ffb8477a5ef22e33d6bd72e32a506c391caa13af64c00e46613c3e5806/asset_icons/4113b082d21cc5fab17fc8f2d19fb996165bcce635e6900f7fc2d57c4ef33ae9.png",
+  }}
   size={24}
 />
 
 <TokenImage
-  src="https://dynamic-assets.coinbase.com/dbb4b4983bde81309ddab83eb598358eb44375b930b94687ebe38bc22e52c3b2125258ffb8477a5ef22e33d6bd72e32a506c391caa13af64c00e46613c3e5806/asset_icons/4113b082d21cc5fab17fc8f2d19fb996165bcce635e6900f7fc2d57c4ef33ae9.png"
+  token={{
+    image: "https://dynamic-assets.coinbase.com/dbb4b4983bde81309ddab83eb598358eb44375b930b94687ebe38bc22e52c3b2125258ffb8477a5ef22e33d6bd72e32a506c391caa13af64c00e46613c3e5806/asset_icons/4113b082d21cc5fab17fc8f2d19fb996165bcce635e6900f7fc2d57c4ef33ae9.png",
+  }}
   size={32}
 />
+// ---cut-after---
+</div>
 ```
 
 <App>
@@ -32,7 +42,6 @@ With `token` props has no image, render partial token symbol and deterministic d
         symbol: 'ETH',
         decimals: 18,
         image: 'https://wallet-api-production.s3.amazonaws.com/uploads/tokens/eth_288.png',
-        blockchain: 'eth',
         chainId: 8453,
       }}
       size={24}
@@ -45,7 +54,6 @@ With `token` props has no image, render partial token symbol and deterministic d
         symbol: 'ETH',
         decimals: 18,
         image: 'https://wallet-api-production.s3.amazonaws.com/uploads/tokens/eth_288.png',
-        blockchain: 'eth',
         chainId: 8453,
       }}
       size={32}
@@ -56,7 +64,10 @@ With `token` props has no image, render partial token symbol and deterministic d
 
 `TokenImage` with null as src
 
-```tsx
+```tsx twoslash
+import { TokenImage } from '@coinbase/onchainkit/token';
+<div>
+// ---cut-before---
 <TokenImage
   token={{
     name: 'USDC',
@@ -64,7 +75,6 @@ With `token` props has no image, render partial token symbol and deterministic d
     symbol: 'USDC',
     decimals: 6,
     image: null,
-    blockchain: 'eth',
     chainId: 8453,
   }}
   size={24}
@@ -77,11 +87,12 @@ With `token` props has no image, render partial token symbol and deterministic d
     symbol: 'USDC',
     decimals: 6,
     image: null,
-    blockchain: 'eth',
     chainId: 8453,
   }}
   size={32}
 />
+// ---cut-after---
+</div>
 ```
 
 <App>

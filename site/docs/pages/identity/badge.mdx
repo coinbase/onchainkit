@@ -13,7 +13,7 @@ Badge with default colors:
 
 :::code-group
 
-```tsx [tsx]
+```tsx twoslash [tsx]
 import { Badge } from '@coinbase/onchainkit/identity';
 <Badge className="badge" /> // [!code focus]
 ```
@@ -35,7 +35,7 @@ import { Badge } from '@coinbase/onchainkit/identity';
 
 Badge with custom colors:
 
-```tsx
+```tsx twoslash
 import { Badge } from '@coinbase/onchainkit/identity';
 <Badge className="bg-blue-400 border-white"/> // [!code focus]
 ```
@@ -54,9 +54,9 @@ Badge with [`<Name />`](/identity/name), best used when [`<Name />`](/identity/n
 
 In both examples we use the Coinbase [Verified Account](https://base.easscan.org/schema/view/0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9) schema ID to show the Coinbase verified badge on the Name and Avatar components.
 
-```tsx
+```tsx twoslash
 import { base } from 'viem/chains';
-import { Bage, Name, Identity } from '@coinbase/onchainkit/identity';
+import { Badge, Name, Identity } from '@coinbase/onchainkit/identity';
 
 const address = '0x838aD0EAE54F99F1926dA7C3b6bFbF617389B4D9';
 const COINBASE_VERIFIED_ACCOUNT_SCHEMA_ID =
@@ -86,7 +86,7 @@ const COINBASE_VERIFIED_ACCOUNT_SCHEMA_ID =
 
 Badge with [`<Avatar />`](/identity/avatar), best used when [`<Avatar />`](/identity/avatar) is not paired with any labels.
 
-```tsx
+```tsx twoslash
 import { base } from 'viem/chains';
 import { Avatar, Badge, Identity } from '@coinbase/onchainkit/identity';
 

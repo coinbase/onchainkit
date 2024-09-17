@@ -8,9 +8,10 @@ Before using them, make sure to obtain a Public API Key from the [Coinbase Devel
 
 :::code-group
 
-```tsx [code]
+```tsx twoslash [code]
 import { setOnchainKitConfig } from '@coinbase/onchainkit';
 import { getSwapQuote } from '@coinbase/onchainkit/api';
+import type { Token } from '@coinbase/onchainkit/token';
 
 setOnchainKitConfig({ apiKey: 'YOUR_API_KEY' });
 
@@ -37,6 +38,7 @@ const quote = await getSwapQuote({
   from: fromToken,
   to: toToken,
   amount: '0.001',
+  useAggregator: false,
 });
 ```
 

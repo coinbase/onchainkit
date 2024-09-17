@@ -32,8 +32,9 @@ Use the [`<Avatar>`](/identity/avatar) and [`<Name>`](/identity/name) components
 
 The `chain` prop is optional and setting to Base, it's what makes the components switch from ENS to Basenames.
 
-```tsx
-import { Name } from '@coinbase/onchainkit/identity';
+```tsx twoslash
+// @noErrors: 2657 - JSX expressions must have one parent element
+import { Avatar, Name } from '@coinbase/onchainkit/identity';
 import { base } from 'viem/chains';
 
 const address = '0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1';
@@ -56,14 +57,14 @@ The hooks are incredibly useful for building custom components while leveraging 
 
 :::code-group
 
-```tsx [code]
+```tsx twoslash [code]
 import { useAvatar, useName } from '@coinbase/onchainkit/identity';
 import { base } from 'viem/chains';
 
 const address = '0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1';
 const basename = 'zizzamia.base.eth';
-const { data: avatar, isLoading } = await useAvatar({ ensName: basename, chain: base });
-const { data: name, isLoading } = await useName({ address, chain: base });
+const { data: avatar, isLoading: avatarIsLoading } = await useAvatar({ ensName: basename, chain: base });
+const { data: name, isLoading: nameIsLoading } = await useName({ address, chain: base });
 ```
 
 ```ts [return value]
@@ -81,8 +82,8 @@ Being pure functions, it seamlessly integrates into any TypeScript project, incl
 
 :::code-group
 
-```tsx [code]
-import { getName } from '@coinbase/onchainkit/identity';
+```tsx twoslash [code]
+import { getAvatar, getName } from '@coinbase/onchainkit/identity';
 import { base } from 'viem/chains';
 
 const address = '0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1';

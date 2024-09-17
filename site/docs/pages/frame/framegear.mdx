@@ -57,7 +57,8 @@ running frame (e.g., `http://localhost:3000`) and click `Fetch` to validate your
 consider building the frame using `@coinbase/onchainkit` (versions `^0.8.0`). When using the `getFrameMessage` function,
 include the `allowFramegear` option to enable **Framegear** to send mock frame actions.
 
-```ts
+```ts twoslash
+// @noErrors: 2304 - Cannot find 'body'
 import { getFrameMessage } from '@coinbase/onchainkit/frame';
 
 // ...
@@ -72,7 +73,8 @@ const { isValid, message } = await getFrameMessage(body, {
 When setting up frames in production, remember not to include the `allowFramegear` option.
 The exact setup might vary based on the application, but here's one example:
 
-```ts
+```ts twoslash
+// @noErrors: 2580 2304 - Cannot find 'process', Cannot find 'body'
 import { getFrameMessage } from '@coinbase/onchainkit/frame';
 
 const allowFramegear = process.env.NODE_ENV !== 'production'; // [!code focus]

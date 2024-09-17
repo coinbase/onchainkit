@@ -10,7 +10,7 @@ The `Address` component is used to render shorten user account address.
 
 Sliced account address:
 
-```tsx
+```tsx twoslash
 import { Address } from '@coinbase/onchainkit/identity';
 <Address address="0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1" /> // [!code focus]
 ```
@@ -23,7 +23,7 @@ import { Address } from '@coinbase/onchainkit/identity';
 
 Set `isSliced` to false, to display the full address:
 
-```tsx
+```tsx twoslash
 import { Address } from '@coinbase/onchainkit/identity';
 <Address address="0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1" isSliced={false}/> // [!code focus]
 ```
@@ -36,7 +36,7 @@ import { Address } from '@coinbase/onchainkit/identity';
 
 You can override component styles using `className`.
 
-```tsx
+```tsx twoslash
 import { Address } from '@coinbase/onchainkit/identity';
 <Address
   className="bg-emerald-400 px-2 py-1 rounded" // [!code focus]

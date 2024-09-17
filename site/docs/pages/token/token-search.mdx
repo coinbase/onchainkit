@@ -11,7 +11,11 @@ If you want to handle debounce delay outside of this component, set `delayMs` to
 
 Use [`getTokens`](/api/get-tokens) and `<TokenSearch />` combined to search the [Tokens](/token/types#token).
 
-```tsx
+```tsx twoslash
+// @noErrors: 7006 2322 1128 - 'value' implicitly has any type, Type GetTokensResponse is not assignable to type Token[]
+import { useCallback } from 'react';
+import { base } from 'viem/chains';
+// ---cut-before---
 import { OnchainKitProvider } from '@coinbase/onchainkit';
 import { getTokens } from '@coinbase/onchainkit/api'; // [!code focus]
 import { TokenSearch } from '@coinbase/onchainkit/token'; // [!code focus]
@@ -20,13 +24,13 @@ import type { Token } from '@coinbase/onchainkit/token'; // [!code focus]
 ...
 
 // example of async onChange handler
-const handleChange = useCallback((value) => {
+const handleChange = useCallback((value: string) => {
   async function getData(value) {
     const tokens: Token[] = await getTokens({ search: value }); // [!code focus]
     // Do something with tokens here
   }
-  getData(value)
-}, [])
+  getData(value);
+}, []);
 
 ...
 
