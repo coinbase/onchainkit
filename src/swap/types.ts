@@ -152,10 +152,14 @@ export type LifecycleStatusUpdate = LifecycleStatus extends infer T
 
 export type ProcessSwapTransactionParams = {
   config: Config;
-  updateLifecycleStatus: (state: LifecycleStatusUpdate) => void;
+  // biome-ignore lint: cannot find module 'wagmi/experimental/query'
+  sendCallsAsync: any;
+  setCallsId: Dispatch<SetStateAction<Hex | undefined>>; // For atomic batched transactions only, used in `useCallsStatus`
   sendTransactionAsync: SendTransactionMutateAsync<Config, unknown>;
-  swapTransaction: BuildSwapTransaction;
+  swapTransaction: BuildSwapTransaction; // The response from the Swap API
+  updateLifecycleStatus: (state: LifecycleStatusUpdate) => void;
   useAggregator: boolean;
+  walletCapabilities: WalletCapabilities; // EIP-5792 wallet capabilities
 };
 
 /**
@@ -347,4 +351,13 @@ export type Transaction = {
   nonce?: number; // The nonce for the transaction
   to: Address; // The recipient address
   value: bigint; // The value of the transaction
+};
+
+export type UseAwaitCallsParams = {
+  accountConfig: Config;
+  callsId: string | undefined;
+  config: {
+    maxSlippage: number;
+  };
+  setLifecycleStatus: React.Dispatch<React.SetStateAction<LifecycleStatus>>;
 };
