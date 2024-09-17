@@ -1,6 +1,6 @@
 import { ENVIRONMENT, ENVIRONMENT_VARIABLES } from '@/lib/constants';
 import {
-  type LifeCycleStatus,
+  type LifecycleStatus,
   Swap,
   SwapAmountInput,
   SwapButton,
@@ -63,8 +63,8 @@ function SwapComponent() {
 
   const swappableTokens = [degenToken, ethToken, usdcToken, wethToken];
 
-  const handleOnStatus = useCallback((lifeCycleStatus: LifeCycleStatus) => {
-    console.log('Status:', lifeCycleStatus);
+  const handleOnStatus = useCallback((lifecycleStatus: LifecycleStatus) => {
+    console.log('Status:', lifecycleStatus);
   }, []);
 
   const handleOnSuccess = useCallback(
