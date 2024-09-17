@@ -325,7 +325,6 @@ export function SwapProvider({
         walletCapabilities,
       });
     } catch (err) {
-      console.log('Error', err);
       const errorMessage = isUserRejectedRequestError(err)
         ? 'Request denied.'
         : GENERIC_ERROR_MESSAGE;
