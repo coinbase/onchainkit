@@ -20,17 +20,17 @@ export type SendSwapTransactionParams = {
   // biome-ignore lint: cannot find module 'wagmi/experimental/query'
   sendCallsAsync: any;
   sendTransactionAsync: SendTransactionMutateAsync<Config, unknown>;
-  setCallsId: Dispatch<SetStateAction<Hex | undefined>>;
+  setCallsId: Dispatch<SetStateAction<Hex | undefined>>; // For atomic batched transactions only, used in `useCallsStatus`
+  transactions: Call[]; // A list of transactions to execute
   updateLifecycleStatus: (state: LifecycleStatusUpdate) => void;
-  transactions: Call[];
-  walletCapabilities: WalletCapabilities;
+  walletCapabilities: WalletCapabilities; // EIP-5792 wallet capabilities
 };
 
 export type SendSingleTransactionsParams = {
   config: Config;
   sendTransactionAsync: SendTransactionMutateAsync<Config, unknown>;
+  transactions: Call[]; // A list of transactions to execute
   updateLifecycleStatus: (state: LifecycleStatusUpdate) => void;
-  transactions: Call[];
 };
 
 /**
