@@ -109,14 +109,6 @@ export function SwapProvider({
     if (lifecycleStatus.statusName === 'error') {
       onError?.(lifecycleStatus.statusData);
     }
-    // Transaction approved
-    // For batched transactions, emit success state through `useAwaitCalls`
-    if (
-      lifecycleStatus.statusName === 'transactionApproved' &&
-      lifecycleStatus.statusData.transactionType === 'Batched'
-    ) {
-      awaitCallsStatus();
-    }
     // Success
     if (lifecycleStatus.statusName === 'success') {
       onSuccess?.(lifecycleStatus.statusData.transactionReceipt);
@@ -142,6 +134,23 @@ export function SwapProvider({
       resetInputs();
     }
   }, [hasHandledSuccess, lifecycleStatus.statusName, resetInputs]);
+
+  useEffect(() => {
+    // For batched transactions, `transactionApproved` will contain the calls ID
+    // We'll use the `useAwaitCalls` hook to listen to the call status from the wallet server
+    // This will update the lifecycle status to `success` once the calls are confirmed
+    if (
+      lifecycleStatus.statusName === 'transactionApproved' &&
+      lifecycleStatus.statusData.transactionType === 'Batched'
+    ) {
+      awaitCallsStatus();
+    }
+  }, [
+    awaitCallsStatus,
+    lifecycleStatus,
+    lifecycleStatus.statusData,
+    lifecycleStatus.statusName,
+  ]);
 
   useEffect(() => {
     // Reset status to init after success has been handled
