@@ -107,7 +107,7 @@ export type LifecycleStatus =
       statusData: {
         callsId?: Hex;
         transactionHash?: Hex;
-        transactionType: 'ERC20' | 'Permit2' | 'Batched';
+        transactionType: 'Batched' | 'ERC20' | 'Permit2' | 'Swap';
       } & LifecycleStatusDataShared;
     }
   | {
@@ -359,9 +359,7 @@ export type Transaction = {
 
 export type UseAwaitCallsParams = {
   accountConfig: Config;
-  config: {
-    maxSlippage: number;
-  };
+  config: SwapConfig;
   lifecycleStatus: LifecycleStatus;
   setLifecycleStatus: React.Dispatch<React.SetStateAction<LifecycleStatus>>;
 };

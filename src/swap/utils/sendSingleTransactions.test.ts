@@ -55,11 +55,18 @@ describe('sendSingleTransactions', () => {
     });
     expect(sendTransactionAsync).toHaveBeenCalledTimes(1);
     expect(waitForTransactionReceipt).toHaveBeenCalledTimes(1);
-    expect(updateLifecycleStatus).toHaveBeenCalledTimes(2);
+    expect(updateLifecycleStatus).toHaveBeenCalledTimes(3);
     expect(updateLifecycleStatus).toHaveBeenNthCalledWith(1, {
       statusName: 'transactionPending',
     });
     expect(updateLifecycleStatus).toHaveBeenNthCalledWith(2, {
+      statusName: 'transactionApproved',
+      statusData: {
+        transactionHash: 'txHash1',
+        transactionType: 'Swap',
+      },
+    });
+    expect(updateLifecycleStatus).toHaveBeenNthCalledWith(3, {
       statusName: 'success',
       statusData: {
         transactionReceipt: mockTransactionReceipt,
@@ -80,7 +87,7 @@ describe('sendSingleTransactions', () => {
     });
     expect(sendTransactionAsync).toHaveBeenCalledTimes(2);
     expect(waitForTransactionReceipt).toHaveBeenCalledTimes(2);
-    expect(updateLifecycleStatus).toHaveBeenCalledTimes(4);
+    expect(updateLifecycleStatus).toHaveBeenCalledTimes(5);
     expect(updateLifecycleStatus).toHaveBeenNthCalledWith(1, {
       statusName: 'transactionPending',
     });
@@ -95,6 +102,13 @@ describe('sendSingleTransactions', () => {
       statusName: 'transactionPending',
     });
     expect(updateLifecycleStatus).toHaveBeenNthCalledWith(4, {
+      statusName: 'transactionApproved',
+      statusData: {
+        transactionHash: 'txHash2',
+        transactionType: 'Swap',
+      },
+    });
+    expect(updateLifecycleStatus).toHaveBeenNthCalledWith(5, {
       statusName: 'success',
       statusData: {
         transactionReceipt: mockTransactionReceipt,
@@ -116,13 +130,19 @@ describe('sendSingleTransactions', () => {
     });
     expect(sendTransactionAsync).toHaveBeenCalledTimes(3);
     expect(waitForTransactionReceipt).toHaveBeenCalledTimes(3);
-    expect(updateLifecycleStatus).toHaveBeenCalledTimes(6);
+    expect(updateLifecycleStatus).toHaveBeenCalledTimes(7);
+    expect(updateLifecycleStatus).toHaveBeenNthCalledWith(1, {
+      statusName: 'transactionPending',
+    });
     expect(updateLifecycleStatus).toHaveBeenNthCalledWith(2, {
       statusName: 'transactionApproved',
       statusData: {
         transactionHash: 'txHash1',
         transactionType: 'Permit2',
       },
+    });
+    expect(updateLifecycleStatus).toHaveBeenNthCalledWith(3, {
+      statusName: 'transactionPending',
     });
     expect(updateLifecycleStatus).toHaveBeenNthCalledWith(4, {
       statusName: 'transactionApproved',
@@ -131,7 +151,17 @@ describe('sendSingleTransactions', () => {
         transactionType: 'ERC20',
       },
     });
+    expect(updateLifecycleStatus).toHaveBeenNthCalledWith(5, {
+      statusName: 'transactionPending',
+    });
     expect(updateLifecycleStatus).toHaveBeenNthCalledWith(6, {
+      statusName: 'transactionApproved',
+      statusData: {
+        transactionHash: 'txHash3',
+        transactionType: 'Swap',
+      },
+    });
+    expect(updateLifecycleStatus).toHaveBeenNthCalledWith(7, {
       statusName: 'success',
       statusData: {
         transactionReceipt: mockTransactionReceipt,

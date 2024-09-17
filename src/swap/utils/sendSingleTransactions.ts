@@ -40,6 +40,16 @@ export async function sendSingleTransactions({
         },
       });
     }
+    // Last transaction is the Swap itself
+    if (i === transactions.length - 1) {
+      updateLifecycleStatus({
+        statusName: 'transactionApproved',
+        statusData: {
+          transactionHash: txHash,
+          transactionType: 'Swap',
+        },
+      });
+    }
 
     transactionReceipt = await waitForTransactionReceipt(config, {
       hash: txHash,
