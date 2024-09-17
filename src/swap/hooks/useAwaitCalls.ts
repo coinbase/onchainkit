@@ -1,23 +1,31 @@
 import { useCallback } from 'react';
 import type { Config } from 'wagmi';
 import { waitForTransactionReceipt } from 'wagmi/actions';
-import type { UseCallsStatusReturnType } from 'wagmi/experimental';
+import { useCallsStatus } from 'wagmi/experimental';
 import type { LifecycleStatus } from '../types';
 
 export function useAwaitCalls({
   accountConfig,
+  callsId,
   config,
-  callsStatus,
   setLifecycleStatus,
 }: {
   accountConfig: Config;
+  callsId: string | undefined;
   config: {
     maxSlippage: number;
   };
-  callsStatus: UseCallsStatusReturnType;
   setLifecycleStatus: React.Dispatch<React.SetStateAction<LifecycleStatus>>;
 }) {
-  const { data } = callsStatus;
+  const { data } = useCallsStatus({
+    id: callsId || '0x',
+    query: {
+      refetchInterval: (query) => {
+        return query.state.data?.status === 'CONFIRMED' ? false : 1000;
+      },
+      enabled: callsId !== undefined,
+    },
+  });
 
   return useCallback(async () => {
     if (data?.status === 'CONFIRMED' && data?.receipts) {

@@ -8,7 +8,7 @@ import {
 import type { Hex } from 'viem';
 import { base } from 'viem/chains';
 import { useAccount, useConfig, useSendTransaction } from 'wagmi';
-import { useCallsStatus, useSendCalls } from 'wagmi/experimental';
+import { useSendCalls } from 'wagmi/experimental';
 import { buildSwapTransaction } from '../../api/buildSwapTransaction';
 import { getSwapQuote } from '../../api/getSwapQuote';
 import { useCapabilitiesSafe } from '../../internal/hooks/useCapabilitiesSafe';
@@ -58,15 +58,6 @@ export function SwapProvider({
   // Core Hooks
   const accountConfig = useConfig();
   const [callsId, setCallsId] = useState<Hex>();
-  const callsStatus = useCallsStatus({
-    id: callsId || '0x',
-    query: {
-      refetchInterval: (query) => {
-        return query.state.data?.status === 'CONFIRMED' ? false : 1000;
-      },
-      enabled: callsId !== undefined,
-    },
-  });
   const walletCapabilities = useCapabilitiesSafe({ chainId: base.id }); // Swap is only available on Base
   const [lifecycleStatus, setLifecycleStatus] = useState<LifecycleStatus>({
     statusName: 'init',
@@ -78,8 +69,8 @@ export function SwapProvider({
 
   const awaitCallsStatus = useAwaitCalls({
     accountConfig,
+    callsId,
     config,
-    callsStatus,
     setLifecycleStatus,
   });
 
