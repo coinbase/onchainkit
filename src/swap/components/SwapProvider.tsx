@@ -5,15 +5,20 @@ import {
   useEffect,
   useState,
 } from 'react';
+import type { Hex } from 'viem';
+import { base } from 'viem/chains';
 import { useAccount, useConfig, useSendTransaction } from 'wagmi';
+import { useSendCalls } from 'wagmi/experimental';
 import { buildSwapTransaction } from '../../api/buildSwapTransaction';
 import { getSwapQuote } from '../../api/getSwapQuote';
+import { useCapabilitiesSafe } from '../../internal/hooks/useCapabilitiesSafe';
 import { useValue } from '../../internal/hooks/useValue';
 import { formatTokenAmount } from '../../internal/utils/formatTokenAmount';
 import type { Token } from '../../token';
 import { GENERIC_ERROR_MESSAGE } from '../../transaction/constants';
 import { isUserRejectedRequestError } from '../../transaction/utils/isUserRejectedRequestError';
 import { DEFAULT_MAX_SLIPPAGE } from '../constants';
+import { useAwaitCalls } from '../hooks/useAwaitCalls';
 import { useFromTo } from '../hooks/useFromTo';
 import { useResetInputs } from '../hooks/useResetInputs';
 import type {
@@ -52,6 +57,8 @@ export function SwapProvider({
   const { useAggregator } = experimental;
   // Core Hooks
   const accountConfig = useConfig();
+  const [callsId, setCallsId] = useState<Hex>();
+  const walletCapabilities = useCapabilitiesSafe({ chainId: base.id }); // Swap is only available on Base
   const [lifecycleStatus, setLifecycleStatus] = useState<LifecycleStatus>({
     statusName: 'init',
     statusData: {
@@ -60,7 +67,19 @@ export function SwapProvider({
     },
   }); // Component lifecycle
 
-  // Update lifecycle status, statusData will be persisted for the full lifecycle
+  const awaitCallsStatus = useAwaitCalls({
+    accountConfig,
+    callsId,
+    config,
+    setLifecycleStatus,
+  });
+
+  // Lifecycle listener for batched transactions
+  useEffect(() => {
+    awaitCallsStatus();
+  }, [awaitCallsStatus]);
+
+  // Update lifecycle status, statusData will be persisted for the full lifeCycle
   const updateLifecycleStatus = useCallback(
     (newStatus: LifecycleStatusUpdate) => {
       setLifecycleStatus((prevStatus: LifecycleStatus) => {
@@ -86,6 +105,7 @@ export function SwapProvider({
   const [hasHandledSuccess, setHasHandledSuccess] = useState(false);
   const { from, to } = useFromTo(address);
   const { sendTransactionAsync } = useSendTransaction(); // Sending the transaction (and approval, if applicable)
+  const { sendCallsAsync } = useSendCalls(); // Atomic Batch transactions (and approval, if applicable)
 
   // Refreshes balances and inputs post-swap
   const resetInputs = useResetInputs({ from, to });
@@ -296,14 +316,16 @@ export function SwapProvider({
       }
       await processSwapTransaction({
         config: accountConfig,
+        sendCallsAsync,
         sendTransactionAsync,
-        updateLifecycleStatus,
+        setCallsId,
         swapTransaction: response,
+        updateLifecycleStatus,
         useAggregator,
+        walletCapabilities,
       });
-
-      // TODO: refresh balances
     } catch (err) {
+      console.log('Error', err);
       const errorMessage = isUserRejectedRequestError(err)
         ? 'Request denied.'
         : GENERIC_ERROR_MESSAGE;
@@ -322,10 +344,12 @@ export function SwapProvider({
     from.amount,
     from.token,
     lifecycleStatus,
+    sendCallsAsync,
     sendTransactionAsync,
     to.token,
     updateLifecycleStatus,
     useAggregator,
+    walletCapabilities,
   ]);
 
   const value = useValue({
