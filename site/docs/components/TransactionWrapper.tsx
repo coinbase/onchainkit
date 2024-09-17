@@ -1,5 +1,5 @@
 import type {
-  LifeCycleStatus,
+  LifecycleStatus,
   TransactionError,
   TransactionResponse,
 } from '@coinbase/onchainkit/transaction';
@@ -56,7 +56,7 @@ export default function TransactionWrapper({
     console.log('TransactionWrapper.onSuccess', response);
   }
 
-  function onStatus(status: LifeCycleStatus) {
+  function onStatus(status: LifecycleStatus) {
     console.log('LifecycleStatus', status);
   }
 

@@ -56,7 +56,7 @@ import { // [!code focus]
   TransactionStatusAction,
   TransactionStatusLabel,
 } from '@coinbase/onchainkit/transaction'; // [!code focus]
-import type { LifeCycleStatus } from '@coinbase/onchainkit/transaction';
+import type { LifecycleStatus } from '@coinbase/onchainkit/transaction';
 import { Wallet, ConnectWallet } from '@coinbase/onchainkit/wallet';
 import { useAccount } from 'wagmi';
 import { contracts } from './contracts'; // [!code focus]
@@ -68,7 +68,7 @@ const BASE_SEPOLIA_CHAIN_ID = 84532;
 export default function TransactionComponents() {
   const { address } = useAccount();
   
-  const handleOnStatus = useCallback((status: LifeCycleStatus) => {
+  const handleOnStatus = useCallback((status: LifecycleStatus) => {
     console.log('LifecycleStatus', status);
   }, []);
 
@@ -158,9 +158,9 @@ export const contracts = [
   </TransactionWrapper>
 </App>
 
-### Listen to `LifeCycleStatus`
+### Listen to `LifecycleStatus`
 
-Take full control of your transactions data with the `LifeCycleStatus` object via the `onStatus` prop. 
+Take full control of your transactions data with the `LifecycleStatus` object via the `onStatus` prop. 
 This TypeScript object provides `statusName` and `statusData` to keep you informed.
 
 ```tsx twoslash
@@ -178,11 +178,11 @@ import {
 } from '@coinbase/onchainkit/transaction';
 import { contracts } from './contracts';
 // ---cut-before---
-import type { LifeCycleStatus } from '@coinbase/onchainkit/transaction'; // [!code focus]
+import type { LifecycleStatus } from '@coinbase/onchainkit/transaction'; // [!code focus]
 
 // ommited for brevity
 
-const handleOnStatus = useCallback((status: LifeCycleStatus) => { // [!code focus]
+const handleOnStatus = useCallback((status: LifecycleStatus) => { // [!code focus]
   console.log('LifecycleStatus', status); // [!code focus]
 }, []); // [!code focus]
 
@@ -208,7 +208,7 @@ The Lifecycle Status features six states for the transaction experience.
 import type { TransactionError } from "@coinbase/onchainkit/transaction";
 import type { Address, TransactionReceipt } from "viem";
 // ---cut-before---
-type LifeCycleStatus =
+type LifecycleStatus =
   | {
       statusName: 'init';
       statusData: null;
