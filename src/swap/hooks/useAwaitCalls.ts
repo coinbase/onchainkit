@@ -1,22 +1,14 @@
 import { useCallback } from 'react';
-import type { Config } from 'wagmi';
 import { waitForTransactionReceipt } from 'wagmi/actions';
 import { useCallsStatus } from 'wagmi/experimental';
-import type { LifecycleStatus } from '../types';
+import type { UseAwaitCallsParams } from '../types';
 
 export function useAwaitCalls({
   accountConfig,
   callsId,
   config,
   setLifecycleStatus,
-}: {
-  accountConfig: Config;
-  callsId: string | undefined;
-  config: {
-    maxSlippage: number;
-  };
-  setLifecycleStatus: React.Dispatch<React.SetStateAction<LifecycleStatus>>;
-}) {
+}: UseAwaitCallsParams) {
   const { data } = useCallsStatus({
     id: callsId || '0x',
     query: {

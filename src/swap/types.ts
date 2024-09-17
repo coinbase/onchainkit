@@ -349,3 +349,12 @@ export type Transaction = {
   to: Address; // The recipient address
   value: bigint; // The value of the transaction
 };
+
+export type UseAwaitCallsParams = {
+  accountConfig: Config;
+  callsId: string | undefined;
+  config: {
+    maxSlippage: number;
+  };
+  setLifecycleStatus: React.Dispatch<React.SetStateAction<LifecycleStatus>>;
+};
