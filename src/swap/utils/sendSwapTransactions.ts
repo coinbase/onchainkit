@@ -1,6 +1,6 @@
 import { Capabilities } from '../../constants';
 import type { SendSwapTransactionParams } from '../types';
-import { executeSingleTransactions } from './executeSingleTransactions';
+import { sendSingleTransactions } from './sendSingleTransactions';
 
 export async function sendSwapTransactions({
   config,
@@ -21,7 +21,7 @@ export async function sendSwapTransactions({
     });
     setCallsId(callsId);
   } else {
-    await executeSingleTransactions({
+    await sendSingleTransactions({
       config,
       sendTransactionAsync,
       transactions,
