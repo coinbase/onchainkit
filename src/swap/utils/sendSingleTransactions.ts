@@ -1,6 +1,7 @@
 import type { TransactionReceipt } from 'viem';
 import { waitForTransactionReceipt } from 'wagmi/actions';
 import type { SendSingleTransactionsParams } from '../types';
+import { getTransactionType } from './getTransactionType';
 
 export async function sendSingleTransactions({
   config,
@@ -18,36 +19,11 @@ export async function sendSingleTransactions({
     });
     const txHash = await sendTransactionAsync(tx);
 
-    if (transactions.length === 3) {
-      // Permit2 has 3 transactions, 2nd to last is the `Permit2` approval
-      if (i === transactions.length - 3) {
-        updateLifecycleStatus({
-          statusName: 'transactionApproved',
-          statusData: {
-            transactionHash: txHash,
-            transactionType: 'Permit2',
-          },
-        });
-      }
-    }
-    // 2nd to last transaction is the `ERC20` approval
-    if (i === transactions.length - 2) {
+    const transactionType = getTransactionType(transactions, i);
+    if (transactionType) {
       updateLifecycleStatus({
         statusName: 'transactionApproved',
-        statusData: {
-          transactionHash: txHash,
-          transactionType: 'ERC20',
-        },
-      });
-    }
-    // Last transaction is the Swap itself
-    if (i === transactions.length - 1) {
-      updateLifecycleStatus({
-        statusName: 'transactionApproved',
-        statusData: {
-          transactionHash: txHash,
-          transactionType: 'Swap',
-        },
+        statusData: { transactionHash: txHash, transactionType },
       });
     }
 
