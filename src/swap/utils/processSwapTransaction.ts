@@ -1,5 +1,6 @@
 import type { Address } from 'viem';
 import { encodeFunctionData, parseAbi } from 'viem';
+import { base } from 'viem/chains';
 import type { Call } from '../../transaction/types';
 import {
   PERMIT2_CONTRACT_ADDRESS,
@@ -9,11 +10,13 @@ import type { ProcessSwapTransactionParams } from '../types';
 import { sendSwapTransactions } from './sendSwapTransactions';
 
 export async function processSwapTransaction({
+  chainId,
   config,
   sendCallsAsync,
   sendTransactionAsync,
   updateLifecycleStatus,
   swapTransaction,
+  switchChainAsync,
   useAggregator,
   walletCapabilities,
 }: ProcessSwapTransactionParams) {
@@ -64,6 +67,11 @@ export async function processSwapTransaction({
     value: transaction.value,
     data: transaction.data,
   });
+
+  // Switch to Base if the wallet is not on the current chain
+  if (chainId !== base.id) {
+    await switchChainAsync({ chainId: base.id });
+  }
 
   await sendSwapTransactions({
     config,

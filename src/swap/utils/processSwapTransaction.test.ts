@@ -1,13 +1,15 @@
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { http, createConfig } from 'wagmi';
 import { waitForTransactionReceipt } from 'wagmi/actions';
-import { mainnet, sepolia } from 'wagmi/chains';
+import { base } from 'wagmi/chains';
 import { mock } from 'wagmi/connectors';
 import type { BuildSwapTransaction } from '../../api/types';
 import { Capabilities } from '../../constants';
 import { PERMIT2_CONTRACT_ADDRESS } from '../constants';
 import { DEGEN_TOKEN, ETH_TOKEN, USDC_TOKEN } from '../mocks';
 import { processSwapTransaction } from './processSwapTransaction';
+
+const mockSwitchChain = vi.fn();
 
 vi.mock('wagmi/actions', () => ({
   waitForTransactionReceipt: vi.fn().mockResolvedValue({
@@ -28,7 +30,7 @@ describe('processSwapTransaction', () => {
   };
 
   const config = createConfig({
-    chains: [mainnet, sepolia],
+    chains: [base],
     connectors: [
       mock({
         accounts: [
@@ -39,8 +41,7 @@ describe('processSwapTransaction', () => {
       }),
     ],
     transports: {
-      [mainnet.id]: http(),
-      [sepolia.id]: http(),
+      [base.id]: http(),
     },
   });
 
@@ -59,6 +60,59 @@ describe('processSwapTransaction', () => {
       .mockResolvedValueOnce('txHash');
 
     sendCallsAsync = vi.fn().mockResolvedValue('callsId');
+  });
+
+  it('should switch chains correctly', async () => {
+    const swapTransaction: BuildSwapTransaction = {
+      transaction: {
+        to: '0x123',
+        value: 0n,
+        data: '0x',
+        chainId: 8453,
+        gas: 0n,
+      },
+      approveTransaction: undefined,
+      quote: {
+        from: ETH_TOKEN,
+        to: DEGEN_TOKEN,
+        fromAmount: '100000000000000',
+        toAmount: '19395353519910973703',
+        amountReference: 'from',
+        priceImpact: '0.94',
+        hasHighPriceImpact: false,
+        slippage: '3',
+        warning: undefined,
+      },
+      fee: {
+        baseAsset: DEGEN_TOKEN,
+        percentage: '1',
+        amount: '195912661817282562',
+      },
+    };
+    await processSwapTransaction({
+      chainId: 84532,
+      config,
+      sendTransactionAsync,
+      sendCallsAsync,
+      updateLifecycleStatus,
+      swapTransaction,
+      switchChainAsync: mockSwitchChain,
+      useAggregator: true,
+      walletCapabilities,
+    });
+    expect(mockSwitchChain).toHaveBeenCalledTimes(1);
+    expect(updateLifecycleStatus).toHaveBeenCalledTimes(2);
+    expect(updateLifecycleStatus).toHaveBeenNthCalledWith(1, {
+      statusName: 'transactionPending',
+    });
+    expect(updateLifecycleStatus).toHaveBeenNthCalledWith(2, {
+      statusName: 'success',
+      statusData: {
+        transactionReceipt: mockTransactionReceipt,
+      },
+    });
+    expect(sendTransactionAsync).toHaveBeenCalledTimes(1);
+    expect(waitForTransactionReceipt).toHaveBeenCalledTimes(1);
   });
 
   it('should request approval and make the swap for ERC-20 tokens', async () => {
@@ -111,11 +165,13 @@ describe('processSwapTransaction', () => {
       },
     };
     await processSwapTransaction({
+      chainId: 8453,
       config,
       sendTransactionAsync,
       sendCallsAsync,
       updateLifecycleStatus,
       swapTransaction,
+      switchChainAsync: mockSwitchChain,
       useAggregator: true,
       walletCapabilities,
     });
@@ -171,11 +227,13 @@ describe('processSwapTransaction', () => {
       },
     };
     await processSwapTransaction({
+      chainId: 8453,
       config,
       sendTransactionAsync,
       sendCallsAsync,
       updateLifecycleStatus,
       swapTransaction,
+      switchChainAsync: mockSwitchChain,
       useAggregator: true,
       walletCapabilities,
     });
@@ -227,11 +285,13 @@ describe('processSwapTransaction', () => {
       },
     };
     await processSwapTransaction({
+      chainId: 8453,
       config,
       sendTransactionAsync: sendTransactionAsyncPermit2,
       sendCallsAsync,
       updateLifecycleStatus,
       swapTransaction,
+      switchChainAsync: mockSwitchChain,
       useAggregator: false,
       walletCapabilities,
     });
@@ -280,14 +340,14 @@ describe('processSwapTransaction', () => {
         to: '0x123',
         value: 0n,
         data: '0x',
-        chainId: 1,
+        chainId: 8453,
         gas: 0n,
       },
       approveTransaction: {
         to: '0x456',
         value: 0n,
         data: '0x123',
-        chainId: 1,
+        chainId: 8453,
         gas: 0n,
       },
       quote: {
@@ -309,11 +369,13 @@ describe('processSwapTransaction', () => {
     };
 
     await processSwapTransaction({
+      chainId: 8453,
       config,
       sendTransactionAsync,
       sendCallsAsync,
       updateLifecycleStatus,
       swapTransaction,
+      switchChainAsync: mockSwitchChain,
       useAggregator: false,
       walletCapabilities: { [Capabilities.AtomicBatch]: { supported: true } },
     });

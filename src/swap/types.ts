@@ -10,7 +10,10 @@ import type {
   UseBalanceReturnType,
   UseReadContractReturnType,
 } from 'wagmi';
-import type { SendTransactionMutateAsync } from 'wagmi/query';
+import type {
+  SendTransactionMutateAsync,
+  SwitchChainMutateAsync,
+} from 'wagmi/query';
 import type { BuildSwapTransaction, RawTransactionData } from '../api/types';
 import type { Token } from '../token/types';
 import type { Call } from '../transaction/types';
@@ -151,11 +154,13 @@ export type LifecycleStatusUpdate = LifecycleStatus extends infer T
   : never;
 
 export type ProcessSwapTransactionParams = {
+  chainId: number; // The chain ID
   config: Config;
   // biome-ignore lint: cannot find module 'wagmi/experimental/query'
   sendCallsAsync: any;
   sendTransactionAsync: SendTransactionMutateAsync<Config, unknown>;
   swapTransaction: BuildSwapTransaction; // The response from the Swap API
+  switchChainAsync: SwitchChainMutateAsync<Config, unknown>;
   updateLifecycleStatus: (state: LifecycleStatusUpdate) => void;
   useAggregator: boolean;
   walletCapabilities: WalletCapabilities; // EIP-5792 wallet capabilities

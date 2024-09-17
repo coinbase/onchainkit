@@ -288,27 +288,6 @@ describe('SwapProvider', () => {
     (useCapabilitiesSafe as ReturnType<typeof vi.fn>).mockReturnValue({});
   });
 
-  it('handleSubmit should switch chain to Base correctly for non-Base chainIds', async () => {
-    (useChainId as ReturnType<typeof vi.fn>).mockReturnValue(1);
-    await act(async () => {
-      renderWithProviders({ Component: TestSwapComponent });
-    });
-    await act(async () => {
-      fireEvent.click(screen.getByText('Swap'));
-    });
-    expect(mockSwitchChain).toBeCalledTimes(1);
-  });
-
-  it('handleSubmit should not switch chain to Base if chainId is already set to Base', async () => {
-    await act(async () => {
-      renderWithProviders({ Component: TestSwapComponent });
-    });
-    await act(async () => {
-      fireEvent.click(screen.getByText('Swap'));
-    });
-    expect(mockSwitchChain).toBeCalledTimes(0);
-  });
-
   it('should reset inputs when setLifecycleStatus is called with success', async () => {
     const { result } = renderHook(() => useSwapContext(), { wrapper });
     await act(async () => {

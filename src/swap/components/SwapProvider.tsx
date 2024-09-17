@@ -5,7 +5,6 @@ import {
   useEffect,
   useState,
 } from 'react';
-import { base } from 'viem/chains';
 import { useAccount, useConfig, useSendTransaction } from 'wagmi';
 import { useChainId } from 'wagmi';
 import { useSwitchChain } from 'wagmi';
@@ -306,10 +305,6 @@ export function SwapProvider({
     if (!address || !from.token || !to.token || !from.amount) {
       return;
     }
-    // Swap is only available on Base mainnet
-    if (chainId !== base.id) {
-      await switchChainAsync({ chainId: base.id });
-    }
 
     try {
       const maxSlippage = lifecycleStatus.statusData.maxSlippage;
@@ -333,10 +328,12 @@ export function SwapProvider({
         return;
       }
       await processSwapTransaction({
+        chainId,
         config: accountConfig,
         sendCallsAsync,
         sendTransactionAsync,
         swapTransaction: response,
+        switchChainAsync,
         updateLifecycleStatus,
         useAggregator,
         walletCapabilities,
@@ -357,11 +354,13 @@ export function SwapProvider({
   }, [
     accountConfig,
     address,
+    chainId,
     from.amount,
     from.token,
     lifecycleStatus,
     sendCallsAsync,
     sendTransactionAsync,
+    switchChainAsync,
     to.token,
     updateLifecycleStatus,
     useAggregator,
