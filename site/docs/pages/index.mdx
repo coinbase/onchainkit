@@ -132,7 +132,24 @@ bun add @coinbase/onchainkit
     </a>
     <div className="flex grow md:flex-row pt-[44px] flex-col">
       <div className="w-[664px] max-w-full">
-```tsx
+```tsx twoslash
+import { 
+  ConnectWallet, 
+  Wallet, 
+  WalletDropdown, 
+  WalletDropdownLink, 
+  WalletDropdownBasename, 
+  WalletDropdownDisconnect 
+} from '@coinbase/onchainkit/wallet';
+import { 
+  Avatar, 
+  Address, 
+  Badge, 
+  EthBalance, 
+  Identity, 
+  Name 
+} from '@coinbase/onchainkit/identity';
+// ---cut-before---
 <Wallet>
   <ConnectWallet>
     <Avatar className="h-6 w-6" />
@@ -198,7 +215,18 @@ bun add @coinbase/onchainkit
   </a>
   <div className="flex grow md:flex-row pt-[44px] flex-col">
     <div className="w-[664px] max-w-full">
-```tsx
+```tsx twoslash
+// @noErrors: 2304 - Cannot find name 'CONTRACT_ADDRESS', 'CONTRACT_ABI', 'CONTRACT_FUNCTION_NAME'
+import { 
+  Transaction, 
+  TransactionButton, 
+  TransactionSponsor, 
+  TransactionStatus, 
+  TransactionStatusLabel, 
+  TransactionStatusAction 
+} from '@coinbase/onchainkit/transaction';
+import { base } from 'viem/chains';
+// ---cut-before---
 <Transaction
   chainId={base.id}
   contracts={[
@@ -276,7 +304,34 @@ bun add @coinbase/onchainkit
     </a>
     <div className="flex grow flex-col items-center md:flex-row pt-[44px] md:pt-[20px]">
       <div className="w-[664px] max-w-full">
-```tsx
+```tsx twoslash
+import { 
+  Swap, 
+  SwapAmountInput, 
+  SwapToggleButton, 
+  SwapButton, 
+  SwapMessage 
+} from '@coinbase/onchainkit/swap';
+import type { Token } from '@coinbase/onchainkit/token';
+const ETHToken: Token = {
+  address: "",
+  chainId: 8453,
+  decimals: 18,
+  name: "Ethereum",
+  symbol: "ETH",
+  image: "https://dynamic-assets.coinbase.com/dbb4b4983bde81309ddab83eb598358eb44375b930b94687ebe38bc22e52c3b2125258ffb8477a5ef22e33d6bd72e32a506c391caa13af64c00e46613c3e5806/asset_icons/4113b082d21cc5fab17fc8f2d19fb996165bcce635e6900f7fc2d57c4ef33ae9.png",
+};
+
+const USDCToken: Token = {
+  address: "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+  chainId: 8453,
+  decimals: 6,
+  name: "USDC",
+  symbol: "USDC",
+  image: "https://dynamic-assets.coinbase.com/3c15df5e2ac7d4abbe9499ed9335041f00c620f28e8de2f93474a9f432058742cdf4674bd43f309e69778a26969372310135be97eb183d91c492154176d455b8/asset_icons/9d67b728b6c8f457717154b3a35f9ddc702eae7e76c4684ee39302c4d7fd0bb8.png",
+};
+const swappableTokens = [ETHToken, USDCToken];
+// ---cut-before---
 <Swap>
   <SwapAmountInput
     label="Sell"
@@ -351,7 +406,9 @@ bun add @coinbase/onchainkit
     <div className="flex grow md:flex-row pt-[44px] flex-col">
       <div className="w-[664px] max-w-full">
 
-```tsx
+```tsx twoslash
+import { Identity, Avatar, Badge, Name, Address } from '@coinbase/onchainkit/identity';
+// ---cut-before---
 <Identity
   address="0x838aD0EAE54F99F1926dA7C3b6bFbF617389B4D9"
   schemaId="0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9"
@@ -399,7 +456,9 @@ bun add @coinbase/onchainkit
     </a>
     <div className="flex grow flex-col items-center md:flex-row pt-[44px]">
       <div className="w-[664px] max-w-full">
-```tsx
+```tsx twoslash
+import { FrameMetadata } from '@coinbase/onchainkit/frame';
+// ---cut-before---
 <FrameMetadata
   buttons={[
     {
