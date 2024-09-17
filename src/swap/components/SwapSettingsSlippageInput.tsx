@@ -43,7 +43,8 @@ export function SwapSettingsSlippageInput({
   // Handles user input for custom slippage.
   // Parses the input and updates slippage state.
   const handleSlippageChange = useCallback(
-    (newSlippage: string) => {
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const newSlippage = e.target.value;
       const parsedSlippage = Number.parseFloat(newSlippage);
       const isValidNumber = !Number.isNaN(parsedSlippage);
 
@@ -116,7 +117,7 @@ export function SwapSettingsSlippageInput({
           id="slippage-input"
           type="text"
           value={lifecycleStatus.statusData.maxSlippage}
-          onChange={(e) => handleSlippageChange(e.target.value)}
+          onChange={handleSlippageChange}
           disabled={slippageSetting === SLIPPAGE_SETTINGS.AUTO}
           className={cn(
             color.foreground,
