@@ -95,7 +95,7 @@ export function SwapProvider({
 
   // Refreshes balances and inputs post-swap
   const resetInputs = useResetInputs({ from, to });
-  // Awaits calls
+  // For batched transactions, listens to and awaits calls from the Wallet server
   const awaitCallsStatus = useAwaitCalls({
     accountConfig,
     config,
@@ -110,6 +110,7 @@ export function SwapProvider({
       onError?.(lifecycleStatus.statusData);
     }
     // Transaction approved
+    // For batched transactions, emit success state through `useAwaitCalls`
     if (
       lifecycleStatus.statusName === 'transactionApproved' &&
       lifecycleStatus.statusData.transactionType === 'Batched'
