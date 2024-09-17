@@ -18,7 +18,6 @@ describe('sendSingleTransactions', () => {
   const mockTransactionReceipt = {
     transactionHash: 'receiptHash',
   };
-
   const config = createConfig({
     chains: [mainnet, sepolia],
     connectors: [
@@ -48,14 +47,12 @@ describe('sendSingleTransactions', () => {
 
   it('should execute a single transaction correctly', async () => {
     const transactions: Call[] = [{ to: '0x123', value: 0n, data: '0x' }];
-
     await sendSingleTransactions({
       config,
       sendTransactionAsync,
       transactions,
       updateLifecycleStatus,
     });
-
     expect(sendTransactionAsync).toHaveBeenCalledTimes(1);
     expect(waitForTransactionReceipt).toHaveBeenCalledTimes(1);
     expect(updateLifecycleStatus).toHaveBeenCalledTimes(2);
@@ -75,14 +72,12 @@ describe('sendSingleTransactions', () => {
       { to: '0x123', value: 0n, data: '0x' },
       { to: '0x456', value: 0n, data: '0x' },
     ];
-
     await sendSingleTransactions({
       config,
       sendTransactionAsync,
       transactions,
       updateLifecycleStatus,
     });
-
     expect(sendTransactionAsync).toHaveBeenCalledTimes(2);
     expect(waitForTransactionReceipt).toHaveBeenCalledTimes(2);
     expect(updateLifecycleStatus).toHaveBeenCalledTimes(4);
@@ -113,14 +108,12 @@ describe('sendSingleTransactions', () => {
       { to: '0x456', value: 0n, data: '0x' },
       { to: '0x789', value: 0n, data: '0x' },
     ];
-
     await sendSingleTransactions({
       config,
       sendTransactionAsync,
       transactions,
       updateLifecycleStatus,
     });
-
     expect(sendTransactionAsync).toHaveBeenCalledTimes(3);
     expect(waitForTransactionReceipt).toHaveBeenCalledTimes(3);
     expect(updateLifecycleStatus).toHaveBeenCalledTimes(6);

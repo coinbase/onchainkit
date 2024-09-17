@@ -57,7 +57,6 @@ describe('sendSwapTransactions', () => {
       { to: '0x123', value: 0n, data: '0x' },
       { to: '0x456', value: 0n, data: '0x' },
     ];
-
     await sendSwapTransactions({
       config,
       sendTransactionAsync,
@@ -67,7 +66,6 @@ describe('sendSwapTransactions', () => {
       walletCapabilities: { [Capabilities.AtomicBatch]: { supported: true } },
       transactions,
     });
-
     expect(sendCallsAsync).toHaveBeenCalledTimes(1);
     expect(sendCallsAsync).toHaveBeenCalledWith({ calls: transactions });
     expect(setCallsId).toHaveBeenCalledWith('callsId');
@@ -82,7 +80,6 @@ describe('sendSwapTransactions', () => {
       { to: '0x123', value: 0n, data: '0x' },
       { to: '0x456', value: 0n, data: '0x' },
     ];
-
     await sendSwapTransactions({
       config,
       sendTransactionAsync,
@@ -92,7 +89,6 @@ describe('sendSwapTransactions', () => {
       walletCapabilities: { [Capabilities.AtomicBatch]: { supported: false } },
       transactions,
     });
-
     expect(sendTransactionAsync).toHaveBeenCalledTimes(2);
     expect(waitForTransactionReceipt).toHaveBeenCalledTimes(2);
     expect(updateLifecycleStatus).toHaveBeenCalledTimes(4);
@@ -123,7 +119,6 @@ describe('sendSwapTransactions', () => {
       { to: '0x456', value: 0n, data: '0x' },
       { to: '0x789', value: 0n, data: '0x' },
     ];
-
     await sendSwapTransactions({
       config,
       sendTransactionAsync,
@@ -133,7 +128,6 @@ describe('sendSwapTransactions', () => {
       walletCapabilities: { [Capabilities.AtomicBatch]: { supported: false } },
       transactions,
     });
-
     expect(sendTransactionAsync).toHaveBeenCalledTimes(3);
     expect(waitForTransactionReceipt).toHaveBeenCalledTimes(3);
     expect(updateLifecycleStatus).toHaveBeenCalledTimes(6);
