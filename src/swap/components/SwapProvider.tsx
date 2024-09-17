@@ -65,7 +65,7 @@ export function SwapProvider({
     },
   }); // Component lifecycle
 
-  // Update lifecycle status, statusData will be persisted for the full lifeCycle
+  // Update lifecycle status, statusData will be persisted for the full lifecycle
   const updateLifecycleStatus = useCallback(
     (newStatus: LifecycleStatusUpdate) => {
       setLifecycleStatus((prevStatus: LifecycleStatus) => {
