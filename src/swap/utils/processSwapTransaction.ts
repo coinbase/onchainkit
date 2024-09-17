@@ -1,20 +1,25 @@
 import type { Address } from 'viem';
 import { encodeFunctionData, parseAbi } from 'viem';
-import { waitForTransactionReceipt } from 'wagmi/actions';
+import type { Call } from '../../transaction/types';
 import {
   PERMIT2_CONTRACT_ADDRESS,
   UNIVERSALROUTER_CONTRACT_ADDRESS,
 } from '../constants';
 import type { ProcessSwapTransactionParams } from '../types';
+import { sendSwapTransactions } from './sendSwapTransactions';
 
 export async function processSwapTransaction({
   config,
+  sendCallsAsync,
   sendTransactionAsync,
+  setCallsId,
   updateLifecycleStatus,
   swapTransaction,
   useAggregator,
+  walletCapabilities,
 }: ProcessSwapTransactionParams) {
   const { transaction, approveTransaction, quote } = swapTransaction;
+  const transactions: Call[] = [];
 
   // for swaps from ERC-20 tokens,
   // if there is an approveTransaction present,
@@ -22,24 +27,10 @@ export async function processSwapTransaction({
   // for V1 API, `approveTx` will be an ERC-20 approval against the Router
   // for V2 API, `approveTx` will be an ERC-20 approval against the `Permit2` contract
   if (approveTransaction?.data) {
-    updateLifecycleStatus({
-      statusName: 'transactionPending',
-    });
-    const approveTxHash = await sendTransactionAsync({
+    transactions.push({
       to: approveTransaction.to,
       value: approveTransaction.value,
       data: approveTransaction.data,
-    });
-    updateLifecycleStatus({
-      statusName: 'transactionApproved',
-      statusData: {
-        transactionHash: approveTxHash,
-        transactionType: useAggregator ? 'ERC20' : 'Permit2',
-      },
-    });
-    await waitForTransactionReceipt(config, {
-      hash: approveTxHash,
-      confirmations: 1,
     });
 
     // for the V2 API, we use Uniswap's `UniversalRouter`, which uses `Permit2` for ERC-20 approvals
@@ -48,9 +39,6 @@ export async function processSwapTransaction({
     // this would typically be a (gasless) signature, but we're using a transaction here to allow batching for Smart Wallets
     // read more: https://blog.uniswap.org/permit2-and-universal-router
     if (!useAggregator) {
-      updateLifecycleStatus({
-        statusName: 'transactionPending',
-      });
       const permit2ContractAbi = parseAbi([
         'function approve(address token, address spender, uint160 amount, uint48 expiration) external',
       ]);
@@ -64,50 +52,27 @@ export async function processSwapTransaction({
           20_000_000_000_000, // The deadline where the approval is no longer valid - see https://docs.uniswap.org/contracts/permit2/reference/allowance-transfer
         ],
       });
-      const permitTxnHash = await sendTransactionAsync({
+      transactions.push({
         to: PERMIT2_CONTRACT_ADDRESS,
-        data: data,
         value: 0n,
-      });
-      updateLifecycleStatus({
-        statusName: 'transactionApproved',
-        statusData: {
-          transactionHash: permitTxnHash,
-          transactionType: 'ERC20',
-        },
-      });
-      await waitForTransactionReceipt(config, {
-        hash: permitTxnHash,
-        confirmations: 1,
+        data: data,
       });
     }
   }
-
-  // make the swap
-  updateLifecycleStatus({
-    statusName: 'transactionPending',
-  });
-  const txHash = await sendTransactionAsync({
+  // The Swap Execution Transaction
+  transactions.push({
     to: transaction.to,
     value: transaction.value,
     data: transaction.data,
   });
-  updateLifecycleStatus({
-    statusName: 'transactionApproved',
-    statusData: {
-      transactionHash: txHash,
-      transactionType: useAggregator ? 'ERC20' : 'Permit2',
-    },
-  });
-  // wait for swap to land onchain
-  const transactionReceipt = await waitForTransactionReceipt(config, {
-    hash: txHash,
-    confirmations: 1,
-  });
-  updateLifecycleStatus({
-    statusName: 'success',
-    statusData: {
-      transactionReceipt: transactionReceipt,
-    },
+
+  await sendSwapTransactions({
+    config,
+    sendCallsAsync,
+    sendTransactionAsync,
+    setCallsId,
+    updateLifecycleStatus,
+    walletCapabilities,
+    transactions,
   });
 }
