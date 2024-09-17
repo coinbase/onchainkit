@@ -37,7 +37,7 @@ export function SwapSettingsSlippageInput({
         });
       }
     },
-    [updateLifecycleStatus],
+    [lifecycleStatus.statusData.maxSlippage, updateLifecycleStatus],
   );
 
   // Handles user input for custom slippage.
