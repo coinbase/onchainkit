@@ -138,7 +138,7 @@ type SwapReact = {
   children: ReactNode;
   className?: string; // Optional className override for top div element.
   onError?: (error: SwapError) => void; // An optional callback function that handles errors within the provider.
-  onStatus?: (lifeCycleStatus: LifeCycleStatus) => void; // An optional callback function that exposes the component lifecycle state
+  onStatus?: (lifecycleStatus: LifecycleStatus) => void; // An optional callback function that exposes the component lifecycle state
   onSuccess?: (transactionReceipt: TransactionReceipt) => void; // An optional callback function that exposes the transaction receipt
   title?: string; // Title for the Swap component. (default: "Swap")
 };
