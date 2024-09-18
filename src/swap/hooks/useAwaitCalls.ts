@@ -7,7 +7,7 @@ export function useAwaitCalls({
   accountConfig,
   config,
   lifecycleStatus,
-  setLifecycleStatus,
+  updateLifecycleStatus,
 }: UseAwaitCallsParams) {
   const callsId =
     lifecycleStatus.statusName === 'transactionApproved'
@@ -33,14 +33,12 @@ export function useAwaitCalls({
           hash: data.receipts[data.receipts.length - 1].transactionHash,
         },
       );
-      setLifecycleStatus({
+      updateLifecycleStatus({
         statusName: 'success',
         statusData: {
-          isMissingRequiredField: false,
-          maxSlippage: config.maxSlippage,
           transactionReceipt,
         },
       });
     }
-  }, [accountConfig, config.maxSlippage, data, setLifecycleStatus]);
+  }, [accountConfig, config.maxSlippage, data, updateLifecycleStatus]);
 }

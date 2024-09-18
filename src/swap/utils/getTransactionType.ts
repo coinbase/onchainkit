@@ -1,5 +1,5 @@
 import type { Call } from '../../transaction/types';
-import { SwapTransactionType } from '../types';
+import type { SwapTransactionType } from '../types';
 
 export function getTransactionType(
   transactions: Call[],
