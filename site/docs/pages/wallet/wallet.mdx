@@ -1,6 +1,6 @@
 ---
 title: <Wallet /> · OnchainKit
-description: Wallet components & utilities
+description: The `<Wallet />` components provides an interface for users to connect their Smart Wallet with their identity information like Basename and ETH balance.
 ---
 
 import { 
@@ -23,16 +23,67 @@ import WalletComponents from '../../components/WalletComponents';
 
 # `<Wallet />`
 
-The Wallet components provide a comprehensive interface for users to connect their Smart Wallet, view their identity information, and manage their wallet connection. Before using them, ensure you've completed all Getting Started steps.
+The `<Wallet />` components provides an interface for users to connect their 
+Smart Wallet with their identity information like Basename and ETH balance.
 
-## Usage
+It features built-in polished user experiences for both web and mobile web, 
+making it incredibly easy to enhance with the menu experience provided by drop-in components.
+
+Before using them, ensure you've completed all [Getting Started steps](/getting-started).
+
+## Walkthrough
+
+::::steps
+
+### Set up your wallet connections
+
+Kick off your wallet connection setup by configuring the `wagmi` provider.
+
+And make sure to update the `appName` as that will be displayed to 
+the user when they connect their wallet.
+
+```tsx twoslash
+import { ReactNode } from 'react';
+import { WagmiProvider, createConfig, http } from 'wagmi';
+import { baseSepolia } from 'wagmi/chains';
+import { coinbaseWallet } from 'wagmi/connectors';
+
+const wagmiConfig = createConfig({
+  chains: [baseSepolia],
+  connectors: [
+    coinbaseWallet({
+      appName: 'onchainkit',
+    }),
+  ],
+  ssr: true,
+  transports: {
+    [baseSepolia.id]: http(),
+  },
+});
+
+function App({ children }: { children: ReactNode }) {
+  return <WagmiProvider config={wagmiConfig}>{children}</WagmiProvider>;
+}
+```
+
+### Drop in the `<Wallet />` components
+
+Experience the magic by simply dropping in the `<Wallet />` component 
+and watch it seamlessly come to life.
+
+In the example below, we've enhanced the experience with some extra Tailwind CSS classes, 
+but you can customize it to your liking.
+
+Additionally, you can see the [`<Identity>`](/identity/identity) components 
+like [`<Avatar>`](/identity/avatar), [`<Name>`](/identity/name), 
+and [`<Address>`](/identity/address) are used in a composable way. 
+Explore their documentation pages to discover various customization options.
 
 ```tsx twoslash
 import { // [!code focus]
   ConnectWallet, // [!code focus]
   Wallet, // [!code focus]
   WalletDropdown, // [!code focus]
-  WalletDropdownLink, // [!code focus]
   WalletDropdownDisconnect, // [!code focus]
 } from '@coinbase/onchainkit/wallet'; // [!code focus]
 import {
@@ -40,7 +91,6 @@ import {
   Avatar,
   Name,
   Identity,
-  EthBalance,
 } from '@coinbase/onchainkit/identity';
 import { color } from '@coinbase/onchainkit/theme';
 
@@ -57,11 +107,7 @@ export function WalletComponents() {
             <Avatar />
             <Name />
             <Address className={color.foregroundMuted} />
-            <EthBalance />
           </Identity>
-          <WalletDropdownLink icon="wallet" href="https://keys.coinbase.com"> // [!code focus]
-            Wallet // [!code focus]
-          </WalletDropdownLink> // [!code focus]
           <WalletDropdownDisconnect /> // [!code focus]
         </WalletDropdown> // [!code focus]
       </Wallet> // [!code focus]
@@ -81,15 +127,26 @@ export function WalletComponents() {
         <Avatar />
         <Name />
         <Address className={color.foregroundMuted} />
-        <EthBalance />
       </Identity>
-      <WalletDropdownLink icon="wallet" href="https://keys.coinbase.com">
-        Wallet
-      </WalletDropdownLink>
       <WalletDropdownDisconnect />
     </WalletDropdown>
   </Wallet>
 </WalletComponents>
+
+### Drop in pre-made wallet components
+
+### Customize Connect button text and style
+
+### Use RainbowKit for wallet aggregation
+
+::::
+
+
+
+
+
+
+
 
 ### Override styles
 
@@ -210,35 +267,6 @@ import {
     </WalletDropdown>
   </Wallet>
 </WalletComponents>
-
-## Required providers
-
-If you are using any of the provided components, you will need to install
-and configure `wagmi` and wrap your app in `<WagmiProvider>`.
-
-```tsx twoslash
-import { ReactNode } from 'react';
-import { WagmiProvider, createConfig, http } from 'wagmi';
-import { baseSepolia } from 'wagmi/chains';
-import { coinbaseWallet } from 'wagmi/connectors';
-
-const wagmiConfig = createConfig({
-  chains: [baseSepolia],
-  connectors: [
-    coinbaseWallet({
-      appName: 'onchainkit',
-    }),
-  ],
-  ssr: true,
-  transports: {
-    [baseSepolia.id]: http(),
-  },
-});
-
-function App({ children }: { children: ReactNode }) {
-  return <WagmiProvider config={wagmiConfig}>{children}</WagmiProvider>;
-}
-```
 
 ## Use wallet aggregator
 
