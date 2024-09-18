@@ -14,7 +14,7 @@
     "@radix-ui/react-icons": "^1.3.0",
     "clsx": "^2.1.1",
     "jotai": "^2.6.4",
-    "next": "14.2.3",
+    "next": "14.2.10",
     "react": "^18",
     "react-dom": "^18",
     "tar": "^7.0.0",
