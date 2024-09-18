@@ -1,6 +1,5 @@
 import { useCallback, useState } from 'react';
 import { background, border, cn, color, pressable } from '../../styles/theme';
-import { DEFAULT_MAX_SLIPPAGE } from '../constants';
 import type { SwapSettingsSlippageInputReact } from '../types';
 import { useSwapContext } from './SwapProvider';
 
@@ -60,10 +59,10 @@ export function SwapSettingsSlippageInput({
     (setting: string) => {
       setSlippageSetting(setting);
       if (setting === SLIPPAGE_SETTINGS.AUTO) {
-        updateSlippage(DEFAULT_MAX_SLIPPAGE);
+        updateSlippage(defaultMaxSlippage);
       }
     },
-    [updateSlippage],
+    [defaultMaxSlippage, updateSlippage],
   );
 
   return (

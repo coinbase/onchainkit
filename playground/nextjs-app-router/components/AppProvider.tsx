@@ -28,6 +28,8 @@ type State = {
   setWalletType?: (walletType: WalletPreference) => void;
   clearWalletType?: () => void;
   chainId?: number;
+  defaultMaxSlippage?: number;
+  setDefaultMaxSlippage?: (defaultMaxSlippage: number) => void;
   setChainId?: (chainId: number) => void;
   transactionType?: TransactionTypes;
   setTransactionType?: (transactionType: TransactionTypes) => void;
@@ -55,14 +57,17 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   );
   const [paymasters, setPaymastersState] =
     useState<Record<number, Paymaster>>();
+  const [defaultMaxSlippage, setDefaultMaxSlippageState] = useState<number>(3);
 
   // Load initial values from localStorage
+  // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO Refactor this component
   useEffect(() => {
     const storedActiveComponent = localStorage.getItem('activeComponent');
     const storedWalletType = localStorage.getItem('walletType');
     const storedChainId = localStorage.getItem('chainId');
     const storedPaymasters = localStorage.getItem('paymasters');
     const storedTransactionType = localStorage.getItem('transactionType');
+    const storedDefaultMaxSlippage = localStorage.getItem('defaultMaxSlippage');
 
     if (storedActiveComponent) {
       setActiveComponent(storedActiveComponent as OnchainKitComponent);
@@ -78,6 +83,9 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     }
     if (storedTransactionType) {
       setTransactionTypeState(storedTransactionType as TransactionTypes);
+    }
+    if (storedDefaultMaxSlippage) {
+      setDefaultMaxSlippage(Number(storedDefaultMaxSlippage));
     }
   }, []);
 
@@ -112,6 +120,14 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     setChainIdState(newChainId);
   };
 
+  const setDefaultMaxSlippage = (newDefaultMaxSlippage: number) => {
+    localStorage.setItem(
+      'defaultMaxSlippage',
+      newDefaultMaxSlippage.toString(),
+    );
+    setDefaultMaxSlippageState(newDefaultMaxSlippage);
+  };
+
   const setPaymaster = (chainId: number, url: string, enabled: boolean) => {
     const newObj = {
       ...paymasters,
@@ -140,6 +156,8 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         setPaymaster,
         transactionType,
         setTransactionType,
+        defaultMaxSlippage,
+        setDefaultMaxSlippage,
       }}
     >
       {children}

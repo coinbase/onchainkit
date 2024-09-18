@@ -2,6 +2,7 @@
 import { AppContext, OnchainKitComponent } from '@/components/AppProvider';
 import { Chain } from '@/components/form/chain';
 import { PaymasterUrl } from '@/components/form/paymaster';
+import { SwapConfig } from '@/components/form/swap-config';
 import { WalletType } from '@/components/form/wallet-type';
 import { useContext, useEffect, useState } from 'react';
 import IdentityDemo from './demo/Identity';
@@ -49,6 +50,7 @@ function Demo() {
           <Chain />
           <TransactionOptions />
           <PaymasterUrl />
+          <SwapConfig />
         </form>
         <a
           target="_blank"
