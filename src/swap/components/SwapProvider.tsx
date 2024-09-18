@@ -103,7 +103,7 @@ export function SwapProvider({
     accountConfig,
     config,
     lifecycleStatus,
-    setLifecycleStatus,
+    updateLifecycleStatus,
   });
 
   // Component lifecycle emitters

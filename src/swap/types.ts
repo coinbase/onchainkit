@@ -160,8 +160,8 @@ export type ProcessSwapTransactionParams = {
   sendCallsAsync: any;
   sendTransactionAsync: SendTransactionMutateAsync<Config, unknown>;
   swapTransaction: BuildSwapTransaction; // The response from the Swap API
-  switchChainAsync: SwitchChainMutateAsync<Config, unknown>;
-  updateLifecycleStatus: (state: LifecycleStatusUpdate) => void;
+  switchChainAsync: SwitchChainMutateAsync<Config, unknown>; // To switch the chain to Base if not already provided
+  updateLifecycleStatus: (state: LifecycleStatusUpdate) => void; // A function to set the lifecycle status of the component
   useAggregator: boolean;
   walletCapabilities: WalletCapabilities; // EIP-5792 wallet capabilities
 };
@@ -361,5 +361,5 @@ export type UseAwaitCallsParams = {
   accountConfig: Config;
   config: SwapConfig;
   lifecycleStatus: LifecycleStatus;
-  setLifecycleStatus: React.Dispatch<React.SetStateAction<LifecycleStatus>>;
+  updateLifecycleStatus: (state: LifecycleStatusUpdate) => void; // A function to set the lifecycle status of the component
 };
