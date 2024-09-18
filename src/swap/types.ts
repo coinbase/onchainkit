@@ -334,7 +334,7 @@ export type SwapToggleButtonReact = {
 /**
  * Note: exported as public Type
  */
-export type SwapTransactionType = 'Batched' | 'ERC20' | 'Permit2' | 'Swap';
+export type SwapTransactionType = 'Batched' | 'ERC20' | 'Permit2' | 'Swap'; // Consists of atomic batch transactions, ERC-20 approvals, Permit2 approvals, and Swaps
 
 export type SwapUnit = {
   amount: string;
