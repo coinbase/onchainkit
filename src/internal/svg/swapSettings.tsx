@@ -4,8 +4,8 @@ export const swapSettingsSvg = (
   <svg
     role="img"
     aria-label="ock-swapSettingsSvg"
-    width="19"
-    height="20"
+    width="100%"
+    height="100%"
     viewBox="0 0 19 20"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"

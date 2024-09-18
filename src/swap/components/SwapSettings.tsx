@@ -57,7 +57,7 @@ export function SwapSettings({
           )}
           onClick={handleToggle}
         >
-          {iconSvg}
+          <div className="h-[1.125rem] w-[1.125rem]">{iconSvg}</div>
         </button>
         {breakpoint === 'sm' ? (
           <div
