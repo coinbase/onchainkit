@@ -10,6 +10,7 @@ import IdentityDemo from './demo/Identity';
 import SwapDemo from './demo/Swap';
 import TransactionDemo from './demo/Transaction';
 import WalletDemo from './demo/Wallet';
+import NftDemo from './demo/Nft';
 import { ActiveComponent } from './form/active-component';
 import { TransactionOptions } from './form/transaction-options';
 

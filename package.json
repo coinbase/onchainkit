@@ -35,6 +35,7 @@
   },
   "dependencies": {
     "@rainbow-me/rainbowkit": "^2.1.3",
+    "@reservoir0x/reservoir-sdk": "^2.4.19",
     "@tanstack/react-query": "^5",
     "clsx": "^2.1.1",
     "graphql": "^14 || ^15 || ^16",

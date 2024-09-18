@@ -11,6 +11,7 @@ export enum OnchainKitComponent {
   Swap = 'swap',
   Transaction = 'transaction',
   Wallet = 'wallet',
+  Nft = 'nft',
 }
 
 export enum TransactionTypes {
