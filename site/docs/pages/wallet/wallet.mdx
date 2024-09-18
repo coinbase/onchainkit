@@ -30,7 +30,7 @@ The `<Wallet />` components provides an interface for users to connect their
 Smart Wallet with their identity information like Basename and ETH balance.
 
 It features built-in polished user experiences for both web and mobile web, 
-making it incredibly easy to enhance with the menu experience provided by drop-in components.
+making it incredibly easy to enhance with drop-in components.
 
 Before using them, ensure you've completed all [Getting Started steps](/getting-started).
 
@@ -222,9 +222,12 @@ import {
 Each OnchainKit component offers the flexibility to customize `className` 
 and adjust the style of the React components it represents.
 
+Customize the connect wallet text by using directly the `<ConnectWalletText>` component.
+
 ```tsx twoslash
 import {
   ConnectWallet,
+  ConnectWalletText,
   Wallet,
   WalletDropdown,
   WalletDropdownLink,
@@ -242,13 +245,14 @@ import { color } from '@coinbase/onchainkit/theme';
 // omitted for brevity
 
 <Wallet>
-  <ConnectWallet className='bg-blue-800'>
-    <Avatar className="h-6 w-6" />
-    <Name className='text-white' />
+  <ConnectWallet className='bg-blue-800'> // [!code focus]
+    <ConnectWalletText>Log In</ConnectWalletText> // [!code focus]
+    <Avatar className="h-6 w-6" /> // [!code focus]
+    <Name className='text-white' /> // [!code focus]
   </ConnectWallet>
   <WalletDropdown>
     <Identity 
-      className="px-4 pt-3 pb-2 hover:bg-blue-200" 
+      className="px-4 pt-3 pb-2 hover:bg-blue-200" // [!code focus]
       hasCopyAddressOnClick
     >
       <Avatar />
@@ -257,13 +261,13 @@ import { color } from '@coinbase/onchainkit/theme';
       <EthBalance />
     </Identity>
     <WalletDropdownLink 
-      className='hover:bg-blue-200' 
+      className='hover:bg-blue-200' // [!code focus]
       icon="wallet" 
       href="https://keys.coinbase.com"
     >
       Wallet
     </WalletDropdownLink>
-    <WalletDropdownDisconnect className='hover:bg-blue-200' />
+    <WalletDropdownDisconnect className='hover:bg-blue-200' /> // [!code focus]
   </WalletDropdown>
 </Wallet>
 ```
@@ -325,7 +329,7 @@ import {
 // omitted for brevity
 
 <Wallet>
-  <ConnectWallet withWalletAggregator>
+  <ConnectWallet withWalletAggregator>  // [!code focus]
     <Avatar className="h-6 w-6" />
     <Name />
   </ConnectWallet>
