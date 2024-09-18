@@ -154,7 +154,7 @@ export type LifecycleStatusUpdate = LifecycleStatus extends infer T
   : never;
 
 export type ProcessSwapTransactionParams = {
-  chainId: number; // The chain ID
+  chainId?: number; // The chain ID
   config: Config;
   // biome-ignore lint: cannot find module 'wagmi/experimental/query'
   sendCallsAsync: any;

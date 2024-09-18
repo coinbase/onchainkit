@@ -5,8 +5,8 @@ import {
   useEffect,
   useState,
 } from 'react';
+import { base } from 'viem/chains';
 import { useAccount, useConfig, useSendTransaction } from 'wagmi';
-import { useChainId } from 'wagmi';
 import { useSwitchChain } from 'wagmi';
 import { useSendCalls } from 'wagmi/experimental';
 import { buildSwapTransaction } from '../../api/buildSwapTransaction';
@@ -52,14 +52,16 @@ export function SwapProvider({
   onStatus,
   onSuccess,
 }: SwapProviderReact) {
-  const { address } = useAccount();
-  const chainId = useChainId();
+  const { address, chainId } = useAccount();
   const { switchChainAsync } = useSwitchChain();
   // Feature flags
   const { useAggregator } = experimental;
   // Core Hooks
   const accountConfig = useConfig();
-  const walletCapabilities = useCapabilitiesSafe({ chainId }); // Swap is only available on Base
+
+  const walletCapabilities = useCapabilitiesSafe({
+    chainId: base.id,
+  }); // Swap is only available on Base
   const [lifecycleStatus, setLifecycleStatus] = useState<LifecycleStatus>({
     statusName: 'init',
     statusData: {
