@@ -1,9 +1,10 @@
 import type { Call } from '../../transaction/types';
+import { SwapTransactionType } from '../types';
 
 export function getTransactionType(
   transactions: Call[],
   index: number,
-): 'ERC20' | 'Permit2' | 'Swap' | null {
+): SwapTransactionType | null {
   // Permit2 has 3 transactions, 2nd to last is the `Permit2` approval
   if (transactions.length === 3 && index === 0) {
     return 'Permit2';

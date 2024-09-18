@@ -107,7 +107,7 @@ export type LifecycleStatus =
       statusData: {
         callsId?: Hex;
         transactionHash?: Hex;
-        transactionType: 'Batched' | 'ERC20' | 'Permit2' | 'Swap';
+        transactionType: SwapTransactionType;
       } & LifecycleStatusDataShared;
     }
   | {
@@ -330,6 +330,11 @@ export type SwapSettingsSlippageTitleReact = {
 export type SwapToggleButtonReact = {
   className?: string; // Optional className override for top div element.
 };
+
+/**
+ * Note: exported as public Type
+ */
+export type SwapTransactionType = 'Batched' | 'ERC20' | 'Permit2' | 'Swap';
 
 export type SwapUnit = {
   amount: string;
