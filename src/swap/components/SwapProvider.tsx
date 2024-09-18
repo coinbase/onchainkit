@@ -101,7 +101,6 @@ export function SwapProvider({
   // For batched transactions, listens to and awaits calls from the Wallet server
   const awaitCallsStatus = useAwaitCalls({
     accountConfig,
-    config,
     lifecycleStatus,
     updateLifecycleStatus,
   });

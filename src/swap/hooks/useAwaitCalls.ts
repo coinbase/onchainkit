@@ -5,7 +5,6 @@ import type { UseAwaitCallsParams } from '../types';
 
 export function useAwaitCalls({
   accountConfig,
-  config,
   lifecycleStatus,
   updateLifecycleStatus,
 }: UseAwaitCallsParams) {
@@ -40,5 +39,5 @@ export function useAwaitCalls({
         },
       });
     }
-  }, [accountConfig, config.maxSlippage, data, updateLifecycleStatus]);
+  }, [accountConfig, data, updateLifecycleStatus]);
 }

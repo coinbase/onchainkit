@@ -364,7 +364,6 @@ export type Transaction = {
 
 export type UseAwaitCallsParams = {
   accountConfig: Config;
-  config: SwapConfig;
   lifecycleStatus: LifecycleStatus;
   updateLifecycleStatus: (state: LifecycleStatusUpdate) => void; // A function to set the lifecycle status of the component
 };
