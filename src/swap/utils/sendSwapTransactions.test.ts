@@ -4,7 +4,6 @@ import { waitForTransactionReceipt } from 'wagmi/actions';
 import { mainnet, sepolia } from 'wagmi/chains';
 import { mock } from 'wagmi/connectors';
 import { Capabilities } from '../../constants';
-import type { Call } from '../../transaction/types';
 import { sendSwapTransactions } from './sendSwapTransactions';
 
 vi.mock('wagmi/actions', () => ({
@@ -51,9 +50,19 @@ describe('sendSwapTransactions', () => {
   });
 
   it('should execute atomic batch transactions when supported', async () => {
-    const transactions: Call[] = [
-      { to: '0x123', value: 0n, data: '0x' },
-      { to: '0x456', value: 0n, data: '0x' },
+    const transactions = [
+      {
+        transaction: { to: '0x123', value: 0n, data: '0x' },
+        transactionType: 'Permit2',
+      },
+      {
+        transaction: { to: '0x456', value: 0n, data: '0x' },
+        transactionType: 'ERC20',
+      },
+      {
+        transaction: { to: '0x789', value: 0n, data: '0x' },
+        transactionType: 'Swap',
+      },
     ];
     await sendSwapTransactions({
       config,
@@ -64,7 +73,9 @@ describe('sendSwapTransactions', () => {
       transactions,
     });
     expect(sendCallsAsync).toHaveBeenCalledTimes(1);
-    expect(sendCallsAsync).toHaveBeenCalledWith({ calls: transactions });
+    expect(sendCallsAsync).toHaveBeenCalledWith({
+      calls: transactions.map(({ transaction }) => transaction),
+    });
     expect(updateLifecycleStatus).toHaveBeenCalledTimes(2);
     expect(updateLifecycleStatus).toHaveBeenNthCalledWith(1, {
       statusName: 'transactionPending',

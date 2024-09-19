@@ -16,7 +16,7 @@ export async function sendSwapTransactions({
       statusName: 'transactionPending',
     });
     const callsId = await sendCallsAsync({
-      calls: transactions,
+      calls: transactions.map(({ transaction }) => transaction),
     });
     updateLifecycleStatus({
       statusName: 'transactionApproved',
