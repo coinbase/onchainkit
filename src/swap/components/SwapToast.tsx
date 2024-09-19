@@ -1,6 +1,6 @@
 import { ReactNode, useCallback, useEffect, useMemo } from 'react';
 import { closeSvg } from '../../internal/svg/closeSvg';
-import { background, cn, text } from '../../styles/theme';
+import { background, cn, color, text } from '../../styles/theme';
 
 import { useSwapContext } from './SwapProvider';
 import { successSvg } from '../../internal/svg/successSvg';
@@ -19,7 +19,7 @@ export function SwapToast({
   const { isToastVisible, setIsToastVisible } = useSwapContext();
 
   const closeToast = useCallback(() => {
-    setIsToastVisible(false);
+    setIsToastVisible?.(false);
   }, [setIsToastVisible]);
 
   const positionClass = useMemo(() => {
@@ -38,7 +38,7 @@ export function SwapToast({
   useEffect(() => {
     const timer = setTimeout(() => {
       if (isToastVisible) {
-        setIsToastVisible(false);
+        setIsToastVisible?.(false);
       }
     }, durationMs);
 
@@ -66,6 +66,9 @@ export function SwapToast({
     >
       <div className="flex items-center gap-4 p-2">
         <div className={cn(text.label2, className)}>{successSvg}</div>
+      </div>
+      <div className={cn(text.label1, 'text-nowrap', className)}>
+        <p className={color.foreground}>Successful!</p>
       </div>
       <button
         className="p-2"
