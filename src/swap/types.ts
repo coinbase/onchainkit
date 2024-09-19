@@ -213,6 +213,8 @@ export type SwapContextType = {
   handleToggle: () => void;
   updateLifecycleStatus: (state: LifecycleStatusUpdate) => void; // A function to set the lifecycle status of the component
   to: SwapUnit;
+  isToastVisible?: boolean;
+  setIsToastVisible?: (visible: boolean) => void;
 };
 
 /**
