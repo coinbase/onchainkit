@@ -18,8 +18,10 @@ import type { TransactionReceipt } from 'viem';
 import { base } from 'viem/chains';
 import { AppContext } from '../AppProvider';
 
+const DEFAULT_MAX_SLIPPAGE = 3;
+
 function SwapComponent() {
-  const { chainId } = useContext(AppContext);
+  const { chainId, defaultMaxSlippage } = useContext(AppContext);
 
   const degenToken: Token = {
     name: 'DEGEN',
@@ -105,6 +107,7 @@ function SwapComponent() {
         onStatus={handleOnStatus}
         onSuccess={handleOnSuccess}
         onError={handleOnError}
+        config={{ maxSlippage: defaultMaxSlippage || DEFAULT_MAX_SLIPPAGE }}
       >
         <SwapSettings>
           <SwapSettingsSlippageTitle>Max. slippage</SwapSettingsSlippageTitle>
