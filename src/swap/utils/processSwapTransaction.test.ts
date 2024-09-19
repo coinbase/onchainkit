@@ -164,8 +164,14 @@ describe('processSwapTransaction', () => {
     expect(mockSendSwapTransactions).toHaveBeenCalledWith(
       expect.objectContaining({
         transactions: expect.arrayContaining([
-          expect.objectContaining({ to: '0x456', data: '0x123' }),
-          expect.objectContaining({ to: '0x123', data: '0x' }),
+          expect.objectContaining({
+            transaction: { to: '0x456', data: '0x123', value: 0n },
+            transactionType: 'ERC20',
+          }),
+          expect.objectContaining({
+            transaction: { to: '0x123', data: '0x', value: 0n },
+            transactionType: 'Swap',
+          }),
         ]),
       }),
     );
@@ -217,9 +223,22 @@ describe('processSwapTransaction', () => {
     expect(mockSendSwapTransactions).toHaveBeenCalledWith(
       expect.objectContaining({
         transactions: expect.arrayContaining([
-          expect.objectContaining({ to: '0x456', data: '0x123' }),
-          expect.objectContaining({ to: PERMIT2_CONTRACT_ADDRESS }),
-          expect.objectContaining({ to: '0x123', data: '0x' }),
+          expect.objectContaining({
+            transaction: { to: '0x456', data: '0x123', value: 0n },
+            transactionType: 'ERC20',
+          }),
+          expect.objectContaining({
+            transaction: {
+              to: PERMIT2_CONTRACT_ADDRESS,
+              value: 0n,
+              data: expect.any(String),
+            },
+            transactionType: 'Permit2',
+          }),
+          expect.objectContaining({
+            transaction: { to: '0x123', data: '0x', value: 0n },
+            transactionType: 'Swap',
+          }),
         ]),
       }),
     );

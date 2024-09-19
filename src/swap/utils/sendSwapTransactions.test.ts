@@ -79,9 +79,15 @@ describe('sendSwapTransactions', () => {
   });
 
   it('should execute non-batched transactions sequentially', async () => {
-    const transactions: Call[] = [
-      { to: '0x123', value: 0n, data: '0x' },
-      { to: '0x456', value: 0n, data: '0x' },
+    const transactions = [
+      {
+        transaction: { to: '0x123', value: 0n, data: '0x' },
+        transactionType: 'ERC20',
+      },
+      {
+        transaction: { to: '0x456', value: 0n, data: '0x' },
+        transactionType: 'Swap',
+      },
     ];
     await sendSwapTransactions({
       config,
@@ -123,10 +129,19 @@ describe('sendSwapTransactions', () => {
   });
 
   it('should handle Permit2 approval process', async () => {
-    const transactions: Call[] = [
-      { to: '0x123', value: 0n, data: '0x' },
-      { to: '0x456', value: 0n, data: '0x' },
-      { to: '0x789', value: 0n, data: '0x' },
+    const transactions = [
+      {
+        transaction: { to: '0x123', value: 0n, data: '0x' },
+        transactionType: 'Permit2',
+      },
+      {
+        transaction: { to: '0x456', value: 0n, data: '0x' },
+        transactionType: 'ERC20',
+      },
+      {
+        transaction: { to: '0x789', value: 0n, data: '0x' },
+        transactionType: 'Swap',
+      },
     ];
     await sendSwapTransactions({
       config,

@@ -3,7 +3,7 @@ import { http, createConfig } from 'wagmi';
 import { waitForTransactionReceipt } from 'wagmi/actions';
 import { mainnet, sepolia } from 'wagmi/chains';
 import { mock } from 'wagmi/connectors';
-import type { Call } from '../../transaction/types';
+import type { SendSingleTransactionsParams } from '../types';
 import { sendSingleTransactions } from './sendSingleTransactions';
 
 vi.mock('wagmi/actions', () => ({
@@ -46,13 +46,19 @@ describe('sendSingleTransactions', () => {
   });
 
   it('should execute a single transaction correctly', async () => {
-    const transactions: Call[] = [{ to: '0x123', value: 0n, data: '0x' }];
+    const transactions = [
+      {
+        transaction: { to: '0x123', value: 0n, data: '0x' },
+        transactionType: 'Swap',
+      },
+    ];
     await sendSingleTransactions({
       config,
       sendTransactionAsync,
       transactions,
       updateLifecycleStatus,
-    });
+    } as SendSingleTransactionsParams);
+
     expect(sendTransactionAsync).toHaveBeenCalledTimes(1);
     expect(waitForTransactionReceipt).toHaveBeenCalledTimes(1);
     expect(updateLifecycleStatus).toHaveBeenCalledTimes(3);
@@ -74,17 +80,24 @@ describe('sendSingleTransactions', () => {
     });
   });
 
-  it('should execute non-batched transactions sequentially', async () => {
-    const transactions: Call[] = [
-      { to: '0x123', value: 0n, data: '0x' },
-      { to: '0x456', value: 0n, data: '0x' },
+  it('should execute multiple transactions sequentially', async () => {
+    const transactions = [
+      {
+        transaction: { to: '0x123', value: 0n, data: '0x' },
+        transactionType: 'ERC20',
+      },
+      {
+        transaction: { to: '0x456', value: 0n, data: '0x' },
+        transactionType: 'Swap',
+      },
     ];
     await sendSingleTransactions({
       config,
       sendTransactionAsync,
       transactions,
       updateLifecycleStatus,
-    });
+    } as SendSingleTransactionsParams);
+
     expect(sendTransactionAsync).toHaveBeenCalledTimes(2);
     expect(waitForTransactionReceipt).toHaveBeenCalledTimes(2);
     expect(updateLifecycleStatus).toHaveBeenCalledTimes(5);
@@ -116,18 +129,28 @@ describe('sendSingleTransactions', () => {
     });
   });
 
-  it('should handle Permit2 approval process', async () => {
-    const transactions: Call[] = [
-      { to: '0x123', value: 0n, data: '0x' },
-      { to: '0x456', value: 0n, data: '0x' },
-      { to: '0x789', value: 0n, data: '0x' },
+  it('should handle multiple transactions including Permit2', async () => {
+    const transactions = [
+      {
+        transaction: { to: '0x123', value: 0n, data: '0x' },
+        transactionType: 'Permit2',
+      },
+      {
+        transaction: { to: '0x456', value: 0n, data: '0x' },
+        transactionType: 'ERC20',
+      },
+      {
+        transaction: { to: '0x789', value: 0n, data: '0x' },
+        transactionType: 'Swap',
+      },
     ];
     await sendSingleTransactions({
       config,
       sendTransactionAsync,
       transactions,
       updateLifecycleStatus,
-    });
+    } as SendSingleTransactionsParams);
+
     expect(sendTransactionAsync).toHaveBeenCalledTimes(3);
     expect(waitForTransactionReceipt).toHaveBeenCalledTimes(3);
     expect(updateLifecycleStatus).toHaveBeenCalledTimes(7);

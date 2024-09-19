@@ -11,8 +11,7 @@ export async function sendSingleTransactions({
   let transactionReceipt: TransactionReceipt | undefined;
 
   // Execute the non-batched transactions sequentially
-  for (let i = 0; i < transactions.length; i++) {
-    const { transaction, transactionType } = transactions[i];
+  for (const { transaction, transactionType } of transactions) {
     updateLifecycleStatus({
       statusName: 'transactionPending',
     });
