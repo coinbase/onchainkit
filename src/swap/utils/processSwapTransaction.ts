@@ -59,7 +59,7 @@ export async function processSwapTransaction({
       transactions.push({
         transaction: {
           to: PERMIT2_CONTRACT_ADDRESS,
-          value: BigInt(0),
+          value: 0n,
           data,
         },
         transactionType: 'Permit2',
