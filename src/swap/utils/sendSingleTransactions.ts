@@ -1,7 +1,6 @@
 import type { TransactionReceipt } from 'viem';
 import { waitForTransactionReceipt } from 'wagmi/actions';
 import type { SendSingleTransactionsParams } from '../types';
-import { getTransactionType } from './getTransactionType';
 
 export async function sendSingleTransactions({
   config,
@@ -13,20 +12,15 @@ export async function sendSingleTransactions({
 
   // Execute the non-batched transactions sequentially
   for (let i = 0; i < transactions.length; i++) {
-    const tx = transactions[i];
+    const { transaction, transactionType } = transactions[i];
     updateLifecycleStatus({
       statusName: 'transactionPending',
     });
-    const txHash = await sendTransactionAsync(tx);
-
-    const transactionType = getTransactionType(transactions, i);
-    if (transactionType) {
-      updateLifecycleStatus({
-        statusName: 'transactionApproved',
-        statusData: { transactionHash: txHash, transactionType },
-      });
-    }
-
+    const txHash = await sendTransactionAsync(transaction);
+    updateLifecycleStatus({
+      statusName: 'transactionApproved',
+      statusData: { transactionHash: txHash, transactionType },
+    });
     transactionReceipt = await waitForTransactionReceipt(config, {
       hash: txHash,
       confirmations: 1,

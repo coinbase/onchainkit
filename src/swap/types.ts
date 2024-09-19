@@ -23,7 +23,7 @@ export type SendSwapTransactionParams = {
   // biome-ignore lint: cannot find module 'wagmi/experimental/query'
   sendCallsAsync: any;
   sendTransactionAsync: SendTransactionMutateAsync<Config, unknown>;
-  transactions: Call[]; // A list of transactions to execute
+  transactions: SwapTransaction[]; // A list of transactions to execute
   updateLifecycleStatus: (state: LifecycleStatusUpdate) => void;
   walletCapabilities: WalletCapabilities; // EIP-5792 wallet capabilities
 };
@@ -31,7 +31,7 @@ export type SendSwapTransactionParams = {
 export type SendSingleTransactionsParams = {
   config: Config;
   sendTransactionAsync: SendTransactionMutateAsync<Config, unknown>;
-  transactions: Call[]; // A list of transactions to execute
+  transactions: SwapTransaction[]; // A list of transactions to execute
   updateLifecycleStatus: (state: LifecycleStatusUpdate) => void;
 };
 
@@ -360,6 +360,11 @@ export type Transaction = {
   nonce?: number; // The nonce for the transaction
   to: Address; // The recipient address
   value: bigint; // The value of the transaction
+};
+
+export type SwapTransaction = {
+  transaction: Call;
+  transactionType: SwapTransactionType;
 };
 
 export type UseAwaitCallsParams = {
