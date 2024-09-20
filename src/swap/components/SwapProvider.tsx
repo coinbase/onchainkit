@@ -5,15 +5,20 @@ import {
   useEffect,
   useState,
 } from 'react';
+import { base } from 'viem/chains';
 import { useAccount, useConfig, useSendTransaction } from 'wagmi';
+import { useSwitchChain } from 'wagmi';
+import { useSendCalls } from 'wagmi/experimental';
 import { buildSwapTransaction } from '../../api/buildSwapTransaction';
 import { getSwapQuote } from '../../api/getSwapQuote';
+import { useCapabilitiesSafe } from '../../internal/hooks/useCapabilitiesSafe';
 import { useValue } from '../../internal/hooks/useValue';
 import { formatTokenAmount } from '../../internal/utils/formatTokenAmount';
 import type { Token } from '../../token';
 import { GENERIC_ERROR_MESSAGE } from '../../transaction/constants';
 import { isUserRejectedRequestError } from '../../transaction/utils/isUserRejectedRequestError';
 import { DEFAULT_MAX_SLIPPAGE } from '../constants';
+import { useAwaitCalls } from '../hooks/useAwaitCalls';
 import { useFromTo } from '../hooks/useFromTo';
 import { useResetInputs } from '../hooks/useResetInputs';
 import type {
@@ -47,11 +52,16 @@ export function SwapProvider({
   onStatus,
   onSuccess,
 }: SwapProviderReact) {
-  const { address } = useAccount();
+  const { address, chainId } = useAccount();
+  const { switchChainAsync } = useSwitchChain();
   // Feature flags
   const { useAggregator } = experimental;
   // Core Hooks
   const accountConfig = useConfig();
+
+  const walletCapabilities = useCapabilitiesSafe({
+    chainId: base.id,
+  }); // Swap is only available on Base
   const [lifecycleStatus, setLifecycleStatus] = useState<LifecycleStatus>({
     statusName: 'init',
     statusData: {
@@ -86,9 +96,16 @@ export function SwapProvider({
   const [hasHandledSuccess, setHasHandledSuccess] = useState(false);
   const { from, to } = useFromTo(address);
   const { sendTransactionAsync } = useSendTransaction(); // Sending the transaction (and approval, if applicable)
+  const { sendCallsAsync } = useSendCalls(); // Atomic Batch transactions (and approval, if applicable)
 
   // Refreshes balances and inputs post-swap
   const resetInputs = useResetInputs({ from, to });
+  // For batched transactions, listens to and awaits calls from the Wallet server
+  const awaitCallsStatus = useAwaitCalls({
+    accountConfig,
+    lifecycleStatus,
+    updateLifecycleStatus,
+  });
 
   // Component lifecycle emitters
   useEffect(() => {
@@ -121,6 +138,23 @@ export function SwapProvider({
       resetInputs();
     }
   }, [hasHandledSuccess, lifecycleStatus.statusName, resetInputs]);
+
+  useEffect(() => {
+    // For batched transactions, `transactionApproved` will contain the calls ID
+    // We'll use the `useAwaitCalls` hook to listen to the call status from the wallet server
+    // This will update the lifecycle status to `success` once the calls are confirmed
+    if (
+      lifecycleStatus.statusName === 'transactionApproved' &&
+      lifecycleStatus.statusData.transactionType === 'Batched'
+    ) {
+      awaitCallsStatus();
+    }
+  }, [
+    awaitCallsStatus,
+    lifecycleStatus,
+    lifecycleStatus.statusData,
+    lifecycleStatus.statusName,
+  ]);
 
   useEffect(() => {
     // Reset status to init after success has been handled
@@ -295,14 +329,16 @@ export function SwapProvider({
         return;
       }
       await processSwapTransaction({
+        chainId,
         config: accountConfig,
+        sendCallsAsync,
         sendTransactionAsync,
-        updateLifecycleStatus,
         swapTransaction: response,
+        switchChainAsync,
+        updateLifecycleStatus,
         useAggregator,
+        walletCapabilities,
       });
-
-      // TODO: refresh balances
     } catch (err) {
       const errorMessage = isUserRejectedRequestError(err)
         ? 'Request denied.'
@@ -319,13 +355,17 @@ export function SwapProvider({
   }, [
     accountConfig,
     address,
+    chainId,
     from.amount,
     from.token,
     lifecycleStatus,
+    sendCallsAsync,
     sendTransactionAsync,
+    switchChainAsync,
     to.token,
     updateLifecycleStatus,
     useAggregator,
+    walletCapabilities,
   ]);
 
   const value = useValue({

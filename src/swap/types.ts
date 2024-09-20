@@ -10,7 +10,10 @@ import type {
   UseBalanceReturnType,
   UseReadContractReturnType,
 } from 'wagmi';
-import type { SendTransactionMutateAsync } from 'wagmi/query';
+import type {
+  SendTransactionMutateAsync,
+  SwitchChainMutateAsync,
+} from 'wagmi/query';
 import type { BuildSwapTransaction, RawTransactionData } from '../api/types';
 import type { Token } from '../token/types';
 import type { Call } from '../transaction/types';
@@ -20,8 +23,7 @@ export type SendSwapTransactionParams = {
   // biome-ignore lint: cannot find module 'wagmi/experimental/query'
   sendCallsAsync: any;
   sendTransactionAsync: SendTransactionMutateAsync<Config, unknown>;
-  setCallsId: Dispatch<SetStateAction<Hex | undefined>>; // For atomic batched transactions only, used in `useCallsStatus`
-  transactions: Call[]; // A list of transactions to execute
+  transactions: SwapTransaction[]; // A list of transactions to execute
   updateLifecycleStatus: (state: LifecycleStatusUpdate) => void;
   walletCapabilities: WalletCapabilities; // EIP-5792 wallet capabilities
 };
@@ -29,7 +31,7 @@ export type SendSwapTransactionParams = {
 export type SendSingleTransactionsParams = {
   config: Config;
   sendTransactionAsync: SendTransactionMutateAsync<Config, unknown>;
-  transactions: Call[]; // A list of transactions to execute
+  transactions: SwapTransaction[]; // A list of transactions to execute
   updateLifecycleStatus: (state: LifecycleStatusUpdate) => void;
 };
 
@@ -103,8 +105,9 @@ export type LifecycleStatus =
   | {
       statusName: 'transactionApproved';
       statusData: {
+        callsId?: Hex;
         transactionHash?: Hex;
-        transactionType: 'ERC20' | 'Permit2' | 'Batched';
+        transactionType: SwapTransactionType;
       } & LifecycleStatusDataShared;
     }
   | {
@@ -151,11 +154,16 @@ export type LifecycleStatusUpdate = LifecycleStatus extends infer T
   : never;
 
 export type ProcessSwapTransactionParams = {
+  chainId?: number; // The chain ID
   config: Config;
-  updateLifecycleStatus: (state: LifecycleStatusUpdate) => void;
+  // biome-ignore lint: cannot find module 'wagmi/experimental/query'
+  sendCallsAsync: any;
   sendTransactionAsync: SendTransactionMutateAsync<Config, unknown>;
-  swapTransaction: BuildSwapTransaction;
+  swapTransaction: BuildSwapTransaction; // The response from the Swap API
+  switchChainAsync: SwitchChainMutateAsync<Config, unknown>; // To switch the chain to Base if not already provided
+  updateLifecycleStatus: (state: LifecycleStatusUpdate) => void; // A function to set the lifecycle status of the component
   useAggregator: boolean;
+  walletCapabilities: WalletCapabilities; // EIP-5792 wallet capabilities
 };
 
 /**
@@ -323,6 +331,11 @@ export type SwapToggleButtonReact = {
   className?: string; // Optional className override for top div element.
 };
 
+/**
+ * Note: exported as public Type
+ */
+export type SwapTransactionType = 'Batched' | 'ERC20' | 'Permit2' | 'Swap'; // Consists of atomic batch transactions, ERC-20 approvals, Permit2 approvals, and Swaps
+
 export type SwapUnit = {
   amount: string;
   balance?: string;
@@ -347,4 +360,15 @@ export type Transaction = {
   nonce?: number; // The nonce for the transaction
   to: Address; // The recipient address
   value: bigint; // The value of the transaction
+};
+
+export type SwapTransaction = {
+  transaction: Call;
+  transactionType: SwapTransactionType;
+};
+
+export type UseAwaitCallsParams = {
+  accountConfig: Config;
+  lifecycleStatus: LifecycleStatus;
+  updateLifecycleStatus: (state: LifecycleStatusUpdate) => void; // A function to set the lifecycle status of the component
 };

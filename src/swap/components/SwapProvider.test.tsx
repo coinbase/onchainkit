@@ -8,11 +8,21 @@ import {
 } from '@testing-library/react';
 import React, { act, useCallback, useEffect } from 'react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { http, WagmiProvider, createConfig, useAccount } from 'wagmi';
+import {
+  http,
+  WagmiProvider,
+  createConfig,
+  useAccount,
+  useChainId,
+  useSwitchChain,
+} from 'wagmi';
+import { waitForTransactionReceipt } from 'wagmi/actions';
 import { base } from 'wagmi/chains';
 import { mock } from 'wagmi/connectors';
+import { useSendCalls } from 'wagmi/experimental';
 import { buildSwapTransaction } from '../../api/buildSwapTransaction';
 import { getSwapQuote } from '../../api/getSwapQuote';
+import { useCapabilitiesSafe } from '../../internal/hooks/useCapabilitiesSafe';
 import { DEGEN_TOKEN, ETH_TOKEN } from '../mocks';
 import { getSwapErrorCode } from '../utils/getSwapErrorCode';
 import { SwapProvider, useSwapContext } from './SwapProvider';
@@ -36,12 +46,32 @@ vi.mock('../utils/processSwapTransaction', () => ({
   processSwapTransaction: vi.fn(),
 }));
 
+const mockSwitchChain = vi.fn();
 vi.mock('wagmi', async (importOriginal) => {
   return {
     ...(await importOriginal<typeof import('wagmi')>()),
     useAccount: vi.fn(),
+    useChainId: vi.fn(),
+    useSwitchChain: vi.fn(),
   };
 });
+
+const mockAwaitCalls = vi.fn();
+vi.mock('../hooks/useAwaitCalls', () => ({
+  useAwaitCalls: () => useCallback(mockAwaitCalls, []),
+}));
+
+vi.mock('../../internal/hooks/useCapabilitiesSafe', () => ({
+  useCapabilitiesSafe: vi.fn(),
+}));
+
+vi.mock('wagmi/actions', () => ({
+  waitForTransactionReceipt: vi.fn(),
+}));
+
+vi.mock('wagmi/experimental', () => ({
+  useSendCalls: vi.fn(),
+}));
 
 vi.mock('../path/to/maxSlippageModule', () => ({
   getMaxSlippage: vi.fn().mockReturnValue(10),
@@ -194,6 +224,14 @@ describe('useSwapContext', () => {
     (useAccount as ReturnType<typeof vi.fn>).mockReturnValue({
       address: '0x123',
     });
+    (useChainId as ReturnType<typeof vi.fn>).mockReturnValue(8453);
+    (useSendCalls as ReturnType<typeof vi.fn>).mockReturnValue({
+      status: 'idle',
+      sendCallsAsync: vi.fn(),
+    });
+    (useSwitchChain as ReturnType<typeof vi.fn>).mockReturnValue({
+      switchChainAsync: mockSwitchChain,
+    });
     await act(async () => {
       renderWithProviders({ Component: () => null });
     });
@@ -239,6 +277,15 @@ describe('SwapProvider', () => {
     (useAccount as ReturnType<typeof vi.fn>).mockReturnValue({
       address: '0x123',
     });
+    (useChainId as ReturnType<typeof vi.fn>).mockReturnValue(8453);
+    (useSendCalls as ReturnType<typeof vi.fn>).mockReturnValue({
+      status: 'idle',
+      sendCallsAsync: vi.fn(),
+    });
+    (useSwitchChain as ReturnType<typeof vi.fn>).mockReturnValue({
+      switchChainAsync: mockSwitchChain,
+    });
+    (useCapabilitiesSafe as ReturnType<typeof vi.fn>).mockReturnValue({});
   });
 
   it('should reset inputs when setLifecycleStatus is called with success', async () => {
@@ -255,6 +302,30 @@ describe('SwapProvider', () => {
       expect(mockResetFunction).toHaveBeenCalled();
     });
     expect(mockResetFunction).toHaveBeenCalledTimes(1);
+  });
+
+  it('should handle batched transactions', async () => {
+    const { result } = renderHook(() => useSwapContext(), { wrapper });
+    (useCapabilitiesSafe as ReturnType<typeof vi.fn>).mockReturnValue({
+      atomicBatch: { supported: true },
+      paymasterService: { supported: true },
+      auxiliaryFunds: { supported: true },
+    });
+    (waitForTransactionReceipt as ReturnType<typeof vi.fn>).mockResolvedValue({
+      transactionHash: 'receiptHash',
+    });
+    await act(async () => {
+      result.current.updateLifecycleStatus({
+        statusName: 'transactionApproved',
+        statusData: {
+          transactionType: 'Batched',
+        },
+      });
+    });
+    await waitFor(() => {
+      expect(mockAwaitCalls).toHaveBeenCalled();
+    });
+    expect(mockAwaitCalls).toHaveBeenCalledTimes(1);
   });
 
   it('should emit onError when setLifecycleStatus is called with error', async () => {

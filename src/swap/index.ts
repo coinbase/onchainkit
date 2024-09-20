@@ -29,5 +29,6 @@ export type {
   SwapSettingsSlippageInputReact,
   SwapSettingsSlippageTitleReact,
   SwapToggleButtonReact,
+  SwapTransactionType,
   Transaction,
 } from './types';

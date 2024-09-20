@@ -6,7 +6,6 @@ export async function sendSwapTransactions({
   config,
   sendCallsAsync,
   sendTransactionAsync,
-  setCallsId,
   updateLifecycleStatus,
   walletCapabilities,
   transactions,
@@ -17,15 +16,15 @@ export async function sendSwapTransactions({
       statusName: 'transactionPending',
     });
     const callsId = await sendCallsAsync({
-      calls: transactions,
+      calls: transactions.map(({ transaction }) => transaction),
     });
     updateLifecycleStatus({
       statusName: 'transactionApproved',
       statusData: {
+        callsId,
         transactionType: 'Batched',
       },
     });
-    setCallsId(callsId);
   } else {
     await sendSingleTransactions({
       config,

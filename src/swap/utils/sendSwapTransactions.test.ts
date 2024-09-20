@@ -4,7 +4,6 @@ import { waitForTransactionReceipt } from 'wagmi/actions';
 import { mainnet, sepolia } from 'wagmi/chains';
 import { mock } from 'wagmi/connectors';
 import { Capabilities } from '../../constants';
-import type { Call } from '../../transaction/types';
 import { sendSwapTransactions } from './sendSwapTransactions';
 
 vi.mock('wagmi/actions', () => ({
@@ -17,7 +16,6 @@ describe('sendSwapTransactions', () => {
   const updateLifecycleStatus = vi.fn();
   let sendTransactionAsync: Mock;
   let sendCallsAsync: Mock;
-  let setCallsId: Mock;
   const mockTransactionReceipt = {
     transactionHash: 'receiptHash',
   };
@@ -49,26 +47,35 @@ describe('sendSwapTransactions', () => {
       .mockResolvedValueOnce('txHash3');
 
     sendCallsAsync = vi.fn().mockResolvedValue('callsId');
-    setCallsId = vi.fn();
   });
 
   it('should execute atomic batch transactions when supported', async () => {
-    const transactions: Call[] = [
-      { to: '0x123', value: 0n, data: '0x' },
-      { to: '0x456', value: 0n, data: '0x' },
+    const transactions = [
+      {
+        transaction: { to: '0x123', value: 0n, data: '0x' },
+        transactionType: 'Permit2',
+      },
+      {
+        transaction: { to: '0x456', value: 0n, data: '0x' },
+        transactionType: 'ERC20',
+      },
+      {
+        transaction: { to: '0x789', value: 0n, data: '0x' },
+        transactionType: 'Swap',
+      },
     ];
     await sendSwapTransactions({
       config,
       sendTransactionAsync,
       sendCallsAsync,
-      setCallsId,
       updateLifecycleStatus,
       walletCapabilities: { [Capabilities.AtomicBatch]: { supported: true } },
       transactions,
     });
     expect(sendCallsAsync).toHaveBeenCalledTimes(1);
-    expect(sendCallsAsync).toHaveBeenCalledWith({ calls: transactions });
-    expect(setCallsId).toHaveBeenCalledWith('callsId');
+    expect(sendCallsAsync).toHaveBeenCalledWith({
+      calls: transactions.map(({ transaction }) => transaction),
+    });
     expect(updateLifecycleStatus).toHaveBeenCalledTimes(2);
     expect(updateLifecycleStatus).toHaveBeenNthCalledWith(1, {
       statusName: 'transactionPending',
@@ -76,28 +83,34 @@ describe('sendSwapTransactions', () => {
     expect(updateLifecycleStatus).toHaveBeenNthCalledWith(2, {
       statusName: 'transactionApproved',
       statusData: {
+        callsId: 'callsId',
         transactionType: 'Batched',
       },
     });
   });
 
   it('should execute non-batched transactions sequentially', async () => {
-    const transactions: Call[] = [
-      { to: '0x123', value: 0n, data: '0x' },
-      { to: '0x456', value: 0n, data: '0x' },
+    const transactions = [
+      {
+        transaction: { to: '0x123', value: 0n, data: '0x' },
+        transactionType: 'ERC20',
+      },
+      {
+        transaction: { to: '0x456', value: 0n, data: '0x' },
+        transactionType: 'Swap',
+      },
     ];
     await sendSwapTransactions({
       config,
       sendTransactionAsync,
       sendCallsAsync,
-      setCallsId,
       updateLifecycleStatus,
       walletCapabilities: { [Capabilities.AtomicBatch]: { supported: false } },
       transactions,
     });
     expect(sendTransactionAsync).toHaveBeenCalledTimes(2);
     expect(waitForTransactionReceipt).toHaveBeenCalledTimes(2);
-    expect(updateLifecycleStatus).toHaveBeenCalledTimes(4);
+    expect(updateLifecycleStatus).toHaveBeenCalledTimes(5);
     expect(updateLifecycleStatus).toHaveBeenNthCalledWith(1, {
       statusName: 'transactionPending',
     });
@@ -112,6 +125,13 @@ describe('sendSwapTransactions', () => {
       statusName: 'transactionPending',
     });
     expect(updateLifecycleStatus).toHaveBeenNthCalledWith(4, {
+      statusName: 'transactionApproved',
+      statusData: {
+        transactionHash: 'txHash2',
+        transactionType: 'Swap',
+      },
+    });
+    expect(updateLifecycleStatus).toHaveBeenNthCalledWith(5, {
       statusName: 'success',
       statusData: {
         transactionReceipt: mockTransactionReceipt,
@@ -120,29 +140,43 @@ describe('sendSwapTransactions', () => {
   });
 
   it('should handle Permit2 approval process', async () => {
-    const transactions: Call[] = [
-      { to: '0x123', value: 0n, data: '0x' },
-      { to: '0x456', value: 0n, data: '0x' },
-      { to: '0x789', value: 0n, data: '0x' },
+    const transactions = [
+      {
+        transaction: { to: '0x123', value: 0n, data: '0x' },
+        transactionType: 'Permit2',
+      },
+      {
+        transaction: { to: '0x456', value: 0n, data: '0x' },
+        transactionType: 'ERC20',
+      },
+      {
+        transaction: { to: '0x789', value: 0n, data: '0x' },
+        transactionType: 'Swap',
+      },
     ];
     await sendSwapTransactions({
       config,
       sendTransactionAsync,
       sendCallsAsync,
-      setCallsId,
       updateLifecycleStatus,
       walletCapabilities: { [Capabilities.AtomicBatch]: { supported: false } },
       transactions,
     });
     expect(sendTransactionAsync).toHaveBeenCalledTimes(3);
     expect(waitForTransactionReceipt).toHaveBeenCalledTimes(3);
-    expect(updateLifecycleStatus).toHaveBeenCalledTimes(6);
+    expect(updateLifecycleStatus).toHaveBeenCalledTimes(7);
+    expect(updateLifecycleStatus).toHaveBeenNthCalledWith(1, {
+      statusName: 'transactionPending',
+    });
     expect(updateLifecycleStatus).toHaveBeenNthCalledWith(2, {
       statusName: 'transactionApproved',
       statusData: {
         transactionHash: 'txHash1',
         transactionType: 'Permit2',
       },
+    });
+    expect(updateLifecycleStatus).toHaveBeenNthCalledWith(3, {
+      statusName: 'transactionPending',
     });
     expect(updateLifecycleStatus).toHaveBeenNthCalledWith(4, {
       statusName: 'transactionApproved',
@@ -151,7 +185,17 @@ describe('sendSwapTransactions', () => {
         transactionType: 'ERC20',
       },
     });
+    expect(updateLifecycleStatus).toHaveBeenNthCalledWith(5, {
+      statusName: 'transactionPending',
+    });
     expect(updateLifecycleStatus).toHaveBeenNthCalledWith(6, {
+      statusName: 'transactionApproved',
+      statusData: {
+        transactionHash: 'txHash3',
+        transactionType: 'Swap',
+      },
+    });
+    expect(updateLifecycleStatus).toHaveBeenNthCalledWith(7, {
       statusName: 'success',
       statusData: {
         transactionReceipt: mockTransactionReceipt,
