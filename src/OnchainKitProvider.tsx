@@ -16,6 +16,7 @@ export function OnchainKitProvider({
   children,
   rpcUrl,
   schemaId,
+  projectId,
 }: OnchainKitProviderReact) {
   if (schemaId && !checkHashLength(schemaId, 64)) {
     throw Error('EAS schemaId must be 64 characters prefixed with "0x"');
@@ -28,6 +29,7 @@ export function OnchainKitProvider({
       chain: chain,
       rpcUrl: rpcUrl ?? null,
       schemaId: schemaId ?? null,
+      projectId: projectId ?? null,
     };
     setOnchainKitConfig(onchainKitConfig);
     return onchainKitConfig;

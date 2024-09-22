@@ -1,12 +1,10 @@
-import { render, screen, waitFor } from '@testing-library/react';
-import { base } from 'viem/chains';
+import React from 'react';
 import '@testing-library/jest-dom';
-
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-
+import { render, screen, waitFor } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
-import { WagmiProvider } from 'wagmi';
-import { http, createConfig } from 'wagmi';
+import { base } from 'viem/chains';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { http, createConfig, WagmiProvider } from 'wagmi';
 import { mock } from 'wagmi/connectors';
 import { setOnchainKitConfig } from './OnchainKitConfig';
 import { OnchainKitProvider } from './OnchainKitProvider';
@@ -44,6 +42,7 @@ vi.mock('./OnchainKitConfig', () => ({
     chain: base,
     rpcUrl: null,
     schemaId: null,
+    projectId: null,
   },
 }));
 
@@ -127,6 +126,7 @@ describe('OnchainKitProvider', () => {
       chain: base,
       rpcUrl: null,
       schemaId,
+      projectId: null,
     });
   });
 });

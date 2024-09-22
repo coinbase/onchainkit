@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest';
 import { baseSepolia } from 'viem/chains';
 import { getOnchainKitConfig, setOnchainKitConfig } from './OnchainKitConfig';
 import { getRPCUrl } from './network/getRPCUrl';
@@ -23,12 +24,14 @@ describe('OnchainKitConfig', () => {
     const chain = baseSepolia;
     const schemaId = '0x123';
     const apiKey = 'test-api-key';
+    const projectId = 'test-project-id';
     const rpcUrl =
       'https://api.developer.coinbase.com/rpc/v1/base-sepolia/test-api-key';
-    setOnchainKitConfig({ chain, schemaId, apiKey });
+    setOnchainKitConfig({ chain, schemaId, apiKey, projectId });
     expect(getOnchainKitConfig('chain')).toEqual(chain);
     expect(getOnchainKitConfig('schemaId')).toEqual(schemaId);
     expect(getOnchainKitConfig('apiKey')).toEqual(apiKey);
+    expect(getOnchainKitConfig('projectId')).toEqual(projectId);
     expect(getRPCUrl()).toEqual(rpcUrl);
   });
 
