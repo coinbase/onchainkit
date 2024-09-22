@@ -126,7 +126,7 @@ export type WalletDropdownFundLinkReact = {
   rel?: string; // Specifies the relationship between the current document and the linked document
   target?: string; // Where to open the target if `openIn` is set to tab
   text?: string; // Optional text override
-  fundingUrl?: string // Optional funding URL override
+  fundingUrl?: string; // Optional funding URL override
 };
 
 /**

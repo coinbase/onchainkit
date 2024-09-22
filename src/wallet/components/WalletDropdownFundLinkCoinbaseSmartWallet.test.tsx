@@ -1,7 +1,6 @@
-import React from 'react';
 import '@testing-library/jest-dom';
 import { render } from '@testing-library/react';
-import { afterEach, describe, expect, it, Mock, vi } from 'vitest';
+import { type Mock, afterEach, describe, expect, it, vi } from 'vitest';
 import { getCoinbaseSmartWalletFundUrl } from '../../fund/utils/getCoinbaseSmartWalletFundUrl';
 import { WalletDropdownFundLinkCoinbaseSmartWallet } from './WalletDropdownFundLinkCoinbaseSmartWallet';
 
@@ -14,19 +13,21 @@ vi.mock('./WalletDropdownFundLinkButton', () => ({
   WalletDropdownFundLinkButton: (props) => {
     mockWalletDropdownFundLinkButton(props);
     return <div />;
-  }
+  },
 }));
 
 describe('WalletDropdownFundLinkCoinbaseSmartWallet', () => {
   it('renders the Coinbase Smart Wallet funding link', () => {
-    (getCoinbaseSmartWalletFundUrl as Mock).mockReturnValue('https://keys.coinbase.com/fund');
+    (getCoinbaseSmartWalletFundUrl as Mock).mockReturnValue(
+      'https://keys.coinbase.com/fund',
+    );
 
     render(<WalletDropdownFundLinkCoinbaseSmartWallet />);
 
     expect(mockWalletDropdownFundLinkButton).toHaveBeenCalledWith(
       expect.objectContaining({
         fundingUrl: 'https://keys.coinbase.com/fund',
-      })
+      }),
     );
   });
 

@@ -1,8 +1,8 @@
-import { describe, expect, it, Mock, vi } from 'vitest';
 import { renderHook } from '@testing-library/react';
-import { useAccount } from "wagmi";
-import { useOnchainKit } from "../../useOnchainKit";
-import { useCapabilitiesSafe } from "../../internal/hooks/useCapabilitiesSafe";
+import { type Mock, describe, expect, it, vi } from 'vitest';
+import { useAccount } from 'wagmi';
+import { useCapabilitiesSafe } from '../../internal/hooks/useCapabilitiesSafe';
+import { useOnchainKit } from '../../useOnchainKit';
 import { useIsWalletACoinbaseSmartWallet } from './useIsWalletACoinbaseSmartWallet';
 
 vi.mock('wagmi', () => ({
@@ -17,12 +17,15 @@ vi.mock('../../internal/hooks/useCapabilitiesSafe', () => ({
   useCapabilitiesSafe: vi.fn(),
 }));
 
-
 describe('useIsWalletACoinbaseSmartWallet', () => {
   it('returns true if the wallet is a Coinbase Smart Wallet', () => {
     (useOnchainKit as Mock).mockReturnValue({ chain: { id: 'chainId' } });
-    (useAccount as Mock).mockReturnValue({ connector: { id: 'coinbaseWalletSDK' } });
-    (useCapabilitiesSafe as Mock).mockReturnValue({ atomicBatch: { supported: true } });
+    (useAccount as Mock).mockReturnValue({
+      connector: { id: 'coinbaseWalletSDK' },
+    });
+    (useCapabilitiesSafe as Mock).mockReturnValue({
+      atomicBatch: { supported: true },
+    });
 
     const { result } = renderHook(() => useIsWalletACoinbaseSmartWallet());
 
@@ -31,7 +34,9 @@ describe('useIsWalletACoinbaseSmartWallet', () => {
 
   it('returns false if the wallet is a non-smart Coinbase Wallet', () => {
     (useOnchainKit as Mock).mockReturnValue({ chain: { id: 'chainId' } });
-    (useAccount as Mock).mockReturnValue({ connector: { id: 'coinbaseWalletSDK' } });
+    (useAccount as Mock).mockReturnValue({
+      connector: { id: 'coinbaseWalletSDK' },
+    });
     (useCapabilitiesSafe as Mock).mockReturnValue({});
 
     const { result } = renderHook(() => useIsWalletACoinbaseSmartWallet());
@@ -42,7 +47,9 @@ describe('useIsWalletACoinbaseSmartWallet', () => {
   it('returns true if the wallet is a Coinbase Smart Wallet', () => {
     (useOnchainKit as Mock).mockReturnValue({ chain: { id: 'chainId' } });
     (useAccount as Mock).mockReturnValue({ connector: { id: 'someOtherId' } });
-    (useCapabilitiesSafe as Mock).mockReturnValue({ atomicBatch: { supported: true } });
+    (useCapabilitiesSafe as Mock).mockReturnValue({
+      atomicBatch: { supported: true },
+    });
 
     const { result } = renderHook(() => useIsWalletACoinbaseSmartWallet());
 

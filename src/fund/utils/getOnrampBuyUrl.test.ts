@@ -8,14 +8,18 @@ describe('getOnrampBuyUrl', () => {
       addresses: { '0x1': ['base'] },
       assets: ['USDC'],
     });
-    expect(url).toEqual('https://pay.coinbase.com/buy?addresses=%7B%220x1%22%3A%5B%22base%22%5D%7D&appId=project-id&assets=%5B%22USDC%22%5D')
+    expect(url).toEqual(
+      'https://pay.coinbase.com/buy?addresses=%7B%220x1%22%3A%5B%22base%22%5D%7D&appId=project-id&assets=%5B%22USDC%22%5D',
+    );
   });
 
   it('should return the correct URL when using session token props', () => {
     const url = getOnrampBuyUrl({
       sessionToken: 'session-token',
     });
-    expect(url).toEqual('https://pay.coinbase.com/buy?sessionToken=session-token')
+    expect(url).toEqual(
+      'https://pay.coinbase.com/buy?sessionToken=session-token',
+    );
   });
 
   it('should include optional params in the query string', () => {
@@ -24,6 +28,8 @@ describe('getOnrampBuyUrl', () => {
       defaultAsset: 'USDC',
       defaultNetwork: 'ethereum',
     });
-    expect(url).toEqual('https://pay.coinbase.com/buy?defaultAsset=USDC&defaultNetwork=ethereum&sessionToken=session-token')
+    expect(url).toEqual(
+      'https://pay.coinbase.com/buy?defaultAsset=USDC&defaultNetwork=ethereum&sessionToken=session-token',
+    );
   });
 });

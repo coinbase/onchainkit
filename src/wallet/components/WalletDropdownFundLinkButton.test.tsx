@@ -1,4 +1,3 @@
-import React from 'react';
 import '@testing-library/jest-dom';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
@@ -24,7 +23,9 @@ describe('WalletDropdownFundLinkButton', () => {
   });
 
   it('renders correctly with default props', () => {
-    render(<WalletDropdownFundLinkButton fundingUrl='https://pay.coinbase.com' />);
+    render(
+      <WalletDropdownFundLinkButton fundingUrl="https://pay.coinbase.com" />,
+    );
 
     const buttonElement = screen.getByRole('button');
     expect(buttonElement).toBeInTheDocument();
@@ -33,7 +34,12 @@ describe('WalletDropdownFundLinkButton', () => {
 
   it('renders correctly with custom icon element', () => {
     const customIcon = <svg aria-label="custom-icon" />;
-    render(<WalletDropdownFundLinkButton icon={customIcon} fundingUrl='https://pay.coinbase.com' />);
+    render(
+      <WalletDropdownFundLinkButton
+        icon={customIcon}
+        fundingUrl="https://pay.coinbase.com"
+      />,
+    );
 
     const buttonElement = screen.getByRole('button');
     expect(buttonElement).toBeInTheDocument();
@@ -42,7 +48,12 @@ describe('WalletDropdownFundLinkButton', () => {
   });
 
   it('renders correctly with custom text', () => {
-    render(<WalletDropdownFundLinkButton text="test" fundingUrl='https://pay.coinbase.com' />);
+    render(
+      <WalletDropdownFundLinkButton
+        text="test"
+        fundingUrl="https://pay.coinbase.com"
+      />,
+    );
 
     const buttonElement = screen.getByRole('button');
     expect(buttonElement).toBeInTheDocument();
@@ -57,7 +68,12 @@ describe('WalletDropdownFundLinkButton', () => {
     // Mock window.screen
     vi.stubGlobal('screen', { width: 1024, height: 768 });
 
-    render(<WalletDropdownFundLinkButton openIn="popup" fundingUrl='https://pay.coinbase.com' />);
+    render(
+      <WalletDropdownFundLinkButton
+        openIn="popup"
+        fundingUrl="https://pay.coinbase.com"
+      />,
+    );
 
     const buttonElement = screen.getByText('Fund wallet');
     fireEvent.click(buttonElement);
@@ -76,7 +92,12 @@ describe('WalletDropdownFundLinkButton', () => {
   });
 
   it('renders as a link when openIn="tab"', () => {
-    render(<WalletDropdownFundLinkButton openIn="tab" fundingUrl='https://pay.coinbase.com' />);
+    render(
+      <WalletDropdownFundLinkButton
+        openIn="tab"
+        fundingUrl="https://pay.coinbase.com"
+      />,
+    );
 
     const linkElement = screen.getByRole('link');
     expect(linkElement).toBeInTheDocument();
@@ -146,8 +167,6 @@ describe('WalletDropdownFundLinkButton', () => {
     const mockOpen = vi.fn();
     const screenWidth = 1024;
     const screenHeight = 768;
-    const innerWidth = 1024;
-    const innerHeight = 768;
 
     vi.stubGlobal('open', mockOpen);
     vi.stubGlobal('screen', { width: screenWidth, height: screenHeight });
@@ -155,7 +174,7 @@ describe('WalletDropdownFundLinkButton', () => {
     render(
       <WalletDropdownFundLinkButton
         openIn="popup"
-        popupSize='sm'
+        popupSize="sm"
         popupHeightOverride={600}
         popupWidthOverride={430}
         fundingUrl="https://pay.coinbase.com"
@@ -168,7 +187,7 @@ describe('WalletDropdownFundLinkButton', () => {
     expect(mockOpen).toHaveBeenCalledWith(
       expect.stringContaining('https://pay.coinbase.com'),
       undefined,
-      expect.stringContaining(`width=430,height=600`),
+      expect.stringContaining('width=430,height=600'),
     );
 
     vi.unstubAllGlobals();

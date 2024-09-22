@@ -2,5 +2,5 @@ export { getCoinbaseSmartWalletFundUrl } from './utils/getCoinbaseSmartWalletFun
 export { getOnrampBuyUrl } from './utils/getOnrampBuyUrl';
 export type {
   GetOnrampUrlWithProjectIdParams,
-  GetOnrampUrlWithSessionTokenParams
+  GetOnrampUrlWithSessionTokenParams,
 } from './types';

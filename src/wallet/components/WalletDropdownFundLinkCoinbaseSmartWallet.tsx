@@ -1,7 +1,7 @@
-import { useMemo } from "react";
-import { WalletDropdownFundLinkReact } from "../types";
-import { getCoinbaseSmartWalletFundUrl } from "../../fund/utils/getCoinbaseSmartWalletFundUrl";
-import { WalletDropdownFundLinkButton } from "./WalletDropdownFundLinkButton";
+import { useMemo } from 'react';
+import { getCoinbaseSmartWalletFundUrl } from '../../fund/utils/getCoinbaseSmartWalletFundUrl';
+import type { WalletDropdownFundLinkReact } from '../types';
+import { WalletDropdownFundLinkButton } from './WalletDropdownFundLinkButton';
 
 export function WalletDropdownFundLinkCoinbaseSmartWallet({
   ...props
@@ -10,7 +10,5 @@ export function WalletDropdownFundLinkCoinbaseSmartWallet({
     return getCoinbaseSmartWalletFundUrl();
   }, []);
 
-  return (
-    <WalletDropdownFundLinkButton {...props} fundingUrl={fundingUrl} />
-  );
+  return <WalletDropdownFundLinkButton {...props} fundingUrl={fundingUrl} />;
 }

@@ -10,7 +10,7 @@ const COINBASE_SMART_WALLET_FUND_URL = 'https://keys.coinbase.com/fund';
 export function getCoinbaseSmartWalletFundUrl() {
   const currentURL = window.location.href;
   const tabName = document.title;
-  
+
   const fundUrl = `${COINBASE_SMART_WALLET_FUND_URL}?dappName=${encodeURIComponent(
     tabName,
   )}&dappUrl=${encodeURIComponent(currentURL)}&version=${encodeURIComponent(

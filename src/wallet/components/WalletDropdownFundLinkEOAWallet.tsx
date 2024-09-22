@@ -1,8 +1,8 @@
 import { useMemo } from 'react';
-import type { WalletDropdownFundLinkReact } from '../types';
-import { useOnchainKit } from '../../useOnchainKit';
 import { useAccount } from 'wagmi';
 import { getOnrampBuyUrl } from '../../fund/utils/getOnrampBuyUrl';
+import { useOnchainKit } from '../../useOnchainKit';
+import type { WalletDropdownFundLinkReact } from '../types';
 import { WalletDropdownFundLinkButton } from './WalletDropdownFundLinkButton';
 
 export function WalletDropdownFundLinkEOAWallet({
@@ -20,15 +20,15 @@ export function WalletDropdownFundLinkEOAWallet({
   }
 
   const fundingUrl = useMemo(() => {
-      return getOnrampBuyUrl({
-        projectId,
-        addresses: { [address]: [chain.name.toLowerCase()] },
-      })
+    return getOnrampBuyUrl({
+      projectId,
+      addresses: { [address]: [chain.name.toLowerCase()] },
+    });
   }, [projectId, address, chain]);
 
   return (
     // The Coinbase Onramp widget is not very responsive, so we need to override the popup size.
-    <WalletDropdownFundLinkButton 
+    <WalletDropdownFundLinkButton
       {...props}
       popupHeightOverride={720}
       popupWidthOverride={460}

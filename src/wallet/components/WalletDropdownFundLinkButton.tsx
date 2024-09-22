@@ -7,7 +7,7 @@ import { getWindowDimensions } from '../utils/getWindowDimensions';
 type WalletDropdownFundLinkButtonPrivateProps = {
   popupHeightOverride?: number;
   popupWidthOverride?: number;
-}
+};
 
 export function WalletDropdownFundLinkButton({
   className,
@@ -20,10 +20,9 @@ export function WalletDropdownFundLinkButton({
   fundingUrl,
   popupHeightOverride,
   popupWidthOverride,
-}: Required<Pick<WalletDropdownFundLinkReact, 'fundingUrl'>> 
-    & WalletDropdownFundLinkReact 
-    & WalletDropdownFundLinkButtonPrivateProps
-) {
+}: Required<Pick<WalletDropdownFundLinkReact, 'fundingUrl'>> &
+  WalletDropdownFundLinkReact &
+  WalletDropdownFundLinkButtonPrivateProps) {
   const iconSvg = useIcon({ icon });
 
   const handleClick = useCallback(
@@ -42,7 +41,7 @@ export function WalletDropdownFundLinkButton({
       const windowFeatures = `width=${width},height=${height},resizable,scrollbars=yes,status=1,left=${left},top=${top}`;
       window.open(fundingUrl, target, windowFeatures);
     },
-    [fundingUrl, popupSize, target],
+    [fundingUrl, popupSize, target, popupWidthOverride, popupHeightOverride],
   );
 
   const overrideClassName = cn(

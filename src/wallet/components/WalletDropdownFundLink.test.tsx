@@ -1,7 +1,6 @@
-import React from 'react';
 import '@testing-library/jest-dom';
-import { render, screen } from '@testing-library/react';
-import { afterEach, beforeEach, describe, expect, it, Mock, vi } from 'vitest';
+import { render } from '@testing-library/react';
+import { type Mock, describe, expect, it, vi } from 'vitest';
 import { useIsWalletACoinbaseSmartWallet } from '../hooks/useIsWalletACoinbaseSmartWallet';
 import { WalletDropdownFundLink } from './WalletDropdownFundLink';
 
@@ -14,7 +13,7 @@ vi.mock('./WalletDropdownFundLinkButton', () => ({
   WalletDropdownFundLinkButton: (props) => {
     mockWalletDropdownFundLinkButton(props);
     return <div />;
-  }
+  },
 }));
 
 const mockWalletDropdownFundLinkCoinbaseSmartWallet = vi.fn();
@@ -22,7 +21,7 @@ vi.mock('./WalletDropdownFundLinkCoinbaseSmartWallet', () => ({
   WalletDropdownFundLinkCoinbaseSmartWallet: (props) => {
     mockWalletDropdownFundLinkCoinbaseSmartWallet(props);
     return <div />;
-  }
+  },
 }));
 
 const mockWalletDropdownFundLinkEOAWallet = vi.fn();
@@ -30,7 +29,7 @@ vi.mock('./WalletDropdownFundLinkEOAWallet', () => ({
   WalletDropdownFundLinkEOAWallet: (props) => {
     mockWalletDropdownFundLinkEOAWallet(props);
     return <div />;
-  }
+  },
 }));
 
 describe('WalletDropdownFund', () => {
@@ -42,7 +41,7 @@ describe('WalletDropdownFund', () => {
     expect(mockWalletDropdownFundLinkButton).toHaveBeenCalledWith(
       expect.objectContaining({
         fundingUrl: 'https://wallet.fund',
-      })
+      }),
     );
   });
 

@@ -1,7 +1,7 @@
 /**
  * Props used to get an Onramp buy URL by directly providing a CDP project ID.
  * See https://docs.cdp.coinbase.com/onramp/docs/api-initializing#generating-the-coinbase-onramp-buysell-url
- * 
+ *
  * Note: exported as public Type
  */
 export type GetOnrampUrlWithProjectIdParams = {
@@ -44,7 +44,7 @@ export type GetOnrampUrlWithProjectIdParams = {
 /**
  * Props used to get an Onramp buy URL using a session token created using the Onramp session token API.
  * See https://docs.cdp.coinbase.com/onramp/docs/api-initializing#getting-an-coinbase-onramp-buysell-session-token
- * 
+ *
  * Note: exported as public Type
  */
 export type GetOnrampUrlWithSessionTokenParams = {

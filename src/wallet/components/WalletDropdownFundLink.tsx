@@ -1,5 +1,5 @@
-import type { WalletDropdownFundLinkReact } from '../types';
 import { useIsWalletACoinbaseSmartWallet } from '../hooks/useIsWalletACoinbaseSmartWallet';
+import type { WalletDropdownFundLinkReact } from '../types';
 import { WalletDropdownFundLinkButton } from './WalletDropdownFundLinkButton';
 import { WalletDropdownFundLinkCoinbaseSmartWallet } from './WalletDropdownFundLinkCoinbaseSmartWallet';
 import { WalletDropdownFundLinkEOAWallet } from './WalletDropdownFundLinkEOAWallet';
@@ -17,10 +17,33 @@ export function WalletDropdownFundLink({
   const isCoinbaseSmartWallet = useIsWalletACoinbaseSmartWallet();
 
   if (fundingUrl) {
-    return <WalletDropdownFundLinkButton {...{ className, icon, openIn, popupSize, rel, target, text, fundingUrl }} />;
-  } else if (isCoinbaseSmartWallet) {
-    return <WalletDropdownFundLinkCoinbaseSmartWallet {...{ className, icon, openIn, popupSize, rel, target, text }} />;
-  } else {
-    return <WalletDropdownFundLinkEOAWallet {...{ className, icon, openIn, popupSize, rel, target, text }} />;
+    return (
+      <WalletDropdownFundLinkButton
+        {...{
+          className,
+          icon,
+          openIn,
+          popupSize,
+          rel,
+          target,
+          text,
+          fundingUrl,
+        }}
+      />
+    );
   }
+
+  if (isCoinbaseSmartWallet) {
+    return (
+      <WalletDropdownFundLinkCoinbaseSmartWallet
+        {...{ className, icon, openIn, popupSize, rel, target, text }}
+      />
+    );
+  }
+
+  return (
+    <WalletDropdownFundLinkEOAWallet
+      {...{ className, icon, openIn, popupSize, rel, target, text }}
+    />
+  );
 }

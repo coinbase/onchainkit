@@ -21,7 +21,9 @@ describe('WalletDropdownFundLinkCoinbaseSmartWallet', () => {
 
   it('return the Coinbase Smart Wallet fund URL with correct query params', () => {
     const url = getCoinbaseSmartWalletFundUrl();
-    expect(url).toEqual('https://keys.coinbase.com/fund?dappName=myDapp&dappUrl=http%3A%2F%2Flocalhost%3A3000%2F&version=0.0.1&source=onchainkit')
+    expect(url).toEqual(
+      'https://keys.coinbase.com/fund?dappName=myDapp&dappUrl=http%3A%2F%2Flocalhost%3A3000%2F&version=0.0.1&source=onchainkit',
+    );
   });
 
   afterEach(() => {

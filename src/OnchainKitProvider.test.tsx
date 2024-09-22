@@ -1,10 +1,9 @@
-import React from 'react';
 import '@testing-library/jest-dom';
-import { render, screen, waitFor } from '@testing-library/react';
-import { describe, expect, it, vi } from 'vitest';
-import { base } from 'viem/chains';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { http, createConfig, WagmiProvider } from 'wagmi';
+import { render, screen, waitFor } from '@testing-library/react';
+import { base } from 'viem/chains';
+import { describe, expect, it, vi } from 'vitest';
+import { http, WagmiProvider, createConfig } from 'wagmi';
 import { mock } from 'wagmi/connectors';
 import { setOnchainKitConfig } from './OnchainKitConfig';
 import { OnchainKitProvider } from './OnchainKitProvider';

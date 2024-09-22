@@ -1,4 +1,7 @@
-import { GetOnrampUrlWithProjectIdParams, GetOnrampUrlWithSessionTokenParams } from "../types";
+import type {
+  GetOnrampUrlWithProjectIdParams,
+  GetOnrampUrlWithSessionTokenParams,
+} from '../types';
 
 const ONRAMP_BUY_URL = 'https://pay.coinbase.com/buy';
 
@@ -18,7 +21,7 @@ export function getOnrampBuyUrl({
     url.searchParams.append('appId', projectId);
   }
 
-  (Object.keys(props) as (keyof typeof props)[]).forEach((key) => {
+  for (const key of Object.keys(props) as (keyof typeof props)[]) {
     const value = props[key];
     if (value !== undefined) {
       if (['string', 'number', 'boolean'].includes(typeof value)) {
@@ -27,7 +30,7 @@ export function getOnrampBuyUrl({
         url.searchParams.append(key, JSON.stringify(value));
       }
     }
-  });
+  }
 
   url.searchParams.sort();
 
