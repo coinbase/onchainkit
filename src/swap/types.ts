@@ -244,13 +244,13 @@ export type SwapQuote = {
   amountReference: string; // The reference amount for the quote
   from: Token; // The source token for the swap
   fromAmount: string; // The amount of the source token
-  fromAmountUSDC: string; // The USD value of the source token
+  fromAmountUSD: string; // The USD value of the source token
   hasHighPriceImpact: boolean; // Whether the price impact is high
   priceImpact: string; // The price impact of the swap
   slippage: string; // The slippage of the swap
   to: Token; // The destination token for the swap
   toAmount: string; // The amount of the destination token
-  toAmountUSDC: string; // The USD value of the destination token
+  toAmountUSD: string; // The USD value of the destination token
   warning?: QuoteWarning; // The warning associated with the quote
 };
 

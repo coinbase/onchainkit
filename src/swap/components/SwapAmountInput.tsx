@@ -22,6 +22,9 @@ export function SwapAmountInput({
   const source = useValue(type === 'from' ? from : to);
   const destination = useValue(type === 'from' ? to : from);
 
+  console.log('source.amountUSD: ', source.amountUSD);
+  console.log('destination.amountUSD: ', destination.amountUSD);
+
   useEffect(() => {
     if (token) {
       source.setToken(token);
@@ -114,7 +117,8 @@ export function SwapAmountInput({
             </span>
           ) : type === 'to' ? null : (
             <span className={cn(text.label2, color.foregroundMuted)}>
-              {source.amountUSD && `~$${getRoundedAmount(source.amountUSD, 8)}`}
+              {destination.amountUSD &&
+                `~$${getRoundedAmount(destination.amountUSD, 8)}`}
             </span>
           )}
         </div>

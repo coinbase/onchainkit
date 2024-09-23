@@ -278,22 +278,22 @@ export function SwapProvider({
           response.toAmount,
           response.to.decimals,
         );
-        const formattedFromAmountUSD = formatTokenAmount(
-          response.fromAmountUSDC,
-          response.to.decimals, // make const = 6?, OR response.to.decimals
-        );
-        const formattedToAmountUSD = formatTokenAmount(
-          response.fromAmountUSDC,
-          response.to.decimals, // make const = 6?, OR response.to.decimals
-        );
+        // const formattedFromAmountUSD = formatTokenAmount(
+        //   response.fromAmountUSDC,
+        //   response.to.decimals, // make const = 6?, OR response.to.decimals
+        // );
+        // const formattedToAmountUSD = formatTokenAmount(
+        //   response.fromAmountUSDC,
+        //   response.to.decimals, // make const = 6?, OR response.to.decimals
+        // );
         destination.setAmount(formattedAmount);
         updateLifecycleStatus({
           statusName: 'amountChange',
           statusData: {
             amountFrom: type === 'from' ? amount : formattedAmount,
-            amountFromUSD: formattedFromAmountUSD,
+            amountFromUSD: response.fromAmountUSD,
             amountTo: type === 'to' ? amount : formattedAmount,
-            amountToUSD: formattedToAmountUSD,
+            amountToUSD: response.toAmountUSD,
             tokenFrom: from.token,
             tokenTo: to.token,
             // if quote was fetched successfully, we
