@@ -1,15 +1,9 @@
-import { Children, useMemo } from 'react';
-import { findComponent } from '../../internal/utils/findComponent';
 import { background, cn, text } from '../../styles/theme';
 import { useIsMounted } from '../../useIsMounted';
 import { DEFAULT_MAX_SLIPPAGE } from '../constants';
+import { useSwapComponents } from '../hooks/useSwapComponents';
 import type { SwapReact } from '../types';
-import { SwapAmountInput } from './SwapAmountInput';
-import { SwapButton } from './SwapButton';
-import { SwapMessage } from './SwapMessage';
 import { SwapProvider } from './SwapProvider';
-import { SwapSettings } from './SwapSettings';
-import { SwapToggleButton } from './SwapToggleButton';
 
 export function Swap({
   children,
@@ -18,22 +12,16 @@ export function Swap({
   },
   className,
   experimental = { useAggregator: false },
+  swappableTokens,
+  fromToken,
+  toToken,
   onError,
   onStatus,
   onSuccess,
   title = 'Swap',
 }: SwapReact) {
   const { inputs, toggleButton, swapButton, swapMessage, swapSettings } =
-    useMemo(() => {
-      const childrenArray = Children.toArray(children);
-      return {
-        inputs: childrenArray.filter(findComponent(SwapAmountInput)),
-        toggleButton: childrenArray.find(findComponent(SwapToggleButton)),
-        swapButton: childrenArray.find(findComponent(SwapButton)),
-        swapMessage: childrenArray.find(findComponent(SwapMessage)),
-        swapSettings: childrenArray.find(findComponent(SwapSettings)),
-      };
-    }, [children]);
+    useSwapComponents({ children, swappableTokens, fromToken, toToken });
 
   const isMounted = useIsMounted();
 

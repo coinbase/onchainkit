@@ -274,12 +274,15 @@ export type SwapProviderReact = {
  * Note: exported as public Type
  */
 export type SwapReact = {
-  children: ReactNode;
+  children?: ReactNode;
   className?: string; // Optional className override for top div element.
   config?: SwapConfig;
   experimental?: {
     useAggregator: boolean; // Whether to use a DEX aggregator. (default: true)
   };
+  swappableTokens?: Token[]; // Swappable tokens
+  fromToken?: Token; // The source token for the swap
+  toToken?: Token; // The destination token for the swap
   onError?: (error: SwapError) => void; // An optional callback function that handles errors within the provider.
   onStatus?: (lifecycleStatus: LifecycleStatus) => void; // An optional callback function that exposes the component lifecycle state
   onSuccess?: (transactionReceipt: TransactionReceipt) => void; // An optional callback function that exposes the transaction receipt
