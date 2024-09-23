@@ -176,7 +176,9 @@ export function SwapProvider({
 
   const handleToggle = useCallback(() => {
     from.setAmount(to.amount);
+    from.setAmountUSD(to.amountUSD);
     to.setAmount(from.amount);
+    to.setAmountUSD(from.amountUSD);
     from.setToken(to.token);
     to.setToken(from.token);
 
@@ -228,7 +230,10 @@ export function SwapProvider({
         return;
       }
       if (amount === '' || amount === '.' || Number.parseFloat(amount) === 0) {
-        return destination.setAmount('');
+        destination.setAmount('');
+        destination.setAmountUSD('');
+        source.setAmountUSD('');
+        return;
       }
 
       // When toAmount changes we fetch quote for fromAmount
@@ -240,9 +245,9 @@ export function SwapProvider({
           // when fetching quote, the previous
           // amount is irrelevant
           amountFrom: type === 'from' ? amount : '',
-          amountFromUSD: from.amountUSD,
+          amountFromUSD: type === 'from' ? from.amountUSD : '',
           amountTo: type === 'to' ? amount : '',
-          amountToUSD: to.amountUSD,
+          amountToUSD: type === 'to' ? to.amountUSD : '',
           tokenFrom: from.token,
           tokenTo: to.token,
           // when fetching quote, the destination
@@ -283,21 +288,32 @@ export function SwapProvider({
           response.to.decimals // make const = 6
         );
         const formattedToAmountUSD = formatTokenAmount(
-          response.fromAmountUSD,
-          response.to.decimals // make const = 6?, OR response.to.decimals
+          response.toAmountUSD,
+          response.to.decimals // make const = 6?
         );
-        
+
         destination.setAmount(formattedAmount);
+
+
         source.setAmountUSD(formattedFromAmountUSD);
         destination.setAmountUSD(formattedToAmountUSD);
+
+        console.log(
+          'SwapProvider formattedFromAmountUSD: ',
+          formattedFromAmountUSD
+        );
+        console.log(
+          'SwapProvider formattedToAmountUSD: ',
+          formattedToAmountUSD
+        );
 
         updateLifecycleStatus({
           statusName: 'amountChange',
           statusData: {
             amountFrom: type === 'from' ? amount : formattedAmount,
-            amountFromUSD: formattedFromAmountUSD,
+            amountFromUSD: type === 'from' ? from.amountUSD : formattedFromAmountUSD,
             amountTo: type === 'to' ? amount : formattedAmount,
-            amountToUSD: formattedToAmountUSD,
+            amountToUSD: type === 'to' ? to.amountUSD : formattedToAmountUSD,
             tokenFrom: from.token,
             tokenTo: to.token,
             // if quote was fetched successfully, we
