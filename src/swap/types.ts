@@ -215,6 +215,8 @@ export type SwapContextType = {
   to: SwapUnit;
   isToastVisible?: boolean;
   setIsToastVisible?: (visible: boolean) => void;
+  transactionHash?: string;
+  setTransactionHash?: (hash: string) => void;
 };
 
 /**

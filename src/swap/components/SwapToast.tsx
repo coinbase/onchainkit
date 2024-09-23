@@ -4,6 +4,8 @@ import { background, cn, color, text } from '../../styles/theme';
 
 import { useSwapContext } from './SwapProvider';
 import { successSvg } from '../../internal/svg/successSvg';
+import { useAccount } from 'wagmi';
+import { getChainExplorer } from '../../network/getChainExplorer';
 
 type SwapToastReact = {
   className?: string; // An optional CSS class name for styling the toast component.
@@ -16,7 +18,16 @@ export function SwapToast({
   durationMs = 3000,
   position = 'bottom-center',
 }: SwapToastReact) {
-  const { isToastVisible, setIsToastVisible } = useSwapContext();
+  const {
+    isToastVisible,
+    setIsToastVisible,
+    setTransactionHash,
+    transactionHash,
+  } = useSwapContext();
+
+  const { chainId } = useAccount();
+
+  const chainExplorer = getChainExplorer(chainId);
 
   const closeToast = useCallback(() => {
     setIsToastVisible?.(false);
@@ -39,6 +50,7 @@ export function SwapToast({
     const timer = setTimeout(() => {
       if (isToastVisible) {
         setIsToastVisible?.(false);
+        setTransactionHash?.('');
       }
     }, durationMs);
 
@@ -66,10 +78,21 @@ export function SwapToast({
       data-testid="ockSwapToast"
     >
       <div className="flex items-center gap-4 p-2">
-        <div className={cn(text.label2, className)}>{successSvg}</div>
-      </div>
-      <div className={cn(text.label1, 'text-nowrap mr-2', className)}>
-        <p className={color.foreground}>Successful</p>
+        <div className={cn(text.label2)}>{successSvg}</div>
+        <div className={cn(text.label1, 'text-nowrap')}>
+          <p className={color.foreground}>Successful</p>
+        </div>
+        <div className={cn(text.label1, 'text-nowrap')}>
+          <a
+            href={`${chainExplorer}/tx/${transactionHash}`}
+            target="_blank"
+            rel="noreferrer"
+          >
+            <span className={cn(text.label1, color.primary)}>
+              View transaction
+            </span>
+          </a>
+        </div>
       </div>
       <button
         className="p-2"

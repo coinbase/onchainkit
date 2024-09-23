@@ -71,6 +71,7 @@ export function SwapProvider({
   }); // Component lifecycle
 
   const [isToastVisible, setIsToastVisible] = useState(false);
+  const [transactionHash, setTransactionHash] = useState('');
 
   // Update lifecycle status, statusData will be persisted for the full lifecycle
   const updateLifecycleStatus = useCallback(
@@ -118,6 +119,9 @@ export function SwapProvider({
     // Success
     if (lifecycleStatus.statusName === 'success') {
       onSuccess?.(lifecycleStatus.statusData.transactionReceipt);
+      setTransactionHash(
+        lifecycleStatus.statusData.transactionReceipt?.transactionHash,
+      );
       setHasHandledSuccess(true);
       setIsToastVisible(true);
     }
@@ -383,6 +387,8 @@ export function SwapProvider({
     to,
     isToastVisible,
     setIsToastVisible,
+    setTransactionHash,
+    transactionHash,
   });
 
   return <SwapContext.Provider value={value}>{children}</SwapContext.Provider>;
