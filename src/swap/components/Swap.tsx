@@ -79,8 +79,7 @@ export function Swap({
         <div className="relative h-1">{toggleButton}</div>
         {inputs[1]}
         {swapButton}
-        {/* swapToast wasn't registering - need to look into this */}
-        {Children.toArray(children)[Children.toArray(children).length - 1]}
+        {swapToast}
         <div className="flex">{swapMessage}</div>
       </div>
     </SwapProvider>

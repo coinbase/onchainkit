@@ -63,12 +63,13 @@ export function SwapToast({
         positionClass,
         className,
       )}
+      data-testid="ockSwapToast"
     >
       <div className="flex items-center gap-4 p-2">
         <div className={cn(text.label2, className)}>{successSvg}</div>
       </div>
-      <div className={cn(text.label1, 'text-nowrap', className)}>
-        <p className={color.foreground}>Successful!</p>
+      <div className={cn(text.label1, 'text-nowrap mr-2', className)}>
+        <p className={color.foreground}>Successful</p>
       </div>
       <button
         className="p-2"
