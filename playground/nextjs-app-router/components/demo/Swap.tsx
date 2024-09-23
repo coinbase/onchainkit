@@ -1,16 +1,5 @@
 import { ENVIRONMENT, ENVIRONMENT_VARIABLES } from '@/lib/constants';
-import {
-  type LifecycleStatus,
-  Swap,
-  SwapAmountInput,
-  SwapButton,
-  SwapMessage,
-  SwapSettings,
-  SwapSettingsSlippageDescription,
-  SwapSettingsSlippageInput,
-  SwapSettingsSlippageTitle,
-  SwapToggleButton,
-} from '@coinbase/onchainkit/swap';
+import { type LifecycleStatus, Swap } from '@coinbase/onchainkit/swap';
 import type { SwapError } from '@coinbase/onchainkit/swap';
 import type { Token } from '@coinbase/onchainkit/token';
 import { useCallback, useContext } from 'react';
@@ -104,39 +93,10 @@ function SwapComponent() {
 
       <Swap
         className="border"
-        onStatus={handleOnStatus}
-        onSuccess={handleOnSuccess}
-        onError={handleOnError}
-        config={{ maxSlippage: defaultMaxSlippage || DEFAULT_MAX_SLIPPAGE }}
-      >
-        <SwapSettings>
-          <SwapSettingsSlippageTitle>Max. slippage</SwapSettingsSlippageTitle>
-          <SwapSettingsSlippageDescription>
-            Your swap will revert if the prices change by more than the selected
-            percentage.
-          </SwapSettingsSlippageDescription>
-          <SwapSettingsSlippageInput />
-        </SwapSettings>
-        <SwapAmountInput
-          label="Sell"
-          swappableTokens={swappableTokens}
-          token={ethToken}
-          type="from"
-        />
-        <SwapToggleButton />
-        <SwapAmountInput
-          label="Buy"
-          swappableTokens={swappableTokens}
-          token={usdcToken}
-          type="to"
-        />
-        <SwapButton
-          disabled={
-            ENVIRONMENT_VARIABLES[ENVIRONMENT.ENVIRONMENT] === 'production'
-          }
-        />
-        <SwapMessage />
-      </Swap>
+        swappableTokens={swappableTokens}
+        fromToken={ethToken}
+        toToken={usdcToken}
+      />
     </div>
   );
 }
