@@ -281,11 +281,11 @@ export function SwapProvider({
         const formattedFromAmountUSD = formatTokenAmount(
           response.fromAmountUSDC,
           response.to.decimals, // make const = 6?, OR response.to.decimals
-        )
+        );
         const formattedToAmountUSD = formatTokenAmount(
           response.fromAmountUSDC,
           response.to.decimals, // make const = 6?, OR response.to.decimals
-        )
+        );
         destination.setAmount(formattedAmount);
         updateLifecycleStatus({
           statusName: 'amountChange',

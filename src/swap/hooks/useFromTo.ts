@@ -7,7 +7,7 @@ import { useSwapBalances } from './useSwapBalances';
 
 export const useFromTo = (address?: Address): FromTo => {
   const [fromAmount, setFromAmount] = useState('');
-  const [fromAmountUSD, setFromAmountUSD] = useState('')
+  const [fromAmountUSD, setFromAmountUSD] = useState('');
   const [fromToken, setFromToken] = useState<Token>();
   const [toAmount, setToAmount] = useState('');
   const [toAmountUSD, setToAmountUSD] = useState('');

@@ -91,7 +91,7 @@ export type LifecycleStatus =
         amountFrom: string;
         amountFromUSD: string;
         amountTo: string;
-        amountToUSD: string,
+        amountToUSD: string;
         tokenFrom?: Token;
         tokenTo?: Token;
       } & LifecycleStatusDataShared;
