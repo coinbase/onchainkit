@@ -42,7 +42,7 @@ export function SwapAmountInput({
     (amount: string) => {
       handleAmountChange(type, amount);
     },
-    [handleAmountChange, type]
+    [handleAmountChange, type],
   );
 
   const handleSetToken = useCallback(
@@ -50,7 +50,7 @@ export function SwapAmountInput({
       source.setToken(token);
       handleAmountChange(type, source.amount, token);
     },
-    [source.amount, source.setToken, handleAmountChange, type]
+    [source.amount, source.setToken, handleAmountChange, type],
   );
 
   // We are mocking the token selectors so I'm not able
@@ -58,7 +58,7 @@ export function SwapAmountInput({
   const sourceTokenOptions = useMemo(() => {
     return (
       swappableTokens?.filter(
-        ({ symbol }: Token) => symbol !== destination.token?.symbol
+        ({ symbol }: Token) => symbol !== destination.token?.symbol,
       ) ?? []
     );
   }, [swappableTokens, destination.token]);
@@ -72,7 +72,7 @@ export function SwapAmountInput({
         background.alternate,
         'box-border flex w-full flex-col items-start',
         'h-[148px] rounded-md p-4',
-        className
+        className,
       )}
       data-testid="ockSwapAmountInput_Container"
     >
@@ -84,7 +84,7 @@ export function SwapAmountInput({
           className={cn(
             'mr-2 w-full border-[none] bg-transparent font-display text-[2.5rem]',
             'leading-none outline-none',
-            hasInsufficientBalance && address ? color.error : color.foreground
+            hasInsufficientBalance && address ? color.error : color.foreground,
           )}
           placeholder="0.0"
           delayMs={delayMs}

@@ -78,7 +78,7 @@ export function SwapProvider({
         const persistedStatusData =
           prevStatus.statusName === 'error'
             ? (({ error, code, message, ...statusData }) => statusData)(
-                prevStatus.statusData
+                prevStatus.statusData,
               )
             : prevStatus.statusData;
         return {
@@ -90,7 +90,7 @@ export function SwapProvider({
         } as LifecycleStatus;
       });
     },
-    []
+    [],
   );
 
   const [hasHandledSuccess, setHasHandledSuccess] = useState(false);
@@ -203,7 +203,7 @@ export function SwapProvider({
       type: 'from' | 'to',
       amount: string,
       sToken?: Token,
-      dToken?: Token
+      dToken?: Token,
       // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO Refactor this component
     ) => {
       const source = type === 'from' ? from : to;
@@ -281,37 +281,37 @@ export function SwapProvider({
         }
         const formattedAmount = formatTokenAmount(
           response.toAmount,
-          response.to.decimals
+          response.to.decimals,
         );
         const formattedFromAmountUSD = formatTokenAmount(
           response.fromAmountUSD,
-          response.to.decimals // make const = 6
+          response.to.decimals, // make const = 6
         );
         const formattedToAmountUSD = formatTokenAmount(
           response.toAmountUSD,
-          response.to.decimals // make const = 6?
+          response.to.decimals, // make const = 6?
         );
 
         destination.setAmount(formattedAmount);
-
 
         source.setAmountUSD(formattedFromAmountUSD);
         destination.setAmountUSD(formattedToAmountUSD);
 
         console.log(
           'SwapProvider formattedFromAmountUSD: ',
-          formattedFromAmountUSD
+          formattedFromAmountUSD,
         );
         console.log(
           'SwapProvider formattedToAmountUSD: ',
-          formattedToAmountUSD
+          formattedToAmountUSD,
         );
 
         updateLifecycleStatus({
           statusName: 'amountChange',
           statusData: {
             amountFrom: type === 'from' ? amount : formattedAmount,
-            amountFromUSD: type === 'from' ? from.amountUSD : formattedFromAmountUSD,
+            amountFromUSD:
+              type === 'from' ? from.amountUSD : formattedFromAmountUSD,
             amountTo: type === 'to' ? amount : formattedAmount,
             amountToUSD: type === 'to' ? to.amountUSD : formattedToAmountUSD,
             tokenFrom: from.token,
@@ -335,7 +335,7 @@ export function SwapProvider({
         destination.setLoading(false);
       }
     },
-    [from, to, lifecycleStatus, updateLifecycleStatus, useAggregator]
+    [from, to, lifecycleStatus, updateLifecycleStatus, useAggregator],
   );
 
   const handleSubmit = useCallback(async () => {
