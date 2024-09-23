@@ -184,7 +184,9 @@ export function SwapProvider({
       statusName: 'amountChange',
       statusData: {
         amountFrom: from.amount,
+        amountFromUSD: from.amountUSD,
         amountTo: to.amount,
+        amountToUSD: to.amountUSD,
         tokenFrom: from.token,
         tokenTo: to.token,
         // token is missing
@@ -214,7 +216,9 @@ export function SwapProvider({
           statusName: 'amountChange',
           statusData: {
             amountFrom: from.amount,
+            amountFromUSD: from.amountUSD,
             amountTo: to.amount,
+            amountToUSD: to.amountUSD,
             tokenFrom: from.token,
             tokenTo: to.token,
             // token is missing
@@ -236,7 +240,9 @@ export function SwapProvider({
           // when fetching quote, the previous
           // amount is irrelevant
           amountFrom: type === 'from' ? amount : '',
+          amountFromUSD: from.amountUSD,
           amountTo: type === 'to' ? amount : '',
+          amountToUSD: to.amountUSD,
           tokenFrom: from.token,
           tokenTo: to.token,
           // when fetching quote, the destination
@@ -277,7 +283,9 @@ export function SwapProvider({
           statusName: 'amountChange',
           statusData: {
             amountFrom: type === 'from' ? amount : formattedAmount,
+            amountFromUSD: from.amountUSD,
             amountTo: type === 'to' ? amount : formattedAmount,
+            amountToUSD: to.amountUSD,
             tokenFrom: from.token,
             tokenTo: to.token,
             // if quote was fetched successfully, we

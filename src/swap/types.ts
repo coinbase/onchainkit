@@ -89,7 +89,9 @@ export type LifecycleStatus =
       statusName: 'amountChange';
       statusData: {
         amountFrom: string;
+        amountFromUSD: string;
         amountTo: string;
+        amountToUSD: string,
         tokenFrom?: Token;
         tokenTo?: Token;
       } & LifecycleStatusDataShared;
@@ -338,11 +340,13 @@ export type SwapTransactionType = 'Batched' | 'ERC20' | 'Permit2' | 'Swap'; // C
 
 export type SwapUnit = {
   amount: string;
+  amountUSD: string;
   balance?: string;
   balanceResponse?: UseBalanceReturnType | UseReadContractReturnType;
   error?: SwapError;
   loading: boolean;
   setAmount: Dispatch<SetStateAction<string>>;
+  setAmountUSD: Dispatch<SetStateAction<string>>;
   setLoading: Dispatch<SetStateAction<boolean>>;
   setToken: Dispatch<SetStateAction<Token | undefined>>;
   token: Token | undefined;
