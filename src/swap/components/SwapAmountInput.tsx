@@ -105,12 +105,17 @@ export function SwapAmountInput({
         )}
       </div>
       <div className="mt-4 flex w-full justify-between">
+        <div className="flex items-center">
+          {/* {source.amountUSD && (
+            <span
+              className={cn(text.label2, color.foregroundMuted)}
+            >{`~$${getRoundedAmount(source.amountUSD, 8)}`}</span>
+          )} */}
+          <span className={cn(text.label2, color.foregroundMuted)}> 
+           {`~$1988.33`}
+          </span>
+        </div>
         <span className={cn(text.label2, color.foregroundMuted)}>{''}</span>
-        {source.amountUSD && (
-          <span
-            className={cn(text.label2, color.foregroundMuted)}
-          >{`~$${getRoundedAmount(source.amountUSD, 8)}`}</span>
-        )}
         <div className="flex items-center">
           {source.balance && (
             <span
