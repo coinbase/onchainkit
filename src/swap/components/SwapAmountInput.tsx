@@ -21,7 +21,6 @@ export function SwapAmountInput({
 
   const source = useValue(type === 'from' ? from : to);
   const destination = useValue(type === 'from' ? to : from);
-
   useEffect(() => {
     if (token) {
       source.setToken(token);
@@ -64,6 +63,14 @@ export function SwapAmountInput({
   const hasInsufficientBalance =
     type === 'from' && Number(source.balance) < Number(source.amount);
 
+  const formatUSD = (amount: string) => {
+    if (!amount) {
+      return null;
+    }
+    const roundedAmount = Number(getRoundedAmount(amount, 2));
+    return `~$${roundedAmount.toFixed(2)}`;
+  };
+
   return (
     <div
       className={cn(
@@ -105,6 +112,11 @@ export function SwapAmountInput({
         )}
       </div>
       <div className="mt-4 flex w-full justify-between">
+        <div className="flex items-center">
+          <span className={cn(text.label2, color.foregroundMuted)}>
+            {formatUSD(source.amountUSD)}
+          </span>
+        </div>
         <span className={cn(text.label2, color.foregroundMuted)}>{''}</span>
         <div className="flex items-center">
           {source.balance && (
