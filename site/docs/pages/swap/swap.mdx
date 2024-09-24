@@ -136,9 +136,9 @@ By default, this will use the [Coinbase Developer Platform](https://portal.cdp.c
 You can configure sponsorship settings on the [Paymaster](https://portal.cdp.coinbase.com/products/bundler-and-paymaster) page.
 For security reasons, we recommend setting up a contract allowlist in the Portal. Without a contract allowlist defined, your Paymaster will only be able to sponsor up to $1.
 
-The contract used in our Swap API is Uniswap's Universal Router, which is deployed on Base at `0x3fC91A3afd70395Cd496C647d5a6CC9D4B2b7FAD`.
+The contract used in our Swap API is Uniswap's [Universal Router](https://basescan.org/address/0x3fC91A3afd70395Cd496C647d5a6CC9D4B2b7FAD), which is deployed on Base at `0x3fC91A3afd70395Cd496C647d5a6CC9D4B2b7FAD`.
 
-Gas sponsorship will only work for Smart Wallets.
+Note that gas sponsorship will only work for Smart Wallets.
 
 ```tsx twoslash
 import { Avatar, Name } from '@coinbase/onchainkit/identity';
