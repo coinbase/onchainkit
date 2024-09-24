@@ -297,4 +297,16 @@ describe('SwapAmountInput', () => {
     useSwapContextMock.mockReturnValue(mockContextValueWithNullUSD);
     expect(screen.queryByText(/\$/)).toBeNull();
   });
+
+  it('should return null when amount is falsy', () => {
+    useSwapContextMock.mockReturnValue({
+      ...mockContextValue,
+      from: {
+        ...mockContextValue.from,
+        amountUSD: '',
+      },
+    });
+    render(<SwapAmountInput label="From" token={ETH_TOKEN} type="from" />);
+    expect(screen.queryByText(/\$/)).toBeNull();
+  });
 });
