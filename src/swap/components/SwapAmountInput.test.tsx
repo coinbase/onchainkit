@@ -84,6 +84,15 @@ describe('SwapAmountInput', () => {
     expect(screen.getByText('From')).toBeInTheDocument();
   });
 
+  it('should render from token input with max button and balance', () => {
+    useSwapContextMock.mockReturnValue(mockContextValue);
+    render(<SwapAmountInput label="From" token={ETH_TOKEN} type="from" />);
+    expect(screen.getByText('Balance: 0.00028518')).toBeInTheDocument();
+    expect(
+      screen.getByTestId('ockSwapAmountInput_MaxButton'),
+    ).toBeInTheDocument();
+  });
+
   it('should not render max button for to token input', () => {
     useSwapContextMock.mockReturnValue(mockContextValue);
     render(<SwapAmountInput label="From" token={ETH_TOKEN} type="to" />);
