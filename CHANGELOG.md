@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- 4361849: - **feat**: added Swap USD values. By @cpcramer #1286
+  - **feat**: added Swap USD values. By @cpcramer #1286
   - **feat**: added `SwapToast` component that renders on success. By @abcrane123 #1281
   - **feat**: added `isSponsored` prop for `Swap`. By @0xAlec #1293
 
@@ -12,8 +12,7 @@
 
 ### Minor Changes
 
-- 8904699: - **feat**: set v2 as default API for Swap. by @0xAlec #1254
-
+  - **feat**: set v2 as default API for Swap. by @0xAlec #1254
   - **chore**: updated `SwapSettingsSlippageInput` to use the input config defaultMaxSlippage value. By @cpcramer #1263
   - **feat**: added batched Swap transactions from ERC-20. by @0xAlec #1272
 
