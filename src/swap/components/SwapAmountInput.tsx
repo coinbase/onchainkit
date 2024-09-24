@@ -63,14 +63,6 @@ export function SwapAmountInput({
   const hasInsufficientBalance =
     type === 'from' && Number(source.balance) < Number(source.amount);
 
-  const formatUSD = (amount: string) => {
-    if (!amount) {
-      return '~$0.00';
-    }
-    const roundedAmount = Number(getRoundedAmount(amount, 2));
-    return `~$${roundedAmount.toFixed(2)}`;
-  };
-
   return (
     <div
       className={cn(
@@ -114,7 +106,13 @@ export function SwapAmountInput({
       <div className="mt-4 flex w-full justify-between">
         <div className="flex items-center">
           <span className={cn(text.label2, color.foregroundMuted)}>
-            {formatUSD(source.amountUSD)}
+            {source.amountUSD && source.amountUSD !== '' ? (
+              <span className={cn(text.label2, color.foregroundMuted)}>
+                {`~$${getRoundedAmount(source.amountUSD, 2)}`}
+              </span>
+            ) : (
+              <span className={cn(text.label2, color.foregroundMuted)}>-</span>
+            )}
           </span>
         </div>
         <span className={cn(text.label2, color.foregroundMuted)}>{''}</span>

@@ -17,7 +17,7 @@ import { formatTokenAmount } from '../../internal/utils/formatTokenAmount';
 import type { Token } from '../../token';
 import { GENERIC_ERROR_MESSAGE } from '../../transaction/constants';
 import { isUserRejectedRequestError } from '../../transaction/utils/isUserRejectedRequestError';
-import { DEFAULT_MAX_SLIPPAGE, USDC_TOKEN_DECIMALS } from '../constants';
+import { DEFAULT_MAX_SLIPPAGE } from '../constants';
 import { useAwaitCalls } from '../hooks/useAwaitCalls';
 import { useFromTo } from '../hooks/useFromTo';
 import { useResetInputs } from '../hooks/useResetInputs';
@@ -275,13 +275,9 @@ export function SwapProvider({
           response.toAmount,
           response.to.decimals,
         );
-        destination.setAmountUSD(
-          formatTokenAmount(response.toAmountUSD, USDC_TOKEN_DECIMALS),
-        );
+        destination.setAmountUSD(response.toAmountUSD);
         destination.setAmount(formattedAmount);
-        source.setAmountUSD(
-          formatTokenAmount(response.fromAmountUSD, USDC_TOKEN_DECIMALS),
-        );
+        source.setAmountUSD(response.fromAmountUSD);
         updateLifecycleStatus({
           statusName: 'amountChange',
           statusData: {
