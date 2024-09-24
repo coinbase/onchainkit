@@ -1,8 +1,6 @@
-import { useIsWalletACoinbaseSmartWallet } from '../hooks/useIsWalletACoinbaseSmartWallet';
+import { useGetFundingUrl } from '../../fund/hooks/useGetFundingUrl';
 import type { WalletDropdownFundLinkReact } from '../types';
 import { WalletDropdownFundLinkButton } from './WalletDropdownFundLinkButton';
-import { WalletDropdownFundLinkCoinbaseSmartWallet } from './WalletDropdownFundLinkCoinbaseSmartWallet';
-import { WalletDropdownFundLinkEOAWallet } from './WalletDropdownFundLinkEOAWallet';
 
 export function WalletDropdownFundLink({
   className,
@@ -14,9 +12,18 @@ export function WalletDropdownFundLink({
   text = 'Fund wallet',
   fundingUrl,
 }: WalletDropdownFundLinkReact) {
-  const isCoinbaseSmartWallet = useIsWalletACoinbaseSmartWallet();
+  const defaultFundingUrl = useGetFundingUrl();
 
-  if (fundingUrl) {
+  // If the fundingUrl prop is undefined, fallback to the default funding URL
+  const fundingUrlToRender = fundingUrl ?? defaultFundingUrl?.url;
+  const popupHeightOverride = fundingUrl
+    ? undefined
+    : defaultFundingUrl?.popupHeight;
+  const popupWidthOverride = fundingUrl
+    ? undefined
+    : defaultFundingUrl?.popupWidth;
+
+  if (fundingUrlToRender) {
     return (
       <WalletDropdownFundLinkButton
         {...{
@@ -27,23 +34,15 @@ export function WalletDropdownFundLink({
           rel,
           target,
           text,
-          fundingUrl,
         }}
+        fundingUrl={fundingUrlToRender}
+        popupHeightOverride={popupHeightOverride}
+        popupWidthOverride={popupWidthOverride}
       />
     );
   }
 
-  if (isCoinbaseSmartWallet) {
-    return (
-      <WalletDropdownFundLinkCoinbaseSmartWallet
-        {...{ className, icon, openIn, popupSize, rel, target, text }}
-      />
-    );
-  }
-
-  return (
-    <WalletDropdownFundLinkEOAWallet
-      {...{ className, icon, openIn, popupSize, rel, target, text }}
-    />
-  );
+  // If the fudningUrl prop is undefined, and we couldn't get a default funding URL (maybe there is no wallet connected,
+  // or projectId is undefined in OnchainKitConfig), don't render anything
+  return null;
 }

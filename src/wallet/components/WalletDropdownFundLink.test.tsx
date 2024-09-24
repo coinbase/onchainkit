@@ -1,11 +1,11 @@
 import '@testing-library/jest-dom';
 import { render } from '@testing-library/react';
-import { type Mock, describe, expect, it, vi } from 'vitest';
-import { useIsWalletACoinbaseSmartWallet } from '../hooks/useIsWalletACoinbaseSmartWallet';
+import { type Mock, afterEach, describe, expect, it, vi } from 'vitest';
+import { useGetFundingUrl } from '../../fund/hooks/useGetFundingUrl';
 import { WalletDropdownFundLink } from './WalletDropdownFundLink';
 
-vi.mock('../hooks/useIsWalletACoinbaseSmartWallet', () => ({
-  useIsWalletACoinbaseSmartWallet: vi.fn(),
+vi.mock('../../fund/hooks/useGetFundingUrl', () => ({
+  useGetFundingUrl: vi.fn(),
 }));
 
 const mockWalletDropdownFundLinkButton = vi.fn();
@@ -16,48 +16,44 @@ vi.mock('./WalletDropdownFundLinkButton', () => ({
   },
 }));
 
-const mockWalletDropdownFundLinkCoinbaseSmartWallet = vi.fn();
-vi.mock('./WalletDropdownFundLinkCoinbaseSmartWallet', () => ({
-  WalletDropdownFundLinkCoinbaseSmartWallet: (props) => {
-    mockWalletDropdownFundLinkCoinbaseSmartWallet(props);
-    return <div />;
-  },
-}));
-
-const mockWalletDropdownFundLinkEOAWallet = vi.fn();
-vi.mock('./WalletDropdownFundLinkEOAWallet', () => ({
-  WalletDropdownFundLinkEOAWallet: (props) => {
-    mockWalletDropdownFundLinkEOAWallet(props);
-    return <div />;
-  },
-}));
-
 describe('WalletDropdownFund', () => {
-  it('renders the fund link button when fundingUrl is passed as a prop', () => {
-    //(useIsWalletACoinbaseSmartWallet as Mock).mockReturnValue(false);
+  afterEach(() => {
+    vi.clearAllMocks();
+  });
 
-    render(<WalletDropdownFundLink fundingUrl="https://wallet.fund" />);
+  it('renders the fund link button with the fundingUrl prop when it is defined', () => {
+    render(<WalletDropdownFundLink fundingUrl="https://props.funding.url" />);
 
     expect(mockWalletDropdownFundLinkButton).toHaveBeenCalledWith(
       expect.objectContaining({
-        fundingUrl: 'https://wallet.fund',
+        fundingUrl: 'https://props.funding.url',
       }),
     );
   });
 
-  it('renders the Coinbase Smart Wallet fund link when the connected wallet is a Coinbase Smart Wallet', () => {
-    (useIsWalletACoinbaseSmartWallet as Mock).mockReturnValue(true);
+  it('renders the fund link button with the default fundingUrl when the fundingUrl prop is undefined', () => {
+    (useGetFundingUrl as Mock).mockReturnValue({
+      url: 'https://default.funding.url',
+      popupHeight: 100,
+      popupWidth: 100,
+    });
 
     render(<WalletDropdownFundLink />);
 
-    expect(mockWalletDropdownFundLinkCoinbaseSmartWallet).toHaveBeenCalled();
+    expect(mockWalletDropdownFundLinkButton).toHaveBeenCalledWith(
+      expect.objectContaining({
+        fundingUrl: 'https://default.funding.url',
+        popupHeightOverride: 100,
+        popupWidthOverride: 100,
+      }),
+    );
   });
 
-  it('renders the EOA wallet fund link when the connected wallet is an EOA wallet', () => {
-    (useIsWalletACoinbaseSmartWallet as Mock).mockReturnValue(false);
+  it('does not render the fund link when the fundingUrl prop is undefined and useGetFundingUrl returns undefined', () => {
+    (useGetFundingUrl as Mock).mockReturnValue(undefined);
 
     render(<WalletDropdownFundLink />);
 
-    expect(mockWalletDropdownFundLinkEOAWallet).toHaveBeenCalled();
+    expect(mockWalletDropdownFundLinkButton).not.toHaveBeenCalled();
   });
 });

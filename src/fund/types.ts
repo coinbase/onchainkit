@@ -73,3 +73,9 @@ type GetOnrampBuyUrlOptionalProps = {
    */
   defaultNetwork?: string;
 };
+
+export type UseGetFundingUrlResponse = {
+  url: string;
+  popupHeight?: number;
+  popupWidth?: number;
+};
