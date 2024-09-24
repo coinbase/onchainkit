@@ -176,9 +176,7 @@ export function SwapProvider({
 
   const handleToggle = useCallback(() => {
     from.setAmount(to.amount);
-    from.setAmountUSD(to.amountUSD);
     to.setAmount(from.amount);
-    to.setAmountUSD(from.amountUSD);
     from.setToken(to.token);
     to.setToken(from.token);
 
@@ -186,9 +184,7 @@ export function SwapProvider({
       statusName: 'amountChange',
       statusData: {
         amountFrom: from.amount,
-        amountFromUSD: from.amountUSD,
         amountTo: to.amount,
-        amountToUSD: to.amountUSD,
         tokenFrom: from.token,
         tokenTo: to.token,
         // token is missing
@@ -202,7 +198,6 @@ export function SwapProvider({
     async (
       type: 'from' | 'to',
       amount: string,
-      amountUSD: string,
       sToken?: Token,
       dToken?: Token,
       // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO Refactor this component
@@ -219,9 +214,7 @@ export function SwapProvider({
           statusName: 'amountChange',
           statusData: {
             amountFrom: from.amount,
-            amountFromUSD: from.amountUSD,
             amountTo: to.amount,
-            amountToUSD: to.amountUSD,
             tokenFrom: from.token,
             tokenTo: to.token,
             // token is missing
@@ -231,9 +224,7 @@ export function SwapProvider({
         return;
       }
       if (amount === '' || amount === '.' || Number.parseFloat(amount) === 0) {
-        destination.setAmount('');
-        destination.setAmountUSD('');
-        return;
+        return destination.setAmount('');
       }
 
       // When toAmount changes we fetch quote for fromAmount
@@ -245,9 +236,7 @@ export function SwapProvider({
           // when fetching quote, the previous
           // amount is irrelevant
           amountFrom: type === 'from' ? amount : '',
-          amountFromUSD: type === 'from' ? amountUSD : '',
           amountTo: type === 'to' ? amount : '',
-          amountToUSD: type === 'to' ? amountUSD : '',
           tokenFrom: from.token,
           tokenTo: to.token,
           // when fetching quote, the destination
@@ -283,26 +272,12 @@ export function SwapProvider({
           response.toAmount,
           response.to.decimals,
         );
-        // const formattedFromAmountUSD = formatTokenAmount(
-        //   response.fromAmountUSD,
-        //   response.to.decimals, // make const = 6
-        // );
-        const formattedAmountUSD = formatTokenAmount(
-          response.toAmountUSD,
-          response.to.decimals, // make const = 6?
-        );
-
         destination.setAmount(formattedAmount);
-        // source.setAmountUSD(formattedFromAmountUSD);
-        destination.setAmountUSD(formattedAmountUSD);
-
         updateLifecycleStatus({
           statusName: 'amountChange',
           statusData: {
             amountFrom: type === 'from' ? amount : formattedAmount,
-            amountFromUSD: type === 'from' ? amountUSD : formattedAmountUSD,
             amountTo: type === 'to' ? amount : formattedAmount,
-            amountToUSD: type === 'to' ? amountUSD : formattedAmountUSD,
             tokenFrom: from.token,
             tokenTo: to.token,
             // if quote was fetched successfully, we

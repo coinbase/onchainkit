@@ -35,12 +35,12 @@ export function SwapAmountInput({
       return;
     }
     source.setAmount(source.balance);
-    handleAmountChange(type, source.balance, source.amountUSD);
+    handleAmountChange(type, source.balance);
   }, [source.balance, source.setAmount, handleAmountChange, type]);
 
   const handleChange = useCallback(
     (amount: string) => {
-      handleAmountChange(type, amount, source.amountUSD);
+      handleAmountChange(type, amount);
     },
     [handleAmountChange, type],
   );
@@ -48,7 +48,7 @@ export function SwapAmountInput({
   const handleSetToken = useCallback(
     (token: Token) => {
       source.setToken(token);
-      handleAmountChange(type, source.amount, source.amountUSD, token);
+      handleAmountChange(type, source.amount, token);
     },
     [source.amount, source.setToken, handleAmountChange, type],
   );

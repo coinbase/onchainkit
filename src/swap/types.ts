@@ -208,7 +208,6 @@ export type SwapContextType = {
   handleAmountChange: (
     t: 'from' | 'to',
     amount: string,
-    amountUSD: string,
     st?: Token,
     dt?: Token,
   ) => void;
