@@ -13,6 +13,7 @@ describe('useResetInputs', () => {
     balanceResponse: mockFromTokenResponse,
     amount: '50',
     setAmount: vi.fn(),
+    setAmountUSD: vi.fn(),
     token: undefined,
     setToken: vi.fn(),
     loading: false,
@@ -24,6 +25,7 @@ describe('useResetInputs', () => {
     balanceResponse: mockToTokenResponse,
     amount: '75',
     setAmount: vi.fn(),
+    setAmountUSD: vi.fn(),
     token: undefined,
     setToken: vi.fn(),
     loading: false,
@@ -42,7 +44,7 @@ describe('useResetInputs', () => {
     expect(typeof result.current).toBe('function');
   });
 
-  it('should call refetch on responses and setAmount on both from and to when executed', async () => {
+  it('should call refetch on responses and set amounts to empty strings when executed', async () => {
     const { result } = renderHook(() =>
       useResetInputs({ from: mockFrom, to: mockTo }),
     );
@@ -52,7 +54,9 @@ describe('useResetInputs', () => {
     expect(mockFromTokenResponse.refetch).toHaveBeenCalledTimes(1);
     expect(mockToTokenResponse.refetch).toHaveBeenCalledTimes(1);
     expect(mockFrom.setAmount).toHaveBeenCalledWith('');
+    expect(mockFrom.setAmountUSD).toHaveBeenCalledWith('');
     expect(mockTo.setAmount).toHaveBeenCalledWith('');
+    expect(mockTo.setAmountUSD).toHaveBeenCalledWith('');
   });
 
   it("should not create a new function reference if from and to haven't changed", () => {
@@ -72,15 +76,15 @@ describe('useResetInputs', () => {
     const firstRender = result.current;
     const newMockFrom = {
       ...mockFrom,
-      response: { refetch: vi.fn().mockResolvedValue(undefined) },
+      balanceResponse: { refetch: vi.fn().mockResolvedValue(undefined) },
     };
     rerender({ from: newMockFrom, to: mockTo });
     expect(result.current).not.toBe(firstRender);
   });
 
   it('should handle null responses gracefully', async () => {
-    const mockFromWithNullResponse = { ...mockFrom, response: null };
-    const mockToWithNullResponse = { ...mockTo, response: null };
+    const mockFromWithNullResponse = { ...mockFrom, balanceResponse: null };
+    const mockToWithNullResponse = { ...mockTo, balanceResponse: null };
     const { result } = renderHook(() =>
       useResetInputs({
         from: mockFromWithNullResponse,
@@ -91,6 +95,8 @@ describe('useResetInputs', () => {
       await result.current();
     });
     expect(mockFromWithNullResponse.setAmount).toHaveBeenCalledWith('');
+    expect(mockFromWithNullResponse.setAmountUSD).toHaveBeenCalledWith('');
     expect(mockToWithNullResponse.setAmount).toHaveBeenCalledWith('');
+    expect(mockToWithNullResponse.setAmountUSD).toHaveBeenCalledWith('');
   });
 });
