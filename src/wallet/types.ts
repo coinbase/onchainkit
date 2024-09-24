@@ -123,8 +123,8 @@ export type WalletDropdownFundLinkReact = {
   icon?: ReactNode; // Optional icon override
   openIn?: 'popup' | 'tab'; // Whether to open the funding flow in a tab or a popup window
   /**
-   * Note: popupSize is only respected when providing your own funding link, or when a Coinbase Smart Wallet is 
-   * connected. For any other wallet popupSize will be ignored as the Coinbase Onramp widget requires a fixed size 
+   * Note: popupSize is only respected when providing your own funding link, or when a Coinbase Smart Wallet is
+   * connected. For any other wallet popupSize will be ignored as the Coinbase Onramp widget requires a fixed size
    * popup window.
    */
   popupSize?: 'sm' | 'md' | 'lg'; // Size of the popup window if `openIn` is set to `popup`
