@@ -21,8 +21,7 @@ export function SwapAmountInput({
 
   const source = useValue(type === 'from' ? from : to);
   const destination = useValue(type === 'from' ? to : from);
-  console.log('source.amountUSD: ', source.amountUSD);
-  console.log('destination.amountUSD: ', destination.amountUSD);
+
   useEffect(() => {
     if (token) {
       source.setToken(token);
