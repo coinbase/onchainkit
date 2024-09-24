@@ -327,7 +327,7 @@ describe('SwapAmountInput', () => {
     useSwapContextMock.mockReturnValue(mockContextValueWithAmountUSD);
     render(<SwapAmountInput label="From" token={ETH_TOKEN} type="from" />);
     expect(screen.getByText('~$0.00')).toBeInTheDocument();
-  });  
+  });
 
   it('should return ~$0.00 when amountUSD is an empty string', () => {
     const mockContextValueWithEmptyAmountUSD = {
