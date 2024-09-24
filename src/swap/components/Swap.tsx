@@ -18,10 +18,10 @@ export function Swap({
   },
   className,
   experimental = { useAggregator: false },
+  isSponsored = false,
   onError,
   onStatus,
   onSuccess,
-  isSponsored = false,
   title = 'Swap',
 }: SwapReact) {
   const { inputs, toggleButton, swapButton, swapMessage, swapSettings } =
@@ -46,10 +46,10 @@ export function Swap({
     <SwapProvider
       config={config}
       experimental={experimental}
+      isSponsored={isSponsored}
       onError={onError}
       onStatus={onStatus}
       onSuccess={onSuccess}
-      isSponsored={isSponsored}
     >
       <div
         className={cn(
