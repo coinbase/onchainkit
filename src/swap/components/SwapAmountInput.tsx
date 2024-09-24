@@ -67,7 +67,7 @@ export function SwapAmountInput({
     if (!amount) {
       return '~$0.00';
     }
-    const roundedAmount = Number(getRoundedAmount(amount, 2) || 0);
+    const roundedAmount = Number(getRoundedAmount(amount, 2));
     return `~$${roundedAmount.toFixed(2)}`;
   };
 
