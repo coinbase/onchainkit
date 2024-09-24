@@ -21,7 +21,8 @@ export function SwapAmountInput({
 
   const source = useValue(type === 'from' ? from : to);
   const destination = useValue(type === 'from' ? to : from);
-
+  console.log('source.amountUSD:', source.amountUSD);
+  console.log('destination.amountUSD:', destination.amountUSD);
   useEffect(() => {
     if (token) {
       source.setToken(token);
@@ -106,20 +107,11 @@ export function SwapAmountInput({
       </div>
       <div className="mt-4 flex w-full justify-between">
         <div className="flex items-center">
-          {type === 'from' && (
-            <span className={cn(text.label2, color.foregroundMuted)}>
-              {source.amountUSD
-                ? `~$${getRoundedAmount(source.amountUSD, 2)}`
-                : '~$0.0'}
-            </span>
-          )}
-          {type === 'to' && (
-            <span className={cn(text.label2, color.foregroundMuted)}>
-              {destination.amountUSD
-                ? `~$${getRoundedAmount(destination.amountUSD, 2)}`
-                : '~$0.0'}
-            </span>
-          )}
+          <span className={cn(text.label2, color.foregroundMuted)}>
+            {source.amountUSD
+              ? `~$${getRoundedAmount(source.amountUSD, 2)}`
+              : '~$0.0'}
+          </span>
         </div>
         <span className={cn(text.label2, color.foregroundMuted)}>{''}</span>
         <div className="flex items-center">
