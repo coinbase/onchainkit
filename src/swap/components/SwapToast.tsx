@@ -6,7 +6,7 @@ import { useAccount } from 'wagmi';
 import { successSvg } from '../../internal/svg/successSvg';
 import { getToastPosition } from '../../internal/utils/getToastPosition';
 import { getChainExplorer } from '../../network/getChainExplorer';
-import { SwapToastReact } from '../types';
+import type { SwapToastReact } from '../types';
 import { useSwapContext } from './SwapProvider';
 
 export function SwapToast({
