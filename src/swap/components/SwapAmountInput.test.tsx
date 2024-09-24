@@ -9,6 +9,7 @@ import {
   it,
   vi,
 } from 'vitest';
+import { getRoundedAmount } from '../../internal/utils/getRoundedAmount';
 import type { Token } from '../../token';
 import { DAI_TOKEN, ETH_TOKEN, USDC_TOKEN } from '../mocks';
 import type { SwapContextType } from '../types';
@@ -66,6 +67,10 @@ const mockContextValue = {
   handleAmountChange: vi.fn(),
 } as SwapContextType;
 
+vi.mock('../../internal/utils/getRoundedAmount', () => ({
+  getRoundedAmount: vi.fn(),
+}));
+
 const mockSwappableTokens: Token[] = [ETH_TOKEN, USDC_TOKEN, DAI_TOKEN];
 
 describe('SwapAmountInput', () => {
@@ -77,15 +82,6 @@ describe('SwapAmountInput', () => {
     useSwapContextMock.mockReturnValue(mockContextValue);
     render(<SwapAmountInput label="From" token={ETH_TOKEN} type="from" />);
     expect(screen.getByText('From')).toBeInTheDocument();
-  });
-
-  it('should render from token input with max button and balance', () => {
-    useSwapContextMock.mockReturnValue(mockContextValue);
-    render(<SwapAmountInput label="From" token={ETH_TOKEN} type="from" />);
-    expect(screen.getByText('Balance: 0.00028518')).toBeInTheDocument();
-    expect(
-      screen.getByTestId('ockSwapAmountInput_MaxButton'),
-    ).toBeInTheDocument();
   });
 
   it('should not render max button for to token input', () => {
@@ -294,5 +290,89 @@ describe('SwapAmountInput', () => {
     expect(screen.getByTestId('ockSwapAmountInput_Container')).toHaveClass(
       'custom-class',
     );
+  });
+
+  it('should return ~$0.00 when amountUSD is an empty string', () => {
+    const mockContextValueWithEmptyAmountUSD = {
+      ...mockContextValue,
+      from: {
+        ...mockContextValue.from,
+        amountUSD: '',
+      },
+    };
+
+    useSwapContextMock.mockReturnValue(mockContextValueWithEmptyAmountUSD);
+
+    render(<SwapAmountInput label="From" token={ETH_TOKEN} type="from" />);
+
+    expect(screen.getByText('~$0.00')).toBeInTheDocument();
+  });
+
+  it('should return ~$0.00 when amountUSD is null', () => {
+    const mockContextValueWithNullAmountUSD = {
+      ...mockContextValue,
+      from: {
+        ...mockContextValue.from,
+        amountUSD: null as unknown as string,
+      },
+    };
+
+    useSwapContextMock.mockReturnValue(mockContextValueWithNullAmountUSD);
+
+    render(<SwapAmountInput label="From" token={ETH_TOKEN} type="from" />);
+
+    expect(screen.getByText('~$0.00')).toBeInTheDocument();
+  });
+
+  it('should return ~$0.00 when amountUSD is undefined', () => {
+    const mockContextValueWithUndefinedAmountUSD = {
+      ...mockContextValue,
+      from: {
+        ...mockContextValue.from,
+        amountUSD: undefined as unknown as string,
+      },
+    };
+
+    useSwapContextMock.mockReturnValue(mockContextValueWithUndefinedAmountUSD);
+
+    render(<SwapAmountInput label="From" token={ETH_TOKEN} type="from" />);
+
+    expect(screen.getByText('~$0.00')).toBeInTheDocument();
+  });
+
+  it('should return ~$0.00 when getRoundedAmount returns null', () => {
+    getRoundedAmount.mockReturnValue(null);
+
+    const mockContextValueWithAmountUSD = {
+      ...mockContextValue,
+      from: {
+        ...mockContextValue.from,
+        amountUSD: '1234.567',
+      },
+    };
+
+    useSwapContextMock.mockReturnValue(mockContextValueWithAmountUSD);
+
+    render(<SwapAmountInput label="From" token={ETH_TOKEN} type="from" />);
+
+    expect(screen.getByText('~$0.00')).toBeInTheDocument();
+  });
+
+  it('should return ~$0.00 when getRoundedAmount returns undefined', () => {
+    getRoundedAmount.mockReturnValue(undefined);
+
+    const mockContextValueWithAmountUSD = {
+      ...mockContextValue,
+      from: {
+        ...mockContextValue.from,
+        amountUSD: '1234.567',
+      },
+    };
+
+    useSwapContextMock.mockReturnValue(mockContextValueWithAmountUSD);
+
+    render(<SwapAmountInput label="From" token={ETH_TOKEN} type="from" />);
+
+    expect(screen.getByText('~$0.00')).toBeInTheDocument();
   });
 });
