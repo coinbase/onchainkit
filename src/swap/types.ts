@@ -213,6 +213,10 @@ export type SwapContextType = {
   handleToggle: () => void;
   updateLifecycleStatus: (state: LifecycleStatusUpdate) => void; // A function to set the lifecycle status of the component
   to: SwapUnit;
+  isToastVisible?: boolean;
+  setIsToastVisible?: (visible: boolean) => void;
+  transactionHash?: string;
+  setTransactionHash?: (hash: string) => void;
 };
 
 /**
@@ -364,6 +368,12 @@ export type Transaction = {
   nonce?: number; // The nonce for the transaction
   to: Address; // The recipient address
   value: bigint; // The value of the transaction
+};
+
+export type SwapToastReact = {
+  className?: string; // An optional CSS class name for styling the toast component.
+  durationMs?: number; // An optional value to customize time until toast disappears
+  position?: 'top-center' | 'top-right' | 'bottom-center' | 'bottom-right'; // An optional position property to specify the toast's position on the screen.
 };
 
 export type SwapTransaction = {

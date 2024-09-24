@@ -7,6 +7,7 @@ export { SwapSettings } from './components/SwapSettings';
 export { SwapSettingsSlippageDescription } from './components/SwapSettingsSlippageDescription';
 export { SwapSettingsSlippageInput } from './components/SwapSettingsSlippageInput';
 export { SwapSettingsSlippageTitle } from './components/SwapSettingsSlippageTitle';
+export { SwapToast } from './components/SwapToast';
 export { SwapToggleButton } from './components/SwapToggleButton';
 export type {
   /** @deprecated Prefer import from `api` module */
