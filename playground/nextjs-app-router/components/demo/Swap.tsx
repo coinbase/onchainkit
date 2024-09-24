@@ -22,7 +22,7 @@ import { AppContext } from '../AppProvider';
 const DEFAULT_MAX_SLIPPAGE = 3;
 
 function SwapComponent() {
-  const { chainId, defaultMaxSlippage } = useContext(AppContext);
+  const { chainId, defaultMaxSlippage, paymasters } = useContext(AppContext);
 
   const degenToken: Token = {
     name: 'DEGEN',
@@ -109,6 +109,7 @@ function SwapComponent() {
         onSuccess={handleOnSuccess}
         onError={handleOnError}
         config={{ maxSlippage: defaultMaxSlippage || DEFAULT_MAX_SLIPPAGE }}
+        isSponsored={paymasters != null}
       >
         <SwapSettings>
           <SwapSettingsSlippageTitle>Max. slippage</SwapSettingsSlippageTitle>

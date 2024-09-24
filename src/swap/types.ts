@@ -20,6 +20,7 @@ import type { Call } from '../transaction/types';
 
 export type SendSwapTransactionParams = {
   config: Config;
+  isSponsored?: boolean; // Whether the swap is sponsored (default: false)
   // biome-ignore lint: cannot find module 'wagmi/experimental/query'
   sendCallsAsync: any;
   sendTransactionAsync: SendTransactionMutateAsync<Config, unknown>;
@@ -156,6 +157,7 @@ export type LifecycleStatusUpdate = LifecycleStatus extends infer T
 export type ProcessSwapTransactionParams = {
   chainId?: number; // The chain ID
   config: Config;
+  isSponsored?: boolean; // Whether the swap is sponsored (default: false)
   // biome-ignore lint: cannot find module 'wagmi/experimental/query'
   sendCallsAsync: any;
   sendTransactionAsync: SendTransactionMutateAsync<Config, unknown>;
@@ -271,6 +273,7 @@ export type SwapProviderReact = {
   experimental: {
     useAggregator: boolean; // Whether to use a DEX aggregator. (default: true)
   };
+  isSponsored?: boolean; // An optional setting to sponsor swaps with a Paymaster. (default: false)
   onError?: (error: SwapError) => void; // An optional callback function that handles errors within the provider.
   onStatus?: (lifecycleStatus: LifecycleStatus) => void; // An optional callback function that exposes the component lifecycle state
   onSuccess?: (transactionReceipt: TransactionReceipt) => void; // An optional callback function that exposes the transaction receipt
@@ -286,6 +289,7 @@ export type SwapReact = {
   experimental?: {
     useAggregator: boolean; // Whether to use a DEX aggregator. (default: true)
   };
+  isSponsored?: boolean; // An optional setting to sponsor swaps with a Paymaster. (default: false)
   onError?: (error: SwapError) => void; // An optional callback function that handles errors within the provider.
   onStatus?: (lifecycleStatus: LifecycleStatus) => void; // An optional callback function that exposes the component lifecycle state
   onSuccess?: (transactionReceipt: TransactionReceipt) => void; // An optional callback function that exposes the transaction receipt

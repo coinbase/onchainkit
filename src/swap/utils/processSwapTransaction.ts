@@ -11,11 +11,12 @@ import { sendSwapTransactions } from './sendSwapTransactions';
 export async function processSwapTransaction({
   chainId,
   config,
+  isSponsored,
   sendCallsAsync,
   sendTransactionAsync,
-  updateLifecycleStatus,
   swapTransaction,
   switchChainAsync,
+  updateLifecycleStatus,
   useAggregator,
   walletCapabilities,
 }: ProcessSwapTransactionParams) {
@@ -83,10 +84,11 @@ export async function processSwapTransaction({
 
   await sendSwapTransactions({
     config,
+    isSponsored,
     sendCallsAsync,
     sendTransactionAsync,
+    transactions,
     updateLifecycleStatus,
     walletCapabilities,
-    transactions,
   });
 }

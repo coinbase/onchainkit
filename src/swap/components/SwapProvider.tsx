@@ -48,6 +48,7 @@ export function SwapProvider({
     maxSlippage: DEFAULT_MAX_SLIPPAGE,
   },
   experimental,
+  isSponsored,
   onError,
   onStatus,
   onSuccess,
@@ -343,6 +344,7 @@ export function SwapProvider({
       await processSwapTransaction({
         chainId,
         config: accountConfig,
+        isSponsored,
         sendCallsAsync,
         sendTransactionAsync,
         swapTransaction: response,
@@ -370,6 +372,7 @@ export function SwapProvider({
     chainId,
     from.amount,
     from.token,
+    isSponsored,
     lifecycleStatus,
     sendCallsAsync,
     sendTransactionAsync,

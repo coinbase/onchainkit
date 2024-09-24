@@ -19,6 +19,7 @@ export function Swap({
   },
   className,
   experimental = { useAggregator: false },
+  isSponsored = false,
   onError,
   onStatus,
   onSuccess,
@@ -54,6 +55,7 @@ export function Swap({
     <SwapProvider
       config={config}
       experimental={experimental}
+      isSponsored={isSponsored}
       onError={onError}
       onStatus={onStatus}
       onSuccess={onSuccess}
