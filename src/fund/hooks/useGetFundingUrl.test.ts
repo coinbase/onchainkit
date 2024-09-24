@@ -29,7 +29,7 @@ vi.mock('../../fund/utils/getOnrampBuyUrl', () => ({
 }));
 
 describe('useGetFundingUrl', () => {
-  it('returns Coinbase Smart Wallet fund URL if connected wallet is a Coinbase Smart Wallet', () => {
+  it('should return a Coinbase Smart Wallet fund URL if connected wallet is a Coinbase Smart Wallet', () => {
     (useOnchainKit as Mock).mockReturnValue({
       projectId: 'projectId',
       chain: { name: 'onchainkitchain' },
@@ -50,7 +50,7 @@ describe('useGetFundingUrl', () => {
     expect(result.current?.popupWidth).toBeUndefined();
   });
 
-  it('returns Coinbase Onramp fund URL if connected wallet is not a Coinbase Smart Wallet', () => {
+  it('should return a Coinbase Onramp fund URL if connected wallet is not a Coinbase Smart Wallet', () => {
     (useOnchainKit as Mock).mockReturnValue({
       projectId: 'projectId',
       chain: { name: 'onchainkitchain' },
@@ -76,7 +76,7 @@ describe('useGetFundingUrl', () => {
     );
   });
 
-  it('falls back to the onchainkit config chain if account chain is undefined', () => {
+  it('should fall back to the onchainkit config chain if account chain is undefined', () => {
     (useOnchainKit as Mock).mockReturnValue({
       projectId: 'projectId',
       chain: { name: 'onchainkitchain' },
@@ -102,7 +102,7 @@ describe('useGetFundingUrl', () => {
     );
   });
 
-  it('returns undefined if connected wallet is not a Coinbase Smart Wallet and projectId is undefined', () => {
+  it('should return undefined if connected wallet is not a Coinbase Smart Wallet and projectId is undefined', () => {
     (useOnchainKit as Mock).mockReturnValue({
       projectId: null,
       chain: { name: 'onchainkitchain' },
@@ -118,7 +118,7 @@ describe('useGetFundingUrl', () => {
     expect(result.current).toBeUndefined();
   });
 
-  it('returns undefined if connected wallet is not a Coinbase Smart Wallet and address is undefined', () => {
+  it('should return undefined if connected wallet is not a Coinbase Smart Wallet and address is undefined', () => {
     (useOnchainKit as Mock).mockReturnValue({
       projectId: 'projectId',
       chain: { name: 'onchainkitchain' },

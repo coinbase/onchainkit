@@ -18,7 +18,7 @@ vi.mock('../../internal/hooks/useCapabilitiesSafe', () => ({
 }));
 
 describe('useIsWalletACoinbaseSmartWallet', () => {
-  it('returns true if the wallet is a Coinbase Smart Wallet', () => {
+  it('should return true if the wallet is a Coinbase Smart Wallet', () => {
     (useOnchainKit as Mock).mockReturnValue({ chain: { id: 'chainId' } });
     (useAccount as Mock).mockReturnValue({
       connector: { id: 'coinbaseWalletSDK' },
@@ -32,7 +32,7 @@ describe('useIsWalletACoinbaseSmartWallet', () => {
     expect(result.current).toBe(true);
   });
 
-  it('returns false if the wallet is a non-smart Coinbase Wallet', () => {
+  it('should return false if the wallet is a non-smart Coinbase Wallet', () => {
     (useOnchainKit as Mock).mockReturnValue({ chain: { id: 'chainId' } });
     (useAccount as Mock).mockReturnValue({
       connector: { id: 'coinbaseWalletSDK' },
@@ -44,7 +44,7 @@ describe('useIsWalletACoinbaseSmartWallet', () => {
     expect(result.current).toBe(false);
   });
 
-  it('returns true if the wallet is a Coinbase Smart Wallet', () => {
+  it('should return true if the wallet is a Coinbase Smart Wallet', () => {
     (useOnchainKit as Mock).mockReturnValue({ chain: { id: 'chainId' } });
     (useAccount as Mock).mockReturnValue({ connector: { id: 'someOtherId' } });
     (useCapabilitiesSafe as Mock).mockReturnValue({
