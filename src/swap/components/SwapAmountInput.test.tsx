@@ -301,45 +301,6 @@ describe('SwapAmountInput', () => {
     );
   });
 
-  it('should return ~$0.00 when amountUSD is an empty string', () => {
-    const mockContextValueWithEmptyAmountUSD = {
-      ...mockContextValue,
-      from: {
-        ...mockContextValue.from,
-        amountUSD: '',
-      },
-    };
-    useSwapContextMock.mockReturnValue(mockContextValueWithEmptyAmountUSD);
-    render(<SwapAmountInput label="From" token={ETH_TOKEN} type="from" />);
-    expect(screen.getByText('~$0.00')).toBeInTheDocument();
-  });
-
-  it('should return ~$0.00 when amountUSD is null', () => {
-    const mockContextValueWithNullAmountUSD = {
-      ...mockContextValue,
-      from: {
-        ...mockContextValue.from,
-        amountUSD: null as unknown as string,
-      },
-    };
-    useSwapContextMock.mockReturnValue(mockContextValueWithNullAmountUSD);
-    render(<SwapAmountInput label="From" token={ETH_TOKEN} type="from" />);
-    expect(screen.getByText('~$0.00')).toBeInTheDocument();
-  });
-
-  it('should return ~$0.00 when amountUSD is undefined', () => {
-    const mockContextValueWithUndefinedAmountUSD = {
-      ...mockContextValue,
-      from: {
-        ...mockContextValue.from,
-        amountUSD: undefined as unknown as string,
-      },
-    };
-    useSwapContextMock.mockReturnValue(mockContextValueWithUndefinedAmountUSD);
-    render(<SwapAmountInput label="From" token={ETH_TOKEN} type="from" />);
-    expect(screen.getByText('~$0.00')).toBeInTheDocument();
-  });
-
   it('should return ~$0.00 when getRoundedAmount returns null', () => {
     getRoundedAmount.mockReturnValue(null);
     const mockContextValueWithAmountUSD = {
@@ -366,5 +327,5 @@ describe('SwapAmountInput', () => {
     useSwapContextMock.mockReturnValue(mockContextValueWithAmountUSD);
     render(<SwapAmountInput label="From" token={ETH_TOKEN} type="from" />);
     expect(screen.getByText('~$0.00')).toBeInTheDocument();
-  });
+  });  
 });

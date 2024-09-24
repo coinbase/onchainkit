@@ -39,7 +39,7 @@ export function SwapAmountInput({
     (amount: string) => {
       handleAmountChange(type, amount);
     },
-    [handleAmountChange, type],
+    [handleAmountChange, type]
   );
 
   const handleSetToken = useCallback(
@@ -47,7 +47,7 @@ export function SwapAmountInput({
       source.setToken(token);
       handleAmountChange(type, source.amount, token);
     },
-    [source.amount, source.setToken, handleAmountChange, type],
+    [source.amount, source.setToken, handleAmountChange, type]
   );
 
   // We are mocking the token selectors so I'm not able
@@ -55,7 +55,7 @@ export function SwapAmountInput({
   const sourceTokenOptions = useMemo(() => {
     return (
       swappableTokens?.filter(
-        ({ symbol }: Token) => symbol !== destination.token?.symbol,
+        ({ symbol }: Token) => symbol !== destination.token?.symbol
       ) ?? []
     );
   }, [swappableTokens, destination.token]);
@@ -64,9 +64,6 @@ export function SwapAmountInput({
     type === 'from' && Number(source.balance) < Number(source.amount);
 
   const formatUSD = (amount: string) => {
-    if (!amount) {
-      return '~$0.00';
-    }
     const roundedAmount = Number(getRoundedAmount(amount, 2) || 0);
     return `~$${roundedAmount.toFixed(2)}`;
   };
@@ -77,7 +74,7 @@ export function SwapAmountInput({
         background.alternate,
         'box-border flex w-full flex-col items-start',
         'h-[148px] rounded-md p-4',
-        className,
+        className
       )}
       data-testid="ockSwapAmountInput_Container"
     >
@@ -89,7 +86,7 @@ export function SwapAmountInput({
           className={cn(
             'mr-2 w-full border-[none] bg-transparent font-display text-[2.5rem]',
             'leading-none outline-none',
-            hasInsufficientBalance && address ? color.error : color.foreground,
+            hasInsufficientBalance && address ? color.error : color.foreground
           )}
           placeholder="0.0"
           delayMs={delayMs}
@@ -112,11 +109,13 @@ export function SwapAmountInput({
         )}
       </div>
       <div className="mt-4 flex w-full justify-between">
-        <div className="flex items-center">
-          <span className={cn(text.label2, color.foregroundMuted)}>
-            {formatUSD(source.amountUSD)}
-          </span>
-        </div>
+        {source.amountUSD && (
+          <div className="flex items-center">
+            <span className={cn(text.label2, color.foregroundMuted)}>
+              {source.amountUSD ? formatUSD(source.amountUSD) : '~$0.00'}
+            </span>
+          </div>
+        )}
         <span className={cn(text.label2, color.foregroundMuted)}>{''}</span>
         <div className="flex items-center">
           {source.balance && (
