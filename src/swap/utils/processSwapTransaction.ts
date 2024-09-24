@@ -13,9 +13,10 @@ export async function processSwapTransaction({
   config,
   sendCallsAsync,
   sendTransactionAsync,
-  updateLifecycleStatus,
+  sponsored,
   swapTransaction,
   switchChainAsync,
+  updateLifecycleStatus,
   useAggregator,
   walletCapabilities,
 }: ProcessSwapTransactionParams) {
@@ -85,8 +86,9 @@ export async function processSwapTransaction({
     config,
     sendCallsAsync,
     sendTransactionAsync,
+    sponsored,
+    transactions,
     updateLifecycleStatus,
     walletCapabilities,
-    transactions,
   });
 }

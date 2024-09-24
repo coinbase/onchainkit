@@ -1,4 +1,5 @@
 import { Capabilities } from '../../constants';
+import { getRPCUrl } from '../../network/getRPCUrl';
 import type { SendSwapTransactionParams } from '../types';
 import { sendSingleTransactions } from './sendSingleTransactions';
 
@@ -6,6 +7,7 @@ export async function sendSwapTransactions({
   config,
   sendCallsAsync,
   sendTransactionAsync,
+  sponsored,
   updateLifecycleStatus,
   walletCapabilities,
   transactions,
@@ -17,6 +19,13 @@ export async function sendSwapTransactions({
     });
     const callsId = await sendCallsAsync({
       calls: transactions.map(({ transaction }) => transaction),
+      capabilities: sponsored
+        ? {
+            paymasterService: {
+              url: getRPCUrl(),
+            },
+          }
+        : {},
     });
     updateLifecycleStatus({
       statusName: 'transactionApproved',

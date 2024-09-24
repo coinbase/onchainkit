@@ -23,6 +23,7 @@ export type SendSwapTransactionParams = {
   // biome-ignore lint: cannot find module 'wagmi/experimental/query'
   sendCallsAsync: any;
   sendTransactionAsync: SendTransactionMutateAsync<Config, unknown>;
+  sponsored?: boolean; // Whether the swap is sponsored
   transactions: SwapTransaction[]; // A list of transactions to execute
   updateLifecycleStatus: (state: LifecycleStatusUpdate) => void;
   walletCapabilities: WalletCapabilities; // EIP-5792 wallet capabilities
@@ -159,6 +160,7 @@ export type ProcessSwapTransactionParams = {
   // biome-ignore lint: cannot find module 'wagmi/experimental/query'
   sendCallsAsync: any;
   sendTransactionAsync: SendTransactionMutateAsync<Config, unknown>;
+  sponsored?: boolean; // Whether the swap is sponsored
   swapTransaction: BuildSwapTransaction; // The response from the Swap API
   switchChainAsync: SwitchChainMutateAsync<Config, unknown>; // To switch the chain to Base if not already provided
   updateLifecycleStatus: (state: LifecycleStatusUpdate) => void; // A function to set the lifecycle status of the component
@@ -270,6 +272,7 @@ export type SwapProviderReact = {
   onError?: (error: SwapError) => void; // An optional callback function that handles errors within the provider.
   onStatus?: (lifecycleStatus: LifecycleStatus) => void; // An optional callback function that exposes the component lifecycle state
   onSuccess?: (transactionReceipt: TransactionReceipt) => void; // An optional callback function that exposes the transaction receipt
+  sponsored?: boolean; // Whether the swap is sponsored. (default: false)
 };
 
 /**
@@ -285,6 +288,7 @@ export type SwapReact = {
   onError?: (error: SwapError) => void; // An optional callback function that handles errors within the provider.
   onStatus?: (lifecycleStatus: LifecycleStatus) => void; // An optional callback function that exposes the component lifecycle state
   onSuccess?: (transactionReceipt: TransactionReceipt) => void; // An optional callback function that exposes the transaction receipt
+  sponsored?: boolean; // Whether the swap is sponsored. (default: false)
   title?: string; // Title for the Swap component. (default: "Swap")
 };
 

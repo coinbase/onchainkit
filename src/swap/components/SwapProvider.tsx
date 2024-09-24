@@ -51,6 +51,7 @@ export function SwapProvider({
   onError,
   onStatus,
   onSuccess,
+  sponsored,
 }: SwapProviderReact) {
   const { address, chainId } = useAccount();
   const { switchChainAsync } = useSwitchChain();
@@ -338,6 +339,7 @@ export function SwapProvider({
         config: accountConfig,
         sendCallsAsync,
         sendTransactionAsync,
+        sponsored,
         swapTransaction: response,
         switchChainAsync,
         updateLifecycleStatus,
