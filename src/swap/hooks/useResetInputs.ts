@@ -8,7 +8,9 @@ export const useResetInputs = ({ from, to }: FromTo) => {
       from.balanceResponse?.refetch(),
       to.balanceResponse?.refetch(),
       from.setAmount(''),
+      from.setAmountUSD(''),
       to.setAmount(''),
+      to.setAmountUSD(''),
     ]);
   }, [from, to]);
 };
