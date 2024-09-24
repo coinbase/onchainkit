@@ -20,7 +20,7 @@ import type { Call } from '../transaction/types';
 
 export type SendSwapTransactionParams = {
   config: Config;
-  isSponsored?: boolean; // Whether the swap is sponsored
+  isSponsored?: boolean; // Whether the swap is sponsored (default: false)
   // biome-ignore lint: cannot find module 'wagmi/experimental/query'
   sendCallsAsync: any;
   sendTransactionAsync: SendTransactionMutateAsync<Config, unknown>;
@@ -157,7 +157,7 @@ export type LifecycleStatusUpdate = LifecycleStatus extends infer T
 export type ProcessSwapTransactionParams = {
   chainId?: number; // The chain ID
   config: Config;
-  isSponsored?: boolean; // Whether the swap is sponsored
+  isSponsored?: boolean; // Whether the swap is sponsored (default: false)
   // biome-ignore lint: cannot find module 'wagmi/experimental/query'
   sendCallsAsync: any;
   sendTransactionAsync: SendTransactionMutateAsync<Config, unknown>;

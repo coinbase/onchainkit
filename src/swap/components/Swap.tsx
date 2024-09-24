@@ -21,7 +21,7 @@ export function Swap({
   onError,
   onStatus,
   onSuccess,
-  isSponsored,
+  isSponsored = false,
   title = 'Swap',
 }: SwapReact) {
   const { inputs, toggleButton, swapButton, swapMessage, swapSettings } =
