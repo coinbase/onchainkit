@@ -366,6 +366,12 @@ export type Transaction = {
   value: bigint; // The value of the transaction
 };
 
+export type SwapToastReact = {
+  className?: string; // An optional CSS class name for styling the toast component.
+  durationMs?: number; // An optional value to customize time until toast disappears
+  position?: 'top-center' | 'top-right' | 'bottom-center' | 'bottom-right'; // An optional position property to specify the toast's position on the screen.
+};
+
 export type SwapTransaction = {
   transaction: Call;
   transactionType: SwapTransactionType;

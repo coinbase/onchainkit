@@ -7,12 +7,7 @@ import { successSvg } from '../../internal/svg/successSvg';
 import { useAccount } from 'wagmi';
 import { getChainExplorer } from '../../network/getChainExplorer';
 import { getToastPosition } from '../../internal/utils/getToastPosition';
-
-type SwapToastReact = {
-  className?: string; // An optional CSS class name for styling the toast component.
-  durationMs?: number; // An optional value to customize time until toast disappears
-  position?: 'top-center' | 'top-right' | 'bottom-center' | 'bottom-right'; // An optional position property to specify the toast's position on the screen.
-};
+import { SwapToastReact } from '../types';
 
 export function SwapToast({
   className,
