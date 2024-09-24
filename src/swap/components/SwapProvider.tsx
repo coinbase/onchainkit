@@ -227,7 +227,7 @@ export function SwapProvider({
         destination.setAmount('');
         destination.setAmountUSD('');
         source.setAmountUSD('');
-        return 
+        return;
       }
 
       // When toAmount changes we fetch quote for fromAmount
@@ -275,10 +275,10 @@ export function SwapProvider({
           response.toAmount,
           response.to.decimals,
         );
-        destination.setAmount(
+        destination.setAmountUSD(
           formatTokenAmount(response.toAmountUSD, USDC_TOKEN_DECIMALS),
         );
-        destination.setAmountUSD(formattedAmount);
+        destination.setAmount(formattedAmount);
         source.setAmountUSD(
           formatTokenAmount(response.fromAmountUSD, USDC_TOKEN_DECIMALS),
         );
