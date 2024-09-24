@@ -224,7 +224,10 @@ export function SwapProvider({
         return;
       }
       if (amount === '' || amount === '.' || Number.parseFloat(amount) === 0) {
-        return destination.setAmount('');
+        destination.setAmount('');
+        destination.setAmountUSD('');
+        source.setAmountUSD('');
+        return 
       }
 
       // When toAmount changes we fetch quote for fromAmount
@@ -279,7 +282,6 @@ export function SwapProvider({
         source.setAmountUSD(
           formatTokenAmount(response.fromAmountUSD, USDC_TOKEN_DECIMALS),
         );
-
         updateLifecycleStatus({
           statusName: 'amountChange',
           statusData: {
