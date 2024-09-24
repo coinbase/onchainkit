@@ -30,8 +30,10 @@ describe('useFromTo', () => {
     (useValue as Mock).mockImplementation((props) => ({
       ...props,
       amount: '100',
+      amountUSD: '150',
       response: props.response,
       setAmount: vi.fn(),
+      setAmountUSD: vi.fn(),
       setLoading: vi.fn(),
       setToken: vi.fn(),
       token: USDC_TOKEN,
@@ -39,22 +41,26 @@ describe('useFromTo', () => {
     const { result } = renderHook(() => useFromTo('0x123'));
     expect(result.current.from).toEqual({
       amount: '100',
+      amountUSD: '150',
       balance: '100',
       balanceResponse: { refetch: expect.any(Function) },
       error: null,
       loading: false,
       setAmount: expect.any(Function),
+      setAmountUSD: expect.any(Function),
       setLoading: expect.any(Function),
       setToken: expect.any(Function),
       token: USDC_TOKEN,
     });
     expect(result.current.to).toEqual({
       amount: '100',
+      amountUSD: '150',
       balance: '200',
       balanceResponse: { refetch: expect.any(Function) },
       error: null,
       loading: false,
       setAmount: expect.any(Function),
+      setAmountUSD: expect.any(Function),
       setLoading: expect.any(Function),
       setToken: expect.any(Function),
       token: USDC_TOKEN,
