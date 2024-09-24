@@ -89,9 +89,7 @@ export type LifecycleStatus =
       statusName: 'amountChange';
       statusData: {
         amountFrom: string;
-        amountFromUSD: string;
         amountTo: string;
-        amountToUSD: string;
         tokenFrom?: Token;
         tokenTo?: Token;
       } & LifecycleStatusDataShared;

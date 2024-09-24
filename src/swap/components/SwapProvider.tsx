@@ -272,7 +272,11 @@ export function SwapProvider({
           response.toAmount,
           response.to.decimals,
         );
-        destination.setAmount(formattedAmount);
+
+        destination.setAmount(formatTokenAmount(response.toAmountUSD, 6));
+        destination.setAmountUSD(formattedAmount);
+        source.setAmountUSD(formatTokenAmount(response.fromAmountUSD, 6));
+
         updateLifecycleStatus({
           statusName: 'amountChange',
           statusData: {
