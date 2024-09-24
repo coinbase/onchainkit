@@ -286,16 +286,15 @@ describe('SwapAmountInput', () => {
     ).toContain('custom-class');
   });
 
-  it('should display "-" when amountUSD is not provided', () => {
-    const mockContextValueWithoutUSD = {
+  it('should not display anything when amountUSD is null', () => {
+    const mockContextValueWithNullUSD = {
       ...mockContextValue,
       from: {
         ...mockContextValue.from,
-        amountUSD: undefined,
+        amountUSD: null,
       },
     };
-    useSwapContextMock.mockReturnValue(mockContextValueWithoutUSD);
-    render(<SwapAmountInput label="From" token={ETH_TOKEN} type="from" />);
-    expect(screen.getByText('-')).toBeDefined();
+    useSwapContextMock.mockReturnValue(mockContextValueWithNullUSD);
+    expect(screen.queryByText(/\$/)).toBeNull();
   });
 });
