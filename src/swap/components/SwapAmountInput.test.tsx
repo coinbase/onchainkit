@@ -309,11 +309,8 @@ describe('SwapAmountInput', () => {
         amountUSD: '',
       },
     };
-
     useSwapContextMock.mockReturnValue(mockContextValueWithEmptyAmountUSD);
-
     render(<SwapAmountInput label="From" token={ETH_TOKEN} type="from" />);
-
     expect(screen.getByText('~$0.00')).toBeInTheDocument();
   });
 
@@ -325,11 +322,8 @@ describe('SwapAmountInput', () => {
         amountUSD: null as unknown as string,
       },
     };
-
     useSwapContextMock.mockReturnValue(mockContextValueWithNullAmountUSD);
-
     render(<SwapAmountInput label="From" token={ETH_TOKEN} type="from" />);
-
     expect(screen.getByText('~$0.00')).toBeInTheDocument();
   });
 
@@ -341,17 +335,13 @@ describe('SwapAmountInput', () => {
         amountUSD: undefined as unknown as string,
       },
     };
-
     useSwapContextMock.mockReturnValue(mockContextValueWithUndefinedAmountUSD);
-
     render(<SwapAmountInput label="From" token={ETH_TOKEN} type="from" />);
-
     expect(screen.getByText('~$0.00')).toBeInTheDocument();
   });
 
   it('should return ~$0.00 when getRoundedAmount returns null', () => {
     getRoundedAmount.mockReturnValue(null);
-
     const mockContextValueWithAmountUSD = {
       ...mockContextValue,
       from: {
@@ -359,17 +349,13 @@ describe('SwapAmountInput', () => {
         amountUSD: '1234.567',
       },
     };
-
     useSwapContextMock.mockReturnValue(mockContextValueWithAmountUSD);
-
     render(<SwapAmountInput label="From" token={ETH_TOKEN} type="from" />);
-
     expect(screen.getByText('~$0.00')).toBeInTheDocument();
   });
 
   it('should return ~$0.00 when getRoundedAmount returns undefined', () => {
     getRoundedAmount.mockReturnValue(undefined);
-
     const mockContextValueWithAmountUSD = {
       ...mockContextValue,
       from: {
@@ -377,11 +363,8 @@ describe('SwapAmountInput', () => {
         amountUSD: '1234.567',
       },
     };
-
     useSwapContextMock.mockReturnValue(mockContextValueWithAmountUSD);
-
     render(<SwapAmountInput label="From" token={ETH_TOKEN} type="from" />);
-
     expect(screen.getByText('~$0.00')).toBeInTheDocument();
   });
 });
