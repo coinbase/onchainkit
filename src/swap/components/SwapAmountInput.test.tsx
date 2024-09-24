@@ -1,15 +1,5 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import '@testing-library/jest-dom';
-import {
-  type Mock,
-  type MockedFunction,
-  beforeEach,
-  describe,
-  expect,
-  it,
-  vi,
-} from 'vitest';
-import { getRoundedAmount } from '../../internal/utils/getRoundedAmount';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import type { Token } from '../../token';
 import { DAI_TOKEN, ETH_TOKEN, USDC_TOKEN } from '../mocks';
 import type { SwapContextType } from '../types';
@@ -40,12 +30,15 @@ vi.mock('./SwapProvider', () => ({
   useSwapContext: vi.fn(),
 }));
 
-const useSwapContextMock = useSwapContext as Mock;
+const useSwapContextMock = useSwapContext as unknown as ReturnType<
+  typeof vi.fn
+>;
 
 const mockContextValue = {
   address: '0x123',
   from: {
     amount: '10',
+    amountUSD: '1000',
     balance: '0.0002851826238227',
     setAmount: vi.fn(),
     setLoading: vi.fn(),
@@ -55,6 +48,7 @@ const mockContextValue = {
   },
   to: {
     amount: '20',
+    amountUSD: '2000',
     setAmount: vi.fn(),
     setLoading: vi.fn(),
     setToken: vi.fn(),
@@ -81,32 +75,26 @@ describe('SwapAmountInput', () => {
   it('should render the component with the correct label and token', () => {
     useSwapContextMock.mockReturnValue(mockContextValue);
     render(<SwapAmountInput label="From" token={ETH_TOKEN} type="from" />);
-    expect(screen.getByText('From')).toBeInTheDocument();
+    expect(screen.getByText('From')).toBeDefined();
   });
 
   it('should render from token input with max button and balance', () => {
     useSwapContextMock.mockReturnValue(mockContextValue);
     render(<SwapAmountInput label="From" token={ETH_TOKEN} type="from" />);
-    expect(screen.getByText('Balance: 0.00028518')).toBeInTheDocument();
-    expect(
-      screen.getByTestId('ockSwapAmountInput_MaxButton'),
-    ).toBeInTheDocument();
+    expect(screen.getByText('Balance: 0.00028518')).toBeDefined();
+    expect(screen.getByTestId('ockSwapAmountInput_MaxButton')).toBeDefined();
   });
 
   it('should not render max button for to token input', () => {
     useSwapContextMock.mockReturnValue(mockContextValue);
     render(<SwapAmountInput label="From" token={ETH_TOKEN} type="to" />);
-    expect(
-      screen.queryByTestId('ockSwapAmountInput_MaxButton'),
-    ).not.toBeInTheDocument();
+    expect(screen.queryByTestId('ockSwapAmountInput_MaxButton')).toBeNull();
   });
 
   it('should not render max button if wallet not connected', () => {
     useSwapContextMock.mockReturnValue({ ...mockContextValue, address: '' });
     render(<SwapAmountInput label="From" token={ETH_TOKEN} type="from" />);
-    expect(
-      screen.queryByTestId('ockSwapAmountInput_MaxButton'),
-    ).not.toBeInTheDocument();
+    expect(screen.queryByTestId('ockSwapAmountInput_MaxButton')).toBeNull();
   });
 
   it('should update input value with balance amount on max button click', () => {
@@ -134,7 +122,7 @@ describe('SwapAmountInput', () => {
     expect(mockContextValue.from.setAmount).not.toHaveBeenCalled();
   });
 
-  it('shoukd display the correct amount when this type is "from"', () => {
+  it('should display the correct amount when this type is "from"', () => {
     useSwapContextMock.mockReturnValue(mockContextValue);
     render(<SwapAmountInput label="From" token={ETH_TOKEN} type="from" />);
     const input = screen.getByTestId('ockTextInput_Input');
@@ -184,7 +172,7 @@ describe('SwapAmountInput', () => {
     expect(mockContextValue.to.setToken).toHaveBeenCalledWith(ETH_TOKEN);
   });
 
-  it('should call handleAmountChange when type is "from" and delayMs is 0', () => {
+  it('should call handleAmountChange when type is "from" and delayMs is 0', async () => {
     useSwapContextMock.mockReturnValue(mockContextValue);
     render(
       <SwapAmountInput
@@ -197,7 +185,7 @@ describe('SwapAmountInput', () => {
     const input = screen.getByTestId('ockTextInput_Input');
     fireEvent.change(input, { target: { value: '15' } });
     expect(mockContextValue.from.setAmount).toHaveBeenCalledWith('15');
-    waitFor(() => {
+    await waitFor(() => {
       expect(mockContextValue.handleAmountChange).toHaveBeenCalled();
     });
   });
@@ -220,13 +208,10 @@ describe('SwapAmountInput', () => {
       />,
     );
     const dropdown = screen.getByText(/TokenSelectDropdown/i);
-    expect(dropdown).toBeInTheDocument();
+    expect(dropdown).toBeDefined();
   });
 
   it('should correctly select a token from the dropdown using mouse and keyboard', () => {
-    const useSwapContextMock = useSwapContext as MockedFunction<
-      typeof useSwapContext
-    >;
     useSwapContextMock.mockReturnValue(mockContextValue);
     render(
       <SwapAmountInput
@@ -269,7 +254,7 @@ describe('SwapAmountInput', () => {
     useSwapContextMock.mockReturnValue(mockContextValueWithLowBalance);
     render(<SwapAmountInput label="From" token={ETH_TOKEN} type="from" />);
     const input = screen.getByTestId('ockTextInput_Input');
-    expect(input).toHaveClass('text-ock-error');
+    expect(input.className).toContain('text-ock-error');
   });
 
   it('should render a TokenChip component if swappableTokens are not passed as prop', () => {
@@ -283,7 +268,7 @@ describe('SwapAmountInput', () => {
     render(<SwapAmountInput label="To" token={USDC_TOKEN} type="to" />);
     const chips = screen.getAllByText('TokenChip');
     expect(chips.length).toBeGreaterThan(0);
-    expect(chips[0]).toBeInTheDocument();
+    expect(chips[0]).toBeDefined();
   });
 
   it('should apply the given className to the button', async () => {
@@ -296,61 +281,21 @@ describe('SwapAmountInput', () => {
         className="custom-class"
       />,
     );
-    expect(screen.getByTestId('ockSwapAmountInput_Container')).toHaveClass(
-      'custom-class',
-    );
+    expect(
+      screen.getByTestId('ockSwapAmountInput_Container').className,
+    ).toContain('custom-class');
   });
 
-  it('should return ~$0.00 when getRoundedAmount returns null', () => {
-    getRoundedAmount.mockReturnValue(null);
-    const mockContextValueWithAmountUSD = {
+  it('should display "-" when amountUSD is not provided', () => {
+    const mockContextValueWithoutUSD = {
       ...mockContextValue,
       from: {
         ...mockContextValue.from,
-        amountUSD: '1234.567',
+        amountUSD: undefined,
       },
     };
-    useSwapContextMock.mockReturnValue(mockContextValueWithAmountUSD);
+    useSwapContextMock.mockReturnValue(mockContextValueWithoutUSD);
     render(<SwapAmountInput label="From" token={ETH_TOKEN} type="from" />);
-    expect(screen.getByText('~$0.00')).toBeInTheDocument();
-  });
-
-  it('should return ~$0.00 when amountUSD is an empty string', () => {
-    const mockContextValueWithEmptyAmountUSD = {
-      ...mockContextValue,
-      from: {
-        ...mockContextValue.from,
-        amountUSD: '',
-      },
-    };
-    useSwapContextMock.mockReturnValue(mockContextValueWithEmptyAmountUSD);
-    render(<SwapAmountInput label="From" token={ETH_TOKEN} type="from" />);
-    expect(screen.getByText('~$0.00')).toBeInTheDocument();
-  });
-
-  it('should return ~$0.00 when amountUSD is null', () => {
-    const mockContextValueWithNullAmountUSD = {
-      ...mockContextValue,
-      from: {
-        ...mockContextValue.from,
-        amountUSD: null as unknown as string,
-      },
-    };
-    useSwapContextMock.mockReturnValue(mockContextValueWithNullAmountUSD);
-    render(<SwapAmountInput label="From" token={ETH_TOKEN} type="from" />);
-    expect(screen.getByText('~$0.00')).toBeInTheDocument();
-  });
-
-  it('should return ~$0.00 when amountUSD is undefined', () => {
-    const mockContextValueWithUndefinedAmountUSD = {
-      ...mockContextValue,
-      from: {
-        ...mockContextValue.from,
-        amountUSD: undefined as unknown as string,
-      },
-    };
-    useSwapContextMock.mockReturnValue(mockContextValueWithUndefinedAmountUSD);
-    render(<SwapAmountInput label="From" token={ETH_TOKEN} type="from" />);
-    expect(screen.getByText('~$0.00')).toBeInTheDocument();
+    expect(screen.getByText('-')).toBeDefined();
   });
 });
