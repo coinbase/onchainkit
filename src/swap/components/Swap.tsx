@@ -21,7 +21,7 @@ export function Swap({
   onError,
   onStatus,
   onSuccess,
-  sponsored,
+  isSponsored,
   title = 'Swap',
 }: SwapReact) {
   const { inputs, toggleButton, swapButton, swapMessage, swapSettings } =
@@ -49,7 +49,7 @@ export function Swap({
       onError={onError}
       onStatus={onStatus}
       onSuccess={onSuccess}
-      sponsored={sponsored}
+      isSponsored={isSponsored}
     >
       <div
         className={cn(

@@ -108,7 +108,7 @@ function SwapComponent() {
         onSuccess={handleOnSuccess}
         onError={handleOnError}
         config={{ maxSlippage: defaultMaxSlippage || DEFAULT_MAX_SLIPPAGE }}
-        sponsored={paymasters != null}
+        isSponsored={paymasters != null}
       >
         <SwapSettings>
           <SwapSettingsSlippageTitle>Max. slippage</SwapSettingsSlippageTitle>

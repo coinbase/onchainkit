@@ -7,7 +7,7 @@ export async function sendSwapTransactions({
   config,
   sendCallsAsync,
   sendTransactionAsync,
-  sponsored,
+  isSponsored,
   updateLifecycleStatus,
   walletCapabilities,
   transactions,
@@ -19,7 +19,7 @@ export async function sendSwapTransactions({
     });
     const callsId = await sendCallsAsync({
       calls: transactions.map(({ transaction }) => transaction),
-      capabilities: sponsored
+      capabilities: isSponsored
         ? {
             paymasterService: {
               url: getRPCUrl(),

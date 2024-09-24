@@ -116,7 +116,7 @@ describe('sendSwapTransactions', () => {
       config,
       sendTransactionAsync,
       sendCallsAsync,
-      sponsored: true,
+      isSponsored: true,
       updateLifecycleStatus,
       walletCapabilities: { [Capabilities.AtomicBatch]: { supported: true } },
       transactions,
