@@ -4,7 +4,7 @@ description: Swap components & utilities
 ---
 
 import { Avatar, Name } from '@coinbase/onchainkit/identity';
-import { Swap, SwapAmountInput, SwapButton, SwapMessage, SwapToggleButton } from '@coinbase/onchainkit/swap';
+import { Swap, SwapAmountInput, SwapButton, SwapMessage, SwapToggleButton, SwapToast } from '@coinbase/onchainkit/swap';
 import { Wallet, ConnectWallet } from '@coinbase/onchainkit/wallet';
 import App from '../../components/App';
 import SwapWrapper from '../../components/SwapWrapper';
@@ -27,6 +27,7 @@ import { // [!code focus]
   SwapToggleButton, // [!code focus]
   SwapButton, // [!code focus]
   SwapMessage, // [!code focus]
+  SwapToast, // [!code focus]
 } from '@coinbase/onchainkit/swap'; // [!code focus]
 import { Wallet, ConnectWallet } from '@coinbase/onchainkit/wallet';
 import { useAccount } from 'wagmi';
@@ -73,6 +74,7 @@ export default function SwapComponents() {
       /> // [!code focus]
       <SwapButton /> // [!code focus]
       <SwapMessage /> // [!code focus]
+      <SwapToast /> // [!code focus]
     </Swap> // [!code focus]
   ) : (
     <Wallet>
@@ -106,6 +108,7 @@ export default function SwapComponents() {
             />
             <SwapButton disabled />
             <SwapMessage />
+            <SwapToast />
           </Swap>
         )
       }
@@ -199,6 +202,7 @@ import {
   SwapToggleButton,
   SwapButton,
   SwapMessage,
+  SwapToast,
 } from '@coinbase/onchainkit/swap';
 import { Wallet, ConnectWallet } from '@coinbase/onchainkit/wallet';
 import { useAccount } from 'wagmi';
@@ -243,6 +247,7 @@ return (
   /> // [!code focus]
   <SwapButton /> // [!code focus]
   <SwapMessage /> // [!code focus]
+  <SwapToast /> // [!code focus]
 </Swap> // [!code focus]
 // ---cut-after---
 );
@@ -268,6 +273,7 @@ return (
             />
             <SwapButton disabled />
             <SwapMessage />
+            <SwapToast />
           </Swap>
         )
       }
@@ -295,6 +301,7 @@ import {
   SwapToggleButton,
   SwapButton,
   SwapMessage,
+  SwapToast,
 } from '@coinbase/onchainkit/swap';
 import { Wallet, ConnectWallet } from '@coinbase/onchainkit/wallet';
 import { useAccount } from 'wagmi';
@@ -338,6 +345,7 @@ return (
   /> // [!code focus]
   <SwapButton /> // [!code focus]
   <SwapMessage /> // [!code focus]
+  <SwapToast /> // [!code focus]
 </Swap> // [!code focus]
 // ---cut-after---
 );
@@ -362,6 +370,7 @@ return (
             />
             <SwapButton disabled />
             <SwapMessage />
+            <SwapToast />
           </Swap>
         )
       }
@@ -389,6 +398,7 @@ import {
   SwapToggleButton,
   SwapButton,
   SwapMessage,
+  SwapToast,
 } from '@coinbase/onchainkit/swap';
 import { Wallet, ConnectWallet } from '@coinbase/onchainkit/wallet';
 import { useAccount } from 'wagmi';
@@ -432,6 +442,7 @@ return (
     type="to" // [!code focus]
   /> // [!code focus]
   <SwapButton /> // [!code focus]
+  <SwapToast /> // [!code focus]
 </Swap> // [!code focus]
 // ---cut-after---
 );
@@ -455,6 +466,7 @@ return (
               type="to"
             />
             <SwapButton disabled />
+            <SwapToast />
           </Swap>
         )
       }
@@ -482,6 +494,7 @@ import {
   SwapToggleButton,
   SwapButton,
   SwapMessage,
+  SwapToast,
 } from '@coinbase/onchainkit/swap';
 import { Wallet, ConnectWallet } from '@coinbase/onchainkit/wallet';
 import { useAccount } from 'wagmi';
@@ -526,6 +539,7 @@ return (
   />
   <SwapButton className='bg-[#EA580C]'/> // [!code focus]
   <SwapMessage />
+  <SwapToast />
 </Swap>
 // ---cut-after---
 );
@@ -553,6 +567,7 @@ return (
             />
             <SwapButton className='bg-[#EA580C]' disabled />
             <SwapMessage/>
+            <SwapToast />
           </Swap>
         )
       }
@@ -577,6 +592,7 @@ The components are designed to work together hierarchically. For each component,
 - `<SwapToggleButton />` - Optional component to toggle between input types.
 - `<SwapMessage />` - Optional component that displays a message related to the swap operation's current state.
 - `<SwapButton />` - Set the onSuccess and onError callbacks.
+- `<SwapToast />` - Optional component to notify user of successful swap transaction.
 
 ## Props
 
@@ -585,3 +601,4 @@ The components are designed to work together hierarchically. For each component,
 - [`SwapButtonReact`](/swap/types#swapbuttonreact)
 - [`SwapMessageReact`](/swap/types#swapmessagereact)
 - [`SwapToggleButtonReact`](/swap/types#swaptogglebuttonreact)
+- [`SwapToastReact`](/swap/types#swaptoastreactt)
