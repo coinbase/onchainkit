@@ -32,7 +32,7 @@ function Demo() {
   return (
     <>
       <div className="hidden w-1/4 min-w-120 flex-col border-r bg-background p-6 sm:flex">
-        <div className="mb-12 font-semibold text-lg">OnchainKit Playground</div>
+        <div className="mb-12 font-semibold text-xl">OnchainKit Playground</div>
         <button
           type="button"
           onClick={toggleDarkMode}
@@ -59,7 +59,16 @@ function Demo() {
           rel="noreferrer"
           title="View OnchainKit Playground on GitHub"
         >
-          View Github
+          Github ↗
+        </a>
+        <a
+          target="_blank"
+          className="absolute bottom-6 left-[100px] text-sm hover:underline"
+          href="https://onchainkit.xyz"
+          rel="noreferrer"
+          title="View OnchainKit"
+        >
+          OnchainKit ↗
         </a>
       </div>
       <div className="linear-gradient(to_bottom,#f0f0f0_1px,transparent_1px)] flex flex-1 flex-col bg-[linear-gradient(to_right,#f0f0f0_1px,transparent_1px), bg-[size:6rem_4rem]">
