@@ -10,6 +10,7 @@ import {
   SwapSettingsSlippageInput,
   SwapSettingsSlippageTitle,
   SwapToggleButton,
+  SwapToast,
 } from '@coinbase/onchainkit/swap';
 import type { SwapError } from '@coinbase/onchainkit/swap';
 import type { Token } from '@coinbase/onchainkit/token';
@@ -136,6 +137,7 @@ function SwapComponent() {
           }
         />
         <SwapMessage />
+        <SwapToast />
       </Swap>
     </div>
   );
