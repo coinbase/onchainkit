@@ -1,4 +1,4 @@
-import { ReactNode, useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { closeSvg } from '../../internal/svg/closeSvg';
 import { background, cn, color, text } from '../../styles/theme';
 
@@ -6,6 +6,7 @@ import { useSwapContext } from './SwapProvider';
 import { successSvg } from '../../internal/svg/successSvg';
 import { useAccount } from 'wagmi';
 import { getChainExplorer } from '../../network/getChainExplorer';
+import { getToastPosition } from '../../internal/utils/getToastPosition';
 
 type SwapToastReact = {
   className?: string; // An optional CSS class name for styling the toast component.
@@ -34,16 +35,7 @@ export function SwapToast({
   }, [setIsToastVisible]);
 
   const positionClass = useMemo(() => {
-    if (position === 'bottom-right') {
-      return 'bottom-5 left-3/4';
-    }
-    if (position === 'top-right') {
-      return 'top-[100px] left-3/4';
-    }
-    if (position === 'top-center') {
-      return 'top-[100px] left-2/4';
-    }
-    return 'bottom-5 left-2/4';
+    return getToastPosition(position);
   }, [position]);
 
   useEffect(() => {
@@ -59,7 +51,7 @@ export function SwapToast({
         clearTimeout(timer);
       }
     };
-  }, [durationMs, isToastVisible, setIsToastVisible]);
+  }, [durationMs, isToastVisible, setIsToastVisible, setTransactionHash]);
 
   if (!isToastVisible) {
     return null;
