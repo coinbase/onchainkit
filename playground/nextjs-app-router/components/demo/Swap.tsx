@@ -9,8 +9,8 @@ import {
   SwapSettingsSlippageDescription,
   SwapSettingsSlippageInput,
   SwapSettingsSlippageTitle,
-  SwapToggleButton,
   SwapToast,
+  SwapToggleButton,
 } from '@coinbase/onchainkit/swap';
 import type { SwapError } from '@coinbase/onchainkit/swap';
 import type { Token } from '@coinbase/onchainkit/token';

@@ -9,8 +9,8 @@ import { SwapButton } from './SwapButton';
 import { SwapMessage } from './SwapMessage';
 import { SwapProvider } from './SwapProvider';
 import { SwapSettings } from './SwapSettings';
-import { SwapToggleButton } from './SwapToggleButton';
 import { SwapToast } from './SwapToast';
+import { SwapToggleButton } from './SwapToggleButton';
 
 export function Swap({
   children,

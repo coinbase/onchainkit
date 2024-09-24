@@ -1,8 +1,8 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
+import { useAccount } from 'wagmi';
 import { useSwapContext } from './SwapProvider';
 import { SwapToast } from './SwapToast';
-import { useAccount } from 'wagmi';
 
 vi.mock('./SwapProvider', () => ({
   useSwapContext: vi.fn(),

@@ -2,12 +2,12 @@ import { useCallback, useEffect, useMemo } from 'react';
 import { closeSvg } from '../../internal/svg/closeSvg';
 import { background, cn, color, text } from '../../styles/theme';
 
-import { useSwapContext } from './SwapProvider';
-import { successSvg } from '../../internal/svg/successSvg';
 import { useAccount } from 'wagmi';
-import { getChainExplorer } from '../../network/getChainExplorer';
+import { successSvg } from '../../internal/svg/successSvg';
 import { getToastPosition } from '../../internal/utils/getToastPosition';
+import { getChainExplorer } from '../../network/getChainExplorer';
 import { SwapToastReact } from '../types';
+import { useSwapContext } from './SwapProvider';
 
 export function SwapToast({
   className,
