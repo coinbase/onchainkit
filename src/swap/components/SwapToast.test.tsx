@@ -122,7 +122,7 @@ describe('SwapToast', () => {
     expect(toastElement).toHaveClass('bottom-5 left-2/4');
   });
 
-  it('hides toast after specified duration when receipt is available', () => {
+  it('hides toast after specified duration', () => {
     vi.useFakeTimers();
     const setIsToastVisible = vi.fn();
     (useSwapContext as Mock).mockReturnValue({
@@ -135,6 +135,22 @@ describe('SwapToast', () => {
 
     vi.advanceTimersByTime(2000);
     expect(setIsToastVisible).toHaveBeenCalledWith(false);
+    vi.useRealTimers();
+  });
+
+  it('resets transactionhash after specified duration', () => {
+    vi.useFakeTimers();
+    const setTransactionHash = vi.fn();
+    (useSwapContext as Mock).mockReturnValue({
+      isToastVisible: true,
+      transactionHash: '',
+      setTransactionHash,
+    });
+
+    render(<SwapToast durationMs={2000} />);
+
+    vi.advanceTimersByTime(2000);
+    expect(setTransactionHash).toHaveBeenCalled();
     vi.useRealTimers();
   });
 
