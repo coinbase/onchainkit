@@ -5,9 +5,9 @@ import { sendSingleTransactions } from './sendSingleTransactions';
 
 export async function sendSwapTransactions({
   config,
+  isSponsored,
   sendCallsAsync,
   sendTransactionAsync,
-  isSponsored,
   updateLifecycleStatus,
   walletCapabilities,
   transactions,

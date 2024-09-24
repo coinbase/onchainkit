@@ -11,9 +11,9 @@ import { sendSwapTransactions } from './sendSwapTransactions';
 export async function processSwapTransaction({
   chainId,
   config,
+  isSponsored,
   sendCallsAsync,
   sendTransactionAsync,
-  isSponsored,
   swapTransaction,
   switchChainAsync,
   updateLifecycleStatus,
@@ -84,9 +84,9 @@ export async function processSwapTransaction({
 
   await sendSwapTransactions({
     config,
+    isSponsored,
     sendCallsAsync,
     sendTransactionAsync,
-    isSponsored,
     transactions,
     updateLifecycleStatus,
     walletCapabilities,

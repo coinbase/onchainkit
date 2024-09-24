@@ -48,10 +48,10 @@ export function SwapProvider({
     maxSlippage: DEFAULT_MAX_SLIPPAGE,
   },
   experimental,
+  isSponsored,
   onError,
   onStatus,
   onSuccess,
-  isSponsored,
 }: SwapProviderReact) {
   const { address, chainId } = useAccount();
   const { switchChainAsync } = useSwitchChain();
@@ -337,9 +337,9 @@ export function SwapProvider({
       await processSwapTransaction({
         chainId,
         config: accountConfig,
+        isSponsored,
         sendCallsAsync,
         sendTransactionAsync,
-        isSponsored,
         swapTransaction: response,
         switchChainAsync,
         updateLifecycleStatus,
@@ -365,6 +365,7 @@ export function SwapProvider({
     chainId,
     from.amount,
     from.token,
+    isSponsored,
     lifecycleStatus,
     sendCallsAsync,
     sendTransactionAsync,
