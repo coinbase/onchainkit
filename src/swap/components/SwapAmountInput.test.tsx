@@ -62,7 +62,7 @@ const mockContextValue = {
 } as SwapContextType;
 
 vi.mock('../../internal/utils/getRoundedAmount', () => ({
-  getRoundedAmount: vi.fn(),
+  getRoundedAmount: vi.fn((value) => value.slice(0, 10)),
 }));
 
 const mockSwappableTokens: Token[] = [ETH_TOKEN, USDC_TOKEN, DAI_TOKEN];
