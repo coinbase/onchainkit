@@ -17,12 +17,8 @@ export function useIsWalletACoinbaseSmartWallet(): boolean {
     chainId: chain.id,
   });
 
-  if (
+  return (
     connector?.id === COINBASE_WALLET_SDK_CONNECTOR_ID &&
     walletCapabilities.atomicBatch?.supported === true
-  ) {
-    return true;
-  }
-
-  return false;
+  );
 }
