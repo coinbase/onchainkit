@@ -3,14 +3,8 @@ import type { WalletDropdownFundLinkReact } from '../types';
 import { WalletDropdownFundLinkButton } from './WalletDropdownFundLinkButton';
 
 export function WalletDropdownFundLink({
-  className,
-  icon = 'fundWallet',
-  openIn = 'popup',
-  popupSize = 'md',
-  rel,
-  target,
-  text = 'Fund wallet',
   fundingUrl,
+  ...props
 }: WalletDropdownFundLinkReact) {
   const defaultFundingUrl = useGetFundingUrl();
 
@@ -26,15 +20,7 @@ export function WalletDropdownFundLink({
   if (fundingUrlToRender) {
     return (
       <WalletDropdownFundLinkButton
-        {...{
-          className,
-          icon,
-          openIn,
-          popupSize,
-          rel,
-          target,
-          text,
-        }}
+        {...props}
         fundingUrl={fundingUrlToRender}
         popupHeightOverride={popupHeightOverride}
         popupWidthOverride={popupWidthOverride}
@@ -42,7 +28,7 @@ export function WalletDropdownFundLink({
     );
   }
 
-  // If the fudningUrl prop is undefined, and we couldn't get a default funding URL (maybe there is no wallet connected,
+  // If the fundingUrl prop is undefined, and we couldn't get a default funding URL (maybe there is no wallet connected,
   // or projectId is undefined in OnchainKitConfig), don't render anything
   return null;
 }
