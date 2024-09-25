@@ -20,13 +20,9 @@ import { isUserRejectedRequestError } from '../../transaction/utils/isUserReject
 import { DEFAULT_MAX_SLIPPAGE } from '../constants';
 import { useAwaitCalls } from '../hooks/useAwaitCalls';
 import { useFromTo } from '../hooks/useFromTo';
+import { useLifecycleStatus } from '../hooks/useLifecycleStatus';
 import { useResetInputs } from '../hooks/useResetInputs';
-import type {
-  LifecycleStatus,
-  LifecycleStatusUpdate,
-  SwapContextType,
-  SwapProviderReact,
-} from '../types';
+import type { SwapContextType, SwapProviderReact } from '../types';
 import { isSwapError } from '../utils/isSwapError';
 import { processSwapTransaction } from '../utils/processSwapTransaction';
 
@@ -63,7 +59,7 @@ export function SwapProvider({
   const walletCapabilities = useCapabilitiesSafe({
     chainId: base.id,
   }); // Swap is only available on Base
-  const [lifecycleStatus, setLifecycleStatus] = useState<LifecycleStatus>({
+  const [lifecycleStatus, updateLifecycleStatus] = useLifecycleStatus({
     statusName: 'init',
     statusData: {
       isMissingRequiredField: true,
@@ -73,30 +69,6 @@ export function SwapProvider({
 
   const [isToastVisible, setIsToastVisible] = useState(false);
   const [transactionHash, setTransactionHash] = useState('');
-
-  // Update lifecycle status, statusData will be persisted for the full lifecycle
-  const updateLifecycleStatus = useCallback(
-    (newStatus: LifecycleStatusUpdate) => {
-      setLifecycleStatus((prevStatus: LifecycleStatus) => {
-        // do not persist errors
-        const persistedStatusData =
-          prevStatus.statusName === 'error'
-            ? (({ error, code, message, ...statusData }) => statusData)(
-                prevStatus.statusData,
-              )
-            : prevStatus.statusData;
-        return {
-          statusName: newStatus.statusName,
-          statusData: {
-            ...persistedStatusData,
-            ...newStatus.statusData,
-          },
-        } as LifecycleStatus;
-      });
-    },
-    [],
-  );
-
   const [hasHandledSuccess, setHasHandledSuccess] = useState(false);
   const { from, to } = useFromTo(address);
   const { sendTransactionAsync } = useSendTransaction(); // Sending the transaction (and approval, if applicable)
