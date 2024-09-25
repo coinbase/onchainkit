@@ -12,7 +12,7 @@ import WalletDemo from './demo/Wallet';
 import { ActiveComponent } from './form/active-component';
 import { TransactionOptions } from './form/transaction-options';
 
-// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO Refactor this component
+// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO: Remove linting on Playground
 function Demo() {
   const { activeComponent } = useContext(AppContext);
   const [isDarkMode, setIsDarkMode] = useState(true);
