@@ -14,9 +14,9 @@ export function OnchainKitProvider({
   apiKey,
   chain,
   children,
+  projectId,
   rpcUrl,
   schemaId,
-  projectId,
 }: OnchainKitProviderReact) {
   if (schemaId && !checkHashLength(schemaId, 64)) {
     throw Error('EAS schemaId must be 64 characters prefixed with "0x"');
@@ -27,13 +27,13 @@ export function OnchainKitProvider({
       address: address ?? null,
       apiKey: apiKey ?? null,
       chain: chain,
+      projectId: projectId ?? null,
       rpcUrl: rpcUrl ?? null,
       schemaId: schemaId ?? null,
-      projectId: projectId ?? null,
     };
     setOnchainKitConfig(onchainKitConfig);
     return onchainKitConfig;
-  }, [address, apiKey, chain, rpcUrl, schemaId, projectId]);
+  }, [address, apiKey, chain, projectId, rpcUrl, schemaId]);
   return (
     <OnchainKitContext.Provider value={value}>
       {children}

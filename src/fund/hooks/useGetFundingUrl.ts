@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { useAccount } from 'wagmi';
 import { useOnchainKit } from '../../useOnchainKit';
 import { useIsWalletACoinbaseSmartWallet } from '../../wallet/hooks/useIsWalletACoinbaseSmartWallet';
-import { ONRAMP_WIDGET_HEIGHT, ONRAMP_WIDGET_WIDTH } from '../constants';
+import { ONRAMP_POPUP_HEIGHT, ONRAMP_POPUP_WIDTH } from '../constants';
 import type { UseGetFundingUrlResponse } from '../types';
 import { getCoinbaseSmartWalletFundUrl } from '../utils/getCoinbaseSmartWalletFundUrl';
 import { getOnrampBuyUrl } from '../utils/getOnrampBuyUrl';
@@ -38,8 +38,8 @@ export function useGetFundingUrl(): UseGetFundingUrlResponse | undefined {
         addresses: { [address]: [chain.name.toLowerCase()] },
       }),
       // The Coinbase Onramp widget is not very responsive, so we need to set a fixed popup size.
-      popupHeight: ONRAMP_WIDGET_HEIGHT,
-      popupWidth: ONRAMP_WIDGET_WIDTH,
+      popupHeight: ONRAMP_POPUP_HEIGHT,
+      popupWidth: ONRAMP_POPUP_WIDTH,
     };
   }, [isCoinbaseSmartWallet, projectId, address, chain]);
 }

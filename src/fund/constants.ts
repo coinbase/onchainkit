@@ -1,4 +1,4 @@
 // The recommended height of a Coinbase Onramp popup window.
-export const ONRAMP_WIDGET_HEIGHT = 720;
+export const ONRAMP_POPUP_HEIGHT = 720;
 // The recommended width of a Coinbase Onramp popup window.
-export const ONRAMP_WIDGET_WIDTH = 460;
+export const ONRAMP_POPUP_WIDTH = 460;
