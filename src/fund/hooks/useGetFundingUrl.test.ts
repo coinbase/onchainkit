@@ -3,7 +3,7 @@ import { type Mock, describe, expect, it, vi } from 'vitest';
 import { useAccount } from 'wagmi';
 import { useOnchainKit } from '../../useOnchainKit';
 import { useIsWalletACoinbaseSmartWallet } from '../../wallet/hooks/useIsWalletACoinbaseSmartWallet';
-import { ONRAMP_WIDGET_HEIGHT, ONRAMP_WIDGET_WIDTH } from '../constants';
+import { ONRAMP_POPUP_HEIGHT, ONRAMP_POPUP_WIDTH } from '../constants';
 import { getCoinbaseSmartWalletFundUrl } from '../utils/getCoinbaseSmartWalletFundUrl';
 import { getOnrampBuyUrl } from '../utils/getOnrampBuyUrl';
 import { useGetFundingUrl } from './useGetFundingUrl';
@@ -65,8 +65,8 @@ describe('useGetFundingUrl', () => {
     const { result } = renderHook(() => useGetFundingUrl());
 
     expect(result.current?.url).toBe('https://pay.coinbase.com/buy');
-    expect(result.current?.popupHeight).toBe(ONRAMP_WIDGET_HEIGHT);
-    expect(result.current?.popupWidth).toBe(ONRAMP_WIDGET_WIDTH);
+    expect(result.current?.popupHeight).toBe(ONRAMP_POPUP_HEIGHT);
+    expect(result.current?.popupWidth).toBe(ONRAMP_POPUP_WIDTH);
 
     expect(getOnrampBuyUrl).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -91,8 +91,8 @@ describe('useGetFundingUrl', () => {
     const { result } = renderHook(() => useGetFundingUrl());
 
     expect(result.current?.url).toBe('https://pay.coinbase.com/buy');
-    expect(result.current?.popupHeight).toBe(ONRAMP_WIDGET_HEIGHT);
-    expect(result.current?.popupWidth).toBe(ONRAMP_WIDGET_WIDTH);
+    expect(result.current?.popupHeight).toBe(ONRAMP_POPUP_HEIGHT);
+    expect(result.current?.popupWidth).toBe(ONRAMP_POPUP_WIDTH);
 
     expect(getOnrampBuyUrl).toHaveBeenCalledWith(
       expect.objectContaining({
