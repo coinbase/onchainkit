@@ -35,6 +35,9 @@ export function ActiveComponent() {
             SwapDefault
           </SelectItem>
           <SelectItem value={OnchainKitComponent.Wallet}>Wallet</SelectItem>
+          <SelectItem value={OnchainKitComponent.WalletDefault}>
+            WalletDefault
+          </SelectItem>
         </SelectContent>
       </Select>
     </div>

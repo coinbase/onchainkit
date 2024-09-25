@@ -11,6 +11,7 @@ import SwapDemo from './demo/Swap';
 import SwapDefaultDemo from './demo/SwapDefault';
 import TransactionDemo from './demo/Transaction';
 import WalletDemo from './demo/Wallet';
+import WalletDefaultDemo from './demo/WalletDefault';
 import { ActiveComponent } from './form/active-component';
 import { TransactionOptions } from './form/transaction-options';
 
@@ -57,13 +58,17 @@ function Demo() {
     if (activeComponent === OnchainKitComponent.Swap) {
       return <SwapDemo />;
     }
+    
+    if (activeComponent === OnchainKitComponent.SwapDefault) {
+      return <SwapDefaultDemo />;
+    }
 
     if (activeComponent === OnchainKitComponent.Wallet) {
       return <WalletDemo />;
     }
 
-    if (activeComponent === OnchainKitComponent.SwapDefault) {
-      return <SwapDefaultDemo />;
+    if (activeComponent === OnchainKitComponent.WalletDefault) {
+      return <WalletDefaultDemo />;
     }
 
     return <></>;
