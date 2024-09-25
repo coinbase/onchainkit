@@ -27,6 +27,9 @@ export function SwapButton({ className, disabled = false }: SwapButtonReact) {
     disabled ||
     isLoading;
 
+  // disable swap if to and from token are the same
+  const isSwapInvalid = to.token?.address === from.token?.address;
+
   // prompt user to connect wallet
   if (!isDisabled && !address) {
     return <ConnectWallet className="mt-4 w-full" />;
@@ -44,7 +47,7 @@ export function SwapButton({ className, disabled = false }: SwapButtonReact) {
         className,
       )}
       onClick={() => handleSubmit()}
-      disabled={isDisabled}
+      disabled={isDisabled || isSwapInvalid}
       data-testid="ockSwapButton_Button"
     >
       {isLoading ? (
