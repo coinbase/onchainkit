@@ -41,7 +41,7 @@ export function useSwapContext() {
 export function SwapProvider({
   children,
   config = {
-    maxSlippage: DEFAULT_MAX_SLIPPAGE,
+    defaultMaxSlippage: DEFAULT_MAX_SLIPPAGE,
   },
   experimental,
   isSponsored,
@@ -63,7 +63,7 @@ export function SwapProvider({
     statusName: 'init',
     statusData: {
       isMissingRequiredField: true,
-      maxSlippage: config.maxSlippage,
+      maxSlippage: config.defaultMaxSlippage,
     },
   }); // Component lifecycle
 
@@ -143,12 +143,12 @@ export function SwapProvider({
         statusName: 'init',
         statusData: {
           isMissingRequiredField: true,
-          maxSlippage: config.maxSlippage,
+          maxSlippage: config.defaultMaxSlippage,
         },
       });
     }
   }, [
-    config.maxSlippage,
+    config.defaultMaxSlippage,
     hasHandledSuccess,
     lifecycleStatus.statusName,
     updateLifecycleStatus,

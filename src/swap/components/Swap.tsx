@@ -15,7 +15,7 @@ import { SwapToggleButton } from './SwapToggleButton';
 export function Swap({
   children,
   config = {
-    maxSlippage: DEFAULT_MAX_SLIPPAGE,
+    defaultMaxSlippage: DEFAULT_MAX_SLIPPAGE,
   },
   className,
   experimental = { useAggregator: false },

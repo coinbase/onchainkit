@@ -12,7 +12,7 @@ export function SwapSettingsSlippageInput({
   className,
 }: SwapSettingsSlippageInputReact) {
   const {
-    config: { maxSlippage: defaultMaxSlippage },
+    config: { defaultMaxSlippage },
     updateLifecycleStatus,
     lifecycleStatus,
   } = useSwapContext();

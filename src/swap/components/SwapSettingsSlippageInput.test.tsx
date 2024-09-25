@@ -16,7 +16,7 @@ vi.mock('./SwapProvider', () => ({
   useSwapContext: () => ({
     updateLifecycleStatus: mockSetLifecycleStatus,
     lifecycleStatus: mockLifecycleStatus,
-    config: { maxSlippage: DEFAULT_MAX_SLIPPAGE },
+    config: { defaultMaxSlippage: DEFAULT_MAX_SLIPPAGE },
   }),
 }));
 

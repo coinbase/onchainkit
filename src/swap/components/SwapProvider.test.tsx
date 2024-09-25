@@ -99,7 +99,7 @@ const wrapper = ({ children }) => (
   <WagmiProvider config={accountConfig}>
     <QueryClientProvider client={queryClient}>
       <SwapProvider
-        config={{ maxSlippage: 5 }}
+        config={{ defaultMaxSlippage: 5 }}
         experimental={{ useAggregator: true }}
       >
         {children}
@@ -114,7 +114,7 @@ const renderWithProviders = ({
   onStatus = vi.fn(),
   onSuccess = vi.fn(),
 }) => {
-  const config = { maxSlippage: 10 };
+  const config = { defaultMaxSlippage: 10 };
   const mockExperimental = { useAggregator: true };
   return render(
     <WagmiProvider config={accountConfig}>
@@ -813,12 +813,12 @@ describe('SwapProvider', () => {
     });
   });
 
-  it('should use default maxSlippage when not provided in experimental', () => {
+  it('should use default defaultMaxSlippage when not provided in experimental', () => {
     const useTestHook = () => {
       const { lifecycleStatus } = useSwapContext();
       return lifecycleStatus;
     };
-    const config = { maxSlippage: 3 };
+    const config = { defaultMaxSlippage: 3 };
     const wrapper = ({ children }) => (
       <WagmiProvider config={accountConfig}>
         <QueryClientProvider client={queryClient}>
