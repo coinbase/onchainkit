@@ -27,6 +27,7 @@ export type OnchainKitConfig = {
   rpcUrl: string | null; // RPC URL for onchain requests. Defaults to using CDP Node if the API Key is set
   chain: Chain; // Chain must be provided as we need to know which chain to use
   schemaId: EASSchemaUid | null; // SchemaId is optional as not all apps need to use EAS
+  projectId: string | null; // ProjectId from Coinbase Developer Platform, only required for Coinbase Onramp support
 };
 
 export type SetOnchainKitConfig = Partial<OnchainKitConfig>;
@@ -46,6 +47,7 @@ export type OnchainKitProviderReact = {
   children: ReactNode;
   rpcUrl?: string;
   schemaId?: EASSchemaUid;
+  projectId?: string;
 };
 
 export type UseCapabilitiesSafeParams = {

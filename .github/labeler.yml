@@ -22,6 +22,10 @@ documentation:
 - changed-files:
   - any-glob-to-any-file: src/frame/**
 
+'pkg: fund':
+- changed-files:
+  - any-glob-to-any-file: src/fund/**
+
 'pkg: identity':
 - changed-files:
   - any-glob-to-any-file: src/identity/**
