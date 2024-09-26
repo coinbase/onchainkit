@@ -38,19 +38,21 @@ export function usePayContext() {
   return context;
 }
 
-export function PayProvider({
-  chainId,
-  chargeId,
-  children,
-  className,
-  onStatus,
-}: {
+type PayProviderProps = {
   chainId: number;
-  chargeId: string;
+  chargeHandler: () => Promise<string>;
   children: React.ReactNode;
   className?: string;
   onStatus?: (status: LifecycleStatus) => void;
-}) {
+};
+
+export function PayProvider({
+  chainId,
+  chargeHandler,
+  children,
+  className,
+  onStatus,
+}: PayProviderProps) {
   // Core hooks
   const { address, isConnected } = useAccount();
   const { connectAsync, connectors } = useConnect({
@@ -76,7 +78,7 @@ export function PayProvider({
   // Transaction hooks
   const fetchContracts = useCommerceContracts({
     address,
-    chargeId,
+    chargeHandler,
     contractsRef,
     setErrorMessage,
     userHasInsufficientBalanceRef,
@@ -130,11 +132,11 @@ export function PayProvider({
     try {
       if (lifeCycleStatus.statusName === 'success') {
         // Open Coinbase Commerce receipt
-        window.open(
-          `https://commerce.coinbase.com/pay/${chargeId}/receipt`,
-          '_blank',
-          'noopener,noreferrer',
-        );
+        // window.open(
+        //   `https://commerce.coinbase.com/pay/${chargeId}/receipt`,
+        //   '_blank',
+        //   'noopener,noreferrer'
+        // );
         return;
       }
       if (
@@ -204,7 +206,7 @@ export function PayProvider({
       }
     }
   }, [
-    chargeId,
+    chargeHandler,
     connectAsync,
     connectors,
     isConnected,

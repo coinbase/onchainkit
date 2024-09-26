@@ -11,7 +11,7 @@ import { getUSDCBalance } from '../utils/getUSDCBalance';
 
 type UseCommerceContractsParams = {
   address?: Address;
-  chargeId: string;
+  chargeHandler: () => Promise<string>;
   contractsRef: React.MutableRefObject<
     ContractFunctionParameters[] | undefined
   >;
@@ -21,7 +21,7 @@ type UseCommerceContractsParams = {
 
 export const useCommerceContracts = ({
   address,
-  chargeId,
+  chargeHandler,
   contractsRef,
   setErrorMessage,
   userHasInsufficientBalanceRef,
@@ -34,6 +34,7 @@ export const useCommerceContracts = ({
     }
 
     try {
+      const chargeId = await chargeHandler();
       const response = await buildPayTransaction({
         address,
         chargeId,
@@ -70,5 +71,5 @@ export const useCommerceContracts = ({
         setErrorMessage(error.message);
       }
     }
-  }, [address, contractsRef, chargeId]);
+  }, [address, contractsRef, chargeHandler]);
 };
