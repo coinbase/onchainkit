@@ -68,8 +68,8 @@ function OnchainProviders({ children }: Props) {
       <WagmiProvider config={wagmiConfig}>
         <OnchainKitProvider
           apiKey={process.env.NEXT_PUBLIC_ONCHAINKIT_API_KEY}
-          chain={base} // [!code focus]
-        >
+          chain={base} 
+        > 
           {children}
         </OnchainKitProvider>
       </WagmiProvider>
