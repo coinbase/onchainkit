@@ -97,7 +97,7 @@ function DemoComponent({ activeComponent }: DemoComponentProps) {
     case OnchainKitComponent.Wallet:
       return <WalletDemo />;
     default:
-      return <IdentityDemo />;;
+      return <IdentityDemo />;
   }
 }
 
