@@ -104,7 +104,7 @@ function SwapComponent() {
       ) : null}
 
       <Swap
-        className="border"
+        className="w-full border sm:w-[500px]"
         onStatus={handleOnStatus}
         onSuccess={handleOnSuccess}
         onError={handleOnError}
