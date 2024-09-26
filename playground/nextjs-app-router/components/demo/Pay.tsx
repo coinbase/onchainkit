@@ -1,17 +1,16 @@
 import { ENVIRONMENT, ENVIRONMENT_VARIABLES } from '@/lib/constants';
-import { useCallback, useContext, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect } from 'react';
 import { Pay, PayButton, PayStatus } from '../../onchainkit/src/pay';
 import { AppContext } from '../AppProvider';
 
 function PayComponent() {
   const { chainId } = useContext(AppContext);
-  const [chargeId, setChargeId] = useState(null);
 
-  const handleOnStatus = useCallback((status) => {
+  const handleOnStatus = useCallback((status: any) => {
     console.log('Playground.Pay.onStatus:', status);
   }, []);
 
-  const createCharge = useCallback(async () => {
+  const createCharge = async () => {
     const res = await fetch(
       `${ENVIRONMENT_VARIABLES[ENVIRONMENT.API_URL]}/api/createCharge`,
       {
@@ -19,9 +18,8 @@ function PayComponent() {
       },
     );
     const data = await res.json();
-    console.log('Charge id', data.id);
-    setChargeId(data.id);
-  }, []);
+    return data.id;
+  };
 
   useEffect(() => {
     createCharge();
@@ -29,17 +27,14 @@ function PayComponent() {
 
   return (
     <div className="mx-auto grid w-1/2 gap-8">
-      {chargeId && (
-        <Pay
-          key={chargeId}
-          chainId={chainId || 8453}
-          chargeId={chargeId}
-          onStatus={handleOnStatus}
-        >
-          <PayButton coinbaseBranded={true} />
-          <PayStatus />
-        </Pay>
-      )}
+      <Pay
+        chainId={chainId || 8453}
+        chargeHandler={createCharge}
+        onStatus={handleOnStatus}
+      >
+        <PayButton coinbaseBranded={true} />
+        <PayStatus />
+      </Pay>
     </div>
   );
 }

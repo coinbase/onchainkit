@@ -78,8 +78,8 @@ export function PayProvider({
   // Transaction hooks
   const fetchContracts = useCommerceContracts({
     address,
-    chargeHandler,
     contractsRef,
+    chargeHandler,
     setErrorMessage,
     userHasInsufficientBalanceRef,
   });
