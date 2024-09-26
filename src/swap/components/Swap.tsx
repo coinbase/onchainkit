@@ -2,7 +2,7 @@ import { Children, useMemo } from 'react';
 import { findComponent } from '../../internal/utils/findComponent';
 import { background, cn, text } from '../../styles/theme';
 import { useIsMounted } from '../../useIsMounted';
-import { DEFAULT_MAX_SLIPPAGE } from '../constants';
+import { FALLBACK_DEFAULT_MAX_SLIPPAGE } from '../constants';
 import type { SwapReact } from '../types';
 import { SwapAmountInput } from './SwapAmountInput';
 import { SwapButton } from './SwapButton';
@@ -15,7 +15,7 @@ import { SwapToggleButton } from './SwapToggleButton';
 export function Swap({
   children,
   config = {
-    maxSlippage: DEFAULT_MAX_SLIPPAGE,
+    maxSlippage: FALLBACK_DEFAULT_MAX_SLIPPAGE,
   },
   className,
   experimental = { useAggregator: false },
