@@ -239,3 +239,13 @@ footer a.vocs_Anchor {
 .fill-ock-default-reverse {
   fill: var(--bg-ock-default-reverse);
 }
+
+/* Dark theme */
+html.dark .twitter-tweet {
+  --theme: dark;
+}
+
+/* add dark-theme atribute to .twitter-tweet */
+.dark .twitter-tweet {
+  data-theme: 'dark';
+}
