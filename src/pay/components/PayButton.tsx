@@ -30,6 +30,12 @@ export function PayButton({
     if (lifeCycleStatus?.statusName === 'success') {
       return 'View payment details';
     }
+    if (
+      lifeCycleStatus?.statusName === 'error' &&
+      lifeCycleStatus?.statusData.error === 'User has insufficient balance'
+    ) {
+      return 'Add funds';
+    }
     return text;
   }, [lifeCycleStatus?.statusName, text]);
   const shouldRenderIcon = buttonText === text && iconSvg;

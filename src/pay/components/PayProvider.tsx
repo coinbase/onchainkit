@@ -33,9 +33,7 @@ export const PayContext = createContext<PayContextType>(emptyContext);
 export function usePayContext() {
   const context = useContext(PayContext);
   if (context === emptyContext) {
-    throw new Error(
-      'usePayContext must be used within a Pay component',
-    );
+    throw new Error('usePayContext must be used within a Pay component');
   }
   return context;
 }
@@ -65,8 +63,10 @@ export function PayProvider({
   const contractsRef = useRef<ContractFunctionParameters[] | undefined>(
     undefined,
   );
+  const userHasInsufficientBalanceRef = useRef<boolean>(false);
   const [transactionId, setTransactionId] = useState('');
   const [errorMessage, setErrorMessage] = useState<string>('');
+
   // Component lifecycle
   const [lifeCycleStatus, setLifeCycleStatus] = useState<LifeCycleStatus>({
     statusName: 'init',
@@ -80,6 +80,7 @@ export function PayProvider({
     chargeId,
     contractsRef,
     setErrorMessage,
+    userHasInsufficientBalanceRef,
   });
   const { status, writeContractsAsync } = useWriteContracts({
     setLifeCycleStatus,
@@ -136,13 +137,39 @@ export function PayProvider({
         );
         return;
       }
+      if (
+        lifeCycleStatus.statusName === 'error' &&
+        lifeCycleStatus.statusData?.error === 'User has insufficient balance'
+      ) {
+        window.open(
+          'https://keys.coinbase.com/fund',
+          '_blank',
+          'noopener,noreferrer',
+        );
+        return;
+      }
 
       if (isConnected) {
         // Fetch contracts
         await fetchContracts();
       } else {
         // Prompt for wallet connection
+        // TODO: This should hardcode to Smart Wallet
         await connectAsync({ connector: connectors[0] });
+      }
+
+      // Check for enough balance
+      if (userHasInsufficientBalanceRef.current) {
+        console.error('User has insufficient balance');
+        setLifeCycleStatus({
+          statusName: 'error',
+          statusData: {
+            code: 'insufficient_balance', // Pay module PayProvider component 00 error
+            error: 'User has insufficient balance',
+            message: 'User has insufficient balance',
+          },
+        });
+        return;
       }
 
       if (contractsRef.current) {
