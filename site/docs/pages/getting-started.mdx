@@ -49,11 +49,12 @@ Set up OnchainProvider and WagmiProvider.
 :::code-group
 
 ```tsx twoslash [OnchainProviders.tsx]
+// @noErrors: 2307 2580 - cannot find 'process', cannot find './wagmi'
 'use client';
 import { ReactNode } from 'react';
 import { OnchainKitProvider } from '@coinbase/onchainkit';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { base, baseSepolia } from 'viem/chains';
+import { base } from 'viem/chains';
 import { WagmiProvider } from 'wagmi';
 import { wagmiConfig } from './wagmi';
 
@@ -67,7 +68,7 @@ function OnchainProviders({ children }: Props) {
       <WagmiProvider config={wagmiConfig}>
         <OnchainKitProvider
           apiKey={process.env.NEXT_PUBLIC_ONCHAINKIT_API_KEY}
-          chain={[base, baseSepolia]} // [!code focus]
+          chain={base} // [!code focus]
         >
           {children}
         </OnchainKitProvider>
@@ -111,8 +112,6 @@ If you're already using WagmiProvider in your project, you can simply add the On
 
 Enclose your app with the `OnchainProviders` component:
 
-:::code-group
-
 ```tsx twoslash [layout.tsx]
 // @noErrors: 2307 7031 2304 - cannot find module './OnChainProviders', children has implicit any
 import { OnchainProviders } from './OnchainProviders' // [!code focus]
@@ -125,39 +124,6 @@ export default function RootLayout({ children }) {
   )
 }  
 ```
-
-```tsx twoslash [OnchainProviders.tsx]
-// @noErrors: 2307 2580 - cannot find 'process', cannot find './wagmi'
-'use client';
-import { ReactNode } from 'react';
-import { OnchainKitProvider } from '@coinbase/onchainkit';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { base, baseSepolia } from 'viem/chains';
-import { WagmiProvider } from 'wagmi';
-import { wagmiConfig } from './wagmi';
-
-type Props = { children: ReactNode };
-
-const queryClient = new QueryClient();
-
-function OnchainProviders({ children }: Props) { // [!code focus]
-  return (
-    <QueryClientProvider client={queryClient}>
-      <WagmiProvider config={wagmiConfig}>
-        <OnchainKitProvider
-          apiKey={process.env.PUBLIC_ONCHAINKIT_API_KEY}
-          chain={base, baseSepolia}
-        >
-          {children}
-        </OnchainKitProvider>
-      </WagmiProvider>
-    </QueryClientProvider>
-  );
-}
-
-export default OnchainProviders; // [!code focus]
-```
-:::
 
 ### Add Styles
 
