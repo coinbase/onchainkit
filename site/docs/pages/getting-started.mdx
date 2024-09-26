@@ -9,15 +9,15 @@ OnchainKit is your go-to solution for building beautiful onchain applications, r
 If you're starting from scratch:
 
 ```bash
-npx create-next-app@latest my-onchain-app
-cd my-onchain-app
+npm create wagmi@latest
+cd your-project-name
 npm i @coinbase/onchainkit@latest
 ```
 
 If you already have an existing project:
 
 ```bash
-npm i @coinbase/onchainkit@latest
+npm i @coinbase/onchainkit@latest @wagmi/core@latest
 ```
 
 ### Set Up Your Public API Key
@@ -44,7 +44,10 @@ NEXT_PUBLIC_ONCHAINKIT_API_KEY=YOUR_PUBLIC_API_KEY
 
 ### Set Up Onchain Providers
 
-Set up OnchainProvider and WagmiProvider. 
+Set up `OnchainProvider` and `WagmiProvider`. 
+
+Inside the `WagmiProvider`, wrap your app in a TanStack Query React Context Provider, e.g. `QueryClientProvider`, and pass a new `QueryClient` instance to the `client` property.
+
 
 :::code-group
 
@@ -64,16 +67,16 @@ const queryClient = new QueryClient();
 
 function OnchainProviders({ children }: Props) {
   return (
-    <QueryClientProvider client={queryClient}>
-      <WagmiProvider config={wagmiConfig}>
+    <WagmiProvider config={wagmiConfig}>
+      <QueryClientProvider client={queryClient}>
         <OnchainKitProvider
           apiKey={process.env.NEXT_PUBLIC_ONCHAINKIT_API_KEY}
           chain={base} 
         > 
           {children}
         </OnchainKitProvider>
-      </WagmiProvider>
-    </QueryClientProvider>
+      </QueryClientProvider>
+    </WagmiProvider>
   );
 }
 
