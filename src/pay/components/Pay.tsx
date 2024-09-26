@@ -1,5 +1,5 @@
 import { cn } from '../../styles/theme';
-import type { LifeCycleStatus } from '../../transaction';
+import type { LifecycleStatus } from '../../transaction';
 import { useIsMounted } from '../../useIsMounted';
 import { PayProvider } from './PayProvider';
 
@@ -14,7 +14,7 @@ export function Pay({
   chargeId: string;
   children: React.ReactNode;
   className?: string;
-  onStatus?: (status: LifeCycleStatus) => void;
+  onStatus?: (status: LifecycleStatus) => void;
 }) {
   const isMounted = useIsMounted();
   // prevents SSR hydration issue

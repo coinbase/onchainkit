@@ -10,7 +10,7 @@ import type { ContractFunctionParameters } from 'viem';
 import { useAccount, useConnect } from 'wagmi';
 import { useWaitForTransactionReceipt } from 'wagmi';
 import { useValue } from '../../internal/hooks/useValue';
-import type { LifeCycleStatus } from '../../transaction';
+import type { LifecycleStatus } from '../../transaction';
 import {
   GENERIC_ERROR_MESSAGE,
   USER_REJECTED_ERROR,
@@ -22,9 +22,9 @@ import { useCommerceContracts } from '../hooks/useCommerceContracts';
 
 type PayContextType = {
   errorMessage?: string;
-  lifeCycleStatus?: LifeCycleStatus;
+  lifeCycleStatus?: LifecycleStatus;
   onSubmit: () => void;
-  setLifeCycleStatus: (status: LifeCycleStatus) => void;
+  setLifecycleStatus: (status: LifecycleStatus) => void;
 };
 
 const emptyContext = {} as PayContextType;
@@ -49,7 +49,7 @@ export function PayProvider({
   chargeId: string;
   children: React.ReactNode;
   className?: string;
-  onStatus?: (status: LifeCycleStatus) => void;
+  onStatus?: (status: LifecycleStatus) => void;
 }) {
   // Core hooks
   const { address, isConnected } = useAccount();
@@ -68,7 +68,7 @@ export function PayProvider({
   const [errorMessage, setErrorMessage] = useState<string>('');
 
   // Component lifecycle
-  const [lifeCycleStatus, setLifeCycleStatus] = useState<LifeCycleStatus>({
+  const [lifeCycleStatus, setLifecycleStatus] = useState<LifecycleStatus>({
     statusName: 'init',
     statusData: null,
   });
@@ -76,18 +76,17 @@ export function PayProvider({
   // Transaction hooks
   const fetchContracts = useCommerceContracts({
     address,
-    chainId,
     chargeId,
     contractsRef,
     setErrorMessage,
     userHasInsufficientBalanceRef,
   });
   const { status, writeContractsAsync } = useWriteContracts({
-    setLifeCycleStatus,
+    setLifecycleStatus,
     setTransactionId,
   });
   const { transactionHash, status: callStatus } = useCallsStatus({
-    setLifeCycleStatus,
+    setLifecycleStatus,
     transactionId,
   });
   const { data: receipt } = useWaitForTransactionReceipt({
@@ -102,12 +101,13 @@ export function PayProvider({
     lifeCycleStatus,
     lifeCycleStatus.statusData, // Keep statusData, so that the effect runs when it changes
     lifeCycleStatus.statusName, // Keep statusName, so that the effect runs when it changes
+    onStatus,
   ]);
 
   // Set transaction pending status when writeContracts is pending
   useEffect(() => {
     if (status === 'pending') {
-      setLifeCycleStatus({
+      setLifecycleStatus({
         statusName: 'transactionPending',
         statusData: null,
       });
@@ -118,7 +118,7 @@ export function PayProvider({
     if (!receipt) {
       return;
     }
-    setLifeCycleStatus({
+    setLifecycleStatus({
       statusName: 'success',
       statusData: {
         transactionReceipts: [receipt],
@@ -161,7 +161,7 @@ export function PayProvider({
       // Check for enough balance
       if (userHasInsufficientBalanceRef.current) {
         console.error('User has insufficient balance');
-        setLifeCycleStatus({
+        setLifecycleStatus({
           statusName: 'error',
           statusData: {
             code: 'insufficient_balance', // Pay module PayProvider component 00 error
@@ -179,7 +179,7 @@ export function PayProvider({
       } else {
         console.error('Contracts are not available');
         setErrorMessage(GENERIC_ERROR_MESSAGE);
-        setLifeCycleStatus({
+        setLifecycleStatus({
           statusName: 'error',
           statusData: {
             code: 'PmPPc01', // Pay module PayProvider component 01 error
@@ -193,7 +193,7 @@ export function PayProvider({
         setErrorMessage(USER_REJECTED_ERROR);
       } else {
         setErrorMessage(GENERIC_ERROR_MESSAGE);
-        setLifeCycleStatus({
+        setLifecycleStatus({
           statusName: 'error',
           statusData: {
             code: 'PmPPc02', // Pay module PayProvider component 02 error
@@ -204,11 +204,13 @@ export function PayProvider({
       }
     }
   }, [
+    chargeId,
     connectAsync,
     connectors,
     isConnected,
+    lifeCycleStatus.statusData,
     lifeCycleStatus.statusName,
-    setLifeCycleStatus,
+    fetchContracts,
     writeContractsAsync,
   ]);
 
@@ -216,7 +218,7 @@ export function PayProvider({
     errorMessage,
     lifeCycleStatus,
     onSubmit: handleSubmit,
-    setLifeCycleStatus,
+    setLifecycleStatus,
   });
   return <PayContext.Provider value={value}>{children}</PayContext.Provider>;
 }

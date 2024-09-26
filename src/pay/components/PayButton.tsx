@@ -37,7 +37,7 @@ export function PayButton({
       return 'Add funds';
     }
     return text;
-  }, [lifeCycleStatus?.statusName, text]);
+  }, [lifeCycleStatus?.statusName, lifeCycleStatus?.statusData, text]);
   const shouldRenderIcon = buttonText === text && iconSvg;
 
   return (

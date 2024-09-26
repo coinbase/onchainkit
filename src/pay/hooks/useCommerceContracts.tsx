@@ -11,7 +11,6 @@ import { getUSDCBalance } from '../utils/getUSDCBalance';
 
 type UseCommerceContractsParams = {
   address?: Address;
-  chainId: number;
   chargeId: string;
   contractsRef: React.MutableRefObject<
     ContractFunctionParameters[] | undefined
@@ -22,7 +21,6 @@ type UseCommerceContractsParams = {
 
 export const useCommerceContracts = ({
   address,
-  chainId,
   chargeId,
   contractsRef,
   setErrorMessage,
@@ -31,7 +29,9 @@ export const useCommerceContracts = ({
   const config = useConfig();
 
   return useCallback(async () => {
-    if (!address) return;
+    if (!address) {
+      return;
+    }
 
     try {
       const response = await buildPayTransaction({
@@ -70,5 +70,5 @@ export const useCommerceContracts = ({
         setErrorMessage(error.message);
       }
     }
-  }, [address, contractsRef, chainId, chargeId]);
+  }, [address, contractsRef, chargeId]);
 };
