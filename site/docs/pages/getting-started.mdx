@@ -1,189 +1,55 @@
 # Getting Started
 
-OnchainKit is the easiest way for ANY developer to build beautiful onchain applications.
-
-You can use OnchainKit in an existing project, by installing OnchainKit as a dependency.
+OnchainKit is your go-to solution for building beautiful onchain applications, regardless of your development experience.
 
 ::::steps
 
-### Install
+### Set Up Your Project
 
-Let's install OnchainKit as a dependency along with its dependencies.
+If you're starting from scratch:
 
-:::code-group
-
-```bash [npm]
-npm install @coinbase/onchainkit
+```bash
+npm create wagmi@latest
+cd your-project-name
+npm i @coinbase/onchainkit@latest
 ```
 
-```bash [yarn]
-yarn add @coinbase/onchainkit
+If you already have an existing project:
+
+```bash
+npm i @coinbase/onchainkit@latest @wagmi/core@latest
 ```
 
-```bash [pnpm]
-pnpm add @coinbase/onchainkit
-```
+### Set Up Your Public API Key
 
-```bash [bun]
-bun add @coinbase/onchainkit
-```
+1. Get your Public API Key from the [Coinbase Developer Platform APIs](https://portal.cdp.coinbase.com/products/onchainkit).
 
-:::
-
-### Public API Key
-
-#### Obtain a Public API Key from the [Coinbase Developer Platform APIs](https://portal.cdp.coinbase.com/products/onchainkit).
-
-<img
-  alt="OnchainKit copy Public API Key"
+<img alt="OnchainKit copy Public API Key"
   src="https://onchainkit.xyz/assets/copy-api-key-guide.png"
-  height="364"
-/>
+  height="364"/>
 
-#### Create a .env file
+2. Create a `.env` file in your project's root directory.
+   <img
+     alt="OnchainKit define Public API Key"
+     src="https://onchainkit.xyz/assets/getting-started-create-env-file.png"
+     width="250"
+     loading="lazy"
+   />
 
-Create a new file in your project’s root directory and name it `.env`.
-
-<img
-  alt="OnchainKit define Public API Key"
-  src="https://onchainkit.xyz/assets/getting-started-create-env-file.png"
-  width="250"
-  loading="lazy"
-/>
-
-#### Define your Public API Key
-
-Set your Public API Key by assigning the value you copied from the Coinbase Developer Platform to the `PUBLIC_ONCHAINKIT_API_KEY` variable.
+3. Add your Public API Key to the `.env` file:
 
 ```tsx [.env]
-PUBLIC_ONCHAINKIT_API_KEY=YOUR_PUBLIC_API_KEY
+NEXT_PUBLIC_ONCHAINKIT_API_KEY=YOUR_PUBLIC_API_KEY
 ```
 
-#### Access the Public API Key in your code
+### Set Up Onchain Providers
 
-```tsx twoslash [OnchainProviders.tsx]
-// @noErrors: 2580 2304 - cannot find name 'process', cannot find name 'YourComponents'
-import { OnchainKitProvider } from '@coinbase/onchainkit';
-import { base } from 'wagmi/chains';
+Set up `OnchainProvider` and `WagmiProvider`. 
 
-// ---cut-before---
-<OnchainKitProvider 
-  apiKey={process.env.PUBLIC_ONCHAINKIT_API_KEY} // [!code focus] 
-  chain={base}
->
-  <YourComponents />
-</OnchainKitProvider>
-```
+Inside the `WagmiProvider`, wrap your app in a TanStack Query React Context Provider, e.g. `QueryClientProvider`, and pass a new `QueryClient` instance to the `client` property.
 
-### Configure the OnchainKitProvider
-
-The `<OnchainKitProvider />` component equips your app with the essential context to interact with OnchainKit components and utilities.
-
-Set the `chain` prop to your target chain and provide the Public API Key to access the embedded APIs.
-
-```tsx twoslash [OnchainProviders.tsx]
-// @noErrors: 2580 - cannot find name 'process'
-'use client';
-import { ReactNode } from 'react';
-import { base } from 'viem/chains';
-import { OnchainKitProvider } from '@coinbase/onchainkit';
-
-type Props = { children: ReactNode };
-
-function OnchainProviders({ children }: Props) {
-  return (
-    <OnchainKitProvider
-      apiKey={process.env.PUBLIC_ONCHAINKIT_API_KEY} 
-      chain={base}
-    >
-      {children}
-    </OnchainKitProvider>
-  );
-};
-
-export default OnchainProviders;
-```
-
-### Configure the WagmiProvider
-
-Many of OnchainKit's components require a WagmiProvider to access Wagmi utilities.
-
-If your application already includes these settings, you can skip this step.
 
 :::code-group
-```tsx twoslash [OnchainProviders.tsx]
-// @noErrors: 2307 2580 - cannot find 'process', cannot find './wagmi'
-'use client';
-import { ReactNode } from 'react';
-import { OnchainKitProvider } from '@coinbase/onchainkit';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'; // [!code focus]
-import { base } from 'viem/chains';
-import { WagmiProvider } from 'wagmi'; // [!code focus]
-import { wagmiConfig } from './wagmi'; // [!code focus]
-
-type Props = { children: ReactNode };
-
-const queryClient = new QueryClient(); // [!code focus]
-
-function OnchainProviders({ children }: Props) {
-  return (
-    <WagmiProvider config={wagmiConfig}> // [!code focus]
-      <QueryClientProvider client={queryClient}> // [!code focus]
-        <OnchainKitProvider
-          apiKey={process.env.PUBLIC_ONCHAINKIT_API_KEY}
-          chain={base}
-        >
-          {children} // [!code focus]
-        </OnchainKitProvider>
-      </QueryClientProvider> // [!code focus]
-    </WagmiProvider> // [!code focus]
-  );
-}
-
-export default OnchainProviders;
-```
-
-```tsx twoslash [wagmi.ts]
-import { http, createConfig } from 'wagmi';
-import { base } from 'wagmi/chains';
-import { coinbaseWallet } from 'wagmi/connectors';
-
-export const wagmiConfig = createConfig({
-  chains: [base],
-  multiInjectedProviderDiscovery: false,
-  connectors: [
-    coinbaseWallet({
-      appName: 'yourAppName',
-      preference: 'smartWalletOnly', // set this to `all` to use EOAs as well
-      version: '4',
-    }),
-  ],
-  ssr: true,
-  transports: {
-    [base.id]: http(),
-  },
-});
-```
-:::
-
-### Wrap Your App with OnchainProviders
-
-Wrap your app with the `OnchainProviders` component to enable OnchainKit components and utilities.
-
-:::code-group
-
-```tsx twoslash [layout.tsx]
-// @noErrors: 2307 7031 2304 - cannot find module './OnChainProviders', children has implicit any
-import { OnchainProviders } from './OnchainProviders' // [!code focus]
-
-export default function RootLayout({ children }) {
-  return (
-    <OnchainProviders> // [!code focus]
-      { children }
-    </OnchainProviders> // [!code focus]
-  )
-}  
-```
 
 ```tsx twoslash [OnchainProviders.tsx]
 // @noErrors: 2307 2580 - cannot find 'process', cannot find './wagmi'
@@ -199,46 +65,105 @@ type Props = { children: ReactNode };
 
 const queryClient = new QueryClient();
 
-function OnchainProviders({ children }: Props) { // [!code focus]
+function OnchainProviders({ children }: Props) {
   return (
     <WagmiProvider config={wagmiConfig}>
       <QueryClientProvider client={queryClient}>
         <OnchainKitProvider
-          apiKey={process.env.PUBLIC_ONCHAINKIT_API_KEY}
-          chain={base}
-        >
+          apiKey={process.env.NEXT_PUBLIC_ONCHAINKIT_API_KEY}
+          chain={base} 
+        > 
           {children}
         </OnchainKitProvider>
       </QueryClientProvider>
     </WagmiProvider>
   );
-} // [!code focus]
+}
 
-export default OnchainProviders; // [!code focus]
+export default OnchainProviders;
+```
+
+```tsx twoslash [wagmi.ts]
+import { http, createConfig } from 'wagmi';
+import { base, baseSepolia } from 'wagmi/chains';
+import { coinbaseWallet } from 'wagmi/connectors';
+
+export const wagmiConfig = createConfig({
+  chains: [base, baseSepolia],
+  multiInjectedProviderDiscovery: false,
+  connectors: [
+    coinbaseWallet({
+      appName: 'yourAppName',
+      preference: 'smartWalletOnly', // set this to `all` to use EOAs as well
+      version: '4',
+    }),
+  ],
+  ssr: true,
+  transports: {
+    [base.id]: http(),
+    [baseSepolia.id]: http(),
+  },
+});
 ```
 :::
 
-### Style your components
+This setup combines `OnchainKitProvider`, `WagmiProvider`, and `QueryClientProvider`, ensuring that all necessary contexts are available for OnchainKit components.
 
-All OnchainKit components come pre-configured with a style.
+If you're already using `WagmiProvider` in your project, you can simply add the `OnchainKitProvider` within your existing setup.
 
-Simply place this at the top of your application's entry point to have the components working out of the box.
+### Wrap Your App
+
+Enclose your app with the `OnchainProviders` component:
+
+```tsx twoslash [layout.tsx]
+// @noErrors: 2307 7031 2304 - cannot find module './OnChainProviders', children has implicit any
+import { OnchainProviders } from './OnchainProviders' // [!code focus]
+
+export default function RootLayout({ children }) {
+  return (
+    <OnchainProviders> // [!code focus]
+      { children }
+    </OnchainProviders> // [!code focus]
+  )
+}  
+```
+
+### Add Styles
+
+OnchainKit components come with pre-configured styles. To include these styles in your project, add the following import statement at the top of this file:
 
 ```javascript
 import '@coinbase/onchainkit/styles.css';
 ```
 
-For `tailwindcss` users, follow the [Tailwindcss Integration Guide](/guides/tailwind).
+For example, if you're using Next.js with the app router, your `app/layout.tsx` might look like this:
+
+```tsx
+import '@coinbase/onchainkit/styles.css'; // Add this line
+import { OnchainProviders } from './OnchainProviders'
+
+export default function RootLayout({ children }) {
+  return (
+    <OnchainProviders>
+      {children}
+    </OnchainProviders>
+  )
+}
+```
+
+This ensures that the OnchainKit styles are loaded and applied to your entire application.
+
+For Tailwind CSS users, check out our [Tailwind Integration Guide](/guides/tailwind).
 
 ::::
 
-### Next Steps
+### What's Next?
 
-Get started with ready-to-use onchain components.
+Explore our ready-to-use onchain components:
 
-- [**`Identity`**](/identity/identity) - Display ENS [avatars](/identity/avatar), Attestation [badges](/identity/badge), ENS [names](/identity/name) and account [addresses](/identity/address).
-- [**`Wallet`**](/wallet/wallet) - Create or connect your wallet with [Connect Wallet](/wallet/wallet).
-- [**`Transaction`**](/transaction/transaction) - Trigger transactions with EOAs or Smart Wallets using [Transaction](/transaction/transaction).
-- [**`Tokens`**](/token/token-chip) - Search [Tokens](/token/types#token) using [getTokens](/api/get-tokens) and display them with [TokenSearch](/token/token-search), [TokenChip](/token/token-chip), and [TokenRow](/token/token-row).
-- [**`Swap`**](/swap/swap) - Swap [Tokens](/token/types#token) using the [Swap](/swap/swap) components.
-- [**`Frame`**](/frame/frame-metadata) - Test, build, and ship your Farcaster frames with [FrameMetadata](/frame/frame-metadata).
+- [**`Identity`**](/identity/identity) - Show [Basename](/identity/name), [avatars](/identity/avatar), [badges](/identity/badge), and [addresses](/identity/address).
+- [**`Wallet`**](/wallet/wallet) - Create or connect wallets with [Connect Wallet](/wallet/wallet).
+- [**`Transaction`**](/transaction/transaction) - Handle [transactions](/transaction/transaction) using EOAs or Smart Wallets.
+- [**`Tokens`**](/token/token-chip) - Search and display [tokens](/token/token-chip) with various components.
+- [**`Swap`**](/swap/swap) - Enable [token swaps](/swap/swap) in your app.
+- [**`Frame`**](/frame/frame-metadata) - Build and test [Farcaster frames](/frame/frame-metadata).
