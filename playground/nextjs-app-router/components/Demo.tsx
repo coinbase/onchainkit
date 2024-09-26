@@ -11,6 +11,7 @@ import TransactionDemo from './demo/Transaction';
 import WalletDemo from './demo/Wallet';
 import { ActiveComponent } from './form/active-component';
 import { TransactionOptions } from './form/transaction-options';
+import DefaultDemo from './DefaultDemo';
 
 // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO Refactor this component
 function Demo() {
@@ -82,7 +83,9 @@ function Demo() {
           ) : activeComponent === OnchainKitComponent.Wallet ? (
             <WalletDemo />
           ) : (
-            <></>
+            <>
+            <DefaultDemo/>
+            </>
           )}
         </div>
       </div>
