@@ -34,8 +34,12 @@ import {
   TransactionStatusAction,
   TransactionStatusLabel,
 } from '@coinbase/onchainkit/transaction';
+import { theme } from './tailwind.config.js'
 
 <div id="blobs">
+  <div>
+    ${theme}
+  </div>
   <div
     className="css-blurry-gradient top-[-15%] opacity-30 blur-[75px] left-[10%]"
     style={{
