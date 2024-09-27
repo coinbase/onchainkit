@@ -18,7 +18,7 @@ export function getPopupSize(
   fundingUrl?: string,
 ): PopupSize {
   // The Coinbase Onramp widget is not very responsive, so we need to set a fixed popup size.
-  if (fundingUrl && fundingUrl.includes(ONRAMP_BUY_URL)) {
+  if (fundingUrl?.includes(ONRAMP_BUY_URL)) {
     return {
       height: ONRAMP_POPUP_HEIGHT,
       width: ONRAMP_POPUP_WIDTH,

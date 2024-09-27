@@ -55,7 +55,7 @@ export function WalletDropdownFundLink({
         <span className={cn(themeText.body, 'pl-6')}>{text}</span>
       </span>
     ),
-    [iconSvg, text],
+    [fundingUrlToRender, iconSvg, text],
   );
 
   if (openIn === 'tab') {

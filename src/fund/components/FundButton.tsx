@@ -51,7 +51,7 @@ export function FundButton({
   const buttonContent = (
     <>
       {/* h-6 is to match the icon height to the line-height set by text.headline */}
-      {hideIcon || <span className="flex items-center h-6">{addSvg}</span>}
+      {hideIcon || <span className="flex h-6 items-center">{addSvg}</span>}
       {hideText || <span>{buttonText}</span>}
     </>
   );
