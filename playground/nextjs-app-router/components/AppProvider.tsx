@@ -6,6 +6,7 @@ import { useConnect, useConnectors } from 'wagmi';
 import { WalletPreference } from './form/wallet-type';
 
 export enum OnchainKitComponent {
+  Fund = 'fund',
   Identity = 'identity',
   Swap = 'swap',
   Transaction = 'transaction',

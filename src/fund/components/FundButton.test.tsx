@@ -1,16 +1,16 @@
 import '@testing-library/jest-dom';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { type Mock, afterEach, describe, expect, it, vi } from 'vitest';
-import { useGetFundingUrl } from '../../fund/hooks/useGetFundingUrl';
-import { getPopupSize } from '../../fund/utils/getPopupSize';
 import { openPopup } from '../../internal/utils/openPopup';
-import { WalletDropdownFundLink } from './WalletDropdownFundLink';
+import { useGetFundingUrl } from '../hooks/useGetFundingUrl';
+import { getPopupSize } from '../utils/getPopupSize';
+import { FundButton } from './FundButton';
 
-vi.mock('../../fund/hooks/useGetFundingUrl', () => ({
+vi.mock('../hooks/useGetFundingUrl', () => ({
   useGetFundingUrl: vi.fn(),
 }));
 
-vi.mock('../../fund/utils/getPopupSize', () => ({
+vi.mock('../utils/getPopupSize', () => ({
   getPopupSize: vi.fn(),
 }));
 
@@ -23,16 +23,16 @@ describe('WalletDropdownFundLink', () => {
     vi.clearAllMocks();
   });
 
-  it('renders the fund link button with the fundingUrl prop when it is defined', () => {
+  it('renders the fund button with the fundingUrl prop when it is defined', () => {
     const fundingUrl = 'https://props.funding.url';
     const { height, width } = { height: 200, width: 100 };
     (getPopupSize as Mock).mockReturnValue({ height, width });
 
-    render(<WalletDropdownFundLink fundingUrl={fundingUrl} />);
+    render(<FundButton fundingUrl={fundingUrl} />);
 
     expect(useGetFundingUrl).not.toHaveBeenCalled();
     const buttonElement = screen.getByRole('button');
-    expect(screen.getByText('Fund wallet')).toBeInTheDocument();
+    expect(screen.getByText('Fund')).toBeInTheDocument();
 
     fireEvent.click(buttonElement);
     expect(getPopupSize as Mock).toHaveBeenCalledWith('md', fundingUrl);
@@ -44,13 +44,13 @@ describe('WalletDropdownFundLink', () => {
     });
   });
 
-  it('renders the fund link button with the default fundingUrl when the fundingUrl prop is undefined', () => {
+  it('renders the fund button with the default fundingUrl when the fundingUrl prop is undefined', () => {
     const fundingUrl = 'https://default.funding.url';
     const { height, width } = { height: 200, width: 100 };
     (useGetFundingUrl as Mock).mockReturnValue(fundingUrl);
     (getPopupSize as Mock).mockReturnValue({ height, width });
 
-    render(<WalletDropdownFundLink />);
+    render(<FundButton />);
 
     expect(useGetFundingUrl).toHaveBeenCalled();
     const buttonElement = screen.getByRole('button');
@@ -65,10 +65,10 @@ describe('WalletDropdownFundLink', () => {
     });
   });
 
-  it('renders a disabled fund link button when no funding URL is provided and the default cannot be fetched', () => {
+  it('renders a disabled fund button when no funding URL is provided and the default cannot be fetched', () => {
     (useGetFundingUrl as Mock).mockReturnValue(undefined);
 
-    render(<WalletDropdownFundLink />);
+    render(<FundButton />);
 
     expect(useGetFundingUrl).toHaveBeenCalled();
     const buttonElement = screen.getByRole('button');
@@ -78,16 +78,16 @@ describe('WalletDropdownFundLink', () => {
     expect(openPopup as Mock).not.toHaveBeenCalled();
   });
 
-  it('renders the fund link as a link when the openIn prop is set to tab', () => {
+  it('renders the fund button as a link when the openIn prop is set to tab', () => {
     const fundingUrl = 'https://props.funding.url';
     const { height, width } = { height: 200, width: 100 };
     (getPopupSize as Mock).mockReturnValue({ height, width });
 
-    render(<WalletDropdownFundLink fundingUrl={fundingUrl} openIn="tab" />);
+    render(<FundButton fundingUrl={fundingUrl} openIn="tab" />);
 
     expect(useGetFundingUrl).not.toHaveBeenCalled();
     const linkElement = screen.getByRole('link');
-    expect(screen.getByText('Fund wallet')).toBeInTheDocument();
+    expect(screen.getByText('Fund')).toBeInTheDocument();
     expect(linkElement).toHaveAttribute('href', fundingUrl);
   });
 });

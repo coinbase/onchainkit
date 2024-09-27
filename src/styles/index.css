@@ -8,6 +8,10 @@
 }
 
 /* Fill */
+.fill-ock-default {
+  fill: var(--bg-ock-default);
+}
+
 .fill-ock-default-reverse {
   fill: var(--bg-ock-default-reverse);
 }

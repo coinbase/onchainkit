@@ -59,7 +59,7 @@ export type GetOnrampUrlWithSessionTokenParams = {
 } & GetOnrampBuyUrlOptionalProps;
 
 /**
- * The properties used to create an Onramp buy URL.
+ * The optional properties that can be used to create an Onramp buy URL.
  */
 type GetOnrampBuyUrlOptionalProps = {
   /**
@@ -72,10 +72,49 @@ type GetOnrampBuyUrlOptionalProps = {
    * name in lower case e.g. ethereum, base.
    */
   defaultNetwork?: string;
+  /**
+   * A unique identifier that will be associated with any transactions created by the user during their Onramp session.
+   * You can use this with the Transaction Status API to check the status of the user's transaction.
+   * See https://docs.cdp.coinbase.com/onramp/docs/api-reporting#buy-transaction-status
+   */
+  partnerUserId?: string;
+  /**
+   * This amount will be used to pre-fill the amount of crypto the user is buying or sending. The user can choose to
+   * change this amount in the UI. Only one of presetCryptoAmount or presetFiatAmount should be provided.
+   */
+  presetCryptoAmount?: number;
+  /**
+   * This amount will be used to pre-fill the fiat value of the crypto the user is buying or sending. The user can
+   * choose to change this amount in the UI. Only one of presetCryptoAmount or presetFiatAmount should be provided.
+   */
+  presetFiatAmount?: number;
+  /**
+   * The currency code of the fiat amount provided in the presetFiatAmount param e.g. USD, CAD, EUR.
+   */
+  fiatCurrency?: string;
+  /**
+   * A URL that the user will be automatically redirected to after a successful buy/send. The domain must match a domain
+   * on the domain allowlist in Coinbase Developer Platform (https://portal.cdp.coinbase.com/products/onramp).
+   */
+  redirectUrl?: string;
 };
 
-export type UseGetFundingUrlResponse = {
-  url: string;
-  popupHeight?: number;
-  popupWidth?: number;
+/**
+ * Note: exported as public Type
+ */
+export type FundButtonReact = {
+  className?: string; // An optional CSS class name for styling the button component
+  disabled?: boolean; // A optional prop to disable the fund button
+  text?: string; // An optional text to be displayed in the button component
+  hideText?: boolean; // An optional prop to hide the text in the button component
+  hideIcon?: boolean; // An optional prop to hide the icon in the button component
+  fundingUrl?: string; // An optional prop to provide a custom funding URL
+  openIn?: 'popup' | 'tab'; // Whether to open the funding flow in a tab or a popup window
+  /**
+   * Note: popupSize will be ignored when using a Coinbase Onramp URL (i.e. https://pay.coinbase.com/*) as it requires
+   * a fixed popup size.
+   */
+  popupSize?: 'sm' | 'md' | 'lg'; // Size of the popup window if `openIn` is set to `popup`
+  rel?: string; // Specifies the relationship between the current document and the linked document
+  target?: string; // Where to open the target if `openIn` is set to tab
 };

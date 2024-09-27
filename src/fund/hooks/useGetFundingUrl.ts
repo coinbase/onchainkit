@@ -2,8 +2,6 @@ import { useMemo } from 'react';
 import { useAccount } from 'wagmi';
 import { useOnchainKit } from '../../useOnchainKit';
 import { useIsWalletACoinbaseSmartWallet } from '../../wallet/hooks/useIsWalletACoinbaseSmartWallet';
-import { ONRAMP_POPUP_HEIGHT, ONRAMP_POPUP_WIDTH } from '../constants';
-import type { UseGetFundingUrlResponse } from '../types';
 import { getCoinbaseSmartWalletFundUrl } from '../utils/getCoinbaseSmartWalletFundUrl';
 import { getOnrampBuyUrl } from '../utils/getOnrampBuyUrl';
 
@@ -12,7 +10,7 @@ import { getOnrampBuyUrl } from '../utils/getOnrampBuyUrl';
  * user to keys.coinbase.com, otherwise it will send them to pay.coinbase.com.
  * @returns the funding URL and optional popup dimensions if the URL requires them
  */
-export function useGetFundingUrl(): UseGetFundingUrlResponse | undefined {
+export function useGetFundingUrl(): string | undefined {
   const { projectId, chain: defaultChain } = useOnchainKit();
   const { address, chain: accountChain } = useAccount();
   const isCoinbaseSmartWallet = useIsWalletACoinbaseSmartWallet();
@@ -23,23 +21,16 @@ export function useGetFundingUrl(): UseGetFundingUrlResponse | undefined {
 
   return useMemo(() => {
     if (isCoinbaseSmartWallet) {
-      return {
-        url: getCoinbaseSmartWalletFundUrl(),
-      };
+      return getCoinbaseSmartWalletFundUrl();
     }
 
     if (projectId === null || address === undefined) {
       return undefined;
     }
 
-    return {
-      url: getOnrampBuyUrl({
-        projectId,
-        addresses: { [address]: [chain.name.toLowerCase()] },
-      }),
-      // The Coinbase Onramp widget is not very responsive, so we need to set a fixed popup size.
-      popupHeight: ONRAMP_POPUP_HEIGHT,
-      popupWidth: ONRAMP_POPUP_WIDTH,
-    };
+    return getOnrampBuyUrl({
+      projectId,
+      addresses: { [address]: [chain.name.toLowerCase()] },
+    });
   }, [isCoinbaseSmartWallet, projectId, address, chain]);
 }

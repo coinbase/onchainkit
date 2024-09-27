@@ -1,34 +1,79 @@
+import { useCallback, useMemo } from 'react';
 import { useGetFundingUrl } from '../../fund/hooks/useGetFundingUrl';
+import { getPopupSize } from '../../fund/utils/getPopupSize';
+import { openPopup } from '../../internal/utils/openPopup';
+import { cn, pressable, text as themeText } from '../../styles/theme';
+import { useIcon } from '../hooks/useIcon';
 import type { WalletDropdownFundLinkReact } from '../types';
-import { WalletDropdownFundLinkButton } from './WalletDropdownFundLinkButton';
 
 export function WalletDropdownFundLink({
+  className,
   fundingUrl,
-  ...props
+  icon = 'fundWallet',
+  openIn = 'popup',
+  popupSize = 'md',
+  rel,
+  target,
+  text = 'Fund wallet',
 }: WalletDropdownFundLinkReact) {
-  const defaultFundingUrl = useGetFundingUrl();
+  // If we can't get a funding URL, this component will be a no-op and render a disabled link
+  const fundingUrlToRender = fundingUrl ?? useGetFundingUrl();
+  const iconSvg = useIcon({ icon });
 
-  // If the fundingUrl prop is undefined, fallback to the default funding URL
-  const fundingUrlToRender = fundingUrl ?? defaultFundingUrl?.url;
-  const popupHeightOverride = fundingUrl
-    ? undefined
-    : defaultFundingUrl?.popupHeight;
-  const popupWidthOverride = fundingUrl
-    ? undefined
-    : defaultFundingUrl?.popupWidth;
+  const handleClick = useCallback(
+    (e: React.MouseEvent) => {
+      e.preventDefault();
+      if (fundingUrlToRender) {
+        const { height, width } = getPopupSize(popupSize, fundingUrlToRender);
+        openPopup({
+          url: fundingUrlToRender,
+          height,
+          width,
+          target,
+        });
+      }
+    },
+    [fundingUrlToRender, popupSize, target],
+  );
 
-  if (fundingUrlToRender) {
+  const overrideClassName = cn(
+    pressable.default,
+    // Disable hover effects if there is no funding URL
+    !fundingUrlToRender && 'pointer-events-none',
+    'relative flex items-center px-4 py-3 w-full',
+    className,
+  );
+
+  const linkContent = useMemo(
+    () => (
+      // We put disabled on the content wrapper rather than the button/link because we dont wan't to change the
+      // background color of the dropdown item, just the text and icon
+      <span className={cn(!fundingUrlToRender && pressable.disabled)}>
+        <div className="-translate-y-1/2 absolute top-1/2 left-4 flex h-[1.125rem] w-[1.125rem] items-center justify-center">
+          {iconSvg}
+        </div>
+        <span className={cn(themeText.body, 'pl-6')}>{text}</span>
+      </span>
+    ),
+    [iconSvg, text],
+  );
+
+  if (openIn === 'tab') {
     return (
-      <WalletDropdownFundLinkButton
-        {...props}
-        fundingUrl={fundingUrlToRender}
-        popupHeightOverride={popupHeightOverride}
-        popupWidthOverride={popupWidthOverride}
-      />
+      <a
+        className={overrideClassName}
+        href={fundingUrlToRender}
+        target={target}
+        rel={rel}
+      >
+        {linkContent}
+      </a>
     );
   }
 
-  // If the fundingUrl prop is undefined, and we couldn't get a default funding URL (maybe there is no wallet connected,
-  // or projectId is undefined in OnchainKitConfig), don't render anything
-  return null;
+  return (
+    <button type="button" className={overrideClassName} onClick={handleClick}>
+      {linkContent}
+    </button>
+  );
 }
