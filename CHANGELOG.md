@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- 7f1e73b: **feat**: integrated Coinbase Onramp into `WalletDropdownFundLink` for funding EOA wallets. By @steveviselli-cb #1285
+- **feat**: integrated Coinbase Onramp into `WalletDropdownFundLink` for funding EOA wallets. By @steveviselli-cb #1285
 
 ## 0.33.1
 
