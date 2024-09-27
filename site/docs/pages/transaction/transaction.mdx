@@ -281,7 +281,8 @@ Using `calls` instead of `contracts` is a great way to bundle several operations
 
 The `calls` prop is an array of `Call` objects, where each `Call` is defined as:
 
-```typescript
+```tsx twoslash
+// @noErrors: 2304 Cannot find name 'Hex'
 type Call = {
   to: Hex;
   data?: Hex;
@@ -295,11 +296,12 @@ type Call = {
 
 Here's an example of how to use the `calls` prop with the Transaction component:
 
-```tsx
+```tsx twoslash
 import { Transaction, TransactionButton } from '@coinbase/onchainkit/transaction';
-import { encodeFunctionData } from 'viem';
+import { encodeFunctionData, Hex } from 'viem';
+import { baseSepolia } from 'wagmi/chains';
 
-const clickContractAddress = '0x67c97D1FB8184F038592b2109F854dfb09C77C75';
+const clickContractAddress: Hex = '0x67c97D1FB8184F038592b2109F854dfb09C77C75';
 const clickContractAbi = [
   {
     type: 'function',
@@ -325,7 +327,7 @@ const calls = [
 export default function TransactionWithCalls() {
   return (
     <Transaction
-      chainId={BASE_SEPOLIA_CHAIN_ID}
+      chainId={baseSepolia.id}
       calls={calls}
       onStatus={(status) => console.log('Transaction status:', status)}
     >
