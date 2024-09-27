@@ -1,28 +1,34 @@
 # Changelog
 
+## 0.33.2
+
+### Patch Changes
+
+- 7f1e73b: **feat**: integrated Coinbase Onramp into `WalletDropdownFundLink` for funding EOA wallets. By @steveviselli-cb #1285
+
 ## 0.33.1
 
 ### Patch Changes
 
-  - **feat**: added Swap USD values. By @cpcramer #1286
-  - **feat**: added `SwapToast` component that renders on success. By @abcrane123 #1281
-  - **feat**: added `isSponsored` prop for `Swap`. By @0xAlec #1293
+- **feat**: added Swap USD values. By @cpcramer #1286
+- **feat**: added `SwapToast` component that renders on success. By @abcrane123 #1281
+- **feat**: added `isSponsored` prop for `Swap`. By @0xAlec #1293
 
 ## 0.33.0
 
 ### Minor Changes
 
-  - **feat**: set v2 as default API for Swap. by @0xAlec #1254
-  - **chore**: updated `SwapSettingsSlippageInput` to use the input config defaultMaxSlippage value. By @cpcramer #1263
-  - **feat**: added batched Swap transactions from ERC-20. by @0xAlec #1272
+- **feat**: set v2 as default API for Swap. by @0xAlec #1254
+- **chore**: updated `SwapSettingsSlippageInput` to use the input config defaultMaxSlippage value. By @cpcramer #1263
+- **feat**: added batched Swap transactions from ERC-20. by @0xAlec #1272
 
-  Breaking Changes
+Breaking Changes
 
-  Updated `LifecycleStatus` in `Swap` component for swaps from ERC-20 tokens.
-  Previously, there were 2 transactions when swapping from an ERC-20 token.
-  Now, there is an extra approval. (Approve ERC-20 against Permit2 -> Approve Uniswap to spend the approved ERC-20s on Permit2 -> Execute Swap Transaction)
-  Additionally, for Coinbase Smart Wallet users, transaction calls are now batched so only one `transactionApproved` lifecycle status will be emitted under the `Batched` transaction type for swaps from ERC-20s.
-  If you're listening to the `LifecycleStatus` in `Swap`, please make sure your app accounts for the extra transaction.
+Updated `LifecycleStatus` in `Swap` component for swaps from ERC-20 tokens.
+Previously, there were 2 transactions when swapping from an ERC-20 token.
+Now, there is an extra approval. (Approve ERC-20 against Permit2 -> Approve Uniswap to spend the approved ERC-20s on Permit2 -> Execute Swap Transaction)
+Additionally, for Coinbase Smart Wallet users, transaction calls are now batched so only one `transactionApproved` lifecycle status will be emitted under the `Batched` transaction type for swaps from ERC-20s.
+If you're listening to the `LifecycleStatus` in `Swap`, please make sure your app accounts for the extra transaction.
 
 ## 0.32.0
 
