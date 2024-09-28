@@ -1,7 +1,7 @@
 <div align="center">
   <p>
     <a href="https://onchainkit.xyz">
-      <img src="./site/docs/public/logo/v0-33.png" width="100%" height="450" alt="OnchainKit logo vibes" />
+      <img src="./site/docs/public/logo/v0-33.png" width="100%" height="450" alt="OnchainKit logo vibes"/>
     </a>
   </p>
 
