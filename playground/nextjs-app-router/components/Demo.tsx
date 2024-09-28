@@ -12,6 +12,7 @@ import WalletDemo from './demo/Wallet';
 import { ActiveComponent } from './form/active-component';
 import { TransactionOptions } from './form/transaction-options';
 import DefaultActiveRender from './DefaultActiveRender';
+import clsx from 'clsx';
 
 function Demo() {
   const { activeComponent } = useContext(AppContext);
@@ -34,11 +35,13 @@ function Demo() {
     setSideBarVisible((visible) => !visible);
   };
 
-  const buttonStyles = `rounded border px-3 py-2 transition-colors ${
-    isDarkMode
-      ? 'border-gray-600 bg-gray-800 text-white hover:bg-gray-700'
-      : 'border-gray-300 bg-white text-black hover:bg-gray-100'
-  }`;
+  const buttonStyles = clsx(
+    'rounded border px-3 py-2 transition-colors',
+    {
+      'border-gray-600 bg-gray-800 text-white hover:bg-gray-700': isDarkMode,
+      'border-gray-300 bg-white text-black hover:bg-gray-100': !isDarkMode,
+    }
+  );
 
   function renderActiveComponent() {
     if (activeComponent === OnchainKitComponent.Identity) {
