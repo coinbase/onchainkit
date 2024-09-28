@@ -11,6 +11,7 @@ import TransactionDemo from './demo/Transaction';
 import WalletDemo from './demo/Wallet';
 import { ActiveComponent } from './form/active-component';
 import { TransactionOptions } from './form/transaction-options';
+import DefaultActiveRender from './DefaultActiveRender';
 
 function Demo() {
   const { activeComponent } = useContext(AppContext);
@@ -56,7 +57,7 @@ function Demo() {
       return <WalletDemo />;
     }
 
-    return <></>;
+    return <DefaultActiveRender/>;
   }
 
   return (
