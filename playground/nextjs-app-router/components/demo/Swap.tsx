@@ -19,7 +19,7 @@ import type { TransactionReceipt } from 'viem';
 import { base } from 'viem/chains';
 import { AppContext } from '../AppProvider';
 
-const DEFAULT_MAX_SLIPPAGE = 3;
+const FALLBACK_DEFAULT_MAX_SLIPPAGE = 3;
 
 function SwapComponent() {
   const { chainId, defaultMaxSlippage, paymasters } = useContext(AppContext);
@@ -104,11 +104,13 @@ function SwapComponent() {
       ) : null}
 
       <Swap
-        className="border"
+        className="w-full border sm:w-[500px]"
         onStatus={handleOnStatus}
         onSuccess={handleOnSuccess}
         onError={handleOnError}
-        config={{ maxSlippage: defaultMaxSlippage || DEFAULT_MAX_SLIPPAGE }}
+        config={{
+          maxSlippage: defaultMaxSlippage || FALLBACK_DEFAULT_MAX_SLIPPAGE,
+        }}
         isSponsored={paymasters != null}
       >
         <SwapSettings>

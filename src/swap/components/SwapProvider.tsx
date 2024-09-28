@@ -17,7 +17,7 @@ import { formatTokenAmount } from '../../internal/utils/formatTokenAmount';
 import type { Token } from '../../token';
 import { GENERIC_ERROR_MESSAGE } from '../../transaction/constants';
 import { isUserRejectedRequestError } from '../../transaction/utils/isUserRejectedRequestError';
-import { DEFAULT_MAX_SLIPPAGE } from '../constants';
+import { FALLBACK_DEFAULT_MAX_SLIPPAGE } from '../constants';
 import { useAwaitCalls } from '../hooks/useAwaitCalls';
 import { useFromTo } from '../hooks/useFromTo';
 import { useLifecycleStatus } from '../hooks/useLifecycleStatus';
@@ -41,7 +41,7 @@ export function useSwapContext() {
 export function SwapProvider({
   children,
   config = {
-    maxSlippage: DEFAULT_MAX_SLIPPAGE,
+    maxSlippage: FALLBACK_DEFAULT_MAX_SLIPPAGE,
   },
   experimental,
   isSponsored,

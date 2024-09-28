@@ -64,7 +64,7 @@ export function SwapAmountInput({
     type === 'from' && Number(source.balance) < Number(source.amount);
 
   const formatUSD = (amount: string) => {
-    if (!amount) {
+    if (!amount || amount === '0') {
       return null;
     }
     const roundedAmount = Number(getRoundedAmount(amount, 2));
