@@ -1,7 +1,7 @@
 import { FrameMetadata } from '@coinbase/onchainkit/frame';
 import { defineConfig } from 'vocs';
 import pkg from '../package.json';
-import { sidebar } from './sidebar.js';  // Add the .js extension
+import { sidebar } from './sidebar.js'; // Add the .js extension
 
 export const GOOGLE_ANALYTICS_ID =
   process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID ?? 'TEST_GA';
