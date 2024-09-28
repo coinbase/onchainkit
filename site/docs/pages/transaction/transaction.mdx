@@ -125,6 +125,7 @@ export const contracts = [
     {({ address, contracts, onStatus }) => {
       const capabilities = {
         paymasterService: {
+          // @ts-expect-error: VITE_CDP_PAYMASTER_AND_BUNDLER_ENDPOINT may be undefined
           url: PAYMASTER_AND_BUNDLER_ENDPOINT,
         },
       }

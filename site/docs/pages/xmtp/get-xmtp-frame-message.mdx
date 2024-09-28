@@ -26,12 +26,13 @@ async function getResponse(req: any): Promise<NextResponse> {
     if (isValid) {
       const { verifiedWalletAddress } = message;
       // ... do something with the verifiedWalletAddress
+      return NextResponse.json({ success: true, verifiedWalletAddress }); // Add a return statement
     }
   } else {
     // ...
   }
+  return NextResponse.json({ success: false }); // Add a default return statement
 }
-```
 
 ## Returns
 

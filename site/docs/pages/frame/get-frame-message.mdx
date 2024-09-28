@@ -18,8 +18,9 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
 
   if (isValid) {
     // the message is valid
+    return NextResponse.json({ success: true }); // Add a return statement
   }
-  ...
+  return NextResponse.json({ success: false }); // Add a return statement outside the if block
 }
 ```
 
@@ -51,6 +52,7 @@ const { isValid, message } = await getFrameMessage(frameRequest, {
   neynarApiKey: 'MY_NEYNAR_API_KEY', // [!code focus]
 });
 // ---cut-after---
+  return NextResponse.json({ isValid, message }); // Add a return statement
 }
 ```
 
@@ -72,6 +74,7 @@ const { isValid, message } = await getFrameMessage(frameRequest, {
   castReactionContext: true, // [!code focus]
 });
 // ---cut-after---
+  return NextResponse.json({ isValid, message }); // Add a return statement
 }
 ```
 
@@ -93,5 +96,6 @@ const { isValid, message } = await getFrameMessage(frameRequest, {
   followContext: true, // [!code focus]
 });
 // ---cut-after---
+  return NextResponse.json({ isValid, message }); // Add a return statement
 }
 ```
