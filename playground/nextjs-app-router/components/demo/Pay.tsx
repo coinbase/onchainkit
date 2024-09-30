@@ -37,7 +37,8 @@ function PayComponent() {
     }
   }, [payOptions]);
 
-  const isButtonDisabled = !payOptions?.description || !payOptions?.name;
+  const chargeIDDisabled = !payOptions?.description || !payOptions?.name;
+  const productIDDisabled = !payOptions?.productId;
 
   return (
     <div className="mx-auto grid w-1/2 gap-8">
@@ -48,7 +49,7 @@ function PayComponent() {
             productId={payOptions?.productId}
             onStatus={handleOnStatus}
           >
-            <PayButton coinbaseBranded={true} />
+            <PayButton coinbaseBranded={true} disabled={productIDDisabled} />
             <PayStatus />
           </Pay>
         </>
@@ -60,7 +61,7 @@ function PayComponent() {
             chargeHandler={createCharge}
             onStatus={handleOnStatus}
           >
-            <PayButton coinbaseBranded={true} disabled={isButtonDisabled} />
+            <PayButton coinbaseBranded={true} disabled={chargeIDDisabled} />
             <PayStatus />
           </Pay>
         </>
