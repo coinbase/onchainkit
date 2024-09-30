@@ -244,34 +244,19 @@ footer a.vocs_Anchor {
   border: 1px solid #111827;
   border-radius: 0.91675rem;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: var(--spacing-2, 1rem);
+  gap: var(--spacing-2, 1rem);
 }
 
 #twitter-widget-0 {
-  display: flex;
   width: 27.375rem;
-  padding: var(--spacing-2, 1rem);
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  gap: var(--spacing-2, 1rem);
 }
 
-#twitter-widget-1 {
-  display: flex;
-  width: 40.5rem;
-  padding: var(--spacing-2, 1rem);
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  gap: var(--spacing-2, 1rem);
-}
-
+#twitter-widget-1,
 #twitter-widget-2 {
-  display: flex;
   width: 40.5rem;
-  padding: var(--spacing-2, 1rem);
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  gap: var(--spacing-2, 1rem);
 }
