@@ -65,6 +65,18 @@ onchainkit
 
 ## Workflows
 
+### Docs
+
+We use [Vocs](https://vocs.dev) to power this site.   Vocs includes support for [twoslash](https://vocs.dev/docs/guides/twoslash) to display types in code blocks on an opt-in basis.  
+
+To enable twoslash in any ts/tsx code block you can add twoslash after your code block declaration, i.e. &grave;&grave;&grave;tsx twoslash
+
+If your codeblock is not valid, you will see errors generated from twoslash.  If you cannot resolve these errors in code, it is possible to suppress twoslash using the [noErrors](https://vocs.dev/docs/guides/twoslash#noerrors) syntax. 
+
+```
+// @noErrors: 2304 - Cannot find name
+```
+
 ### Storybook
 
 Storybook is a frontend workshop for building UI components and pages in isolation. It helps you develop and share hard-to-reach states and edge cases without needing to run your whole app.
