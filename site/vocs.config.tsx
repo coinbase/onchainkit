@@ -1,7 +1,6 @@
 import { FrameMetadata } from '@coinbase/onchainkit/frame';
 import { defineConfig } from 'vocs';
 import pkg from '../package.json';
-import { sidebar } from './sidebar';
 
 export const GOOGLE_ANALYTICS_ID =
   process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID ?? 'TEST_GA';
@@ -78,7 +77,6 @@ export default defineConfig({
     return <>{analytics}</>;
   },
   rootDir: './docs/',
-  sidebar,
   socials: [
     {
       icon: 'github',
@@ -119,8 +117,8 @@ export default defineConfig({
       link: 'https://github.com/coinbase/onchain-app-template',
     },
     {
-      text: 'Frame Template',
-      link: 'https://github.com/Zizzamia/a-frame-in-100-lines',
+      text: 'Playground',
+      link: 'https://onchainkit.xyz/playground',
     },
     {
       text: pkg.version,
