@@ -21,7 +21,6 @@ export function PayOptions() {
     description: '',
     price: '',
   });
-  const [priceError, setPriceError] = useState<string>('');
 
   return (
     activeComponent === OnchainKitComponent.Pay && (

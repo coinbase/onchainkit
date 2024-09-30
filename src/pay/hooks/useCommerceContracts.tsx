@@ -84,5 +84,14 @@ export const useCommerceContracts = ({
         setErrorMessage(error.message);
       }
     }
-  }, [address, contractsRef]);
+  }, [
+    address,
+    config,
+    chargeIdRef,
+    chargeHandler,
+    contractsRef,
+    productId,
+    setErrorMessage,
+    userHasInsufficientBalanceRef,
+  ]);
 };
