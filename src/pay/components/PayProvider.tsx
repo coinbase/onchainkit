@@ -9,6 +9,7 @@ import {
 import type { ContractFunctionParameters } from 'viem';
 import { useAccount, useConnect } from 'wagmi';
 import { useWaitForTransactionReceipt } from 'wagmi';
+import { useWriteContracts } from 'wagmi/experimental';
 import { useValue } from '../../internal/hooks/useValue';
 import type { LifecycleStatus } from '../../transaction';
 import {
@@ -16,7 +17,6 @@ import {
   USER_REJECTED_ERROR,
 } from '../../transaction/constants';
 import { useCallsStatus } from '../../transaction/hooks/useCallsStatus';
-import { useWriteContracts } from '../../transaction/hooks/useWriteContracts';
 import { isUserRejectedRequestError } from '../../transaction/utils/isUserRejectedRequestError';
 import { useCommerceContracts } from '../hooks/useCommerceContracts';
 
@@ -84,8 +84,24 @@ export function PayProvider({
     userHasInsufficientBalanceRef,
   });
   const { status, writeContractsAsync } = useWriteContracts({
-    setLifecycleStatus,
-    setTransactionId,
+    mutation: {
+      onSuccess: (id) => {
+        setTransactionId(id);
+      },
+      onError: (e) => {
+        const errorMessage = isUserRejectedRequestError(e)
+          ? 'Request denied.'
+          : GENERIC_ERROR_MESSAGE;
+        setLifecycleStatus({
+          statusName: 'error',
+          statusData: {
+            code: 'PmUWCSh01', // Transaction module UseWriteContracts hook 01 error
+            error: e.message,
+            message: errorMessage,
+          },
+        });
+      },
+    },
   });
   const { transactionHash, status: callStatus } = useCallsStatus({
     setLifecycleStatus,
@@ -209,10 +225,10 @@ export function PayProvider({
     chargeHandler,
     connectAsync,
     connectors,
+    fetchContracts,
     isConnected,
     lifeCycleStatus.statusData,
     lifeCycleStatus.statusName,
-    fetchContracts,
     writeContractsAsync,
   ]);
 
