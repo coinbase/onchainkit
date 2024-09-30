@@ -1,5 +1,4 @@
 import { OnchainKitComponent } from '../AppProvider';
-import { ActiveComponent } from './active-component';
 import { Chain } from './chain';
 import { PayOptions } from './pay-options';
 import { PaymasterUrl } from './paymaster';
@@ -11,7 +10,6 @@ export const COMPONENT_OPTIONS = {
   [OnchainKitComponent.Pay]: () => {
     return (
       <>
-        <ActiveComponent />
         <WalletType />
         <PayOptions />
       </>
@@ -20,10 +18,8 @@ export const COMPONENT_OPTIONS = {
   [OnchainKitComponent.Swap]: () => {
     return (
       <>
-        <ActiveComponent />
         <WalletType />
         <Chain />
-        <PaymasterUrl />
         <SwapConfig />
       </>
     );
@@ -31,7 +27,6 @@ export const COMPONENT_OPTIONS = {
   [OnchainKitComponent.Transaction]: () => {
     return (
       <>
-        <ActiveComponent />
         <WalletType />
         <Chain />
         <PaymasterUrl />
@@ -42,7 +37,6 @@ export const COMPONENT_OPTIONS = {
   [OnchainKitComponent.Wallet]: () => {
     return (
       <>
-        <ActiveComponent />
         <WalletType />
         <Chain />
       </>
@@ -51,7 +45,6 @@ export const COMPONENT_OPTIONS = {
   [OnchainKitComponent.Identity]: () => {
     return (
       <>
-        <ActiveComponent />
         <WalletType />
         <Chain />
       </>

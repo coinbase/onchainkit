@@ -57,7 +57,7 @@ function Demo() {
       return <PayDemo />;
     }
 
-    return <ActiveComponent />;
+    return <></>;
   }
 
   return (
@@ -85,6 +85,7 @@ function Demo() {
           {isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
         </button>
         <form className="mt-4 grid gap-8">
+          <ActiveComponent />
           {activeComponent && COMPONENT_OPTIONS[activeComponent]()}
         </form>
         <div className="bottom-6 left-6 sm:absolute text-sm">
