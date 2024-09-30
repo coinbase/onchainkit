@@ -1,17 +1,12 @@
 'use client';
 import { AppContext, OnchainKitComponent } from '@/components/AppProvider';
-import { Chain } from '@/components/form/chain';
-import { PaymasterUrl } from '@/components/form/paymaster';
-import { SwapConfig } from '@/components/form/swap-config';
-import { WalletType } from '@/components/form/wallet-type';
 import { useContext, useEffect, useState } from 'react';
 import IdentityDemo from './demo/Identity';
 import PayDemo from './demo/Pay';
 import SwapDemo from './demo/Swap';
 import TransactionDemo from './demo/Transaction';
 import WalletDemo from './demo/Wallet';
-import { ActiveComponent } from './form/active-component';
-import { TransactionOptions } from './form/transaction-options';
+import { COMPONENT_OPTIONS } from './form/component-options';
 
 function Demo() {
   const { activeComponent } = useContext(AppContext);
@@ -85,12 +80,7 @@ function Demo() {
           {isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
         </button>
         <form className="mt-4 grid gap-8">
-          <ActiveComponent />
-          <WalletType />
-          <Chain />
-          <TransactionOptions />
-          <PaymasterUrl />
-          <SwapConfig />
+          {activeComponent && COMPONENT_OPTIONS[activeComponent]()}
         </form>
         <div className="bottom-6 left-6 sm:absolute text-sm">
           <a

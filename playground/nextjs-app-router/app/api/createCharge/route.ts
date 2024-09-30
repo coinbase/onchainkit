@@ -8,14 +8,15 @@ type CommerceCharge = {
   };
 };
 
-export async function POST() {
+export async function POST(req: Request) {
   // Generates a chargeId
+  const { name, description } = await req.json();
   try {
     const response = await axios.post<CommerceCharge>(
       'https://api.commerce.coinbase.com/charges/',
       {
-        name: 'Test Charge',
-        description: 'Test Charge Description',
+        name,
+        description,
         pricing_type: 'fixed_price',
         local_price: {
           amount: '0.01',
