@@ -17,7 +17,12 @@ import {
   USER_REJECTED_ERROR,
 } from '../../transaction/constants';
 import { isUserRejectedRequestError } from '../../transaction/utils/isUserRejectedRequestError';
-import { PAY_LIFECYCLESTATUS } from '../constants';
+import {
+  PAY_INSUFFICIENT_BALANCE_ERROR,
+  PAY_INSUFFICIENT_BALANCE_ERROR_MESSAGE,
+  PAY_LIFECYCLESTATUS,
+  PayErrorCode,
+} from '../constants';
 import { useCommerceContracts } from '../hooks/useCommerceContracts';
 import { useLifecycleStatus } from '../hooks/useLifecycleStatus';
 import type { LifecycleStatus } from '../types';
@@ -169,7 +174,7 @@ export function PayProvider({
       }
       if (
         lifeCycleStatus.statusName === PAY_LIFECYCLESTATUS.ERROR &&
-        lifeCycleStatus.statusData?.error === 'User has insufficient balance'
+        lifeCycleStatus.statusData?.code === PayErrorCode.INSUFFICIENT_BALANCE
       ) {
         window.open(
           'https://keys.coinbase.com/fund',
@@ -190,13 +195,13 @@ export function PayProvider({
 
       // Check for enough balance
       if (userHasInsufficientBalanceRef.current) {
-        console.error('User has insufficient balance');
+        setErrorMessage(PAY_INSUFFICIENT_BALANCE_ERROR_MESSAGE);
         updateLifecycleStatus({
           statusName: PAY_LIFECYCLESTATUS.ERROR,
           statusData: {
-            code: 'insufficient_balance', // Pay module PayProvider component 00 error
-            error: 'User has insufficient balance',
-            message: 'User has insufficient balance',
+            code: PayErrorCode.INSUFFICIENT_BALANCE,
+            error: PAY_INSUFFICIENT_BALANCE_ERROR,
+            message: PAY_INSUFFICIENT_BALANCE_ERROR_MESSAGE,
           },
         });
         return;
@@ -207,12 +212,11 @@ export function PayProvider({
           contracts: contractsRef.current,
         });
       } else {
-        console.error('Contracts are not available');
         setErrorMessage(GENERIC_ERROR_MESSAGE);
         updateLifecycleStatus({
           statusName: PAY_LIFECYCLESTATUS.ERROR,
           statusData: {
-            code: 'PmPPc01', // Pay module PayProvider component 01 error
+            code: PayErrorCode.UNEXPECTED_ERROR,
             error: 'Contracts are not available',
             message: GENERIC_ERROR_MESSAGE,
           },
@@ -226,7 +230,7 @@ export function PayProvider({
         updateLifecycleStatus({
           statusName: PAY_LIFECYCLESTATUS.ERROR,
           statusData: {
-            code: 'PmPPc02', // Pay module PayProvider component 02 error
+            code: PayErrorCode.UNEXPECTED_ERROR,
             error: JSON.stringify(error),
             message: GENERIC_ERROR_MESSAGE,
           },
