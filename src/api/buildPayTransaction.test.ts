@@ -1,11 +1,9 @@
-import { base, mainnet } from 'viem/chains';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import type { Mock } from 'vitest';
-import { PAY_HYDRATE_CHARGE } from '../network/definitions/pay';
+import { CDP_HYDRATE_CHARGE } from '../network/definitions/pay';
 import { sendRequest } from '../network/request';
 import {
   PAY_INVALID_CHARGE_ERROR_MESSAGE,
-  PAY_UNSUPPORTED_CHAIN_ERROR_MESSAGE,
   UNCAUGHT_PAY_ERROR_MESSAGE,
 } from '../pay/constants';
 /**
@@ -34,13 +32,11 @@ describe('buildPayTransaction', () => {
   it('should return a Pay Transaction', async () => {
     const mockParams: BuildPayTransactionParams = {
       address: MOCK_VALID_PAYER_ADDRESS,
-      chainId: base.id,
       chargeId: MOCK_VALID_CHARGE_ID,
     };
     const mockAPIParams: HydrateChargeAPIParams = {
       sender: MOCK_VALID_PAYER_ADDRESS,
       chargeId: MOCK_VALID_CHARGE_ID,
-      chainId: base.id,
     };
     (sendRequest as Mock).mockResolvedValue(
       MOCK_HYDRATE_CHARGE_SUCCESS_RESPONSE,
@@ -48,39 +44,19 @@ describe('buildPayTransaction', () => {
     const payTransaction = await buildPayTransaction(mockParams);
     expect(payTransaction).toEqual(MOCK_HYDRATE_CHARGE_SUCCESS_RESPONSE.result);
     expect(sendRequest).toHaveBeenCalledTimes(1);
-    expect(sendRequest).toHaveBeenCalledWith(PAY_HYDRATE_CHARGE, [
+    expect(sendRequest).toHaveBeenCalledWith(CDP_HYDRATE_CHARGE, [
       mockAPIParams,
     ]);
-  });
-
-  it('should return an error for chains other than Base', async () => {
-    const mockParams: BuildPayTransactionParams = {
-      address: MOCK_VALID_PAYER_ADDRESS,
-      chainId: mainnet.id,
-      chargeId: MOCK_VALID_CHARGE_ID,
-    };
-    (sendRequest as Mock).mockResolvedValue(
-      MOCK_HYDRATE_CHARGE_SUCCESS_RESPONSE,
-    );
-    const error = await buildPayTransaction(mockParams);
-    expect(error).toEqual({
-      code: 'AmBPTa01',
-      error: 'Pay Transactions must be on Base',
-      message: PAY_UNSUPPORTED_CHAIN_ERROR_MESSAGE,
-    });
-    expect(sendRequest).not.toHaveBeenCalled();
   });
 
   it('should return an error if sendRequest fails', async () => {
     const mockParams: BuildPayTransactionParams = {
       address: MOCK_VALID_PAYER_ADDRESS,
-      chainId: base.id,
       chargeId: MOCK_VALID_CHARGE_ID,
     };
     const mockAPIParams: HydrateChargeAPIParams = {
       sender: MOCK_VALID_PAYER_ADDRESS,
       chargeId: MOCK_VALID_CHARGE_ID,
-      chainId: base.id,
     };
     (sendRequest as Mock).mockResolvedValue(
       MOCK_HYDRATE_CHARGE_SUCCESS_RESPONSE,
@@ -88,7 +64,7 @@ describe('buildPayTransaction', () => {
     const hydratedCharge = await buildPayTransaction(mockParams);
     expect(hydratedCharge).toEqual(MOCK_HYDRATE_CHARGE_SUCCESS_RESPONSE.result);
     expect(sendRequest).toHaveBeenCalledTimes(1);
-    expect(sendRequest).toHaveBeenCalledWith(PAY_HYDRATE_CHARGE, [
+    expect(sendRequest).toHaveBeenCalledWith(CDP_HYDRATE_CHARGE, [
       mockAPIParams,
     ]);
     const mockError = new Error(
@@ -106,13 +82,11 @@ describe('buildPayTransaction', () => {
   it('should return an error object from buildPayTransaction', async () => {
     const mockParams: BuildPayTransactionParams = {
       address: MOCK_VALID_PAYER_ADDRESS,
-      chainId: base.id,
       chargeId: MOCK_INVALID_CHARGE_ID,
     };
     const mockAPIParams: HydrateChargeAPIParams = {
       sender: MOCK_VALID_PAYER_ADDRESS,
       chargeId: MOCK_INVALID_CHARGE_ID,
-      chainId: base.id,
     };
     (sendRequest as Mock).mockResolvedValue(
       MOCK_HYDRATE_CHARGE_INVALID_CHARGE_ERROR_RESPONSE,
@@ -124,7 +98,7 @@ describe('buildPayTransaction', () => {
       message: PAY_INVALID_CHARGE_ERROR_MESSAGE,
     });
     expect(sendRequest).toHaveBeenCalledTimes(1);
-    expect(sendRequest).toHaveBeenCalledWith(PAY_HYDRATE_CHARGE, [
+    expect(sendRequest).toHaveBeenCalledWith(CDP_HYDRATE_CHARGE, [
       mockAPIParams,
     ]);
   });
