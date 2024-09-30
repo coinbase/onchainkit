@@ -58,13 +58,13 @@ import { base } from 'wagmi/chains'; // [!code ++]
 import { type ReactNode, useState } from 'react';
 import { type State, WagmiProvider } from 'wagmi';
 
-import { getConfig } from '@/wagmi';
+import { wagmiConfig } from '@/wagmi';
 
 export function Providers(props: {
   children: ReactNode;
   initialState?: State;
 }) {
-  const [config] = useState(() => getConfig());
+  const [config] = useState(() => wagmiConfig);
   const [queryClient] = useState(() => new QueryClient());
 
   return (
@@ -124,7 +124,7 @@ import { headers } from 'next/headers';
 import { type ReactNode } from 'react';
 import { cookieToInitialState } from 'wagmi';
 
-import { getConfig } from '../wagmi';
+import { wagmiConfig } from '../wagmi';
 import { Providers } from './providers';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -136,7 +136,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout(props: { children: ReactNode }) {
   const initialState = cookieToInitialState(
-    getConfig(),
+    wagmiConfig,
     headers().get('cookie')
   );
   return (
