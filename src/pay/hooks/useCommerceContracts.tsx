@@ -5,7 +5,7 @@ import {
   formatUnits,
 } from 'viem';
 import { useConfig } from 'wagmi';
-import { buildPayTransaction } from '../../api';
+import { type BuildPayTransactionParams, buildPayTransaction } from '../../api';
 import { getCommerceContracts } from '../utils/getCommerceContracts';
 import { getUSDCBalance } from '../utils/getUSDCBalance';
 
@@ -15,7 +15,8 @@ type UseCommerceContractsParams = {
   contractsRef: React.MutableRefObject<
     ContractFunctionParameters[] | undefined
   >;
-  chargeHandler: () => Promise<string>;
+  chargeHandler?: () => Promise<string>;
+  productId?: string;
   setErrorMessage: React.Dispatch<React.SetStateAction<string>>;
   userHasInsufficientBalanceRef: React.MutableRefObject<boolean>;
 };
@@ -25,6 +26,7 @@ export const useCommerceContracts = ({
   chargeIdRef,
   contractsRef,
   chargeHandler,
+  productId,
   setErrorMessage,
   userHasInsufficientBalanceRef,
 }: UseCommerceContractsParams) => {
@@ -35,19 +37,26 @@ export const useCommerceContracts = ({
       return;
     }
 
+    const buildPayTransactionParams: BuildPayTransactionParams = {
+      address,
+    };
+
     try {
-      const chargeId = await chargeHandler();
-      console.log('Created chargeId:', chargeId);
-      chargeIdRef.current = chargeId;
-      const response = await buildPayTransaction({
-        address,
-        chargeId,
-      });
+      if (chargeHandler) {
+        buildPayTransactionParams.chargeId = await chargeHandler();
+      } else if (productId) {
+        buildPayTransactionParams.productId = productId;
+      }
+
+      const response = await buildPayTransaction(buildPayTransactionParams);
 
       if ('error' in response) {
         setErrorMessage(response.error);
         return;
       }
+      const { id: chargeId } = response;
+      console.log('Created chargeId:', chargeId);
+      chargeIdRef.current = chargeId;
 
       // Set commerce contracts
       const commerceContracts = getCommerceContracts({

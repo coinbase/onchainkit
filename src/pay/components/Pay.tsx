@@ -4,10 +4,11 @@ import type { LifecycleStatus } from '../types';
 import { PayProvider } from './PayProvider';
 
 type PayProps = {
-  chargeHandler: () => Promise<string>;
+  chargeHandler?: () => Promise<string>;
   children: React.ReactNode;
   className?: string;
   onStatus?: (status: LifecycleStatus) => void;
+  productId?: string;
 };
 
 export function Pay({
@@ -15,6 +16,7 @@ export function Pay({
   children,
   className,
   onStatus,
+  productId,
 }: PayProps) {
   const isMounted = useIsMounted();
   // prevents SSR hydration issue
@@ -27,6 +29,7 @@ export function Pay({
       chargeHandler={chargeHandler}
       className={className}
       onStatus={onStatus}
+      productId={productId}
     >
       <div className={cn(className, 'flex w-full flex-col gap-2')}>
         {children}

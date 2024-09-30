@@ -48,10 +48,11 @@ export function usePayContext() {
 }
 
 type PayProviderProps = {
-  chargeHandler: () => Promise<string>;
+  chargeHandler?: () => Promise<string>;
   children: React.ReactNode;
   className?: string;
   onStatus?: (status: LifecycleStatus) => void;
+  productId?: string;
 };
 
 export function PayProvider({
@@ -59,6 +60,7 @@ export function PayProvider({
   children,
   className,
   onStatus,
+  productId,
 }: PayProviderProps) {
   // Core hooks
   const { address, chainId, isConnected } = useAccount();
@@ -90,6 +92,7 @@ export function PayProvider({
     chargeIdRef,
     contractsRef,
     chargeHandler,
+    productId,
     setErrorMessage,
     userHasInsufficientBalanceRef,
   });
@@ -198,8 +201,9 @@ export function PayProvider({
         // This is defaulted to Coinbase Smart Wallet
         await connectAsync({
           connector:
-            connectors.find((connector) => connector.id === 'coinbaseWalletSDK') ||
-            coinbaseWallet({ preference: 'smartWalletOnly' }),
+            connectors.find(
+              (connector) => connector.id === 'coinbaseWalletSDK',
+            ) || coinbaseWallet({ preference: 'smartWalletOnly' }),
         });
       }
 
