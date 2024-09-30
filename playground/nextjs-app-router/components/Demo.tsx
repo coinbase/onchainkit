@@ -87,21 +87,21 @@ function Demo() {
           <PaymasterUrl />
           <SwapConfig />
         </form>
-        <div className="bottom-6 left-6 text-sm hover:underline sm:absolute">
+        <div className="bottom-6 left-6 sm:absolute text-sm">
           <a
-            target="_blank"
-            className="text-sm hover:underline"
+            className="duration-200 hover:opacity-70 opacity-100 transition-opacity"
             href="https://github.com/coinbase/onchainkit/tree/main/playground"
             rel="noreferrer"
+            target="_blank"
             title="View OnchainKit Playground on GitHub"
           >
             Github ↗
           </a>
           <a
-            target="_blank"
-            className="pl-4 text-sm hover:underline"
+            className="duration-200 hover:opacity-70 opacity-100 pl-4 transition-opacity"
             href="https://onchainkit.xyz"
             rel="noreferrer"
+            target="_blank"
             title="View OnchainKit"
           >
             OnchainKit ↗

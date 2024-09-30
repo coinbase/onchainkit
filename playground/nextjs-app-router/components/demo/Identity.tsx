@@ -7,57 +7,49 @@ import {
 } from '@coinbase/onchainkit/identity';
 import { useEffect } from 'react';
 import { base } from 'viem/chains';
-
-const demoAddress = '0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1';
+import { useAccount } from 'wagmi';
 
 export default function IdentityDemo() {
-  const { data: address } = useAddress({
-    name: 'zizzamia.eth',
-  });
-  const { data: addressBasename } = useAddress({
-    name: 'zizzamia.base.eth',
-  });
-  const { data: avatar } = useAvatar({
-    ensName: 'zizzamia.eth',
-  });
-  const { data: avatarBasename } = useAvatar({
-    ensName: 'zizzamia.base.eth',
-    chain: base,
-  });
-  const { data: name } = useName({ address: demoAddress });
-  const { data: basename } = useName({
-    address: demoAddress,
-    chain: base,
-  });
+  const { address } = useAccount();
+
+  const { data: ensAddress } = useAddress({ address });
+  const { data: addressBasename } = useAddress({ address, chain: base });
+  const { data: avatar } = useAvatar({ address });
+  const { data: avatarBasename } = useAvatar({ address, chain: base });
+  const { data: name } = useName({ address });
+  const { data: basename } = useName({ address, chain: base });
 
   useEffect(() => {
-    console.log('useAddress default', address);
+    console.log('Connected address:', address);
+    console.log('useAddress default', ensAddress);
     console.log('useAddress base', addressBasename);
     console.log('useAvatar default', avatar);
     console.log('useAvatar base', avatarBasename);
     console.log('useName default', name);
     console.log('useName base', basename);
-  }, [address, addressBasename, avatar, avatarBasename, name, basename]);
+  }, [address, ensAddress, addressBasename, avatar, avatarBasename, name, basename]);
 
   return (
-    <div className="mx-auto">
-      <div className="relative h-full w-full">
-        <ul>
-          <li>
-            <Avatar address={demoAddress} />
-          </li>
-          <li>
-            <Avatar address={demoAddress} chain={base} />
-          </li>
-        </ul>
-        <ul>
-          <li>
-            <Name address={demoAddress} />
-          </li>
-          <li>
-            <Name address={demoAddress} chain={base} />
-          </li>
-        </ul>
+    <div className="mx-auto max-w-2xl p-4">
+      <div className="relative">
+        {address && (
+          <div className="grid grid-cols-2 gap-6">
+            <div className="space-y-2">
+              <h2 className="font-medium text-gray-500 text-sm">Default Chain</h2>
+              <div className="flex items-center space-x-4">
+                <Avatar address={address} />
+                <Name address={address} />
+              </div>
+            </div>
+            <div className="space-y-2">
+              <h2 className="font-medium text-gray-500 text-sm">Base Chain</h2>
+              <div className="flex items-center space-x-4">
+                <Avatar address={address} chain={base} />
+                <Name address={address} chain={base} />
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
