@@ -1,10 +1,10 @@
 import { useCallback } from 'react';
 import { formatUnits } from 'viem';
 import { useConfig } from 'wagmi';
-import { type BuildPayTransactionParams, buildPayTransaction } from '../../api';
 import type { UseCommerceContractsParams } from '../types';
 import { getCommerceContracts } from '../utils/getCommerceContracts';
 import { getUSDCBalance } from '../utils/getUSDCBalance';
+import { handlePayRequest } from '../utils/handlePayRequest';
 
 export const useCommerceContracts = ({
   address,
@@ -22,34 +22,27 @@ export const useCommerceContracts = ({
       return;
     }
 
-    const buildPayTransactionParams: BuildPayTransactionParams = {
-      address,
-    };
-
     try {
-      if (chargeHandler) {
-        buildPayTransactionParams.chargeId = await chargeHandler();
-      } else if (productId) {
-        buildPayTransactionParams.productId = productId;
-      }
+      // Make Pay request to the appropriate endpoint
+      // `productId` for serverless
+      // `chargeHandler` for serverful
+      const response = await handlePayRequest({
+        address,
+        chargeHandler,
+        productId,
+      });
 
-      const response = await buildPayTransaction(buildPayTransactionParams);
-
-      if ('error' in response) {
-        setErrorMessage(response.error);
-        return;
-      }
+      // Set the `chargeId`
       const { id: chargeId } = response;
-      console.log('Created chargeId:', chargeId);
       chargeIdRef.current = chargeId;
 
-      // Set commerce contracts
+      // Retrieve commerce contracts from response
       const commerceContracts = getCommerceContracts({
         transaction: response,
       });
       contractsRef.current = commerceContracts;
 
-      // Calculate price
+      // Calculate user's USDC balance
       const usdcBalance = await getUSDCBalance({
         address,
         config,
@@ -60,7 +53,7 @@ export const useCommerceContracts = ({
         6,
       );
 
-      // Set insufficient balance if applicable
+      // Set insufficient balance flag, if applicable
       userHasInsufficientBalanceRef.current =
         Number.parseFloat(usdcBalance) < Number.parseFloat(priceInUSDC);
     } catch (error) {
