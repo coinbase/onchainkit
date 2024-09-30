@@ -29,8 +29,12 @@ describe('SwapButton', () => {
   it('should render button with text "Swap" when not loading', () => {
     useSwapContextMock.mockReturnValue({
       address: '0x123',
-      to: { loading: false, amount: 1, token: 'ETH' },
-      from: { loading: false, amount: 1, token: 'BTC' },
+      to: { loading: false, amount: 1, token: { name: 'ETH', address: '123' } },
+      from: {
+        loading: false,
+        amount: 1,
+        token: { name: 'BTC', address: '456' },
+      },
       lifecycleStatus: { statusName: 'init' },
       handleSubmit: mockHandleSubmit,
     });
@@ -94,8 +98,12 @@ describe('SwapButton', () => {
   it('should call handleSubmit with mockHandleSubmit when clicked', () => {
     useSwapContextMock.mockReturnValue({
       address: '0x123',
-      to: { loading: false, amount: 1, token: 'ETH' },
-      from: { loading: false, amount: 1, token: 'BTC' },
+      to: { loading: false, amount: 1, token: { name: 'ETH', address: '123' } },
+      from: {
+        loading: false,
+        amount: 1,
+        token: { name: 'BTC', address: '456' },
+      },
       lifecycleStatus: { statusName: 'init' },
       handleSubmit: mockHandleSubmit,
     });
