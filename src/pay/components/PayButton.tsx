@@ -28,11 +28,11 @@ export function PayButton({
   const isLoading = lifeCycleStatus?.statusName === PAY_LIFECYCLESTATUS.PENDING;
   const isDisabled = disabled || isLoading;
   const buttonText = useMemo(() => {
-    if (lifeCycleStatus?.statusName === 'success') {
+    if (lifeCycleStatus?.statusName === PAY_LIFECYCLESTATUS.SUCCESS) {
       return 'View payment details';
     }
     if (
-      lifeCycleStatus?.statusName === 'error' &&
+      lifeCycleStatus?.statusName === PAY_LIFECYCLESTATUS.ERROR &&
       lifeCycleStatus?.statusData.error === 'User has insufficient balance'
     ) {
       return 'Add funds';
