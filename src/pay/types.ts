@@ -29,7 +29,7 @@ export type LifecycleStatus =
       };
     };
 
-type LifecycleStatusDataShared = {};
+type LifecycleStatusDataShared = Record<string, never>;
 
 // make all keys in T optional if they are in K
 type PartialKeys<T, K extends keyof T> = Omit<T, K> &
