@@ -11,6 +11,7 @@ import { getUSDCBalance } from '../utils/getUSDCBalance';
 
 type UseCommerceContractsParams = {
   address?: Address;
+  chargeIdRef: React.MutableRefObject<string | undefined>;
   contractsRef: React.MutableRefObject<
     ContractFunctionParameters[] | undefined
   >;
@@ -21,6 +22,7 @@ type UseCommerceContractsParams = {
 
 export const useCommerceContracts = ({
   address,
+  chargeIdRef,
   contractsRef,
   chargeHandler,
   setErrorMessage,
@@ -36,6 +38,7 @@ export const useCommerceContracts = ({
     try {
       const chargeId = await chargeHandler();
       console.log('Created chargeId:', chargeId);
+      chargeIdRef.current = chargeId;
       const response = await buildPayTransaction({
         address,
         chargeId,

@@ -54,7 +54,6 @@ type PayProviderProps = {
 };
 
 export function PayProvider({
-  chainId,
   chargeHandler,
   children,
   className,
@@ -70,6 +69,7 @@ export function PayProvider({
     },
   });
 
+  const chargeIdRef = useRef<string | undefined>(undefined);
   const contractsRef = useRef<ContractFunctionParameters[] | undefined>(
     undefined,
   );
@@ -86,6 +86,7 @@ export function PayProvider({
   // Transaction hooks
   const fetchContracts = useCommerceContracts({
     address,
+    chargeIdRef,
     contractsRef,
     chargeHandler,
     setErrorMessage,
@@ -155,8 +156,8 @@ export function PayProvider({
       statusName: PAY_LIFECYCLESTATUS.SUCCESS,
       statusData: {
         transactionReceipts: [receipt],
-        chargeId: transactionId,
-        receiptUrl: `https://commerce.coinbase.com/pay/${transactionId}/receipt`,
+        chargeId: chargeIdRef.current ?? '',
+        receiptUrl: `https://commerce.coinbase.com/pay/${chargeIdRef.current}/receipt`,
       },
     });
   }, [receipt]);
@@ -165,11 +166,11 @@ export function PayProvider({
     try {
       if (lifeCycleStatus.statusName === PAY_LIFECYCLESTATUS.SUCCESS) {
         // Open Coinbase Commerce receipt
-        // window.open(
-        //   `https://commerce.coinbase.com/pay/${chargeId}/receipt`,
-        //   '_blank',
-        //   'noopener,noreferrer'
-        // );
+        window.open(
+          `https://commerce.coinbase.com/pay/${chargeIdRef.current}/receipt`,
+          '_blank',
+          'noopener,noreferrer',
+        );
         return;
       }
       if (
