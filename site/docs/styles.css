@@ -240,12 +240,20 @@ footer a.vocs_Anchor {
   fill: var(--bg-ock-default-reverse);
 }
 
-.tweet-container {
-  
-}
-
 .twitter-tweet {
   border: 1px solid #111827;
   border-radius: 0.91675rem;
   overflow: hidden;
+}
+
+.tweet1 {
+
+}
+
+.tweet2 {
+
+}
+
+.tweet3 {
+
 }
