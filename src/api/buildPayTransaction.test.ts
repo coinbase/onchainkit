@@ -29,12 +29,6 @@ import type {
 } from './types';
 
 vi.mock('../network/request');
-vi.mock('./utils/getPayErrorMessage', () => ({
-  getPayErrorMessage: vi.fn((code?: string) => {
-    if (code === 'INVALID_CHARGE') { return PAY_INVALID_CHARGE_ERROR_MESSAGE };
-    return UNCAUGHT_PAY_ERROR_MESSAGE;
-  }),
-}));
 
 describe('buildPayTransaction', () => {
   afterEach(() => {
