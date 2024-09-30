@@ -52,6 +52,10 @@ function Demo() {
       return <WalletDemo />;
     }
 
+    if (activeComponent === OnchainKitComponent.Pay) {
+      return <PayDemo />;
+    }
+
     return <></>;
   }
 

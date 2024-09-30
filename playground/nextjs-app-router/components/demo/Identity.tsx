@@ -27,7 +27,15 @@ export default function IdentityDemo() {
     console.log('useAvatar base', avatarBasename);
     console.log('useName default', name);
     console.log('useName base', basename);
-  }, [address, ensAddress, addressBasename, avatar, avatarBasename, name, basename]);
+  }, [
+    address,
+    ensAddress,
+    addressBasename,
+    avatar,
+    avatarBasename,
+    name,
+    basename,
+  ]);
 
   return (
     <div className="mx-auto max-w-2xl p-4">
@@ -35,7 +43,9 @@ export default function IdentityDemo() {
         {address && (
           <div className="grid grid-cols-2 gap-6">
             <div className="space-y-2">
-              <h2 className="font-medium text-gray-500 text-sm">Default Chain</h2>
+              <h2 className="font-medium text-gray-500 text-sm">
+                Default Chain
+              </h2>
               <div className="flex items-center space-x-4">
                 <Avatar address={address} />
                 <Name address={address} />
