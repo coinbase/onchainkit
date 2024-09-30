@@ -242,5 +242,6 @@ footer a.vocs_Anchor {
 
 .twitter-tweet {
   background-color: #111827;
+  border: 1px solid #111827;
   border-radius: 0.91675rem;
 }
