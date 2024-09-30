@@ -244,19 +244,17 @@ footer a.vocs_Anchor {
   border: 1px solid #111827;
   border-radius: 0.91675rem;
   overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  padding: var(--spacing-2, 1rem);
-  gap: var(--spacing-2, 1rem);
 }
 
 #twitter-widget-0 {
-  width: 27.375rem;
+  width: 27.375rem !important;
 }
 
-#twitter-widget-1,
+#twitter-widget-1 {
+  width: 40.5rem !important;
+}
+
 #twitter-widget-2 {
-  width: 40.5rem;
+  width: 40.5rem !important;
+  height: 37rem !important
 }
