@@ -1,8 +1,8 @@
 import { render, screen } from '@testing-library/react';
-import { describe, it, expect, vi } from 'vitest';
-import { SwapDefault } from './SwapDefault';
-import { SwapDefaultReact } from '../types';
+import { describe, expect, it, vi } from 'vitest';
 import { useAccount, useSwitchChain } from 'wagmi';
+import type { SwapDefaultReact } from '../types';
+import { SwapDefault } from './SwapDefault';
 import { useSwapContext } from './SwapProvider';
 
 vi.mock('../../useBreakpoints', () => ({
