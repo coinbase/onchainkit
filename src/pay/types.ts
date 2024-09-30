@@ -1,6 +1,6 @@
 import type { TransactionReceipt } from 'viem';
+import type { Address, ContractFunctionParameters } from 'viem';
 import type { TransactionError } from '../transaction';
-
 /**
  * List of Pay lifecycle statuses.
  * The order of the statuses loosely follows the transaction lifecycle.
@@ -66,3 +66,20 @@ export type LifecycleStatusUpdate = LifecycleStatus extends infer T
             })
     : never
   : never;
+
+export type UseCommerceContractsParams = {
+  address?: Address;
+  chargeIdRef: React.MutableRefObject<string | undefined>;
+  contractsRef: React.MutableRefObject<
+    ContractFunctionParameters[] | undefined
+  >;
+  chargeHandler?: () => Promise<string>;
+  productId?: string;
+  setErrorMessage: React.Dispatch<React.SetStateAction<string>>;
+  userHasInsufficientBalanceRef: React.MutableRefObject<boolean>;
+};
+
+export type UseLifecycleStatusReturn = {
+  lifecycleStatus: LifecycleStatus;
+  updateLifecycleStatus: (newStatus: LifecycleStatusUpdate) => void;
+};

@@ -1,25 +1,10 @@
 import { useCallback } from 'react';
-import {
-  type Address,
-  type ContractFunctionParameters,
-  formatUnits,
-} from 'viem';
+import { formatUnits } from 'viem';
 import { useConfig } from 'wagmi';
 import { type BuildPayTransactionParams, buildPayTransaction } from '../../api';
+import type { UseCommerceContractsParams } from '../types';
 import { getCommerceContracts } from '../utils/getCommerceContracts';
 import { getUSDCBalance } from '../utils/getUSDCBalance';
-
-type UseCommerceContractsParams = {
-  address?: Address;
-  chargeIdRef: React.MutableRefObject<string | undefined>;
-  contractsRef: React.MutableRefObject<
-    ContractFunctionParameters[] | undefined
-  >;
-  chargeHandler?: () => Promise<string>;
-  productId?: string;
-  setErrorMessage: React.Dispatch<React.SetStateAction<string>>;
-  userHasInsufficientBalanceRef: React.MutableRefObject<boolean>;
-};
 
 export const useCommerceContracts = ({
   address,

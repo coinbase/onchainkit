@@ -1,11 +1,7 @@
 import { useCallback, useState } from 'react';
 import { PAY_LIFECYCLESTATUS } from '../constants';
 import type { LifecycleStatus, LifecycleStatusUpdate } from '../types';
-
-type UseLifecycleStatusReturn = [
-  lifecycleStatus: LifecycleStatus,
-  updatelifecycleStatus: (newStatus: LifecycleStatusUpdate) => void,
-];
+import type { UseLifecycleStatusReturn } from '../types';
 
 export function useLifecycleStatus(
   initialState: LifecycleStatus,
@@ -36,5 +32,5 @@ export function useLifecycleStatus(
     [],
   );
 
-  return [lifecycleStatus, updateLifecycleStatus];
+  return { lifecycleStatus, updateLifecycleStatus };
 }

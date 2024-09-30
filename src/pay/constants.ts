@@ -34,6 +34,14 @@ export enum PAY_LIFECYCLESTATUS {
   ERROR = 'error',
 }
 
+export const USDC_ADDRESS_BASE = '0x833589fcd6edb6e08f4c7c32d4f71b54bda02913';
+
+export enum CONTRACT_METHODS {
+  APPROVE = 'approve',
+  BALANCE_OF = 'balanceOf',
+  TRANSFER_TOKEN_PRE_APPROVED = 'transferTokenPreApproved',
+}
+
 export const COMMERCE_ABI = [
   {
     type: 'function',

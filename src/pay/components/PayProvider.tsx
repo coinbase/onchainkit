@@ -31,7 +31,7 @@ import type { LifecycleStatus } from '../types';
 
 type PayContextType = {
   errorMessage?: string;
-  lifeCycleStatus?: LifecycleStatus;
+  lifecycleStatus?: LifecycleStatus;
   onSubmit: () => void;
   updateLifecycleStatus: (status: LifecycleStatus) => void;
 };
@@ -81,7 +81,7 @@ export function PayProvider({
   const [errorMessage, setErrorMessage] = useState<string>('');
 
   // Component lifecycle
-  const [lifeCycleStatus, updateLifecycleStatus] = useLifecycleStatus({
+  const { lifecycleStatus, updateLifecycleStatus } = useLifecycleStatus({
     statusName: PAY_LIFECYCLESTATUS.INIT,
     statusData: {},
   });
@@ -134,11 +134,11 @@ export function PayProvider({
   // Component lifecycle emitters
   useEffect(() => {
     // Emit Status
-    onStatus?.(lifeCycleStatus);
+    onStatus?.(lifecycleStatus);
   }, [
-    lifeCycleStatus,
-    lifeCycleStatus.statusData, // Keep statusData, so that the effect runs when it changes
-    lifeCycleStatus.statusName, // Keep statusName, so that the effect runs when it changes
+    lifecycleStatus,
+    lifecycleStatus.statusData, // Keep statusData, so that the effect runs when it changes
+    lifecycleStatus.statusName, // Keep statusName, so that the effect runs when it changes
     onStatus,
   ]);
 
@@ -168,7 +168,7 @@ export function PayProvider({
 
   const handleSubmit = useCallback(async () => {
     try {
-      if (lifeCycleStatus.statusName === PAY_LIFECYCLESTATUS.SUCCESS) {
+      if (lifecycleStatus.statusName === PAY_LIFECYCLESTATUS.SUCCESS) {
         // Open Coinbase Commerce receipt
         window.open(
           `https://commerce.coinbase.com/pay/${chargeIdRef.current}/receipt`,
@@ -178,8 +178,8 @@ export function PayProvider({
         return;
       }
       if (
-        lifeCycleStatus.statusName === PAY_LIFECYCLESTATUS.ERROR &&
-        lifeCycleStatus.statusData?.code === PayErrorCode.INSUFFICIENT_BALANCE
+        lifecycleStatus.statusName === PAY_LIFECYCLESTATUS.ERROR &&
+        lifecycleStatus.statusData?.code === PayErrorCode.INSUFFICIENT_BALANCE
       ) {
         window.open(
           'https://keys.coinbase.com/fund',
@@ -257,8 +257,8 @@ export function PayProvider({
     connectors,
     fetchContracts,
     isConnected,
-    lifeCycleStatus.statusData,
-    lifeCycleStatus.statusName,
+    lifecycleStatus.statusData,
+    lifecycleStatus.statusName,
     switchChainAsync,
     updateLifecycleStatus,
     writeContractsAsync,
@@ -266,7 +266,7 @@ export function PayProvider({
 
   const value = useValue({
     errorMessage,
-    lifeCycleStatus,
+    lifecycleStatus,
     onSubmit: handleSubmit,
     updateLifecycleStatus,
   });

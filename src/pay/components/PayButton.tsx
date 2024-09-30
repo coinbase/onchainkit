@@ -22,23 +22,23 @@ export function PayButton({
     icon = 'coinbasePay';
     text = 'Pay with Crypto';
   }
-  const { lifeCycleStatus, onSubmit } = usePayContext();
+  const { lifecycleStatus, onSubmit } = usePayContext();
   const iconSvg = useIcon({ icon });
 
-  const isLoading = lifeCycleStatus?.statusName === PAY_LIFECYCLESTATUS.PENDING;
+  const isLoading = lifecycleStatus?.statusName === PAY_LIFECYCLESTATUS.PENDING;
   const isDisabled = disabled || isLoading;
   const buttonText = useMemo(() => {
-    if (lifeCycleStatus?.statusName === PAY_LIFECYCLESTATUS.SUCCESS) {
+    if (lifecycleStatus?.statusName === PAY_LIFECYCLESTATUS.SUCCESS) {
       return 'View payment details';
     }
     if (
-      lifeCycleStatus?.statusName === PAY_LIFECYCLESTATUS.ERROR &&
-      lifeCycleStatus?.statusData.error === 'User has insufficient balance'
+      lifecycleStatus?.statusName === PAY_LIFECYCLESTATUS.ERROR &&
+      lifecycleStatus?.statusData.error === 'User has insufficient balance'
     ) {
       return 'Add funds';
     }
     return text;
-  }, [lifeCycleStatus?.statusName, lifeCycleStatus?.statusData, text]);
+  }, [lifecycleStatus?.statusName, lifecycleStatus?.statusData, text]);
   const shouldRenderIcon = buttonText === text && iconSvg;
 
   return (

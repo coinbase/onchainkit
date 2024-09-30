@@ -1,6 +1,6 @@
 import { type ContractFunctionParameters, erc20Abi } from 'viem';
 import type { PayTransaction } from '../../api/types';
-import { COMMERCE_ABI } from '../constants';
+import { COMMERCE_ABI, CONTRACT_METHODS } from '../constants';
 
 export function getCommerceContracts({
   transaction,
@@ -13,7 +13,7 @@ export function getCommerceContracts({
     {
       address: callData.recipientCurrency,
       abi: erc20Abi,
-      functionName: 'approve',
+      functionName: CONTRACT_METHODS.APPROVE,
       args: [
         metaData.contractAddress,
         BigInt(callData.recipientAmount) + BigInt(callData.feeAmount),
@@ -22,7 +22,7 @@ export function getCommerceContracts({
     {
       address: metaData.contractAddress,
       abi: COMMERCE_ABI,
-      functionName: 'transferTokenPreApproved',
+      functionName: CONTRACT_METHODS.TRANSFER_TOKEN_PRE_APPROVED,
       args: [
         {
           id: callData.id,

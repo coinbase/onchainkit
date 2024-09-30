@@ -4,9 +4,9 @@ import { usePayContext } from '../components/PayProvider';
 import { PAY_LIFECYCLESTATUS } from '../constants';
 
 export function useGetPayStatus() {
-  const { errorMessage, lifeCycleStatus } = usePayContext();
-  const isPending = lifeCycleStatus?.statusName === PAY_LIFECYCLESTATUS.PENDING;
-  const isSuccess = lifeCycleStatus?.statusName === PAY_LIFECYCLESTATUS.SUCCESS;
+  const { errorMessage, lifecycleStatus } = usePayContext();
+  const isPending = lifecycleStatus?.statusName === PAY_LIFECYCLESTATUS.PENDING;
+  const isSuccess = lifecycleStatus?.statusName === PAY_LIFECYCLESTATUS.SUCCESS;
 
   return useMemo(() => {
     let label = '';
