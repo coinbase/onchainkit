@@ -10,21 +10,22 @@ import type { ContractFunctionParameters } from 'viem';
 import { useAccount, useConnect } from 'wagmi';
 import { useWaitForTransactionReceipt } from 'wagmi';
 import { useWriteContracts } from 'wagmi/experimental';
+import { useCallsStatus } from 'wagmi/experimental';
 import { useValue } from '../../internal/hooks/useValue';
-import type { LifecycleStatus } from '../../transaction';
 import {
   GENERIC_ERROR_MESSAGE,
   USER_REJECTED_ERROR,
 } from '../../transaction/constants';
-import { useCallsStatus } from '../../transaction/hooks/useCallsStatus';
 import { isUserRejectedRequestError } from '../../transaction/utils/isUserRejectedRequestError';
 import { useCommerceContracts } from '../hooks/useCommerceContracts';
+import { useLifecycleStatus } from '../hooks/useLifecycleStatus';
+import type { LifecycleStatus } from '../types';
 
 type PayContextType = {
   errorMessage?: string;
   lifeCycleStatus?: LifecycleStatus;
   onSubmit: () => void;
-  setLifecycleStatus: (status: LifecycleStatus) => void;
+  updateLifecycleStatus: (status: LifecycleStatus) => void;
 };
 
 const emptyContext = {} as PayContextType;
@@ -62,6 +63,7 @@ export function PayProvider({
       },
     },
   });
+
   const contractsRef = useRef<ContractFunctionParameters[] | undefined>(
     undefined,
   );
@@ -70,9 +72,9 @@ export function PayProvider({
   const [errorMessage, setErrorMessage] = useState<string>('');
 
   // Component lifecycle
-  const [lifeCycleStatus, setLifecycleStatus] = useState<LifecycleStatus>({
+  const [lifeCycleStatus, updateLifecycleStatus] = useLifecycleStatus({
     statusName: 'init',
-    statusData: null,
+    statusData: {},
   });
 
   // Transaction hooks
@@ -92,7 +94,7 @@ export function PayProvider({
         const errorMessage = isUserRejectedRequestError(e)
           ? 'Request denied.'
           : GENERIC_ERROR_MESSAGE;
-        setLifecycleStatus({
+        updateLifecycleStatus({
           statusName: 'error',
           statusData: {
             code: 'PmUWCSh01', // Transaction module UseWriteContracts hook 01 error
@@ -103,10 +105,17 @@ export function PayProvider({
       },
     },
   });
-  const { transactionHash, status: callStatus } = useCallsStatus({
-    setLifecycleStatus,
-    transactionId,
+  const { data } = useCallsStatus({
+    id: transactionId,
+    query: {
+      refetchInterval: (query) => {
+        return query.state.data?.status === 'CONFIRMED' ? false : 1000;
+      },
+      enabled: !!transactionId,
+    },
   });
+  const transactionHash = data?.receipts?.[0]?.transactionHash;
+
   const { data: receipt } = useWaitForTransactionReceipt({
     hash: transactionHash,
   });
@@ -125,9 +134,9 @@ export function PayProvider({
   // Set transaction pending status when writeContracts is pending
   useEffect(() => {
     if (status === 'pending') {
-      setLifecycleStatus({
-        statusName: 'transactionPending',
-        statusData: null,
+      updateLifecycleStatus({
+        statusName: 'paymentPending',
+        statusData: {},
       });
     }
   }, [status]);
@@ -136,10 +145,12 @@ export function PayProvider({
     if (!receipt) {
       return;
     }
-    setLifecycleStatus({
+    updateLifecycleStatus({
       statusName: 'success',
       statusData: {
         transactionReceipts: [receipt],
+        chargeId: transactionId,
+        receiptUrl: `https://commerce.coinbase.com/pay/${transactionId}/receipt`,
       },
     });
   }, [receipt]);
@@ -179,7 +190,7 @@ export function PayProvider({
       // Check for enough balance
       if (userHasInsufficientBalanceRef.current) {
         console.error('User has insufficient balance');
-        setLifecycleStatus({
+        updateLifecycleStatus({
           statusName: 'error',
           statusData: {
             code: 'insufficient_balance', // Pay module PayProvider component 00 error
@@ -197,7 +208,7 @@ export function PayProvider({
       } else {
         console.error('Contracts are not available');
         setErrorMessage(GENERIC_ERROR_MESSAGE);
-        setLifecycleStatus({
+        updateLifecycleStatus({
           statusName: 'error',
           statusData: {
             code: 'PmPPc01', // Pay module PayProvider component 01 error
@@ -211,7 +222,7 @@ export function PayProvider({
         setErrorMessage(USER_REJECTED_ERROR);
       } else {
         setErrorMessage(GENERIC_ERROR_MESSAGE);
-        setLifecycleStatus({
+        updateLifecycleStatus({
           statusName: 'error',
           statusData: {
             code: 'PmPPc02', // Pay module PayProvider component 02 error
@@ -236,7 +247,7 @@ export function PayProvider({
     errorMessage,
     lifeCycleStatus,
     onSubmit: handleSubmit,
-    setLifecycleStatus,
+    updateLifecycleStatus,
   });
   return <PayContext.Provider value={value}>{children}</PayContext.Provider>;
 }

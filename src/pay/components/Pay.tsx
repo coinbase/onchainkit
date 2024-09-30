@@ -1,6 +1,6 @@
 import { cn } from '../../styles/theme';
-import type { LifecycleStatus } from '../../transaction';
 import { useIsMounted } from '../../useIsMounted';
+import type { LifecycleStatus } from '../types';
 import { PayProvider } from './PayProvider';
 
 type PayProps = {
