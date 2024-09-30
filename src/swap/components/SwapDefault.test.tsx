@@ -94,17 +94,6 @@ describe('SwapDefault Component', () => {
     expect(screen.getByTestId('ockSwapButton_Button')).toBeInTheDocument();
   });
 
-  // it('calls onError, onStatus, and onSuccess handlers when triggered', () => {
-  //   render(<SwapDefault {...defaultProps} />);
-
-  //   // Assuming some mechanism to trigger these handlers
-  //   // For example, manually trigger onSuccess, onError, and onStatus
-  //   // Mocked calls should be verified here, depending on the component's behavior
-  //   expect(mockOnError).not.toHaveBeenCalled();
-  //   expect(mockOnStatus).not.toHaveBeenCalled();
-  //   expect(mockOnSuccess).not.toHaveBeenCalled();
-  // });
-
   it('disables the SwapButton when disabled prop is true', () => {
     render(<SwapDefault {...defaultProps} disabled={true} />);
 
