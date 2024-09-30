@@ -64,11 +64,10 @@ export function Providers(props: {
   children: ReactNode;
   initialState?: State;
 }) {
-  const [config] = useState(() => wagmiConfig);
   const [queryClient] = useState(() => new QueryClient());
 
   return (
-    <WagmiProvider config={config} initialState={props.initialState}>
+    <WagmiProvider config={wagmiConfig} initialState={props.initialState}>
       <QueryClientProvider client={queryClient}>
         <OnchainKitProvider // [!code ++]
           apiKey={process.env.NEXT_PUBLIC_ONCHAINKIT_API_KEY} // [!code ++]
