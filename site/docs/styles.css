@@ -241,5 +241,6 @@ footer a.vocs_Anchor {
 }
 
 .twitter-tweet {
+  background-color: #111827 !important;
   overflow: hidden !important;
 }
