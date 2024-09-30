@@ -18,7 +18,8 @@ export type APIError = {
  */
 export type BuildPayTransactionParams = {
   address: Address; // The address of the wallet paying
-  chargeId: string; // The ID of the Commerce Charge to be paid
+  chargeId?: string; // The ID of the Commerce Charge to be paid
+  productId?: string; // The ID of the product being paid for
 };
 
 /**
@@ -48,6 +49,11 @@ export type BuildSwapTransactionParams = GetSwapQuoteParams & {
  * Note: exported as public Type
  */
 export type BuildSwapTransactionResponse = BuildSwapTransaction | APIError;
+
+export type CreateProductChargeParams = {
+  sender: Address; // The address of the wallet paying
+  productId: string; // The ID of the product being paid for
+};
 
 export type GetAPIParamsForToken =
   | GetSwapQuoteParams
