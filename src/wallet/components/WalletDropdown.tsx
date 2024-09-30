@@ -5,8 +5,27 @@ import { cn, pressable } from '../../styles/theme';
 import { useBreakpoints } from '../../useBreakpoints';
 import type { WalletDropdownReact } from '../types';
 import { WalletBottomSheet } from './WalletBottomSheet';
+import { WalletDropdownDisconnect } from './WalletDropdownDisconnect';
+import { WalletDropdownFundLink } from './WalletDropdownFundLink';
+import { WalletDropdownLink } from './WalletDropdownLink';
+import { WalletDropdownBasename } from './WalletDropdownBasename';
 
-export function WalletDropdown({ children, className }: WalletDropdownReact) {
+const DEFAULT_CHILDREN = [
+  <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick={true} key="identity" />,
+  <WalletDropdownBasename key="basename" />,
+  <WalletDropdownLink
+    key="dropdownlink"
+    icon="wallet"
+    href="https://keys.coinbase.com"
+    target="_blank"
+  >
+    Wallet
+  </WalletDropdownLink>,
+  <WalletDropdownFundLink key="fund" />,
+  <WalletDropdownDisconnect key="disconnect" />
+];
+
+export function WalletDropdown({ children = DEFAULT_CHILDREN, className }: WalletDropdownReact) {
   const breakpoint = useBreakpoints();
   const { address } = useAccount();
 

@@ -3,11 +3,22 @@ import { useOnchainKit } from '../../useOnchainKit';
 import type { IdentityReact } from '../types';
 import { IdentityLayout } from './IdentityLayout';
 import { IdentityProvider } from './IdentityProvider';
+import { Name } from './Name';
+import { Avatar } from './Avatar';
+import { EthBalance } from './EthBalance';
+import { Address } from './Address';
+
+const DEFAULT_CHILDREN = [
+  <Avatar key="avatar" />,
+  <Name key="name" />,
+  <Address key="address" />,
+  <EthBalance key="ethBalance" />
+];
 
 export function Identity({
   address,
   chain,
-  children,
+  children = DEFAULT_CHILDREN,
   className,
   hasCopyAddressOnClick = false,
   schemaId,

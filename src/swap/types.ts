@@ -277,6 +277,9 @@ export type SwapProviderReact = {
   onError?: (error: SwapError) => void; // An optional callback function that handles errors within the provider.
   onStatus?: (lifecycleStatus: LifecycleStatus) => void; // An optional callback function that exposes the component lifecycle state
   onSuccess?: (transactionReceipt: TransactionReceipt) => void; // An optional callback function that exposes the transaction receipt
+  to?: Token; // The destination token for the swap
+  from?: Token; // The source token for the swap
+  swappableTokens?: Token[]; // Swappable tokens
 };
 
 /**
@@ -294,13 +297,31 @@ export type SwapReact = {
   onStatus?: (lifecycleStatus: LifecycleStatus) => void; // An optional callback function that exposes the component lifecycle state
   onSuccess?: (transactionReceipt: TransactionReceipt) => void; // An optional callback function that exposes the transaction receipt
   title?: string; // Title for the Swap component. (default: "Swap")
+  to?: never; // The destination token for the swap
+  from?: never; // The source token for the swap
+  swappableTokens?: never; // Swappable tokens
+} | {
+  children?: never;
+  className?: string; // Optional className override for top div element.
+  config?: SwapConfig;
+  experimental?: {
+    useAggregator: boolean; // Whether to use a DEX aggregator. (default: true)
+  };
+  isSponsored?: boolean; // An optional setting to sponsor swaps with a Paymaster. (default: false)
+  onError?: (error: SwapError) => void; // An optional callback function that handles errors within the provider.
+  onStatus?: (lifecycleStatus: LifecycleStatus) => void; // An optional callback function that exposes the component lifecycle state
+  onSuccess?: (transactionReceipt: TransactionReceipt) => void; // An optional callback function that exposes the transaction receipt
+  title?: string; // Title for the Swap component. (default: "Swap")
+  to: Token; // The destination token for the swap
+  from: Token; // The source token for the swap
+  swappableTokens: Token[]; // Swappable tokens
 };
 
 /**
  * Note: exported as public Type
  */
 export type SwapSettingsReact = {
-  children: ReactNode;
+  children?: ReactNode;
   className?: string; // Optional className override for top div element.
   icon?: ReactNode; // Optional icon override
   text?: string; // Optional text override

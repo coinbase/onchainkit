@@ -5,9 +5,21 @@ import { useIcon } from '../../wallet/hooks/useIcon';
 import type { SwapSettingsReact } from '../types';
 import { SwapSettingsSlippageLayout } from './SwapSettingsSlippageLayout';
 import { SwapSettingsSlippageLayoutBottomSheet } from './SwapSettingsSlippageLayoutBottomSheet';
+import { SwapSettingsSlippageTitle } from './SwapSettingsSlippageTitle';
+import { SwapSettingsSlippageDescription } from './SwapSettingsSlippageDescription';
+import { SwapSettingsSlippageInput } from './SwapSettingsSlippageInput';
+
+const DEFAULT_CHILDREN = [
+  <SwapSettingsSlippageTitle key="title">Max. slippage</SwapSettingsSlippageTitle>,
+  <SwapSettingsSlippageDescription key="description">
+    Your swap will revert if the prices change by more than the selected
+    percentage.
+  </SwapSettingsSlippageDescription>,
+  <SwapSettingsSlippageInput key="input"/>,
+];
 
 export function SwapSettings({
-  children,
+  children = DEFAULT_CHILDREN,
   className,
   icon = 'swapSettings',
   text: buttonText = '',
