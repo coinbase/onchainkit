@@ -10,6 +10,7 @@ import type { ContractFunctionParameters } from 'viem';
 import { base } from 'viem/chains';
 import { useAccount, useConnect, useSwitchChain } from 'wagmi';
 import { useWaitForTransactionReceipt } from 'wagmi';
+import { coinbaseWallet } from 'wagmi/connectors';
 import { useWriteContracts } from 'wagmi/experimental';
 import { useCallsStatus } from 'wagmi/experimental';
 import { useValue } from '../../internal/hooks/useValue';
@@ -194,8 +195,12 @@ export function PayProvider({
         await fetchContracts();
       } else {
         // Prompt for wallet connection
-        // TODO: This should hardcode to Smart Wallet
-        await connectAsync({ connector: connectors[0] });
+        // This is defaulted to Coinbase Smart Wallet
+        await connectAsync({
+          connector:
+            connectors.find((connector) => connector.id === 'coinbaseWalletSDK') ||
+            coinbaseWallet({ preference: 'smartWalletOnly' }),
+        });
       }
 
       // Check for enough balance
