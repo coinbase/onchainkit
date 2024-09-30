@@ -87,9 +87,9 @@ function Demo() {
           <PaymasterUrl />
           <SwapConfig />
         </form>
-        <div className="bottom-6 left-6 sm:absolute text-sm">
+        <div className='bottom-6 left-6 text-sm sm:absolute'>
           <a
-            className="duration-200 hover:opacity-70 opacity-100 transition-opacity"
+            className='opacity-100 transition-opacity duration-200 hover:opacity-70'
             href="https://github.com/coinbase/onchainkit/tree/main/playground"
             rel="noreferrer"
             target="_blank"
@@ -98,7 +98,7 @@ function Demo() {
             Github ↗
           </a>
           <a
-            className="duration-200 hover:opacity-70 opacity-100 pl-4 transition-opacity"
+            className='pl-4 opacity-100 transition-opacity duration-200 hover:opacity-70'
             href="https://onchainkit.xyz"
             rel="noreferrer"
             target="_blank"
