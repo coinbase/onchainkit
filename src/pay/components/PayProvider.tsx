@@ -7,7 +7,8 @@ import {
   useState,
 } from 'react';
 import type { ContractFunctionParameters } from 'viem';
-import { useAccount, useConnect } from 'wagmi';
+import { base } from 'viem/chains';
+import { useAccount, useConnect, useSwitchChain } from 'wagmi';
 import { useWaitForTransactionReceipt } from 'wagmi';
 import { useWriteContracts } from 'wagmi/experimental';
 import { useCallsStatus } from 'wagmi/experimental';
@@ -46,7 +47,6 @@ export function usePayContext() {
 }
 
 type PayProviderProps = {
-  chainId: number;
   chargeHandler: () => Promise<string>;
   children: React.ReactNode;
   className?: string;
@@ -60,7 +60,7 @@ export function PayProvider({
   onStatus,
 }: PayProviderProps) {
   // Core hooks
-  const { address, isConnected } = useAccount();
+  const { address, chainId, isConnected } = useAccount();
   const { connectAsync, connectors } = useConnect({
     mutation: {
       onSuccess: async () => {
@@ -68,7 +68,7 @@ export function PayProvider({
       },
     },
   });
-
+  const { switchChainAsync } = useSwitchChain();
   const chargeIdRef = useRef<string | undefined>(undefined);
   const contractsRef = useRef<ContractFunctionParameters[] | undefined>(
     undefined,
@@ -183,6 +183,10 @@ export function PayProvider({
           'noopener,noreferrer',
         );
         return;
+      }
+
+      if (chainId !== base.id) {
+        await switchChainAsync({ chainId: base.id });
       }
 
       if (isConnected) {

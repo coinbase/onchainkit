@@ -4,7 +4,6 @@ import type { LifecycleStatus } from '../types';
 import { PayProvider } from './PayProvider';
 
 type PayProps = {
-  chainId: number;
   chargeHandler: () => Promise<string>;
   children: React.ReactNode;
   className?: string;
@@ -12,7 +11,6 @@ type PayProps = {
 };
 
 export function Pay({
-  chainId,
   chargeHandler,
   children,
   className,
@@ -27,7 +25,6 @@ export function Pay({
   return (
     <PayProvider
       chargeHandler={chargeHandler}
-      chainId={chainId}
       className={className}
       onStatus={onStatus}
     >
