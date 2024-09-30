@@ -1,62 +1,6 @@
 import { type ContractFunctionParameters, erc20Abi } from 'viem';
 import type { PayTransaction } from '../../api/types';
-
-const commerceAbi = [
-  {
-    type: 'function',
-    name: 'transferTokenPreApproved',
-    inputs: [
-      {
-        name: '_intent',
-        type: 'tuple',
-        components: [
-          {
-            name: 'recipientAmount',
-            type: 'uint256',
-          },
-          {
-            name: 'deadline',
-            type: 'uint256',
-          },
-          {
-            name: 'recipient',
-            type: 'address',
-          },
-          {
-            name: 'recipientCurrency',
-            type: 'address',
-          },
-          {
-            name: 'refundDestination',
-            type: 'address',
-          },
-          {
-            name: 'feeAmount',
-            type: 'uint256',
-          },
-          {
-            name: 'id',
-            type: 'bytes16',
-          },
-          {
-            name: 'operator',
-            type: 'address',
-          },
-          {
-            name: 'signature',
-            type: 'bytes',
-          },
-          {
-            name: 'prefix',
-            type: 'bytes',
-          },
-        ],
-      },
-    ],
-    outputs: [],
-    stateMutability: 'nonpayable',
-  },
-] as const;
+import { COMMERCE_ABI } from '../constants';
 
 export function getCommerceContracts({
   transaction,
@@ -77,7 +21,7 @@ export function getCommerceContracts({
     },
     {
       address: metaData.contractAddress,
-      abi: commerceAbi,
+      abi: COMMERCE_ABI,
       functionName: 'transferTokenPreApproved',
       args: [
         {
