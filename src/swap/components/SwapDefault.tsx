@@ -1,4 +1,4 @@
-import { SwapDefaultReact } from '../types';
+import type { SwapDefaultReact } from '../types';
 import { Swap } from './Swap';
 import { SwapAmountInput } from './SwapAmountInput';
 import { SwapButton } from './SwapButton';
