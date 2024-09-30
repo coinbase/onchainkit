@@ -239,3 +239,8 @@ footer a.vocs_Anchor {
 .fill-ock-default-reverse {
   fill: var(--bg-ock-default-reverse);
 }
+
+.twitter-tweet {
+  background-color: #111827;
+  border-radius: 0.91675rem;
+}
