@@ -17,6 +17,7 @@ import {
   USER_REJECTED_ERROR,
 } from '../../transaction/constants';
 import { isUserRejectedRequestError } from '../../transaction/utils/isUserRejectedRequestError';
+import { PAY_LIFECYCLESTATUS } from '../constants';
 import { useCommerceContracts } from '../hooks/useCommerceContracts';
 import { useLifecycleStatus } from '../hooks/useLifecycleStatus';
 import type { LifecycleStatus } from '../types';
@@ -73,7 +74,7 @@ export function PayProvider({
 
   // Component lifecycle
   const [lifeCycleStatus, updateLifecycleStatus] = useLifecycleStatus({
-    statusName: 'init',
+    statusName: PAY_LIFECYCLESTATUS.INIT,
     statusData: {},
   });
 
@@ -95,7 +96,7 @@ export function PayProvider({
           ? 'Request denied.'
           : GENERIC_ERROR_MESSAGE;
         updateLifecycleStatus({
-          statusName: 'error',
+          statusName: PAY_LIFECYCLESTATUS.ERROR,
           statusData: {
             code: 'PmUWCSh01', // Transaction module UseWriteContracts hook 01 error
             error: e.message,
@@ -135,7 +136,7 @@ export function PayProvider({
   useEffect(() => {
     if (status === 'pending') {
       updateLifecycleStatus({
-        statusName: 'paymentPending',
+        statusName: PAY_LIFECYCLESTATUS.PENDING,
         statusData: {},
       });
     }
@@ -146,7 +147,7 @@ export function PayProvider({
       return;
     }
     updateLifecycleStatus({
-      statusName: 'success',
+      statusName: PAY_LIFECYCLESTATUS.SUCCESS,
       statusData: {
         transactionReceipts: [receipt],
         chargeId: transactionId,
@@ -157,7 +158,7 @@ export function PayProvider({
 
   const handleSubmit = useCallback(async () => {
     try {
-      if (lifeCycleStatus.statusName === 'success') {
+      if (lifeCycleStatus.statusName === PAY_LIFECYCLESTATUS.SUCCESS) {
         // Open Coinbase Commerce receipt
         // window.open(
         //   `https://commerce.coinbase.com/pay/${chargeId}/receipt`,
@@ -167,7 +168,7 @@ export function PayProvider({
         return;
       }
       if (
-        lifeCycleStatus.statusName === 'error' &&
+        lifeCycleStatus.statusName === PAY_LIFECYCLESTATUS.ERROR &&
         lifeCycleStatus.statusData?.error === 'User has insufficient balance'
       ) {
         window.open(
@@ -191,7 +192,7 @@ export function PayProvider({
       if (userHasInsufficientBalanceRef.current) {
         console.error('User has insufficient balance');
         updateLifecycleStatus({
-          statusName: 'error',
+          statusName: PAY_LIFECYCLESTATUS.ERROR,
           statusData: {
             code: 'insufficient_balance', // Pay module PayProvider component 00 error
             error: 'User has insufficient balance',
@@ -209,7 +210,7 @@ export function PayProvider({
         console.error('Contracts are not available');
         setErrorMessage(GENERIC_ERROR_MESSAGE);
         updateLifecycleStatus({
-          statusName: 'error',
+          statusName: PAY_LIFECYCLESTATUS.ERROR,
           statusData: {
             code: 'PmPPc01', // Pay module PayProvider component 01 error
             error: 'Contracts are not available',
@@ -223,7 +224,7 @@ export function PayProvider({
       } else {
         setErrorMessage(GENERIC_ERROR_MESSAGE);
         updateLifecycleStatus({
-          statusName: 'error',
+          statusName: PAY_LIFECYCLESTATUS.ERROR,
           statusData: {
             code: 'PmPPc02', // Pay module PayProvider component 02 error
             error: JSON.stringify(error),

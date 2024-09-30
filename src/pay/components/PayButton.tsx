@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 import { Spinner } from '../../internal/components/Spinner';
 import { cn, color, pressable, text as styleText } from '../../styles/theme';
 import { useIcon } from '../../useIcon';
+import { PAY_LIFECYCLESTATUS } from '../constants';
 import { usePayContext } from './PayProvider';
 
 export function PayButton({
@@ -24,7 +25,7 @@ export function PayButton({
   const { lifeCycleStatus, onSubmit } = usePayContext();
   const iconSvg = useIcon({ icon });
 
-  const isLoading = lifeCycleStatus?.statusName === 'transactionPending';
+  const isLoading = lifeCycleStatus?.statusName === PAY_LIFECYCLESTATUS.PENDING;
   const isDisabled = disabled || isLoading;
   const buttonText = useMemo(() => {
     if (lifeCycleStatus?.statusName === 'success') {

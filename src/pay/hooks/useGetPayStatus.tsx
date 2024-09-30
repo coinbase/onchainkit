@@ -1,11 +1,12 @@
 import { useMemo } from 'react';
 import { color } from '../../styles/theme';
 import { usePayContext } from '../components/PayProvider';
+import { PAY_LIFECYCLESTATUS } from '../constants';
 
 export function useGetPayStatus() {
   const { errorMessage, lifeCycleStatus } = usePayContext();
-  const isPending = lifeCycleStatus?.statusName === 'transactionPending';
-  const isSuccess = lifeCycleStatus?.statusName === 'success';
+  const isPending = lifeCycleStatus?.statusName === PAY_LIFECYCLESTATUS.PENDING;
+  const isSuccess = lifeCycleStatus?.statusName === PAY_LIFECYCLESTATUS.SUCCESS;
 
   return useMemo(() => {
     let label = '';
