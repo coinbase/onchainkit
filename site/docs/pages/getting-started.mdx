@@ -52,7 +52,7 @@ Additionally, add Base as a supported chain in the Wagmi configuration file `wag
 
 ```tsx twoslash [providers.tsx]
 // @noErrors: 2307 2580 - cannot find 'process', cannot find './wagmi'
-import { OnchainKitProvider } from '@coinbase/onchainkit';
+import { OnchainKitProvider } from '@coinbase/onchainkit'; // [!code ++]
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { base } from 'wagmi/chains'; // [!code ++]
 import { type ReactNode, useState } from 'react';
@@ -83,25 +83,35 @@ export function Providers(props: {
 ```
 
 ```tsx twoslash [wagmi.ts]
-import { http, createConfig } from 'wagmi';
+import { http, cookieStorage, createConfig, createStorage } from 'wagmi';
 import { base } from 'wagmi/chains'; // [!code ++]
 import { coinbaseWallet } from 'wagmi/connectors';
 
-export const wagmiConfig = createConfig({
-  chains: [base], // [!code ++]
-  multiInjectedProviderDiscovery: false,
-  connectors: [
-    coinbaseWallet({
-      appName: 'yourAppName',
-      preference: 'smartWalletOnly', // set this to `all` to use EOAs as well
-      version: '4',
+export function getConfig() {
+  return createConfig({
+    chains: [base], // [!code ++]
+    connectors: [
+      coinbaseWallet({
+        appName: "OnchainKit",
+        preference: 'smartWalletOnly',
+        version: '4',
+      }),
+    ],
+    storage: createStorage({
+      storage: cookieStorage,
     }),
-  ],
-  ssr: true,
-  transports: {
-    [base.id]: http(), // [!code ++]
-  },
-});
+    ssr: true,
+    transports: {
+      [base.id]: http(), // [!code ++]
+    },
+  });
+}
+
+declare module 'wagmi' {
+  interface Register {
+    config: ReturnType<typeof getConfig>;
+  }
+}
 ```
 :::
 
