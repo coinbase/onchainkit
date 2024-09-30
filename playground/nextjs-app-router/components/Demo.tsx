@@ -1,6 +1,7 @@
 'use client';
 import { AppContext, OnchainKitComponent } from '@/components/AppProvider';
 import { useContext, useEffect, useState } from 'react';
+import { ActiveComponent } from './form/active-component';
 import IdentityDemo from './demo/Identity';
 import PayDemo from './demo/Pay';
 import SwapDemo from './demo/Swap';
@@ -56,7 +57,7 @@ function Demo() {
       return <PayDemo />;
     }
 
-    return <></>;
+    return <ActiveComponent />;
   }
 
   return (
