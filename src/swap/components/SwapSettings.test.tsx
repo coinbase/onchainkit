@@ -8,7 +8,7 @@ import { SwapSettingsSlippageDescription } from './SwapSettingsSlippageDescripti
 import { SwapSettingsSlippageInput } from './SwapSettingsSlippageInput';
 import { SwapSettingsSlippageTitle } from './SwapSettingsSlippageTitle';
 
-vi.mock('../../wallet/hooks/useIcon', () => ({
+vi.mock('../../internal/hooks/useIcon', () => ({
   useIcon: vi.fn(() => <svg data-testid="mock-icon" />),
 }));
 
