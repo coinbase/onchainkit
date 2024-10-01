@@ -55,10 +55,12 @@ export const useCommerceContracts = ({
       return { chargeId, contracts, insufficientBalance };
     } catch (error) {
       console.error('Unexpected error fetching contracts:', error);
-      if (error instanceof Error) {
-        setErrorMessage(error.message);
-      }
-      return { chargeId: '', contracts: null, insufficientBalance: false };
+      return {
+        chargeId: '',
+        contracts: null,
+        insufficientBalance: false,
+        error,
+      };
     }
-  }, [address, config, chargeHandler, productId, setErrorMessage]);
+  }, [address, config, chargeHandler, productId]);
 };

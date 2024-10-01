@@ -102,11 +102,11 @@ describe('useCommerceContracts', () => {
       }),
     );
     const response = await result.current();
-    expect(mockSetErrorMessage).toHaveBeenCalledWith('Test error');
     expect(response).toEqual({
       chargeId: '',
       contracts: null,
       insufficientBalance: false,
+      error: mockError,
     });
   });
 
