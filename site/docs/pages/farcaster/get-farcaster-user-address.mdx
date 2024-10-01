@@ -37,7 +37,7 @@ Farcaster ID
 Default to onchain-kit's default key.
 
 ```ts twoslash
-// @noErrors: 2304 - Cannot find name 'fid'
+// @noErrors: 2304 2307 - Cannot find name 'fid'
 import { getFarcasterUserAddress } from '@coinbase/onchainkit/farcaster';
 // ---cut-before---
 const userAddress = await getFarcasterUserAddress(fid, {
@@ -52,7 +52,7 @@ const userAddress = await getFarcasterUserAddress(fid, {
 Optional options to specify if the client wants custody addresses. Default to true.
 
 ```ts twoslash
-// @noErrors: 2304 - Cannot find name 'fid'
+// @noErrors: 2304 2307 - Cannot find name 'fid'
 import { getFarcasterUserAddress } from '@coinbase/onchainkit/farcaster';
 // ---cut-before---
 const userAddress = await getFarcasterUserAddress(fid, {
@@ -67,7 +67,7 @@ const userAddress = await getFarcasterUserAddress(fid, {
 Optional options to specify if the client wants verified addresses. Default to true.
 
 ```ts twoslash
-// @noErrors: 2304 - Cannot find name 'fid'
+// @noErrors: 2304 2307 - Cannot find name 'fid'
 import { getFarcasterUserAddress } from '@coinbase/onchainkit/farcaster';
 // ---cut-before---
 const userAddress = await getFarcasterUserAddress(fid, {
