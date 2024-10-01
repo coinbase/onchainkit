@@ -13,7 +13,7 @@ type PopupSize = {
 /**
  * Gets the appropriate popup dimensions for the given size and funding URL.
  */
-export function getPopupSize(
+export function getFundingPopupSize(
   size: keyof typeof popupSizes,
   fundingUrl?: string,
 ): PopupSize {

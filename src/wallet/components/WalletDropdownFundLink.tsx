@@ -1,6 +1,6 @@
 import { useCallback, useMemo } from 'react';
 import { useGetFundingUrl } from '../../fund/hooks/useGetFundingUrl';
-import { getPopupSize } from '../../fund/utils/getPopupSize';
+import { getFundingPopupSize } from '../../fund/utils/getFundingPopupSize';
 import { openPopup } from '../../internal/utils/openPopup';
 import { cn, pressable, text as themeText } from '../../styles/theme';
 import { useIcon } from '../hooks/useIcon';
@@ -24,7 +24,7 @@ export function WalletDropdownFundLink({
     (e: React.MouseEvent) => {
       e.preventDefault();
       if (fundingUrlToRender) {
-        const { height, width } = getPopupSize(popupSize, fundingUrlToRender);
+        const { height, width } = getFundingPopupSize(popupSize, fundingUrlToRender);
         openPopup({
           url: fundingUrlToRender,
           height,

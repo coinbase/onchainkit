@@ -3,15 +3,15 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import { type Mock, afterEach, describe, expect, it, vi } from 'vitest';
 import { openPopup } from '../../internal/utils/openPopup';
 import { useGetFundingUrl } from '../hooks/useGetFundingUrl';
-import { getPopupSize } from '../utils/getPopupSize';
+import { getFundingPopupSize } from '../utils/getFundingPopupSize';
 import { FundButton } from './FundButton';
 
 vi.mock('../hooks/useGetFundingUrl', () => ({
   useGetFundingUrl: vi.fn(),
 }));
 
-vi.mock('../utils/getPopupSize', () => ({
-  getPopupSize: vi.fn(),
+vi.mock('../utils/getFundingPopupSize', () => ({
+  getFundingPopupSize: vi.fn(),
 }));
 
 vi.mock('../../internal/utils/openPopup', () => ({
@@ -26,7 +26,7 @@ describe('WalletDropdownFundLink', () => {
   it('renders the fund button with the fundingUrl prop when it is defined', () => {
     const fundingUrl = 'https://props.funding.url';
     const { height, width } = { height: 200, width: 100 };
-    (getPopupSize as Mock).mockReturnValue({ height, width });
+    (getFundingPopupSize as Mock).mockReturnValue({ height, width });
 
     render(<FundButton fundingUrl={fundingUrl} />);
 
@@ -35,7 +35,7 @@ describe('WalletDropdownFundLink', () => {
     expect(screen.getByText('Fund')).toBeInTheDocument();
 
     fireEvent.click(buttonElement);
-    expect(getPopupSize as Mock).toHaveBeenCalledWith('md', fundingUrl);
+    expect(getFundingPopupSize as Mock).toHaveBeenCalledWith('md', fundingUrl);
     expect(openPopup as Mock).toHaveBeenCalledWith({
       url: fundingUrl,
       height,
@@ -48,7 +48,7 @@ describe('WalletDropdownFundLink', () => {
     const fundingUrl = 'https://default.funding.url';
     const { height, width } = { height: 200, width: 100 };
     (useGetFundingUrl as Mock).mockReturnValue(fundingUrl);
-    (getPopupSize as Mock).mockReturnValue({ height, width });
+    (getFundingPopupSize as Mock).mockReturnValue({ height, width });
 
     render(<FundButton />);
 
@@ -56,7 +56,7 @@ describe('WalletDropdownFundLink', () => {
     const buttonElement = screen.getByRole('button');
 
     fireEvent.click(buttonElement);
-    expect(getPopupSize as Mock).toHaveBeenCalledWith('md', fundingUrl);
+    expect(getFundingPopupSize as Mock).toHaveBeenCalledWith('md', fundingUrl);
     expect(openPopup as Mock).toHaveBeenCalledWith({
       url: fundingUrl,
       height,
@@ -81,7 +81,7 @@ describe('WalletDropdownFundLink', () => {
   it('renders the fund button as a link when the openIn prop is set to tab', () => {
     const fundingUrl = 'https://props.funding.url';
     const { height, width } = { height: 200, width: 100 };
-    (getPopupSize as Mock).mockReturnValue({ height, width });
+    (getFundingPopupSize as Mock).mockReturnValue({ height, width });
 
     render(<FundButton fundingUrl={fundingUrl} openIn="tab" />);
 

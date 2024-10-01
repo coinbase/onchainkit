@@ -4,7 +4,7 @@ import { openPopup } from '../../internal/utils/openPopup';
 import { cn, color, pressable, text } from '../../styles/theme';
 import { useGetFundingUrl } from '../hooks/useGetFundingUrl';
 import type { FundButtonReact } from '../types';
-import { getPopupSize } from '../utils/getPopupSize';
+import { getFundingPopupSize } from '../utils/getFundingPopupSize';
 
 export function FundButton({
   className,
@@ -26,7 +26,7 @@ export function FundButton({
     (e: React.MouseEvent) => {
       e.preventDefault();
       if (fundingUrlToRender) {
-        const { height, width } = getPopupSize(popupSize, fundingUrlToRender);
+        const { height, width } = getFundingPopupSize(popupSize, fundingUrlToRender);
         openPopup({
           url: fundingUrlToRender,
           height,
