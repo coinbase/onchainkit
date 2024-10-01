@@ -239,3 +239,22 @@ footer a.vocs_Anchor {
 .fill-ock-default-reverse {
   fill: var(--bg-ock-default-reverse);
 }
+
+.twitter-tweet {
+  border: 1px solid #111827;
+  border-radius: 0.91675rem;
+  overflow: hidden;
+}
+
+#twitter-widget-0 {
+  width: 27.375rem !important;
+}
+
+#twitter-widget-1 {
+  width: 40.5rem !important;
+}
+
+#twitter-widget-2 {
+  width: 40.5rem !important;
+  height: 37rem !important
+}
