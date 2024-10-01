@@ -29,10 +29,7 @@ vi.mock('viem', () => ({
 
 describe('useCommerceContracts', () => {
   const mockAddress = '0x1234567890123456789012345678901234567890';
-  const mockChargeIdRef = { current: undefined };
-  const mockContractsRef = { current: undefined };
   const mockSetErrorMessage = vi.fn();
-  const mockUserHasInsufficientBalanceRef = { current: false };
   const mockConfig = {};
 
   beforeEach(() => {
@@ -55,13 +52,10 @@ describe('useCommerceContracts', () => {
     const { result } = renderHook(() =>
       useCommerceContracts({
         address: mockAddress,
-        chargeIdRef: mockChargeIdRef,
-        contractsRef: mockContractsRef,
         setErrorMessage: mockSetErrorMessage,
-        userHasInsufficientBalanceRef: mockUserHasInsufficientBalanceRef,
       }),
     );
-    await result.current();
+    const response = await result.current();
     expect(handlePayRequest).toHaveBeenCalledWith({
       address: mockAddress,
       chargeHandler: undefined,
@@ -74,29 +68,28 @@ describe('useCommerceContracts', () => {
       address: mockAddress,
       config: mockConfig,
     });
-    expect(mockChargeIdRef.current).toBe('charge123');
-    expect(mockContractsRef.current).toEqual(mockCommerceContracts);
-    expect(mockUserHasInsufficientBalanceRef.current).toBe(false);
+    expect(response).toEqual({
+      chargeId: 'charge123',
+      contracts: mockCommerceContracts,
+      insufficientBalance: false,
+    });
   });
 
   it('should handle insufficient balance', async () => {
     (handlePayRequest as Mock).mockResolvedValue({
       id: 'charge123',
-      callData: { feeAmount: '1000000', recipientAmount: '9000000' },
+      callData: { feeAmount: '5000000', recipientAmount: '5000000' },
     });
     (getUSDCBalance as Mock).mockResolvedValue('5.000000');
     (formatUnits as Mock).mockReturnValue('10.000000');
     const { result } = renderHook(() =>
       useCommerceContracts({
         address: mockAddress,
-        chargeIdRef: mockChargeIdRef,
-        contractsRef: mockContractsRef,
         setErrorMessage: mockSetErrorMessage,
-        userHasInsufficientBalanceRef: mockUserHasInsufficientBalanceRef,
       }),
     );
-    await result.current();
-    expect(mockUserHasInsufficientBalanceRef.current).toBe(true);
+    const response = await result.current();
+    expect(response.insufficientBalance).toBe(true);
   });
 
   it('should handle error during contract retrieval', async () => {
@@ -105,27 +98,31 @@ describe('useCommerceContracts', () => {
     const { result } = renderHook(() =>
       useCommerceContracts({
         address: mockAddress,
-        chargeIdRef: mockChargeIdRef,
-        contractsRef: mockContractsRef,
         setErrorMessage: mockSetErrorMessage,
-        userHasInsufficientBalanceRef: mockUserHasInsufficientBalanceRef,
       }),
     );
-    await result.current();
+    const response = await result.current();
     expect(mockSetErrorMessage).toHaveBeenCalledWith('Test error');
+    expect(response).toEqual({
+      chargeId: '',
+      contracts: null,
+      insufficientBalance: false,
+    });
   });
 
   it('should do nothing if address is not provided', async () => {
     const { result } = renderHook(() =>
       useCommerceContracts({
         address: undefined,
-        chargeIdRef: mockChargeIdRef,
-        contractsRef: mockContractsRef,
         setErrorMessage: mockSetErrorMessage,
-        userHasInsufficientBalanceRef: mockUserHasInsufficientBalanceRef,
       }),
     );
-    await result.current();
+    const response = await result.current();
     expect(handlePayRequest).not.toHaveBeenCalled();
+    expect(response).toEqual({
+      chargeId: '',
+      contracts: null,
+      insufficientBalance: false,
+    });
   });
 });
