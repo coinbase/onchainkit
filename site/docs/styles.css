@@ -248,6 +248,7 @@ footer a.vocs_Anchor {
 
 #twitter-widget-0 {
   width: 27.375rem !important;
+  margin-bottom: -1px; 
 }
 
 #twitter-widget-1 {
