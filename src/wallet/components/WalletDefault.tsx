@@ -1,3 +1,4 @@
+import { useAccount } from 'wagmi';
 import { Address, Avatar, EthBalance, Identity, Name } from '../../identity';
 import { color } from '../../styles/theme';
 import {
@@ -8,7 +9,6 @@ import {
   WalletDropdownDisconnect,
   WalletDropdownLink,
 } from '../index';
-import { useAccount } from 'wagmi';
 
 export function WalletDefault() {
   const { address } = useAccount();
