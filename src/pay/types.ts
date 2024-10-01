@@ -42,6 +42,12 @@ type AllKeysInShared<T> = keyof T extends keyof LifecycleStatusDataShared
   ? true
   : false;
 
+export type HandlePayRequestParams = {
+  address: Address;
+  chargeHandler?: () => Promise<string>;
+  productId?: string;
+};
+
 /**
  * LifecycleStatus updater type
  * Used to type the statuses used to update LifecycleStatus

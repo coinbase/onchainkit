@@ -1,16 +1,12 @@
-import type { Address } from 'viem';
 import { buildPayTransaction } from '../../api';
 import type { BuildPayTransactionParams } from '../../api';
+import type { HandlePayRequestParams } from '../types';
 
 export const handlePayRequest = async ({
   address,
   chargeHandler,
   productId,
-}: {
-  address: Address;
-  chargeHandler?: () => Promise<string>;
-  productId?: string;
-}) => {
+}: HandlePayRequestParams) => {
   const buildPayTransactionParams: BuildPayTransactionParams = {
     address,
   };
