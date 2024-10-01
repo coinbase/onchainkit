@@ -26,7 +26,10 @@ export function FundButton({
     (e: React.MouseEvent) => {
       e.preventDefault();
       if (fundingUrlToRender) {
-        const { height, width } = getFundingPopupSize(popupSize, fundingUrlToRender);
+        const { height, width } = getFundingPopupSize(
+          popupSize,
+          fundingUrlToRender,
+        );
         openPopup({
           url: fundingUrlToRender,
           height,
