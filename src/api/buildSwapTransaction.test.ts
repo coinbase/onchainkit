@@ -1,5 +1,5 @@
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
-import { CDP_GET_SWAP_TRADE } from '../network/definitions/swap';
+import { CDP_GET_SWAP_TRADE } from '../network/constants';
 import { sendRequest } from '../network/request';
 import { DEGEN_TOKEN, ETH_TOKEN } from '../swap/mocks';
 import type { BuildSwapTransaction } from '../swap/types';
