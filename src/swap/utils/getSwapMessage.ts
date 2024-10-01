@@ -8,6 +8,11 @@ export function getSwapMessage({
   lifecycleStatus,
   to,
 }: GetSwapMessageParams) {
+  // handle specific error codes
+  if (lifecycleStatus.statusName === 'error') {
+    return getErrorMessage(lifecycleStatus.statusData);
+  }
+
   // handle balance error
   if (from.error || to.error) {
     return SwapMessage.BALANCE_ERROR;
@@ -30,11 +35,6 @@ export function getSwapMessage({
   // missing required fields
   if (lifecycleStatus.statusData.isMissingRequiredField) {
     return SwapMessage.INCOMPLETE_FIELD;
-  }
-
-  // handle specific error codes
-  if (lifecycleStatus.statusName === 'error') {
-    return getErrorMessage(lifecycleStatus.statusData);
   }
 
   return '';

@@ -18,7 +18,7 @@ export enum SwapMessage {
   FETCHING_BALANCE = 'Fetching balance...',
   INCOMPLETE_FIELD = 'Complete the fields to continue',
   INSUFFICIENT_BALANCE = 'Insufficient balance',
-  LOW_LIQUIDITY = 'Liquidity too low for the token',
+  LOW_LIQUIDITY = 'Insufficient liquidity for this trade.',
   SWAP_IN_PROGRESS = 'Swap in progress...',
   TOO_MANY_REQUESTS = 'Too many requests. Please try again later.',
   USER_REJECTED = 'User rejected the transaction',
