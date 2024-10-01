@@ -479,9 +479,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@coinbase/onchainkit@npm:0.33.2":
-  version: 0.33.2
-  resolution: "@coinbase/onchainkit@npm:0.33.2"
+"@coinbase/onchainkit@npm:0.33.3":
+  version: 0.33.3
+  resolution: "@coinbase/onchainkit@npm:0.33.3"
   dependencies:
     "@rainbow-me/rainbowkit": "npm:^2.1.3"
     "@tanstack/react-query": "npm:^5"
@@ -496,7 +496,7 @@ __metadata:
     "@xmtp/frames-validator": ^0.6.0
     react: ^18
     react-dom: ^18
-  checksum: c2b0f6ca39bb0c22d85d6c496860cb37c2539d565e48585a464376dd1129a103889258bc32a6019d81128c88f321119acb392a64b7b1b2302087efe2a5ceccb2
+  checksum: 55734fa87b53e21db82a30d8609d86250c14ad19190a95824c8c92de2834ed0c0976d4bcdc4ba87519588b4917497306f77a845afa44dea659a2ebbe05820768
   languageName: node
   linkType: hard
 
@@ -8188,7 +8188,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "onchainkit@workspace:."
   dependencies:
-    "@coinbase/onchainkit": "npm:0.33.2"
+    "@coinbase/onchainkit": "npm:0.33.3"
     "@types/react": "npm:latest"
     "@types/sitemap-generator": "npm:^8"
     "@vercel/edge": "npm:^1.1.1"
