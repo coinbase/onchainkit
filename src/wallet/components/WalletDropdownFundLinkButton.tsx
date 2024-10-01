@@ -1,6 +1,6 @@
 import { useCallback, useMemo } from 'react';
 import { cn, pressable, text as themeText } from '../../styles/theme';
-import { useIcon } from '../hooks/useIcon';
+import { useIcon } from '../../useIcon';
 import type { WalletDropdownFundLinkReact } from '../types';
 import { getWindowDimensions } from '../utils/getWindowDimensions';
 

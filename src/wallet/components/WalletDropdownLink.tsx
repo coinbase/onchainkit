@@ -1,5 +1,5 @@
 import { cn, pressable, text } from '../../styles/theme';
-import { useIcon } from '../hooks/useIcon';
+import { useIcon } from '../../useIcon';
 import type { WalletDropdownLinkReact } from '../types';
 
 export function WalletDropdownLink({

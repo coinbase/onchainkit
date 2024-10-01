@@ -2,13 +2,13 @@ import '@testing-library/jest-dom';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useBreakpoints } from '../../useBreakpoints';
-import { useIcon } from '../../wallet/hooks/useIcon';
+import { useIcon } from '../../useIcon';
 import { SwapSettings } from './SwapSettings';
 import { SwapSettingsSlippageDescription } from './SwapSettingsSlippageDescription';
 import { SwapSettingsSlippageInput } from './SwapSettingsSlippageInput';
 import { SwapSettingsSlippageTitle } from './SwapSettingsSlippageTitle';
 
-vi.mock('../../wallet/hooks/useIcon', () => ({
+vi.mock('../../useIcon', () => ({
   useIcon: vi.fn(() => <svg data-testid="mock-icon" />),
 }));
 

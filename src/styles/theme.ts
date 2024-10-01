@@ -27,6 +27,8 @@ export const pressable = {
     'cursor-pointer bg-ock-primary active:bg-ock-primary-active hover:bg-[var(--bg-ock-primary-hover)]',
   secondary:
     'cursor-pointer bg-ock-secondary active:bg-ock-secondary-active hover:bg-[var(--bg-ock-secondary-hover)]',
+  coinbaseBranding:
+    'cursor-pointer bg-[#0052FF] active:bg-ock-secondary-active hover:bg-[#0045D8]',
   shadow: 'shadow-ock-default',
   disabled: 'opacity-[0.38]',
 } as const;

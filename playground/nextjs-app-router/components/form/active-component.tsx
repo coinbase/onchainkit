@@ -26,6 +26,7 @@ export function ActiveComponent() {
         </SelectTrigger>
         <SelectContent>
           <SelectItem value={OnchainKitComponent.Identity}>Identity</SelectItem>
+          <SelectItem value={OnchainKitComponent.Pay}>Pay</SelectItem>
           <SelectItem value={OnchainKitComponent.Transaction}>
             Transaction
           </SelectItem>

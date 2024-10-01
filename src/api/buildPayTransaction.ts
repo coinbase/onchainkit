@@ -1,37 +1,50 @@
-import { base } from 'viem/chains';
-import { PAY_HYDRATE_CHARGE } from '../network/definitions/pay';
-import { sendRequest } from '../network/request';
-import { PAY_UNSUPPORTED_CHAIN_ERROR_MESSAGE } from '../pay/constants';
+import {
+  CDP_CREATE_PRODUCT_CHARGE,
+  CDP_HYDRATE_CHARGE,
+} from '../network/definitions/pay';
+import { type JSONRPCResult, sendRequest } from '../network/request';
 import type {
   BuildPayTransactionParams,
   BuildPayTransactionResponse,
+  CreateProductChargeParams,
   HydrateChargeAPIParams,
 } from './types';
 import { getPayErrorMessage } from './utils/getPayErrorMessage';
 
 export async function buildPayTransaction({
   address,
-  chainId,
   chargeId,
+  productId,
 }: BuildPayTransactionParams): Promise<BuildPayTransactionResponse> {
-  if (chainId !== base.id) {
-    return {
-      code: 'AmBPTa01', // Api Module Build Pay Transaction Error 01
-      error: 'Pay Transactions must be on Base',
-      message: PAY_UNSUPPORTED_CHAIN_ERROR_MESSAGE,
-    };
-  }
   try {
-    const res = await sendRequest<
-      HydrateChargeAPIParams,
-      BuildPayTransactionResponse
-    >(PAY_HYDRATE_CHARGE, [
-      {
-        sender: address,
-        chainId: chainId,
-        chargeId,
-      },
-    ]);
+    let res: JSONRPCResult<BuildPayTransactionResponse>;
+    if (chargeId) {
+      res = await sendRequest<
+        HydrateChargeAPIParams,
+        BuildPayTransactionResponse
+      >(CDP_HYDRATE_CHARGE, [
+        {
+          sender: address,
+          chargeId,
+        },
+      ]);
+    } else if (productId) {
+      res = await sendRequest<
+        CreateProductChargeParams,
+        BuildPayTransactionResponse
+      >(CDP_CREATE_PRODUCT_CHARGE, [
+        {
+          sender: address,
+          productId,
+        },
+      ]);
+    } else {
+      return {
+        code: 'AmBPTa01', // Api Module Build Pay Transaction Error 01
+        error: 'No chargeId or productId provided',
+        message: getPayErrorMessage(),
+      };
+    }
     if (res.error) {
       return {
         code: 'AmBPTa02', // Api Module Build Pay Transaction Error 02
