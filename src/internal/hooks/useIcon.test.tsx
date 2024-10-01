@@ -1,8 +1,9 @@
 import { renderHook } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
-import { fundWalletSvg } from '../../internal/svg/fundWallet';
-import { swapSettingsSvg } from '../../internal/svg/swapSettings';
-import { walletSvg } from '../../internal/svg/walletSvg';
+import { coinbasePaySvg } from '../svg/coinbasePaySvg';
+import { fundWalletSvg } from '../svg/fundWallet';
+import { swapSettingsSvg } from '../svg/swapSettings';
+import { walletSvg } from '../svg/walletSvg';
 import { useIcon } from './useIcon';
 
 describe('useIcon', () => {
@@ -14,6 +15,11 @@ describe('useIcon', () => {
   it('should return walletSvg when icon is "wallet"', () => {
     const { result } = renderHook(() => useIcon({ icon: 'wallet' }));
     expect(result.current).toBe(walletSvg);
+  });
+
+  it('should return coinbasePaySvg when icon is "coinbasePay"', () => {
+    const { result } = renderHook(() => useIcon({ icon: 'coinbasePay' }));
+    expect(result.current).toBe(coinbasePaySvg);
   });
 
   it('should return fundWalletSvg when icon is "fundWallet"', () => {
