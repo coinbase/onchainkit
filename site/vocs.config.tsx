@@ -25,6 +25,8 @@ export default defineConfig({
     compilerOptions: {
       allowUmdGlobalAccess: true,
       esModuleInterop: true,
+      module: 200, //ModuleKind.Preserve,
+      moduleResolution: 99, //ModuleResolutionKind.Bundler,
     },
   },
   async head({ path }) {
