@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.33.3
+
+### Patch Changes
+
+- c9c7c3e: **feat**: Implement the fund button integrated with Coinbase Onramp. By @steveviselli-cb #1322
+
 ## 0.33.2
 
 ### Patch Changes
