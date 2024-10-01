@@ -1,12 +1,10 @@
 import { type ContractFunctionParameters, erc20Abi } from 'viem';
-import type { PayTransaction } from '../../api/types';
 import { COMMERCE_ABI, CONTRACT_METHODS } from '../constants';
+import type { GetCommerceContractsParams } from '../types';
 
 export function getCommerceContracts({
   transaction,
-}: {
-  transaction: PayTransaction;
-}): ContractFunctionParameters[] {
+}: GetCommerceContractsParams): ContractFunctionParameters[] {
   const { callData, metaData } = transaction;
 
   return [

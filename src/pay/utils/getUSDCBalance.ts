@@ -1,16 +1,13 @@
-import { type Address, formatUnits } from 'viem';
+import { formatUnits } from 'viem';
 import { erc20Abi } from 'viem';
-import type { Config } from 'wagmi';
 import { readContract } from 'wagmi/actions';
 import { CONTRACT_METHODS, USDC_ADDRESS_BASE } from '../constants';
+import type { GetUSDCBalanceParams } from '../types';
 
 export const getUSDCBalance = async ({
   address,
   config,
-}: {
-  address: Address;
-  config: Config;
-}) => {
+}: GetUSDCBalanceParams) => {
   const result = await readContract(config, {
     abi: erc20Abi,
     address: USDC_ADDRESS_BASE,

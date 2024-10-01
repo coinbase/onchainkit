@@ -1,6 +1,9 @@
 import type { TransactionReceipt } from 'viem';
 import type { Address } from 'viem';
+import type { Config } from 'wagmi';
+import type { PayTransaction } from '../api/types';
 import type { TransactionError } from '../transaction';
+
 /**
  * List of Pay lifecycle statuses.
  * The order of the statuses loosely follows the transaction lifecycle.
@@ -41,6 +44,15 @@ type PartialKeys<T, K extends keyof T> = Omit<T, K> &
 type AllKeysInShared<T> = keyof T extends keyof LifecycleStatusDataShared
   ? true
   : false;
+
+export type GetCommerceContractsParams = {
+  transaction: PayTransaction;
+};
+
+export type GetUSDCBalanceParams = {
+  address: Address;
+  config: Config;
+};
 
 export type HandlePayRequestParams = {
   address: Address;
