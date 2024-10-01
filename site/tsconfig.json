@@ -6,7 +6,7 @@
     "isolatedModules": true,
     "jsx": "react-jsx",
     "module": "es2020",
-    "moduleResolution": "node",
+    "moduleResolution": "Bundler",
     "noEmit": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
