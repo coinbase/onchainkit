@@ -1,11 +1,23 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 const Tweets = () => {
+  const [scriptLoaded, setScriptLoaded] = useState(false);
+
   useEffect(() => {
-    // Dynamically load the Twitter script after the component mounts
     const script = document.createElement('script');
     script.src = 'https://platform.twitter.com/widgets.js';
     script.async = true;
+
+    // Set script onload to true when it's loaded
+    script.onload = () => {
+      setScriptLoaded(true);
+    };
+
+    // Set script onerror to handle failure to load
+    script.onerror = () => {
+      setScriptLoaded(false);
+    };
+
     document.body.appendChild(script);
 
     // Cleanup the script when the component unmounts
@@ -13,6 +25,11 @@ const Tweets = () => {
       document.body.removeChild(script);
     };
   }, []);
+
+  if (!scriptLoaded) {
+    // If the script isn't loaded yet, return null.
+    return null;
+  }
 
   return (
     <section className="css-alternate-container flex w-full flex-col items-center gap-[72px] py-24">
@@ -36,7 +53,8 @@ const Tweets = () => {
               <a href="https://twitter.com/OnchainKit?ref_src=twsrc%5Etfw">
                 @OnchainKit
               </a>{' '}
-              for making it smooth and easy! 💜<br />
+              for making it smooth and easy! 💜
+              <br />
               <br />
               More updates on the way, stay fit. 🏋️‍♀️🏋️‍♂️{' '}
               <a href="https://t.co/5BlIm5kSx3">pic.twitter.com/5BlIm5kSx3</a>
