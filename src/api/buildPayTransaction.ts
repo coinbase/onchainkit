@@ -1,7 +1,7 @@
 import {
   CDP_CREATE_PRODUCT_CHARGE,
   CDP_HYDRATE_CHARGE,
-} from '../network/constants';
+} from '../network/definitions/pay';
 import { type JSONRPCResult, sendRequest } from '../network/request';
 import type {
   BuildPayTransactionParams,

@@ -3,7 +3,7 @@ import type { Mock } from 'vitest';
 import {
   CDP_CREATE_PRODUCT_CHARGE,
   CDP_HYDRATE_CHARGE,
-} from '../network/constants';
+} from '../network/definitions/pay';
 import { sendRequest } from '../network/request';
 import {
   PAY_INVALID_CHARGE_ERROR_MESSAGE,
