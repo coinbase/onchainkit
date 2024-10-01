@@ -1,9 +1,8 @@
+import { ONRAMP_BUY_URL } from '../constants';
 import type {
   GetOnrampUrlWithProjectIdParams,
   GetOnrampUrlWithSessionTokenParams,
 } from '../types';
-
-const ONRAMP_BUY_URL = 'https://pay.coinbase.com/buy';
 
 /**
  * Builds a Coinbase Onramp buy URL using the provided parameters.

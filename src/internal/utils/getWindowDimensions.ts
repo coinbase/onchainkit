@@ -1,6 +1,12 @@
-import type { WindowSizes } from '../types';
+export type WindowSizes = Record<
+  'sm' | 'md' | 'lg',
+  {
+    width: string;
+    height: string;
+  }
+>;
 
-const popupSizes: WindowSizes = {
+export const popupSizes: WindowSizes = {
   sm: { width: '24.67vw', height: '30.83vw' },
   md: { width: '29vw', height: '36.25vw' },
   lg: { width: '35vw', height: '43.75vw' },

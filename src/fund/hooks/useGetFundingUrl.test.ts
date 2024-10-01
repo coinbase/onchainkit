@@ -3,7 +3,6 @@ import { type Mock, describe, expect, it, vi } from 'vitest';
 import { useAccount } from 'wagmi';
 import { useOnchainKit } from '../../useOnchainKit';
 import { useIsWalletACoinbaseSmartWallet } from '../../wallet/hooks/useIsWalletACoinbaseSmartWallet';
-import { ONRAMP_POPUP_HEIGHT, ONRAMP_POPUP_WIDTH } from '../constants';
 import { getCoinbaseSmartWalletFundUrl } from '../utils/getCoinbaseSmartWalletFundUrl';
 import { getOnrampBuyUrl } from '../utils/getOnrampBuyUrl';
 import { useGetFundingUrl } from './useGetFundingUrl';
@@ -45,9 +44,7 @@ describe('useGetFundingUrl', () => {
 
     const { result } = renderHook(() => useGetFundingUrl());
 
-    expect(result.current?.url).toBe('https://keys.coinbase.com/fund');
-    expect(result.current?.popupHeight).toBeUndefined();
-    expect(result.current?.popupWidth).toBeUndefined();
+    expect(result.current).toBe('https://keys.coinbase.com/fund');
   });
 
   it('should return a Coinbase Onramp fund URL if connected wallet is not a Coinbase Smart Wallet', () => {
@@ -64,9 +61,7 @@ describe('useGetFundingUrl', () => {
 
     const { result } = renderHook(() => useGetFundingUrl());
 
-    expect(result.current?.url).toBe('https://pay.coinbase.com/buy');
-    expect(result.current?.popupHeight).toBe(ONRAMP_POPUP_HEIGHT);
-    expect(result.current?.popupWidth).toBe(ONRAMP_POPUP_WIDTH);
+    expect(result.current).toBe('https://pay.coinbase.com/buy');
 
     expect(getOnrampBuyUrl).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -90,9 +85,7 @@ describe('useGetFundingUrl', () => {
 
     const { result } = renderHook(() => useGetFundingUrl());
 
-    expect(result.current?.url).toBe('https://pay.coinbase.com/buy');
-    expect(result.current?.popupHeight).toBe(ONRAMP_POPUP_HEIGHT);
-    expect(result.current?.popupWidth).toBe(ONRAMP_POPUP_WIDTH);
+    expect(result.current).toBe('https://pay.coinbase.com/buy');
 
     expect(getOnrampBuyUrl).toHaveBeenCalledWith(
       expect.objectContaining({

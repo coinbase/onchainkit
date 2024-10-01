@@ -5,6 +5,7 @@ import { PaymasterUrl } from '@/components/form/paymaster';
 import { SwapConfig } from '@/components/form/swap-config';
 import { WalletType } from '@/components/form/wallet-type';
 import { useContext, useEffect, useState } from 'react';
+import FundDemo from './demo/Fund';
 import IdentityDemo from './demo/Identity';
 import SwapDemo from './demo/Swap';
 import TransactionDemo from './demo/Transaction';
@@ -40,6 +41,10 @@ function Demo() {
   }`;
 
   function renderActiveComponent() {
+    if (activeComponent === OnchainKitComponent.Fund) {
+      return <FundDemo />;
+    }
+
     if (activeComponent === OnchainKitComponent.Identity) {
       return <IdentityDemo />;
     }

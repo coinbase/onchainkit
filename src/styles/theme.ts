@@ -28,7 +28,7 @@ export const pressable = {
   secondary:
     'cursor-pointer bg-ock-secondary active:bg-ock-secondary-active hover:bg-[var(--bg-ock-secondary-hover)]',
   shadow: 'shadow-ock-default',
-  disabled: 'opacity-[0.38]',
+  disabled: 'opacity-[0.38] pointer-events-none',
 } as const;
 
 export const background = {
@@ -54,6 +54,7 @@ export const color = {
 } as const;
 
 export const fill = {
+  default: 'fill-ock-default',
   defaultReverse: 'fill-ock-default-reverse',
   inverse: 'fill-ock-inverse',
 } as const;
