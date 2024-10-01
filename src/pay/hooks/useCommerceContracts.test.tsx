@@ -29,7 +29,6 @@ vi.mock('viem', () => ({
 
 describe('useCommerceContracts', () => {
   const mockAddress = '0x1234567890123456789012345678901234567890';
-  const mockSetErrorMessage = vi.fn();
   const mockConfig = {};
 
   beforeEach(() => {
@@ -52,7 +51,6 @@ describe('useCommerceContracts', () => {
     const { result } = renderHook(() =>
       useCommerceContracts({
         address: mockAddress,
-        setErrorMessage: mockSetErrorMessage,
       }),
     );
     const response = await result.current();
@@ -85,7 +83,6 @@ describe('useCommerceContracts', () => {
     const { result } = renderHook(() =>
       useCommerceContracts({
         address: mockAddress,
-        setErrorMessage: mockSetErrorMessage,
       }),
     );
     const response = await result.current();
@@ -98,7 +95,6 @@ describe('useCommerceContracts', () => {
     const { result } = renderHook(() =>
       useCommerceContracts({
         address: mockAddress,
-        setErrorMessage: mockSetErrorMessage,
       }),
     );
     const response = await result.current();
@@ -114,7 +110,6 @@ describe('useCommerceContracts', () => {
     const { result } = renderHook(() =>
       useCommerceContracts({
         address: undefined,
-        setErrorMessage: mockSetErrorMessage,
       }),
     );
     const response = await result.current();

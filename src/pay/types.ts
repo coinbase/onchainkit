@@ -71,7 +71,6 @@ export type UseCommerceContractsParams = {
   address?: Address;
   chargeHandler?: () => Promise<string>;
   productId?: string;
-  setErrorMessage: React.Dispatch<React.SetStateAction<string>>;
 };
 
 export type UseLifecycleStatusReturn = {

@@ -10,7 +10,6 @@ export const useCommerceContracts = ({
   address,
   chargeHandler,
   productId,
-  setErrorMessage,
 }: UseCommerceContractsParams) => {
   const config = useConfig();
 
