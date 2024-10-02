@@ -1,15 +1,18 @@
 export const GENERAL_PAY_ERROR_MESSAGE = 'PAY_ERROR';
+export const GENERIC_ERROR_MESSAGE = 'Something went wrong. Please try again.';
 export const PAY_UNSUPPORTED_CHAIN_ERROR_MESSAGE = 'UNSUPPORTED_CHAIN';
 export const PAY_TOO_MANY_REQUESTS_ERROR_MESSAGE =
   'PAY_TOO_MANY_REQUESTS_ERROR';
 
 export const PAY_INSUFFICIENT_BALANCE_ERROR = 'User has insufficient balance';
-export const PAY_INSUFFICIENT_BALANCE_ERROR_MESSAGE =
-  "You don't have enough USDC. Add funds and try again.";
+export const PAY_INSUFFICIENT_BALANCE_ERROR_MESSAGE = (priceInUSD: string) => {
+  return `You need at least ${priceInUSD} USDC to continue with payment`;
+};
 export const PAY_INVALID_CHARGE_ERROR_MESSAGE = 'PAY_INVALID_CHARGE_ERROR';
 export const PAY_INVALID_PARAMETER_ERROR_MESSAGE =
   'PAY_INVALID_PARAMETER_ERROR';
 export const UNCAUGHT_PAY_ERROR_MESSAGE = 'UNCAUGHT_PAY_ERROR';
+export const USER_REJECTED_ERROR = 'Request denied.';
 
 export enum PayErrorCode {
   INSUFFICIENT_BALANCE = 'insufficient_balance',
