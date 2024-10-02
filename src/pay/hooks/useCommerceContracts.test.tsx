@@ -48,12 +48,11 @@ describe('useCommerceContracts', () => {
     (getCommerceContracts as Mock).mockReturnValue(mockCommerceContracts);
     (getUSDCBalance as Mock).mockResolvedValue('15');
     (formatUnits as Mock).mockReturnValue('10');
-    const { result } = renderHook(() =>
-      useCommerceContracts({
-        address: mockAddress,
-      }),
-    );
-    const response = await result.current();
+
+    const { result } = renderHook(() => useCommerceContracts({}));
+    const callback = result.current;
+    const response = await callback(mockAddress);
+
     expect(handlePayRequest).toHaveBeenCalledWith({
       address: mockAddress,
       chargeHandler: undefined,
@@ -81,12 +80,11 @@ describe('useCommerceContracts', () => {
     });
     (getUSDCBalance as Mock).mockResolvedValue('5');
     (formatUnits as Mock).mockReturnValue('10');
-    const { result } = renderHook(() =>
-      useCommerceContracts({
-        address: mockAddress,
-      }),
-    );
-    const response = await result.current();
+
+    const { result } = renderHook(() => useCommerceContracts({}));
+    const callback = result.current;
+    const response = await callback(mockAddress);
+
     expect(response.insufficientBalance).toBe(true);
     expect(response.priceInUSDC).toBe('10');
   });
@@ -94,12 +92,11 @@ describe('useCommerceContracts', () => {
   it('should handle error during contract retrieval', async () => {
     const mockError = new Error('Test error');
     (handlePayRequest as Mock).mockRejectedValue(mockError);
-    const { result } = renderHook(() =>
-      useCommerceContracts({
-        address: mockAddress,
-      }),
-    );
-    const response = await result.current();
+
+    const { result } = renderHook(() => useCommerceContracts({}));
+    const callback = result.current;
+    const response = await callback(mockAddress);
+
     expect(response).toEqual({
       chargeId: '',
       contracts: null,
@@ -109,12 +106,10 @@ describe('useCommerceContracts', () => {
   });
 
   it('should do nothing if address is not provided', async () => {
-    const { result } = renderHook(() =>
-      useCommerceContracts({
-        address: undefined,
-      }),
-    );
-    const response = await result.current();
+    const { result } = renderHook(() => useCommerceContracts({}));
+    const callback = result.current;
+    const response = await callback(undefined as any);
+
     expect(handlePayRequest).not.toHaveBeenCalled();
     expect(response).toEqual({
       chargeId: '',
