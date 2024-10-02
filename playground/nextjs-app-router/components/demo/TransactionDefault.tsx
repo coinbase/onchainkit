@@ -25,8 +25,6 @@ export function TransactionDefaultDemo() {
     }
   }, [transactionType, calls, contracts]);
 
-  console.log({ chainId, transactionType });
-
   return (
     <div className="mx-auto grid w-1/2 gap-8">
       <TransactionDefault
