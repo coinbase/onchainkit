@@ -1,10 +1,10 @@
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 import { useAccount, useSwitchChain } from 'wagmi';
+import { useShowCallsStatus } from 'wagmi/experimental';
 import type { TransactionDefaultReact } from '../types';
 import { TransactionDefault } from './TransactionDefault';
 import { useTransactionContext } from './TransactionProvider';
-import { useShowCallsStatus } from 'wagmi/experimental';
 
 vi.mock('../../useBreakpoints', () => ({
   useBreakpoints: vi.fn(),
