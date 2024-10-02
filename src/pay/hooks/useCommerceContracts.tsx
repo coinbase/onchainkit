@@ -51,7 +51,7 @@ export const useCommerceContracts = ({
       const insufficientBalance =
         Number.parseFloat(usdcBalance) < Number.parseFloat(priceInUSDC);
 
-      return { chargeId, contracts, insufficientBalance };
+      return { chargeId, contracts, insufficientBalance, priceInUSDC };
     } catch (error) {
       console.error('Unexpected error fetching contracts:', error);
       return {

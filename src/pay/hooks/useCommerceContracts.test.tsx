@@ -70,6 +70,7 @@ describe('useCommerceContracts', () => {
       chargeId: 'charge123',
       contracts: mockCommerceContracts,
       insufficientBalance: false,
+      priceInUSDC: '10',
     });
   });
 
@@ -87,6 +88,7 @@ describe('useCommerceContracts', () => {
     );
     const response = await result.current();
     expect(response.insufficientBalance).toBe(true);
+    expect(response.priceInUSDC).toBe('10');
   });
 
   it('should handle error during contract retrieval', async () => {
