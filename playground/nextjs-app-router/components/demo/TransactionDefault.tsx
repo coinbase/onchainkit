@@ -1,5 +1,5 @@
 import { useCapabilities } from '@/lib/hooks';
-import { clickContracts, clickCalls } from '@/lib/transactions';
+import { clickCalls, clickContracts } from '@/lib/transactions';
 import { TransactionDefault } from '@coinbase/onchainkit/transaction';
 import { useCallback, useContext, useEffect } from 'react';
 import { AppContext, TransactionTypes } from '../AppProvider';
