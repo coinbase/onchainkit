@@ -3,6 +3,7 @@ import { Spinner } from '../../internal/components/Spinner';
 import { useIcon } from '../../internal/hooks/useIcon';
 import { cn, color, pressable, text as styleText } from '../../styles/theme';
 import { PAY_LIFECYCLESTATUS } from '../constants';
+import type { PayButtonReact } from '../types';
 import { usePayContext } from './PayProvider';
 
 export function PayButton({
@@ -11,13 +12,7 @@ export function PayButton({
   disabled,
   icon,
   text = 'Pay',
-}: {
-  className?: string;
-  coinbaseBranded?: boolean;
-  disabled?: boolean;
-  icon?: React.ReactNode;
-  text?: string;
-}) {
+}: PayButtonReact) {
   if (coinbaseBranded) {
     icon = 'coinbasePay';
     text = 'Pay with Crypto';

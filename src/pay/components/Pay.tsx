@@ -1,15 +1,7 @@
 import { cn } from '../../styles/theme';
 import { useIsMounted } from '../../useIsMounted';
-import type { LifecycleStatus } from '../types';
+import type { PayReact } from '../types';
 import { PayProvider } from './PayProvider';
-
-type PayProps = {
-  chargeHandler?: () => Promise<string>;
-  children: React.ReactNode;
-  className?: string;
-  onStatus?: (status: LifecycleStatus) => void;
-  productId?: string;
-};
 
 export function Pay({
   chargeHandler,
@@ -17,7 +9,7 @@ export function Pay({
   className,
   onStatus,
   productId,
-}: PayProps) {
+}: PayReact) {
   const isMounted = useIsMounted();
   // prevents SSR hydration issue
   if (!isMounted) {
