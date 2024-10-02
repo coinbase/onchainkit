@@ -21,6 +21,34 @@ import { useAccount } from 'wagmi';
 function WalletComponent() {
   const { address } = useAccount();
 
+  return <Wallet/>
+
+  return (
+    <Wallet>
+      <ConnectWallet>
+        <ConnectWalletText>Connect Wallet 🌊</ConnectWalletText>
+        <Avatar address={address} className="h-6 w-6" />
+        <Name />
+      </ConnectWallet>
+      <WalletDropdown />
+    </Wallet>
+  );
+
+  return (
+    <Wallet>
+      <ConnectWallet/>
+      <WalletDropdown>
+        <WalletDropdownLink
+          icon="wallet"
+          href="https://keys.coinbase.com"
+          target="_blank"
+        >
+          Wallet
+        </WalletDropdownLink>
+      </WalletDropdown>
+    </Wallet>
+  );
+
   return (
     <div className="flex justify-end">
       <Wallet>

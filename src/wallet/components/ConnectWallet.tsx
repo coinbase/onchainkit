@@ -10,9 +10,15 @@ import type { ConnectWalletReact } from '../types';
 import { ConnectButton } from './ConnectButton';
 import { ConnectWalletText } from './ConnectWalletText';
 import { useWalletContext } from './WalletProvider';
+import { Avatar, Name } from '../../identity';
+
+const DEFAULT_CHILDREN = [
+  <Avatar key="avatar" />,
+  <Name key="name" />,
+]
 
 export function ConnectWallet({
-  children,
+  children = DEFAULT_CHILDREN,
   className,
   // In a few version we will officially depracate this prop,
   // but for now we will keep it for backward compatibility.

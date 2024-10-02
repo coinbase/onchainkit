@@ -1,4 +1,4 @@
-import { Children, useMemo } from 'react';
+import { Children, cloneElement, useMemo } from 'react';
 import { findComponent } from '../../internal/utils/findComponent';
 import { background, cn, text } from '../../styles/theme';
 import { useIsMounted } from '../../useIsMounted';
@@ -12,8 +12,25 @@ import { SwapSettings } from './SwapSettings';
 import { SwapToast } from './SwapToast';
 import { SwapToggleButton } from './SwapToggleButton';
 
+const DEFAULT_CHILDREN = [
+  <SwapSettings key="settings" />,
+  <SwapAmountInput key="from"
+    label="Sell"
+    type="from"
+  />,
+  <SwapToggleButton key="toggle" />,
+  <SwapAmountInput
+    key="to"
+    label="Buy"
+    type="to"
+  />,
+  <SwapButton key="button" />,
+  <SwapMessage key="message" />,
+  <SwapToast key="toast" />,
+];
+
 export function Swap({
-  children,
+  children = DEFAULT_CHILDREN,
   config = {
     maxSlippage: FALLBACK_DEFAULT_MAX_SLIPPAGE,
   },
@@ -24,6 +41,9 @@ export function Swap({
   onStatus,
   onSuccess,
   title = 'Swap',
+  to,
+  from,
+  swappableTokens,
 }: SwapReact) {
   const {
     inputs,
@@ -59,6 +79,9 @@ export function Swap({
       onError={onError}
       onStatus={onStatus}
       onSuccess={onSuccess}
+      to={to}
+      from={from}
+      swappableTokens={swappableTokens}
     >
       <div
         className={cn(
@@ -77,9 +100,11 @@ export function Swap({
           </h3>
           {swapSettings}
         </div>
-        {inputs[0]}
+        {cloneElement(inputs[0], { token: from, swappableTokens })}
+        {/* {inputs[0]} */}
         <div className="relative h-1">{toggleButton}</div>
-        {inputs[1]}
+        {cloneElement(inputs[1], { token: to, swappableTokens })}
+        {/* {inputs[1]} */}
         {swapButton}
         {swapToast}
         <div className="flex">{swapMessage}</div>

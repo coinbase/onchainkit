@@ -161,7 +161,7 @@ export type IdentityProviderReact = {
 export type IdentityReact = {
   address?: Address; // The Ethereum address to fetch the avatar and name for.
   chain?: Chain; // Optional chain for domain resolution
-  children: ReactNode;
+  children?: ReactNode;
   className?: string; // Optional className override for top div element.
   schemaId?: Address | null; // The Ethereum address of the schema to use for EAS attestation.
   hasCopyAddressOnClick?: boolean;

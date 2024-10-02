@@ -80,7 +80,7 @@ export type WalletContextType = {
  * Note: exported as public Type
  */
 export type WalletReact = {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   className?: string;
 };
 
@@ -103,7 +103,7 @@ export type WalletDropdownBasenameReact = {
  * Note: exported as public Type
  */
 export type WalletDropdownReact = {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   className?: string; // Optional className override for top div element
 };
 

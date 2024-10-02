@@ -7,7 +7,12 @@ import { ConnectWallet } from './ConnectWallet';
 import { WalletDropdown } from './WalletDropdown';
 import { WalletProvider, useWalletContext } from './WalletProvider';
 
-const WalletContent = ({ children, className }: WalletReact) => {
+const DEFAULT_CHILDREN = [
+  <ConnectWallet key="connect"/>,
+  <WalletDropdown key="dropdown" />,
+];
+
+const WalletContent = ({ children = DEFAULT_CHILDREN, className }: WalletReact) => {
   const { isOpen, setIsOpen } = useWalletContext();
   const walletContainerRef = useRef<HTMLDivElement>(null);
 

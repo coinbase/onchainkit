@@ -103,6 +103,54 @@ function SwapComponent() {
         </div>
       ) : null}
 
+      <div>------- no children -------</div>
+      <Swap
+        className="w-full border sm:w-[500px]"
+        onStatus={handleOnStatus}
+        onSuccess={handleOnSuccess}
+        onError={handleOnError}
+        config={{
+          maxSlippage: defaultMaxSlippage || FALLBACK_DEFAULT_MAX_SLIPPAGE,
+        }}
+        isSponsored={paymasters != null}
+        swappableTokens={swappableTokens}
+        to={usdcToken}
+        from={ethToken}
+      />
+      <div>------- children but no swap settings children -------</div>
+      <Swap
+        className="w-full border sm:w-[500px]"
+        onStatus={handleOnStatus}
+        onSuccess={handleOnSuccess}
+        onError={handleOnError}
+        config={{
+          maxSlippage: defaultMaxSlippage || FALLBACK_DEFAULT_MAX_SLIPPAGE,
+        }}
+        isSponsored={paymasters != null}
+      >
+        <SwapSettings/>
+        <SwapAmountInput
+          label="Sell"
+          swappableTokens={swappableTokens}
+          token={ethToken}
+          type="from"
+        />
+        <SwapToggleButton />
+        <SwapAmountInput
+          label="Buy"
+          swappableTokens={swappableTokens}
+          token={usdcToken}
+          type="to"
+        />
+        <SwapButton
+          disabled={
+            ENVIRONMENT_VARIABLES[ENVIRONMENT.ENVIRONMENT] === 'production'
+          }
+        />
+        <SwapMessage />
+        <SwapToast />
+      </Swap>
+      <div>------- all children -------</div>
       <Swap
         className="w-full border sm:w-[500px]"
         onStatus={handleOnStatus}
