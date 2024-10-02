@@ -14,10 +14,6 @@ export const useCommerceContracts = ({
 
   return useCallback(
     async (address: Address) => {
-      if (!address) {
-        return { chargeId: '', contracts: null, insufficientBalance: false };
-      }
-
       try {
         // Make the Pay request to the appropriate endpoint
         // `productId` to create and hydrate a charge for a product (serverless)

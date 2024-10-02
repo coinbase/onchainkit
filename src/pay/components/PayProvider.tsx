@@ -73,7 +73,6 @@ export function PayProvider({
 
   // Transaction hooks
   const fetchContracts = useCommerceContracts({
-    address,
     chargeHandler,
     productId,
   });

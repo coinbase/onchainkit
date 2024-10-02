@@ -86,7 +86,6 @@ export type LifecycleStatusUpdate = LifecycleStatus extends infer T
   : never;
 
 export type UseCommerceContractsParams = {
-  address?: Address;
   chargeHandler?: () => Promise<string>;
   productId?: string;
 };
