@@ -21,10 +21,8 @@ vi.mock('./PayProvider', () => ({
   PayProvider: vi.fn(
     ({
       children,
-      className,
     }: {
       children: React.ReactNode;
-      className?: string;
     }) => <div data-testid="pay-provider">{children}</div>,
   ),
 }));

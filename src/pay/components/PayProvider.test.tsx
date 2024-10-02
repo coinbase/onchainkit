@@ -47,7 +47,9 @@ const TestComponent = () => {
         </span>
       )}
       <span data-testid="error-message">{context.errorMessage}</span>
-      <button onClick={context.onSubmit}>Submit</button>
+      <button type="submit" onClick={context.onSubmit}>
+        Submit
+      </button>
     </div>
   );
 };

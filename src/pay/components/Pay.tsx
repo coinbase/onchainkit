@@ -27,7 +27,6 @@ export function Pay({
   return (
     <PayProvider
       chargeHandler={chargeHandler}
-      className={className}
       onStatus={onStatus}
       productId={productId}
     >
