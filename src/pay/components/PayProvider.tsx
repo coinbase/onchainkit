@@ -144,7 +144,7 @@ export function PayProvider({
         receiptUrl: `https://commerce.coinbase.com/pay/${chargeId}/receipt`,
       },
     });
-  }, [receipt, updateLifecycleStatus]);
+  }, [chargeId, receipt, updateLifecycleStatus]);
 
   const handleSubmit = useCallback(async () => {
     try {
@@ -268,7 +268,9 @@ export function PayProvider({
       }
     }
   }, [
+    address,
     chainId,
+    chargeId,
     connectAsync,
     connectors,
     fetchContracts,

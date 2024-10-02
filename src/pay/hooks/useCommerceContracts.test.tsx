@@ -108,7 +108,7 @@ describe('useCommerceContracts', () => {
   it('should do nothing if address is not provided', async () => {
     const { result } = renderHook(() => useCommerceContracts({}));
     const callback = result.current;
-    const response = await callback(undefined as any);
+    const response = await callback('0x');
 
     expect(handlePayRequest).not.toHaveBeenCalled();
     expect(response).toEqual({

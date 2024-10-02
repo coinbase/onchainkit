@@ -10,7 +10,7 @@ vi.mock('../hooks/useGetPayStatus', () => ({
 }));
 
 vi.mock('../../styles/theme', () => ({
-  cn: (...args: any[]) => args.filter(Boolean).join(' '),
+  cn: (...args: string[]) => args.filter(Boolean).join(' '),
   text: {
     label2: 'text-label2',
   },

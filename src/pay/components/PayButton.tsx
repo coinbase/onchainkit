@@ -57,11 +57,11 @@ export function PayButton({
     >
       <div className="flex items-center justify-center whitespace-nowrap">
         {isLoading ? (
-          <Spinner className="w-5 h-5" />
+          <Spinner className="h-5 w-5" />
         ) : (
           <>
             {shouldRenderIcon && (
-              <div className="w-5 h-5 mr-2 flex items-center justify-center shrink-0">
+              <div className="mr-2 flex h-5 w-5 shrink-0 items-center justify-cente">
                 {iconSvg}
               </div>
             )}
