@@ -22,14 +22,7 @@ import {
 } from '../constants';
 import { useCommerceContracts } from '../hooks/useCommerceContracts';
 import { useLifecycleStatus } from '../hooks/useLifecycleStatus';
-import type { LifecycleStatus } from '../types';
-
-type PayContextType = {
-  errorMessage?: string;
-  lifecycleStatus?: LifecycleStatus;
-  onSubmit: () => void;
-  updateLifecycleStatus: (status: LifecycleStatus) => void;
-};
+import type { PayContextType, PayProviderReact } from '../types';
 
 const emptyContext = {} as PayContextType;
 export const PayContext = createContext<PayContextType>(emptyContext);
@@ -42,21 +35,12 @@ export function usePayContext() {
   return context;
 }
 
-type PayProviderProps = {
-  chargeHandler?: () => Promise<string>;
-  children: React.ReactNode;
-  className?: string;
-  onStatus?: (status: LifecycleStatus) => void;
-  productId?: string;
-};
-
 export function PayProvider({
   chargeHandler,
   children,
-  className,
   onStatus,
   productId,
-}: PayProviderProps) {
+}: PayProviderReact) {
   // Core hooks
   const { address, chainId, isConnected } = useAccount();
   const { connectAsync, connectors } = useConnect();
@@ -149,6 +133,7 @@ export function PayProvider({
     });
   }, [chargeId, receipt, updateLifecycleStatus]);
 
+  // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO Refactor this component to deprecate funding flow
   const handleSubmit = useCallback(async () => {
     try {
       // Open Coinbase Commerce receipt

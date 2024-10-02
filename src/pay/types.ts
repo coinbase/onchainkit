@@ -85,6 +85,20 @@ export type LifecycleStatusUpdate = LifecycleStatus extends infer T
     : never
   : never;
 
+export type PayContextType = {
+  errorMessage?: string;
+  lifecycleStatus?: LifecycleStatus;
+  onSubmit: () => void;
+  updateLifecycleStatus: (status: LifecycleStatus) => void;
+};
+
+export type PayProviderReact = {
+  chargeHandler?: () => Promise<string>;
+  children: React.ReactNode;
+  onStatus?: (status: LifecycleStatus) => void;
+  productId?: string;
+};
+
 export type UseCommerceContractsParams = {
   chargeHandler?: () => Promise<string>;
   productId?: string;
