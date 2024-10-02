@@ -10,11 +10,11 @@ import IdentityDemo from './demo/Identity';
 import SwapDemo from './demo/Swap';
 import SwapDefaultDemo from './demo/SwapDefault';
 import TransactionDemo from './demo/Transaction';
+import TransactionDefaultDemo from './demo/TransactionDefault';
 import WalletDemo from './demo/Wallet';
 import WalletDefaultDemo from './demo/WalletDefault';
 import { ActiveComponent } from './form/active-component';
 import { TransactionOptions } from './form/transaction-options';
-import { TransactionDefaultDemo } from './demo/TransactionDefault';
 
 function Demo() {
   const { activeComponent } = useContext(AppContext);
