@@ -1,9 +1,17 @@
-import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { afterEach, beforeEach, describe, expect, it, vi, Mock } from 'vitest';
+import type React from 'react';
+import {
+  type Mock,
+  afterEach,
+  beforeEach,
+  describe,
+  expect,
+  it,
+  vi,
+} from 'vitest';
+import { useIsMounted } from '../../useIsMounted';
 import { Pay } from './Pay';
 import { PayProvider } from './PayProvider';
-import { useIsMounted } from '../../useIsMounted';
 
 function mock<T>(func: T) {
   return func as Mock;
@@ -17,7 +25,7 @@ vi.mock('./PayProvider', () => ({
     }: {
       children: React.ReactNode;
       className?: string;
-    }) => <div data-testid="pay-provider">{children}</div>
+    }) => <div data-testid="pay-provider">{children}</div>,
   ),
 }));
 
@@ -44,7 +52,7 @@ describe('Pay', () => {
     render(
       <Pay className="test-class">
         <div>Test Child</div>
-      </Pay>
+      </Pay>,
     );
     expect(screen.getByText('Test Child')).toBeDefined();
   });
@@ -53,7 +61,7 @@ describe('Pay', () => {
     render(
       <Pay className="test-class">
         <div>Test Child</div>
-      </Pay>
+      </Pay>,
     );
     const container = screen.getByTestId('pay-provider')
       .firstChild as HTMLElement;
@@ -72,7 +80,7 @@ describe('Pay', () => {
         productId="test-product"
       >
         <div>Test Child</div>
-      </Pay>
+      </Pay>,
     );
     expect(PayProvider).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -81,7 +89,7 @@ describe('Pay', () => {
         onStatus,
         productId: 'test-product',
       }),
-      expect.anything()
+      expect.anything(),
     );
   });
 
@@ -90,7 +98,7 @@ describe('Pay', () => {
     const { container } = render(
       <Pay>
         <div>Test Child</div>
-      </Pay>
+      </Pay>,
     );
     expect(container.firstChild).toBeNull();
   });
