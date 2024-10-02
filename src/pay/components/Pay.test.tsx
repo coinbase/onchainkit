@@ -11,7 +11,6 @@ import {
 } from 'vitest';
 import { useIsMounted } from '../../useIsMounted';
 import { Pay } from './Pay';
-import { PayProvider } from './PayProvider';
 
 function mock<T>(func: T) {
   return func as Mock;
@@ -46,7 +45,7 @@ describe('Pay', () => {
     render(
       <Pay className="test-class">
         <div>Test Child</div>
-      </Pay>
+      </Pay>,
     );
     expect(screen.getByText('Test Child')).toBeDefined();
   });
@@ -55,7 +54,7 @@ describe('Pay', () => {
     render(
       <Pay className="test-class">
         <div>Test Child</div>
-      </Pay>
+      </Pay>,
     );
     const container = screen.getByTestId('pay-provider')
       .firstChild as HTMLElement;
@@ -68,7 +67,7 @@ describe('Pay', () => {
     const { container } = render(
       <Pay>
         <div>Test Child</div>
-      </Pay>
+      </Pay>,
     );
     expect(container.firstChild).toBeNull();
   });
