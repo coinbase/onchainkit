@@ -16,6 +16,8 @@ export enum OnchainKitComponent {
   TransactionDefault = 'transaction-default',
   Wallet = 'wallet',
   WalletDefault = 'wallet-default',
+  NftView = 'nft-view',
+  NftMint = 'nft-mint',
 }
 
 export enum TransactionTypes {
@@ -57,6 +59,8 @@ type State = {
   setComponentTheme: (theme: ComponentTheme) => void;
   componentMode: ComponentMode;
   setComponentMode: (mode: ComponentMode) => void;
+  nftToken?: string;
+  setNftToken: (nftToken: string) => void;
 };
 
 const defaultState: State = {
@@ -66,6 +70,7 @@ const defaultState: State = {
   setComponentTheme: () => {},
   componentMode: 'auto',
   setComponentMode: () => {},
+  setNftToken: () => {},
 };
 
 export const AppContext = createContext(defaultState);
@@ -88,6 +93,9 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     useState<ComponentTheme>('none');
   const [componentMode, setComponentModeState] =
     useState<ComponentMode>('auto');
+  const [nftToken, setNftTokenState] = useState<string>(
+    '0x1D6b183bD47F914F9f1d3208EDCF8BefD7F84E63:1',
+  );
 
   // Load initial values from localStorage
   // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO Refactor this component
@@ -104,6 +112,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     const storedComponentMode = localStorage.getItem(
       'componentMode',
     ) as ComponentMode;
+    const storedNftToken = localStorage.getItem('nftToken');
 
     if (storedActiveComponent) {
       setActiveComponent(storedActiveComponent as OnchainKitComponent);
@@ -128,6 +137,9 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     }
     if (storedComponentMode) {
       setComponentMode(storedComponentMode);
+    }
+    if (storedNftToken) {
+      setNftTokenState(storedNftToken);
     }
   }, []);
 
@@ -195,6 +207,12 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     setComponentModeState(mode);
   };
 
+  const setNftToken = (nftToken: string) => {
+    console.log('NFT Token changed:', nftToken);
+    localStorage.setItem('nftToken', nftToken);
+    setNftTokenState(nftToken);
+  };
+
   return (
     <AppContext.Provider
       value={{
@@ -215,6 +233,8 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         setTransactionType,
         defaultMaxSlippage,
         setDefaultMaxSlippage,
+        nftToken,
+        setNftToken,
       }}
     >
       <OnchainKitProvider
