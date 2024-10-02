@@ -7,7 +7,7 @@ export function PayStatus({ className }: { className?: string }) {
   return (
     <div className={cn('flex justify-between', className)}>
       <div className={cn(text.label2, className)}>
-        <p className={labelClassName}>{label}</p>
+        <p className={cn(labelClassName, className)}>{label}</p>
       </div>
     </div>
   );
