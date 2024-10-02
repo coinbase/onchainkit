@@ -273,6 +273,72 @@ import { Transaction, TransactionButton, TransactionSponsor } from "@coinbase/on
 
 ::::
 
+### Using `calls` instead of `contracts`
+
+In addition to the `contracts` prop, the `<Transaction />` component also accepts a `calls` prop. This provides an alternative way to construct transactions. When using `calls`, you should not pass anything for the `contracts` prop.
+
+Using `calls` instead of `contracts` is a great way to bundle several operations into a single transaction for smart wallets. Externally Owned Accounts (EOAs) such as the Coinbase Wallet extension will execute each call one-at-a-time with a separate pop-up for each.
+
+The `calls` prop is an array of `Call` objects, where each `Call` is defined as:
+
+```tsx twoslash
+// @noErrors: 2304 Cannot find name 'Hex'
+type Call = {
+  to: Hex;
+  data?: Hex;
+  value?: bigint;
+};
+```
+
+- `to`: The address you are executing the call on
+- `data`: The encoded function data to pass along in the call (optional)
+- `value`: The amount of ether to send along with the call, denominated in wei (optional)
+
+Here's an example of how to use the `calls` prop with the Transaction component:
+
+```tsx twoslash
+import { Transaction, TransactionButton } from '@coinbase/onchainkit/transaction';
+import { encodeFunctionData, Hex } from 'viem';
+import { baseSepolia } from 'wagmi/chains';
+
+const clickContractAddress: Hex = '0x67c97D1FB8184F038592b2109F854dfb09C77C75';
+const clickContractAbi = [
+  {
+    type: 'function',
+    name: 'click',
+    inputs: [],
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+] as const;
+
+const encodedClickData = encodeFunctionData({
+  abi: clickContractAbi,
+  functionName: 'click',
+});
+
+const calls = [
+  {
+    to: clickContractAddress,
+    data: encodedClickData,
+  },
+];
+
+export default function TransactionWithCalls() {
+  return (
+    <Transaction
+      chainId={baseSepolia.id}
+      calls={calls}
+      onStatus={(status) => console.log('Transaction status:', status)}
+    >
+      <TransactionButton />
+    </Transaction>
+  );
+}
+```
+
+In this example, we're creating a single call to the `click` function of our contract. The `encodeFunctionData` utility from `viem` is used to encode the function call data.
+
 ## Components
 
 <div className="flex flex-col max-w-[648px] gap-6">
