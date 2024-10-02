@@ -92,7 +92,9 @@ describe('useCommerceContracts', () => {
   it('should handle error during contract retrieval', async () => {
     const mockError = new Error('Test error');
     (handlePayRequest as Mock).mockRejectedValue(mockError);
-
+    const consoleError = vi
+      .spyOn(console, 'error')
+      .mockImplementation(() => {}); // Suppress error logging
     const { result } = renderHook(() => useCommerceContracts({}));
     const callback = result.current;
     const response = await callback(mockAddress);
@@ -103,5 +105,6 @@ describe('useCommerceContracts', () => {
       insufficientBalance: false,
       error: mockError,
     });
+    consoleError.mockRestore();
   });
 });

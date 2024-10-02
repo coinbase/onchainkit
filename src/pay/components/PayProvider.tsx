@@ -76,7 +76,9 @@ export function PayProvider({
     chargeHandler,
     productId,
   });
+
   const { status, writeContractsAsync } = useWriteContracts({
+    /* v8 ignore start */
     mutation: {
       onSuccess: (id) => {
         setTransactionId(id);
@@ -95,10 +97,12 @@ export function PayProvider({
         });
       },
     },
+    /* v8 ignore stop */
   });
   const { data } = useCallsStatus({
     id: transactionId,
     query: {
+      /* v8 ignore next 3 */
       refetchInterval: (query) => {
         return query.state.data?.status === 'CONFIRMED' ? false : 1000;
       },
@@ -185,7 +189,8 @@ export function PayProvider({
         connectedChainId = _connectedChainId;
       }
 
-      // This shouldn't happen, but to make Typescript happy
+      // This shouldn't ever happen, but added this to make Typescript happy
+      /* v8 ignore next 3 */
       if (!connectedAddress) {
         return;
       }
@@ -232,14 +237,14 @@ export function PayProvider({
       }
 
       // Contracts weren't successfully fetched from `fetchContracts`
-      if (!contracts) {
+      if (!contracts || contracts.length === 0) {
         setErrorMessage(GENERIC_ERROR_MESSAGE);
         updateLifecycleStatus({
           statusName: PAY_LIFECYCLESTATUS.ERROR,
           statusData: {
             code: PayErrorCode.UNEXPECTED_ERROR,
             error: 'Contracts are not available',
-            message: GENERIC_ERROR_MESSAGE,
+            message: 'Contracts are not available',
           },
         });
         return;
