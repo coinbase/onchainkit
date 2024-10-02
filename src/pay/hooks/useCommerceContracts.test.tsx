@@ -46,8 +46,8 @@ describe('useCommerceContracts', () => {
     ];
     (handlePayRequest as Mock).mockResolvedValue(mockHandlePayRequestResponse);
     (getCommerceContracts as Mock).mockReturnValue(mockCommerceContracts);
-    (getUSDCBalance as Mock).mockResolvedValue('15.000000');
-    (formatUnits as Mock).mockReturnValue('10.000000');
+    (getUSDCBalance as Mock).mockResolvedValue('15');
+    (formatUnits as Mock).mockReturnValue('10');
     const { result } = renderHook(() =>
       useCommerceContracts({
         address: mockAddress,
@@ -79,8 +79,8 @@ describe('useCommerceContracts', () => {
       id: 'charge123',
       callData: { feeAmount: '5000000', recipientAmount: '5000000' },
     });
-    (getUSDCBalance as Mock).mockResolvedValue('5.000000');
-    (formatUnits as Mock).mockReturnValue('10.000000');
+    (getUSDCBalance as Mock).mockResolvedValue('5');
+    (formatUnits as Mock).mockReturnValue('10');
     const { result } = renderHook(() =>
       useCommerceContracts({
         address: mockAddress,
