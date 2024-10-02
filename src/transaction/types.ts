@@ -116,6 +116,14 @@ export type SendSingleTransactionParams = {
 /**
  * Note: exported as public Type
  */
+
+export type TransactionDefaultReact = {
+  disabled?: boolean;
+} & Omit<TransactionReact, 'children'>;
+
+/**
+ * Note: exported as public Type
+ */
 export type TransactionError = {
   code: string; // The error code representing the type of transaction error.
   error: string; // The error message providing details about the transaction error.

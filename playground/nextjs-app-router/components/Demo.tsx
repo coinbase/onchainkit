@@ -14,6 +14,7 @@ import WalletDemo from './demo/Wallet';
 import WalletDefaultDemo from './demo/WalletDefault';
 import { ActiveComponent } from './form/active-component';
 import { TransactionOptions } from './form/transaction-options';
+import { TransactionDefaultDemo } from './demo/TransactionDefault';
 
 function Demo() {
   const { activeComponent } = useContext(AppContext);
@@ -70,6 +71,10 @@ function Demo() {
 
     if (activeComponent === OnchainKitComponent.WalletDefault) {
       return <WalletDefaultDemo />;
+    }
+    
+    if (activeComponent === OnchainKitComponent.TransactionDefault) {
+      return <TransactionDefaultDemo />;
     }
 
     return <></>;
