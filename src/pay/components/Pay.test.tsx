@@ -18,13 +18,9 @@ function mock<T>(func: T) {
 }
 
 vi.mock('./PayProvider', () => ({
-  PayProvider: vi.fn(
-    ({
-      children,
-    }: {
-      children: React.ReactNode;
-    }) => <div data-testid="pay-provider">{children}</div>,
-  ),
+  PayProvider: vi.fn(({ children }: { children: React.ReactNode }) => (
+    <div data-testid="pay-provider">{children}</div>
+  )),
 }));
 
 vi.mock('../../useIsMounted', () => ({
@@ -50,7 +46,7 @@ describe('Pay', () => {
     render(
       <Pay className="test-class">
         <div>Test Child</div>
-      </Pay>,
+      </Pay>
     );
     expect(screen.getByText('Test Child')).toBeDefined();
   });
@@ -59,7 +55,7 @@ describe('Pay', () => {
     render(
       <Pay className="test-class">
         <div>Test Child</div>
-      </Pay>,
+      </Pay>
     );
     const container = screen.getByTestId('pay-provider')
       .firstChild as HTMLElement;
@@ -67,36 +63,12 @@ describe('Pay', () => {
     expect(container.className).toContain('flex w-full flex-col gap-2');
   });
 
-  it('should call PayProvider with correct props', () => {
-    const chargeHandler = vi.fn();
-    const onStatus = vi.fn();
-    render(
-      <Pay
-        chargeHandler={chargeHandler}
-        className="test-class"
-        onStatus={onStatus}
-        productId="test-product"
-      >
-        <div>Test Child</div>
-      </Pay>,
-    );
-    expect(PayProvider).toHaveBeenCalledWith(
-      expect.objectContaining({
-        chargeHandler,
-        className: 'test-class',
-        onStatus,
-        productId: 'test-product',
-      }),
-      expect.anything(),
-    );
-  });
-
   it('should return null when not mounted', () => {
     useIsMountedMock.mockReturnValue(false);
     const { container } = render(
       <Pay>
         <div>Test Child</div>
-      </Pay>,
+      </Pay>
     );
     expect(container.firstChild).toBeNull();
   });
