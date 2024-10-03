@@ -59,7 +59,7 @@ function Demo() {
     if (activeComponent === OnchainKitComponent.Swap) {
       return <SwapDemo />;
     }
-    
+
     if (activeComponent === OnchainKitComponent.SwapDefault) {
       return <SwapDefaultDemo />;
     }
