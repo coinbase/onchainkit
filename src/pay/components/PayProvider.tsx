@@ -13,6 +13,7 @@ import { useWriteContracts } from 'wagmi/experimental';
 import { useCallsStatus } from 'wagmi/experimental';
 import { useValue } from '../../internal/hooks/useValue';
 import { isUserRejectedRequestError } from '../../transaction/utils/isUserRejectedRequestError';
+import { useIsWalletACoinbaseSmartWallet } from '../../wallet/hooks/useIsWalletACoinbaseSmartWallet';
 import {
   GENERIC_ERROR_MESSAGE,
   NO_CONNECTED_ADDRESS_ERROR,
@@ -53,6 +54,7 @@ export function PayProvider({
   const [chargeId, setChargeId] = useState('');
   const [transactionId, setTransactionId] = useState('');
   const [errorMessage, setErrorMessage] = useState<string>('');
+  const isSmartWallet = useIsWalletACoinbaseSmartWallet();
 
   // Component lifecycle
   const { lifecycleStatus, updateLifecycleStatus } = useLifecycleStatus({
@@ -166,14 +168,11 @@ export function PayProvider({
 
       let connectedAddress = address;
       let connectedChainId = chainId;
-      if (!isConnected) {
+      if (!isConnected || !isSmartWallet) {
         // Prompt for wallet connection
         // This is defaulted to Coinbase Smart Wallet
         const { accounts, chainId: _connectedChainId } = await connectAsync({
-          connector:
-            connectors.find(
-              (connector) => connector.id === 'coinbaseWalletSDK',
-            ) || coinbaseWallet({ preference: 'smartWalletOnly' }),
+          connector: coinbaseWallet({ preference: 'smartWalletOnly' }),
         });
         connectedAddress = accounts[0];
         connectedChainId = _connectedChainId;

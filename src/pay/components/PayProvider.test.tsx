@@ -12,6 +12,7 @@ import { useAccount, useConnect, useSwitchChain } from 'wagmi';
 import { useWaitForTransactionReceipt } from 'wagmi';
 import { useCallsStatus } from 'wagmi/experimental';
 import { useWriteContracts } from 'wagmi/experimental';
+import { useIsWalletACoinbaseSmartWallet } from '../../wallet/hooks/useIsWalletACoinbaseSmartWallet';
 import { GENERIC_ERROR_MESSAGE } from '../constants';
 import { useCommerceContracts } from '../hooks/useCommerceContracts';
 import { PayProvider, usePayContext } from './PayProvider';
@@ -30,6 +31,10 @@ vi.mock('wagmi/experimental', () => ({
 
 vi.mock('../hooks/useCommerceContracts', () => ({
   useCommerceContracts: vi.fn(),
+}));
+
+vi.mock('../../wallet/hooks/useIsWalletACoinbaseSmartWallet', () => ({
+  useIsWalletACoinbaseSmartWallet: vi.fn(),
 }));
 
 const windowOpenMock = vi.fn();
@@ -77,6 +82,7 @@ describe('PayProvider', () => {
     (useCommerceContracts as Mock).mockReturnValue(() =>
       Promise.resolve({ contracts: [{}], insufficientBalance: false }),
     );
+    (useIsWalletACoinbaseSmartWallet as Mock).mockReturnValue(true);
   });
 
   afterEach(() => {
@@ -207,7 +213,7 @@ describe('PayProvider', () => {
     });
   });
 
-  it('should default to coinbase wallet in connection request', async () => {
+  it('should default to coinbase wallet in connection request if not connected', async () => {
     (useAccount as Mock).mockReturnValue({
       address: undefined,
       chainId: undefined,
@@ -219,6 +225,19 @@ describe('PayProvider', () => {
         .mockResolvedValue({ accounts: ['0x123'], chainId: 1 }),
       connectors: [{ id: 'not-coinbase' }],
     });
+    render(
+      <PayProvider>
+        <TestComponent />
+      </PayProvider>,
+    );
+    fireEvent.click(screen.getByText('Submit'));
+    await waitFor(() => {
+      expect(useConnect().connectAsync).toHaveBeenCalled();
+    });
+  });
+
+  it('should default to coinbase wallet in connection request if not smart wallet', async () => {
+    (useIsWalletACoinbaseSmartWallet as Mock).mockReturnValue(false);
     render(
       <PayProvider>
         <TestComponent />
