@@ -299,6 +299,15 @@ export type SwapReact = {
 /**
  * Note: exported as public Type
  */
+export type SwapDefaultReact = {
+  to: Token[]; // Swappable tokens
+  from: Token[]; // Swappable tokens
+  disabled?: boolean; // Disables swap button
+} & Omit<SwapReact, 'children'>;
+
+/**
+ * Note: exported as public Type
+ */
 export type SwapSettingsReact = {
   children: ReactNode;
   className?: string; // Optional className override for top div element.

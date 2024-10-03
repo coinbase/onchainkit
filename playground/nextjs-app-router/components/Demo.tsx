@@ -8,6 +8,7 @@ import { useContext, useEffect, useState } from 'react';
 import FundDemo from './demo/Fund';
 import IdentityDemo from './demo/Identity';
 import SwapDemo from './demo/Swap';
+import SwapDefaultDemo from './demo/SwapDefault';
 import TransactionDemo from './demo/Transaction';
 import WalletDemo from './demo/Wallet';
 import { ActiveComponent } from './form/active-component';
@@ -59,6 +60,10 @@ function Demo() {
 
     if (activeComponent === OnchainKitComponent.Wallet) {
       return <WalletDemo />;
+    }
+
+    if (activeComponent === OnchainKitComponent.SwapDefault) {
+      return <SwapDefaultDemo />;
     }
 
     return <></>;
