@@ -97,6 +97,7 @@ export function TransactionButton({
       onClick={handleSubmit}
       type="button"
       disabled={isDisabled}
+      data-testid="ockTransactionButton_Button"
     >
       {displaySpinner ? (
         <Spinner />

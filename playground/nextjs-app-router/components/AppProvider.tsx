@@ -11,6 +11,7 @@ export enum OnchainKitComponent {
   Swap = 'swap',
   SwapDefault = 'swap-default',
   Transaction = 'transaction',
+  TransactionDefault = 'transaction-default',
   Wallet = 'wallet',
   WalletDefault = 'wallet-default',
 }

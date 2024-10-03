@@ -10,6 +10,7 @@ import IdentityDemo from './demo/Identity';
 import SwapDemo from './demo/Swap';
 import SwapDefaultDemo from './demo/SwapDefault';
 import TransactionDemo from './demo/Transaction';
+import TransactionDefaultDemo from './demo/TransactionDefault';
 import WalletDemo from './demo/Wallet';
 import WalletDefaultDemo from './demo/WalletDefault';
 import { ActiveComponent } from './form/active-component';
@@ -70,6 +71,10 @@ function Demo() {
 
     if (activeComponent === OnchainKitComponent.WalletDefault) {
       return <WalletDefaultDemo />;
+    }
+
+    if (activeComponent === OnchainKitComponent.TransactionDefault) {
+      return <TransactionDefaultDemo />;
     }
 
     return <></>;

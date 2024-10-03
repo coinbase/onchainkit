@@ -30,6 +30,9 @@ export function ActiveComponent() {
           <SelectItem value={OnchainKitComponent.Transaction}>
             Transaction
           </SelectItem>
+          <SelectItem value={OnchainKitComponent.TransactionDefault}>
+            TransactionDefault
+          </SelectItem>
           <SelectItem value={OnchainKitComponent.Swap}>Swap</SelectItem>
           <SelectItem value={OnchainKitComponent.SwapDefault}>
             SwapDefault

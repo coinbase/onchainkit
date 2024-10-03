@@ -18,7 +18,8 @@ export function TransactionOptions() {
     useContext(AppContext);
 
   return (
-    activeComponent === OnchainKitComponent.Transaction && (
+    (activeComponent === OnchainKitComponent.Transaction ||
+      activeComponent === OnchainKitComponent.TransactionDefault) && (
       <div className="grid gap-2">
         <Label htmlFor="chain">Transaction Options</Label>
         <Select
