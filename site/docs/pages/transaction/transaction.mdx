@@ -7,6 +7,7 @@ import { Avatar, Name } from '@coinbase/onchainkit/identity';
 import { 
   Transaction, 
   TransactionButton,
+  TransactionDefault,
   TransactionSponsor,
   TransactionStatus,
   TransactionStatusAction,
@@ -29,6 +30,57 @@ The `<Transaction />` components provide a high-level wrap around the entire tra
 It handles the transaction lifecycle, including gas estimation, fee sponsorship, and status updates.
 
 Before using them, ensure you've completed all [Getting Started steps](/getting-started).
+
+
+## Quick start
+
+The `TransactionDefault` component is a simplified version of the `Transaction` component, designed to streamline the integration process for developers. Instead of manually defining each subcomponent and prop, developers can use this shorthand version which renders our suggested implementation of the component and includes the `TransactionButton` and `TransactionToast` components.
+
+If you'd like more customization, follow the implementation guide for our `Swap` component below.
+
+
+```tsx twoslash
+// @noErrors: 2580 2304 - Cannot find name 'process', Cannot find name 'contracts'
+import { TransactionDefault } from "@coinbase/onchainkit/transaction"
+// ---cut-before---
+// ommited for brevity
+<TransactionDefault contracts={contracts} />
+```
+
+<App>
+  <TransactionWrapper>
+    {({ address, contracts, onStatus }) => {
+      const capabilities = {
+        paymasterService: {
+          url: PAYMASTER_AND_BUNDLER_ENDPOINT,
+        },
+      }
+      if (address) {
+        return (
+          <TransactionDefault
+            capabilities={capabilities}
+            chainId={BASE_SEPOLIA_CHAIN_ID}
+            contracts={contracts}
+            onStatus={onStatus} 
+          />
+        )
+      } else {
+        return (
+          <Wallet>
+            <ConnectWallet>
+              <Avatar className="h-6 w-6" />
+              <Name />
+            </ConnectWallet>
+          </Wallet>
+        )
+      }
+    }}
+  </TransactionWrapper>
+</App>
+
+### Props
+
+[`TransactionDefaultReact`](/transaction/types#transactiondefaultreact)
 
 ## Walkthrough
 
@@ -367,6 +419,7 @@ The components are designed to work together hierarchically. For each component,
 
 - [`TransactionButtonReact`](/transaction/types#transactionbuttonreact)
 - [`TransactionError`](/transaction/types#transactionerror)
+- [`TransactionDefaultReact`](/transaction/types#transactiondefaultreact)
 - [`TransactionReact`](/transaction/types#transactionreact)
 - [`TransactionSponsorReact`](/transaction/types#transactionsponsorreact)
 - [`TransactionStatusReact`](/transaction/types#transactionstatusreact)
