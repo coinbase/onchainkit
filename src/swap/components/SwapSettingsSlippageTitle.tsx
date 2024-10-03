@@ -1,4 +1,4 @@
-import { cn } from '../../styles/theme';
+import { cn, color } from '../../styles/theme';
 import type { SwapSettingsSlippageTitleReact } from '../types';
 
 export function SwapSettingsSlippageTitle({
@@ -8,7 +8,8 @@ export function SwapSettingsSlippageTitle({
   return (
     <h3
       className={cn(
-        '--text-ock-foreground mb-2 font-semibold text-base leading-normal',
+        color.foreground,
+        'mb-2 font-semibold text-base leading-normal',
         className,
       )}
     >

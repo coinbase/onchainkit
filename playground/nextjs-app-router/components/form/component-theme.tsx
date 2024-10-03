@@ -1,5 +1,3 @@
-import React, { useContext } from 'react';
-import { AppContext } from '../AppProvider';
 import { Label } from '@/components/ui/label';
 import {
   Select,
@@ -8,6 +6,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { useContext } from 'react';
+import { AppContext } from '../AppProvider';
 
 type Theme = 'light' | 'dark' | 'disco';
 

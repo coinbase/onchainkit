@@ -28,6 +28,9 @@ export const config = createConfig({
 
 const queryClient = new QueryClient();
 
+// TODO: Grab input from Component Theme and update the config. 
+// Also will need to update ./site to do this otherwise the current dark and light mode switch will not update the components.
+
 function OnchainProviders({ children }: { children: ReactNode }) {
   return (
     <WagmiProvider config={config} reconnectOnMount={false}>
@@ -36,7 +39,7 @@ function OnchainProviders({ children }: { children: ReactNode }) {
           apiKey={ENVIRONMENT_VARIABLES[ENVIRONMENT.API_KEY]}
           chain={base}
           config={{
-              theme: 'disco', // 'light', 'dark', 'disco'
+            theme: 'dark', // 'light', 'dark', 'disco'
           }}
           projectId={ENVIRONMENT_VARIABLES[ENVIRONMENT.PROJECT_ID]}
           schemaId="0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9"

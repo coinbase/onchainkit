@@ -20,8 +20,10 @@ export function Transaction({
   if (!isMounted) {
     return null;
   }
-  const { chain, config: { theme: componentTheme} } = useOnchainKit();
-
+  const {
+    chain,
+    config: { theme: componentTheme },
+  } = useOnchainKit();
 
   // If chainId is not provided,
   // use the default chainId from the OnchainKit context
@@ -37,7 +39,9 @@ export function Transaction({
       onStatus={onStatus}
       onSuccess={onSuccess}
     >
-      <div className={cn(componentTheme, className, 'flex w-full flex-col gap-2')}>
+      <div
+        className={cn(componentTheme, className, 'flex w-full flex-col gap-2')}
+      >
         {children}
       </div>
     </TransactionProvider>

@@ -2,6 +2,7 @@ import { Children, useMemo } from 'react';
 import { findComponent } from '../../internal/utils/findComponent';
 import { background, cn, text } from '../../styles/theme';
 import { useIsMounted } from '../../useIsMounted';
+import { useOnchainKit } from '../../useOnchainKit';
 import { FALLBACK_DEFAULT_MAX_SLIPPAGE } from '../constants';
 import type { SwapReact } from '../types';
 import { SwapAmountInput } from './SwapAmountInput';
@@ -25,6 +26,10 @@ export function Swap({
   onSuccess,
   title = 'Swap',
 }: SwapReact) {
+  const {
+    config: { theme: componentTheme },
+  } = useOnchainKit();
+
   const {
     inputs,
     toggleButton,
@@ -62,6 +67,7 @@ export function Swap({
     >
       <div
         className={cn(
+          componentTheme,
           background.default,
           'flex w-[500px] flex-col rounded-xl px-6 pt-6 pb-4',
           className,
@@ -69,10 +75,7 @@ export function Swap({
         data-testid="ockSwap_Container"
       >
         <div className="mb-4 flex items-center justify-between">
-          <h3
-            className={cn(text.title3, 'text-inherit')}
-            data-testid="ockSwap_Title"
-          >
+          <h3 className={cn(text.title3)} data-testid="ockSwap_Title">
             {title}
           </h3>
           {swapSettings}

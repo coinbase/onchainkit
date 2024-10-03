@@ -60,7 +60,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   const [walletType, setWalletTypeState] = useState<WalletPreference>();
   const [chainId, setChainIdState] = useState<number>();
   const [transactionType, setTransactionTypeState] = useState<TransactionTypes>(
-    TransactionTypes.Contracts
+    TransactionTypes.Contracts,
   );
   const [paymasters, setPaymastersState] =
     useState<Record<number, Paymaster>>();
@@ -142,7 +142,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   const setDefaultMaxSlippage = (newDefaultMaxSlippage: number) => {
     localStorage.setItem(
       'defaultMaxSlippage',
-      newDefaultMaxSlippage.toString()
+      newDefaultMaxSlippage.toString(),
     );
     setDefaultMaxSlippageState(newDefaultMaxSlippage);
   };

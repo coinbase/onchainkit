@@ -20,7 +20,7 @@ export const ONCHAIN_KIT_CONFIG: OnchainKitConfig = {
  * This is powerful when you use OnchainKit utilities outside of the React context.
  */
 export const getOnchainKitConfig = <K extends keyof typeof ONCHAIN_KIT_CONFIG>(
-  configName: K
+  configName: K,
 ): (typeof ONCHAIN_KIT_CONFIG)[K] => {
   return ONCHAIN_KIT_CONFIG[configName];
 };

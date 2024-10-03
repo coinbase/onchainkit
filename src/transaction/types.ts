@@ -17,7 +17,6 @@ import {
   TRANSACTION_TYPE_CALLS,
   TRANSACTION_TYPE_CONTRACTS,
 } from './constants';
-import { ComponentTheme } from '../../src/types';
 
 export type Call = { to: Hex; data?: Hex; value?: bigint };
 
