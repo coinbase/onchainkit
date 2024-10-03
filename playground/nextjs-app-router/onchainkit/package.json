@@ -47,12 +47,6 @@
       "import": "./esm/frame/index.js",
       "default": "./esm/frame/index.js"
     },
-    "./fund": {
-      "types": "./esm/fund/index.d.ts",
-      "module": "./esm/fund/index.js",
-      "import": "./esm/fund/index.js",
-      "default": "./esm/fund/index.js"
-    },
     "./identity": {
       "types": "./esm/identity/index.d.ts",
       "module": "./esm/identity/index.js",
