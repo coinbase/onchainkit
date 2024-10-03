@@ -22,7 +22,7 @@ export function Pay({
       onStatus={onStatus}
       productId={productId}
     >
-      <div className={cn(className, 'flex w-full flex-col gap-2')}>
+      <div className={cn('flex w-full flex-col gap-2', className)}>
         {children}
       </div>
     </PayProvider>

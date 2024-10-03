@@ -25,10 +25,5 @@ describe('PayStatus', () => {
 
     const outerDiv = labelElement.closest('div')?.parentElement;
     expect(outerDiv?.className).toContain('flex justify-between custom-class');
-
-    const innerDiv = labelElement.parentElement;
-    expect(innerDiv?.className).toContain('text-label2 custom-class');
-
-    expect(labelElement.className).toContain('test-label-class custom-class');
   });
 });

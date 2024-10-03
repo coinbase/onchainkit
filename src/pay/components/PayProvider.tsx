@@ -13,7 +13,12 @@ import { useWriteContracts } from 'wagmi/experimental';
 import { useCallsStatus } from 'wagmi/experimental';
 import { useValue } from '../../internal/hooks/useValue';
 import { isUserRejectedRequestError } from '../../transaction/utils/isUserRejectedRequestError';
-import { GENERIC_ERROR_MESSAGE, USER_REJECTED_ERROR } from '../constants';
+import {
+  GENERIC_ERROR_MESSAGE,
+  NO_CONNECTED_ADDRESS_ERROR,
+  NO_CONTRACTS_ERROR,
+  USER_REJECTED_ERROR,
+} from '../constants';
 import {
   PAY_INSUFFICIENT_BALANCE_ERROR,
   PAY_INSUFFICIENT_BALANCE_ERROR_MESSAGE,
@@ -69,12 +74,12 @@ export function PayProvider({
       },
       onError: (e) => {
         const errorMessage = isUserRejectedRequestError(e)
-          ? 'Request denied.'
+          ? USER_REJECTED_ERROR
           : GENERIC_ERROR_MESSAGE;
         updateLifecycleStatus({
           statusName: PAY_LIFECYCLESTATUS.ERROR,
           statusData: {
-            code: 'PmUWCSh01',
+            code: PayErrorCode.USER_REJECTED_ERROR,
             error: e.message,
             message: errorMessage,
           },
@@ -174,11 +179,21 @@ export function PayProvider({
         connectedChainId = _connectedChainId;
       }
 
-      // This shouldn't ever happen, but added this to make Typescript happy
-      /* v8 ignore next 3 */
+      // This shouldn't ever happen, but to make Typescript happy
+      /* v8 ignore start */
       if (!connectedAddress) {
+        setErrorMessage(GENERIC_ERROR_MESSAGE);
+        updateLifecycleStatus({
+          statusName: PAY_LIFECYCLESTATUS.ERROR,
+          statusData: {
+            code: PayErrorCode.UNEXPECTED_ERROR,
+            error: NO_CONNECTED_ADDRESS_ERROR,
+            message: NO_CONNECTED_ADDRESS_ERROR,
+          },
+        });
         return;
       }
+      /* v8 ignore stop */
 
       // Fetch contracts
       const {
@@ -228,8 +243,8 @@ export function PayProvider({
           statusName: PAY_LIFECYCLESTATUS.ERROR,
           statusData: {
             code: PayErrorCode.UNEXPECTED_ERROR,
-            error: 'Contracts are not available',
-            message: 'Contracts are not available',
+            error: NO_CONTRACTS_ERROR,
+            message: NO_CONTRACTS_ERROR,
           },
         });
         return;
@@ -240,21 +255,25 @@ export function PayProvider({
         contracts,
       });
     } catch (error) {
-      if (
-        (error as Error).message?.includes('User denied connection request')
-      ) {
-        setErrorMessage(USER_REJECTED_ERROR);
-      } else {
-        setErrorMessage(GENERIC_ERROR_MESSAGE);
-        updateLifecycleStatus({
-          statusName: PAY_LIFECYCLESTATUS.ERROR,
-          statusData: {
-            code: PayErrorCode.UNEXPECTED_ERROR,
-            error: JSON.stringify(error),
-            message: GENERIC_ERROR_MESSAGE,
-          },
-        });
-      }
+      const isUserRejectedError = (error as Error).message?.includes(
+        'User denied connection request',
+      );
+      const errorCode = isUserRejectedError
+        ? PayErrorCode.USER_REJECTED_ERROR
+        : PayErrorCode.UNEXPECTED_ERROR;
+      const errorMessage = isUserRejectedError
+        ? USER_REJECTED_ERROR
+        : GENERIC_ERROR_MESSAGE;
+
+      setErrorMessage(errorMessage);
+      updateLifecycleStatus({
+        statusName: PAY_LIFECYCLESTATUS.ERROR,
+        statusData: {
+          code: errorCode,
+          error: JSON.stringify(error),
+          message: errorMessage,
+        },
+      });
     }
   }, [
     address,
