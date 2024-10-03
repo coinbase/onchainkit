@@ -1,5 +1,12 @@
 import { useCallback, useState } from 'react';
-import { background, border, cn, color, pressable } from '../../styles/theme';
+import {
+  background,
+  border,
+  cn,
+  color,
+  pressable,
+  text,
+} from '../../styles/theme';
 import type { SwapSettingsSlippageInputReact } from '../types';
 import { useSwapContext } from './SwapProvider';
 
@@ -70,6 +77,7 @@ export function SwapSettingsSlippageInput({
       className={cn(
         background.default,
         border.defaultActive,
+        border.radius,
         'flex items-center gap-2',
         className,
       )}
@@ -78,6 +86,7 @@ export function SwapSettingsSlippageInput({
         className={cn(
           background.default,
           border.defaultActive,
+          border.radius,
           'flex h-9 flex-1 rounded-xl border p-1',
         )}
       >
@@ -89,7 +98,9 @@ export function SwapSettingsSlippageInput({
             className={cn(
               pressable.default,
               color.foreground,
-              'flex-1 rounded-lg px-3 py-1 font-medium text-sm transition-colors',
+              text.label1,
+              border.radius,
+              'flex-1 px-3 py-1 transition-colors',
               // Highlight the button if it is selected
               slippageSetting === setting
                 ? cn(background.inverse, color.primary, pressable.shadow)
@@ -105,7 +116,8 @@ export function SwapSettingsSlippageInput({
         className={cn(
           background.default,
           border.defaultActive,
-          'flex h-9 w-24 items-center justify-between rounded-lg border px-2 py-1',
+          border.radius,
+          'flex h-9 w-24 items-center justify-between border px-2 py-1',
           slippageSetting === SLIPPAGE_SETTINGS.AUTO && 'opacity-50',
         )}
       >
@@ -120,7 +132,8 @@ export function SwapSettingsSlippageInput({
           disabled={slippageSetting === SLIPPAGE_SETTINGS.AUTO}
           className={cn(
             color.foreground,
-            'w-full flex-grow bg-transparent pl-1 font-normal text-sm leading-6 focus:outline-none',
+            text.label2,
+            'w-full flex-grow bg-transparent pl-1 font-normal leading-6 focus:outline-none',
             slippageSetting === SLIPPAGE_SETTINGS.AUTO && 'cursor-not-allowed',
           )}
         />
@@ -128,7 +141,8 @@ export function SwapSettingsSlippageInput({
           className={cn(
             background.default,
             color.foreground,
-            'ml-1 flex-shrink-0 font-normal text-sm leading-6',
+            text.label2,
+            'ml-1 flex-shrink-0 font-normal leading-6',
           )}
         >
           %

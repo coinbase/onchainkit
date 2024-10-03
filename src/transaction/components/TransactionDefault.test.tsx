@@ -37,6 +37,10 @@ vi.mock('./TransactionProvider', () => ({
   useTransactionContext: vi.fn(),
 }));
 
+vi.mock('../../useTheme', () => ({
+  useTheme: vi.fn(),
+}));
+
 describe('TransactionDefault Component', () => {
   const mockOnError = vi.fn();
   const mockOnStatus = vi.fn();

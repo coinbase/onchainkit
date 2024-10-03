@@ -3,7 +3,14 @@ import { TextInput } from '../../internal/components/TextInput';
 import { useValue } from '../../internal/hooks/useValue';
 import { getRoundedAmount } from '../../internal/utils/getRoundedAmount';
 import { isValidAmount } from '../../internal/utils/isValidAmount';
-import { background, cn, color, pressable, text } from '../../styles/theme';
+import {
+  background,
+  border,
+  cn,
+  color,
+  pressable,
+  text,
+} from '../../styles/theme';
 import { TokenChip, TokenSelectDropdown } from '../../token';
 import type { Token } from '../../token';
 import type { SwapAmountInputReact } from '../types';
@@ -75,8 +82,8 @@ export function SwapAmountInput({
     <div
       className={cn(
         background.alternate,
-        'box-border flex w-full flex-col items-start',
-        'h-[148px] rounded-md p-4',
+        border.radius,
+        'box-border flex h-[148px] w-full flex-col items-start p-4',
         className,
       )}
       data-testid="ockSwapAmountInput_Container"

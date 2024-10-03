@@ -7,65 +7,85 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export const text = {
-  body: 'font-sans text-ock-foreground text-base leading-normal',
-  caption: 'font-sans text-ock-foreground text-bold text-xs leading-4',
-  headline: 'font-bold text-ock-foreground font-sans text-base leading-normal',
-  label1: 'font-bold text-ock-foreground font-sans text-sm leading-5',
-  label2: 'font-sans text-ock-foreground text-sm leading-5',
-  legal: 'font-sans text-ock-foreground text-xs leading-4',
-  title3: 'font-bold text-ock-foreground font-display text-xl leading-7',
+  body: 'ock-font-family font-normal leading-normal',
+  caption: 'ock-font-family font-semibold text-xs leading-4',
+  headline: 'ock-font-family font-semibold leading-normal',
+  label1: 'ock-font-family font-semibold text-sm leading-5',
+  label2: 'ock-font-family text-sm leading-5',
+  legal: 'ock-font-family text-xs leading-4',
+  title3: 'ock-font-family font-semibold text-xl leading-7',
 } as const;
 
 export const pressable = {
   default:
-    'cursor-pointer bg-ock-default active:bg-ock-default-active hover:bg-[var(--bg-ock-default-hover)]',
+    'cursor-pointer ock-bg-default active:ock-bg-default-active hover:bg-[var(--ock-bg-default-hover)]',
   alternate:
-    'cursor-pointer bg-ock-alternate active:bg-ock-alternate-active hover:[var(--bg-ock-alternate-hover)]',
+    'cursor-pointer ock-bg-alternate active:ock-bg-alternate-active hover:[var(--ock-bg-alternate-hover)]',
   inverse:
-    'cursor-pointer bg-ock-inverse active:bg-ock-inverse-active hover:bg-[var(--bg-ock-inverse-hover)]',
+    'cursor-pointer ock-bg-inverse active:ock-bg-inverse-active hover:bg-[var(--ock-bg-inverse-hover)]',
   primary:
-    'cursor-pointer bg-ock-primary active:bg-ock-primary-active hover:bg-[var(--bg-ock-primary-hover)]',
+    'cursor-pointer ock-bg-primary active:ock-bg-primary-active hover:bg-[var(--ock-bg-primary-hover)]',
   secondary:
-    'cursor-pointer bg-ock-secondary active:bg-ock-secondary-active hover:bg-[var(--bg-ock-secondary-hover)]',
+    'cursor-pointer ock-bg-secondary active:ock-bg-secondary-active hover:bg-[var(--ock-bg-secondary-hover)]',
   coinbaseBranding:
-    'cursor-pointer bg-[#0052FF] active:bg-ock-secondary-active hover:bg-[#0045D8]',
-  shadow: 'shadow-ock-default',
+    'cursor-pointer bg-[#0052FF] active:ock-bg-secondary-active hover:bg-[#0045D8]',
+  shadow: 'ock-shadow-default',
   disabled: 'opacity-[0.38] pointer-events-none',
 } as const;
 
 export const background = {
-  default: 'bg-ock-default',
-  alternate: 'bg-ock-alternate',
-  inverse: 'bg-ock-inverse',
-  primary: 'bg-ock-primary',
-  secondary: 'bg-ock-secondary',
-  error: 'bg-ock-error',
-  warning: 'bg-ock-warning',
-  success: 'bg-ock-success',
+  default: 'ock-bg-default',
+  alternate: 'ock-bg-alternate',
+  inverse: 'ock-bg-inverse',
+  primary: 'ock-bg-primary',
+  secondary: 'ock-bg-secondary',
+  error: 'ock-bg-error',
+  warning: 'ock-bg-warning',
+  success: 'ock-bg-success',
+  washed: 'ock-bg-primary-washed',
+  disabled: 'ock-bg-primary-disabled',
 } as const;
 
 export const color = {
-  inverse: 'text-ock-inverse',
-  foreground: 'text-ock-foreground',
-  foregroundMuted: 'text-ock-foreground-muted',
-  error: 'text-ock-error',
-  primary: 'text-ock-primary',
-  success: 'text-ock-success',
-  warning: 'text-ock-warning',
-  disabled: 'text-ock-disabled',
+  inverse: 'ock-text-inverse',
+  foreground: 'ock-text-foreground',
+  foregroundMuted: 'ock-text-foreground-muted',
+  error: 'ock-text-error',
+  primary: 'ock-text-primary',
+  success: 'ock-text-success',
+  warning: 'ock-text-warning',
+  disabled: 'ock-text-disabled',
 } as const;
 
 export const fill = {
-  default: 'fill-ock-default',
-  defaultReverse: 'fill-ock-default-reverse',
-  inverse: 'fill-ock-inverse',
+  default: 'ock-fill-default',
+  defaultReverse: 'ock-fill-default-reverse',
+  inverse: 'ock-fill-inverse',
 } as const;
 
 export const border = {
-  default: 'border-ock-default',
-  defaultActive: 'border-ock-default-active',
+  default: 'ock-border-default',
+  defaultActive: 'ock-border-default-active',
+  radius: 'ock-border-radius',
 } as const;
 
 export const placeholder = {
-  default: 'placeholder-ock-default',
+  default: 'ock-placeholder-default',
+} as const;
+
+export const icon = {
+  primary: 'ock-icon-color-primary',
+  foreground: 'ock-icon-color-foreground',
+  foregroundMuted: 'ock-icon-color-foreground-muted',
+  inverse: 'ock-icon-color-inverse',
+  error: 'ock-icon-color-error',
+  success: 'ock-icon-color-success',
+  warning: 'ock-icon-color-warning',
+} as const;
+
+export const line = {
+  primary: 'ock-line-primary border',
+  default: 'ock-line-default border',
+  heavy: 'ock-line-heavy border',
+  inverse: 'ock-line-inverse border',
 } as const;

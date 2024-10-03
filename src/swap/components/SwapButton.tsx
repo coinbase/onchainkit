@@ -1,5 +1,12 @@
 import { Spinner } from '../../internal/components/Spinner';
-import { background, cn, color, pressable, text } from '../../styles/theme';
+import {
+  background,
+  border,
+  cn,
+  color,
+  pressable,
+  text,
+} from '../../styles/theme';
 import { ConnectWallet } from '../../wallet';
 import type { SwapButtonReact } from '../types';
 import { useSwapContext } from './SwapProvider';
@@ -40,6 +47,7 @@ export function SwapButton({ className, disabled = false }: SwapButtonReact) {
       type="button"
       className={cn(
         background.primary,
+        border.radius,
         'w-full rounded-xl',
         'mt-4 px-4 py-3',
         isDisabled && pressable.disabled,

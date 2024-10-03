@@ -18,6 +18,10 @@ vi.mock('../../internal/utils/openPopup', () => ({
   openPopup: vi.fn(),
 }));
 
+vi.mock('../../useTheme', () => ({
+  useTheme: vi.fn(),
+}));
+
 describe('WalletDropdownFundLink', () => {
   afterEach(() => {
     vi.clearAllMocks();

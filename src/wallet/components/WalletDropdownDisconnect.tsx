@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { useDisconnect } from 'wagmi';
 import { disconnectSvg } from '../../internal/svg/disconnectSvg';
-import { cn, text as dsText, pressable } from '../../styles/theme';
+import { cn, color, text as dsText, pressable } from '../../styles/theme';
 import type { WalletDropdownDisconnectReact } from '../types';
 
 export function WalletDropdownDisconnect({
@@ -19,6 +19,7 @@ export function WalletDropdownDisconnect({
       type="button"
       className={cn(
         pressable.default,
+        color.foreground,
         'relative flex w-full items-center px-4 pt-3 pb-4',
         className,
       )}
