@@ -77,7 +77,6 @@ export type TransactionButtonReact = {
 
 export type TransactionContextType = {
   chainId?: number; // The chainId for the transaction.
-  componentTheme: ComponentTheme // 
   errorCode?: string; // An error code used to localize errors and provide more context with unit-tests.
   errorMessage?: string; // An error message string if the transaction encounters an issue.
   isLoading: boolean; // A boolean indicating if the transaction is currently loading.
@@ -137,7 +136,6 @@ export type TransactionProviderReact = {
   capabilities?: WalletCapabilities; // Capabilities that a wallet supports (e.g. paymasters, session keys, etc).
   chainId: number; // The chainId for the transaction.
   children: ReactNode; // The child components to be rendered within the provider component.
-  componentTheme: ComponentTheme; //
   contracts?: ContractFunctionParameters[]; // An array of contract function parameters provided to the child components. Mutually exclusive with the `calls` prop.
   onError?: (e: TransactionError) => void; // An optional callback function that handles errors within the provider.
   onStatus?: (lifecycleStatus: LifecycleStatus) => void; // An optional callback function that exposes the component lifecycle state
