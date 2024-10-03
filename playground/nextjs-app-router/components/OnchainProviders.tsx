@@ -36,7 +36,7 @@ function OnchainProviders({ children }: { children: ReactNode }) {
           apiKey={ENVIRONMENT_VARIABLES[ENVIRONMENT.API_KEY]}
           chain={base}
           config={{
-              theme: 'light', // 'light', 'dark', 'disco'
+              theme: 'disco', // 'light', 'dark', 'disco'
           }}
           projectId={ENVIRONMENT_VARIABLES[ENVIRONMENT.PROJECT_ID]}
           schemaId="0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9"

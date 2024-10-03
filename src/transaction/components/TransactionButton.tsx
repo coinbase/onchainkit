@@ -15,6 +15,7 @@ export function TransactionButton({
 }: TransactionButtonReact) {
   const {
     chainId,
+    componentTheme,
     errorMessage,
     isLoading,
     lifecycleStatus,
@@ -87,6 +88,7 @@ export function TransactionButton({
   return (
     <button
       className={cn(
+        componentTheme,
         pressable.primary,
         'w-full rounded-xl',
         'px-4 py-3 font-medium text-base text-white leading-6',
