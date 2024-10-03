@@ -72,7 +72,7 @@ function Demo() {
     if (activeComponent === OnchainKitComponent.WalletDefault) {
       return <WalletDefaultDemo />;
     }
-    
+
     if (activeComponent === OnchainKitComponent.TransactionDefault) {
       return <TransactionDefaultDemo />;
     }
