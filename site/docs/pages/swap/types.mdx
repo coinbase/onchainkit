@@ -151,6 +151,16 @@ type SwapReact = {
 };
 ```
 
+## `SwapDefaultReact`
+
+```ts
+export type SwapDefaultReact = {
+  to: Token[]; // Swappable tokens (first token in array will be initial token selected)
+  from: Token[]; // Swappable tokens (first token in array will be initial token selected)
+  disabled?: boolean; // Disables swap button
+} & Omit<SwapReact, 'children'>;
+```
+
 ## `SwapSettingsReact`
 
 ```ts
