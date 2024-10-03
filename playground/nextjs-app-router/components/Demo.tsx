@@ -11,6 +11,7 @@ import SwapDemo from './demo/Swap';
 import SwapDefaultDemo from './demo/SwapDefault';
 import TransactionDemo from './demo/Transaction';
 import WalletDemo from './demo/Wallet';
+import WalletDefaultDemo from './demo/WalletDefault';
 import { ActiveComponent } from './form/active-component';
 import { TransactionOptions } from './form/transaction-options';
 
@@ -41,6 +42,7 @@ function Demo() {
       : 'border-gray-300 bg-white text-black hover:bg-gray-100'
   }`;
 
+  // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO: refactor
   function renderActiveComponent() {
     if (activeComponent === OnchainKitComponent.Fund) {
       return <FundDemo />;
@@ -58,12 +60,16 @@ function Demo() {
       return <SwapDemo />;
     }
 
+    if (activeComponent === OnchainKitComponent.SwapDefault) {
+      return <SwapDefaultDemo />;
+    }
+
     if (activeComponent === OnchainKitComponent.Wallet) {
       return <WalletDemo />;
     }
 
-    if (activeComponent === OnchainKitComponent.SwapDefault) {
-      return <SwapDefaultDemo />;
+    if (activeComponent === OnchainKitComponent.WalletDefault) {
+      return <WalletDefaultDemo />;
     }
 
     return <></>;
