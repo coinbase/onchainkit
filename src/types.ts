@@ -24,8 +24,11 @@ export type isEthereumOptions = {
 export type OnchainKitConfig = {
   address: Address | null; // Address is optional as we may not have an address for new users
   apiKey: string | null; // ApiKey for Coinbase Developer Platform APIs
-  rpcUrl: string | null; // RPC URL for onchain requests. Defaults to using CDP Node if the API Key is set
   chain: Chain; // Chain must be provided as we need to know which chain to use
+  config: {
+    theme: string; // theme: 'dark | light | disco'
+  };
+  rpcUrl: string | null; // RPC URL for onchain requests. Defaults to using CDP Node if the API Key is set
   schemaId: EASSchemaUid | null; // SchemaId is optional as not all apps need to use EAS
   projectId: string | null; // ProjectId from Coinbase Developer Platform, only required for Coinbase Onramp support
 };
@@ -37,6 +40,8 @@ export type SetOnchainKitConfig = Partial<OnchainKitConfig>;
  */
 export type OnchainKitContextType = OnchainKitConfig;
 
+export type Theme = 'light' | 'dark' | 'disco';
+
 /**
  * Note: exported as public Type
  */
@@ -45,6 +50,9 @@ export type OnchainKitProviderReact = {
   apiKey?: string;
   chain: Chain;
   children: ReactNode;
+  config: {
+    theme: Theme;
+  };
   rpcUrl?: string;
   schemaId?: EASSchemaUid;
   projectId?: string;

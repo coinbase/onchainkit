@@ -39,11 +39,14 @@ type State = {
   setTransactionType?: (transactionType: TransactionTypes) => void;
   paymasters?: Record<number, Paymaster>; // paymasters is per network
   setPaymaster?: (chainId: number, url: string, enabled: boolean) => void;
+  componentTheme?: string;
+  setComponentTheme?: (theme: string) => void;
 };
 
 const defaultState: State = {
   activeComponent: OnchainKitComponent.Transaction,
   chainId: 85432,
+  componentTheme: 'light',
 };
 
 export const AppContext = createContext(defaultState);
@@ -57,11 +60,12 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   const [walletType, setWalletTypeState] = useState<WalletPreference>();
   const [chainId, setChainIdState] = useState<number>();
   const [transactionType, setTransactionTypeState] = useState<TransactionTypes>(
-    TransactionTypes.Contracts,
+    TransactionTypes.Contracts
   );
   const [paymasters, setPaymastersState] =
     useState<Record<number, Paymaster>>();
   const [defaultMaxSlippage, setDefaultMaxSlippageState] = useState<number>(3);
+  const [componentTheme, setComponentThemeState] = useState<string>();
 
   // Load initial values from localStorage
   // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO Refactor this component
@@ -72,6 +76,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     const storedPaymasters = localStorage.getItem('paymasters');
     const storedTransactionType = localStorage.getItem('transactionType');
     const storedDefaultMaxSlippage = localStorage.getItem('defaultMaxSlippage');
+    const storedComponentTheme = localStorage.getItem('componentTheme');
 
     if (storedActiveComponent) {
       setActiveComponent(storedActiveComponent as OnchainKitComponent);
@@ -91,7 +96,17 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     if (storedDefaultMaxSlippage) {
       setDefaultMaxSlippage(Number(storedDefaultMaxSlippage));
     }
+    if (storedComponentTheme) {
+      setComponentTheme(storedComponentTheme);
+    }
   }, []);
+
+  // Log the current theme whenever it changes
+  useEffect(() => {
+    if (componentTheme) {
+      console.log('Current theme:', componentTheme);
+    }
+  }, [componentTheme]);
 
   // Connect to wallet if walletType changes
   useEffect(() => {
@@ -127,7 +142,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   const setDefaultMaxSlippage = (newDefaultMaxSlippage: number) => {
     localStorage.setItem(
       'defaultMaxSlippage',
-      newDefaultMaxSlippage.toString(),
+      newDefaultMaxSlippage.toString()
     );
     setDefaultMaxSlippageState(newDefaultMaxSlippage);
   };
@@ -146,6 +161,11 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     setTransactionTypeState(transactionType);
   };
 
+  const setComponentTheme = (newComponentTheme: string) => {
+    localStorage.setItem('componentTheme', newComponentTheme);
+    setComponentThemeState(newComponentTheme);
+  };
+
   return (
     <AppContext.Provider
       value={{
@@ -156,6 +176,8 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         clearWalletType,
         chainId,
         setChainId,
+        componentTheme,
+        setComponentTheme,
         paymasters,
         setPaymaster,
         transactionType,

@@ -15,6 +15,7 @@ import WalletDemo from './demo/Wallet';
 import WalletDefaultDemo from './demo/WalletDefault';
 import { ActiveComponent } from './form/active-component';
 import { TransactionOptions } from './form/transaction-options';
+import { ComponentTheme } from '@/components/form/component-theme'
 
 function Demo() {
   const { activeComponent } = useContext(AppContext);
@@ -101,6 +102,7 @@ function Demo() {
           {isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
         </button>
         <form className="mt-4 grid gap-8">
+          <ComponentTheme />
           <ActiveComponent />
           <WalletType />
           <Chain />
