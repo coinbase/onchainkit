@@ -49,7 +49,7 @@ export function PayProvider({
 }: PayProviderReact) {
   // Core hooks
   const { address, chainId, isConnected } = useAccount();
-  const { connectAsync, connectors } = useConnect();
+  const { connectAsync } = useConnect();
   const { switchChainAsync } = useSwitchChain();
   const [chargeId, setChargeId] = useState('');
   const [transactionId, setTransactionId] = useState('');
