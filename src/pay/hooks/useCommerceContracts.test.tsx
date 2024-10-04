@@ -46,14 +46,13 @@ describe('useCommerceContracts', () => {
     ];
     (handlePayRequest as Mock).mockResolvedValue(mockHandlePayRequestResponse);
     (getCommerceContracts as Mock).mockReturnValue(mockCommerceContracts);
-    (getUSDCBalance as Mock).mockResolvedValue('15.000000');
-    (formatUnits as Mock).mockReturnValue('10.000000');
-    const { result } = renderHook(() =>
-      useCommerceContracts({
-        address: mockAddress,
-      }),
-    );
-    const response = await result.current();
+    (getUSDCBalance as Mock).mockResolvedValue('15');
+    (formatUnits as Mock).mockReturnValue('10');
+
+    const { result } = renderHook(() => useCommerceContracts({}));
+    const callback = result.current;
+    const response = await callback(mockAddress);
+
     expect(handlePayRequest).toHaveBeenCalledWith({
       address: mockAddress,
       chargeHandler: undefined,
@@ -70,6 +69,7 @@ describe('useCommerceContracts', () => {
       chargeId: 'charge123',
       contracts: mockCommerceContracts,
       insufficientBalance: false,
+      priceInUSDC: '10',
     });
   });
 
@@ -78,46 +78,33 @@ describe('useCommerceContracts', () => {
       id: 'charge123',
       callData: { feeAmount: '5000000', recipientAmount: '5000000' },
     });
-    (getUSDCBalance as Mock).mockResolvedValue('5.000000');
-    (formatUnits as Mock).mockReturnValue('10.000000');
-    const { result } = renderHook(() =>
-      useCommerceContracts({
-        address: mockAddress,
-      }),
-    );
-    const response = await result.current();
+    (getUSDCBalance as Mock).mockResolvedValue('5');
+    (formatUnits as Mock).mockReturnValue('10');
+
+    const { result } = renderHook(() => useCommerceContracts({}));
+    const callback = result.current;
+    const response = await callback(mockAddress);
+
     expect(response.insufficientBalance).toBe(true);
+    expect(response.priceInUSDC).toBe('10');
   });
 
   it('should handle error during contract retrieval', async () => {
     const mockError = new Error('Test error');
     (handlePayRequest as Mock).mockRejectedValue(mockError);
-    const { result } = renderHook(() =>
-      useCommerceContracts({
-        address: mockAddress,
-      }),
-    );
-    const response = await result.current();
+    const consoleError = vi
+      .spyOn(console, 'error')
+      .mockImplementation(() => {}); // Suppress error logging
+    const { result } = renderHook(() => useCommerceContracts({}));
+    const callback = result.current;
+    const response = await callback(mockAddress);
+
     expect(response).toEqual({
       chargeId: '',
       contracts: null,
       insufficientBalance: false,
       error: mockError,
     });
-  });
-
-  it('should do nothing if address is not provided', async () => {
-    const { result } = renderHook(() =>
-      useCommerceContracts({
-        address: undefined,
-      }),
-    );
-    const response = await result.current();
-    expect(handlePayRequest).not.toHaveBeenCalled();
-    expect(response).toEqual({
-      chargeId: '',
-      contracts: null,
-      insufficientBalance: false,
-    });
+    consoleError.mockRestore();
   });
 });
