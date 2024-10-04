@@ -18,7 +18,7 @@ export type isEthereumOptions = {
   isMainnetOnly?: boolean; // If the chainId check is only allowed on mainnet
 };
 
-export type ComponentTheme = 'light' | 'dark' | 'disco';
+export type ComponentTheme = 'light' | 'dark' | 'cyberpunk' | 'base';
 
 /**
  * Note: exported as public Type

@@ -1,3 +1,8 @@
+/* Font */
+.ock-font-family {
+  font-family: var(--ock-font-family);
+}
+
 /* Border */
 .ock-border-default {
   border-color: var(--ock-bg-default);
@@ -5,6 +10,10 @@
 
 .ock-border-default-active {
   border-color: var(--ock-bg-default-active);
+}
+
+.ock-border-radius {
+  border-radius: var(--ock-border-radius)
 }
 
 /* Fill */
@@ -118,4 +127,10 @@
 }
 .ock-bg-default-reverse {
   background-color: var(--ock-bg-default-reverse);
+}
+.ock-bg-primary-washed {
+  background-color: var(--ock-bg-primary-washed)
+}
+.ock-bg-primary-disabled {
+  background-color: var(--ock-bg-primary-disabled)
 }

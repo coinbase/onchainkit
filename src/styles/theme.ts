@@ -7,13 +7,17 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export const text = {
-  body: 'font-sans ock-text-foreground text-base leading-normal',
-  caption: 'font-sans ock-text-foreground text-bold text-xs leading-4',
-  headline: 'font-bold ock-text-foreground font-sans text-base leading-normal',
-  label1: 'font-bold ock-text-foreground font-sans text-sm leading-5',
-  label2: 'font-sans ock-text-foreground text-sm leading-5',
-  legal: 'font-sans ock-text-foreground text-xs leading-4',
-  title3: 'font-bold ock-text-foreground font-display text-xl leading-7',
+  body: 'font-family font-sans ock-text-foreground text-base leading-normal',
+  caption:
+    'ock-font-family font-sans ock-text-foreground text-bold text-xs leading-4',
+  headline:
+    'ock-font-family font-bold ock-text-foreground font-sans text-base leading-normal',
+  label1:
+    'ock-font-family font-bold ock-text-foreground font-sans text-sm leading-5',
+  label2: 'ock-font-family font-sans ock-text-foreground text-sm leading-5',
+  legal: 'ock-font-family font-sans ock-text-foreground text-xs leading-4',
+  title3:
+    'ock-font-family font-bold ock-text-foreground font-display text-xl leading-7',
 } as const;
 
 export const pressable = {
@@ -42,6 +46,8 @@ export const background = {
   error: 'ock-bg-error',
   warning: 'ock-bg-warning',
   success: 'ock-bg-success',
+  washed: 'ock-bg-primary-washed',
+  disabled: 'ock-bg-primary-disabled',
 } as const;
 
 export const color = {
@@ -64,6 +70,7 @@ export const fill = {
 export const border = {
   default: 'ock-border-default',
   defaultActive: 'ock-border-default-active',
+  radius: 'ock-border-radius',
 } as const;
 
 export const placeholder = {

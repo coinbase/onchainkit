@@ -2,6 +2,8 @@
 
 @layer base {
   :root, .light { 
+    --ock-font-family: 'DM Sans', sans-serif;
+    --ock-border-radius: 0.75rem;
     --ock-text-inverse: theme(colors.gray.50);
     --ock-text-foreground: theme(colors.gray.950);
     --ock-text-foreground-muted: theme(colors.gray.600);
@@ -23,6 +25,8 @@
     --ock-bg-primary: theme(colors.indigo.600);
     --ock-bg-primary-hover: theme(colors.indigo.700);
     --ock-bg-primary-active: theme(colors.indigo.800);
+    --ock-bg-primary-washed: theme(colors.indigo.100);
+    --ock-bg-primary-disabled: theme(colors.indigo.300);
     --ock-bg-secondary: theme(colors.slate.200);
     --ock-bg-secondary-hover: theme(colors.slate.300);
     --ock-bg-secondary-active: theme(colors.slate.400);
@@ -33,6 +37,8 @@
   }
 
   .dark {
+    --ock-font-family: 'DM Sans', sans-serif;
+    --ock-border-radius: 0.75rem;
     --ock-text-inverse: theme(colors.gray.950);
     --ock-text-foreground: theme(colors.gray.50);
     --ock-text-foreground-muted: theme(colors.gray.400);
@@ -53,6 +59,8 @@
     --ock-bg-primary: theme(colors.indigo.400);
     --ock-bg-primary-hover: theme(colors.indigo.300);
     --ock-bg-primary-active: theme(colors.indigo.200);
+    --ock-bg-primary-washed: theme(colors.indigo.900);
+    --ock-bg-primary-disabled: theme(colors.indigo.950);
     --ock-bg-secondary: theme(colors.slate.800);
     --ock-bg-secondary-hover: theme(colors.slate.700);
     --ock-bg-secondary-active: theme(colors.slate.600);
