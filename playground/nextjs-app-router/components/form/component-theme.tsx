@@ -9,7 +9,7 @@ import {
 import { useContext } from 'react';
 import { AppContext } from '../AppProvider';
 
-type Theme = 'light' | 'dark' | 'disco';
+type Theme = 'light' | 'dark' | 'cyberpunk' | 'base';
 
 export function ComponentTheme() {
   const { componentTheme, setComponentTheme } = useContext(AppContext);

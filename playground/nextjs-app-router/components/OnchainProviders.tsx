@@ -31,6 +31,8 @@ const queryClient = new QueryClient();
 // TODO: Grab input from Component Theme and update the config.
 // Also will need to update ./site to do this otherwise the current dark and light mode switch will not update the components. -
 
+// what is the users OS preference?
+
 function OnchainProviders({ children }: { children: ReactNode }) {
   return (
     <WagmiProvider config={config} reconnectOnMount={false}>
@@ -39,7 +41,12 @@ function OnchainProviders({ children }: { children: ReactNode }) {
           apiKey={ENVIRONMENT_VARIABLES[ENVIRONMENT.API_KEY]}
           chain={base}
           config={{
-            theme: 'dark', // 'light', 'dark', 'disco'
+            // don't consue mode and theme
+            // If user sets outer div class to dark  or
+            // Mode will update based off of the users operating system
+            // If they don't
+            // default theme should allow them to adjust light or dark if they choose to
+            theme: 'cyberpunk', // 'light - default', 'dark - change to midnight', 'base', 'cyberpunk'
           }}
           projectId={ENVIRONMENT_VARIABLES[ENVIRONMENT.PROJECT_ID]}
           schemaId="0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9"
