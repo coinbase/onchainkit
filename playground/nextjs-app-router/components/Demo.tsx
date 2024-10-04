@@ -68,7 +68,7 @@ function Demo() {
     if (activeComponent === OnchainKitComponent.TransactionDefault) {
       return <TransactionDefaultDemo />;
     }
-    
+
     if (activeComponent === OnchainKitComponent.Pay) {
       return <PayDemo />;
     }
