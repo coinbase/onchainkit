@@ -47,6 +47,7 @@ export function PayButton({
         className,
       )}
       onClick={onSubmit}
+      onTouchStart={onSubmit} // for mobile devices with taps
       type="button"
       disabled={isDisabled}
     >
