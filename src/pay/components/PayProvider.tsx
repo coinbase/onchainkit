@@ -74,19 +74,6 @@ export function PayProvider({
       onSuccess: (id) => {
         setTransactionId(id);
       },
-      onError: (e) => {
-        const errorMessage = isUserRejectedRequestError(e)
-          ? USER_REJECTED_ERROR
-          : GENERIC_ERROR_MESSAGE;
-        updateLifecycleStatus({
-          statusName: PAY_LIFECYCLESTATUS.ERROR,
-          statusData: {
-            code: PayErrorCode.USER_REJECTED_ERROR,
-            error: e.message,
-            message: errorMessage,
-          },
-        });
-      },
     },
     /* v8 ignore stop */
   });
@@ -254,9 +241,9 @@ export function PayProvider({
         contracts,
       });
     } catch (error) {
-      const isUserRejectedError = (error as Error).message?.includes(
-        'User denied connection request',
-      );
+      const isUserRejectedError =
+        (error as Error).message?.includes('User denied connection request') ||
+        isUserRejectedRequestError(error);
       const errorCode = isUserRejectedError
         ? PayErrorCode.USER_REJECTED_ERROR
         : PayErrorCode.UNEXPECTED_ERROR;
