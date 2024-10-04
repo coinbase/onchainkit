@@ -4,7 +4,7 @@ description: Swap components & utilities
 ---
 
 import { Avatar, Name } from '@coinbase/onchainkit/identity';
-import { Swap, SwapAmountInput, SwapButton, SwapMessage, SwapToggleButton, SwapToast } from '@coinbase/onchainkit/swap';
+import { Swap, SwapAmountInput, SwapButton, SwapDefault, SwapMessage, SwapToggleButton, SwapToast } from '@coinbase/onchainkit/swap';
 import { Wallet, ConnectWallet } from '@coinbase/onchainkit/wallet';
 import App from '../../components/App';
 import SwapWrapper from '../../components/SwapWrapper';
@@ -14,6 +14,104 @@ import SwapWrapper from '../../components/SwapWrapper';
 The `Swap` components provide a comprehensive interface for users to execute [Token](/token/types#token) swaps.
 
 Before using them, ensure you've completed all [Getting Started steps](/getting-started).
+
+## Quick start
+
+The `SwapDefault` component is a simplified version of the `Swap` component, designed to streamline the integration process for developers. Instead of manually defining each subcomponent and prop, developers can use this shorthand version which renders our suggested implementation of the component and includes `SwapAmountInput`, `SwapSettings`, `SwapToggleButton`, `SwapButton`, and `SwapToast`.
+
+If you'd like more customization, follow the implementation guide for our `Swap` component below.
+
+```tsx twoslash
+import { Avatar, Name } from '@coinbase/onchainkit/identity';
+import { SwapDefault } from '@coinbase/onchainkit/swap'; // [!code focus]
+import { Wallet, ConnectWallet } from '@coinbase/onchainkit/wallet';
+import { useAccount } from 'wagmi';
+import type { Token } from '@coinbase/onchainkit/token';
+
+export default function SwapComponents() {
+  const { address } = useAccount();
+
+  const degenToken: Token = {
+    name: 'DEGEN',
+    address: '0x4ed4e862860bed51a9570b96d89af5e1b0efefed',
+    symbol: 'DEGEN',
+    decimals: 18,
+    image:
+      'https://d3r81g40ycuhqg.cloudfront.net/wallet/wais/3b/bf/3bbf118b5e6dc2f9e7fc607a6e7526647b4ba8f0bea87125f971446d57b296d2-MDNmNjY0MmEtNGFiZi00N2I0LWIwMTItMDUyMzg2ZDZhMWNm',
+    chainId: 8453,
+  };
+
+  const ethToken: Token = {
+    name: 'ETH',
+    address: '',
+    symbol: 'ETH',
+    decimals: 18,
+    image:
+      'https://wallet-api-production.s3.amazonaws.com/uploads/tokens/eth_288.png',
+    chainId: 8453,
+  };
+
+  const usdcToken: Token = {
+    name: 'USDC',
+    address: '0x833589fcd6edb6e08f4c7c32d4f71b54bda02913',
+    symbol: 'USDC',
+    decimals: 6,
+    image:
+      'https://d3r81g40ycuhqg.cloudfront.net/wallet/wais/44/2b/442b80bd16af0c0d9b22e03a16753823fe826e5bfd457292b55fa0ba8c1ba213-ZWUzYjJmZGUtMDYxNy00NDcyLTg0NjQtMWI4OGEwYjBiODE2',
+    chainId: 8453,
+  };
+
+  const wethToken: Token = {
+    name: 'Wrapped Ether',
+    address: '0x4200000000000000000000000000000000000006',
+    symbol: 'WETH',
+    decimals: 6,
+    image:
+      'https://d3r81g40ycuhqg.cloudfront.net/wallet/wais/47/bc/47bc3593c2dec7c846b66b7ba5f6fa6bd69ec34f8ebb931f2a43072e5aaac7a8-YmUwNmRjZDUtMjczYy00NDFiLWJhZDUtMzgwNjFmYWM0Njkx',
+    chainId: 8453,
+  };
+// ---cut-before---
+// omitted for brevity
+
+// the first token in array will be initially selected token // [!code focus]
+const swappableFromTokens: Token[] = [wethToken, usdcToken, ethToken, degenToken]; // [!code focus]
+const swappableToTokens: Token[] = [degenToken, ethToken, usdcToken, wethToken] // [!code focus]
+
+return ( // [!code focus]
+  <SwapDefault // [!code focus]
+    from={swappableFromTokens} // [!code focus]
+    to={swappableToTokens} // [!code focus]
+  /> // [!code focus]
+); // [!code focus]
+// ---cut-after---
+}
+
+ 
+```
+
+<App>
+  <SwapWrapper>
+    {({ address, swappableTokens }) => {
+      if (address) {
+        return (
+          <SwapDefault from={swappableTokens} to={swappableTokens.slice().reverse()} />
+        )
+      }
+      return <>
+        <Wallet>
+          <ConnectWallet>
+            <Avatar className="h-6 w-6" />
+            <Name />
+          </ConnectWallet>
+        </Wallet>
+      </>;
+    }}
+  </SwapWrapper>
+</App>
+
+### Props
+
+[`SwapDefaultReact`](/swap/types#swapdefaultreact)
 
 ## Usage
 
@@ -56,6 +154,7 @@ export default function SwapComponents() {
 
   // add other tokens here to display them as options in the swap
   const swappableTokens: Token[] = [ETHToken, USDCToken];
+  
 
   return address ? (
     <Swap> // [!code focus]
@@ -597,6 +696,7 @@ The components are designed to work together hierarchically. For each component,
 ## Props
 
 - [`SwapReact`](/swap/types#swapreact)
+- [`SwapDefaultReact`](/swap/types#swapdefaultreact)
 - [`SwapAmountInputReact`](/swap/types#swapamountinputreact)
 - [`SwapButtonReact`](/swap/types#swapbuttonreact)
 - [`SwapMessageReact`](/swap/types#swapmessagereact)

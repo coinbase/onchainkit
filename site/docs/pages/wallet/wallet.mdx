@@ -7,6 +7,7 @@ import {
   ConnectWallet,
   ConnectWalletText,
   Wallet,
+  WalletDefault,
   WalletDropdown,
   WalletDropdownBasename,
   WalletDropdownFundLink,
@@ -33,6 +34,32 @@ It features built-in polished user experiences for both web and mobile web,
 making it incredibly easy to enhance with drop-in components.
 
 Before using them, ensure you've completed all [Getting Started steps](/getting-started).
+
+## Quick start
+
+The `WalletDefault` component is a simplified version of the `Wallet` component, designed to streamline the integration process for developers. Instead of manually defining each subcomponent and prop, developers can use this shorthand version which renders our suggested implementation of the component.
+
+If you'd like more customization, follow the implementation guide for our `Wallet` component below.
+
+```tsx twoslash
+import { WalletDefault } from '@coinbase/onchainkit/wallet';
+
+export function WalletComponents() {
+  return (
+// ---cut-before---
+// omitted for brevity
+
+<WalletDefault /> // [!code focus]
+// ---cut-after---
+);
+}
+```
+
+
+<WalletComponents>
+  <WalletDefault />
+</WalletComponents>
+
 
 ## Walkthrough
 
