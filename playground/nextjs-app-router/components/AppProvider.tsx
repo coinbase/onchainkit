@@ -6,8 +6,8 @@ import { useConnect, useConnectors } from 'wagmi';
 import { WalletPreference } from './form/wallet-type';
 
 export enum OnchainKitComponent {
-  Fund = 'fund',
   Identity = 'identity',
+  Pay = 'pay',
   Swap = 'swap',
   Transaction = 'transaction',
   Wallet = 'wallet',
@@ -22,6 +22,19 @@ export type Paymaster = {
   url: string;
   enabled: boolean;
 };
+
+export type PayOptions = {
+  name?: string;
+  description?: string;
+  price?: string;
+  productId?: string;
+};
+
+export enum PayTypes {
+  ChargeID = 'chargeId',
+  ProductID = 'productId',
+}
+
 type State = {
   activeComponent?: OnchainKitComponent;
   setActiveComponent?: (component: OnchainKitComponent) => void;
@@ -36,6 +49,10 @@ type State = {
   setTransactionType?: (transactionType: TransactionTypes) => void;
   paymasters?: Record<number, Paymaster>; // paymasters is per network
   setPaymaster?: (chainId: number, url: string, enabled: boolean) => void;
+  payOptions?: PayOptions;
+  setPayOptions?: (payOptions: PayOptions) => void;
+  payTypes?: PayTypes;
+  setPayTypes?: (payTypes: PayTypes) => void;
 };
 
 const defaultState: State = {
@@ -56,6 +73,8 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   const [transactionType, setTransactionTypeState] = useState<TransactionTypes>(
     TransactionTypes.Contracts,
   );
+  const [payOptions, setPayOptionsState] = useState<PayOptions>();
+  const [payTypes, setPayTypesState] = useState<PayTypes>(PayTypes.ProductID);
   const [paymasters, setPaymastersState] =
     useState<Record<number, Paymaster>>();
   const [defaultMaxSlippage, setDefaultMaxSlippageState] = useState<number>(3);
@@ -69,6 +88,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     const storedPaymasters = localStorage.getItem('paymasters');
     const storedTransactionType = localStorage.getItem('transactionType');
     const storedDefaultMaxSlippage = localStorage.getItem('defaultMaxSlippage');
+    const storedProductId = localStorage.getItem('productId');
 
     if (storedActiveComponent) {
       setActiveComponent(storedActiveComponent as OnchainKitComponent);
@@ -87,6 +107,9 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     }
     if (storedDefaultMaxSlippage) {
       setDefaultMaxSlippage(Number(storedDefaultMaxSlippage));
+    }
+    if (storedProductId) {
+      setPayOptions({ productId: storedProductId });
     }
   }, []);
 
@@ -143,6 +166,15 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     setTransactionTypeState(transactionType);
   };
 
+  const setPayOptions = (payOptions: PayOptions) => {
+    localStorage.setItem('productId', payOptions.productId || '');
+    setPayOptionsState(payOptions);
+  };
+
+  const setPayTypes = (payTypes: PayTypes) => {
+    setPayTypesState(payTypes);
+  };
+
   return (
     <AppContext.Provider
       value={{
@@ -159,6 +191,10 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         setTransactionType,
         defaultMaxSlippage,
         setDefaultMaxSlippage,
+        payOptions,
+        setPayOptions,
+        payTypes,
+        setPayTypes,
       }}
     >
       {children}
