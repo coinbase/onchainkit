@@ -80,7 +80,7 @@ export function IdentityLayout({
           <div
             className={cn(
               'absolute top-[-5px] left-6 h-0 w-0',
-              'border-x-[5px] border-x-transparent border-b-[5px] border-b-[color:var(--bg-ock-inverse)] border-solid',
+              'border-x-[5px] border-x-transparent border-b-[5px] border-b-[color:var(--ock-bg-inverse)] border-solid',
             )}
             data-testid="ockIdentityLayout_copyArrow"
           />

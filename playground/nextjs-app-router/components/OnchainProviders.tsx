@@ -28,8 +28,8 @@ export const config = createConfig({
 
 const queryClient = new QueryClient();
 
-// TODO: Grab input from Component Theme and update the config. 
-// Also will need to update ./site to do this otherwise the current dark and light mode switch will not update the components.
+// TODO: Grab input from Component Theme and update the config.
+// Also will need to update ./site to do this otherwise the current dark and light mode switch will not update the components. -
 
 function OnchainProviders({ children }: { children: ReactNode }) {
   return (

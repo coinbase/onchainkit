@@ -20,9 +20,9 @@ describe('Badge Component', () => {
     await waitFor(() => {
       const badge = screen.queryByTestId('ockBadge');
       expect(badge).toHaveStyle(badgeStyle);
-      expect(badge).toHaveClass('bg-ock-primary');
+      expect(badge).toHaveClass('ock-bg-primary');
       const ticker = screen.queryByTestId('ock-badgeSvg');
-      expect(ticker).toHaveClass('fill-ock-inverse');
+      expect(ticker).toHaveClass('ock-fill-inverse');
     });
   });
 });

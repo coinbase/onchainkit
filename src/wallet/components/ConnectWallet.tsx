@@ -112,7 +112,7 @@ export function ConnectWallet({
           className={cn(
             pressable.secondary,
             'rounded-xl px-4 py-3',
-            isOpen && 'bg-ock-secondary-active hover:bg-ock-secondary-active',
+            isOpen && 'ock-bg-secondary-active hover:ock-bg-secondary-active',
             className,
           )}
           onClick={handleToggle}

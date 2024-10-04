@@ -1,24 +1,24 @@
 /* Border */
-.border-ock-default {
-  border-color: var(--bg-ock-default);
+.ock-border-default {
+  border-color: var(--ock-bg-default);
 }
 
-.border-ock-default-active {
-  border-color: var(--bg-ock-default-active);
+.ock-border-default-active {
+  border-color: var(--ock-bg-default-active);
 }
 
 /* Fill */
-.fill-ock-default {
-  fill: var(--bg-ock-default);
+.ock-fill-default {
+  fill: var(--ock-bg-default);
 }
 
-.fill-ock-default-reverse {
-  fill: var(--bg-ock-default-reverse);
+.ock-fill-default-reverse {
+  fill: var(--ock-bg-default-reverse);
 }
 
 /* Placeholder */
 .placeholder-ock-default::placeholder {
-  color: var(--text-ock-foreground-muted);
+  color: var(--ock-text-foreground-muted);
 }
 
 /* Scrollbar */
@@ -28,94 +28,94 @@
 }
 
 /* Shadow */
-.shadow-ock-default {
+.ock-shadow-default {
   box-shadow: 0px 8px 12px 0px #5B616E1F;
 }
 
-.dark .shadow-ock-default {
+.dark .ock-shadow-default {
   box-shadow: 0px 8px 12px 0px #5B616E1F;
 }
 
 /* Text */
-.text-ock-inverse {
-  color: var(--text-ock-inverse);
+.ock-text-inverse {
+  color: var(--ock-text-inverse);
 }
-.text-ock-foreground {
-  color: var(--text-ock-foreground);
+.ock-text-foreground {
+  color: var(--ock-text-foreground);
 }
-.text-ock-foreground-muted {
-  color: var(--text-ock-foreground-muted);
+.ock-text-foreground-muted {
+  color: var(--ock-text-foreground-muted);
 }
-.text-ock-error {
-  color: var(--text-ock-error);
+.ock-text-error {
+  color: var(--ock-text-error);
 }
-.text-ock-primary {
-  color: var(--text-ock-primary);
+.ock-text-primary {
+  color: var(--ock-text-primary);
 }
-.text-ock-success {
-  color: var(--text-ock-success);
+.ock-text-success {
+  color: var(--ock-text-success);
 }
-.text-ock-warning {
-  color: var(--text-ock-warning);
+.ock-text-warning {
+  color: var(--ock-text-warning);
 }
-.text-ock-disabled {
-  color: var(--text-ock-disabled);
+.ock-text-disabled {
+  color: var(--ock-text-disabled);
 }
 /* Background */
-.bg-ock-default {
-  background-color: var(--bg-ock-default);
+.ock-bg-default {
+  background-color: var(--ock-bg-default);
 }
-.bg-ock-default-hover {
-  background-color: var(--bg-ock-default-hover);
+.ock-bg-default-hover {
+  background-color: var(--ock-bg-default-hover);
 }
-.bg-ock-default-active {
-  background-color: var(--bg-ock-default-active);
+.ock-bg-default-active {
+  background-color: var(--ock-bg-default-active);
 }
-.bg-ock-alternate {
-  background-color: var(--bg-ock-alternate);
+.ock-bg-alternate {
+  background-color: var(--ock-bg-alternate);
 }
-.bg-ock-alternate-hover {
-  background-color: var(--bg-ock-alternate-hover);
+.ock-bg-alternate-hover {
+  background-color: var(--ock-bg-alternate-hover);
 }
-.bg-ock-alternate-active {
-  background-color: var(--bg-ock-alternate-active);
+.ock-bg-alternate-active {
+  background-color: var(--ock-bg-alternate-active);
 }
-.bg-ock-inverse {
-  background-color: var(--bg-ock-inverse);
+.ock-bg-inverse {
+  background-color: var(--ock-bg-inverse);
 }
-.bg-ock-inverse-hover {
-  background-color: var(--bg-ock-inverse-hover);
+.ock-bg-inverse-hover {
+  background-color: var(--ock-bg-inverse-hover);
 }
-.bg-ock-inverse-active {
-  background-color: var(--bg-ock-inverse-active);
+.ock-bg-inverse-active {
+  background-color: var(--ock-bg-inverse-active);
 }
-.bg-ock-primary {
-  background-color: var(--bg-ock-primary);
+.ock-bg-primary {
+  background-color: var(--ock-bg-primary);
 }
-.bg-ock-primary-hover {
-  background-color: var(--bg-ock-primary-hover);
+.ock-bg-primary-hover {
+  background-color: var(--ock-bg-primary-hover);
 }
-.bg-ock-primary-active {
-  background-color: var(--bg-ock-primary-active);
+.ock-bg-primary-active {
+  background-color: var(--ock-bg-primary-active);
 }
-.bg-ock-secondary {
-  background-color: var(--bg-ock-secondary);
+.ock-bg-secondary {
+  background-color: var(--ock-bg-secondary);
 }
-.bg-ock-secondary-hover {
-  background-color: var(--bg-ock-secondary-hover);
+.ock-bg-secondary-hover {
+  background-color: var(--ock-bg-secondary-hover);
 }
-.bg-ock-secondary-active {
-  background-color: var(--bg-ock-secondary-active);
+.ock-bg-secondary-active {
+  background-color: var(--ock-bg-secondary-active);
 }
-.bg-ock-error {
-  background-color: var(--bg-ock-error);
+.ock-bg-error {
+  background-color: var(--ock-bg-error);
 }
-.bg-ock-warning {
-  background-color: var(--bg-ock-warning);
+.ock-bg-warning {
+  background-color: var(--ock-bg-warning);
 }
-.bg-ock-success {
-  background-color: var(--bg-ock-success);
+.ock-bg-success {
+  background-color: var(--ock-bg-success);
 }
-.bg-ock-default-reverse {
-  background-color: var(--bg-ock-default-reverse);
+.ock-bg-default-reverse {
+  background-color: var(--ock-bg-default-reverse);
 }
