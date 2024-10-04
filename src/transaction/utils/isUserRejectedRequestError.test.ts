@@ -22,7 +22,7 @@ describe('isUserRejectedRequestError', () => {
 
   it('should return true if error message includes User rejected the request.', () => {
     const error = {
-      message: 'User rejected the request.',
+      shortMessage: 'User rejected the request.',
     };
     expect(isUserRejectedRequestError(error)).toBe(true);
   });
