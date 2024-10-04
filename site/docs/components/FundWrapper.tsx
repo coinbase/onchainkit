@@ -17,9 +17,5 @@ export default function FundWrapper({ children }: FundWrapperReact) {
   const { address } = useAccount();
   const { projectId } = useOnchainKit();
 
-  return (
-    <main>
-      {children({ address, projectId })}
-    </main>
-  );
+  return <main>{children({ address, projectId })}</main>;
 }

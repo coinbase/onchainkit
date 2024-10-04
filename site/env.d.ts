@@ -6,8 +6,8 @@ declare namespace NodeJS {
 }
 
 interface ImportMetaEnv {
-  readonly NEXT_PUBLIC_CDP_API_KEY: string
-  readonly NEXT_PUBLIC_CDP_PROJECT_ID: string
+  readonly NEXT_PUBLIC_CDP_API_KEY: string;
+  readonly NEXT_PUBLIC_CDP_PROJECT_ID: string;
 }
 
 interface ImportMeta {
