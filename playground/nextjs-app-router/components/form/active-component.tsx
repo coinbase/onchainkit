@@ -25,8 +25,8 @@ export function ActiveComponent() {
           <SelectValue placeholder="Select component" />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value={OnchainKitComponent.Fund}>Fund</SelectItem>
           <SelectItem value={OnchainKitComponent.Identity}>Identity</SelectItem>
+          <SelectItem value={OnchainKitComponent.Pay}>Pay</SelectItem>
           <SelectItem value={OnchainKitComponent.Transaction}>
             Transaction
           </SelectItem>
