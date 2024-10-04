@@ -7,21 +7,17 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { useContext } from 'react';
-import { AppContext } from '../AppProvider';
-
-type Theme = 'light' | 'dark' | 'cyberpunk' | 'base';
+import { ProviderContext } from '../OnchainProviders';
 
 export function ComponentTheme() {
-  const { componentTheme, setComponentTheme } = useContext(AppContext);
+  const { componentTheme, setComponentTheme } = useContext(ProviderContext);
 
   return (
     <div className="grid gap-2">
       <Label htmlFor="theme">Component Theme</Label>
       <Select
-        value={componentTheme || 'light'}
-        onValueChange={(value) =>
-          value ? setComponentTheme?.(value as Theme) : value
-        }
+        value={componentTheme}
+        onValueChange={(value) => setComponentTheme?.(value as 'light' | 'dark' | 'cyberpunk' | 'base')}
       >
         <SelectTrigger id="theme">
           <SelectValue placeholder="Select theme" />
@@ -29,7 +25,8 @@ export function ComponentTheme() {
         <SelectContent>
           <SelectItem value="light">Light</SelectItem>
           <SelectItem value="dark">Dark</SelectItem>
-          <SelectItem value="disco">Disco</SelectItem>
+          <SelectItem value="base">Base</SelectItem>
+          <SelectItem value="cyberpunk">Cyberpunk</SelectItem>
         </SelectContent>
       </Select>
     </div>
