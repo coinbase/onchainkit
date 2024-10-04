@@ -85,48 +85,8 @@ export type LifecycleStatusUpdate = LifecycleStatus extends infer T
     : never
   : never;
 
-/**
- * Note: exported as public Type
- */
-export type PayButtonReact = {
-  className?: string;
-  coinbaseBranded?: boolean;
-  disabled?: boolean;
-  icon?: React.ReactNode;
-  text?: string;
-};
-
-export type PayContextType = {
-  errorMessage?: string;
-  lifecycleStatus?: LifecycleStatus;
-  onSubmit: () => void;
-  updateLifecycleStatus: (status: LifecycleStatus) => void;
-};
-
-export type PayProviderReact = {
-  chargeHandler?: () => Promise<string>;
-  children: React.ReactNode;
-  onStatus?: (status: LifecycleStatus) => void;
-  productId?: string;
-};
-
-/**
- * Note: exported as public Type
- */
-export type PayReact = {
-  chargeHandler?: () => Promise<string>;
-  children: React.ReactNode;
-  className?: string;
-  onStatus?: (status: LifecycleStatus) => void;
-  productId?: string;
-};
-
-/**
- * Note: exported as public Type
- */
-export type PayStatusReact = { className?: string };
-
 export type UseCommerceContractsParams = {
+  address?: Address;
   chargeHandler?: () => Promise<string>;
   productId?: string;
 };
