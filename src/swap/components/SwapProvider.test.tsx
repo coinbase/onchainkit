@@ -760,7 +760,9 @@ describe('SwapProvider', () => {
   });
 
   it('should setLifecycleStatus to error when buildSwapTransaction throws an "User rejected the request." error', async () => {
-    const mockError = new Error('User rejected the request.');
+    const mockError = {
+      shortMessage: 'User rejected the request.',
+    };
     vi.mocked(buildSwapTransaction).mockRejectedValueOnce(mockError);
     renderWithProviders({ Component: TestSwapComponent });
     fireEvent.click(screen.getByText('Swap'));
