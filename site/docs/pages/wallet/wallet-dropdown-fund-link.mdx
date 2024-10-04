@@ -23,11 +23,22 @@ import { walletDropdownLinkCustomBaseIconSvg } from '../../components/svg/wallet
 
 # `<WalletDropdownFundLink />`
 
-The `WalletDropdownFundLink` provides an easy way for to access the [Fund](https://keys.coinbase.com/fund) flow for a Coinbase Smart Wallet.
+The `WalletDropdownFundLink` works just like the [`FundButton`](/fund/fund-button) except that it's inside your wallet
+dropdown menu.
 
-Your users will be able to easily onboard and add funds right from your OnchainKit Wallet component without leaving your app!
+If your user connects a Coinbase Smart Wallet, it provides an easy way to access the Coinbase Smart Wallet 
+[Fund](https://keys.coinbase.com/fund) flow. Users will be able to buy and receive crypto, or use their Coinbase 
+balances onchain with [Magic Spend](https://www.smartwallet.dev/guides/magic-spend).
 
-Users can buy and receive crypto, or use their Coinbase balances onchain with [Magic Spend](https://www.smartwallet.dev/guides/magic-spend).
+If your user connects any other EOA wallet, it provides an easy way to access [Coinbase Onramp](https://docs.cdp.coinbase.com/onramp/docs/welcome/)
+where your users will also be able to buy crypto using a fiat payment method, or transfer existing crypto from their
+Coinbase account.
+
+:::tip[Coinbase Onramp Support]
+If you would like to provide non Coinbase Smart Wallet users with an easy way to access Coinbase Onramp, please make
+sure you go through the `FundButton` [walkthrough](/fund/fund-button#walkthrough) to configure your Project ID. Otherwise
+only Coinbase Smart Wallet users will be able to use the `WalletDropdownFundLink`.
+:::
 
 ## Usage
 
@@ -170,6 +181,27 @@ You can override default link behavior by using the `openIn` prop. Valid values 
     </ConnectWallet>
     <WalletDropdown>
       <WalletDropdownFundLink openIn="tab" target="_blank" />
+      <WalletDropdownDisconnect />
+    </WalletDropdown>
+  </Wallet>
+</WalletComponents>
+
+### Override funding URL
+
+You can override the default URL by using the `fundingUrl` prop.
+
+```tsx
+<WalletDropdownFundLink fundingUrl={"https://base.org"} openIn="tab" target="_blank" /> // [!code focus]
+```
+
+<WalletComponents>
+  <Wallet>
+    <ConnectWallet>
+      <Avatar className="h-6 w-6" />
+      <Name />
+    </ConnectWallet>
+    <WalletDropdown>
+      <WalletDropdownFundLink fundingUrl={"https://base.org"} openIn="tab" target="_blank" />
       <WalletDropdownDisconnect />
     </WalletDropdown>
   </Wallet>

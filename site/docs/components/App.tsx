@@ -32,12 +32,14 @@ export default function App({ children }: { children: ReactNode }) {
     return null;
   }
   const viteCdpApiKey = import.meta.env.VITE_CDP_API_KEY;
+  const viteProjectId = import.meta.env.VITE_CDP_PROJECT_ID;
   return (
     <WagmiProvider config={wagmiConfig}>
       <QueryClientProvider client={queryClient}>
         <OnchainKitProvider
           apiKey={viteCdpApiKey}
           chain={base} // TODO: remove
+          projectId={viteProjectId}
           schemaId="0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9"
         >
           <div style={{ display: 'flex', flexDirection: 'column' }}>

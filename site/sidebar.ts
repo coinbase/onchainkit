@@ -73,6 +73,15 @@ export const sidebar = [
         ],
       },
       {
+        text: 'Fund',
+        items: [
+          {
+            text: 'FundButton',
+            link: '/fund/fund-button',
+          },
+        ],
+      },
+      {
         text: 'Identity',
         items: [
           {
@@ -216,6 +225,15 @@ export const sidebar = [
         ],
       },
       {
+        text: 'Fund',
+        items: [
+          {
+            text: 'getOnrampBuyUrl',
+            link: '/fund/get-onramp-buy-url',
+          },
+        ],
+      },
+      {
         text: 'Frame',
         items: [
           {
@@ -316,6 +334,10 @@ export const sidebar = [
       {
         text: 'Farcaster',
         link: '/farcaster/types',
+      },
+      {
+        text: 'Fund',
+        link: '/fund/types',
       },
       {
         text: 'Frame',
