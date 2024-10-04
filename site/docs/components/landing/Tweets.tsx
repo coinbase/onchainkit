@@ -72,10 +72,25 @@ const Tweets = () => {
             data-theme="dark"
           >
             <p lang="en" dir="ltr">
-              Building with 
-              <a href="https://twitter.com/OnchainKit?ref_src=twsrc%5Etfw">@OnchainKit</a> has been such a great experience so far. We&#39;re builders, and we like to build things from scratch. But with <a href="https://twitter.com/OnchainKit?ref_src=twsrc%5Etfw">@OnchainKit</a>, there was a real boost in productivity, allowing us to ship dApps with seamless functionality in a matter of minutes. <br /><br />Onto the next… <a href="https://t.co/QzlJ4RIKLG">https://t.co/QzlJ4RIKLG</a>
+              Building with
+              <a href="https://twitter.com/OnchainKit?ref_src=twsrc%5Etfw">
+                @OnchainKit
+              </a>{' '}
+              has been such a great experience so far. We&#39;re builders, and
+              we like to build things from scratch. But with{' '}
+              <a href="https://twitter.com/OnchainKit?ref_src=twsrc%5Etfw">
+                @OnchainKit
+              </a>
+              , there was a real boost in productivity, allowing us to ship
+              dApps with seamless functionality in a matter of minutes. <br />
+              <br />
+              Onto the next…{' '}
+              <a href="https://t.co/QzlJ4RIKLG">https://t.co/QzlJ4RIKLG</a>
             </p>
-            &mdash; Coinfever (@coinfeverapp) <a href="https://twitter.com/coinfeverapp/status/1842230362337915205?ref_src=twsrc%5Etfw">October 4, 2024</a>
+            &mdash; Coinfever (@coinfeverapp){' '}
+            <a href="https://twitter.com/coinfeverapp/status/1842230362337915205?ref_src=twsrc%5Etfw">
+              October 4, 2024
+            </a>
           </blockquote>
           <blockquote
             className="twitter-tweet tweet3"
