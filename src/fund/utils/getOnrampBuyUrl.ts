@@ -1,3 +1,4 @@
+import { version } from '../../version';
 import { ONRAMP_BUY_URL } from '../constants';
 import type {
   GetOnrampUrlWithProjectIdParams,
@@ -30,6 +31,8 @@ export function getOnrampBuyUrl({
       }
     }
   }
+
+  url.searchParams.append('sdkVersion', `onchainkit@${version}`);
 
   url.searchParams.sort();
 
