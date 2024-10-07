@@ -1,13 +1,11 @@
 import { Address, Avatar, EthBalance, Identity, Name } from '../../identity';
 import { color } from '../../styles/theme';
-import {
-  ConnectWallet,
-  ConnectWalletText,
-  Wallet,
-  WalletDropdown,
-  WalletDropdownDisconnect,
-  WalletDropdownLink,
-} from '../index';
+import { ConnectWallet } from './ConnectWallet';
+import { ConnectWalletText } from './ConnectWalletText';
+import { Wallet } from './Wallet';
+import { WalletDropdown } from './WalletDropdown';
+import { WalletDropdownDisconnect } from './WalletDropdownDisconnect';
+import { WalletDropdownLink } from './WalletDropdownLink';
 
 export function WalletDefault() {
   return (
