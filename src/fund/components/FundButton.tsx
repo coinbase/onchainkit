@@ -2,6 +2,7 @@ import { useCallback } from 'react';
 import { addSvg } from '../../internal/svg/addSvg';
 import { openPopup } from '../../internal/utils/openPopup';
 import { cn, color, pressable, text } from '../../styles/theme';
+import { useOnchainKit } from '../../useOnchainKit';
 import { useGetFundingUrl } from '../hooks/useGetFundingUrl';
 import type { FundButtonReact } from '../types';
 import { getFundingPopupSize } from '../utils/getFundingPopupSize';
@@ -18,6 +19,9 @@ export function FundButton({
   target,
   text: buttonText = 'Fund',
 }: FundButtonReact) {
+  const {
+    config: { theme: componentTheme },
+  } = useOnchainKit();
   // If the fundingUrl prop is undefined, fallback to our recommended funding URL based on the wallet type
   const fundingUrlToRender = fundingUrl ?? useGetFundingUrl();
   const isDisabled = disabled || !fundingUrlToRender;
@@ -42,6 +46,7 @@ export function FundButton({
   );
 
   const classNames = cn(
+    componentTheme,
     pressable.primary,
     'rounded-xl px-4 py-3',
     'inline-flex items-center justify-center space-x-2 disabled',

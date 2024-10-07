@@ -1,5 +1,6 @@
 import { memo } from 'react';
 import { cn, color, pressable, text } from '../../styles/theme';
+import { useOnchainKit } from '../../useOnchainKit';
 import type { TokenRowReact } from '../types';
 import { formatAmount } from '../utils/formatAmount';
 import { TokenImage } from './TokenImage';
@@ -12,11 +13,16 @@ export const TokenRow = memo(function TokenRow({
   hideImage,
   hideSymbol,
 }: TokenRowReact) {
+  const {
+    config: { theme: componentTheme },
+  } = useOnchainKit();
+
   return (
     <button
       data-testid="ockTokenRow_Container"
       type="button"
       className={cn(
+        componentTheme,
         pressable.default,
         'flex w-full items-center justify-between px-2 py-1',
         className,

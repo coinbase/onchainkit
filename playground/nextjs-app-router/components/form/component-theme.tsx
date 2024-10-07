@@ -17,7 +17,9 @@ export function ComponentTheme() {
       <Label htmlFor="theme">Component Theme</Label>
       <Select
         value={componentTheme}
-        onValueChange={(value) => setComponentTheme?.(value as 'light' | 'dark' | 'cyberpunk' | 'base')}
+        onValueChange={(value) =>
+          setComponentTheme?.(value as 'light' | 'dark' | 'cyberpunk' | 'base')
+        }
       >
         <SelectTrigger id="theme">
           <SelectValue placeholder="Select theme" />

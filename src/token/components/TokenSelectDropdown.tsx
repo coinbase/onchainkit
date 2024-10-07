@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { background, cn } from '../../styles/theme';
+import { useOnchainKit } from '../../useOnchainKit';
 import type { TokenSelectDropdownReact } from '../types';
 import { TokenRow } from './TokenRow';
 import { TokenSelectButton } from './TokenSelectButton';
@@ -9,6 +10,10 @@ export function TokenSelectDropdown({
   setToken,
   token,
 }: TokenSelectDropdownReact) {
+  const {
+    config: { theme: componentTheme },
+  } = useOnchainKit();
+
   const [isOpen, setIsOpen] = useState(false);
 
   const handleToggle = useCallback(() => {
@@ -56,6 +61,7 @@ export function TokenSelectDropdown({
           ref={dropdownRef}
           data-testid="ockTokenSelectDropdown_List"
           className={cn(
+            componentTheme,
             'absolute right-0 z-10 mt-1 flex max-h-80 w-fit flex-col overflow-y-hidden rounded-lg',
             'ock-scrollbar',
           )}
