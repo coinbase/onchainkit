@@ -6,7 +6,6 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-/* size, weight, leading, tracking */
 export const text = {
   body: 'font-family font-sans ock-text-foreground font-semibold leading-normal',
   caption:

@@ -59,6 +59,13 @@
   }
 }
 
+/* Customize Theme */
+@layer base { 
+  :root, .light, .dark, .base, .cyberpunk, .minimal {
+    /* --ock-bg-primary: red; */
+  }
+}
+
 @layer base {
   * {
     @apply border-border;
