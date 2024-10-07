@@ -8,17 +8,17 @@ export function cn(...inputs: ClassValue[]) {
 
 /* size, weight, leading, tracking */
 export const text = {
-  body: 'font-family font-sans ock-text-foreground text-base leading-normal',
+  body: 'font-family font-sans ock-text-foreground font-semibold leading-normal',
   caption:
     'ock-font-family font-sans ock-text-foreground text-bold text-xs leading-4',
   headline:
-    'ock-font-family font-bold ock-text-foreground font-sans text-base leading-normal',
+    'ock-font-family font-semibold ock-text-foreground font-sans leading-normal',
   label1:
-    'ock-font-family font-bold ock-text-foreground font-sans text-sm leading-5',
+    'ock-font-family font-semibold ock-text-foreground font-sans text-sm leading-5',
   label2: 'ock-font-family font-sans ock-text-foreground text-sm leading-5',
   legal: 'ock-font-family font-sans ock-text-foreground text-xs leading-4',
   title3:
-    'ock-font-family font-bold ock-text-foreground font-display text-xl leading-7',
+    'ock-font-family font-semibold ock-text-foreground font-display text-xl leading-7',
 } as const;
 
 export const pressable = {
