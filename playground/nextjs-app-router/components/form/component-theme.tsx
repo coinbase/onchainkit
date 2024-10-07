@@ -18,7 +18,9 @@ export function ComponentTheme() {
       <Select
         value={componentTheme}
         onValueChange={(value) =>
-          setComponentTheme?.(value as 'light' | 'dark' | 'cyberpunk' | 'base')
+          setComponentTheme?.(
+            value as 'light' | 'dark' | 'cyberpunk' | 'base' | 'minimal',
+          )
         }
       >
         <SelectTrigger id="theme">
@@ -29,6 +31,7 @@ export function ComponentTheme() {
           <SelectItem value="dark">Dark</SelectItem>
           <SelectItem value="base">Base</SelectItem>
           <SelectItem value="cyberpunk">Cyberpunk</SelectItem>
+          <SelectItem value="minimal">Minimal</SelectItem>
         </SelectContent>
       </Select>
     </div>
