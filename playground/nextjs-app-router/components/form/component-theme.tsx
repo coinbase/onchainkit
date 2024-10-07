@@ -7,21 +7,17 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { useContext } from 'react';
-import { ProviderContext } from '../OnchainProviders';
+import { AppContext } from '../AppProvider';
 
 export function ComponentTheme() {
-  const { componentTheme, setComponentTheme } = useContext(ProviderContext);
+  const { componentTheme, setComponentTheme } = useContext(AppContext);
 
   return (
     <div className="grid gap-2">
       <Label htmlFor="theme">Component Theme</Label>
       <Select
         value={componentTheme}
-        onValueChange={(value) =>
-          setComponentTheme?.(
-            value as 'light' | 'dark' | 'cyberpunk' | 'base' | 'minimal',
-          )
-        }
+        onValueChange={(value) => setComponentTheme(value)}
       >
         <SelectTrigger id="theme">
           <SelectValue placeholder="Select theme" />

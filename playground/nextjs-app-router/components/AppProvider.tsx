@@ -1,8 +1,10 @@
 // AppContext.js
+import { ENVIRONMENT, ENVIRONMENT_VARIABLES } from '@/lib/constants';
+import { OnchainKitProvider } from '@coinbase/onchainkit';
 import type React from 'react';
 import { createContext, useEffect, useState } from 'react';
 import { useConnect, useConnectors } from 'wagmi';
-
+import { base } from 'wagmi/chains';
 import { WalletPreference } from './form/wallet-type';
 
 export enum OnchainKitComponent {
@@ -25,6 +27,14 @@ export type Paymaster = {
   url: string;
   enabled: boolean;
 };
+
+export type ComponentTheme =
+  | 'light'
+  | 'dark'
+  | 'cyberpunk'
+  | 'base'
+  | 'minimal';
+
 type State = {
   activeComponent?: OnchainKitComponent;
   setActiveComponent?: (component: OnchainKitComponent) => void;
@@ -39,14 +49,15 @@ type State = {
   setTransactionType?: (transactionType: TransactionTypes) => void;
   paymasters?: Record<number, Paymaster>; // paymasters is per network
   setPaymaster?: (chainId: number, url: string, enabled: boolean) => void;
-  componentTheme?: string;
-  setComponentTheme?: (theme: string) => void;
+  componentTheme: ComponentTheme;
+  setComponentTheme: (theme: ComponentTheme) => void;
 };
 
 const defaultState: State = {
   activeComponent: OnchainKitComponent.Transaction,
   chainId: 85432,
   componentTheme: 'light',
+  setComponentTheme: () => {},
 };
 
 export const AppContext = createContext(defaultState);
@@ -65,7 +76,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   const [paymasters, setPaymastersState] =
     useState<Record<number, Paymaster>>();
   const [defaultMaxSlippage, setDefaultMaxSlippageState] = useState<number>(3);
-  const [componentTheme, setComponentThemeState] = useState<string>();
+  const [componentTheme, setComponentTheme] = useState<ComponentTheme>('light');
 
   // Load initial values from localStorage
   // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO Refactor this component
@@ -76,7 +87,9 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     const storedPaymasters = localStorage.getItem('paymasters');
     const storedTransactionType = localStorage.getItem('transactionType');
     const storedDefaultMaxSlippage = localStorage.getItem('defaultMaxSlippage');
-    const storedComponentTheme = localStorage.getItem('componentTheme');
+    const storedComponentTheme = localStorage.getItem(
+      'componentTheme',
+    ) as ComponentTheme;
 
     if (storedActiveComponent) {
       setActiveComponent(storedActiveComponent as OnchainKitComponent);
@@ -101,13 +114,6 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     }
   }, []);
 
-  // Log the current theme whenever it changes
-  useEffect(() => {
-    if (componentTheme) {
-      console.log('Current theme:', componentTheme);
-    }
-  }, [componentTheme]);
-
   // Connect to wallet if walletType changes
   useEffect(() => {
     if (walletType === WalletPreference.SMART_WALLET) {
@@ -116,7 +122,6 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
       connect({ connector: connectors[1] });
     }
   }, [connect, connectors, walletType]);
-
   // Update localStorage whenever the state changes
 
   function setActiveComponent(component: OnchainKitComponent) {
@@ -161,11 +166,6 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     setTransactionTypeState(transactionType);
   };
 
-  const setComponentTheme = (newComponentTheme: string) => {
-    localStorage.setItem('componentTheme', newComponentTheme);
-    setComponentThemeState(newComponentTheme);
-  };
-
   return (
     <AppContext.Provider
       value={{
@@ -186,7 +186,15 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         setDefaultMaxSlippage,
       }}
     >
-      {children}
+      <OnchainKitProvider
+        apiKey={ENVIRONMENT_VARIABLES[ENVIRONMENT.API_KEY]}
+        chain={base}
+        config={{ theme: componentTheme }}
+        projectId={ENVIRONMENT_VARIABLES[ENVIRONMENT.PROJECT_ID]}
+        schemaId="0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9"
+      >
+        {children}
+      </OnchainKitProvider>
     </AppContext.Provider>
   );
 };
