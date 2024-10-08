@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.33.5
+
+### Patch Changes
+
+- aca0838: -**fix**: Removed circular dependency for WalletDefault. By @abcrane123 #1378
+
 ## 0.33.4
 
 ### Patch Changes
