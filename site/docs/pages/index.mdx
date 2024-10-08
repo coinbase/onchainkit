@@ -130,7 +130,7 @@ bun add @coinbase/onchainkit
     <p className="text-base md:text-base pb-[24px] md:text-left text-center text-gray-950 dark:text-gray-50">
       Create or connect wallet with [Connect Wallet](/wallet/wallet), powered by [Smart Wallet](https://www.smartwallet.dev/why).
     </p>
-    <a href="/wallet/wallet" title="Start with Wallet Component" className="mx-auto md:m-0  flex justify-center items-center border border-indigo-600 text-indigo-600 hover:bg-gray-200 dark:hover:bg-gray-700 dark:border-indigo-400 dark:text-indigo-400 dark:hover:border-indigo-300 font-bold leading-6 px-3 py-2 rounded-xl border-solid w-[180px]">
+    <a href="/wallet/wallet" title="Start with Wallet Component" className="mx-auto md:m-0 flex justify-center items-center border border-indigo-600 text-indigo-600 hover:bg-gray-200 dark:hover:bg-gray-700 dark:border-indigo-400 dark:text-indigo-400 dark:hover:border-indigo-300 font-bold leading-6 px-3 py-2 rounded-xl border-solid w-[180px]">
       Start with Wallet
     </a>
     <div className="flex grow md:flex-row pt-[44px] flex-col">
@@ -269,7 +269,7 @@ import { base } from 'viem/chains';
                   onError={onError}
                   onSuccess={onSuccess}
                 >
-                <TransactionButton className="px-6"/>
+                <TransactionButton className="w-[180px]"/>
                   <TransactionSponsor />
                   <TransactionStatus>
                     <TransactionStatusLabel />
@@ -421,7 +421,7 @@ import { FundButton } from '@coinbase/onchainkit/fund';
     {({ address }) => {
       if (address) {
         return (
-          <FundButton className="px-6" />
+          <FundButton className="w-[180px]" />
         )
       }
       return <>
