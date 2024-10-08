@@ -107,6 +107,15 @@ export const sidebar = [
         ],
       },
       {
+        text: 'Pay',
+        items: [
+          {
+            text: 'Pay',
+            link: '/pay/pay',
+          },
+        ],
+      },
+      {
         text: 'Swap',
         items: [
           {
