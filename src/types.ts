@@ -18,6 +18,8 @@ export type isEthereumOptions = {
   isMainnetOnly?: boolean; // If the chainId check is only allowed on mainnet
 };
 
+export type ModePreference = 'auto' | 'light' | 'dark'
+
 export type ComponentTheme =
   | 'light'
   | 'dark'
@@ -33,7 +35,8 @@ export type OnchainKitConfig = {
   apiKey: string | null; // ApiKey for Coinbase Developer Platform APIs
   chain: Chain; // Chain must be provided as we need to know which chain to use
   config: {
-    theme: ComponentTheme; // ComponentTheme: 'dark | light | disco'
+    mode: ModePreference; // Determines color scheme based on OS preference or user selection
+    theme: ComponentTheme; // Sets the visual style for components
   };
   rpcUrl: string | null; // RPC URL for onchain requests. Defaults to using CDP Node if the API Key is set
   schemaId: EASSchemaUid | null; // SchemaId is optional as not all apps need to use EAS
@@ -56,6 +59,7 @@ export type OnchainKitProviderReact = {
   chain: Chain;
   children: ReactNode;
   config: {
+    mode: ModePreference;
     theme: ComponentTheme;
   };
   rpcUrl?: string;
