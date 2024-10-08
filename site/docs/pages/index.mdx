@@ -26,6 +26,7 @@ import SwapWrapper from '../components/SwapWrapper';
 import TokenSelector from '../components/TokenSelector';
 import WalletComponents from '../components/WalletComponents';
 import TransactionWrapper from '../components/TransactionWrapper';
+import FundWrapper from '../components/FundWrapper';
 import {
   Transaction,
   TransactionButton,
@@ -34,6 +35,7 @@ import {
   TransactionStatusAction,
   TransactionStatusLabel,
 } from '@coinbase/onchainkit/transaction';
+import { FundButton } from '@coinbase/onchainkit/fund';
 import Tweets from '../components/landing/Tweets'
 
 <div id="blobs">
@@ -128,7 +130,7 @@ bun add @coinbase/onchainkit
     <p className="text-base md:text-base pb-[24px] md:text-left text-center text-gray-950 dark:text-gray-50">
       Create or connect your wallet with [Connect Wallet](/wallet/wallet), powered by [Smart Wallet](https://www.smartwallet.dev/why).
     </p>
-    <a href="/wallet/wallet" title="Start with Wallet Component" className="mx-auto md:m-0  flex justify-center items-center border border-indigo-600 text-indigo-600 hover:bg-gray-200 dark:hover:bg-gray-700 dark:border-indigo-400 dark:text-indigo-400 dark:hover:border-indigo-300 font-bold leading-6 px-4 py-3 rounded-xl border-solid w-[210px]">
+    <a href="/wallet/wallet" title="Start with Wallet Component" className="mx-auto md:m-0  flex justify-center items-center border border-indigo-600 text-indigo-600 hover:bg-gray-200 dark:hover:bg-gray-700 dark:border-indigo-400 dark:text-indigo-400 dark:hover:border-indigo-300 font-bold leading-6 px-3 py-2 rounded-xl border-solid w-[180px]">
       Start with Wallet
     </a>
     <div className="flex grow md:flex-row pt-[44px] flex-col">
@@ -202,95 +204,6 @@ import {
     </div>
   </aside>
 
-  <main id="transaction" className="pt-[56px] flex flex-col gap-4 md:flex-row md:text-left text-center">
-    <a href="#transaction" title="Transaction Component details">
-      <h3 className="basis-1/2 py-[15px] text-4xl md:text-4xl text-gray-950 dark:text-gray-50">Transaction</h3>
-    </a>
-  </main>
-  <aside className="pb-6">
-  <p className="text-base md:text-base pb-[24px] md:text-left text-center text-gray-950 dark:text-gray-50">
-    Trigger onchain operations and sponsor them with [Paymaster](https://www.coinbase.com/developer-platform/products/paymaster).
-  </p>
-  <a href="/transaction/transaction" title="Start with Transaction Component" className="mx-auto md:m-0 flex justify-center items-center border border-indigo-600 text-indigo-600 hover:bg-gray-200 dark:hover:bg-gray-700 dark:border-indigo-400 dark:text-indigo-400 dark:hover:border-indigo-300 font-bold leading-6 px-4 py-3 rounded-xl border-solid w-[210px]">
-    Start with Transaction
-  </a>
-  <div className="flex grow md:flex-row pt-[44px] flex-col">
-    <div className="w-[664px] max-w-full">
-```tsx twoslash
-// @noErrors: 2304 - Cannot find name 'CONTRACT_ADDRESS', 'CONTRACT_ABI', 'CONTRACT_FUNCTION_NAME'
-import { 
-  Transaction, 
-  TransactionButton, 
-  TransactionSponsor, 
-  TransactionStatus, 
-  TransactionStatusLabel, 
-  TransactionStatusAction 
-} from '@coinbase/onchainkit/transaction';
-import { base } from 'viem/chains';
-// ---cut-before---
-<Transaction
-  chainId={base.id}
-  contracts={[
-    {
-      address: CONTRACT_ADDRESS,
-      abi: CONTRACT_ABI,
-      functionName: CONTRACT_FUNCTION_NAME,
-      args: [],
-    },
-  ]}
->
-  <TransactionButton />
-  <TransactionSponsor />
-  <TransactionStatus>
-    <TransactionStatusLabel />
-    <TransactionStatusAction />
-  </TransactionStatus>
-</Transaction>
-```
-    </div>
-    <div className='flex grow items-center justify-center h-24 mt-[50px] md:mt-0 md:h-auto'>
-      <App>
-        <TransactionWrapper>
-          {({ address, contracts, onError, onSuccess }) => {
-            const capabilities = {
-              paymasterService: {
-                url: import.meta.env.VITE_CDP_PAYMASTER_AND_BUNDLER_ENDPOINT,
-              },
-            }
-            if (address) {
-              return (
-                <Transaction
-                  capabilities={capabilities}
-                  chainId={84532}
-                  contracts={contracts}
-                  onError={onError}
-                  onSuccess={onSuccess}
-                >
-                <TransactionButton className="w-[240px] px-4 py-2 text-white rounded-lg hover:bg-indigo-700 transition-colors" />
-                  <TransactionSponsor />
-                  <TransactionStatus>
-                    <TransactionStatusLabel />
-                    <TransactionStatusAction />
-                  </TransactionStatus>
-                </Transaction>
-              )
-            } else {
-              return (
-                <Wallet>
-                  <ConnectWallet>
-                    <Avatar className="h-6 w-6" />
-                    <Name />
-                  </ConnectWallet>
-                </Wallet>
-              )
-            }
-          }}
-        </TransactionWrapper>
-      </App>
-    </div>
-  </div>
-</aside>
-
   <main id="swap" className="pt-[56px] flex flex-col gap-4 md:flex-row md:text-left text-center">
     <a href="#swap" title="Swap Component details">
       <h3 className="basis-1/2 py-[15px] text-4xl md:text-4xl text-gray-950 dark:text-gray-50">Swap</h3>
@@ -300,7 +213,7 @@ import { base } from 'viem/chains';
     <p className="text-base md:text-base pb-[24px] md:text-left text-center text-gray-950 dark:text-gray-50">
       Swap [Tokens](/token/types#token) using the [Swap](/swap/swap) components.
     </p>
-    <a href="/swap/swap" title="Start with Swap Component" className="mx-auto md:m-0 flex justify-center items-center border border-indigo-600 text-indigo-600 hover:bg-gray-200 dark:hover:bg-gray-700 dark:border-indigo-400 dark:text-indigo-400 dark:hover:border-indigo-300 font-bold leading-6 px-4 py-3 rounded-xl border-solid w-[210px]">
+    <a href="/swap/swap" title="Start with Swap Component" className="mx-auto md:m-0 flex justify-center items-center border border-indigo-600 text-indigo-600 hover:bg-gray-200 dark:hover:bg-gray-700 dark:border-indigo-400 dark:text-indigo-400 dark:hover:border-indigo-300 font-bold leading-6 px-3 py-2 rounded-xl border-solid w-[180px]">
       Start with Swap
     </a>
     <div className="flex grow flex-col items-center md:flex-row pt-[44px] md:pt-[20px]">
@@ -392,6 +305,140 @@ const swappableTokens = [ETHToken, USDCToken];
     </div>
   </aside>
 
+   <main id="fund" className="pt-[56px] flex flex-col gap-4 md:flex-row md:text-left text-center">
+    <a href="#fund" title="Fund component details">
+      <h3 className="basis-1/2 py-[15px] text-4xl md:text-4xl text-gray-950 dark:text-gray-50">Fund</h3>
+    </a>
+  </main>
+  <aside className="pb-10">
+    <p className="text-base md:text-base pb-[24px] md:text-left text-center text-gray-950 dark:text-gray-50">
+      Fund a wallet by transferring from another wallet, transferring from a Coinbase account, or purchasing crypto using debit card.
+    </p>
+    <a href="/frame/frame-metadata" title="Start with Frame Component"  className="mx-auto md:m-0 flex justify-center items-center border border-indigo-600 text-indigo-600 hover:bg-gray-200 dark:hover:bg-gray-700 dark:border-indigo-400 dark:text-indigo-400 dark:hover:border-indigo-300 font-bold leading-6 px-3 py-2 rounded-xl border-solid w-[180px]">
+      Start with Fund
+    </a>
+    <div className="flex grow flex-col items-center md:flex-row pt-[44px]">
+      <div className="w-[664px] max-w-full">
+```tsx twoslash
+import { FundButton } from '@coinbase/onchainkit/fund';
+
+<FundButton />
+```
+      </div>
+    <div className='flex grow items-center justify-center h-24 md:h-auto'>
+      <App>
+  <FundWrapper>
+    {({ address }) => {
+      if (address) {
+        return (
+          <FundButton />
+        )
+      }
+      return <>
+        <Wallet>
+          <ConnectWallet>
+            <Avatar className="h-6 w-6" />
+            <Name />
+          </ConnectWallet>
+        </Wallet>
+      </>;
+    }}
+  </FundWrapper>
+</App>
+      </div>
+    </div>
+
+  </aside>
+
+  <main id="transaction" className="pt-[56px] flex flex-col gap-4 md:flex-row md:text-left text-center">
+    <a href="#transaction" title="Transaction Component details">
+      <h3 className="basis-1/2 py-[15px] text-4xl md:text-4xl text-gray-950 dark:text-gray-50">Transaction</h3>
+    </a>
+  </main>
+  <aside className="pb-6">
+  <p className="text-base md:text-base pb-[24px] md:text-left text-center text-gray-950 dark:text-gray-50">
+    Trigger onchain operations and sponsor them with [Paymaster](https://www.coinbase.com/developer-platform/products/paymaster).
+  </p>
+  <a href="/transaction/transaction" title="Start with Transaction Component" className="mx-auto md:m-0 flex justify-center items-center border border-indigo-600 text-indigo-600 hover:bg-gray-200 dark:hover:bg-gray-700 dark:border-indigo-400 dark:text-indigo-400 dark:hover:border-indigo-300 font-bold leading-6 px-3 py-2 rounded-xl border-solid w-[210px]">
+    Start with Transaction
+  </a>
+  <div className="flex grow md:flex-row pt-[44px] flex-col">
+    <div className="w-[664px] max-w-full">
+```tsx twoslash
+// @noErrors: 2304 - Cannot find name 'CONTRACT_ADDRESS', 'CONTRACT_ABI', 'CONTRACT_FUNCTION_NAME'
+import { 
+  Transaction, 
+  TransactionButton, 
+  TransactionSponsor, 
+  TransactionStatus, 
+  TransactionStatusLabel, 
+  TransactionStatusAction 
+} from '@coinbase/onchainkit/transaction';
+import { base } from 'viem/chains';
+// ---cut-before---
+<Transaction
+  chainId={base.id}
+  contracts={[
+    {
+      address: CONTRACT_ADDRESS,
+      abi: CONTRACT_ABI,
+      functionName: CONTRACT_FUNCTION_NAME,
+      args: [],
+    },
+  ]}
+>
+  <TransactionButton />
+  <TransactionSponsor />
+  <TransactionStatus>
+    <TransactionStatusLabel />
+    <TransactionStatusAction />
+  </TransactionStatus>
+</Transaction>
+```
+    </div>
+    <div className='flex grow items-center justify-center h-24 mt-[50px] md:mt-0 md:h-auto'>
+      <App>
+        <TransactionWrapper>
+          {({ address, contracts, onError, onSuccess }) => {
+            const capabilities = {
+              paymasterService: {
+                url: import.meta.env.VITE_CDP_PAYMASTER_AND_BUNDLER_ENDPOINT,
+              },
+            }
+            if (address) {
+              return (
+                <Transaction
+                  capabilities={capabilities}
+                  chainId={84532}
+                  contracts={contracts}
+                  onError={onError}
+                  onSuccess={onSuccess}
+                >
+                <TransactionButton className="w-[240px] px-4 py-2 text-white rounded-lg hover:bg-indigo-700 transition-colors" />
+                  <TransactionSponsor />
+                  <TransactionStatus>
+                    <TransactionStatusLabel />
+                    <TransactionStatusAction />
+                  </TransactionStatus>
+                </Transaction>
+              )
+            } else {
+              return (
+                <Wallet>
+                  <ConnectWallet>
+                    <Avatar className="h-6 w-6" />
+                    <Name />
+                  </ConnectWallet>
+                </Wallet>
+              )
+            }
+          }}
+        </TransactionWrapper>
+      </App>
+    </div>
+  </div>
+</aside>
+
   <main id="identity" className="flex flex-col gap-4 md:flex-row md:text-left text-center">
     <a href="#identity" title="Identity Component details">
       <h3 className="basis-1/2 py-[15px] text-4xl md:text-4xl text-gray-950 dark:text-gray-50">Identity</h3>
@@ -401,7 +448,7 @@ const swappableTokens = [ETHToken, USDCToken];
     <p className="text-base md:text-base pb-[24px] md:text-left text-center text-gray-950 dark:text-gray-50">
       Display ENS [avatars](/identity/avatar), Attestation [badges](/identity/badge), ENS [names](/identity/name) and account [addresses](/identity/address).
     </p>
-    <a href="/identity/identity" title="Start with Identity Component" className="mx-auto md:m-0 flex justify-center items-center border border-indigo-600 text-indigo-600 hover:bg-gray-200 dark:hover:bg-gray-700 dark:border-indigo-400 dark:text-indigo-400 dark:hover:border-indigo-300 font-bold leading-6 px-4 py-3 rounded-xl border-solid w-[210px]">
+    <a href="/identity/identity" title="Start with Identity Component" className="mx-auto md:m-0 flex justify-center items-center border border-indigo-600 text-indigo-600 hover:bg-gray-200 dark:hover:bg-gray-700 dark:border-indigo-400 dark:text-indigo-400 dark:hover:border-indigo-300 font-bold leading-6 px-3 py-2 rounded-xl border-solid w-[180px]">
       Start with Identity
     </a>
     <div className="flex grow md:flex-row pt-[44px] flex-col">
@@ -443,99 +490,6 @@ import { Identity, Avatar, Badge, Name, Address } from '@coinbase/onchainkit/ide
 
   </aside>
   
-  <main id="frame" className="pt-[56px] flex flex-col gap-4 md:flex-row md:text-left text-center">
-    <a href="#frame" title="Frame Component details">
-      <h3 className="basis-1/2 py-[15px] text-4xl md:text-4xl text-gray-950 dark:text-gray-50">Frame</h3>
-    </a>
-  </main>
-  <aside className="pb-10">
-    <p className="text-base md:text-base pb-[24px] md:text-left text-center text-gray-950 dark:text-gray-50">
-      Test, build, and ship your Farcaster frames with [FrameMetadata](/frame/frame-metadata).
-    </p>
-    <a href="/frame/frame-metadata" title="Start with Frame Component"  className="mx-auto md:m-0 flex justify-center items-center border border-indigo-600 text-indigo-600 hover:bg-gray-200 dark:hover:bg-gray-700 dark:border-indigo-400 dark:text-indigo-400 dark:hover:border-indigo-300 font-bold leading-6 px-4 py-3 rounded-xl border-solid w-[210px]">
-      Start with Frame
-    </a>
-    <div className="flex grow flex-col items-center md:flex-row pt-[44px]">
-      <div className="w-[664px] max-w-full">
-```tsx twoslash
-import { FrameMetadata } from '@coinbase/onchainkit/frame';
-// ---cut-before---
-<FrameMetadata
-  buttons={[
-    {
-      label: 'Tell me the story',
-    },
-    {
-      action: 'link',
-      label: 'Link to Google',
-      target: 'https://www.google.com'
-    },
-    {
-      action: 'post_redirect',
-      label: 'Redirect to cute pictures',
-    },
-  ]}
-  image={{
-   src: 'https://zizzamia.xyz/park-3.png',
-   aspectRatio: '1:1'
-  }}
-  input={{
-    text: 'Tell me a boat story',
-  }}
-  state={{
-    counter: 1,
-  }}
-  postUrl="https://zizzamia.xyz/api/frame"
-/>
-```
-      </div>
-      <div className='flex grow items-center justify-center h-auto p-6'>
-        <img 
-          className="max-w-full w-[350px]" 
-          alt="OnchainKit figma" 
-          src="/assets/frame.png"
-          width="350"
-          loading="lazy"
-        />
-      </div>
-    </div>
-  </aside>
-</section>
-
-{' '}
-
-<section className="css-alternate-container w-full flex flex-col items-center py-24">
-  <div className="w-[1225px] max-w-full flex flex-col justify-between">
-    <div className="flex flex-col md:flex-row justify-between items-center pb-[20px]">
-      <div>
-        <h3 className="basis-1/2 py-[15px] text-4xl md:text-4xl text-center text-gray-950 dark:text-gray-50 md:text-left max-w-[250px]">From design to development</h3>
-      </div>
-      <p className="w-[450px] max-w-full text-[28px] font-light leading-9 md:text-[28px] text-center text-gray-950 dark:text-gray-50 md:text-left">Take ownership over design or collaborate efficiently with designers</p>
-    </div>
-    <aside className="mx-auto md:mx-0">
-      <a
-        href="https://www.figma.com/community/file/1370194397345450683/onchainkit"
-        className="flex justify-center items-center border border-indigo-600 text-indigo-600 hover:bg-gray-200 dark:hover:bg-gray-700 dark:border-indigo-400 dark:text-indigo-400 dark:hover:border-indigo-300 font-bold leading-6 px-4 py-3 rounded-xl border-solid w-[180px]"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        View Figma
-      </a>
-    </aside>
-  </div>
-</section>
-
-{' '}
-
-<section className="css-alternate-container w-full flex items-center justify-center">
-  <aside className="flex flex-col pb-10 md:flex-row md:px-2 w-[940px]">
-    <iframe 
-      className="border border-gray-200 w-full max-w-[924px] h-[520px] mx-auto my-8 rounded-lg shadow-md"
-      src="https://embed.figma.com/design/wrzyLn1Gu4UapcQRPxTbis/OnchainKit-(Community)?node-id=18-195&m=dev&embed-host=share"
-      allowFullScreen
-      title="OnchainKit Figma Design"
-    />
-  </aside>
 </section>
 
 {' '}
@@ -551,7 +505,7 @@ import { FrameMetadata } from '@coinbase/onchainkit/frame';
           <p className="leading-7 text-xl text-gray-400 px-0 py-6 max-w-[500px] md:text-left text-center">
             Build your onchain apps with ready-to-use React components and Typescript utilities.
           </p>
-          <a href="/getting-started" title="Get started with OnchainKit" className="alternate-button mx-auto md:mx-0 flex justify-center items-center bg-indigo-600 hover:bg-indigo-700 text-[white] dark:bg-indigo-400 dark:text-black dark:hover:bg-indigo-300 font-bold leading-6 px-4 py-3 rounded-xl w-[180px]">
+          <a href="/getting-started" title="Get started with OnchainKit" className="alternate-button mx-auto md:mx-0 flex justify-center items-center bg-indigo-600 hover:bg-indigo-700 text-[white] dark:bg-indigo-400 dark:text-black dark:hover:bg-indigo-300 font-bold leading-6 px-4 py-2 rounded-xl w-[140px]">
             Get started
           </a>
         </div>

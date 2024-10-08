@@ -3,6 +3,7 @@ import { identitySvg } from '../svg/identitySvg.tsx';
 import { swapSvg } from '../svg/swapSvg.tsx';
 import { transactionSvg } from '../svg/transactionSvg.tsx';
 import { walletSvg } from '../svg/walletSvg.tsx';
+import { fundSvg } from '../svg/fundSvg.tsx';
 
 // The order is based on the most popular items from Google Analytics
 const navItems = [
@@ -12,24 +13,24 @@ const navItems = [
     label: 'Wallet',
   },
   {
-    href: '#transaction',
-    svg: transactionSvg,
-    label: 'Transaction',
-  },
-  {
     href: '#swap',
     svg: swapSvg,
     label: 'Swap',
   },
   {
+    href: '#fund',
+    svg: fundSvg,
+    label: 'Fund',
+  },
+  {
+    href: '#transaction',
+    svg: transactionSvg,
+    label: 'Transaction',
+  },
+  {
     href: '#identity',
     svg: identitySvg,
     label: 'Identity',
-  },
-  {
-    href: '#frame',
-    svg: frameSvg,
-    label: 'Frame',
   },
 ];
 
