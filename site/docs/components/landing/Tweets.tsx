@@ -32,9 +32,9 @@ const Tweets = () => {
   }
 
   return (
-    <section className="css-alternate-container flex w-full flex-col items-center gap-[72px] py-24">
+    <section className="css-alternate-container flex w-full flex-col items-center gap-[48px] py-24">
       <div>
-        <h3 className="max-w-[525px] basis-1/2 py-[15px] text-center text-4xl text-gray-950 md:text-4xl dark:text-gray-50">
+        <h3 className="max-w-[525px] basis-1/2 text-center text-4xl text-gray-950 md:text-4xl dark:text-gray-50">
           Builders ship faster with OnchainKit
         </h3>
       </div>
@@ -43,7 +43,7 @@ const Tweets = () => {
           <blockquote
             className="twitter-tweet tweet1"
             data-dnt="true"
-            data-theme="dark"
+            data-theme="light"
           >
             <p lang="en" dir="ltr">
               🟣 Excited to announce that Basenames are now integrated into the
@@ -69,7 +69,7 @@ const Tweets = () => {
           <blockquote
             className="twitter-tweet tweet2"
             data-dnt="true"
-            data-theme="dark"
+            data-theme="light"
           >
             <p lang="en" dir="ltr">
               Building with
@@ -96,7 +96,7 @@ const Tweets = () => {
             className="twitter-tweet tweet3"
             data-conversation="none"
             data-dnt="true"
-            data-theme="dark"
+            data-theme="light"
           >
             <p lang="en" dir="ltr">
               Swap is now live on our website! Feels good to be based, thanks
