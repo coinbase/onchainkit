@@ -18,13 +18,13 @@ export type isEthereumOptions = {
   isMainnetOnly?: boolean; // If the chainId check is only allowed on mainnet
 };
 
-export type ModePreference = 'auto' | 'light' | 'dark'
+export type ModePreference = 'auto' | 'light' | 'dark';
 
 export type ComponentTheme =
-  | 'light'
-  | 'dark'
-  | 'cyberpunk'
   | 'base'
+  | 'cyberpunk'
+  | 'day'
+  | 'midnight'
   | 'minimal';
 
 /**
@@ -36,7 +36,7 @@ export type OnchainKitConfig = {
   chain: Chain; // Chain must be provided as we need to know which chain to use
   config: {
     mode: ModePreference; // Determines color scheme based on OS preference or user selection
-    theme: ComponentTheme; // Sets the visual style for components
+    theme?: ComponentTheme | null; // Optionally sets the visual style for components
   };
   rpcUrl: string | null; // RPC URL for onchain requests. Defaults to using CDP Node if the API Key is set
   schemaId: EASSchemaUid | null; // SchemaId is optional as not all apps need to use EAS
@@ -60,7 +60,7 @@ export type OnchainKitProviderReact = {
   children: ReactNode;
   config: {
     mode: ModePreference;
-    theme: ComponentTheme;
+    theme?: ComponentTheme | null;
   };
   rpcUrl?: string;
   schemaId?: EASSchemaUid;

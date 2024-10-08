@@ -1,5 +1,5 @@
 import { cn, pressable, text } from '../../styles/theme';
-import { useOnchainKit } from '../../useOnchainKit';
+import { useTheme } from '../../useTheme';
 import type { TokenChipReact } from '../types';
 import { TokenImage } from './TokenImage';
 
@@ -10,9 +10,7 @@ import { TokenImage } from './TokenImage';
  *          may change in the next few weeks.
  */
 export function TokenChip({ token, onClick, className }: TokenChipReact) {
-  const {
-    config: { theme: componentTheme },
-  } = useOnchainKit();
+  const componentTheme = useTheme();
 
   return (
     <button

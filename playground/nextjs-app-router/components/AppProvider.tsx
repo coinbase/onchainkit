@@ -28,12 +28,16 @@ export type Paymaster = {
   enabled: boolean;
 };
 
+// I think we need to add 'light' and 'dark'?
 export type ComponentTheme =
-  | 'light'
-  | 'dark'
-  | 'cyberpunk'
   | 'base'
-  | 'minimal';
+  | 'cyberpunk'
+  | 'day'
+  | 'midnight'
+  | 'minimal'
+  | 'none';
+
+export type ComponentMode = 'auto' | 'light' | 'dark';
 
 type State = {
   activeComponent?: OnchainKitComponent;
@@ -49,15 +53,19 @@ type State = {
   setTransactionType?: (transactionType: TransactionTypes) => void;
   paymasters?: Record<number, Paymaster>; // paymasters is per network
   setPaymaster?: (chainId: number, url: string, enabled: boolean) => void;
-  componentTheme: ComponentTheme;
+  componentTheme?: ComponentTheme;
   setComponentTheme: (theme: ComponentTheme) => void;
+  componentMode: ComponentMode;
+  setComponentMode: (mode: ComponentMode) => void;
 };
 
 const defaultState: State = {
   activeComponent: OnchainKitComponent.Transaction,
   chainId: 85432,
-  componentTheme: 'light',
+  componentTheme: 'day',
   setComponentTheme: () => {},
+  componentMode: 'auto',
+  setComponentMode: () => {},
 };
 
 export const AppContext = createContext(defaultState);
@@ -76,7 +84,10 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   const [paymasters, setPaymastersState] =
     useState<Record<number, Paymaster>>();
   const [defaultMaxSlippage, setDefaultMaxSlippageState] = useState<number>(3);
-  const [componentTheme, setComponentTheme] = useState<ComponentTheme>('light');
+  const [componentTheme, setComponentThemeState] =
+    useState<ComponentTheme>('none');
+  const [componentMode, setComponentModeState] =
+    useState<ComponentMode>('auto');
 
   // Load initial values from localStorage
   // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO Refactor this component
@@ -90,6 +101,9 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     const storedComponentTheme = localStorage.getItem(
       'componentTheme',
     ) as ComponentTheme;
+    const storedComponentMode = localStorage.getItem(
+      'componentMode',
+    ) as ComponentMode;
 
     if (storedActiveComponent) {
       setActiveComponent(storedActiveComponent as OnchainKitComponent);
@@ -111,6 +125,9 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     }
     if (storedComponentTheme) {
       setComponentTheme(storedComponentTheme);
+    }
+    if (storedComponentMode) {
+      setComponentMode(storedComponentMode);
     }
   }, []);
 
@@ -166,6 +183,18 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     setTransactionTypeState(transactionType);
   };
 
+  const setComponentTheme = (theme: ComponentTheme) => {
+    console.log('Component theme changed:', theme);
+    localStorage.setItem('componentTheme', theme);
+    setComponentThemeState(theme);
+  };
+
+  const setComponentMode = (mode: ComponentMode) => {
+    console.log('Component mode changed:', mode);
+    localStorage.setItem('componentMode', mode);
+    setComponentModeState(mode);
+  };
+
   return (
     <AppContext.Provider
       value={{
@@ -178,6 +207,8 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         setChainId,
         componentTheme,
         setComponentTheme,
+        componentMode,
+        setComponentMode,
         paymasters,
         setPaymaster,
         transactionType,
@@ -189,7 +220,10 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
       <OnchainKitProvider
         apiKey={ENVIRONMENT_VARIABLES[ENVIRONMENT.API_KEY]}
         chain={base}
-        config={{ theme: componentTheme }} // TODO: Add mode: 'auto', auto, light, dark
+        config={{
+          mode: componentMode,
+          theme: componentTheme === 'none' ? null : componentTheme,
+        }}
         projectId={ENVIRONMENT_VARIABLES[ENVIRONMENT.PROJECT_ID]}
         schemaId="0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9"
       >

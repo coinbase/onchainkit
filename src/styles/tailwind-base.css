@@ -2,6 +2,7 @@
 
 @layer base {
   :root,
+  .day,
   .light {
     --ock-font-family: 'DM Sans', sans-serif;
     --ock-border-radius: 0.75rem;
@@ -37,7 +38,8 @@
     --ock-bg-default-reverse: theme(colors.gray.950);
   }
 
-  .dark {
+  .dark,
+  .midnight {
     --ock-font-family: 'DM Sans', sans-serif;
     --ock-border-radius: 0.75rem;
     --ock-text-inverse: theme(colors.gray.950);
@@ -153,7 +155,7 @@
     --ock-text-success: theme(colors.lime.600);
     --ock-text-warning: theme(colors.orange.600);
     --ock-text-disabled: theme(colors.zinc.400);
-    
+
     --ock-bg-default: theme(colors.zinc.50);
     --ock-bg-default-hover: theme(colors.zinc.200);
     --ock-bg-default-active: theme(colors.zinc.300);

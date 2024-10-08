@@ -8,6 +8,7 @@ import {
 } from '@/components/ui/select';
 import { useContext } from 'react';
 import { AppContext } from '../AppProvider';
+import type { ComponentTheme as ComponentThemeType } from '../AppProvider';
 
 export function ComponentTheme() {
   const { componentTheme, setComponentTheme } = useContext(AppContext);
@@ -17,14 +18,15 @@ export function ComponentTheme() {
       <Label htmlFor="theme">Component Theme</Label>
       <Select
         value={componentTheme}
-        onValueChange={(value) => setComponentTheme(value)}
+        onValueChange={(value: ComponentThemeType) => setComponentTheme(value)}
       >
         <SelectTrigger id="theme">
           <SelectValue placeholder="Select theme" />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="light">Light</SelectItem>
-          <SelectItem value="dark">Dark</SelectItem>
+          <SelectItem value="none">None</SelectItem>
+          <SelectItem value="day">Day</SelectItem>
+          <SelectItem value="midnight">Midnight</SelectItem>
           <SelectItem value="base">Base</SelectItem>
           <SelectItem value="cyberpunk">Cyberpunk</SelectItem>
           <SelectItem value="minimal">Minimal</SelectItem>

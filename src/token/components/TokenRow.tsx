@@ -1,6 +1,6 @@
 import { memo } from 'react';
 import { cn, color, pressable, text } from '../../styles/theme';
-import { useOnchainKit } from '../../useOnchainKit';
+import { useTheme } from '../../useTheme';
 import type { TokenRowReact } from '../types';
 import { formatAmount } from '../utils/formatAmount';
 import { TokenImage } from './TokenImage';
@@ -13,9 +13,7 @@ export const TokenRow = memo(function TokenRow({
   hideImage,
   hideSymbol,
 }: TokenRowReact) {
-  const {
-    config: { theme: componentTheme },
-  } = useOnchainKit();
+  const componentTheme = useTheme();
 
   return (
     <button

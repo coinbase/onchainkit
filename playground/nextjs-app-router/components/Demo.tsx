@@ -1,6 +1,7 @@
 'use client';
 import { AppContext, OnchainKitComponent } from '@/components/AppProvider';
 import { Chain } from '@/components/form/chain';
+import { ComponentMode } from '@/components/form/component-mode';
 import { ComponentTheme } from '@/components/form/component-theme';
 import { PaymasterUrl } from '@/components/form/paymaster';
 import { SwapConfig } from '@/components/form/swap-config';
@@ -102,6 +103,7 @@ function Demo() {
           {isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
         </button>
         <form className="mt-4 grid gap-8">
+          <ComponentMode />
           <ComponentTheme />
           <ActiveComponent />
           <WalletType />

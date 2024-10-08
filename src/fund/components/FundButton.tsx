@@ -2,11 +2,10 @@ import { useCallback } from 'react';
 import { addSvg } from '../../internal/svg/addSvg';
 import { openPopup } from '../../internal/utils/openPopup';
 import { cn, color, pressable, text } from '../../styles/theme';
-import { useOnchainKit } from '../../useOnchainKit';
+import { useTheme } from '../../useTheme';
 import { useGetFundingUrl } from '../hooks/useGetFundingUrl';
 import type { FundButtonReact } from '../types';
 import { getFundingPopupSize } from '../utils/getFundingPopupSize';
-import { themeSelector } from '../../themeSelector'
 
 export function FundButton({
   className,
@@ -20,15 +19,7 @@ export function FundButton({
   target,
   text: buttonText = 'Fund',
 }: FundButtonReact) {
-  const {
-    config: { theme, mode },
-  } = useOnchainKit();
-  // TODO: I think we want a help function
-  const componentTheme = themeSelector(theme, mode)
-  console.log("component theme: ", componentTheme)
-  // Pass is componentTheme and mode, returns the "correct" component?
-  // How to grab user OS preference
-
+  const componentTheme = useTheme();
   // If the fundingUrl prop is undefined, fallback to our recommended funding URL based on the wallet type
   const fundingUrlToRender = fundingUrl ?? useGetFundingUrl();
   const isDisabled = disabled || !fundingUrlToRender;

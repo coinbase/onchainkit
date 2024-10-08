@@ -61,8 +61,8 @@
 
 /* Customize Theme */
 @layer base { 
-  :root, .light, .dark, .base, .cyberpunk, .minimal {
-    /* --ock-bg-primary: red; */
+  :root, .light, .dark, .day, .midnight .base, .cyberpunk, .minimal {
+    --ock-bg-primary: red;
   }
 }
 

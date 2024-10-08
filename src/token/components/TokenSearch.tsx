@@ -3,7 +3,7 @@ import { TextInput } from '../../internal/components/TextInput';
 import { closeSvg } from '../../internal/svg/closeSvg';
 import { searchIconSvg } from '../../internal/svg/searchIconSvg';
 import { cn, color, placeholder, pressable } from '../../styles/theme';
-import { useOnchainKit } from '../../useOnchainKit';
+import { useTheme } from '../../useTheme';
 import type { TokenSearchReact } from '../types';
 
 export function TokenSearch({
@@ -11,9 +11,7 @@ export function TokenSearch({
   onChange,
   delayMs = 200,
 }: TokenSearchReact) {
-  const {
-    config: { theme: componentTheme },
-  } = useOnchainKit();
+  const componentTheme = useTheme();
 
   const [value, setValue] = useState('');
 

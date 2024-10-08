@@ -2,7 +2,7 @@ import { Children, useEffect, useMemo, useRef } from 'react';
 import { findComponent } from '../../internal/utils/findComponent';
 import { cn } from '../../styles/theme';
 import { useIsMounted } from '../../useIsMounted';
-import { useOnchainKit } from '../../useOnchainKit';
+import { useTheme } from '../../useTheme';
 import type { WalletReact } from '../types';
 import { ConnectWallet } from './ConnectWallet';
 import { WalletDropdown } from './WalletDropdown';
@@ -49,10 +49,7 @@ const WalletContent = ({ children, className }: WalletReact) => {
 };
 
 export const Wallet = ({ children, className }: WalletReact) => {
-  const {
-    config: { theme: componentTheme },
-  } = useOnchainKit();
-
+  const componentTheme = useTheme();
   const isMounted = useIsMounted();
 
   // prevents SSR hydration issue

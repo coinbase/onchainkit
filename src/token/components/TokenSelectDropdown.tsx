@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { background, cn } from '../../styles/theme';
-import { useOnchainKit } from '../../useOnchainKit';
+import { useTheme } from '../../useTheme';
 import type { TokenSelectDropdownReact } from '../types';
 import { TokenRow } from './TokenRow';
 import { TokenSelectButton } from './TokenSelectButton';
@@ -10,9 +10,7 @@ export function TokenSelectDropdown({
   setToken,
   token,
 }: TokenSelectDropdownReact) {
-  const {
-    config: { theme: componentTheme },
-  } = useOnchainKit();
+  const componentTheme = useTheme();
 
   const [isOpen, setIsOpen] = useState(false);
 

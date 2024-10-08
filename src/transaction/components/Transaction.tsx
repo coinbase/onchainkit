@@ -1,6 +1,7 @@
 import { cn } from '../../styles/theme';
 import { useIsMounted } from '../../useIsMounted';
 import { useOnchainKit } from '../../useOnchainKit';
+import { useTheme } from '../../useTheme';
 import type { TransactionReact } from '../types';
 import { TransactionProvider } from './TransactionProvider';
 
@@ -20,10 +21,8 @@ export function Transaction({
   if (!isMounted) {
     return null;
   }
-  const {
-    chain,
-    config: { theme: componentTheme },
-  } = useOnchainKit();
+  const { chain } = useOnchainKit();
+  const componentTheme = useTheme();
 
   // If chainId is not provided,
   // use the default chainId from the OnchainKit context

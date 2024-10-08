@@ -2,7 +2,7 @@ import { Children, useMemo } from 'react';
 import type { ReactNode } from 'react';
 import { findComponent } from '../../internal/utils/findComponent';
 import { background, cn, color, pressable } from '../../styles/theme';
-import { useOnchainKit } from '../../useOnchainKit';
+import { useTheme } from '../../useTheme';
 import { usePopover } from '../hooks/usePopover';
 import { Address } from './Address';
 import { Avatar } from './Avatar';
@@ -22,9 +22,7 @@ export function IdentityLayout({
   className,
   onClick,
 }: IdentityLayoutReact) {
-  const {
-    config: { theme: componentTheme },
-  } = useOnchainKit();
+  const componentTheme = useTheme();
 
   const { avatar, name, address, ethBalance } = useMemo(() => {
     const childrenArray = Children.toArray(children);

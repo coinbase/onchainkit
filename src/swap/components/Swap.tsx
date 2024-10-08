@@ -2,7 +2,7 @@ import { Children, useMemo } from 'react';
 import { findComponent } from '../../internal/utils/findComponent';
 import { background, cn, text } from '../../styles/theme';
 import { useIsMounted } from '../../useIsMounted';
-import { useOnchainKit } from '../../useOnchainKit';
+import { useTheme } from '../../useTheme';
 import { FALLBACK_DEFAULT_MAX_SLIPPAGE } from '../constants';
 import type { SwapReact } from '../types';
 import { SwapAmountInput } from './SwapAmountInput';
@@ -26,9 +26,7 @@ export function Swap({
   onSuccess,
   title = 'Swap',
 }: SwapReact) {
-  const {
-    config: { theme: componentTheme },
-  } = useOnchainKit();
+  const componentTheme = useTheme();
 
   const {
     inputs,
