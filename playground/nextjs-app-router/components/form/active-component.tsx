@@ -14,7 +14,7 @@ export function ActiveComponent() {
 
   return (
     <div className="grid gap-2">
-      <Label htmlFor="component theme">Component</Label>
+      <Label htmlFor="chain">Component</Label>
       <Select
         value={activeComponent}
         onValueChange={(value) =>

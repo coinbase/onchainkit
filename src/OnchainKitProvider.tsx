@@ -14,7 +14,7 @@ export function OnchainKitProvider({
   apiKey,
   chain,
   children,
-  config,
+  appearance,
   projectId,
   rpcUrl,
   schemaId,
@@ -28,14 +28,14 @@ export function OnchainKitProvider({
       address: address ?? null,
       apiKey: apiKey ?? null,
       chain: chain,
-      config: config ?? null,
+      appearance: appearance,
       projectId: projectId ?? null,
       rpcUrl: rpcUrl ?? null,
       schemaId: schemaId ?? null,
     };
     setOnchainKitConfig(onchainKitConfig);
     return onchainKitConfig;
-  }, [address, apiKey, chain, config, projectId, rpcUrl, schemaId]);
+  }, [address, apiKey, chain, appearance, projectId, rpcUrl, schemaId]);
 
   return (
     <OnchainKitContext.Provider value={value}>

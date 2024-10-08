@@ -1,63 +1,76 @@
 import { useEffect, useState } from 'react';
-import type { ComponentTheme } from './types';
+import type { ComponentTheme, UseThemeReact } from './types';
 import { useOnchainKit } from './useOnchainKit';
 
-export function useTheme(): string {
-  const {
-    config: { theme, mode },
-  } = useOnchainKit();
+export function useTheme(): UseThemeReact {
+  const { appearance } = useOnchainKit();
+  const { theme, mode } = appearance || {};
 
-  console.log('theme:', theme, 'mode:', mode);
-
-  const [currentTheme, setCurrentTheme] = useState<ComponentTheme>('day');
+  // Start with the default theme
+  const [currentTheme, setCurrentTheme] =
+    useState<UseThemeReact>('default-light');
 
   useEffect(() => {
-    // Create a media query to detect system preference for dark mode
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
 
-    console.log('System prefers dark:', mediaQuery.matches);
+    // Helper to get the theme variant based on user preference (light/dark)
+    const getThemeVariant = (
+      baseTheme: ComponentTheme,
+      prefersDarkMode: boolean,
+    ): UseThemeReact => {
+      // If the theme doesn't support light/dark variants, return it as is
+      if (
+        baseTheme === 'cyberpunk' ||
+        baseTheme === 'base' ||
+        baseTheme === 'minimal'
+      ) {
+        return baseTheme;
+      }
 
-    const updateTheme = (prefersDarkMode: boolean) => {
+      // For 'default', return the appropriate light/dark variant
+      return prefersDarkMode ? 'default-dark' : 'default-light';
+    };
+
+    // Determine the theme based on mode and system preference
+    const getTheme = (prefersDarkMode: boolean): UseThemeReact => {
       if (theme) {
-        // If a theme is explicitly set, use it.
-        // All themes currently have one default mode. When multiple modes are supported,
-        // we can handle: setCurrentTheme(isDarkMode ? `${theme}-dark` : `${theme}-light`);
-        console.log('Using explicit theme:', theme);
-        setCurrentTheme(theme);
-      } else {
-        // If no theme is specified, determine based on mode
-        // Theme selection logic:
-        // 1. If mode is 'light', use 'day' theme
-        // 2. If mode is 'dark', use 'midnight' theme
-        // 3. If mode is 'auto' or undefined, use system preference
-        if (mode === 'light') {
-          console.log('Using light mode');
-          setCurrentTheme('day');
-        } else if (mode === 'dark') {
-          console.log('Using dark mode');
-          setCurrentTheme('midnight');
-        } else {
-          console.log(
-            'Using system preference:',
-            prefersDarkMode ? 'dark' : 'light',
-          );
-          setCurrentTheme(prefersDarkMode ? 'midnight' : 'day');
+        if (mode === 'auto') {
+          return getThemeVariant(theme, prefersDarkMode);
         }
+        if (mode === 'light') {
+          return getThemeVariant(theme, false); // Force light variant
+        }
+        if (mode === 'dark') {
+          return getThemeVariant(theme, true); // Force dark variant
+        }
+        return getThemeVariant(theme, prefersDarkMode); // Fallback to auto behavior if no mode is specified
+      }
+
+      // If no theme is provided, default to light/dark variants of 'default'
+      return mode === 'light'
+        ? 'default-light'
+        : mode === 'dark'
+          ? 'default-dark'
+          : prefersDarkMode
+            ? 'default-dark'
+            : 'default-light';
+    };
+
+    // Update the theme when mode, theme, or OS preference changes
+    const updateTheme = () => {
+      const newTheme = getTheme(mediaQuery.matches);
+      console.log('Mode:', mode, 'Theme:', newTheme); // Log mode and theme
+
+      if (newTheme !== currentTheme) {
+        setCurrentTheme(newTheme);
       }
     };
 
-    const handleChange = (e: MediaQueryListEvent) => updateTheme(e.matches);
+    updateTheme(); // Set initial theme
+    mediaQuery.addEventListener('change', updateTheme); // Listen for OS theme changes
 
-    // Initial theme update
-    updateTheme(mediaQuery.matches);
-
-    // Add event listener for system preference changes
-    mediaQuery.addEventListener('change', handleChange);
-
-    // Cleanup function to remove the event listener
-    return () => mediaQuery.removeEventListener('change', handleChange);
-  }, [theme, mode]); // Re-run effect if theme or mode changes
-
-  console.log('useTheme currentTheme: ', currentTheme);
+    return () => mediaQuery.removeEventListener('change', updateTheme); // Cleanup listener
+  }, [theme, mode, currentTheme]);
+  console.log('currentTheme: ', currentTheme);
   return currentTheme;
 }

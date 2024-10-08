@@ -60,11 +60,17 @@
 }
 
 /* Customize Theme */
-@layer base { 
-  :root, .light, .dark, .day, .midnight .base, .cyberpunk, .minimal {
+/*
+@layer base {
+  :root,
+  .default-light,
+  .default-dark,
+  .base,
+  .cyberpunk,
+  .minimal {
     --ock-bg-primary: red;
   }
-}
+} */
 
 @layer base {
   * {

@@ -28,14 +28,12 @@ export type Paymaster = {
   enabled: boolean;
 };
 
-// I think we need to add 'light' and 'dark'?
 export type ComponentTheme =
   | 'base'
   | 'cyberpunk'
-  | 'day'
-  | 'midnight'
+  | 'default'
   | 'minimal'
-  | 'none';
+  | 'none'; // Simulates an undefined theme field
 
 export type ComponentMode = 'auto' | 'light' | 'dark';
 
@@ -62,7 +60,7 @@ type State = {
 const defaultState: State = {
   activeComponent: OnchainKitComponent.Transaction,
   chainId: 85432,
-  componentTheme: 'day',
+  componentTheme: 'default',
   setComponentTheme: () => {},
   componentMode: 'auto',
   setComponentMode: () => {},
@@ -220,9 +218,9 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
       <OnchainKitProvider
         apiKey={ENVIRONMENT_VARIABLES[ENVIRONMENT.API_KEY]}
         chain={base}
-        config={{
+        appearance={{
           mode: componentMode,
-          theme: componentTheme === 'none' ? null : componentTheme,
+          theme: componentTheme === 'none' ? undefined : componentTheme,
         }}
         projectId={ENVIRONMENT_VARIABLES[ENVIRONMENT.PROJECT_ID]}
         schemaId="0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9"

@@ -25,8 +25,7 @@ export function ComponentTheme() {
         </SelectTrigger>
         <SelectContent>
           <SelectItem value="none">None</SelectItem>
-          <SelectItem value="day">Day</SelectItem>
-          <SelectItem value="midnight">Midnight</SelectItem>
+          <SelectItem value="default">Default</SelectItem>
           <SelectItem value="base">Base</SelectItem>
           <SelectItem value="cyberpunk">Cyberpunk</SelectItem>
           <SelectItem value="minimal">Minimal</SelectItem>
