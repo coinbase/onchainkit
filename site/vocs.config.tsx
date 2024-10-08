@@ -119,8 +119,8 @@ export default defineConfig({
       link: 'https://github.com/coinbase/onchain-app-template',
     },
     {
-      text: 'Frame Template',
-      link: 'https://github.com/Zizzamia/a-frame-in-100-lines',
+      text: 'Playground',
+      link: 'https://onchainkit.xyz/playground',
     },
     {
       text: pkg.version,
