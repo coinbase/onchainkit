@@ -2,6 +2,7 @@ import { useState, useContext, createContext, useCallback } from 'react';
 import type { NftMintContextType, NftMintProviderReact } from '../types';
 import { useValue } from '../../internal/hooks/useValue';
 import { useNftContext } from './NftProvider';
+import { useMintData as defaultUseMintData } from '../hooks/useMintData';
 
 const emptyContext = {} as NftMintContextType;
 
@@ -18,7 +19,7 @@ export function useNftMintContext() {
 }
 
 export function NftMintProvider({
-  useMintData,
+  useMintData = defaultUseMintData,
   children,
 }: NftMintProviderReact) {
   const [quantity, setQuantity] = useState(1);
@@ -33,8 +34,8 @@ export function NftMintProvider({
   const value = useValue({
     quantity,
     setQuantity: handleSetQuantity,
-    price: mintData?.price, 
-    creatorAddress: mintData?.creatorAddress, 
+    price: mintData?.price,
+    creatorAddress: mintData?.creatorAddress,
     maxMintsPerWallet: mintData?.maxMintsPerWallet,
     isEligibleToMint: mintData?.isEligibleToMint,
     totalOwners: mintData?.totalOwners,

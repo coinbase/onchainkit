@@ -3,7 +3,6 @@ import { ChangeEvent, act } from 'react';
 import { fireEvent, render } from '@testing-library/react';
 import { NftQuantitySelector } from './NftQuantitySelector';
 import { useNftMintContext } from './NftMintProvider';
-import { useNftQuantityContext } from './NftQuantityProvider';
 import {
   type Mock,
   vi,
@@ -15,7 +14,6 @@ import {
 } from 'vitest';
 
 vi.mock('./NftMintProvider');
-vi.mock('./NftQuantityProvider');
 
 vi.mock('../../internal/components/QuantitySelector', () => ({
   QuantitySelector: ({
@@ -38,19 +36,20 @@ vi.mock('../../internal/components/QuantitySelector', () => ({
 
 describe('NftQuantitySelector', () => {
   const setQuantityMock = vi.fn();
-  const useNftQuantityContextMock = useNftQuantityContext as Mock;
   const useNftMintContextMock = useNftMintContext as Mock;
 
   beforeEach(() => {
-    useNftQuantityContextMock.mockReturnValue({ setQuantity: setQuantityMock });
-    useNftMintContextMock.mockReturnValue({ maxMintsPerWallet: 5 });
+    useNftMintContextMock.mockReturnValue({
+      maxMintsPerWallet: 5,
+      setQuantity: setQuantityMock,
+    });
   });
 
   afterEach(() => {
     vi.clearAllMocks();
   });
 
-  it('should render without crashing', () => {
+  it('should render', () => {
     const { getByRole } = render(<NftQuantitySelector />);
     expect(getByRole('textbox')).toBeInTheDocument();
   });

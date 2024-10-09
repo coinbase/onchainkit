@@ -1,84 +1,66 @@
 import '@testing-library/jest-dom';
 import { render } from '@testing-library/react';
 import { NftMintProvider, useNftMintContext } from './NftMintProvider';
-import { useAccount, useChainId } from 'wagmi';
-import { useTrendingMint } from '../hooks/useTrendingMint';
-import { useAggregatedCollectionDetails } from '../hooks/useAggregatedCollectionDetails';
-import { type Mock, vi, describe, beforeEach, it, expect } from 'vitest';
+import { vi, describe, it, expect } from 'vitest';
+import { NftProvider } from './NftProvider';
+import type { MintData, NftData } from '../types';
+import { act } from 'react';
 
-vi.mock('wagmi', () => ({
-  useAccount: vi.fn(),
-  useChainId: vi.fn(),
+vi.mock('../hooks/useNftData', () => ({
+  useNftData: vi.fn(
+    () =>
+      ({
+        name: 'Test NFT',
+        description: 'This is a test NFT',
+        imageUrl: 'http://example.com/test-nft.png',
+      }) as NftData,
+  ),
 }));
 
-vi.mock('../hooks/useTrendingMint', () => ({
-  useTrendingMint: vi.fn(),
-}));
-
-vi.mock('../hooks/useAggregatedCollectionDetails', () => ({
-  useAggregatedCollectionDetails: vi.fn(),
+vi.mock('../hooks/useMintData', () => ({
+  useMintData: vi.fn(
+    () =>
+      ({
+        price: {
+          amount: 1,
+          currency: 'ETH',
+        },
+        creatorAddress: '0xcreator',
+        maxMintsPerWallet: '4',
+        isEligibleToMint: true,
+        totalOwners: 6,
+      }) as MintData,
+  ),
 }));
 
 const MockComponent = () => {
   const context = useNftMintContext();
   return (
     <div>
-      <span data-testid="contractAddress">{context.contractAddress}</span>
-      <span data-testid="tokenId">{context.tokenId}</span>
-      <span data-testid="price">{context.price?.amount?.decimal}</span>
+      <span data-testid="creatorAddress">{context.creatorAddress}</span>
+      <span data-testid="maxMintsPerWallet">{context.maxMintsPerWallet}</span>
+      <span data-testid="price">
+        {context.price?.amount} {context.price?.currency}
+      </span>
+      <span data-testid="quantity">{context.quantity}</span>
     </div>
   );
 };
 
 describe('NftMintProvider', () => {
-  beforeEach(() => {
-    vi.useFakeTimers().setSystemTime(new Date('2024-01-01'));
-    (useAccount as Mock).mockReturnValue({ address: '0x123' });
-    (useChainId as Mock).mockReturnValue(1);
-    (useTrendingMint as Mock).mockReturnValue({
-      data: {
-        collection: {
-          stages: [
-            {
-              tokenId: '1',
-              stage: 'public-sale',
-              price: {
-                amount: {
-                  decimal: 0.05,
-                },
-                currency: {
-                  symbol: 'ETH',
-                },
-                maxMintsPerWallet: 5,
-              },
-            },
-          ],
-          network: 'mainnet',
-          isMinting: true,
-          creatorAddress: '0xcreator',
-        },
-        takerEligibility: {
-          eligibleForCollection: true,
-        },
-      },
-    });
-    (useAggregatedCollectionDetails as Mock).mockReturnValue({
-      data: {
-        totalTokens: 100,
-        totalOwners: 10,
-      },
-    });
-  });
-
   it('should provide the correct context values', () => {
     const { getByTestId } = render(
-      <NftMintProvider contractAddress="0xcontract" tokenId="1">
-        <MockComponent />
-      </NftMintProvider>,
+      <NftProvider contractAddress="0xcontract" tokenId="1">
+        <NftMintProvider>
+          <MockComponent />
+        </NftMintProvider>
+      </NftProvider>,
     );
 
-    expect(getByTestId('contractAddress').textContent).toBe('0xcontract');
-    expect(getByTestId('tokenId').textContent).toBe('1');
+    expect(getByTestId('creatorAddress').textContent).toBe('0xcreator');
+    expect(getByTestId('maxMintsPerWallet').textContent).toBe('4');
+    expect(getByTestId('price').textContent).toBe('1 ETH');
+    expect(getByTestId('quantity').textContent).toBe('1');
   });
 
   it('should throw an error when used outside of NftMintProvider', () => {
@@ -86,94 +68,32 @@ describe('NftMintProvider', () => {
       .spyOn(console, 'error')
       .mockImplementation(() => {});
 
-    expect(() => render(<MockComponent />)).toThrow(
-      'useNftMintContext must be used within an NftMint component',
-    );
+    expect(() =>
+      render(
+        <NftProvider contractAddress="0xcontract" tokenId="1">
+          <MockComponent />
+        </NftProvider>,
+      ),
+    ).toThrow('useNftMintContext must be used within an NftMint component');
 
     consoleError.mockRestore();
   });
 
-  it('should return the first unexpired public-sale price', () => {
+  it('should update the quantity', () => {
     const { getByTestId } = render(
-      <NftMintProvider contractAddress="0xcontract" tokenId="1">
-        <MockComponent />
-      </NftMintProvider>,
+      <NftProvider contractAddress="0xcontract" tokenId="1">
+        <NftMintProvider>
+          <MockComponent />
+        </NftMintProvider>
+      </NftProvider>,
     );
 
-    expect(getByTestId('price').textContent).toBe('0.05');
-  });
+    expect(getByTestId('quantity').textContent).toBe('1');
 
-  it('should return a price that has an undefined endTime', () => {
-    (useTrendingMint as Mock).mockReturnValue({
-      data: {
-        collection: {
-          stages: [
-            {
-              stage: 'public-sale',
-              endTime: undefined,
-              price: {
-                amount: {
-                  decimal: 0.05,
-                },
-                currency: {
-                  symbol: 'ETH',
-                },
-                maxMintsPerWallet: 5,
-              },
-            },
-          ],
-          network: 'mainnet',
-          isMinting: true,
-          creatorAddress: '0xcreator',
-        },
-        takerEligibility: {
-          eligibleForCollection: true,
-        },
-      },
+    act(() => {
+      getByTestId('quantity').textContent = '2';
     });
-    const { getByTestId } = render(
-      <NftMintProvider contractAddress="0xcontract" tokenId="1">
-        <MockComponent />
-      </NftMintProvider>,
-    );
 
-    expect(getByTestId('price').textContent).toBe('0.05');
-  });
-
-  it('should return a price that is not expired', () => {
-    (useTrendingMint as Mock).mockReturnValue({
-      data: {
-        collection: {
-          stages: [
-            {
-              stage: 'public-sale',
-              endTime: 1735707600000,
-              price: {
-                amount: {
-                  decimal: 0.05,
-                },
-                currency: {
-                  symbol: 'ETH',
-                },
-                maxMintsPerWallet: 5,
-              },
-            },
-          ],
-          network: 'mainnet',
-          isMinting: true,
-          creatorAddress: '0xcreator',
-        },
-        takerEligibility: {
-          eligibleForCollection: true,
-        },
-      },
-    });
-    const { getByTestId } = render(
-      <NftMintProvider contractAddress="0xcontract" tokenId="1">
-        <MockComponent />
-      </NftMintProvider>,
-    );
-
-    expect(getByTestId('price').textContent).toBe('0.05');
+    expect(getByTestId('quantity').textContent).toBe('2');
   });
 });

@@ -2,7 +2,6 @@ import '@testing-library/jest-dom';
 import { render } from '@testing-library/react';
 import { useNftMintContext } from './NftMintProvider';
 import { useEthPrice } from '../../internal/hooks/useEthPrice';
-import { useNftQuantityContext } from './NftQuantityProvider';
 import {
   type Mock,
   vi,
@@ -16,31 +15,22 @@ import { NftTotalCost } from './NftTotalCost';
 
 vi.mock('./NftMintProvider');
 vi.mock('../../internal/hooks/useEthPrice');
-vi.mock('./NftQuantityProvider');
 
 describe('NftTotalCost', () => {
   const mockUseNftMintContext = useNftMintContext as Mock;
   const mockUseEthPrice = useEthPrice as Mock;
-  const mockUseNftQuantityContext = useNftQuantityContext as Mock;
 
   beforeEach(() => {
     mockUseNftMintContext.mockReturnValue({
       price: {
-        amount: {
-          decimal: 0.05,
-        },
-        currency: {
-          symbol: 'ETH',
-        },
+        amount: 0.05,
+        currency: 'ETH',
       },
+      quantity: 2,
     });
 
     mockUseEthPrice.mockReturnValue({
       data: 2000,
-    });
-
-    mockUseNftQuantityContext.mockReturnValue({
-      quantity: 2,
     });
   });
 
@@ -59,32 +49,26 @@ describe('NftTotalCost', () => {
   it('should render correctly with a whole number decimal', () => {
     mockUseNftMintContext.mockReturnValue({
       price: {
-        amount: {
-          decimal: 1,
-        },
-        currency: {
-          symbol: 'ETH',
-        },
+        amount: 1,
+        currency: 'ETH',
       },
+      quantity: 1,
     });
 
     const { getByText } = render(<NftTotalCost />);
 
-    expect(getByText('2 ETH')).toBeInTheDocument();
+    expect(getByText('1 ETH')).toBeInTheDocument();
     expect(getByText('~')).toBeInTheDocument();
-    expect(getByText('$4,000.00')).toBeInTheDocument();
+    expect(getByText('$2,000.00')).toBeInTheDocument();
   });
 
-  it('should render free if price is 0', () => {  
+  it('should render free if price is 0', () => {
     mockUseNftMintContext.mockReturnValue({
       price: {
-        amount: {
-          decimal: 0,
-        },
-        currency: {
-          symbol: 'ETH',
-        },
+        amount: 0,
+        currency: 'ETH',
       },
+      quantity: 1,
     });
 
     const { getByText } = render(<NftTotalCost />);
@@ -95,6 +79,7 @@ describe('NftTotalCost', () => {
   it('should return null if price amount is not available', () => {
     mockUseNftMintContext.mockReturnValueOnce({
       price: null,
+      quantity: 1,
     });
 
     const { container } = render(<NftTotalCost />);

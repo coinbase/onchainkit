@@ -43,7 +43,6 @@ export function NftMintButton({
     ];
   }, [callData]);
 
-
   const handleOnStatus = useCallback(
     (transactionStatus: TransactionLifecycleStatus) => {
       if (transactionStatus.statusName === 'transactionPending') {

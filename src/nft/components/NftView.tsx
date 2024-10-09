@@ -3,14 +3,13 @@ import { useIsMounted } from '../../useIsMounted';
 import { LifecycleType, type NftViewReact } from '../types';
 import { NftLifecycleProvider } from './NftLifecycleProvider';
 import { NftProvider } from './NftProvider';
-import { useNftData as defaultUseNftData } from '../hooks/useNftData';
 
 export function NftView({
   children,
   className,
   contractAddress,
   tokenId,
-  useNftData = defaultUseNftData,
+  useNftData,
   onStatus,
   onError,
   onSuccess,
@@ -29,7 +28,11 @@ export function NftView({
       onError={onError}
       onSuccess={onSuccess}
     >
-      <NftProvider contractAddress={contractAddress} tokenId={tokenId} useNftData={useNftData}>
+      <NftProvider
+        contractAddress={contractAddress}
+        tokenId={tokenId}
+        useNftData={useNftData}
+      >
         <div
           className={cn(
             background.default,

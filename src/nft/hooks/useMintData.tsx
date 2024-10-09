@@ -4,7 +4,11 @@ import { useMintToken } from '../hooks/useMintToken';
 import { useTrendingMint } from '../hooks/useTrendingMint';
 import { useAggregatedCollectionDetails } from './useAggregatedCollectionDetails';
 
-export function useMintData(contractAddress: `0x${string}`, tokenId: string, quantity: number) {
+export function useMintData(
+  contractAddress: `0x${string}`,
+  tokenId: string,
+  quantity: number,
+) {
   const chainId = useChainId();
   const { address } = useAccount();
 
@@ -54,12 +58,14 @@ export function useMintData(contractAddress: `0x${string}`, tokenId: string, qua
         amount: stage?.price?.amount?.decimal,
         currency: stage?.price?.currency?.symbol,
       },
-      creatorAddress:  trendingMint?.collection?.creatorAddress as `0x${string}`,
+      creatorAddress: trendingMint?.collection?.creatorAddress as `0x${string}`,
       maxMintsPerWallet: stage?.maxMintsPerWallet,
-      isEligibleToMint: trendingMint?.takerEligibility?.eligibleForCollection && trendingMint?.collection?.isMinting,
+      isEligibleToMint:
+        trendingMint?.takerEligibility?.eligibleForCollection &&
+        trendingMint?.collection?.isMinting,
       totalOwners: Number(tokenOwnerInfo?.totalOwners),
       callData: mintToken?.callData,
       mintError: mintToken?.error,
     };
-  }, [trendingMint, mintToken, tokenOwnerInfo, stage])
+  }, [trendingMint, mintToken, tokenOwnerInfo, stage]);
 }

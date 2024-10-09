@@ -4,16 +4,14 @@ import { LifecycleType, type NftMintReact } from '../types';
 import { NftProvider } from './NftProvider';
 import { NftMintProvider } from './NftMintProvider';
 import { NftLifecycleProvider } from './NftLifecycleProvider';
-import { useMintData as defaultUseMintData } from '../hooks/useMintData';
-import { useNftData as defaultUseNftData } from '../hooks/useNftData';
 
 export function NftMint({
   children,
   className,
   contractAddress,
   tokenId = '1',
-  useNftData = defaultUseNftData,
-  useMintData = defaultUseMintData,
+  useNftData,
+  useMintData,
   onStatus,
   onError,
   onSuccess,
@@ -32,18 +30,22 @@ export function NftMint({
       onError={onError}
       onSuccess={onSuccess}
     >
-      <NftProvider contractAddress={contractAddress} tokenId={tokenId} useNftData={useNftData}>
+      <NftProvider
+        contractAddress={contractAddress}
+        tokenId={tokenId}
+        useNftData={useNftData}
+      >
         <NftMintProvider useMintData={useMintData}>
-            <div
-              className={cn(
-                background.default,
-                'flex w-[500px] flex-col rounded-xl border px-6 pt-6 pb-4',
-                className,
-              )}
-              data-testid="ockNftMint_Container"
-            >
-              {children}
-            </div>
+          <div
+            className={cn(
+              background.default,
+              'flex w-[500px] flex-col rounded-xl border px-6 pt-6 pb-4',
+              className,
+            )}
+            data-testid="ockNftMint_Container"
+          >
+            {children}
+          </div>
         </NftMintProvider>
       </NftProvider>
     </NftLifecycleProvider>

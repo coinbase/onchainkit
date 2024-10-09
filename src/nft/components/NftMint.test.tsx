@@ -1,7 +1,5 @@
-import { render } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { NftMint } from './NftMint';
-import { NftMintProvider } from './NftMintProvider';
+import { render } from '@testing-library/react';
 import { useIsMounted } from '../../useIsMounted';
 import {
   type Mock,
@@ -12,6 +10,7 @@ import {
   it,
   expect,
 } from 'vitest';
+import { NftMint } from './NftMint';
 
 vi.mock('../../useIsMounted');
 vi.mock('./NftMintProvider', () => ({
@@ -52,21 +51,5 @@ describe('NftMint', () => {
     );
 
     expect(queryByTestId('ockNftMint_Container')).not.toBeInTheDocument();
-  });
-
-  it('should pass contractAddress and tokenId to NftMintProvider', () => {
-    render(
-      <NftMint contractAddress="0x123" tokenId="1" className="test-class">
-        <div>Child Component</div>
-      </NftMint>,
-    );
-
-    expect(NftMintProvider).toHaveBeenCalledWith(
-      expect.objectContaining({
-        contractAddress: '0x123',
-        tokenId: '1',
-      }),
-      {},
-    );
   });
 });

@@ -17,7 +17,7 @@ export async function getMintToken({
   }
   try {
     const payload: MintTokenParams = {
-      bypassSimulation: false, // TODO: what do bypassSimulation and loadTest do?
+      bypassSimulation: true, // TODO: what do bypassSimulation and loadTest do?
       loadTest: false,
       mintAddress,
       network,
@@ -41,7 +41,7 @@ export async function getMintToken({
 
     const data = await response.json();
     return data;
-  } catch(error: unknown) {
+  } catch (error: unknown) {
     if (error instanceof Error) {
       console.error('getMintToken error', error);
     }

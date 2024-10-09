@@ -2,7 +2,6 @@ import { render } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { NftMintButton } from './NftMintButton';
 import { useNftMintContext } from './NftMintProvider';
-import { useNftQuantityContext } from './NftQuantityProvider';
 import { useNftLifecycleContext } from './NftLifecycleProvider';
 import {
   WagmiProvider,
@@ -16,9 +15,10 @@ import { type Mock, vi, describe, beforeEach, it, expect } from 'vitest';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { base } from 'viem/chains';
 import { mock } from 'wagmi/connectors';
+import { useNftContext } from './NftProvider';
 
+vi.mock('./NftProvider');
 vi.mock('./NftMintProvider');
-vi.mock('./NftQuantityProvider');
 vi.mock('./NftLifecycleProvider');
 vi.mock('wagmi', async (importOriginal) => {
   return {
@@ -27,7 +27,6 @@ vi.mock('wagmi', async (importOriginal) => {
     useChainId: vi.fn(),
   };
 });
-vi.mock('../hooks/useMintToken');
 vi.mock('../../internal/components/Spinner', () => ({
   Spinner: () => <div>Spinner</div>,
 }));
@@ -108,29 +107,26 @@ const TestProviders = ({ children }) => {
 describe('NftMintButton', () => {
   let mockUpdateLifecycleStatus: Mock;
   beforeEach(() => {
-    (useNftMintContext as Mock).mockReturnValue({
+    (useNftContext as Mock).mockReturnValue({
       contractAddress: '0x123',
       tokenId: '1',
+    });
+    (useNftMintContext as Mock).mockReturnValue({
       quantity: 1,
       network: 'testnet',
       isEligibleToMint: true,
+      callData: {
+        to: '0x123',
+        data: '0x456',
+        value: '0',
+      },
     });
-    (useNftQuantityContext as Mock).mockReturnValue({ quantity: 1 });
     mockUpdateLifecycleStatus = vi.fn();
     (useNftLifecycleContext as Mock).mockReturnValue({
       updateLifecycleStatus: mockUpdateLifecycleStatus,
     });
     (useAccount as Mock).mockReturnValue({ address: '0xabc' });
     (useChainId as Mock).mockReturnValue(1);
-    (useMintToken as Mock).mockReturnValue({
-      data: {
-        callData: {
-          to: '0x123',
-          data: '0x456',
-          value: '0',
-        },
-      },
-    });
   });
 
   it('should render the mint button with default label', () => {
@@ -152,7 +148,11 @@ describe('NftMintButton', () => {
   });
 
   it('should disable the button when mintToken callData is not available', () => {
-    (useMintToken as Mock).mockReturnValueOnce({ data: null });
+    (useNftMintContext as Mock).mockReturnValue({
+      quantity: 1,
+      network: 'testnet',
+      isEligibleToMint: true,
+    });
 
     const { getByTestId } = render(
       <TestProviders>
@@ -172,7 +172,11 @@ describe('NftMintButton', () => {
   });
 
   it('should display a spinner when mintToken callData is not available', () => {
-    (useMintToken as Mock).mockReturnValueOnce({ data: null });
+    (useNftMintContext as Mock).mockReturnValue({
+      quantity: 1,
+      network: 'testnet',
+      isEligibleToMint: true,
+    });
 
     const { getByTestId, getByText } = render(
       <TestProviders>
@@ -260,25 +264,5 @@ describe('NftMintButton', () => {
       </TestProviders>,
     );
     expect(getByText('Mint ended')).toBeInTheDocument();
-  });
-
-  it('should call updateLifecycleStatus with error status when isError is true', () => {
-    (useMintToken as Mock).mockReturnValueOnce({
-      error: new Error('Error fetching mint data'),
-      isError: true,
-    });
-    render(
-      <TestProviders>
-        <NftMintButton />
-      </TestProviders>,
-    );
-    expect(mockUpdateLifecycleStatus).toHaveBeenCalledWith({
-      statusName: 'error',
-      statusData: {
-        error: 'Error fetching mint data',
-        code: 'NmNMBc02',
-        message: 'Error fetching mint data',
-      },
-    });
   });
 });

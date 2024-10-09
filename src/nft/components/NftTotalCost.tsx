@@ -9,11 +9,11 @@ type NftTotalCostProps = {
 };
 
 export function NftTotalCost({ className }: NftTotalCostProps) {
-  const { price , quantity} = useNftMintContext();
+  const { price, quantity } = useNftMintContext();
   const ethPrice = useEthPrice();
 
   const nativePrice = useMemo(() => {
-    if (price?.amount === undefined) {
+    if (price?.amount === undefined || price?.amount === 0) {
       return 0;
     }
 
@@ -28,16 +28,12 @@ export function NftTotalCost({ className }: NftTotalCostProps) {
     return Number(multipliedNativePrice) / nativeMultiplier;
   }, [price?.amount, quantity]);
 
-  if (!price?.amount || !ethPrice.data) {
+  if (price?.amount === undefined || !ethPrice.data) {
     return null;
   }
 
   if (price.amount === 0) {
-    return (
-      <div className={cn('flex py-2', text.body, className)}>
-        Free
-      </div>
-    );
+    return <div className={cn('flex py-2', text.body, className)}>Free</div>;
   }
 
   return (
