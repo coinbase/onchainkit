@@ -2,9 +2,27 @@
 
 OnchainKit is your go-to solution for building beautiful onchain applications, regardless of your development experience.
 
+## Quickstart
+<img alt="OnchainKit Template"
+  src="https://onchainkit.xyz/assets/onchainkit-template.png"
+  height="364"/>
+
+The fastest way to get started is to fork the [Onchain App Template](https://github.com/coinbase/onchain-app-template).
+
+Set your environment variables in an `.env` file and start building.
+
+You can also checkout other templates such as [funding flow](https://github.com/fakepixels/fund-component) or [social profile](https://github.com/fakepixels/ock-identity).
+
+## Walkthrough
 ::::steps
 
 ## Install OnchainKit
+
+Install OnchainKit in your project.
+
+```bash
+npm i @coinbase/onchainkit@latest
+```
 
 If you're starting from scratch, we recommend using [create-wagmi](https://wagmi.sh/cli/create-wagmi) to scaffold your project.
 
@@ -14,11 +32,6 @@ cd your-project-name
 npm i @coinbase/onchainkit@latest
 ```
 
-If you already have an existing project, install OnchainKit in your root directory.
-
-```bash
-npm i @coinbase/onchainkit@latest
-```
 
 ## Get Your Public API Key
 
@@ -42,9 +55,11 @@ npm i @coinbase/onchainkit@latest
 NEXT_PUBLIC_ONCHAINKIT_API_KEY=YOUR_PUBLIC_API_KEY
 ```
 
-## Add OnchainKitProvider
+## Add Providers
 
 In your `providers.tsx` file, add `OnchainKitProvider` as a child of `WagmiProvider` and `QueryClientProvider`.
+
+Inside the `WagmiProvider`, wrap your app in a TanStack Query React Context Provider, e.g. `QueryClientProvider`, and pass a new `QueryClient` instance to the `client` property.
 
 Additionally, add Base as a supported chain in the Wagmi configuration file `wagmi.ts`.
 
