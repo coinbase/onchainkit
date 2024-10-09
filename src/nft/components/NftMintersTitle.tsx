@@ -2,8 +2,8 @@ import { useRecentMints } from '../hooks/useRecentMints';
 import { useOnchainKit } from '../../useOnchainKit';
 import { Avatar, Identity, Name } from '../../identity';
 import { cn } from '../../styles/theme';
+import { useNftContext } from './NftProvider';
 import { useNftMintContext } from './NftMintProvider';
-import { useNftViewContext } from './NftViewProvider';
 
 type NftMintersTitleReact = {
   className?: string;
@@ -11,8 +11,8 @@ type NftMintersTitleReact = {
 
 export function NftMintersTitle({ className }: NftMintersTitleReact) {
   const { schemaId, chain } = useOnchainKit();
-  const { contractType } = useNftViewContext();
-  const { contractAddress, totalOwners } = useNftMintContext();
+  const { contractAddress, contractType } = useNftContext();
+  const { totalOwners } = useNftMintContext();
 
   const recentMints = useRecentMints({
     contractAddress,

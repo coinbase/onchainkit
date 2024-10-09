@@ -1,13 +1,13 @@
 import { render, fireEvent } from '@testing-library/react';
 import { NftMedia } from './NftMedia';
-import { useNftViewContext } from './NftViewProvider';
+import { useNftContext } from './NftProvider';
 import { useNftLifecycleContext } from './NftLifecycleProvider';
 import { LifecycleType } from '../types';
 import { type Mock, vi, beforeEach, describe, it, expect } from 'vitest';
 
 // Mock the context hooks
-vi.mock('./NftViewProvider', () => ({
-  useNftViewContext: vi.fn(),
+vi.mock('./NftProvider', () => ({
+  useNftContext: vi.fn(),
 }));
 vi.mock('./NftLifecycleProvider', () => ({
   useNftLifecycleContext: vi.fn(),
@@ -32,7 +32,7 @@ describe('NftMedia', () => {
   let mockUpdateLifecycleStatus: Mock;
   beforeEach(() => {
     mockUpdateLifecycleStatus = vi.fn();
-    (useNftViewContext as Mock).mockReturnValue({ mimeType: 'image/png' });
+    (useNftContext as Mock).mockReturnValue({ mimeType: 'image/png' });
     (useNftLifecycleContext as Mock).mockReturnValue({
       type: LifecycleType.VIEW,
       updateLifecycleStatus: mockUpdateLifecycleStatus,
@@ -45,7 +45,7 @@ describe('NftMedia', () => {
   });
 
   it('should render NftVideo when mimeType is a video', () => {
-    (useNftViewContext as Mock).mockReturnValue({ mimeType: 'video/mp4' });
+    (useNftContext as Mock).mockReturnValue({ mimeType: 'video/mp4' });
     const { getByText } = render(<NftMedia />);
     expect(getByText('Video')).toBeInTheDocument();
   });

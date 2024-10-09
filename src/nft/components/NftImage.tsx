@@ -2,7 +2,7 @@ import { useCallback, useState, useEffect } from 'react';
 import { defaultNftSvg } from '../../internal/svg/defaultNftSvg';
 import { cn } from '../../styles/theme';
 import type { NftError } from '../types';
-import { useNftViewContext } from './NftViewProvider';
+import { useNftContext } from './NftProvider';
 
 type NftImageReact = {
   className?: string;
@@ -17,7 +17,7 @@ export function NftImage({
   onLoaded,
   onError,
 }: NftImageReact) {
-  const { imageUrl, description } = useNftViewContext();
+  const { imageUrl, description } = useNftContext();
   const [loaded, setLoaded] = useState(false);
   const [error, setError] = useState(false);
   const [transitionEnded, setTransitionEnded] = useState(false);

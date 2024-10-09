@@ -3,29 +3,27 @@ import { cn, text } from '../../styles/theme';
 import { formatAmount } from '../../token/utils/formatAmount';
 import { useNftMintContext } from './NftMintProvider';
 import { useEthPrice } from '../../internal/hooks/useEthPrice';
-import { useNftQuantityContext } from './NftQuantityProvider';
 
 type NftTotalCostProps = {
   className?: string;
 };
 
 export function NftTotalCost({ className }: NftTotalCostProps) {
-  const { price } = useNftMintContext();
-  const { quantity } = useNftQuantityContext();
+  const { price , quantity} = useNftMintContext();
   const ethPrice = useEthPrice();
 
   const nativePrice = useMemo(() => {
-    if (price?.amount?.decimal === undefined) {
+    if (price?.amount === undefined) {
       return 0;
     }
 
     // calculate multiplier to avoid floating point errors
-    const nativeMultiplier = price.amount.decimal.toString().includes('.')
-      ? 10 ** price.amount.decimal.toString().split('.')[1].length
+    const nativeMultiplier = price.amount.toString().includes('.')
+      ? 10 ** price.amount.toString().split('.')[1].length
       : 1;
 
     const multipliedNativePrice =
-      BigInt(price.amount.decimal * nativeMultiplier) * BigInt(quantity);
+      BigInt(price.amount * nativeMultiplier) * BigInt(quantity);
 
     return Number(multipliedNativePrice) / nativeMultiplier;
   }, [price?.amount, quantity]);
@@ -34,7 +32,7 @@ export function NftTotalCost({ className }: NftTotalCostProps) {
     return null;
   }
 
-  if (price.amount.decimal === 0) {
+  if (price.amount === 0) {
     return (
       <div className={cn('flex py-2', text.body, className)}>
         Free
@@ -45,7 +43,7 @@ export function NftTotalCost({ className }: NftTotalCostProps) {
   return (
     <div className={cn('flex py-2', text.body, className)}>
       <div className={text.headline}>
-        {nativePrice} {price.currency?.symbol}
+        {nativePrice} {price.currency}
       </div>
       <div className="px-2">~</div>
       <div>

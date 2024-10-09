@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { defaultNftSvg } from '../../internal/svg/defaultNftSvg';
 import { cn } from '../../styles/theme';
-import { useNftViewContext } from './NftViewProvider';
+import { useNftContext } from './NftProvider';
 import type { NftError } from '../types';
 
 type NftVideoReact = {
@@ -17,7 +17,7 @@ export function NftVideo({
   onLoaded,
   onError,
 }: NftVideoReact) {
-  const { animationUrl, imageUrl } = useNftViewContext();
+  const { animationUrl, imageUrl } = useNftContext();
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {

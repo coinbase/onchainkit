@@ -10,12 +10,12 @@ import {
 } from 'vitest';
 import { render } from '@testing-library/react';
 import { NftLastSoldPrice } from './NftLastSoldPrice';
-import { useNftViewContext } from './NftViewProvider';
+import { useNftContext } from './NftProvider';
 import { useEthPrice } from '../../internal/hooks/useEthPrice';
 import { convertWeiToEther } from '../utils/convertWeiToEther';
 
-vi.mock('./NftViewProvider', () => ({
-  useNftViewContext: vi.fn(),
+vi.mock('./NftProvider', () => ({
+  useNftContext: vi.fn(),
 }));
 vi.mock('../../internal/hooks/useEthPrice', () => ({
   useEthPrice: vi.fn(),
@@ -26,7 +26,7 @@ vi.mock('../utils/convertWeiToEther', () => ({
 
 describe('NftLastSoldPrice', () => {
   beforeEach(() => {
-    (useNftViewContext as Mock).mockReturnValue({
+    (useNftContext as Mock).mockReturnValue({
       lastSoldPrice: {
         price: '1000000000000000000',
         currency: '0x0000000000000000000000000000000000000000',
@@ -48,7 +48,7 @@ describe('NftLastSoldPrice', () => {
   });
 
   it('should not display currency if unrecognized', () => {
-    (useNftViewContext as Mock).mockReturnValue({
+    (useNftContext as Mock).mockReturnValue({
       lastSoldPrice: {
         price: '1000000000000000000',
         currency: '0x000000000000000000000000000000000001',
@@ -61,7 +61,7 @@ describe('NftLastSoldPrice', () => {
   });
 
   it('should render null if price is not available', () => {
-    (useNftViewContext as Mock).mockReturnValue({
+    (useNftContext as Mock).mockReturnValue({
       lastSoldPrice: {
         price: null,
         currency: '0x0000000000000000000000000000000000000000',
@@ -72,7 +72,7 @@ describe('NftLastSoldPrice', () => {
   });
 
   it('should render null if currency is not available', () => {
-    (useNftViewContext as Mock).mockReturnValue({
+    (useNftContext as Mock).mockReturnValue({
       lastSoldPrice: { price: '1000000000000000000', currency: null },
     });
     const { container } = render(<NftLastSoldPrice />);

@@ -1,9 +1,7 @@
-import { useContext, createContext, useMemo } from 'react';
+import { useState, useContext, createContext, useCallback } from 'react';
 import type { NftMintContextType, NftMintProviderReact } from '../types';
 import { useValue } from '../../internal/hooks/useValue';
-import { useTrendingMint } from '../hooks/useTrendingMint';
-import { useAccount, useChainId } from 'wagmi';
-import { useAggregatedCollectionDetails } from '../hooks/useAggregatedCollectionDetails';
+import { useNftContext } from './NftProvider';
 
 const emptyContext = {} as NftMintContextType;
 
@@ -20,48 +18,28 @@ export function useNftMintContext() {
 }
 
 export function NftMintProvider({
+  useMintData,
   children,
-  contractAddress,
-  tokenId,
 }: NftMintProviderReact) {
-  const { address } = useAccount();
-  const chainId = useChainId();
+  const [quantity, setQuantity] = useState(1);
+  const { contractAddress, tokenId } = useNftContext();
 
-  const { data: trendingMint } = useTrendingMint({
-    address: contractAddress,
-    takerAddress: address,
-  });
+  const mintData = useMintData(contractAddress, tokenId ?? '1', quantity);
 
-  const { data: tokenOwnerInfo } = useAggregatedCollectionDetails({
-    contractAddress,
-    chainId,
-  });
-
-  const stage = useMemo(() => {
-    const nowInSeconds = new Date().getTime() / 1000;
-    return trendingMint?.collection?.stages?.find(
-      (stage) =>
-        stage.tokenId === tokenId ||
-        (typeof stage.endTime === 'undefined' &&
-          stage.stage === 'public-sale') ||
-        (stage.endTime &&
-          Number(stage.endTime) > nowInSeconds &&
-          stage.stage === 'public-sale'),
-    );
-  }, [tokenId, trendingMint]);
+  const handleSetQuantity = useCallback((quantity: string) => {
+    setQuantity(Number.parseInt(quantity, 10));
+  }, []);
 
   const value = useValue({
-    contractAddress,
-    tokenId,
-    maxMintsPerWallet: stage?.maxMintsPerWallet,
-    price: stage?.price,
-    network: trendingMint?.collection?.network,
-    isEligibleToMint:
-      trendingMint?.takerEligibility?.eligibleForCollection &&
-      trendingMint?.collection?.isMinting,
-    creatorAddress: trendingMint?.collection?.creatorAddress as `0x${string}`,
-    totalTokens: tokenOwnerInfo?.totalTokens,
-    totalOwners: tokenOwnerInfo?.totalOwners,
+    quantity,
+    setQuantity: handleSetQuantity,
+    price: mintData?.price, 
+    creatorAddress: mintData?.creatorAddress, 
+    maxMintsPerWallet: mintData?.maxMintsPerWallet,
+    isEligibleToMint: mintData?.isEligibleToMint,
+    totalOwners: mintData?.totalOwners,
+    callData: mintData?.callData,
+    mintError: mintData?.mintError,
   });
 
   return (

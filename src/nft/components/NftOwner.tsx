@@ -1,7 +1,7 @@
 import { Avatar, Badge, Identity, Name } from '../../identity';
 import { cn, text } from '../../styles/theme';
 import { useOnchainKit } from '../../useOnchainKit';
-import { useNftViewContext } from './NftViewProvider';
+import { useNftContext } from './NftProvider';
 
 type NftOwnerProps = {
   className?: string;
@@ -10,7 +10,7 @@ type NftOwnerProps = {
 
 export function NftOwner({ className, label = 'Owned by' }: NftOwnerProps) {
   const { schemaId } = useOnchainKit();
-  const { ownerAddress } = useNftViewContext();
+  const { ownerAddress } = useNftContext();
 
   if (!ownerAddress) {
     return null;

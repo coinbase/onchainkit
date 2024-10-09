@@ -2,21 +2,21 @@ import '@testing-library/jest-dom';
 import { act } from 'react';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import { type Mock, vi, beforeEach, describe, it, expect } from 'vitest';
-import { useNftViewContext } from './NftViewProvider';
+import { useNftContext } from './NftProvider';
 import { NftImage } from './NftImage';
 
-const mockViewContext = {
+const mockContext = {
   imageUrl: 'https://example.com/nft-image.png',
   description: 'Test NFT Image',
 };
 
-vi.mock('./NftViewProvider', () => ({
-  useNftViewContext: vi.fn(),
+vi.mock('./NftProvider', () => ({
+  useNftContext: vi.fn(),
 }));
 
 describe('NftImage', () => {
   beforeEach(() => {
-    (useNftViewContext as Mock).mockReturnValue(mockViewContext);
+    (useNftContext as Mock).mockReturnValue(mockContext);
 
     // mock Image constructor to call load/error events based on src
     Object.defineProperty(global.Image.prototype, 'src', {
@@ -43,11 +43,11 @@ describe('NftImage', () => {
   it('should call onLoading with the image URL', () => {
     const onLoading = vi.fn();
     render(<NftImage onLoading={onLoading} />);
-    expect(onLoading).toHaveBeenCalledWith(mockViewContext.imageUrl);
+    expect(onLoading).toHaveBeenCalledWith(mockContext.imageUrl);
   });
 
   it('should call onLoaded when the image loads successfully', async () => {
-    (useNftViewContext as Mock).mockReturnValue({
+    (useNftContext as Mock).mockReturnValue({
       imageUrl: 'loaded',
       description: 'Test NFT Image',
     });
@@ -57,7 +57,7 @@ describe('NftImage', () => {
   });
 
   it('should call onError when the image fails to load', async () => {
-    (useNftViewContext as Mock).mockReturnValue({
+    (useNftContext as Mock).mockReturnValue({
       imageUrl: 'error',
       description: 'Test NFT Image',
     });
@@ -73,7 +73,7 @@ describe('NftImage', () => {
   });
 
   it('should call onError when there is a uiEvent error', async () => {
-    (useNftViewContext as Mock).mockReturnValue({
+    (useNftContext as Mock).mockReturnValue({
       imageUrl: 'uiEventError',
       description: 'Test NFT Image',
     });
@@ -89,7 +89,7 @@ describe('NftImage', () => {
   });
 
   it('should hide the svg on transition end', async () => {
-    (useNftViewContext as Mock).mockReturnValue({
+    (useNftContext as Mock).mockReturnValue({
       imageUrl: 'transitionend',
       description: 'Test NFT Image',
     });
@@ -101,7 +101,7 @@ describe('NftImage', () => {
   });
 
   it('should retry loading the image when retry button is clicked', async () => {
-    (useNftViewContext as Mock).mockReturnValue({
+    (useNftContext as Mock).mockReturnValue({
       imageUrl: 'error',
       description: 'Test NFT Image',
     });

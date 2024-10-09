@@ -2,22 +2,22 @@ import '@testing-library/jest-dom';
 import { render } from '@testing-library/react';
 import { useOnchainKit } from '../../useOnchainKit';
 import { useMintDate } from '../hooks/useMintDate';
-import { useNftViewContext } from './NftViewProvider';
+import { useNftContext } from './NftProvider';
 import { type Mock, vi, describe, beforeEach, it, expect } from 'vitest';
 import { NftMintDate } from './NftMintDate';
 
 vi.mock('../../useOnchainKit');
 vi.mock('../hooks/useMintDate');
-vi.mock('./NftViewProvider');
+vi.mock('./NftProvider');
 
 describe('NftMintDate', () => {
   const mockUseOnchainKit = useOnchainKit as Mock;
   const mockUseMintDate = useMintDate as Mock;
-  const mockUseNftViewContext = useNftViewContext as Mock;
+  const mockUseNftContext = useNftContext as Mock;
 
   beforeEach(() => {
     mockUseOnchainKit.mockReturnValue({ chain: 'test-chain' });
-    mockUseNftViewContext.mockReturnValue({
+    mockUseNftContext.mockReturnValue({
       contractAddress: '0x123',
       tokenId: '1',
     });

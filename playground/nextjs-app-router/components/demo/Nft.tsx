@@ -48,7 +48,7 @@ function NftDemo() {
   return (
     <>
       <NftMint
-        contractAddress="0x1D6b183bD47F914F9f1d3208EDCF8BefD7F84E63"
+        contractAddress="0x473d2D4C09669962c2CbDB1c34ba8f0fc843Fb69"
         onStatus={handleOnStatus}
         onSuccess={handleOnSuccess}
         onError={handleOnError}

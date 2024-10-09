@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import {
   type LifecycleStatus as TransactionLifecycleStatus,
   Transaction,
@@ -12,8 +12,6 @@ import { useNftMintContext } from './NftMintProvider';
 import { useAccount, useChainId } from 'wagmi';
 import { cn } from '../../styles/theme';
 import { Spinner } from '../../internal/components/Spinner';
-import { useMintToken } from '../hooks/useMintToken';
-import { useNftQuantityContext } from './NftQuantityProvider';
 import { ConnectWallet } from '../../wallet';
 import { useNftLifecycleContext } from './NftLifecycleProvider';
 
@@ -28,35 +26,23 @@ export function NftMintButton({
 }: NftMintButtonProps) {
   const chainId = useChainId();
   const { address } = useAccount();
-  const { contractAddress, tokenId, network, isEligibleToMint } =
-    useNftMintContext();
-  const { quantity } = useNftQuantityContext();
+  const { isEligibleToMint, callData, mintError } = useNftMintContext();
   const { updateLifecycleStatus } = useNftLifecycleContext();
 
-  const {
-    data: mintToken,
-    isError,
-    error,
-  } = useMintToken({
-    mintAddress: contractAddress,
-    takerAddress: address,
-    network,
-    quantity: quantity.toString(),
-    tokenId,
-  });
-
-  useEffect(() => {
-    if (isError) {
-      updateLifecycleStatus({
-        statusName: 'error',
-        statusData: {
-          error: error.message,
-          code: 'NmNMBc01', // Nft module NftMintButton component 01 error
-          message: 'Error fetching mint data',
-        },
-      });
+  const calls = useMemo(() => {
+    if (!callData) {
+      return [];
     }
-  }, [error, isError, updateLifecycleStatus]);
+
+    return [
+      {
+        to: callData.to,
+        data: callData.data,
+        value: BigInt(callData.value),
+      },
+    ];
+  }, [callData]);
+
 
   const handleOnStatus = useCallback(
     (transactionStatus: TransactionLifecycleStatus) => {
@@ -75,31 +61,25 @@ export function NftMintButton({
     [updateLifecycleStatus],
   );
 
-  const calls = useMemo(() => {
-    if (!mintToken?.callData) {
-      return [];
+  const transactionButtonLabel = useMemo(() => {
+    // {
+    //   "code": 3,
+    //   "message": "max mints per wallet exceeded"
+    // }
+    if (mintError) {
+      return mintError.message;
     }
 
-    return [
-      {
-        to: mintToken.callData.to,
-        data: mintToken.callData.data,
-        value: BigInt(mintToken.callData.value),
-      },
-    ];
-  }, [mintToken?.callData]);
-
-  const transactionButtonLabel = useMemo(() => {
     if (isEligibleToMint === false) {
       return 'Mint ended';
     }
 
-    if (!mintToken?.callData) {
+    if (!callData) {
       return <Spinner />;
     }
 
     return label;
-  }, [isEligibleToMint, mintToken?.callData, label]);
+  }, [isEligibleToMint, callData, mintError, label]);
 
   if (!address) {
     return (
@@ -114,7 +94,7 @@ export function NftMintButton({
       <Transaction chainId={chainId} calls={calls} onStatus={handleOnStatus}>
         <TransactionButton
           text={transactionButtonLabel}
-          disabled={!mintToken?.callData || !isEligibleToMint}
+          disabled={!callData || !isEligibleToMint}
         />
         <TransactionSponsor />
         <TransactionStatus>

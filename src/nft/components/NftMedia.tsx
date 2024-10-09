@@ -1,5 +1,5 @@
 import { useCallback, useMemo } from 'react';
-import { useNftViewContext } from './NftViewProvider';
+import { useNftContext } from './NftProvider';
 // import { NftAudio } from "./NftAudio";
 import { NftImage } from './NftImage';
 import { NftVideo } from './NftVideo';
@@ -7,7 +7,7 @@ import { useNftLifecycleContext } from './NftLifecycleProvider';
 import { LifecycleType, type NftError } from '../types';
 
 export function NftMedia() {
-  const { mimeType } = useNftViewContext();
+  const { mimeType } = useNftContext();
   const { type, updateLifecycleStatus } = useNftLifecycleContext();
 
   const handleLoading = useCallback(
