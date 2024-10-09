@@ -4,16 +4,14 @@ import { LifecycleType, type NftMintReact } from '../types';
 import { NftProvider } from './NftProvider';
 import { NftMintProvider } from './NftMintProvider';
 import { NftLifecycleProvider } from './NftLifecycleProvider';
-import { useMintData as defaultUseMintData } from '../hooks/useMintData';
-import { useNftData as defaultUseNftData } from '../hooks/useNftData';
 
 export function NftMint({
   children,
   className,
   contractAddress,
   tokenId = '1',
-  useNftData = defaultUseNftData,
-  useMintData = defaultUseMintData,
+  useNftData,
+  useMintData,
   onStatus,
   onError,
   onSuccess,

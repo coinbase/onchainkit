@@ -1,6 +1,7 @@
 import { useContext, createContext } from 'react';
 import type { NftProviderReact, NftContextType } from '../types';
 import { useValue } from '../../internal/hooks/useValue';
+import { useNftData as defaultUseNftData } from '../hooks/useNftData';
 
 const emptyContext = {} as NftContextType;
 
@@ -20,17 +21,13 @@ export function NftProvider({
   children,
   contractAddress,
   tokenId,
-  useNftData,
+  useNftData = defaultUseNftData,
 }: NftProviderReact) {
   const nftData = useNftData(contractAddress, tokenId);
 
   const value = useValue({
     contractAddress,
     tokenId,
-    // name: metadata?.name,
-    // description: metadata?.description,
-    // image: metadata?.image,
-    // ownerAddress: owner as `0x${string}`,
     ...nftData,
   });
 
