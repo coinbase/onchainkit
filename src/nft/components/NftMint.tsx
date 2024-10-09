@@ -1,16 +1,19 @@
 import { background, cn } from '../../styles/theme';
 import { useIsMounted } from '../../useIsMounted';
 import { LifecycleType, type NftMintReact } from '../types';
-import { NftViewProvider } from './NftViewProvider';
+import { NftProvider } from './NftProvider';
 import { NftMintProvider } from './NftMintProvider';
-import { NftQuantityProvider } from './NftQuantityProvider';
 import { NftLifecycleProvider } from './NftLifecycleProvider';
+import { useMintData as defaultUseMintData } from '../hooks/useMintData';
+import { useNftData as defaultUseNftData } from '../hooks/useNftData';
 
 export function NftMint({
   children,
   className,
   contractAddress,
   tokenId = '1',
+  useNftData = defaultUseNftData,
+  useMintData = defaultUseMintData,
   onStatus,
   onError,
   onSuccess,
@@ -29,9 +32,8 @@ export function NftMint({
       onError={onError}
       onSuccess={onSuccess}
     >
-      <NftViewProvider contractAddress={contractAddress} tokenId={tokenId}>
-        <NftMintProvider contractAddress={contractAddress} tokenId={tokenId}>
-          <NftQuantityProvider>
+      <NftProvider contractAddress={contractAddress} tokenId={tokenId} useNftData={useNftData}>
+        <NftMintProvider useMintData={useMintData}>
             <div
               className={cn(
                 background.default,
@@ -42,9 +44,8 @@ export function NftMint({
             >
               {children}
             </div>
-          </NftQuantityProvider>
         </NftMintProvider>
-      </NftViewProvider>
+      </NftProvider>
     </NftLifecycleProvider>
   );
 }

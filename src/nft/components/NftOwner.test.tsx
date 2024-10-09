@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom';
 import { render } from '@testing-library/react';
 import { useOnchainKit } from '../../useOnchainKit';
-import { useNftViewContext } from './NftViewProvider';
+import { useNftContext } from './NftProvider';
 import {
   type Mock,
   vi,
@@ -14,7 +14,7 @@ import {
 import { NftOwner } from './NftOwner';
 
 vi.mock('../../useOnchainKit');
-vi.mock('./NftViewProvider');
+vi.mock('./NftProvider');
 vi.mock('../../identity', async () => ({
   ...(await vi.importActual('../../identity')),
   Identity: ({ className, address }) => (
@@ -24,11 +24,11 @@ vi.mock('../../identity', async () => ({
 
 describe('NftOwner', () => {
   const mockUseOnchainKit = useOnchainKit as Mock;
-  const mockUseNftViewContext = useNftViewContext as Mock;
+  const mockUseNftContext = useNftContext as Mock;
 
   beforeEach(() => {
     mockUseOnchainKit.mockReturnValue({ schemaId: 'test-schema-id' });
-    mockUseNftViewContext.mockReturnValue({
+    mockUseNftContext.mockReturnValue({
       ownerAddress: 'test-owner-address',
     });
   });
@@ -48,7 +48,7 @@ describe('NftOwner', () => {
   });
 
   it('should not render if ownerAddress is not provided', () => {
-    mockUseNftViewContext.mockReturnValueOnce({ ownerAddress: null });
+    mockUseNftContext.mockReturnValueOnce({ ownerAddress: null });
     const { container } = render(<NftOwner />);
     expect(container.firstChild).toBeNull();
   });

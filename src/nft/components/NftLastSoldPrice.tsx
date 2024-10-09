@@ -1,6 +1,6 @@
 import { cn, text } from '../../styles/theme';
 import { formatAmount } from '../../token/utils/formatAmount';
-import { useNftViewContext } from './NftViewProvider';
+import { useNftContext } from './NftProvider';
 import { useEthPrice } from '../../internal/hooks/useEthPrice';
 import { convertWeiToEther } from '../utils/convertWeiToEther';
 
@@ -22,7 +22,7 @@ export function NftLastSoldPrice({
 }: NftLastSoldPriceProps) {
   const {
     lastSoldPrice: { price, currency },
-  } = useNftViewContext();
+  } = useNftContext();
   const ethPrice = useEthPrice();
 
   if (!price || !currency || !ethPrice.data) {

@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { cn, text } from '../../styles/theme';
 import { useOnchainKit } from '../../useOnchainKit';
 import { useMintDate } from '../hooks/useMintDate';
-import { useNftViewContext } from './NftViewProvider';
+import { useNftContext } from './NftProvider';
 
 const DATE_OPTIONS = {
   year: 'numeric',
@@ -20,7 +20,7 @@ export function NftMintDate({
   label = 'Mint date',
 }: NftMintDateProps) {
   const { chain } = useOnchainKit();
-  const { contractAddress, tokenId } = useNftViewContext();
+  const { contractAddress, tokenId } = useNftContext();
   const mintDate = useMintDate({ contractAddress, tokenId, chain });
 
   const formattedDate = useMemo(() => {

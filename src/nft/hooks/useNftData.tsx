@@ -1,29 +1,10 @@
-import { useContext, createContext } from 'react';
-import type { NftViewProviderReact, NftViewContextType } from '../types';
-import { useValue } from '../../internal/hooks/useValue';
-import { useTokenDetails } from '../hooks/useTokenDetails';
+import { useMemo } from 'react';
 import { useChainId } from 'wagmi';
-import { useMetadata } from '../hooks/useMetadata';
+import { useMetadata } from './useMetadata';
+import { useTokenDetails } from './useTokenDetails';
+import type { NftData } from '../types';
 
-const emptyContext = {} as NftViewContextType;
-
-export const NftViewContext = createContext<NftViewContextType>(emptyContext);
-
-export function useNftViewContext() {
-  const context = useContext(NftViewContext);
-  if (context === emptyContext) {
-    throw new Error(
-      'useNftViewContext must be used within a NftView component',
-    );
-  }
-  return context;
-}
-
-export function NftViewProvider({
-  children,
-  contractAddress,
-  tokenId,
-}: NftViewProviderReact) {
+export function useNftData(contractAddress: `0x${string}`, tokenId: string):NftData {
   const chainId = useChainId();
 
   const { data: tokenDetails } = useTokenDetails({
@@ -37,7 +18,7 @@ export function NftViewProvider({
   const { data: metadata } = useMetadata({ contractAddress, tokenId });
   console.log('metadata', metadata);
 
-  const value = useValue({
+  return useMemo(() => ({
     contractAddress,
     tokenId,
     // name: metadata?.name,
@@ -60,9 +41,5 @@ export function NftViewProvider({
       currency: tokenDetails?.paymentCurrency,
     },
     contractType: tokenDetails?.tokenType,
-  });
-
-  return (
-    <NftViewContext.Provider value={value}>{children}</NftViewContext.Provider>
-  );
+  }), [tokenDetails, contractAddress, tokenId]);
 }

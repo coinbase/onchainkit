@@ -17,8 +17,8 @@ vi.mock('../../useIsMounted');
 vi.mock('./NftMintProvider', () => ({
   NftMintProvider: vi.fn(({ children }) => <div>{children}</div>),
 }));
-vi.mock('./NftViewProvider', () => ({
-  NftViewProvider: vi.fn(({ children }) => <div>{children}</div>),
+vi.mock('./NftProvider', () => ({
+  NftProvider: vi.fn(({ children }) => <div>{children}</div>),
 }));
 
 describe('NftMint', () => {

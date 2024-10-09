@@ -3,14 +3,14 @@ import { render } from '@testing-library/react';
 import { useRecentMints } from '../hooks/useRecentMints';
 import { useOnchainKit } from '../../useOnchainKit';
 import { useNftMintContext } from './NftMintProvider';
-import { useNftViewContext } from './NftViewProvider';
+import { useNftContext } from './NftProvider';
 import { type Mock, vi, describe, beforeEach, it, expect } from 'vitest';
 import { NftMintersTitle } from './NftMintersTitle';
 
 vi.mock('../hooks/useRecentMints');
 vi.mock('../../useOnchainKit');
 vi.mock('./NftMintProvider');
-vi.mock('./NftViewProvider');
+vi.mock('./NftProvider');
 
 vi.mock('../../identity', async () => ({
   ...(await vi.importActual('../../identity')),
@@ -25,7 +25,7 @@ describe('NftMintersTitle', () => {
   const mockUseRecentMints = useRecentMints as Mock;
   const mockUseOnchainKit = useOnchainKit as Mock;
   const mockUseNftMintContext = useNftMintContext as Mock;
-  const mockUseNftViewContext = useNftViewContext as Mock;
+  const mockUseNftContext = useNftContext as Mock;
 
   beforeEach(() => {
     mockUseOnchainKit.mockReturnValue({
@@ -36,7 +36,7 @@ describe('NftMintersTitle', () => {
       contractAddress: 'test-address',
       totalOwners: 5,
     });
-    mockUseNftViewContext.mockReturnValue({ contractType: 'test-type' });
+    mockUseNftContext.mockReturnValue({ contractType: 'test-type' });
   });
 
   it('should render null if recent mints are not successful', () => {

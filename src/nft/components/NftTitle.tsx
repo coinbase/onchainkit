@@ -1,12 +1,12 @@
 import { cn, text } from '../../styles/theme';
-import { useNftViewContext } from './NftViewProvider';
+import { useNftContext } from './NftProvider';
 
 type NftTitleProps = {
   className?: string;
 };
 
 export function NftTitle({ className }: NftTitleProps) {
-  const { name } = useNftViewContext();
+  const { name } = useNftContext();
 
   if (!name) {
     return null;

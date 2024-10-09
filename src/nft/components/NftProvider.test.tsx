@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom';
 import { render } from '@testing-library/react';
-import { NftViewProvider, useNftViewContext } from './NftViewProvider';
-import { NftViewContextType } from '../types';
+import { NftProvider, useNftContext } from './NftProvider';
+import { NftContextType } from '../types';
 import { useChainId } from 'wagmi';
 import { useTokenDetails } from '../hooks/useTokenDetails';
 import { useMetadata } from '../hooks/useMetadata';
@@ -24,7 +24,7 @@ const mockUseTokenDetails = useTokenDetails as Mock;
 const mockUseMetadata = useMetadata as Mock;
 
 const TestComponent = () => {
-  const context = useNftViewContext();
+  const context = useNftContext();
   return (
     <div>
       <p>{context.name}</p>
@@ -36,7 +36,7 @@ const TestComponent = () => {
   );
 };
 
-describe('NftViewProvider', () => {
+describe('NftProvider', () => {
   beforeEach(() => {
     mockUseChainId.mockReturnValue(1);
     mockUseTokenDetails.mockReturnValue({
@@ -64,9 +64,9 @@ describe('NftViewProvider', () => {
 
   it('should set the correct context values', () => {
     const { getByText } = render(
-      <NftViewProvider contractAddress="0x123" tokenId="1">
+      <NftProvider contractAddress="0x123" tokenId="1">
         <TestComponent />
-      </NftViewProvider>,
+      </NftProvider>,
     );
 
     expect(getByText('Test NFT')).toBeInTheDocument();
@@ -92,9 +92,9 @@ describe('NftViewProvider', () => {
     });
 
     const { getByText } = render(
-      <NftViewProvider contractAddress="0x123" tokenId="1">
+      <NftProvider contractAddress="0x123" tokenId="1">
         <TestComponent />
-      </NftViewProvider>,
+      </NftProvider>,
     );
 
     expect(getByText('Test NFT')).toBeInTheDocument();
@@ -120,9 +120,9 @@ describe('NftViewProvider', () => {
     });
 
     const { getByText } = render(
-      <NftViewProvider contractAddress="0x123" tokenId="1">
+      <NftProvider contractAddress="0x123" tokenId="1">
         <TestComponent />
-      </NftViewProvider>,
+      </NftProvider>,
     );
 
     expect(getByText('Test NFT')).toBeInTheDocument();
@@ -131,13 +131,13 @@ describe('NftViewProvider', () => {
     expect(getByText('video/mov')).toBeInTheDocument();
   });
 
-  it('should throw an error when used outside of NftViewProvider', () => {
+  it('should throw an error when used outside of NftProvider', () => {
     const consoleError = vi
       .spyOn(console, 'error')
       .mockImplementation(() => {});
 
     expect(() => render(<TestComponent />)).toThrow(
-      'useNftViewContext must be used within a NftView component',
+      'useNftContext must be used within a NftView component',
     );
 
     consoleError.mockRestore();

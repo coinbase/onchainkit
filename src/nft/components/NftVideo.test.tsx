@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom';
 import { render, fireEvent } from '@testing-library/react';
-import { useNftViewContext } from './NftViewProvider';
+import { useNftContext } from './NftProvider';
 import {
   type Mock,
   vi,
@@ -12,8 +12,8 @@ import {
 } from 'vitest';
 import { NftVideo } from './NftVideo';
 
-vi.mock('./NftViewProvider', () => ({
-  useNftViewContext: vi.fn(),
+vi.mock('./NftProvider', () => ({
+  useNftContext: vi.fn(),
 }));
 
 const mockAnimationUrl = 'http://example.com/video.mp4';
@@ -21,7 +21,7 @@ const mockImageUrl = 'http://example.com/image.jpg';
 
 describe('NftVideo', () => {
   beforeEach(() => {
-    (useNftViewContext as Mock).mockReturnValue({
+    (useNftContext as Mock).mockReturnValue({
       animationUrl: mockAnimationUrl,
       imageUrl: mockImageUrl,
     });
@@ -32,7 +32,7 @@ describe('NftVideo', () => {
   });
 
   it('should render default SVG when no animationUrl is provided', () => {
-    (useNftViewContext as Mock).mockReturnValue({
+    (useNftContext as Mock).mockReturnValue({
       animationUrl: null,
       imageUrl: mockImageUrl,
     });
