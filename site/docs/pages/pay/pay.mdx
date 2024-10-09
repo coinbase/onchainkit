@@ -1,0 +1,49 @@
+---
+title: <Pay /> · OnchainKit
+description: One-click checkout for onchain commerce
+---
+
+import { Pay } from '@coinbase/onchainkit/pay';
+
+# `<Pay />`
+
+The `Pay` component provides a one-click checkout experience for onchain commerce. 
+
+Our all-in-one solution simplifies payment processing for onchain developers, removing complex integrations, high fees, and onboarding friction. Whether you're selling digital goods, services, or in-game items, this tool is for you.
+
+## Features
+- **Plug-and-Play Integration:** Add our `Pay` button with just a few lines of code. No backend required.
+- **Seamless Onboarding:** Support Passkey wallets to eliminate onboarding drop-offs.
+- **Real-time Merchant Tooling:** Get instant payment tracking, analytics, and reporting.
+
+## Quick start
+
+Before using the `Pay` component, ensure you've completed all [Getting Started steps](/getting-started).
+
+If you're starting a new project, we recommend using [Wagmi](https://wagmi.sh/) to scaffold your project following our [Getting Started](/getting-started) steps.
+
+If you're adding the component to an existing project, simply install OnchainKit (`npm install @coinbase/onchainkit@latest`). Wrap the `<OnchainKitProvider />` around your app following steps in [Getting Started](/getting-started).
+
+## Walkthrough
+
+::::steps
+
+## Sign up for a Coinbase Commerce account
+Head to [Coinbase Commerce](https://beta.commerce.coinbase.com/) and sign up. This is where you’ll manage transactions, view reports, and configure payments.
+
+## Create a product and copy the `productId`
+In the Coinbase Commerce dashboard, create a new product and copy the `productId`.
+
+## Import the component
+
+```tsx twoslash
+import { Pay, PayButton, PayStatus } from '@coinbase/onchainkit/pay';
+
+<Pay productId='my-product-id' > 
+  <PayButton coinbaseBranded/> // set coinbaseBranded for branding
+  <PayStatus />
+</Pay>
+```
+::::
+
+That's it! Starting selling onchain with just a few lines of code. 
