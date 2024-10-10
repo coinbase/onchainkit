@@ -150,6 +150,12 @@ export function PayProvider({
           '_blank',
           'noopener,noreferrer',
         );
+        // Reset status
+        setErrorMessage('');
+        updateLifecycleStatus({
+          statusName: PAY_LIFECYCLESTATUS.INIT,
+          statusData: {},
+        });
         return;
       }
 
