@@ -71,15 +71,3 @@ In the serverful approach, developers will create product metadata and charges o
 We expose a prop called `chargeId` which will take a callback that returns a charge ID. This developer-provided callback **MUST** return a valid chargeId, and is run on every click to the Pay button. 
 
 The chargeId returned from the callback is then hydrated by our backend API, which will send the batched commerce request to the Smart Wallet.
-
-```tsx twoslash
-// @errors: 2339 2304 2322
-const createCharge = async () => {
-  // The merchant's backend API will use a Commerce API Key
-  // Metadata will be input server-side
-  const { chargeId } = await fetch('api.merchant.com/createCharge');
-  return chargeId;
-}
-
-<Pay chargeHandler={createCharge} />
-```
