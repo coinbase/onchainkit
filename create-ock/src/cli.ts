@@ -152,7 +152,7 @@ async function init() {
   const envPath = path.join(root, '.env');
   await fs.promises.writeFile(
     envPath,
-    `ONCHAINKIT_PROJECT_NAME=${projectName}\nONCHAINKIT_CDP_KEY=${clientKey}\nONCHAINKIT_WALLET_CONFIG=${
+    `NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME=${projectName}\nNEXT_PUBLIC_ONCHAINKIT_CDP_KEY=${clientKey}\nNEXT_PUBLIC_ONCHAINKIT_WALLET_CONFIG=${
       smartWallet ? 'smartWalletOnly' : 'all'
     }`
   );
