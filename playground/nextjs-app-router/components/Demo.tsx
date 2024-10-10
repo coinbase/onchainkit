@@ -83,29 +83,29 @@ function Demo() {
         <button
           type="button"
           onClick={toggleDarkMode}
-          className='rounded-full border p-2 text-xl shadow-lg transition-colors hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700'
+          className="rounded-full border p-2 text-xl shadow-lg transition-colors hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700"
         >
-          {isDarkMode ? <Sun className="text-yellow-500" /> : <Moon className="text-blue-500" />}
+          {isDarkMode ? (
+            <Sun className="text-yellow-500" />
+          ) : (
+            <Moon className="text-blue-500" />
+          )}
         </button>
       </div>
       <Draggable>
         <div
-          className='fixed top-10 left-10 z-20 flex w-96 flex-col rounded-3xl border bg-opacity-10 shadow-lg backdrop-blur-md transition-all'
+          className="fixed top-10 left-10 z-20 flex w-96 flex-col rounded-3xl border bg-opacity-10 shadow-lg backdrop-blur-md transition-all"
           style={{
-            backgroundColor: isDarkMode ? 'rgba(0, 0, 0, 0.5)' : 'rgba(255, 255, 255, 0.5)',
+            backgroundColor: isDarkMode
+              ? 'rgba(0, 0, 0, 0.5)'
+              : 'rgba(255, 255, 255, 0.5)',
             boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)',
             border: '1px solid rgba(255, 255, 255, 0.3)',
           }}
         >
           <div className="flex justify-between p-4">
-            <div className="font-semibold text-xl">
-              OnchainKit Playground
-            </div>
-            <button
-              type="button"
-              onClick={toggleSidebar}
-              className="text-xl"
-            >
+            <div className="font-semibold text-xl">OnchainKit Playground</div>
+            <button type="button" onClick={toggleSidebar} className="text-xl">
               ☰
             </button>
           </div>
@@ -115,7 +115,7 @@ function Demo() {
             transition={{
               type: 'spring',
               stiffness: 150, // Reduced stiffness for less bounce
-              damping: 25,    // Increased damping for smoother motion
+              damping: 25, // Increased damping for smoother motion
             }}
             className="overflow-hidden"
           >
@@ -135,7 +135,7 @@ function Demo() {
           {renderActiveComponent()}
         </div>
       </div>
-      <footer className='fixed bottom-4 left-4 flex w-full justify-start p-4 text-sm'>
+      <footer className="fixed bottom-4 left-4 flex w-full justify-start p-4 text-sm">
         <a
           className="opacity-100 transition-opacity duration-200 hover:opacity-70"
           href="https://github.com/coinbase/onchainkit/tree/main/playground"
