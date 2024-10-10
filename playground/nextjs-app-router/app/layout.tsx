@@ -1,6 +1,6 @@
+import OnchainProviders from '@/components/OnchainProviders';
 import type { Metadata } from 'next';
 import { DM_Sans } from 'next/font/google';
-import OnchainProviders from '@/components/OnchainProviders';
 import './globals.css';
 import '@coinbase/onchainkit/styles.css';
 

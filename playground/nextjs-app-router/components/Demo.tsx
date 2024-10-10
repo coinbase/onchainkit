@@ -4,7 +4,10 @@ import { Chain } from '@/components/form/chain';
 import { PaymasterUrl } from '@/components/form/paymaster';
 import { SwapConfig } from '@/components/form/swap-config';
 import { WalletType } from '@/components/form/wallet-type';
+import { motion } from 'framer-motion';
+import { Moon, Sun } from 'lucide-react';
 import { useContext, useEffect, useState } from 'react';
+import Draggable from 'react-draggable';
 import FundDemo from './demo/Fund';
 import IdentityDemo from './demo/Identity';
 import SwapDemo from './demo/Swap';
@@ -15,9 +18,6 @@ import WalletDemo from './demo/Wallet';
 import WalletDefaultDemo from './demo/WalletDefault';
 import { ActiveComponent } from './form/active-component';
 import { TransactionOptions } from './form/transaction-options';
-import { Sun, Moon } from 'lucide-react';
-import Draggable from 'react-draggable';
-import { motion } from 'framer-motion';
 
 function Demo() {
   const { activeComponent } = useContext(AppContext);
