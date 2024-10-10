@@ -3,9 +3,11 @@ import type { ChangeEvent } from 'react';
 import { useDebounce } from '../hooks/useDebounce';
 
 type TextInputReact = {
+  'aria-label'?: string;
   className: string;
   delayMs: number;
   disabled?: boolean;
+  onBlur?: () => void;
   onChange: (s: string) => void;
   placeholder: string;
   setValue: (s: string) => void;
@@ -14,9 +16,11 @@ type TextInputReact = {
 };
 
 export function TextInput({
+  'aria-label': ariaLabel,
   className,
   delayMs,
   disabled = false,
+  onBlur,
   onChange,
   placeholder,
   setValue,
@@ -45,11 +49,13 @@ export function TextInput({
 
   return (
     <input
+      aria-label={ariaLabel}
       data-testid="ockTextInput_Input"
       type="text"
       className={className}
       placeholder={placeholder}
       value={value}
+      onBlur={onBlur}
       onChange={handleChange}
       disabled={disabled}
     />

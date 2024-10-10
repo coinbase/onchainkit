@@ -41,6 +41,7 @@ export function ActiveComponent() {
           <SelectItem value={OnchainKitComponent.WalletDefault}>
             WalletDefault
           </SelectItem>
+          <SelectItem value={OnchainKitComponent.Nft}>NFT</SelectItem>
         </SelectContent>
       </Select>
     </div>

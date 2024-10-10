@@ -15,6 +15,7 @@ import WalletDemo from './demo/Wallet';
 import WalletDefaultDemo from './demo/WalletDefault';
 import { ActiveComponent } from './form/active-component';
 import { TransactionOptions } from './form/transaction-options';
+import NftDemo from './demo/Nft';
 
 function Demo() {
   const { activeComponent } = useContext(AppContext);
@@ -48,7 +49,7 @@ function Demo() {
     if (activeComponent === OnchainKitComponent.Fund) {
       return <FundDemo />;
     }
-
+    
     if (activeComponent === OnchainKitComponent.Identity) {
       return <IdentityDemo />;
     }
@@ -75,6 +76,10 @@ function Demo() {
 
     if (activeComponent === OnchainKitComponent.TransactionDefault) {
       return <TransactionDefaultDemo />;
+    }
+
+    if (activeComponent === OnchainKitComponent.Nft) {
+      return <NftDemo />;
     }
 
     return <></>;
@@ -130,7 +135,7 @@ function Demo() {
         </div>
       </div>
       <div className="linear-gradient(to_bottom,#f0f0f0_1px,transparent_1px)] flex flex-1 flex-col bg-[linear-gradient(to_right,#f0f0f0_1px,transparent_1px), bg-[size:6rem_4rem]">
-        <div className="flex h-full w-full flex-col justify-center">
+        <div className="flex h-full w-full flex-col items-center justify-center">
           {renderActiveComponent()}
         </div>
       </div>

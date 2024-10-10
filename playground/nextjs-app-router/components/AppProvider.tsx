@@ -14,6 +14,7 @@ export enum OnchainKitComponent {
   TransactionDefault = 'transaction-default',
   Wallet = 'wallet',
   WalletDefault = 'wallet-default',
+  Nft = 'nft',
 }
 
 export enum TransactionTypes {
