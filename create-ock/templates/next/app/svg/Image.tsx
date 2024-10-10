@@ -5,7 +5,7 @@ export default function ImageSvg() {
         <radialGradient id="sphereGradient" cx="30%" cy="30%" r="70%">
           <stop offset="0%" stopColor="#4da6ff">
             <animate
-              attributeName="stopColor"
+              attributeName="stop-color"
               values="#4da6ff;#00ccff;#0066cc;#6600cc;#4da6ff"
               dur="5s"
               repeatCount="indefinite"
@@ -13,7 +13,7 @@ export default function ImageSvg() {
           </stop>
           <stop offset="70%" stopColor="#0066cc">
             <animate
-              attributeName="stopColor"
+              attributeName="stop-color"
               values="#0066cc;#0099ff;#003366;#3300cc;#0066cc"
               dur="5s"
               repeatCount="indefinite"
@@ -21,7 +21,7 @@ export default function ImageSvg() {
           </stop>
           <stop offset="100%" stopColor="#004080">
             <animate
-              attributeName="stopColor"
+              attributeName="stop-color"
               values="#004080;#006699;#000033;#000099;#004080"
               dur="5s"
               repeatCount="indefinite"
