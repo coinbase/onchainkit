@@ -12,8 +12,10 @@ const config = createConfig({
   chains: [base],
   connectors: [
     coinbaseWallet({
-      appName: 'OnchainKit',
-      preference: 'smartWalletOnly',
+      appName: process.env.ONCHAINKIT_PROJECT_NAME,
+      preference: process.env.ONCHAINKIT_WALLET_CONFIG as
+        | 'smartWalletOnly'
+        | 'all',
     }),
   ],
   storage: createStorage({
@@ -35,7 +37,7 @@ export function Providers(props: {
     <WagmiProvider config={config} initialState={props.initialState}>
       <QueryClientProvider client={queryClient}>
         <OnchainKitProvider
-          apiKey={process.env.NEXT_PUBLIC_ONCHAINKIT_API_KEY}
+          apiKey={process.env.ONCHAINKIT_CDP_KEY}
           chain={base}
         >
           {props.children}
