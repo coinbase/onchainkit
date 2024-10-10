@@ -14,7 +14,8 @@
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": true,
-    "useDefineForClassFields": true
+    "useDefineForClassFields": true,
+    "sourceMap": true // Ensure this is set to true
   },
   "include": ["**/*.ts", "**/*.tsx"]
 }
