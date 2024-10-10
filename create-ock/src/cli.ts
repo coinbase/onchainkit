@@ -19,6 +19,11 @@ const renameFiles: Record<string, string | undefined> = {
 const excludeDirs = ['node_modules', '.next'];
 const excludeFiles = ['.DS_Store', 'Thumbs.db'];
 
+function createClickableLink(text: string, url: string): string {
+  // OSC 8 ;; URL \a TEXT \a
+  return `\u001B]8;;${url}\u0007${text}\u001B]8;;\u0007`;
+}
+
 function isValidPackageName(projectName: string) {
   return /^(?:@[a-z\d\-*~][a-z\d\-*._~]*\/)?[a-z\d\-~][a-z\d\-._~]*$/.test(
     projectName
@@ -55,7 +60,8 @@ async function copyDir(src: string, dest: string) {
 }
 
 async function init() {
-  console.log(`
+  console.log(
+    `${pc.greenBright(`
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //                                                                                                                              //
     //         ::::::::  ::::    :::  ::::::::  :::    :::     :::     ::::::::::: ::::    ::: :::    ::: ::::::::::: :::::::::::   //
@@ -66,12 +72,14 @@ async function init() {
     //   #+#    #+# #+#   #+#+# #+#    #+# #+#    #+# #+#     #+#     #+#     #+#   #+#+# #+#   #+#      #+#         #+#            //
     //   ########  ###    ####  ########  ###    ### ###     ### ########### ###    #### ###    ### ###########     ###             //
     //                                                                                                                              //
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  `);
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////`)}\n\n`
+  );
 
   const defaultProjectName = 'my-onchainkit-app';
 
-  let result: prompts.Answers<'projectName' | 'packageName'>;
+  let result: prompts.Answers<
+    'projectName' | 'packageName' | 'clientKey' | 'smartWallet'
+  >;
 
   try {
     result = await prompts([
@@ -104,13 +112,31 @@ async function init() {
         validate: (dir) =>
           isValidPackageName(dir) || 'Invalid package.json name',
       },
+      {
+        type: 'password',
+        name: 'clientKey',
+        message: pc.reset(
+          `Enter your ${createClickableLink(
+            'Coinbase Developer Platform API Key:',
+            'https://portal.cdp.coinbase.com/products/onchainkit'
+          )} (optional)`
+        ),
+      },
+      {
+        type: 'toggle',
+        name: 'smartWallet',
+        message: pc.reset('Use Coinbase Smart Wallet? (recommended)'),
+        initial: true,
+        active: 'yes',
+        inactive: 'no',
+      },
     ]);
   } catch (cancelled: any) {
     console.log(cancelled.message);
     process.exit(1);
   }
 
-  const { projectName, packageName } = result;
+  const { projectName, packageName, clientKey, smartWallet } = result;
   const root = path.join(process.cwd(), projectName);
 
   const spinner = ora(`Creating ${projectName}...`).start();
@@ -122,17 +148,30 @@ async function init() {
   pkg.name = packageName || toValidPackageName(projectName);
   await fs.promises.writeFile(pkgPath, JSON.stringify(pkg, null, 2));
 
+  // Create .env file
+  const envPath = path.join(root, '.env');
+  await fs.promises.writeFile(
+    envPath,
+    `ONCHAINKIT_PROJECT_NAME=${projectName}\n
+    ONCHAINKIT_CDP_KEY=${clientKey}\n
+    ONCHAINKIT_WALLET_CONFIG=${smartWallet ? 'smartWalletOnly' : 'all'}`
+  );
+
   spinner.succeed();
-  console.log(`\n${pc.green(`Created new OnchainKit project in ${root}`)}`);
+  console.log(`\n${pc.magenta(`Created new OnchainKit project in ${root}`)}`);
 
   console.log(`\nIntegrations:`);
-  console.log(`${pc.greenBright('\u2713')} ${pc.blueBright(`Smart Wallet`)}`);
+  if (smartWallet) {
+    console.log(`${pc.greenBright('\u2713')} ${pc.blueBright(`Smart Wallet`)}`);
+  }
   console.log(`${pc.greenBright('\u2713')} ${pc.blueBright(`Base`)}`);
-  console.log(
-    `${pc.greenBright('\u2713')} ${pc.blueBright(
-      `Coinbase Developer Platform`
-    )}`
-  );
+  if (clientKey) {
+    console.log(
+      `${pc.greenBright('\u2713')} ${pc.blueBright(
+        `Coinbase Developer Platform`
+      )}`
+    );
+  }
 
   console.log(`\nFrameworks:`);
   console.log(`${pc.cyan('- React')}`);
@@ -140,7 +179,7 @@ async function init() {
   console.log(`${pc.cyan('- Tailwindcss')}`);
   console.log(`${pc.cyan('- ESLint')}`);
 
-  console.log(`\nTo get started,\n`);
+  console.log(`\nTo get started with ${projectName},\n`);
   if (root !== process.cwd()) {
     console.log(`  cd ${path.relative(process.cwd(), root)}`);
   }
