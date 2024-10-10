@@ -3,6 +3,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import prompts from 'prompts';
 import pc from 'picocolors';
+import ora from 'ora';
 import { optimizedCopy } from './utils';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -54,6 +55,20 @@ async function copyDir(src: string, dest: string) {
 }
 
 async function init() {
+  console.log(`
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //                                                                                                                              //
+    //         ::::::::  ::::    :::  ::::::::  :::    :::     :::     ::::::::::: ::::    ::: :::    ::: ::::::::::: :::::::::::   //
+    //       :+:    :+: :+:+:   :+: :+:    :+: :+:    :+:   :+: :+:       :+:     :+:+:   :+: :+:   :+:      :+:         :+:        //
+    //      +:+    +:+ :+:+:+  +:+ +:+        +:+    +:+  +:+   +:+      +:+     :+:+:+  +:+ +:+  +:+       +:+         +:+         //
+    //     +#+    +:+ +#+ +:+ +#+ +#+        +#++:++#++ +#++:++#++:     +#+     +#+ +:+ +#+ +#++:++        +#+         +#+          //
+    //    +#+    +#+ +#+  +#+#+# +#+        +#+    +#+ +#+     +#+     +#+     +#+  +#+#+# +#+  +#+       +#+         +#+           //
+    //   #+#    #+# #+#   #+#+# #+#    #+# #+#    #+# #+#     #+#     #+#     #+#   #+#+# #+#   #+#      #+#         #+#            //
+    //   ########  ###    ####  ########  ###    ### ###     ### ########### ###    #### ###    ### ###########     ###             //
+    //                                                                                                                              //
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  `);
+
   const defaultProjectName = 'my-onchainkit-app';
 
   let result: prompts.Answers<'projectName' | 'packageName'>;
@@ -98,7 +113,7 @@ async function init() {
   const { projectName, packageName } = result;
   const root = path.join(process.cwd(), projectName);
 
-  console.log(`\nCreating project in ${root}...`);
+  const spinner = ora(`Creating ${projectName}...`).start();
 
   await copyDir(sourceDir, root);
 
@@ -107,7 +122,25 @@ async function init() {
   pkg.name = packageName || toValidPackageName(projectName);
   await fs.promises.writeFile(pkgPath, JSON.stringify(pkg, null, 2));
 
-  console.log(`\nDone. Now run:\n`);
+  spinner.succeed();
+  console.log(`\n${pc.green(`Created new OnchainKit project in ${root}`)}`);
+
+  console.log(`\nIntegrations:`);
+  console.log(`${pc.greenBright('\u2713')} ${pc.blueBright(`Smart Wallet`)}`);
+  console.log(`${pc.greenBright('\u2713')} ${pc.blueBright(`Base`)}`);
+  console.log(
+    `${pc.greenBright('\u2713')} ${pc.blueBright(
+      `Coinbase Developer Platform`
+    )}`
+  );
+
+  console.log(`\nFrameworks:`);
+  console.log(`${pc.cyan('- React')}`);
+  console.log(`${pc.cyan('- Next.js')}`);
+  console.log(`${pc.cyan('- Tailwindcss')}`);
+  console.log(`${pc.cyan('- ESLint')}`);
+
+  console.log(`\nTo get started,\n`);
   if (root !== process.cwd()) {
     console.log(`  cd ${path.relative(process.cwd(), root)}`);
   }
