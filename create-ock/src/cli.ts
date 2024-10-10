@@ -82,55 +82,63 @@ async function init() {
   >;
 
   try {
-    result = await prompts([
-      {
-        type: 'text',
-        name: 'projectName',
-        message: pc.reset('Project name:'),
-        initial: defaultProjectName,
-        onState: (state) => {
-          state.value = state.value.trim();
+    result = await prompts(
+      [
+        {
+          type: 'text',
+          name: 'projectName',
+          message: pc.reset('Project name:'),
+          initial: defaultProjectName,
+          onState: (state) => {
+            state.value = state.value.trim();
+          },
+          validate: (value) => {
+            const targetDir = path.join(process.cwd(), value);
+            if (
+              fs.existsSync(targetDir) &&
+              fs.readdirSync(targetDir).length > 0
+            ) {
+              return 'Directory already exists and is not empty. Please choose a different name.';
+            }
+            return true;
+          },
         },
-        validate: (value) => {
-          const targetDir = path.join(process.cwd(), value);
-          if (
-            fs.existsSync(targetDir) &&
-            fs.readdirSync(targetDir).length > 0
-          ) {
-            return 'Directory already exists and is not empty. Please choose a different name.';
-          }
-          return true;
+        {
+          type: (_, { projectName }: { projectName: string }) =>
+            isValidPackageName(projectName) ? null : 'text',
+          name: 'packageName',
+          message: pc.reset('Package name:'),
+          initial: (_, { projectName }: { projectName: string }) =>
+            toValidPackageName(projectName),
+          validate: (dir) =>
+            isValidPackageName(dir) || 'Invalid package.json name',
         },
-      },
+        {
+          type: 'password',
+          name: 'clientKey',
+          message: pc.reset(
+            `Enter your ${createClickableLink(
+              'Coinbase Developer Platform API Key:',
+              'https://portal.cdp.coinbase.com/products/onchainkit'
+            )} (optional)`
+          ),
+        },
+        {
+          type: 'toggle',
+          name: 'smartWallet',
+          message: pc.reset('Use Coinbase Smart Wallet? (recommended)'),
+          initial: true,
+          active: 'yes',
+          inactive: 'no',
+        },
+      ],
       {
-        type: (_, { projectName }: { projectName: string }) =>
-          isValidPackageName(projectName) ? null : 'text',
-        name: 'packageName',
-        message: pc.reset('Package name:'),
-        initial: (_, { projectName }: { projectName: string }) =>
-          toValidPackageName(projectName),
-        validate: (dir) =>
-          isValidPackageName(dir) || 'Invalid package.json name',
-      },
-      {
-        type: 'password',
-        name: 'clientKey',
-        message: pc.reset(
-          `Enter your ${createClickableLink(
-            'Coinbase Developer Platform API Key:',
-            'https://portal.cdp.coinbase.com/products/onchainkit'
-          )} (optional)`
-        ),
-      },
-      {
-        type: 'toggle',
-        name: 'smartWallet',
-        message: pc.reset('Use Coinbase Smart Wallet? (recommended)'),
-        initial: true,
-        active: 'yes',
-        inactive: 'no',
-      },
-    ]);
+        onCancel: () => {
+          console.log('\nProject creation cancelled.');
+          process.exit(0);
+        },
+      }
+    );
   } catch (cancelled: any) {
     console.log(cancelled.message);
     process.exit(1);
