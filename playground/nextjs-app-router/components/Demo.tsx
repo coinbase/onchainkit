@@ -8,6 +8,7 @@ import { motion } from 'framer-motion';
 import { Moon, Sun } from 'lucide-react';
 import { useContext, useEffect, useState } from 'react';
 import Draggable from 'react-draggable';
+import ThemeSelector from './ThemeSelector';
 import FundDemo from './demo/Fund';
 import IdentityDemo from './demo/Identity';
 import SwapDemo from './demo/Swap';
@@ -30,6 +31,8 @@ function Demo() {
 
   useEffect(() => {
     document.documentElement.classList.toggle('dark', isDarkMode);
+    document.documentElement.style.transition =
+      'background-color 0.5s, color 0.5s'; // Add this line for smooth transition
   }, [isDarkMode]);
 
   const toggleDarkMode = () => {
@@ -134,6 +137,9 @@ function Demo() {
         <div className="flex h-full w-full flex-col justify-center">
           {renderActiveComponent()}
         </div>
+      </div>
+      <div className="-translate-y-1/2 fixed top-1/2 right-0 transform">
+        <ThemeSelector />
       </div>
       <footer className="fixed bottom-4 left-4 flex w-full justify-start p-4 text-sm">
         <a
