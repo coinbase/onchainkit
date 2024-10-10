@@ -99,7 +99,7 @@ export function SwapSettingsSlippageInput({
               pressable.default,
               color.foreground,
               text.label1,
-              border.radius,
+              border.radiusInner,
               'flex-1 px-3 py-1 transition-colors',
               // Highlight the button if it is selected
               slippageSetting === setting

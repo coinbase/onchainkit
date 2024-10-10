@@ -67,6 +67,7 @@ export const border = {
   default: 'ock-border-default',
   defaultActive: 'ock-border-default-active',
   radius: 'ock-border-radius',
+  radiusInner: 'ock-border-radius-inner',
 } as const;
 
 export const placeholder = {

@@ -16,6 +16,10 @@
   border-radius: var(--ock-border-radius);
 }
 
+.ock-border-radius-inner {
+  border-radius: var(--ock-border-radius-inner);
+}
+
 /* Fill */
 .ock-fill-default {
   fill: var(--ock-bg-default);
