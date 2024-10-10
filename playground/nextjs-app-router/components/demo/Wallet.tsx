@@ -25,7 +25,7 @@ function WalletComponent() {
     <div className="flex justify-end">
       <Wallet>
         <ConnectWallet>
-          <ConnectWalletText>Connect Wallet 🌊</ConnectWalletText>
+          <ConnectWalletText>Connect Wallet</ConnectWalletText>
           <Avatar address={address} className="h-6 w-6" />
           <Name />
         </ConnectWallet>

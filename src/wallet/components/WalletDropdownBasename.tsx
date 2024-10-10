@@ -2,7 +2,7 @@ import { useAccount } from 'wagmi';
 import { useName } from '../../identity/hooks/useName';
 import { Spinner } from '../../internal/components/Spinner';
 import { basenameSvg } from '../../internal/svg/basenameSvg';
-import { cn, pressable, text } from '../../styles/theme';
+import { cn, color, pressable, text } from '../../styles/theme';
 import type { WalletDropdownBasenameReact } from '../types';
 import { useWalletContext } from './WalletProvider';
 
@@ -31,6 +31,7 @@ export function WalletDropdownBasename({
     <a
       className={cn(
         pressable.default,
+        color.foreground,
         'relative flex items-center px-4 py-3',
         className,
       )}

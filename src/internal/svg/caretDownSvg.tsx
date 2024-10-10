@@ -1,4 +1,4 @@
-import { fill } from '../../styles/theme';
+import { icon } from '../../styles/theme';
 
 export const caretDownSvg = (
   <svg
@@ -13,7 +13,7 @@ export const caretDownSvg = (
   >
     <path
       d="M12.95 4.85999L8.00001 9.80999L3.05001 4.85999L1.64001 6.27999L8.00001 12.64L14.36 6.27999L12.95 4.85999Z"
-      className={fill.defaultReverse}
+      className={icon.foreground}
     />
   </svg>
 );

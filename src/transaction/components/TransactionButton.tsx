@@ -3,7 +3,7 @@ import { useAccount, useChainId } from 'wagmi';
 import { useShowCallsStatus } from 'wagmi/experimental';
 import { Spinner } from '../../internal/components/Spinner';
 import { getChainExplorer } from '../../network/getChainExplorer';
-import { cn, color, pressable, text } from '../../styles/theme';
+import { border, cn, color, pressable, text } from '../../styles/theme';
 import type { TransactionButtonReact } from '../types';
 import { isSpinnerDisplayed } from '../utils/isSpinnerDisplayed';
 import { useTransactionContext } from './TransactionProvider';
@@ -88,6 +88,7 @@ export function TransactionButton({
     <button
       className={cn(
         pressable.primary,
+        border.radius,
         'w-full rounded-xl',
         'px-4 py-3 font-medium text-base text-white leading-6',
         isDisabled && pressable.disabled,

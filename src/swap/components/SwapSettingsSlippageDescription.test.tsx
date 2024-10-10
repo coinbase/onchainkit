@@ -2,9 +2,14 @@ import { render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 import { SwapSettingsSlippageDescription } from './SwapSettingsSlippageDescription';
 
-vi.mock('../../styles/theme', () => ({
-  cn: (...args: string[]) => args.join(' '),
-}));
+vi.mock('../../styles/theme', async (importOriginal) => {
+  const actual = await importOriginal();
+  return {
+    ...actual,
+    cn: (...args: string[]) => args.join(' '),
+    // Keep the original 'text' export
+  };
+});
 
 describe('SwapSettingsSlippageDescription', () => {
   it('renders children correctly', () => {
@@ -22,7 +27,7 @@ describe('SwapSettingsSlippageDescription', () => {
     );
     const paragraph = screen.getByText('Test');
     expect(paragraph.className).toContain(
-      'mb-2 font-normal font-sans text-ock-foreground-muted text-xs leading-4',
+      'ock-font-family text-xs leading-4 ock-text-foreground-muted mb-2 ',
     );
   });
 
@@ -35,7 +40,7 @@ describe('SwapSettingsSlippageDescription', () => {
     const paragraph = screen.getByText('Test');
     expect(paragraph.className).toContain('custom-class');
     expect(paragraph.className).toContain(
-      'mb-2 font-normal font-sans text-ock-foreground-muted text-xs leading-4',
+      'ock-font-family text-xs leading-4 ock-text-foreground-muted mb-2 custom-class',
     );
   });
 

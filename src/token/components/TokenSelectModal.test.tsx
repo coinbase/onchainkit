@@ -26,6 +26,10 @@ const tokens: Token[] = [
   },
 ];
 
+vi.mock('../../useTheme', () => ({
+  useTheme: vi.fn(),
+}));
+
 describe('TokenSelectModal', () => {
   const options = tokens;
   const setToken = vi.fn();

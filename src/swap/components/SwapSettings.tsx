@@ -78,7 +78,7 @@ export function SwapSettings({
           isOpen && (
             <div
               className={cn(
-                border.default,
+                border.radius,
                 background.default,
                 pressable.shadow,
                 'absolute right-0 z-10 mt-1 w-[21.75rem] rounded-lg',

@@ -25,6 +25,10 @@ vi.mock('../../wallet/hooks/useGetETHBalance', () => ({
   useGetETHBalance: vi.fn(),
 }));
 
+vi.mock('../../useTheme', () => ({
+  useTheme: vi.fn(),
+}));
+
 const useAvatarMock = mock(useAvatar);
 const useNameMock = mock(useName);
 const useGetEthBalanceMock = mock(useGetETHBalance);

@@ -30,6 +30,10 @@ vi.mock('../../identity/hooks/useAvatar', () => ({
   useAvatar: vi.fn(),
 }));
 
+vi.mock('../../useTheme', () => ({
+  useTheme: vi.fn(),
+}));
+
 function mock<T>(func: T) {
   return func as Mock;
 }

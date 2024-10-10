@@ -3,6 +3,7 @@ import { TextInput } from '../../internal/components/TextInput';
 import { closeSvg } from '../../internal/svg/closeSvg';
 import { searchIconSvg } from '../../internal/svg/searchIconSvg';
 import { cn, color, placeholder, pressable } from '../../styles/theme';
+import { useTheme } from '../../useTheme';
 import type { TokenSearchReact } from '../types';
 
 export function TokenSearch({
@@ -10,6 +11,8 @@ export function TokenSearch({
   onChange,
   delayMs = 200,
 }: TokenSearchReact) {
+  const componentTheme = useTheme();
+
   const [value, setValue] = useState('');
 
   const handleClear = useCallback(() => {
@@ -24,6 +27,7 @@ export function TokenSearch({
       </div>
       <TextInput
         className={cn(
+          componentTheme,
           pressable.alternate,
           color.foreground,
           placeholder.default,

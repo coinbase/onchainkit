@@ -5,7 +5,13 @@ import { useAccount, useConnect } from 'wagmi';
 import { IdentityProvider } from '../../identity/components/IdentityProvider';
 import { Spinner } from '../../internal/components/Spinner';
 import { findComponent } from '../../internal/utils/findComponent';
-import { cn, color, text as dsText, pressable } from '../../styles/theme';
+import {
+  border,
+  cn,
+  color,
+  text as dsText,
+  pressable,
+} from '../../styles/theme';
 import type { ConnectWalletReact } from '../types';
 import { ConnectButton } from './ConnectButton';
 import { ConnectWalletText } from './ConnectWalletText';
@@ -111,8 +117,10 @@ export function ConnectWallet({
           data-testid="ockConnectWallet_Connected"
           className={cn(
             pressable.secondary,
-            'rounded-xl px-4 py-3',
-            isOpen && 'bg-ock-secondary-active hover:bg-ock-secondary-active',
+            border.radius,
+            color.foreground,
+            'px-4 py-3',
+            isOpen && 'ock-bg-secondary-active hover:ock-bg-secondary-active',
             className,
           )}
           onClick={handleToggle}

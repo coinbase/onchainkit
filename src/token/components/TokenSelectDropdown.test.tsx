@@ -5,6 +5,10 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import type { Token } from '../types';
 import { TokenSelectDropdown } from './TokenSelectDropdown';
 
+vi.mock('../../useTheme', () => ({
+  useTheme: vi.fn(),
+}));
+
 describe('TokenSelectDropdown', () => {
   const setToken = vi.fn();
   const options: Token[] = [

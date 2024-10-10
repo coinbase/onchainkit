@@ -25,6 +25,10 @@ vi.mock('./EthBalance', () => ({
   EthBalance: vi.fn(() => <div>EthBalance</div>),
 }));
 
+vi.mock('../../useTheme', () => ({
+  useTheme: vi.fn(),
+}));
+
 const renderComponent = () => {
   return render(
     <IdentityLayout onClick={handleCopy} className="custom-class">

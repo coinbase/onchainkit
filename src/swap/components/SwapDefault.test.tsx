@@ -32,6 +32,10 @@ vi.mock('./SwapProvider', () => ({
   useSwapContext: vi.fn(),
 }));
 
+vi.mock('../../useTheme', () => ({
+  useTheme: vi.fn(),
+}));
+
 describe('SwapDefault Component', () => {
   const mockConfig = {};
   const mockFrom = [{ symbol: 'ETH' }];

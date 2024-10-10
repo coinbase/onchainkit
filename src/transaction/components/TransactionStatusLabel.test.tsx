@@ -11,13 +11,13 @@ describe('TransactionStatusLabel', () => {
   it('renders transaction status label', () => {
     (useGetTransactionStatusLabel as Mock).mockReturnValue({
       label: 'Successful!',
-      labelClassName: 'text-ock-foreground-muted',
+      labelClassName: 'ock-text-foreground-muted',
     });
 
     render(<TransactionStatusLabel className="custom-class" />);
 
     const label = screen.getByText('Successful!');
     expect(label).toBeInTheDocument();
-    expect(label).toHaveClass('text-ock-foreground-muted');
+    expect(label).toHaveClass('ock-text-foreground-muted');
   });
 });

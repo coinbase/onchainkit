@@ -2,6 +2,7 @@ import { Children, useMemo } from 'react';
 import type { ReactNode } from 'react';
 import { findComponent } from '../../internal/utils/findComponent';
 import { background, cn, color, pressable } from '../../styles/theme';
+import { useTheme } from '../../useTheme';
 import { usePopover } from '../hooks/usePopover';
 import { Address } from './Address';
 import { Avatar } from './Avatar';
@@ -21,6 +22,8 @@ export function IdentityLayout({
   className,
   onClick,
 }: IdentityLayoutReact) {
+  const componentTheme = useTheme();
+
   const { avatar, name, address, ethBalance } = useMemo(() => {
     const childrenArray = Children.toArray(children);
     return {
@@ -42,6 +45,7 @@ export function IdentityLayout({
   return (
     <div
       className={cn(
+        componentTheme,
         background.default,
         'flex items-center space-x-4 px-4 py-1',
         onClick && `${pressable.default} relative`,
@@ -80,7 +84,7 @@ export function IdentityLayout({
           <div
             className={cn(
               'absolute top-[-5px] left-6 h-0 w-0',
-              'border-x-[5px] border-x-transparent border-b-[5px] border-b-[color:var(--bg-ock-inverse)] border-solid',
+              'border-x-[5px] border-x-transparent border-b-[5px] border-b-[color:var(--ock-bg-inverse)] border-solid',
             )}
             data-testid="ockIdentityLayout_copyArrow"
           />

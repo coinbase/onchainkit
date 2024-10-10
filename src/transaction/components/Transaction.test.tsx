@@ -24,6 +24,10 @@ vi.mock('../../useOnchainKit', () => ({
   useOnchainKit: vi.fn(),
 }));
 
+vi.mock('../../useTheme', () => ({
+  useTheme: vi.fn(),
+}));
+
 const useOnchainKitMock = mock(useOnchainKit);
 
 describe('Transaction', () => {
