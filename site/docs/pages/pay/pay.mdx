@@ -7,6 +7,10 @@ import { Pay } from '@coinbase/onchainkit/pay';
 
 # `<Pay />`
 
+<img alt="Pay button"
+  src="https://onchainkit.xyz/assets/pay-button.png"
+  height="364"/>
+
 The `Pay` component provides a one-click checkout experience for onchain commerce. 
 
 Our all-in-one solution simplifies payment processing for onchain developers, removing complex integrations, high fees, and onboarding friction. Whether you're selling digital goods, services, or in-game items, this tool is for you.
@@ -18,7 +22,7 @@ Our all-in-one solution simplifies payment processing for onchain developers, re
 
 ## Quick start
 
-Before using the `Pay` component, ensure you've completed all [Getting Started steps](/getting-started).
+Before using the `Pay` component, ensure you've completed the [Getting Started](/getting-started) steps.
 
 If you're starting a new project, we recommend using [Wagmi](https://wagmi.sh/) to scaffold your project following our [Getting Started](/getting-started) steps.
 
@@ -29,9 +33,15 @@ If you're adding the component to an existing project, simply install OnchainKit
 ::::steps
 
 ## Sign up for a Coinbase Commerce account
+<img alt="Create a product"
+  src="https://onchainkit.xyz/assets/commerce-1.png"
+  height="364"/>
 Head to [Coinbase Commerce](https://beta.commerce.coinbase.com/) and sign up. This is where you’ll manage transactions, view reports, and configure payments.
 
 ## Create a product and copy the `productId`
+  <img alt="Copy productId"
+  src="https://onchainkit.xyz/assets/commerce-2.png"
+  height="364"/>
 In the Coinbase Commerce dashboard, create a new product and copy the `productId`.
 
 ## Import the component
@@ -47,3 +57,29 @@ import { Pay, PayButton, PayStatus } from '@coinbase/onchainkit/pay';
 ::::
 
 That's it! Starting selling onchain with just a few lines of code. 
+
+## Programmatic charges
+In the serverful approach, developers will create product metadata and charges on their backend through the Coinbase Commerce [CreateCharge](https://docs.cdp.coinbase.com/commerce-onchain/reference/creates-a-charge) endpoint.
+
+### Example use cases
+- **Demand-based pricing:** Allow users to select seats or ticket types for events, and dynamically calculate charges based on availability and demand.
+- **Product bundles:** Provide users with the option to create custom product bundles, applying discounts or special pricing based on the selected items.
+- **Freelance Services:** Allow clients to specify project details such as hours, deliverables, and deadlines, and generate charges based on these custom inputs.
+
+### Create the charge in your backend
+
+We expose a prop called `chargeId` which will take a callback that returns a charge ID. This developer-provided callback **MUST** return a valid chargeId, and is run on every click to the Pay button. 
+
+The chargeId returned from the callback is then hydrated by our backend API, which will send the batched commerce request to the Smart Wallet.
+
+```tsx twoslash
+// @errors: 2339 2304 2322
+const createCharge = async () => {
+  // The merchant's backend API will use a Commerce API Key
+  // Metadata will be input server-side
+  const { chargeId } = await fetch('api.merchant.com/createCharge');
+  return chargeId;
+}
+
+<Pay chargeHandler={createCharge} />
+```

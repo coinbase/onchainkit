@@ -34,11 +34,13 @@
     "react-dom": "^18"
   },
   "dependencies": {
+    "@coinbase/onchainkit": "^0.33.5",
     "@rainbow-me/rainbowkit": "^2.1.3",
     "@tanstack/react-query": "^5",
     "clsx": "^2.1.1",
     "graphql": "^14 || ^15 || ^16",
     "graphql-request": "^6.1.0",
+    "next": "^14.2.15",
     "permissionless": "^0.1.29",
     "tailwind-merge": "^2.3.0",
     "viem": "^2.17.4",
