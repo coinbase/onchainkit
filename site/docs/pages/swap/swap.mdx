@@ -682,6 +682,22 @@ return (
   </SwapWrapper>
 </App>
 
+## Coinbase Smart Wallet popup tips 
+When using Coinbase Smart Wallets, be aware of the potential browser pop-ups that may block your app from interacting with the wallet.
+
+We recommend following [this guide](https://www.smartwallet.dev/guides/tips/popup-tips) to improve the user experience.
+
+If the Smart Wallet popup opens and displays an error or infinite spinner, it may be due to the app's `Cross-Origin-Opener-Policy`. Be sure to use a directive that allows the Smart Wallet popup to function.
+
+✅ Allows Smart Wallet popup to function
+- `unsafe-none` (default)
+- `same-origin-allow-popups` (recommended)
+
+❌ Breaks Smart Wallet popup
+- `same-origin`
+
+For more detailed information refer to the [MDN docs](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cross-Origin-Opener-Policy).
+
 ## Components
 
 The components are designed to work together hierarchically. For each component, ensure the following:
