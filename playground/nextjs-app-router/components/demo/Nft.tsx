@@ -1,20 +1,24 @@
 import { useCallback } from 'react';
 import {
-  NftCreator,
   NftMint,
-  NftTotalCost,
-  NftQuantitySelector,
-  NftMintButton,
-  NftMintersTitle,
   NftView,
+  type LifecycleStatus,
+  type NftError,
+} from '@/onchainkit/esm/nft';
+import {
   NftMedia,
   NftTitle,
   NftOwner,
   NftLastSoldPrice,
   NftMintDate,
-  type LifecycleStatus,
-  type NftError,
-} from '@/onchainkit/esm/nft';
+} from '@/onchainkit/esm/nft/components/view';
+import { 
+  NftCreator,
+  NftMintButton,
+  NftMintersTitle,
+  NftQuantitySelector,
+  NftTotalCost
+} from '@/onchainkit/esm/nft/components/mint';
 import type { TransactionReceipt } from 'viem';
 
 // adidas 0xc6A1F929B7cA5D76e0fA21EB44da1E48765990C5 ERC1155

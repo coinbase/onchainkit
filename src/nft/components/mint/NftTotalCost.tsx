@@ -1,8 +1,8 @@
 import { useMemo } from 'react';
-import { cn, text } from '../../styles/theme';
-import { formatAmount } from '../../token/utils/formatAmount';
-import { useNftMintContext } from './NftMintProvider';
-import { useEthPrice } from '../../internal/hooks/useEthPrice';
+import { cn, text } from '../../../styles/theme';
+import { formatAmount } from '../../../token/utils/formatAmount';
+import { useNftMintContext } from '../NftMintProvider';
+import { useEthPrice } from '../../../internal/hooks/useEthPrice';
 
 type NftTotalCostProps = {
   className?: string;

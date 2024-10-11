@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom';
 import { render } from '@testing-library/react';
-import { useNftMintContext } from './NftMintProvider';
-import { useEthPrice } from '../../internal/hooks/useEthPrice';
+import { useNftMintContext } from '../NftMintProvider';
+import { useEthPrice } from '../../../internal/hooks/useEthPrice';
 import {
   type Mock,
   vi,
@@ -13,8 +13,8 @@ import {
 } from 'vitest';
 import { NftTotalCost } from './NftTotalCost';
 
-vi.mock('./NftMintProvider');
-vi.mock('../../internal/hooks/useEthPrice');
+vi.mock('../NftMintProvider');
+vi.mock('../../../internal/hooks/useEthPrice');
 
 describe('NftTotalCost', () => {
   const mockUseNftMintContext = useNftMintContext as Mock;

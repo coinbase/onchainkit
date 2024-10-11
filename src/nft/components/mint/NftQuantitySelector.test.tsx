@@ -2,7 +2,7 @@ import '@testing-library/jest-dom';
 import { ChangeEvent, act } from 'react';
 import { fireEvent, render } from '@testing-library/react';
 import { NftQuantitySelector } from './NftQuantitySelector';
-import { useNftMintContext } from './NftMintProvider';
+import { useNftMintContext } from '../NftMintProvider';
 import {
   type Mock,
   vi,
@@ -13,9 +13,9 @@ import {
   expect,
 } from 'vitest';
 
-vi.mock('./NftMintProvider');
+vi.mock('../NftMintProvider');
 
-vi.mock('../../internal/components/QuantitySelector', () => ({
+vi.mock('../../../internal/components/QuantitySelector', () => ({
   QuantitySelector: ({
     onChange,
     minQuantity,

@@ -1,15 +1,15 @@
 import { render, fireEvent } from '@testing-library/react';
 import { NftMedia } from './NftMedia';
-import { useNftContext } from './NftProvider';
-import { useNftLifecycleContext } from './NftLifecycleProvider';
-import { LifecycleType } from '../types';
+import { useNftContext } from '../NftProvider';
+import { useNftLifecycleContext } from '../NftLifecycleProvider';
+import { LifecycleType } from '../../types';
 import { type Mock, vi, beforeEach, describe, it, expect } from 'vitest';
 
 // Mock the context hooks
-vi.mock('./NftProvider', () => ({
+vi.mock('../NftProvider', () => ({
   useNftContext: vi.fn(),
 }));
-vi.mock('./NftLifecycleProvider', () => ({
+vi.mock('../NftLifecycleProvider', () => ({
   useNftLifecycleContext: vi.fn(),
 }));
 

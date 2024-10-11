@@ -1,8 +1,8 @@
-import { cn, text } from '../../styles/theme';
-import { formatAmount } from '../../token/utils/formatAmount';
-import { useNftContext } from './NftProvider';
-import { useEthPrice } from '../../internal/hooks/useEthPrice';
-import { convertWeiToEther } from '../utils/convertWeiToEther';
+import { cn, text } from '../../../styles/theme';
+import { formatAmount } from '../../../token/utils/formatAmount';
+import { useNftContext } from '../NftProvider';
+import { useEthPrice } from '../../../internal/hooks/useEthPrice';
+import { convertWeiToEther } from '../../utils/convertWeiToEther';
 
 type NftLastSoldPriceProps = {
   className?: string;

@@ -7,13 +7,13 @@ import {
   TransactionStatus,
   TransactionStatusAction,
   TransactionStatusLabel,
-} from '../../transaction';
-import { useNftMintContext } from './NftMintProvider';
+} from '../../../transaction';
+import { useNftMintContext } from '../NftMintProvider';
 import { useAccount, useChainId } from 'wagmi';
-import { cn } from '../../styles/theme';
-import { Spinner } from '../../internal/components/Spinner';
-import { ConnectWallet } from '../../wallet';
-import { useNftLifecycleContext } from './NftLifecycleProvider';
+import { cn } from '../../../styles/theme';
+import { Spinner } from '../../../internal/components/Spinner';
+import { ConnectWallet } from '../../../wallet';
+import { useNftLifecycleContext } from '../NftLifecycleProvider';
 
 type NftMintButtonProps = {
   className?: string;
@@ -93,7 +93,7 @@ export function NftMintButton({
       <Transaction chainId={chainId} calls={calls} onStatus={handleOnStatus}>
         <TransactionButton
           text={transactionButtonLabel}
-          disabled={!callData || !isEligibleToMint}
+          disabled={transactionButtonLabel !== label}
         />
         <TransactionSponsor />
         <TransactionStatus>

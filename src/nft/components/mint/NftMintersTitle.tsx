@@ -1,9 +1,9 @@
-import { useRecentMints } from '../hooks/useRecentMints';
-import { useOnchainKit } from '../../useOnchainKit';
-import { Avatar, Identity, Name } from '../../identity';
-import { cn } from '../../styles/theme';
-import { useNftContext } from './NftProvider';
-import { useNftMintContext } from './NftMintProvider';
+import { useRecentMints } from '../../hooks/useRecentMints';
+import { useOnchainKit } from '../../../useOnchainKit';
+import { Avatar, Identity, Name } from '../../../identity';
+import { cn } from '../../../styles/theme';
+import { useNftContext } from '../NftProvider';
+import { useNftMintContext } from '../NftMintProvider';
 
 type NftMintersTitleReact = {
   className?: string;

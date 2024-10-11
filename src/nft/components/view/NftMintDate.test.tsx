@@ -1,14 +1,14 @@
 import '@testing-library/jest-dom';
 import { render } from '@testing-library/react';
-import { useOnchainKit } from '../../useOnchainKit';
-import { useMintDate } from '../hooks/useMintDate';
-import { useNftContext } from './NftProvider';
+import { useOnchainKit } from '../../../useOnchainKit';
+import { useMintDate } from '../../hooks/useMintDate';
+import { useNftContext } from '../NftProvider';
 import { type Mock, vi, describe, beforeEach, it, expect } from 'vitest';
 import { NftMintDate } from './NftMintDate';
 
-vi.mock('../../useOnchainKit');
-vi.mock('../hooks/useMintDate');
-vi.mock('./NftProvider');
+vi.mock('../../../useOnchainKit');
+vi.mock('../../hooks/useMintDate');
+vi.mock('../NftProvider');
 
 describe('NftMintDate', () => {
   const mockUseOnchainKit = useOnchainKit as Mock;

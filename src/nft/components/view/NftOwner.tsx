@@ -1,7 +1,7 @@
-import { Avatar, Badge, Identity, Name } from '../../identity';
-import { cn, text } from '../../styles/theme';
-import { useOnchainKit } from '../../useOnchainKit';
-import { useNftContext } from './NftProvider';
+import { Avatar, Badge, Identity, Name } from '../../../identity';
+import { cn, text } from '../../../styles/theme';
+import { useOnchainKit } from '../../../useOnchainKit';
+import { useNftContext } from '../NftProvider';
 
 type NftOwnerProps = {
   className?: string;

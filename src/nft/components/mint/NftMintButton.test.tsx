@@ -1,8 +1,8 @@
 import { render } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { NftMintButton } from './NftMintButton';
-import { useNftMintContext } from './NftMintProvider';
-import { useNftLifecycleContext } from './NftLifecycleProvider';
+import { useNftMintContext } from '../NftMintProvider';
+import { useNftLifecycleContext } from '../NftLifecycleProvider';
 import {
   WagmiProvider,
   createConfig,
@@ -10,16 +10,15 @@ import {
   useAccount,
   useChainId,
 } from 'wagmi';
-import { useMintToken } from '../hooks/useMintToken';
 import { type Mock, vi, describe, beforeEach, it, expect } from 'vitest';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { base } from 'viem/chains';
 import { mock } from 'wagmi/connectors';
-import { useNftContext } from './NftProvider';
+import { useNftContext } from '../NftProvider';
 
-vi.mock('./NftProvider');
-vi.mock('./NftMintProvider');
-vi.mock('./NftLifecycleProvider');
+vi.mock('../NftProvider');
+vi.mock('../NftMintProvider');
+vi.mock('../NftLifecycleProvider');
 vi.mock('wagmi', async (importOriginal) => {
   return {
     ...(await importOriginal<typeof import('wagmi')>()),
@@ -27,12 +26,12 @@ vi.mock('wagmi', async (importOriginal) => {
     useChainId: vi.fn(),
   };
 });
-vi.mock('../../internal/components/Spinner', () => ({
+vi.mock('../../../internal/components/Spinner', () => ({
   Spinner: () => <div>Spinner</div>,
 }));
-vi.mock('../../transaction', async (importOriginal) => {
+vi.mock('../../../transaction', async (importOriginal) => {
   return {
-    ...(await importOriginal<typeof import('../../transaction')>()),
+    ...(await importOriginal<typeof import('../../../transaction')>()),
     TransactionLifecycleStatus: vi.fn(),
     TransactionButton: ({ text, disabled }) => (
       <button type="button" disabled={disabled} data-testid="transactionButton">
@@ -78,7 +77,7 @@ vi.mock('../../transaction', async (importOriginal) => {
     TransactionStatusLabel: vi.fn(),
   };
 });
-vi.mock('../../wallet', () => ({
+vi.mock('../../../wallet', () => ({
   ConnectWallet: () => <div>ConnectWallet</div>,
 }));
 
@@ -185,6 +184,32 @@ describe('NftMintButton', () => {
     );
     expect(getByTestId('transactionButton')).toContainElement(
       getByText('Spinner'),
+    );
+  });
+
+  it('should render error message if mintError is available', () => {
+    (useNftMintContext as Mock).mockReturnValue({
+      quantity: 1,
+      network: 'testnet',
+      isEligibleToMint: true,
+      callData: {
+        to: '0x123',
+        data: '0x456',
+        value: '0',
+      },
+      mintError: {
+        code: 3,
+        message: 'max mints per wallet exceeded',
+      },
+    });
+
+    const { getByTestId, getByText } = render(
+      <TestProviders>
+        <NftMintButton />
+      </TestProviders>,
+    );
+    expect(getByTestId('transactionButton')).toContainElement(
+      getByText('max mints per wallet exceeded'),
     );
   });
 

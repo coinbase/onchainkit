@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom';
 import { render } from '@testing-library/react';
-import { useOnchainKit } from '../../useOnchainKit';
-import { useNftContext } from './NftProvider';
+import { useOnchainKit } from '../../../useOnchainKit';
+import { useNftContext } from '../NftProvider';
 import {
   type Mock,
   vi,
@@ -13,10 +13,10 @@ import {
 } from 'vitest';
 import { NftOwner } from './NftOwner';
 
-vi.mock('../../useOnchainKit');
-vi.mock('./NftProvider');
-vi.mock('../../identity', async () => ({
-  ...(await vi.importActual('../../identity')),
+vi.mock('../../../useOnchainKit');
+vi.mock('../NftProvider');
+vi.mock('../../../identity', async () => ({
+  ...(await vi.importActual('../../../identity')),
   Identity: ({ className, address }) => (
     <div className={className}>{address}</div>
   ),

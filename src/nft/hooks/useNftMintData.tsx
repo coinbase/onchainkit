@@ -1,14 +1,15 @@
 import { useMemo } from 'react';
 import { useAccount, useChainId } from 'wagmi';
-import { useMintToken } from '../hooks/useMintToken';
-import { useTrendingMint } from '../hooks/useTrendingMint';
+import { useMintToken } from './useMintToken';
+import { useTrendingMint } from './useTrendingMint';
 import { useAggregatedCollectionDetails } from './useAggregatedCollectionDetails';
+import type { NftMintData } from '../types';
 
-export function useMintData(
+export function useNftMintData(
   contractAddress: `0x${string}`,
   tokenId: string,
   quantity: number,
-) {
+): NftMintData {
   const chainId = useChainId();
   const { address } = useAccount();
 
@@ -33,11 +34,6 @@ export function useMintData(
     quantity: quantity.toString(),
     tokenId,
   });
-
-  // figure out why error isn't returning correctly
-
-  // console.log('error', 'isError', isError);
-  // console.log('error', 'error', error);
 
   const stage = useMemo(() => {
     const nowInSeconds = new Date().getTime() / 1000;

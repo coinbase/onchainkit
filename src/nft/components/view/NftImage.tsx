@@ -1,8 +1,8 @@
 import { useCallback, useState, useEffect } from 'react';
-import { defaultNftSvg } from '../../internal/svg/defaultNftSvg';
-import { cn } from '../../styles/theme';
-import type { NftError } from '../types';
-import { useNftContext } from './NftProvider';
+import { defaultNftSvg } from '../../../internal/svg/defaultNftSvg';
+import { cn } from '../../../styles/theme';
+import type { NftError } from '../../types';
+import { useNftContext } from '../NftProvider';
 
 type NftImageReact = {
   className?: string;

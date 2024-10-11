@@ -11,7 +11,7 @@ export function NftMint({
   contractAddress,
   tokenId = '1',
   useNftData,
-  useMintData,
+  useNftMintData,
   onStatus,
   onError,
   onSuccess,
@@ -35,7 +35,7 @@ export function NftMint({
         tokenId={tokenId}
         useNftData={useNftData}
       >
-        <NftMintProvider useMintData={useMintData}>
+        <NftMintProvider useNftMintData={useNftMintData}>
           <div
             className={cn(
               background.default,

@@ -3,7 +3,7 @@ import { render } from '@testing-library/react';
 import { NftMintProvider, useNftMintContext } from './NftMintProvider';
 import { vi, describe, it, expect } from 'vitest';
 import { NftProvider } from './NftProvider';
-import type { MintData, NftData } from '../types';
+import type { NftMintData, NftData } from '../types';
 import { act } from 'react';
 
 vi.mock('../hooks/useNftData', () => ({
@@ -17,8 +17,8 @@ vi.mock('../hooks/useNftData', () => ({
   ),
 }));
 
-vi.mock('../hooks/useMintData', () => ({
-  useMintData: vi.fn(
+vi.mock('../hooks/useNftMintData', () => ({
+  useNftMintData: vi.fn(
     () =>
       ({
         price: {
@@ -29,7 +29,7 @@ vi.mock('../hooks/useMintData', () => ({
         maxMintsPerWallet: '4',
         isEligibleToMint: true,
         totalOwners: 6,
-      }) as MintData,
+      }) as NftMintData,
   ),
 }));
 
@@ -43,6 +43,7 @@ const MockComponent = () => {
         {context.price?.amount} {context.price?.currency}
       </span>
       <span data-testid="quantity">{context.quantity}</span>
+      <button data-testid="setQuantity" type="button" onClick={() => context.setQuantity('2')}>setQuantity</button>
     </div>
   );
 };
@@ -51,6 +52,21 @@ describe('NftMintProvider', () => {
   it('should provide the correct context values', () => {
     const { getByTestId } = render(
       <NftProvider contractAddress="0xcontract" tokenId="1">
+        <NftMintProvider>
+          <MockComponent />
+        </NftMintProvider>
+      </NftProvider>,
+    );
+
+    expect(getByTestId('creatorAddress').textContent).toBe('0xcreator');
+    expect(getByTestId('maxMintsPerWallet').textContent).toBe('4');
+    expect(getByTestId('price').textContent).toBe('1 ETH');
+    expect(getByTestId('quantity').textContent).toBe('1');
+  });
+
+  it('should provide the correct context values without tokenId', () => {
+    const { getByTestId } = render(
+      <NftProvider contractAddress="0xcontract">
         <NftMintProvider>
           <MockComponent />
         </NftMintProvider>
@@ -91,7 +107,7 @@ describe('NftMintProvider', () => {
     expect(getByTestId('quantity').textContent).toBe('1');
 
     act(() => {
-      getByTestId('quantity').textContent = '2';
+      getByTestId('setQuantity').click();
     });
 
     expect(getByTestId('quantity').textContent).toBe('2');

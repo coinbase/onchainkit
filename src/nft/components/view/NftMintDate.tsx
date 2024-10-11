@@ -1,8 +1,8 @@
 import { useMemo } from 'react';
-import { cn, text } from '../../styles/theme';
-import { useOnchainKit } from '../../useOnchainKit';
-import { useMintDate } from '../hooks/useMintDate';
-import { useNftContext } from './NftProvider';
+import { cn, text } from '../../../styles/theme';
+import { useOnchainKit } from '../../../useOnchainKit';
+import { useMintDate } from '../../hooks/useMintDate';
+import { useNftContext } from '../NftProvider';
 
 const DATE_OPTIONS = {
   year: 'numeric',

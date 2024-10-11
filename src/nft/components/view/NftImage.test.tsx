@@ -2,7 +2,7 @@ import '@testing-library/jest-dom';
 import { act } from 'react';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import { type Mock, vi, beforeEach, describe, it, expect } from 'vitest';
-import { useNftContext } from './NftProvider';
+import { useNftContext } from '../NftProvider';
 import { NftImage } from './NftImage';
 
 const mockContext = {
@@ -10,7 +10,7 @@ const mockContext = {
   description: 'Test NFT Image',
 };
 
-vi.mock('./NftProvider', () => ({
+vi.mock('../NftProvider', () => ({
   useNftContext: vi.fn(),
 }));
 

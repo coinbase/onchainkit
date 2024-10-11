@@ -10,17 +10,17 @@ import {
 } from 'vitest';
 import { render } from '@testing-library/react';
 import { NftLastSoldPrice } from './NftLastSoldPrice';
-import { useNftContext } from './NftProvider';
-import { useEthPrice } from '../../internal/hooks/useEthPrice';
-import { convertWeiToEther } from '../utils/convertWeiToEther';
+import { useNftContext } from '../NftProvider';
+import { useEthPrice } from '../../../internal/hooks/useEthPrice';
+import { convertWeiToEther } from '../../utils/convertWeiToEther';
 
-vi.mock('./NftProvider', () => ({
+vi.mock('../NftProvider', () => ({
   useNftContext: vi.fn(),
 }));
-vi.mock('../../internal/hooks/useEthPrice', () => ({
+vi.mock('../../../internal/hooks/useEthPrice', () => ({
   useEthPrice: vi.fn(),
 }));
-vi.mock('../utils/convertWeiToEther', () => ({
+vi.mock('../../utils/convertWeiToEther', () => ({
   convertWeiToEther: vi.fn(),
 }));
 

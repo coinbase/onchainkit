@@ -1,6 +1,6 @@
-import { QuantitySelector } from '../../internal/components/QuantitySelector';
-import { cn } from '../../styles/theme';
-import { useNftMintContext } from './NftMintProvider';
+import { QuantitySelector } from '../../../internal/components/QuantitySelector';
+import { cn } from '../../../styles/theme';
+import { useNftMintContext } from '../NftMintProvider';
 
 type NftQuantitySelectorReact = {
   className?: string;

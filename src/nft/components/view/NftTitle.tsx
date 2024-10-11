@@ -1,5 +1,5 @@
-import { cn, text } from '../../styles/theme';
-import { useNftContext } from './NftProvider';
+import { cn, text } from '../../../styles/theme';
+import { useNftContext } from '../NftProvider';
 
 type NftTitleProps = {
   className?: string;

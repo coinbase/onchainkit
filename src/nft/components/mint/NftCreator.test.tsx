@@ -1,19 +1,19 @@
 import '@testing-library/jest-dom';
 import { render } from '@testing-library/react';
 import { NftCreator } from './NftCreator';
-import { useOnchainKit } from '../../useOnchainKit';
-import { useNftMintContext } from './NftMintProvider';
+import { useOnchainKit } from '../../../useOnchainKit';
+import { useNftMintContext } from '../NftMintProvider';
 import { type Mock, beforeEach, vi, describe, it, expect } from 'vitest';
 
-vi.mock('../../useOnchainKit', () => ({
+vi.mock('../../../useOnchainKit', () => ({
   useOnchainKit: vi.fn(),
 }));
-vi.mock('./NftMintProvider', () => ({
+vi.mock('../NftMintProvider', () => ({
   useNftMintContext: vi.fn(),
 }));
 
-vi.mock('../../identity', async () => ({
-  ...(await vi.importActual('../../identity')),
+vi.mock('../../../identity', async () => ({
+  ...(await vi.importActual('../../../identity')),
   Identity: ({ className }) => <div className={className}>Identity</div>,
 }));
 

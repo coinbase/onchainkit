@@ -1,19 +1,19 @@
 import '@testing-library/jest-dom';
 import { render } from '@testing-library/react';
-import { useRecentMints } from '../hooks/useRecentMints';
-import { useOnchainKit } from '../../useOnchainKit';
-import { useNftMintContext } from './NftMintProvider';
-import { useNftContext } from './NftProvider';
+import { useRecentMints } from '../../hooks/useRecentMints';
+import { useOnchainKit } from '../../../useOnchainKit';
+import { useNftMintContext } from '../NftMintProvider';
+import { useNftContext } from '../NftProvider';
 import { type Mock, vi, describe, beforeEach, it, expect } from 'vitest';
 import { NftMintersTitle } from './NftMintersTitle';
 
-vi.mock('../hooks/useRecentMints');
-vi.mock('../../useOnchainKit');
-vi.mock('./NftMintProvider');
-vi.mock('./NftProvider');
+vi.mock('../../hooks/useRecentMints');
+vi.mock('../../../useOnchainKit');
+vi.mock('../NftMintProvider');
+vi.mock('../NftProvider');
 
-vi.mock('../../identity', async () => ({
-  ...(await vi.importActual('../../identity')),
+vi.mock('../../../identity', async () => ({
+  ...(await vi.importActual('../../../identity')),
   Identity: ({ className, children }) => (
     <div className={className}>{children}</div>
   ),
