@@ -3,24 +3,25 @@ title: <Pay /> · OnchainKit
 description: One-click checkout for onchain commerce
 ---
 
-import { Pay } from '@coinbase/onchainkit/pay';
+import { Pay, PayButton, PayStatus } from '@coinbase/onchainkit/pay';
+import App from '../../components/App';
 
 # `<Pay />`
-
-<img alt="Pay button"
-  src="https://onchainkit.xyz/assets/pay-button.png"
-  height="364"/>
 
 The `Pay` component provides a one-click checkout experience for onchain commerce. 
 
 Our all-in-one solution simplifies payment processing for onchain developers, removing complex integrations, high fees, and onboarding friction. Whether you're selling digital goods, services, or in-game items, this tool is for you.
+
+<img alt="Pay"
+  src="https://onchainkit.xyz/assets/pay.gif"
+  height="364"/>
 
 ## Features
 - **Plug-and-Play Integration:** Add our `Pay` button with just a few lines of code. No backend required.
 - **Seamless Onboarding:** Support Passkey wallets to eliminate onboarding drop-offs.
 - **Real-time Merchant Tooling:** Get instant payment tracking, analytics, and reporting.
 
-## Quick start
+## Prerequisites
 
 Before using the `Pay` component, ensure you've completed the [Getting Started](/getting-started) steps.
 
@@ -28,23 +29,23 @@ If you're starting a new project, we recommend using [Wagmi](https://wagmi.sh/) 
 
 If you're adding the component to an existing project, simply install OnchainKit (`npm install @coinbase/onchainkit@latest`). Wrap the `<OnchainKitProvider />` around your app following steps in [Getting Started](/getting-started).
 
-## Walkthrough
+## Quickstart
 
 ::::steps
 
-## Sign up for a Coinbase Commerce account
+### Sign up for a Coinbase Commerce account
 <img alt="Create a product"
   src="https://onchainkit.xyz/assets/commerce-1.png"
   height="364"/>
 Head to [Coinbase Commerce](https://beta.commerce.coinbase.com/) and sign up. This is where you’ll manage transactions, view reports, and configure payments.
 
-## Create a product and copy the `productId`
+### Create a product and copy the `productId`
   <img alt="Copy productId"
   src="https://onchainkit.xyz/assets/commerce-2.png"
   height="364"/>
 In the Coinbase Commerce dashboard, create a new product and copy the `productId`.
 
-## Import the component
+### Import the component
 
 ```tsx twoslash
 import { Pay, PayButton, PayStatus } from '@coinbase/onchainkit/pay';
@@ -58,10 +59,33 @@ import { Pay, PayButton, PayStatus } from '@coinbase/onchainkit/pay';
 
 That's it! Starting selling onchain with just a few lines of code. 
 
-## Programmatic charges
-In the serverful approach, developers will create product metadata and charges on their backend through the Coinbase Commerce [CreateCharge](https://docs.cdp.coinbase.com/commerce-onchain/reference/creates-a-charge) endpoint.
+## Usage
 
-### Example use cases
+### Add Coinbase branding
+
+You can add Coinbase branding to the component by using the `coinbaseBranded` prop on `PayButton`.
+
+```tsx twoslash
+import { Pay, PayButton } from '@coinbase/onchainkit/pay';
+
+export default function PayComponents() {
+  return (
+// ---cut-before---
+<Pay >
+  <PayButton coinbaseBranded/> // [!code focus]
+</Pay>
+// ---cut-after---
+);
+}
+```
+
+<App>
+  <Pay>
+    <PayButton coinbaseBranded disabled/>
+  </Pay>
+</App>
+
+## Example use cases
 - **Demand-based pricing:** Allow users to select seats or ticket types for events, and dynamically calculate charges based on availability and demand.
 - **Product bundles:** Provide users with the option to create custom product bundles, applying discounts or special pricing based on the selected items.
 - **Freelance Services:** Allow clients to specify project details such as hours, deliverables, and deadlines, and generate charges based on these custom inputs.
