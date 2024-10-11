@@ -39,7 +39,7 @@ export function Transaction({
       onSuccess={onSuccess}
     >
       <div
-        className={cn(componentTheme, className, 'flex w-full flex-col gap-2')}
+        className={cn(componentTheme, 'flex w-full flex-col gap-2', className)}
       >
         {children}
       </div>
