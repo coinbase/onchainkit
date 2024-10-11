@@ -1,7 +1,13 @@
 import { useMemo } from 'react';
 import { Spinner } from '../../internal/components/Spinner';
 import { useIcon } from '../../internal/hooks/useIcon';
-import { cn, color, pressable, text as styleText } from '../../styles/theme';
+import {
+  border,
+  cn,
+  color,
+  pressable,
+  text as styleText,
+} from '../../styles/theme';
 import { PAY_LIFECYCLESTATUS } from '../constants';
 import type { PayButtonReact } from '../types';
 import { usePayContext } from './PayProvider';
@@ -42,6 +48,7 @@ export function PayButton({
         coinbaseBranded ? pressable.coinbaseBranding : pressable.primary,
         'w-full rounded-xl',
         'mt-4 px-4 py-3 font-medium text-base text-white leading-6',
+        border.radius,
         isDisabled && pressable.disabled,
         styleText.headline,
         className,

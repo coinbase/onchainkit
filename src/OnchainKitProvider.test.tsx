@@ -122,10 +122,81 @@ describe('OnchainKitProvider', () => {
     expect(setOnchainKitConfig).toHaveBeenCalledWith({
       address: null,
       apiKey,
+      config: {
+        appearance: {
+          mode: 'auto',
+          theme: 'default',
+        },
+      },
       chain: base,
       rpcUrl: null,
       schemaId,
       projectId: null,
+    });
+  });
+
+  it('should use default values for config.appearance when not provided', async () => {
+    render(
+      <WagmiProvider config={mockConfig}>
+        <QueryClientProvider client={queryClient}>
+          <OnchainKitProvider chain={base} schemaId={schemaId} apiKey={apiKey}>
+            <TestComponent />
+          </OnchainKitProvider>
+        </QueryClientProvider>
+      </WagmiProvider>,
+    );
+
+    await waitFor(() => {
+      expect(setOnchainKitConfig).toHaveBeenCalledWith(
+        expect.objectContaining({
+          config: {
+            appearance: {
+              mode: 'auto',
+              theme: 'default',
+            },
+          },
+        }),
+      );
+    });
+  });
+
+  it('should use default values for appearance when config is provided', async () => {
+    const customConfig = {
+      appearance: {},
+    };
+
+    render(
+      <WagmiProvider config={mockConfig}>
+        <QueryClientProvider client={queryClient}>
+          <OnchainKitProvider
+            chain={base}
+            schemaId={schemaId}
+            apiKey={apiKey}
+            config={customConfig}
+          >
+            <TestComponent />
+          </OnchainKitProvider>
+        </QueryClientProvider>
+      </WagmiProvider>,
+    );
+
+    await waitFor(() => {
+      expect(setOnchainKitConfig).toHaveBeenCalledWith(
+        expect.objectContaining({
+          address: null,
+          apiKey: apiKey,
+          chain: base,
+          config: {
+            appearance: {
+              mode: 'auto',
+              theme: 'default',
+            },
+          },
+          projectId: null,
+          rpcUrl: null,
+          schemaId: schemaId,
+        }),
+      );
     });
   });
 });

@@ -7,6 +7,12 @@ export const ONCHAIN_KIT_CONFIG: OnchainKitConfig = {
   address: null,
   apiKey: null,
   chain: baseSepolia,
+  config: {
+    appearance: {
+      mode: null,
+      theme: null,
+    },
+  },
   rpcUrl: null,
   schemaId: null,
   projectId: null,

@@ -20,6 +20,10 @@ vi.mock('./WalletDropdown', () => ({
   ),
 }));
 
+vi.mock('../../useTheme', () => ({
+  useTheme: vi.fn(),
+}));
+
 describe('Wallet Component', () => {
   let mockSetIsOpen: ReturnType<typeof vi.fn>;
 

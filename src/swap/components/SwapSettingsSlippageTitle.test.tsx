@@ -2,8 +2,9 @@ import { render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 import { SwapSettingsSlippageTitle } from './SwapSettingsSlippageTitle';
 
-vi.mock('../../styles/theme', () => ({
-  cn: (...args: string[]) => args.join(' '),
+vi.mock('../styles/theme', () => ({
+  cn: (...args) => args.join(' '),
+  color: { foreground: 'text-foreground' },
 }));
 
 describe('SwapSettingsSlippageTitle', () => {
@@ -18,7 +19,7 @@ describe('SwapSettingsSlippageTitle', () => {
     render(<SwapSettingsSlippageTitle>Test</SwapSettingsSlippageTitle>);
     const heading = screen.getByText('Test');
     expect(heading.className).toContain(
-      '--text-ock-foreground mb-2 font-semibold text-base leading-normal',
+      'ock-font-family font-semibold ock-text-foreground mb-2 text-base',
     );
   });
 
@@ -31,7 +32,7 @@ describe('SwapSettingsSlippageTitle', () => {
     const heading = screen.getByText('Test');
     expect(heading.className).toContain('custom-class');
     expect(heading.className).toContain(
-      '--text-ock-foreground mb-2 font-semibold text-base leading-normal',
+      'ock-font-family font-semibold ock-text-foreground mb-2 text-base custom-class',
     );
   });
 

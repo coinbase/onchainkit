@@ -1,5 +1,6 @@
 import {
   Avatar,
+  Identity,
   Name,
   useAddress,
   useAvatar,
@@ -47,15 +48,19 @@ export default function IdentityDemo() {
                 Default Chain
               </h2>
               <div className="flex items-center space-x-4">
-                <Avatar address={address} />
-                <Name address={address} />
+                <Identity>
+                  <Avatar address={address} />
+                  <Name address={address} />
+                </Identity>
               </div>
             </div>
             <div className="space-y-2">
               <h2 className="font-medium text-gray-500 text-sm">Base Chain</h2>
               <div className="flex items-center space-x-4">
-                <Avatar address={address} chain={base} />
-                <Name address={address} chain={base} />
+                <Identity>
+                  <Avatar address={address} chain={base} />
+                  <Name address={address} chain={base} />
+                </Identity>
               </div>
             </div>
           </div>

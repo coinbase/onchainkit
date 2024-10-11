@@ -3,6 +3,10 @@ import { fireEvent, render, waitFor } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 import { TokenSearch } from './TokenSearch';
 
+vi.mock('../../useTheme', () => ({
+  useTheme: vi.fn(),
+}));
+
 describe('TokenSearch component', () => {
   it('should call onChange after the specified debounce delay', async () => {
     const handleChange = vi.fn();
