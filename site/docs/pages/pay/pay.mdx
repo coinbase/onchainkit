@@ -159,13 +159,26 @@ export default function PayComponents() {
 </App>
 
 
+## Advanced Usage
+
+### Creating charges on the backend
+
 ## Example use cases
 - **Demand-based pricing:** Allow users to select seats or ticket types for events, and dynamically calculate charges based on availability and demand.
 - **Product bundles:** Provide users with the option to create custom product bundles, applying discounts or special pricing based on the selected items.
 - **Freelance Services:** Allow clients to specify project details such as hours, deliverables, and deadlines, and generate charges based on these custom inputs.
 
-### Create the charge in your backend
+## Components
 
-We expose a prop called `chargeId` which will take a callback that returns a charge ID. This developer-provided callback **MUST** return a valid chargeId, and is run on every click to the Pay button. 
+The components are designed to work together hierarchically. For each component, ensure the following:
 
-The chargeId returned from the callback is then hydrated by our backend API, which will send the batched commerce request to the Smart Wallet.
+- `<Pay />` - Sets the `productId` or `chargeHandler` prop.
+- `<PayButton />` - Branding and customization of the payment button.
+- `<PayStatus />` - The status of the payment.
+
+## Props
+
+- [`LifecycleStatus`](/pay/types#lifecyclestatus)
+- [`PayReact`](/pay/types#payreact)
+- [`PayButtonReact`](/pay/types#paybuttonreact)
+- [`PayStatusReact`](/pay/types#paystatusreact)

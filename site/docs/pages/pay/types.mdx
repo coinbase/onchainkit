@@ -1,0 +1,63 @@
+---
+title: Pay components & utilities Types
+description: Glossary of Types in Pay components & utilities.
+---
+
+# Types [Glossary of Types in Pay components & utilities.]
+
+
+## `LifecycleStatus`
+
+```ts
+type LifecycleStatus =
+  | {
+      statusName: 'init';
+      statusData: LifecycleStatusDataShared;
+    }
+  | {
+      statusName: 'error';
+      statusData: TransactionError;
+    }
+  | {
+      statusName: 'paymentPending';
+      statusData: LifecycleStatusDataShared;
+    }
+  | {
+      statusName: 'success'; // if the last mutation attempt was successful
+      statusData: {
+        transactionReceipts: TransactionReceipt[];
+        chargeId: string;
+        receiptUrl: string;
+      };
+    };
+```
+
+## `PayButtonReact`
+
+```ts
+type PayButtonReact = {
+  className?: string;
+  coinbaseBranded?: boolean;
+  disabled?: boolean;
+  icon?: React.ReactNode;
+  text?: string;
+};
+```
+
+## `PayReact`
+
+```ts
+type PayReact = {
+  chargeHandler?: () => Promise<string>;
+  children: React.ReactNode;
+  className?: string;
+  onStatus?: (status: LifecycleStatus) => void;
+  productId?: string;
+};
+```
+
+## `PayStatusReact`
+
+```ts
+type PayStatusReact = { className?: string };
+```
