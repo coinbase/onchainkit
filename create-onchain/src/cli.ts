@@ -133,9 +133,6 @@ async function init() {
   const { projectName, packageName, clientKey, smartWallet } = result;
   const root = path.join(process.cwd(), projectName);
 
-  const packageManager = detectPackageManager();
-  console.log(`\nDetected package manager: ${pc.cyan(packageManager)}`);
-
   const spinner = ora(`Creating ${projectName}...`).start();
 
   await copyDir(sourceDir, root);
