@@ -122,6 +122,10 @@ describe('OnchainKitProvider', () => {
     expect(setOnchainKitConfig).toHaveBeenCalledWith({
       address: null,
       apiKey,
+      appearance: {
+        mode: 'auto',
+        theme: 'default',
+      },
       chain: base,
       rpcUrl: null,
       schemaId,

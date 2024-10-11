@@ -28,7 +28,10 @@ export function OnchainKitProvider({
       address: address ?? null,
       apiKey: apiKey ?? null,
       chain: chain,
-      appearance: appearance,
+      appearance: {
+        mode: appearance?.mode ?? 'auto',
+        theme: appearance?.theme ?? 'default',
+      },
       projectId: projectId ?? null,
       rpcUrl: rpcUrl ?? null,
       schemaId: schemaId ?? null,

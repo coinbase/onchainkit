@@ -8,29 +8,19 @@ import {
   it,
   vi,
 } from 'vitest';
+import { usePreferredColorScheme } from './internal/hooks/usePreferredColorScheme';
+import type { UseThemeReact } from './types';
 import { useOnchainKit } from './useOnchainKit';
 import { useTheme } from './useTheme';
 
 vi.mock('./useOnchainKit');
+vi.mock('./internal/hooks/usePreferredColorScheme');
 
 describe('useTheme', () => {
-  let matchMediaSpy: Mock;
-  let addEventListenerSpy: Mock;
-  let removeEventListenerSpy: Mock;
+  let consoleLogSpy: Mock;
 
   beforeEach(() => {
-    addEventListenerSpy = vi.fn();
-    removeEventListenerSpy = vi.fn();
-    matchMediaSpy = vi.fn().mockReturnValue({
-      matches: false,
-      addEventListener: addEventListenerSpy,
-      removeEventListener: removeEventListenerSpy,
-    });
-    Object.defineProperty(window, 'matchMedia', {
-      writable: true,
-      value: matchMediaSpy,
-    });
-    vi.spyOn(console, 'log').mockImplementation(() => {});
+    consoleLogSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
   });
 
   afterEach(() => {
@@ -43,119 +33,102 @@ describe('useTheme', () => {
     });
   };
 
-  const setPrefersDarkMode = (prefersDarkMode: boolean) => {
-    matchMediaSpy.mockReturnValue({
-      matches: prefersDarkMode,
-      addEventListener: addEventListenerSpy,
-      removeEventListener: removeEventListenerSpy,
-    });
+  const mockUsePreferredColorScheme = (preferredMode: 'light' | 'dark') => {
+    (usePreferredColorScheme as Mock).mockReturnValue(preferredMode);
   };
 
-  it('should return default-light when no theme or mode is set and system prefers light', () => {
-    mockUseOnchainKit();
-    setPrefersDarkMode(false);
-    const { result } = renderHook(() => useTheme());
-    expect(result.current).toBe('default-light');
-  });
+  it.each([
+    ['cyberpunk', 'auto', 'light', 'cyberpunk'],
+    ['base', 'dark', 'dark', 'base'],
+    ['minimal', 'light', 'light', 'minimal'],
+  ] as const)(
+    'should return %s theme when set, regardless of mode or system preference',
+    (theme, mode, preferredMode, expected) => {
+      mockUseOnchainKit(theme, mode);
+      mockUsePreferredColorScheme(preferredMode);
+      const { result } = renderHook(() => useTheme());
+      expect(result.current).toBe(expected);
+    },
+  );
 
-  it('should return default-dark when no theme or mode is set and system prefers dark', () => {
-    mockUseOnchainKit();
-    setPrefersDarkMode(true);
-    const { result } = renderHook(() => useTheme());
-    expect(result.current).toBe('default-dark');
-  });
+  it.each([
+    ['default', 'auto', 'light', 'default-light'],
+    ['default', 'auto', 'dark', 'default-dark'],
+    ['default', 'light', 'dark', 'default-light'],
+    ['default', 'dark', 'light', 'default-dark'],
+    ['custom', 'auto', 'light', 'custom-light'],
+    ['custom', 'auto', 'dark', 'custom-dark'],
+    ['custom', 'light', 'dark', 'custom-light'],
+    ['custom', 'dark', 'light', 'custom-dark'],
+  ] as const)(
+    'should return %s when theme is %s, mode is %s, and preferred mode is %s',
+    (theme, mode, preferredMode, expected) => {
+      mockUseOnchainKit(theme, mode);
+      mockUsePreferredColorScheme(preferredMode);
+      const { result } = renderHook(() => useTheme());
+      expect(result.current).toBe(expected);
+    },
+  );
 
-  it('should return default-light when mode is light, regardless of system preference', () => {
-    mockUseOnchainKit(undefined, 'light');
-    setPrefersDarkMode(true);
-    const { result } = renderHook(() => useTheme());
-    expect(result.current).toBe('default-light');
-  });
-
-  it('should return default-dark when mode is dark, regardless of system preference', () => {
-    mockUseOnchainKit(undefined, 'dark');
-    setPrefersDarkMode(false);
-    const { result } = renderHook(() => useTheme());
-    expect(result.current).toBe('default-dark');
-  });
-
-  it('should return cyberpunk theme when set, regardless of mode or system preference', () => {
-    mockUseOnchainKit('cyberpunk', 'auto');
-    setPrefersDarkMode(false);
-    const { result } = renderHook(() => useTheme());
-    expect(result.current).toBe('cyberpunk');
-  });
-
-  it('should return base theme when set, regardless of mode or system preference', () => {
-    mockUseOnchainKit('base', 'dark');
-    setPrefersDarkMode(true);
-    const { result } = renderHook(() => useTheme());
-    expect(result.current).toBe('base');
-  });
-
-  it('should return minimal theme when set, regardless of mode or system preference', () => {
-    mockUseOnchainKit('minimal', 'light');
-    setPrefersDarkMode(false);
-    const { result } = renderHook(() => useTheme());
-    expect(result.current).toBe('minimal');
-  });
-
-  it('should return default-light when theme is default, mode is auto, and system prefers light', () => {
-    mockUseOnchainKit('default', 'auto');
-    setPrefersDarkMode(false);
-    const { result } = renderHook(() => useTheme());
-    expect(result.current).toBe('default-light');
-  });
-
-  it('should return default-dark when theme is default, mode is auto, and system prefers dark', () => {
-    mockUseOnchainKit('default', 'auto');
-    setPrefersDarkMode(true);
-    const { result } = renderHook(() => useTheme());
-    expect(result.current).toBe('default-dark');
-  });
-
-  it('should update theme when system preference changes', () => {
-    mockUseOnchainKit('default', 'auto');
-    setPrefersDarkMode(false);
-    const { result, rerender } = renderHook(() => useTheme());
-    expect(result.current).toBe('default-light');
-    setPrefersDarkMode(true);
-    addEventListenerSpy.mock.calls[0][1]({ matches: true });
-    rerender();
-    expect(result.current).toBe('default-light');
-  });
-
-  it('should fallback to auto behavior when theme is specified but mode is undefined', () => {
-    mockUseOnchainKit('default', undefined);
-    setPrefersDarkMode(false);
-    const { result, rerender } = renderHook(() => useTheme());
-    expect(result.current).toBe('default-light');
-    setPrefersDarkMode(true);
-    addEventListenerSpy.mock.calls[0][1]({ matches: true });
-    rerender();
-    expect(result.current).toBe('default-light');
-  });
-
-  it('should fallback to auto behavior for non-default themes when mode is undefined', () => {
-    mockUseOnchainKit('cyberpunk', undefined);
-    setPrefersDarkMode(false);
-    const { result } = renderHook(() => useTheme());
-    expect(result.current).toBe('cyberpunk');
-    mockUseOnchainKit('base', undefined);
-    const { result: result2 } = renderHook(() => useTheme());
-    expect(result2.current).toBe('base');
-    mockUseOnchainKit('minimal', undefined);
-    const { result: result3 } = renderHook(() => useTheme());
-    expect(result3.current).toBe('minimal');
-  });
+  it.each([
+    ['default', undefined, 'light', 'default-light'],
+    ['default', undefined, 'dark', 'default-dark'],
+    ['custom', undefined, 'light', 'custom-light'],
+    ['custom', undefined, 'dark', 'custom-dark'],
+  ] as const)(
+    'should fallback to preferred mode when theme is %s and mode is undefined',
+    (theme, mode, preferredMode, expected) => {
+      mockUseOnchainKit(theme, mode);
+      mockUsePreferredColorScheme(preferredMode);
+      const { result } = renderHook(() => useTheme());
+      expect(result.current).toBe(expected);
+    },
+  );
 
   it('should handle undefined appearance gracefully', () => {
     (useOnchainKit as Mock).mockReturnValue({});
-    setPrefersDarkMode(false);
-    const { result: resultLight } = renderHook(() => useTheme());
-    expect(resultLight.current).toBe('default-light');
-    setPrefersDarkMode(true);
-    const { result: resultDark } = renderHook(() => useTheme());
-    expect(resultDark.current).toBe('default-dark');
+    mockUsePreferredColorScheme('light');
+    const { result } = renderHook(() => useTheme());
+    expect(result.current).toBe('undefined-light');
+  });
+
+  it('should log theme, mode, and preferred mode', () => {
+    mockUseOnchainKit('default', 'auto');
+    mockUsePreferredColorScheme('light');
+    renderHook(() => useTheme());
+    expect(consoleLogSpy).toHaveBeenCalledWith('PreferredMode: ', 'light');
+    expect(consoleLogSpy).toHaveBeenCalledWith('Theme: ', 'default');
+    expect(consoleLogSpy).toHaveBeenCalledWith('Mode: ', 'auto');
+  });
+
+  it('should handle invalid mode gracefully', () => {
+    mockUseOnchainKit('default', 'invalid' as any);
+    mockUsePreferredColorScheme('light');
+    const { result } = renderHook(() => useTheme());
+    expect(result.current).toBe('default-light');
+  });
+
+  it('should handle all possible return types of UseThemeReact', () => {
+    const allThemes: UseThemeReact[] = [
+      'cyberpunk',
+      'base',
+      'minimal',
+      'default-light',
+      'default-dark',
+      'custom-light',
+      'custom-dark',
+    ];
+
+    allThemes.forEach((theme) => {
+      if (theme === 'cyberpunk' || theme === 'base' || theme === 'minimal') {
+        mockUseOnchainKit(theme, 'auto');
+      } else {
+        const [baseTheme, mode] = theme.split('-');
+        mockUseOnchainKit(baseTheme, mode as 'light' | 'dark');
+      }
+      mockUsePreferredColorScheme(theme.endsWith('dark') ? 'dark' : 'light');
+      const { result } = renderHook(() => useTheme());
+      expect(result.current).toBe(theme);
+    });
   });
 });
