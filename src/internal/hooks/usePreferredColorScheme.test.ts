@@ -1,12 +1,26 @@
-import { renderHook } from '@testing-library/react';
+import { act, renderHook } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { usePreferredColorScheme } from './usePreferredColorScheme';
 
 describe('usePreferredColorScheme', () => {
-  let matchMedia: ReturnType<typeof vi.spyOn<typeof window, 'matchMedia'>>;
+  let _matchMedia: ReturnType<typeof vi.spyOn>;
+  let mockMediaQueryList: MediaQueryList;
 
   beforeEach(() => {
-    matchMedia = vi.spyOn(window, 'matchMedia');
+    mockMediaQueryList = {
+      matches: false,
+      media: '(prefers-color-scheme: dark)',
+      onchange: null,
+      addListener: vi.fn(),
+      removeListener: vi.fn(),
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+      dispatchEvent: vi.fn(),
+    };
+
+    _matchMedia = vi
+      .spyOn(window, 'matchMedia')
+      .mockImplementation(() => mockMediaQueryList);
   });
 
   afterEach(() => {
@@ -14,125 +28,66 @@ describe('usePreferredColorScheme', () => {
   });
 
   it('should return "light" by default', () => {
-    const mockMediaQueryList: Partial<MediaQueryList> = {
-      matches: false,
-      addEventListener: vi.fn(),
-      removeEventListener: vi.fn(),
-    };
-
-    matchMedia.mockImplementation(() => mockMediaQueryList as MediaQueryList);
-
     const { result } = renderHook(() => usePreferredColorScheme());
     expect(result.current).toBe('light');
   });
 
   it('should return "dark" when system preference is dark', () => {
-    const mockMediaQueryList: Partial<MediaQueryList> = {
-      matches: true,
-      addEventListener: vi.fn(),
-      removeEventListener: vi.fn(),
-    };
-
-    matchMedia.mockImplementation(() => mockMediaQueryList as MediaQueryList);
-
+    mockMediaQueryList.matches = true;
     const { result } = renderHook(() => usePreferredColorScheme());
     expect(result.current).toBe('dark');
   });
 
-  it('should update when system preference changes', async () => {
-    let mockedMatches = false;
-    let changeHandler: ((event: MediaQueryListEvent) => void) | undefined;
-
-    const mockMediaQueryList: Partial<MediaQueryList> = {
-      matches: mockedMatches,
-      addEventListener: (
-        event: string,
-        handler: EventListenerOrEventListenerObject,
-      ) => {
-        if (event === 'change' && typeof handler === 'function') {
-          changeHandler = handler;
-        }
-      },
-      removeEventListener: vi.fn(),
-    };
-
-    matchMedia.mockImplementation(() => mockMediaQueryList as MediaQueryList);
-
-    const { result, rerender } = renderHook(() => usePreferredColorScheme());
+  it('should update from light to dark when system preference changes', () => {
+    const { result } = renderHook(() => usePreferredColorScheme());
     expect(result.current).toBe('light');
 
-    // Simulate preference change
-    mockedMatches = true;
-    mockMediaQueryList.matches = true;
-    if (changeHandler) {
-      changeHandler({ matches: true } as MediaQueryListEvent);
-    }
-    rerender();
+    act(() => {
+      mockMediaQueryList.matches = true;
+      mockMediaQueryList.addEventListener.mock.calls[0][1]({
+        matches: true,
+      } as MediaQueryListEvent);
+    });
 
     expect(result.current).toBe('dark');
   });
 
+  it('should update from dark to light when system preference changes', () => {
+    mockMediaQueryList.matches = true;
+    const { result } = renderHook(() => usePreferredColorScheme());
+    expect(result.current).toBe('dark');
+
+    act(() => {
+      mockMediaQueryList.matches = false;
+      mockMediaQueryList.addEventListener.mock.calls[0][1]({
+        matches: false,
+      } as MediaQueryListEvent);
+    });
+
+    expect(result.current).toBe('light');
+  });
+
   it('should add event listener on mount', () => {
-    const addEventListenerSpy = vi.fn();
-    const mockMediaQueryList: Partial<MediaQueryList> = {
-      matches: false,
-      addEventListener: addEventListenerSpy,
-      removeEventListener: vi.fn(),
-    };
-
-    matchMedia.mockImplementation(() => mockMediaQueryList as MediaQueryList);
-
     renderHook(() => usePreferredColorScheme());
-    expect(addEventListenerSpy).toHaveBeenCalledWith(
+    expect(mockMediaQueryList.addEventListener).toHaveBeenCalledWith(
       'change',
       expect.any(Function),
     );
   });
 
   it('should remove event listener on unmount', () => {
-    const removeEventListenerSpy = vi.fn();
-    const mockMediaQueryList: Partial<MediaQueryList> = {
-      matches: false,
-      addEventListener: vi.fn(),
-      removeEventListener: removeEventListenerSpy,
-    };
-
-    matchMedia.mockImplementation(() => mockMediaQueryList as MediaQueryList);
-
     const { unmount } = renderHook(() => usePreferredColorScheme());
     unmount();
-    expect(removeEventListenerSpy).toHaveBeenCalledWith(
+    expect(mockMediaQueryList.removeEventListener).toHaveBeenCalledWith(
       'change',
       expect.any(Function),
     );
   });
 
   it('should handle multiple renders without adding multiple listeners', () => {
-    const addEventListenerSpy = vi.fn();
-    const mockMediaQueryList: Partial<MediaQueryList> = {
-      matches: false,
-      addEventListener: addEventListenerSpy,
-      removeEventListener: vi.fn(),
-    };
-
-    matchMedia.mockImplementation(() => mockMediaQueryList as MediaQueryList);
-
     const { rerender } = renderHook(() => usePreferredColorScheme());
     rerender();
     rerender();
-    expect(addEventListenerSpy).toHaveBeenCalledTimes(1);
-  });
-
-  it('should set color scheme based on MediaQueryListEvent matches', () => {
-    const setColorSchemeMock = vi.fn();
-    const updateColorScheme = (event: MediaQueryListEvent) => {
-      setColorSchemeMock(event.matches ? 'dark' : 'light');
-    };
-
-    updateColorScheme({ matches: true } as MediaQueryListEvent);
-    expect(setColorSchemeMock).toHaveBeenCalledWith('dark');
-
-    updateColorScheme({ matches: false } as MediaQueryListEvent);
-    expect(setColorSchemeMock).toHaveBeenCalledWith('light');
+    expect(mockMediaQueryList.addEventListener).toHaveBeenCalledTimes(1);
   });
 });
