@@ -2,7 +2,6 @@
 import { AppContext, OnchainKitComponent } from '@/components/AppProvider';
 import { Chain } from '@/components/form/chain';
 import { ComponentMode } from '@/components/form/component-mode';
-import { ComponentTheme } from '@/components/form/component-theme';
 import { PaymasterUrl } from '@/components/form/paymaster';
 import { SwapConfig } from '@/components/form/swap-config';
 import { WalletType } from '@/components/form/wallet-type';
@@ -10,7 +9,6 @@ import { motion } from 'framer-motion';
 import { Moon, Sun } from 'lucide-react';
 import { useContext, useEffect, useState } from 'react';
 import Draggable from 'react-draggable';
-import ThemeSelector from './ThemeSelector';
 import FundDemo from './demo/Fund';
 import IdentityDemo from './demo/Identity';
 import SwapDemo from './demo/Swap';
@@ -21,6 +19,7 @@ import WalletDemo from './demo/Wallet';
 import WalletDefaultDemo from './demo/WalletDefault';
 import { ActiveComponent } from './form/active-component';
 import { TransactionOptions } from './form/transaction-options';
+import ComponentThemeSelector from './ui/component-theme-selector';
 
 function Demo() {
   const { activeComponent } = useContext(AppContext);
@@ -99,7 +98,7 @@ function Demo() {
       </div>
       <Draggable>
         <div
-          className="fixed top-10 left-10 z-20 flex w-96 flex-col rounded-3xl border bg-opacity-10 shadow-lg backdrop-blur-md transition-all"
+          className="fixed top-10 left-10 z-20 flex w-96 flex-col rounded-2xl border bg-opacity-10 shadow-lg backdrop-blur-md transition-all"
           style={{
             backgroundColor: isDarkMode
               ? 'rgba(0, 0, 0, 0.5)'
@@ -108,9 +107,9 @@ function Demo() {
             border: '1px solid rgba(255, 255, 255, 0.3)',
           }}
         >
-          <div className="flex justify-between p-4">
-            <div className="font-semibold text-xl">OnchainKit Playground</div>
-            <button type="button" onClick={toggleSidebar} className="text-xl">
+          <div className="flex justify-between p-3">
+            <div className="font-semibold text-lg">OnchainKit Playground</div>
+            <button type="button" onClick={toggleSidebar} className="text-lg">
               ☰
             </button>
           </div>
@@ -119,15 +118,14 @@ function Demo() {
             animate={{ height: sideBarVisible ? 'auto' : 0 }}
             transition={{
               type: 'spring',
-              stiffness: 150, // Reduced stiffness for less bounce
-              damping: 25, // Increased damping for smoother motion
+              stiffness: 150,
+              damping: 25,
             }}
             className="overflow-hidden"
           >
-            <form className="mt-4 grid gap-8 p-4">
+            <form className="grid gap-4 p-4">
               <ActiveComponent />
               <ComponentMode />
-              <ComponentTheme />
               <WalletType />
               <Chain />
               <TransactionOptions />
@@ -143,7 +141,7 @@ function Demo() {
         </div>
       </div>
       <div className="-translate-y-1/2 fixed top-1/2 right-0 transform">
-        <ThemeSelector />
+        <ComponentThemeSelector />
       </div>
       <footer className="fixed bottom-4 left-4 flex w-full justify-start p-4 text-sm">
         <a

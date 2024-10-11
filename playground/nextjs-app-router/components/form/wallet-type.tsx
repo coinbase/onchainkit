@@ -7,7 +7,7 @@ import { AppContext } from '../AppProvider';
 
 export enum WalletPreference {
   SMART_WALLET = 'smartWalletOnly',
-  EOA = 'eoaOnly',
+  EOA = 'EOA',
 }
 
 export function WalletType() {
@@ -24,39 +24,41 @@ export function WalletType() {
 
   return (
     <div className="grid gap-2">
-      <Label htmlFor="wallet-type">Wallet Type</Label>
-      <RadioGroup
-        id="wallet-type"
-        value={walletType}
-        className="flex items-center justify-between"
-        onValueChange={(value) => setWalletType?.(value as WalletPreference)}
-      >
-        <div className="flex items-center gap-2">
-          <Label
-            htmlFor="wallet-type-smart"
-            className="flex cursor-pointer items-center gap-2 rounded-md border p-2 [&:has(:checked)]:bg-muted"
-          >
-            <RadioGroupItem
-              id="wallet-type-smart"
-              value={WalletPreference.SMART_WALLET}
-            />
-            Smart Wallet
-          </Label>
-          <Label
-            htmlFor="wallet-type-eoa"
-            className="flex cursor-pointer items-center gap-2 rounded-md border p-2 [&:has(:checked)]:bg-muted"
-          >
-            <RadioGroupItem id="wallet-type-eoa" value={WalletPreference.EOA} />
-            EOA
-          </Label>
-        </div>
+      <div className='flex items-center justify-between'>
+        <Label htmlFor="wallet-type" className='font-medium text-sm'>
+          Wallet Type
+        </Label>
         <button
           type="button"
-          className="text-xs hover:underline"
+          className='text-blue-600 text-xs hover:underline'
           onClick={disconnectAll}
         >
           Disconnect all
         </button>
+      </div>
+      <RadioGroup
+        id="wallet-type"
+        value={walletType}
+        className="flex items-center space-x-2"
+        onValueChange={(value) => setWalletType?.(value as WalletPreference)}
+      >
+        <Label
+          htmlFor="wallet-type-smart"
+          className="flex cursor-pointer items-center gap-2 rounded-md border p-2 [&:has(:checked)]:bg-muted"
+        >
+          <RadioGroupItem
+            id="wallet-type-smart"
+            value={WalletPreference.SMART_WALLET}
+          />
+          Smart Wallet
+        </Label>
+        <Label
+          htmlFor="wallet-type-eoa"
+          className="flex cursor-pointer items-center gap-2 rounded-md border p-2 [&:has(:checked)]:bg-muted"
+        >
+          <RadioGroupItem id="wallet-type-eoa" value={WalletPreference.EOA} />
+          EOA
+        </Label>
       </RadioGroup>
       <div className="text-neutral-500 text-xs">
         {account?.address
