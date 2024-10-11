@@ -8,7 +8,6 @@ import {
 import { color } from '@coinbase/onchainkit/theme';
 import {
   ConnectWallet,
-  ConnectWalletText,
   Wallet,
   WalletDropdown,
   WalletDropdownBasename,
@@ -24,8 +23,7 @@ function WalletComponent() {
   return (
     <div className="flex justify-end">
       <Wallet>
-        <ConnectWallet>
-          <ConnectWalletText>Connect Wallet</ConnectWalletText>
+        <ConnectWallet text="Connect Wallet">
           <Avatar address={address} className="h-6 w-6" />
           <Name />
         </ConnectWallet>
