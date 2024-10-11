@@ -85,6 +85,31 @@ export default function PayComponents() {
   </Pay>
 </App>
 
+### Override styles
+
+You can override component styles using `className`.
+```tsx twoslash
+
+import { Pay, PayButton } from '@coinbase/onchainkit/pay';
+
+export default function PayComponents() {
+  return (
+// ---cut-before---
+<Pay >
+  <PayButton className='bg-[#EA580C]'/> // [!code focus]
+</Pay>
+// ---cut-after---
+);
+}
+```
+
+<App>
+  <Pay>
+    <PayButton className='bg-[#EA580C]' disabled/>
+  </Pay>
+</App>
+
+
 ## Example use cases
 - **Demand-based pricing:** Allow users to select seats or ticket types for events, and dynamically calculate charges based on availability and demand.
 - **Product bundles:** Provide users with the option to create custom product bundles, applying discounts or special pricing based on the selected items.
