@@ -85,6 +85,30 @@ export default function PayComponents() {
   </Pay>
 </App>
 
+### Customize text
+
+You can customize the text using the `text` prop on `PayButton`.
+```tsx twoslash
+
+import { Pay, PayButton } from '@coinbase/onchainkit/pay';
+
+export default function PayComponents() {
+  return (
+// ---cut-before---
+<Pay >
+  <PayButton text='Pay with USDC'/> // [!code focus]
+</Pay>
+// ---cut-after---
+);
+}
+```
+
+<App>
+  <Pay>
+    <PayButton text='Pay with USDC' disabled/>
+  </Pay>
+</App>
+
 ### Override styles
 
 You can override component styles using `className`.
