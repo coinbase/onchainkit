@@ -134,4 +134,29 @@ describe('OnchainKitProvider', () => {
       projectId: null,
     });
   });
+
+  it('should use default values for config.appearance when not provided', async () => {
+    render(
+      <WagmiProvider config={mockConfig}>
+        <QueryClientProvider client={queryClient}>
+          <OnchainKitProvider chain={base} schemaId={schemaId} apiKey={apiKey}>
+            <TestComponent />
+          </OnchainKitProvider>
+        </QueryClientProvider>
+      </WagmiProvider>,
+    );
+
+    await waitFor(() => {
+      expect(setOnchainKitConfig).toHaveBeenCalledWith(
+        expect.objectContaining({
+          config: {
+            appearance: {
+              mode: 'auto',
+              theme: 'default',
+            },
+          },
+        }),
+      );
+    });
+  });
 });
