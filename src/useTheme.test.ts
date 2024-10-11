@@ -79,7 +79,7 @@ describe('useTheme', () => {
   });
 
   it('should handle invalid mode gracefully', () => {
-    mockUseOnchainKit('default', 'invalid' as any);
+    mockUseOnchainKit('default', 'invalid' as 'light' | 'dark' | 'auto');
     mockUsePreferredColorScheme('light');
     const { result } = renderHook(() => useTheme());
     expect(result.current).toBe('default-light');
@@ -94,7 +94,7 @@ describe('useTheme', () => {
       'default-dark',
     ];
 
-    allThemes.forEach((theme) => {
+    for (const theme of allThemes) {
       if (theme === 'cyberpunk' || theme === 'base' || theme === 'minimal') {
         mockUseOnchainKit(theme, 'auto');
       } else {
@@ -104,6 +104,6 @@ describe('useTheme', () => {
       mockUsePreferredColorScheme(theme.endsWith('dark') ? 'dark' : 'light');
       const { result } = renderHook(() => useTheme());
       expect(result.current).toBe(theme);
-    });
+    }
   });
 });
