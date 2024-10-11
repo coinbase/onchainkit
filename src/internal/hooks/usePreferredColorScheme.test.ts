@@ -122,4 +122,17 @@ describe('usePreferredColorScheme', () => {
     rerender();
     expect(addEventListenerSpy).toHaveBeenCalledTimes(1);
   });
+
+  it('should set color scheme based on MediaQueryListEvent matches', () => {
+    const setColorSchemeMock = vi.fn();
+    const updateColorScheme = (event: MediaQueryListEvent) => {
+      setColorSchemeMock(event.matches ? 'dark' : 'light');
+    };
+
+    updateColorScheme({ matches: true } as MediaQueryListEvent);
+    expect(setColorSchemeMock).toHaveBeenCalledWith('dark');
+
+    updateColorScheme({ matches: false } as MediaQueryListEvent);
+    expect(setColorSchemeMock).toHaveBeenCalledWith('light');
+  });
 });

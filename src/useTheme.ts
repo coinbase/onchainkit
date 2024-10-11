@@ -4,8 +4,10 @@ import { useOnchainKit } from './useOnchainKit';
 
 export function useTheme(): UseThemeReact {
   const preferredMode = usePreferredColorScheme();
-  const { appearance } = useOnchainKit();
-  const { theme, mode } = appearance || {};
+  const {
+    config: { appearance } = {},
+  } = useOnchainKit();
+  const { theme = 'default', mode = 'auto' } = appearance || {};
 
   if (theme === 'cyberpunk' || theme === 'base' || theme === 'minimal') {
     return theme;

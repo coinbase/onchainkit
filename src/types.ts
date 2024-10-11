@@ -39,9 +39,11 @@ export type OnchainKitConfig = {
   address: Address | null; // Address is optional as we may not have an address for new users
   apiKey: string | null; // ApiKey for Coinbase Developer Platform APIs
   chain: Chain; // Chain must be provided as we need to know which chain to use
-  appearance?: {
-    mode?: Mode | null; // Optionally determines color scheme based on OS preference or user selection
-    theme?: ComponentTheme | null; // Optionally sets the visual style for components
+  config?: {
+    appearance?: {
+      mode?: Mode | null; // Optionally determines color scheme based on OS preference or user selection
+      theme?: ComponentTheme | null; // Optionally sets the visual style for components
+    };
   };
   rpcUrl: string | null; // RPC URL for onchain requests. Defaults to using CDP Node if the API Key is set
   schemaId: EASSchemaUid | null; // SchemaId is optional as not all apps need to use EAS
@@ -63,9 +65,11 @@ export type OnchainKitProviderReact = {
   apiKey?: string;
   chain: Chain;
   children: ReactNode;
-  appearance?: {
-    mode?: Mode | null;
-    theme?: ComponentTheme | null;
+  config?: {
+    appearance?: {
+      mode?: Mode | null;
+      theme?: ComponentTheme | null;
+    };
   };
   rpcUrl?: string;
   schemaId?: EASSchemaUid;
