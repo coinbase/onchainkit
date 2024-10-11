@@ -85,6 +85,31 @@ export default function PayComponents() {
   </Pay>
 </App>
 
+### Disabling the button
+
+You can disable the button using the `disabled` prop on `PayButton`.
+```tsx twoslash
+
+import { Pay, PayButton } from '@coinbase/onchainkit/pay';
+
+export default function PayComponents() {
+  return (
+// ---cut-before---
+<Pay >
+  <PayButton disabled/> // [!code focus]
+</Pay>
+// ---cut-after---
+);
+}
+```
+
+<App>
+  <Pay>
+    <PayButton disabled/>
+  </Pay>
+</App>
+
+
 ### Customize text
 
 You can customize the text using the `text` prop on `PayButton`.
