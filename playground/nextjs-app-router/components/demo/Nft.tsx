@@ -11,6 +11,7 @@ import {
   NftOwner,
   NftLastSoldPrice,
   NftMintDate,
+  NftNetwork,
 } from '@/onchainkit/esm/nft/components/view';
 import { 
   NftCreator,
@@ -80,6 +81,7 @@ function NftDemo() {
         <NftOwner />
         <NftLastSoldPrice />
         <NftMintDate />
+        <NftNetwork />
       </NftView>
     </>
   );
