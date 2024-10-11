@@ -30,3 +30,41 @@ export async function optimizedCopy(src: string, dest: string) {
     await copyFile(src, dest);
   }
 }
+
+export function createClickableLink(text: string, url: string): string {
+  // OSC 8 ;; URL \a TEXT \a
+  return `\u001B]8;;${url}\u0007${text}\u001B]8;;\u0007`;
+}
+
+export function isValidPackageName(projectName: string) {
+  return /^(?:@[a-z\d\-*~][a-z\d\-*._~]*\/)?[a-z\d\-~][a-z\d\-._~]*$/.test(
+    projectName
+  );
+}
+
+export function toValidPackageName(projectName: string) {
+  return projectName
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g, '-')
+    .replace(/^[._]/, '')
+    .replace(/[^a-z\d\-~]+/g, '-');
+}
+
+export function detectPackageManager(): string {
+  if (process.env.npm_config_user_agent) {
+    if (process.env.npm_config_user_agent.startsWith('yarn')) {
+      return 'yarn';
+    }
+    if (process.env.npm_config_user_agent.startsWith('pnpm')) {
+      return 'pnpm';
+    }
+    if (process.env.npm_config_user_agent.startsWith('npm')) {
+      return 'npm';
+    }
+    if (process.env.npm_config_user_agent.startsWith('bun')) {
+      return 'bun';
+    }
+  }
+  return 'npm'; // default to npm if unable to detect
+}

@@ -4,7 +4,13 @@ import { fileURLToPath } from 'url';
 import prompts from 'prompts';
 import pc from 'picocolors';
 import ora from 'ora';
-import { optimizedCopy } from './utils';
+import {
+  createClickableLink,
+  detectPackageManager,
+  isValidPackageName,
+  toValidPackageName,
+  optimizedCopy,
+} from './utils';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -18,26 +24,6 @@ const renameFiles: Record<string, string | undefined> = {
 
 const excludeDirs = ['node_modules', '.next'];
 const excludeFiles = ['.DS_Store', 'Thumbs.db'];
-
-function createClickableLink(text: string, url: string): string {
-  // OSC 8 ;; URL \a TEXT \a
-  return `\u001B]8;;${url}\u0007${text}\u001B]8;;\u0007`;
-}
-
-function isValidPackageName(projectName: string) {
-  return /^(?:@[a-z\d\-*~][a-z\d\-*._~]*\/)?[a-z\d\-~][a-z\d\-._~]*$/.test(
-    projectName
-  );
-}
-
-function toValidPackageName(projectName: string) {
-  return projectName
-    .trim()
-    .toLowerCase()
-    .replace(/\s+/g, '-')
-    .replace(/^[._]/, '')
-    .replace(/[^a-z\d\-~]+/g, '-');
-}
 
 async function copyDir(src: string, dest: string) {
   await fs.promises.mkdir(dest, { recursive: true });
@@ -147,6 +133,9 @@ async function init() {
   const { projectName, packageName, clientKey, smartWallet } = result;
   const root = path.join(process.cwd(), projectName);
 
+  const packageManager = detectPackageManager();
+  console.log(`\nDetected package manager: ${pc.cyan(packageManager)}`);
+
   const spinner = ora(`Creating ${projectName}...`).start();
 
   await copyDir(sourceDir, root);
@@ -187,12 +176,16 @@ async function init() {
   console.log(`${pc.cyan('- Tailwindcss')}`);
   console.log(`${pc.cyan('- ESLint')}`);
 
-  console.log(`\nTo get started with ${projectName},\n`);
+  console.log(
+    `\nTo get started with ${pc.green(
+      projectName
+    )}, run the following commands:\n`
+  );
   if (root !== process.cwd()) {
-    console.log(`  cd ${path.relative(process.cwd(), root)}`);
+    console.log(` - cd ${path.relative(process.cwd(), root)}`);
   }
-  console.log('  npm install');
-  console.log('  npm run dev');
+  console.log(' - npm install');
+  console.log(' - npm run dev');
 }
 
 init().catch((e) => {
