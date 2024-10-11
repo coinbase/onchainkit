@@ -24,13 +24,13 @@ export function WalletType() {
 
   return (
     <div className="grid gap-2">
-      <div className='flex items-center justify-between'>
-        <Label htmlFor="wallet-type" className='font-medium text-sm'>
+      <div className="flex items-center justify-between">
+        <Label htmlFor="wallet-type" className="font-medium text-sm">
           Wallet Type
         </Label>
         <button
           type="button"
-          className='text-blue-600 text-xs hover:underline'
+          className="text-blue-600 text-xs hover:underline"
           onClick={disconnectAll}
         >
           Disconnect all
