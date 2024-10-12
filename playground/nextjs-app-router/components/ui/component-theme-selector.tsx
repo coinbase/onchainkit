@@ -62,6 +62,7 @@ export default function ComponentThemeSelector() {
               <Tooltip key={theme.name}>
                 <TooltipTrigger asChild={true}>
                   <button
+                    type="button"
                     onClick={() => handleThemeChange(theme)}
                     className={`flex h-6 w-6 items-center justify-center rounded-full transition-all duration-200 hover:scale-125 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background ${
                       componentTheme === theme.name
