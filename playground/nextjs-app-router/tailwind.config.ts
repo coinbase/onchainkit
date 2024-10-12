@@ -7,6 +7,9 @@ const config: Config = {
     './app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   darkMode: ['class'],
+  fontFamily: {
+    sans: ['DM Sans', 'sans-serif'],
+  },
   safelist: ['dark'],
   theme: {
     extend: {
