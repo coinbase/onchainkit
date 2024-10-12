@@ -5,7 +5,7 @@ import Demo from '@/components/Demo';
 
 export default function Home() {
   return (
-    <main className='flex min-h-screen w-full flex-wrap bg-muted/50 font-sans'>
+    <main className="flex min-h-screen w-full flex-wrap bg-muted/50 font-sans">
       <AppProvider>
         <Demo />
       </AppProvider>

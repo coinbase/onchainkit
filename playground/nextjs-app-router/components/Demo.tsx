@@ -113,7 +113,7 @@ function Demo() {
         </form>
       </div>
       <div className="flex flex-1 flex-col bg-[linear-gradient(to_right,#f0f0f0_1px,transparent_1px), bg-[size:6rem_4rem]">
-        <div className='flex h-full w-full flex-col flex-wrap justify-center'>
+        <div className="flex h-full w-full flex-col flex-wrap justify-center">
           {renderActiveComponent()}
         </div>
       </div>
