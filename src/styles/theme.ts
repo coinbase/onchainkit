@@ -7,24 +7,14 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export const text = {
-<<<<<<< HEAD
   body: 'ock-font-family font-normal leading-normal',
   caption: 'ock-font-family font-semibold text-xs leading-4',
   headline: 'ock-font-family font-semibold leading-normal',
   label1: 'ock-font-family font-semibold text-sm leading-5',
   label2: 'ock-font-family text-sm leading-5',
   legal: 'ock-font-family text-xs leading-4',
+  title1: 'ock-font-family font-semibold text-[1.75rem] leading-9',
   title3: 'ock-font-family font-semibold text-xl leading-7',
-=======
-  body: 'font-sans text-ock-foreground text-base leading-normal',
-  caption: 'font-sans text-ock-foreground text-bold text-xs leading-4',
-  headline: 'font-bold text-ock-foreground font-sans text-base leading-normal',
-  label1: 'font-bold text-ock-foreground font-sans text-sm leading-5',
-  label2: 'font-sans text-ock-foreground text-sm leading-5',
-  legal: 'font-sans text-ock-foreground text-xs leading-4',
-  title1: 'font-bold text-ock-foreground font-display text-[1.75rem] leading-9',
-  title3: 'font-bold text-ock-foreground font-display text-xl leading-7',
->>>>>>> 257aa758 (feat: add nft components)
 } as const;
 
 export const pressable = {
@@ -69,16 +59,10 @@ export const color = {
 } as const;
 
 export const fill = {
-<<<<<<< HEAD
   default: 'ock-fill-default',
   defaultReverse: 'ock-fill-default-reverse',
   inverse: 'ock-fill-inverse',
-=======
-  default: 'fill-ock-default',
-  defaultReverse: 'fill-ock-default-reverse',
-  inverse: 'fill-ock-inverse',
-  alternate: 'fill-ock-alternate',
->>>>>>> 257aa758 (feat: add nft components)
+  alternate: 'fill-ock-alternate',  
 } as const;
 
 export const border = {

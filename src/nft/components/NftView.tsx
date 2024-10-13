@@ -1,5 +1,6 @@
-import { background, cn } from '../../styles/theme';
+import { background, border, cn, color } from '../../styles/theme';
 import { useIsMounted } from '../../useIsMounted';
+import { useTheme } from '../../useTheme';
 import { LifecycleType, type NftViewReact } from '../types';
 import { NftLifecycleProvider } from './NftLifecycleProvider';
 import { NftProvider } from './NftProvider';
@@ -14,6 +15,8 @@ export function NftView({
   onError,
   onSuccess,
 }: NftViewReact) {
+  const componentTheme = useTheme();
+
   const isMounted = useIsMounted();
 
   // prevents SSR hydration issue
@@ -35,8 +38,11 @@ export function NftView({
       >
         <div
           className={cn(
+            componentTheme,
+            color.foreground,
             background.default,
-            'flex w-[500px] flex-col rounded-xl border px-6 pt-6 pb-4',
+            border.radius,
+            'flex w-[500px] flex-col px-6 pt-6 pb-4',
             className,
           )}
           data-testid="ockNftView_Container"
