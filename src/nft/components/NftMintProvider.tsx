@@ -23,9 +23,14 @@ export function NftMintProvider({
   children,
 }: NftMintProviderReact) {
   const [quantity, setQuantity] = useState(1);
-  const { contractAddress, tokenId } = useNftContext();
+  const { contractAddress, tokenId, contractType } = useNftContext();
 
-  const mintData = useNftMintData(contractAddress, tokenId ?? '1', quantity);
+  const mintData = useNftMintData({
+    contractAddress, 
+    tokenId: tokenId ?? '1', 
+    contractType,
+    quantity
+  });
 
   const handleSetQuantity = useCallback((quantity: string) => {
     setQuantity(Number.parseInt(quantity, 10));
@@ -41,6 +46,7 @@ export function NftMintProvider({
     totalOwners: mintData?.totalOwners,
     callData: mintData?.callData,
     mintError: mintData?.mintError,
+    recentOwners: mintData?.recentOwners,
   });
 
   return (

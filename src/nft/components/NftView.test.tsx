@@ -13,6 +13,9 @@ import {
 } from 'vitest';
 import { NftView } from './NftView';
 
+vi.mock('../../useTheme', () => ({
+  useTheme: vi.fn(() => 'default-light'),
+}));
 vi.mock('../../useIsMounted');
 vi.mock('./NftProvider', () => ({
   NftProvider: vi.fn(({ children }) => <div>{children}</div>),

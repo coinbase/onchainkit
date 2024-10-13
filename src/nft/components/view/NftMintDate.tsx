@@ -1,7 +1,5 @@
 import { useMemo } from 'react';
 import { cn, text } from '../../../styles/theme';
-import { useOnchainKit } from '../../../useOnchainKit';
-import { useMintDate } from '../../hooks/useMintDate';
 import { useNftContext } from '../NftProvider';
 
 const DATE_OPTIONS = {
@@ -19,19 +17,17 @@ export function NftMintDate({
   className,
   label = 'Mint date',
 }: NftMintDateProps) {
-  const { chain } = useOnchainKit();
-  const { contractAddress, tokenId } = useNftContext();
-  const mintDate = useMintDate({ contractAddress, tokenId, chain });
+  const { mintDate } = useNftContext();
 
   const formattedDate = useMemo(() => {
-    if (!mintDate.data) {
+    if (!mintDate) {
       return null;
     }
     const formatter = new Intl.DateTimeFormat(undefined, DATE_OPTIONS);
-    return formatter.format(mintDate.data);
+    return formatter.format(mintDate);
   }, [mintDate]);
 
-  if (!mintDate.isSuccess || !formattedDate) {
+  if (!formattedDate) {
     return null;
   }
 

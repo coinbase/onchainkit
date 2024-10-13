@@ -12,6 +12,9 @@ import {
 } from 'vitest';
 import { NftMint } from './NftMint';
 
+vi.mock('../../useTheme', () => ({
+  useTheme: vi.fn(() => 'default-light'),
+}));
 vi.mock('../../useIsMounted');
 vi.mock('./NftMintProvider', () => ({
   NftMintProvider: vi.fn(({ children }) => <div>{children}</div>),

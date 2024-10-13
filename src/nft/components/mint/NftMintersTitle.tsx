@@ -1,8 +1,6 @@
-import { useRecentMints } from '../../hooks/useRecentMints';
 import { useOnchainKit } from '../../../useOnchainKit';
 import { Avatar, Identity, Name } from '../../../identity';
 import { cn } from '../../../styles/theme';
-import { useNftContext } from '../NftProvider';
 import { useNftMintContext } from '../NftMintProvider';
 
 type NftMintersTitleReact = {
@@ -10,29 +8,21 @@ type NftMintersTitleReact = {
 };
 
 export function NftMintersTitle({ className }: NftMintersTitleReact) {
-  const { schemaId, chain } = useOnchainKit();
-  const { contractAddress, contractType } = useNftContext();
-  const { totalOwners } = useNftMintContext();
+  const { schemaId } = useOnchainKit();
+  const { totalOwners, recentOwners } = useNftMintContext();
 
-  const recentMints = useRecentMints({
-    contractAddress,
-    count: 2,
-    chain,
-    tokenType: contractType,
-  });
-
-  if (!recentMints.isSuccess || recentMints.data?.length === 0) {
+  if (!recentOwners || recentOwners.length === 0) {
     return null;
   }
 
   return (
     <div className={cn('flex py-2', className)}>
       <div className="flex space-x-[-.4rem]">
-        {recentMints.data?.map((mint) => (
+        {recentOwners.map((address) => (
           <Identity
-            key={mint.to}
+            key={address}
             className="space-x-0 px-0 py-0"
-            address={mint.to}
+            address={address}
             schemaId={schemaId}
           >
             <Avatar className="h-5 w-5" />
@@ -43,7 +33,7 @@ export function NftMintersTitle({ className }: NftMintersTitleReact) {
         <div>Minted by</div>
         <Identity
           className="px-1 py-0"
-          address={recentMints.data?.[0].to}
+          address={recentOwners[0]}
           schemaId={schemaId}
         >
           <Name />

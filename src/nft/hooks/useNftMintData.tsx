@@ -1,16 +1,19 @@
 import { useMemo } from 'react';
-import { useAccount, useChainId } from 'wagmi';
+import { useAccount } from 'wagmi';
 import { useMintToken } from './useMintToken';
 import { useTrendingMint } from './useTrendingMint';
 import { useAggregatedCollectionDetails } from './useAggregatedCollectionDetails';
-import type { NftMintData } from '../types';
+import type { NftMintData, UseNftMintDataProps } from '../types';
+import { useOnchainKit } from '../../useOnchainKit';
+import { useRecentMints } from './useRecentMints';
 
-export function useNftMintData(
-  contractAddress: `0x${string}`,
-  tokenId: string,
-  quantity: number,
-): NftMintData {
-  const chainId = useChainId();
+export function useNftMintData({
+  contractAddress,
+  tokenId,
+  contractType,
+  quantity,
+}: UseNftMintDataProps): NftMintData {
+  const { chain } = useOnchainKit();
   const { address } = useAccount();
 
   const { data: trendingMint } = useTrendingMint({
@@ -20,7 +23,7 @@ export function useNftMintData(
 
   const { data: tokenOwnerInfo } = useAggregatedCollectionDetails({
     contractAddress,
-    chainId,
+    chainId: chain.id,
   });
 
   const {
@@ -33,6 +36,13 @@ export function useNftMintData(
     network: trendingMint?.collection?.network,
     quantity: quantity.toString(),
     tokenId,
+  });
+
+  const recentMints = useRecentMints({
+    contractAddress,
+    count: 2,
+    chain,
+    tokenType: contractType,
   });
 
   const stage = useMemo(() => {
@@ -60,8 +70,9 @@ export function useNftMintData(
         trendingMint?.takerEligibility?.eligibleForCollection &&
         trendingMint?.collection?.isMinting,
       totalOwners: Number(tokenOwnerInfo?.totalOwners),
+      recentOwners: recentMints?.data?.map((mint) => mint.to),
       callData: mintToken?.callData,
       mintError: mintToken?.error,
     };
-  }, [trendingMint, mintToken, tokenOwnerInfo, stage]);
+  }, [trendingMint, mintToken, recentMints, tokenOwnerInfo, stage]);
 }

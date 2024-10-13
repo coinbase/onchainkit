@@ -1,25 +1,28 @@
 import { useMemo } from 'react';
-import { useChainId } from 'wagmi';
-import { useMetadata } from './useMetadata';
 import { useTokenDetails } from './useTokenDetails';
-import type { NftData } from '../types';
+import type { ContractType, NftData } from '../types';
+import { useMintDate } from './useMintDate';
+import { useOnchainKit } from '../../useOnchainKit';
 
 export function useNftData(
   contractAddress: `0x${string}`,
   tokenId: string,
 ): NftData {
-  const chainId = useChainId();
+  const { chain } = useOnchainKit();
 
   const { data: tokenDetails } = useTokenDetails({
     contractAddress,
     tokenId,
-    chainId,
+    chainId: chain.id,
   });
+
+  const { data: mintDate } = useMintDate({ contractAddress, tokenId, chain });
 
   // Any way to get LastSalePrice from onchain data without having to support each different exchange?
   // that would allow all view data to come from onchain data
-  const { data: metadata } = useMetadata({ contractAddress, tokenId });
-  console.log('metadata', metadata);
+  // move to onchain hook
+  // const { data: metadata } = useMetadata({ contractAddress, tokenId });
+  // console.log('metadata', metadata);
 
   return useMemo(
     () => ({
@@ -44,8 +47,9 @@ export function useNftData(
         price: tokenDetails?.lastSoldPrice,
         currency: tokenDetails?.paymentCurrency,
       },
-      contractType: tokenDetails?.tokenType,
+      contractType: tokenDetails?.tokenType as ContractType,
+      mintDate: mintDate ? mintDate : undefined,
     }),
-    [tokenDetails, contractAddress, tokenId],
+    [contractAddress, mintDate, tokenDetails, tokenId],
   );
 }

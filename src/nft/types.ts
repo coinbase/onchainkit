@@ -297,7 +297,8 @@ export type NftData = {
     price?: string;
     currency?: string;
   };
-  contractType?: string;
+  contractType?: ContractType;
+  mintDate?: Date
 };
 
 export type NftContextType = {
@@ -338,6 +339,7 @@ export type NftMintData = {
     code: number;
     message: string;
   };
+  recentOwners?: Address[];
 };
 
 export type NftMintContextType = {
@@ -351,11 +353,14 @@ export type NftMintProviderReact = {
 };
 
 type UseNftData = (contractAddress: `0x${string}`, tokenId: string) => NftData;
-type UseNftMintData = (
-  contractAddress: `0x${string}`,
-  tokenId: string,
-  quantity: number,
-) => NftMintData;
+
+export type UseNftMintDataProps = {
+  contractAddress: `0x${string}`;
+  tokenId: string;
+  contractType?: ContractType;
+  quantity: number;
+};
+export type UseNftMintData = (props:UseNftMintDataProps) => NftMintData;
 
 /**
  * Note: exported as public Type
