@@ -61,6 +61,32 @@ That's it! Starting selling onchain with just a few lines of code.
 
 ## Usage
 
+### ProductID
+
+You can create products on the Coinbase Commerce Portal and use them in the `Pay` component through the `productId` prop.
+
+If you'd like to create individual charges manually, please see [Advanced Usage](/pay/pay#advanced-usage).
+
+```tsx twoslash
+import { Pay, PayButton } from '@coinbase/onchainkit/pay';
+
+export default function PayComponents() {
+  return (
+// ---cut-before---
+<Pay productId='my-product-id'> // [!code focus]
+  <PayButton />
+</Pay>
+// ---cut-after---
+);
+}
+```
+
+<App>
+  <Pay>
+    <PayButton disabled/>
+  </Pay>
+</App>
+
 ### Add Coinbase branding
 
 You can add Coinbase branding to the component by using the `coinbaseBranded` prop on `PayButton`.
@@ -162,6 +188,59 @@ export default function PayComponents() {
 ## Advanced Usage
 
 ### Creating charges on the backend
+
+You can pass in arbitrary product metadata using the Coinbase Commerce [create charge](https://docs.cdp.coinbase.com/commerce-onchain/reference/creates-a-charge) endpoint. This is useful if you have an existing inventory management system or want to implement custom features like multi-product checkouts, carts, etc.
+
+We expose a `chargeHandler` prop which takes a callback that is invoked every time the Pay button is clicked.
+
+This function **must** have the signature `() => Promise<string>` and **must** return a valid `chargeId` created by the create charge endpoint.
+
+```tsx twoslash
+import { Pay, PayButton } from '@coinbase/onchainkit/pay';
+
+
+// ---cut-before---
+const chargeHandler = async () => { // [!code focus]
+  const res = await fetch('api.merchant.com'); // Create a charge on your backend API using the Create Charge endpoint // [!code focus]
+  const data = await res.json(); // [!code focus]
+  return data.id; // Return the chargeId // [!code focus]
+} // [!code focus]
+
+<Pay chargeHandler={chargeHandler}> // [!code focus]
+  <PayButton />
+</Pay>
+// ---cut-after---
+```
+
+
+### Listening to the component lifecycle
+
+You can use our Pay [`LifecycleStatus`](/pay/types#lifecyclestatus) and the `onStatus` prop to listen to transaction states.
+
+```tsx twoslash
+import { Pay, PayButton } from '@coinbase/onchainkit/pay';
+// ---cut-before---
+import type { LifecycleStatus } from '@coinbase/onchainkit/pay'; // [!code focus]
+
+const statusHandler = (status: LifecycleStatus) => { // [!code focus]
+  const { statusName, statusData } = status; // [!code focus]
+  switch (statusName) { // [!code focus]
+    case 'success': // [!code focus]
+      // handle success 
+    case 'paymentPending': // [!code focus]
+      // handle payment pending
+    case 'error': // [!code focus]
+      // handle error
+    default: // [!code focus]
+      // handle 'init' state
+  } // [!code focus]
+} // [!code focus]
+
+<Pay onStatus={statusHandler}> // [!code focus]
+  <PayButton />
+</Pay>
+// ---cut-after---
+```
 
 ## Example use cases
 - **Demand-based pricing:** Allow users to select seats or ticket types for events, and dynamically calculate charges based on availability and demand.
