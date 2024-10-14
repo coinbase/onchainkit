@@ -33,8 +33,13 @@ export const sidebar = [
         link: '/guides/tailwind',
       },
       {
+<<<<<<< HEAD
         text: 'OnchainKit Themes',
         link: '/guides/themes',
+=======
+        text: 'Theming',
+        link: '/guides/theming',
+>>>>>>> 432392600097fb7748c66fc6a8c368148233dd8e
       },
       {
         text: 'Use Basename',
