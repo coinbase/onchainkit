@@ -20,6 +20,7 @@ export default defineConfig({
         'onchainkit/esm/**',
         'playground/**',
         'site/**',
+        'create-onchain/**',
       ],
       reportOnFailure: true,
       thresholds: {
