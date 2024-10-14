@@ -180,8 +180,8 @@
     --ock-bg-secondary-hover: theme(colors.slate.700);
     --ock-bg-secondary-active: theme(colors.slate.600);
     --ock-bg-error: theme(colors.rose.400);
-    --ock-bg-success: theme(colors.lime.400);
     --ock-bg-warning: theme(colors.orange.400);
+    --ock-bg-success: theme(colors.lime.400);
     --ock-bg-default-reverse: theme(colors.gray.50);
 
     --ock-icon-color-primary: theme(colors.fuchsia.400);
@@ -229,8 +229,8 @@
     --ock-bg-secondary-hover: theme(colors.neutral.300);
     --ock-bg-secondary-active: theme(colors.neutral.400);
     --ock-bg-error: theme(colors.rose.600);
-    --ock-bg-success: theme(colors.lime.600);
     --ock-bg-warning: theme(colors.orange.600);
+    --ock-bg-success: theme(colors.lime.600);
     --ock-bg-default-reverse: theme(colors.neutral.50);
 
     --ock-icon-color-primary: theme(colors.zinc.950);
