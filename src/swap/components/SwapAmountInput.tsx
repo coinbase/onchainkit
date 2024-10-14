@@ -81,7 +81,7 @@ export function SwapAmountInput({
   return (
     <div
       className={cn(
-        background.alternate,
+        background.secondary,
         border.radius,
         'box-border flex h-[148px] w-full flex-col items-start p-4',
         className,
