@@ -195,6 +195,8 @@ We expose a `chargeHandler` prop which takes a callback that is invoked every ti
 
 This function **must** have the signature `() => Promise<string>` and **must** return a valid `chargeId` created by the create charge endpoint.
 
+`productId` and `chargeHandler` are mutually exclusive and only one can be provided as a prop to `Pay`.
+
 ```tsx twoslash
 import { Pay, PayButton } from '@coinbase/onchainkit/pay';
 
