@@ -84,7 +84,8 @@
       "coverage",
       "dist",
       "esm",
-      "framegear"
+      "framegear",
+      "create-onchain"
     ]
   }
 }
