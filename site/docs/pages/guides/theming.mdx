@@ -1,28 +1,29 @@
 ---
-title: Theming · OnchainKit
+title: OnchainKit Themes · OnchainKit
 description: Customize the appearance of OnchainKit's components
 ---
 
-# Theming
-**Description**: Customize the look and feel of OnchainKit components to fit your brand.  
+# OnchainKit Themes
 
-**Description**: Customize the look and feel of OnchainKit components to fit your brand.  
+## Overview
 
----
+OnchainKit provides flexible appearance control through two main features: `mode` and `theme`.
 
-## Overview  
-Theming allows you to control the appearance of OnchainKit components, from colors to general styling. Choose from built-in themes or dynamically switch modes based on user preference or system settings.
+- **Mode**: Controls the light/dark appearance and includes an auto option that inherits the system preference.
+- **Theme**: Governs the overall styling across components.
 
----
+You can choose from built-in themes or dynamically switch modes based on user preference or system settings, allowing for a customized and responsive user interface.
 
-## Built-in Themes  
-OnchainKit provides multiple themes to quickly style your components. Set the theme via the `OnchainKitProvider` using `config.appearance.theme`.  
- - **`default`**: Includes both light and dark modes. 
- - `base`: One mode only.
- - `cyberpunk`: One mode only.
- - `hacker`: One mode only.
+## Built-in Themes
 
-If no theme is selected, the **`default`** theme is applied automatically.  
+OnchainKit offers multiple themes to quickly style your components. Set the theme via the `OnchainKitProvider` using `config.appearance.theme`:
+
+- **`default`**: Includes both light and dark modes.
+- `base`: Single mode only.
+- `cyberpunk`: Single mode only.
+- `hacker`: Single mode only.
+
+If no theme is selected, the **`default`** theme is applied automatically.
 
 ```tsx twoslash
 // @noErrors:  2304 17008 1005
@@ -38,10 +39,10 @@ If no theme is selected, the **`default`** theme is applied automatically.
 >
 ```
 
-# Mode
-Control the color scheme by setting the `config.appearance.mode` property.
+## Mode
 
-Set the `config.appearance.mode` property of the `OnchainKitProvider`:
+Control the color scheme by setting the `config.appearance.mode` property of the `OnchainKitProvider`:
+
 - `auto`: Automatically switches between light and dark mode based on the user’s OS preference.
 - `light`: Forces all components to use the light version of the theme.
 - `dark`: Forces all components to use the dark version of the theme.
@@ -55,16 +56,14 @@ If no mode is specified, `auto` mode will be applied by default.
   chain={base}
   config={{
     appearance: {
-      mode: 'auto', // 'auto' | 'light' | 'dark' // [!code focus]
+      mode: 'auto', // 'auto' | 'light' | 'dark'
       theme: 'default', // 'default' | 'base' | 'cyberpunk' | 'hacker'
     },
   }}
 >
 ```
 
-# CSS Overrides
+## CSS Overrides
 
-## Behavior Summary
-- Auto Mode: Detects the OS theme (light/dark) and applies the corresponding version of the selected theme.
-- Light/Dark Mode: If a theme supports both modes, the appropriate version will be used. If the theme has only one mode, that version will be applied regardless of the mode setting.
-- Fallbacks: When a theme or mode isn't specified, OnchainKit defaults to default theme with auto mode.
+You can further customize the appearance by overriding CSS styles. This allows for fine-tuning the look of individual components beyond the provided themes.
+
