@@ -207,8 +207,9 @@ import { Pay, PayButton } from '@coinbase/onchainkit/pay';
 
 // ---cut-before---
 const chargeHandler = async () => { // [!code focus]
-  // Create a charge on your backend API using the Create Charge endpoint // [!code focus]
-  const res = await fetch('api.merchant.com'); // [!code focus]
+  // Create a charge on your backend server using the Create Charge API // [!code focus]
+  // Replace this URL with your backend endpoint // [!code focus]
+  const res = await fetch('api.merchant.com/createCharge'); // [!code focus]
   const data = await res.json(); // [!code focus]
   return data.id; // Return the chargeId // [!code focus]
 } // [!code focus]
