@@ -19,7 +19,7 @@ type EnvironmentKey = (typeof ENVIRONMENT)[keyof typeof ENVIRONMENT];
 
 export const ENVIRONMENT_VARIABLES: Record<EnvironmentKey, string | undefined> =
   {
-    [ENVIRONMENT.API_KEY]: process.env.NEXT_PUBLIC_OCK_API_KEY,
+    [ENVIRONMENT.API_KEY]: '_PMtqdGjcmulmPkyH_TPx4qBsqaXOmwv',
     [ENVIRONMENT.ENVIRONMENT]: process.env.NEXT_PUBLIC_VERCEL_ENV,
     [ENVIRONMENT.PROJECT_ID]: process.env.NEXT_PUBLIC_PROJECT_ID,
   };
