@@ -1,14 +1,14 @@
 'use client';
-// import { OnchainKitProvider } from '@coinbase/onchainkit';
-import { OnchainKitProvider } from '../pages/src/OnchainKitProvider';
+import { OnchainKitProvider } from '@coinbase/onchainkit';
+// import { OnchainKitProvider } from '../pages/src/OnchainKitProvider';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import type { ReactNode } from 'react';
 import { http, WagmiProvider, createConfig } from 'wagmi';
 import { base, baseSepolia } from 'wagmi/chains';
 import { coinbaseWallet } from 'wagmi/connectors';
 
-// import '@coinbase/onchainkit/styles.css';
-import '../../../src/styles.css';
+import '@coinbase/onchainkit/styles.css';
+// import '../../../src/styles.css';
 
 const queryClient = new QueryClient();
 
@@ -39,12 +39,6 @@ export default function App({ children }: { children: ReactNode }) {
         <OnchainKitProvider
           apiKey={viteCdpApiKey}
           chain={base} // TODO: remove
-          config={{
-            appearance: {
-              mode: 'auto',
-              theme: 'cyberpunk',
-            },
-          }}
           projectId={viteProjectId}
           schemaId="0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9"
         >
