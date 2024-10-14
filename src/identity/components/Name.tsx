@@ -1,6 +1,6 @@
 import { Children, useMemo } from 'react';
 import { findComponent } from '../../internal/utils/findComponent';
-import { cn, text } from '../../styles/theme';
+import { cn, color, text } from '../../styles/theme';
 import { useName } from '../hooks/useName';
 import type { NameReact } from '../types';
 import { getSlicedAddress } from '../utils/getSlicedAddress';
@@ -45,7 +45,7 @@ export function Name({
     <div className="flex items-center gap-1">
       <span
         data-testid="ockIdentity_Text"
-        className={cn(text.headline, className)}
+        className={cn(text.headline, color.foreground, className)}
         {...props}
       >
         {name || getSlicedAddress(accountAddress)}

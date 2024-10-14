@@ -1,4 +1,10 @@
-import { cn, color, text as dsText, pressable } from '../../styles/theme';
+import {
+  border,
+  cn,
+  color,
+  text as dsText,
+  pressable,
+} from '../../styles/theme';
 import type { ConnectButtonReact } from '../types';
 
 export function ConnectButton({
@@ -14,9 +20,10 @@ export function ConnectButton({
       data-testid="ockConnectButton"
       className={cn(
         pressable.primary,
+        border.radius,
         dsText.headline,
         color.inverse,
-        'inline-flex min-w-[153px] items-center justify-center rounded-xl px-4 py-3',
+        'inline-flex min-w-[153px] items-center justify-center px-4 py-3',
         className,
       )}
       onClick={onClick}
@@ -24,7 +31,7 @@ export function ConnectButton({
       {connectWalletText ? (
         connectWalletText
       ) : (
-        <span className={cn(dsText.body, color.inverse)}>{text}</span>
+        <span className={cn(color.inverse)}>{text}</span>
       )}
     </button>
   );
