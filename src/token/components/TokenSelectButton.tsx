@@ -1,13 +1,13 @@
 import { type ForwardedRef, forwardRef } from 'react';
 import { caretDownSvg } from '../../internal/svg/caretDownSvg';
 import { caretUpSvg } from '../../internal/svg/caretUpSvg';
-import { border, cn, color, pressable, text, line } from '../../styles/theme';
+import { border, cn, color, line, pressable, text } from '../../styles/theme';
 import type { TokenSelectButtonReact } from '../types';
 import { TokenImage } from './TokenImage';
 
 export const TokenSelectButton = forwardRef(function TokenSelectButton(
   { onClick, token, isOpen, className }: TokenSelectButtonReact,
-  ref: ForwardedRef<HTMLButtonElement>
+  ref: ForwardedRef<HTMLButtonElement>,
 ) {
   return (
     <button
@@ -19,7 +19,7 @@ export const TokenSelectButton = forwardRef(function TokenSelectButton(
         border.radius,
         line.default,
         'flex w-fit items-center gap-2 px-3 py-1',
-        className
+        className,
       )}
       onClick={onClick}
       ref={ref}
