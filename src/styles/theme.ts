@@ -13,6 +13,7 @@ export const text = {
   label1: 'ock-font-family font-semibold text-sm leading-5',
   label2: 'ock-font-family text-sm leading-5',
   legal: 'ock-font-family text-xs leading-4',
+  title1: 'ock-font-family font-semibold text-[1.75rem] leading-9',
   title3: 'ock-font-family font-semibold text-xl leading-7',
 } as const;
 
@@ -61,6 +62,7 @@ export const fill = {
   default: 'ock-fill-default',
   defaultReverse: 'ock-fill-default-reverse',
   inverse: 'ock-fill-inverse',
+  alternate: 'fill-ock-alternate',  
 } as const;
 
 export const border = {

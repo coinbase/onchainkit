@@ -71,7 +71,7 @@ export type IsSpinnerDisplayedProps = {
 export type TransactionButtonReact = {
   className?: string; // An optional CSS class name for styling the button component.
   disabled?: boolean; // A optional prop to disable the submit button
-  text?: string; // An optional text to be displayed in the button component.
+  text?: ReactNode; // An optional text to be displayed in the button component.
 };
 
 export type TransactionContextType = {
