@@ -30,7 +30,7 @@ export default defineConfig({
       },
     },
     environment: 'jsdom',
-    exclude: ['**/node_modules/**', 'framegear/**', 'playground/**', 'site/**'],
+    exclude: ['**/node_modules/**', 'framegear/**', 'playground/**', 'site/**', 'create-onchain/**'],
     setupFiles: ['./vitest.setup.ts'],
     globals: true,
   },
