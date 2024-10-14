@@ -66,7 +66,7 @@ Additionally, add Base as a supported chain in the Wagmi configuration file `wag
 :::code-group
 
 ```tsx twoslash [providers.tsx]
-// @noErrors: 2307 2580 2322 2304 1005 1381 1382 17002 1109 - cannot find 'process', cannot find './wagmi'
+// @noErrors: 2307 2580 - cannot find 'process', cannot find './wagmi'
 import { OnchainKitProvider } from '@coinbase/onchainkit'; // [!code ++]
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { base } from 'wagmi/chains'; // [!code ++]
