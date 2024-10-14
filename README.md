@@ -57,15 +57,13 @@ For documentation and guides, visit [onchainkit.xyz](https://onchainkit.xyz/).
 
 ## 🌁 Team and Community
 
-- [@onchainkit](https://x.com/Onchainkit)
-- [Leonardo Zizzamia](https://github.com/zizzamia) ([X](https://twitter.com/zizzamia), [Warpcast](https://warpcast.com/zizzamia))
+- **OnchainKit** ([X](https://x.com/Onchainkit), [Warpcast](https://warpcast.com/onchainkit))
 - [Tina He](https://github.com/fakepixels) ([X](https://twitter.com/fkpxls))
 - [Mind Apivessa](https://github.com/mindapivessa) ([X](https://twitter.com/spicypaprika_))
 - [Alissa Crane](https://github.com/abcrane123) ([X](https://twitter.com/abcrane123))
 - [Alec Chen](https://github.com/0xAlec) ([X](https://twitter.com/0xAlec))
 - [Paul Cramer](https://github.com/cpcramer) ([X](https://twitter.com/PaulCramer_))
 - [Shelley Lai](https://github.com/0xchiaroscuro) ([X](https://twitter.com/hey_shells), [Warpcast](https://warpcast.com/chiaroscuro))
-- [Ky Lee](https://github.com/kyhyco)
 - [Léo Galley](https://github.com/kirkas)
 - [Adam Lessey](https://github.com/alessey) ([X](https://twitter.com/alessey))
 
