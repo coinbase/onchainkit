@@ -32,7 +32,7 @@ export type ComponentTheme =
   | 'base'
   | 'cyberpunk'
   | 'default'
-  | 'minimal'
+  | 'hacker'
   | 'none'; // Simulates an undefined theme field
 
 export type ComponentMode = 'auto' | 'light' | 'dark';

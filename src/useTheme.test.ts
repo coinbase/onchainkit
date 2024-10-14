@@ -28,7 +28,7 @@ describe('useTheme', () => {
   it.each([
     ['cyberpunk', 'auto', 'light', 'cyberpunk'],
     ['base', 'dark', 'dark', 'base'],
-    ['minimal', 'light', 'light', 'minimal'],
+    ['hacker', 'light', 'light', 'hacker'],
   ] as const)(
     'should return %s theme when set, regardless of mode or system preference',
     (theme, mode, preferredMode, expected) => {
@@ -89,13 +89,13 @@ describe('useTheme', () => {
     const allThemes: UseThemeReact[] = [
       'cyberpunk',
       'base',
-      'minimal',
+      'hacker',
       'default-light',
       'default-dark',
     ];
 
     for (const theme of allThemes) {
-      if (theme === 'cyberpunk' || theme === 'base' || theme === 'minimal') {
+      if (theme === 'cyberpunk' || theme === 'base' || theme === 'hacker') {
         mockUseOnchainKit(theme, 'auto');
       } else {
         const [baseTheme, mode] = theme.split('-');
