@@ -169,7 +169,7 @@ export function PayProvider({
       fetchedDataUseEffect.current = true;
       fetchData(address);
     }
-  }, [address]);
+  }, [address, fetchData]);
 
   // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO Refactor this component to deprecate funding flow
   const handleSubmit = useCallback(async () => {
@@ -305,7 +305,7 @@ export function PayProvider({
     chainId,
     chargeId,
     connectAsync,
-    fetchContracts,
+    fetchData,
     isConnected,
     isSmartWallet,
     lifecycleStatus.statusData,
