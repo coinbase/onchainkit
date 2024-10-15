@@ -92,7 +92,7 @@ export function PayProvider({
       insufficientBalanceRef.current = insufficientBalance;
       priceInUSDCRef.current = priceInUSDC;
     },
-    [setErrorMessage, setChargeId],
+    [],
   );
 
   // Component lifecycle
