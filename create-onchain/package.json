@@ -19,7 +19,7 @@
     "templates/**"
   ],
   "bin": {
-    "create-ock": "./dist/esm/cli.js"
+    "create-onchain": "./dist/esm/cli.js"
   },
   "sideEffects": false,
   "type": "module",
