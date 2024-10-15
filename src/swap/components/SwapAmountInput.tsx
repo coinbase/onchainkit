@@ -14,6 +14,7 @@ import {
 import { TokenChip, TokenSelectDropdown } from '../../token';
 import type { Token } from '../../token';
 import type { SwapAmountInputReact } from '../types';
+import { formatAmount } from '../utils/formatAmount';
 import { useSwapContext } from './SwapProvider';
 
 export function SwapAmountInput({
@@ -100,7 +101,7 @@ export function SwapAmountInput({
           )}
           placeholder="0.0"
           delayMs={delayMs}
-          value={source.amount}
+          value={formatAmount(source.amount)}
           setValue={source.setAmount}
           disabled={source.loading}
           onChange={handleChange}
