@@ -3,8 +3,10 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useRef,
   useState,
 } from 'react';
+import type { Address, ContractFunctionParameters } from 'viem';
 import { base } from 'viem/chains';
 import { useAccount, useConnect, useSwitchChain } from 'wagmi';
 import { useWaitForTransactionReceipt } from 'wagmi';
@@ -55,6 +57,40 @@ export function PayProvider({
   const [transactionId, setTransactionId] = useState('');
   const [errorMessage, setErrorMessage] = useState<string>('');
   const isSmartWallet = useIsWalletACoinbaseSmartWallet();
+
+  // Refs
+  const fetchedDataUseEffect = useRef<boolean>(false);
+  const fetchedDataHandleSubmit = useRef<boolean>(false);
+  const contractsRef = useRef<ContractFunctionParameters[] | null>();
+  const insufficientBalanceRef = useRef<boolean>(false);
+  const priceInUSDCRef = useRef<string | undefined>('');
+
+  // Helper function used in both `useEffect` and `handleSubmit` to fetch data from the Commerce API and set state and refs
+  const fetchData = async (address: Address) => {
+    const {
+      contracts,
+      chargeId: hydratedChargeId,
+      insufficientBalance,
+      priceInUSDC,
+      error,
+    } = await fetchContracts(address);
+    if (error) {
+      setErrorMessage(GENERIC_ERROR_MESSAGE);
+      updateLifecycleStatus({
+        statusName: PAY_LIFECYCLESTATUS.ERROR,
+        statusData: {
+          code: PayErrorCode.UNEXPECTED_ERROR,
+          error: (error as Error).name,
+          message: (error as Error).message,
+        },
+      });
+      return;
+    }
+    setChargeId(hydratedChargeId);
+    contractsRef.current = contracts;
+    insufficientBalanceRef.current = insufficientBalance;
+    priceInUSDCRef.current = priceInUSDC;
+  };
 
   // Component lifecycle
   const { lifecycleStatus, updateLifecycleStatus } = useLifecycleStatus({
@@ -127,6 +163,14 @@ export function PayProvider({
     });
   }, [chargeId, receipt, updateLifecycleStatus]);
 
+  // We need to pre-load transaction data in `useEffect` when the wallet is already connected due to a Smart Wallet popup blocking issue in Safari iOS
+  useEffect(() => {
+    if (address && !fetchedDataHandleSubmit.current) {
+      fetchedDataUseEffect.current = true;
+      fetchData(address);
+    }
+  }, [address]);
+
   // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO Refactor this component to deprecate funding flow
   const handleSubmit = useCallback(async () => {
     try {
@@ -146,7 +190,7 @@ export function PayProvider({
         lifecycleStatus.statusData?.code === PayErrorCode.INSUFFICIENT_BALANCE
       ) {
         window.open(
-          'https://keys.coinbase.com/fund',
+          'https://keys.coinbase.com/fund?asset=USDC&chainId=8453',
           '_blank',
           'noopener,noreferrer',
         );
@@ -164,6 +208,7 @@ export function PayProvider({
       if (!isConnected || !isSmartWallet) {
         // Prompt for wallet connection
         // This is defaulted to Coinbase Smart Wallet
+        fetchedDataHandleSubmit.current = true; // Set this here so useEffect does not run
         const { accounts, chainId: _connectedChainId } = await connectAsync({
           connector: coinbaseWallet({ preference: 'smartWalletOnly' }),
         });
@@ -187,27 +232,11 @@ export function PayProvider({
       }
       /* v8 ignore stop */
 
-      // Fetch contracts
-      const {
-        contracts,
-        chargeId: hydratedChargeId,
-        insufficientBalance,
-        priceInUSDC,
-        error,
-      } = await fetchContracts(connectedAddress);
-      if (error) {
-        setErrorMessage(GENERIC_ERROR_MESSAGE);
-        updateLifecycleStatus({
-          statusName: PAY_LIFECYCLESTATUS.ERROR,
-          statusData: {
-            code: PayErrorCode.UNEXPECTED_ERROR,
-            error: (error as Error).name,
-            message: (error as Error).message,
-          },
-        });
-        return;
+      // Fetch contracts if not already done in useEffect
+      /* v8 ignore next 3 */
+      if (!fetchedDataUseEffect.current) {
+        await fetchData(connectedAddress);
       }
-      setChargeId(hydratedChargeId);
 
       // Switch chain, if applicable
       if (connectedChainId !== base.id) {
@@ -215,21 +244,25 @@ export function PayProvider({
       }
 
       // Check for sufficient balance
-      if (insufficientBalance && priceInUSDC) {
-        setErrorMessage(PAY_INSUFFICIENT_BALANCE_ERROR_MESSAGE(priceInUSDC));
+      if (insufficientBalanceRef.current && priceInUSDCRef.current) {
+        setErrorMessage(
+          PAY_INSUFFICIENT_BALANCE_ERROR_MESSAGE(priceInUSDCRef.current),
+        );
         updateLifecycleStatus({
           statusName: PAY_LIFECYCLESTATUS.ERROR,
           statusData: {
             code: PayErrorCode.INSUFFICIENT_BALANCE,
             error: PAY_INSUFFICIENT_BALANCE_ERROR,
-            message: PAY_INSUFFICIENT_BALANCE_ERROR_MESSAGE(priceInUSDC),
+            message: PAY_INSUFFICIENT_BALANCE_ERROR_MESSAGE(
+              priceInUSDCRef.current,
+            ),
           },
         });
         return;
       }
 
       // Contracts weren't successfully fetched from `fetchContracts`
-      if (!contracts || contracts.length === 0) {
+      if (!contractsRef.current || contractsRef.current.length === 0) {
         setErrorMessage(GENERIC_ERROR_MESSAGE);
         updateLifecycleStatus({
           statusName: PAY_LIFECYCLESTATUS.ERROR,
@@ -244,7 +277,7 @@ export function PayProvider({
 
       // Open keys.coinbase.com for payment
       await writeContractsAsync({
-        contracts,
+        contracts: contractsRef.current,
       });
     } catch (error) {
       const isUserRejectedError =
