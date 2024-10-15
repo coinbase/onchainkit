@@ -61,6 +61,7 @@ export function PayProvider({
   // Refs
   const fetchedDataUseEffect = useRef<boolean>(false);
   const fetchedDataHandleSubmit = useRef<boolean>(false);
+  const userRejectedRef = useRef<boolean>(false);
   const contractsRef = useRef<ContractFunctionParameters[] | null>();
   const insufficientBalanceRef = useRef<boolean>(false);
   const priceInUSDCRef = useRef<string | undefined>('');
@@ -233,8 +234,9 @@ export function PayProvider({
       /* v8 ignore stop */
 
       // Fetch contracts if not already done in useEffect
+      // Don't re-fetch contracts if the user rejected the previous request, and just use the cached data
       /* v8 ignore next 3 */
-      if (!fetchedDataUseEffect.current) {
+      if (!fetchedDataUseEffect.current && !userRejectedRef.current) {
         await fetchData(connectedAddress);
       }
 
@@ -289,6 +291,10 @@ export function PayProvider({
       const errorMessage = isUserRejectedError
         ? USER_REJECTED_ERROR
         : GENERIC_ERROR_MESSAGE;
+      if (isUserRejectedError) {
+        // Set the ref so that we can use the cached commerce API call
+        userRejectedRef.current = true;
+      }
 
       setErrorMessage(errorMessage);
       updateLifecycleStatus({
