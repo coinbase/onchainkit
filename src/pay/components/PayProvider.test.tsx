@@ -374,7 +374,7 @@ describe('PayProvider', () => {
     });
     fireEvent.click(screen.getByText('Submit'));
     expect(windowOpenMock).toHaveBeenCalledWith(
-      'https://keys.coinbase.com/fund',
+      'https://keys.coinbase.com/fund?asset=USDC&chainId=8453',
       '_blank',
       'noopener,noreferrer',
     );
