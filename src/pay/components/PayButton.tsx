@@ -27,7 +27,9 @@ export function PayButton({
   const iconSvg = useIcon({ icon });
 
   const isLoading = lifecycleStatus?.statusName === PAY_LIFECYCLESTATUS.PENDING;
-  const isDisabled = disabled || isLoading;
+  const isFetchingData =
+    lifecycleStatus?.statusName === PAY_LIFECYCLESTATUS.FETCHING_DATA;
+  const isDisabled = disabled || isLoading || isFetchingData;
   const buttonText = useMemo(() => {
     if (lifecycleStatus?.statusName === PAY_LIFECYCLESTATUS.SUCCESS) {
       return 'View payment details';

@@ -67,31 +67,45 @@ export function PayProvider({
   const priceInUSDCRef = useRef<string | undefined>('');
 
   // Helper function used in both `useEffect` and `handleSubmit` to fetch data from the Commerce API and set state and refs
-  const fetchData = useCallback(async (address: Address) => {
-    const {
-      contracts,
-      chargeId: hydratedChargeId,
-      insufficientBalance,
-      priceInUSDC,
-      error,
-    } = await fetchContracts(address);
-    if (error) {
-      setErrorMessage(GENERIC_ERROR_MESSAGE);
+  const fetchData = useCallback(
+    async (address: Address) => {
       updateLifecycleStatus({
-        statusName: PAY_LIFECYCLESTATUS.ERROR,
+        statusName: PAY_LIFECYCLESTATUS.FETCHING_DATA,
+        statusData: {},
+      });
+      const {
+        contracts,
+        chargeId: hydratedChargeId,
+        insufficientBalance,
+        priceInUSDC,
+        error,
+      } = await fetchContracts(address);
+      if (error) {
+        setErrorMessage(GENERIC_ERROR_MESSAGE);
+        updateLifecycleStatus({
+          statusName: PAY_LIFECYCLESTATUS.ERROR,
+          statusData: {
+            code: PayErrorCode.UNEXPECTED_ERROR,
+            error: (error as Error).name,
+            message: (error as Error).message,
+          },
+        });
+        return;
+      }
+      setChargeId(hydratedChargeId);
+      contractsRef.current = contracts;
+      insufficientBalanceRef.current = insufficientBalance;
+      priceInUSDCRef.current = priceInUSDC;
+      updateLifecycleStatus({
+        statusName: PAY_LIFECYCLESTATUS.READY,
         statusData: {
-          code: PayErrorCode.UNEXPECTED_ERROR,
-          error: (error as Error).name,
-          message: (error as Error).message,
+          chargeId,
+          contracts: contractsRef.current || [],
         },
       });
-      return;
-    }
-    setChargeId(hydratedChargeId);
-    contractsRef.current = contracts;
-    insufficientBalanceRef.current = insufficientBalance;
-    priceInUSDCRef.current = priceInUSDC;
-  }, []);
+    },
+    [chargeId],
+  );
 
   // Component lifecycle
   const { lifecycleStatus, updateLifecycleStatus } = useLifecycleStatus({
@@ -166,11 +180,15 @@ export function PayProvider({
 
   // We need to pre-load transaction data in `useEffect` when the wallet is already connected due to a Smart Wallet popup blocking issue in Safari iOS
   useEffect(() => {
-    if (address && !fetchedDataHandleSubmit.current) {
+    if (
+      lifecycleStatus.statusName === PAY_LIFECYCLESTATUS.INIT &&
+      address &&
+      !fetchedDataHandleSubmit.current
+    ) {
       fetchedDataUseEffect.current = true;
       fetchData(address);
     }
-  }, [address, fetchData]);
+  }, [address, fetchData, lifecycleStatus]);
 
   // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO Refactor this component to deprecate funding flow
   const handleSubmit = useCallback(async () => {
