@@ -66,31 +66,34 @@ export function PayProvider({
   const priceInUSDCRef = useRef<string | undefined>('');
 
   // Helper function used in both `useEffect` and `handleSubmit` to fetch data from the Commerce API and set state and refs
-  const fetchData = async (address: Address) => {
-    const {
-      contracts,
-      chargeId: hydratedChargeId,
-      insufficientBalance,
-      priceInUSDC,
-      error,
-    } = await fetchContracts(address);
-    if (error) {
-      setErrorMessage(GENERIC_ERROR_MESSAGE);
-      updateLifecycleStatus({
-        statusName: PAY_LIFECYCLESTATUS.ERROR,
-        statusData: {
-          code: PayErrorCode.UNEXPECTED_ERROR,
-          error: (error as Error).name,
-          message: (error as Error).message,
-        },
-      });
-      return;
-    }
-    setChargeId(hydratedChargeId);
-    contractsRef.current = contracts;
-    insufficientBalanceRef.current = insufficientBalance;
-    priceInUSDCRef.current = priceInUSDC;
-  };
+  const fetchData = useCallback(
+    async (address: Address) => {
+      const {
+        contracts,
+        chargeId: hydratedChargeId,
+        insufficientBalance,
+        priceInUSDC,
+        error,
+      } = await fetchContracts(address);
+      if (error) {
+        setErrorMessage(GENERIC_ERROR_MESSAGE);
+        updateLifecycleStatus({
+          statusName: PAY_LIFECYCLESTATUS.ERROR,
+          statusData: {
+            code: PayErrorCode.UNEXPECTED_ERROR,
+            error: (error as Error).name,
+            message: (error as Error).message,
+          },
+        });
+        return;
+      }
+      setChargeId(hydratedChargeId);
+      contractsRef.current = contracts;
+      insufficientBalanceRef.current = insufficientBalance;
+      priceInUSDCRef.current = priceInUSDC;
+    },
+    [setErrorMessage, setChargeId],
+  );
 
   // Component lifecycle
   const { lifecycleStatus, updateLifecycleStatus } = useLifecycleStatus({
