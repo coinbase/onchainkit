@@ -199,7 +199,7 @@
   }
 
   .hacker {
-    --ock-font-family: 'Noto Sans Mono', 'DM Mono', sans-serif;
+    --ock-font-family: 'Noto Sans Mono', sans-serif;
     --ock-border-radius: 0.375rem;
     --ock-border-radius-inner: 0.125rem;
     --ock-text-inverse: theme(colors.zinc.50);
