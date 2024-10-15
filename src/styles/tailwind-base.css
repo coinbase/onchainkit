@@ -2,6 +2,7 @@
 
 @layer base {
   :root,
+  .light,
   .default-light {
     --ock-font-family: 'DM Sans', sans-serif;
     --ock-border-radius: 0.5rem;
@@ -51,6 +52,7 @@
     --ock-line-inverse: theme(colors.gray.700);
   }
 
+  .dark,
   .default-dark {
     --ock-font-family: 'DM Sans', sans-serif;
     --ock-border-radius: 0.5rem;
@@ -104,11 +106,11 @@
     --ock-font-family: 'DM Sans', sans-serif;
     --ock-border-radius: 0.5rem;
     --ock-border-radius-inner: 0.25rem;
-    --ock-text-inverse: theme(colors.gray.950);
+    --ock-text-inverse: theme(colors.gray.50);
     --ock-text-foreground: theme(colors.gray.50);
     --ock-text-foreground-muted: theme(colors.gray.400);
     --ock-text-error: theme(colors.rose.400);
-    --ock-text-primary: #578BFA;
+    --ock-text-primary: #0052ff;
     --ock-text-success: theme(colors.lime.400);
     --ock-text-warning: theme(colors.orange.400);
     --ock-text-disabled: theme(colors.gray.600);
@@ -122,11 +124,11 @@
     --ock-bg-inverse: theme(colors.gray.900);
     --ock-bg-inverse-hover: theme(colors.gray.800);
     --ock-bg-inverse-active: theme(colors.gray.700);
-    --ock-bg-primary: #578BFA;
-    --ock-bg-primary-hover: #84AAFD;
-    --ock-bg-primary-active: #B9CFFF;
-    --ock-bg-primary-washed: #002982;
-    --ock-bg-primary-disabled: #003EC1;
+    --ock-bg-primary: #0052ff;
+    --ock-bg-primary-hover: #014ceb;
+    --ock-bg-primary-active: #0148dc;
+    --ock-bg-primary-washed: #b2cbff;
+    --ock-bg-primary-disabled: #80a8ff;
     --ock-bg-secondary: theme(colors.slate.800);
     --ock-bg-secondary-hover: theme(colors.slate.700);
     --ock-bg-secondary-active: theme(colors.slate.600);
@@ -135,7 +137,7 @@
     --ock-bg-success: theme(colors.lime.700);
     --ock-bg-default-reverse: theme(colors.gray.50);
 
-    --ock-icon-color-primary: #578BFA;
+    --ock-icon-color-primary: #0052ff;
     --ock-icon-color-foreground: theme(colors.gray.50);
     --ock-icon-color-foreground-muted: theme(colors.gray.400);
     --ock-icon-color-inverse: theme(colors.gray.950);
@@ -143,7 +145,7 @@
     --ock-icon-color-success: theme(colors.lime.400);
     --ock-icon-color-warning: theme(colors.orange.400);
 
-    --ock-line-primary: #578BFA;
+    --ock-line-primary: #0052ff;
     --ock-line-default: theme(colors.gray.700);
     --ock-line-heavy: theme(colors.gray.500);
     --ock-line-inverse: theme(colors.gray.300);

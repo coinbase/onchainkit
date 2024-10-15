@@ -1,7 +1,7 @@
 import { type ForwardedRef, forwardRef } from 'react';
 import { caretDownSvg } from '../../internal/svg/caretDownSvg';
 import { caretUpSvg } from '../../internal/svg/caretUpSvg';
-import { border, cn, color, pressable, text } from '../../styles/theme';
+import { border, cn, color, line, pressable, text } from '../../styles/theme';
 import type { TokenSelectButtonReact } from '../types';
 import { TokenImage } from './TokenImage';
 
@@ -14,10 +14,11 @@ export const TokenSelectButton = forwardRef(function TokenSelectButton(
       type="button"
       data-testid="ockTokenSelectButton_Button"
       className={cn(
-        pressable.inverse,
+        pressable.default,
         pressable.shadow,
         border.radius,
-        'flex w-fit items-center gap-2 rounded-lg px-3 py-1 outline-none',
+        line.default,
+        'flex w-fit items-center gap-2 px-3 py-1',
         className,
       )}
       onClick={onClick}
