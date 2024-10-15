@@ -1,6 +1,6 @@
 {
   "name": "create-onchain",
-  "description": "Instantly create batteries-included onchain applications.",
+  "description": "Instantly create onchain applications with OnchainKit.",
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
