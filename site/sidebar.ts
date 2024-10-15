@@ -9,32 +9,36 @@ export const sidebar = [
     text: 'Guides',
     items: [
       {
-        text: 'Lifecycle Status',
-        link: '/guides/lifecycle-status',
-      },
-      {
-        text: 'Use Basename',
-        link: '/guides/use-basename-in-onchain-app',
-      },
-      {
         text: 'Build Onchain Apps',
         link: '/guides/build-onchain-apps',
       },
       {
-        text: 'Framegear',
-        link: '/frame/framegear',
+        text: 'Contribution',
+        link: '/guides/contribution',
       },
       {
-        text: 'Tailwindcss Integration',
-        link: '/guides/tailwind',
+        text: 'Framegear',
+        link: '/guides/framegear',
+      },
+      {
+        text: 'Lifecycle Status',
+        link: '/guides/lifecycle-status',
       },
       {
         text: 'Reporting a bug',
         link: '/guides/reporting-bug',
       },
       {
-        text: 'Contribution',
-        link: '/guides/contribution',
+        text: 'Tailwindcss Integration',
+        link: '/guides/tailwind',
+      },
+      {
+        text: 'OnchainKit Themes',
+        link: '/guides/themes',
+      },
+      {
+        text: 'Use Basename',
+        link: '/guides/use-basename-in-onchain-app',
       },
     ],
   },
