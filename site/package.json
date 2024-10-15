@@ -9,7 +9,7 @@
     "sitemap": "node createSitemap.js"
   },
   "dependencies": {
-    "@coinbase/onchainkit": "0.33.6",
+    "@coinbase/onchainkit": "0.34.0",
     "@types/react": "latest",
     "@vercel/edge": "^1.1.1",
     "express": "^4.21.1",
