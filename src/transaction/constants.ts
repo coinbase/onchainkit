@@ -1,3 +1,5 @@
+import type { LifecycleStatus } from './types';
+
 export const GENERIC_ERROR_MESSAGE = 'Something went wrong. Please try again.';
 // Most likely EOAexport const genericErrorMessage = 'Something went wrong. Please try again.';
 export const METHOD_NOT_SUPPORTED_ERROR_SUBSTRING =
@@ -5,3 +7,8 @@ export const METHOD_NOT_SUPPORTED_ERROR_SUBSTRING =
 export const SEND_CALLS_NOT_SUPPORTED_ERROR = 'SEND_CALLS_NOT_SUPPORTED_ERROR';
 export const TRANSACTION_TYPE_CALLS = 'TRANSACTION_TYPE_CALLS';
 export const TRANSACTION_TYPE_CONTRACTS = 'TRANSACTION_TYPE_CONTRACTS';
+
+export const INITIAL_LIFECYCLE_STATE: LifecycleStatus = {
+  statusName: 'init',
+  statusData: null,
+};

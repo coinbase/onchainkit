@@ -144,6 +144,8 @@ export type TransactionProviderReact = {
   onError?: (e: TransactionError) => void; // An optional callback function that handles errors within the provider.
   onStatus?: (lifecycleStatus: LifecycleStatus) => void; // An optional callback function that exposes the component lifecycle state
   onSuccess?: (response: TransactionResponse) => void; // An optional callback function that exposes the transaction receipts
+  resetOnComplete?: boolean; // Resets the transaction state when the transaction completes if set to true
+  onResetState?: () => void;
 };
 
 /**
@@ -161,6 +163,8 @@ export type TransactionReact = {
   onError?: (e: TransactionError) => void; // An optional callback function that handles transaction errors.
   onStatus?: (lifecycleStatus: LifecycleStatus) => void; // An optional callback function that exposes the component lifecycle state
   onSuccess?: (response: TransactionResponse) => void; // An optional callback function that exposes the transaction receipts
+  resetOnComplete?: boolean; // Resets the transaction state when the transaction completes if set to true
+  onResetState?: () => void;
 };
 
 /**

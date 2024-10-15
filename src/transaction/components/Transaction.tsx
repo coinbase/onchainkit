@@ -13,8 +13,10 @@ export function Transaction({
   children,
   contracts,
   onError,
+  onResetState,
   onStatus,
   onSuccess,
+  resetOnComplete,
 }: TransactionReact) {
   const isMounted = useIsMounted();
   const componentTheme = useTheme();
@@ -36,8 +38,10 @@ export function Transaction({
       chainId={accountChainId}
       contracts={contracts}
       onError={onError}
+      onResetState={onResetState}
       onStatus={onStatus}
       onSuccess={onSuccess}
+      resetOnComplete={resetOnComplete}
     >
       <div
         className={cn(componentTheme, 'flex w-full flex-col gap-2', className)}

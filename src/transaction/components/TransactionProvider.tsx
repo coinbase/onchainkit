@@ -19,6 +19,7 @@ import { useCapabilitiesSafe } from '../../internal/hooks/useCapabilitiesSafe';
 import { useValue } from '../../internal/hooks/useValue';
 import {
   GENERIC_ERROR_MESSAGE,
+  INITIAL_LIFECYCLE_STATE,
   TRANSACTION_TYPE_CALLS,
   TRANSACTION_TYPE_CONTRACTS,
 } from '../constants';
@@ -57,8 +58,10 @@ export function TransactionProvider({
   children,
   contracts,
   onError,
+  onResetState,
   onStatus,
   onSuccess,
+  resetOnComplete,
 }: TransactionProviderReact) {
   // Core Hooks
   const account = useAccount();
@@ -66,10 +69,9 @@ export function TransactionProvider({
   const [errorMessage, setErrorMessage] = useState('');
   const [errorCode, setErrorCode] = useState('');
   const [isToastVisible, setIsToastVisible] = useState(false);
-  const [lifecycleStatus, setLifecycleStatus] = useState<LifecycleStatus>({
-    statusName: 'init',
-    statusData: null,
-  }); // Component lifecycle
+  const [lifecycleStatus, setLifecycleStatus] = useState<LifecycleStatus>(
+    INITIAL_LIFECYCLE_STATE,
+  ); // Component lifecycle
   const [transactionId, setTransactionId] = useState('');
   const [transactionCount, setTransactionCount] = useState<
     number | undefined
@@ -196,6 +198,13 @@ export function TransactionProvider({
       onSuccess?.({
         transactionReceipts: lifecycleStatus.statusData.transactionReceipts,
       });
+    }
+    // Reset state
+    if (resetOnComplete && lifecycleStatus.statusName === 'success') {
+      setLifecycleStatus(INITIAL_LIFECYCLE_STATE);
+      setTransactionHashList([]);
+      setTransactionId('');
+      onResetState?.();
     }
     // Emit Status
     onStatus?.(lifecycleStatus);
