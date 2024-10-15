@@ -235,11 +235,6 @@ footer a.vocs_Anchor {
   fill: black;
 }
 
-/* Fill */
-.fill-ock-default-reverse {
-  fill: var(--bg-ock-default-reverse);
-}
-
 .twitter-tweet {
   border: 1px solid #111827;
   border-radius: 0.91675rem;

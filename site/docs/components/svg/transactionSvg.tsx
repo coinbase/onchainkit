@@ -8,11 +8,11 @@ export const transactionSvg = (
   >
     <title>Transaction SVG</title>
     <path
-      className="fill-ock-default-reverse"
+      className="ock-fill-default-reverse"
       d="M0.5 20V16.875H30.5L20.5 27.5L21.125 20H0.5Z"
     />
     <path
-      className="fill-ock-default-reverse"
+      className="ock-fill-default-reverse"
       d="M30.5 10V13.125L0.5 13.125L10.5 2.5L9.875 10L30.5 10Z"
     />
   </svg>
