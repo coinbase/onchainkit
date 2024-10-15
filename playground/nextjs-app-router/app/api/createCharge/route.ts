@@ -9,6 +9,18 @@ type CommerceCharge = {
 };
 
 export async function POST(req: Request) {
+  // Handle CORS preflight request
+  if (req.method === 'OPTIONS') {
+    return new NextResponse(null, {
+      status: 200,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'POST, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type, X-CC-Api-Key',
+      },
+    });
+  }
+
   // Generates a chargeId
   const { name, description } = await req.json();
   try {
@@ -30,9 +42,22 @@ export async function POST(req: Request) {
         },
       },
     );
-    return NextResponse.json({ id: response.data.data.id }, { status: 200 });
+    
+    return new NextResponse(JSON.stringify({ id: response.data.data.id }), {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+      },
+    });
   } catch (error) {
     console.error(error);
+    return new NextResponse(JSON.stringify({ error: 'Internal Server Error' }), {
+      status: 500,
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+      },
+    });
   }
-  return NextResponse.json({ status: 500 });
 }
