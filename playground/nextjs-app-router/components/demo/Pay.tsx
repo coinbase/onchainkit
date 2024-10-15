@@ -46,10 +46,10 @@ function PayComponent() {
         <>
           <Pay
             key={productIDKey}
-            productId={payOptions?.productId}
+            productId={'842e3c7d-1b7a-480e-9a5b-dabc52bae448'}
             onStatus={handleOnStatus}
           >
-            <PayButton coinbaseBranded={true} disabled={productIDDisabled} />
+            <PayButton coinbaseBranded={true} />
             <PayStatus />
           </Pay>
         </>
