@@ -168,6 +168,7 @@ async function init() {
   }
 
   console.log(`\nFrameworks:`);
+  console.log(`${pc.cyan('- Wagmi')}`);
   console.log(`${pc.cyan('- React')}`);
   console.log(`${pc.cyan('- Next.js')}`);
   console.log(`${pc.cyan('- Tailwindcss')}`);
