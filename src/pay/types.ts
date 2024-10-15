@@ -1,4 +1,4 @@
-import type { TransactionReceipt } from 'viem';
+import type { ContractFunctionParameters, TransactionReceipt } from 'viem';
 import type { Address } from 'viem';
 import type { Config } from 'wagmi';
 import type { PayTransaction } from '../api/types';
@@ -18,6 +18,17 @@ export type LifecycleStatus =
   | {
       statusName: 'error';
       statusData: TransactionError;
+    }
+  | {
+      statusName: 'fetchingData';
+      statusData: LifecycleStatusDataShared;
+    }
+  | {
+      statusName: 'ready';
+      statusData: {
+        chargeId: string;
+        contracts: ContractFunctionParameters[];
+      };
     }
   | {
       statusName: 'paymentPending';

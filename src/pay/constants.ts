@@ -34,8 +34,10 @@ export type PayErrors = {
 };
 
 export enum PAY_LIFECYCLESTATUS {
+  FETCHING_DATA = 'fetchingData',
   INIT = 'init',
   PENDING = 'paymentPending',
+  READY = 'ready',
   SUCCESS = 'success',
   ERROR = 'error',
 }
