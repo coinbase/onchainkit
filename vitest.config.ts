@@ -20,6 +20,7 @@ export default defineConfig({
         'onchainkit/esm/**',
         'playground/**',
         'site/**',
+        'create-onchain/**',
       ],
       reportOnFailure: true,
       thresholds: {
@@ -30,7 +31,13 @@ export default defineConfig({
       },
     },
     environment: 'jsdom',
-    exclude: ['**/node_modules/**', 'framegear/**', 'playground/**', 'site/**'],
+    exclude: [
+      '**/node_modules/**',
+      'framegear/**',
+      'playground/**',
+      'site/**',
+      'create-onchain/**',
+    ],
     setupFiles: ['./vitest.setup.ts'],
     globals: true,
   },
