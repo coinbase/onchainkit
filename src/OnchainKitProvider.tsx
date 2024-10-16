@@ -1,7 +1,6 @@
 import { createContext, useMemo } from 'react';
 import { ONCHAIN_KIT_CONFIG, setOnchainKitConfig } from './OnchainKitConfig';
 import { checkHashLength } from './internal/utils/checkHashLength';
-import { getRPCUrl } from './network/getRPCUrl';
 import type { OnchainKitContextType, OnchainKitProviderReact } from './types';
 
 export const OnchainKitContext =
@@ -23,6 +22,11 @@ export function OnchainKitProvider({
   if (schemaId && !checkHashLength(schemaId, 64)) {
     throw Error('EAS schemaId must be 64 characters prefixed with "0x"');
   }
+  const defaultPaymasterUrl = apiKey
+    ? `https://api.developer.coinbase.com/rpc/v1/${chain.name
+        .replace(' ', '-')
+        .toLowerCase()}/${apiKey}`
+    : null;
 
   const value = useMemo(() => {
     const onchainKitConfig = {
@@ -34,7 +38,7 @@ export function OnchainKitProvider({
           mode: config?.appearance?.mode ?? 'auto',
           theme: config?.appearance?.theme ?? 'default',
         },
-        paymaster: config?.paymaster ?? (apiKey ? getRPCUrl() : null),
+        paymaster: config?.paymaster ?? defaultPaymasterUrl,
       },
       projectId: projectId ?? null,
       rpcUrl: rpcUrl ?? null,

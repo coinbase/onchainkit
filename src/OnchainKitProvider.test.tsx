@@ -48,6 +48,8 @@ vi.mock('./OnchainKitConfig', () => ({
 describe('OnchainKitProvider', () => {
   const schemaId: EASSchemaUid = `0x${'1'.repeat(64)}`;
   const apiKey = 'test-api-key';
+  const paymasterUrl =
+    'https://api.developer.coinbase.com/rpc/v1/base/test-api-key';
 
   it('provides the context value correctly', async () => {
     render(
@@ -127,6 +129,7 @@ describe('OnchainKitProvider', () => {
           mode: 'auto',
           theme: 'default',
         },
+        paymaster: paymasterUrl,
       },
       chain: base,
       rpcUrl: null,
@@ -135,11 +138,11 @@ describe('OnchainKitProvider', () => {
     });
   });
 
-  it('should use default values for config.appearance when not provided', async () => {
+  it('should use default values for config when not provided', async () => {
     render(
       <WagmiProvider config={mockConfig}>
         <QueryClientProvider client={queryClient}>
-          <OnchainKitProvider chain={base} schemaId={schemaId} apiKey={apiKey}>
+          <OnchainKitProvider chain={base} schemaId={schemaId}>
             <TestComponent />
           </OnchainKitProvider>
         </QueryClientProvider>
@@ -154,6 +157,7 @@ describe('OnchainKitProvider', () => {
               mode: 'auto',
               theme: 'default',
             },
+            paymaster: null,
           },
         }),
       );
@@ -191,6 +195,7 @@ describe('OnchainKitProvider', () => {
               mode: 'auto',
               theme: 'default',
             },
+            paymaster: paymasterUrl,
           },
           projectId: null,
           rpcUrl: null,
