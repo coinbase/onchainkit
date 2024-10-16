@@ -9,6 +9,7 @@ import { WalletType } from '@/components/form/wallet-type';
 import { useContext, useEffect, useState } from 'react';
 import FundDemo from './demo/Fund';
 import IdentityDemo from './demo/Identity';
+import PayDemo from './demo/Pay';
 import SwapDemo from './demo/Swap';
 import SwapDefaultDemo from './demo/SwapDefault';
 import TransactionDemo from './demo/Transaction';
@@ -16,6 +17,7 @@ import TransactionDefaultDemo from './demo/TransactionDefault';
 import WalletDemo from './demo/Wallet';
 import WalletDefaultDemo from './demo/WalletDefault';
 import { ActiveComponent } from './form/active-component';
+import { PayOptions } from './form/pay-options';
 import { TransactionOptions } from './form/transaction-options';
 
 function Demo() {
@@ -57,6 +59,10 @@ function Demo() {
 
     if (activeComponent === OnchainKitComponent.Transaction) {
       return <TransactionDemo />;
+    }
+
+    if (activeComponent === OnchainKitComponent.Pay) {
+      return <PayDemo />;
     }
 
     if (activeComponent === OnchainKitComponent.Swap) {
@@ -111,6 +117,7 @@ function Demo() {
           <TransactionOptions />
           <PaymasterUrl />
           <SwapConfig />
+          <PayOptions />
         </form>
         <div className="bottom-6 left-6 text-sm sm:absolute">
           <a
