@@ -117,6 +117,7 @@ export type PayContextType = {
 export type PayProviderReact = {
   chargeHandler?: () => Promise<string>;
   children: React.ReactNode;
+  isSponsored?: boolean;
   onStatus?: (status: LifecycleStatus) => void;
   productId?: string;
 };
@@ -128,6 +129,7 @@ export type PayReact = {
   chargeHandler?: () => Promise<string>;
   children: React.ReactNode;
   className?: string;
+  isSponsored?: boolean;
   onStatus?: (status: LifecycleStatus) => void;
   productId?: string;
 };

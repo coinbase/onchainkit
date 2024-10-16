@@ -15,6 +15,7 @@ import { useWriteContracts } from 'wagmi/experimental';
 import { useCallsStatus } from 'wagmi/experimental';
 import { useValue } from '../../internal/hooks/useValue';
 import { isUserRejectedRequestError } from '../../transaction/utils/isUserRejectedRequestError';
+import { useOnchainKit } from '../../useOnchainKit';
 import { useIsWalletACoinbaseSmartWallet } from '../../wallet/hooks/useIsWalletACoinbaseSmartWallet';
 import {
   GENERIC_ERROR_MESSAGE,
@@ -46,10 +47,14 @@ export function usePayContext() {
 export function PayProvider({
   chargeHandler,
   children,
+  isSponsored,
   onStatus,
   productId,
 }: PayProviderReact) {
   // Core hooks
+  const {
+    config: { paymaster } = { paymaster: null },
+  } = useOnchainKit();
   const { address, chainId, isConnected } = useAccount();
   const { connectAsync } = useConnect();
   const { switchChainAsync } = useSwitchChain();
@@ -298,6 +303,9 @@ export function PayProvider({
       // Open keys.coinbase.com for payment
       await writeContractsAsync({
         contracts: contractsRef.current,
+        capabilities: {
+          paymaster: isSponsored ? paymaster : null,
+        },
       });
     } catch (error) {
       const isUserRejectedError =
@@ -332,8 +340,10 @@ export function PayProvider({
     fetchData,
     isConnected,
     isSmartWallet,
+    isSponsored,
     lifecycleStatus.statusData,
     lifecycleStatus.statusName,
+    paymaster,
     switchChainAsync,
     updateLifecycleStatus,
     writeContractsAsync,
