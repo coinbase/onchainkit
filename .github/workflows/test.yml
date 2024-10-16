@@ -19,11 +19,13 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-          cache: 'npm'
+          cache: 'yarn'
 
       - name: Kit Install dependencies
-        run: npm install && npm install --prefix ./framegear
+        run: |
+          yarn install
+          cd ./framegear && yarn install && cd ..
 
       - name: Kit Test
         # When fails, please check your tests
-        run: npm run test:coverage
+        run: yarn test:coverage
