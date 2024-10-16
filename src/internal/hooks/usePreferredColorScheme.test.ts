@@ -3,7 +3,6 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { usePreferredColorScheme } from './usePreferredColorScheme';
 
 describe('usePreferredColorScheme', () => {
-  let _matchMedia: ReturnType<typeof vi.spyOn>;
   let mockMediaQueryList: MediaQueryList;
 
   beforeEach(() => {
@@ -18,9 +17,11 @@ describe('usePreferredColorScheme', () => {
       dispatchEvent: vi.fn(),
     };
 
-    _matchMedia = vi
-      .spyOn(window, 'matchMedia')
-      .mockImplementation(() => mockMediaQueryList);
+    if (typeof window !== 'undefined') {
+      vi.spyOn(window, 'matchMedia').mockImplementation(
+        () => mockMediaQueryList,
+      );
+    }
   });
 
   afterEach(() => {
@@ -38,7 +39,7 @@ describe('usePreferredColorScheme', () => {
     expect(result.current).toBe('dark');
   });
 
-  it('should update from light to dark when system preference changes', () => {
+  it('should update color scheme when system preference changes', () => {
     const { result } = renderHook(() => usePreferredColorScheme());
     expect(result.current).toBe('light');
 
@@ -48,13 +49,6 @@ describe('usePreferredColorScheme', () => {
         matches: true,
       } as MediaQueryListEvent);
     });
-
-    expect(result.current).toBe('dark');
-  });
-
-  it('should update from dark to light when system preference changes', () => {
-    mockMediaQueryList.matches = true;
-    const { result } = renderHook(() => usePreferredColorScheme());
     expect(result.current).toBe('dark');
 
     act(() => {
@@ -63,20 +57,16 @@ describe('usePreferredColorScheme', () => {
         matches: false,
       } as MediaQueryListEvent);
     });
-
     expect(result.current).toBe('light');
   });
 
-  it('should add event listener on mount', () => {
-    renderHook(() => usePreferredColorScheme());
+  it('should add event listener on mount and remove on unmount', () => {
+    const { unmount } = renderHook(() => usePreferredColorScheme());
     expect(mockMediaQueryList.addEventListener).toHaveBeenCalledWith(
       'change',
       expect.any(Function),
     );
-  });
 
-  it('should remove event listener on unmount', () => {
-    const { unmount } = renderHook(() => usePreferredColorScheme());
     unmount();
     expect(mockMediaQueryList.removeEventListener).toHaveBeenCalledWith(
       'change',
