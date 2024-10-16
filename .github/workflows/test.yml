@@ -22,7 +22,9 @@ jobs:
           cache: 'yarn'
 
       - name: Kit Install dependencies
-        run: yarn install && yarn install --cwd ./framegear
+        run: |
+          yarn install
+          cd ./framegear && yarn install && cd ..
 
       - name: Kit Test
         # When fails, please check your tests
