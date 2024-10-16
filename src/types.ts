@@ -44,6 +44,7 @@ export type OnchainKitConfig = {
       mode?: Mode | null; // Optionally determines color scheme based on OS preference or user selection
       theme?: ComponentTheme | null; // Optionally sets the visual style for components
     };
+    paymaster?: string | null; // Paymaster URL for sponsorship
   };
   rpcUrl: string | null; // RPC URL for onchain requests. Defaults to using CDP Node if the API Key is set
   schemaId: EASSchemaUid | null; // SchemaId is optional as not all apps need to use EAS
@@ -70,6 +71,7 @@ export type OnchainKitProviderReact = {
       mode?: Mode | null;
       theme?: ComponentTheme | null;
     };
+    paymaster?: string;
   };
   rpcUrl?: string;
   schemaId?: EASSchemaUid;

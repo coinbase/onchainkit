@@ -1,6 +1,7 @@
 import { createContext, useMemo } from 'react';
 import { ONCHAIN_KIT_CONFIG, setOnchainKitConfig } from './OnchainKitConfig';
 import { checkHashLength } from './internal/utils/checkHashLength';
+import { getRPCUrl } from './network/getRPCUrl';
 import type { OnchainKitContextType, OnchainKitProviderReact } from './types';
 
 export const OnchainKitContext =
@@ -33,6 +34,7 @@ export function OnchainKitProvider({
           mode: config?.appearance?.mode ?? 'auto',
           theme: config?.appearance?.theme ?? 'default',
         },
+        paymaster: config?.paymaster ?? (apiKey ? getRPCUrl() : null),
       },
       projectId: projectId ?? null,
       rpcUrl: rpcUrl ?? null,

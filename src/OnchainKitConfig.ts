@@ -12,6 +12,7 @@ export const ONCHAIN_KIT_CONFIG: OnchainKitConfig = {
       mode: null,
       theme: null,
     },
+    paymaster: null,
   },
   rpcUrl: null,
   schemaId: null,
