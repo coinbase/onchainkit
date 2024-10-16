@@ -22,13 +22,13 @@ export function OnchainKitProvider({
   if (schemaId && !checkHashLength(schemaId, 64)) {
     throw Error('EAS schemaId must be 64 characters prefixed with "0x"');
   }
-  const defaultPaymasterUrl = apiKey
-    ? `https://api.developer.coinbase.com/rpc/v1/${chain.name
-        .replace(' ', '-')
-        .toLowerCase()}/${apiKey}`
-    : null;
 
   const value = useMemo(() => {
+    const defaultPaymasterUrl = apiKey
+      ? `https://api.developer.coinbase.com/rpc/v1/${chain.name
+          .replace(' ', '-')
+          .toLowerCase()}/${apiKey}`
+      : null;
     const onchainKitConfig = {
       address: address ?? null,
       apiKey: apiKey ?? null,
