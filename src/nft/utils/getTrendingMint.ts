@@ -6,6 +6,7 @@ export type TrendingMintCollectionParams = {
   address?: string;
   takerAddress?: string;
   quantity?: string;
+  tokenId?: string;
 };
 
 export async function getTrendingMint(
@@ -20,6 +21,7 @@ export async function getTrendingMint(
   const params: TrendingMintCollectionParams = {
     address,
     takerAddress,
+    tokenId: '2',  // TODO: pass in tokenId if it was passed in, don't default to 1 in provider
   };
 
   if (network) {

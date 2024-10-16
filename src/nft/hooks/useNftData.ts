@@ -6,13 +6,13 @@ import { useOnchainKit } from '../../useOnchainKit';
 
 export function useNftData(
   contractAddress: `0x${string}`,
-  tokenId: string,
+  tokenId?: string,
 ): NftData {
   const { chain } = useOnchainKit();
 
   const { data: tokenDetails } = useTokenDetails({
     contractAddress,
-    tokenId,
+    tokenId: tokenId ?? '1',
     chainId: chain.id,
   });
 
