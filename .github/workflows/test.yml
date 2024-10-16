@@ -28,4 +28,4 @@ jobs:
 
       - name: Kit Test
         # When fails, please check your tests
-        run: yarn test
+        run: yarn test:coverage
