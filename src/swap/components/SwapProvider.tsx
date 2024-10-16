@@ -232,7 +232,7 @@ export function SwapProvider({
         const maxSlippage = lifecycleStatus.statusData.maxSlippage;
         const response = await getSwapQuote({
           amount,
-          amountReference: 'from',
+          amountReference: type,
           from: source.token,
           maxSlippage: String(maxSlippage),
           to: destination.token,
