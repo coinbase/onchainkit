@@ -38,7 +38,7 @@ export function OnchainKitProvider({
           mode: config?.appearance?.mode ?? 'auto',
           theme: config?.appearance?.theme ?? 'default',
         },
-        paymaster: config?.paymaster ?? defaultPaymasterUrl,
+        paymaster: config?.paymaster || defaultPaymasterUrl,
       },
       projectId: projectId ?? null,
       rpcUrl: rpcUrl ?? null,

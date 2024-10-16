@@ -204,4 +204,45 @@ describe('OnchainKitProvider', () => {
       );
     });
   });
+
+  it('should use default values for paymaster when override in config is provided', async () => {
+    const customConfig = {
+      paymaster: 'https://example.com',
+    };
+
+    render(
+      <WagmiProvider config={mockConfig}>
+        <QueryClientProvider client={queryClient}>
+          <OnchainKitProvider
+            chain={base}
+            schemaId={schemaId}
+            apiKey={apiKey}
+            config={customConfig}
+          >
+            <TestComponent />
+          </OnchainKitProvider>
+        </QueryClientProvider>
+      </WagmiProvider>,
+    );
+
+    await waitFor(() => {
+      expect(setOnchainKitConfig).toHaveBeenCalledWith(
+        expect.objectContaining({
+          address: null,
+          apiKey: apiKey,
+          chain: base,
+          config: {
+            appearance: {
+              mode: 'auto',
+              theme: 'default',
+            },
+            paymaster: 'https://example.com',
+          },
+          projectId: null,
+          rpcUrl: null,
+          schemaId: schemaId,
+        }),
+      );
+    });
+  });
 });
