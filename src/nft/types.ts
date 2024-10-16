@@ -318,6 +318,7 @@ export type NftProviderReact = {
 export type MintPrice = {
   amount?: number;
   currency?: string;
+  amountUsd?: number;
 };
 
 /**
@@ -325,6 +326,7 @@ export type MintPrice = {
  */
 export type NftMintData = {
   price?: MintPrice;
+  mintFee?: MintPrice;
   creatorAddress?: `0x${string}`;
   maxMintsPerWallet?: string;
   isEligibleToMint?: boolean;

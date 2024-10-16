@@ -64,6 +64,11 @@ export function useNftMintData({
         amount: stage?.price?.amount?.decimal,
         currency: stage?.price?.currency?.symbol,
       },
+      mintFee: {
+        amount: trendingMint?.mintFee?.decimal,
+        currency: 'ETH', // ???
+        amountUsd: trendingMint?.mintFee?.usd,
+      },
       creatorAddress: trendingMint?.collection?.creatorAddress as `0x${string}`,
       maxMintsPerWallet: stage?.maxMintsPerWallet,
       isEligibleToMint:

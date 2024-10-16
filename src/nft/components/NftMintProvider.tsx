@@ -40,6 +40,7 @@ export function NftMintProvider({
     quantity,
     setQuantity: handleSetQuantity,
     price: mintData?.price,
+    mintFee: mintData?.mintFee,
     creatorAddress: mintData?.creatorAddress,
     maxMintsPerWallet: mintData?.maxMintsPerWallet,
     isEligibleToMint: mintData?.isEligibleToMint,

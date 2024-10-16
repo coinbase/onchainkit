@@ -39,7 +39,7 @@ export const getMintDate = async ({
         tokenId: BigInt(tokenId),
       },
     });
-    console.log('getMintDate logs', logs);
+
     if (logs.length === 0) {
       return null;
     }

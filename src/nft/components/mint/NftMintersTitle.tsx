@@ -7,6 +7,8 @@ type NftMintersTitleReact = {
   className?: string;
 };
 
+// TODO: rename this to <NftMinters />
+
 export function NftMintersTitle({ className }: NftMintersTitleReact) {
   const { schemaId } = useOnchainKit();
   const { totalOwners, recentOwners } = useNftMintContext();

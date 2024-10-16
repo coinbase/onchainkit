@@ -18,7 +18,8 @@ import {
   NftMintButton,
   NftMintersTitle,
   NftQuantitySelector,
-  NftTotalCost
+  NftCost,
+  NftTotalCost,
 } from '@/onchainkit/esm/nft/components/mint';
 import type { TransactionReceipt } from 'viem';
 
@@ -63,8 +64,9 @@ function NftDemo() {
         <NftTitle />
         <NftMintersTitle />
         <NftQuantitySelector />
-        <NftTotalCost />
+        <NftCost />
         <NftMintButton />
+        <NftTotalCost />
       </NftMint>
 
       <div style={{ height: '20px' }} />

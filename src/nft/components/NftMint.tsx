@@ -44,8 +44,9 @@ export function NftMint({
               componentTheme,
               color.foreground,
               background.default,
+              border.defaultActive,
               border.radius,
-              'flex w-[500px] flex-col px-6 pt-6 pb-4',
+              'flex w-[500px] flex-col border px-6 py-4',
               className,
             )}
             data-testid="ockNftMint_Container"
