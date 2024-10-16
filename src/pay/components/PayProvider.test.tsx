@@ -269,6 +269,14 @@ describe('PayProvider', () => {
     });
     expect(onStatus).toHaveBeenNthCalledWith(
       2,
+      expect.objectContaining({ statusName: 'fetchingData' }),
+    );
+    expect(onStatus).toHaveBeenNthCalledWith(
+      3,
+      expect.objectContaining({ statusName: 'ready' }),
+    );
+    expect(onStatus).toHaveBeenNthCalledWith(
+      4,
       expect.objectContaining({ statusName: 'success' }),
     );
   });
@@ -296,6 +304,17 @@ describe('PayProvider', () => {
   });
 
   it('should update status when writeContracts is pending', async () => {
+    (useAccount as Mock).mockReturnValue({
+      address: undefined,
+      chainId: undefined,
+      isConnected: false,
+    });
+    (useConnect as Mock).mockReturnValue({
+      connectAsync: vi
+        .fn()
+        .mockResolvedValue({ accounts: ['0x123'], chainId: 1 }),
+      connectors: [{ id: 'coinbaseWalletSDK' }],
+    });
     (useWriteContracts as Mock).mockReturnValue({
       status: 'pending',
       writeContractsAsync: vi.fn(),
@@ -374,7 +393,7 @@ describe('PayProvider', () => {
     });
     fireEvent.click(screen.getByText('Submit'));
     expect(windowOpenMock).toHaveBeenCalledWith(
-      'https://keys.coinbase.com/fund',
+      'https://keys.coinbase.com/fund?asset=USDC&chainId=8453',
       '_blank',
       'noopener,noreferrer',
     );

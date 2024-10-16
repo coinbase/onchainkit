@@ -18,11 +18,17 @@ export const useCommerceContracts = ({
         // Make the Pay request to the appropriate endpoint
         // `productId` to create and hydrate a charge for a product (serverless)
         // `chargeHandler` for a developer-provided callback used to return a charge ID (e.g. from the merchant backend)
-        const response = await handlePayRequest({
-          address,
-          chargeHandler,
-          productId,
-        });
+        const [response, usdcBalance] = await Promise.all([
+          handlePayRequest({
+            address,
+            chargeHandler,
+            productId,
+          }),
+          getUSDCBalance({
+            address,
+            config,
+          }),
+        ]);
 
         // Set the `chargeId`
         const { id: chargeId } = response;
@@ -33,10 +39,6 @@ export const useCommerceContracts = ({
         });
 
         // Calculate user's USDC balance
-        const usdcBalance = await getUSDCBalance({
-          address,
-          config,
-        });
         const priceInUSDC = formatUnits(
           BigInt(response.callData.feeAmount) +
             BigInt(response.callData.recipientAmount),
