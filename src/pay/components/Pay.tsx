@@ -7,6 +7,7 @@ export function Pay({
   chargeHandler,
   children,
   className,
+  isSponsored,
   onStatus,
   productId,
 }: PayReact) {
@@ -19,6 +20,7 @@ export function Pay({
   return (
     <PayProvider
       chargeHandler={chargeHandler}
+      isSponsored={isSponsored}
       onStatus={onStatus}
       productId={productId}
     >

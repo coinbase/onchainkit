@@ -12,6 +12,7 @@ import { useAccount, useConnect, useSwitchChain } from 'wagmi';
 import { useWaitForTransactionReceipt } from 'wagmi';
 import { useCallsStatus } from 'wagmi/experimental';
 import { useWriteContracts } from 'wagmi/experimental';
+import { useOnchainKit } from '../../useOnchainKit';
 import { useIsWalletACoinbaseSmartWallet } from '../../wallet/hooks/useIsWalletACoinbaseSmartWallet';
 import { GENERIC_ERROR_MESSAGE } from '../constants';
 import { useCommerceContracts } from '../hooks/useCommerceContracts';
@@ -35,6 +36,10 @@ vi.mock('../hooks/useCommerceContracts', () => ({
 
 vi.mock('../../wallet/hooks/useIsWalletACoinbaseSmartWallet', () => ({
   useIsWalletACoinbaseSmartWallet: vi.fn(),
+}));
+
+vi.mock('../../useOnchainKit', () => ({
+  useOnchainKit: vi.fn(),
 }));
 
 const windowOpenMock = vi.fn();
@@ -63,6 +68,9 @@ describe('PayProvider', () => {
   beforeEach(() => {
     vi.resetAllMocks();
     vi.spyOn(window, 'open').mockImplementation(windowOpenMock);
+    (useOnchainKit as Mock).mockReturnValue({
+      config: { paymaster: null },
+    });
     (useAccount as Mock).mockReturnValue({
       address: '0x123',
       chainId: 1,
@@ -467,6 +475,46 @@ describe('PayProvider', () => {
           id: 'test-contract',
         },
       ],
+      capabilities: {
+        paymaster: null,
+      },
+    });
+  });
+
+  it('should handle sponsored contract calls', async () => {
+    (useOnchainKit as Mock).mockReturnValue({
+      config: { paymaster: 'http://example.com' },
+    });
+    const mockWriteContractsAsync = vi.fn().mockResolvedValue({});
+    (useCommerceContracts as Mock).mockReturnValue(() => {
+      return Promise.resolve({
+        insufficientBalance: false,
+        contracts: [{ id: 'test-contract' }],
+        priceInUSDC: '10',
+      });
+    });
+    (useWriteContracts as Mock).mockReturnValue({
+      status: 'success',
+      writeContractsAsync: mockWriteContractsAsync,
+    });
+    render(
+      <PayProvider isSponsored={true}>
+        <TestComponent />
+      </PayProvider>,
+    );
+    fireEvent.click(screen.getByText('Submit'));
+    await waitFor(() => {
+      expect(mockWriteContractsAsync).toHaveBeenCalled();
+    });
+    expect(mockWriteContractsAsync).toHaveBeenCalledWith({
+      contracts: [
+        {
+          id: 'test-contract',
+        },
+      ],
+      capabilities: {
+        paymaster: 'http://example.com',
+      },
     });
   });
 });
