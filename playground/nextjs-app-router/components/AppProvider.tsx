@@ -34,9 +34,7 @@ export type Paymaster = {
 };
 
 export type PayOptions = {
-  name?: string;
-  description?: string;
-  price?: string;
+  chargeId?: string;
   productId?: string;
 };
 

@@ -8,7 +8,7 @@ function PayComponent() {
   const { payTypes, payOptions } = useContext(AppContext);
 
   const chargeIDKey = useMemo(() => {
-    return `${payOptions?.description}-${payOptions?.name}`;
+    return `${payOptions?.chargeId}`;
   }, [payOptions]);
 
   const productIDKey = useMemo(() => {
@@ -20,24 +20,10 @@ function PayComponent() {
   }, []);
 
   const createCharge = useCallback(async () => {
-    try {
-      const res = await fetch(
-        `${ENVIRONMENT_VARIABLES[ENVIRONMENT.API_URL]}/api/createCharge`,
-        {
-          method: 'POST',
-          body: JSON.stringify(payOptions),
-        },
-      );
-      const data = await res.json();
-
-      return data.id;
-    } catch (error) {
-      console.error('Error creating charge:', error);
-      throw error;
-    }
+    return Promise.resolve(payOptions?.chargeId || '');
   }, [payOptions]);
 
-  const chargeIDDisabled = !payOptions?.description || !payOptions?.name;
+  const chargeIDDisabled = !payOptions?.chargeId;
   const productIDDisabled = !payOptions?.productId;
 
   return (

@@ -10,16 +10,12 @@ export function PayOptions() {
     useContext(AppContext);
 
   const [productId, setProductId] = useState<string>(
-    payOptions?.productId || '',
+    payOptions?.productId || ''
   );
   const [productOptions, setProductOptions] = useState<{
-    name: string;
-    description: string;
-    price: string;
+    chargeId: string;
   }>({
-    name: '',
-    description: '',
-    price: '',
+    chargeId: '',
   });
 
   return (
@@ -58,30 +54,17 @@ export function PayOptions() {
 
         {payTypes === PayTypes.ChargeID && (
           <div>
-            <Label htmlFor="product-name">Name</Label>
+            <Label htmlFor="charge-id">Charge ID</Label>
             <Input
-              id="product-name"
-              value={productOptions.name}
-              placeholder="Enter Product Name"
+              id="charge-id"
+              value={productOptions.chargeId}
+              placeholder="Enter Charge ID"
               onChange={(e) => {
                 setProductOptions({
                   ...productOptions,
-                  name: e.target.value,
+                  chargeId: e.target.value,
                 });
-                setPayOptions?.({ ...payOptions, name: e.target.value });
-              }}
-            />
-            <Label htmlFor="product-description">Description</Label>
-            <Input
-              id="product-description"
-              value={productOptions.description}
-              placeholder="Enter Product Description"
-              onChange={(e) => {
-                setProductOptions({
-                  ...productOptions,
-                  description: e.target.value,
-                });
-                setPayOptions?.({ ...payOptions, description: e.target.value });
+                setPayOptions?.({ ...payOptions, chargeId: e.target.value });
               }}
             />
           </div>
