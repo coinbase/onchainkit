@@ -10,7 +10,7 @@ export function PayOptions() {
     useContext(AppContext);
 
   const [productId, setProductId] = useState<string>(
-    payOptions?.productId || ''
+    payOptions?.productId || '',
   );
   const [productOptions, setProductOptions] = useState<{
     chargeId: string;
