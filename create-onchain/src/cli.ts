@@ -165,6 +165,11 @@ async function init() {
         `Coinbase Developer Platform`
       )}`
     );
+    console.log(
+      `${pc.greenBright('\u2713')} ${pc.blueBright(
+        `Paymaster`
+      )}`
+    );
   }
 
   console.log(`\nFrameworks:`);
