@@ -2,6 +2,7 @@ import { Pay, PayButton, PayStatus } from '@coinbase/onchainkit/pay';
 import { useCallback, useMemo } from 'react';
 import { useContext } from 'react';
 import { AppContext, PayTypes } from '../AppProvider';
+import type { LifecycleStatus } from '@coinbase/onchainkit/pay';
 
 function PayComponent() {
   const { payTypes, payOptions } = useContext(AppContext);
@@ -14,7 +15,7 @@ function PayComponent() {
     return `${payOptions?.productId}`;
   }, [payOptions]);
 
-  const handleOnStatus = useCallback((status: any) => {
+  const handleOnStatus = useCallback((status: LifecycleStatus) => {
     console.log('Playground.Pay.onStatus:', status);
   }, []);
 
