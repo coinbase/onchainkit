@@ -2,8 +2,8 @@ export default function OnchainkitSvg({ className = '' }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="155"
-      height="26"
+      width="400"
+      height="80"
       viewBox="0 0 155 26"
       fill="none"
       className={className}

@@ -39,6 +39,10 @@ export function Providers(props: {
         <OnchainKitProvider
           apiKey={process.env.ONCHAINKIT_CDP_KEY}
           chain={base}
+          config={{ appearance: { 
+            mode: 'auto',
+            theme: 'base',
+           } }}
         >
           {props.children}
         </OnchainKitProvider>
