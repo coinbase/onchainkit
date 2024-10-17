@@ -10,13 +10,6 @@ function mock<T>(func: T) {
   return func as Mock;
 }
 
-const _silenceError = () => {
-  const consoleErrorMock = vi
-    .spyOn(console, 'error')
-    .mockImplementation(() => {});
-  return () => consoleErrorMock.mockRestore();
-};
-
 vi.mock('./IdentityProvider', () => ({
   useIdentityContext: vi.fn(),
 }));

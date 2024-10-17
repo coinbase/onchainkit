@@ -9,13 +9,6 @@ import { Badge } from './Badge';
 import { useIdentityContext } from './IdentityProvider';
 import { Name } from './Name';
 
-const _silenceError = () => {
-  const consoleErrorMock = vi
-    .spyOn(console, 'error')
-    .mockImplementation(() => {});
-  return () => consoleErrorMock.mockRestore();
-};
-
 vi.mock('../hooks/useAttestations', () => ({
   useAttestations: vi.fn(),
 }));
