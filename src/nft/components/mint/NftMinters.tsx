@@ -3,13 +3,11 @@ import { Avatar, Identity, Name } from '../../../identity';
 import { cn } from '../../../styles/theme';
 import { useNftMintContext } from '../NftMintProvider';
 
-type NftMintersTitleReact = {
+type NftMintersReact = {
   className?: string;
 };
 
-// TODO: rename this to <NftMinters />
-
-export function NftMintersTitle({ className }: NftMintersTitleReact) {
+export function NftMinters({ className }: NftMintersReact) {
   const { schemaId } = useOnchainKit();
   const { totalOwners, recentOwners } = useNftMintContext();
 
@@ -38,7 +36,7 @@ export function NftMintersTitle({ className }: NftMintersTitleReact) {
           address={recentOwners[0]}
           schemaId={schemaId}
         >
-          <Name />
+          <Name className="max-w-[180px] text-ellipsis overflow-hidden"/>
         </Identity>
         <div>and {totalOwners} others</div>
       </div>

@@ -16,7 +16,7 @@ import {
 import { 
   NftCreator,
   NftMintButton,
-  NftMintersTitle,
+  NftMinters,
   NftQuantitySelector,
   NftCost,
   NftTotalCost,
@@ -62,7 +62,7 @@ function NftDemo() {
         <NftCreator />
         <NftMedia />
         <NftTitle />
-        <NftMintersTitle />
+        <NftMinters />
         <NftQuantitySelector />
         <NftCost />
         <NftMintButton />
