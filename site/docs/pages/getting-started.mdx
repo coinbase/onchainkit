@@ -1,19 +1,31 @@
 # Getting Started
 
-OnchainKit is your go-to solution for building beautiful onchain applications, regardless of your development experience.
+OnchainKit is your go-to solution for building beautiful onchain applications. 
 
-## Quickstart
+In contrast with traditional front-end libraries, the front-end framework we create together comes with a powerful backend out of the box — Base chain, built on Ethereum and the Superchain. 
+
+
+## Automatic Installation
 <img alt="OnchainKit Template"
-  src="https://onchainkit.xyz/assets/onchainkit-template.png"
+  src="https://onchainkit.xyz/assets/quickstart.png"
   height="364"/>
 
-The fastest way to get started is to fork the [Onchain App Template](https://github.com/coinbase/onchain-app-template).
+We recommend starting a new OnchainKit app using `create onchain`, which sets up everything automatically for you. To create a project, run:
 
-Set your environment variables in an `.env` file and start building.
+```bash
+npm create onchain
+```
+After the prompts, `create onchain` will create a folder with your project name and install the required dependencies.
 
-You can also checkout other templates such as [funding flow](https://github.com/fakepixels/fund-component) or [social profile](https://github.com/fakepixels/ock-identity).
+You can also checkout our pre-built templates:
+- [Onchain Commerce](https://onchain-commerce-template.vercel.app/)
+- [NFT minting](https://github.com/coinbase/onchain-app-template)
+- [Funding flow](https://github.com/fakepixels/fund-component)
+- [Social profile](https://github.com/fakepixels/ock-identity)
 
-## Walkthrough
+## Manual Installation
+Add OnchainKit to your existing project manually.
+
 ::::steps
 
 ## Install OnchainKit
@@ -24,24 +36,15 @@ Install OnchainKit in your project.
 npm i @coinbase/onchainkit@latest
 ```
 
-If you're starting from scratch, we recommend using [create-wagmi](https://wagmi.sh/cli/create-wagmi) to scaffold your project.
-
-```bash
-npm create wagmi@latest
-cd your-project-name
-npm i @coinbase/onchainkit@latest
-```
-
-
 ## Get Your Public API Key
 
-1. Get your Public API Key from the [Coinbase Developer Platform APIs](https://portal.cdp.coinbase.com/products/onchainkit).
+Get your Public API Key from the [Coinbase Developer Platform APIs](https://portal.cdp.coinbase.com/products/onchainkit).
 
 <img alt="OnchainKit copy Public API Key"
   src="https://onchainkit.xyz/assets/copy-api-key-guide.png"
   height="364"/>
 
-2. Create a `.env` file in your project's root directory.
+Create a `.env` file in your project's root directory.
    <img
      alt="OnchainKit define Public API Key"
      src="https://onchainkit.xyz/assets/getting-started-create-env-file.png"
@@ -49,7 +52,7 @@ npm i @coinbase/onchainkit@latest
      loading="lazy"
    />
 
-3. Add your Public API Key to the `.env` file:
+Add your Public API Key to the `.env` file:
 
 ```tsx [.env]
 NEXT_PUBLIC_ONCHAINKIT_API_KEY=YOUR_PUBLIC_API_KEY
