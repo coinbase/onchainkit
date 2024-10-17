@@ -37,14 +37,14 @@ const templates = [
 
 export default function App() {
   return (
-    <div className="flex flex-col min-h-screen bg-background">
+    <div className="flex flex-col min-h-screen bg-background font-sans">
       <header className="pt-4 pr-4">
         <div className="flex justify-end">
           <div className="wallet-container">
             <Wallet>
-              <ConnectWallet className="bg-blue-800 hover:bg-blue-700">
-                <ConnectWalletText className="text-white">
-                  Connect
+              <ConnectWallet>
+                <ConnectWalletText>
+                  Sign up / log in
                 </ConnectWalletText>
                 <Avatar className="h-6 w-6" />
                 <Name className="text-white" />
@@ -73,11 +73,11 @@ export default function App() {
 
       <main className="flex-grow flex items-center justify-center">
         <div className="max-w-4xl w-full p-4">
-          <div className="w-1/2 mx-auto mb-6">
+          <div className="w-1/3 mx-auto mb-6">
             <ImageSvg />
           </div>
           <div className="flex justify-center mb-6">
-            <OnchainkitSvg className="text-blue-600" />
+           <a target="_blank" rel="_template" href="https://onchainkit.xyz"> <OnchainkitSvg className="text-white" /></a>
           </div>
           <p className="text-center mb-6">
             Get started by editing
@@ -88,7 +88,7 @@ export default function App() {
               <div className="flex flex-col md:flex-row justify-between mt-4">
                 <div className="md:w-1/2 mb-4 md:mb-0 flex flex-col items-center">
                   <p className="font-semibold mb-2 text-center">
-                    Explore components:
+                    Explore components
                   </p>
                   <ul className="list-disc pl-5 space-y-2 inline-block text-left">
                     {components.map((component, index) => (
@@ -108,7 +108,7 @@ export default function App() {
                 </div>
                 <div className="md:w-1/2 flex flex-col items-center">
                   <p className="font-semibold mb-2 text-center">
-                    Explore templates:
+                    Explore templates
                   </p>
                   <ul className="list-disc pl-5 space-y-2 inline-block text-left">
                     {templates.map((template, index) => (
