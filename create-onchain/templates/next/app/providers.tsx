@@ -37,7 +37,7 @@ export function Providers(props: {
     <WagmiProvider config={config} initialState={props.initialState}>
       <QueryClientProvider client={queryClient}>
         <OnchainKitProvider
-          apiKey={process.env.ONCHAINKIT_CDP_KEY}
+          apiKey={process.env.NEXT_PUBLIC_ONCHAINKIT_CDP_KEY}
           chain={base}
         >
           {props.children}
