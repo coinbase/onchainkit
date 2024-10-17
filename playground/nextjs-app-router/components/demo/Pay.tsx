@@ -1,8 +1,8 @@
 import { Pay, PayButton, PayStatus } from '@coinbase/onchainkit/pay';
+import type { LifecycleStatus } from '@coinbase/onchainkit/pay';
 import { useCallback, useMemo } from 'react';
 import { useContext } from 'react';
 import { AppContext, PayTypes } from '../AppProvider';
-import type { LifecycleStatus } from '@coinbase/onchainkit/pay';
 
 function PayComponent() {
   const { payTypes, payOptions } = useContext(AppContext);
