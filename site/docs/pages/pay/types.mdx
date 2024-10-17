@@ -19,6 +19,17 @@ type LifecycleStatus =
       statusData: TransactionError;
     }
   | {
+      statusName: 'fetchingData';
+      statusData: LifecycleStatusDataShared;
+    }
+  | {
+      statusName: 'ready';
+      statusData: {
+        chargeId: string;
+        contracts: ContractFunctionParameters[];
+      };
+    }
+  | {
       statusName: 'paymentPending';
       statusData: LifecycleStatusDataShared;
     }
@@ -51,6 +62,7 @@ type PayReact = {
   chargeHandler?: () => Promise<string>;
   children: React.ReactNode;
   className?: string;
+  isSponsored?: boolean;
   onStatus?: (status: LifecycleStatus) => void;
   productId?: string;
 };
