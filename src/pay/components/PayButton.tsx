@@ -48,11 +48,10 @@ export function PayButton({
     <button
       className={cn(
         coinbaseBranded ? pressable.coinbaseBranding : pressable.primary,
-        'w-full rounded-xl',
-        'mt-4 px-4 py-3 font-medium text-base text-white leading-6',
         border.radius,
         isDisabled && pressable.disabled,
         styleText.headline,
+        'mt-4 w-full px-4 py-3',
         className,
       )}
       onClick={onSubmit}
@@ -72,7 +71,7 @@ export function PayButton({
             <span
               className={cn(
                 styleText.headline,
-                coinbaseBranded ? 'text-white' : color.inverse,
+                coinbaseBranded ? 'text-gray-50' : color.inverse,
               )}
             >
               {buttonText}

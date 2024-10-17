@@ -26,8 +26,8 @@ vi.mock('../../useIsMounted', () => ({
   useIsMounted: vi.fn(),
 }));
 
-vi.mock('../../styles/theme', () => ({
-  cn: (...args: string[]) => args.filter(Boolean).join(' '),
+vi.mock('../../useTheme', () => ({
+  useTheme: vi.fn(),
 }));
 
 const useIsMountedMock = mock(useIsMounted);
