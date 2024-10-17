@@ -212,6 +212,8 @@ export function TransactionProvider({
     onError,
     onStatus,
     onSuccess,
+    onResetState,
+    resetOnComplete,
     lifecycleStatus,
     lifecycleStatus.statusData, // Keep statusData, so that the effect runs when it changes
     lifecycleStatus.statusName, // Keep statusName, so that the effect runs when it changes
