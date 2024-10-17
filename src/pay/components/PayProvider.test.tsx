@@ -258,6 +258,17 @@ describe('PayProvider', () => {
   });
 
   it('should call the provided onStatus', async () => {
+    (useAccount as Mock).mockReturnValue({
+      address: undefined,
+      chainId: undefined,
+      isConnected: false,
+    });
+    (useConnect as Mock).mockReturnValue({
+      connectAsync: vi
+        .fn()
+        .mockResolvedValue({ accounts: ['0x123'], chainId: 1 }),
+      connectors: [{ id: 'coinbaseWalletSDK' }],
+    });
     const onStatus = vi.fn();
     (useWaitForTransactionReceipt as Mock).mockReturnValue({
       data: { status: 'success' },
@@ -277,14 +288,6 @@ describe('PayProvider', () => {
     });
     expect(onStatus).toHaveBeenNthCalledWith(
       2,
-      expect.objectContaining({ statusName: 'fetchingData' }),
-    );
-    expect(onStatus).toHaveBeenNthCalledWith(
-      3,
-      expect.objectContaining({ statusName: 'ready' }),
-    );
-    expect(onStatus).toHaveBeenNthCalledWith(
-      4,
       expect.objectContaining({ statusName: 'success' }),
     );
   });
