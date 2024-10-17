@@ -1,4 +1,3 @@
-import { ENVIRONMENT, ENVIRONMENT_VARIABLES } from '@/lib/constants';
 import { Pay, PayButton, PayStatus } from '@coinbase/onchainkit/pay';
 import { useCallback, useMemo } from 'react';
 import { useContext } from 'react';
