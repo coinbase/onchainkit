@@ -6,7 +6,7 @@ export function ConnectWalletText({
   className,
 }: ConnectWalletTextReact) {
   return (
-    <span className={cn(dsText.body, color.inverse, className)}>
+    <span className={cn(dsText.headline, color.inverse, className)}>
       {children}
     </span>
   );
