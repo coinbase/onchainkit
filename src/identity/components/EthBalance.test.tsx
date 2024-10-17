@@ -10,13 +10,6 @@ function mock<T>(func: T) {
   return func as Mock;
 }
 
-const silenceError = () => {
-  const consoleErrorMock = vi
-    .spyOn(console, 'error')
-    .mockImplementation(() => {});
-  return () => consoleErrorMock.mockRestore();
-};
-
 vi.mock('./IdentityProvider', () => ({
   useIdentityContext: vi.fn(),
 }));
@@ -35,16 +28,18 @@ const useGetEthBalanceMock = mock(useGetETHBalance);
 describe('EthBalance', () => {
   const testIdentityProviderAddress = '0xIdentityAddress';
   const testEthBalanceComponentAddress = '0xEthBalanceComponentAddress';
-  it('should throw an error if no address is provided', () => {
-    useIdentityContextMock.mockReturnValue({ address: null });
-
-    const restore = silenceError();
-    expect(() =>
-      render(<EthBalance address={undefined} className="" />),
-    ).toThrow(
+  it('should console.error and return null when no address is provided', () => {
+    vi.mocked(useIdentityContext).mockReturnValue({
+      address: undefined,
+    });
+    const consoleErrorSpy = vi
+      .spyOn(console, 'error')
+      .mockImplementation(() => {});
+    const { container } = render(<EthBalance />);
+    expect(consoleErrorSpy).toHaveBeenCalledWith(
       'Address: an Ethereum address must be provided to the Identity or EthBalance component.',
     );
-    restore();
+    expect(container.firstChild).toBeNull();
   });
 
   it('should display the balance if provided', () => {

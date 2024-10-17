@@ -9,13 +9,6 @@ import { Badge } from './Badge';
 import { useIdentityContext } from './IdentityProvider';
 import { Name } from './Name';
 
-const silenceError = () => {
-  const consoleErrorMock = vi
-    .spyOn(console, 'error')
-    .mockImplementation(() => {});
-  return () => consoleErrorMock.mockRestore();
-};
-
 vi.mock('../hooks/useAttestations', () => ({
   useAttestations: vi.fn(),
 }));
@@ -44,17 +37,19 @@ describe('Name', () => {
     vi.spyOn(console, 'error').mockImplementation(vi.fn());
   });
 
-  it('should throw an error when no address is provided', () => {
-    (useIdentityContext as Mock).mockReturnValue({
-      schemaId: '0x123',
+  it('should console.error and return null when no address is provided', () => {
+    vi.mocked(useIdentityContext).mockReturnValue({
+      address: undefined,
+      chain: undefined,
     });
-    const restore = silenceError();
-    expect(() => {
-      render(<Name />);
-    }).toThrow(
+    const consoleErrorSpy = vi
+      .spyOn(console, 'error')
+      .mockImplementation(() => {});
+    const { container } = render(<Name />);
+    expect(consoleErrorSpy).toHaveBeenCalledWith(
       'Name: an Ethereum address must be provided to the Identity or Name component.',
     );
-    restore();
+    expect(container.firstChild).toBeNull();
   });
 
   it('displays ENS name when available', () => {
