@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.34.2
+
+### Patch Changes
+
+- 64bd519: -**fix**: Updated `ConnectWalletText` component styling to match the `ConnectWallet` text prop formatting. By @cpcramer #1445
+
 ## 0.34.1
 
 ### Patch Changes
