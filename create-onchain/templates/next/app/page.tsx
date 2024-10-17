@@ -43,9 +43,6 @@ export default function App() {
           <div className="wallet-container">
             <Wallet>
               <ConnectWallet>
-                <ConnectWalletText>
-                  Sign up / log in
-                </ConnectWalletText>
                 <Avatar className="h-6 w-6" />
                 <Name className="text-white" />
               </ConnectWallet>
