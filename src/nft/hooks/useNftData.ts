@@ -18,20 +18,10 @@ export function useNftData(
 
   const { data: mintDate } = useMintDate({ contractAddress, tokenId, chain });
 
-  // Any way to get LastSalePrice from onchain data without having to support each different exchange?
-  // that would allow all view data to come from onchain data
-  // move to onchain hook
-  // const { data: metadata } = useMetadata({ contractAddress, tokenId });
-  // console.log('metadata', metadata);
-
   return useMemo(
     () => ({
       contractAddress,
       tokenId,
-      // name: metadata?.name,
-      // description: metadata?.description,
-      // image: metadata?.image,
-      // ownerAddress: owner as `0x${string}`,
       name: tokenDetails?.name,
       description: tokenDetails?.description,
       imageUrl:
