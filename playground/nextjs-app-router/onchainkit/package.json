@@ -1,19 +1,103 @@
 {
   "name": "@coinbase/onchainkit",
-  "version": "0.26.13",
+  "version": "0.34.0",
   "type": "module",
   "repository": "https://github.com/coinbase/onchainkit.git",
   "license": "MIT",
+  "scripts": {
+    "build": "packemon build --addEngines --addFiles --declaration && npx packemon validate --no-license --no-people --no-repo && tailwindcss -i ./src/styles/index.css -o ./src/tailwind.css --minify && tailwindcss -i ./src/styles/index-with-tailwind.css -o ./src/styles.css --minify",
+    "check": "biome check --write .",
+    "check:unsafe": "biome check . --fix --unsafe",
+    "ci:check": "biome ci --formatter-enabled=false --linter-enabled=false",
+    "ci:format": "biome ci --linter-enabled=false --organize-imports-enabled=false",
+    "ci:lint": "biome ci --formatter-enabled=false --organize-imports-enabled=false",
+    "cp": "cp -R src site/docs/pages",
+    "format": "biome format --write .",
+    "lint": "biome lint --write .",
+    "lint:unsafe": "biome lint --write --unsafe .",
+    "storybook:dev": "storybook dev -p 6006",
+    "storybook:build": "storybook build",
+    "storybook:test": "test-storybook",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "test:watch": "vitest",
+    "test:ui": "vitest --ui",
+    "release:check": "changeset status --verbose --since=origin/main",
+    "release:publish": "yarn install && yarn build && changeset publish",
+    "release:version": "changeset version && yarn install --immutable",
+    "watch": "tailwind -i ./src/styles/index-with-tailwind.css -o ./src/styles.css --watch",
+    "watch:tailwind": "tailwind -i ./src/styles/index.css -o ./src/tailwind.css --watch"
+  },
   "peerDependencies": {
     "@xmtp/frames-validator": "^0.6.0",
     "react": "^18",
     "react-dom": "^18"
   },
+  "dependencies": {
+    "@rainbow-me/rainbowkit": "^2.1.3",
+    "@tanstack/react-query": "^5",
+    "clsx": "^2.1.1",
+    "graphql": "^14 || ^15 || ^16",
+    "graphql-request": "^6.1.0",
+    "permissionless": "^0.1.29",
+    "tailwind-merge": "^2.3.0",
+    "viem": "^2.17.4",
+    "wagmi": "^2.11.0"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "1.8.3",
+    "@changesets/changelog-github": "^0.4.8",
+    "@changesets/cli": "^2.26.2",
+    "@chromatic-com/storybook": "^1.7.0",
+    "@storybook/addon-a11y": "^8.2.9",
+    "@storybook/addon-essentials": "^8.2.9",
+    "@storybook/addon-interactions": "^8.2.9",
+    "@storybook/addon-links": "^8.2.9",
+    "@storybook/blocks": "^8.2.9",
+    "@storybook/react": "^8.2.9",
+    "@storybook/react-vite": "^8.2.9",
+    "@storybook/test": "^8.2.9",
+    "@storybook/test-runner": "^0.19.1",
+    "@testing-library/jest-dom": "^6.4.6",
+    "@testing-library/react": "^14.2.0",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "@vitest/coverage-v8": "^2.0.5",
+    "@vitest/ui": "^2.0.5",
+    "@xmtp/frames-validator": "^0.6.0",
+    "autoprefixer": "^10.4.19",
+    "graphql": "^14",
+    "graphql-request": "^6.1.0",
+    "jsdom": "^24.1.0",
+    "packemon": "3.3.1",
+    "permissionless": "^0.1.29",
+    "react": "^18",
+    "react-dom": "^18",
+    "rimraf": "^5.0.5",
+    "storybook": "^8.2.9",
+    "tailwindcss": "^3.4.3",
+    "typescript": "~5.3.3",
+    "vite": "^5.3.3",
+    "vitest": "^2.0.5"
+  },
   "resolutions": {
     "react": "npm:react@^18"
   },
+  "packemon": [
+    {
+      "bundle": false,
+      "platform": [
+        "browser"
+      ]
+    }
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
   "files": [
-    "esm/**/*"
+    "esm/**/*",
+    "src/",
+    "src/**/*"
   ],
   "main": "./esm/index.js",
   "types": "./esm/index.d.ts",
@@ -28,6 +112,12 @@
       "module": "./esm/index.js",
       "import": "./esm/index.js",
       "default": "./esm/index.js"
+    },
+    "./api": {
+      "types": "./esm/api/index.d.ts",
+      "module": "./esm/api/index.js",
+      "import": "./esm/api/index.js",
+      "default": "./esm/api/index.js"
     },
     "./core": {
       "types": "./esm/core/index.d.ts",
@@ -59,6 +149,12 @@
       "import": "./esm/identity/index.js",
       "default": "./esm/identity/index.js"
     },
+    "./pay": {
+      "types": "./esm/pay/index.d.ts",
+      "module": "./esm/pay/index.js",
+      "import": "./esm/pay/index.js",
+      "default": "./esm/pay/index.js"
+    },
     "./swap": {
       "types": "./esm/swap/index.d.ts",
       "module": "./esm/swap/index.js",
@@ -89,5 +185,6 @@
       "import": "./esm/wallet/index.js",
       "default": "./esm/wallet/index.js"
     }
-  }
+  },
+  "packageManager": "yarn@4.0.2"
 }
