@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -10,12 +11,12 @@ import {
   isValidPackageName,
   toValidPackageName,
   optimizedCopy,
-} from './utils';
+} from './utils.js';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-const sourceDir = path.join(__dirname, '..', 'templates', 'next');
+const sourceDir = path.resolve(
+  fileURLToPath(import.meta.url),
+  '../../../templates/next'
+);
 
 const renameFiles: Record<string, string | undefined> = {
   _gitignore: '.gitignore',
