@@ -7,9 +7,10 @@ import { useIdentityContext } from './IdentityProvider';
 export function EthBalance({ address, className }: EthBalanceReact) {
   const { address: contextAddress } = useIdentityContext();
   if (!contextAddress && !address) {
-    throw new Error(
+    console.error(
       'Address: an Ethereum address must be provided to the Identity or EthBalance component.',
     );
+    return null;
   }
 
   const { convertedBalance: balance, error } = useGetETHBalance(

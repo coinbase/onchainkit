@@ -14,7 +14,7 @@ function mock<T>(func: T) {
   return func as Mock;
 }
 
-const silenceError = () => {
+const _silenceError = () => {
   const consoleErrorMock = vi
     .spyOn(console, 'error')
     .mockImplementation(() => {});
@@ -54,15 +54,19 @@ describe('Avatar Component', () => {
     vi.clearAllMocks();
   });
 
-  it('should throw an error when no address is provided', () => {
-    useIdentityContextMock.mockReturnValue({ address: null });
-    const restore = silenceError();
-    expect(() => {
-      render(<Avatar />);
-    }).toThrow(
+  it('should console.error and return null when no address is provided', () => {
+    vi.mocked(useIdentityContext).mockReturnValue({
+      address: undefined,
+      chain: undefined,
+    });
+    const consoleErrorSpy = vi
+      .spyOn(console, 'error')
+      .mockImplementation(() => {});
+    const { container } = render(<Avatar />);
+    expect(consoleErrorSpy).toHaveBeenCalledWith(
       'Avatar: an Ethereum address must be provided to the Identity or Avatar component.',
     );
-    restore();
+    expect(container.firstChild).toBeNull();
   });
 
   it('should display loading indicator when loading', async () => {

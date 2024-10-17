@@ -9,7 +9,7 @@ function mock<T>(func: T) {
   return func as Mock;
 }
 
-const silenceError = () => {
+const _silenceError = () => {
   const consoleErrorMock = vi
     .spyOn(console, 'error')
     .mockImplementation(() => {});
@@ -38,15 +38,16 @@ describe('Address component', () => {
     vi.clearAllMocks();
   });
 
-  it('should throw an error when no address is provided', () => {
-    const restore = silenceError();
-    useIdentityContextMock.mockReturnValue({});
-    expect(() => {
-      render(<Address />);
-    }).toThrow(
+  it('should console.error and return null when no address is provided', () => {
+    vi.mocked(useIdentityContext).mockReturnValue({});
+    const consoleErrorSpy = vi
+      .spyOn(console, 'error')
+      .mockImplementation(() => {});
+    const { container } = render(<Address />);
+    expect(consoleErrorSpy).toHaveBeenCalledWith(
       'Address: an Ethereum address must be provided to the Identity or Address component.',
     );
-    restore();
+    expect(container.firstChild).toBeNull();
   });
 
   it('renders the sliced address when address supplied to Identity', () => {

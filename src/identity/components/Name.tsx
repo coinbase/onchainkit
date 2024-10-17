@@ -20,7 +20,9 @@ export function Name({
 }: NameReact) {
   const { address: contextAddress, chain: contextChain } = useIdentityContext();
   if (!contextAddress && !address) {
-    console.error('Name: an Ethereum address must be provided to the Identity or Name component.');
+    console.error(
+      'Name: an Ethereum address must be provided to the Identity or Name component.',
+    );
     return null;
   }
 

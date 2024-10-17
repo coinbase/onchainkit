@@ -10,9 +10,10 @@ export function Address({
 }: AddressReact) {
   const { address: contextAddress } = useIdentityContext();
   if (!contextAddress && !address) {
-    throw new Error(
+    console.error(
       'Address: an Ethereum address must be provided to the Identity or Address component.',
     );
+    return null;
   }
 
   const accountAddress = address ?? contextAddress;

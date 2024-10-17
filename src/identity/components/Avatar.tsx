@@ -30,9 +30,10 @@ export function Avatar({
   const accountChain = chain ?? contextChain;
 
   if (!accountAddress) {
-    throw new Error(
+    console.error(
       'Avatar: an Ethereum address must be provided to the Identity or Avatar component.',
     );
+    return null;
   }
 
   // The component first attempts to retrieve the ENS name and avatar for the given Ethereum address.
