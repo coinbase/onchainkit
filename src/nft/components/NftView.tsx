@@ -43,7 +43,7 @@ export function NftView({
             background.default,
             border.defaultActive,
             border.radius,
-            'flex w-[500px] flex-col border px-6 pt-6 pb-4',
+            'flex max-w-[500px] w-full flex-col border px-6 pt-6 pb-4',
             className,
           )}
           data-testid="ockNftView_Container"

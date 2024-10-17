@@ -91,7 +91,7 @@ export function NftImage({
         alt={description}
         loading="lazy"
         decoding="async"
-        className={`h-[460px] max-w-fit transition-opacity duration-1000 ease-in-out ${loaded ? 'opacity-100' : 'opacity-0'}`}
+        className={`transition-opacity duration-1000 ease-in-out ${loaded ? 'opacity-100' : 'opacity-0'}`}
         onTransitionEnd={handleTransitionEnd}
       />
     </div>
