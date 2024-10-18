@@ -72,7 +72,13 @@ export function OnchainKitProvider({
   // If WagmiProvider is not found, return the context with defaulted parent providers
   if (!providedConfig) {
     return (
-      <WagmiProvider config={getDefaultConfig({ apiKey, config })}>
+      <WagmiProvider
+        config={getDefaultConfig({
+          apiKey,
+          appName: value.config.appearance.name,
+          appLogoUrl: value.config.appearance.logo,
+        })}
+      >
         <QueryClientProvider client={new QueryClient()}>
           <OnchainKitContext.Provider value={value}>
             {children}
