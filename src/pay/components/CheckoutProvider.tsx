@@ -24,10 +24,10 @@ import {
   USER_REJECTED_ERROR,
 } from '../constants';
 import {
+  CHECKOUT_INSUFFICIENT_BALANCE_ERROR,
+  CHECKOUT_INSUFFICIENT_BALANCE_ERROR_MESSAGE,
   CHECKOUT_LIFECYCLESTATUS,
   CheckoutErrorCode,
-  PAY_INSUFFICIENT_BALANCE_ERROR,
-  PAY_INSUFFICIENT_BALANCE_ERROR_MESSAGE,
 } from '../constants';
 import { useCommerceContracts } from '../hooks/useCommerceContracts';
 import { useLifecycleStatus } from '../hooks/useLifecycleStatus';
@@ -274,14 +274,14 @@ export function CheckoutProvider({
       // Check for sufficient balance
       if (insufficientBalanceRef.current && priceInUSDCRef.current) {
         setErrorMessage(
-          PAY_INSUFFICIENT_BALANCE_ERROR_MESSAGE(priceInUSDCRef.current),
+          CHECKOUT_INSUFFICIENT_BALANCE_ERROR_MESSAGE(priceInUSDCRef.current),
         );
         updateLifecycleStatus({
           statusName: CHECKOUT_LIFECYCLESTATUS.ERROR,
           statusData: {
             code: CheckoutErrorCode.INSUFFICIENT_BALANCE,
-            error: PAY_INSUFFICIENT_BALANCE_ERROR,
-            message: PAY_INSUFFICIENT_BALANCE_ERROR_MESSAGE(
+            error: CHECKOUT_INSUFFICIENT_BALANCE_ERROR,
+            message: CHECKOUT_INSUFFICIENT_BALANCE_ERROR_MESSAGE(
               priceInUSDCRef.current,
             ),
           },

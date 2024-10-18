@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import {
-  GENERAL_PAY_ERROR_MESSAGE,
+  GENERAL_CHECKOUT_ERROR_MESSAGE,
   PAY_INVALID_CHARGE_ERROR_MESSAGE,
   PAY_INVALID_PARAMETER_ERROR_MESSAGE,
   PAY_TOO_MANY_REQUESTS_ERROR_MESSAGE,
@@ -24,9 +24,9 @@ describe('getPayErrorMessage', () => {
     expect(result).toBe(PAY_INVALID_PARAMETER_ERROR_MESSAGE);
   });
 
-  it('should return GENERAL_PAY_ERROR_MESSAGE for misc errorCode', () => {
+  it('should return GENERAL_CHECKOUT_ERROR_MESSAGE for misc errorCode', () => {
     const result = getPayErrorMessage(-32603);
-    expect(result).toBe(GENERAL_PAY_ERROR_MESSAGE);
+    expect(result).toBe(GENERAL_CHECKOUT_ERROR_MESSAGE);
   });
 
   it('should return UNCAUGHT_PAY_ERROR_MESSAGE for no errorCode', () => {

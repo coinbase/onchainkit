@@ -1,13 +1,16 @@
-export const GENERAL_PAY_ERROR_MESSAGE = 'PAY_ERROR';
+export const GENERAL_CHECKOUT_ERROR_MESSAGE = 'CHECKOUT_ERROR';
 export const GENERIC_ERROR_MESSAGE = 'Something went wrong. Please try again.';
 export const NO_CONTRACTS_ERROR = 'Contracts are not available';
 export const NO_CONNECTED_ADDRESS_ERROR = 'No connected address';
-export const PAY_UNSUPPORTED_CHAIN_ERROR_MESSAGE = 'UNSUPPORTED_CHAIN';
-export const PAY_TOO_MANY_REQUESTS_ERROR_MESSAGE =
-  'PAY_TOO_MANY_REQUESTS_ERROR';
+export const CHECKOUT_UNSUPPORTED_CHAIN_ERROR_MESSAGE = 'UNSUPPORTED_CHAIN';
+export const CHECKOUT_TOO_MANY_REQUESTS_ERROR_MESSAGE =
+  'CHECKOUT_TOO_MANY_REQUESTS_ERROR';
 
-export const PAY_INSUFFICIENT_BALANCE_ERROR = 'User has insufficient balance';
-export const PAY_INSUFFICIENT_BALANCE_ERROR_MESSAGE = (priceInUSD: string) => {
+export const CHECKOUT_INSUFFICIENT_BALANCE_ERROR =
+  'User has insufficient balance';
+export const CHECKOUT_INSUFFICIENT_BALANCE_ERROR_MESSAGE = (
+  priceInUSD: string,
+) => {
   return `You need at least ${priceInUSD} USDC to continue with payment`;
 };
 export const PAY_INVALID_CHARGE_ERROR_MESSAGE = 'PAY_INVALID_CHARGE_ERROR';
