@@ -7,12 +7,12 @@ import type { EASSchemaUid } from './identity/types';
  */
 export type AppConfig = {
   appearance?: {
-    name?: string | null;
-    logo?: string | null;
-    mode?: Mode | null;
-    theme?: ComponentTheme | null;
+    name?: string | null; // The name of your application
+    logo?: string | null; // The URL of your application logo
+    mode?: Mode | null; // Optionally determines color scheme based on OS preference or user selection
+    theme?: ComponentTheme | null; // Optionally sets the visual style for components
   };
-  paymaster?: string | null;
+  paymaster?: string | null; // Paymaster URL for gas sponsorship
 };
 
 /**
