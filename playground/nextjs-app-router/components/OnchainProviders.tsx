@@ -26,22 +26,24 @@ export const config = createConfig({
 
 function OnchainProviders({ children }: { children: ReactNode }) {
   return (
-    <OnchainKitProvider
-      apiKey={ENVIRONMENT_VARIABLES[ENVIRONMENT.API_KEY]}
-      chain={base}
-      config={{
-        appearance: {
-          name: 'OnchainKit Playground',
-          logo: 'https://onchainkit.xyz/favicon/48x48.png?v4-19-24',
-          mode: 'auto',
-          theme: 'default',
-        },
-      }}
-      projectId={ENVIRONMENT_VARIABLES[ENVIRONMENT.PROJECT_ID]}
-      schemaId="0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9"
-    >
-      {children}
-    </OnchainKitProvider>
+    <WagmiProvider config={config} reconnectOnMount={false}>
+      <QueryClientProvider client={queryClient}>
+        <OnchainKitProvider
+          apiKey={ENVIRONMENT_VARIABLES[ENVIRONMENT.API_KEY]}
+          chain={base}
+          config={{
+            appearance: {
+              mode: 'auto',
+              theme: 'default',
+            },
+          }}
+          projectId={ENVIRONMENT_VARIABLES[ENVIRONMENT.PROJECT_ID]}
+          schemaId="0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9"
+        >
+          {children}
+        </OnchainKitProvider>
+      </QueryClientProvider>
+    </WagmiProvider>
   );
 }
 
