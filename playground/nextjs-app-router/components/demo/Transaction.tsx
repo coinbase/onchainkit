@@ -14,12 +14,24 @@ import {
 } from '@coinbase/onchainkit/transaction';
 import { useCallback, useContext, useEffect } from 'react';
 import { AppContext, TransactionTypes } from '../AppProvider';
+import { Call } from '@/onchainkit/esm/transaction/types';
+import { ContractFunctionParameters } from 'viem';
 
 function TransactionDemo() {
   const { chainId, transactionType } = useContext(AppContext);
   const capabilities = useCapabilities();
   const contracts = clickContracts;
   const calls = clickCalls;
+  const promiseCalls = new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(calls);
+    }, 4000);
+  }) as Promise<Call[]>;  
+  const promiseContracts = new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(contracts);
+    }, 4000);
+  }) as Promise<ContractFunctionParameters[]>;  
   useEffect(() => {
     console.log('Playground.Transaction.chainId:', chainId);
   }, [chainId]);
@@ -41,8 +53,8 @@ function TransactionDemo() {
       <Transaction
         chainId={chainId ?? 84532} // something breaks if we don't have default network?
         {...(transactionType === TransactionTypes.Calls
-          ? { calls }
-          : { contracts })}
+          ? { calls: promiseCalls }
+          : { contracts: promiseContracts })}
         capabilities={capabilities}
         onStatus={handleOnStatus}
       >

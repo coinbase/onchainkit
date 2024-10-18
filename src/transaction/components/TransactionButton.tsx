@@ -31,7 +31,9 @@ export function TransactionButton({
   const { showCallsStatus } = useShowCallsStatus();
 
   const isInProgress =
-    lifecycleStatus.statusName === 'transactionPending' || isLoading;
+    lifecycleStatus.statusName === 'buildingTransaction' ||
+    lifecycleStatus.statusName === 'transactionPending' ||
+    isLoading;
   const isMissingProps = !transactions || !address;
   const isWaitingForReceipt = !!transactionId || !!transactionHash;
 
