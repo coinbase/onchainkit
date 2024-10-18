@@ -99,7 +99,7 @@ export type LifecycleStatusUpdate = LifecycleStatus extends infer T
 /**
  * Note: exported as public Type
  */
-export type PayButtonReact = {
+export type CheckoutButtonReact = {
   className?: string;
   coinbaseBranded?: boolean;
   disabled?: boolean;

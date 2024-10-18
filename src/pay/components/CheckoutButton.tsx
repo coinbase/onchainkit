@@ -9,16 +9,16 @@ import {
   text as styleText,
 } from '../../styles/theme';
 import { PAY_LIFECYCLESTATUS } from '../constants';
-import type { PayButtonReact } from '../types';
+import type { CheckoutButtonReact } from '../types';
 import { usePayContext } from './CheckoutProvider';
 
-export function PayButton({
+export function CheckoutButton({
   className,
   coinbaseBranded,
   disabled,
   icon,
   text = 'Pay',
-}: PayButtonReact) {
+}: CheckoutButtonReact) {
   if (coinbaseBranded) {
     icon = 'coinbasePay';
     text = 'Pay with Crypto';
