@@ -88,6 +88,8 @@ export function NftMintButton({
     );
   }
 
+  // update TransactionButton to pass in a promise for calls?
+
   return (
     <div className={cn('py-2', className)}>
       <Transaction chainId={chainId} calls={calls} onStatus={handleOnStatus}>
