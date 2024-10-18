@@ -35,7 +35,6 @@ vi.mock('wagmi/connectors', async () => {
 describe('getDefaultConfig', () => {
   it('should create config with default values when no parameters are provided', () => {
     getDefaultConfig({});
-
     expect(createConfig).toHaveBeenCalledWith(
       expect.objectContaining({
         chains: [base, baseSepolia],
@@ -46,7 +45,6 @@ describe('getDefaultConfig', () => {
         },
       }),
     );
-
     expect(coinbaseWallet).toHaveBeenCalledWith({
       appName: 'My OnchainKit App',
       appLogoUrl: 'https://onchainkit.xyz/favicon/48x48.png?v4-19-24',
@@ -61,9 +59,7 @@ describe('getDefaultConfig', () => {
         logo: 'https://example.com/logo.png',
       },
     };
-
     getDefaultConfig({ apiKey: 'test-api-key', config: customConfig });
-
     expect(createConfig).toHaveBeenCalledWith(
       expect.objectContaining({
         chains: [base, baseSepolia],
@@ -74,7 +70,6 @@ describe('getDefaultConfig', () => {
         },
       }),
     );
-
     expect(coinbaseWallet).toHaveBeenCalledWith({
       appName: 'Custom App',
       appLogoUrl: 'https://example.com/logo.png',
@@ -85,7 +80,6 @@ describe('getDefaultConfig', () => {
   it('should use API key in transports when provided', () => {
     const testApiKey = 'test-api-key';
     const result = getDefaultConfig({ apiKey: testApiKey });
-
     expect(result).toContain(
       http(`https://api.developer.coinbase.com/rpc/v1/base/${testApiKey}`),
     );
