@@ -8541,7 +8541,7 @@ __metadata:
     sitemap-generator: "npm:^8.5.1"
     tar: "npm:^7.0.0"
     typescript: "npm:latest"
-    vite: "npm:^5.3.6"
+    vite: "npm:^5.4.7"
     vocs: "npm:1.0.0-alpha.61"
   languageName: unknown
   linkType: soft
@@ -11353,9 +11353,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vite@npm:^5.3.6":
-  version: 5.4.6
-  resolution: "vite@npm:5.4.6"
+"vite@npm:^5.4.7":
+  version: 5.4.9
+  resolution: "vite@npm:5.4.9"
   dependencies:
     esbuild: "npm:^0.21.3"
     fsevents: "npm:~2.3.3"
@@ -11392,7 +11392,7 @@ __metadata:
       optional: true
   bin:
     vite: bin/vite.js
-  checksum: 5f87be3a10e970eaf9ac52dfab39cf9fff583036685252fb64570b6d7bfa749f6d221fb78058f5ef4b5664c180d45a8e7a7ff68d7f3770e69e24c7c68b958bde
+  checksum: e9c59f2c639047e37c79bbbb151c7a55a3dc27932957cf4cf0447ee0bdcc1ddfd9b1fb3ba0465371c01ba3616d62561327855794c2d652213c3a10a32e6d369d
   languageName: node
   linkType: hard
 
