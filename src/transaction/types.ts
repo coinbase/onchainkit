@@ -12,11 +12,6 @@ import type {
   SendTransactionMutateAsync,
   WriteContractMutateAsync,
 } from 'wagmi/query';
-// 🌲☀🌲
-import {
-  TRANSACTION_TYPE_CALLS,
-  TRANSACTION_TYPE_CONTRACTS,
-} from './constants';
 
 export type Call = { to: Hex; data?: Hex; value?: bigint };
 

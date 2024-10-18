@@ -241,7 +241,7 @@ export function TransactionProvider({
       return;
     }
     getTransactionLegacyReceipts();
-  }, [transactions, transactionHashList]);
+  }, [transactions, transactionCount, transactionHashList]);
 
   const getTransactionLegacyReceipts = useCallback(async () => {
     const receipts = [];
@@ -300,7 +300,7 @@ export function TransactionProvider({
       });
       return undefined;
     }
-  }, []);
+  }, [transactions]);
 
   const handleSubmit = useCallback(async () => {
     setErrorMessage('');
@@ -323,7 +323,7 @@ export function TransactionProvider({
         },
       });
     }
-  }, [chainId, sendWalletTransactions, switchChain]);
+  }, [buildTransaction, chainId, sendWalletTransactions, switchChain]);
 
   const value = useValue({
     chainId,

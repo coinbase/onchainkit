@@ -1,5 +1,7 @@
 import { useCapabilities } from '@/lib/hooks';
 import { clickCalls, clickContracts } from '@/lib/transactions';
+import type { Call } from '@/onchainkit/esm/transaction/types';
+import type { LifecycleStatus } from '@/onchainkit/src/transaction';
 import {
   Transaction,
   TransactionButton,
@@ -13,10 +15,8 @@ import {
   TransactionToastLabel,
 } from '@coinbase/onchainkit/transaction';
 import { useCallback, useContext, useEffect, useMemo } from 'react';
+import type { ContractFunctionParameters } from 'viem';
 import { AppContext, TransactionTypes } from '../AppProvider';
-import { Call } from '@/onchainkit/esm/transaction/types';
-import { ContractFunctionParameters } from 'viem';
-import { LifecycleStatus } from '@/onchainkit/src/transaction';
 
 function TransactionDemo() {
   const { chainId, transactionType } = useContext(AppContext);
@@ -88,7 +88,7 @@ function TransactionDemo() {
     }
 
     return { calls: undefined, contracts: undefined };
-  }, []);
+  }, [calls, promiseCalls, contracts, promiseContracts, transactionType]);
 
   return (
     <div className="mx-auto grid w-1/2 gap-8">

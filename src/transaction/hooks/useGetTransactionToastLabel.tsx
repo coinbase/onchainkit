@@ -41,5 +41,5 @@ export function useGetTransactionToastLabel() {
     }
 
     return { label, labelClassName };
-  }, [errorMessage, isInProgress, receipt]);
+  }, [errorMessage, isBuildingTransaction, isInProgress, receipt]);
 }
