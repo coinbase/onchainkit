@@ -93,13 +93,11 @@ describe('OnchainKitProvider', () => {
     (useConfig as Mock).mockImplementation(() => {
       throw new WagmiProviderNotFoundError();
     });
-
     render(
       <OnchainKitProvider chain={base} schemaId={schemaId} apiKey={apiKey}>
         <TestComponent />
       </OnchainKitProvider>,
     );
-
     await waitFor(() => {
       expect(screen.getByText(schemaId)).toBeInTheDocument();
       expect(screen.getByText(apiKey)).toBeInTheDocument();
@@ -296,44 +294,14 @@ describe('OnchainKitProvider', () => {
     });
   });
 
-  it('should render without WagmiProvider and use default config', async () => {
-    render(
-      <OnchainKitProvider chain={base} schemaId={schemaId} apiKey={apiKey}>
-        <TestComponent />
-      </OnchainKitProvider>,
-    );
-
-    await waitFor(() => {
-      expect(screen.getByText(schemaId)).toBeInTheDocument();
-      expect(screen.getByText(apiKey)).toBeInTheDocument();
-    });
-
-    expect(setOnchainKitConfig).toHaveBeenCalledWith(
-      expect.objectContaining({
-        address: null,
-        apiKey,
-        chain: base,
-        config: expect.objectContaining({
-          appearance: expect.any(Object),
-          paymaster: expect.any(String),
-        }),
-        projectId: null,
-        rpcUrl: null,
-        schemaId,
-      }),
-    );
-  });
-
   it('should throw an error when useConfig throws an unexpected error', () => {
     const consoleErrorSpy = vi
       .spyOn(console, 'error')
       .mockImplementation(() => {});
     const mockError = new Error('Unexpected config error');
-
     (useConfig as Mock).mockImplementation(() => {
       throw mockError;
     });
-
     expect(() => {
       render(
         <OnchainKitProvider chain={base} schemaId={schemaId} apiKey={apiKey}>
@@ -341,12 +309,10 @@ describe('OnchainKitProvider', () => {
         </OnchainKitProvider>,
       );
     }).toThrow('Unexpected config error');
-
     expect(consoleErrorSpy).toHaveBeenCalledWith(
       'Error fetching config, using OnchainKit defaults:',
       mockError,
     );
-
     consoleErrorSpy.mockRestore();
   });
 });
