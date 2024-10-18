@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.35.0
+
+### Minor Changes
+
+- 2d8a325: - **chore** renamed `Pay` module to `Checkout`. by @0xAlec #1455
+
+### Patch Changes
+
+- 64bd519: -**fix**: Updated `ConnectWalletText` component styling to match the `ConnectWallet` text prop formatting. By @cpcramer #1445
+
 ## 0.34.1
 
 ### Patch Changes
