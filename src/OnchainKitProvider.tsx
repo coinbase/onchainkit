@@ -57,6 +57,10 @@ export function OnchainKitProvider({
       chain: chain,
       config: {
         appearance: {
+          name: config?.appearance?.name ?? 'My OnchainKit App',
+          logo:
+            config?.appearance?.logo ||
+            'https://onchainkit.xyz/favicon/48x48.png?v4-19-24',
           mode: config?.appearance?.mode ?? 'auto',
           theme: config?.appearance?.theme ?? 'default',
         },
@@ -78,7 +82,7 @@ export function OnchainKitProvider({
           appName: config?.appearance?.name || 'My OnchainKit App',
           appLogoUrl:
             config?.appearance?.logo ||
-            'https://avatars.githubusercontent.com/u/108554348?v=4',
+            'https://onchainkit.xyz/favicon/48x48.png?v4-19-24',
           preference: 'smartWalletOnly',
         }),
       ],
