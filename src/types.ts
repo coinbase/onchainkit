@@ -74,6 +74,8 @@ export type OnchainKitProviderReact = {
   children: ReactNode;
   config?: {
     appearance?: {
+      name?: string | null;
+      logo?: string | null;
       mode?: Mode | null;
       theme?: ComponentTheme | null;
     };
