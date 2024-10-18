@@ -10,6 +10,7 @@ import { WalletPreference } from './form/wallet-type';
 export enum OnchainKitComponent {
   Fund = 'fund',
   Identity = 'identity',
+  Pay = 'pay',
   Swap = 'swap',
   SwapDefault = 'swap-default',
   Transaction = 'transaction',
@@ -27,6 +28,16 @@ export type Paymaster = {
   url: string;
   enabled: boolean;
 };
+
+export type PayOptions = {
+  chargeId?: string;
+  productId?: string;
+};
+
+export enum PayTypes {
+  ChargeID = 'chargeId',
+  ProductID = 'productId',
+}
 
 export type ComponentTheme =
   | 'base'
@@ -51,6 +62,10 @@ type State = {
   setTransactionType?: (transactionType: TransactionTypes) => void;
   paymasters?: Record<number, Paymaster>; // paymasters is per network
   setPaymaster?: (chainId: number, url: string, enabled: boolean) => void;
+  payOptions?: PayOptions;
+  setPayOptions?: (payOptions: PayOptions) => void;
+  payTypes?: PayTypes;
+  setPayTypes?: (payTypes: PayTypes) => void;
   componentTheme?: ComponentTheme;
   setComponentTheme: (theme: ComponentTheme) => void;
   componentMode: ComponentMode;
@@ -79,6 +94,8 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   const [transactionType, setTransactionTypeState] = useState<TransactionTypes>(
     TransactionTypes.Contracts,
   );
+  const [payOptions, setPayOptionsState] = useState<PayOptions>();
+  const [payTypes, setPayTypesState] = useState<PayTypes>(PayTypes.ProductID);
   const [paymasters, setPaymastersState] =
     useState<Record<number, Paymaster>>();
   const [defaultMaxSlippage, setDefaultMaxSlippageState] = useState<number>(3);
@@ -167,6 +184,15 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     setDefaultMaxSlippageState(newDefaultMaxSlippage);
   };
 
+  const setPayOptions = (payOptions: PayOptions) => {
+    localStorage.setItem('productId', payOptions.productId || '');
+    setPayOptionsState(payOptions);
+  };
+
+  const setPayTypes = (payTypes: PayTypes) => {
+    setPayTypesState(payTypes);
+  };
+
   const setPaymaster = (chainId: number, url: string, enabled: boolean) => {
     const newObj = {
       ...paymasters,
@@ -207,6 +233,10 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         setComponentTheme,
         componentMode,
         setComponentMode,
+        payOptions,
+        setPayOptions,
+        payTypes,
+        setPayTypes,
         paymasters,
         setPaymaster,
         transactionType,
