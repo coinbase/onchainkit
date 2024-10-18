@@ -16,8 +16,8 @@ function mock<T>(func: T) {
   return func as Mock;
 }
 
-vi.mock('./PayProvider', () => ({
-  PayProvider: vi.fn(({ children }: { children: React.ReactNode }) => (
+vi.mock('./CheckoutProvider', () => ({
+  CheckoutProvider: vi.fn(({ children }: { children: React.ReactNode }) => (
     <div data-testid="pay-provider">{children}</div>
   )),
 }));
@@ -41,7 +41,7 @@ describe('Pay', () => {
     vi.clearAllMocks();
   });
 
-  it('should render children inside the PayProvider when mounted', () => {
+  it('should render children inside the CheckoutProvider when mounted', () => {
     render(
       <Pay className="test-class">
         <div>Test Child</div>

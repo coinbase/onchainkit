@@ -114,7 +114,7 @@ export type PayContextType = {
   updateLifecycleStatus: (status: LifecycleStatus) => void;
 };
 
-export type PayProviderReact = {
+export type CheckoutProviderReact = {
   chargeHandler?: () => Promise<string>;
   children: React.ReactNode;
   isSponsored?: boolean;

@@ -2,7 +2,7 @@ import { cn } from '../../styles/theme';
 import { useIsMounted } from '../../useIsMounted';
 import { useTheme } from '../../useTheme';
 import type { PayReact } from '../types';
-import { PayProvider } from './PayProvider';
+import { CheckoutProvider } from './CheckoutProvider';
 
 export function Pay({
   chargeHandler,
@@ -20,7 +20,7 @@ export function Pay({
   }
 
   return (
-    <PayProvider
+    <CheckoutProvider
       chargeHandler={chargeHandler}
       isSponsored={isSponsored}
       onStatus={onStatus}
@@ -31,6 +31,6 @@ export function Pay({
       >
         {children}
       </div>
-    </PayProvider>
+    </CheckoutProvider>
   );
 }

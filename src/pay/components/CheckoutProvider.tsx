@@ -31,7 +31,7 @@ import {
 } from '../constants';
 import { useCommerceContracts } from '../hooks/useCommerceContracts';
 import { useLifecycleStatus } from '../hooks/useLifecycleStatus';
-import type { PayContextType, PayProviderReact } from '../types';
+import type { CheckoutProviderReact, PayContextType } from '../types';
 
 const emptyContext = {} as PayContextType;
 export const PayContext = createContext<PayContextType>(emptyContext);
@@ -44,13 +44,13 @@ export function usePayContext() {
   return context;
 }
 
-export function PayProvider({
+export function CheckoutProvider({
   chargeHandler,
   children,
   isSponsored,
   onStatus,
   productId,
-}: PayProviderReact) {
+}: CheckoutProviderReact) {
   // Core hooks
   const {
     config: { paymaster } = { paymaster: null },

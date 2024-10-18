@@ -1,10 +1,10 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { PAY_LIFECYCLESTATUS } from '../constants';
+import { usePayContext } from './CheckoutProvider';
 import { PayButton } from './PayButton';
-import { usePayContext } from './PayProvider';
 
-vi.mock('./PayProvider', () => ({
+vi.mock('./CheckoutProvider', () => ({
   usePayContext: vi.fn(),
 }));
 

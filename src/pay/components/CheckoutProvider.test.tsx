@@ -16,7 +16,7 @@ import { useOnchainKit } from '../../useOnchainKit';
 import { useIsWalletACoinbaseSmartWallet } from '../../wallet/hooks/useIsWalletACoinbaseSmartWallet';
 import { GENERIC_ERROR_MESSAGE } from '../constants';
 import { useCommerceContracts } from '../hooks/useCommerceContracts';
-import { PayProvider, usePayContext } from './PayProvider';
+import { CheckoutProvider, usePayContext } from './CheckoutProvider';
 
 vi.mock('wagmi', () => ({
   useAccount: vi.fn(),
@@ -64,7 +64,7 @@ const TestComponent = () => {
   );
 };
 
-describe('PayProvider', () => {
+describe('CheckoutProvider', () => {
   beforeEach(() => {
     vi.resetAllMocks();
     vi.spyOn(window, 'open').mockImplementation(windowOpenMock);
@@ -99,9 +99,9 @@ describe('PayProvider', () => {
 
   it('should render children', () => {
     render(
-      <PayProvider>
+      <CheckoutProvider>
         <TestComponent />
-      </PayProvider>,
+      </CheckoutProvider>,
     );
     expect(screen.getByTestId('test-component')).toBeTruthy();
   });
@@ -123,9 +123,9 @@ describe('PayProvider', () => {
       };
     });
     render(
-      <PayProvider>
+      <CheckoutProvider>
         <TestComponent />
-      </PayProvider>,
+      </CheckoutProvider>,
     );
     fireEvent.click(screen.getByText('Submit'));
     await waitFor(() => {
@@ -152,9 +152,9 @@ describe('PayProvider', () => {
       };
     });
     render(
-      <PayProvider>
+      <CheckoutProvider>
         <TestComponent />
-      </PayProvider>,
+      </CheckoutProvider>,
     );
     fireEvent.click(screen.getByText('Submit'));
     await waitFor(() => {
@@ -169,9 +169,9 @@ describe('PayProvider', () => {
       Promise.resolve({ insufficientBalance: true, priceInUSDC: '10' }),
     );
     render(
-      <PayProvider>
+      <CheckoutProvider>
         <TestComponent />
-      </PayProvider>,
+      </CheckoutProvider>,
     );
     fireEvent.click(screen.getByText('Submit'));
     await waitFor(() => {
@@ -186,9 +186,9 @@ describe('PayProvider', () => {
       data: { status: 'success' },
     });
     render(
-      <PayProvider>
+      <CheckoutProvider>
         <TestComponent />
-      </PayProvider>,
+      </CheckoutProvider>,
     );
     fireEvent.click(screen.getByText('Submit'));
     await waitFor(() => {
@@ -211,9 +211,9 @@ describe('PayProvider', () => {
       connectors: [{ id: 'coinbaseWalletSDK' }],
     });
     render(
-      <PayProvider>
+      <CheckoutProvider>
         <TestComponent />
-      </PayProvider>,
+      </CheckoutProvider>,
     );
     fireEvent.click(screen.getByText('Submit'));
     await waitFor(() => {
@@ -234,9 +234,9 @@ describe('PayProvider', () => {
       connectors: [{ id: 'not-coinbase' }],
     });
     render(
-      <PayProvider>
+      <CheckoutProvider>
         <TestComponent />
-      </PayProvider>,
+      </CheckoutProvider>,
     );
     fireEvent.click(screen.getByText('Submit'));
     await waitFor(() => {
@@ -247,9 +247,9 @@ describe('PayProvider', () => {
   it('should default to coinbase wallet in connection request if not smart wallet', async () => {
     (useIsWalletACoinbaseSmartWallet as Mock).mockReturnValue(false);
     render(
-      <PayProvider>
+      <CheckoutProvider>
         <TestComponent />
-      </PayProvider>,
+      </CheckoutProvider>,
     );
     fireEvent.click(screen.getByText('Submit'));
     await waitFor(() => {
@@ -274,9 +274,9 @@ describe('PayProvider', () => {
       data: { status: 'success' },
     });
     render(
-      <PayProvider onStatus={onStatus}>
+      <CheckoutProvider onStatus={onStatus}>
         <TestComponent />
-      </PayProvider>,
+      </CheckoutProvider>,
     );
     fireEvent.click(screen.getByText('Submit'));
     await waitFor(() => {
@@ -302,9 +302,9 @@ describe('PayProvider', () => {
       switchChainAsync: vi.fn().mockResolvedValue({}),
     });
     render(
-      <PayProvider>
+      <CheckoutProvider>
         <TestComponent />
-      </PayProvider>,
+      </CheckoutProvider>,
     );
     fireEvent.click(screen.getByText('Submit'));
     await waitFor(() => {
@@ -331,9 +331,9 @@ describe('PayProvider', () => {
       writeContractsAsync: vi.fn(),
     });
     render(
-      <PayProvider>
+      <CheckoutProvider>
         <TestComponent />
-      </PayProvider>,
+      </CheckoutProvider>,
     );
     fireEvent.click(screen.getByText('Submit'));
     await waitFor(() => {
@@ -352,9 +352,9 @@ describe('PayProvider', () => {
       data: { receipts: [{ transactionHash: '0x123' }] },
     });
     render(
-      <PayProvider>
+      <CheckoutProvider>
         <TestComponent />
-      </PayProvider>,
+      </CheckoutProvider>,
     );
     fireEvent.click(screen.getByText('Submit'));
     await waitFor(() => {
@@ -369,9 +369,9 @@ describe('PayProvider', () => {
       data: { status: 'success' },
     });
     render(
-      <PayProvider>
+      <CheckoutProvider>
         <TestComponent />
-      </PayProvider>,
+      </CheckoutProvider>,
     );
     fireEvent.click(screen.getByText('Submit'));
     await waitFor(() => {
@@ -392,9 +392,9 @@ describe('PayProvider', () => {
       Promise.resolve({ insufficientBalance: true, priceInUSDC: '10' }),
     );
     render(
-      <PayProvider>
+      <CheckoutProvider>
         <TestComponent />
-      </PayProvider>,
+      </CheckoutProvider>,
     );
     fireEvent.click(screen.getByText('Submit'));
     await waitFor(() => {
@@ -415,9 +415,9 @@ describe('PayProvider', () => {
       Promise.resolve({ error: new Error('Failed to fetch contracts') }),
     );
     render(
-      <PayProvider>
+      <CheckoutProvider>
         <TestComponent />
-      </PayProvider>,
+      </CheckoutProvider>,
     );
     fireEvent.click(screen.getByText('Submit'));
     await waitFor(() => {
@@ -437,9 +437,9 @@ describe('PayProvider', () => {
       });
     });
     render(
-      <PayProvider>
+      <CheckoutProvider>
         <TestComponent />
-      </PayProvider>,
+      </CheckoutProvider>,
     );
     fireEvent.click(screen.getByText('Submit'));
     await waitFor(() => {
@@ -464,9 +464,9 @@ describe('PayProvider', () => {
       writeContractsAsync: mockWriteContractsAsync,
     });
     render(
-      <PayProvider>
+      <CheckoutProvider>
         <TestComponent />
-      </PayProvider>,
+      </CheckoutProvider>,
     );
     fireEvent.click(screen.getByText('Submit'));
     await waitFor(() => {
@@ -501,9 +501,9 @@ describe('PayProvider', () => {
       writeContractsAsync: mockWriteContractsAsync,
     });
     render(
-      <PayProvider isSponsored={true}>
+      <CheckoutProvider isSponsored={true}>
         <TestComponent />
-      </PayProvider>,
+      </CheckoutProvider>,
     );
     fireEvent.click(screen.getByText('Submit'));
     await waitFor(() => {
@@ -523,7 +523,7 @@ describe('PayProvider', () => {
 });
 
 describe('usePayContext', () => {
-  it('should throw an error when used outside of PayProvider', () => {
+  it('should throw an error when used outside of CheckoutProvider', () => {
     const TestComponent = () => {
       usePayContext();
       return null;

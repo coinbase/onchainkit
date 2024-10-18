@@ -1,11 +1,11 @@
 import { renderHook } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 import { color } from '../../styles/theme';
-import { usePayContext } from '../components/PayProvider';
+import { usePayContext } from '../components/CheckoutProvider';
 import { PAY_LIFECYCLESTATUS } from '../constants';
 import { useGetPayStatus } from './useGetPayStatus';
 
-vi.mock('../components/PayProvider', () => ({
+vi.mock('../components/CheckoutProvider', () => ({
   usePayContext: vi.fn(),
 }));
 

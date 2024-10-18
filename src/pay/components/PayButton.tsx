@@ -10,7 +10,7 @@ import {
 } from '../../styles/theme';
 import { PAY_LIFECYCLESTATUS } from '../constants';
 import type { PayButtonReact } from '../types';
-import { usePayContext } from './PayProvider';
+import { usePayContext } from './CheckoutProvider';
 
 export function PayButton({
   className,
