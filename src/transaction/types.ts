@@ -95,7 +95,7 @@ export type TransactionContextType = {
     | Call[]
     | ContractFunctionParameters[]
     | Promise<Call[]>
-    | Promise<ContractFunctionParameters[]>; // An array of transactions for the component.
+    | Promise<ContractFunctionParameters[]>; // An array of transactions for the component or a promise that resolves to an array of transactions.
   transactionId?: string; // An optional string representing the ID of the transaction.
   transactionHash?: string; // An optional string representing the hash of the transaction.
 };
@@ -270,22 +270,6 @@ export type UseSendWalletTransactionsParams = {
   // biome-ignore lint: cannot find module 'wagmi/experimental/query'
   writeContractsAsync: any;
   writeContractAsync: WriteContractMutateAsync<Config, unknown> | (() => void);
-};
-
-export type UseTransactionTypeParams = {
-  calls?: Call[];
-  contracts?: ContractFunctionParameters[];
-  transactionStatuses: {
-    [TRANSACTION_TYPE_CALLS]: {
-      single: string;
-      batch: string;
-    };
-    [TRANSACTION_TYPE_CONTRACTS]: {
-      single: string;
-      batch: string;
-    };
-  };
-  walletCapabilities: ViemWalletCapabilities;
 };
 
 /**
