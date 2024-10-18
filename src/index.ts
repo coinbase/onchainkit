@@ -6,7 +6,7 @@ export { OnchainKitProvider } from './OnchainKitProvider';
 export { useOnchainKit } from './useOnchainKit';
 export { version } from './version';
 export type {
-  AppConfiguration,
+  AppConfig,
   isBaseOptions,
   isEthereumOptions,
   OnchainKitConfig,
