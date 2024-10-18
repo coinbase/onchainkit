@@ -50,6 +50,8 @@ describe('OnchainKitProvider', () => {
   const apiKey = 'test-api-key';
   const paymasterUrl =
     'https://api.developer.coinbase.com/rpc/v1/base/test-api-key';
+  const appLogo = 'https://onchainkit.xyz/favicon/48x48.png?v4-19-24';
+  const appName = 'My OnchainKit App';
 
   it('provides the context value correctly', async () => {
     render(
@@ -126,6 +128,8 @@ describe('OnchainKitProvider', () => {
       apiKey,
       config: {
         appearance: {
+          logo: appLogo,
+          name: appName,
           mode: 'auto',
           theme: 'default',
         },
@@ -154,6 +158,8 @@ describe('OnchainKitProvider', () => {
         expect.objectContaining({
           config: {
             appearance: {
+              logo: appLogo,
+              name: appName,
               mode: 'auto',
               theme: 'default',
             },
@@ -192,6 +198,8 @@ describe('OnchainKitProvider', () => {
           chain: base,
           config: {
             appearance: {
+              logo: appLogo,
+              name: appName,
               mode: 'auto',
               theme: 'default',
             },
@@ -233,6 +241,8 @@ describe('OnchainKitProvider', () => {
           chain: base,
           config: {
             appearance: {
+              logo: appLogo,
+              name: appName,
               mode: 'auto',
               theme: 'default',
             },
