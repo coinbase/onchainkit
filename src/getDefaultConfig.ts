@@ -3,6 +3,8 @@ import { base, baseSepolia } from 'wagmi/chains';
 import { coinbaseWallet } from 'wagmi/connectors';
 import type { AppConfig } from './types';
 
+// getDefaultConfig returns a custom WagmiConfig (https://wagmi.sh/react/api/createConfig) using OnchainKit provided settings.
+// This function is used if the user does not provide WagmiProvider as a parent in the React context.
 export const getDefaultConfig = ({
   apiKey,
   config,

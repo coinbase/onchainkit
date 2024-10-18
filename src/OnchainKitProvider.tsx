@@ -26,16 +26,6 @@ export function OnchainKitProvider({
     throw Error('EAS schemaId must be 64 characters prefixed with "0x"');
   }
 
-  let providedConfig = null;
-  try {
-    providedConfig = useConfig();
-  } catch (error) {
-    if (!(error instanceof WagmiProviderNotFoundError)) {
-      console.error('Error fetching config, using OnchainKit defaults:', error);
-      throw error;
-    }
-  }
-
   // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO Refactor the configurations
   const value = useMemo(() => {
     const defaultPaymasterUrl = apiKey
@@ -66,6 +56,20 @@ export function OnchainKitProvider({
     return onchainKitConfig;
   }, [address, apiKey, chain, config, projectId, rpcUrl, schemaId]);
 
+  // Check the context for WagmiProvider
+  // Wagmi configuration defaults to the provided config if it exists
+  // Otherwise, use the OnchainKit-provided Wagmi configuration
+  let providedConfig = null;
+  try {
+    providedConfig = useConfig();
+  } catch (error) {
+    if (!(error instanceof WagmiProviderNotFoundError)) {
+      console.error('Error fetching config, using OnchainKit defaults:', error);
+      throw error;
+    }
+  }
+
+  // If WagmiProvider is not found, return the context with defaulted parent providers
   if (!providedConfig) {
     return (
       <WagmiProvider config={getDefaultConfig({ apiKey, config })}>
