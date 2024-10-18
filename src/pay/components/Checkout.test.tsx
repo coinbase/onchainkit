@@ -10,15 +10,15 @@ import {
   vi,
 } from 'vitest';
 import { useIsMounted } from '../../useIsMounted';
-import { Pay } from './Pay';
+import { Checkout } from './Checkout';
 
 function mock<T>(func: T) {
   return func as Mock;
 }
 
-vi.mock('./PayProvider', () => ({
-  PayProvider: vi.fn(({ children }: { children: React.ReactNode }) => (
-    <div data-testid="pay-provider">{children}</div>
+vi.mock('./CheckoutProvider', () => ({
+  CheckoutProvider: vi.fn(({ children }: { children: React.ReactNode }) => (
+    <div data-testid="checkout-provider">{children}</div>
   )),
 }));
 
@@ -41,22 +41,22 @@ describe('Pay', () => {
     vi.clearAllMocks();
   });
 
-  it('should render children inside the PayProvider when mounted', () => {
+  it('should render children inside the CheckoutProvider when mounted', () => {
     render(
-      <Pay className="test-class">
+      <Checkout className="test-class">
         <div>Test Child</div>
-      </Pay>,
+      </Checkout>,
     );
     expect(screen.getByText('Test Child')).toBeDefined();
   });
 
   it('should apply the correct className', () => {
     render(
-      <Pay className="test-class">
+      <Checkout className="test-class">
         <div>Test Child</div>
-      </Pay>,
+      </Checkout>,
     );
-    const container = screen.getByTestId('pay-provider')
+    const container = screen.getByTestId('checkout-provider')
       .firstChild as HTMLElement;
     expect(container.className).toContain('test-class');
     expect(container.className).toContain('flex w-full flex-col gap-2');
@@ -65,9 +65,9 @@ describe('Pay', () => {
   it('should return null when not mounted', () => {
     useIsMountedMock.mockReturnValue(false);
     const { container } = render(
-      <Pay>
+      <Checkout>
         <div>Test Child</div>
-      </Pay>,
+      </Checkout>,
     );
     expect(container.firstChild).toBeNull();
   });

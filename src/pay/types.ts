@@ -31,7 +31,7 @@ export type LifecycleStatus =
       };
     }
   | {
-      statusName: 'paymentPending';
+      statusName: 'pending';
       statusData: LifecycleStatusDataShared;
     }
   | {
@@ -99,7 +99,7 @@ export type LifecycleStatusUpdate = LifecycleStatus extends infer T
 /**
  * Note: exported as public Type
  */
-export type PayButtonReact = {
+export type CheckoutButtonReact = {
   className?: string;
   coinbaseBranded?: boolean;
   disabled?: boolean;
@@ -107,14 +107,14 @@ export type PayButtonReact = {
   text?: string;
 };
 
-export type PayContextType = {
+export type CheckoutContextType = {
   errorMessage?: string;
   lifecycleStatus?: LifecycleStatus;
   onSubmit: () => void;
   updateLifecycleStatus: (status: LifecycleStatus) => void;
 };
 
-export type PayProviderReact = {
+export type CheckoutProviderReact = {
   chargeHandler?: () => Promise<string>;
   children: React.ReactNode;
   isSponsored?: boolean;
@@ -125,7 +125,7 @@ export type PayProviderReact = {
 /**
  * Note: exported as public Type
  */
-export type PayReact = {
+export type CheckoutReact = {
   chargeHandler?: () => Promise<string>;
   children: React.ReactNode;
   className?: string;
@@ -137,7 +137,7 @@ export type PayReact = {
 /**
  * Note: exported as public Type
  */
-export type PayStatusReact = { className?: string };
+export type CheckoutStatusReact = { className?: string };
 
 export type UseCommerceContractsParams = {
   chargeHandler?: () => Promise<string>;

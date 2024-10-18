@@ -1,26 +1,26 @@
 import { renderHook } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 import { color } from '../../styles/theme';
-import { usePayContext } from '../components/PayProvider';
-import { PAY_LIFECYCLESTATUS } from '../constants';
-import { useGetPayStatus } from './useGetPayStatus';
+import { useCheckoutContext } from '../components/CheckoutProvider';
+import { CHECKOUT_LIFECYCLESTATUS } from '../constants';
+import { useGetCheckoutStatus } from './useGetCheckoutStatus';
 
-vi.mock('../components/PayProvider', () => ({
-  usePayContext: vi.fn(),
+vi.mock('../components/CheckoutProvider', () => ({
+  useCheckoutContext: vi.fn(),
 }));
 
-describe('useGetPayStatus', () => {
+describe('useGetCheckoutStatus', () => {
   it('should return pending status', () => {
-    vi.mocked(usePayContext).mockReturnValue({
+    vi.mocked(useCheckoutContext).mockReturnValue({
       errorMessage: '',
       lifecycleStatus: {
-        statusName: PAY_LIFECYCLESTATUS.PENDING,
+        statusName: CHECKOUT_LIFECYCLESTATUS.PENDING,
         statusData: {},
       },
       onSubmit: vi.fn(),
       updateLifecycleStatus: vi.fn(),
     });
-    const { result } = renderHook(() => useGetPayStatus());
+    const { result } = renderHook(() => useGetCheckoutStatus());
     expect(result.current).toEqual({
       label: 'Payment in progress...',
       labelClassName: color.foregroundMuted,
@@ -28,10 +28,10 @@ describe('useGetPayStatus', () => {
   });
 
   it('should return success status', () => {
-    vi.mocked(usePayContext).mockReturnValue({
+    vi.mocked(useCheckoutContext).mockReturnValue({
       errorMessage: '',
       lifecycleStatus: {
-        statusName: PAY_LIFECYCLESTATUS.SUCCESS,
+        statusName: CHECKOUT_LIFECYCLESTATUS.SUCCESS,
         statusData: {
           transactionReceipts: [],
           chargeId: '',
@@ -41,7 +41,7 @@ describe('useGetPayStatus', () => {
       onSubmit: vi.fn(),
       updateLifecycleStatus: vi.fn(),
     });
-    const { result } = renderHook(() => useGetPayStatus());
+    const { result } = renderHook(() => useGetCheckoutStatus());
     expect(result.current).toEqual({
       label: 'Payment successful!',
       labelClassName: color.success,
@@ -49,10 +49,10 @@ describe('useGetPayStatus', () => {
   });
 
   it('should return error status', () => {
-    vi.mocked(usePayContext).mockReturnValue({
+    vi.mocked(useCheckoutContext).mockReturnValue({
       errorMessage: 'Payment failed',
       lifecycleStatus: {
-        statusName: PAY_LIFECYCLESTATUS.ERROR,
+        statusName: CHECKOUT_LIFECYCLESTATUS.ERROR,
         statusData: {
           code: 'PmUWCSh01',
           error: 'Payment failed',
@@ -62,7 +62,7 @@ describe('useGetPayStatus', () => {
       onSubmit: vi.fn(),
       updateLifecycleStatus: vi.fn(),
     });
-    const { result } = renderHook(() => useGetPayStatus());
+    const { result } = renderHook(() => useGetCheckoutStatus());
     expect(result.current).toEqual({
       label: 'Payment failed',
       labelClassName: color.error,

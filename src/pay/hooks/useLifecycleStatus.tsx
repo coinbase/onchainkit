@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import { PAY_LIFECYCLESTATUS } from '../constants';
+import { CHECKOUT_LIFECYCLESTATUS } from '../constants';
 import type { LifecycleStatus, LifecycleStatusUpdate } from '../types';
 import type { UseLifecycleStatusReturn } from '../types';
 
@@ -15,7 +15,7 @@ export function useLifecycleStatus(
       setLifecycleStatus((prevStatus: LifecycleStatus) => {
         // do not persist errors
         const persistedStatusData =
-          prevStatus.statusName === PAY_LIFECYCLESTATUS.ERROR
+          prevStatus.statusName === CHECKOUT_LIFECYCLESTATUS.ERROR
             ? (({ error, code, message, ...statusData }) => statusData)(
                 prevStatus.statusData,
               )

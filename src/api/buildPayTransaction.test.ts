@@ -6,8 +6,8 @@ import {
 } from '../network/definitions/pay';
 import { sendRequest } from '../network/request';
 import {
-  PAY_INVALID_CHARGE_ERROR_MESSAGE,
-  UNCAUGHT_PAY_ERROR_MESSAGE,
+  CHECKOUT_INVALID_CHARGE_ERROR_MESSAGE,
+  UNCAUGHT_CHECKOUT_ERROR_MESSAGE,
 } from '../pay/constants';
 /**
  * @vitest-environment node
@@ -85,7 +85,7 @@ describe('buildPayTransaction', () => {
     expect(error).toEqual({
       code: 'AmBPTa01',
       error: 'No chargeId or productId provided',
-      message: UNCAUGHT_PAY_ERROR_MESSAGE,
+      message: UNCAUGHT_CHECKOUT_ERROR_MESSAGE,
     });
     expect(sendRequest).not.toHaveBeenCalled();
   });
@@ -103,7 +103,7 @@ describe('buildPayTransaction', () => {
     expect(error).toEqual({
       code: 'AmBPTa03',
       error: 'Something went wrong',
-      message: UNCAUGHT_PAY_ERROR_MESSAGE,
+      message: UNCAUGHT_CHECKOUT_ERROR_MESSAGE,
     });
   });
 
@@ -123,7 +123,7 @@ describe('buildPayTransaction', () => {
     expect(error).toEqual({
       code: 'AmBPTa02',
       error: 'method not found - Not found',
-      message: PAY_INVALID_CHARGE_ERROR_MESSAGE,
+      message: CHECKOUT_INVALID_CHARGE_ERROR_MESSAGE,
     });
     expect(sendRequest).toHaveBeenCalledTimes(1);
     expect(sendRequest).toHaveBeenCalledWith(CDP_HYDRATE_CHARGE, [

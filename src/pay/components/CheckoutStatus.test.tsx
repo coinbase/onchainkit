@@ -1,9 +1,9 @@
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
-import { PayStatus } from './PayStatus';
+import { CheckoutStatus } from './CheckoutStatus';
 
-vi.mock('../hooks/useGetPayStatus', () => ({
-  useGetPayStatus: vi.fn(() => ({
+vi.mock('../hooks/useGetCheckoutStatus', () => ({
+  useGetCheckoutStatus: vi.fn(() => ({
     label: 'Test Label',
     labelClassName: 'test-label-class',
   })),
@@ -16,9 +16,9 @@ vi.mock('../../styles/theme', () => ({
   },
 }));
 
-describe('PayStatus', () => {
+describe('CheckoutStatus', () => {
   it('renders correctly with custom class', () => {
-    render(<PayStatus className="custom-class" />);
+    render(<CheckoutStatus className="custom-class" />);
 
     const labelElement = screen.getByText('Test Label');
     expect(labelElement).toBeDefined();

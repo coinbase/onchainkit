@@ -1,17 +1,17 @@
 import { cn } from '../../styles/theme';
 import { useIsMounted } from '../../useIsMounted';
 import { useTheme } from '../../useTheme';
-import type { PayReact } from '../types';
-import { PayProvider } from './PayProvider';
+import type { CheckoutReact } from '../types';
+import { CheckoutProvider } from './CheckoutProvider';
 
-export function Pay({
+export function Checkout({
   chargeHandler,
   children,
   className,
   isSponsored,
   onStatus,
   productId,
-}: PayReact) {
+}: CheckoutReact) {
   const isMounted = useIsMounted();
   const componentTheme = useTheme();
   // prevents SSR hydration issue
@@ -20,7 +20,7 @@ export function Pay({
   }
 
   return (
-    <PayProvider
+    <CheckoutProvider
       chargeHandler={chargeHandler}
       isSponsored={isSponsored}
       onStatus={onStatus}
@@ -31,6 +31,6 @@ export function Pay({
       >
         {children}
       </div>
-    </PayProvider>
+    </CheckoutProvider>
   );
 }
