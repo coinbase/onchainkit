@@ -9,7 +9,7 @@ import {
   createStorage,
   useConfig,
 } from 'wagmi';
-import { base } from 'wagmi/chains';
+import { base, baseSepolia } from 'wagmi/chains';
 import { coinbaseWallet } from 'wagmi/connectors';
 import { ONCHAIN_KIT_CONFIG, setOnchainKitConfig } from './OnchainKitConfig';
 import { checkHashLength } from './internal/utils/checkHashLength';
@@ -72,7 +72,7 @@ export function OnchainKitProvider({
 
   if (!providedConfig) {
     const wagmiConfig = createConfig({
-      chains: [base],
+      chains: [base, baseSepolia],
       connectors: [
         coinbaseWallet({
           appName: config?.appearance?.name || 'My OnchainKit App',
@@ -88,6 +88,7 @@ export function OnchainKitProvider({
       ssr: true,
       transports: {
         [base.id]: http(),
+        [baseSepolia.id]: http(),
       },
     });
 
