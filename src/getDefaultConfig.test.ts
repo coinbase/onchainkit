@@ -1,8 +1,9 @@
-import { describe, it, expect, vi } from 'vitest';
-import { getDefaultConfig } from './getDefaultConfig';
+import { describe, expect, it, vi } from 'vitest';
 import { createConfig } from 'wagmi';
+import { http } from 'wagmi';
 import { base, baseSepolia } from 'wagmi/chains';
 import { coinbaseWallet } from 'wagmi/connectors';
+import { getDefaultConfig } from './getDefaultConfig';
 
 // Mock the imported modules
 vi.mock('wagmi', async () => {
@@ -43,7 +44,7 @@ describe('getDefaultConfig', () => {
           [base.id]: expect.any(Function),
           [baseSepolia.id]: expect.any(Function),
         },
-      })
+      }),
     );
 
     expect(coinbaseWallet).toHaveBeenCalledWith({
@@ -71,7 +72,7 @@ describe('getDefaultConfig', () => {
           [base.id]: expect.any(Function),
           [baseSepolia.id]: expect.any(Function),
         },
-      })
+      }),
     );
 
     expect(coinbaseWallet).toHaveBeenCalledWith({
@@ -82,15 +83,24 @@ describe('getDefaultConfig', () => {
   });
 
   it('should use API key in transports when provided', () => {
-    const result = getDefaultConfig({ apiKey: 'test-api-key' });
+    const testApiKey = 'test-api-key';
+    const result = getDefaultConfig({ apiKey: testApiKey });
 
     expect(createConfig).toHaveBeenCalledWith(
       expect.objectContaining({
         transports: {
-          [base.id]: expect.any(Function),
-          [baseSepolia.id]: expect.any(Function),
+          [base.id]: expect.any(
+            http(
+              `https://api.developer.coinbase.com/rpc/v1/base/${testApiKey}`,
+            ),
+          ),
+          [baseSepolia.id]: expect.any(
+            http(
+              `https://api.developer.coinbase.com/rpc/v1/base-sepolia/${testApiKey}`,
+            ),
+          ),
         },
-      })
+      }),
     );
   });
 });
