@@ -6,7 +6,7 @@ import {
 } from '../network/definitions/pay';
 import { sendRequest } from '../network/request';
 import {
-  PAY_INVALID_CHARGE_ERROR_MESSAGE,
+  CHECKOUT_INVALID_CHARGE_ERROR_MESSAGE,
   UNCAUGHT_PAY_ERROR_MESSAGE,
 } from '../pay/constants';
 /**
@@ -123,7 +123,7 @@ describe('buildPayTransaction', () => {
     expect(error).toEqual({
       code: 'AmBPTa02',
       error: 'method not found - Not found',
-      message: PAY_INVALID_CHARGE_ERROR_MESSAGE,
+      message: CHECKOUT_INVALID_CHARGE_ERROR_MESSAGE,
     });
     expect(sendRequest).toHaveBeenCalledTimes(1);
     expect(sendRequest).toHaveBeenCalledWith(CDP_HYDRATE_CHARGE, [

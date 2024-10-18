@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import {
+  CHECKOUT_INVALID_CHARGE_ERROR_MESSAGE,
+  CHECKOUT_INVALID_PARAMETER_ERROR_MESSAGE,
   GENERAL_CHECKOUT_ERROR_MESSAGE,
-  PAY_INVALID_CHARGE_ERROR_MESSAGE,
-  PAY_INVALID_PARAMETER_ERROR_MESSAGE,
   PAY_TOO_MANY_REQUESTS_ERROR_MESSAGE,
   UNCAUGHT_PAY_ERROR_MESSAGE,
 } from '../../pay/constants';
@@ -14,14 +14,14 @@ describe('getPayErrorMessage', () => {
     expect(result).toBe(PAY_TOO_MANY_REQUESTS_ERROR_MESSAGE);
   });
 
-  it('should return PAY_INVALID_CHARGE_ERROR_MESSAGE for errorCode -32601', () => {
+  it('should return CHECKOUT_INVALID_CHARGE_ERROR_MESSAGE for errorCode -32601', () => {
     const result = getPayErrorMessage(-32601);
-    expect(result).toBe(PAY_INVALID_CHARGE_ERROR_MESSAGE);
+    expect(result).toBe(CHECKOUT_INVALID_CHARGE_ERROR_MESSAGE);
   });
 
-  it('should return PAY_INVALID_PARAMETER_ERROR_MESSAGE for errorCode -32602', () => {
+  it('should return CHECKOUT_INVALID_PARAMETER_ERROR_MESSAGE for errorCode -32602', () => {
     const result = getPayErrorMessage(-32602);
-    expect(result).toBe(PAY_INVALID_PARAMETER_ERROR_MESSAGE);
+    expect(result).toBe(CHECKOUT_INVALID_PARAMETER_ERROR_MESSAGE);
   });
 
   it('should return GENERAL_CHECKOUT_ERROR_MESSAGE for misc errorCode', () => {
