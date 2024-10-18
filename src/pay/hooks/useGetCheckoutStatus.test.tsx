@@ -3,13 +3,13 @@ import { describe, expect, it, vi } from 'vitest';
 import { color } from '../../styles/theme';
 import { usePayContext } from '../components/CheckoutProvider';
 import { PAY_LIFECYCLESTATUS } from '../constants';
-import { useGetPayStatus } from './useGetPayStatus';
+import { useGetCheckoutStatus } from './useGetCheckoutStatus';
 
 vi.mock('../components/CheckoutProvider', () => ({
   usePayContext: vi.fn(),
 }));
 
-describe('useGetPayStatus', () => {
+describe('useGetCheckoutStatus', () => {
   it('should return pending status', () => {
     vi.mocked(usePayContext).mockReturnValue({
       errorMessage: '',
@@ -20,7 +20,7 @@ describe('useGetPayStatus', () => {
       onSubmit: vi.fn(),
       updateLifecycleStatus: vi.fn(),
     });
-    const { result } = renderHook(() => useGetPayStatus());
+    const { result } = renderHook(() => useGetCheckoutStatus());
     expect(result.current).toEqual({
       label: 'Payment in progress...',
       labelClassName: color.foregroundMuted,
@@ -41,7 +41,7 @@ describe('useGetPayStatus', () => {
       onSubmit: vi.fn(),
       updateLifecycleStatus: vi.fn(),
     });
-    const { result } = renderHook(() => useGetPayStatus());
+    const { result } = renderHook(() => useGetCheckoutStatus());
     expect(result.current).toEqual({
       label: 'Payment successful!',
       labelClassName: color.success,
@@ -62,7 +62,7 @@ describe('useGetPayStatus', () => {
       onSubmit: vi.fn(),
       updateLifecycleStatus: vi.fn(),
     });
-    const { result } = renderHook(() => useGetPayStatus());
+    const { result } = renderHook(() => useGetCheckoutStatus());
     expect(result.current).toEqual({
       label: 'Payment failed',
       labelClassName: color.error,

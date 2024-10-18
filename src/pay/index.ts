@@ -1,9 +1,9 @@
 export { Pay } from './components/Pay';
 export { CheckoutButton } from './components/CheckoutButton';
-export { PayStatus } from './components/PayStatus';
+export { CheckoutStatus } from './components/CheckoutStatus';
 export type {
   LifecycleStatus,
   CheckoutButtonReact,
   PayReact,
-  PayStatusReact,
+  CheckoutStatusReact,
 } from './types';

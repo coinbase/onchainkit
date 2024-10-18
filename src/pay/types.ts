@@ -137,7 +137,7 @@ export type PayReact = {
 /**
  * Note: exported as public Type
  */
-export type PayStatusReact = { className?: string };
+export type CheckoutStatusReact = { className?: string };
 
 export type UseCommerceContractsParams = {
   chargeHandler?: () => Promise<string>;

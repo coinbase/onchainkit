@@ -3,7 +3,7 @@ import { color } from '../../styles/theme';
 import { usePayContext } from '../components/CheckoutProvider';
 import { PAY_LIFECYCLESTATUS } from '../constants';
 
-export function useGetPayStatus() {
+export function useGetCheckoutStatus() {
   const { errorMessage, lifecycleStatus } = usePayContext();
   const isPending = lifecycleStatus?.statusName === PAY_LIFECYCLESTATUS.PENDING;
   const isSuccess = lifecycleStatus?.statusName === PAY_LIFECYCLESTATUS.SUCCESS;
