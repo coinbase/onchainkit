@@ -1,4 +1,5 @@
 import type { Address } from 'viem';
+import type { ContractType } from '../nft/types';
 import type { Fee, QuoteWarning, SwapQuote, Transaction } from '../swap/types';
 import type { Token } from '../token/types';
 
@@ -143,3 +144,70 @@ export type RawTransactionData = {
 };
 
 export type SwapAPIParams = GetQuoteAPIParams | GetSwapAPIParams;
+
+export type GetTokenDetailsParams = {
+  contractAddress: Address; // The address of the token contract
+  tokenId?: string; // The ID of the token
+};
+
+type TokenDetails = {
+  name: string;
+  description: string;
+  imageUrl: string;
+  animationUrl: string;
+  mimeType: string;
+  ownerAddress: Address;
+  lastSoldPrice: {
+    amount: string;
+    currency: string;
+    amountUSD: string;
+  };
+  contractType: ContractType; // ERC721, ERC1155
+};
+
+export type GetTokenDetailsResponse = TokenDetails | APIError;
+
+export type GetMintDetailsParams = {
+  contractAddress: Address; // The address of the token contract
+  takerAddress: Address; // The address of the user
+};
+
+type MintDetails = {
+  price: {
+    amount: string;
+    currency: string;
+    amountUSD: string;
+  };
+  mintFee: {
+    amount: string;
+    currency: string;
+    amountUSD: string;
+  };
+  maxMintsPerWallet: number;
+  isEligibleToMint: boolean;
+  creatorAddress: Address;
+  totalTokens: string;
+  totalOwners: string;
+  network: string;
+};
+
+export type GetMintDetailsResponse = MintDetails | APIError;
+
+export type BuildMintTransactionParams = {
+  mintAddress: Address; // The address of the token contract to mint
+  network: string; // The network the mint contract is on
+  quantity: number; // The number of tokens to mint
+  takerAddress: Address; // The address of the user
+  tokenId?: string; // The ID of the token, required for ERC1155
+};
+
+type MintTransaction = {
+  callData: {
+    data: string;
+    to: string;
+    from: string;
+    value: string;
+  };
+};
+
+export type BuildMintTransactionResponse = MintTransaction | APIError;
