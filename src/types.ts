@@ -5,7 +5,7 @@ import type { EASSchemaUid } from './identity/types';
 /**
  * Note: exported as public Type
  */
-export type AppConfiguration = {
+export type AppConfig = {
   appearance?: {
     name?: string | null;
     logo?: string | null;
@@ -58,7 +58,7 @@ export type OnchainKitConfig = {
   address: Address | null; // Address is optional as we may not have an address for new users
   apiKey: string | null; // ApiKey for Coinbase Developer Platform APIs
   chain: Chain; // Chain must be provided as we need to know which chain to use
-  config?: AppConfiguration; // Configuration for the application
+  config?: AppConfig; // Configuration for the application
   rpcUrl: string | null; // RPC URL for onchain requests. Defaults to using CDP Node if the API Key is set
   schemaId: EASSchemaUid | null; // SchemaId is optional as not all apps need to use EAS
   projectId: string | null; // ProjectId from Coinbase Developer Platform, only required for Coinbase Onramp support
@@ -79,7 +79,7 @@ export type OnchainKitProviderReact = {
   apiKey?: string;
   chain: Chain;
   children: ReactNode;
-  config?: AppConfiguration;
+  config?: AppConfig;
   rpcUrl?: string;
   schemaId?: EASSchemaUid;
   projectId?: string;

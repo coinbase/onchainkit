@@ -1,14 +1,14 @@
 import { http, cookieStorage, createConfig, createStorage } from 'wagmi';
 import { base, baseSepolia } from 'wagmi/chains';
 import { coinbaseWallet } from 'wagmi/connectors';
-import type { AppConfiguration } from './types';
+import type { AppConfig } from './types';
 
 export const getDefaultConfig = ({
   apiKey,
   config,
 }: {
   apiKey?: string;
-  config?: AppConfiguration;
+  config?: AppConfig;
 }) => {
   return createConfig({
     chains: [base, baseSepolia],
