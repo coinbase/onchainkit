@@ -86,21 +86,13 @@ describe('getDefaultConfig', () => {
     const testApiKey = 'test-api-key';
     const result = getDefaultConfig({ apiKey: testApiKey });
 
-    expect(createConfig).toHaveBeenCalledWith(
-      expect.objectContaining({
-        transports: {
-          [base.id]: expect.any(
-            http(
-              `https://api.developer.coinbase.com/rpc/v1/base/${testApiKey}`,
-            ),
-          ),
-          [baseSepolia.id]: expect.any(
-            http(
-              `https://api.developer.coinbase.com/rpc/v1/base-sepolia/${testApiKey}`,
-            ),
-          ),
-        },
-      }),
+    expect(result).toContain(
+      http(`https://api.developer.coinbase.com/rpc/v1/base/${testApiKey}`),
+    );
+    expect(result).toContain(
+      http(
+        `https://api.developer.coinbase.com/rpc/v1/base-sepolia/${testApiKey}`,
+      ),
     );
   });
 });

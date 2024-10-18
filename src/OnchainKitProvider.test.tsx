@@ -2,13 +2,27 @@ import '@testing-library/jest-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { render, screen, waitFor } from '@testing-library/react';
 import { base } from 'viem/chains';
-import { describe, expect, it, vi } from 'vitest';
-import { http, WagmiProvider, createConfig } from 'wagmi';
+import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
+import {
+  http,
+  WagmiProvider,
+  WagmiProviderNotFoundError,
+  createConfig,
+} from 'wagmi';
+import { useConfig } from 'wagmi';
 import { mock } from 'wagmi/connectors';
 import { setOnchainKitConfig } from './OnchainKitConfig';
 import { OnchainKitProvider } from './OnchainKitProvider';
 import type { EASSchemaUid } from './identity/types';
 import { useOnchainKit } from './useOnchainKit';
+
+vi.mock('wagmi', async (importOriginal) => {
+  const actual = await importOriginal();
+  return {
+    ...actual,
+    useConfig: vi.fn(),
+  };
+});
 
 const queryClient = new QueryClient();
 const mockConfig = createConfig({
@@ -53,6 +67,11 @@ describe('OnchainKitProvider', () => {
   const appLogo = 'https://onchainkit.xyz/favicon/48x48.png?v4-19-24';
   const appName = 'My OnchainKit App';
 
+  beforeEach(() => {
+    vi.clearAllMocks();
+    (useConfig as Mock).mockReturnValue(mockConfig);
+  });
+
   it('provides the context value correctly', async () => {
     render(
       <WagmiProvider config={mockConfig}>
@@ -70,7 +89,27 @@ describe('OnchainKitProvider', () => {
     });
   });
 
+  it('provides the context value correctly without WagmiProvider', async () => {
+    (useConfig as Mock).mockImplementation(() => {
+      throw new WagmiProviderNotFoundError();
+    });
+
+    render(
+      <OnchainKitProvider chain={base} schemaId={schemaId} apiKey={apiKey}>
+        <TestComponent />
+      </OnchainKitProvider>,
+    );
+
+    await waitFor(() => {
+      expect(screen.getByText(schemaId)).toBeInTheDocument();
+      expect(screen.getByText(apiKey)).toBeInTheDocument();
+    });
+  });
+
   it('throws an error if schemaId does not meet the required length', () => {
+    const consoleErrorSpy = vi
+      .spyOn(console, 'error')
+      .mockImplementation(() => {});
     expect(() => {
       render(
         <WagmiProvider config={mockConfig}>
@@ -82,6 +121,7 @@ describe('OnchainKitProvider', () => {
         </WagmiProvider>,
       );
     }).toThrow('EAS schemaId must be 64 characters prefixed with "0x"');
+    consoleErrorSpy.mockRestore();
   });
 
   it('does not throw an error if schemaId is not provided', () => {
@@ -254,5 +294,59 @@ describe('OnchainKitProvider', () => {
         }),
       );
     });
+  });
+
+  it('should render without WagmiProvider and use default config', async () => {
+    render(
+      <OnchainKitProvider chain={base} schemaId={schemaId} apiKey={apiKey}>
+        <TestComponent />
+      </OnchainKitProvider>,
+    );
+
+    await waitFor(() => {
+      expect(screen.getByText(schemaId)).toBeInTheDocument();
+      expect(screen.getByText(apiKey)).toBeInTheDocument();
+    });
+
+    expect(setOnchainKitConfig).toHaveBeenCalledWith(
+      expect.objectContaining({
+        address: null,
+        apiKey,
+        chain: base,
+        config: expect.objectContaining({
+          appearance: expect.any(Object),
+          paymaster: expect.any(String),
+        }),
+        projectId: null,
+        rpcUrl: null,
+        schemaId,
+      }),
+    );
+  });
+
+  it('should throw an error when useConfig throws an unexpected error', () => {
+    const consoleErrorSpy = vi
+      .spyOn(console, 'error')
+      .mockImplementation(() => {});
+    const mockError = new Error('Unexpected config error');
+
+    (useConfig as Mock).mockImplementation(() => {
+      throw mockError;
+    });
+
+    expect(() => {
+      render(
+        <OnchainKitProvider chain={base} schemaId={schemaId} apiKey={apiKey}>
+          <TestComponent />
+        </OnchainKitProvider>,
+      );
+    }).toThrow('Unexpected config error');
+
+    expect(consoleErrorSpy).toHaveBeenCalledWith(
+      'Error fetching config, using OnchainKit defaults:',
+      mockError,
+    );
+
+    consoleErrorSpy.mockRestore();
   });
 });
