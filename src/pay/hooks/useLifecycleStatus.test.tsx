@@ -1,11 +1,11 @@
 import { act, renderHook } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
-import { PAY_LIFECYCLESTATUS } from '../constants';
+import { CHECKOUT_LIFECYCLESTATUS } from '../constants';
 import type { LifecycleStatus, LifecycleStatusUpdate } from '../types';
 import { useLifecycleStatus } from './useLifecycleStatus';
 
 const initialLifecycleStatus: LifecycleStatus = {
-  statusName: PAY_LIFECYCLESTATUS.INIT,
+  statusName: CHECKOUT_LIFECYCLESTATUS.INIT,
   statusData: {},
 };
 
@@ -24,11 +24,11 @@ describe('useLifecycleStatus', () => {
     expect(result.current.lifecycleStatus).toEqual(initialLifecycleStatus);
     act(() => {
       result.current.updateLifecycleStatus({
-        statusName: PAY_LIFECYCLESTATUS.PENDING,
+        statusName: CHECKOUT_LIFECYCLESTATUS.PENDING,
       });
     });
     expect(result.current.lifecycleStatus).toEqual({
-      statusName: PAY_LIFECYCLESTATUS.PENDING,
+      statusName: CHECKOUT_LIFECYCLESTATUS.PENDING,
       statusData: {},
     });
   });
@@ -40,7 +40,7 @@ describe('useLifecycleStatus', () => {
     expect(result.current.lifecycleStatus).toEqual(initialLifecycleStatus);
     act(() => {
       result.current.updateLifecycleStatus({
-        statusName: PAY_LIFECYCLESTATUS.ERROR,
+        statusName: CHECKOUT_LIFECYCLESTATUS.ERROR,
         statusData: {
           error: 'error',
           code: 'error code',
@@ -49,7 +49,7 @@ describe('useLifecycleStatus', () => {
       } as LifecycleStatusUpdate);
     });
     expect(result.current.lifecycleStatus).toEqual({
-      statusName: PAY_LIFECYCLESTATUS.ERROR,
+      statusName: CHECKOUT_LIFECYCLESTATUS.ERROR,
       statusData: {
         error: 'error',
         code: 'error code',
@@ -58,11 +58,11 @@ describe('useLifecycleStatus', () => {
     });
     act(() => {
       result.current.updateLifecycleStatus({
-        statusName: PAY_LIFECYCLESTATUS.PENDING,
+        statusName: CHECKOUT_LIFECYCLESTATUS.PENDING,
       });
     });
     expect(result.current.lifecycleStatus).toEqual({
-      statusName: PAY_LIFECYCLESTATUS.PENDING,
+      statusName: CHECKOUT_LIFECYCLESTATUS.PENDING,
       statusData: {},
     });
   });
@@ -73,12 +73,12 @@ describe('useLifecycleStatus', () => {
     );
     act(() => {
       result.current.updateLifecycleStatus({
-        statusName: PAY_LIFECYCLESTATUS.PENDING,
+        statusName: CHECKOUT_LIFECYCLESTATUS.PENDING,
         statusData: {},
       });
     });
     expect(result.current.lifecycleStatus).toEqual({
-      statusName: PAY_LIFECYCLESTATUS.PENDING,
+      statusName: CHECKOUT_LIFECYCLESTATUS.PENDING,
       statusData: {},
     });
   });
@@ -89,7 +89,7 @@ describe('useLifecycleStatus', () => {
     );
     act(() => {
       result.current.updateLifecycleStatus({
-        statusName: PAY_LIFECYCLESTATUS.SUCCESS,
+        statusName: CHECKOUT_LIFECYCLESTATUS.SUCCESS,
         statusData: {
           transactionReceipts: [],
           chargeId: 'charge123',
@@ -98,7 +98,7 @@ describe('useLifecycleStatus', () => {
       } as LifecycleStatusUpdate);
     });
     expect(result.current.lifecycleStatus).toEqual({
-      statusName: PAY_LIFECYCLESTATUS.SUCCESS,
+      statusName: CHECKOUT_LIFECYCLESTATUS.SUCCESS,
       statusData: {
         transactionReceipts: [],
         chargeId: 'charge123',

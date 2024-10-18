@@ -2,7 +2,7 @@ import { renderHook } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 import { color } from '../../styles/theme';
 import { useCheckoutContext } from '../components/CheckoutProvider';
-import { PAY_LIFECYCLESTATUS } from '../constants';
+import { CHECKOUT_LIFECYCLESTATUS } from '../constants';
 import { useGetCheckoutStatus } from './useGetCheckoutStatus';
 
 vi.mock('../components/CheckoutProvider', () => ({
@@ -14,7 +14,7 @@ describe('useGetCheckoutStatus', () => {
     vi.mocked(useCheckoutContext).mockReturnValue({
       errorMessage: '',
       lifecycleStatus: {
-        statusName: PAY_LIFECYCLESTATUS.PENDING,
+        statusName: CHECKOUT_LIFECYCLESTATUS.PENDING,
         statusData: {},
       },
       onSubmit: vi.fn(),
@@ -31,7 +31,7 @@ describe('useGetCheckoutStatus', () => {
     vi.mocked(useCheckoutContext).mockReturnValue({
       errorMessage: '',
       lifecycleStatus: {
-        statusName: PAY_LIFECYCLESTATUS.SUCCESS,
+        statusName: CHECKOUT_LIFECYCLESTATUS.SUCCESS,
         statusData: {
           transactionReceipts: [],
           chargeId: '',
@@ -52,7 +52,7 @@ describe('useGetCheckoutStatus', () => {
     vi.mocked(useCheckoutContext).mockReturnValue({
       errorMessage: 'Payment failed',
       lifecycleStatus: {
-        statusName: PAY_LIFECYCLESTATUS.ERROR,
+        statusName: CHECKOUT_LIFECYCLESTATUS.ERROR,
         statusData: {
           code: 'PmUWCSh01',
           error: 'Payment failed',

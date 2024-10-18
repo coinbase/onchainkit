@@ -1,6 +1,6 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
-import { PAY_LIFECYCLESTATUS } from '../constants';
+import { CHECKOUT_LIFECYCLESTATUS } from '../constants';
 import { CheckoutButton } from './CheckoutButton';
 import { useCheckoutContext } from './CheckoutProvider';
 
@@ -24,7 +24,7 @@ describe('CheckoutButton', () => {
   beforeEach(() => {
     mockOnSubmit.mockClear();
     useCheckoutContextMock.mockReturnValue({
-      lifecycleStatus: { statusName: PAY_LIFECYCLESTATUS.INIT },
+      lifecycleStatus: { statusName: CHECKOUT_LIFECYCLESTATUS.INIT },
       onSubmit: mockOnSubmit,
     });
   });
@@ -38,7 +38,7 @@ describe('CheckoutButton', () => {
 
   it('should render Spinner when loading', () => {
     useCheckoutContextMock.mockReturnValue({
-      lifecycleStatus: { statusName: PAY_LIFECYCLESTATUS.PENDING },
+      lifecycleStatus: { statusName: CHECKOUT_LIFECYCLESTATUS.PENDING },
       onSubmit: mockOnSubmit,
     });
     render(<CheckoutButton />);
@@ -50,7 +50,7 @@ describe('CheckoutButton', () => {
 
   it('should render "View payment details" when transaction is successful', () => {
     useCheckoutContextMock.mockReturnValue({
-      lifecycleStatus: { statusName: PAY_LIFECYCLESTATUS.SUCCESS },
+      lifecycleStatus: { statusName: CHECKOUT_LIFECYCLESTATUS.SUCCESS },
       onSubmit: mockOnSubmit,
     });
     render(<CheckoutButton />);
@@ -60,7 +60,7 @@ describe('CheckoutButton', () => {
   it('should render "Get USDC" when there is insufficient balance error', () => {
     useCheckoutContextMock.mockReturnValue({
       lifecycleStatus: {
-        statusName: PAY_LIFECYCLESTATUS.ERROR,
+        statusName: CHECKOUT_LIFECYCLESTATUS.ERROR,
         statusData: { error: 'User has insufficient balance' },
       },
       onSubmit: mockOnSubmit,

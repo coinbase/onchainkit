@@ -16,24 +16,24 @@ export const PAY_INVALID_PARAMETER_ERROR_MESSAGE =
 export const UNCAUGHT_PAY_ERROR_MESSAGE = 'UNCAUGHT_PAY_ERROR';
 export const USER_REJECTED_ERROR = 'Request denied.';
 
-export enum PayErrorCode {
+export enum CheckoutErrorCode {
   INSUFFICIENT_BALANCE = 'insufficient_balance',
   GENERIC_ERROR = 'generic_error',
   UNEXPECTED_ERROR = 'unexpected_error',
   USER_REJECTED_ERROR = 'user_rejected',
 }
 
-export interface PayErrorType {
-  code: PayErrorCode;
+export interface CheckoutErrorType {
+  code: CheckoutErrorCode;
   error: string;
   message: string;
 }
 
-export type PayErrors = {
-  [K in PayErrorCode]: PayErrorType;
+export type CheckoutErrors = {
+  [K in CheckoutErrorCode]: CheckoutErrorType;
 };
 
-export enum PAY_LIFECYCLESTATUS {
+export enum CHECKOUT_LIFECYCLESTATUS {
   FETCHING_DATA = 'fetchingData',
   INIT = 'init',
   PENDING = 'pending',

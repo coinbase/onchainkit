@@ -8,7 +8,7 @@ import {
   pressable,
   text as styleText,
 } from '../../styles/theme';
-import { PAY_LIFECYCLESTATUS } from '../constants';
+import { CHECKOUT_LIFECYCLESTATUS } from '../constants';
 import type { CheckoutButtonReact } from '../types';
 import { useCheckoutContext } from './CheckoutProvider';
 
@@ -26,16 +26,17 @@ export function CheckoutButton({
   const { lifecycleStatus, onSubmit } = useCheckoutContext();
   const iconSvg = useIcon({ icon });
 
-  const isLoading = lifecycleStatus?.statusName === PAY_LIFECYCLESTATUS.PENDING;
+  const isLoading =
+    lifecycleStatus?.statusName === CHECKOUT_LIFECYCLESTATUS.PENDING;
   const isFetchingData =
-    lifecycleStatus?.statusName === PAY_LIFECYCLESTATUS.FETCHING_DATA;
+    lifecycleStatus?.statusName === CHECKOUT_LIFECYCLESTATUS.FETCHING_DATA;
   const isDisabled = disabled || isLoading || isFetchingData;
   const buttonText = useMemo(() => {
-    if (lifecycleStatus?.statusName === PAY_LIFECYCLESTATUS.SUCCESS) {
+    if (lifecycleStatus?.statusName === CHECKOUT_LIFECYCLESTATUS.SUCCESS) {
       return 'View payment details';
     }
     if (
-      lifecycleStatus?.statusName === PAY_LIFECYCLESTATUS.ERROR &&
+      lifecycleStatus?.statusName === CHECKOUT_LIFECYCLESTATUS.ERROR &&
       lifecycleStatus?.statusData.error === 'User has insufficient balance'
     ) {
       return 'Get USDC';

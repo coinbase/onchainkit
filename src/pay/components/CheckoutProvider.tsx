@@ -24,10 +24,10 @@ import {
   USER_REJECTED_ERROR,
 } from '../constants';
 import {
+  CHECKOUT_LIFECYCLESTATUS,
+  CheckoutErrorCode,
   PAY_INSUFFICIENT_BALANCE_ERROR,
   PAY_INSUFFICIENT_BALANCE_ERROR_MESSAGE,
-  PAY_LIFECYCLESTATUS,
-  PayErrorCode,
 } from '../constants';
 import { useCommerceContracts } from '../hooks/useCommerceContracts';
 import { useLifecycleStatus } from '../hooks/useLifecycleStatus';
@@ -75,7 +75,7 @@ export function CheckoutProvider({
   const fetchData = useCallback(
     async (address: Address) => {
       updateLifecycleStatus({
-        statusName: PAY_LIFECYCLESTATUS.FETCHING_DATA,
+        statusName: CHECKOUT_LIFECYCLESTATUS.FETCHING_DATA,
         statusData: {},
       });
       const {
@@ -88,9 +88,9 @@ export function CheckoutProvider({
       if (error) {
         setErrorMessage(GENERIC_ERROR_MESSAGE);
         updateLifecycleStatus({
-          statusName: PAY_LIFECYCLESTATUS.ERROR,
+          statusName: CHECKOUT_LIFECYCLESTATUS.ERROR,
           statusData: {
-            code: PayErrorCode.UNEXPECTED_ERROR,
+            code: CheckoutErrorCode.UNEXPECTED_ERROR,
             error: (error as Error).name,
             message: (error as Error).message,
           },
@@ -102,7 +102,7 @@ export function CheckoutProvider({
       insufficientBalanceRef.current = insufficientBalance;
       priceInUSDCRef.current = priceInUSDC;
       updateLifecycleStatus({
-        statusName: PAY_LIFECYCLESTATUS.READY,
+        statusName: CHECKOUT_LIFECYCLESTATUS.READY,
         statusData: {
           chargeId,
           contracts: contractsRef.current || [],
@@ -114,7 +114,7 @@ export function CheckoutProvider({
 
   // Component lifecycle
   const { lifecycleStatus, updateLifecycleStatus } = useLifecycleStatus({
-    statusName: PAY_LIFECYCLESTATUS.INIT,
+    statusName: CHECKOUT_LIFECYCLESTATUS.INIT,
     statusData: {},
   });
 
@@ -162,7 +162,7 @@ export function CheckoutProvider({
   useEffect(() => {
     if (status === 'pending') {
       updateLifecycleStatus({
-        statusName: PAY_LIFECYCLESTATUS.PENDING,
+        statusName: CHECKOUT_LIFECYCLESTATUS.PENDING,
         statusData: {},
       });
     }
@@ -174,7 +174,7 @@ export function CheckoutProvider({
       return;
     }
     updateLifecycleStatus({
-      statusName: PAY_LIFECYCLESTATUS.SUCCESS,
+      statusName: CHECKOUT_LIFECYCLESTATUS.SUCCESS,
       statusData: {
         transactionReceipts: [receipt],
         chargeId: chargeId,
@@ -186,7 +186,7 @@ export function CheckoutProvider({
   // We need to pre-load transaction data in `useEffect` when the wallet is already connected due to a Smart Wallet popup blocking issue in Safari iOS
   useEffect(() => {
     if (
-      lifecycleStatus.statusName === PAY_LIFECYCLESTATUS.INIT &&
+      lifecycleStatus.statusName === CHECKOUT_LIFECYCLESTATUS.INIT &&
       address &&
       !fetchedDataHandleSubmit.current
     ) {
@@ -199,7 +199,7 @@ export function CheckoutProvider({
   const handleSubmit = useCallback(async () => {
     try {
       // Open Coinbase Commerce receipt
-      if (lifecycleStatus.statusName === PAY_LIFECYCLESTATUS.SUCCESS) {
+      if (lifecycleStatus.statusName === CHECKOUT_LIFECYCLESTATUS.SUCCESS) {
         window.open(
           `https://commerce.coinbase.com/pay/${chargeId}/receipt`,
           '_blank',
@@ -210,8 +210,9 @@ export function CheckoutProvider({
       // Open funding flow
       // TODO: Deprecate this once we have USDC Magic Spend
       if (
-        lifecycleStatus.statusName === PAY_LIFECYCLESTATUS.ERROR &&
-        lifecycleStatus.statusData?.code === PayErrorCode.INSUFFICIENT_BALANCE
+        lifecycleStatus.statusName === CHECKOUT_LIFECYCLESTATUS.ERROR &&
+        lifecycleStatus.statusData?.code ===
+          CheckoutErrorCode.INSUFFICIENT_BALANCE
       ) {
         window.open(
           'https://keys.coinbase.com/fund?asset=USDC&chainId=8453',
@@ -221,7 +222,7 @@ export function CheckoutProvider({
         // Reset status
         setErrorMessage('');
         updateLifecycleStatus({
-          statusName: PAY_LIFECYCLESTATUS.INIT,
+          statusName: CHECKOUT_LIFECYCLESTATUS.INIT,
           statusData: {},
         });
         return;
@@ -245,9 +246,9 @@ export function CheckoutProvider({
       if (!connectedAddress) {
         setErrorMessage(GENERIC_ERROR_MESSAGE);
         updateLifecycleStatus({
-          statusName: PAY_LIFECYCLESTATUS.ERROR,
+          statusName: CHECKOUT_LIFECYCLESTATUS.ERROR,
           statusData: {
-            code: PayErrorCode.UNEXPECTED_ERROR,
+            code: CheckoutErrorCode.UNEXPECTED_ERROR,
             error: NO_CONNECTED_ADDRESS_ERROR,
             message: NO_CONNECTED_ADDRESS_ERROR,
           },
@@ -274,9 +275,9 @@ export function CheckoutProvider({
           PAY_INSUFFICIENT_BALANCE_ERROR_MESSAGE(priceInUSDCRef.current),
         );
         updateLifecycleStatus({
-          statusName: PAY_LIFECYCLESTATUS.ERROR,
+          statusName: CHECKOUT_LIFECYCLESTATUS.ERROR,
           statusData: {
-            code: PayErrorCode.INSUFFICIENT_BALANCE,
+            code: CheckoutErrorCode.INSUFFICIENT_BALANCE,
             error: PAY_INSUFFICIENT_BALANCE_ERROR,
             message: PAY_INSUFFICIENT_BALANCE_ERROR_MESSAGE(
               priceInUSDCRef.current,
@@ -290,9 +291,9 @@ export function CheckoutProvider({
       if (!contractsRef.current || contractsRef.current.length === 0) {
         setErrorMessage(GENERIC_ERROR_MESSAGE);
         updateLifecycleStatus({
-          statusName: PAY_LIFECYCLESTATUS.ERROR,
+          statusName: CHECKOUT_LIFECYCLESTATUS.ERROR,
           statusData: {
-            code: PayErrorCode.UNEXPECTED_ERROR,
+            code: CheckoutErrorCode.UNEXPECTED_ERROR,
             error: NO_CONTRACTS_ERROR,
             message: NO_CONTRACTS_ERROR,
           },
@@ -312,8 +313,8 @@ export function CheckoutProvider({
         (error as Error).message?.includes('User denied connection request') ||
         isUserRejectedRequestError(error);
       const errorCode = isUserRejectedError
-        ? PayErrorCode.USER_REJECTED_ERROR
-        : PayErrorCode.UNEXPECTED_ERROR;
+        ? CheckoutErrorCode.USER_REJECTED_ERROR
+        : CheckoutErrorCode.UNEXPECTED_ERROR;
       const errorMessage = isUserRejectedError
         ? USER_REJECTED_ERROR
         : GENERIC_ERROR_MESSAGE;
@@ -324,7 +325,7 @@ export function CheckoutProvider({
 
       setErrorMessage(errorMessage);
       updateLifecycleStatus({
-        statusName: PAY_LIFECYCLESTATUS.ERROR,
+        statusName: CHECKOUT_LIFECYCLESTATUS.ERROR,
         statusData: {
           code: errorCode,
           error: JSON.stringify(error),
