@@ -2,10 +2,10 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { PAY_LIFECYCLESTATUS } from '../constants';
 import { CheckoutButton } from './CheckoutButton';
-import { usePayContext } from './CheckoutProvider';
+import { useCheckoutContext } from './CheckoutProvider';
 
 vi.mock('./CheckoutProvider', () => ({
-  usePayContext: vi.fn(),
+  useCheckoutContext: vi.fn(),
 }));
 
 vi.mock('../../internal/components/Spinner', () => ({
@@ -16,14 +16,14 @@ vi.mock('../../internal/hooks/useIcon', () => ({
   useIcon: vi.fn(() => <svg data-testid="icon" />),
 }));
 
-const usePayContextMock = usePayContext as Mock;
+const useCheckoutContextMock = useCheckoutContext as Mock;
 
 describe('CheckoutButton', () => {
   const mockOnSubmit = vi.fn();
 
   beforeEach(() => {
     mockOnSubmit.mockClear();
-    usePayContextMock.mockReturnValue({
+    useCheckoutContextMock.mockReturnValue({
       lifecycleStatus: { statusName: PAY_LIFECYCLESTATUS.INIT },
       onSubmit: mockOnSubmit,
     });
@@ -37,7 +37,7 @@ describe('CheckoutButton', () => {
   });
 
   it('should render Spinner when loading', () => {
-    usePayContextMock.mockReturnValue({
+    useCheckoutContextMock.mockReturnValue({
       lifecycleStatus: { statusName: PAY_LIFECYCLESTATUS.PENDING },
       onSubmit: mockOnSubmit,
     });
@@ -49,7 +49,7 @@ describe('CheckoutButton', () => {
   });
 
   it('should render "View payment details" when transaction is successful', () => {
-    usePayContextMock.mockReturnValue({
+    useCheckoutContextMock.mockReturnValue({
       lifecycleStatus: { statusName: PAY_LIFECYCLESTATUS.SUCCESS },
       onSubmit: mockOnSubmit,
     });
@@ -58,7 +58,7 @@ describe('CheckoutButton', () => {
   });
 
   it('should render "Get USDC" when there is insufficient balance error', () => {
-    usePayContextMock.mockReturnValue({
+    useCheckoutContextMock.mockReturnValue({
       lifecycleStatus: {
         statusName: PAY_LIFECYCLESTATUS.ERROR,
         statusData: { error: 'User has insufficient balance' },

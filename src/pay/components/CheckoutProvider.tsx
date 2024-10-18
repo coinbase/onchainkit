@@ -36,10 +36,10 @@ import type { CheckoutContextType, CheckoutProviderReact } from '../types';
 const emptyContext = {} as CheckoutContextType;
 export const CheckoutContext = createContext<CheckoutContextType>(emptyContext);
 
-export function usePayContext() {
+export function useCheckoutContext() {
   const context = useContext(CheckoutContext);
   if (context === emptyContext) {
-    throw new Error('usePayContext must be used within a Pay component');
+    throw new Error('useCheckoutContext must be used within a Pay component');
   }
   return context;
 }

@@ -16,7 +16,7 @@ import { useOnchainKit } from '../../useOnchainKit';
 import { useIsWalletACoinbaseSmartWallet } from '../../wallet/hooks/useIsWalletACoinbaseSmartWallet';
 import { GENERIC_ERROR_MESSAGE } from '../constants';
 import { useCommerceContracts } from '../hooks/useCommerceContracts';
-import { CheckoutProvider, usePayContext } from './CheckoutProvider';
+import { CheckoutProvider, useCheckoutContext } from './CheckoutProvider';
 
 vi.mock('wagmi', () => ({
   useAccount: vi.fn(),
@@ -45,7 +45,7 @@ vi.mock('../../useOnchainKit', () => ({
 const windowOpenMock = vi.fn();
 
 const TestComponent = () => {
-  const context = usePayContext();
+  const context = useCheckoutContext();
   return (
     <div data-testid="test-component">
       <span data-testid="lifecycle-status">
@@ -338,7 +338,7 @@ describe('CheckoutProvider', () => {
     fireEvent.click(screen.getByText('Submit'));
     await waitFor(() => {
       expect(screen.getByTestId('lifecycle-status').textContent).toBe(
-        'paymentPending',
+        'pending',
       );
     });
   });
@@ -522,17 +522,17 @@ describe('CheckoutProvider', () => {
   });
 });
 
-describe('usePayContext', () => {
+describe('useCheckoutContext', () => {
   it('should throw an error when used outside of CheckoutProvider', () => {
     const TestComponent = () => {
-      usePayContext();
+      useCheckoutContext();
       return null;
     };
     const consoleError = vi
       .spyOn(console, 'error')
       .mockImplementation(() => {}); // Suppress error logging
     expect(() => render(<TestComponent />)).toThrow(
-      'usePayContext must be used within a Pay component',
+      'useCheckoutContext must be used within a Pay component',
     );
     consoleError.mockRestore();
   });

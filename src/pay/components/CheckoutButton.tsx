@@ -10,7 +10,7 @@ import {
 } from '../../styles/theme';
 import { PAY_LIFECYCLESTATUS } from '../constants';
 import type { CheckoutButtonReact } from '../types';
-import { usePayContext } from './CheckoutProvider';
+import { useCheckoutContext } from './CheckoutProvider';
 
 export function CheckoutButton({
   className,
@@ -23,7 +23,7 @@ export function CheckoutButton({
     icon = 'coinbasePay';
     text = 'Pay with Crypto';
   }
-  const { lifecycleStatus, onSubmit } = usePayContext();
+  const { lifecycleStatus, onSubmit } = useCheckoutContext();
   const iconSvg = useIcon({ icon });
 
   const isLoading = lifecycleStatus?.statusName === PAY_LIFECYCLESTATUS.PENDING;

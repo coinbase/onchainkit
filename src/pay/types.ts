@@ -31,7 +31,7 @@ export type LifecycleStatus =
       };
     }
   | {
-      statusName: 'paymentPending';
+      statusName: 'pending';
       statusData: LifecycleStatusDataShared;
     }
   | {

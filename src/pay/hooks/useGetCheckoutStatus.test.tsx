@@ -1,17 +1,17 @@
 import { renderHook } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 import { color } from '../../styles/theme';
-import { usePayContext } from '../components/CheckoutProvider';
+import { useCheckoutContext } from '../components/CheckoutProvider';
 import { PAY_LIFECYCLESTATUS } from '../constants';
 import { useGetCheckoutStatus } from './useGetCheckoutStatus';
 
 vi.mock('../components/CheckoutProvider', () => ({
-  usePayContext: vi.fn(),
+  useCheckoutContext: vi.fn(),
 }));
 
 describe('useGetCheckoutStatus', () => {
   it('should return pending status', () => {
-    vi.mocked(usePayContext).mockReturnValue({
+    vi.mocked(useCheckoutContext).mockReturnValue({
       errorMessage: '',
       lifecycleStatus: {
         statusName: PAY_LIFECYCLESTATUS.PENDING,
@@ -28,7 +28,7 @@ describe('useGetCheckoutStatus', () => {
   });
 
   it('should return success status', () => {
-    vi.mocked(usePayContext).mockReturnValue({
+    vi.mocked(useCheckoutContext).mockReturnValue({
       errorMessage: '',
       lifecycleStatus: {
         statusName: PAY_LIFECYCLESTATUS.SUCCESS,
@@ -49,7 +49,7 @@ describe('useGetCheckoutStatus', () => {
   });
 
   it('should return error status', () => {
-    vi.mocked(usePayContext).mockReturnValue({
+    vi.mocked(useCheckoutContext).mockReturnValue({
       errorMessage: 'Payment failed',
       lifecycleStatus: {
         statusName: PAY_LIFECYCLESTATUS.ERROR,
