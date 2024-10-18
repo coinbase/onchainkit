@@ -18,7 +18,7 @@ function mock<T>(func: T) {
 
 vi.mock('./CheckoutProvider', () => ({
   CheckoutProvider: vi.fn(({ children }: { children: React.ReactNode }) => (
-    <div data-testid="pay-provider">{children}</div>
+    <div data-testid="checkout-provider">{children}</div>
   )),
 }));
 
@@ -56,7 +56,7 @@ describe('Pay', () => {
         <div>Test Child</div>
       </Checkout>,
     );
-    const container = screen.getByTestId('pay-provider')
+    const container = screen.getByTestId('checkout-provider')
       .firstChild as HTMLElement;
     expect(container.className).toContain('test-class');
     expect(container.className).toContain('flex w-full flex-col gap-2');
