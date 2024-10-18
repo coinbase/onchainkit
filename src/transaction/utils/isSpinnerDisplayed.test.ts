@@ -43,6 +43,22 @@ describe('isSpinnerDisplayed', () => {
     expect(result).toEqual(true);
   });
 
+  it('should return true if status is building', () => {
+    transactionHash = '';
+    errorMessage = '';
+    lifecycleStatus = { statusName: 'buildingTransaction', statusData: null };
+    transactionId = '';
+    isLoading = false;
+    const result = isSpinnerDisplayed({
+      errorMessage,
+      isLoading,
+      lifecycleStatus,
+      transactionHash,
+      transactionId,
+    });
+    expect(result).toEqual(true);
+  });
+
   it('should return true if status is pending', () => {
     transactionHash = '';
     errorMessage = '';

@@ -18,11 +18,12 @@ export function Transaction({
 }: TransactionReact) {
   const isMounted = useIsMounted();
   const componentTheme = useTheme();
+  const { chain } = useOnchainKit();
+
   // prevents SSR hydration issue
   if (!isMounted) {
     return null;
   }
-  const { chain } = useOnchainKit();
 
   // If chainId is not provided,
   // use the default chainId from the OnchainKit context

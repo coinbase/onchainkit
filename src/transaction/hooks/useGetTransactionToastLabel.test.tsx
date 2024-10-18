@@ -35,6 +35,7 @@ describe('useGetTransactionToastLabel', () => {
   it('should return correct toast and actionElement when transaction is loading', () => {
     (useTransactionContext as Mock).mockReturnValue({
       isLoading: true,
+      lifecycleStatus: { statusName: 'init' },
     });
 
     const { result } = renderHook(() => useGetTransactionToastLabel());
@@ -45,6 +46,7 @@ describe('useGetTransactionToastLabel', () => {
   it('should return status when transaction hash exists', () => {
     (useTransactionContext as Mock).mockReturnValue({
       transactionHash: '0x123',
+      lifecycleStatus: { statusName: 'init' },
     });
 
     const { result } = renderHook(() => useGetTransactionToastLabel());
@@ -55,6 +57,7 @@ describe('useGetTransactionToastLabel', () => {
   it('should return status when transaction id exists', () => {
     (useTransactionContext as Mock).mockReturnValue({
       transactionId: 'ab123',
+      lifecycleStatus: { statusName: 'init' },
       onSubmit: vi.fn(),
     });
 
@@ -66,10 +69,21 @@ describe('useGetTransactionToastLabel', () => {
     expect(result.current.label).toBe('Transaction in progress');
   });
 
+  it('should return status when building transaction', () => {
+    (useTransactionContext as Mock).mockReturnValue({
+      lifecycleStatus: { statusName: 'buildingTransaction' },
+    });
+
+    const { result } = renderHook(() => useGetTransactionToastLabel());
+
+    expect(result.current.label).toBe('Building transaction');
+  });
+
   it('should return status when receipt exists', () => {
     (useTransactionContext as Mock).mockReturnValue({
       receipt: 'receipt',
       transactionHash: '0x123',
+      lifecycleStatus: { statusName: 'init' },
     });
 
     const { result } = renderHook(() => useGetTransactionToastLabel());
@@ -81,6 +95,7 @@ describe('useGetTransactionToastLabel', () => {
     const onSubmitMock = vi.fn();
     (useTransactionContext as Mock).mockReturnValue({
       errorMessage: 'error',
+      lifecycleStatus: { statusName: 'init' },
       onSubmit: onSubmitMock,
     });
 
@@ -92,6 +107,7 @@ describe('useGetTransactionToastLabel', () => {
   it('should return status when no status available', () => {
     (useTransactionContext as Mock).mockReturnValue({
       errorMessage: '',
+      lifecycleStatus: { statusName: 'init' },
     });
 
     const { result } = renderHook(() => useGetTransactionToastLabel());

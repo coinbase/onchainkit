@@ -8,7 +8,9 @@ export function isSpinnerDisplayed({
   transactionHash,
   transactionId,
 }: IsSpinnerDisplayedProps) {
-  const isPending = lifecycleStatus.statusName === 'transactionPending';
+  const isPending =
+    lifecycleStatus.statusName === 'transactionPending' ||
+    lifecycleStatus.statusName === 'buildingTransaction';
   const isInProgress = transactionId || transactionHash;
 
   if (hasReceipt || errorMessage) {

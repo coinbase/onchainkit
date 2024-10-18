@@ -71,6 +71,9 @@ export function TransactionProvider({
     statusData: null,
   }); // Component lifecycle
   const [transactionId, setTransactionId] = useState('');
+  const [transactionCount, setTransactionCount] = useState<
+    number | undefined
+  >();
   const [transactionHashList, setTransactionHashList] = useState<Address[]>([]);
   const transactions = calls || contracts;
   const transactionType = calls
@@ -160,7 +163,6 @@ export function TransactionProvider({
     capabilities,
     sendCallAsync,
     sendCallsAsync,
-    transactions,
     transactionType,
     walletCapabilities,
     writeContractAsync,
@@ -233,8 +235,8 @@ export function TransactionProvider({
   useEffect(() => {
     if (
       !transactions ||
-      transactionHashList.length !== transactions.length ||
-      transactions.length < 2
+      transactionHashList.length !== transactionCount ||
+      transactionCount < 2
     ) {
       return;
     }
@@ -278,13 +280,36 @@ export function TransactionProvider({
     [account.chainId, switchChainAsync],
   );
 
+  const buildTransaction = useCallback(async () => {
+    setLifecycleStatus({
+      statusName: 'buildingTransaction',
+      statusData: null,
+    });
+    try {
+      const resolvedTransactions = await Promise.resolve(transactions);
+      setTransactionCount(resolvedTransactions?.length);
+      return resolvedTransactions;
+    } catch (err) {
+      setLifecycleStatus({
+        statusName: 'error',
+        statusData: {
+          code: 'TmTPc04', // Transaction module TransactionProvider component 04 error
+          error: JSON.stringify(err),
+          message: 'Error building transactions',
+        },
+      });
+      return undefined;
+    }
+  }, []);
+
   const handleSubmit = useCallback(async () => {
     setErrorMessage('');
     setIsToastVisible(true);
     try {
       // Switch chain before attempting transactions
       await switchChain(chainId);
-      await sendWalletTransactions();
+      const resolvedTransactions = await buildTransaction();
+      await sendWalletTransactions(resolvedTransactions);
     } catch (err) {
       const errorMessage = isUserRejectedRequestError(err)
         ? 'Request denied.'

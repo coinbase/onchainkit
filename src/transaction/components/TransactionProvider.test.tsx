@@ -83,7 +83,8 @@ const TestComponent = () => {
     });
   };
   const handleStatusTransactionLegacyExecutedMultipleContracts = async () => {
-    context.setLifecycleStatus({
+    await context.onSubmit();
+    await context.setLifecycleStatus({
       statusName: 'transactionLegacyExecuted',
       statusData: {
         transactionHashList: ['hash12345678', 'hash12345678'],
@@ -252,6 +253,29 @@ describe('TransactionProvider', () => {
       expect(onSuccessMock).toHaveBeenCalled();
       expect(onSuccessMock).toHaveBeenCalledWith({
         transactionReceipts: ['hash12345678', 'hash12345678'],
+      });
+    });
+  });
+
+  it('should emit onError when building transactions fails', async () => {
+    const sendWalletTransactionsMock = vi.fn();
+    (useSendWalletTransactions as ReturnType<typeof vi.fn>).mockReturnValue(
+      sendWalletTransactionsMock,
+    );
+    const onErrorMock = vi.fn();
+    const contracts = Promise.reject(new Error('error'));
+    render(
+      <TransactionProvider contracts={contracts} onError={onErrorMock}>
+        <TestComponent />
+      </TransactionProvider>,
+    );
+    const button = screen.getByText('Submit');
+    fireEvent.click(button);
+    await waitFor(() => {
+      expect(onErrorMock).toHaveBeenCalledWith({
+        code: 'TmTPc04',
+        error: '{}',
+        message: 'Error building transactions',
       });
     });
   });

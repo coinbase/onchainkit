@@ -21,6 +21,8 @@ export enum OnchainKitComponent {
 export enum TransactionTypes {
   Calls = 'calls',
   Contracts = 'contracts',
+  CallsPromise = 'callsPromise',
+  ContractsPromise = 'contractsPromise',
 }
 
 export type Paymaster = {
