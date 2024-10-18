@@ -10,7 +10,7 @@ import {
   vi,
 } from 'vitest';
 import { useIsMounted } from '../../useIsMounted';
-import { Pay } from './Pay';
+import { Checkout } from './Checkout';
 
 function mock<T>(func: T) {
   return func as Mock;
@@ -43,18 +43,18 @@ describe('Pay', () => {
 
   it('should render children inside the CheckoutProvider when mounted', () => {
     render(
-      <Pay className="test-class">
+      <Checkout className="test-class">
         <div>Test Child</div>
-      </Pay>,
+      </Checkout>,
     );
     expect(screen.getByText('Test Child')).toBeDefined();
   });
 
   it('should apply the correct className', () => {
     render(
-      <Pay className="test-class">
+      <Checkout className="test-class">
         <div>Test Child</div>
-      </Pay>,
+      </Checkout>,
     );
     const container = screen.getByTestId('pay-provider')
       .firstChild as HTMLElement;
@@ -65,9 +65,9 @@ describe('Pay', () => {
   it('should return null when not mounted', () => {
     useIsMountedMock.mockReturnValue(false);
     const { container } = render(
-      <Pay>
+      <Checkout>
         <div>Test Child</div>
-      </Pay>,
+      </Checkout>,
     );
     expect(container.firstChild).toBeNull();
   });

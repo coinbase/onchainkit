@@ -125,7 +125,7 @@ export type CheckoutProviderReact = {
 /**
  * Note: exported as public Type
  */
-export type PayReact = {
+export type CheckoutReact = {
   chargeHandler?: () => Promise<string>;
   children: React.ReactNode;
   className?: string;
