@@ -12,11 +12,6 @@ import type {
   SendTransactionMutateAsync,
   WriteContractMutateAsync,
 } from 'wagmi/query';
-// 🌲☀🌲
-import {
-  TRANSACTION_TYPE_CALLS,
-  TRANSACTION_TYPE_CONTRACTS,
-} from './constants';
 
 export type Call = { to: Hex; data?: Hex; value?: bigint };
 
@@ -37,6 +32,10 @@ export type LifecycleStatus =
     }
   | {
       statusName: 'transactionIdle'; // initial status prior to the mutation function executing
+      statusData: null;
+    }
+  | {
+      statusName: 'buildingTransaction';
       statusData: null;
     }
   | {
@@ -87,7 +86,11 @@ export type TransactionContextType = {
   setIsToastVisible: (isVisible: boolean) => void; // A function to set the visibility of the transaction toast.
   setLifecycleStatus: (state: LifecycleStatus) => void; // A function to set the lifecycle status of the component
   setTransactionId: (id: string) => void; // A function to set the transaction ID.
-  transactions?: Call[] | ContractFunctionParameters[]; // An array of transactions for the component.
+  transactions?:
+    | Call[]
+    | ContractFunctionParameters[]
+    | Promise<Call[]>
+    | Promise<ContractFunctionParameters[]>; // An array of transactions for the component or a promise that resolves to an array of transactions.
   transactionId?: string; // An optional string representing the ID of the transaction.
   transactionHash?: string; // An optional string representing the hash of the transaction.
 };
@@ -131,11 +134,13 @@ export type TransactionError = {
 };
 
 export type TransactionProviderReact = {
-  calls?: Call[]; // An array of calls for the transaction. Mutually exclusive with the `contracts` prop.
+  calls?: Call[] | Promise<Call[]>; // An array of calls for the transaction. Mutually exclusive with the `contracts` prop.
   capabilities?: WalletCapabilities; // Capabilities that a wallet supports (e.g. paymasters, session keys, etc).
   chainId: number; // The chainId for the transaction.
   children: ReactNode; // The child components to be rendered within the provider component.
-  contracts?: ContractFunctionParameters[]; // An array of contract function parameters provided to the child components. Mutually exclusive with the `calls` prop.
+  contracts?:
+    | ContractFunctionParameters[]
+    | Promise<ContractFunctionParameters[]>; // An array of contract function parameters provided to the child components. Mutually exclusive with the `calls` prop.
   onError?: (e: TransactionError) => void; // An optional callback function that handles errors within the provider.
   onStatus?: (lifecycleStatus: LifecycleStatus) => void; // An optional callback function that exposes the component lifecycle state
   onSuccess?: (response: TransactionResponse) => void; // An optional callback function that exposes the transaction receipts
@@ -145,12 +150,14 @@ export type TransactionProviderReact = {
  * Note: exported as public Type
  */
 export type TransactionReact = {
-  calls?: Call[]; // An array of calls to be made in the transaction. Mutually exclusive with the `contracts` prop.
+  calls?: Call[] | Promise<Call[]>; // An array of calls to be made in the transaction. Mutually exclusive with the `contracts` prop.
   capabilities?: WalletCapabilities; // Capabilities that a wallet supports (e.g. paymasters, session keys, etc).
   chainId?: number; // The chainId for the transaction.
   children: ReactNode; // The child components to be rendered within the transaction component.
   className?: string; // An optional CSS class name for styling the component.
-  contracts?: ContractFunctionParameters[]; // An array of contract function parameters for the transaction. Mutually exclusive with the `calls` prop.
+  contracts?:
+    | ContractFunctionParameters[]
+    | Promise<ContractFunctionParameters[]>; // An array of contract function parameters for the transaction. Mutually exclusive with the `calls` prop.
   onError?: (e: TransactionError) => void; // An optional callback function that handles transaction errors.
   onStatus?: (lifecycleStatus: LifecycleStatus) => void; // An optional callback function that exposes the component lifecycle state
   onSuccess?: (response: TransactionResponse) => void; // An optional callback function that exposes the transaction receipts
@@ -253,28 +260,11 @@ export type UseSendWalletTransactionsParams = {
   // biome-ignore lint: cannot find module 'wagmi/experimental/query'
   sendCallsAsync: any;
   sendCallAsync: SendTransactionMutateAsync<Config, unknown> | (() => void);
-  transactions?: Call[] | ContractFunctionParameters[];
   transactionType: string;
   walletCapabilities: ViemWalletCapabilities;
   // biome-ignore lint: cannot find module 'wagmi/experimental/query'
   writeContractsAsync: any;
   writeContractAsync: WriteContractMutateAsync<Config, unknown> | (() => void);
-};
-
-export type UseTransactionTypeParams = {
-  calls?: Call[];
-  contracts?: ContractFunctionParameters[];
-  transactionStatuses: {
-    [TRANSACTION_TYPE_CALLS]: {
-      single: string;
-      batch: string;
-    };
-    [TRANSACTION_TYPE_CONTRACTS]: {
-      single: string;
-      batch: string;
-    };
-  };
-  walletCapabilities: ViemWalletCapabilities;
 };
 
 /**

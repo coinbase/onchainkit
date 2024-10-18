@@ -1,5 +1,5 @@
 import { renderHook } from '@testing-library/react';
-import { describe, expect, it, vi } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import {
   TRANSACTION_TYPE_CALLS,
   TRANSACTION_TYPE_CONTRACTS,
@@ -22,7 +22,6 @@ describe('useSendWalletTransactions', () => {
     const capabilities = {};
     const { result } = renderHook(() =>
       useSendWalletTransactions({
-        transactions,
         transactionType: TRANSACTION_TYPE_CONTRACTS,
         capabilities,
         writeContractsAsync: vi.fn(),
@@ -36,7 +35,7 @@ describe('useSendWalletTransactions', () => {
         },
       }),
     );
-    await result.current();
+    await result.current(transactions);
     expect(sendBatchedTransactions).toHaveBeenCalledWith({
       capabilities,
       sendCallsAsync: expect.any(Function),
@@ -53,7 +52,6 @@ describe('useSendWalletTransactions', () => {
     ];
     const { result } = renderHook(() =>
       useSendWalletTransactions({
-        transactions,
         transactionType: TRANSACTION_TYPE_CALLS,
         capabilities: undefined,
         writeContractsAsync: vi.fn(),
@@ -67,7 +65,7 @@ describe('useSendWalletTransactions', () => {
         },
       }),
     );
-    await result.current();
+    await result.current(transactions);
     expect(sendSingleTransactions).toHaveBeenCalledWith({
       sendCallAsync: expect.any(Function),
       transactions,
@@ -76,10 +74,37 @@ describe('useSendWalletTransactions', () => {
     });
   });
 
+  it('should handle a transactions promise', async () => {
+    const transactions = [{ to: '0x123', data: '0x456' }];
+    const capabilities = {};
+    const { result } = renderHook(() =>
+      useSendWalletTransactions({
+        transactionType: TRANSACTION_TYPE_CONTRACTS,
+        capabilities,
+        writeContractsAsync: vi.fn(),
+        writeContractAsync: vi.fn(),
+        sendCallsAsync: vi.fn(),
+        sendCallAsync: vi.fn(),
+        walletCapabilities: {
+          atomicBatch: {
+            supported: true,
+          },
+        },
+      }),
+    );
+    await result.current(Promise.resolve(transactions));
+    expect(sendBatchedTransactions).toHaveBeenCalledWith({
+      capabilities,
+      sendCallsAsync: expect.any(Function),
+      transactions,
+      transactionType: TRANSACTION_TYPE_CONTRACTS,
+      writeContractsAsync: expect.any(Function),
+    });
+  });
+
   it('should handle no transactions', async () => {
     const { result } = renderHook(() =>
       useSendWalletTransactions({
-        transactions: undefined,
         transactionType: TRANSACTION_TYPE_CONTRACTS,
         capabilities: undefined,
         writeContractsAsync: vi.fn(),
@@ -101,7 +126,6 @@ describe('useSendWalletTransactions', () => {
     ];
     const { result } = renderHook(() =>
       useSendWalletTransactions({
-        transactions,
         transactionType: TRANSACTION_TYPE_CALLS,
         capabilities: undefined,
         writeContractsAsync: vi.fn(),
@@ -111,7 +135,7 @@ describe('useSendWalletTransactions', () => {
         walletCapabilities: {},
       }),
     );
-    await result.current();
+    await result.current(transactions);
     expect(sendSingleTransactions).toHaveBeenCalledWith({
       sendCallAsync: expect.any(Function),
       transactions,
