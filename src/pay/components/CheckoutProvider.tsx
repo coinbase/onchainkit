@@ -31,13 +31,13 @@ import {
 } from '../constants';
 import { useCommerceContracts } from '../hooks/useCommerceContracts';
 import { useLifecycleStatus } from '../hooks/useLifecycleStatus';
-import type { CheckoutProviderReact, PayContextType } from '../types';
+import type { CheckoutContextType, CheckoutProviderReact } from '../types';
 
-const emptyContext = {} as PayContextType;
-export const PayContext = createContext<PayContextType>(emptyContext);
+const emptyContext = {} as CheckoutContextType;
+export const CheckoutContext = createContext<CheckoutContextType>(emptyContext);
 
 export function usePayContext() {
-  const context = useContext(PayContext);
+  const context = useContext(CheckoutContext);
   if (context === emptyContext) {
     throw new Error('usePayContext must be used within a Pay component');
   }
@@ -355,5 +355,9 @@ export function CheckoutProvider({
     onSubmit: handleSubmit,
     updateLifecycleStatus,
   });
-  return <PayContext.Provider value={value}>{children}</PayContext.Provider>;
+  return (
+    <CheckoutContext.Provider value={value}>
+      {children}
+    </CheckoutContext.Provider>
+  );
 }

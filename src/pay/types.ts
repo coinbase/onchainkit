@@ -107,7 +107,7 @@ export type CheckoutButtonReact = {
   text?: string;
 };
 
-export type PayContextType = {
+export type CheckoutContextType = {
   errorMessage?: string;
   lifecycleStatus?: LifecycleStatus;
   onSubmit: () => void;
