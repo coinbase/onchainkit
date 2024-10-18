@@ -29,7 +29,7 @@ export const sidebar = [
         link: '/guides/reporting-bug',
       },
       {
-        text: 'Tailwindcss Integration',
+        text: 'Tailwind CSS Integration',
         link: '/guides/tailwind',
       },
       {
