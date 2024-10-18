@@ -46,8 +46,8 @@ describe('getDefaultConfig', () => {
       }),
     );
     expect(coinbaseWallet).toHaveBeenCalledWith({
-      appName: 'My OnchainKit App',
-      appLogoUrl: 'https://onchainkit.xyz/favicon/48x48.png?v4-19-24',
+      appName: undefined,
+      appLogoUrl: undefined,
       preference: 'smartWalletOnly',
     });
   });
@@ -59,7 +59,11 @@ describe('getDefaultConfig', () => {
         logo: 'https://example.com/logo.png',
       },
     };
-    getDefaultConfig({ apiKey: 'test-api-key', config: customConfig });
+    getDefaultConfig({
+      apiKey: 'test-api-key',
+      appName: customConfig.appearance.name,
+      appLogoUrl: customConfig.appearance.logo,
+    });
     expect(createConfig).toHaveBeenCalledWith(
       expect.objectContaining({
         chains: [base, baseSepolia],
