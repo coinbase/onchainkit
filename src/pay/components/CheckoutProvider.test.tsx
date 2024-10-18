@@ -532,7 +532,7 @@ describe('useCheckoutContext', () => {
       .spyOn(console, 'error')
       .mockImplementation(() => {}); // Suppress error logging
     expect(() => render(<TestComponent />)).toThrow(
-      'useCheckoutContext must be used within a Pay component',
+      'useCheckoutContext must be used within a Checkout component',
     );
     consoleError.mockRestore();
   });

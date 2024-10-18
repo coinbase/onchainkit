@@ -39,7 +39,9 @@ export const CheckoutContext = createContext<CheckoutContextType>(emptyContext);
 export function useCheckoutContext() {
   const context = useContext(CheckoutContext);
   if (context === emptyContext) {
-    throw new Error('useCheckoutContext must be used within a Pay component');
+    throw new Error(
+      'useCheckoutContext must be used within a Checkout component',
+    );
   }
   return context;
 }
