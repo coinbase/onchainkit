@@ -1,17 +1,8 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { createContext, useMemo } from 'react';
-import {
-  http,
-  WagmiProvider,
-  WagmiProviderNotFoundError,
-  cookieStorage,
-  createConfig,
-  createStorage,
-  useConfig,
-} from 'wagmi';
-import { base, baseSepolia } from 'wagmi/chains';
-import { coinbaseWallet } from 'wagmi/connectors';
+import { WagmiProvider, WagmiProviderNotFoundError, useConfig } from 'wagmi';
 import { ONCHAIN_KIT_CONFIG, setOnchainKitConfig } from './OnchainKitConfig';
+import { getDefaultConfig } from './getDefaultConfig';
 import { checkHashLength } from './internal/utils/checkHashLength';
 import type { OnchainKitContextType, OnchainKitProviderReact } from './types';
 
@@ -75,29 +66,8 @@ export function OnchainKitProvider({
   }, [address, apiKey, chain, config, projectId, rpcUrl, schemaId]);
 
   if (!providedConfig) {
-    const wagmiConfig = createConfig({
-      chains: [base, baseSepolia],
-      connectors: [
-        coinbaseWallet({
-          appName: config?.appearance?.name || 'My OnchainKit App',
-          appLogoUrl:
-            config?.appearance?.logo ||
-            'https://onchainkit.xyz/favicon/48x48.png?v4-19-24',
-          preference: 'smartWalletOnly',
-        }),
-      ],
-      storage: createStorage({
-        storage: cookieStorage,
-      }),
-      ssr: true,
-      transports: {
-        [base.id]: http(),
-        [baseSepolia.id]: http(),
-      },
-    });
-
     return (
-      <WagmiProvider config={wagmiConfig}>
+      <WagmiProvider config={getDefaultConfig({ apiKey, config })}>
         <QueryClientProvider client={new QueryClient()}>
           <OnchainKitContext.Provider value={value}>
             {children}
