@@ -70,6 +70,14 @@ Additionally, add Base as a supported chain in the Wagmi configuration file `wag
 
 ```tsx twoslash [providers.tsx]
 // @noErrors: 2307 2580 2322 - cannot find 'process', cannot find './wagmi'
+export type ComponentTheme =
+  | 'default'
+  | 'base'
+  | 'cyberpunk'
+  | 'hacker'
+
+export type Mode = 'auto' | 'light' | 'dark';
+// ---cut-before---
 import { OnchainKitProvider } from '@coinbase/onchainkit'; // [!code ++]
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { base } from 'wagmi/chains'; // [!code ++]
@@ -94,8 +102,8 @@ export function Providers(props: {
           config={{ // [!code ++]
             appearance: { // [!code ++]
               theme: { // [!code ++]
-                mode: 'auto', // [!code ++]
-                theme: 'default' // [!code ++]
+                mode: 'auto' as Mode, // [!code ++]
+                theme: 'default' as ComponentTheme // [!code ++]
               } // [!code ++]
             } // [!code ++]
           }} // [!code ++]
