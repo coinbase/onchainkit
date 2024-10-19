@@ -6,34 +6,31 @@ export const sidebar = [
     items: [{ text: 'Getting Started', link: '/getting-started' }],
   },
   {
-    text: 'Guides',
+    text: 'Contribution',
     items: [
       {
-        text: 'Build Onchain Apps',
-        link: '/guides/build-onchain-apps',
-      },
-      {
-        text: 'Contribution',
+        text: 'How to Contribute',
         link: '/guides/contribution',
       },
       {
-        text: 'Framegear',
-        link: '/guides/framegear',
+        text: 'Report a Bug',
+        link: '/guides/reporting-bug',
       },
+    ],
+  },
+  {
+    text: 'Guides',
+    items: [
       {
         text: 'Lifecycle Status',
         link: '/guides/lifecycle-status',
-      },
-      {
-        text: 'Reporting a bug',
-        link: '/guides/reporting-bug',
       },
       {
         text: 'Tailwind CSS Integration',
         link: '/guides/tailwind',
       },
       {
-        text: 'OnchainKit Themes',
+        text: 'Theme Customization',
         link: '/guides/themes',
       },
       {
@@ -46,27 +43,22 @@ export const sidebar = [
     text: 'Templates',
     items: [
       {
-        text: 'Onchain App',
+        text: 'Onchain NFT App',
         link: 'https://github.com/coinbase/onchain-app-template',
       },
       {
-        text: 'Frame in 100 lines',
-        link: 'https://github.com/Zizzamia/a-frame-in-100-lines',
+        text: 'Onchain Commerce App',
+        link: 'https://onchain-commerce-template.vercel.app/',
+      },
+      {
+        text: 'Onchain Social Profile',
+        link: 'https://github.com/fakepixels/ock-identity',
       },
     ],
   },
   {
     text: 'Components',
     items: [
-      {
-        text: 'Config',
-        items: [
-          {
-            text: 'OnchainKitProvider',
-            link: '/config/onchainkit-provider',
-          },
-        ],
-      },
       {
         text: 'Frame',
         items: [
