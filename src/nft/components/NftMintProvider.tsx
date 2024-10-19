@@ -26,10 +26,10 @@ export function NftMintProvider({
   const { contractAddress, tokenId, contractType } = useNftContext();
 
   const mintData = useNftMintData({
-    contractAddress, 
-    tokenId: tokenId ?? '1', 
+    contractAddress,
+    tokenId: tokenId ?? '1',
     contractType,
-    quantity
+    quantity,
   });
 
   const handleSetQuantity = useCallback((quantity: string) => {

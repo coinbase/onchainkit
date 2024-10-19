@@ -5,6 +5,7 @@ import { NftImage } from './NftImage';
 import { NftVideo } from './NftVideo';
 import { useNftLifecycleContext } from '../NftLifecycleProvider';
 import { LifecycleType, type NftError } from '../../types';
+import { NftAudio } from './NftAudio';
 
 export function NftMedia() {
   const { mimeType } = useNftContext();
@@ -59,16 +60,16 @@ export function NftMedia() {
     );
   }
 
-  // if (mediaType.isAudio) {
-  //   return (
-  //     <div className="relative w-full">
-  //       <NftImage />
-  //       <div className="absolute bottom-[20px] mx-auto w-full">
-  //         <NftAudio />
-  //       </div>
-  //     </div>
-  //   );
-  // }
+  if (mediaType.isAudio) {
+    return (
+      <div className="relative w-full">
+        <NftImage />
+        <div className="absolute bottom-[20px] mx-auto w-full">
+          <NftAudio />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <NftImage

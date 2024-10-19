@@ -1,3 +1,4 @@
+import '@testing-library/jest-dom';
 import { render, fireEvent } from '@testing-library/react';
 import { NftMedia } from './NftMedia';
 import { useNftContext } from '../NftProvider';
@@ -28,6 +29,10 @@ vi.mock('./NftVideo', () => ({
   NftVideo: () => <div>Video</div>
 }));
 
+vi.mock('./NftAudio', () => ({
+  NftAudio: () => <div>Audio</div>
+}));
+
 describe('NftMedia', () => {
   let mockUpdateLifecycleStatus: Mock;
   beforeEach(() => {
@@ -42,6 +47,13 @@ describe('NftMedia', () => {
   it('should render NftImage when mimeType is an image', () => {
     const { getByText } = render(<NftMedia />);
     expect(getByText('Image')).toBeInTheDocument();
+  });
+
+  it('should render NftImage and NftAudio when mimtType is an audio', () => {
+    (useNftContext as Mock).mockReturnValue({ mimeType: 'audio/mp3' });
+    const { getByText } = render(<NftMedia />);
+    expect(getByText('Image')).toBeInTheDocument();
+    expect(getByText('Audio')).toBeInTheDocument();
   });
 
   it('should render NftVideo when mimeType is a video', () => {

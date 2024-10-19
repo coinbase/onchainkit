@@ -68,7 +68,7 @@ describe('NftVideo', () => {
     expect(onLoaded).toHaveBeenCalled();
   });
 
-  it('should call onError when video fails to load', () => {
+  it('should handle error when video fails to load', () => {
     const onError = vi.fn();
 
     const { getByTestId } = render(<NftVideo onError={onError} />);
@@ -82,7 +82,7 @@ describe('NftVideo', () => {
     });
   });
 
-  it('should call onError when video fails to load', () => {
+  it('should handle string error when video fails to load', () => {
     const onError = vi.fn();
 
     const { getByTestId } = render(<NftVideo onError={onError} />);

@@ -51,7 +51,7 @@ function Demo() {
     if (activeComponent === OnchainKitComponent.Fund) {
       return <FundDemo />;
     }
-    
+
     if (activeComponent === OnchainKitComponent.Identity) {
       return <IdentityDemo />;
     }

@@ -45,6 +45,7 @@ export const background = {
   success: 'ock-bg-success',
   washed: 'ock-bg-primary-washed',
   disabled: 'ock-bg-primary-disabled',
+  reverse: 'ock-bg-default-reverse',
 } as const;
 
 export const color = {
@@ -62,7 +63,7 @@ export const fill = {
   default: 'ock-fill-default',
   defaultReverse: 'ock-fill-default-reverse',
   inverse: 'ock-fill-inverse',
-  alternate: 'fill-ock-alternate',  
+  alternate: 'fill-ock-alternate',
 } as const;
 
 export const border = {

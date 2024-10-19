@@ -10,14 +10,17 @@ type NftTotalCostProps = {
   label?: string;
 };
 
-export function NftTotalCost({ className, label = 'Total cost' }: NftTotalCostProps) {
+export function NftTotalCost({
+  className,
+  label = 'Total cost',
+}: NftTotalCostProps) {
   const [isOverlayVisible, setIsOverlayVisible] = useState(false);
   const { price, mintFee, quantity } = useNftMintContext();
   const ethPrice = useEthPrice();
 
   const toggleOverlay = useCallback(() => {
     setIsOverlayVisible((prev) => !prev);
-  }, [])
+  }, []);
 
   const showOverlay = useCallback(() => {
     setIsOverlayVisible(true);
@@ -45,18 +48,29 @@ export function NftTotalCost({ className, label = 'Total cost' }: NftTotalCostPr
 
   // TODO: only show icon if overlay will show
   const overlay = useMemo(() => {
-    if (price?.amount === undefined || mintFee?.amount === undefined || !ethPrice.data) {
+    if (
+      price?.amount === undefined ||
+      mintFee?.amount === undefined ||
+      !ethPrice.data
+    ) {
       return null;
     }
-  
+
     return (
-      <div className={cn(              
-        background.default,
-        border.radius,
-        border.defaultActive,
-        'absolute z-10 w-full border'
-      )}>
-        <div className={cn('flex items-center justify-between px-4 py-2', text.label2)}>
+      <div
+        className={cn(
+          background.default,
+          border.radius,
+          border.defaultActive,
+          'absolute z-10 w-full border',
+        )}
+      >
+        <div
+          className={cn(
+            'flex items-center justify-between px-4 py-2',
+            text.label2,
+          )}
+        >
           <div>NFT cost</div>
           <div>
             $
@@ -66,7 +80,12 @@ export function NftTotalCost({ className, label = 'Total cost' }: NftTotalCostPr
             })}
           </div>
         </div>
-        <div className={cn('flex items-center justify-between px-4 py-2', text.label2)}>
+        <div
+          className={cn(
+            'flex items-center justify-between px-4 py-2',
+            text.label2,
+          )}
+        >
           <div>Mint fee</div>
           <div>
             $
@@ -77,7 +96,7 @@ export function NftTotalCost({ className, label = 'Total cost' }: NftTotalCostPr
           </div>
         </div>
       </div>
-    )
+    );
   }, [nativePrice, ethPrice, mintFee, price]);
 
   if (price?.amount === undefined || !ethPrice.data) {
@@ -98,7 +117,7 @@ export function NftTotalCost({ className, label = 'Total cost' }: NftTotalCostPr
         )}
       >
         <div>{label}</div>
-        <div className='flex items-center gap-2'>
+        <div className="flex items-center gap-2">
           <div>
             $
             {formatAmount(`${nativePrice * ethPrice.data}`, {
@@ -106,8 +125,14 @@ export function NftTotalCost({ className, label = 'Total cost' }: NftTotalCostPr
               maximumFractionDigits: 2,
             })}
           </div>
-          <button type="button" className='h-2.5 w-2.5 cursor-pointer object-cover' onClick={toggleOverlay} onMouseEnter={showOverlay} onMouseLeave={hideOverlay}>
-              {infoSvg}
+          <button
+            type="button"
+            className="h-2.5 w-2.5 cursor-pointer object-cover"
+            onClick={toggleOverlay}
+            onMouseEnter={showOverlay}
+            onMouseLeave={hideOverlay}
+          >
+            {infoSvg}
           </button>
         </div>
       </div>

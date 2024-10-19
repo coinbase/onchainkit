@@ -36,7 +36,7 @@ export function NftMinters({ className }: NftMintersReact) {
           address={recentOwners[0]}
           schemaId={schemaId}
         >
-          <Name className="max-w-[180px] text-ellipsis overflow-hidden"/>
+          <Name className="max-w-[180px] text-ellipsis overflow-hidden" />
         </Identity>
         <div>and {totalOwners} others</div>
       </div>

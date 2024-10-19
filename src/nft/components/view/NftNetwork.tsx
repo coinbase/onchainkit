@@ -1,7 +1,7 @@
-import type { ReactNode } from "react";
-import { baseSvg } from "../../../internal/svg/baseSvg";
-import { cn, text } from "../../../styles/theme";
-import { useOnchainKit } from "../../../useOnchainKit";
+import type { ReactNode } from 'react';
+import { baseSvg } from '../../../internal/svg/baseSvg';
+import { cn, text } from '../../../styles/theme';
+import { useOnchainKit } from '../../../useOnchainKit';
 
 type NftNetworkProps = {
   className?: string;
@@ -12,7 +12,7 @@ const networkMap = {
   Base: baseSvg,
 } as Record<string, ReactNode>;
 
-export function NftNetwork({className, label = 'Network'}:NftNetworkProps) {
+export function NftNetwork({ className, label = 'Network' }: NftNetworkProps) {
   const { chain } = useOnchainKit();
 
   if (!chain || !networkMap[chain.name]) {

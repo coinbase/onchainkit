@@ -43,7 +43,13 @@ const MockComponent = () => {
         {context.price?.amount} {context.price?.currency}
       </span>
       <span data-testid="quantity">{context.quantity}</span>
-      <button data-testid="setQuantity" type="button" onClick={() => context.setQuantity('2')}>setQuantity</button>
+      <button
+        data-testid="setQuantity"
+        type="button"
+        onClick={() => context.setQuantity('2')}
+      >
+        setQuantity
+      </button>
     </div>
   );
 };

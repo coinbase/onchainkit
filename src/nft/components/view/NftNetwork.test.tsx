@@ -1,11 +1,5 @@
 import '@testing-library/jest-dom';
-import {
-  type Mock,
-  vi,
-  describe,
-  it,
-  expect,
-} from 'vitest';
+import { type Mock, vi, describe, it, expect } from 'vitest';
 import { render } from '@testing-library/react';
 import { NftNetwork } from './NftNetwork';
 import { useOnchainKit } from '../../../useOnchainKit';

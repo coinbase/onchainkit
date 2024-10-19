@@ -298,7 +298,7 @@ export type NftData = {
     currency?: string;
   };
   contractType?: ContractType;
-  mintDate?: Date
+  mintDate?: Date;
 };
 
 export type NftContextType = {
@@ -362,7 +362,7 @@ export type UseNftMintDataProps = {
   contractType?: ContractType;
   quantity: number;
 };
-export type UseNftMintData = (props:UseNftMintDataProps) => NftMintData;
+export type UseNftMintData = (props: UseNftMintDataProps) => NftMintData;
 
 /**
  * Note: exported as public Type

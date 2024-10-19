@@ -25,7 +25,7 @@ describe('NftMinters', () => {
     mockUseNftMintContext.mockReturnValue({
       contractAddress: 'test-address',
       totalOwners: 5,
-      recentOwners: ['0x123', '0x456']
+      recentOwners: ['0x123', '0x456'],
     });
     mockUseNftContext.mockReturnValue({ contractType: 'test-type' });
   });
@@ -44,7 +44,7 @@ describe('NftMinters', () => {
     mockUseNftMintContext.mockReturnValue({
       contractAddress: 'test-address',
       totalOwners: 5,
-      recentOwners: []
+      recentOwners: [],
     });
 
     const { container } = render(<NftMinters />);

@@ -13,7 +13,7 @@ import {
   NftMintDate,
   NftNetwork,
 } from '@/onchainkit/esm/nft/components/view';
-import { 
+import {
   NftCreator,
   NftMintButton,
   NftMinters,
@@ -72,7 +72,7 @@ function NftDemo() {
       <div style={{ height: '20px' }} />
 
       <NftView
-        contractAddress="0x8443d418e82c3A2A530013218D49E0347BA13fDe"
+        contractAddress="0x05a28e3d5f68c8b4a521ab7f74bd887fae6a598d"
         tokenId="2"
         onStatus={handleOnStatus}
         onSuccess={handleOnSuccess}
