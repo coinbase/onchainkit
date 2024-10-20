@@ -478,9 +478,7 @@ describe('CheckoutProvider', () => {
           id: 'test-contract',
         },
       ],
-      capabilities: {
-        paymaster: null,
-      },
+      capabilities: undefined,
     });
   });
 
@@ -516,7 +514,9 @@ describe('CheckoutProvider', () => {
         },
       ],
       capabilities: {
-        paymaster: 'http://example.com',
+        paymasterService: {
+          url: 'http://example.com',
+        },
       },
     });
   });
