@@ -5,7 +5,7 @@ import { useContext } from 'react';
 import { useState } from 'react';
 import { AppContext, CheckoutTypes, OnchainKitComponent } from '../AppProvider';
 
-export function PayOptions() {
+export function CheckoutOptions() {
   const {
     activeComponent,
     checkoutTypes,
