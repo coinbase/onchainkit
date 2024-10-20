@@ -28,6 +28,7 @@ export default function DemoOptions({
       return (
         <>
           {commonOptions}
+          <Chain />
           <PaymasterUrl />
           <CheckoutOptions />
         </>
