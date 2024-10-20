@@ -10,7 +10,7 @@ import { WalletPreference } from './form/wallet-type';
 export enum OnchainKitComponent {
   Fund = 'fund',
   Identity = 'identity',
-  Pay = 'pay',
+  Checkout = 'pay',
   Swap = 'swap',
   SwapDefault = 'swap-default',
   Transaction = 'transaction',
@@ -29,12 +29,12 @@ export type Paymaster = {
   enabled: boolean;
 };
 
-export type PayOptions = {
+export type CheckoutOptions = {
   chargeId?: string;
   productId?: string;
 };
 
-export enum PayTypes {
+export enum CheckoutTypes {
   ChargeID = 'chargeId',
   ProductID = 'productId',
 }
@@ -62,10 +62,10 @@ type State = {
   setTransactionType?: (transactionType: TransactionTypes) => void;
   paymasters?: Record<number, Paymaster>; // paymasters is per network
   setPaymaster?: (chainId: number, url: string, enabled: boolean) => void;
-  payOptions?: PayOptions;
-  setPayOptions?: (payOptions: PayOptions) => void;
-  payTypes?: PayTypes;
-  setPayTypes?: (payTypes: PayTypes) => void;
+  checkoutOptions?: CheckoutOptions;
+  setCheckoutOptions?: (checkoutOptions: CheckoutOptions) => void;
+  checkoutTypes?: CheckoutTypes;
+  setCheckoutTypes?: (checkoutTypes: CheckoutTypes) => void;
   componentTheme?: ComponentTheme;
   setComponentTheme: (theme: ComponentTheme) => void;
   componentMode: ComponentMode;
@@ -94,8 +94,11 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   const [transactionType, setTransactionTypeState] = useState<TransactionTypes>(
     TransactionTypes.Contracts,
   );
-  const [payOptions, setPayOptionsState] = useState<PayOptions>();
-  const [payTypes, setPayTypesState] = useState<PayTypes>(PayTypes.ProductID);
+  const [checkoutOptions, setCheckoutOptionsState] =
+    useState<CheckoutOptions>();
+  const [checkoutTypes, setCheckoutTypesState] = useState<CheckoutTypes>(
+    CheckoutTypes.ProductID,
+  );
   const [paymasters, setPaymastersState] =
     useState<Record<number, Paymaster>>();
   const [defaultMaxSlippage, setDefaultMaxSlippageState] = useState<number>(3);
@@ -184,13 +187,13 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     setDefaultMaxSlippageState(newDefaultMaxSlippage);
   };
 
-  const setPayOptions = (payOptions: PayOptions) => {
-    localStorage.setItem('productId', payOptions.productId || '');
-    setPayOptionsState(payOptions);
+  const setCheckoutOptions = (checkoutOptions: CheckoutOptions) => {
+    localStorage.setItem('productId', checkoutOptions.productId || '');
+    setCheckoutOptionsState(checkoutOptions);
   };
 
-  const setPayTypes = (payTypes: PayTypes) => {
-    setPayTypesState(payTypes);
+  const setCheckoutTypes = (checkoutTypes: CheckoutTypes) => {
+    setCheckoutTypesState(checkoutTypes);
   };
 
   const setPaymaster = (chainId: number, url: string, enabled: boolean) => {
@@ -233,10 +236,10 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         setComponentTheme,
         componentMode,
         setComponentMode,
-        payOptions,
-        setPayOptions,
-        payTypes,
-        setPayTypes,
+        checkoutOptions,
+        setCheckoutOptions,
+        checkoutTypes,
+        setCheckoutTypes,
         paymasters,
         setPaymaster,
         transactionType,
