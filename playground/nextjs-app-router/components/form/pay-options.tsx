@@ -3,14 +3,19 @@ import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { useContext } from 'react';
 import { useState } from 'react';
-import { AppContext, OnchainKitComponent, PayTypes } from '../AppProvider';
+import { AppContext, CheckoutTypes, OnchainKitComponent } from '../AppProvider';
 
 export function PayOptions() {
-  const { activeComponent, payTypes, setPayTypes, payOptions, setPayOptions } =
-    useContext(AppContext);
+  const {
+    activeComponent,
+    checkoutTypes,
+    setCheckoutTypes,
+    checkoutOptions,
+    setCheckoutOptions,
+  } = useContext(AppContext);
 
   const [productId, setProductId] = useState<string>(
-    payOptions?.productId || '',
+    checkoutOptions?.productId || '',
   );
   const [productOptions, setProductOptions] = useState<{
     chargeId: string;
@@ -19,14 +24,14 @@ export function PayOptions() {
   });
 
   return (
-    activeComponent === OnchainKitComponent.Pay && (
+    activeComponent === OnchainKitComponent.Checkout && (
       <div className="grid gap-2">
-        <Label htmlFor="chain">Pay Types</Label>
+        <Label htmlFor="chain">Checkout Types</Label>
         <RadioGroup
           id="pay-type"
-          value={payTypes}
+          value={checkoutTypes}
           className="flex items-center justify-between"
-          onValueChange={(value) => setPayTypes?.(value as PayTypes)}
+          onValueChange={(value) => setCheckoutTypes?.(value as CheckoutTypes)}
         >
           <div className="flex items-center gap-2">
             <Label
@@ -35,7 +40,7 @@ export function PayOptions() {
             >
               <RadioGroupItem
                 id="pay-type-product-id"
-                value={PayTypes.ProductID}
+                value={CheckoutTypes.ProductID}
               />
               Product ID
             </Label>
@@ -45,14 +50,14 @@ export function PayOptions() {
             >
               <RadioGroupItem
                 id="pay-type-charge-id"
-                value={PayTypes.ChargeID}
+                value={CheckoutTypes.ChargeID}
               />
               Charge ID
             </Label>
           </div>
         </RadioGroup>
 
-        {payTypes === PayTypes.ChargeID && (
+        {checkoutTypes === CheckoutTypes.ChargeID && (
           <div>
             <Label htmlFor="charge-id">Charge ID</Label>
             <Input
@@ -64,12 +69,15 @@ export function PayOptions() {
                   ...productOptions,
                   chargeId: e.target.value,
                 });
-                setPayOptions?.({ ...payOptions, chargeId: e.target.value });
+                setCheckoutOptions?.({
+                  ...checkoutOptions,
+                  chargeId: e.target.value,
+                });
               }}
             />
           </div>
         )}
-        {payTypes === PayTypes.ProductID && (
+        {checkoutTypes === CheckoutTypes.ProductID && (
           <div>
             <Label htmlFor="product-id">Product ID</Label>
             <Input
@@ -78,7 +86,10 @@ export function PayOptions() {
               value={productId}
               onChange={(e) => {
                 setProductId(e.target.value);
-                setPayOptions?.({ ...payOptions, productId: e.target.value });
+                setCheckoutOptions?.({
+                  ...checkoutOptions,
+                  productId: e.target.value,
+                });
               }}
             />
           </div>
