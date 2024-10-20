@@ -87,9 +87,9 @@ export default function PayComponents() {
   </Pay>
 </App>
 
-### Handling successful payments
+### Handling a successful checkout
 
-To handle successful payments, use the `onStatus` prop to listen for the `success` callback.
+To handle successful checkouts, use the `onStatus` prop to listen for the `success` callback.
 
 This callback will return a [LifecycleStatusData](/pay/pay#advanced-usage) object including the [TransactionReceipt](https://github.com/wevm/viem/blob/main/src/types/transaction.ts#L38) and `chargeId`.
 
