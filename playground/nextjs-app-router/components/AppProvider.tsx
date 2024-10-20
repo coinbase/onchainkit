@@ -10,7 +10,7 @@ import { WalletPreference } from './form/wallet-type';
 export enum OnchainKitComponent {
   Fund = 'fund',
   Identity = 'identity',
-  Checkout = 'pay',
+  Checkout = 'checkout',
   Swap = 'swap',
   SwapDefault = 'swap-default',
   Transaction = 'transaction',

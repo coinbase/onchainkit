@@ -2,7 +2,7 @@
 import { AppContext, OnchainKitComponent } from '@/components/AppProvider';
 import { useContext, useEffect, useState } from 'react';
 import DemoOptions from './DemoOptions';
-import PayDemo from './demo/Checkout';
+import CheckoutDemo from './demo/Checkout';
 import FundDemo from './demo/Fund';
 import IdentityDemo from './demo/Identity';
 import SwapDemo from './demo/Swap';
@@ -54,7 +54,7 @@ function Demo() {
     }
 
     if (activeComponent === OnchainKitComponent.Checkout) {
-      return <PayDemo />;
+      return <CheckoutDemo />;
     }
 
     if (activeComponent === OnchainKitComponent.Swap) {

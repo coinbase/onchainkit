@@ -4,7 +4,7 @@ import { PaymasterUrl } from '@/components/form/paymaster';
 import { OnchainKitComponent } from './AppProvider';
 import { ActiveComponent } from './form/active-component';
 import { Chain } from './form/chain';
-import { PayOptions } from './form/pay-options';
+import { CheckoutOptions } from './form/checkout-options';
 import { SwapConfig } from './form/swap-config';
 import { TransactionOptions } from './form/transaction-options';
 import { WalletType } from './form/wallet-type';
@@ -29,7 +29,7 @@ export default function DemoOptions({
         <>
           {commonOptions}
           <PaymasterUrl />
-          <PayOptions />
+          <CheckoutOptions />
         </>
       );
     case OnchainKitComponent.Swap || OnchainKitComponent.SwapDefault:
