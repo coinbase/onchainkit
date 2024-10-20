@@ -60,7 +60,7 @@ NEXT_PUBLIC_ONCHAINKIT_API_KEY=YOUR_PUBLIC_API_KEY
 
 ## Add Providers
 
-In your `providers.tsx` file, add `OnchainKitProvider` as a child of `WagmiProvider` and `QueryClientProvider`.
+Create a `providers.tsx` file. Add `OnchainKitProvider` as a child of `WagmiProvider` and `QueryClientProvider`.
 
 Inside the `WagmiProvider`, wrap your app in a TanStack Query React Context Provider, e.g. `QueryClientProvider`, and pass a new `QueryClient` instance to the `client` property.
 
@@ -133,7 +133,30 @@ declare module 'wagmi' {
 ```
 :::
 
-## Add Styles
+## Wrap your app with `<Providers />`
+
+After the setup, wrap your app with the above `<Providers />` component.
+
+```javascript 
+import './globals.css';
+import { Providers } from './providers'; // [!code ++]
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang="en">
+      <body>
+        <Providers>{children}</Providers> // [!code ++]
+      </body>
+    </html>
+  );
+}
+```
+
+## Add Styles 
 
 OnchainKit components come with pre-configured styles. To include these styles in your project, add the following import statement at the top of this file:
 
@@ -144,7 +167,7 @@ import '@coinbase/onchainkit/styles.css';
 For example, if you're using Next.js with the app router, your `app/layout.tsx` might look like this:
 
 ```tsx [layout.tsx]
-import '@coinbase/onchainkit/styles.css'; // [!code ++] // [!code focus]
+import '@coinbase/onchainkit/styles.css'; // [!code ++]
 import './globals.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
