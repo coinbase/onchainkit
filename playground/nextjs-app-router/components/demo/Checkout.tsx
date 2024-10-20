@@ -1,3 +1,4 @@
+import { useCapabilities } from '@/lib/hooks';
 import {
   Checkout,
   CheckoutButton,
@@ -10,6 +11,7 @@ import { AppContext, CheckoutTypes } from '../AppProvider';
 
 export default function CheckoutDemo() {
   const { checkoutTypes, checkoutOptions } = useContext(AppContext);
+  const capabilities = useCapabilities();
 
   const chargeIDKey = useMemo(() => {
     return `${checkoutOptions?.chargeId}`;
@@ -40,6 +42,7 @@ export default function CheckoutDemo() {
                 key={productIDKey}
                 productId={checkoutOptions?.productId}
                 onStatus={handleOnStatus}
+                isSponsored={capabilities?.paymasterService?.url != null}
               >
                 <CheckoutButton
                   coinbaseBranded={true}
@@ -69,6 +72,7 @@ export default function CheckoutDemo() {
                 key={chargeIDKey}
                 chargeHandler={createCharge}
                 onStatus={handleOnStatus}
+                isSponsored={capabilities?.paymasterService?.url != null}
               >
                 <CheckoutButton
                   coinbaseBranded={true}
