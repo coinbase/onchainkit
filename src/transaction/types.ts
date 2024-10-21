@@ -155,10 +155,10 @@ export type TransactionReact = {
   capabilities?: WalletCapabilities; // Capabilities that a wallet supports (e.g. paymasters, session keys, etc).
   chainId?: number; // The chainId for the transaction.
   children: ReactNode; // The child components to be rendered within the transaction component.
+  className?: string; // An optional CSS class name for styling the component.
   contracts?:
     | ContractFunctionParameters[]
     | Promise<ContractFunctionParameters[]>; // An array of contract function parameters provided to the child components. Mutually exclusive with the `calls` prop.
-  className?: string; // An optional CSS class name for styling the component.
   onError?: (e: TransactionError) => void; // An optional callback function that handles transaction errors.
   onStatus?: (lifecycleStatus: LifecycleStatus) => void; // An optional callback function that exposes the component lifecycle state
   onSuccess?: (response: TransactionResponse) => void; // An optional callback function that exposes the transaction receipts
