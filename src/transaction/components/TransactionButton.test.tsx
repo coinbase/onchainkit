@@ -30,6 +30,7 @@ describe('TransactionButton', () => {
     (useShowCallsStatus as Mock).mockReturnValue({
       showCallsStatus: vi.fn(),
     });
+    vi.clearAllMocks();
   });
 
   it('renders correctly', () => {
@@ -74,6 +75,71 @@ describe('TransactionButton', () => {
     expect(text).toBeInTheDocument();
   });
 
+  it('renders custom error text when error exists', () => {
+    const mockErrorFunc = vi.fn();
+    (useTransactionContext as Mock).mockReturnValue({
+      lifecycleStatus: { statusName: 'init', statusData: null },
+      errorMessage: 'blah blah',
+      customStates: {
+        error: {
+          text: 'oops',
+          onClick: mockErrorFunc,
+        },
+      },
+      isLoading: false,
+      address: '123',
+      transactions: [{}],
+    });
+    render(<TransactionButton text="Transact" />);
+    const text = screen.getByText('oops');
+    expect(text).toBeInTheDocument();
+    const button = screen.getByTestId('ockTransactionButton_Button');
+    fireEvent.click(button);
+    expect(mockErrorFunc).toHaveBeenCalled();
+  });
+
+  it('should call custom error handler when error exists', () => {
+    const mockErrorFunc = vi.fn();
+    (useTransactionContext as Mock).mockReturnValue({
+      lifecycleStatus: { statusName: 'init', statusData: null },
+      errorMessage: 'blah blah',
+      customStates: {
+        error: {
+          text: 'oops',
+          onClick: mockErrorFunc,
+        },
+      },
+      isLoading: false,
+      address: '123',
+      transactions: [{}],
+    });
+    render(<TransactionButton text="Transact" />);
+    const button = screen.getByTestId('ockTransactionButton_Button');
+    fireEvent.click(button);
+    expect(mockErrorFunc).toHaveBeenCalled();
+  });
+
+  it('should recall onSubmit when error exists and no custom handler provided', () => {
+    const mockOnSubmit = vi.fn();
+    (useTransactionContext as Mock).mockReturnValue({
+      lifecycleStatus: { statusName: 'init', statusData: null },
+      errorMessage: 'blah blah',
+      customStates: {
+        error: {
+          text: 'oops',
+        },
+      },
+      isLoading: false,
+      address: '123',
+      transactions: [{}],
+      onSubmit: mockOnSubmit,
+    });
+    render(<TransactionButton text="Transact" />);
+    const button = screen.getByTestId('ockTransactionButton_Button');
+    fireEvent.click(button);
+    expect(mockOnSubmit).toHaveBeenCalled();
+  });
+
   it('should have disabled attribute when isDisabled is true', () => {
     const { getByRole } = render(
       <TransactionButton disabled={true} text="Submit" />,
@@ -114,6 +180,44 @@ describe('TransactionButton', () => {
     const button = screen.getByText('View transaction');
     fireEvent.click(button);
     expect(showCallsStatus).toHaveBeenCalledWith({ id: '456' });
+  });
+
+  it('should render custom success text when it exists', () => {
+    const showCallsStatus = vi.fn();
+    (useShowCallsStatus as Mock).mockReturnValue({ showCallsStatus });
+    (useTransactionContext as Mock).mockReturnValue({
+      lifecycleStatus: { statusName: 'init', statusData: null },
+      receipt: '123',
+      transactionId: '456',
+      customStates: {
+        success: {
+          text: 'yay',
+        },
+      },
+    });
+    render(<TransactionButton text="Transact" />);
+    const button = screen.getByText('yay');
+    fireEvent.click(button);
+    expect(showCallsStatus).toHaveBeenCalledWith({ id: '456' });
+  });
+
+  it('should call custom success handler when it exists', () => {
+    const mockSuccessHandler = vi.fn();
+    (useTransactionContext as Mock).mockReturnValue({
+      lifecycleStatus: { statusName: 'init', statusData: null },
+      receipt: '123',
+      transactionId: '456',
+      customStates: {
+        success: {
+          text: 'yay',
+          onClick: mockSuccessHandler,
+        },
+      },
+    });
+    render(<TransactionButton text="Transact" />);
+    const button = screen.getByText('yay');
+    fireEvent.click(button);
+    expect(mockSuccessHandler).toHaveBeenCalledWith('123');
   });
 
   it('should enable button when not in progress, not missing props, and not waiting for receipt', () => {
