@@ -46,7 +46,7 @@ type LifecycleStatus =
 ## `CheckoutButtonReact`
 
 ```ts
-type PayButtonReact = {
+type CheckoutButtonReact = {
   className?: string;
   coinbaseBranded?: boolean;
   disabled?: boolean;
@@ -58,7 +58,7 @@ type PayButtonReact = {
 ## `CheckoutReact`
 
 ```ts
-type PayReact = {
+type CheckoutReact = {
   chargeHandler?: () => Promise<string>;
   children: React.ReactNode;
   className?: string;
