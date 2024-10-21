@@ -1,4 +1,5 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { useState } from 'react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import {
   useAccount,
@@ -17,7 +18,6 @@ import {
   TransactionProvider,
   useTransactionContext,
 } from './TransactionProvider';
-import { useState } from 'react';
 
 vi.mock('wagmi', () => ({
   useAccount: vi.fn(),
@@ -142,7 +142,7 @@ const TransactionWrapper = () => {
   return (
     <TransactionProvider contracts={[]} onResetState={onResetState}>
       <TestComponent />
-      <button data-testid="reset-button" onClick={handleReset}>
+      <button type="button" data-testid="reset-button" onClick={handleReset}>
         reset
       </button>
     </TransactionProvider>
