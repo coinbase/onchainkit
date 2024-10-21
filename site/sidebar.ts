@@ -353,8 +353,8 @@ export const sidebar = [
         link: '/identity/types',
       },
       {
-        text: 'Pay',
-        link: '/pay/types',
+        text: 'Checkout',
+        link: '/checkout/types',
       },
       {
         text: 'Swap',

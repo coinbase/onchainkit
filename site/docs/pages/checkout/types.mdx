@@ -1,9 +1,9 @@
 ---
-title: Pay components & utilities Types
-description: Glossary of Types in Pay components & utilities.
+title: Checkout components & utilities Types
+description: Glossary of Types in Checkout components & utilities.
 ---
 
-# Types [Glossary of Types in Pay components & utilities.]
+# Types [Glossary of Types in Checkout components & utilities.]
 
 
 ## `LifecycleStatus`
@@ -30,7 +30,7 @@ type LifecycleStatus =
       };
     }
   | {
-      statusName: 'paymentPending';
+      statusName: 'pending';
       statusData: LifecycleStatusDataShared;
     }
   | {
@@ -43,7 +43,7 @@ type LifecycleStatus =
     };
 ```
 
-## `PayButtonReact`
+## `CheckoutButtonReact`
 
 ```ts
 type PayButtonReact = {
@@ -55,7 +55,7 @@ type PayButtonReact = {
 };
 ```
 
-## `PayReact`
+## `CheckoutReact`
 
 ```ts
 type PayReact = {
@@ -68,8 +68,8 @@ type PayReact = {
 };
 ```
 
-## `PayStatusReact`
+## `CheckoutStatusReact`
 
 ```ts
-type PayStatusReact = { className?: string };
+type CheckoutStatusReact = { className?: string };
 ```
