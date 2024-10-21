@@ -26,7 +26,7 @@ export type ComponentTheme =
   | 'cyberpunk'
   | 'default'
   | 'hacker'
-  | 'custom';
+  | string;
 
 // Internal theme options, including light/dark variants for 'default'
 export type UseThemeReact =
@@ -34,9 +34,9 @@ export type UseThemeReact =
   | 'cyberpunk'
   | 'default'
   | 'hacker'
-  | 'custom'
   | 'default-light'
-  | 'default-dark';
+  | 'default-dark'
+  | string;
 
 /**
  * Note: exported as public Type

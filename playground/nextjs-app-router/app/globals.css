@@ -60,68 +60,90 @@
 }
 
 /* Customize existing Theme */
-/*
-@layer base {
+
+/* @layer base {
   :root,
   .default-light,
   .default-dark,
   .base,
   .cyberpunk,
   .hacker {
-    --ock-bg-primary: red;
-  }
-} */
+    /* Override specific variables as needed */
+    /* --ock-font-family: 'your-custom-value';
+    --ock-border-radius: 'your-custom-value';
+    --ock-text-primary: 'your-custom-value'; */
+  /* }
+}  */ 
+
 
 /* Create your own custom Theme*/
-@layer base {
-  .custom {
-    --ock-font-family: 'DM Sans', sans-serif;
-    --ock-border-radius: 0.5rem;
-    --ock-border-radius-inner: 0.25rem;
-    --ock-text-inverse: #f9fafb;
-    --ock-text-foreground: #030712;
-    --ock-text-foreground-muted: #4b5563;
-    --ock-text-error: #374151;
-    --ock-text-primary: #1f2937;
-    --ock-text-success: #4b5563;
-    --ock-text-warning: #374151;
-    --ock-text-disabled: #9ca3af;
+/* 
+Usage: 
+  config={{
+    appearance: {
+      mode: 'auto',
+      theme: 'custom',
+    },
+  }}
 
-    --ock-bg-default: #f9fafb;
-    --ock-bg-default-hover: #e5e7eb;
-    --ock-bg-default-active: #d1d5db;
-    --ock-bg-alternate: #e5e7eb;
-    --ock-bg-alternate-hover: #d1d5db;
-    --ock-bg-alternate-active: #9ca3af;
-    --ock-bg-inverse: #f3f4f6;
-    --ock-bg-inverse-hover: #e5e7eb;
-    --ock-bg-inverse-active: #d1d5db;
-    --ock-bg-primary: #4b5563;
-    --ock-bg-primary-hover: #374151;
-    --ock-bg-primary-active: #1f2937;
-    --ock-bg-primary-washed: #f3f4f6;
-    --ock-bg-primary-disabled: #d1d5db;
-    --ock-bg-secondary: #e5e7eb;
-    --ock-bg-secondary-hover: #d1d5db;
-    --ock-bg-secondary-active: #9ca3af;
-    --ock-bg-error: #4b5563;
-    --ock-bg-warning: #6b7280;
-    --ock-bg-success: #9ca3af;
-    --ock-bg-default-reverse: #030712;
+  config={{
+    appearance: {
+      mode: 'light', // To use custom-light only.
+      theme: 'custom',
+    },
+  }}
+*/
+.custom-light {
+  --ock-bg-primary: red;
+}
 
-    --ock-icon-color-primary: #4b5563;
-    --ock-icon-color-foreground: #030712;
-    --ock-icon-color-foreground-muted: #4b5563;
-    --ock-icon-color-inverse: #f9fafb;
-    --ock-icon-color-error: #374151;
-    --ock-icon-color-success: #4b5563;
-    --ock-icon-color-warning: #374151;
+.custom-dark {
+  --ock-font-family: 'DM Sans', sans-serif;
+  --ock-border-radius: 0.5rem;
+  --ock-border-radius-inner: 0.25rem;
+  --ock-text-inverse: #1f2937;
+  --ock-text-foreground: #f9fafb;
+  --ock-text-foreground-muted: #9ca3af;
+  --ock-text-error: #d1d5db;
+  --ock-text-primary: #f3f4f6;
+  --ock-text-success: #9ca3af;
+  --ock-text-warning: #d1d5db;
+  --ock-text-disabled: #4b5563;
 
-    --ock-line-primary: #4b5563;
-    --ock-line-default: #d1d5db;
-    --ock-line-heavy: #6b7280;
-    --ock-line-inverse: #374151;
-  }
+  --ock-bg-default: #111827;
+  --ock-bg-default-hover: #1f2937;
+  --ock-bg-default-active: #374151;
+  --ock-bg-alternate: #1f2937;
+  --ock-bg-alternate-hover: #374151;
+  --ock-bg-alternate-active: #4b5563;
+  --ock-bg-inverse: #0f172a;
+  --ock-bg-inverse-hover: #1e293b;
+  --ock-bg-inverse-active: #334155;
+  --ock-bg-primary: green;
+  --ock-bg-primary-hover: #6b7280;
+  --ock-bg-primary-active: #9ca3af;
+  --ock-bg-primary-washed: #1f2937;
+  --ock-bg-primary-disabled: #374151;
+  --ock-bg-secondary: #1f2937;
+  --ock-bg-secondary-hover: #374151;
+  --ock-bg-secondary-active: #4b5563;
+  --ock-bg-error: #991b1b;
+  --ock-bg-warning: #92400e;
+  --ock-bg-success: #065f46;
+  --ock-bg-default-reverse: #f9fafb;
+
+  --ock-icon-color-primary: #9ca3af;
+  --ock-icon-color-foreground: #f9fafb;
+  --ock-icon-color-foreground-muted: #9ca3af;
+  --ock-icon-color-inverse: #1f2937;
+  --ock-icon-color-error: #f87171;
+  --ock-icon-color-success: #34d399;
+  --ock-icon-color-warning: #fbbf24;
+
+  --ock-line-primary: #6b7280;
+  --ock-line-default: #374151;
+  --ock-line-heavy: #4b5563;
+  --ock-line-inverse: #e5e7eb;
 }
 
 @layer base {
