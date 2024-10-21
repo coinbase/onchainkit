@@ -184,7 +184,7 @@ export function TransactionProvider({
     setLifecycleStatus(INITIAL_LIFECYCLE_STATE);
     setTransactionHashList([]);
     setTransactionId('');
-  }, [setLifecycleStatus, setTransactionHashList, setTransactionId]);
+  }, []);
 
   // Component lifecycle emitters
   useEffect(() => {
