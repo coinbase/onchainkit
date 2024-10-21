@@ -40,6 +40,14 @@ describe('useGetTransactionStatusLabel', () => {
     expect(result.current.label).toBe('Confirm in wallet.');
   });
 
+  it('should return status when transaction is building', () => {
+    (useTransactionContext as Mock).mockReturnValue({
+      lifecycleStatus: { statusName: 'buildingTransaction', statusData: null },
+    });
+    const { result } = renderHook(() => useGetTransactionStatusLabel());
+    expect(result.current.label).toBe('Building transaction...');
+  });
+
   it('should return status when transaction hash exists', () => {
     (useTransactionContext as Mock).mockReturnValue({
       lifecycleStatus: { statusName: 'init', statusData: null },

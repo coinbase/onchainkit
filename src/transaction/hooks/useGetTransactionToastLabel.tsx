@@ -3,15 +3,29 @@ import { color } from '../../styles/theme';
 import { useTransactionContext } from '../components/TransactionProvider';
 
 export function useGetTransactionToastLabel() {
-  const { errorMessage, isLoading, receipt, transactionHash, transactionId } =
-    useTransactionContext();
+  const {
+    errorMessage,
+    isLoading,
+    lifecycleStatus,
+    receipt,
+    transactionHash,
+    transactionId,
+  } = useTransactionContext();
 
   // user confirmed in wallet, txn in progress
   const isInProgress = isLoading || !!transactionId || !!transactionHash;
 
+  // waiting for calls or contracts promise to resolve
+  const isBuildingTransaction =
+    lifecycleStatus.statusName === 'buildingTransaction';
+
   return useMemo(() => {
     let label = '';
     let labelClassName: string = color.foregroundMuted;
+
+    if (isBuildingTransaction) {
+      label = 'Building transaction';
+    }
 
     if (isInProgress) {
       label = 'Transaction in progress';
@@ -27,5 +41,5 @@ export function useGetTransactionToastLabel() {
     }
 
     return { label, labelClassName };
-  }, [errorMessage, isInProgress, receipt]);
+  }, [errorMessage, isBuildingTransaction, isInProgress, receipt]);
 }

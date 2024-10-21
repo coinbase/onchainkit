@@ -36,6 +36,12 @@ export function TransactionOptions() {
             <SelectItem value={TransactionTypes.Contracts}>
               Contracts
             </SelectItem>
+            <SelectItem value={TransactionTypes.CallsPromise}>
+              Calls Promise
+            </SelectItem>
+            <SelectItem value={TransactionTypes.ContractsPromise}>
+              Contracts Promise
+            </SelectItem>
           </SelectContent>
         </Select>
       </div>

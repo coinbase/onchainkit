@@ -17,9 +17,17 @@ export function useGetTransactionStatusLabel() {
   // user started txn and needs to confirm in wallet
   const isPending = lifecycleStatus.statusName === 'transactionPending';
 
+  // waiting for calls or contracts promise to resolve
+  const isBuildingTransaction =
+    lifecycleStatus.statusName === 'buildingTransaction';
+
   return useMemo(() => {
     let label = '';
     let labelClassName: string = color.foregroundMuted;
+
+    if (isBuildingTransaction) {
+      label = 'Building transaction...';
+    }
 
     if (isPending) {
       label = 'Confirm in wallet.';
@@ -39,5 +47,5 @@ export function useGetTransactionStatusLabel() {
     }
 
     return { label, labelClassName };
-  }, [errorMessage, isInProgress, isPending, receipt]);
+  }, [errorMessage, isBuildingTransaction, isInProgress, isPending, receipt]);
 }
