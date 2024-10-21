@@ -144,6 +144,7 @@ export type TransactionProviderReact = {
   onError?: (e: TransactionError) => void; // An optional callback function that handles errors within the provider.
   onStatus?: (lifecycleStatus: LifecycleStatus) => void; // An optional callback function that exposes the component lifecycle state
   onSuccess?: (response: TransactionResponse) => void; // An optional callback function that exposes the transaction receipts
+  resetOnComplete?: boolean; // Resets the transaction state when the transaction completes if set to true
 };
 
 /**
@@ -157,10 +158,11 @@ export type TransactionReact = {
   className?: string; // An optional CSS class name for styling the component.
   contracts?:
     | ContractFunctionParameters[]
-    | Promise<ContractFunctionParameters[]>; // An array of contract function parameters for the transaction. Mutually exclusive with the `calls` prop.
+    | Promise<ContractFunctionParameters[]>; // An array of contract function parameters provided to the child components. Mutually exclusive with the `calls` prop.
   onError?: (e: TransactionError) => void; // An optional callback function that handles transaction errors.
   onStatus?: (lifecycleStatus: LifecycleStatus) => void; // An optional callback function that exposes the component lifecycle state
   onSuccess?: (response: TransactionResponse) => void; // An optional callback function that exposes the transaction receipts
+  resetOnComplete?: boolean; // Resets the transaction state when the transaction completes if set to true
 };
 
 /**

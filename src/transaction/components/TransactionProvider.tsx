@@ -19,6 +19,7 @@ import { useCapabilitiesSafe } from '../../internal/hooks/useCapabilitiesSafe';
 import { useValue } from '../../internal/hooks/useValue';
 import {
   GENERIC_ERROR_MESSAGE,
+  INITIAL_LIFECYCLE_STATE,
   TRANSACTION_TYPE_CALLS,
   TRANSACTION_TYPE_CONTRACTS,
 } from '../constants';
@@ -59,6 +60,7 @@ export function TransactionProvider({
   onError,
   onStatus,
   onSuccess,
+  resetOnComplete,
 }: TransactionProviderReact) {
   // Core Hooks
   const account = useAccount();
@@ -66,10 +68,9 @@ export function TransactionProvider({
   const [errorMessage, setErrorMessage] = useState('');
   const [errorCode, setErrorCode] = useState('');
   const [isToastVisible, setIsToastVisible] = useState(false);
-  const [lifecycleStatus, setLifecycleStatus] = useState<LifecycleStatus>({
-    statusName: 'init',
-    statusData: null,
-  }); // Component lifecycle
+  const [lifecycleStatus, setLifecycleStatus] = useState<LifecycleStatus>(
+    INITIAL_LIFECYCLE_STATE,
+  ); // Component lifecycle
   const [transactionId, setTransactionId] = useState('');
   const [transactionCount, setTransactionCount] = useState<
     number | undefined
@@ -178,6 +179,12 @@ export function TransactionProvider({
     hash: singleTransactionHash || batchedTransactionHash,
   });
 
+  const resetTransactionState = useCallback(() => {
+    setLifecycleStatus(INITIAL_LIFECYCLE_STATE);
+    setTransactionHashList([]);
+    setTransactionId('');
+  }, []);
+
   // Component lifecycle emitters
   useEffect(() => {
     setErrorMessage('');
@@ -197,12 +204,18 @@ export function TransactionProvider({
         transactionReceipts: lifecycleStatus.statusData.transactionReceipts,
       });
     }
+    // Reset state
+    if (resetOnComplete && lifecycleStatus.statusName === 'success') {
+      resetTransactionState();
+    }
     // Emit Status
     onStatus?.(lifecycleStatus);
   }, [
     onError,
     onStatus,
     onSuccess,
+    resetTransactionState,
+    resetOnComplete,
     lifecycleStatus,
     lifecycleStatus.statusData, // Keep statusData, so that the effect runs when it changes
     lifecycleStatus.statusName, // Keep statusName, so that the effect runs when it changes

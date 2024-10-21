@@ -542,6 +542,40 @@ describe('TransactionProvider', () => {
     );
     restore();
   });
+
+  it('should reset transaction state when lifecycleStatus is success and resetOnComplete is true', async () => {
+    const onSuccessMock = vi.fn();
+    (useWaitForTransactionReceipt as ReturnType<typeof vi.fn>).mockReturnValue({
+      data: { status: 'success' },
+    });
+    (useCallsStatus as ReturnType<typeof vi.fn>).mockReturnValue({
+      transactionHash: 'hash',
+    });
+
+    render(
+      <TransactionProvider
+        contracts={[{ address: '0x123', method: 'method' }]}
+        onSuccess={onSuccessMock}
+        resetOnComplete={true}
+      >
+        <TestComponent />
+      </TransactionProvider>,
+    );
+    // const button = screen.getByText('Submit');
+    // fireEvent.click(button);
+    await waitFor(() => {
+      expect(onSuccessMock).toHaveBeenCalled();
+      expect(onSuccessMock).toHaveBeenCalledWith({
+        transactionReceipts: [{ status: 'success' }],
+      });
+    });
+    await waitFor(() => {
+      expect(
+        screen.getByTestId('context-value-lifecycleStatus-statusName')
+          .textContent,
+      ).toBe('init');
+    });
+  });
 });
 
 describe('useTransactionContext', () => {
