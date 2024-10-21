@@ -25,11 +25,11 @@ Our all-in-one solution simplifies payment processing for onchain developers, re
 
 Before using the `Checkout` component, ensure you've completed the [Getting Started](/getting-started) steps.
 
+To use the `Checkout` component, you'll need to provide an API Key in `OnchainKitProvider`. You can get one following our [Getting Started](/getting-started#get-your-public-api-key) steps.
+
 ### Starting a new project
 
 If you're starting a new project, we recommend using `create onchain` to scaffold your project. 
-
-For the `Checkout` component, you'll need to provide an API Key. You can get one following our [Getting Started](/getting-started#get-your-public-api-key) steps.
 
 ```bash
 npm create onchain@latest
@@ -77,11 +77,13 @@ That's it! Starting selling onchain with just a few lines of code.
 
 ## Usage
 
-### Accepting payments for a product
+### Configuring a checkout
 
 You can create products on the Coinbase Commerce Portal and use them in the `Checkout` component through the `productId` prop.
 
 If you'd like to create product metadata programmatically or implement a multi-product checkout, please see [Advanced Usage](/checkout/checkout#advanced-usage).
+
+Coinbase Commerce charges a [1% fee](https://help.coinbase.com/en/commerce/getting-started/fees) associated with all payments.
 
 ```tsx twoslash
 import { Checkout, CheckoutButton } from '@coinbase/onchainkit/checkout';
@@ -146,12 +148,52 @@ const statusHandler = async (status: LifecycleStatus) => { // [!code focus]
 // ---cut-after---
 ```
 :::tip[Coinbase Commerce API]
-This is an authenticated endpoint. To create charges, you'll need a Coinbase Commerce [API Key](https://docs.cdp.coinbase.com/commerce-onchain/docs/getting-started).
+This is an authenticated endpoint. To verify charges, you'll need a Coinbase Commerce [API Key](https://docs.cdp.coinbase.com/commerce-onchain/docs/getting-started).
 :::
 
 :::danger[⚠️ Warning]
 You should protect your Coinbase Commerce API Key by verifying charges server-side. This client-side code is only provided as an example.
 :::
+
+### Viewing successful checkouts
+
+You can view successful checkouts on the [Coinbase Commerce Merchant Dashboard](https://beta.commerce.coinbase.com/payments).
+
+<img alt="Viewing successful checkouts"
+src="https://onchainkit.xyz/assets/commerce-3.png"
+height="364"/>
+
+### Customizing the name and logo
+
+To customize the name and logo of your application, set `appName` and `appLogoUrl` inside your Wagmi configuration.
+Also ensure that your Wagmi configuration is set to `smartWalletOnly` and supports Base.
+
+```tsx twoslash [wagmi.ts]
+import { http, cookieStorage, createConfig, createStorage } from 'wagmi';
+import { base } from 'wagmi/chains'; // [!code ++]
+import { coinbaseWallet } from 'wagmi/connectors';
+
+export function getConfig() {
+  return createConfig({
+    chains: [base], // [!code ++]
+    connectors: [
+      coinbaseWallet({
+        appName: "OnchainKit", // [!code ++]
+        appLogoUrl: "https://onchainkit.xyz/favicon/48x48.png?v4-19-24", // [!code ++]
+        preference: 'smartWalletOnly', // [!code ++]
+        version: '4',
+      }),
+    ],
+    storage: createStorage({
+      storage: cookieStorage,
+    }),
+    ssr: true,
+    transports: {
+      [base.id]: http(), // [!code ++]
+    },
+  });
+}
+```
 
 ### Add Coinbase branding
 
@@ -253,7 +295,7 @@ export default function PayComponents() {
 
 ## Advanced Usage
 
-### Shopping Carts and Multi-product Checkout
+### Shopping Carts and Multi-Product Checkout
 
 You can accept payments for arbitrary product metadata using the Coinbase Commerce [create charge](https://docs.cdp.coinbase.com/commerce-onchain/reference/creates-a-charge) endpoint. This is useful if you have an existing inventory management system or want to implement custom features like multi-product checkouts, carts, etc.
 
