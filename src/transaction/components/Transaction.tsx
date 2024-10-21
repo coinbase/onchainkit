@@ -12,7 +12,6 @@ export function Transaction({
   className,
   children,
   contracts,
-  customStates,
   onError,
   onStatus,
   onSuccess,
@@ -37,7 +36,6 @@ export function Transaction({
       capabilities={capabilities}
       chainId={accountChainId}
       contracts={contracts}
-      customStates={customStates}
       onError={onError}
       onStatus={onStatus}
       onSuccess={onSuccess}

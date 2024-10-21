@@ -15,17 +15,6 @@ import type {
 
 export type Call = { to: Hex; data?: Hex; value?: bigint };
 
-export type CustomStates = {
-  success?: {
-    text?: string;
-    onClick?: (transactionHash: TransactionReceipt) => void;
-  };
-  error?: {
-    text?: string;
-    onClick?: () => void;
-  };
-};
-
 /**
  * List of transaction lifecycle statuses.
  * The order of the statuses loosely follows the transaction lifecycle.
@@ -86,7 +75,6 @@ export type TransactionButtonReact = {
 
 export type TransactionContextType = {
   chainId?: number; // The chainId for the transaction.
-  customStates?: CustomStates;
   errorCode?: string; // An error code used to localize errors and provide more context with unit-tests.
   errorMessage?: string; // An error message string if the transaction encounters an issue.
   isLoading: boolean; // A boolean indicating if the transaction is currently loading.
@@ -150,7 +138,9 @@ export type TransactionProviderReact = {
   capabilities?: WalletCapabilities; // Capabilities that a wallet supports (e.g. paymasters, session keys, etc).
   chainId: number; // The chainId for the transaction.
   children: ReactNode; // The child components to be rendered within the provider component.
-  customStates?: CustomStates;
+  contracts?:
+    | ContractFunctionParameters[]
+    | Promise<ContractFunctionParameters[]>; // An array of contract function parameters provided to the child components. Mutually exclusive with the `calls` prop.
   onError?: (e: TransactionError) => void; // An optional callback function that handles errors within the provider.
   onStatus?: (lifecycleStatus: LifecycleStatus) => void; // An optional callback function that exposes the component lifecycle state
   onSuccess?: (response: TransactionResponse) => void; // An optional callback function that exposes the transaction receipts
@@ -165,8 +155,10 @@ export type TransactionReact = {
   capabilities?: WalletCapabilities; // Capabilities that a wallet supports (e.g. paymasters, session keys, etc).
   chainId?: number; // The chainId for the transaction.
   children: ReactNode; // The child components to be rendered within the transaction component.
+  contracts?:
+    | ContractFunctionParameters[]
+    | Promise<ContractFunctionParameters[]>; // An array of contract function parameters provided to the child components. Mutually exclusive with the `calls` prop.
   className?: string; // An optional CSS class name for styling the component.
-  customStates?: CustomStates;
   onError?: (e: TransactionError) => void; // An optional callback function that handles transaction errors.
   onStatus?: (lifecycleStatus: LifecycleStatus) => void; // An optional callback function that exposes the component lifecycle state
   onSuccess?: (response: TransactionResponse) => void; // An optional callback function that exposes the transaction receipts
