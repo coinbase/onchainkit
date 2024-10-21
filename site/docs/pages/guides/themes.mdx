@@ -25,6 +25,7 @@ OnchainKit offers multiple themes to quickly style your components. Set the them
 - `base`: Single mode only.
 - `cyberpunk`: Single mode only.
 - `hacker`: Single mode only.
+- `custom`: Single mode only.
 
 If no theme is selected, the **`default`** theme is applied automatically.
 
@@ -60,7 +61,7 @@ If no mode is specified, `auto` mode will be applied by default.
   config={{
     appearance: {
       mode: 'auto', // 'auto' | 'light' | 'dark' // [!code focus]
-      theme: 'default', // 'default' | 'base' | 'cyberpunk' | 'hacker'
+      theme: 'default', // 'default' | 'base' | 'cyberpunk' | 'hacker' | 'your-custom-theme'
     },
   }}
 >
@@ -68,7 +69,8 @@ If no mode is specified, `auto` mode will be applied by default.
 
 ## CSS Overrides
 
-You can further customize the appearance by overriding CSS styles. This allows for fine-tuning the look of individual components beyond the provided themes.
+Fine-tune specific aspects of an existing theme. 
+This is useful when you want to make adjustments to the appearance of the components without creating an entirely new theme.
 
 ```css
 @layer base {
@@ -78,9 +80,69 @@ You can further customize the appearance by overriding CSS styles. This allows f
   .base,
   .cyberpunk, 
   .hacker {
+    /* Override specific variables as needed */
+    --ock-font-family: 'your-custom-value';
+    --ock-border-radius: 'your-custom-value';
+    --ock-text-primary: 'your-custom-value';
+  }
+}
+```
+
+## Custom Theme
+
+Define an entirely new look and feel for your application. 
+This gives you complete control over all aspects of the design, including colors, fonts, and other visual properties.
+
+#### Usage Options:
+
+##### Automatic Light/Dark Mode Switching:
+- To automatically switch between light and dark versions of your custom theme:
+
+```tsx twoslash
+// @noErrors:  2304 17008 1005
+<OnchainKitProvider
+  apiKey={process.env.NEXT_PUBLIC_ONCHAINKIT_API_KEY}
+  chain={base}
+  config={{
+    appearance: {
+      mode: 'auto', // [!code focus]
+      theme: 'custom', // [!code focus]
+    },
+  }}
+>
+```
+
+##### Single Theme Version:
+- To use only one version of your custom theme at all times:
+
+```tsx twoslash
+// @noErrors:  2304 17008 1005
+<OnchainKitProvider
+  apiKey={process.env.NEXT_PUBLIC_ONCHAINKIT_API_KEY}
+  chain={base}
+  config={{
+    appearance: {
+      mode: 'light', // [!code focus]
+      theme: 'custom', // [!code focus]
+    },
+  }} 
+>
+```
+
+##### Defining a custom theme
+
+Use CSS variables to define your custom theme. 
+The class name definitions must include the `-light` or `-dark` suffix.
+
+```css
+@layer base {
+  .custom-light {
+    /* Font and Shape */
     --ock-font-family: 'your-custom-value';
     --ock-border-radius: 'your-custom-value';
     --ock-border-radius-inner: 'your-custom-value';
+
+    /* Text Colors */
     --ock-text-inverse: 'your-custom-value';
     --ock-text-foreground: 'your-custom-value';
     --ock-text-foreground-muted: 'your-custom-value';
@@ -90,6 +152,7 @@ You can further customize the appearance by overriding CSS styles. This allows f
     --ock-text-warning: 'your-custom-value';
     --ock-text-disabled: 'your-custom-value';
 
+    /* Background Colors */
     --ock-bg-default: 'your-custom-value';
     --ock-bg-default-hover: 'your-custom-value';
     --ock-bg-default-active: 'your-custom-value';
@@ -112,6 +175,7 @@ You can further customize the appearance by overriding CSS styles. This allows f
     --ock-bg-success: 'your-custom-value';
     --ock-bg-default-reverse: 'your-custom-value';
 
+    /* Icon Colors */
     --ock-icon-color-primary: 'your-custom-value';
     --ock-icon-color-foreground: 'your-custom-value';
     --ock-icon-color-foreground-muted: 'your-custom-value';
@@ -120,10 +184,15 @@ You can further customize the appearance by overriding CSS styles. This allows f
     --ock-icon-color-success: 'your-custom-value';
     --ock-icon-color-warning: 'your-custom-value';
 
+    /* Line Colors */
     --ock-line-primary: 'your-custom-value';
     --ock-line-default: 'your-custom-value';
     --ock-line-heavy: 'your-custom-value';
     --ock-line-inverse: 'your-custom-value';
+  }
+
+  .custom-dark {
+    /* Define dark mode custom classes here */
   }
 }
 ```
