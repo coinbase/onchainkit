@@ -17,6 +17,7 @@ import {
   TransactionProvider,
   useTransactionContext,
 } from './TransactionProvider';
+import { useState } from 'react';
 
 vi.mock('wagmi', () => ({
   useAccount: vi.fn(),
@@ -126,6 +127,28 @@ const TestComponent = () => {
   );
 };
 
+const TransactionWrapper = () => {
+  const [resetFunction, setResetFunction] = useState<(() => void) | null>(null);
+  const handleReset = () => {
+    if (resetFunction) {
+      resetFunction(); // Call the reset function from the child
+    }
+  };
+
+  const onResetState = (resetFn: () => void) => {
+    setResetFunction(() => resetFn); // Store the reset function in state
+  };
+
+  return (
+    <TransactionProvider contracts={[]} onResetState={onResetState}>
+      <TestComponent />
+      <button data-testid="reset-button" onClick={handleReset}>
+        reset
+      </button>
+    </TransactionProvider>
+  );
+};
+
 describe('TransactionProvider', () => {
   beforeEach(() => {
     vi.resetAllMocks();
@@ -201,6 +224,19 @@ describe('TransactionProvider', () => {
     const button = screen.getByText('setLifecycleStatus.error');
     fireEvent.click(button);
     expect(onStatusMock).toHaveBeenCalled();
+  });
+
+  it('should emit onResetState when component is rendered', async () => {
+    render(<TransactionWrapper />);
+
+    const button = screen.getByTestId('reset-button');
+    fireEvent.click(button);
+    await waitFor(() => {
+      expect(
+        screen.getByTestId('context-value-lifecycleStatus-statusName')
+          .textContent,
+      ).toBe('init');
+    });
   });
 
   it('should emit onSuccess when one receipt exist', async () => {
