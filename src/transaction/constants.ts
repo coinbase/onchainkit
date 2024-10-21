@@ -1,4 +1,4 @@
-import { LifecycleStatus } from './types';
+import type { LifecycleStatus } from './types';
 
 export const GENERIC_ERROR_MESSAGE = 'Something went wrong. Please try again.';
 // Most likely EOAexport const genericErrorMessage = 'Something went wrong. Please try again.';
