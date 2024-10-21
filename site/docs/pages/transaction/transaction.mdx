@@ -254,7 +254,7 @@ const handleOnStatus = useCallback((status: LifecycleStatus) => { // [!code focu
 </Transaction> // [!code focus]
 ```
 
-The Lifecycle Status features six states for the transaction experience.
+The Lifecycle Status features seven states for the transaction experience.
 
 ```ts twoslash
 import type { TransactionError } from "@coinbase/onchainkit/transaction";
@@ -271,6 +271,10 @@ type LifecycleStatus =
     }
   | {
       statusName: 'transactionIdle'; // initial status prior to the mutation function executing
+      statusData: null;
+    }
+  | {
+      statusName: 'buildingTransaction'; // resolving calls or contracts promise 
       statusData: null;
     }
   | {
