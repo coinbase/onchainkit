@@ -99,9 +99,12 @@ To handle successful checkouts, use the `onStatus` prop to listen for the `succe
 
 This callback will return a [LifecycleStatusData](/checkout/checkout#advanced-usage) object including the [TransactionReceipt](https://github.com/wevm/viem/blob/main/src/types/transaction.ts#L38) and `chargeId`.
 
-To verify a charge has been fully paid, you can check the status of the `chargeId` using the [Coinbase Commerce API](https://docs.cdp.coinbase.com/commerce-onchain/docs/web3-payments-faq#how-can-i-verify-if-a-charge-has-been-fully-paid).
+For non-idempotent actions, like rendering your own success screen, you can simply check that the `statusName` is equal to `success`.
 
-Alternatively, you can also set up a [Coinbase Commerce Webhook](https://docs.cdp.coinbase.com/commerce-onchain/docs/webhooks) which will notify you for successful payments.
+For idempotent actions, like order fulfillment, we recommend one of the following approaches to verify a charge has been fully paid.
+
+1. (**Recommended**) Check the status of the `chargeId` using the [Coinbase Commerce API](https://docs.cdp.coinbase.com/commerce-onchain/docs/web3-payments-faq#how-can-i-verify-if-a-charge-has-been-fully-paid).
+2. Set up a [Coinbase Commerce Webhook](https://docs.cdp.coinbase.com/commerce-onchain/docs/webhooks) which will notify you for successful payments.
 
 ```tsx twoslash
 import { Checkout, CheckoutButton } from '@coinbase/onchainkit/checkout';
@@ -115,13 +118,15 @@ const statusHandler = async (status: LifecycleStatus) => { // [!code focus]
       // handle success // [!code focus]
       const { chargeId } = statusData; // [!code focus]
       // use the charges api to verify the chargeId // [!code focus]
+      const options = { // [!code focus]
+        method: 'GET', // [!code focus]
+        headers: { // [!code focus]
+          'Content-Type': 'application/json', // [!code focus]
+          'Accept': 'application/json', // [!code focus]
+          'X-CC-Api-Key': 'your_api_key_here' // Replace this with your Coinbase Commerce API Key // [!code focus]
+        } // [!code focus]
+      }; // [!code focus]
       const response = await fetch(`https://api.commerce.coinbase.com/charges/${chargeId}`); // [!code focus]
-    case 'pending':  
-      // handle payment pending
-    case 'error': 
-      // handle error
-    default:
-      // handle 'init' state
   } // [!code focus]
 } // [!code focus]
 
@@ -130,6 +135,13 @@ const statusHandler = async (status: LifecycleStatus) => { // [!code focus]
 </Checkout>
 // ---cut-after---
 ```
+:::tip[Coinbase Commerce API]
+This is an authenticated endpoint. To create charges, you'll need a Coinbase Commerce [API Key](https://docs.cdp.coinbase.com/commerce-onchain/docs/getting-started).
+:::
+
+:::danger[⚠️ Warning]
+You should protect your Coinbase Commerce API Key by verifying charges server-side. This client-side code is only provided as an example.
+:::
 
 ### Add Coinbase branding
 
