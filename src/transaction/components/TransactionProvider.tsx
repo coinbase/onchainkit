@@ -19,6 +19,7 @@ import { useCapabilitiesSafe } from '../../internal/hooks/useCapabilitiesSafe';
 import { useValue } from '../../internal/hooks/useValue';
 import {
   GENERIC_ERROR_MESSAGE,
+  INITIAL_LIFECYCLE_STATE,
   TRANSACTION_TYPE_CALLS,
   TRANSACTION_TYPE_CONTRACTS,
 } from '../constants';
@@ -57,6 +58,7 @@ export function TransactionProvider({
   children,
   contracts,
   onError,
+  onResetState,
   onStatus,
   onSuccess,
 }: TransactionProviderReact) {
@@ -66,10 +68,9 @@ export function TransactionProvider({
   const [errorMessage, setErrorMessage] = useState('');
   const [errorCode, setErrorCode] = useState('');
   const [isToastVisible, setIsToastVisible] = useState(false);
-  const [lifecycleStatus, setLifecycleStatus] = useState<LifecycleStatus>({
-    statusName: 'init',
-    statusData: null,
-  }); // Component lifecycle
+  const [lifecycleStatus, setLifecycleStatus] = useState<LifecycleStatus>(
+    INITIAL_LIFECYCLE_STATE,
+  ); // Component lifecycle
   const [transactionId, setTransactionId] = useState('');
   const [transactionCount, setTransactionCount] = useState<
     number | undefined
@@ -177,6 +178,17 @@ export function TransactionProvider({
   const { data: receipt } = useWaitForTransactionReceipt({
     hash: singleTransactionHash || batchedTransactionHash,
   });
+
+  const resetTransactionState = useCallback(() => {
+    setLifecycleStatus(INITIAL_LIFECYCLE_STATE);
+    setTransactionHashList([]);
+    setTransactionId('');
+  }, []);
+
+  useEffect(() => {
+    // Expose callback that can be invoked to reset transaction state
+    onResetState?.(resetTransactionState);
+  }, [onResetState, resetTransactionState]);
 
   // Component lifecycle emitters
   useEffect(() => {

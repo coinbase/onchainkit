@@ -142,6 +142,7 @@ export type TransactionProviderReact = {
     | ContractFunctionParameters[]
     | Promise<ContractFunctionParameters[]>; // An array of contract function parameters provided to the child components. Mutually exclusive with the `calls` prop.
   onError?: (e: TransactionError) => void; // An optional callback function that handles errors within the provider.
+  onResetState?: (resetStateCallback: () => void) => void; // Returns a callback which can be invoked to reset transaction state
   onStatus?: (lifecycleStatus: LifecycleStatus) => void; // An optional callback function that exposes the component lifecycle state
   onSuccess?: (response: TransactionResponse) => void; // An optional callback function that exposes the transaction receipts
 };
@@ -159,6 +160,7 @@ export type TransactionReact = {
     | ContractFunctionParameters[]
     | Promise<ContractFunctionParameters[]>; // An array of contract function parameters for the transaction. Mutually exclusive with the `calls` prop.
   onError?: (e: TransactionError) => void; // An optional callback function that handles transaction errors.
+  onResetState?: (resetStateCallback: () => void) => void; // Returns a callback which can be invoked to reset transaction state
   onStatus?: (lifecycleStatus: LifecycleStatus) => void; // An optional callback function that exposes the component lifecycle state
   onSuccess?: (response: TransactionResponse) => void; // An optional callback function that exposes the transaction receipts
 };

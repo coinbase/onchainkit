@@ -13,6 +13,7 @@ export function Transaction({
   children,
   contracts,
   onError,
+  onResetState,
   onStatus,
   onSuccess,
 }: TransactionReact) {
@@ -38,6 +39,7 @@ export function Transaction({
       onError={onError}
       onStatus={onStatus}
       onSuccess={onSuccess}
+      onResetState={onResetState}
     >
       <div
         className={cn(componentTheme, 'flex w-full flex-col gap-2', className)}
