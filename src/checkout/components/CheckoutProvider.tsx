@@ -217,7 +217,7 @@ export function CheckoutProvider({
           CheckoutErrorCode.INSUFFICIENT_BALANCE
       ) {
         window.open(
-          `https://keys.coinbase.com/fund?asset=USDC&chainId=8453&presentCryptoAmount=${priceInUSDCRef.current}`,
+          `https://keys.coinbase.com/fund?asset=USDC&chainId=8453&presetCryptoAmount=${priceInUSDCRef.current}`,
           '_blank',
           'noopener,noreferrer',
         );

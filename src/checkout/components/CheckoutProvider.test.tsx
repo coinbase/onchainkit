@@ -404,7 +404,7 @@ describe('CheckoutProvider', () => {
     });
     fireEvent.click(screen.getByText('Submit'));
     expect(windowOpenMock).toHaveBeenCalledWith(
-      'https://keys.coinbase.com/fund?asset=USDC&chainId=8453&presentCryptoAmount=10',
+      'https://keys.coinbase.com/fund?asset=USDC&chainId=8453&presetCryptoAmount=10',
       '_blank',
       'noopener,noreferrer',
     );
