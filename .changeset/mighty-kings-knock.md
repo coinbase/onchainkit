@@ -7,3 +7,6 @@
 - **chore** renamed `Pay` module to `Checkout`. by @0xAlec #1455
 - **fix**: fixed paymaster sponsorship prop `isSponsored` in `Checkout` component. by @0xAlec #1458
 - **fix**: Updated `ConnectWalletText` component styling to match the `ConnectWallet` text prop formatting. By @cpcramer #1445
+
+Breaking Changes:
+`Pay` has been renamed to `Checkout`. If you are using this component, please update your imports as necessary.
