@@ -56,6 +56,7 @@ export function TransactionProvider({
   chainId,
   children,
   contracts,
+  customStates,
   onError,
   onStatus,
   onSuccess,
@@ -329,6 +330,7 @@ export function TransactionProvider({
 
   const value = useValue({
     chainId,
+    customStates,
     errorCode,
     errorMessage,
     isLoading: callStatus === 'PENDING',
