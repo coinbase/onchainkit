@@ -61,7 +61,7 @@ export function TransactionButton({
       : 'Try again';
 
     return { successText, errorText };
-  }, [customStates, buttonText]);
+  }, [customStates]);
 
   const successHandler = useCallback(() => {
     if (customStates?.success?.onClick && receipt) {
@@ -74,11 +74,18 @@ export function TransactionButton({
     // EOA will not have txn id so open in explorer
     const chainExplorer = getChainExplorer(accountChainId);
     return window.open(
-        `${chainExplorer}/tx/${transactionHash}`,
-        '_blank',
-        'noopener,noreferrer',
-      );
-  }, [accountChainId, customStates, transactionId, transactionHash, receipt]);
+      `${chainExplorer}/tx/${transactionHash}`,
+      '_blank',
+      'noopener,noreferrer',
+    );
+  }, [
+    accountChainId,
+    customStates,
+    showCallsStatus,
+    transactionId,
+    transactionHash,
+    receipt,
+  ]);
 
   const errorHandler = useCallback(() => {
     if (customStates?.error?.onClick) {
@@ -108,17 +115,7 @@ export function TransactionButton({
     } else {
       onSubmit();
     }
-  }, [
-    accountChainId,
-    errorMessage,
-    errorHandler,
-    onSubmit,
-    receipt,
-    successHandler,
-    showCallsStatus,
-    transactionHash,
-    transactionId,
-  ]);
+  }, [errorMessage, errorHandler, onSubmit, receipt, successHandler]);
 
   return (
     <button
