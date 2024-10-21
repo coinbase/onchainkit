@@ -59,7 +59,7 @@
   }
 }
 
-/* Customize Theme */
+/* Customize existing Theme */
 /*
 @layer base {
   :root,
@@ -71,6 +71,58 @@
     --ock-bg-primary: red;
   }
 } */
+
+/* Create your own custom Theme*/
+@layer base {
+  .custom {
+    --ock-font-family: 'DM Sans', sans-serif;
+    --ock-border-radius: 0.5rem;
+    --ock-border-radius-inner: 0.25rem;
+    --ock-text-inverse: #f9fafb;
+    --ock-text-foreground: #030712;
+    --ock-text-foreground-muted: #4b5563;
+    --ock-text-error: #374151;
+    --ock-text-primary: #1f2937;
+    --ock-text-success: #4b5563;
+    --ock-text-warning: #374151;
+    --ock-text-disabled: #9ca3af;
+
+    --ock-bg-default: #f9fafb;
+    --ock-bg-default-hover: #e5e7eb;
+    --ock-bg-default-active: #d1d5db;
+    --ock-bg-alternate: #e5e7eb;
+    --ock-bg-alternate-hover: #d1d5db;
+    --ock-bg-alternate-active: #9ca3af;
+    --ock-bg-inverse: #f3f4f6;
+    --ock-bg-inverse-hover: #e5e7eb;
+    --ock-bg-inverse-active: #d1d5db;
+    --ock-bg-primary: #4b5563;
+    --ock-bg-primary-hover: #374151;
+    --ock-bg-primary-active: #1f2937;
+    --ock-bg-primary-washed: #f3f4f6;
+    --ock-bg-primary-disabled: #d1d5db;
+    --ock-bg-secondary: #e5e7eb;
+    --ock-bg-secondary-hover: #d1d5db;
+    --ock-bg-secondary-active: #9ca3af;
+    --ock-bg-error: #4b5563;
+    --ock-bg-warning: #6b7280;
+    --ock-bg-success: #9ca3af;
+    --ock-bg-default-reverse: #030712;
+
+    --ock-icon-color-primary: #4b5563;
+    --ock-icon-color-foreground: #030712;
+    --ock-icon-color-foreground-muted: #4b5563;
+    --ock-icon-color-inverse: #f9fafb;
+    --ock-icon-color-error: #374151;
+    --ock-icon-color-success: #4b5563;
+    --ock-icon-color-warning: #374151;
+
+    --ock-line-primary: #4b5563;
+    --ock-line-default: #d1d5db;
+    --ock-line-heavy: #6b7280;
+    --ock-line-inverse: #374151;
+  }
+}
 
 @layer base {
   * {

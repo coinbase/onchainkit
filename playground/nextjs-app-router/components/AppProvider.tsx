@@ -35,6 +35,7 @@ export type ComponentTheme =
   | 'cyberpunk'
   | 'default'
   | 'hacker'
+  | 'custom'
   | 'none'; // Simulates an undefined theme field
 
 export type ComponentMode = 'auto' | 'light' | 'dark';

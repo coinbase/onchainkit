@@ -90,12 +90,18 @@ describe('useTheme', () => {
       'cyberpunk',
       'base',
       'hacker',
+      'custom',
       'default-light',
       'default-dark',
     ];
 
     for (const theme of allThemes) {
-      if (theme === 'cyberpunk' || theme === 'base' || theme === 'hacker') {
+      if (
+        theme === 'cyberpunk' ||
+        theme === 'base' ||
+        theme === 'hacker' ||
+        theme === 'custom'
+      ) {
         mockUseOnchainKit(theme, 'auto');
       } else {
         const [baseTheme, mode] = theme.split('-');

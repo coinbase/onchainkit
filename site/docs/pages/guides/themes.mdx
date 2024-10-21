@@ -25,6 +25,7 @@ OnchainKit offers multiple themes to quickly style your components. Set the them
 - `base`: Single mode only.
 - `cyberpunk`: Single mode only.
 - `hacker`: Single mode only.
+- `custom`: Single mode only.
 
 If no theme is selected, the **`default`** theme is applied automatically.
 
@@ -36,7 +37,7 @@ If no theme is selected, the **`default`** theme is applied automatically.
   config={{ // [!code focus]
     appearance: { // [!code focus]
       mode: 'auto', // 'auto' | 'light' | 'dark'
-      theme: 'default', // 'default' | 'base' | 'cyberpunk' | 'hacker' // [!code focus]
+      theme: 'default', // 'default' | 'base' | 'cyberpunk' | 'hacker' | 'custom' // [!code focus]
     }, // [!code focus]
   }} // [!code focus]
 >
@@ -60,7 +61,7 @@ If no mode is specified, `auto` mode will be applied by default.
   config={{
     appearance: {
       mode: 'auto', // 'auto' | 'light' | 'dark' // [!code focus]
-      theme: 'default', // 'default' | 'base' | 'cyberpunk' | 'hacker'
+      theme: 'default', // 'default' | 'base' | 'cyberpunk' | 'hacker' | 'custom'
     },
   }}
 >
@@ -68,7 +69,8 @@ If no mode is specified, `auto` mode will be applied by default.
 
 ## CSS Overrides
 
-You can further customize the appearance by overriding CSS styles. This allows for fine-tuning the look of individual components beyond the provided themes.
+CSS Overrides allow you to fine-tune specific aspects of an existing theme. 
+This is useful when you want to make minor adjustments to the appearance of individual components without creating an entirely new theme.
 
 ```css
 @layer base {
@@ -78,6 +80,24 @@ You can further customize the appearance by overriding CSS styles. This allows f
   .base,
   .cyberpunk, 
   .hacker {
+    /* Override specific variables as needed */
+    --ock-font-family: 'your-custom-value';
+    --ock-border-radius: 'your-custom-value';
+    --ock-text-primary: 'your-custom-value';
+  }
+}
+```
+
+
+## Custom Theme
+
+Creating a custom theme allows you to define an entirely new look and feel for your application. 
+This gives you complete control over all aspects of the design, including colors, fonts, and other visual properties.
+
+
+```css
+@layer base {
+  .custom {
     --ock-font-family: 'your-custom-value';
     --ock-border-radius: 'your-custom-value';
     --ock-border-radius-inner: 'your-custom-value';

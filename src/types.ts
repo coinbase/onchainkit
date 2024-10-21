@@ -21,7 +21,12 @@ export type isEthereumOptions = {
 export type Mode = 'auto' | 'light' | 'dark';
 
 // External theme options for users
-export type ComponentTheme = 'base' | 'cyberpunk' | 'default' | 'hacker';
+export type ComponentTheme =
+  | 'base'
+  | 'cyberpunk'
+  | 'default'
+  | 'hacker'
+  | 'custom';
 
 // Internal theme options, including light/dark variants for 'default'
 export type UseThemeReact =
@@ -29,6 +34,7 @@ export type UseThemeReact =
   | 'cyberpunk'
   | 'default'
   | 'hacker'
+  | 'custom'
   | 'default-light'
   | 'default-dark';
 
