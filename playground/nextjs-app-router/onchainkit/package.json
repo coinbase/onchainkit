@@ -119,6 +119,12 @@
       "import": "./esm/api/index.js",
       "default": "./esm/api/index.js"
     },
+    "./checkout": {
+      "types": "./esm/checkout/index.d.ts",
+      "module": "./esm/checkout/index.js",
+      "import": "./esm/checkout/index.js",
+      "default": "./esm/checkout/index.js"
+    },
     "./core": {
       "types": "./esm/core/index.d.ts",
       "module": "./esm/core/index.js",
@@ -148,12 +154,6 @@
       "module": "./esm/identity/index.js",
       "import": "./esm/identity/index.js",
       "default": "./esm/identity/index.js"
-    },
-    "./pay": {
-      "types": "./esm/pay/index.d.ts",
-      "module": "./esm/pay/index.js",
-      "import": "./esm/pay/index.js",
-      "default": "./esm/pay/index.js"
     },
     "./swap": {
       "types": "./esm/swap/index.d.ts",

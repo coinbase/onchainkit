@@ -27,6 +27,7 @@ export function ActiveComponent() {
         <SelectContent>
           <SelectItem value={OnchainKitComponent.Fund}>Fund</SelectItem>
           <SelectItem value={OnchainKitComponent.Identity}>Identity</SelectItem>
+          <SelectItem value={OnchainKitComponent.Checkout}>Checkout</SelectItem>
           <SelectItem value={OnchainKitComponent.Transaction}>
             Transaction
           </SelectItem>

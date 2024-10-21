@@ -10,6 +10,7 @@ import { WalletPreference } from './form/wallet-type';
 export enum OnchainKitComponent {
   Fund = 'fund',
   Identity = 'identity',
+  Checkout = 'checkout',
   Swap = 'swap',
   SwapDefault = 'swap-default',
   Transaction = 'transaction',
@@ -29,6 +30,16 @@ export type Paymaster = {
   url: string;
   enabled: boolean;
 };
+
+export type CheckoutOptions = {
+  chargeId?: string;
+  productId?: string;
+};
+
+export enum CheckoutTypes {
+  ChargeID = 'chargeId',
+  ProductID = 'productId',
+}
 
 export type ComponentTheme =
   | 'base'
@@ -53,6 +64,10 @@ type State = {
   setTransactionType?: (transactionType: TransactionTypes) => void;
   paymasters?: Record<number, Paymaster>; // paymasters is per network
   setPaymaster?: (chainId: number, url: string, enabled: boolean) => void;
+  checkoutOptions?: CheckoutOptions;
+  setCheckoutOptions?: (checkoutOptions: CheckoutOptions) => void;
+  checkoutTypes?: CheckoutTypes;
+  setCheckoutTypes?: (checkoutTypes: CheckoutTypes) => void;
   componentTheme?: ComponentTheme;
   setComponentTheme: (theme: ComponentTheme) => void;
   componentMode: ComponentMode;
@@ -80,6 +95,11 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   const [chainId, setChainIdState] = useState<number>();
   const [transactionType, setTransactionTypeState] = useState<TransactionTypes>(
     TransactionTypes.Contracts,
+  );
+  const [checkoutOptions, setCheckoutOptionsState] =
+    useState<CheckoutOptions>();
+  const [checkoutTypes, setCheckoutTypesState] = useState<CheckoutTypes>(
+    CheckoutTypes.ProductID,
   );
   const [paymasters, setPaymastersState] =
     useState<Record<number, Paymaster>>();
@@ -169,6 +189,15 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     setDefaultMaxSlippageState(newDefaultMaxSlippage);
   };
 
+  const setCheckoutOptions = (checkoutOptions: CheckoutOptions) => {
+    localStorage.setItem('productId', checkoutOptions.productId || '');
+    setCheckoutOptionsState(checkoutOptions);
+  };
+
+  const setCheckoutTypes = (checkoutTypes: CheckoutTypes) => {
+    setCheckoutTypesState(checkoutTypes);
+  };
+
   const setPaymaster = (chainId: number, url: string, enabled: boolean) => {
     const newObj = {
       ...paymasters,
@@ -209,6 +238,10 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         setComponentTheme,
         componentMode,
         setComponentMode,
+        checkoutOptions,
+        setCheckoutOptions,
+        checkoutTypes,
+        setCheckoutTypes,
         paymasters,
         setPaymaster,
         transactionType,
