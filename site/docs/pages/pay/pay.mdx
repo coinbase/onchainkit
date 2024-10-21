@@ -87,6 +87,44 @@ export default function PayComponents() {
   </Pay>
 </App>
 
+### Handling a successful checkout
+
+To handle successful checkouts, use the `onStatus` prop to listen for the `success` callback.
+
+This callback will return a [LifecycleStatusData](/pay/pay#advanced-usage) object including the [TransactionReceipt](https://github.com/wevm/viem/blob/main/src/types/transaction.ts#L38) and `chargeId`.
+
+To verify a charge has been fully paid, you can check the status of the `chargeId` using the [Coinbase Commerce API](https://docs.cdp.coinbase.com/commerce-onchain/docs/web3-payments-faq#how-can-i-verify-if-a-charge-has-been-fully-paid).
+
+Alternatively, you can also set up a [Coinbase Commerce Webhook](https://docs.cdp.coinbase.com/commerce-onchain/docs/webhooks) which will notify you for successful payments.
+
+```tsx twoslash
+import { Pay, PayButton } from '@coinbase/onchainkit/pay';
+// ---cut-before---
+import type { LifecycleStatus } from '@coinbase/onchainkit/pay'; // [!code focus]
+
+const statusHandler = async (status: LifecycleStatus) => { // [!code focus]
+  const { statusName, statusData } = status; // [!code focus]
+  switch (statusName) { // [!code focus]
+    case 'success': // [!code focus]
+      // handle success // [!code focus]
+      const { chargeId } = statusData; // [!code focus]
+      // use the charges api to verify the chargeId // [!code focus]
+      const response = await fetch(`https://api.commerce.coinbase.com/charges/${chargeId}`); // [!code focus]
+    case 'paymentPending':  
+      // handle payment pending
+    case 'error': 
+      // handle error
+    default:
+      // handle 'init' state
+  } // [!code focus]
+} // [!code focus]
+
+<Pay onStatus={statusHandler}> // [!code focus]
+  <PayButton />
+</Pay>
+// ---cut-after---
+```
+
 ### Add Coinbase branding
 
 You can add Coinbase branding to the component by using the `coinbaseBranded` prop on `PayButton`.
