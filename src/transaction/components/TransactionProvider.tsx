@@ -57,8 +57,8 @@ export function TransactionProvider({
   chainId,
   children,
   contracts,
+  customStates,
   onError,
-  onResetState,
   onStatus,
   onSuccess,
   resetOnComplete,
@@ -180,6 +180,12 @@ export function TransactionProvider({
     hash: singleTransactionHash || batchedTransactionHash,
   });
 
+  const resetTransactionState = useCallback(() => {
+    setLifecycleStatus(INITIAL_LIFECYCLE_STATE);
+    setTransactionHashList([]);
+    setTransactionId('');
+  }, [setLifecycleStatus, setTransactionHashList, setTransactionId]);
+
   // Component lifecycle emitters
   useEffect(() => {
     setErrorMessage('');
@@ -201,10 +207,7 @@ export function TransactionProvider({
     }
     // Reset state
     if (resetOnComplete && lifecycleStatus.statusName === 'success') {
-      setLifecycleStatus(INITIAL_LIFECYCLE_STATE);
-      setTransactionHashList([]);
-      setTransactionId('');
-      onResetState?.();
+      resetTransactionState();
     }
     // Emit Status
     onStatus?.(lifecycleStatus);
@@ -212,7 +215,7 @@ export function TransactionProvider({
     onError,
     onStatus,
     onSuccess,
-    onResetState,
+    resetTransactionState,
     resetOnComplete,
     lifecycleStatus,
     lifecycleStatus.statusData, // Keep statusData, so that the effect runs when it changes
@@ -340,6 +343,7 @@ export function TransactionProvider({
     chainId,
     errorCode,
     errorMessage,
+    customStates,
     isLoading: callStatus === 'PENDING',
     isToastVisible,
     lifecycleStatus,

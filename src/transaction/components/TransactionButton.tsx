@@ -15,6 +15,7 @@ export function TransactionButton({
 }: TransactionButtonReact) {
   const {
     chainId,
+    customStates,
     errorMessage,
     isLoading,
     lifecycleStatus,
@@ -50,37 +51,70 @@ export function TransactionButton({
     transactionId,
   });
 
-  const buttonContent = useMemo(() => {
-    // txn successful
-    if (receipt) {
-      return 'View transaction';
-    }
-    if (errorMessage) {
-      return 'Try again';
-    }
-    return buttonText;
-  }, [buttonText, errorMessage, receipt]);
+  const { errorText, successText } = useMemo(() => {
+    const successText = customStates?.success?.text
+      ? customStates?.success?.text
+      : 'View transaction';
 
-  const handleSubmit = useCallback(() => {
+    const errorText = customStates?.error?.text
+      ? customStates?.error?.text
+      : 'Try again';
+
+    return { successText, errorText };
+  }, [customStates, buttonText]);
+
+  const successHandler = useCallback(() => {
+    if (customStates?.success?.onClick && receipt) {
+      return customStates?.success?.onClick?.(receipt);
+    }
     // SW will have txn id so open in wallet
     if (receipt && transactionId) {
-      showCallsStatus({ id: transactionId });
-      // EOA will not have txn id so open in explorer
-    } else if (receipt) {
-      const chainExplorer = getChainExplorer(accountChainId);
-      window.open(
+      return showCallsStatus({ id: transactionId });
+    }
+    // EOA will not have txn id so open in explorer
+    const chainExplorer = getChainExplorer(accountChainId);
+    return window.open(
         `${chainExplorer}/tx/${transactionHash}`,
         '_blank',
         'noopener,noreferrer',
       );
+  }, [accountChainId, customStates, transactionId, transactionHash, receipt]);
+
+  const errorHandler = useCallback(() => {
+    if (customStates?.error?.onClick) {
+      return customStates?.error?.onClick?.();
+    }
+    // if no custom logic, retry submit
+    return onSubmit();
+  }, [customStates, onSubmit]);
+
+  const buttonContent = useMemo(() => {
+    // txn successful
+    if (receipt) {
+      return successText;
+    }
+    if (errorMessage) {
+      return errorText;
+    }
+    return buttonText;
+  }, [errorText, buttonText, successText, errorMessage, receipt]);
+
+  const handleSubmit = useCallback(() => {
+    if (receipt) {
+      successHandler();
+    } else if (errorMessage) {
+      errorHandler();
+      // if no receipt or error, submit txn
     } else {
-      // if no receipt, submit txn
       onSubmit();
     }
   }, [
     accountChainId,
+    errorMessage,
+    errorHandler,
     onSubmit,
     receipt,
+    successHandler,
     showCallsStatus,
     transactionHash,
     transactionId,
