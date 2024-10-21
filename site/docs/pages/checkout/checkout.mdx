@@ -71,7 +71,7 @@ That's it! Starting selling onchain with just a few lines of code.
 
 You can create products on the Coinbase Commerce Portal and use them in the `Checkout` component through the `productId` prop.
 
-If you'd like to create product metadata programmatically, please see [Advanced Usage](/checkout/checkout#advanced-usage).
+If you'd like to create product metadata programmatically or implement a multi-product checkout, please see [Advanced Usage](/checkout/checkout#advanced-usage).
 
 ```tsx twoslash
 import { Checkout, CheckoutButton } from '@coinbase/onchainkit/checkout';
@@ -231,7 +231,7 @@ export default function PayComponents() {
 
 ## Advanced Usage
 
-### Creating metadata on the backend
+### Shopping Carts and Multi-product Checkout
 
 You can accept payments for arbitrary product metadata using the Coinbase Commerce [create charge](https://docs.cdp.coinbase.com/commerce-onchain/reference/creates-a-charge) endpoint. This is useful if you have an existing inventory management system or want to implement custom features like multi-product checkouts, carts, etc.
 
