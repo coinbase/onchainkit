@@ -1,29 +1,29 @@
 ---
-title: <Pay /> · OnchainKit
+title: <Checkout /> · OnchainKit
 description: One-click checkout for onchain commerce
 ---
 
-import { Pay, PayButton, PayStatus } from '@coinbase/onchainkit/pay';
+import { Checkout, CheckoutButton, CheckoutStatus } from '@coinbase/onchainkit/checkout';
 import App from '../../components/App';
 
-# `<Pay />`
+# `<Checkout />`
 
-The `Pay` component provides a one-click checkout experience for onchain commerce. 
+The `Checkout` component provides a one-click checkout experience for onchain commerce. 
 
 Our all-in-one solution simplifies payment processing for onchain developers, removing complex integrations, high fees, and onboarding friction. Whether you're selling digital goods, services, or in-game items, this tool is for you.
 
-<img alt="Pay"
+<img alt="Checkout"
   src="https://onchainkit.xyz/assets/pay.gif"
   height="364"/>
 
 ## Features
-- **Plug-and-Play Integration:** Add our `Pay` button with just a few lines of code. No backend required.
+- **Plug-and-Play Integration:** Add our `Checkout` button with just a few lines of code. No backend required.
 - **Seamless Onboarding:** Support Passkey wallets to eliminate onboarding drop-offs.
 - **Real-time Merchant Tooling:** Get instant payment tracking, analytics, and reporting.
 
 ## Prerequisites
 
-Before using the `Pay` component, ensure you've completed the [Getting Started](/getting-started) steps.
+Before using the `Checkout` component, ensure you've completed the [Getting Started](/getting-started) steps.
 
 If you're starting a new project, we recommend using [Wagmi](https://wagmi.sh/) to scaffold your project following our [Getting Started](/getting-started) steps.
 
@@ -48,12 +48,12 @@ In the Coinbase Commerce dashboard, create a new product and copy the `productId
 ### Import the component
 
 ```tsx twoslash
-import { Pay, PayButton, PayStatus } from '@coinbase/onchainkit/pay';
+import { Checkout, CheckoutButton, CheckoutStatus } from '@coinbase/onchainkit/checkout';
 
-<Pay productId='my-product-id' > 
-  <PayButton coinbaseBranded/> // set coinbaseBranded for branding
-  <PayStatus />
-</Pay>
+<Checkout productId='my-product-id' > 
+  <CheckoutButton coinbaseBranded/> // set coinbaseBranded for branding
+  <CheckoutStatus />
+</Checkout>
 ```
 ::::
 
@@ -63,44 +63,44 @@ That's it! Starting selling onchain with just a few lines of code.
 
 ### Accepting payments for a product
 
-You can create products on the Coinbase Commerce Portal and use them in the `Pay` component through the `productId` prop.
+You can create products on the Coinbase Commerce Portal and use them in the `Checkout` component through the `productId` prop.
 
-If you'd like to create product metadata programmatically, please see [Advanced Usage](/pay/pay#advanced-usage).
+If you'd like to create product metadata programmatically, please see [Advanced Usage](/checkout/checkout#advanced-usage).
 
 ```tsx twoslash
-import { Pay, PayButton } from '@coinbase/onchainkit/pay';
+import { Checkout, CheckoutButton } from '@coinbase/onchainkit/checkout';
 
 export default function PayComponents() {
   return (
 // ---cut-before---
-<Pay productId='my-product-id'> // [!code focus]
-  <PayButton />
-</Pay>
+<Checkout productId='my-product-id'> // [!code focus]
+  <CheckoutButton />
+</Checkout>
 // ---cut-after---
 );
 }
 ```
 
 <App>
-  <Pay>
-    <PayButton disabled/>
-  </Pay>
+  <Checkout>
+    <CheckoutButton disabled/>
+  </Checkout>
 </App>
 
 ### Handling a successful checkout
 
 To handle successful checkouts, use the `onStatus` prop to listen for the `success` callback.
 
-This callback will return a [LifecycleStatusData](/pay/pay#advanced-usage) object including the [TransactionReceipt](https://github.com/wevm/viem/blob/main/src/types/transaction.ts#L38) and `chargeId`.
+This callback will return a [LifecycleStatusData](/checkout/checkout#advanced-usage) object including the [TransactionReceipt](https://github.com/wevm/viem/blob/main/src/types/transaction.ts#L38) and `chargeId`.
 
 To verify a charge has been fully paid, you can check the status of the `chargeId` using the [Coinbase Commerce API](https://docs.cdp.coinbase.com/commerce-onchain/docs/web3-payments-faq#how-can-i-verify-if-a-charge-has-been-fully-paid).
 
 Alternatively, you can also set up a [Coinbase Commerce Webhook](https://docs.cdp.coinbase.com/commerce-onchain/docs/webhooks) which will notify you for successful payments.
 
 ```tsx twoslash
-import { Pay, PayButton } from '@coinbase/onchainkit/pay';
+import { Checkout, CheckoutButton } from '@coinbase/onchainkit/checkout';
 // ---cut-before---
-import type { LifecycleStatus } from '@coinbase/onchainkit/pay'; // [!code focus]
+import type { LifecycleStatus } from '@coinbase/onchainkit/checkout'; // [!code focus]
 
 const statusHandler = async (status: LifecycleStatus) => { // [!code focus]
   const { statusName, statusData } = status; // [!code focus]
@@ -110,7 +110,7 @@ const statusHandler = async (status: LifecycleStatus) => { // [!code focus]
       const { chargeId } = statusData; // [!code focus]
       // use the charges api to verify the chargeId // [!code focus]
       const response = await fetch(`https://api.commerce.coinbase.com/charges/${chargeId}`); // [!code focus]
-    case 'paymentPending':  
+    case 'pending':  
       // handle payment pending
     case 'error': 
       // handle error
@@ -119,83 +119,83 @@ const statusHandler = async (status: LifecycleStatus) => { // [!code focus]
   } // [!code focus]
 } // [!code focus]
 
-<Pay onStatus={statusHandler}> // [!code focus]
-  <PayButton />
-</Pay>
+<Checkout onStatus={statusHandler}> // [!code focus]
+  <CheckoutButton />
+</Checkout>
 // ---cut-after---
 ```
 
 ### Add Coinbase branding
 
-You can add Coinbase branding to the component by using the `coinbaseBranded` prop on `PayButton`.
+You can add Coinbase branding to the component by using the `coinbaseBranded` prop on `CheckoutButton`.
 
 ```tsx twoslash
-import { Pay, PayButton } from '@coinbase/onchainkit/pay';
+import { Checkout, CheckoutButton } from '@coinbase/onchainkit/checkout';
 
 export default function PayComponents() {
   return (
 // ---cut-before---
-<Pay >
-  <PayButton coinbaseBranded/> // [!code focus]
-</Pay>
+<Checkout >
+  <CheckoutButton coinbaseBranded/> // [!code focus]
+</Checkout>
 // ---cut-after---
 );
 }
 ```
 
 <App>
-  <Pay>
-    <PayButton coinbaseBranded disabled/>
-  </Pay>
+  <Checkout>
+    <CheckoutButton coinbaseBranded disabled/>
+  </Checkout>
 </App>
 
 ### Disabling the button
 
-You can disable the button using the `disabled` prop on `PayButton`.
+You can disable the button using the `disabled` prop on `CheckoutButton`.
 ```tsx twoslash
 
-import { Pay, PayButton } from '@coinbase/onchainkit/pay';
+import { Checkout, CheckoutButton } from '@coinbase/onchainkit/checkout';
 
 export default function PayComponents() {
   return (
 // ---cut-before---
-<Pay >
-  <PayButton disabled/> // [!code focus]
-</Pay>
+<Checkout >
+  <CheckoutButton disabled/> // [!code focus]
+</Checkout>
 // ---cut-after---
 );
 }
 ```
 
 <App>
-  <Pay>
-    <PayButton disabled/>
-  </Pay>
+  <Checkout>
+    <CheckoutButton disabled/>
+  </Checkout>
 </App>
 
 
 ### Customize text
 
-You can customize the text using the `text` prop on `PayButton`.
+You can customize the text using the `text` prop on `CheckoutButton`.
 ```tsx twoslash
 
-import { Pay, PayButton } from '@coinbase/onchainkit/pay';
+import { Checkout, CheckoutButton } from '@coinbase/onchainkit/checkout';
 
 export default function PayComponents() {
   return (
 // ---cut-before---
-<Pay >
-  <PayButton text='Pay with USDC'/> // [!code focus]
-</Pay>
+<Checkout >
+  <CheckoutButton text='Checkout with USDC'/> // [!code focus]
+</Checkout>
 // ---cut-after---
 );
 }
 ```
 
 <App>
-  <Pay>
-    <PayButton text='Pay with USDC' disabled/>
-  </Pay>
+  <Checkout>
+    <CheckoutButton text='Checkout with USDC' disabled/>
+  </Checkout>
 </App>
 
 ### Override styles
@@ -203,23 +203,23 @@ export default function PayComponents() {
 You can override component styles using `className`.
 ```tsx twoslash
 
-import { Pay, PayButton } from '@coinbase/onchainkit/pay';
+import { Checkout, CheckoutButton } from '@coinbase/onchainkit/checkout';
 
 export default function PayComponents() {
   return (
 // ---cut-before---
-<Pay >
-  <PayButton className='bg-[#EA580C]'/> // [!code focus]
-</Pay>
+<Checkout >
+  <CheckoutButton className='bg-[#EA580C]'/> // [!code focus]
+</Checkout>
 // ---cut-after---
 );
 }
 ```
 
 <App>
-  <Pay>
-    <PayButton className='bg-[#EA580C]' disabled/>
-  </Pay>
+  <Checkout>
+    <CheckoutButton className='bg-[#EA580C]' disabled/>
+  </Checkout>
 </App>
 
 
@@ -273,14 +273,14 @@ app.listen(port, () => {
 Charges should only be created server-side. If you create charges on the client, users will be able to create charges associated with your Commerce Merchant account.
 :::
 
-We expose a `chargeHandler` prop on the `Pay` component which takes a callback that is invoked every time the Pay button is clicked.
+We expose a `chargeHandler` prop on the `Checkout` component which takes a callback that is invoked every time the Checkout button is clicked.
 
 This function **must** have the signature `() => Promise<string>` and **must** return a valid `chargeId` created by the create charge endpoint.
 
-Note that `productId` and `chargeHandler` are mutually exclusive and only one can be provided as a prop to `Pay`.
+Note that `productId` and `chargeHandler` are mutually exclusive and only one can be provided as a prop to `Checkout`.
 
 ```tsx twoslash
-import { Pay, PayButton } from '@coinbase/onchainkit/pay';
+import { Checkout, CheckoutButton } from '@coinbase/onchainkit/checkout';
 
 
 // ---cut-before---
@@ -292,28 +292,28 @@ const chargeHandler = async () => { // [!code focus]
   return data.id; // Return the chargeId // [!code focus]
 } // [!code focus]
 
-<Pay chargeHandler={chargeHandler}> // [!code focus]
-  <PayButton />
-</Pay>
+<Checkout chargeHandler={chargeHandler}> // [!code focus]
+  <CheckoutButton />
+</Checkout>
 // ---cut-after---
 ```
 
 
 ### Listening to the component lifecycle
 
-You can use our Pay [`LifecycleStatus`](/pay/types#lifecyclestatus) and the `onStatus` prop to listen to transaction states.
+You can use our Checkout [`LifecycleStatus`](/checkout/types#lifecyclestatus) and the `onStatus` prop to listen to transaction states.
 
 ```tsx twoslash
-import { Pay, PayButton } from '@coinbase/onchainkit/pay';
+import { Checkout, CheckoutButton } from '@coinbase/onchainkit/checkout';
 // ---cut-before---
-import type { LifecycleStatus } from '@coinbase/onchainkit/pay'; // [!code focus]
+import type { LifecycleStatus } from '@coinbase/onchainkit/checkout'; // [!code focus]
 
 const statusHandler = (status: LifecycleStatus) => { // [!code focus]
   const { statusName, statusData } = status; // [!code focus]
   switch (statusName) { // [!code focus]
     case 'success': // [!code focus]
       // handle success 
-    case 'paymentPending': // [!code focus]
+    case 'pending': // [!code focus]
       // handle payment pending
     case 'error': // [!code focus]
       // handle error
@@ -322,9 +322,9 @@ const statusHandler = (status: LifecycleStatus) => { // [!code focus]
   } // [!code focus]
 } // [!code focus]
 
-<Pay onStatus={statusHandler}> // [!code focus]
-  <PayButton />
-</Pay>
+<Checkout onStatus={statusHandler}> // [!code focus]
+  <CheckoutButton />
+</Checkout>
 // ---cut-after---
 ```
 
@@ -337,13 +337,13 @@ const statusHandler = (status: LifecycleStatus) => { // [!code focus]
 
 The components are designed to work together hierarchically. For each component, ensure the following:
 
-- `<Pay />` - Sets the `productId` or `chargeHandler` prop.
-- `<PayButton />` - Branding and customization of the payment button.
-- `<PayStatus />` - The status of the payment.
+- `<Checkout />` - Sets the `productId` or `chargeHandler` prop.
+- `<CheckoutButton />` - Branding and customization of the payment button.
+- `<CheckoutStatus />` - The status of the payment.
 
 ## Props
 
-- [`LifecycleStatus`](/pay/types#lifecyclestatus)
-- [`PayReact`](/pay/types#payreact)
-- [`PayButtonReact`](/pay/types#paybuttonreact)
-- [`PayStatusReact`](/pay/types#paystatusreact)
+- [`LifecycleStatus`](/checkout/types#lifecyclestatus)
+- [`CheckoutReact`](/checkout/types#checkoutreact)
+- [`CheckoutButtonReact`](/checkout/types#checkoutbuttonreact)
+- [`CheckoutStatusReact`](/checkout/types#checkoutstatusreact)
