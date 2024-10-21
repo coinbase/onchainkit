@@ -55,7 +55,7 @@ export function CheckoutProvider({
 }: CheckoutProviderReact) {
   // Core hooks
   const {
-    config: { paymaster } = { paymaster: null },
+    config: { paymaster } = { paymaster: undefined },
   } = useOnchainKit();
   const { address, chainId, isConnected } = useAccount();
   const { connectAsync } = useConnect();
@@ -306,9 +306,13 @@ export function CheckoutProvider({
       // Open keys.coinbase.com for payment
       await writeContractsAsync({
         contracts: contractsRef.current,
-        capabilities: {
-          paymaster: isSponsored ? paymaster : null,
-        },
+        capabilities: isSponsored
+          ? {
+              paymasterService: {
+                url: paymaster,
+              },
+            }
+          : undefined,
       });
     } catch (error) {
       const isUserRejectedError =
