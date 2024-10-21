@@ -60,6 +60,15 @@ export const sidebar = [
     text: 'Components',
     items: [
       {
+        text: 'Checkout',
+        items: [
+          {
+            text: 'Checkout',
+            link: '/checkout/checkout',
+          },
+        ],
+      },
+      {
         text: 'Frame',
         items: [
           {
@@ -99,15 +108,6 @@ export const sidebar = [
           {
             text: 'Name',
             link: '/identity/name',
-          },
-        ],
-      },
-      {
-        text: 'Pay',
-        items: [
-          {
-            text: 'Pay',
-            link: '/pay/pay',
           },
         ],
       },
