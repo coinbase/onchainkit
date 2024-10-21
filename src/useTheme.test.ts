@@ -29,6 +29,9 @@ describe('useTheme', () => {
     ['cyberpunk', 'auto', 'light', 'cyberpunk'],
     ['base', 'dark', 'dark', 'base'],
     ['hacker', 'light', 'light', 'hacker'],
+    ['custom', 'auto', 'light', 'custom'],
+    ['custom', 'dark', 'light', 'custom'],
+    ['custom', 'light', 'dark', 'custom'],
   ] as const)(
     'should return %s theme when set, regardless of mode or system preference',
     (theme, mode, preferredMode, expected) => {
@@ -44,8 +47,6 @@ describe('useTheme', () => {
     ['default', 'auto', 'dark', 'default-dark'],
     ['default', 'light', 'dark', 'default-light'],
     ['default', 'dark', 'light', 'default-dark'],
-    ['custom', 'auto', 'light', 'custom-light'],
-    ['custom', 'auto', 'dark', 'custom-dark'],
   ] as const)(
     'should return %s when theme is %s, mode is %s, and preferred mode is %s',
     (theme, mode, preferredMode, expected) => {
@@ -59,8 +60,8 @@ describe('useTheme', () => {
   it.each([
     ['default', undefined, 'light', 'default-light'],
     ['default', undefined, 'dark', 'default-dark'],
-    ['custom', undefined, 'light', 'custom-light'],
-    ['custom', undefined, 'dark', 'custom-dark'],
+    ['custom', undefined, 'light', 'custom'],
+    ['custom', undefined, 'dark', 'custom'],
   ] as const)(
     'should fallback to preferred mode when theme is %s and mode is undefined',
     (theme, mode, preferredMode, expected) => {
@@ -90,12 +91,18 @@ describe('useTheme', () => {
       'cyberpunk',
       'base',
       'hacker',
+      'custom',
       'default-light',
       'default-dark',
     ];
 
     for (const theme of allThemes) {
-      if (theme === 'cyberpunk' || theme === 'base' || theme === 'hacker') {
+      if (
+        theme === 'cyberpunk' ||
+        theme === 'base' ||
+        theme === 'hacker' ||
+        theme === 'custom'
+      ) {
         mockUseOnchainKit(theme, 'auto');
       } else {
         const [baseTheme, mode] = theme.split('-');
