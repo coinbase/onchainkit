@@ -61,7 +61,7 @@
 
 /* Customize existing Theme */
 
-@layer base {
+/* @layer base {
   :root,
   .default-light,
   .default-dark,
@@ -72,8 +72,8 @@
     /* --ock-font-family: 'your-custom-value';
     --ock-border-radius: 'your-custom-value';
     --ock-text-primary: 'your-custom-value'; */
-  }
-} 
+  /* }
+}  */ 
 
 
 /* Create your own custom Theme*/
