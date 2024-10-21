@@ -29,6 +29,7 @@ export function ComponentTheme() {
           <SelectItem value="base">Base</SelectItem>
           <SelectItem value="cyberpunk">Cyberpunk</SelectItem>
           <SelectItem value="hacker">Hacker</SelectItem>
+          <SelectItem value="custom">Custom</SelectItem>
         </SelectContent>
       </Select>
     </div>
