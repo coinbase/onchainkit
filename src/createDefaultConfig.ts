@@ -30,7 +30,7 @@ export const createDefaultConfig = ({
         : http(),
       [baseSepolia.id]: apiKey
         ? http(
-            `https://api.developer.coinbase.com/rpc/v1/base-sepolia/${apiKey}`
+            `https://api.developer.coinbase.com/rpc/v1/base-sepolia/${apiKey}`,
           )
         : http(),
     },

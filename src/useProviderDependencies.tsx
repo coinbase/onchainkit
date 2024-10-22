@@ -1,6 +1,6 @@
-import { useMemo } from 'react';
-import { Config, WagmiProviderNotFoundError, useConfig } from 'wagmi';
 import { type QueryClient, useQueryClient } from '@tanstack/react-query';
+import { useMemo } from 'react';
+import { type Config, WagmiProviderNotFoundError, useConfig } from 'wagmi';
 
 export function useProviderDependencies() {
   // Check the context for WagmiProvider

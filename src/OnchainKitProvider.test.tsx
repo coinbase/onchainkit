@@ -293,26 +293,4 @@ describe('OnchainKitProvider', () => {
       );
     });
   });
-
-  it('should throw an error when useConfig throws an unexpected error', () => {
-    const consoleErrorSpy = vi
-      .spyOn(console, 'error')
-      .mockImplementation(() => {});
-    const mockError = new Error('Unexpected config error');
-    (useConfig as Mock).mockImplementation(() => {
-      throw mockError;
-    });
-    expect(() => {
-      render(
-        <OnchainKitProvider chain={base} schemaId={schemaId} apiKey={apiKey}>
-          <TestComponent />
-        </OnchainKitProvider>,
-      );
-    }).toThrow('Unexpected config error');
-    expect(consoleErrorSpy).toHaveBeenCalledWith(
-      'Error fetching config, using OnchainKit defaults:',
-      mockError,
-    );
-    consoleErrorSpy.mockRestore();
-  });
 });

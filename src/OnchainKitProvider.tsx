@@ -1,12 +1,11 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { createContext, useMemo } from 'react';
-import { WagmiProvider, WagmiProviderNotFoundError, useConfig } from 'wagmi';
+import { WagmiProvider } from 'wagmi';
 import { ONCHAIN_KIT_CONFIG, setOnchainKitConfig } from './OnchainKitConfig';
 import { createDefaultConfig } from './createDefaultConfig';
 import { checkHashLength } from './internal/utils/checkHashLength';
 import type { OnchainKitContextType, OnchainKitProviderReact } from './types';
 import { useProviderDependencies } from './useProviderDependencies';
-import { useQueryClient } from '@tanstack/react-query';
 
 export const OnchainKitContext =
   createContext<OnchainKitContextType>(ONCHAIN_KIT_CONFIG);
@@ -81,7 +80,7 @@ export function OnchainKitProvider({
   }, []);
 
   // If WagmiProvider is not found, return the context with defaulted parent providers
-  if (!providedWagmiConfig) {
+  if (!providedWagmiConfig && !providedQueryClient) {
     return (
       <WagmiProvider config={defaultConfig}>
         <QueryClientProvider client={queryClient}>
