@@ -6,7 +6,7 @@ import {
   useMemo,
   useState,
 } from 'react';
-import type { Address } from 'viem';
+import { encodeFunctionData, type Address } from 'viem';
 import {
   useAccount,
   useConfig,
@@ -20,6 +20,7 @@ import { useValue } from '../../internal/hooks/useValue';
 import {
   GENERIC_ERROR_MESSAGE,
   TRANSACTION_TYPE_CALLS,
+  TRANSACTION_TYPE_COMBO,
   TRANSACTION_TYPE_CONTRACTS,
 } from '../constants';
 import { useCallsStatus } from '../hooks/useCallsStatus';
@@ -75,10 +76,25 @@ export function TransactionProvider({
     number | undefined
   >();
   const [transactionHashList, setTransactionHashList] = useState<Address[]>([]);
-  const transactions = calls || contracts;
-  const transactionType = calls
-    ? TRANSACTION_TYPE_CALLS
-    : TRANSACTION_TYPE_CONTRACTS;
+  const transactions = calls || contracts
+
+
+
+  // const transactions = useMemo(() => {
+  //   if (calls && contracts) {
+  //     return calls.concat(contracts)
+  //   }
+  // }, [])
+
+  const transactionType = useMemo(() => {
+    if (calls && contracts) {
+      return TRANSACTION_TYPE_COMBO;
+    }
+    if (calls) {
+      return TRANSACTION_TYPE_CALLS
+    }
+    return TRANSACTION_TYPE_CONTRACTS
+  }, [calls, contracts])
 
   // Retrieve wallet capabilities
   const walletCapabilities = useCapabilitiesSafe({
@@ -93,11 +109,11 @@ export function TransactionProvider({
       'Transaction: One of contracts or calls must be provided as a prop to the Transaction component.',
     );
   }
-  if (calls && contracts) {
-    throw new Error(
-      'Transaction: Only one of contracts or calls can be provided as a prop to the Transaction component.',
-    );
-  }
+  // if (calls && contracts) {
+  //   throw new Error(
+  //     'Transaction: Only one of contracts or calls can be provided as a prop to the Transaction component.',
+  //   );
+  // }
 
   // useWriteContracts or useWriteContract
   // Used for contract calls with an ABI and functions.
@@ -137,13 +153,15 @@ export function TransactionProvider({
       ?.supported
       ? {
           [TRANSACTION_TYPE_CALLS]: statusSendCalls,
+          [TRANSACTION_TYPE_COMBO]: statusSendCalls,
           [TRANSACTION_TYPE_CONTRACTS]: statusWriteContracts,
         }
       : {
           [TRANSACTION_TYPE_CALLS]: statusSendCall,
+          [TRANSACTION_TYPE_COMBO]: statusSendCall,
           [TRANSACTION_TYPE_CONTRACTS]: statusWriteContract,
         };
-    return transactionStatuses[transactionType];
+    return transactionStatuses[transactionType] || '';
   }, [
     statusSendCalls,
     statusWriteContracts,
@@ -286,7 +304,21 @@ export function TransactionProvider({
       statusData: null,
     });
     try {
-      const resolvedTransactions = await Promise.resolve(transactions);
+      // const resolvedTransactions = await Promise.resolve(transactions);
+      const resolvedContracts = await Promise.resolve(contracts);
+      const resolvedCalls = await Promise.resolve(calls);
+      let resolvedTransactions: any = [];
+      if (resolvedCalls) {
+        resolvedTransactions = [...resolvedCalls]
+      }
+      const formatted = resolvedContracts ? resolvedContracts?.map(contract => {
+        return (
+          {...contract, to: contract.address}
+        )
+      }) : []
+      if (resolvedContracts) {
+        resolvedTransactions = resolvedTransactions?.concat(formatted)
+      }
       setTransactionCount(resolvedTransactions?.length);
       return resolvedTransactions;
     } catch (err) {
@@ -300,7 +332,7 @@ export function TransactionProvider({
       });
       return undefined;
     }
-  }, [transactions]);
+  }, [contracts, transactions, calls]);
 
   const handleSubmit = useCallback(async () => {
     setErrorMessage('');

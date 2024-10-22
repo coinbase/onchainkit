@@ -17,6 +17,23 @@ export const clickContracts = [
   },
 ];
 
+export const combo = [
+  {
+    address: deployedContracts[85432].click,
+    abi: clickAbi,
+    functionName: 'click',
+    args: [],
+  },
+  {
+    data: encodeFunctionData({
+      abi: clickAbi,
+      functionName: 'click',
+      args: [],
+    }),
+    to: deployedContracts[85432].click,
+  },
+]
+
 export const clickCalls = [
   {
     data: encodeFunctionData({

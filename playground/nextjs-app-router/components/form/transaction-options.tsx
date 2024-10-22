@@ -32,6 +32,7 @@ export function TransactionOptions() {
             <SelectValue placeholder="Select transaction type" />
           </SelectTrigger>
           <SelectContent>
+            <SelectItem value={TransactionTypes.Combo}>Combo</SelectItem>
             <SelectItem value={TransactionTypes.Calls}>Calls</SelectItem>
             <SelectItem value={TransactionTypes.Contracts}>
               Contracts

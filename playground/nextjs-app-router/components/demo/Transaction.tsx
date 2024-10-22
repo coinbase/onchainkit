@@ -1,5 +1,5 @@
 import { useCapabilities } from '@/lib/hooks';
-import { clickCalls, clickContracts } from '@/lib/transactions';
+import { clickCalls, clickContracts, combo } from '@/lib/transactions';
 import type { Call } from '@/onchainkit/esm/transaction/types';
 import type { LifecycleStatus } from '@/onchainkit/src/transaction';
 import {
@@ -59,6 +59,13 @@ function TransactionDemo() {
   }, [transactionType, calls, contracts]);
 
   const transactions = useMemo(() => {
+    if (transactionType === TransactionTypes.Combo) {
+      return {
+        calls: [calls[0]],
+        contracts: [contracts[0]]
+      }
+    }
+    
     if (transactionType === TransactionTypes.Calls) {
       return {
         calls,

@@ -19,6 +19,7 @@ export enum OnchainKitComponent {
 }
 
 export enum TransactionTypes {
+  Combo = 'combo',
   Calls = 'calls',
   Contracts = 'contracts',
   CallsPromise = 'callsPromise',

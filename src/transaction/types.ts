@@ -90,7 +90,8 @@ export type TransactionContextType = {
     | Call[]
     | ContractFunctionParameters[]
     | Promise<Call[]>
-    | Promise<ContractFunctionParameters[]>; // An array of transactions for the component or a promise that resolves to an array of transactions.
+    | Promise<ContractFunctionParameters[]>
+    | (Call | ContractFunctionParameters)[]; // An array of transactions for the component or a promise that resolves to an array of transactions.
   transactionId?: string; // An optional string representing the ID of the transaction.
   transactionHash?: string; // An optional string representing the hash of the transaction.
 };
@@ -103,7 +104,7 @@ export type SendBatchedTransactionsParams = {
   capabilities?: WalletCapabilities;
   // biome-ignore lint: cannot find module 'wagmi/experimental/query'
   sendCallsAsync: any;
-  transactions?: Call[] | ContractFunctionParameters[];
+  transactions?: Call[] | ContractFunctionParameters[] | (Call | ContractFunctionParameters)[];
   transactionType: string;
   // biome-ignore lint: cannot find module 'wagmi/experimental/query'
   writeContractsAsync: any;
@@ -111,7 +112,7 @@ export type SendBatchedTransactionsParams = {
 
 export type SendSingleTransactionParams = {
   sendCallAsync: SendTransactionMutateAsync<Config, unknown> | (() => void);
-  transactions: Call[] | ContractFunctionParameters[];
+  transactions: Call[] | ContractFunctionParameters[] | (Call | ContractFunctionParameters)[];
   transactionType: string;
   writeContractAsync: WriteContractMutateAsync<Config, unknown> | (() => void);
 };
