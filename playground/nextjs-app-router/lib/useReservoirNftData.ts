@@ -8,13 +8,15 @@ type Token = NonNullable<
   NonNullable<definitions['getTokensV7Response']['tokens']>[0]
 >['token'];
 
-function useToken(contractAddress: string, tokenId: string) {
+function useToken(contractAddress: string, tokenId?: string) {
   return useQuery({
     queryKey: ['token', contractAddress, tokenId],
     queryFn: async () => {
-      const tokens = `${contractAddress}:${tokenId}`;
+      const qs = tokenId
+        ? `tokens=${contractAddress}:${tokenId}`
+        : `collection=${contractAddress}`;
       const response = await fetch(
-        `https://api-base.reservoir.tools/tokens/v7?tokens=${tokens}&includeLastSale=true`,
+        `https://api-base.reservoir.tools/tokens/v7?${qs}&includeLastSale=true`,
         {
           method: 'GET',
           headers: {
@@ -24,6 +26,7 @@ function useToken(contractAddress: string, tokenId: string) {
         },
       );
       const data = await response.json();
+      // if no tokenId, get the collection and default to the first token
       return data.tokens[0].token as Token;
     },
   });

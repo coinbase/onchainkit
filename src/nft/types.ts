@@ -52,7 +52,7 @@ export type NftContextType = {
 export type NftProviderReact = {
   children: ReactNode;
   contractAddress: `0x${string}`;
-  tokenId: string;
+  tokenId?: string;
   useNftData: UseNftData;
 };
 
@@ -94,7 +94,7 @@ export type NftMintProviderReact = {
   children: ReactNode;
 };
 
-type UseNftData = (contractAddress: Hex, tokenId: string) => NftData;
+type UseNftData = (contractAddress: Hex, tokenId?: string) => NftData;
 
 export type UseNftMintDataProps = {
   contractAddress: Hex;
@@ -121,7 +121,7 @@ export type NftViewReact = {
   children: React.ReactNode;
   className?: string;
   contractAddress: Hex;
-  tokenId: string;
+  tokenId?: string;
   useNftData: UseNftData; // Optional hook to override the default useNftData hook
   onError?: (error: NftError) => void; // An optional callback function that handles errors within the provider.
   onStatus?: (lifecycleStatus: LifecycleStatus) => void; // An optional callback function that exposes the component lifecycle state

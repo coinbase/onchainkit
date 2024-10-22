@@ -10,7 +10,7 @@ export function NftMint({
   children,
   className,
   contractAddress,
-  tokenId = '1',
+  tokenId,
   useNftData,
   useNftMintData,
   buildMintTransaction,
