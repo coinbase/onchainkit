@@ -32,7 +32,7 @@ vi.mock('wagmi/connectors', async () => {
   };
 });
 
-describe('getDefaultConfig', () => {
+describe('createWagmiConfig', () => {
   it('should create config with default values when no parameters are provided', () => {
     createWagmiConfig({});
     expect(createConfig).toHaveBeenCalledWith(
