@@ -6,7 +6,7 @@ import {
   useMemo,
   useState,
 } from 'react';
-import { encodeFunctionData, type Address } from 'viem';
+import { type Address } from 'viem';
 import {
   useAccount,
   useConfig,
@@ -29,14 +29,13 @@ import { useSendWalletTransactions } from '../hooks/useSendWalletTransactions';
 import { useWriteContract } from '../hooks/useWriteContract';
 import { useWriteContracts } from '../hooks/useWriteContracts';
 import type {
-  Call,
   LifecycleStatus,
   TransactionContextType,
   TransactionProviderReact,
 } from '../types';
 import { getPaymasterUrl } from '../utils/getPaymasterUrl';
-import { isUserRejectedRequestError } from '../utils/isUserRejectedRequestError';
 import { getResolvedTransactions } from '../utils/getResolvedTransactions';
+import { isUserRejectedRequestError } from '../utils/isUserRejectedRequestError';
 
 const emptyContext = {} as TransactionContextType;
 export const TransactionContext =
@@ -301,7 +300,7 @@ export function TransactionProvider({
       });
       return undefined;
     }
-  }, [contracts, calls, transactions]);
+  }, [contracts, calls]);
 
   const handleSubmit = useCallback(async () => {
     setErrorMessage('');
