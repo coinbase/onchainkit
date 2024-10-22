@@ -78,17 +78,17 @@ export function OnchainKitProvider({
     value.config.appearance.name,
     value.config.appearance.logo,
   ]);
-  const queryClient = useMemo(() => {
+  const defaultQueryClient = useMemo(() => {
     // IMPORTANT: Don't create a new QueryClient if one already exists
     // This prevents the user-provided QueryClient from being overriden
     return providedQueryClient || new QueryClient();
   }, [providedQueryClient]);
 
-  // If no dependencies are provided, return a context with default parent providers
-  if (!providedWagmiConfig && !providedQueryClient) {
+  // If a dependency is missing, return a context with default parent providers
+  if (!providedWagmiConfig || !providedQueryClient) {
     return (
       <WagmiProvider config={defaultConfig}>
-        <QueryClientProvider client={queryClient}>
+        <QueryClientProvider client={defaultQueryClient}>
           <OnchainKitContext.Provider value={value}>
             {children}
           </OnchainKitContext.Provider>
