@@ -3,7 +3,7 @@ import { createConfig } from 'wagmi';
 import { http } from 'wagmi';
 import { base, baseSepolia } from 'wagmi/chains';
 import { coinbaseWallet } from 'wagmi/connectors';
-import { createDefaultConfig } from './createDefaultConfig';
+import { createWagmiConfig } from './createWagmiConfig';
 
 // Mock the imported modules
 vi.mock('wagmi', async () => {
@@ -34,7 +34,7 @@ vi.mock('wagmi/connectors', async () => {
 
 describe('getDefaultConfig', () => {
   it('should create config with default values when no parameters are provided', () => {
-    createDefaultConfig({});
+    createWagmiConfig({});
     expect(createConfig).toHaveBeenCalledWith(
       expect.objectContaining({
         chains: [base, baseSepolia],
@@ -59,7 +59,7 @@ describe('getDefaultConfig', () => {
         logo: 'https://example.com/logo.png',
       },
     };
-    createDefaultConfig({
+    createWagmiConfig({
       apiKey: 'test-api-key',
       appName: customConfig.appearance.name,
       appLogoUrl: customConfig.appearance.logo,
@@ -83,7 +83,7 @@ describe('getDefaultConfig', () => {
 
   it('should use API key in transports when provided', () => {
     const testApiKey = 'test-api-key';
-    const result = createDefaultConfig({ apiKey: testApiKey });
+    const result = createWagmiConfig({ apiKey: testApiKey });
     expect(result).toContain(
       http(`https://api.developer.coinbase.com/rpc/v1/base/${testApiKey}`),
     );

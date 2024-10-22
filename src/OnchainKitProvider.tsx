@@ -2,7 +2,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { createContext, useMemo } from 'react';
 import { WagmiProvider } from 'wagmi';
 import { ONCHAIN_KIT_CONFIG, setOnchainKitConfig } from './OnchainKitConfig';
-import { createDefaultConfig } from './createDefaultConfig';
+import { createWagmiConfig } from './createWagmiConfig';
 import { checkHashLength } from './internal/utils/checkHashLength';
 import type { OnchainKitContextType, OnchainKitProviderReact } from './types';
 import { useProviderDependencies } from './useProviderDependencies';
@@ -62,11 +62,11 @@ export function OnchainKitProvider({
     useProviderDependencies();
 
   const defaultConfig = useMemo(() => {
-    // Don't create a new Wagmi configuration if one already exists
-    // This prevents the WagmiConfig from being overriden by the default
+    // IMPORTANT: Don't create a new Wagmi configuration if one already exists
+    // This prevents the user-provided WagmiConfig from being overriden
     return (
       providedWagmiConfig ||
-      createDefaultConfig({
+      createWagmiConfig({
         apiKey,
         appName: value.config.appearance.name,
         appLogoUrl: value.config.appearance.logo,
@@ -79,12 +79,12 @@ export function OnchainKitProvider({
     value.config.appearance.logo,
   ]);
   const queryClient = useMemo(() => {
-    // Don't create a new QueryClient if one already exists
-    // This prevents the QueryClient from being overriden by the default
+    // IMPORTANT: Don't create a new QueryClient if one already exists
+    // This prevents the user-provided QueryClient from being overriden
     return providedQueryClient || new QueryClient();
   }, [providedQueryClient]);
 
-  // If WagmiProvider is not found, return the context with defaulted parent providers
+  // If no dependencies are provided, return a context with default parent providers
   if (!providedWagmiConfig && !providedQueryClient) {
     return (
       <WagmiProvider config={defaultConfig}>
