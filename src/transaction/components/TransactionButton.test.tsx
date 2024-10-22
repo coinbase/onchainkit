@@ -80,17 +80,19 @@ describe('TransactionButton', () => {
     (useTransactionContext as Mock).mockReturnValue({
       lifecycleStatus: { statusName: 'init', statusData: null },
       errorMessage: 'blah blah',
-      customStates: {
-        error: {
-          text: 'oops',
-          onClick: mockErrorFunc,
-        },
-      },
       isLoading: false,
       address: '123',
       transactions: [{}],
     });
-    render(<TransactionButton text="Transact" />);
+    render(
+      <TransactionButton
+        text="Transact"
+        errorOverride={{
+          text: 'oops',
+          onClick: mockErrorFunc,
+        }}
+      />,
+    );
     const text = screen.getByText('oops');
     expect(text).toBeInTheDocument();
     const button = screen.getByTestId('ockTransactionButton_Button');
@@ -103,17 +105,19 @@ describe('TransactionButton', () => {
     (useTransactionContext as Mock).mockReturnValue({
       lifecycleStatus: { statusName: 'init', statusData: null },
       errorMessage: 'blah blah',
-      customStates: {
-        error: {
-          text: 'oops',
-          onClick: mockErrorFunc,
-        },
-      },
       isLoading: false,
       address: '123',
       transactions: [{}],
     });
-    render(<TransactionButton text="Transact" />);
+    render(
+      <TransactionButton
+        text="Transact"
+        errorOverride={{
+          text: 'oops',
+          onClick: mockErrorFunc,
+        }}
+      />,
+    );
     const button = screen.getByTestId('ockTransactionButton_Button');
     fireEvent.click(button);
     expect(mockErrorFunc).toHaveBeenCalled();
@@ -124,11 +128,6 @@ describe('TransactionButton', () => {
     (useTransactionContext as Mock).mockReturnValue({
       lifecycleStatus: { statusName: 'init', statusData: null },
       errorMessage: 'blah blah',
-      customStates: {
-        error: {
-          text: 'oops',
-        },
-      },
       isLoading: false,
       address: '123',
       transactions: [{}],
@@ -189,13 +188,10 @@ describe('TransactionButton', () => {
       lifecycleStatus: { statusName: 'init', statusData: null },
       receipt: '123',
       transactionId: '456',
-      customStates: {
-        success: {
-          text: 'yay',
-        },
-      },
     });
-    render(<TransactionButton text="Transact" />);
+    render(
+      <TransactionButton text="Transact" successOverride={{ text: 'yay' }} />,
+    );
     const button = screen.getByText('yay');
     fireEvent.click(button);
     expect(showCallsStatus).toHaveBeenCalledWith({ id: '456' });
@@ -207,14 +203,16 @@ describe('TransactionButton', () => {
       lifecycleStatus: { statusName: 'init', statusData: null },
       receipt: '123',
       transactionId: '456',
-      customStates: {
-        success: {
+    });
+    render(
+      <TransactionButton
+        text="Transact"
+        successOverride={{
           text: 'yay',
           onClick: mockSuccessHandler,
-        },
-      },
-    });
-    render(<TransactionButton text="Transact" />);
+        }}
+      />,
+    );
     const button = screen.getByText('yay');
     fireEvent.click(button);
     expect(mockSuccessHandler).toHaveBeenCalledWith('123');
