@@ -12,10 +12,11 @@ export function TransactionButton({
   className,
   disabled = false,
   text: buttonText = 'Transact',
+  errorOverride,
+  successOverride,
 }: TransactionButtonReact) {
   const {
     chainId,
-    customStates,
     errorMessage,
     isLoading,
     lifecycleStatus,
@@ -52,20 +53,18 @@ export function TransactionButton({
   });
 
   const { errorText, successText } = useMemo(() => {
-    const successText = customStates?.success?.text
-      ? customStates?.success?.text
+    const successText = successOverride?.text
+      ? successOverride?.text
       : 'View transaction';
 
-    const errorText = customStates?.error?.text
-      ? customStates?.error?.text
-      : 'Try again';
+    const errorText = errorOverride?.text ? errorOverride?.text : 'Try again';
 
     return { successText, errorText };
-  }, [customStates]);
+  }, [errorOverride, successOverride]);
 
   const successHandler = useCallback(() => {
-    if (customStates?.success?.onClick && receipt) {
-      return customStates?.success?.onClick?.(receipt);
+    if (successOverride?.onClick && receipt) {
+      return successOverride?.onClick?.(receipt);
     }
     // SW will have txn id so open in wallet
     if (receipt && transactionId) {
@@ -80,7 +79,7 @@ export function TransactionButton({
     );
   }, [
     accountChainId,
-    customStates,
+    successOverride,
     showCallsStatus,
     transactionId,
     transactionHash,
@@ -88,12 +87,12 @@ export function TransactionButton({
   ]);
 
   const errorHandler = useCallback(() => {
-    if (customStates?.error?.onClick) {
-      return customStates?.error?.onClick?.();
+    if (errorOverride?.onClick) {
+      return errorOverride?.onClick?.();
     }
     // if no custom logic, retry submit
     return onSubmit();
-  }, [customStates, onSubmit]);
+  }, [errorOverride, onSubmit]);
 
   const buttonContent = useMemo(() => {
     // txn successful
