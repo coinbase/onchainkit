@@ -1,7 +1,7 @@
 import { FrameMetadata } from '@coinbase/onchainkit/frame';
 import { defineConfig } from 'vocs';
 import pkg from '../package.json';
-import { sidebar } from './sidebar';
+import { sidebar } from './sidebar.ts';
 
 export const GOOGLE_ANALYTICS_ID =
   process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID ?? 'TEST_GA';
@@ -98,15 +98,15 @@ export default defineConfig({
     variables: {
       color: {
         background: {
-          dark: '#151A26',
-          light: 'white',
+          dark: '#121212',
+          light: '#fafafa',
         },
         backgroundDark: {
-          dark: '#0F131E',
-          light: '#F3F4F6',
+          dark: '#09090b',
+          light: '#f4f4f5',
         },
         textAccent: {
-          dark: 'white',
+          dark: '#fafafa',
           light: '#030712',
         },
       },
@@ -115,7 +115,7 @@ export default defineConfig({
   topNav: [
     { text: 'Docs', link: '/getting-started', match: '/docs' },
     {
-      text: 'App Template',
+      text: 'Template',
       link: 'https://github.com/coinbase/onchain-app-template',
     },
     {

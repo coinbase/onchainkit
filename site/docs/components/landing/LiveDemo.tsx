@@ -170,7 +170,7 @@ function LiveDemo() {
     <div className="w-full max-w-[1100px] mx-auto px-4 sm:px-6 lg:px-8">
       <div className="flex flex-col lg:flex-row gap-4 lg:gap-8">
         <div className="w-full lg:w-[300px] lg:flex-shrink-0">
-          <h3 className="text-2xl lg:text-3xl text-zinc-900 dark:text-zinc-100 pb-4">
+          <h3 className="text-3xl text-zinc-900 dark:text-zinc-100 pb-4 font-medium">
             Ready-to-use components
           </h3>
           <p className="text-base lg:text-lg text-zinc-700 dark:text-zinc-500 pb-6">

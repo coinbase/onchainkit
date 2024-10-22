@@ -32,7 +32,7 @@ const Tweets = () => {
   }
 
   return (
-    <section className="css-alternate-container flex w-full flex-col items-center gap-[48px] py-24">
+    <section className="flex w-full flex-col items-center gap-[48px] py-24">
       <div>
         <h3 className="max-w-[525px] basis-1/2 text-center text-4xl text-gray-950 md:text-4xl dark:text-gray-50">
           Builders ship faster with OnchainKit
