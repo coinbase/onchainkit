@@ -6,7 +6,7 @@ import {
   useMemo,
   useState,
 } from 'react';
-import { type Address } from 'viem';
+import type { Address } from 'viem';
 import {
   useAccount,
   useConfig,
