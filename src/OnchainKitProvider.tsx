@@ -72,12 +72,17 @@ export function OnchainKitProvider({
         appLogoUrl: value.config.appearance.logo,
       })
     );
-  }, [apiKey, value.config.appearance.name, value.config.appearance.logo]);
+  }, [
+    apiKey,
+    providedWagmiConfig,
+    value.config.appearance.name,
+    value.config.appearance.logo,
+  ]);
   const queryClient = useMemo(() => {
     // Don't create a new QueryClient if one already exists
     // This prevents the QueryClient from being overriden by the default
     return providedQueryClient || new QueryClient();
-  }, []);
+  }, [providedQueryClient]);
 
   // If WagmiProvider is not found, return the context with defaulted parent providers
   if (!providedWagmiConfig && !providedQueryClient) {

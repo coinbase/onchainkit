@@ -23,7 +23,7 @@ export function useProviderDependencies() {
   } catch (error) {
     if (
       !(
-        (error as Error).message ==
+        (error as Error).message ===
         'No QueryClient set, use QueryClientProvider to set one'
       )
     ) {
