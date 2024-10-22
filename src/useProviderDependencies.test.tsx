@@ -78,6 +78,9 @@ describe('useProviderDependencies', () => {
   });
 
   it('should throw non-WagmiProvider errors', () => {
+    const consoleErrorSpy = vi
+      .spyOn(console, 'error')
+      .mockImplementation(() => {});
     // Mock different error for WagmiConfig
     vi.mocked(useConfig).mockImplementation(() => {
       throw new Error('Different error');
@@ -89,9 +92,14 @@ describe('useProviderDependencies', () => {
     expect(() => {
       renderHook(() => useProviderDependencies());
     }).toThrow('Different error');
+
+    consoleErrorSpy.mockRestore();
   });
 
   it('should throw non-QueryClient provider errors', () => {
+    const consoleErrorSpy = vi
+      .spyOn(console, 'error')
+      .mockImplementation(() => {});
     // Mock successful WagmiConfig
     const mockWagmiConfig = { testWagmi: true } as unknown as Config;
     vi.mocked(useConfig).mockReturnValue(mockWagmiConfig);
@@ -104,5 +112,7 @@ describe('useProviderDependencies', () => {
     expect(() => {
       renderHook(() => useProviderDependencies());
     }).toThrow('Different query error');
+
+    consoleErrorSpy.mockRestore();
   });
 });
