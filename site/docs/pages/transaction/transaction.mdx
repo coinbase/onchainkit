@@ -43,7 +43,7 @@ If you'd like more customization, follow the implementation guide for our `Swap`
 // @noErrors: 2580 2304 - Cannot find name 'process', Cannot find name 'contracts'
 import { TransactionDefault } from "@coinbase/onchainkit/transaction"
 // ---cut-before---
-// omited for brevity
+// omitted for brevity
 <TransactionDefault contracts={contracts} />
 ```
 
@@ -232,13 +232,13 @@ import { contracts } from './contracts';
 // ---cut-before---
 import type { LifecycleStatus } from '@coinbase/onchainkit/transaction'; // [!code focus]
 
-// omited for brevity
+// omitted for brevity
 
 const handleOnStatus = useCallback((status: LifecycleStatus) => { // [!code focus]
   console.log('LifecycleStatus', status); // [!code focus]
 }, []); // [!code focus]
 
-// omited for brevity
+// omitted for brevity
 
 <Transaction  // [!code focus]
   contracts={contracts}
@@ -309,7 +309,7 @@ Obtain a Paymaster and Bundler endpoint from the [Coinbase Developer Platform](h
 // @noErrors: 2580 2304 2322 - Cannot find name 'process', Cannot find name 'contracts'
 import { Transaction, TransactionButton, TransactionSponsor } from "@coinbase/onchainkit/transaction"
 // ---cut-before---
-// omited for brevity
+// omitted for brevity
 <Transaction
   capabilities={{ // [!code focus]
     paymasterService: { // [!code focus]
