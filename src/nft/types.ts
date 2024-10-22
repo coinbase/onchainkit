@@ -69,7 +69,7 @@ export type NFTData = {
   description?: string;
   imageUrl?: string;
   animationUrl?: string;
-  mimeType?: string;
+  mimeType?: string; // currently supported mimeTypes are image = image/*, video = video/*, audio = audio/* | application/*
   ownerAddress?: `0x${string}`;
   lastSoldPrice: NFTPrice;
   contractType?: ContractType;
