@@ -61,6 +61,13 @@ function TransactionDemo() {
   useEffect(() => {
     console.log('Playground.Transaction.transactionType:', transactionType);
     switch (transactionType) {
+      case TransactionTypes.ContractsAndCalls:
+        console.log(
+          'Playground.Transaction.contractsAndCalls:',
+          calls,
+          contracts,
+        );
+        break;
       case TransactionTypes.Calls:
         console.log('Playground.Transaction.calls:', calls);
         break;
@@ -99,6 +106,8 @@ function TransactionDemo() {
         return { calls: callsCallback, contracts: undefined };
       case TransactionTypes.ContractsCallback:
         return { calls: undefined, contracts: contractsCallback };
+      case TransactionTypes.ContractsAndCalls:
+        return { calls, contracts };
       default:
         return { calls: undefined, contracts: undefined };
     }

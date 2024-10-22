@@ -6,7 +6,7 @@ import {
   useMemo,
   useState,
 } from 'react';
-import type { Address } from 'viem';
+import { encodeFunctionData, type Address } from 'viem';
 import {
   useAccount,
   useConfig,
@@ -29,6 +29,7 @@ import { useSendWalletTransactions } from '../hooks/useSendWalletTransactions';
 import { useWriteContract } from '../hooks/useWriteContract';
 import { useWriteContracts } from '../hooks/useWriteContracts';
 import type {
+  Call,
   LifecycleStatus,
   TransactionContextType,
   TransactionProviderReact,
@@ -91,11 +92,6 @@ export function TransactionProvider({
   if (!contracts && !calls) {
     throw new Error(
       'Transaction: One of contracts or calls must be provided as a prop to the Transaction component.',
-    );
-  }
-  if (calls && contracts) {
-    throw new Error(
-      'Transaction: Only one of contracts or calls can be provided as a prop to the Transaction component.',
     );
   }
 
@@ -289,8 +285,33 @@ export function TransactionProvider({
       const resolvedTransactions = await (typeof transactions === 'function'
         ? transactions()
         : Promise.resolve(transactions));
+      const resolvedContracts = await (typeof contracts === 'function'
+        ? contracts()
+        : Promise.resolve(contracts));
+      const resolvedCalls = await (typeof calls === 'function'
+        ? calls()
+        : Promise.resolve(calls));
+
+      const reformattedContracts: Call[] | undefined = resolvedContracts?.map(
+        (contract) => {
+          return {
+            data: encodeFunctionData({
+              abi: contract.abi,
+              functionName: contract.functionName,
+              args: contract.args,
+            }),
+            to: contract.address,
+          };
+        },
+      );
+
+      const combinedCalls: Call[] =
+        resolvedCalls && reformattedContracts
+          ? resolvedCalls?.concat(reformattedContracts)
+          : [];
+
       setTransactionCount(resolvedTransactions?.length);
-      return resolvedTransactions;
+      return combinedCalls?.length ? combinedCalls : resolvedTransactions;
     } catch (err) {
       setLifecycleStatus({
         statusName: 'error',
@@ -302,7 +323,7 @@ export function TransactionProvider({
       });
       return undefined;
     }
-  }, [transactions]);
+  }, [contracts, calls, transactions]);
 
   const handleSubmit = useCallback(async () => {
     setErrorMessage('');
