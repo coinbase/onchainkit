@@ -30,7 +30,7 @@ export function CheckoutButton({
     lifecycleStatus?.statusName === CHECKOUT_LIFECYCLESTATUS.PENDING;
   const isFetchingData =
     lifecycleStatus?.statusName === CHECKOUT_LIFECYCLESTATUS.FETCHING_DATA;
-  const isDisabled = disabled || isLoading || isFetchingData;
+  const isDisabled = disabled || isLoading;
   const buttonText = useMemo(() => {
     if (lifecycleStatus?.statusName === CHECKOUT_LIFECYCLESTATUS.SUCCESS) {
       return 'View payment details';
@@ -57,7 +57,7 @@ export function CheckoutButton({
       )}
       onClick={onSubmit}
       type="button"
-      disabled={isDisabled}
+      disabled={isDisabled || isFetchingData}
     >
       <div className="flex items-center justify-center whitespace-nowrap">
         {isLoading ? (
