@@ -1,7 +1,6 @@
 'use client';
 import { ENVIRONMENT, ENVIRONMENT_VARIABLES } from '@/lib/constants';
 import { OnchainKitProvider } from '@coinbase/onchainkit';
-import { QueryClient } from '@tanstack/react-query';
 import type { ReactNode } from 'react';
 import { http, createConfig } from 'wagmi';
 import { base, baseSepolia } from 'wagmi/chains';
@@ -25,8 +24,6 @@ export const config = createConfig({
   ],
 });
 
-const queryClient = new QueryClient();
-
 function OnchainProviders({ children }: { children: ReactNode }) {
   return (
     <OnchainKitProvider
@@ -34,7 +31,7 @@ function OnchainProviders({ children }: { children: ReactNode }) {
       chain={base}
       config={{
         appearance: {
-          name: 'test dapp name',
+          name: 'OnchainKit Playground',
           mode: 'auto',
           theme: 'default',
         },
