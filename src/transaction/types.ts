@@ -76,8 +76,8 @@ export type TransactionButtonReact = {
   className?: string; // An optional CSS class name for styling the button component.
   disabled?: boolean; // A optional prop to disable the submit button
   text?: string; // An optional text to be displayed in the button component.
-  errorOverride?: TransactionButtonOverride;
-  successOverride?: TransactionButtonOverride;
+  errorOverride?: TransactionButtonOverride; // Optional overrides for text and onClick handler in error state (default is resubmit txn)
+  successOverride?: TransactionButtonOverride; // Optional overrides for text and onClick handler in success state (default is view txn on block explorer)
 };
 
 export type TransactionContextType = {
