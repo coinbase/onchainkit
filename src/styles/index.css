@@ -29,6 +29,10 @@
   fill: var(--ock-bg-default-reverse);
 }
 
+.ock-fill-alternate {
+  fill: var(--ock-bg-alternate);
+}
+
 /* Icon */
 .ock-icon-color-primary {
   fill: var(--ock-icon-color-primary);
