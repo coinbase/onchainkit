@@ -36,6 +36,7 @@ import type {
 } from '../types';
 import { getPaymasterUrl } from '../utils/getPaymasterUrl';
 import { isUserRejectedRequestError } from '../utils/isUserRejectedRequestError';
+import { getResolvedTransactions } from '../utils/getResolvedTransactions';
 
 const emptyContext = {} as TransactionContextType;
 export const TransactionContext =
@@ -282,36 +283,13 @@ export function TransactionProvider({
       statusData: null,
     });
     try {
-      const resolvedTransactions = await (typeof transactions === 'function'
-        ? transactions()
-        : Promise.resolve(transactions));
-      const resolvedContracts = await (typeof contracts === 'function'
-        ? contracts()
-        : Promise.resolve(contracts));
-      const resolvedCalls = await (typeof calls === 'function'
-        ? calls()
-        : Promise.resolve(calls));
-
-      const reformattedContracts: Call[] | undefined = resolvedContracts?.map(
-        (contract) => {
-          return {
-            data: encodeFunctionData({
-              abi: contract.abi,
-              functionName: contract.functionName,
-              args: contract.args,
-            }),
-            to: contract.address,
-          };
-        },
-      );
-
-      const combinedCalls: Call[] =
-        resolvedCalls && reformattedContracts
-          ? resolvedCalls?.concat(reformattedContracts)
-          : [];
+      const resolvedTransactions = await getResolvedTransactions({
+        contracts,
+        calls,
+      });
 
       setTransactionCount(resolvedTransactions?.length);
-      return combinedCalls?.length ? combinedCalls : resolvedTransactions;
+      return resolvedTransactions;
     } catch (err) {
       setLifecycleStatus({
         statusName: 'error',

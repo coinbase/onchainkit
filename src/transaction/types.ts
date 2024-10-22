@@ -15,6 +15,11 @@ import type {
 
 export type Call = { to: Hex; data?: Hex; value?: bigint };
 
+export type GetResolvedTransactionsProps = {
+  calls?: Calls;
+  contracts?: Contracts;
+};
+
 /**
  * List of transaction lifecycle statuses.
  * The order of the statuses loosely follows the transaction lifecycle.
@@ -129,8 +134,8 @@ export type TransactionError = {
   message: string; // The error message providing details about the transaction error.
 };
 
-type Calls = Call[] | Promise<Call[]> | (() => Promise<Call[]>);
-type Contracts =
+export type Calls = Call[] | Promise<Call[]> | (() => Promise<Call[]>);
+export type Contracts =
   | ContractFunctionParameters[]
   | Promise<ContractFunctionParameters[]>
   | (() => Promise<ContractFunctionParameters[]>);
