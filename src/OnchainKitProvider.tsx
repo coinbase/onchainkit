@@ -2,9 +2,11 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { createContext, useMemo } from 'react';
 import { WagmiProvider, WagmiProviderNotFoundError, useConfig } from 'wagmi';
 import { ONCHAIN_KIT_CONFIG, setOnchainKitConfig } from './OnchainKitConfig';
-import { getDefaultConfig } from './getDefaultConfig';
+import { createDefaultConfig } from './createDefaultConfig';
 import { checkHashLength } from './internal/utils/checkHashLength';
 import type { OnchainKitContextType, OnchainKitProviderReact } from './types';
+import { useProviderDependencies } from './useProviderDependencies';
+import { useQueryClient } from '@tanstack/react-query';
 
 export const OnchainKitContext =
   createContext<OnchainKitContextType>(ONCHAIN_KIT_CONFIG);
@@ -56,30 +58,33 @@ export function OnchainKitProvider({
     return onchainKitConfig;
   }, [address, apiKey, chain, config, projectId, rpcUrl, schemaId]);
 
-  // Check the context for WagmiProvider
-  // Wagmi configuration defaults to the provided config if it exists
-  // Otherwise, use the OnchainKit-provided Wagmi configuration
-  let providedConfig = null;
-  try {
-    providedConfig = useConfig();
-  } catch (error) {
-    if (!(error instanceof WagmiProviderNotFoundError)) {
-      console.error('Error fetching config, using OnchainKit defaults:', error);
-      throw error;
-    }
-  }
+  // Check the React context for WagmiProvider and QueryClientProvider
+  const { providedWagmiConfig, providedQueryClient } =
+    useProviderDependencies();
+
+  const defaultConfig = useMemo(() => {
+    // Don't create a new Wagmi configuration if one already exists
+    // This prevents the WagmiConfig from being overriden by the default
+    return (
+      providedWagmiConfig ||
+      createDefaultConfig({
+        apiKey,
+        appName: value.config.appearance.name,
+        appLogoUrl: value.config.appearance.logo,
+      })
+    );
+  }, [apiKey, value.config.appearance.name, value.config.appearance.logo]);
+  const queryClient = useMemo(() => {
+    // Don't create a new QueryClient if one already exists
+    // This prevents the QueryClient from being overriden by the default
+    return providedQueryClient || new QueryClient();
+  }, []);
 
   // If WagmiProvider is not found, return the context with defaulted parent providers
-  if (!providedConfig) {
+  if (!providedWagmiConfig) {
     return (
-      <WagmiProvider
-        config={getDefaultConfig({
-          apiKey,
-          appName: value.config.appearance.name,
-          appLogoUrl: value.config.appearance.logo,
-        })}
-      >
-        <QueryClientProvider client={new QueryClient()}>
+      <WagmiProvider config={defaultConfig}>
+        <QueryClientProvider client={queryClient}>
           <OnchainKitContext.Provider value={value}>
             {children}
           </OnchainKitContext.Provider>
