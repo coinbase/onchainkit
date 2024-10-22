@@ -263,7 +263,7 @@ describe('TransactionProvider', () => {
       sendWalletTransactionsMock,
     );
     const onErrorMock = vi.fn();
-    const contracts = Promise.reject(new Error('error'));
+    const contracts = () => Promise.reject(new Error('error'));
     render(
       <TransactionProvider contracts={contracts} onError={onErrorMock}>
         <TestComponent />
