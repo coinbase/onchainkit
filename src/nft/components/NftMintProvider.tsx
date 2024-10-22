@@ -1,31 +1,31 @@
 import { createContext, useCallback, useContext, useState } from 'react';
 import { useValue } from '../../internal/hooks/useValue';
-import type { NftMintContextType, NftMintProviderReact } from '../types';
-import { useNftContext } from './NftProvider';
+import type { NFTMintContextType, NFTMintProviderReact } from '../types';
+import { useNFTContext } from './NFTProvider';
 
-const emptyContext = {} as NftMintContextType;
+const emptyContext = {} as NFTMintContextType;
 
-export const NftMintContext = createContext<NftMintContextType>(emptyContext);
+export const NFTMintContext = createContext<NFTMintContextType>(emptyContext);
 
-export function useNftMintContext() {
-  const context = useContext(NftMintContext);
+export function useNFTMintContext() {
+  const context = useContext(NFTMintContext);
   if (context === emptyContext) {
     throw new Error(
-      'useNftMintContext must be used within an NftMint component',
+      'useNFTMintContext must be used within an NFTMint component',
     );
   }
   return context;
 }
 
-export function NftMintProvider({
-  useNftMintData,
+export function NFTMintProvider({
+  useNFTMintData,
   buildMintTransaction,
   children,
-}: NftMintProviderReact) {
+}: NFTMintProviderReact) {
   const [quantity, setQuantity] = useState(1);
-  const { contractAddress, tokenId } = useNftContext();
+  const { contractAddress, tokenId } = useNFTContext();
 
-  const mintData = useNftMintData({
+  const mintData = useNFTMintData({
     contractAddress,
     tokenId,
     quantity,
@@ -49,6 +49,6 @@ export function NftMintProvider({
   });
 
   return (
-    <NftMintContext.Provider value={value}>{children}</NftMintContext.Provider>
+    <NFTMintContext.Provider value={value}>{children}</NFTMintContext.Provider>
   );
 }

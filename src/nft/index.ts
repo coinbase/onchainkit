@@ -1,11 +1,11 @@
-export { NftMint } from './components/NftMint';
-export { NftView } from './components/NftView';
+export { NFTMint } from './components/NFTMint';
+export { NFTView } from './components/NFTView';
 
 export type {
-  NftViewReact,
-  NftMintReact,
+  NFTViewReact,
+  NFTMintReact,
   LifecycleStatus,
-  NftError,
-  NftMintData,
-  NftData,
+  NFTError,
+  NFTMintData,
+  NFTData,
 } from './types';

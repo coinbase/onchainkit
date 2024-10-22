@@ -4,12 +4,12 @@ import type { TransactionReceipt } from 'viem';
 import { describe, expect, it, vi } from 'vitest';
 import { LifecycleType } from '../types';
 import {
-  NftLifecycleProvider,
-  useNftLifecycleContext,
-} from './NftLifecycleProvider';
+  NFTLifecycleProvider,
+  useNFTLifecycleContext,
+} from './NFTLifecycleProvider';
 
 const TestComponent = () => {
-  const context = useNftLifecycleContext();
+  const context = useNFTLifecycleContext();
 
   const handleStatusError = async () => {
     context.updateLifecycleStatus({
@@ -77,21 +77,21 @@ const renderWithProviders = ({
   onSuccess = vi.fn(),
 }) => {
   return render(
-    <NftLifecycleProvider
+    <NFTLifecycleProvider
       type={LifecycleType.MINT}
       onError={onError}
       onStatus={onStatus}
       onSuccess={onSuccess}
     >
       <Component />
-    </NftLifecycleProvider>,
+    </NFTLifecycleProvider>,
   );
 };
 
-describe('NftLifecycleProvider', () => {
-  it('should throw an error if useNftLifecycleContext is used outside of NftLifecycleProvider', () => {
+describe('NFTLifecycleProvider', () => {
+  it('should throw an error if useNFTLifecycleContext is used outside of NFTLifecycleProvider', () => {
     const TestComponent = () => {
-      useNftLifecycleContext();
+      useNFTLifecycleContext();
       return null;
     };
     // Suppress console.error for this test to avoid noisy output
@@ -100,7 +100,7 @@ describe('NftLifecycleProvider', () => {
     expect(() => {
       render(<TestComponent />);
     }).toThrow(
-      'useNftLifecycleContext must be used within an NftView or NftMint component',
+      'useNFTLifecycleContext must be used within an NFTView or NFTMint component',
     );
     // Restore console.error
     console.error = originalError;

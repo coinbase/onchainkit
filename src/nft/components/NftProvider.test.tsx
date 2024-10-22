@@ -1,20 +1,20 @@
 import '@testing-library/jest-dom';
 import { render } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
-import type { NftData } from '../types';
-import { NftProvider, useNftContext } from './NftProvider';
+import type { NFTData } from '../types';
+import { NFTProvider, useNFTContext } from './NFTProvider';
 
-const useNftData = vi.fn(
+const useNFTData = vi.fn(
   () =>
     ({
       name: 'Test NFT',
       description: 'This is a test NFT',
       imageUrl: 'http://example.com/test-nft.png',
-    }) as NftData,
+    }) as NFTData,
 );
 
 const MockComponent = () => {
-  const context = useNftContext();
+  const context = useNFTContext();
   return (
     <div>
       <p>{context.name}</p>
@@ -24,12 +24,12 @@ const MockComponent = () => {
   );
 };
 
-describe('NftProvider', () => {
+describe('NFTProvider', () => {
   it('should provide NFT data to its children', () => {
     const { getByText, getByAltText } = render(
-      <NftProvider contractAddress="0x123" tokenId="1" useNftData={useNftData}>
+      <NFTProvider contractAddress="0x123" tokenId="1" useNFTData={useNFTData}>
         <MockComponent />
-      </NftProvider>,
+      </NFTProvider>,
     );
 
     expect(getByText('Test NFT')).toBeInTheDocument();
@@ -40,13 +40,13 @@ describe('NftProvider', () => {
     );
   });
 
-  it('should throw an error when useNftContext is used outside of NftProvider', () => {
+  it('should throw an error when useNFTContext is used outside of NFTProvider', () => {
     const consoleError = vi
       .spyOn(console, 'error')
       .mockImplementation(() => {});
 
     expect(() => render(<MockComponent />)).toThrow(
-      'useNftContext must be used within an NftView or NftMint component',
+      'useNFTContext must be used within an NFTView or NFTMint component',
     );
 
     consoleError.mockRestore();

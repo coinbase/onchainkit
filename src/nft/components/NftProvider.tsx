@@ -1,28 +1,28 @@
 import { createContext, useContext } from 'react';
 import { useValue } from '../../internal/hooks/useValue';
-import type { NftContextType, NftProviderReact } from '../types';
+import type { NFTContextType, NFTProviderReact } from '../types';
 
-const emptyContext = {} as NftContextType;
+const emptyContext = {} as NFTContextType;
 
-export const NftContext = createContext<NftContextType>(emptyContext);
+export const NFTContext = createContext<NFTContextType>(emptyContext);
 
-export function useNftContext() {
-  const context = useContext(NftContext);
+export function useNFTContext() {
+  const context = useContext(NFTContext);
   if (context === emptyContext) {
     throw new Error(
-      'useNftContext must be used within an NftView or NftMint component',
+      'useNFTContext must be used within an NFTView or NFTMint component',
     );
   }
   return context;
 }
 
-export function NftProvider({
+export function NFTProvider({
   children,
   contractAddress,
   tokenId,
-  useNftData,
-}: NftProviderReact) {
-  const nftData = useNftData(contractAddress, tokenId);
+  useNFTData,
+}: NFTProviderReact) {
+  const nftData = useNFTData(contractAddress, tokenId);
 
   const value = useValue({
     contractAddress,
@@ -30,5 +30,5 @@ export function NftProvider({
     ...nftData,
   });
 
-  return <NftContext.Provider value={value}>{children}</NftContext.Provider>;
+  return <NFTContext.Provider value={value}>{children}</NFTContext.Provider>;
 }

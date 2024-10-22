@@ -1,23 +1,23 @@
 import { background, border, cn, color } from '../../styles/theme';
 import { useIsMounted } from '../../useIsMounted';
 import { useTheme } from '../../useTheme';
-import { LifecycleType, type NftMintReact } from '../types';
-import { NftLifecycleProvider } from './NftLifecycleProvider';
-import { NftMintProvider } from './NftMintProvider';
-import { NftProvider } from './NftProvider';
+import { LifecycleType, type NFTMintReact } from '../types';
+import { NFTLifecycleProvider } from './NFTLifecycleProvider';
+import { NFTMintProvider } from './NFTMintProvider';
+import { NFTProvider } from './NFTProvider';
 
-export function NftMint({
+export function NFTMint({
   children,
   className,
   contractAddress,
-  tokenId = '1',
-  useNftData,
-  useNftMintData,
+  tokenId,
+  useNFTData,
+  useNFTMintData,
   buildMintTransaction,
   onStatus,
   onError,
   onSuccess,
-}: NftMintReact) {
+}: NFTMintReact) {
   const componentTheme = useTheme();
 
   const isMounted = useIsMounted();
@@ -28,19 +28,19 @@ export function NftMint({
   }
 
   return (
-    <NftLifecycleProvider
+    <NFTLifecycleProvider
       type={LifecycleType.MINT}
       onStatus={onStatus}
       onError={onError}
       onSuccess={onSuccess}
     >
-      <NftProvider
+      <NFTProvider
         contractAddress={contractAddress}
         tokenId={tokenId}
-        useNftData={useNftData}
+        useNFTData={useNFTData}
       >
-        <NftMintProvider
-          useNftMintData={useNftMintData}
+        <NFTMintProvider
+          useNFTMintData={useNFTMintData}
           buildMintTransaction={buildMintTransaction}
         >
           <div
@@ -53,12 +53,12 @@ export function NftMint({
               'flex w-full max-w-[500px] flex-col border px-6 py-4',
               className,
             )}
-            data-testid="ockNftMint_Container"
+            data-testid="ockNFTMint_Container"
           >
             {children}
           </div>
-        </NftMintProvider>
-      </NftProvider>
-    </NftLifecycleProvider>
+        </NFTMintProvider>
+      </NFTProvider>
+    </NFTLifecycleProvider>
   );
 }

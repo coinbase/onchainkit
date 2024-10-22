@@ -1,20 +1,20 @@
 import { background, border, cn, color } from '../../styles/theme';
 import { useIsMounted } from '../../useIsMounted';
 import { useTheme } from '../../useTheme';
-import { LifecycleType, type NftViewReact } from '../types';
-import { NftLifecycleProvider } from './NftLifecycleProvider';
-import { NftProvider } from './NftProvider';
+import { LifecycleType, type NFTViewReact } from '../types';
+import { NFTLifecycleProvider } from './NFTLifecycleProvider';
+import { NFTProvider } from './NFTProvider';
 
-export function NftView({
+export function NFTView({
   children,
   className,
   contractAddress,
   tokenId,
-  useNftData,
+  useNFTData,
   onStatus,
   onError,
   onSuccess,
-}: NftViewReact) {
+}: NFTViewReact) {
   const componentTheme = useTheme();
 
   const isMounted = useIsMounted();
@@ -25,16 +25,16 @@ export function NftView({
   }
 
   return (
-    <NftLifecycleProvider
+    <NFTLifecycleProvider
       type={LifecycleType.VIEW}
       onStatus={onStatus}
       onError={onError}
       onSuccess={onSuccess}
     >
-      <NftProvider
+      <NFTProvider
         contractAddress={contractAddress}
         tokenId={tokenId}
-        useNftData={useNftData}
+        useNFTData={useNFTData}
       >
         <div
           className={cn(
@@ -46,11 +46,11 @@ export function NftView({
             'flex w-full max-w-[500px] flex-col border px-6 pt-6 pb-4',
             className,
           )}
-          data-testid="ockNftView_Container"
+          data-testid="ockNFTView_Container"
         >
           {children}
         </div>
-      </NftProvider>
-    </NftLifecycleProvider>
+      </NFTProvider>
+    </NFTLifecycleProvider>
   );
 }

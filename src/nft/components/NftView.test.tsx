@@ -10,18 +10,18 @@ import {
   vi,
 } from 'vitest';
 import { useIsMounted } from '../../useIsMounted';
-import { NftProvider } from './NftProvider';
-import { NftView } from './NftView';
+import { NFTProvider } from './NFTProvider';
+import { NFTView } from './NFTView';
 
 vi.mock('../../useTheme', () => ({
   useTheme: vi.fn(() => 'default-light'),
 }));
 vi.mock('../../useIsMounted');
-vi.mock('./NftProvider', () => ({
-  NftProvider: vi.fn(({ children }) => <div>{children}</div>),
+vi.mock('./NFTProvider', () => ({
+  NFTProvider: vi.fn(({ children }) => <div>{children}</div>),
 }));
 
-describe('NftView', () => {
+describe('NFTView', () => {
   beforeEach(() => {
     (useIsMounted as Mock).mockReturnValue(true);
   });
@@ -32,36 +32,36 @@ describe('NftView', () => {
 
   it('should render correctly when mounted', () => {
     const { getByTestId, getByText } = render(
-      <NftView contractAddress="0x123" tokenId="1" className="test-class">
+      <NFTView contractAddress="0x123" tokenId="1" className="test-class">
         <div>Child Component</div>
-      </NftView>,
+      </NFTView>,
     );
 
-    expect(getByTestId('ockNftView_Container')).toBeInTheDocument();
+    expect(getByTestId('ockNFTView_Container')).toBeInTheDocument();
     expect(getByText('Child Component')).toBeInTheDocument();
-    expect(getByTestId('ockNftView_Container')).toHaveClass('test-class');
+    expect(getByTestId('ockNFTView_Container')).toHaveClass('test-class');
   });
 
   it('should not render when not mounted', () => {
     (useIsMounted as Mock).mockReturnValue(false);
 
     const { queryByTestId } = render(
-      <NftView contractAddress="0x123" tokenId="1" className="test-class">
+      <NFTView contractAddress="0x123" tokenId="1" className="test-class">
         <div>Child Component</div>
-      </NftView>,
+      </NFTView>,
     );
 
-    expect(queryByTestId('ockNftMint_Container')).not.toBeInTheDocument();
+    expect(queryByTestId('ockNFTView_Container')).not.toBeInTheDocument();
   });
 
-  it('should pass contractAddress and tokenId to NftProvider', () => {
+  it('should pass contractAddress and tokenId to NFTProvider', () => {
     render(
-      <NftView contractAddress="0x123" tokenId="1" className="test-class">
+      <NFTView contractAddress="0x123" tokenId="1" className="test-class">
         <div>Child Component</div>
-      </NftView>,
+      </NFTView>,
     );
 
-    expect(NftProvider).toHaveBeenCalledWith(
+    expect(NFTProvider).toHaveBeenCalledWith(
       expect.objectContaining({
         contractAddress: '0x123',
         tokenId: '1',

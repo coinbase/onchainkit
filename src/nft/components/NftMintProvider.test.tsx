@@ -2,20 +2,20 @@ import '@testing-library/jest-dom';
 import { render } from '@testing-library/react';
 import { act } from 'react';
 import { describe, expect, it, vi } from 'vitest';
-import type { NftData, NftMintData } from '../types';
-import { NftMintProvider, useNftMintContext } from './NftMintProvider';
-import { NftProvider } from './NftProvider';
+import type { NFTData, NFTMintData } from '../types';
+import { NFTMintProvider, useNFTMintContext } from './NFTMintProvider';
+import { NFTProvider } from './NFTProvider';
 
-const useNftData = vi.fn(
+const useNFTData = vi.fn(
   () =>
     ({
       name: 'Test NFT',
       description: 'This is a test NFT',
       imageUrl: 'http://example.com/test-nft.png',
-    }) as NftData,
+    }) as NFTData,
 );
 
-const useNftMintData = vi.fn(
+const useNFTMintData = vi.fn(
   () =>
     ({
       price: {
@@ -26,11 +26,11 @@ const useNftMintData = vi.fn(
       maxMintsPerWallet: 4,
       isEligibleToMint: true,
       totalOwners: 6,
-    }) as NftMintData,
+    }) as NFTMintData,
 );
 
 const MockComponent = () => {
-  const context = useNftMintContext();
+  const context = useNFTMintContext();
   return (
     <div>
       <span data-testid="creatorAddress">{context.creatorAddress}</span>
@@ -50,18 +50,18 @@ const MockComponent = () => {
   );
 };
 
-describe('NftMintProvider', () => {
+describe('NFTMintProvider', () => {
   it('should provide the correct context values', () => {
     const { getByTestId } = render(
-      <NftProvider
+      <NFTProvider
         contractAddress="0xcontract"
         tokenId="1"
-        useNftData={useNftData}
+        useNFTData={useNFTData}
       >
-        <NftMintProvider useNftMintData={useNftMintData}>
+        <NFTMintProvider useNFTMintData={useNFTMintData}>
           <MockComponent />
-        </NftMintProvider>
-      </NftProvider>,
+        </NFTMintProvider>
+      </NFTProvider>,
     );
 
     expect(getByTestId('creatorAddress').textContent).toBe('0xcreator');
@@ -72,11 +72,11 @@ describe('NftMintProvider', () => {
 
   it('should provide the correct context values without tokenId', () => {
     const { getByTestId } = render(
-      <NftProvider contractAddress="0xcontract" useNftData={useNftData}>
-        <NftMintProvider useNftMintData={useNftMintData}>
+      <NFTProvider contractAddress="0xcontract" useNFTData={useNFTData}>
+        <NFTMintProvider useNFTMintData={useNFTMintData}>
           <MockComponent />
-        </NftMintProvider>
-      </NftProvider>,
+        </NFTMintProvider>
+      </NFTProvider>,
     );
 
     expect(getByTestId('creatorAddress').textContent).toBe('0xcreator');
@@ -85,37 +85,37 @@ describe('NftMintProvider', () => {
     expect(getByTestId('quantity').textContent).toBe('1');
   });
 
-  it('should throw an error when used outside of NftMintProvider', () => {
+  it('should throw an error when used outside of NFTMintProvider', () => {
     const consoleError = vi
       .spyOn(console, 'error')
       .mockImplementation(() => {});
 
     expect(() =>
       render(
-        <NftProvider
+        <NFTProvider
           contractAddress="0xcontract"
           tokenId="1"
-          useNftData={useNftData}
+          useNFTData={useNFTData}
         >
           <MockComponent />
-        </NftProvider>,
+        </NFTProvider>,
       ),
-    ).toThrow('useNftMintContext must be used within an NftMint component');
+    ).toThrow('useNFTMintContext must be used within an NFTMint component');
 
     consoleError.mockRestore();
   });
 
   it('should update the quantity', () => {
     const { getByTestId } = render(
-      <NftProvider
+      <NFTProvider
         contractAddress="0xcontract"
         tokenId="1"
-        useNftData={useNftData}
+        useNFTData={useNFTData}
       >
-        <NftMintProvider useNftMintData={useNftMintData}>
+        <NFTMintProvider useNFTMintData={useNFTMintData}>
           <MockComponent />
-        </NftMintProvider>
-      </NftProvider>,
+        </NFTMintProvider>
+      </NFTProvider>,
     );
 
     expect(getByTestId('quantity').textContent).toBe('1');

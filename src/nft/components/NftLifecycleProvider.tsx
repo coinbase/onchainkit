@@ -2,32 +2,32 @@ import { createContext, useContext, useEffect } from 'react';
 import { useValue } from '../../internal/hooks/useValue';
 import { useLifecycleStatus } from '../hooks/useLifecycleStatus';
 import type {
-  NftLifecycleContextType,
-  NftLifecycleProviderReact,
+  NFTLifecycleContextType,
+  NFTLifecycleProviderReact,
 } from '../types';
 
-const emptyContext = {} as NftLifecycleContextType;
+const emptyContext = {} as NFTLifecycleContextType;
 
-export const NftLifecycleContext =
-  createContext<NftLifecycleContextType>(emptyContext);
+export const NFTLifecycleContext =
+  createContext<NFTLifecycleContextType>(emptyContext);
 
-export function useNftLifecycleContext() {
-  const context = useContext(NftLifecycleContext);
+export function useNFTLifecycleContext() {
+  const context = useContext(NFTLifecycleContext);
   if (context === emptyContext) {
     throw new Error(
-      'useNftLifecycleContext must be used within an NftView or NftMint component',
+      'useNFTLifecycleContext must be used within an NFTView or NFTMint component',
     );
   }
   return context;
 }
 
-export function NftLifecycleProvider({
+export function NFTLifecycleProvider({
   type,
   onStatus,
   onError,
   onSuccess,
   children,
-}: NftLifecycleProviderReact) {
+}: NFTLifecycleProviderReact) {
   const [lifecycleStatus, updateLifecycleStatus] = useLifecycleStatus({
     statusName: 'init',
     statusData: null,
@@ -61,8 +61,8 @@ export function NftLifecycleProvider({
   });
 
   return (
-    <NftLifecycleContext.Provider value={value}>
+    <NFTLifecycleContext.Provider value={value}>
       {children}
-    </NftLifecycleContext.Provider>
+    </NFTLifecycleContext.Provider>
   );
 }

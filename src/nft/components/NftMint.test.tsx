@@ -10,20 +10,20 @@ import {
   vi,
 } from 'vitest';
 import { useIsMounted } from '../../useIsMounted';
-import { NftMint } from './NftMint';
+import { NFTMint } from './NFTMint';
 
 vi.mock('../../useTheme', () => ({
   useTheme: vi.fn(() => 'default-light'),
 }));
 vi.mock('../../useIsMounted');
-vi.mock('./NftMintProvider', () => ({
-  NftMintProvider: vi.fn(({ children }) => <div>{children}</div>),
+vi.mock('./NFTMintProvider', () => ({
+  NFTMintProvider: vi.fn(({ children }) => <div>{children}</div>),
 }));
-vi.mock('./NftProvider', () => ({
-  NftProvider: vi.fn(({ children }) => <div>{children}</div>),
+vi.mock('./NFTProvider', () => ({
+  NFTProvider: vi.fn(({ children }) => <div>{children}</div>),
 }));
 
-describe('NftMint', () => {
+describe('NFTMint', () => {
   beforeEach(() => {
     (useIsMounted as Mock).mockReturnValue(true);
   });
@@ -34,25 +34,25 @@ describe('NftMint', () => {
 
   it('should render correctly when mounted', () => {
     const { getByTestId, getByText } = render(
-      <NftMint contractAddress="0x123" tokenId="1" className="test-class">
+      <NFTMint contractAddress="0x123" tokenId="1" className="test-class">
         <div>Child Component</div>
-      </NftMint>,
+      </NFTMint>,
     );
 
-    expect(getByTestId('ockNftMint_Container')).toBeInTheDocument();
+    expect(getByTestId('ockNFTMint_Container')).toBeInTheDocument();
     expect(getByText('Child Component')).toBeInTheDocument();
-    expect(getByTestId('ockNftMint_Container')).toHaveClass('test-class');
+    expect(getByTestId('ockNFTMint_Container')).toHaveClass('test-class');
   });
 
   it('should not render when not mounted', () => {
     (useIsMounted as Mock).mockReturnValue(false);
 
     const { queryByTestId } = render(
-      <NftMint contractAddress="0x123" tokenId="1" className="test-class">
+      <NFTMint contractAddress="0x123" tokenId="1" className="test-class">
         <div>Child Component</div>
-      </NftMint>,
+      </NFTMint>,
     );
 
-    expect(queryByTestId('ockNftMint_Container')).not.toBeInTheDocument();
+    expect(queryByTestId('ockNFTMint_Container')).not.toBeInTheDocument();
   });
 });
