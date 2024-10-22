@@ -9,6 +9,8 @@ import { WalletType } from '@/components/form/wallet-type';
 import { useContext, useEffect, useState } from 'react';
 import FundDemo from './demo/Fund';
 import IdentityDemo from './demo/Identity';
+import NftMintDemo from './demo/NftMint';
+import NftViewDemo from './demo/NftView';
 import SwapDemo from './demo/Swap';
 import SwapDefaultDemo from './demo/SwapDefault';
 import TransactionDemo from './demo/Transaction';
@@ -16,6 +18,7 @@ import TransactionDefaultDemo from './demo/TransactionDefault';
 import WalletDemo from './demo/Wallet';
 import WalletDefaultDemo from './demo/WalletDefault';
 import { ActiveComponent } from './form/active-component';
+import { NftOptions } from './form/nft-options';
 import { TransactionOptions } from './form/transaction-options';
 
 function Demo() {
@@ -79,6 +82,14 @@ function Demo() {
       return <TransactionDefaultDemo />;
     }
 
+    if (activeComponent === OnchainKitComponent.NftMint) {
+      return <NftMintDemo />;
+    }
+
+    if (activeComponent === OnchainKitComponent.NftView) {
+      return <NftViewDemo />;
+    }
+
     return <></>;
   }
 
@@ -111,6 +122,7 @@ function Demo() {
           <TransactionOptions />
           <PaymasterUrl />
           <SwapConfig />
+          <NftOptions />
         </form>
         <div className="bottom-6 left-6 text-sm sm:absolute">
           <a
@@ -134,7 +146,7 @@ function Demo() {
         </div>
       </div>
       <div className="linear-gradient(to_bottom,#f0f0f0_1px,transparent_1px)] flex flex-1 flex-col bg-[linear-gradient(to_right,#f0f0f0_1px,transparent_1px), bg-[size:6rem_4rem]">
-        <div className="flex h-full w-full flex-col justify-center">
+        <div className="flex h-full w-full flex-col items-center justify-center">
           {renderActiveComponent()}
         </div>
       </div>

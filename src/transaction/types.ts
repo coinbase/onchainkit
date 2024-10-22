@@ -70,7 +70,7 @@ export type IsSpinnerDisplayedProps = {
 export type TransactionButtonReact = {
   className?: string; // An optional CSS class name for styling the button component.
   disabled?: boolean; // A optional prop to disable the submit button
-  text?: string; // An optional text to be displayed in the button component.
+  text?: ReactNode; // An optional text to be displayed in the button component.
 };
 
 export type TransactionContextType = {
@@ -89,6 +89,8 @@ export type TransactionContextType = {
   transactions?:
     | Call[]
     | ContractFunctionParameters[]
+    | (() => Promise<Call[]>)
+    | (() => Promise<ContractFunctionParameters[]>)
     | Promise<Call[]>
     | Promise<ContractFunctionParameters[]>; // An array of transactions for the component or a promise that resolves to an array of transactions.
   transactionId?: string; // An optional string representing the ID of the transaction.
@@ -134,13 +136,14 @@ export type TransactionError = {
 };
 
 export type TransactionProviderReact = {
-  calls?: Call[] | Promise<Call[]>; // An array of calls for the transaction. Mutually exclusive with the `contracts` prop.
+  calls?: Call[] | Promise<Call[]> | (() => Promise<Call[]>); // An array of calls for the transaction. Mutually exclusive with the `contracts` prop.
   capabilities?: WalletCapabilities; // Capabilities that a wallet supports (e.g. paymasters, session keys, etc).
   chainId: number; // The chainId for the transaction.
   children: ReactNode; // The child components to be rendered within the provider component.
   contracts?:
     | ContractFunctionParameters[]
-    | Promise<ContractFunctionParameters[]>; // An array of contract function parameters provided to the child components. Mutually exclusive with the `calls` prop.
+    | Promise<ContractFunctionParameters[]>
+    | (() => Promise<ContractFunctionParameters[]>); // An array of contract function parameters provided to the child components. Mutually exclusive with the `calls` prop.
   onError?: (e: TransactionError) => void; // An optional callback function that handles errors within the provider.
   onStatus?: (lifecycleStatus: LifecycleStatus) => void; // An optional callback function that exposes the component lifecycle state
   onSuccess?: (response: TransactionResponse) => void; // An optional callback function that exposes the transaction receipts
@@ -150,14 +153,15 @@ export type TransactionProviderReact = {
  * Note: exported as public Type
  */
 export type TransactionReact = {
-  calls?: Call[] | Promise<Call[]>; // An array of calls to be made in the transaction. Mutually exclusive with the `contracts` prop.
+  calls?: Call[] | Promise<Call[]> | (() => Promise<Call[]>); // An array of calls for the transaction. Mutually exclusive with the `contracts` prop.
   capabilities?: WalletCapabilities; // Capabilities that a wallet supports (e.g. paymasters, session keys, etc).
   chainId?: number; // The chainId for the transaction.
   children: ReactNode; // The child components to be rendered within the transaction component.
   className?: string; // An optional CSS class name for styling the component.
   contracts?:
     | ContractFunctionParameters[]
-    | Promise<ContractFunctionParameters[]>; // An array of contract function parameters for the transaction. Mutually exclusive with the `calls` prop.
+    | Promise<ContractFunctionParameters[]>
+    | (() => Promise<ContractFunctionParameters[]>); // An array of contract function parameters provided to the child components. Mutually exclusive with the `calls` prop.
   onError?: (e: TransactionError) => void; // An optional callback function that handles transaction errors.
   onStatus?: (lifecycleStatus: LifecycleStatus) => void; // An optional callback function that exposes the component lifecycle state
   onSuccess?: (response: TransactionResponse) => void; // An optional callback function that exposes the transaction receipts

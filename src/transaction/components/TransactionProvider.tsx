@@ -286,7 +286,9 @@ export function TransactionProvider({
       statusData: null,
     });
     try {
-      const resolvedTransactions = await Promise.resolve(transactions);
+      const resolvedTransactions = await (typeof transactions === 'function'
+        ? transactions()
+        : Promise.resolve(transactions));
       setTransactionCount(resolvedTransactions?.length);
       return resolvedTransactions;
     } catch (err) {
