@@ -10,7 +10,6 @@ export const createWagmiConfig = ({
   appName,
   appLogoUrl,
 }: CreateWagmiConfigParams) => {
-  console.log('Created default Wagmi config');
   return createConfig({
     chains: [base, baseSepolia],
     connectors: [
