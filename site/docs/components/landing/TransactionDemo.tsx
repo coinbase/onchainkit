@@ -61,7 +61,7 @@ function TransactionDemo() {
                 onError={onError}
                 onSuccess={onSuccess}
               >
-                <TransactionButton className="w-[180px] rounded-lg mt-2" />
+                <TransactionButton className="mt-2 w-[180px] rounded-lg" />
                 <TransactionSponsor />
                 <TransactionStatus>
                   <TransactionStatusLabel />

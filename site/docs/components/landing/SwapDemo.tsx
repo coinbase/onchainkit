@@ -54,7 +54,7 @@ export const swapDemoCode = `
 
 function SwapDemo() {
   return (
-    <div className="w-full max-w-[360px] mx-auto flex flex-col items-center justify-center">
+    <div className="mx-auto flex w-full max-w-[360px] flex-col items-center justify-center">
       <App>
         <SwapWrapper>
           {({ address, swappableTokens }) => {
