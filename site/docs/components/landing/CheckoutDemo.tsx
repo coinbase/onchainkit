@@ -8,7 +8,7 @@ export const checkoutDemoCode = `
   } from '@coinbase/onchainkit/checkout';
  
   <Checkout productId='my-product-id' > 
-    <CheckoutButton coinbaseBranded/> 
+    <CheckoutButton coinbaseBranded={true}/> 
   </Checkout>
 `;
 
@@ -16,7 +16,7 @@ function CheckoutDemo() {
   return (
     <App>
       <Checkout productId="my-product-id">
-        <CheckoutButton coinbaseBranded={true} className="px-6" />
+        <CheckoutButton coinbaseBranded={true} className="w-[180px]" />
       </Checkout>
     </App>
   );

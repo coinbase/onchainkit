@@ -25,7 +25,7 @@ export const fundDemoCode = `
 function FundDemo() {
   return (
     <App>
-      <FundButton />
+      <FundButton className="w-[180px]" />
     </App>
   );
 }
