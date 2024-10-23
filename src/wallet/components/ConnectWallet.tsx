@@ -20,7 +20,7 @@ import { useWalletContext } from './WalletProvider';
 export function ConnectWallet({
   children,
   className,
-  // In a few version we will officially depracate this prop,
+  // In a few version we will officially deprecate this prop,
   // but for now we will keep it for backward compatibility.
   text = 'Connect Wallet',
   withWalletAggregator = false,
