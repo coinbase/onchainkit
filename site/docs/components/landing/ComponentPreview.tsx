@@ -270,7 +270,7 @@ function ComponentPreview() {
               <button
                 className={`py-2 px-4 mt-2 text-sm ${
                   activeSubTab === 'code'
-                    ?   'text-zinc-950 dark:text-zinc-50 border-b-2 border-indigo-600 dark:border-indigo-400'
+                    ? 'text-zinc-950 dark:text-zinc-50 border-b-2 border-indigo-600 dark:border-indigo-400'
                     : 'text-zinc-700 dark:text-zinc-300'
                 }`}
                 onClick={() => setActiveSubTab('code')}

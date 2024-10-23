@@ -95,17 +95,17 @@ const LandingFooter: React.FC = () => {
   ];
 
   return (
-    <footer className='py-12 text-zinc-50 dark:text-zinc-950'>
+    <footer className="py-12 text-zinc-50 dark:text-zinc-950">
       <div className="w-full md:w-[1100px]">
-        <div className='flex flex-col items-start justify-between md:flex-row'>
-          <div className='flex w-full items-center pb-8 md:w-auto'>
+        <div className="flex flex-col items-start justify-between md:flex-row">
+          <div className="flex w-full items-center pb-8 md:w-auto">
             <img
               src="/favicon/48x48.png?v4-19-24"
               alt="OnchainKit Logo"
-              className='h-12 w-12'
+              className="h-12 w-12"
             />
           </div>
-          <div className='mb-8 grid w-full grid-cols-2 gap-8 md:mb-0 md:flex md:w-auto md:gap-24'>
+          <div className="mb-8 grid w-full grid-cols-2 gap-8 md:mb-0 md:flex md:w-auto md:gap-24">
             {footerData.map((column, index) => (
               <FooterColumn
                 key={index}

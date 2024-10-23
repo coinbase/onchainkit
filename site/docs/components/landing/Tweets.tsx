@@ -44,12 +44,12 @@ const Tweets: React.FC = () => {
   return (
     <section className="w-full py-24">
       <div className="mb-12 text-center">
-        <h3 className='mx-auto font-medium text-3xl text-gray-950 dark:text-gray-50'>
+        <h3 className="mx-auto font-medium text-3xl text-gray-950 dark:text-gray-50">
           Builders ship faster with OnchainKit
         </h3>
       </div>
       <div className="relative overflow-hidden">
-        <div className='flex items-start space-x-8'>
+        <div className="flex items-start space-x-8">
           <TweetCard className="tweet1">
             <p lang="en" dir="ltr">
               🟣 Excited to announce that Basenames are now integrated into the
