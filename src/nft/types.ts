@@ -4,6 +4,13 @@ import type { Call, TransactionError } from '../transaction/types';
 
 export type ContractType = 'ERC721' | 'ERC1155';
 
+export enum MediaType {
+  Image = 'image',
+  Video = 'video',
+  Audio = 'audio',
+  Unknown = 'unknown',
+}
+
 /* Lifecycle Provider */
 
 export enum LifecycleType {
@@ -150,7 +157,7 @@ export type LifecycleStatus =
   | {
       statusName: 'mediaLoading';
       statusData: {
-        mimeType: string;
+        mediaType: MediaType;
         mediaUrl: string;
       };
     }
