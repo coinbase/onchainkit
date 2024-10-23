@@ -69,7 +69,7 @@ function ComponentPreview() {
         <div className="w-full rounded-lg border-[1px] border-zinc-200 lg:w-[800px] lg:flex-shrink-0 dark:border-zinc-900">
           <div className="relative h-[400px] w-full overflow-hidden rounded-lg bg-zinc-100 lg:h-[600px] dark:bg-[#0F0F0F]">
             <div className="flex items-center justify-between border-zinc-200 border-b dark:border-zinc-900">
-              <div className="flex overflow-x-auto">
+              <div className="flex">
                 <button
                   type="button"
                   className={`mt-2 ml-2 px-4 py-2 text-sm ${
@@ -93,22 +93,24 @@ function ComponentPreview() {
                   Code
                 </button>
               </div>
-              <button
-                type="button"
-                className="mr-2 rounded-md p-2 hover:border hover:border-zinc-300 dark:hover:border-zinc-700"
-                onClick={() =>
-                  copyToClipboard(components[activeTab].code, activeTab)
-                }
-                title={
-                  copiedIndex === activeTab ? 'Copied!' : 'Copy to clipboard'
-                }
-              >
-                {copiedIndex === activeTab ? (
-                  <CheckIcon className="text-green-500 dark:text-green-400" />
-                ) : (
-                  <CopyIcon className="text-zinc-700 dark:text-zinc-300" />
-                )}
-              </button>
+              {activeSubTab === 'code' && (
+                <button
+                  type="button"
+                  className="mr-2 rounded-md p-2 hover:bg-zinc-200 dark:hover:bg-zinc-800"
+                  onClick={() =>
+                    copyToClipboard(components[activeTab].code, activeTab)
+                  }
+                  title={
+                    copiedIndex === activeTab ? 'Copied!' : 'Copy to clipboard'
+                  }
+                >
+                  {copiedIndex === activeTab ? (
+                    <CheckIcon className="h-5 w-5 text-green-500 dark:text-green-400" />
+                  ) : (
+                    <CopyIcon className="h-5 w-5 text-zinc-700 dark:text-zinc-300" />
+                  )}
+                </button>
+              )}
             </div>
             <div className="h-[calc(100%-40px)] overflow-auto px-4">
               <div
