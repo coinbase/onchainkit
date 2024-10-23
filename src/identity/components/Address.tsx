@@ -1,4 +1,4 @@
-import { cn, text } from '../../styles/theme';
+import { cn, color, text } from '../../styles/theme';
 import type { AddressReact } from '../types';
 import { getSlicedAddress } from '../utils/getSlicedAddress';
 import { useIdentityContext } from './IdentityProvider';
@@ -19,7 +19,10 @@ export function Address({
   const accountAddress = address ?? contextAddress;
 
   return (
-    <span data-testid="ockAddress" className={cn(text.label2, className)}>
+    <span
+      data-testid="ockAddress"
+      className={cn(color.foreground, text.label2, className)}
+    >
       {isSliced ? getSlicedAddress(accountAddress) : accountAddress}
     </span>
   );
