@@ -105,7 +105,6 @@ export type CheckoutButtonReact = {
   disabled?: boolean;
   icon?: React.ReactNode;
   label?: React.ReactNode;
-  text?: string;
 };
 
 export type CheckoutContextType = {
