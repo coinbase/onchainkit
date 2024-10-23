@@ -179,6 +179,11 @@ export type NameReact = {
 
 export type ResolverAddressesByChainIdMap = Record<number, Address>;
 
+export type SocialsReact = {
+  address: Address | null;
+  
+}
+
 export type UseAttestations = {
   address: Address;
   chain: Chain;
