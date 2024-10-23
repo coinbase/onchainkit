@@ -1,10 +1,11 @@
+import type { ReactNode } from 'react';
 import { cn, text } from '../../../styles/theme';
 import { formatAmount } from '../../../token/utils/formatAmount';
 import { useNFTContext } from '../NFTProvider';
 
 type NFTLastSoldPriceProps = {
   className?: string;
-  label?: string;
+  label?: ReactNode;
 };
 
 export function NFTLastSoldPrice({

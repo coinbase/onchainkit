@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import { Avatar, Badge, Identity, Name } from '../../../identity';
 import { cn, text } from '../../../styles/theme';
 import { useOnchainKit } from '../../../useOnchainKit';
@@ -5,7 +6,7 @@ import { useNFTContext } from '../NFTProvider';
 
 type NFTOwnerProps = {
   className?: string;
-  label?: string;
+  label?: ReactNode;
 };
 
 export function NFTOwner({ className, label = 'Owned by' }: NFTOwnerProps) {

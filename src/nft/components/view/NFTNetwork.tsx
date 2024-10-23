@@ -5,7 +5,7 @@ import { useOnchainKit } from '../../../useOnchainKit';
 
 type NFTNetworkProps = {
   className?: string;
-  label?: string;
+  label?: ReactNode;
 };
 
 const networkMap = {

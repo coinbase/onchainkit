@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { type ReactNode, useMemo } from 'react';
 import { cn, text } from '../../../styles/theme';
 import { useNFTContext } from '../NFTProvider';
 
@@ -10,7 +10,7 @@ const DATE_OPTIONS = {
 
 type NFTMintDateProps = {
   className?: string;
-  label?: string;
+  label?: ReactNode;
 };
 
 export function NFTMintDate({
