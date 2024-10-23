@@ -17,6 +17,7 @@ import {
   TransactionProvider,
   useTransactionContext,
 } from './TransactionProvider';
+import { getResolvedTransactions } from '../utils/getResolvedTransactions';
 
 vi.mock('wagmi', () => ({
   useAccount: vi.fn(),
@@ -57,6 +58,10 @@ vi.mock('../hooks/useSendWalletTransactions', () => ({
 
 vi.mock('../../internal/hooks/useCapabilitiesSafe', () => ({
   useCapabilitiesSafe: vi.fn(),
+}));
+
+vi.mock('../utils/getResolvedTransactions', () => ({
+  getResolvedTransactions: vi.fn(),
 }));
 
 const silenceError = () => {
@@ -158,6 +163,37 @@ describe('TransactionProvider', () => {
       receipt: undefined,
     });
     (useCapabilitiesSafe as ReturnType<typeof vi.fn>).mockReturnValue({});
+    vi.clearAllMocks();
+  });
+
+  it('should emit onError when building transactions fails', async () => {
+    const sendWalletTransactionsMock = vi.fn();
+    (useSendWalletTransactions as ReturnType<typeof vi.fn>).mockReturnValue(
+      sendWalletTransactionsMock,
+    );
+    const contracts = [
+      { address: '0x123', method: 'method' },
+      { address: '0x123', method: 'method' },
+    ];
+
+    (getResolvedTransactions as ReturnType<typeof vi.fn>).mockReturnValue(
+      Promise.reject(new Error('error')),
+    );
+    const onErrorMock = vi.fn();
+    render(
+      <TransactionProvider contracts={contracts} onError={onErrorMock}>
+        <TestComponent />
+      </TransactionProvider>,
+    );
+    const button = screen.getByText('Submit');
+    fireEvent.click(button);
+    await waitFor(() => {
+      expect(onErrorMock).toHaveBeenCalledWith({
+        code: 'TmTPc04',
+        error: '{}',
+        message: 'Error building transactions',
+      });
+    });
   });
 
   it('should emit onError when setLifecycleStatus is called with error', async () => {
@@ -234,6 +270,10 @@ describe('TransactionProvider', () => {
     (waitForTransactionReceipt as ReturnType<typeof vi.fn>).mockReturnValue(
       'hash12345678',
     );
+    (getResolvedTransactions as ReturnType<typeof vi.fn>).mockReturnValue([
+      { address: '0x123', method: 'method' },
+      { address: '0x123', method: 'method' },
+    ]);
     render(
       <TransactionProvider
         contracts={[
@@ -253,29 +293,6 @@ describe('TransactionProvider', () => {
       expect(onSuccessMock).toHaveBeenCalled();
       expect(onSuccessMock).toHaveBeenCalledWith({
         transactionReceipts: ['hash12345678', 'hash12345678'],
-      });
-    });
-  });
-
-  it('should emit onError when building transactions fails', async () => {
-    const sendWalletTransactionsMock = vi.fn();
-    (useSendWalletTransactions as ReturnType<typeof vi.fn>).mockReturnValue(
-      sendWalletTransactionsMock,
-    );
-    const onErrorMock = vi.fn();
-    const contracts = () => Promise.reject(new Error('error'));
-    render(
-      <TransactionProvider contracts={contracts} onError={onErrorMock}>
-        <TestComponent />
-      </TransactionProvider>,
-    );
-    const button = screen.getByText('Submit');
-    fireEvent.click(button);
-    await waitFor(() => {
-      expect(onErrorMock).toHaveBeenCalledWith({
-        code: 'TmTPc04',
-        error: '{}',
-        message: 'Error building transactions',
       });
     });
   });
@@ -302,6 +319,38 @@ describe('TransactionProvider', () => {
     fireEvent.click(button);
     await waitFor(() => {
       expect(onErrorMock).toHaveBeenCalled();
+    });
+  });
+
+  it('should emit onError when legacy transactions fail', async () => {
+    const onErrorMock = vi.fn();
+    (waitForTransactionReceipt as ReturnType<typeof vi.fn>).mockRejectedValue(
+      new Error('error getting transaction receipt'),
+    );
+    (getResolvedTransactions as ReturnType<typeof vi.fn>).mockReturnValue([
+      { address: '0x123', method: 'method' },
+      { address: '0x123', method: 'method' },
+    ]);
+    render(
+      <TransactionProvider
+        contracts={[
+          { address: '0x123', method: 'method' },
+          { address: '0x123', method: 'method' },
+        ]}
+        onError={onErrorMock}
+      >
+        <TestComponent />
+      </TransactionProvider>,
+    );
+
+    const button = screen.getByText(
+      'setLifecycleStatus.transactionLegacyExecutedMultipleContracts',
+    );
+    fireEvent.click(button);
+    await waitFor(() => {
+      expect(screen.getByTestId('context-value-errorCode').textContent).toBe(
+        'TmTPc01',
+      );
     });
   });
 
@@ -525,20 +574,6 @@ describe('TransactionProvider', () => {
       );
     }).toThrowError(
       'Transaction: One of contracts or calls must be provided as a prop to the Transaction component.',
-    );
-    restore();
-  });
-
-  it('should throw an error when both contracts and calls are provided', async () => {
-    const restore = silenceError();
-    expect(() => {
-      render(
-        <TransactionProvider contracts={[{}]} calls={[{}]}>
-          <div>Test</div>
-        </TransactionProvider>,
-      );
-    }).toThrowError(
-      'Transaction: Only one of contracts or calls can be provided as a prop to the Transaction component.',
     );
     restore();
   });
