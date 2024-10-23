@@ -1,7 +1,6 @@
 import { LifecycleType, type NFTMintReact } from '../types';
 import { NFT } from './NFT';
 import { NFTLifecycleProvider } from './NFTLifecycleProvider';
-import { NFTMintProvider } from './NFTMintProvider';
 import { NFTProvider } from './NFTProvider';
 
 export function NFTMint({
@@ -10,7 +9,6 @@ export function NFTMint({
   contractAddress,
   tokenId,
   useNFTData,
-  useNFTMintData,
   buildMintTransaction,
   onStatus,
   onError,
@@ -27,13 +25,9 @@ export function NFTMint({
         contractAddress={contractAddress}
         tokenId={tokenId}
         useNFTData={useNFTData}
+        buildMintTransaction={buildMintTransaction}
       >
-        <NFTMintProvider
-          useNFTMintData={useNFTMintData}
-          buildMintTransaction={buildMintTransaction}
-        >
-          <NFT className={className}>{children}</NFT>
-        </NFTMintProvider>
+        <NFT className={className}>{children}</NFT>
       </NFTProvider>
     </NFTLifecycleProvider>
   );

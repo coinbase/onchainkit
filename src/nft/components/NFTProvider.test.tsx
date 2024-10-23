@@ -3,6 +3,7 @@ import { render } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 import type { NFTData } from '../types';
 import { NFTProvider, useNFTContext } from './NFTProvider';
+import { act } from 'react';
 
 const useNFTData = vi.fn(
   () =>
@@ -20,6 +21,14 @@ const MockComponent = () => {
       <p>{context.name}</p>
       <p>{context.description}</p>
       <img src={context.imageUrl} alt={context.name} />
+      <span data-testid="quantity">{context.quantity}</span>
+      <button
+        data-testid="setQuantity"
+        type="button"
+        onClick={() => context.setQuantity('2')}
+      >
+        setQuantity
+      </button>
     </div>
   );
 };
@@ -38,6 +47,26 @@ describe('NFTProvider', () => {
       'src',
       'http://example.com/test-nft.png',
     );
+  });
+
+  it('should update the quantity', () => {
+    const { getByTestId } = render(
+      <NFTProvider
+        contractAddress="0xcontract"
+        tokenId="1"
+        useNFTData={useNFTData}
+      >
+        <MockComponent />
+      </NFTProvider>,
+    );
+
+    expect(getByTestId('quantity').textContent).toBe('1');
+
+    act(() => {
+      getByTestId('setQuantity').click();
+    });
+
+    expect(getByTestId('quantity').textContent).toBe('2');
   });
 
   it('should throw an error when useNFTContext is used outside of NFTProvider', () => {

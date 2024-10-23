@@ -6,6 +6,5 @@ export type {
   NFTMintReact,
   LifecycleStatus,
   NFTError,
-  NFTMintData,
   NFTData,
 } from './types';

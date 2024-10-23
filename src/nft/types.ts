@@ -30,6 +30,9 @@ export type NFTLifecycleContextType = {
 export type NFTContextType = {
   contractAddress: `0x${string}`;
   tokenId?: string;
+  quantity: number;
+  setQuantity: (quantity: string) => void;
+  buildMintTransaction?: BuildMintTransaction;
 } & NFTData;
 
 export type NFTProviderReact = {
@@ -37,26 +40,13 @@ export type NFTProviderReact = {
   contractAddress: `0x${string}`;
   tokenId?: string;
   useNFTData: UseNFTData;
+  buildMintTransaction?: BuildMintTransaction;
 };
-
-/* Mint Provider */
 
 export type NFTPrice = {
   amount?: number;
   currency?: string;
   amountUSD?: number;
-};
-
-export type NFTMintContextType = {
-  quantity: number;
-  setQuantity: (quantity: string) => void;
-  buildMintTransaction: BuildMintTransaction;
-} & NFTMintData;
-
-export type NFTMintProviderReact = {
-  useNFTMintData: UseNFTMintData;
-  buildMintTransaction: BuildMintTransaction;
-  children: ReactNode;
 };
 
 type UseNFTData = (contractAddress: Hex, tokenId?: string) => NFTData;
@@ -65,41 +55,30 @@ type UseNFTData = (contractAddress: Hex, tokenId?: string) => NFTData;
  * Note: exported as public Type
  */
 export type NFTData = {
-  name?: string;
-  description?: string;
-  imageUrl?: string;
-  animationUrl?: string;
-  mimeType?: string; // currently supported mimeTypes are image = image/*, video = video/*, audio = audio/* | application/*
-  ownerAddress?: `0x${string}`;
-  lastSoldPrice: NFTPrice;
-  contractType?: ContractType;
-  mintDate?: Date;
-};
+  // view components
+  name?: string; // required for NFTTitle
+  description?: string; // not currently used
+  imageUrl?: string; // required for NFTMedia
+  animationUrl?: string; // required for NFTMedia (audio and video types)
+  /* supported mimeTypes:
+   * image = image/*
+   * video = video/*
+   * audio = audio/* | application/*
+   */
+  mimeType?: string; // required for NFTMedia (falls back to image)
 
-export type UseNFTMintDataProps = {
-  contractAddress: Hex;
-  tokenId?: string;
-  quantity: number;
-};
-
-type UseNFTMintData = (props: UseNFTMintDataProps) => NFTMintData;
-
-/**
- * Note: exported as public Type
- */
-export type NFTMintData = {
-  price?: NFTPrice;
-  mintFee?: NFTPrice;
-  creatorAddress?: Hex;
-  maxMintsPerWallet?: number;
-  isEligibleToMint?: boolean;
-  totalOwners?: number;
-  recentOwners?: Address[];
-  callData?: {
-    data: Hex;
-    to: Hex;
-    value: bigint;
-  }[];
+  // mint components
+  ownerAddress?: `0x${string}`; // required for NFTOwner
+  lastSoldPrice: NFTPrice; // required for NFTLastSoldPrice
+  contractType?: ContractType; // not currently used
+  mintDate?: Date; // required for NFTMintDate
+  price?: NFTPrice; // required for NFTAssetCost, NftTotalCost
+  mintFee?: NFTPrice; // required for NFTTotalCost
+  creatorAddress?: Hex; // required for NFTCreator
+  maxMintsPerWallet?: number; // required for NFTMintButton
+  isEligibleToMint?: boolean; // required for NFTMintButton
+  totalOwners?: number; // required for NFTMinters
+  recentOwners?: Address[]; // required for NFTMinters
 };
 
 type BuildMintTransaction = (
@@ -134,15 +113,15 @@ export type NFTViewReact = {
 
 /**
  * Note: exported as public Type
+ * NFTMint must be used if the NFTMintButton is included
  */
 export type NFTMintReact = {
   children: ReactNode;
   className?: string; // Optional className override for top div element.
   contractAddress: Hex; // Contract address of the NFT
   tokenId?: string; // Token ID of the NFT only required for ERC1155
-  useNFTData: UseNFTData; // Optional hook to override the default useNftData hook
-  useNFTMintData: UseNFTMintData; // Optional hook to override the default useMintData hook
-  buildMintTransaction: BuildMintTransaction; // Function that builds the mint transaction
+  useNFTData: UseNFTData; // Required hook to supply NFT data
+  buildMintTransaction: BuildMintTransaction; // Required function that builds the mint transaction
   onError?: (error: NFTError) => void; // An optional callback function that handles errors within the provider.
   onStatus?: (lifecycleStatus: LifecycleStatus) => void; // An optional callback function that exposes the component lifecycle state
   onSuccess?: (transactionReceipt?: TransactionReceipt) => void; // mint will pass transactionReceipt

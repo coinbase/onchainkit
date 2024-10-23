@@ -16,9 +16,6 @@ vi.mock('../../useTheme', () => ({
   useTheme: vi.fn(() => 'default-light'),
 }));
 vi.mock('../../useIsMounted');
-vi.mock('./NFTMintProvider', () => ({
-  NFTMintProvider: vi.fn(({ children }) => <div>{children}</div>),
-}));
 vi.mock('./NFTProvider', () => ({
   NFTProvider: vi.fn(({ children }) => <div>{children}</div>),
 }));
