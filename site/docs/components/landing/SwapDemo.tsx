@@ -46,12 +46,10 @@ export const swapDemoCode = `
  
   const swappableTokens: Token[] = [ETHToken, USDCToken];
   
-  return ( 
-    <SwapDefault
-      from={swappableFromTokens}
+  <SwapDefault
+    from={swappableFromTokens}
     to={swappableToTokens}
   /> 
-  ); 
   `;
 
 function SwapDemo() {

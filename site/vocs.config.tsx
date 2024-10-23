@@ -98,11 +98,11 @@ export default defineConfig({
     variables: {
       color: {
         background: {
-          dark: '#121212',
+          dark: '#0A0A0A',
           light: '#fafafa',
         },
         backgroundDark: {
-          dark: '#09090b',
+          dark: '#000000',
           light: '#f4f4f5',
         },
         textAccent: {
@@ -115,7 +115,7 @@ export default defineConfig({
   topNav: [
     { text: 'Docs', link: '/getting-started', match: '/docs' },
     {
-      text: 'ATemplate',
+      text: 'Template',
       link: 'https://github.com/coinbase/onchain-app-template',
     },
     {

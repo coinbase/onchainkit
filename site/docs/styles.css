@@ -19,12 +19,12 @@
 
 .dark {
   .vocs_CodeGroup {
-    background-color: #18181b !important;
-    border-color: #27272a!important;
+    background-color: #0F0F0F !important;
+    border-color: #18181b !important;
   }
   .vocs_Tabs_list {
-    background-color: #18181b !important;
-    border-color: #27272a !important;
+    background-color: #0F0F0F !important;
+    border-color: #18181b !important;
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
   }
@@ -32,22 +32,24 @@
   .vocs_CodeBlock,
   .vocs_CodeTitle,
   .vocs_Pre_wrapper {
-    background-color: #18181b !important;
-    border-color: #27272a !important;
+    background-color: #0F0F0F !important;
+    border-color: #18181b !important;
     border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
   }
   .vocs_Heading::before,
   .vocs_Code {
-    background-color: #18181b !important;
-    border-color: #27272a !important;
+    background-color: #0F0F0F !important;
+    border-color: #18181b !important;
 
-    --vocs-twoslash_popupBackground: #18181b;
-    --vocs-color_background5: #18181b;
+    --vocs-twoslash_popupBackground: ##0F0F0F;
+    --vocs-color_background5: #0F0F0F;
   }
-
+  .vocs_CopyButton {
+    background-color: #0F0F0F;
+  }
   .vocs_Tabs_trigger {
-    background-color: #18181b;
+    background-color: #0F0F0F;
     border-color: #818cf8;
     color: #F9FAFB;
   }

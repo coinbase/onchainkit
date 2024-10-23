@@ -32,18 +32,14 @@ export const transactionDemoCode = `
   import { useAccount } from 'wagmi';
   import { contracts } from './contracts'; 
 
-  export default function TransactionComponent() {
-    const { address } = useAccount();
-    const handleOnStatus = useCallback((status: LifecycleStatus) => {
-      console.log('LifecycleStatus', status);
-    }, []);
+  const { address } = useAccount();
+  const handleOnStatus = useCallback((status: LifecycleStatus) => {
+    console.log('LifecycleStatus', status);
+  }, []);
     
-    return (
-      <TransactionDefault
-        contracts={contracts}
-      />
-    )
-  }
+  <TransactionDefault
+    contracts={contracts}
+  />
   `;
 
 function TransactionDemo() {

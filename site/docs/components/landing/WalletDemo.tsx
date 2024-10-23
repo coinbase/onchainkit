@@ -34,11 +34,8 @@ export const walletDemoCode = `
     Identity, 
   } from '@coinbase/onchainkit/identity';
 
-  export defaultfunction WalletComponent() {
-    return (
-      <WalletDefault />
-    )
-  }
+  <WalletDefault />
+
 `;
 
 function WalletDemo() {
