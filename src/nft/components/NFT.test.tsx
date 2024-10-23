@@ -10,18 +10,14 @@ import {
   vi,
 } from 'vitest';
 import { useIsMounted } from '../../useIsMounted';
-import { NFTProvider } from './NFTProvider';
-import { NFTView } from './NFTView';
+import { NFT } from './NFT';
 
 vi.mock('../../useTheme', () => ({
   useTheme: vi.fn(() => 'default-light'),
 }));
 vi.mock('../../useIsMounted');
-vi.mock('./NFTProvider', () => ({
-  NFTProvider: vi.fn(({ children }) => <div>{children}</div>),
-}));
 
-describe('NFTView', () => {
+describe('NFT', () => {
   beforeEach(() => {
     (useIsMounted as Mock).mockReturnValue(true);
   });
@@ -32,9 +28,9 @@ describe('NFTView', () => {
 
   it('should render correctly when mounted', () => {
     const { getByTestId, getByText } = render(
-      <NFTView contractAddress="0x123" tokenId="1" className="test-class">
+      <NFT className="test-class">
         <div>Child Component</div>
-      </NFTView>,
+      </NFT>,
     );
 
     expect(getByTestId('ockNFT_Container')).toBeInTheDocument();
@@ -46,27 +42,11 @@ describe('NFTView', () => {
     (useIsMounted as Mock).mockReturnValue(false);
 
     const { queryByTestId } = render(
-      <NFTView contractAddress="0x123" tokenId="1" className="test-class">
+      <NFT className="test-class">
         <div>Child Component</div>
-      </NFTView>,
+      </NFT>,
     );
 
     expect(queryByTestId('ockNFT_Container')).not.toBeInTheDocument();
-  });
-
-  it('should pass contractAddress and tokenId to NFTProvider', () => {
-    render(
-      <NFTView contractAddress="0x123" tokenId="1" className="test-class">
-        <div>Child Component</div>
-      </NFTView>,
-    );
-
-    expect(NFTProvider).toHaveBeenCalledWith(
-      expect.objectContaining({
-        contractAddress: '0x123',
-        tokenId: '1',
-      }),
-      {},
-    );
   });
 });

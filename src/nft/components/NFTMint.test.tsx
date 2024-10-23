@@ -39,9 +39,9 @@ describe('NFTMint', () => {
       </NFTMint>,
     );
 
-    expect(getByTestId('ockNFTMint_Container')).toBeInTheDocument();
+    expect(getByTestId('ockNFT_Container')).toBeInTheDocument();
     expect(getByText('Child Component')).toBeInTheDocument();
-    expect(getByTestId('ockNFTMint_Container')).toHaveClass('test-class');
+    expect(getByTestId('ockNFT_Container')).toHaveClass('test-class');
   });
 
   it('should not render when not mounted', () => {
@@ -53,6 +53,6 @@ describe('NFTMint', () => {
       </NFTMint>,
     );
 
-    expect(queryByTestId('ockNFTMint_Container')).not.toBeInTheDocument();
+    expect(queryByTestId('ockNFT_Container')).not.toBeInTheDocument();
   });
 });

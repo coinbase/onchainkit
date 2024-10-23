@@ -113,6 +113,11 @@ export type BuildMintTransactionDataProps = {
   quantity: number;
 };
 
+export type NFTReact = {
+  children: ReactNode;
+  className?: string;
+};
+
 /**
  * Note: exported as public Type
  */
