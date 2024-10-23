@@ -33,6 +33,24 @@ function TransactionDemo() {
       resolve(contracts);
     }, 4000);
   }) as Promise<ContractFunctionParameters[]>;
+  const callsCallback = useCallback(
+    () =>
+      new Promise((resolve) => {
+        setTimeout(() => {
+          resolve(calls);
+        }, 4000);
+      }) as Promise<Call[]>,
+    [calls],
+  );
+  const contractsCallback = useCallback(
+    () =>
+      new Promise((resolve) => {
+        setTimeout(() => {
+          resolve(contracts);
+        }, 4000);
+      }) as Promise<ContractFunctionParameters[]>,
+    [contracts],
+  );
   useEffect(() => {
     console.log('Playground.Transaction.chainId:', chainId);
   }, [chainId]);
@@ -49,46 +67,50 @@ function TransactionDemo() {
       case TransactionTypes.Contracts:
         console.log('Playground.Transaction.contracts:', contracts);
         break;
-      case TransactionTypes.CallsPromise:
-        console.log('Playground.Transaction.callsPromise');
-        break;
-      case TransactionTypes.ContractsPromise:
-        console.log('Playground.Transaction.contractsPromise');
+      default:
+        console.log(`Playground.Transaction.${transactionType}`);
         break;
     }
   }, [transactionType, calls, contracts]);
 
   const transactions = useMemo(() => {
-    if (transactionType === TransactionTypes.Calls) {
-      return {
-        calls,
-        contracts: undefined,
-      };
+    switch (transactionType) {
+      case TransactionTypes.Calls:
+        return {
+          calls,
+          contracts: undefined,
+        };
+      case TransactionTypes.Contracts:
+        return {
+          calls: undefined,
+          contracts,
+        };
+      case TransactionTypes.CallsPromise:
+        return {
+          calls: promiseCalls,
+          contracts: undefined,
+        };
+      case TransactionTypes.ContractsPromise:
+        return {
+          contracts: promiseContracts,
+          calls: undefined,
+        };
+      case TransactionTypes.CallsCallback:
+        return { calls: callsCallback, contracts: undefined };
+      case TransactionTypes.ContractsCallback:
+        return { calls: undefined, contracts: contractsCallback };
+      default:
+        return { calls: undefined, contracts: undefined };
     }
-
-    if (transactionType === TransactionTypes.Contracts) {
-      return {
-        calls: undefined,
-        contracts,
-      };
-    }
-
-    if (transactionType === TransactionTypes.CallsPromise) {
-      return {
-        calls: promiseCalls,
-        contracts: undefined,
-      };
-    }
-
-    if (transactionType === TransactionTypes.ContractsPromise) {
-      return {
-        contracts: promiseContracts,
-        calls: undefined,
-      };
-    }
-
-    return { calls: undefined, contracts: undefined };
-  }, [calls, promiseCalls, contracts, promiseContracts, transactionType]);
+  }, [
+    calls,
+    callsCallback,
+    promiseCalls,
+    contracts,
+    contractsCallback,
+    promiseContracts,
+    transactionType,
+  ]);
 
   return (
     <div className="mx-auto grid w-1/2 gap-8">

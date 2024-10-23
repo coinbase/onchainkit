@@ -23,6 +23,8 @@ export enum TransactionTypes {
   Contracts = 'contracts',
   CallsPromise = 'callsPromise',
   ContractsPromise = 'contractsPromise',
+  CallsCallback = 'callsCallback',
+  ContractsCallback = 'contractsCallback',
 }
 
 export type Paymaster = {
