@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
+import { useAccount } from 'wagmi';
 import { baseSvg } from '../../../internal/svg/baseSvg';
 import { cn, text } from '../../../styles/theme';
-import { useAccount } from 'wagmi';
 
 type NFTNetworkProps = {
   className?: string;

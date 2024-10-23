@@ -69,6 +69,12 @@ describe('NFTMedia', () => {
     expect(getByText('Video')).toBeInTheDocument();
   });
 
+  it('should render NFTImage when mimeType is unknown', () => {
+    (useNFTContext as Mock).mockReturnValue({ mimeType: 'something/else' });
+    const { getByText } = render(<NFTMedia />);
+    expect(getByText('Image')).toBeInTheDocument();
+  });
+
   it('should call updateLifecycleStatus with mediaLoading when media starts loading', () => {
     const { getByText } = render(<NFTMedia />);
     fireEvent.click(getByText('ImageLoading'));
