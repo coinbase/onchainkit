@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import '@testing-library/jest-dom';
+import userEvent from '@testing-library/user-event';
 import { getSlicedAddress } from '../utils/getSlicedAddress';
 import { Address } from './Address';
 import { useIdentityContext } from './IdentityProvider';
@@ -107,5 +108,78 @@ describe('Address component', () => {
     render(<Address address={testAddressComponentAddress} isSliced={false} />);
     expect(screen.getByText(testAddressComponentAddress)).toBeInTheDocument();
     expect(getSlicedAddress).not.toHaveBeenCalled();
+  });
+
+  it('copies the address to clipboard when clicked', async () => {
+    const user = userEvent.setup();
+    const mockWriteText = vi.fn().mockResolvedValue(undefined);
+    vi.spyOn(navigator.clipboard, 'writeText').mockImplementation(
+      mockWriteText,
+    );
+
+    useIdentityContextMock.mockReturnValue({});
+    render(<Address address={testAddressComponentAddress} />);
+
+    const addressElement = screen.getByTestId('ockAddress');
+    await user.click(addressElement);
+
+    expect(mockWriteText).toHaveBeenCalledWith(testAddressComponentAddress);
+  });
+
+  it('shows "Copied" text after clicking', async () => {
+    const user = userEvent.setup();
+    const mockWriteText = vi.fn().mockResolvedValue(undefined);
+    vi.spyOn(navigator.clipboard, 'writeText').mockImplementation(
+      mockWriteText,
+    );
+
+    useIdentityContextMock.mockReturnValue({});
+    render(<Address address={testAddressComponentAddress} />);
+
+    const addressElement = screen.getByTestId('ockAddress');
+    await user.click(addressElement);
+    expect(screen.getByText('Copied')).toBeInTheDocument();
+    expect(mockWriteText).toHaveBeenCalledWith(testAddressComponentAddress);
+  });
+
+  it('handles clipboard write error', async () => {
+    const user = userEvent.setup();
+    const mockWriteText = vi
+      .fn()
+      .mockRejectedValue(new Error('Clipboard error'));
+    vi.spyOn(navigator.clipboard, 'writeText').mockImplementation(
+      mockWriteText,
+    );
+
+    const consoleErrorSpy = vi
+      .spyOn(console, 'error')
+      .mockImplementation(() => {});
+
+    useIdentityContextMock.mockReturnValue({});
+    render(<Address address={testAddressComponentAddress} />);
+
+    const addressElement = screen.getByTestId('ockAddress');
+    await user.click(addressElement);
+
+    expect(consoleErrorSpy).toHaveBeenCalledWith(
+      'Failed to copy address: ',
+      expect.any(Error),
+    );
+    expect(screen.getByText('Copy')).toBeInTheDocument();
+
+    consoleErrorSpy.mockRestore();
+  });
+
+  it('applies custom className when provided', () => {
+    useIdentityContextMock.mockReturnValue({});
+    render(
+      <Address
+        address={testAddressComponentAddress}
+        className="custom-class"
+      />,
+    );
+
+    const addressElement = screen.getByTestId('ockAddress');
+    expect(addressElement).toHaveClass('custom-class');
   });
 });
