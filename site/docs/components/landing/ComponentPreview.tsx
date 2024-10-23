@@ -68,28 +68,46 @@ function ComponentPreview() {
         </div>
         <div className="w-full rounded-lg border-[1px] border-zinc-200 lg:w-[800px] lg:flex-shrink-0 dark:border-zinc-900">
           <div className="relative h-[400px] w-full overflow-hidden rounded-lg bg-zinc-100 lg:h-[600px] dark:bg-[#0F0F0F]">
-            <div className="flex overflow-x-auto border-zinc-200 border-b dark:border-zinc-900">
+            <div className="flex items-center justify-between border-zinc-200 border-b dark:border-zinc-900">
+              <div className="flex overflow-x-auto">
+                <button
+                  type="button"
+                  className={`mt-2 ml-2 px-4 py-2 text-sm ${
+                    activeSubTab === 'preview'
+                      ? 'border-indigo-600 border-b-2 bg-zinc-100 text-zinc-950 dark:border-indigo-400 dark:bg-[#0F0F0F] dark:text-zinc-50'
+                      : 'text-zinc-700 dark:text-zinc-300'
+                  }`}
+                  onClick={() => setActiveSubTab('preview')}
+                >
+                  Preview
+                </button>
+                <button
+                  type="button"
+                  className={`mt-2 px-4 py-2 text-sm ${
+                    activeSubTab === 'code'
+                      ? 'border-indigo-600 border-b-2 text-zinc-950 dark:border-indigo-400 dark:text-zinc-50'
+                      : 'text-zinc-700 dark:text-zinc-300'
+                  }`}
+                  onClick={() => setActiveSubTab('code')}
+                >
+                  Code
+                </button>
+              </div>
               <button
                 type="button"
-                className={`mt-2 ml-2 px-4 py-2 text-sm ${
-                  activeSubTab === 'preview'
-                    ? 'border-indigo-600 border-b-2 bg-zinc-100 text-zinc-950 dark:border-indigo-400 dark:bg-[#0F0F0F] dark:text-zinc-50'
-                    : 'text-zinc-700 dark:text-zinc-300'
-                }`}
-                onClick={() => setActiveSubTab('preview')}
+                className="mr-2 rounded-md p-2 hover:border hover:border-zinc-300 dark:hover:border-zinc-700"
+                onClick={() =>
+                  copyToClipboard(components[activeTab].code, activeTab)
+                }
+                title={
+                  copiedIndex === activeTab ? 'Copied!' : 'Copy to clipboard'
+                }
               >
-                Preview
-              </button>
-              <button
-                type="button"
-                className={`mt-2 px-4 py-2 text-sm ${
-                  activeSubTab === 'code'
-                    ? 'border-indigo-600 border-b-2 text-zinc-950 dark:border-indigo-400 dark:text-zinc-50'
-                    : 'text-zinc-700 dark:text-zinc-300'
-                }`}
-                onClick={() => setActiveSubTab('code')}
-              >
-                Code
+                {copiedIndex === activeTab ? (
+                  <CheckIcon className="text-green-500 dark:text-green-400" />
+                ) : (
+                  <CopyIcon className="text-zinc-700 dark:text-zinc-300" />
+                )}
               </button>
             </div>
             <div className="h-[calc(100%-40px)] overflow-auto px-4">
@@ -103,22 +121,6 @@ function ComponentPreview() {
               <div
                 className={`${activeSubTab === 'code' ? 'block' : 'hidden'} relative h-full`}
               >
-                <button
-                  type="button"
-                  className="absolute top-1 right-1 rounded-md p-2 hover:border hover:border-zinc-300 dark:hover:border-zinc-700"
-                  onClick={() =>
-                    copyToClipboard(components[activeTab].code, activeTab)
-                  }
-                  title={
-                    copiedIndex === activeTab ? 'Copied!' : 'Copy to clipboard'
-                  }
-                >
-                  {copiedIndex === activeTab ? (
-                    <CheckIcon className="text-green-500 dark:text-green-400" />
-                  ) : (
-                    <CopyIcon className="text-zinc-700 dark:text-zinc-300" />
-                  )}
-                </button>
                 <pre className="h-full w-full overflow-auto bg-zinc-100 py-4 text-sm dark:bg-[#0F0F0F]">
                   <code>{components[activeTab].code}</code>
                 </pre>
