@@ -1,5 +1,5 @@
-import { ENTRYPOINT_ADDRESS_V06 } from 'permissionless';
 import type { IsValidAAEntrypointOptions } from '../types';
+import { entryPoint06Address } from "viem/account-abstraction"
 
 /**
  * Verify the Account-Abstraction entrypoint before sponsoring a transaction.
@@ -7,7 +7,7 @@ import type { IsValidAAEntrypointOptions } from '../types';
 export function isValidAAEntrypoint({
   entrypoint,
 }: IsValidAAEntrypointOptions): boolean {
-  if (entrypoint.toLowerCase() !== ENTRYPOINT_ADDRESS_V06.toLowerCase()) {
+  if (entrypoint.toLowerCase() !== entryPoint06Address.toLowerCase()) {
     return false;
   }
   return true;

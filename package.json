@@ -39,7 +39,7 @@
     "clsx": "^2.1.1",
     "graphql": "^14 || ^15 || ^16",
     "graphql-request": "^6.1.0",
-    "permissionless": "^0.1.29",
+    "permissionless": "^0.2.10",
     "tailwind-merge": "^2.3.0",
     "viem": "^2.21.33",
     "wagmi": "^2.12.24"
