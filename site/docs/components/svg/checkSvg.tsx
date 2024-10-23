@@ -14,7 +14,6 @@ const CheckIcon: React.FC<React.SVGProps<SVGSVGElement>> = () => (
       clipRule="evenodd"
     />
   </svg>
-  
 );
 
 export default CheckIcon;

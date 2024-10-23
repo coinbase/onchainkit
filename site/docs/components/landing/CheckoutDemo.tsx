@@ -16,7 +16,7 @@ function CheckoutDemo() {
   return (
     <App>
       <Checkout productId="my-product-id">
-        <CheckoutButton coinbaseBranded className="px-6" />
+        <CheckoutButton coinbaseBranded={true} className="px-6" />
       </Checkout>
     </App>
   );

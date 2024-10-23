@@ -1,20 +1,24 @@
-import React, { useState } from 'react';
-import CheckIcon from '../svg/checkSvg.tsx'; 
+import { useState } from 'react';
 import CopyIcon from '../svg/CopySvg.tsx';
+import CheckIcon from '../svg/checkSvg.tsx';
 
+import CheckoutDemo, { checkoutDemoCode } from './CheckoutDemo.tsx';
 // Demo components and code snippets
 import FundDemo, { fundDemoCode } from './FundDemo.tsx';
 import IdentityDemo, { identityDemoCode } from './IdentityDemo.tsx';
 import SwapDemo, { swapDemoCode } from './SwapDemo.tsx';
 import TransactionDemo, { transactionDemoCode } from './TransactionDemo.tsx';
 import WalletDemo, { walletDemoCode } from './WalletDemo.tsx';
-import CheckoutDemo, { checkoutDemoCode } from './CheckoutDemo.tsx';
 
 const components = [
   { name: 'Wallet', component: WalletDemo, code: walletDemoCode },
   { name: 'Swap', component: SwapDemo, code: swapDemoCode },
   { name: 'Checkout', component: CheckoutDemo, code: checkoutDemoCode },
-  { name: 'Transaction', component: TransactionDemo, code: transactionDemoCode },
+  {
+    name: 'Transaction',
+    component: TransactionDemo,
+    code: transactionDemoCode,
+  },
   { name: 'Fund', component: FundDemo, code: fundDemoCode },
   { name: 'Identity', component: IdentityDemo, code: identityDemoCode },
 ];
@@ -22,12 +26,14 @@ const components = [
 function ComponentPreview() {
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
   const [activeTab, setActiveTab] = useState(0);
-  const [activeSubTab, setActiveSubTab] = useState<'preview' | 'code'>('preview');
+  const [activeSubTab, setActiveSubTab] = useState<'preview' | 'code'>(
+    'preview',
+  );
 
   const copyToClipboard = (text: string, index: number) => {
     navigator.clipboard.writeText(text).then(() => {
       setCopiedIndex(index);
-      setTimeout(() => setCopiedIndex(null), 600); 
+      setTimeout(() => setCopiedIndex(null), 600);
     });
   };
 
@@ -99,9 +105,13 @@ function ComponentPreview() {
               >
                 <button
                   type="button"
-                  className="absolute top-1 right-1 rounded-md p-2 hover:bg-zinc-200 dark:hover:bg-zinc-800 hover:border hover:border-zinc-300 dark:hover:border-zinc-700"
-                  onClick={() => copyToClipboard(components[activeTab].code, activeTab)}
-                  title={copiedIndex === activeTab ? "Copied!" : "Copy to clipboard"}
+                  className="absolute top-1 right-1 rounded-md p-2 hover:border hover:border-zinc-300 hover:bg-zinc-200 dark:hover:border-zinc-700 dark:hover:bg-zinc-800"
+                  onClick={() =>
+                    copyToClipboard(components[activeTab].code, activeTab)
+                  }
+                  title={
+                    copiedIndex === activeTab ? 'Copied!' : 'Copy to clipboard'
+                  }
                 >
                   {copiedIndex === activeTab ? (
                     <CheckIcon className="text-green-500 dark:text-green-400" />
@@ -109,7 +119,7 @@ function ComponentPreview() {
                     <CopyIcon className="text-zinc-700 dark:text-zinc-300" />
                   )}
                 </button>
-                <pre className="h-full w-full overflow-auto p-4 text-sm bg-zinc-100 dark:bg-[#0F0F0F]">
+                <pre className="h-full w-full overflow-auto bg-zinc-100 p-4 text-sm dark:bg-[#0F0F0F]">
                   <code>{components[activeTab].code}</code>
                 </pre>
               </div>
