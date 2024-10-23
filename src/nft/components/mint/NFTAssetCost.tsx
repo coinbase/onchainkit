@@ -3,11 +3,11 @@ import { cn, text } from '../../../styles/theme';
 import { formatAmount } from '../../../token/utils/formatAmount';
 import { useNFTContext } from '../NFTProvider';
 
-type NFTCostProps = {
+type NFTAssetCostReact = {
   className?: string;
 };
 
-export function NFTAssetCost({ className }: NFTCostProps) {
+export function NFTAssetCost({ className }: NFTAssetCostReact) {
   const { price, quantity } = useNFTContext();
 
   if (

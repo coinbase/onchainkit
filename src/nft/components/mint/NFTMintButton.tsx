@@ -14,7 +14,7 @@ import { ConnectWallet } from '../../../wallet';
 import { useNFTLifecycleContext } from '../NFTLifecycleProvider';
 import { useNFTContext } from '../NFTProvider';
 
-type NFTMintButtonProps = {
+type NFTMintButtonReact = {
   className?: string;
   label?: string;
 };
@@ -22,7 +22,7 @@ type NFTMintButtonProps = {
 export function NFTMintButton({
   className,
   label = 'Mint',
-}: NFTMintButtonProps) {
+}: NFTMintButtonReact) {
   const chainId = useChainId();
   const { address } = useAccount();
   const {
