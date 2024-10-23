@@ -33,20 +33,31 @@ export type NftLifecycleContextType = {
  * Note: exported as public Type
  */
 export type NftData = {
-  name?: string;
-  description?: string;
-  imageUrl?: string;
-  animationUrl?: string;
-  mimeType?: string;
-  ownerAddress?: `0x${string}`;
-  lastSoldPrice: NftPrice;
-  contractType?: ContractType;
-  mintDate?: Date;
+  name?: string; // required for NFTTitle
+  description?: string; // not currently used
+  imageUrl?: string; // required for NFTMedia
+  animationUrl?: string; // required for NFTMedia (audio and video types)
+  mimeType?: string; // required for NFTMedia (falls back to image)
+  ownerAddress?: `0x${string}`; // required for NFTOwner
+  lastSoldPrice: NftPrice; // required for NFTLastSoldPrice
+  contractType?: ContractType; // not currently used
+  mintDate?: Date; // required for NFTMintDate
+
+  price?: NftPrice; // required for NFTAssetCost, NftTotalCost
+  mintFee?: NftPrice; // required for NFTTotalCost
+  creatorAddress?: Hex; // required for NFTCreator
+  maxMintsPerWallet?: number; // required for NFTMintButton
+  isEligibleToMint?: boolean; // required for NFTMintButton
+  totalOwners?: number; // required for NFTMinters
+  recentOwners?: Address[]; // required for NFTMinters
 };
 
 export type NftContextType = {
   contractAddress: `0x${string}`;
   tokenId?: string;
+  quantity: number;
+  setQuantity: (quantity: string) => void;
+  buildMintTransaction?: BuildMintTransaction;
 } & NftData;
 
 export type NftProviderReact = {
@@ -54,6 +65,7 @@ export type NftProviderReact = {
   contractAddress: `0x${string}`;
   tokenId?: string;
   useNftData: UseNftData;
+  buildMintTransaction?: BuildMintTransaction;
 };
 
 /* Mint Provider */
@@ -64,44 +76,7 @@ export type NftPrice = {
   amountUSD?: number;
 };
 
-/**
- * Note: exported as public Type
- */
-export type NftMintData = {
-  price?: NftPrice;
-  mintFee?: NftPrice;
-  creatorAddress?: Hex;
-  maxMintsPerWallet?: number;
-  isEligibleToMint?: boolean;
-  totalOwners?: number;
-  recentOwners?: Address[];
-  callData?: {
-    data: Hex;
-    to: Hex;
-    value: bigint;
-  }[];
-};
-
-export type NftMintContextType = {
-  quantity: number;
-  setQuantity: (quantity: string) => void;
-  buildMintTransaction: BuildMintTransaction;
-} & NftMintData;
-
-export type NftMintProviderReact = {
-  useNftMintData: UseNftMintData;
-  buildMintTransaction: BuildMintTransaction;
-  children: ReactNode;
-};
-
 type UseNftData = (contractAddress: Hex, tokenId?: string) => NftData;
-
-export type UseNftMintDataProps = {
-  contractAddress: Hex;
-  tokenId?: string;
-  quantity: number;
-};
-export type UseNftMintData = (props: UseNftMintDataProps) => NftMintData;
 
 export type BuildMintTransaction = (
   props: BuildMintTransactionDataProps,
@@ -141,9 +116,8 @@ export type NftMintReact = {
   className?: string; // Optional className override for top div element.
   contractAddress: Hex; // Contract address of the NFT
   tokenId?: string; // Token ID of the NFT only required for ERC1155
-  useNftData: UseNftData; // Optional hook to override the default useNftData hook
-  useNftMintData: UseNftMintData; // Optional hook to override the default useMintData hook
-  buildMintTransaction: BuildMintTransaction; // Function that builds the mint transaction
+  useNftData: UseNftData; // Required hook to supply NFT data
+  buildMintTransaction: BuildMintTransaction; // Required function that builds the mint transaction
   onError?: (error: NftError) => void; // An optional callback function that handles errors within the provider.
   onStatus?: (lifecycleStatus: LifecycleStatus) => void; // An optional callback function that exposes the component lifecycle state
   onSuccess?: (transactionReceipt?: TransactionReceipt) => void; // mint will pass transactionReceipt

@@ -1,4 +1,4 @@
-import { createContext, useContext } from 'react';
+import { createContext, useCallback, useContext, useState } from 'react';
 import { useValue } from '../../internal/hooks/useValue';
 import type { NftContextType, NftProviderReact } from '../types';
 
@@ -21,12 +21,22 @@ export function NftProvider({
   contractAddress,
   tokenId,
   useNftData,
+  buildMintTransaction,
 }: NftProviderReact) {
+  const [quantity, setQuantity] = useState(1);
+
   const nftData = useNftData(contractAddress, tokenId);
+
+  const handleSetQuantity = useCallback((quantity: string) => {
+    setQuantity(Number.parseInt(quantity, 10));
+  }, []);
 
   const value = useValue({
     contractAddress,
     tokenId,
+    quantity,
+    setQuantity: handleSetQuantity,
+    buildMintTransaction,
     ...nftData,
   });
 

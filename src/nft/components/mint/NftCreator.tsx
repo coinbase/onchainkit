@@ -1,7 +1,7 @@
 import { Avatar, Badge, Identity, Name } from '../../../identity';
 import { cn } from '../../../styles/theme';
 import { useOnchainKit } from '../../../useOnchainKit';
-import { useNftMintContext } from '../NftMintProvider';
+import { useNftContext } from '../NftProvider';
 
 type NftCreatorReact = {
   className?: string;
@@ -9,7 +9,7 @@ type NftCreatorReact = {
 
 export function NftCreator({ className }: NftCreatorReact) {
   const { schemaId } = useOnchainKit();
-  const { creatorAddress } = useNftMintContext();
+  const { creatorAddress } = useNftContext();
 
   if (!creatorAddress) {
     return null;

@@ -32,7 +32,7 @@ function useToken(contractAddress: string, tokenId?: string) {
   });
 }
 
-export function useReservoirNftData(contractAddress: string, tokenId: string) {
+export function useReservoirNftData(contractAddress: string, tokenId = '0') {
   const { data: token } = useToken(contractAddress, tokenId);
 
   return {

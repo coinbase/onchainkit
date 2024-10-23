@@ -6,6 +6,5 @@ export type {
   NftMintReact,
   LifecycleStatus,
   NftError,
-  NftMintData,
   NftData,
 } from './types';

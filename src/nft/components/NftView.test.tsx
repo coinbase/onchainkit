@@ -37,9 +37,9 @@ describe('NftView', () => {
       </NftView>,
     );
 
-    expect(getByTestId('ockNftView_Container')).toBeInTheDocument();
+    expect(getByTestId('ockNFT_Container')).toBeInTheDocument();
     expect(getByText('Child Component')).toBeInTheDocument();
-    expect(getByTestId('ockNftView_Container')).toHaveClass('test-class');
+    expect(getByTestId('ockNFT_Container')).toHaveClass('test-class');
   });
 
   it('should not render when not mounted', () => {
@@ -51,7 +51,7 @@ describe('NftView', () => {
       </NftView>,
     );
 
-    expect(queryByTestId('ockNftMint_Container')).not.toBeInTheDocument();
+    expect(queryByTestId('ockNFT_Container')).not.toBeInTheDocument();
   });
 
   it('should pass contractAddress and tokenId to NftProvider', () => {

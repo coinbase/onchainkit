@@ -1,7 +1,7 @@
 import { Avatar, Identity, Name } from '../../../identity';
 import { cn } from '../../../styles/theme';
 import { useOnchainKit } from '../../../useOnchainKit';
-import { useNftMintContext } from '../NftMintProvider';
+import { useNftContext } from '../NftProvider';
 
 type NftMintersReact = {
   className?: string;
@@ -9,7 +9,7 @@ type NftMintersReact = {
 
 export function NftMinters({ className }: NftMintersReact) {
   const { schemaId } = useOnchainKit();
-  const { totalOwners, recentOwners } = useNftMintContext();
+  const { totalOwners, recentOwners } = useNftContext();
 
   if (!recentOwners || recentOwners.length === 0) {
     return null;

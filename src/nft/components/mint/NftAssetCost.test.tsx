@@ -9,16 +9,16 @@ import {
   it,
   vi,
 } from 'vitest';
-import { useNftMintContext } from '../NftMintProvider';
+import { useNftContext } from '../NftProvider';
 import { NftAssetCost } from './NftAssetCost';
 
-vi.mock('../NftMintProvider');
+vi.mock('../NftProvider');
 
 describe('NftAssetCost', () => {
-  const mockUseNftMintContext = useNftMintContext as Mock;
+  const mockUseNftContext = useNftContext as Mock;
 
   beforeEach(() => {
-    mockUseNftMintContext.mockReturnValue({
+    mockUseNftContext.mockReturnValue({
       price: {
         amount: 0.05,
         currency: 'ETH',
@@ -41,7 +41,7 @@ describe('NftAssetCost', () => {
   });
 
   it('should render correctly with a whole number decimal', () => {
-    mockUseNftMintContext.mockReturnValue({
+    mockUseNftContext.mockReturnValue({
       price: {
         amount: 1,
         currency: 'ETH',
@@ -58,7 +58,7 @@ describe('NftAssetCost', () => {
   });
 
   it('should render free if price is 0', () => {
-    mockUseNftMintContext.mockReturnValue({
+    mockUseNftContext.mockReturnValue({
       price: {
         amount: 0,
         currency: 'ETH',
@@ -73,7 +73,7 @@ describe('NftAssetCost', () => {
   });
 
   it('should return null if price amount is not available', () => {
-    mockUseNftMintContext.mockReturnValueOnce({
+    mockUseNftContext.mockReturnValueOnce({
       price: null,
       quantity: 1,
     });

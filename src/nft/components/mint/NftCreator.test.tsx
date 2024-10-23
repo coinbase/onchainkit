@@ -2,14 +2,14 @@ import '@testing-library/jest-dom';
 import { render } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useOnchainKit } from '../../../useOnchainKit';
-import { useNftMintContext } from '../NftMintProvider';
+import { useNftContext } from '../NftProvider';
 import { NftCreator } from './NftCreator';
 
 vi.mock('../../../useOnchainKit', () => ({
   useOnchainKit: vi.fn(),
 }));
-vi.mock('../NftMintProvider', () => ({
-  useNftMintContext: vi.fn(),
+vi.mock('../NftProvider', () => ({
+  useNftContext: vi.fn(),
 }));
 
 vi.mock('../../../identity', async () => ({
@@ -20,11 +20,11 @@ vi.mock('../../../identity', async () => ({
 describe('NftCreator', () => {
   beforeEach(() => {
     (useOnchainKit as Mock).mockReturnValue({ schemaId: 'test-schema-id' });
-    (useNftMintContext as Mock).mockReturnValue({ creatorAddress: '0x123' });
+    (useNftContext as Mock).mockReturnValue({ creatorAddress: '0x123' });
   });
 
   it('should render null when creatorAddress is not provided', () => {
-    (useNftMintContext as Mock).mockReturnValue({ creatorAddress: null });
+    (useNftContext as Mock).mockReturnValue({ creatorAddress: null });
 
     const { container } = render(<NftCreator />);
     expect(container.firstChild).toBeNull();

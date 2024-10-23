@@ -3,7 +3,7 @@ import { infoSvg } from '../../../internal/svg/infoSvg';
 import { background, border, cn, text } from '../../../styles/theme';
 import { formatAmount } from '../../../token/utils/formatAmount';
 import { getPricePerQuantity } from '../../utils/getPricePerQuantity';
-import { useNftMintContext } from '../NftMintProvider';
+import { useNftContext } from '../NftProvider';
 
 type NftTotalCostProps = {
   className?: string;
@@ -15,7 +15,7 @@ export function NftTotalCost({
   label = 'Total cost',
 }: NftTotalCostProps) {
   const [isOverlayVisible, setIsOverlayVisible] = useState(false);
-  const { price, mintFee, quantity } = useNftMintContext();
+  const { price, mintFee, quantity } = useNftContext();
 
   const toggleOverlay = useCallback(() => {
     setIsOverlayVisible((prev) => !prev);

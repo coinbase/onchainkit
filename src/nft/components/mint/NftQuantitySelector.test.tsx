@@ -10,10 +10,10 @@ import {
   it,
   vi,
 } from 'vitest';
-import { useNftMintContext } from '../NftMintProvider';
+import { useNftContext } from '../NftProvider';
 import { NftQuantitySelector } from './NftQuantitySelector';
 
-vi.mock('../NftMintProvider');
+vi.mock('../NftProvider');
 
 vi.mock('../../../internal/components/QuantitySelector', () => ({
   QuantitySelector: ({
@@ -36,10 +36,10 @@ vi.mock('../../../internal/components/QuantitySelector', () => ({
 
 describe('NftQuantitySelector', () => {
   const setQuantityMock = vi.fn();
-  const useNftMintContextMock = useNftMintContext as Mock;
+  const useNftContextMock = useNftContext as Mock;
 
   beforeEach(() => {
-    useNftMintContextMock.mockReturnValue({
+    useNftContextMock.mockReturnValue({
       maxMintsPerWallet: 5,
       setQuantity: setQuantityMock,
     });
@@ -55,7 +55,7 @@ describe('NftQuantitySelector', () => {
   });
 
   it('should not render when maxMintsPerWallet is 1', () => {
-    useNftMintContextMock.mockReturnValueOnce({ maxMintsPerWallet: 1 });
+    useNftContextMock.mockReturnValueOnce({ maxMintsPerWallet: 1 });
     const { container } = render(<NftQuantitySelector />);
     expect(container.firstChild).toBeNull();
   });
@@ -85,7 +85,7 @@ describe('NftQuantitySelector', () => {
   });
 
   it('should set maxQuantity to undefined when maxMintsPerWallet is undefined', () => {
-    useNftMintContextMock.mockReturnValueOnce({ maxMintsPerWallet: undefined });
+    useNftContextMock.mockReturnValueOnce({ maxMintsPerWallet: undefined });
     const { getByRole } = render(<NftQuantitySelector />);
     const input = getByRole('textbox') as HTMLInputElement;
     expect(input).not.toHaveAttribute('data-maxquantity');

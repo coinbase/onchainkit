@@ -12,12 +12,10 @@ import {
 } from 'wagmi';
 import { mock } from 'wagmi/connectors';
 import { useNftLifecycleContext } from '../NftLifecycleProvider';
-import { useNftMintContext } from '../NftMintProvider';
 import { useNftContext } from '../NftProvider';
 import { NftMintButton } from './NftMintButton';
 
 vi.mock('../NftProvider');
-vi.mock('../NftMintProvider');
 vi.mock('../NftLifecycleProvider');
 vi.mock('wagmi', async (importOriginal) => {
   return {
@@ -112,16 +110,11 @@ describe('NftMintButton', () => {
     (useNftContext as Mock).mockReturnValue({
       contractAddress: '0x123',
       tokenId: '1',
-    });
-    (useNftMintContext as Mock).mockReturnValue({
       quantity: 1,
-      network: 'testnet',
       isEligibleToMint: true,
-      callData: {
-        to: '0x123',
-        data: '0x456',
-        value: '0',
-      },
+      buildMintTransaction: vi
+        .fn()
+        .mockResolvedValue({ to: '0x123', data: '0x123', value: BigInt(2) }),
     });
     mockUpdateLifecycleStatus = vi.fn();
     (useNftLifecycleContext as Mock).mockReturnValue({
@@ -215,9 +208,30 @@ describe('NftMintButton', () => {
     expect(getByText('ConnectWallet')).toBeInTheDocument();
   });
 
+  it('should not render when buildMintTransaction is undefined', () => {
+    (useNftContext as Mock).mockReturnValue({
+      contractAddress: '0x123',
+      tokenId: '1',
+      quantity: 1,
+      isEligibleToMint: true,
+    });
+    const { container } = render(
+      <TestProviders>
+        <NftMintButton />
+      </TestProviders>,
+    );
+    expect(container.firstChild).toBeNull();
+  });
+
   it('should show mint ended when isEligibleToMint is false', () => {
-    (useNftMintContext as Mock).mockReturnValueOnce({
+    (useNftContext as Mock).mockReturnValueOnce({
+      contractAddress: '0x123',
+      tokenId: '1',
+      quantity: 1,
       isEligibleToMint: false,
+      buildMintTransaction: vi
+        .fn()
+        .mockResolvedValue({ to: '0x123', data: '0x123', value: BigInt(2) }),
     });
     const { getByText } = render(
       <TestProviders>
@@ -229,7 +243,9 @@ describe('NftMintButton', () => {
 
   it('calls buildMintTransaction when button is clicked', async () => {
     const buildMintTransactionMock = vi.fn().mockResolvedValue([]);
-    (useNftMintContext as Mock).mockReturnValueOnce({
+    (useNftContext as Mock).mockReturnValueOnce({
+      contractAddress: '0x123',
+      tokenId: '1',
       isEligibleToMint: true,
       buildMintTransaction: buildMintTransactionMock,
       quantity: 1,

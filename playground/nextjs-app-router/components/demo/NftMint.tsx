@@ -1,6 +1,5 @@
 import { buildMintTransaction } from '@/lib/buildMintTransaction';
 import { useReservoirMintData } from '@/lib/useReservoirMintData';
-import { useReservoirNftData } from '@/lib/useReservoirNftData';
 import {
   type LifecycleStatus,
   type NftError,
@@ -57,8 +56,7 @@ function NftMintDemo() {
     <NftMint
       contractAddress={contractAddress}
       tokenId={tokenId}
-      useNftData={useReservoirNftData}
-      useNftMintData={useReservoirMintData}
+      useNftData={useReservoirMintData}
       buildMintTransaction={buildMintTransaction}
       onStatus={handleOnStatus}
       onSuccess={handleOnSuccess}

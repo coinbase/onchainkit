@@ -1,14 +1,14 @@
 import { cn, text } from '../../../styles/theme';
 import { formatAmount } from '../../../token/utils/formatAmount';
 import { getPricePerQuantity } from '../../utils/getPricePerQuantity';
-import { useNftMintContext } from '../NftMintProvider';
+import { useNftContext } from '../NftProvider';
 
 type NftCostProps = {
   className?: string;
 };
 
 export function NftAssetCost({ className }: NftCostProps) {
-  const { price, quantity } = useNftMintContext();
+  const { price, quantity } = useNftContext();
 
   if (
     price?.amount === undefined ||

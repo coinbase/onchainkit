@@ -1,13 +1,13 @@
 import { QuantitySelector } from '../../../internal/components/QuantitySelector';
 import { cn } from '../../../styles/theme';
-import { useNftMintContext } from '../NftMintProvider';
+import { useNftContext } from '../NftProvider';
 
 type NftQuantitySelectorReact = {
   className?: string;
 };
 
 export function NftQuantitySelector({ className }: NftQuantitySelectorReact) {
-  const { maxMintsPerWallet, setQuantity } = useNftMintContext();
+  const { maxMintsPerWallet, setQuantity } = useNftContext();
 
   // if max is 1, no need to show quantity selector
   if (maxMintsPerWallet === 1) {

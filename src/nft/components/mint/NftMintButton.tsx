@@ -12,7 +12,6 @@ import {
 } from '../../../transaction';
 import { ConnectWallet } from '../../../wallet';
 import { useNftLifecycleContext } from '../NftLifecycleProvider';
-import { useNftMintContext } from '../NftMintProvider';
 import { useNftContext } from '../NftProvider';
 
 type NftMintButtonProps = {
@@ -26,9 +25,13 @@ export function NftMintButton({
 }: NftMintButtonProps) {
   const chainId = useChainId();
   const { address } = useAccount();
-  const { contractAddress, tokenId } = useNftContext();
-  const { isEligibleToMint, buildMintTransaction, quantity } =
-    useNftMintContext();
+  const {
+    contractAddress,
+    tokenId,
+    isEligibleToMint,
+    buildMintTransaction,
+    quantity,
+  } = useNftContext();
   const { updateLifecycleStatus } = useNftLifecycleContext();
 
   const handleOnStatus = useCallback(
@@ -55,6 +58,10 @@ export function NftMintButton({
 
     return label;
   }, [isEligibleToMint, label]);
+
+  if (!buildMintTransaction) {
+    return null;
+  }
 
   if (!address) {
     return (
