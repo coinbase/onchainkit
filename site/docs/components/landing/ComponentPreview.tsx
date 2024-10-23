@@ -2,8 +2,8 @@ import { useState } from 'react';
 import CopyIcon from '../svg/CopySvg.tsx';
 import CheckIcon from '../svg/checkSvg.tsx';
 
-import CheckoutDemo, { checkoutDemoCode } from './CheckoutDemo.tsx';
 // Demo components and code snippets
+import CheckoutDemo, { checkoutDemoCode } from './CheckoutDemo.tsx';
 import FundDemo, { fundDemoCode } from './FundDemo.tsx';
 import IdentityDemo, { identityDemoCode } from './IdentityDemo.tsx';
 import SwapDemo, { swapDemoCode } from './SwapDemo.tsx';
