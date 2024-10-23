@@ -43,8 +43,8 @@ const Tweets: React.FC = () => {
 
   return (
     <section className="w-full py-12 md:py-24">
-      <div className="mb-8 px-4 text-center md:mb-12">
-        <h3 className="mx-auto font-medium text-2xl text-gray-950 md:text-3xl dark:text-gray-50">
+      <div className="mb-8 px-4 text-center md:mb-8">
+        <h3 className="font-medium text-2xl text-gray-950 md:text-3xl dark:text-gray-50">
           Builders ship faster with OnchainKit
         </h3>
       </div>
