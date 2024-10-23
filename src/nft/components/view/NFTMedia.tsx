@@ -1,5 +1,5 @@
 import { useCallback, useMemo } from 'react';
-import { LifecycleType, type NFTError } from '../../types';
+import { LifecycleType, MediaType, type NFTError } from '../../types';
 import { useNFTLifecycleContext } from '../NFTLifecycleProvider';
 import { useNFTContext } from '../NFTProvider';
 import { NFTAudio } from './NFTAudio';
@@ -10,17 +10,30 @@ export function NFTMedia() {
   const { mimeType } = useNFTContext();
   const { type, updateLifecycleStatus } = useNFTLifecycleContext();
 
+  const mediaType = useMemo(() => {
+    if (mimeType?.startsWith('video')) {
+      return MediaType.Video;
+    }
+    if (mimeType?.startsWith('audio') || mimeType?.startsWith('application')) {
+      return MediaType.Audio;
+    }
+    if (mimeType?.startsWith('image')) {
+      return MediaType.Image;
+    }
+    return MediaType.Unknown;
+  }, [mimeType]);
+
   const handleLoading = useCallback(
     (mediaUrl: string) => {
       updateLifecycleStatus({
         statusName: 'mediaLoading',
         statusData: {
-          mimeType,
+          mediaType,
           mediaUrl,
         },
       });
     },
-    [mimeType, updateLifecycleStatus],
+    [mediaType, updateLifecycleStatus],
   );
 
   const handleLoaded = useCallback(() => {
@@ -40,41 +53,32 @@ export function NFTMedia() {
     [updateLifecycleStatus],
   );
 
-  const mediaType = useMemo(() => {
-    return {
-      isVideo: mimeType?.startsWith('video'),
-      isAudio:
-        mimeType?.startsWith('audio') || mimeType?.startsWith('application'),
-      isImage: mimeType?.startsWith('image'),
-    };
-  }, [mimeType]);
-
-  if (mediaType.isVideo) {
-    return (
-      <NFTVideo
-        onLoading={handleLoading}
-        onLoaded={handleLoaded}
-        onError={handleError}
-      />
-    );
-  }
-
-  if (mediaType.isAudio) {
-    return (
-      <div className="relative w-full">
-        <NFTImage />
-        <div className="absolute bottom-[20px] mx-auto w-full">
-          <NFTAudio />
+  switch (mediaType) {
+    case MediaType.Video:
+      return (
+        <NFTVideo
+          onLoading={handleLoading}
+          onLoaded={handleLoaded}
+          onError={handleError}
+        />
+      );
+    case MediaType.Audio:
+      return (
+        <div className="relative w-full">
+          <NFTImage />
+          <div className="absolute bottom-[20px] mx-auto w-full">
+            <NFTAudio />
+          </div>
         </div>
-      </div>
-    );
+      );
+    default:
+      // fallback to image
+      return (
+        <NFTImage
+          onLoading={handleLoading}
+          onLoaded={handleLoaded}
+          onError={handleError}
+        />
+      );
   }
-
-  return (
-    <NFTImage
-      onLoading={handleLoading}
-      onLoaded={handleLoaded}
-      onError={handleError}
-    />
-  );
 }
