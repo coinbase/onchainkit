@@ -1,7 +1,5 @@
-import { background, border, cn, color } from '../../styles/theme';
-import { useIsMounted } from '../../useIsMounted';
-import { useTheme } from '../../useTheme';
 import { LifecycleType, type NftMintReact } from '../types';
+import { NFT } from './NFT';
 import { NftLifecycleProvider } from './NftLifecycleProvider';
 import { NftMintProvider } from './NftMintProvider';
 import { NftProvider } from './NftProvider';
@@ -18,15 +16,6 @@ export function NftMint({
   onError,
   onSuccess,
 }: NftMintReact) {
-  const componentTheme = useTheme();
-
-  const isMounted = useIsMounted();
-
-  // prevents SSR hydration issue
-  if (!isMounted) {
-    return null;
-  }
-
   return (
     <NftLifecycleProvider
       type={LifecycleType.MINT}
@@ -43,20 +32,7 @@ export function NftMint({
           useNftMintData={useNftMintData}
           buildMintTransaction={buildMintTransaction}
         >
-          <div
-            className={cn(
-              componentTheme,
-              color.foreground,
-              background.default,
-              border.defaultActive,
-              border.radius,
-              'flex w-full max-w-[500px] flex-col border px-6 py-4',
-              className,
-            )}
-            data-testid="ockNftMint_Container"
-          >
-            {children}
-          </div>
+          <NFT className={className}>{children}</NFT>
         </NftMintProvider>
       </NftProvider>
     </NftLifecycleProvider>

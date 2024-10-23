@@ -114,6 +114,11 @@ export type BuildMintTransactionDataProps = {
   quantity: number;
 };
 
+export type NFTReact = {
+  children: ReactNode;
+  className?: string;
+};
+
 /**
  * Note: exported as public Type
  */
@@ -121,7 +126,7 @@ export type NftViewReact = {
   children: React.ReactNode;
   className?: string;
   contractAddress: Hex;
-  tokenId?: string;
+  tokenId: string;
   useNftData: UseNftData; // Optional hook to override the default useNftData hook
   onError?: (error: NftError) => void; // An optional callback function that handles errors within the provider.
   onStatus?: (lifecycleStatus: LifecycleStatus) => void; // An optional callback function that exposes the component lifecycle state
