@@ -120,7 +120,7 @@ function PreviewContainer({
   const ActiveComponent = components[activeTab].component;
 
   return (
-    <div className="w-full rounded-lg border-[1px] border-zinc-200 lg:w-[800px] lg:flex-shrink-0 dark:border-zinc-900">
+    <div className="w-full rounded-lg border border-zinc-200 lg:w-[800px] lg:flex-shrink-0 dark:border-zinc-900">
       <div className="relative h-[400px] w-full overflow-hidden rounded-lg bg-zinc-100 lg:h-[600px] dark:bg-[#0F0F0F]">
         <div className="flex items-center justify-between border-zinc-200 border-b dark:border-zinc-900">
           <div className="flex">
