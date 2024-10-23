@@ -5,12 +5,14 @@ const FooterColumn = ({
   links,
 }: { title: string; links: { text: string; href: string }[] }) => (
   <div className="flex flex-col space-y-2">
-    <h3 className="font-semibold text-gray-200">{title}</h3>
-    {links.map((link, index) => (
+    <h3 className="pb-2 font-semibold text-zinc-950 dark:text-zinc-50">
+      {title}
+    </h3>
+    {links.map((link) => (
       <a
-        key={index}
+        key={link.href}
         href={link.href}
-        className="text-gray-400 hover:text-gray-200"
+        className="className='text-base text-zinc-600 hover:text-zinc-800 dark:text-zinc-400 dark:hover:text-zinc-200"
       >
         {link.text}
       </a>
@@ -108,7 +110,7 @@ const LandingFooter: React.FC = () => {
           <div className="mb-8 grid w-full grid-cols-2 gap-8 md:mb-0 md:flex md:w-auto md:gap-24">
             {footerData.map((column, index) => (
               <FooterColumn
-                key={index}
+                key={`${column.title}-${index}`}
                 title={column.title}
                 links={column.links}
               />
