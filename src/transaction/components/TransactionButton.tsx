@@ -11,9 +11,10 @@ import { useTransactionContext } from './TransactionProvider';
 export function TransactionButton({
   className,
   disabled = false,
-  text: buttonText = 'Transact',
+  text: idleText = 'Transact',
   errorOverride,
   successOverride,
+  pendingOverride,
 }: TransactionButtonReact) {
   const {
     chainId,
@@ -23,6 +24,7 @@ export function TransactionButton({
     onSubmit,
     receipt,
     transactions,
+    transactionCount,
     transactionHash,
     transactionId,
   } = useTransactionContext();
@@ -32,10 +34,17 @@ export function TransactionButton({
   const accountChainId = chainId ?? useChainId();
   const { showCallsStatus } = useShowCallsStatus();
 
+  const isLegacyTransactionInProgress =
+    lifecycleStatus.statusName === 'transactionLegacyExecuted' &&
+    transactionCount !==
+      lifecycleStatus?.statusData?.transactionHashList?.length;
+
   const isInProgress =
     lifecycleStatus.statusName === 'buildingTransaction' ||
     lifecycleStatus.statusName === 'transactionPending' ||
+    isLegacyTransactionInProgress ||
     isLoading;
+
   const isMissingProps = !transactions || !address;
   const isWaitingForReceipt = !!transactionId || !!transactionHash;
 
@@ -43,24 +52,25 @@ export function TransactionButton({
     !receipt &&
     (isInProgress || isMissingProps || isWaitingForReceipt || disabled);
 
-  const displaySpinner = isSpinnerDisplayed({
+  const displayPendingState = isSpinnerDisplayed({
     errorMessage,
     hasReceipt: !!receipt,
-    isLoading,
-    lifecycleStatus,
+    isInProgress,
     transactionHash,
     transactionId,
   });
 
-  const { errorText, successText } = useMemo(() => {
+  const { errorText, successText, pendingText } = useMemo(() => {
     const successText = successOverride?.text
       ? successOverride?.text
       : 'View transaction';
 
     const errorText = errorOverride?.text ? errorOverride?.text : 'Try again';
 
-    return { successText, errorText };
-  }, [errorOverride, successOverride]);
+    const pendingText = pendingOverride?.text;
+
+    return { successText, errorText, pendingText };
+  }, [errorOverride, pendingOverride, successOverride]);
 
   const successHandler = useCallback(() => {
     if (successOverride?.onClick && receipt) {
@@ -94,7 +104,7 @@ export function TransactionButton({
     return onSubmit();
   }, [errorOverride, onSubmit]);
 
-  const buttonContent = useMemo(() => {
+  const buttonText = useMemo(() => {
     // txn successful
     if (receipt) {
       return successText;
@@ -102,15 +112,24 @@ export function TransactionButton({
     if (errorMessage) {
       return errorText;
     }
-    return buttonText;
-  }, [errorText, buttonText, successText, errorMessage, receipt]);
+    if (displayPendingState) {
+      return pendingText;
+    }
+    return idleText;
+  }, [
+    errorText,
+    idleText,
+    displayPendingState,
+    successText,
+    errorMessage,
+    receipt,
+  ]);
 
   const handleSubmit = useCallback(() => {
     if (receipt) {
       successHandler();
     } else if (errorMessage) {
       errorHandler();
-      // if no receipt or error, submit txn
     } else {
       onSubmit();
     }
@@ -132,13 +151,13 @@ export function TransactionButton({
       disabled={isDisabled}
       data-testid="ockTransactionButton_Button"
     >
-      {displaySpinner ? (
+      {displayPendingState && !pendingText ? (
         <Spinner />
       ) : (
         <span
           className={cn(text.headline, color.inverse, 'flex justify-center')}
         >
-          {buttonContent}
+          {buttonText}
         </span>
       )}
     </button>
