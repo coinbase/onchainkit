@@ -89,7 +89,7 @@ describe('CheckoutButton', () => {
   });
 
   it('should render custom text when provided', () => {
-    render(<CheckoutButton text="Custom Text" />);
+    render(<CheckoutButton label={<>Custom Text</>}></CheckoutButton>);
     expect(screen.getByRole('button').textContent).toBe('Custom Text');
   });
 
