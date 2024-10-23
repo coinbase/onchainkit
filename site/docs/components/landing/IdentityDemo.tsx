@@ -8,7 +8,13 @@ import {
 import App from '../App.tsx';
 
 export const identityDemoCode = `
-  import { Avatar, Identity, Name, Badge, Address } from '@coinbase/onchainkit/identity';
+  import { 
+    Avatar, 
+    Identity, 
+    Name, 
+    Badge, 
+    Address 
+  } from '@coinbase/onchainkit/identity';
  
   <Identity
     address="0x838aD0EAE54F99F1926dA7C3b6bFbF617389B4D9"

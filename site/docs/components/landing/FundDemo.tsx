@@ -2,7 +2,10 @@ import { FundButton } from '@coinbase/onchainkit/fund';
 import App from '../App.tsx';
 
 export const fundDemoCode = `
-  import { FundButton, getOnrampBuyUrl } from '@coinbase/onchainkit/fund';
+  import { 
+    FundButton, 
+    getOnrampBuyUrl 
+  } from '@coinbase/onchainkit/fund';
   import { useAccount } from 'wagmi';
   
   const projectId = 'YOUR_CDP_PROJECT_ID';
