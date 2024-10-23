@@ -17,11 +17,11 @@ export function CheckoutButton({
   coinbaseBranded,
   disabled,
   icon,
-  text = 'Pay',
+  label = 'Pay',
 }: CheckoutButtonReact) {
   if (coinbaseBranded) {
     icon = 'coinbasePay';
-    text = 'Pay with Crypto';
+    label = 'Pay with Crypto';
   }
   const { lifecycleStatus, onSubmit } = useCheckoutContext();
   const iconSvg = useIcon({ icon });
@@ -41,9 +41,9 @@ export function CheckoutButton({
     ) {
       return 'Get USDC';
     }
-    return text;
-  }, [lifecycleStatus?.statusName, lifecycleStatus?.statusData, text]);
-  const shouldRenderIcon = buttonText === text && iconSvg;
+    return label;
+  }, [lifecycleStatus?.statusName, lifecycleStatus?.statusData, label]);
+  const shouldRenderIcon = buttonText === label && iconSvg;
 
   return (
     <button

@@ -104,6 +104,7 @@ export type CheckoutButtonReact = {
   coinbaseBranded?: boolean;
   disabled?: boolean;
   icon?: React.ReactNode;
+  label?: React.ReactNode;
   text?: string;
 };
 
