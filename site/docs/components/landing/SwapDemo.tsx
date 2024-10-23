@@ -54,43 +54,45 @@ export const swapDemoCode = `
 
 function SwapDemo() {
   return (
-    <App>
-      <SwapWrapper>
-        {({ address, swappableTokens }) => {
-          if (address) {
+    <div className="w-full max-w-[360px] mx-auto flex flex-col items-center justify-center">
+      <App>
+        <SwapWrapper>
+          {({ address, swappableTokens }) => {
+            if (address) {
+              return (
+                <Swap>
+                  <SwapAmountInput
+                    label="Sell"
+                    swappableTokens={swappableTokens}
+                    token={swappableTokens[1]}
+                    type="from"
+                  />
+                  <SwapToggleButton />
+                  <SwapAmountInput
+                    label="Buy"
+                    swappableTokens={swappableTokens}
+                    token={swappableTokens[2]}
+                    type="to"
+                  />
+                  <SwapButton disabled={true} />
+                  <SwapMessage />
+                </Swap>
+              );
+            }
             return (
-              <Swap>
-                <SwapAmountInput
-                  label="Sell"
-                  swappableTokens={swappableTokens}
-                  token={swappableTokens[1]}
-                  type="from"
-                />
-                <SwapToggleButton />
-                <SwapAmountInput
-                  label="Buy"
-                  swappableTokens={swappableTokens}
-                  token={swappableTokens[2]}
-                  type="to"
-                />
-                <SwapButton disabled={true} />
-                <SwapMessage />
-              </Swap>
+              <>
+                <Wallet>
+                  <ConnectWallet>
+                    <Avatar className="h-6 w-6" />
+                    <Name />
+                  </ConnectWallet>
+                </Wallet>
+              </>
             );
-          }
-          return (
-            <>
-              <Wallet>
-                <ConnectWallet>
-                  <Avatar className="h-6 w-6" />
-                  <Name />
-                </ConnectWallet>
-              </Wallet>
-            </>
-          );
-        }}
-      </SwapWrapper>
-    </App>
+          }}
+        </SwapWrapper>
+      </App>
+    </div>
   );
 }
 
