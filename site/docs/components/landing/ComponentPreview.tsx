@@ -46,19 +46,19 @@ function ComponentPreview() {
           <h3 className="pb-4 font-medium text-3xl text-zinc-900 dark:text-zinc-100">
             Ready-to-use components
           </h3>
-          <p className="pb-6 text-base text-zinc-700 lg:text-lg dark:text-zinc-500">
+          <p className="pb-6 text-lg text-zinc-700 dark:text-zinc-500">
             Accelerate your time-to-market with prebuilt components.
           </p>
-          <div className="flex flex-row space-x-2 overflow-x-auto lg:flex-col lg:space-x-0 lg:space-y-2 lg:overflow-x-visible">
+          <div className="flex overflow-x-auto lg:flex-col lg:overflow-x-visible">
             {components.map((comp, index) => (
               <button
                 type="button"
                 key={comp.name}
-                className={`mt-2 whitespace-nowrap px-3 py-2 text-left text-base lg:whitespace-normal lg:text-lg ${
+                className={`flex-shrink-0 px-3 py-2 text-left text-base lg:text-lg ${
                   activeTab === index
                     ? 'rounded-lg bg-zinc-100 font-semibold text-indigo-600 dark:bg-[#0F0F0F] dark:text-indigo-400'
                     : 'text-zinc-700 hover:rounded-lg hover:bg-zinc-100 dark:text-zinc-300 dark:hover:bg-[#0F0F0F]'
-                }`}
+                } mr-2 lg:mr-0 lg:mb-2`}
                 onClick={() => setActiveTab(index)}
               >
                 {comp.name}
@@ -68,7 +68,7 @@ function ComponentPreview() {
         </div>
         <div className="w-full rounded-lg border-[1px] border-zinc-200 lg:w-[800px] lg:flex-shrink-0 dark:border-zinc-900">
           <div className="relative h-[400px] w-full overflow-hidden rounded-lg bg-zinc-100 lg:h-[600px] dark:bg-[#0F0F0F]">
-            <div className="flex border-zinc-200 border-b dark:border-zinc-900">
+            <div className="flex overflow-x-auto border-zinc-200 border-b dark:border-zinc-900">
               <button
                 type="button"
                 className={`mt-2 ml-2 px-4 py-2 text-sm ${
@@ -92,20 +92,20 @@ function ComponentPreview() {
                 Code
               </button>
             </div>
-            <div className="h-[calc(100%-40px)] overflow-auto">
+            <div className="h-[calc(100%-40px)] overflow-auto px-4">
               <div
-                className={`${activeSubTab === 'preview' ? 'flex' : 'hidden'} h-full items-center justify-center p-4`}
+                className={`${activeSubTab === 'preview' ? 'flex' : 'hidden'} h-full items-center justify-center py-4`}
               >
                 <div className="flex h-full w-full items-center justify-center overflow-auto">
                   <ActiveComponent />
                 </div>
               </div>
               <div
-                className={`${activeSubTab === 'code' ? 'block' : 'hidden'} h-full`}
+                className={`${activeSubTab === 'code' ? 'block' : 'hidden'} relative h-full`}
               >
                 <button
                   type="button"
-                  className="absolute top-1 right-1 rounded-md p-2 hover:border hover:border-zinc-300 hover:bg-zinc-200 dark:hover:border-zinc-700 dark:hover:bg-zinc-800"
+                  className="absolute top-1 right-1 rounded-md p-2 hover:border hover:border-zinc-300 dark:hover:border-zinc-700"
                   onClick={() =>
                     copyToClipboard(components[activeTab].code, activeTab)
                   }
@@ -119,7 +119,7 @@ function ComponentPreview() {
                     <CopyIcon className="text-zinc-700 dark:text-zinc-300" />
                   )}
                 </button>
-                <pre className="h-full w-full overflow-auto bg-zinc-100 p-4 text-sm dark:bg-[#0F0F0F]">
+                <pre className="h-full w-full overflow-auto bg-zinc-100 py-4 text-sm dark:bg-[#0F0F0F]">
                   <code>{components[activeTab].code}</code>
                 </pre>
               </div>

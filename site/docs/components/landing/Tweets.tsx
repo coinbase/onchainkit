@@ -7,7 +7,7 @@ interface TweetCardProps {
 }
 
 const TweetCard: React.FC<TweetCardProps> = ({ children, className }) => (
-  <div className={`w-[400px] flex-shrink-0 ${className || ''}`}>
+  <div className={`w-full flex-shrink-0 md:w-[400px] ${className || ''}`}>
     <blockquote className="twitter-tweet" data-dnt="true" data-theme="light">
       {children}
     </blockquote>
@@ -42,15 +42,15 @@ const Tweets: React.FC = () => {
   }
 
   return (
-    <section className="w-full py-24">
-      <div className="mb-12 text-center">
-        <h3 className="mx-auto font-medium text-3xl text-gray-950 dark:text-gray-50">
+    <section className="w-full py-12 md:py-24">
+      <div className="mb-8 px-4 text-center md:mb-12">
+        <h3 className="mx-auto font-medium text-2xl text-gray-950 md:text-3xl dark:text-gray-50">
           Builders ship faster with OnchainKit
         </h3>
       </div>
-      <div className="relative overflow-hidden">
-        <div className="flex items-start space-x-8">
-          <TweetCard className="tweet1">
+      <div className="relative w-full">
+        <div className="flex flex-col gap-8 md:snap-x md:snap-mandatory md:flex-row md:gap-4 md:overflow-x-auto">
+          <TweetCard className="tweet1 md:snap-center">
             <p lang="en" dir="ltr">
               🟣 Excited to announce that Basenames are now integrated into the
               Fit Club app! <br />
@@ -70,7 +70,7 @@ const Tweets: React.FC = () => {
               August 23, 2024
             </a>
           </TweetCard>
-          <TweetCard className="tweet2">
+          <TweetCard className="tweet2 md:snap-center">
             <p lang="en" dir="ltr">
               Building with
               <a href="https://twitter.com/OnchainKit?ref_src=twsrc%5Etfw">
@@ -92,7 +92,7 @@ const Tweets: React.FC = () => {
               October 4, 2024
             </a>
           </TweetCard>
-          <TweetCard className="tweet3">
+          <TweetCard className="tweet3 md:snap-center">
             <p lang="en" dir="ltr">
               Swap is now live on our website! Feels good to be based, thanks
               guys 💙{' '}
