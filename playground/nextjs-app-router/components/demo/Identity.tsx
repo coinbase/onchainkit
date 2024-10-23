@@ -1,12 +1,12 @@
 import {
+  Address,
   Avatar,
+  Badge,
   Identity,
   Name,
   useAddress,
   useAvatar,
   useName,
-  Badge,
-  Address,
 } from '@coinbase/onchainkit/identity';
 import { useEffect } from 'react';
 import { base } from 'viem/chains';
@@ -52,7 +52,7 @@ export default function IdentityDemo() {
               <div className="flex items-center space-x-4">
                 <Identity address={address}>
                   <Avatar />
-                  <Name >
+                  <Name>
                     <Badge />
                   </Name>
                   <Address />
