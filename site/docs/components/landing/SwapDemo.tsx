@@ -1,14 +1,14 @@
 import { Avatar, Name } from '@coinbase/onchainkit/identity';
-import { 
-  Swap, 
-  SwapAmountInput, 
-  SwapToggleButton, 
-  SwapButton, 
-  SwapMessage, 
-} from '@coinbase/onchainkit/swap'; 
-import { Wallet, ConnectWallet } from '@coinbase/onchainkit/wallet';
-import SwapWrapper from '../SwapWrapper.tsx';
+import {
+  Swap,
+  SwapAmountInput,
+  SwapButton,
+  SwapMessage,
+  SwapToggleButton,
+} from '@coinbase/onchainkit/swap';
+import { ConnectWallet, Wallet } from '@coinbase/onchainkit/wallet';
 import App from '../App.tsx';
+import SwapWrapper from '../SwapWrapper.tsx';
 
 export const swapDemoCode = `
   import { Avatar, Name } from '@coinbase/onchainkit/identity';
@@ -52,46 +52,48 @@ export const swapDemoCode = `
     to={swappableToTokens}
   /> 
   ); 
-  `
+  `;
 
 function SwapDemo() {
   return (
     <App>
-  <SwapWrapper>
-    {({ address, swappableTokens }) => {
-      if (address) {
-        return (
-          <Swap>
-            <SwapAmountInput
-              label="Sell"
-              swappableTokens={swappableTokens}
-              token={swappableTokens[1]}
-              type="from"
-            />
-            <SwapToggleButton />
-            <SwapAmountInput
-              label="Buy"
-              swappableTokens={swappableTokens}
-              token={swappableTokens[2]}
-              type="to"
-            />
-            <SwapButton disabled />
-            <SwapMessage />
-          </Swap>
-        )
-      }
-      return <>
-        <Wallet>
-          <ConnectWallet>
-            <Avatar className="h-6 w-6" />
-            <Name />
-          </ConnectWallet>
-        </Wallet>
-      </>;
-    }}
-  </SwapWrapper>
-</App>
-  )
-  }
+      <SwapWrapper>
+        {({ address, swappableTokens }) => {
+          if (address) {
+            return (
+              <Swap>
+                <SwapAmountInput
+                  label="Sell"
+                  swappableTokens={swappableTokens}
+                  token={swappableTokens[1]}
+                  type="from"
+                />
+                <SwapToggleButton />
+                <SwapAmountInput
+                  label="Buy"
+                  swappableTokens={swappableTokens}
+                  token={swappableTokens[2]}
+                  type="to"
+                />
+                <SwapButton disabled={true} />
+                <SwapMessage />
+              </Swap>
+            );
+          }
+          return (
+            <>
+              <Wallet>
+                <ConnectWallet>
+                  <Avatar className="h-6 w-6" />
+                  <Name />
+                </ConnectWallet>
+              </Wallet>
+            </>
+          );
+        }}
+      </SwapWrapper>
+    </App>
+  );
+}
 
 export default SwapDemo;

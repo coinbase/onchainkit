@@ -17,14 +17,14 @@ export const fundDemoCode = `
   });
 
   <FundButton fundingUrl={onrampBuyUrl} />
-`
+`;
 
 function FundDemo() {
-    return (
-        <App>
-            <FundButton />
-        </App>
-    )
+  return (
+    <App>
+      <FundButton />
+    </App>
+  );
 }
 
 export default FundDemo;

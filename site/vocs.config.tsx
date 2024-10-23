@@ -115,7 +115,7 @@ export default defineConfig({
   topNav: [
     { text: 'Docs', link: '/getting-started', match: '/docs' },
     {
-      text: 'Template',
+      text: 'ATemplate',
       link: 'https://github.com/coinbase/onchain-app-template',
     },
     {
