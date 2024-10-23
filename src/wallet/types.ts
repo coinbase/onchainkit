@@ -17,7 +17,7 @@ export type ConnectButtonReact = {
 export type ConnectWalletReact = {
   children?: React.ReactNode; // Children can be utilized to display customized content when the wallet is connected.
   className?: string; // Optional className override for button element
-  /** @deprecated Prefer `ConnectWalletTexxt component` */
+  /** @deprecated Prefer `ConnectWalletText component` */
   text?: string; // Optional text override for button
   withWalletAggregator?: boolean; // Optional flag to enable the wallet aggregator like RainbowKit
 };

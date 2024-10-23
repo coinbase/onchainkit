@@ -1,4 +1,4 @@
-import { ConnectButton as ConnectButtonRainboKit } from '@rainbow-me/rainbowkit';
+import { ConnectButton as ConnectButtonRainbowKit } from '@rainbow-me/rainbowkit';
 import { Children, isValidElement, useCallback, useMemo } from 'react';
 import type { ReactNode } from 'react';
 import { useAccount, useConnect } from 'wagmi';
@@ -20,7 +20,7 @@ import { useWalletContext } from './WalletProvider';
 export function ConnectWallet({
   children,
   className,
-  // In a few version we will officially depracate this prop,
+  // In a few version we will officially deprecate this prop,
   // but for now we will keep it for backward compatibility.
   text = 'Connect Wallet',
   withWalletAggregator = false,
@@ -61,7 +61,7 @@ export function ConnectWallet({
   if (status === 'disconnected') {
     if (withWalletAggregator) {
       return (
-        <ConnectButtonRainboKit.Custom>
+        <ConnectButtonRainbowKit.Custom>
           {({ openConnectModal }) => (
             <div className="flex" data-testid="ockConnectWallet_Container">
               <ConnectButton
@@ -72,7 +72,7 @@ export function ConnectWallet({
               />
             </div>
           )}
-        </ConnectButtonRainboKit.Custom>
+        </ConnectButtonRainbowKit.Custom>
       );
     }
     return (
