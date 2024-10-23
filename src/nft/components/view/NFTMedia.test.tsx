@@ -81,7 +81,7 @@ describe('NFTMedia', () => {
     expect(mockUpdateLifecycleStatus).toHaveBeenCalledWith({
       statusName: 'mediaLoading',
       statusData: {
-        mimeType: 'image/png',
+        mediaType: 'image',
         mediaUrl: expect.any(String),
       },
     });
