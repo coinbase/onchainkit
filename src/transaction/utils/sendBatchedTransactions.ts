@@ -14,6 +14,7 @@ export const sendBatchedTransactions = async ({
   if (!transactions) {
     return;
   }
+  console.log({transactions, transactionType})
   if (transactionType === TRANSACTION_TYPE_CONTRACTS) {
     await writeContractsAsync({
       contracts: transactions,

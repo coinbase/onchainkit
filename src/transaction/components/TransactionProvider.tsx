@@ -290,6 +290,8 @@ export function TransactionProvider({
         ? transactions()
         : Promise.resolve(transactions));
       setTransactionCount(resolvedTransactions?.length);
+
+      console.log({resolvedTransactions})
       return resolvedTransactions;
     } catch (err) {
       setLifecycleStatus({

@@ -1,5 +1,5 @@
 import { useCapabilities } from '@/lib/hooks';
-import { clickCalls, clickContracts } from '@/lib/transactions';
+import { clickCalls, clickContracts, heterogeneousClickCalls } from '@/lib/transactions';
 import type { Call } from '@/onchainkit/esm/transaction/types';
 import type { LifecycleStatus } from '@/onchainkit/src/transaction';
 import {
@@ -23,6 +23,8 @@ function TransactionDemo() {
   const capabilities = useCapabilities();
   const contracts = clickContracts as ContractFunctionParameters[];
   const calls = clickCalls as Call[];
+  const heterogeneousCalls = heterogeneousClickCalls as Call[];
+
   const promiseCalls = new Promise((resolve) => {
     setTimeout(() => {
       resolve(calls);
@@ -67,6 +69,12 @@ function TransactionDemo() {
       case TransactionTypes.Contracts:
         console.log('Playground.Transaction.contracts:', contracts);
         break;
+      case TransactionTypes.ContractsAndCalls:
+        console.log(
+          'Playground.Transaction.contractsAndCalls:',
+          heterogeneousCalls,
+        );
+        break;
       default:
         console.log(`Playground.Transaction.${transactionType}`);
         break;
@@ -99,6 +107,9 @@ function TransactionDemo() {
         return { calls: callsCallback, contracts: undefined };
       case TransactionTypes.ContractsCallback:
         return { calls: undefined, contracts: contractsCallback };
+      case TransactionTypes.ContractsAndCalls:
+        return { calls: heterogeneousCalls, contracts: undefined}
+        break;
       default:
         return { calls: undefined, contracts: undefined };
     }
