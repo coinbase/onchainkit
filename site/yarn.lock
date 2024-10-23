@@ -8534,7 +8534,7 @@ __metadata:
     "@types/sitemap-generator": "npm:^8"
     "@vercel/edge": "npm:^1.1.1"
     express: "npm:^4.21.1"
-    permissionless: "npm:^0.1.29"
+    permissionless: "npm:^0.2.10"
     react: "npm:18"
     react-dom: "npm:18"
     react-farcaster-embed: "npm:^1.4.7"
@@ -8787,6 +8787,15 @@ __metadata:
   peerDependencies:
     viem: ^2.9.17
   checksum: 0f9f87f758d663fc1fd6ced3cc62ba85960b88155f9867afb78190dfb6ef00daefcb3aa5e0ce2f40358c3c04e959dde9ac674873205c0f8d3126b3560ab97a85
+  languageName: node
+  linkType: hard
+
+"permissionless@npm:^0.2.10":
+  version: 0.2.10
+  resolution: "permissionless@npm:0.2.10"
+  peerDependencies:
+    viem: ^2.21.2
+  checksum: 2dbd5f023c14293b68cc0133ee52137a4cfceb6318255b2e209ff0b46ee4cb46357c3bd2cb7f67b9de82c319ab29ce4bcbd7cac8ec198b658741bac3e47a12d3
   languageName: node
   linkType: hard
 
