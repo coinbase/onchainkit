@@ -14,19 +14,21 @@ type Component = {
   name: string;
   component: React.ComponentType;
   code: string;
+  description: string;
 };
 
 const components: Component[] = [
-  { name: 'Wallet', component: WalletDemo, code: walletDemoCode },
-  { name: 'Swap', component: SwapDemo, code: swapDemoCode },
-  { name: 'Checkout', component: CheckoutDemo, code: checkoutDemoCode },
+  { name: 'Wallet', component: WalletDemo, code: walletDemoCode, description: 'Enable users to onboard and log into your app with a wallet.' },
+  { name: 'Swap', component: SwapDemo, code: swapDemoCode, description: 'Enable swaps between different cryptocurrencies.' },
+  { name: 'Checkout', component: CheckoutDemo, code: checkoutDemoCode, description: 'Accept USDC payments with instant user onboarding and onramps.' },
   {
     name: 'Transaction',
     component: TransactionDemo,
     code: transactionDemoCode,
+    description: 'Trigger onchain transactions and sponsor them with Paymaster',
   },
-  { name: 'Fund', component: FundDemo, code: fundDemoCode },
-  { name: 'Identity', component: IdentityDemo, code: identityDemoCode },
+  { name: 'Fund', component: FundDemo, code: fundDemoCode, description: 'Fund wallets with a debit card or a coinbase account.' },
+  { name: 'Identity', component: IdentityDemo, code: identityDemoCode, description: 'Display the Basename, avatar, and address associated with a wallet.' },
 ];
 
 function ComponentPreview() {
@@ -55,7 +57,11 @@ function ComponentPreview() {
   return (
     <div className="mx-auto w-full max-w-[1100px] px-4 sm:px-6 lg:px-8">
       <div className="flex flex-col gap-4 lg:flex-row lg:gap-8">
-        <ComponentList activeTab={activeTab} setActiveTab={setActiveTab} />
+        <ComponentList 
+          activeTab={activeTab} 
+          setActiveTab={setActiveTab} 
+          components={components}
+        />
         <PreviewContainer
           activeTab={activeTab}
           activeSubTab={activeSubTab}
@@ -68,12 +74,13 @@ function ComponentPreview() {
   );
 }
 
-type ComponentListProps = {
+interface ComponentListProps {
   activeTab: number;
   setActiveTab: (index: number) => void;
-};
+  components: Component[];
+}
 
-function ComponentList({ activeTab, setActiveTab }: ComponentListProps) {
+function ComponentList({ activeTab, setActiveTab, components }: ComponentListProps) {
   return (
     <div className="w-full lg:w-[300px] lg:flex-shrink-0">
       <h3 className="pb-4 font-medium text-3xl text-zinc-900 dark:text-zinc-100">
@@ -82,20 +89,27 @@ function ComponentList({ activeTab, setActiveTab }: ComponentListProps) {
       <div className="pb-6 text-lg text-zinc-700 dark:text-zinc-500">
         Accelerate your time-to-market with prebuilt components.
       </div>
-      <div className="flex overflow-x-auto lg:flex-col lg:overflow-x-visible">
+      <div className="flex flex-col">
         {components.map((comp, index) => (
-          <button
-            type="button"
-            key={comp.name}
-            className={`flex-shrink-0 px-3 py-2 text-left text-base lg:text-lg ${
-              activeTab === index
-                ? 'rounded-lg bg-zinc-100 font-semibold text-indigo-600 dark:bg-[#0F0F0F] dark:text-indigo-400'
-                : 'text-zinc-700 hover:rounded-lg hover:bg-zinc-100 dark:text-zinc-300 dark:hover:bg-[#0F0F0F]'
-            } mr-2 lg:mr-0 lg:mb-2`}
-            onClick={() => setActiveTab(index)}
-          >
-            {comp.name}
-          </button>
+          <div key={comp.name} className="mb-4">
+            <button
+              type="button"
+              className={`w-full px-3 py-2 text-left text-base lg:text-lg ${
+                activeTab === index
+                  ? 'rounded-lg bg-zinc-100 font-semibold text-indigo-600 dark:bg-[#0F0F0F] dark:text-indigo-400'
+                  : 'text-zinc-700 hover:rounded-lg hover:bg-zinc-100 dark:text-zinc-300 dark:hover:bg-[#0F0F0F]'
+              }`}
+              onClick={() => setActiveTab(index)}
+            >
+              {comp.name}
+              {activeTab === index && (
+              <div className="mt-1 text-sm font-normal text-zinc-600 dark:text-zinc-400">
+                {comp.description}
+              </div>
+            )}
+            </button>
+            
+          </div>
         ))}
       </div>
     </div>
