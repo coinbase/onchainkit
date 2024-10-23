@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import type React from 'react';
+import { useEffect, useState } from 'react';
 import { codeToHtml } from 'shiki';
 import CopyIcon from '../svg/CopySvg.tsx';
 import CheckIcon from '../svg/checkSvg.tsx';
@@ -227,9 +228,7 @@ function PreviewContainer({
                 activeSubTab === 'code' ? 'block' : 'hidden'
               } h-full w-full p-4`}
             >
-              <ShikiHighlight
-                code={components[activeTab].code}
-              />
+              <ShikiHighlight code={components[activeTab].code} />
             </div>
           </div>
         </div>
@@ -251,7 +250,7 @@ function ShikiHighlight({ code }: ShikiHighlightProps) {
         lang: 'typescript',
         themes: {
           light: 'catppuccin-latte',
-          dark: 'dark-plus'
+          dark: 'dark-plus',
         },
         defaultColor: false,
       });
@@ -261,7 +260,7 @@ function ShikiHighlight({ code }: ShikiHighlightProps) {
   }, [code]);
 
   return (
-    <div 
+    <div
       className="shiki h-full w-full overflow-auto"
       dangerouslySetInnerHTML={{ __html: highlightedCode }}
     />
