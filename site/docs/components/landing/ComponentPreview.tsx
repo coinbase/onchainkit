@@ -18,17 +18,44 @@ type Component = {
 };
 
 const components: Component[] = [
-  { name: 'Wallet', component: WalletDemo, code: walletDemoCode, description: 'Enable users to onboard and log into your app with a wallet.' },
-  { name: 'Swap', component: SwapDemo, code: swapDemoCode, description: 'Enable swaps between different cryptocurrencies.' },
-  { name: 'Checkout', component: CheckoutDemo, code: checkoutDemoCode, description: 'Accept USDC payments with instant user onboarding and onramps.' },
+  {
+    name: 'Wallet',
+    component: WalletDemo,
+    code: walletDemoCode,
+    description: 'Enable users to onboard and log into your app with a wallet.',
+  },
+  {
+    name: 'Swap',
+    component: SwapDemo,
+    code: swapDemoCode,
+    description: 'Enable swaps between different cryptocurrencies.',
+  },
+  {
+    name: 'Checkout',
+    component: CheckoutDemo,
+    code: checkoutDemoCode,
+    description:
+      'Accept USDC payments with instant user onboarding and onramps.',
+  },
   {
     name: 'Transaction',
     component: TransactionDemo,
     code: transactionDemoCode,
     description: 'Trigger onchain transactions and sponsor them with Paymaster',
   },
-  { name: 'Fund', component: FundDemo, code: fundDemoCode, description: 'Fund wallets with a debit card or a coinbase account.' },
-  { name: 'Identity', component: IdentityDemo, code: identityDemoCode, description: 'Display the Basename, avatar, and address associated with a wallet.' },
+  {
+    name: 'Fund',
+    component: FundDemo,
+    code: fundDemoCode,
+    description: 'Fund wallets with a debit card or a coinbase account.',
+  },
+  {
+    name: 'Identity',
+    component: IdentityDemo,
+    code: identityDemoCode,
+    description:
+      'Display the Basename, avatar, and address associated with a wallet.',
+  },
 ];
 
 function ComponentPreview() {
@@ -57,9 +84,9 @@ function ComponentPreview() {
   return (
     <div className="mx-auto w-full max-w-[1100px] px-4 sm:px-6 lg:px-8">
       <div className="flex flex-col gap-4 lg:flex-row lg:gap-8">
-        <ComponentList 
-          activeTab={activeTab} 
-          setActiveTab={setActiveTab} 
+        <ComponentList
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
           components={components}
         />
         <PreviewContainer
@@ -80,7 +107,11 @@ interface ComponentListProps {
   components: Component[];
 }
 
-function ComponentList({ activeTab, setActiveTab, components }: ComponentListProps) {
+function ComponentList({
+  activeTab,
+  setActiveTab,
+  components,
+}: ComponentListProps) {
   return (
     <div className="w-full lg:w-[300px] lg:flex-shrink-0">
       <h3 className="pb-4 font-medium text-3xl text-zinc-900 dark:text-zinc-100">
@@ -103,12 +134,11 @@ function ComponentList({ activeTab, setActiveTab, components }: ComponentListPro
             >
               {comp.name}
               {activeTab === index && (
-              <div className="mt-1 text-sm font-normal text-zinc-600 dark:text-zinc-400">
-                {comp.description}
-              </div>
-            )}
+                <div className="mt-1 font-normal text-sm text-zinc-600 dark:text-zinc-400">
+                  {comp.description}
+                </div>
+              )}
             </button>
-            
           </div>
         ))}
       </div>
