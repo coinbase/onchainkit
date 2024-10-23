@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { codeToHtml } from 'shiki';
+import React, { useState } from 'react';
+import CheckIcon from '../svg/checkSvg.tsx'; 
 import CopyIcon from '../svg/CopySvg.tsx';
 
 // Demo components and code snippets
@@ -14,11 +14,7 @@ const components = [
   { name: 'Wallet', component: WalletDemo, code: walletDemoCode },
   { name: 'Swap', component: SwapDemo, code: swapDemoCode },
   { name: 'Checkout', component: CheckoutDemo, code: checkoutDemoCode },
-  {
-    name: 'Transaction',
-    component: TransactionDemo,
-    code: transactionDemoCode,
-  },
+  { name: 'Transaction', component: TransactionDemo, code: transactionDemoCode },
   { name: 'Fund', component: FundDemo, code: fundDemoCode },
   { name: 'Identity', component: IdentityDemo, code: identityDemoCode },
 ];
@@ -26,37 +22,12 @@ const components = [
 function ComponentPreview() {
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
   const [activeTab, setActiveTab] = useState(0);
-  const [activeSubTab, setActiveSubTab] = useState<'preview' | 'code'>(
-    'preview',
-  );
-  const [highlightedCode, setHighlightedCode] = useState<string>('');
-  const codeRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const highlightCode = async () => {
-      const code = await codeToHtml(components[activeTab].code, {
-        lang: 'typescript',
-        themes: {
-          light: 'catppuccin-latte',
-          dark: 'dark-plus',
-        },
-      });
-      setHighlightedCode(code);
-    };
-
-    highlightCode();
-  }, [activeTab]);
-
-  useEffect(() => {
-    if (codeRef.current) {
-      codeRef.current.innerHTML = highlightedCode;
-    }
-  }, [highlightedCode]);
+  const [activeSubTab, setActiveSubTab] = useState<'preview' | 'code'>('preview');
 
   const copyToClipboard = (text: string, index: number) => {
     navigator.clipboard.writeText(text).then(() => {
       setCopiedIndex(index);
-      setTimeout(() => setCopiedIndex(null), 2000);
+      setTimeout(() => setCopiedIndex(null), 600); 
     });
   };
 
@@ -128,23 +99,19 @@ function ComponentPreview() {
               >
                 <button
                   type="button"
-                  className="absolute top-2 right-2 rounded-md p-1 transition-colors hover:bg-zinc-300 dark:hover:bg-zinc-600"
-                  onClick={() =>
-                    copyToClipboard(components[activeTab].code, activeTab)
-                  }
-                  title="Copy to clipboard"
+                  className="absolute top-1 right-1 rounded-md p-2 hover:bg-zinc-200 dark:hover:bg-zinc-800 hover:border hover:border-zinc-300 dark:hover:border-zinc-700"
+                  onClick={() => copyToClipboard(components[activeTab].code, activeTab)}
+                  title={copiedIndex === activeTab ? "Copied!" : "Copy to clipboard"}
                 >
-                  <CopyIcon className="text-zinc-700 dark:text-zinc-300" />
+                  {copiedIndex === activeTab ? (
+                    <CheckIcon className="text-green-500 dark:text-green-400" />
+                  ) : (
+                    <CopyIcon className="text-zinc-700 dark:text-zinc-300" />
+                  )}
                 </button>
-                {copiedIndex === activeTab && (
-                  <div className="absolute top-2 right-10 rounded-md bg-zinc-200 px-2 py-1 text-xs text-zinc-700 dark:bg-zinc-700 dark:text-zinc-300">
-                    Copied!
-                  </div>
-                )}
-                <div
-                  ref={codeRef}
-                  className="h-full w-full overflow-auto p-4 text-sm bg-zinc-100 dark:bg-[#0F0F0F]"
-                />
+                <pre className="h-full w-full overflow-auto p-4 text-sm bg-zinc-100 dark:bg-[#0F0F0F]">
+                  <code>{components[activeTab].code}</code>
+                </pre>
               </div>
             </div>
           </div>
