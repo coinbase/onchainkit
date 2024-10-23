@@ -17,6 +17,29 @@ export const clickContracts = [
   },
 ];
 
+export const heterogeneousClickCalls = [
+  {
+    data: encodeFunctionData({
+      abi: clickAbi,
+      functionName: 'click',
+      args: [],
+    }),
+    to: deployedContracts[85432].click,
+  },
+  {
+    to: deployedContracts[85432].click,
+    abi: clickAbi,
+    functionName: 'click',
+    args: [],
+  },
+  {
+    to: deployedContracts[85432].click,
+    abi: clickAbi,
+    functionName: 'click',
+    args: [],
+  },
+];
+
 export const clickCalls = [
   {
     data: encodeFunctionData({
