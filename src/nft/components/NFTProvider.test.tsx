@@ -1,9 +1,9 @@
 import '@testing-library/jest-dom';
 import { render } from '@testing-library/react';
+import { act } from 'react';
 import { describe, expect, it, vi } from 'vitest';
 import type { NFTData } from '../types';
 import { NFTProvider, useNFTContext } from './NFTProvider';
-import { act } from 'react';
 
 const useNFTData = vi.fn(
   () =>
