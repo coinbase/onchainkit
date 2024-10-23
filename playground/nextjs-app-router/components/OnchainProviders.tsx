@@ -14,6 +14,7 @@ export const config = createConfig({
     [base.id]: http(),
     [baseSepolia.id]: http(),
   },
+  ssr: true,
   connectors: [
     coinbaseWallet({
       appName: 'OnchainKit',
@@ -30,7 +31,7 @@ const queryClient = new QueryClient();
 
 function OnchainProviders({ children }: { children: ReactNode }) {
   return (
-    <WagmiProvider config={config} reconnectOnMount={false}>
+    <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
         <OnchainKitProvider
           apiKey={ENVIRONMENT_VARIABLES[ENVIRONMENT.API_KEY]}
