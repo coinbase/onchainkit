@@ -53,9 +53,9 @@ export function NFTImage({
     loadImage();
   }, [loadImage]);
 
-  const handleTransitionEnd = () => {
+  const handleTransitionEnd = useCallback(() => {
     setTransitionEnded(true);
-  };
+  }, []);
 
   return (
     <div
