@@ -37,20 +37,18 @@ export default function CheckoutDemo() {
       {checkoutTypes === CheckoutTypes.ProductID && (
         <>
           {checkoutOptions?.productId ? (
-            <>
-              <Checkout
-                key={productIDKey}
-                productId={checkoutOptions?.productId}
-                onStatus={handleOnStatus}
-                isSponsored={capabilities?.paymasterService?.url != null}
-              >
-                <CheckoutButton
-                  coinbaseBranded={true}
-                  disabled={productIDDisabled}
-                />
-                <CheckoutStatus />
-              </Checkout>
-            </>
+            <Checkout
+              key={productIDKey}
+              productId={checkoutOptions?.productId}
+              onStatus={handleOnStatus}
+              isSponsored={capabilities?.paymasterService?.url != null}
+            >
+              <CheckoutButton
+                coinbaseBranded={true}
+                disabled={productIDDisabled}
+              />
+              <CheckoutStatus />
+            </Checkout>
           ) : (
             <>
               <div className="relative flex h-full w-full flex-col items-center">
@@ -67,20 +65,18 @@ export default function CheckoutDemo() {
       {checkoutTypes === CheckoutTypes.ChargeID && (
         <>
           {checkoutOptions?.chargeId ? (
-            <>
-              <Checkout
-                key={chargeIDKey}
-                chargeHandler={createCharge}
-                onStatus={handleOnStatus}
-                isSponsored={capabilities?.paymasterService?.url != null}
-              >
-                <CheckoutButton
-                  coinbaseBranded={true}
-                  disabled={chargeIDDisabled}
-                />
-                <CheckoutStatus />
-              </Checkout>
-            </>
+            <Checkout
+              key={chargeIDKey}
+              chargeHandler={createCharge}
+              onStatus={handleOnStatus}
+              isSponsored={capabilities?.paymasterService?.url != null}
+            >
+              <CheckoutButton
+                coinbaseBranded={true}
+                disabled={chargeIDDisabled}
+              />
+              <CheckoutStatus />
+            </Checkout>
           ) : (
             <>
               <div className="relative flex h-full w-full flex-col items-center">
