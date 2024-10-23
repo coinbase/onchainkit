@@ -22,7 +22,7 @@ export function NFTNetwork({ className, label = 'Network' }: NFTNetworkProps) {
   return (
     <div
       className={cn(
-        'flex items-center justify-between py-2',
+        'flex items-center justify-between py-1',
         text.label2,
         className,
       )}

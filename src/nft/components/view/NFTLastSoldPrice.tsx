@@ -21,7 +21,7 @@ export function NFTLastSoldPrice({
   }
 
   return (
-    <div className={cn('flex justify-between py-2', text.label2, className)}>
+    <div className={cn('flex justify-between py-1', text.label2, className)}>
       <div>{label}</div>
       <div className="flex">
         <div className={text.label1}>

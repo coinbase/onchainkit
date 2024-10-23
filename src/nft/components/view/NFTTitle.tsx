@@ -12,5 +12,7 @@ export function NFTTitle({ className }: NFTTitleProps) {
     return null;
   }
 
-  return <div className={cn('py-2', text.title1, className)}>{name}</div>;
+  return (
+    <div className={cn('pt-3 pb-1', text.headline, className)}>{name}</div>
+  );
 }
