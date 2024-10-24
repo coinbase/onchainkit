@@ -186,9 +186,12 @@ Also ensure that your Wagmi configuration is set to `smartWalletOnly` and suppor
 
 ```tsx twoslash [providers.tsx]
 // @noErrors: 2304 - Cannot find name 'children'
+import { base } from 'wagmi/chains';
+// ---cut-before---
 import { OnchainKitProvider } from '@coinbase/onchainkit';
 
 <OnchainKitProvider
+    chain={base}
     config={{
       appearance: {
         name: 'OnchainKit Playground', // [!code ++]
@@ -198,6 +201,7 @@ import { OnchainKitProvider } from '@coinbase/onchainkit';
   >
     {children}
 </OnchainKitProvider>
+// ---cut-after---
 ```
 
 <img alt="Customizing the name and logo"
