@@ -45,13 +45,13 @@ const Tweets: React.FC = () => {
     <section className="w-full py-12 md:py-24">
       <div className="container mx-auto px-4">
         <div className="mb-8 text-center md:mb-12">
-          <h3 className="font-medium text-2xl text-gray-950 md:text-3xl dark:text-gray-50">
+          <h2 className="font-medium text-2xl text-gray-950 md:text-3xl dark:text-gray-50">
             Builders ship faster with OnchainKit
-          </h3>
+          </h2>
         </div>
-        <div className="relative w-full">
-          <div className="flex flex-col items-center gap-8 md:flex-row md:items-stretch md:justify-center md:gap-4 md:overflow-x-auto md:pb-4">
-            <TweetCard className="tweet1 md:flex-shrink-0">
+        <div className='relative mx-auto w-full'>
+          <div className='flex flex-col items-center gap-8 md:flex-row md:items-stretch md:justify-center md:gap-4 md:overflow-x-auto md:pb-4'>
+            <TweetCard className='tweet1 md:flex-shrink-0'>
               <p lang="en" dir="ltr">
                 🟣 Excited to announce that Basenames are now integrated into
                 the Fit Club app! <br />
