@@ -35,10 +35,8 @@ export function OnchainKitProvider({
       chain: chain,
       config: {
         appearance: {
-          name: config?.appearance?.name ?? 'My OnchainKit App',
-          logo:
-            config?.appearance?.logo ||
-            'https://onchainkit.xyz/favicon/48x48.png?v4-19-24',
+          name: config?.appearance?.name,
+          logo: config?.appearance?.logo,
           mode: config?.appearance?.mode ?? 'auto',
           theme: config?.appearance?.theme ?? 'default',
         },

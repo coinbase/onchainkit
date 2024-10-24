@@ -50,8 +50,8 @@ describe('OnchainKitProvider', () => {
   const apiKey = 'test-api-key';
   const paymasterUrl =
     'https://api.developer.coinbase.com/rpc/v1/base/test-api-key';
-  const appLogo = 'https://onchainkit.xyz/favicon/48x48.png?v4-19-24';
-  const appName = 'My OnchainKit App';
+  const appLogo = undefined;
+  const appName = undefined;
 
   it('provides the context value correctly', async () => {
     render(
