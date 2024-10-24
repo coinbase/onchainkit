@@ -50,6 +50,8 @@ describe('OnchainKitProvider', () => {
   const apiKey = 'test-api-key';
   const paymasterUrl =
     'https://api.developer.coinbase.com/rpc/v1/base/test-api-key';
+  const appLogo = undefined;
+  const appName = undefined;
 
   it('provides the context value correctly', async () => {
     render(
@@ -126,6 +128,8 @@ describe('OnchainKitProvider', () => {
       apiKey,
       config: {
         appearance: {
+          logo: appLogo,
+          name: appName,
           mode: 'auto',
           theme: 'default',
         },
@@ -154,6 +158,8 @@ describe('OnchainKitProvider', () => {
         expect.objectContaining({
           config: {
             appearance: {
+              logo: appLogo,
+              name: appName,
               mode: 'auto',
               theme: 'default',
             },
@@ -192,6 +198,8 @@ describe('OnchainKitProvider', () => {
           chain: base,
           config: {
             appearance: {
+              logo: appLogo,
+              name: appName,
               mode: 'auto',
               theme: 'default',
             },
@@ -205,8 +213,12 @@ describe('OnchainKitProvider', () => {
     });
   });
 
-  it('should use default values for paymaster when override in config is provided', async () => {
+  it('should use custom values when override in config is provided', async () => {
     const customConfig = {
+      appearance: {
+        name: 'custom name',
+        logo: 'https://example.com/logo.png',
+      },
       paymaster: 'https://example.com',
     };
 
@@ -233,6 +245,8 @@ describe('OnchainKitProvider', () => {
           chain: base,
           config: {
             appearance: {
+              name: 'custom name',
+              logo: 'https://example.com/logo.png',
               mode: 'auto',
               theme: 'default',
             },

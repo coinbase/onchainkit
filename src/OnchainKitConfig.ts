@@ -9,6 +9,8 @@ export const ONCHAIN_KIT_CONFIG: OnchainKitConfig = {
   chain: baseSepolia,
   config: {
     appearance: {
+      name: null,
+      logo: null,
       mode: null,
       theme: null,
     },

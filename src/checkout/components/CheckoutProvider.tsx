@@ -55,7 +55,10 @@ export function CheckoutProvider({
 }: CheckoutProviderReact) {
   // Core hooks
   const {
-    config: { paymaster } = { paymaster: undefined },
+    config: { appearance, paymaster } = {
+      appearance: { name: undefined, logo: undefined },
+      paymaster: undefined,
+    },
   } = useOnchainKit();
   const { address, chainId, isConnected } = useAccount();
   const { connectAsync } = useConnect();
@@ -237,7 +240,12 @@ export function CheckoutProvider({
         // This is defaulted to Coinbase Smart Wallet
         fetchedDataHandleSubmit.current = true; // Set this here so useEffect does not run
         const { accounts, chainId: _connectedChainId } = await connectAsync({
-          connector: coinbaseWallet({ preference: 'smartWalletOnly' }),
+          /* v8 ignore next 5 */
+          connector: coinbaseWallet({
+            appName: appearance?.name ?? undefined,
+            appLogoUrl: appearance?.logo ?? undefined,
+            preference: 'smartWalletOnly',
+          }),
         });
         connectedAddress = accounts[0];
         connectedChainId = _connectedChainId;
@@ -341,6 +349,7 @@ export function CheckoutProvider({
     }
   }, [
     address,
+    appearance,
     chainId,
     chargeId,
     connectAsync,
