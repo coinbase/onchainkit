@@ -32,6 +32,7 @@ import {
 import { useCommerceContracts } from '../hooks/useCommerceContracts';
 import { useLifecycleStatus } from '../hooks/useLifecycleStatus';
 import type { CheckoutContextType, CheckoutProviderReact } from '../types';
+import type { CoinbaseWalletParameters } from 'wagmi/connectors';
 
 const emptyContext = {} as CheckoutContextType;
 export const CheckoutContext = createContext<CheckoutContextType>(emptyContext);
@@ -58,7 +59,7 @@ export function CheckoutProvider({
     config: { paymaster } = { paymaster: undefined },
   } = useOnchainKit();
   const { address, chainId, isConnected } = useAccount();
-  const { connectAsync } = useConnect();
+  const { connectors, connectAsync } = useConnect();
   const { switchChainAsync } = useSwitchChain();
   const [chargeId, setChargeId] = useState('');
   const [transactionId, setTransactionId] = useState('');
@@ -236,8 +237,16 @@ export function CheckoutProvider({
         // Prompt for wallet connection
         // This is defaulted to Coinbase Smart Wallet
         fetchedDataHandleSubmit.current = true; // Set this here so useEffect does not run
+        const foundConnector = connectors.find((connector) => {connector.id === 'coinbaseWalletSDK'});
+        let connector = coinbaseWallet({ preference: 'smartWalletOnly' });
+        if (foundConnector) {
+          // Add the detected app logo url and name
+          const appLogoUrl = (foundConnector as CoinbaseWalletParameters<'4'>).appLogoUrl;
+          const appName = (foundConnector as CoinbaseWalletParameters<'4'>).appName;
+          connector = coinbaseWallet({ preference: 'smartWalletOnly', appLogoUrl, appName });
+        }
         const { accounts, chainId: _connectedChainId } = await connectAsync({
-          connector: coinbaseWallet({ preference: 'smartWalletOnly' }),
+          connector,
         });
         connectedAddress = accounts[0];
         connectedChainId = _connectedChainId;
