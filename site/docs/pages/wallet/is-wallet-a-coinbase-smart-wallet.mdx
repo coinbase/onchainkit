@@ -11,7 +11,7 @@ The `isWalletASmartCoinbaseWallet` utility is designed to verify if a given send
 import { isWalletACoinbaseSmartWallet } from '@coinbase/onchainkit/wallet';
 import { http } from 'viem';
 import { baseSepolia } from 'viem/chains';
-import type { UserOperation } from 'permissionless';
+import type { UserOperation } from 'viem/_types/account-abstraction';
 import { type PublicClient, createPublicClient } from 'viem';
 
 export const publicClient = createPublicClient({

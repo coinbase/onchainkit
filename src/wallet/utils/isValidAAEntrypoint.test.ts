@@ -1,9 +1,9 @@
-import { ENTRYPOINT_ADDRESS_V06 } from 'permissionless';
+import { entryPoint06Address } from 'viem/account-abstraction';
 import { isValidAAEntrypoint } from './isValidAAEntrypoint';
 
 describe('isValidAAEntrypoint', () => {
   it('should return true for a valid v6 entrypoint address', () => {
-    const result = isValidAAEntrypoint({ entrypoint: ENTRYPOINT_ADDRESS_V06 });
+    const result = isValidAAEntrypoint({ entrypoint: entryPoint06Address });
     expect(result).toEqual(true);
   });
   it('should return false if the entrypoint is not ENTRYPOINT_ADDRESS_V06', () => {
