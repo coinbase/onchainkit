@@ -232,6 +232,11 @@ export function CheckoutProvider({
         });
         return;
       }
+      /* v8 ignore next 4 */
+      if (errorMessage === USER_REJECTED_ERROR) {
+        // Reset status if previous request was a rejection
+        setErrorMessage('');
+      }
 
       let connectedAddress = address;
       let connectedChainId = chainId;
