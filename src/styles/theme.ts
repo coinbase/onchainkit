@@ -46,7 +46,6 @@ export const background = {
   washed: 'ock-bg-primary-washed',
   disabled: 'ock-bg-primary-disabled',
   reverse: 'ock-bg-default-reverse',
-  active: 'ock-bg-default-active',
 } as const;
 
 export const color = {
