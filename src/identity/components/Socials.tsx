@@ -46,7 +46,7 @@ export function Socials({ address, chain, className }: SocialsReact) {
   if (isLoadingName || isLoadingSocials) {
     return <span className={className} />;
   }
-
+  console.log("Socials: ", socials)
   if (!socials || Object.values(socials).every((value) => !value)) {
     return null;
   }
