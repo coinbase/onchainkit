@@ -185,6 +185,9 @@ To customize the name and logo of your application, set `name` and `logo` inside
 Also ensure that your Wagmi configuration is set to `smartWalletOnly` and supports Base.
 
 ```tsx twoslash [providers.tsx]
+// @noErrors: 2304 - Cannot find name 'children'
+import { OnchainKitProvider } from '@coinbase/onchainkit';
+
 <OnchainKitProvider
     config={{
       appearance: {
