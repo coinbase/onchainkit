@@ -86,7 +86,7 @@ function Demo() {
       <div
         className={cn(
           'absolute top-0 right-0 bottom-0 left-0 z-20 flex w-full min-w-80 flex-col border-r bg-background p-6 transition-[height] sm:static sm:z-0 sm:w-1/4',
-          sideBarVisible ? 'h-full min-h-screen' : 'h-[5rem] overflow-hidden',
+          sideBarVisible ? 'h-full min-h-screen' : 'h-20 overflow-hidden',
         )}
       >
         <div className="mb-12 flex justify-between">
