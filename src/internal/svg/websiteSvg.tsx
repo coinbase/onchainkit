@@ -14,7 +14,7 @@ export const websiteSvg = (
   >
     <path
       d="M0 8C0 3.58172 3.58172 0 8 0H24C28.4183 0 32 3.58172 32 8V24C32 28.4183 28.4183 32 24 32H8C3.58172 32 0 28.4183 0 24V8Z"
-      fill="#000000" // Changed from #F9FAFB to #000000 for black background
+      className={icon.inverse}
     />
     <path
       fillRule="evenodd"
