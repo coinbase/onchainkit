@@ -11,6 +11,7 @@ import { base } from 'viem/chains';
 import { useAccount, useConnect, useSwitchChain } from 'wagmi';
 import { useWaitForTransactionReceipt } from 'wagmi';
 import { coinbaseWallet } from 'wagmi/connectors';
+import type { CoinbaseWalletParameters } from 'wagmi/connectors';
 import { useWriteContracts } from 'wagmi/experimental';
 import { useCallsStatus } from 'wagmi/experimental';
 import { useValue } from '../../internal/hooks/useValue';
@@ -32,7 +33,6 @@ import {
 import { useCommerceContracts } from '../hooks/useCommerceContracts';
 import { useLifecycleStatus } from '../hooks/useLifecycleStatus';
 import type { CheckoutContextType, CheckoutProviderReact } from '../types';
-import type { CoinbaseWalletParameters } from 'wagmi/connectors';
 
 const emptyContext = {} as CheckoutContextType;
 export const CheckoutContext = createContext<CheckoutContextType>(emptyContext);
@@ -237,13 +237,21 @@ export function CheckoutProvider({
         // Prompt for wallet connection
         // This is defaulted to Coinbase Smart Wallet
         fetchedDataHandleSubmit.current = true; // Set this here so useEffect does not run
-        const foundConnector = connectors.find((connector) => {connector.id === 'coinbaseWalletSDK'});
+        const foundConnector = connectors.find((connector) => {
+          connector.id === 'coinbaseWalletSDK';
+        });
         let connector = coinbaseWallet({ preference: 'smartWalletOnly' });
         if (foundConnector) {
           // Add the detected app logo url and name
-          const appLogoUrl = (foundConnector as CoinbaseWalletParameters<'4'>).appLogoUrl;
-          const appName = (foundConnector as CoinbaseWalletParameters<'4'>).appName;
-          connector = coinbaseWallet({ preference: 'smartWalletOnly', appLogoUrl, appName });
+          const appLogoUrl = (foundConnector as CoinbaseWalletParameters<'4'>)
+            .appLogoUrl;
+          const appName = (foundConnector as CoinbaseWalletParameters<'4'>)
+            .appName;
+          connector = coinbaseWallet({
+            preference: 'smartWalletOnly',
+            appLogoUrl,
+            appName,
+          });
         }
         const { accounts, chainId: _connectedChainId } = await connectAsync({
           connector,
