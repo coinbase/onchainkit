@@ -18,6 +18,7 @@ export const config = createConfig({
   connectors: [
     coinbaseWallet({
       appName: 'OnchainKit',
+      appLogoUrl: 'https://onchainkit.xyz/favicon/48x48.png?v4-19-24',
       preference: 'smartWalletOnly',
     }),
     coinbaseWallet({

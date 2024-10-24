@@ -11,6 +11,7 @@ import { base } from 'viem/chains';
 import { useAccount, useConnect, useSwitchChain } from 'wagmi';
 import { useWaitForTransactionReceipt } from 'wagmi';
 import { coinbaseWallet } from 'wagmi/connectors';
+import type { CoinbaseWalletParameters } from 'wagmi/connectors';
 import { useWriteContracts } from 'wagmi/experimental';
 import { useCallsStatus } from 'wagmi/experimental';
 import { useValue } from '../../internal/hooks/useValue';
@@ -58,7 +59,7 @@ export function CheckoutProvider({
     config: { paymaster } = { paymaster: undefined },
   } = useOnchainKit();
   const { address, chainId, isConnected } = useAccount();
-  const { connectAsync } = useConnect();
+  const { connectors, connectAsync } = useConnect();
   const { switchChainAsync } = useSwitchChain();
   const [chargeId, setChargeId] = useState('');
   const [transactionId, setTransactionId] = useState('');
@@ -236,8 +237,12 @@ export function CheckoutProvider({
         // Prompt for wallet connection
         // This is defaulted to Coinbase Smart Wallet
         fetchedDataHandleSubmit.current = true; // Set this here so useEffect does not run
+        const foundConnector = connectors.find((connector) => {
+          connector.id === 'coinbaseWalletSDK';
+        });
+        let connector = foundConnector || coinbaseWallet({ preference: 'smartWalletOnly' });
         const { accounts, chainId: _connectedChainId } = await connectAsync({
-          connector: coinbaseWallet({ preference: 'smartWalletOnly' }),
+          connector,
         });
         connectedAddress = accounts[0];
         connectedChainId = _connectedChainId;
@@ -344,6 +349,7 @@ export function CheckoutProvider({
     chainId,
     chargeId,
     connectAsync,
+    connectors,
     fetchData,
     isConnected,
     isSmartWallet,
