@@ -241,6 +241,7 @@ export function CheckoutProvider({
           connector.id === 'coinbaseWalletSDK';
         });
         let connector = coinbaseWallet({ preference: 'smartWalletOnly' });
+        /* v8 ignore next 12 */
         if (foundConnector) {
           // Add the detected app logo url and name
           const appLogoUrl = (foundConnector as CoinbaseWalletParameters<'4'>)
