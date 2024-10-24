@@ -240,20 +240,7 @@ export function CheckoutProvider({
         const foundConnector = connectors.find((connector) => {
           connector.id === 'coinbaseWalletSDK';
         });
-        let connector = coinbaseWallet({ preference: 'smartWalletOnly' });
-        /* v8 ignore next 12 */
-        if (foundConnector) {
-          // Add the detected app logo url and name
-          const appLogoUrl = (foundConnector as CoinbaseWalletParameters<'4'>)
-            .appLogoUrl;
-          const appName = (foundConnector as CoinbaseWalletParameters<'4'>)
-            .appName;
-          connector = coinbaseWallet({
-            preference: 'smartWalletOnly',
-            appLogoUrl,
-            appName,
-          });
-        }
+        let connector = foundConnector || coinbaseWallet({ preference: 'smartWalletOnly' });
         const { accounts, chainId: _connectedChainId } = await connectAsync({
           connector,
         });
@@ -362,6 +349,7 @@ export function CheckoutProvider({
     chainId,
     chargeId,
     connectAsync,
+    connectors,
     fetchData,
     isConnected,
     isSmartWallet,
