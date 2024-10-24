@@ -15,9 +15,9 @@ export async function getHighlightedCode({
   return (
     <code>
       {highlightedCode?.tokens.map((line, i) => (
-        <div key={`${i}|${line[0].content}`}>
+        <div key={`${i}|${line[0]?.offset}`}>
           {line.map((token, j) => (
-            <Token key={`${j}|${token.content}`} token={token} />
+            <HtmlToken key={`${j}|${token.content}`} token={token} />
           ))}
         </div>
       ))}
@@ -25,12 +25,13 @@ export async function getHighlightedCode({
   );
 }
 
-const Token = ({ token }: { token: ThemedToken }) => {
+function HtmlToken({ token }: { token: ThemedToken }) {
+  const sanitizedHtmlStyle = sanitizeHtmlStyle(token.htmlStyle as Record<string, string>);
   if (Array.isArray(token.content)) {
     return (
-      <span style={token.htmlStyle as Record<string, string>}>
+      <span style={sanitizedHtmlStyle}>
         {token.content.map((subToken) => (
-          <Token key={subToken} token={subToken} />
+          <HtmlToken key={subToken} token={subToken} />
         ))}
       </span>
     );
@@ -39,15 +40,24 @@ const Token = ({ token }: { token: ThemedToken }) => {
   if (token.content.includes('\n')) {
     return token.content.split('\n').map((part, i, arr) => (
       <React.Fragment key={part}>
-        <span style={token.htmlStyle as Record<string, string>}>{part}</span>
+        <span style={sanitizedHtmlStyle}>{part}</span>
         {i < arr.length - 1 && <br />}
       </React.Fragment>
     ));
   }
 
   return (
-    <span style={token.htmlStyle as Record<string, string>}>
+    <span style={sanitizedHtmlStyle}>
       {token.content}
     </span>
   );
 };
+
+function sanitizeHtmlStyle(style: Record<string, string>) {
+  return Object.fromEntries(
+    Object.entries(style).map(([key, value]) => [
+      key.replace(/-([a-z])/g, (_, letter) => letter.toUpperCase()),
+      value,
+    ])
+  )
+}
