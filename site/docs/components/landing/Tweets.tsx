@@ -1,6 +1,20 @@
+import type React from 'react';
 import { useEffect, useState } from 'react';
 
-const Tweets = () => {
+interface TweetCardProps {
+  children: React.ReactNode;
+  className?: string;
+}
+
+const TweetCard: React.FC<TweetCardProps> = ({ children, className }) => (
+  <div className={`w-full flex-shrink-0 md:w-[400px] ${className || ''}`}>
+    <blockquote className="twitter-tweet" data-dnt="true" data-theme="light">
+      {children}
+    </blockquote>
+  </div>
+);
+
+const Tweets: React.FC = () => {
   const [scriptLoaded, setScriptLoaded] = useState(false);
 
   useEffect(() => {
@@ -8,43 +22,35 @@ const Tweets = () => {
     script.src = 'https://platform.twitter.com/widgets.js';
     script.async = true;
 
-    // Set script onload to true when it's loaded
-    script.onload = () => {
-      setScriptLoaded(true);
-    };
+    const handleLoad = () => setScriptLoaded(true);
+    const handleError = () => setScriptLoaded(false);
 
-    // Set script onerror to handle failure to load
-    script.onerror = () => {
-      setScriptLoaded(false);
-    };
+    script.addEventListener('load', handleLoad);
+    script.addEventListener('error', handleError);
 
     document.body.appendChild(script);
 
-    // Cleanup the script when the component unmounts
     return () => {
+      script.removeEventListener('load', handleLoad);
+      script.removeEventListener('error', handleError);
       document.body.removeChild(script);
     };
   }, []);
 
   if (!scriptLoaded) {
-    // If the script isn't loaded yet, return null.
     return null;
   }
 
   return (
-    <section className="css-alternate-container flex w-full flex-col items-center gap-[48px] py-24">
-      <div>
-        <h3 className="max-w-[525px] basis-1/2 text-center text-4xl text-gray-950 md:text-4xl dark:text-gray-50">
+    <section className="w-full py-12 md:py-24">
+      <div className="mb-8 px-4 text-center md:mb-8">
+        <h3 className="font-medium text-2xl text-gray-950 md:text-3xl dark:text-gray-50">
           Builders ship faster with OnchainKit
         </h3>
       </div>
-      <div className="flex flex-col items-center gap-6 md:flex-row md:items-start">
-        <div className="flex w-full max-w-[438px] justify-center">
-          <blockquote
-            className="twitter-tweet tweet1"
-            data-dnt="true"
-            data-theme="light"
-          >
+      <div className="relative w-full">
+        <div className="flex flex-col gap-8 md:snap-x md:snap-mandatory md:flex-row md:gap-4 md:overflow-x-auto">
+          <TweetCard className="tweet1 md:snap-center">
             <p lang="en" dir="ltr">
               🟣 Excited to announce that Basenames are now integrated into the
               Fit Club app! <br />
@@ -63,14 +69,8 @@ const Tweets = () => {
             <a href="https://twitter.com/fitclubonbase/status/1826969613294334172?ref_src=twsrc%5Etfw">
               August 23, 2024
             </a>
-          </blockquote>
-        </div>
-        <div className="flex max-w-[648px] flex-col items-center gap-6 md:items-start">
-          <blockquote
-            className="twitter-tweet tweet2"
-            data-dnt="true"
-            data-theme="light"
-          >
+          </TweetCard>
+          <TweetCard className="tweet2 md:snap-center">
             <p lang="en" dir="ltr">
               Building with
               <a href="https://twitter.com/OnchainKit?ref_src=twsrc%5Etfw">
@@ -91,13 +91,8 @@ const Tweets = () => {
             <a href="https://twitter.com/coinfeverapp/status/1842230362337915205?ref_src=twsrc%5Etfw">
               October 4, 2024
             </a>
-          </blockquote>
-          <blockquote
-            className="twitter-tweet tweet3"
-            data-conversation="none"
-            data-dnt="true"
-            data-theme="light"
-          >
+          </TweetCard>
+          <TweetCard className="tweet3 md:snap-center">
             <p lang="en" dir="ltr">
               Swap is now live on our website! Feels good to be based, thanks
               guys 💙{' '}
@@ -107,7 +102,7 @@ const Tweets = () => {
             <a href="https://twitter.com/KeyboardCatBase/status/1838710257809252581?ref_src=twsrc%5Etfw">
               September 24, 2024
             </a>
-          </blockquote>
+          </TweetCard>
         </div>
       </div>
     </section>

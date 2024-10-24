@@ -18,22 +18,39 @@
 }
 
 .dark {
-  .vocs_CodeGroup,
-  .vocs_Tabs_list,
+  .vocs_CodeGroup {
+    background-color: #0F0F0F !important;
+    border-color: #18181b !important;
+  }
+  .vocs_Tabs_list {
+    background-color: #0F0F0F !important;
+    border-color: #18181b !important;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+  }
   .vocs_Tabs_content,
   .vocs_CodeBlock,
   .vocs_CodeTitle,
-  .vocs_Pre_wrapper,
+  .vocs_Pre_wrapper {
+    background-color: #0F0F0F !important;
+    border-color: #18181b !important;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+  }
   .vocs_Heading::before,
   .vocs_Code {
-    background-color: #1F2937 !important;
-    border-color: #1F2937 !important;
-    --vocs-twoslash_popupBackground: #1F2937;
-    --vocs-color_background5: #1F2937;
-  }
+    background-color: #0F0F0F !important;
+    border-color: #18181b !important;
 
+    --vocs-twoslash_popupBackground: ##0F0F0F;
+    --vocs-color_background5: #0F0F0F;
+  }
+  .vocs_CopyButton {
+    background-color: #0F0F0F;
+  }
   .vocs_Tabs_trigger {
-    background-color: #1F2937;
+    background-color: #0F0F0F;
+    border-color: #818cf8;
     color: #F9FAFB;
   }
 }
@@ -254,4 +271,22 @@ footer a.vocs_Anchor {
 #twitter-widget-2 {
   width: 40.5rem !important;
   height: 37rem !important
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.animate-scroll {
+  display: inline-flex;
+  animation: scroll 30s linear infinite;
+}
+
+.animate-scroll:hover {
+  animation-play-state: paused;
 }

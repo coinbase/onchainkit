@@ -5,7 +5,6 @@ import { type ReactNode, useEffect, useState } from 'react';
 import { http, WagmiProvider, createConfig } from 'wagmi';
 import { base, baseSepolia } from 'wagmi/chains';
 import { coinbaseWallet } from 'wagmi/connectors';
-
 import '@coinbase/onchainkit/styles.css';
 
 const queryClient = new QueryClient();
