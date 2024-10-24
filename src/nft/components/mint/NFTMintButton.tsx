@@ -10,10 +10,10 @@ import {
   TransactionStatusAction,
   TransactionStatusLabel,
 } from '../../../transaction';
+import { useOnchainKit } from '../../../useOnchainKit';
 import { ConnectWallet } from '../../../wallet';
 import { useNFTLifecycleContext } from '../NFTLifecycleProvider';
 import { useNFTContext } from '../NFTProvider';
-import { useOnchainKit } from '../../../useOnchainKit';
 
 type NFTMintButtonReact = {
   className?: string;

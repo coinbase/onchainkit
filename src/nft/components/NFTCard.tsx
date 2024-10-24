@@ -1,11 +1,11 @@
+import { useCallback } from 'react';
 import { useAccount } from 'wagmi';
-import { background, border, cn, color, pressable } from '../../styles/theme';
+import { border, cn, color, pressable } from '../../styles/theme';
 import { useIsMounted } from '../../useIsMounted';
 import { useTheme } from '../../useTheme';
 import { LifecycleType, type NFTCardReact } from '../types';
 import { NFTLifecycleProvider } from './NFTLifecycleProvider';
 import { NFTProvider } from './NFTProvider';
-import { useCallback } from 'react';
 
 export function NFTCard({
   children,

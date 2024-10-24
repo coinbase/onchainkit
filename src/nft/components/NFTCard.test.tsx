@@ -10,8 +10,8 @@ import {
   vi,
 } from 'vitest';
 import { useIsMounted } from '../../useIsMounted';
-import { NFTProvider } from './NFTProvider';
 import { NFTCard } from './NFTCard';
+import { NFTProvider } from './NFTProvider';
 
 vi.mock('../../useTheme', () => ({
   useTheme: vi.fn(() => 'default-light'),

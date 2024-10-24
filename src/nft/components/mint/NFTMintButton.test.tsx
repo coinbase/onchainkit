@@ -11,10 +11,10 @@ import {
   useChainId,
 } from 'wagmi';
 import { mock } from 'wagmi/connectors';
+import { useOnchainKit } from '../../../useOnchainKit';
 import { useNFTLifecycleContext } from '../NFTLifecycleProvider';
 import { useNFTContext } from '../NFTProvider';
 import { NFTMintButton } from './NFTMintButton';
-import { useOnchainKit } from '../../../useOnchainKit';
 
 vi.mock('../NFTProvider');
 vi.mock('../NFTLifecycleProvider');
