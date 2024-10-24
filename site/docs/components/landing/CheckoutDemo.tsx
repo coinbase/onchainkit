@@ -40,8 +40,8 @@ function CheckoutDemo() {
 
 function CheckoutModal({ closeModal }: { closeModal: () => void }) {
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-10">
-      <div className="border border-zinc-300 dark:border-zinc-700 relative z-10 flex h-auto max-w-3xl flex-col gap-2 xs:rounded-[10px] bg-[#f4f4f5] dark:bg-[#0f0f0f] p-10 sm:px-10 rounded-lg">
+    <div className="fixed inset-0 z-10 flex items-center justify-center bg-black bg-opacity-50">
+      <div className="relative z-10 flex h-auto max-w-3xl flex-col gap-2 rounded-lg xs:rounded-[10px] border border-zinc-300 bg-[#f4f4f5] p-10 sm:px-10 dark:border-zinc-700 dark:bg-[#0f0f0f]">
         <button
           type="button"
           className="absolute top-4 right-4"
@@ -52,7 +52,12 @@ function CheckoutModal({ closeModal }: { closeModal: () => void }) {
         <div className="flex flex-col items-start gap-2 pb-4">
           <div className="font-bold text-lg">Try it locally</div>
           <span className="pb-4 text-sm">
-            <a href={GITHUB_LINK} className='ock-text-primary' target='_blank' rel='noreferrer'>
+            <a
+              href={GITHUB_LINK}
+              className="ock-text-primary"
+              target="_blank"
+              rel="noreferrer"
+            >
               Fork the Onchain Commerce Template to experience the end-to-end
               checkout flow.{' '}
             </a>
