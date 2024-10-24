@@ -60,6 +60,7 @@ export default function DemoOptions({
         <>
           {commonOptions}
           <Chain />
+          <PaymasterUrl />
           <NFTOptions />
         </>
       );
