@@ -113,12 +113,13 @@ export function TransactionButton({
     }
     return idleText;
   }, [
+    displayPendingState,
+    errorMessage,
     errorText,
     idleText,
-    displayPendingState,
-    successText,
-    errorMessage,
+    pendingText,
     receipt,
+    successText,
   ]);
 
   const handleSubmit = useCallback(() => {
