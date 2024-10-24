@@ -358,6 +358,7 @@ export function CheckoutProvider({
     chainId,
     chargeId,
     connectAsync,
+    errorMessage,
     fetchData,
     isConnected,
     isSmartWallet,
