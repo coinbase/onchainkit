@@ -1,6 +1,7 @@
+import type React from 'react';
 import { useEffect, useState } from 'react';
-import CopyIcon from '../svg/CopySvg.tsx';
-import CheckIcon from '../svg/checkSvg.tsx';
+import CopyIcon from '../svg/CopySvg.js';
+import CheckIcon from '../svg/checkSvg.js';
 
 // Demo components and code snippets
 import CheckoutDemo, { checkoutDemoCode } from './CheckoutDemo.tsx';
@@ -83,7 +84,7 @@ function ComponentPreview() {
 
   return (
     <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-      <div className="flex flex-col gap-8 lg:flex-row lg:items-start">
+      <div className="flex flex-col items-center gap-8 lg:flex-row lg:items-start">
         <ComponentList
           activeTab={activeTab}
           setActiveTab={setActiveTab}
@@ -154,6 +155,12 @@ type PreviewContainerProps = {
   copyToClipboard: (text: string, index: number) => void;
 };
 
+type TabButtonProps = {
+  isActive: boolean;
+  onClick: () => void;
+  children: React.ReactNode;
+};
+
 function PreviewContainer({
   activeTab,
   activeSubTab,
@@ -164,76 +171,74 @@ function PreviewContainer({
   const ActiveComponent = components[activeTab].component;
 
   return (
-    <div className="w-full flex-shrink-0 lg:w-[640px] xl:w-[720px]">
-      <div className="rounded-lg border border-zinc-200 dark:border-zinc-900">
-        <div className="relative w-full overflow-hidden rounded-lg bg-zinc-100 dark:bg-[#0F0F0F]">
-          <div className="flex items-center justify-between border-zinc-200 border-b dark:border-zinc-900">
-            <div className="flex">
-              <button
-                type="button"
-                className={`mt-2 ml-2 px-4 py-2 text-sm ${
-                  activeSubTab === 'preview'
-                    ? 'border-indigo-600 border-b-2 bg-zinc-100 text-zinc-950 dark:border-indigo-400 dark:bg-[#0F0F0F] dark:text-zinc-50'
-                    : 'text-zinc-700 dark:text-zinc-300'
-                }`}
-                onClick={() => setActiveSubTab('preview')}
-              >
-                Preview
-              </button>
-              <button
-                type="button"
-                className={`mt-2 px-4 py-2 text-sm ${
-                  activeSubTab === 'code'
-                    ? 'border-indigo-600 border-b-2 text-zinc-950 dark:border-indigo-400 dark:text-zinc-50'
-                    : 'text-zinc-700 dark:text-zinc-300'
-                }`}
-                onClick={() => setActiveSubTab('code')}
-              >
-                Code
-              </button>
-            </div>
-            {activeSubTab === 'code' && (
-              <button
-                type="button"
-                className="mr-2 rounded-md p-2 hover:bg-zinc-200 dark:hover:bg-zinc-800"
-                onClick={() =>
-                  copyToClipboard(components[activeTab].code, activeTab)
-                }
-                title={
-                  copiedIndex === activeTab ? 'Copied!' : 'Copy to clipboard'
-                }
-              >
-                {copiedIndex === activeTab ? (
-                  <CheckIcon className="h-5 w-5 text-green-500 dark:text-green-400" />
-                ) : (
-                  <CopyIcon className="h-5 w-5 text-zinc-700 dark:text-zinc-300" />
-                )}
-              </button>
+    <div className="h-[550px] w-[375px] overflow-hidden rounded-lg border border-zinc-200 bg-zinc-50 sm:w-[640px] md:h-[600px] md:w-[700px] dark:border-zinc-900 dark:bg-zinc-950">
+      <div className="mt-2 flex items-center justify-between border-zinc-200 border-b px-3 dark:border-zinc-900">
+        <div className="flex">
+          <TabButton
+            isActive={activeSubTab === 'preview'}
+            onClick={() => setActiveSubTab('preview')}
+          >
+            Preview
+          </TabButton>
+          <TabButton
+            isActive={activeSubTab === 'code'}
+            onClick={() => setActiveSubTab('code')}
+          >
+            Code
+          </TabButton>
+        </div>
+        {activeSubTab === 'code' && (
+          <button
+            type="button"
+            className="p-2 text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
+            onClick={() =>
+              copyToClipboard(components[activeTab].code, activeTab)
+            }
+            title={copiedIndex === activeTab ? 'Copied!' : 'Copy to clipboard'}
+          >
+            {copiedIndex === activeTab ? (
+              <CheckIcon className="h-5 w-5" />
+            ) : (
+              <CopyIcon className="h-5 w-5" />
             )}
-          </div>
-          <div className="h-[500px] overflow-auto">
-            <div
-              className={`${
-                activeSubTab === 'preview' ? 'flex' : 'hidden'
-              } h-full w-full items-center justify-center p-4`}
-            >
-              <div className="flex w-full max-w-[360px] items-center justify-center lg:max-w-none">
-                <ActiveComponent />
-              </div>
-            </div>
-            <div
-              className={`${
-                activeSubTab === 'code' ? 'block' : 'hidden'
-              } h-full w-full p-4`}
-            >
-              <pre className="h-full w-full overflow-auto bg-zinc-100 text-sm dark:bg-[#0F0F0F]">
-                <code>{components[activeTab].code}</code>
-              </pre>
-            </div>
-          </div>
+          </button>
+        )}
+      </div>
+      <div className="flex overflow-auto">
+        <div
+          className={`${
+            activeSubTab === 'preview' ? 'flex' : 'hidden'
+          } h-[500px] w-full items-center justify-center md:h-[550px]`}
+        >
+          <ActiveComponent />
+        </div>
+        <div
+          className={`${
+            activeSubTab === 'code' ? 'flex' : 'hidden'
+          } overflow-auto p-4`}
+        >
+          <pre className="overflow-autos h-[450px] whitespace-pre-wrap break-words text-sm md:h-[600px]">
+            <code>{components[activeTab].code}</code>
+          </pre>
         </div>
       </div>
     </div>
+  );
+}
+
+function TabButton({ isActive, onClick, children }: TabButtonProps) {
+  return (
+    <button
+      type="button"
+      className={`px-4 py-2 font-medium text-sm ${
+        isActive
+          ? 'border-indigo-600 border-b-2 text-indigo-600 dark:border-indigo-400 dark:text-indigo-400'
+          : 'text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100'
+      }`}
+      onClick={onClick}
+    >
+      {children}
+    </button>
   );
 }
 

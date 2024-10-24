@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import type React from 'react';
+import { useEffect, useState } from 'react';
 
 interface TweetCardProps {
   children: React.ReactNode;
@@ -6,7 +7,7 @@ interface TweetCardProps {
 }
 
 const TweetCard: React.FC<TweetCardProps> = ({ children, className }) => (
-  <div className={`w-full max-w-[400px] mx-auto ${className || ''}`}>
+  <div className={`mx-auto w-full max-w-[400px] ${className || ''}`}>
     <blockquote className="twitter-tweet" data-dnt="true" data-theme="light">
       {children}
     </blockquote>
@@ -44,7 +45,7 @@ const Tweets: React.FC = () => {
     <section className="w-full py-12 md:py-24">
       <div className="container mx-auto px-4">
         <div className="mb-8 text-center md:mb-12">
-          <h3 className="text-2xl font-medium text-gray-950 md:text-3xl dark:text-gray-50">
+          <h3 className="font-medium text-2xl text-gray-950 md:text-3xl dark:text-gray-50">
             Builders ship faster with OnchainKit
           </h3>
         </div>
@@ -52,8 +53,8 @@ const Tweets: React.FC = () => {
           <div className="flex flex-col items-center gap-8 md:flex-row md:items-stretch md:justify-center md:gap-4 md:overflow-x-auto md:pb-4">
             <TweetCard className="tweet1 md:flex-shrink-0">
               <p lang="en" dir="ltr">
-                🟣 Excited to announce that Basenames are now integrated into the
-                Fit Club app! <br />
+                🟣 Excited to announce that Basenames are now integrated into
+                the Fit Club app! <br />
                 <br />
                 Thanks to{' '}
                 <a href="https://twitter.com/OnchainKit?ref_src=twsrc%5Etfw">
