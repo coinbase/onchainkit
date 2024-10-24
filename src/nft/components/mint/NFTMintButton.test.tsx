@@ -14,9 +14,11 @@ import { mock } from 'wagmi/connectors';
 import { useNFTLifecycleContext } from '../NFTLifecycleProvider';
 import { useNFTContext } from '../NFTProvider';
 import { NFTMintButton } from './NFTMintButton';
+import { useOnchainKit } from '../../../useOnchainKit';
 
 vi.mock('../NFTProvider');
 vi.mock('../NFTLifecycleProvider');
+vi.mock('../../../useOnchainKit');
 vi.mock('wagmi', async (importOriginal) => {
   return {
     ...(await importOriginal<typeof import('wagmi')>()),
@@ -36,7 +38,7 @@ vi.mock('../../../transaction', async (importOriginal) => {
         {text}
       </button>
     ),
-    Transaction: ({ onStatus, children, calls }) => (
+    Transaction: ({ onStatus, children, calls, capabilities }) => (
       <>
         <div>
           <button type="button" onClick={calls}>
@@ -68,6 +70,7 @@ vi.mock('../../../transaction', async (importOriginal) => {
           >
             Error
           </button>
+          <div>{capabilities?.paymasterService?.url}</div>
         </div>
         {children}
       </>
@@ -122,6 +125,9 @@ describe('NFTMintButton', () => {
     });
     (useAccount as Mock).mockReturnValue({ address: '0xabc' });
     (useChainId as Mock).mockReturnValue(1);
+    (useOnchainKit as Mock).mockReturnValue({
+      config: undefined,
+    });
   });
 
   it('should render the mint button with default label', () => {
@@ -264,5 +270,29 @@ describe('NFTMintButton', () => {
       takerAddress: '0xabc',
       quantity: 1,
     });
+  });
+
+  it('should set paymaster capabilities when paymaster is available', () => {
+    (useOnchainKit as Mock).mockReturnValue({
+      config: { paymaster: 'paymaster-url' },
+    });
+
+    const { getByText } = render(
+      <TestProviders>
+        <NFTMintButton />
+      </TestProviders>,
+    );
+
+    expect(getByText('paymaster-url')).toBeDefined();
+  });
+
+  it('should not set paymaster when not available', () => {
+    const { queryByText } = render(
+      <TestProviders>
+        <NFTMintButton />
+      </TestProviders>,
+    );
+
+    expect(queryByText('paymaster-url')).toBeNull();
   });
 });

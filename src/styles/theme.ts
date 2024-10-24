@@ -19,7 +19,7 @@ export const text = {
 
 export const pressable = {
   default:
-    'cursor-pointer ock-bg-default active:ock-bg-default-active hover:bg-[var(--ock-bg-default-hover)]',
+    'cursor-pointer ock-bg-default active:bg-[var(--ock-bg-default-active)] hover:bg-[var(--ock-bg-default-hover)]',
   alternate:
     'cursor-pointer ock-bg-alternate active:ock-bg-alternate-active hover:[var(--ock-bg-alternate-hover)]',
   inverse:
@@ -46,6 +46,7 @@ export const background = {
   washed: 'ock-bg-primary-washed',
   disabled: 'ock-bg-primary-disabled',
   reverse: 'ock-bg-default-reverse',
+  active: 'ock-bg-default-active',
 } as const;
 
 export const color = {

@@ -3,7 +3,7 @@ import {
   type LifecycleStatus,
   type NFTError,
   NFTCard,
-} from '@/onchainkit/esm/nft';
+} from '@coinbase/onchainkit/nft';
 import {
   NFTLastSoldPrice,
   NFTMedia,
@@ -11,7 +11,7 @@ import {
   NFTNetwork,
   NFTOwner,
   NFTTitle,
-} from '@/onchainkit/esm/nft/components/view';
+} from '@coinbase/onchainkit/nft/view';
 import { useCallback, useContext } from 'react';
 import type { TransactionReceipt } from 'viem';
 import { AppContext } from '../AppProvider';

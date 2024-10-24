@@ -1,9 +1,11 @@
-import { background, border, cn, color } from '../../styles/theme';
+import { useAccount } from 'wagmi';
+import { background, border, cn, color, pressable } from '../../styles/theme';
 import { useIsMounted } from '../../useIsMounted';
 import { useTheme } from '../../useTheme';
 import { LifecycleType, type NFTCardReact } from '../types';
 import { NFTLifecycleProvider } from './NFTLifecycleProvider';
 import { NFTProvider } from './NFTProvider';
+import { useCallback } from 'react';
 
 export function NFTCard({
   children,
@@ -18,6 +20,14 @@ export function NFTCard({
   const componentTheme = useTheme();
 
   const isMounted = useIsMounted();
+
+  const { chain } = useAccount();
+
+  const handleOnClick = useCallback(() => {
+    const network = chain?.name.toLowerCase() ?? 'base';
+    const openSeaUrl = `https://opensea.io/assets/${network}/${contractAddress}/${tokenId}`;
+    window.open(openSeaUrl, '_blank', 'noopener,noreferrer');
+  }, [chain, contractAddress, tokenId]);
 
   // prevents SSR hydration issue
   if (!isMounted) {
@@ -36,20 +46,22 @@ export function NFTCard({
         tokenId={tokenId}
         useNFTData={useNFTData}
       >
-        <div
+        <button
+          type="button"
           className={cn(
             componentTheme,
             color.foreground,
-            background.default,
-            border.defaultActive,
+            pressable.default,
             border.radius,
-            'flex w-full max-w-[500px] flex-col border p-4',
+            'flex w-full max-w-[500px] flex-col items-stretch border p-4 text-left',
+            `hover:border-[${border.defaultActive}]`,
             className,
           )}
           data-testid="ockNFTCard_Container"
+          onClick={handleOnClick}
         >
           {children}
-        </div>
+        </button>
       </NFTProvider>
     </NFTLifecycleProvider>
   );
