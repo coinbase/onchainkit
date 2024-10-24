@@ -20,6 +20,7 @@
     "sitemap-generator": "^8.5.1",
     "tar": "^7.0.0",
     "typescript": "latest",
+    "viem": "^2.21.33",
     "vite": "^5.3.6",
     "vocs": "1.0.0-alpha.61"
   },
