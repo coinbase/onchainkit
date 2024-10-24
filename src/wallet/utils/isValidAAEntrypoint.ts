@@ -1,5 +1,5 @@
-import type { IsValidAAEntrypointOptions } from '../types';
 import { entryPoint06Address } from 'viem/account-abstraction';
+import type { IsValidAAEntrypointOptions } from '../types';
 
 /**
  * Verify the Account-Abstraction entrypoint before sponsoring a transaction.
