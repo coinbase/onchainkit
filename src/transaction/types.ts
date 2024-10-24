@@ -15,6 +15,11 @@ import type {
 
 export type Call = { to: Hex; data?: Hex; value?: bigint };
 
+type TransactionButtonOverride = {
+  text?: ReactNode;
+  onClick?: (receipt?: TransactionReceipt) => void;
+};
+
 /**
  * List of transaction lifecycle statuses.
  * The order of the statuses loosely follows the transaction lifecycle.
@@ -58,8 +63,7 @@ export type LifecycleStatus =
 export type IsSpinnerDisplayedProps = {
   errorMessage?: string;
   hasReceipt?: boolean;
-  isLoading?: boolean;
-  lifecycleStatus: LifecycleStatus;
+  isInProgress?: boolean;
   transactionHash?: string;
   transactionId?: string;
 };
@@ -71,6 +75,9 @@ export type TransactionButtonReact = {
   className?: string; // An optional CSS class name for styling the button component.
   disabled?: boolean; // A optional prop to disable the submit button
   text?: string; // An optional text to be displayed in the button component.
+  errorOverride?: TransactionButtonOverride; // Optional overrides for text and onClick handler in error state (default is resubmit txn)
+  successOverride?: TransactionButtonOverride; // Optional overrides for text and onClick handler in success state (default is view txn on block explorer)
+  pendingOverride?: Pick<TransactionButtonOverride, 'text'>; // Optional overrides for text in pending state (default is loading spinner)
 };
 
 export type TransactionContextType = {
@@ -89,6 +96,7 @@ export type TransactionContextType = {
   transactions?: Calls | Contracts; // An array of transactions for the component or a promise that resolves to an array of transactions.
   transactionId?: string; // An optional string representing the ID of the transaction.
   transactionHash?: string; // An optional string representing the hash of the transaction.
+  transactionCount?: number; // Number of transactions being executed
 };
 
 type PaymasterService = {
