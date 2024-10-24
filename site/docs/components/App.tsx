@@ -23,7 +23,10 @@ const wagmiConfig = createConfig({
   },
 });
 
-export default function App({ children, theme }: { children: ReactNode, theme: string }) {
+export default function App({
+  children,
+  theme,
+}: { children: ReactNode; theme: string }) {
   const isServer = typeof window === 'undefined';
   if (isServer) {
     return null;

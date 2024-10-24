@@ -1,13 +1,16 @@
 import React from 'react';
-import { codeToTokens, type ThemedToken } from 'shiki';
+import { type ThemedToken, codeToTokens } from 'shiki';
 
-export async function getHighlightedCode({ code, theme }: { code: string, theme: string }) {
+export async function getHighlightedCode({
+  code,
+  theme,
+}: { code: string; theme: string }) {
   const highlightedCode = await codeToTokens(code, {
     lang: 'typescript',
     themes: {
       light: theme === 'dark' ? 'dark-plus' : 'catppuccin-latte',
     },
-  })
+  });
 
   return (
     <code>
@@ -19,7 +22,7 @@ export async function getHighlightedCode({ code, theme }: { code: string, theme:
         </div>
       ))}
     </code>
-  )
+  );
 }
 
 const Token = ({ token }: { token: ThemedToken }) => {
@@ -32,7 +35,7 @@ const Token = ({ token }: { token: ThemedToken }) => {
       </span>
     );
   }
-  
+
   if (token.content.includes('\n')) {
     return token.content.split('\n').map((part, i, arr) => (
       <React.Fragment key={part}>
@@ -42,5 +45,9 @@ const Token = ({ token }: { token: ThemedToken }) => {
     ));
   }
 
-  return <span style={token.htmlStyle as Record<string, string>}>{token.content}</span>;
+  return (
+    <span style={token.htmlStyle as Record<string, string>}>
+      {token.content}
+    </span>
+  );
 };
