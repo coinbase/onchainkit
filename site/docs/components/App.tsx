@@ -1,7 +1,7 @@
 'use client';
 import { OnchainKitProvider } from '@coinbase/onchainkit';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { type ReactNode, useEffect, useState } from 'react';
+import { type ReactNode } from 'react';
 import { http, WagmiProvider, createConfig } from 'wagmi';
 import { base, baseSepolia } from 'wagmi/chains';
 import { coinbaseWallet } from 'wagmi/connectors';
@@ -23,31 +23,7 @@ const wagmiConfig = createConfig({
   },
 });
 
-export default function App({ children }: { children: ReactNode }) {
-  const [theme, setTheme] = useState('light');
-
-  useEffect(() => {
-    const rootElement = document.documentElement;
-    const observer = new MutationObserver(() => {
-      if (rootElement.classList.contains('dark')) {
-        setTheme('dark');
-      } else {
-        setTheme('light');
-      }
-    });
-
-    observer.observe(rootElement, {
-      attributes: true,
-      attributeFilter: ['class'],
-    });
-
-    if (rootElement.classList.contains('dark')) {
-      setTheme('dark');
-    }
-
-    return () => observer.disconnect();
-  }, []);
-
+export default function App({ children, theme }: { children: ReactNode, theme: string }) {
   const isServer = typeof window === 'undefined';
   if (isServer) {
     return null;
