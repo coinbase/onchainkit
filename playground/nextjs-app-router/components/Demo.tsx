@@ -11,6 +11,7 @@ import TransactionDemo from './demo/Transaction';
 import TransactionDefaultDemo from './demo/TransactionDefault';
 import WalletDemo from './demo/Wallet';
 import WalletDefaultDemo from './demo/WalletDefault';
+import { cn } from '@/lib/utils';
 
 function Demo() {
   const { activeComponent } = useContext(AppContext);
@@ -83,9 +84,10 @@ function Demo() {
   return (
     <>
       <div
-        className={`absolute top-0 right-0 bottom-0 left-0 z-20 flex w-full min-w-120 flex-col border-r bg-background p-6 transition-[height] sm:static sm:z-0 sm:w-1/4 ${
-          sideBarVisible ? 'h-full min-h-screen' : 'h-[5rem] overflow-hidden'
-        }`}
+        className={cn(
+          'absolute top-0 right-0 bottom-0 left-0 z-20 flex w-full min-w-80 flex-col border-r bg-background p-6 transition-[height] sm:static sm:z-0 sm:w-1/4',
+          sideBarVisible ? 'h-full min-h-screen' : 'h-[5rem] overflow-hidden',
+        )}
       >
         <div className="mb-12 flex justify-between">
           <div className="self-center font-semibold text-xl">
@@ -94,9 +96,7 @@ function Demo() {
           <button
             type="button"
             onClick={toggleSidebar}
-            className={`${buttonStyles} px-1 transition-transform sm:hidden ${
-              sideBarVisible ? '-rotate-90' : 'rotate-90'
-            }`}
+            className={cn(buttonStyles, 'px-1 transition-transform sm:hidden', sideBarVisible ? '-rotate-90' : 'rotate-90')}
           >
             <span className="pl-2">&rang;</span>
           </button>
