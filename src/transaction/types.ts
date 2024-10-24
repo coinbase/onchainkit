@@ -16,7 +16,7 @@ import type {
 export type Call = { to: Hex; data?: Hex; value?: bigint };
 
 type TransactionButtonOverride = {
-  text?: string;
+  text?: ReactNode;
   onClick?: (receipt?: TransactionReceipt) => void;
 };
 
@@ -77,7 +77,7 @@ export type TransactionButtonReact = {
   text?: string; // An optional text to be displayed in the button component.
   errorOverride?: TransactionButtonOverride; // Optional overrides for text and onClick handler in error state (default is resubmit txn)
   successOverride?: TransactionButtonOverride; // Optional overrides for text and onClick handler in success state (default is view txn on block explorer)
-  pendingOverride?: { text: string }; // Optional overrides for text in pending state (default is loading spinner)
+  pendingOverride?: Pick<TransactionButtonOverride, 'text'>; // Optional overrides for text in pending state (default is loading spinner)
 };
 
 export type TransactionContextType = {
@@ -96,7 +96,7 @@ export type TransactionContextType = {
   transactions?: Calls | Contracts; // An array of transactions for the component or a promise that resolves to an array of transactions.
   transactionId?: string; // An optional string representing the ID of the transaction.
   transactionHash?: string; // An optional string representing the hash of the transaction.
-  transactionCount?: number;
+  transactionCount?: number; // Number of transactions being executed
 };
 
 type PaymasterService = {

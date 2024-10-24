@@ -61,12 +61,8 @@ export function TransactionButton({
   });
 
   const { errorText, successText, pendingText } = useMemo(() => {
-    const successText = successOverride?.text
-      ? successOverride?.text
-      : 'View transaction';
-
-    const errorText = errorOverride?.text ? errorOverride?.text : 'Try again';
-
+    const successText = successOverride?.text ?? 'View transaction';
+    const errorText = errorOverride?.text ?? 'Try again';
     const pendingText = pendingOverride?.text;
 
     return { successText, errorText, pendingText };
@@ -104,7 +100,7 @@ export function TransactionButton({
     return onSubmit();
   }, [errorOverride, onSubmit]);
 
-  const buttonText = useMemo(() => {
+  const buttonContent = useMemo(() => {
     // txn successful
     if (receipt) {
       return successText;
@@ -157,7 +153,7 @@ export function TransactionButton({
         <span
           className={cn(text.headline, color.inverse, 'flex justify-center')}
         >
-          {buttonText}
+          {buttonContent}
         </span>
       )}
     </button>
