@@ -1,12 +1,12 @@
 import type { Address, Chain } from 'viem';
+import { githubSvg } from '../../internal/svg/githubSvg';
+import { twitterSvg } from '../../internal/svg/twitterSvg';
+import { warpcastSvg } from '../../internal/svg/warpcastSvg';
+import { websiteSvg } from '../../internal/svg/websiteSvg';
 import { cn } from '../../styles/theme';
 import { useName } from '../hooks/useName';
 import { useSocials } from '../hooks/useSocials';
 import { useIdentityContext } from './IdentityProvider';
-import { twitterSvg } from '../../internal/svg/twitterSvg';
-import { githubSvg } from '../../internal/svg/githubSvg';
-import { websiteSvg } from '../../internal/svg/websiteSvg';
-import { warpcastSvg } from '../../internal/svg/warpcastSvg';
 
 type SocialsReact = {
   address?: Address | null;
@@ -23,7 +23,7 @@ export function Socials({ address, chain, className }: SocialsReact) {
 
   if (!accountAddress) {
     console.error(
-      'Socials: an Ethereum address must be provided to the Socials component.'
+      'Socials: an Ethereum address must be provided to the Socials component.',
     );
     return null;
   }
@@ -38,7 +38,7 @@ export function Socials({ address, chain, className }: SocialsReact) {
       ensName: name ?? '',
       chain: accountChain,
     },
-    { enabled: !!name }
+    { enabled: !!name },
   );
 
   console.log('socials data: ', socials);
@@ -63,22 +63,26 @@ export function Socials({ address, chain, className }: SocialsReact) {
 
         // Set up href and icon based on the platform
         switch (platform) {
-          case 'twitter':
+          case 'twitter': {
             href = `https://x.com/${value}`;
             icon = twitterSvg;
             break;
-          case 'github':
+          }
+          case 'github': {
             href = `https://github.com/${value}`;
             icon = githubSvg;
             break;
-          case 'farcaster':
+          }
+          case 'farcaster': {
             href = `https://warpcast.com/${value}`;
             icon = warpcastSvg;
             break;
-          case 'url':
+          }
+          case 'url': {
             href = value;
             icon = websiteSvg;
             break;
+          }
         }
 
         // Render individual social link
@@ -88,7 +92,7 @@ export function Socials({ address, chain, className }: SocialsReact) {
             href={href}
             target="_blank"
             rel="noopener noreferrer"
-            className="hover:opacity-80 transition-opacity"
+            className='transition-opacity hover:opacity-80'
             data-testid={`ockSocials_${
               platform.charAt(0).toUpperCase() + platform.slice(1)
             }`}

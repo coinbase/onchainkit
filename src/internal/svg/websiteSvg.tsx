@@ -7,14 +7,14 @@ export const websiteSvg = (
     aria-label="ock-websiteSvg"
     width="32"
     height="32"
-    viewBox="0 0 32 32"
+    viewBox="10 10 12 12"
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
     className={`h-full w-full ${icon.foreground}`}
   >
     <path
       d="M0 8C0 3.58172 3.58172 0 8 0H24C28.4183 0 32 3.58172 32 8V24C32 28.4183 28.4183 32 24 32H8C3.58172 32 0 28.4183 0 24V8Z"
-      fill="#000000"  // Changed from #F9FAFB to #000000 for black background
+      fill="#000000" // Changed from #F9FAFB to #000000 for black background
     />
     <path
       fillRule="evenodd"

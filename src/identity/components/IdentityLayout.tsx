@@ -1,7 +1,7 @@
 import { Children, useMemo } from 'react';
 import type { ReactNode } from 'react';
 import { findComponent } from '../../internal/utils/findComponent';
-import { background, cn, color, pressable, border } from '../../styles/theme';
+import { background, border, cn, color, pressable } from '../../styles/theme';
 import { useTheme } from '../../useTheme';
 import { usePopover } from '../hooks/usePopover';
 import { Address } from './Address';
@@ -51,7 +51,7 @@ export function IdentityLayout({
         background.default,
         'flex flex-col px-4 py-1',
         onClick && `${pressable.default} relative`,
-        className
+        className,
       )}
       data-testid="ockIdentityLayout_container"
       onClick={handleClick}
@@ -60,7 +60,7 @@ export function IdentityLayout({
       onKeyUp={noop}
       onKeyDown={noop}
     >
-      <div className="flex items-start space-x-4">
+      <div className="flex items-start space-x-6">
         <div className="flex-shrink-0">{avatar}</div>
         <div className="flex flex-col">
           {name}
@@ -76,14 +76,14 @@ export function IdentityLayout({
         </div>
       </div>
       {socials && (
-        <div className={cn(border.default, 'mt-2 w-full')}>{socials}</div>
+        <div className={cn(border.default, 'mt-4 w-full pl-2')}>{socials}</div>
       )}
       {showPopover && (
         <div
           className={cn(
             background.inverse,
             color.foreground,
-            'absolute top-[calc(100%_-_5px)] left-[46px] z-10 rounded px-2 py-1 shadow-[0px_4px_8px_rgba(0,0,0,0.1)]'
+            'absolute top-[calc(100%_-_5px)] left-[46px] z-10 rounded px-2 py-1 shadow-[0px_4px_8px_rgba(0,0,0,0.1)]',
           )}
           data-testid="ockIdentityLayout_copy"
         >
@@ -91,7 +91,7 @@ export function IdentityLayout({
           <div
             className={cn(
               'absolute top-[-5px] left-6 h-0 w-0',
-              'border-x-[5px] border-x-transparent border-b-[5px] border-b-[color:var(--ock-bg-inverse)] border-solid'
+              'border-x-[5px] border-x-transparent border-b-[5px] border-b-[color:var(--ock-bg-inverse)] border-solid',
             )}
             data-testid="ockIdentityLayout_copyArrow"
           />
