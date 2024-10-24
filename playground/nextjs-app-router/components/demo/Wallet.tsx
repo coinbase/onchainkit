@@ -20,10 +20,12 @@ import { useAccount } from 'wagmi';
 function WalletComponent() {
   const { address } = useAccount();
 
+  console.log('withwalletaggregator');
+
   return (
     <div className="flex justify-end">
       <Wallet>
-        <ConnectWallet text="Connect Wallet" withWalletAggregator={false}>
+        <ConnectWallet text="Connect Wallet" withWalletAggregator={true}>
           <Avatar address={address} className="h-6 w-6" />
           <Name />
         </ConnectWallet>
@@ -50,7 +52,7 @@ function WalletComponent() {
   );
 }
 
-export default function WalletDemo() {
+export default function kWalletDemo() {
   return (
     <div className="mx-auto">
       <WalletComponent />

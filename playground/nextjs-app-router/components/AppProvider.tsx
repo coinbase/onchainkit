@@ -1,13 +1,52 @@
-
 // AppContext.js
 import { ENVIRONMENT, ENVIRONMENT_VARIABLES } from '@/lib/constants';
 import { OnchainKitProvider } from '@coinbase/onchainkit';
 import type React from 'react';
 import { createContext, useEffect, useState } from 'react';
-import { useConnect, useConnectors } from 'wagmi';
+import { useConnect, useConnectors, WagmiProvider } from 'wagmi';
 import { base } from 'wagmi/chains';
 import { WalletPreference } from './form/wallet-type';
-import { RainbowKitProvider } from '@rainbow-me/rainbowkit';
+import { 
+  RainbowKitProvider, 
+  connectorsForWallets, 
+  getDefaultConfig, 
+} from '@rainbow-me/rainbowkit'; 
+import { 
+  metaMaskWallet, 
+  rainbowWallet, 
+  coinbaseWallet, 
+} from '@rainbow-me/rainbowkit/wallets'; 
+import '@rainbow-me/rainbowkit/styles.css'; 
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
+
+const queryClient = new QueryClient();
+
+const connectors = connectorsForWallets( 
+  [
+    {
+      groupName: 'Recommended Wallet',
+      wallets: [coinbaseWallet],
+    },
+    {
+      groupName: 'Other Wallets',
+      wallets: [rainbowWallet, metaMaskWallet],
+    },
+  ],
+  {
+    appName: 'onchainkit',
+    projectId: process.env.NEXT_PUBLIC_PROJECT_ID,
+  },
+); 
+ 
+const wagmiConfig = getDefaultConfig({ 
+  appName: 'onchainkit',
+  connectors,
+  projectId: process.env.NEXT_PUBLIC_PROJECT_ID,
+  chains: [base],
+  ssr: true, // If your dApp uses server side rendering (SSR)
+}); 
+
 
 export enum OnchainKitComponent {
   Fund = 'fund',
@@ -254,7 +293,8 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         setDefaultMaxSlippage,
       }}
     >
-      <RainbowKitProvider>
+      <WagmiProvider config={wagmiConfig}>
+      <QueryClientProvider client={queryClient}>
         <OnchainKitProvider
           apiKey={ENVIRONMENT_VARIABLES[ENVIRONMENT.API_KEY]}
         chain={base}
@@ -267,9 +307,10 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         projectId={ENVIRONMENT_VARIABLES[ENVIRONMENT.PROJECT_ID]}
         schemaId="0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9"
       >
-        {children}
-      </OnchainKitProvider>
-    </RainbowKitProvider>
+          <RainbowKitProvider modalSize='compact' id='6d7cf552c52c907edb0f16d279239994'>{children}</RainbowKitProvider>
+        </OnchainKitProvider>
+        </QueryClientProvider>
+      </WagmiProvider>
     </AppContext.Provider>
   );
 };

@@ -42,6 +42,7 @@ function Demo() {
 
   // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO: refactor
   function renderActiveComponent() {
+
     if (activeComponent === OnchainKitComponent.Fund) {
       return <FundDemo />;
     }
