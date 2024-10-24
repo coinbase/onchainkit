@@ -53,6 +53,19 @@ describe('TransactionButton', () => {
     expect(spinner).toBeInTheDocument();
   });
 
+  it('renders spinner with multiple legacy transactions', () => {
+    (useTransactionContext as Mock).mockReturnValue({
+      lifecycleStatus: {
+        statusName: 'transactionLegacyExecuted',
+        statusData: { transactionHashList: ['123'] },
+      },
+      transactionCount: 2,
+    });
+    render(<TransactionButton text="Transact" />);
+    const spinner = screen.getByTestId('ockSpinner');
+    expect(spinner).toBeInTheDocument();
+  });
+
   it('renders view txn text when receipt exists', () => {
     (useTransactionContext as Mock).mockReturnValue({
       isLoading: true,
@@ -195,6 +208,25 @@ describe('TransactionButton', () => {
     const button = screen.getByText('yay');
     fireEvent.click(button);
     expect(showCallsStatus).toHaveBeenCalledWith({ id: '456' });
+  });
+
+  it('should render custom pending text when it exists', () => {
+    const showCallsStatus = vi.fn();
+    (useShowCallsStatus as Mock).mockReturnValue({ showCallsStatus });
+    (useTransactionContext as Mock).mockReturnValue({
+      lifecycleStatus: { statusName: 'init', statusData: null },
+      transactionId: '456',
+      isLoading: true,
+    });
+    render(
+      <TransactionButton
+        text="Transact"
+        pendingOverride={{ text: 'loading' }}
+      />,
+    );
+    const button = screen.getByText('loading');
+    fireEvent.click(button);
+    expect(button).toBeDefined();
   });
 
   it('should call custom success handler when it exists', () => {
