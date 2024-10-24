@@ -26,7 +26,9 @@ export async function getHighlightedCode({
 }
 
 function HtmlToken({ token }: { token: ThemedToken }) {
-  const sanitizedHtmlStyle = sanitizeHtmlStyle(token.htmlStyle as Record<string, string>);
+  const sanitizedHtmlStyle = sanitizeHtmlStyle(
+    token.htmlStyle as Record<string, string>,
+  );
   if (Array.isArray(token.content)) {
     return (
       <span style={sanitizedHtmlStyle}>
@@ -46,18 +48,14 @@ function HtmlToken({ token }: { token: ThemedToken }) {
     ));
   }
 
-  return (
-    <span style={sanitizedHtmlStyle}>
-      {token.content}
-    </span>
-  );
-};
+  return <span style={sanitizedHtmlStyle}>{token.content}</span>;
+}
 
 function sanitizeHtmlStyle(style: Record<string, string>) {
   return Object.fromEntries(
     Object.entries(style).map(([key, value]) => [
       key.replace(/-([a-z])/g, (_, letter) => letter.toUpperCase()),
       value,
-    ])
-  )
+    ]),
+  );
 }
