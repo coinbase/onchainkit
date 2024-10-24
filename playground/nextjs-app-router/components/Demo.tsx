@@ -5,8 +5,6 @@ import DemoOptions from './DemoOptions';
 import CheckoutDemo from './demo/Checkout';
 import FundDemo from './demo/Fund';
 import IdentityDemo from './demo/Identity';
-import NFTCardDemo from './demo/NFTCard';
-import NFTMintCardDemo from './demo/NFTMintCard';
 import SwapDemo from './demo/Swap';
 import SwapDefaultDemo from './demo/SwapDefault';
 import TransactionDemo from './demo/Transaction';
@@ -79,14 +77,6 @@ function Demo() {
       return <TransactionDefaultDemo />;
     }
 
-    if (activeComponent === OnchainKitComponent.NFTMintCard) {
-      return <NFTMintCardDemo />;
-    }
-
-    if (activeComponent === OnchainKitComponent.NFTCard) {
-      return <NFTCardDemo />;
-    }
-
     return <></>;
   }
 
@@ -139,7 +129,7 @@ function Demo() {
         </div>
       </div>
       <div className="linear-gradient(to_bottom,#f0f0f0_1px,transparent_1px)] flex flex-1 flex-col bg-[linear-gradient(to_right,#f0f0f0_1px,transparent_1px), bg-[size:6rem_4rem]">
-        <div className="flex h-full w-full flex-col items-center justify-center">
+        <div className="flex h-full w-full flex-col justify-center">
           {renderActiveComponent()}
         </div>
       </div>
