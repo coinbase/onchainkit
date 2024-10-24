@@ -17,7 +17,7 @@ export const checkoutDemoCode = `
 
 const GITHUB_LINK = 'https://github.com/coinbase/onchain-commerce-template';
 
-function CheckoutDemo() {
+function CheckoutDemo({ theme }: { theme: string }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const openModal = useCallback(() => {
@@ -29,7 +29,7 @@ function CheckoutDemo() {
   }, []);
 
   return (
-    <App>
+    <App theme={theme}>
       <Checkout productId="my-product-id">
         {isModalOpen && <CheckoutModal closeModal={closeModal} />}
         <MockCheckoutButton onClick={openModal} />

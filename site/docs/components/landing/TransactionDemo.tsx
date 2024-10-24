@@ -42,9 +42,9 @@ export const transactionDemoCode = `
   />
   `;
 
-function TransactionDemo() {
+function TransactionDemo({ theme }: { theme: string }) {
   return (
-    <App>
+    <App theme={theme}>
       <TransactionWrapper>
         {({ address, contracts, onError, onSuccess }) => {
           const capabilities = {
