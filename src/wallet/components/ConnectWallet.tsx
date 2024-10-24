@@ -24,6 +24,7 @@ export function ConnectWallet({
   // but for now we will keep it for backward compatibility.
   text = 'Connect Wallet',
   withWalletAggregator = false,
+  onConnect
 }: ConnectWalletReact) {
   // Core Hooks
   const { isOpen, setIsOpen } = useWalletContext();
@@ -60,9 +61,10 @@ export function ConnectWallet({
 
   if (status === 'disconnected') {
     if (withWalletAggregator) {
+      console.log('withWalletAggregator is Active');
       return (
         <ConnectButtonRainbowKit.Custom>
-          {({ openConnectModal }) => (
+          {({ openConnectModal  }) => (
             <div className="flex" data-testid="ockConnectWallet_Container">
               <ConnectButton
                 className={className}
@@ -80,7 +82,7 @@ export function ConnectWallet({
         <ConnectButton
           className={className}
           connectWalletText={connectWalletText}
-          onClick={() => connect({ connector })}
+          onClick={() => connect({ connector }, { onSuccess: onConnect })}
           text={text}
         />
       </div>

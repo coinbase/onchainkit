@@ -23,7 +23,7 @@ function WalletComponent() {
   return (
     <div className="flex justify-end">
       <Wallet>
-        <ConnectWallet text="Connect Wallet">
+        <ConnectWallet text="Connect Wallet" withWalletAggregator={false}>
           <Avatar address={address} className="h-6 w-6" />
           <Name />
         </ConnectWallet>

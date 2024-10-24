@@ -1,3 +1,4 @@
+
 // AppContext.js
 import { ENVIRONMENT, ENVIRONMENT_VARIABLES } from '@/lib/constants';
 import { OnchainKitProvider } from '@coinbase/onchainkit';
@@ -6,6 +7,7 @@ import { createContext, useEffect, useState } from 'react';
 import { useConnect, useConnectors } from 'wagmi';
 import { base } from 'wagmi/chains';
 import { WalletPreference } from './form/wallet-type';
+import { RainbowKitProvider } from '@rainbow-me/rainbowkit';
 
 export enum OnchainKitComponent {
   Fund = 'fund',
@@ -252,8 +254,9 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         setDefaultMaxSlippage,
       }}
     >
-      <OnchainKitProvider
-        apiKey={ENVIRONMENT_VARIABLES[ENVIRONMENT.API_KEY]}
+      <RainbowKitProvider>
+        <OnchainKitProvider
+          apiKey={ENVIRONMENT_VARIABLES[ENVIRONMENT.API_KEY]}
         chain={base}
         config={{
           appearance: {
@@ -266,6 +269,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
       >
         {children}
       </OnchainKitProvider>
+    </RainbowKitProvider>
     </AppContext.Provider>
   );
 };

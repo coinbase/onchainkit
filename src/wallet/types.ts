@@ -20,6 +20,11 @@ export type ConnectWalletReact = {
   /** @deprecated Prefer `ConnectWalletText component` */
   text?: string; // Optional text override for button
   withWalletAggregator?: boolean; // Optional flag to enable the wallet aggregator like RainbowKit
+  /**
+   * Optional callback function to execute when the wallet is connected.
+   * This can be used to perform additional actions after the wallet is connected.
+   */
+  onConnect?: () => void;
 };
 
 /**
