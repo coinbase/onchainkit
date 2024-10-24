@@ -25,9 +25,9 @@ export const fundDemoCode = `
   <FundButton fundingUrl={onrampBuyUrl} />
 `;
 
-function FundDemo() {
+function FundDemo({ theme }: { theme: string }) {
   return (
-    <App>
+    <App theme={theme}>
       <FundWrapper>
         {({ address }) => {
           if (address) {

@@ -52,10 +52,10 @@ export const swapDemoCode = `
   /> 
   `;
 
-function SwapDemo() {
+function SwapDemo({ theme }: { theme: string }) {
   return (
     <div className="mx-auto flex flex-col items-center justify-center">
-      <App>
+      <App theme={theme}>
         <SwapWrapper>
           {({ address, swappableTokens }) => {
             if (address) {

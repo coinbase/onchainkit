@@ -38,9 +38,9 @@ export const walletDemoCode = `
 
 `;
 
-function WalletDemo() {
+function WalletDemo({ theme }: { theme: string }) {
   return (
-    <App>
+    <App theme={theme}>
       <Wallet>
         <ConnectWallet>
           <Avatar className="h-6 w-6" />
