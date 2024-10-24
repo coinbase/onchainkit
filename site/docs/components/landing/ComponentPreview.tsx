@@ -199,7 +199,9 @@ function PreviewContainer({
   const [highlightedCode, setHighlightedCode] = useState<React.ReactNode>(null);
 
   useEffect(() => {
-    getHighlightedCode({ code: components[activeTab].code, theme }).then(setHighlightedCode);
+    getHighlightedCode({ code: components[activeTab].code, theme }).then(
+      setHighlightedCode,
+    );
   }, [activeTab, theme]);
 
   return (
