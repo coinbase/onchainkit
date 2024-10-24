@@ -171,7 +171,7 @@ function PreviewContainer({
   const ActiveComponent = components[activeTab].component;
 
   return (
-    <div className="h-[550px] w-[375px] overflow-hidden rounded-lg border border-zinc-200 bg-zinc-50 sm:w-[640px] md:h-[600px] md:w-[700px] dark:border-zinc-900 dark:bg-zinc-950">
+    <div className="h-[550px] w-[375px] overflow-hidden rounded-lg border border-zinc-200 bg-zinc-50 sm:w-[600px] md:h-[670px] md:w-[700px] dark:border-zinc-900 dark:bg-zinc-950">
       <div className="mt-2 flex items-center justify-between border-zinc-200 border-b px-3 dark:border-zinc-900">
         <div className="flex">
           <TabButton
@@ -208,16 +208,12 @@ function PreviewContainer({
         <div
           className={`${
             activeSubTab === 'preview' ? 'flex' : 'hidden'
-          } h-[500px] w-full items-center justify-center md:h-[550px]`}
+          } h-[500px] w-full items-center justify-center md:h-[600px]`}
         >
           <ActiveComponent />
         </div>
-        <div
-          className={`${
-            activeSubTab === 'code' ? 'flex' : 'hidden'
-          } overflow-auto p-4`}
-        >
-          <pre className="overflow-autos h-[450px] whitespace-pre-wrap break-words text-sm md:h-[600px]">
+        <div className={`${activeSubTab === 'code' ? 'flex' : 'hidden'} p-4`}>
+          <pre className="h-[450px] whitespace-pre-wrap break-words text-sm md:h-[600px]">
             <code>{components[activeTab].code}</code>
           </pre>
         </div>
