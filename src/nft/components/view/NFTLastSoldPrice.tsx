@@ -3,7 +3,7 @@ import { cn, text } from '../../../styles/theme';
 import { formatAmount } from '../../../token/utils/formatAmount';
 import { useNFTContext } from '../NFTProvider';
 
-type NFTLastSoldPriceProps = {
+type NFTLastSoldPriceReact = {
   className?: string;
   label?: ReactNode;
 };
@@ -11,7 +11,7 @@ type NFTLastSoldPriceProps = {
 export function NFTLastSoldPrice({
   className,
   label = 'Mint price',
-}: NFTLastSoldPriceProps) {
+}: NFTLastSoldPriceReact) {
   const {
     lastSoldPrice: { amount, currency, amountUSD },
   } = useNFTContext();

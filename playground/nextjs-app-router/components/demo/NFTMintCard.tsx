@@ -3,17 +3,18 @@ import { useReservoirMintData } from '@/lib/useReservoirMintData';
 import {
   type LifecycleStatus,
   type NFTError,
-  NFTMint,
-} from '@/onchainkit/esm/nft';
+  NFTMintCard,
+} from '@coinbase/onchainkit/nft';
 import {
   NFTAssetCost,
+  NFTCollectionTitle,
   NFTCreator,
   NFTMintButton,
   NFTMinters,
   NFTQuantitySelector,
   NFTTotalCost,
-} from '@/onchainkit/esm/nft/components/mint';
-import { NFTMedia, NFTTitle } from '@/onchainkit/esm/nft/components/view';
+} from '@coinbase/onchainkit/nft/mint';
+import { NFTMedia } from '@coinbase/onchainkit/nft/view';
 import { useCallback, useContext } from 'react';
 import type { TransactionReceipt } from 'viem';
 import { AppContext } from '../AppProvider';
@@ -30,7 +31,7 @@ import { AppContext } from '../AppProvider';
 // cb quarterly earnings 0x1D6b183bD47F914F9f1d3208EDCF8BefD7F84E63
 // audio - 0x05a28e3d5f68c8b4a521ab7f74bd887fae6a598d base song
 
-function NFTMintCard() {
+function NFTMintCardDemo() {
   const { nftToken } = useContext(AppContext);
 
   const [contractAddress, tokenId] = (
@@ -53,7 +54,7 @@ function NFTMintCard() {
   }, []);
 
   return (
-    <NFTMint
+    <NFTMintCard
       contractAddress={contractAddress}
       tokenId={tokenId}
       useNFTData={useReservoirMintData}
@@ -64,14 +65,14 @@ function NFTMintCard() {
     >
       <NFTCreator />
       <NFTMedia />
-      <NFTTitle />
+      <NFTCollectionTitle />
       <NFTMinters />
       <NFTQuantitySelector />
       <NFTAssetCost />
       <NFTMintButton />
       <NFTTotalCost />
-    </NFTMint>
+    </NFTMintCard>
   );
 }
 
-export default NFTMintCard;
+export default NFTMintCardDemo;

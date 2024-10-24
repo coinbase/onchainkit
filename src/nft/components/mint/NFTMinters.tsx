@@ -1,5 +1,5 @@
 import { Avatar, Identity, Name } from '../../../identity';
-import { cn } from '../../../styles/theme';
+import { cn, color } from '../../../styles/theme';
 import { useOnchainKit } from '../../../useOnchainKit';
 import { useNFTContext } from '../NFTProvider';
 
@@ -16,7 +16,7 @@ export function NFTMinters({ className }: NFTMintersReact) {
   }
 
   return (
-    <div className={cn('flex py-2', className)}>
+    <div className={cn('flex py-2', color.foregroundMuted, className)}>
       <div className="flex space-x-[-.4rem]">
         {recentOwners.map((address) => (
           <Identity

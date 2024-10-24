@@ -2,7 +2,7 @@ import { useReservoirNFTData } from '@/lib/useReservoirNFTData';
 import {
   type LifecycleStatus,
   type NFTError,
-  NFTView,
+  NFTCard,
 } from '@/onchainkit/esm/nft';
 import {
   NFTLastSoldPrice,
@@ -28,7 +28,7 @@ import { AppContext } from '../AppProvider';
 // cb quarterly earnings 0x1D6b183bD47F914F9f1d3208EDCF8BefD7F84E63
 // audio - 0x05a28e3d5f68c8b4a521ab7f74bd887fae6a598d base song
 
-function NFTCard() {
+function NFTCardDemo() {
   const { nftToken } = useContext(AppContext);
 
   const [contractAddress, tokenId] = (
@@ -51,7 +51,7 @@ function NFTCard() {
   }, []);
 
   return (
-    <NFTView
+    <NFTCard
       contractAddress={contractAddress}
       tokenId={tokenId}
       useNFTData={useReservoirNFTData}
@@ -65,8 +65,8 @@ function NFTCard() {
       <NFTLastSoldPrice />
       <NFTMintDate />
       <NFTNetwork />
-    </NFTView>
+    </NFTCard>
   );
 }
 
-export default NFTCard;
+export default NFTCardDemo;
