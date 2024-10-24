@@ -1,8 +1,8 @@
 import type { ContractType } from '@/onchainkit/esm/nft/types';
 import { useMemo } from 'react';
-import { useToken } from './useToken';
 import { useCollection } from './useCollection';
 import { useOwners } from './useOwners';
+import { useToken } from './useToken';
 
 export function useReservoirMintData(
   contractAddress: string,
