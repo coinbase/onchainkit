@@ -1,5 +1,4 @@
-import type React from 'react';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 interface TweetCardProps {
   children: React.ReactNode;
@@ -43,66 +42,68 @@ const Tweets: React.FC = () => {
 
   return (
     <section className="w-full py-12 md:py-24">
-      <div className="mb-8 px-4 text-center md:mb-8">
-        <h3 className="font-medium text-2xl text-gray-950 md:text-3xl dark:text-gray-50">
-          Builders ship faster with OnchainKit
-        </h3>
-      </div>
-      <div className="relative w-full">
-        <div className="flex flex-col gap-8 md:snap-x md:snap-mandatory md:flex-row md:gap-4 md:overflow-x-auto">
-          <TweetCard className="tweet1 md:snap-center">
-            <p lang="en" dir="ltr">
-              🟣 Excited to announce that Basenames are now integrated into the
-              Fit Club app! <br />
-              <br />
-              Thanks to{' '}
-              <a href="https://twitter.com/OnchainKit?ref_src=twsrc%5Etfw">
-                @OnchainKit
-              </a>{' '}
-              for making it smooth and easy! 💜
-              <br />
-              <br />
-              More updates on the way, stay fit. 🏋️‍♀️🏋️‍♂️{' '}
-              <a href="https://t.co/5BlIm5kSx3">pic.twitter.com/5BlIm5kSx3</a>
-            </p>
-            — Fit Club (@fitclubonbase){' '}
-            <a href="https://twitter.com/fitclubonbase/status/1826969613294334172?ref_src=twsrc%5Etfw">
-              August 23, 2024
-            </a>
-          </TweetCard>
-          <TweetCard className="tweet2 md:snap-center">
-            <p lang="en" dir="ltr">
-              Building with
-              <a href="https://twitter.com/OnchainKit?ref_src=twsrc%5Etfw">
-                @OnchainKit
-              </a>{' '}
-              has been such a great experience so far. We&#39;re builders, and
-              we like to build things from scratch. But with{' '}
-              <a href="https://twitter.com/OnchainKit?ref_src=twsrc%5Etfw">
-                @OnchainKit
+      <div className="container mx-auto px-4">
+        <div className="mb-8 text-center md:mb-12">
+          <h3 className="text-2xl font-medium text-gray-950 md:text-3xl dark:text-gray-50">
+            Builders ship faster with OnchainKit
+          </h3>
+        </div>
+        <div className="relative w-full">
+          <div className="flex flex-col gap-8 md:flex-row md:gap-4 md:overflow-x-auto md:pb-4">
+            <TweetCard className="tweet1 md:snap-center">
+              <p lang="en" dir="ltr">
+                🟣 Excited to announce that Basenames are now integrated into the
+                Fit Club app! <br />
+                <br />
+                Thanks to{' '}
+                <a href="https://twitter.com/OnchainKit?ref_src=twsrc%5Etfw">
+                  @OnchainKit
+                </a>{' '}
+                for making it smooth and easy! 💜
+                <br />
+                <br />
+                More updates on the way, stay fit. 🏋️‍♀️🏋️‍♂️{' '}
+                <a href="https://t.co/5BlIm5kSx3">pic.twitter.com/5BlIm5kSx3</a>
+              </p>
+              — Fit Club (@fitclubonbase){' '}
+              <a href="https://twitter.com/fitclubonbase/status/1826969613294334172?ref_src=twsrc%5Etfw">
+                August 23, 2024
               </a>
-              , there was a real boost in productivity, allowing us to ship
-              dApps with seamless functionality in a matter of minutes. <br />
-              <br />
-              Onto the next…{' '}
-              <a href="https://t.co/QzlJ4RIKLG">https://t.co/QzlJ4RIKLG</a>
-            </p>
-            &mdash; Coinfever (@coinfeverapp){' '}
-            <a href="https://twitter.com/coinfeverapp/status/1842230362337915205?ref_src=twsrc%5Etfw">
-              October 4, 2024
-            </a>
-          </TweetCard>
-          <TweetCard className="tweet3 md:snap-center">
-            <p lang="en" dir="ltr">
-              Swap is now live on our website! Feels good to be based, thanks
-              guys 💙{' '}
-              <a href="https://t.co/vunDYrnT2j">pic.twitter.com/vunDYrnT2j</a>
-            </p>
-            &mdash; KEYCAT (@KeyboardCatBase){' '}
-            <a href="https://twitter.com/KeyboardCatBase/status/1838710257809252581?ref_src=twsrc%5Etfw">
-              September 24, 2024
-            </a>
-          </TweetCard>
+            </TweetCard>
+            <TweetCard className="tweet2 md:snap-center">
+              <p lang="en" dir="ltr">
+                Building with
+                <a href="https://twitter.com/OnchainKit?ref_src=twsrc%5Etfw">
+                  @OnchainKit
+                </a>{' '}
+                has been such a great experience so far. We&#39;re builders, and
+                we like to build things from scratch. But with{' '}
+                <a href="https://twitter.com/OnchainKit?ref_src=twsrc%5Etfw">
+                  @OnchainKit
+                </a>
+                , there was a real boost in productivity, allowing us to ship
+                dApps with seamless functionality in a matter of minutes. <br />
+                <br />
+                Onto the next…{' '}
+                <a href="https://t.co/QzlJ4RIKLG">https://t.co/QzlJ4RIKLG</a>
+              </p>
+              &mdash; Coinfever (@coinfeverapp){' '}
+              <a href="https://twitter.com/coinfeverapp/status/1842230362337915205?ref_src=twsrc%5Etfw">
+                October 4, 2024
+              </a>
+            </TweetCard>
+            <TweetCard className="tweet3 md:snap-center">
+              <p lang="en" dir="ltr">
+                Swap is now live on our website! Feels good to be based, thanks
+                guys 💙{' '}
+                <a href="https://t.co/vunDYrnT2j">pic.twitter.com/vunDYrnT2j</a>
+              </p>
+              &mdash; KEYCAT (@KeyboardCatBase){' '}
+              <a href="https://twitter.com/KeyboardCatBase/status/1838710257809252581?ref_src=twsrc%5Etfw">
+                September 24, 2024
+              </a>
+            </TweetCard>
+          </div>
         </div>
       </div>
     </section>
