@@ -107,7 +107,7 @@ export type NFTReact = {
 /**
  * Note: exported as public Type
  */
-export type NFTViewReact = {
+export type NFTCardReact = {
   children: React.ReactNode;
   className?: string;
   contractAddress: Hex;
@@ -122,7 +122,7 @@ export type NFTViewReact = {
  * Note: exported as public Type
  * NFTMint must be used if the NFTMintButton is included
  */
-export type NFTMintReact = {
+export type NFTMintCardReact = {
   children: ReactNode;
   className?: string; // Optional className override for top div element.
   contractAddress: Hex; // Contract address of the NFT

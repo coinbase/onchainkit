@@ -8,7 +8,7 @@ const DATE_OPTIONS = {
   day: 'numeric',
 } as Intl.DateTimeFormatOptions;
 
-type NFTMintDateProps = {
+type NFTMintDateReact = {
   className?: string;
   label?: ReactNode;
 };
@@ -16,7 +16,7 @@ type NFTMintDateProps = {
 export function NFTMintDate({
   className,
   label = 'Mint date',
-}: NFTMintDateProps) {
+}: NFTMintDateReact) {
   const { mintDate } = useNFTContext();
 
   const formattedDate = useMemo(() => {

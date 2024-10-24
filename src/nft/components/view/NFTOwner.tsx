@@ -4,12 +4,12 @@ import { cn, text } from '../../../styles/theme';
 import { useOnchainKit } from '../../../useOnchainKit';
 import { useNFTContext } from '../NFTProvider';
 
-type NFTOwnerProps = {
+type NFTOwnerReact = {
   className?: string;
   label?: ReactNode;
 };
 
-export function NFTOwner({ className, label = 'Owned by' }: NFTOwnerProps) {
+export function NFTOwner({ className, label = 'Owned by' }: NFTOwnerReact) {
   const { schemaId } = useOnchainKit();
   const { ownerAddress } = useNFTContext();
 
@@ -27,7 +27,7 @@ export function NFTOwner({ className, label = 'Owned by' }: NFTOwnerProps) {
     >
       <div>{label}</div>
       <Identity
-        className="space-x-2 px-0"
+        className={cn('!bg-inherit space-x-2 px-0')}
         address={ownerAddress}
         schemaId={schemaId}
       >

@@ -10,6 +10,7 @@ import {
   TransactionStatusAction,
   TransactionStatusLabel,
 } from '../../../transaction';
+import { useOnchainKit } from '../../../useOnchainKit';
 import { ConnectWallet } from '../../../wallet';
 import { useNFTLifecycleContext } from '../NFTLifecycleProvider';
 import { useNFTContext } from '../NFTProvider';
@@ -33,6 +34,16 @@ export function NFTMintButton({
     quantity,
   } = useNFTContext();
   const { updateLifecycleStatus } = useNFTLifecycleContext();
+  const {
+    config: { paymaster } = { paymaster: undefined },
+  } = useOnchainKit();
+
+  const capabilities = useMemo(() => {
+    if (paymaster) {
+      return { paymasterService: { url: paymaster } };
+    }
+    return undefined;
+  }, [paymaster]);
 
   const handleOnStatus = useCallback(
     (transactionStatus: TransactionLifecycleStatus) => {
@@ -74,6 +85,7 @@ export function NFTMintButton({
   return (
     <div className={cn('py-2', className)}>
       <Transaction
+        capabilities={capabilities}
         chainId={chainId}
         calls={() =>
           buildMintTransaction({
