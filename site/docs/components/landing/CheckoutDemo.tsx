@@ -1,8 +1,8 @@
 import { Checkout } from '@coinbase/onchainkit/checkout';
+import { useCallback, useState } from 'react';
 import App from '../App.tsx';
-import { coinbasePaySvg } from '../svg/coinbasePaySvg.tsx';
-import { useState, useCallback } from 'react';
 import { closeSvg } from '../svg/closeSvg.tsx';
+import { coinbasePaySvg } from '../svg/coinbasePaySvg.tsx';
 
 export const checkoutDemoCode = `
   import { 
@@ -51,8 +51,8 @@ function CheckoutModal({ closeModal }: { closeModal: () => void }) {
         </button>
         <div className="flex flex-col items-start gap-2 pb-4">
           <div className="font-bold text-lg">Try it locally</div>
-          <span className="text-sm pb-4">
-            <a href={GITHUB_LINK} className="ock-text-primary" target='_blank'>
+          <span className="pb-4 text-sm">
+            <a href={GITHUB_LINK} className='ock-text-primary' target='_blank' rel='noreferrer'>
               Fork the Onchain Commerce Template to experience the end-to-end
               checkout flow.{' '}
             </a>
