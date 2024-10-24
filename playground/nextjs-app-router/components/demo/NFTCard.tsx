@@ -1,8 +1,8 @@
 import { useReservoirNFTData } from '@/lib/useReservoirNFTData';
 import {
   type LifecycleStatus,
-  type NFTError,
   NFTCard,
+  type NFTError,
 } from '@coinbase/onchainkit/nft';
 import {
   NFTLastSoldPrice,
