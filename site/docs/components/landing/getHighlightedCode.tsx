@@ -12,9 +12,9 @@ export async function getHighlightedCode({ code, theme }: { code: string, theme:
   return (
     <code>
       {highlightedCode?.tokens.map((line, i) => (
-        <div key={i}>
+        <div key={`${i}|${line[0].content}`}>
           {line.map((token, j) => (
-            <Token key={j} token={token} />
+            <Token key={`${j}|${token.content}`} token={token} />
           ))}
         </div>
       ))}
@@ -26,8 +26,8 @@ const Token = ({ token }: { token: ThemedToken }) => {
   if (Array.isArray(token.content)) {
     return (
       <span style={token.htmlStyle as Record<string, string>}>
-        {token.content.map((subToken, i) => (
-          <Token key={i} token={subToken} />
+        {token.content.map((subToken) => (
+          <Token key={subToken} token={subToken} />
         ))}
       </span>
     );
@@ -35,7 +35,7 @@ const Token = ({ token }: { token: ThemedToken }) => {
   
   if (token.content.includes('\n')) {
     return token.content.split('\n').map((part, i, arr) => (
-      <React.Fragment key={i}>
+      <React.Fragment key={part}>
         <span style={token.htmlStyle as Record<string, string>}>{part}</span>
         {i < arr.length - 1 && <br />}
       </React.Fragment>
