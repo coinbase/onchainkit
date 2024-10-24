@@ -35,6 +35,7 @@ import type {
 } from '../types';
 import { getPaymasterUrl } from '../utils/getPaymasterUrl';
 import { isUserRejectedRequestError } from '../utils/isUserRejectedRequestError';
+import { useOnchainKit } from '../../useOnchainKit';
 
 const emptyContext = {} as TransactionContextType;
 export const TransactionContext =
@@ -52,10 +53,11 @@ export function useTransactionContext() {
 
 export function TransactionProvider({
   calls,
-  capabilities,
+  capabilities: transactionCapabilities,
   chainId,
   children,
   contracts,
+  isSponsored,
   onError,
   onStatus,
   onSuccess,
@@ -63,6 +65,10 @@ export function TransactionProvider({
   // Core Hooks
   const account = useAccount();
   const config = useConfig();
+  const {
+    config: { paymaster } = { paymaster: undefined },
+  } = useOnchainKit();
+
   const [errorMessage, setErrorMessage] = useState('');
   const [errorCode, setErrorCode] = useState('');
   const [isToastVisible, setIsToastVisible] = useState(false);
@@ -156,6 +162,15 @@ export function TransactionProvider({
   // Transaction hash for single transaction (non-batched)
   const singleTransactionHash =
     writeContractTransactionHash || sendCallTransactionHash;
+
+  const capabilities = useMemo(() => {
+    if (isSponsored && paymaster) {
+      return {
+        paymasterService: { url: paymaster },
+      };
+    }
+    return transactionCapabilities;
+  }, [isSponsored, paymaster, transactionCapabilities]);
 
   // useSendWalletTransactions
   // Used to send transactions based on the transaction type. Can be of type calls or contracts.

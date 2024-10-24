@@ -141,6 +141,7 @@ export type TransactionProviderReact = {
   chainId: number; // The chainId for the transaction.
   children: ReactNode; // The child components to be rendered within the provider component.
   contracts?: Contracts; // An array of contract function parameters provided to the child components. Mutually exclusive with the `calls` prop.
+  isSponsored?: boolean; // Whether the transactions are sponsored (default: false)
   onError?: (e: TransactionError) => void; // An optional callback function that handles errors within the provider.
   onStatus?: (lifecycleStatus: LifecycleStatus) => void; // An optional callback function that exposes the component lifecycle state
   onSuccess?: (response: TransactionResponse) => void; // An optional callback function that exposes the transaction receipts
@@ -156,6 +157,7 @@ export type TransactionReact = {
   children: ReactNode; // The child components to be rendered within the transaction component.
   className?: string; // An optional CSS class name for styling the component.
   contracts?: Contracts; // An array of contract function parameters provided to the child components. Mutually exclusive with the `calls` prop.
+  isSponsored?: boolean; // Whether the transactions are sponsored (default: false)
   onError?: (e: TransactionError) => void; // An optional callback function that handles transaction errors.
   onStatus?: (lifecycleStatus: LifecycleStatus) => void; // An optional callback function that exposes the component lifecycle state
   onSuccess?: (response: TransactionResponse) => void; // An optional callback function that exposes the transaction receipts
