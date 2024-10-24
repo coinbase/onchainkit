@@ -60,12 +60,12 @@ export function TransactionButton({
     transactionId,
   });
 
-  const { errorText, successText, pendingText } = useMemo(() => {
+  const { errorText, successText, pendingContent } = useMemo(() => {
     const successText = successOverride?.text ?? 'View transaction';
     const errorText = errorOverride?.text ?? 'Try again';
-    const pendingText = pendingOverride?.text;
+    const pendingContent = pendingOverride?.text ?? <Spinner />;
 
-    return { successText, errorText, pendingText };
+    return { successText, errorText, pendingContent };
   }, [errorOverride, pendingOverride, successOverride]);
 
   const successHandler = useCallback(() => {
@@ -109,7 +109,7 @@ export function TransactionButton({
       return errorText;
     }
     if (displayPendingState) {
-      return pendingText;
+      return pendingContent;
     }
     return idleText;
   }, [
@@ -117,7 +117,7 @@ export function TransactionButton({
     errorMessage,
     errorText,
     idleText,
-    pendingText,
+    pendingContent,
     receipt,
     successText,
   ]);
@@ -148,15 +148,9 @@ export function TransactionButton({
       disabled={isDisabled}
       data-testid="ockTransactionButton_Button"
     >
-      {displayPendingState && !pendingText ? (
-        <Spinner />
-      ) : (
-        <span
-          className={cn(text.headline, color.inverse, 'flex justify-center')}
-        >
-          {buttonContent}
-        </span>
-      )}
+      <div className={cn(text.headline, color.inverse, 'flex justify-center')}>
+        {buttonContent}
+      </div>
     </button>
   );
 }
