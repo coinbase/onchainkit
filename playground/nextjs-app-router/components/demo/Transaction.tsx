@@ -72,7 +72,10 @@ function TransactionDemo() {
         console.log('Playground.Transaction.contracts:', contracts);
         break;
       case TransactionTypes.ContractsAndCalls:
-        console.log('Playground.Transaction.contracts:', heterogeneousClickCalls);
+        console.log(
+          'Playground.Transaction.contractsAndCalls:',
+          heterogeneousClickCalls,
+        );
         break;
       default:
         console.log(`Playground.Transaction.${transactionType}`);
@@ -108,7 +111,6 @@ function TransactionDemo() {
         return { calls: undefined, contracts: contractsCallback };
       case TransactionTypes.ContractsAndCalls:
         return { calls: heterogeneousClickCalls, contracts: undefined };
-        break;
       default:
         return { calls: undefined, contracts: undefined };
     }
