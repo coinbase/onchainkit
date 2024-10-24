@@ -80,7 +80,6 @@ function Demo() {
 
     return <></>;
   }
-  console.log('Sidebar is visible:', sideBarVisible);
 
   return (
     <>
