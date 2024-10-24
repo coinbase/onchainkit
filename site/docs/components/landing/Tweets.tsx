@@ -6,7 +6,7 @@ interface TweetCardProps {
 }
 
 const TweetCard: React.FC<TweetCardProps> = ({ children, className }) => (
-  <div className={`w-full flex-shrink-0 md:w-[400px] ${className || ''}`}>
+  <div className={`w-full max-w-[400px] mx-auto ${className || ''}`}>
     <blockquote className="twitter-tweet" data-dnt="true" data-theme="light">
       {children}
     </blockquote>
@@ -49,8 +49,8 @@ const Tweets: React.FC = () => {
           </h3>
         </div>
         <div className="relative w-full">
-          <div className="flex flex-col gap-8 md:flex-row md:gap-4 md:overflow-x-auto md:pb-4">
-            <TweetCard className="tweet1 md:snap-center">
+          <div className="flex flex-col items-center gap-8 md:flex-row md:items-stretch md:justify-center md:gap-4 md:overflow-x-auto md:pb-4">
+            <TweetCard className="tweet1 md:flex-shrink-0">
               <p lang="en" dir="ltr">
                 🟣 Excited to announce that Basenames are now integrated into the
                 Fit Club app! <br />
@@ -70,7 +70,7 @@ const Tweets: React.FC = () => {
                 August 23, 2024
               </a>
             </TweetCard>
-            <TweetCard className="tweet2 md:snap-center">
+            <TweetCard className="tweet2 md:flex-shrink-0">
               <p lang="en" dir="ltr">
                 Building with
                 <a href="https://twitter.com/OnchainKit?ref_src=twsrc%5Etfw">
@@ -92,7 +92,7 @@ const Tweets: React.FC = () => {
                 October 4, 2024
               </a>
             </TweetCard>
-            <TweetCard className="tweet3 md:snap-center">
+            <TweetCard className="tweet3 md:flex-shrink-0">
               <p lang="en" dir="ltr">
                 Swap is now live on our website! Feels good to be based, thanks
                 guys 💙{' '}
