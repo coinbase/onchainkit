@@ -9,4 +9,3 @@
 - **docs**: Updated documentation. By @0xAlec @dschlabach @fakepixels @cpcramer #1465 #1470 #1477 #1478 #1486 #1487 #1490
 - **feat**: Updated playground with `Checkout` component and custom `Theming`. @0xAlec @cpcramer #1428 #1465
 - **feat**: Updated landing page. @mindapivessa #1482 #1496 
-- **feat**: Added `name` and `logo` fields to `OnchainKitProvider`. @0xAlec #1506
