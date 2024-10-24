@@ -9,10 +9,10 @@ import {
   it,
   vi,
 } from 'vitest';
+import { useAccount } from 'wagmi';
 import { useIsMounted } from '../../useIsMounted';
 import { NFTCard } from './NFTCard';
 import { NFTProvider } from './NFTProvider';
-import { useAccount } from 'wagmi';
 
 vi.mock('wagmi', () => ({
   useAccount: vi.fn(),
