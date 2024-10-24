@@ -290,3 +290,13 @@ footer a.vocs_Anchor {
 .animate-scroll:hover {
   animation-play-state: paused;
 }
+
+html.dark .shiki,
+html.dark .shiki span {
+  background-color: transparent !important;
+}
+
+html .shiki,
+html .shiki span {
+  background-color: transparent !important;
+}

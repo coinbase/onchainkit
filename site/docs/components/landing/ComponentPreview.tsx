@@ -1,5 +1,7 @@
+import DOMPurify from 'dompurify';
 import type React from 'react';
 import { useEffect, useState } from 'react';
+import { codeToHtml } from 'shiki';
 import CopyIcon from '../svg/CopySvg.js';
 import CheckIcon from '../svg/checkSvg.js';
 
@@ -66,10 +68,35 @@ function ComponentPreview() {
   const [activeSubTab, setActiveSubTab] = useState<'preview' | 'code'>(
     'preview',
   );
+  const [highlightedCode, setHighlightedCode] = useState('');
 
   useEffect(() => {
     setIsClient(true);
   }, []);
+
+  useEffect(() => {
+    async function highlightCode() {
+      try {
+        const code = await codeToHtml(components[activeTab].code, {
+          lang: 'typescript',
+          themes: {
+            light: 'catppuccin-latte',
+            dark: 'dark-plus',
+          },
+        });
+        const sanitizedCode = DOMPurify.sanitize(code);
+        setHighlightedCode(sanitizedCode);
+      } catch (error) {
+        console.error('Error highlighting code:', error);
+        const sanitizedFallback = DOMPurify.sanitize(
+          components[activeTab].code,
+        );
+        setHighlightedCode(sanitizedFallback);
+      }
+    }
+
+    highlightCode();
+  }, [activeTab]);
 
   const copyToClipboard = (text: string, index: number) => {
     navigator.clipboard.writeText(text).then(() => {
@@ -96,6 +123,7 @@ function ComponentPreview() {
           setActiveSubTab={setActiveSubTab}
           copiedIndex={copiedIndex}
           copyToClipboard={copyToClipboard}
+          highlightedCode={highlightedCode}
         />
       </div>
     </div>
@@ -153,6 +181,7 @@ type PreviewContainerProps = {
   setActiveSubTab: (subTab: 'preview' | 'code') => void;
   copiedIndex: number | null;
   copyToClipboard: (text: string, index: number) => void;
+  highlightedCode: string;
 };
 
 type TabButtonProps = {
@@ -167,6 +196,7 @@ function PreviewContainer({
   setActiveSubTab,
   copiedIndex,
   copyToClipboard,
+  highlightedCode,
 }: PreviewContainerProps) {
   const ActiveComponent = components[activeTab].component;
 
@@ -217,9 +247,10 @@ function PreviewContainer({
             activeSubTab === 'code' ? 'flex' : 'hidden'
           } overflow-auto p-4`}
         >
-          <pre className="overflow-autos h-[450px] whitespace-pre-wrap break-words text-sm md:h-[600px]">
-            <code>{components[activeTab].code}</code>
-          </pre>
+          <pre
+            className="h-[450px] overflow-auto whitespace-pre-wrap break-words text-sm md:h-[600px]"
+            dangerouslySetInnerHTML={{ __html: highlightedCode }}
+          />
         </div>
       </div>
     </div>
