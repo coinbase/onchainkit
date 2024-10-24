@@ -21,15 +21,15 @@ export const pressable = {
   default:
     'cursor-pointer ock-bg-default active:bg-[var(--ock-bg-default-active)] hover:bg-[var(--ock-bg-default-hover)]',
   alternate:
-    'cursor-pointer ock-bg-alternate active:ock-bg-alternate-active hover:[var(--ock-bg-alternate-hover)]',
+    'cursor-pointer ock-bg-alternate active:bg-[var(--ock-bg-alternate-active)] hover:[var(--ock-bg-alternate-hover)]',
   inverse:
-    'cursor-pointer ock-bg-inverse active:ock-bg-inverse-active hover:bg-[var(--ock-bg-inverse-hover)]',
+    'cursor-pointer ock-bg-inverse active:bg-[var(--ock-bg-inverse-active)] hover:bg-[var(--ock-bg-inverse-hover)]',
   primary:
-    'cursor-pointer ock-bg-primary active:ock-bg-primary-active hover:bg-[var(--ock-bg-primary-hover)]',
+    'cursor-pointer ock-bg-primary active:bg-[var(--ock-bg-primary-active)] hover:bg-[var(--ock-bg-primary-hover)]',
   secondary:
-    'cursor-pointer ock-bg-secondary active:ock-bg-secondary-active hover:bg-[var(--ock-bg-secondary-hover)]',
+    'cursor-pointer ock-bg-secondary active:bg-[var(--ock-bg-secondary-active)] hover:bg-[var(--ock-bg-secondary-hover)]',
   coinbaseBranding:
-    'cursor-pointer bg-[#0052FF] active:ock-bg-secondary-active hover:bg-[#0045D8]',
+    'cursor-pointer bg-[#0052FF] active:bg-[var(--ock-bg-secondary-active)] hover:bg-[#0045D8]',
   shadow: 'ock-shadow-default',
   disabled: 'opacity-[0.38] pointer-events-none',
 } as const;

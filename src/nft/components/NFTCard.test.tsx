@@ -12,7 +12,11 @@ import {
 import { useIsMounted } from '../../useIsMounted';
 import { NFTCard } from './NFTCard';
 import { NFTProvider } from './NFTProvider';
+import { useAccount } from 'wagmi';
 
+vi.mock('wagmi', () => ({
+  useAccount: vi.fn(),
+}));
 vi.mock('../../useTheme', () => ({
   useTheme: vi.fn(() => 'default-light'),
 }));
@@ -24,6 +28,7 @@ vi.mock('./NFTProvider', () => ({
 describe('NFTView', () => {
   beforeEach(() => {
     (useIsMounted as Mock).mockReturnValue(true);
+    (useAccount as Mock).mockReturnValue({ chain: null });
   });
 
   afterEach(() => {
@@ -67,6 +72,43 @@ describe('NFTView', () => {
         tokenId: '1',
       }),
       {},
+    );
+  });
+
+  it('should go to opensea onclick when on base chain', () => {
+    window.open = vi.fn();
+    (useAccount as Mock).mockReturnValue({ chain: { name: 'Base' } });
+    const { getByTestId } = render(
+      <NFTCard contractAddress="0x123" tokenId="1" className="test-class">
+        <div>Child Component</div>
+      </NFTCard>,
+    );
+
+    const button = getByTestId('ockNFTCard_Container');
+    button.click();
+
+    expect(window.open).toHaveBeenCalledWith(
+      'https://opensea.io/assets/base/0x123/1',
+      '_blank',
+      'noopener,noreferrer',
+    );
+  });
+
+  it('should go to opensea onclick defaulting to base when chain is null', () => {
+    window.open = vi.fn();
+    const { getByTestId } = render(
+      <NFTCard contractAddress="0x123" tokenId="1" className="test-class">
+        <div>Child Component</div>
+      </NFTCard>,
+    );
+
+    const button = getByTestId('ockNFTCard_Container');
+    button.click();
+
+    expect(window.open).toHaveBeenCalledWith(
+      'https://opensea.io/assets/base/0x123/1',
+      '_blank',
+      'noopener,noreferrer',
     );
   });
 });
