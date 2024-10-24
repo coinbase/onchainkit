@@ -105,7 +105,7 @@ async function init() {
           name: 'clientKey',
           message: pc.reset(
             `Enter your ${createClickableLink(
-              'Coinbase Developer Platform API Key:',
+              'Coinbase Developer Platform Client API Key:',
               'https://portal.cdp.coinbase.com/products/onchainkit'
             )} (optional)`
           ),

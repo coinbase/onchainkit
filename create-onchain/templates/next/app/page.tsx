@@ -25,8 +25,9 @@ const components = [
     url: 'https://onchainkit.xyz/transaction/transaction',
   },
   { name: 'Swap', url: 'https://onchainkit.xyz/swap/swap' },
-  { name: 'Pay', url: 'https://onchainkit.xyz/pay/pay' },
+  { name: 'Checkout', url: 'https://onchainkit.xyz/checkout/checkout' },
   { name: 'Wallet', url: 'https://onchainkit.xyz/wallet/wallet' },
+  { name: 'Identity', url: 'https://onchainkit.xyz/identity/identity' },
 ];
 
 const templates = [
