@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- a6ef801: - **feat**: Added ability to customize error and success states for `TransactionButton`. By @abcrane123 #1460
+  - **feat**: Added ability to customize error and success states for `TransactionButton`. By @abcrane123 #1460
   - **feat**: Added custom `Theming` support. By @cpcramer #1465
   - **feat**: added `name` and `logo` to `OnchainKitProvider`. by @0xAlec #1506
   - **fix**: Added callback support to the `Transaction` component. By @alessy #1473
