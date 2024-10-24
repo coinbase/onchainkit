@@ -232,6 +232,10 @@ export function CheckoutProvider({
         });
         return;
       }
+      if (errorMessage === USER_REJECTED_ERROR) {
+        // Reset status if previous request was a rejection
+        setErrorMessage('');
+      }
 
       let connectedAddress = address;
       let connectedChainId = chainId;
@@ -353,6 +357,7 @@ export function CheckoutProvider({
     chainId,
     chargeId,
     connectAsync,
+    errorMessage,
     fetchData,
     isConnected,
     isSmartWallet,
