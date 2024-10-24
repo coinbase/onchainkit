@@ -349,6 +349,7 @@ export function CheckoutProvider({
     }
   }, [
     address,
+    appearance,
     chainId,
     chargeId,
     connectAsync,
