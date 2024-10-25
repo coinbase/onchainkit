@@ -5,15 +5,15 @@ import App from '../App.tsx';
 import FundWrapper from '../FundWrapper.tsx';
 
 export const fundDemoCode = `
-  import { 
-    FundButton, 
-    getOnrampBuyUrl 
+  import {
+    FundButton,
+    getOnrampBuyUrl
   } from '@coinbase/onchainkit/fund';
   import { useAccount } from 'wagmi';
-  
+
   const projectId = 'YOUR_CDP_PROJECT_ID';
   const { address } = useAccount();
-  
+
   const onrampBuyUrl = getOnrampBuyUrl({
     projectId,
     addresses: { address: ['base'] },
@@ -25,9 +25,9 @@ export const fundDemoCode = `
   <FundButton fundingUrl={onrampBuyUrl} />
 `;
 
-function FundDemo({ theme }: { theme: string }) {
+function FundDemo() {
   return (
-    <App theme={theme}>
+    <App>
       <FundWrapper>
         {({ address }) => {
           if (address) {

@@ -5,19 +5,19 @@ import { closeSvg } from '../svg/closeSvg.tsx';
 import { coinbasePaySvg } from '../svg/coinbasePaySvg.tsx';
 
 export const checkoutDemoCode = `
-  import { 
-      Checkout, 
+  import {
+      Checkout,
       CheckoutButton
   } from '@coinbase/onchainkit/checkout';
- 
-  <Checkout productId='my-product-id' > 
-    <CheckoutButton coinbaseBranded={true}/> 
+
+  <Checkout productId='my-product-id' >
+    <CheckoutButton coinbaseBranded={true}/>
   </Checkout>
 `;
 
 const GITHUB_LINK = 'https://github.com/coinbase/onchain-commerce-template';
 
-function CheckoutDemo({ theme }: { theme: string }) {
+function CheckoutDemo() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const openModal = useCallback(() => {
@@ -29,7 +29,7 @@ function CheckoutDemo({ theme }: { theme: string }) {
   }, []);
 
   return (
-    <App theme={theme}>
+    <App>
       <Checkout productId="my-product-id">
         {isModalOpen && <CheckoutModal closeModal={closeModal} />}
         <MockCheckoutButton onClick={openModal} />

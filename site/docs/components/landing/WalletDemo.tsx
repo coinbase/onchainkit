@@ -25,22 +25,22 @@ export const walletDemoCode = `
     WalletDropdownLink,
     WalletDropdownDisconnect,
   } from '@coinbase/onchainkit/wallet';
-  import { 
-    Address, 
-    Avatar, 
-    Badge, 
-    EthBalance, 
-    Name, 
-    Identity, 
+  import {
+    Address,
+    Avatar,
+    Badge,
+    EthBalance,
+    Name,
+    Identity,
   } from '@coinbase/onchainkit/identity';
 
   <WalletDefault />
 
 `;
 
-function WalletDemo({ theme }: { theme: string }) {
+function WalletDemo() {
   return (
-    <App theme={theme}>
+    <App>
       <Wallet>
         <ConnectWallet>
           <Avatar className="h-6 w-6" />

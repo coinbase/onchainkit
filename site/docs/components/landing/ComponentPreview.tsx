@@ -1,4 +1,4 @@
-import type React from 'react';
+import type { ReactNode } from 'react';
 import { useEffect, useState } from 'react';
 import { useTheme } from '../../contexts/Theme.tsx';
 import CopyIcon from '../svg/CopySvg.js';
@@ -15,7 +15,7 @@ import WalletDemo, { walletDemoCode } from './WalletDemo.tsx';
 
 type Component = {
   name: string;
-  component: React.ComponentType<{ theme: string }>;
+  component: React.ComponentType;
   code: string;
   description: string;
 };
@@ -163,7 +163,7 @@ type PreviewContainerProps = {
 type TabButtonProps = {
   isActive: boolean;
   onClick: () => void;
-  children: React.ReactNode;
+  children: ReactNode;
 };
 
 function PreviewContainer({
@@ -175,7 +175,7 @@ function PreviewContainer({
   theme,
 }: PreviewContainerProps) {
   const ActiveComponent = components[activeTab].component;
-  const [highlightedCode, setHighlightedCode] = useState<React.ReactNode>(null);
+  const [highlightedCode, setHighlightedCode] = useState<ReactNode>(null);
 
   useEffect(() => {
     getHighlightedCode({ code: components[activeTab].code, theme }).then(

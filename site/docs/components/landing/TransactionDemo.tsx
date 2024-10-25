@@ -12,39 +12,39 @@ import App from '../App.tsx';
 import TransactionWrapper from '../TransactionWrapper.tsx';
 
 export const transactionDemoCode = `
-  import { 
-    Transaction, 
+  import {
+    Transaction,
     TransactionButton,
     TransactionSponsor,
     TransactionStatus,
     TransactionStatusAction,
     TransactionStatusLabel,
-  } from '@coinbase/onchainkit/transaction'; 
+  } from '@coinbase/onchainkit/transaction';
   import type { LifecycleStatus } from '@coinbase/onchainkit/transaction';
-  import { 
-    Wallet, 
+  import {
+    Wallet,
     ConnectWallet,
   } from '@coinbase/onchainkit/wallet';
-  import { 
-    Avatar, 
-    Name, 
+  import {
+    Avatar,
+    Name,
   } from '@coinbase/onchainkit/identity';
   import { useAccount } from 'wagmi';
-  import { contracts } from './contracts'; 
+  import { contracts } from './contracts';
 
   const { address } = useAccount();
   const handleOnStatus = useCallback((status: LifecycleStatus) => {
     console.log('LifecycleStatus', status);
   }, []);
-    
+
   <TransactionDefault
     contracts={contracts}
   />
   `;
 
-function TransactionDemo({ theme }: { theme: string }) {
+function TransactionDemo() {
   return (
-    <App theme={theme}>
+    <App>
       <TransactionWrapper>
         {({ address, contracts, onError, onSuccess }) => {
           const capabilities = {
