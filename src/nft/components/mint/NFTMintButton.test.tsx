@@ -280,28 +280,4 @@ describe('NFTMintButton', () => {
       quantity: 1,
     });
   });
-
-  it('should set paymaster capabilities when paymaster is available', () => {
-    (useOnchainKit as Mock).mockReturnValue({
-      config: { paymaster: 'paymaster-url' },
-    });
-
-    const { getByText } = render(
-      <TestProviders>
-        <NFTMintButton />
-      </TestProviders>,
-    );
-
-    expect(getByText('paymaster-url')).toBeDefined();
-  });
-
-  it('should not set paymaster when not available', () => {
-    const { queryByText } = render(
-      <TestProviders>
-        <NFTMintButton />
-      </TestProviders>,
-    );
-
-    expect(queryByText('paymaster-url')).toBeNull();
-  });
 });

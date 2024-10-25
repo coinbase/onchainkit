@@ -11,7 +11,6 @@ import {
   TransactionStatusAction,
   TransactionStatusLabel,
 } from '../../../transaction';
-import { useOnchainKit } from '../../../useOnchainKit';
 import { ConnectWallet } from '../../../wallet';
 import { useNFTLifecycleContext } from '../NFTLifecycleProvider';
 import { useNFTContext } from '../NFTProvider';
@@ -40,18 +39,9 @@ export function NFTMintButton({
     isEligibleToMint,
     buildMintTransaction,
     quantity,
+    isSponsored,
   } = useNFTContext();
   const { updateLifecycleStatus } = useNFTLifecycleContext();
-  const {
-    config: { paymaster } = { paymaster: undefined },
-  } = useOnchainKit();
-
-  const capabilities = useMemo(() => {
-    if (paymaster) {
-      return { paymasterService: { url: paymaster } };
-    }
-    return undefined;
-  }, [paymaster]);
 
   const handleOnStatus = useCallback(
     (transactionStatus: TransactionLifecycleStatus) => {
@@ -93,7 +83,7 @@ export function NFTMintButton({
   return (
     <div className={cn('pt-2', className)}>
       <Transaction
-        capabilities={capabilities}
+        isSponsored={isSponsored}
         chainId={chainId}
         calls={() =>
           buildMintTransaction({
