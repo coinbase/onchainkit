@@ -1,5 +1,6 @@
 'use client';
 import { AppContext, OnchainKitComponent } from '@/components/AppProvider';
+import { cn } from '@/lib/utils';
 import { useContext, useEffect, useState } from 'react';
 import DemoOptions from './DemoOptions';
 import CheckoutDemo from './demo/Checkout';
@@ -11,7 +12,6 @@ import TransactionDemo from './demo/Transaction';
 import TransactionDefaultDemo from './demo/TransactionDefault';
 import WalletDemo from './demo/Wallet';
 import WalletDefaultDemo from './demo/WalletDefault';
-import { cn } from '@/lib/utils';
 
 function Demo() {
   const { activeComponent } = useContext(AppContext);
@@ -96,7 +96,11 @@ function Demo() {
           <button
             type="button"
             onClick={toggleSidebar}
-            className={cn(buttonStyles, 'px-1 transition-transform sm:hidden', sideBarVisible ? '-rotate-90' : 'rotate-90')}
+            className={cn(
+              buttonStyles,
+              'px-1 transition-transform sm:hidden',
+              sideBarVisible ? '-rotate-90' : 'rotate-90',
+            )}
           >
             <span className="pl-2">&rang;</span>
           </button>
