@@ -1,26 +1,16 @@
+import { useCollection } from '@/lib/nft/useCollection';
+import { useToken } from '@/lib/nft/useToken';
 import type { ContractType } from '@/onchainkit/esm/nft/types';
 import { useMemo } from 'react';
-import { useCollection } from './useCollection';
-import { useOwners } from './useOwners';
-import { useToken } from './useToken';
 
-export function useReservoirMintData(
-  contractAddress: string,
-  tokenId?: string,
-) {
+export function useEarningsData(contractAddress: string, tokenId?: string) {
   const { data: collection } = useCollection(contractAddress);
-
-  const { data: owners } = useOwners(contractAddress, tokenId);
 
   const { data: token } = useToken(contractAddress, tokenId);
 
-  const contractType = token?.kind?.toUpperCase() as ContractType;
-
   const stage = useMemo(() => {
     const nowInSeconds = new Date().getTime() / 1000;
-    const stages =
-      contractType === 'ERC721' ? collection?.mintStages : token?.mintStages;
-    return stages?.find(
+    return token?.mintStages?.find(
       (stage) =>
         stage.tokenId === tokenId ||
         ((stage.endTime === null || typeof stage.endTime === 'undefined') &&
@@ -29,7 +19,7 @@ export function useReservoirMintData(
           Number(stage.endTime) > nowInSeconds &&
           stage.stage === 'public-sale'),
     );
-  }, [token, collection, contractType, tokenId]);
+  }, [token, tokenId]);
 
   const mintDate = useMemo(() => {
     if (!token?.mintedAt) {
@@ -61,6 +51,8 @@ export function useReservoirMintData(
     return stage.endTime < new Date().getTime() / 1000;
   }, [stage]);
 
+  const contractType = token?.kind?.toUpperCase() as ContractType;
+
   // ERC1155 each token is mintable, ERC721 you mint the collection
   return {
     name: contractType === 'ERC721' ? collection?.name : token?.name,
@@ -83,20 +75,11 @@ export function useReservoirMintData(
       currency: stage?.price?.currency?.symbol,
       amountUSD: stage?.price?.amount?.usd,
     },
-    mintFee: {
-      // TODO: fix this
-      amount: 0,
-      currency: 'ETH',
-      amountUSD: 0,
-    },
     gasFee: null,
     creatorAddress: collection?.creator as `0x${string}`,
     maxMintsPerWallet: stage?.maxMintsPerWallet,
     isEligibleToMint:
       collection?.isMinting && hasMintingStarted && !hasMintingEnded,
     totalOwners: collection?.ownerCount,
-    recentOwners: owners?.owners?.map(
-      (owner) => owner.address as `0x${string}`,
-    ),
   };
 }

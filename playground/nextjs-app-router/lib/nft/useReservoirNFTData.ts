@@ -1,8 +1,21 @@
 import type { ContractType } from '@/onchainkit/esm/nft/types';
+import { useMemo } from 'react';
 import { useToken } from './useToken';
 
 export function useReservoirNFTData(contractAddress: string, tokenId = '0') {
   const { data: token } = useToken(contractAddress, tokenId);
+
+  const mintDate = useMemo(() => {
+    if (!token?.mintedAt) {
+      return undefined;
+    }
+
+    if (new Date(token.mintedAt).getTime() === 0) {
+      return undefined;
+    }
+
+    return new Date(token.mintedAt);
+  }, [token?.mintedAt]);
 
   return {
     name: token?.name,
@@ -19,6 +32,6 @@ export function useReservoirNFTData(contractAddress: string, tokenId = '0') {
       amountUSD: token?.lastSale?.price?.amount?.usd,
     },
     contractType: token?.kind?.toUpperCase() as ContractType,
-    mintDate: token?.mintedAt ? new Date(token?.mintedAt) : undefined,
+    mintDate,
   };
 }

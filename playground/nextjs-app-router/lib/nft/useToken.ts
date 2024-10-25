@@ -15,7 +15,7 @@ export function useToken(contractAddress: string, tokenId?: string) {
         ? `tokens=${contractAddress}:${tokenId}`
         : `collection=${contractAddress}`;
       const response = await fetch(
-        `https://api-base.reservoir.tools/tokens/v7?${qs}&includeLastSale=true`,
+        `https://api-base.reservoir.tools/tokens/v7?${qs}&includeLastSale=true&includeMintStages=true`,
         {
           method: 'GET',
           headers: {

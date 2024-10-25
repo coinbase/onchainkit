@@ -2,15 +2,24 @@
 
 import { ENVIRONMENT, ENVIRONMENT_VARIABLES } from '@/lib/constants';
 import { buildMintTransaction } from '@/lib/nft/buildMintTransaction';
-import { useReservoirMintData } from '@/lib/nft/useReservoirMintData';
 import { OnchainKitProvider } from '@coinbase/onchainkit';
 import { NFTMintCard } from '@coinbase/onchainkit/nft';
+import type { LifecycleStatus } from '@coinbase/onchainkit/nft';
 import {
   NFTCollectionTitle,
+  NFTCreator,
   NFTMintButton,
 } from '@coinbase/onchainkit/nft/mint';
 import { NFTMedia } from '@coinbase/onchainkit/nft/view';
 import { base } from 'wagmi/chains';
+import { useEarningsData } from './hooks/useEarningsData';
+
+// const SUCCESS_URL =
+//   'https://investor.coinbase.com/events-and-presentations/events/event-details/2024/Third-Quarter-2024-Earnings-Call/default.aspx';
+
+// const handleSuccessClick = useCallback(() => {
+//   window.open(SUCCESS_URL, '_blank', 'noopener,noreferrer');
+// }, []);
 
 export default function Mint() {
   return (
@@ -30,9 +39,13 @@ export default function Mint() {
         <NFTMintCard
           contractAddress="0x1D6b183bD47F914F9f1d3208EDCF8BefD7F84E63"
           tokenId="3"
-          useNFTData={useReservoirMintData}
+          useNFTData={useEarningsData}
           buildMintTransaction={buildMintTransaction}
+          onStatus={(status: LifecycleStatus) => {
+            console.log('status', status);
+          }}
         >
+          <NFTCreator className="-mt-1 pt-0" />
           <NFTMedia />
           <NFTCollectionTitle />
           <NFTMintButton />
