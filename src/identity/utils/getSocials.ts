@@ -16,7 +16,6 @@ export const getSocials = async ({
   ensName,
   chain = mainnet,
 }: GetSocials): Promise<GetSocialsReturnType> => {
-  console.log('getSocials ensName', ensName);
   const chainIsBase = isBase({ chainId: chain.id });
   const chainIsEthereum = isEthereum({ chainId: chain.id });
   const chainSupportsUniversalResolver = chainIsEthereum || chainIsBase;
@@ -43,7 +42,6 @@ export const getSocials = async ({
       key,
       universalResolverAddress: RESOLVER_ADDRESSES_BY_CHAIN_ID[chain.id],
     });
-    console.log('getSocials result', result);
     return result || null;
   };
 

@@ -1,7 +1,7 @@
 import { Children, useMemo } from 'react';
 import type { ReactNode } from 'react';
 import { findComponent } from '../../internal/utils/findComponent';
-import { background, border, cn, color, pressable } from '../../styles/theme';
+import { background, cn, color, pressable } from '../../styles/theme';
 import { useTheme } from '../../useTheme';
 import { usePopover } from '../hooks/usePopover';
 import { Address } from './Address';
@@ -44,6 +44,7 @@ export function IdentityLayout({
     popoverText,
   } = usePopover(onClick);
 
+  console.log('Socials in layout: ', Socials);
   return (
     <div
       className={cn(
@@ -75,9 +76,7 @@ export function IdentityLayout({
           )}
         </div>
       </div>
-      {socials && (
-        <div className={cn(border.default, 'mt-6 w-full pl-2')}>{socials}</div>
-      )}
+      {socials}
       {showPopover && (
         <div
           className={cn(
