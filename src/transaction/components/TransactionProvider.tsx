@@ -17,6 +17,7 @@ import { waitForTransactionReceipt } from 'wagmi/actions';
 import { Capabilities } from '../../constants';
 import { useCapabilitiesSafe } from '../../internal/hooks/useCapabilitiesSafe';
 import { useValue } from '../../internal/hooks/useValue';
+import { useOnchainKit } from '../../useOnchainKit';
 import {
   GENERIC_ERROR_MESSAGE,
   TRANSACTION_TYPE_CALLS,
@@ -35,7 +36,6 @@ import type {
 } from '../types';
 import { getPaymasterUrl } from '../utils/getPaymasterUrl';
 import { isUserRejectedRequestError } from '../utils/isUserRejectedRequestError';
-import { useOnchainKit } from '../../useOnchainKit';
 
 const emptyContext = {} as TransactionContextType;
 export const TransactionContext =
