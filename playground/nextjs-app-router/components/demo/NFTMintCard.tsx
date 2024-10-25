@@ -23,7 +23,7 @@ function NFTMintCardDemo() {
   const { nftToken } = useContext(AppContext);
 
   const [contractAddress, tokenId] = (
-    nftToken ?? '0x1D6b183bD47F914F9f1d3208EDCF8BefD7F84E63:1'
+    nftToken ?? '0x1D6b183bD47F914F9f1d3208EDCF8BefD7F84E63:2'
   ).split(':') as [`0x${string}`, string];
 
   const handleOnStatus = useCallback((lifecycleStatus: LifecycleStatus) => {
