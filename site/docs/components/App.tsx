@@ -6,6 +6,7 @@ import { http, WagmiProvider, createConfig } from 'wagmi';
 import { base, baseSepolia } from 'wagmi/chains';
 import { coinbaseWallet } from 'wagmi/connectors';
 import '@coinbase/onchainkit/styles.css';
+import { useTheme } from '../contexts/Theme.tsx';
 
 const queryClient = new QueryClient();
 
@@ -23,16 +24,15 @@ const wagmiConfig = createConfig({
   },
 });
 
-export default function App({
-  children,
-  theme,
-}: { children: ReactNode; theme: string }) {
+export default function App({ children }: { children: ReactNode }) {
   const isServer = typeof window === 'undefined';
   if (isServer) {
     return null;
   }
   const viteCdpApiKey = import.meta.env.VITE_CDP_API_KEY;
   const viteProjectId = import.meta.env.VITE_CDP_PROJECT_ID;
+  const { theme } = useTheme();
+
   return (
     <WagmiProvider config={wagmiConfig}>
       <QueryClientProvider client={queryClient}>

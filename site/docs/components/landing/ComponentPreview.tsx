@@ -1,5 +1,6 @@
 import type React from 'react';
 import { useEffect, useState } from 'react';
+import { useTheme } from '../../contexts/Theme.tsx';
 import CopyIcon from '../svg/CopySvg.js';
 import CheckIcon from '../svg/checkSvg.js';
 import { getHighlightedCode } from './getHighlightedCode.tsx';
@@ -67,29 +68,7 @@ function ComponentPreview() {
   const [activeSubTab, setActiveSubTab] = useState<'preview' | 'code'>(
     'preview',
   );
-  const [theme, setTheme] = useState('light');
-
-  useEffect(() => {
-    const rootElement = document.documentElement;
-    const observer = new MutationObserver(() => {
-      if (rootElement.classList.contains('dark')) {
-        setTheme('dark');
-      } else {
-        setTheme('light');
-      }
-    });
-
-    observer.observe(rootElement, {
-      attributes: true,
-      attributeFilter: ['class'],
-    });
-
-    if (rootElement.classList.contains('dark')) {
-      setTheme('dark');
-    }
-
-    return () => observer.disconnect();
-  }, []);
+  const { theme } = useTheme();
 
   useEffect(() => {
     setIsClient(true);
