@@ -16,7 +16,9 @@ export function NFTMinters({ className }: NFTMintersReact) {
   }
 
   return (
-    <div className={cn('flex py-0.5', text.body, color.foregroundMuted, className)}>
+    <div
+      className={cn('flex py-0.5', text.body, color.foregroundMuted, className)}
+    >
       <div className="flex space-x-[-.4rem]">
         {recentOwners.map((address) => (
           <Identity
