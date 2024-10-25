@@ -137,7 +137,7 @@ function FrameButton({
         const result = await postFrame(
           {
             buttonIndex: index,
-            url: (button as any).postUrl!,
+            url: (button as any).target!,
             state: JSON.stringify(state),
             // TODO: make these user-input-driven
             castId: {
