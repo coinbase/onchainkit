@@ -17,10 +17,12 @@ export const config = createConfig({
   connectors: [
     coinbaseWallet({
       appName: 'Coinbase',
+      appLogoUrl: "https://avatars.githubusercontent.com/u/1885080?s=200&v=4",
       preference: 'smartWalletOnly',
     }),
     coinbaseWallet({
       appName: 'Coinbase',
+      appLogoUrl: "https://avatars.githubusercontent.com/u/1885080?s=200&v=4",
       preference: 'eoaOnly',
     }),
   ],
@@ -36,12 +38,10 @@ function MintProviders({ children }: { children: ReactNode }) {
           apiKey={ENVIRONMENT_VARIABLES[ENVIRONMENT.API_KEY]}
           chain={base}
           config={{
-          appearance: {
-              name: 'Coinbase',
-              logo: "https://avatars.githubusercontent.com/u/1885080?s=200&v=4",
+            appearance: {
               mode: 'light',
               theme: 'default',
-          },
+            },
           }}
           projectId={ENVIRONMENT_VARIABLES[ENVIRONMENT.PROJECT_ID]}
           schemaId="0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9"
