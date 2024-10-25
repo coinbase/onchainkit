@@ -4,21 +4,20 @@ import { Spinner } from '../../internal/components/Spinner';
 import { basenameSvg } from '../../internal/svg/basenameSvg';
 import { cn, color, pressable, text } from '../../styles/theme';
 import type { WalletDropdownBasenameReact } from '../types';
-import { useWalletContext } from './WalletProvider';
+import { base } from 'viem/chains';
 
 export function WalletDropdownBasename({
   className,
 }: WalletDropdownBasenameReact) {
   const { address } = useAccount();
-  const { chain } = useWalletContext();
 
-  if (!address || !chain) {
+  if (!address) {
     return null;
   }
 
   const { data: basename, isLoading } = useName({
     address,
-    chain,
+    chain: base,
   });
 
   const hasBaseUserName = !!basename;
@@ -33,7 +32,7 @@ export function WalletDropdownBasename({
         pressable.default,
         color.foreground,
         'relative flex items-center px-4 py-3',
-        className,
+        className
       )}
       href={href}
       target="_blank"
@@ -51,7 +50,7 @@ export function WalletDropdownBasename({
             {!hasBaseUserName && (
               <span
                 className={cn(
-                  'ml-2 rounded-full bg-[#E0E7FF] px-2 py-0.5 text-center font-bold font-inter text-[#4F46E5] text-[0.6875rem] uppercase leading-none',
+                  'ml-2 rounded-full bg-[#E0E7FF] px-2 py-0.5 text-center font-bold font-inter text-[#4F46E5] text-[0.6875rem] uppercase leading-none'
                 )}
               >
                 NEW

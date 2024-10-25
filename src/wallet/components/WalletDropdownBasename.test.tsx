@@ -1,7 +1,7 @@
 import type { UseQueryResult } from '@tanstack/react-query';
 import { render, screen } from '@testing-library/react';
 import type { GetAccountReturnType } from '@wagmi/core';
-import { base } from 'viem/chains';
+import { base, mainnet } from 'viem/chains';
 import { type Mock, describe, expect, it, vi } from 'vitest';
 import { useAccount } from 'wagmi';
 import { useName } from '../../identity/hooks/useName';
@@ -100,5 +100,49 @@ describe('WalletDropdownBasename', () => {
 
     const { container } = render(<WalletDropdownBasename />);
     expect(container.firstChild).toBeNull();
+  });
+
+  it('should render "Claim Basename" regardless of chain', () => {
+    (useAccount as Mock<() => Partial<GetAccountReturnType>>).mockReturnValue({
+      address: '0x1234' as `0x${string}`,
+      isConnected: true,
+    });
+    (useWalletContext as Mock).mockReturnValue({
+      chain: mainnet,
+    });
+    (
+      useName as Mock<() => Partial<UseQueryResult<string | null, Error>>>
+    ).mockReturnValue({
+      data: null,
+      isLoading: false,
+      isError: false,
+      error: null,
+    });
+
+    render(<WalletDropdownBasename />);
+    expect(screen.getByText('Claim Basename')).toBeInTheDocument();
+    expect(screen.getByText('NEW')).toBeInTheDocument();
+  });
+
+  it('should render "Profile" when basename exists', () => {
+    (useAccount as Mock<() => Partial<GetAccountReturnType>>).mockReturnValue({
+      address: '0x1234' as `0x${string}`,
+      isConnected: true,
+    });
+    (useWalletContext as Mock).mockReturnValue({
+      chain: mainnet,
+    });
+    (
+      useName as Mock<() => Partial<UseQueryResult<string | null, Error>>>
+    ).mockReturnValue({
+      data: 'test.base',
+      isLoading: false,
+      isError: false,
+      error: null,
+    });
+
+    render(<WalletDropdownBasename />);
+    expect(screen.getByText('Profile')).toBeInTheDocument();
+    expect(screen.queryByText('NEW')).not.toBeInTheDocument();
   });
 });
