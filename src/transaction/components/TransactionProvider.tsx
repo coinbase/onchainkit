@@ -166,6 +166,7 @@ export function TransactionProvider({
   const capabilities = useMemo(() => {
     if (isSponsored && paymaster) {
       return {
+        ...transactionCapabilities,
         paymasterService: { url: paymaster },
       };
     }
