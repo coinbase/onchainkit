@@ -5,6 +5,7 @@ export { Badge } from './components/Badge';
 export { EthBalance } from './components/EthBalance';
 export { Identity } from './components/Identity';
 export { Name } from './components/Name';
+export { Socials } from './components/Socials';
 export { isBasename } from './utils/isBasename';
 export { getAddress } from './utils/getAddress';
 export { getAttestations } from './utils/getAttestations';

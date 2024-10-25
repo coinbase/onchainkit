@@ -62,6 +62,13 @@ export type Basename = BaseMainnetName | BaseSepoliaName;
  */
 export type BaseSepoliaName = `${string}.basetest.eth`;
 
+export type GetSocialsReturnType = {
+  twitter: string | null;
+  github: string | null;
+  farcaster: string | null;
+  url: string | null;
+};
+
 /**
  * Ethereum Attestation Service (EAS) Schema Uid
  * The schema identifier associated with the EAS attestation.
