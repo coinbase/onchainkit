@@ -63,7 +63,7 @@ type UseNFTData = (contractAddress: Hex, tokenId?: string) => NFTData;
  */
 export type NFTData = {
   // view components
-  name?: string; // required for NFTTitle
+  name?: string; // required for NFTTitle and NFTCollectionTitle
   description?: string; // not currently used
   imageUrl?: string; // required for NFTMedia
   animationUrl?: string; // required for NFTMedia (audio and video types)
