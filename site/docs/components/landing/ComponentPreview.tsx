@@ -1,7 +1,9 @@
-import type React from 'react';
+import type { ReactNode } from 'react';
 import { useEffect, useState } from 'react';
+import { useTheme } from '../../contexts/Theme.tsx';
 import CopyIcon from '../svg/CopySvg.js';
 import CheckIcon from '../svg/checkSvg.js';
+import { getHighlightedCode } from './getHighlightedCode.tsx';
 
 // Demo components and code snippets
 import CheckoutDemo, { checkoutDemoCode } from './CheckoutDemo.tsx';
@@ -66,6 +68,7 @@ function ComponentPreview() {
   const [activeSubTab, setActiveSubTab] = useState<'preview' | 'code'>(
     'preview',
   );
+  const { theme } = useTheme();
 
   useEffect(() => {
     setIsClient(true);
@@ -96,6 +99,7 @@ function ComponentPreview() {
           setActiveSubTab={setActiveSubTab}
           copiedIndex={copiedIndex}
           copyToClipboard={copyToClipboard}
+          theme={theme}
         />
       </div>
     </div>
@@ -153,12 +157,13 @@ type PreviewContainerProps = {
   setActiveSubTab: (subTab: 'preview' | 'code') => void;
   copiedIndex: number | null;
   copyToClipboard: (text: string, index: number) => void;
+  theme: string;
 };
 
 type TabButtonProps = {
   isActive: boolean;
   onClick: () => void;
-  children: React.ReactNode;
+  children: ReactNode;
 };
 
 function PreviewContainer({
@@ -167,8 +172,16 @@ function PreviewContainer({
   setActiveSubTab,
   copiedIndex,
   copyToClipboard,
+  theme,
 }: PreviewContainerProps) {
   const ActiveComponent = components[activeTab].component;
+  const [highlightedCode, setHighlightedCode] = useState<ReactNode>(null);
+
+  useEffect(() => {
+    getHighlightedCode({ code: components[activeTab].code, theme }).then(
+      setHighlightedCode,
+    );
+  }, [activeTab, theme]);
 
   return (
     <div className="h-[550px] w-[375px] overflow-hidden rounded-lg border border-zinc-200 bg-zinc-50 sm:w-[600px] md:h-[670px] md:w-[700px] dark:border-zinc-900 dark:bg-zinc-950">
@@ -210,11 +223,11 @@ function PreviewContainer({
             activeSubTab === 'preview' ? 'flex' : 'hidden'
           } h-[500px] w-full items-center justify-center md:h-[600px]`}
         >
-          <ActiveComponent />
+          <ActiveComponent theme={theme} />
         </div>
         <div className={`${activeSubTab === 'code' ? 'flex' : 'hidden'} p-4`}>
           <pre className="h-[450px] whitespace-pre-wrap break-words text-sm md:h-[600px]">
-            <code>{components[activeTab].code}</code>
+            <code>{highlightedCode}</code>
           </pre>
         </div>
       </div>

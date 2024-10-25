@@ -5,13 +5,13 @@ import { closeSvg } from '../svg/closeSvg.tsx';
 import { coinbasePaySvg } from '../svg/coinbasePaySvg.tsx';
 
 export const checkoutDemoCode = `
-  import { 
-      Checkout, 
+  import {
+      Checkout,
       CheckoutButton
   } from '@coinbase/onchainkit/checkout';
- 
-  <Checkout productId='my-product-id' > 
-    <CheckoutButton coinbaseBranded={true}/> 
+
+  <Checkout productId='my-product-id' >
+    <CheckoutButton coinbaseBranded={true}/>
   </Checkout>
 `;
 
