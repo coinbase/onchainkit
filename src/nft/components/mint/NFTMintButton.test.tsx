@@ -229,7 +229,16 @@ describe('NFTMintButton', () => {
     expect(container.firstChild).toBeNull();
   });
 
-  it('should show mint ended when isEligibleToMint is false', () => {
+  it('should disble button if disabled props is true', () => {
+    const { getByText } = render(
+      <TestProviders>
+        <NFTMintButton disabled={true} />
+      </TestProviders>,
+    );
+    expect(getByText('Mint')).toBeDisabled();
+  });
+
+  it('should show minting not available when isEligibleToMint is false', () => {
     (useNFTContext as Mock).mockReturnValueOnce({
       contractAddress: '0x123',
       tokenId: '1',
@@ -244,7 +253,7 @@ describe('NFTMintButton', () => {
         <NFTMintButton />
       </TestProviders>,
     );
-    expect(getByText('Mint ended')).toBeInTheDocument();
+    expect(getByText('Minting not available')).toBeInTheDocument();
   });
 
   it('calls buildMintTransaction when button is clicked', async () => {

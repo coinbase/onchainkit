@@ -4,6 +4,7 @@ import { cn } from '../../../styles/theme';
 import {
   Transaction,
   TransactionButton,
+  type TransactionButtonReact,
   type LifecycleStatus as TransactionLifecycleStatus,
   TransactionSponsor,
   TransactionStatus,
@@ -18,11 +19,18 @@ import { useNFTContext } from '../NFTProvider';
 type NFTMintButtonReact = {
   className?: string;
   label?: string;
-};
+} & Pick<
+  TransactionButtonReact,
+  'disabled' | 'pendingOverride' | 'successOverride' | 'errorOverride'
+>;
 
 export function NFTMintButton({
   className,
   label = 'Mint',
+  disabled,
+  pendingOverride,
+  successOverride,
+  errorOverride,
 }: NFTMintButtonReact) {
   const chainId = useChainId();
   const { address } = useAccount();
@@ -64,7 +72,7 @@ export function NFTMintButton({
 
   const transactionButtonLabel = useMemo(() => {
     if (isEligibleToMint === false) {
-      return 'Mint ended';
+      return 'Minting not available';
     }
 
     return label;
@@ -99,7 +107,10 @@ export function NFTMintButton({
       >
         <TransactionButton
           text={transactionButtonLabel}
-          disabled={transactionButtonLabel !== label}
+          pendingOverride={pendingOverride}
+          successOverride={successOverride}
+          errorOverride={errorOverride}
+          disabled={disabled || transactionButtonLabel !== label}
         />
         <TransactionSponsor />
         <TransactionStatus>
