@@ -179,9 +179,12 @@ You can view successful checkouts on the [Coinbase Commerce Merchant Dashboard](
 src="https://onchainkit.xyz/assets/commerce-3.png"
 height="364"/>
 
-### Customizing the name and logo
 
-To customize the name and logo of your application rendered in keys.coinbase.com, set the `name` and `logo` values inside [OnchainKitProvider](/config/onchainkit-provider#usage).
+## Customization
+
+### Add name and logo
+
+To customize the name and logo of your application rendered in the popup, set the `name` and `logo` values inside [OnchainKitProvider](/config/onchainkit-provider#usage).
 
 ```tsx twoslash [providers.tsx]
 // @noErrors: 2304 - Cannot find name 'children'
@@ -203,9 +206,12 @@ import { OnchainKitProvider } from '@coinbase/onchainkit';
 // ---cut-after---
 ```
 
-<img alt="Customizing the name and logo"
-src="https://onchainkit.xyz/assets/commerce-4.png"
-height="364"/>
+<div style={{ display: 'flex', justifyContent: 'center' }}>
+  <img 
+    alt="Add name and logo"
+    src="https://onchainkit.xyz/assets/commerce-4.png"
+  />
+</div>
 
 ### Add Coinbase branding
 
@@ -256,9 +262,9 @@ export default function PayComponents() {
 </App>
 
 
-### Customize text
+### Customize button
 
-You can customize the text using the `text` prop on `CheckoutButton`.
+You can customize the button text using the `text` prop on `CheckoutButton`.
 ```tsx twoslash
 
 import { Checkout, CheckoutButton } from '@coinbase/onchainkit/checkout';
@@ -282,7 +288,7 @@ export default function PayComponents() {
 
 ### Override styles
 
-You can override component styles using `className`.
+We recommend style customization by setting a custom [OnchainKit theme](/guides/themes#custom-theme). You can also override individual component styles using `className`.
 ```tsx twoslash
 
 import { Checkout, CheckoutButton } from '@coinbase/onchainkit/checkout';
