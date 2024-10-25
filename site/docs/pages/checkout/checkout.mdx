@@ -181,35 +181,31 @@ height="364"/>
 
 ### Customizing the name and logo
 
-To customize the name and logo of your application, set `appName` and `appLogoUrl` inside your Wagmi configuration.
-Also ensure that your Wagmi configuration is set to `smartWalletOnly` and supports Base.
+To customize the name and logo of your application rendered in keys.coinbase.com, set the `name` and `logo` values inside [OnchainKitProvider](/config/onchainkit-provider#usage).
 
-```tsx twoslash [wagmi.ts]
-import { http, cookieStorage, createConfig, createStorage } from 'wagmi';
-import { base } from 'wagmi/chains'; // [!code ++]
-import { coinbaseWallet } from 'wagmi/connectors';
+```tsx twoslash [providers.tsx]
+// @noErrors: 2304 - Cannot find name 'children'
+import { base } from 'wagmi/chains';
+// ---cut-before---
+import { OnchainKitProvider } from '@coinbase/onchainkit';
 
-export function getConfig() {
-  return createConfig({
-    chains: [base], // [!code ++]
-    connectors: [
-      coinbaseWallet({
-        appName: "OnchainKit", // [!code ++]
-        appLogoUrl: "https://onchainkit.xyz/favicon/48x48.png?v4-19-24", // [!code ++]
-        preference: 'smartWalletOnly', // [!code ++]
-        version: '4',
-      }),
-    ],
-    storage: createStorage({
-      storage: cookieStorage,
-    }),
-    ssr: true,
-    transports: {
-      [base.id]: http(), // [!code ++]
-    },
-  });
-}
+<OnchainKitProvider
+    chain={base}
+    config={{
+      appearance: {
+        name: 'OnchainKit Playground', // [!code ++]
+        logo: 'https://onchainkit.xyz/favicon/48x48.png?v4-19-24', // [!code ++]
+      },
+    }}
+  >
+    {children}
+</OnchainKitProvider>
+// ---cut-after---
 ```
+
+<img alt="Customizing the name and logo"
+src="https://onchainkit.xyz/assets/commerce-4.png"
+height="364"/>
 
 ### Add Coinbase branding
 
