@@ -53,7 +53,7 @@ export function Socials({ address, chain, className }: SocialsReact) {
 
   // Render social links
   return (
-    <div className={cn('flex space-x-5 -mb-1', className)}>
+    <div className={cn('flex space-x-4 -mb-1', className)}>
       {Object.entries(socials).map(([platform, value]) => {
         if (!value) {
           return null;

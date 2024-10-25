@@ -60,7 +60,7 @@ export function IdentityLayout({
       onKeyUp={noop}
       onKeyDown={noop}
     >
-      <div className="flex items-center space-x-6">
+      <div className="flex items-center space-x-3">
         <div className="flex-shrink-0">{avatar}</div>
         <div className="flex flex-col">
           {name}
@@ -76,7 +76,7 @@ export function IdentityLayout({
         </div>
       </div>
       {socials && (
-        <div className={cn(border.default, 'mt-5 w-full pl-2')}>{socials}</div>
+        <div className={cn(border.default, 'mt-6 w-full pl-2')}>{socials}</div>
       )}
       {showPopover && (
         <div
