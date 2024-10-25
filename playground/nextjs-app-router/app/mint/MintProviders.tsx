@@ -17,12 +17,12 @@ export const config = createConfig({
   connectors: [
     coinbaseWallet({
       appName: 'Coinbase',
-      appLogoUrl: "https://avatars.githubusercontent.com/u/1885080?s=200&v=4",
+      appLogoUrl: 'https://avatars.githubusercontent.com/u/1885080?s=200&v=4',
       preference: 'smartWalletOnly',
     }),
     coinbaseWallet({
       appName: 'Coinbase',
-      appLogoUrl: "https://avatars.githubusercontent.com/u/1885080?s=200&v=4",
+      appLogoUrl: 'https://avatars.githubusercontent.com/u/1885080?s=200&v=4',
       preference: 'eoaOnly',
     }),
   ],

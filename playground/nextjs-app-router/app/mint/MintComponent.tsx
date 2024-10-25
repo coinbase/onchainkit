@@ -1,8 +1,5 @@
 'use client';
-
-import { ENVIRONMENT, ENVIRONMENT_VARIABLES } from '@/lib/constants';
 import { buildMintTransaction } from '@/lib/nft/buildMintTransaction';
-import { OnchainKitProvider } from '@coinbase/onchainkit';
 import { NFTMintCard } from '@coinbase/onchainkit/nft';
 import type { LifecycleStatus } from '@coinbase/onchainkit/nft';
 import {
@@ -12,7 +9,6 @@ import {
 } from '@coinbase/onchainkit/nft/mint';
 import { NFTMedia } from '@coinbase/onchainkit/nft/view';
 import { useCallback } from 'react';
-import { base } from 'wagmi/chains';
 import { useEarningsData } from './hooks/useEarningsData';
 
 export default function MintComponent() {
