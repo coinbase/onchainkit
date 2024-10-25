@@ -166,8 +166,10 @@ export function TransactionProvider({
   const capabilities = useMemo(() => {
     if (isSponsored && paymaster) {
       return {
-        ...transactionCapabilities,
         paymasterService: { url: paymaster },
+        // this needs to be below so devs can override default paymaster
+        // with their personal paymaster in production playgroundd
+        ...transactionCapabilities,
       };
     }
     return transactionCapabilities;
