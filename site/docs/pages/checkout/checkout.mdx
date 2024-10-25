@@ -184,7 +184,7 @@ height="364"/>
 
 ### Customizing the name and logo
 
-To customize the name and logo of your application rendered in keys.coinbase.com, set the `name` and `logo` values inside [OnchainKitProvider](/config/onchainkit-provider#usage).
+To customize the name and logo of your application rendered in the popup, set the `name` and `logo` values inside [OnchainKitProvider](/config/onchainkit-provider#usage).
 
 ```tsx twoslash [providers.tsx]
 // @noErrors: 2304 - Cannot find name 'children'
@@ -285,7 +285,7 @@ export default function PayComponents() {
 
 ### Override styles
 
-You can override component styles using `className`. You can also customize your [OnchainKit theme](/guides/themes).
+We recommend style customization by setting a custom [OnchainKit theme](/guides/themes#custom-theme). You can also override individual component styles using `className`.
 ```tsx twoslash
 
 import { Checkout, CheckoutButton } from '@coinbase/onchainkit/checkout';
