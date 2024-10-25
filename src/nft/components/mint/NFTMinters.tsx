@@ -1,5 +1,5 @@
 import { Avatar, Identity, Name } from '../../../identity';
-import { cn, color } from '../../../styles/theme';
+import { cn, color, text } from '../../../styles/theme';
 import { useOnchainKit } from '../../../useOnchainKit';
 import { useNFTContext } from '../NFTProvider';
 
@@ -16,7 +16,7 @@ export function NFTMinters({ className }: NFTMintersReact) {
   }
 
   return (
-    <div className={cn('flex py-2', color.foregroundMuted, className)}>
+    <div className={cn('flex py-0.5', text.body, color.foregroundMuted, className)}>
       <div className="flex space-x-[-.4rem]">
         {recentOwners.map((address) => (
           <Identity
@@ -25,7 +25,7 @@ export function NFTMinters({ className }: NFTMintersReact) {
             address={address}
             schemaId={schemaId}
           >
-            <Avatar className="h-5 w-5" />
+            <Avatar className="h-4 w-4" />
           </Identity>
         ))}
       </div>

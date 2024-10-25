@@ -1,5 +1,5 @@
 import { multiplyFloats } from '../../../internal/utils/multiplyFloats';
-import { cn, text } from '../../../styles/theme';
+import { cn, color, text } from '../../../styles/theme';
 import { formatAmount } from '../../../token/utils/formatAmount';
 import { useNFTContext } from '../NFTProvider';
 
@@ -29,7 +29,7 @@ export function NFTAssetCost({ className }: NFTAssetCostReact) {
       </div>
       <div className="px-2">~</div>
       <div>
-        $
+        <span className={cn(color.foregroundMuted)}>$</span>
         {formatAmount(`${multiplyFloats(price.amountUSD, quantity)}`, {
           minimumFractionDigits: 2,
           maximumFractionDigits: 2,

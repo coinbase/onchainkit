@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { defaultNFTSvg } from '../../../internal/svg/defaultNFTSvg';
-import { cn } from '../../../styles/theme';
+import { background, cn } from '../../../styles/theme';
 import type { NFTError } from '../../types';
 import { useNFTContext } from '../NFTProvider';
 

@@ -12,5 +12,5 @@ export function NFTCollectionTitle({ className }: NFTCollectionTitleReact) {
     return null;
   }
 
-  return <div className={cn('pt-3 pb-1', text.title1, className)}>{name}</div>;
+  return <div className={cn('pt-4 pb-1', text.title1, className)}>{name}</div>;
 }

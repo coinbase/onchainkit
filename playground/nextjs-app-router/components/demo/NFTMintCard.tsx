@@ -12,7 +12,7 @@ import {
   NFTMintButton,
   NFTMinters,
   NFTQuantitySelector,
-  NFTTotalCost,
+  // NFTTotalCost,
 } from '@coinbase/onchainkit/nft/mint';
 import { NFTMedia } from '@coinbase/onchainkit/nft/view';
 import { useCallback, useContext } from 'react';
@@ -58,7 +58,7 @@ function NFTMintCardDemo() {
       <NFTQuantitySelector />
       <NFTAssetCost />
       <NFTMintButton />
-      <NFTTotalCost />
+      {/* <NFTTotalCost /> */}
     </NFTMintCard>
   );
 }

@@ -13,6 +13,6 @@ export function NFTTitle({ className }: NFTTitleReact) {
   }
 
   return (
-    <div className={cn('pt-3 pb-1', text.headline, className)}>{name}</div>
+    <div className={cn('pt-3 pb-1', text.title3, className)}>{name}</div>
   );
 }
