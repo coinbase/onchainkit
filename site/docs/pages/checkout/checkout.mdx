@@ -179,6 +179,9 @@ You can view successful checkouts on the [Coinbase Commerce Merchant Dashboard](
 src="https://onchainkit.xyz/assets/commerce-3.png"
 height="364"/>
 
+
+## Customizing the component
+
 ### Customizing the name and logo
 
 To customize the name and logo of your application rendered in keys.coinbase.com, set the `name` and `logo` values inside [OnchainKitProvider](/config/onchainkit-provider#usage).
@@ -205,7 +208,7 @@ import { OnchainKitProvider } from '@coinbase/onchainkit';
 
 <img alt="Customizing the name and logo"
 src="https://onchainkit.xyz/assets/commerce-4.png"
-height="364"/>
+height="91"/>
 
 ### Add Coinbase branding
 
@@ -256,7 +259,7 @@ export default function PayComponents() {
 </App>
 
 
-### Customize text
+### Customizing button text
 
 You can customize the text using the `text` prop on `CheckoutButton`.
 ```tsx twoslash
@@ -282,7 +285,7 @@ export default function PayComponents() {
 
 ### Override styles
 
-You can override component styles using `className`.
+You can override component styles using `className`. You can also customize your [OnchainKit theme](/guides/themes).
 ```tsx twoslash
 
 import { Checkout, CheckoutButton } from '@coinbase/onchainkit/checkout';
