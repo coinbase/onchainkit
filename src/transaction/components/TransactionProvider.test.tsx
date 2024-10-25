@@ -7,11 +7,11 @@ import {
 } from 'wagmi';
 import { waitForTransactionReceipt } from 'wagmi/actions';
 import { useCapabilitiesSafe } from '../../internal/hooks/useCapabilitiesSafe';
+import { useOnchainKit } from '../../useOnchainKit';
 import { useCallsStatus } from '../hooks/useCallsStatus';
 import { useSendCall } from '../hooks/useSendCall';
 import { useSendCalls } from '../hooks/useSendCalls';
 import { useSendWalletTransactions } from '../hooks/useSendWalletTransactions';
-import { useOnchainKit } from '../../useOnchainKit';
 import { useWriteContract } from '../hooks/useWriteContract';
 import { useWriteContracts } from '../hooks/useWriteContracts';
 import {
