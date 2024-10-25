@@ -11,17 +11,15 @@ import {
   NFTMintButton,
 } from '@coinbase/onchainkit/nft/mint';
 import { NFTMedia } from '@coinbase/onchainkit/nft/view';
+import { useCallback } from 'react';
 import { base } from 'wagmi/chains';
 import { useEarningsData } from './hooks/useEarningsData';
 
-// const SUCCESS_URL =
-//   'https://investor.coinbase.com/events-and-presentations/events/event-details/2024/Third-Quarter-2024-Earnings-Call/default.aspx';
-
-// const handleSuccessClick = useCallback(() => {
-//   window.open(SUCCESS_URL, '_blank', 'noopener,noreferrer');
-// }, []);
-
 export default function Mint() {
+  const handleOnStatus = useCallback((status: LifecycleStatus) => {
+    console.log('status', status);
+  }, []);
+
   return (
     <main className="flex w-full items-center justify-center">
       <OnchainKitProvider
@@ -41,9 +39,7 @@ export default function Mint() {
           tokenId="3"
           useNFTData={useEarningsData}
           buildMintTransaction={buildMintTransaction}
-          onStatus={(status: LifecycleStatus) => {
-            console.log('status', status);
-          }}
+          onStatus={handleOnStatus}
         >
           <NFTCreator className="-mt-1 pt-0" />
           <NFTMedia />
