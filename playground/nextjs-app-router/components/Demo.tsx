@@ -121,7 +121,7 @@ function Demo() {
         <form className="mt-4 grid gap-8">
           <DemoOptions component={activeComponent} />
         </form>
-        <div className="bottom-6 left-6 text-sm sm:absolute">
+        <div className="mt-auto text-sm pt-6">
           <a
             className="opacity-100 transition-opacity duration-200 hover:opacity-70"
             href="https://github.com/coinbase/onchainkit/tree/main/playground"
