@@ -10,6 +10,10 @@ async function getMintData({
   quantity,
 }: BuildMintTransactionDataProps): Promise<Call[]> {
   try {
+    const items = tokenId
+      ? [{ token: `${contractAddress}:${tokenId}`, quantity }]
+      : [{ collection: contractAddress, quantity }];
+
     const response = await fetch(
       'https://api-base.reservoir.tools/execute/mint/v1',
       {
@@ -20,7 +24,7 @@ async function getMintData({
           'x-api-key': ENVIRONMENT_VARIABLES.RESERVOIR_API_KEY ?? '',
         },
         body: JSON.stringify({
-          items: [{ token: `${contractAddress}:${tokenId}`, quantity }],
+          items,
           taker: takerAddress,
         }),
       },
