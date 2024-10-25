@@ -20,6 +20,8 @@ import { ConnectButton } from './ConnectButton';
 import { ConnectWalletText } from './ConnectWalletText';
 import { useWalletContext } from './WalletProvider';
 import { RainbowKitSiweNextAuthProvider } from '@rainbow-me/rainbowkit-siwe-next-auth';
+import { SessionProvider } from 'next-auth/react';
+import React from 'react';
 
 export function ConnectWallet({
   children,
@@ -33,6 +35,7 @@ export function ConnectWallet({
   // Core Hooks
   const { isOpen, setIsOpen } = useWalletContext();
   const { address: accountAddress, status } = useAccount();
+  console.log('-------------- WAGMI status:----------------', status);
   const { connectors, connect, status: connectStatus } = useConnect();
 
   // Get connectWalletText from children when present,
@@ -66,10 +69,10 @@ export function ConnectWallet({
   if (status === 'disconnected') {
     if (withWalletAggregator) {
       return (
-        <RainbowKitSiweNextAuthProvider>
-          <RainbowKitProvider>
-            <ConnectButtonRainbowKit.Custom>
-              {({ openConnectModal }) => (
+        <RainbowKitProvider>
+          <ConnectButtonRainbowKit.Custom>
+            {({ openConnectModal }) => {
+              return (
                 <div className="flex" data-testid="ockConnectWallet_Container">
                   <ConnectButton
                     className={className}
@@ -78,10 +81,10 @@ export function ConnectWallet({
                     text={text}
                   />
                 </div>
-              )}
-            </ConnectButtonRainbowKit.Custom>
-          </RainbowKitProvider>
-        </RainbowKitSiweNextAuthProvider>
+              );
+            }}
+          </ConnectButtonRainbowKit.Custom>
+        </RainbowKitProvider>
       );
     }
     return (
