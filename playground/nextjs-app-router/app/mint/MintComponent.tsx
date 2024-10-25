@@ -24,7 +24,7 @@ export default function MintComponent() {
     <main className="flex w-full items-center justify-center">
       <NFTMintCard
         contractAddress="0x1D6b183bD47F914F9f1d3208EDCF8BefD7F84E63"
-        tokenId="2"
+        tokenId="3"
         useNFTData={useEarningsData}
         buildMintTransaction={buildMintTransaction}
         onStatus={handleOnStatus}
