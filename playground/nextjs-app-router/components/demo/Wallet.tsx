@@ -22,7 +22,7 @@ function WalletComponent() {
 
   console.log('withwalletaggregator');
 
-  return (
+return (
     <div className="flex justify-end">
       <Wallet>
         <ConnectWallet text="Connect Wallet" withWalletAggregator={true}>

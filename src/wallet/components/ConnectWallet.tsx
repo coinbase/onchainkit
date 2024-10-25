@@ -1,4 +1,7 @@
-import { ConnectButton as ConnectButtonRainbowKit } from '@rainbow-me/rainbowkit';
+import {
+  ConnectButton as ConnectButtonRainbowKit,
+  RainbowKitProvider,
+} from '@rainbow-me/rainbowkit';
 import { Children, isValidElement, useCallback, useMemo } from 'react';
 import type { ReactNode } from 'react';
 import { useAccount, useConnect } from 'wagmi';
@@ -16,6 +19,7 @@ import type { ConnectWalletReact } from '../types';
 import { ConnectButton } from './ConnectButton';
 import { ConnectWalletText } from './ConnectWalletText';
 import { useWalletContext } from './WalletProvider';
+import { RainbowKitSiweNextAuthProvider } from '@rainbow-me/rainbowkit-siwe-next-auth';
 
 export function ConnectWallet({
   children,
@@ -24,7 +28,7 @@ export function ConnectWallet({
   // but for now we will keep it for backward compatibility.
   text = 'Connect Wallet',
   withWalletAggregator = false,
-  onConnect
+  onConnect,
 }: ConnectWalletReact) {
   // Core Hooks
   const { isOpen, setIsOpen } = useWalletContext();
@@ -61,20 +65,23 @@ export function ConnectWallet({
 
   if (status === 'disconnected') {
     if (withWalletAggregator) {
-      console.log('withWalletAggregator is Active');
       return (
-        <ConnectButtonRainbowKit.Custom>
-          {({ openConnectModal  }) => (
-            <div className="flex" data-testid="ockConnectWallet_Container">
-              <ConnectButton
-                className={className}
-                connectWalletText={connectWalletText}
-                onClick={() => openConnectModal()}
-                text={text}
-              />
-            </div>
-          )}
-        </ConnectButtonRainbowKit.Custom>
+        <RainbowKitSiweNextAuthProvider>
+          <RainbowKitProvider>
+            <ConnectButtonRainbowKit.Custom>
+              {({ openConnectModal }) => (
+                <div className="flex" data-testid="ockConnectWallet_Container">
+                  <ConnectButton
+                    className={className}
+                    connectWalletText={connectWalletText}
+                    onClick={() => openConnectModal()}
+                    text={text}
+                  />
+                </div>
+              )}
+            </ConnectButtonRainbowKit.Custom>
+          </RainbowKitProvider>
+        </RainbowKitSiweNextAuthProvider>
       );
     }
     return (
