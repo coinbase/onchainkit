@@ -4,7 +4,10 @@ import { type ThemedToken, codeToTokens } from 'shiki';
 export async function getHighlightedCode({
   code,
   theme,
-}: { code: string; theme: string }) {
+}: {
+  code: string;
+  theme: string;
+}) {
   const highlightedCode = await codeToTokens(code, {
     lang: 'typescript',
     themes: {
@@ -14,13 +17,19 @@ export async function getHighlightedCode({
 
   return (
     <code>
-      {highlightedCode?.tokens.map((line, i) => (
-        <div key={`${i}|${line[0]?.offset}`}>
-          {line.map((token, j) => (
-            <HtmlToken key={`${j}|${token.content}`} token={token} />
-          ))}
-        </div>
-      ))}
+      {highlightedCode?.tokens.map((line, i) => {
+        if (line.length === 0) {
+          return <br />;
+        }
+
+        return (
+          <div key={`${i}|${line[0]?.offset}`}>
+            {line.map((token, j) => (
+              <HtmlToken key={`${j}|${token.content}`} token={token} />
+            ))}
+          </div>
+        );
+      })}
     </code>
   );
 }
@@ -29,6 +38,7 @@ function HtmlToken({ token }: { token: ThemedToken }) {
   const sanitizedHtmlStyle = sanitizeHtmlStyle(
     token.htmlStyle as Record<string, string>,
   );
+
   if (Array.isArray(token.content)) {
     return (
       <span style={sanitizedHtmlStyle}>
