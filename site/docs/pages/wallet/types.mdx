@@ -11,7 +11,8 @@ description: Glossary of Types.
 type ConnectWalletReact = {
   children?: React.ReactNode; // Children can be utilized to display customized content when the wallet is connected.
   className?: string; // Optional className override for button element
-  text?: string; // Optional text override for button
+  text?: string; // Optional text override for button. Note: Prefer using `ConnectWalletText` component instead as this will be deprecated in a future version.
+  withWalletAggregator?: boolean; // Optional flag to enable the wallet aggregator like RainbowKit
 };
 ```
 
