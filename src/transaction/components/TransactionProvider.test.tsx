@@ -11,6 +11,7 @@ import { useCallsStatus } from '../hooks/useCallsStatus';
 import { useSendCall } from '../hooks/useSendCall';
 import { useSendCalls } from '../hooks/useSendCalls';
 import { useSendWalletTransactions } from '../hooks/useSendWalletTransactions';
+import { useOnchainKit } from '../../useOnchainKit';
 import { useWriteContract } from '../hooks/useWriteContract';
 import { useWriteContracts } from '../hooks/useWriteContracts';
 import {
@@ -57,6 +58,10 @@ vi.mock('../hooks/useSendWalletTransactions', () => ({
 
 vi.mock('../../internal/hooks/useCapabilitiesSafe', () => ({
   useCapabilitiesSafe: vi.fn(),
+}));
+
+vi.mock('../../useOnchainKit', () => ({
+  useOnchainKit: vi.fn(),
 }));
 
 const silenceError = () => {
@@ -158,6 +163,9 @@ describe('TransactionProvider', () => {
       receipt: undefined,
     });
     (useCapabilitiesSafe as ReturnType<typeof vi.fn>).mockReturnValue({});
+    (useOnchainKit as Mock).mockReturnValue({
+      config: { paymaster: null },
+    });
   });
 
   it('should emit onError when setLifecycleStatus is called with error', async () => {
@@ -541,6 +549,37 @@ describe('TransactionProvider', () => {
       'Transaction: Only one of contracts or calls can be provided as a prop to the Transaction component.',
     );
     restore();
+  });
+
+  it('should handle sponsored contract calls', async () => {
+    const contracts = [{ address: '0alissa', method: 'method' }];
+    const mockCapabilities = {
+      paymasterService: { url: 'http://example.com' },
+    };
+    (useOnchainKit as Mock).mockReturnValue({
+      config: { paymaster: 'http://example.com' },
+    });
+    (useCapabilitiesSafe as ReturnType<typeof vi.fn>).mockReturnValue({
+      atomicBatch: { supported: true },
+      paymasterService: { supported: true },
+      auxiliaryFunds: { supported: true },
+    });
+    const mockWriteContractsAsync = vi.fn().mockResolvedValue({});
+    (useWriteContracts as Mock).mockReturnValue({
+      status: 'success',
+      writeContractsAsync: mockWriteContractsAsync,
+    });
+    render(
+      <TransactionProvider isSponsored={true} contracts={contracts}>
+        <TestComponent />
+      </TransactionProvider>,
+    );
+    fireEvent.click(screen.getByText('Submit'));
+    expect(useSendWalletTransactions).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        capabilities: mockCapabilities,
+      }),
+    );
   });
 });
 
