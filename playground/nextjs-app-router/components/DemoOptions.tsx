@@ -9,6 +9,7 @@ import { NFTOptions } from './form/nft-options';
 import { SwapConfig } from './form/swap-config';
 import { TransactionOptions } from './form/transaction-options';
 import { WalletType } from './form/wallet-type';
+import { IsSponsored } from './form/is-sponsored';
 
 export default function DemoOptions({
   component,
@@ -51,6 +52,7 @@ export default function DemoOptions({
           {commonOptions}
           <Chain />
           <PaymasterUrl />
+          <IsSponsored />
           <TransactionOptions />
         </>
       );

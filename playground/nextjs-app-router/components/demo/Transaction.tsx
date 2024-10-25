@@ -19,7 +19,7 @@ import type { ContractFunctionParameters } from 'viem';
 import { AppContext, TransactionTypes } from '../AppProvider';
 
 function TransactionDemo() {
-  const { chainId, transactionType } = useContext(AppContext);
+  const { chainId, transactionType, isSponsored } = useContext(AppContext);
   const capabilities = useCapabilities();
   const contracts = clickContracts as ContractFunctionParameters[];
   const calls = clickCalls as Call[];
@@ -118,6 +118,7 @@ function TransactionDemo() {
         chainId={chainId ?? 84532} // something breaks if we don't have default network?
         {...transactions}
         capabilities={capabilities}
+        isSponsored={isSponsored}
         onStatus={handleOnStatus}
       >
         <TransactionButton

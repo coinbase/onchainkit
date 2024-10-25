@@ -78,6 +78,8 @@ type State = {
   setComponentMode: (mode: ComponentMode) => void;
   nftToken?: string;
   setNFTToken: (nftToken: string) => void;
+  setIsSponsored: (isSponsored: boolean) => void;
+  isSponsored?: boolean;
 };
 
 const defaultState: State = {
@@ -88,6 +90,7 @@ const defaultState: State = {
   componentMode: 'auto',
   setComponentMode: () => {},
   setNFTToken: () => {},
+  setIsSponsored: () => {},
 };
 
 export const AppContext = createContext(defaultState);
@@ -119,6 +122,8 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     '0x1D6b183bD47F914F9f1d3208EDCF8BefD7F84E63:1',
   );
 
+  const [isSponsored, setIsSponsoredState] = useState<boolean>(false);
+
   // Load initial values from localStorage
   // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO Refactor this component
   useEffect(() => {
@@ -135,6 +140,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
       'componentMode',
     ) as ComponentMode;
     const storedNFTToken = localStorage.getItem('nftToken');
+    const storedIsSponsored = localStorage.getItem('isSponsored');
 
     if (storedActiveComponent) {
       setActiveComponent(storedActiveComponent as OnchainKitComponent);
@@ -162,6 +168,9 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     }
     if (storedNFTToken) {
       setNFTTokenState(storedNFTToken);
+    }
+    if (storedIsSponsored) {
+      setIsSponsoredState(JSON.parse(storedIsSponsored));
     }
   }, []);
 
@@ -242,6 +251,11 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     console.log('NFT Token changed:', nftToken);
     localStorage.setItem('nftToken', nftToken);
     setNFTTokenState(nftToken);
+  }
+  const setIsSponsored = (isSponsored: boolean) => {
+    console.log('Component isSponsored changed: ', isSponsored);
+    localStorage.setItem('isSponsored', JSON.stringify(isSponsored));
+    setIsSponsoredState(isSponsored);
   };
 
   return (
@@ -270,6 +284,8 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         setDefaultMaxSlippage,
         nftToken,
         setNFTToken,
+        setIsSponsored,
+        isSponsored,
       }}
     >
       <OnchainKitProvider
