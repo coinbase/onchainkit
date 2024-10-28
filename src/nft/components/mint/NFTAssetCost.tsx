@@ -29,7 +29,7 @@ export function NFTAssetCost({ className }: NFTAssetCostReact) {
       </div>
       <div className="px-2">~</div>
       <div>
-        <span className={cn(color.foregroundMuted)}>$</span>
+        $
         {formatAmount(`${multiplyFloats(price.amountUSD, quantity)}`, {
           minimumFractionDigits: 2,
           maximumFractionDigits: 2,
