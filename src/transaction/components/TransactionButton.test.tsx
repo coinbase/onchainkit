@@ -30,6 +30,7 @@ describe('TransactionButton', () => {
     (useShowCallsStatus as Mock).mockReturnValue({
       showCallsStatus: vi.fn(),
     });
+    vi.clearAllMocks();
   });
 
   it('renders correctly', () => {
@@ -46,6 +47,19 @@ describe('TransactionButton', () => {
     (useTransactionContext as Mock).mockReturnValue({
       lifecycleStatus: { statusName: 'init', statusData: null },
       isLoading: true,
+    });
+    render(<TransactionButton text="Transact" />);
+    const spinner = screen.getByTestId('ockSpinner');
+    expect(spinner).toBeInTheDocument();
+  });
+
+  it('renders spinner with multiple legacy transactions', () => {
+    (useTransactionContext as Mock).mockReturnValue({
+      lifecycleStatus: {
+        statusName: 'transactionLegacyExecuted',
+        statusData: { transactionHashList: ['123'] },
+      },
+      transactionCount: 2,
     });
     render(<TransactionButton text="Transact" />);
     const spinner = screen.getByTestId('ockSpinner');
@@ -72,6 +86,70 @@ describe('TransactionButton', () => {
     render(<TransactionButton text="Transact" />);
     const text = screen.getByText('Try again');
     expect(text).toBeInTheDocument();
+  });
+
+  it('renders custom error text when error exists', () => {
+    const mockErrorFunc = vi.fn();
+    (useTransactionContext as Mock).mockReturnValue({
+      lifecycleStatus: { statusName: 'init', statusData: null },
+      errorMessage: 'blah blah',
+      isLoading: false,
+      address: '123',
+      transactions: [{}],
+    });
+    render(
+      <TransactionButton
+        text="Transact"
+        errorOverride={{
+          text: 'oops',
+          onClick: mockErrorFunc,
+        }}
+      />,
+    );
+    const text = screen.getByText('oops');
+    expect(text).toBeInTheDocument();
+    const button = screen.getByTestId('ockTransactionButton_Button');
+    fireEvent.click(button);
+    expect(mockErrorFunc).toHaveBeenCalled();
+  });
+
+  it('should call custom error handler when error exists', () => {
+    const mockErrorFunc = vi.fn();
+    (useTransactionContext as Mock).mockReturnValue({
+      lifecycleStatus: { statusName: 'init', statusData: null },
+      errorMessage: 'blah blah',
+      isLoading: false,
+      address: '123',
+      transactions: [{}],
+    });
+    render(
+      <TransactionButton
+        text="Transact"
+        errorOverride={{
+          text: 'oops',
+          onClick: mockErrorFunc,
+        }}
+      />,
+    );
+    const button = screen.getByTestId('ockTransactionButton_Button');
+    fireEvent.click(button);
+    expect(mockErrorFunc).toHaveBeenCalled();
+  });
+
+  it('should recall onSubmit when error exists and no custom handler provided', () => {
+    const mockOnSubmit = vi.fn();
+    (useTransactionContext as Mock).mockReturnValue({
+      lifecycleStatus: { statusName: 'init', statusData: null },
+      errorMessage: 'blah blah',
+      isLoading: false,
+      address: '123',
+      transactions: [{}],
+      onSubmit: mockOnSubmit,
+    });
+    render(<TransactionButton text="Transact" />);
+    const button = screen.getByTestId('ockTransactionButton_Button');
+    fireEvent.click(button);
+    expect(mockOnSubmit).toHaveBeenCalled();
   });
 
   it('should have disabled attribute when isDisabled is true', () => {
@@ -114,6 +192,62 @@ describe('TransactionButton', () => {
     const button = screen.getByText('View transaction');
     fireEvent.click(button);
     expect(showCallsStatus).toHaveBeenCalledWith({ id: '456' });
+  });
+
+  it('should render custom success text when it exists', () => {
+    const showCallsStatus = vi.fn();
+    (useShowCallsStatus as Mock).mockReturnValue({ showCallsStatus });
+    (useTransactionContext as Mock).mockReturnValue({
+      lifecycleStatus: { statusName: 'init', statusData: null },
+      receipt: '123',
+      transactionId: '456',
+    });
+    render(
+      <TransactionButton text="Transact" successOverride={{ text: 'yay' }} />,
+    );
+    const button = screen.getByText('yay');
+    fireEvent.click(button);
+    expect(showCallsStatus).toHaveBeenCalledWith({ id: '456' });
+  });
+
+  it('should render custom pending text when it exists', () => {
+    const showCallsStatus = vi.fn();
+    (useShowCallsStatus as Mock).mockReturnValue({ showCallsStatus });
+    (useTransactionContext as Mock).mockReturnValue({
+      lifecycleStatus: { statusName: 'init', statusData: null },
+      transactionId: '456',
+      isLoading: true,
+    });
+    render(
+      <TransactionButton
+        text="Transact"
+        pendingOverride={{ text: 'loading' }}
+      />,
+    );
+    const button = screen.getByText('loading');
+    fireEvent.click(button);
+    expect(button).toBeDefined();
+  });
+
+  it('should call custom success handler when it exists', () => {
+    const mockSuccessHandler = vi.fn();
+    (useTransactionContext as Mock).mockReturnValue({
+      lifecycleStatus: { statusName: 'init', statusData: null },
+      receipt: '123',
+      transactionId: '456',
+    });
+    render(
+      <TransactionButton
+        text="Transact"
+        successOverride={{
+          text: 'yay',
+          onClick: mockSuccessHandler,
+        }}
+      />,
+    );
+    const button = screen.getByText('yay');
+    fireEvent.click(button);
+    expect(mockSuccessHandler).toHaveBeenCalledWith('123');
   });
 
   it('should enable button when not in progress, not missing props, and not waiting for receipt', () => {

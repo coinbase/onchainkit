@@ -1,9 +1,9 @@
 import type { ReactNode } from 'react';
-import { cn, text } from '../../../styles/theme';
+import { cn, color, text } from '../../../styles/theme';
 import { formatAmount } from '../../../token/utils/formatAmount';
 import { useNFTContext } from '../NFTProvider';
 
-type NFTLastSoldPriceProps = {
+type NFTLastSoldPriceReact = {
   className?: string;
   label?: ReactNode;
 };
@@ -11,7 +11,7 @@ type NFTLastSoldPriceProps = {
 export function NFTLastSoldPrice({
   className,
   label = 'Mint price',
-}: NFTLastSoldPriceProps) {
+}: NFTLastSoldPriceReact) {
   const {
     lastSoldPrice: { amount, currency, amountUSD },
   } = useNFTContext();
@@ -21,8 +21,8 @@ export function NFTLastSoldPrice({
   }
 
   return (
-    <div className={cn('flex justify-between py-1', text.label2, className)}>
-      <div>{label}</div>
+    <div className={cn('flex justify-between py-0.5', text.label2, className)}>
+      <div className={cn(color.foregroundMuted)}>{label}</div>
       <div className="flex">
         <div className={text.label1}>
           {amount} {currency}

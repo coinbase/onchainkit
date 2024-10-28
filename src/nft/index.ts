@@ -1,9 +1,9 @@
-export { NFTMint } from './components/NFTMint';
-export { NFTView } from './components/NFTView';
+export { NFTMintCard } from './components/NFTMintCard';
+export { NFTCard } from './components/NFTCard';
 
 export type {
-  NFTViewReact,
-  NFTMintReact,
+  NFTCardReact,
+  NFTMintCardReact,
   LifecycleStatus,
   NFTError,
   NFTData,

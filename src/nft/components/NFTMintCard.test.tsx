@@ -10,14 +10,17 @@ import {
   vi,
 } from 'vitest';
 import { useIsMounted } from '../../useIsMounted';
-import { NFT } from './NFT';
+import { NFTMintCard } from './NFTMintCard';
 
 vi.mock('../../useTheme', () => ({
   useTheme: vi.fn(() => 'default-light'),
 }));
 vi.mock('../../useIsMounted');
+vi.mock('./NFTProvider', () => ({
+  NFTProvider: vi.fn(({ children }) => <div>{children}</div>),
+}));
 
-describe('NFT', () => {
+describe('NFTMintCard', () => {
   beforeEach(() => {
     (useIsMounted as Mock).mockReturnValue(true);
   });
@@ -28,25 +31,25 @@ describe('NFT', () => {
 
   it('should render correctly when mounted', () => {
     const { getByTestId, getByText } = render(
-      <NFT className="test-class">
+      <NFTMintCard contractAddress="0x123" tokenId="1" className="test-class">
         <div>Child Component</div>
-      </NFT>,
+      </NFTMintCard>,
     );
 
-    expect(getByTestId('ockNFT_Container')).toBeInTheDocument();
+    expect(getByTestId('ockNFTMintCard_Container')).toBeInTheDocument();
     expect(getByText('Child Component')).toBeInTheDocument();
-    expect(getByTestId('ockNFT_Container')).toHaveClass('test-class');
+    expect(getByTestId('ockNFTMintCard_Container')).toHaveClass('test-class');
   });
 
   it('should not render when not mounted', () => {
     (useIsMounted as Mock).mockReturnValue(false);
 
     const { queryByTestId } = render(
-      <NFT className="test-class">
+      <NFTMintCard contractAddress="0x123" tokenId="1" className="test-class">
         <div>Child Component</div>
-      </NFT>,
+      </NFTMintCard>,
     );
 
-    expect(queryByTestId('ockNFT_Container')).not.toBeInTheDocument();
+    expect(queryByTestId('ockNFTMintCard_Container')).not.toBeInTheDocument();
   });
 });

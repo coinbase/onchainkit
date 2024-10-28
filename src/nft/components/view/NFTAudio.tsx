@@ -1,4 +1,10 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import {
+  type MouseEvent,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { background, cn } from '../../../styles/theme';
 import type { NFTError } from '../../types';
 import { useNFTContext } from '../NFTProvider';
@@ -46,15 +52,19 @@ export function NFTAudio({
     }
   }, [animationUrl, onLoading, onLoaded, onError]);
 
-  const handlePlayPause = useCallback(() => {
-    if (isPlaying) {
-      audioRef.current?.pause();
-      setIsPlaying(false);
-    } else {
-      audioRef.current?.play();
-      setIsPlaying(true);
-    }
-  }, [isPlaying]);
+  const handlePlayPause = useCallback(
+    (event: MouseEvent) => {
+      event.stopPropagation();
+      if (isPlaying) {
+        audioRef.current?.pause();
+        setIsPlaying(false);
+      } else {
+        audioRef.current?.play();
+        setIsPlaying(true);
+      }
+    },
+    [isPlaying],
+  );
 
   if (!animationUrl) {
     return null;

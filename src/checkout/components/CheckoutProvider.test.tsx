@@ -135,6 +135,39 @@ describe('CheckoutProvider', () => {
     });
   });
 
+  it('should clear user rejected request on next button press', async () => {
+    (useCommerceContracts as Mock).mockReturnValue(() =>
+      Promise.resolve({
+        insufficientBalance: false,
+        contracts: [{}],
+        priceInUSDC: '10',
+      }),
+    );
+    (useWriteContracts as Mock).mockImplementation(() => {
+      return {
+        status: 'error',
+        writeContractsAsync: vi
+          .fn()
+          .mockRejectedValue(new Error('User denied connection request.')),
+      };
+    });
+    render(
+      <CheckoutProvider>
+        <TestComponent />
+      </CheckoutProvider>,
+    );
+    fireEvent.click(screen.getByText('Submit'));
+    await waitFor(() => {
+      expect(screen.getByTestId('error-message').textContent).toBe(
+        'Request denied.',
+      );
+    });
+    fireEvent.click(screen.getByText('Submit'));
+    await waitFor(() => {
+      expect(screen.getByTestId('error-message').textContent).toBe('');
+    });
+  });
+
   it('should handle other errors', async () => {
     (useCommerceContracts as Mock).mockReturnValue(() =>
       Promise.resolve({

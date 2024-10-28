@@ -11,12 +11,14 @@ import {
   useChainId,
 } from 'wagmi';
 import { mock } from 'wagmi/connectors';
+import { useOnchainKit } from '../../../useOnchainKit';
 import { useNFTLifecycleContext } from '../NFTLifecycleProvider';
 import { useNFTContext } from '../NFTProvider';
 import { NFTMintButton } from './NFTMintButton';
 
 vi.mock('../NFTProvider');
 vi.mock('../NFTLifecycleProvider');
+vi.mock('../../../useOnchainKit');
 vi.mock('wagmi', async (importOriginal) => {
   return {
     ...(await importOriginal<typeof import('wagmi')>()),
@@ -36,7 +38,7 @@ vi.mock('../../../transaction', async (importOriginal) => {
         {text}
       </button>
     ),
-    Transaction: ({ onStatus, children, calls }) => (
+    Transaction: ({ onStatus, children, calls, capabilities }) => (
       <>
         <div>
           <button type="button" onClick={calls}>
@@ -68,6 +70,7 @@ vi.mock('../../../transaction', async (importOriginal) => {
           >
             Error
           </button>
+          <div>{capabilities?.paymasterService?.url}</div>
         </div>
         {children}
       </>
@@ -122,6 +125,9 @@ describe('NFTMintButton', () => {
     });
     (useAccount as Mock).mockReturnValue({ address: '0xabc' });
     (useChainId as Mock).mockReturnValue(1);
+    (useOnchainKit as Mock).mockReturnValue({
+      config: undefined,
+    });
   });
 
   it('should render the mint button with default label', () => {
@@ -223,7 +229,16 @@ describe('NFTMintButton', () => {
     expect(container.firstChild).toBeNull();
   });
 
-  it('should show mint ended when isEligibleToMint is false', () => {
+  it('should disble button if disabled props is true', () => {
+    const { getByText } = render(
+      <TestProviders>
+        <NFTMintButton disabled={true} />
+      </TestProviders>,
+    );
+    expect(getByText('Mint')).toBeDisabled();
+  });
+
+  it('should show minting not available when isEligibleToMint is false', () => {
     (useNFTContext as Mock).mockReturnValueOnce({
       contractAddress: '0x123',
       tokenId: '1',
@@ -238,7 +253,7 @@ describe('NFTMintButton', () => {
         <NFTMintButton />
       </TestProviders>,
     );
-    expect(getByText('Mint ended')).toBeInTheDocument();
+    expect(getByText('Minting not available')).toBeInTheDocument();
   });
 
   it('calls buildMintTransaction when button is clicked', async () => {
@@ -264,5 +279,29 @@ describe('NFTMintButton', () => {
       takerAddress: '0xabc',
       quantity: 1,
     });
+  });
+
+  it('should set paymaster capabilities when paymaster is available', () => {
+    (useOnchainKit as Mock).mockReturnValue({
+      config: { paymaster: 'paymaster-url' },
+    });
+
+    const { getByText } = render(
+      <TestProviders>
+        <NFTMintButton />
+      </TestProviders>,
+    );
+
+    expect(getByText('paymaster-url')).toBeDefined();
+  });
+
+  it('should not set paymaster when not available', () => {
+    const { queryByText } = render(
+      <TestProviders>
+        <NFTMintButton />
+      </TestProviders>,
+    );
+
+    expect(queryByText('paymaster-url')).toBeNull();
   });
 });

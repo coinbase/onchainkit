@@ -5,6 +5,7 @@ import { OnchainKitComponent } from './AppProvider';
 import { ActiveComponent } from './form/active-component';
 import { Chain } from './form/chain';
 import { CheckoutOptions } from './form/checkout-options';
+import { NFTOptions } from './form/nft-options';
 import { SwapConfig } from './form/swap-config';
 import { TransactionOptions } from './form/transaction-options';
 import { WalletType } from './form/wallet-type';
@@ -33,7 +34,8 @@ export default function DemoOptions({
           <CheckoutOptions />
         </>
       );
-    case OnchainKitComponent.Swap || OnchainKitComponent.SwapDefault:
+    case OnchainKitComponent.Swap:
+    case OnchainKitComponent.SwapDefault:
       return (
         <>
           {commonOptions}
@@ -42,14 +44,24 @@ export default function DemoOptions({
           <SwapConfig />
         </>
       );
-    case OnchainKitComponent.Transaction ||
-      OnchainKitComponent.TransactionDefault:
+    case OnchainKitComponent.Transaction:
+    case OnchainKitComponent.TransactionDefault:
       return (
         <>
           {commonOptions}
           <Chain />
           <PaymasterUrl />
           <TransactionOptions />
+        </>
+      );
+    case OnchainKitComponent.NFTCard:
+    case OnchainKitComponent.NFTMintCard:
+      return (
+        <>
+          {commonOptions}
+          <Chain />
+          <PaymasterUrl />
+          <NFTOptions />
         </>
       );
     default:

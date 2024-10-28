@@ -11,7 +11,17 @@ import { OnchainKitProvider } from '@coinbase/onchainkit';
 
 const App = () => {
   return (
-    <OnchainKitProvider chain={base}>
+    <OnchainKitProvider
+      config={{
+        appearance: {
+          name: 'OnchainKit Playground',
+          logo: 'https://onchainkit.xyz/favicon/48x48.png?v4-19-24',
+          mode: 'auto',
+          theme: 'default',
+        },
+      }}
+      chain={base}
+    >
       <MyComponent />
     </OnchainKitProvider>
   );

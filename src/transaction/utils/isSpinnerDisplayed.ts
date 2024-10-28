@@ -3,20 +3,16 @@ import type { IsSpinnerDisplayedProps } from '../types';
 export function isSpinnerDisplayed({
   errorMessage,
   hasReceipt,
-  isLoading,
-  lifecycleStatus,
+  isInProgress,
   transactionHash,
   transactionId,
 }: IsSpinnerDisplayedProps) {
-  const isPending =
-    lifecycleStatus.statusName === 'transactionPending' ||
-    lifecycleStatus.statusName === 'buildingTransaction';
-  const isInProgress = transactionId || transactionHash;
+  const isWaitingForReceipt = transactionId || transactionHash;
 
   if (hasReceipt || errorMessage) {
     return false;
   }
-  if (isLoading || isPending || isInProgress) {
+  if (isInProgress || isWaitingForReceipt) {
     return true;
   }
   return false;

@@ -25,13 +25,13 @@ export const walletDemoCode = `
     WalletDropdownLink,
     WalletDropdownDisconnect,
   } from '@coinbase/onchainkit/wallet';
-  import { 
-    Address, 
-    Avatar, 
-    Badge, 
-    EthBalance, 
-    Name, 
-    Identity, 
+  import {
+    Address,
+    Avatar,
+    Badge,
+    EthBalance,
+    Name,
+    Identity,
   } from '@coinbase/onchainkit/identity';
 
   <WalletDefault />

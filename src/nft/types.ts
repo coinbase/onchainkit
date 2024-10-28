@@ -63,7 +63,7 @@ type UseNFTData = (contractAddress: Hex, tokenId?: string) => NFTData;
  */
 export type NFTData = {
   // view components
-  name?: string; // required for NFTTitle
+  name?: string; // required for NFTTitle and NFTCollectionTitle
   description?: string; // not currently used
   imageUrl?: string; // required for NFTMedia
   animationUrl?: string; // required for NFTMedia (audio and video types)
@@ -107,7 +107,7 @@ export type NFTReact = {
 /**
  * Note: exported as public Type
  */
-export type NFTViewReact = {
+export type NFTCardReact = {
   children: React.ReactNode;
   className?: string;
   contractAddress: Hex;
@@ -122,7 +122,7 @@ export type NFTViewReact = {
  * Note: exported as public Type
  * NFTMint must be used if the NFTMintButton is included
  */
-export type NFTMintReact = {
+export type NFTMintCardReact = {
   children: ReactNode;
   className?: string; // Optional className override for top div element.
   contractAddress: Hex; // Contract address of the NFT

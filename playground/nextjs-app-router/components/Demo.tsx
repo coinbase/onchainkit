@@ -1,17 +1,19 @@
 'use client';
 import { AppContext, OnchainKitComponent } from '@/components/AppProvider';
+import { cn } from '@/lib/utils';
 import { useContext, useEffect, useState } from 'react';
 import DemoOptions from './DemoOptions';
 import CheckoutDemo from './demo/Checkout';
 import FundDemo from './demo/Fund';
 import IdentityDemo from './demo/Identity';
+import NFTCardDemo from './demo/NFTCard';
+import NFTMintCardDemo from './demo/NFTMintCard';
 import SwapDemo from './demo/Swap';
 import SwapDefaultDemo from './demo/SwapDefault';
 import TransactionDemo from './demo/Transaction';
 import TransactionDefaultDemo from './demo/TransactionDefault';
 import WalletDemo from './demo/Wallet';
 import WalletDefaultDemo from './demo/WalletDefault';
-import { cn } from '@/lib/utils';
 
 function Demo() {
   const { activeComponent } = useContext(AppContext);
@@ -42,7 +44,6 @@ function Demo() {
 
   // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO: refactor
   function renderActiveComponent() {
-
     if (activeComponent === OnchainKitComponent.Fund) {
       return <FundDemo />;
     }
@@ -79,6 +80,14 @@ function Demo() {
       return <TransactionDefaultDemo />;
     }
 
+    if (activeComponent === OnchainKitComponent.NFTMintCard) {
+      return <NFTMintCardDemo />;
+    }
+
+    if (activeComponent === OnchainKitComponent.NFTCard) {
+      return <NFTCardDemo />;
+    }
+
     return <></>;
   }
 
@@ -97,7 +106,11 @@ function Demo() {
           <button
             type="button"
             onClick={toggleSidebar}
-            className={cn(buttonStyles, 'px-1 transition-transform sm:hidden', sideBarVisible ? '-rotate-90' : 'rotate-90')}
+            className={cn(
+              buttonStyles,
+              'px-1 transition-transform sm:hidden',
+              sideBarVisible ? '-rotate-90' : 'rotate-90',
+            )}
           >
             <span className="pl-2">&rang;</span>
           </button>
@@ -108,7 +121,7 @@ function Demo() {
         <form className="mt-4 grid gap-8">
           <DemoOptions component={activeComponent} />
         </form>
-        <div className="bottom-6 left-6 text-sm sm:absolute">
+        <div className="mt-auto pt-6 text-sm">
           <a
             className="opacity-100 transition-opacity duration-200 hover:opacity-70"
             href="https://github.com/coinbase/onchainkit/tree/main/playground"
@@ -130,7 +143,7 @@ function Demo() {
         </div>
       </div>
       <div className="linear-gradient(to_bottom,#f0f0f0_1px,transparent_1px)] flex flex-1 flex-col bg-[linear-gradient(to_right,#f0f0f0_1px,transparent_1px), bg-[size:6rem_4rem]">
-        <div className="flex h-full w-full flex-col justify-center">
+        <div className="flex h-full w-full flex-col items-center justify-center">
           {renderActiveComponent()}
         </div>
       </div>

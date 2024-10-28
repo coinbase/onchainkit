@@ -15,7 +15,7 @@ export function NFTQuantitySelector({ className }: NFTQuantitySelectorReact) {
   }
 
   return (
-    <div className={cn('py-2', className)}>
+    <div className={cn('py-3', className)}>
       <QuantitySelector
         className={className}
         onChange={setQuantity}

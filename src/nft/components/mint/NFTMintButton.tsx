@@ -4,12 +4,14 @@ import { cn } from '../../../styles/theme';
 import {
   Transaction,
   TransactionButton,
+  type TransactionButtonReact,
   type LifecycleStatus as TransactionLifecycleStatus,
   TransactionSponsor,
   TransactionStatus,
   TransactionStatusAction,
   TransactionStatusLabel,
 } from '../../../transaction';
+import { useOnchainKit } from '../../../useOnchainKit';
 import { ConnectWallet } from '../../../wallet';
 import { useNFTLifecycleContext } from '../NFTLifecycleProvider';
 import { useNFTContext } from '../NFTProvider';
@@ -17,11 +19,18 @@ import { useNFTContext } from '../NFTProvider';
 type NFTMintButtonReact = {
   className?: string;
   label?: string;
-};
+} & Pick<
+  TransactionButtonReact,
+  'disabled' | 'pendingOverride' | 'successOverride' | 'errorOverride'
+>;
 
 export function NFTMintButton({
   className,
   label = 'Mint',
+  disabled,
+  pendingOverride,
+  successOverride,
+  errorOverride,
 }: NFTMintButtonReact) {
   const chainId = useChainId();
   const { address } = useAccount();
@@ -33,6 +42,16 @@ export function NFTMintButton({
     quantity,
   } = useNFTContext();
   const { updateLifecycleStatus } = useNFTLifecycleContext();
+  const {
+    config: { paymaster } = { paymaster: undefined },
+  } = useOnchainKit();
+
+  const capabilities = useMemo(() => {
+    if (paymaster) {
+      return { paymasterService: { url: paymaster } };
+    }
+    return undefined;
+  }, [paymaster]);
 
   const handleOnStatus = useCallback(
     (transactionStatus: TransactionLifecycleStatus) => {
@@ -53,7 +72,7 @@ export function NFTMintButton({
 
   const transactionButtonLabel = useMemo(() => {
     if (isEligibleToMint === false) {
-      return 'Mint ended';
+      return 'Minting not available';
     }
 
     return label;
@@ -65,15 +84,16 @@ export function NFTMintButton({
 
   if (!address) {
     return (
-      <div className={cn('py-2', className)}>
+      <div className={cn('pt-2', className)}>
         <ConnectWallet className="w-full" />
       </div>
     );
   }
 
   return (
-    <div className={cn('py-2', className)}>
+    <div className={cn('pt-2', className)}>
       <Transaction
+        capabilities={capabilities}
         chainId={chainId}
         calls={() =>
           buildMintTransaction({
@@ -87,7 +107,10 @@ export function NFTMintButton({
       >
         <TransactionButton
           text={transactionButtonLabel}
-          disabled={transactionButtonLabel !== label}
+          pendingOverride={pendingOverride}
+          successOverride={successOverride}
+          errorOverride={errorOverride}
+          disabled={disabled || transactionButtonLabel !== label}
         />
         <TransactionSponsor />
         <TransactionStatus>

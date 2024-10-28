@@ -1,6 +1,6 @@
 {
   "name": "@coinbase/onchainkit",
-  "version": "0.35.0",
+  "version": "0.35.1",
   "type": "module",
   "repository": "https://github.com/coinbase/onchainkit.git",
   "license": "MIT",
@@ -156,6 +156,24 @@
       "module": "./esm/identity/index.js",
       "import": "./esm/identity/index.js",
       "default": "./esm/identity/index.js"
+    },
+    "./nft": {
+      "types": "./esm/nft/index.d.ts",
+      "module": "./esm/nft/index.js",
+      "import": "./esm/nft/index.js",
+      "default": "./esm/nft/index.js"
+    },
+    "./nft/view": {
+      "types": "./esm/nft/components/view/index.d.ts",
+      "module": "./esm/nft/components/view/index.js",
+      "import": "./esm/nft/components/view/index.js",
+      "default": "./esm/nft/components/view/index.js"
+    },
+    "./nft/mint": {
+      "types": "./esm/nft/components/mint/index.d.ts",
+      "module": "./esm/nft/components/mint/index.js",
+      "import": "./esm/nft/components/mint/index.js",
+      "default": "./esm/nft/components/mint/index.js"
     },
     "./swap": {
       "types": "./esm/swap/index.d.ts",

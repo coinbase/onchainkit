@@ -42,7 +42,7 @@
     background-color: #0F0F0F !important;
     border-color: #18181b !important;
 
-    --vocs-twoslash_popupBackground: ##0F0F0F;
+    --vocs-twoslash_popupBackground: #0F0F0F;
     --vocs-color_background5: #0F0F0F;
   }
   .vocs_CopyButton {
@@ -260,7 +260,7 @@ footer a.vocs_Anchor {
 
 #twitter-widget-0 {
   width: 27.375rem !important;
-  margin-bottom: -1px; 
+  margin-bottom: -1px;
 }
 
 #twitter-widget-1 {

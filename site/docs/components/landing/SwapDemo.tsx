@@ -12,20 +12,20 @@ import SwapWrapper from '../SwapWrapper.tsx';
 
 export const swapDemoCode = `
   import { Avatar, Name } from '@coinbase/onchainkit/identity';
-  import { 
-    Swap, 
-    SwapAmountInput, 
-    SwapToggleButton, 
-    SwapButton, 
-    SwapMessage, 
-    SwapToast, 
-  } from '@coinbase/onchainkit/swap'; 
+  import {
+    Swap,
+    SwapAmountInput,
+    SwapToggleButton,
+    SwapButton,
+    SwapMessage,
+    SwapToast,
+  } from '@coinbase/onchainkit/swap';
   import { Wallet, ConnectWallet } from '@coinbase/onchainkit/wallet';
   import { useAccount } from 'wagmi';
-  import type { Token } from '@coinbase/onchainkit/token'; 
+  import type { Token } from '@coinbase/onchainkit/token';
 
   const { address } = useAccount();
- 
+
   const ETHToken: Token = {
     address: "",
     chainId: 8453,
@@ -34,7 +34,7 @@ export const swapDemoCode = `
     symbol: "ETH",
     image: "",
   };
- 
+
   const USDCToken: Token = {
     address: "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
     chainId: 8453,
@@ -43,13 +43,13 @@ export const swapDemoCode = `
     symbol: "USDC",
     image: "",
   };
- 
+
   const swappableTokens: Token[] = [ETHToken, USDCToken];
-  
+
   <SwapDefault
     from={swappableFromTokens}
     to={swappableToTokens}
-  /> 
+  />
   `;
 
 function SwapDemo() {

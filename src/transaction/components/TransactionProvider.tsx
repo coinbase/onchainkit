@@ -343,6 +343,7 @@ export function TransactionProvider({
     transactions,
     transactionId,
     transactionHash: singleTransactionHash || batchedTransactionHash,
+    transactionCount,
   });
   return (
     <TransactionContext.Provider value={value}>

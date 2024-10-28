@@ -254,7 +254,7 @@ const handleOnStatus = useCallback((status: LifecycleStatus) => { // [!code focu
 </Transaction> // [!code focus]
 ```
 
-The Lifecycle Status features six states for the transaction experience.
+The Lifecycle Status features seven states for the transaction experience.
 
 ```ts twoslash
 import type { TransactionError } from "@coinbase/onchainkit/transaction";
@@ -271,6 +271,10 @@ type LifecycleStatus =
     }
   | {
       statusName: 'transactionIdle'; // initial status prior to the mutation function executing
+      statusData: null;
+    }
+  | {
+      statusName: 'buildingTransaction'; // resolving calls or contracts promise 
       statusData: null;
     }
   | {
@@ -390,6 +394,40 @@ export default function TransactionWithCalls() {
 ```
 
 In this example, we're creating a single call to the `click` function of our contract. The `encodeFunctionData` utility from `viem` is used to encode the function call data.
+
+### Using calls or contracts with Promises
+
+Calls or contracts also accepts asynchronous functions that are resolved on each button click. This can be useful if you're calling an API to retrieve transaction data.
+
+These functions must resolve to `Calls[]` or `ContractFunctionParameters[]`.
+
+In the example the calls data will be fetched from api.transaction.com when the user clicks the Transaction Button.
+
+```tsx twoslash
+// @noErrors: 2322
+import { Transaction, TransactionButton } from '@coinbase/onchainkit/transaction';
+import { baseSepolia } from 'wagmi/chains';
+
+// ---cut-before---
+
+const callsCallback = async () => { // [!code focus]
+  const res = await fetch('api.transaction.com/createTransaction'); // [!code focus]
+  const callData = await res.json(); // [!code focus]
+  return callData; // [!code focus]
+} // [!code focus]
+
+export default function TransactionWithCalls() {
+  return (
+    <Transaction
+      chainId={baseSepolia.id}
+      calls={callsCallback} // [!code focus]
+      onStatus={(status) => console.log('Transaction status:', status)}
+    >
+      <TransactionButton />
+    </Transaction>
+  );
+}
+```
 
 ## Components
 
