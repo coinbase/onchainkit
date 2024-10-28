@@ -25,6 +25,7 @@ import { useResetInputs } from '../hooks/useResetInputs';
 import type { SwapContextType, SwapProviderReact } from '../types';
 import { isSwapError } from '../utils/isSwapError';
 import { processSwapTransaction } from '../utils/processSwapTransaction';
+import { useOnchainKit } from '../../useOnchainKit';
 
 const emptyContext = {} as SwapContextType;
 
@@ -49,6 +50,9 @@ export function SwapProvider({
   onStatus,
   onSuccess,
 }: SwapProviderReact) {
+  const {
+    config: { paymaster } = { paymaster: undefined },
+  } = useOnchainKit();
   const { address, chainId } = useAccount();
   const { switchChainAsync } = useSwitchChain();
   // Feature flags
@@ -317,6 +321,7 @@ export function SwapProvider({
         chainId,
         config: accountConfig,
         isSponsored,
+        paymaster: paymaster || '',
         sendCallsAsync,
         sendTransactionAsync,
         swapTransaction: response,
