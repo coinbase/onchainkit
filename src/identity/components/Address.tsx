@@ -32,6 +32,13 @@ export function Address({
       });
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      handleClick();
+    }
+  };
+
   return (
     <span
       data-testid="ockAddress"
@@ -42,12 +49,7 @@ export function Address({
         'group relative cursor-pointer',
       )}
       onClick={handleClick}
-      onKeyDown={(e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          handleClick();
-        }
-      }}
+      onKeyDown={handleKeyDown}
       tabIndex={0}
       role="button"
     >

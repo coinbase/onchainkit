@@ -171,4 +171,35 @@ describe('getSocials', () => {
       'Client Error',
     );
   });
+
+  it('should handle errors in fetchTextRecord gracefully', async () => {
+    const ensName = 'error.eth';
+    vi.mocked(isEthereum).mockReturnValue(true);
+    vi.mocked(isBase).mockReturnValue(false);
+
+    const consoleSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+
+    mockClient.getEnsText.mockImplementation(({ key }) => {
+      if (key === 'com.twitter') {
+        throw new Error('Failed to fetch');
+      }
+      return Promise.resolve('somevalue');
+    });
+
+    const result = await getSocials({ ensName, chain: mainnet });
+
+    expect(result).toEqual({
+      twitter: null,
+      github: 'somevalue',
+      farcaster: 'somevalue',
+      website: 'somevalue',
+    });
+
+    expect(consoleSpy).toHaveBeenCalledWith(
+      'Failed to fetch ENS text record for com.twitter:',
+      expect.any(Error),
+    );
+
+    consoleSpy.mockRestore();
+  });
 });

@@ -30,12 +30,17 @@ export const getSocials = async ({
   const normalizedName = normalize(ensName);
 
   const fetchTextRecord = async (key: string) => {
-    const result = await client.getEnsText({
-      name: normalizedName,
-      key,
-      universalResolverAddress: RESOLVER_ADDRESSES_BY_CHAIN_ID[chain.id],
-    });
-    return result || null;
+    try {
+      const result = await client.getEnsText({
+        name: normalizedName,
+        key,
+        universalResolverAddress: RESOLVER_ADDRESSES_BY_CHAIN_ID[chain.id],
+      });
+      return result || null;
+    } catch (error) {
+      console.warn(`Failed to fetch ENS text record for ${key}:`, error);
+      return null;
+    }
   };
 
   const [twitter, github, farcaster, website] = await Promise.all([
