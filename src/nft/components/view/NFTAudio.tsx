@@ -86,7 +86,7 @@ export function NFTAudio({
             'border-transparent border-l-[var(--ock-bg-default)] hover:border-l-[var(--ock-bg-default-hover)]',
             {
               'border-[length:0_0_0_16px] border-double': isPlaying,
-              'border-[length:9px_0_9px_16px] border-solid': !isPlaying,
+              '-mr-px border-[length:9px_0_9px_16px] border-solid': !isPlaying,
             },
           )}
         />
