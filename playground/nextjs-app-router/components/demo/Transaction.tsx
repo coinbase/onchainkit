@@ -1,4 +1,8 @@
-import { clickCalls, clickContracts } from '@/lib/transactions';
+import {
+  clickCalls,
+  clickContracts,
+  heterogeneousClickCalls,
+} from '@/lib/transactions';
 import type { Call } from '@/onchainkit/esm/transaction/types';
 import type { LifecycleStatus } from '@/onchainkit/src/transaction';
 import { TransactionTypes } from '@/types/onchainkit';
@@ -66,6 +70,12 @@ function TransactionDemo() {
       case TransactionTypes.Contracts:
         console.log('Playground.Transaction.contracts:', contracts);
         break;
+      case TransactionTypes.ContractsAndCalls:
+        console.log(
+          'Playground.Transaction.contractsAndCalls:',
+          heterogeneousClickCalls,
+        );
+        break;
       default:
         console.log(`Playground.Transaction.${transactionType}`);
         break;
@@ -98,6 +108,8 @@ function TransactionDemo() {
         return { calls: callsCallback, contracts: undefined };
       case TransactionTypes.ContractsCallback:
         return { calls: undefined, contracts: contractsCallback };
+      case TransactionTypes.ContractsAndCalls:
+        return { calls: heterogeneousClickCalls, contracts: undefined };
       default:
         return { calls, contracts: undefined };
     }
