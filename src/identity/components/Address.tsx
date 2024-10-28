@@ -59,7 +59,7 @@ export function Address({
           color.foreground,
           border.default,
           border.radius,
-          'absolute top-full left-[0%] mt-0.5 px-1.5 py-0.5 opacity-0 transition-opacity group-hover:opacity-100',
+          'absolute top-full left-[0%] z-10 mt-0.5 px-1.5 py-0.5 opacity-0 transition-opacity group-hover:opacity-100',
         )}
       >
         {copyText}
