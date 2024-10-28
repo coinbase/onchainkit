@@ -1,5 +1,5 @@
 import { multiplyFloats } from '../../../internal/utils/multiplyFloats';
-import { cn, color, text } from '../../../styles/theme';
+import { cn, text } from '../../../styles/theme';
 import { formatAmount } from '../../../token/utils/formatAmount';
 import { useNFTContext } from '../NFTProvider';
 
