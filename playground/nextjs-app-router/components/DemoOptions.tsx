@@ -32,6 +32,7 @@ export default function DemoOptions({
           {commonOptions}
           <Chain />
           <PaymasterUrl />
+          <IsSponsored />
           <CheckoutOptions />
         </>
       );

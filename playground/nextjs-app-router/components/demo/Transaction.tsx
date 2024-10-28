@@ -1,4 +1,3 @@
-import { useCapabilities } from '@/lib/hooks';
 import { clickCalls, clickContracts } from '@/lib/transactions';
 import type { Call } from '@/onchainkit/esm/transaction/types';
 import type { LifecycleStatus } from '@/onchainkit/src/transaction';
@@ -20,7 +19,6 @@ import { AppContext, TransactionTypes } from '../AppProvider';
 
 function TransactionDemo() {
   const { chainId, transactionType, isSponsored } = useContext(AppContext);
-  const capabilities = useCapabilities();
   const contracts = clickContracts as ContractFunctionParameters[];
   const calls = clickCalls as Call[];
   const promiseCalls = new Promise((resolve) => {
@@ -100,7 +98,7 @@ function TransactionDemo() {
       case TransactionTypes.ContractsCallback:
         return { calls: undefined, contracts: contractsCallback };
       default:
-        return { calls: undefined, contracts: undefined };
+        return { calls, contracts: undefined };
     }
   }, [
     calls,
@@ -117,7 +115,6 @@ function TransactionDemo() {
       <Transaction
         chainId={chainId ?? 84532} // something breaks if we don't have default network?
         {...transactions}
-        capabilities={capabilities}
         isSponsored={isSponsored}
         onStatus={handleOnStatus}
       >
