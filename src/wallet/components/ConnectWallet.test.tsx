@@ -162,6 +162,40 @@ describe('ConnectWallet', () => {
     expect(screen.queryByText('Not Render')).not.toBeInTheDocument();
   });
 
+  it('should call onConnect callback when connect button is clicked', () => {
+    const mockUseAccount = vi.mocked(useAccount);
+    mockUseAccount.mockReturnValue({
+      address: undefined,
+      status: 'disconnected',
+    });
+
+    const onConnectMock = vi.fn();
+    render(<ConnectWallet text="Connect Wallet" onConnect={onConnectMock} />);
+    const button = screen.getByTestId('ockConnectButton');
+
+    mockUseAccount.mockReturnValue({
+      address: '0x123',
+      status: 'connected',
+    });
+
+    fireEvent.click(button);
+
+    expect(onConnectMock).toHaveBeenCalledTimes(1);
+  });
+
+  it('should not call onConnect callback when component is first mounted', () => {
+    const mockUseAccount = vi.mocked(useAccount);
+    mockUseAccount.mockReturnValue({
+      address: '0x123',
+      status: 'connected',
+    });
+
+    const onConnectMock = vi.fn();
+    render(<ConnectWallet text="Connect Wallet" onConnect={onConnectMock} />);
+
+    expect(onConnectMock).toHaveBeenCalledTimes(0);
+  });
+
   describe('withWalletAggregator', () => {
     beforeEach(() => {
       vi.mocked(useAccount).mockReturnValue({
@@ -214,6 +248,33 @@ describe('ConnectWallet', () => {
       const button = screen.getByTestId('ockConnectButton');
       fireEvent.click(button);
       expect(openConnectModalMock).toHaveBeenCalled();
+    });
+
+    it('should call onConnect callback when connect button is clicked', () => {
+      const mockUseAccount = vi.mocked(useAccount);
+      mockUseAccount.mockReturnValue({
+        address: undefined,
+        status: 'disconnected',
+      });
+
+      const onConnectMock = vi.fn();
+      render(
+        <ConnectWallet
+          text="Connect Wallet"
+          onConnect={onConnectMock}
+          withWalletAggregator={true}
+        />,
+      );
+      const button = screen.getByTestId('ockConnectButton');
+
+      mockUseAccount.mockReturnValue({
+        address: '0x123',
+        status: 'connected',
+      });
+
+      fireEvent.click(button);
+
+      expect(onConnectMock).toHaveBeenCalledTimes(1);
     });
   });
 });

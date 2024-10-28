@@ -1,7 +1,4 @@
-import {
-  ConnectButton as ConnectButtonRainbowKit,
-  RainbowKitProvider,
-} from '@rainbow-me/rainbowkit';
+import { ConnectButton as ConnectButtonRainbowKit } from '@rainbow-me/rainbowkit';
 import { Children, isValidElement, useCallback, useMemo } from 'react';
 import type { ReactNode } from 'react';
 import { useAccount, useConnect } from 'wagmi';
@@ -28,7 +25,7 @@ export function ConnectWallet({
   // but for now we will keep it for backward compatibility.
   text = 'Connect Wallet',
   withWalletAggregator = false,
-  onConnect = () => {},
+  onConnect,
 }: ConnectWalletReact) {
   // Core Hooks
   const { isOpen, setIsOpen } = useWalletContext();
@@ -68,37 +65,30 @@ export function ConnectWallet({
   }, [isOpen, setIsOpen]);
 
   React.useEffect(() => {
-    if (
-      withWalletAggregator &&
-      hasClickedConnect &&
-      status === 'connected' &&
-      onConnect
-    ) {
+    if (hasClickedConnect && status === 'connected' && onConnect) {
       onConnect();
     }
-  }, [onConnect, status, withWalletAggregator, hasClickedConnect]);
+  }, [onConnect, status, hasClickedConnect]);
 
   // Can't use the connect logic here becuase won't be rendered as soon as you connect...
   if (status === 'disconnected') {
     if (withWalletAggregator) {
       return (
-        <RainbowKitProvider>
-          <ConnectButtonRainbowKit.Custom>
-            {({ openConnectModal }) => (
-              <div className="flex" data-testid="ockConnectWallet_Container">
-                <ConnectButton
-                  className={className}
-                  connectWalletText={connectWalletText}
-                  onClick={() => {
-                    openConnectModal();
-                    setHasClickedConnect(true);
-                  }}
-                  text={text}
-                />
-              </div>
-            )}
-          </ConnectButtonRainbowKit.Custom>
-        </RainbowKitProvider>
+        <ConnectButtonRainbowKit.Custom>
+          {({ openConnectModal }) => (
+            <div className="flex" data-testid="ockConnectWallet_Container">
+              <ConnectButton
+                className={className}
+                connectWalletText={connectWalletText}
+                onClick={() => {
+                  openConnectModal();
+                  setHasClickedConnect(true);
+                }}
+                text={text}
+              />
+            </div>
+          )}
+        </ConnectButtonRainbowKit.Custom>
       );
     }
     return (
