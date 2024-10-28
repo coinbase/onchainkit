@@ -251,7 +251,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     console.log('NFT Token changed:', nftToken);
     localStorage.setItem('nftToken', nftToken);
     setNFTTokenState(nftToken);
-  }
+  };
   const setIsSponsored = (isSponsored: boolean) => {
     console.log('Component isSponsored changed: ', isSponsored);
     localStorage.setItem('isSponsored', JSON.stringify(isSponsored));
