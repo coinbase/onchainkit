@@ -106,7 +106,10 @@ export function ConnectWallet({
         <ConnectButton
           className={className}
           connectWalletText={connectWalletText}
-          onClick={() => connect({ connector }, { onSuccess: onConnect })}
+          onClick={() => {
+            connect({ connector });
+            setHasClickedConnect(true);
+          }}
           text={text}
         />
       </div>

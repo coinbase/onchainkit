@@ -88,7 +88,7 @@ describe('ConnectWallet', () => {
     expect(connectedText).toBeInTheDocument();
   });
 
-  it('should calls connect function when connect button is clicked', () => {
+  it('should call connect function when connect button is clicked', () => {
     const connectMock = vi.fn();
     vi.mocked(useConnect).mockReturnValue({
       connectors: [{ id: 'mockConnector' }],
@@ -175,7 +175,7 @@ describe('ConnectWallet', () => {
       });
     });
 
-    it('should render ConnectButtonRainboKit when withWalletAggregator is true', () => {
+    it('should render ConnectButtonRainbowKit when withWalletAggregator is true', () => {
       render(
         <ConnectWallet text="Connect Wallet" withWalletAggregator={true} />,
       );
@@ -203,7 +203,7 @@ describe('ConnectWallet', () => {
       });
     });
 
-    it('should calls openConnectModal function when connect button is clicked', () => {
+    it('should call openConnectModal function when connect button is clicked', () => {
       vi.mocked(useWalletContext).mockReturnValue({
         isOpen: false,
         setIsOpen: vi.fn(),
