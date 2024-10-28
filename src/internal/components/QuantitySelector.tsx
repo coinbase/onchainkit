@@ -97,7 +97,10 @@ export function QuantitySelector({
       </div>
       <TextInput
         aria-label="quantity"
-        className={cn(classNames, 'w-full text-center')}
+        className={cn(
+          classNames,
+          'w-full text-center hover:bg-[var(--ock-bg-default-hover)] focus:bg-transparent',
+        )}
         delayMs={DELAY_MS}
         disabled={disabled}
         inputValidator={isValidQuantity}

@@ -37,8 +37,7 @@ describe('NFTAssetCost', () => {
 
     expect(getByText('0.1 ETH')).toBeInTheDocument();
     expect(getByText('~')).toBeInTheDocument();
-    expect(getByText('$')).toBeInTheDocument();
-    expect(getByText('40.00')).toBeInTheDocument();
+    expect(getByText('$40.00')).toBeInTheDocument();
   });
 
   it('should render correctly with a whole number decimal', () => {
@@ -55,8 +54,7 @@ describe('NFTAssetCost', () => {
 
     expect(getByText('1 ETH')).toBeInTheDocument();
     expect(getByText('~')).toBeInTheDocument();
-    expect(getByText('$')).toBeInTheDocument();
-    expect(getByText('2,000.00')).toBeInTheDocument();
+    expect(getByText('$2,000.00')).toBeInTheDocument();
   });
 
   it('should render free if price is 0', () => {

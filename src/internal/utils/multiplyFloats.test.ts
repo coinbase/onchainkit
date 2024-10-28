@@ -2,6 +2,14 @@ import { describe, expect, it } from 'vitest';
 import { multiplyFloats } from './multiplyFloats';
 
 describe('multiplyFloats', () => {
+  it('multiplies small floats', () => {
+    expect(multiplyFloats(0.0051, 3)).toEqual(0.0153);
+  });
+
+  it('multiplies two small floats', () => {
+    expect(multiplyFloats(0.0051, 0.003)).toEqual(0.0000153);
+  });
+
   it('multiplies two positive floats', () => {
     expect(multiplyFloats(1.2, 3.4)).toEqual(4.08);
   });

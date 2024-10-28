@@ -1,22 +1,23 @@
 export function multiplyFloats(...numbers: number[]) {
-  // Convert all numbers to strings and count decimal places
-  const decimalPlaces: number[] = numbers.map((num) => {
-    const str: string = num.toString();
-    const decimal: number = str.indexOf('.');
-    return decimal === -1 ? 0 : str.length - decimal - 1;
-  });
+  if (numbers.length === 1) {
+    return numbers[0];
+  }
 
-  // Calculate the multiplier needed to convert to integers
-  const multiplier: number =
-    10 ** decimalPlaces.reduce((sum, places) => sum + places, 0);
+  // multiply ints and count decimals
+  const { result, decimalPlaces } = numbers.reduce(
+    (acc, num) => {
+      const str = num.toString();
+      const currentDecimalPlaces = (str.split('.')[1] || '').length;
+      const integer = Number(str.replace('.', ''));
 
-  // Convert to integers, multiply, then convert back
-  const result: number =
-    numbers.reduce((acc, num) => {
-      // Convert to integer by multiplying by appropriate power of 10
-      const factor: number = 10 ** decimalPlaces[numbers.indexOf(num)];
-      return acc * (num * factor);
-    }, 1) / multiplier;
+      return {
+        result: acc.result * integer,
+        decimalPlaces: acc.decimalPlaces + currentDecimalPlaces,
+      };
+    },
+    { result: 1, decimalPlaces: 0 },
+  );
 
-  return result;
+  // convert back to float with correct decimal places
+  return result / 10 ** decimalPlaces;
 }
