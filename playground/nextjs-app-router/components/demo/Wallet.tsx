@@ -16,7 +16,6 @@ import {
   WalletDropdownLink,
 } from '@coinbase/onchainkit/wallet';
 import { useAccount } from 'wagmi';
-import '@rainbow-me/rainbowkit/styles.css';
 
 function WalletComponent() {
   const { address } = useAccount();
