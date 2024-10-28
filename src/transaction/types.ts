@@ -145,6 +145,9 @@ type Contracts =
 
 export type TransactionProviderReact = {
   calls?: Calls; // An array of calls to be made in the transaction. Mutually exclusive with the `contracts` prop.
+  /**
+   * @deprecated Use `isSponsored` instead.
+   */
   capabilities?: WalletCapabilities; // Capabilities that a wallet supports (e.g. paymasters, session keys, etc).
   chainId: number; // The chainId for the transaction.
   children: ReactNode; // The child components to be rendered within the provider component.
@@ -160,6 +163,9 @@ export type TransactionProviderReact = {
  */
 export type TransactionReact = {
   calls?: Calls; // An array of calls to be made in the transaction. Mutually exclusive with the `contracts` prop.
+  /**
+   * @deprecated Use `isSponsored` instead.
+   */
   capabilities?: WalletCapabilities; // Capabilities that a wallet supports (e.g. paymasters, session keys, etc).
   chainId?: number; // The chainId for the transaction.
   children: ReactNode; // The child components to be rendered within the transaction component.
