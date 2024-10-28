@@ -33,7 +33,6 @@ export function ConnectWallet({
   const { connectors, connect, status: connectStatus } = useConnect();
 
   // State
-  // Needed for RainbowKit to detect if the user has clicked the connect button to run the onConnect callback
   const [hasClickedConnect, setHasClickedConnect] = React.useState(false);
 
   // Get connectWalletText from children when present,
@@ -70,7 +69,6 @@ export function ConnectWallet({
     }
   }, [onConnect, status, hasClickedConnect]);
 
-  // Can't use the connect logic here becuase won't be rendered as soon as you connect...
   if (status === 'disconnected') {
     if (withWalletAggregator) {
       return (
