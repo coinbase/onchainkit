@@ -6,7 +6,6 @@ import { createContext, useEffect, useState } from 'react';
 import { useConnect, useConnectors } from 'wagmi';
 import { base } from 'wagmi/chains';
 import { WalletPreference } from './form/wallet-type';
-import { SessionProvider } from 'next-auth/react';
 
 export enum OnchainKitComponent {
   Fund = 'fund',
@@ -287,7 +286,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         projectId={ENVIRONMENT_VARIABLES[ENVIRONMENT.PROJECT_ID]}
         schemaId="0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9"
       >
-        <SessionProvider session={null}>{children}</SessionProvider>
+        {children}
       </OnchainKitProvider>
     </AppContext.Provider>
   );

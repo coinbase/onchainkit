@@ -24,11 +24,7 @@ function WalletComponent() {
   return (
     <div className="flex justify-end">
       <Wallet>
-        <ConnectWallet
-          text="Connect Wallet"
-          withWalletAggregator={true}
-          onConnect={() => alert('ALERT!')}
-        >
+        <ConnectWallet text="Connect Wallet">
           <Avatar address={address} className="h-6 w-6" />
           <Name />
         </ConnectWallet>
@@ -55,7 +51,7 @@ function WalletComponent() {
   );
 }
 
-export default function kWalletDemo() {
+export default function WalletDemo() {
   return (
     <div className="mx-auto">
       <WalletComponent />
