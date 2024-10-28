@@ -24,6 +24,11 @@ describe('NFTTotalCost', () => {
         currency: 'ETH',
         amountUSD: '20',
       },
+      mintFee: {
+        amount: 0.05,
+        currency: 'ETH',
+        amountUSD: '20',
+      },
       quantity: 2,
     });
   });
@@ -46,6 +51,11 @@ describe('NFTTotalCost', () => {
         currency: 'ETH',
         amountUSD: '2000',
       },
+      mintFee: {
+        amount: 0.05,
+        currency: 'ETH',
+        amountUSD: '20',
+      },
       quantity: 1,
     });
 
@@ -58,6 +68,31 @@ describe('NFTTotalCost', () => {
   it('should not render if price is 0', () => {
     mockUseNFTContext.mockReturnValue({
       price: {
+        amount: 0,
+        currency: 'ETH',
+        amountUSD: 0,
+      },
+      mintFee: {
+        amount: 0.05,
+        currency: 'ETH',
+        amountUSD: '20',
+      },
+      quantity: 1,
+    });
+
+    const { queryByText } = render(<NFTTotalCost />);
+
+    expect(queryByText('Total cost')).toBeNull();
+  });
+
+  it('should not render if mintFee is 0', () => {
+    mockUseNFTContext.mockReturnValue({
+      price: {
+        amount: 0.05,
+        currency: 'ETH',
+        amountUSD: '20',
+      },
+      mintFee: {
         amount: 0,
         currency: 'ETH',
         amountUSD: 0,

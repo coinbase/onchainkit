@@ -83,7 +83,13 @@ export function NFTTotalCost({
     );
   }, [mintFee, price, quantity]);
 
-  if (!price?.amount || !price?.currency || !price?.amountUSD) {
+  if (
+    !price?.amount ||
+    !price?.currency ||
+    !price?.amountUSD ||
+    !mintFee?.amount ||
+    !mintFee.amountUSD
+  ) {
     return null;
   }
 

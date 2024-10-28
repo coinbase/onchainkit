@@ -22,7 +22,7 @@ export function NFTCreator({ className }: NFTCreatorReact) {
         address={creatorAddress}
         schemaId={schemaId}
       >
-        <Avatar className="h-5 w-5" />
+        <Avatar className="h-4 w-4" />
         <Name>
           <Badge />
         </Name>

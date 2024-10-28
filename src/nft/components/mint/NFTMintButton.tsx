@@ -84,14 +84,14 @@ export function NFTMintButton({
 
   if (!address) {
     return (
-      <div className={cn('py-2', className)}>
+      <div className={cn('pt-2', className)}>
         <ConnectWallet className="w-full" />
       </div>
     );
   }
 
   return (
-    <div className={cn('py-2', className)}>
+    <div className={cn('pt-2', className)}>
       <Transaction
         capabilities={capabilities}
         chainId={chainId}

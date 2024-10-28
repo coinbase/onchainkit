@@ -66,7 +66,7 @@ export function NFTMedia() {
       return (
         <div className="relative w-full">
           <NFTImage />
-          <div className="absolute bottom-[20px] mx-auto w-full">
+          <div className="absolute bottom-4 mx-auto w-full">
             <NFTAudio />
           </div>
         </div>

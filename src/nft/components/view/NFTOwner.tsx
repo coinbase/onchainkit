@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import { Avatar, Badge, Identity, Name } from '../../../identity';
-import { cn, text } from '../../../styles/theme';
+import { cn, color, text } from '../../../styles/theme';
 import { useOnchainKit } from '../../../useOnchainKit';
 import { useNFTContext } from '../NFTProvider';
 
@@ -25,13 +25,13 @@ export function NFTOwner({ className, label = 'Owned by' }: NFTOwnerReact) {
         className,
       )}
     >
-      <div>{label}</div>
+      <div className={cn(color.foregroundMuted)}>{label}</div>
       <Identity
-        className={cn('!bg-inherit space-x-2 px-0')}
+        className={cn('!bg-inherit space-x-1 px-0')}
         address={ownerAddress}
         schemaId={schemaId}
       >
-        <Avatar className="h-5 w-5" />
+        <Avatar className="h-4 w-4" />
         <Name>
           <Badge />
         </Name>
