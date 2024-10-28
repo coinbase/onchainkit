@@ -20,7 +20,7 @@ export function Address({
 
   const accountAddress = address ?? contextAddress;
 
-  const handleClick = () => {
+  const handleInteraction = () => {
     navigator.clipboard
       .writeText(accountAddress)
       .then(() => {
@@ -41,7 +41,15 @@ export function Address({
         className,
         'group relative cursor-pointer',
       )}
-      onClick={handleClick}
+      onClick={handleInteraction}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          handleInteraction();
+        }
+      }}
+      tabIndex={0}
+      role="button"
     >
       {isSliced ? getSlicedAddress(accountAddress) : accountAddress}
       <span

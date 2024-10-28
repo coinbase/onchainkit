@@ -182,4 +182,65 @@ describe('Address component', () => {
     const addressElement = screen.getByTestId('ockAddress');
     expect(addressElement).toHaveClass('custom-class');
   });
+
+  it('copies the address to clipboard when pressing Enter key', async () => {
+    const user = userEvent.setup();
+    const mockWriteText = vi.fn().mockResolvedValue(undefined);
+    vi.spyOn(navigator.clipboard, 'writeText').mockImplementation(
+      mockWriteText,
+    );
+
+    useIdentityContextMock.mockReturnValue({});
+    render(<Address address={testAddressComponentAddress} />);
+
+    const addressElement = screen.getByTestId('ockAddress');
+    addressElement.focus();
+    await user.keyboard('{Enter}');
+
+    expect(mockWriteText).toHaveBeenCalledWith(testAddressComponentAddress);
+  });
+
+  it('copies the address to clipboard when pressing Space key', async () => {
+    const user = userEvent.setup();
+    const mockWriteText = vi.fn().mockResolvedValue(undefined);
+    vi.spyOn(navigator.clipboard, 'writeText').mockImplementation(
+      mockWriteText,
+    );
+
+    useIdentityContextMock.mockReturnValue({});
+    render(<Address address={testAddressComponentAddress} />);
+
+    const addressElement = screen.getByTestId('ockAddress');
+    addressElement.focus();
+    await user.keyboard(' ');
+
+    expect(mockWriteText).toHaveBeenCalledWith(testAddressComponentAddress);
+  });
+
+  it('shows "Copied" text after keyboard interaction', async () => {
+    const user = userEvent.setup();
+    const mockWriteText = vi.fn().mockResolvedValue(undefined);
+    vi.spyOn(navigator.clipboard, 'writeText').mockImplementation(
+      mockWriteText,
+    );
+
+    useIdentityContextMock.mockReturnValue({});
+    render(<Address address={testAddressComponentAddress} />);
+
+    const addressElement = screen.getByTestId('ockAddress');
+    addressElement.focus();
+    await user.keyboard('{Enter}');
+
+    expect(screen.getByText('Copied')).toBeInTheDocument();
+    expect(mockWriteText).toHaveBeenCalledWith(testAddressComponentAddress);
+  });
+
+  it('has correct accessibility attributes', () => {
+    useIdentityContextMock.mockReturnValue({});
+    render(<Address address={testAddressComponentAddress} />);
+
+    const addressElement = screen.getByTestId('ockAddress');
+    expect(addressElement).toHaveAttribute('role', 'button');
+    expect(addressElement).toHaveAttribute('tabIndex', '0');
+  });
 });
