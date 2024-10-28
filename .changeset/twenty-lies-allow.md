@@ -2,4 +2,4 @@
 '@coinbase/onchainkit': patch
 ---
 
--**feat**: Added Identity `Socials` subcomponent. By @cpcramer #1489
+-**feat**: Added `IdentityCard` and `Socials` components. By @cpcramer #1489

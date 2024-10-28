@@ -20,7 +20,7 @@ export function Address({
 
   const accountAddress = address ?? contextAddress;
 
-  const handleInteraction = () => {
+  const handleClick = () => {
     navigator.clipboard
       .writeText(accountAddress)
       .then(() => {
@@ -41,11 +41,11 @@ export function Address({
         className,
         'group relative cursor-pointer',
       )}
-      onClick={handleInteraction}
+      onClick={handleClick}
       onKeyDown={(e) => {
         if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault();
-          handleInteraction();
+          handleClick();
         }
       }}
       tabIndex={0}

@@ -217,7 +217,7 @@ describe('Address component', () => {
     expect(mockWriteText).toHaveBeenCalledWith(testAddressComponentAddress);
   });
 
-  it('shows "Copied" text after keyboard interaction', async () => {
+  it('shows "Copied" text after keyboard click', async () => {
     const user = userEvent.setup();
     const mockWriteText = vi.fn().mockResolvedValue(undefined);
     vi.spyOn(navigator.clipboard, 'writeText').mockImplementation(
