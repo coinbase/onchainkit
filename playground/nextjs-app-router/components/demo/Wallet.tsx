@@ -18,16 +18,17 @@ import {
 import { useAccount } from 'wagmi';
 import '@rainbow-me/rainbowkit/styles.css';
 
-
 function WalletComponent() {
   const { address } = useAccount();
 
-  console.log('withwalletaggregator');
-
-return (
+  return (
     <div className="flex justify-end">
       <Wallet>
-        <ConnectWallet text="Connect Wallet" withWalletAggregator={true}>
+        <ConnectWallet
+          text="Connect Wallet"
+          withWalletAggregator={true}
+          onConnect={() => alert('ALERT!')}
+        >
           <Avatar address={address} className="h-6 w-6" />
           <Name />
         </ConnectWallet>

@@ -19,8 +19,6 @@ import type { ConnectWalletReact } from '../types';
 import { ConnectButton } from './ConnectButton';
 import { ConnectWalletText } from './ConnectWalletText';
 import { useWalletContext } from './WalletProvider';
-import { RainbowKitSiweNextAuthProvider } from '@rainbow-me/rainbowkit-siwe-next-auth';
-import { SessionProvider } from 'next-auth/react';
 import React from 'react';
 
 export function ConnectWallet({
@@ -30,7 +28,7 @@ export function ConnectWallet({
   // but for now we will keep it for backward compatibility.
   text = 'Connect Wallet',
   withWalletAggregator = false,
-  onConnect,
+  onConnect = () => {},
 }: ConnectWalletReact) {
   // Core Hooks
   const { isOpen, setIsOpen } = useWalletContext();
@@ -71,7 +69,18 @@ export function ConnectWallet({
       return (
         <RainbowKitProvider>
           <ConnectButtonRainbowKit.Custom>
-            {({ openConnectModal }) => {
+            {({ openConnectModal, mounted: ready, account, chain }) => {
+              console.log('ready:', ready);
+              console.log('chain:', chain);
+              console.log('account:', account);
+              const connected = Boolean(ready && account);
+
+              React.useEffect(() => {
+                if (connected && onConnect) {
+                  onConnect?.();
+                }
+              }, [connected, onConnect]);
+
               return (
                 <div className="flex" data-testid="ockConnectWallet_Container">
                   <ConnectButton
