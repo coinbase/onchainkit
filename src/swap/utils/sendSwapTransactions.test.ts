@@ -120,13 +120,14 @@ describe('sendSwapTransactions', () => {
       updateLifecycleStatus,
       walletCapabilities: { [Capabilities.AtomicBatch]: { supported: true } },
       transactions,
+      paymaster: 'paymaster-url'
     });
     expect(sendCallsAsync).toHaveBeenCalledTimes(1);
     expect(sendCallsAsync).toHaveBeenCalledWith({
       calls: transactions.map(({ transaction }) => transaction),
       capabilities: {
         paymasterService: {
-          url: getRPCUrl(),
+          url: 'paymaster-url',
         },
       },
     });
