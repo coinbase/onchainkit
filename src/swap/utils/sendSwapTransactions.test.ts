@@ -5,7 +5,6 @@ import { mainnet, sepolia } from 'wagmi/chains';
 import { mock } from 'wagmi/connectors';
 import { setOnchainKitConfig } from '../../OnchainKitConfig';
 import { Capabilities } from '../../constants';
-import { getRPCUrl } from '../../network/getRPCUrl';
 import type { SwapTransaction } from '../types';
 import { sendSwapTransactions } from './sendSwapTransactions';
 
@@ -120,7 +119,7 @@ describe('sendSwapTransactions', () => {
       updateLifecycleStatus,
       walletCapabilities: { [Capabilities.AtomicBatch]: { supported: true } },
       transactions,
-      paymaster: 'paymaster-url'
+      paymaster: 'paymaster-url',
     });
     expect(sendCallsAsync).toHaveBeenCalledTimes(1);
     expect(sendCallsAsync).toHaveBeenCalledWith({
