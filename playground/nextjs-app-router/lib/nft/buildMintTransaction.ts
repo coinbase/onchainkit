@@ -15,7 +15,7 @@ async function getMintData({
       : [{ collection: contractAddress, quantity }];
 
     const response = await fetch(
-      'https://api-base.reservoir.tools/execute/mint/v1',
+      'https://api-base.reservoir.tools/execute/mint/v1?skipBalanceCheck=true',
       {
         method: 'POST',
         headers: {
@@ -32,7 +32,7 @@ async function getMintData({
 
     const data = await response.json();
 
-    if (data.error) {
+    if (data.message) {
       return Promise.reject(data.message);
     }
 

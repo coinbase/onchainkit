@@ -1,5 +1,6 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useAccount, useChainId } from 'wagmi';
+import { Spinner } from '../../../internal/components/Spinner';
 import { cn } from '../../../styles/theme';
 import {
   Transaction,
@@ -11,6 +12,7 @@ import {
   TransactionStatusAction,
   TransactionStatusLabel,
 } from '../../../transaction';
+import type { Call } from '../../../transaction/types';
 import { ConnectWallet } from '../../../wallet';
 import { useNFTLifecycleContext } from '../NFTLifecycleProvider';
 import { useNFTContext } from '../NFTProvider';
@@ -42,6 +44,56 @@ export function NFTMintButton({
     isSponsored,
   } = useNFTContext();
   const { updateLifecycleStatus } = useNFTLifecycleContext();
+  const [callData, setCallData] = useState<Call[]>([]);
+  const [mintError, setMintError] = useState<string | null>(null);
+
+  const handleTransactionError = useCallback(
+    (error: string) => {
+      updateLifecycleStatus({
+        statusName: 'error',
+        statusData: {
+          error: 'Error building mint transaction',
+          code: 'NmNBc01', // NFT module NFTMintButton component 01 error
+          message: error,
+        },
+      });
+      setMintError(error);
+    },
+    [updateLifecycleStatus],
+  );
+
+  const fetchTransactions = useCallback(async () => {
+    if (address && buildMintTransaction) {
+      try {
+        setCallData([]);
+        setMintError(null);
+        const mintTransaction = await buildMintTransaction({
+          contractAddress,
+          tokenId,
+          takerAddress: address,
+          quantity,
+        });
+        setCallData(mintTransaction);
+      } catch (error) {
+        handleTransactionError(error as string);
+      }
+    } else {
+      setCallData([]);
+    }
+  }, [
+    address,
+    contractAddress,
+    tokenId,
+    quantity,
+    buildMintTransaction,
+    handleTransactionError,
+  ]);
+
+  useEffect(() => {
+    // need to fetch calls on quantity change instead of onClick to avoid smart wallet
+    // popups getting blocked by safari
+    fetchTransactions();
+  }, [fetchTransactions]);
 
   const handleOnStatus = useCallback(
     (transactionStatus: TransactionLifecycleStatus) => {
@@ -65,8 +117,16 @@ export function NFTMintButton({
       return 'Minting not available';
     }
 
+    if (mintError) {
+      return mintError;
+    }
+
+    if (callData.length === 0) {
+      return <Spinner />;
+    }
+
     return label;
-  }, [isEligibleToMint, label]);
+  }, [callData, isEligibleToMint, label, mintError]);
 
   if (!buildMintTransaction) {
     return null;
@@ -85,14 +145,7 @@ export function NFTMintButton({
       <Transaction
         isSponsored={isSponsored}
         chainId={chainId}
-        calls={() =>
-          buildMintTransaction({
-            contractAddress,
-            tokenId,
-            takerAddress: address,
-            quantity,
-          })
-        }
+        calls={callData}
         onStatus={handleOnStatus}
       >
         <TransactionButton

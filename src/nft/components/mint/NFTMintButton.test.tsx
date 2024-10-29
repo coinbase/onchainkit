@@ -1,4 +1,4 @@
-import { fireEvent, render } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { base } from 'viem/chains';
@@ -38,12 +38,9 @@ vi.mock('../../../transaction', async (importOriginal) => {
         {text}
       </button>
     ),
-    Transaction: ({ onStatus, children, calls, capabilities }) => (
+    Transaction: ({ onStatus, children, capabilities }) => (
       <>
         <div>
-          <button type="button" onClick={calls}>
-            Calls
-          </button>
           <button
             type="button"
             onClick={() => onStatus({ statusName: 'transactionPending' })}
@@ -130,22 +127,23 @@ describe('NFTMintButton', () => {
     });
   });
 
-  it('should render the mint button with default label', () => {
-    const { getByText } = render(
+  it('should render the mint button with default label', async () => {
+    const { findByText } = render(
       <TestProviders>
         <NFTMintButton />
       </TestProviders>,
     );
-    expect(getByText('Mint')).toBeInTheDocument();
+
+    expect(await findByText('Mint')).toBeInTheDocument();
   });
 
-  it('should render the mint button with custom label', () => {
-    const { getByText } = render(
+  it('should render the mint button with custom label', async () => {
+    const { findByText } = render(
       <TestProviders>
         <NFTMintButton label="Custom Mint" />
       </TestProviders>,
     );
-    expect(getByText('Custom Mint')).toBeInTheDocument();
+    expect(await findByText('Custom Mint')).toBeInTheDocument();
   });
 
   it('should call updateLifecycleStatus with transactionPending status when transactionStatus is transactionPending', () => {
@@ -229,17 +227,17 @@ describe('NFTMintButton', () => {
     expect(container.firstChild).toBeNull();
   });
 
-  it('should disble button if disabled props is true', () => {
-    const { getByText } = render(
+  it('should disble button if disabled props is true', async () => {
+    const { findByText } = render(
       <TestProviders>
         <NFTMintButton disabled={true} />
       </TestProviders>,
     );
-    expect(getByText('Mint')).toBeDisabled();
+    expect(await findByText('Mint')).toBeDisabled();
   });
 
   it('should show minting not available when isEligibleToMint is false', () => {
-    (useNFTContext as Mock).mockReturnValueOnce({
+    (useNFTContext as Mock).mockReturnValue({
       contractAddress: '0x123',
       tokenId: '1',
       quantity: 1,
@@ -256,7 +254,7 @@ describe('NFTMintButton', () => {
     expect(getByText('Minting not available')).toBeInTheDocument();
   });
 
-  it('calls buildMintTransaction when button is clicked', async () => {
+  it('calls buildMintTransaction when quantity changes', async () => {
     const buildMintTransactionMock = vi.fn().mockResolvedValue([]);
     (useNFTContext as Mock).mockReturnValueOnce({
       contractAddress: '0x123',
@@ -266,18 +264,59 @@ describe('NFTMintButton', () => {
       quantity: 1,
     });
 
-    const { getByText } = render(
+    const { rerender } = render(
       <TestProviders>
         <NFTMintButton />
       </TestProviders>,
     );
-    fireEvent.click(getByText('Calls'));
-
     expect(buildMintTransactionMock).toHaveBeenCalledWith({
       contractAddress: '0x123',
       tokenId: '1',
       takerAddress: '0xabc',
       quantity: 1,
+    });
+
+    (useNFTContext as Mock).mockReturnValueOnce({
+      contractAddress: '0x123',
+      tokenId: '1',
+      isEligibleToMint: true,
+      buildMintTransaction: buildMintTransactionMock,
+      quantity: 2,
+    });
+
+    rerender(
+      <TestProviders>
+        <NFTMintButton />
+      </TestProviders>,
+    );
+
+    expect(buildMintTransactionMock).toHaveBeenCalledWith({
+      contractAddress: '0x123',
+      tokenId: '1',
+      takerAddress: '0xabc',
+      quantity: 2,
+    });
+  });
+
+  it('calls updateLifecycleStatus on buildMintTransaction error', async () => {
+    const buildMintTransactionMock = vi.fn().mockRejectedValue('error');
+    (useNFTContext as Mock).mockReturnValueOnce({
+      contractAddress: '0x123',
+      tokenId: '1',
+      isEligibleToMint: true,
+      buildMintTransaction: buildMintTransactionMock,
+      quantity: 1,
+    });
+
+    await render(
+      <TestProviders>
+        <NFTMintButton />
+      </TestProviders>,
+    );
+
+    expect(mockUpdateLifecycleStatus).toHaveBeenCalledWith({
+      statusName: 'error',
+      statusData: expect.objectContaining({ message: 'error' }),
     });
   });
 });
