@@ -77,23 +77,23 @@ export function ConnectWallet({
   if (status === 'disconnected') {
     if (withWalletAggregator) {
       return (
-        <RainbowKitProvider>
-          <ConnectButtonRainbowKit.Custom>
-            {({ openConnectModal }) => (
-              <div className="flex" data-testid="ockConnectWallet_Container">
-                <ConnectButton
-                  className={className}
-                  connectWalletText={connectWalletText}
-                  onClick={() => {
-                    openConnectModal();
-                    setHasClickedConnect(true);
-                  }}
-                  text={text}
-                />
-              </div>
-            )}
-          </ConnectButtonRainbowKit.Custom>
-        </RainbowKitProvider>
+        // <RainbowKitProvider>
+        <ConnectButtonRainbowKit.Custom>
+          {({ openConnectModal }) => (
+            <div className="flex" data-testid="ockConnectWallet_Container">
+              <ConnectButton
+                className={className}
+                connectWalletText={connectWalletText}
+                onClick={() => {
+                  openConnectModal();
+                  setHasClickedConnect(true);
+                }}
+                text={text}
+              />
+            </div>
+          )}
+        </ConnectButtonRainbowKit.Custom>
+        // </RainbowKitProvider>
       );
     }
     return (
@@ -102,7 +102,14 @@ export function ConnectWallet({
           className={className}
           connectWalletText={connectWalletText}
           onClick={() => {
-            connect({ connector }, { onSuccess: () => onInitialConnect?.() });
+            connect(
+              { connector },
+              {
+                onSuccess: () => {
+                  onInitialConnect?.();
+                },
+              },
+            );
           }}
           text={text}
         />

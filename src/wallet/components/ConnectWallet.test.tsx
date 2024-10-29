@@ -98,9 +98,14 @@ describe('ConnectWallet', () => {
     render(<ConnectWallet text="Connect Wallet" />);
     const button = screen.getByTestId('ockConnectButton');
     fireEvent.click(button);
-    expect(connectMock).toHaveBeenCalledWith({
-      connector: { id: 'mockConnector' },
-    });
+    expect(connectMock).toHaveBeenCalledWith(
+      {
+        connector: { id: 'mockConnector' },
+      },
+      {
+        onSuccess: expect.any(Function),
+      },
+    );
   });
 
   it('should toggle wallet modal on button click when connected', () => {
@@ -162,25 +167,51 @@ describe('ConnectWallet', () => {
     expect(screen.queryByText('Not Render')).not.toBeInTheDocument();
   });
 
-  it('should call onConnect callback when connect button is clicked', () => {
+  it('should call onInitialConnect callback when connect button is clicked', async () => {
     const mockUseAccount = vi.mocked(useAccount);
+    const connectMock = vi.fn();
+    const onInitialConnectMock = vi.fn();
+
+    // Initial state: disconnected
     mockUseAccount.mockReturnValue({
       address: undefined,
       status: 'disconnected',
     });
 
-    const onConnectMock = vi.fn();
-    render(<ConnectWallet text="Connect Wallet" onConnect={onConnectMock} />);
-    const button = screen.getByTestId('ockConnectButton');
+    vi.mocked(useConnect).mockReturnValue({
+      connectors: [{ id: 'mockConnector' }],
+      connect: connectMock,
+      status: 'idle',
+    });
 
+    render(
+      <ConnectWallet
+        text="Connect Wallet"
+        onInitialConnect={onInitialConnectMock}
+      />,
+    );
+
+    const button = screen.getByTestId('ockConnectButton');
+    fireEvent.click(button);
+
+    // Simulate successful connection
+    connectMock.mock.calls[0][1].onSuccess();
+
+    // Update account status to connected
     mockUseAccount.mockReturnValue({
       address: '0x123',
       status: 'connected',
     });
 
-    fireEvent.click(button);
+    // Force a re-render to trigger the useEffect
+    render(
+      <ConnectWallet
+        text="Connect Wallet"
+        onInitialConnect={onInitialConnectMock}
+      />,
+    );
 
-    expect(onConnectMock).toHaveBeenCalledTimes(1);
+    expect(onInitialConnectMock).toHaveBeenCalledTimes(1);
   });
 
   it('should not call onConnect callback when component is first mounted', () => {
@@ -190,10 +221,15 @@ describe('ConnectWallet', () => {
       status: 'connected',
     });
 
-    const onConnectMock = vi.fn();
-    render(<ConnectWallet text="Connect Wallet" onConnect={onConnectMock} />);
+    const onInitialConnectMock = vi.fn();
+    render(
+      <ConnectWallet
+        text="Connect Wallet"
+        onInitialConnect={onInitialConnectMock}
+      />,
+    );
 
-    expect(onConnectMock).toHaveBeenCalledTimes(0);
+    expect(onInitialConnectMock).toHaveBeenCalledTimes(0);
   });
 
   describe('withWalletAggregator', () => {
@@ -232,9 +268,14 @@ describe('ConnectWallet', () => {
       );
       const connectButton = screen.getByTestId('ockConnectButton');
       fireEvent.click(connectButton);
-      expect(connectMock).toHaveBeenCalledWith({
-        connector: { id: 'mockConnector' },
-      });
+      expect(connectMock).toHaveBeenCalledWith(
+        {
+          connector: { id: 'mockConnector' },
+        },
+        {
+          onSuccess: expect.any(Function),
+        },
+      );
     });
 
     it('should call openConnectModal function when connect button is clicked', () => {
@@ -257,11 +298,11 @@ describe('ConnectWallet', () => {
         status: 'disconnected',
       });
 
-      const onConnectMock = vi.fn();
+      const onInitialConnectMock = vi.fn();
       render(
         <ConnectWallet
           text="Connect Wallet"
-          onConnect={onConnectMock}
+          onInitialConnect={onInitialConnectMock}
           withWalletAggregator={true}
         />,
       );
@@ -274,7 +315,7 @@ describe('ConnectWallet', () => {
 
       fireEvent.click(button);
 
-      expect(onConnectMock).toHaveBeenCalledTimes(1);
+      expect(onInitialConnectMock).toHaveBeenCalledTimes(1);
     });
   });
 });
