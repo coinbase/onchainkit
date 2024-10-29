@@ -37,6 +37,7 @@ export type NFTLifecycleContextType = {
 export type NFTContextType = {
   contractAddress: `0x${string}`;
   tokenId?: string;
+  isSponsored?: boolean; // Optional boolean to determine if the mint is sponsored by paymaster
   quantity: number;
   setQuantity: (quantity: string) => void;
   buildMintTransaction?: BuildMintTransaction;
@@ -46,6 +47,7 @@ export type NFTProviderReact = {
   children: ReactNode;
   contractAddress: `0x${string}`;
   tokenId?: string;
+  isSponsored?: boolean; // Optional boolean to determine if the mint is sponsored by paymaster
   useNFTData: UseNFTData;
   buildMintTransaction?: BuildMintTransaction;
 };
@@ -127,6 +129,7 @@ export type NFTMintCardReact = {
   className?: string; // Optional className override for top div element.
   contractAddress: Hex; // Contract address of the NFT
   tokenId?: string; // Token ID of the NFT only required for ERC1155
+  isSponsored?: boolean; // Optional boolean to determine if the mint is sponsored by paymaster
   useNFTData: UseNFTData; // Required hook to supply NFT data
   buildMintTransaction: BuildMintTransaction; // Required function that builds the mint transaction
   onError?: (error: NFTError) => void; // An optional callback function that handles errors within the provider.

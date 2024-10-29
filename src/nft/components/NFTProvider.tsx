@@ -20,6 +20,7 @@ export function NFTProvider({
   children,
   contractAddress,
   tokenId,
+  isSponsored,
   useNFTData,
   buildMintTransaction,
 }: NFTProviderReact) {
@@ -34,6 +35,7 @@ export function NFTProvider({
   const value = useValue({
     contractAddress,
     tokenId,
+    isSponsored,
     quantity,
     setQuantity: handleSetQuantity,
     buildMintTransaction,

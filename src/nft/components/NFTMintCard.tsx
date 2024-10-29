@@ -10,6 +10,7 @@ export function NFTMintCard({
   className,
   contractAddress,
   tokenId,
+  isSponsored,
   useNFTData,
   buildMintTransaction,
   onStatus,
@@ -35,6 +36,7 @@ export function NFTMintCard({
       <NFTProvider
         contractAddress={contractAddress}
         tokenId={tokenId}
+        isSponsored={isSponsored}
         useNFTData={useNFTData}
         buildMintTransaction={buildMintTransaction}
       >
