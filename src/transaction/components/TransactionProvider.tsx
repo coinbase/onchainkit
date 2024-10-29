@@ -181,10 +181,7 @@ export function TransactionProvider({
     capabilities,
     sendCallAsync,
     sendCallsAsync,
-    transactionType,
     walletCapabilities,
-    writeContractAsync,
-    writeContractsAsync,
   });
 
   const { transactionHash: batchedTransactionHash, status: callStatus } =

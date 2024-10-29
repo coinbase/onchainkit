@@ -10,7 +10,6 @@ import type { WalletCapabilities as ViemWalletCapabilities } from 'viem';
 import type { Config } from 'wagmi';
 import type {
   SendTransactionMutateAsync,
-  WriteContractMutateAsync,
 } from 'wagmi/query';
 
 export type Call = { to: Hex; data?: Hex; value?: bigint };
@@ -108,16 +107,11 @@ export type SendBatchedTransactionsParams = {
   // biome-ignore lint: cannot find module 'wagmi/experimental/query'
   sendCallsAsync: any;
   transactions?: Call[] | ContractFunctionParameters[];
-  transactionType: string;
-  // biome-ignore lint: cannot find module 'wagmi/experimental/query'
-  writeContractsAsync: any;
 };
 
 export type SendSingleTransactionParams = {
   sendCallAsync: SendTransactionMutateAsync<Config, unknown> | (() => void);
   transactions: Call[] | ContractFunctionParameters[];
-  transactionType: string;
-  writeContractAsync: WriteContractMutateAsync<Config, unknown> | (() => void);
 };
 
 /**
@@ -274,11 +268,7 @@ export type UseSendWalletTransactionsParams = {
   // biome-ignore lint: cannot find module 'wagmi/experimental/query'
   sendCallsAsync: any;
   sendCallAsync: SendTransactionMutateAsync<Config, unknown> | (() => void);
-  transactionType: string;
   walletCapabilities: ViemWalletCapabilities;
-  // biome-ignore lint: cannot find module 'wagmi/experimental/query'
-  writeContractsAsync: any;
-  writeContractAsync: WriteContractMutateAsync<Config, unknown> | (() => void);
 };
 
 /**
