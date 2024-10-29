@@ -15,33 +15,15 @@ import {
   WalletDropdownFundLink,
   WalletDropdownLink,
 } from '@coinbase/onchainkit/wallet';
-import { useAccount, useSignMessage } from 'wagmi';
-import { createSiweMessage } from 'viem/siwe';
-
-import '@rainbow-me/rainbowkit/styles.css';
-
-const message = createSiweMessage({
-  address: '0xae9eCa1Fa2F786E16D35F5B8C5df3Ac484c490FF',
-  chainId: 1,
-  domain: 'example.com',
-  nonce: 'foobarbaz',
-  uri: 'https://example.com/path',
-  version: '1',
-});
+import { useAccount } from 'wagmi';
 
 function WalletComponent() {
   const { address } = useAccount();
-  const { signMessage } = useSignMessage();
 
   return (
     <div className="flex justify-end">
       <Wallet>
-        <ConnectWallet
-          text="Connect Wallet"
-          onInitialConnect={() => {
-            signMessage({ message });
-          }}
-        >
+        <ConnectWallet text="Connect Wallet">
           <Avatar address={address} className="h-6 w-6" />
           <Name />
         </ConnectWallet>
