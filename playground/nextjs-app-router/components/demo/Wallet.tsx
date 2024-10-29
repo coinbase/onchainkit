@@ -38,7 +38,7 @@ function WalletComponent() {
       <Wallet>
         <ConnectWallet
           text="Connect Wallet"
-          onConnect={() => {
+          onInitialConnect={() => {
             signMessage({ message });
           }}
         >

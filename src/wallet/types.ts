@@ -25,7 +25,7 @@ export type ConnectWalletReact = {
    * Optional callback function to execute when the wallet is connected.
    * This can be used to perform additional actions after the wallet is connected.
    */
-  onConnect?: () => void;
+  onInitialConnect?: () => void;
 };
 
 /**
