@@ -5,6 +5,7 @@ import { OnchainKitComponent } from './AppProvider';
 import { ActiveComponent } from './form/active-component';
 import { Chain } from './form/chain';
 import { CheckoutOptions } from './form/checkout-options';
+import { IsSponsored } from './form/is-sponsored';
 import { NFTOptions } from './form/nft-options';
 import { SwapConfig } from './form/swap-config';
 import { TransactionOptions } from './form/transaction-options';
@@ -31,6 +32,7 @@ export default function DemoOptions({
           {commonOptions}
           <Chain />
           <PaymasterUrl />
+          <IsSponsored />
           <CheckoutOptions />
         </>
       );
@@ -41,6 +43,7 @@ export default function DemoOptions({
           {commonOptions}
           <Chain />
           <PaymasterUrl />
+          <IsSponsored />
           <SwapConfig />
         </>
       );
@@ -51,6 +54,7 @@ export default function DemoOptions({
           {commonOptions}
           <Chain />
           <PaymasterUrl />
+          <IsSponsored />
           <TransactionOptions />
         </>
       );

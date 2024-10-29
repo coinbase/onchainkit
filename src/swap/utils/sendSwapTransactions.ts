@@ -1,11 +1,11 @@
 import { Capabilities } from '../../constants';
-import { getRPCUrl } from '../../network/getRPCUrl';
 import type { SendSwapTransactionParams } from '../types';
 import { sendSingleTransactions } from './sendSingleTransactions';
 
 export async function sendSwapTransactions({
   config,
   isSponsored,
+  paymaster,
   sendCallsAsync,
   sendTransactionAsync,
   updateLifecycleStatus,
@@ -22,7 +22,7 @@ export async function sendSwapTransactions({
       capabilities: isSponsored
         ? {
             paymasterService: {
-              url: getRPCUrl(),
+              url: paymaster,
             },
           }
         : {},

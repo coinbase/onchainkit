@@ -17,6 +17,7 @@ import { formatTokenAmount } from '../../internal/utils/formatTokenAmount';
 import type { Token } from '../../token';
 import { GENERIC_ERROR_MESSAGE } from '../../transaction/constants';
 import { isUserRejectedRequestError } from '../../transaction/utils/isUserRejectedRequestError';
+import { useOnchainKit } from '../../useOnchainKit';
 import { FALLBACK_DEFAULT_MAX_SLIPPAGE } from '../constants';
 import { useAwaitCalls } from '../hooks/useAwaitCalls';
 import { useFromTo } from '../hooks/useFromTo';
@@ -49,6 +50,9 @@ export function SwapProvider({
   onStatus,
   onSuccess,
 }: SwapProviderReact) {
+  const {
+    config: { paymaster } = { paymaster: undefined },
+  } = useOnchainKit();
   const { address, chainId } = useAccount();
   const { switchChainAsync } = useSwitchChain();
   // Feature flags
@@ -287,6 +291,7 @@ export function SwapProvider({
     [from, to, lifecycleStatus, updateLifecycleStatus, useAggregator],
   );
 
+  // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO Refactor this component
   const handleSubmit = useCallback(async () => {
     if (!address || !from.token || !to.token || !from.amount) {
       return;
@@ -317,6 +322,7 @@ export function SwapProvider({
         chainId,
         config: accountConfig,
         isSponsored,
+        paymaster: paymaster || '',
         sendCallsAsync,
         sendTransactionAsync,
         swapTransaction: response,
@@ -346,6 +352,7 @@ export function SwapProvider({
     from.token,
     isSponsored,
     lifecycleStatus,
+    paymaster,
     sendCallsAsync,
     sendTransactionAsync,
     switchChainAsync,

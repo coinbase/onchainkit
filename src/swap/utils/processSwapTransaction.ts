@@ -12,6 +12,7 @@ export async function processSwapTransaction({
   chainId,
   config,
   isSponsored,
+  paymaster,
   sendCallsAsync,
   sendTransactionAsync,
   swapTransaction,
@@ -85,6 +86,7 @@ export async function processSwapTransaction({
   await sendSwapTransactions({
     config,
     isSponsored,
+    paymaster,
     sendCallsAsync,
     sendTransactionAsync,
     transactions,

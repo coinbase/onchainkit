@@ -17,6 +17,7 @@ import { waitForTransactionReceipt } from 'wagmi/actions';
 import { Capabilities } from '../../constants';
 import { useCapabilitiesSafe } from '../../internal/hooks/useCapabilitiesSafe';
 import { useValue } from '../../internal/hooks/useValue';
+import { useOnchainKit } from '../../useOnchainKit';
 import {
   GENERIC_ERROR_MESSAGE,
   TRANSACTION_TYPE_CALLS,
@@ -52,10 +53,11 @@ export function useTransactionContext() {
 
 export function TransactionProvider({
   calls,
-  capabilities,
+  capabilities: transactionCapabilities,
   chainId,
   children,
   contracts,
+  isSponsored,
   onError,
   onStatus,
   onSuccess,
@@ -63,6 +65,10 @@ export function TransactionProvider({
   // Core Hooks
   const account = useAccount();
   const config = useConfig();
+  const {
+    config: { paymaster } = { paymaster: undefined },
+  } = useOnchainKit();
+
   const [errorMessage, setErrorMessage] = useState('');
   const [errorCode, setErrorCode] = useState('');
   const [isToastVisible, setIsToastVisible] = useState(false);
@@ -156,6 +162,18 @@ export function TransactionProvider({
   // Transaction hash for single transaction (non-batched)
   const singleTransactionHash =
     writeContractTransactionHash || sendCallTransactionHash;
+
+  const capabilities = useMemo(() => {
+    if (isSponsored && paymaster) {
+      return {
+        paymasterService: { url: paymaster },
+        // this needs to be below so devs can override default paymaster
+        // with their personal paymaster in production playgroundd
+        ...transactionCapabilities,
+      };
+    }
+    return transactionCapabilities;
+  }, [isSponsored, paymaster, transactionCapabilities]);
 
   // useSendWalletTransactions
   // Used to send transactions based on the transaction type. Can be of type calls or contracts.
