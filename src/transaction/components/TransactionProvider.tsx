@@ -327,9 +327,16 @@ export function TransactionProvider({
     setIsToastVisible(true);
     try {
       // Switch chain before attempting transactions
-      await switchChain(chainId);
-      const resolvedTransactions = await buildTransaction();
-      await sendWalletTransactions(resolvedTransactions);
+      // biome-ignore lint/complexity/useArrowFunction: <explanation>
+      (async function () {
+        await switchChain(chainId);
+        const resolvedTransactions = await buildTransaction();
+        await sendWalletTransactions(resolvedTransactions);
+      })();
+
+      // await switchChain(chainId);
+      // const resolvedTransactions = await buildTransaction();
+      // await sendWalletTransactions(resolvedTransactions);
     } catch (err) {
       const errorMessage = isUserRejectedRequestError(err)
         ? 'Request denied.'
