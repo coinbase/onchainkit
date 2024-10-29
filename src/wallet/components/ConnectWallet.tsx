@@ -30,6 +30,8 @@ export function ConnectWallet({
   // Core Hooks
   const { isOpen, setIsOpen } = useWalletContext();
   const { address: accountAddress, status } = useAccount();
+
+  console.log('status:', status);
   const { connectors, connect, status: connectStatus } = useConnect();
 
   // State
@@ -63,11 +65,13 @@ export function ConnectWallet({
     setIsOpen(!isOpen);
   }, [isOpen, setIsOpen]);
 
+  // Effects
   React.useEffect(() => {
     if (hasClickedConnect && status === 'connected' && onConnect) {
       onConnect();
+      setHasClickedConnect(false);
     }
-  }, [onConnect, status, hasClickedConnect]);
+  }, [status, hasClickedConnect, onConnect]);
 
   if (status === 'disconnected') {
     if (withWalletAggregator) {
@@ -94,10 +98,9 @@ export function ConnectWallet({
         <ConnectButton
           className={className}
           connectWalletText={connectWalletText}
-          onClick={() => {
-            connect({ connector });
-            setHasClickedConnect(true);
-          }}
+          onClick={() =>
+            connect({ connector }, { onSuccess: () => onConnect?.() })
+          }
           text={text}
         />
       </div>
