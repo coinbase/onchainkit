@@ -51,4 +51,16 @@ describe('sendBatchedTransactions', () => {
       calls: [{ to: '0x123', abi: '123' }],
     });
   });
+
+  it('should transform not transform call', async () => {
+    await sendBatchedTransactions({
+      capabilities: mockCapabilities,
+      sendCallsAsync: mockSendCallsAsync,
+      transactions: [{ to: '0x123', data: '123' }],
+    });
+    expect(mockSendCallsAsync).toHaveBeenCalled({
+      Capabilities: mockCapabilities,
+      calls: [{ to: '0x123', data: '123' }],
+    });
+  });
 });
