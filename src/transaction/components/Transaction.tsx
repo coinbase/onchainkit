@@ -11,7 +11,6 @@ export function Transaction({
   chainId,
   className,
   children,
-  contracts,
   isSponsored,
   onError,
   onStatus,
@@ -35,7 +34,6 @@ export function Transaction({
       calls={calls}
       capabilities={capabilities}
       chainId={accountChainId}
-      contracts={contracts}
       isSponsored={isSponsored}
       onError={onError}
       onStatus={onStatus}

@@ -8,9 +8,7 @@ import type {
 } from 'viem';
 import type { WalletCapabilities as ViemWalletCapabilities } from 'viem';
 import type { Config } from 'wagmi';
-import type {
-  SendTransactionMutateAsync,
-} from 'wagmi/query';
+import type { SendTransactionMutateAsync } from 'wagmi/query';
 
 export type Call = { to: Hex; data?: Hex; value?: bigint };
 
@@ -131,21 +129,20 @@ export type TransactionError = {
   message: string; // The error message providing details about the transaction error.
 };
 
-type Calls = Call[] | Promise<Call[]> | (() => Promise<Call[]>);
-type Contracts =
+export type Calls = Call[] | Promise<Call[]> | (() => Promise<Call[]>);
+export type Contracts =
   | ContractFunctionParameters[]
   | Promise<ContractFunctionParameters[]>
   | (() => Promise<ContractFunctionParameters[]>);
 
 export type TransactionProviderReact = {
-  calls?: Calls; // An array of calls to be made in the transaction. Mutually exclusive with the `contracts` prop.
+  calls?: Calls | Contracts; // An array of calls to be made in the transaction.
   /**
    * @deprecated Use `isSponsored` instead.
    */
   capabilities?: WalletCapabilities; // Capabilities that a wallet supports (e.g. paymasters, session keys, etc).
   chainId: number; // The chainId for the transaction.
   children: ReactNode; // The child components to be rendered within the provider component.
-  contracts?: Contracts; // An array of contract function parameters provided to the child components. Mutually exclusive with the `calls` prop.
   isSponsored?: boolean; // Whether the transactions are sponsored (default: false)
   onError?: (e: TransactionError) => void; // An optional callback function that handles errors within the provider.
   onStatus?: (lifecycleStatus: LifecycleStatus) => void; // An optional callback function that exposes the component lifecycle state
@@ -156,7 +153,7 @@ export type TransactionProviderReact = {
  * Note: exported as public Type
  */
 export type TransactionReact = {
-  calls?: Calls; // An array of calls to be made in the transaction. Mutually exclusive with the `contracts` prop.
+  calls?: Calls | Contracts; // An array of calls to be made in the transaction.
   /**
    * @deprecated Use `isSponsored` instead.
    */
@@ -164,7 +161,6 @@ export type TransactionReact = {
   chainId?: number; // The chainId for the transaction.
   children: ReactNode; // The child components to be rendered within the transaction component.
   className?: string; // An optional CSS class name for styling the component.
-  contracts?: Contracts; // An array of contract function parameters provided to the child components. Mutually exclusive with the `calls` prop.
   isSponsored?: boolean; // Whether the transactions are sponsored (default: false)
   onError?: (e: TransactionError) => void; // An optional callback function that handles transaction errors.
   onStatus?: (lifecycleStatus: LifecycleStatus) => void; // An optional callback function that exposes the component lifecycle state
