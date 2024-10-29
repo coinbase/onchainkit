@@ -1,7 +1,4 @@
-import {
-  ConnectButton as ConnectButtonRainbowKit,
-  RainbowKitProvider,
-} from '@rainbow-me/rainbowkit';
+import { ConnectButton as ConnectButtonRainbowKit } from '@rainbow-me/rainbowkit';
 import { Children, isValidElement, useCallback, useMemo } from 'react';
 import type { ReactNode } from 'react';
 import React from 'react';
@@ -77,7 +74,6 @@ export function ConnectWallet({
   if (status === 'disconnected') {
     if (withWalletAggregator) {
       return (
-        // <RainbowKitProvider>
         <ConnectButtonRainbowKit.Custom>
           {({ openConnectModal }) => (
             <div className="flex" data-testid="ockConnectWallet_Container">
@@ -93,7 +89,6 @@ export function ConnectWallet({
             </div>
           )}
         </ConnectButtonRainbowKit.Custom>
-        // </RainbowKitProvider>
       );
     }
     return (
