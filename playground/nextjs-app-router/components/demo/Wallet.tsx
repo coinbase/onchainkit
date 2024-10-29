@@ -27,7 +27,6 @@ function WalletComponent() {
           <Avatar address={address} className="h-6 w-6" />
           <Name />
         </ConnectWallet>
-
         <WalletDropdown>
           <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick={true}>
             <Avatar />
