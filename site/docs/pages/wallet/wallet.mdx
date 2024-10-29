@@ -119,6 +119,7 @@ import {
   Avatar,
   Name,
   Identity,
+  Socials,
 } from '@coinbase/onchainkit/identity';
 import { color } from '@coinbase/onchainkit/theme';
 
@@ -135,7 +136,6 @@ export function WalletComponents() {
             <Avatar />
             <Name />
             <Address className={color.foregroundMuted} />
-            <EthBalance />
             <Socials />
           </Identity>
           <WalletDropdownDisconnect /> // [!code focus]
@@ -157,7 +157,6 @@ export function WalletComponents() {
         <Avatar />
         <Name />
         <Address className={color.foregroundMuted} />
-        <EthBalance />
         <Socials />
       </Identity>
       <WalletDropdownDisconnect />
@@ -191,6 +190,7 @@ import {
   Name,
   Identity,
   EthBalance, // [!code focus]
+  Socials,
 } from '@coinbase/onchainkit/identity';
 
 // omitted for brevity
@@ -272,6 +272,7 @@ import {
   Name,
   Identity,
   EthBalance,
+  Socials,
 } from '@coinbase/onchainkit/identity';
 import { color } from '@coinbase/onchainkit/theme';
 // ---cut-before---
@@ -358,6 +359,7 @@ import {
   Name,
   Identity,
   EthBalance,
+  Socials,
 } from '@coinbase/onchainkit/identity';
 // ---cut-before---
 // omitted for brevity
