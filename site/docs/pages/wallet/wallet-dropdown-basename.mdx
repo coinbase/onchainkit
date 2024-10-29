@@ -1,9 +1,10 @@
-import { 
+import {
   Address,
   Avatar,
   EthBalance,
   Identity,
-  Name 
+  Name,
+  Socials,
 } from '@coinbase/onchainkit/identity';
 import { color } from '@coinbase/onchainkit/theme';
 import {
@@ -33,6 +34,7 @@ import {
   Name,
   Identity,
   EthBalance,
+  Socials,
 } from '@coinbase/onchainkit/identity';
 import { color } from '@coinbase/onchainkit/theme';
 import {
@@ -57,6 +59,7 @@ export function WalletComponents() {
             <Name />
             <Address className={color.foregroundMuted} />
             <EthBalance />
+            <Socials />
           </Identity>
           <WalletDropdownBasename /> // [!code focus] 
           <WalletDropdownDisconnect />
@@ -79,6 +82,7 @@ export function WalletComponents() {
         <Name />
         <Address className={color.foregroundMuted} />
         <EthBalance />
+        <Socials />
       </Identity>
       <WalletDropdownBasename />
       <WalletDropdownDisconnect />
@@ -108,6 +112,7 @@ You can override component styles using `className`.
         <Name />
         <Address className={color.foregroundMuted} />
         <EthBalance />
+        <Socials />
       </Identity>
       <WalletDropdownBasename className="hover:bg-red-500"/>
       <WalletDropdownDisconnect />
