@@ -12,13 +12,17 @@ export function NFTLastSoldPrice({
   className,
   label = 'Mint price',
 }: NFTLastSoldPriceReact) {
-  const {
-    lastSoldPrice: { amount, currency, amountUSD },
-  } = useNFTContext();
+  const { lastSoldPrice } = useNFTContext();
 
-  if (!amount || !currency || !amountUSD) {
+  if (
+    !lastSoldPrice?.amount ||
+    !lastSoldPrice?.currency ||
+    !lastSoldPrice?.amountUSD
+  ) {
     return null;
   }
+
+  const { amount, currency, amountUSD } = lastSoldPrice;
 
   return (
     <div className={cn('flex justify-between py-0.5', text.label2, className)}>

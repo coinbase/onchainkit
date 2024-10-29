@@ -58,7 +58,10 @@ export type NFTPrice = {
   amountUSD?: number;
 };
 
-type UseNFTData = (contractAddress: Hex, tokenId?: string) => NFTData;
+type UseNFTData = (
+  contractAddress: Hex,
+  tokenId?: string,
+) => NFTData | NFTError;
 
 /**
  * Note: exported as public Type
@@ -74,11 +77,11 @@ export type NFTData = {
    * video = video/*
    * audio = audio/* | application/*
    */
+  lastSoldPrice?: NFTPrice; // required for NFTLastSoldPrice
   mimeType?: string; // required for NFTMedia (falls back to image)
 
   // mint components
   ownerAddress?: `0x${string}`; // required for NFTOwner
-  lastSoldPrice: NFTPrice; // required for NFTLastSoldPrice
   contractType?: ContractType; // not currently used
   mintDate?: Date; // required for NFTMintDate
   price?: NFTPrice; // required for NFTAssetCost, NftTotalCost
@@ -114,7 +117,7 @@ export type NFTCardReact = {
   className?: string;
   contractAddress: Hex;
   tokenId: string;
-  useNFTData: UseNFTData; // Optional hook to override the default useNftData hook
+  useNFTData?: UseNFTData; // Optional hook to override the default useNftData hook
   onError?: (error: NFTError) => void; // An optional callback function that handles errors within the provider.
   onStatus?: (lifecycleStatus: LifecycleStatus) => void; // An optional callback function that exposes the component lifecycle state
   onSuccess?: (transactionReceipt?: TransactionReceipt) => void; // view will not pass transactionReceipt

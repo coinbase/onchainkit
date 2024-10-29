@@ -1,5 +1,5 @@
 import type { Address } from 'viem';
-import type { ContractType } from '../nft/types';
+import type { ContractType, NFTPrice } from '../nft/types';
 import type { Fee, QuoteWarning, SwapQuote, Transaction } from '../swap/types';
 import type { Token } from '../token/types';
 
@@ -157,11 +157,7 @@ type TokenDetails = {
   animationUrl: string;
   mimeType: string;
   ownerAddress: Address;
-  lastSoldPrice: {
-    amount: string;
-    currency: string;
-    amountUSD: string;
-  };
+  lastSoldPrice: NFTPrice;
   contractType: ContractType; // ERC721, ERC1155
 };
 

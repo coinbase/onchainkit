@@ -6,13 +6,14 @@ import { useTheme } from '../../useTheme';
 import { LifecycleType, type NFTCardReact } from '../types';
 import { NFTLifecycleProvider } from './NFTLifecycleProvider';
 import { NFTProvider } from './NFTProvider';
+import { useNFTData as defaultUseNFTData } from '../hooks/useNFTData';
 
 export function NFTCard({
   children,
   className,
   contractAddress,
   tokenId,
-  useNFTData,
+  useNFTData = defaultUseNFTData,
   onStatus,
   onError,
   onSuccess,
