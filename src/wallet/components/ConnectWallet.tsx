@@ -1,7 +1,7 @@
 import { ConnectButton as ConnectButtonRainbowKit } from '@rainbow-me/rainbowkit';
 import { Children, isValidElement, useCallback, useMemo } from 'react';
 import type { ReactNode } from 'react';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useAccount, useConnect } from 'wagmi';
 import { IdentityProvider } from '../../identity/components/IdentityProvider';
 import { Spinner } from '../../internal/components/Spinner';
@@ -33,7 +33,7 @@ export function ConnectWallet({
   const { connectors, connect, status: connectStatus } = useConnect();
 
   // State
-  const [hasClickedConnect, setHasClickedConnect] = React.useState(false);
+  const [hasClickedConnect, setHasClickedConnect] = useState(false);
 
   // Get connectWalletText from children when present,
   // this is used to customize the connect wallet button text
@@ -64,7 +64,7 @@ export function ConnectWallet({
   }, [isOpen, setIsOpen]);
 
   // Effects
-  React.useEffect(() => {
+  useEffect(() => {
     if (hasClickedConnect && status === 'connected' && onInitialConnect) {
       onInitialConnect();
       setHasClickedConnect(false);
