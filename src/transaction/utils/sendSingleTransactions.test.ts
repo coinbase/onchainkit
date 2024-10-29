@@ -1,6 +1,11 @@
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { encodeFunctionData } from 'viem';
+import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import type { Call } from '../types';
 import { sendSingleTransactions } from './sendSingleTransactions';
+
+vi.mock('viem', () => ({
+  encodeFunctionData: vi.fn(),
+}));
 
 describe('sendSingleTransactions', () => {
   const mockSendCallAsync = vi.fn();
@@ -11,6 +16,7 @@ describe('sendSingleTransactions', () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
+    (encodeFunctionData as Mock).mockReturnValue('123');
   });
 
   it('should call sendCallAsync for each transaction when type is TRANSACTION_TYPE_CALLS', async () => {
@@ -49,5 +55,16 @@ describe('sendSingleTransactions', () => {
       transactions,
     });
     expect(mockSendCallAsync).toHaveBeenCalledTimes(4);
+  });
+
+  it('should transform contracts to calls', async () => {
+    await sendSingleTransactions({
+      sendCallAsync: mockSendCallAsync,
+      transactions: [{ abi: '123', address: '0x123' }],
+    });
+    expect(mockSendCallAsync).toHaveBeenCalledWith({
+      data: '123',
+      to: '0x123',
+    });
   });
 });
