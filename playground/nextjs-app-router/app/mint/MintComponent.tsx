@@ -20,7 +20,7 @@ export default function MintComponent() {
     <main className="flex w-full items-center justify-center">
       <NFTMintCard
         contractAddress="0x1D6b183bD47F914F9f1d3208EDCF8BefD7F84E63"
-        tokenId="2"
+        tokenId="3"
         useNFTData={useEarningsData}
         buildMintTransaction={buildMintTransaction}
         onStatus={handleOnStatus}
@@ -28,7 +28,7 @@ export default function MintComponent() {
         <NFTCreator className="-mt-1 pt-0" />
         <NFTMedia />
         <NFTCollectionTitle />
-        <NFTMintButton />
+        <NFTMintButton className="[&_button]:bg-[#0052ff] [&_button]:hover:bg-[#014ceb] [&_button]:active:bg-[#0148dc] [&_button]:disabled:bg-[#80a8ff]" />
       </NFTMintCard>
     </main>
   );

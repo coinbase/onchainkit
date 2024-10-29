@@ -10,3 +10,6 @@
 // cb quarterly earnings 0x1D6b183bD47F914F9f1d3208EDCF8BefD7F84E63
 // audio - 0x05a28e3d5f68c8b4a521ab7f74bd887fae6a598d base song
 // ink base - 0xff93d3f49ec467B61BF61D42DDdCFDbA5c732446  ERC721
+// yellow digital meltdown 0x19Ef6FdBddd2752fBA1B419cD43a1Fab5b0101Db ERC721
+// base around the world 0xFE12c6d7555B4A94B352998f8e1E96aDFbE628e9 ERC721
+
