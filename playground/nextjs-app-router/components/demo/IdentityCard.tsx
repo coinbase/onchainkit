@@ -13,7 +13,7 @@ export function IdentityCardDemo() {
 
   return (
     <div className="mx-auto max-w-2xl p-4">
-      <div className="grid grid-cols-2 gap-6">
+      <div className="flex flex-col gap-6">
         <div className="space-y-2">
           <h2 className="font-medium text-gray-500 text-sm">
             Mainnet Identity
