@@ -17,9 +17,8 @@ export const sendBatchedTransactions = async ({
         ...rest,
         to: address,
       };
-    } else {
-      return transaction;
     }
+    return transaction;
   });
 
   await sendCallsAsync({

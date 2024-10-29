@@ -16,9 +16,8 @@ export const sendSingleTransactions = async ({
         }),
         to: transaction?.address,
       };
-    } else {
-      return transaction;
     }
+    return transaction;
   });
 
   for (const call of calls) {
