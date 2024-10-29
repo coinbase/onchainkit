@@ -1,6 +1,6 @@
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import '@testing-library/jest-dom';
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import { useGetETHBalance } from '../../wallet/hooks/useGetETHBalance';
 import { useAvatar } from '../hooks/useAvatar';
 import { useName } from '../hooks/useName';
@@ -151,66 +151,6 @@ describe('Identity Component', () => {
       expect(screen.getByTestId('ockIdentity_Text')).toBeInTheDocument();
       expect(screen.getByTestId('ockAddress')).toBeInTheDocument();
       expect(screen.getByTestId('ockEthBalance')).toBeInTheDocument();
-    });
-  });
-
-  it('should call handleCopy and return true when address is copied successfully', async () => {
-    Object.assign(navigator, {
-      clipboard: {
-        writeText: vi.fn().mockResolvedValue(true),
-      },
-    });
-
-    render(
-      <Identity address="0x123456789" hasCopyAddressOnClick={true}>
-        <div>Child Component</div>
-      </Identity>,
-    );
-
-    const identityLayout = screen.getByTestId('ockIdentityLayout_container');
-    fireEvent.click(identityLayout);
-
-    expect(navigator.clipboard.writeText).toHaveBeenCalledWith('0x123456789');
-  });
-
-  it('should not call handleCopy when address is not provided', async () => {
-    render(
-      <Identity address={null} hasCopyAddressOnClick={true}>
-        <div>Child Component</div>
-      </Identity>,
-    );
-
-    const identityLayout = screen.getByTestId('ockIdentityLayout_container');
-    fireEvent.click(identityLayout);
-
-    expect(navigator.clipboard.writeText).not.toHaveBeenCalled();
-  });
-
-  it('should log an error and return false when clipboard write fails', async () => {
-    const consoleErrorSpy = vi
-      .spyOn(console, 'error')
-      .mockImplementation(() => {});
-    Object.assign(navigator, {
-      clipboard: {
-        writeText: vi.fn().mockRejectedValue(new Error('Failed to copy')),
-      },
-    });
-
-    render(
-      <Identity address="0x123456789" hasCopyAddressOnClick={true}>
-        <div>Child Component</div>
-      </Identity>,
-    );
-
-    const identityLayout = screen.getByTestId('ockIdentityLayout_container');
-    fireEvent.click(identityLayout);
-
-    expect(navigator.clipboard.writeText).toHaveBeenCalledWith('0x123456789');
-    await waitFor(() => {
-      expect(consoleErrorSpy).toHaveBeenCalledWith(
-        'Failed to copy: ',
-        expect.any(Error),
-      );
     });
   });
 });

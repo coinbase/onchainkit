@@ -13,6 +13,7 @@ import {
   Name,
   Identity,
   EthBalance,
+  Socials,
 } from '@coinbase/onchainkit/identity';
 import ArrowSvg from './svg/ArrowSvg';
 import ImageSvg from './svg/Image';
@@ -47,11 +48,12 @@ export default function App() {
                 <Name />
               </ConnectWallet>
               <WalletDropdown>
-                <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick>
+                <Identity className="px-4 pt-3 pb-2">
                   <Avatar />
                   <Name />
                   <Address />
                   <EthBalance />
+                  <Socials />
                 </Identity>
                 <WalletDropdownLink
                   icon="wallet"

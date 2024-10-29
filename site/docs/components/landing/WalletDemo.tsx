@@ -5,6 +5,7 @@ import {
   EthBalance,
   Identity,
   Name,
+  Socials,
 } from '@coinbase/onchainkit/identity';
 import {
   ConnectWallet,
@@ -47,13 +48,14 @@ function WalletDemo() {
           <Name />
         </ConnectWallet>
         <WalletDropdown>
-          <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick={true}>
+          <Identity className="px-4 pt-3 pb-2">
             <Avatar />
             <Name>
               <Badge className="badge" />
             </Name>
             <Address />
             <EthBalance />
+            <Socials />
           </Identity>
           <WalletDropdownLink icon="wallet" href="https://keys.coinbase.com">
             Wallet

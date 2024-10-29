@@ -20,6 +20,7 @@ import {
   Name,
   Identity,
   EthBalance,
+  Socials,
 } from '@coinbase/onchainkit/identity';
 import { color } from '@coinbase/onchainkit/theme';
 import AppWithRK from '../../components/AppWithRK';
@@ -130,10 +131,12 @@ export function WalletComponents() {
           <Name />
         </ConnectWallet> // [!code focus]
         <WalletDropdown> // [!code focus]
-          <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick>
+          <Identity className="px-4 pt-3 pb-2">
             <Avatar />
             <Name />
             <Address className={color.foregroundMuted} />
+            <EthBalance />
+            <Socials />
           </Identity>
           <WalletDropdownDisconnect /> // [!code focus]
         </WalletDropdown> // [!code focus]
@@ -150,10 +153,12 @@ export function WalletComponents() {
       <Name />
     </ConnectWallet>
     <WalletDropdown>
-      <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick>
+      <Identity className="px-4 pt-3 pb-2">
         <Avatar />
         <Name />
         <Address className={color.foregroundMuted} />
+        <EthBalance />
+        <Socials />
       </Identity>
       <WalletDropdownDisconnect />
     </WalletDropdown>
@@ -198,12 +203,12 @@ import {
   <WalletDropdown>
     <Identity 
       className="px-4 pt-3 pb-2" 
-      hasCopyAddressOnClick
     >
       <Avatar />
       <Name />
       <Address />
       <EthBalance /> // [!code focus]
+      <Socials />
     </Identity>
     <WalletDropdownBasename /> // [!code focus]
     <WalletDropdownLink // [!code focus]
@@ -225,11 +230,12 @@ import {
       <Name />
     </ConnectWallet>
     <WalletDropdown>
-      <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick>
+      <Identity className="px-4 pt-3 pb-2">
         <Avatar />
         <Name />
         <Address className={color.foregroundMuted} />
         <EthBalance />
+        <Socials />
       </Identity>
       <WalletDropdownBasename />
       <WalletDropdownLink 
@@ -280,12 +286,12 @@ import { color } from '@coinbase/onchainkit/theme';
   <WalletDropdown>
     <Identity 
       className="px-4 pt-3 pb-2 hover:bg-blue-200" // [!code focus]
-      hasCopyAddressOnClick
     >
       <Avatar />
       <Name />
       <Address />
       <EthBalance />
+      <Socials />
     </Identity>
     <WalletDropdownLink 
       className='hover:bg-blue-200' // [!code focus]
@@ -307,11 +313,12 @@ import { color } from '@coinbase/onchainkit/theme';
       <Name className='text-white' />
     </ConnectWallet>
     <WalletDropdown>
-      <Identity className="px-4 pt-3 pb-2 hover:bg-blue-200" hasCopyAddressOnClick>
+      <Identity className="px-4 pt-3 pb-2 hover:bg-blue-200">
         <Avatar />
         <Name />
         <Address className={color.foregroundMuted} />
         <EthBalance />
+        <Socials />
       </Identity>
       <WalletDropdownLink 
         className='hover:bg-blue-200' 
@@ -361,11 +368,12 @@ import {
     <Name />
   </ConnectWallet>
   <WalletDropdown>
-    <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick>
+    <Identity className="px-4 pt-3 pb-2">
       <Avatar />
       <Name />
       <Address />
       <EthBalance />
+      <Socials />
     </Identity>
     <WalletDropdownLink 
       icon="wallet" 
@@ -456,11 +464,12 @@ export default OnchainProviders;
         <Name />
       </ConnectWallet>
       <WalletDropdown>
-        <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick>
+        <Identity className="px-4 pt-3 pb-2">
           <Avatar />
           <Name />
           <Address className={color.foregroundMuted} />
           <EthBalance />
+          <Socials />
         </Identity>
         <WalletDropdownLink 
           icon="wallet" 

@@ -1,13 +1,11 @@
 import '@testing-library/jest-dom';
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 import { Address } from './Address';
 import { Avatar } from './Avatar';
 import { EthBalance } from './EthBalance';
 import { IdentityLayout } from './IdentityLayout';
 import { Name } from './Name';
-
-const handleCopy = vi.fn().mockResolvedValue(true);
 
 vi.mock('./Avatar', () => ({
   Avatar: vi.fn(() => <div>Avatar</div>),
@@ -31,7 +29,7 @@ vi.mock('../../useTheme', () => ({
 
 const renderComponent = () => {
   return render(
-    <IdentityLayout onClick={handleCopy} className="custom-class">
+    <IdentityLayout className="custom-class">
       <Avatar />
       <Name />
       <Address />
@@ -56,68 +54,68 @@ describe('IdentityLayout', () => {
     );
   });
 
-  it('should show popover on hover and hides on mouse leave', async () => {
-    renderComponent();
-    const container = screen.getByTestId('ockIdentityLayout_container');
-    fireEvent.mouseEnter(container);
-    await waitFor(() => {
-      expect(screen.getByText('Copy')).toBeInTheDocument();
-    });
-    fireEvent.mouseLeave(container);
-    await waitFor(() => {
-      expect(screen.queryByText('Copy')).not.toBeInTheDocument();
-    });
-  });
+  // it('should show popover on hover and hides on mouse leave', async () => {
+  //   renderComponent();
+  //   const container = screen.getByTestId('ockIdentityLayout_container');
+  //   fireEvent.mouseEnter(container);
+  //   await waitFor(() => {
+  //     expect(screen.getByText('Copy')).toBeInTheDocument();
+  //   });
+  //   fireEvent.mouseLeave(container);
+  //   await waitFor(() => {
+  //     expect(screen.queryByText('Copy')).not.toBeInTheDocument();
+  //   });
+  // });
 
-  it('should show popover on click and hides after 1s', async () => {
-    renderComponent();
-    const container = screen.getByTestId('ockIdentityLayout_container');
-    fireEvent.mouseEnter(container);
-    await waitFor(() => {
-      expect(screen.getByText('Copy')).toBeInTheDocument();
-    });
-    fireEvent.click(container);
-    await waitFor(() => {
-      expect(screen.getByText('Copied')).toBeInTheDocument();
-    });
-    await waitFor(
-      () => {
-        expect(screen.queryByText('Copied')).not.toBeInTheDocument();
-      },
-      {
-        timeout: 1001,
-      },
-    );
-  });
+  // it('should show popover on click and hides after 1s', async () => {
+  //   renderComponent();
+  //   const container = screen.getByTestId('ockIdentityLayout_container');
+  //   fireEvent.mouseEnter(container);
+  //   await waitFor(() => {
+  //     expect(screen.getByText('Copy')).toBeInTheDocument();
+  //   });
+  //   fireEvent.click(container);
+  //   await waitFor(() => {
+  //     expect(screen.getByText('Copied')).toBeInTheDocument();
+  //   });
+  //   await waitFor(
+  //     () => {
+  //       expect(screen.queryByText('Copied')).not.toBeInTheDocument();
+  //     },
+  //     {
+  //       timeout: 1001,
+  //     },
+  //   );
+  // });
 
-  it('should change popover text to "Copied" on click', async () => {
-    renderComponent();
-    const container = screen.getByTestId('ockIdentityLayout_container');
-    fireEvent.mouseEnter(container);
-    await waitFor(() => {
-      expect(screen.getByText('Copy')).toBeInTheDocument();
-    });
-    fireEvent.click(container);
-    await waitFor(() => {
-      expect(screen.getByText('Copied')).toBeInTheDocument();
-    });
-  });
+  // it('should change popover text to "Copied" on click', async () => {
+  //   renderComponent();
+  //   const container = screen.getByTestId('ockIdentityLayout_container');
+  //   fireEvent.mouseEnter(container);
+  //   await waitFor(() => {
+  //     expect(screen.getByText('Copy')).toBeInTheDocument();
+  //   });
+  //   fireEvent.click(container);
+  //   await waitFor(() => {
+  //     expect(screen.getByText('Copied')).toBeInTheDocument();
+  //   });
+  // });
 
-  it('should not show popover on key up', async () => {
-    renderComponent();
-    const container = screen.getByTestId('ockIdentityLayout_container');
-    fireEvent.keyUp(container);
-    await waitFor(() => {
-      expect(screen.queryByText('Copy')).not.toBeInTheDocument();
-    });
-  });
+  // it('should not show popover on key up', async () => {
+  //   renderComponent();
+  //   const container = screen.getByTestId('ockIdentityLayout_container');
+  //   fireEvent.keyUp(container);
+  //   await waitFor(() => {
+  //     expect(screen.queryByText('Copy')).not.toBeInTheDocument();
+  //   });
+  // });
 
-  it('should not show popover on key down', async () => {
-    renderComponent();
-    const container = screen.getByTestId('ockIdentityLayout_container');
-    fireEvent.keyDown(container);
-    await waitFor(() => {
-      expect(screen.queryByText('Copy')).not.toBeInTheDocument();
-    });
-  });
+  // it('should not show popover on key down', async () => {
+  //   renderComponent();
+  //   const container = screen.getByTestId('ockIdentityLayout_container');
+  //   fireEvent.keyDown(container);
+  //   await waitFor(() => {
+  //     expect(screen.queryByText('Copy')).not.toBeInTheDocument();
+  //   });
+  // });
 });

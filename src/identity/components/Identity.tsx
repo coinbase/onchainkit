@@ -1,4 +1,3 @@
-import { useCallback } from 'react';
 import { useOnchainKit } from '../../useOnchainKit';
 import type { IdentityReact } from '../types';
 import { IdentityLayout } from './IdentityLayout';
@@ -9,26 +8,10 @@ export function Identity({
   chain,
   children,
   className,
-  hasCopyAddressOnClick = false,
   schemaId,
 }: IdentityReact) {
   const { chain: contextChain } = useOnchainKit();
   const accountChain = chain ?? contextChain;
-
-  const handleCopy = useCallback(async () => {
-    if (!address) {
-      return false;
-    }
-    try {
-      await navigator.clipboard.writeText(address);
-      return true;
-    } catch (e) {
-      console.error('Failed to copy: ', e);
-      return false;
-    }
-  }, [address]);
-
-  const onClick = hasCopyAddressOnClick ? handleCopy : undefined;
 
   return (
     <IdentityProvider
@@ -36,9 +19,7 @@ export function Identity({
       schemaId={schemaId}
       chain={accountChain}
     >
-      <IdentityLayout className={className} onClick={onClick}>
-        {children}
-      </IdentityLayout>
+      <IdentityLayout className={className}>{children}</IdentityLayout>
     </IdentityProvider>
   );
 }

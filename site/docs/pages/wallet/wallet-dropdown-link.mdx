@@ -49,11 +49,12 @@ export function WalletComponents() {
           <Name />
         </ConnectWallet>
         <WalletDropdown>
-          <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick>
+          <Identity className="px-4 pt-3 pb-2">
             <Avatar />
             <Name />
             <Address className={color.foregroundMuted} />
             <EthBalance />
+            <Socials />
           </Identity>
           <WalletDropdownLink icon="wallet" href="https://keys.coinbase.com"> // [!code focus]
             Wallet // [!code focus]
@@ -73,11 +74,12 @@ export function WalletComponents() {
       <Name />
     </ConnectWallet>
     <WalletDropdown>
-      <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick>
+      <Identity className="px-4 pt-3 pb-2">
         <Avatar />
         <Name />
         <Address className={color.foregroundMuted} />
         <EthBalance />
+        <Socials />
       </Identity>
       <WalletDropdownLink icon="wallet" href="https://keys.coinbase.com">
         Wallet
@@ -113,11 +115,12 @@ import {
       <Name />
     </ConnectWallet>
     <WalletDropdown>
-      <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick>
+      <Identity className="px-4 pt-3 pb-2">
         <Avatar />
         <Name />
         <Address className={color.foregroundMuted} />
         <EthBalance />
+        <Socials />
       </Identity>
       <WalletDropdownLink 
         icon={walletDropdownLinkCustomBaseIconSvg} 
@@ -155,11 +158,12 @@ import {
       <Name />
     </ConnectWallet>
     <WalletDropdown>
-      <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick>
+      <Identity className="px-4 pt-3 pb-2">
         <Avatar />
         <Name />
         <Address className={color.foregroundMuted} />
         <EthBalance />
+        <Socials />
       </Identity>
       <WalletDropdownLink icon="wallet" href="https://keys.coinbase.com">
         <span className="font-bold italic">Profile</span>
@@ -191,11 +195,12 @@ import {
       <Name />
     </ConnectWallet>
     <WalletDropdown>
-      <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick>
+      <Identity className="px-4 pt-3 pb-2">
         <Avatar />
         <Name />
         <Address className={color.foregroundMuted} />
         <EthBalance />
+        <Socials />
       </Identity>
       <WalletDropdownLink className="hover:bg-red-500" icon="wallet" href="https://keys.coinbase.com">
         Wallet

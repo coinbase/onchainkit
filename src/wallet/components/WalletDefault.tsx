@@ -1,4 +1,11 @@
-import { Address, Avatar, EthBalance, Identity, Name } from '../../identity';
+import {
+  Address,
+  Avatar,
+  EthBalance,
+  Identity,
+  Name,
+  Socials,
+} from '../../identity';
 import { color } from '../../styles/theme';
 import { ConnectWallet } from './ConnectWallet';
 import { ConnectWalletText } from './ConnectWalletText';
@@ -16,11 +23,12 @@ export function WalletDefault() {
         <Name />
       </ConnectWallet>
       <WalletDropdown>
-        <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick={true}>
+        <Identity className="px-4 pt-3 pb-2">
           <Avatar />
           <Name />
           <Address className={color.foregroundMuted} />
           <EthBalance />
+          <Socials />
         </Identity>
         <WalletDropdownLink
           icon="wallet"
