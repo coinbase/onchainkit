@@ -106,8 +106,16 @@ export const sidebar = [
             link: '/identity/badge',
           },
           {
+            text: 'IdentityCard',
+            link: '/identity/identity-card',
+          },
+          {
             text: 'Name',
             link: '/identity/name',
+          },
+          {
+            text: 'Socials',
+            link: '/identity/socials',
           },
         ],
       },
