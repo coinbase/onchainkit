@@ -1,18 +1,27 @@
-import type { ContractFunctionParameters } from 'viem';
-import { TRANSACTION_TYPE_CALLS } from '../constants';
+import { encodeFunctionData } from 'viem';
 import type { Call, SendSingleTransactionParams } from '../types';
+import { isContract } from './isContract';
 
 export const sendSingleTransactions = async ({
   sendCallAsync,
   transactions,
-  transactionType,
-  writeContractAsync,
 }: SendSingleTransactionParams) => {
-  for (const transaction of transactions) {
-    if (transactionType === TRANSACTION_TYPE_CALLS) {
-      await sendCallAsync(transaction as Call);
+  const calls = transactions?.map((transaction) => {
+    if (isContract(transaction)) {
+      return {
+        data: encodeFunctionData({
+          abi: transaction?.abi,
+          functionName: transaction?.functionName,
+          args: transaction?.args,
+        }),
+        to: transaction?.address,
+      };
     } else {
-      await writeContractAsync(transaction as ContractFunctionParameters);
+      return transaction;
     }
+  });
+
+  for (const call of calls) {
+    await sendCallAsync(call as Call);
   }
 };

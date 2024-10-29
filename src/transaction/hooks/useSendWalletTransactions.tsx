@@ -10,10 +10,7 @@ export const useSendWalletTransactions = ({
   capabilities,
   sendCallAsync,
   sendCallsAsync,
-  transactionType,
   walletCapabilities,
-  writeContractAsync,
-  writeContractsAsync,
 }: UseSendWalletTransactionsParams) => {
   return useCallback(
     async (
@@ -35,27 +32,15 @@ export const useSendWalletTransactions = ({
           capabilities,
           sendCallsAsync,
           transactions: resolvedTransactions,
-          transactionType,
-          writeContractsAsync,
         });
       } else {
         // Non-batched transactions
         await sendSingleTransactions({
           sendCallAsync,
           transactions: resolvedTransactions,
-          transactionType,
-          writeContractAsync,
         });
       }
     },
-    [
-      writeContractsAsync,
-      writeContractAsync,
-      sendCallsAsync,
-      sendCallAsync,
-      capabilities,
-      transactionType,
-      walletCapabilities,
-    ],
+    [sendCallsAsync, sendCallAsync, capabilities, walletCapabilities],
   );
 };

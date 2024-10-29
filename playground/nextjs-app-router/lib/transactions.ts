@@ -46,13 +46,13 @@ export const heterogeneousClickCalls = [
     to: deployedContracts[85432].click,
   },
   {
-    to: deployedContracts[85432].click,
+    address: deployedContracts[85432].click,
     abi: clickAbi,
     functionName: 'click',
     args: [],
   },
   {
-    to: deployedContracts[85432].click,
+    address: deployedContracts[85432].click,
     abi: clickAbi,
     functionName: 'click',
     args: [],
