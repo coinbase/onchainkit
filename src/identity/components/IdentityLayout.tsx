@@ -44,7 +44,6 @@ export function IdentityLayout({
     popoverText,
   } = usePopover(onClick);
 
-  console.log('Socials in layout: ', Socials);
   return (
     <div
       className={cn(
