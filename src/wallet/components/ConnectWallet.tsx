@@ -1,7 +1,7 @@
 import { ConnectButton as ConnectButtonRainbowKit } from '@rainbow-me/rainbowkit';
 import { Children, isValidElement, useCallback, useMemo } from 'react';
 import type { ReactNode } from 'react';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useAccount, useConnect } from 'wagmi';
 import { IdentityProvider } from '../../identity/components/IdentityProvider';
 import { Spinner } from '../../internal/components/Spinner';
