@@ -4,6 +4,7 @@ import {
   EthBalance,
   Identity,
   Name,
+  Socials,
 } from '@coinbase/onchainkit/identity';
 import { color } from '@coinbase/onchainkit/theme';
 import {
@@ -28,11 +29,12 @@ function WalletComponent() {
           <Name />
         </ConnectWallet>
         <WalletDropdown>
-          <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick={true}>
+          <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick={false}>
             <Avatar />
             <Name />
             <Address className={color.foregroundMuted} />
             <EthBalance />
+            <Socials />
           </Identity>
           <WalletDropdownBasename />
           <WalletDropdownLink

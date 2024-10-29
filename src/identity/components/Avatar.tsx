@@ -70,7 +70,7 @@ export function Avatar({
     <div className="relative">
       <div
         data-testid="ockAvatar_ImageContainer"
-        className={cn('h-8 w-8 overflow-hidden rounded-full', className)}
+        className={cn('h-10 w-10 overflow-hidden rounded-full', className)}
       >
         {/* biome-ignore lint: alt gets assigned */}
         {displayAvatarImg ? (

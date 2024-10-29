@@ -6,6 +6,7 @@ import DemoOptions from './DemoOptions';
 import CheckoutDemo from './demo/Checkout';
 import FundDemo from './demo/Fund';
 import IdentityDemo from './demo/Identity';
+import { IdentityCardDemo } from './demo/IdentityCard';
 import NFTCardDemo from './demo/NFTCard';
 import NFTMintCardDemo from './demo/NFTMintCard';
 import SwapDemo from './demo/Swap';
@@ -86,6 +87,10 @@ function Demo() {
 
     if (activeComponent === OnchainKitComponent.NFTCard) {
       return <NFTCardDemo />;
+    }
+
+    if (activeComponent === OnchainKitComponent.IdentityCard) {
+      return <IdentityCardDemo />;
     }
 
     return <></>;

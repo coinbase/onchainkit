@@ -4,12 +4,13 @@ import {
   Badge,
   Identity,
   Name,
+  Socials,
   useAddress,
   useAvatar,
   useName,
 } from '@coinbase/onchainkit/identity';
 import { useEffect } from 'react';
-import { base } from 'viem/chains';
+import { base, mainnet } from 'viem/chains';
 import { useAccount } from 'wagmi';
 
 export default function IdentityDemo() {
@@ -50,24 +51,26 @@ export default function IdentityDemo() {
                 Default Chain
               </h2>
               <div className="flex items-center space-x-4">
-                <Identity address={address}>
+                <Identity address={address} chain={mainnet}>
                   <Avatar />
                   <Name>
                     <Badge />
                   </Name>
                   <Address />
+                  <Socials />
                 </Identity>
               </div>
             </div>
             <div className="space-y-2">
               <h2 className="font-medium text-gray-500 text-sm">Base Chain</h2>
               <div className="flex items-center space-x-4">
-                <Identity address={address}>
-                  <Avatar chain={base} />
-                  <Name chain={base}>
+                <Identity address={address} chain={base}>
+                  <Avatar />
+                  <Name>
                     <Badge />
                   </Name>
                   <Address />
+                  <Socials />
                 </Identity>
               </div>
             </div>

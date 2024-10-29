@@ -189,7 +189,7 @@
     --ock-icon-color-primary: theme(colors.fuchsia.400);
     --ock-icon-color-foreground: theme(colors.gray.50);
     --ock-icon-color-foreground-muted: theme(colors.gray.600);
-    --ock-icon-color-inverse: theme(colors.gray.50);
+    --ock-icon-color-inverse: theme(colors.gray.950);
     --ock-icon-color-error: theme(colors.rose.600);
     --ock-icon-color-success: theme(colors.lime.600);
     --ock-icon-color-warning: theme(colors.orange.600);
