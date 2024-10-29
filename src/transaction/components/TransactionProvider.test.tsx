@@ -531,12 +531,12 @@ describe('TransactionProvider', () => {
       auxiliaryFunds: { supported: true },
     });
     const mockWriteContractsAsync = vi.fn().mockResolvedValue({});
-    (useWriteContracts as Mock).mockReturnValue({
+    (useSendCalls as Mock).mockReturnValue({
       status: 'success',
       writeContractsAsync: mockWriteContractsAsync,
     });
     render(
-      <TransactionProvider isSponsored={true} contracts={contracts}>
+      <TransactionProvider isSponsored={true} calls={contracts}>
         <TestComponent />
       </TransactionProvider>,
     );
