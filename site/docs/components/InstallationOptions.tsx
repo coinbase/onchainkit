@@ -1,30 +1,50 @@
+import { useTheme } from '../contexts/Theme.tsx';
+import { Icon } from './Icon.tsx';
+
 export default function InstallationOptions() {
+  const { theme } = useTheme();
   return (
     <div className="grid grid-cols-2 gap-4">
-      <a
-        className="border-2 border-gray-200 rounded-md p-2"
-        href="/installation/nextjs"
-      >
-        Next.js
-      </a>
-      <a
-        className="border-2 border-gray-200 rounded-md p-2"
+      <InstallationFramework
+        name="Vite"
         href="/installation/vite"
-      >
-        Vite
-      </a>
-      <a
-        className="border-2 border-gray-200 rounded-md p-2"
-        href="/installation/svelte"
-      >
-        Svelte
-      </a>
-      <a
-        className="border-2 border-gray-200 rounded-md p-2"
+        theme={theme}
+      />
+      <InstallationFramework
+        name="Remix"
+        href="/installation/remix"
+        theme={theme}
+      />
+      <InstallationFramework
+        name="Astro"
         href="/installation/astro"
-      >
-        Astro
-      </a>
+        theme={theme}
+      />
     </div>
+  );
+}
+
+type FrameworkProps = {
+  name: string;
+  href: string;
+  theme: string;
+};
+
+function InstallationFramework({ name, href, theme }: FrameworkProps) {
+  return (
+    <a
+      href={href}
+      className="border-2 border-gray-300 rounded-md m-2 hover:bg-gray-200 dark:hover:bg-gray-800"
+    >
+      <div className="flex flex-col items-center gap-2 py-10">
+        <Icon
+          name={name.toLowerCase()}
+          color={theme === 'dark' ? 'white' : 'black'}
+          width="40"
+          height="40"
+        />
+        <span>{name}</span>
+      </div>
+    </a>
   );
 }
