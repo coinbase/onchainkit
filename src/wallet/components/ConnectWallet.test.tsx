@@ -214,7 +214,7 @@ describe('ConnectWallet', () => {
     expect(onInitialConnectMock).toHaveBeenCalledTimes(1);
   });
 
-  it('should not call onConnect callback when component is first mounted', () => {
+  it('should not call onInitialConnect callback when component is first mounted', () => {
     const mockUseAccount = vi.mocked(useAccount);
     mockUseAccount.mockReturnValue({
       address: '0x123',
@@ -291,7 +291,7 @@ describe('ConnectWallet', () => {
       expect(openConnectModalMock).toHaveBeenCalled();
     });
 
-    it('should call onConnect callback when connect button is clicked', () => {
+    it('should call onInitialConnect callback when connect button is clicked', () => {
       const mockUseAccount = vi.mocked(useAccount);
       mockUseAccount.mockReturnValue({
         address: undefined,
