@@ -23,7 +23,6 @@ export default function MintComponent() {
         tokenId="3"
         useNFTData={useEarningsData}
         buildMintTransaction={buildMintTransaction}
-        isSponsored={true}
         onStatus={handleOnStatus}
       >
         <NFTCreator className="-mt-1 pt-0" />
