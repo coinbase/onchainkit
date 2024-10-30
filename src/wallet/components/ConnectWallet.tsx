@@ -58,6 +58,8 @@ export function ConnectWallet({
     setIsOpen(!isOpen);
   }, [isOpen, setIsOpen]);
 
+  console.log('demo Noegf');
+
   if (status === 'disconnected') {
     if (withWalletAggregator) {
       return (

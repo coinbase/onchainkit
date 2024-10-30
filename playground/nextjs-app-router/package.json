@@ -4,14 +4,16 @@
   "private": true,
   "scripts": {
     "cp": "cp -R ../../esm ./onchainkit && cp -R ../../src ./onchainkit && cp -R ../../package.json ./onchainkit",
-    "dev": "next dev",
+    "dev": "next dev --turbo",
+    "dev:watch": "concurrently \"bun dev\" \"cd ../.. && bun run dev:watch\" \"nodemon --watch ../../esm -e js,ts,tsx --exec 'bun run update:local'\"",
     "build": "next build",
     "build:clean": "rm -fr ./onchainkit/esm && rm -fr ./onchainkit/src",
     "build:link": "cd ./onchainkit && bun link && cd .. && bun link @coinbase/onchainkit",
     "build:prepare": "bun run build:onchainkit && bun run cp && bun i",
-    "build:onchainkit": "cd ../.. && yarn install && yarn build",
+    "build:onchainkit": "cd ../.. && bun i && bun run build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "update:local": "bun run cp && bun run build:link"
   },
   "dependencies": {
     "@coinbase/onchainkit": "^0.35.0",
@@ -44,10 +46,12 @@
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "concurrently": "^8.0.0",
     "eslint": "^8",
     "eslint-config-next": "14.2.5",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
-    "typescript": "^5"
+    "typescript": "^5",
+    "nodemon": "^3.0.0"
   }
 }

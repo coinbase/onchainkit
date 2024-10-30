@@ -4,6 +4,7 @@
   "type": "module",
   "repository": "https://github.com/coinbase/onchainkit.git",
   "license": "MIT",
+  "incremental": true,
   "scripts": {
     "build": "packemon build --addEngines --addFiles --declaration && npx packemon validate --no-license --no-people --no-repo && tailwindcss -i ./src/styles/index.css -o ./src/tailwind.css --minify && tailwindcss -i ./src/styles/index-with-tailwind.css -o ./src/styles.css --minify",
     "check": "biome check --write .",
@@ -12,6 +13,7 @@
     "ci:format": "biome ci --linter-enabled=false --organize-imports-enabled=false",
     "ci:lint": "biome ci --formatter-enabled=false --organize-imports-enabled=false",
     "cp": "cp -R src site/docs/pages",
+    "dev:watch": "tsup --watch ./src/**/*.tsx",
     "format": "biome format --write .",
     "lint": "biome lint --write .",
     "lint:unsafe": "biome lint --write --unsafe .",
@@ -76,6 +78,7 @@
     "rimraf": "^5.0.5",
     "storybook": "^8.2.9",
     "tailwindcss": "^3.4.3",
+    "tsup": "^8.3.5",
     "typescript": "~5.3.3",
     "vite": "^5.3.3",
     "vitest": "^2.0.5"
