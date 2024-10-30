@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import '@testing-library/jest-dom';
 import { getSlicedAddress } from '../utils/getSlicedAddress';
@@ -165,55 +165,88 @@ describe('Address component', () => {
       });
     });
 
-    it('copies address to clipboard on click', () => {
+    it('does not show copy functionality when hasCopyAddressOnClick is false', () => {
+      render(<Address address={testAddress} hasCopyAddressOnClick={false} />);
+      const element = screen.getByTestId('ockAddress');
+      expect(element.querySelector('span:last-child')).toBeNull();
+    });
+
+    it('shows copy functionality by default', async () => {
       render(<Address address={testAddress} />);
       const element = screen.getByTestId('ockAddress');
-      fireEvent.click(element);
+      expect(element).toHaveAttribute('role', 'button');
+      expect(element.querySelector('button')).toBeInTheDocument();
+    });
+
+    it('copies to clipboard and shows tooltip when clicked', async () => {
+      mockClipboard.writeText.mockResolvedValueOnce(undefined);
+
+      render(<Address address={testAddress} />);
+
+      const element = screen.getByTestId('ockAddress');
+      await fireEvent.click(element);
+
+      await waitFor(() => {
+        const tooltip = element.querySelector('button');
+        expect(tooltip?.textContent).toBe('Copied');
+      });
+
       expect(mockClipboard.writeText).toHaveBeenCalledWith(testAddress);
     });
 
-    it('shows Copied text after clicking', async () => {
+    it('handles keyboard interactions', async () => {
+      mockClipboard.writeText.mockResolvedValueOnce(undefined);
+
       render(<Address address={testAddress} />);
+
       const element = screen.getByTestId('ockAddress');
 
-      const tooltipSpan = element.querySelector('span');
-      expect(tooltipSpan).toHaveTextContent('Copy');
+      await fireEvent.keyDown(element, { key: 'Enter' });
 
-      fireEvent.click(element);
-
-      await vi.waitFor(() => {
-        expect(tooltipSpan).toHaveTextContent('Copied');
+      await waitFor(() => {
+        const tooltip = element.querySelector('button');
+        expect(tooltip?.textContent).toBe('Copied');
       });
+
+      expect(mockClipboard.writeText).toHaveBeenCalledWith(testAddress);
     });
 
-    it('handles clipboard error', async () => {
-      mockClipboard.writeText.mockRejectedValueOnce(new Error('Failed'));
-      const consoleSpy = vi
+    it('handles clipboard errors gracefully', async () => {
+      mockClipboard.writeText.mockRejectedValueOnce('Clipboard error');
+      const consoleErrorSpy = vi
         .spyOn(console, 'error')
         .mockImplementation(() => {});
 
       render(<Address address={testAddress} />);
-      const element = screen.getByTestId('ockAddress');
-      fireEvent.click(element);
 
-      await vi.waitFor(() => {
-        expect(consoleSpy).toHaveBeenCalled();
+      const element = screen.getByTestId('ockAddress');
+
+      await fireEvent.click(element);
+
+      await waitFor(
+        () => {
+          expect(consoleErrorSpy).toHaveBeenCalled();
+        },
+        { timeout: 1000 },
+      );
+
+      consoleErrorSpy.mockRestore();
+    });
+
+    it('handles space key press', async () => {
+      mockClipboard.writeText.mockResolvedValueOnce(undefined);
+
+      render(<Address address={testAddress} />);
+
+      const element = screen.getByTestId('ockAddress');
+
+      await fireEvent.keyDown(element, { key: ' ' });
+
+      await waitFor(() => {
+        const tooltip = element.querySelector('button');
+        expect(tooltip?.textContent).toBe('Copied');
       });
 
-      consoleSpy.mockRestore();
-    });
-
-    it('copies on Enter key', () => {
-      render(<Address address={testAddress} />);
-      const element = screen.getByTestId('ockAddress');
-      fireEvent.keyDown(element, { key: 'Enter' });
-      expect(mockClipboard.writeText).toHaveBeenCalledWith(testAddress);
-    });
-
-    it('copies on Space key', () => {
-      render(<Address address={testAddress} />);
-      const element = screen.getByTestId('ockAddress');
-      fireEvent.keyDown(element, { key: ' ' });
       expect(mockClipboard.writeText).toHaveBeenCalledWith(testAddress);
     });
   });

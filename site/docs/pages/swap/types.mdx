@@ -139,7 +139,9 @@ type SwapQuote = {
 type SwapReact = {
   children: ReactNode;
   className?: string; // Optional className override for top div element.
-  config?: SwapConfig;
+  config?: {
+    maxSlippage: number; // Maximum acceptable slippage for a swap (e.g., 3 for 3%). This is a percentage, not basis points;
+  };
   experimental?: {
     useAggregator: boolean; // Whether to use a DEX aggregator. (default: true)
   };

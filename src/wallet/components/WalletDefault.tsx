@@ -16,7 +16,7 @@ export function WalletDefault() {
         <Name />
       </ConnectWallet>
       <WalletDropdown>
-        <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick={true}>
+        <Identity className="px-4 pt-3 pb-2">
           <Avatar />
           <Name />
           <Address className={color.foregroundMuted} />

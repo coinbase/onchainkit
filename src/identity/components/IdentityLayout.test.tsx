@@ -1,13 +1,12 @@
 import '@testing-library/jest-dom';
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 import { Address } from './Address';
 import { Avatar } from './Avatar';
 import { EthBalance } from './EthBalance';
 import { IdentityLayout } from './IdentityLayout';
 import { Name } from './Name';
-
-const handleCopy = vi.fn().mockResolvedValue(true);
+import { Socials } from './Socials';
 
 vi.mock('./Avatar', () => ({
   Avatar: vi.fn(() => <div>Avatar</div>),
@@ -25,28 +24,34 @@ vi.mock('./EthBalance', () => ({
   EthBalance: vi.fn(() => <div>EthBalance</div>),
 }));
 
+vi.mock('./Socials', () => ({
+  Socials: vi.fn(() => <div>Socials</div>),
+}));
+
 vi.mock('../../useTheme', () => ({
   useTheme: vi.fn(),
 }));
 
-const renderComponent = () => {
+const renderComponent = (props = {}) => {
   return render(
-    <IdentityLayout onClick={handleCopy} className="custom-class">
+    <IdentityLayout className="custom-class" {...props}>
       <Avatar />
       <Name />
       <Address />
       <EthBalance />
+      <Socials />
     </IdentityLayout>,
   );
 };
 
 describe('IdentityLayout', () => {
-  it('should render children', () => {
+  it('should render all children components when present', () => {
     renderComponent();
     expect(screen.getByText('Avatar')).toBeInTheDocument();
     expect(screen.getByText('Name')).toBeInTheDocument();
     expect(screen.getByText('Address')).toBeInTheDocument();
     expect(screen.getByText('EthBalance')).toBeInTheDocument();
+    expect(screen.getByText('Socials')).toBeInTheDocument();
   });
 
   it('should render with custom class', () => {
@@ -56,68 +61,89 @@ describe('IdentityLayout', () => {
     );
   });
 
-  it('should show popover on hover and hides on mouse leave', async () => {
-    renderComponent();
-    const container = screen.getByTestId('ockIdentityLayout_container');
-    fireEvent.mouseEnter(container);
-    await waitFor(() => {
-      expect(screen.getByText('Copy')).toBeInTheDocument();
-    });
-    fireEvent.mouseLeave(container);
-    await waitFor(() => {
-      expect(screen.queryByText('Copy')).not.toBeInTheDocument();
-    });
+  it('should render without Address component', () => {
+    render(
+      <IdentityLayout className="custom-class">
+        <Avatar />
+        <Name />
+        <EthBalance />
+      </IdentityLayout>,
+    );
+    expect(screen.getByText('Avatar')).toBeInTheDocument();
+    expect(screen.getByText('Name')).toBeInTheDocument();
+    expect(screen.getByText('EthBalance')).toBeInTheDocument();
+    expect(screen.queryByText('Address')).not.toBeInTheDocument();
   });
 
-  it('should show popover on click and hides after 1s', async () => {
-    renderComponent();
-    const container = screen.getByTestId('ockIdentityLayout_container');
-    fireEvent.mouseEnter(container);
-    await waitFor(() => {
-      expect(screen.getByText('Copy')).toBeInTheDocument();
-    });
-    fireEvent.click(container);
-    await waitFor(() => {
-      expect(screen.getByText('Copied')).toBeInTheDocument();
-    });
-    await waitFor(
-      () => {
-        expect(screen.queryByText('Copied')).not.toBeInTheDocument();
-      },
-      {
-        timeout: 1001,
-      },
+  it('should render without EthBalance component', () => {
+    render(
+      <IdentityLayout>
+        <Avatar />
+        <Name />
+        <Address />
+      </IdentityLayout>,
+    );
+    expect(screen.getByText('Avatar')).toBeInTheDocument();
+    expect(screen.getByText('Name')).toBeInTheDocument();
+    expect(screen.getByText('Address')).toBeInTheDocument();
+    expect(screen.queryByText('EthBalance')).not.toBeInTheDocument();
+  });
+
+  it('should render without Socials component', () => {
+    render(
+      <IdentityLayout>
+        <Avatar />
+        <Name />
+        <Address />
+        <EthBalance />
+      </IdentityLayout>,
+    );
+    expect(screen.getByText('Avatar')).toBeInTheDocument();
+    expect(screen.getByText('Name')).toBeInTheDocument();
+    expect(screen.getByText('Address')).toBeInTheDocument();
+    expect(screen.getByText('EthBalance')).toBeInTheDocument();
+    expect(screen.queryByText('Socials')).not.toBeInTheDocument();
+  });
+
+  it('should render only with required components', () => {
+    render(
+      <IdentityLayout>
+        <Avatar />
+        <Name />
+      </IdentityLayout>,
+    );
+    expect(screen.getByText('Avatar')).toBeInTheDocument();
+    expect(screen.getByText('Name')).toBeInTheDocument();
+    expect(screen.queryByText('Address')).not.toBeInTheDocument();
+    expect(screen.queryByText('EthBalance')).not.toBeInTheDocument();
+    expect(screen.queryByText('Socials')).not.toBeInTheDocument();
+  });
+
+  it('should pass hasCopyAddressOnClick prop to Address component', () => {
+    render(
+      <IdentityLayout hasCopyAddressOnClick={true}>
+        <Avatar />
+        <Name />
+        <Address />
+      </IdentityLayout>,
+    );
+    expect(Address).toHaveBeenCalledWith(
+      expect.objectContaining({ hasCopyAddressOnClick: true }),
+      expect.anything(),
     );
   });
 
-  it('should change popover text to "Copied" on click', async () => {
-    renderComponent();
-    const container = screen.getByTestId('ockIdentityLayout_container');
-    fireEvent.mouseEnter(container);
-    await waitFor(() => {
-      expect(screen.getByText('Copy')).toBeInTheDocument();
-    });
-    fireEvent.click(container);
-    await waitFor(() => {
-      expect(screen.getByText('Copied')).toBeInTheDocument();
-    });
-  });
-
-  it('should not show popover on key up', async () => {
-    renderComponent();
-    const container = screen.getByTestId('ockIdentityLayout_container');
-    fireEvent.keyUp(container);
-    await waitFor(() => {
-      expect(screen.queryByText('Copy')).not.toBeInTheDocument();
-    });
-  });
-
-  it('should not show popover on key down', async () => {
-    renderComponent();
-    const container = screen.getByTestId('ockIdentityLayout_container');
-    fireEvent.keyDown(container);
-    await waitFor(() => {
-      expect(screen.queryByText('Copy')).not.toBeInTheDocument();
-    });
+  it('should pass hasCopyAddressOnClick as false when not provided', () => {
+    render(
+      <IdentityLayout>
+        <Avatar />
+        <Name />
+        <Address />
+      </IdentityLayout>,
+    );
+    expect(Address).toHaveBeenCalledWith(
+      expect.objectContaining({ hasCopyAddressOnClick: undefined }),
+      expect.anything(),
+    );
   });
 });
