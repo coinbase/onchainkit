@@ -74,8 +74,6 @@ Get your [Client API Key](https://portal.cdp.coinbase.com/projects/project-id/ap
 
 Create a `.env` file in your project's root directory.
 
-{' '}
-
 <img
   alt="OnchainKit define Client API Key"
   src="https://onchainkit.xyz/assets/getting-started-create-env-file.png"
@@ -100,8 +98,8 @@ In order to use OnchainKit, you need to wrap your app with three providers:
 To accomplish this, we recommend creating a `wagmi.ts` file
 and an `AppProviders.tsx` file within the `src` directory.
 
-You must add `base` as a supported chain in the Wagmi configuration file `wagmi.ts`,
-and `baseSepolia` can be used for testing.
+You must add `base` as a supported chain in the Wagmi configuration file `wagmi.ts`.
+You can use `baseSepolia` for testing.
 
 :::code-group
 

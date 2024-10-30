@@ -20,7 +20,6 @@ More information about Remix can be found [here](https://remix.run/docs/en/main/
 
 ```bash
 npx create-remix@latest
-
 ```
 
 ## Install OnchainKit
@@ -111,15 +110,12 @@ export function Layout({ children }: { children: React.ReactNode }) {
         {children}
         <ScrollRestoration />
         <script // [!code ++]
-          dangerouslySetInnerHTML={{
-            // [!code ++]
-            __html: `window.ENV = ${JSON.stringify(
-              // [!code ++]
+          dangerouslySetInnerHTML={{ // [!code ++]
+            __html: `window.ENV = ${JSON.stringify( // [!code ++]
               data.ENV // [!code ++]
             )}`, // [!code ++]
           }} // [!code ++]
-        />{' '}
-        // [!code ++]
+        /> // [!code ++]
         <Scripts />
       </body>
     </html>
@@ -138,8 +134,8 @@ In order to use OnchainKit, you need to wrap your app with three providers:
 To accomplish this, we recommend creating a `wagmi.ts` file
 and an `AppProviders.tsx` file within the `src` directory.
 
-You must add `base` as a supported chain in the Wagmi configuration file `wagmi.ts`,
-and `baseSepolia` can be used for testing.
+You must add `base` as a supported chain in the Wagmi configuration file `wagmi.ts`.
+You can use `baseSepolia` for testing.
 
 :::code-group
 
