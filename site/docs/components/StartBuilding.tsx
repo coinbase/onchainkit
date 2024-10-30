@@ -10,7 +10,7 @@ export default function StartBuilding() {
               className="vocs_Anchor vocs_Link vocs_Link_accent_underlined"
               href="/identity/identity"
             >
-              Identity
+              <code className="vocs_Code">Identity</code>
             </a>{' '}
             - Show{' '}
             <a
@@ -49,7 +49,7 @@ export default function StartBuilding() {
               className="vocs_Anchor vocs_Link vocs_Link_accent_underlined"
               href="/wallet/wallet"
             >
-              Wallet
+              <code className="vocs_Code">Wallet</code>
             </a>{' '}
             - Create or connect wallets with{' '}
             <a
@@ -67,7 +67,7 @@ export default function StartBuilding() {
               className="vocs_Anchor vocs_Link vocs_Link_accent_underlined"
               href="/transaction/transaction"
             >
-              Transaction
+              <code className="vocs_Code">Transaction</code>
             </a>{' '}
             - Handle{' '}
             <a
@@ -85,7 +85,7 @@ export default function StartBuilding() {
               className="vocs_Anchor vocs_Link vocs_Link_accent_underlined"
               href="/checkout/checkout"
             >
-              Checkout
+              <code className="vocs_Code">Checkout</code>
             </a>{' '}
             - Integrate USDC{' '}
             <a
@@ -103,7 +103,7 @@ export default function StartBuilding() {
               className="vocs_Anchor vocs_Link vocs_Link_accent_underlined"
               href="/fund/fund-button"
             >
-              Fund
+              <code className="vocs_Code">Fund</code>
             </a>{' '}
             - Create a{' '}
             <a
@@ -121,7 +121,7 @@ export default function StartBuilding() {
               className="vocs_Anchor vocs_Link vocs_Link_accent_underlined"
               href="/token/token-chip"
             >
-              Tokens
+              <code className="vocs_Code">Tokens</code>
             </a>{' '}
             - Search and display{' '}
             <a
@@ -139,7 +139,7 @@ export default function StartBuilding() {
               className="vocs_Anchor vocs_Link vocs_Link_accent_underlined"
               href="/swap/swap"
             >
-              Swap
+              <code className="vocs_Code">Swap</code>
             </a>{' '}
             - Enable{' '}
             <a
@@ -157,7 +157,7 @@ export default function StartBuilding() {
               className="vocs_Anchor vocs_Link vocs_Link_accent_underlined"
               href="/frame/frame-metadata"
             >
-              Frame
+              <code className="vocs_Code">Frame</code>
             </a>{' '}
             - Build and test{' '}
             <a
