@@ -3,6 +3,11 @@ import type { Call } from '@/onchainkit/esm/transaction/types';
 import type { definitions } from '@reservoir0x/reservoir-sdk';
 import { ENVIRONMENT_VARIABLES } from '../constants';
 
+const ERROR_MAP = {
+  'Unable to mint requested quantity (max mints per wallet possibly exceeded)':
+    'Mint limit exceeded',
+} as Record<string, string>;
+
 async function getMintData({
   contractAddress,
   takerAddress,
@@ -33,14 +38,15 @@ async function getMintData({
     const data = await response.json();
 
     if (data.message) {
-      return Promise.reject(data.message);
+      const error = ERROR_MAP[data.message] ?? data.message;
+      return Promise.reject(error);
     }
 
     const validData = data as definitions['postExecuteMintV1Response'];
 
     const saleStep = validData.steps?.find((step) => step.id === 'sale');
     if (!saleStep) {
-      return Promise.reject('No sale step found');
+      return Promise.reject('No valid price found');
     }
 
     return saleStep.items.map((item) => ({
