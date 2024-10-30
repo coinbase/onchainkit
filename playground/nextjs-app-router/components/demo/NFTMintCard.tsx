@@ -20,7 +20,7 @@ import type { TransactionReceipt } from 'viem';
 import { AppContext } from '../AppProvider';
 
 function NFTMintCardDemo() {
-  const { nftToken } = useContext(AppContext);
+  const { nftToken, isSponsored } = useContext(AppContext);
 
   const [contractAddress, tokenId] = (
     nftToken ?? '0x1D6b183bD47F914F9f1d3208EDCF8BefD7F84E63:2'
@@ -47,6 +47,7 @@ function NFTMintCardDemo() {
       tokenId={tokenId}
       useNFTData={useReservoirMintData}
       buildMintTransaction={buildMintTransaction}
+      isSponsored={isSponsored}
       onStatus={handleOnStatus}
       onSuccess={handleOnSuccess}
       onError={handleOnError}

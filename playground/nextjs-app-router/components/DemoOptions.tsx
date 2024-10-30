@@ -59,12 +59,20 @@ export default function DemoOptions({
         </>
       );
     case OnchainKitComponent.NFTCard:
+      return (
+        <>
+          {commonOptions}
+          <Chain />
+          <NFTOptions />
+        </>
+      );
     case OnchainKitComponent.NFTMintCard:
       return (
         <>
           {commonOptions}
           <Chain />
           <PaymasterUrl />
+          <IsSponsored />
           <NFTOptions />
         </>
       );
