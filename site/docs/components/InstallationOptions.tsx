@@ -1,26 +1,13 @@
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
 import { useTheme } from '../contexts/Theme.tsx';
 import { Icon } from './Icon.tsx';
 
 export default function InstallationOptions() {
-  const { theme } = useTheme();
   return (
     <div className="grid grid-cols-2 gap-4">
-      <FrameworkCard
-        name="Vite"
-        href="/installation/vite"
-        theme={theme}
-      />
-      <FrameworkCard
-        name="Remix"
-        href="/installation/remix"
-        theme={theme}
-      />
-      <FrameworkCard
-        name="Astro"
-        href="/installation/astro"
-        theme={theme}
-      />
+      <FrameworkCard name="Vite" href="/installation/vite" />
+      <FrameworkCard name="Remix" href="/installation/remix" />
+      <FrameworkCard name="Astro" href="/installation/astro" />
     </div>
   );
 }
@@ -28,10 +15,10 @@ export default function InstallationOptions() {
 type FrameworkProps = {
   name: string;
   href: string;
-  theme: string;
 };
 
-function FrameworkCard({ name, href, theme }: FrameworkProps) {
+function FrameworkCard({ name, href }: FrameworkProps) {
+  const { theme } = useTheme();
   return (
     <Link
       to={href}
