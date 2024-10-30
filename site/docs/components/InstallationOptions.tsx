@@ -34,7 +34,7 @@ function InstallationFramework({ name, href, theme }: FrameworkProps) {
   return (
     <a
       href={href}
-      className="m-2 rounded-md border-2 border-zinc-300 dark:border-zinc-700 hover:bg-zinc-100 dark:hover:bg-zinc-900 text-zinc-950 dark:text-zinc-50"
+      className="m-2 rounded-md border-2 border-zinc-300 text-zinc-950 hover:bg-zinc-100 dark:border-zinc-700 dark:text-zinc-50 dark:hover:bg-zinc-900"
     >
       <div className="flex flex-col items-center gap-2 py-10">
         <Icon
