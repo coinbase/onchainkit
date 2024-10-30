@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useAccount, useChainId } from 'wagmi';
 import { Spinner } from '../../../internal/components/Spinner';
-import { cn } from '../../../styles/theme';
+import { cn, color, text } from '../../../styles/theme';
 import {
   Transaction,
   TransactionButton,
@@ -113,12 +113,8 @@ export function NFTMintButton({
   );
 
   const transactionButtonLabel = useMemo(() => {
-    if (isEligibleToMint === false) {
+    if (isEligibleToMint === false || mintError) {
       return 'Minting not available';
-    }
-
-    if (mintError) {
-      return mintError;
     }
 
     if (callData.length === 0) {
@@ -155,12 +151,17 @@ export function NFTMintButton({
           errorOverride={errorOverride}
           disabled={disabled || transactionButtonLabel !== label}
         />
-        <TransactionSponsor />
+        {!mintError && <TransactionSponsor />}
         <TransactionStatus>
           <TransactionStatusLabel />
           <TransactionStatusAction />
         </TransactionStatus>
       </Transaction>
+      {mintError && (
+        <div className={cn(text.label2, color.foregroundMuted, 'pb-2')}>
+          {mintError}
+        </div>
+      )}
     </div>
   );
 }
