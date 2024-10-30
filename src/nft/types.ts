@@ -89,8 +89,9 @@ export type NFTData = {
   creatorAddress?: Hex; // required for NFTCreator
   maxMintsPerWallet?: number; // required for NFTMintButton
   isEligibleToMint?: boolean; // required for NFTMintButton
-  totalOwners?: number; // required for NFTMinters
+  totalOwners?: string; // required for NFTMinters
   recentOwners?: Address[]; // required for NFTMinters
+  network?: string; // required for default BuildMintTransaction implementation
 };
 
 type BuildMintTransaction = (
@@ -102,6 +103,7 @@ export type BuildMintTransactionDataProps = {
   takerAddress: Address;
   tokenId?: string;
   quantity: number;
+  network?: string;
 };
 
 export type NFTReact = {
@@ -133,8 +135,8 @@ export type NFTMintCardReact = {
   contractAddress: Hex; // Contract address of the NFT
   tokenId?: string; // Token ID of the NFT only required for ERC1155
   isSponsored?: boolean; // Optional boolean to determine if the mint is sponsored by paymaster
-  useNFTData: UseNFTData; // Required hook to supply NFT data
-  buildMintTransaction: BuildMintTransaction; // Required function that builds the mint transaction
+  useNFTData?: UseNFTData; // Required hook to supply NFT data
+  buildMintTransaction?: BuildMintTransaction; // Required function that builds the mint transaction
   onError?: (error: NFTError) => void; // An optional callback function that handles errors within the provider.
   onStatus?: (lifecycleStatus: LifecycleStatus) => void; // An optional callback function that exposes the component lifecycle state
   onSuccess?: (transactionReceipt?: TransactionReceipt) => void; // mint will pass transactionReceipt

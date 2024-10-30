@@ -2,8 +2,10 @@ import { background, border, cn, color } from '../../styles/theme';
 import { useIsMounted } from '../../useIsMounted';
 import { useTheme } from '../../useTheme';
 import { LifecycleType, type NFTMintCardReact } from '../types';
+import { defaultBuildMintTransaction } from '../utils/defaultBuildMintTransaction';
 import { NFTLifecycleProvider } from './NFTLifecycleProvider';
 import { NFTProvider } from './NFTProvider';
+import { useMintData as defaultUseMintData } from '../hooks/useMintData';
 
 export function NFTMintCard({
   children,
@@ -11,8 +13,8 @@ export function NFTMintCard({
   contractAddress,
   tokenId,
   isSponsored,
-  useNFTData,
-  buildMintTransaction,
+  useNFTData = defaultUseMintData,
+  buildMintTransaction = defaultBuildMintTransaction,
   onStatus,
   onError,
   onSuccess,

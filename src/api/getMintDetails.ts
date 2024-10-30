@@ -8,6 +8,7 @@ import type { GetMintDetailsParams, GetMintDetailsResponse } from './types';
 export async function getMintDetails({
   contractAddress,
   takerAddress,
+  tokenId,
 }: GetMintDetailsParams): Promise<GetMintDetailsResponse> {
   try {
     const res = await sendRequest<GetMintDetailsParams, GetMintDetailsResponse>(
@@ -16,6 +17,7 @@ export async function getMintDetails({
         {
           contractAddress,
           takerAddress,
+          tokenId,
         },
       ],
     );

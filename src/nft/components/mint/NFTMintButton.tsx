@@ -35,14 +35,8 @@ export function NFTMintButton({
 }: NFTMintButtonReact) {
   const chainId = useChainId();
   const { address } = useAccount();
-  const {
-    contractAddress,
-    tokenId,
-    isEligibleToMint,
-    buildMintTransaction,
-    quantity,
-    isSponsored,
-  } = useNFTContext();
+  const nftData = useNFTContext();
+  const { isEligibleToMint, buildMintTransaction, isSponsored } = nftData;
   const { updateLifecycleStatus } = useNFTLifecycleContext();
   const [callData, setCallData] = useState<Call[]>([]);
   const [mintError, setMintError] = useState<string | null>(null);
@@ -68,10 +62,8 @@ export function NFTMintButton({
         setCallData([]);
         setMintError(null);
         const mintTransaction = await buildMintTransaction({
-          contractAddress,
-          tokenId,
           takerAddress: address,
-          quantity,
+          ...nftData,
         });
         setCallData(mintTransaction);
       } catch (error) {
@@ -80,14 +72,7 @@ export function NFTMintButton({
     } else {
       setCallData([]);
     }
-  }, [
-    address,
-    contractAddress,
-    tokenId,
-    quantity,
-    buildMintTransaction,
-    handleTransactionError,
-  ]);
+  }, [address, nftData, buildMintTransaction, handleTransactionError]);
 
   useEffect(() => {
     // need to fetch calls on quantity change instead of onClick to avoid smart wallet

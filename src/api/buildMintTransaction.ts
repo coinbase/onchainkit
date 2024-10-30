@@ -10,6 +10,7 @@ import type {
  */
 export async function buildMintTransaction({
   mintAddress,
+  tokenId,
   network,
   quantity,
   takerAddress,
@@ -24,6 +25,7 @@ export async function buildMintTransaction({
         network,
         quantity,
         takerAddress,
+        tokenId,
       },
     ]);
     if (res.error) {

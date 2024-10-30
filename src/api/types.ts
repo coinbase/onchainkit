@@ -165,20 +165,18 @@ export type GetTokenDetailsResponse = TokenDetails | APIError;
 
 export type GetMintDetailsParams = {
   contractAddress: Address; // The address of the token contract
-  takerAddress: Address; // The address of the user
+  takerAddress?: Address; // The address of the user
+  tokenId?: string; // The ID of the token (required for ERC1155)
 };
 
 type MintDetails = {
-  price: {
-    amount: string;
-    currency: string;
-    amountUSD: string;
-  };
-  mintFee: {
-    amount: string;
-    currency: string;
-    amountUSD: string;
-  };
+  name: string;
+  description: string;
+  imageUrl: string;
+  animationUrl: string;
+  mimeType: string;
+  price: NFTPrice;
+  mintFee: NFTPrice;
   maxMintsPerWallet: number;
   isEligibleToMint: boolean;
   creatorAddress: Address;
@@ -191,17 +189,17 @@ export type GetMintDetailsResponse = MintDetails | APIError;
 
 export type BuildMintTransactionParams = {
   mintAddress: Address; // The address of the token contract to mint
-  network: string; // The network the mint contract is on
-  quantity: number; // The number of tokens to mint
   takerAddress: Address; // The address of the user
-  tokenId?: string; // The ID of the token, required for ERC1155
+  tokenId?: string; // The ID of the token
+  quantity: number; // The number of tokens to mint
+  network?: string; // The network the mint contract is on
 };
 
 type MintTransaction = {
   callData: {
-    data: string;
-    to: string;
-    from: string;
+    data: Address;
+    to: Address;
+    from: Address;
     value: string;
   };
 };

@@ -269,12 +269,14 @@ describe('NFTMintButton', () => {
         <NFTMintButton />
       </TestProviders>,
     );
-    expect(buildMintTransactionMock).toHaveBeenCalledWith({
-      contractAddress: '0x123',
-      tokenId: '1',
-      takerAddress: '0xabc',
-      quantity: 1,
-    });
+    expect(buildMintTransactionMock).toHaveBeenCalledWith(
+      expect.objectContaining({
+        contractAddress: '0x123',
+        tokenId: '1',
+        takerAddress: '0xabc',
+        quantity: 1,
+      }),
+    );
 
     (useNFTContext as Mock).mockReturnValueOnce({
       contractAddress: '0x123',
@@ -290,12 +292,14 @@ describe('NFTMintButton', () => {
       </TestProviders>,
     );
 
-    expect(buildMintTransactionMock).toHaveBeenCalledWith({
-      contractAddress: '0x123',
-      tokenId: '1',
-      takerAddress: '0xabc',
-      quantity: 2,
-    });
+    expect(buildMintTransactionMock).toHaveBeenCalledWith(
+      expect.objectContaining({
+        contractAddress: '0x123',
+        tokenId: '1',
+        takerAddress: '0xabc',
+        quantity: 2,
+      }),
+    );
   });
 
   it('calls updateLifecycleStatus on buildMintTransaction error', async () => {
