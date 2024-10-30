@@ -2,6 +2,7 @@
 title: Vite Installation · OnchainKit
 description: Install OnchainKit using Vite
 ---
+
 import StartBuilding from '../../components/StartBuilding';
 
 # Vite Installation
@@ -74,6 +75,7 @@ Get your [Client API Key](https://portal.cdp.coinbase.com/projects/project-id/ap
 Create a `.env` file in your project's root directory.
 
 {' '}
+
 <img
   alt="OnchainKit define Client API Key"
   src="https://onchainkit.xyz/assets/getting-started-create-env-file.png"
@@ -102,6 +104,7 @@ You must add `base` as a supported chain in the Wagmi configuration file `wagmi.
 and `baseSepolia` can be used for testing.
 
 :::code-group
+
 ```tsx twoslash [wagmi.ts]
 import { http, cookieStorage, createConfig, createStorage } from 'wagmi';
 import { base } from 'wagmi/chains'; // add baseSepolia for testing // [!code ++]
@@ -112,7 +115,7 @@ export function getConfig() {
     chains: [base], // add baseSepolia for testing // [!code ++]
     connectors: [
       coinbaseWallet({
-        appName: "OnchainKit",
+        appName: 'OnchainKit',
         preference: 'smartWalletOnly',
         version: '4',
       }),
@@ -165,9 +168,11 @@ export function Providers(props: {
   );
 }
 ```
+
 :::
 
 ## Wrap your app with `<AppProviders />`
+
 After configuring the providers in step 4, wrap your app with
 the `<AppProviders />` component.
 
@@ -177,13 +182,14 @@ import { AppProviders } from 'src/AppProviders';
 export default function App() {
   return (
     <AppProviders>
-      /* Your App */
+      <YourApp />
     </AppProviders>
   );
 }
 ```
 
 ## Import OnchainKit Styles
+
 OnchainKit components come with pre-configured styles.
 To include these styles in your project, add the following import
 statement at the top of the file where imported `<AppProviders />`:
@@ -195,7 +201,7 @@ import '@coinbase/onchainkit/styles.css'; // [!code ++]
 export default function App() {
   return (
     <AppProviders>
-      /* Your App */
+      <YourApp />
     </AppProviders>
   );
 }
@@ -206,7 +212,7 @@ This ensures that the OnchainKit styles are loaded and applied to your entire ap
 - For Tailwind CSS users, check out our [Tailwind Integration Guide](/guides/tailwind).
 
 - Update the appearance of components by using our built-in themes or crafting your own custom theme.
-Explore the possibilities in our [Theming Guide](/guides/themes).
+  Explore the possibilities in our [Theming Guide](/guides/themes).
 
 ::::
 
