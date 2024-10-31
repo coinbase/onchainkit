@@ -11,13 +11,52 @@ export default defineConfig({
   treeshake: false, // Disable tree shaking during development
   outDir: 'playground/nextjs-app-router/onchainkit/esm',
   dts: false,
+  clean: true,
+  // Copy Tailwind files
   loader: {
-    '.css': 'file',
+    '.css': 'copy',
   },
+
   // Generate declaration files separately to improve performance in development
   async onSuccess() {
-    console.log('Rebuilt library.');
-    spawnSync('tsc', ['--emitDeclarationOnly', '--declaration']);
+    // Copy CSS file to match production path
+    spawnSync(
+      'cp',
+      [
+        'src/styles.css', // From
+        'playground/nextjs-app-router/onchainkit/src/styles.css', // To
+      ],
+      {
+        shell: true,
+        stdio: 'inherit',
+      },
+    );
+    console.log('Building declaration files.');
+    spawnSync(
+      'tsc',
+      [
+        '--emitDeclarationOnly',
+        '--declaration',
+        '--outDir',
+        'playground/nextjs-app-router/onchainkit/esm',
+        '--rootDir',
+        'src',
+        'src/index.ts',
+        'src/*.ts',
+        'src/**/index.ts',
+        'src/**/theme.ts',
+        '--incremental',
+        '--tsBuildInfoFile',
+        'playground/nextjs-app-router/onchainkit/esm/tsbuildinfo.json',
+        '--jsx',
+        'react-jsx',
+      ],
+      {
+        shell: true,
+        // stdio: 'inherit',
+      },
+    );
+
     console.log('Declaration files generated.');
   },
   //   silent: true,
