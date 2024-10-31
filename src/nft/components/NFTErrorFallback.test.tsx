@@ -15,7 +15,7 @@ describe('NFTErrorFallback', () => {
 
     const { getByText } = render(<NFTErrorFallback error={error} />);
 
-    expect(getByText('Sorry, we had an unhandled error')).toBeInTheDocument();
+    expect(getByText('Sorry, please try again later.')).toBeInTheDocument();
     expect(getByText('Test error message')).toBeInTheDocument();
   });
 });
