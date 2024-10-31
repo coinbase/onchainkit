@@ -20,9 +20,7 @@ export function convertIpfsToHttps(url?: string): string | undefined {
     return undefined;
   }
 
-  const IPFS_GATEWAY_URL =
-    'https://b891d14d436694bb9a7feeba91730b95.ipfscdn.io/ipfs/';
-
+  const IPFS_GATEWAY_URL = 'https://ipfs.io/ipfs/';
   if (IsValidIpfsUrl(url)) {
     return url.replace('ipfs://', IPFS_GATEWAY_URL);
   }
