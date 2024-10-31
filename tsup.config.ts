@@ -3,7 +3,7 @@ import { defineConfig } from 'tsup';
 import { spawnSync } from 'node:child_process';
 
 export default defineConfig({
-  entry: ['src/**/index.ts', 'src/**/theme.ts'],
+  entry: ['src/**/index.ts', 'src/**/theme.ts', 'src/**/styles.css'],
   format: 'esm',
   minify: false, // Disable minification during development
   splitting: false, // Disable code splitting during development

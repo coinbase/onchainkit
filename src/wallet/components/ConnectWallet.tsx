@@ -30,6 +30,7 @@ export function ConnectWallet({
   const { address: accountAddress, status } = useAccount();
   const { connectors, connect, status: connectStatus } = useConnect();
 
+  return <div>hey</div>;
   // Get connectWalletText from children when present,
   // this is used to customize the connect wallet button text
   const { connectWalletText } = useMemo(() => {
