@@ -6,6 +6,7 @@ import { useNFTContext } from '../NFTProvider';
 
 type NFTImageReact = {
   className?: string;
+  square?: boolean;
   onLoading?: (mediaUrl: string) => void;
   onLoaded?: () => void;
   onError?: (error: NFTError) => void;
@@ -13,6 +14,7 @@ type NFTImageReact = {
 
 export function NFTImage({
   className,
+  square = true,
   onLoading,
   onLoaded,
   onError,
@@ -83,7 +85,11 @@ export function NFTImage({
         src={imageUrl}
         alt={description}
         decoding="async"
-        className={`max-h-[450px] transition-[opacity] duration-500 ease-in-out ${loaded ? 'opacity-100' : 'opacity-0'}`}
+        className={cn(
+          'max-h-[450px] transition-[opacity] duration-500 ease-in-out',
+          `${loaded ? 'opacity-100' : 'opacity-0'}`,
+          { 'h-full w-full object-cover': square },
+        )}
         onTransitionEnd={handleTransitionEnd}
       />
     </div>
