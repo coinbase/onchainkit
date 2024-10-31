@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNFTLifecycleContext } from '../components/NFTLifecycleProvider';
 import type { ContractType, NFTData, NFTError } from '../types';
+import { convertIpfsToHttps } from '../utils/ipfs';
 import { useTokenDetails } from './useTokenDetails';
 
 export function useNFTData(
@@ -36,8 +37,8 @@ export function useNFTData(
   return {
     name: tokenDetails?.name,
     description: tokenDetails?.description,
-    imageUrl: tokenDetails?.imageUrl,
-    animationUrl: tokenDetails?.animationUrl,
+    imageUrl: convertIpfsToHttps(tokenDetails?.imageUrl),
+    animationUrl: convertIpfsToHttps(tokenDetails?.animationUrl),
     mimeType: tokenDetails?.mimeType,
     ownerAddress: tokenDetails?.ownerAddress as `0x${string}`,
     lastSoldPrice: tokenDetails?.lastSoldPrice,

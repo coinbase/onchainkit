@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useAccount } from 'wagmi';
 import { useNFTLifecycleContext } from '../components/NFTLifecycleProvider';
 import type { NFTData, NFTError } from '../types';
+import { convertIpfsToHttps } from '../utils/ipfs';
 import { useMintDetails } from './useMintDetails';
 
 export function useMintData(
@@ -39,8 +40,8 @@ export function useMintData(
   return {
     name: mintData?.name,
     description: mintData?.description,
-    imageUrl: mintData?.imageUrl,
-    animationUrl: mintData?.animationUrl,
+    imageUrl: convertIpfsToHttps(mintData?.imageUrl),
+    animationUrl: convertIpfsToHttps(mintData?.animationUrl),
     mimeType: mintData?.mimeType,
     contractType: mintData?.contractType,
     maxMintsPerWallet:
