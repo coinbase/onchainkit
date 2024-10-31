@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "cp": "cp -R ../../esm ./onchainkit && cp -R ../../src ./onchainkit && cp -R ../../package.json ./onchainkit",
+    "cp": "cp -R ../../src ./onchainkit && cp -R ../../package.json ./onchainkit",
     "dev": "next dev --turbo",
-    "dev:watch": "concurrently \"bun dev\" \"bun build:clean && cd ../.. && bun run dev:watch\" \"nodemon --watch ../../esm -e js,ts,tsx --exec 'bun run update:local'\" -c red,green,blue",
+    "dev:watch": "concurrently \"bun dev\" \"bun build:clean && bun run cp && cd ../.. && bun run dev:watch\" \"nodemon --watch ./onchainkit/esm -e js,ts,tsx --exec 'bun run update:local'\" -c gray,green,blue --delay 1000",
     "build": "next build",
     "build:clean": "rm -fr ./onchainkit/esm && rm -fr ./onchainkit/src",
     "build:link": "cd ./onchainkit && bun link && cd .. && bun link @coinbase/onchainkit",
@@ -13,7 +13,7 @@
     "build:onchainkit": "cd ../.. && bun i && bun run build",
     "start": "next start",
     "lint": "next lint",
-    "update:local": "bun run cp && bun run build:link"
+    "update:local": "bun run build:link"
   },
   "dependencies": {
     "@coinbase/onchainkit": "^0.35.0",

@@ -9,7 +9,7 @@ export default defineConfig({
   splitting: false, // Disable code splitting during development
   sourcemap: true,
   treeshake: false, // Disable tree shaking during development
-  outDir: 'esm',
+  outDir: 'playground/nextjs-app-router/onchainkit/esm',
   dts: false,
   //   Generate declaration files separately to improve performance in development
   async onSuccess() {
