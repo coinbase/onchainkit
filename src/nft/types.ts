@@ -55,7 +55,7 @@ export type NFTProviderReact = {
 export type NFTPrice = {
   amount?: string; // Amount in Currency
   currency?: string; // Currency
-  amountUSD?: string; // Amount in USD 
+  amountUSD?: string; // Amount in USD
 };
 
 type UseNFTData = (
@@ -118,7 +118,7 @@ export type NFTCardReact = {
   children: React.ReactNode;
   className?: string; // Optional className override for top div element.
   contractAddress: Hex; // Contract address of the NFT
-  tokenId: string; // Required Token ID of the NFT 
+  tokenId: string; // Required Token ID of the NFT
   useNFTData?: UseNFTData; // Optional hook to override the default useNftData hook
   onError?: (error: NFTError) => void; // An optional callback function that handles errors within the provider.
   onStatus?: (lifecycleStatus: LifecycleStatus) => void; // An optional callback function that exposes the component lifecycle state
