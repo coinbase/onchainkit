@@ -30,7 +30,6 @@ export function ConnectWallet({
   const { address: accountAddress, status } = useAccount();
   const { connectors, connect, status: connectStatus } = useConnect();
 
-  return <div>hey</div>;
   // Get connectWalletText from children when present,
   // this is used to customize the connect wallet button text
   const { connectWalletText } = useMemo(() => {
@@ -58,8 +57,6 @@ export function ConnectWallet({
   const handleToggle = useCallback(() => {
     setIsOpen(!isOpen);
   }, [isOpen, setIsOpen]);
-
-  return <div>hey</div>;
 
   if (status === 'disconnected') {
     if (withWalletAggregator) {
