@@ -58,6 +58,8 @@ export function ConnectWallet({
     setIsOpen(!isOpen);
   }, [isOpen, setIsOpen]);
 
+  return <div>hey</div>;
+
   if (status === 'disconnected') {
     if (withWalletAggregator) {
       return (

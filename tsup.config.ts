@@ -13,8 +13,10 @@ export default defineConfig({
   dts: false,
   //   Generate declaration files separately to improve performance in development
   async onSuccess() {
+    console.log('Rebuilt library.');
     spawnSync('tsc', ['--emitDeclarationOnly', '--declaration']);
-    console.log('Declaration files generated');
+    console.log('Declaration files generated.');
   },
+  //   silent: true,
   inject: ['react-shim.js'],
 });

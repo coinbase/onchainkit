@@ -5,7 +5,7 @@
   "scripts": {
     "cp": "cp -R ../../esm ./onchainkit && cp -R ../../src ./onchainkit && cp -R ../../package.json ./onchainkit",
     "dev": "next dev --turbo",
-    "dev:watch": "concurrently \"bun dev\" \"cd ../.. && bun run dev:watch\" \"nodemon --watch ../../esm -e js,ts,tsx --exec 'bun run update:local'\"",
+    "dev:watch": "concurrently \"bun dev\" \"bun build:clean && cd ../.. && bun run dev:watch\" \"nodemon --watch ../../esm -e js,ts,tsx --exec 'bun run update:local'\" -c red,green,blue",
     "build": "next build",
     "build:clean": "rm -fr ./onchainkit/esm && rm -fr ./onchainkit/src",
     "build:link": "cd ./onchainkit && bun link && cd .. && bun link @coinbase/onchainkit",
