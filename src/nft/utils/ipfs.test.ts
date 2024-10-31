@@ -22,7 +22,7 @@ describe('convertIpfsToHttps', () => {
   it('should convert a valid IPFS URL to an HTTPS URL', () => {
     const url = 'ipfs://QmTzQ1Nj5x1r1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1';
     const expectedUrl =
-      'https://b891d14d436694bb9a7feeba91730b95.ipfscdn.io/ipfs/QmTzQ1Nj5x1r1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1';
+      'https://ipfs.io/ipfs/QmTzQ1Nj5x1r1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1';
     expect(convertIpfsToHttps(url)).toBe(expectedUrl);
   });
 
