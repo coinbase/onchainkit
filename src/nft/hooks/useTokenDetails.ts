@@ -22,7 +22,6 @@ export function useTokenDetails({
 
       return tokenDetails;
     },
-    enabled: true,
     retry: false,
     refetchOnWindowFocus: false,
   });

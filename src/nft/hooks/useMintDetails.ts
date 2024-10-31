@@ -24,7 +24,6 @@ export function useMintDetails({
 
       return mintDetails;
     },
-    enabled: true,
     retry: false,
     refetchOnWindowFocus: false,
   });
