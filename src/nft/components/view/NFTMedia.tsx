@@ -6,7 +6,12 @@ import { NFTAudio } from './NFTAudio';
 import { NFTImage } from './NFTImage';
 import { NFTVideo } from './NFTVideo';
 
-export function NFTMedia() {
+type NFTMediaReact = {
+  className?: string;
+  square?: boolean;
+};
+
+export function NFTMedia({ className, square }: NFTMediaReact) {
   const { mimeType } = useNFTContext();
   const { type, updateLifecycleStatus } = useNFTLifecycleContext();
 
@@ -57,6 +62,8 @@ export function NFTMedia() {
     case MediaType.Video:
       return (
         <NFTVideo
+          className={className}
+          square={square}
           onLoading={handleLoading}
           onLoaded={handleLoaded}
           onError={handleError}
@@ -65,7 +72,7 @@ export function NFTMedia() {
     case MediaType.Audio:
       return (
         <div className="relative w-full">
-          <NFTImage />
+          <NFTImage className={className} square={square} />
           <div className="absolute bottom-4 mx-auto w-full">
             <NFTAudio />
           </div>
@@ -75,6 +82,8 @@ export function NFTMedia() {
       // fallback to image
       return (
         <NFTImage
+          className={className}
+          square={square}
           onLoading={handleLoading}
           onLoaded={handleLoaded}
           onError={handleError}

@@ -6,6 +6,7 @@ import { useNFTContext } from '../NFTProvider';
 
 type NFTVideoReact = {
   className?: string;
+  square?: boolean;
   onLoading?: (mediaUrl: string) => void;
   onLoaded?: () => void;
   onError?: (error: NFTError) => void;
@@ -13,6 +14,7 @@ type NFTVideoReact = {
 
 export function NFTVideo({
   className,
+  square = true,
   onLoading,
   onLoaded,
   onError,
@@ -45,10 +47,16 @@ export function NFTVideo({
   }
 
   return (
-    <div className={cn('max-h-350 w-350 max-w-350', className)}>
+    <div
+      className={cn(
+        'relative flex h-[450px] max-h-screen items-center justify-center',
+        className,
+      )}
+    >
       <video
         ref={videoRef}
         data-testid="ockNFTVideo"
+        className={cn({ 'h-full w-full object-cover': square })}
         poster={imageUrl}
         controls={true}
         loop={true}
