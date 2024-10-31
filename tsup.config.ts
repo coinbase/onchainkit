@@ -12,25 +12,10 @@ export default defineConfig({
   outDir: 'playground/nextjs-app-router/onchainkit/esm',
   dts: false,
   clean: true,
-  // Copy Tailwind files
-  loader: {
-    '.css': 'copy',
-  },
-
+  silent: true,
+  inject: ['react-shim.js'],
   // Generate declaration files separately to improve performance in development
   async onSuccess() {
-    // Copy CSS file to match production path
-    spawnSync(
-      'cp',
-      [
-        'src/styles.css', // From
-        'playground/nextjs-app-router/onchainkit/src/styles.css', // To
-      ],
-      {
-        shell: true,
-        stdio: 'inherit',
-      },
-    );
     console.log('Building declaration files.');
     spawnSync(
       'tsc',
@@ -53,12 +38,9 @@ export default defineConfig({
       ],
       {
         shell: true,
-        // stdio: 'inherit',
       },
     );
 
     console.log('Declaration files generated.');
   },
-  //   silent: true,
-  inject: ['react-shim.js'],
 });
