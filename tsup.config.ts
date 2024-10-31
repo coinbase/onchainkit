@@ -11,6 +11,9 @@ export default defineConfig({
   treeshake: false, // Disable tree shaking during development
   outDir: 'playground/nextjs-app-router/onchainkit/esm',
   dts: false,
+  loader: {
+    '.css': 'file',
+  },
   //   Generate declaration files separately to improve performance in development
   async onSuccess() {
     console.log('Rebuilt library.');
