@@ -5,14 +5,13 @@
   "scripts": {
     "cp": "cp -R ../../package.json ./onchainkit",
     "dev": "next dev --turbo",
-    "dev:watch": "concurrently \"bun dev\" \"bun run cp && cd ../.. && bun run dev:watch\" \"nodemon --watch ./onchainkit/esm -e js,ts,tsx,css --exec 'bun run update:local'\" -c gray,green,blue --delay 1000",
+    "dev:watch": "concurrently \"bun dev\" \"bun run cp && bun build:link && cd ../.. && bun run dev:watch\"",
     "build": "next build",
     "build:clean": "rm -fr ./onchainkit/esm && rm -fr ./onchainkit/src",
     "build:link": "cd ./onchainkit && bun link && cd .. && bun link @coinbase/onchainkit",
     "start": "next start",
-    "lint": "next lint",
-    "update:local": "bun run build:link"
-  },
+    "lint": "next lint"
+},
   "dependencies": {
     "@coinbase/onchainkit": "^0.35.0",
     "@radix-ui/react-dropdown-menu": "^2.1.1",

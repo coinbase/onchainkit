@@ -14,7 +14,7 @@ export default defineConfig({
   loader: {
     '.css': 'file',
   },
-  //   Generate declaration files separately to improve performance in development
+  // Generate declaration files separately to improve performance in development
   async onSuccess() {
     console.log('Rebuilt library.');
     spawnSync('tsc', ['--emitDeclarationOnly', '--declaration']);
