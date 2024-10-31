@@ -24,7 +24,7 @@ export function useMintDetails({
 
       return mintDetails;
     },
-    enabled: true, //Boolean(contractAddress && takerAddress),
+    enabled: true,
     retry: false,
     refetchOnWindowFocus: false,
   });
