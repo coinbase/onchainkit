@@ -135,8 +135,8 @@ export type NFTMintCardReact = {
   contractAddress: Hex; // Contract address of the NFT
   tokenId?: string; // Token ID of the NFT only required for ERC1155
   isSponsored?: boolean; // Optional boolean to determine if the mint is sponsored by paymaster
-  useNFTData?: UseNFTData; // Required hook to supply NFT data
-  buildMintTransaction?: BuildMintTransaction; // Required function that builds the mint transaction
+  useNFTData?: UseNFTData; // Optional hook to override the default useNFTData hook
+  buildMintTransaction?: BuildMintTransaction; // Optional function to override the default function that builds the mint transaction
   onError?: (error: NFTError) => void; // An optional callback function that handles errors within the provider.
   onStatus?: (lifecycleStatus: LifecycleStatus) => void; // An optional callback function that exposes the component lifecycle state
   onSuccess?: (transactionReceipt?: TransactionReceipt) => void; // mint will pass transactionReceipt
