@@ -53,14 +53,14 @@ export type NFTProviderReact = {
 };
 
 export type NFTPrice = {
-  amount?: string;
-  currency?: string;
-  amountUSD?: string;
+  amount?: string; // Amount in Currency
+  currency?: string; // Currency
+  amountUSD?: string; // Amount in USD 
 };
 
 type UseNFTData = (
-  contractAddress: Hex,
-  tokenId?: string,
+  contractAddress: Hex, // Contract address of the NFT
+  tokenId?: string, // Token ID of the NFT
 ) => NFTData | NFTError;
 
 /**
@@ -99,11 +99,11 @@ type BuildMintTransaction = (
 ) => Promise<Call[]>;
 
 export type BuildMintTransactionDataProps = {
-  contractAddress: Hex;
-  takerAddress: Address;
-  tokenId?: string;
-  quantity: number;
-  network?: string;
+  contractAddress: Hex; // Contract address of the NFT
+  takerAddress: Address; // Address of the taker
+  tokenId?: string; // Token ID of the NFT
+  quantity: number; // Quantity of the NFT to mint
+  network?: string; // Network of the NFT
 };
 
 export type NFTReact = {
@@ -116,9 +116,9 @@ export type NFTReact = {
  */
 export type NFTCardReact = {
   children: React.ReactNode;
-  className?: string;
-  contractAddress: Hex;
-  tokenId: string;
+  className?: string; // Optional className override for top div element.
+  contractAddress: Hex; // Contract address of the NFT
+  tokenId: string; // Required Token ID of the NFT 
   useNFTData?: UseNFTData; // Optional hook to override the default useNftData hook
   onError?: (error: NFTError) => void; // An optional callback function that handles errors within the provider.
   onStatus?: (lifecycleStatus: LifecycleStatus) => void; // An optional callback function that exposes the component lifecycle state

@@ -151,13 +151,13 @@ export type GetTokenDetailsParams = {
 };
 
 export type TokenDetails = {
-  name: string;
-  description: string;
-  imageUrl: string;
-  animationUrl: string;
-  mimeType: string;
-  ownerAddress: Address;
-  lastSoldPrice: NFTPrice;
+  name: string; // The name of the token
+  description: string; // The description of the token
+  imageUrl: string; // The image URL of the token
+  animationUrl: string; // The animation URL of the token
+  mimeType: string; // The MIME type of the token
+  ownerAddress: Address; // The address of the owner of the token
+  lastSoldPrice: NFTPrice; // The last sold price of the token
   contractType: ContractType; // ERC721, ERC1155
 };
 
@@ -170,20 +170,20 @@ export type GetMintDetailsParams = {
 };
 
 export type MintDetails = {
-  name: string;
-  description: string;
-  imageUrl: string;
-  animationUrl: string;
-  mimeType: string;
-  contractType: ContractType;
-  price: NFTPrice;
-  mintFee: NFTPrice;
-  maxMintsPerWallet: number;
-  isEligibleToMint: boolean;
-  creatorAddress: Address;
-  totalTokens: string;
-  totalOwners: string;
-  network: string;
+  name: string; // The name of the NFT
+  description: string; // The description of the NFT
+  imageUrl: string; // The image URL of the NFT
+  animationUrl: string; // The animation URL of the NFT
+  mimeType: string; // The MIME type of the NFT
+  contractType: ContractType; // ERC721, ERC1155
+  price: NFTPrice; // The price of the NFT
+  mintFee: NFTPrice; // The mint fee of the NFT
+  maxMintsPerWallet: number; // The maximum number of mints per wallet
+  isEligibleToMint: boolean; // Whether the user is eligible to mint
+  creatorAddress: Address; // The address of the creator of the NFT
+  totalTokens: string; // The total number of tokens
+  totalOwners: string; // The total number of owners of the NFT
+  network: string; // The network the NFT is on
 };
 
 export type GetMintDetailsResponse = MintDetails | APIError;
@@ -198,10 +198,10 @@ export type BuildMintTransactionParams = {
 
 type MintTransaction = {
   call_data: {
-    data: Address;
-    to: Address;
-    from: Address;
-    value: string;
+    data: Address; // The transaction data
+    to: Address; // The recipient address
+    from: Address; // The sender address
+    value: string; // The value of the transaction
   };
 };
 
