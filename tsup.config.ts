@@ -3,12 +3,22 @@ import { defineConfig } from 'tsup';
 import { spawnSync } from 'node:child_process';
 
 export default defineConfig({
-  entry: ['src/**/index.ts', 'src/**/theme.ts', 'src/**/styles.css'],
+  entry: [
+    'src/**/index.ts',
+    'src/**/theme.ts',
+    'src/**/styles.css',
+    'src/**/*.tsx',
+    'src/**/*.ts',
+  ],
   format: 'esm',
   minify: false, // Disable minification during development
-  splitting: false, // Disable code splitting during development
+  splitting: true, // Enable code splitting to properly handle React contexts
+  treeshake: true, // Enable tree shaking
+  esbuildOptions(options) {
+    options.jsx = 'automatic';
+    options.jsxImportSource = 'react';
+  },
   sourcemap: true,
-  treeshake: false, // Disable tree shaking during development
   outDir: 'playground/nextjs-app-router/onchainkit/esm',
   dts: false,
   clean: true,
