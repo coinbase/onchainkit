@@ -73,7 +73,7 @@ export function TransactionButton({
       url.searchParams.set('contentParams[txHash]', transactionHash);
       url.searchParams.set('contentParams[chainId]', JSON.stringify(chainId));
       url.searchParams.set('contentParams[fromAddress]', address);
-      return window.open(url);
+      return window.open(url, '_blank', 'noopener,noreferrer');
     }
     // EOA will not have txn id so open in explorer
     const chainExplorer = getChainExplorer(accountChainId);
