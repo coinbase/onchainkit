@@ -58,10 +58,13 @@ export function NFTTotalCost({
           <div>NFT cost</div>
           <div>
             $
-            {formatAmount(`${multiplyFloats(price.amountUSD, quantity)}`, {
-              minimumFractionDigits: 2,
-              maximumFractionDigits: 2,
-            })}
+            {formatAmount(
+              `${multiplyFloats(Number(price.amountUSD), quantity)}`,
+              {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              },
+            )}
           </div>
         </div>
         <div
@@ -73,10 +76,13 @@ export function NFTTotalCost({
           <div>Mint fee</div>
           <div>
             $
-            {formatAmount(`${multiplyFloats(mintFee?.amountUSD, quantity)}`, {
-              minimumFractionDigits: 2,
-              maximumFractionDigits: 2,
-            })}
+            {formatAmount(
+              `${multiplyFloats(Number(mintFee.amountUSD), quantity)}`,
+              {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              },
+            )}
           </div>
         </div>
       </div>
@@ -106,10 +112,13 @@ export function NFTTotalCost({
         <div className="flex items-center gap-2">
           <div>
             $
-            {formatAmount(`${multiplyFloats(price.amountUSD, quantity)}`, {
-              minimumFractionDigits: 2,
-              maximumFractionDigits: 2,
-            })}
+            {formatAmount(
+              `${multiplyFloats(Number(price.amountUSD), quantity)}`,
+              {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              },
+            )}
           </div>
           {overlay && (
             <button

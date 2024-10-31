@@ -18,19 +18,19 @@ export function NFTAssetCost({ className }: NFTAssetCostReact) {
     return null;
   }
 
-  if (price?.amount === 0) {
+  if (Number(price?.amount) === 0) {
     return <div className={cn('flex py-2', text.body, className)}>Free</div>;
   }
 
   return (
     <div className={cn('flex py-2', text.body, className)}>
       <div className={text.headline}>
-        {multiplyFloats(price.amount, quantity)} {price.currency}
+        {multiplyFloats(Number(price.amount), quantity)} {price.currency}
       </div>
       <div className="px-2">~</div>
       <div>
         $
-        {formatAmount(`${multiplyFloats(price.amountUSD, quantity)}`, {
+        {formatAmount(`${multiplyFloats(Number(price.amountUSD), quantity)}`, {
           minimumFractionDigits: 2,
           maximumFractionDigits: 2,
         })}

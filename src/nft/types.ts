@@ -53,9 +53,9 @@ export type NFTProviderReact = {
 };
 
 export type NFTPrice = {
-  amount?: number;
+  amount?: string;
   currency?: string;
-  amountUSD?: number;
+  amountUSD?: string;
 };
 
 type UseNFTData = (
