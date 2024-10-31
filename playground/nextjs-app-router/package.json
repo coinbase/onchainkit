@@ -3,15 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "cp": "cp -R ../../src ./onchainkit/src && cp -R ../../package.json ./onchainkit",
-    "cp:json": "cp -R ../../package.json ./onchainkit",
+    "cp": "cp -R ../../package.json ./onchainkit",
     "dev": "next dev --turbo",
-    "dev:watch": "concurrently \"bun dev\" \"bun run cp:json && cd ../.. && bun run dev:watch\" \"nodemon --watch ./onchainkit/esm -e js,ts,tsx,css --exec 'bun run update:local'\" -c gray,green,blue --delay 1000",
+    "dev:watch": "concurrently \"bun dev\" \"bun run cp && cd ../.. && bun run dev:watch\" \"nodemon --watch ./onchainkit/esm -e js,ts,tsx,css --exec 'bun run update:local'\" -c gray,green,blue --delay 1000",
     "build": "next build",
     "build:clean": "rm -fr ./onchainkit/esm && rm -fr ./onchainkit/src",
     "build:link": "cd ./onchainkit && bun link && cd .. && bun link @coinbase/onchainkit",
-    "build:prepare": "bun run build:onchainkit && bun run cp && bun i",
-    "build:onchainkit": "cd ../.. && bun i && bun run build",
     "start": "next start",
     "lint": "next lint",
     "update:local": "bun run build:link"

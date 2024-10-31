@@ -1,5 +1,5 @@
 import { defineConfig } from 'tsup';
-// biome-ignore lint/correctness/noNodejsModules: <explanation>
+// biome-ignore lint/correctness/noNodejsModules: We need this for development only
 import { spawnSync } from 'node:child_process';
 
 export default defineConfig({
