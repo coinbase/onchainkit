@@ -16,7 +16,7 @@ export function NFTErrorFallback({ error }: { error: Error }) {
       )}
       data-testid="ockNFTMintCardFallback_Container"
     >
-      <div>Sorry, we had an unhandled error</div>
+      <div>Sorry, please try again later.</div>
       <div>{error.message}</div>
     </div>
   );
