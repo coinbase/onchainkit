@@ -14,7 +14,7 @@ export function NFTErrorFallback({ error }: { error: Error }) {
         border.radius,
         'flex w-full max-w-[500px] flex-col items-center justify-center border px-6 py-4',
       )}
-      data-testid="ockNFTMintCardFallback_Container"
+      data-testid="ockNFTErrorFallback_Container"
     >
       <div>Sorry, please try again later.</div>
       <div>{error.message}</div>
