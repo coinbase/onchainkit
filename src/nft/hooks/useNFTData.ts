@@ -1,45 +1,46 @@
-import { useMemo } from 'react';
+import { useEffect, useState } from 'react';
+import { useNFTLifecycleContext } from '../components/NFTLifecycleProvider';
 import type { ContractType, NFTData, NFTError } from '../types';
 import { useTokenDetails } from './useTokenDetails';
-import { isNFTError } from '../utils/isNFTError';
-import { useNFTLifecycleContext } from '../components/NFTLifecycleProvider';
 
 export function useNFTData(
   contractAddress: `0x${string}`,
   tokenId?: string,
 ): NFTData | NFTError {
   const { updateLifecycleStatus } = useNFTLifecycleContext();
+  const [error, setError] = useState<NFTError | null>(null);
 
-  const { data: tokenDetails } = useTokenDetails({
+  useEffect(() => {
+    if (error) {
+      updateLifecycleStatus({
+        statusName: 'error',
+        statusData: error,
+      });
+    }
+  }, [error, updateLifecycleStatus]);
+
+  const { error: tokenError, data: tokenDetails } = useTokenDetails({
     contractAddress,
     tokenId: tokenId,
   });
 
-  if (isNFTError(tokenDetails)) {
-    updateLifecycleStatus({
-      statusName: 'error',
-      statusData: {
-        code: tokenDetails.code,
-        error: tokenDetails.error,
-        message: tokenDetails.message,
-      },
+  if (tokenError && !error) {
+    setError({
+      code: 'NmND01',
+      message: tokenError.message,
+      error: 'Error fetching NFT data',
     });
-    return tokenDetails;
+    return tokenError;
   }
 
-  return useMemo(
-    () => ({
-      contractAddress,
-      tokenId,
-      name: tokenDetails?.name,
-      description: tokenDetails?.description,
-      imageUrl: tokenDetails?.imageUrl,
-      animationUrl: tokenDetails?.animationUrl,
-      mimeType: tokenDetails?.mimeType,
-      ownerAddress: tokenDetails?.ownerAddress as `0x${string}`,
-      lastSoldPrice: tokenDetails?.lastSoldPrice,
-      contractType: tokenDetails?.contractType as ContractType,
-    }),
-    [contractAddress, tokenDetails, tokenId],
-  );
+  return {
+    name: tokenDetails?.name,
+    description: tokenDetails?.description,
+    imageUrl: tokenDetails?.imageUrl,
+    animationUrl: tokenDetails?.animationUrl,
+    mimeType: tokenDetails?.mimeType,
+    ownerAddress: tokenDetails?.ownerAddress as `0x${string}`,
+    lastSoldPrice: tokenDetails?.lastSoldPrice,
+    contractType: tokenDetails?.contractType as ContractType,
+  };
 }

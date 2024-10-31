@@ -11,7 +11,7 @@ import type {
 export async function buildMintTransaction({
   mintAddress,
   tokenId,
-  network,
+  network = '',
   quantity,
   takerAddress,
 }: BuildMintTransactionParams): Promise<BuildMintTransactionResponse> {

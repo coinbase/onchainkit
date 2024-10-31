@@ -1,11 +1,13 @@
 import { background, border, cn, color } from '../../styles/theme';
 import { useIsMounted } from '../../useIsMounted';
 import { useTheme } from '../../useTheme';
+import { useMintData as defaultUseMintData } from '../hooks/useMintData';
 import { LifecycleType, type NFTMintCardReact } from '../types';
-import { defaultBuildMintTransaction } from '../utils/defaultBuildMintTransaction';
+import { buildMintTransactionData as defaultBuildMintTransaction } from '../utils/buildMintTransactionData';
+import NFTErrorBoundary from './NFTErrorBoundary';
+import { NFTErrorFallback } from './NFTErrorFallback';
 import { NFTLifecycleProvider } from './NFTLifecycleProvider';
 import { NFTProvider } from './NFTProvider';
-import { useMintData as defaultUseMintData } from '../hooks/useMintData';
 
 export function NFTMintCard({
   children,
@@ -29,34 +31,36 @@ export function NFTMintCard({
   }
 
   return (
-    <NFTLifecycleProvider
-      type={LifecycleType.MINT}
-      onStatus={onStatus}
-      onError={onError}
-      onSuccess={onSuccess}
-    >
-      <NFTProvider
-        contractAddress={contractAddress}
-        tokenId={tokenId}
-        isSponsored={isSponsored}
-        useNFTData={useNFTData}
-        buildMintTransaction={buildMintTransaction}
+    <NFTErrorBoundary fallback={NFTErrorFallback}>
+      <NFTLifecycleProvider
+        type={LifecycleType.MINT}
+        onStatus={onStatus}
+        onError={onError}
+        onSuccess={onSuccess}
       >
-        <div
-          className={cn(
-            componentTheme,
-            color.foreground,
-            background.default,
-            border.defaultActive,
-            border.radius,
-            'flex w-full max-w-[500px] flex-col border px-6 py-4',
-            className,
-          )}
-          data-testid="ockNFTMintCard_Container"
+        <NFTProvider
+          contractAddress={contractAddress}
+          tokenId={tokenId}
+          isSponsored={isSponsored}
+          useNFTData={useNFTData}
+          buildMintTransaction={buildMintTransaction}
         >
-          {children}
-        </div>
-      </NFTProvider>
-    </NFTLifecycleProvider>
+          <div
+            className={cn(
+              componentTheme,
+              color.foreground,
+              background.default,
+              border.defaultActive,
+              border.radius,
+              'flex w-full max-w-[500px] flex-col border px-6 py-4',
+              className,
+            )}
+            data-testid="ockNFTMintCard_Container"
+          >
+            {children}
+          </div>
+        </NFTProvider>
+      </NFTLifecycleProvider>
+    </NFTErrorBoundary>
   );
 }

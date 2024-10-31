@@ -1,9 +1,4 @@
 import { renderHook } from '@testing-library/react';
-import { useMintData } from './useMintData';
-import { useNFTLifecycleContext } from '../components/NFTLifecycleProvider';
-import { useMintDetails } from './useMintDetails';
-import { useAccount } from 'wagmi';
-import { isNFTError } from '../utils/isNFTError';
 import {
   type Mock,
   afterEach,
@@ -13,18 +8,20 @@ import {
   it,
   vi,
 } from 'vitest';
+import { useAccount } from 'wagmi';
+import { useNFTLifecycleContext } from '../components/NFTLifecycleProvider';
+import { useMintData } from './useMintData';
+import { useMintDetails } from './useMintDetails';
 
 vi.mock('../components/NFTLifecycleProvider');
 vi.mock('./useMintDetails');
 vi.mock('wagmi');
-vi.mock('../utils/isNFTError');
 
 describe('useMintData', () => {
   const mockUpdateLifecycleStatus = vi.fn();
   const mockUseNFTLifecycleContext = useNFTLifecycleContext as Mock;
   const mockUseMintDetails = useMintDetails as Mock;
   const mockUseAccount = useAccount as Mock;
-  const mockIsNFTError = isNFTError as unknown as Mock;
 
   beforeEach(() => {
     mockUseNFTLifecycleContext.mockReturnValue({
@@ -37,7 +34,7 @@ describe('useMintData', () => {
     vi.clearAllMocks();
   });
 
-  it('should return NFT data when mintData is not an error', () => {
+  it('should return NFT data with contractAddress and tokenId', () => {
     const mintData = {
       name: 'NFT Name',
       description: 'NFT Description',
@@ -53,36 +50,59 @@ describe('useMintData', () => {
       network: 'Ethereum',
     };
     mockUseMintDetails.mockReturnValue({ data: mintData });
-    mockIsNFTError.mockReturnValue(false);
 
     const { result } = renderHook(() => useMintData('0xcontract', '1'));
 
+    expect(result.current).toEqual(mintData);
+  });
+
+  it('should return NFT data with contractAddress and no tokenId', () => {
+    const mintData = {
+      name: 'NFT Name',
+      description: 'NFT Description',
+      imageUrl: 'http://example.com/image.png',
+      animationUrl: 'http://example.com/animation.mp4',
+      mimeType: 'image/png',
+      maxMintsPerWallet: 0,
+      price: '1 ETH',
+      mintFee: '0.01 ETH',
+      isEligibleToMint: true,
+      creatorAddress: '0xcreator',
+      totalOwners: 10,
+      network: 'Ethereum',
+    };
+    mockUseMintDetails.mockReturnValue({ data: mintData });
+
+    const { result } = renderHook(() => useMintData('0xcontract'));
+
     expect(result.current).toEqual({
-      contractAddress: '0xcontract',
-      tokenId: '1',
       ...mintData,
+      maxMintsPerWallet: undefined,
     });
   });
 
-  it('should return NFTError and update lifecycle status when mintData is an error', () => {
+  it('should return empty mintData and update lifecycle status when mintData is an error', async () => {
     const mintError = {
-      code: 400,
-      error: 'Bad Request',
-      message: 'Invalid token ID',
+      code: 'code',
+      error: 'error',
+      message: 'message',
     };
-    mockUseMintDetails.mockReturnValue({ data: mintError });
-    mockIsNFTError.mockReturnValue(true);
+    mockUseMintDetails.mockReturnValue({ error: mintError });
 
     const { result } = renderHook(() => useMintData('0xcontract', '1'));
 
-    expect(result.current).toEqual(mintError);
+    expect(result.current).toEqual(
+      expect.objectContaining({
+        name: undefined,
+        description: undefined,
+      }),
+    );
+
     expect(mockUpdateLifecycleStatus).toHaveBeenCalledWith({
       statusName: 'error',
-      statusData: {
-        code: mintError.code,
-        error: mintError.error,
+      statusData: expect.objectContaining({
         message: mintError.message,
-      },
+      }),
     });
   });
 });

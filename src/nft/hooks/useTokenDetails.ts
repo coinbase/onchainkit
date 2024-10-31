@@ -1,23 +1,29 @@
-import { useQuery, type UseQueryResult } from '@tanstack/react-query';
+import { type UseQueryResult, useQuery } from '@tanstack/react-query';
 import { getTokenDetails } from '../../api/getTokenDetails';
-import type {
-  GetTokenDetailsParams,
-  GetTokenDetailsResponse,
-} from '../../api/types';
+import type { GetTokenDetailsParams, TokenDetails } from '../../api/types';
+import { isNFTError } from '../utils/isNFTError';
 
 export function useTokenDetails({
   contractAddress,
   tokenId,
-}: GetTokenDetailsParams): UseQueryResult<GetTokenDetailsResponse> {
+}: GetTokenDetailsParams): UseQueryResult<TokenDetails> {
   const actionKey = `useTokenDetails-${contractAddress}-${tokenId}`;
   return useQuery({
     queryKey: ['useTokenDetails', actionKey],
-    queryFn: async () =>
-      getTokenDetails({
+    queryFn: async () => {
+      const tokenDetails = await getTokenDetails({
         contractAddress,
         tokenId,
-      }),
+      });
+
+      if (isNFTError(tokenDetails)) {
+        throw tokenDetails;
+      }
+
+      return tokenDetails;
+    },
     enabled: true,
+    retry: false,
     refetchOnWindowFocus: false,
   });
 }

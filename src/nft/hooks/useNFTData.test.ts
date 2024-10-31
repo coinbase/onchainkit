@@ -8,20 +8,17 @@ import {
   it,
   vi,
 } from 'vitest';
+import { useNFTLifecycleContext } from '../components/NFTLifecycleProvider';
 import { useNFTData } from './useNFTData';
 import { useTokenDetails } from './useTokenDetails';
-import { useNFTLifecycleContext } from '../components/NFTLifecycleProvider';
-import { isNFTError } from '../utils/isNFTError';
 
 vi.mock('./useTokenDetails');
 vi.mock('../components/NFTLifecycleProvider');
-vi.mock('../utils/isNFTError');
 
 describe('useNFTData', () => {
   const mockUpdateLifecycleStatus = vi.fn();
   const mockUseTokenDetails = useTokenDetails as Mock;
   const mockUseNFTLifecycleContext = useNFTLifecycleContext as Mock;
-  const mockIsNFTError = isNFTError as unknown as Mock;
 
   beforeEach(() => {
     mockUseNFTLifecycleContext.mockReturnValue({
@@ -46,35 +43,22 @@ describe('useNFTData', () => {
     };
 
     mockUseTokenDetails.mockReturnValue({ data: tokenDetails });
-    mockIsNFTError.mockReturnValue(false);
 
     const { result } = renderHook(() =>
       useNFTData('0x1234567890abcdef1234567890abcdef12345678', '1'),
     );
 
-    expect(result.current).toEqual({
-      contractAddress: '0x1234567890abcdef1234567890abcdef12345678',
-      tokenId: '1',
-      name: 'Test NFT',
-      description: 'Test Description',
-      imageUrl: 'http://example.com/image.png',
-      animationUrl: 'http://example.com/animation.mp4',
-      mimeType: 'image/png',
-      ownerAddress: '0x1234567890abcdef1234567890abcdef12345678',
-      lastSoldPrice: 1.5,
-      contractType: 'ERC721',
-    });
+    expect(result.current).toEqual(tokenDetails);
   });
 
   it('should return NFT error when token details are an error', () => {
     const tokenError = {
-      code: '404',
-      error: 'Not Found',
-      message: 'Token not found',
+      code: 'code',
+      error: 'error',
+      message: 'message',
     };
 
-    mockUseTokenDetails.mockReturnValue({ data: tokenError });
-    mockIsNFTError.mockReturnValue(true);
+    mockUseTokenDetails.mockReturnValue({ error: tokenError });
 
     const { result } = renderHook(() =>
       useNFTData('0x1234567890abcdef1234567890abcdef12345678', '1'),
@@ -82,35 +66,16 @@ describe('useNFTData', () => {
 
     expect(mockUpdateLifecycleStatus).toHaveBeenCalledWith({
       statusName: 'error',
-      statusData: {
-        code: '404',
-        error: 'Not Found',
-        message: 'Token not found',
-      },
+      statusData: expect.objectContaining({
+        message: tokenError.message,
+      }),
     });
 
-    expect(result.current).toEqual(tokenError);
-  });
-
-  it('should return undefined fields when token details are undefined', () => {
-    mockUseTokenDetails.mockReturnValue({ data: undefined });
-    mockIsNFTError.mockReturnValue(false);
-
-    const { result } = renderHook(() =>
-      useNFTData('0x1234567890abcdef1234567890abcdef12345678', '1'),
+    expect(result.current).toEqual(
+      expect.objectContaining({
+        name: undefined,
+        description: undefined,
+      }),
     );
-
-    expect(result.current).toEqual({
-      contractAddress: '0x1234567890abcdef1234567890abcdef12345678',
-      tokenId: '1',
-      name: undefined,
-      description: undefined,
-      imageUrl: undefined,
-      animationUrl: undefined,
-      mimeType: undefined,
-      ownerAddress: undefined,
-      lastSoldPrice: undefined,
-      contractType: undefined,
-    });
   });
 });

@@ -1,25 +1,31 @@
-import { useQuery, type UseQueryResult } from '@tanstack/react-query';
-import type {
-  GetMintDetailsParams,
-  GetMintDetailsResponse,
-} from '../../api/types';
+import { type UseQueryResult, useQuery } from '@tanstack/react-query';
 import { getMintDetails } from '../../api/getMintDetails';
+import type { GetMintDetailsParams, MintDetails } from '../../api/types';
+import { isNFTError } from '../utils/isNFTError';
 
 export function useMintDetails({
   contractAddress,
   takerAddress,
   tokenId,
-}: GetMintDetailsParams): UseQueryResult<GetMintDetailsResponse> {
+}: GetMintDetailsParams): UseQueryResult<MintDetails> {
   const actionKey = `useMintDetails-${contractAddress}-${takerAddress}-${tokenId}`;
   return useQuery({
     queryKey: ['useMintDetails', actionKey],
-    queryFn: async () =>
-      getMintDetails({
+    queryFn: async () => {
+      const mintDetails = await getMintDetails({
         contractAddress,
         takerAddress,
         tokenId,
-      }),
-    enabled: true,
+      });
+
+      if (isNFTError(mintDetails)) {
+        throw mintDetails;
+      }
+
+      return mintDetails;
+    },
+    enabled: true, //Boolean(contractAddress && takerAddress),
+    retry: false,
     refetchOnWindowFocus: false,
   });
 }

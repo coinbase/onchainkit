@@ -150,7 +150,7 @@ export type GetTokenDetailsParams = {
   tokenId?: string; // The ID of the token
 };
 
-type TokenDetails = {
+export type TokenDetails = {
   name: string;
   description: string;
   imageUrl: string;
@@ -169,12 +169,13 @@ export type GetMintDetailsParams = {
   tokenId?: string; // The ID of the token (required for ERC1155)
 };
 
-type MintDetails = {
+export type MintDetails = {
   name: string;
   description: string;
   imageUrl: string;
   animationUrl: string;
   mimeType: string;
+  contractType: ContractType;
   price: NFTPrice;
   mintFee: NFTPrice;
   maxMintsPerWallet: number;
@@ -196,7 +197,7 @@ export type BuildMintTransactionParams = {
 };
 
 type MintTransaction = {
-  callData: {
+  call_data: {
     data: Address;
     to: Address;
     from: Address;

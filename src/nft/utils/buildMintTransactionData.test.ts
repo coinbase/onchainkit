@@ -1,12 +1,12 @@
-import { defaultBuildMintTransaction } from './defaultBuildMintTransaction';
-import { buildMintTransaction } from '../../api/buildMintTransaction';
-import { type Mock, describe, expect, it, vi } from 'vitest';
 import type { Address } from 'viem';
+import { type Mock, describe, expect, it, vi } from 'vitest';
+import { buildMintTransaction as buildMintTransationApi } from '../../api/buildMintTransaction';
+import { buildMintTransactionData } from './buildMintTransactionData';
 
 vi.mock('../../api/buildMintTransaction');
 
-describe('defaultBuildMintTransaction', () => {
-  const mockBuildMintTransaction = buildMintTransaction as Mock;
+describe('buildMintTransactionData', () => {
+  const mockBuildMintTransaction = buildMintTransationApi as Mock;
 
   const contractAddress: Address = '0x1234567890abcdef1234567890abcdef12345678';
   const tokenId = '1';
@@ -16,14 +16,14 @@ describe('defaultBuildMintTransaction', () => {
 
   it('should return a valid transaction call', async () => {
     mockBuildMintTransaction.mockResolvedValue({
-      callData: {
+      call_data: {
         to: '0xabcdefabcdefabcdefabcdefabcdefabcdefabcdef',
         data: '0xabcdef',
         value: '1000000000000000000',
       },
     });
 
-    const result = await defaultBuildMintTransaction({
+    const result = await buildMintTransactionData({
       contractAddress,
       tokenId,
       network,
@@ -47,7 +47,7 @@ describe('defaultBuildMintTransaction', () => {
     });
 
     await expect(
-      defaultBuildMintTransaction({
+      buildMintTransactionData({
         contractAddress,
         tokenId,
         network,
