@@ -5,6 +5,7 @@ import { Icon } from './Icon.tsx';
 export default function InstallationOptions() {
   return (
     <div className="grid grid-cols-2 gap-4">
+      <FrameworkCard name="Next.js" href="/installation/nextjs" />
       <FrameworkCard name="Vite" href="/installation/vite" />
       <FrameworkCard name="Remix" href="/installation/remix" />
       <FrameworkCard name="Astro" href="/installation/astro" />
@@ -26,7 +27,7 @@ function FrameworkCard({ name, href }: FrameworkProps) {
     >
       <div className="flex flex-col items-center gap-2 py-10">
         <Icon
-          name={name.toLowerCase()}
+          name={name.replace('.', '').toLowerCase()}
           color={theme === 'dark' ? 'white' : 'black'}
           width="40"
           height="40"
