@@ -15,7 +15,8 @@ import {
 
 const sourceDir = path.resolve(
   fileURLToPath(import.meta.url),
-  '../../../templates/next'
+  // '../../../templates/next'
+  '../../templates/next'
 );
 
 const renameFiles: Record<string, string | undefined> = {
@@ -177,7 +178,7 @@ async function init() {
   console.log(`${pc.cyan('- Wagmi')}`);
   console.log(`${pc.cyan('- React')}`);
   console.log(`${pc.cyan('- Next.js')}`);
-  console.log(`${pc.cyan('- Tailwindcss')}`);
+  console.log(`${pc.cyan('- Tailwind CSS')}`);
   console.log(`${pc.cyan('- ESLint')}`);
 
   console.log(
