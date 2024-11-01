@@ -6,6 +6,15 @@ export const sidebar = [
     items: [{ text: 'Getting Started', link: '/getting-started' }],
   },
   {
+    text: 'Installation',
+    items: [
+      { text: 'Next.js', link: '/installation/nextjs' },
+      { text: 'Vite', link: '/installation/vite' },
+      { text: 'Remix', link: '/installation/remix' },
+      { text: 'Astro', link: '/installation/astro' },
+    ],
+  },
+  {
     text: 'Contribution',
     items: [
       {
