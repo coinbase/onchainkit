@@ -94,6 +94,7 @@ const ICONS: Record<string, (props: SvgProps) => JSX.Element> = {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
+      <title>Next.js</title>
       <mask
         id="mask0_408_139"
         style={{ maskType: 'alpha' }}
@@ -103,7 +104,12 @@ const ICONS: Record<string, (props: SvgProps) => JSX.Element> = {
         width="180"
         height="180"
       >
-        <circle cx="90" cy="90" r="90" fill={color === 'white' ? 'white' : 'black'} />
+        <circle
+          cx="90"
+          cy="90"
+          r="90"
+          fill={color === 'white' ? 'white' : 'black'}
+        />
       </mask>
       <g mask="url(#mask0_408_139)">
         <circle
@@ -136,7 +142,11 @@ const ICONS: Record<string, (props: SvgProps) => JSX.Element> = {
           gradientUnits="userSpaceOnUse"
         >
           <stop stopColor={color === 'white' ? 'black' : 'white'} />
-          <stop offset="1" stopColor={color === 'white' ? 'black' : 'white'} stopOpacity="0" />
+          <stop
+            offset="1"
+            stopColor={color === 'white' ? 'black' : 'white'}
+            stopOpacity="0"
+          />
         </linearGradient>
         <linearGradient
           id="paint1_linear_408_139"
@@ -147,7 +157,11 @@ const ICONS: Record<string, (props: SvgProps) => JSX.Element> = {
           gradientUnits="userSpaceOnUse"
         >
           <stop stopColor={color === 'white' ? 'black' : 'white'} />
-          <stop offset="1" stopColor={color === 'white' ? 'black' : 'white'} stopOpacity="0" />
+          <stop
+            offset="1"
+            stopColor={color === 'white' ? 'black' : 'white'}
+            stopOpacity="0"
+          />
         </linearGradient>
       </defs>
     </svg>
