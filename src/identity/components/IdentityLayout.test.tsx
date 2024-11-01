@@ -61,7 +61,7 @@ describe('IdentityLayout', () => {
     );
   });
 
-  it('should render without Address component', () => {
+  it('should render correctly without Address component', () => {
     render(
       <IdentityLayout className="custom-class">
         <Avatar />
@@ -75,7 +75,7 @@ describe('IdentityLayout', () => {
     expect(screen.queryByText('Address')).not.toBeInTheDocument();
   });
 
-  it('should render without EthBalance component', () => {
+  it('should render correctly without EthBalance component', () => {
     render(
       <IdentityLayout>
         <Avatar />
@@ -89,7 +89,7 @@ describe('IdentityLayout', () => {
     expect(screen.queryByText('EthBalance')).not.toBeInTheDocument();
   });
 
-  it('should render without Socials component', () => {
+  it('should render correctly without Socials component', () => {
     render(
       <IdentityLayout>
         <Avatar />
@@ -105,7 +105,7 @@ describe('IdentityLayout', () => {
     expect(screen.queryByText('Socials')).not.toBeInTheDocument();
   });
 
-  it('should render only with required components', () => {
+  it('should render correctly with only required components', () => {
     render(
       <IdentityLayout>
         <Avatar />
@@ -119,7 +119,7 @@ describe('IdentityLayout', () => {
     expect(screen.queryByText('Socials')).not.toBeInTheDocument();
   });
 
-  it('should pass hasCopyAddressOnClick prop to Address component', () => {
+  it('should pass hasCopyAddressOnClick prop correctly to Address component', () => {
     render(
       <IdentityLayout hasCopyAddressOnClick={true}>
         <Avatar />
@@ -133,7 +133,7 @@ describe('IdentityLayout', () => {
     );
   });
 
-  it('should pass hasCopyAddressOnClick as false when not provided', () => {
+  it('should pass undefined hasCopyAddressOnClick when prop is not provided', () => {
     render(
       <IdentityLayout>
         <Avatar />

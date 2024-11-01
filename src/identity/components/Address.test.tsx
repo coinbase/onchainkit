@@ -73,7 +73,7 @@ describe('Address component', () => {
     consoleErrorSpy.mockRestore();
   });
 
-  it('renders the sliced address when address supplied to Identity', () => {
+  it('should render the sliced address when address supplied to Identity', () => {
     useIdentityContextMock.mockReturnValue({
       address: testAddressComponentAddress,
       ensName: undefined,
@@ -91,7 +91,7 @@ describe('Address component', () => {
     ).toBeInTheDocument();
   });
 
-  it('renders the sliced address when address supplied directly to component', () => {
+  it('should render the sliced address when address supplied directly to component', () => {
     useIdentityContextMock.mockReturnValue({
       address: undefined,
       ensName: undefined,
@@ -109,7 +109,7 @@ describe('Address component', () => {
     ).toBeInTheDocument();
   });
 
-  it('displays sliced address when ENS name is not available and isSliced is true', () => {
+  it('should display sliced address when ENS name is not available and isSliced is true', () => {
     useIdentityContextMock.mockReturnValue({
       address: undefined,
       ensName: undefined,
@@ -127,14 +127,14 @@ describe('Address component', () => {
     ).toBeInTheDocument();
   });
 
-  it('displays full address when isSliced is false and ENS name is not available', () => {
+  it('should display full address when isSliced is false and ENS name is not available', () => {
     useIdentityContextMock.mockReturnValue({});
     render(<Address address={testAddressComponentAddress} isSliced={false} />);
     expect(screen.getByText(testAddressComponentAddress)).toBeInTheDocument();
     expect(getSlicedAddress).not.toHaveBeenCalled();
   });
 
-  it('uses identity context address if provided', () => {
+  it('should use identity context address if provided', () => {
     useIdentityContextMock.mockReturnValue({
       address: testIdentityProviderAddress,
     });
@@ -143,7 +143,7 @@ describe('Address component', () => {
     expect(getSlicedAddress).not.toHaveBeenCalled();
   });
 
-  it('prioritizes component address over identity context address if both are provided', () => {
+  it('should prioritize component address over identity context address if both are provided', () => {
     useIdentityContextMock.mockReturnValue({
       address: testIdentityProviderAddress,
     });
@@ -165,20 +165,20 @@ describe('Address component', () => {
       });
     });
 
-    it('does not show copy functionality when hasCopyAddressOnClick is false', () => {
+    it('should not show copy functionality when hasCopyAddressOnClick is false', () => {
       render(<Address address={testAddress} hasCopyAddressOnClick={false} />);
       const element = screen.getByTestId('ockAddress');
       expect(element.querySelector('span:last-child')).toBeNull();
     });
 
-    it('shows copy functionality by default', async () => {
+    it('should show copy functionality by default', async () => {
       render(<Address address={testAddress} />);
       const element = screen.getByTestId('ockAddress');
       expect(element).toHaveAttribute('role', 'button');
       expect(element.querySelector('button')).toBeInTheDocument();
     });
 
-    it('copies to clipboard and shows tooltip when clicked', async () => {
+    it('should copy to clipboard and show tooltip when clicked', async () => {
       mockClipboard.writeText.mockResolvedValueOnce(undefined);
 
       render(<Address address={testAddress} />);
@@ -194,7 +194,7 @@ describe('Address component', () => {
       expect(mockClipboard.writeText).toHaveBeenCalledWith(testAddress);
     });
 
-    it('handles keyboard interactions', async () => {
+    it('should handle keyboard interactions', async () => {
       mockClipboard.writeText.mockResolvedValueOnce(undefined);
 
       render(<Address address={testAddress} />);
@@ -211,7 +211,7 @@ describe('Address component', () => {
       expect(mockClipboard.writeText).toHaveBeenCalledWith(testAddress);
     });
 
-    it('handles clipboard errors gracefully', async () => {
+    it('should handle clipboard errors gracefully', async () => {
       mockClipboard.writeText.mockRejectedValueOnce('Clipboard error');
       const consoleErrorSpy = vi
         .spyOn(console, 'error')
@@ -233,7 +233,7 @@ describe('Address component', () => {
       consoleErrorSpy.mockRestore();
     });
 
-    it('handles space key press', async () => {
+    it('should handle space key press', async () => {
       mockClipboard.writeText.mockResolvedValueOnce(undefined);
 
       render(<Address address={testAddress} />);

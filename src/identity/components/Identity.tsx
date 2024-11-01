@@ -8,7 +8,7 @@ export function Identity({
   chain,
   children,
   className,
-  hasCopyAddressOnClick = true,
+  hasCopyAddressOnClick,
   schemaId,
 }: IdentityReact) {
   const { chain: contextChain } = useOnchainKit();
