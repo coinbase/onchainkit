@@ -486,6 +486,7 @@ To use SIWE with OnchainKit, you can use the `onConnect` prop in the `<ConnectWa
 import { ConnectWallet } from '@coinbase/onchainkit/wallet';
 import { base } from 'wagmi/chains';
 import { createSiweMessage } from 'viem/siwe'
+import { useSignMessage } from 'wagmi';
 
 const message = createSiweMessage({
   address: '0xA0Cf798816D4b9b9866b5330EEa46a18382f251e',
@@ -496,8 +497,13 @@ const message = createSiweMessage({
   version: '1',
 })
 
+export function WalletComponents() {
+  const { signMessage } = useSignMessage();
 
-<ConnectWallet onConnect={() => {}} />
+  return (
+    <ConnectWallet onConnect={() => {signMessage({ message })}} />
+  );
+}
 
 ```
 
