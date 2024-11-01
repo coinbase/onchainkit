@@ -38,6 +38,9 @@ bun create vite
 
 :::
 
+During the setup process you will encounter multiple prompts.
+Make sure you select React and TypeScript.
+
 ## Install OnchainKit
 
 Add OnchainKit to your project by installing the `@coinbase/onchainkit` package.
@@ -143,7 +146,7 @@ import { base } from 'wagmi/chains'; // add baseSepolia for testing// [!code ++]
 import { type ReactNode, useState } from 'react';
 import { type State, WagmiProvider } from 'wagmi';
 
-import { getConfig } from '@/wagmi';
+import { getConfig } from '@/wagmi'; // your import path may vary // [!code ++]
 
 export function Providers(props: {
   children: ReactNode;
