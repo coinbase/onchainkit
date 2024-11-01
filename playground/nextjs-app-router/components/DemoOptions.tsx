@@ -18,9 +18,9 @@ export default function DemoOptions({
 }) {
   const commonOptions = (
     <>
+      <ActiveComponent />
       <ComponentMode />
       <ComponentTheme />
-      <ActiveComponent />
       <WalletType />
     </>
   );
