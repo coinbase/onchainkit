@@ -167,10 +167,10 @@ describe('ConnectWallet', () => {
     expect(screen.queryByText('Not Render')).not.toBeInTheDocument();
   });
 
-  it('should call onInitialConnect callback when connect button is clicked', async () => {
+  it('should call onConnect callback when connect button is clicked', async () => {
     const mockUseAccount = vi.mocked(useAccount);
     const connectMock = vi.fn();
-    const onInitialConnectMock = vi.fn();
+    const onConnectMock = vi.fn();
 
     // Initial state: disconnected
     mockUseAccount.mockReturnValue({
@@ -184,12 +184,7 @@ describe('ConnectWallet', () => {
       status: 'idle',
     });
 
-    render(
-      <ConnectWallet
-        text="Connect Wallet"
-        onInitialConnect={onInitialConnectMock}
-      />,
-    );
+    render(<ConnectWallet text="Connect Wallet" onConnect={onConnectMock} />);
 
     const button = screen.getByTestId('ockConnectButton');
     fireEvent.click(button);
@@ -204,32 +199,22 @@ describe('ConnectWallet', () => {
     });
 
     // Force a re-render to trigger the useEffect
-    render(
-      <ConnectWallet
-        text="Connect Wallet"
-        onInitialConnect={onInitialConnectMock}
-      />,
-    );
+    render(<ConnectWallet text="Connect Wallet" onConnect={onConnectMock} />);
 
-    expect(onInitialConnectMock).toHaveBeenCalledTimes(1);
+    expect(onConnectMock).toHaveBeenCalledTimes(1);
   });
 
-  it('should not call onInitialConnect callback when component is first mounted', () => {
+  it('should not call onConnect callback when component is first mounted', () => {
     const mockUseAccount = vi.mocked(useAccount);
     mockUseAccount.mockReturnValue({
       address: '0x123',
       status: 'connected',
     });
 
-    const onInitialConnectMock = vi.fn();
-    render(
-      <ConnectWallet
-        text="Connect Wallet"
-        onInitialConnect={onInitialConnectMock}
-      />,
-    );
+    const onConnectMock = vi.fn();
+    render(<ConnectWallet text="Connect Wallet" onConnect={onConnectMock} />);
 
-    expect(onInitialConnectMock).toHaveBeenCalledTimes(0);
+    expect(onConnectMock).toHaveBeenCalledTimes(0);
   });
 
   describe('withWalletAggregator', () => {
@@ -291,18 +276,18 @@ describe('ConnectWallet', () => {
       expect(openConnectModalMock).toHaveBeenCalled();
     });
 
-    it('should call onInitialConnect callback when connect button is clicked', () => {
+    it('should call onConnect callback when connect button is clicked', () => {
       const mockUseAccount = vi.mocked(useAccount);
       mockUseAccount.mockReturnValue({
         address: undefined,
         status: 'disconnected',
       });
 
-      const onInitialConnectMock = vi.fn();
+      const onConnectMock = vi.fn();
       render(
         <ConnectWallet
           text="Connect Wallet"
-          onInitialConnect={onInitialConnectMock}
+          onConnect={onConnectMock}
           withWalletAggregator={true}
         />,
       );
@@ -315,7 +300,7 @@ describe('ConnectWallet', () => {
 
       fireEvent.click(button);
 
-      expect(onInitialConnectMock).toHaveBeenCalledTimes(1);
+      expect(onConnectMock).toHaveBeenCalledTimes(1);
     });
   });
 });

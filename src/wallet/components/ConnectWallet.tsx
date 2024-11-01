@@ -25,7 +25,7 @@ export function ConnectWallet({
   // but for now we will keep it for backward compatibility.
   text = 'Connect Wallet',
   withWalletAggregator = false,
-  onInitialConnect,
+  onConnect,
 }: ConnectWalletReact) {
   // Core Hooks
   const { isOpen, setIsOpen } = useWalletContext();
@@ -65,11 +65,11 @@ export function ConnectWallet({
 
   // Effects
   useEffect(() => {
-    if (hasClickedConnect && status === 'connected' && onInitialConnect) {
-      onInitialConnect();
+    if (hasClickedConnect && status === 'connected' && onConnect) {
+      onConnect();
       setHasClickedConnect(false);
     }
-  }, [status, hasClickedConnect, onInitialConnect]);
+  }, [status, hasClickedConnect, onConnect]);
 
   if (status === 'disconnected') {
     if (withWalletAggregator) {
@@ -101,7 +101,7 @@ export function ConnectWallet({
               { connector },
               {
                 onSuccess: () => {
-                  onInitialConnect?.();
+                  onConnect?.();
                 },
               },
             );
