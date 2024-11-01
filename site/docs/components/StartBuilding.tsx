@@ -10,7 +10,9 @@ export default function StartBuilding() {
               className="vocs_Anchor vocs_Link vocs_Link_accent_underlined"
               href="/identity/identity"
             >
-              <code className="vocs_Code">Identity</code>
+              <strong className="vocs_Strong">
+                <code className="vocs_Code">Identity</code>
+              </strong>
             </a>{' '}
             - Show{' '}
             <a
@@ -49,7 +51,9 @@ export default function StartBuilding() {
               className="vocs_Anchor vocs_Link vocs_Link_accent_underlined"
               href="/wallet/wallet"
             >
-              <code className="vocs_Code">Wallet</code>
+              <strong className="vocs_Strong">
+                <code className="vocs_Code">Wallet</code>
+              </strong>
             </a>{' '}
             - Create or connect wallets with{' '}
             <a
@@ -67,7 +71,9 @@ export default function StartBuilding() {
               className="vocs_Anchor vocs_Link vocs_Link_accent_underlined"
               href="/transaction/transaction"
             >
-              <code className="vocs_Code">Transaction</code>
+              <strong className="vocs_Strong">
+                <code className="vocs_Code">Transaction</code>
+              </strong>
             </a>{' '}
             - Handle{' '}
             <a
@@ -85,7 +91,9 @@ export default function StartBuilding() {
               className="vocs_Anchor vocs_Link vocs_Link_accent_underlined"
               href="/checkout/checkout"
             >
-              <code className="vocs_Code">Checkout</code>
+              <strong className="vocs_Strong">
+                <code className="vocs_Code">Checkout</code>
+              </strong>
             </a>{' '}
             - Integrate USDC{' '}
             <a
@@ -103,7 +111,9 @@ export default function StartBuilding() {
               className="vocs_Anchor vocs_Link vocs_Link_accent_underlined"
               href="/fund/fund-button"
             >
-              <code className="vocs_Code">Fund</code>
+              <strong className="vocs_Strong">
+                <code className="vocs_Code">Fund</code>
+              </strong>
             </a>{' '}
             - Create a{' '}
             <a
@@ -121,7 +131,9 @@ export default function StartBuilding() {
               className="vocs_Anchor vocs_Link vocs_Link_accent_underlined"
               href="/token/token-chip"
             >
-              <code className="vocs_Code">Tokens</code>
+              <strong className="vocs_Strong">
+                <code className="vocs_Code">Tokens</code>
+              </strong>
             </a>{' '}
             - Search and display{' '}
             <a
@@ -139,7 +151,9 @@ export default function StartBuilding() {
               className="vocs_Anchor vocs_Link vocs_Link_accent_underlined"
               href="/swap/swap"
             >
-              <code className="vocs_Code">Swap</code>
+              <strong className="vocs_Strong">
+                <code className="vocs_Code">Swap</code>
+              </strong>
             </a>{' '}
             - Enable{' '}
             <a
@@ -157,7 +171,9 @@ export default function StartBuilding() {
               className="vocs_Anchor vocs_Link vocs_Link_accent_underlined"
               href="/frame/frame-metadata"
             >
-              <code className="vocs_Code">Frame</code>
+              <strong className="vocs_Strong">
+                <code className="vocs_Code">Frame</code>
+              </strong>
             </a>{' '}
             - Build and test{' '}
             <a
