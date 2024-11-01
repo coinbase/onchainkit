@@ -379,7 +379,7 @@ import {
 ```
 
 ```tsx twoslash [OnchainProviders.tsx]
-// @noErrors: 2304 2322 - Cannot find VITE_WALLET_CONNECT_PROJECT_ID, Canoot find name Props
+// @noErrors: 2304 2322 - Cannot find VITE_WALLET_CONNECT_PROJECT_ID, Cannot find name Props
 'use client';
 import type { ReactNode } from 'react';
 import { OnchainKitProvider } from '@coinbase/onchainkit';
@@ -475,6 +475,37 @@ export default OnchainProviders;
 </AppWithRK>
 
 ::::
+
+## Examples
+
+### With Sign In With Ethereum (SIWE)
+
+To use [Sign In With Ethereum (SIWE)](https://docs.login.xyz/general-information/siwe-overview) with OnchainKit, you can use the `onConnect` prop in the `<ConnectWallet />` component. This will trigger the SIWE prompt when the user connects their wallet.
+
+```tsx twoslash
+import { ConnectWallet } from '@coinbase/onchainkit/wallet';
+import { base } from 'wagmi/chains';
+import { createSiweMessage } from 'viem/siwe'
+import { useSignMessage } from 'wagmi';
+
+const message = createSiweMessage({
+  address: '0xA0Cf798816D4b9b9866b5330EEa46a18382f251e',
+  chainId: base.id,
+  domain: 'example.com',
+  nonce: 'foobarbaz',
+  uri: 'https://example.com/path',
+  version: '1',
+})
+
+export function WalletComponents() {
+  const { signMessage } = useSignMessage();
+
+  return (
+    <ConnectWallet onConnect={() => {signMessage({ message })}} />
+  );
+}
+
+```
 
 ## Components
 
