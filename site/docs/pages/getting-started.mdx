@@ -8,6 +8,7 @@ OnchainKit is your go-to SDK for building beautiful onchain applications.
 Anyone can build an onchain app in 15 minutes with OnchainKit.
 
 ## Why OnchainKit?
+
 OnchainKit streamlines onchain development by providing a comprehensive toolkit that combines powerful features with developer-friendly design:
 
 - **Ergonomic design:** Our full-stack kits simplify complex onchain interactions into intuitive components and APIs that work seamlessly together.
@@ -16,11 +17,13 @@ OnchainKit streamlines onchain development by providing a comprehensive toolkit 
 - **Framework agnostic:** OnchainKit is framework agnostic, meaning it can be used with any framework that supports React.
 - **Supercharged by Base:** Leverage Base's cutting-edge protocol features and vast ecosystem through our deeply integrated tooling and vibrant developer community.
 
-
 ## Automatic Installation
-<img alt="OnchainKit Template"
+
+<img
+  alt="OnchainKit Template"
   src="https://onchainkit.xyz/assets/quickstart.png"
-  height="364"/>
+  height="364"
+/>
 
 We recommend starting a new OnchainKit app using `create onchain`, which sets up everything automatically for you. To create a project, run:
 
@@ -31,214 +34,16 @@ npm create onchain@latest
 After the prompts, `create onchain` will create a folder with your project name and install the required dependencies.
 
 You can also checkout our pre-built templates:
+
 - [Onchain Commerce](https://onchain-commerce-template.vercel.app/)
 - [NFT minting](https://github.com/coinbase/onchain-app-template)
 - [Funding flow](https://github.com/fakepixels/fund-component)
 - [Social profile](https://github.com/fakepixels/ock-identity)
 
 ## Manual Installation
+
 Add OnchainKit to your existing project manually.
 
 <InstallationOptions />
-
-{/* ::::steps
-
-## Install OnchainKit
-
-Install OnchainKit in your project.
-
-:::code-group
-
-```bash [npm]
-npm install @coinbase/onchainkit
-```
-
-```bash [yarn]
-yarn add @coinbase/onchainkit
-```
-
-```bash [pnpm]
-pnpm add @coinbase/onchainkit
-```
-
-```bash [bun]
-bun add @coinbase/onchainkit
-```
-
-:::
-
-## Get Your Client API Key
-
-Get your [Client API Key](https://portal.cdp.coinbase.com/projects/project-id/api-keys/client-key) from Coinbase Developer Platform.
-
-<img alt="OnchainKit copy Client API Key"
-  src="https://onchainkit.xyz/assets/copy-api-key-guide.png"
-  height="364"/>
-
-Create a `.env` file in your project's root directory.
-   <img
-     alt="OnchainKit define Client API Key"
-     src="https://onchainkit.xyz/assets/getting-started-create-env-file.png"
-     width="250"
-     loading="lazy"
-   />
-
-Add your Client API Key to the `.env` file:
-
-```tsx [.env]
-NEXT_PUBLIC_ONCHAINKIT_API_KEY=YOUR_CLIENT_API_KEY
-```
-
-## Add Providers
-
-Create a `providers.tsx` file. Add `OnchainKitProvider` as a child of `WagmiProvider` and `QueryClientProvider`.
-
-Inside the `WagmiProvider`, wrap your app in a TanStack Query React Context Provider, e.g. `QueryClientProvider`, and pass a new `QueryClient` instance to the `client` property.
-
-Additionally, add Base as a supported chain in the Wagmi configuration file `wagmi.ts`.
-
-:::code-group
-
-```tsx twoslash [providers.tsx]
-// @noErrors: 2307 2580 - cannot find 'process', cannot find './wagmi'
-import { OnchainKitProvider } from '@coinbase/onchainkit'; // [!code ++]
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { base } from 'wagmi/chains'; // [!code ++]
-import { type ReactNode, useState } from 'react';
-import { type State, WagmiProvider } from 'wagmi';
-
-import { getConfig } from '@/wagmi';
-
-export function Providers(props: {
-  children: ReactNode;
-  initialState?: State;
-}) {
-  const [config] = useState(() => getConfig());
-  const [queryClient] = useState(() => new QueryClient());
-
-  return (
-    <WagmiProvider config={config} initialState={props.initialState}>
-      <QueryClientProvider client={queryClient}>
-        <OnchainKitProvider // [!code ++]
-          apiKey={process.env.NEXT_PUBLIC_ONCHAINKIT_API_KEY} // [!code ++]
-          chain={base} // [!code ++]
-        > // [!code ++]
-          {props.children}
-        </OnchainKitProvider> // [!code ++]
-      </QueryClientProvider>
-    </WagmiProvider>
-  );
-}
-```
-
-```tsx twoslash [wagmi.ts]
-import { http, cookieStorage, createConfig, createStorage } from 'wagmi';
-import { base } from 'wagmi/chains'; // [!code ++]
-import { coinbaseWallet } from 'wagmi/connectors';
-
-export function getConfig() {
-  return createConfig({
-    chains: [base], // [!code ++]
-    connectors: [
-      coinbaseWallet({
-        appName: "OnchainKit",
-        preference: 'smartWalletOnly',
-        version: '4',
-      }),
-    ],
-    storage: createStorage({
-      storage: cookieStorage,
-    }),
-    ssr: true,
-    transports: {
-      [base.id]: http(), // [!code ++]
-    },
-  });
-}
-
-declare module 'wagmi' {
-  interface Register {
-    config: ReturnType<typeof getConfig>;
-  }
-}
-```
-:::
-
-## Wrap your app with `<Providers />`
-
-After the setup, wrap your app with the above `<Providers />` component.
-
-```javascript
-import './globals.css';
-import { Providers } from './providers'; // [!code ++]
-
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
-  return (
-    <html lang="en">
-      <body>
-        <Providers>{children}</Providers> // [!code ++]
-      </body>
-    </html>
-  );
-}
-```
-
-## Add Styles
-
-OnchainKit components come with pre-configured styles. To include these styles in your project, add the following import statement at the top of this file:
-
-```javascript
-import '@coinbase/onchainkit/styles.css';
-```
-
-For example, if you're using Next.js with the app router, your `app/layout.tsx` might look like this:
-
-```tsx [layout.tsx]
-import '@coinbase/onchainkit/styles.css'; // [!code ++]
-import './globals.css';
-import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
-import { headers } from 'next/headers';
-import { type ReactNode } from 'react';
-import { cookieToInitialState } from 'wagmi';
-
-import { getConfig } from '../wagmi';
-import { Providers } from './providers';
-
-const inter = Inter({ subsets: ['latin'] });
-
-export const metadata: Metadata = {
-  title: 'Create Wagmi',
-  description: 'Generated by create-wagmi',
-};
-
-export default function RootLayout(props: { children: ReactNode }) {
-  const initialState = cookieToInitialState(
-    getConfig(),
-    headers().get('cookie')
-  );
-  return (
-    <html lang="en">
-      <body className={inter.className}>
-        <Providers initialState={initialState}>{props.children}</Providers>
-      </body>
-    </html>
-  );
-}
-
-```
-
-This ensures that the OnchainKit styles are loaded and applied to your entire application.
-
-- For Tailwind CSS users, check out our [Tailwind Integration Guide](/guides/tailwind).
-
-- Update the appearance of components by using our built-in themes or crafting your own custom theme.
-Explore the possibilities in our [Theming Guide](/guides/themes).
-
-:::: */}
 
 <StartBuilding />
