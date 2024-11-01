@@ -8,3 +8,4 @@
 - **fix**: Updated Transaction link for smart wallets. by @abcrane123 #1550
 - **fix**: Updated Warpcast Socials link and SVG. By @cpcramer #1542
 - **fix**: Updated badge checkmark styling. By @cpcramer #1537
+- **fix**: Updated `hasCopyAddressOnClick`. By @cpcramer #1547
