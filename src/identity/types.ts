@@ -8,7 +8,7 @@ export type AddressReact = {
   address?: Address | null; // The Ethereum address to render.
   className?: string; // Optional className override for top span element.
   isSliced?: boolean; // Determines if the displayed address should be sliced.
-  hasCopyAddressOnClick?: boolean; // Determines if the address should be copied to the clipboard on click.
+  hasCopyAddressOnClick?: boolean; // Defaults to true. Optional boolean to disable copy address on click functionality.
 };
 
 /**
