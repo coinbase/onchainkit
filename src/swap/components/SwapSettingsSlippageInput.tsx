@@ -7,6 +7,7 @@ import {
   pressable,
   text,
 } from '../../styles/theme';
+import { FALLBACK_DEFAULT_MAX_SLIPPAGE } from '../constants';
 import type { SwapSettingsSlippageInputReact } from '../types';
 import { useSwapContext } from './SwapProvider';
 
@@ -66,7 +67,7 @@ export function SwapSettingsSlippageInput({
     (setting: string) => {
       setSlippageSetting(setting);
       if (setting === SLIPPAGE_SETTINGS.AUTO) {
-        updateSlippage(defaultMaxSlippage);
+        updateSlippage(defaultMaxSlippage ?? FALLBACK_DEFAULT_MAX_SLIPPAGE);
       }
     },
     [defaultMaxSlippage, updateSlippage],
