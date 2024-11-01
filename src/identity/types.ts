@@ -8,6 +8,7 @@ export type AddressReact = {
   address?: Address | null; // The Ethereum address to render.
   className?: string; // Optional className override for top span element.
   isSliced?: boolean; // Determines if the displayed address should be sliced.
+  hasCopyAddressOnClick?: boolean; // Defaults to true. Optional boolean to disable copy address on click functionality.
 };
 
 /**
@@ -171,7 +172,7 @@ export type IdentityReact = {
   children: ReactNode;
   className?: string; // Optional className override for top div element.
   schemaId?: Address | null; // The Ethereum address of the schema to use for EAS attestation.
-  hasCopyAddressOnClick?: boolean;
+  hasCopyAddressOnClick?: boolean; // Optional boolean to disable copy address on click functionality.
 };
 
 /**
