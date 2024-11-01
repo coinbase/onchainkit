@@ -230,4 +230,17 @@ describe('SwapSettingsSlippageInput', () => {
       FALLBACK_DEFAULT_MAX_SLIPPAGE.toString(),
     );
   });
+
+  it('uses fallback slippage when maxSlippage is undefined', () => {
+    mockLifecycleStatus = {
+      statusName: 'init',
+      statusData: {
+        isMissingRequiredField: false,
+        maxSlippage: undefined,
+      },
+    };
+
+    render(<SwapSettingsSlippageInput defaultSlippage={undefined} />);
+    expect(screen.getByRole('textbox')).toHaveValue('3');
+  });
 });

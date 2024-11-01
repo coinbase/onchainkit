@@ -25,10 +25,15 @@ export function SwapSettingsSlippageInput({
     lifecycleStatus,
   } = useSwapContext();
 
-  // Set initial slippage values to match previous selection or default,
-  // ensuring consistency when dropdown is reopened
+  // Get the current slippage value, falling back to default or fallback value
+  const currentSlippage =
+    lifecycleStatus.statusData.maxSlippage ??
+    defaultMaxSlippage ??
+    FALLBACK_DEFAULT_MAX_SLIPPAGE;
+
+  // Set initial slippage values to match previous selection or default
   const [slippageSetting, setSlippageSetting] = useState(
-    lifecycleStatus.statusData.maxSlippage === defaultMaxSlippage
+    currentSlippage === defaultMaxSlippage
       ? SLIPPAGE_SETTINGS.AUTO
       : SLIPPAGE_SETTINGS.CUSTOM,
   );
@@ -128,7 +133,7 @@ export function SwapSettingsSlippageInput({
         <input
           id="slippage-input"
           type="text"
-          value={lifecycleStatus.statusData.maxSlippage}
+          value={currentSlippage}
           onChange={handleSlippageChange}
           disabled={slippageSetting === SLIPPAGE_SETTINGS.AUTO}
           className={cn(
