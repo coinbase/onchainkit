@@ -18,7 +18,7 @@ export function NFTCreator({ className }: NFTCreatorReact) {
   return (
     <div className={cn('flex justify-between pb-2', className)}>
       <Identity
-        className="space-x-2 px-0"
+        className="px-0 [&>div]:space-x-2"
         address={creatorAddress}
         schemaId={schemaId}
       >

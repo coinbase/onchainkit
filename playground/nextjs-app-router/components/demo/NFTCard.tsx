@@ -1,4 +1,3 @@
-import { useReservoirNFTData } from '@/lib/nft/useReservoirNFTData';
 import {
   type LifecycleStatus,
   NFTCard,
@@ -42,7 +41,6 @@ function NFTCardDemo() {
     <NFTCard
       contractAddress={contractAddress}
       tokenId={tokenId}
-      useNFTData={useReservoirNFTData}
       onStatus={handleOnStatus}
       onSuccess={handleOnSuccess}
       onError={handleOnError}

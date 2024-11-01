@@ -3,7 +3,10 @@ import { useAccount } from 'wagmi';
 import { border, cn, color, pressable } from '../../styles/theme';
 import { useIsMounted } from '../../useIsMounted';
 import { useTheme } from '../../useTheme';
+import { useNFTData as defaultUseNFTData } from '../hooks/useNFTData';
 import { LifecycleType, type NFTCardReact } from '../types';
+import NFTErrorBoundary from './NFTErrorBoundary';
+import { NFTErrorFallback } from './NFTErrorFallback';
 import { NFTLifecycleProvider } from './NFTLifecycleProvider';
 import { NFTProvider } from './NFTProvider';
 
@@ -12,7 +15,7 @@ export function NFTCard({
   className,
   contractAddress,
   tokenId,
-  useNFTData,
+  useNFTData = defaultUseNFTData,
   onStatus,
   onError,
   onSuccess,
@@ -35,34 +38,36 @@ export function NFTCard({
   }
 
   return (
-    <NFTLifecycleProvider
-      type={LifecycleType.VIEW}
-      onStatus={onStatus}
-      onError={onError}
-      onSuccess={onSuccess}
-    >
-      <NFTProvider
-        contractAddress={contractAddress}
-        tokenId={tokenId}
-        useNFTData={useNFTData}
+    <NFTErrorBoundary fallback={NFTErrorFallback}>
+      <NFTLifecycleProvider
+        type={LifecycleType.VIEW}
+        onStatus={onStatus}
+        onError={onError}
+        onSuccess={onSuccess}
       >
-        <button
-          type="button"
-          className={cn(
-            componentTheme,
-            color.foreground,
-            pressable.default,
-            border.radius,
-            'flex w-full max-w-[500px] flex-col items-stretch border p-4 text-left',
-            `hover:border-[${border.defaultActive}]`,
-            className,
-          )}
-          data-testid="ockNFTCard_Container"
-          onClick={handleOnClick}
+        <NFTProvider
+          contractAddress={contractAddress}
+          tokenId={tokenId}
+          useNFTData={useNFTData}
         >
-          {children}
-        </button>
-      </NFTProvider>
-    </NFTLifecycleProvider>
+          <button
+            type="button"
+            className={cn(
+              componentTheme,
+              color.foreground,
+              pressable.default,
+              border.radius,
+              'flex w-full max-w-[500px] flex-col items-stretch border p-4 text-left',
+              `hover:border-[${border.defaultActive}]`,
+              className,
+            )}
+            data-testid="ockNFTCard_Container"
+            onClick={handleOnClick}
+          >
+            {children}
+          </button>
+        </NFTProvider>
+      </NFTLifecycleProvider>
+    </NFTErrorBoundary>
   );
 }

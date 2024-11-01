@@ -1,5 +1,3 @@
-import { buildMintTransaction } from '@/lib/nft/buildMintTransaction';
-import { useReservoirMintData } from '@/lib/nft/useReservoirMintData';
 import {
   type LifecycleStatus,
   type NFTError,
@@ -23,7 +21,7 @@ function NFTMintCardDemo() {
   const { nftToken, isSponsored } = useContext(AppContext);
 
   const [contractAddress, tokenId] = (
-    nftToken ?? '0x1D6b183bD47F914F9f1d3208EDCF8BefD7F84E63:2'
+    nftToken ?? '0x44dF55B47F24B73190657fE9107Ca43234bbc21E'
   ).split(':') as [`0x${string}`, string];
 
   const handleOnStatus = useCallback((lifecycleStatus: LifecycleStatus) => {
@@ -45,8 +43,6 @@ function NFTMintCardDemo() {
     <NFTMintCard
       contractAddress={contractAddress}
       tokenId={tokenId}
-      useNFTData={useReservoirMintData}
-      buildMintTransaction={buildMintTransaction}
       isSponsored={isSponsored}
       onStatus={handleOnStatus}
       onSuccess={handleOnSuccess}

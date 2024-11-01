@@ -1,4 +1,5 @@
 import type { Address } from 'viem';
+import type { ContractType, NFTPrice } from '../nft/types';
 import type { Fee, QuoteWarning, SwapQuote, Transaction } from '../swap/types';
 import type { Token } from '../token/types';
 
@@ -143,3 +144,65 @@ export type RawTransactionData = {
 };
 
 export type SwapAPIParams = GetQuoteAPIParams | GetSwapAPIParams;
+
+export type GetTokenDetailsParams = {
+  contractAddress: Address; // The address of the token contract
+  tokenId?: string; // The ID of the token
+};
+
+export type TokenDetails = {
+  name: string; // The name of the token
+  description: string; // The description of the token
+  imageUrl: string; // The image URL of the token
+  animationUrl: string; // The animation URL of the token
+  mimeType: string; // The MIME type of the token
+  ownerAddress: Address; // The address of the owner of the token
+  lastSoldPrice: NFTPrice; // The last sold price of the token
+  contractType: ContractType; // ERC721, ERC1155
+};
+
+export type GetTokenDetailsResponse = TokenDetails | APIError;
+
+export type GetMintDetailsParams = {
+  contractAddress: Address; // The address of the token contract
+  takerAddress?: Address; // The address of the user
+  tokenId?: string; // The ID of the token (required for ERC1155)
+};
+
+export type MintDetails = {
+  name: string; // The name of the NFT
+  description: string; // The description of the NFT
+  imageUrl: string; // The image URL of the NFT
+  animationUrl: string; // The animation URL of the NFT
+  mimeType: string; // The MIME type of the NFT
+  contractType: ContractType; // ERC721, ERC1155
+  price: NFTPrice; // The price of the NFT
+  mintFee: NFTPrice; // The mint fee of the NFT
+  maxMintsPerWallet: number; // The maximum number of mints per wallet
+  isEligibleToMint: boolean; // Whether the user is eligible to mint
+  creatorAddress: Address; // The address of the creator of the NFT
+  totalTokens: string; // The total number of tokens
+  totalOwners: string; // The total number of owners of the NFT
+  network: string; // The network the NFT is on
+};
+
+export type GetMintDetailsResponse = MintDetails | APIError;
+
+export type BuildMintTransactionParams = {
+  mintAddress: Address; // The address of the token contract to mint
+  takerAddress: Address; // The address of the user
+  tokenId?: string; // The ID of the token
+  quantity: number; // The number of tokens to mint
+  network?: string; // The network the mint contract is on
+};
+
+type MintTransaction = {
+  call_data: {
+    data: Address; // The transaction data
+    to: Address; // The recipient address
+    from: Address; // The sender address
+    value: string; // The value of the transaction
+  };
+};
+
+export type BuildMintTransactionResponse = MintTransaction | APIError;

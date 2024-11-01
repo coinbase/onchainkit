@@ -38,10 +38,12 @@ export function NFTMintButton({
   const {
     contractAddress,
     tokenId,
+    network,
     isEligibleToMint,
     buildMintTransaction,
-    quantity,
     isSponsored,
+    quantity,
+    name,
   } = useNFTContext();
   const { updateLifecycleStatus } = useNFTLifecycleContext();
   const [callData, setCallData] = useState<Call[]>([]);
@@ -63,14 +65,16 @@ export function NFTMintButton({
   );
 
   const fetchTransactions = useCallback(async () => {
-    if (address && buildMintTransaction) {
+    // don't fetch transactions until data is available
+    if (name && address && buildMintTransaction && isEligibleToMint) {
       try {
         setCallData([]);
         setMintError(null);
         const mintTransaction = await buildMintTransaction({
+          takerAddress: address,
           contractAddress,
           tokenId,
-          takerAddress: address,
+          network,
           quantity,
         });
         setCallData(mintTransaction);
@@ -82,11 +86,14 @@ export function NFTMintButton({
     }
   }, [
     address,
-    contractAddress,
-    tokenId,
-    quantity,
     buildMintTransaction,
+    contractAddress,
     handleTransactionError,
+    isEligibleToMint,
+    name,
+    network,
+    quantity,
+    tokenId,
   ]);
 
   useEffect(() => {

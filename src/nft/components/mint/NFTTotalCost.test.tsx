@@ -20,12 +20,12 @@ describe('NFTTotalCost', () => {
   beforeEach(() => {
     mockUseNFTContext.mockReturnValue({
       price: {
-        amount: 0.05,
+        amount: '0.05',
         currency: 'ETH',
         amountUSD: '20',
       },
       mintFee: {
-        amount: 0.05,
+        amount: '0.05',
         currency: 'ETH',
         amountUSD: '20',
       },
@@ -47,12 +47,12 @@ describe('NFTTotalCost', () => {
   it('should render correctly with a whole number decimal', () => {
     mockUseNFTContext.mockReturnValue({
       price: {
-        amount: 1,
+        amount: '1',
         currency: 'ETH',
         amountUSD: '2000',
       },
       mintFee: {
-        amount: 0.05,
+        amount: '0.05',
         currency: 'ETH',
         amountUSD: '20',
       },
@@ -68,12 +68,12 @@ describe('NFTTotalCost', () => {
   it('should not render if price is 0', () => {
     mockUseNFTContext.mockReturnValue({
       price: {
-        amount: 0,
+        amount: '0',
         currency: 'ETH',
         amountUSD: 0,
       },
       mintFee: {
-        amount: 0.05,
+        amount: '0.05',
         currency: 'ETH',
         amountUSD: '20',
       },
@@ -88,12 +88,12 @@ describe('NFTTotalCost', () => {
   it('should not render if mintFee is 0', () => {
     mockUseNFTContext.mockReturnValue({
       price: {
-        amount: 0.05,
+        amount: '0.05',
         currency: 'ETH',
         amountUSD: '20',
       },
       mintFee: {
-        amount: 0,
+        amount: '0',
         currency: 'ETH',
         amountUSD: 0,
       },
@@ -125,13 +125,13 @@ describe('NFTTotalCost', () => {
   it('should show overlay on mouse enter', () => {
     mockUseNFTContext.mockReturnValue({
       price: {
-        amount: 0.05,
+        amount: '0.05',
         currency: 'ETH',
         amountUSD: '20',
       },
       quantity: 2,
       mintFee: {
-        amount: 0.01,
+        amount: '0.01',
         currency: 'ETH',
         amountUSD: '5',
       },
@@ -152,13 +152,13 @@ describe('NFTTotalCost', () => {
   it('should show overlay on click', () => {
     mockUseNFTContext.mockReturnValue({
       price: {
-        amount: 0.05,
+        amount: '0.05',
         currency: 'ETH',
         amountUSD: '20',
       },
       quantity: 2,
       mintFee: {
-        amount: 0.01,
+        amount: '0.01',
         currency: 'ETH',
         amountUSD: '5',
       },
