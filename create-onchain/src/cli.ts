@@ -15,8 +15,7 @@ import {
 
 const sourceDir = path.resolve(
   fileURLToPath(import.meta.url),
-  // '../../../templates/next'
-  '../../templates/next'
+  '../../../templates/next'
 );
 
 const renameFiles: Record<string, string | undefined> = {
@@ -148,7 +147,7 @@ async function init() {
   const envPath = path.join(root, '.env');
   await fs.promises.writeFile(
     envPath,
-    `NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME=${projectName}\nNEXT_PUBLIC_ONCHAINKIT_CDP_KEY=${clientKey}\nNEXT_PUBLIC_ONCHAINKIT_WALLET_CONFIG=${
+    `NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME=${projectName}\NEXT_PUBLIC_ONCHAINKIT_API_KEY=${clientKey}\nNEXT_PUBLIC_ONCHAINKIT_WALLET_CONFIG=${
       smartWallet ? 'smartWalletOnly' : 'all'
     }`
   );
