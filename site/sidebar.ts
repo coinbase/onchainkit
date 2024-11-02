@@ -129,6 +129,19 @@ export const sidebar = [
         ],
       },
       {
+        text: 'NFT',
+        items: [
+          {
+            text: 'NFTCard',
+            link: '/nft/nft-card',
+          },
+          {
+            text: 'NFTMintCard',
+            link: '/nft/nft-mint-card',
+          },
+        ],
+      },
+      {
         text: 'Swap',
         items: [
           {
@@ -350,6 +363,10 @@ export const sidebar = [
         link: '/api/types',
       },
       {
+        text: 'Checkout',
+        link: '/checkout/types',
+      },
+      {
         text: 'Config',
         link: '/config/types',
       },
@@ -370,8 +387,8 @@ export const sidebar = [
         link: '/identity/types',
       },
       {
-        text: 'Checkout',
-        link: '/checkout/types',
+        text: 'NFT',
+        link: '/nft/types',
       },
       {
         text: 'Swap',

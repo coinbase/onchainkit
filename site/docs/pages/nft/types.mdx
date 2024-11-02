@@ -1,0 +1,144 @@
+---
+title: Checkout components & utilities Types
+description: Glossary of Types in NFT components & utilities.
+---
+
+# Types [Glossary of Types in NFT components & utilities.]
+
+
+## `LifecycleStatus`
+
+```ts
+export type LifecycleStatus =
+  | {
+      statusName: 'init';
+      statusData: null;
+    }
+  | {
+      statusName: 'error';
+      statusData: NFTError;
+    }
+  | {
+      statusName: 'mediaLoading';
+      statusData: {
+        mediaType: MediaType;
+        mediaUrl: string;
+      };
+    }
+  | {
+      statusName: 'mediaLoaded';
+      statusData: null;
+    }
+  | {
+      statusName: 'transactionPending';
+      statusData: null;
+    }
+  | {
+      statusName: 'transactionLegacyExecuted';
+      statusData: {
+        transactionHashList: Address[];
+      };
+    }
+  | {
+      // NFTCard success state represents media loaded
+      // NFTMintCard success state represents successful Mint
+      statusName: 'success'; 
+      statusData: {
+        transactionReceipts?: TransactionReceipt[];
+      };
+    };
+```
+
+## `NFTCardReact`
+
+```ts
+type NFTCardReact = {
+  children: React.ReactNode;
+  
+  // Optional className override for top div element.
+  className?: string; 
+
+  // Contract address of the NFT
+  contractAddress: Hex; 
+
+   // Required Token ID of the NFT
+  tokenId: string;
+
+  // Optional hook to override the default useNftData hook
+  useNFTData?: UseNFTData; 
+
+   // An optional callback function that handles errors within the provider.
+  onError?: (error: NFTError) => void;
+
+  // An optional callback function that exposes the component lifecycle state
+  onStatus?: (lifecycleStatus: LifecycleStatus) => void; 
+
+  // card will not pass transactionReceipt
+  onSuccess?: (transactionReceipt?: TransactionReceipt) => void; 
+};
+```
+
+## `NFTMintCardReact`
+```ts
+type NFTMintCardReact = {
+  children: ReactNode;
+
+  // Optional className override for top div element.
+  className?: string; 
+
+  // Contract address of the NFT
+  contractAddress: Hex; 
+
+  // Token ID of the NFT only required for ERC1155
+  tokenId?: string; 
+
+  // Optional boolean to determine if the mint is sponsored by paymaster
+  isSponsored?: boolean; 
+
+  // Optional hook to override the default useNFTData hook
+  useNFTData?: UseNFTData; 
+
+  // Optional function to override the default function that builds the mint transaction
+  buildMintTransaction?: BuildMintTransaction; 
+
+  // An optional callback function that handles errors within the provider.
+  onError?: (error: NFTError) => void; 
+
+  // An optional callback function that exposes the component lifecycle state
+  onStatus?: (lifecycleStatus: LifecycleStatus) => void; 
+
+  // MintCard will pass transactionReceipt
+  onSuccess?: (transactionReceipt?: TransactionReceipt) => void; 
+};
+```
+
+## `NFTData`
+```ts
+type NFTData = {
+  // card components
+  name?: string; // required for NFTTitle and NFTCollectionTitle
+  description?: string; // not currently used
+  imageUrl?: string; // required for NFTMedia
+  animationUrl?: string; // required for NFTMedia (audio and video types)
+  /* supported mimeTypes:
+   * image = image/*
+   * video = video/*
+   * audio = audio/* | application/*
+   */
+  lastSoldPrice?: NFTPrice; // required for NFTLastSoldPrice
+  mimeType?: string; // required for NFTMedia (falls back to image)
+
+  // mint components
+  ownerAddress?: `0x${string}`; // required for NFTOwner
+  contractType?: ContractType;
+  mintDate?: Date; // required for NFTMintDate
+  price?: NFTPrice; // required for NFTAssetCost, NftTotalCost
+  mintFee?: NFTPrice; // required for NFTTotalCost
+  creatorAddress?: Hex; // required for NFTCreator
+  maxMintsPerWallet?: number; // required for NFTMintButton
+  isEligibleToMint?: boolean; // required for NFTMintButton
+  totalOwners?: string; // required for NFTMinters
+  recentOwners?: Address[]; // required for NFTMinters
+  network?: string; // required for default BuildMintTransaction implementation
+};
+```
