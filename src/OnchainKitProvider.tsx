@@ -3,6 +3,8 @@ import { ONCHAIN_KIT_CONFIG, setOnchainKitConfig } from './OnchainKitConfig';
 import { checkHashLength } from './internal/utils/checkHashLength';
 import type { OnchainKitContextType, OnchainKitProviderReact } from './types';
 
+import { initializeMockFetch } from './internal/utils/mockFetch';
+
 export const OnchainKitContext =
   createContext<OnchainKitContextType>(ONCHAIN_KIT_CONFIG);
 
@@ -18,9 +20,14 @@ export function OnchainKitProvider({
   projectId,
   rpcUrl,
   schemaId,
+  mock,
 }: OnchainKitProviderReact) {
   if (schemaId && !checkHashLength(schemaId, 64)) {
     throw Error('EAS schemaId must be 64 characters prefixed with "0x"');
+  }
+
+  if (mock) {
+    initializeMockFetch(mock);
   }
 
   const value = useMemo(() => {

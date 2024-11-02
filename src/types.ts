@@ -62,7 +62,10 @@ export type OnchainKitConfig = {
   rpcUrl: string | null; // RPC URL for onchain requests. Defaults to using CDP Node if the API Key is set
   schemaId: EASSchemaUid | null; // SchemaId is optional as not all apps need to use EAS
   projectId: string | null; // ProjectId from Coinbase Developer Platform, only required for Coinbase Onramp support
+  mock?: Mocks; // Mock is optional and defaults to false. If true, the fetch function will be overridden to return mock data.
 };
+
+export type Mocks = Map<RegExp, { matchParams?: { body: RegExp }; response: { delay?: number; status?: number; json: object } }>;
 
 export type SetOnchainKitConfig = Partial<OnchainKitConfig>;
 
@@ -83,6 +86,7 @@ export type OnchainKitProviderReact = {
   rpcUrl?: string;
   schemaId?: EASSchemaUid;
   projectId?: string;
+  mock?: Mocks;
 };
 
 export type UseCapabilitiesSafeParams = {
