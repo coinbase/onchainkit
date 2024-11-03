@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import { cn, color, text } from '../../../styles/theme';
+import { formatAmount as formatSN } from '../../../swap/utils/formatAmount';
 import { formatAmount } from '../../../token/utils/formatAmount';
 import { useNFTContext } from '../NFTProvider';
 
@@ -10,7 +11,7 @@ type NFTLastSoldPriceReact = {
 
 export function NFTLastSoldPrice({
   className,
-  label = 'Mint price',
+  label = 'Last sale price',
 }: NFTLastSoldPriceReact) {
   const { lastSoldPrice } = useNFTContext();
 
@@ -29,7 +30,7 @@ export function NFTLastSoldPrice({
       <div className={cn(color.foregroundMuted)}>{label}</div>
       <div className="flex">
         <div className={text.label1}>
-          {amount} {currency}
+          {formatSN(amount)} {currency}
         </div>
         <div className="px-2">~</div>
         <div>
