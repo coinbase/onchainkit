@@ -1,3 +1,4 @@
+'use client';
 // 🌲☀🌲
 export { ConnectWallet } from './components/ConnectWallet';
 export { ConnectWalletText } from './components/ConnectWalletText';

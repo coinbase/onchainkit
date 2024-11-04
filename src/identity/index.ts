@@ -1,3 +1,4 @@
+'use client';
 // 🌲☀🌲
 export { Address } from './components/Address';
 export { Avatar } from './components/Avatar';

@@ -1,3 +1,4 @@
+'use client';
 // 🌲☀🌲
 export { TokenChip } from './components/TokenChip';
 export { TokenImage } from './components/TokenImage';

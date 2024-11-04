@@ -1,3 +1,4 @@
+'use client';
 // 🌲☀🌲
 export { Transaction } from './components/Transaction';
 export { TransactionButton } from './components/TransactionButton';

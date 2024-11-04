@@ -1,3 +1,4 @@
+'use client';
 export { NFTMintCard } from './components/NFTMintCard';
 export { NFTCard } from './components/NFTCard';
 

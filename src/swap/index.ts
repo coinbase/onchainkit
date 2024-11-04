@@ -1,3 +1,4 @@
+'use client';
 // 🌲☀🌲
 export { Swap } from './components/Swap';
 export { SwapAmountInput } from './components/SwapAmountInput';
