@@ -30,8 +30,8 @@
     "watch:tailwind": "tailwind -i ./src/styles/index.css -o ./src/tailwind.css --watch"
   },
   "peerDependencies": {
-    "@xmtp/frames-validator": "^0.6.0",
     "@types/react": "^18",
+    "@xmtp/frames-validator": "^0.6.0",
     "react": "^18",
     "react-dom": "^18"
   },
