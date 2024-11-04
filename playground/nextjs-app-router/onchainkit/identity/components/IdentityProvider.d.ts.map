@@ -1,1 +1,0 @@
-{"version":3,"file":"IdentityProvider.d.ts","sourceRoot":"","sources":["../../../src/identity/components/IdentityProvider.tsx"],"names":[],"mappings":";AAIA,OAAO,KAAK,EAAE,mBAAmB,EAAE,qBAAqB,EAAE,MAAM,UAAU,CAAC;AAI3E,eAAO,MAAM,eAAe,8CAAmD,CAAC;AAEhF,wBAAgB,kBAAkB,wBAEjC;AAED,wBAAgB,gBAAgB,CAAC,KAAK,EAAE,qBAAqB,2CAe5D"}

@@ -1,1 +1,0 @@
-{"version":3,"file":"NFTTotalCost.d.ts","sourceRoot":"","sources":["../../../../src/nft/components/mint/NFTTotalCost.tsx"],"names":[],"mappings":"AAAA,OAAO,EAAE,KAAK,SAAS,EAAkC,MAAM,OAAO,CAAC;AAOvE,KAAK,iBAAiB,GAAG;IACvB,SAAS,CAAC,EAAE,MAAM,CAAC;IACnB,KAAK,CAAC,EAAE,SAAS,CAAC;CACnB,CAAC;AAEF,wBAAgB,YAAY,CAAC,EAC3B,SAAS,EACT,KAAoB,GACrB,EAAE,iBAAiB,kDA4HnB"}

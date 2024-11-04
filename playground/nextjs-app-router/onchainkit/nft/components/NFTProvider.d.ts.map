@@ -1,1 +1,0 @@
-{"version":3,"file":"NFTProvider.d.ts","sourceRoot":"","sources":["../../../src/nft/components/NFTProvider.tsx"],"names":[],"mappings":";AAEA,OAAO,KAAK,EAAE,cAAc,EAAE,gBAAgB,EAAE,MAAM,UAAU,CAAC;AAIjE,eAAO,MAAM,UAAU,yCAA8C,CAAC;AAEtE,wBAAgB,aAAa,mBAQ5B;AAED,wBAAgB,WAAW,CAAC,EAC1B,QAAQ,EACR,eAAe,EACf,OAAO,EACP,WAAW,EACX,UAAU,EACV,oBAAoB,GACrB,EAAE,gBAAgB,2CAoBlB"}

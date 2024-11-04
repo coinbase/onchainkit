@@ -1,1 +1,0 @@
-{"version":3,"file":"swap.js","sources":["../../../src/network/definitions/swap.ts"],"sourcesContent":null,"names":["CDP_LIST_SWAP_ASSETS","CDP_GET_SWAP_QUOTE","CDP_GET_SWAP_TRADE"],"mappings":"AAAO,MAAMA,oBAAoB,GAAG,qBAAoB;AACjD,MAAMC,kBAAkB,GAAG,mBAAkB;AAC7C,MAAMC,kBAAkB,GAAG;;;;"}

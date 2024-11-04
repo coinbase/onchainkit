@@ -1,1 +1,0 @@
-{"version":3,"file":"CheckoutProvider.d.ts","sourceRoot":"","sources":["../../../src/checkout/components/CheckoutProvider.tsx"],"names":[],"mappings":";AAiCA,OAAO,KAAK,EAAE,mBAAmB,EAAE,qBAAqB,EAAE,MAAM,UAAU,CAAC;AAG3E,eAAO,MAAM,eAAe,8CAAmD,CAAC;AAEhF,wBAAgB,kBAAkB,wBAQjC;AAED,wBAAgB,gBAAgB,CAAC,EAC/B,aAAa,EACb,QAAQ,EACR,WAAW,EACX,QAAQ,EACR,SAAS,GACV,EAAE,qBAAqB,2CAyUvB"}

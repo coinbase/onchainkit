@@ -1,1 +1,0 @@
-{"version":3,"file":"getChainPublicClient.js","sources":["../../src/network/getChainPublicClient.ts"],"sourcesContent":null,"names":["getChainPublicClient","chain","createPublicClient","transport","http"],"mappings":";;AAGO,SAASA,oBAAoBA,CAACC,KAAY,EAAE;AACjD,EAAA,OAAOC,kBAAkB,CAAC;AACxBD,IAAAA,KAAK,EAAEA,KAAK;IACZE,SAAS,EAAEC,IAAI,EAAC;AAClB,GAAC,CAAC,CAAA;AACJ;;;;"}

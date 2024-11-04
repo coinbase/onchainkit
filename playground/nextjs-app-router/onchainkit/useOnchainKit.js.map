@@ -1,1 +1,0 @@
-{"version":3,"file":"useOnchainKit.js","sources":["../src/useOnchainKit.tsx"],"sourcesContent":null,"names":["useOnchainKit","useContext","OnchainKitContext"],"mappings":";;;AAGO,SAASA,aAAaA,GAAG;EAC9B,OAAOC,UAAU,CAACC,iBAAiB,CAAC,CAAA;AACtC;;;;"}

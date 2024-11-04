@@ -1,1 +1,0 @@
-{"version":3,"file":"getWindowDimensions.d.ts","sourceRoot":"","sources":["../../../src/internal/utils/getWindowDimensions.ts"],"names":[],"mappings":"AAAA,MAAM,MAAM,WAAW,GAAG,MAAM,CAC9B,IAAI,GAAG,IAAI,GAAG,IAAI,EAClB;IACE,KAAK,EAAE,MAAM,CAAC;IACd,MAAM,EAAE,MAAM,CAAC;CAChB,CACF,CAAC;AAEF,eAAO,MAAM,UAAU,EAAE,WAIxB,CAAC;AAEF,eAAO,MAAM,mBAAmB,SAAU,MAAM,iBAAiB;;;CA0BhE,CAAC"}

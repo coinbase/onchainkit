@@ -1,1 +1,0 @@
-{"version":3,"file":"getSlicedAddress.js","sources":["../../../src/identity/utils/getSlicedAddress.ts"],"sourcesContent":null,"names":["getSlicedAddress","address","slice"],"mappings":"AAEA;AACA;AACA;AACaA,MAAAA,gBAAgB,GAAIC,OAAgB,IAAK;AACpD,EAAA,OAAO,GAAGA,OAAO,CAACC,KAAK,CAAC,CAAC,EAAE,CAAC,CAAC,CAAA,GAAA,EAAMD,OAAO,CAACC,KAAK,CAAC,CAAC,CAAC,CAAC,CAAE,CAAA,CAAA;AACxD;;;;"}

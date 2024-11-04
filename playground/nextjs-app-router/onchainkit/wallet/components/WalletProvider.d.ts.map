@@ -1,1 +1,0 @@
-{"version":3,"file":"WalletProvider.d.ts","sourceRoot":"","sources":["../../../src/wallet/components/WalletProvider.tsx"],"names":[],"mappings":"AACA,OAAO,KAAK,EAAE,SAAS,EAAE,MAAM,OAAO,CAAC;AAGvC,OAAO,KAAK,EAAE,iBAAiB,EAAE,MAAM,UAAU,CAAC;AAMlD,KAAK,mBAAmB,GAAG;IACzB,QAAQ,EAAE,SAAS,CAAC;CACrB,CAAC;AAEF,wBAAgB,cAAc,CAAC,EAAE,QAAQ,EAAE,EAAE,mBAAmB,2CAW/D;AAED,wBAAgB,gBAAgB,sBAE/B"}

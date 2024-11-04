@@ -1,1 +1,0 @@
-{"version":3,"file":"constants.js","sources":["../../src/network/constants.ts"],"sourcesContent":null,"names":["POST_METHOD","JSON_HEADERS","version","JSON_RPC_VERSION"],"mappings":";;AAEO,MAAMA,WAAW,GAAG,OAAM;AAC1B,MAAMC,YAAY,GAAG;AAC1B,EAAA,cAAc,EAAE,kBAAkB;AAClC,EAAA,oBAAoB,EAAEC,OAAAA;AACxB,EAAC;AACM,MAAMC,gBAAgB,GAAG;;;;"}
