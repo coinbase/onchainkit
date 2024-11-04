@@ -38,7 +38,7 @@ describe('OnchainKitConfig', () => {
     const apiKey = 'updated-api-key';
     const rpcUrl =
       'https://api.developer.coinbase.com/rpc/v1/base-sepolia/updated-api-key';
-    setOnchainKitConfig({ chain, , apiKey, rpcUrl });
+    setOnchainKitConfig({ chain, apiKey, rpcUrl });
     expect(getOnchainKitConfig('chain')).toEqual(chain);
     expect(getOnchainKitConfig('apiKey')).toEqual(apiKey);
     expect(getRPCUrl()).toEqual(rpcUrl);
