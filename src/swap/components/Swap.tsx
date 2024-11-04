@@ -76,7 +76,7 @@ export function Swap({
       >
         <div className="mb-4 flex items-center justify-between">
           <h3 className={cn(text.title3)} data-testid="ockSwap_Title">
-            {title}?
+            {title}
           </h3>
           {swapSettings}
         </div>

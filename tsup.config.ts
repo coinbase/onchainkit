@@ -21,7 +21,7 @@ export default defineConfig({
     options.jsxImportSource = 'react';
   },
   sourcemap: true,
-  outDir: 'playground/nextjs-app-router/onchainkit/esm',
+  outDir: 'playground/nextjs-app-router/node_onchainkit/esm',
   dts: false,
   clean: false,
   silent: false,
