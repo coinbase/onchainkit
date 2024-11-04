@@ -1,5 +1,6 @@
 import { multiplyFloats } from '../../../internal/utils/multiplyFloats';
 import { cn, text } from '../../../styles/theme';
+import { formatAmount as formatSN } from '../../../swap/utils/formatAmount';
 import { formatAmount } from '../../../token/utils/formatAmount';
 import { useNFTContext } from '../NFTProvider';
 
@@ -25,7 +26,8 @@ export function NFTAssetCost({ className }: NFTAssetCostReact) {
   return (
     <div className={cn('flex py-2', text.body, className)}>
       <div className={text.headline}>
-        {multiplyFloats(Number(price.amount), quantity)} {price.currency}
+        {formatSN(`${multiplyFloats(Number(price.amount), quantity)}`)}{' '}
+        {price.currency}
       </div>
       <div className="px-2">~</div>
       <div>

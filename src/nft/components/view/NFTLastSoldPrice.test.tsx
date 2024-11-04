@@ -33,9 +33,24 @@ describe('NFTLastSoldPrice', () => {
 
   it('should render', () => {
     const { getByText } = render(<NFTLastSoldPrice />);
-    expect(getByText('Mint price')).toBeInTheDocument();
+    expect(getByText('Last sale price')).toBeInTheDocument();
     expect(getByText('1 ETH')).toBeInTheDocument();
     expect(getByText('$3,000.00')).toBeInTheDocument();
+  });
+
+  it('should render scientific notation', () => {
+    (useNFTContext as Mock).mockReturnValue({
+      lastSoldPrice: {
+        amount: '5e-05',
+        currency: 'ETH',
+        amountUSD: '0.13',
+      },
+    });
+
+    const { getByText } = render(<NFTLastSoldPrice />);
+    expect(getByText('Last sale price')).toBeInTheDocument();
+    expect(getByText('0.00005 ETH')).toBeInTheDocument();
+    expect(getByText('$0.13')).toBeInTheDocument();
   });
 
   it('should render null if price is not available', () => {
@@ -59,11 +74,13 @@ describe('NFTLastSoldPrice', () => {
 
   it('should apply custom className', () => {
     const { getByText } = render(<NFTLastSoldPrice className="custom-class" />);
-    expect(getByText('Mint price').parentElement).toHaveClass('custom-class');
+    expect(getByText('Last sale price').parentElement).toHaveClass(
+      'custom-class',
+    );
   });
 
   it('should display custom label', () => {
-    const { getByText } = render(<NFTLastSoldPrice label="Last Sold Price" />);
-    expect(getByText('Last Sold Price')).toBeInTheDocument();
+    const { getByText } = render(<NFTLastSoldPrice label="Mint Price" />);
+    expect(getByText('Mint Price')).toBeInTheDocument();
   });
 });
