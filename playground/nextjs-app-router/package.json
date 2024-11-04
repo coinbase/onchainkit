@@ -6,9 +6,11 @@
     "build": "next build",
     "build:clean": "rm -fr ./node_modules/@coinbase/onchainkit",
     "build:link": "cd ./onchainkit && bun link && cd .. && bun link @coinbase/onchainkit",
-    "cp": "cp -R ../../package.json ./node_modules/@coinbase/onchainkit",
+    "build:prepare": "bun run build:onchainkit && bun run cp && bun i",
+    "cp": "cp -R ../../esm ./onchainkit && cp -R ../../src ./onchainkit && cp -R ../../package.json ./onchainkit",
+    "cp:dev": "cp -R ../../package.json ./node_modules/@coinbase/onchainkit",
     "dev": "next dev",
-    "dev:watch": "concurrently \"bun dev\" \"bun run cp && cd ../.. && bun run dev:watch\" \"bun run watch:tailwind\" -c red,gray,blue",
+    "dev:watch": "concurrently \"bun dev\" \"bun run cp:dev && cd ../.. && bun run dev:watch\" \"bun run watch:tailwind\" -c red,gray,blue",
     "lint": "next lint",
     "start": "next start",
     "watch:tailwind": "mkdir -p ./node_modules/@coinbase/onchainkit/src && nodemon --watch ../../src/styles.css --exec 'cp ../../src/styles.css ./node_modules/@coinbase/onchainkit/src/styles.css'"
