@@ -5,6 +5,7 @@
   "scripts": {
     "build": "next build",
     "build:clean": "rm -fr ./node_modules/@coinbase/onchainkit",
+    "build:link": "cd ./onchainkit && bun link && cd .. && bun link @coinbase/onchainkit",
     "cp": "cp -R ../../package.json ./node_modules/@coinbase/onchainkit",
     "dev": "next dev",
     "dev:watch": "concurrently \"bun dev\" \"bun run cp && cd ../.. && bun run dev:watch\" \"bun run watch:tailwind\" -c red,gray,blue",
