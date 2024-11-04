@@ -3,31 +3,24 @@ import { spawnSync } from 'node:child_process';
 import { defineConfig } from 'tsup';
 
 export default defineConfig({
-  entry: [
-    'src/**/index.ts',
-    'src/**/theme.ts',
-    'src/**/styles.css',
-    'src/**/*.tsx',
-    'src/**/*.ts',
-    '!src/**/*.test.ts',
-    '!src/**/*.test.tsx',
-  ],
+  entry: ['src/**/index.ts', 'src/**/theme.ts', 'src/**/styles.css'],
   format: 'esm',
   minify: false, // Disable minification during development
   splitting: true, // Enable code splitting to properly handle React contexts
-  // treeshake: true, // Enable tree shaking
   esbuildOptions(options) {
     options.jsx = 'automatic';
     options.jsxImportSource = 'react';
   },
   sourcemap: true,
-  outDir: 'playground/nextjs-app-router/node_onchainkit/esm',
+  outDir: 'playground/nextjs-app-router/node_modules/@coinbase/onchainkit/esm',
   dts: false,
   clean: false,
   silent: false,
   inject: ['react-shim.js'],
+
   // Generate declaration files separately to improve performance in development
   async onSuccess() {
+    const startTime = performance.now();
     console.log('Building declaration files.');
     spawnSync(
       'tsc',
@@ -35,7 +28,7 @@ export default defineConfig({
         '--emitDeclarationOnly',
         '--declaration',
         '--outDir',
-        'playground/nextjs-app-router/onchainkit/esm',
+        'playground/nextjs-app-router/node_modules/@coinbase/onchainkit/esm',
         '--rootDir',
         'src',
         'src/index.ts',
@@ -44,7 +37,7 @@ export default defineConfig({
         'src/**/theme.ts',
         '--incremental',
         '--tsBuildInfoFile',
-        'playground/nextjs-app-router/onchainkit/esm/tsbuildinfo.json',
+        'playground/nextjs-app-router/node_modules/@coinbase/onchainkit/esm/tsbuildinfo.json',
         '--jsx',
         'react-jsx',
       ],
@@ -53,6 +46,8 @@ export default defineConfig({
       },
     );
 
-    console.log('Declaration files generated.');
+    console.log(
+      `Declaration files generated in ${performance.now() - startTime}ms`,
+    );
   },
 });
