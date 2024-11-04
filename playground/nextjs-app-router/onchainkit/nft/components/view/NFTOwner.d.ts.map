@@ -1,0 +1,1 @@
+{"version":3,"file":"NFTOwner.d.ts","sourceRoot":"","sources":["../../../../src/nft/components/view/NFTOwner.tsx"],"names":[],"mappings":"AAAA,OAAO,KAAK,EAAE,SAAS,EAAE,MAAM,OAAO,CAAC;AAMvC,KAAK,aAAa,GAAG;IACnB,SAAS,CAAC,EAAE,MAAM,CAAC;IACnB,KAAK,CAAC,EAAE,SAAS,CAAC;CACnB,CAAC;AAEF,wBAAgB,QAAQ,CAAC,EAAE,SAAS,EAAE,KAAkB,EAAE,EAAE,aAAa,kDA6BxE"}

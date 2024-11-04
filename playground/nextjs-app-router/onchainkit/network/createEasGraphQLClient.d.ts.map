@@ -1,0 +1,1 @@
+{"version":3,"file":"createEasGraphQLClient.d.ts","sourceRoot":"","sources":["../../src/network/createEasGraphQLClient.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,aAAa,EAAE,MAAM,iBAAiB,CAAC;AAChD,OAAO,KAAK,EAAE,KAAK,EAAE,MAAM,MAAM,CAAC;AAGlC,wBAAgB,sBAAsB,CAAC,KAAK,EAAE,KAAK,GAAG,aAAa,CAGlE"}

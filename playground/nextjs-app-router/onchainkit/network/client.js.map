@@ -1,0 +1,1 @@
+{"version":3,"file":"client.js","sources":["../../src/network/client.ts"],"sourcesContent":null,"names":["publicClient","createPublicClient","chain","mainnet","transport","http"],"mappings":";;;AAGaA,MAAAA,YAAmD,GAC9DC,kBAAkB,CAAC;AACjBC,EAAAA,KAAK,EAAEC,OAAO;EACdC,SAAS,EAAEC,IAAI,EAAC;AAClB,CAAC;;;;"}

@@ -1,0 +1,1 @@
+{"version":3,"file":"getMockFrameRequest.d.ts","sourceRoot":"","sources":["../../../src/frame/utils/getMockFrameRequest.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,EACV,YAAY,EACZ,gBAAgB,EAChB,uBAAuB,EACxB,MAAM,UAAU,CAAC;AAElB;;;;;;GAMG;AACH,iBAAS,mBAAmB,CAC1B,OAAO,EAAE,YAAY,EACrB,OAAO,CAAC,EAAE,uBAAuB,GAChC,gBAAgB,CAgClB;AAED,OAAO,EAAE,mBAAmB,EAAE,CAAC"}

@@ -1,0 +1,1 @@
+{"version":3,"file":"useValue.js","sources":["../../../src/internal/hooks/useValue.ts"],"sourcesContent":null,"names":["useValue","object","useMemo"],"mappings":";;AAEO,SAASA,QAAQA,CAAIC,MAAS,EAAK;EACxC,OAAOC,OAAO,CAAC,MAAMD,MAAM,EAAE,CAACA,MAAM,CAAC,CAAC,CAAA;AACxC;;;;"}

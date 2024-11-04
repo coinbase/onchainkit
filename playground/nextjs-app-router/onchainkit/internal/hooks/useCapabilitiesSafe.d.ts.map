@@ -1,0 +1,1 @@
+{"version":3,"file":"useCapabilitiesSafe.d.ts","sourceRoot":"","sources":["../../../src/internal/hooks/useCapabilitiesSafe.ts"],"names":[],"mappings":"AACA,OAAO,KAAK,EAAE,kBAAkB,EAAE,MAAM,MAAM,CAAC;AAG/C,OAAO,KAAK,EAAE,yBAAyB,EAAE,MAAM,aAAa,CAAC;AAE7D,wBAAgB,mBAAmB,CAAC,EAClC,OAAO,GACR,EAAE,yBAAyB,GAAG,kBAAkB,CAchD"}

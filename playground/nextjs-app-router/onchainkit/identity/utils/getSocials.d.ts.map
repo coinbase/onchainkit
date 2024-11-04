@@ -1,0 +1,1 @@
+{"version":3,"file":"getSocials.d.ts","sourceRoot":"","sources":["../../../src/identity/utils/getSocials.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,EAAE,KAAK,EAAE,MAAM,MAAM,CAAC;AAOlC,OAAO,KAAK,EAAE,oBAAoB,EAAE,MAAM,UAAU,CAAC;AAErD,MAAM,MAAM,UAAU,GAAG;IACvB,OAAO,EAAE,MAAM,CAAC;IAChB,KAAK,CAAC,EAAE,KAAK,CAAC;CACf,CAAC;AAEF,eAAO,MAAM,UAAU,wBAGpB,UAAU,KAAG,QAAQ,oBAAoB,CAoC3C,CAAC"}

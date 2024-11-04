@@ -1,0 +1,1 @@
+{"version":3,"file":"NFTLastSoldPrice.d.ts","sourceRoot":"","sources":["../../../../src/nft/components/view/NFTLastSoldPrice.tsx"],"names":[],"mappings":"AAAA,OAAO,KAAK,EAAE,SAAS,EAAE,MAAM,OAAO,CAAC;AAKvC,KAAK,qBAAqB,GAAG;IAC3B,SAAS,CAAC,EAAE,MAAM,CAAC;IACnB,KAAK,CAAC,EAAE,SAAS,CAAC;CACnB,CAAC;AAEF,wBAAgB,gBAAgB,CAAC,EAC/B,SAAS,EACT,KAAoB,GACrB,EAAE,qBAAqB,kDA+BvB"}

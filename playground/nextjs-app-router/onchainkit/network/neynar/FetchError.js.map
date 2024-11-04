@@ -1,0 +1,1 @@
+{"version":3,"file":"FetchError.js","sources":["../../../src/network/neynar/FetchError.ts"],"sourcesContent":null,"names":["FetchError","Error","constructor","message","name"],"mappings":"AAAO,MAAMA,UAAU,SAASC,KAAK,CAAC;EACpCC,WAAWA,CAACC,OAAe,EAAE;IAC3B,KAAK,CAACA,OAAO,CAAC,CAAA;IACd,IAAI,CAACC,IAAI,GAAG,YAAY,CAAA;AAC1B,GAAA;AACF;;;;"}

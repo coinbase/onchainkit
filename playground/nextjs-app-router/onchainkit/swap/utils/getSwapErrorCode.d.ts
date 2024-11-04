@@ -1,0 +1,2 @@
+export declare function getSwapErrorCode(context: 'swap' | 'quote' | 'balance' | 'uncaught-swap' | 'uncaught-quote', errorCode?: number): "SWAP_ERROR" | "SWAP_QUOTE_ERROR" | "SWAP_BALANCE_ERROR" | "SWAP_QUOTE_LOW_LIQUIDITY_ERROR" | "TOO_MANY_REQUESTS_ERROR" | "UNCAUGHT_SWAP_QUOTE_ERROR" | "UNCAUGHT_SWAP_ERROR";
+//# sourceMappingURL=getSwapErrorCode.d.ts.map

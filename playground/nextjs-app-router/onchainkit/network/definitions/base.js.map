@@ -1,0 +1,1 @@
+{"version":3,"file":"base.js","sources":["../../../src/network/definitions/base.ts"],"sourcesContent":null,"names":["easChainBase","id","base","easGraphqlAPI","schemaUids"],"mappings":";;AAGO,MAAMA,YAAgC,GAAG;EAC9CC,EAAE,EAAEC,IAAI,CAACD,EAAE;AACXE,EAAAA,aAAa,EAAE,kCAAkC;AACjDC,EAAAA,UAAU,EAAE;AACV;AACA;EACA,oEAAoE;AACpE;AACA;EACA,oEAAoE,CAAA;AAExE;;;;"}

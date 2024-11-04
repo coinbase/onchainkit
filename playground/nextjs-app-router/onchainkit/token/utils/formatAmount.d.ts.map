@@ -1,0 +1,1 @@
+{"version":3,"file":"formatAmount.d.ts","sourceRoot":"","sources":["../../../src/token/utils/formatAmount.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,EAAE,mBAAmB,EAAE,oBAAoB,EAAE,MAAM,UAAU,CAAC;AAE1E;;GAEG;AACH,wBAAgB,YAAY,CAC1B,MAAM,EAAE,MAAM,GAAG,SAAS,EAC1B,OAAO,GAAE,mBAAwB,GAChC,oBAAoB,CAWtB"}

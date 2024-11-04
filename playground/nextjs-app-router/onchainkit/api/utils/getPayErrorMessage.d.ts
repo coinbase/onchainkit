@@ -1,0 +1,2 @@
+export declare function getPayErrorMessage(errorCode?: number): "CHECKOUT_ERROR" | "CHECKOUT_TOO_MANY_REQUESTS_ERROR" | "CHECKOUT_INVALID_CHARGE_ERROR" | "CHECKOUT_INVALID_PARAMETER_ERROR" | "UNCAUGHT_CHECKOUT_ERROR";
+//# sourceMappingURL=getPayErrorMessage.d.ts.map

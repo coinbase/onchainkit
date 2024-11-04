@@ -16,7 +16,6 @@
     "outDir": "dist/es",
     "typeRoots": ["node_modules/@types", "./types"],
     "rootDir": "src",
-    "incremental": true
   },
   "include": ["src"],
   "exclude": ["node_modules", "**/*.test.*", "**/*.stories.*"]
