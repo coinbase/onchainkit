@@ -6,13 +6,13 @@
     "cp": "cp -R ../../package.json ./onchainkit",
     "dev": "next dev --turbo",
     "dev:watch": "concurrently \"bun dev\" \"bun run cp && bun build:link && cd ../.. && bun run dev:watch\" \"bun run watch:tailwind\"",
-    "watch:tailwind": "mkdir -p ./onchainkit/src && nodemon --watch ../../src/styles.css --exec 'cp ../../src/styles.css ./onchainkit/src/styles.css'",
+    "watch:tailwind": "mkdir -p ./onchainkit/src && nodemon -h --watch ../../src/styles.css --exec 'cp ../../src/styles.css ./onchainkit/src/styles.css'",
     "build": "next build",
     "build:clean": "rm -fr ./onchainkit/esm && rm -fr ./onchainkit/src",
     "build:link": "cd ./onchainkit && bun link && cd .. && bun link @coinbase/onchainkit",
     "start": "next start",
     "lint": "next lint"
-},
+  },
   "dependencies": {
     "@coinbase/onchainkit": "^0.35.0",
     "@radix-ui/react-dropdown-menu": "^2.1.1",

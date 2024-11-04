@@ -9,11 +9,13 @@ export default defineConfig({
     'src/**/styles.css',
     'src/**/*.tsx',
     'src/**/*.ts',
+    '!src/**/*.test.ts',
+    '!src/**/*.test.tsx',
   ],
   format: 'esm',
   minify: false, // Disable minification during development
   splitting: true, // Enable code splitting to properly handle React contexts
-  treeshake: true, // Enable tree shaking
+  // treeshake: true, // Enable tree shaking
   esbuildOptions(options) {
     options.jsx = 'automatic';
     options.jsxImportSource = 'react';
@@ -21,8 +23,8 @@ export default defineConfig({
   sourcemap: true,
   outDir: 'playground/nextjs-app-router/onchainkit/esm',
   dts: false,
-  clean: true,
-  silent: true,
+  clean: false,
+  silent: false,
   inject: ['react-shim.js'],
   // Generate declaration files separately to improve performance in development
   async onSuccess() {
