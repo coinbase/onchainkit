@@ -58,7 +58,10 @@ export type NFTPrice = {
   amountUSD?: string; // Amount in USD
 };
 
-type UseNFTData = (
+/**
+ * Note: exported as public Type
+ */
+export type UseNFTData = (
   contractAddress: Hex, // Contract address of the NFT
   tokenId?: string, // Token ID of the NFT
 ) => NFTData | NFTError;
@@ -67,7 +70,7 @@ type UseNFTData = (
  * Note: exported as public Type
  */
 export type NFTData = {
-  // view components
+  // card components
   name?: string; // required for NFTTitle and NFTCollectionTitle
   description?: string; // not currently used
   imageUrl?: string; // required for NFTMedia
@@ -94,7 +97,10 @@ export type NFTData = {
   network?: string; // required for default BuildMintTransaction implementation
 };
 
-type BuildMintTransaction = (
+/**
+ * Note: exported as public Type
+ */
+export type BuildMintTransaction = (
   props: BuildMintTransactionDataProps,
 ) => Promise<Call[]>;
 
@@ -122,7 +128,7 @@ export type NFTCardReact = {
   useNFTData?: UseNFTData; // Optional hook to override the default useNftData hook
   onError?: (error: NFTError) => void; // An optional callback function that handles errors within the provider.
   onStatus?: (lifecycleStatus: LifecycleStatus) => void; // An optional callback function that exposes the component lifecycle state
-  onSuccess?: (transactionReceipt?: TransactionReceipt) => void; // view will not pass transactionReceipt
+  onSuccess?: (transactionReceipt?: TransactionReceipt) => void; // card will not pass transactionReceipt
 };
 
 /**
@@ -184,9 +190,9 @@ export type LifecycleStatus =
       };
     }
   | {
-      statusName: 'success'; // if the last mutation attempt was successful
+      statusName: 'success'; // NFTCard success state represents media loaded, NFTMintCard success state represents successful Mint
       statusData: {
-        transactionReceipts: TransactionReceipt[];
+        transactionReceipts?: TransactionReceipt[];
       };
     };
 
