@@ -17,7 +17,6 @@ export const ONCHAIN_KIT_CONFIG: OnchainKitConfig = {
     paymaster: null,
   },
   rpcUrl: null,
-  schemaId: null,
   projectId: null,
 };
 

@@ -16,22 +16,6 @@ type AddressReact = {
 };
 ```
 
-## `Attestation`
-
-```ts
-type Attestation = {
-  attester: Address; // the attester who created the attestation.
-  decodedDataJson: string; // The attestation data decoded to JSON.
-  expirationTime: number; // The Unix timestamp when the attestation expires (0 for no expiration).
-  id: string; // The unique identifier of the attestation.
-  recipient: Address; // The Ethereum address of the recipient of the attestation.
-  revocationTime: number; // The Unix timestamp when the attestation was revoked, if applicable.
-  revoked: boolean; // A boolean indicating whether the attestation is revocable or not.
-  schemaId: EASSchemaUid; // The schema identifier associated with the attestation.
-  time: number; // The Unix timestamp when the attestation was created.
-};
-```
-
 ## `AvatarReact`
 
 ```ts
@@ -41,16 +25,8 @@ type AvatarReact = {
   className?: string; // Optional className override for top div element.
   loadingComponent?: JSX.Element; // Optional custom component to display while the avatar data is loading.
   defaultComponent?: JSX.Element; // Optional custom component to display when no ENS name or avatar is available.
-  children?: ReactNode; // Optional attestation by passing Badge component as its children
+  children?: ReactNode; // Optional child components to render
 } & ImgHTMLAttributes<HTMLImageElement>; // Optional additional image attributes to apply to the avatar.
-```
-
-## `BadgeReact`
-
-```ts
-type BadgeReact = {
-  className?: string; // Optional className override for top span element.
-};
 ```
 
 ## `BaseMainnetName`
@@ -69,22 +45,6 @@ type Basename = BaseMainnetName | BaseSepoliaName;
 
 ```ts
 type BaseSepoliaName = `${string}.basetest.eth`;
-```
-
-## `EASSchemaUid`
-
-```ts
-type EASSchemaUid = `0x${string}`;
-```
-
-## `EASChainDefinition`
-
-```ts
-type EASChainDefinition = {
-  easGraphqlAPI: string; // EAS GraphQL API endpoint
-  id: number; // blockchain source id
-  schemaUids: EASSchemaUid[]; // Array of EAS Schema UIDs
-};
 ```
 
 ## `EthBalanceReact`
@@ -109,17 +69,6 @@ type GetAddress = {
 
 ```ts
 type GetAddressReturnType = Address | null;
-```
-
-## `GetAttestationsOptions`
-
-```ts
-type GetAttestationsOptions = {
-  schemas?: EASSchemaUid[];
-  revoked?: boolean;
-  expirationTime?: number;
-  limit?: number;
-};
 ```
 
 ## `GetAvatar`
@@ -157,7 +106,6 @@ type GetNameReturnType = string | null;
 ```ts
 type IdentityContextType = {
   address: Address; // The Ethereum address to fetch the avatar and name for.
-  schemaId?: Address | null; // The Ethereum address of the schema to use for EAS attestation.
 };
 ```
 
@@ -169,7 +117,6 @@ type IdentityReact = {
   chain?: Chain; // Optional chain for domain resolution
   children: ReactNode;
   className?: string; // Optional className override for top div element.
-  schemaId?: Address | null; // The Ethereum address of the schema to use for EAS attestation.
   hasCopyAddressOnClick?: boolean; // Optional boolean to disable copy address on click functionality.
 };
 ```
@@ -179,7 +126,7 @@ type IdentityReact = {
 ```ts
 type NameReact = {
   address?: Address | null; // Ethereum address to be displayed.
-  children?: ReactNode; // Optional attestation by passing Badge component as its children
+  children?: ReactNode; // Optional child components to render
   chain?: Chain; // Optional chain for domain resolution
   className?: string; // Optional className override for top span element.
 } & HTMLAttributes<HTMLSpanElement>; // Optional additional span attributes to apply to the name.

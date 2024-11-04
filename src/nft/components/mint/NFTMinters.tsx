@@ -1,6 +1,5 @@
 import { Avatar, Identity, Name } from '../../../identity';
 import { cn, color, text } from '../../../styles/theme';
-import { useOnchainKit } from '../../../useOnchainKit';
 import { useNFTContext } from '../NFTProvider';
 
 type NFTMintersReact = {
@@ -8,7 +7,6 @@ type NFTMintersReact = {
 };
 
 export function NFTMinters({ className }: NFTMintersReact) {
-  const { schemaId } = useOnchainKit();
   const { totalOwners, recentOwners } = useNFTContext();
 
   if (!recentOwners || recentOwners.length === 0) {
@@ -30,7 +28,6 @@ export function NFTMinters({ className }: NFTMintersReact) {
             key={address}
             className="space-x-0 px-0 py-0 [&>div]:space-x-2"
             address={address}
-            schemaId={schemaId}
           >
             <Avatar className="h-4 w-4" />
           </Identity>
@@ -41,7 +38,6 @@ export function NFTMinters({ className }: NFTMintersReact) {
         <Identity
           className="px-1 py-0 [&>div]:space-x-0"
           address={recentOwners[0]}
-          schemaId={schemaId}
         >
           <Name className="max-w-[180px] overflow-hidden text-ellipsis" />
         </Identity>

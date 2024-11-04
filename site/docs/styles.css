@@ -157,13 +157,6 @@
   background: white;
 }
 
-.badge {
-  background: #4F46E5;
-  path {
-    fill: #F9FAFB;
-  }
-}
-
 .vocs_Content:has(#blobs) {
   padding: 60px 0px 0px 0px;
   background-color: #f9fafb;

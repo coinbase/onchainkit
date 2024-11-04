@@ -111,10 +111,6 @@ export const sidebar = [
             link: '/identity/avatar',
           },
           {
-            text: 'Badge',
-            link: '/identity/badge',
-          },
-          {
             text: 'IdentityCard',
             link: '/identity/identity-card',
           },
@@ -290,10 +286,6 @@ export const sidebar = [
           {
             text: 'getAddress',
             link: '/identity/get-address',
-          },
-          {
-            text: 'getAttestations',
-            link: '/identity/get-attestations',
           },
           {
             text: 'getAvatar',

@@ -9,17 +9,12 @@ export function Identity({
   children,
   className,
   hasCopyAddressOnClick,
-  schemaId,
 }: IdentityReact) {
   const { chain: contextChain } = useOnchainKit();
   const accountChain = chain ?? contextChain;
 
   return (
-    <IdentityProvider
-      address={address}
-      schemaId={schemaId}
-      chain={accountChain}
-    >
+    <IdentityProvider address={address} chain={accountChain}>
       <IdentityLayout
         className={className}
         hasCopyAddressOnClick={hasCopyAddressOnClick}

@@ -1,7 +1,6 @@
 import '@testing-library/jest-dom';
 import { render } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
-import { useOnchainKit } from '../../../useOnchainKit';
 import { useNFTContext } from '../NFTProvider';
 import { NFTCreator } from './NFTCreator';
 
@@ -19,7 +18,6 @@ vi.mock('../../../identity', async () => ({
 
 describe('NFTCreator', () => {
   beforeEach(() => {
-    (useOnchainKit as Mock).mockReturnValue({ schemaId: 'test-schema-id' });
     (useNFTContext as Mock).mockReturnValue({ creatorAddress: '0x123' });
   });
 

@@ -1,13 +1,9 @@
-import { Children, useMemo } from 'react';
 import { defaultAvatarSVG } from '../../internal/svg/defaultAvatarSVG';
 import { defaultLoadingSVG } from '../../internal/svg/defaultLoadingSVG';
-import { findComponent } from '../../internal/utils/findComponent';
 import { cn } from '../../styles/theme';
 import { useAvatar } from '../hooks/useAvatar';
 import { useName } from '../hooks/useName';
 import type { AvatarReact } from '../types';
-import { Badge } from './Badge';
-import { DisplayBadge } from './DisplayBadge';
 import { useIdentityContext } from './IdentityProvider';
 
 /**
@@ -47,10 +43,6 @@ export function Avatar({
     { enabled: !!name },
   );
 
-  const badge = useMemo(() => {
-    return Children.toArray(children).find(findComponent(Badge));
-  }, [children]);
-
   const defaultAvatar = defaultComponent || defaultAvatarSVG;
   const loadingAvatar = loadingComponent || defaultLoadingSVG;
 
@@ -89,18 +81,6 @@ export function Avatar({
           defaultAvatar
         )}
       </div>
-      {badge && (
-        <DisplayBadge address={accountAddress}>
-          <div
-            data-testid="ockAvatar_BadgeContainer"
-            className="-bottom-0.5 -right-0.5 absolute flex h-[15px] w-[15px] items-center justify-center rounded-full bg-transparent"
-          >
-            <div className="flex h-3 w-3 items-center justify-center">
-              {badge}
-            </div>
-          </div>
-        </DisplayBadge>
-      )}
     </div>
   );
 }

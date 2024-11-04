@@ -1,13 +1,11 @@
-import { base, baseSepolia, optimism } from 'viem/chains';
+import { baseSepolia, optimism } from 'viem/chains';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import '@testing-library/jest-dom';
 import { render, screen, waitFor } from '@testing-library/react';
 import { useOnchainKit } from '../../useOnchainKit';
-import { useAttestations } from '../hooks/useAttestations';
 import { useAvatar } from '../hooks/useAvatar';
 import { useName } from '../hooks/useName';
 import { Avatar } from './Avatar';
-import { Badge } from './Badge';
 import { useIdentityContext } from './IdentityProvider';
 
 function mock<T>(func: T) {
@@ -16,10 +14,6 @@ function mock<T>(func: T) {
 
 vi.mock('../../useOnchainKit', () => ({
   useOnchainKit: vi.fn(),
-}));
-
-vi.mock('../hooks/useAttestations', () => ({
-  useAttestations: vi.fn(),
 }));
 
 vi.mock('../hooks/useAvatar', () => ({
@@ -37,8 +31,7 @@ vi.mock('./IdentityProvider', () => ({
 const useIdentityContextMock = mock(useIdentityContext);
 const useAvatarMock = mock(useAvatar);
 const useNameMock = mock(useName);
-const useOnchainKitMock = mock(useOnchainKit);
-const useAttestationsMock = mock(useAttestations);
+const _useOnchainKitMock = mock(useOnchainKit);
 
 describe('Avatar Component', () => {
   const testIdentityProviderAddress = '0xIdentityAddress';
@@ -141,34 +134,6 @@ describe('Avatar Component', () => {
     const customDefaultElement = screen.getByTestId('ockAvatarCustomDefault');
     expect(customDefaultElement).toBeInTheDocument();
     expect(customDefaultElement).toHaveTextContent('Default Avatar');
-  });
-
-  it('renders badge when Badge is passed as a child is true', async () => {
-    useIdentityContextMock.mockReturnValue({ address: null });
-    useOnchainKitMock.mockReturnValue({
-      chain: base,
-      schemaId: '0xschema',
-    });
-    useAttestationsMock.mockReturnValue([{}]);
-    useAvatarMock.mockReturnValue({
-      data: 'avatar_url',
-      isLoading: false,
-    });
-    useNameMock.mockReturnValue({
-      data: 'ens_name',
-      isLoading: false,
-    });
-    render(
-      <Avatar address={testAvatarComponentAddress}>
-        <Badge />
-      </Avatar>,
-    );
-    await waitFor(() => {
-      const inner = screen.getByTestId('ockAvatar_BadgeContainer');
-      expect(inner).toBeInTheDocument();
-      const badge = screen.getByTestId('ockBadge');
-      expect(badge).toBeInTheDocument();
-    });
   });
 
   it('use identity context address if provided', () => {

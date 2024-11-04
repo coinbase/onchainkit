@@ -23,11 +23,10 @@ vi.mock('../../../identity', async () => ({
 }));
 
 describe('NFTOwner', () => {
-  const mockUseOnchainKit = useOnchainKit as Mock;
+  const _mockUseOnchainKit = useOnchainKit as Mock;
   const mockUseNFTContext = useNFTContext as Mock;
 
   beforeEach(() => {
-    mockUseOnchainKit.mockReturnValue({ schemaId: 'test-schema-id' });
     mockUseNFTContext.mockReturnValue({
       ownerAddress: 'test-owner-address',
     });

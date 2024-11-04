@@ -1,6 +1,5 @@
-import { Avatar, Badge, Identity, Name } from '../../../identity';
+import { Avatar, Identity, Name } from '../../../identity';
 import { cn } from '../../../styles/theme';
-import { useOnchainKit } from '../../../useOnchainKit';
 import { useNFTContext } from '../NFTProvider';
 
 type NFTCreatorReact = {
@@ -8,7 +7,6 @@ type NFTCreatorReact = {
 };
 
 export function NFTCreator({ className }: NFTCreatorReact) {
-  const { schemaId } = useOnchainKit();
   const { creatorAddress } = useNFTContext();
 
   if (!creatorAddress) {
@@ -17,15 +15,9 @@ export function NFTCreator({ className }: NFTCreatorReact) {
 
   return (
     <div className={cn('flex justify-between pb-2', className)}>
-      <Identity
-        className="px-0 [&>div]:space-x-2"
-        address={creatorAddress}
-        schemaId={schemaId}
-      >
+      <Identity className="px-0 [&>div]:space-x-2" address={creatorAddress}>
         <Avatar className="h-4 w-4" />
-        <Name>
-          <Badge />
-        </Name>
+        <Name />
       </Identity>
     </div>
   );

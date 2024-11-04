@@ -19,7 +19,6 @@ export function IdentityProvider(props: IdentityProviderReact) {
   const value = useValue({
     address: props.address || ('' as Address),
     chain: accountChain,
-    schemaId: props.schemaId,
   });
 
   return (

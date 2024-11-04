@@ -36,11 +36,6 @@
     <changefreq>daily</changefreq>
   </url>
   <url>
-    <loc>https://onchainkit.xyz/identity/badge</loc>
-    <lastmod>2024-09-13</lastmod>
-    <changefreq>daily</changefreq>
-  </url>
-  <url>
     <loc>https://onchainkit.xyz/identity/name</loc>
     <lastmod>2024-09-13</lastmod>
     <changefreq>daily</changefreq>
@@ -262,11 +257,6 @@
   </url>
   <url>
     <loc>https://onchainkit.xyz/identity/get-address</loc>
-    <lastmod>2024-09-13</lastmod>
-    <changefreq>daily</changefreq>
-  </url>
-  <url>
-    <loc>https://onchainkit.xyz/identity/get-attestations</loc>
     <lastmod>2024-09-13</lastmod>
     <changefreq>daily</changefreq>
   </url>

@@ -1,6 +1,5 @@
 import type { ReactNode } from 'react';
 import type { Address, Chain } from 'viem';
-import type { EASSchemaUid } from './identity/types';
 
 /**
  * Note: exported as public Type
@@ -60,7 +59,6 @@ export type OnchainKitConfig = {
   chain: Chain; // Chain must be provided as we need to know which chain to use
   config?: AppConfig; // Configuration options for the app
   rpcUrl: string | null; // RPC URL for onchain requests. Defaults to using CDP Node if the API Key is set
-  schemaId: EASSchemaUid | null; // SchemaId is optional as not all apps need to use EAS
   projectId: string | null; // ProjectId from Coinbase Developer Platform, only required for Coinbase Onramp support
 };
 
@@ -81,7 +79,6 @@ export type OnchainKitProviderReact = {
   children: ReactNode;
   config?: AppConfig;
   rpcUrl?: string;
-  schemaId?: EASSchemaUid;
   projectId?: string;
 };
 

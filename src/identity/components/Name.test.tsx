@@ -1,17 +1,11 @@
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import '@testing-library/jest-dom';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { base, baseSepolia, optimism } from 'viem/chains';
-import { useAttestations } from '../hooks/useAttestations';
 import { useName } from '../hooks/useName';
 import { getSlicedAddress } from '../utils/getSlicedAddress';
-import { Badge } from './Badge';
 import { useIdentityContext } from './IdentityProvider';
 import { Name } from './Name';
-
-vi.mock('../hooks/useAttestations', () => ({
-  useAttestations: vi.fn(),
-}));
 
 vi.mock('../hooks/useName', () => ({
   useName: vi.fn(),
@@ -53,9 +47,7 @@ describe('Name', () => {
   });
 
   it('displays ENS name when available', () => {
-    (useIdentityContext as Mock).mockReturnValue({
-      schemaId: '0x123',
-    });
+    (useIdentityContext as Mock).mockReturnValue({});
     mockUseName.mockReturnValue({
       data: testName,
       isLoading: false,
@@ -66,7 +58,6 @@ describe('Name', () => {
 
   it('use identity context address if provided', () => {
     (useIdentityContext as Mock).mockReturnValue({
-      schemaId: '0x123',
       address: testIdentityProviderAddress,
     });
 
@@ -85,7 +76,6 @@ describe('Name', () => {
 
   it('use identity context chain if provided', () => {
     (useIdentityContext as Mock).mockReturnValue({
-      schemaId: '0x123',
       chain: optimism,
     });
 
@@ -104,7 +94,6 @@ describe('Name', () => {
 
   it('use component address over identity context if both are provided', () => {
     (useIdentityContext as Mock).mockReturnValue({
-      schemaId: '0x123',
       chain: optimism,
       address: testIdentityProviderAddress,
     });
@@ -124,7 +113,6 @@ describe('Name', () => {
 
   it('use component chain over identity context if both are provided', () => {
     (useIdentityContext as Mock).mockReturnValue({
-      schemaId: '0x123',
       chain: optimism,
       address: testIdentityProviderAddress,
     });
@@ -143,9 +131,7 @@ describe('Name', () => {
   });
 
   it('displays custom chain ENS name when available', () => {
-    (useIdentityContext as Mock).mockReturnValue({
-      schemaId: '0x123',
-    });
+    (useIdentityContext as Mock).mockReturnValue({});
     mockUseName.mockReturnValue({
       data: testName,
       isLoading: false,
@@ -155,9 +141,7 @@ describe('Name', () => {
   });
 
   it('displays sliced address when ENS name is not available', () => {
-    (useIdentityContext as Mock).mockReturnValue({
-      schemaId: '0x123',
-    });
+    (useIdentityContext as Mock).mockReturnValue({});
     mockUseName.mockReturnValue({
       data: null,
       isLoading: false,
@@ -172,51 +156,5 @@ describe('Name', () => {
     render(<Name address={testNameComponentAddress} />);
     expect(screen.queryByText(testName)).not.toBeInTheDocument();
     expect(getSlicedAddress).toHaveBeenCalledTimes(0);
-  });
-
-  it('renders badge when Badge is passed, user is attested and address set in Identity', async () => {
-    (useIdentityContext as Mock).mockReturnValue({
-      address: testNameComponentAddress,
-      schemaId: '0x123',
-    });
-    (useAttestations as Mock).mockReturnValue(['attestation']);
-    mockUseName.mockReturnValue({
-      data: 'ens_name',
-      isLoading: false,
-    });
-
-    render(
-      <Name address={testNameComponentAddress}>
-        <Badge />
-      </Name>,
-    );
-
-    await waitFor(() => {
-      const badge = screen.getByTestId('ockBadge');
-      expect(badge).toBeInTheDocument();
-    });
-  });
-
-  it('renders badge when Badge is passed, user is attested and address set in Name', async () => {
-    (useIdentityContext as Mock).mockReturnValue({
-      schemaId: '0x123',
-    });
-    (useAttestations as Mock).mockReturnValue(['attestation']);
-    mockUseName.mockReturnValue({
-      address: testNameComponentAddress,
-      data: 'ens_name',
-      isLoading: false,
-    });
-
-    render(
-      <Name address={testNameComponentAddress}>
-        <Badge />
-      </Name>,
-    );
-
-    await waitFor(() => {
-      const badge = screen.getByTestId('ockBadge');
-      expect(badge).toBeInTheDocument();
-    });
   });
 });

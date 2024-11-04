@@ -28,13 +28,6 @@ export default function StartBuilding() {
             >
               avatars
             </a>
-            ,{' '}
-            <a
-              className="vocs_Anchor vocs_Link vocs_Link_accent_underlined"
-              href="/identity/badge"
-            >
-              badges
-            </a>
             , and{' '}
             <a
               className="vocs_Anchor vocs_Link vocs_Link_accent_underlined"

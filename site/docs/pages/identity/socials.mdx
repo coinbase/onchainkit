@@ -5,7 +5,6 @@ description: Display social links for ENS names
 import {
   Address,
   Avatar,
-  Badge,
   Identity,
   Name,
   Socials,
@@ -33,7 +32,6 @@ It automatically fetches and renders social links stored in text records.
 import {
   Address,
   Avatar,
-  Badge,
   Identity,
   Name,
   Socials, // [!code focus]
@@ -42,13 +40,10 @@ import { base } from 'viem/chains';
 
 <Identity
   address="0x4bEf0221d6F7Dd0C969fe46a4e9b339a84F52FDF"
-  schemaId="0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9"
   chain={base}
 >
   <Avatar />
-  <Name>
-    <Badge />
-  </Name>
+  <Name />
   <Address />
   <Socials /> // [!code focus]
 </Identity>
@@ -56,13 +51,10 @@ import { base } from 'viem/chains';
 <App>
   <Identity
     address="0x4bEf0221d6F7Dd0C969fe46a4e9b339a84F52FDF"
-    schemaId="0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9"
     chain={base}
   >
     <Avatar />
-    <Name>
-      <Badge />
-    </Name>
+    <Name />
     <Address />
     <Socials />
   </Identity>
@@ -102,7 +94,6 @@ Specify a different chain for ENS resolution:
 import {
   Address,
   Avatar,
-  Badge,
   Identity,
   Name,
   Socials, // [!code focus]
@@ -111,13 +102,10 @@ import { mainnet } from 'viem/chains'; // [!code focus]
 
 <Identity
   address="0x4bEf0221d6F7Dd0C969fe46a4e9b339a84F52FDF"
-  schemaId="0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9"
   chain={mainnet}
 >
   <Avatar />
-  <Name>
-    <Badge />
-  </Name>
+  <Name />
   <Address />
   <Socials /> // [!code focus]
 </Identity>
@@ -125,13 +113,10 @@ import { mainnet } from 'viem/chains'; // [!code focus]
 <App>
   <Identity
     address="0x4bEf0221d6F7Dd0C969fe46a4e9b339a84F52FDF"
-    schemaId="0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9"
     chain={mainnet}
   >
     <Avatar />
-    <Name>
-      <Badge />
-    </Name>
+    <Name />
     <Address />
     <Socials />
   </Identity>

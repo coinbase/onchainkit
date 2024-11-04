@@ -7,7 +7,6 @@ import { http, WagmiProvider, createConfig } from 'wagmi';
 import { mock } from 'wagmi/connectors';
 import { setOnchainKitConfig } from './OnchainKitConfig';
 import { OnchainKitProvider } from './OnchainKitProvider';
-import type { EASSchemaUid } from './identity/types';
 import { useOnchainKit } from './useOnchainKit';
 
 const queryClient = new QueryClient();
@@ -24,10 +23,9 @@ const mockConfig = createConfig({
 });
 
 const TestComponent = () => {
-  const { schemaId, apiKey } = useOnchainKit();
+  const { apiKey } = useOnchainKit();
   return (
     <>
-      <div>{schemaId}</div>
       <div>{apiKey}</div>
     </>
   );
@@ -40,13 +38,11 @@ vi.mock('./OnchainKitConfig', () => ({
     apiKey: null,
     chain: base,
     rpcUrl: null,
-    schemaId: null,
     projectId: null,
   },
 }));
 
 describe('OnchainKitProvider', () => {
-  const schemaId: EASSchemaUid = `0x${'1'.repeat(64)}`;
   const apiKey = 'test-api-key';
   const paymasterUrl =
     'https://api.developer.coinbase.com/rpc/v1/base/test-api-key';
@@ -57,7 +53,7 @@ describe('OnchainKitProvider', () => {
     render(
       <WagmiProvider config={mockConfig}>
         <QueryClientProvider client={queryClient}>
-          <OnchainKitProvider chain={base} schemaId={schemaId} apiKey={apiKey}>
+          <OnchainKitProvider chain={base} apiKey={apiKey}>
             <TestComponent />
           </OnchainKitProvider>
         </QueryClientProvider>
@@ -65,37 +61,8 @@ describe('OnchainKitProvider', () => {
     );
 
     await waitFor(() => {
-      expect(screen.getByText(schemaId)).toBeInTheDocument();
       expect(screen.getByText(apiKey)).toBeInTheDocument();
     });
-  });
-
-  it('throws an error if schemaId does not meet the required length', () => {
-    expect(() => {
-      render(
-        <WagmiProvider config={mockConfig}>
-          <QueryClientProvider client={queryClient}>
-            <OnchainKitProvider chain={base} schemaId={'0x123'} apiKey={apiKey}>
-              <TestComponent />
-            </OnchainKitProvider>
-          </QueryClientProvider>
-        </WagmiProvider>,
-      );
-    }).toThrow('EAS schemaId must be 64 characters prefixed with "0x"');
-  });
-
-  it('does not throw an error if schemaId is not provided', () => {
-    expect(() => {
-      render(
-        <WagmiProvider config={mockConfig}>
-          <QueryClientProvider client={queryClient}>
-            <OnchainKitProvider chain={base} apiKey={apiKey}>
-              <TestComponent />
-            </OnchainKitProvider>
-          </QueryClientProvider>
-        </WagmiProvider>,
-      );
-    }).not.toThrow();
   });
 
   it('does not throw an error if api key is not provided', () => {
@@ -116,7 +83,7 @@ describe('OnchainKitProvider', () => {
     render(
       <WagmiProvider config={mockConfig}>
         <QueryClientProvider client={queryClient}>
-          <OnchainKitProvider chain={base} schemaId={schemaId} apiKey={apiKey}>
+          <OnchainKitProvider chain={base} apiKey={apiKey}>
             <TestComponent />
           </OnchainKitProvider>
         </QueryClientProvider>
@@ -137,7 +104,6 @@ describe('OnchainKitProvider', () => {
       },
       chain: base,
       rpcUrl: null,
-      schemaId,
       projectId: null,
     });
   });
@@ -146,7 +112,7 @@ describe('OnchainKitProvider', () => {
     render(
       <WagmiProvider config={mockConfig}>
         <QueryClientProvider client={queryClient}>
-          <OnchainKitProvider chain={base} schemaId={schemaId}>
+          <OnchainKitProvider chain={base}>
             <TestComponent />
           </OnchainKitProvider>
         </QueryClientProvider>
@@ -180,7 +146,6 @@ describe('OnchainKitProvider', () => {
         <QueryClientProvider client={queryClient}>
           <OnchainKitProvider
             chain={base}
-            schemaId={schemaId}
             apiKey={apiKey}
             config={customConfig}
           >
@@ -207,7 +172,6 @@ describe('OnchainKitProvider', () => {
           },
           projectId: null,
           rpcUrl: null,
-          schemaId: schemaId,
         }),
       );
     });
@@ -227,7 +191,6 @@ describe('OnchainKitProvider', () => {
         <QueryClientProvider client={queryClient}>
           <OnchainKitProvider
             chain={base}
-            schemaId={schemaId}
             apiKey={apiKey}
             config={customConfig}
           >
@@ -254,7 +217,6 @@ describe('OnchainKitProvider', () => {
           },
           projectId: null,
           rpcUrl: null,
-          schemaId: schemaId,
         }),
       );
     });

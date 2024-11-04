@@ -1,9 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { base, baseSepolia } from 'viem/chains';
-import { OnchainKitProvider } from '../../OnchainKitProvider';
 import { Avatar } from './Avatar';
-import { Badge } from './Badge';
 
 const meta = {
   title: 'Identity/Avatar',
@@ -48,26 +46,6 @@ export const Fallback: Story = {
         }}
       />
     ),
-  },
-};
-
-export const WithBadge: Story = {
-  decorators: [
-    (Story) => {
-      return (
-        <QueryClientProvider client={new QueryClient()}>
-          <OnchainKitProvider
-            chain={base}
-            schemaId="0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9"
-          >
-            <Story />
-          </OnchainKitProvider>
-        </QueryClientProvider>
-      );
-    },
-  ],
-  args: {
-    children: <Badge />,
   },
 };
 

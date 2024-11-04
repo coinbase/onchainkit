@@ -1,7 +1,6 @@
 import {
   Address,
   Avatar,
-  Badge,
   EthBalance,
   Identity,
   Name,
@@ -28,7 +27,6 @@ export const walletDemoCode = `
   import {
     Address,
     Avatar,
-    Badge,
     EthBalance,
     Name,
     Identity,
@@ -49,9 +47,7 @@ function WalletDemo() {
         <WalletDropdown>
           <Identity className="px-4 pt-3 pb-2">
             <Avatar />
-            <Name>
-              <Badge className="badge" />
-            </Name>
+            <Name />
             <Address />
             <EthBalance />
           </Identity>

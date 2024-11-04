@@ -3,13 +3,11 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { renderHook } from '@testing-library/react';
 import type { Address, Chain } from 'viem';
 import { baseSepolia, optimism, sepolia } from 'viem/chains';
+import { describe, expect, it } from 'vitest';
+import { http, WagmiProvider, createConfig } from 'wagmi';
+import { mock } from 'wagmi/connectors';
 import { OnchainKitProvider } from '../../OnchainKitProvider';
 import { IdentityProvider, useIdentityContext } from './IdentityProvider';
-
-import { describe, expect, it } from 'vitest';
-import { WagmiProvider } from 'wagmi';
-import { http, createConfig } from 'wagmi';
-import { mock } from 'wagmi/connectors';
 
 const queryClient = new QueryClient();
 const mockConfig = createConfig({
@@ -27,18 +25,16 @@ const mockConfig = createConfig({
 describe('IdentityProvider', () => {
   it('provides context values from props', () => {
     const address: Address = '0x1234567890abcdef1234567890abcdef12345678';
-    const schemaId: Address = '0xabcdefabcdefabcdefabcdefabcdefabcdef';
     const chain: Chain = baseSepolia;
 
     const { result } = renderHook(() => useIdentityContext(), {
       wrapper: ({ children }) => (
-        <IdentityProvider address={address} schemaId={schemaId} chain={chain}>
+        <IdentityProvider address={address} chain={chain}>
           {children}
         </IdentityProvider>
       ),
     });
     expect(result.current.address).toEqual(address);
-    expect(result.current.schemaId).toEqual(schemaId);
     expect(result.current.chain.id).toEqual(chain.id);
   });
 
@@ -47,7 +43,6 @@ describe('IdentityProvider', () => {
       wrapper: IdentityProvider,
     });
     expect(result.current.address).toEqual('');
-    expect(result.current.schemaId).toEqual(undefined);
     expect(result.current.chain.id).toEqual(84532); // defaults to base
   });
 
@@ -64,7 +59,6 @@ describe('IdentityProvider', () => {
       ),
     });
     expect(result.current.address).toEqual('');
-    expect(result.current.schemaId).toEqual(undefined);
     expect(result.current.chain.id).toEqual(optimism.id);
   });
 
@@ -81,7 +75,6 @@ describe('IdentityProvider', () => {
       ),
     });
     expect(result.current.address).toEqual('');
-    expect(result.current.schemaId).toEqual(undefined);
     expect(result.current.chain.id).toEqual(sepolia.id);
   });
 });

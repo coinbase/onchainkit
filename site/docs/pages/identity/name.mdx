@@ -1,4 +1,4 @@
-import { Badge, Name, Identity } from '@coinbase/onchainkit/identity';
+import { Name, Identity } from '@coinbase/onchainkit/identity';
 import App from '../../components/App';
 import { base } from 'viem/chains';
 
@@ -51,38 +51,6 @@ const address = '0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1';
 
 <App>
   <Name className="bg-emerald-400 px-2 py-1 rounded" address="0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1" />
-</App>
-
-### Add attestation badge
-
-Show attestation on ENV name with [`Badge`](/identity/badge) component.
-
-Use [`OnchainKitProvider`](/config/onchainkit-provider) or [`Identity`](/identity/identity) component with the `schemaId` prop.
-
-```tsx twoslash
-import { Badge, Name, Identity } from '@coinbase/onchainkit/identity'; // [!code focus]
-
-const address = '0x838aD0EAE54F99F1926dA7C3b6bFbF617389B4D9';
-<Identity
-  address={address}
-  schemaId="0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9"  // [!code focus]
->
-  <Name> // [!code focus]
-    <Badge /> // [!code focus]
-  </Name> // [!code focus]
-</Identity>
-```
-
-<App>
-  <Identity
-    schemaId="0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9"
-    address="0x838aD0EAE54F99F1926dA7C3b6bFbF617389B4D9"
-    className="bg-transparent"
-  >
-    <Name>
-      <Badge />
-    </Name>
-  </Identity>
 </App>
 
 ## Props

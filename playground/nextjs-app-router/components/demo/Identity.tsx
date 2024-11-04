@@ -1,7 +1,6 @@
 import {
   Address,
   Avatar,
-  Badge,
   Identity,
   Name,
   Socials,
@@ -24,9 +23,7 @@ export default function IdentityDemo() {
               <div className="flex items-center space-x-4">
                 <Identity address={address} chain={mainnet}>
                   <Avatar />
-                  <Name>
-                    <Badge />
-                  </Name>
+                  <Name />
                   <Address />
                   <Socials />
                 </Identity>
@@ -37,9 +34,7 @@ export default function IdentityDemo() {
               <div className="flex items-center space-x-4">
                 <Identity address={address} chain={base}>
                   <Avatar />
-                  <Name>
-                    <Badge />
-                  </Name>
+                  <Name />
                   <Address />
                   <Socials />
                 </Identity>
