@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
-import { useAccount } from 'wagmi';
+import { type Chain, base } from 'viem/chains';
+import { useChainId } from 'wagmi';
 import { baseSvg } from '../../../internal/svg/baseSvg';
 import { cn, color, text } from '../../../styles/theme';
 
@@ -9,15 +10,20 @@ type NFTNetworkReact = {
 };
 
 const networkMap = {
-  Base: baseSvg,
-} as Record<string, ReactNode>;
+  8453: {
+    chain: base,
+    icon: baseSvg,
+  },
+} as Record<number, { chain: Chain; icon: ReactNode }>;
 
 export function NFTNetwork({ className, label = 'Network' }: NFTNetworkReact) {
-  const { chain } = useAccount();
+  const chainId = useChainId();
 
-  if (!chain || !networkMap[chain.name]) {
+  if (!chainId || !networkMap[chainId]) {
     return null;
   }
+
+  const { chain, icon } = networkMap[chainId];
 
   return (
     <div
@@ -29,7 +35,7 @@ export function NFTNetwork({ className, label = 'Network' }: NFTNetworkReact) {
     >
       <div className={cn(color.foregroundMuted)}>{label}</div>
       <div className="flex items-center gap-1">
-        <div className="h-4 w-4 object-cover">{networkMap[chain.name]}</div>
+        <div className="h-4 w-4 object-cover">{icon}</div>
         <div>{chain.name}</div>
       </div>
     </div>
