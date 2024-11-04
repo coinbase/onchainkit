@@ -145,6 +145,9 @@ export type RawTransactionData = {
 
 export type SwapAPIParams = GetQuoteAPIParams | GetSwapAPIParams;
 
+/**
+ * Note: exported as public Type
+ */
 export type GetTokenDetailsParams = {
   contractAddress: Address; // The address of the token contract
   tokenId?: string; // The ID of the token
@@ -161,8 +164,14 @@ export type TokenDetails = {
   contractType: ContractType; // ERC721, ERC1155
 };
 
+/**
+ * Note: exported as public Type
+ */
 export type GetTokenDetailsResponse = TokenDetails | APIError;
 
+/**
+ * Note: exported as public Type
+ */
 export type GetMintDetailsParams = {
   contractAddress: Address; // The address of the token contract
   takerAddress?: Address; // The address of the user
@@ -186,8 +195,14 @@ export type MintDetails = {
   network: string; // The network the NFT is on
 };
 
+/**
+ * Note: exported as public Type
+ */
 export type GetMintDetailsResponse = MintDetails | APIError;
 
+/**
+ * Note: exported as public Type
+ */
 export type BuildMintTransactionParams = {
   mintAddress: Address; // The address of the token contract to mint
   takerAddress: Address; // The address of the user
@@ -205,4 +220,7 @@ type MintTransaction = {
   };
 };
 
+/**
+ * Note: exported as public Type
+ */
 export type BuildMintTransactionResponse = MintTransaction | APIError;
