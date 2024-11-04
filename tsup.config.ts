@@ -15,13 +15,12 @@ export default defineConfig({
   outDir: 'playground/nextjs-app-router/node_modules/@coinbase/onchainkit/esm',
   dts: false,
   clean: false,
-  silent: false,
+  silent: true, // Flip this to false to see tsup output in the terminal, including performance logs
   inject: ['react-shim.js'],
 
   // Generate declaration files separately to improve performance in development
   async onSuccess() {
-    const startTime = performance.now();
-    console.log('Building declaration files.');
+    console.log('⚡ Rebuilt onchainkit.');
     spawnSync(
       'tsc',
       [
@@ -46,8 +45,6 @@ export default defineConfig({
       },
     );
 
-    console.log(
-      `Declaration files generated in ${performance.now() - startTime}ms`,
-    );
+    console.log('Declaration files generated.');
   },
 });
