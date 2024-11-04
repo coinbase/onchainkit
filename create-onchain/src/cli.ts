@@ -147,7 +147,7 @@ async function init() {
   const envPath = path.join(root, '.env');
   await fs.promises.writeFile(
     envPath,
-    `NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME=${projectName}\nNEXT_PUBLIC_ONCHAINKIT_CDP_KEY=${clientKey}\nNEXT_PUBLIC_ONCHAINKIT_WALLET_CONFIG=${
+    `NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME=${projectName}\NEXT_PUBLIC_ONCHAINKIT_API_KEY=${clientKey}\nNEXT_PUBLIC_ONCHAINKIT_WALLET_CONFIG=${
       smartWallet ? 'smartWalletOnly' : 'all'
     }`
   );
@@ -177,7 +177,7 @@ async function init() {
   console.log(`${pc.cyan('- Wagmi')}`);
   console.log(`${pc.cyan('- React')}`);
   console.log(`${pc.cyan('- Next.js')}`);
-  console.log(`${pc.cyan('- Tailwindcss')}`);
+  console.log(`${pc.cyan('- Tailwind CSS')}`);
   console.log(`${pc.cyan('- ESLint')}`);
 
   console.log(

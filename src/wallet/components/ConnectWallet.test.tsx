@@ -88,7 +88,7 @@ describe('ConnectWallet', () => {
     expect(connectedText).toBeInTheDocument();
   });
 
-  it('should calls connect function when connect button is clicked', () => {
+  it('should call connect function when connect button is clicked', () => {
     const connectMock = vi.fn();
     vi.mocked(useConnect).mockReturnValue({
       connectors: [{ id: 'mockConnector' }],
@@ -98,9 +98,14 @@ describe('ConnectWallet', () => {
     render(<ConnectWallet text="Connect Wallet" />);
     const button = screen.getByTestId('ockConnectButton');
     fireEvent.click(button);
-    expect(connectMock).toHaveBeenCalledWith({
-      connector: { id: 'mockConnector' },
-    });
+    expect(connectMock).toHaveBeenCalledWith(
+      {
+        connector: { id: 'mockConnector' },
+      },
+      {
+        onSuccess: expect.any(Function),
+      },
+    );
   });
 
   it('should toggle wallet modal on button click when connected', () => {
@@ -162,6 +167,56 @@ describe('ConnectWallet', () => {
     expect(screen.queryByText('Not Render')).not.toBeInTheDocument();
   });
 
+  it('should call onConnect callback when connect button is clicked', async () => {
+    const mockUseAccount = vi.mocked(useAccount);
+    const connectMock = vi.fn();
+    const onConnectMock = vi.fn();
+
+    // Initial state: disconnected
+    mockUseAccount.mockReturnValue({
+      address: undefined,
+      status: 'disconnected',
+    });
+
+    vi.mocked(useConnect).mockReturnValue({
+      connectors: [{ id: 'mockConnector' }],
+      connect: connectMock,
+      status: 'idle',
+    });
+
+    render(<ConnectWallet text="Connect Wallet" onConnect={onConnectMock} />);
+
+    const button = screen.getByTestId('ockConnectButton');
+    fireEvent.click(button);
+
+    // Simulate successful connection
+    connectMock.mock.calls[0][1].onSuccess();
+
+    // Update account status to connected
+    mockUseAccount.mockReturnValue({
+      address: '0x123',
+      status: 'connected',
+    });
+
+    // Force a re-render to trigger the useEffect
+    render(<ConnectWallet text="Connect Wallet" onConnect={onConnectMock} />);
+
+    expect(onConnectMock).toHaveBeenCalledTimes(1);
+  });
+
+  it('should not call onConnect callback when component is first mounted', () => {
+    const mockUseAccount = vi.mocked(useAccount);
+    mockUseAccount.mockReturnValue({
+      address: '0x123',
+      status: 'connected',
+    });
+
+    const onConnectMock = vi.fn();
+    render(<ConnectWallet text="Connect Wallet" onConnect={onConnectMock} />);
+
+    expect(onConnectMock).toHaveBeenCalledTimes(0);
+  });
+
   describe('withWalletAggregator', () => {
     beforeEach(() => {
       vi.mocked(useAccount).mockReturnValue({
@@ -175,7 +230,7 @@ describe('ConnectWallet', () => {
       });
     });
 
-    it('should render ConnectButtonRainboKit when withWalletAggregator is true', () => {
+    it('should render ConnectButtonRainbowKit when withWalletAggregator is true', () => {
       render(
         <ConnectWallet text="Connect Wallet" withWalletAggregator={true} />,
       );
@@ -198,12 +253,17 @@ describe('ConnectWallet', () => {
       );
       const connectButton = screen.getByTestId('ockConnectButton');
       fireEvent.click(connectButton);
-      expect(connectMock).toHaveBeenCalledWith({
-        connector: { id: 'mockConnector' },
-      });
+      expect(connectMock).toHaveBeenCalledWith(
+        {
+          connector: { id: 'mockConnector' },
+        },
+        {
+          onSuccess: expect.any(Function),
+        },
+      );
     });
 
-    it('should calls openConnectModal function when connect button is clicked', () => {
+    it('should call openConnectModal function when connect button is clicked', () => {
       vi.mocked(useWalletContext).mockReturnValue({
         isOpen: false,
         setIsOpen: vi.fn(),
@@ -214,6 +274,33 @@ describe('ConnectWallet', () => {
       const button = screen.getByTestId('ockConnectButton');
       fireEvent.click(button);
       expect(openConnectModalMock).toHaveBeenCalled();
+    });
+
+    it('should call onConnect callback when connect button is clicked', () => {
+      const mockUseAccount = vi.mocked(useAccount);
+      mockUseAccount.mockReturnValue({
+        address: undefined,
+        status: 'disconnected',
+      });
+
+      const onConnectMock = vi.fn();
+      render(
+        <ConnectWallet
+          text="Connect Wallet"
+          onConnect={onConnectMock}
+          withWalletAggregator={true}
+        />,
+      );
+      const button = screen.getByTestId('ockConnectButton');
+
+      mockUseAccount.mockReturnValue({
+        address: '0x123',
+        status: 'connected',
+      });
+
+      fireEvent.click(button);
+
+      expect(onConnectMock).toHaveBeenCalledTimes(1);
     });
   });
 });

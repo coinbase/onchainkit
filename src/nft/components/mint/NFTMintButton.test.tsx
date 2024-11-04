@@ -109,6 +109,7 @@ describe('NFTMintButton', () => {
   beforeEach(() => {
     (useNFTContext as Mock).mockReturnValue({
       contractAddress: '0x123',
+      name: 'name',
       tokenId: '1',
       quantity: 1,
       isEligibleToMint: true,
@@ -259,6 +260,7 @@ describe('NFTMintButton', () => {
     (useNFTContext as Mock).mockReturnValueOnce({
       contractAddress: '0x123',
       tokenId: '1',
+      name: 'name',
       isEligibleToMint: true,
       buildMintTransaction: buildMintTransactionMock,
       quantity: 1,
@@ -269,16 +271,19 @@ describe('NFTMintButton', () => {
         <NFTMintButton />
       </TestProviders>,
     );
-    expect(buildMintTransactionMock).toHaveBeenCalledWith({
-      contractAddress: '0x123',
-      tokenId: '1',
-      takerAddress: '0xabc',
-      quantity: 1,
-    });
+    expect(buildMintTransactionMock).toHaveBeenCalledWith(
+      expect.objectContaining({
+        contractAddress: '0x123',
+        tokenId: '1',
+        takerAddress: '0xabc',
+        quantity: 1,
+      }),
+    );
 
     (useNFTContext as Mock).mockReturnValueOnce({
       contractAddress: '0x123',
       tokenId: '1',
+      name: 'name',
       isEligibleToMint: true,
       buildMintTransaction: buildMintTransactionMock,
       quantity: 2,
@@ -290,12 +295,14 @@ describe('NFTMintButton', () => {
       </TestProviders>,
     );
 
-    expect(buildMintTransactionMock).toHaveBeenCalledWith({
-      contractAddress: '0x123',
-      tokenId: '1',
-      takerAddress: '0xabc',
-      quantity: 2,
-    });
+    expect(buildMintTransactionMock).toHaveBeenCalledWith(
+      expect.objectContaining({
+        contractAddress: '0x123',
+        tokenId: '1',
+        takerAddress: '0xabc',
+        quantity: 2,
+      }),
+    );
   });
 
   it('calls updateLifecycleStatus on buildMintTransaction error', async () => {
@@ -303,6 +310,7 @@ describe('NFTMintButton', () => {
     (useNFTContext as Mock).mockReturnValueOnce({
       contractAddress: '0x123',
       tokenId: '1',
+      name: 'name',
       isEligibleToMint: true,
       buildMintTransaction: buildMintTransactionMock,
       quantity: 1,

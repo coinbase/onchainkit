@@ -20,7 +20,7 @@ describe('NFTAssetCost', () => {
   beforeEach(() => {
     mockUseNFTContext.mockReturnValue({
       price: {
-        amount: 0.05,
+        amount: '0.05',
         currency: 'ETH',
         amountUSD: '20',
       },
@@ -43,7 +43,7 @@ describe('NFTAssetCost', () => {
   it('should render correctly with a whole number decimal', () => {
     mockUseNFTContext.mockReturnValue({
       price: {
-        amount: 1,
+        amount: '1',
         currency: 'ETH',
         amountUSD: '2000',
       },
@@ -60,9 +60,9 @@ describe('NFTAssetCost', () => {
   it('should render free if price is 0', () => {
     mockUseNFTContext.mockReturnValue({
       price: {
-        amount: 0,
+        amount: '0',
         currency: 'ETH',
-        amountUSD: 0,
+        amountUSD: '0',
       },
       quantity: 1,
     });

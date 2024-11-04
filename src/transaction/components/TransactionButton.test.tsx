@@ -1,7 +1,6 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useAccount, useChainId } from 'wagmi';
-import { useShowCallsStatus } from 'wagmi/experimental';
 import { getChainExplorer } from '../../network/getChainExplorer';
 import { TransactionButton } from './TransactionButton';
 import { useTransactionContext } from './TransactionProvider';
@@ -15,10 +14,6 @@ vi.mock('wagmi', () => ({
   useAccount: vi.fn(),
 }));
 
-vi.mock('wagmi/experimental', () => ({
-  useShowCallsStatus: vi.fn(),
-}));
-
 vi.mock('../../network/getChainExplorer', () => ({
   getChainExplorer: vi.fn(),
 }));
@@ -27,9 +22,6 @@ describe('TransactionButton', () => {
   beforeEach(() => {
     (useChainId as Mock).mockReturnValue(123);
     (useAccount as Mock).mockReturnValue({ address: '123' });
-    (useShowCallsStatus as Mock).mockReturnValue({
-      showCallsStatus: vi.fn(),
-    });
     vi.clearAllMocks();
   });
 
@@ -180,23 +172,38 @@ describe('TransactionButton', () => {
     expect(button).toBeDisabled();
   });
 
-  it('should call showCallsStatus when receipt and transactionId exist', () => {
-    const showCallsStatus = vi.fn();
-    (useShowCallsStatus as Mock).mockReturnValue({ showCallsStatus });
+  it('should open wallet.coinbase.com for smart wallets', () => {
+    const onSubmit = vi.fn();
+    const chainExplorerUrl = 'https://explorer.com';
     (useTransactionContext as Mock).mockReturnValue({
       lifecycleStatus: { statusName: 'init', statusData: null },
-      receipt: '123',
-      transactionId: '456',
+      receipt: 'receipt-123',
+      transactionId: '123',
+      transactionHash: 'hash',
+      chainId: 1,
+      onSubmit,
     });
+
+    const url = new URL('https://wallet.coinbase.com/assets/transactions');
+    url.searchParams.set('contentParams[txHash]', 'hash');
+    url.searchParams.set('contentParams[chainId]', '1');
+    url.searchParams.set('contentParams[fromAddress]', '123');
+
+    (getChainExplorer as Mock).mockReturnValue(chainExplorerUrl);
+    window.open = vi.fn();
     render(<TransactionButton text="Transact" />);
     const button = screen.getByText('View transaction');
     fireEvent.click(button);
-    expect(showCallsStatus).toHaveBeenCalledWith({ id: '456' });
+    expect(window.open).toHaveBeenCalledWith(
+      url,
+      '_blank',
+      'noopener,noreferrer',
+    );
+
+    expect(onSubmit).not.toHaveBeenCalled();
   });
 
   it('should render custom success text when it exists', () => {
-    const showCallsStatus = vi.fn();
-    (useShowCallsStatus as Mock).mockReturnValue({ showCallsStatus });
     (useTransactionContext as Mock).mockReturnValue({
       lifecycleStatus: { statusName: 'init', statusData: null },
       receipt: '123',
@@ -207,12 +214,10 @@ describe('TransactionButton', () => {
     );
     const button = screen.getByText('yay');
     fireEvent.click(button);
-    expect(showCallsStatus).toHaveBeenCalledWith({ id: '456' });
+    expect(window.open).toHaveBeenCalled();
   });
 
   it('should render custom pending text when it exists', () => {
-    const showCallsStatus = vi.fn();
-    (useShowCallsStatus as Mock).mockReturnValue({ showCallsStatus });
     (useTransactionContext as Mock).mockReturnValue({
       lifecycleStatus: { statusName: 'init', statusData: null },
       transactionId: '456',

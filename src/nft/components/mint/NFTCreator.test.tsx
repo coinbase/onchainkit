@@ -35,12 +35,6 @@ describe('NFTCreator', () => {
     expect(getByText('Identity')).toBeInTheDocument();
   });
 
-  it('should pass the correct props to Identity component', () => {
-    const { getByText } = render(<NFTCreator />);
-    const identityElement = getByText('Identity').closest('.space-x-2');
-    expect(identityElement).toHaveClass('space-x-2 px-0');
-  });
-
   it('should apply the provided className', () => {
     const { container } = render(<NFTCreator className="custom-class" />);
     expect(container.firstChild).toHaveClass('custom-class');

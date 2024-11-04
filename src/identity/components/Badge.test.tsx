@@ -22,7 +22,7 @@ describe('Badge Component', () => {
       expect(badge).toHaveStyle(badgeStyle);
       expect(badge).toHaveClass('ock-bg-primary');
       const ticker = screen.queryByTestId('ock-badgeSvg');
-      expect(ticker).toHaveClass('ock-icon-color-foreground');
+      expect(ticker).toHaveClass('ock-icon-color-inverse');
     });
   });
 });

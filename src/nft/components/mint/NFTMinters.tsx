@@ -17,13 +17,18 @@ export function NFTMinters({ className }: NFTMintersReact) {
 
   return (
     <div
-      className={cn('flex py-0.5', text.body, color.foregroundMuted, className)}
+      className={cn(
+        text.body,
+        color.foregroundMuted,
+        'flex items-center py-0.5',
+        className,
+      )}
     >
-      <div className="flex space-x-[-.4rem]">
+      <div className="flex space-x-[-.8rem]">
         {recentOwners.map((address) => (
           <Identity
             key={address}
-            className="space-x-0 px-0 py-0"
+            className="space-x-0 px-0 py-0 [&>div]:space-x-2"
             address={address}
             schemaId={schemaId}
           >
@@ -31,10 +36,10 @@ export function NFTMinters({ className }: NFTMintersReact) {
           </Identity>
         ))}
       </div>
-      <div className="flex px-2">
+      <div className="flex">
         <div>Minted by</div>
         <Identity
-          className="px-1 py-0"
+          className="px-1 py-0 [&>div]:space-x-0"
           address={recentOwners[0]}
           schemaId={schemaId}
         >

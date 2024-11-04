@@ -1,6 +1,7 @@
 import { ConnectButton as ConnectButtonRainbowKit } from '@rainbow-me/rainbowkit';
 import { Children, isValidElement, useCallback, useMemo } from 'react';
 import type { ReactNode } from 'react';
+import { useEffect, useState } from 'react';
 import { useAccount, useConnect } from 'wagmi';
 import { IdentityProvider } from '../../identity/components/IdentityProvider';
 import { Spinner } from '../../internal/components/Spinner';
@@ -24,11 +25,15 @@ export function ConnectWallet({
   // but for now we will keep it for backward compatibility.
   text = 'Connect Wallet',
   withWalletAggregator = false,
+  onConnect,
 }: ConnectWalletReact) {
   // Core Hooks
   const { isOpen, setIsOpen } = useWalletContext();
   const { address: accountAddress, status } = useAccount();
   const { connectors, connect, status: connectStatus } = useConnect();
+
+  // State
+  const [hasClickedConnect, setHasClickedConnect] = useState(false);
 
   // Get connectWalletText from children when present,
   // this is used to customize the connect wallet button text
@@ -58,6 +63,14 @@ export function ConnectWallet({
     setIsOpen(!isOpen);
   }, [isOpen, setIsOpen]);
 
+  // Effects
+  useEffect(() => {
+    if (hasClickedConnect && status === 'connected' && onConnect) {
+      onConnect();
+      setHasClickedConnect(false);
+    }
+  }, [status, hasClickedConnect, onConnect]);
+
   if (status === 'disconnected') {
     if (withWalletAggregator) {
       return (
@@ -67,7 +80,10 @@ export function ConnectWallet({
               <ConnectButton
                 className={className}
                 connectWalletText={connectWalletText}
-                onClick={() => openConnectModal()}
+                onClick={() => {
+                  openConnectModal();
+                  setHasClickedConnect(true);
+                }}
                 text={text}
               />
             </div>
@@ -80,7 +96,16 @@ export function ConnectWallet({
         <ConnectButton
           className={className}
           connectWalletText={connectWalletText}
-          onClick={() => connect({ connector })}
+          onClick={() => {
+            connect(
+              { connector },
+              {
+                onSuccess: () => {
+                  onConnect?.();
+                },
+              },
+            );
+          }}
           text={text}
         />
       </div>

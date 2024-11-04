@@ -36,6 +36,13 @@ const useGetEthBalanceMock = mock(useGetETHBalance);
 describe('Identity Component', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    Object.assign(window, {
+      navigator: {
+        clipboard: {
+          writeText: vi.fn(),
+        },
+      },
+    });
   });
 
   it('should render the Identity component with Avatar', async () => {
@@ -154,63 +161,55 @@ describe('Identity Component', () => {
     });
   });
 
-  it('should call handleCopy and return true when address is copied successfully', async () => {
-    Object.assign(navigator, {
-      clipboard: {
-        writeText: vi.fn().mockResolvedValue(true),
-      },
-    });
+  it('should disable copy when hasCopyAddressOnClick is false', async () => {
+    const clipboardWriteText = vi.fn().mockResolvedValue(undefined);
+    window.navigator.clipboard.writeText = clipboardWriteText;
 
     render(
-      <Identity address="0x123456789" hasCopyAddressOnClick={true}>
-        <div>Child Component</div>
+      <Identity address="0x123456789" hasCopyAddressOnClick={false}>
+        <Address />
       </Identity>,
     );
 
-    const identityLayout = screen.getByTestId('ockIdentityLayout_container');
-    fireEvent.click(identityLayout);
+    const container = screen.getByTestId('ockIdentityLayout_container');
+    await fireEvent.click(container);
 
-    expect(navigator.clipboard.writeText).toHaveBeenCalledWith('0x123456789');
+    expect(clipboardWriteText).not.toHaveBeenCalled();
   });
 
-  it('should not call handleCopy when address is not provided', async () => {
+  it('should handle undefined address correctly', async () => {
+    useAvatarMock.mockReturnValue({
+      data: 'avatar_url',
+      isLoading: false,
+    });
+    useNameMock.mockReturnValue({ data: 'name', isLoading: false });
+
     render(
-      <Identity address={null} hasCopyAddressOnClick={true}>
-        <div>Child Component</div>
+      <Identity address={undefined}>
+        <Avatar />
+        <Name />
+        <Address />
       </Identity>,
     );
 
-    const identityLayout = screen.getByTestId('ockIdentityLayout_container');
-    fireEvent.click(identityLayout);
-
-    expect(navigator.clipboard.writeText).not.toHaveBeenCalled();
+    expect(
+      screen.getByTestId('ockIdentityLayout_container'),
+    ).toBeInTheDocument();
   });
 
-  it('should log an error and return false when clipboard write fails', async () => {
-    const consoleErrorSpy = vi
-      .spyOn(console, 'error')
-      .mockImplementation(() => {});
-    Object.assign(navigator, {
-      clipboard: {
-        writeText: vi.fn().mockRejectedValue(new Error('Failed to copy')),
-      },
-    });
+  it('should return false when trying to copy undefined address', async () => {
+    const clipboardWriteText = vi.fn();
+    window.navigator.clipboard.writeText = clipboardWriteText;
 
     render(
-      <Identity address="0x123456789" hasCopyAddressOnClick={true}>
-        <div>Child Component</div>
+      <Identity address={undefined}>
+        <Address />
       </Identity>,
     );
 
-    const identityLayout = screen.getByTestId('ockIdentityLayout_container');
-    fireEvent.click(identityLayout);
+    const container = screen.getByTestId('ockIdentityLayout_container');
+    await fireEvent.click(container);
 
-    expect(navigator.clipboard.writeText).toHaveBeenCalledWith('0x123456789');
-    await waitFor(() => {
-      expect(consoleErrorSpy).toHaveBeenCalledWith(
-        'Failed to copy: ',
-        expect.any(Error),
-      );
-    });
+    expect(clipboardWriteText).not.toHaveBeenCalled();
   });
 });

@@ -1,6 +1,5 @@
 import { useCallback, useMemo } from 'react';
 import { useAccount, useChainId } from 'wagmi';
-import { useShowCallsStatus } from 'wagmi/experimental';
 import { Spinner } from '../../internal/components/Spinner';
 import { getChainExplorer } from '../../network/getChainExplorer';
 import { border, cn, color, pressable, text } from '../../styles/theme';
@@ -32,7 +31,6 @@ export function TransactionButton({
   const { address } = useAccount();
 
   const accountChainId = chainId ?? useChainId();
-  const { showCallsStatus } = useShowCallsStatus();
 
   const isLegacyTransactionInProgress =
     lifecycleStatus.statusName === 'transactionLegacyExecuted' &&
@@ -68,13 +66,14 @@ export function TransactionButton({
     return { successText, errorText, pendingContent };
   }, [errorOverride, pendingOverride, successOverride]);
 
-  const successHandler = useCallback(() => {
-    if (successOverride?.onClick && receipt) {
-      return successOverride?.onClick?.(receipt);
-    }
+  const defaultSuccessHandler = useCallback(() => {
     // SW will have txn id so open in wallet
-    if (receipt && transactionId) {
-      return showCallsStatus({ id: transactionId });
+    if (receipt && transactionId && transactionHash && chainId && address) {
+      const url = new URL('https://wallet.coinbase.com/assets/transactions');
+      url.searchParams.set('contentParams[txHash]', transactionHash);
+      url.searchParams.set('contentParams[chainId]', JSON.stringify(chainId));
+      url.searchParams.set('contentParams[fromAddress]', address);
+      return window.open(url, '_blank', 'noopener,noreferrer');
     }
     // EOA will not have txn id so open in explorer
     const chainExplorer = getChainExplorer(accountChainId);
@@ -84,13 +83,20 @@ export function TransactionButton({
       'noopener,noreferrer',
     );
   }, [
-    accountChainId,
-    successOverride,
-    showCallsStatus,
+    address,
+    chainId,
+    receipt,
     transactionId,
     transactionHash,
-    receipt,
+    accountChainId,
   ]);
+
+  const successHandler = useCallback(() => {
+    if (successOverride?.onClick && receipt) {
+      return successOverride?.onClick?.(receipt);
+    }
+    defaultSuccessHandler();
+  }, [defaultSuccessHandler, successOverride, receipt]);
 
   const errorHandler = useCallback(() => {
     if (errorOverride?.onClick) {
