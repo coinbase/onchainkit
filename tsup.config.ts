@@ -15,7 +15,7 @@ export default defineConfig({
   outDir: 'playground/nextjs-app-router/node_modules/@coinbase/onchainkit/esm',
   dts: false,
   clean: false,
-  silent: true, // Flip this to false to see tsup output in the terminal, including performance logs
+  // silent: true, // Flip this to false to see tsup output in the terminal, including performance logs
   inject: ['react-shim.js'],
 
   // Generate declaration files separately to improve performance in development
