@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
+import '@coinbase/onchainkit/styles.css';
 import './globals.css';
 import OnchainProviders from '@/components/OnchainProviders';
-import '@coinbase/onchainkit/styles.css';
 
 const inter = Inter({ subsets: ['latin'] });
 
