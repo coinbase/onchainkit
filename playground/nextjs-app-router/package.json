@@ -3,15 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "cp": "cp -R ../../package.json ./node_modules/@coinbase/onchainkit",
-    "dev": "next dev",
-    "dev:watch": "concurrently \"bun dev\" \"bun run cp && bun build:link && cd ../.. && bun run dev:watch\" \"bun run watch:tailwind\" -c red,green,blue",
-    "watch:tailwind": "mkdir -p ./node_modules/@coinbase/onchainkit/src && nodemon --watch ../../src/styles.css --exec 'cp ../../src/styles.css ./node_modules/@coinbase/onchainkit/src/styles.css'",
     "build": "next build",
     "build:clean": "rm -fr ./node_modules/@coinbase/onchainkit/esm && rm -fr ./node_modules/@coinbase/onchainkit/src",
-    "build:link": "echo 'No need to link onchainkit in playground'",
+    "cp": "cp -R ../../package.json ./node_modules/@coinbase/onchainkit",
+    "dev": "next dev",
+    "dev:watch": "concurrently \"bun dev\" \"bun run cp && cd ../.. && bun run dev:watch\" \"bun run watch:tailwind\" -c red,gray,blue",
+    "lint": "next lint",
     "start": "next start",
-    "lint": "next lint"
+    "watch:tailwind": "mkdir -p ./node_modules/@coinbase/onchainkit/src && nodemon --watch ../../src/styles.css --exec 'cp ../../src/styles.css ./node_modules/@coinbase/onchainkit/src/styles.css'"
   },
   "dependencies": {
     "@coinbase/onchainkit": "^0.35.0",
