@@ -1,6 +1,6 @@
 {
   "name": "@coinbase/onchainkit",
-  "version": "0.35.2",
+  "version": "0.35.3",
   "type": "module",
   "repository": "https://github.com/coinbase/onchainkit.git",
   "license": "MIT",
@@ -12,6 +12,7 @@
     "ci:format": "biome ci --linter-enabled=false --organize-imports-enabled=false",
     "ci:lint": "biome ci --formatter-enabled=false --organize-imports-enabled=false",
     "cp": "cp -R src site/docs/pages",
+    "dev:watch": "concurrently \"tailwind -i ./src/styles/index-with-tailwind.css -o ./src/styles.css --watch\" \"tsup --watch ./src/**/*.tsx\"",
     "format": "biome format --write .",
     "lint": "biome lint --write .",
     "lint:unsafe": "biome lint --write --unsafe .",
@@ -29,6 +30,7 @@
     "watch:tailwind": "tailwind -i ./src/styles/index.css -o ./src/tailwind.css --watch"
   },
   "peerDependencies": {
+    "@types/react": "^18",
     "@xmtp/frames-validator": "^0.6.0",
     "react": "^18",
     "react-dom": "^18"
@@ -66,6 +68,7 @@
     "@vitest/ui": "^2.0.5",
     "@xmtp/frames-validator": "^0.6.0",
     "autoprefixer": "^10.4.19",
+    "concurrently": "^8.0.0",
     "graphql": "^14",
     "graphql-request": "^6.1.0",
     "jsdom": "^24.1.0",
@@ -76,6 +79,7 @@
     "rimraf": "^5.0.5",
     "storybook": "^8.2.9",
     "tailwindcss": "^3.4.3",
+    "tsup": "^8.3.5",
     "typescript": "~5.3.3",
     "vite": "^5.3.3",
     "vitest": "^2.0.5"
