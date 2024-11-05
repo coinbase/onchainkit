@@ -24,6 +24,7 @@ import {
 import { color } from '@coinbase/onchainkit/theme';
 import AppWithRK from '../../components/AppWithRK';
 import WalletComponents from '../../components/WalletComponents';
+import PropsTable from '../../components/PropsTable';
 
 # `<Wallet />`
 
@@ -59,6 +60,144 @@ export function WalletComponents() {
 <WalletComponents>
   <WalletDefault />
 </WalletComponents>
+
+## Anatomy
+```tsx twoslash
+import {
+  ConnectWallet,
+  Wallet,
+  WalletDropdown,
+  WalletDropdownBasename,
+  WalletDropdownLink,
+  WalletDropdownFundLink,
+  WalletDropdownDisconnect,
+} from '@coinbase/onchainkit/wallet';
+import { Identity } from '@coinbase/onchainkit/identity';
+import { Avatar, Name, Address, EthBalance } from '@coinbase/onchainkit/identity';
+
+
+// ---cut-before---
+<Wallet >
+  <ConnectWallet />
+  <WalletDropdown >
+    <Identity address="0x838aD0EAE54F99F1926dA7C3b6bFbF617389B4D9" >
+      <Avatar />
+      <Name />
+      <Address />
+      <EthBalance />
+    </Identity>
+    <WalletDropdownBasename />
+    <WalletDropdownLink href="https://keys.coinbase.com">
+      Wallet
+    </WalletDropdownLink>
+    <WalletDropdownFundLink />
+    <WalletDropdownDisconnect />
+  </WalletDropdown>
+</Wallet>
+// ---cut-after---
+```
+
+## API Reference
+
+### Wallet
+Serves as the main container for all wallet-related components.
+
+<PropsTable data={[{
+  name: 'children',
+  typeSimple: 'React.ReactNode',
+  default: 'undefined',
+  description: 'The content of the wallet component.',
+}, ]} />
+
+### ConnectWallet
+Handles the wallet connection process. Place child components inside to customize the connect button appearance.
+
+<PropsTable data={[{
+  name: 'children',
+  typeSimple: 'React.ReactNode',
+  default: 'undefined',
+  description: 'The content of the connect wallet component.',
+}, {
+  name: 'className?',
+  typeSimple: 'string',
+description: 'Additional CSS classes to apply to the wallet component.',
+}, {
+  name: "text",
+  typeSimple: "string",
+  description: "The text to display on the connect button. Note: Prefer using `ConnectWalletText` component instead as this will be deprecated in a future version.",
+}, {
+  name: "withWalletAggregator",
+  typeSimple: "boolean",
+  default: "false",
+  description: "Optional flag to enable the wallet aggregator like RainbowKit",
+}, {
+  name: "onConnect",
+  typeSimple: 'function',
+  description: 'Callback function that triggers when the user connects their wallet.',
+}]} />
+
+### WalletDropdown
+Contains additional wallet information and options. Place inside `<Wallet />` component.
+
+<PropsTable data={[{
+  name: 'children',
+  typeSimple: 'React.ReactNode',
+  default: 'undefined',
+  description: 'The content of the wallet dropdown component.',
+}]} />
+
+### WalletDropdownBasename
+Displays the user's Basename within the dropdown.
+
+<PropsTable data={[{
+  name: 'className?',
+  typeSimple: 'string',
+  description: 'Additional CSS classes to apply to the wallet dropdown component.',
+}]} />
+
+### WalletDropdownLink
+Creates a custom link within the dropdown.
+
+<PropsTable data={[{
+  name: 'children',
+  typeSimple: 'React.ReactNode',
+  description: 'The content of the wallet dropdown link component.',
+}, 
+{
+  name: 'className?',
+  typeSimple: 'string',
+  description: 'Additional CSS classes to apply to the wallet dropdown link component.',
+}, {
+  name: 'icon?',
+  typeSimple: 'string',
+  description: 'The icon to display on the wallet dropdown link component.',  
+}, {
+  name: 'href',
+  typeSimple: 'string',
+  description: 'The URL to navigate to when the link is clicked.',
+}, {
+  name: 'rel?',
+  typeSimple: 'string',
+  description: 'The relationship attribute for the link element.',
+}, {
+  name: 'target?',
+  typeSimple: 'string',
+  description: 'The target attribute for the link element.',
+}]} />
+
+
+### WalletDropdownDisconnect
+Displays the disconnect button within the dropdown.
+
+<PropsTable data={[{
+  name: 'className?',
+  typeSimple: 'string',
+  description: 'Additional CSS classes to apply to the wallet dropdown disconnect component.',
+}, {
+  name: "text?",
+  typeSimple: "string",
+  description: "The text to display on the disconnect button.",
+}]} />
 
 
 ## Walkthrough
@@ -507,24 +646,16 @@ export function WalletComponents() {
 
 ```
 
-## Components
+## Customization
 
-The components are designed to work together hierarchically. For each component, ensure the following:
-
-- `<Wallet />` - Serves as the main container for all wallet-related components.
-- `<ConnectWallet />` - Handles the wallet connection process. Place child components inside to customize the connect button appearance.
-- `<WalletDropdown />` - Contains additional wallet information and options. Place inside the `<Wallet />` component.
-- `<Identity />` - Displays user identity information. Place inside `<WalletDropdown />` for a complete profile view.
-- `<WalletDropdownBasename />` - Displays the user's Basename within the dropdown.
-- `<WalletDropdownLink />` - Creates a custom link within the dropdown. Use the `icon` prop to add an icon, and `href` to specify the destination.
-- `<WalletDropdownDisconnect />` - Provides a disconnect option within the dropdown.
 
 Additional components for customizing the wallet interface include:
 
-- `<Avatar />` - Displays the user's avatar image.
-- `<Name />` - Shows the user's name or ENS.
-- `<Badge />` - Can be used to display additional user status or information.
-- `<Address />` - Shows the user's wallet address.
+- [`<Identity />`](/identity/identity) - Displays user identity information. Place inside `<WalletDropdown />` for a complete profile view.
+- [`<Avatar />`](/identity/avatar) - Displays the user's avatar image.
+- [`<Name />`](/identity/name) - Shows the user's name or ENS.
+- [`<Badge />`](/identity/badge) - Can be used to display additional user status or information.
+- [`<Address />`](/identity/address) - Shows the user's wallet address.
 - `<EthBalance />` - Displays the user's ETH balance.
 
 The Wallet component automatically handles the wallet connection state and updates the UI accordingly. 
