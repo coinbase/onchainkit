@@ -53,7 +53,7 @@ export const sidebar = [
     items: [
       {
         text: 'Onchain NFT App',
-        link: 'https://github.com/coinbase/onchain-app-template',
+        link: 'https://ock-mint.vercel.app/',
       },
       {
         text: 'Onchain Commerce App',
@@ -125,6 +125,19 @@ export const sidebar = [
           {
             text: 'Socials',
             link: '/identity/socials',
+          },
+        ],
+      },
+      {
+        text: 'Mint',
+        items: [
+          {
+            text: 'NFTCard',
+            link: '/mint/nft-card',
+          },
+          {
+            text: 'NFTMintCard',
+            link: '/mint/nft-mint-card',
           },
         ],
       },
@@ -205,6 +218,23 @@ export const sidebar = [
   {
     text: 'API',
     items: [
+      {
+        text: 'Mint',
+        items: [
+          {
+            text: 'getTokenDetails',
+            link: '/api/get-token-details',
+          },
+          {
+            text: 'getMintDetails',
+            link: '/api/get-mint-details',
+          },
+          {
+            text: 'buildMintTransaction',
+            link: '/api/build-mint-transaction',
+          },
+        ],
+      },
       {
         text: 'Swap',
         items: [
@@ -350,6 +380,10 @@ export const sidebar = [
         link: '/api/types',
       },
       {
+        text: 'Checkout',
+        link: '/checkout/types',
+      },
+      {
         text: 'Config',
         link: '/config/types',
       },
@@ -370,8 +404,8 @@ export const sidebar = [
         link: '/identity/types',
       },
       {
-        text: 'Checkout',
-        link: '/checkout/types',
+        text: 'Mint',
+        link: '/mint/types',
       },
       {
         text: 'Swap',

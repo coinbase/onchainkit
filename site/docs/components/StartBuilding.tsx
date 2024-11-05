@@ -169,6 +169,33 @@ export default function StartBuilding() {
           <span>
             <a
               className="vocs_Anchor vocs_Link vocs_Link_accent_underlined"
+              href="/mint/nft-mint-card"
+            >
+              <strong className="vocs_Strong">
+                <code className="vocs_Code">Mint</code>
+              </strong>
+            </a>{' '}
+            -{' '}
+            <a
+              className="vocs_Anchor vocs_Link vocs_Link_accent_underlined"
+              href="/mint/nft-card"
+            >
+              View
+            </a>{' '}
+            and{' '}
+            <a
+              className="vocs_Anchor vocs_Link vocs_Link_accent_underlined"
+              href="/mint/nft-mint-card"
+            >
+              Mint
+            </a>{' '}
+            NFTs in yoru app.
+          </span>
+        </li>
+        <li className="vocs_ListItem">
+          <span>
+            <a
+              className="vocs_Anchor vocs_Link vocs_Link_accent_underlined"
               href="/frame/frame-metadata"
             >
               <strong className="vocs_Strong">
