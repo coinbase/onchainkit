@@ -1,9 +1,6 @@
 import { useEffect, useMemo } from 'react';
-import { background, cn, color, text } from '../../styles/theme';
-import { successSvg } from '../../internal/svg/successSvg';
+import { background, cn } from '../../styles/theme';
 import { closeSvg } from '../../internal/svg/closeSvg';
-import { getChainExplorer } from '../../network/getChainExplorer';
-import { useAccount } from 'wagmi';
 
 type ToastProps = {
   className?: string;
@@ -19,14 +16,10 @@ export function Toast({
   className,
   durationMs = 3000,
   position = 'bottom-center',
-  transactionHash,
   isToastVisible,
   closeToast,
   children,
 }: ToastProps) {
-  const { chainId } = useAccount();
-  const chainExplorer = getChainExplorer(chainId);
-
   const positionClass = useMemo(() => {
     if (position === 'bottom-right') {
       return 'bottom-5 left-3/4';
