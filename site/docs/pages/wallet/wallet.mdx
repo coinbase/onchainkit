@@ -18,7 +18,8 @@ import {
   Address,
   Avatar,
   Name,
-  Identity
+  Identity,
+  EthBalance,
 } from '@coinbase/onchainkit/identity';
 import { color } from '@coinbase/onchainkit/theme';
 import AppWithRK from '../../components/AppWithRK';
@@ -73,7 +74,7 @@ import {
   WalletDropdownDisconnect,
 } from '@coinbase/onchainkit/wallet';
 import { Identity } from '@coinbase/onchainkit/identity';
-import { Avatar, Name, Address} from '@coinbase/onchainkit/identity';
+import { Avatar, Name, Address, EthBalance } from '@coinbase/onchainkit/identity';
 
 
 // ---cut-before---
@@ -84,6 +85,7 @@ import { Avatar, Name, Address} from '@coinbase/onchainkit/identity';
       <Avatar />
       <Name />
       <Address />
+      <EthBalance />
     </Identity>
     <WalletDropdownBasename />
     <WalletDropdownLink href="https://keys.coinbase.com">
@@ -641,7 +643,6 @@ export function WalletComponents() {
     <ConnectWallet onConnect={() => {signMessage({ message })}} />
   );
 }
-
 ```
 
 ## Customization
@@ -653,7 +654,7 @@ Additional components for customizing the wallet interface include:
 - [`<Name />`](/identity/name) - Shows the user's name or ENS.
 - [`<Badge />`](/identity/badge) - Can be used to display additional user status or information.
 - [`<Address />`](/identity/address) - Shows the user's wallet address.
-- [`<EthBalance />`](/identity/eth-balance) - Displays the user's ETH balance.
+- `<EthBalance />` - Displays the user's ETH balance.
 
 ## Component types
 
