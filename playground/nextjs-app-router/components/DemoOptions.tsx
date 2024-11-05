@@ -59,6 +59,7 @@ export default function DemoOptions({
         </>
       );
     case OnchainKitComponent.NFTCard:
+    case OnchainKitComponent.NFTCardDefault:
       return (
         <>
           {commonOptions}
@@ -67,6 +68,7 @@ export default function DemoOptions({
         </>
       );
     case OnchainKitComponent.NFTMintCard:
+    case OnchainKitComponent.NFTMintCardDefault:
       return (
         <>
           {commonOptions}
