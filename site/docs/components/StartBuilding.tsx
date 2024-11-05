@@ -176,11 +176,12 @@ export default function StartBuilding() {
               </strong>
             </a>{' '}
             -{' '}
-            <a 
+            <a
               className="vocs_Anchor vocs_Link vocs_Link_accent_underlined"
-              href="/mint/nft-card">
-                View
-              </a>{' '}
+              href="/mint/nft-card"
+            >
+              View
+            </a>{' '}
             and{' '}
             <a
               className="vocs_Anchor vocs_Link vocs_Link_accent_underlined"
