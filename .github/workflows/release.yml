@@ -27,7 +27,7 @@ jobs:
 
       - name: Build
         shell: bash
-        run: bun build
+        run: bun run build
 
       - name: Set deployment token
         run: npm config set '//registry.npmjs.org/:_authToken' "${{ secrets.NPM_TOKEN }}"
