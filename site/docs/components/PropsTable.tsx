@@ -1,4 +1,5 @@
 import { Code } from './Code.tsx';
+// biome-ignore lint/style/noNamespaceImport: TODO: fix
 import * as Popover from '@radix-ui/react-popover';
 import InfoIcon from './svg/infoIcon.tsx';
 export type PropDef = {
