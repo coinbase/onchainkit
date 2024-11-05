@@ -92,6 +92,12 @@ type State = {
   setToastTransactionHash: (transactionHash: string) => void;
   isToastVisible?: boolean;
   setIsToastVisible: (isToastVisible: boolean) => void;
+  toastParentComponent?: OnchainKitComponent;
+  setToastParentComponent: (component: OnchainKitComponent) => void;
+  toastTransactionStatus?: 'isBuildingTx' | 'inProgress' | 'success' | 'error' | 'default';
+  setToastTransactionStatus: (status: 'isBuildingTx' | 'inProgress' | 'success' | 'error' | 'default') => void;
+  toastErrorMessage?: string;
+  setToastErrorMessage: (errorMessage: string) => void;
 };
 
 const defaultState: State = {
@@ -107,6 +113,9 @@ const defaultState: State = {
   setToastDurationMs: () => {},
   setToastTransactionHash: () => {},
   setIsToastVisible: () => {},
+  setToastParentComponent: () => {},
+  setToastTransactionStatus: () => {},
+  setToastErrorMessage: () => {},
 };
 
 export const AppContext = createContext(defaultState);
@@ -146,6 +155,9 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   const [toastTransactionHash, setToastTransactionHashState] =
     useState<string>();
   const [isToastVisible, setIsToastVisibleState] = useState<boolean>(true);
+  const [toastParentComponent, setToastParentComponentState] = useState<OnchainKitComponent>();
+  const [toastTransactionStatus, setToastTransactionStatusState] = useState<'isBuildingTx' | 'inProgress' | 'success' | 'error' | 'default'>('default');
+  const [toastErrorMessage, setToastErrorMessageState] = useState<string>('');
 
   // Load initial values from localStorage
   // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO Refactor this component
@@ -170,6 +182,9 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
       'toastTransactionHash'
     );
     const storedIsToastVisible = localStorage.getItem('isToastVisible');
+    const storedToastParentComponent = localStorage.getItem('toastParentComponent') as OnchainKitComponent;
+    const storedToastTransactionStatus = localStorage.getItem('toastTransactionStatus') as 'isBuildingTx' | 'inProgress' | 'success' | 'error' | 'default';
+    const storedToastErrorMessage = localStorage.getItem('toastErrorMessage');
 
     if (storedActiveComponent) {
       setActiveComponent(storedActiveComponent as OnchainKitComponent);
@@ -212,6 +227,15 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     }
     if (storedIsToastVisible) {
       setIsToastVisible(JSON.parse(storedIsToastVisible));
+    }
+    if (storedToastParentComponent) {
+      setToastParentComponentState(storedToastParentComponent as OnchainKitComponent);
+    }
+    if (storedToastTransactionStatus) {
+      setToastTransactionStatusState(storedToastTransactionStatus as 'isBuildingTx' | 'inProgress' | 'success' | 'error' | 'default');
+    }
+    if (storedToastErrorMessage) {
+      setToastErrorMessageState(storedToastErrorMessage);
     }
   }, []);
 
@@ -319,6 +343,21 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     setIsToastVisibleState(isToastVisible);
   };
 
+  const setToastParentComponent = (component: OnchainKitComponent) => {
+    localStorage.setItem('toastParentComponent', component);
+    setToastParentComponentState(component);
+  };
+
+  const setToastTransactionStatus = (status: 'isBuildingTx' | 'inProgress' | 'success' | 'error' | 'default') => {
+    localStorage.setItem('toastTransactionStatus', status);
+    setToastTransactionStatusState(status);
+  };
+
+  const setToastErrorMessage = (errorMessage: string) => {
+    localStorage.setItem('toastErrorMessage', errorMessage);
+    setToastErrorMessageState(errorMessage);
+  };
+
   return (
     <AppContext.Provider
       value={{
@@ -355,6 +394,12 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         setToastTransactionHash,
         isToastVisible,
         setIsToastVisible,
+        toastParentComponent,
+        setToastParentComponent,
+        toastTransactionStatus,
+        setToastTransactionStatus,
+        toastErrorMessage,
+        setToastErrorMessage,
       }}
     >
       <OnchainKitProvider

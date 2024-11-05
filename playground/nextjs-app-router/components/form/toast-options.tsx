@@ -22,6 +22,12 @@ export function ToastOptions() {
     setToastTransactionHash,
     isToastVisible,
     setIsToastVisible,
+    toastParentComponent,
+    setToastParentComponent,
+    toastTransactionStatus,
+    setToastTransactionStatus,
+    toastErrorMessage,
+    setToastErrorMessage,
   } = useContext(AppContext);
 
   if (activeComponent !== OnchainKitComponent.Toast) {
@@ -73,6 +79,59 @@ export function ToastOptions() {
         checked={isToastVisible}
         onCheckedChange={(checked) => setIsToastVisible(checked)}
       />
+      <Label>Choose Parent Component</Label>
+      <Select
+        value={toastParentComponent}
+        onValueChange={(value) =>
+          setToastParentComponent(value as OnchainKitComponent)
+        }
+      >
+        <SelectTrigger id="parentComponent">
+          <SelectValue placeholder="Select parent component" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="swap">Swap</SelectItem>
+          <SelectItem value="transaction">Transaction</SelectItem>
+        </SelectContent>
+      </Select>
+      <>
+        {toastParentComponent === OnchainKitComponent.Transaction ? (
+          <div>
+            <Label htmlFor="transactionStatus">Transaction Status</Label>
+            <Select
+              value={toastTransactionStatus}
+              onValueChange={(value) =>
+                setToastTransactionStatus(
+                  value as
+                    | 'isBuildingTx'
+                    | 'inProgress'
+                    | 'success'
+                    | 'error'
+                    | 'default'
+                )
+              }
+            >
+              <SelectTrigger id="transactionStatus">
+                <SelectValue placeholder="Select transaction status" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="isBuildingTx">Is Building Tx</SelectItem>
+                <SelectItem value="inProgress">In Progress</SelectItem>
+                <SelectItem value="success">Success</SelectItem>
+                <SelectItem value="error">Error</SelectItem>
+                <SelectItem value="default">Default</SelectItem>
+              </SelectContent>
+            </Select>
+            <Label htmlFor="errorMessage">Error Message</Label>
+            <Input
+              id="errorMessage"
+              placeholder="Enter error message"
+              value={toastErrorMessage}
+              onChange={(e) => setToastErrorMessage(e.target.value)}
+            />
+          </div>
+        ) : null}
+      </>
     </div>
   );
 }
