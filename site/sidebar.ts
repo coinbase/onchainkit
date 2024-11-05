@@ -129,15 +129,15 @@ export const sidebar = [
         ],
       },
       {
-        text: 'NFT',
+        text: 'Mint',
         items: [
           {
             text: 'NFTCard',
-            link: '/nft/nft-card',
+            link: '/mint/nft-card',
           },
           {
             text: 'NFTMintCard',
-            link: '/nft/nft-mint-card',
+            link: '/mint/nft-mint-card',
           },
         ],
       },
@@ -218,6 +218,23 @@ export const sidebar = [
   {
     text: 'API',
     items: [
+      {
+        text: 'Mint',
+        items: [
+          {
+            text: 'getTokenDetails',
+            link: '/api/get-token-details',
+          },
+          {
+            text: 'getMintDetails',
+            link: '/api/get-mint-details',
+          },
+          {
+            text: 'buildMintTransaction',
+            link: '/api/build-mint-transaction',
+          },
+        ],
+      },
       {
         text: 'Swap',
         items: [
@@ -387,8 +404,8 @@ export const sidebar = [
         link: '/identity/types',
       },
       {
-        text: 'NFT',
-        link: '/nft/types',
+        text: 'Mint',
+        link: '/mint/types',
       },
       {
         text: 'Swap',

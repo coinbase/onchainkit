@@ -15,11 +15,12 @@ import App from '../../components/App';
 
 # `<NFTCard />`
 
-The `NFTCard` component provides an easy way to view any NFT.  Just enter the NFT contract address and token Id and include the children components you want to render.
+The `NFTCard` component provides an easy way to view any NFT.  Just enter the NFT contract address and token Id and include the child components you want to render.
 
 <img alt="Checkout"
-  src="https://onchainkit.xyz/assets/checkout.gif"
-  height="364"/>
+  src="../assets/NFTCard.gif"
+  height="364"
+/>
 
 ## Prerequisites
 
@@ -254,7 +255,7 @@ export default function NFTComponent() {
 
 ### Listening to the component lifecycle
 
-You can use our NFT [`LifecycleStatus`](/nft/types#lifecyclestatus) and the `onStatus` prop to listen to transaction states.
+You can use our NFT [`LifecycleStatus`](/mint/types#lifecyclestatus) and the `onStatus` prop to listen to transaction states.
 
 NFTCard has 4 lifecycle states:
 * `init` - The component is initialized
@@ -306,6 +307,6 @@ The `NFTCard` component can be customized with the following components:
 
 ## Props
 
-- [`LifecycleStatus`](/nft/types#lifecyclestatus)
-- [`NFTCardReact`](/nft/types#nftcardreact)
-- [`NFTData`](/nft/types#nftdata)
+- [`LifecycleStatus`](/mint/types#lifecyclestatus)
+- [`NFTCardReact`](/mint/types#nftcardreact)
+- [`NFTData`](/mint/types#nftdata)

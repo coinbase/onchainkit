@@ -16,11 +16,12 @@ import App from '../../components/App';
 
 # `<NFTMintCard />`
 
-The `NFTMintCard` component provides an easy way to mint an NFT.  Just enter the NFT contract address and token Id (for ERC1155 contracts) and include the children components you want to render.
+The `NFTMintCard` component provides an easy way to mint an NFT.  Just enter the NFT contract address and token Id (for ERC1155 contracts) and include the child components you want to render.
 
 <img alt="Checkout"
-  src="https://onchainkit.xyz/assets/checkout.gif"
-  height="364"/>
+  src="../assets/NFTMintCard.gif"
+  height="364"
+/>
 
 ## Prerequisites
 
@@ -92,8 +93,8 @@ import {
 } from '@coinbase/onchainkit/nft/mint'; // [!code ++]
 
 <NFTMintCard 
-  contractAddress='0xb4703a3a73aec16e764cbd210b0fde9efdab8941' 
-  tokenId='1'
+  contractAddress='0xed2f34043387783b2727ff2799a46ce3ae1a34d2' 
+  tokenId='2'
 > 
   <NFTCreator /> // [!code ++] 
   <NFTMedia /> // [!code ++] 
@@ -107,7 +108,32 @@ import {
 <App>
   <div className="flex items-center justify-center">
     <NFTMintCard 
-      contractAddress='0xFE12c6d7555B4A94B352998f8e1E96aDFbE628e9' 
+      contractAddress='0xed2f34043387783b2727ff2799a46ce3ae1a34d2'
+      tokenId='2' 
+      useNFTData={() => ({
+        name: "OCK Mint Component",
+        description: "OnchainKit highlights",
+        imageUrl: "https://ipfs.io/ipfs/bafybeifbnyvwfrbdr4r3nn7joi5eznbype27fynyat7rr52ckmqnz3camm",
+        animationUrl: "https://ipfs.io/ipfs/bafybeia7fmwmyvxxmx6cnokvhyeyafa7gzpkhildz2keu6ca2ln3dlsxum",
+        mimeType: "video/mp4",
+        contractType: "ERC1155",
+        price: {
+            amount: "0.000111",
+            currency: "ETH",
+            amountUSD: "0.264674505"
+        },
+        mintFee: {
+            amount: "0.0001",
+            currency: "ETH",
+            amountUSD: "0.2384455"
+        },
+        maxMintsPerWallet: 1,
+        isEligibleToMint: true,
+        creatorAddress: "0xb4e741b761d8b69103cc986f1b7cd71ed627f8cc",
+        network: "networks/base-mainnet",
+        totalTokens: "1",
+        totalOwners: "1"
+      })}
       buildMintTransaction={() => Promise.resolve([{callData: '0x'}])}
     >
       <NFTCreator />
@@ -171,7 +197,7 @@ import {
 } from '@coinbase/onchainkit/nft/view';
 // ---cut-before---
 <NFTMintCard 
-  contractAddress='0xb4703a3a73aec16e764cbd210b0fde9efdab8941' 
+  contractAddress='0x877f0f3fef81c28a8c40fe060b17d254003377ad' 
 > 
   <NFTMedia square={false} /> // [!code focus]
 </NFTMintCard>
@@ -260,7 +286,7 @@ export default function NFTComponent() {
 
 ### Listening to the component lifecycle
 
-You can use our NFT [`LifecycleStatus`](/nft/types#lifecyclestatus) and the `onStatus` prop to listen to transaction states.
+You can use our NFT [`LifecycleStatus`](/mint/types#lifecyclestatus) and the `onStatus` prop to listen to transaction states.
 
 NFTMintCard has 6 lifecycle states:
 * `init` - The component is initialized
@@ -315,6 +341,6 @@ The `NFTMintCard` component can be customized with the following components:
 
 ## Props
 
-- [`LifecycleStatus`](/nft/types#lifecyclestatus)
-- [`NFTMintCardReact`](/nft/types#nftmintcardreact)
-- [`NFTData`](/nft/types#nftdata)
+- [`LifecycleStatus`](/mint/types#lifecyclestatus)
+- [`NFTMintCardReact`](/mint/types#nftmintcardreact)
+- [`NFTData`](/mint/types#nftdata)
