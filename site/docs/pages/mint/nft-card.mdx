@@ -3,15 +3,12 @@ title: <NFTCard /> · OnchainKit
 description: View NFTs with OnchainKit
 ---
 
-import { NFTCard } from '@coinbase/onchainkit/nft';
-import {
-  NFTLastSoldPrice,
-  NFTMedia,
-  NFTNetwork,
-  NFTOwner,
-  NFTTitle,
-} from '@coinbase/onchainkit/nft/view';
-import App from '../../components/App';
+import { 
+  ViewCardMain, 
+  ViewCardTitleAbove, 
+  ViewCardScaled, 
+  ViewCardOverrideStyles 
+} from '../../components/NFTComponents';
 
 # `<NFTCard />`
 
@@ -103,20 +100,7 @@ import {
 </NFTCard>
 ```
 
-<App>
-  <div className="flex items-center justify-center">
-    <NFTCard 
-      contractAddress='0xFE12c6d7555B4A94B352998f8e1E96aDFbE628e9' 
-      tokenId='1'
-    >
-      <NFTMedia />
-      <NFTTitle />
-      <NFTOwner />
-      <NFTLastSoldPrice />
-      <NFTNetwork />
-    </NFTCard>
-  </div>
-</App>
+<ViewCardMain />
 
 ::::
 
@@ -146,17 +130,7 @@ import {
 // ---cut-after---
 ```
 
-<App>
-  <div className="flex items-center justify-center">
-    <NFTCard 
-      contractAddress='0xb4703a3a73aec16e764cbd210b0fde9efdab8941' 
-      tokenId='1'
-    >
-      <NFTTitle/>
-      <NFTMedia/>
-    </NFTCard>
-  </div>
-</App>
+<ViewCardTitleAbove />
 
 ### Customize the `<NFTMedia />` aspect ratio
 
@@ -179,7 +153,7 @@ import {
 
 | Scaled to fit (default) | Original Aspect Ratio |
 |-----------------|------------|
-| <App><NFTCard contractAddress='0x877f0f3fef81c28a8c40fe060b17d254003377ad' tokenId='1'><NFTMedia /></NFTCard></App> | <App><NFTCard contractAddress='0x877f0f3fef81c28a8c40fe060b17d254003377ad' tokenId='1'><NFTMedia square={false}/></NFTCard></App> |
+| <ViewCardScaled square={true} /> | <ViewCardScaled square={false} /> |
 
 ### Override styles
 
@@ -206,17 +180,7 @@ export default function NFTComponent() {
 }
 ```
 
-<App>
-  <div className="flex items-center justify-center">
-    <NFTCard 
-      contractAddress='0xb4703a3a73aec16e764cbd210b0fde9efdab8941' 
-      tokenId='1'
-    >
-      <NFTMedia/>
-      <NFTTitle className='text-[#EA580C]'/>
-    </NFTCard>
-  </div>
-</App>
+<ViewCardOverrideStyles />
 
 ## Advanced Usage
 
