@@ -84,6 +84,14 @@ type State = {
   setNFTToken: (nftToken: string) => void;
   setIsSponsored: (isSponsored: boolean) => void;
   isSponsored?: boolean;
+  toastPosition?: 'bottom-center' | 'top-center' | 'top-right' | 'bottom-right';
+  setToastPosition: (position: "bottom-center" | "top-center" | "top-right" | "bottom-right") => void;
+  toastDurationMs?: number;
+  setToastDurationMs: (durationMs: number) => void;
+  toastTransactionHash?: string;
+  setToastTransactionHash: (transactionHash: string) => void;
+  isToastVisible?: boolean;
+  setIsToastVisible: (isToastVisible: boolean) => void;
 };
 
 const defaultState: State = {
@@ -95,6 +103,10 @@ const defaultState: State = {
   setComponentMode: () => {},
   setNFTToken: () => {},
   setIsSponsored: () => {},
+  setToastPosition: () => {},
+  setToastDurationMs: () => {},
+  setToastTransactionHash: () => {},
+  setIsToastVisible: () => {},
 };
 
 export const AppContext = createContext(defaultState);
@@ -108,12 +120,12 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   const [walletType, setWalletTypeState] = useState<WalletPreference>();
   const [chainId, setChainIdState] = useState<number>();
   const [transactionType, setTransactionTypeState] = useState<TransactionTypes>(
-    TransactionTypes.Contracts,
+    TransactionTypes.Contracts
   );
   const [checkoutOptions, setCheckoutOptionsState] =
     useState<CheckoutOptions>();
   const [checkoutTypes, setCheckoutTypesState] = useState<CheckoutTypes>(
-    CheckoutTypes.ProductID,
+    CheckoutTypes.ProductID
   );
   const [paymasters, setPaymastersState] =
     useState<Record<number, Paymaster>>();
@@ -123,10 +135,17 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   const [componentMode, setComponentModeState] =
     useState<ComponentMode>('auto');
   const [nftToken, setNFTTokenState] = useState<string>(
-    '0x1D6b183bD47F914F9f1d3208EDCF8BefD7F84E63:1',
+    '0x1D6b183bD47F914F9f1d3208EDCF8BefD7F84E63:1'
   );
 
   const [isSponsored, setIsSponsoredState] = useState<boolean>(false);
+
+  const [toastPosition, setToastPositionState] =
+    useState<"bottom-center" | "top-center" | "top-right" | "bottom-right">('bottom-center');
+  const [toastDurationMs, setToastDurationMsState] = useState<number>(3000);
+  const [toastTransactionHash, setToastTransactionHashState] =
+    useState<string>();
+  const [isToastVisible, setIsToastVisibleState] = useState<boolean>(true);
 
   // Load initial values from localStorage
   // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO Refactor this component
@@ -138,13 +157,19 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     const storedTransactionType = localStorage.getItem('transactionType');
     const storedDefaultMaxSlippage = localStorage.getItem('defaultMaxSlippage');
     const storedComponentTheme = localStorage.getItem(
-      'componentTheme',
+      'componentTheme'
     ) as ComponentTheme;
     const storedComponentMode = localStorage.getItem(
-      'componentMode',
+      'componentMode'
     ) as ComponentMode;
     const storedNFTToken = localStorage.getItem('nftToken');
     const storedIsSponsored = localStorage.getItem('isSponsored');
+    const storedToastPosition = localStorage.getItem('toastPosition') as "bottom-center" | "top-center" | "top-right" | "bottom-right";
+    const storedToastDurationMs = localStorage.getItem('toastDurationMs');
+    const storedToastTransactionHash = localStorage.getItem(
+      'toastTransactionHash'
+    );
+    const storedIsToastVisible = localStorage.getItem('isToastVisible');
 
     if (storedActiveComponent) {
       setActiveComponent(storedActiveComponent as OnchainKitComponent);
@@ -175,6 +200,18 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     }
     if (storedIsSponsored) {
       setIsSponsoredState(JSON.parse(storedIsSponsored));
+    }
+    if (storedToastPosition) {
+      setToastPositionState(storedToastPosition);
+    }
+    if (storedToastDurationMs) {
+      setToastDurationMs(Number(storedToastDurationMs));
+    }
+    if (storedToastTransactionHash) {
+      setToastTransactionHash(storedToastTransactionHash);
+    }
+    if (storedIsToastVisible) {
+      setIsToastVisible(JSON.parse(storedIsToastVisible));
     }
   }, []);
 
@@ -211,7 +248,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   const setDefaultMaxSlippage = (newDefaultMaxSlippage: number) => {
     localStorage.setItem(
       'defaultMaxSlippage',
-      newDefaultMaxSlippage.toString(),
+      newDefaultMaxSlippage.toString()
     );
     setDefaultMaxSlippageState(newDefaultMaxSlippage);
   };
@@ -262,6 +299,26 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     setIsSponsoredState(isSponsored);
   };
 
+  const setToastPosition = (position: "bottom-center" | "top-center" | "top-right" | "bottom-right") => {
+    localStorage.setItem('toastPosition', position);
+    setToastPositionState(position);
+  };
+
+  const setToastDurationMs = (durationMs: number) => {
+    localStorage.setItem('toastDurationMs', durationMs.toString());
+    setToastDurationMsState(durationMs);
+  };
+
+  const setToastTransactionHash = (transactionHash: string) => {
+    localStorage.setItem('toastTransactionHash', transactionHash);
+    setToastTransactionHashState(transactionHash);
+  };
+
+  const setIsToastVisible = (isToastVisible: boolean) => {
+    localStorage.setItem('isToastVisible', JSON.stringify(isToastVisible));
+    setIsToastVisibleState(isToastVisible);
+  };
+
   return (
     <AppContext.Provider
       value={{
@@ -290,6 +347,14 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         setNFTToken,
         setIsSponsored,
         isSponsored,
+        toastPosition,
+        setToastPosition,
+        toastDurationMs,
+        setToastDurationMs,
+        toastTransactionHash,
+        setToastTransactionHash,
+        isToastVisible,
+        setIsToastVisible,
       }}
     >
       <OnchainKitProvider

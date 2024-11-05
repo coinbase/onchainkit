@@ -1,26 +1,31 @@
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import { useAccount } from 'wagmi';
-import { Toast } from '@/onchainkit/src/global/components/Toast';
-import { successSvg } from '@/onchainkit/src/internal/svg/successSvg';
-import { cn, color, text } from '@/onchainkit/src/styles/theme';
-import { getChainExplorer } from '@/onchainkit/src/network/getChainExplorer';
 import { AppContext } from '@/components/AppProvider';
+import { successSvg } from '@/onchainkit/src/internal/svg/successSvg';
+import { Toast } from '@/onchainkit/src/global/components/Toast';
+import { getChainExplorer } from '@/onchainkit/src/network/getChainExplorer';
+import { cn, color, text } from '@/onchainkit/src/styles/theme';
 
 export default function ToastDemo() {
-  const [isToastVisible, setIsToastVisible] = useState<boolean>(true);
+  const {
+    toastPosition,
+    isToastVisible,
+    setIsToastVisible,
+    toastDurationMs,
+    toastTransactionHash,
+  } = useContext(AppContext);
 
   const { chainId } = useAccount();
   const chainExplorer = getChainExplorer(chainId);
   const txHash = '0x1234567890abcdef';
 
-  const { componentTheme } = useContext(AppContext);
-
   return (
     <Toast
-      position="top-center"
-      isToastVisible={isToastVisible}
-      closeToast={() => setIsToastVisible((prev) => !prev)}
-      transactionHash="0x1234567890abcdef"
+      position={toastPosition ?? 'bottom-center'}
+      isToastVisible={isToastVisible ?? true}
+      setIsToastVisible={setIsToastVisible}
+      closeToast={() => setIsToastVisible(false)}
+      durationMs={toastDurationMs ?? 3000}
     >
       <div className={cn(text.label2)}>{successSvg}</div>
       <div className={cn(text.label1, 'text-nowrap')}>
@@ -28,7 +33,7 @@ export default function ToastDemo() {
       </div>
       <div className={cn(text.label1, 'text-nowrap')}>
         <a
-          href={`${chainExplorer}/tx/${txHash}`}
+          href={`${chainExplorer}/tx/${toastTransactionHash ?? txHash}`}
           target="_blank"
           rel="noreferrer"
         >

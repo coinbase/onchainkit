@@ -10,6 +10,7 @@ import { NFTOptions } from './form/nft-options';
 import { SwapConfig } from './form/swap-config';
 import { TransactionOptions } from './form/transaction-options';
 import { WalletType } from './form/wallet-type';
+import { ToastOptions } from './form/toast-options';
 
 export default function DemoOptions({
   component,
@@ -76,6 +77,13 @@ export default function DemoOptions({
           <PaymasterUrl />
           <IsSponsored />
           <NFTOptions />
+        </>
+      );
+    case OnchainKitComponent.Toast:
+      return (
+        <>
+          {commonOptions}
+          <ToastOptions />
         </>
       );
     default:
