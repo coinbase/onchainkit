@@ -6,7 +6,7 @@ runs:
       with:
         node-version-file: '.nvmrc'
         registry-url: https://registry.npmjs.org
-        cache: yarn
+        cache: bun
 
     # For provenance https://docs.npmjs.com/generating-provenance-statements#prerequisites
     - name: Install npm 9.5
@@ -14,5 +14,5 @@ runs:
       shell: bash
 
     - name: Install node modules
-      run: yarn install --frozen-lockfile
+      run: bun install --frozen-lockfile
       shell: bash
