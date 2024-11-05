@@ -247,7 +247,7 @@ export default function NFTComponent() {
 
 ### Bring your own data
 
-The default `NFTMintCard` implementation uses Coinbase Developer Platform to provide the data and requires an API key.  You can use the `useNFTData` prop to pass in a hook which fetches the NFT data from a source of your choice.  As long as this hook returns an object with the same shape as the `NFTData` type, the NFTMintCard will render.
+The default `NFTMintCard` implementation uses Coinbase Developer Platform to provide the data and requires an API key.  You can use the `useNFTData` prop to pass in a hook which fetches the NFT data from a source of your choice.  As long as this hook returns an object with the same shape as the [`NFTData`](/mint/types#nftdata) type, the NFTMintCard will render.
 
 You can also use a custom `buildMintTransaction` function to create your own Mint transaction.
 
