@@ -181,7 +181,6 @@ describe('OnchainKitProvider', () => {
         <QueryClientProvider client={queryClient}>
           <OnchainKitProvider
             chain={base}
-            schemaId={schemaId}
             apiKey={apiKey}
             config={customConfig}
           >
@@ -208,7 +207,7 @@ describe('OnchainKitProvider', () => {
           },
           projectId: null,
           rpcUrl: null,
-          schemaId: schemaId,
+          schemaId: COINBASE_VERIFIED_ACCOUNT_SCHEMA_ID,
         }),
       );
     });
@@ -228,6 +227,7 @@ describe('OnchainKitProvider', () => {
         <QueryClientProvider client={queryClient}>
           <OnchainKitProvider
             chain={base}
+            schemaId={schemaId}
             apiKey={apiKey}
             config={customConfig}
           >
@@ -254,7 +254,7 @@ describe('OnchainKitProvider', () => {
           },
           projectId: null,
           rpcUrl: null,
-          schemaId: COINBASE_VERIFIED_ACCOUNT_SCHEMA_ID,
+          schemaId: schemaId,
         }),
       );
     });
