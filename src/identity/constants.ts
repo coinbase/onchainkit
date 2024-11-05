@@ -1,5 +1,6 @@
 import { base, baseSepolia } from 'viem/chains';
 import type { ResolverAddressesByChainIdMap } from './types';
+import type { EASSchemaUid } from './types';
 
 export const RESOLVER_ADDRESSES_BY_CHAIN_ID: ResolverAddressesByChainIdMap = {
   [baseSepolia.id]: '0x6533C94869D28fAA8dF77cc63f9e2b2D6Cf77eBA',
@@ -24,3 +25,6 @@ export const BASE_DEFAULT_PROFILE_PICTURES = [
   BASE_DEFAULT_PROFILE_PICTURES6,
   BASE_DEFAULT_PROFILE_PICTURES7,
 ];
+
+export const COINBASE_VERIFIED_ACCOUNT_SCHEMA_ID: EASSchemaUid =
+  '0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9';
