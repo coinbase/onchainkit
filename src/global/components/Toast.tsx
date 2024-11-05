@@ -6,8 +6,8 @@ type ToastProps = {
   className?: string;
   durationMs?: number;
   position: 'top-center' | 'top-right' | 'bottom-center' | 'bottom-right';
-  transactionHash: string;
   isToastVisible: boolean;
+  setIsToastVisible: (isToastVisible: boolean) => void;
   closeToast: () => void;
   children: React.ReactNode;
 };
@@ -17,6 +17,7 @@ export function Toast({
   durationMs = 3000,
   position = 'bottom-center',
   isToastVisible,
+  setIsToastVisible,
   closeToast,
   children,
 }: ToastProps) {
@@ -36,7 +37,7 @@ export function Toast({
   useEffect(() => {
     const timer = setTimeout(() => {
       if (isToastVisible) {
-        isToastVisible = false;
+        setIsToastVisible(false);
       }
     }, durationMs);
 
@@ -63,25 +64,7 @@ export function Toast({
       )}
       data-testid="GlobalToast"
     >
-      <div className="flex items-center gap-4 p-2">
-        {children}
-        {/* swap success toast */}
-        {/* <div className={cn(text.label2)}>{successSvg}</div>
-        <div className={cn(text.label1, 'text-nowrap')}>
-          <p className={color.foreground}>Successful</p>
-        </div>
-        <div className={cn(text.label1, 'text-nowrap')}>
-          <a
-            href={`${chainExplorer}/tx/${transactionHash}`}
-            target="_blank"
-            rel="noreferrer"
-          >
-            <span className={cn(text.label1, color.primary)}>
-              View transaction
-            </span>
-          </a>
-        </div> */}
-      </div>
+      <div className="flex items-center gap-4 p-2">{children}</div>
       <button
         className="p-2"
         onClick={closeToast}
