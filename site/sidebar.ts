@@ -53,7 +53,7 @@ export const sidebar = [
     items: [
       {
         text: 'Onchain NFT App',
-        link: 'https://github.com/coinbase/onchain-app-template',
+        link: 'https://ock-mint.vercel.app/',
       },
       {
         text: 'Onchain Commerce App',

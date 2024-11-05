@@ -9,13 +9,12 @@ Before using them, make sure to obtain a [Client API Key](https://portal.cdp.coi
 :::code-group
 
 ```tsx twoslash [code]
-// @noErrors: 2305 1162 - TODO: remove after ock release
 import { setOnchainKitConfig } from '@coinbase/onchainkit';
 import { getTokenDetails } from '@coinbase/onchainkit/api';
 
 const response = await getTokenDetails({
   contractAddress: '0x...',
-  tokenId?: '1',
+  tokenId: '1',
 });
 ```
 
