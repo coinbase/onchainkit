@@ -75,7 +75,7 @@ describe('NFTView', () => {
     );
   });
 
-  it('should go to opensea onclick when on base chain', () => {
+  it('should go to zora onclick when on base chain', () => {
     window.open = vi.fn();
     (useAccount as Mock).mockReturnValue({ chain: { name: 'Base' } });
     const { getByTestId } = render(
@@ -88,13 +88,13 @@ describe('NFTView', () => {
     button.click();
 
     expect(window.open).toHaveBeenCalledWith(
-      'https://opensea.io/assets/base/0x123/1',
+      'https://zora.co/collect/base:0x123/1',
       '_blank',
       'noopener,noreferrer',
     );
   });
 
-  it('should go to opensea onclick defaulting to base when chain is null', () => {
+  it('should go to zora onclick defaulting to base when chain is null', () => {
     window.open = vi.fn();
     const { getByTestId } = render(
       <NFTCard contractAddress="0x123" tokenId="1" className="test-class">
@@ -106,7 +106,7 @@ describe('NFTView', () => {
     button.click();
 
     expect(window.open).toHaveBeenCalledWith(
-      'https://opensea.io/assets/base/0x123/1',
+      'https://zora.co/collect/base:0x123/1',
       '_blank',
       'noopener,noreferrer',
     );
