@@ -22,6 +22,7 @@ export enum OnchainKitComponent {
   NFTCardDefault = 'nft-card-default',
   NFTMintCard = 'nft-mint-card',
   NFTMintCardDefault = 'nft-mint-card-default',
+  Toast = 'toast',
 }
 
 export enum TransactionTypes {

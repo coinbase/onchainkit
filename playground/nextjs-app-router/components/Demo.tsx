@@ -17,6 +17,7 @@ import TransactionDemo from './demo/Transaction';
 import TransactionDefaultDemo from './demo/TransactionDefault';
 import WalletDemo from './demo/Wallet';
 import WalletDefaultDemo from './demo/WalletDefault';
+import ToastDemo from '@/components/demo/ToastDemo';
 
 function Demo() {
   const { activeComponent } = useContext(AppContext);
@@ -101,6 +102,10 @@ function Demo() {
 
     if (activeComponent === OnchainKitComponent.IdentityCard) {
       return <IdentityCardDemo />;
+    }
+
+    if (activeComponent === OnchainKitComponent.Toast) {
+      return <ToastDemo />;
     }
 
     return <></>;
