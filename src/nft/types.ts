@@ -133,6 +133,12 @@ export type NFTCardReact = {
 
 /**
  * Note: exported as public Type
+ */
+
+export type NFTCardDefaultReact = Omit<NFTCardReact, 'children'>;
+
+/**
+ * Note: exported as public Type
  * NFTMint must be used if the NFTMintButton is included
  */
 export type NFTMintCardReact = {
@@ -148,6 +154,13 @@ export type NFTMintCardReact = {
   onSuccess?: (transactionReceipt?: TransactionReceipt) => void; // mint will pass transactionReceipt
 };
 
+/**
+/**
+ * Note: exported as public Type
+ */
+export type NFTMintCardDefaultReact = Omit<NFTMintCardReact, 'children'>;
+
+/**
 /**
  * Note: exported as public Type
  */

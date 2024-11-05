@@ -8,7 +8,9 @@ import FundDemo from './demo/Fund';
 import IdentityDemo from './demo/Identity';
 import { IdentityCardDemo } from './demo/IdentityCard';
 import NFTCardDemo from './demo/NFTCard';
+import NFTCardDefaultDemo from './demo/NFTCardDefault';
 import NFTMintCardDemo from './demo/NFTMintCard';
+import NFTMintCardDefaultDemo from './demo/NFTMintCardDefault';
 import SwapDemo from './demo/Swap';
 import SwapDefaultDemo from './demo/SwapDefault';
 import TransactionDemo from './demo/Transaction';
@@ -87,6 +89,14 @@ function Demo() {
 
     if (activeComponent === OnchainKitComponent.NFTCard) {
       return <NFTCardDemo />;
+    }
+
+    if (activeComponent === OnchainKitComponent.NFTMintCardDefault) {
+      return <NFTMintCardDefaultDemo />;
+    }
+
+    if (activeComponent === OnchainKitComponent.NFTCardDefault) {
+      return <NFTCardDefaultDemo />;
     }
 
     if (activeComponent === OnchainKitComponent.IdentityCard) {
