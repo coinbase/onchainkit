@@ -15,7 +15,7 @@ import {
 
 const sourceDir = path.resolve(
   fileURLToPath(import.meta.url),
-'../../../templates/next'
+  '../../../templates/next'
 );
 
 const renameFiles: Record<string, string | undefined> = {
