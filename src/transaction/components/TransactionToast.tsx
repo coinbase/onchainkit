@@ -6,7 +6,7 @@ import { useTransactionContext } from './TransactionProvider';
 export function TransactionToast({
   children,
   className,
-  durationMs = 300000, // TODO: change to 3000 after testing
+  durationMs = 3000,
   position = 'bottom-center',
 }: TransactionToastReact) {
   const {
