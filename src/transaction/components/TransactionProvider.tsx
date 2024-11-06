@@ -100,7 +100,7 @@ export function TransactionProvider({
   const {
     status: statusSendCall,
     sendCallAsync,
-    data: sendCallTransactionHash,
+    data: singleTransactionHash,
   } = useSendCall({
     setLifecycleStatus,
     transactionHashList,
@@ -115,9 +115,6 @@ export function TransactionProvider({
     }
     return statusSendCall;
   }, [statusSendCall, statusSendCalls, walletCapabilities]);
-
-  // Transaction hash for single transaction (non-batched)
-  const singleTransactionHash = sendCallTransactionHash;
 
   const capabilities = useMemo(() => {
     if (isSponsored && paymaster) {
