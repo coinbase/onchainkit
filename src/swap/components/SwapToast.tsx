@@ -1,16 +1,16 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback } from 'react';
 import { cn, color, text } from '../../styles/theme';
 
 import { useAccount } from 'wagmi';
+import { Toast } from '../../internal/components/Toast';
 import { successSvg } from '../../internal/svg/successSvg';
 import { getChainExplorer } from '../../network/getChainExplorer';
 import type { SwapToastReact } from '../types';
 import { useSwapContext } from './SwapProvider';
-import { Toast } from '../../internal/components/Toast';
 
 export function SwapToast({
   className,
-  durationMs = 300000, // TODO: change to 3000 after testing
+  durationMs = 8000,
   position = 'bottom-center',
 }: SwapToastReact) {
   const {

@@ -7,11 +7,7 @@ describe('Toast component', () => {
   it('should render bottom-right correctly', () => {
     const handleClose = vi.fn();
     const { getByTestId } = render(
-      <Toast
-        isVisible={true}
-        position="bottom-right"
-        onClose={handleClose}
-      >
+      <Toast isVisible={true} position="bottom-right" onClose={handleClose}>
         <div>Test</div>
       </Toast>,
     );
@@ -27,11 +23,7 @@ describe('Toast component', () => {
   it('should render top-right correctly', () => {
     const handleClose = vi.fn();
     const { getByTestId } = render(
-      <Toast
-        isVisible={true}
-        position="top-right"
-        onClose={handleClose}
-      >
+      <Toast isVisible={true} position="top-right" onClose={handleClose}>
         <div>Test</div>
       </Toast>,
     );
@@ -47,11 +39,7 @@ describe('Toast component', () => {
   it('should render top-center correctly', () => {
     const handleClose = vi.fn();
     const { getByTestId } = render(
-      <Toast
-        isVisible={true}
-        position="top-center"
-        onClose={handleClose}
-      >
+      <Toast isVisible={true} position="top-center" onClose={handleClose}>
         <div>Test</div>
       </Toast>,
     );
@@ -67,11 +55,7 @@ describe('Toast component', () => {
   it('should render bottom-center correctly', () => {
     const handleClose = vi.fn();
     const { getByTestId } = render(
-      <Toast
-        isVisible={true}
-        position="bottom-center"
-        onClose={handleClose}
-      >
+      <Toast isVisible={true} position="bottom-center" onClose={handleClose}>
         <div>Test</div>
       </Toast>,
     );
@@ -104,11 +88,7 @@ describe('Toast component', () => {
   it('should not be visible when isVisible is false', () => {
     const handleClose = vi.fn();
     const { queryByTestId } = render(
-      <Toast
-        isVisible={false}
-        position="bottom-right"
-        onClose={handleClose}
-      >
+      <Toast isVisible={false} position="bottom-right" onClose={handleClose}>
         <div>Test</div>
       </Toast>,
     );
@@ -119,11 +99,7 @@ describe('Toast component', () => {
   it('should close when close button is clicked', () => {
     const handleClose = vi.fn();
     const { getByTestId } = render(
-      <Toast
-        isVisible={true}
-        position="bottom-right"
-        onClose={handleClose}
-      >
+      <Toast isVisible={true} position="bottom-right" onClose={handleClose}>
         <div>Test</div>
       </Toast>,
     );
@@ -136,11 +112,7 @@ describe('Toast component', () => {
   it('should render children correctly', () => {
     const handleClose = vi.fn();
     const { getByText } = render(
-      <Toast
-        isVisible={true}
-        position="bottom-right"
-        onClose={handleClose}
-      >
+      <Toast isVisible={true} position="bottom-right" onClose={handleClose}>
         <div>Test</div>
       </Toast>,
     );

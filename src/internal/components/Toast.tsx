@@ -49,7 +49,7 @@ export function Toast({
         'p-2 shadow-[0px_8px_24px_0px_rgba(0,0,0,0.12)]',
         '-translate-x-2/4 fixed z-20',
         positionClass,
-        className
+        className,
       )}
       data-testid="ockToast"
     >
