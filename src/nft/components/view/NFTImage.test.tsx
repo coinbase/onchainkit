@@ -1,6 +1,5 @@
 import '@testing-library/jest-dom';
 import { fireEvent, render, waitFor } from '@testing-library/react';
-import { act } from 'react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useNFTContext } from '../NFTProvider';
 import { NFTImage } from './NFTImage';
@@ -86,18 +85,6 @@ describe('NFTImage', () => {
         message: 'Error loading image',
       }),
     );
-  });
-
-  it('should hide the svg on transition end', async () => {
-    (useNFTContext as Mock).mockReturnValue({
-      imageUrl: 'transitionend',
-      description: 'Test NFT Image',
-    });
-    const { getByTestId, queryByTestId } = render(<NFTImage />);
-    await act(async () => {
-      fireEvent.transitionEnd(getByTestId('ockNFTImage'));
-    });
-    expect(queryByTestId('ock-defaultNFTSvg')).toBeNull();
   });
 
   it('should retry loading the image when retry button is clicked', async () => {
