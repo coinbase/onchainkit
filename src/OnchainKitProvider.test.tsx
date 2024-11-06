@@ -16,6 +16,7 @@ import { OnchainKitProvider } from './OnchainKitProvider';
 import { COINBASE_VERIFIED_ACCOUNT_SCHEMA_ID } from './identity/constants';
 import type { EASSchemaUid } from './identity/types';
 import { useOnchainKit } from './useOnchainKit';
+import { useProviderDependencies } from './useProviderDependencies';
 
 vi.mock('wagmi', async (importOriginal) => {
   const actual = await importOriginal();
@@ -24,6 +25,13 @@ vi.mock('wagmi', async (importOriginal) => {
     useConfig: vi.fn(),
   };
 });
+
+vi.mock('./useProviderDependencies', () => ({
+  useProviderDependencies: vi.fn(() => ({
+    providedWagmiConfig: null,
+    providedQueryClient: null,
+  })),
+}));
 
 vi.mock('./useProviderDependencies', () => ({
   useProviderDependencies: vi.fn(() => ({
@@ -72,12 +80,16 @@ describe('OnchainKitProvider', () => {
   const apiKey = 'test-api-key';
   const paymasterUrl =
     'https://api.developer.coinbase.com/rpc/v1/base/test-api-key';
-  const appLogo = undefined;
-  const appName = undefined;
+  const appLogo = '';
+  const appName = 'Dapp';
 
   beforeEach(() => {
     vi.clearAllMocks();
     (useConfig as Mock).mockReturnValue(mockConfig);
+    (useProviderDependencies as Mock).mockReturnValue({
+      providedWagmiConfig: mockConfig,
+      providedQueryClient: queryClient,
+    });
   });
 
   it('provides the context value correctly', async () => {
@@ -100,6 +112,10 @@ describe('OnchainKitProvider', () => {
   it('provides the context value correctly without WagmiProvider', async () => {
     (useConfig as Mock).mockImplementation(() => {
       throw new WagmiProviderNotFoundError();
+    });
+    (useProviderDependencies as Mock).mockReturnValue({
+      providedWagmiConfig: null,
+      providedQueryClient: null,
     });
     render(
       <OnchainKitProvider chain={base} schemaId={schemaId} apiKey={apiKey}>
