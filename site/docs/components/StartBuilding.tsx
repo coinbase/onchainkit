@@ -189,7 +189,7 @@ export default function StartBuilding() {
             >
               Mint
             </a>{' '}
-            NFTs in yoru app.
+            NFTs in your app.
           </span>
         </li>
         <li className="vocs_ListItem">
