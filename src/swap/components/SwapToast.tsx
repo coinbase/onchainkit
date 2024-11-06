@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { cn, color, text } from '../../styles/theme';
 
 import { useAccount } from 'wagmi';
@@ -10,7 +10,7 @@ import { Toast } from '../../internal/components/Toast';
 
 export function SwapToast({
   className,
-  durationMs = 3000,
+  durationMs = 300000, // TODO: change to 3000 after testing
   position = 'bottom-center',
 }: SwapToastReact) {
   const {
@@ -23,20 +23,10 @@ export function SwapToast({
   const { chainId } = useAccount();
   const chainExplorer = getChainExplorer(chainId);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      if (isToastVisible) {
-        setIsToastVisible?.(false);
-        setTransactionHash?.('');
-      }
-    }, durationMs);
-
-    return () => {
-      if (timer) {
-        clearTimeout(timer);
-      }
-    };
-  }, [durationMs, isToastVisible, setIsToastVisible, setTransactionHash]);
+  const resetToastState = useCallback(() => {
+    setIsToastVisible(false);
+    setTransactionHash('');
+  }, [setIsToastVisible, setTransactionHash]);
 
   if (!isToastVisible) {
     return null;
@@ -46,9 +36,9 @@ export function SwapToast({
     <Toast
       position={position}
       className={className}
-      durationMs={300000 ?? durationMs} // TODO: remove the 300000 after testing
+      durationMs={durationMs}
       isVisible={isToastVisible}
-      setIsVisible={setIsToastVisible}
+      onClose={resetToastState}
     >
       <div className={cn(text.label2)}>{successSvg}</div>
       <div className={cn(text.label1, 'text-nowrap')}>
