@@ -4067,7 +4067,7 @@ __metadata:
   conditions: os=win32 & cpu=x64
   languageName: node
   linkType: hard
-  
+
 "@safe-global/safe-apps-provider@npm:0.18.3":
   version: 0.18.3
   resolution: "@safe-global/safe-apps-provider@npm:0.18.3"
@@ -16701,7 +16701,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"yargs@npm:^17.3.1, yargs@npm:^17.5.1, yargs@npm:^17.7.2":
+"yargs@npm:^17.3.1, yargs@npm:^17.7.2":
   version: 17.7.2
   resolution: "yargs@npm:17.7.2"
   dependencies:
