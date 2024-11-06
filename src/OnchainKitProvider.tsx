@@ -28,6 +28,7 @@ export function OnchainKitProvider({
     throw Error('EAS schemaId must be 64 characters prefixed with "0x"');
   }
 
+  // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: ignore
   const value = useMemo(() => {
     const defaultPaymasterUrl = apiKey
       ? `https://api.developer.coinbase.com/rpc/v1/${chain.name
