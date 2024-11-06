@@ -46,7 +46,7 @@ export function SwapToast({
     <Toast
       position={position}
       className={className}
-      durationMs={durationMs}
+      durationMs={300000 ?? durationMs} // TODO: remove the 300000 after testing
       isVisible={isToastVisible}
       setIsVisible={setIsToastVisible}
     >

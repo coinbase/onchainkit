@@ -4,7 +4,7 @@ import { describe, expect, it, vi } from 'vitest';
 import { Toast } from './Toast';
 
 describe('Toast component', () => {
-  it('bottom-right renders correctly', () => {
+  it('should render bottom-right correctly', () => {
     const setIsVisible = vi.fn();
     const { getByTestId } = render(
       <Toast
@@ -24,7 +24,7 @@ describe('Toast component', () => {
     expect(closeButton).toBeInTheDocument();
   });
 
-  it('top-right renders correctly', () => {
+  it('should render top-right correctly', () => {
     const setIsVisible = vi.fn();
     const { getByTestId } = render(
       <Toast
@@ -44,7 +44,7 @@ describe('Toast component', () => {
     expect(closeButton).toBeInTheDocument();
   });
 
-  it('top-center renders correctly', () => {
+  it('should render top-center correctly', () => {
     const setIsVisible = vi.fn();
     const { getByTestId } = render(
       <Toast
@@ -64,7 +64,7 @@ describe('Toast component', () => {
     expect(closeButton).toBeInTheDocument();
   });
 
-  it('bottom-center renders correctly', () => {
+  it('should render bottom-center correctly', () => {
     const setIsVisible = vi.fn();
     const { getByTestId } = render(
       <Toast
@@ -84,7 +84,7 @@ describe('Toast component', () => {
     expect(closeButton).toBeInTheDocument();
   });
 
-  it('custom className is applied correctly', () => {
+  it('should apply custom className correctly', () => {
     const setIsVisible = vi.fn();
     const { getByTestId } = render(
       <Toast
@@ -101,7 +101,7 @@ describe('Toast component', () => {
     expect(toastContainer).toHaveClass('custom-class');
   });
 
-  it('toast is not visible when isVisible is false', () => {
+  it('should not be visible when isVisible is false', () => {
     const setIsVisible = vi.fn();
     const { queryByTestId } = render(
       <Toast
@@ -116,7 +116,7 @@ describe('Toast component', () => {
     expect(toastContainer).not.toBeInTheDocument();
   });
 
-  it('toast close button works', () => {
+  it('should close when close button is clicked', () => {
     const setIsVisible = vi.fn();
     const { getByTestId } = render(
       <Toast
@@ -133,7 +133,7 @@ describe('Toast component', () => {
     expect(setIsVisible).toHaveBeenCalledWith(false);
   });
 
-  it('toast renders children correctly', () => {
+  it('should render children correctly', () => {
     const setIsVisible = vi.fn();
     const { getByText } = render(
       <Toast
@@ -149,7 +149,7 @@ describe('Toast component', () => {
     expect(text).toBeInTheDocument();
   });
 
-  it('toast disappears after durationMs', async () => {
+  it('should disappear after durationMs', async () => {
     vi.useFakeTimers();
     const setIsVisible = vi.fn();
     const durationMs = 2000;
@@ -174,7 +174,7 @@ describe('Toast component', () => {
     vi.useRealTimers();
   });
 
-  it('timer does not fire after manual close', () => {
+  it('should not fire timer after manual close', () => {
     vi.useFakeTimers();
     const setIsVisible = vi.fn();
     const durationMs = 2000;
@@ -215,7 +215,7 @@ describe('Toast component', () => {
     vi.useRealTimers();
   });
 
-  it('cleanup happens correctly on unmount', () => {
+  it('should cleanup correctly on unmount', () => {
     vi.useFakeTimers();
     const setIsVisible = vi.fn();
 
