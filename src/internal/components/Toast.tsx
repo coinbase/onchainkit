@@ -1,6 +1,7 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect } from 'react';
 import { background, cn } from '../../styles/theme';
 import { closeSvg } from '../svg/closeSvg';
+import { getToastPosition } from '../utils/getToastPosition';
 
 type ToastProps = {
   className?: string;
@@ -19,18 +20,7 @@ export function Toast({
   setIsToastVisible,
   children,
 }: ToastProps) {
-  const positionClass = useMemo(() => {
-    if (position === 'bottom-right') {
-      return 'bottom-5 left-3/4';
-    }
-    if (position === 'top-right') {
-      return 'top-[100px] left-3/4';
-    }
-    if (position === 'top-center') {
-      return 'top-[100px] left-2/4';
-    }
-    return 'bottom-5 left-2/4';
-  }, [position]);
+  const positionClass = getToastPosition(position);
 
   useEffect(() => {
     const timer = setTimeout(() => {

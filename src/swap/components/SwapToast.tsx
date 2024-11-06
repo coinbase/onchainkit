@@ -1,13 +1,12 @@
-import { useCallback, useEffect, useMemo } from 'react';
-import { closeSvg } from '../../internal/svg/closeSvg';
-import { background, cn, color, text } from '../../styles/theme';
+import { useEffect } from 'react';
+import { cn, color, text } from '../../styles/theme';
 
 import { useAccount } from 'wagmi';
 import { successSvg } from '../../internal/svg/successSvg';
-import { getToastPosition } from '../../internal/utils/getToastPosition';
 import { getChainExplorer } from '../../network/getChainExplorer';
 import type { SwapToastReact } from '../types';
 import { useSwapContext } from './SwapProvider';
+import { Toast } from '../../internal/components/Toast';
 
 export function SwapToast({
   className,
@@ -22,16 +21,7 @@ export function SwapToast({
   } = useSwapContext();
 
   const { chainId } = useAccount();
-
   const chainExplorer = getChainExplorer(chainId);
-
-  const closeToast = useCallback(() => {
-    setIsToastVisible?.(false);
-  }, [setIsToastVisible]);
-
-  const positionClass = useMemo(() => {
-    return getToastPosition(position);
-  }, [position]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -53,42 +43,28 @@ export function SwapToast({
   }
 
   return (
-    <div
-      className={cn(
-        background.default,
-        'flex animate-enter items-center justify-between rounded-lg',
-        'p-2 shadow-[0px_8px_24px_0px_rgba(0,0,0,0.12)]',
-        '-translate-x-2/4 fixed z-20',
-        positionClass,
-        className,
-      )}
-      data-testid="ockSwapToast"
+    <Toast
+      position={position}
+      className={className}
+      durationMs={durationMs}
+      isToastVisible={isToastVisible}
+      setIsToastVisible={setIsToastVisible}
     >
-      <div className="flex items-center gap-4 p-2">
-        <div className={cn(text.label2)}>{successSvg}</div>
-        <div className={cn(text.label1, 'text-nowrap')}>
-          <p className={color.foreground}>Successful</p>
-        </div>
-        <div className={cn(text.label1, 'text-nowrap')}>
-          <a
-            href={`${chainExplorer}/tx/${transactionHash}`}
-            target="_blank"
-            rel="noreferrer"
-          >
-            <span className={cn(text.label1, color.primary)}>
-              View transaction
-            </span>
-          </a>
-        </div>
+      <div className={cn(text.label2)}>{successSvg}</div>
+      <div className={cn(text.label1, 'text-nowrap')}>
+        <p className={color.foreground}>Successful</p>
       </div>
-      <button
-        className="p-2"
-        onClick={closeToast}
-        type="button"
-        data-testid="ockCloseButton"
-      >
-        {closeSvg}
-      </button>
-    </div>
+      <div className={cn(text.label1, 'text-nowrap')}>
+        <a
+          href={`${chainExplorer}/tx/${transactionHash}`}
+          target="_blank"
+          rel="noreferrer"
+        >
+          <span className={cn(text.label1, color.primary)}>
+            View transaction
+          </span>
+        </a>
+      </div>
+    </Toast>
   );
 }
