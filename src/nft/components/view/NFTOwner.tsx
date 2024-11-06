@@ -20,8 +20,8 @@ export function NFTOwner({ className, label = 'Owned by' }: NFTOwnerReact) {
   return (
     <div
       className={cn(
-        'flex items-center justify-between',
         text.label2,
+        'flex items-center justify-between',
         className,
       )}
     >
