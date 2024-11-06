@@ -47,8 +47,8 @@ export function SwapToast({
       position={position}
       className={className}
       durationMs={durationMs}
-      isToastVisible={isToastVisible}
-      setIsToastVisible={setIsToastVisible}
+      isVisible={isToastVisible}
+      setIsVisible={setIsToastVisible}
     >
       <div className={cn(text.label2)}>{successSvg}</div>
       <div className={cn(text.label1, 'text-nowrap')}>

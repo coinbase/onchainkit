@@ -7,8 +7,8 @@ type ToastProps = {
   className?: string;
   durationMs?: number;
   position: 'top-center' | 'top-right' | 'bottom-center' | 'bottom-right';
-  isToastVisible: boolean;
-  setIsToastVisible: (isToastVisible: boolean) => void;
+  isVisible: boolean;
+  setIsVisible: (isVisible: boolean) => void;
   children: React.ReactNode;
 };
 
@@ -16,16 +16,16 @@ export function Toast({
   className,
   durationMs = 3000,
   position = 'bottom-center',
-  isToastVisible,
-  setIsToastVisible,
+  isVisible,
+  setIsVisible,
   children,
 }: ToastProps) {
   const positionClass = getToastPosition(position);
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      if (isToastVisible) {
-        setIsToastVisible(false);
+      if (isVisible) {
+        setIsVisible(false);
       }
     }, durationMs);
 
@@ -34,9 +34,9 @@ export function Toast({
         clearTimeout(timer);
       }
     };
-  }, [durationMs, isToastVisible, setIsToastVisible]);
+  }, [durationMs, isVisible, setIsVisible]);
 
-  if (!isToastVisible) {
+  if (!isVisible) {
     return null;
   }
 
@@ -55,7 +55,7 @@ export function Toast({
       <div className="flex items-center gap-4 p-2">{children}</div>
       <button
         className="p-2"
-        onClick={() => setIsToastVisible(false)}
+        onClick={() => setIsVisible(false)}
         type="button"
         data-testid="ockCloseButton"
       >
