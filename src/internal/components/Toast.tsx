@@ -8,7 +8,6 @@ type ToastProps = {
   position: 'top-center' | 'top-right' | 'bottom-center' | 'bottom-right';
   isToastVisible: boolean;
   setIsToastVisible: (isToastVisible: boolean) => void;
-  closeToast: () => void;
   children: React.ReactNode;
 };
 
@@ -18,7 +17,6 @@ export function Toast({
   position = 'bottom-center',
   isToastVisible,
   setIsToastVisible,
-  closeToast,
   children,
 }: ToastProps) {
   const positionClass = useMemo(() => {
@@ -62,12 +60,12 @@ export function Toast({
         positionClass,
         className,
       )}
-      data-testid="GlobalToast"
+      data-testid="ockToast"
     >
       <div className="flex items-center gap-4 p-2">{children}</div>
       <button
         className="p-2"
-        onClick={closeToast}
+        onClick={() => setIsToastVisible(false)}
         type="button"
         data-testid="ockCloseButton"
       >
