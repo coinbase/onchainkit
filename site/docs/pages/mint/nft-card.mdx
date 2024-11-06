@@ -61,6 +61,19 @@ Wrap the `<OnchainKitProvider />` around your app, following the steps in [Getti
 
 ## Quickstart
 
+The `NFTCardDefault` component is a simplified version of the `NFTCard` component, designed to streamline the integration process for developers.  Instead of manually defining each subcomponent, developers can use this shorthand version which renders our suggested implementation of the component and includes `NFTTitle`, `NFTMedia`, `NFTOwner`, `NFTLastSoldPrice` and `NFTNetwork`.
+
+```tsx twoslash
+import { NFTCardDefault } from '@coinbase/onchainkit/nft'; // [!code focus]
+
+<NFTCardDefault // [!code focus]
+  contractAddress='0xb4703a3a73aec16e764cbd210b0fde9efdab8941'  // [!code focus]
+  tokenId='1' // [!code focus]
+/>  // [!code focus]
+```
+
+If you'd like more customization you can follow the steps below to customize which subcomponents are rendered.
+
 ::::steps
 
 ### Add the NFTCard
@@ -108,9 +121,9 @@ That's it! You've now created an NFT card.
 
 ## Customization
 
-### Add the NFTCard components in any order
+### Add the NFTCard subcomponents in any order
 
-If you prefer to have the title above the media, you can easily change the order of the children components and they will render in the new order.
+If you prefer to have the title above the media, you can easily change the order of the subcomponents and they will render in the new order.
 
 ```tsx twoslash
 import { NFTCard } from '@coinbase/onchainkit/nft';

@@ -41,7 +41,7 @@ export function MintCardMain() {
               currency: 'ETH',
               amountUSD: '0.2384455',
             },
-            maxMintsPerWallet: 1,
+            maxMintsPerWallet: 2,
             isEligibleToMint: true,
             creatorAddress: '0xb4e741b761d8b69103cc986f1b7cd71ed627f8cc',
             network: 'networks/base-mainnet',
