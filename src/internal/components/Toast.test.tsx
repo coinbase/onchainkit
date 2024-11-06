@@ -5,12 +5,12 @@ import { Toast } from './Toast';
 
 describe('Toast component', () => {
   it('should render bottom-right correctly', () => {
-    const setIsVisible = vi.fn();
+    const handleClose = vi.fn();
     const { getByTestId } = render(
       <Toast
         isVisible={true}
         position="bottom-right"
-        setIsVisible={setIsVisible}
+        onClose={handleClose}
       >
         <div>Test</div>
       </Toast>,
@@ -25,12 +25,12 @@ describe('Toast component', () => {
   });
 
   it('should render top-right correctly', () => {
-    const setIsVisible = vi.fn();
+    const handleClose = vi.fn();
     const { getByTestId } = render(
       <Toast
         isVisible={true}
         position="top-right"
-        setIsVisible={setIsVisible}
+        onClose={handleClose}
       >
         <div>Test</div>
       </Toast>,
@@ -45,12 +45,12 @@ describe('Toast component', () => {
   });
 
   it('should render top-center correctly', () => {
-    const setIsVisible = vi.fn();
+    const handleClose = vi.fn();
     const { getByTestId } = render(
       <Toast
         isVisible={true}
         position="top-center"
-        setIsVisible={setIsVisible}
+        onClose={handleClose}
       >
         <div>Test</div>
       </Toast>,
@@ -65,12 +65,12 @@ describe('Toast component', () => {
   });
 
   it('should render bottom-center correctly', () => {
-    const setIsVisible = vi.fn();
+    const handleClose = vi.fn();
     const { getByTestId } = render(
       <Toast
         isVisible={true}
         position="bottom-center"
-        setIsVisible={setIsVisible}
+        onClose={handleClose}
       >
         <div>Test</div>
       </Toast>,
@@ -85,12 +85,12 @@ describe('Toast component', () => {
   });
 
   it('should apply custom className correctly', () => {
-    const setIsVisible = vi.fn();
+    const handleClose = vi.fn();
     const { getByTestId } = render(
       <Toast
         isVisible={true}
         position="bottom-right"
-        setIsVisible={setIsVisible}
+        onClose={handleClose}
         className="custom-class"
       >
         <div>Test</div>
@@ -102,12 +102,12 @@ describe('Toast component', () => {
   });
 
   it('should not be visible when isVisible is false', () => {
-    const setIsVisible = vi.fn();
+    const handleClose = vi.fn();
     const { queryByTestId } = render(
       <Toast
         isVisible={false}
         position="bottom-right"
-        setIsVisible={setIsVisible}
+        onClose={handleClose}
       >
         <div>Test</div>
       </Toast>,
@@ -117,12 +117,12 @@ describe('Toast component', () => {
   });
 
   it('should close when close button is clicked', () => {
-    const setIsVisible = vi.fn();
+    const handleClose = vi.fn();
     const { getByTestId } = render(
       <Toast
         isVisible={true}
         position="bottom-right"
-        setIsVisible={setIsVisible}
+        onClose={handleClose}
       >
         <div>Test</div>
       </Toast>,
@@ -130,16 +130,16 @@ describe('Toast component', () => {
 
     const closeButton = getByTestId('ockCloseButton');
     fireEvent.click(closeButton);
-    expect(setIsVisible).toHaveBeenCalledWith(false);
+    expect(handleClose).toHaveBeenCalled();
   });
 
   it('should render children correctly', () => {
-    const setIsVisible = vi.fn();
+    const handleClose = vi.fn();
     const { getByText } = render(
       <Toast
         isVisible={true}
         position="bottom-right"
-        setIsVisible={setIsVisible}
+        onClose={handleClose}
       >
         <div>Test</div>
       </Toast>,
@@ -151,39 +151,39 @@ describe('Toast component', () => {
 
   it('should disappear after durationMs', async () => {
     vi.useFakeTimers();
-    const setIsVisible = vi.fn();
+    const handleClose = vi.fn();
     const durationMs = 2000;
 
     render(
       <Toast
         isVisible={true}
         position="bottom-right"
-        setIsVisible={setIsVisible}
+        onClose={handleClose}
         durationMs={durationMs}
       >
         <div>Test</div>
       </Toast>,
     );
 
-    expect(setIsVisible).not.toHaveBeenCalled();
+    expect(handleClose).not.toHaveBeenCalled();
 
     vi.advanceTimersByTime(durationMs);
 
-    expect(setIsVisible).toHaveBeenCalledWith(false);
+    expect(handleClose).toHaveBeenCalled();
 
     vi.useRealTimers();
   });
 
   it('should not fire timer after manual close', () => {
     vi.useFakeTimers();
-    const setIsVisible = vi.fn();
+    const handleClose = vi.fn();
     const durationMs = 2000;
 
     const { getByTestId, rerender } = render(
       <Toast
         isVisible={true}
         position="bottom-right"
-        setIsVisible={setIsVisible}
+        onClose={handleClose}
         durationMs={durationMs}
       >
         <div>Test</div>
@@ -195,14 +195,13 @@ describe('Toast component', () => {
     const closeButton = getByTestId('ockCloseButton');
     fireEvent.click(closeButton);
 
-    expect(setIsVisible).toHaveBeenCalledTimes(1);
-    expect(setIsVisible).toHaveBeenCalledWith(false);
+    expect(handleClose).toHaveBeenCalledTimes(1);
 
     rerender(
       <Toast
         isVisible={false}
         position="bottom-right"
-        setIsVisible={setIsVisible}
+        onClose={handleClose}
         durationMs={durationMs}
       >
         <div>Test</div>
@@ -210,20 +209,20 @@ describe('Toast component', () => {
     );
 
     vi.advanceTimersByTime(1500);
-    expect(setIsVisible).toHaveBeenCalledTimes(1);
+    expect(handleClose).toHaveBeenCalledTimes(1);
 
     vi.useRealTimers();
   });
 
   it('should cleanup correctly on unmount', () => {
     vi.useFakeTimers();
-    const setIsVisible = vi.fn();
+    const handleClose = vi.fn();
 
     const { unmount } = render(
       <Toast
         isVisible={true}
         position="bottom-right"
-        setIsVisible={setIsVisible}
+        onClose={handleClose}
         durationMs={2000}
       >
         <div>Test</div>
@@ -233,7 +232,7 @@ describe('Toast component', () => {
     unmount();
     vi.advanceTimersByTime(2000);
 
-    expect(setIsVisible).not.toHaveBeenCalled();
+    expect(handleClose).not.toHaveBeenCalled();
     vi.useRealTimers();
   });
 });
