@@ -78,7 +78,6 @@ describe('OnchainKitProvider', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     (useConfig as Mock).mockReturnValue(mockConfig);
-    use;
   });
 
   it('provides the context value correctly', async () => {
