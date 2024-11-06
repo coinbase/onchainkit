@@ -3,12 +3,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { render, screen, waitFor } from '@testing-library/react';
 import { base } from 'viem/chains';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
-import {
-  http,
-  WagmiProvider,
-  WagmiProviderNotFoundError,
-  createConfig,
-} from 'wagmi';
+import { http, WagmiProvider, createConfig } from 'wagmi';
 import { useConfig } from 'wagmi';
 import { mock } from 'wagmi/connectors';
 import { setOnchainKitConfig } from './OnchainKitConfig';
@@ -110,9 +105,6 @@ describe('OnchainKitProvider', () => {
   });
 
   it('provides the context value correctly without WagmiProvider', async () => {
-    (useConfig as Mock).mockImplementation(() => {
-      throw new WagmiProviderNotFoundError();
-    });
     (useProviderDependencies as Mock).mockReturnValue({
       providedWagmiConfig: null,
       providedQueryClient: null,
