@@ -1,8 +1,12 @@
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { createContext, useMemo } from 'react';
+import { WagmiProvider } from 'wagmi';
 import { ONCHAIN_KIT_CONFIG, setOnchainKitConfig } from './OnchainKitConfig';
+import { createWagmiConfig } from './createWagmiConfig';
 import { COINBASE_VERIFIED_ACCOUNT_SCHEMA_ID } from './identity/constants';
 import { checkHashLength } from './internal/utils/checkHashLength';
 import type { OnchainKitContextType, OnchainKitProviderReact } from './types';
+import { useProviderDependencies } from './useProviderDependencies';
 
 export const OnchainKitContext =
   createContext<OnchainKitContextType>(ONCHAIN_KIT_CONFIG);
@@ -50,6 +54,47 @@ export function OnchainKitProvider({
     setOnchainKitConfig(onchainKitConfig);
     return onchainKitConfig;
   }, [address, apiKey, chain, config, projectId, rpcUrl, schemaId]);
+
+  // Check the React context for WagmiProvider and QueryClientProvider
+  const { providedWagmiConfig, providedQueryClient } =
+    useProviderDependencies();
+
+  const defaultConfig = useMemo(() => {
+    // IMPORTANT: Don't create a new Wagmi configuration if one already exists
+    // This prevents the user-provided WagmiConfig from being overriden
+    return (
+      providedWagmiConfig ||
+      createWagmiConfig({
+        apiKey,
+        appName: value.config.appearance.name,
+        appLogoUrl: value.config.appearance.logo,
+      })
+    );
+  }, [
+    apiKey,
+    providedWagmiConfig,
+    value.config.appearance.name,
+    value.config.appearance.logo,
+  ]);
+  const defaultQueryClient = useMemo(() => {
+    // IMPORTANT: Don't create a new QueryClient if one already exists
+    // This prevents the user-provided QueryClient from being overriden
+    return providedQueryClient || new QueryClient();
+  }, [providedQueryClient]);
+
+  // If both dependencies are missing, return a context with default parent providers
+  // If only one dependency is provided, expect the user to also provide the missing one
+  if (!providedWagmiConfig && !providedQueryClient) {
+    return (
+      <WagmiProvider config={defaultConfig}>
+        <QueryClientProvider client={defaultQueryClient}>
+          <OnchainKitContext.Provider value={value}>
+            {children}
+          </OnchainKitContext.Provider>
+        </QueryClientProvider>
+      </WagmiProvider>
+    );
+  }
 
   return (
     <OnchainKitContext.Provider value={value}>
