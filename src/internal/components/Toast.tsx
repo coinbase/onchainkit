@@ -20,7 +20,6 @@ export function Toast({
   onClose,
   children,
 }: ToastProps) {
-  console.log('rendering the global toast');
   const positionClass = getToastPosition(position);
 
   useEffect(() => {
