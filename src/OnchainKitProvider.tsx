@@ -40,8 +40,8 @@ export function OnchainKitProvider({
       chain: chain,
       config: {
         appearance: {
-          name: config?.appearance?.name,
-          logo: config?.appearance?.logo,
+          name: config?.appearance?.name ?? 'Dapp',
+          logo: config?.appearance?.logo ?? '',
           mode: config?.appearance?.mode ?? 'auto',
           theme: config?.appearance?.theme ?? 'default',
         },
