@@ -227,7 +227,7 @@ describe('Toast component', () => {
         durationMs={2000}
       >
         <div>Test</div>
-      </Toast>
+      </Toast>,
     );
 
     unmount();
