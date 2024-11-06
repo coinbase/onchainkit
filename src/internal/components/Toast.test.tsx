@@ -1,4 +1,3 @@
-import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { describe, expect, test, vi } from 'vitest';
@@ -13,7 +12,7 @@ describe('Toast component', () => {
         setIsToastVisible={() => {}}
       >
         <div>Test</div>
-      </Toast>
+      </Toast>,
     );
 
     const toastContainer = getByTestId('ockToast');
@@ -32,7 +31,7 @@ describe('Toast component', () => {
         setIsToastVisible={() => {}}
       >
         <div>Test</div>
-      </Toast>
+      </Toast>,
     );
 
     const toastContainer = getByTestId('ockToast');
@@ -51,7 +50,7 @@ describe('Toast component', () => {
         setIsToastVisible={() => {}}
       >
         <div>Test</div>
-      </Toast>
+      </Toast>,
     );
 
     const toastContainer = getByTestId('ockToast');
@@ -70,7 +69,7 @@ describe('Toast component', () => {
         setIsToastVisible={() => {}}
       >
         <div>Test</div>
-      </Toast>
+      </Toast>,
     );
 
     const toastContainer = getByTestId('ockToast');
@@ -90,7 +89,7 @@ describe('Toast component', () => {
         className="custom-class"
       >
         <div>Test</div>
-      </Toast>
+      </Toast>,
     );
 
     const toastContainer = getByTestId('ockToast');
@@ -105,7 +104,7 @@ describe('Toast component', () => {
         setIsToastVisible={() => {}}
       >
         <div>Test</div>
-      </Toast>
+      </Toast>,
     );
     const toastContainer = queryByTestId('ockToast');
     expect(toastContainer).not.toBeInTheDocument();
@@ -120,7 +119,7 @@ describe('Toast component', () => {
         setIsToastVisible={setIsToastVisible}
       >
         <div>Test</div>
-      </Toast>
+      </Toast>,
     );
 
     const closeButton = getByTestId('ockCloseButton');
@@ -136,7 +135,7 @@ describe('Toast component', () => {
         setIsToastVisible={() => {}}
       >
         <div>Test</div>
-      </Toast>
+      </Toast>,
     );
 
     const text = getByText('Test');
@@ -156,12 +155,11 @@ describe('Toast component', () => {
         durationMs={durationMs}
       >
         <div>Test</div>
-      </Toast>
+      </Toast>,
     );
 
     expect(setIsToastVisible).not.toHaveBeenCalled();
 
-    // Fast-forward time by durationMs
     vi.advanceTimersByTime(durationMs);
 
     expect(setIsToastVisible).toHaveBeenCalledWith(false);
@@ -174,7 +172,7 @@ describe('Toast component', () => {
     const setIsToastVisible = vi.fn();
     const durationMs = 2000;
 
-    const { getByTestId } = render(
+    const { getByTestId, rerender } = render(
       <Toast
         isToastVisible={true}
         position="bottom-right"
@@ -182,23 +180,29 @@ describe('Toast component', () => {
         durationMs={durationMs}
       >
         <div>Test</div>
-      </Toast>
+      </Toast>,
     );
 
-    // Advance partway through the duration
     vi.advanceTimersByTime(1000);
 
-    // Simulate clicking the close button
     const closeButton = getByTestId('ockCloseButton');
     fireEvent.click(closeButton);
 
-    // First call is from the close button
     expect(setIsToastVisible).toHaveBeenCalledTimes(1);
     expect(setIsToastVisible).toHaveBeenCalledWith(false);
 
-    // Advance past when the original timer would have fired
+    rerender(
+      <Toast
+        isToastVisible={false}
+        position="bottom-right"
+        setIsToastVisible={setIsToastVisible}
+        durationMs={durationMs}
+      >
+        <div>Test</div>
+      </Toast>,
+    );
+
     vi.advanceTimersByTime(1500);
-    // setIsToastVisible should not have been called again by the timer
     expect(setIsToastVisible).toHaveBeenCalledTimes(1);
 
     vi.useRealTimers();
