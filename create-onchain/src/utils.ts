@@ -1,5 +1,6 @@
 import fs from 'fs/promises';
 import path from 'path';
+import os from 'os';
 
 async function copyFile(src: string, dest: string) {
   await fs.copyFile(src, dest);
@@ -67,4 +68,20 @@ export function detectPackageManager(): string {
     }
   }
   return 'npm'; // default to npm if unable to detect
+}
+
+
+export async function getStoredApiKey(): Promise<string | null> {
+  try {
+    const configPath = path.join(os.homedir(), '.onchainkit');
+    const key = await fs.readFile(configPath, 'utf-8');
+    console.log('key:', key)
+
+    // 32 characters long
+    if (/^[A-Za-z0-9_-]{32,}$/.test(key.trim())) {
+      console.log("Stored API KEY matches!")
+      return key.trim();
+    }
+  } catch (e) {}
+  return null;
 }

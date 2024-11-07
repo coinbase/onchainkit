@@ -7,7 +7,7 @@ import pc from 'picocolors';
 import ora from 'ora';
 import {
   createClickableLink,
-  detectPackageManager,
+  getStoredApiKey,
   isValidPackageName,
   toValidPackageName,
   optimizedCopy,
@@ -15,7 +15,8 @@ import {
 
 const sourceDir = path.resolve(
   fileURLToPath(import.meta.url), 
-  '../../../templates/next'
+  '../../templates/next'
+  // '../../../templates/next'
 );
 
 const renameFiles: Record<string, string | undefined> = {
@@ -65,8 +66,11 @@ async function init() {
   const defaultProjectName = 'my-onchainkit-app';
 
   let result: prompts.Answers<
-    'projectName' | 'packageName' | 'clientKey' | 'smartWallet'
+    'projectName' | 'packageName' | 'clientKey' | 'smartWallet' | 'useStoredKey'
   >;
+
+  const storedKey = await getStoredApiKey();
+  console.log('hasStoredKey:', storedKey)
 
   try {
     result = await prompts(
@@ -100,8 +104,20 @@ async function init() {
           validate: (dir) =>
             isValidPackageName(dir) || 'Invalid package.json name',
         },
+
         {
-          type: 'password',
+          type: storedKey ? 'toggle' : null,
+          name: "useStoredKey",
+          message: 'Found an API key in ~/.onchainkit. Would you like to use it?',
+          initial: true,
+          active: 'yes',
+          inactive: 'no', 
+        },
+        {
+          type: (_, { useStoredKey }) => {
+            // If no stored key exists OR user declined to use stored key
+            return useStoredKey === false || !storedKey ? 'password' : null;
+          },
           name: 'clientKey',
           message: pc.reset(
             `Enter your ${createClickableLink(
@@ -110,7 +126,7 @@ async function init() {
             )} (optional)`
           ),
         },
-        {
+{
           type: 'toggle',
           name: 'smartWallet',
           message: pc.reset('Use Coinbase Smart Wallet? (recommended)'),
@@ -131,7 +147,8 @@ async function init() {
     process.exit(1);
   }
 
-  const { projectName, packageName, clientKey, smartWallet } = result;
+  const { projectName, packageName, clientKey, smartWallet, useStoredKey } = result;
+  const apiKey = useStoredKey ? storedKey : clientKey;
   const root = path.join(process.cwd(), projectName);
 
   const spinner = ora(`Creating ${projectName}...`).start();
@@ -147,7 +164,7 @@ async function init() {
   const envPath = path.join(root, '.env');
   await fs.promises.writeFile(
     envPath,
-    `NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME=${projectName}\nNEXT_PUBLIC_ONCHAINKIT_API_KEY=${clientKey}\nNEXT_PUBLIC_ONCHAINKIT_WALLET_CONFIG=${
+    `NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME=${projectName}\nNEXT_PUBLIC_ONCHAINKIT_API_KEY=${apiKey}\nNEXT_PUBLIC_ONCHAINKIT_WALLET_CONFIG=${
       smartWallet ? 'smartWalletOnly' : 'all'
     }`
   );
