@@ -19,12 +19,12 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-          cache: 'npm'
+          cache: 'bun'
 
       - name: Kit Install dependencies
-        run: npm install
+        run: bun install
 
       - name: Kit Test Build
         # When fails, please check your build
         run: |
-          npm run build
+          bun run build
