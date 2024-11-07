@@ -20,7 +20,7 @@ jobs:
 
         with:
           node-version: ${{ matrix.node-version }}
-          cache: 'bun'
+          # cache: 'bun'
 
       - name: Kit Install dependencies
         run: bun install
