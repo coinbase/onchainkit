@@ -75,11 +75,10 @@ export async function getStoredApiKey(): Promise<string | null> {
   try {
     const configPath = path.join(os.homedir(), '.onchainkit');
     const key = await fs.readFile(configPath, 'utf-8');
-    console.log('key:', key)
+
 
     // 32 characters long
     if (/^[A-Za-z0-9_-]{32,}$/.test(key.trim())) {
-      console.log("Stored API KEY matches!")
       return key.trim();
     }
   } catch (e) {}

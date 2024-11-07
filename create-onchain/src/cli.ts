@@ -69,7 +69,6 @@ async function init() {
   >;
 
   const storedKey = await getStoredApiKey();
-  console.log('hasStoredKey:', storedKey)
 
   try {
     result = await prompts(
