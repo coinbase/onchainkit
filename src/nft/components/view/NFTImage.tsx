@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { type MouseEvent, useCallback, useEffect, useState } from 'react';
 import { defaultNFTSvg } from '../../../internal/svg/defaultNFTSvg';
 import { cn } from '../../../styles/theme';
 import type { NFTError } from '../../types';
@@ -22,7 +22,6 @@ export function NFTImage({
   const { imageUrl, description } = useNFTContext();
   const [loaded, setLoaded] = useState(false);
   const [error, setError] = useState(false);
-  const [transitionEnded, setTransitionEnded] = useState(false);
 
   const loadImage = useCallback(() => {
     if (imageUrl) {
@@ -50,48 +49,49 @@ export function NFTImage({
     loadImage();
   }, [loadImage]);
 
-  const handleRetry = useCallback(async () => {
-    setError(false);
-    loadImage();
-  }, [loadImage]);
-
-  const handleTransitionEnd = useCallback(() => {
-    setTransitionEnded(true);
-  }, []);
+  const handleRetry = useCallback(
+    async (e: MouseEvent) => {
+      e.stopPropagation();
+      setError(false);
+      loadImage();
+    },
+    [loadImage],
+  );
 
   return (
     <div
       className={cn(
-        'relative flex h-[450px] max-h-screen items-center justify-center',
+        'grid aspect-square w-full',
+        '[&>*]:col-start-1 [&>*]:col-end-1 [&>*]:row-start-1 [&>*]:row-end-1',
         className,
       )}
     >
+      <div className="flex items-center justify-center">{defaultNFTSvg}</div>
+      <div
+        className={cn(
+          'grid h-full w-full content-center justify-center overflow-hidden',
+          { 'aspect-square': square },
+        )}
+      >
+        <img
+          data-testid="ockNFTImage"
+          src={imageUrl}
+          alt={description}
+          decoding="async"
+          className={cn(
+            'transition-opacity duration-500 ease-in-out',
+            loaded ? 'opacity-100' : 'opacity-0',
+            { 'h-full w-full object-cover': square },
+          )}
+        />
+      </div>
       {error && (
-        <div className="absolute top-[60%] z-10">
-          <button type="button" onClick={handleRetry}>
+        <div className="flex items-center justify-center">
+          <button type="button" onClick={handleRetry} className="z-10 mt-[60%]">
             retry
           </button>
         </div>
       )}
-      {!transitionEnded && (
-        <div
-          className={`absolute inset-0 ${loaded ? 'opacity-0' : 'opacity-100'} transition-[opacity] duration-500 ease-in-out`}
-        >
-          {defaultNFTSvg}
-        </div>
-      )}
-      <img
-        data-testid="ockNFTImage"
-        src={imageUrl}
-        alt={description}
-        decoding="async"
-        className={cn(
-          'max-h-[450px] transition-[opacity] duration-500 ease-in-out',
-          `${loaded ? 'opacity-100' : 'opacity-0'}`,
-          { 'h-full w-full object-cover': square },
-        )}
-        onTransitionEnd={handleTransitionEnd}
-      />
     </div>
   );
 }

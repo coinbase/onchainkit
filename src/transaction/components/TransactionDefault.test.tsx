@@ -74,7 +74,7 @@ describe('TransactionDefault Component', () => {
     });
   });
 
-  it('renders the Swap component with provided props', () => {
+  it('renders the Transactions component with provided props', () => {
     render(<TransactionDefault {...defaultProps} />);
     expect(screen.getByText('Transact')).toBeInTheDocument();
     const button = screen.getByTestId('ockTransactionButton_Button');
@@ -82,7 +82,7 @@ describe('TransactionDefault Component', () => {
     expect(button).toBeInTheDocument();
   });
 
-  it('disables the SwapButton when disabled prop is true', () => {
+  it('disables the TransactionButton when disabled prop is true', () => {
     render(<TransactionDefault {...defaultProps} disabled={true} />);
     const button = screen.getByTestId('ockTransactionButton_Button');
     expect(button).toBeDisabled();

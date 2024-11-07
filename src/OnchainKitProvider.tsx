@@ -1,5 +1,6 @@
 import { createContext, useMemo } from 'react';
 import { ONCHAIN_KIT_CONFIG, setOnchainKitConfig } from './OnchainKitConfig';
+import { COINBASE_VERIFIED_ACCOUNT_SCHEMA_ID } from './identity/constants';
 import { checkHashLength } from './internal/utils/checkHashLength';
 import type { OnchainKitContextType, OnchainKitProviderReact } from './types';
 
@@ -44,7 +45,7 @@ export function OnchainKitProvider({
       },
       projectId: projectId ?? null,
       rpcUrl: rpcUrl ?? null,
-      schemaId: schemaId ?? null,
+      schemaId: schemaId ?? COINBASE_VERIFIED_ACCOUNT_SCHEMA_ID,
     };
     setOnchainKitConfig(onchainKitConfig);
     return onchainKitConfig;

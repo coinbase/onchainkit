@@ -16,7 +16,7 @@ export const fundDemoCode = `
 
   const onrampBuyUrl = getOnrampBuyUrl({
     projectId,
-    addresses: { address: ['base'] },
+    addresses: { [address]: ['base'] },
     assets: ['USDC'],
     presetFiatAmount: 20,
     fiatCurrency: 'USD'

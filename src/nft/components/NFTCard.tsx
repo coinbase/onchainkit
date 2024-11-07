@@ -28,8 +28,8 @@ export function NFTCard({
 
   const handleOnClick = useCallback(() => {
     const network = chain?.name.toLowerCase() ?? 'base';
-    const openSeaUrl = `https://opensea.io/assets/${network}/${contractAddress}/${tokenId}`;
-    window.open(openSeaUrl, '_blank', 'noopener,noreferrer');
+    const zoraUrl = `https://zora.co/collect/${network}:${contractAddress}/${tokenId}`;
+    window.open(zoraUrl, '_blank', 'noopener,noreferrer');
   }, [chain, contractAddress, tokenId]);
 
   // prevents SSR hydration issue
