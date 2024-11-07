@@ -20,6 +20,3 @@ runs:
     - name: Install node modules
       run: bun install --frozen-lockfile
       shell: bash
-
-
-# Test build commit
