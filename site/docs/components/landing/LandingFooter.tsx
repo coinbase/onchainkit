@@ -12,7 +12,7 @@ const FooterColumn = ({
       <a
         key={link.href}
         href={link.href}
-        className="className='text-base text-zinc-600 hover:text-zinc-800 dark:text-zinc-400 dark:hover:text-zinc-200"
+        className="text-base text-zinc-600 hover:text-zinc-800 dark:text-zinc-400 dark:hover:text-zinc-200"
       >
         {link.text}
       </a>

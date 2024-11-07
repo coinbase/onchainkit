@@ -57,7 +57,7 @@ export function NFTCard({
               color.foreground,
               pressable.default,
               border.radius,
-              'flex w-full max-w-[500px] flex-col items-stretch border p-4 text-left',
+              'flex w-full max-w-[500px] flex-col items-stretch gap-1.5 border p-4 text-left',
               `hover:border-[${border.defaultActive}]`,
               className,
             )}

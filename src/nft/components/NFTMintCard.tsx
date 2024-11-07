@@ -52,7 +52,7 @@ export function NFTMintCard({
               background.default,
               border.defaultActive,
               border.radius,
-              'flex w-full max-w-[500px] flex-col border px-6 py-4',
+              'flex w-full max-w-[500px] flex-col gap-2 border p-4',
               className,
             )}
             data-testid="ockNFTMintCard_Container"

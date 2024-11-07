@@ -51,8 +51,8 @@ export function NFTTotalCost({
       >
         <div
           className={cn(
-            'flex items-center justify-between px-4 py-2',
             text.label2,
+            'flex items-center justify-between px-4 py-2',
           )}
         >
           <div>NFT cost</div>
@@ -103,8 +103,8 @@ export function NFTTotalCost({
     <div className="relative">
       <div
         className={cn(
-          'flex items-center justify-between pt-2 pb-1',
           text.label2,
+          'flex items-center justify-between',
           className,
         )}
       >
