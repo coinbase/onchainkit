@@ -26,7 +26,7 @@ export function NFTLastSoldPrice({
   const { amount, currency, amountUSD } = lastSoldPrice;
 
   return (
-    <div className={cn(text.label2, 'flex justify-between py-0.5', className)}>
+    <div className={cn(text.label2, 'flex justify-between', className)}>
       <div className={cn(color.foregroundMuted)}>{label}</div>
       <div className="flex">
         <div className={text.label1}>

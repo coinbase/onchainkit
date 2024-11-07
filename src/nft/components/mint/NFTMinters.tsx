@@ -20,7 +20,7 @@ export function NFTMinters({ className }: NFTMintersReact) {
       className={cn(
         text.body,
         color.foregroundMuted,
-        'flex items-center py-0.5',
+        '-my-1 flex items-center',
         className,
       )}
     >

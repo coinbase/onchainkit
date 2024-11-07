@@ -20,11 +20,11 @@ export function NFTAssetCost({ className }: NFTAssetCostReact) {
   }
 
   if (Number(price?.amount) === 0) {
-    return <div className={cn(text.body, 'flex py-2', className)}>Free</div>;
+    return <div className={cn(text.body, 'flex py-1', className)}>Free</div>;
   }
 
   return (
-    <div className={cn(text.body, 'flex py-2', className)}>
+    <div className={cn(text.body, 'flex py-1', className)}>
       <div className={text.headline}>
         {formatSN(`${multiplyFloats(Number(price.amount), quantity)}`)}{' '}
         {price.currency}

@@ -58,36 +58,40 @@ export function NFTMedia({ className, square }: NFTMediaReact) {
     [updateLifecycleStatus],
   );
 
-  switch (mediaType) {
-    case MediaType.Video:
-      return (
-        <NFTVideo
-          className={className}
-          square={square}
-          onLoading={handleLoading}
-          onLoaded={handleLoaded}
-          onError={handleError}
-        />
-      );
-    case MediaType.Audio:
-      return (
-        <div className="relative w-full">
-          <NFTImage className={className} square={square} />
-          <div className="absolute bottom-4 mx-auto w-full">
-            <NFTAudio />
+  const media = useMemo(() => {
+    switch (mediaType) {
+      case MediaType.Video:
+        return (
+          <NFTVideo
+            className={className}
+            square={square}
+            onLoading={handleLoading}
+            onLoaded={handleLoaded}
+            onError={handleError}
+          />
+        );
+      case MediaType.Audio:
+        return (
+          <div className="relative w-full">
+            <NFTImage className={className} square={square} />
+            <div className="absolute bottom-4 mx-auto w-full">
+              <NFTAudio />
+            </div>
           </div>
-        </div>
-      );
-    default:
-      // fallback to image
-      return (
-        <NFTImage
-          className={className}
-          square={square}
-          onLoading={handleLoading}
-          onLoaded={handleLoaded}
-          onError={handleError}
-        />
-      );
-  }
+        );
+      default:
+        // fallback to image
+        return (
+          <NFTImage
+            className={className}
+            square={square}
+            onLoading={handleLoading}
+            onLoaded={handleLoaded}
+            onError={handleError}
+          />
+        );
+    }
+  }, [className, handleError, handleLoaded, handleLoading, mediaType, square]);
+
+  return <div className="pb-2">{media}</div>;
 }

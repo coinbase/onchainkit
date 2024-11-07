@@ -104,7 +104,7 @@ export function NFTTotalCost({
       <div
         className={cn(
           text.label2,
-          'flex items-center justify-between pt-2 pb-1',
+          'flex items-center justify-between',
           className,
         )}
       >
