@@ -1,8 +1,7 @@
 name: Kit Lint
 on:
   push:
-    # branches: ['main']
-    branches: ['dms/bun']
+    branches: ['main']
   pull_request:
     branches: ['main']
 jobs:
@@ -16,7 +15,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Bun
+      - name: Set up Bun
         uses: oven-sh/setup-bun@v2
         with:
           bun-version: 1.1.26
