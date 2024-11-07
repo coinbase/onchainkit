@@ -112,10 +112,8 @@ async function init() {
           inactive: 'no',
         },
         {
-          type: (_, { useStoredKey }) => {
-            // If no stored key exists OR user declined to use stored key
-            return useStoredKey === false || !storedKey ? 'password' : null;
-          },
+          type: (_, { useStoredKey }) =>
+            useStoredKey === false || !storedKey ? 'password' : null,
           name: 'clientKey',
           message: pc.reset(
             `Enter your ${createClickableLink(
