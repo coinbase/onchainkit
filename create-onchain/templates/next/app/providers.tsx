@@ -14,8 +14,9 @@ const config = createConfig({
     coinbaseWallet({
       appName: process.env.NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME,
       preference: process.env.NEXT_PUBLIC_ONCHAINKIT_WALLET_CONFIG as
-        | 'smartWalletOnly'
-        | 'all',
+        | "smartWalletOnly"
+        | "all",
+      keysUrl: "https://keys.coinbase.com/connect",
     }),
   ],
   storage: createStorage({
