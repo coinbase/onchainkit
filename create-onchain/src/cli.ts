@@ -15,7 +15,8 @@ import {
 
 const sourceDir = path.resolve(
   fileURLToPath(import.meta.url),
-  '../../../templates/next'
+  '../../templates/next'
+  // '../../../templates/next'
 );
 
 const renameFiles: Record<string, string | undefined> = {
@@ -102,7 +103,6 @@ async function init() {
           validate: (dir) =>
             isValidPackageName(dir) || 'Invalid package.json name',
         },
-
         {
           type: storedKey ? 'toggle' : null,
           name: "useStoredKey",
