@@ -31,15 +31,18 @@ describe('SwapToast', () => {
 
   it('closes when the close button is clicked', () => {
     const setIsToastVisible = vi.fn();
+    const setTransactionHash = vi.fn();
     (useSwapContext as Mock).mockReturnValue({
       isToastVisible: true,
       setIsToastVisible,
+      setTransactionHash,
     });
 
     render(<SwapToast />);
     fireEvent.click(screen.getByTestId('ockCloseButton'));
 
     expect(setIsToastVisible).toHaveBeenCalledWith(false);
+    expect(setTransactionHash).toHaveBeenCalledWith('');
   });
 
   it('displays transaction hash when available', () => {
@@ -125,48 +128,57 @@ describe('SwapToast', () => {
   it('hides toast after specified duration', () => {
     vi.useFakeTimers();
     const setIsToastVisible = vi.fn();
-    (useSwapContext as Mock).mockReturnValue({
-      isToastVisible: true,
-      transactionHash: '',
-      setIsToastVisible,
-    });
-
-    render(<SwapToast durationMs={2000} />);
-
-    vi.advanceTimersByTime(2000);
-    expect(setIsToastVisible).toHaveBeenCalledWith(false);
-    vi.useRealTimers();
-  });
-
-  it('resets transactionhash after specified duration', () => {
-    vi.useFakeTimers();
     const setTransactionHash = vi.fn();
     (useSwapContext as Mock).mockReturnValue({
       isToastVisible: true,
       transactionHash: '',
+      setIsToastVisible,
       setTransactionHash,
     });
 
     render(<SwapToast durationMs={2000} />);
 
     vi.advanceTimersByTime(2000);
-    expect(setTransactionHash).toHaveBeenCalled();
+    expect(setIsToastVisible).toHaveBeenCalledWith(false);
+    expect(setTransactionHash).toHaveBeenCalledWith('');
     vi.useRealTimers();
   });
 
-  it('hides toast after specified duration when error message is present', () => {
+  it('resets transactionhash after specified duration', () => {
     vi.useFakeTimers();
     const setIsToastVisible = vi.fn();
+    const setTransactionHash = vi.fn();
     (useSwapContext as Mock).mockReturnValue({
       isToastVisible: true,
       transactionHash: '',
       setIsToastVisible,
+      setTransactionHash,
     });
 
     render(<SwapToast durationMs={2000} />);
 
     vi.advanceTimersByTime(2000);
     expect(setIsToastVisible).toHaveBeenCalledWith(false);
+    expect(setTransactionHash).toHaveBeenCalledWith('');
+    vi.useRealTimers();
+  });
+
+  it('hides toast after specified duration when error message is present', () => {
+    vi.useFakeTimers();
+    const setIsToastVisible = vi.fn();
+    const setTransactionHash = vi.fn();
+    (useSwapContext as Mock).mockReturnValue({
+      isToastVisible: true,
+      transactionHash: '',
+      setIsToastVisible,
+      setTransactionHash,
+    });
+
+    render(<SwapToast durationMs={2000} />);
+
+    vi.advanceTimersByTime(2000);
+    expect(setIsToastVisible).toHaveBeenCalledWith(false);
+    expect(setTransactionHash).toHaveBeenCalledWith('');
     vi.useRealTimers();
   });
 });
