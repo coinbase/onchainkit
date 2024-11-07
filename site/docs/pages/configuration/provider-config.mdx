@@ -5,17 +5,16 @@ description: Configuration Options for OnchainKitProvider
 
 # OnchainKitProvider Configuration
 
-`OnchainKitProvider` is a wrapper around OnchainKit that provides context to the
-components. This provider exposes several configuration options that can be used
-to customize the behavior of your application.
+`OnchainKitProvider` provides context to OnchainKit components. This provider has
+several props that can be used to customize the behavior of your application.
 
 ## OnchainKitProvider Props
 
 | Prop                       | Description                                                                                                                                  |
 | -------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
 | [`address`](#address)      | The address of the OnchainKit project                                                                                                        |
-| [`apiKey`](#api-key)       | API Key for Coinbase Developer Platform APIs.                                                                                                |
-| [`chain`](#chain)          | The chain ID number of the blockchain to use for the OnchainKit project                                                                      |
+| [`apiKey`](#apikey)        | API Key for Coinbase Developer Platform APIs.                                                                                                |
+| [`chain`](#chain)          | The chain ID number(s) of the blockchain(s) supported by your OnchainKit project                                                             |
 | [`config`](#config)        | - `config.appearance` — customize the appearance of the OnchainKit components<br /> - `config.paymaster` — Paymaster URL for gas sponsorship |
 | [`rpcUrl`](#rpc-url)       | RPC URL for onchain requests. Defaults to using Coinbase Developer Platform Node if `apiKey` is set                                          |
 | [`projectId`](#project-id) | Your Coinbase Developer Platform Project ID required for `<FundButton />`                                                                    |
@@ -27,7 +26,14 @@ to customize the behavior of your application.
 
 ### `apiKey`
 
-`apiKey` is Required for `<Swap />`, \*\*\*\*\*WHAT ELSE?????????\*\*\*\*\*
+`apiKey` is the Coinbase Developer Platform API Key that is required for certain
+OnchainKit compoennts, including:
+
+- `<Swap />`
+- `<Transaction />`
+- `<FundButton />`
+- `<Identity />` — if using the Badge component or if not providing your own schemaId
+-
 
 You can obtain an API Key from the Coinbase Developer Platform.
 
@@ -66,7 +72,11 @@ You can obtain a Project ID from the Coinbase Developer Platform.
 
 ### Schema ID
 
-OnchainKit defaults to using Coinbase attestations for the `<Badge />` component.
+`schemaId` is used to specify the schema ID for attestations from the Ethereum
+Attestation Service (EAS).
+
+This prop is optional, OnchainKit will default to using Coinbase attestations
+for the `<Badge />` component if this prop is not provided.
 
 If you would like to display other attestations, you can provide your own
 `schemaId`, which you can obtain from the Etehreum Attestation Service (EAS).
