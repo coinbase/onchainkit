@@ -14,8 +14,8 @@ import {
 } from './utils.js';
 
 const sourceDir = path.resolve(
-  fileURLToPath(import.meta.url), 
-'../../../templates/next'
+  fileURLToPath(import.meta.url),
+  '../../../templates/next'
 );
 
 const renameFiles: Record<string, string | undefined> = {
@@ -110,7 +110,7 @@ async function init() {
           message: 'Found an API key in ~/.onchainkit. Would you like to use it?',
           initial: true,
           active: 'yes',
-          inactive: 'no', 
+          inactive: 'no',
         },
         {
           type: (_, { useStoredKey }) => {
@@ -125,7 +125,7 @@ async function init() {
             )} (optional)`
           ),
         },
-{
+        {
           type: 'toggle',
           name: 'smartWallet',
           message: pc.reset('Use Coinbase Smart Wallet? (recommended)'),
@@ -163,8 +163,7 @@ async function init() {
   const envPath = path.join(root, '.env');
   await fs.promises.writeFile(
     envPath,
-    `NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME=${projectName}\nNEXT_PUBLIC_ONCHAINKIT_API_KEY=${apiKey}\nNEXT_PUBLIC_ONCHAINKIT_WALLET_CONFIG=${
-      smartWallet ? 'smartWalletOnly' : 'all'
+    `NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME=${projectName}\nNEXT_PUBLIC_ONCHAINKIT_API_KEY=${apiKey}\nNEXT_PUBLIC_ONCHAINKIT_WALLET_CONFIG=${smartWallet ? 'smartWalletOnly' : 'all'
     }`
   );
 
