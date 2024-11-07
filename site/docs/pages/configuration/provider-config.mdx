@@ -29,13 +29,15 @@ several props that can be used to customize the behavior of your application.
 `apiKey` is the Coinbase Developer Platform API Key that is required for certain
 OnchainKit compoennts, including:
 
-- `<Swap />`
-- `<Transaction />`
-- `<FundButton />`
-- `<Identity />` — if using the Badge component or if not providing your own schemaId
--
+\*\*\*\*\*WHICH COMPONENTS?????\*\*\*\*\*
 
-You can obtain an API Key from the Coinbase Developer Platform.
+You can get a [Client API Key](https://portal.cdp.coinbase.com/projects/project-id/api-keys/client-key) from Coinbase Developer Platform.
+
+<img
+  alt="OnchainKit copy Client API Key"
+  src="https://onchainkit.xyz/assets/copy-api-key-guide.png"
+  height="364"
+/>
 
 ### Chain
 
@@ -49,26 +51,40 @@ We recommend importing chains from wagmi or viem.
 `config` is an object that can be used to customize the appearance and behavior
 of the OnchainKit components.
 
-This prop has two keys:
+This prop has two keys: `appearance` and `paymaster`.
 
-- `appearance` manages the appearance of the OnchainKit components and has the following properties:
-  - `name` — The name of your OnchainKit project
-  - `logo` — The URL of the logo for your OnchainKit project
-  - `mode` — The mode of the OnchainKit components. Can be `auto`, `dark`, or `light`.
-  - `theme` — The theme of the OnchainKit components. Can be `base`, `cyberpunk`, `default`, `hacker`, or a custom theme.
-- `paymaster` represents the Paymaster URL if you use a paymaster to sponsor gas for your users.
+#### Appearance
+
+`appearance` manages the appearance of the OnchainKit components and has the following properties:
+
+- `name` — The name of your OnchainKit project
+- `logo` — The URL of the logo for your OnchainKit project
+- `mode` — The mode of the OnchainKit components. Can be `auto`, `dark`, or `light`.
+- `theme` — The theme of the OnchainKit components. Can be `base`, `cyberpunk`, `default`, `hacker`, or a custom theme.
+
+Explore appearance options in the [OnchainKit Playground](https://onchainkit.xyz/playground).
+
+#### Paymaster
+
+`paymaster` represents the Paymaster URL that enables you to sponsor gas for your users.
 
 ### RPC URL
 
 `rpcUrl` is required for any onchain requests. OnchainKit defaults to using
-the Coinbase Developer Platform Node if `apiKey` is set, but you can provide your
+the [Coinbase Developer Platform Node](https://portal.cdp.coinbase.com/products/node) if `apiKey` is set, but you can provide your
 own RPC URL if you would like.
 
 ### Project ID
 
 `projectId` is required for the `<FundButton />` component.
 
-You can obtain a Project ID from the Coinbase Developer Platform.
+You can obtain a Project ID from the [Coinbase Developer Platform](https://portal.cdp.coinbase.com/projects).
+
+<img
+  alt="OnchainKit copy Project ID"
+  src="https://onchainkit.xyz/assets/copy-project-id.png"
+  height="364"
+/>
 
 ### Schema ID
 
