@@ -12,7 +12,7 @@ import {
 
 # `<NFTMintCard />`
 
-The `NFTMintCard` component provides an easy way to mint an NFT.  Just enter the NFT contract address and token Id (for ERC1155 contracts) and include the child components you want to render.
+The `NFTMintCard` component provides an easy way to mint an NFT.  Just enter the NFT contract address and token Id (for ERC1155 contracts) and include the subcomponents you want to render.
 
 <img alt="Checkout"
   src="../assets/NFTMintCard.gif"
@@ -60,6 +60,18 @@ bun add @coinbase/onchainkit
 Wrap the `<OnchainKitProvider />` around your app, following the steps in [Getting Started](/getting-started#add-providers).
 
 ## Quickstart
+
+The `NFTMintCardDefault` component is a simplified version of the `NFTMintCard` component, designed to streamline the integration process for developers.  Instead of manually defining each subcomponent, developers can use this shorthand version which renders our suggested implementation of the component and includes `NFTCreator`, `NFTMedia`, `NFTCollectionTitle`, `NFTQuantitySelector`, `NFTAssetCost` and `NFTMintButton`.
+
+```tsx twoslash
+import { NFTMintCardDefault } from '@coinbase/onchainkit/nft'; // [!code focus]
+
+<NFTMintCardDefault  // [!code focus]
+  contractAddress='0xb4703a3a73aec16e764cbd210b0fde9efdab8941'  // [!code focus]
+/>  // [!code focus]
+```
+
+If you'd like more customization you can follow the steps below to customize which subcomponents are rendered.
 
 ::::steps
 
@@ -115,7 +127,7 @@ You can create your own NFT to mint at [Coinbase Wallets create a Mint flow](htt
 
 ### Add the NFTMintCard components in any order
 
-If you prefer to have the collection title above the media, you can easily change the order of the children components and they will render in the new order.
+If you prefer to have the collection title above the media, you can easily change the order of the subcomponents and they will render in the new order.
 
 ```tsx twoslash
 import { NFTMintCard } from '@coinbase/onchainkit/nft';
