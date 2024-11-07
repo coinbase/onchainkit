@@ -106,11 +106,7 @@ OnchainKit.
 
 ### Schema ID _[Deprecation Pending]_
 
-`schemaId` is used to specify the schema ID for attestations from the Ethereum
-Attestation Service (EAS).
+`schemaId` is no longer used as OnchainKit now defaults to using Coinbase
+attestations for the `<Badge />` component.
 
-This prop is optional, OnchainKit will default to using Coinbase attestations
-for the `<Badge />` component if this prop is not provided.
-
-If you would like to display other attestations, you can provide your own
-`schemaId`, which you can obtain from the Etehreum Attestation Service (EAS).
+This prop will be removed in a future version of OnchainKit.
