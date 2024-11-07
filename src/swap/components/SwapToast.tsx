@@ -10,7 +10,7 @@ import { useSwapContext } from './SwapProvider';
 
 export function SwapToast({
   className,
-  durationMs = 8000,
+  durationMs = 5000,
   position = 'bottom-center',
 }: SwapToastReact) {
   const {
