@@ -1,8 +1,7 @@
 name: Kit Format
 on:
   push:
-    branches: ['dms/bun']
-    # branches: ['main']
+    branches: ['main']
   pull_request:
     branches: ['main']
 jobs:
