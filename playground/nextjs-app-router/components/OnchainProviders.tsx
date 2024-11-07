@@ -6,7 +6,7 @@ import type { ReactNode } from 'react';
 import { http, createConfig } from 'wagmi';
 import { WagmiProvider } from 'wagmi';
 import { base, baseSepolia } from 'wagmi/chains';
-import { coinbaseWallet } from 'wagmi/connectors';
+import { coinbaseWallet, walletConnect } from 'wagmi/connectors';
 
 export const config = createConfig({
   chains: [base, baseSepolia],
@@ -23,6 +23,17 @@ export const config = createConfig({
     coinbaseWallet({
       appName: 'OnchainKit',
       preference: 'eoaOnly',
+    }),
+    walletConnect({
+      projectId:
+        ENVIRONMENT_VARIABLES[ENVIRONMENT.WALLETCONNECT_PROJECT_ID] ?? '',
+      showQrModal: true,
+      metadata: {
+        name: 'OnchainKit',
+        description: 'build onchain',
+        url: 'https://onchainkit.xyz/',
+        icons: [],
+      },
     }),
   ],
 });
@@ -42,6 +53,11 @@ function OnchainProviders({ children }: { children: ReactNode }) {
               logo: 'https://onchainkit.xyz/favicon/48x48.png?v4-19-24',
               mode: 'auto',
               theme: 'default',
+            },
+            wallet: {
+              display: 'modal',
+              termsUrl: 'https://www.coinbase.com/legal/cookie', // URL to the terms of service for the wallet modal
+              privacyUrl: 'https://www.coinbase.com/legal/privacy', // URL to the privacy policy for the wallet modal
             },
           }}
           projectId={ENVIRONMENT_VARIABLES[ENVIRONMENT.PROJECT_ID]}

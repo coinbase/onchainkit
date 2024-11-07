@@ -2200,6 +2200,7 @@ __metadata:
     "@types/react-dom": "npm:^18"
     "@vitest/coverage-v8": "npm:^2.0.5"
     "@vitest/ui": "npm:^2.0.5"
+    "@walletconnect/modal": "npm:^2.7.0"
     "@xmtp/frames-validator": "npm:^0.6.0"
     autoprefixer: "npm:^10.4.19"
     clsx: "npm:^2.1.1"
@@ -6013,7 +6014,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@walletconnect/modal@npm:2.7.0":
+"@walletconnect/modal@npm:2.7.0, @walletconnect/modal@npm:^2.7.0":
   version: 2.7.0
   resolution: "@walletconnect/modal@npm:2.7.0"
   dependencies:
