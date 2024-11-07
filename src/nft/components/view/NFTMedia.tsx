@@ -1,4 +1,5 @@
 import { useCallback, useMemo } from 'react';
+import { cn } from '../../../styles/theme';
 import { LifecycleType, MediaType, type NFTError } from '../../types';
 import { useNFTLifecycleContext } from '../NFTLifecycleProvider';
 import { useNFTContext } from '../NFTProvider';
@@ -63,7 +64,6 @@ export function NFTMedia({ className, square }: NFTMediaReact) {
       case MediaType.Video:
         return (
           <NFTVideo
-            className={className}
             square={square}
             onLoading={handleLoading}
             onLoaded={handleLoaded}
@@ -73,7 +73,7 @@ export function NFTMedia({ className, square }: NFTMediaReact) {
       case MediaType.Audio:
         return (
           <div className="relative w-full">
-            <NFTImage className={className} square={square} />
+            <NFTImage square={square} />
             <div className="absolute bottom-4 mx-auto w-full">
               <NFTAudio />
             </div>
@@ -83,7 +83,6 @@ export function NFTMedia({ className, square }: NFTMediaReact) {
         // fallback to image
         return (
           <NFTImage
-            className={className}
             square={square}
             onLoading={handleLoading}
             onLoaded={handleLoaded}
@@ -91,7 +90,7 @@ export function NFTMedia({ className, square }: NFTMediaReact) {
           />
         );
     }
-  }, [className, handleError, handleLoaded, handleLoading, mediaType, square]);
+  }, [handleError, handleLoaded, handleLoading, mediaType, square]);
 
-  return <div className="pb-2">{media}</div>;
+  return <div className={cn('pb-2', className)}>{media}</div>;
 }
