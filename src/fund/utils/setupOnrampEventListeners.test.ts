@@ -1,13 +1,13 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import type { EventMetadata } from '../types/events';
-import { setupEventSubscriptions } from './setupEventSubscriptions';
+import type { EventMetadata } from '../types';
+import { setupOnrampEventListeners } from './setupOnrampEventListeners';
 import { subscribeToWindowMessage } from './subscribeToWindowMessage';
 
 vi.mock('./subscribeToWindowMessage', () => ({
   subscribeToWindowMessage: vi.fn(),
 }));
 
-describe('setupEventSubscriptions', () => {
+describe('setupOnrampEventListeners', () => {
   let unsubscribe: ReturnType<typeof vi.fn>;
 
   beforeEach(() => {
@@ -24,7 +24,7 @@ describe('setupEventSubscriptions', () => {
     const onSuccess = vi.fn();
     const host = 'https://example.com';
 
-    setupEventSubscriptions({ onEvent, onExit, onSuccess, host });
+    setupOnrampEventListeners({ onEvent, onExit, onSuccess, host });
 
     expect(subscribeToWindowMessage).toHaveBeenCalledWith('event', {
       allowedOrigin: host,
@@ -38,7 +38,7 @@ describe('setupEventSubscriptions', () => {
     const onSuccess = vi.fn();
     const host = 'https://example.com';
 
-    setupEventSubscriptions({ onEvent, onExit, onSuccess, host });
+    setupOnrampEventListeners({ onEvent, onExit, onSuccess, host });
 
     const eventMetadata: EventMetadata = { eventName: 'success' };
 
@@ -57,7 +57,7 @@ describe('setupEventSubscriptions', () => {
     const onSuccess = vi.fn();
     const host = 'https://example.com';
 
-    setupEventSubscriptions({ onEvent, onExit, onSuccess, host });
+    setupOnrampEventListeners({ onEvent, onExit, onSuccess, host });
 
     const eventMetadata: EventMetadata = {
       eventName: 'exit',
@@ -78,7 +78,7 @@ describe('setupEventSubscriptions', () => {
     const onSuccess = vi.fn();
     const host = 'https://example.com';
 
-    setupEventSubscriptions({ onEvent, onExit, onSuccess, host });
+    setupOnrampEventListeners({ onEvent, onExit, onSuccess, host });
 
     const eventMetadata: EventMetadata = { eventName: 'success' };
     vi.mocked(subscribeToWindowMessage).mock.calls[0][1].onMessage(
@@ -96,7 +96,7 @@ describe('setupEventSubscriptions', () => {
 
     vi.mocked(subscribeToWindowMessage).mockReturnValue(unsubscribe);
 
-    const result = setupEventSubscriptions({
+    const result = setupOnrampEventListeners({
       onEvent,
       onExit,
       onSuccess,

@@ -1,17 +1,17 @@
 import { DEFAULT_ONRAMP_URL } from '../constants';
-import type { JsonObject } from '../jsonTypes';
+import type { JsonObject } from '../types';
 
 export enum MessageCodes {
   LaunchEmbedded = 'launch_embedded',
   AppReady = 'app_ready',
-  AppParams = 'app_params',
+  AppParams = 'app_params', 
+  PaymentLinkSuccess = 'payment_link_success', 
+  PaymentLinkClosed = 'payment_link_closed', 
+  GuestCheckoutRedirectSuccess = 'guest_checkout_redirect_success',
   SigninSuccess = 'signin_success',
-  Success = 'success',
-  Exit = 'exit',
+  Success = 'success', 
+  Exit = 'exit', 
   Event = 'event',
-  Error = 'error',
-  PixelReady = 'pixel_ready',
-  OnAppParamsNonce = 'on_app_params_nonce',
 }
 
 export type MessageCode = `${MessageCodes}`;

@@ -1,8 +1,8 @@
 import { DEFAULT_ONRAMP_URL } from '../constants';
-import type { EventMetadata } from '../types/events';
+import type { EventMetadata } from '../types';
 import { subscribeToWindowMessage } from './subscribeToWindowMessage';
 
-type SetupEventSubscriptionsParams = {
+type SetupOnrampEventListenersParams = {
   host?: string;
   onSuccess?: () => void;
   // biome-ignore lint/suspicious/noExplicitAny: <explanation>
@@ -17,12 +17,12 @@ type SetupEventSubscriptionsParams = {
  * @param onSuccess - Callback for when a success event is received.
  * @returns a function to unsubscribe from the event listener.
  */
-export function setupEventSubscriptions({
+export function setupOnrampEventListeners({
   onEvent,
   onExit,
   onSuccess,
   host = DEFAULT_ONRAMP_URL,
-}: SetupEventSubscriptionsParams) {
+}: SetupOnrampEventListenersParams) {
   const unsubscribe = subscribeToWindowMessage('event', {
     allowedOrigin: host,
     onMessage: (data) => {
