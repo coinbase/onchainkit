@@ -6,7 +6,10 @@ runs:
       with:
         node-version-file: '.nvmrc'
         registry-url: https://registry.npmjs.org
-        cache: yarn
+
+    - uses: oven-sh/setup-bun@v2
+      with:
+        bun-version: 1.1.26
 
     # For provenance https://docs.npmjs.com/generating-provenance-statements#prerequisites
     - name: Install npm 9.5
@@ -14,5 +17,5 @@ runs:
       shell: bash
 
     - name: Install node modules
-      run: yarn install --frozen-lockfile
+      run: bun install --frozen-lockfile
       shell: bash

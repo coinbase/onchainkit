@@ -1,7 +1,7 @@
 name: Kit Build
 on:
   push:
-    branches: ['dms/bun-build']
+    branches: ['main']
   pull_request:
     branches: ['main']
 jobs:
