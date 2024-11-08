@@ -19,7 +19,7 @@ export const sidebar = [
     items: [
       {
         text: 'OnchainKitProvider',
-        link: '/configuration/provider-config',
+        link: '/configuration/provider-props',
       },
     ],
   },
