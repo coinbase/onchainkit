@@ -11,9 +11,10 @@ const ONCHAINKIT_DESCRIPTION =
   'React components and TypeScript utilities for top-tier onchain apps.';
 
 export default defineConfig({
-  baseUrl: process.env.VERCEL_URL
-    ? `https://${process.env.VERCEL_URL}`
-    : 'https://onchainkit.xyz',
+  baseUrl:
+    process.env.VERCEL_ENV === 'preview'
+      ? `https://${process.env.VERCEL_BRANCH_URL}`
+      : 'https://onchainkit.xyz',
   title: ONCHAINKIT_TITLE,
   titleTemplate: '%s · OnchainKit',
   description: ONCHAINKIT_DESCRIPTION,
