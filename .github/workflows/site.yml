@@ -1,7 +1,7 @@
 name: Site Build
 on:
   push:
-    branches: ['main']
+    branches: ['dms/bun-build']
   pull_request:
     branches: ['main']
 jobs:
@@ -15,17 +15,21 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.1.26
+
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-          cache: 'yarn'
-
+  
       - name: Site Install dependencies
         working-directory: ./site
-        run: yarn install
+        run: bun install
 
       - name: Site Test Build
         working-directory: ./site
         run: |
-          yarn run build
+          bun run build
