@@ -208,5 +208,5 @@
       "default": "./esm/wallet/index.js"
     }
   },
-  "packageManager": "yarn@4.0.2"
+  "packageManager": "bun@1.1.26"
 }
