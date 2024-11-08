@@ -15,11 +15,11 @@ export const sidebar = [
     ],
   },
   {
-    text: 'Configuration',
+    text: 'Config',
     items: [
       {
         text: 'OnchainKitProvider',
-        link: '/configuration/provider-props',
+        link: '/config/onchainkit-provider',
       },
     ],
   },
