@@ -15,6 +15,15 @@ export const sidebar = [
     ],
   },
   {
+    text: 'Config',
+    items: [
+      {
+        text: 'OnchainKitProvider',
+        link: '/config/onchainkit-provider',
+      },
+    ],
+  },
+  {
     text: 'Contribution',
     items: [
       {
