@@ -29,3 +29,6 @@ jobs:
         working-directory: ./site
         run: |
           npm run build
+
+
+# add comment to restart build
