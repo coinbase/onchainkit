@@ -1,19 +1,20 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import type { MockInstance } from 'vitest';
 import {
-  subscribeToWindowMessage,
   MessageCodes,
+  subscribeToWindowMessage,
 } from './subscribeToWindowMessage';
 
 describe('subscribeToWindowMessage', () => {
   let unsubscribe: () => void;
   const DEFAULT_ORIGIN = 'https://default.origin';
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
   const mockMessageEvent = (data: any, origin = DEFAULT_ORIGIN) =>
     new MessageEvent('message', { data, origin });
 
-  let addEventListenerSpy;
-  let removeEventListenerSpy;
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+  let removeEventListenerSpy: MockInstance<any>;
   beforeEach(() => {
-    addEventListenerSpy = vi.spyOn(window, 'addEventListener');
     removeEventListenerSpy = vi.spyOn(window, 'removeEventListener');
     unsubscribe = () => {};
   });
@@ -71,7 +72,7 @@ describe('subscribeToWindowMessage', () => {
 
   it('should not unsubscribe after the first message if shouldUnsubscribe is false', async () => {
     const onMessage = vi.fn();
-    const unsubscribe = subscribeToWindowMessage(MessageCodes.AppReady, {
+    subscribeToWindowMessage(MessageCodes.AppReady, {
       onMessage,
       shouldUnsubscribe: false,
       allowedOrigin: DEFAULT_ORIGIN,
@@ -92,7 +93,7 @@ describe('subscribeToWindowMessage', () => {
 
   it('should not call onMessage if the origin is not allowed', async () => {
     const onMessage = vi.fn();
-    const unsubscribe = subscribeToWindowMessage(MessageCodes.AppReady, {
+    subscribeToWindowMessage(MessageCodes.AppReady, {
       onMessage,
       allowedOrigin: 'https://not.allowed.origin',
     });
@@ -112,7 +113,7 @@ describe('subscribeToWindowMessage', () => {
   it('should validate the origin using onValidateOrigin callback', async () => {
     const onMessage = vi.fn();
     const onValidateOrigin = vi.fn().mockResolvedValue(true);
-    const unsubscribe = subscribeToWindowMessage(MessageCodes.AppReady, {
+    subscribeToWindowMessage(MessageCodes.AppReady, {
       onMessage,
       allowedOrigin: DEFAULT_ORIGIN,
       onValidateOrigin,
@@ -134,7 +135,7 @@ describe('subscribeToWindowMessage', () => {
   it('should not call onMessage if onValidateOrigin returns false', async () => {
     const onMessage = vi.fn();
     const onValidateOrigin = vi.fn().mockResolvedValue(false);
-    const unsubscribe = subscribeToWindowMessage(MessageCodes.AppReady, {
+    subscribeToWindowMessage(MessageCodes.AppReady, {
       onMessage,
       allowedOrigin: DEFAULT_ORIGIN,
       onValidateOrigin,

@@ -1,5 +1,5 @@
 import { DEFAULT_ONRAMP_URL } from '../constants';
-import { JsonObject } from '../jsonTypes';
+import type { JsonObject } from '../jsonTypes';
 
 export enum MessageCodes {
   LaunchEmbedded = 'launch_embedded',
@@ -44,15 +44,17 @@ export function subscribeToWindowMessage(
     shouldUnsubscribe?: boolean;
     allowedOrigin: string;
     onValidateOrigin?: (origin: string) => Promise<boolean>;
-  }
+  },
 ) {
   const handleMessage = (event: MessageEvent<PostMessageData>) => {
-    if (!isAllowedOrigin({ event, allowedOrigin })) return;
+    if (!isAllowedOrigin({ event, allowedOrigin })) {
+      return;
+    }
 
     const { eventName, data } = event.data;
 
     if (eventName === messageCode) {
-      void (async () => {
+      (async () => {
         if (await onValidateOrigin(event.origin)) {
           onMessage(data);
           if (shouldUnsubscribe) {

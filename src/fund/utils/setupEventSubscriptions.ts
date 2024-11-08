@@ -1,10 +1,11 @@
 import { DEFAULT_ONRAMP_URL } from '../constants';
-import { EventMetadata } from '../types/events';
+import type { EventMetadata } from '../types/events';
 import { subscribeToWindowMessage } from './subscribeToWindowMessage';
 
 type SetupEventSubscriptionsParams = {
   host?: string;
   onSuccess?: () => void;
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
   onExit?: (error?: any) => void;
   onEvent?: (event: EventMetadata) => void;
 };

@@ -1,6 +1,6 @@
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import type { EventMetadata } from '../types/events';
 import { setupEventSubscriptions } from './setupEventSubscriptions';
-import { EventMetadata } from '../types/events';
-import { vi, describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { subscribeToWindowMessage } from './subscribeToWindowMessage';
 
 vi.mock('./subscribeToWindowMessage', () => ({
@@ -43,7 +43,7 @@ describe('setupEventSubscriptions', () => {
     const eventMetadata: EventMetadata = { eventName: 'success' };
 
     vi.mocked(subscribeToWindowMessage).mock.calls[0][1].onMessage(
-      eventMetadata
+      eventMetadata,
     );
 
     expect(onSuccess).toHaveBeenCalled();
@@ -64,7 +64,7 @@ describe('setupEventSubscriptions', () => {
       error: 'some error',
     };
     vi.mocked(subscribeToWindowMessage).mock.calls[0][1].onMessage(
-      eventMetadata
+      eventMetadata,
     );
 
     expect(onExit).toHaveBeenCalledWith('some error');
@@ -82,7 +82,7 @@ describe('setupEventSubscriptions', () => {
 
     const eventMetadata: EventMetadata = { eventName: 'success' };
     vi.mocked(subscribeToWindowMessage).mock.calls[0][1].onMessage(
-      eventMetadata
+      eventMetadata,
     );
 
     expect(onEvent).toHaveBeenCalledWith(eventMetadata);
