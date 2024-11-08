@@ -19,17 +19,13 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-
-      - name: Set up Bun
-        uses: oven-sh/setup-bun@v2
-        with:
-          bun-version: 1.1.26
-
+          cache: 'npm'
+  
       - name: Site Install dependencies
         working-directory: ./site
-        run: bun install
+        run: npm install
 
       - name: Site Test Build
         working-directory: ./site
         run: |
-          bun run build
+          npm run build
