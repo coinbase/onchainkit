@@ -10,14 +10,12 @@ describe('useClickOutside', () => {
 
     renderHook(() => useClickOutside(elementRef, callback));
 
-    // Simulate click outside
     const outsideElement = document.createElement('div');
     document.body.appendChild(outsideElement);
     outsideElement.click();
 
     expect(callback).toHaveBeenCalledTimes(1);
 
-    // Cleanup
     document.body.removeChild(elementRef.current);
     document.body.removeChild(outsideElement);
   });
@@ -29,12 +27,10 @@ describe('useClickOutside', () => {
 
     renderHook(() => useClickOutside(elementRef, callback));
 
-    // Simulate click inside
     elementRef.current.click();
 
     expect(callback).not.toHaveBeenCalled();
 
-    // Cleanup
     document.body.removeChild(elementRef.current);
   });
 
@@ -44,7 +40,6 @@ describe('useClickOutside', () => {
 
     renderHook(() => useClickOutside(elementRef, callback));
 
-    // Simulate click anywhere
     document.body.click();
 
     expect(callback).not.toHaveBeenCalled();
@@ -82,7 +77,6 @@ describe('useClickOutside', () => {
       },
     );
 
-    // Simulate click outside with first callback
     const outsideElement = document.createElement('div');
     document.body.appendChild(outsideElement);
     outsideElement.click();
@@ -90,16 +84,13 @@ describe('useClickOutside', () => {
     expect(callback1).toHaveBeenCalledTimes(1);
     expect(callback2).not.toHaveBeenCalled();
 
-    // Rerender with new callback
     rerender({ cb: callback2 });
 
-    // Simulate another click outside
     outsideElement.click();
 
     expect(callback1).toHaveBeenCalledTimes(1);
     expect(callback2).toHaveBeenCalledTimes(1);
 
-    // Cleanup
     document.body.removeChild(elementRef.current);
     document.body.removeChild(outsideElement);
   });
