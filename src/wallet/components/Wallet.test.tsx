@@ -29,6 +29,15 @@ vi.mock('../../useClickOutside', () => ({
   useClickOutside: vi.fn(),
 }));
 
+type UseClickOutsideType = ReturnType<
+  typeof vi.fn<
+    (
+      ref: React.RefObject<HTMLElement>,
+      callback: (event: MouseEvent) => void,
+    ) => void
+  >
+>;
+
 describe('Wallet Component', () => {
   let mockSetIsOpen: ReturnType<typeof vi.fn>;
   let mockClickOutsideCallback: (e: MouseEvent) => void;
@@ -40,9 +49,11 @@ describe('Wallet Component', () => {
       setIsOpen: mockSetIsOpen,
     });
 
-    (useClickOutside as any).mockImplementation((_, callback) => {
-      mockClickOutsideCallback = callback;
-    });
+    (useClickOutside as unknown as UseClickOutsideType).mockImplementation(
+      (_, callback) => {
+        mockClickOutsideCallback = callback;
+      },
+    );
 
     vi.clearAllMocks();
   });
