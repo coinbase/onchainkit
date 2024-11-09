@@ -1,7 +1,8 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { useIcon } from '../../internal/hooks/useIcon';
 import { background, border, cn, pressable, text } from '../../styles/theme';
 import { useBreakpoints } from '../../useBreakpoints';
+import { useClickOutside } from '../../useClickOutside';
 import type { SwapSettingsReact } from '../types';
 import { SwapSettingsSlippageLayout } from './SwapSettingsSlippageLayout';
 import { SwapSettingsSlippageLayoutBottomSheet } from './SwapSettingsSlippageLayoutBottomSheet';
@@ -17,24 +18,12 @@ export function SwapSettings({
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const handleToggle = useCallback(() => {
-    setIsOpen(!isOpen);
-  }, [isOpen]);
-
-  const handleClickOutsideComponent = useCallback((event: MouseEvent) => {
-    if (
-      dropdownRef.current &&
-      !dropdownRef.current.contains(event.target as Node)
-    ) {
-      setIsOpen(false);
-    }
+    setIsOpen((prev) => !prev);
   }, []);
 
-  useEffect(() => {
-    document.addEventListener('mousedown', handleClickOutsideComponent);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutsideComponent);
-    };
-  }, [handleClickOutsideComponent]);
+  useClickOutside(dropdownRef, () => {
+    setIsOpen(false);
+  });
 
   const iconSvg = useIcon({ icon });
 
