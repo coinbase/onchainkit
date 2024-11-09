@@ -42,7 +42,7 @@ describe('setupOnrampEventListeners', () => {
 
     const eventMetadata: EventMetadata = { eventName: 'success' };
 
-    vi.mocked(subscribeToWindowMessage).mock.calls[0][1].onMessage(
+    vi.mocked(subscribeToWindowMessage).mock.calls[0][0].onMessage(
       eventMetadata,
     );
 
@@ -63,7 +63,7 @@ describe('setupOnrampEventListeners', () => {
       eventName: 'exit',
       error: 'some error',
     };
-    vi.mocked(subscribeToWindowMessage).mock.calls[0][1].onMessage(
+    vi.mocked(subscribeToWindowMessage).mock.calls[0][0].onMessage(
       eventMetadata,
     );
 
@@ -81,7 +81,7 @@ describe('setupOnrampEventListeners', () => {
     setupOnrampEventListeners({ onEvent, onExit, onSuccess, host });
 
     const eventMetadata: EventMetadata = { eventName: 'success' };
-    vi.mocked(subscribeToWindowMessage).mock.calls[0][1].onMessage(
+    vi.mocked(subscribeToWindowMessage).mock.calls[0][0].onMessage(
       eventMetadata,
     );
 

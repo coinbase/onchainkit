@@ -1,5 +1,4 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import type { MockInstance } from 'vitest';
 import {
   MessageCodes,
   subscribeToWindowMessage,
@@ -12,10 +11,7 @@ describe('subscribeToWindowMessage', () => {
   const mockMessageEvent = (data: any, origin = DEFAULT_ORIGIN) =>
     new MessageEvent('message', { data, origin });
 
-  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-  let removeEventListenerSpy: MockInstance<any>;
   beforeEach(() => {
-    removeEventListenerSpy = vi.spyOn(window, 'removeEventListener');
     unsubscribe = () => {};
   });
 
@@ -25,13 +21,13 @@ describe('subscribeToWindowMessage', () => {
 
   it('should subscribe to window message and call onMessage when message is received', async () => {
     const onMessage = vi.fn();
-    unsubscribe = subscribeToWindowMessage(MessageCodes.AppReady, {
+    unsubscribe = subscribeToWindowMessage( {
       onMessage,
       allowedOrigin: DEFAULT_ORIGIN,
     });
 
     const event = mockMessageEvent({
-      eventName: MessageCodes.AppReady,
+      eventName: MessageCodes.AppParams,
       data: { key: 'value' },
     });
     window.dispatchEvent(event);
@@ -42,64 +38,15 @@ describe('subscribeToWindowMessage', () => {
     expect(onMessage).toHaveBeenCalledWith({ key: 'value' });
   });
 
-  it('should unsubscribe after the first message if shouldUnsubscribe is true', async () => {
-    const onMessage = vi.fn();
-    unsubscribe = subscribeToWindowMessage(MessageCodes.AppReady, {
-      onMessage,
-      shouldUnsubscribe: true,
-      allowedOrigin: DEFAULT_ORIGIN,
-    });
-
-    const event = mockMessageEvent({
-      eventName: MessageCodes.AppReady,
-      data: { key: 'value' },
-    });
-    window.dispatchEvent(event);
-
-    //wait for the async code to run
-    await Promise.resolve();
-
-    window.dispatchEvent(event);
-
-    // check that removeEventListenerSpy was called
-    expect(removeEventListenerSpy).toHaveBeenCalled();
-
-    //wait for the async code to run
-    await Promise.resolve();
-
-    expect(onMessage).toHaveBeenCalledTimes(1);
-  });
-
-  it('should not unsubscribe after the first message if shouldUnsubscribe is false', async () => {
-    const onMessage = vi.fn();
-    subscribeToWindowMessage(MessageCodes.AppReady, {
-      onMessage,
-      shouldUnsubscribe: false,
-      allowedOrigin: DEFAULT_ORIGIN,
-    });
-
-    const event = mockMessageEvent({
-      eventName: MessageCodes.AppReady,
-      data: { key: 'value' },
-    });
-    window.dispatchEvent(event);
-    window.dispatchEvent(event);
-
-    //wait for the async code to run
-    await Promise.resolve();
-
-    expect(onMessage).toHaveBeenCalledTimes(2);
-  });
-
   it('should not call onMessage if the origin is not allowed', async () => {
     const onMessage = vi.fn();
-    subscribeToWindowMessage(MessageCodes.AppReady, {
+    subscribeToWindowMessage({
       onMessage,
       allowedOrigin: 'https://not.allowed.origin',
     });
 
     const event = mockMessageEvent({
-      eventName: MessageCodes.AppReady,
+      eventName: MessageCodes.AppParams,
       data: { key: 'value' },
     });
     window.dispatchEvent(event);
@@ -113,14 +60,14 @@ describe('subscribeToWindowMessage', () => {
   it('should validate the origin using onValidateOrigin callback', async () => {
     const onMessage = vi.fn();
     const onValidateOrigin = vi.fn().mockResolvedValue(true);
-    subscribeToWindowMessage(MessageCodes.AppReady, {
+    subscribeToWindowMessage({
       onMessage,
       allowedOrigin: DEFAULT_ORIGIN,
       onValidateOrigin,
     });
 
     const event = mockMessageEvent({
-      eventName: MessageCodes.AppReady,
+      eventName: MessageCodes.AppParams,
       data: { key: 'value' },
     });
     window.dispatchEvent(event);
@@ -135,14 +82,14 @@ describe('subscribeToWindowMessage', () => {
   it('should not call onMessage if onValidateOrigin returns false', async () => {
     const onMessage = vi.fn();
     const onValidateOrigin = vi.fn().mockResolvedValue(false);
-    subscribeToWindowMessage(MessageCodes.AppReady, {
+    subscribeToWindowMessage({
       onMessage,
       allowedOrigin: DEFAULT_ORIGIN,
       onValidateOrigin,
     });
 
     const event = mockMessageEvent({
-      eventName: MessageCodes.AppReady,
+      eventName: MessageCodes.AppParams,
       data: { key: 'value' },
     });
     window.dispatchEvent(event);

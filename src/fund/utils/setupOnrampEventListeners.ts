@@ -23,7 +23,7 @@ export function setupOnrampEventListeners({
   onSuccess,
   host = DEFAULT_ONRAMP_URL,
 }: SetupOnrampEventListenersParams) {
-  const unsubscribe = subscribeToWindowMessage('event', {
+  const unsubscribe = subscribeToWindowMessage({
     allowedOrigin: host,
     onMessage: (data) => {
       const metadata = data as EventMetadata;
