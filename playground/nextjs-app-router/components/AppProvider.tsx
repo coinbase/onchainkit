@@ -152,7 +152,11 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     });
 
   const [componentTheme, setComponentThemeState] =
-    useState<ComponentTheme>('none');
+    useQueryState<ComponentTheme>('componentTheme', {
+      defaultValue: 'none',
+      parse: (value) => value as ComponentTheme,
+    });
+
   const [componentMode, setComponentModeState] =
     useState<ComponentMode>('auto');
   const [nftToken, setNFTTokenState] = useState<string>(
@@ -252,7 +256,6 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
 
   const setComponentTheme = (theme: ComponentTheme) => {
     console.log('Component theme changed:', theme);
-    localStorage.setItem('componentTheme', theme);
     setComponentThemeState(theme);
   };
 
