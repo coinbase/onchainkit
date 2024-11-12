@@ -141,9 +141,16 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     },
   );
 
+  // Leaving this as localStorage for now because RPC URLs are sensitive
   const [paymasters, setPaymastersState] =
     useState<Record<number, Paymaster>>();
-  const [defaultMaxSlippage, setDefaultMaxSlippageState] = useState<number>(3);
+
+  const [defaultMaxSlippage, setDefaultMaxSlippageState] =
+    useQueryState<number>('defaultMaxSlippage', {
+      defaultValue: 3,
+      parse: (value) => Number(value),
+    });
+
   const [componentTheme, setComponentThemeState] =
     useState<ComponentTheme>('none');
   const [componentMode, setComponentModeState] =
@@ -217,10 +224,6 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const setDefaultMaxSlippage = (newDefaultMaxSlippage: number) => {
-    localStorage.setItem(
-      'defaultMaxSlippage',
-      newDefaultMaxSlippage.toString(),
-    );
     setDefaultMaxSlippageState(newDefaultMaxSlippage);
   };
 
@@ -232,6 +235,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     setCheckoutTypesState(checkoutTypes);
   };
 
+  // Leaving this as localStorage for now because RPC URLs are sensitive
   const setPaymaster = (chainId: number, url: string, enabled: boolean) => {
     const newObj = {
       ...paymasters,
