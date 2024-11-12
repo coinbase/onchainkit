@@ -157,8 +157,14 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
       parse: (value) => value as ComponentTheme,
     });
 
-  const [componentMode, setComponentModeState] =
-    useState<ComponentMode>('auto');
+  const [componentMode, setComponentModeState] = useQueryState<ComponentMode>(
+    'componentMode',
+    {
+      defaultValue: 'auto',
+      parse: (value) => value as ComponentMode,
+    },
+  );
+
   const [nftToken, setNFTTokenState] = useState<string>(
     '0x1D6b183bD47F914F9f1d3208EDCF8BefD7F84E63:1',
   );
@@ -261,7 +267,6 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
 
   const setComponentMode = (mode: ComponentMode) => {
     console.log('Component mode changed:', mode);
-    localStorage.setItem('componentMode', mode);
     setComponentModeState(mode);
   };
 
