@@ -1,5 +1,3 @@
-'use client';
-
 // AppContext.js
 import { ENVIRONMENT, ENVIRONMENT_VARIABLES } from '@/lib/constants';
 import { OnchainKitProvider } from '@coinbase/onchainkit';
