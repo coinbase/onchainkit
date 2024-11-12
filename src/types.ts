@@ -15,6 +15,12 @@ export type AppConfig = {
   paymaster?: string | null; // Paymaster URL for gas sponsorship
 };
 
+export type CreateWagmiConfigParams = {
+  apiKey?: string;
+  appName?: string;
+  appLogoUrl?: string;
+};
+
 /**
  * Note: exported as public Type
  */
