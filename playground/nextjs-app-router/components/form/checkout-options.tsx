@@ -20,7 +20,7 @@ export function CheckoutOptions() {
   const [productOptions, setProductOptions] = useState<{
     chargeId: string;
   }>({
-    chargeId: '',
+    chargeId: checkoutOptions?.chargeId || '',
   });
 
   return (

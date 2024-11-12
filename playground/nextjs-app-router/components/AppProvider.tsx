@@ -6,7 +6,7 @@ import { createContext, useEffect, useState } from 'react';
 import { useConnect, useConnectors } from 'wagmi';
 import { base } from 'wagmi/chains';
 import { WalletPreference } from './form/wallet-type';
-import { useQueryState, parseAsJson } from 'nuqs';
+import { useQueryState } from 'nuqs';
 
 export enum OnchainKitComponent {
   Fund = 'fund',
@@ -133,11 +133,14 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
       serialize: (value: CheckoutOptions) => JSON.stringify(value),
     });
 
-  console.log('checkoutOptions:', checkoutOptions.productId);
-
-  const [checkoutTypes, setCheckoutTypesState] = useState<CheckoutTypes>(
-    CheckoutTypes.ProductID,
+  const [checkoutTypes, setCheckoutTypesState] = useQueryState<CheckoutTypes>(
+    'checkoutTypes',
+    {
+      defaultValue: CheckoutTypes.ProductID,
+      parse: (value) => value as CheckoutTypes,
+    },
   );
+
   const [paymasters, setPaymastersState] =
     useState<Record<number, Paymaster>>();
   const [defaultMaxSlippage, setDefaultMaxSlippageState] = useState<number>(3);
@@ -222,7 +225,6 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const setCheckoutOptions = (checkoutOptions: CheckoutOptions) => {
-    localStorage.setItem('productId', checkoutOptions.productId || '');
     setCheckoutOptionsState(checkoutOptions);
   };
 
