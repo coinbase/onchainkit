@@ -21,7 +21,7 @@ describe('subscribeToWindowMessage', () => {
 
   it('should subscribe to window message and call onMessage when message is received', async () => {
     const onMessage = vi.fn();
-    unsubscribe = subscribeToWindowMessage( {
+    unsubscribe = subscribeToWindowMessage({
       onMessage,
       allowedOrigin: DEFAULT_ORIGIN,
     });

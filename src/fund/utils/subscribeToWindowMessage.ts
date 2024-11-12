@@ -2,11 +2,11 @@ import { DEFAULT_ONRAMP_URL } from '../constants';
 import type { JsonObject } from '../types';
 
 export enum MessageCodes {
-  AppParams = 'app_params', 
-  PaymentLinkSuccess = 'payment_link_success', 
-  PaymentLinkClosed = 'payment_link_closed', 
+  AppParams = 'app_params',
+  PaymentLinkSuccess = 'payment_link_success',
+  PaymentLinkClosed = 'payment_link_closed',
   GuestCheckoutRedirectSuccess = 'guest_checkout_redirect_success',
-  Success = 'success', 
+  Success = 'success',
   Event = 'event',
 }
 
@@ -27,17 +27,15 @@ export type PostMessageData = {
  * @param onValidateOrigin Callback to validate the origin of the message.
  * @returns
  */
-export function subscribeToWindowMessage(
-  {
-    onMessage,
-    allowedOrigin = DEFAULT_ONRAMP_URL,
-    onValidateOrigin = () => Promise.resolve(true),
-  }: {
-    onMessage: (data?: MessageData) => void;
-    allowedOrigin: string;
-    onValidateOrigin?: (origin: string) => Promise<boolean>;
-  },
-) {
+export function subscribeToWindowMessage({
+  onMessage,
+  allowedOrigin = DEFAULT_ONRAMP_URL,
+  onValidateOrigin = () => Promise.resolve(true),
+}: {
+  onMessage: (data?: MessageData) => void;
+  allowedOrigin: string;
+  onValidateOrigin?: (origin: string) => Promise<boolean>;
+}) {
   const handleMessage = (event: MessageEvent<PostMessageData>) => {
     if (!isAllowedOrigin({ event, allowedOrigin })) {
       return;
