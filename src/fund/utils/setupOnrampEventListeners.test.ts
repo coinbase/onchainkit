@@ -26,7 +26,7 @@ describe('setupOnrampEventListeners', () => {
 
     setupOnrampEventListeners({ onEvent, onExit, onSuccess, host });
 
-    expect(subscribeToWindowMessage).toHaveBeenCalledWith('event', {
+    expect(subscribeToWindowMessage).toHaveBeenCalledWith({
       allowedOrigin: host,
       onMessage: expect.any(Function),
     });
