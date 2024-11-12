@@ -114,13 +114,18 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
       defaultValue: null,
       parse: (value) => value as WalletPreference,
     });
-  console.log('walletType:', walletType);
 
-  // const [walletType, setWalletTypeState] = useState<WalletPreference>();
-  const [chainId, setChainIdState] = useState<number>();
-  const [transactionType, setTransactionTypeState] = useState<TransactionTypes>(
-    TransactionTypes.Contracts,
-  );
+  const [chainId, setChainIdState] = useQueryState<number>('chainId', {
+    defaultValue: base.id,
+    parse: (value) => Number(value),
+  });
+
+  const [transactionType, setTransactionTypeState] =
+    useQueryState<TransactionTypes>('transactionType', {
+      defaultValue: TransactionTypes.Contracts,
+      parse: (value) => value as TransactionTypes,
+    });
+
   const [checkoutOptions, setCheckoutOptionsState] =
     useState<CheckoutOptions>();
   const [checkoutTypes, setCheckoutTypesState] = useState<CheckoutTypes>(
@@ -142,9 +147,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   // Load initial values from localStorage
   // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO Refactor this component
   useEffect(() => {
-    const storedChainId = localStorage.getItem('chainId');
     const storedPaymasters = localStorage.getItem('paymasters');
-    const storedTransactionType = localStorage.getItem('transactionType');
     const storedDefaultMaxSlippage = localStorage.getItem('defaultMaxSlippage');
     const storedComponentTheme = localStorage.getItem(
       'componentTheme',
@@ -155,17 +158,12 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     const storedNFTToken = localStorage.getItem('nftToken');
     const storedIsSponsored = localStorage.getItem('isSponsored');
 
-    if (storedChainId) {
-      setChainIdState(Number.parseInt(storedChainId));
-    }
     if (storedPaymasters) {
       setPaymastersState(JSON.parse(storedPaymasters));
     }
-    if (storedTransactionType) {
-      setTransactionTypeState(storedTransactionType as TransactionTypes);
-    }
+
     if (storedDefaultMaxSlippage) {
-      setDefaultMaxSlippage(Number(storedDefaultMaxSlippage));
+      setDefaultMaxSlippage(Number.parseInt(storedDefaultMaxSlippage));
     }
     if (storedComponentTheme) {
       setComponentTheme(storedComponentTheme);
