@@ -27,7 +27,7 @@ describe('subscribeToWindowMessage', () => {
     });
 
     const event = mockMessageEvent({
-      eventName: MessageCodes.AppParams,
+      eventName: MessageCodes.Event,
       data: { key: 'value' },
     });
     window.dispatchEvent(event);
@@ -46,7 +46,7 @@ describe('subscribeToWindowMessage', () => {
     });
 
     const event = mockMessageEvent({
-      eventName: MessageCodes.AppParams,
+      eventName: MessageCodes.Event,
       data: { key: 'value' },
     });
     window.dispatchEvent(event);
@@ -67,7 +67,7 @@ describe('subscribeToWindowMessage', () => {
     });
 
     const event = mockMessageEvent({
-      eventName: MessageCodes.AppParams,
+      eventName: MessageCodes.Event,
       data: { key: 'value' },
     });
     window.dispatchEvent(event);
@@ -89,7 +89,7 @@ describe('subscribeToWindowMessage', () => {
     });
 
     const event = mockMessageEvent({
-      eventName: MessageCodes.AppParams,
+      eventName: MessageCodes.Event,
       data: { key: 'value' },
     });
     window.dispatchEvent(event);
@@ -98,6 +98,25 @@ describe('subscribeToWindowMessage', () => {
     await Promise.resolve();
 
     expect(onValidateOrigin).toHaveBeenCalledWith(DEFAULT_ORIGIN);
+    expect(onMessage).not.toHaveBeenCalled();
+  });
+
+  it('should not call onMessage if the message code is not "event"', async () => {
+    const onMessage = vi.fn();
+    subscribeToWindowMessage({
+      onMessage,
+      allowedOrigin: DEFAULT_ORIGIN,
+    });
+
+    const event = mockMessageEvent({
+      eventName: 'not-event',
+      data: { key: 'value' },
+    });
+    window.dispatchEvent(event);
+
+    //wait for the async code to run
+    await Promise.resolve();
+
     expect(onMessage).not.toHaveBeenCalled();
   });
 });
