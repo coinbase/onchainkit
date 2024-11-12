@@ -34,7 +34,7 @@ const App = () => {
 
 | Prop                       | Description                                                                                                                             | Required |
 | -------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- | -------- |
-| [`chain`](#chain)          | The chain ID number(s) of the blockchain(s) supported by your OnchainKit project                                                        | Yes      |
+| [`chain`](#chain)          | The chain on which your OnchainKit project runs.                                                                                        | Yes      |
 | [`apiKey`](#apikey)        | Client API Key from Coinbase Developer Platform.                                                                                        | No       |
 | [`rpcUrl`](#rpc-url)       | RPC URL for onchain requests.                                                                                                           | No       |
 | [`projectId`](#project-id) | Your Coinbase Developer Platform Project ID.                                                                                            | No       |
@@ -46,12 +46,11 @@ const App = () => {
 
 ### Chain
 
-`chain` specifies which chains your OnchainKit project will interact with.
+`chain` specifies the chain on which your OnchainKit project will operate.
 
 This prop is required for all OnchainKit components.
 
-We recommend importing chain data from [wagmi](https://wagmi.sh/core/api/chains)
-or [viem](https://viem.sh/docs/chains/introduction).
+We recommend importing chain data from[viem](https://viem.sh/docs/chains/introduction).
 
 ---
 
