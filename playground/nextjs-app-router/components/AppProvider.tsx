@@ -6,6 +6,7 @@ import { createContext, useEffect, useState } from 'react';
 import { useConnect, useConnectors } from 'wagmi';
 import { base } from 'wagmi/chains';
 import { WalletPreference } from './form/wallet-type';
+import { useQueryState } from 'nuqs';
 
 export enum OnchainKitComponent {
   Fund = 'fund',
@@ -103,8 +104,19 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   const connectors = useConnectors();
 
   const [activeComponent, setActiveComponentState] =
-    useState<OnchainKitComponent>();
-  const [walletType, setWalletTypeState] = useState<WalletPreference>();
+    useQueryState<OnchainKitComponent>('component', {
+      defaultValue: OnchainKitComponent.Transaction,
+      parse: (value) => value as OnchainKitComponent,
+    });
+
+  const [walletType, setWalletTypeState] =
+    useQueryState<WalletPreference | null>('walletType', {
+      defaultValue: null,
+      parse: (value) => value as WalletPreference,
+    });
+  console.log('walletType:', walletType);
+
+  // const [walletType, setWalletTypeState] = useState<WalletPreference>();
   const [chainId, setChainIdState] = useState<number>();
   const [transactionType, setTransactionTypeState] = useState<TransactionTypes>(
     TransactionTypes.Contracts,
@@ -130,8 +142,6 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   // Load initial values from localStorage
   // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO Refactor this component
   useEffect(() => {
-    const storedActiveComponent = localStorage.getItem('activeComponent');
-    const storedWalletType = localStorage.getItem('walletType');
     const storedChainId = localStorage.getItem('chainId');
     const storedPaymasters = localStorage.getItem('paymasters');
     const storedTransactionType = localStorage.getItem('transactionType');
@@ -145,12 +155,6 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     const storedNFTToken = localStorage.getItem('nftToken');
     const storedIsSponsored = localStorage.getItem('isSponsored');
 
-    if (storedActiveComponent) {
-      setActiveComponent(storedActiveComponent as OnchainKitComponent);
-    }
-    if (storedWalletType) {
-      setWalletType(storedWalletType as WalletPreference);
-    }
     if (storedChainId) {
       setChainIdState(Number.parseInt(storedChainId));
     }
@@ -185,21 +189,18 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
       connect({ connector: connectors[1] });
     }
   }, [connect, connectors, walletType]);
-  // Update localStorage whenever the state changes
 
   function setActiveComponent(component: OnchainKitComponent) {
-    localStorage.setItem('activeComponent', component.toString());
+    console.log('component:', component);
     setActiveComponentState(component);
   }
 
   function setWalletType(newWalletType: WalletPreference) {
-    localStorage.setItem('walletType', newWalletType.toString());
     setWalletTypeState(newWalletType);
   }
 
   function clearWalletType() {
-    localStorage.setItem('walletType', '');
-    setWalletTypeState(undefined);
+    setWalletTypeState(null);
   }
 
   const setChainId = (newChainId: number) => {
