@@ -165,44 +165,26 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     },
   );
 
-  const [nftToken, setNFTTokenState] = useState<string>(
-    '0x1D6b183bD47F914F9f1d3208EDCF8BefD7F84E63:1',
-  );
+  const [nftToken, setNFTTokenState] = useQueryState<string>('nftToken', {
+    defaultValue: '0x1D6b183bD47F914F9f1d3208EDCF8BefD7F84E63:1',
+    parse: (value) => value as string,
+  });
 
-  const [isSponsored, setIsSponsoredState] = useState<boolean>(false);
+  const [isSponsored, setIsSponsoredState] = useQueryState<boolean>(
+    'isSponsored',
+    {
+      defaultValue: false,
+      parse: (value) => value === 'true',
+    },
+  );
 
   // Load initial values from localStorage
   // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO Refactor this component
   useEffect(() => {
     const storedPaymasters = localStorage.getItem('paymasters');
-    const storedDefaultMaxSlippage = localStorage.getItem('defaultMaxSlippage');
-    const storedComponentTheme = localStorage.getItem(
-      'componentTheme',
-    ) as ComponentTheme;
-    const storedComponentMode = localStorage.getItem(
-      'componentMode',
-    ) as ComponentMode;
-    const storedNFTToken = localStorage.getItem('nftToken');
-    const storedIsSponsored = localStorage.getItem('isSponsored');
 
     if (storedPaymasters) {
       setPaymastersState(JSON.parse(storedPaymasters));
-    }
-
-    if (storedDefaultMaxSlippage) {
-      setDefaultMaxSlippage(Number.parseInt(storedDefaultMaxSlippage));
-    }
-    if (storedComponentTheme) {
-      setComponentTheme(storedComponentTheme);
-    }
-    if (storedComponentMode) {
-      setComponentMode(storedComponentMode);
-    }
-    if (storedNFTToken) {
-      setNFTTokenState(storedNFTToken);
-    }
-    if (storedIsSponsored) {
-      setIsSponsoredState(JSON.parse(storedIsSponsored));
     }
   }, []);
 
@@ -272,12 +254,10 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
 
   const setNFTToken = (nftToken: string) => {
     console.log('NFT Token changed:', nftToken);
-    localStorage.setItem('nftToken', nftToken);
     setNFTTokenState(nftToken);
   };
   const setIsSponsored = (isSponsored: boolean) => {
     console.log('Component isSponsored changed: ', isSponsored);
-    localStorage.setItem('isSponsored', JSON.stringify(isSponsored));
     setIsSponsoredState(isSponsored);
   };
 
