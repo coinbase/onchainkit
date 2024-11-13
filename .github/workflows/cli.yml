@@ -49,5 +49,5 @@ jobs:
       - name: Install & Build test project
         working-directory: ./test-project/my-onchainkit-app
         run: |
-          bun install
-          bun run build
+          npm install
+          npm run build
