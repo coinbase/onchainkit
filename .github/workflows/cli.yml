@@ -35,9 +35,10 @@ jobs:
       - name: Make CLI executable
         run: chmod +x ./create-onchain/dist/esm/cli.js
 
-      - name: Run CLI with automated responses
-        run: |
-          yes "" | head -n 4 | ./create-onchain/dist/esm/cli.js
+      - name: Create test project
+        run: yes "" | ../create-onchain/dist/esm/cli.js
+        env:
+          CI: true
 
       # - name: List directories
       #   run: ls -la test-project
