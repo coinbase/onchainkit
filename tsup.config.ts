@@ -4,6 +4,9 @@ import { defineConfig } from 'tsup';
 
 export default defineConfig({
   entry: ['src/**/index.ts', 'src/**/theme.ts', 'src/**/styles.css'],
+  ignoreWatch: ['**/*.test.ts', '**/*.test.tsx', '**/*.stories.tsx'],
+  // TODO: update this based on environment, once we switch to tsup for builds
+  watch: ['src/**/*.{ts,tsx}'],
   format: 'esm',
   minify: false, // Disable minification during development
   splitting: true, // Enable code splitting to properly handle React contexts
