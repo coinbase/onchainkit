@@ -3,7 +3,12 @@ import { spawnSync } from 'node:child_process';
 import { defineConfig } from 'tsup';
 
 export default defineConfig({
-  entry: ['src/**/index.ts', 'src/**/theme.ts', 'src/**/styles.css'],
+  entry: [
+    'src/**/index.ts',
+    'src/**/theme.ts',
+    'src/**/styles.css',
+    'src/OnchainKitProvider.tsx',
+  ],
   format: 'esm',
   minify: false, // Disable minification during development
   splitting: true, // Enable code splitting to properly handle React contexts
