@@ -4,10 +4,10 @@ import { defineConfig } from 'tsup';
 
 export default defineConfig({
   entry: [
+    'index.ts',
     'src/**/index.ts',
     'src/**/theme.ts',
     'src/**/styles.css',
-    'src/OnchainKitProvider.tsx',
   ],
   format: 'esm',
   minify: false, // Disable minification during development
