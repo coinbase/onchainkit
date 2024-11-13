@@ -39,12 +39,12 @@ jobs:
         run: |
           mkdir test-project
           cd test-project
-          ../create-onchain/dist/esm/cli.js
+          echo -e "\ntest-project\n\n\ny\n" | ../create-onchain/dist/esm/cli.js
         env:
           CI: true
 
       - name: Install & Build test project
         working-directory: ./test-project/my-onchainkit-app
         run: |
-          npm install
-          npm run build
+          bun install
+          bun run build
