@@ -19,24 +19,21 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: 'npm'
-
       - name: Setup Bun
         uses: oven-sh/setup-bun@v1
         with:
           bun-version: latest
-  
+
       - name: Install dependencies
         working-directory: ./create-onchain
         run: bun install
-  
+
       - name: Build CLI
         working-directory: ./create-onchain
         run: bun run build
+
+      - name: Make CLI executable
+        run: chmod +x ./create-onchain/dist/esm/cli.js
 
       - name: Create test project
         run: |
