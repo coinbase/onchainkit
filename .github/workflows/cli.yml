@@ -36,15 +36,18 @@ jobs:
         run: chmod +x ./create-onchain/dist/esm/cli.js
 
       - name: Create test project
-        run: yes "" | ../create-onchain/dist/esm/cli.js
+        run: |
+          mkdir test-project
+          cd test-project
+          yes "" | ../create-onchain/dist/esm/cli.js
         env:
           CI: true
 
-      # - name: List directories
-      #   run: ls -la test-project
+      - name: List directories
+        run: ls -la test-project
 
       - name: Install & Build test project
-        working-directory: ./my-onchainkit-app
+        working-directory: ./test-project/my-onchainkit-app
         run: |
           bun install
           bun run build
