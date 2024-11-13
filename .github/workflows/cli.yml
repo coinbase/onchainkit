@@ -25,13 +25,18 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
 
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
+  
       - name: Install dependencies
         working-directory: ./create-onchain
-        run: npm install
-
+        run: bun install
+  
       - name: Build CLI
         working-directory: ./create-onchain
-        run: npm run build
+        run: bun run build
 
       - name: Create test project
         run: |
