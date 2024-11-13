@@ -48,6 +48,9 @@ export function TransactionOptions() {
             <SelectItem value={TransactionTypes.ContractsCallback}>
               Contracts Callback
             </SelectItem>
+            <SelectItem value={TransactionTypes.ContractsAndCalls}>
+              Contracts and Calls
+            </SelectItem>
           </SelectContent>
         </Select>
       </div>

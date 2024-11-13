@@ -1,6 +1,6 @@
-import type { UserOperation } from 'permissionless';
 import type { Dispatch, ReactNode, SetStateAction } from 'react';
 import type { Address, Chain, PublicClient } from 'viem';
+import type { UserOperation } from 'viem/_types/account-abstraction';
 import type { UseBalanceReturnType, UseReadContractReturnType } from 'wagmi';
 import type { SwapError } from '../swap';
 
@@ -43,7 +43,7 @@ export type IsValidAAEntrypointOptions = {
  */
 export type IsWalletACoinbaseSmartWalletOptions = {
   client: PublicClient;
-  userOp: UserOperation<'v0.6'>;
+  userOp: UserOperation<'0.6'>;
 };
 
 /**
