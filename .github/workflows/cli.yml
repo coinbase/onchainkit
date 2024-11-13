@@ -1,4 +1,4 @@
-name: CLI
+name: "CLI: Build & Install"
 
 on:
   push:
