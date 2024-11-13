@@ -43,6 +43,9 @@ jobs:
         env:
           CI: true
 
+      - name: List directories
+        run: ls -la test-project
+
       - name: Install & Build test project
         working-directory: ./test-project/test-project
         run: |
