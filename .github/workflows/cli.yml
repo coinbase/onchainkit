@@ -1,0 +1,48 @@
+name: "CLI: Build & Install"
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.x]
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        working-directory: ./create-onchain
+        run: bun install
+
+      - name: Build CLI
+        working-directory: ./create-onchain
+        run: bun run build
+
+      - name: Make CLI executable
+        run: chmod +x ./create-onchain/dist/esm/cli.js
+
+      - name: Create test project
+        run: |
+          mkdir test-project
+          cd test-project
+          yes "" | ../create-onchain/dist/esm/cli.js
+
+      - name: Install & Build test project
+        working-directory: ./test-project/my-onchainkit-app
+        run: |
+          npm install
+          npm run build
