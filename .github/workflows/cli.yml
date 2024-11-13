@@ -35,19 +35,15 @@ jobs:
       - name: Make CLI executable
         run: chmod +x ./create-onchain/dist/esm/cli.js
 
-      - name: Create test project
+      - name: Run CLI with automated responses
         run: |
-          mkdir test-project
-          cd test-project
-          yes "" | ../create-onchain/dist/esm/cli.js
-        env:
-          CI: true
+          yes "" | head -n 4 | ./create-onchain/dist/esm/cli.js
 
-      - name: List directories
-        run: ls -la test-project
+      # - name: List directories
+      #   run: ls -la test-project
 
       - name: Install & Build test project
-        working-directory: ./test-project/my-onchainkit-app
+        working-directory: ./my-onchainkit-app
         run: |
           bun install
           bun run build
