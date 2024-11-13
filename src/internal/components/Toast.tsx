@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import { background, cn } from '../../styles/theme';
 import { closeSvg } from '../svg/closeSvg';
-import { getToastPosition } from '../utils/getToastPosition';
 import { getToastAnimation } from '../utils/getToastAnimation';
+import { getToastPosition } from '../utils/getToastPosition';
 
 type ToastProps = {
   className?: string;
@@ -45,14 +45,17 @@ export function Toast({
   }
 
   return (
-    <div className={cn('fixed z-20 -translate-x-2/4', positionClass)}>
+    <div
+      className={cn('-translate-x-2/4 fixed z-20', positionClass)}
+      data-testid="ockToastContainer"
+    >
       <div
         className={cn(
           background.default,
           'flex items-center justify-between rounded-lg',
           'p-2 shadow-[0px_8px_24px_0px_rgba(0,0,0,0.12)]',
           animationClass,
-          className
+          className,
         )}
         data-testid="ockToast"
       >

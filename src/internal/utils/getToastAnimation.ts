@@ -1,5 +1,5 @@
 export function getToastAnimation(
-  position: 'top-center' | 'top-right' | 'bottom-center' | 'bottom-right'
+  position: 'top-center' | 'top-right' | 'bottom-center' | 'bottom-right',
 ) {
   switch (position) {
     case 'top-right':
