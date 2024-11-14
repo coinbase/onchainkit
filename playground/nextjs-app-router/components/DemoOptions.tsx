@@ -62,16 +62,6 @@ const COMPONENT_CONFIG: Partial<
   ],
 };
 
-export function getComponentQueryParams(
-  component: OnchainKitComponent,
-): string {
-  const options = COMPONENT_CONFIG[component] || [];
-  const paramKeys = [...COMMON_OPTIONS, ...options].map((Component) =>
-    Component.name.toLowerCase(),
-  );
-  return paramKeys.join('&');
-}
-
 export default function DemoOptions({
   component,
 }: {
