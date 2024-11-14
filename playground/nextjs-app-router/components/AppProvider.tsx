@@ -6,6 +6,7 @@ import { createContext, useEffect, useState } from 'react';
 import { useConnect, useConnectors } from 'wagmi';
 import { base } from 'wagmi/chains';
 import { WalletPreference } from './form/wallet-type';
+import { initializeStateFromUrl } from '@/lib/url-params';
 
 export enum OnchainKitComponent {
   Fund = 'fund',
@@ -130,20 +131,27 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   // Load initial values from localStorage
   // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO Refactor this component
   useEffect(() => {
-    const storedActiveComponent = localStorage.getItem('activeComponent');
-    const storedWalletType = localStorage.getItem('walletType');
-    const storedChainId = localStorage.getItem('chainId');
-    const storedPaymasters = localStorage.getItem('paymasters');
-    const storedTransactionType = localStorage.getItem('transactionType');
-    const storedDefaultMaxSlippage = localStorage.getItem('defaultMaxSlippage');
-    const storedComponentTheme = localStorage.getItem(
-      'componentTheme',
-    ) as ComponentTheme;
-    const storedComponentMode = localStorage.getItem(
-      'componentMode',
-    ) as ComponentMode;
-    const storedNFTToken = localStorage.getItem('nftToken');
-    const storedIsSponsored = localStorage.getItem('isSponsored');
+    const urlState = initializeStateFromUrl();
+
+    const storedActiveComponent =
+      urlState.activecomponent || localStorage.getItem('activeComponent');
+    const storedWalletType =
+      urlState.wallettype || localStorage.getItem('walletType');
+    const storedChainId = urlState.chain || localStorage.getItem('chainId');
+    const storedPaymasters =
+      urlState.paymasterurl || localStorage.getItem('paymasters');
+    const storedTransactionType =
+      urlState.transactiontype || localStorage.getItem('transactionType');
+    const storedDefaultMaxSlippage =
+      urlState.defaultmaxslippage || localStorage.getItem('defaultMaxSlippage');
+    const storedComponentTheme = (urlState.componenttheme ||
+      localStorage.getItem('componentTheme')) as ComponentTheme;
+    const storedComponentMode = (urlState.componentmode ||
+      localStorage.getItem('componentMode')) as ComponentMode;
+    const storedNFTToken =
+      urlState.nfttoken || localStorage.getItem('nftToken');
+    const storedIsSponsored =
+      urlState.issponsored || localStorage.getItem('isSponsored');
 
     if (storedActiveComponent) {
       setActiveComponent(storedActiveComponent as OnchainKitComponent);

@@ -17,6 +17,7 @@ import TransactionDemo from './demo/Transaction';
 import TransactionDefaultDemo from './demo/TransactionDefault';
 import WalletDemo from './demo/Wallet';
 import WalletDefaultDemo from './demo/WalletDefault';
+import { getShareableUrl } from '@/lib/url-params';
 
 const activeComponentMapping: Record<OnchainKitComponent, React.FC> = {
   [OnchainKitComponent.Fund]: FundDemo,
@@ -39,6 +40,14 @@ function Demo() {
   const { activeComponent } = useContext(AppContext);
   const [isDarkMode, setIsDarkMode] = useState(true);
   const [sideBarVisible, setSideBarVisible] = useState(true);
+  const [copied, setCopied] = useState(false);
+
+  const copyShareableLink = () => {
+    const url = getShareableUrl(activeComponent);
+    navigator.clipboard.writeText(url);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
 
   useEffect(() => {
     console.log('Playground.activeComponent:', activeComponent);
@@ -115,7 +124,13 @@ function Demo() {
           >
             OnchainKit ↗
           </a>
-          {/* PUT BUTTON FOR COPYING SHARE LINK HERE */}
+          <button
+            type="button"
+            onClick={copyShareableLink}
+            className="opacity-100 transition-opacity duration-200 hover:opacity-70"
+          >
+            {copied ? 'Copied!' : 'Share ↗'}
+          </button>
         </div>
       </div>
       <div className="linear-gradient(to_bottom,#f0f0f0_1px,transparent_1px)] flex flex-1 flex-col bg-[linear-gradient(to_right,#f0f0f0_1px,transparent_1px), bg-[size:6rem_4rem]">
