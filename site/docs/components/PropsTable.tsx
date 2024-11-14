@@ -1,5 +1,5 @@
 import { Code } from './Code.tsx';
-// biome-ignore lint/style/noNamespaceImport: TODO: fix
+// biome-ignore lint/style/noNamespaceImport: Recommended by Radix
 import * as Popover from '@radix-ui/react-popover';
 import InfoIcon from './svg/infoIcon.tsx';
 export type PropDef = {
@@ -24,8 +24,8 @@ const PropsTable = ({ data }: { data: PropDef[] }) => {
           >
             Prop
           </th>
-          <th className="pb-1 text-left font-normal">Type</th>
-          <th className="pb-1 text-left font-normal">Default</th>
+          <th className="w-[43%] pb-1 text-left font-normal">Type</th>
+          <th className="w-1/5 pb-1 text-left font-normal">Default</th>
         </tr>
       </thead>
       <tbody>
@@ -37,14 +37,13 @@ const PropsTable = ({ data }: { data: PropDef[] }) => {
                 {prop.description && (
                   <Popover.Root>
                     <Popover.Trigger>
-                      {/* TODO: make accessible */}
                       <InfoIcon className="size-[14px] text-[#4c4c4c] dark:text-stone-400" />
                     </Popover.Trigger>
                     <Popover.Portal>
                       <Popover.Content
                         side="top"
                         align="center"
-                        className="data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 rounded-md border border-gray-200 bg-white p-4 text-sm shadow-lg data-[state=closed]:animate-out data-[state=open]:animate-in dark:border-stone-800 dark:bg-stone-900"
+                        className="data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 rounded-md border border-gray-200 bg-white p-3 text-sm shadow-lg data-[state=closed]:animate-out data-[state=open]:animate-in dark:border-stone-800 dark:bg-stone-900"
                         style={{ maxWidth: 350 }}
                         onOpenAutoFocus={(event) => {
                           event.preventDefault();
