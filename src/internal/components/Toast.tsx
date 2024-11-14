@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { background, cn } from '../../styles/theme';
 import { closeSvg } from '../svg/closeSvg';
-import { getToastAnimation } from '../utils/getToastAnimation';
 import { getToastPosition } from '../utils/getToastPosition';
 
 type ToastProps = {
@@ -14,6 +13,13 @@ type ToastProps = {
   children: React.ReactNode;
 };
 
+const defaultAnimationByPosition = {
+  'top-center': 'animate-enterDown',
+  'top-right': 'animate-enterRight',
+  'bottom-center': 'animate-enterUp',
+  'bottom-right': 'animate-enterRight',
+};
+
 export function Toast({
   className,
   durationMs = 3000,
@@ -24,7 +30,7 @@ export function Toast({
   children,
 }: ToastProps) {
   const positionClass = getToastPosition(position);
-  const animationClass = animation ?? getToastAnimation(position);
+  const animationClass = animation ?? defaultAnimationByPosition[position];
 
   useEffect(() => {
     const timer = setTimeout(() => {
