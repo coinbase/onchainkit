@@ -1,6 +1,6 @@
-import { Code } from './Code.tsx';
 // biome-ignore lint/style/noNamespaceImport: Recommended by Radix
 import * as Popover from '@radix-ui/react-popover';
+import { Code } from './Code.tsx';
 import InfoIcon from './svg/infoIcon.tsx';
 export type PropDef = {
   name: string;
