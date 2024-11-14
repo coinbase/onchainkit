@@ -11,74 +11,86 @@ import { SwapConfig } from './form/swap-config';
 import { TransactionOptions } from './form/transaction-options';
 import { WalletType } from './form/wallet-type';
 
+const COMMON_OPTIONS = [
+  ActiveComponent,
+  ComponentMode,
+  ComponentTheme,
+  WalletType,
+];
+
+const COMPONENT_CONFIG: Partial<
+  Record<OnchainKitComponent, (() => React.JSX.Element)[]>
+> = {
+  [OnchainKitComponent.Checkout]: [
+    Chain,
+    PaymasterUrl,
+    IsSponsored,
+    CheckoutOptions,
+  ],
+  [OnchainKitComponent.Swap]: [Chain, PaymasterUrl, IsSponsored, SwapConfig],
+  [OnchainKitComponent.SwapDefault]: [
+    Chain,
+    PaymasterUrl,
+    IsSponsored,
+    SwapConfig,
+  ],
+  [OnchainKitComponent.Transaction]: [
+    Chain,
+    PaymasterUrl,
+    IsSponsored,
+    TransactionOptions,
+  ],
+  [OnchainKitComponent.TransactionDefault]: [
+    Chain,
+    PaymasterUrl,
+    IsSponsored,
+    TransactionOptions,
+  ],
+  [OnchainKitComponent.NFTCard]: [Chain, NFTOptions],
+  [OnchainKitComponent.NFTCardDefault]: [Chain, NFTOptions],
+  [OnchainKitComponent.NFTMintCard]: [
+    Chain,
+    PaymasterUrl,
+    IsSponsored,
+    NFTOptions,
+  ],
+  [OnchainKitComponent.NFTMintCardDefault]: [
+    Chain,
+    PaymasterUrl,
+    IsSponsored,
+    NFTOptions,
+  ],
+} as const;
+
+export function getComponentQueryParams(
+  component: OnchainKitComponent,
+): string {
+  const options = COMPONENT_CONFIG[component] || [];
+  const paramKeys = [...COMMON_OPTIONS, ...options].map((Component) =>
+    Component.name.toLowerCase(),
+  );
+  return paramKeys.join('&');
+}
+
 export default function DemoOptions({
   component,
 }: {
   component?: OnchainKitComponent;
 }) {
-  const commonOptions = (
+  const commonElements = COMMON_OPTIONS.map((Component) => (
+    <Component key={Component.name} />
+  ));
+
+  const specificElements = component
+    ? (COMPONENT_CONFIG[component] || []).map((Component) => (
+        <Component key={Component.name} />
+      ))
+    : [];
+
+  return (
     <>
-      <ActiveComponent />
-      <ComponentMode />
-      <ComponentTheme />
-      <WalletType />
+      {commonElements}
+      {specificElements}
     </>
   );
-
-  switch (component) {
-    case OnchainKitComponent.Checkout:
-      return (
-        <>
-          {commonOptions}
-          <Chain />
-          <PaymasterUrl />
-          <IsSponsored />
-          <CheckoutOptions />
-        </>
-      );
-    case OnchainKitComponent.Swap:
-    case OnchainKitComponent.SwapDefault:
-      return (
-        <>
-          {commonOptions}
-          <Chain />
-          <PaymasterUrl />
-          <IsSponsored />
-          <SwapConfig />
-        </>
-      );
-    case OnchainKitComponent.Transaction:
-    case OnchainKitComponent.TransactionDefault:
-      return (
-        <>
-          {commonOptions}
-          <Chain />
-          <PaymasterUrl />
-          <IsSponsored />
-          <TransactionOptions />
-        </>
-      );
-    case OnchainKitComponent.NFTCard:
-    case OnchainKitComponent.NFTCardDefault:
-      return (
-        <>
-          {commonOptions}
-          <Chain />
-          <NFTOptions />
-        </>
-      );
-    case OnchainKitComponent.NFTMintCard:
-    case OnchainKitComponent.NFTMintCardDefault:
-      return (
-        <>
-          {commonOptions}
-          <Chain />
-          <PaymasterUrl />
-          <IsSponsored />
-          <NFTOptions />
-        </>
-      );
-    default:
-      return commonOptions;
-  }
 }
