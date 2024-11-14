@@ -49,7 +49,9 @@ export function NFTVideo({
   return (
     <div
       className={cn(
-        'relative flex h-[450px] max-h-screen items-center justify-center',
+        'grid aspect-square w-full',
+        '[&>*]:col-start-1 [&>*]:col-end-1 [&>*]:row-start-1 [&>*]:row-end-1',
+        { 'content-center justify-center': !square },
         className,
       )}
     >

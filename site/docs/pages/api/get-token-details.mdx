@@ -1,0 +1,46 @@
+# `getTokenDetails`
+
+The `getTokenDetails` function returns data required to view an NFT
+
+Before using them, make sure to obtain a [Client API Key](https://portal.cdp.coinbase.com/projects/api-keys/client-key) from Coinbase Developer Platform.
+
+## Usage
+
+:::code-group
+
+```tsx twoslash [code]
+import { setOnchainKitConfig } from '@coinbase/onchainkit';
+import { getTokenDetails } from '@coinbase/onchainkit/api';
+
+const response = await getTokenDetails({
+  contractAddress: '0x...',
+  tokenId: '1',
+});
+```
+
+```json [return value]
+  "collectionName": "NFT Collection Name",
+  "collectionDescription": "NFT Collection Description",
+  "name": "NFT Name",
+  "description": "NFT Description",
+  "imageUrl": "https://example.com/image.png",
+  "animationUrl": "",
+  "ownerAddress": "0x...",
+  "lastSoldPrice": {
+    "amount": "0.0001",
+    "currency": "ETH",
+    "amountUSD": "0.242271"
+  },
+  "mimeType": "image/png",
+  "contractType": "ERC721"
+```
+
+:::
+
+## Returns
+
+[`Promise<GetTokenDetailsResponse>`](/api/types#gettokendetailsresponse)
+
+## Parameters
+
+[`GetTokenDetailsParams`](/api/types#gettokendetailsparams)

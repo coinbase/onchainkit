@@ -14,11 +14,7 @@ export function NFTTitle({ className }: NFTTitleReact) {
 
   return (
     <div
-      className={cn(
-        'overflow-hidden text-ellipsis pt-3 pb-1',
-        text.title3,
-        className,
-      )}
+      className={cn(text.title3, 'overflow-hidden text-ellipsis', className)}
     >
       {name}
     </div>

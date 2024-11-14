@@ -52,7 +52,7 @@ bun add @coinbase/onchainkit
 
 ## Get Your Client API Key
 
-Get your [Client API Key](https://portal.cdp.coinbase.com/projects/project-id/api-keys/client-key) from Coinbase Developer Platform.
+Get your [Client API Key](https://portal.cdp.coinbase.com/projects/api-keys/client-key) from Coinbase Developer Platform.
 
 <img alt="OnchainKit copy Client API Key"
   src="https://onchainkit.xyz/assets/copy-api-key-guide.png"
@@ -116,6 +116,8 @@ declare module 'wagmi' {
 
 ```tsx twoslash [providers.tsx]
 // @noErrors: 2307 2580 2339 - cannot find 'process', cannot find './wagmi', cannot find 'import.meta'
+"use client"
+
 import { OnchainKitProvider } from '@coinbase/onchainkit';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { base } from 'wagmi/chains'; // add baseSepolia for testing // [!code ++]

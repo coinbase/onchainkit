@@ -92,3 +92,50 @@ type GetTokensOptions = {
 ```ts
 type GetTokensResponse = Token[] | APIError;
 ```
+
+## `GetTokenDetailsParams`
+
+```ts 
+type GetTokenDetailsParams = {
+  contractAddress: Address;
+  tokenId?: string;
+};
+```
+
+## `GetTokenDetailsResponse`
+
+```ts
+type GetTokenDetailsResponse = TokenDetails | APIError;
+```
+
+## `GetMintDetailsParams`
+
+```ts
+type GetMintDetailsParams = {
+  contractAddress: Address;
+  takerAddress?: Address;
+  tokenId?: string;
+};
+```
+
+## `GetMintDetailsResponse`
+type GetMintDetailsResponse = MintDetails | APIError;
+```ts
+
+## `BuildMintTransactionParams`
+
+```ts
+type BuildMintTransactionParams = {
+  mintAddress: Address;
+  takerAddress: Address;
+  tokenId?: string;
+  quantity: number;
+  network?: string;
+};
+```
+
+## `BuildMintTransactionResponse`
+
+```ts
+type BuildMintTransactionResponse = MintTransaction | APIError;
+```

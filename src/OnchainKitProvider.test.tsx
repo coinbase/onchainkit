@@ -7,6 +7,7 @@ import { http, WagmiProvider, createConfig } from 'wagmi';
 import { mock } from 'wagmi/connectors';
 import { setOnchainKitConfig } from './OnchainKitConfig';
 import { OnchainKitProvider } from './OnchainKitProvider';
+import { COINBASE_VERIFIED_ACCOUNT_SCHEMA_ID } from './identity/constants';
 import type { EASSchemaUid } from './identity/types';
 import { useOnchainKit } from './useOnchainKit';
 
@@ -180,7 +181,6 @@ describe('OnchainKitProvider', () => {
         <QueryClientProvider client={queryClient}>
           <OnchainKitProvider
             chain={base}
-            schemaId={schemaId}
             apiKey={apiKey}
             config={customConfig}
           >
@@ -207,7 +207,7 @@ describe('OnchainKitProvider', () => {
           },
           projectId: null,
           rpcUrl: null,
-          schemaId: schemaId,
+          schemaId: COINBASE_VERIFIED_ACCOUNT_SCHEMA_ID,
         }),
       );
     });
