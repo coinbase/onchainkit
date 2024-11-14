@@ -60,7 +60,7 @@ const COMPONENT_CONFIG: Partial<
     IsSponsored,
     NFTOptions,
   ],
-} as const;
+};
 
 export function getComponentQueryParams(
   component: OnchainKitComponent,
