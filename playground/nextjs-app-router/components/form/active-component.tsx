@@ -7,7 +7,8 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { useContext } from 'react';
-import { AppContext, OnchainKitComponent } from '../AppProvider';
+import { AppContext } from '../AppProvider';
+import { OnchainKitComponent } from '@/types/onchainkit';
 
 export function ActiveComponent() {
   const { activeComponent, setActiveComponent } = useContext(AppContext);

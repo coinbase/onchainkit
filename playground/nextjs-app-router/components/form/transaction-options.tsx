@@ -7,11 +7,8 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { useContext } from 'react';
-import {
-  AppContext,
-  OnchainKitComponent,
-  TransactionTypes,
-} from '../AppProvider';
+import { AppContext } from '../AppProvider';
+import { OnchainKitComponent, TransactionTypes } from '@/types/onchainkit';
 
 export function TransactionOptions() {
   const { activeComponent, transactionType, setTransactionType } =

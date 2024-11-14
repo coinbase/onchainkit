@@ -8,7 +8,7 @@ import {
 } from '@/components/ui/select';
 import { useContext } from 'react';
 import { AppContext } from '../AppProvider';
-import type { ComponentMode as ComponentModeReact } from '../AppProvider';
+import type { ComponentMode as ComponentModeReact } from '@/types/onchainkit';
 
 export function ComponentMode() {
   const { componentMode, setComponentMode } = useContext(AppContext);
