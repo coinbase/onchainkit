@@ -15,6 +15,7 @@ import {
   type Paymaster,
   TransactionTypes,
 } from '@/types/onchainkit';
+import { initializeStateFromUrl } from '@/lib/url-params';
 
 type State = {
   activeComponent?: OnchainKitComponent;
