@@ -6,8 +6,8 @@ export type PropDef = {
   name: string;
   required?: boolean;
   default?: string | boolean | undefined;
-  type?: string;
-  typeSimple: string;
+  type: string;
+  typeSimple?: string;
   description?: string | React.ReactNode;
 };
 
@@ -43,7 +43,7 @@ const PropsTable = ({ data }: { data: PropDef[] }) => {
                       <Popover.Content
                         side="top"
                         align="center"
-                        className="data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 rounded-md border border-gray-200 bg-white p-3 text-sm shadow-lg data-[state=closed]:animate-out data-[state=open]:animate-in dark:border-stone-800 dark:bg-stone-900"
+                        className="data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 mx-2 rounded-md border border-gray-200 bg-white p-3 text-sm shadow-lg data-[state=closed]:animate-out data-[state=open]:animate-in dark:border-stone-800 dark:bg-stone-900"
                         style={{ maxWidth: 350 }}
                         onOpenAutoFocus={(event) => {
                           event.preventDefault();
@@ -58,7 +58,32 @@ const PropsTable = ({ data }: { data: PropDef[] }) => {
               </div>
             </td>
             <td>
-              <Code variant="gray">{prop.typeSimple}</Code>
+              <div className="inline-flex gap-1">
+                <Code variant="gray">{prop.typeSimple ?? prop.type}</Code>
+                {Boolean(prop.typeSimple) && Boolean(prop.type) && (
+                  <Popover.Root>
+                    <Popover.Trigger>
+                      <InfoIcon className="size-[14px] text-[#4c4c4c] dark:text-stone-400" />
+                    </Popover.Trigger>
+                    <Popover.Content
+                      side="top"
+                      align="center"
+                      className="data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 mx-2 rounded-md border border-gray-200 bg-white p-3 text-sm shadow-lg data-[state=closed]:animate-out data-[state=open]:animate-in dark:border-stone-800 dark:bg-stone-900"
+                    >
+                      <div
+                        style={{
+                          paddingTop: 'var(--inset-padding-top)',
+                          paddingRight: 'var(--inset-padding-right)',
+                          paddingBottom: 'var(--inset-padding-bottom)',
+                          paddingLeft: 'var(--inset-padding-left)',
+                        }}
+                      >
+                        <Code variant="ghost">{prop.type}</Code>
+                      </div>
+                    </Popover.Content>
+                  </Popover.Root>
+                )}
+              </div>
             </td>
             <td>
               {prop?.default ? (

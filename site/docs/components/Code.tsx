@@ -3,7 +3,7 @@ import { cn } from '../../utils/index.ts';
 interface CodeProps {
   children: React.ReactNode;
   className?: string;
-  variant?: 'blue' | 'gray';
+  variant?: 'blue' | 'gray' | 'ghost';
 }
 
 export function Code({ children, variant = 'gray', className }: CodeProps) {
@@ -15,6 +15,8 @@ export function Code({ children, variant = 'gray', className }: CodeProps) {
           'bg-blue-100/60 text-blue-500 dark:bg-blue-900/60 dark:text-blue-400',
         variant === 'gray' &&
           'bg-gray-200/60 text-gray-600 dark:bg-gray-800/60 dark:text-gray-300',
+        variant === 'ghost' &&
+          'bg-transparent text-gray-600 dark:text-gray-300',
         className,
       )}
     >

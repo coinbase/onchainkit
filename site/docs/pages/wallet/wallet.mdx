@@ -107,7 +107,7 @@ Serves as the main container for all wallet-related components.
   name: 'children',
   typeSimple: 'React.ReactNode',
   default: 'undefined',
-  description: 'The content of the wallet component.',
+  description: 'The content of the `Wallet` component.',
 }, ]} />
 
 ### ConnectWallet
@@ -115,25 +115,26 @@ Handles the wallet connection process. Place child components inside to customiz
 
 <PropsTable data={[{
   name: 'children',
-  typeSimple: 'React.ReactNode',
+  type: 'React.ReactNode',
   default: 'undefined',
-  description: 'The content of the connect wallet component.',
+  description: 'The content of the `ConnectWallet` component.',
 }, {
   name: 'className?',
-  typeSimple: 'string',
+  type: 'string',
 description: 'Additional CSS classes to apply to the wallet component.',
 }, {
   name: "text",
-  typeSimple: "string",
-  description: "The text to display on the connect button. Note: Prefer using `ConnectWalletText` component instead as this will be deprecated in a future version.",
+  type: "string",
+  description: <>The text to display on the connect button. <br /><br /> Note: Prefer using `ConnectWalletText` component instead as this will be deprecated in a future version.</>,
 }, {
-  name: "withWalletAggregator",
+  name: "withWalletAggregator?",
   typeSimple: "boolean",
   default: "false",
-  description: "Optional flag to enable the wallet aggregator like RainbowKit",
+  description: "Optional flag to enable RainbowKit's wallet aggregator.",
 }, {
   name: "onConnect",
   typeSimple: 'function',
+  type: "() => void",
   description: 'Callback function that triggers when the user connects their wallet.',
 }]} />
 
