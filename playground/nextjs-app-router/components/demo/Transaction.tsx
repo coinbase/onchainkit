@@ -1,5 +1,9 @@
-import { clickCalls, clickContracts } from '@/lib/transactions';
-import type { Call } from '@/onchainkit/esm/transaction/types';
+import {
+  clickCalls,
+  clickContracts,
+  heterogeneousClickCalls,
+} from '@/lib/transactions';
+import type { Call, Calls } from '@/onchainkit/esm/transaction/types';
 import type { LifecycleStatus } from '@/onchainkit/src/transaction';
 import {
   Transaction,
@@ -65,6 +69,12 @@ function TransactionDemo() {
       case TransactionTypes.Contracts:
         console.log('Playground.Transaction.contracts:', contracts);
         break;
+      case TransactionTypes.ContractsAndCalls:
+        console.log(
+          'Playground.Transaction.contractsAndCalls:',
+          heterogeneousClickCalls,
+        );
+        break;
       default:
         console.log(`Playground.Transaction.${transactionType}`);
         break;
@@ -74,31 +84,21 @@ function TransactionDemo() {
   const transactions = useMemo(() => {
     switch (transactionType) {
       case TransactionTypes.Calls:
-        return {
-          calls,
-          contracts: undefined,
-        };
+        return calls;
       case TransactionTypes.Contracts:
-        return {
-          calls: undefined,
-          contracts,
-        };
+        return contracts;
       case TransactionTypes.CallsPromise:
-        return {
-          calls: promiseCalls,
-          contracts: undefined,
-        };
+        return promiseCalls;
       case TransactionTypes.ContractsPromise:
-        return {
-          contracts: promiseContracts,
-          calls: undefined,
-        };
+        return promiseContracts;
       case TransactionTypes.CallsCallback:
-        return { calls: callsCallback, contracts: undefined };
+        return callsCallback;
       case TransactionTypes.ContractsCallback:
-        return { calls: undefined, contracts: contractsCallback };
+        return contractsCallback;
+      case TransactionTypes.ContractsAndCalls:
+        return heterogeneousClickCalls;
       default:
-        return { calls, contracts: undefined };
+        return calls;
     }
   }, [
     calls,
@@ -114,9 +114,9 @@ function TransactionDemo() {
     <div className="mx-auto grid w-1/2 gap-8">
       <Transaction
         chainId={chainId ?? 84532} // something breaks if we don't have default network?
-        {...transactions}
         isSponsored={isSponsored}
         onStatus={handleOnStatus}
+        calls={transactions as Calls}
       >
         <TransactionButton
           text="Click"
