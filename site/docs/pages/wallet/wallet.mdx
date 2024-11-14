@@ -106,22 +106,20 @@ Serves as the main container for all wallet-related components.
 <PropsTable data={[{
   name: 'children',
   typeSimple: 'React.ReactNode',
-  default: 'undefined',
-  description: 'The content of the `Wallet` component.',
+description: 'Content of the `Wallet` component',
 }, ]} />
 
 ### ConnectWallet
 Handles the wallet connection process. Place child components inside to customize the connect button appearance.
 
 <PropsTable data={[{
-  name: 'children',
+  name: 'children?',
   type: 'React.ReactNode',
-  default: 'undefined',
-  description: 'The content of the `ConnectWallet` component.',
+description: 'Used to display customized content when the wallet is connected',
 }, {
   name: 'className?',
-  type: 'string',
-description: 'Additional CSS classes to apply to the wallet component.',
+  typeSimple: 'string',
+  description: 'className override for the button element',
 }, {
   name: "text",
   type: "string",
@@ -130,12 +128,12 @@ description: 'Additional CSS classes to apply to the wallet component.',
   name: "withWalletAggregator?",
   typeSimple: "boolean",
   default: "false",
-  description: "Optional flag to enable RainbowKit's wallet aggregator.",
+  description: "Enables RainbowKit's wallet aggregator",
 }, {
   name: "onConnect",
   typeSimple: 'function',
   type: "() => void",
-  description: 'Callback function that triggers when the user connects their wallet.',
+  description: 'Callback function that triggers when the user connects their wallet',
 }]} />
 
 ### WalletDropdown
@@ -144,8 +142,11 @@ Contains additional wallet information and options. Place inside `<Wallet />` co
 <PropsTable data={[{
   name: 'children',
   typeSimple: 'React.ReactNode',
-  default: 'undefined',
-  description: 'The content of the wallet dropdown component.',
+  description: 'Content of the `WalletDropdown` component',
+}, {
+  name: 'className?',
+  typeSimple: 'string',
+  description: 'className override for top div element',
 }]} />
 
 ### WalletDropdownBasename
@@ -154,7 +155,7 @@ Displays the user's Basename within the dropdown.
 <PropsTable data={[{
   name: 'className?',
   typeSimple: 'string',
-  description: 'Additional CSS classes to apply to the wallet dropdown component.',
+  description: 'className override for the element',
 }]} />
 
 ### WalletDropdownLink
@@ -163,28 +164,28 @@ Creates a custom link within the dropdown.
 <PropsTable data={[{
   name: 'children',
   typeSimple: 'React.ReactNode',
-  description: 'The content of the wallet dropdown link component.',
+  description: 'Content of the `WalletDropdownLink` component',
 }, 
 {
   name: 'className?',
   typeSimple: 'string',
-  description: 'Additional CSS classes to apply to the wallet dropdown link component.',
+  description: 'className override for the element',
 }, {
   name: 'icon?',
   typeSimple: 'string',
-  description: 'The icon to display on the wallet dropdown link component.',  
+  description: 'Icon to display on the `WalletDropdownLink` component',  
 }, {
   name: 'href',
   typeSimple: 'string',
-  description: 'The URL to navigate to when the link is clicked.',
+  description: 'Link destination URL',
 }, {
   name: 'rel?',
   typeSimple: 'string',
-  description: 'The relationship attribute for the link element.',
+  description: 'Relationship attribute for the link element',
 }, {
   name: 'target?',
   typeSimple: 'string',
-  description: 'The target attribute for the link element.',
+  description: 'Target attribute for the link element',
 }]} />
 
 
@@ -194,11 +195,12 @@ Displays the disconnect button within the dropdown.
 <PropsTable data={[{
   name: 'className?',
   typeSimple: 'string',
-  description: 'Additional CSS classes to apply to the wallet dropdown disconnect component.',
+  description: 'className override for top div element',
 }, {
   name: "text?",
   typeSimple: "string",
-  description: "The text to display on the disconnect button.",
+  description: "Text override for the button",
+  default: '"Disconnect"',
 }]} />
 
 ## Walkthrough
