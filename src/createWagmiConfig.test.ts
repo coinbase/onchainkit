@@ -48,7 +48,7 @@ describe('createWagmiConfig', () => {
     expect(coinbaseWallet).toHaveBeenCalledWith({
       appName: undefined,
       appLogoUrl: undefined,
-      preference: 'smartWalletOnly',
+      preference: 'all',
     });
   });
 
@@ -77,7 +77,7 @@ describe('createWagmiConfig', () => {
     expect(coinbaseWallet).toHaveBeenCalledWith({
       appName: 'Custom App',
       appLogoUrl: 'https://example.com/logo.png',
-      preference: 'smartWalletOnly',
+      preference: 'all',
     });
   });
 
