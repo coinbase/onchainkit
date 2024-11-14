@@ -16,7 +16,7 @@ export const createWagmiConfig = ({
       coinbaseWallet({
         appName,
         appLogoUrl,
-        preference: 'smartWalletOnly',
+        preference: 'all',
       }),
     ],
     storage: createStorage({
