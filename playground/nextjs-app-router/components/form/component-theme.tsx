@@ -8,7 +8,7 @@ import {
 } from '@/components/ui/select';
 import { useContext } from 'react';
 import { AppContext } from '../AppProvider';
-import type { ComponentTheme as ComponentThemeType } from '../AppProvider';
+import type { ComponentTheme as ComponentThemeType } from '@/types/onchainkit';
 
 export function ComponentTheme() {
   const { componentTheme, setComponentTheme } = useContext(AppContext);

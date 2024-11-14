@@ -6,8 +6,8 @@ import {
 import type { LifecycleStatus } from '@coinbase/onchainkit/checkout';
 import { useCallback, useMemo } from 'react';
 import { useContext } from 'react';
-import { AppContext, CheckoutTypes } from '../AppProvider';
-
+import { AppContext } from '../AppProvider';
+import { CheckoutTypes } from '@/types/onchainkit';
 export default function CheckoutDemo() {
   const { checkoutTypes, checkoutOptions, isSponsored } =
     useContext(AppContext);

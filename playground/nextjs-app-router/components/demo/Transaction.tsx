@@ -15,7 +15,8 @@ import {
 } from '@coinbase/onchainkit/transaction';
 import { useCallback, useContext, useEffect, useMemo } from 'react';
 import type { ContractFunctionParameters } from 'viem';
-import { AppContext, TransactionTypes } from '../AppProvider';
+import { AppContext } from '../AppProvider';
+import { TransactionTypes } from '@/types/onchainkit';
 
 function TransactionDemo() {
   const { chainId, transactionType, isSponsored } = useContext(AppContext);

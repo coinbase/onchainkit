@@ -3,7 +3,8 @@ import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { useContext } from 'react';
 import { useState } from 'react';
-import { AppContext, CheckoutTypes, OnchainKitComponent } from '../AppProvider';
+import { AppContext } from '../AppProvider';
+import { CheckoutTypes, OnchainKitComponent } from '@/types/onchainkit';
 
 export function CheckoutOptions() {
   const {
