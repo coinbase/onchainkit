@@ -1,5 +1,5 @@
 'use client';
-import { AppContext, OnchainKitComponent } from '@/components/AppProvider';
+import { AppContext } from '@/components/AppProvider';
 import { cn } from '@/lib/utils';
 import { useContext, useEffect, useState } from 'react';
 import DemoOptions from './DemoOptions';
@@ -17,6 +17,7 @@ import TransactionDemo from './demo/Transaction';
 import TransactionDefaultDemo from './demo/TransactionDefault';
 import WalletDemo from './demo/Wallet';
 import WalletDefaultDemo from './demo/WalletDefault';
+import { OnchainKitComponent } from '@/types/onchainkit';
 
 const activeComponentMapping: Record<OnchainKitComponent, React.FC> = {
   [OnchainKitComponent.Fund]: FundDemo,
