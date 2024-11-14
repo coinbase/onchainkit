@@ -18,7 +18,7 @@ const COMMON_OPTIONS = [
   WalletType,
 ];
 
-const COMPONENT_CONFIG: Partial<
+export const COMPONENT_CONFIG: Partial<
   Record<OnchainKitComponent, (() => React.JSX.Element)[]>
 > = {
   [OnchainKitComponent.Checkout]: [
@@ -61,16 +61,6 @@ const COMPONENT_CONFIG: Partial<
     NFTOptions,
   ],
 };
-
-export function getComponentQueryParams(
-  component: OnchainKitComponent,
-): string {
-  const options = COMPONENT_CONFIG[component] || [];
-  const paramKeys = [...COMMON_OPTIONS, ...options].map((Component) =>
-    Component.name.toLowerCase(),
-  );
-  return paramKeys.join('&');
-}
 
 export default function DemoOptions({
   component,
