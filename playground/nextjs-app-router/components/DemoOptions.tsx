@@ -18,7 +18,7 @@ const COMMON_OPTIONS = [
   WalletType,
 ];
 
-export const COMPONENT_CONFIG: Partial<
+const COMPONENT_CONFIG: Partial<
   Record<OnchainKitComponent, (() => React.JSX.Element)[]>
 > = {
   [OnchainKitComponent.Checkout]: [

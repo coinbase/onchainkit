@@ -17,7 +17,6 @@ import TransactionDemo from './demo/Transaction';
 import TransactionDefaultDemo from './demo/TransactionDefault';
 import WalletDemo from './demo/Wallet';
 import WalletDefaultDemo from './demo/WalletDefault';
-import { getShareableUrl } from '@/lib/url-params';
 
 const activeComponentMapping: Record<OnchainKitComponent, React.FC> = {
   [OnchainKitComponent.Fund]: FundDemo,
@@ -43,8 +42,8 @@ function Demo() {
   const [copied, setCopied] = useState(false);
 
   const copyShareableLink = () => {
-    const url = getShareableUrl(activeComponent);
-    navigator.clipboard.writeText(url);
+    // const url = getShareableUrl(activeComponent);
+    // navigator.clipboard.writeText(url);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
