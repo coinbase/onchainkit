@@ -18,6 +18,23 @@ import TransactionDefaultDemo from './demo/TransactionDefault';
 import WalletDemo from './demo/Wallet';
 import WalletDefaultDemo from './demo/WalletDefault';
 
+const activeComponentMapping = {
+  [OnchainKitComponent.Fund]: FundDemo,
+  [OnchainKitComponent.Identity]: IdentityDemo,
+  [OnchainKitComponent.Transaction]: TransactionDemo,
+  [OnchainKitComponent.Checkout]: CheckoutDemo,
+  [OnchainKitComponent.Swap]: SwapDemo,
+  [OnchainKitComponent.SwapDefault]: SwapDefaultDemo,
+  [OnchainKitComponent.Wallet]: WalletDemo,
+  [OnchainKitComponent.WalletDefault]: WalletDefaultDemo,
+  [OnchainKitComponent.TransactionDefault]: TransactionDefaultDemo,
+  [OnchainKitComponent.NFTMintCard]: NFTMintCardDemo,
+  [OnchainKitComponent.NFTCard]: NFTCardDemo,
+  [OnchainKitComponent.NFTMintCardDefault]: NFTMintCardDefaultDemo,
+  [OnchainKitComponent.NFTCardDefault]: NFTCardDefaultDemo,
+  [OnchainKitComponent.IdentityCard]: IdentityCardDemo,
+};
+
 function Demo() {
   const { activeComponent } = useContext(AppContext);
   const [isDarkMode, setIsDarkMode] = useState(true);
@@ -47,12 +64,9 @@ function Demo() {
 
   // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO: refactor
   function renderActiveComponent() {
-    if (activeComponent === OnchainKitComponent.Fund) {
-      return <FundDemo />;
-    }
-
-    if (activeComponent === OnchainKitComponent.Identity) {
-      return <IdentityDemo />;
+    if (activeComponent && activeComponentMapping[activeComponent]) {
+      const Component = activeComponentMapping[activeComponent];
+      return <Component />;
     }
 
     if (activeComponent === OnchainKitComponent.Transaction) {
@@ -136,25 +150,38 @@ function Demo() {
         <form className="mt-4 grid gap-8">
           <DemoOptions component={activeComponent} />
         </form>
-        <div className="mt-auto pt-6 text-sm">
-          <a
-            className="opacity-100 transition-opacity duration-200 hover:opacity-70"
-            href="https://github.com/coinbase/onchainkit/tree/main/playground"
-            rel="noreferrer"
-            target="_blank"
-            title="View OnchainKit Playground on GitHub"
-          >
-            Github ↗
-          </a>
-          <a
-            className="pl-4 opacity-100 transition-opacity duration-200 hover:opacity-70"
-            href="https://onchainkit.xyz"
-            rel="noreferrer"
-            target="_blank"
-            title="View OnchainKit"
-          >
-            OnchainKit ↗
-          </a>
+        <div className="mt-auto flex items-center justify-between pt-6 text-sm">
+          <div>
+            <a
+              className="opacity-100 transition-opacity duration-200 hover:opacity-70"
+              href="https://github.com/coinbase/onchainkit/tree/main/playground"
+              rel="noreferrer"
+              target="_blank"
+              title="View OnchainKit Playground on GitHub"
+            >
+              Github ↗
+            </a>
+            <a
+              className="pl-4 opacity-100 transition-opacity duration-200 hover:opacity-70"
+              href="https://onchainkit.xyz"
+              rel="noreferrer"
+              target="_blank"
+              title="View OnchainKit"
+            >
+              OnchainKit ↗
+            </a>
+          </div>
+          <div>
+            <button
+              type="button"
+              className=""
+              onClick={() => {
+                console.log('ok');
+              }}
+            >
+              Share
+            </button>
+          </div>
         </div>
       </div>
       <div className="linear-gradient(to_bottom,#f0f0f0_1px,transparent_1px)] flex flex-1 flex-col bg-[linear-gradient(to_right,#f0f0f0_1px,transparent_1px), bg-[size:6rem_4rem]">
