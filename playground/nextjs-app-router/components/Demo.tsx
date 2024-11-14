@@ -18,7 +18,7 @@ import TransactionDefaultDemo from './demo/TransactionDefault';
 import WalletDemo from './demo/Wallet';
 import WalletDefaultDemo from './demo/WalletDefault';
 
-const activeComponentMapping = {
+const activeComponentMapping: Record<OnchainKitComponent, React.FC> = {
   [OnchainKitComponent.Fund]: FundDemo,
   [OnchainKitComponent.Identity]: IdentityDemo,
   [OnchainKitComponent.Transaction]: TransactionDemo,
@@ -62,63 +62,9 @@ function Demo() {
       : 'border-gray-300 bg-white text-black hover:bg-gray-100'
   }`;
 
-  // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO: refactor
-  function renderActiveComponent() {
-    if (activeComponent && activeComponentMapping[activeComponent]) {
-      const Component = activeComponentMapping[activeComponent];
-      return <Component />;
-    }
-
-    if (activeComponent === OnchainKitComponent.Transaction) {
-      return <TransactionDemo />;
-    }
-
-    if (activeComponent === OnchainKitComponent.Checkout) {
-      return <CheckoutDemo />;
-    }
-
-    if (activeComponent === OnchainKitComponent.Swap) {
-      return <SwapDemo />;
-    }
-
-    if (activeComponent === OnchainKitComponent.SwapDefault) {
-      return <SwapDefaultDemo />;
-    }
-
-    if (activeComponent === OnchainKitComponent.Wallet) {
-      return <WalletDemo />;
-    }
-
-    if (activeComponent === OnchainKitComponent.WalletDefault) {
-      return <WalletDefaultDemo />;
-    }
-
-    if (activeComponent === OnchainKitComponent.TransactionDefault) {
-      return <TransactionDefaultDemo />;
-    }
-
-    if (activeComponent === OnchainKitComponent.NFTMintCard) {
-      return <NFTMintCardDemo />;
-    }
-
-    if (activeComponent === OnchainKitComponent.NFTCard) {
-      return <NFTCardDemo />;
-    }
-
-    if (activeComponent === OnchainKitComponent.NFTMintCardDefault) {
-      return <NFTMintCardDefaultDemo />;
-    }
-
-    if (activeComponent === OnchainKitComponent.NFTCardDefault) {
-      return <NFTCardDefaultDemo />;
-    }
-
-    if (activeComponent === OnchainKitComponent.IdentityCard) {
-      return <IdentityCardDemo />;
-    }
-
-    return <></>;
-  }
+  const ActiveComponent = activeComponent
+    ? activeComponentMapping[activeComponent]
+    : null;
 
   return (
     <>
@@ -150,43 +96,30 @@ function Demo() {
         <form className="mt-4 grid gap-8">
           <DemoOptions component={activeComponent} />
         </form>
-        <div className="mt-auto flex items-center justify-between pt-6 text-sm">
-          <div>
-            <a
-              className="opacity-100 transition-opacity duration-200 hover:opacity-70"
-              href="https://github.com/coinbase/onchainkit/tree/main/playground"
-              rel="noreferrer"
-              target="_blank"
-              title="View OnchainKit Playground on GitHub"
-            >
-              Github ↗
-            </a>
-            <a
-              className="pl-4 opacity-100 transition-opacity duration-200 hover:opacity-70"
-              href="https://onchainkit.xyz"
-              rel="noreferrer"
-              target="_blank"
-              title="View OnchainKit"
-            >
-              OnchainKit ↗
-            </a>
-          </div>
-          <div>
-            <button
-              type="button"
-              className=""
-              onClick={() => {
-                console.log('ok');
-              }}
-            >
-              Share
-            </button>
-          </div>
+        <div className="mt-auto pt-6 text-sm">
+          <a
+            className="opacity-100 transition-opacity duration-200 hover:opacity-70"
+            href="https://github.com/coinbase/onchainkit/tree/main/playground"
+            rel="noreferrer"
+            target="_blank"
+            title="View OnchainKit Playground on GitHub"
+          >
+            Github ↗
+          </a>
+          <a
+            className="pl-4 opacity-100 transition-opacity duration-200 hover:opacity-70"
+            href="https://onchainkit.xyz"
+            rel="noreferrer"
+            target="_blank"
+            title="View OnchainKit"
+          >
+            OnchainKit ↗
+          </a>
         </div>
       </div>
       <div className="linear-gradient(to_bottom,#f0f0f0_1px,transparent_1px)] flex flex-1 flex-col bg-[linear-gradient(to_right,#f0f0f0_1px,transparent_1px), bg-[size:6rem_4rem]">
         <div className="flex h-full w-full flex-col items-center justify-center">
-          {renderActiveComponent()}
+          {ActiveComponent && <ActiveComponent />}
         </div>
       </div>
     </>
