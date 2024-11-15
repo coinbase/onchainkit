@@ -11,46 +11,47 @@ import App from '../App.tsx';
 import SwapWrapper from '../SwapWrapper.tsx';
 
 export const swapDemoCode = `
-  import { Avatar, Name } from '@coinbase/onchainkit/identity';
-  import {
-    Swap,
-    SwapAmountInput,
-    SwapToggleButton,
-    SwapButton,
-    SwapMessage,
-    SwapToast,
-  } from '@coinbase/onchainkit/swap';
-  import { Wallet, ConnectWallet } from '@coinbase/onchainkit/wallet';
   import { useAccount } from 'wagmi';
+  import { SwapDefault } from '@coinbase/onchainkit/swap';
   import type { Token } from '@coinbase/onchainkit/token';
+  import { WalletDefault } from '@coinbase/onchainkit/wallet';
 
-  const { address } = useAccount();
+  function SwapDemo() {
+    const { address } = useAccount();
+    const ETHToken: Token = {
+      address: "",
+      chainId: 8453,
+      decimals: 18,
+      name: "Ethereum",
+      symbol: "ETH",
+      image: "",
+    };
 
-  const ETHToken: Token = {
-    address: "",
-    chainId: 8453,
-    decimals: 18,
-    name: "Ethereum",
-    symbol: "ETH",
-    image: "",
-  };
+    const USDCToken: Token = {
+      address: "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+      chainId: 8453,
+      decimals: 6,
+      name: "USDC",
+      symbol: "USDC",
+      image: "",
+    };
 
-  const USDCToken: Token = {
-    address: "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
-    chainId: 8453,
-    decimals: 6,
-    name: "USDC",
-    symbol: "USDC",
-    image: "",
-  };
+    const swappableTokens: Token[] = [ETHToken, USDCToken];
 
-  const swappableTokens: Token[] = [ETHToken, USDCToken];
-
-  <SwapDefault
-    from={swappableFromTokens}
-    to={swappableToTokens}
-  />
-  `;
+    return (
+      <>
+        {address ? (
+          <SwapDefault
+            from={swappableTokens}
+            to={swappableTokens}
+          />
+        ) : (
+          <WalletDefault />
+        )}
+      </>
+    );
+  }
+`;
 
 function SwapDemo() {
   return (
