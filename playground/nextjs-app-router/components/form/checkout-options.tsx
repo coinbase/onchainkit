@@ -3,11 +3,10 @@ import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { useContext } from 'react';
 import { useState } from 'react';
-import { AppContext, CheckoutTypes, OnchainKitComponent } from '../AppProvider';
+import { AppContext, CheckoutTypes } from '../AppProvider';
 
 export function CheckoutOptions() {
   const {
-    activeComponent,
     checkoutTypes,
     setCheckoutTypes,
     checkoutOptions,
@@ -23,7 +22,7 @@ export function CheckoutOptions() {
     chargeId: '',
   });
 
-  return activeComponent === OnchainKitComponent.Checkout ? (
+  return (
     <div className="grid gap-2">
       <Label htmlFor="chain">Checkout Types</Label>
       <RadioGroup
@@ -94,7 +93,5 @@ export function CheckoutOptions() {
         </div>
       )}
     </div>
-  ) : (
-    <></>
   );
 }
