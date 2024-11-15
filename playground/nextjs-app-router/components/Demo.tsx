@@ -18,6 +18,7 @@ import TransactionDefaultDemo from './demo/TransactionDefault';
 import WalletDemo from './demo/Wallet';
 import WalletDefaultDemo from './demo/WalletDefault';
 import { OnchainKitComponent } from '@/types/onchainkit';
+import { getShareableUrl } from '@/lib/url-params';
 
 const activeComponentMapping: Record<OnchainKitComponent, React.FC> = {
   [OnchainKitComponent.Fund]: FundDemo,
@@ -43,8 +44,8 @@ function Demo() {
   const [copied, setCopied] = useState(false);
 
   const copyShareableLink = () => {
-    // const url = getShareableUrl(activeComponent);
-    // navigator.clipboard.writeText(url);
+    const url = getShareableUrl(activeComponent);
+    navigator.clipboard.writeText(url);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
@@ -105,25 +106,28 @@ function Demo() {
         <form className="mt-4 grid gap-8">
           <DemoOptions component={activeComponent} />
         </form>
-        <div className="mt-auto pt-6 text-sm">
-          <a
-            className="opacity-100 transition-opacity duration-200 hover:opacity-70"
-            href="https://github.com/coinbase/onchainkit/tree/main/playground"
-            rel="noreferrer"
-            target="_blank"
-            title="View OnchainKit Playground on GitHub"
-          >
-            Github ↗
-          </a>
-          <a
-            className="pl-4 opacity-100 transition-opacity duration-200 hover:opacity-70"
-            href="https://onchainkit.xyz"
-            rel="noreferrer"
-            target="_blank"
-            title="View OnchainKit"
-          >
-            OnchainKit ↗
-          </a>
+        <div className="mt-auto flex items-center justify-between pt-6 text-sm">
+          <div>
+            <a
+              className="opacity-100 transition-opacity duration-200 hover:opacity-70"
+              href="https://github.com/coinbase/onchainkit/tree/main/playground"
+              rel="noreferrer"
+              target="_blank"
+              title="View OnchainKit Playground on GitHub"
+            >
+              Github ↗
+            </a>
+            <a
+              className="pl-4 opacity-100 transition-opacity duration-200 hover:opacity-70"
+              href="https://onchainkit.xyz"
+              rel="noreferrer"
+              target="_blank"
+              title="View OnchainKit"
+            >
+              OnchainKit ↗
+            </a>
+          </div>
+
           <button
             type="button"
             onClick={copyShareableLink}

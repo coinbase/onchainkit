@@ -88,14 +88,22 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   const [isSponsored, setIsSponsoredState] = useState<boolean>(false);
 
   // Load initial values from localStorage
-  // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO Refactor this component
+  // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO: Refactor this component
   useEffect(() => {
     const urlState = initializeStateFromUrl();
+    console.log('urlState:', urlState);
 
+    // Common options
     const storedActiveComponent =
-      urlState.activecomponent || localStorage.getItem('activeComponent');
+      urlState.activeComponent || localStorage.getItem('activeComponent');
     const storedWalletType =
-      urlState.wallettype || localStorage.getItem('walletType');
+      urlState.walletType || localStorage.getItem('walletType');
+    const storedComponentTheme = (urlState.componentTheme ||
+      localStorage.getItem('componentTheme')) as ComponentTheme;
+    const storedComponentMode = (urlState.componentMode ||
+      localStorage.getItem('componentMode')) as ComponentMode;
+
+    // Component-specific options
     const storedChainId = urlState.chain || localStorage.getItem('chainId');
     const storedPaymasters =
       urlState.paymasterurl || localStorage.getItem('paymasters');
@@ -103,10 +111,6 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
       urlState.transactiontype || localStorage.getItem('transactionType');
     const storedDefaultMaxSlippage =
       urlState.defaultmaxslippage || localStorage.getItem('defaultMaxSlippage');
-    const storedComponentTheme = (urlState.componenttheme ||
-      localStorage.getItem('componentTheme')) as ComponentTheme;
-    const storedComponentMode = (urlState.componentmode ||
-      localStorage.getItem('componentMode')) as ComponentMode;
     const storedNFTToken =
       urlState.nfttoken || localStorage.getItem('nftToken');
     const storedIsSponsored =
@@ -131,6 +135,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
       setDefaultMaxSlippage(Number(storedDefaultMaxSlippage));
     }
     if (storedComponentTheme) {
+      console.log('initializing component theme:', storedComponentTheme);
       setComponentTheme(storedComponentTheme);
     }
     if (storedComponentMode) {
