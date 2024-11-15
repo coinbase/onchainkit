@@ -20,6 +20,7 @@ export const walletDemoCode = `
   import {
     ConnectWallet,
     Wallet,
+    WalletDefault,
     WalletDropdown,
     WalletDropdownBasename,
     WalletDropdownLink,
