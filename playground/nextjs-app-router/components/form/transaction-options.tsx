@@ -8,14 +8,12 @@ import {
 } from '@/components/ui/select';
 import { useContext } from 'react';
 import { AppContext } from '../AppProvider';
-import { OnchainKitComponent, TransactionTypes } from '@/types/onchainkit';
+import { TransactionTypes } from '@/types/onchainkit';
 
 export function TransactionOptions() {
-  const { activeComponent, transactionType, setTransactionType } =
-    useContext(AppContext);
+  const { transactionType, setTransactionType } = useContext(AppContext);
 
-  return activeComponent === OnchainKitComponent.Transaction ||
-    activeComponent === OnchainKitComponent.TransactionDefault ? (
+  return (
     <div className="grid gap-2">
       <Label htmlFor="chain">Transaction Options</Label>
       <Select
@@ -45,7 +43,5 @@ export function TransactionOptions() {
         </SelectContent>
       </Select>
     </div>
-  ) : (
-    <></>
   );
 }
