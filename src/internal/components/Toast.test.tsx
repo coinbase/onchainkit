@@ -4,7 +4,7 @@ import { describe, expect, it, vi } from 'vitest';
 import { Toast } from './Toast';
 
 describe('Toast component', () => {
-  it('should render bottom-right correctly', () => {
+  it('should render bottom-right with default animation correctly', () => {
     const handleClose = vi.fn();
     const { getByTestId } = render(
       <Toast isVisible={true} position="bottom-right" onClose={handleClose}>
@@ -12,15 +12,44 @@ describe('Toast component', () => {
       </Toast>,
     );
 
-    const toastContainer = getByTestId('ockToast');
+    const toastContainer = getByTestId('ockToastContainer');
     expect(toastContainer).toBeInTheDocument();
     expect(toastContainer).toHaveClass('bottom-5 left-3/4');
+
+    const toast = getByTestId('ockToast');
+    expect(toast).toBeInTheDocument();
+    expect(toast).toHaveClass('animate-enterRight');
 
     const closeButton = getByTestId('ockCloseButton');
     expect(closeButton).toBeInTheDocument();
   });
 
-  it('should render top-right correctly', () => {
+  it('should render bottom-right with custom animation correctly', () => {
+    const handleClose = vi.fn();
+    const { getByTestId } = render(
+      <Toast
+        isVisible={true}
+        position="bottom-right"
+        animation="animate-enterUp"
+        onClose={handleClose}
+      >
+        <div>Test</div>
+      </Toast>,
+    );
+
+    const toastContainer = getByTestId('ockToastContainer');
+    expect(toastContainer).toBeInTheDocument();
+    expect(toastContainer).toHaveClass('bottom-5 left-3/4');
+
+    const toast = getByTestId('ockToast');
+    expect(toast).toBeInTheDocument();
+    expect(toast).toHaveClass('animate-enterUp');
+
+    const closeButton = getByTestId('ockCloseButton');
+    expect(closeButton).toBeInTheDocument();
+  });
+
+  it('should render top-right with default animation correctly', () => {
     const handleClose = vi.fn();
     const { getByTestId } = render(
       <Toast isVisible={true} position="top-right" onClose={handleClose}>
@@ -28,15 +57,44 @@ describe('Toast component', () => {
       </Toast>,
     );
 
-    const toastContainer = getByTestId('ockToast');
+    const toastContainer = getByTestId('ockToastContainer');
     expect(toastContainer).toBeInTheDocument();
     expect(toastContainer).toHaveClass('top-[100px] left-3/4');
+
+    const toast = getByTestId('ockToast');
+    expect(toast).toBeInTheDocument();
+    expect(toast).toHaveClass('animate-enterRight');
 
     const closeButton = getByTestId('ockCloseButton');
     expect(closeButton).toBeInTheDocument();
   });
 
-  it('should render top-center correctly', () => {
+  it('should render top-right with custom animation correctly', () => {
+    const handleClose = vi.fn();
+    const { getByTestId } = render(
+      <Toast
+        isVisible={true}
+        position="top-right"
+        animation="animate-enterUp"
+        onClose={handleClose}
+      >
+        <div>Test</div>
+      </Toast>,
+    );
+
+    const toastContainer = getByTestId('ockToastContainer');
+    expect(toastContainer).toBeInTheDocument();
+    expect(toastContainer).toHaveClass('top-[100px] left-3/4');
+
+    const toast = getByTestId('ockToast');
+    expect(toast).toBeInTheDocument();
+    expect(toast).toHaveClass('animate-enterUp');
+
+    const closeButton = getByTestId('ockCloseButton');
+    expect(closeButton).toBeInTheDocument();
+  });
+
+  it('should render top-center with default animation correctly', () => {
     const handleClose = vi.fn();
     const { getByTestId } = render(
       <Toast isVisible={true} position="top-center" onClose={handleClose}>
@@ -44,15 +102,44 @@ describe('Toast component', () => {
       </Toast>,
     );
 
-    const toastContainer = getByTestId('ockToast');
+    const toastContainer = getByTestId('ockToastContainer');
     expect(toastContainer).toBeInTheDocument();
     expect(toastContainer).toHaveClass('top-[100px] left-2/4');
+
+    const toast = getByTestId('ockToast');
+    expect(toast).toBeInTheDocument();
+    expect(toast).toHaveClass('animate-enterDown');
 
     const closeButton = getByTestId('ockCloseButton');
     expect(closeButton).toBeInTheDocument();
   });
 
-  it('should render bottom-center correctly', () => {
+  it('should render top-center with custom animation correctly', () => {
+    const handleClose = vi.fn();
+    const { getByTestId } = render(
+      <Toast
+        isVisible={true}
+        position="top-center"
+        animation="animate-enterRight"
+        onClose={handleClose}
+      >
+        <div>Test</div>
+      </Toast>,
+    );
+
+    const toastContainer = getByTestId('ockToastContainer');
+    expect(toastContainer).toBeInTheDocument();
+    expect(toastContainer).toHaveClass('top-[100px] left-2/4');
+
+    const toast = getByTestId('ockToast');
+    expect(toast).toBeInTheDocument();
+    expect(toast).toHaveClass('animate-enterRight');
+
+    const closeButton = getByTestId('ockCloseButton');
+    expect(closeButton).toBeInTheDocument();
+  });
+
+  it('should render bottom-center with default animation correctly', () => {
     const handleClose = vi.fn();
     const { getByTestId } = render(
       <Toast isVisible={true} position="bottom-center" onClose={handleClose}>
@@ -60,9 +147,38 @@ describe('Toast component', () => {
       </Toast>,
     );
 
-    const toastContainer = getByTestId('ockToast');
+    const toastContainer = getByTestId('ockToastContainer');
     expect(toastContainer).toBeInTheDocument();
     expect(toastContainer).toHaveClass('bottom-5 left-2/4');
+
+    const toast = getByTestId('ockToast');
+    expect(toast).toBeInTheDocument();
+    expect(toast).toHaveClass('animate-enterUp');
+
+    const closeButton = getByTestId('ockCloseButton');
+    expect(closeButton).toBeInTheDocument();
+  });
+
+  it('should render bottom-center with custom animation correctly', () => {
+    const handleClose = vi.fn();
+    const { getByTestId } = render(
+      <Toast
+        isVisible={true}
+        position="bottom-center"
+        animation="animate-enterRight"
+        onClose={handleClose}
+      >
+        <div>Test</div>
+      </Toast>,
+    );
+
+    const toastContainer = getByTestId('ockToastContainer');
+    expect(toastContainer).toBeInTheDocument();
+    expect(toastContainer).toHaveClass('bottom-5 left-2/4');
+
+    const toast = getByTestId('ockToast');
+    expect(toast).toBeInTheDocument();
+    expect(toast).toHaveClass('animate-enterRight');
 
     const closeButton = getByTestId('ockCloseButton');
     expect(closeButton).toBeInTheDocument();
@@ -81,8 +197,8 @@ describe('Toast component', () => {
       </Toast>,
     );
 
-    const toastContainer = getByTestId('ockToast');
-    expect(toastContainer).toHaveClass('custom-class');
+    const toast = getByTestId('ockToast');
+    expect(toast).toHaveClass('custom-class');
   });
 
   it('should not be visible when isVisible is false', () => {
@@ -92,7 +208,7 @@ describe('Toast component', () => {
         <div>Test</div>
       </Toast>,
     );
-    const toastContainer = queryByTestId('ockToast');
+    const toastContainer = queryByTestId('ockToastContainer');
     expect(toastContainer).not.toBeInTheDocument();
   });
 
