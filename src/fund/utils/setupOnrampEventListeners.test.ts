@@ -43,7 +43,7 @@ describe('setupOnrampEventListeners', () => {
     const eventMetadata: EventMetadata = { eventName: 'success' };
 
     vi.mocked(subscribeToWindowMessage).mock.calls[0][0].onMessage(
-      eventMetadata,
+      eventMetadata
     );
 
     expect(onSuccess).toHaveBeenCalled();
@@ -66,7 +66,7 @@ describe('setupOnrampEventListeners', () => {
       },
     };
     vi.mocked(subscribeToWindowMessage).mock.calls[0][0].onMessage(
-      eventMetadata,
+      eventMetadata
     );
 
     expect(onExit).toHaveBeenCalledWith(eventMetadata.error);
@@ -84,7 +84,7 @@ describe('setupOnrampEventListeners', () => {
 
     const eventMetadata: EventMetadata = { eventName: 'success' };
     vi.mocked(subscribeToWindowMessage).mock.calls[0][0].onMessage(
-      eventMetadata,
+      eventMetadata
     );
 
     expect(onEvent).toHaveBeenCalledWith(eventMetadata);

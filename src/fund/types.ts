@@ -186,4 +186,4 @@ export type OnRampError = {
   errorType: 'internal_error' | 'handled_error' | 'network_error';
   code?: string;
   debugMessage?: string;
-}
+};
