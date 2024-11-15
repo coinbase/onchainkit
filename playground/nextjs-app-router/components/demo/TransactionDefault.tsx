@@ -1,7 +1,10 @@
 import { useCapabilities } from '@/lib/hooks';
 import { clickCalls, clickContracts } from '@/lib/transactions';
 import { TransactionTypes } from '@/types/onchainkit';
-import { LifecycleStatus, TransactionDefault } from '@coinbase/onchainkit/transaction';
+import {
+  type LifecycleStatus,
+  TransactionDefault,
+} from '@coinbase/onchainkit/transaction';
 import { useCallback, useContext, useEffect } from 'react';
 import { AppContext } from '../AppProvider';
 
