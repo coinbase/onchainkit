@@ -157,14 +157,12 @@ export type TransitionViewEvent = {
 
 export type PublicErrorEvent = {
   eventName: 'error';
-  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-  error: any;
+  error: OnRampError;
 };
 
 export type ExitEvent = {
   eventName: 'exit';
-  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-  error?: any;
+  error?: OnRampError;
 };
 
 export type SuccessEvent = {
@@ -183,3 +181,9 @@ export type EventMetadata =
   | ExitEvent
   | SuccessEvent
   | RequestOpenUrlEvent;
+
+export type OnRampError = {
+  errorType: 'internal_error' | 'handled_error' | 'network_error';
+  code?: string;
+  debugMessage?: string;
+}

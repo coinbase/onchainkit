@@ -1,12 +1,11 @@
 import { DEFAULT_ONRAMP_URL } from '../constants';
-import type { EventMetadata } from '../types';
+import type { EventMetadata, OnRampError } from '../types';
 import { subscribeToWindowMessage } from './subscribeToWindowMessage';
 
 type SetupOnrampEventListenersParams = {
   host?: string;
   onSuccess?: () => void;
-  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-  onExit?: (error?: any) => void;
+  onExit?: (error?: OnRampError) => void;
   onEvent?: (event: EventMetadata) => void;
 };
 

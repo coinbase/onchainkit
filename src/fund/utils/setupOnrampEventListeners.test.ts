@@ -61,13 +61,15 @@ describe('setupOnrampEventListeners', () => {
 
     const eventMetadata: EventMetadata = {
       eventName: 'exit',
-      error: 'some error',
+      error: {
+        errorType: 'internal_error',
+      },
     };
     vi.mocked(subscribeToWindowMessage).mock.calls[0][0].onMessage(
       eventMetadata,
     );
 
-    expect(onExit).toHaveBeenCalledWith('some error');
+    expect(onExit).toHaveBeenCalledWith(eventMetadata.error);
     expect(onSuccess).not.toHaveBeenCalled();
     expect(onEvent).toHaveBeenCalledWith(eventMetadata);
   });
