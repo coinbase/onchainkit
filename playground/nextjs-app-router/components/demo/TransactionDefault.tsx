@@ -32,7 +32,7 @@ export default function TransactionDefaultDemo() {
         chainId={chainId ?? 84532} // something breaks if we don't have default network?
         {...(transactionType === TransactionTypes.Calls
           ? { calls }
-          : { contracts })}
+          : { calls: contracts })}
         capabilities={capabilities}
         onStatus={handleOnStatus}
         disabled={!chainId && !transactionType}
