@@ -184,7 +184,7 @@ function PreviewContainer({
   }, [activeTab, theme]);
 
   return (
-    <div className="h-[550px] w-[375px] overflow-hidden rounded-lg border border-zinc-200 bg-zinc-100 sm:w-[600px] md:h-[670px] md:w-[700px] dark:border-zinc-900 dark:bg-[#0f0f0f]">
+    <div className="h-[550px] w-[375px] overflow-hidden rounded-lg border border-zinc-200 bg-zinc-50 sm:w-[600px] md:h-[670px] md:w-[700px] dark:border-zinc-900 dark:bg-[#0f0f0f]">
       <div className="mt-2 flex items-center justify-between border-zinc-200 border-b px-3 dark:border-zinc-900">
         <div className="flex">
           <TabButton
