@@ -9,10 +9,10 @@ import { getHighlightedCode } from './getHighlightedCode.tsx';
 import CheckoutDemo, { checkoutDemoCode } from './CheckoutDemo.tsx';
 import FundDemo, { fundDemoCode } from './FundDemo.tsx';
 import IdentityDemo, { identityDemoCode } from './IdentityDemo.tsx';
+import NftMintCardDemo, { nftMintCardDemoCode } from './NftMintCardDemo.tsx';
 import SwapDemo, { swapDemoCode } from './SwapDemo.tsx';
 import TransactionDemo, { transactionDemoCode } from './TransactionDemo.tsx';
 import WalletDemo, { walletDemoCode } from './WalletDemo.tsx';
-import NftMintCardDemo, { nftMintCardDemoCode } from './NftMintCardDemo.tsx';
 
 type Component = {
   name: string;
