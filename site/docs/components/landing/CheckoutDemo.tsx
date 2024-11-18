@@ -11,9 +11,11 @@ export const checkoutDemoCode = `
   } from '@coinbase/onchainkit/checkout';
 
   function CheckoutDemo() {
-    <Checkout productId='my-product-id' >
-      <CheckoutButton coinbaseBranded={true}/>
-    </Checkout>
+    return (
+      <Checkout productId='my-product-id' >
+        <CheckoutButton coinbaseBranded={true}/>
+      </Checkout>
+    )
   }
 `;
 
