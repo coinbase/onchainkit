@@ -12,6 +12,7 @@ import IdentityDemo, { identityDemoCode } from './IdentityDemo.tsx';
 import SwapDemo, { swapDemoCode } from './SwapDemo.tsx';
 import TransactionDemo, { transactionDemoCode } from './TransactionDemo.tsx';
 import WalletDemo, { walletDemoCode } from './WalletDemo.tsx';
+import NftMintCardDemo, { nftMintCardDemoCode } from './NftMintCardDemo.tsx';
 
 type Component = {
   name: string;
@@ -32,6 +33,12 @@ const components: Component[] = [
     component: SwapDemo,
     code: swapDemoCode,
     description: 'Enable swaps between different cryptocurrencies.',
+  },
+  {
+    name: 'NFTMintCard',
+    component: NftMintCardDemo,
+    code: nftMintCardDemoCode,
+    description: 'Enable NFT mints (ERC721 and ERC1155).',
   },
   {
     name: 'Checkout',
