@@ -12,6 +12,9 @@ export default {
       fontFamily: {
         display: 'DM Sans, sans-serif',
       },
+      colors: {
+        border: 'var(--vocs-color_border)',
+      },
       textColor: {
         inverse: 'var(--text-inverse)',
         foreground: 'var(--text-foreground)',

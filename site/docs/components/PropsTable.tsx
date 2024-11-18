@@ -14,21 +14,21 @@ export type PropDef = {
 const FIXED_PROP_COLUMN_WIDTH = '37%';
 
 const popoverContentClassName =
-  'data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 mx-2 rounded-md border border-gray-200 bg-white p-3 text-sm shadow-lg data-[state=closed]:animate-out data-[state=open]:animate-in dark:border-stone-800 dark:bg-stone-900';
+  'data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 mx-2 rounded-md border border-border bg-white p-3 text-sm shadow-lg data-[state=closed]:animate-out data-[state=open]:animate-in dark:border-stone-800 dark:bg-stone-900';
 
 const PropsTable = ({ data }: { data: PropDef[] }) => {
   return (
     <table className="w-full">
       <thead>
-        <tr className="border-b">
+        <tr className="border-border border-b">
           <th
-            className="pb-1 text-left font-normal"
+            className="pb-2 text-left font-normal"
             style={{ width: FIXED_PROP_COLUMN_WIDTH }}
           >
             Prop
           </th>
-          <th className="w-[43%] pb-1 text-left font-normal">Type</th>
-          <th className="w-1/5 pb-1 text-left font-normal">Default</th>
+          <th className="w-[43%] pb-2 text-left font-normal">Type</th>
+          <th className="w-1/5 pb-2 text-left font-normal">Default</th>
         </tr>
       </thead>
       <tbody>
