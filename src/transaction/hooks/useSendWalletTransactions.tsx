@@ -18,7 +18,8 @@ export const useSendWalletTransactions = ({
         | Call[]
         | ContractFunctionParameters[]
         | Promise<Call[]>
-        | Promise<ContractFunctionParameters[]>,
+        | Promise<ContractFunctionParameters[]>
+        | (Call | ContractFunctionParameters)[],
     ) => {
       if (!transactions) {
         return;

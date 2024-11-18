@@ -90,7 +90,7 @@ export type TransactionContextType = {
   setIsToastVisible: (isVisible: boolean) => void; // A function to set the visibility of the transaction toast.
   setLifecycleStatus: (state: LifecycleStatus) => void; // A function to set the lifecycle status of the component
   setTransactionId: (id: string) => void; // A function to set the transaction ID.
-  transactions?: Calls | Contracts; // An array of transactions for the component or a promise that resolves to an array of transactions.
+  transactions?: Calls | Contracts | (Call | ContractFunctionParameters)[]; // An array of transactions for the component or a promise that resolves to an array of transactions.
   transactionId?: string; // An optional string representing the ID of the transaction.
   transactionHash?: string; // An optional string representing the hash of the transaction.
   transactionCount?: number; // Number of transactions being executed
@@ -104,12 +104,18 @@ export type SendBatchedTransactionsParams = {
   capabilities?: WalletCapabilities;
   // biome-ignore lint: cannot find module 'wagmi/experimental/query'
   sendCallsAsync: any;
-  transactions?: Call[] | ContractFunctionParameters[];
+  transactions?:
+    | Call[]
+    | ContractFunctionParameters[]
+    | (Call | ContractFunctionParameters)[];
 };
 
 export type SendSingleTransactionParams = {
   sendCallAsync: SendTransactionMutateAsync<Config, unknown> | (() => void);
-  transactions: Call[] | ContractFunctionParameters[];
+  transactions:
+    | Call[]
+    | ContractFunctionParameters[]
+    | (Call | ContractFunctionParameters)[];
 };
 
 /**
@@ -136,7 +142,7 @@ export type Contracts =
   | (() => Promise<ContractFunctionParameters[]>);
 
 export type TransactionProviderReact = {
-  calls?: Calls | Contracts; // An array of calls to be made in the transaction.
+  calls?: Calls | Contracts | (Call | ContractFunctionParameters)[]; // An array of calls to be made in the transaction.
   /**
    * @deprecated Use `isSponsored` instead.
    */
@@ -153,7 +159,7 @@ export type TransactionProviderReact = {
  * Note: exported as public Type
  */
 export type TransactionReact = {
-  calls?: Calls | Contracts; // An array of calls to be made in the transaction.
+  calls?: Calls | Contracts | (Call | ContractFunctionParameters)[]; // An array of calls to be made in the transaction.
   /**
    * @deprecated Use `isSponsored` instead.
    */
