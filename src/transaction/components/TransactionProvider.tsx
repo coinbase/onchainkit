@@ -86,7 +86,7 @@ export function TransactionProvider({
   // Validate `calls` props
   if (!calls) {
     throw new Error(
-      'Transaction: Calls must be provided as a prop to the Transaction component.',
+      'Transaction: calls must be provided as a prop to the Transaction component.',
     );
   }
 

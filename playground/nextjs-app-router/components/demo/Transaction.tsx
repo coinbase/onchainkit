@@ -117,7 +117,7 @@ function TransactionDemo() {
         chainId={chainId ?? 84532} // something breaks if we don't have default network?
         isSponsored={isSponsored}
         onStatus={handleOnStatus}
-        calls={transactions as Calls}
+        calls={transactions}
       >
         <TransactionButton
           text="Click"
