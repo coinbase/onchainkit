@@ -6,9 +6,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { OnchainKitComponent } from '@/types/onchainkit';
 import { useContext } from 'react';
 import { AppContext } from '../AppProvider';
-import { OnchainKitComponent } from '@/types/onchainkit';
 
 export function ActiveComponent() {
   const { activeComponent, setActiveComponent } = useContext(AppContext);
