@@ -1,4 +1,4 @@
-import type { UserOperation } from 'permissionless';
+import type { UserOperation } from 'viem/_types/account-abstraction';
 import type { PublicClient } from 'viem';
 import { type Mock, describe, expect, it, vi } from 'vitest';
 import {

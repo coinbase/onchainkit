@@ -523,7 +523,21 @@ describe('TransactionProvider', () => {
         </TransactionProvider>,
       );
     }).toThrowError(
-      'Transaction: calls must be provided as a prop to the Transaction component.',
+      'Transaction: calls or contracts must be provided as a prop to the Transaction component.',
+    );
+    restore();
+  });
+
+  it('should throw an error when both contracts and calls are provided', async () => {
+    const restore = silenceError();
+    expect(() => {
+      render(
+        <TransactionProvider contracts={[{}]} calls={[{}]}>
+          <div>Test</div>
+        </TransactionProvider>,
+      );
+    }).toThrowError(
+      'Transaction: Only one of contracts or calls can be provided as a prop to the Transaction component.',
     );
     restore();
   });

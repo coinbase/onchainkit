@@ -50,6 +50,7 @@ export function TransactionProvider({
   capabilities: transactionCapabilities,
   chainId,
   children,
+  contracts,
   isSponsored,
   onError,
   onStatus,
@@ -74,7 +75,7 @@ export function TransactionProvider({
     number | undefined
   >();
   const [transactionHashList, setTransactionHashList] = useState<Address[]>([]);
-  const transactions = calls;
+  const transactions = calls || contracts;
 
   // Retrieve wallet capabilities
   const walletCapabilities = useCapabilitiesSafe({
@@ -84,9 +85,16 @@ export function TransactionProvider({
   const { switchChainAsync } = useSwitchChain();
 
   // Validate `calls` props
-  if (!calls) {
+  if (!calls && !contracts) {
     throw new Error(
-      'Transaction: calls must be provided as a prop to the Transaction component.',
+      'Transaction: calls or contracts must be provided as a prop to the Transaction component.',
+    );
+  }
+
+  // Validate `calls` and `contracts` props
+  if (calls && contracts) {
+    throw new Error(
+      'Transaction: Only one of contracts or calls can be provided as a prop to the Transaction component.',
     );
   }
 

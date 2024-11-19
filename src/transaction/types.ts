@@ -149,6 +149,10 @@ export type TransactionProviderReact = {
   capabilities?: WalletCapabilities; // Capabilities that a wallet supports (e.g. paymasters, session keys, etc).
   chainId: number; // The chainId for the transaction.
   children: ReactNode; // The child components to be rendered within the provider component.
+  /**
+   * @deprecated Use `calls` instead.
+   */
+  contracts?: Calls | Contracts | (Call | ContractFunctionParameters)[]; // An array of calls to be made in the transaction.
   isSponsored?: boolean; // Whether the transactions are sponsored (default: false)
   onError?: (e: TransactionError) => void; // An optional callback function that handles errors within the provider.
   onStatus?: (lifecycleStatus: LifecycleStatus) => void; // An optional callback function that exposes the component lifecycle state
@@ -167,6 +171,10 @@ export type TransactionReact = {
   chainId?: number; // The chainId for the transaction.
   children: ReactNode; // The child components to be rendered within the transaction component.
   className?: string; // An optional CSS class name for styling the component.
+  /**
+   * @deprecated Use `calls` instead.
+   */
+  contracts?: Calls | Contracts | (Call | ContractFunctionParameters)[]; // An array of calls to be made in the transaction.
   isSponsored?: boolean; // Whether the transactions are sponsored (default: false)
   onError?: (e: TransactionError) => void; // An optional callback function that handles transaction errors.
   onStatus?: (lifecycleStatus: LifecycleStatus) => void; // An optional callback function that exposes the component lifecycle state
