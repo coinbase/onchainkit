@@ -17,10 +17,10 @@ const URL_PARAM_MAPPING: Partial<Record<OnchainKitComponent, string[]>> = {
   ],
   [OnchainKitComponent.Swap]: ['chainId'],
   [OnchainKitComponent.SwapDefault]: ['chainId'],
-  [OnchainKitComponent.NFTCard]: ['chainId'],
-  [OnchainKitComponent.NFTCardDefault]: ['chainId'],
-  [OnchainKitComponent.NFTMintCard]: ['chainId'],
-  [OnchainKitComponent.NFTMintCardDefault]: ['chainId'],
+  [OnchainKitComponent.NFTCard]: ['chainId', 'nftToken'],
+  [OnchainKitComponent.NFTCardDefault]: ['chainId', 'nftToken'],
+  [OnchainKitComponent.NFTMintCard]: ['chainId', 'nftToken'],
+  [OnchainKitComponent.NFTMintCardDefault]: ['chainId', 'nftToken'],
 };
 
 export function getShareableUrl(activeComponent?: OnchainKitComponent) {

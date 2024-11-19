@@ -107,9 +107,11 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   const [paymasters, setPaymastersState] =
     useState<Record<number, Paymaster>>();
   const [defaultMaxSlippage, setDefaultMaxSlippageState] = useState<number>(3);
-  const [nftToken, setNFTTokenState] = useState<string>(
-    '0x1D6b183bD47F914F9f1d3208EDCF8BefD7F84E63:1',
-  );
+
+  const [nftToken, setNFTToken] = useStateWithStorage<string>({
+    key: 'nftToken',
+    defaultValue: '0x1D6b183bD47F914F9f1d3208EDCF8BefD7F84E63:1',
+  });
 
   const [isSponsored, setIsSponsoredState] = useState<boolean>(false);
 
@@ -123,8 +125,6 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
       urlState.paymasterurl || localStorage.getItem('paymasters');
     const storedDefaultMaxSlippage =
       urlState.defaultmaxslippage || localStorage.getItem('defaultMaxSlippage');
-    const storedNFTToken =
-      urlState.nfttoken || localStorage.getItem('nftToken');
     const storedIsSponsored =
       urlState.issponsored || localStorage.getItem('isSponsored');
 
@@ -133,9 +133,6 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     }
     if (storedDefaultMaxSlippage) {
       setDefaultMaxSlippage(Number(storedDefaultMaxSlippage));
-    }
-    if (storedNFTToken) {
-      setNFTTokenState(storedNFTToken);
     }
     if (storedIsSponsored) {
       setIsSponsoredState(JSON.parse(storedIsSponsored));
@@ -182,11 +179,6 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     setPaymastersState(newObj);
   };
 
-  const setNFTToken = (nftToken: string) => {
-    console.log('NFT Token changed:', nftToken);
-    localStorage.setItem('nftToken', nftToken);
-    setNFTTokenState(nftToken);
-  };
   const setIsSponsored = (isSponsored: boolean) => {
     console.log('Component isSponsored changed: ', isSponsored);
     localStorage.setItem('isSponsored', JSON.stringify(isSponsored));
