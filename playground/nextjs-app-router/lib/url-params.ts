@@ -10,6 +10,13 @@ const commonOptions = [
 const URL_PARAM_MAPPING: Partial<Record<OnchainKitComponent, string[]>> = {
   [OnchainKitComponent.Checkout]: ['chargeId', 'productId'],
   [OnchainKitComponent.Transaction]: ['chainId', 'calls'],
+  [OnchainKitComponent.TransactionDefault]: ['chainId', 'calls'],
+  [OnchainKitComponent.Swap]: ['chainId'],
+  [OnchainKitComponent.SwapDefault]: ['chainId'],
+  [OnchainKitComponent.NFTCard]: ['chainId'],
+  [OnchainKitComponent.NFTCardDefault]: ['chainId'],
+  [OnchainKitComponent.NFTMintCard]: ['chainId'],
+  [OnchainKitComponent.NFTMintCardDefault]: ['chainId'],
 };
 
 export function getShareableUrl(activeComponent?: OnchainKitComponent) {

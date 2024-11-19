@@ -89,10 +89,10 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
 
   const [chainId, setChainId] = useStateWithStorage<number>({
     key: 'chainId',
+    parser: (v) => Number.parseInt(v),
     defaultValue: defaultState.chainId,
   });
 
-  // const [chainId, setChainIdState] = useState<number>();
   const [transactionType, setTransactionTypeState] = useState<TransactionTypes>(
     TransactionTypes.Contracts,
   );
@@ -116,7 +116,6 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     const urlState = initializeStateFromUrl();
 
     // Component-specific options
-    // const storedChainId = urlState.chain || localStorage.getItem('chainId');
     const storedPaymasters =
       urlState.paymasterurl || localStorage.getItem('paymasters');
     const storedTransactionType =
