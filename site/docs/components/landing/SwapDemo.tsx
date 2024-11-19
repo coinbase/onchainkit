@@ -11,10 +11,8 @@ import App from '../App.tsx';
 import SwapWrapper from '../SwapWrapper.tsx';
 
 export const swapDemoCode = `
-  import { useAccount } from 'wagmi';
   import { SwapDefault } from '@coinbase/onchainkit/swap';
   import type { Token } from '@coinbase/onchainkit/token';
-  import { WalletDefault } from '@coinbase/onchainkit/wallet';
 
   function SwapDemo() {
     const { address } = useAccount();
@@ -39,16 +37,10 @@ export const swapDemoCode = `
     const swappableTokens: Token[] = [ETHToken, USDCToken];
 
     return (
-      <>
-        {address ? (
-          <SwapDefault
-            from={swappableTokens}
-            to={swappableTokens}
-          />
-        ) : (
-          <WalletDefault />
-        )}
-      </>
+      <SwapDefault
+        from={swappableTokens}
+        to={swappableTokens}
+      />
     );
   }
 `;
