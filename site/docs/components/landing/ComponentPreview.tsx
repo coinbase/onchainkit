@@ -191,7 +191,7 @@ function PreviewContainer({
   }, [activeTab, theme]);
 
   return (
-    <div className="h-[550px] w-[375px] overflow-hidden rounded-lg border border-zinc-200 bg-zinc-50 sm:w-[600px] md:h-[670px] md:w-[700px] dark:border-zinc-900 dark:bg-[#0f0f0f]">
+    <div className="h-[600px] w-[375px] overflow-hidden rounded-lg border border-zinc-200 bg-zinc-50 sm:w-[600px] md:h-[670px] md:w-[700px] dark:border-zinc-900 dark:bg-[#0f0f0f]">
       <div className="mt-2 flex items-center justify-between border-zinc-200 border-b px-3 dark:border-zinc-900">
         <div className="flex">
           <TabButton
@@ -224,13 +224,13 @@ function PreviewContainer({
           </button>
         )}
       </div>
-      <div className="flex overflow-auto">
+      <div className="flex overflow-auto py-6">
         <div
           className={`${
             activeSubTab === 'preview' ? 'flex' : 'hidden'
           } h-[500px] w-full items-center justify-center md:h-[600px]`}
         >
-          <div className="max-h-[400px] w-auto">
+          <div className="max-w-[200px] md:max-w-[325px] w-auto">
             <ActiveComponent />
           </div>
         </div>
