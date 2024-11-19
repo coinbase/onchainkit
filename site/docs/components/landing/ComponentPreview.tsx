@@ -35,7 +35,7 @@ const components: Component[] = [
     description: 'Enable swaps between different cryptocurrencies.',
   },
   {
-    name: 'NFTMintCard',
+    name: 'Mint',
     component: NftMintCardDemo,
     code: nftMintCardDemoCode,
     description: 'Enable NFT mints (ERC721 and ERC1155).',

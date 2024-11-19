@@ -7,8 +7,8 @@ export const nftMintCardDemoCode = `
   function NftMintCardDemo() {
     return (
       <NFTMintCardDefault
-        contractAddress="0xb4703a3a73aec16e764cbd210b0fde9efdab8941"
-        tokenId="1"
+        contractAddress="0xed2f34043387783b2727ff2799a46ce3ae1a34d2"
+        tokenId="2"
       />
     )
   }
@@ -18,8 +18,8 @@ export default function NftMintCardDemo() {
   return (
     <App>
       <NFTMintCardDefault
-        contractAddress="0xb4703a3a73aec16e764cbd210b0fde9efdab8941"
-        tokenId="1"
+        contractAddress="0xed2f34043387783b2727ff2799a46ce3ae1a34d2"
+        tokenId="2"
       />
     </App>
   );
