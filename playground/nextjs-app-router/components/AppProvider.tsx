@@ -69,7 +69,24 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
       defaultValue: OnchainKitComponent.Transaction,
     });
 
-  const [walletType, setWalletTypeState] = useState<WalletPreference>();
+  const [componentTheme, setComponentTheme] =
+    useStateWithStorage<ComponentTheme>({
+      key: 'componentTheme',
+      defaultValue: 'none',
+    });
+
+  const [componentMode, setComponentMode] = useStateWithStorage<ComponentMode>({
+    key: 'componentMode',
+    defaultValue: 'auto',
+  });
+
+  const [walletType, setWalletType] = useStateWithStorage<
+    WalletPreference | undefined
+  >({
+    key: 'walletType',
+    defaultValue: WalletPreference.SMART_WALLET,
+  });
+
   const [chainId, setChainIdState] = useState<number>();
   const [transactionType, setTransactionTypeState] = useState<TransactionTypes>(
     TransactionTypes.Contracts,
@@ -82,10 +99,6 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   const [paymasters, setPaymastersState] =
     useState<Record<number, Paymaster>>();
   const [defaultMaxSlippage, setDefaultMaxSlippageState] = useState<number>(3);
-  const [componentTheme, setComponentThemeState] =
-    useState<ComponentTheme>('none');
-  const [componentMode, setComponentModeState] =
-    useState<ComponentMode>('auto');
   const [nftToken, setNFTTokenState] = useState<string>(
     '0x1D6b183bD47F914F9f1d3208EDCF8BefD7F84E63:1',
   );
@@ -97,16 +110,6 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     const urlState = initializeStateFromUrl();
     console.log('urlState:', urlState);
-
-    // Common options
-    // const storedActiveComponent =
-    //   urlState.activeComponent || localStorage.getItem('activeComponent');
-    const storedWalletType =
-      urlState.walletType || localStorage.getItem('walletType');
-    const storedComponentTheme = (urlState.componentTheme ||
-      localStorage.getItem('componentTheme')) as ComponentTheme;
-    const storedComponentMode = (urlState.componentMode ||
-      localStorage.getItem('componentMode')) as ComponentMode;
 
     // Component-specific options
     const storedChainId = urlState.chain || localStorage.getItem('chainId');
@@ -121,13 +124,6 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     const storedIsSponsored =
       urlState.issponsored || localStorage.getItem('isSponsored');
 
-    // if (storedActiveComponent) {
-    //   setActiveComponent(storedActiveComponent as OnchainKitComponent);
-    // }
-
-    if (storedWalletType) {
-      setWalletType(storedWalletType as WalletPreference);
-    }
     if (storedChainId) {
       setChainIdState(Number.parseInt(storedChainId));
     }
@@ -139,13 +135,6 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     }
     if (storedDefaultMaxSlippage) {
       setDefaultMaxSlippage(Number(storedDefaultMaxSlippage));
-    }
-    if (storedComponentTheme) {
-      console.log('initializing component theme:', storedComponentTheme);
-      setComponentTheme(storedComponentTheme);
-    }
-    if (storedComponentMode) {
-      setComponentMode(storedComponentMode);
     }
     if (storedNFTToken) {
       setNFTTokenState(storedNFTToken);
@@ -165,19 +154,14 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   }, [connect, connectors, walletType]);
   // Update localStorage whenever the state changes
 
-  // function setActiveComponent(component: OnchainKitComponent) {
-  //   localStorage.setItem('activeComponent', component.toString());
-  //   setActiveComponentState(component);
+  // function setWalletType(newWalletType: WalletPreference) {
+  //   localStorage.setItem('walletType', newWalletType.toString());
+  //   setWalletTypeState(newWalletType);
   // }
-
-  function setWalletType(newWalletType: WalletPreference) {
-    localStorage.setItem('walletType', newWalletType.toString());
-    setWalletTypeState(newWalletType);
-  }
 
   function clearWalletType() {
     localStorage.setItem('walletType', '');
-    setWalletTypeState(undefined);
+    setWalletType(undefined);
   }
 
   const setChainId = (newChainId: number) => {
@@ -214,18 +198,6 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   const setTransactionType = (transactionType: TransactionTypes) => {
     localStorage.setItem('transactionType', transactionType.toString());
     setTransactionTypeState(transactionType);
-  };
-
-  const setComponentTheme = (theme: ComponentTheme) => {
-    console.log('Component theme changed:', theme);
-    localStorage.setItem('componentTheme', theme);
-    setComponentThemeState(theme);
-  };
-
-  const setComponentMode = (mode: ComponentMode) => {
-    console.log('Component mode changed:', mode);
-    localStorage.setItem('componentMode', mode);
-    setComponentModeState(mode);
   };
 
   const setNFTToken = (nftToken: string) => {

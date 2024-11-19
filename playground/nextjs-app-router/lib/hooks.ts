@@ -40,29 +40,31 @@ export function useStateWithStorage<T>({
   key,
   defaultValue,
   parser = (v) => v as T,
-  serializer = JSON.stringify,
+  serializer = (v: T) => (typeof v === 'string' ? v : JSON.stringify(v)),
 }: StorageConfig<T>) {
-  const [state, setState] = useState<T | undefined>(() => {
+  type ReturnType = typeof defaultValue extends undefined ? T | undefined : T;
+
+  const [state, setState] = useState<ReturnType>(() => {
     // Check URL params first
     const urlState = initializeStateFromUrl();
     const urlValue = urlState[key.toLowerCase()];
 
     if (urlValue) {
-      return parser(urlValue);
+      return parser(urlValue) as ReturnType;
     }
 
     // Then check localStorage
     const stored = localStorage.getItem(key);
     if (stored) {
       try {
-        return parser(stored);
+        return parser(stored) as ReturnType;
       } catch (e) {
         console.warn(`Error parsing stored value for ${key}:`, e);
-        return defaultValue;
+        return defaultValue as ReturnType;
       }
     }
 
-    return defaultValue;
+    return defaultValue as ReturnType;
   });
 
   // Sync to localStorage whenever state changes
