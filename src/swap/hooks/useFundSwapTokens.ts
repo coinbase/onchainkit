@@ -2,9 +2,8 @@ import { useState } from 'react';
 import type { Address } from 'viem';
 import { useValue } from '../../internal/hooks/useValue';
 import type { Token } from '../../token';
-import type { FromTo } from '../types';
+import type { FundSwapTokens } from '../types';
 import { useSwapBalances } from './useSwapBalances';
-import { useAccount } from 'wagmi';
 import { base } from 'viem/chains';
 
 const ethToken: Token = {
@@ -27,17 +26,19 @@ const usdcToken: Token = {
   chainId: base.id,
 };
 
-export const useFromTo = (address?: Address): FromTo => {
-  const { chainId } = useAccount();
-
-  const [fromAmount, setFromAmount] = useState('');
-  const [fromAmountUSD, setFromAmountUSD] = useState('');
-  const [fromETHToken, setFromETHToken] = useState<Token>();
+export const useFundSwapTokens = (
+  toToken: Token,
+  address?: Address,
+): FundSwapTokens => {
   const [toAmount, setToAmount] = useState('');
   const [toAmountUSD, setToAmountUSD] = useState('');
-  const [toToken, setToToken] = useState<Token>();
   const [toLoading, setToLoading] = useState(false);
-  const [fromLoading, setFromLoading] = useState(false);
+  const [fromETHAmount, setFromETHAmount] = useState('');
+  const [fromETHAmountUSD, setFromETHAmountUSD] = useState('');
+  const [fromETHLoading, setFromETHLoading] = useState(false);
+  const [fromUSDCAmount, setFromUSDCAmount] = useState('');
+  const [fromUSDCAmountUSD, setFromUSDCAmountUSD] = useState('');
+  const [fromUSDCLoading, setFromUSDCLoading] = useState(false);
 
   const {
     fromBalanceString: fromETHBalanceString,
@@ -46,20 +47,38 @@ export const useFromTo = (address?: Address): FromTo => {
     toTokenBalanceError,
     fromTokenResponse: fromETHResponse,
     toTokenResponse,
-  } = useSwapBalances({ address, fromToken: fromETHToken, toToken });
+  } = useSwapBalances({ address, fromToken: ethToken, toToken });
+
+  const {
+    fromBalanceString: fromUSDCBalanceString,
+    fromTokenBalanceError: fromUSDCBalanceError,
+    fromTokenResponse: fromUSDCResponse,
+  } = useSwapBalances({ address, fromToken: usdcToken, toToken });
 
   const fromETH = useValue({
     balance: fromETHBalanceString,
     balanceResponse: fromETHResponse,
-    amount: fromAmount,
-    setAmount: setFromAmount,
-    amountUSD: fromAmountUSD,
-    setAmountUSD: setFromAmountUSD,
+    amount: fromETHAmount,
+    setAmount: setFromETHAmount,
+    amountUSD: fromETHAmountUSD,
+    setAmountUSD: setFromETHAmountUSD,
     token: ethToken,
-    setToken: setFromETHToken,
-    loading: fromLoading,
-    setLoading: setFromLoading,
+    loading: fromETHLoading,
+    setLoading: setFromETHLoading,
     error: fromEthBalanceError,
+  });
+
+  const fromUSDC = useValue({
+    balance: fromUSDCBalanceString,
+    balanceResponse: fromUSDCResponse,
+    amount: fromUSDCAmount,
+    setAmount: setFromUSDCAmount,
+    amountUSD: fromUSDCAmountUSD,
+    setAmountUSD: setFromUSDCAmountUSD,
+    token: usdcToken,
+    loading: fromUSDCLoading,
+    setLoading: setFromUSDCLoading,
+    error: fromUSDCBalanceError,
   });
 
   const to = useValue({
@@ -70,11 +89,10 @@ export const useFromTo = (address?: Address): FromTo => {
     setAmountUSD: setToAmountUSD,
     setAmount: setToAmount,
     token: toToken,
-    setToken: setToToken,
     loading: toLoading,
     setLoading: setToLoading,
     error: toTokenBalanceError,
   });
 
-  return { fromETH, to };
+  return { fromETH, fromUSDC, to };
 };

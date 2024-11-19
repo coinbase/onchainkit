@@ -54,6 +54,12 @@ export type FromTo = {
   to: SwapUnit;
 };
 
+export type FundSwapTokens = {
+  fromETH: SwapUnit;
+  fromUSDC: SwapUnit;
+  to: SwapUnit;
+};
+
 /**
  * Note: exported as public Type
  */
@@ -73,10 +79,11 @@ export type FundSwapReact = {
 export type FundSwapContextType = {
   address?: Address; // Used to check if user is connected in SwapButton
   config: SwapConfig;
-  from: SwapUnit;
+  fromETH: SwapUnit;
+  fromUSDC: SwapUnit;
   lifecycleStatus: LifecycleStatus;
-  handleAmountChange: (t: 'to', amount: string, st?: Token, dt?: Token) => void;
-  handleSubmit: () => void;
+  handleAmountChange: (amount: string) => void;
+  handleSubmit: (fromToken: SwapUnit) => void;
   updateLifecycleStatus: (state: LifecycleStatusUpdate) => void; // A function to set the lifecycle status of the component
   to?: SwapUnit;
   transactionHash: string;
@@ -416,7 +423,7 @@ export type SwapUnit = {
   setAmount: Dispatch<SetStateAction<string>>;
   setAmountUSD: Dispatch<SetStateAction<string>>;
   setLoading: Dispatch<SetStateAction<boolean>>;
-  setToken: Dispatch<SetStateAction<Token | undefined>>;
+  setToken?: Dispatch<SetStateAction<Token | undefined>>;
   token: Token | undefined;
 };
 

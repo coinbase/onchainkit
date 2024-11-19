@@ -11,7 +11,7 @@ export function FundSwapInput() {
 
   const handleChange = useCallback(
     (amount: string) => {
-      handleAmountChange('to', amount);
+      handleAmountChange(amount);
     },
     [handleAmountChange],
   );
