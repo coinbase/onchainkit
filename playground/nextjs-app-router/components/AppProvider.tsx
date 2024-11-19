@@ -101,12 +101,21 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
 
   const [checkoutOptions, setCheckoutOptionsState] =
     useState<CheckoutOptions>();
-  const [checkoutTypes, setCheckoutTypesState] = useState<CheckoutTypes>(
-    CheckoutTypes.ProductID,
-  );
+
+  const [checkoutTypes, setCheckoutTypes] = useStateWithStorage<CheckoutTypes>({
+    key: 'checkoutTypes',
+    defaultValue: CheckoutTypes.ProductID,
+  });
+
   const [paymasters, setPaymastersState] =
     useState<Record<number, Paymaster>>();
-  const [defaultMaxSlippage, setDefaultMaxSlippageState] = useState<number>(3);
+
+  const [defaultMaxSlippage, setDefaultMaxSlippage] =
+    useStateWithStorage<number>({
+      key: 'defaultMaxSlippage',
+      parser: (v) => Number.parseInt(v),
+      defaultValue: 3,
+    });
 
   const [nftToken, setNFTToken] = useStateWithStorage<string>({
     key: 'nftToken',
@@ -123,16 +132,11 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     // Component-specific options
     const storedPaymasters =
       urlState.paymasterurl || localStorage.getItem('paymasters');
-    const storedDefaultMaxSlippage =
-      urlState.defaultmaxslippage || localStorage.getItem('defaultMaxSlippage');
     const storedIsSponsored =
       urlState.issponsored || localStorage.getItem('isSponsored');
 
     if (storedPaymasters) {
       setPaymastersState(JSON.parse(storedPaymasters));
-    }
-    if (storedDefaultMaxSlippage) {
-      setDefaultMaxSlippage(Number(storedDefaultMaxSlippage));
     }
     if (storedIsSponsored) {
       setIsSponsoredState(JSON.parse(storedIsSponsored));
@@ -153,21 +157,9 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     setWalletType(undefined);
   }
 
-  const setDefaultMaxSlippage = (newDefaultMaxSlippage: number) => {
-    localStorage.setItem(
-      'defaultMaxSlippage',
-      newDefaultMaxSlippage.toString(),
-    );
-    setDefaultMaxSlippageState(newDefaultMaxSlippage);
-  };
-
   const setCheckoutOptions = (checkoutOptions: CheckoutOptions) => {
     localStorage.setItem('productId', checkoutOptions.productId || '');
     setCheckoutOptionsState(checkoutOptions);
-  };
-
-  const setCheckoutTypes = (checkoutTypes: CheckoutTypes) => {
-    setCheckoutTypesState(checkoutTypes);
   };
 
   const setPaymaster = (chainId: number, url: string, enabled: boolean) => {

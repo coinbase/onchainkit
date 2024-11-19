@@ -8,15 +8,15 @@ const commonOptions = [
 ];
 
 const URL_PARAM_MAPPING: Partial<Record<OnchainKitComponent, string[]>> = {
-  [OnchainKitComponent.Checkout]: ['chargeId', 'productId'],
+  [OnchainKitComponent.Checkout]: ['chargeId', 'productId', 'checkoutTypes'],
   [OnchainKitComponent.Transaction]: ['chainId', 'transactionType', 'calls'],
   [OnchainKitComponent.TransactionDefault]: [
     'chainId',
     'transactionType',
     'calls',
   ],
-  [OnchainKitComponent.Swap]: ['chainId'],
-  [OnchainKitComponent.SwapDefault]: ['chainId'],
+  [OnchainKitComponent.Swap]: ['chainId', 'defaultMaxSlippage'],
+  [OnchainKitComponent.SwapDefault]: ['chainId', 'defaultMaxSlippage'],
   [OnchainKitComponent.NFTCard]: ['chainId', 'nftToken'],
   [OnchainKitComponent.NFTCardDefault]: ['chainId', 'nftToken'],
   [OnchainKitComponent.NFTMintCard]: ['chainId', 'nftToken'],
