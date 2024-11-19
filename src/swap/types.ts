@@ -54,6 +54,52 @@ export type FromTo = {
   to: SwapUnit;
 };
 
+/**
+ * Note: exported as public Type
+ */
+export type FundSwapReact = {
+  className?: string; // Optional className override for top div element.
+  config?: SwapConfig;
+  experimental?: {
+    useAggregator: boolean; // Whether to use a DEX aggregator. (default: true)
+  };
+  isSponsored?: boolean; // An optional setting to sponsor swaps with a Paymaster. (default: false)
+  onError?: (error: SwapError) => void; // An optional callback function that handles errors within the provider.
+  onStatus?: (lifecycleStatus: LifecycleStatus) => void; // An optional callback function that exposes the component lifecycle state
+  onSuccess?: (transactionReceipt: TransactionReceipt) => void; // An optional callback function that exposes the transaction receipt
+  toToken: Token;
+};
+
+export type FundSwapContextType = {
+  address?: Address; // Used to check if user is connected in SwapButton
+  config: SwapConfig;
+  from: SwapUnit;
+  lifecycleStatus: LifecycleStatus;
+  handleAmountChange: (t: 'to', amount: string, st?: Token, dt?: Token) => void;
+  handleSubmit: () => void;
+  updateLifecycleStatus: (state: LifecycleStatusUpdate) => void; // A function to set the lifecycle status of the component
+  to?: SwapUnit;
+  transactionHash: string;
+  setTransactionHash: (hash: string) => void;
+  isDropdownOpen: boolean;
+  setIsDropdownOpen: (open: boolean) => void;
+};
+
+export type FundSwapProviderReact = {
+  children: React.ReactNode;
+  config?: {
+    maxSlippage: number; // Maximum acceptable slippage for a swap. (default: 10) This is as a percent, not basis points
+  };
+  experimental: {
+    useAggregator: boolean; // Whether to use a DEX aggregator. (default: true)
+  };
+  isSponsored?: boolean; // An optional setting to sponsor swaps with a Paymaster. (default: false)
+  onError?: (error: SwapError) => void; // An optional callback function that handles errors within the provider.
+  onStatus?: (lifecycleStatus: LifecycleStatus) => void; // An optional callback function that exposes the component lifecycle state
+  onSuccess?: (transactionReceipt: TransactionReceipt) => void; // An optional callback function that exposes the transaction receipt
+  toToken: Token;
+};
+
 export type GetSwapMessageParams = {
   address?: Address;
   lifecycleStatus: LifecycleStatus;
