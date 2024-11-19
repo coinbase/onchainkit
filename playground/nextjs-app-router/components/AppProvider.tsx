@@ -98,8 +98,13 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
       defaultValue: TransactionTypes.Contracts,
     });
 
-  const [checkoutOptions, setCheckoutOptionsState] =
-    useState<CheckoutOptions>();
+  const [checkoutOptions, setCheckoutOptions] =
+    useStateWithStorage<CheckoutOptions>({
+      key: 'checkoutOptions',
+      parser: (v) => JSON.parse(v),
+      defaultValue: {},
+    });
+  console.log('checkoutOptions:', checkoutOptions);
 
   const [checkoutTypes, setCheckoutTypes] = useStateWithStorage<CheckoutTypes>({
     key: 'checkoutTypes',
@@ -150,10 +155,10 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     setWalletType(undefined);
   }
 
-  const setCheckoutOptions = (checkoutOptions: CheckoutOptions) => {
-    localStorage.setItem('productId', checkoutOptions.productId || '');
-    setCheckoutOptionsState(checkoutOptions);
-  };
+  // const setCheckoutOptions = (checkoutOptions: CheckoutOptions) => {
+  //   localStorage.setItem('productId', checkoutOptions.productId || '');
+  //   setCheckoutOptionsState(checkoutOptions);
+  // };
 
   const setPaymaster = (chainId: number, url: string, enabled: boolean) => {
     const newObj = {

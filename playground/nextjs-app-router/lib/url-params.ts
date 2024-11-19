@@ -13,6 +13,7 @@ const URL_PARAM_MAPPING: Partial<Record<OnchainKitComponent, string[]>> = {
     'productId',
     'checkoutTypes',
     'isSponsored',
+    'checkoutOptions',
   ],
   [OnchainKitComponent.Transaction]: ['chainId', 'transactionType', 'calls'],
   [OnchainKitComponent.TransactionDefault]: [
