@@ -1,10 +1,10 @@
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { CheckoutTypes } from '@/types/onchainkit';
 import { useContext } from 'react';
 import { useState } from 'react';
 import { AppContext } from '../AppProvider';
-import { CheckoutTypes } from '@/types/onchainkit';
 
 export function CheckoutOptions() {
   const {

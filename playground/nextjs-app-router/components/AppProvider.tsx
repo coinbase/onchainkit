@@ -1,11 +1,6 @@
 // AppContext.js
 import { ENVIRONMENT, ENVIRONMENT_VARIABLES } from '@/lib/constants';
-import { OnchainKitProvider } from '@coinbase/onchainkit';
-import type React from 'react';
-import { createContext, useEffect, useState } from 'react';
-import { useConnect, useConnectors } from 'wagmi';
-import { base } from 'wagmi/chains';
-import { WalletPreference } from './form/wallet-type';
+import { useStateWithStorage } from '@/lib/hooks';
 import {
   type CheckoutOptions,
   CheckoutTypes,
@@ -15,7 +10,12 @@ import {
   type Paymaster,
   TransactionTypes,
 } from '@/types/onchainkit';
-import { useStateWithStorage } from '@/lib/hooks';
+import { OnchainKitProvider } from '@coinbase/onchainkit';
+import type React from 'react';
+import { createContext, useEffect, useState } from 'react';
+import { useConnect, useConnectors } from 'wagmi';
+import { base } from 'wagmi/chains';
+import { WalletPreference } from './form/wallet-type';
 
 type State = {
   activeComponent?: OnchainKitComponent;

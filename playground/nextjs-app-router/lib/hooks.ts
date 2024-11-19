@@ -1,6 +1,6 @@
 import { AppContext } from '@/components/AppProvider';
-import { useEffect, useState, useContext } from 'react';
 import { initializeStateFromUrl } from '@/lib/url-params';
+import { useContext, useEffect, useState } from 'react';
 
 export function usePaymaster() {
   const { chainId, paymasters } = useContext(AppContext);

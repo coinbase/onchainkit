@@ -1,6 +1,8 @@
 'use client';
 import { AppContext } from '@/components/AppProvider';
+import { getShareableUrl } from '@/lib/url-params';
 import { cn } from '@/lib/utils';
+import { OnchainKitComponent } from '@/types/onchainkit';
 import { useContext, useEffect, useState } from 'react';
 import DemoOptions from './DemoOptions';
 import CheckoutDemo from './demo/Checkout';
@@ -17,8 +19,6 @@ import TransactionDemo from './demo/Transaction';
 import TransactionDefaultDemo from './demo/TransactionDefault';
 import WalletDemo from './demo/Wallet';
 import WalletDefaultDemo from './demo/WalletDefault';
-import { OnchainKitComponent } from '@/types/onchainkit';
-import { getShareableUrl } from '@/lib/url-params';
 
 const activeComponentMapping: Record<OnchainKitComponent, React.FC> = {
   [OnchainKitComponent.Fund]: FundDemo,

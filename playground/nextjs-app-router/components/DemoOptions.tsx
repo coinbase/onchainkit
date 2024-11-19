@@ -1,6 +1,7 @@
 import { ComponentMode } from '@/components/form/component-mode';
 import { ComponentTheme } from '@/components/form/component-theme';
 import { PaymasterUrl } from '@/components/form/paymaster';
+import { OnchainKitComponent } from '@/types/onchainkit';
 import { ActiveComponent } from './form/active-component';
 import { Chain } from './form/chain';
 import { CheckoutOptions } from './form/checkout-options';
@@ -9,7 +10,6 @@ import { NFTOptions } from './form/nft-options';
 import { SwapConfig } from './form/swap-config';
 import { TransactionOptions } from './form/transaction-options';
 import { WalletType } from './form/wallet-type';
-import { OnchainKitComponent } from '@/types/onchainkit';
 
 const COMMON_OPTIONS = [
   ActiveComponent,

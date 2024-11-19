@@ -6,9 +6,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { TransactionTypes } from '@/types/onchainkit';
 import { useContext } from 'react';
 import { AppContext } from '../AppProvider';
-import { TransactionTypes } from '@/types/onchainkit';
 
 export function TransactionOptions() {
   const { transactionType, setTransactionType } = useContext(AppContext);

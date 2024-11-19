@@ -6,9 +6,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import type { ComponentMode as ComponentModeReact } from '@/types/onchainkit';
 import { useContext } from 'react';
 import { AppContext } from '../AppProvider';
-import type { ComponentMode as ComponentModeReact } from '@/types/onchainkit';
 
 export function ComponentMode() {
   const { componentMode, setComponentMode } = useContext(AppContext);
