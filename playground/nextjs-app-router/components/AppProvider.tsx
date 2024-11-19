@@ -155,11 +155,6 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     setWalletType(undefined);
   }
 
-  // const setCheckoutOptions = (checkoutOptions: CheckoutOptions) => {
-  //   localStorage.setItem('productId', checkoutOptions.productId || '');
-  //   setCheckoutOptionsState(checkoutOptions);
-  // };
-
   const setPaymaster = (chainId: number, url: string, enabled: boolean) => {
     const newObj = {
       ...paymasters,
