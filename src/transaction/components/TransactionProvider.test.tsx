@@ -289,6 +289,12 @@ describe('TransactionProvider', () => {
   });
 
   it('should emit onError when legacy transactions fail', async () => {
+    // need to mock sendWalletTransactions to prevent lifecycleStatus from being
+    // set to 'error' when sendWalletTransactions is called
+    const sendWalletTransactionsMock = vi.fn().mockResolvedValue(undefined);
+    (useSendWalletTransactions as ReturnType<typeof vi.fn>).mockReturnValue(
+      sendWalletTransactionsMock,
+    );
     const onErrorMock = vi.fn();
     (waitForTransactionReceipt as ReturnType<typeof vi.fn>).mockRejectedValue(
       new Error('error getting transaction receipt'),
@@ -309,7 +315,12 @@ describe('TransactionProvider', () => {
     );
     fireEvent.click(button);
     await waitFor(() => {
-      expect(onErrorMock).toHaveBeenCalled();
+      expect(sendWalletTransactionsMock).toHaveBeenCalled();
+      expect(onErrorMock).toHaveBeenCalledWith({
+        code: 'TmTPc01',
+        error: '{}',
+        message: 'Something went wrong. Please try again.',
+      });
     });
   });
 
