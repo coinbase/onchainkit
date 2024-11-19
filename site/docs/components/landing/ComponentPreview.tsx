@@ -230,7 +230,9 @@ function PreviewContainer({
             activeSubTab === 'preview' ? 'flex' : 'hidden'
           } h-[500px] w-full items-center justify-center md:h-[600px]`}
         >
-          <ActiveComponent />
+          <div className="max-h-[400px] w-auto">
+            <ActiveComponent />
+          </div>
         </div>
         <div className={`${activeSubTab === 'code' ? 'flex' : 'hidden'} p-4`}>
           <pre className="h-[450px] whitespace-pre-wrap break-words text-sm md:h-[600px]">
