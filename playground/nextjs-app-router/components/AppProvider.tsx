@@ -15,7 +15,6 @@ import {
   type Paymaster,
   TransactionTypes,
 } from '@/types/onchainkit';
-import { initializeStateFromUrl } from '@/lib/url-params';
 import { useStateWithStorage } from '@/lib/hooks';
 
 type State = {
@@ -122,10 +121,10 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     defaultValue: '0x1D6b183bD47F914F9f1d3208EDCF8BefD7F84E63:1',
   });
 
-  // const [isSponsored, setIsSponsoredState] = useState<boolean>(false);
   const [isSponsored, setIsSponsored] = useStateWithStorage<boolean>({
     key: 'isSponsored',
     defaultValue: false,
+    parser: (v) => v === 'true',
   });
 
   // Load initial values from localStorage

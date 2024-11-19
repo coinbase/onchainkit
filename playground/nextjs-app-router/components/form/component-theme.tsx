@@ -12,7 +12,6 @@ import type { ComponentTheme as ComponentThemeType } from '@/types/onchainkit';
 
 export function ComponentTheme() {
   const { componentTheme, setComponentTheme } = useContext(AppContext);
-  console.log('componentTheme ():', componentTheme);
 
   return (
     <div className="grid gap-2">
@@ -20,9 +19,6 @@ export function ComponentTheme() {
       <Select
         value={componentTheme}
         onValueChange={(value: ComponentThemeType) => {
-          console.log('onValueChange raw value:', value);
-          console.log('onValueChange typeof value:', typeof value);
-          console.log('current componentTheme:', componentTheme);
           setComponentTheme(value);
         }}
       >
