@@ -523,7 +523,7 @@ describe('TransactionProvider', () => {
         </TransactionProvider>,
       );
     }).toThrowError(
-      'Transaction: Calls must be provided as a prop to the Transaction component.',
+      'Transaction: calls must be provided as a prop to the Transaction component.',
     );
     restore();
   });
