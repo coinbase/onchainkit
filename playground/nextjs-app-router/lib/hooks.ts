@@ -45,7 +45,6 @@ export function useStateWithStorage<T>({
   type ReturnType = typeof defaultValue extends undefined ? T | undefined : T;
 
   const [state, setState] = useState<ReturnType>(() => {
-    // Check URL params first
     const urlState = initializeStateFromUrl();
     const urlValue = urlState[key.toLowerCase()];
 
@@ -53,7 +52,6 @@ export function useStateWithStorage<T>({
       return parser(urlValue) as ReturnType;
     }
 
-    // Then check localStorage
     const stored = localStorage.getItem(key);
     if (stored) {
       try {
