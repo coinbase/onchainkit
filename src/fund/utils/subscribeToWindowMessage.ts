@@ -10,11 +10,11 @@ export enum MessageCodes {
   Event = 'event',
 }
 
-export type MessageCode = `${MessageCodes}`;
+type MessageCode = `${MessageCodes}`;
 
-export type MessageData = JsonObject;
+type MessageData = JsonObject;
 
-export type PostMessageData = {
+type PostMessageData = {
   eventName: MessageCode;
   data?: MessageData;
 };

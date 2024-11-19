@@ -9,6 +9,7 @@ import { getHighlightedCode } from './getHighlightedCode.tsx';
 import CheckoutDemo, { checkoutDemoCode } from './CheckoutDemo.tsx';
 import FundDemo, { fundDemoCode } from './FundDemo.tsx';
 import IdentityDemo, { identityDemoCode } from './IdentityDemo.tsx';
+import NftMintCardDemo, { nftMintCardDemoCode } from './NftMintCardDemo.tsx';
 import SwapDemo, { swapDemoCode } from './SwapDemo.tsx';
 import TransactionDemo, { transactionDemoCode } from './TransactionDemo.tsx';
 import WalletDemo, { walletDemoCode } from './WalletDemo.tsx';
@@ -32,6 +33,12 @@ const components: Component[] = [
     component: SwapDemo,
     code: swapDemoCode,
     description: 'Enable swaps between different cryptocurrencies.',
+  },
+  {
+    name: 'Mint',
+    component: NftMintCardDemo,
+    code: nftMintCardDemoCode,
+    description: 'Enable NFT mints (ERC721 and ERC1155).',
   },
   {
     name: 'Checkout',
@@ -184,7 +191,7 @@ function PreviewContainer({
   }, [activeTab, theme]);
 
   return (
-    <div className="h-[550px] w-[375px] overflow-hidden rounded-lg border border-zinc-200 bg-zinc-50 sm:w-[600px] md:h-[670px] md:w-[700px] dark:border-zinc-900 dark:bg-zinc-950">
+    <div className="h-[600px] w-[375px] overflow-hidden rounded-lg border border-zinc-200 bg-zinc-50 sm:w-[600px] md:h-[670px] md:w-[700px] dark:border-zinc-900 dark:bg-[#0f0f0f]">
       <div className="mt-2 flex items-center justify-between border-zinc-200 border-b px-3 dark:border-zinc-900">
         <div className="flex">
           <TabButton
@@ -217,13 +224,15 @@ function PreviewContainer({
           </button>
         )}
       </div>
-      <div className="flex overflow-auto">
+      <div className="flex overflow-auto py-6">
         <div
           className={`${
             activeSubTab === 'preview' ? 'flex' : 'hidden'
           } h-[500px] w-full items-center justify-center md:h-[600px]`}
         >
-          <ActiveComponent />
+          <div className="w-auto max-w-[200px] md:max-w-[325px]">
+            <ActiveComponent />
+          </div>
         </div>
         <div className={`${activeSubTab === 'code' ? 'flex' : 'hidden'} p-4`}>
           <pre className="h-[450px] whitespace-pre-wrap break-words text-sm md:h-[600px]">
