@@ -32,11 +32,7 @@ export function getShareableUrl(activeComponent?: OnchainKitComponent) {
 export function getComponentQueryParams(component: OnchainKitComponent) {
   const options = URL_PARAM_MAPPING[component];
 
-  if (!options) {
-    return [];
-  }
-
-  return options.map((option) => option.name);
+  return options ?? [];
 }
 
 export function initializeStateFromUrl(): Record<string, string> {

@@ -16,6 +16,7 @@ import {
   TransactionTypes,
 } from '@/types/onchainkit';
 import { initializeStateFromUrl } from '@/lib/url-params';
+import { useStateWithStorage } from '@/lib/hooks';
 
 type State = {
   activeComponent?: OnchainKitComponent;
@@ -62,8 +63,12 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   const { connect } = useConnect();
   const connectors = useConnectors();
 
-  const [activeComponent, setActiveComponentState] =
-    useState<OnchainKitComponent>();
+  const [activeComponent, setActiveComponent] =
+    useStateWithStorage<OnchainKitComponent>({
+      key: 'activeComponent',
+      defaultValue: OnchainKitComponent.Transaction,
+    });
+
   const [walletType, setWalletTypeState] = useState<WalletPreference>();
   const [chainId, setChainIdState] = useState<number>();
   const [transactionType, setTransactionTypeState] = useState<TransactionTypes>(
@@ -94,8 +99,8 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     console.log('urlState:', urlState);
 
     // Common options
-    const storedActiveComponent =
-      urlState.activeComponent || localStorage.getItem('activeComponent');
+    // const storedActiveComponent =
+    //   urlState.activeComponent || localStorage.getItem('activeComponent');
     const storedWalletType =
       urlState.walletType || localStorage.getItem('walletType');
     const storedComponentTheme = (urlState.componentTheme ||
@@ -116,9 +121,10 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     const storedIsSponsored =
       urlState.issponsored || localStorage.getItem('isSponsored');
 
-    if (storedActiveComponent) {
-      setActiveComponent(storedActiveComponent as OnchainKitComponent);
-    }
+    // if (storedActiveComponent) {
+    //   setActiveComponent(storedActiveComponent as OnchainKitComponent);
+    // }
+
     if (storedWalletType) {
       setWalletType(storedWalletType as WalletPreference);
     }
@@ -159,10 +165,10 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   }, [connect, connectors, walletType]);
   // Update localStorage whenever the state changes
 
-  function setActiveComponent(component: OnchainKitComponent) {
-    localStorage.setItem('activeComponent', component.toString());
-    setActiveComponentState(component);
-  }
+  // function setActiveComponent(component: OnchainKitComponent) {
+  //   localStorage.setItem('activeComponent', component.toString());
+  //   setActiveComponentState(component);
+  // }
 
   function setWalletType(newWalletType: WalletPreference) {
     localStorage.setItem('walletType', newWalletType.toString());

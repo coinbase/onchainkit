@@ -23,7 +23,7 @@ export function ComponentTheme() {
           console.log('onValueChange raw value:', value);
           console.log('onValueChange typeof value:', typeof value);
           console.log('current componentTheme:', componentTheme);
-          // return setComponentTheme(value);
+          setComponentTheme(value);
         }}
       >
         <SelectTrigger id="theme">
