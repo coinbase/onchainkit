@@ -9,7 +9,7 @@ const commonOptions = [
 
 const URL_PARAM_MAPPING: Partial<Record<OnchainKitComponent, string[]>> = {
   [OnchainKitComponent.Checkout]: ['chargeId', 'productId'],
-  [OnchainKitComponent.Transaction]: ['calls', 'contracts'],
+  [OnchainKitComponent.Transaction]: ['chainId', 'calls'],
 };
 
 export function getShareableUrl(activeComponent?: OnchainKitComponent) {

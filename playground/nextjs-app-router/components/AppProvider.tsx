@@ -48,7 +48,7 @@ type State = {
 
 const defaultState: State = {
   activeComponent: OnchainKitComponent.Transaction,
-  chainId: 85432,
+  chainId: base.id,
   componentTheme: 'default',
   setComponentTheme: () => {},
   componentMode: 'auto',
@@ -66,7 +66,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   const [activeComponent, setActiveComponent] =
     useStateWithStorage<OnchainKitComponent>({
       key: 'activeComponent',
-      defaultValue: OnchainKitComponent.Transaction,
+      defaultValue: defaultState.activeComponent,
     });
 
   const [componentTheme, setComponentTheme] =
@@ -77,7 +77,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
 
   const [componentMode, setComponentMode] = useStateWithStorage<ComponentMode>({
     key: 'componentMode',
-    defaultValue: 'auto',
+    defaultValue: defaultState.componentMode,
   });
 
   const [walletType, setWalletType] = useStateWithStorage<
@@ -87,7 +87,12 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     defaultValue: WalletPreference.SMART_WALLET,
   });
 
-  const [chainId, setChainIdState] = useState<number>();
+  const [chainId, setChainId] = useStateWithStorage<number>({
+    key: 'chainId',
+    defaultValue: defaultState.chainId,
+  });
+
+  // const [chainId, setChainIdState] = useState<number>();
   const [transactionType, setTransactionTypeState] = useState<TransactionTypes>(
     TransactionTypes.Contracts,
   );
@@ -109,10 +114,9 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO: Refactor this component
   useEffect(() => {
     const urlState = initializeStateFromUrl();
-    console.log('urlState:', urlState);
 
     // Component-specific options
-    const storedChainId = urlState.chain || localStorage.getItem('chainId');
+    // const storedChainId = urlState.chain || localStorage.getItem('chainId');
     const storedPaymasters =
       urlState.paymasterurl || localStorage.getItem('paymasters');
     const storedTransactionType =
@@ -124,9 +128,6 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     const storedIsSponsored =
       urlState.issponsored || localStorage.getItem('isSponsored');
 
-    if (storedChainId) {
-      setChainIdState(Number.parseInt(storedChainId));
-    }
     if (storedPaymasters) {
       setPaymastersState(JSON.parse(storedPaymasters));
     }
@@ -152,22 +153,11 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
       connect({ connector: connectors[1] });
     }
   }, [connect, connectors, walletType]);
-  // Update localStorage whenever the state changes
-
-  // function setWalletType(newWalletType: WalletPreference) {
-  //   localStorage.setItem('walletType', newWalletType.toString());
-  //   setWalletTypeState(newWalletType);
-  // }
 
   function clearWalletType() {
     localStorage.setItem('walletType', '');
     setWalletType(undefined);
   }
-
-  const setChainId = (newChainId: number) => {
-    localStorage.setItem('chainId', newChainId.toString());
-    setChainIdState(newChainId);
-  };
 
   const setDefaultMaxSlippage = (newDefaultMaxSlippage: number) => {
     localStorage.setItem(
