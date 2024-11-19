@@ -21,12 +21,11 @@ export function FundSwapInput() {
   }
 
   return (
-    <div className="flex items-center h-full border rounded-lg px-4">
+    <div className="flex h-full items-center rounded-lg border px-4">
       <TextInput
         className={cn(
           'mr-2 w-full border-[none] bg-transparent font-display',
           'leading-none outline-none',
-          // hasInsufficientBalance && address ? color.error : color.foreground,
         )}
         placeholder="0.0"
         delayMs={1000}

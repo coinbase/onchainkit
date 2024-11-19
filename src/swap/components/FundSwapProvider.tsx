@@ -264,11 +264,18 @@ export function FundSwapProvider({
         fromUSDC.setLoading(false);
       }
     },
-    [to, fromETH, fromUSDC],
+    [
+      to,
+      fromETH,
+      fromUSDC,
+      useAggregator,
+      updateLifecycleStatus,
+      lifecycleStatus.statusData.maxSlippage,
+    ],
   );
 
-  // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO Refactor this component
   const handleSubmit = useCallback(
+    // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO Refactor this component
     async (from: SwapUnit) => {
       if (!address || !from.token || !to.token || !from.amount) {
         return;

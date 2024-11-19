@@ -31,7 +31,7 @@ export function FundSwapContent({ className }: { className?: string }) {
   return (
     <div
       ref={walletContainerRef}
-      className={cn('flex items-center gap-4 relative', className)}
+      className={cn('relative flex items-center gap-4', className)}
     >
       <FundSwapInput />
       <FundSwapButton />
