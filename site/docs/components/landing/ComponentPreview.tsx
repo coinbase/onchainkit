@@ -73,7 +73,7 @@ function ComponentPreview() {
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
   const [activeTab, setActiveTab] = useState(0);
   const [activeSubTab, setActiveSubTab] = useState<'preview' | 'code'>(
-    'preview'
+    'preview',
   );
   const { theme } = useTheme();
 
@@ -186,7 +186,7 @@ function PreviewContainer({
 
   useEffect(() => {
     getHighlightedCode({ code: components[activeTab].code, theme }).then(
-      setHighlightedCode
+      setHighlightedCode,
     );
   }, [activeTab, theme]);
 
@@ -230,7 +230,7 @@ function PreviewContainer({
             activeSubTab === 'preview' ? 'flex' : 'hidden'
           } h-[500px] w-full items-center justify-center md:h-[600px]`}
         >
-          <div className="max-h-full max-w-full object-contain">
+          <div className="min-h-0 min-w-0 flex-shrink">
             <ActiveComponent />
           </div>
         </div>
