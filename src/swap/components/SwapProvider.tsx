@@ -161,8 +161,8 @@ export function SwapProvider({
   const handleToggle = useCallback(() => {
     from.setAmount(to.amount);
     to.setAmount(from.amount);
-    from.setToken(to.token);
-    to.setToken(from.token);
+    from.setToken?.(to.token);
+    to.setToken?.(from.token);
 
     updateLifecycleStatus({
       statusName: 'amountChange',

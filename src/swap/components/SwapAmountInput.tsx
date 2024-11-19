@@ -31,7 +31,7 @@ export function SwapAmountInput({
   const destination = useValue(type === 'from' ? to : from);
   useEffect(() => {
     if (token) {
-      source.setToken(token);
+      source.setToken?.(token);
     }
   }, [token, source.setToken]);
 
@@ -52,7 +52,7 @@ export function SwapAmountInput({
 
   const handleSetToken = useCallback(
     (token: Token) => {
-      source.setToken(token);
+      source.setToken?.(token);
       handleAmountChange(type, source.amount, token);
     },
     [source.amount, source.setToken, handleAmountChange, type],

@@ -1,39 +1,37 @@
-import { useAccount } from 'wagmi';
-import { TokenImage, type Token } from '../../token';
-import { base } from 'viem/chains';
+import { TokenImage } from '../../token';
 import { background, cn, color } from '../../styles/theme';
+import { useFundSwapContext } from './FundSwapProvider';
+import { SwapUnit } from '../types';
+import { useCallback } from 'react';
 
-function TokenItem({ token }: { token: Token }) {
+function TokenItem({ swapUnit }: { swapUnit: SwapUnit }) {
+  const { handleSubmit } = useFundSwapContext();
+
+  if (!swapUnit?.token) {
+    return null;
+  }
+
+  const handleClick = useCallback(() => {
+    handleSubmit(swapUnit);
+  }, [handleSubmit]);
+
   return (
-    <div className="flex">
-      <TokenImage token={token} />
-      <div className="flex flex-col">{token.name}</div>
+    <div className="flex gap-2 items-center" onClick={handleClick}>
+      <TokenImage token={swapUnit.token} size={36} />
+      <div className="flex flex-col">
+        <div>
+          {swapUnit.amount} {swapUnit.token.name}
+        </div>
+        <div
+          className={cn('text-xs', color.foregroundMuted)}
+        >{`Balance: ${swapUnit.balance}`}</div>
+      </div>
     </div>
   );
 }
 
 export function FundSwapDropdown() {
-  const { chainId } = useAccount();
-
-  const ethToken: Token = {
-    name: 'ETH',
-    address: '',
-    symbol: 'ETH',
-    decimals: 18,
-    image:
-      'https://wallet-api-production.s3.amazonaws.com/uploads/tokens/eth_288.png',
-    chainId: chainId || base.id,
-  };
-
-  const usdcToken: Token = {
-    name: 'USDC',
-    address: '0x833589fcd6edb6e08f4c7c32d4f71b54bda02913',
-    symbol: 'USDC',
-    decimals: 6,
-    image:
-      'https://d3r81g40ycuhqg.cloudfront.net/wallet/wais/44/2b/442b80bd16af0c0d9b22e03a16753823fe826e5bfd457292b55fa0ba8c1ba213-ZWUzYjJmZGUtMDYxNy00NDcyLTg0NjQtMWI4OGEwYjBiODE2',
-    chainId: chainId || base.id,
-  };
+  const { fromETH, fromUSDC } = useFundSwapContext();
 
   return (
     <div
@@ -45,8 +43,8 @@ export function FundSwapDropdown() {
       )}
     >
       <div>Buy with</div>
-      <TokenItem token={ethToken} />
-      <TokenItem token={usdcToken} />
+      <TokenItem swapUnit={fromETH} />
+      <TokenItem swapUnit={fromUSDC} />
     </div>
   );
 }

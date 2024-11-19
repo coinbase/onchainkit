@@ -14,18 +14,20 @@ import { getSwapQuote } from '../../api/getSwapQuote';
 import { useCapabilitiesSafe } from '../../internal/hooks/useCapabilitiesSafe';
 import { useValue } from '../../internal/hooks/useValue';
 import { formatTokenAmount } from '../../internal/utils/formatTokenAmount';
-import type { Token } from '../../token';
 import { GENERIC_ERROR_MESSAGE } from '../../transaction/constants';
 import { isUserRejectedRequestError } from '../../transaction/utils/isUserRejectedRequestError';
 import { useOnchainKit } from '../../useOnchainKit';
 import { FALLBACK_DEFAULT_MAX_SLIPPAGE } from '../constants';
 import { useAwaitCalls } from '../hooks/useAwaitCalls';
-import { useFromTo } from '../hooks/useFromTo';
 import { useLifecycleStatus } from '../hooks/useLifecycleStatus';
-import { useResetInputs } from '../hooks/useResetInputs';
-import type { FundSwapContextType, FundSwapProviderReact } from '../types';
+import type {
+  FundSwapContextType,
+  FundSwapProviderReact,
+  SwapUnit,
+} from '../types';
 import { isSwapError } from '../utils/isSwapError';
 import { processSwapTransaction } from '../utils/processSwapTransaction';
+import { useFundSwapTokens } from '../hooks/useFundSwapTokens';
 
 const emptyContext = {} as FundSwapContextType;
 
@@ -77,24 +79,18 @@ export function FundSwapProvider({
 
   const [transactionHash, setTransactionHash] = useState('');
   const [hasHandledSuccess, setHasHandledSuccess] = useState(false);
-  const { from, to } = useFromTo(address);
+  const { fromETH, fromUSDC, to } = useFundSwapTokens(toToken, address);
   const { sendTransactionAsync } = useSendTransaction(); // Sending the transaction (and approval, if applicable)
   const { sendCallsAsync } = useSendCalls(); // Atomic Batch transactions (and approval, if applicable)
 
   // Refreshes balances and inputs post-swap
-  const resetInputs = useResetInputs({ from, to });
+  // const resetInputs = useResetInputs({ from, to });
   // For batched transactions, listens to and awaits calls from the Wallet server
   const awaitCallsStatus = useAwaitCalls({
     accountConfig,
     lifecycleStatus,
     updateLifecycleStatus,
   });
-
-  useEffect(() => {
-    if (toToken) {
-      to.setToken(toToken);
-    }
-  }, [toToken]);
 
   // Component lifecycle emitters
   useEffect(() => {
@@ -127,9 +123,9 @@ export function FundSwapProvider({
     // prevents multiple calls to `onStatus`
     if (lifecycleStatus.statusName === 'init' && hasHandledSuccess) {
       setHasHandledSuccess(false);
-      resetInputs();
+      // resetInputs();
     }
-  }, [hasHandledSuccess, lifecycleStatus.statusName, resetInputs]);
+  }, [hasHandledSuccess, lifecycleStatus.statusName]);
 
   useEffect(() => {
     // For batched transactions, `transactionApproved` will contain the calls ID
@@ -168,100 +164,91 @@ export function FundSwapProvider({
 
   const handleAmountChange = useCallback(
     async (
-      type: 'to',
       amount: string,
-      sToken?: Token,
-      dToken?: Token,
       // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO Refactor this component
     ) => {
-      const source = to;
-      const destination = from;
-
-      source.token = sToken ?? source.token;
-      destination.token = dToken ?? destination.token;
-
-      // if token is missing alert user via isMissingRequiredField
-      if (source.token === undefined || destination.token === undefined) {
-        updateLifecycleStatus({
-          statusName: 'amountChange',
-          statusData: {
-            amountFrom: from.amount,
-            amountTo: to.amount,
-            tokenFrom: from.token,
-            tokenTo: to.token,
-            // token is missing
-            isMissingRequiredField: true,
-          },
-        });
+      if (
+        to.token === undefined ||
+        fromETH.token === undefined ||
+        fromUSDC.token === undefined
+      ) {
+        // TODO: update status with required fields
         return;
       }
+
       if (amount === '' || amount === '.' || Number.parseFloat(amount) === 0) {
-        destination.setAmount('');
-        destination.setAmountUSD('');
-        source.setAmountUSD('');
+        to.setAmount('');
+        to.setAmountUSD('');
+        fromETH.setAmountUSD('');
+        fromUSDC.setAmountUSD('');
         return;
       }
 
-      // When toAmount changes we fetch quote for fromAmount
-      // so set isFromQuoteLoading to true
-      destination.setLoading(true);
-      updateLifecycleStatus({
-        statusName: 'amountChange',
-        statusData: {
-          // when fetching quote, the previous
-          // amount is irrelevant
-          amountFrom: '',
-          amountTo: amount,
-          tokenFrom: from.token,
-          tokenTo: to.token,
-          // when fetching quote, the destination
-          // amount is missing
-          isMissingRequiredField: true,
-        },
-      });
+      fromETH.setLoading(true);
+      fromUSDC.setLoading(true);
+
+      // TODO: update status with amount change
 
       try {
         const maxSlippage = lifecycleStatus.statusData.maxSlippage;
-        const response = await getSwapQuote({
+        const responseETH = await getSwapQuote({
           amount,
-          amountReference: 'from',
-          from: source.token,
+          amountReference: 'to',
+          from: fromETH.token,
           maxSlippage: String(maxSlippage),
-          to: destination.token,
+          to: to.token,
           useAggregator,
         });
+        const responseUSDC = await getSwapQuote({
+          amount,
+          amountReference: 'to',
+          from: fromUSDC.token,
+          maxSlippage: String(maxSlippage),
+          to: to.token,
+          useAggregator,
+        });
+
         // If request resolves to error response set the quoteError
         // property of error state to the SwapError response
-        if (isSwapError(response)) {
+        if (isSwapError(responseETH)) {
           updateLifecycleStatus({
             statusName: 'error',
             statusData: {
-              code: response.code,
-              error: response.error,
+              code: responseETH.code,
+              error: responseETH.error,
+              message: '',
+            },
+          });
+          return;
+        }
+        if (isSwapError(responseUSDC)) {
+          updateLifecycleStatus({
+            statusName: 'error',
+            statusData: {
+              code: responseUSDC.code,
+              error: responseUSDC.error,
               message: '',
             },
           });
           return;
         }
         const formattedAmount = formatTokenAmount(
-          response.toAmount,
-          response.to.decimals,
+          responseETH.fromAmount,
+          responseETH.from.decimals,
         );
-        destination.setAmountUSD(response.toAmountUSD);
-        destination.setAmount(formattedAmount);
-        source.setAmountUSD(response.fromAmountUSD);
-        updateLifecycleStatus({
-          statusName: 'amountChange',
-          statusData: {
-            amountFrom: formattedAmount,
-            amountTo: amount,
-            tokenFrom: from.token,
-            tokenTo: to.token,
-            // if quote was fetched successfully, we
-            // have all required fields
-            isMissingRequiredField: !formattedAmount,
-          },
-        });
+        const formattedUSDCAmount = formatTokenAmount(
+          responseUSDC.fromAmount,
+          responseUSDC.from.decimals,
+        );
+        fromETH.setAmountUSD(responseETH.fromAmountUSD);
+        fromETH.setAmount(formattedAmount);
+        fromUSDC.setAmountUSD(responseUSDC.fromAmountUSD);
+        fromUSDC.setAmount(formattedUSDCAmount);
+
+        // TODO: revisit this
+        to.setAmountUSD(responseETH.toAmountUSD);
+
+        // TODO: update status with amountChange
       } catch (err) {
         updateLifecycleStatus({
           statusName: 'error',
@@ -273,87 +260,90 @@ export function FundSwapProvider({
         });
       } finally {
         // reset loading state when quote request resolves
-        destination.setLoading(false);
+        fromETH.setLoading(false);
+        fromUSDC.setLoading(false);
       }
     },
-    [from, to, lifecycleStatus, updateLifecycleStatus, useAggregator],
+    [to, fromETH, fromUSDC],
   );
 
   // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO Refactor this component
-  const handleSubmit = useCallback(async () => {
-    if (!address || !from.token || !to.token || !from.amount) {
-      return;
-    }
+  const handleSubmit = useCallback(
+    async (from: SwapUnit) => {
+      if (!address || !from.token || !to.token || !from.amount) {
+        return;
+      }
 
-    try {
-      const maxSlippage = lifecycleStatus.statusData.maxSlippage;
-      const response = await buildSwapTransaction({
-        amount: from.amount,
-        fromAddress: address,
-        from: from.token,
-        maxSlippage: String(maxSlippage),
-        to: to.token,
-        useAggregator,
-      });
-      if (isSwapError(response)) {
+      try {
+        const maxSlippage = lifecycleStatus.statusData.maxSlippage;
+        const response = await buildSwapTransaction({
+          amount: from.amount,
+          fromAddress: address,
+          from: from.token,
+          maxSlippage: String(maxSlippage),
+          to: to.token,
+          useAggregator,
+        });
+        if (isSwapError(response)) {
+          updateLifecycleStatus({
+            statusName: 'error',
+            statusData: {
+              code: response.code,
+              error: response.error,
+              message: response.message,
+            },
+          });
+          return;
+        }
+        await processSwapTransaction({
+          chainId,
+          config: accountConfig,
+          isSponsored,
+          paymaster: paymaster || '',
+          sendCallsAsync,
+          sendTransactionAsync,
+          swapTransaction: response,
+          switchChainAsync,
+          updateLifecycleStatus,
+          useAggregator,
+          walletCapabilities,
+        });
+      } catch (err) {
+        const errorMessage = isUserRejectedRequestError(err)
+          ? 'Request denied.'
+          : GENERIC_ERROR_MESSAGE;
         updateLifecycleStatus({
           statusName: 'error',
           statusData: {
-            code: response.code,
-            error: response.error,
-            message: response.message,
+            code: 'TmSPc02', // Transaction module SwapProvider component 02 error
+            error: JSON.stringify(err),
+            message: errorMessage,
           },
         });
-        return;
       }
-      await processSwapTransaction({
-        chainId,
-        config: accountConfig,
-        isSponsored,
-        paymaster: paymaster || '',
-        sendCallsAsync,
-        sendTransactionAsync,
-        swapTransaction: response,
-        switchChainAsync,
-        updateLifecycleStatus,
-        useAggregator,
-        walletCapabilities,
-      });
-    } catch (err) {
-      const errorMessage = isUserRejectedRequestError(err)
-        ? 'Request denied.'
-        : GENERIC_ERROR_MESSAGE;
-      updateLifecycleStatus({
-        statusName: 'error',
-        statusData: {
-          code: 'TmSPc02', // Transaction module SwapProvider component 02 error
-          error: JSON.stringify(err),
-          message: errorMessage,
-        },
-      });
-    }
-  }, [
-    accountConfig,
-    address,
-    chainId,
-    from.amount,
-    from.token,
-    isSponsored,
-    lifecycleStatus,
-    paymaster,
-    sendCallsAsync,
-    sendTransactionAsync,
-    switchChainAsync,
-    to.token,
-    updateLifecycleStatus,
-    useAggregator,
-    walletCapabilities,
-  ]);
+    },
+    [
+      accountConfig,
+      address,
+      chainId,
+      isSponsored,
+      lifecycleStatus,
+      paymaster,
+      sendCallsAsync,
+      sendTransactionAsync,
+      switchChainAsync,
+      to.token,
+      updateLifecycleStatus,
+      useAggregator,
+      walletCapabilities,
+    ],
+  );
 
   const value = useValue({
     address,
     config,
-    from,
+    fromETH,
+    fromUSDC,
     handleAmountChange,
     handleSubmit,
     lifecycleStatus,
