@@ -24,57 +24,6 @@ export const sidebar = [
     ],
   },
   {
-    text: 'Contribution',
-    items: [
-      {
-        text: 'How to Contribute',
-        link: '/guides/contribution',
-      },
-      {
-        text: 'Report a Bug',
-        link: '/guides/reporting-bug',
-      },
-    ],
-  },
-  {
-    text: 'Guides',
-    items: [
-      {
-        text: 'Lifecycle Status',
-        link: '/guides/lifecycle-status',
-      },
-      {
-        text: 'Tailwind CSS Integration',
-        link: '/guides/tailwind',
-      },
-      {
-        text: 'Theme Customization',
-        link: '/guides/themes',
-      },
-      {
-        text: 'Use Basename',
-        link: '/guides/use-basename-in-onchain-app',
-      },
-    ],
-  },
-  {
-    text: 'Templates',
-    items: [
-      {
-        text: 'Onchain NFT App',
-        link: 'https://ock-mint.vercel.app/',
-      },
-      {
-        text: 'Onchain Commerce App',
-        link: 'https://onchain-commerce-template.vercel.app/',
-      },
-      {
-        text: 'Onchain Social Profile',
-        link: 'https://github.com/fakepixels/ock-identity',
-      },
-    ],
-  },
-  {
     text: 'Components',
     items: [
       {
@@ -221,6 +170,57 @@ export const sidebar = [
             link: '/wallet/wallet-dropdown-link',
           },
         ],
+      },
+    ],
+  },
+  {
+    text: 'Contribution',
+    items: [
+      {
+        text: 'How to Contribute',
+        link: '/guides/contribution',
+      },
+      {
+        text: 'Report a Bug',
+        link: '/guides/reporting-bug',
+      },
+    ],
+  },
+  {
+    text: 'Guides',
+    items: [
+      {
+        text: 'Lifecycle Status',
+        link: '/guides/lifecycle-status',
+      },
+      {
+        text: 'Tailwind CSS Integration',
+        link: '/guides/tailwind',
+      },
+      {
+        text: 'Theme Customization',
+        link: '/guides/themes',
+      },
+      {
+        text: 'Use Basename',
+        link: '/guides/use-basename-in-onchain-app',
+      },
+    ],
+  },
+  {
+    text: 'Templates',
+    items: [
+      {
+        text: 'Onchain NFT App',
+        link: 'https://ock-mint.vercel.app/',
+      },
+      {
+        text: 'Onchain Commerce App',
+        link: 'https://onchain-commerce-template.vercel.app/',
+      },
+      {
+        text: 'Onchain Social Profile',
+        link: 'https://github.com/fakepixels/ock-identity',
       },
     ],
   },
