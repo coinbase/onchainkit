@@ -9,8 +9,12 @@ const commonOptions = [
 
 const URL_PARAM_MAPPING: Partial<Record<OnchainKitComponent, string[]>> = {
   [OnchainKitComponent.Checkout]: ['chargeId', 'productId'],
-  [OnchainKitComponent.Transaction]: ['chainId', 'calls'],
-  [OnchainKitComponent.TransactionDefault]: ['chainId', 'calls'],
+  [OnchainKitComponent.Transaction]: ['chainId', 'transactionType', 'calls'],
+  [OnchainKitComponent.TransactionDefault]: [
+    'chainId',
+    'transactionType',
+    'calls',
+  ],
   [OnchainKitComponent.Swap]: ['chainId'],
   [OnchainKitComponent.SwapDefault]: ['chainId'],
   [OnchainKitComponent.NFTCard]: ['chainId'],

@@ -93,9 +93,12 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     defaultValue: defaultState.chainId,
   });
 
-  const [transactionType, setTransactionTypeState] = useState<TransactionTypes>(
-    TransactionTypes.Contracts,
-  );
+  const [transactionType, setTransactionType] =
+    useStateWithStorage<TransactionTypes>({
+      key: 'transactionType',
+      defaultValue: TransactionTypes.Contracts,
+    });
+
   const [checkoutOptions, setCheckoutOptionsState] =
     useState<CheckoutOptions>();
   const [checkoutTypes, setCheckoutTypesState] = useState<CheckoutTypes>(
@@ -118,8 +121,6 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     // Component-specific options
     const storedPaymasters =
       urlState.paymasterurl || localStorage.getItem('paymasters');
-    const storedTransactionType =
-      urlState.transactiontype || localStorage.getItem('transactionType');
     const storedDefaultMaxSlippage =
       urlState.defaultmaxslippage || localStorage.getItem('defaultMaxSlippage');
     const storedNFTToken =
@@ -129,9 +130,6 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
 
     if (storedPaymasters) {
       setPaymastersState(JSON.parse(storedPaymasters));
-    }
-    if (storedTransactionType) {
-      setTransactionTypeState(storedTransactionType as TransactionTypes);
     }
     if (storedDefaultMaxSlippage) {
       setDefaultMaxSlippage(Number(storedDefaultMaxSlippage));
@@ -182,11 +180,6 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     };
     localStorage.setItem('paymasters', JSON.stringify(newObj));
     setPaymastersState(newObj);
-  };
-
-  const setTransactionType = (transactionType: TransactionTypes) => {
-    localStorage.setItem('transactionType', transactionType.toString());
-    setTransactionTypeState(transactionType);
   };
 
   const setNFTToken = (nftToken: string) => {
