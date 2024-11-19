@@ -1,7 +1,7 @@
 import { TokenImage } from '../../token';
 import { background, cn, color } from '../../styles/theme';
 import { useFundSwapContext } from './FundSwapProvider';
-import { SwapUnit } from '../types';
+import type { SwapUnit } from '../types';
 import { useCallback } from 'react';
 
 function TokenItem({ swapUnit }: { swapUnit: SwapUnit }) {
@@ -13,10 +13,10 @@ function TokenItem({ swapUnit }: { swapUnit: SwapUnit }) {
 
   const handleClick = useCallback(() => {
     handleSubmit(swapUnit);
-  }, [handleSubmit]);
+  }, [handleSubmit, swapUnit]);
 
   return (
-    <div className="flex gap-2 items-center" onClick={handleClick}>
+    <div className="flex items-center gap-2" onClick={handleClick}>
       <TokenImage token={swapUnit.token} size={36} />
       <div className="flex flex-col">
         <div>
@@ -38,7 +38,7 @@ export function FundSwapDropdown() {
       className={cn(
         color.foreground,
         background.alternate,
-        'flex flex-col absolute translate-y-[110%] right-0  bottom-0 gap-4',
+        'absolute right-0 bottom-0 flex translate-y-[110%] flex-col gap-4',
         'rounded p-4',
       )}
     >

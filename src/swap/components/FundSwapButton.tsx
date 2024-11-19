@@ -17,7 +17,7 @@ export function FundSwapButton() {
 
   const handleSubmit = useCallback(() => {
     setIsDropdownOpen(true);
-  }, []);
+  }, [setIsDropdownOpen]);
 
   return (
     <button
