@@ -16,7 +16,7 @@ export const nftMintCardDemoCode = `
 export default function NftMintCardDemo() {
   return (
     <App>
-      <NFTMintCardDefault contractAddress="0xb4703a3a73aec16e764cbd210b0fde9efdab8941" />
+      <NFTMintCardDefault contractAddress="0x61245eF5C4857a0dAf22E0cE4e29CB1c316BEC1C" />
     </App>
   );
 }
