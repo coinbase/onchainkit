@@ -122,24 +122,18 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     defaultValue: '0x1D6b183bD47F914F9f1d3208EDCF8BefD7F84E63:1',
   });
 
-  const [isSponsored, setIsSponsoredState] = useState<boolean>(false);
+  // const [isSponsored, setIsSponsoredState] = useState<boolean>(false);
+  const [isSponsored, setIsSponsored] = useStateWithStorage<boolean>({
+    key: 'isSponsored',
+    defaultValue: false,
+  });
 
   // Load initial values from localStorage
-  // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO: Refactor this component
   useEffect(() => {
-    const urlState = initializeStateFromUrl();
-
-    // Component-specific options
-    const storedPaymasters =
-      urlState.paymasterurl || localStorage.getItem('paymasters');
-    const storedIsSponsored =
-      urlState.issponsored || localStorage.getItem('isSponsored');
+    const storedPaymasters = localStorage.getItem('paymasters');
 
     if (storedPaymasters) {
       setPaymastersState(JSON.parse(storedPaymasters));
-    }
-    if (storedIsSponsored) {
-      setIsSponsoredState(JSON.parse(storedIsSponsored));
     }
   }, []);
 
@@ -169,12 +163,6 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     };
     localStorage.setItem('paymasters', JSON.stringify(newObj));
     setPaymastersState(newObj);
-  };
-
-  const setIsSponsored = (isSponsored: boolean) => {
-    console.log('Component isSponsored changed: ', isSponsored);
-    localStorage.setItem('isSponsored', JSON.stringify(isSponsored));
-    setIsSponsoredState(isSponsored);
   };
 
   return (
