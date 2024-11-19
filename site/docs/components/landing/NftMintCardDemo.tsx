@@ -1,8 +1,4 @@
 import { NFTMintCardDefault } from '@coinbase/onchainkit/nft';
-import { WalletDefault } from '@coinbase/onchainkit/wallet';
-import type { ReactNode } from 'react';
-import type { Address } from 'viem';
-import { useAccount } from 'wagmi';
 import App from '../App.tsx';
 
 export const nftMintCardDemoCode = `
