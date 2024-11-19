@@ -44,35 +44,51 @@ export function useStateWithStorage<T>({
 }: StorageConfig<T>) {
   type ReturnType = typeof defaultValue extends undefined ? T | undefined : T;
 
-  const [state, setState] = useState<ReturnType>(() => {
+  const [state, setState] = useState<ReturnType>(defaultValue as ReturnType);
+  const [isInitialized, setIsInitialized] = useState(false);
+
+  // Load initial value from URL or localStorage
+  useEffect(() => {
+    if (isInitialized) {
+      return;
+    }
+
     const urlState = initializeStateFromUrl();
     const urlValue = urlState[key.toLowerCase()];
 
     if (urlValue) {
-      return parser(urlValue) as ReturnType;
+      setState(parser(urlValue) as ReturnType);
+      setIsInitialized(true);
+      return;
     }
 
-    const stored = localStorage.getItem(key);
-    if (stored) {
-      try {
-        return parser(stored) as ReturnType;
-      } catch (e) {
-        console.warn(`Error parsing stored value for ${key}:`, e);
-        return defaultValue as ReturnType;
+    try {
+      const stored = window.localStorage.getItem(key);
+      if (stored) {
+        setState(parser(stored) as ReturnType);
       }
+    } catch (e) {
+      console.warn(`Error accessing localStorage for ${key}:`, e);
     }
+    setIsInitialized(true);
+  }, [key, parser, isInitialized]);
 
-    return defaultValue as ReturnType;
-  });
-
-  // Sync to localStorage whenever state changes
+  // Sync to localStorage only when state changes after initialization
   useEffect(() => {
-    if (state !== undefined) {
-      localStorage.setItem(key, serializer(state));
-    } else {
-      localStorage.removeItem(key);
+    if (!isInitialized) {
+      return;
     }
-  }, [key, state, serializer]);
+
+    try {
+      if (state !== undefined) {
+        window.localStorage.setItem(key, serializer(state));
+      } else {
+        window.localStorage.removeItem(key);
+      }
+    } catch (e) {
+      console.warn(`Error writing to localStorage for ${key}:`, e);
+    }
+  }, [key, state, serializer, isInitialized]);
 
   return [state, setState] as const;
 }

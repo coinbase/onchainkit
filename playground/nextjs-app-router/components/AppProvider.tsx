@@ -104,7 +104,6 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
       parser: (v) => JSON.parse(v),
       defaultValue: {},
     });
-  console.log('checkoutOptions:', checkoutOptions);
 
   const [checkoutTypes, setCheckoutTypes] = useStateWithStorage<CheckoutTypes>({
     key: 'checkoutTypes',
