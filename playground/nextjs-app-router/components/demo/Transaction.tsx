@@ -3,7 +3,7 @@ import {
   clickContracts,
   heterogeneousClickCalls,
 } from '@/lib/transactions';
-import type { Call, Calls } from '@/onchainkit/esm/transaction/types';
+import type { Call } from '@/onchainkit/esm/transaction/types';
 import type { LifecycleStatus } from '@/onchainkit/src/transaction';
 import { TransactionTypes } from '@/types/onchainkit';
 import {
