@@ -10,9 +10,13 @@ export const checkoutDemoCode = `
       CheckoutButton
   } from '@coinbase/onchainkit/checkout';
 
-  <Checkout productId='my-product-id' >
-    <CheckoutButton coinbaseBranded={true}/>
-  </Checkout>
+  function CheckoutDemo() {
+    return (
+      <Checkout productId='my-product-id' >
+        <CheckoutButton coinbaseBranded={true}/>
+      </Checkout>
+    )
+  }
 `;
 
 const GITHUB_LINK = 'https://github.com/coinbase/onchain-commerce-template';
