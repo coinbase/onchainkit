@@ -230,7 +230,7 @@ function PreviewContainer({
             activeSubTab === 'preview' ? 'flex' : 'hidden'
           } h-[500px] w-full items-center justify-center md:h-[600px]`}
         >
-          <div className="max-w-[200px] md:max-w-[325px] w-auto">
+          <div className="w-auto max-w-[200px] md:max-w-[325px]">
             <ActiveComponent />
           </div>
         </div>
