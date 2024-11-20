@@ -37,6 +37,13 @@ export function WalletType() {
     }
   }, [walletType, account.address]);
 
+  useEffect(() => {
+    const storedWalletType = localStorage.getItem('walletType');
+    if (storedWalletType) {
+      setWalletType(storedWalletType as WalletPreference);
+    }
+  }, []);
+
   async function clearWalletType() {
     localStorage.removeItem('walletType');
     setWalletType(undefined);
