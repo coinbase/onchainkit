@@ -172,7 +172,16 @@ export function FundSwapProvider({
         fromETH.token === undefined ||
         fromUSDC.token === undefined
       ) {
-        // TODO: update status with required fields
+        updateLifecycleStatus({
+          statusName: 'amountChange',
+          statusData: {
+            amountETH: fromETH.amount,
+            amountUSDC: fromUSDC.amount,
+            amountTo: to.amount,
+            tokenTo: to.token,
+            isMissingRequiredField: true,
+          },
+        });
         return;
       }
 
@@ -187,7 +196,22 @@ export function FundSwapProvider({
       fromETH.setLoading(true);
       fromUSDC.setLoading(true);
 
-      // TODO: update status with amount change
+      updateLifecycleStatus({
+        statusName: 'amountChange',
+        statusData: {
+          // when fetching quote, the previous
+          // amount is irrelevant
+          amountTo: amount,
+          amountETH: '',
+          amountUSDC: '',
+          tokenFromETH: fromETH.token,
+          tokenFromUSDC: fromUSDC.token,
+          tokenTo: to.token,
+          // when fetching quote, the destination
+          // amount is missing
+          isMissingRequiredField: true,
+        },
+      });
 
       try {
         const maxSlippage = lifecycleStatus.statusData.maxSlippage;
@@ -248,7 +272,20 @@ export function FundSwapProvider({
         // TODO: revisit this
         to.setAmountUSD(responseETH.toAmountUSD);
 
-        // TODO: update status with amountChange
+        updateLifecycleStatus({
+          statusName: 'amountChange',
+          statusData: {
+            amountETH: formattedAmount,
+            amountUSDC: formattedUSDCAmount,
+            amountTo: amount,
+            tokenFromETH: fromETH.token,
+            tokenFromUSDC: fromUSDC.token,
+            tokenTo: to.token,
+            // if quote was fetched successfully, we
+            // have all required fields
+            isMissingRequiredField: !formattedAmount,
+          },
+        });
       } catch (err) {
         updateLifecycleStatus({
           statusName: 'error',
