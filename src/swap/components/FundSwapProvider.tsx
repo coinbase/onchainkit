@@ -19,7 +19,9 @@ import { isUserRejectedRequestError } from '../../transaction/utils/isUserReject
 import { useOnchainKit } from '../../useOnchainKit';
 import { FALLBACK_DEFAULT_MAX_SLIPPAGE } from '../constants';
 import { useAwaitCalls } from '../hooks/useAwaitCalls';
+import { useFundSwapTokens } from '../hooks/useFundSwapTokens';
 import { useLifecycleStatus } from '../hooks/useLifecycleStatus';
+import { useResetFundSwapInputs } from '../hooks/useResetFundSwapInputs';
 import type {
   FundSwapContextType,
   FundSwapProviderReact,
@@ -27,8 +29,6 @@ import type {
 } from '../types';
 import { isSwapError } from '../utils/isSwapError';
 import { processSwapTransaction } from '../utils/processSwapTransaction';
-import { useFundSwapTokens } from '../hooks/useFundSwapTokens';
-import { useResetFundSwapInputs } from '../hooks/useResetFundSwapInputs';
 
 const emptyContext = {} as FundSwapContextType;
 

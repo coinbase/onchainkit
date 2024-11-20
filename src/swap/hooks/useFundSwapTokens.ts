@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import type { Address } from 'viem';
+import { base } from 'viem/chains';
 import { useValue } from '../../internal/hooks/useValue';
 import type { Token } from '../../token';
 import type { FundSwapTokens } from '../types';
 import { useSwapBalances } from './useSwapBalances';
-import { base } from 'viem/chains';
 
 const ethToken: Token = {
   name: 'ETH',

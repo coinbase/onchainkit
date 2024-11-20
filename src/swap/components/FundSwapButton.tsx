@@ -1,5 +1,6 @@
 import { useCallback, useMemo } from 'react';
 import { Spinner } from '../../internal/components/Spinner';
+import { checkmarkSvg } from '../../internal/svg/checkmarkSvg';
 import {
   cn,
   text,
@@ -9,7 +10,6 @@ import {
   pressable,
 } from '../../styles/theme';
 import { useFundSwapContext } from './FundSwapProvider';
-import { checkmarkSvg } from '../../internal/svg/checkmarkSvg';
 
 export function FundSwapButton() {
   const {
