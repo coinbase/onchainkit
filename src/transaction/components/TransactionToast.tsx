@@ -48,7 +48,7 @@ export function TransactionToast({
       durationMs={durationMs}
       isVisible={isToastVisible}
       onClose={closeToast}
-      parentComponentLifecycleStatus={lifecycleStatus.statusName}
+      parentComponentLifecycleStatus={lifecycleStatus?.statusName}
     >
       {children}
     </Toast>
