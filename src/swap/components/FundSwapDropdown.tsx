@@ -1,5 +1,5 @@
 import { TokenImage } from '../../token';
-import { background, cn, color, pressable } from '../../styles/theme';
+import { background, cn, color } from '../../styles/theme';
 import { useFundSwapContext } from './FundSwapProvider';
 import type { SwapUnit } from '../types';
 import { useCallback } from 'react';
@@ -23,6 +23,7 @@ function TokenItem({ swapUnit }: { swapUnit: SwapUnit }) {
         'hover:bg-[var(--ock-bg-inverse)]',
       )}
       onClick={handleClick}
+      type="button"
     >
       <TokenImage token={swapUnit.token} size={36} />
       <div className="flex flex-col">

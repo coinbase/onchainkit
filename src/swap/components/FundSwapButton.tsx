@@ -53,7 +53,7 @@ export function FundSwapButton() {
         background.primary,
         border.radius,
         'flex rounded-xl',
-        'px-4 py-3 h-12 w-24 items-center justify-center',
+        'h-12 w-24 items-center justify-center px-4 py-3',
         isDisabled && pressable.disabled,
         text.headline,
       )}
