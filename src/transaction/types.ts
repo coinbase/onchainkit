@@ -104,18 +104,12 @@ export type SendBatchedTransactionsParams = {
   capabilities?: WalletCapabilities;
   // biome-ignore lint: cannot find module 'wagmi/experimental/query'
   sendCallsAsync: any;
-  transactions?:
-    | Call[]
-    | ContractFunctionParameters[]
-    | (Call | ContractFunctionParameters)[];
+  transactions?: (Call | ContractFunctionParameters)[];
 };
 
 export type SendSingleTransactionParams = {
   sendCallAsync: SendTransactionMutateAsync<Config, unknown> | (() => void);
-  transactions:
-    | Call[]
-    | ContractFunctionParameters[]
-    | (Call | ContractFunctionParameters)[];
+  transactions: (Call | ContractFunctionParameters)[];
 };
 
 /**

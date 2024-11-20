@@ -84,8 +84,8 @@ export function TransactionProvider({
 
   const { switchChainAsync } = useSwitchChain();
 
-  // Validate `calls` props
-  if (!calls && !contracts) {
+  // Validate `calls` and `contracts` props
+  if (!contracts && !calls) {
     throw new Error(
       'Transaction: calls or contracts must be provided as a prop to the Transaction component.',
     );

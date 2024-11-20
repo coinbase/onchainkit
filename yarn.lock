@@ -2208,7 +2208,6 @@ __metadata:
     graphql-request: "npm:^6.1.0"
     jsdom: "npm:^24.1.0"
     packemon: "npm:3.3.1"
-    permissionless: "npm:^0.2.10"
     react: "npm:^18"
     react-dom: "npm:^18"
     rimraf: "npm:^5.0.5"
@@ -12907,15 +12906,6 @@ __metadata:
   version: 2.0.0
   resolution: "pathval@npm:2.0.0"
   checksum: 602e4ee347fba8a599115af2ccd8179836a63c925c23e04bd056d0674a64b39e3a081b643cc7bc0b84390517df2d800a46fcc5598d42c155fe4977095c2f77c5
-  languageName: node
-  linkType: hard
-
-"permissionless@npm:^0.2.10":
-  version: 0.2.13
-  resolution: "permissionless@npm:0.2.13"
-  peerDependencies:
-    viem: ^2.21.22
-  checksum: f941956c5f8723c5490843ee2c794ae992f8f6211e8773dd602774955a8d12aee36a262a034344646b27bcdca8d6d3dc91a0a94fb6b0fd3c7929cf5ca4ea2a91
   languageName: node
   linkType: hard
 
