@@ -1,9 +1,8 @@
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { getSlicedAddress } from '@/lib/utils';
-import { useContext } from 'react';
-import { useAccount, useConnectors, useDisconnect } from 'wagmi';
-import { AppContext } from '../AppProvider';
+import { useEffect, useState } from 'react';
+import { useAccount, useConnect, useConnectors, useDisconnect } from 'wagmi';
 
 export enum WalletPreference {
   SMART_WALLET = 'smartWalletOnly',
@@ -11,10 +10,27 @@ export enum WalletPreference {
 }
 
 export function WalletType() {
-  const { walletType, setWalletType, clearWalletType } = useContext(AppContext);
+  // const { walletType, setWalletType, clearWalletType } = useContext(AppContext);
   const { disconnectAsync } = useDisconnect();
   const connectors = useConnectors();
   const account = useAccount();
+  const { connect } = useConnect();
+
+  const [walletType, setWalletType] = useState<WalletPreference>();
+
+  // Connect to wallet if walletType changes
+  useEffect(() => {
+    if (walletType === WalletPreference.SMART_WALLET) {
+      connect({ connector: connectors[0] });
+    } else if (walletType === WalletPreference.EOA) {
+      connect({ connector: connectors[1] });
+    }
+  }, [connect, connectors, walletType]);
+
+  async function clearWalletType() {
+    localStorage.removeItem('walletType');
+    setWalletType?.(undefined);
+  }
 
   async function disconnectAll() {
     await disconnectAsync({ connector: connectors[0] });
