@@ -71,13 +71,6 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     defaultValue: defaultState.componentMode,
   });
 
-  // const [walletType, setWalletType] = useStateWithStorage<
-  //   WalletPreference | undefined
-  // >({
-  //   key: 'walletType',
-  //   defaultValue: undefined,
-  // });
-
   const [chainId, setChainId] = useStateWithStorage<number>({
     key: 'chainId',
     parser: (v) => Number.parseInt(v),
