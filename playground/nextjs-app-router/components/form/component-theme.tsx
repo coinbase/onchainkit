@@ -6,9 +6,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import type { ComponentTheme as ComponentThemeReact } from '@/types/onchainkit';
 import { useContext } from 'react';
 import { AppContext } from '../AppProvider';
-import type { ComponentTheme as ComponentThemeReact } from '@/types/onchainkit';
 
 export function ComponentTheme() {
   const { componentTheme, setComponentTheme } = useContext(AppContext);
