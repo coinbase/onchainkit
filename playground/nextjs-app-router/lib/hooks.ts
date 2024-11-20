@@ -32,6 +32,8 @@ type StorageConfig<T> = {
   serializer?: (value: T) => string;
 };
 
+const OCK_NAMESPACE_PREFIX = 'ock-';
+
 /**
  * Custom hook to manage state with localStorage
  * Also syncs to URL params on first load
@@ -63,7 +65,7 @@ export function useStateWithStorage<T>({
     }
 
     try {
-      const stored = window.localStorage.getItem(key);
+      const stored = window.localStorage.getItem(OCK_NAMESPACE_PREFIX + key);
       if (stored) {
         setState(parser(stored) as ReturnType);
       }
@@ -81,9 +83,12 @@ export function useStateWithStorage<T>({
 
     try {
       if (state !== undefined) {
-        window.localStorage.setItem(key, serializer(state));
+        window.localStorage.setItem(
+          OCK_NAMESPACE_PREFIX + key,
+          serializer(state),
+        );
       } else {
-        window.localStorage.removeItem(key);
+        window.localStorage.removeItem(OCK_NAMESPACE_PREFIX + key);
       }
     } catch (e) {
       console.warn(`Error writing to localStorage for ${key}:`, e);
