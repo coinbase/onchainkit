@@ -17,6 +17,7 @@ export function TransactionToast({
     setIsToastVisible,
     transactionHash,
     transactionId,
+    lifecycleStatus,
   } = useTransactionContext();
 
   const closeToast = useCallback(() => {
@@ -47,6 +48,7 @@ export function TransactionToast({
       durationMs={durationMs}
       isVisible={isToastVisible}
       onClose={closeToast}
+      parentComponentLifecycleStatus={lifecycleStatus.statusName}
     >
       {children}
     </Toast>

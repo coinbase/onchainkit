@@ -11,6 +11,7 @@ type ToastProps = {
   isVisible: boolean;
   onClose: () => void;
   children: React.ReactNode;
+  parentComponentLifecycleStatus?: string;
 };
 
 const defaultAnimationByPosition = {
@@ -28,11 +29,12 @@ export function Toast({
   isVisible,
   onClose,
   children,
+  parentComponentLifecycleStatus,
 }: ToastProps) {
   const positionClass = getToastPosition(position);
   const animationClass = animation ?? defaultAnimationByPosition[position];
 
-  /* biome-ignore lint/correctness/useExhaustiveDependencies: retrigger durationMs on updates to children  */
+  /* biome-ignore lint/correctness/useExhaustiveDependencies: retrigger durationMs on updates to children or lifecycleStatus  */
   useEffect(() => {
     const timer = setTimeout(() => {
       if (isVisible) {
@@ -45,7 +47,7 @@ export function Toast({
         clearTimeout(timer);
       }
     };
-  }, [durationMs, isVisible, onClose, children]);
+  }, [durationMs, isVisible, onClose, children, parentComponentLifecycleStatus]);
 
   if (!isVisible) {
     return null;
