@@ -3,10 +3,21 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { getSlicedAddress } from '@/lib/utils';
 import { useEffect, useState } from 'react';
 import { useAccount, useConnect, useConnectors, useDisconnect } from 'wagmi';
+import type { GetConnectorsReturnType } from 'wagmi/actions';
 
 export enum WalletPreference {
   SMART_WALLET = 'smartWalletOnly',
   EOA = 'eoaOnly',
+}
+
+function getConnector(
+  walletType: WalletPreference,
+  connectors: GetConnectorsReturnType,
+) {
+  if (walletType === WalletPreference.SMART_WALLET) {
+    return connectors[0];
+  }
+  return connectors[1];
 }
 
 export function WalletType() {
@@ -18,18 +29,17 @@ export function WalletType() {
 
   const [walletType, setWalletType] = useState<WalletPreference>();
 
-  // Connect to wallet if walletType changes
+  // Set localStorage ONLY when user has connected
+  // otherwise, could result in walletType being set to smart wallet when user intended to connect eoa wallet
   useEffect(() => {
-    if (walletType === WalletPreference.SMART_WALLET) {
-      connect({ connector: connectors[0] });
-    } else if (walletType === WalletPreference.EOA) {
-      connect({ connector: connectors[1] });
+    if (walletType && account.address) {
+      localStorage.setItem('walletType', walletType);
     }
-  }, [connect, connectors, walletType]);
+  }, [walletType, account.address]);
 
   async function clearWalletType() {
     localStorage.removeItem('walletType');
-    setWalletType?.(undefined);
+    setWalletType(undefined);
   }
 
   async function disconnectAll() {
@@ -45,7 +55,12 @@ export function WalletType() {
         id="wallet-type"
         value={walletType}
         className="flex items-center justify-between"
-        onValueChange={(value) => setWalletType?.(value as WalletPreference)}
+        onValueChange={(value) => {
+          setWalletType(value as WalletPreference);
+          connect({
+            connector: getConnector(value as WalletPreference, connectors),
+          });
+        }}
       >
         <div className="flex items-center gap-2">
           <Label
