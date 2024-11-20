@@ -47,7 +47,13 @@ export function Toast({
         clearTimeout(timer);
       }
     };
-  }, [durationMs, isVisible, onClose, children, parentComponentLifecycleStatus]);
+  }, [
+    durationMs,
+    isVisible,
+    onClose,
+    children,
+    parentComponentLifecycleStatus,
+  ]);
 
   if (!isVisible) {
     return null;
