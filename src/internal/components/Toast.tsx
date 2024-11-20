@@ -62,7 +62,7 @@ export function Toast({
           'flex items-center justify-between rounded-lg',
           'p-2 shadow-[0px_8px_24px_0px_rgba(0,0,0,0.12)]',
           animationClass,
-          className
+          className,
         )}
         data-testid="ockToast"
       >
