@@ -34,7 +34,7 @@ export const fundDemoCode = `
       </>
     )
   }
-`;
+  `;
 
 function FundDemo() {
   return (

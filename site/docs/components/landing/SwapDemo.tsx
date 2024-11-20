@@ -43,7 +43,7 @@ export const swapDemoCode = `
       />
     );
   }
-`;
+  `;
 
 function SwapDemo() {
   return (

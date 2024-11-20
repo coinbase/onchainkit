@@ -224,7 +224,7 @@ function PreviewContainer({
           </button>
         )}
       </div>
-      <div className="flex overflow-auto py-6">
+      <div className="flex overflow-auto">
         <div
           className={`${
             activeSubTab === 'preview' ? 'flex' : 'hidden'
