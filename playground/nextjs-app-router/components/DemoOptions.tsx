@@ -9,7 +9,7 @@ import { IsSponsored } from './form/is-sponsored';
 import { NFTOptions } from './form/nft-options';
 import { SwapConfig } from './form/swap-config';
 import { TransactionOptions } from './form/transaction-options';
-import { WalletType } from './form/WalletType';
+import { WalletType } from './form/wallet-type';
 
 const COMMON_OPTIONS = [
   ActiveComponent,

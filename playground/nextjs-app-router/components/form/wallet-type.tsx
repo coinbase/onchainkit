@@ -10,15 +10,15 @@ export enum WalletPreference {
   EOA = 'eoaOnly',
 }
 
-function getConnector(
+const getConnector = (
   walletType: WalletPreference,
   connectors: GetConnectorsReturnType,
-) {
+) => {
   if (walletType === WalletPreference.SMART_WALLET) {
     return connectors[0];
   }
   return connectors[1];
-}
+};
 
 export function WalletType() {
   const { disconnectAsync } = useDisconnect();
@@ -36,6 +36,7 @@ export function WalletType() {
   }, []);
 
   async function handleConnect(value: WalletPreference) {
+    console.log('value:', value);
     setWalletType(value);
     connect(
       {
