@@ -123,9 +123,6 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     if (storedPaymasters) {
       setPaymastersState(JSON.parse(storedPaymasters));
     }
-
-    // Wait for all useStateWithStorage hooks to initialize
-    setIsInitialized(true);
   }, []);
 
   const setPaymaster = (chainId: number, url: string, enabled: boolean) => {
@@ -140,7 +137,6 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   return (
     <AppContext.Provider
       value={{
-        isInitialized,
         activeComponent,
         setActiveComponent,
         chainId,
