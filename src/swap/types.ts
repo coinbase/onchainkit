@@ -54,6 +54,14 @@ export type FromTo = {
   to: SwapUnit;
 };
 
+export type FundSwapTokens = {
+  fromETH: FundSwapUnit;
+  fromUSDC: FundSwapUnit;
+  to: FundSwapUnit;
+};
+
+export type FundSwapUnit = Omit<SwapUnit, 'setToken'>;
+
 export type GetSwapMessageParams = {
   address?: Address;
   lifecycleStatus: LifecycleStatus;
