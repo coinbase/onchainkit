@@ -5,3 +5,5 @@ export const ONRAMP_BUY_URL = `${DEFAULT_ONRAMP_URL}/buy`;
 export const ONRAMP_POPUP_HEIGHT = 720;
 // The recommended width of a Coinbase Onramp popup window.
 export const ONRAMP_POPUP_WIDTH = 460;
+
+export const ONRAMP_API_BASE_URL = 'https://api.developer.coinbase.com/onramp/v1/';
