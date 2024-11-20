@@ -41,6 +41,7 @@ export function getShareableUrl(activeComponent?: OnchainKitComponent) {
 
   for (const param of [...relevantParams, ...commonOptions]) {
     const value = localStorage.getItem(getStorageKey(param));
+    // Only include the param if it's not the default value
     if (value && value !== defaultState[param as keyof typeof defaultState]) {
       params.set(param, value);
     }
