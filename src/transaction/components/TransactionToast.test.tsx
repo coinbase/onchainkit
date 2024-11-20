@@ -89,12 +89,14 @@ describe('TransactionToast', () => {
   });
 
   it('displays error message when present', () => {
+    const setIsToastVisible = vi.fn();
     const mockErrorMessage = 'Transaction failed';
     (useTransactionContext as Mock).mockReturnValue({
       isLoading: false,
       isToastVisible: true,
       transactionHash: '',
       errorMessage: mockErrorMessage,
+      setIsToastVisible,
     });
 
     render(<TransactionToast>Error occurred</TransactionToast>);
