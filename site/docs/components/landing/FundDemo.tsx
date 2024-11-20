@@ -5,24 +5,35 @@ import App from '../App.tsx';
 import FundWrapper from '../FundWrapper.tsx';
 
 export const fundDemoCode = `
+  import { useAccount } from 'wagmi';
   import {
     FundButton,
     getOnrampBuyUrl
   } from '@coinbase/onchainkit/fund';
-  import { useAccount } from 'wagmi';
+  import { WalletDefault } from '@coinbase/onchainkit/wallet';
 
-  const projectId = 'YOUR_CDP_PROJECT_ID';
-  const { address } = useAccount();
+  function FundDemo() {
+    const projectId = 'YOUR_CDP_PROJECT_ID';
+    const { address } = useAccount();
 
-  const onrampBuyUrl = getOnrampBuyUrl({
-    projectId,
-    addresses: { [address]: ['base'] },
-    assets: ['USDC'],
-    presetFiatAmount: 20,
-    fiatCurrency: 'USD'
-  });
+    const onrampBuyUrl = getOnrampBuyUrl({
+      projectId,
+      addresses: { [address]: ['base'] },
+      assets: ['USDC'],
+      presetFiatAmount: 20,
+      fiatCurrency: 'USD'
+    });
 
-  <FundButton fundingUrl={onrampBuyUrl} />
+    return (
+      <>
+        {address ? (
+          <FundButton fundingUrl={onrampBuyUrl} />
+        ) : (
+          <WalletDefault />
+        )}
+      </>
+    )
+  }
 `;
 
 function FundDemo() {

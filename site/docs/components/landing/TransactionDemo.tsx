@@ -12,35 +12,42 @@ import App from '../App.tsx';
 import TransactionWrapper from '../TransactionWrapper.tsx';
 
 export const transactionDemoCode = `
-  import {
-    Transaction,
-    TransactionButton,
-    TransactionSponsor,
-    TransactionStatus,
-    TransactionStatusAction,
-    TransactionStatusLabel,
-  } from '@coinbase/onchainkit/transaction';
-  import type { LifecycleStatus } from '@coinbase/onchainkit/transaction';
-  import {
-    Wallet,
-    ConnectWallet,
-  } from '@coinbase/onchainkit/wallet';
-  import {
-    Avatar,
-    Name,
-  } from '@coinbase/onchainkit/identity';
   import { useAccount } from 'wagmi';
-  import { contracts } from './contracts';
+  import { TransactionDefault } from '@coinbase/onchainkit/transaction';
+  import { WalletDefault } from '@coinbase/onchainkit/wallet';
 
-  const { address } = useAccount();
-  const handleOnStatus = useCallback((status: LifecycleStatus) => {
-    console.log('LifecycleStatus', status);
-  }, []);
+  export default function TransactionDemo() {
+    const { address } = useAccount();
+    const clickContractAddress = '0x67c97D1FB8184F038592b2109F854dfb09C77C75';
+    const clickContractAbi = [
+      {
+        type: 'function',
+        name: 'click',
+        inputs: [],
+        outputs: [],
+        stateMutability: 'nonpayable',
+      },
+    ] as const;
+    const contracts = [
+      {
+        address: clickContractAddress,
+        abi: clickContractAbi,
+        functionName: 'click',
+        args: [],
+      },
+    ];
 
-  <TransactionDefault
-    contracts={contracts}
-  />
-  `;
+    return (
+      <>
+        {address ? (
+          <TransactionDefault contracts={contracts} chainId={84532} />
+        ) : (
+          <WalletDefault />
+        )}
+      </>
+    );
+  }
+`;
 
 function TransactionDemo() {
   return (
