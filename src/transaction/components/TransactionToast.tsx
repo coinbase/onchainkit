@@ -1,4 +1,10 @@
-import { useCallback, useEffect } from 'react';
+import {
+  Children,
+  cloneElement,
+  isValidElement,
+  useCallback,
+  useEffect,
+} from 'react';
 import { Toast } from '../../internal/components/Toast';
 import type { TransactionToastReact } from '../types';
 import { useTransactionContext } from './TransactionProvider';
@@ -48,9 +54,13 @@ export function TransactionToast({
       durationMs={durationMs}
       isVisible={isToastVisible}
       onClose={closeToast}
-      parentComponentLifecycleStatus={lifecycleStatus.statusName}
     >
-      {children}
+      {Children.map(children, (child) => {
+        if (isValidElement(child)) {
+          return cloneElement(child, { key: lifecycleStatus.statusName });
+        }
+        return child;
+      })}
     </Toast>
   );
 }
