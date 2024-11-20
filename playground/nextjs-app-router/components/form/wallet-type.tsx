@@ -10,15 +10,15 @@ export enum WalletPreference {
   EOA = 'eoaOnly',
 }
 
-function getConnector(
+const getConnector = (
   walletType: WalletPreference,
   connectors: GetConnectorsReturnType,
-) {
+) => {
   if (walletType === WalletPreference.SMART_WALLET) {
     return connectors[0];
   }
   return connectors[1];
-}
+};
 
 export function WalletType() {
   const { disconnectAsync } = useDisconnect();
@@ -28,20 +28,29 @@ export function WalletType() {
 
   const [walletType, setWalletType] = useState<WalletPreference>();
 
-  // Set localStorage ONLY when user has connected
-  // otherwise, could result in walletType being set to smart wallet when user intended to connect eoa wallet
-  useEffect(() => {
-    if (walletType && account.address) {
-      localStorage.setItem('walletType', walletType);
-    }
-  }, [walletType, account.address]);
-
   useEffect(() => {
     const storedWalletType = localStorage.getItem('walletType');
     if (storedWalletType) {
       setWalletType(storedWalletType as WalletPreference);
     }
   }, []);
+
+  async function handleConnect(value: WalletPreference) {
+    console.log('value:', value);
+    setWalletType(value);
+    connect(
+      {
+        connector: getConnector(value as WalletPreference, connectors),
+      },
+      {
+        // Set localStorage ONLY when user has connected
+        // otherwise, could result in walletType being set to smart wallet when user intended to connect eoa wallet
+        onSuccess: () => {
+          localStorage.setItem('walletType', value);
+        },
+      },
+    );
+  }
 
   async function clearWalletType() {
     localStorage.removeItem('walletType');
@@ -61,12 +70,7 @@ export function WalletType() {
         id="wallet-type"
         value={walletType}
         className="flex items-center justify-between"
-        onValueChange={(value) => {
-          setWalletType(value as WalletPreference);
-          connect({
-            connector: getConnector(value as WalletPreference, connectors),
-          });
-        }}
+        onValueChange={handleConnect}
       >
         <div className="flex items-center gap-2">
           <Label
