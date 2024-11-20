@@ -37,7 +37,6 @@ export function WalletType() {
   }, []);
 
   async function handleConnect(value: WalletPreference) {
-    console.log('value:', value);
     setWalletType(value);
     connect(
       {
