@@ -16,6 +16,9 @@ describe('TransactionToast', () => {
     (useTransactionContext as Mock).mockReturnValue({
       isLoading: true,
       isToastVisible: true,
+      lifecycleStatus: {
+        statusName: 'test-status',
+      },
     });
 
     render(
@@ -37,6 +40,9 @@ describe('TransactionToast', () => {
       setIsToastVisible: vi.fn(),
       transactionHash: '',
       transactionId: '',
+      lifecycleStatus: {
+        statusName: 'test-status',
+      },
     });
 
     render(<TransactionToast>Test Message</TransactionToast>);
@@ -53,6 +59,9 @@ describe('TransactionToast', () => {
       setIsToastVisible,
       transactionHash: '0x123',
       transactionId: '',
+      lifecycleStatus: {
+        statusName: 'test-status',
+      },
     });
 
     render(<TransactionToast>Test Message</TransactionToast>);
@@ -67,6 +76,9 @@ describe('TransactionToast', () => {
       isToastVisible: true,
       transactionHash: '',
       errorMessage: '',
+      lifecycleStatus: {
+        statusName: 'test-status',
+      },
     });
 
     render(<TransactionToast>Transaction in progress</TransactionToast>);
@@ -81,6 +93,9 @@ describe('TransactionToast', () => {
       isToastVisible: true,
       transactionHash: mockTransactionHash,
       errorMessage: '',
+      lifecycleStatus: {
+        statusName: 'test-status',
+      },
     });
 
     render(<TransactionToast>Transaction completed</TransactionToast>);
@@ -97,6 +112,9 @@ describe('TransactionToast', () => {
       transactionHash: '',
       errorMessage: mockErrorMessage,
       setIsToastVisible,
+      lifecycleStatus: {
+        statusName: 'test-status',
+      },
     });
 
     render(<TransactionToast>Error occurred</TransactionToast>);
@@ -112,6 +130,9 @@ describe('TransactionToast', () => {
       errorMessage: '',
       receipt: null,
       transactionId: '',
+      lifecycleStatus: {
+        statusName: 'test-status',
+      },
     });
 
     render(<TransactionToast>In Progress</TransactionToast>);
@@ -127,6 +148,9 @@ describe('TransactionToast', () => {
       errorMessage: '',
       receipt: null,
       transactionId: 'test-id',
+      lifecycleStatus: {
+        statusName: 'test-status',
+      },
     });
 
     const { container } = render(
@@ -145,6 +169,9 @@ describe('TransactionToast', () => {
       errorMessage: '',
       receipt: null,
       transactionId: 'test-id',
+      lifecycleStatus: {
+        statusName: 'test-status',
+      },
     });
 
     const { container } = render(
@@ -163,6 +190,9 @@ describe('TransactionToast', () => {
       errorMessage: '',
       receipt: null,
       transactionId: 'test-id',
+      lifecycleStatus: {
+        statusName: 'test-status',
+      },
     });
 
     const { container } = render(
@@ -181,6 +211,9 @@ describe('TransactionToast', () => {
       errorMessage: '',
       receipt: null,
       transactionId: 'test-id',
+      lifecycleStatus: {
+        statusName: 'test-status',
+      },
     });
 
     const { container } = render(<TransactionToast>Test</TransactionToast>);
@@ -199,6 +232,9 @@ describe('TransactionToast', () => {
       errorMessage: '',
       receipt: {},
       setIsToastVisible,
+      lifecycleStatus: {
+        statusName: 'test-status',
+      },
     });
 
     render(<TransactionToast durationMs={2000}>Test</TransactionToast>);
@@ -218,6 +254,9 @@ describe('TransactionToast', () => {
       errorMessage: 'Error',
       receipt: null,
       setIsToastVisible,
+      lifecycleStatus: {
+        statusName: 'test-status',
+      },
     });
 
     render(<TransactionToast durationMs={2000}>Test</TransactionToast>);
