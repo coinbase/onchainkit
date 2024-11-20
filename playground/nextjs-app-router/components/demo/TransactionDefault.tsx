@@ -1,8 +1,9 @@
 import { useCapabilities } from '@/lib/hooks';
 import { clickCalls, clickContracts } from '@/lib/transactions';
+import { TransactionTypes } from '@/types/onchainkit';
 import { TransactionDefault } from '@coinbase/onchainkit/transaction';
 import { useCallback, useContext, useEffect } from 'react';
-import { AppContext, TransactionTypes } from '../AppProvider';
+import { AppContext } from '../AppProvider';
 
 export default function TransactionDefaultDemo() {
   const { chainId, transactionType } = useContext(AppContext);

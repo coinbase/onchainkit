@@ -1,61 +1,20 @@
 // AppContext.js
 import { ENVIRONMENT, ENVIRONMENT_VARIABLES } from '@/lib/constants';
+import {
+  type CheckoutOptions,
+  CheckoutTypes,
+  type ComponentMode,
+  type ComponentTheme,
+  OnchainKitComponent,
+  type Paymaster,
+  TransactionTypes,
+} from '@/types/onchainkit';
 import { OnchainKitProvider } from '@coinbase/onchainkit';
 import type React from 'react';
 import { createContext, useEffect, useState } from 'react';
 import { useConnect, useConnectors } from 'wagmi';
 import { base } from 'wagmi/chains';
 import { WalletPreference } from './form/wallet-type';
-
-export enum OnchainKitComponent {
-  Fund = 'fund',
-  Identity = 'identity',
-  IdentityCard = 'identity-card',
-  Checkout = 'checkout',
-  Swap = 'swap',
-  SwapDefault = 'swap-default',
-  Transaction = 'transaction',
-  TransactionDefault = 'transaction-default',
-  Wallet = 'wallet',
-  WalletDefault = 'wallet-default',
-  NFTCard = 'nft-card',
-  NFTCardDefault = 'nft-card-default',
-  NFTMintCard = 'nft-mint-card',
-  NFTMintCardDefault = 'nft-mint-card-default',
-}
-
-export enum TransactionTypes {
-  Calls = 'calls',
-  Contracts = 'contracts',
-  CallsPromise = 'callsPromise',
-  ContractsPromise = 'contractsPromise',
-  CallsCallback = 'callsCallback',
-  ContractsCallback = 'contractsCallback',
-}
-
-export type Paymaster = {
-  url: string;
-  enabled: boolean;
-};
-
-export type CheckoutOptions = {
-  chargeId?: string;
-  productId?: string;
-};
-
-export enum CheckoutTypes {
-  ChargeID = 'chargeId',
-  ProductID = 'productId',
-}
-
-export type ComponentTheme =
-  | 'base'
-  | 'cyberpunk'
-  | 'default'
-  | 'hacker'
-  | 'none'; // Simulates an undefined theme field
-
-export type ComponentMode = 'auto' | 'light' | 'dark';
 
 type State = {
   activeComponent?: OnchainKitComponent;

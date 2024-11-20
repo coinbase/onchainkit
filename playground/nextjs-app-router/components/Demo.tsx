@@ -1,6 +1,7 @@
 'use client';
-import { AppContext, OnchainKitComponent } from '@/components/AppProvider';
+import { AppContext } from '@/components/AppProvider';
 import { cn } from '@/lib/utils';
+import { OnchainKitComponent } from '@/types/onchainkit';
 import { useContext, useEffect, useState } from 'react';
 import DemoOptions from './DemoOptions';
 import CheckoutDemo from './demo/Checkout';

@@ -1,6 +1,7 @@
 import { clickCalls, clickContracts } from '@/lib/transactions';
 import type { Call } from '@/onchainkit/esm/transaction/types';
 import type { LifecycleStatus } from '@/onchainkit/src/transaction';
+import { TransactionTypes } from '@/types/onchainkit';
 import {
   Transaction,
   TransactionButton,
@@ -15,7 +16,7 @@ import {
 } from '@coinbase/onchainkit/transaction';
 import { useCallback, useContext, useEffect, useMemo } from 'react';
 import type { ContractFunctionParameters } from 'viem';
-import { AppContext, TransactionTypes } from '../AppProvider';
+import { AppContext } from '../AppProvider';
 
 function TransactionDemo() {
   const { chainId, transactionType, isSponsored } = useContext(AppContext);
