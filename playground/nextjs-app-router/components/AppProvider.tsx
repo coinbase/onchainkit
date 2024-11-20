@@ -16,7 +16,6 @@ import { createContext, useEffect, useState } from 'react';
 import { base } from 'wagmi/chains';
 
 type State = {
-  isInitialized: boolean;
   activeComponent?: OnchainKitComponent;
   setActiveComponent?: (component: OnchainKitComponent) => void;
   chainId?: number;
@@ -42,7 +41,6 @@ type State = {
 };
 
 export const defaultState: State = {
-  isInitialized: false,
   activeComponent: OnchainKitComponent.Transaction,
   chainId: base.id,
   componentTheme: 'default',
@@ -56,8 +54,6 @@ export const defaultState: State = {
 export const AppContext = createContext(defaultState);
 
 export const AppProvider = ({ children }: { children: React.ReactNode }) => {
-  const [isInitialized, setIsInitialized] = useState(false);
-
   const [activeComponent, setActiveComponent] =
     useStateWithStorage<OnchainKitComponent>({
       key: 'activeComponent',
