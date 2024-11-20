@@ -69,9 +69,7 @@ export function WalletType() {
         id="wallet-type"
         value={walletType}
         className="flex items-center justify-between"
-        onValueChange={(value) => {
-          handleConnect(value as WalletPreference);
-        }}
+        onValueChange={handleConnect}
       >
         <div className="flex items-center gap-2">
           <Label
