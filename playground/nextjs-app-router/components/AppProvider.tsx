@@ -13,16 +13,11 @@ import {
 import { OnchainKitProvider } from '@coinbase/onchainkit';
 import type React from 'react';
 import { createContext, useEffect, useState } from 'react';
-import { useConnect, useConnectors } from 'wagmi';
 import { base } from 'wagmi/chains';
-import { WalletPreference } from './form/wallet-type';
 
 type State = {
   activeComponent?: OnchainKitComponent;
   setActiveComponent?: (component: OnchainKitComponent) => void;
-  walletType?: WalletPreference;
-  setWalletType?: (walletType: WalletPreference) => void;
-  clearWalletType?: () => void;
   chainId?: number;
   defaultMaxSlippage?: number;
   setDefaultMaxSlippage?: (defaultMaxSlippage: number) => void;
@@ -59,9 +54,6 @@ const defaultState: State = {
 export const AppContext = createContext(defaultState);
 
 export const AppProvider = ({ children }: { children: React.ReactNode }) => {
-  const { connect } = useConnect();
-  const connectors = useConnectors();
-
   const [activeComponent, setActiveComponent] =
     useStateWithStorage<OnchainKitComponent>({
       key: 'activeComponent',
@@ -79,12 +71,12 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     defaultValue: defaultState.componentMode,
   });
 
-  const [walletType, setWalletType] = useStateWithStorage<
-    WalletPreference | undefined
-  >({
-    key: 'walletType',
-    defaultValue: undefined,
-  });
+  // const [walletType, setWalletType] = useStateWithStorage<
+  //   WalletPreference | undefined
+  // >({
+  //   key: 'walletType',
+  //   defaultValue: undefined,
+  // });
 
   const [chainId, setChainId] = useStateWithStorage<number>({
     key: 'chainId',
@@ -140,20 +132,6 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     }
   }, []);
 
-  // Connect to wallet if walletType changes
-  useEffect(() => {
-    if (walletType === WalletPreference.SMART_WALLET) {
-      connect({ connector: connectors[0] });
-    } else if (walletType === WalletPreference.EOA) {
-      connect({ connector: connectors[1] });
-    }
-  }, [connect, connectors, walletType]);
-
-  function clearWalletType() {
-    localStorage.setItem('walletType', '');
-    setWalletType(undefined);
-  }
-
   const setPaymaster = (chainId: number, url: string, enabled: boolean) => {
     const newObj = {
       ...paymasters,
@@ -168,9 +146,6 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
       value={{
         activeComponent,
         setActiveComponent,
-        walletType,
-        setWalletType,
-        clearWalletType,
         chainId,
         setChainId,
         componentTheme,
