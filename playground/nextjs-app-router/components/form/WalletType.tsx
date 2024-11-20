@@ -3,22 +3,7 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { getSlicedAddress } from '@/lib/utils';
 import { useEffect, useState } from 'react';
 import { useAccount, useConnect, useConnectors, useDisconnect } from 'wagmi';
-import type { GetConnectorsReturnType } from 'wagmi/actions';
-
-export enum WalletPreference {
-  SMART_WALLET = 'smartWalletOnly',
-  EOA = 'eoaOnly',
-}
-
-function getConnector(
-  walletType: WalletPreference,
-  connectors: GetConnectorsReturnType,
-) {
-  if (walletType === WalletPreference.SMART_WALLET) {
-    return connectors[0];
-  }
-  return connectors[1];
-}
+import { WalletPreference, getConnector } from './wallet-type';
 
 export function WalletType() {
   const { disconnectAsync } = useDisconnect();
