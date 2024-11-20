@@ -6,17 +6,18 @@ import { FundSwapButton } from './FundSwapButton';
 import { FundSwapDropdown } from './FundSwapDropdown';
 import { FundSwapInput } from './FundSwapInput';
 import { FundSwapProvider, useFundSwapContext } from './FundSwapProvider';
-//
+import { FundSwapMessage } from './FundSwapMessage';
+
 export function FundSwapContent({ className }: { className?: string }) {
   const { isDropdownOpen, setIsDropdownOpen } = useFundSwapContext();
-  const walletContainerRef = useRef<HTMLDivElement>(null);
+  const fundSwapContainerRef = useRef<HTMLDivElement>(null);
 
   // Handle clicking outside the wallet component to close the dropdown.
   useEffect(() => {
     const handleClickOutsideComponent = (event: MouseEvent) => {
       if (
-        walletContainerRef.current &&
-        !walletContainerRef.current.contains(event.target as Node) &&
+        fundSwapContainerRef.current &&
+        !fundSwapContainerRef.current.contains(event.target as Node) &&
         isDropdownOpen
       ) {
         setIsDropdownOpen(false);
@@ -30,12 +31,15 @@ export function FundSwapContent({ className }: { className?: string }) {
 
   return (
     <div
-      ref={walletContainerRef}
-      className={cn('relative flex items-center gap-4', className)}
+      ref={fundSwapContainerRef}
+      className={cn('relative flex flex-col gap-2', className)}
     >
-      <FundSwapInput />
-      <FundSwapButton />
-      {isDropdownOpen && <FundSwapDropdown />}
+      <div className={cn('flex items-center gap-4', className)}>
+        <FundSwapInput />
+        <FundSwapButton />
+        {isDropdownOpen && <FundSwapDropdown />}
+      </div>
+      <FundSwapMessage />
     </div>
   );
 }
