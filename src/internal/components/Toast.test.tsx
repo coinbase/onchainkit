@@ -262,6 +262,44 @@ describe('Toast component', () => {
     vi.useRealTimers();
   });
 
+  it('should reset the timer when re-triggered while already visible', async () => {
+    vi.useFakeTimers();
+    const handleClose = vi.fn();
+    const durationMs = 5000;
+
+    const { rerender } = render(
+      <Toast
+        isVisible={true}
+        position="bottom-right"
+        onClose={handleClose}
+        durationMs={durationMs}
+      >
+        <div>Test Child</div>
+      </Toast>,
+    );
+    vi.advanceTimersByTime(2000);
+    expect(handleClose).not.toHaveBeenCalled();
+
+    rerender(
+      <Toast
+        isVisible={true}
+        position="bottom-right"
+        onClose={handleClose}
+        durationMs={durationMs}
+      >
+        <div>Updated Child</div>
+      </Toast>,
+    );
+
+    vi.advanceTimersByTime(4000);
+    expect(handleClose).not.toHaveBeenCalled();
+
+    vi.advanceTimersByTime(2000);
+    expect(handleClose).toHaveBeenCalled();
+
+    vi.useRealTimers();
+  });
+
   it('should not fire timer after manual close', () => {
     vi.useFakeTimers();
     const handleClose = vi.fn();

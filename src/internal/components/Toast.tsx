@@ -44,7 +44,7 @@ export function Toast({
         clearTimeout(timer);
       }
     };
-  }, [durationMs, isVisible, onClose]);
+  }, [durationMs, isVisible, onClose, children]);
 
   if (!isVisible) {
     return null;
