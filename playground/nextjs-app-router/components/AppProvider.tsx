@@ -17,9 +17,6 @@ import { base } from 'wagmi/chains';
 type State = {
   activeComponent?: OnchainKitComponent;
   setActiveComponent?: (component: OnchainKitComponent) => void;
-  // walletType?: WalletPreference;
-  // setWalletType?: (walletType: WalletPreference) => void;
-  // clearWalletType?: () => void;
   chainId?: number;
   defaultMaxSlippage?: number;
   setDefaultMaxSlippage?: (defaultMaxSlippage: number) => void;
