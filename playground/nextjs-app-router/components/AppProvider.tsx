@@ -12,7 +12,7 @@ import {
 } from '@/types/onchainkit';
 import { OnchainKitProvider } from '@coinbase/onchainkit';
 import type React from 'react';
-import { createContext, useEffect, useRef, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 import { useConnect, useConnectors } from 'wagmi';
 import { base } from 'wagmi/chains';
 import { WalletPreference } from './form/wallet-type';
@@ -83,7 +83,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     WalletPreference | undefined
   >({
     key: 'walletType',
-    defaultValue: WalletPreference.SMART_WALLET,
+    defaultValue: undefined,
   });
 
   const [chainId, setChainId] = useStateWithStorage<number>({
@@ -140,13 +140,8 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     }
   }, []);
 
-  const runningRef = useRef<number>(0);
-
   // Connect to wallet if walletType changes
   useEffect(() => {
-    runningRef.current += 1;
-    console.log('RUNNING!', runningRef.current);
-
     if (walletType === WalletPreference.SMART_WALLET) {
       connect({ connector: connectors[0] });
     } else if (walletType === WalletPreference.EOA) {
