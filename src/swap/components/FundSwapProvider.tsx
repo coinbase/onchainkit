@@ -28,6 +28,7 @@ import type {
 import { isSwapError } from '../utils/isSwapError';
 import { processSwapTransaction } from '../utils/processSwapTransaction';
 import { useFundSwapTokens } from '../hooks/useFundSwapTokens';
+import { useResetFundSwapInputs } from '../hooks/useResetFundSwapInputs';
 
 const emptyContext = {} as FundSwapContextType;
 
@@ -84,7 +85,7 @@ export function FundSwapProvider({
   const { sendCallsAsync } = useSendCalls(); // Atomic Batch transactions (and approval, if applicable)
 
   // Refreshes balances and inputs post-swap
-  // const resetInputs = useResetInputs({ from, to });
+  const resetInputs = useResetFundSwapInputs({ fromETH, fromUSDC, to });
   // For batched transactions, listens to and awaits calls from the Wallet server
   const awaitCallsStatus = useAwaitCalls({
     accountConfig,
@@ -123,9 +124,9 @@ export function FundSwapProvider({
     // prevents multiple calls to `onStatus`
     if (lifecycleStatus.statusName === 'init' && hasHandledSuccess) {
       setHasHandledSuccess(false);
-      // resetInputs();
+      resetInputs();
     }
-  }, [hasHandledSuccess, lifecycleStatus.statusName]);
+  }, [hasHandledSuccess, lifecycleStatus.statusName, resetInputs]);
 
   useEffect(() => {
     // For batched transactions, `transactionApproved` will contain the calls ID
@@ -145,16 +146,24 @@ export function FundSwapProvider({
   ]);
 
   useEffect(() => {
+    let timer: NodeJS.Timeout;
     // Reset status to init after success has been handled
     if (lifecycleStatus.statusName === 'success' && hasHandledSuccess) {
-      updateLifecycleStatus({
-        statusName: 'init',
-        statusData: {
-          isMissingRequiredField: true,
-          maxSlippage: config.maxSlippage,
-        },
-      });
+      timer = setTimeout(() => {
+        updateLifecycleStatus({
+          statusName: 'init',
+          statusData: {
+            isMissingRequiredField: true,
+            maxSlippage: config.maxSlippage,
+          },
+        });
+      }, 3000);
     }
+    return () => {
+      if (timer) {
+        return clearTimeout(timer);
+      }
+    };
   }, [
     config.maxSlippage,
     hasHandledSuccess,

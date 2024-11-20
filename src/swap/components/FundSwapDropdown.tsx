@@ -1,22 +1,29 @@
 import { TokenImage } from '../../token';
-import { background, cn, color } from '../../styles/theme';
+import { background, cn, color, pressable } from '../../styles/theme';
 import { useFundSwapContext } from './FundSwapProvider';
 import type { SwapUnit } from '../types';
 import { useCallback } from 'react';
 
 function TokenItem({ swapUnit }: { swapUnit: SwapUnit }) {
-  const { handleSubmit } = useFundSwapContext();
+  const { handleSubmit, setIsDropdownOpen } = useFundSwapContext();
 
   if (!swapUnit?.token) {
     return null;
   }
 
   const handleClick = useCallback(() => {
+    setIsDropdownOpen(false);
     handleSubmit(swapUnit);
-  }, [handleSubmit, swapUnit]);
+  }, [handleSubmit, swapUnit, setIsDropdownOpen]);
 
   return (
-    <div className="flex items-center gap-2" onClick={handleClick}>
+    <button
+      className={cn(
+        'flex items-center gap-2 rounded-lg p-2',
+        'hover:bg-[var(--ock-bg-inverse)]',
+      )}
+      onClick={handleClick}
+    >
       <TokenImage token={swapUnit.token} size={36} />
       <div className="flex flex-col">
         <div>
@@ -26,7 +33,7 @@ function TokenItem({ swapUnit }: { swapUnit: SwapUnit }) {
           className={cn('text-xs', color.foregroundMuted)}
         >{`Balance: ${swapUnit.balance}`}</div>
       </div>
-    </div>
+    </button>
   );
 }
 
@@ -38,11 +45,11 @@ export function FundSwapDropdown() {
       className={cn(
         color.foreground,
         background.alternate,
-        'absolute right-0 bottom-0 flex translate-y-[110%] flex-col gap-4',
-        'rounded p-4',
+        'absolute right-0 bottom-0 flex translate-y-[110%] flex-col gap-2',
+        'rounded p-2',
       )}
     >
-      <div>Buy with</div>
+      <div className="px-2 pt-2">Buy with</div>
       <TokenItem swapUnit={fromETH} />
       <TokenItem swapUnit={fromUSDC} />
     </div>
