@@ -146,9 +146,13 @@ export type LifecycleStatus =
   | {
       statusName: 'amountChange';
       statusData: {
-        amountFrom: string;
+        amountFrom?: string;
+        amountETH?: string;
+        amountUSDC?: string;
         amountTo: string;
         tokenFrom?: Token;
+        tokenFromETH?: Token;
+        tokenFromUSDC?: Token;
         tokenTo?: Token;
       } & LifecycleStatusDataShared;
     }
