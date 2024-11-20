@@ -22,7 +22,7 @@ const defaultAnimationByPosition = {
 
 export function Toast({
   className,
-  durationMs = 3000,
+  durationMs = 5000,
   position = 'bottom-center',
   animation,
   isVisible,
