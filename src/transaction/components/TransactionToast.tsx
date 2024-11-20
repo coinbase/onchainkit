@@ -1,10 +1,4 @@
-import {
-  Children,
-  cloneElement,
-  isValidElement,
-  useCallback,
-  useEffect,
-} from 'react';
+import { useCallback } from 'react';
 import { Toast } from '../../internal/components/Toast';
 import type { TransactionToastReact } from '../types';
 import { useTransactionContext } from './TransactionProvider';
@@ -23,7 +17,6 @@ export function TransactionToast({
     setIsToastVisible,
     transactionHash,
     transactionId,
-    lifecycleStatus,
   } = useTransactionContext();
 
   const closeToast = useCallback(() => {
@@ -37,12 +30,6 @@ export function TransactionToast({
     !errorMessage &&
     !transactionId;
 
-  useEffect(() => {
-    if (receipt || errorMessage) {
-      setIsToastVisible(true);
-    }
-  }, [receipt, errorMessage, setIsToastVisible]);
-
   if (!isToastVisible || isInProgress) {
     return null;
   }
@@ -54,13 +41,9 @@ export function TransactionToast({
       durationMs={durationMs}
       isVisible={isToastVisible}
       onClose={closeToast}
+      startTimeout={!!receipt || !!errorMessage}
     >
-      {Children.map(children, (child) => {
-        if (isValidElement(child)) {
-          return cloneElement(child, { key: lifecycleStatus.statusName });
-        }
-        return child;
-      })}
+      {children}
     </Toast>
   );
 }

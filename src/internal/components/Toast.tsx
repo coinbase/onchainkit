@@ -6,6 +6,7 @@ import { getToastPosition } from '../utils/getToastPosition';
 type ToastProps = {
   className?: string;
   durationMs?: number;
+  startTimeout?: boolean;
   position: 'top-center' | 'top-right' | 'bottom-center' | 'bottom-right';
   animation?: 'animate-enterRight' | 'animate-enterUp' | 'animate-enterDown';
   isVisible: boolean;
@@ -23,6 +24,7 @@ const defaultAnimationByPosition = {
 export function Toast({
   className,
   durationMs = 5000,
+  startTimeout = true,
   position = 'bottom-center',
   animation,
   isVisible,
@@ -32,20 +34,21 @@ export function Toast({
   const positionClass = getToastPosition(position);
   const animationClass = animation ?? defaultAnimationByPosition[position];
 
-  /* biome-ignore lint/correctness/useExhaustiveDependencies: retrigger durationMs on updates to children  */
   useEffect(() => {
-    const timer = setTimeout(() => {
-      if (isVisible) {
-        onClose();
-      }
-    }, durationMs);
+    if (startTimeout) {
+      const timer = setTimeout(() => {
+        if (isVisible) {
+          onClose();
+        }
+      }, durationMs);
 
-    return () => {
-      if (timer) {
-        clearTimeout(timer);
-      }
-    };
-  }, [durationMs, isVisible, onClose, children]);
+      return () => {
+        if (timer) {
+          clearTimeout(timer);
+        }
+      };
+    }
+  }, [durationMs, isVisible, onClose, startTimeout]);
 
   if (!isVisible) {
     return null;

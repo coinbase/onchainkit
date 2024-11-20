@@ -273,6 +273,7 @@ describe('Toast component', () => {
         position="bottom-right"
         onClose={handleClose}
         durationMs={durationMs}
+        startTimeout={false}
       >
         <div>Test Child</div>
       </Toast>,
@@ -286,6 +287,7 @@ describe('Toast component', () => {
         position="bottom-right"
         onClose={handleClose}
         durationMs={durationMs}
+        startTimeout={true}
       >
         <div>Updated Child</div>
       </Toast>,
