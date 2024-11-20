@@ -21,7 +21,6 @@ function getConnector(
 }
 
 export function WalletType() {
-  // const { walletType, setWalletType, clearWalletType } = useContext(AppContext);
   const { disconnectAsync } = useDisconnect();
   const connectors = useConnectors();
   const account = useAccount();
