@@ -2,12 +2,12 @@ import { useCallback, useMemo } from 'react';
 import { Spinner } from '../../internal/components/Spinner';
 import { checkmarkSvg } from '../../internal/svg/checkmarkSvg';
 import {
-  cn,
-  text,
-  color,
   background,
   border,
+  cn,
+  color,
   pressable,
+  text,
 } from '../../styles/theme';
 import { useFundSwapContext } from './FundSwapProvider';
 
