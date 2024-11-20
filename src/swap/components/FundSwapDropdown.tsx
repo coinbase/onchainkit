@@ -1,8 +1,8 @@
-import { TokenImage } from '../../token';
-import { background, cn, color } from '../../styles/theme';
-import { useFundSwapContext } from './FundSwapProvider';
-import type { SwapUnit } from '../types';
 import { useCallback } from 'react';
+import { background, cn, color } from '../../styles/theme';
+import { TokenImage } from '../../token';
+import type { SwapUnit } from '../types';
+import { useFundSwapContext } from './FundSwapProvider';
 
 function TokenItem({ swapUnit }: { swapUnit: SwapUnit }) {
   const { handleSubmit, setIsDropdownOpen } = useFundSwapContext();

@@ -1,10 +1,10 @@
 import { useCallback } from 'react';
-import { useFundSwapContext } from './FundSwapProvider';
 import { TextInput } from '../../internal/components/TextInput';
-import { TokenChip } from '../../token';
-import { formatAmount } from '../utils/formatAmount';
 import { isValidAmount } from '../../internal/utils/isValidAmount';
 import { cn, pressable } from '../../styles/theme';
+import { TokenChip } from '../../token';
+import { formatAmount } from '../utils/formatAmount';
+import { useFundSwapContext } from './FundSwapProvider';
 
 export function FundSwapInput() {
   const { to, handleAmountChange } = useFundSwapContext();

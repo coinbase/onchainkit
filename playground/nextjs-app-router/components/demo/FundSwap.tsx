@@ -1,5 +1,5 @@
 import { ENVIRONMENT, ENVIRONMENT_VARIABLES } from '@/lib/constants';
-import { type LifecycleStatus, FundSwap } from '@coinbase/onchainkit/swap';
+import { FundSwap, type LifecycleStatus } from '@coinbase/onchainkit/swap';
 import type { SwapError } from '@coinbase/onchainkit/swap';
 import type { Token } from '@coinbase/onchainkit/token';
 import { useCallback, useContext } from 'react';
