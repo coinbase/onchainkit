@@ -16,6 +16,7 @@ import { createContext, useEffect, useState } from 'react';
 import { base } from 'wagmi/chains';
 
 type State = {
+  isInitialized: boolean;
   activeComponent?: OnchainKitComponent;
   setActiveComponent?: (component: OnchainKitComponent) => void;
   chainId?: number;
@@ -40,7 +41,8 @@ type State = {
   isSponsored?: boolean;
 };
 
-const defaultState: State = {
+export const defaultState: State = {
+  isInitialized: false,
   activeComponent: OnchainKitComponent.Transaction,
   chainId: base.id,
   componentTheme: 'default',
@@ -54,6 +56,8 @@ const defaultState: State = {
 export const AppContext = createContext(defaultState);
 
 export const AppProvider = ({ children }: { children: React.ReactNode }) => {
+  const [isInitialized, setIsInitialized] = useState(false);
+
   const [activeComponent, setActiveComponent] =
     useStateWithStorage<OnchainKitComponent>({
       key: 'activeComponent',
@@ -63,7 +67,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   const [componentTheme, setComponentTheme] =
     useStateWithStorage<ComponentTheme>({
       key: 'componentTheme',
-      defaultValue: 'none',
+      defaultValue: defaultState.componentTheme,
     });
 
   const [componentMode, setComponentMode] = useStateWithStorage<ComponentMode>({
@@ -123,6 +127,9 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     if (storedPaymasters) {
       setPaymastersState(JSON.parse(storedPaymasters));
     }
+
+    // Wait for all useStateWithStorage hooks to initialize
+    setIsInitialized(true);
   }, []);
 
   const setPaymaster = (chainId: number, url: string, enabled: boolean) => {
@@ -137,6 +144,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   return (
     <AppContext.Provider
       value={{
+        isInitialized,
         activeComponent,
         setActiveComponent,
         chainId,

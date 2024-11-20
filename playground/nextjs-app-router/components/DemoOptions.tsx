@@ -10,6 +10,8 @@ import { NFTOptions } from './form/nft-options';
 import { SwapConfig } from './form/swap-config';
 import { TransactionOptions } from './form/transaction-options';
 import { WalletType } from './form/wallet-type';
+import { useContext } from 'react';
+import { AppContext } from './AppProvider';
 
 const COMMON_OPTIONS = [
   ActiveComponent,
@@ -67,6 +69,12 @@ export default function DemoOptions({
 }: {
   component?: OnchainKitComponent;
 }) {
+  const { isInitialized } = useContext(AppContext);
+
+  if (!isInitialized) {
+    // return null; // or a loading state
+  }
+
   const commonElements = COMMON_OPTIONS.map((Component) => (
     <Component key={Component.name} />
   ));

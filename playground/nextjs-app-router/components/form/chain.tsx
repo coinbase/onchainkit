@@ -17,9 +17,10 @@ export function Chain() {
       <Label htmlFor="chain">Chain</Label>
       <Select
         value={chainId?.toString()}
-        onValueChange={(value) =>
-          value ? setChainId?.(Number.parseInt(value)) : value
-        }
+        onValueChange={(value) => {
+          console.log('(salt-hash) chain value:', value);
+          return value ? setChainId?.(Number.parseInt(value)) : value;
+        }}
       >
         <SelectTrigger>
           <SelectValue placeholder="Select chain" />

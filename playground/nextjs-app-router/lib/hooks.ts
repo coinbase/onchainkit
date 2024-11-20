@@ -34,6 +34,10 @@ type StorageConfig<T> = {
 
 const OCK_NAMESPACE_PREFIX = 'ock-';
 
+export function getStorageKey(key: string) {
+  return OCK_NAMESPACE_PREFIX + key;
+}
+
 /**
  * Custom hook to manage state with localStorage
  * Also syncs to URL params on first load
@@ -49,6 +53,11 @@ export function useStateWithStorage<T>({
   const [state, setState] = useState<ReturnType>(defaultValue as ReturnType);
   const [isInitialized, setIsInitialized] = useState(false);
 
+  // Logging
+  useEffect(() => {
+    console.log(`${key} changed:`, state);
+  }, [state, key]);
+
   // Load initial value from URL or localStorage
   useEffect(() => {
     if (isInitialized) {
@@ -56,7 +65,7 @@ export function useStateWithStorage<T>({
     }
 
     const urlState = initializeStateFromUrl();
-    const urlValue = urlState[key.toLowerCase()];
+    const urlValue = urlState[key];
 
     if (urlValue) {
       setState(parser(urlValue) as ReturnType);
@@ -65,7 +74,7 @@ export function useStateWithStorage<T>({
     }
 
     try {
-      const stored = window.localStorage.getItem(OCK_NAMESPACE_PREFIX + key);
+      const stored = window.localStorage.getItem(getStorageKey(key));
       if (stored) {
         setState(parser(stored) as ReturnType);
       }
@@ -83,12 +92,9 @@ export function useStateWithStorage<T>({
 
     try {
       if (state !== undefined) {
-        window.localStorage.setItem(
-          OCK_NAMESPACE_PREFIX + key,
-          serializer(state),
-        );
+        window.localStorage.setItem(getStorageKey(key), serializer(state));
       } else {
-        window.localStorage.removeItem(OCK_NAMESPACE_PREFIX + key);
+        window.localStorage.removeItem(getStorageKey(key));
       }
     } catch (e) {
       console.warn(`Error writing to localStorage for ${key}:`, e);

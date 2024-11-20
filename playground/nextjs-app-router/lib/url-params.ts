@@ -1,4 +1,6 @@
+import { defaultState } from '@/components/AppProvider';
 import { OnchainKitComponent } from '@/types/onchainkit';
+import { getStorageKey } from './hooks';
 
 const commonOptions = [
   'activeComponent',
@@ -38,11 +40,12 @@ export function getShareableUrl(activeComponent?: OnchainKitComponent) {
   const params = new URLSearchParams();
 
   for (const param of [...relevantParams, ...commonOptions]) {
-    const value = localStorage.getItem(param);
-    if (value) {
+    const value = localStorage.getItem(getStorageKey(param));
+    if (value && value !== defaultState[param as keyof typeof defaultState]) {
       params.set(param, value);
     }
   }
+
   return `${window.location.origin}?${params.toString()}`;
 }
 
@@ -61,7 +64,7 @@ export function initializeStateFromUrl(): Record<string, string> {
   const state: Record<string, string> = {};
 
   for (const [key, value] of params.entries()) {
-    localStorage.setItem(key, value);
+    localStorage.setItem(getStorageKey(key), value);
     state[key] = value;
   }
   return state;
