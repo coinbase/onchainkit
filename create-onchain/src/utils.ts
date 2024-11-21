@@ -5,6 +5,7 @@ async function copyFile(src: string, dest: string) {
   await fs.copyFile(src, dest);
 }
 
+// blah blah
 async function copyDir(src: string, dest: string) {
   await fs.mkdir(dest, { recursive: true });
   const entries = await fs.readdir(src, { withFileTypes: true });
