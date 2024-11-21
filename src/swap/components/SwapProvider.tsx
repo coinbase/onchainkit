@@ -13,7 +13,7 @@ import { buildSwapTransaction } from '../../api/buildSwapTransaction';
 import { getSwapQuote } from '../../api/getSwapQuote';
 import { useCapabilitiesSafe } from '../../internal/hooks/useCapabilitiesSafe';
 import { useValue } from '../../internal/hooks/useValue';
-import { formatTokenAmount } from '../../packages/core/utils/formatTokenAmount';
+import { formatTokenAmount } from '../../packages/core/internal/utils/formatTokenAmount';
 import type { Token } from '../../token';
 import { GENERIC_ERROR_MESSAGE } from '../../transaction/constants';
 import { isUserRejectedRequestError } from '../../transaction/utils/isUserRejectedRequestError';

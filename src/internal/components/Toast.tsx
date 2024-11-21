@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { getToastPosition } from '../../packages/core/utils/getToastPosition';
+import { getToastPosition } from '../../packages/core/internal/utils/getToastPosition';
 import { background, cn } from '../../styles/theme';
 import { closeSvg } from '../svg/closeSvg';
 

@@ -1,4 +1,4 @@
-import { multiplyFloats } from '../../../packages/core/utils/multiplyFloats';
+import { multiplyFloats } from '../../../packages/core/internal/utils/multiplyFloats';
 import { cn, text } from '../../../styles/theme';
 import { formatAmount as formatSN } from '../../../swap/utils/formatAmount';
 import { formatAmount } from '../../../token/utils/formatAmount';

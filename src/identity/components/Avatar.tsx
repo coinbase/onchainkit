@@ -1,7 +1,7 @@
 import { Children, useMemo } from 'react';
 import { defaultAvatarSVG } from '../../internal/svg/defaultAvatarSVG';
 import { defaultLoadingSVG } from '../../internal/svg/defaultLoadingSVG';
-import { findComponent } from '../../packages/core/utils/findComponent';
+import { findComponent } from '../../packages/core/internal/utils/findComponent';
 import { cn } from '../../styles/theme';
 import { useAvatar } from '../hooks/useAvatar';
 import { useName } from '../hooks/useName';

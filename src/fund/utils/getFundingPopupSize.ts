@@ -1,7 +1,7 @@
 import {
   getWindowDimensions,
   type popupSizes,
-} from '../../packages/core/utils/getWindowDimensions';
+} from '../../packages/core/internal/utils/getWindowDimensions';
 import { ONRAMP_POPUP_HEIGHT, ONRAMP_POPUP_WIDTH } from '../constants';
 import { ONRAMP_BUY_URL } from '../constants';
 

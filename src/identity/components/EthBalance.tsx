@@ -1,4 +1,4 @@
-import { getRoundedAmount } from '../../packages/core/utils/getRoundedAmount';
+import { getRoundedAmount } from '../../packages/core/internal/utils/getRoundedAmount';
 import { cn, color, text } from '../../styles/theme';
 import { useGetETHBalance } from '../../wallet/hooks/useGetETHBalance';
 import type { EthBalanceReact } from '../types';

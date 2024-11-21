@@ -1,5 +1,5 @@
 import { Children, useMemo } from 'react';
-import { findComponent } from '../../packages/core/utils/findComponent';
+import { findComponent } from '../../packages/core/internal/utils/findComponent';
 import { cn, color, text } from '../../styles/theme';
 import { useName } from '../hooks/useName';
 import type { NameReact } from '../types';

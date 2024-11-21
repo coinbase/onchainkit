@@ -1,6 +1,6 @@
 import { Children, cloneElement, useMemo } from 'react';
 import type { ReactNode } from 'react';
-import { findComponent } from '../../packages/core/utils/findComponent';
+import { findComponent } from '../../packages/core/internal/utils/findComponent';
 import { background, cn, color } from '../../styles/theme';
 import { useTheme } from '../../useTheme';
 import { Address } from './Address';
