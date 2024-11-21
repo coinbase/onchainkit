@@ -6,7 +6,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import type { ComponentTheme as ComponentThemeType } from '@/types/onchainkit';
+import type { ComponentTheme as ComponentThemeReact } from '@/types/onchainkit';
 import { useContext } from 'react';
 import { AppContext } from '../AppProvider';
 
@@ -17,8 +17,17 @@ export function ComponentTheme() {
     <div className="grid gap-2">
       <Label htmlFor="theme">Component Theme</Label>
       <Select
+        defaultValue={componentTheme}
         value={componentTheme}
-        onValueChange={(value: ComponentThemeType) => setComponentTheme(value)}
+        onValueChange={(value: ComponentThemeReact) => {
+          // Radix bug:
+          // https://github.com/radix-ui/primitives/issues/3135
+          if (!value) {
+            return;
+          }
+
+          setComponentTheme(value);
+        }}
       >
         <SelectTrigger id="theme">
           <SelectValue placeholder="Select theme" />

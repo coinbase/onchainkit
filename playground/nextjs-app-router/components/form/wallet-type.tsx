@@ -1,5 +1,6 @@
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { getStorageKey } from '@/lib/hooks';
 import { getSlicedAddress } from '@/lib/utils';
 import { useEffect, useState } from 'react';
 import { useAccount, useConnect, useConnectors, useDisconnect } from 'wagmi';
@@ -29,14 +30,13 @@ export function WalletType() {
   const [walletType, setWalletType] = useState<WalletPreference>();
 
   useEffect(() => {
-    const storedWalletType = localStorage.getItem('walletType');
+    const storedWalletType = localStorage.getItem(getStorageKey('walletType'));
     if (storedWalletType) {
       setWalletType(storedWalletType as WalletPreference);
     }
   }, []);
 
   async function handleConnect(value: WalletPreference) {
-    console.log('value:', value);
     setWalletType(value);
     connect(
       {
@@ -46,14 +46,14 @@ export function WalletType() {
         // Set localStorage ONLY when user has connected
         // otherwise, could result in walletType being set to smart wallet when user intended to connect eoa wallet
         onSuccess: () => {
-          localStorage.setItem('walletType', value);
+          localStorage.setItem(getStorageKey('walletType'), value);
         },
       },
     );
   }
 
   async function clearWalletType() {
-    localStorage.removeItem('walletType');
+    localStorage.removeItem(getStorageKey('walletType'));
     setWalletType(undefined);
   }
 

@@ -1,5 +1,6 @@
 // AppContext.js
 import { ENVIRONMENT, ENVIRONMENT_VARIABLES } from '@/lib/constants';
+import { useStateWithStorage } from '@/lib/hooks';
 import {
   type CheckoutOptions,
   CheckoutTypes,
@@ -39,9 +40,9 @@ type State = {
   isSponsored?: boolean;
 };
 
-const defaultState: State = {
+export const defaultState: State = {
   activeComponent: OnchainKitComponent.Transaction,
-  chainId: 85432,
+  chainId: base.id,
   componentTheme: 'default',
   setComponentTheme: () => {},
   componentMode: 'auto',
@@ -53,105 +54,76 @@ const defaultState: State = {
 export const AppContext = createContext(defaultState);
 
 export const AppProvider = ({ children }: { children: React.ReactNode }) => {
-  const [activeComponent, setActiveComponentState] =
-    useState<OnchainKitComponent>();
+  const [activeComponent, setActiveComponent] =
+    useStateWithStorage<OnchainKitComponent>({
+      key: 'activeComponent',
+      defaultValue: defaultState.activeComponent,
+    });
 
-  const [chainId, setChainIdState] = useState<number>();
-  const [transactionType, setTransactionTypeState] = useState<TransactionTypes>(
-    TransactionTypes.Contracts,
-  );
-  const [checkoutOptions, setCheckoutOptionsState] =
-    useState<CheckoutOptions>();
-  const [checkoutTypes, setCheckoutTypesState] = useState<CheckoutTypes>(
-    CheckoutTypes.ProductID,
-  );
+  const [componentTheme, setComponentTheme] =
+    useStateWithStorage<ComponentTheme>({
+      key: 'componentTheme',
+      defaultValue: defaultState.componentTheme,
+    });
+
+  const [componentMode, setComponentMode] = useStateWithStorage<ComponentMode>({
+    key: 'componentMode',
+    defaultValue: defaultState.componentMode,
+  });
+
+  const [chainId, setChainId] = useStateWithStorage<number>({
+    key: 'chainId',
+    parser: (v) => Number.parseInt(v),
+    defaultValue: defaultState.chainId,
+  });
+
+  const [transactionType, setTransactionType] =
+    useStateWithStorage<TransactionTypes>({
+      key: 'transactionType',
+      defaultValue: TransactionTypes.Contracts,
+    });
+
+  const [checkoutOptions, setCheckoutOptions] =
+    useStateWithStorage<CheckoutOptions>({
+      key: 'checkoutOptions',
+      parser: (v) => JSON.parse(v),
+      defaultValue: {},
+    });
+
+  const [checkoutTypes, setCheckoutTypes] = useStateWithStorage<CheckoutTypes>({
+    key: 'checkoutTypes',
+    defaultValue: CheckoutTypes.ProductID,
+  });
+
   const [paymasters, setPaymastersState] =
     useState<Record<number, Paymaster>>();
-  const [defaultMaxSlippage, setDefaultMaxSlippageState] = useState<number>(3);
-  const [componentTheme, setComponentThemeState] =
-    useState<ComponentTheme>('none');
-  const [componentMode, setComponentModeState] =
-    useState<ComponentMode>('auto');
-  const [nftToken, setNFTTokenState] = useState<string>(
-    '0x1D6b183bD47F914F9f1d3208EDCF8BefD7F84E63:1',
-  );
 
-  const [isSponsored, setIsSponsoredState] = useState<boolean>(false);
+  const [defaultMaxSlippage, setDefaultMaxSlippage] =
+    useStateWithStorage<number>({
+      key: 'defaultMaxSlippage',
+      parser: (v) => Number.parseInt(v),
+      defaultValue: 3,
+    });
+
+  const [nftToken, setNFTToken] = useStateWithStorage<string>({
+    key: 'nftToken',
+    defaultValue: '0x1D6b183bD47F914F9f1d3208EDCF8BefD7F84E63:1',
+  });
+
+  const [isSponsored, setIsSponsored] = useStateWithStorage<boolean>({
+    key: 'isSponsored',
+    defaultValue: false,
+    parser: (v) => v === 'true',
+  });
 
   // Load initial values from localStorage
-  // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO Refactor this component
   useEffect(() => {
-    const storedActiveComponent = localStorage.getItem('activeComponent');
-    const storedChainId = localStorage.getItem('chainId');
     const storedPaymasters = localStorage.getItem('paymasters');
-    const storedTransactionType = localStorage.getItem('transactionType');
-    const storedDefaultMaxSlippage = localStorage.getItem('defaultMaxSlippage');
-    const storedComponentTheme = localStorage.getItem(
-      'componentTheme',
-    ) as ComponentTheme;
-    const storedComponentMode = localStorage.getItem(
-      'componentMode',
-    ) as ComponentMode;
-    const storedNFTToken = localStorage.getItem('nftToken');
-    const storedIsSponsored = localStorage.getItem('isSponsored');
 
-    if (storedActiveComponent) {
-      setActiveComponent(storedActiveComponent as OnchainKitComponent);
-    }
-    if (storedChainId) {
-      setChainIdState(Number.parseInt(storedChainId));
-    }
     if (storedPaymasters) {
       setPaymastersState(JSON.parse(storedPaymasters));
     }
-    if (storedTransactionType) {
-      setTransactionTypeState(storedTransactionType as TransactionTypes);
-    }
-    if (storedDefaultMaxSlippage) {
-      setDefaultMaxSlippage(Number(storedDefaultMaxSlippage));
-    }
-    if (storedComponentTheme) {
-      setComponentTheme(storedComponentTheme);
-    }
-    if (storedComponentMode) {
-      setComponentMode(storedComponentMode);
-    }
-    if (storedNFTToken) {
-      setNFTTokenState(storedNFTToken);
-    }
-    if (storedIsSponsored) {
-      setIsSponsoredState(JSON.parse(storedIsSponsored));
-    }
   }, []);
-
-  // Update localStorage whenever the state changes
-
-  function setActiveComponent(component: OnchainKitComponent) {
-    localStorage.setItem('activeComponent', component.toString());
-    setActiveComponentState(component);
-  }
-
-  const setChainId = (newChainId: number) => {
-    localStorage.setItem('chainId', newChainId.toString());
-    setChainIdState(newChainId);
-  };
-
-  const setDefaultMaxSlippage = (newDefaultMaxSlippage: number) => {
-    localStorage.setItem(
-      'defaultMaxSlippage',
-      newDefaultMaxSlippage.toString(),
-    );
-    setDefaultMaxSlippageState(newDefaultMaxSlippage);
-  };
-
-  const setCheckoutOptions = (checkoutOptions: CheckoutOptions) => {
-    localStorage.setItem('productId', checkoutOptions.productId || '');
-    setCheckoutOptionsState(checkoutOptions);
-  };
-
-  const setCheckoutTypes = (checkoutTypes: CheckoutTypes) => {
-    setCheckoutTypesState(checkoutTypes);
-  };
 
   const setPaymaster = (chainId: number, url: string, enabled: boolean) => {
     const newObj = {
@@ -160,34 +132,6 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     };
     localStorage.setItem('paymasters', JSON.stringify(newObj));
     setPaymastersState(newObj);
-  };
-
-  const setTransactionType = (transactionType: TransactionTypes) => {
-    localStorage.setItem('transactionType', transactionType.toString());
-    setTransactionTypeState(transactionType);
-  };
-
-  const setComponentTheme = (theme: ComponentTheme) => {
-    console.log('Component theme changed:', theme);
-    localStorage.setItem('componentTheme', theme);
-    setComponentThemeState(theme);
-  };
-
-  const setComponentMode = (mode: ComponentMode) => {
-    console.log('Component mode changed:', mode);
-    localStorage.setItem('componentMode', mode);
-    setComponentModeState(mode);
-  };
-
-  const setNFTToken = (nftToken: string) => {
-    console.log('NFT Token changed:', nftToken);
-    localStorage.setItem('nftToken', nftToken);
-    setNFTTokenState(nftToken);
-  };
-  const setIsSponsored = (isSponsored: boolean) => {
-    console.log('Component isSponsored changed: ', isSponsored);
-    localStorage.setItem('isSponsored', JSON.stringify(isSponsored));
-    setIsSponsoredState(isSponsored);
   };
 
   return (

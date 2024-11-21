@@ -18,7 +18,15 @@ export function ComponentMode() {
       <Label htmlFor="mode">Component Mode</Label>
       <Select
         value={componentMode}
-        onValueChange={(value: ComponentModeReact) => setComponentMode(value)}
+        onValueChange={(value: ComponentModeReact) => {
+          // Radix bug:
+          // https://github.com/radix-ui/primitives/issues/3135
+          if (!value) {
+            return;
+          }
+
+          return setComponentMode(value);
+        }}
       >
         <SelectTrigger id="mode">
           <SelectValue placeholder="Select mode" />
