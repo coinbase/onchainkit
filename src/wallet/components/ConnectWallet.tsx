@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { useAccount, useConnect } from 'wagmi';
 import { IdentityProvider } from '../../identity/components/IdentityProvider';
 import { Spinner } from '../../internal/components/Spinner';
-import { findComponent } from '../../internal/utils/findComponent';
+import { findComponent } from '../../packages/core/utils/findComponent';
 import {
   border,
   cn,

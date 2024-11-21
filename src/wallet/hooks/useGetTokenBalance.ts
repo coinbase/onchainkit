@@ -3,7 +3,7 @@ import { erc20Abi, formatUnits } from 'viem';
 import type { Address } from 'viem';
 import { useReadContract } from 'wagmi';
 import type { UseReadContractReturnType } from 'wagmi';
-import { getRoundedAmount } from '../../internal/utils/getRoundedAmount';
+import { getRoundedAmount } from '../../packages/core/utils/getRoundedAmount';
 import type { SwapError } from '../../swap';
 import { getSwapErrorCode } from '../../swap/utils/getSwapErrorCode';
 import type { Token } from '../../token';

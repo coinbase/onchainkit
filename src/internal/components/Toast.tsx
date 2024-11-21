@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
+import { getToastPosition } from '../../packages/core/utils/getToastPosition';
 import { background, cn } from '../../styles/theme';
 import { closeSvg } from '../svg/closeSvg';
-import { getToastPosition } from '../utils/getToastPosition';
 
 type ToastProps = {
   className?: string;

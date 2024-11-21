@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import { addSvg } from '../../internal/svg/addSvg';
-import { openPopup } from '../../internal/utils/openPopup';
+import { openPopup } from '../../packages/core/utils/openPopup';
 import { border, cn, color, pressable, text } from '../../styles/theme';
 import { useTheme } from '../../useTheme';
 import { useGetFundingUrl } from '../hooks/useGetFundingUrl';

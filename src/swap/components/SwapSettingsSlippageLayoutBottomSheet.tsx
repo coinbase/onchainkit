@@ -1,5 +1,5 @@
 import { Children, useMemo } from 'react';
-import { findComponent } from '../../internal/utils/findComponent';
+import { findComponent } from '../../packages/core/utils/findComponent';
 import { background, border, cn, color, pressable } from '../../styles/theme';
 import type { SwapSettingsSlippageLayoutReact } from '../types';
 import { SwapSettingsSlippageDescription } from './SwapSettingsSlippageDescription';

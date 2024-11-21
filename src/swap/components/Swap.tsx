@@ -1,5 +1,5 @@
 import { Children, useMemo } from 'react';
-import { findComponent } from '../../internal/utils/findComponent';
+import { findComponent } from '../../packages/core/utils/findComponent';
 import { background, border, cn, color, text } from '../../styles/theme';
 import { useIsMounted } from '../../useIsMounted';
 import { useTheme } from '../../useTheme';
