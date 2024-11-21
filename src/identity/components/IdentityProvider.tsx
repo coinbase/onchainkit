@@ -1,6 +1,6 @@
 import { createContext, useContext } from 'react';
 import type { Address } from 'viem';
-import { useValue } from '../../internal/hooks/useValue';
+import { useValue } from '../../packages/core/hooks/useValue';
 import { useOnchainKit } from '../../useOnchainKit';
 import type { IdentityContextType, IdentityProviderReact } from '../types';
 

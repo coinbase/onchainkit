@@ -1,5 +1,5 @@
 import type { Address } from 'viem';
-import { useValue } from '../../internal/hooks/useValue';
+import { useValue } from '../../packages/core/hooks/useValue';
 import type { Token } from '../../token';
 import { useGetETHBalance } from '../../wallet/hooks/useGetETHBalance';
 import { useGetTokenBalance } from '../../wallet/hooks/useGetTokenBalance';

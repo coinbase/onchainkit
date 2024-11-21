@@ -11,8 +11,6 @@ import { useSwitchChain } from 'wagmi';
 import { useSendCalls } from 'wagmi/experimental';
 import { buildSwapTransaction } from '../../api/buildSwapTransaction';
 import { getSwapQuote } from '../../api/getSwapQuote';
-import { useCapabilitiesSafe } from '../../internal/hooks/useCapabilitiesSafe';
-import { useValue } from '../../internal/hooks/useValue';
 import { formatTokenAmount } from '../../packages/core/utils/formatTokenAmount';
 import type { Token } from '../../token';
 import { GENERIC_ERROR_MESSAGE } from '../../transaction/constants';
@@ -26,6 +24,8 @@ import { useResetInputs } from '../hooks/useResetInputs';
 import type { SwapContextType, SwapProviderReact } from '../types';
 import { isSwapError } from '../utils/isSwapError';
 import { processSwapTransaction } from '../utils/processSwapTransaction';
+import { useCapabilitiesSafe } from '../../packages/core/hooks/useCapabilitiesSafe';
+import { useValue } from '../../packages/core/hooks/useValue';
 
 const emptyContext = {} as SwapContextType;
 

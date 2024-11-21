@@ -12,7 +12,7 @@ vi.mock('../../internal/components/Spinner', () => ({
   Spinner: () => <div data-testid="spinner">Loading...</div>,
 }));
 
-vi.mock('../../internal/hooks/useIcon', () => ({
+vi.mock('../../packages/core/hooks/useIcon', () => ({
   useIcon: vi.fn(() => <svg data-testid="icon" />),
 }));
 

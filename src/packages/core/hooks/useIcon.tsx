@@ -9,6 +9,7 @@ export const useIcon = ({ icon }: { icon?: React.ReactNode }) => {
     if (icon === undefined) {
       return null;
     }
+    // TODO: move to mapping
     switch (icon) {
       case 'coinbasePay':
         return coinbasePaySvg;

@@ -1,6 +1,6 @@
 import { createContext, useCallback, useContext, useState } from 'react';
-import { useValue } from '../../internal/hooks/useValue';
 import type { NFTContextType, NFTProviderReact } from '../types';
+import { useValue } from '../../packages/core/hooks/useValue';
 
 const emptyContext = {} as NFTContextType;
 
