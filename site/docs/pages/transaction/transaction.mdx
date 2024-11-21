@@ -40,10 +40,12 @@ If you'd like more customization, follow the implementation guide for our `Swap`
 
 
 ```tsx twoslash
-// @noErrors: 2580 2304 - Cannot find name 'process', Cannot find name 'contracts'
+// @noErrors: 1109 - Cannot find name 'contracts'
 import { TransactionDefault } from "@coinbase/onchainkit/transaction"
 
-<TransactionDefault contracts={contracts} />
+const calls = [...];
+
+<TransactionDefault calls={calls} />
 ```
 
 <App>
@@ -59,7 +61,7 @@ import { TransactionDefault } from "@coinbase/onchainkit/transaction"
           <TransactionDefault
             capabilities={capabilities}
             chainId={BASE_SEPOLIA_CHAIN_ID}
-            contracts={contracts}
+            calls={contracts}
             onStatus={onStatus} 
           />
         )
@@ -85,13 +87,18 @@ import { TransactionDefault } from "@coinbase/onchainkit/transaction"
 
 ::::steps
 
-### Add `contracts`
+### Add `calls`
 
-Execute one or multiple `contracts` using the Transaction component. Each `contract` should include:
-- `address`: the contract address;
-- `abi`: the contract's ABI;
-- `functionName`: a function to extract from the ABI;
-- `args`: arguments to pass to the function call.
+Execute one or multiple transactions using the Transaction component. You can pass transactions in either `Call` or `ContractFunctionParameters` format. The component will automatically apply batching logic if the user's wallet supports it.
+
+<br/>
+
+#### Types
+- [`ContractFunctionParameters`](https://github.com/wevm/viem/blob/ce1b8aff4d4523d3a324e500261c8c0867fd35e9/src/types/contract.ts#L188)
+- [`Call`](/transaction/types#call)
+
+<br/>
+
 
 :::code-group
 
@@ -110,7 +117,7 @@ import { // [!code focus]
 import type { LifecycleStatus } from '@coinbase/onchainkit/transaction';
 import { Wallet, ConnectWallet } from '@coinbase/onchainkit/wallet';
 import { useAccount } from 'wagmi';
-import { contracts } from './contracts'; // [!code focus]
+import { calls } from './calls'; // [!code focus]
 // ---cut-start---
 
 const BASE_SEPOLIA_CHAIN_ID = 84532;
@@ -126,7 +133,7 @@ export default function TransactionComponents() {
   return address ? (
     <Transaction // [!code focus]
       chainId={BASE_SEPOLIA_CHAIN_ID} // [!code focus]
-      contracts={contracts} // [!code focus]
+      calls={calls} // [!code focus]
       onStatus={handleOnStatus}
     > // [!code focus]
       <TransactionButton />
@@ -147,7 +154,7 @@ export default function TransactionComponents() {
 };
 ```
 
-```ts twoslash [contracts.ts]
+```ts twoslash [calls.ts]
 const clickContractAddress = '0x67c97D1FB8184F038592b2109F854dfb09C77C75';
 const clickContractAbi = [
   {
@@ -159,13 +166,13 @@ const clickContractAbi = [
   },
 ] as const;
 
-export const contracts = [
+export const calls = [
   {
     address: clickContractAddress,
     abi: clickContractAbi,
     functionName: 'click',
     args: [],
-  },
+  }
 ];
 ```
 
@@ -328,77 +335,11 @@ import { Transaction, TransactionButton, TransactionSponsor } from "@coinbase/on
 
 ::::
 
-### Using `calls` instead of `contracts`
+### Using `calls` with Promises
 
-In addition to the `contracts` prop, the `<Transaction />` component also accepts a `calls` prop. This provides an alternative way to construct transactions. When using `calls`, you should not pass anything for the `contracts` prop.
+`Calls` also accepts asynchronous functions that are resolved on each button click. This can be useful if you're calling an API to retrieve transaction data.
 
-Using `calls` instead of `contracts` is a great way to bundle several operations into a single transaction for smart wallets. Externally Owned Accounts (EOAs) such as the Coinbase Wallet extension will execute each call one-at-a-time with a separate pop-up for each.
-
-The `calls` prop is an array of `Call` objects, where each `Call` is defined as:
-
-```tsx twoslash
-// @noErrors: 2304 Cannot find name 'Hex'
-type Call = {
-  to: Hex;
-  data?: Hex;
-  value?: bigint;
-};
-```
-
-- `to`: The address you are executing the call on
-- `data`: The encoded function data to pass along in the call (optional)
-- `value`: The amount of ether to send along with the call, denominated in wei (optional)
-
-Here's an example of how to use the `calls` prop with the Transaction component:
-
-```tsx twoslash
-import { Transaction, TransactionButton } from '@coinbase/onchainkit/transaction';
-import { encodeFunctionData, Hex } from 'viem';
-import { baseSepolia } from 'wagmi/chains';
-
-const clickContractAddress: Hex = '0x67c97D1FB8184F038592b2109F854dfb09C77C75';
-const clickContractAbi = [
-  {
-    type: 'function',
-    name: 'click',
-    inputs: [],
-    outputs: [],
-    stateMutability: 'nonpayable',
-  },
-] as const;
-
-const encodedClickData = encodeFunctionData({
-  abi: clickContractAbi,
-  functionName: 'click',
-});
-
-const calls = [
-  {
-    to: clickContractAddress,
-    data: encodedClickData,
-  },
-];
-
-export default function TransactionWithCalls() {
-  return (
-    <Transaction
-      chainId={baseSepolia.id}
-      calls={calls}
-      onStatus={(status) => console.log('Transaction status:', status)}
-    >
-      <TransactionButton />
-    </Transaction>
-  );
-}
-```
-
-In this example, we're creating a single call to the `click` function of our contract. The `encodeFunctionData` utility from `viem` is used to encode the function call data.
-
-### Using calls or contracts with Promises
-
-Calls or contracts also accepts asynchronous functions that are resolved on each button click. This can be useful if you're calling an API to retrieve transaction data.
-
-These functions must resolve to `Calls[]` or `ContractFunctionParameters[]`.
+These functions must resolve to `Call[]` or `ContractFunctionParameters[]`.
 
 In the example the calls data will be fetched from api.transaction.com when the user clicks the Transaction Button.
 
