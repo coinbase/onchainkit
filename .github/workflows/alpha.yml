@@ -1,0 +1,42 @@
+name: Release (Alpha)
+on:
+  workflow_dispatch:
+    inputs:
+      preid:
+        description: 'Pre-release identifier (e.g., alpha.1)'
+        required: true
+        type: string
+
+jobs:
+  alpha:
+    name: Release alpha
+    runs-on: ubuntu-latest
+    environment: release
+    permissions:
+      contents: write
+      pull-requests: write
+      id-token: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: 'Setup'
+        uses: ./.github/actions/setup
+
+      - name: Set version
+        run: |
+          npm --no-git-tag-version version $(npm pkg get version | sed 's/"//g')-$(echo ${{ github.event.inputs.preid }})
+
+      - name: Build
+        shell: bash
+        run: yarn build
+
+      - name: Set deployment token
+        run: npm config set '//registry.npmjs.org/:_authToken' "${{ secrets.NPM_TOKEN }}"
+
+      - name: Publish to npm
+        run: npm publish --tag alpha
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
