@@ -20,8 +20,8 @@ import { waitForTransactionReceipt } from 'wagmi/actions';
 import { base } from 'wagmi/chains';
 import { mock } from 'wagmi/connectors';
 import { useSendCalls } from 'wagmi/experimental';
-import { buildSwapTransaction } from '../../api/buildSwapTransaction';
-import { getSwapQuote } from '../../api/getSwapQuote';
+import { buildSwapTransaction } from '../../packages/core/api/buildSwapTransaction';
+import { getSwapQuote } from '../../packages/core/api/getSwapQuote';
 import { useCapabilitiesSafe } from '../../packages/core/internal/hooks/useCapabilitiesSafe';
 import { DEGEN_TOKEN, ETH_TOKEN } from '../mocks';
 import { getSwapErrorCode } from '../utils/getSwapErrorCode';
@@ -32,11 +32,11 @@ vi.mock('../hooks/useResetInputs', () => ({
   useResetInputs: () => useCallback(mockResetFunction, []),
 }));
 
-vi.mock('../../api/getSwapQuote', () => ({
+vi.mock('../../packages/core/api/getSwapQuote', () => ({
   getSwapQuote: vi.fn(),
 }));
 
-vi.mock('../../api/buildSwapTransaction', () => ({
+vi.mock('../../packages/core/api/buildSwapTransaction', () => ({
   buildSwapTransaction: vi
     .fn()
     .mockRejectedValue(new Error('buildSwapTransaction')),

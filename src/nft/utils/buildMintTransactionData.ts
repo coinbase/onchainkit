@@ -1,6 +1,6 @@
 import type { Address } from 'viem';
-import { buildMintTransaction as buildMintTransactionApi } from '../../api/buildMintTransaction';
-import type { BuildMintTransactionParams } from '../../api/types';
+import { buildMintTransaction as buildMintTransactionApi } from '../../packages/core/api/buildMintTransaction';
+import type { BuildMintTransactionParams } from '../../packages/core/api/types';
 import type { Call } from '../../transaction/types';
 
 async function getMintTransaction({

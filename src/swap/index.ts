@@ -15,7 +15,7 @@ export type {
   BuildSwapTransaction,
   /** @deprecated Prefer import from `api` module */
   BuildSwapTransactionResponse,
-} from '../api/types';
+} from '../packages/core/api/types';
 export type {
   Fee,
   LifecycleStatus,

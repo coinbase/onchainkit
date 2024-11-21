@@ -1,6 +1,9 @@
 import { type UseQueryResult, useQuery } from '@tanstack/react-query';
-import { getMintDetails } from '../../api/getMintDetails';
-import type { GetMintDetailsParams, MintDetails } from '../../api/types';
+import { getMintDetails } from '../../packages/core/api/getMintDetails';
+import type {
+  GetMintDetailsParams,
+  MintDetails,
+} from '../../packages/core/api/types';
 import { isNFTError } from '../utils/isNFTError';
 
 export function useMintDetails({

@@ -1,12 +1,12 @@
 import type { Address } from 'viem';
 import { type Mock, describe, expect, it, vi } from 'vitest';
-import { buildMintTransaction as buildMintTransationApi } from '../../api/buildMintTransaction';
+import { buildMintTransaction as buildMintTransactionApi } from '../../packages/core/api/buildMintTransaction';
 import { buildMintTransactionData } from './buildMintTransactionData';
 
-vi.mock('../../api/buildMintTransaction');
+vi.mock('../../packages/core/api/buildMintTransaction');
 
 describe('buildMintTransactionData', () => {
-  const mockBuildMintTransaction = buildMintTransationApi as Mock;
+  const mockBuildMintTransaction = buildMintTransactionApi as Mock;
 
   const contractAddress: Address = '0x1234567890abcdef1234567890abcdef12345678';
   const tokenId = '1';

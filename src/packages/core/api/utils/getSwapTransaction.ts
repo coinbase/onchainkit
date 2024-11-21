@@ -1,5 +1,5 @@
 import type { Address, Hex } from 'viem';
-import type { Transaction } from '../../swap/types';
+import type { Transaction } from '../../../../swap/types';
 import type { RawTransactionData } from '../types';
 
 /**

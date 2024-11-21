@@ -13,8 +13,8 @@ import {
   useSwitchChain,
 } from 'wagmi';
 import { useSendCalls } from 'wagmi/experimental';
-import { buildSwapTransaction } from '../../api/buildSwapTransaction';
-import { getSwapQuote } from '../../api/getSwapQuote';
+import { buildSwapTransaction } from '../../packages/core/api/buildSwapTransaction';
+import { getSwapQuote } from '../../packages/core/api/getSwapQuote';
 import { useCapabilitiesSafe } from '../../packages/core/internal/hooks/useCapabilitiesSafe';
 import { useValue } from '../../packages/core/internal/hooks/useValue';
 import { formatTokenAmount } from '../../packages/core/internal/utils/formatTokenAmount';
