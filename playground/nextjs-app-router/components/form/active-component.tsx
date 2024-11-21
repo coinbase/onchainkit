@@ -56,6 +56,9 @@ export function ActiveComponent() {
           <SelectItem value={OnchainKitComponent.NFTMintCardDefault}>
             NFT Mint Card Default
           </SelectItem>
+          <SelectItem value={OnchainKitComponent.WalletIslandDefault}>
+            Wallet Island Default
+          </SelectItem>
         </SelectContent>
       </Select>
     </div>
