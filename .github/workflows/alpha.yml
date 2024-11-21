@@ -6,15 +6,21 @@ on:
         description: 'Pre-release identifier (e.g., alpha.1)'
         required: true
         type: string
+      dry_run:
+        description: 'Dry run (no actual publish)'
+        type: boolean
+        default: false
 
 jobs:
   alpha:
     name: Release alpha
     runs-on: ubuntu-latest
-    environment: release
+    # Require explicit environment approval
+    environment:
+      name: alpha-release
+      url: https://www.npmjs.com/package/@coinbase/onchainkit
     permissions:
-      contents: write
-      pull-requests: write
+      contents: read
       id-token: write
     steps:
       - name: Checkout
@@ -27,16 +33,23 @@ jobs:
 
       - name: Set version
         run: |
-          npm --no-git-tag-version version $(npm pkg get version | sed 's/"//g')-$(echo ${{ github.event.inputs.preid }})
+          BRANCH_NAME=$(echo ${GITHUB_REF#refs/heads/} | tr -cs '[:alnum:]-' '-' | tr '[:upper:]' '[:lower:]')
+          npm --no-git-tag-version version $(npm pkg get version | sed 's/"//g')-${BRANCH_NAME}.$(echo ${{ github.event.inputs.preid }})
 
       - name: Build
         shell: bash
         run: yarn build
 
+      - name: Test package
+        if: ${{ inputs.dry_run }}
+        run: npm publish --dry-run --tag alpha
+
       - name: Set deployment token
+        if: ${{ !inputs.dry_run }}
         run: npm config set '//registry.npmjs.org/:_authToken' "${{ secrets.NPM_TOKEN }}"
 
       - name: Publish to npm
+        if: ${{ !inputs.dry_run }}
         run: npm publish --tag alpha
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
