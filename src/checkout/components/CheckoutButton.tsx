@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { Spinner } from '../../internal/components/Spinner';
-import { useIcon } from '../../packages/core/hooks/useIcon';
+import { useIcon } from '../../packages/core/internal/hooks/useIcon';
 import {
   border,
   cn,

@@ -22,7 +22,7 @@ import { mock } from 'wagmi/connectors';
 import { useSendCalls } from 'wagmi/experimental';
 import { buildSwapTransaction } from '../../api/buildSwapTransaction';
 import { getSwapQuote } from '../../api/getSwapQuote';
-import { useCapabilitiesSafe } from '../../packages/core/hooks/useCapabilitiesSafe';
+import { useCapabilitiesSafe } from '../../packages/core/internal/hooks/useCapabilitiesSafe';
 import { DEGEN_TOKEN, ETH_TOKEN } from '../mocks';
 import { getSwapErrorCode } from '../utils/getSwapErrorCode';
 import { SwapProvider, useSwapContext } from './SwapProvider';
@@ -61,7 +61,7 @@ vi.mock('../hooks/useAwaitCalls', () => ({
   useAwaitCalls: () => useCallback(mockAwaitCalls, []),
 }));
 
-vi.mock('../../packages/core/hooks/useCapabilitiesSafe', () => ({
+vi.mock('../../packages/core/internal/hooks/useCapabilitiesSafe', () => ({
   useCapabilitiesSafe: vi.fn(),
 }));
 

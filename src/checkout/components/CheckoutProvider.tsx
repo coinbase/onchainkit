@@ -13,7 +13,7 @@ import { useWaitForTransactionReceipt } from 'wagmi';
 import { coinbaseWallet } from 'wagmi/connectors';
 import { useWriteContracts } from 'wagmi/experimental';
 import { useCallsStatus } from 'wagmi/experimental';
-import { useValue } from '../../packages/core/hooks/useValue';
+import { useValue } from '../../packages/core/internal/hooks/useValue';
 import { isUserRejectedRequestError } from '../../transaction/utils/isUserRejectedRequestError';
 import { useOnchainKit } from '../../useOnchainKit';
 import { useIsWalletACoinbaseSmartWallet } from '../../wallet/hooks/useIsWalletACoinbaseSmartWallet';

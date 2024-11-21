@@ -3,7 +3,7 @@ import { formatUnits } from 'viem';
 import type { Address } from 'viem';
 import { useBalance } from 'wagmi';
 import type { UseBalanceReturnType } from 'wagmi';
-import { getRoundedAmount } from '../../packages/core/utils/getRoundedAmount';
+import { getRoundedAmount } from '../../packages/core/internal/utils/getRoundedAmount';
 import type { SwapError } from '../../swap';
 import { getSwapErrorCode } from '../../swap/utils/getSwapErrorCode';
 import type { UseGetETHBalanceResponse } from '../types';

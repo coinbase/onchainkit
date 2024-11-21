@@ -4,10 +4,10 @@ import { type Mock, afterEach, describe, expect, it, vi } from 'vitest';
 import type { UseThemeReact } from './types';
 import { useOnchainKit } from './useOnchainKit';
 import { useTheme } from './useTheme';
-import { usePreferredColorScheme } from './packages/core/hooks/usePreferredColorScheme';
+import { usePreferredColorScheme } from './packages/core/internal/hooks/usePreferredColorScheme';
 
 vi.mock('./useOnchainKit');
-vi.mock('./packages/core/hooks/usePreferredColorScheme');
+vi.mock('./packages/core/internal/hooks/usePreferredColorScheme');
 
 describe('useTheme', () => {
   afterEach(() => {

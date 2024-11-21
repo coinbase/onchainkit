@@ -1,10 +1,10 @@
 import { renderHook } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 import { useIcon } from './useIcon';
-import { walletSvg } from '../../../internal/svg/walletSvg';
-import { fundWalletSvg } from '../../../internal/svg/fundWallet';
-import { coinbasePaySvg } from '../../../internal/svg/coinbasePaySvg';
-import { swapSettingsSvg } from '../../../internal/svg/swapSettings';
+import { walletSvg } from '../../../../internal/svg/walletSvg';
+import { fundWalletSvg } from '../../../../internal/svg/fundWallet';
+import { coinbasePaySvg } from '../../../../internal/svg/coinbasePaySvg';
+import { swapSettingsSvg } from '../../../../internal/svg/swapSettings';
 
 describe('useIcon', () => {
   it('should return null when icon is undefined', () => {

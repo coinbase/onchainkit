@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useMemo } from 'react';
 import { TextInput } from '../../internal/components/TextInput';
-import { useValue } from '../../packages/core/hooks/useValue';
-import { getRoundedAmount } from '../../packages/core/utils/getRoundedAmount';
-import { isValidAmount } from '../../packages/core/utils/isValidAmount';
+import { getRoundedAmount } from '../../packages/core/internal/utils/getRoundedAmount';
+import { isValidAmount } from '../../packages/core/internal/utils/isValidAmount';
+
+import { useValue } from '../../packages/core/internal/hooks/useValue';
 import {
   background,
   border,
@@ -11,8 +12,8 @@ import {
   pressable,
   text,
 } from '../../styles/theme';
-import { TokenChip, TokenSelectDropdown } from '../../token';
 import type { Token } from '../../token';
+import { TokenChip, TokenSelectDropdown } from '../../token';
 import type { SwapAmountInputReact } from '../types';
 import { formatAmount } from '../utils/formatAmount';
 import { useSwapContext } from './SwapProvider';

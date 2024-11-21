@@ -1,4 +1,4 @@
-import { useIcon } from '../../packages/core/hooks/useIcon';
+import { useIcon } from '../../packages/core/internal/hooks/useIcon';
 import { cn, color, pressable, text } from '../../styles/theme';
 import type { WalletDropdownLinkReact } from '../types';
 

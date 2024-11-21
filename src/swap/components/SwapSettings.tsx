@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { useIcon } from '../../packages/core/hooks/useIcon';
+import { useIcon } from '../../packages/core/internal/hooks/useIcon';
 import { background, border, cn, pressable, text } from '../../styles/theme';
 import { useBreakpoints } from '../../useBreakpoints';
 import type { SwapSettingsReact } from '../types';

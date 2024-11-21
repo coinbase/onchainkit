@@ -3,7 +3,7 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import { type Mock, afterEach, describe, expect, it, vi } from 'vitest';
 import { useGetFundingUrl } from '../../fund/hooks/useGetFundingUrl';
 import { getFundingPopupSize } from '../../fund/utils/getFundingPopupSize';
-import { openPopup } from '../../packages/core/utils/openPopup';
+import { openPopup } from '../../packages/core/internal/utils/openPopup';
 import { WalletDropdownFundLink } from './WalletDropdownFundLink';
 
 vi.mock('../../fund/hooks/useGetFundingUrl', () => ({
@@ -14,7 +14,7 @@ vi.mock('../../fund/utils/getFundingPopupSize', () => ({
   getFundingPopupSize: vi.fn(),
 }));
 
-vi.mock('../../packages/core/utils/openPopup', () => ({
+vi.mock('../../packages/core/internal/utils/openPopup', () => ({
   openPopup: vi.fn(),
 }));
 

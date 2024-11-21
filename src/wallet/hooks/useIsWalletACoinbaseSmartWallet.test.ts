@@ -3,7 +3,7 @@ import { type Mock, describe, expect, it, vi } from 'vitest';
 import { useAccount } from 'wagmi';
 import { useOnchainKit } from '../../useOnchainKit';
 import { useIsWalletACoinbaseSmartWallet } from './useIsWalletACoinbaseSmartWallet';
-import { useCapabilitiesSafe } from '../../packages/core/hooks/useCapabilitiesSafe';
+import { useCapabilitiesSafe } from '../../packages/core/internal/hooks/useCapabilitiesSafe';
 
 vi.mock('wagmi', () => ({
   useAccount: vi.fn(),
@@ -13,7 +13,7 @@ vi.mock('../../useOnchainKit', () => ({
   useOnchainKit: vi.fn(),
 }));
 
-vi.mock('../../packages/core/hooks/useCapabilitiesSafe', () => ({
+vi.mock('../../packages/core/internal/hooks/useCapabilitiesSafe', () => ({
   useCapabilitiesSafe: vi.fn(),
 }));
 
