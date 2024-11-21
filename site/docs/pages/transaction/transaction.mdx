@@ -42,8 +42,9 @@ If you'd like more customization, follow the implementation guide for our `Swap`
 ```tsx twoslash
 // @noErrors: 2580 2304 2451 2365 2362 1005 1109 2552 - Cannot find name 'process', Cannot find name 'contracts'
 import { TransactionDefault } from "@coinbase/onchainkit/transaction"
-// ---cut-before---
-// omitted for brevity
+
+const calls = [...];
+
 <TransactionDefault calls={calls} />
 ```
 
@@ -88,38 +89,16 @@ import { TransactionDefault } from "@coinbase/onchainkit/transaction"
 
 ### Add `calls`
 
-Execute one or multiple transactions using the Transaction component. You can pass transactions in either `Call` or `ContractFunctionParameters` format. 
+Execute one or multiple transactions using the Transaction component. You can pass transactions in either `Call` or `ContractFunctionParameters` format. The component will automatically apply batching logic if the user's wallet supports it.
 
 <br/>
 
-Using `Call` format instead of `ContractFunctionParameters` is a great way to bundle several operations into a single transaction for smart wallets. Externally Owned Accounts (EOAs) such as the Coinbase Wallet extension will execute each call one-at-a-time with a separate pop-up for each.
+#### Types
+- [`ContractFunctionParameters`](https://github.com/wevm/viem/blob/ce1b8aff4d4523d3a324e500261c8c0867fd35e9/src/types/contract.ts#L188)
+- [`Call`](/transaction/types#call)
 
 <br/>
 
-A transaction in `ContractFunctionParameters` format is defined as:
-
-```tsx twoslash
-// @noErrors: 2552 2304
-type ContractFunctionParameters = {
-  address: Address; // the contract address
-  abi: Abi; // the contract's ABI
-  functionName: ContractFunctionName; // a function to extract from the ABI
-  args: ContractFunctionArgs; // array of arguments to pass to the function call
-};
-```
-
-<br/>
-
-A transaction in `Call` format is defined as:
-
-```tsx twoslash
-// @noErrors: 2304 Cannot find name 'Hex'
-type Call = {
-  to: Hex; // the address you are executing the call on
-  data?: Hex; // the encoded function data to pass along in the call (optional)
-  value?: bigint; // the amount of ether to send along with the call, denominated in wei (optional)
-};
-```
 
 :::code-group
 
@@ -175,7 +154,7 @@ export default function TransactionComponents() {
 };
 ```
 
-```ts twoslash [contracts.ts]
+```ts twoslash [calls.ts]
 const clickContractAddress = '0x67c97D1FB8184F038592b2109F854dfb09C77C75';
 const clickContractAbi = [
   {
@@ -187,13 +166,13 @@ const clickContractAbi = [
   },
 ] as const;
 
-export const contracts = [
+export const calls = [
   {
     address: clickContractAddress,
     abi: clickContractAbi,
     functionName: 'click',
     args: [],
-  },
+  }
 ];
 ```
 
