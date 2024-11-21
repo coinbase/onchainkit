@@ -1,6 +1,6 @@
 import { background, icon } from '../../styles/theme';
 
-export const disconnectSvg = (
+export const collapseSvg = (
   <svg
     width="28"
     height="28"
@@ -10,11 +10,11 @@ export const disconnectSvg = (
   >
     <rect width="28" height="28" rx="8" className={background.default} />
     <path
-      d="M16.3001 8L16.3001 9.5L9.51537 9.5L9.51537 18.5L16.3001 18.5L16.3001 20L8 20L8 8L16.3001 8Z"
+      d="M15.86 11.37L19.11 8L20 8.89L16.74 12.25H19.11V13.5H14.61V8.99998H15.86V11.37Z"
       className={icon.foreground}
     />
     <path
-      d="M17.2455 16.8926L20.0002 14.0193L17.2595 11L16.1323 12.0025L17.2717 13.2578L12.1499 13.2578L12.1499 14.7578L17.203 14.7578L16.1463 15.86L17.2455 16.8926Z"
+      d="M12.25 16.7399L8.89 19.9999L8 19.1099L11.37 15.8599L9 15.8599L9 14.6099L13.5 14.6099L13.5 19.1099H12.25V16.7399Z"
       className={icon.foreground}
     />
   </svg>
