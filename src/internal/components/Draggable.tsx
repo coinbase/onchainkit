@@ -1,10 +1,10 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { cn } from '../../styles/theme';
 
 type DraggableProps = {
   children: React.ReactNode;
   gridSize: number;
-  startingPosition?: { x: number; y: number };
+  startingPosition?: { x: number; y: number }; // TODO [BOE-886]: make this based on the parent component's position
 };
 
 export default function Draggable({
@@ -30,34 +30,45 @@ export default function Draggable({
     const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
     const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
 
-    const rect = e.target.getBoundingClientRect();
-
     setDragOffset({
-      x: clientX - rect.left,
-      y: clientY - rect.top,
+      x: clientX - position.x,
+      y: clientY - position.y,
     });
   };
 
-  const handleMove = (e: React.MouseEvent | React.TouchEvent) => {
+  useEffect(() => {
     if (!isDragging) return;
 
-    const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
-    const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
+    const handleGlobalMove = (e: MouseEvent | TouchEvent) => {
+      const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
+      const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
 
-    setPosition({
-      x: clientX - dragOffset.x,
-      y: clientY - dragOffset.y,
-    });
-  };
+      setPosition({
+        x: clientX - dragOffset.x,
+        y: clientY - dragOffset.y,
+      });
+    };
 
-  const handleDragEnd = () => {
-    setPosition((prev) => ({
-      x: snapToGrid(prev.x),
-      y: snapToGrid(prev.y),
-    }));
+    const handleGlobalEnd = () => {
+      setPosition((prev) => ({
+        x: snapToGrid(prev.x),
+        y: snapToGrid(prev.y),
+      }));
+      setIsDragging(false);
+    };
 
-    setIsDragging(false);
-  };
+    document.addEventListener('mousemove', handleGlobalMove);
+    document.addEventListener('touchmove', handleGlobalMove);
+    document.addEventListener('mouseup', handleGlobalEnd);
+    document.addEventListener('touchend', handleGlobalEnd);
+
+    return () => {
+      document.removeEventListener('mousemove', handleGlobalMove);
+      document.removeEventListener('touchmove', handleGlobalMove);
+      document.removeEventListener('mouseup', handleGlobalEnd);
+      document.removeEventListener('touchend', handleGlobalEnd);
+    };
+  }, [isDragging, dragOffset]);
 
   return (
     <div
@@ -73,12 +84,6 @@ export default function Draggable({
       }}
       onMouseDown={handleDragStart}
       onTouchStart={handleDragStart}
-      onMouseMove={handleMove}
-      onTouchMove={handleMove}
-      onMouseUp={handleDragEnd}
-      onTouchEnd={handleDragEnd}
-      onMouseLeave={handleDragEnd}
-      onTouchCancel={handleDragEnd}
     >
       {children}
     </div>
