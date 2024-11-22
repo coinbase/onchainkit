@@ -33,7 +33,7 @@ const URL_PARAM_MAPPING: Partial<Record<OnchainKitComponent, string[]>> = {
 
 export function getShareableUrl(activeComponent?: OnchainKitComponent) {
   if (!activeComponent) {
-    return window.location.origin;
+    return `${window.location.origin}${window.location.pathname}`;
   }
 
   const relevantParams = getComponentQueryParams(activeComponent);
@@ -41,13 +41,12 @@ export function getShareableUrl(activeComponent?: OnchainKitComponent) {
 
   for (const param of [...relevantParams, ...commonOptions]) {
     const value = localStorage.getItem(getStorageKey(param));
-    // Only include the param if it's not the default value
     if (value && value !== defaultState[param as keyof typeof defaultState]) {
       params.set(param, value);
     }
   }
 
-  return `${window.location.origin}?${params.toString()}`;
+  return `${window.location.origin}${window.location.pathname}?${params.toString()}`;
 }
 
 export function getComponentQueryParams(component: OnchainKitComponent) {

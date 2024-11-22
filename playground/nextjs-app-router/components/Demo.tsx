@@ -19,7 +19,6 @@ import TransactionDemo from './demo/Transaction';
 import TransactionDefaultDemo from './demo/TransactionDefault';
 import WalletDemo from './demo/Wallet';
 import WalletDefaultDemo from './demo/WalletDefault';
-import { usePathname } from 'next/navigation';
 
 const activeComponentMapping: Record<OnchainKitComponent, React.FC> = {
   [OnchainKitComponent.Fund]: FundDemo,
@@ -39,8 +38,6 @@ const activeComponentMapping: Record<OnchainKitComponent, React.FC> = {
 };
 
 function Demo() {
-  const pathname = usePathname();
-  console.log('pathname:', pathname);
   const { activeComponent } = useContext(AppContext);
   const [isDarkMode, setIsDarkMode] = useState(true);
   const [sideBarVisible, setSideBarVisible] = useState(true);
