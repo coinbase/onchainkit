@@ -1,6 +1,7 @@
 import { createContext, useContext, useState } from 'react';
 import type { ReactNode } from 'react';
 import { useValue } from '../../core-react/internal/hooks/useValue';
+import { useAccount } from 'wagmi';
 import { useOnchainKit } from '../../useOnchainKit';
 import type { WalletContextType } from '../types';
 
@@ -15,7 +16,9 @@ type WalletProviderReact = {
 export function WalletProvider({ children }: WalletProviderReact) {
   const { chain } = useOnchainKit();
   const [isOpen, setIsOpen] = useState(false);
+  const { address } = useAccount();
   const value = useValue({
+    address,
     isOpen,
     chain,
     setIsOpen,
