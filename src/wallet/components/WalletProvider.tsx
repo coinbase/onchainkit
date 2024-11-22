@@ -15,7 +15,9 @@ type WalletProviderReact = {
 export function WalletProvider({ children }: WalletProviderReact) {
   const { chain } = useOnchainKit();
   const [isOpen, setIsOpen] = useState(false);
+  const { address } = useAccount();
   const value = useValue({
+    address,
     isOpen,
     chain,
     setIsOpen,
