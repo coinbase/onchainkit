@@ -13,18 +13,24 @@ vi.mock('../../useOnchainKit', () => ({
   useOnchainKit: vi.fn(),
 }));
 
+// Mock the coinbaseWallet function
+vi.mock('wagmi/connectors', () => ({
+  coinbaseWallet: () => ({ preference: 'all' }),
+}));
+
 describe('WalletModal', () => {
   const mockConnect = vi.fn();
   const mockOnClose = vi.fn();
   const mockConnectors = [
-    { id: 'smartWallet', name: 'Smart Wallet' },
-    { id: 'coinbaseWallet', name: 'Coinbase Wallet' },
-    { id: 'walletConnect', name: 'WalletConnect' },
+    { type: 'smartWallet', name: 'Smart Wallet' },
+    { type: 'coinbaseWallet', name: 'Coinbase Wallet' },
+    { type: 'walletConnect', name: 'WalletConnect' },
   ];
 
   beforeEach(() => {
     vi.clearAllMocks();
     vi.useFakeTimers();
+    vi.spyOn(console, 'error').mockImplementation(() => {});
     (useConnect as Mock).mockReturnValue({ connect: mockConnect });
     (useConnectors as Mock).mockReturnValue(mockConnectors);
     (useOnchainKit as Mock).mockReturnValue({
@@ -73,24 +79,13 @@ describe('WalletModal', () => {
     expect(screen.getByText('Test App')).toBeInTheDocument();
   });
 
-  it('connects smart wallet when clicking Sign up', () => {
+  it('connects with Coinbase Wallet when clicking Sign up', () => {
     render(<WalletModal isOpen={true} onClose={mockOnClose} />);
 
     fireEvent.click(screen.getByText('Sign up'));
 
     expect(mockConnect).toHaveBeenCalledWith({
-      connector: mockConnectors[0],
-    });
-    expect(mockOnClose).toHaveBeenCalled();
-  });
-
-  it('connects Coinbase wallet when clicking Coinbase Wallet', () => {
-    render(<WalletModal isOpen={true} onClose={mockOnClose} />);
-
-    fireEvent.click(screen.getByText('Coinbase Wallet'));
-
-    expect(mockConnect).toHaveBeenCalledWith({
-      connector: mockConnectors[1],
+      connector: { preference: 'all' },
     });
     expect(mockOnClose).toHaveBeenCalled();
   });
@@ -101,7 +96,7 @@ describe('WalletModal', () => {
     fireEvent.click(screen.getByText('Other wallets'));
 
     expect(mockConnect).toHaveBeenCalledWith({
-      connector: mockConnectors[2],
+      connector: mockConnectors.find((c) => c.type === 'walletConnect'),
     });
     expect(mockOnClose).toHaveBeenCalled();
   });
@@ -169,23 +164,21 @@ describe('WalletModal', () => {
     expect(mockConnect).not.toHaveBeenCalled();
   });
 
-  it('applies correct animation classes based on isOpen state', () => {
+  it('applies correct transition classes based on isOpen state', () => {
     const { rerender } = render(
       <WalletModal isOpen={true} onClose={mockOnClose} />,
     );
 
-    // Check open state
     const overlay = screen.getByTestId('ockModalOverlay');
     const modal = overlay.children[0];
 
-    expect(overlay).toHaveClass('animate-fadeIn');
-    expect(modal).toHaveClass('animate-fadeIn');
+    expect(overlay).toHaveClass('opacity-100');
+    expect(modal).toHaveClass('opacity-100');
 
-    // Check closing state
     rerender(<WalletModal isOpen={false} onClose={mockOnClose} />);
 
-    expect(overlay).toHaveClass('animate-fadeOut');
-    expect(modal).toHaveClass('animate-fadeOut');
+    expect(overlay).toHaveClass('opacity-0');
+    expect(modal).toHaveClass('opacity-0');
   });
 
   it('uses "App" as fallback in alt text when appName is not provided', () => {
@@ -233,5 +226,89 @@ describe('WalletModal', () => {
 
     fireEvent.keyDown(overlay, { key: 'Escape' });
     expect(mockOnClose).toHaveBeenCalled();
+  });
+
+  it('handles Coinbase Wallet connection errors', () => {
+    const mockError = new Error('Connection failed');
+    const mockOnError = vi.fn();
+    (useConnect as Mock).mockReturnValue({
+      connect: vi.fn(() => {
+        throw mockError;
+      }),
+    });
+
+    render(
+      <WalletModal isOpen={true} onClose={mockOnClose} onError={mockOnError} />,
+    );
+
+    fireEvent.click(screen.getByText('Sign up'));
+
+    expect(mockOnError).toHaveBeenCalledWith(mockError);
+    expect(console.error).toHaveBeenCalledWith(
+      'Coinbase Wallet connection error:',
+      mockError,
+    );
+  });
+
+  it('handles non-Error objects in Coinbase Wallet connection errors', () => {
+    const mockOnError = vi.fn();
+    (useConnect as Mock).mockReturnValue({
+      connect: vi.fn(() => {
+        throw 'Some string error';
+      }),
+    });
+
+    render(
+      <WalletModal isOpen={true} onClose={mockOnClose} onError={mockOnError} />,
+    );
+
+    fireEvent.click(screen.getByText('Sign up'));
+
+    expect(mockOnError).toHaveBeenCalledWith(
+      new Error('Failed to connect wallet'),
+    );
+  });
+
+  it('updates shouldRender state when isOpen changes', () => {
+    const { rerender } = render(
+      <WalletModal isOpen={false} onClose={mockOnClose} />,
+    );
+
+    // Initially not rendered
+    expect(screen.queryByTestId('ockModalOverlay')).not.toBeInTheDocument();
+
+    // Open modal
+    rerender(<WalletModal isOpen={true} onClose={mockOnClose} />);
+    expect(screen.getByTestId('ockModalOverlay')).toBeInTheDocument();
+
+    // Close modal and trigger animation end
+    rerender(<WalletModal isOpen={false} onClose={mockOnClose} />);
+    const overlay = screen.getByTestId('ockModalOverlay');
+    fireEvent.transitionEnd(overlay);
+    expect(screen.queryByTestId('ockModalOverlay')).not.toBeInTheDocument();
+  });
+
+  it('handles WalletConnect connection errors', () => {
+    const mockError = new Error('WalletConnect connection failed');
+    const mockOnError = vi.fn();
+    (useConnect as Mock).mockReturnValue({
+      connect: vi.fn(() => {
+        throw mockError;
+      }),
+    });
+    (useConnectors as Mock).mockReturnValue([
+      { type: 'walletConnect', name: 'WalletConnect' },
+    ]);
+
+    render(
+      <WalletModal isOpen={true} onClose={mockOnClose} onError={mockOnError} />,
+    );
+
+    fireEvent.click(screen.getByText('Other wallets'));
+
+    expect(console.error).toHaveBeenCalledWith(
+      'WalletConnect connection error:',
+      mockError,
+    );
   });
 });

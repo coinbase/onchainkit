@@ -27,11 +27,11 @@ export function ConnectWallet({
   text = 'Connect Wallet',
   onConnect,
 }: ConnectWalletReact) {
-  // debugger;
   const { config = { wallet: { display: undefined } } } = useOnchainKit();
 
   // Core Hooks
   const { isOpen, setIsOpen } = useWalletContext();
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const { address: accountAddress, status } = useAccount();
   const { connectors, connect, status: connectStatus } = useConnect();
 
@@ -61,19 +61,19 @@ export function ConnectWallet({
   const connector = connectors[0];
   const isLoading = connectStatus === 'pending' || status === 'connecting';
 
-  // Handles
+  // Handlers
   const handleToggle = useCallback(() => {
     setIsOpen(!isOpen);
   }, [isOpen, setIsOpen]);
 
   const handleCloseModal = useCallback(() => {
-    setIsOpen(false);
-  }, [setIsOpen]);
+    setIsModalOpen(false);
+  }, []);
 
   const handleOpenModal = useCallback(() => {
-    setIsOpen(true);
+    setIsModalOpen(true);
     setHasClickedConnect(true);
-  }, [setIsOpen]);
+  }, []);
 
   // Effects
   useEffect(() => {
@@ -82,7 +82,7 @@ export function ConnectWallet({
       setHasClickedConnect(false);
     }
   }, [status, hasClickedConnect, onConnect]);
-  // debugger;
+
   if (status === 'disconnected') {
     if (config?.wallet?.display === 'modal') {
       return (
@@ -96,13 +96,8 @@ export function ConnectWallet({
             }}
             text={text}
           />
-          {isOpen && (
-            <WalletModal 
-              isOpen={true} 
-              onClose={() => {
-                handleCloseModal();
-              }} 
-            />
+          {isModalOpen && (
+            <WalletModal isOpen={true} onClose={handleCloseModal} />
           )}
         </div>
       );

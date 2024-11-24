@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useConnect, useConnectors } from 'wagmi';
+import { coinbaseWallet } from 'wagmi/connectors';
 import { closeSvg } from '../../internal/svg/closeSvg';
 import { coinbaseWalletSvg } from '../../internal/svg/coinbaseWalletSvg';
 import { defaultAvatarSVG } from '../../internal/svg/defaultAvatarSVG';
@@ -16,14 +17,18 @@ import {
 import { useOnchainKit } from '../../useOnchainKit';
 
 type WalletModalProps = {
-  isOpen: boolean; // Controls the visibility state of the modal
-  onClose: () => void; // Callback function to close the modal
-  className?: string; // Optional className override for the element
+  isOpen: boolean;
+  onClose: () => void;
+  className?: string;
+  onError?: (error: Error) => void;
 };
 
-export function WalletModal({ isOpen, onClose, className }: WalletModalProps) {
-  // debugger;
-
+export function WalletModal({
+  isOpen,
+  onClose,
+  className,
+  onError,
+}: WalletModalProps) {
   const modalRef = useRef<HTMLDivElement>(null);
   const [shouldRender, setShouldRender] = useState(isOpen);
   const { connect } = useConnect();
@@ -47,25 +52,39 @@ export function WalletModal({ isOpen, onClose, className }: WalletModalProps) {
   const privacyPolicyUrl = config?.wallet?.privacyUrl ?? undefined;
   const termsOfServiceUrl = config?.wallet?.termsUrl ?? undefined;
 
-  const handleSmartWalletConnector = useCallback(() => {
-    // WalletPreference.SMART_WALLET
-    connect({ connector: connectors[0] });
-    onClose();
-  }, [connect, connectors, onClose]);
+  const handleCoinbaseWalletConnection = useCallback(() => {
+    try {
+      const cbConnector = coinbaseWallet({
+        preference: 'all',
+      });
 
-  const handleCoinbaseWalletConnector = useCallback(() => {
-    // WalletPreference.EOA
-    connect({ connector: connectors[1] });
-    onClose();
-  }, [connect, connectors, onClose]);
+      connect({ connector: cbConnector });
+      onClose();
+    } catch (error) {
+      console.error('Coinbase Wallet connection error:', error);
+      if (onError) {
+        onError(
+          error instanceof Error
+            ? error
+            : new Error('Failed to connect wallet'),
+        );
+      }
+    }
+  }, [connect, onClose, onError]);
 
   const handleWalletConnectConnector = useCallback(() => {
-    const walletConnectConnector = connectors.find(
-      (c) => c.name === 'WalletConnect',
-    );
-    if (walletConnectConnector) {
+    try {
+      const walletConnectConnector = connectors.find(
+        (c) => c.type === 'walletConnect',
+      );
+      if (!walletConnectConnector) {
+        console.error('WalletConnect connector not configured');
+        return;
+      }
       connect({ connector: walletConnectConnector });
       onClose();
+    } catch (error) {
+      console.error('WalletConnect connection error:', error);
     }
   }, [connect, connectors, onClose]);
 
@@ -86,10 +105,6 @@ export function WalletModal({ isOpen, onClose, className }: WalletModalProps) {
     }
   }, [isOpen, handleKeyDown]);
 
-  const handleModalClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
-  };
-
   if (!shouldRender) {
     return null;
   }
@@ -103,7 +118,11 @@ export function WalletModal({ isOpen, onClose, className }: WalletModalProps) {
         isOpen ? 'opacity-100' : 'opacity-0',
         className,
       )}
-      onClick={onClose}
+      onClick={(e) => {
+        e.preventDefault();
+        onClose();
+      }}
+      onKeyDown={handleKeyDown}
       onTransitionEnd={handleAnimationEnd}
       role="presentation"
       data-testid="ockModalOverlay"
@@ -121,7 +140,10 @@ export function WalletModal({ isOpen, onClose, className }: WalletModalProps) {
           'transition-opacity duration-200',
           isOpen ? 'opacity-100' : 'opacity-0',
         )}
-        onClick={handleModalClick}
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+        }}
         onKeyDown={handleKeyDown}
         role="dialog"
         aria-modal="true"
@@ -166,7 +188,7 @@ export function WalletModal({ isOpen, onClose, className }: WalletModalProps) {
         <div className="flex flex-col gap-3">
           <button
             type="button"
-            onClick={handleSmartWalletConnector}
+            onClick={handleCoinbaseWalletConnection}
             className={cn(
               border.radiusInner,
               line.default,
@@ -201,7 +223,7 @@ export function WalletModal({ isOpen, onClose, className }: WalletModalProps) {
 
           <button
             type="button"
-            onClick={handleCoinbaseWalletConnector}
+            onClick={handleCoinbaseWalletConnection}
             className={cn(
               border.default,
               border.radiusInner,

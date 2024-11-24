@@ -185,8 +185,8 @@ describe('OnchainKitProvider', () => {
         paymaster: paymasterUrl,
         wallet: {
           display: 'classic',
-          termsUrl: undefined,
-          privacyUrl: undefined,
+          termsUrl: 'https://base.org/terms-of-service',
+          privacyUrl: 'https://base.org/privacy-policy',
         },
       },
       chain: base,
@@ -220,8 +220,8 @@ describe('OnchainKitProvider', () => {
             paymaster: null,
             wallet: {
               display: 'classic',
-              termsUrl: undefined,
-              privacyUrl: undefined,
+              termsUrl: 'https://base.org/terms-of-service',
+              privacyUrl: 'https://base.org/privacy-policy',
             },
           },
         }),
@@ -269,8 +269,8 @@ describe('OnchainKitProvider', () => {
             paymaster: 'https://example.com',
             wallet: {
               display: 'classic',
-              termsUrl: undefined,
-              privacyUrl: undefined,
+              termsUrl: 'https://base.org/terms-of-service',
+              privacyUrl: 'https://base.org/privacy-policy',
             },
           },
           projectId: null,

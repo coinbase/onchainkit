@@ -224,7 +224,6 @@ describe('ConnectWallet', () => {
 
   describe('wallet display modes', () => {
     it('should render modal when config.wallet.display is "modal"', () => {
-      const setIsOpenMock = vi.fn();
       vi.mocked(useOnchainKit).mockReturnValue({
         config: { wallet: { display: 'modal' } },
       });
@@ -232,20 +231,20 @@ describe('ConnectWallet', () => {
         address: '',
         status: 'disconnected',
       });
-      vi.mocked(useWalletContext).mockReturnValue({
-        isOpen: false,
-        setIsOpen: setIsOpenMock,
+      vi.mocked(useConnect).mockReturnValue({
+        connectors: [{ id: 'mockConnector' }],
+        connect: vi.fn(),
+        status: 'idle',
       });
 
       render(<ConnectWallet text="Connect Wallet" />);
 
-      const container = screen.getByTestId('ockConnectWallet_Container');
-      expect(container).toBeInTheDocument();
-      const connectButton = screen.getByTestId('ockConnectButton');
-      expect(connectButton).toBeInTheDocument();
+      // Click the connect button
+      const button = screen.getByTestId('ockConnectButton');
+      fireEvent.click(button);
 
-      fireEvent.click(connectButton);
-      expect(setIsOpenMock).toHaveBeenCalledWith(true);
+      // Verify that the modal is rendered using the correct test ID
+      expect(screen.getByTestId('ockModalOverlay')).toBeInTheDocument();
     });
 
     it('should render direct connect when config.wallet.display is undefined', () => {
@@ -317,40 +316,50 @@ describe('ConnectWallet', () => {
   });
 
   describe('modal handling', () => {
-    it('should close modal when handleClose is called', () => {
-      const setIsOpenMock = vi.fn();
-      vi.mocked(useWalletContext).mockReturnValue({
-        isOpen: true,
-        setIsOpen: setIsOpenMock,
-      });
+    it('should close modal when clicking overlay', () => {
       vi.mocked(useOnchainKit).mockReturnValue({
         config: { wallet: { display: 'modal' } },
+      });
+      vi.mocked(useAccount).mockReturnValue({
+        address: '',
+        status: 'disconnected',
       });
 
       render(<ConnectWallet text="Connect Wallet" />);
 
-      const modalOverlay = screen.getByTestId('modal-overlay');
+      // Open the modal first
+      const connectButton = screen.getByTestId('ockConnectButton');
+      fireEvent.click(connectButton);
+
+      // Now click the overlay to close
+      const modalOverlay = screen.getByTestId('ockModalOverlay');
       fireEvent.click(modalOverlay);
 
-      expect(setIsOpenMock).toHaveBeenCalledWith(false);
+      // Modal should no longer be in the document
+      expect(screen.queryByTestId('ockModalOverlay')).not.toBeInTheDocument();
     });
 
-    it('should close modal when close button is clicked', () => {
-      const setIsOpenMock = vi.fn();
-      vi.mocked(useWalletContext).mockReturnValue({
-        isOpen: true,
-        setIsOpen: setIsOpenMock,
-      });
+    it('should close modal when clicking close button', () => {
       vi.mocked(useOnchainKit).mockReturnValue({
         config: { wallet: { display: 'modal' } },
+      });
+      vi.mocked(useAccount).mockReturnValue({
+        address: '',
+        status: 'disconnected',
       });
 
       render(<ConnectWallet text="Connect Wallet" />);
 
+      // Open the modal first
+      const connectButton = screen.getByTestId('ockConnectButton');
+      fireEvent.click(connectButton);
+
+      // Click close button using aria-label instead of test-id
       const closeButton = screen.getByLabelText('Close modal');
       fireEvent.click(closeButton);
 
-      expect(setIsOpenMock).toHaveBeenCalledWith(false);
+      // Modal should no longer be in the document
+      expect(screen.queryByTestId('ockModalOverlay')).not.toBeInTheDocument();
     });
   });
 
@@ -455,6 +464,50 @@ describe('ConnectWallet', () => {
         status: 'connected',
       });
 
+      expect(onConnectMock).toHaveBeenCalledTimes(1);
+    });
+
+    it('should handle hasClickedConnect state correctly when modal is used', () => {
+      const onConnectMock = vi.fn();
+      const mockUseAccount = vi.mocked(useAccount);
+
+      // Configure for modal display
+      vi.mocked(useOnchainKit).mockReturnValue({
+        config: { wallet: { display: 'modal' } },
+      });
+
+      // Initial disconnected state
+      mockUseAccount.mockReturnValue({
+        address: undefined,
+        status: 'disconnected',
+      });
+
+      const { rerender } = render(
+        <ConnectWallet text="Connect Wallet" onConnect={onConnectMock} />,
+      );
+
+      // Click connect button to open modal
+      const button = screen.getByTestId('ockConnectButton');
+      fireEvent.click(button);
+
+      // Simulate connection success
+      mockUseAccount.mockReturnValue({
+        address: '0x123',
+        status: 'connected',
+      });
+
+      // Rerender to trigger useEffect
+      rerender(
+        <ConnectWallet text="Connect Wallet" onConnect={onConnectMock} />,
+      );
+
+      // onConnect should have been called once
+      expect(onConnectMock).toHaveBeenCalledTimes(1);
+
+      // Rerender again to ensure onConnect isn't called multiple times
+      rerender(
+        <ConnectWallet text="Connect Wallet" onConnect={onConnectMock} />,
+      );
       expect(onConnectMock).toHaveBeenCalledTimes(1);
     });
   });
