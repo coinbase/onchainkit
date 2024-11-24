@@ -55,7 +55,7 @@ function OnchainProviders({ children }: { children: ReactNode }) {
               theme: 'default',
             },
             wallet: {
-              display: 'modal',
+              display: 'modal', // 'modal' || 'classic"
               termsUrl: 'https://www.coinbase.com/legal/cookie', // URL to the terms of service for the wallet modal
               privacyUrl: 'https://www.coinbase.com/legal/privacy', // URL to the privacy policy for the wallet modal
             },

@@ -22,6 +22,8 @@ type WalletModalProps = {
 };
 
 export function WalletModal({ isOpen, onClose, className }: WalletModalProps) {
+  // debugger;
+
   const modalRef = useRef<HTMLDivElement>(null);
   const [shouldRender, setShouldRender] = useState(isOpen);
   const { connect } = useConnect();
