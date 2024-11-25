@@ -7,4 +7,10 @@
 !.yarn/plugins
 !.yarn/sdks
 !.yarn/versions
+<<<<<<< Updated upstream
 .vercel
+=======
+
+# Vercel
+.vercel
+>>>>>>> Stashed changes
