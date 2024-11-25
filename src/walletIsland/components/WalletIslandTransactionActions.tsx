@@ -28,7 +28,7 @@ function TransactionAction({ icon, label, action }: TransactionActionProps) {
 
 export default function WalletIslandTransactionActions() {
   return (
-    <div className="flex flex-row gap-2 mx-4 mt-2">
+    <div className="flex flex-row gap-2 mx-4 my-2">
       <TransactionAction
         icon={addSvgForeground}
         label="Buy"
