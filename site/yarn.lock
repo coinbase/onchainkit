@@ -8815,12 +8815,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "onchainkit@workspace:."
   dependencies:
-<<<<<<< HEAD
-    "@coinbase/onchainkit": "npm:0.35.5"
-    "@radix-ui/react-popover": "npm:^1.1.2"
-=======
     "@coinbase/onchainkit": "npm:0.35.6"
->>>>>>> main
+    "@radix-ui/react-popover": "npm:^1.1.2"
     "@types/express": "npm:^4"
     "@types/react": "npm:latest"
     "@types/sitemap-generator": "npm:^8"
