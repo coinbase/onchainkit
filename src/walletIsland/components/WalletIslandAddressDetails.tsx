@@ -8,7 +8,7 @@ export default function AddressDetails() {
   return (
     <div
       className={cn(
-        'flex flex-col justify-center items-center gap-2 mt-2',
+        'flex flex-col justify-center items-center gap-1 mt-2',
         color.foreground,
         text.body,
       )}
@@ -21,7 +21,7 @@ export default function AddressDetails() {
       <div className="text-base">
         <Name address={address} chain={chain} />
       </div>
-      <div className={cn('text-xl', text.title3)}>
+      <div className={cn(text.title1)}>
         <AddressBalance address={address} chain={chain} />
       </div>
     </div>
