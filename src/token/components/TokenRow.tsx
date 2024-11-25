@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import { type ButtonHTMLAttributes, memo } from 'react';
 import { cn, color, pressable, text } from '../../styles/theme';
 import { useTheme } from '../../useTheme';
 import type { TokenRowReact } from '../types';
@@ -12,11 +12,13 @@ export const TokenRow = memo(function TokenRow({
   onClick,
   hideImage,
   hideSymbol,
-}: TokenRowReact) {
+  ...rest
+}: TokenRowReact & Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'onClick'>) {
   const componentTheme = useTheme();
 
   return (
     <button
+      {...rest}
       data-testid="ockTokenRow_Container"
       type="button"
       className={cn(

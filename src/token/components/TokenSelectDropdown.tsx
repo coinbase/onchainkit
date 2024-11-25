@@ -81,7 +81,7 @@ export function TokenSelectDropdown({
   }, [handleKeyDown]);
 
   return (
-    <div className="relative max-w-fit bg-green-400">
+    <div className="relative max-w-fit bg-yellow-300-400">
       <TokenSelectButton
         ref={buttonRef}
         onClick={handleToggle}
@@ -114,9 +114,9 @@ export function TokenSelectDropdown({
                     handleToggle();
                   }}
                   data-index={index}
-                  role="option"
-                  aria-selected={option.address === token?.address}
-                  tabIndex={0}
+                  // role="option"
+                  // aria-selected={option.address === token?.address}
+                  // tabIndex={0}
                 />
               ))}
             </div>
