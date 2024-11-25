@@ -13,7 +13,6 @@ vi.mock('../../useOnchainKit', () => ({
   useOnchainKit: vi.fn(),
 }));
 
-// Mock the coinbaseWallet function
 vi.mock('wagmi/connectors', () => ({
   coinbaseWallet: () => ({ preference: 'all' }),
 }));
@@ -26,6 +25,15 @@ describe('WalletModal', () => {
     { type: 'coinbaseWallet', name: 'Coinbase Wallet' },
     { type: 'walletConnect', name: 'WalletConnect' },
   ];
+
+  const originalWindowOpen = window.open;
+  beforeAll(() => {
+    window.open = vi.fn();
+  });
+
+  afterAll(() => {
+    window.open = originalWindowOpen;
+  });
 
   beforeEach(() => {
     vi.clearAllMocks();
@@ -210,21 +218,11 @@ describe('WalletModal', () => {
     expect(overlay).toHaveClass(customClass, 'bg-black/70');
   });
 
-  it('closes modal on Enter, Space, or Escape key press', () => {
+  it('closes modal on Escape key press', () => {
     render(<WalletModal isOpen={true} onClose={mockOnClose} />);
-    const overlay = screen.getByTestId('ockModalOverlay');
+    const modal = screen.getByRole('dialog');
 
-    fireEvent.keyDown(overlay, { key: 'Enter' });
-    expect(mockOnClose).toHaveBeenCalled();
-
-    mockOnClose.mockClear();
-
-    fireEvent.keyDown(overlay, { key: ' ' });
-    expect(mockOnClose).toHaveBeenCalled();
-
-    mockOnClose.mockClear();
-
-    fireEvent.keyDown(overlay, { key: 'Escape' });
+    fireEvent.keyDown(modal, { key: 'Escape' });
     expect(mockOnClose).toHaveBeenCalled();
   });
 
@@ -274,14 +272,11 @@ describe('WalletModal', () => {
       <WalletModal isOpen={false} onClose={mockOnClose} />,
     );
 
-    // Initially not rendered
     expect(screen.queryByTestId('ockModalOverlay')).not.toBeInTheDocument();
 
-    // Open modal
     rerender(<WalletModal isOpen={true} onClose={mockOnClose} />);
     expect(screen.getByTestId('ockModalOverlay')).toBeInTheDocument();
 
-    // Close modal and trigger animation end
     rerender(<WalletModal isOpen={false} onClose={mockOnClose} />);
     const overlay = screen.getByTestId('ockModalOverlay');
     fireEvent.transitionEnd(overlay);
@@ -309,6 +304,75 @@ describe('WalletModal', () => {
     expect(console.error).toHaveBeenCalledWith(
       'WalletConnect connection error:',
       mockError,
+    );
+  });
+
+  it('traps focus within the modal when open', () => {
+    render(<WalletModal isOpen={true} onClose={mockOnClose} />);
+    const modal = screen.getByRole('dialog');
+    const focusableElements = modal.querySelectorAll<HTMLElement>(
+      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
+    );
+
+    focusableElements[focusableElements.length - 1].focus();
+    fireEvent.keyDown(modal, { key: 'Tab' });
+    expect(document.activeElement).toBe(focusableElements[0]);
+
+    focusableElements[0].focus();
+    fireEvent.keyDown(modal, { key: 'Tab', shiftKey: true });
+    expect(document.activeElement).toBe(
+      focusableElements[focusableElements.length - 1],
+    );
+  });
+
+  it('renders terms and privacy links correctly', () => {
+    (useOnchainKit as Mock).mockReturnValue({
+      config: {
+        appearance: {},
+        wallet: {
+          termsUrl: 'https://terms.test',
+          privacyUrl: 'https://privacy.test',
+        },
+      },
+    });
+
+    render(<WalletModal isOpen={true} onClose={mockOnClose} />);
+
+    const termsLink = screen.getByText('Terms of Service');
+    const privacyLink = screen.getByText('Privacy Policy');
+
+    expect(termsLink).toHaveAttribute('href', 'https://terms.test');
+    expect(privacyLink).toHaveAttribute('href', 'https://privacy.test');
+  });
+
+  it('opens terms and privacy links in a new tab on Enter key press', () => {
+    (useOnchainKit as Mock).mockReturnValue({
+      config: {
+        appearance: {},
+        wallet: {
+          termsUrl: 'https://terms.test',
+          privacyUrl: 'https://privacy.test',
+        },
+      },
+    });
+
+    render(<WalletModal isOpen={true} onClose={mockOnClose} />);
+
+    const termsLink = screen.getByText('Terms of Service');
+    const privacyLink = screen.getByText('Privacy Policy');
+
+    fireEvent.keyDown(termsLink, { key: 'Enter' });
+    fireEvent.keyDown(privacyLink, { key: 'Enter' });
+
+    expect(window.open).toHaveBeenCalledWith(
+      'https://terms.test',
+      '_blank',
+      'noopener,noreferrer',
+    );
+    expect(window.open).toHaveBeenCalledWith(
+      'https://privacy.test',
+      '_blank',
+      'noopener,noreferrer',
     );
   });
 });

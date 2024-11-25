@@ -47,25 +47,20 @@ export function WalletModal({
 
   // Handle focus trap and keyboard interactions
   useEffect(() => {
-    if (!isOpen || !modalRef.current) return;
+    if (!isOpen || !modalRef.current) { return; }
 
     const modal = modalRef.current;
     const focusableElements = modal.querySelectorAll<HTMLElement>(
       'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
     );
-    const firstElement = focusableElements[0];
-    const lastElement = focusableElements[focusableElements.length - 1];
-
-    const previousActiveElement = document.activeElement as HTMLElement;
-    firstElement?.focus();
 
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         onClose();
-        return;
-      }
+      } else if (e.key === 'Tab') {
+        const firstElement = focusableElements[0];
+        const lastElement = focusableElements[focusableElements.length - 1];
 
-      if (e.key === 'Tab') {
         if (!e.shiftKey && document.activeElement === lastElement) {
           e.preventDefault();
           firstElement?.focus();
@@ -80,8 +75,6 @@ export function WalletModal({
 
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
-      previousActiveElement?.focus();
-      document.body.style.overflow = '';
     };
   }, [isOpen, onClose]);
 
