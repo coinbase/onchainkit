@@ -82,12 +82,6 @@ export function WalletModal({
     };
   }, [isOpen, onClose]);
 
-  const _handleAnimationEnd = () => {
-    if (!isOpen) {
-      setShouldRender(false);
-    }
-  };
-
   const appLogo = config?.appearance?.logo;
   const appName = config?.appearance?.name;
   const privacyPolicyUrl = config?.wallet?.privacyUrl ?? undefined;

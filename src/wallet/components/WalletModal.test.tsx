@@ -267,22 +267,6 @@ describe('WalletModal', () => {
     );
   });
 
-  it('updates shouldRender state when isOpen changes', () => {
-    const { rerender } = render(
-      <WalletModal isOpen={false} onClose={mockOnClose} />,
-    );
-
-    expect(screen.queryByTestId('ockModalOverlay')).not.toBeInTheDocument();
-
-    rerender(<WalletModal isOpen={true} onClose={mockOnClose} />);
-    expect(screen.getByTestId('ockModalOverlay')).toBeInTheDocument();
-
-    rerender(<WalletModal isOpen={false} onClose={mockOnClose} />);
-    const overlay = screen.getByTestId('ockModalOverlay');
-    fireEvent.transitionEnd(overlay);
-    expect(screen.queryByTestId('ockModalOverlay')).not.toBeInTheDocument();
-  });
-
   it('handles WalletConnect connection errors', () => {
     const mockError = new Error('WalletConnect connection failed');
     const mockOnError = vi.fn();
@@ -374,5 +358,14 @@ describe('WalletModal', () => {
       '_blank',
       'noopener,noreferrer',
     );
+  });
+
+  it('closes modal on Enter key press on overlay', () => {
+    render(<WalletModal isOpen={true} onClose={mockOnClose} />);
+
+    const overlay = screen.getByTestId('ockModalOverlay');
+    fireEvent.keyDown(overlay, { key: 'Enter' });
+
+    expect(mockOnClose).toHaveBeenCalled();
   });
 });
