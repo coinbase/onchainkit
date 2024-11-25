@@ -71,6 +71,8 @@ export function ConnectWallet({
     }
   }, [status, hasClickedConnect, onConnect]);
 
+  console.log('CHEKC');
+
   if (status === 'disconnected') {
     if (withWalletAggregator) {
       return (

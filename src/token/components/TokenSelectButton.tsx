@@ -23,6 +23,9 @@ export const TokenSelectButton = forwardRef(function TokenSelectButton(
       )}
       onClick={onClick}
       ref={ref}
+      aria-haspopup="listbox"
+      aria-expanded={isOpen}
+      aria-label={token ? `Selected token: ${token.symbol}` : 'Select token'}
     >
       {token ? (
         <>
