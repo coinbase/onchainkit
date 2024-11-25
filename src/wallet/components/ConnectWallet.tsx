@@ -61,7 +61,7 @@ export function ConnectWallet({
   const connector = connectors[0];
   const isLoading = connectStatus === 'pending' || status === 'connecting';
 
-  // Handlers
+  // Handles
   const handleToggle = useCallback(() => {
     setIsOpen(!isOpen);
   }, [isOpen, setIsOpen]);
