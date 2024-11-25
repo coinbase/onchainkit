@@ -13,10 +13,18 @@ export default (phase) => {
     typescript: {
       ignoreBuildErrors: true,
     },
+
     // Silence warnings
     // https://github.com/WalletConnect/walletconnect-monorepo/issues/1908
     webpack: (config) => {
       config.externals.push('pino-pretty', 'lokijs', 'encoding');
+
+      config.watchOptions = {
+        poll: 1000,
+        aggregateTimeout: 300,
+        ignored: ['**/node_modules/(?!@coinbase/onchainkit)/**'],
+      };
+
       return config;
     },
   };

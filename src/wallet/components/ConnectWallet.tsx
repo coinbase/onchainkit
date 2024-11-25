@@ -54,6 +54,10 @@ export function ConnectWallet({
     });
   }, [children]);
 
+  console.log(
+    `1 ConnectWallet playground loading in. ${new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}`,
+  );
+
   // Wallet connect status
   const connector = connectors[0];
   const isLoading = connectStatus === 'pending' || status === 'connecting';
