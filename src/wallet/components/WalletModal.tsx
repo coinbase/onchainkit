@@ -38,8 +38,52 @@ export function WalletModal({
   useEffect(() => {
     if (isOpen) {
       setShouldRender(true);
+      document.body.style.overflow = 'hidden';
+      return () => {
+        document.body.style.overflow = '';
+      };
     }
   }, [isOpen]);
+
+  // Handle focus trap and keyboard interactions
+  useEffect(() => {
+    if (!isOpen || !modalRef.current) return;
+
+    const modal = modalRef.current;
+    const focusableElements = modal.querySelectorAll<HTMLElement>(
+      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
+    );
+    const firstElement = focusableElements[0];
+    const lastElement = focusableElements[focusableElements.length - 1];
+
+    const previousActiveElement = document.activeElement as HTMLElement;
+    firstElement?.focus();
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose();
+        return;
+      }
+
+      if (e.key === 'Tab') {
+        if (!e.shiftKey && document.activeElement === lastElement) {
+          e.preventDefault();
+          firstElement?.focus();
+        } else if (e.shiftKey && document.activeElement === firstElement) {
+          e.preventDefault();
+          lastElement?.focus();
+        }
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      previousActiveElement?.focus();
+      document.body.style.overflow = '';
+    };
+  }, [isOpen, onClose]);
 
   const handleAnimationEnd = () => {
     if (!isOpen) {
@@ -88,22 +132,15 @@ export function WalletModal({
     }
   }, [connect, connectors, onClose]);
 
-  const handleKeyDown = useCallback(
-    (e: React.KeyboardEvent | KeyboardEvent) => {
-      if (['Escape', 'Enter', ' '].includes(e.key)) {
-        onClose();
-        e.preventDefault();
-      }
-    },
-    [onClose],
-  );
-
-  useEffect(() => {
-    if (isOpen) {
-      document.addEventListener('keydown', handleKeyDown);
-      return () => document.removeEventListener('keydown', handleKeyDown);
+  const handleLinkKeyDown = (
+    event: React.KeyboardEvent<HTMLAnchorElement>,
+    url: string,
+  ) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      window.open(url, '_blank', 'noopener,noreferrer');
     }
-  }, [isOpen, handleKeyDown]);
+  };
 
   if (!shouldRender) {
     return null;
@@ -111,23 +148,19 @@ export function WalletModal({
 
   return (
     <div
-      ref={modalRef}
       className={cn(
         'fixed inset-0 z-50 flex items-center justify-center',
         'bg-black/70 transition-opacity duration-200',
         isOpen ? 'opacity-100' : 'opacity-0',
         className,
       )}
-      onClick={(e) => {
-        e.preventDefault();
-        onClose();
-      }}
-      onKeyDown={handleKeyDown}
+      onClick={onClose}
       onTransitionEnd={handleAnimationEnd}
       role="presentation"
       data-testid="ockModalOverlay"
     >
       <div
+        ref={modalRef}
         className={cn(
           border.default,
           border.radius,
@@ -140,11 +173,7 @@ export function WalletModal({
           'transition-opacity duration-200',
           isOpen ? 'opacity-100' : 'opacity-0',
         )}
-        onClick={(e) => {
-          e.preventDefault();
-          e.stopPropagation();
-        }}
-        onKeyDown={handleKeyDown}
+        onClick={(e) => e.stopPropagation()}
         role="dialog"
         aria-modal="true"
       >
@@ -270,23 +299,31 @@ export function WalletModal({
             By connecting a wallet, you agree to our
           </span>
           <span className="font-normal text-[10px] leading-[13px]">
-            <a
-              href={termsOfServiceUrl}
-              className={cn(color.primary, 'hover:underline')}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Terms of Service
-            </a>{' '}
-            and{' '}
-            <a
-              href={privacyPolicyUrl}
-              className={cn(color.primary, 'hover:underline')}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Privacy Policy
-            </a>
+            {termsOfServiceUrl && (
+              <a
+                href={termsOfServiceUrl}
+                className={cn(color.primary, 'hover:underline')}
+                target="_blank"
+                rel="noopener noreferrer"
+                tabIndex={0}
+                onKeyDown={(e) => handleLinkKeyDown(e, termsOfServiceUrl)}
+              >
+                Terms of Service
+              </a>
+            )}{' '}
+            {termsOfServiceUrl && privacyPolicyUrl && 'and'}{' '}
+            {privacyPolicyUrl && (
+              <a
+                href={privacyPolicyUrl}
+                className={cn(color.primary, 'hover:underline')}
+                target="_blank"
+                rel="noopener noreferrer"
+                tabIndex={0}
+                onKeyDown={(e) => handleLinkKeyDown(e, privacyPolicyUrl)}
+              >
+                Privacy Policy
+              </a>
+            )}
             .
           </span>
         </div>
