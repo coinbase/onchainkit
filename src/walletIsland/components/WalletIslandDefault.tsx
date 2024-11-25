@@ -4,6 +4,7 @@ import { Wallet } from '../../wallet/components/Wallet';
 import { WalletIsland } from './WalletIsland';
 import WalletIslandWalletActions from './WalletIslandWalletActions';
 import AddressDetails from './WalletIslandAddressDetails';
+import WalletIslandTransactionActions from './WalletIslandTransactionActions';
 
 export function WalletIslandDefault() {
   return (
@@ -16,6 +17,7 @@ export function WalletIslandDefault() {
       <WalletIsland>
         <WalletIslandWalletActions />
         <AddressDetails />
+        <WalletIslandTransactionActions />
       </WalletIsland>
     </Wallet>
   );
