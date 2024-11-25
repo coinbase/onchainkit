@@ -2,14 +2,38 @@ import '@testing-library/jest-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { render, screen, waitFor } from '@testing-library/react';
 import { base } from 'viem/chains';
-import { describe, expect, it, vi } from 'vitest';
+import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { http, WagmiProvider, createConfig } from 'wagmi';
+import { useConfig } from 'wagmi';
 import { mock } from 'wagmi/connectors';
 import { setOnchainKitConfig } from './OnchainKitConfig';
 import { OnchainKitProvider } from './OnchainKitProvider';
 import { COINBASE_VERIFIED_ACCOUNT_SCHEMA_ID } from './identity/constants';
 import type { EASSchemaUid } from './identity/types';
 import { useOnchainKit } from './useOnchainKit';
+import { useProviderDependencies } from './useProviderDependencies';
+
+vi.mock('wagmi', async (importOriginal) => {
+  const actual = await importOriginal();
+  return {
+    ...actual,
+    useConfig: vi.fn(),
+  };
+});
+
+vi.mock('./useProviderDependencies', () => ({
+  useProviderDependencies: vi.fn(() => ({
+    providedWagmiConfig: null,
+    providedQueryClient: null,
+  })),
+}));
+
+vi.mock('./useProviderDependencies', () => ({
+  useProviderDependencies: vi.fn(() => ({
+    providedWagmiConfig: null,
+    providedQueryClient: null,
+  })),
+}));
 
 const queryClient = new QueryClient();
 const mockConfig = createConfig({
@@ -51,8 +75,17 @@ describe('OnchainKitProvider', () => {
   const apiKey = 'test-api-key';
   const paymasterUrl =
     'https://api.developer.coinbase.com/rpc/v1/base/test-api-key';
-  const appLogo = undefined;
-  const appName = undefined;
+  const appLogo = '';
+  const appName = 'Dapp';
+
+  beforeEach(() => {
+    vi.clearAllMocks();
+    (useConfig as Mock).mockReturnValue(mockConfig);
+    (useProviderDependencies as Mock).mockReturnValue({
+      providedWagmiConfig: mockConfig,
+      providedQueryClient: queryClient,
+    });
+  });
 
   it('provides the context value correctly', async () => {
     render(
@@ -65,6 +98,22 @@ describe('OnchainKitProvider', () => {
       </WagmiProvider>,
     );
 
+    await waitFor(() => {
+      expect(screen.getByText(schemaId)).toBeInTheDocument();
+      expect(screen.getByText(apiKey)).toBeInTheDocument();
+    });
+  });
+
+  it('provides the context value correctly without WagmiProvider', async () => {
+    (useProviderDependencies as Mock).mockReturnValue({
+      providedWagmiConfig: null,
+      providedQueryClient: null,
+    });
+    render(
+      <OnchainKitProvider chain={base} schemaId={schemaId} apiKey={apiKey}>
+        <TestComponent />
+      </OnchainKitProvider>,
+    );
     await waitFor(() => {
       expect(screen.getByText(schemaId)).toBeInTheDocument();
       expect(screen.getByText(apiKey)).toBeInTheDocument();

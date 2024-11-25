@@ -20,6 +20,7 @@ export const walletDemoCode = `
   import {
     ConnectWallet,
     Wallet,
+    WalletDefault,
     WalletDropdown,
     WalletDropdownBasename,
     WalletDropdownLink,
@@ -34,9 +35,10 @@ export const walletDemoCode = `
     Identity,
   } from '@coinbase/onchainkit/identity';
 
-  <WalletDefault />
-
-`;
+  function WalletDefaultDemo() {
+    return <WalletDefault />
+  }
+  `;
 
 function WalletDemo() {
   return (
