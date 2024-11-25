@@ -239,11 +239,9 @@ describe('ConnectWallet', () => {
 
       render(<ConnectWallet text="Connect Wallet" />);
 
-      // Click the connect button
       const button = screen.getByTestId('ockConnectButton');
       fireEvent.click(button);
 
-      // Verify that the modal is rendered using the correct test ID
       expect(screen.getByTestId('ockModalOverlay')).toBeInTheDocument();
     });
 
@@ -327,15 +325,12 @@ describe('ConnectWallet', () => {
 
       render(<ConnectWallet text="Connect Wallet" />);
 
-      // Open the modal first
       const connectButton = screen.getByTestId('ockConnectButton');
       fireEvent.click(connectButton);
 
-      // Now click the overlay to close
       const modalOverlay = screen.getByTestId('ockModalOverlay');
       fireEvent.click(modalOverlay);
 
-      // Modal should no longer be in the document
       expect(screen.queryByTestId('ockModalOverlay')).not.toBeInTheDocument();
     });
 
@@ -350,15 +345,12 @@ describe('ConnectWallet', () => {
 
       render(<ConnectWallet text="Connect Wallet" />);
 
-      // Open the modal first
       const connectButton = screen.getByTestId('ockConnectButton');
       fireEvent.click(connectButton);
 
-      // Click close button using aria-label instead of test-id
       const closeButton = screen.getByLabelText('Close modal');
       fireEvent.click(closeButton);
 
-      // Modal should no longer be in the document
       expect(screen.queryByTestId('ockModalOverlay')).not.toBeInTheDocument();
     });
   });
@@ -471,12 +463,10 @@ describe('ConnectWallet', () => {
       const onConnectMock = vi.fn();
       const mockUseAccount = vi.mocked(useAccount);
 
-      // Configure for modal display
       vi.mocked(useOnchainKit).mockReturnValue({
         config: { wallet: { display: 'modal' } },
       });
 
-      // Initial disconnected state
       mockUseAccount.mockReturnValue({
         address: undefined,
         status: 'disconnected',
@@ -486,25 +476,20 @@ describe('ConnectWallet', () => {
         <ConnectWallet text="Connect Wallet" onConnect={onConnectMock} />,
       );
 
-      // Click connect button to open modal
       const button = screen.getByTestId('ockConnectButton');
       fireEvent.click(button);
 
-      // Simulate connection success
       mockUseAccount.mockReturnValue({
         address: '0x123',
         status: 'connected',
       });
 
-      // Rerender to trigger useEffect
       rerender(
         <ConnectWallet text="Connect Wallet" onConnect={onConnectMock} />,
       );
 
-      // onConnect should have been called once
       expect(onConnectMock).toHaveBeenCalledTimes(1);
 
-      // Rerender again to ensure onConnect isn't called multiple times
       rerender(
         <ConnectWallet text="Connect Wallet" onConnect={onConnectMock} />,
       );
