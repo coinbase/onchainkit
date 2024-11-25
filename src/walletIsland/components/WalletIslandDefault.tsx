@@ -5,6 +5,7 @@ import { WalletIsland } from './WalletIsland';
 import WalletIslandWalletActions from './WalletIslandWalletActions';
 import AddressDetails from './WalletIslandAddressDetails';
 import WalletIslandTransactionActions from './WalletIslandTransactionActions';
+import WalletIslandTokenHoldings from './WalletIslandTokenHoldings';
 
 export function WalletIslandDefault() {
   return (
@@ -18,6 +19,7 @@ export function WalletIslandDefault() {
         <WalletIslandWalletActions />
         <AddressDetails />
         <WalletIslandTransactionActions />
+        <WalletIslandTokenHoldings />
       </WalletIsland>
     </Wallet>
   );
