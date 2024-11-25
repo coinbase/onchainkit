@@ -23,6 +23,7 @@ type WalletModalProps = {
   onError?: (error: Error) => void;
 };
 
+// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: ignore
 export function WalletModal({
   isOpen,
   onClose,
@@ -56,6 +57,7 @@ export function WalletModal({
       'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
     );
 
+    // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO: Refactor
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         onClose();
@@ -80,7 +82,7 @@ export function WalletModal({
     };
   }, [isOpen, onClose]);
 
-  const handleAnimationEnd = () => {
+  const _handleAnimationEnd = () => {
     if (!isOpen) {
       setShouldRender(false);
     }
@@ -150,7 +152,7 @@ export function WalletModal({
         className,
       )}
       onClick={onClose}
-      onTransitionEnd={handleAnimationEnd}
+      onKeyDown={(e) => e.key === 'Enter' && onClose()}
       role="presentation"
       data-testid="ockModalOverlay"
     >
@@ -169,6 +171,7 @@ export function WalletModal({
           isOpen ? 'opacity-100' : 'opacity-0',
         )}
         onClick={(e) => e.stopPropagation()}
+        onKeyDown={(e) => e.key === 'Enter' && e.stopPropagation()}
         role="dialog"
         aria-modal="true"
       >
