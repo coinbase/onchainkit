@@ -172,6 +172,11 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
             theme: componentTheme === 'none' ? undefined : componentTheme,
           },
           paymaster: paymasters?.[chainId || 8453]?.url,
+          wallet: {
+            display: 'modal',
+            termsUrl: 'https://www.coinbase.com/legal/cookie', // URL to the terms of service for the wallet modal
+            privacyUrl: 'https://www.coinbase.com/legal/privacy', // URL to the privacy policy for the wallet modal
+          },
         }}
         projectId={ENVIRONMENT_VARIABLES[ENVIRONMENT.PROJECT_ID]}
         schemaId="0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9"

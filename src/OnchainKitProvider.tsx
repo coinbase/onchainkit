@@ -2,6 +2,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { createContext, useMemo } from 'react';
 import { WagmiProvider } from 'wagmi';
 import { ONCHAIN_KIT_CONFIG, setOnchainKitConfig } from './OnchainKitConfig';
+import { DEFAULT_PRIVACY_URL, DEFAULT_TERMS_URL } from './constants';
 import { createWagmiConfig } from './createWagmiConfig';
 import { COINBASE_VERIFIED_ACCOUNT_SCHEMA_ID } from './identity/constants';
 import { checkHashLength } from './internal/utils/checkHashLength';
@@ -47,6 +48,11 @@ export function OnchainKitProvider({
           theme: config?.appearance?.theme ?? 'default',
         },
         paymaster: config?.paymaster || defaultPaymasterUrl,
+        wallet: {
+          display: config?.wallet?.display ?? 'classic',
+          termsUrl: config?.wallet?.termsUrl || DEFAULT_TERMS_URL,
+          privacyUrl: config?.wallet?.privacyUrl || DEFAULT_PRIVACY_URL,
+        },
       },
       projectId: projectId ?? null,
       rpcUrl: rpcUrl ?? null,
