@@ -47,7 +47,9 @@ export function WalletModal({
 
   // Handle focus trap and keyboard interactions
   useEffect(() => {
-    if (!isOpen || !modalRef.current) { return; }
+    if (!isOpen || !modalRef.current) {
+      return;
+    }
 
     const modal = modalRef.current;
     const focusableElements = modal.querySelectorAll<HTMLElement>(
