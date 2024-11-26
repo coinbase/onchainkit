@@ -236,7 +236,9 @@ import {
   </Wallet>
 </WalletComponents>
 
-### Customize Connect button text and style
+::::
+
+## Customize Connect button text and style
 
 Each OnchainKit component offers the flexibility to customize `className` 
 and adjust the style of the React components it represents.
@@ -317,49 +319,23 @@ import { color } from '@coinbase/onchainkit/theme';
   </Wallet>
 </WalletComponents>
 
-### Implementing the Wallet Modal for wallet connection aggregation
+## Using Wallet Modal
 
-OnchainKit provides a built-in wallet modal that offers users multiple connection options. The modal automatically appears when users click the `ConnectWallet` component and provides three distinct connection paths:
+<img alt="Wallet Modal"
+  src="https://onchainkit.xyz/assets/wallet-modal.gif"
+  height="364"/>
+
+Wallet modal offers users multiple wallet connection options. The modal automatically appears when users click the `ConnectWallet` component and provides three distinct connection paths:
 
 1. Quickly create a new smart wallet for new users
 2. Coinbase Wallet connection (supporting both smart wallets and EOA)
-3. Other wallets via WalletConnect
+3. Other wallets via [WalletConnect](https://docs.walletconnect.org/)
 
-#### Setup Steps
+### Setup Steps
 
-1. Configure the wallet connectors in your Wagmi config:
+::::steps
 
-```tsx [wagmiConfig.ts]
-const wagmiConfig = createConfig({
-  chains: [base, baseSepolia],
-  connectors: [
-    // Smart wallet support
-    coinbaseWallet({
-      appName: 'Your App',
-      preference: 'smartWalletOnly',
-    }),
-    // EOA wallet support
-    coinbaseWallet({
-      appName: 'Your App',
-      preference: 'eoaOnly',
-    }),
-    // Other wallets via WalletConnect
-    walletConnect({ // [!code focus]
-      projectId: process.env.WALLET_CONNECT_PROJECT_ID, // [!code focus]  
-      showQrModal: true, // [!code focus]
-      metadata: { // [!code focus]
-        name: 'Your App', // [!code focus]
-        description: 'Your app description', // [!code focus]
-        url: 'https://your-app.com', // [!code focus]
-        icons: [], // [!code focus]
-      },
-    }),
-  ],
-  // ... other config
-});
-```
-
-2. Configure the `OnchainKitProvider` with modal settings:
+## Configure the `OnchainKitProvider` with modal settings:
 
 ```tsx [providers.tsx]
 <OnchainKitProvider
@@ -383,7 +359,7 @@ const wagmiConfig = createConfig({
 </OnchainKitProvider>
 ```
 
-3. Use the `ConnectWallet` component in your UI:
+## Use the `ConnectWallet` component in your UI:
 
 ```tsx [App.tsx]
 <Wallet>
@@ -429,9 +405,11 @@ const wagmiConfig = createConfig({
   </div>
 </AppWithWalletModal>
 
-## Examples
+::::
 
-### With Sign In With Ethereum (SIWE)
+## Example usage
+
+### Usage with Sign In With Ethereum (SIWE)
 
 To use [Sign In With Ethereum (SIWE)](https://docs.login.xyz/general-information/siwe-overview) with OnchainKit, you can use the `onConnect` prop in the `<ConnectWallet />` component. This will trigger the SIWE prompt when the user connects their wallet.
 
@@ -466,6 +444,7 @@ The components are designed to work together hierarchically. For each component,
 
 - `<Wallet />` - Serves as the main container for all wallet-related components.
 - `<ConnectWallet />` - Handles the wallet connection process. Place child components inside to customize the connect button appearance.
+- `<AppWithWalletModal />` - Enables a wallet aggregation experience.
 - `<WalletDropdown />` - Contains additional wallet information and options. Place inside the `<Wallet />` component.
 - `<Identity />` - Displays user identity information. Place inside `<WalletDropdown />` for a complete profile view.
 - `<WalletDropdownBasename />` - Displays the user's Basename within the dropdown.
