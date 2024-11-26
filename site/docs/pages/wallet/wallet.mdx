@@ -404,65 +404,6 @@ const wagmiConfig = createConfig({
 </Wallet>
 ```
 
-#### Modal Features
-
-- **Accessible UI**
-  - Keyboard navigation support
-  - Focus trap within modal
-  - ARIA attributes for screen readers
-  - ESC key to close
-
-- **Connection Options**
-  - Email signup flow for new users
-  - Coinbase Wallet connection (extension/mobile)
-  - WalletConnect for other wallets
-  - Terms & Privacy policy integration
-
-- **Customization**
-  - App branding (name/logo)
-  - Light/dark mode
-  - Custom theme support
-  - Responsive design
-
-#### Connection States
-
-The modal and connect button handle various connection states automatically:
-
-```tsx
-// Loading State
-if (isLoading) {
-  return <Spinner />; // Shows loading spinner during connection
-}
-
-// Connected State
-if (status === 'connected') {
-  return <ConnectedUI />; // Shows connected wallet interface
-}
-
-// Disconnected State
-return <WalletModal />; // Shows connection modal
-```
-
-#### Error Handling
-
-The modal includes built-in error handling for common scenarios:
-
-- Connection failures
-- Unsupported wallets
-- Network issues
-- User rejections
-
-You can provide custom error handling through the `onError` prop:
-
-```tsx
-<ConnectWallet 
-  onError={(error) => {
-    console.error('Wallet connection error:', error);
-    // Custom error handling
-  }}
-/>
-```
-
 <AppWithWalletModal>
   <div className="my-10 flex justify-center">
     <Wallet>
