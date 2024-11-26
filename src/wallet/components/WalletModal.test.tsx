@@ -2,6 +2,7 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useConnect, useConnectors } from 'wagmi';
 import { useOnchainKit } from '../../useOnchainKit';
+import { ONCHAINKIT_WALLETCONNECT_PROJECT_ID } from '../constants';
 import { WalletModal } from './WalletModal';
 
 vi.mock('wagmi', () => ({
@@ -15,6 +16,14 @@ vi.mock('../../useOnchainKit', () => ({
 
 vi.mock('wagmi/connectors', () => ({
   coinbaseWallet: () => ({ preference: 'all' }),
+  walletConnect: () => ({
+    projectId: ONCHAINKIT_WALLETCONNECT_PROJECT_ID,
+    showQrModal: true,
+  }),
+}));
+
+vi.mock('../../constants', () => ({
+  ONCHAINKIT_WALLETCONNECT_PROJECT_ID: 'test-project-id',
 }));
 
 describe('WalletModal', () => {
@@ -104,7 +113,10 @@ describe('WalletModal', () => {
     fireEvent.click(screen.getByText('Other wallets'));
 
     expect(mockConnect).toHaveBeenCalledWith({
-      connector: mockConnectors.find((c) => c.type === 'walletConnect'),
+      connector: expect.objectContaining({
+        projectId: ONCHAINKIT_WALLETCONNECT_PROJECT_ID,
+        showQrModal: true,
+      }),
     });
     expect(mockOnClose).toHaveBeenCalled();
   });
@@ -155,21 +167,6 @@ describe('WalletModal', () => {
 
     const overlay = screen.getByTestId('ockModalOverlay');
     expect(overlay).toHaveClass('custom-class');
-  });
-
-  it('handles case when WalletConnect connector is not found', () => {
-    const mockConnectorsWithoutWC = [
-      { id: 'smartWallet', name: 'Smart Wallet' },
-      { id: 'coinbaseWallet', name: 'Coinbase Wallet' },
-      { id: 'other', name: 'Other' },
-    ];
-    (useConnectors as Mock).mockReturnValue(mockConnectorsWithoutWC);
-
-    render(<WalletModal isOpen={true} onClose={mockOnClose} />);
-
-    fireEvent.click(screen.getByText('Other wallets'));
-
-    expect(mockConnect).not.toHaveBeenCalled();
   });
 
   it('applies correct transition classes based on isOpen state', () => {
@@ -367,5 +364,78 @@ describe('WalletModal', () => {
     fireEvent.keyDown(overlay, { key: 'Enter' });
 
     expect(mockOnClose).toHaveBeenCalled();
+  });
+
+  it('does not render when shouldRender is false', () => {
+    const { container } = render(
+      <WalletModal isOpen={false} onClose={mockOnClose} />,
+    );
+
+    expect(container.firstChild).toBeNull();
+  });
+
+  it('opens terms and privacy links on Enter key press', () => {
+    (useOnchainKit as Mock).mockReturnValue({
+      config: {
+        appearance: {},
+        wallet: {
+          termsUrl: 'https://terms.test',
+          privacyUrl: 'https://privacy.test',
+        },
+      },
+    });
+
+    render(<WalletModal isOpen={true} onClose={mockOnClose} />);
+
+    const termsLink = screen.getByText('Terms of Service');
+    const privacyLink = screen.getByText('Privacy Policy');
+
+    fireEvent.keyDown(termsLink, { key: 'Enter' });
+    fireEvent.keyDown(privacyLink, { key: 'Enter' });
+
+    expect(window.open).toHaveBeenCalledWith(
+      'https://terms.test',
+      '_blank',
+      'noopener,noreferrer',
+    );
+    expect(window.open).toHaveBeenCalledWith(
+      'https://privacy.test',
+      '_blank',
+      'noopener,noreferrer',
+    );
+  });
+
+  it('resets body overflow style on modal close', () => {
+    const { rerender } = render(
+      <WalletModal isOpen={true} onClose={mockOnClose} />,
+    );
+
+    expect(document.body.style.overflow).toBe('hidden');
+
+    rerender(<WalletModal isOpen={false} onClose={mockOnClose} />);
+    expect(document.body.style.overflow).toBe('');
+  });
+
+  it('handles non-Error objects in WalletConnect connection errors', () => {
+    const mockOnError = vi.fn();
+    (useConnect as Mock).mockReturnValue({
+      connect: vi.fn(() => {
+        throw 'Some string error';
+      }),
+    });
+
+    render(
+      <WalletModal isOpen={true} onClose={mockOnClose} onError={mockOnError} />,
+    );
+
+    fireEvent.click(screen.getByText('Other wallets'));
+
+    expect(mockOnError).toHaveBeenCalledWith(
+      new Error('Failed to connect wallet'),
+    );
+    expect(console.error).toHaveBeenCalledWith(
+      'WalletConnect connection error:',
+      'Some string error',
+    );
   });
 });

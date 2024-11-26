@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { useConnect, useConnectors } from 'wagmi';
-import { coinbaseWallet } from 'wagmi/connectors';
+import { useConnect } from 'wagmi';
+import { coinbaseWallet, walletConnect } from 'wagmi/connectors';
 import { closeSvg } from '../../internal/svg/closeSvg';
 import { coinbaseWalletSvg } from '../../internal/svg/coinbaseWalletSvg';
 import { defaultAvatarSVG } from '../../internal/svg/defaultAvatarSVG';
@@ -15,6 +15,7 @@ import {
   text,
 } from '../../styles/theme';
 import { useOnchainKit } from '../../useOnchainKit';
+import { ONCHAINKIT_WALLETCONNECT_PROJECT_ID } from '../constants';
 
 type WalletModalProps = {
   isOpen: boolean;
@@ -33,7 +34,6 @@ export function WalletModal({
   const modalRef = useRef<HTMLDivElement>(null);
   const [shouldRender, setShouldRender] = useState(isOpen);
   const { connect } = useConnect();
-  const connectors = useConnectors();
   const { config } = useOnchainKit();
 
   useEffect(() => {
@@ -109,19 +109,24 @@ export function WalletModal({
 
   const handleWalletConnectConnector = useCallback(() => {
     try {
-      const walletConnectConnector = connectors.find(
-        (c) => c.type === 'walletConnect',
-      );
-      if (!walletConnectConnector) {
-        console.error('WalletConnect connector not configured');
-        return;
-      }
+      const walletConnectConnector = walletConnect({
+        projectId: ONCHAINKIT_WALLETCONNECT_PROJECT_ID,
+        showQrModal: true,
+      });
+
       connect({ connector: walletConnectConnector });
       onClose();
     } catch (error) {
       console.error('WalletConnect connection error:', error);
+      if (onError) {
+        onError(
+          error instanceof Error
+            ? error
+            : new Error('Failed to connect wallet'),
+        );
+      }
     }
-  }, [connect, connectors, onClose]);
+  }, [connect, onClose, onError]);
 
   const handleLinkKeyDown = (
     event: React.KeyboardEvent<HTMLAnchorElement>,
