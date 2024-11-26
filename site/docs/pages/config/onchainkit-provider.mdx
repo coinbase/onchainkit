@@ -38,7 +38,7 @@ const App = () => {
 | [`apiKey`](#apikey)        | Client API Key from Coinbase Developer Platform.                                                                                        | No       |
 | [`rpcUrl`](#rpc-url)       | RPC URL for onchain requests.                                                                                                           | No       |
 | [`projectId`](#project-id) | Your Coinbase Developer Platform Project ID.                                                                                            | No       |
-| [`config`](#config)        | - `config.appearance` — customized your OnchainKit project's appearance <br /> - `config.paymaster` — Paymaster URL for gas sponsorship | No       |
+| [`config`](#config)        | - `config.appearance` — Customize your OnchainKit project's appearance <br /> - `config.paymaster` — Paymaster URL for gas sponsorship <br /> - `config.wallet` — Wallet configuration options | No       |
 | [`schemaId`](#schema-id)   | _[Deprecation Pending]_ The schema ID for attestations from the Ethereum Attestation Service (EAS).                                     | No       |
 | [`address`](#address)      | _[Deprecation Pending]_ This prop is no longer used.                                                                                    | No       |
 
@@ -109,7 +109,7 @@ You can obtain a Project ID from the [Coinbase Developer Platform](https://porta
 `config` is an object that can be used to customize the appearance and behavior
 of the OnchainKit components.
 
-This prop has two keys: `appearance` and `paymaster`.
+This prop has three keys: `appearance`, `paymaster`, and `wallet`.
 
 #### Appearance
 
@@ -128,6 +128,16 @@ Explore appearance options in the [OnchainKit Playground](https://onchainkit.xyz
 
 You can configure your Paymaster and obtain your Paymaster URL from the
 [Coinbase Developer Platform](https://portal.cdp.coinbase.com/products/bundler-and-paymaster).
+
+#### Wallet
+
+`wallet` configures the wallet connection experience and has the following properties:
+
+- `display` — The display mode for the wallet interface. Can be either:
+  - `'modal'` — Shows wallet connection in a modal overlay with wallet aggregation
+  - `'classic'` — Shows wallet connection in the traditional inline style
+- `termsUrl` — URL to your terms of service
+- `privacyUrl` — URL to your privacy policy
 
 ---
 
