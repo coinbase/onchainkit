@@ -158,10 +158,9 @@ export function WalletModal({
       <div
         ref={modalRef}
         className={cn(
-          border.default,
+          border.lineDefault,
           border.radius,
           background.default,
-          line.default,
           'w-[323px] p-6 pb-4',
           'flex flex-col gap-4',
           'relative',
@@ -217,7 +216,7 @@ export function WalletModal({
             onClick={handleCoinbaseWalletConnection}
             className={cn(
               border.radiusInner,
-              line.default,
+              border.lineDefault,
               text.label2,
               pressable.alternate,
               color.foreground,
@@ -231,7 +230,7 @@ export function WalletModal({
 
           <div className="relative">
             <div className="absolute inset-0 flex items-center">
-              <div className={cn(line.default, 'w-full border-[0.5px]')} />
+              <div className={cn(border.lineDefault, 'w-full border-[0.5px]')} />
             </div>
             <div className="relative flex justify-center">
               <span
@@ -253,7 +252,7 @@ export function WalletModal({
             className={cn(
               border.default,
               border.radiusInner,
-              line.default,
+              border.lineDefault,
               text.label2,
               pressable.alternate,
               color.foreground,
@@ -269,9 +268,8 @@ export function WalletModal({
             type="button"
             onClick={handleWalletConnectConnector}
             className={cn(
-              border.default,
               border.radiusInner,
-              line.default,
+              border.lineDefault,
               text.label2,
               pressable.alternate,
               color.foreground,

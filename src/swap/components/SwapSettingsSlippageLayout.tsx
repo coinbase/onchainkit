@@ -26,7 +26,7 @@ export function SwapSettingsSlippageLayout({
       className={cn(
         background.default,
         border.radius,
-        line.default,
+        border.lineDefault,
         'right-0 z-10 w-[21.75rem] px-3 py-3',
         className,
       )}

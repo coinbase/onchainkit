@@ -17,7 +17,7 @@ export const TokenSelectButton = forwardRef(function TokenSelectButton(
         pressable.default,
         pressable.shadow,
         border.radius,
-        line.default,
+        border.lineDefault,
         'flex w-fit items-center gap-2 px-3 py-1',
         className,
       )}

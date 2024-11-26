@@ -27,8 +27,8 @@ export function IdentityCard({
       chain={chain}
       className={cn(
         border.radius,
+        border.lineDefault,
         background.default,
-        line.default,
         'items-left flex min-w-[300px] p-4',
         className,
       )}
