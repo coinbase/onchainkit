@@ -182,19 +182,3 @@
   background-color: var(--ock-bg-primary-disabled);
 }
 
-/* Line */
-.ock-line-primary {
-  border-color: var(--ock-line-primary);
-}
-
-.ock-line-default {
-  border-color: var(--ock-line-default);
-}
-
-.ock-line-heavy {
-  border-color: var(--ock-line-heavy);
-}
-
-.ock-line-inverse {
-  border-color: var(--ock-line-inverse);
-}

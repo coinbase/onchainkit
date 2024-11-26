@@ -89,10 +89,3 @@ export const icon = {
   success: 'ock-icon-color-success',
   warning: 'ock-icon-color-warning',
 } as const;
-
-export const line = {
-  primary: 'ock-line-primary border',
-  default: 'ock-line-default border',
-  heavy: 'ock-line-heavy border',
-  inverse: 'ock-line-inverse border',
-} as const;
