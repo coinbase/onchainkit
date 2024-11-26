@@ -1,6 +1,6 @@
 {
   "name": "@coinbase/onchainkit",
-  "version": "0.35.5",
+  "version": "0.35.7",
   "type": "module",
   "repository": "https://github.com/coinbase/onchainkit.git",
   "license": "MIT",
@@ -12,7 +12,7 @@
     "ci:format": "biome ci --linter-enabled=false --organize-imports-enabled=false",
     "ci:lint": "biome ci --formatter-enabled=false --organize-imports-enabled=false",
     "cp": "cp -R src site/docs/pages",
-    "dev:watch": "concurrently \"tailwind -i ./src/styles/index-with-tailwind.css -o ./src/styles.css --watch\" \"tsup --watch ./src/**/*.tsx\"",
+    "dev:watch": "concurrently \"tailwind -i ./src/styles/index-with-tailwind.css -o ./src/styles.css --watch\" \"tsup\"",
     "format": "biome format --write .",
     "lint": "biome lint --write .",
     "lint:unsafe": "biome lint --write --unsafe .",
@@ -36,15 +36,13 @@
     "react-dom": "^18"
   },
   "dependencies": {
-    "@rainbow-me/rainbowkit": "^2.1.3",
     "@tanstack/react-query": "^5",
     "clsx": "^2.1.1",
     "graphql": "^14 || ^15 || ^16",
     "graphql-request": "^6.1.0",
-    "permissionless": "^0.1.29",
     "tailwind-merge": "^2.3.0",
-    "viem": "^2.17.4",
-    "wagmi": "^2.11.0"
+    "viem": "^2.21.33",
+    "wagmi": "^2.12.24"
   },
   "devDependencies": {
     "@biomejs/biome": "1.8.3",
@@ -73,7 +71,6 @@
     "graphql-request": "^6.1.0",
     "jsdom": "^24.1.0",
     "packemon": "3.3.1",
-    "permissionless": "^0.1.29",
     "react": "^18",
     "react-dom": "^18",
     "rimraf": "^5.0.5",
