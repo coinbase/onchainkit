@@ -1,4 +1,3 @@
-import { ConnectButton as ConnectButtonRainbowKit } from '@rainbow-me/rainbowkit';
 import { Children, isValidElement, useCallback, useMemo } from 'react';
 import type { ReactNode } from 'react';
 import { useEffect, useState } from 'react';
@@ -13,9 +12,11 @@ import {
   text as dsText,
   pressable,
 } from '../../styles/theme';
+import { useOnchainKit } from '../../useOnchainKit';
 import type { ConnectWalletReact } from '../types';
 import { ConnectButton } from './ConnectButton';
 import { ConnectWalletText } from './ConnectWalletText';
+import { WalletModal } from './WalletModal';
 import { useWalletContext } from './WalletProvider';
 
 export function ConnectWallet({
@@ -24,11 +25,13 @@ export function ConnectWallet({
   // In a few version we will officially deprecate this prop,
   // but for now we will keep it for backward compatibility.
   text = 'Connect Wallet',
-  withWalletAggregator = false,
   onConnect,
 }: ConnectWalletReact) {
+  const { config = { wallet: { display: undefined } } } = useOnchainKit();
+
   // Core Hooks
   const { isOpen, setIsOpen } = useWalletContext();
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const { address: accountAddress, status } = useAccount();
   const { connectors, connect, status: connectStatus } = useConnect();
 
@@ -67,6 +70,15 @@ export function ConnectWallet({
     setIsOpen(!isOpen);
   }, [isOpen, setIsOpen]);
 
+  const handleCloseModal = useCallback(() => {
+    setIsModalOpen(false);
+  }, []);
+
+  const handleOpenModal = useCallback(() => {
+    setIsModalOpen(true);
+    setHasClickedConnect(true);
+  }, []);
+
   // Effects
   useEffect(() => {
     if (hasClickedConnect && status === 'connected' && onConnect) {
@@ -76,23 +88,22 @@ export function ConnectWallet({
   }, [status, hasClickedConnect, onConnect]);
 
   if (status === 'disconnected') {
-    if (withWalletAggregator) {
+    if (config?.wallet?.display === 'modal') {
       return (
-        <ConnectButtonRainbowKit.Custom>
-          {({ openConnectModal }) => (
-            <div className="flex" data-testid="ockConnectWallet_Container">
-              <ConnectButton
-                className={className}
-                connectWalletText={connectWalletText}
-                onClick={() => {
-                  openConnectModal();
-                  setHasClickedConnect(true);
-                }}
-                text={text}
-              />
-            </div>
+        <div className="flex" data-testid="ockConnectWallet_Container">
+          <ConnectButton
+            className={className}
+            connectWalletText={connectWalletText}
+            onClick={() => {
+              handleOpenModal();
+              setHasClickedConnect(true);
+            }}
+            text={text}
+          />
+          {isModalOpen && (
+            <WalletModal isOpen={true} onClose={handleCloseModal} />
           )}
-        </ConnectButtonRainbowKit.Custom>
+        </div>
       );
     }
     return (

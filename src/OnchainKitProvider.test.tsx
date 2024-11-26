@@ -8,7 +8,6 @@ import { useConfig } from 'wagmi';
 import { mock } from 'wagmi/connectors';
 import { setOnchainKitConfig } from './OnchainKitConfig';
 import { OnchainKitProvider } from './OnchainKitProvider';
-import { COINBASE_VERIFIED_ACCOUNT_SCHEMA_ID } from './identity/constants';
 import type { EASSchemaUid } from './identity/types';
 import { useOnchainKit } from './useOnchainKit';
 import { useProviderDependencies } from './useProviderDependencies';
@@ -184,6 +183,11 @@ describe('OnchainKitProvider', () => {
           theme: 'default',
         },
         paymaster: paymasterUrl,
+        wallet: {
+          display: 'classic',
+          termsUrl: 'https://base.org/terms-of-service',
+          privacyUrl: 'https://base.org/privacy-policy',
+        },
       },
       chain: base,
       rpcUrl: null,
@@ -214,49 +218,12 @@ describe('OnchainKitProvider', () => {
               theme: 'default',
             },
             paymaster: null,
-          },
-        }),
-      );
-    });
-  });
-
-  it('should use default values for appearance when config is provided', async () => {
-    const customConfig = {
-      appearance: {},
-    };
-
-    render(
-      <WagmiProvider config={mockConfig}>
-        <QueryClientProvider client={queryClient}>
-          <OnchainKitProvider
-            chain={base}
-            apiKey={apiKey}
-            config={customConfig}
-          >
-            <TestComponent />
-          </OnchainKitProvider>
-        </QueryClientProvider>
-      </WagmiProvider>,
-    );
-
-    await waitFor(() => {
-      expect(setOnchainKitConfig).toHaveBeenCalledWith(
-        expect.objectContaining({
-          address: null,
-          apiKey: apiKey,
-          chain: base,
-          config: {
-            appearance: {
-              logo: appLogo,
-              name: appName,
-              mode: 'auto',
-              theme: 'default',
+            wallet: {
+              display: 'classic',
+              termsUrl: 'https://base.org/terms-of-service',
+              privacyUrl: 'https://base.org/privacy-policy',
             },
-            paymaster: paymasterUrl,
           },
-          projectId: null,
-          rpcUrl: null,
-          schemaId: COINBASE_VERIFIED_ACCOUNT_SCHEMA_ID,
         }),
       );
     });
@@ -300,10 +267,53 @@ describe('OnchainKitProvider', () => {
               theme: 'default',
             },
             paymaster: 'https://example.com',
+            wallet: {
+              display: 'classic',
+              termsUrl: 'https://base.org/terms-of-service',
+              privacyUrl: 'https://base.org/privacy-policy',
+            },
           },
           projectId: null,
           rpcUrl: null,
           schemaId: schemaId,
+        }),
+      );
+    });
+  });
+
+  it('should use custom wallet config when provided', async () => {
+    const customConfig = {
+      wallet: {
+        display: 'modal',
+        termsUrl: 'https://example.com/terms',
+        privacyUrl: 'https://example.com/privacy',
+      },
+    };
+
+    render(
+      <WagmiProvider config={mockConfig}>
+        <QueryClientProvider client={queryClient}>
+          <OnchainKitProvider
+            chain={base}
+            schemaId={schemaId}
+            config={customConfig}
+          >
+            <TestComponent />
+          </OnchainKitProvider>
+        </QueryClientProvider>
+      </WagmiProvider>,
+    );
+
+    await waitFor(() => {
+      expect(setOnchainKitConfig).toHaveBeenCalledWith(
+        expect.objectContaining({
+          config: expect.objectContaining({
+            wallet: {
+              display: 'modal',
+              termsUrl: 'https://example.com/terms',
+              privacyUrl: 'https://example.com/privacy',
+            },
+          }),
         }),
       );
     });
