@@ -6,7 +6,7 @@ import type { ReactNode } from 'react';
 import { http, createConfig } from 'wagmi';
 import { WagmiProvider } from 'wagmi';
 import { base, baseSepolia } from 'wagmi/chains';
-import { coinbaseWallet, walletConnect } from 'wagmi/connectors';
+import { coinbaseWallet } from 'wagmi/connectors';
 
 export const config = createConfig({
   chains: [base, baseSepolia],
@@ -23,17 +23,6 @@ export const config = createConfig({
     coinbaseWallet({
       appName: 'OnchainKit',
       preference: 'eoaOnly',
-    }),
-    walletConnect({
-      projectId:
-        ENVIRONMENT_VARIABLES[ENVIRONMENT.WALLETCONNECT_PROJECT_ID] ?? '',
-      showQrModal: true,
-      metadata: {
-        name: 'OnchainKit',
-        description: 'build onchain',
-        url: 'https://onchainkit.xyz/',
-        icons: [],
-      },
     }),
   ],
 });
