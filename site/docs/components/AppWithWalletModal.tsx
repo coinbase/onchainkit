@@ -5,14 +5,11 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import type { ReactNode } from 'react';
 import { http, WagmiProvider, createConfig } from 'wagmi';
 import { base, baseSepolia } from 'wagmi/chains';
-import { coinbaseWallet, walletConnect } from 'wagmi/connectors';
+import { coinbaseWallet } from 'wagmi/connectors';
 import '@coinbase/onchainkit/styles.css';
 import { useTheme } from '../contexts/Theme.tsx';
 
-const VITE_WALLET_CONNECT_PROJECT_ID =
-  import.meta.env.VITE_WALLET_CONNECT_PROJECT_ID || 'AddOurProjectIdHere';
-
-const queryClient = new QueryClient();
+export const queryClient = new QueryClient();
 
 const wagmiConfig = createConfig({
   chains: [base, baseSepolia],
@@ -20,16 +17,6 @@ const wagmiConfig = createConfig({
     coinbaseWallet({
       appName: 'OnchainKit',
       preference: 'all',
-    }),
-    walletConnect({
-      projectId: VITE_WALLET_CONNECT_PROJECT_ID,
-      showQrModal: true,
-      metadata: {
-        name: 'OnchainKit',
-        description: 'build onchain',
-        url: 'https://onchainkit.xyz/',
-        icons: [],
-      },
     }),
   ],
   ssr: true,
@@ -44,13 +31,14 @@ export default function AppWithWalletModal({
 }: {
   children: ReactNode;
 }) {
+  const { theme } = useTheme();
+
   const isServer = typeof window === 'undefined';
   if (isServer) {
     return null;
   }
   const viteCdpApiKey = import.meta.env.VITE_CDP_API_KEY;
   const viteProjectId = import.meta.env.VITE_CDP_PROJECT_ID;
-  const { theme } = useTheme();
 
   return (
     <WagmiProvider config={wagmiConfig}>
