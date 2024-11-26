@@ -22,8 +22,9 @@ import {
   EthBalance,
 } from '@coinbase/onchainkit/identity';
 import { color } from '@coinbase/onchainkit/theme';
-import AppWithRK from '../../components/AppWithRK';
+// import AppWithRK from '../../components/AppWithRK';
 import WalletComponents from '../../components/WalletComponents';
+import AppWithWalletModal from '../../components/AppWithWalletModal';
 
 # `<Wallet />`
 
@@ -268,7 +269,7 @@ import { color } from '@coinbase/onchainkit/theme';
     <ConnectWalletText>Log In</ConnectWalletText> // [!code focus]
     <Avatar className="h-6 w-6" /> // [!code focus]
     <Name className='text-white' /> // [!code focus]
-  </ConnectWallet>
+  </ConnectWallet> // [!code focus]
   <WalletDropdown>
     <Identity 
       className="px-4 pt-3 pb-2 hover:bg-blue-200" // [!code focus]
@@ -317,38 +318,77 @@ import { color } from '@coinbase/onchainkit/theme';
   </Wallet>
 </WalletComponents>
 
-### Use RainbowKit for wallet aggregation
+### Implementing the Wallet Modal
 
-You can expand the wallet connection options by using the `withWalletAggregator` prop in the `<ConnectWallet />` component. This will present users with a list of recommended and other wallets to choose from.
+OnchainKit provides a built-in wallet modal that offers users multiple connection options. The modal automatically appears when users click the `ConnectWallet` component and provides three distinct connection paths:
 
-OnchainKit leverages [RainbowKit](https://www.rainbowkit.com/) to offer this feature. To use it correctly, follow these steps:
-1. Import the necessary components from RainbowKit.
-2. Create a list of recommended and other wallets.
-3. Use `getDefaultConfig` to configure the Wagmi provider.
-4. Wrap your app in the RainbowKit provider.
+1. Email signup for new users
+2. Coinbase Wallet connection (supporting both smart wallets and EOA)
+3. Other wallets via WalletConnect
 
-:::code-group
+#### Setup Steps
 
-```tsx twoslash [myApp.tsx]
-import {
-  ConnectWallet,
-  Wallet,
-  WalletDropdown,
-  WalletDropdownLink,
-  WalletDropdownDisconnect,
-} from '@coinbase/onchainkit/wallet';
-import {
-  Address,
-  Avatar,
-  Name,
-  Identity,
-  EthBalance,
-} from '@coinbase/onchainkit/identity';
-// ---cut-before---
-// omitted for brevity
+1. Configure the wallet connectors in your Wagmi config:
 
+```tsx [wagmiConfig.ts]
+const wagmiConfig = createConfig({
+  chains: [base, baseSepolia],
+  connectors: [
+    // Smart wallet support
+    coinbaseWallet({
+      appName: 'Your App',
+      preference: 'smartWalletOnly',
+    }),
+    // EOA wallet support
+    coinbaseWallet({
+      appName: 'Your App',
+      preference: 'eoaOnly',
+    }),
+    // Other wallets via WalletConnect
+    walletConnect({
+      projectId: process.env.WALLET_CONNECT_PROJECT_ID,
+      showQrModal: true,
+      metadata: {
+        name: 'Your App',
+        description: 'Your app description',
+        url: 'https://your-app.com',
+        icons: [],
+      },
+    }),
+  ],
+  // ... other config
+});
+```
+
+2. Configure the `OnchainKitProvider` with modal settings:
+
+```tsx [providers.tsx]
+<OnchainKitProvider
+  apiKey={process.env.ONCHAINKIT_API_KEY}
+  chain={base}
+  config={{
+    appearance: {
+      name: 'Your App Name',        // Displayed in modal header
+      logo: 'https://your-logo.com',// Displayed in modal header
+      mode: 'auto',                 // 'light' | 'dark' | 'auto'
+      theme: 'default',             // 'default' or custom theme
+    },
+    wallet: {
+      display: 'modal',             // Use modal display mode
+      termsUrl: 'https://...',      // Terms of service URL
+      privacyUrl: 'https://...',    // Privacy policy URL
+    },
+  }}
+>
+  {children}
+</OnchainKitProvider>
+```
+
+3. Use the `ConnectWallet` component in your UI:
+
+```tsx [App.tsx]
 <Wallet>
-  <ConnectWallet withWalletAggregator>  // [!code focus]
+  <ConnectWallet>
     <Avatar className="h-6 w-6" />
     <Name />
   </ConnectWallet>
@@ -359,91 +399,74 @@ import {
       <Address />
       <EthBalance />
     </Identity>
-    <WalletDropdownLink 
-      icon="wallet" 
-      href="https://keys.coinbase.com"
-    >
-      Wallet
-    </WalletDropdownLink>
     <WalletDropdownDisconnect />
   </WalletDropdown>
 </Wallet>
 ```
 
-```tsx twoslash [OnchainProviders.tsx]
-// @noErrors: 2304 2322 - Cannot find VITE_WALLET_CONNECT_PROJECT_ID, Cannot find name Props
-'use client';
-import type { ReactNode } from 'react';
-import { OnchainKitProvider } from '@coinbase/onchainkit';
-import { // [!code focus]
-  RainbowKitProvider, // [!code focus]
-  connectorsForWallets, // [!code focus]
-  getDefaultConfig, // [!code focus]
-} from '@rainbow-me/rainbowkit'; // [!code focus]
-import { // [!code focus]
-  metaMaskWallet, // [!code focus]
-  rainbowWallet, // [!code focus]
-  coinbaseWallet, // [!code focus]
-} from '@rainbow-me/rainbowkit/wallets'; // [!code focus]
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { WagmiProvider } from 'wagmi';
-import { base } from 'wagmi/chains';
+#### Modal Features
 
-import '@coinbase/onchainkit/styles.css';
-import '@rainbow-me/rainbowkit/styles.css'; // [!code focus]
+- **Accessible UI**
+  - Keyboard navigation support
+  - Focus trap within modal
+  - ARIA attributes for screen readers
+  - ESC key to close
 
-const queryClient = new QueryClient();
+- **Connection Options**
+  - Email signup flow for new users
+  - Coinbase Wallet connection (extension/mobile)
+  - WalletConnect for other wallets
+  - Terms & Privacy policy integration
 
-const connectors = connectorsForWallets( // [!code focus]
-  [
-    {
-      groupName: 'Recommended Wallet',
-      wallets: [coinbaseWallet],
-    },
-    {
-      groupName: 'Other Wallets',
-      wallets: [rainbowWallet, metaMaskWallet],
-    },
-  ],
-  {
-    appName: 'onchainkit',
-    projectId: VITE_WALLET_CONNECT_PROJECT_ID,
-  },
-); // [!code focus]
+- **Customization**
+  - App branding (name/logo)
+  - Light/dark mode
+  - Custom theme support
+  - Responsive design
 
-const wagmiConfig = getDefaultConfig({ // [!code focus]
-  appName: 'onchainkit',
-  connectors,
-  projectId: process.env.PUBLIC_WALLET_CONNECT_PROJECT_ID,
-  chains: [base],
-  ssr: true, // If your dApp uses server side rendering (SSR)
-}); // [!code focus]
+#### Connection States
 
-function OnchainProviders({ children }: Props) {
-  return (
-    <WagmiProvider config={wagmiConfig}>
-      <QueryClientProvider client={queryClient}>
-        <OnchainKitProvider
-          apiKey={process.env.PUBLIC_ONCHAINKIT_API_KEY}
-          chain={base}
-        >
-          <RainbowKitProvider modalSize="compact"> // [!code focus]
-            {children}
-          </RainbowKitProvider> // [!code focus]
-        </OnchainKitProvider>
-      </QueryClientProvider>
-    </WagmiProvider>
-  );
-} 
+The modal and connect button handle various connection states automatically:
 
-export default OnchainProviders;
+```tsx
+// Loading State
+if (isLoading) {
+  return <Spinner />; // Shows loading spinner during connection
+}
+
+// Connected State
+if (status === 'connected') {
+  return <ConnectedUI />; // Shows connected wallet interface
+}
+
+// Disconnected State
+return <WalletModal />; // Shows connection modal
 ```
-:::
 
-<AppWithRK>
+#### Error Handling
+
+The modal includes built-in error handling for common scenarios:
+
+- Connection failures
+- Unsupported wallets
+- Network issues
+- User rejections
+
+You can provide custom error handling through the `onError` prop:
+
+```tsx
+<ConnectWallet 
+  onError={(error) => {
+    console.error('Wallet connection error:', error);
+    // Custom error handling
+  }}
+/>
+```
+
+<AppWithWalletModal>
   <div className="my-10 flex justify-center">
     <Wallet>
-      <ConnectWallet withWalletAggregator>
+      <ConnectWallet>
         <Avatar className="h-6 w-6" />
         <Name />
       </ConnectWallet>
@@ -464,9 +487,23 @@ export default OnchainProviders;
       </WalletDropdown>
     </Wallet>
   </div>
-</AppWithRK>
+</AppWithWalletModal>
 
-::::
+### Key Features
+
+- **Multiple Wallet Options**: Users can choose between Coinbase Wallet and other wallets via WalletConnect
+- **Smart Wallet Support**: Configure Coinbase Wallet connector with `preference: 'all'` to support both smart wallets and EOA wallets
+- **Customizable Appearance**: Configure the modal's appearance through the `OnchainKitProvider`'s config
+- **Terms & Privacy**: Add links to your terms of service and privacy policy
+- **Responsive Design**: Works seamlessly on both desktop and mobile devices
+
+The wallet modal will automatically handle the connection flow, presenting users with options to:
+- Sign up for a new wallet
+- Connect with Coinbase Wallet
+- Connect with other wallets via WalletConnect
+
+This provides a streamlined, user-friendly experience for connecting wallets while maintaining full customization control through the `OnchainKitProvider` configuration.
+
 
 ## Examples
 
