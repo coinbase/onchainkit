@@ -19,6 +19,7 @@ import TransactionDemo from './demo/Transaction';
 import TransactionDefaultDemo from './demo/TransactionDefault';
 import WalletDemo from './demo/Wallet';
 import WalletDefaultDemo from './demo/WalletDefault';
+import { TokenSelectDropdown } from '@coinbase/onchainkit/token';
 
 const activeComponentMapping: Record<OnchainKitComponent, React.FC> = {
   [OnchainKitComponent.Fund]: FundDemo,
@@ -139,7 +140,42 @@ function Demo() {
       </div>
       <div className="linear-gradient(to_bottom,#f0f0f0_1px,transparent_1px)] flex flex-1 flex-col bg-[linear-gradient(to_right,#f0f0f0_1px,transparent_1px), bg-[size:6rem_4rem]">
         <div className="flex h-full w-full flex-col items-center justify-center">
-          {ActiveComponent && <ActiveComponent />}
+          {/* {ActiveComponent && <ActiveComponent />} */}
+
+          <div className="w-[500px]">
+            <TokenSelectDropdown
+              options={[
+                {
+                  name: 'Ethereum',
+                  address: '',
+                  symbol: 'ETH',
+                  decimals: 18,
+                  image:
+                    'https://wallet-api-production.s3.amazonaws.com/uploads/tokens/eth_288.png',
+                  chainId: 8453,
+                },
+                {
+                  name: 'USDC',
+                  address: '0x833589fcd6edb6e08f4c7c32d4f71b54bda02913',
+                  symbol: 'USDC',
+                  decimals: 6,
+                  image:
+                    'https://d3r81g40ycuhqg.cloudfront.net/wallet/wais/44/2b/442b80bd16af0c0d9b22e03a16753823fe826e5bfd457292b55fa0ba8c1ba213-ZWUzYjJmZGUtMDYxNy00NDcyLTg0NjQtMWI4OGEwYjBiODE2',
+                  chainId: 8453,
+                },
+                {
+                  name: 'Dai',
+                  address: '0x50c5725949a6f0c72e6c4a641f24049a917db0cb',
+                  symbol: 'DAI',
+                  decimals: 18,
+                  image:
+                    'https://d3r81g40ycuhqg.cloudfront.net/wallet/wais/d0/d7/d0d7784975771dbbac9a22c8c0c12928cc6f658cbcf2bbbf7c909f0fa2426dec-NmU4ZWViMDItOTQyYy00Yjk5LTkzODUtNGJlZmJiMTUxOTgy',
+                  chainId: 8453,
+                },
+              ]}
+              setToken={() => {}}
+            />
+          </div>
         </div>
       </div>
     </>
