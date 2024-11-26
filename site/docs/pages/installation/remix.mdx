@@ -110,12 +110,15 @@ export function Layout({ children }: { children: React.ReactNode }) {
         {children}
         <ScrollRestoration />
         <script // [!code ++]
-          dangerouslySetInnerHTML={{ // [!code ++]
-            __html: `window.ENV = ${JSON.stringify( // [!code ++]
+          dangerouslySetInnerHTML={{
+            // [!code ++]
+            __html: `window.ENV = ${JSON.stringify(
+              // [!code ++]
               data.ENV // [!code ++]
             )}`, // [!code ++]
           }} // [!code ++]
-        /> // [!code ++]
+        />{' '}
+        // [!code ++]
         <Scripts />
       </body>
     </html>
@@ -123,91 +126,37 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 ```
 
-## Configure Providers
+## Add Providers
 
-In order to use OnchainKit, you need to wrap your app with three providers:
+Create a `providers.tsx` file. Add `OnchainKitProvider` with your desired config.
 
-1. `<WagmiProvider />`
-2. `<QueryClientProvider />`
-3. `<OnchainKitProvider />`
-
-To accomplish this, we recommend creating a `wagmi.ts` file
-and an `AppProviders.tsx` file within the `src` directory.
-
-You must add `base` as a supported chain in the Wagmi configuration file `wagmi.ts`.
-You can use `baseSepolia` for testing.
-
-:::code-group
-
-```tsx twoslash [wagmi.ts]
-import { http, cookieStorage, createConfig, createStorage } from 'wagmi';
-import { base } from 'wagmi/chains'; // add baseSepolia for testing // [!code ++]
-import { coinbaseWallet } from 'wagmi/connectors';
-
-export function getConfig() {
-  return createConfig({
-    chains: [base], // add baseSepolia for testing // [!code ++]
-    connectors: [
-      coinbaseWallet({
-        appName: 'OnchainKit',
-        preference: 'smartWalletOnly',
-        version: '4',
-      }),
-    ],
-    storage: createStorage({
-      storage: cookieStorage,
-    }),
-    ssr: true,
-    transports: {
-      [base.id]: http(), // add baseSepolia for testing // [!code ++]
-    },
-  });
-}
-
-declare module 'wagmi' {
-  interface Register {
-    config: ReturnType<typeof getConfig>;
-  }
-}
-```
+Under the hood, OnchainKit will create our recommended Wagmi and QueryClient
+providers. If you wish to customize these providers, check out [Custom
+Supplemental Providers](/config/supplemental-providers).
 
 ```tsx twoslash [providers.tsx]
 // @noErrors: 2307 2580 2339 - cannot find 'process', cannot find './wagmi', cannot find 'import.meta'
+'use client';
+
+import type { ReactNode } from 'react';
 import { OnchainKitProvider } from '@coinbase/onchainkit';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { base } from 'wagmi/chains'; // add baseSepolia for testing// [!code ++]
-import { type ReactNode, useState } from 'react';
-import { type State, WagmiProvider } from 'wagmi';
+import { base } from 'wagmi/chains'; // add baseSepolia for testing // [!code ++]
 
-import { getConfig } from '@/wagmi'; // your import path may vary // [!code ++]
-
-export function Providers(props: {
-  children: ReactNode;
-  initialState?: State;
-}) {
-  const [config] = useState(() => getConfig());
-  const [queryClient] = useState(() => new QueryClient());
-  const apiKey = // [!code ++]
-    typeof window !== 'undefined' // [!code ++]
-      ? window.ENV?.PUBLIC_ONCHAINKIT_API_KEY // [!code ++]
-      : undefined; // [!code ++]
-
+export function Providers(props: { children: ReactNode }) {
+  const apiKey =
+    typeof window !== 'undefined'
+      ? window.ENV?.PUBLIC_ONCHAINKIT_API_KEY
+      : undefined;
   return (
-    <WagmiProvider config={config} initialState={props.initialState}>
-      <QueryClientProvider client={queryClient}>
-        <OnchainKitProvider
-          apiKey={apiKey} // [!code ++]
-          chain={base} // add baseSepolia for testing // [!code ++]
-        >
-          {props.children}
-        </OnchainKitProvider>
-      </QueryClientProvider>
-    </WagmiProvider>
+    <OnchainKitProvider
+      apiKey={apiKey} // [!code ++]
+      chain={base} // add baseSepolia for testing // [!code ++]
+    >
+      {props.children}
+    </OnchainKitProvider>
   );
 }
 ```
-
-:::
 
 ## Wrap your app with `<AppProviders />`
 
