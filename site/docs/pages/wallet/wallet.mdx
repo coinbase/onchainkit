@@ -318,11 +318,11 @@ import { color } from '@coinbase/onchainkit/theme';
   </Wallet>
 </WalletComponents>
 
-### Implementing the Wallet Modal
+### Implementing the Wallet Modal for wallet connection aggregation
 
 OnchainKit provides a built-in wallet modal that offers users multiple connection options. The modal automatically appears when users click the `ConnectWallet` component and provides three distinct connection paths:
 
-1. Email signup for new users
+1. Quickly create a new smart wallet for new users
 2. Coinbase Wallet connection (supporting both smart wallets and EOA)
 3. Other wallets via WalletConnect
 
@@ -345,14 +345,14 @@ const wagmiConfig = createConfig({
       preference: 'eoaOnly',
     }),
     // Other wallets via WalletConnect
-    walletConnect({
-      projectId: process.env.WALLET_CONNECT_PROJECT_ID,
-      showQrModal: true,
-      metadata: {
-        name: 'Your App',
-        description: 'Your app description',
-        url: 'https://your-app.com',
-        icons: [],
+    walletConnect({ // [!code focus]
+      projectId: process.env.WALLET_CONNECT_PROJECT_ID, // [!code focus]  
+      showQrModal: true, // [!code focus]
+      metadata: { // [!code focus]
+        name: 'Your App', // [!code focus]
+        description: 'Your app description', // [!code focus]
+        url: 'https://your-app.com', // [!code focus]
+        icons: [], // [!code focus]
       },
     }),
   ],
@@ -373,10 +373,10 @@ const wagmiConfig = createConfig({
       mode: 'auto',                 // 'light' | 'dark' | 'auto'
       theme: 'default',             // 'default' or custom theme
     },
-    wallet: {
-      display: 'modal',             // Use modal display mode
-      termsUrl: 'https://...',      // Terms of service URL
-      privacyUrl: 'https://...',    // Privacy policy URL
+    wallet: { // [!code focus]
+      display: 'modal', // [!code focus]
+      termsUrl: 'https://...', // [!code focus] 
+      privacyUrl: 'https://...', // [!code focus]
     },
   }}
 >
@@ -429,22 +429,6 @@ const wagmiConfig = createConfig({
     </Wallet>
   </div>
 </AppWithWalletModal>
-
-### Key Features
-
-- **Multiple Wallet Options**: Users can choose between Coinbase Wallet and other wallets via WalletConnect
-- **Smart Wallet Support**: Configure Coinbase Wallet connector with `preference: 'all'` to support both smart wallets and EOA wallets
-- **Customizable Appearance**: Configure the modal's appearance through the `OnchainKitProvider`'s config
-- **Terms & Privacy**: Add links to your terms of service and privacy policy
-- **Responsive Design**: Works seamlessly on both desktop and mobile devices
-
-The wallet modal will automatically handle the connection flow, presenting users with options to:
-- Sign up for a new wallet
-- Connect with Coinbase Wallet
-- Connect with other wallets via WalletConnect
-
-This provides a streamlined, user-friendly experience for connecting wallets while maintaining full customization control through the `OnchainKitProvider` configuration.
-
 
 ## Examples
 
