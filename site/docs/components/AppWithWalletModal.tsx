@@ -37,10 +37,8 @@ export default function AppWithWalletModal({
   if (isServer) {
     return null;
   }
-  const viteCdpApiKey =
-    import.meta.env.VITE_CDP_API_KEY || process.env.PUBLIC_CDP_API_KEY;
-  const viteProjectId =
-    import.meta.env.VITE_CDP_PROJECT_ID || process.env.PUBLIC_CDP_PROJECT_ID;
+  const viteCdpApiKey = import.meta.env.VITE_CDP_API_KEY;
+  const viteProjectId = import.meta.env.VITE_CDP_PROJECT_ID;
 
   return (
     <WagmiProvider config={wagmiConfig}>
