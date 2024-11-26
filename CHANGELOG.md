@@ -1,12 +1,18 @@
 # Changelog
 
+## 0.35.7
+
+### Patch Changes
+
+- [#1610](https://github.com/coinbase/onchainkit/pull/1610) [`02d3aac9829ab966a789d8796c8a6dc95bf0342b`](https://github.com/coinbase/onchainkit/commit/02d3aac9829ab966a789d8796c8a6dc95bf0342b) Thanks [@cpcramer](https://github.com/cpcramer)! - -**feat**: Add `WalletModal` component. By @cpcramer #1610 -**docs**: Update `Transaction` docs for heterogeneous calls. By @abcrane123 #1560
+
 ## 0.35.6
 
 ### Patch Changes
 
 - **feat**: Add linking functionality to playground. By @dschlabach #1624
-- **feat**: Upgraded viem to support heterogeneous calls. By @abcrane123 #1527 
-- **feat**: Added default WagmiProvider and QueryClientProvider if not provided in the React context. By @OxAlec #1589 
+- **feat**: Upgraded viem to support heterogeneous calls. By @abcrane123 #1527
+- **feat**: Added default WagmiProvider and QueryClientProvider if not provided in the React context. By @OxAlec #1589
 - **feat**: Added global Toast component. By @brendan-defi #1588
 
 ## 0.35.5
