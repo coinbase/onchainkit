@@ -1,14 +1,42 @@
+import { useEffect, useState } from 'react';
 import { Token, TokenImage } from '../../token';
 import { cn, text, color } from '../../styles/theme';
+import { useWalletContext } from '../../wallet/components/WalletProvider';
+import getAddressTokenBalances from '../../internal/utils/getAddressTokenBalances';
 
-type TokenBalance = {
+export type TokenBalanceWithFiatValue = {
   token: Token;
+  /** Token:
+   * address: Address | "";
+   * chainId: number;
+   * decimals: number;
+   * image: string | null;
+   * name: string;
+   * symbol: string;
+   */
   balance: number;
   valueInFiat: number;
 };
 
-export default function WalletIslandTokenHoldings() {
-  const tokenBalances: TokenBalance[] = [
+export default function WalletIslandTokenHoldings() { // TODO: handle loading state
+  const [tokens, setTokens] = useState<any[]>([]);
+  const { address } = useWalletContext();
+
+  useEffect(() => {
+    // TODO: move this effect to the provider
+    async function fetchTokens() {
+      if (address) {
+        const rawTokens = await getAddressTokenBalances(address);
+        setTokens(rawTokens);
+      }
+    }
+
+    void fetchTokens();
+  }, [address]);
+
+  console.log({ tokens });
+
+  const tokenBalances: TokenBalanceWithFiatValue[] = [
     {
       token: {
         name: 'Ether',
@@ -38,14 +66,23 @@ export default function WalletIslandTokenHoldings() {
   ];
 
   return (
-    <div className="flex flex-col gap-4 mx-4 my-2 w-full">
+    <div className="flex flex-col items-center gap-4 mx-4 my-2 w-full">
       {tokenBalances.map((tokenBalance) => (
         <TokenDetails
+          key={tokenBalance.token.address}
           token={tokenBalance.token}
           balance={tokenBalance.balance}
           valueInFiat={tokenBalance.valueInFiat}
         />
       ))}
+      <a
+        href="https://wallet.coinbase.com/assets"
+        target="_blank"
+        rel="noreferrer noopener"
+        className={cn(text.label2, color.foregroundMuted)}
+      >
+        View All Tokens
+      </a>
     </div>
   );
 }
