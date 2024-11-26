@@ -10,7 +10,6 @@ import {
   border,
   cn,
   color,
-  line,
   pressable,
   text,
 } from '../../styles/theme';
@@ -230,7 +229,9 @@ export function WalletModal({
 
           <div className="relative">
             <div className="absolute inset-0 flex items-center">
-              <div className={cn(border.lineDefault, 'w-full border-[0.5px]')} />
+              <div
+                className={cn(border.lineDefault, 'w-full border-[0.5px]')}
+              />
             </div>
             <div className="relative flex justify-center">
               <span
