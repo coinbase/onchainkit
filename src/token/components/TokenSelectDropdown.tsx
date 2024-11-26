@@ -12,8 +12,6 @@ export function TokenSelectDropdown({
 }: TokenSelectDropdownReact) {
   const componentTheme = useTheme();
 
-  console.log('TokenSelectDropdown loading in');
-
   const [isOpen, setIsOpen] = useState(false);
 
   const handleToggle = useCallback(() => {
@@ -49,7 +47,7 @@ export function TokenSelectDropdown({
   }, [handleBlur]);
 
   return (
-    <div className="relative max-w-fit shrink-0">
+    <div className="relative shrink-0">
       <TokenSelectButton
         ref={buttonRef}
         onClick={handleToggle}
