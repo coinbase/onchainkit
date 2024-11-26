@@ -15,6 +15,7 @@ import {
   text,
 } from '../../styles/theme';
 import { useOnchainKit } from '../../useOnchainKit';
+import { ONCHAINKIT_WALLETCONNECT_PROJECT_ID } from '../constants';
 
 type WalletModalProps = {
   isOpen: boolean;
@@ -22,9 +23,6 @@ type WalletModalProps = {
   className?: string;
   onError?: (error: Error) => void;
 };
-
-const ONCHAINKIT_WALLETCONNECT_PROJECT_ID =
-  process.env.ONCHAINKIT_WALLETCONNECT_PROJECT_ID || '';
 
 // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: ignore
 export function WalletModal({
