@@ -68,6 +68,10 @@ export const fill = {
 export const border = {
   default: 'ock-border-default',
   defaultActive: 'ock-border-default-active',
+  linePrimary: 'ock-border-line-primary',
+  lineDefault: 'ock-border-line-default',
+  lineHeavy: 'ock-border-line-heavy',
+  lineInverse: 'ock-border-line-inverse',
   radius: 'ock-border-radius',
   radiusInner: 'ock-border-radius-inner',
 } as const;

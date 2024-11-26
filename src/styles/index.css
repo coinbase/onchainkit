@@ -12,6 +12,22 @@
   border-color: var(--ock-bg-default-active);
 }
 
+.ock-border-line-primary {
+  border-color: var(--ock-line-primary);
+}
+
+.ock-border-line-default {
+  border-color: var(--ock-line-default);
+}
+
+.ock-border-line-heavy {
+  border-color: var(--ock-line-heavy);
+}
+
+.ock-border-line-inverse {
+  border-color: var(--ock-line-inverse);
+}
+
 .ock-border-radius {
   border-radius: var(--ock-border-radius);
 }
