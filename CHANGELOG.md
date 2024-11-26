@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- [#1673](https://github.com/coinbase/onchainkit/pull/1673) [`bb916cd5bdd31236958150b136c96441c03c82e2`](https://github.com/coinbase/onchainkit/commit/bb916cd5bdd31236958150b136c96441c03c82e2) Thanks [@cpcramer](https://github.com/cpcramer)! - -**docs**: Add `WalletModal` docs. @fakepixels @cpcramer #1671 #1669
+- **docs**: Add `WalletModal` docs. @fakepixels @cpcramer #1671 #1669
 
 ## 0.35.7
 
