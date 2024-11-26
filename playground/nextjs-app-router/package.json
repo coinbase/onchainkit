@@ -11,10 +11,10 @@
     "cp": "cp -R ../../esm ./onchainkit && cp -R ../../src ./onchainkit && cp -R ../../package.json ./onchainkit",
     "cp:dev": "cp -R ../../package.json ./node_modules/@coinbase/onchainkit",
     "dev": "next dev",
-    "dev:watch": "WATCHPACK_POLLING=true concurrently \"bun dev\" \"cd ../.. && bun run dev:watch\" \"bun run watch:tailwind\" -c red,gray,blue",
+    "dev:watch": "concurrently \"bun dev\" \"cd ../../ && bun run dev:watch\" \"bun run watch:tailwind\" -c red,gray,blue",
     "lint": "next lint",
     "start": "next start",
-    "watch:tailwind": "mkdir -p ./node_modules/@coinbase/onchainkit/src && nodemon --watch ../../src/styles.css --exec 'cp ../../src/styles.css ./node_modules/@coinbase/onchainkit/src/styles.css'"
+    "watch:tailwind": "mkdir -p ./onchainkit/src && nodemon --watch ../../src/styles.css --exec 'cp ../../src/styles.css ./onchainkit/src/styles.css'"
   },
   "dependencies": {
     "@coinbase/onchainkit": "^0.35.0",

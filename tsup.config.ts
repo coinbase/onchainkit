@@ -15,10 +15,11 @@ export default defineConfig({
     options.jsxImportSource = 'react';
   },
   sourcemap: true,
-  outDir: 'playground/nextjs-app-router/node_modules/@coinbase/onchainkit/esm',
+  outDir: 'playground/nextjs-app-router/onchainkit/esm',
   dts: false,
-  clean: false,
-  silent: true, // Flip this to false to see tsup output in the terminal, including performance logs
+  // clean: false,
+  clean: true,
+  silent: false, // Flip this to false to see tsup output in the terminal, including performance logs
   inject: ['react-shim.js'],
 
   // Generate declaration files separately to improve performance in development
@@ -47,7 +48,16 @@ export default defineConfig({
         shell: true,
       },
     );
-
     console.log('Declaration files generated.');
+
+    spawnSync('cp', ['-R', 'src', 'playground/nextjs-app-router/onchainkit/'], {
+      shell: true,
+    });
+
+    spawnSync(
+      'cp',
+      ['package.json', 'playground/nextjs-app-router/onchainkit/'],
+      { shell: true },
+    );
   },
 });
