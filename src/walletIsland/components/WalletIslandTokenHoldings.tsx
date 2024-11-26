@@ -67,7 +67,7 @@ export default function WalletIslandTokenHoldings() { // TODO: handle loading st
 
   return (
     <div className="flex flex-col items-center gap-4 mx-4 my-2 w-full">
-      {tokenBalances.map((tokenBalance) => (
+      {tokenBalances.slice(0, 4).map((tokenBalance) => (
         <TokenDetails
           key={tokenBalance.token.address}
           token={tokenBalance.token}
