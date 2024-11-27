@@ -1,10 +1,17 @@
 # Changelog
 
+## 0.35.8
+
+### Patch Changes
+
+- **docs**: Add `WalletModal` docs. @fakepixels @cpcramer #1671 #1669
+
 ## 0.35.7
 
 ### Patch Changes
 
-- [#1610](https://github.com/coinbase/onchainkit/pull/1610) [`02d3aac9829ab966a789d8796c8a6dc95bf0342b`](https://github.com/coinbase/onchainkit/commit/02d3aac9829ab966a789d8796c8a6dc95bf0342b) Thanks [@cpcramer](https://github.com/cpcramer)! - -**feat**: Add `WalletModal` component. By @cpcramer #1610 -**docs**: Update `Transaction` docs for heterogeneous calls. By @abcrane123 #1560
+- **feat**: Add `WalletModal` component. By @cpcramer #1610
+- **docs**: Update `Transaction` docs for heterogeneous calls. By @abcrane123 #1560
 
 ## 0.35.6
 

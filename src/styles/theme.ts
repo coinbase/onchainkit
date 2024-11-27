@@ -68,6 +68,10 @@ export const fill = {
 export const border = {
   default: 'ock-border-default',
   defaultActive: 'ock-border-default-active',
+  linePrimary: 'ock-border-line-primary border',
+  lineDefault: 'ock-border-line-default border',
+  lineHeavy: 'ock-border-line-heavy border',
+  lineInverse: 'ock-border-line-inverse border',
   radius: 'ock-border-radius',
   radiusInner: 'ock-border-radius-inner',
 } as const;
@@ -84,11 +88,4 @@ export const icon = {
   error: 'ock-icon-color-error',
   success: 'ock-icon-color-success',
   warning: 'ock-icon-color-warning',
-} as const;
-
-export const line = {
-  primary: 'ock-line-primary border',
-  default: 'ock-line-default border',
-  heavy: 'ock-line-heavy border',
-  inverse: 'ock-line-inverse border',
 } as const;

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { useConnect, useConnectors } from 'wagmi';
-import { coinbaseWallet } from 'wagmi/connectors';
+import { useConnect } from 'wagmi';
+import { coinbaseWallet, walletConnect } from 'wagmi/connectors';
 import { closeSvg } from '../../internal/svg/closeSvg';
 import { coinbaseWalletSvg } from '../../internal/svg/coinbaseWalletSvg';
 import { defaultAvatarSVG } from '../../internal/svg/defaultAvatarSVG';
@@ -10,11 +10,11 @@ import {
   border,
   cn,
   color,
-  line,
   pressable,
   text,
 } from '../../styles/theme';
 import { useOnchainKit } from '../../useOnchainKit';
+import { ONCHAINKIT_WALLETCONNECT_PROJECT_ID } from '../constants';
 
 type WalletModalProps = {
   isOpen: boolean;
@@ -33,7 +33,6 @@ export function WalletModal({
   const modalRef = useRef<HTMLDivElement>(null);
   const [shouldRender, setShouldRender] = useState(isOpen);
   const { connect } = useConnect();
-  const connectors = useConnectors();
   const { config } = useOnchainKit();
 
   useEffect(() => {
@@ -109,19 +108,24 @@ export function WalletModal({
 
   const handleWalletConnectConnector = useCallback(() => {
     try {
-      const walletConnectConnector = connectors.find(
-        (c) => c.type === 'walletConnect',
-      );
-      if (!walletConnectConnector) {
-        console.error('WalletConnect connector not configured');
-        return;
-      }
+      const walletConnectConnector = walletConnect({
+        projectId: ONCHAINKIT_WALLETCONNECT_PROJECT_ID,
+        showQrModal: true,
+      });
+
       connect({ connector: walletConnectConnector });
       onClose();
     } catch (error) {
       console.error('WalletConnect connection error:', error);
+      if (onError) {
+        onError(
+          error instanceof Error
+            ? error
+            : new Error('Failed to connect wallet'),
+        );
+      }
     }
-  }, [connect, connectors, onClose]);
+  }, [connect, onClose, onError]);
 
   const handleLinkKeyDown = (
     event: React.KeyboardEvent<HTMLAnchorElement>,
@@ -153,10 +157,9 @@ export function WalletModal({
       <div
         ref={modalRef}
         className={cn(
-          border.default,
+          border.lineDefault,
           border.radius,
           background.default,
-          line.default,
           'w-[323px] p-6 pb-4',
           'flex flex-col gap-4',
           'relative',
@@ -212,7 +215,7 @@ export function WalletModal({
             onClick={handleCoinbaseWalletConnection}
             className={cn(
               border.radiusInner,
-              line.default,
+              border.lineDefault,
               text.label2,
               pressable.alternate,
               color.foreground,
@@ -226,7 +229,9 @@ export function WalletModal({
 
           <div className="relative">
             <div className="absolute inset-0 flex items-center">
-              <div className={cn(line.default, 'w-full border-[0.5px]')} />
+              <div
+                className={cn(border.lineDefault, 'w-full border-[0.5px]')}
+              />
             </div>
             <div className="relative flex justify-center">
               <span
@@ -248,7 +253,7 @@ export function WalletModal({
             className={cn(
               border.default,
               border.radiusInner,
-              line.default,
+              border.lineDefault,
               text.label2,
               pressable.alternate,
               color.foreground,
@@ -264,9 +269,8 @@ export function WalletModal({
             type="button"
             onClick={handleWalletConnectConnector}
             className={cn(
-              border.default,
               border.radiusInner,
-              line.default,
+              border.lineDefault,
               text.label2,
               pressable.alternate,
               color.foreground,
