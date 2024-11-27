@@ -1,7 +1,7 @@
-import { cn, pressable, color, text } from '../../../styles/theme';
 import { addSvgForeground } from '../../../internal/svg/addForegroundSvg';
-import { toggleSvg } from '../../../internal/svg/toggleSvg';
 import { arrowUpRightSvg } from '../../../internal/svg/arrowUpRightSvg';
+import { toggleSvg } from '../../../internal/svg/toggleSvg';
+import { cn, color, pressable, text } from '../../../styles/theme';
 
 type TransactionActionProps = {
   icon: React.ReactNode;
@@ -9,16 +9,21 @@ type TransactionActionProps = {
   action: () => void;
 };
 
-function TransactionAction({ icon, label, action }: TransactionActionProps) {
+function WalletIslandTransactionAction({
+  icon,
+  label,
+  action,
+}: TransactionActionProps) {
   return (
     <div
       className={cn(
         'flex flex-col items-center justify-center gap-2',
-        'w-[104px] h-16',
+        'h-16 w-28',
         'rounded-lg',
         pressable.alternate,
       )}
       onClick={action}
+      onKeyDown={action}
     >
       <span>{icon}</span>
       <span className={cn(text.label1, color.foreground)}>{label}</span>
@@ -28,22 +33,26 @@ function TransactionAction({ icon, label, action }: TransactionActionProps) {
 
 export default function WalletIslandTransactionActions() {
   return (
-    <div className="flex flex-row gap-2 mx-4 my-2">
-      <TransactionAction
+    <div className="mx-4 my-2 flex flex-row gap-2">
+      <WalletIslandTransactionAction
         icon={addSvgForeground}
         label="Buy"
         action={() => {
           window.open('https://pay.coinbase.com', '_blank');
         }}
       />
-      <TransactionAction
+      <WalletIslandTransactionAction
         icon={arrowUpRightSvg}
         label="Send"
         action={() => {
           window.open('https://wallet.coinbase.com', '_blank');
         }}
       />
-      <TransactionAction icon={toggleSvg} label="Swap" action={() => {}} />
+      <WalletIslandTransactionAction
+        icon={toggleSvg}
+        label="Swap"
+        action={() => {}}
+      />
     </div>
   );
 }

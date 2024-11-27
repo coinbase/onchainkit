@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { cn } from '../../styles/theme';
 
 type DraggableProps = {
@@ -19,12 +19,17 @@ export default function Draggable({
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
 
-  const snapToGrid = (positionValue: number) => {
-    return Math.round(positionValue / gridSize) * gridSize;
-  };
+  const snapToGrid = useCallback(
+    (positionValue: number) => {
+      return Math.round(positionValue / gridSize) * gridSize;
+    },
+    [gridSize],
+  );
 
   const handleDragStart = (e: React.MouseEvent | React.TouchEvent) => {
-    if (!(e.target instanceof HTMLElement)) return;
+    if (!(e.target instanceof HTMLElement)) {
+      return;
+    }
     setIsDragging(true);
 
     const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
@@ -37,7 +42,9 @@ export default function Draggable({
   };
 
   useEffect(() => {
-    if (!isDragging) return;
+    if (!isDragging) {
+      return;
+    }
 
     const handleGlobalMove = (e: MouseEvent | TouchEvent) => {
       const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
@@ -68,7 +75,7 @@ export default function Draggable({
       document.removeEventListener('mouseup', handleGlobalEnd);
       document.removeEventListener('touchend', handleGlobalEnd);
     };
-  }, [isDragging, dragOffset]);
+  }, [isDragging, dragOffset, snapToGrid]);
 
   return (
     <div

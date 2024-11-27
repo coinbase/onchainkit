@@ -26,7 +26,7 @@ export default function WalletIslandWalletActions() {
   }, [setIsOpen]);
 
   return (
-    <div className="flex items-center justify-between w-full">
+    <div className="flex w-full items-center justify-between">
       <div className="flex items-center">
         <a
           href="https://wallet.coinbase.com/assets/transactions"
