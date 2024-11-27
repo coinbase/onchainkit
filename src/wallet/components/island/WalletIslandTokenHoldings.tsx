@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import { Token, TokenImage } from '../../../token';
-import { cn, text, color } from '../../../styles/theme';
-import { useWalletContext } from '../WalletProvider';
 import getAddressTokenBalances from '../../../internal/utils/getAddressTokenBalances';
+import { cn, color, text } from '../../../styles/theme';
+import { type Token, TokenImage } from '../../../token';
+import { useWalletContext } from '../WalletProvider';
 
 export type TokenBalanceWithFiatValue = {
   token: Token;
@@ -18,8 +18,9 @@ export type TokenBalanceWithFiatValue = {
   valueInFiat: number;
 };
 
-export default function WalletIslandTokenHoldings() { // TODO: handle loading state
-  const [tokens, setTokens] = useState<any[]>([]);
+// TODO: handle loading state
+export default function WalletIslandTokenHoldings() {
+  const [tokens, setTokens] = useState<unknown[]>([]);
   const { address } = useWalletContext();
 
   useEffect(() => {
@@ -31,7 +32,7 @@ export default function WalletIslandTokenHoldings() { // TODO: handle loading st
       }
     }
 
-    void fetchTokens();
+    fetchTokens();
   }, [address]);
 
   console.log({ tokens });
@@ -66,7 +67,7 @@ export default function WalletIslandTokenHoldings() { // TODO: handle loading st
   ];
 
   return (
-    <div className="flex flex-col items-center gap-4 mx-4 my-2 w-full">
+    <div className="mx-4 my-2 flex w-full flex-col items-center gap-4">
       {tokenBalances.slice(0, 4).map((tokenBalance) => (
         <TokenDetails
           key={tokenBalance.token.address}
@@ -97,7 +98,7 @@ function TokenDetails({ token, balance, valueInFiat }: TokenDetailsProps) {
   const currencySymbol = '$'; // TODO: get from user settings
 
   return (
-    <div className="flex flex-row items-center justify-between w-full">
+    <div className="flex w-full flex-row items-center justify-between">
       <div className="flex flex-row items-center gap-2">
         <TokenImage token={token} size={36} />
         <div className="flex flex-col">

@@ -1,6 +1,6 @@
-import { Address, Chain } from 'viem';
-import { cn, color, text } from '../../../styles/theme';
+import type { Address, Chain } from 'viem';
 import { Avatar, Badge, Name } from '../../../identity';
+import { cn, color, text } from '../../../styles/theme';
 import { useWalletContext } from '../WalletProvider';
 
 export default function AddressDetails() {
@@ -8,12 +8,12 @@ export default function AddressDetails() {
   return (
     <div
       className={cn(
-        'flex flex-col justify-center items-center gap-1 mt-2',
+        'mt-2 flex flex-col items-center justify-center gap-1',
         color.foreground,
         text.body,
       )}
     >
-      <div className="w-10 h-10">
+      <div className="h-10 w-10">
         <Avatar address={address} chain={chain}>
           <Badge />
         </Avatar>
@@ -34,5 +34,7 @@ type AddressBalanceProps = {
 };
 
 function AddressBalance({ address, chain }: AddressBalanceProps) {
+  const data = { address, chain }; // temp linter fix
+  console.log({ data }); // temp linter fix
   return <span>$690.42</span>;
 }

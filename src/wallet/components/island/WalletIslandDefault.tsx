@@ -1,11 +1,10 @@
 import { Avatar, Name } from '../../../identity';
-import { ConnectWallet, ConnectWalletText } from '../../../wallet';
-import { Wallet } from '../../../wallet';
+import { ConnectWallet, ConnectWalletText, Wallet } from '../../../wallet';
 import { WalletIsland } from './WalletIsland';
-import WalletIslandWalletActions from './WalletIslandWalletActions';
 import AddressDetails from './WalletIslandAddressDetails';
-import WalletIslandTransactionActions from './WalletIslandTransactionActions';
 import WalletIslandTokenHoldings from './WalletIslandTokenHoldings';
+import WalletIslandTransactionActions from './WalletIslandTransactionActions';
+import WalletIslandWalletActions from './WalletIslandWalletActions';
 
 export function WalletIslandDefault() {
   return (

@@ -8,6 +8,7 @@ export const disconnectSvg = (
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
   >
+    <title>Disconnect</title>
     <rect width="28" height="28" rx="8" className={background.default} />
     <path
       d="M16.3001 8L16.3001 9.5L9.51537 9.5L9.51537 18.5L16.3001 18.5L16.3001 20L8 20L8 8L16.3001 8Z"

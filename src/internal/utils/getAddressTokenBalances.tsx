@@ -1,7 +1,7 @@
-import { Address } from 'viem';
-import { sendRequest } from '../../network/request';
-import { TokenBalanceWithFiatValue } from '../../wallet/components/island/WalletIslandTokenHoldings';
+import type { Address } from 'viem';
 import { base } from 'viem/chains';
+import { sendRequest } from '../../network/request';
+import type { TokenBalanceWithFiatValue } from '../../wallet/components/island/WalletIslandTokenHoldings';
 import getTokenFiatValue from './getTokenFiatConversionRates';
 
 type CdpListBalancesResponse = {
