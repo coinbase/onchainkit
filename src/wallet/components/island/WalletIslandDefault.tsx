@@ -1,6 +1,6 @@
-import { Avatar, Name } from '../../identity';
-import { ConnectWallet, ConnectWalletText } from '../../wallet';
-import { Wallet } from '../../wallet/components/Wallet';
+import { Avatar, Name } from '../../../identity';
+import { ConnectWallet, ConnectWalletText } from '../../../wallet';
+import { Wallet } from '../../../wallet';
 import { WalletIsland } from './WalletIsland';
 import WalletIslandWalletActions from './WalletIslandWalletActions';
 import AddressDetails from './WalletIslandAddressDetails';

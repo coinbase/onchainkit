@@ -1,6 +1,6 @@
 import { Address } from 'viem';
 import { sendRequest } from '../../network/request';
-import { TokenBalanceWithFiatValue } from '../../walletIsland/components/WalletIslandTokenHoldings';
+import { TokenBalanceWithFiatValue } from '../../wallet/components/island/WalletIslandTokenHoldings';
 import { base } from 'viem/chains';
 import getTokenFiatValue from './getTokenFiatConversionRates';
 
