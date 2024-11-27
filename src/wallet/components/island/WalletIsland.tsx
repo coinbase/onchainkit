@@ -1,10 +1,10 @@
 import { Children, cloneElement, isValidElement, useMemo } from 'react';
 import { useAccount } from 'wagmi';
-import Draggable from '../../internal/components/Draggable';
-import { background, border, cn, line } from '../../styles/theme';
-import { useTheme } from '../../useTheme';
-import type { WalletIslandProps } from '../types';
-import { Identity } from '../../identity';
+import Draggable from '../../../internal/components/Draggable';
+import { background, border, cn } from '../../../styles/theme';
+import { useTheme } from '../../../useTheme';
+import type { WalletIslandProps } from '../../types';
+import { Identity } from '../../../identity';
 
 export function WalletIsland({ children }: WalletIslandProps) {
   const componentTheme = useTheme();
@@ -26,7 +26,7 @@ export function WalletIsland({ children }: WalletIslandProps) {
           componentTheme,
           background.default,
           border.radius,
-          line.default,
+          border.lineDefault,
           'w-[360px] h-auto',
           'flex items-center justify-center',
         )}

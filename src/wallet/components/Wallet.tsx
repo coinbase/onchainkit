@@ -7,7 +7,7 @@ import type { WalletReact } from '../types';
 import { ConnectWallet } from './ConnectWallet';
 import { WalletDropdown } from './WalletDropdown';
 import { WalletProvider, useWalletContext } from './WalletProvider';
-import { WalletIsland } from '../../walletIsland';
+import { WalletIsland } from './island/WalletIsland';
 
 const WalletContent = ({ children, className }: WalletReact) => {
   const { isOpen, setIsOpen } = useWalletContext();
