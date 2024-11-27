@@ -1,10 +1,10 @@
+import { animate } from 'motion';
 import type { ReactNode } from 'react';
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { useTheme } from '../../contexts/Theme.tsx';
 import CopyIcon from '../svg/CopySvg.js';
 import CheckIcon from '../svg/checkSvg.js';
 import { getHighlightedCode } from './getHighlightedCode.tsx';
-import { animate } from 'motion';
 
 // Demo components and code snippets
 import CheckoutDemo, { checkoutDemoCode } from './CheckoutDemo.tsx';
@@ -134,14 +134,14 @@ function ComponentList({
     if (button) {
       animate(
         button,
-        { 
+        {
           x: [-2, 0],
-          opacity: [0.6, 1]
+          opacity: [0.6, 1],
         },
-        { 
-          duration: 0.15, 
-          easing: 'ease-out' 
-        }
+        {
+          duration: 0.15,
+          easing: 'ease-out',
+        },
       );
     }
     setActiveTab(index);
@@ -215,9 +215,7 @@ function PreviewContainer({
   }, [activeTab, theme]);
 
   return (
-    <div 
-      className="preview-container h-[600px] w-[375px] overflow-hidden rounded-lg border border-zinc-200 bg-zinc-50 sm:w-[600px] md:h-[670px] md:w-[700px] dark:border-zinc-900 dark:bg-[#0f0f0f]"
-    >
+    <div className="preview-container h-[600px] w-[375px] overflow-hidden rounded-lg border border-zinc-200 bg-zinc-50 sm:w-[600px] md:h-[670px] md:w-[700px] dark:border-zinc-900 dark:bg-[#0f0f0f]">
       <div className="mt-2 flex items-center justify-between border-zinc-200 border-b px-3 dark:border-zinc-900">
         <div className="flex">
           <TabButton
@@ -276,14 +274,14 @@ function TabButton({ isActive, onClick, children }: TabButtonProps) {
     if (button) {
       animate(
         button,
-        { 
+        {
           y: [2, 0],
-          opacity: [0.7, 1]
+          opacity: [0.7, 1],
         },
-        { 
+        {
           duration: 0.2,
-          easing: [.22, 1.14, .59, 1] // Spring-like easing
-        }
+          easing: [0.22, 1.14, 0.59, 1], // Spring-like easing
+        },
       );
     }
     onClick();
