@@ -1,23 +1,16 @@
-import { Children, cloneElement, isValidElement, useMemo } from 'react';
-import { useAccount } from 'wagmi';
-import { Identity } from '../../../identity';
 import Draggable from '../../../internal/components/Draggable';
 import { background, border, cn } from '../../../styles/theme';
 import { useTheme } from '../../../useTheme';
 import type { WalletIslandProps } from '../../types';
+import { useWalletContext } from '../WalletProvider';
 
 export function WalletIsland({ children }: WalletIslandProps) {
   const componentTheme = useTheme();
-  const { address } = useAccount();
+  const { isOpen } = useWalletContext();
 
-  const childrenArray = useMemo(() => {
-    return Children.toArray(children).map((child) => {
-      if (isValidElement(child) && child.type === Identity) {
-        return cloneElement(child, { ...child.props, address });
-      }
-      return child;
-    });
-  }, [children, address]);
+  if (!isOpen) {
+    return null;
+  }
 
   return (
     <Draggable gridSize={25}>
@@ -35,10 +28,10 @@ export function WalletIsland({ children }: WalletIslandProps) {
           className={cn(
             'flex flex-col items-center justify-center',
             'h-auto w-96',
-            'm-4',
+            'p-4',
           )}
         >
-          {childrenArray}
+          {children}
         </div>
       </div>
     </Draggable>
