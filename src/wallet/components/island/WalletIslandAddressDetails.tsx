@@ -1,7 +1,7 @@
-import { useWalletContext } from '../../wallet/components/WalletProvider';
-import { cn, color, text } from '../../styles/theme';
-import { Avatar, Badge, Name } from '../../identity';
 import { Address, Chain } from 'viem';
+import { cn, color, text } from '../../../styles/theme';
+import { Avatar, Badge, Name } from '../../../identity';
+import { useWalletContext } from '../WalletProvider';
 
 export default function AddressDetails() {
   const { address, chain } = useWalletContext();

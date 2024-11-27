@@ -1,7 +1,7 @@
-import { cn, pressable, color, text } from '../../styles/theme';
-import { addSvgForeground } from '../../internal/svg/addForegroundSvg';
-import { toggleSvg } from '../../internal/svg/toggleSvg';
-import { arrowUpRightSvg } from '../../internal/svg/arrowUpRightSvg';
+import { cn, pressable, color, text } from '../../../styles/theme';
+import { addSvgForeground } from '../../../internal/svg/addForegroundSvg';
+import { toggleSvg } from '../../../internal/svg/toggleSvg';
+import { arrowUpRightSvg } from '../../../internal/svg/arrowUpRightSvg';
 
 type TransactionActionProps = {
   icon: React.ReactNode;

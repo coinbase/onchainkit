@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import { Token, TokenImage } from '../../token';
-import { cn, text, color } from '../../styles/theme';
-import { useWalletContext } from '../../wallet/components/WalletProvider';
-import getAddressTokenBalances from '../../internal/utils/getAddressTokenBalances';
+import { Token, TokenImage } from '../../../token';
+import { cn, text, color } from '../../../styles/theme';
+import { useWalletContext } from '../WalletProvider';
+import getAddressTokenBalances from '../../../internal/utils/getAddressTokenBalances';
 
 export type TokenBalanceWithFiatValue = {
   token: Token;
