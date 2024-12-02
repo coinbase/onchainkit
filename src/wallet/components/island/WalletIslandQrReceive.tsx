@@ -45,7 +45,7 @@ export function WalletIslandQrReceive() {
         </button>
       </div>
 
-      <QRCodeComponent value={`ethereum:${address}` ?? ''} />
+      <QRCodeComponent value={address ? `ethereum:${address}` : ''} />
 
       <button
         type="button"
