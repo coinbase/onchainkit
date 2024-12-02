@@ -5,8 +5,8 @@ import { useTheme } from '../../../useTheme';
 import type { WalletIslandProps } from '../../types';
 import { useWalletContext } from '../WalletProvider';
 import {
-  useWalletIslandContext,
   WalletIslandProvider,
+  useWalletIslandContext,
 } from './WalletIslandProvider';
 import { WalletIslandQrReceive } from './WalletIslandQrReceive';
 
