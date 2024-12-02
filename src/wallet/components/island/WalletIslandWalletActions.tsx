@@ -5,21 +5,22 @@ import { collapseSvg } from '../../../internal/svg/collapseSvg';
 import { disconnectSvg } from '../../../internal/svg/disconnectSvg';
 import { qrIconSvg } from '../../../internal/svg/qrIconSvg';
 import { useWalletContext } from '../WalletProvider';
+import { useWalletIslandContext } from './WalletIslandProvider';
 
 export default function WalletIslandWalletActions() {
+  const { setShowQr } = useWalletIslandContext();
   const { disconnect, connectors } = useDisconnect();
 
   const { setIsOpen } = useWalletContext();
 
   const handleDisconnect = useCallback(() => {
-    // Disconnect all the connectors (wallets). Usually only one is connected
     connectors.map((connector) => disconnect({ connector }));
     setIsOpen(false);
   }, [disconnect, connectors, setIsOpen]);
 
   const handleQr = useCallback(() => {
-    console.log('qr');
-  }, []);
+    setShowQr(true);
+  }, [setShowQr]);
 
   const handleCollapse = useCallback(() => {
     setIsOpen(false);
