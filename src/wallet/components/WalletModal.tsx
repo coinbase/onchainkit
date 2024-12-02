@@ -160,8 +160,8 @@ export function WalletModal({
           border.lineDefault,
           border.radius,
           background.default,
-          'w-[323px] p-6 pb-4',
-          'flex flex-col gap-4',
+          'w-[367px] p-6 pb-4',
+          'flex flex-col items-center gap-4',
           'relative',
           '-translate-x-1/2 -translate-y-1/2 fixed top-1/2 left-1/2',
           'transition-opacity duration-200',
@@ -191,7 +191,7 @@ export function WalletModal({
         </button>
 
         {(appLogo || appName) && (
-          <div className="mt-3 flex w-[275px] flex-col items-center gap-3 self-stretch p-2">
+          <div className="flex w-full flex-col items-center gap-3 p-2">
             {appLogo && (
               <div className={cn(border.radius, 'h-14 w-14 overflow-hidden')}>
                 <img
@@ -202,7 +202,11 @@ export function WalletModal({
               </div>
             )}
             {appName && (
-              <h2 className={cn(text.headline, color.foreground)}>{appName}</h2>
+              <h2
+                className={cn(text.headline, color.foreground, 'text-center')}
+              >
+                {appName}
+              </h2>
             )}
           </div>
         )}
@@ -214,10 +218,10 @@ export function WalletModal({
             className={cn(
               border.radiusInner,
               border.lineDefault,
-              text.label2,
+              text.body,
               pressable.alternate,
               color.foreground,
-              'h-10 w-[275px] px-4 py-2.5',
+              'h-10 w-[275px] px-4 py-3',
               'flex items-center justify-between text-left',
             )}
           >
@@ -240,7 +244,7 @@ export function WalletModal({
                   'px-2',
                 )}
               >
-                HI or continue with an existing wallet
+                or continue with an existing wallet
               </span>
             </div>
           </div>
@@ -252,10 +256,10 @@ export function WalletModal({
               border.default,
               border.radiusInner,
               border.lineDefault,
-              text.label2,
+              text.body,
               pressable.alternate,
               color.foreground,
-              'h-10 w-[275px] px-4 py-2.5',
+              'h-10 w-[275px] px-4 py-3',
               'flex items-center justify-between text-left',
             )}
           >
@@ -269,10 +273,10 @@ export function WalletModal({
             className={cn(
               border.radiusInner,
               border.lineDefault,
-              text.label2,
+              text.body,
               pressable.alternate,
               color.foreground,
-              'flex h-[40px] w-[275px] px-4 py-2.5',
+              'flex h-[40px] w-[275px] px-4 py-3',
               'items-center justify-between text-left',
             )}
           >

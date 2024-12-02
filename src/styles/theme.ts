@@ -7,7 +7,7 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export const text = {
-  body: 'ock-font-family font-normal leading-normal',
+  body: 'ock-font-family font-normal text-base leading-normal',
   caption: 'ock-font-family font-semibold text-xs leading-4',
   headline: 'ock-font-family font-semibold leading-normal',
   label1: 'ock-font-family font-semibold text-sm leading-5',
