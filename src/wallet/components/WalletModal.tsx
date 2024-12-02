@@ -176,18 +176,16 @@ export function WalletModal({
           type="button"
           onClick={onClose}
           className={cn(
+            pressable.default,
+            border.radius,
+            border.default,
             'absolute top-4 right-4',
-            'flex items-center justify-center',
-            'h-3 w-3',
+            'flex items-center justify-center p-2',
+            'transition-colors duration-200',
           )}
           aria-label="Close modal"
         >
-          <div
-            className={cn(
-              'relative h-full w-full transition-colors',
-              '[&>svg>path]:hover:fill-[var(--ock-icon-color-foreground-muted)]',
-            )}
-          >
+          <div className={cn('flex h-4 w-4 items-center justify-center')}>
             {closeSvg}
           </div>
         </button>
@@ -242,7 +240,7 @@ export function WalletModal({
                   'px-2',
                 )}
               >
-                or continue with an existing wallet
+                HI or continue with an existing wallet
               </span>
             </div>
           </div>
