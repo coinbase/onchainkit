@@ -1,9 +1,9 @@
 import { useEffect, useRef } from 'react';
-import { useIsMounted } from '../../useIsMounted';
-import type { WalletReact } from '../types';
-import { useWalletContext, WalletProvider } from './WalletProvider';
 import { cn } from '../../styles/theme';
+import { useIsMounted } from '../../useIsMounted';
 import { useTheme } from '../../useTheme';
+import type { WalletReact } from '../types';
+import { WalletProvider, useWalletContext } from './WalletProvider';
 
 function WalletContent({ children, className }: WalletReact) {
   const componentTheme = useTheme();

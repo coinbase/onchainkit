@@ -42,32 +42,6 @@ function isInRange(x: number, min: number, max: number) {
   return x >= min && x <= max;
 }
 
-// function useHueToGradient(hueDegree: number) {
-//   const gradient = useMemo(() => {
-//     if (isInRange(hueDegree, 0, 30) || isInRange(hueDegree, 333, 360)) {
-//       return presetGradients.red;
-//     }
-//     if (isInRange(hueDegree, 30, 85)) {
-//       return presetGradients.yellow;
-//     }
-//     if (isInRange(hueDegree, 85, 165)) {
-//       return presetGradients.green;
-//     }
-//     if (isInRange(hueDegree, 165, 210)) {
-//       return presetGradients.cyan;
-//     }
-//     if (isInRange(hueDegree, 210, 256)) {
-//       return presetGradients.blue;
-//     }
-//     if (isInRange(hueDegree, 256, 333)) {
-//       return presetGradients.magenta;
-//     }
-
-//     return presetGradients.default;
-//   }, [hueDegree]);
-//   return gradient;
-// }
-
 function useHueToGradient(hueDegree: number) {
   const gradient = useMemo(() => {
     const hueRanges = [
@@ -81,8 +55,8 @@ function useHueToGradient(hueDegree: number) {
     ];
 
     return (
-      hueRanges.find(({ min, max }) => isInRange(hueDegree, min, max))?.gradient ??
-      presetGradients.default
+      hueRanges.find(({ min, max }) => isInRange(hueDegree, min, max))
+        ?.gradient ?? presetGradients.default
     );
   }, [hueDegree]);
   return gradient;
@@ -101,7 +75,12 @@ export function usePresetGradientForColor(color?: string) {
     }
 
     // default if undefined, near black, near white, or near grey
-    if (!color || colorInfo.l < 0.1 || colorInfo.l > 0.9 || colorInfo.s < 0.05) {
+    if (
+      !color ||
+      colorInfo.l < 0.1 ||
+      colorInfo.l > 0.9 ||
+      colorInfo.s < 0.05
+    ) {
       return presetGradients.default;
     }
 
