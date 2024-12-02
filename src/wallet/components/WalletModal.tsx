@@ -180,7 +180,7 @@ export function WalletModal({
             border.radius,
             border.default,
             'absolute top-4 right-4',
-            'flex items-center justify-center p-2',
+            'flex items-center justify-center p-1',
             'transition-colors duration-200',
           )}
           aria-label="Close modal"
