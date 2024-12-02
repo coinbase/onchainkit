@@ -72,7 +72,14 @@ export function useCorners(
         />
       </g>
     ),
-    [backgroundColor, circleRadius, circleStrokeWidth, fillColor, rectSize, size],
+    [
+      backgroundColor,
+      circleRadius,
+      circleStrokeWidth,
+      fillColor,
+      rectSize,
+      size,
+    ],
   );
   return corners;
 }

@@ -1,11 +1,6 @@
 import { useMemo } from 'react';
-// import { MiamiThemeColorPreference } from 'cb-wallet-data/stores/ThemeColors/themeColorConfigs';
-// import { PartialPaletteConfig, usePaletteConfig, useSpectrum } from '@cbhq/cds-common';
-
-// import { useThemeColorPreference } from ':rn/app/hooks/useThemeColorPreference';
-import { useTheme } from '../../../useTheme';
 import { background } from '../../../styles/theme';
-
+import { useTheme } from '../../../useTheme';
 import { linearGradientStops } from './gradientConstants';
 
 export function useLinearGradient() {
