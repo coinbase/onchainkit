@@ -4,6 +4,7 @@ import { copySvg } from '../../../internal/svg/copySvg';
 import { useWalletIslandContext } from './WalletIslandProvider';
 import { border, cn, color, pressable, text } from '../../../styles/theme';
 import { useWalletContext } from '../WalletProvider';
+import { QRCodeComponent } from '../../../internal/components/QrCode/QrCode';
 
 export function WalletIslandQrReceive() {
   const { address } = useWalletContext();
@@ -43,7 +44,9 @@ export function WalletIslandQrReceive() {
           {copySvg}
         </button>
       </div>
-      <div>QR CODE</div>
+
+      <QRCodeComponent value={`ethereum:${address}` ?? ''} />
+
       <button
         type="button"
         className={cn(border.radius, pressable.alternate, 'w-full p-3')}
