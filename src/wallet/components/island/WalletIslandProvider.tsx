@@ -1,4 +1,11 @@
-import { createContext, type Dispatch, type ReactNode, type SetStateAction, useContext, useState } from 'react';
+import {
+  type Dispatch,
+  type ReactNode,
+  type SetStateAction,
+  createContext,
+  useContext,
+  useState,
+} from 'react';
 import { useValue } from '../../../internal/hooks/useValue';
 
 export type WalletIslandContextType = {
@@ -12,7 +19,9 @@ type WalletIslandProviderReact = {
   children: ReactNode;
 };
 
-const WalletIslandContext = createContext<WalletIslandContextType>({} as WalletIslandContextType);
+const WalletIslandContext = createContext<WalletIslandContextType>(
+  {} as WalletIslandContextType,
+);
 
 export function WalletIslandProvider({ children }: WalletIslandProviderReact) {
   const [showSwap, setShowSwap] = useState(false);
@@ -25,7 +34,11 @@ export function WalletIslandProvider({ children }: WalletIslandProviderReact) {
     setShowQr,
   });
 
-  return <WalletIslandContext.Provider value={value}>{children}</WalletIslandContext.Provider>;
+  return (
+    <WalletIslandContext.Provider value={value}>
+      {children}
+    </WalletIslandContext.Provider>
+  );
 }
 
 export function useWalletIslandContext() {

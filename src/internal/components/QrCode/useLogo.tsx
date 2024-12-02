@@ -38,7 +38,12 @@ export function useLogo({
             />
           </clipPath>
           <clipPath id="clip-logo">
-            <rect width={logoSize} height={logoSize} rx={logoBorderRadius} ry={logoBorderRadius} />
+            <rect
+              width={logoSize}
+              height={logoSize}
+              rx={logoBorderRadius}
+              ry={logoBorderRadius}
+            />
           </clipPath>
         </defs>
         <g>

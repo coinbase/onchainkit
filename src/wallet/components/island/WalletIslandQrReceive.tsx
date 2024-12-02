@@ -1,10 +1,10 @@
 import { useCallback } from 'react';
+import { QRCodeComponent } from '../../../internal/components/QrCode/QrCode';
 import { backArrowSvg } from '../../../internal/svg/backArrowSvg';
 import { copySvg } from '../../../internal/svg/copySvg';
-import { useWalletIslandContext } from './WalletIslandProvider';
 import { border, cn, color, pressable, text } from '../../../styles/theme';
 import { useWalletContext } from '../WalletProvider';
-import { QRCodeComponent } from '../../../internal/components/QrCode/QrCode';
+import { useWalletIslandContext } from './WalletIslandProvider';
 
 export function WalletIslandQrReceive() {
   const { address } = useWalletContext();

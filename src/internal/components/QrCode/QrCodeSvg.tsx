@@ -59,7 +59,9 @@ export function QRCodeSVG({
   const { linearColors } = useLinearGradient();
   const isRadialGradient = gradientType === 'radial';
   const fillColor = isRadialGradient ? 'url(#radialGrad)' : 'black';
-  const bgColor = isRadialGradient ? backgroundColor : `url(#${gradientType}Grad)`;
+  const bgColor = isRadialGradient
+    ? backgroundColor
+    : `url(#${gradientType}Grad)`;
   const gradientRadiusMax = size * 0.55;
   const gradientRadiusMin = logoSize / 2;
   const gradientCenterPoint = size / 2;
@@ -76,7 +78,12 @@ export function QRCodeSVG({
   const { x: x2, y: y2 } = GRADIENT_END_COORDINATES;
 
   const viewBox = useMemo(() => {
-    return [-quietZone, -quietZone, size + quietZone * 2, size + quietZone * 2].join(' ');
+    return [
+      -quietZone,
+      -quietZone,
+      size + quietZone * 2,
+      size + quietZone * 2,
+    ].join(' ');
   }, [quietZone, size]);
 
   const svgLogo = useLogo({
@@ -97,20 +104,16 @@ export function QRCodeSVG({
     hasLogo: !!logo,
   });
 
-  // const growGradient = useCallback(() => {
-  //   Animated.timing(gradientAnim, {
-  //     toValue: gradientRadiusMax,
-  //     duration: durations.slow4 * 2,
-  //     useNativeDriver: false,
-  //     easing: Easing.bezier(...curves.enterExpressive),
-  //   }).start();
-  // }, [gradientAnim, gradientRadiusMax]);
-
   useEffect(() => {
     if (isAsyncDataFetched && gradientRadius === gradientRadiusMin) {
       setGradientRadius(gradientRadiusMax);
     }
-  }, [isAsyncDataFetched, gradientRadius, gradientRadiusMin, gradientRadiusMax]);
+  }, [
+    isAsyncDataFetched,
+    gradientRadius,
+    gradientRadiusMin,
+    gradientRadiusMax,
+  ]);
 
   console.log({ value, path, color, isRadialGradient, bgColor, fillColor });
 
