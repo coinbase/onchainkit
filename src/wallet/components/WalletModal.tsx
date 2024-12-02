@@ -160,7 +160,7 @@ export function WalletModal({
           border.lineDefault,
           border.radius,
           background.default,
-          'w-[367px] p-6 pb-4',
+          'w-[323px] p-6 pb-4',
           'flex flex-col items-center gap-4',
           'relative',
           '-translate-x-1/2 -translate-y-1/2 fixed top-1/2 left-1/2',
