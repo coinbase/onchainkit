@@ -217,7 +217,6 @@ export function WalletModal({
             onClick={handleCoinbaseWalletConnection}
             className={cn(
               border.radiusInner,
-              border.lineDefault,
               text.body,
               pressable.alternate,
               color.foreground,
@@ -253,9 +252,7 @@ export function WalletModal({
             type="button"
             onClick={handleCoinbaseWalletConnection}
             className={cn(
-              border.default,
               border.radiusInner,
-              border.lineDefault,
               text.body,
               pressable.alternate,
               color.foreground,
@@ -272,7 +269,6 @@ export function WalletModal({
             onClick={handleWalletConnectConnector}
             className={cn(
               border.radiusInner,
-              border.lineDefault,
               text.body,
               pressable.alternate,
               color.foreground,
@@ -290,7 +286,7 @@ export function WalletModal({
             color.foregroundMuted,
             text.legal,
             'flex flex-col items-center justify-center gap-1 px-4',
-            'mt-4 w-[275px] text-center leading-3',
+            'mt-4 w-[275px] text-center',
           )}
         >
           <span className="font-normal text-[10px] leading-[13px]">
