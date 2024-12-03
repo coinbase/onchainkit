@@ -269,6 +269,9 @@ export function CheckoutProvider({
           height,
           width,
         });
+        // Reset state
+        insufficientBalanceRef.current = false;
+        priceInUSDCRef.current = undefined;
         return;
       }
 
