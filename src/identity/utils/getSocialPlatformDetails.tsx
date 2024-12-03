@@ -19,7 +19,10 @@ export const PLATFORM_CONFIG: Record<
     icon: githubSvg,
   },
   farcaster: {
-    href: (value) => value,
+    href: (value) => {
+      const username = value.split('/').pop();
+      return `https://warpcast.com/${username}`;
+    },
     icon: warpcastSvg,
   },
   website: {
