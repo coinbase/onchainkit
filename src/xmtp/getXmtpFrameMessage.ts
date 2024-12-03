@@ -19,8 +19,11 @@ type XmtpFrameMessage =
       };
     };
 
+type XmtpEnv = Parameters<typeof validateFramesPost>[1];
+
 export async function getXmtpFrameMessage(
-  payload: XmtpOpenFramesRequest
+  payload: XmtpOpenFramesRequest,
+  env?: XmtpEnv
 ): Promise<XmtpFrameMessage> {
   if (!payload.clientProtocol || !payload.clientProtocol.startsWith('xmtp@')) {
     return {
@@ -30,7 +33,8 @@ export async function getXmtpFrameMessage(
   }
   try {
     const { actionBody, verifiedWalletAddress } = await validateFramesPost(
-      payload
+      payload,
+      env
     );
     return {
       isValid: true,
