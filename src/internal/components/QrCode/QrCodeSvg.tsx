@@ -24,7 +24,7 @@ export type QRCodeSVGProps = {
   size?: number;
   color?: string;
   backgroundColor?: string;
-  logo?: { uri: string };
+  logo?: React.ReactNode;
   logoSize?: number;
   logoBackgroundColor?: string;
   logoMargin?: number;
@@ -114,8 +114,6 @@ export function QRCodeSVG({
     gradientRadiusMin,
     gradientRadiusMax,
   ]);
-
-  console.log({ value, path, color, isRadialGradient, bgColor, fillColor });
 
   if (!path) {
     return null;

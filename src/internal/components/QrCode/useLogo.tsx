@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 
 type RenderLogoProps = {
   size: number;
-  logo: { uri: string } | undefined;
+  logo: React.ReactNode | undefined;
   logoSize: number;
   logoBackgroundColor: string;
   logoMargin: number;
@@ -27,7 +27,7 @@ export function useLogo({
       logoBorderRadius + (logoMargin / logoSize) * logoBorderRadius;
 
     return (
-      <g x={logoPosition} y={logoPosition}>
+      <g transform={`translate(${logoPosition}, ${logoPosition})`}>
         <defs>
           <clipPath id="clip-logo-background">
             <rect
@@ -55,13 +55,13 @@ export function useLogo({
           />
         </g>
         <g x={logoMargin} y={logoMargin}>
-          <image
+          <g
             width={logoSize}
             height={logoSize}
-            preserveAspectRatio="xMidYMid slice"
-            href={logo.uri}
             clipPath="url(#clip-logo)"
-          />
+          >
+            {logo}
+          </g>
         </g>
       </g>
     );
