@@ -1,4 +1,5 @@
 // 🌲☀🌲
+export { FundSwap } from './components/FundSwap';
 export { Swap } from './components/Swap';
 export { SwapAmountInput } from './components/SwapAmountInput';
 export { SwapButton } from './components/SwapButton';
