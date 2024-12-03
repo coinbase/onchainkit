@@ -2156,7 +2156,7 @@ __metadata:
     "@types/react-dom": "npm:^18"
     "@vitest/coverage-v8": "npm:^2.0.5"
     "@vitest/ui": "npm:^2.0.5"
-    "@xmtp/frames-validator": "npm:^0.6.0"
+    "@xmtp/frames-validator": "npm:^1.0.1"
     autoprefixer: "npm:^10.4.19"
     clsx: "npm:^2.1.1"
     concurrently: "npm:^8.0.0"
@@ -2178,7 +2178,7 @@ __metadata:
     wagmi: "npm:^2.12.24"
   peerDependencies:
     "@types/react": ^18
-    "@xmtp/frames-validator": ^0.6.0
+    "@xmtp/frames-validator": ^1.0.1
     react: ^18
     react-dom: ^18
   languageName: unknown
@@ -6039,27 +6039,77 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xmtp/frames-validator@npm:^0.6.0":
-  version: 0.6.2
-  resolution: "@xmtp/frames-validator@npm:0.6.2"
+"@xmtp/content-type-group-updated@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "@xmtp/content-type-group-updated@npm:1.0.1"
   dependencies:
-    "@noble/curves": "npm:^1.3.0"
-    "@noble/hashes": "npm:^1.4.0"
-    "@xmtp/proto": "npm:3.61.1"
-    viem: "npm:^2.16.5"
-  checksum: 526ba9534002b048ec949b92bef45513d026c653714b0a006b0514bcc80b03a7548eeca29d71ee8fb8d9a9641955d247d2f42b7057c3a2c0755b68d7682047aa
+    "@xmtp/content-type-primitives": "npm:^1.0.3"
+    "@xmtp/proto": "npm:^3.72.0"
+  checksum: da335c7002f54e45e878bc1c91174364b83ec4b6d970c94f208d7f2f5a51fab46ed3d73d83cb88f6ff85d0e22019d7f4ccd0d5b5d547ed5e061d9e3fb2ad86f7
   languageName: node
   linkType: hard
 
-"@xmtp/proto@npm:3.61.1":
-  version: 3.61.1
-  resolution: "@xmtp/proto@npm:3.61.1"
+"@xmtp/content-type-primitives@npm:^1.0.3":
+  version: 1.0.3
+  resolution: "@xmtp/content-type-primitives@npm:1.0.3"
+  dependencies:
+    "@xmtp/proto": "npm:^3.72.0"
+  checksum: a644dd24d0edad2c67b4b7a42f5af32914fb2df935debaabde61dba9d0c061692b198757777323c266a1ce84a1a3050d98bde21f795035a18ae076fee9528a0e
+  languageName: node
+  linkType: hard
+
+"@xmtp/content-type-text@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "@xmtp/content-type-text@npm:1.0.1"
+  dependencies:
+    "@xmtp/content-type-primitives": "npm:^1.0.3"
+  checksum: d981039d21ce437b3ae7eaa2e2c2779788c823354b59f261d9bf0582862d9b44872c20ae4964587a502adcc2fca99162e60adf55460992dacdc795513e035465
+  languageName: node
+  linkType: hard
+
+"@xmtp/frames-validator@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "@xmtp/frames-validator@npm:1.0.1"
+  dependencies:
+    "@noble/curves": "npm:^1.3.0"
+    "@noble/hashes": "npm:^1.4.0"
+    "@xmtp/node-sdk": "npm:^0.0.30"
+    "@xmtp/proto": "npm:^3.72.3"
+    uint8array-extras: "npm:^1.4.0"
+    viem: "npm:^2.16.5"
+  checksum: 791047213b33a8997d9e6b98f9e642e8b0461513a12f19fbba80b7b3e782e2285338e1ca7a0cfd0dccd012f3700cbbf413c175f104a60b2964f9b0ae4128a7b3
+  languageName: node
+  linkType: hard
+
+"@xmtp/node-bindings@npm:^0.0.28":
+  version: 0.0.28
+  resolution: "@xmtp/node-bindings@npm:0.0.28"
+  checksum: fc6b4a6626dd7e28c44530512e89e0def92bb2a7a9a0ff98b4240db073877c3e60b1777115ed0374ed64e548639199abfa13f7e7bd534892c3f5c0fd5e683dd5
+  languageName: node
+  linkType: hard
+
+"@xmtp/node-sdk@npm:^0.0.30":
+  version: 0.0.30
+  resolution: "@xmtp/node-sdk@npm:0.0.30"
+  dependencies:
+    "@xmtp/content-type-group-updated": "npm:^1.0.1"
+    "@xmtp/content-type-primitives": "npm:^1.0.3"
+    "@xmtp/content-type-text": "npm:^1.0.1"
+    "@xmtp/node-bindings": "npm:^0.0.28"
+    "@xmtp/proto": "npm:^3.72.3"
+  checksum: 6dd1a1f038b8a5f8fb099c49cb6700c13ee810289e68137f5417b9bf214ff26e36a8f410660b6b69c68454f5ac0c4af65e9adeffc5e51cb0a26f91eceb48a49e
+  languageName: node
+  linkType: hard
+
+"@xmtp/proto@npm:^3.72.0, @xmtp/proto@npm:^3.72.3":
+  version: 3.72.3
+  resolution: "@xmtp/proto@npm:3.72.3"
   dependencies:
     long: "npm:^5.2.0"
     protobufjs: "npm:^7.0.0"
     rxjs: "npm:^7.8.0"
     undici: "npm:^5.8.1"
-  checksum: 6cef4c0868ab4f0ee3c8670ae3a8bfb7576fa1304e66add1508251f9fa8a87c4e140296389f5789c97cb8ce8cda0c46eca7c4ea5a3a46e4b9e4f11ee5a882502
+  checksum: ce899a62307853efd2fe199144ded806560b7f9f5d2b5b08948a001530a8cf43151fbb6b56e6e71879c4a72ab50ab7233b0cc9f7b1ed28e7e3ea86ff90f7d9df
   languageName: node
   linkType: hard
 
@@ -15275,6 +15325,13 @@ __metadata:
   version: 1.5.3
   resolution: "ufo@npm:1.5.3"
   checksum: 1df10702582aa74f4deac4486ecdfd660e74be057355f1afb6adfa14243476cf3d3acff734ccc3d0b74e9bfdefe91d578f3edbbb0a5b2430fe93cd672370e024
+  languageName: node
+  linkType: hard
+
+"uint8array-extras@npm:^1.4.0":
+  version: 1.4.0
+  resolution: "uint8array-extras@npm:1.4.0"
+  checksum: eaffd3388634b7e5e1496073b878dd19136043137d3e7e0d2a453e37f566a5a551e640819e1a6596c6df9b9d1f7b70884cc29db6a357bdd424811f3598d504dd
   languageName: node
   linkType: hard
 
