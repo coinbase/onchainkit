@@ -47,7 +47,7 @@ describe('useGetTransactionStatusAction', () => {
           target="_blank"
         >
           <span
-            className="ock-font-family font-semibold text-sm leading-5 ock-text-primary"
+            className="ock-font-family font-semibold text-sm ock-text-primary"
           >
             View transaction
           </span>

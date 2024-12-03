@@ -161,7 +161,7 @@ export function WalletModal({
           border.radius,
           background.default,
           'w-[323px] p-6 pb-4',
-          'flex flex-col gap-4',
+          'flex flex-col items-center gap-4',
           'relative',
           '-translate-x-1/2 -translate-y-1/2 fixed top-1/2 left-1/2',
           'transition-opacity duration-200',
@@ -176,24 +176,22 @@ export function WalletModal({
           type="button"
           onClick={onClose}
           className={cn(
+            pressable.default,
+            border.radius,
+            border.default,
             'absolute top-4 right-4',
-            'flex items-center justify-center',
-            'h-3 w-3',
+            'flex items-center justify-center p-1',
+            'transition-colors duration-200',
           )}
           aria-label="Close modal"
         >
-          <div
-            className={cn(
-              'relative h-full w-full transition-colors',
-              '[&>svg>path]:hover:fill-[var(--ock-icon-color-foreground-muted)]',
-            )}
-          >
+          <div className={cn('flex h-4 w-4 items-center justify-center')}>
             {closeSvg}
           </div>
         </button>
 
         {(appLogo || appName) && (
-          <div className="mt-3 flex w-[275px] flex-col items-center gap-3 self-stretch p-2">
+          <div className="flex w-full flex-col items-center gap-3 p-2">
             {appLogo && (
               <div className={cn(border.radius, 'h-14 w-14 overflow-hidden')}>
                 <img
@@ -204,7 +202,11 @@ export function WalletModal({
               </div>
             )}
             {appName && (
-              <h2 className={cn(text.headline, color.foreground)}>{appName}</h2>
+              <h2
+                className={cn(text.headline, color.foreground, 'text-center')}
+              >
+                {appName}
+              </h2>
             )}
           </div>
         )}
@@ -215,11 +217,10 @@ export function WalletModal({
             onClick={handleCoinbaseWalletConnection}
             className={cn(
               border.radiusInner,
-              border.lineDefault,
-              text.label2,
+              text.body,
               pressable.alternate,
               color.foreground,
-              'h-10 w-[275px] px-4 py-2.5',
+              'h-10 w-[275px] px-4 py-3',
               'flex items-center justify-between text-left',
             )}
           >
@@ -251,13 +252,11 @@ export function WalletModal({
             type="button"
             onClick={handleCoinbaseWalletConnection}
             className={cn(
-              border.default,
               border.radiusInner,
-              border.lineDefault,
-              text.label2,
+              text.body,
               pressable.alternate,
               color.foreground,
-              'h-10 w-[275px] px-4 py-2.5',
+              'h-10 w-[275px] px-4 py-3',
               'flex items-center justify-between text-left',
             )}
           >
@@ -270,11 +269,10 @@ export function WalletModal({
             onClick={handleWalletConnectConnector}
             className={cn(
               border.radiusInner,
-              border.lineDefault,
-              text.label2,
+              text.body,
               pressable.alternate,
               color.foreground,
-              'flex h-[40px] w-[275px] px-4 py-2.5',
+              'flex h-[40px] w-[275px] px-4 py-3',
               'items-center justify-between text-left',
             )}
           >
@@ -288,7 +286,7 @@ export function WalletModal({
             color.foregroundMuted,
             text.legal,
             'flex flex-col items-center justify-center gap-1 px-4',
-            'mt-4 w-[275px] text-center leading-3',
+            'mt-4 w-[275px] text-center',
           )}
         >
           <span className="font-normal text-[10px] leading-[13px]">

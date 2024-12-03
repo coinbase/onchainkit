@@ -7,14 +7,14 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export const text = {
-  body: 'ock-font-family font-normal leading-normal',
-  caption: 'ock-font-family font-semibold text-xs leading-4',
-  headline: 'ock-font-family font-semibold leading-normal',
-  label1: 'ock-font-family font-semibold text-sm leading-5',
-  label2: 'ock-font-family text-sm leading-5',
-  legal: 'ock-font-family text-xs leading-4',
-  title1: 'ock-font-family font-semibold text-2xl leading-9',
-  title3: 'ock-font-family font-semibold text-xl leading-7',
+  body: 'ock-font-family font-normal text-base',
+  caption: 'ock-font-family font-semibold text-xs',
+  headline: 'ock-font-family font-semibold',
+  label1: 'ock-font-family font-semibold text-sm',
+  label2: 'ock-font-family text-sm',
+  legal: 'ock-font-family text-xs',
+  title1: 'ock-font-family font-semibold text-2xl',
+  title3: 'ock-font-family font-semibold text-xl',
 } as const;
 
 export const pressable = {
