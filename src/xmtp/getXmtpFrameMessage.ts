@@ -1,7 +1,27 @@
 import { validateFramesPost } from '@xmtp/frames-validator';
 import type { XmtpOpenFramesRequest } from '@xmtp/frames-validator';
 
-export async function getXmtpFrameMessage(payload: XmtpOpenFramesRequest) {
+type FrameActionBody = Awaited<
+  ReturnType<typeof validateFramesPost>
+>['actionBody'];
+
+type XmtpFrameMessage =
+  | {
+      isValid: false;
+      message: undefined;
+    }
+  | {
+      isValid: true;
+      message: Omit<FrameActionBody, 'timestamp'> & {
+        timestamp: number;
+        verifiedWalletAddress: string;
+        identifier: string;
+      };
+    };
+
+export async function getXmtpFrameMessage(
+  payload: XmtpOpenFramesRequest
+): Promise<XmtpFrameMessage> {
   if (!payload.clientProtocol || !payload.clientProtocol.startsWith('xmtp@')) {
     return {
       isValid: false,
@@ -9,8 +29,9 @@ export async function getXmtpFrameMessage(payload: XmtpOpenFramesRequest) {
     };
   }
   try {
-    const { actionBody, verifiedWalletAddress } =
-      await validateFramesPost(payload);
+    const { actionBody, verifiedWalletAddress } = await validateFramesPost(
+      payload
+    );
     return {
       isValid: true,
       message: {
