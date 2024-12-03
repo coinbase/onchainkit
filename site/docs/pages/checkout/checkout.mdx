@@ -8,7 +8,7 @@ import App from '../../components/App';
 
 # `<Checkout />`
 
-The `Checkout` component provides a one-click checkout experience for onchain commerce. 
+The `Checkout` component provides a one-click checkout experience for onchain commerce - all for free. 
 
 Our all-in-one solution simplifies payment processing for onchain developers, removing complex integrations, high fees, and onboarding friction. Whether you're selling digital goods, services, or in-game items, this tool is for you.
 
@@ -97,9 +97,9 @@ That's it! Starting selling onchain with just a few lines of code.
 
 You can create products on the Coinbase Commerce Portal and use them in the `Checkout` component through the `productId` prop.
 
+:::tip[Programmatic Metadata]
 If you'd like to create product metadata programmatically or implement a multi-product checkout, please see [Advanced Usage](/checkout/checkout#advanced-usage).
-
-Coinbase Commerce charges a [1% fee](https://help.coinbase.com/en/commerce/getting-started/fees) associated with all payments.
+:::
 
 ```tsx twoslash
 import { Checkout, CheckoutButton } from '@coinbase/onchainkit/checkout';
