@@ -5,6 +5,7 @@ export const QR_LOGO_BACKGROUND_COLOR = 'white';
 export const GRADIENT_START_COORDINATES = { x: 0, y: 0 };
 export const GRADIENT_END_COORDINATES = { x: 1, y: 0 };
 export const GRADIENT_END_STYLE = { borderRadius: 32 };
+export const GRADIENT_COLOR = 'blue'
 
 type LinearGradient = { startColor: string; endColor: string };
 
