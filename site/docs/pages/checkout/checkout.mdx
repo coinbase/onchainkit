@@ -63,18 +63,15 @@ Wrap the `<OnchainKitProvider />` around your app, following the steps in [Getti
 
 ## Quickstart
 
+### Option 1: Simple Product Checkout
+Ideal for fixed-price items. Get started with minimal setup.
+
 ::::steps
 
 ### Sign up for a Coinbase Commerce account
-<img alt="Create a product"
-  src="https://onchainkit.xyz/assets/commerce-1.png"
-  height="364"/>
 Head to [Coinbase Commerce](https://beta.commerce.coinbase.com/) and sign up. This is where you’ll manage transactions, view reports, and configure payments.
 
 ### Create a product and copy the `productId`
-  <img alt="Copy productId"
-  src="https://onchainkit.xyz/assets/commerce-2.png"
-  height="364"/>
 In the Coinbase Commerce dashboard, create a new product and copy the `productId`.
 
 ### Import the component
@@ -85,6 +82,46 @@ import { Checkout, CheckoutButton, CheckoutStatus } from '@coinbase/onchainkit/c
 <Checkout productId='my-product-id' > 
   <CheckoutButton coinbaseBranded/> // set coinbaseBranded for branding
   <CheckoutStatus />
+</Checkout>
+```
+::::
+
+### Option 2: Dynamic Charges
+For variable pricing, custom metadata, or multi-product checkouts, use backend-generated charges.
+
+::::steps
+### Set up a backend to create charges dynamically using the Coinbase Commerce API.
+
+For Example:
+```ts
+async function createCharge(amount, metadata) {
+  const response = await fetch('https://api.commerce.coinbase.com/charges', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-CC-Api-Key': 'your-api-key',
+    },
+    body: JSON.stringify({
+      local_price: { amount, currency: 'USDC' },
+      pricing_type: 'fixed_price',
+      metadata, // Optional: Attach metadata like order ID or customer details
+    }),
+  });
+  return await response.json();
+}
+```
+
+### Pass the chargeID into Checkout via the chargeHandler prop.
+
+```tsx
+const chargeHandler = async () => {
+  const response = await fetch('/createCharge', { method: 'POST' });
+  const { id } = await response.json();
+  return id; // Return charge ID
+};
+
+<Checkout chargeHandler={chargeHandler}>
+  <CheckoutButton />
 </Checkout>
 ```
 ::::
