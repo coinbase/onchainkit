@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { presetGradients } from './presetGradients';
+import { presetGradients } from './gradientConstants';
 
 function hexToHSL(hex: string) {
   const cleanHex = hex.replace(/^#/, '');
