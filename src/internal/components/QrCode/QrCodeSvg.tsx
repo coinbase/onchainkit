@@ -1,9 +1,10 @@
 import { useEffect, useMemo, useState } from 'react';
 import {
+  GRADIENT_COLOR,
   GRADIENT_END_COORDINATES,
   GRADIENT_START_COORDINATES,
+  linearGradientStops,
 } from './gradientConstants';
-import { useLinearGradient } from './useLinearGradient';
 
 import { useCorners } from './useCorners';
 import { useDotsPath } from './useDotsPath';
@@ -48,7 +49,10 @@ export function QRCodeSVG({
   isAsyncDataFetched = true,
   gradientType = 'radial',
 }: QRCodeSVGProps) {
-  const { linearColors } = useLinearGradient();
+  const linearColors = [
+    linearGradientStops[GRADIENT_COLOR].startColor,
+    linearGradientStops[GRADIENT_COLOR].endColor,
+  ];
   const isRadialGradient = gradientType === 'radial';
   const fillColor = isRadialGradient ? 'url(#radialGrad)' : 'black';
   const bgColor = isRadialGradient
