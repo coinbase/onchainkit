@@ -35,8 +35,8 @@ export type QRCodeSVGProps = {
 export function QRCodeSVG({
   value,
   size = 100,
-  color = 'black',
-  backgroundColor = 'white',
+  color = '#000000',
+  backgroundColor = '#ffffff',
   logo,
   logoSize = size * 0.2,
   logoBackgroundColor = 'transparent',
