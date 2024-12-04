@@ -7,7 +7,7 @@ import {
 } from './gradientConstants';
 
 export function QRCodeComponent({
-  color = '#000000',
+  color,
   value,
   logo,
   isAsyncDataFetched,
