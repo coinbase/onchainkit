@@ -272,6 +272,7 @@ export function CheckoutProvider({
         // Reset state
         insufficientBalanceRef.current = false;
         priceInUSDCRef.current = undefined;
+        fetchedDataUseEffect.current = false;
         return;
       }
 
