@@ -70,11 +70,6 @@ export function usePresetGradientForColor(color?: string) {
 
   const gradient = useHueToGradient(colorInfo.h);
   const presetGradientForColor = useMemo(() => {
-    if (color === '#728BD3') {
-      return presetGradients.cyan;
-    }
-
-    // default if undefined, near black, near white, or near grey
     if (
       !color ||
       colorInfo.l < 0.1 ||
