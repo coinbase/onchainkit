@@ -1,5 +1,7 @@
-// import { MiamiThemeColorPreference } from 'cb-wallet-data/stores/ThemeColors/themeColorConfigs';
-
+export const QR_CODE_SIZE = 237;
+export const QR_LOGO_SIZE = 50;
+export const QR_LOGO_RADIUS = 10;
+export const QR_LOGO_BACKGROUND_COLOR = 'white';
 export const GRADIENT_START_COORDINATES = { x: 0, y: 0 };
 export const GRADIENT_END_COORDINATES = { x: 1, y: 0 };
 export const GRADIENT_END_STYLE = { borderRadius: 32 };

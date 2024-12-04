@@ -1,14 +1,12 @@
-import { background, icon } from '../../styles/theme';
-
-export const cbwSvg = (width: number, height: number) => (
+export const cbwSvg = (
   <svg
-    width={width}
-    height={height}
+    width={24}
+    height={24}
     viewBox="0 0 1024 1024"
     xmlns="http://www.w3.org/2000/svg"
   >
     <title>Wallet Icon</title>
-    <rect width="1024" height="1024" fill="#0052FF" />
+    <rect width="100%" height="100%" fill="#0052FF" />
     <path
       fillRule="evenodd"
       clipRule="evenodd"
