@@ -1,11 +1,10 @@
-// import { useIsSmallScreen } from ':rn/shared/hooks/useIsSmallScreen';
-
 import { QRCodeSVG, type QRCodeSVGProps } from './QrCodeSvg';
-
-export const QR_CODE_SIZE = 237;
-export const QR_CODE_SMALL_SIZE = 150;
-export const QR_LOGO_SIZE = 50;
-export const QR_LOGO_RADIUS = 25;
+import {
+  QR_CODE_SIZE,
+  QR_LOGO_SIZE,
+  QR_LOGO_RADIUS,
+  QR_LOGO_BACKGROUND_COLOR,
+} from './gradientConstants';
 
 export function QRCodeComponent({
   color = '#000000',
@@ -14,13 +13,13 @@ export function QRCodeComponent({
   isAsyncDataFetched,
   gradientType,
 }: QRCodeSVGProps) {
-  // const isSmallScreen = useIsSmallScreen();
 
   return (
     <QRCodeSVG
       size={QR_CODE_SIZE}
       logo={logo}
       logoSize={QR_LOGO_SIZE}
+      logoBackgroundColor={QR_LOGO_BACKGROUND_COLOR}
       logoBorderRadius={QR_LOGO_RADIUS}
       value={value}
       color={color}
