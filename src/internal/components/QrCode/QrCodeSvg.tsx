@@ -1,8 +1,4 @@
 import { useEffect, useMemo, useState } from 'react';
-// import { Animated, Easing } from 'react-native';
-// import Svg, { Defs, G, LinearGradient, Path, RadialGradient, Rect, Stop } from 'react-native-svg';
-// import { curves, durations } from '@cbhq/cds-common/motion/tokens';
-
 import {
   GRADIENT_END_COORDINATES,
   GRADIENT_START_COORDINATES,
@@ -36,10 +32,6 @@ export type QRCodeSVGProps = {
   gradientType?: 'radial' | 'linear';
 };
 
-// const A = {
-//   RadialGradient: Animated.createAnimatedComponent(RadialGradient),
-// };
-
 export function QRCodeSVG({
   value,
   size = 100,
@@ -65,9 +57,7 @@ export function QRCodeSVG({
   const gradientRadiusMax = size * 0.55;
   const gradientRadiusMin = logoSize / 2;
   const gradientCenterPoint = size / 2;
-  // const gradientAnim = useRef(
-  //   new Animated.Value(isAsyncDataFetched ? gradientRadiusMax : gradientRadiusMin),
-  // ).current;
+
   const [gradientRadius, setGradientRadius] = useState(
     isAsyncDataFetched ? gradientRadiusMax : gradientRadiusMin,
   );
