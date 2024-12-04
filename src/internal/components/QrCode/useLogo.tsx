@@ -1,13 +1,20 @@
-import { useMemo } from 'react';
+import React, { useMemo } from 'react';
+import { cbwSvg } from '../../svg/cbwSvg';
+import ReactDOMServer from 'react-dom/server';
 
 type RenderLogoProps = {
   size: number;
-  logo: React.ReactNode | undefined;
+  logo: { uri: string } | React.ReactNode | undefined;
   logoSize: number;
   logoBackgroundColor: string;
   logoMargin: number;
   logoBorderRadius: number;
 };
+
+const defaultSvgString = ReactDOMServer.renderToString(cbwSvg);
+const defaultSvgDataUri = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(
+  defaultSvgString,
+)}`;
 
 export function useLogo({
   size,
@@ -18,25 +25,18 @@ export function useLogo({
   logoBorderRadius,
 }: RenderLogoProps) {
   const svgLogo = useMemo(() => {
-    if (!logo) {
-      return;
+    let logoUri = defaultSvgDataUri;
+    if (React.isValidElement(logo)) {
+      logoUri = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(
+        ReactDOMServer.renderToString(logo),
+      )}`;
     }
     const logoPosition = (size - logoSize - logoMargin * 2) / 2;
     const logoBackgroundSize = logoSize + logoMargin * 2;
-    const logoBackgroundBorderRadius =
-      logoBorderRadius + (logoMargin / logoSize) * logoBorderRadius;
 
     return (
       <g transform={`translate(${logoPosition}, ${logoPosition})`}>
         <defs>
-          <clipPath id="clip-logo-background">
-            <rect
-              width={logoBackgroundSize}
-              height={logoBackgroundSize}
-              rx={logoBackgroundBorderRadius}
-              ry={logoBackgroundBorderRadius}
-            />
-          </clipPath>
           <clipPath id="clip-logo">
             <rect
               width={logoSize}
@@ -50,18 +50,19 @@ export function useLogo({
           <rect
             width={logoBackgroundSize}
             height={logoBackgroundSize}
+            rx={logoBorderRadius}
+            ry={logoBorderRadius}
             fill={logoBackgroundColor}
-            clipPath="url(#clip-logo-background)"
           />
         </g>
-        <g x={logoMargin} y={logoMargin}>
-          <g
+        <g transform={`translate(${logoMargin}, ${logoMargin})`}>
+          <image
             width={logoSize}
             height={logoSize}
+            preserveAspectRatio="xMidYMid slice"
+            href={logoUri}
             clipPath="url(#clip-logo)"
-          >
-            {logo}
-          </g>
+          />
         </g>
       </g>
     );
