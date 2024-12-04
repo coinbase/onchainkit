@@ -31,7 +31,6 @@
   },
   "peerDependencies": {
     "@types/react": "^18",
-    "@xmtp/frames-validator": "^0.6.0",
     "react": "^18",
     "react-dom": "^18"
   },
@@ -63,7 +62,6 @@
     "@types/react-dom": "^18",
     "@vitest/coverage-v8": "^2.0.5",
     "@vitest/ui": "^2.0.5",
-    "@xmtp/frames-validator": "^0.6.0",
     "autoprefixer": "^10.4.19",
     "concurrently": "^8.0.0",
     "graphql": "^14",
@@ -131,18 +129,6 @@
       "import": "./esm/core/index.js",
       "default": "./esm/core/index.js"
     },
-    "./farcaster": {
-      "types": "./esm/farcaster/index.d.ts",
-      "module": "./esm/farcaster/index.js",
-      "import": "./esm/farcaster/index.js",
-      "default": "./esm/farcaster/index.js"
-    },
-    "./frame": {
-      "types": "./esm/frame/index.d.ts",
-      "module": "./esm/frame/index.js",
-      "import": "./esm/frame/index.js",
-      "default": "./esm/frame/index.js"
-    },
     "./fund": {
       "types": "./esm/fund/index.d.ts",
       "module": "./esm/fund/index.js",
@@ -190,12 +176,6 @@
       "module": "./esm/transaction/index.js",
       "import": "./esm/transaction/index.js",
       "default": "./esm/transaction/index.js"
-    },
-    "./xmtp": {
-      "types": "./esm/xmtp/index.d.ts",
-      "module": "./esm/xmtp/index.js",
-      "import": "./esm/xmtp/index.js",
-      "default": "./esm/xmtp/index.js"
     },
     "./wallet": {
       "types": "./esm/wallet/index.d.ts",
