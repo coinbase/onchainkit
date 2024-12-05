@@ -87,15 +87,6 @@ export const sidebar = [
         ],
       },
       {
-        text: 'Frame',
-        items: [
-          {
-            text: 'FrameMetadata',
-            link: '/frame/frame-metadata',
-          },
-        ],
-      },
-      {
         text: 'Fund',
         items: [
           {
@@ -295,35 +286,6 @@ export const sidebar = [
         ],
       },
       {
-        text: 'Frame',
-        items: [
-          {
-            text: 'getFarcasterUserAddress',
-            link: '/farcaster/get-farcaster-user-address',
-          },
-          {
-            text: 'getFrameHtmlResponse',
-            link: '/frame/get-frame-html-response',
-          },
-          {
-            text: 'getFrameMessage',
-            link: '/frame/get-frame-message',
-          },
-          {
-            text: 'getFrameMetadata',
-            link: '/frame/get-frame-metadata',
-          },
-          {
-            text: 'getXmtpFrameMessage',
-            link: '/xmtp/get-xmtp-frame-message',
-          },
-          {
-            text: 'isXmtpFrameRequest',
-            link: '/xmtp/is-xmtp-frame-request',
-          },
-        ],
-      },
-      {
         text: 'Identity',
         items: [
           {
@@ -397,16 +359,8 @@ export const sidebar = [
         link: '/config/types',
       },
       {
-        text: 'Farcaster',
-        link: '/farcaster/types',
-      },
-      {
         text: 'Fund',
         link: '/fund/types',
-      },
-      {
-        text: 'Frame',
-        link: '/frame/types',
       },
       {
         text: 'Identity',

@@ -12,7 +12,7 @@ export const nftMintCardDemoCode = `
       />
     )
   }
-`;
+  `;
 
 export default function NftMintCardDemo() {
   return (

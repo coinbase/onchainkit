@@ -17,7 +17,7 @@ export const checkoutDemoCode = `
       </Checkout>
     )
   }
-`;
+  `;
 
 const GITHUB_LINK = 'https://github.com/coinbase/onchain-commerce-template';
 

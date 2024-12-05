@@ -8,7 +8,6 @@ export default {
     },
   },
   maxWorkers: 1,
-  modulePathIgnorePatterns: ['<rootDir>/framegear/'],
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
   transform: {
     '^.+\\.tsx?$': 'ts-jest',

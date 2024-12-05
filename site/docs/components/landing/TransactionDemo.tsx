@@ -47,7 +47,7 @@ export const transactionDemoCode = `
       </>
     );
   }
-`;
+  `;
 
 function TransactionDemo() {
   return (

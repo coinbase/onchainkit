@@ -18,9 +18,8 @@ skip to the [OnchainKit installation](#install-onchainkit).
 Create a new Next.js project by using the Next.js CLI.
 More information about Next.js can be found [here](https://nextjs.org/docs/getting-started/installation).
 
-
 ```bash [npm]
-npm create next-app@latest
+npx create-next-app@14
 ```
 
 During the setup process you will encounter multiple prompts.
@@ -54,101 +53,54 @@ bun add @coinbase/onchainkit
 
 Get your [Client API Key](https://portal.cdp.coinbase.com/projects/api-keys/client-key) from Coinbase Developer Platform.
 
-<img alt="OnchainKit copy Client API Key"
+<img
+  alt="OnchainKit copy Client API Key"
   src="https://onchainkit.xyz/assets/copy-api-key-guide.png"
-  height="364"/>
+  height="364"
+/>
 
 Create a `.env` file in your project's root directory.
-   <img
-     alt="OnchainKit define Client API Key"
-     src="https://onchainkit.xyz/assets/getting-started-create-env-file.png"
-     width="250"
-     loading="lazy"
-   />
+
+<img
+  alt="OnchainKit define Client API Key"
+  src="https://onchainkit.xyz/assets/getting-started-create-env-file.png"
+  width="250"
+  loading="lazy"
+/>
 
 Add your Client API Key to the `.env` file:
 
 ```tsx [.env]
-NEXT_PUBLIC_ONCHAINKIT_API_KEY=YOUR_CLIENT_API_KEY
+NEXT_PUBLIC_ONCHAINKIT_API_KEY=YOUR_CLIENT_API_KEY;
 ```
 
 ## Add Providers
 
-Create a `providers.tsx` file. Add `OnchainKitProvider` as a child of `WagmiProvider` and `QueryClientProvider`.
+Create a `providers.tsx` file. Add `OnchainKitProvider` with your desired config.
 
-Inside the `WagmiProvider`, wrap your app in a TanStack Query React Context Provider, e.g. `QueryClientProvider`, and pass a new `QueryClient` instance to the `client` property.
-
-Additionally, add Base as a supported chain in the Wagmi configuration file `wagmi.ts`.
-
-:::code-group
-
-```tsx twoslash [wagmi.ts]
-import { http, cookieStorage, createConfig, createStorage } from 'wagmi';
-import { base } from 'wagmi/chains'; // add baseSepolia for testing // [!code ++]
-import { coinbaseWallet } from 'wagmi/connectors';
-
-export function getConfig() {
-  return createConfig({
-    chains: [base], // add baseSepolia for testing// [!code ++]
-    connectors: [
-      coinbaseWallet({
-        appName: "OnchainKit",
-        preference: 'smartWalletOnly',
-        version: '4',
-      }),
-    ],
-    storage: createStorage({
-      storage: cookieStorage,
-    }),
-    ssr: true,
-    transports: {
-      [base.id]: http(), // add baseSepolia for testing // [!code ++]
-    },
-  });
-}
-
-declare module 'wagmi' {
-  interface Register {
-    config: ReturnType<typeof getConfig>;
-  }
-}
-```
+Under the hood, OnchainKit will create our recommended Wagmi and QueryClient
+providers. If you wish to customize these providers, check out [Custom
+Supplemental Providers](/config/supplemental-providers).
 
 ```tsx twoslash [providers.tsx]
 // @noErrors: 2307 2580 2339 - cannot find 'process', cannot find './wagmi', cannot find 'import.meta'
-"use client"
+'use client';
 
+import type { ReactNode } from 'react';
 import { OnchainKitProvider } from '@coinbase/onchainkit';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { base } from 'wagmi/chains'; // add baseSepolia for testing // [!code ++]
-import { type ReactNode, useState } from 'react';
-import { type State, WagmiProvider } from 'wagmi';
 
-import { getConfig } from '@/wagmi'; // your import path may vary // [!code ++]
-
-export function Providers(props: {
-  children: ReactNode;
-  initialState?: State;
-}) {
-  const [config] = useState(() => getConfig());
-  const [queryClient] = useState(() => new QueryClient());
-
+export function Providers(props: { children: ReactNode }) {
   return (
-    <WagmiProvider config={config} initialState={props.initialState}>
-      <QueryClientProvider client={queryClient}>
-        <OnchainKitProvider
-          apiKey={process.env.NEXT_PUBLIC_ONCHAINKIT_API_KEY} // [!code ++]
-          chain={base} // add baseSepolia for testing // [!code ++]
-        >
-          {props.children}
-        </OnchainKitProvider>
-      </QueryClientProvider>
-    </WagmiProvider>
+    <OnchainKitProvider
+      apiKey={process.env.NEXT_PUBLIC_ONCHAINKIT_API_KEY} // [!code ++]
+      chain={base} // add baseSepolia for testing // [!code ++]
+    >
+      {props.children}
+    </OnchainKitProvider>
   );
 }
 ```
-
-:::
 
 ## Wrap your app with `<Providers />`
 
@@ -161,7 +113,7 @@ import { Providers } from './providers'; // [!code ++]
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: React.ReactNode,
 }>) {
   return (
     <html lang="en">
@@ -215,7 +167,6 @@ export default function RootLayout(props: { children: ReactNode }) {
     </html>
   );
 }
-
 ```
 
 This ensures that the OnchainKit styles are loaded and applied to your entire application.
@@ -223,7 +174,7 @@ This ensures that the OnchainKit styles are loaded and applied to your entire ap
 - For Tailwind CSS users, check out our [Tailwind Integration Guide](/guides/tailwind).
 
 - Update the appearance of components by using our built-in themes or crafting your own custom theme.
-Explore the possibilities in our [Theming Guide](/guides/themes).
+  Explore the possibilities in our [Theming Guide](/guides/themes).
 
 ::::
 

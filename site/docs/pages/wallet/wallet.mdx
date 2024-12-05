@@ -22,8 +22,8 @@ import {
   EthBalance,
 } from '@coinbase/onchainkit/identity';
 import { color } from '@coinbase/onchainkit/theme';
-import AppWithRK from '../../components/AppWithRK';
 import WalletComponents from '../../components/WalletComponents';
+import AppWithWalletModal from '../../components/AppWithWalletModal';
 
 # `<Wallet />`
 
@@ -44,15 +44,7 @@ If you'd like more customization, follow the implementation guide for our `Walle
 ```tsx twoslash
 import { WalletDefault } from '@coinbase/onchainkit/wallet';
 
-export function WalletComponents() {
-  return (
-// ---cut-before---
-// omitted for brevity
-
-<WalletDefault /> // [!code focus]
-// ---cut-after---
-);
-}
+<WalletDefault />
 ```
 
 
@@ -244,7 +236,9 @@ import {
   </Wallet>
 </WalletComponents>
 
-### Customize Connect button text and style
+::::
+
+## Customize Connect button text and style
 
 Each OnchainKit component offers the flexibility to customize `className` 
 and adjust the style of the React components it represents.
@@ -276,7 +270,7 @@ import { color } from '@coinbase/onchainkit/theme';
     <ConnectWalletText>Log In</ConnectWalletText> // [!code focus]
     <Avatar className="h-6 w-6" /> // [!code focus]
     <Name className='text-white' /> // [!code focus]
-  </ConnectWallet>
+  </ConnectWallet> // [!code focus]
   <WalletDropdown>
     <Identity 
       className="px-4 pt-3 pb-2 hover:bg-blue-200" // [!code focus]
@@ -325,38 +319,51 @@ import { color } from '@coinbase/onchainkit/theme';
   </Wallet>
 </WalletComponents>
 
-### Use RainbowKit for wallet aggregation
+## Using Wallet Modal
 
-You can expand the wallet connection options by using the `withWalletAggregator` prop in the `<ConnectWallet />` component. This will present users with a list of recommended and other wallets to choose from.
+<img alt="Wallet Modal"
+  src="https://onchainkit.xyz/assets/wallet-modal.gif"
+  height="364"/>
 
-OnchainKit leverages [RainbowKit](https://www.rainbowkit.com/) to offer this feature. To use it correctly, follow these steps:
-1. Import the necessary components from RainbowKit.
-2. Create a list of recommended and other wallets.
-3. Use `getDefaultConfig` to configure the Wagmi provider.
-4. Wrap your app in the RainbowKit provider.
+Wallet modal offers users multiple wallet connection options. The modal automatically appears when users click the `ConnectWallet` component and provides three distinct connection paths:
 
-:::code-group
+1. Quickly create a new smart wallet for new users
+2. Coinbase Wallet connection (supporting both smart wallets and EOA)
+3. Other wallets via [WalletConnect](https://docs.walletconnect.org/)
 
-```tsx twoslash [myApp.tsx]
-import {
-  ConnectWallet,
-  Wallet,
-  WalletDropdown,
-  WalletDropdownLink,
-  WalletDropdownDisconnect,
-} from '@coinbase/onchainkit/wallet';
-import {
-  Address,
-  Avatar,
-  Name,
-  Identity,
-  EthBalance,
-} from '@coinbase/onchainkit/identity';
-// ---cut-before---
-// omitted for brevity
+### Setup Steps
 
+::::steps
+
+## Configure the `OnchainKitProvider` with modal settings:
+
+```tsx [providers.tsx]
+<OnchainKitProvider
+  apiKey={process.env.ONCHAINKIT_API_KEY}
+  chain={base}
+  config={{
+    appearance: {
+      name: 'Your App Name',        // Displayed in modal header
+      logo: 'https://your-logo.com',// Displayed in modal header
+      mode: 'auto',                 // 'light' | 'dark' | 'auto'
+      theme: 'default',             // 'default' or custom theme
+    },
+    wallet: { // [!code focus]
+      display: 'modal', // [!code focus]
+      termsUrl: 'https://...', // [!code focus] 
+      privacyUrl: 'https://...', // [!code focus]
+    },
+  }}
+>
+  {children}
+</OnchainKitProvider>
+```
+
+## Use the `ConnectWallet` component in your UI:
+
+```tsx [App.tsx]
 <Wallet>
-  <ConnectWallet withWalletAggregator>  // [!code focus]
+  <ConnectWallet>
     <Avatar className="h-6 w-6" />
     <Name />
   </ConnectWallet>
@@ -367,91 +374,15 @@ import {
       <Address />
       <EthBalance />
     </Identity>
-    <WalletDropdownLink 
-      icon="wallet" 
-      href="https://keys.coinbase.com"
-    >
-      Wallet
-    </WalletDropdownLink>
     <WalletDropdownDisconnect />
   </WalletDropdown>
 </Wallet>
 ```
 
-```tsx twoslash [OnchainProviders.tsx]
-// @noErrors: 2304 2322 - Cannot find VITE_WALLET_CONNECT_PROJECT_ID, Cannot find name Props
-'use client';
-import type { ReactNode } from 'react';
-import { OnchainKitProvider } from '@coinbase/onchainkit';
-import { // [!code focus]
-  RainbowKitProvider, // [!code focus]
-  connectorsForWallets, // [!code focus]
-  getDefaultConfig, // [!code focus]
-} from '@rainbow-me/rainbowkit'; // [!code focus]
-import { // [!code focus]
-  metaMaskWallet, // [!code focus]
-  rainbowWallet, // [!code focus]
-  coinbaseWallet, // [!code focus]
-} from '@rainbow-me/rainbowkit/wallets'; // [!code focus]
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { WagmiProvider } from 'wagmi';
-import { base } from 'wagmi/chains';
-
-import '@coinbase/onchainkit/styles.css';
-import '@rainbow-me/rainbowkit/styles.css'; // [!code focus]
-
-const queryClient = new QueryClient();
-
-const connectors = connectorsForWallets( // [!code focus]
-  [
-    {
-      groupName: 'Recommended Wallet',
-      wallets: [coinbaseWallet],
-    },
-    {
-      groupName: 'Other Wallets',
-      wallets: [rainbowWallet, metaMaskWallet],
-    },
-  ],
-  {
-    appName: 'onchainkit',
-    projectId: VITE_WALLET_CONNECT_PROJECT_ID,
-  },
-); // [!code focus]
-
-const wagmiConfig = getDefaultConfig({ // [!code focus]
-  appName: 'onchainkit',
-  connectors,
-  projectId: process.env.PUBLIC_WALLET_CONNECT_PROJECT_ID,
-  chains: [base],
-  ssr: true, // If your dApp uses server side rendering (SSR)
-}); // [!code focus]
-
-function OnchainProviders({ children }: Props) {
-  return (
-    <WagmiProvider config={wagmiConfig}>
-      <QueryClientProvider client={queryClient}>
-        <OnchainKitProvider
-          apiKey={process.env.PUBLIC_ONCHAINKIT_API_KEY}
-          chain={base}
-        >
-          <RainbowKitProvider modalSize="compact"> // [!code focus]
-            {children}
-          </RainbowKitProvider> // [!code focus]
-        </OnchainKitProvider>
-      </QueryClientProvider>
-    </WagmiProvider>
-  );
-} 
-
-export default OnchainProviders;
-```
-:::
-
-<AppWithRK>
+<AppWithWalletModal>
   <div className="my-10 flex justify-center">
     <Wallet>
-      <ConnectWallet withWalletAggregator>
+      <ConnectWallet>
         <Avatar className="h-6 w-6" />
         <Name />
       </ConnectWallet>
@@ -472,13 +403,13 @@ export default OnchainProviders;
       </WalletDropdown>
     </Wallet>
   </div>
-</AppWithRK>
+</AppWithWalletModal>
 
 ::::
 
-## Examples
+## Example usage
 
-### With Sign In With Ethereum (SIWE)
+### Usage with Sign In With Ethereum (SIWE)
 
 To use [Sign In With Ethereum (SIWE)](https://docs.login.xyz/general-information/siwe-overview) with OnchainKit, you can use the `onConnect` prop in the `<ConnectWallet />` component. This will trigger the SIWE prompt when the user connects their wallet.
 
@@ -513,6 +444,7 @@ The components are designed to work together hierarchically. For each component,
 
 - `<Wallet />` - Serves as the main container for all wallet-related components.
 - `<ConnectWallet />` - Handles the wallet connection process. Place child components inside to customize the connect button appearance.
+- `<AppWithWalletModal />` - Enables a wallet aggregation experience.
 - `<WalletDropdown />` - Contains additional wallet information and options. Place inside the `<Wallet />` component.
 - `<Identity />` - Displays user identity information. Place inside `<WalletDropdown />` for a complete profile view.
 - `<WalletDropdownBasename />` - Displays the user's Basename within the dropdown.

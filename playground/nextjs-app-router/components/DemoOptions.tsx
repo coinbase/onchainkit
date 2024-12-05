@@ -1,7 +1,7 @@
 import { ComponentMode } from '@/components/form/component-mode';
 import { ComponentTheme } from '@/components/form/component-theme';
 import { PaymasterUrl } from '@/components/form/paymaster';
-import { OnchainKitComponent } from './AppProvider';
+import { OnchainKitComponent } from '@/types/onchainkit';
 import { ActiveComponent } from './form/active-component';
 import { Chain } from './form/chain';
 import { CheckoutOptions } from './form/checkout-options';

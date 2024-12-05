@@ -42,11 +42,21 @@ export default {
             transform: 'translateY(0)',
           },
         },
+        fadeIn: {
+          '0%': { opacity: '0' },
+          '100%': { opacity: '1' },
+        },
+        fadeOut: {
+          '0%': { opacity: '1' },
+          '100%': { opacity: '0' },
+        },
       },
       animation: {
         enterRight: 'fadeInRight 500ms ease-out',
         enterUp: 'fadeInUp 500ms ease-out',
         enterDown: 'fadeInDown 500ms ease-out',
+        fadeIn: 'fadeIn 100ms ease-out',
+        fadeOut: 'fadeOut 100ms ease-in',
       },
     },
   },

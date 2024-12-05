@@ -69,16 +69,16 @@ If no mode is specified, `auto` mode will be applied by default.
 
 ## CSS Overrides
 
-Fine-tune specific aspects of an existing theme. 
+Fine-tune specific aspects of an existing theme.
 This is useful when you want to make adjustments to the appearance of the components without creating an entirely new theme.
 
 ```css
 @layer base {
   :root
   .default-light,
-  .default-dark, 
+  .default-dark,
   .base,
-  .cyberpunk, 
+  .cyberpunk,
   .hacker {
     /* Override specific variables as needed */
     --ock-font-family: 'your-custom-value';
@@ -90,7 +90,7 @@ This is useful when you want to make adjustments to the appearance of the compon
 
 ## Custom Theme
 
-Define an entirely new look and feel for your application. 
+Define an entirely new look and feel for your application.
 This gives you complete control over all aspects of the design, including colors, fonts, and other visual properties.
 
 #### Usage Options:
@@ -125,13 +125,13 @@ This gives you complete control over all aspects of the design, including colors
       mode: 'light', // [!code focus]
       theme: 'custom', // [!code focus]
     },
-  }} 
+  }}
 >
 ```
 
 ##### Defining a custom theme
 
-Use CSS variables to define your custom theme. 
+Use CSS variables to define your custom theme.
 The class name definitions must include the `-light` or `-dark` suffix.
 
 ```css
@@ -184,11 +184,11 @@ The class name definitions must include the `-light` or `-dark` suffix.
     --ock-icon-color-success: 'your-custom-value';
     --ock-icon-color-warning: 'your-custom-value';
 
-    /* Line Colors */
-    --ock-line-primary: 'your-custom-value';
-    --ock-line-default: 'your-custom-value';
-    --ock-line-heavy: 'your-custom-value';
-    --ock-line-inverse: 'your-custom-value';
+    /* Border Colors */
+    --ock-border-line-primary: 'your-custom-value';
+    --ock-border-line-default: 'your-custom-value';
+    --ock-border-line-heavy: 'your-custom-value';
+    --ock-border-line-inverse: 'your-custom-value';
   }
 
   .custom-dark {

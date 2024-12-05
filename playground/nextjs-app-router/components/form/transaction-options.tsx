@@ -6,8 +6,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { TransactionTypes } from '@/types/onchainkit';
 import { useContext } from 'react';
-import { AppContext, TransactionTypes } from '../AppProvider';
+import { AppContext } from '../AppProvider';
 
 export function TransactionOptions() {
   const { transactionType, setTransactionType } = useContext(AppContext);
@@ -38,6 +39,9 @@ export function TransactionOptions() {
           </SelectItem>
           <SelectItem value={TransactionTypes.ContractsCallback}>
             Contracts Callback
+          </SelectItem>
+          <SelectItem value={TransactionTypes.ContractsAndCalls}>
+            Contracts and Calls
           </SelectItem>
         </SelectContent>
       </Select>

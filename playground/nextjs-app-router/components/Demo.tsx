@@ -1,6 +1,8 @@
 'use client';
-import { AppContext, OnchainKitComponent } from '@/components/AppProvider';
+import { AppContext } from '@/components/AppProvider';
+import { getShareableUrl } from '@/lib/url-params';
 import { cn } from '@/lib/utils';
+import { OnchainKitComponent } from '@/types/onchainkit';
 import { useContext, useEffect, useState } from 'react';
 import DemoOptions from './DemoOptions';
 import CheckoutDemo from './demo/Checkout';
@@ -39,6 +41,14 @@ function Demo() {
   const { activeComponent } = useContext(AppContext);
   const [isDarkMode, setIsDarkMode] = useState(true);
   const [sideBarVisible, setSideBarVisible] = useState(true);
+  const [copied, setCopied] = useState(false);
+
+  const copyShareableLink = () => {
+    const url = getShareableUrl(activeComponent);
+    navigator.clipboard.writeText(url);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
 
   useEffect(() => {
     console.log('Playground.activeComponent:', activeComponent);
@@ -96,25 +106,35 @@ function Demo() {
         <form className="mt-4 grid gap-8">
           <DemoOptions component={activeComponent} />
         </form>
-        <div className="mt-auto pt-6 text-sm">
-          <a
+        <div className="mt-auto flex items-center justify-between pt-6 text-sm">
+          <div>
+            <a
+              className="opacity-100 transition-opacity duration-200 hover:opacity-70"
+              href="https://github.com/coinbase/onchainkit/tree/main/playground"
+              rel="noreferrer"
+              target="_blank"
+              title="View OnchainKit Playground on GitHub"
+            >
+              Github ↗
+            </a>
+            <a
+              className="pl-4 opacity-100 transition-opacity duration-200 hover:opacity-70"
+              href="https://onchainkit.xyz"
+              rel="noreferrer"
+              target="_blank"
+              title="View OnchainKit"
+            >
+              OnchainKit ↗
+            </a>
+          </div>
+
+          <button
+            type="button"
+            onClick={copyShareableLink}
             className="opacity-100 transition-opacity duration-200 hover:opacity-70"
-            href="https://github.com/coinbase/onchainkit/tree/main/playground"
-            rel="noreferrer"
-            target="_blank"
-            title="View OnchainKit Playground on GitHub"
           >
-            Github ↗
-          </a>
-          <a
-            className="pl-4 opacity-100 transition-opacity duration-200 hover:opacity-70"
-            href="https://onchainkit.xyz"
-            rel="noreferrer"
-            target="_blank"
-            title="View OnchainKit"
-          >
-            OnchainKit ↗
-          </a>
+            {copied ? 'Copied!' : 'Share ↗'}
+          </button>
         </div>
       </div>
       <div className="linear-gradient(to_bottom,#f0f0f0_1px,transparent_1px)] flex flex-1 flex-col bg-[linear-gradient(to_right,#f0f0f0_1px,transparent_1px), bg-[size:6rem_4rem]">

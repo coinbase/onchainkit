@@ -1,12 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import {
-  TRANSACTION_TYPE_CALLS,
-  TRANSACTION_TYPE_CONTRACTS,
-} from '../constants';
 import { sendBatchedTransactions } from './sendBatchedTransactions';
 
 describe('sendBatchedTransactions', () => {
-  const mockWriteContractsAsync = vi.fn();
   const mockSendCallsAsync = vi.fn();
   const mockTransactions = [];
   const mockCapabilities = { paymasterService: '' };
@@ -15,19 +10,13 @@ describe('sendBatchedTransactions', () => {
     vi.clearAllMocks();
   });
 
-  it('should call writeContractsAsync for contract transactions', async () => {
+  it('should call sendCallsAsync for contract transactions', async () => {
     await sendBatchedTransactions({
       capabilities: mockCapabilities,
       sendCallsAsync: mockSendCallsAsync,
       transactions: mockTransactions,
-      transactionType: TRANSACTION_TYPE_CONTRACTS,
-      writeContractsAsync: mockWriteContractsAsync,
     });
-    expect(mockWriteContractsAsync).toHaveBeenCalledWith({
-      contracts: mockTransactions,
-      capabilities: mockCapabilities,
-    });
-    expect(mockSendCallsAsync).not.toHaveBeenCalled();
+    expect(mockSendCallsAsync).toHaveBeenCalled();
   });
 
   it('should call sendCallsAsync for call transactions', async () => {
@@ -35,14 +24,11 @@ describe('sendBatchedTransactions', () => {
       capabilities: mockCapabilities,
       sendCallsAsync: mockSendCallsAsync,
       transactions: mockTransactions,
-      transactionType: TRANSACTION_TYPE_CALLS,
-      writeContractsAsync: mockWriteContractsAsync,
     });
     expect(mockSendCallsAsync).toHaveBeenCalledWith({
       calls: mockTransactions,
       capabilities: mockCapabilities,
     });
-    expect(mockWriteContractsAsync).not.toHaveBeenCalled();
   });
 
   it('should not call any function if transactions are undefined', async () => {
@@ -50,22 +36,31 @@ describe('sendBatchedTransactions', () => {
       capabilities: mockCapabilities,
       sendCallsAsync: mockSendCallsAsync,
       transactions: undefined,
-      transactionType: TRANSACTION_TYPE_CONTRACTS,
-      writeContractsAsync: mockWriteContractsAsync,
     });
-    expect(mockWriteContractsAsync).not.toHaveBeenCalled();
     expect(mockSendCallsAsync).not.toHaveBeenCalled();
   });
 
-  it('should not call any function if transaction type is invalid', async () => {
+  it('should transform contracts address prop', async () => {
     await sendBatchedTransactions({
       capabilities: mockCapabilities,
       sendCallsAsync: mockSendCallsAsync,
-      transactions: mockTransactions,
-      transactionType: 'INVALID_TYPE',
-      writeContractsAsync: mockWriteContractsAsync,
+      transactions: [{ address: '0x123', abi: '123' }],
     });
-    expect(mockWriteContractsAsync).not.toHaveBeenCalled();
-    expect(mockSendCallsAsync).not.toHaveBeenCalled();
+    expect(mockSendCallsAsync).toHaveBeenCalled({
+      Capabilities: mockCapabilities,
+      calls: [{ to: '0x123', abi: '123' }],
+    });
+  });
+
+  it('should transform not transform call', async () => {
+    await sendBatchedTransactions({
+      capabilities: mockCapabilities,
+      sendCallsAsync: mockSendCallsAsync,
+      transactions: [{ to: '0x123', data: '123' }],
+    });
+    expect(mockSendCallsAsync).toHaveBeenCalled({
+      Capabilities: mockCapabilities,
+      calls: [{ to: '0x123', data: '123' }],
+    });
   });
 });

@@ -1,6 +1,6 @@
-import type { UserOperation } from 'permissionless';
 import type { Dispatch, ReactNode, SetStateAction } from 'react';
 import type { Address, Chain, PublicClient } from 'viem';
+import type { UserOperation } from 'viem/_types/account-abstraction';
 import type { UseBalanceReturnType, UseReadContractReturnType } from 'wagmi';
 import type { SwapError } from '../swap';
 
@@ -19,7 +19,6 @@ export type ConnectWalletReact = {
   className?: string; // Optional className override for button element
   /** @deprecated Prefer `ConnectWalletText component` */
   text?: string; // Optional text override for button
-  withWalletAggregator?: boolean; // Optional flag to enable the wallet aggregator like RainbowKit
   onConnect?: () => void; // Optional callback function to execute when the wallet is connected.
 };
 
@@ -43,7 +42,7 @@ export type IsValidAAEntrypointOptions = {
  */
 export type IsWalletACoinbaseSmartWalletOptions = {
   client: PublicClient;
-  userOp: UserOperation<'v0.6'>;
+  userOp: UserOperation<'0.6'>;
 };
 
 /**
