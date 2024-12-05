@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import { useOnchainKit } from '../../../useOnchainKit';
 import {
   GRADIENT_END_COORDINATES,
   GRADIENT_START_COORDINATES,
@@ -7,12 +8,10 @@ import {
   ockThemeToRadiamGradientColorMap,
   presetGradients,
 } from './gradientConstants';
-
 import { useCorners } from './useCorners';
 import { useDotsPath } from './useDotsPath';
 import { useLogo } from './useLogo';
 import { useMatrix } from './useMatrix';
-import { useOnchainKit } from '../../../useOnchainKit';
 
 function coordinateAsPercentage(coordinate: number) {
   return `${coordinate * 100}%`;

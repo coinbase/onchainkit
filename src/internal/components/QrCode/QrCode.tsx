@@ -1,9 +1,9 @@
 import { QRCodeSVG, type QRCodeSVGProps } from './QrCodeSvg';
 import {
   QR_CODE_SIZE,
-  QR_LOGO_SIZE,
-  QR_LOGO_RADIUS,
   QR_LOGO_BACKGROUND_COLOR,
+  QR_LOGO_RADIUS,
+  QR_LOGO_SIZE,
 } from './gradientConstants';
 
 export function QRCodeComponent({
