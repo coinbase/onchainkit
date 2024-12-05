@@ -1,6 +1,6 @@
 import { Children, useMemo } from 'react';
 import { findComponent } from '../../internal/utils/findComponent';
-import { background, border, cn, line } from '../../styles/theme';
+import { background, border, cn } from '../../styles/theme';
 import type { SwapSettingsSlippageLayoutReact } from '../types';
 import { SwapSettingsSlippageDescription } from './SwapSettingsSlippageDescription';
 import { SwapSettingsSlippageInput } from './SwapSettingsSlippageInput';
@@ -26,7 +26,7 @@ export function SwapSettingsSlippageLayout({
       className={cn(
         background.default,
         border.radius,
-        line.default,
+        border.lineDefault,
         'right-0 z-10 w-[21.75rem] px-3 py-3',
         className,
       )}

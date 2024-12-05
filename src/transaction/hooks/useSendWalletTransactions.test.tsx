@@ -1,9 +1,5 @@
 import { renderHook } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import {
-  TRANSACTION_TYPE_CALLS,
-  TRANSACTION_TYPE_CONTRACTS,
-} from '../constants';
 import { sendBatchedTransactions } from '../utils/sendBatchedTransactions';
 import { sendSingleTransactions } from '../utils/sendSingleTransactions';
 import { useSendWalletTransactions } from './useSendWalletTransactions';
@@ -22,10 +18,7 @@ describe('useSendWalletTransactions', () => {
     const capabilities = {};
     const { result } = renderHook(() =>
       useSendWalletTransactions({
-        transactionType: TRANSACTION_TYPE_CONTRACTS,
         capabilities,
-        writeContractsAsync: vi.fn(),
-        writeContractAsync: vi.fn(),
         sendCallsAsync: vi.fn(),
         sendCallAsync: vi.fn(),
         walletCapabilities: {
@@ -40,8 +33,6 @@ describe('useSendWalletTransactions', () => {
       capabilities,
       sendCallsAsync: expect.any(Function),
       transactions,
-      transactionType: TRANSACTION_TYPE_CONTRACTS,
-      writeContractsAsync: expect.any(Function),
     });
   });
 
@@ -52,10 +43,7 @@ describe('useSendWalletTransactions', () => {
     ];
     const { result } = renderHook(() =>
       useSendWalletTransactions({
-        transactionType: TRANSACTION_TYPE_CALLS,
         capabilities: undefined,
-        writeContractsAsync: vi.fn(),
-        writeContractAsync: vi.fn(),
         sendCallsAsync: vi.fn(),
         sendCallAsync: vi.fn(),
         walletCapabilities: {
@@ -69,8 +57,6 @@ describe('useSendWalletTransactions', () => {
     expect(sendSingleTransactions).toHaveBeenCalledWith({
       sendCallAsync: expect.any(Function),
       transactions,
-      transactionType: TRANSACTION_TYPE_CALLS,
-      writeContractAsync: expect.any(Function),
     });
   });
 
@@ -79,10 +65,7 @@ describe('useSendWalletTransactions', () => {
     const capabilities = {};
     const { result } = renderHook(() =>
       useSendWalletTransactions({
-        transactionType: TRANSACTION_TYPE_CONTRACTS,
         capabilities,
-        writeContractsAsync: vi.fn(),
-        writeContractAsync: vi.fn(),
         sendCallsAsync: vi.fn(),
         sendCallAsync: vi.fn(),
         walletCapabilities: {
@@ -97,18 +80,13 @@ describe('useSendWalletTransactions', () => {
       capabilities,
       sendCallsAsync: expect.any(Function),
       transactions,
-      transactionType: TRANSACTION_TYPE_CONTRACTS,
-      writeContractsAsync: expect.any(Function),
     });
   });
 
   it('should handle no transactions', async () => {
     const { result } = renderHook(() =>
       useSendWalletTransactions({
-        transactionType: TRANSACTION_TYPE_CONTRACTS,
         capabilities: undefined,
-        writeContractsAsync: vi.fn(),
-        writeContractAsync: vi.fn(),
         sendCallsAsync: vi.fn(),
         sendCallAsync: vi.fn(),
         walletCapabilities: { hasAtomicBatch: false },
@@ -126,10 +104,7 @@ describe('useSendWalletTransactions', () => {
     ];
     const { result } = renderHook(() =>
       useSendWalletTransactions({
-        transactionType: TRANSACTION_TYPE_CALLS,
         capabilities: undefined,
-        writeContractsAsync: vi.fn(),
-        writeContractAsync: vi.fn(),
         sendCallsAsync: vi.fn(),
         sendCallAsync: vi.fn(),
         walletCapabilities: {},
@@ -139,8 +114,6 @@ describe('useSendWalletTransactions', () => {
     expect(sendSingleTransactions).toHaveBeenCalledWith({
       sendCallAsync: expect.any(Function),
       transactions,
-      transactionType: TRANSACTION_TYPE_CALLS,
-      writeContractAsync: expect.any(Function),
     });
   });
 });

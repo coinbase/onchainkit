@@ -1,0 +1,88 @@
+---
+title: Supplemental Providers · OnchainKit
+description: Customize the Wagmi and QueryClient providers
+---
+
+import StartBuilding from '../../components/StartBuilding';
+
+# Custom Supplemental Providers
+
+Under the hood, OnchainKit will create our recommended Wagmi and QueryClient
+providers. If you wish to customize the providers, you can do so by creating
+these providers with your own configuration.
+
+For example, the following code creates custom Wagmi and QueryClient providers:
+
+:::code-group
+
+```tsx twoslash [wagmi.ts]
+import { http, cookieStorage, createConfig, createStorage } from 'wagmi';
+import { base } from 'wagmi/chains'; // add baseSepolia for testing // [!code ++]
+import { coinbaseWallet } from 'wagmi/connectors';
+
+export function getConfig() {
+  return createConfig({
+    chains: [base], // add baseSepolia for testing // [!code ++]
+    connectors: [
+      coinbaseWallet({
+        appName: 'OnchainKit',
+        preference: 'smartWalletOnly',
+        version: '4',
+      }),
+    ],
+    storage: createStorage({
+      storage: cookieStorage,
+    }),
+    ssr: true,
+    transports: {
+      [base.id]: http(), // add baseSepolia for testing // [!code ++]
+    },
+  });
+}
+
+declare module 'wagmi' {
+  interface Register {
+    config: ReturnType<typeof getConfig>;
+  }
+}
+```
+
+```tsx twoslash [providers.tsx]
+// @noErrors: 2307 2580 2339 - cannot find 'process', cannot find './wagmi', cannot find 'import.meta'
+import { OnchainKitProvider } from '@coinbase/onchainkit';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { base } from 'wagmi/chains'; // add baseSepolia for testing// [!code ++]
+import { type ReactNode, useState } from 'react';
+import { type State, WagmiProvider } from 'wagmi';
+
+import { getConfig } from '@/wagmi'; // your import path may vary // [!code ++]
+
+export function Providers(props: {
+  children: ReactNode;
+  initialState?: State;
+}) {
+  const [config] = useState(() => getConfig());
+  const [queryClient] = useState(() => new QueryClient());
+  const apiKey = // [!code ++]
+    typeof window !== 'undefined' // [!code ++]
+      ? window.ENV?.PUBLIC_ONCHAINKIT_API_KEY // [!code ++]
+      : undefined; // [!code ++]
+
+  return (
+    <WagmiProvider config={config} initialState={props.initialState}>
+      <QueryClientProvider client={queryClient}>
+        <OnchainKitProvider
+          apiKey={apiKey} // [!code ++]
+          chain={base} // add baseSepolia for testing // [!code ++]
+        >
+          {props.children}
+        </OnchainKitProvider>
+      </QueryClientProvider>
+    </WagmiProvider>
+  );
+}
+```
+
+:::
+
+<StartBuilding />

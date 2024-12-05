@@ -6,7 +6,7 @@ import { Identity } from './Identity';
 import { Name } from './Name';
 import { Socials } from './Socials';
 
-import { background, border, cn, line } from '../../styles/theme';
+import { background, border, cn } from '../../styles/theme';
 
 type IdentityCardReact = {
   address?: Address;
@@ -27,8 +27,8 @@ export function IdentityCard({
       chain={chain}
       className={cn(
         border.radius,
+        border.lineDefault,
         background.default,
-        line.default,
         'items-left flex min-w-[300px] p-4',
         className,
       )}

@@ -41,6 +41,7 @@ export function TransactionToast({
       durationMs={durationMs}
       isVisible={isToastVisible}
       onClose={closeToast}
+      startTimeout={!!receipt || !!errorMessage}
     >
       {children}
     </Toast>

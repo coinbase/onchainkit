@@ -30,7 +30,7 @@ export const identityDemoCode = `
       </Identity>
     )
   }
-`;
+  `;
 
 function IdentityDemo() {
   return (

@@ -6,6 +6,7 @@ import { getToastPosition } from '../utils/getToastPosition';
 type ToastProps = {
   className?: string;
   durationMs?: number;
+  startTimeout?: boolean;
   position: 'top-center' | 'top-right' | 'bottom-center' | 'bottom-right';
   animation?: 'animate-enterRight' | 'animate-enterUp' | 'animate-enterDown';
   isVisible: boolean;
@@ -22,7 +23,8 @@ const defaultAnimationByPosition = {
 
 export function Toast({
   className,
-  durationMs = 3000,
+  durationMs = 5000,
+  startTimeout = true,
   position = 'bottom-center',
   animation,
   isVisible,
@@ -33,18 +35,20 @@ export function Toast({
   const animationClass = animation ?? defaultAnimationByPosition[position];
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      if (isVisible) {
-        onClose();
-      }
-    }, durationMs);
+    if (startTimeout) {
+      const timer = setTimeout(() => {
+        if (isVisible) {
+          onClose();
+        }
+      }, durationMs);
 
-    return () => {
-      if (timer) {
-        clearTimeout(timer);
-      }
-    };
-  }, [durationMs, isVisible, onClose]);
+      return () => {
+        if (timer) {
+          clearTimeout(timer);
+        }
+      };
+    }
+  }, [durationMs, isVisible, onClose, startTimeout]);
 
   if (!isVisible) {
     return null;

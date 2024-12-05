@@ -15,7 +15,7 @@ export default defineConfig({
     options.jsxImportSource = 'react';
   },
   sourcemap: true,
-  outDir: 'playground/nextjs-app-router/node_modules/@coinbase/onchainkit/esm',
+  outDir: 'playground/nextjs-app-router/onchainkit/esm',
   dts: false,
   clean: false,
   silent: true, // Flip this to false to see tsup output in the terminal, including performance logs
@@ -30,7 +30,7 @@ export default defineConfig({
         '--emitDeclarationOnly',
         '--declaration',
         '--outDir',
-        'playground/nextjs-app-router/node_modules/@coinbase/onchainkit/esm',
+        'playground/nextjs-app-router/onchainkit/esm',
         '--rootDir',
         'src',
         'src/index.ts',
@@ -39,7 +39,7 @@ export default defineConfig({
         'src/**/theme.ts',
         '--incremental',
         '--tsBuildInfoFile',
-        'playground/nextjs-app-router/node_modules/@coinbase/onchainkit/esm/tsbuildinfo.json',
+        'playground/nextjs-app-router/onchainkit/esm/tsbuildinfo.json',
         '--jsx',
         'react-jsx',
       ],
@@ -47,6 +47,12 @@ export default defineConfig({
         shell: true,
       },
     );
+
+    // Copy tailwind styles
+    spawnSync('cp', [
+      'src/styles.css',
+      'playground/nextjs-app-router/onchainkit/src/styles.css',
+    ]);
 
     console.log('Declaration files generated.');
   },

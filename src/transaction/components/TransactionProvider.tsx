@@ -18,17 +18,11 @@ import { Capabilities } from '../../constants';
 import { useCapabilitiesSafe } from '../../internal/hooks/useCapabilitiesSafe';
 import { useValue } from '../../internal/hooks/useValue';
 import { useOnchainKit } from '../../useOnchainKit';
-import {
-  GENERIC_ERROR_MESSAGE,
-  TRANSACTION_TYPE_CALLS,
-  TRANSACTION_TYPE_CONTRACTS,
-} from '../constants';
+import { GENERIC_ERROR_MESSAGE } from '../constants';
 import { useCallsStatus } from '../hooks/useCallsStatus';
 import { useSendCall } from '../hooks/useSendCall';
 import { useSendCalls } from '../hooks/useSendCalls';
 import { useSendWalletTransactions } from '../hooks/useSendWalletTransactions';
-import { useWriteContract } from '../hooks/useWriteContract';
-import { useWriteContracts } from '../hooks/useWriteContracts';
 import type {
   LifecycleStatus,
   TransactionContextType,
@@ -82,9 +76,6 @@ export function TransactionProvider({
   >();
   const [transactionHashList, setTransactionHashList] = useState<Address[]>([]);
   const transactions = calls || contracts;
-  const transactionType = calls
-    ? TRANSACTION_TYPE_CALLS
-    : TRANSACTION_TYPE_CONTRACTS;
 
   // Retrieve wallet capabilities
   const walletCapabilities = useCapabilitiesSafe({
@@ -96,72 +87,42 @@ export function TransactionProvider({
   // Validate `calls` and `contracts` props
   if (!contracts && !calls) {
     throw new Error(
-      'Transaction: One of contracts or calls must be provided as a prop to the Transaction component.',
+      'Transaction: calls or contracts must be provided as a prop to the Transaction component.',
     );
   }
+
+  // Validate `calls` and `contracts` props
   if (calls && contracts) {
     throw new Error(
       'Transaction: Only one of contracts or calls can be provided as a prop to the Transaction component.',
     );
   }
 
-  // useWriteContracts or useWriteContract
-  // Used for contract calls with an ABI and functions.
-  const { status: statusWriteContracts, writeContractsAsync } =
-    useWriteContracts({
-      setLifecycleStatus,
-      setTransactionId,
-    });
-  const {
-    status: statusWriteContract,
-    writeContractAsync,
-    data: writeContractTransactionHash,
-  } = useWriteContract({
-    setLifecycleStatus,
-    transactionHashList,
-  });
   // useSendCalls or useSendCall
   // Used for contract calls with raw calldata.
   const { status: statusSendCalls, sendCallsAsync } = useSendCalls({
     setLifecycleStatus,
     setTransactionId,
   });
+
   const {
     status: statusSendCall,
     sendCallAsync,
-    data: sendCallTransactionHash,
+    data: singleTransactionHash,
   } = useSendCall({
     setLifecycleStatus,
     transactionHashList,
   });
 
   // Transaction Status
-  // For batched, use statusSendCalls or statusWriteContracts
-  // For single, use statusSendCall or statusWriteContract
+  // For batched, use statusSendCalls
+  // For single, use statusSendCall
   const transactionStatus = useMemo(() => {
-    const transactionStatuses = walletCapabilities[Capabilities.AtomicBatch]
-      ?.supported
-      ? {
-          [TRANSACTION_TYPE_CALLS]: statusSendCalls,
-          [TRANSACTION_TYPE_CONTRACTS]: statusWriteContracts,
-        }
-      : {
-          [TRANSACTION_TYPE_CALLS]: statusSendCall,
-          [TRANSACTION_TYPE_CONTRACTS]: statusWriteContract,
-        };
-    return transactionStatuses[transactionType];
-  }, [
-    statusSendCalls,
-    statusWriteContracts,
-    statusSendCall,
-    statusWriteContract,
-    transactionType,
-    walletCapabilities[Capabilities.AtomicBatch],
-  ]);
-
-  // Transaction hash for single transaction (non-batched)
-  const singleTransactionHash =
-    writeContractTransactionHash || sendCallTransactionHash;
+    if (walletCapabilities[Capabilities.AtomicBatch]?.supported) {
+      return statusSendCalls;
+    }
+    return statusSendCall;
+  }, [statusSendCall, statusSendCalls, walletCapabilities]);
 
   const capabilities = useMemo(() => {
     if (isSponsored && paymaster) {
@@ -181,10 +142,7 @@ export function TransactionProvider({
     capabilities,
     sendCallAsync,
     sendCallsAsync,
-    transactionType,
     walletCapabilities,
-    writeContractAsync,
-    writeContractsAsync,
   });
 
   const { transactionHash: batchedTransactionHash, status: callStatus } =
@@ -192,6 +150,7 @@ export function TransactionProvider({
       setLifecycleStatus,
       transactionId,
     });
+
   const { data: receipt } = useWaitForTransactionReceipt({
     hash: singleTransactionHash || batchedTransactionHash,
   });

@@ -192,26 +192,6 @@ export default function StartBuilding() {
             NFTs in your app.
           </span>
         </li>
-        <li className="vocs_ListItem">
-          <span>
-            <a
-              className="vocs_Anchor vocs_Link vocs_Link_accent_underlined"
-              href="/frame/frame-metadata"
-            >
-              <strong className="vocs_Strong">
-                <code className="vocs_Code">Frame</code>
-              </strong>
-            </a>{' '}
-            - Build and test{' '}
-            <a
-              className="vocs_Anchor vocs_Link vocs_Link_accent_underlined"
-              href="/frame/frame-metadata"
-            >
-              Farcaster
-            </a>{' '}
-            frames.
-          </span>
-        </li>
       </ul>
     </>
   );

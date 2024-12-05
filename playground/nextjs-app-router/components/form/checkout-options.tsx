@@ -1,9 +1,10 @@
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { CheckoutTypes } from '@/types/onchainkit';
 import { useContext } from 'react';
 import { useState } from 'react';
-import { AppContext, CheckoutTypes } from '../AppProvider';
+import { AppContext } from '../AppProvider';
 
 export function CheckoutOptions() {
   const {
@@ -19,7 +20,7 @@ export function CheckoutOptions() {
   const [productOptions, setProductOptions] = useState<{
     chargeId: string;
   }>({
-    chargeId: '',
+    chargeId: checkoutOptions?.chargeId || '',
   });
 
   return (

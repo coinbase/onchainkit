@@ -10,7 +10,6 @@ export default defineConfig({
         '**.js',
         '**.ts',
         '**/**.stories.**',
-        '**/getMockFrameRequest.ts',
         '**/index.ts',
         '**/mocks.tsx',
         '**/*Svg.tsx',
@@ -18,7 +17,6 @@ export default defineConfig({
         '.storybook/**',
         '.yarn/**',
         'esm/**',
-        'framegear/**',
         'node_modules/**',
         'onchainkit/esm/**',
         'playground/**',
@@ -36,7 +34,6 @@ export default defineConfig({
     environment: 'jsdom',
     exclude: [
       '**/node_modules/**',
-      'framegear/**',
       'playground/**',
       'site/**',
       'create-onchain/**',

@@ -38,7 +38,7 @@ export const walletDemoCode = `
   function WalletDefaultDemo() {
     return <WalletDefault />
   }
-`;
+  `;
 
 function WalletDemo() {
   return (

@@ -1,15 +1,37 @@
 # Changelog
 
+## 0.35.8
+
+### Patch Changes
+
+- **docs**: Add `WalletModal` docs. @fakepixels @cpcramer #1671 #1669
+
+## 0.35.7
+
+### Patch Changes
+
+- **feat**: Add `WalletModal` component. By @cpcramer #1610
+- **docs**: Update `Transaction` docs for heterogeneous calls. By @abcrane123 #1560
+
+## 0.35.6
+
+### Patch Changes
+
+- **feat**: Add linking functionality to playground. By @dschlabach #1624
+- **feat**: Upgraded viem to support heterogeneous calls. By @abcrane123 #1527
+- **feat**: Added default WagmiProvider and QueryClientProvider if not provided in the React context. By @OxAlec #1589
+- **feat**: Added global Toast component. By @brendan-defi #1588
+
 ## 0.35.5
 
 ### Patch Changes
 
-- **fix**: Updated `NFTCard` and `NFTMintCard` to be more responsive. By @alessey #1590 
-- **fix**: Updated `NFTCard` and `NFTMintCard` styles to use gap enabling simpler composition. By @alessey #1594 
-- **docs**: Added `NFTCard` and `NFTMintCard` to the docs. By @alessey #1572 
-- **docs**: Fixed typos in docs. By @steveviselli-cb @cypherpepe #1593 #1587 
-- **docs**: Added `NFTCardDefault` and `NFTMintCardDefault` to the docs. By @alessey #1592 
-- **fix**: Fixed misconfigured `.env` file in `create-onchain` CLI. By @dschlabach #1595 
+- **fix**: Updated `NFTCard` and `NFTMintCard` to be more responsive. By @alessey #1590
+- **fix**: Updated `NFTCard` and `NFTMintCard` styles to use gap enabling simpler composition. By @alessey #1594
+- **docs**: Added `NFTCard` and `NFTMintCard` to the docs. By @alessey #1572
+- **docs**: Fixed typos in docs. By @steveviselli-cb @cypherpepe #1593 #1587
+- **docs**: Added `NFTCardDefault` and `NFTMintCardDefault` to the docs. By @alessey #1592
+- **fix**: Fixed misconfigured `.env` file in `create-onchain` CLI. By @dschlabach #1595
 - **docs**: Added `"use client"` directive to instructions for Next.js. By @dschlabach #1596
 
 ## 0.35.4

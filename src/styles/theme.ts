@@ -7,21 +7,21 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export const text = {
-  body: 'ock-font-family font-normal leading-normal',
-  caption: 'ock-font-family font-semibold text-xs leading-4',
-  headline: 'ock-font-family font-semibold leading-normal',
-  label1: 'ock-font-family font-semibold text-sm leading-5',
-  label2: 'ock-font-family text-sm leading-5',
-  legal: 'ock-font-family text-xs leading-4',
-  title1: 'ock-font-family font-semibold text-2xl leading-9',
-  title3: 'ock-font-family font-semibold text-xl leading-7',
+  body: 'ock-font-family font-normal text-base',
+  caption: 'ock-font-family font-semibold text-xs',
+  headline: 'ock-font-family font-semibold',
+  label1: 'ock-font-family font-semibold text-sm',
+  label2: 'ock-font-family text-sm',
+  legal: 'ock-font-family text-xs',
+  title1: 'ock-font-family font-semibold text-2xl',
+  title3: 'ock-font-family font-semibold text-xl',
 } as const;
 
 export const pressable = {
   default:
     'cursor-pointer ock-bg-default active:bg-[var(--ock-bg-default-active)] hover:bg-[var(--ock-bg-default-hover)]',
   alternate:
-    'cursor-pointer ock-bg-alternate active:bg-[var(--ock-bg-alternate-active)] hover:[var(--ock-bg-alternate-hover)]',
+    'cursor-pointer ock-bg-alternate active:bg-[var(--ock-bg-alternate-active)] hover:bg-[var(--ock-bg-alternate-hover)]',
   inverse:
     'cursor-pointer ock-bg-inverse active:bg-[var(--ock-bg-inverse-active)] hover:bg-[var(--ock-bg-inverse-hover)]',
   primary:
@@ -68,6 +68,10 @@ export const fill = {
 export const border = {
   default: 'ock-border-default',
   defaultActive: 'ock-border-default-active',
+  linePrimary: 'ock-border-line-primary border',
+  lineDefault: 'ock-border-line-default border',
+  lineHeavy: 'ock-border-line-heavy border',
+  lineInverse: 'ock-border-line-inverse border',
   radius: 'ock-border-radius',
   radiusInner: 'ock-border-radius-inner',
 } as const;
@@ -84,11 +88,4 @@ export const icon = {
   error: 'ock-icon-color-error',
   success: 'ock-icon-color-success',
   warning: 'ock-icon-color-warning',
-} as const;
-
-export const line = {
-  primary: 'ock-line-primary border',
-  default: 'ock-line-default border',
-  heavy: 'ock-line-heavy border',
-  inverse: 'ock-line-inverse border',
 } as const;

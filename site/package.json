@@ -9,14 +9,13 @@
     "sitemap": "node createSitemap.js"
   },
   "dependencies": {
-    "@coinbase/onchainkit": "0.35.5",
+    "@coinbase/onchainkit": "0.35.8",
     "@types/react": "latest",
     "@vercel/edge": "^1.1.1",
     "express": "^4.21.1",
     "permissionless": "^0.1.29",
     "react": "18",
     "react-dom": "18",
-    "react-farcaster-embed": "^1.4.7",
     "sitemap-generator": "^8.5.1",
     "tar": "^7.0.0",
     "typescript": "latest",
