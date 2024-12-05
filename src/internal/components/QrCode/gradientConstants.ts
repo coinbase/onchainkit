@@ -19,7 +19,7 @@ export const ockThemeToRadiamGradientColorMap = {
   default: 'default',
   base: 'blue',
   cyberpunk: 'magenta',
-  hacker: 'red',
+  hacker: 'black',
 };
 
 export const linearGradientStops: Record<string, LinearGradient> = {
@@ -32,8 +32,8 @@ export const linearGradientStops: Record<string, LinearGradient> = {
     endColor: '#CE46BD',
   },
   black: {
-    startColor: '#52525b',
-    endColor: '#ffffff',
+    startColor: '#a1a1aa',
+    endColor: '#27272a',
   },
   baseBlue: {
     startColor: '#0052ff',
@@ -68,16 +68,21 @@ export const presetGradients = {
     ['#0F27FF', '76.56%'],
     ['#201F1D', '100%'],
   ],
-  red: [
-    ['#EE2634', '39.06%'],
-    ['#6100FF', '76.56%'],
-    ['#201F1D', '100%'],
-  ],
   magenta: [
     ['#CF00F1', '36.46%'],
     ['#7900F1', '68.58%'],
     ['#201F1D', '100%'],
   ],
+  black: [
+    ['#d4d4d8', '36.46%'],
+    ['#201F1D', '68.58%'],
+    ['#201F1D', '100%'],
+  ],
+  // red: [
+  //   ['#EE2634', '39.06%'],
+  //   ['#6100FF', '76.56%'],
+  //   ['#201F1D', '100%'],
+  // ],
   // cyan: [
   //   ['#007cd6', '39.06%'],
   //   ['#6100FF', '76.56%'],
