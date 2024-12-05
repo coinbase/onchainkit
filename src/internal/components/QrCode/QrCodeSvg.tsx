@@ -1,15 +1,17 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import {
   GRADIENT_END_COORDINATES,
   GRADIENT_START_COORDINATES,
   linearGradientStops,
+  ockThemeToLinearGradientColorMap,
+  ockThemeToRadiamGradientColorMap,
+  presetGradients,
 } from './gradientConstants';
 
 import { useCorners } from './useCorners';
 import { useDotsPath } from './useDotsPath';
 import { useLogo } from './useLogo';
 import { useMatrix } from './useMatrix';
-import { usePresetGradientForColor } from './usePresetGradientForColor';
 import { useOnchainKit } from '../../../useOnchainKit';
 
 function coordinateAsPercentage(coordinate: number) {
@@ -19,7 +21,6 @@ function coordinateAsPercentage(coordinate: number) {
 export type QRCodeSVGProps = {
   value: string;
   size?: number;
-  color?: string;
   backgroundColor?: string;
   logo?: React.ReactNode;
   logoSize?: number;
@@ -29,21 +30,12 @@ export type QRCodeSVGProps = {
   quietZone?: number;
   quietZoneBorderRadius?: number;
   ecl?: 'L' | 'M' | 'Q' | 'H';
-  isAsyncDataFetched?: boolean;
   gradientType?: 'radial' | 'linear';
-};
-
-const ockThemeToGradientColorMap = {
-  default: 'blue',
-  base: 'baseBlue',
-  cyberpunk: 'pink',
-  hacker: 'black',
 };
 
 export function QRCodeSVG({
   value,
   size = 100,
-  color = '#000000',
   backgroundColor = '#ffffff',
   logo,
   logoSize = size * 0.2,
@@ -53,32 +45,37 @@ export function QRCodeSVG({
   quietZone = 12,
   quietZoneBorderRadius = 8,
   ecl = 'Q',
-  isAsyncDataFetched = true,
   gradientType = 'radial',
 }: QRCodeSVGProps) {
+  const gradientRadius = size * 0.55;
+  const gradientCenterPoint = size / 2;
+
   const { config } = useOnchainKit();
-  const ockTheme = (config?.appearance?.theme ??
-    'default') as keyof typeof ockThemeToGradientColorMap;
-  const gradCol = ockThemeToGradientColorMap[
-    ockTheme
-  ] as keyof typeof linearGradientStops;
-  const linearColors = [
-    linearGradientStops[gradCol].startColor,
-    linearGradientStops[gradCol].endColor,
-  ];
+  const ockTheme = (config?.appearance?.theme ?? 'default') as
+    | 'default'
+    | 'base'
+    | 'cyberpunk'
+    | 'hacker';
+
   const isRadialGradient = gradientType === 'radial';
-  const fillColor = isRadialGradient ? 'url(#radialGrad)' : 'black';
+  const fillColor = isRadialGradient ? 'url(#radialGrad)' : '#000000';
   const bgColor = isRadialGradient
     ? backgroundColor
     : `url(#${gradientType}Grad)`;
-  const gradientRadiusMax = size * 0.55;
-  const gradientRadiusMin = logoSize / 2;
-  const gradientCenterPoint = size / 2;
 
-  const [gradientRadius, setGradientRadius] = useState(
-    isAsyncDataFetched ? gradientRadiusMax : gradientRadiusMin,
-  );
-  const presetGradientForColor = usePresetGradientForColor(color);
+  const linearGradientColor = ockThemeToLinearGradientColorMap[
+    ockTheme
+  ] as keyof typeof linearGradientStops;
+  const linearColors = [
+    linearGradientStops[linearGradientColor].startColor,
+    linearGradientStops[linearGradientColor].endColor,
+  ];
+
+  const presetGradientForColor =
+    presetGradients[
+      ockThemeToRadiamGradientColorMap[ockTheme] as keyof typeof presetGradients
+    ];
+
   const matrix = useMatrix(value, ecl);
   const corners = useCorners(size, matrix.length, bgColor, fillColor);
   const { x: x1, y: y1 } = GRADIENT_START_COORDINATES;
@@ -110,17 +107,6 @@ export function QRCodeSVG({
     logoBorderRadius,
     hasLogo: !!logo,
   });
-
-  useEffect(() => {
-    if (isAsyncDataFetched && gradientRadius === gradientRadiusMin) {
-      setGradientRadius(gradientRadiusMax);
-    }
-  }, [
-    isAsyncDataFetched,
-    gradientRadius,
-    gradientRadiusMin,
-    gradientRadiusMax,
-  ]);
 
   if (!path) {
     return null;
@@ -180,6 +166,7 @@ export function QRCodeSVG({
           strokeLinecap="butt"
           stroke={fillColor}
           strokeWidth={0}
+          opacity={0.6}
         />
         {corners}
         {svgLogo}
