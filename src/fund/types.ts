@@ -239,7 +239,7 @@ export type OnrampPurchaseCurrency = {
   id: string;
   name: string;
   symbol: string;
-  iconUrl: string; // <---- TODO By API.
+  iconUrl: string;
   networks: OnrampNetwork[];
 };
 
