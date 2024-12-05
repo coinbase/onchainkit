@@ -7,23 +7,22 @@ import {
 } from './gradientConstants';
 
 export function QRCodeComponent({
-  color,
   value,
+  size,
   logo,
-  isAsyncDataFetched,
+  logoSize,
+  logoBackgroundColor,
+  logoBorderRadius,
   gradientType,
 }: QRCodeSVGProps) {
-
   return (
     <QRCodeSVG
-      size={QR_CODE_SIZE}
-      logo={logo}
-      logoSize={QR_LOGO_SIZE}
-      logoBackgroundColor={QR_LOGO_BACKGROUND_COLOR}
-      logoBorderRadius={QR_LOGO_RADIUS}
       value={value}
-      color={color}
-      isAsyncDataFetched={isAsyncDataFetched}
+      logo={logo}
+      size={size ?? QR_CODE_SIZE}
+      logoSize={logoSize ?? QR_LOGO_SIZE}
+      logoBackgroundColor={logoBackgroundColor ?? QR_LOGO_BACKGROUND_COLOR}
+      logoBorderRadius={logoBorderRadius ?? QR_LOGO_RADIUS}
       gradientType={gradientType}
     />
   );
