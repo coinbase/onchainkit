@@ -157,12 +157,12 @@ export type TransitionViewEvent = {
 
 export type PublicErrorEvent = {
   eventName: 'error';
-  error: OnRampError;
+  error: OnrampError;
 };
 
 export type ExitEvent = {
   eventName: 'exit';
-  error?: OnRampError;
+  error?: OnrampError;
 };
 
 export type SuccessEvent = {
@@ -182,8 +182,68 @@ export type EventMetadata =
   | SuccessEvent
   | RequestOpenUrlEvent;
 
-export type OnRampError = {
+export type OnrampError = {
   errorType: 'internal_error' | 'handled_error' | 'network_error';
   code?: string;
   debugMessage?: string;
+};
+
+export type OnrampTransactionStatusName =
+  | 'ONRAMP_TRANSACTION_STATUS_UNSPECIFIED'
+  | 'ONRAMP_TRANSACTION_STATUS_CREATED'
+  | 'ONRAMP_TRANSACTION_STATUS_IN_PROGRESS'
+  | 'ONRAMP_TRANSACTION_STATUS_SUCCESS'
+  | 'ONRAMP_TRANSACTION_STATUS_FAILED';
+
+export type OnrampAmout = {
+  amount: string;
+  currency: string;
+};
+
+export type OnrampTransaction = {
+  status: OnrampTransactionStatusName;
+  purchaseCurrency: string;
+  purchaseNetwork: string;
+  purchaseAmount: OnrampAmout;
+  paymentTotal: OnrampAmout;
+  paymentSubtotal: OnrampAmout;
+  coinbaseFee: OnrampAmout;
+  networkFee: OnrampAmout;
+  exchangeRate: OnrampAmout;
+  txHash: string;
+  createdAt: string;
+  country: string;
+  userId: string;
+  paymentMethod: string;
+  transactionId: string;
+};
+
+export type OnrampPaymentMethod = {
+  id: string;
+};
+
+export type OnrampPaymentMethodLimit = {
+  id: string;
+  min: string;
+  max: string;
+};
+
+type OnrampNetwork = {
+  name: string;
+  displayName: string;
+  chainId: string;
+  contractAddress: string;
+};
+
+export type OnrampPurchaseCurrency = {
+  id: string;
+  name: string;
+  symbol: string;
+  iconUrl: string; // <---- TODO By API.
+  networks: OnrampNetwork[];
+};
+
+export type OnrampPaymentCurrency = {
+  id: string;
+  paymentMethodLimits: OnrampPaymentMethodLimit[];
 };
