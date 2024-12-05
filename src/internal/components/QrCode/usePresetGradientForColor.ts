@@ -72,9 +72,9 @@ export function usePresetGradientForColor(color?: string) {
   const presetGradientForColor = useMemo(() => {
     if (
       !color ||
-      colorInfo.l < 0.1 ||
-      colorInfo.l > 0.9 ||
-      colorInfo.s < 0.05
+      colorInfo.l < 10 ||
+      colorInfo.l > 90 ||
+      colorInfo.s < 5
     ) {
       return presetGradients.default;
     }
