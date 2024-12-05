@@ -35,7 +35,6 @@ const LandingFooter: React.FC = () => {
         { text: 'Fund', href: 'https://onchainkit.xyz/fund/fund-button' },
         { text: 'Identity', href: 'https://onchainkit.xyz/identity/identity' },
         { text: 'Token', href: 'https://onchainkit.xyz/token/token-chip' },
-        { text: 'Frame', href: 'https://onchainkit.xyz/frame/frame-metadata' },
       ],
     },
     {
