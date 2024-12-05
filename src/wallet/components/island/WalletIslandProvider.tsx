@@ -6,13 +6,16 @@ import {
   useContext,
   useState,
 } from 'react';
+import useAddressTokenHoldings from '../../../internal/hooks/useAddressTokenHoldings';
 import { useValue } from '../../../internal/hooks/useValue';
+import type { TokenBalanceWithFiatValue } from './WalletIslandTokenHoldings';
 
 export type WalletIslandContextType = {
   showSwap: boolean;
   setShowSwap: Dispatch<SetStateAction<boolean>>;
   showQr: boolean;
   setShowQr: Dispatch<SetStateAction<boolean>>;
+  tokenHoldings: TokenBalanceWithFiatValue[];
 };
 
 type WalletIslandProviderReact = {
@@ -26,12 +29,14 @@ const WalletIslandContext = createContext<WalletIslandContextType>(
 export function WalletIslandProvider({ children }: WalletIslandProviderReact) {
   const [showSwap, setShowSwap] = useState(false);
   const [showQr, setShowQr] = useState(false);
+  const tokenHoldings = useAddressTokenHoldings();
 
   const value = useValue({
     showSwap,
     setShowSwap,
     showQr,
     setShowQr,
+    tokenHoldings,
   });
 
   return (

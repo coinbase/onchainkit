@@ -2,6 +2,7 @@ import { addSvgForeground } from '../../../internal/svg/addForegroundSvg';
 import { arrowUpRightSvg } from '../../../internal/svg/arrowUpRightSvg';
 import { toggleSvg } from '../../../internal/svg/toggleSvg';
 import { cn, color, pressable, text } from '../../../styles/theme';
+import { useWalletIslandContext } from './WalletIslandProvider';
 
 type TransactionActionProps = {
   icon: React.ReactNode;
@@ -32,6 +33,7 @@ function WalletIslandTransactionAction({
 }
 
 export default function WalletIslandTransactionActions() {
+  const { setShowSwap } = useWalletIslandContext();
   return (
     <div className="mx-4 my-2 flex flex-row gap-2">
       <WalletIslandTransactionAction
@@ -51,7 +53,9 @@ export default function WalletIslandTransactionActions() {
       <WalletIslandTransactionAction
         icon={toggleSvg}
         label="Swap"
-        action={() => {}}
+        action={() => {
+          setShowSwap(true);
+        }}
       />
     </div>
   );
