@@ -1,6 +1,7 @@
+import { useCallback } from 'react';
 import Draggable from '../../../internal/components/Draggable';
+import { backArrowSvg } from '../../../internal/svg/backArrowSvg';
 import { background, border, cn } from '../../../styles/theme';
-import { SwapDefault } from '../../../swap';
 import { useTheme } from '../../../useTheme';
 import type { WalletIslandProps } from '../../types';
 import { useWalletContext } from '../WalletProvider';
@@ -9,10 +10,22 @@ import {
   useWalletIslandContext,
 } from './WalletIslandProvider';
 import { WalletIslandQrReceive } from './WalletIslandQrReceive';
+import WalletIslandSwap from './WalletIslandSwap';
 
 function WalletIslandContent({ children }: WalletIslandProps) {
-  const { showQr, showSwap } = useWalletIslandContext();
+  const { showQr, showSwap, setShowSwap, tokenHoldings } =
+    useWalletIslandContext();
   const componentTheme = useTheme();
+
+  const handleCloseSwap = useCallback(() => {
+    setShowSwap(false);
+  }, [setShowSwap]);
+
+  const backButton = (
+    <button type="button" onClick={handleCloseSwap}>
+      {backArrowSvg}
+    </button>
+  );
 
   return (
     <div
@@ -43,7 +56,12 @@ function WalletIslandContent({ children }: WalletIslandProps) {
           showSwap ? '' : 'hidden',
         )}
       >
-        <SwapDefault to={[]} from={[]} />
+        <WalletIslandSwap
+          backButton={backButton}
+          to={tokenHoldings.map((token) => token.token)}
+          from={tokenHoldings.map((token) => token.token)}
+          className="w-full p-4"
+        />
       </div>
       <div
         className={cn(
