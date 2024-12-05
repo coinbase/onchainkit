@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import type { Address, Chain } from 'viem';
 import { Avatar, Badge, Name } from '../../../identity';
 import { cn, color, text } from '../../../styles/theme';
@@ -5,6 +6,15 @@ import { useWalletContext } from '../WalletProvider';
 
 export default function AddressDetails() {
   const { address, chain } = useWalletContext();
+
+  const handleCopyAddress = useCallback(async () => {
+    try {
+      await navigator.clipboard.writeText(address ?? '');
+    } catch (err) {
+      console.error('Failed to copy address:', err);
+    }
+  }, [address]);
+
   return (
     <div
       className={cn(
@@ -19,7 +29,13 @@ export default function AddressDetails() {
         </Avatar>
       </div>
       <div className="text-base">
-        <Name address={address} chain={chain} />
+        <button type="button" onClick={handleCopyAddress}>
+          <Name
+            address={address}
+            chain={chain}
+            className="hover:text-[var(--ock-text-foreground-muted)] active:text-[var(--ock-text-primary)]"
+          />
+        </button>
       </div>
       <div className={cn(text.title1)}>
         <AddressBalance address={address} chain={chain} />
