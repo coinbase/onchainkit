@@ -43,7 +43,7 @@ export function QRCodeSVG({
   logoMargin = 5,
   logoBorderRadius = 0,
   quietZone = 12,
-  quietZoneBorderRadius = 8,
+  quietZoneBorderRadius = 10,
   ecl = 'Q',
   gradientType = 'radial',
 }: QRCodeSVGProps) {
@@ -156,7 +156,9 @@ export function QRCodeSVG({
           y={-quietZone}
           width={size + quietZone * 2}
           height={size + quietZone * 2}
-          fill={bgColor}
+          fill={backgroundColor}
+          stroke={bgColor}
+          strokeWidth={2}
         />
       </g>
       <g>
