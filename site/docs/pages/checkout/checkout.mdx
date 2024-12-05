@@ -136,10 +136,6 @@ That's it! Starting selling onchain with just a few lines of code.
 
 You can create products on the Coinbase Commerce Portal and use them in the `Checkout` component through the `productId` prop.
 
-:::tip[Programmatic Metadata]
-If you'd like to create product metadata programmatically or implement a multi-product checkout, please see [Advanced Usage](/checkout/checkout#advanced-usage).
-:::
-
 ```tsx twoslash
 import { Checkout, CheckoutButton } from '@coinbase/onchainkit/checkout';
 
@@ -351,80 +347,6 @@ export default function PayComponents() {
 
 
 ## Advanced Usage
-
-### Shopping Carts and Multi-Product Checkout
-
-You can accept payments for arbitrary product metadata using the Coinbase Commerce [create charge](https://docs.cdp.coinbase.com/commerce-onchain/reference/creates-a-charge) endpoint. This is useful if you have an existing inventory management system or want to implement custom features like multi-product checkouts, carts, etc.
-
-:::tip[Coinbase Commerce API]
-This is an authenticated endpoint. To create charges, you'll need a Coinbase Commerce [API Key](https://docs.cdp.coinbase.com/commerce-onchain/docs/getting-started).
-:::
-
-#### Example server side code
-
-This Typescript example uses [Express](https://expressjs.com/) and [Fetch](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API).
-
-```tsx twoslash [server.ts]
-import express, { Request, Response } from 'express';
-const fetch = require('node-fetch');
-
-const app = express();
-const port = 3000;
-
-app.use(express.json());
-
-// ---cut-before---
-// This endpoint should create a charge and return the response.
-app.post('/createCharge', async (req: Request, res: Response) => {
-  const options = {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      'X-CC-Api-Key': 'your_api_key_here' // Replace this with your Coinbase Commerce API Key
-    }
-  };
-
-  const response = await fetch('https://api.commerce.coinbase.com/charges', options);
-  const data = await response.json();
-
-  res.json(data);
-});
-// ---cut-after---
-app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
-});
-```
-
-:::danger[⚠️ Warning]
-Charges should only be created server-side. If you create charges on the client, users will be able to create charges associated with your Commerce Merchant account.
-:::
-
-We expose a `chargeHandler` prop on the `Checkout` component which takes a callback that is invoked every time the Checkout button is clicked.
-
-This function **must** have the signature `() => Promise<string>` and **must** return a valid `chargeId` created by the create charge endpoint.
-
-Note that `productId` and `chargeHandler` are mutually exclusive and only one can be provided as a prop to `Checkout`.
-
-```tsx twoslash
-import { Checkout, CheckoutButton } from '@coinbase/onchainkit/checkout';
-
-
-// ---cut-before---
-const chargeHandler = async () => { // [!code focus]
-  // Create a charge on your backend server using the Create Charge API // [!code focus]
-  // Replace this URL with your backend endpoint // [!code focus]
-  const res = await fetch('api.merchant.com/createCharge'); // [!code focus]
-  const data = await res.json(); // [!code focus]
-  return data.id; // Return the chargeId // [!code focus]
-} // [!code focus]
-
-<Checkout chargeHandler={chargeHandler}> // [!code focus]
-  <CheckoutButton />
-</Checkout>
-// ---cut-after---
-```
-
 
 ### Listening to the component lifecycle
 
