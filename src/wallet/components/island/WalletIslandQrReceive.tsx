@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { QRCodeComponent } from '../../../internal/components/QrCode/QrCode';
 import { backArrowSvg } from '../../../internal/svg/backArrowSvg';
 import { copySvg } from '../../../internal/svg/copySvg';
@@ -8,7 +8,14 @@ import { useWalletIslandContext } from './WalletIslandProvider';
 
 export function WalletIslandQrReceive() {
   const { address } = useWalletContext();
-  const { setShowQr } = useWalletIslandContext();
+  const { showQr, setShowQr } = useWalletIslandContext();
+  const backButtonRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (showQr) {
+      backButtonRef.current?.focus();
+    }
+  }, [showQr]);
 
   const handleCloseQr = useCallback(() => {
     setShowQr(false);
@@ -32,7 +39,7 @@ export function WalletIslandQrReceive() {
       )}
     >
       <div className="flex w-full flex-row items-center justify-between">
-        <button type="button" onClick={handleCloseQr}>
+        <button type="button" ref={backButtonRef} onClick={handleCloseQr}>
           {backArrowSvg}
         </button>
         <span>Scan to receive</span>

@@ -16,7 +16,8 @@ function WalletIslandTransactionAction({
   action,
 }: TransactionActionProps) {
   return (
-    <div
+    <button
+      type="button"
       className={cn(
         'flex flex-col items-center justify-center gap-2',
         'h-16 w-28',
@@ -24,11 +25,10 @@ function WalletIslandTransactionAction({
         pressable.alternate,
       )}
       onClick={action}
-      onKeyDown={action}
     >
       <span>{icon}</span>
       <span className={cn(text.label1, color.foreground)}>{label}</span>
-    </div>
+    </button>
   );
 }
 
