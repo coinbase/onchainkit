@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
 import {
-  GRADIENT_COLOR,
   GRADIENT_END_COORDINATES,
   GRADIENT_START_COORDINATES,
   linearGradientStops,
@@ -11,6 +10,7 @@ import { useDotsPath } from './useDotsPath';
 import { useLogo } from './useLogo';
 import { useMatrix } from './useMatrix';
 import { usePresetGradientForColor } from './usePresetGradientForColor';
+import { useOnchainKit } from '../../../useOnchainKit';
 
 function coordinateAsPercentage(coordinate: number) {
   return `${coordinate * 100}%`;
@@ -33,6 +33,13 @@ export type QRCodeSVGProps = {
   gradientType?: 'radial' | 'linear';
 };
 
+const ockThemeToGradientColorMap = {
+  default: 'blue',
+  base: 'baseBlue',
+  cyberpunk: 'pink',
+  hacker: 'black',
+};
+
 export function QRCodeSVG({
   value,
   size = 100,
@@ -49,9 +56,15 @@ export function QRCodeSVG({
   isAsyncDataFetched = true,
   gradientType = 'radial',
 }: QRCodeSVGProps) {
+  const { config } = useOnchainKit();
+  const ockTheme = (config?.appearance?.theme ??
+    'default') as keyof typeof ockThemeToGradientColorMap;
+  const gradCol = ockThemeToGradientColorMap[
+    ockTheme
+  ] as keyof typeof linearGradientStops;
   const linearColors = [
-    linearGradientStops[GRADIENT_COLOR].startColor,
-    linearGradientStops[GRADIENT_COLOR].endColor,
+    linearGradientStops[gradCol].startColor,
+    linearGradientStops[gradCol].endColor,
   ];
   const isRadialGradient = gradientType === 'radial';
   const fillColor = isRadialGradient ? 'url(#radialGrad)' : 'black';
