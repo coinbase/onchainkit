@@ -1,17 +1,14 @@
 import {
-  ChangeEvent,
-  useCallback,
+  type ChangeEvent,
   useEffect,
   useMemo,
   useRef,
-  useState,
 } from 'react';
-import { border, cn, color, line, pressable, text } from '../../styles/theme';
+import { border, cn, text } from '../../styles/theme';
 import { useTheme } from '../../useTheme';
 import { useFundContext } from './FundProvider';
 import { FundButton } from './FundButton';
-import { TextInput } from '../../internal/components/TextInput';
-import { formatAmount } from '../../token/utils/formatAmount';
+import { FundCardHeader } from './FundCardHeader';
 
 type Props = {
   assetSymbol: string;
@@ -19,44 +16,24 @@ type Props = {
   headerText?: string;
   buttonText?: string;
 };
+
 export function FundForm({
   assetSymbol,
   buttonText = 'Buy',
   headerText,
 }: Props) {
-  const componentTheme = useTheme();
-
   const { setSelectedAsset, setFundAmount, fundAmount } = useFundContext();
 
-  const defaultHeaderText = `Buy ${assetSymbol.toUpperCase()}`;
   return (
-    <form
-      className={cn(
-        componentTheme,
-        'flex w-[440px] flex-col items-center justify-center p-3',
-        text.headline,
-        border.radius,
-        line.heavy
-      )}
-    >
-      <div
-        className={cn(
-          componentTheme,
-          'font-display text-[16px]',
-          'leading-none outline-none'
-        )}
-      >
-        {headerText || defaultHeaderText}
-      </div>
-
-      <div className="flex h-[106px] items-center justify-center">
+    <form className='w-full'>
+      <div className="flex h-[106px] ">
         <ResizableInput
           value={fundAmount}
           setValue={setFundAmount}
           currencySign="$"
         />
       </div>
-      <FundButton text={buttonText} />
+      <FundButton hideIcon={true} text={buttonText} className="w-full"/>
     </form>
   );
 }
@@ -113,35 +90,32 @@ const ResizableInput = ({
 
   const fontSize = useMemo(() => {
     if (value.length < 2) {
-      return 80;
+      return 60;
     }
-    return 80 - Math.min(value.length * 2.5, 60);
+    return 60 - Math.min(value.length * 2.5, 40);
   }, [value]);
 
-  useEffect(() => {
-    // Update the input width based on the hidden span's width
-    if (spanRef.current && inputRef.current) {
-      if (inputRef.current?.style?.width) {
-        inputRef.current.style.width =
-          value.length === 1
-            ? `${spanRef.current?.offsetWidth}px`
-            : `${spanRef.current?.offsetWidth + 10}px`;
-      }
-    }
-  }, [value]);
+  // useEffect(() => {
+  //   // Update the input width based on the hidden span's width
+  //   if (spanRef.current && inputRef.current) {
+  //     if (inputRef.current?.style?.width) {
+  //       inputRef.current.style.width =
+  //         value.length === 1
+  //           ? `${spanRef.current?.offsetWidth}px`
+  //           : `${spanRef.current?.offsetWidth + 10}px`;
+  //     }
+  //   }
+  // }, [value]);
 
   return (
-    <div className="flex-inline items-center">
+    <div className="flex">
       {currencySign && (
         <span
           className={cn(
             componentTheme,
-            'bg-transparent font-display text-[80px]',
+            'flex items-center justify-center bg-transparent font-display text-[60px]',
             'leading-none outline-none'
           )}
-          style={{
-            fontSize: `${fontSize}px`,
-          }}
         >
           {currencySign}
         </span>
@@ -149,7 +123,7 @@ const ResizableInput = ({
       <input
         className={cn(
           componentTheme,
-          'border-[none] bg-transparent font-display',
+          'width-[100%] border-[none] bg-transparent font-display text-[60px]',
           'leading-none outline-none'
         )}
         type="text"
@@ -157,17 +131,17 @@ const ResizableInput = ({
         onChange={handleChange}
         ref={inputRef}
         style={{
-          maxWidth: '380px',
-          fontSize: `${fontSize}px`,
-          width: '55px',
-          boxSizing: 'content-box',
-          transition: 'width 0.2s ease',
-          margin: '0',
+          // maxWidth: '380px',
+          //fontSize: '60px',//`${fontSize}px`,
+          // width: '55px',
+          //boxSizing: 'content-box',
+          // transition: 'width 0.2s ease',
+          //margin: '0',
         }}
         placeholder="0"
       />
       {/* Hidden span to measure content width */}
-      <span
+      {/* <span
         ref={spanRef}
         style={{
           maxWidth: '380px',
@@ -179,7 +153,7 @@ const ResizableInput = ({
         }}
       >
         {value || '0'}
-      </span>
+      </span> */}
     </div>
   );
 };

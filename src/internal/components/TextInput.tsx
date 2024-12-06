@@ -14,7 +14,6 @@ type TextInputReact = {
   value: string;
   inputValidator?: (s: string) => boolean;
   style?: React.CSSProperties;
-  ref: React.RefObject<HTMLInputElement>;
 };
 
 export function TextInput({
