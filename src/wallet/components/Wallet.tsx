@@ -1,8 +1,8 @@
 import { Children, useMemo, useRef } from 'react';
 import { findComponent } from '../../internal/utils/findComponent';
 import { cn } from '../../styles/theme';
-import { useClickOutside } from '../../useClickOutside';
 import { useIsMounted } from '../../useIsMounted';
+import { useOutsideClick } from '../../useOutsideClick';
 import { useTheme } from '../../useTheme';
 import type { WalletReact } from '../types';
 import { ConnectWallet } from './ConnectWallet';
@@ -13,7 +13,7 @@ const WalletContent = ({ children, className }: WalletReact) => {
   const { isOpen, setIsOpen } = useWalletContext();
   const walletContainerRef = useRef<HTMLDivElement>(null);
 
-  useClickOutside(walletContainerRef, () => {
+  useOutsideClick(walletContainerRef, () => {
     if (isOpen) {
       setIsOpen(false);
     }

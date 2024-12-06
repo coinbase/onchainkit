@@ -1,14 +1,14 @@
 import { renderHook } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
-import { useClickOutside } from './useClickOutside';
+import { useOutsideClick } from './useOutsideClick';
 
-describe('useClickOutside', () => {
+describe('useOutsideClick', () => {
   it('should call callback when clicking outside element', () => {
     const callback = vi.fn();
     const elementRef = { current: document.createElement('div') };
     document.body.appendChild(elementRef.current);
 
-    renderHook(() => useClickOutside(elementRef, callback));
+    renderHook(() => useOutsideClick(elementRef, callback));
 
     const outsideElement = document.createElement('div');
     document.body.appendChild(outsideElement);
@@ -25,7 +25,7 @@ describe('useClickOutside', () => {
     const elementRef = { current: document.createElement('div') };
     document.body.appendChild(elementRef.current);
 
-    renderHook(() => useClickOutside(elementRef, callback));
+    renderHook(() => useOutsideClick(elementRef, callback));
 
     elementRef.current.click();
 
@@ -38,7 +38,7 @@ describe('useClickOutside', () => {
     const callback = vi.fn();
     const elementRef = { current: null };
 
-    renderHook(() => useClickOutside(elementRef, callback));
+    renderHook(() => useOutsideClick(elementRef, callback));
 
     document.body.click();
 
@@ -50,7 +50,7 @@ describe('useClickOutside', () => {
     const callback = vi.fn();
     const elementRef = { current: document.createElement('div') };
 
-    const { unmount } = renderHook(() => useClickOutside(elementRef, callback));
+    const { unmount } = renderHook(() => useOutsideClick(elementRef, callback));
 
     unmount();
 
@@ -71,7 +71,7 @@ describe('useClickOutside', () => {
     const callback2 = vi.fn();
 
     const { rerender } = renderHook(
-      ({ cb }) => useClickOutside(elementRef, cb),
+      ({ cb }) => useOutsideClick(elementRef, cb),
       {
         initialProps: { cb: callback1 },
       },

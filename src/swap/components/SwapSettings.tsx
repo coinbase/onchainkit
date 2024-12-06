@@ -2,7 +2,7 @@ import { useCallback, useRef, useState } from 'react';
 import { useIcon } from '../../internal/hooks/useIcon';
 import { background, border, cn, pressable, text } from '../../styles/theme';
 import { useBreakpoints } from '../../useBreakpoints';
-import { useClickOutside } from '../../useClickOutside';
+import { useOutsideClick } from '../../useOutsideClick';
 import type { SwapSettingsReact } from '../types';
 import { SwapSettingsSlippageLayout } from './SwapSettingsSlippageLayout';
 import { SwapSettingsSlippageLayoutBottomSheet } from './SwapSettingsSlippageLayoutBottomSheet';
@@ -21,7 +21,7 @@ export function SwapSettings({
     setIsOpen((prev) => !prev);
   }, []);
 
-  useClickOutside(dropdownRef, () => {
+  useOutsideClick(dropdownRef, () => {
     setIsOpen(false);
   });
 

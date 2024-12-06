@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { useClickOutside } from '../../useClickOutside';
+import { useOutsideClick } from '../../useOutsideClick';
 import { ConnectWallet } from './ConnectWallet';
 import { Wallet } from './Wallet';
 import { WalletDropdown } from './WalletDropdown';
@@ -25,11 +25,11 @@ vi.mock('../../useTheme', () => ({
   useTheme: vi.fn(),
 }));
 
-vi.mock('../../useClickOutside', () => ({
-  useClickOutside: vi.fn(),
+vi.mock('../../useOutsideClick', () => ({
+  useOutsideClick: vi.fn(),
 }));
 
-type UseClickOutsideType = ReturnType<
+type useOutsideClickType = ReturnType<
   typeof vi.fn<
     (
       ref: React.RefObject<HTMLElement>,
@@ -40,7 +40,7 @@ type UseClickOutsideType = ReturnType<
 
 describe('Wallet Component', () => {
   let mockSetIsOpen: ReturnType<typeof vi.fn>;
-  let mockClickOutsideCallback: (e: MouseEvent) => void;
+  let mockOutsideClickCallback: (e: MouseEvent) => void;
 
   beforeEach(() => {
     mockSetIsOpen = vi.fn();
@@ -49,9 +49,9 @@ describe('Wallet Component', () => {
       setIsOpen: mockSetIsOpen,
     });
 
-    (useClickOutside as unknown as UseClickOutsideType).mockImplementation(
+    (useOutsideClick as unknown as useOutsideClickType).mockImplementation(
       (_, callback) => {
-        mockClickOutsideCallback = callback;
+        mockOutsideClickCallback = callback;
       },
     );
 
@@ -85,7 +85,7 @@ describe('Wallet Component', () => {
 
     expect(screen.getByTestId('wallet-dropdown')).toBeDefined();
 
-    mockClickOutsideCallback();
+    mockOutsideClickCallback();
 
     expect(mockSetIsOpen).toHaveBeenCalledWith(false);
   });
@@ -105,7 +105,7 @@ describe('Wallet Component', () => {
 
     expect(screen.queryByTestId('wallet-dropdown')).toBeNull();
 
-    mockClickOutsideCallback();
+    mockOutsideClickCallback();
 
     expect(mockSetIsOpen).not.toHaveBeenCalled();
   });
