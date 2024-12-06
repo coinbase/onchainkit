@@ -5,7 +5,7 @@
  */
 export function convertSnakeToCamelCase<T>(obj: T): T {
   if (typeof obj === 'string') {
-    return toCamelCase(obj) as T;
+    return obj as T;
   }
 
   if (Array.isArray(obj)) {
