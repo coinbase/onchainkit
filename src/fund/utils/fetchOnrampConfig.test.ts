@@ -1,6 +1,6 @@
 import { type Mock, describe, expect, it, vi } from 'vitest';
 import { ONRAMP_API_BASE_URL } from '../constants';
-import { fetchOnrampConfig } from './fetchOnrampConfig';
+import { fetchOnrampConfig } from './fetchOnRampConfig';
 
 const mockApiKey = 'test-api-key';
 const mockResponseData = {
