@@ -3,11 +3,15 @@ import { convertSnakeToCamelCase } from './convertSnakeToCamelCase';
 
 describe('convertSnakeToCamelCase', () => {
   it('should convert snake_case keys to camelCase', () => {
-    expect(convertSnakeToCamelCase({hello_world: 'hello_world'})).toStrictEqual({helloWorld: 'hello_world'});
+    expect(
+      convertSnakeToCamelCase({ hello_world: 'hello_world' }),
+    ).toStrictEqual({ helloWorld: 'hello_world' });
   });
 
   it('should handle keys with multiple underscores', () => {
-    expect(convertSnakeToCamelCase({this_is_a_test: 'this_is_a_test'})).toStrictEqual({thisIsATest: 'this_is_a_test'});
+    expect(
+      convertSnakeToCamelCase({ this_is_a_test: 'this_is_a_test' }),
+    ).toStrictEqual({ thisIsATest: 'this_is_a_test' });
   });
 
   it('should return an empty string if input is empty', () => {

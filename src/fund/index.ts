@@ -3,8 +3,8 @@ export { getCoinbaseSmartWalletFundUrl } from './utils/getCoinbaseSmartWalletFun
 export { getOnrampBuyUrl } from './utils/getOnrampBuyUrl';
 export { setupOnrampEventListeners } from './utils/setupOnrampEventListeners';
 export { fetchOnrampTransactionStatus } from './utils/fetchOnrampTransactionStatus';
-export { fetchOnrampConfig } from './utils/fetchOnRampConfig';
-export { fetchOnrampOptions } from './utils/fetchOnRampOptions';
+export { fetchOnrampConfig } from './utils/AAfetchOnrampConfig';
+export { fetchOnrampOptions } from './utils/AAfetchOnrampOptions';
 export { fetchOnrampQuote } from './utils/fetchOnrampQuote';
 
 export type {
