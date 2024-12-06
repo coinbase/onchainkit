@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.36.0
+
+### Minor Changes
+
+- 82df21e: -**chore**: Removed `Farcaster Frames`. Deprecating `Framegear`, `Frames`, `XMTP`, and `Neynar` support. By @cpcramer #1693
+
 ## 0.35.8
 
 ### Patch Changes
