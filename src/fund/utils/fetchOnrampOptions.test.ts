@@ -1,6 +1,6 @@
 import { type Mock, afterEach, describe, expect, it, vi } from 'vitest';
 import { ONRAMP_API_BASE_URL } from '../constants';
-import { fetchOnrampOptions } from './AAfetchOnrampOptions';
+import { fetchOnrampOptions } from './fetchOnrampOptions';
 
 const apiKey = 'test-api-key';
 const country = 'US';
