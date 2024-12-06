@@ -12,6 +12,7 @@ import { useAccount, useConnect, useSwitchChain } from 'wagmi';
 import { useWaitForTransactionReceipt } from 'wagmi';
 import { useCallsStatus } from 'wagmi/experimental';
 import { useWriteContracts } from 'wagmi/experimental';
+import { openPopup } from '../../internal/utils/openPopup';
 import { useOnchainKit } from '../../useOnchainKit';
 import { useIsWalletACoinbaseSmartWallet } from '../../wallet/hooks/useIsWalletACoinbaseSmartWallet';
 import { GENERIC_ERROR_MESSAGE } from '../constants';
@@ -40,6 +41,10 @@ vi.mock('../../wallet/hooks/useIsWalletACoinbaseSmartWallet', () => ({
 
 vi.mock('../../useOnchainKit', () => ({
   useOnchainKit: vi.fn(),
+}));
+
+vi.mock('../../internal/utils/openPopup', () => ({
+  openPopup: vi.fn(),
 }));
 
 const windowOpenMock = vi.fn();
@@ -193,23 +198,6 @@ describe('CheckoutProvider', () => {
     await waitFor(() => {
       expect(screen.getByTestId('error-message').textContent).toBe(
         GENERIC_ERROR_MESSAGE,
-      );
-    });
-  });
-
-  it('should handle insufficient balance', async () => {
-    (useCommerceContracts as Mock).mockReturnValue(() =>
-      Promise.resolve({ insufficientBalance: true, priceInUSDC: '10' }),
-    );
-    render(
-      <CheckoutProvider>
-        <TestComponent />
-      </CheckoutProvider>,
-    );
-    fireEvent.click(screen.getByText('Submit'));
-    await waitFor(() => {
-      expect(screen.getByTestId('error-message').textContent).toBe(
-        'You need at least 10 USDC to continue with payment',
       );
     });
   });
@@ -431,16 +419,12 @@ describe('CheckoutProvider', () => {
     );
     fireEvent.click(screen.getByText('Submit'));
     await waitFor(() => {
-      expect(screen.getByTestId('error-message').textContent).toBe(
-        'You need at least 10 USDC to continue with payment',
+      expect(openPopup as Mock).toHaveBeenCalledWith(
+        expect.objectContaining({
+          url: 'https://keys.coinbase.com/fund?asset=USDC&chainId=8453&presetCryptoAmount=10',
+        }),
       );
     });
-    fireEvent.click(screen.getByText('Submit'));
-    expect(windowOpenMock).toHaveBeenCalledWith(
-      'https://keys.coinbase.com/fund?asset=USDC&chainId=8453&presetCryptoAmount=10',
-      '_blank',
-      'noopener,noreferrer',
-    );
   });
 
   it('should handle errors when fetching contracts', async () => {

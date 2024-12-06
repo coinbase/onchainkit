@@ -57,18 +57,6 @@ describe('CheckoutButton', () => {
     expect(screen.getByRole('button').textContent).toBe('View payment details');
   });
 
-  it('should render "Get USDC" when there is insufficient balance error', () => {
-    useCheckoutContextMock.mockReturnValue({
-      lifecycleStatus: {
-        statusName: CHECKOUT_LIFECYCLESTATUS.ERROR,
-        statusData: { error: 'User has insufficient balance' },
-      },
-      onSubmit: mockOnSubmit,
-    });
-    render(<CheckoutButton />);
-    expect(screen.getByRole('button').textContent).toBe('Get USDC');
-  });
-
   it('should call onSubmit when clicked', () => {
     render(<CheckoutButton />);
     fireEvent.click(screen.getByRole('button'));
