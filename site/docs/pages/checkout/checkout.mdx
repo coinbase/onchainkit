@@ -150,7 +150,7 @@ export default function PayComponents() {
 
 #### Using `chargeHandler`
 
-Alternatively, you can create charges dynamically using the Coinbase Commerce API [Create Charge](https://docs.cdp.coinbase.com/commerce-onchain/reference/creates-a-charge) endpoint and pass the chargeID into Checkout via the `chargeHandler` prop.
+Alternatively, you can create charges dynamically using the Coinbase Commerce API [Create Charge](https://docs.cdp.coinbase.com/commerce-onchain/reference/creates-a-charge) endpoint by passing the chargeID into Checkout via the `chargeHandler` prop.
 
 This function must have the signature `() => Promise<string>` and must return a valid chargeId created by the create charge endpoint.
 
