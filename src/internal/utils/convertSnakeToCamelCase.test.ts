@@ -43,4 +43,32 @@ describe('convertSnakeToCamelCase', () => {
     ];
     expect(convertSnakeToCamelCase(input)).toStrictEqual(expected);
   });
+
+  it('should handle null values', () => {
+    expect(convertSnakeToCamelCase(null)).toBeNull();
+  });
+
+  it('should handle undefined values', () => {
+    expect(convertSnakeToCamelCase(undefined)).toBeUndefined();
+  });
+
+  it('should handle nested arrays within objects', () => {
+    const input = { array_key: [{ nested_key: 'value' }] };
+    const expected = { arrayKey: [{ nestedKey: 'value' }] };
+    expect(convertSnakeToCamelCase(input)).toStrictEqual(expected);
+  });
+
+  it('should handle empty objects', () => {
+    expect(convertSnakeToCamelCase({})).toStrictEqual({});
+  });
+
+  it('should handle empty arrays', () => {
+    expect(convertSnakeToCamelCase([])).toStrictEqual([]);
+  });
+
+  it('should handle objects with non-string keys', () => {
+    const input = { 123: 'value', symbol_key: 'value' };
+    const expected = { 123: 'value', symbolKey: 'value' };
+    expect(convertSnakeToCamelCase(input)).toEqual(expected);
+  });
 });
