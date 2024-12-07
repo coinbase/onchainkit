@@ -1,4 +1,3 @@
-import { FrameMetadata } from '@coinbase/onchainkit/frame';
 import { defineConfig } from 'vocs';
 import pkg from '../package.json';
 import { sidebar } from './sidebar.ts';
@@ -52,31 +51,6 @@ export default defineConfig({
         />
       </>
     );
-
-    if (path === '/') {
-      return (
-        <>
-          <FrameMetadata
-            buttons={[
-              {
-                action: 'link',
-                label: 'Docs',
-                target: 'https://onchainkit.xyz',
-              },
-              {
-                action: 'link',
-                label: 'Github',
-                target: 'https://github.com/coinbase/onchainkit',
-              },
-            ]}
-            image={{
-              src: 'https://onchainkit.xyz/frame/install-onchainkit-3-24-24.png',
-            }}
-          />
-          {analytics}
-        </>
-      );
-    }
 
     return <>{analytics}</>;
   },

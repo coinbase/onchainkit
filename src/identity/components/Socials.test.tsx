@@ -133,7 +133,7 @@ describe('Socials', () => {
     );
     expect(screen.getByTestId('ockSocials_Farcaster')).toHaveAttribute(
       'href',
-      'farcasteruser',
+      'https://warpcast.com/farcasteruser',
     );
     expect(screen.getByTestId('ockSocials_Website')).toHaveAttribute(
       'href',
