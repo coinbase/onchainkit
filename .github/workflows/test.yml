@@ -24,7 +24,6 @@ jobs:
       - name: Kit Install dependencies
         run: |
           yarn install
-          cd ./framegear && yarn install && cd ..
 
       - name: Kit Test
         # When fails, please check your tests

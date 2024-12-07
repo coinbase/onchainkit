@@ -56,11 +56,6 @@
     <changefreq>daily</changefreq>
   </url>
   <url>
-    <loc>https://onchainkit.xyz/frame/frame-metadata</loc>
-    <lastmod>2024-09-13</lastmod>
-    <changefreq>daily</changefreq>
-  </url>
-  <url>
     <loc>https://onchainkit.xyz/playground</loc>
     <lastmod>2024-09-13</lastmod>
     <changefreq>daily</changefreq>
@@ -77,11 +72,6 @@
   </url>
   <url>
     <loc>https://onchainkit.xyz/guides/build-onchain-apps</loc>
-    <lastmod>2024-09-13</lastmod>
-    <changefreq>daily</changefreq>
-  </url>
-  <url>
-    <loc>https://onchainkit.xyz/frame/framegear</loc>
     <lastmod>2024-09-13</lastmod>
     <changefreq>daily</changefreq>
   </url>
@@ -186,16 +176,6 @@
     <changefreq>daily</changefreq>
   </url>
   <url>
-    <loc>https://onchainkit.xyz/farcaster/types</loc>
-    <lastmod>2024-09-13</lastmod>
-    <changefreq>daily</changefreq>
-  </url>
-  <url>
-    <loc>https://onchainkit.xyz/frame/types</loc>
-    <lastmod>2024-09-13</lastmod>
-    <changefreq>daily</changefreq>
-  </url>
-  <url>
     <loc>https://onchainkit.xyz/identity/types</loc>
     <lastmod>2024-09-13</lastmod>
     <changefreq>daily</changefreq>
@@ -226,37 +206,7 @@
     <changefreq>daily</changefreq>
   </url>
   <url>
-    <loc>https://onchainkit.xyz/farcaster/get-farcaster-user-address</loc>
-    <lastmod>2024-09-13</lastmod>
-    <changefreq>daily</changefreq>
-  </url>
-  <url>
-    <loc>https://onchainkit.xyz/frame/get-frame-html-response</loc>
-    <lastmod>2024-09-13</lastmod>
-    <changefreq>daily</changefreq>
-  </url>
-  <url>
     <loc>https://onchainkit.xyz/config/is-ethereum</loc>
-    <lastmod>2024-09-13</lastmod>
-    <changefreq>daily</changefreq>
-  </url>
-  <url>
-    <loc>https://onchainkit.xyz/frame/get-frame-message</loc>
-    <lastmod>2024-09-13</lastmod>
-    <changefreq>daily</changefreq>
-  </url>
-  <url>
-    <loc>https://onchainkit.xyz/frame/get-frame-metadata</loc>
-    <lastmod>2024-09-13</lastmod>
-    <changefreq>daily</changefreq>
-  </url>
-  <url>
-    <loc>https://onchainkit.xyz/xmtp/get-xmtp-frame-message</loc>
-    <lastmod>2024-09-13</lastmod>
-    <changefreq>daily</changefreq>
-  </url>
-  <url>
-    <loc>https://onchainkit.xyz/xmtp/is-xmtp-frame-request</loc>
     <lastmod>2024-09-13</lastmod>
     <changefreq>daily</changefreq>
   </url>
@@ -292,11 +242,6 @@
   </url>
   <url>
     <loc>https://onchainkit.xyz/wallet/is-valid-aa-entrypoint</loc>
-    <lastmod>2024-09-13</lastmod>
-    <changefreq>daily</changefreq>
-  </url>
-  <url>
-    <loc>https://onchainkit.xyz/xmtp/types</loc>
     <lastmod>2024-09-13</lastmod>
     <changefreq>daily</changefreq>
   </url>
