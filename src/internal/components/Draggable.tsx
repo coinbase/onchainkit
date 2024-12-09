@@ -3,17 +3,14 @@ import { cn } from '../../styles/theme';
 
 type DraggableProps = {
   children: React.ReactNode;
-  gridSize: number;
+  gridSize?: number;
   startingPosition?: { x: number; y: number }; // TODO [BOE-886]: make this based on the parent component's position
 };
 
 export default function Draggable({
   children,
-  gridSize = 25,
-  startingPosition = {
-    x: typeof window !== 'undefined' ? window.innerWidth - 460 : 0,
-    y: 20,
-  },
+  gridSize = 1,
+  startingPosition = { x: 20, y: 20 },
 }: DraggableProps) {
   const [position, setPosition] = useState(startingPosition);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
