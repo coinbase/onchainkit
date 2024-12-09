@@ -1,5 +1,5 @@
-import { CDP_MINT_TOKEN } from '../../network/definitions/nft';
-import { sendRequest } from '../../network/request';
+import { CDP_MINT_TOKEN } from '../network/definitions/nft';
+import { sendRequest } from '../network/request';
 import type {
   BuildMintTransactionParams,
   BuildMintTransactionResponse,
