@@ -123,7 +123,7 @@ const ResizableInput = ({
       <input
         className={cn(
           componentTheme,
-          'width-[100%] border-[none] bg-transparent font-display text-[60px]',
+          'w-[100%] border-[none] bg-transparent font-display text-[60px]',
           'leading-none outline-none'
         )}
         type="text"
