@@ -10,6 +10,7 @@ import { NFTOptions } from './form/nft-options';
 import { SwapConfig } from './form/swap-config';
 import { TransactionOptions } from './form/transaction-options';
 import { WalletType } from './form/wallet-type';
+import { AnchorPosition } from './form/anchor-position';
 
 const COMMON_OPTIONS = [
   ActiveComponent,
@@ -60,6 +61,9 @@ const COMPONENT_CONFIG: Partial<
     IsSponsored,
     NFTOptions,
   ],
+  [OnchainKitComponent.WalletIslandDefault]: [
+    AnchorPosition,
+  ]
 };
 
 export default function DemoOptions({
