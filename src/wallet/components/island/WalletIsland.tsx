@@ -32,15 +32,13 @@ function WalletIslandContent({ children }: WalletIslandProps) {
 
       if (windowWidth - rect.right < WALLET_ISLAND_WIDTH) {
         xPos = rect.right - WALLET_ISLAND_WIDTH;
-      }
-      else {
+      } else {
         xPos = rect.left;
       }
 
       if (windowHeight - rect.bottom < WALLET_ISLAND_HEIGHT) {
         yPos = rect.bottom - WALLET_ISLAND_HEIGHT - rect.height - 5;
-      }
-      else {
+      } else {
         yPos = rect.bottom + 5;
       }
 
