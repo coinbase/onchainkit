@@ -12,6 +12,9 @@ import {
 import { WalletIslandQrReceive } from './WalletIslandQrReceive';
 import WalletIslandSwap from './WalletIslandSwap';
 
+const WALLET_ISLAND_WIDTH = 382;
+const WALLET_ISLAND_HEIGHT = 394;
+
 function WalletIslandContent({ children }: WalletIslandProps) {
   const { containerRef } = useWalletContext();
   const { showQr, showSwap, setShowSwap, tokenHoldings } =
@@ -21,9 +24,29 @@ function WalletIslandContent({ children }: WalletIslandProps) {
   const position = useMemo(() => {
     if (containerRef?.current) {
       const rect = containerRef.current.getBoundingClientRect();
+      const windowWidth = window.innerWidth;
+      const windowHeight = window.innerHeight;
+
+      let xPos: number;
+      let yPos: number;
+
+      if (windowWidth - rect.right < WALLET_ISLAND_WIDTH) {
+        xPos = rect.right - WALLET_ISLAND_WIDTH;
+      }
+      else {
+        xPos = rect.left;
+      }
+
+      if (windowHeight - rect.bottom < WALLET_ISLAND_HEIGHT) {
+        yPos = rect.bottom - WALLET_ISLAND_HEIGHT - rect.height - 5;
+      }
+      else {
+        yPos = rect.bottom + 5;
+      }
+
       return {
-        x: rect.left,
-        y: rect.bottom + 10,
+        x: xPos,
+        y: yPos,
       };
     }
   }, [containerRef]);
