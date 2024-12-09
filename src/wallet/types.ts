@@ -1,4 +1,4 @@
-import type { Dispatch, ReactNode, SetStateAction } from 'react';
+import type { Dispatch, ReactNode, RefObject, SetStateAction } from 'react';
 import type { Address, Chain, PublicClient } from 'viem';
 import type { UserOperation } from 'viem/_types/account-abstraction';
 import type { UseBalanceReturnType, UseReadContractReturnType } from 'wagmi';
@@ -74,6 +74,7 @@ export type WalletContextType = {
   chain?: Chain; // Optional chain for domain resolution
   isOpen: boolean;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
+  containerRef?: RefObject<HTMLDivElement> | null;
 };
 
 /**
