@@ -21,7 +21,7 @@ export function CheckoutButton({
 }: CheckoutButtonReact) {
   if (coinbaseBranded) {
     icon = 'coinbasePay';
-    text = 'Pay with Crypto';
+    text = 'Pay';
   }
   const { lifecycleStatus, onSubmit } = useCheckoutContext();
   const iconSvg = useIcon({ icon });

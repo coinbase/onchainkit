@@ -72,7 +72,7 @@ describe('CheckoutButton', () => {
   it('should render Coinbase branded button when coinbaseBranded prop is true', () => {
     render(<CheckoutButton coinbaseBranded={true} />);
     const button = screen.getByRole('button');
-    expect(button.textContent).toBe('Pay with Crypto');
+    expect(button.textContent).toBe('Pay');
     expect(screen.getByTestId('icon')).toBeDefined();
   });
 
