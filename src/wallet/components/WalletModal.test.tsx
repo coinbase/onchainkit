@@ -545,4 +545,41 @@ describe('WalletModal', () => {
       );
     });
   });
+
+  describe('Error Handling', () => {
+    it('handles non-Error objects without onError callback', () => {
+      (useConnect as Mock).mockReturnValue({
+        connect: vi.fn(() => {
+          throw 'String error';
+        }),
+      });
+
+      render(<WalletModal isOpen={true} onClose={mockOnClose} />);
+
+      fireEvent.click(screen.getByText('Sign up'));
+
+      expect(console.error).toHaveBeenCalledWith(
+        'Coinbase Wallet connection error:',
+        'String error',
+      );
+    });
+
+    it('handles Error objects without onError callback', () => {
+      const error = new Error('Test error');
+      (useConnect as Mock).mockReturnValue({
+        connect: vi.fn(() => {
+          throw error;
+        }),
+      });
+
+      render(<WalletModal isOpen={true} onClose={mockOnClose} />);
+
+      fireEvent.click(screen.getByText('Sign up'));
+
+      expect(console.error).toHaveBeenCalledWith(
+        'Coinbase Wallet connection error:',
+        error,
+      );
+    });
+  });
 });

@@ -11,14 +11,7 @@ vi.mock('wagmi', async () => {
   const actual = await vi.importActual('wagmi');
   return {
     ...actual,
-    createConfig: vi.fn((config) => {
-      config.connectors.forEach((connector) => {
-        if (typeof connector === 'function') {
-          connector();
-        }
-      });
-      return config;
-    }),
+    createConfig: vi.fn(),
     createStorage: vi.fn(),
   };
 });
@@ -41,8 +34,9 @@ vi.mock('wagmi/connectors', async () => {
 });
 
 vi.mock('phantom-wagmi-connector', () => ({
-  PhantomConnector: vi.fn().mockImplementation(() => ({
+  PhantomConnector: vi.fn(() => ({
     chains: [base, baseSepolia],
+    id: 'phantom',
   })),
 }));
 
@@ -115,8 +109,13 @@ describe('createWagmiConfig', () => {
   it('should configure PhantomConnector with correct chains', () => {
     createWagmiConfig({});
 
+    const connectors = (createConfig as any).mock.calls[0][0].connectors;
+    const phantomConnectorFn = connectors[1];
+
+    phantomConnectorFn();
+
     expect(PhantomConnector).toHaveBeenCalledWith({
-      chains: [base, baseSepolia],
+      chains: [{ id: 8453 }, { id: 84532 }],
     });
   });
 
