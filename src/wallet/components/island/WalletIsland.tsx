@@ -51,7 +51,7 @@ function WalletIslandContent({ children }: WalletIslandProps) {
         className={cn(
           'flex flex-col items-center justify-center',
           'h-auto w-96',
-          'p-4',
+          'p-2',
           showQr ? '' : 'hidden',
         )}
       >
@@ -61,7 +61,7 @@ function WalletIslandContent({ children }: WalletIslandProps) {
         className={cn(
           'flex flex-col items-center justify-center',
           'h-auto w-96',
-          'p-4',
+          'p-2',
           showSwap ? '' : 'hidden',
         )}
       >
@@ -69,7 +69,7 @@ function WalletIslandContent({ children }: WalletIslandProps) {
           backButton={backButton}
           to={tokenHoldings.map((token) => token.token)}
           from={tokenHoldings.map((token) => token.token)}
-          className="w-full p-4"
+          className="w-full p-2"
         />
       </div>
       <div
