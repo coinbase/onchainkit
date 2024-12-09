@@ -43,7 +43,12 @@ function WalletIslandTransactionAction({
 export default function WalletIslandTransactionActions() {
   const { setShowSwap } = useWalletIslandContext();
   return (
-    <div className="my-3 flex w-full flex-row justify-center gap-2">
+    <div
+      className={cn(
+        'my-3 flex w-full flex-row justify-center gap-2',
+        'animate-walletIslandItem3 opacity-0',
+      )}
+    >
       <WalletIslandTransactionAction
         icon={addSvgForeground}
         label="Buy"
