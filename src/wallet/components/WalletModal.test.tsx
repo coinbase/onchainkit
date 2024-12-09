@@ -2,7 +2,6 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useConnect, useConnectors } from 'wagmi';
 import { useOnchainKit } from '../../useOnchainKit';
-import { ONCHAINKIT_WALLETCONNECT_PROJECT_ID } from '../constants';
 import { WalletModal } from './WalletModal';
 
 vi.mock('wagmi', () => ({
@@ -16,14 +15,7 @@ vi.mock('../../useOnchainKit', () => ({
 
 vi.mock('wagmi/connectors', () => ({
   coinbaseWallet: () => ({ preference: 'all' }),
-  walletConnect: () => ({
-    projectId: ONCHAINKIT_WALLETCONNECT_PROJECT_ID,
-    showQrModal: true,
-  }),
-}));
-
-vi.mock('../../constants', () => ({
-  ONCHAINKIT_WALLETCONNECT_PROJECT_ID: 'test-project-id',
+  metaMask: ({ dappMetadata }) => ({ dappMetadata }),
 }));
 
 describe('WalletModal', () => {
@@ -32,7 +24,7 @@ describe('WalletModal', () => {
   const mockConnectors = [
     { type: 'smartWallet', name: 'Smart Wallet' },
     { type: 'coinbaseWallet', name: 'Coinbase Wallet' },
-    { type: 'walletConnect', name: 'WalletConnect' },
+    { type: 'metaMask', name: 'MetaMask' },
   ];
 
   const originalWindowOpen = window.open;
@@ -76,7 +68,6 @@ describe('WalletModal', () => {
 
     expect(screen.getByText('Sign up')).toBeInTheDocument();
     expect(screen.getByText('Coinbase Wallet')).toBeInTheDocument();
-    expect(screen.getByText('Other wallets')).toBeInTheDocument();
   });
 
   it('renders app logo and name when provided', () => {
@@ -107,18 +98,95 @@ describe('WalletModal', () => {
     expect(mockOnClose).toHaveBeenCalled();
   });
 
-  it('connects WalletConnect when clicking Other wallets', () => {
+  it('connects with MetaMask when clicking MetaMask button', () => {
+    (useOnchainKit as Mock).mockReturnValue({
+      config: {
+        appearance: {
+          name: 'Test App',
+          logo: 'test-logo.png',
+        },
+        wallet: {},
+      },
+    });
+
     render(<WalletModal isOpen={true} onClose={mockOnClose} />);
 
-    fireEvent.click(screen.getByText('Other wallets'));
+    fireEvent.click(screen.getByText('MetaMask'));
 
     expect(mockConnect).toHaveBeenCalledWith({
-      connector: expect.objectContaining({
-        projectId: ONCHAINKIT_WALLETCONNECT_PROJECT_ID,
-        showQrModal: true,
-      }),
+      connector: {
+        dappMetadata: {
+          name: 'Test App',
+          url: window.location.origin,
+          iconUrl: 'test-logo.png',
+        },
+      },
     });
     expect(mockOnClose).toHaveBeenCalled();
+  });
+
+  it('uses default app name for MetaMask when no name provided', () => {
+    (useOnchainKit as Mock).mockReturnValue({
+      config: {
+        appearance: {},
+        wallet: {},
+      },
+    });
+
+    render(<WalletModal isOpen={true} onClose={mockOnClose} />);
+
+    fireEvent.click(screen.getByText('MetaMask'));
+
+    expect(mockConnect).toHaveBeenCalledWith({
+      connector: {
+        dappMetadata: {
+          name: 'OnchainKit App',
+          url: window.location.origin,
+          iconUrl: undefined,
+        },
+      },
+    });
+  });
+
+  it('handles MetaMask connection errors', () => {
+    const mockError = new Error('MetaMask connection failed');
+    const mockOnError = vi.fn();
+    (useConnect as Mock).mockReturnValue({
+      connect: vi.fn(() => {
+        throw mockError;
+      }),
+    });
+
+    render(
+      <WalletModal isOpen={true} onClose={mockOnClose} onError={mockOnError} />,
+    );
+
+    fireEvent.click(screen.getByText('MetaMask'));
+
+    expect(mockOnError).toHaveBeenCalledWith(mockError);
+    expect(console.error).toHaveBeenCalledWith(
+      'MetaMask connection error:',
+      mockError,
+    );
+  });
+
+  it('handles non-Error objects in MetaMask connection errors', () => {
+    const mockOnError = vi.fn();
+    (useConnect as Mock).mockReturnValue({
+      connect: vi.fn(() => {
+        throw 'Some string error';
+      }),
+    });
+
+    render(
+      <WalletModal isOpen={true} onClose={mockOnClose} onError={mockOnError} />,
+    );
+
+    fireEvent.click(screen.getByText('MetaMask'));
+
+    expect(mockOnError).toHaveBeenCalledWith(
+      new Error('Failed to connect wallet'),
+    );
   });
 
   it('closes modal when clicking overlay', () => {
@@ -264,30 +332,6 @@ describe('WalletModal', () => {
     );
   });
 
-  it('handles WalletConnect connection errors', () => {
-    const mockError = new Error('WalletConnect connection failed');
-    const mockOnError = vi.fn();
-    (useConnect as Mock).mockReturnValue({
-      connect: vi.fn(() => {
-        throw mockError;
-      }),
-    });
-    (useConnectors as Mock).mockReturnValue([
-      { type: 'walletConnect', name: 'WalletConnect' },
-    ]);
-
-    render(
-      <WalletModal isOpen={true} onClose={mockOnClose} onError={mockOnError} />,
-    );
-
-    fireEvent.click(screen.getByText('Other wallets'));
-
-    expect(console.error).toHaveBeenCalledWith(
-      'WalletConnect connection error:',
-      mockError,
-    );
-  });
-
   it('traps focus within the modal when open', () => {
     render(<WalletModal isOpen={true} onClose={mockOnClose} />);
     const modal = screen.getByRole('dialog');
@@ -416,7 +460,7 @@ describe('WalletModal', () => {
     expect(document.body.style.overflow).toBe('');
   });
 
-  it('handles non-Error objects in WalletConnect connection errors', () => {
+  it('handles non-Error objects in MetaMask connection errors', () => {
     const mockOnError = vi.fn();
     (useConnect as Mock).mockReturnValue({
       connect: vi.fn(() => {
@@ -428,13 +472,13 @@ describe('WalletModal', () => {
       <WalletModal isOpen={true} onClose={mockOnClose} onError={mockOnError} />,
     );
 
-    fireEvent.click(screen.getByText('Other wallets'));
+    fireEvent.click(screen.getByText('MetaMask'));
 
     expect(mockOnError).toHaveBeenCalledWith(
       new Error('Failed to connect wallet'),
     );
     expect(console.error).toHaveBeenCalledWith(
-      'WalletConnect connection error:',
+      'MetaMask connection error:',
       'Some string error',
     );
   });
