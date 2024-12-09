@@ -1,4 +1,4 @@
-import { createContext, useContext, useRef, useState } from 'react';
+import { createContext, useCallback, useContext, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
 import { useValue } from '../../core-react/internal/hooks/useValue';
 import { useOnchainKit } from '../../core-react/useOnchainKit';
@@ -15,15 +15,29 @@ type WalletProviderReact = {
 export function WalletProvider({ children }: WalletProviderReact) {
   const { chain } = useOnchainKit();
   const [isOpen, setIsOpen] = useState(false);
+  const [isClosing, setIsClosing] = useState(false);
   const { address } = useAccount();
   const containerRef = useRef<HTMLDivElement>(null);
+
+  const handleClose = useCallback(() => {
+    setIsClosing(true);
+    setTimeout(() => {
+      setIsOpen(false);
+      setIsClosing(false);
+    }, 300);
+  }, []);
+
   const value = useValue({
     address,
-    isOpen,
     chain,
+    isOpen,
     setIsOpen,
+    isClosing,
+    setIsClosing,
+    handleClose,
     containerRef,
   });
+
   return (
     <WalletContext.Provider value={value}>{children}</WalletContext.Provider>
   );

@@ -30,7 +30,7 @@ export function ConnectWallet({
   const { config = { wallet: { display: undefined } } } = useOnchainKit();
 
   // Core Hooks
-  const { isOpen, setIsOpen } = useWalletContext();
+  const { isOpen, setIsOpen, handleClose } = useWalletContext();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { address: accountAddress, status } = useAccount();
   const { connectors, connect, status: connectStatus } = useConnect();
@@ -63,8 +63,12 @@ export function ConnectWallet({
 
   // Handles
   const handleToggle = useCallback(() => {
-    setIsOpen(!isOpen);
-  }, [isOpen, setIsOpen]);
+    if (isOpen) {
+      handleClose();
+    } else {
+      setIsOpen(true);
+    }
+  }, [isOpen, handleClose, setIsOpen]);
 
   const handleCloseModal = useCallback(() => {
     setIsModalOpen(false);
