@@ -67,7 +67,7 @@ export default function WalletIslandTokenHoldings() {
   ];
 
   return (
-    <div className="flex w-full flex-col items-center gap-4 px-2 mb-2 mt-2">
+    <div className="mt-2 mb-2 flex w-full flex-col items-center gap-4 px-2">
       {tokenBalances.slice(0, 4).map((tokenBalance) => (
         <TokenDetails
           key={tokenBalance.token.address}
