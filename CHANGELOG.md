@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.36.0
+
+### Minor Changes
+
+- 82df21e: -**chore**: Removed `Farcaster Frames`. Deprecating `Framegear`, `Frames`, `XMTP`, and `Neynar` support. By @cpcramer #1693
+
+### Patch Changes
+
+- da7491a: feat: improved funding flow in Checkout by @0xAlec #1692
+- ecaa62f: -**chore**: Add useOutsideClick hook. By @cpcramer #1612
+
 ## 0.35.8
 
 ### Patch Changes
