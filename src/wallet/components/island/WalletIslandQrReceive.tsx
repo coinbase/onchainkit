@@ -7,7 +7,7 @@ import { useWalletContext } from '../WalletProvider';
 import { useWalletIslandContext } from './WalletIslandProvider';
 
 export function WalletIslandQrReceive() {
-  const { address } = useWalletContext();
+  const { address, isClosing } = useWalletContext();
   const { showQr, setShowQr } = useWalletIslandContext();
   const backButtonRef = useRef<HTMLButtonElement>(null);
 
@@ -29,6 +29,10 @@ export function WalletIslandQrReceive() {
     }
   }, [address]);
 
+  if (isClosing) {
+    return null;
+  }
+
   return (
     <div
       className={cn(
@@ -36,6 +40,7 @@ export function WalletIslandQrReceive() {
         text.headline,
         'flex flex-col items-center justify-center gap-12',
         'w-full',
+        'animate-walletIslandContainerIn',
       )}
     >
       <div className="flex w-full flex-row items-center justify-between">

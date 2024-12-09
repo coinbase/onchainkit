@@ -1,4 +1,6 @@
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
+import { backArrowSvg } from '../../../internal/svg/backArrowSvg';
+import { border, cn, pressable } from '../../../styles/theme';
 import {
   Swap,
   SwapAmountInput,
@@ -26,10 +28,28 @@ export default function WalletIslandSwap({
   onSuccess,
   title = 'Swap',
   to,
-  backButton,
 }: SwapDefaultReact) {
-  const { showSwap } = useWalletIslandContext();
+  const { showSwap, setShowSwap } = useWalletIslandContext();
   const swapDivRef = useRef<HTMLDivElement>(null);
+
+  const handleCloseSwap = useCallback(() => {
+    setShowSwap(false);
+  }, [setShowSwap]);
+
+  const backButton = (
+    <button
+      type="button"
+      onClick={handleCloseSwap}
+      className={cn(
+        pressable.default,
+        border.radius,
+        border.default,
+        'flex items-center justify-center p-3',
+      )}
+    >
+      {backArrowSvg}
+    </button>
+  );
 
   useEffect(() => {
     if (showSwap) {
@@ -38,7 +58,11 @@ export default function WalletIslandSwap({
   }, [showSwap]);
 
   return (
-    <div ref={swapDivRef} tabIndex={showSwap ? -1 : undefined}>
+    <div
+      ref={swapDivRef}
+      tabIndex={showSwap ? -1 : undefined}
+      className="animate-walletIslandContainerIn"
+    >
       <Swap
         className={className}
         onStatus={onStatus}
