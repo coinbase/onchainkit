@@ -38,6 +38,8 @@ type State = {
   setNFTToken: (nftToken: string) => void;
   setIsSponsored: (isSponsored: boolean) => void;
   isSponsored?: boolean;
+  anchorPosition?: string;
+  setAnchorPosition: (anchorPosition: string) => void;
 };
 
 export const defaultState: State = {
@@ -49,6 +51,8 @@ export const defaultState: State = {
   setComponentMode: () => {},
   setNFTToken: () => {},
   setIsSponsored: () => {},
+  anchorPosition: 'top-right',
+  setAnchorPosition: () => {},
 };
 
 export const AppContext = createContext(defaultState);
@@ -134,6 +138,11 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     setPaymastersState(newObj);
   };
 
+  const [anchorPosition, setAnchorPosition] = useStateWithStorage<string>({
+    key: 'anchorPosition',
+    defaultValue: defaultState.anchorPosition,
+  });
+
   return (
     <AppContext.Provider
       value={{
@@ -159,6 +168,8 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         setNFTToken,
         setIsSponsored,
         isSponsored,
+        anchorPosition,
+        setAnchorPosition,
       }}
     >
       <OnchainKitProvider

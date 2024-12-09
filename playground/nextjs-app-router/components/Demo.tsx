@@ -40,7 +40,7 @@ const activeComponentMapping: Record<OnchainKitComponent, React.FC> = {
 };
 
 function Demo() {
-  const { activeComponent } = useContext(AppContext);
+  const { activeComponent, anchorPosition } = useContext(AppContext);
   const [isDarkMode, setIsDarkMode] = useState(true);
   const [sideBarVisible, setSideBarVisible] = useState(true);
   const [copied, setCopied] = useState(false);
@@ -142,10 +142,13 @@ function Demo() {
       <div className="linear-gradient(to_bottom,#f0f0f0_1px,transparent_1px)] flex flex-1 flex-col bg-[linear-gradient(to_right,#f0f0f0_1px,transparent_1px), bg-[size:6rem_4rem]">
         <div
           className={cn(
-            'flex h-full w-full flex-col items-center',
+            'flex h-full w-full flex-col',
             activeComponent === OnchainKitComponent.WalletIslandDefault
+              ? ''
+              : 'items-center justify-center',
+            anchorPosition?.includes('top')
               ? 'justify-start'
-              : 'justify-center',
+              : 'justify-end',
           )}
         >
           {ActiveComponent && <ActiveComponent />}
