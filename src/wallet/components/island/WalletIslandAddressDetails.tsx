@@ -21,6 +21,7 @@ export default function AddressDetails() {
         'mt-2 flex flex-col items-center justify-center',
         color.foreground,
         text.body,
+        'animate-walletIslandItem2 opacity-0',
       )}
     >
       <div className="h-10 w-10">
