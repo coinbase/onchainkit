@@ -9,23 +9,22 @@ import { useWalletContext } from '../WalletProvider';
 import { useWalletIslandContext } from './WalletIslandProvider';
 
 export default function WalletIslandWalletActions() {
+  const { handleClose } = useWalletContext();
   const { setShowQr } = useWalletIslandContext();
   const { disconnect, connectors } = useDisconnect();
 
-  const { setIsOpen } = useWalletContext();
-
   const handleDisconnect = useCallback(() => {
+    handleClose();
     connectors.map((connector) => disconnect({ connector }));
-    setIsOpen(false);
-  }, [disconnect, connectors, setIsOpen]);
+  }, [disconnect, connectors, handleClose]);
 
   const handleQr = useCallback(() => {
     setShowQr(true);
   }, [setShowQr]);
 
   const handleCollapse = useCallback(() => {
-    setIsOpen(false);
-  }, [setIsOpen]);
+    handleClose();
+  }, [handleClose]);
 
   return (
     <div

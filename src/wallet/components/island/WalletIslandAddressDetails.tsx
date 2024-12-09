@@ -5,7 +5,7 @@ import { cn, color, text } from '../../../styles/theme';
 import { useWalletContext } from '../WalletProvider';
 
 export default function AddressDetails() {
-  const { address, chain } = useWalletContext();
+  const { address, chain, isClosing } = useWalletContext();
 
   const handleCopyAddress = useCallback(async () => {
     try {
@@ -14,6 +14,10 @@ export default function AddressDetails() {
       console.error('Failed to copy address:', err);
     }
   }, [address]);
+
+  if (isClosing) {
+    return null;
+  }
 
   return (
     <div

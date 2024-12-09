@@ -1,7 +1,6 @@
-import { useCallback, useMemo } from 'react';
+import { useMemo } from 'react';
 import Draggable from '../../../internal/components/Draggable';
-import { backArrowSvg } from '../../../internal/svg/backArrowSvg';
-import { background, border, cn, pressable } from '../../../styles/theme';
+import { background, border, cn } from '../../../styles/theme';
 import { useTheme } from '../../../useTheme';
 import type { WalletIslandProps } from '../../types';
 import { useWalletContext } from '../WalletProvider';
@@ -13,9 +12,8 @@ const WALLET_ISLAND_WIDTH = 382;
 const WALLET_ISLAND_HEIGHT = 394;
 
 export function WalletIslandContent({ children }: WalletIslandProps) {
-  const { containerRef } = useWalletContext();
-  const { showQr, showSwap, setShowSwap, tokenHoldings } =
-    useWalletIslandContext();
+  const { containerRef, isClosing } = useWalletContext();
+  const { showQr, showSwap, tokenHoldings } = useWalletIslandContext();
   const componentTheme = useTheme();
 
   const position = useMemo(() => {
@@ -46,25 +44,6 @@ export function WalletIslandContent({ children }: WalletIslandProps) {
     }
   }, [containerRef]);
 
-  const handleCloseSwap = useCallback(() => {
-    setShowSwap(false);
-  }, [setShowSwap]);
-
-  const backButton = (
-    <button
-      type="button"
-      onClick={handleCloseSwap}
-      className={cn(
-        pressable.default,
-        border.radius,
-        border.default,
-        'flex items-center justify-center p-3',
-      )}
-    >
-      {backArrowSvg}
-    </button>
-  );
-
   return (
     <Draggable startingPosition={position}>
       <div
@@ -75,7 +54,9 @@ export function WalletIslandContent({ children }: WalletIslandProps) {
           border.lineDefault,
           'h-auto w-96',
           'flex items-center justify-center',
-          'animate-walletIslandContainerIn',
+          isClosing
+            ? 'animate-walletIslandOut'
+            : 'animate-walletIslandContainerIn',
         )}
       >
         <div
@@ -97,7 +78,6 @@ export function WalletIslandContent({ children }: WalletIslandProps) {
           )}
         >
           <WalletIslandSwap
-            backButton={backButton}
             to={tokenHoldings.map((token) => token.token)}
             from={tokenHoldings.map((token) => token.token)}
             className="w-full p-2"
