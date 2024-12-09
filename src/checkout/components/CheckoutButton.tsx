@@ -35,14 +35,8 @@ export function CheckoutButton({
     if (lifecycleStatus?.statusName === CHECKOUT_LIFECYCLESTATUS.SUCCESS) {
       return 'View payment details';
     }
-    if (
-      lifecycleStatus?.statusName === CHECKOUT_LIFECYCLESTATUS.ERROR &&
-      lifecycleStatus?.statusData.error === 'User has insufficient balance'
-    ) {
-      return 'Get USDC';
-    }
     return text;
-  }, [lifecycleStatus?.statusName, lifecycleStatus?.statusData, text]);
+  }, [lifecycleStatus?.statusName, text]);
   const shouldRenderIcon = buttonText === text && iconSvg;
 
   return (
