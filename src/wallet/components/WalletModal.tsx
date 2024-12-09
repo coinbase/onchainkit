@@ -275,7 +275,7 @@ export function WalletModal({
             )}
           >
             MetaMask
-            <div className="h-5 w-5 -mr-0.5 flex items-center justify-center">
+            <div className='-mr-0.5 flex h-5 w-5 items-center justify-center'>
               {metamaskSvg}
             </div>
           </button>
