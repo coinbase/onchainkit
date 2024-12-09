@@ -1,7 +1,8 @@
-import { Children, useEffect, useMemo, useRef } from 'react';
+import { Children, useMemo, useRef } from 'react';
 import { findComponent } from '../../internal/utils/findComponent';
 import { cn } from '../../styles/theme';
 import { useIsMounted } from '../../useIsMounted';
+import { useOutsideClick } from '../../useOutsideClick';
 import { useTheme } from '../../useTheme';
 import type { WalletReact } from '../types';
 import { ConnectWallet } from './ConnectWallet';
@@ -12,6 +13,12 @@ const WalletContent = ({ children, className }: WalletReact) => {
   const { isOpen, setIsOpen } = useWalletContext();
   const walletContainerRef = useRef<HTMLDivElement>(null);
 
+  useOutsideClick(walletContainerRef, () => {
+    if (isOpen) {
+      setIsOpen(false);
+    }
+  });
+
   const { connect, dropdown } = useMemo(() => {
     const childrenArray = Children.toArray(children);
     return {
@@ -19,23 +26,6 @@ const WalletContent = ({ children, className }: WalletReact) => {
       dropdown: childrenArray.find(findComponent(WalletDropdown)),
     };
   }, [children]);
-
-  // Handle clicking outside the wallet component to close the dropdown.
-  useEffect(() => {
-    const handleClickOutsideComponent = (event: MouseEvent) => {
-      if (
-        walletContainerRef.current &&
-        !walletContainerRef.current.contains(event.target as Node) &&
-        isOpen
-      ) {
-        setIsOpen(false);
-      }
-    };
-
-    document.addEventListener('click', handleClickOutsideComponent);
-    return () =>
-      document.removeEventListener('click', handleClickOutsideComponent);
-  }, [isOpen, setIsOpen]);
 
   return (
     <div
