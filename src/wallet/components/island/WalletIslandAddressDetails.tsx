@@ -18,7 +18,7 @@ export default function AddressDetails() {
   return (
     <div
       className={cn(
-        'mt-2 flex flex-col items-center justify-center gap-1',
+        'mt-2 flex flex-col items-center justify-center',
         color.foreground,
         text.body,
       )}
@@ -28,7 +28,7 @@ export default function AddressDetails() {
           <Badge />
         </Avatar>
       </div>
-      <div className="text-base">
+      <div className="mt-2 text-base">
         <button type="button" onClick={handleCopyAddress}>
           <Name
             address={address}
@@ -37,7 +37,7 @@ export default function AddressDetails() {
           />
         </button>
       </div>
-      <div className={cn(text.title1)}>
+      <div className={cn(text.title1, 'mt-1')}>
         <AddressBalance address={address} chain={chain} />
       </div>
     </div>
