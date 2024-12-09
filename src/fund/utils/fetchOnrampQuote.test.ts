@@ -1,4 +1,5 @@
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
+import { setOnchainKitConfig } from '../../OnchainKitConfig';
 import { ONRAMP_API_BASE_URL } from '../constants';
 import { fetchOnrampQuote } from './fetchOnrampQuote';
 
@@ -31,11 +32,11 @@ global.fetch = vi.fn(() =>
 describe('fetchOnrampQuote', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    setOnchainKitConfig({ apiKey: mockApiKey });
   });
 
   it('should fetch onramp quote successfully', async () => {
     const result = await fetchOnrampQuote({
-      apiKey: mockApiKey,
       purchaseCurrency: mockPurchaseCurrency,
       purchaseNetwork: mockPurchaseNetwork,
       paymentCurrency: mockPaymentCurrency,
@@ -80,7 +81,6 @@ describe('fetchOnrampQuote', () => {
 
     await expect(
       fetchOnrampQuote({
-        apiKey: mockApiKey,
         purchaseCurrency: mockPurchaseCurrency,
         purchaseNetwork: mockPurchaseNetwork,
         paymentCurrency: mockPaymentCurrency,

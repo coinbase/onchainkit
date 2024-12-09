@@ -1,4 +1,5 @@
-import { type Mock, describe, expect, it, vi } from 'vitest';
+import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
+import { setOnchainKitConfig } from '../../OnchainKitConfig';
 import { ONRAMP_API_BASE_URL } from '../constants';
 import { fetchOnrampConfig } from './fetchOnrampConfig';
 
@@ -22,8 +23,12 @@ global.fetch = vi.fn(() =>
 ) as Mock;
 
 describe('fetchOnrampConfig', () => {
+  beforeEach(() => {
+    setOnchainKitConfig({ apiKey: mockApiKey });
+  });
+
   it('should fetch onramp config and return data', async () => {
-    const data = await fetchOnrampConfig({ apiKey: mockApiKey });
+    const data = await fetchOnrampConfig();
 
     expect(fetch).toHaveBeenCalledWith(`${ONRAMP_API_BASE_URL}/buy/config`, {
       method: 'GET',
@@ -48,8 +53,6 @@ describe('fetchOnrampConfig', () => {
       Promise.reject(new Error('Fetch failed')),
     );
 
-    await expect(fetchOnrampConfig({ apiKey: mockApiKey })).rejects.toThrow(
-      'Fetch failed',
-    );
+    await expect(fetchOnrampConfig()).rejects.toThrow('Fetch failed');
   });
 });

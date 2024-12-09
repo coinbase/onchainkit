@@ -1,8 +1,9 @@
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
+import { setOnchainKitConfig } from '../../OnchainKitConfig';
 import { ONRAMP_API_BASE_URL } from '../constants';
 import { fetchOnrampTransactionStatus } from './fetchOnrampTransactionStatus';
 
-const apiKey = 'test-api-key';
+const mockApiKey = 'test-api-key';
 const partnerUserId = 'test-user-id';
 const nextPageKey = 'test-next-page-key';
 const pageSize = '10';
@@ -22,11 +23,12 @@ describe('fetchOnrampTransactionStatus', () => {
         json: () => Promise.resolve(mockResponseData),
       }),
     ) as Mock;
+
+    setOnchainKitConfig({ apiKey: mockApiKey });
   });
 
   it('should fetch transaction status and convert response to camel case', async () => {
     const result = await fetchOnrampTransactionStatus({
-      apiKey,
       partnerUserId,
       nextPageKey,
       pageSize,
@@ -37,7 +39,7 @@ describe('fetchOnrampTransactionStatus', () => {
       {
         method: 'GET',
         headers: {
-          Authorization: `Bearer ${apiKey}`,
+          Authorization: `Bearer ${mockApiKey}`,
         },
       },
     );
@@ -54,7 +56,6 @@ describe('fetchOnrampTransactionStatus', () => {
 
     await expect(
       fetchOnrampTransactionStatus({
-        apiKey,
         partnerUserId,
         nextPageKey,
         pageSize,

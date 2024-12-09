@@ -1,4 +1,5 @@
 import { convertSnakeToCamelCase } from '../../internal/utils/convertSnakeToCamelCase';
+import { getApiKey } from '../../internal/utils/getApiKey';
 import { ONRAMP_API_BASE_URL } from '../constants';
 import type { OnrampAmout } from '../types';
 
@@ -38,7 +39,6 @@ type OnrampQuoteResponseData = {
 /**
  * Provides a quote based on the asset the user would like to purchase, plus the network, the fiat payment, the payment currency, payment method, and country.
  *
- * @param apiKey API key for the partner. `required`
  * @param purchaseCurrency ID of the crypto asset the user wants to purchase. Retrieved from the options API. `required`
  * @param purchaseNetwork Name of the network that the purchase currency should be purchased on.
  * Retrieved from the options API. If omitted, the default network for the crypto currency is used.
@@ -50,7 +50,6 @@ type OnrampQuoteResponseData = {
  * Required if the `country=“US”` because certain states (e.g., `NY`) have state specific asset restrictions.
  */
 export async function fetchOnrampQuote({
-  apiKey,
   purchaseCurrency,
   purchaseNetwork,
   paymentCurrency,
@@ -59,7 +58,6 @@ export async function fetchOnrampQuote({
   country,
   subdivision,
 }: {
-  apiKey: string;
   purchaseCurrency: string;
   purchaseNetwork?: string;
   paymentCurrency: string;
@@ -68,6 +66,8 @@ export async function fetchOnrampQuote({
   country: string;
   subdivision?: string;
 }): Promise<OnrampQuoteResponseData> {
+  const apiKey = getApiKey();
+
   const response = await fetch(`${ONRAMP_API_BASE_URL}/buy/quote`, {
     method: 'POST',
     body: JSON.stringify({

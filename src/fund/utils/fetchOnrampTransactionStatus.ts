@@ -1,4 +1,5 @@
 import { convertSnakeToCamelCase } from '../../internal/utils/convertSnakeToCamelCase';
+import { getApiKey } from '../../internal/utils/getApiKey';
 import { ONRAMP_API_BASE_URL } from '../constants';
 import type { OnrampTransaction } from '../types';
 
@@ -18,16 +19,16 @@ type OnrampTransactionStatusResponseData = {
 };
 
 export async function fetchOnrampTransactionStatus({
-  apiKey,
   partnerUserId,
   nextPageKey,
   pageSize,
 }: {
-  apiKey: string;
   partnerUserId: string;
   nextPageKey: string;
   pageSize: string;
 }): Promise<OnrampTransactionStatusResponseData> {
+  const apiKey = getApiKey();
+
   const response = await fetch(
     `${ONRAMP_API_BASE_URL}/buy/user/${partnerUserId}/transactions?page_key=${nextPageKey}&page_size=${pageSize}`,
     {
