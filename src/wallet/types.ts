@@ -74,6 +74,9 @@ export type WalletContextType = {
   chain?: Chain; // Optional chain for domain resolution
   isOpen: boolean;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
+  isClosing: boolean;
+  setIsClosing: Dispatch<SetStateAction<boolean>>;
+  handleClose: () => void;
   containerRef?: RefObject<HTMLDivElement> | null;
 };
 
