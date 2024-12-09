@@ -22,9 +22,9 @@ export function Checkout({
   return (
     <CheckoutProvider
       chargeHandler={chargeHandler}
+      productId={productId}
       isSponsored={isSponsored}
       onStatus={onStatus}
-      productId={productId}
     >
       <div
         className={cn(componentTheme, 'flex w-full flex-col gap-2', className)}

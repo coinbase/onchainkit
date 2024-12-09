@@ -65,11 +65,13 @@ export type GetUSDCBalanceParams = {
   config: Config;
 };
 
+export type ChargeHandlerOrProductId =
+  | { chargeHandler: () => Promise<string>; productId?: never }
+  | { chargeHandler?: never; productId: string };
+
 export type HandlePayRequestParams = {
   address: Address;
-  chargeHandler?: () => Promise<string>;
-  productId?: string;
-};
+} & ChargeHandlerOrProductId;
 
 /**
  * LifecycleStatus updater type
@@ -115,34 +117,27 @@ export type CheckoutContextType = {
 };
 
 export type CheckoutProviderReact = {
-  chargeHandler?: () => Promise<string>;
   children: React.ReactNode;
   isSponsored?: boolean;
   onStatus?: (status: LifecycleStatus) => void;
-  productId?: string;
-};
+} & ChargeHandlerOrProductId;
 
 /**
  * Note: exported as public Type
  */
 export type CheckoutReact = {
-  chargeHandler?: () => Promise<string>;
   children: React.ReactNode;
   className?: string;
   isSponsored?: boolean;
   onStatus?: (status: LifecycleStatus) => void;
-  productId?: string;
-};
+} & ChargeHandlerOrProductId;
 
 /**
  * Note: exported as public Type
  */
 export type CheckoutStatusReact = { className?: string };
 
-export type UseCommerceContractsParams = {
-  chargeHandler?: () => Promise<string>;
-  productId?: string;
-};
+export type UseCommerceContractsParams = ChargeHandlerOrProductId;
 
 export type UseLifecycleStatusReturn = {
   lifecycleStatus: LifecycleStatus;
