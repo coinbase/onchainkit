@@ -1,4 +1,5 @@
-import { describe, expect, it, vi } from 'vitest';
+import { PhantomConnector } from 'phantom-wagmi-connector';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { createConfig } from 'wagmi';
 import { http } from 'wagmi';
 import { base, baseSepolia } from 'wagmi/chains';
@@ -10,7 +11,14 @@ vi.mock('wagmi', async () => {
   const actual = await vi.importActual('wagmi');
   return {
     ...actual,
-    createConfig: vi.fn(),
+    createConfig: vi.fn((config) => {
+      config.connectors.forEach((connector) => {
+        if (typeof connector === 'function') {
+          connector();
+        }
+      });
+      return config;
+    }),
     createStorage: vi.fn(),
   };
 });
@@ -32,7 +40,17 @@ vi.mock('wagmi/connectors', async () => {
   };
 });
 
+vi.mock('phantom-wagmi-connector', () => ({
+  PhantomConnector: vi.fn().mockImplementation(() => ({
+    chains: [base, baseSepolia],
+  })),
+}));
+
 describe('createWagmiConfig', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
   it('should create config with default values when no parameters are provided', () => {
     createWagmiConfig({});
     expect(createConfig).toHaveBeenCalledWith(
@@ -91,6 +109,27 @@ describe('createWagmiConfig', () => {
       http(
         `https://api.developer.coinbase.com/rpc/v1/base-sepolia/${testApiKey}`,
       ),
+    );
+  });
+
+  it('should configure PhantomConnector with correct chains', () => {
+    createWagmiConfig({});
+
+    expect(PhantomConnector).toHaveBeenCalledWith({
+      chains: [base, baseSepolia],
+    });
+  });
+
+  it('should include both Coinbase Wallet and Phantom connectors', () => {
+    createWagmiConfig({});
+
+    expect(createConfig).toHaveBeenCalledWith(
+      expect.objectContaining({
+        connectors: expect.arrayContaining([
+          expect.any(Function),
+          expect.any(Function),
+        ]),
+      }),
     );
   });
 });

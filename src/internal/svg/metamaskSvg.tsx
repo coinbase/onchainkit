@@ -6,7 +6,7 @@ export const metamaskSvg = (
   >
     <style>
       {
-        ".st1{fill:#f5841f}.st2{fill:#e27625}.st3{fill:#d7c1b3}.st4{fill:#2f343b}.st5{fill:#cc6228}.st7{fill:#763e1a}"
+        '.st1{fill:#f5841f}.st2{fill:#e27625}.st3{fill:#d7c1b3}.st4{fill:#2f343b}.st5{fill:#cc6228}.st7{fill:#763e1a}'
       }
     </style>
     <path
@@ -46,7 +46,7 @@ export const metamaskSvg = (
       <path
         d="m115.1 161.1.2-5.6-1.6-1.3H91l-1.4 1.3.1 5.6-19-9 6.6 5.4 13.5 9.3h23.1l13.5-9.3 6.6-5.4z"
         style={{
-          fill: "#c0ad9e",
+          fill: '#c0ad9e',
         }}
       />
       <path
@@ -63,4 +63,4 @@ export const metamaskSvg = (
       />
     </g>
   </svg>
-); 
+);

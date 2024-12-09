@@ -1,12 +1,14 @@
+import { PhantomConnector } from 'phantom-wagmi-connector';
 import { http, cookieStorage, createConfig, createStorage } from 'wagmi';
+import type { Connector, CreateConnectorFn } from 'wagmi';
 import { base, baseSepolia } from 'wagmi/chains';
 import { coinbaseWallet } from 'wagmi/connectors';
-import { PhantomConnector } from 'phantom-wagmi-connector';
 import type { CreateWagmiConfigParams } from './types';
-import { type CreateConnectorFn } from 'wagmi';
 
-const phantomConnector: CreateConnectorFn = (config) => {
-  return new PhantomConnector({ chains: [...config.chains] }) as any;
+const phantomConnector: CreateConnectorFn = () => {
+  return new PhantomConnector({
+    chains: [base, baseSepolia],
+  }) as unknown as Connector;
 };
 
 // createWagmiConfig returns a WagmiConfig (https://wagmi.sh/react/api/createConfig) using OnchainKit provided settings.
@@ -17,7 +19,7 @@ export const createWagmiConfig = ({
   appLogoUrl,
 }: CreateWagmiConfigParams) => {
   const chains = [base, baseSepolia] as const;
-  
+
   return createConfig({
     chains,
     connectors: [

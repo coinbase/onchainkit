@@ -52,7 +52,7 @@ export function WalletModal({
 
     const modal = modalRef.current;
     const focusableElements = modal.querySelectorAll<HTMLElement>(
-      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
     );
 
     // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO: Refactor
@@ -97,7 +97,9 @@ export function WalletModal({
       console.error('Coinbase Wallet connection error:', error);
       if (onError) {
         onError(
-          error instanceof Error ? error : new Error('Failed to connect wallet')
+          error instanceof Error
+            ? error
+            : new Error('Failed to connect wallet'),
         );
       }
     }
@@ -119,7 +121,9 @@ export function WalletModal({
       console.error('MetaMask connection error:', error);
       if (onError) {
         onError(
-          error instanceof Error ? error : new Error('Failed to connect wallet')
+          error instanceof Error
+            ? error
+            : new Error('Failed to connect wallet'),
         );
       }
     }
@@ -129,7 +133,7 @@ export function WalletModal({
     try {
       // Find the Phantom connector from available connectors
       const phantomConnector = connectors.find(
-        (c) => c.name.toLowerCase() === 'phantom'
+        (c) => c.name.toLowerCase() === 'phantom',
       );
 
       if (!phantomConnector) {
@@ -148,7 +152,9 @@ export function WalletModal({
       console.error('Phantom connection error:', error);
       if (onError) {
         onError(
-          error instanceof Error ? error : new Error('Failed to connect wallet')
+          error instanceof Error
+            ? error
+            : new Error('Failed to connect wallet'),
         );
       }
     }
@@ -156,7 +162,7 @@ export function WalletModal({
 
   const handleLinkKeyDown = (
     event: React.KeyboardEvent<HTMLAnchorElement>,
-    url: string
+    url: string,
   ) => {
     if (event.key === 'Enter') {
       event.preventDefault();
@@ -174,7 +180,7 @@ export function WalletModal({
         'fixed inset-0 z-50 flex items-center justify-center',
         'bg-black/70 transition-opacity duration-200',
         isOpen ? 'opacity-100' : 'opacity-0',
-        className
+        className,
       )}
       onClick={onClose}
       onKeyDown={(e) => e.key === 'Enter' && onClose()}
@@ -192,7 +198,7 @@ export function WalletModal({
           'relative',
           '-translate-x-1/2 -translate-y-1/2 fixed top-1/2 left-1/2',
           'transition-opacity duration-200',
-          isOpen ? 'opacity-100' : 'opacity-0'
+          isOpen ? 'opacity-100' : 'opacity-0',
         )}
         onClick={(e) => e.stopPropagation()}
         onKeyDown={(e) => e.key === 'Enter' && e.stopPropagation()}
@@ -208,7 +214,7 @@ export function WalletModal({
             border.default,
             'absolute top-4 right-4',
             'flex items-center justify-center p-1',
-            'transition-colors duration-200'
+            'transition-colors duration-200',
           )}
           aria-label="Close modal"
         >
@@ -248,7 +254,7 @@ export function WalletModal({
               pressable.alternate,
               color.foreground,
               'h-10 w-[275px] px-4 py-3',
-              'flex items-center justify-between text-left'
+              'flex items-center justify-between text-left',
             )}
           >
             Sign up
@@ -267,7 +273,7 @@ export function WalletModal({
                   background.default,
                   color.foregroundMuted,
                   text.legal,
-                  'px-2'
+                  'px-2',
                 )}
               >
                 or continue with an existing wallet
@@ -284,7 +290,7 @@ export function WalletModal({
               pressable.alternate,
               color.foreground,
               'h-10 w-[275px] px-4 py-3',
-              'flex items-center justify-between text-left'
+              'flex items-center justify-between text-left',
             )}
           >
             Coinbase Wallet
@@ -300,7 +306,7 @@ export function WalletModal({
               pressable.alternate,
               color.foreground,
               'flex h-[40px] w-[275px] px-4 py-3',
-              'items-center justify-between text-left'
+              'items-center justify-between text-left',
             )}
           >
             MetaMask
@@ -316,7 +322,7 @@ export function WalletModal({
               pressable.alternate,
               color.foreground,
               'flex h-[40px] w-[275px] px-4 py-3',
-              'items-center justify-between text-left'
+              'items-center justify-between text-left',
             )}
           >
             Phantom
@@ -341,7 +347,7 @@ export function WalletModal({
             color.foregroundMuted,
             text.legal,
             'flex flex-col items-center justify-center gap-1 px-4',
-            'mt-4 w-[275px] text-center'
+            'mt-4 w-[275px] text-center',
           )}
         >
           <span className="font-normal text-[10px] leading-[13px]">
