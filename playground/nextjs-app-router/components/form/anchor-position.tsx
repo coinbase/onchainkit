@@ -15,10 +15,7 @@ export function AnchorPosition() {
   return (
     <div className="grid gap-2">
       <Label htmlFor="anchor-position">Anchor Position</Label>
-      <Select
-        value={anchorPosition}
-        onValueChange={setAnchorPosition}
-      >
+      <Select value={anchorPosition} onValueChange={setAnchorPosition}>
         <SelectTrigger>
           <SelectValue placeholder="Select anchor position" />
         </SelectTrigger>
