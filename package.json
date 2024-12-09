@@ -80,7 +80,9 @@
     "vitest": "^2.0.5"
   },
   "resolutions": {
-    "react": "npm:react@^18"
+    "react": "npm:react@^18",
+    "viem": "^2.21.33",
+    "phantom-wagmi-connector/viem": "^2.21.33"
   },
   "packemon": [
     {
