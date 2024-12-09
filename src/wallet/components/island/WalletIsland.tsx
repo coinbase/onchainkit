@@ -76,7 +76,7 @@ function WalletIslandContent({ children }: WalletIslandProps) {
         className={cn(
           'flex flex-col items-center justify-center',
           'h-auto w-96',
-          'p-4',
+          'p-2',
           showQr || showSwap ? 'hidden' : '',
         )}
       >
