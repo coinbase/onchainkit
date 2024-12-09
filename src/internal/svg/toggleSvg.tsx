@@ -10,6 +10,7 @@ export const toggleSvg = (
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
     data-testid="ock-toggleSvg"
+    className="h-full w-full"
   >
     <g clipPath="url(#clip0_2077_4627)">
       <path
