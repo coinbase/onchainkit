@@ -1,15 +1,15 @@
 import { renderHook, waitFor } from '@testing-library/react';
 import { base, baseSepolia, mainnet, optimism } from 'viem/chains';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
-import { publicClient } from '../../network/client';
-import { getChainPublicClient } from '../../network/getChainPublicClient';
+import { publicClient } from '../../core/network/client';
+import { getChainPublicClient } from '../../core/network/getChainPublicClient';
 import { getNewReactQueryTestProvider } from './getNewReactQueryTestProvider';
 import { useAvatar } from './useAvatar';
 
-vi.mock('../../network/client');
+vi.mock('../../core/network/client');
 
-vi.mock('../../network/getChainPublicClient', () => ({
-  ...vi.importActual('../../network/getChainPublicClient'),
+vi.mock('../../core/network/getChainPublicClient', () => ({
+  ...vi.importActual('../../core/network/getChainPublicClient'),
   getChainPublicClient: vi.fn(() => publicClient),
 }));
 

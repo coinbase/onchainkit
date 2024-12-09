@@ -1,5 +1,5 @@
-import { CDP_GET_MINT_DETAILS } from '../../network/definitions/nft';
-import { sendRequest } from '../../network/request';
+import { CDP_GET_MINT_DETAILS } from '../network/definitions/nft';
+import { sendRequest } from '../network/request';
 import type { GetMintDetailsParams, GetMintDetailsResponse } from './types';
 
 /**

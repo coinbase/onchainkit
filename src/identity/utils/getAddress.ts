@@ -1,5 +1,5 @@
 import { mainnet } from 'viem/chains';
-import { getChainPublicClient } from '../../network/getChainPublicClient';
+import { getChainPublicClient } from '../../core/network/getChainPublicClient';
 import type { GetAddress, GetAddressReturnType } from '../types';
 
 /**

@@ -1,7 +1,7 @@
 import type { Chain } from 'viem';
-import { easChainBase } from '../../network/definitions/base';
-import { easChainBaseSepolia } from '../../network/definitions/baseSepolia';
-import { easChainOptimism } from '../../network/definitions/optimism';
+import { easChainBase } from '../../core/network/definitions/base';
+import { easChainBaseSepolia } from '../../core/network/definitions/baseSepolia';
+import { easChainOptimism } from '../../core/network/definitions/optimism';
 import type { EASChainDefinition } from '../types';
 
 export type EASSupportedChains = Record<number, EASChainDefinition>;

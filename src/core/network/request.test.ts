@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
-import { setOnchainKitConfig } from '../OnchainKitConfig';
-import { version } from '../version';
+import { setOnchainKitConfig } from '../../OnchainKitConfig';
+import { version } from '../../version';
 import { buildRequestBody, sendRequest } from './request';
 
 describe('request', () => {
