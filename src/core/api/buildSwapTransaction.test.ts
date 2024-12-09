@@ -2,8 +2,8 @@ import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { CDP_GET_SWAP_TRADE } from '../../network/definitions/swap';
 import { sendRequest } from '../../network/request';
 import { DEGEN_TOKEN, ETH_TOKEN } from '../../swap/mocks';
-import type { BuildSwapTransaction } from './types';
 import { buildSwapTransaction } from './buildSwapTransaction';
+import type { BuildSwapTransaction } from './types';
 /**
  * @vitest-environment node
  */
