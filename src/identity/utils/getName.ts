@@ -1,7 +1,7 @@
 import { base, mainnet } from 'viem/chains';
+import { getChainPublicClient } from '../../core/network/getChainPublicClient';
 import { isBase } from '../../isBase';
 import { isEthereum } from '../../isEthereum';
-import { getChainPublicClient } from '../../core/network/getChainPublicClient';
 import L2ResolverAbi from '../abis/L2ResolverAbi';
 import { RESOLVER_ADDRESSES_BY_CHAIN_ID } from '../constants';
 import type { Basename, GetName, GetNameReturnType } from '../types';

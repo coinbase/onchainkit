@@ -1,7 +1,7 @@
-import { CDP_GET_SWAP_TRADE } from '../network/definitions/swap';
-import { sendRequest } from '../network/request';
 import type { SwapAPIResponse } from '../../swap/types';
 import { getSwapErrorCode } from '../../swap/utils/getSwapErrorCode';
+import { CDP_GET_SWAP_TRADE } from '../network/definitions/swap';
+import { sendRequest } from '../network/request';
 import type {
   APIError,
   BuildSwapTransactionParams,

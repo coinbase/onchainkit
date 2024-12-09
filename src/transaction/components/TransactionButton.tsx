@@ -1,7 +1,7 @@
 import { useCallback, useMemo } from 'react';
 import { useAccount, useChainId } from 'wagmi';
-import { Spinner } from '../../internal/components/Spinner';
 import { getChainExplorer } from '../../core/network/getChainExplorer';
+import { Spinner } from '../../internal/components/Spinner';
 import { border, cn, color, pressable, text } from '../../styles/theme';
 import type { TransactionButtonReact } from '../types';
 import { isSpinnerDisplayed } from '../utils/isSpinnerDisplayed';
