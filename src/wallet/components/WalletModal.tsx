@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useConnect } from 'wagmi';
-import { coinbaseWallet, walletConnect } from 'wagmi/connectors';
+import { coinbaseWallet, metaMask } from 'wagmi/connectors';
 import { closeSvg } from '../../internal/svg/closeSvg';
 import { coinbaseWalletSvg } from '../../internal/svg/coinbaseWalletSvg';
 import { defaultAvatarSVG } from '../../internal/svg/defaultAvatarSVG';
@@ -106,17 +106,20 @@ export function WalletModal({
     }
   }, [connect, onClose, onError]);
 
-  const handleWalletConnectConnector = useCallback(() => {
+  const handleMetaMaskConnection = useCallback(() => {
     try {
-      const walletConnectConnector = walletConnect({
-        projectId: ONCHAINKIT_WALLETCONNECT_PROJECT_ID,
-        showQrModal: true,
+      const metamaskConnector = metaMask({
+        dappMetadata: {
+          name: appName || 'OnchainKit App',
+          url: window.location.origin,
+          iconUrl: appLogo || undefined,
+        },
       });
 
-      connect({ connector: walletConnectConnector });
+      connect({ connector: metamaskConnector });
       onClose();
     } catch (error) {
-      console.error('WalletConnect connection error:', error);
+      console.error('MetaMask connection error:', error);
       if (onError) {
         onError(
           error instanceof Error
@@ -125,7 +128,7 @@ export function WalletModal({
         );
       }
     }
-  }, [connect, onClose, onError]);
+  }, [connect, onClose, onError, appName, appLogo]);
 
   const handleLinkKeyDown = (
     event: React.KeyboardEvent<HTMLAnchorElement>,
@@ -266,7 +269,7 @@ export function WalletModal({
 
           <button
             type="button"
-            onClick={handleWalletConnectConnector}
+            onClick={handleMetaMaskConnection}
             className={cn(
               border.radiusInner,
               text.body,
@@ -276,7 +279,7 @@ export function WalletModal({
               'items-center justify-between text-left',
             )}
           >
-            Other wallets
+            MetaMask
             <div className="h-4 w-4">{walletConnectSvg}</div>
           </button>
         </div>
