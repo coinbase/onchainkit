@@ -4,7 +4,7 @@ import {
   CHECKOUT_TOO_MANY_REQUESTS_ERROR_MESSAGE,
   GENERAL_CHECKOUT_ERROR_MESSAGE,
   UNCAUGHT_CHECKOUT_ERROR_MESSAGE,
-} from '../../checkout/constants';
+} from '../../../checkout/constants';
 
 export function getPayErrorMessage(errorCode?: number) {
   if (!errorCode) {
