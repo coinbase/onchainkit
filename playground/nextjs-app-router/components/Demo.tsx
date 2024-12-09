@@ -146,9 +146,7 @@ function Demo() {
             activeComponent === OnchainKitComponent.WalletIslandDefault
               ? ''
               : 'items-center justify-center',
-            anchorPosition?.includes('top')
-              ? 'justify-start'
-              : 'justify-end',
+            anchorPosition?.includes('top') ? 'justify-start' : 'justify-end',
           )}
         >
           {ActiveComponent && <ActiveComponent />}
