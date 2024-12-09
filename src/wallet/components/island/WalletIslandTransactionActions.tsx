@@ -19,15 +19,23 @@ function WalletIslandTransactionAction({
     <button
       type="button"
       className={cn(
-        'flex flex-col items-center justify-center gap-2',
+        'flex flex-col items-center justify-center gap-1',
         'h-16 w-28',
         'rounded-lg',
         pressable.alternate,
       )}
       onClick={action}
     >
-      <span>{icon}</span>
-      <span className={cn(text.label1, color.foreground)}>{label}</span>
+      <span className="h-4 w-4">{icon}</span>
+      <span
+        className={cn(
+          text.label1,
+          color.foreground,
+          'flex flex-col justify-center',
+        )}
+      >
+        {label}
+      </span>
     </button>
   );
 }

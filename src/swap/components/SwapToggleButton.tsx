@@ -20,7 +20,7 @@ export function SwapToggleButton({ className }: SwapToggleButtonReact) {
       data-testid="SwapTokensButton"
       onClick={handleToggle}
     >
-      {toggleSvg}
+      <div className="h-4 w-4">{toggleSvg}</div>
     </button>
   );
 }
