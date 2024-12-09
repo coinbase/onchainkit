@@ -1,11 +1,11 @@
 import { DEFAULT_ONRAMP_URL } from '../constants';
-import type { EventMetadata, OnRampError } from '../types';
+import type { EventMetadata, OnrampError } from '../types';
 import { subscribeToWindowMessage } from './subscribeToWindowMessage';
 
 type SetupOnrampEventListenersParams = {
   host?: string;
   onSuccess?: () => void;
-  onExit?: (error?: OnRampError) => void;
+  onExit?: (error?: OnrampError) => void;
   onEvent?: (event: EventMetadata) => void;
 };
 
