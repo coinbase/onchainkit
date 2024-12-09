@@ -3,7 +3,10 @@ export const metamaskSvg = (
     xmlns="http://www.w3.org/2000/svg"
     xmlSpace="preserve"
     viewBox="0 0 204.8 192.4"
+    role="img"
+    aria-labelledby="metamaskTitle"
   >
+    <title id="metamaskTitle">MetaMask</title>
     <style>
       {
         '.st1{fill:#f5841f}.st2{fill:#e27625}.st3{fill:#d7c1b3}.st4{fill:#2f343b}.st5{fill:#cc6228}.st7{fill:#763e1a}'

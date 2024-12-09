@@ -105,7 +105,6 @@ export function WalletModal({
     }
   }, [connect, onClose, onError]);
 
-  // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: ignore
   const handleMetaMaskConnection = useCallback(() => {
     try {
       const metamaskConnector = metaMask({
