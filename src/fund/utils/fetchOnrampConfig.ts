@@ -1,4 +1,5 @@
 import { convertSnakeToCamelCase } from '../../internal/utils/convertSnakeToCamelCase';
+import { getApiKey } from '../../internal/utils/getApiKey';
 import { ONRAMP_API_BASE_URL } from '../constants';
 import type { OnrampPaymentMethod } from '../types';
 
@@ -15,13 +16,9 @@ type OnrampConfigCountry = {
 /**
  * Returns list of countries supported by Coinbase Onramp, and the payment methods available in each country.
  *
- * @param apiKey API key for the partner. `required`
  */
-export async function fetchOnrampConfig({
-  apiKey,
-}: {
-  apiKey: string;
-}): Promise<OnrampConfigResponseData> {
+export async function fetchOnrampConfig(): Promise<OnrampConfigResponseData> {
+  const apiKey = getApiKey();
   const response = await fetch(`${ONRAMP_API_BASE_URL}/buy/config`, {
     method: 'GET',
     headers: {

@@ -1,8 +1,17 @@
-import { type Mock, afterEach, describe, expect, it, vi } from 'vitest';
+import {
+  type Mock,
+  afterEach,
+  beforeEach,
+  describe,
+  expect,
+  it,
+  vi,
+} from 'vitest';
+import { setOnchainKitConfig } from '../../OnchainKitConfig';
 import { ONRAMP_API_BASE_URL } from '../constants';
 import { fetchOnrampOptions } from './fetchOnrampOptions';
 
-const apiKey = 'test-api-key';
+const mockApiKey = 'test-api-key';
 const country = 'US';
 const subdivision = 'NY';
 const mockResponseData = {
@@ -19,19 +28,23 @@ global.fetch = vi.fn(() =>
 ) as Mock;
 
 describe('fetchOnrampOptions', () => {
+  beforeEach(() => {
+    setOnchainKitConfig({ apiKey: mockApiKey });
+  });
+
   afterEach(() => {
     vi.clearAllMocks();
   });
 
   it('should fetch onramp options successfully', async () => {
-    const result = await fetchOnrampOptions({ apiKey, country, subdivision });
+    const result = await fetchOnrampOptions({ country, subdivision });
 
     expect(global.fetch).toHaveBeenCalledWith(
       `${ONRAMP_API_BASE_URL}/buy/options?country=${country}&subdivision=${subdivision}`,
       {
         method: 'GET',
         headers: {
-          Authorization: `Bearer ${apiKey}`,
+          Authorization: `Bearer ${mockApiKey}`,
         },
       },
     );
@@ -45,8 +58,8 @@ describe('fetchOnrampOptions', () => {
   it('should handle fetch errors', async () => {
     (global.fetch as Mock).mockRejectedValue(new Error('Fetch error'));
 
-    await expect(
-      fetchOnrampOptions({ apiKey, country, subdivision }),
-    ).rejects.toThrow('Fetch error');
+    await expect(fetchOnrampOptions({ country, subdivision })).rejects.toThrow(
+      'Fetch error',
+    );
   });
 });
