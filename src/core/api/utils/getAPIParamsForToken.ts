@@ -1,4 +1,4 @@
-import { formatDecimals } from '../../swap/utils/formatDecimals';
+import { formatDecimals } from '../../../swap/utils/formatDecimals';
 import type {
   APIError,
   BuildSwapTransactionParams,

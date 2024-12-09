@@ -1,9 +1,9 @@
 import type { Address } from 'viem';
 import { type Mock, describe, expect, it, vi } from 'vitest';
-import { buildMintTransaction as buildMintTransationApi } from '../../api/buildMintTransaction';
+import { buildMintTransaction as buildMintTransationApi } from '../../core/api/buildMintTransaction';
 import { buildMintTransactionData } from './buildMintTransactionData';
 
-vi.mock('../../api/buildMintTransaction');
+vi.mock('../../core/api/buildMintTransaction');
 
 describe('buildMintTransactionData', () => {
   const mockBuildMintTransaction = buildMintTransationApi as Mock;

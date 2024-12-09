@@ -1,26 +1,28 @@
-import { CDP_GET_SWAP_QUOTE } from '../network/definitions/swap';
-import { sendRequest } from '../network/request';
-import type { SwapQuote } from '../swap/types';
-import { getSwapErrorCode } from '../swap/utils/getSwapErrorCode';
+import { CDP_GET_SWAP_TRADE } from '../../network/definitions/swap';
+import { sendRequest } from '../../network/request';
+import type { SwapAPIResponse } from '../../swap/types';
+import { getSwapErrorCode } from '../../swap/utils/getSwapErrorCode';
 import type {
   APIError,
-  GetSwapQuoteParams,
-  GetSwapQuoteResponse,
+  BuildSwapTransactionParams,
+  BuildSwapTransactionResponse,
   SwapAPIParams,
 } from './types';
 import { getAPIParamsForToken } from './utils/getAPIParamsForToken';
+import { getSwapTransaction } from './utils/getSwapTransaction';
 
 /**
- * Retrieves a quote for a swap from Token A to Token B.
+ * Retrieves an unsigned transaction for a swap from Token A to Token B.
  */
-export async function getSwapQuote(
-  params: GetSwapQuoteParams,
-): Promise<GetSwapQuoteResponse> {
+export async function buildSwapTransaction(
+  params: BuildSwapTransactionParams,
+): Promise<BuildSwapTransactionResponse> {
   // Default parameters
   const defaultParams = {
     amountReference: 'from',
     isAmountInDecimals: false,
   };
+
   const apiParamsOrError = getAPIParamsForToken({
     ...defaultParams,
     ...params,
@@ -44,27 +46,37 @@ export async function getSwapQuote(
       slippagePercentage = (Number(params.maxSlippage) * 10).toString();
     }
     apiParams = {
-      slippagePercentage: slippagePercentage,
+      slippagePercentage,
       ...apiParams,
     };
   }
 
   try {
-    const res = await sendRequest<SwapAPIParams, SwapQuote>(
-      CDP_GET_SWAP_QUOTE,
+    const res = await sendRequest<SwapAPIParams, SwapAPIResponse>(
+      CDP_GET_SWAP_TRADE,
       [apiParams],
     );
     if (res.error) {
       return {
-        code: getSwapErrorCode('quote', res.error?.code),
+        code: getSwapErrorCode('swap', res.error?.code),
         error: res.error.message,
         message: '',
       };
     }
-    return res.result;
+
+    const trade = res.result;
+    return {
+      approveTransaction: trade.approveTx
+        ? getSwapTransaction(trade.approveTx, trade.chainId)
+        : undefined,
+      fee: trade.fee,
+      quote: trade.quote,
+      transaction: getSwapTransaction(trade.tx, trade.chainId),
+      warning: trade.quote.warning,
+    };
   } catch (_error) {
     return {
-      code: getSwapErrorCode('uncaught-quote'),
+      code: getSwapErrorCode('uncaught-swap'),
       error: 'Something went wrong',
       message: '',
     };

@@ -1,12 +1,12 @@
 import { type Mock, afterEach, describe, expect, it, vi } from 'vitest';
-import { CDP_LIST_SWAP_ASSETS } from '../network/definitions/swap';
-import { sendRequest } from '../network/request';
+import { CDP_LIST_SWAP_ASSETS } from '../../network/definitions/swap';
+import { sendRequest } from '../../network/request';
 /**
  * @vitest-environment node
  */
 import { getTokens } from './getTokens';
 
-vi.mock('../network/request');
+vi.mock('../../network/request');
 
 describe('getTokens', () => {
   afterEach(() => {
