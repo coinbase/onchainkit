@@ -1,7 +1,7 @@
 import { type Mock, afterEach, describe, expect, it, vi } from 'vitest';
+import { DEGEN_TOKEN, ETH_TOKEN } from '../../swap/mocks';
 import { CDP_GET_SWAP_QUOTE } from '../network/definitions/swap';
 import { sendRequest } from '../network/request';
-import { DEGEN_TOKEN, ETH_TOKEN } from '../../swap/mocks';
 /**
  * @vitest-environment node
  */
