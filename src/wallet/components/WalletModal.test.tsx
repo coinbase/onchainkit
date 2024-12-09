@@ -75,7 +75,6 @@ describe('WalletModal', () => {
     expect(screen.getByText('Sign up')).toBeInTheDocument();
     expect(screen.getByText('Coinbase Wallet')).toBeInTheDocument();
     expect(screen.getByText('MetaMask')).toBeInTheDocument();
-    expect(screen.getByText('Phantom')).toBeInTheDocument();
   });
 
   it('renders app logo and name when provided', () => {
@@ -234,7 +233,7 @@ describe('WalletModal', () => {
     const mockOnError = vi.fn();
     (useConnect as Mock).mockReturnValue({
       connect: vi.fn(() => {
-        throw 'Some string error';
+        throw 'test error';
       }),
     });
 
@@ -249,7 +248,7 @@ describe('WalletModal', () => {
     );
     expect(console.error).toHaveBeenCalledWith(
       'Coinbase Wallet connection error:',
-      'Some string error',
+      'test error',
     );
   });
 
@@ -447,85 +446,13 @@ describe('WalletModal', () => {
         mockError,
       );
     });
-  });
 
-  describe('Phantom Connection', () => {
-    beforeEach(() => {
-      (useConnect as Mock).mockReturnValue({
-        connect: mockConnect,
-        connectors: [{ name: 'phantom', id: 'phantom' }],
-      });
-    });
-
-    it('connects with Phantom when clicking the Phantom button', () => {
-      // Mock window.phantom
-      (window as any).phantom = {};
-
-      render(<WalletModal isOpen={true} onClose={mockOnClose} />);
-
-      fireEvent.click(screen.getByText('Phantom'));
-
-      expect(mockConnect).toHaveBeenCalledWith({
-        connector: expect.objectContaining({ name: 'phantom' }),
-      });
-      expect(mockOnClose).toHaveBeenCalled();
-    });
-
-    it('opens Phantom website when wallet is not installed', () => {
-      // Ensure window.phantom is undefined
-      (window as any).phantom = undefined;
-      const mockOnError = vi.fn();
-
-      render(
-        <WalletModal
-          isOpen={true}
-          onClose={mockOnClose}
-          onError={mockOnError}
-        />,
-      );
-
-      fireEvent.click(screen.getByText('Phantom'));
-
-      expect(window.open).toHaveBeenCalledWith(
-        'https://phantom.app/',
-        '_blank',
-      );
-      expect(mockOnError).toHaveBeenCalledWith(
-        new Error('Phantom wallet is not installed'),
-      );
-    });
-
-    it('handles missing Phantom connector', () => {
-      (useConnect as Mock).mockReturnValue({
-        connect: mockConnect,
-        connectors: [], // Empty connectors array
-      });
-      const mockOnError = vi.fn();
-
-      render(
-        <WalletModal
-          isOpen={true}
-          onClose={mockOnClose}
-          onError={mockOnError}
-        />,
-      );
-
-      fireEvent.click(screen.getByText('Phantom'));
-
-      expect(mockOnError).toHaveBeenCalledWith(
-        new Error('Phantom connector not found'),
-      );
-    });
-
-    it('handles Phantom connection errors', () => {
-      (window as any).phantom = {};
-      const mockError = new Error('Phantom connection failed');
+    it('handles MetaMask non-Error objects with onError callback', () => {
       const mockOnError = vi.fn();
       (useConnect as Mock).mockReturnValue({
         connect: vi.fn(() => {
-          throw mockError;
+          throw 'String error';
         }),
-        connectors: [{ name: 'phantom', id: 'phantom' }],
       });
 
       render(
@@ -536,12 +463,14 @@ describe('WalletModal', () => {
         />,
       );
 
-      fireEvent.click(screen.getByText('Phantom'));
+      fireEvent.click(screen.getByText('MetaMask'));
 
-      expect(mockOnError).toHaveBeenCalledWith(mockError);
+      expect(mockOnError).toHaveBeenCalledWith(
+        new Error('Failed to connect wallet'),
+      );
       expect(console.error).toHaveBeenCalledWith(
-        'Phantom connection error:',
-        mockError,
+        'MetaMask connection error:',
+        'String error',
       );
     });
   });
@@ -579,6 +508,23 @@ describe('WalletModal', () => {
       expect(console.error).toHaveBeenCalledWith(
         'Coinbase Wallet connection error:',
         error,
+      );
+    });
+
+    it('handles MetaMask non-Error objects without onError callback', () => {
+      (useConnect as Mock).mockReturnValue({
+        connect: vi.fn(() => {
+          throw 'String error';
+        }),
+      });
+
+      render(<WalletModal isOpen={true} onClose={mockOnClose} />);
+
+      fireEvent.click(screen.getByText('MetaMask'));
+
+      expect(console.error).toHaveBeenCalledWith(
+        'MetaMask connection error:',
+        'String error',
       );
     });
   });
