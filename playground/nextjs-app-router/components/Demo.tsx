@@ -78,6 +78,17 @@ function Demo() {
     ? activeComponentMapping[activeComponent]
     : null;
 
+  let componentPosition = '';
+  if (activeComponent === OnchainKitComponent.WalletIslandDefault) {
+    if (anchorPosition?.includes('top')) {
+      componentPosition = 'justify-start';
+    } else {
+      componentPosition = 'justify-end';
+    }
+  } else {
+    componentPosition = 'items-center justify-center';
+  }
+
   return (
     <>
       <div
@@ -140,15 +151,7 @@ function Demo() {
         </div>
       </div>
       <div className="linear-gradient(to_bottom,#f0f0f0_1px,transparent_1px)] flex flex-1 flex-col bg-[linear-gradient(to_right,#f0f0f0_1px,transparent_1px), bg-[size:6rem_4rem]">
-        <div
-          className={cn(
-            'flex h-full w-full flex-col',
-            activeComponent === OnchainKitComponent.WalletIslandDefault
-              ? ''
-              : 'items-center justify-center',
-            anchorPosition?.includes('top') ? 'justify-start' : 'justify-end',
-          )}
-        >
+        <div className={cn('flex h-full w-full flex-col', componentPosition)}>
           {ActiveComponent && <ActiveComponent />}
         </div>
       </div>
