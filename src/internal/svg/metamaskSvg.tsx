@@ -4,9 +4,9 @@ export const metamaskSvg = (
     xmlSpace="preserve"
     viewBox="0 0 204.8 192.4"
     role="img"
-    aria-labelledby="metamaskTitle"
+    aria-hidden="true"
   >
-    <title id="metamaskTitle">MetaMask</title>
+    <title>MetaMask Logo</title>
     <style>
       {
         '.st1{fill:#f5841f}.st2{fill:#e27625}.st3{fill:#d7c1b3}.st4{fill:#2f343b}.st5{fill:#cc6228}.st7{fill:#763e1a}'
