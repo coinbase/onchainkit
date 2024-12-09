@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import Draggable from '../../../internal/components/Draggable';
 import { backArrowSvg } from '../../../internal/svg/backArrowSvg';
-import { background, border, cn } from '../../../styles/theme';
+import { background, border, cn, pressable } from '../../../styles/theme';
 import { useTheme } from '../../../useTheme';
 import type { WalletIslandProps } from '../../types';
 import { useWalletContext } from '../WalletProvider';
@@ -22,7 +22,16 @@ function WalletIslandContent({ children }: WalletIslandProps) {
   }, [setShowSwap]);
 
   const backButton = (
-    <button type="button" onClick={handleCloseSwap}>
+    <button
+      type="button"
+      onClick={handleCloseSwap}
+      className={cn(
+        pressable.default,
+        border.radius,
+        border.default,
+        'flex items-center justify-center p-3',
+      )}
+    >
       {backArrowSvg}
     </button>
   );
