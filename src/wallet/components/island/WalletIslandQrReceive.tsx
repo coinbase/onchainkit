@@ -39,14 +39,29 @@ export function WalletIslandQrReceive() {
       )}
     >
       <div className="flex w-full flex-row items-center justify-between">
-        <button type="button" ref={backButtonRef} onClick={handleCloseQr}>
+        <button
+          type="button"
+          ref={backButtonRef}
+          onClick={handleCloseQr}
+          className={cn(
+            pressable.default,
+            border.radius,
+            border.default,
+            'flex items-center justify-center p-3',
+          )}
+        >
           {backArrowSvg}
         </button>
         <span>Scan to receive</span>
         <button
           type="button"
           onClick={handleCopyAddress}
-          className="rounded-lg p-2 hover:bg-[var(--ock-bg-default-hover)] active:bg-[var(--ock-bg-default-active)]"
+          className={cn(
+            pressable.default,
+            border.radius,
+            border.default,
+            'flex items-center justify-center p-3',
+          )}
         >
           {copySvg}
         </button>
