@@ -3,6 +3,8 @@ export const metamaskSvg = (
     xmlns="http://www.w3.org/2000/svg"
     xmlSpace="preserve"
     viewBox="0 0 204.8 192.4"
+    width="100%"
+    height="100%"
     role="img"
     aria-hidden="true"
   >
