@@ -22,7 +22,7 @@ export default function WalletIslandDefaultDemo() {
     : '';
 
   return (
-    <div className={cn('my-20', anchorPositionClass)}>
+    <div className={cn('mx-5 my-20', anchorPositionClass)}>
       <WalletIslandDefault />
     </div>
   );

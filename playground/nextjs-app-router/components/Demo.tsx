@@ -39,7 +39,7 @@ const activeComponentMapping: Record<OnchainKitComponent, React.FC> = {
   [OnchainKitComponent.WalletIslandDefault]: WalletIslandDefaultDemo,
 };
 
-function Demo() {
+export default function Demo() {
   const { activeComponent, anchorPosition } = useContext(AppContext);
   const [isDarkMode, setIsDarkMode] = useState(true);
   const [sideBarVisible, setSideBarVisible] = useState(true);
@@ -78,16 +78,10 @@ function Demo() {
     ? activeComponentMapping[activeComponent]
     : null;
 
-  let componentPosition = '';
-  if (activeComponent === OnchainKitComponent.WalletIslandDefault) {
-    if (anchorPosition?.includes('top')) {
-      componentPosition = 'justify-start';
-    } else {
-      componentPosition = 'justify-end';
-    }
-  } else {
-    componentPosition = 'items-center justify-center';
-  }
+  const componentPosition = getComponentPosition(
+    activeComponent,
+    anchorPosition,
+  );
 
   return (
     <>
@@ -159,4 +153,20 @@ function Demo() {
   );
 }
 
-export default Demo;
+function getComponentPosition(
+  activeComponent: OnchainKitComponent | undefined,
+  anchorPosition: string | undefined,
+) {
+  if (!activeComponent || !anchorPosition) {
+    return 'items-center justify-center';
+  }
+
+  if (activeComponent === OnchainKitComponent.WalletIslandDefault) {
+    if (anchorPosition?.includes('top')) {
+      return 'justify-start';
+    }
+    return 'justify-end';
+  }
+
+  return 'items-center justify-center';
+}
