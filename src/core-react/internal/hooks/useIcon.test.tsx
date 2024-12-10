@@ -1,9 +1,9 @@
 import { renderHook } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
-import { coinbasePaySvg } from '../svg/coinbasePaySvg';
-import { fundWalletSvg } from '../svg/fundWallet';
-import { swapSettingsSvg } from '../svg/swapSettings';
-import { walletSvg } from '../svg/walletSvg';
+import { coinbasePaySvg } from '../../../internal/svg/coinbasePaySvg';
+import { fundWalletSvg } from '../../../internal/svg/fundWallet';
+import { swapSettingsSvg } from '../../../internal/svg/swapSettings';
+import { walletSvg } from '../../../internal/svg/walletSvg';
 import { useIcon } from './useIcon';
 
 describe('useIcon', () => {

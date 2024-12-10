@@ -1,6 +1,6 @@
 import { createContext, useContext, useState } from 'react';
 import type { ReactNode } from 'react';
-import { useValue } from '../../internal/hooks/useValue';
+import { useValue } from '../../core-react/internal/hooks/useValue';
 import { useOnchainKit } from '../../useOnchainKit';
 import type { WalletContextType } from '../types';
 
