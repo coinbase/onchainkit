@@ -76,6 +76,7 @@ export default function Draggable({
 
   return (
     <div
+      data-testid="ockDraggable"
       className={cn(
         'fixed select-none',
         isDragging ? 'cursor-grabbing' : 'cursor-grab',

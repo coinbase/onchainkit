@@ -16,7 +16,7 @@ import {
 import type { SwapDefaultReact } from '../../../swap/types';
 import { useWalletIslandContext } from './WalletIslandProvider';
 
-export default function WalletIslandSwap({
+export function WalletIslandSwap({
   config,
   className,
   disabled,
