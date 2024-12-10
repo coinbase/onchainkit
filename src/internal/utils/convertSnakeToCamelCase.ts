@@ -13,19 +13,17 @@ export function convertSnakeToCamelCase<T>(obj: T): T {
   }
 
   if (obj && obj.constructor === Object) {
-    return Object.keys(obj).reduce((acc, key) => {
-      const camelCaseKey = toCamelCase(key);
-      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-      (acc as any)[camelCaseKey] = convertSnakeToCamelCase<T>(
-        // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-        (obj as any)[key],
-      );
+    return Object.keys(obj).reduce((acc: T, key: string) => {
+      const camelCaseKey = toCamelCase<T>(key);
+      acc[camelCaseKey] = convertSnakeToCamelCase(obj[key as keyof T]);
       return acc;
     }, {} as T);
   }
   return obj;
 }
 
-function toCamelCase(str: string): string {
-  return str.replace(/_([a-z])/g, (_, letter) => letter.toUpperCase());
+function toCamelCase<T>(str: string): keyof T {
+  return str.replace(/_([a-z])/g, (_, letter) =>
+    letter.toUpperCase()
+  ) as keyof T;
 }
