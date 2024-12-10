@@ -1,9 +1,9 @@
 import { renderHook } from '@testing-library/react';
 import { type Mock, afterEach, describe, expect, it, vi } from 'vitest';
+import { usePreferredColorScheme } from './core-react/internal/hooks/usePreferredColorScheme';
 import type { UseThemeReact } from './types';
 import { useOnchainKit } from './useOnchainKit';
 import { useTheme } from './useTheme';
-import { usePreferredColorScheme } from './core-react/internal/hooks/usePreferredColorScheme';
 
 vi.mock('./useOnchainKit');
 vi.mock('./core-react/internal/hooks/usePreferredColorScheme');

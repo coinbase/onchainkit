@@ -6,6 +6,7 @@ import {
   useWaitForTransactionReceipt,
 } from 'wagmi';
 import { waitForTransactionReceipt } from 'wagmi/actions';
+import { useCapabilitiesSafe } from '../../core-react/internal/hooks/useCapabilitiesSafe';
 import { useOnchainKit } from '../../useOnchainKit';
 import { useCallsStatus } from '../hooks/useCallsStatus';
 import { useSendCall } from '../hooks/useSendCall';
@@ -15,7 +16,6 @@ import {
   TransactionProvider,
   useTransactionContext,
 } from './TransactionProvider';
-import { useCapabilitiesSafe } from '../../core-react/internal/hooks/useCapabilitiesSafe';
 
 vi.mock('wagmi', () => ({
   useAccount: vi.fn(),

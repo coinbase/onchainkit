@@ -20,12 +20,12 @@ import { waitForTransactionReceipt } from 'wagmi/actions';
 import { base } from 'wagmi/chains';
 import { mock } from 'wagmi/connectors';
 import { useSendCalls } from 'wagmi/experimental';
+import { useCapabilitiesSafe } from '../../core-react/internal/hooks/useCapabilitiesSafe';
 import { buildSwapTransaction } from '../../core/api/buildSwapTransaction';
 import { getSwapQuote } from '../../core/api/getSwapQuote';
 import { DEGEN_TOKEN, ETH_TOKEN } from '../mocks';
 import { getSwapErrorCode } from '../utils/getSwapErrorCode';
 import { SwapProvider, useSwapContext } from './SwapProvider';
-import { useCapabilitiesSafe } from '../../core-react/internal/hooks/useCapabilitiesSafe';
 
 const mockResetFunction = vi.fn();
 vi.mock('../hooks/useResetInputs', () => ({
