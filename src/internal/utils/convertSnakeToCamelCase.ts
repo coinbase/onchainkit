@@ -24,6 +24,6 @@ export function convertSnakeToCamelCase<T>(obj: T): T {
 
 function toCamelCase<T>(str: string): keyof T {
   return str.replace(/_([a-z])/g, (_, letter) =>
-    letter.toUpperCase()
+    letter.toUpperCase(),
   ) as keyof T;
 }
