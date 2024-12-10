@@ -1,5 +1,5 @@
 import type { Address } from 'viem';
-import type { ContractType, NFTPrice } from '../../nft/types';
+import type { ContractType, NFTPrice } from '../../core-react/nft/types';
 import type {
   Fee,
   QuoteWarning,
