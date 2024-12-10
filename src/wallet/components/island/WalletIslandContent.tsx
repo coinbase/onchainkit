@@ -6,9 +6,9 @@ import type { WalletIslandProps } from '../../types';
 import { useWalletContext } from '../WalletProvider';
 import { useWalletIslandContext } from './WalletIslandProvider';
 import { WalletIslandQrReceive } from './WalletIslandQrReceive';
-import WalletIslandSwap from './WalletIslandSwap';
+import { WalletIslandSwap } from './WalletIslandSwap';
 
-const WALLET_ISLAND_WIDTH = 382;
+const WALLET_ISLAND_WIDTH = 384;
 const WALLET_ISLAND_HEIGHT = 394;
 
 export function WalletIslandContent({ children }: WalletIslandProps) {
@@ -42,11 +42,17 @@ export function WalletIslandContent({ children }: WalletIslandProps) {
         y: yPos,
       };
     }
+
+    return {
+      x: 20,
+      y: 20,
+    };
   }, [containerRef]);
 
   return (
     <Draggable startingPosition={position}>
       <div
+        data-testid="ockWalletIslandContent"
         className={cn(
           componentTheme,
           background.default,
