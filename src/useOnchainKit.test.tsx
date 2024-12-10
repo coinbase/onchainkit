@@ -1,8 +1,8 @@
 import '@testing-library/jest-dom';
 import { render } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
-import { useOnchainKit } from './useOnchainKit';
 import { setOnchainKitConfig } from './core/OnchainKitConfig';
+import { useOnchainKit } from './useOnchainKit';
 
 const TestComponent = () => {
   const { schemaId, apiKey } = useOnchainKit();
