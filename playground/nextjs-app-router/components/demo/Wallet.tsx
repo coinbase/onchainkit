@@ -10,7 +10,7 @@ import { color } from '@coinbase/onchainkit/theme';
 import {
   ConnectWallet,
   Wallet,
-  WalletClassic,
+  WalletBasic,
   WalletDropdown,
   WalletDropdownBasename,
   WalletDropdownDisconnect,
@@ -25,7 +25,7 @@ function WalletComponent() {
   return (
     <div className="flex justify-end">
       <Wallet>
-        <WalletClassic>
+        <WalletBasic>
           <ConnectWallet text="Connect Wallet">
             <Avatar address={address} className="h-6 w-6" />
             <Name />
@@ -49,7 +49,7 @@ function WalletComponent() {
             <WalletDropdownFundLink />
             <WalletDropdownDisconnect />
           </WalletDropdown>
-        </WalletClassic>
+        </WalletBasic>
       </Wallet>
     </div>
   );
