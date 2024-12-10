@@ -82,20 +82,6 @@ export type SetOnchainKitConfig = Partial<OnchainKitConfig>;
  */
 export type OnchainKitContextType = OnchainKitConfig;
 
-/**
- * Note: exported as public Type
- */
-export type OnchainKitProviderReact = {
-  address?: Address;
-  apiKey?: string;
-  chain: Chain;
-  children: ReactNode;
-  config?: AppConfig;
-  rpcUrl?: string;
-  schemaId?: EASSchemaUid;
-  projectId?: string;
-};
-
 export type UseCapabilitiesSafeParams = {
   chainId: number;
 };
