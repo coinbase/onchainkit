@@ -1,4 +1,6 @@
 import { FundButton, FundProvider, FundForm, FundCard } from '@coinbase/onchainkit/fund';
+import { useEffect } from 'react';
+import { setOnchainKitConfig } from '../../onchainkit/src';
 
 export default function FundDemo() {
   return (

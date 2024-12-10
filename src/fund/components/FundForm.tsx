@@ -1,14 +1,13 @@
-import {
-  type ChangeEvent,
-  useEffect,
-  useMemo,
-  useRef,
-} from 'react';
+import { type ChangeEvent, useEffect, useMemo, useRef } from 'react';
 import { border, cn, text } from '../../styles/theme';
 import { useTheme } from '../../useTheme';
 import { useFundContext } from './FundProvider';
 import { FundButton } from './FundButton';
 import { FundCardHeader } from './FundCardHeader';
+import { PaymentMethodSelectorDropdown } from './PaymentMethodSelectorDropdown';
+import FundFormAmountInput from './FundFormAmountInput';
+import FundFormAmountInputTypeSwitch from './FundFormAmountInputTypeSwitch';
+import { ONRAMP_BUY_URL } from '../constants';
 
 type Props = {
   assetSymbol: string;
@@ -22,140 +21,45 @@ export function FundForm({
   buttonText = 'Buy',
   headerText,
 }: Props) {
-  const { setSelectedAsset, setFundAmount, fundAmount } = useFundContext();
+  const { setFundAmount, fundAmount } = useFundContext();
+
+  const fundingUrl = useMemo(() => {
+    return `${ONRAMP_BUY_URL}/one-click?appId=6eceb045-266a-4940-9d22-35952496ff00&addresses={"0x3bD7802fD4C3B01dB0767e532fB96AdBa7cd5F14":["base"]}&assets=["ETH"]&presetFiatAmount=${fundAmount}`;
+  }, [assetSymbol, fundAmount]);
+
+  // https://pay.coinbase.com/buy/one-click?appId=9f59d35a-b36b-4395-ae75-560bb696bfe6&addresses={"0x3bD7802fD4C3B01dB0767e532fB96AdBa7cd5F14":["base"]}&assets=["USDC"]&presetCryptoAmount=5
 
   return (
-    <form className='w-full'>
-      <div className="flex h-[106px] ">
-        <ResizableInput
-          value={fundAmount}
-          setValue={setFundAmount}
-          currencySign="$"
-        />
-      </div>
-      <FundButton hideIcon={true} text={buttonText} className="w-full"/>
+    <form className="w-full">
+      <FundFormAmountInput
+        value={fundAmount}
+        setValue={setFundAmount}
+        currencySign="$"
+      />
+
+      <FundFormAmountInputTypeSwitch />
+
+      <PaymentMethodSelectorDropdown
+        paymentMethods={[
+          {
+            name: 'Coinbase',
+            description: 'Buy with your Coinbase account',
+            icon: 'coinbasePay',
+          },
+          {
+            name: 'Apple Pay',
+            description: 'Up to $500/week',
+            icon: 'applePay',
+          },
+          {
+            name: 'Debit Card',
+            description: 'Up to $500/week',
+            icon: 'creditCard',
+          },
+        ]}
+      />
+
+      <FundButton disabled={!fundAmount} hideIcon={true} text={buttonText} className="w-full" fundingUrl={fundingUrl} />
     </form>
   );
 }
-
-type ResizableInputProps = {
-  value: string;
-  setValue: (s: string) => void;
-  currencySign?: string;
-};
-
-const ResizableInput = ({
-  value,
-  setValue,
-  currencySign,
-}: ResizableInputProps) => {
-  const componentTheme = useTheme();
-
-  const inputRef = useRef<HTMLInputElement>(null);
-  const spanRef = useRef<HTMLSpanElement>(null);
-  const previousValueRef = useRef<string>('');
-
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    let value = e.target.value;
-    /**
-     * Only allow numbers to be entered into the input
-     * Using type="number" on the input does not work because it adds a spinner which does not get removed with css '-webkit-appearance': 'none'
-     */
-    if (/^\d*\.?\d*$/.test(value)) {
-      if (value.length === 1 && value === '.') {
-        value = '0.';
-      } else if (value.length === 1 && value === '0') {
-        if (previousValueRef.current.length <= value.length) {
-          // Add a dot if the user types a single zero
-          value = '0.';
-        } else {
-          value = '';
-        }
-      } else if (
-        value[value.length - 1] === '.' &&
-        previousValueRef.current.length >= value.length
-      ) {
-        // If we are deleting a character and the last character is a dot, remove it
-        value = value.slice(0, -1);
-      } else if (value.length === 2 && value[0] === '0' && value[1] !== '.') {
-        // Add a dot in case there is a leading zero
-        value = `${value[0]}.${value[1]}`;
-      }
-
-      setValue(value);
-    }
-    // Update the previous value
-    previousValueRef.current = value;
-  };
-
-  const fontSize = useMemo(() => {
-    if (value.length < 2) {
-      return 60;
-    }
-    return 60 - Math.min(value.length * 2.5, 40);
-  }, [value]);
-
-  // useEffect(() => {
-  //   // Update the input width based on the hidden span's width
-  //   if (spanRef.current && inputRef.current) {
-  //     if (inputRef.current?.style?.width) {
-  //       inputRef.current.style.width =
-  //         value.length === 1
-  //           ? `${spanRef.current?.offsetWidth}px`
-  //           : `${spanRef.current?.offsetWidth + 10}px`;
-  //     }
-  //   }
-  // }, [value]);
-
-  return (
-    <div className="flex">
-      {currencySign && (
-        <span
-          className={cn(
-            componentTheme,
-            'flex items-center justify-center bg-transparent font-display text-[60px]',
-            'leading-none outline-none'
-          )}
-        >
-          {currencySign}
-        </span>
-      )}
-      <input
-        className={cn(
-          componentTheme,
-          'w-[100%] border-[none] bg-transparent font-display text-[60px]',
-          'leading-none outline-none'
-        )}
-        type="text"
-        value={value}
-        onChange={handleChange}
-        ref={inputRef}
-        style={{
-          // maxWidth: '380px',
-          //fontSize: '60px',//`${fontSize}px`,
-          // width: '55px',
-          //boxSizing: 'content-box',
-          // transition: 'width 0.2s ease',
-          //margin: '0',
-        }}
-        placeholder="0"
-      />
-      {/* Hidden span to measure content width */}
-      {/* <span
-        ref={spanRef}
-        style={{
-          maxWidth: '380px',
-          visibility: 'hidden',
-          position: 'absolute',
-          whiteSpace: 'nowrap',
-          fontSize: `${fontSize}px`,
-          pointerEvents: 'none',
-        }}
-      >
-        {value || '0'}
-      </span> */}
-    </div>
-  );
-};
-
-export default ResizableInput;
