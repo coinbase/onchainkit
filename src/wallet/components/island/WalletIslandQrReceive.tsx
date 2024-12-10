@@ -49,6 +49,7 @@ export function WalletIslandQrReceive() {
 
   return (
     <div
+      data-testid="ockWalletIslandQrReceive"
       className={cn(
         color.foreground,
         text.headline,
