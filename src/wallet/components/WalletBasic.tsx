@@ -6,7 +6,7 @@ import { ConnectWallet } from './ConnectWallet';
 import { WalletDropdown } from './WalletDropdown';
 import { useWalletContext } from './WalletProvider';
 
-export function WalletClassic({ children, className }: WalletReact) {
+export function WalletBasic({ children, className }: WalletReact) {
   const { isOpen } = useWalletContext();
 
   const { connect, dropdown } = useMemo(() => {

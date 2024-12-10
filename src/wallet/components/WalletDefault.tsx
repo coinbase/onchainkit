@@ -3,7 +3,7 @@ import { color } from '../../styles/theme';
 import { ConnectWallet } from './ConnectWallet';
 import { ConnectWalletText } from './ConnectWalletText';
 import { Wallet } from './Wallet';
-import { WalletClassic } from './WalletClassic';
+import { WalletBasic } from './WalletBasic';
 import { WalletDropdown } from './WalletDropdown';
 import { WalletDropdownDisconnect } from './WalletDropdownDisconnect';
 import { WalletDropdownLink } from './WalletDropdownLink';
@@ -11,7 +11,7 @@ import { WalletDropdownLink } from './WalletDropdownLink';
 export function WalletDefault() {
   return (
     <Wallet>
-      <WalletClassic>
+      <WalletBasic>
         <ConnectWallet>
           <ConnectWalletText>Connect Wallet</ConnectWalletText>
           <Avatar className="h-6 w-6" />
@@ -33,7 +33,7 @@ export function WalletDefault() {
           </WalletDropdownLink>
           <WalletDropdownDisconnect />
         </WalletDropdown>
-      </WalletClassic>
+      </WalletBasic>
     </Wallet>
   );
 }
