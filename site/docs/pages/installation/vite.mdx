@@ -118,19 +118,19 @@ export function Providers(props: { children: ReactNode }) {
 }
 ```
 
-## Wrap your app with `<AppProviders />`
+## Wrap your app with `<Providers />`
 
 After configuring the providers in step 4, wrap your app with
-the `<AppProviders />` component.
+the `<Providers />` component.
 
 ```tsx
-import { AppProviders } from 'src/AppProviders';
+import { Providers } from 'src/Providers';
 
 export default function App() {
   return (
-    <AppProviders>
+    <Providers>
       <YourApp />
-    </AppProviders>
+    </Providers>
   );
 }
 ```
@@ -139,17 +139,17 @@ export default function App() {
 
 OnchainKit components come with pre-configured styles.
 To include these styles in your project, add the following import
-statement at the top of the file where imported `<AppProviders />`:
+statement at the top of the file where imported `<Providers />`:
 
 ```tsx
-import { AppProviders } from 'src/AppProviders';
+import { Providers } from 'src/Providers';
 import '@coinbase/onchainkit/styles.css'; // [!code ++]
 
 export default function App() {
   return (
-    <AppProviders>
+    <Providers>
       <YourApp />
-    </AppProviders>
+    </Providers>
   );
 }
 ```
