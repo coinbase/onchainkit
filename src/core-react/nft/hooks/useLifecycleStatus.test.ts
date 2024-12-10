@@ -1,7 +1,7 @@
 import { renderHook } from '@testing-library/react';
 import { act } from 'react';
 import { describe, expect, it } from 'vitest';
-import type { LifecycleStatus } from '../../types';
+import type { LifecycleStatus } from '../types';
 import { useLifecycleStatus } from './useLifecycleStatus';
 
 const initialLifecycleStatus = {

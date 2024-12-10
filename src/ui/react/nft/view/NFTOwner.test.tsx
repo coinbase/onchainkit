@@ -9,14 +9,14 @@ import {
   it,
   vi,
 } from 'vitest';
-import { useOnchainKit } from '../../../useOnchainKit';
-import { useNFTContext } from '../NFTProvider';
+import { useNFTContext } from '../../../../core-react/nft/providers/NFTProvider';
+import { useOnchainKit } from '../../../../useOnchainKit';
 import { NFTOwner } from './NFTOwner';
 
-vi.mock('../../../useOnchainKit');
-vi.mock('../NFTProvider');
-vi.mock('../../../identity', async () => ({
-  ...(await vi.importActual('../../../identity')),
+vi.mock('../../../../useOnchainKit');
+vi.mock('../../../../core-react/nft/providers/NFTProvider');
+vi.mock('../../../../identity', async () => ({
+  ...(await vi.importActual('../../../../identity')),
   Identity: ({ className, address }) => (
     <div className={className}>{address}</div>
   ),

@@ -1,7 +1,7 @@
+import { useNFTContext } from '../../../../core-react/nft/providers/NFTProvider';
 import { Avatar, Identity, Name } from '../../../../identity';
 import { cn, color, text } from '../../../../styles/theme';
 import { useOnchainKit } from '../../../../useOnchainKit';
-import { useNFTContext } from '../../../../core-react/nft/providers/NFTProvider';
 
 type NFTMintersReact = {
   className?: string;

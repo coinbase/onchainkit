@@ -1,14 +1,17 @@
 import { useCallback } from 'react';
 import { useAccount } from 'wagmi';
+import { useNFTData as defaultUseNFTData } from '../../../core-react/nft/hooks/useNFTData';
+import { NFTLifecycleProvider } from '../../../core-react/nft/providers/NFTLifecycleProvider';
+import { NFTProvider } from '../../../core-react/nft/providers/NFTProvider';
+import {
+  LifecycleType,
+  type NFTCardReact,
+} from '../../../core-react/nft/types';
 import { border, cn, color, pressable } from '../../../styles/theme';
 import { useIsMounted } from '../../../useIsMounted';
 import { useTheme } from '../../../useTheme';
-import { useNFTData as defaultUseNFTData } from '../../../core-react/nft/hooks/useNFTData';
-import { LifecycleType, type NFTCardReact } from '../../../core-react/nft/types';
 import NFTErrorBoundary from './NFTErrorBoundary';
 import { NFTErrorFallback } from './NFTErrorFallback';
-import { NFTLifecycleProvider } from '../../../core-react/nft/providers/NFTLifecycleProvider';
-import { NFTProvider } from '../../../core-react/nft/providers/NFTProvider';
 
 export function NFTCard({
   children,

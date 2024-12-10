@@ -1,5 +1,5 @@
-import { cn, text } from '../../../../styles/theme';
 import { useNFTContext } from '../../../../core-react/nft/providers/NFTProvider';
+import { cn, text } from '../../../../styles/theme';
 
 type NFTCollectionTitleReact = {
   className?: string;

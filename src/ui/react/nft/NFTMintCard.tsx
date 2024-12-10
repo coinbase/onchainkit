@@ -1,13 +1,16 @@
-import { background, border, cn, color } from '../../../../styles/theme';
-import { useIsMounted } from '../../../../useIsMounted';
-import { useTheme } from '../../../../useTheme';
-import { useMintData as defaultUseMintData } from '../hooks/useMintData';
-import { LifecycleType, type NFTMintCardReact } from '../../../../core/nft/types';
-import { buildMintTransactionData as defaultBuildMintTransaction } from '../../../../core/nft/utils/buildMintTransactionData';
+import { useMintData as defaultUseMintData } from '../../../core-react/nft/hooks/useMintData';
+import { NFTLifecycleProvider } from '../../../core-react/nft/providers/NFTLifecycleProvider';
+import { NFTProvider } from '../../../core-react/nft/providers/NFTProvider';
+import {
+  LifecycleType,
+  type NFTMintCardReact,
+} from '../../../core-react/nft/types';
+import { buildMintTransactionData as defaultBuildMintTransaction } from '../../../core/nft/utils/buildMintTransactionData';
+import { background, border, cn, color } from '../../../styles/theme';
+import { useIsMounted } from '../../../useIsMounted';
+import { useTheme } from '../../../useTheme';
 import NFTErrorBoundary from './NFTErrorBoundary';
 import { NFTErrorFallback } from './NFTErrorFallback';
-import { NFTLifecycleProvider } from './NFTLifecycleProvider';
-import { NFTProvider } from './NFTProvider';
 
 export function NFTMintCard({
   children,

@@ -1,15 +1,15 @@
 import '@testing-library/jest-dom';
 import { fireEvent, render } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
-import { LifecycleType } from '../../types';
-import { useNFTLifecycleContext } from '../NFTLifecycleProvider';
-import { useNFTContext } from '../NFTProvider';
+import { useNFTLifecycleContext } from '../../../../core-react/nft/providers/NFTLifecycleProvider';
+import { useNFTContext } from '../../../../core-react/nft/providers/NFTProvider';
+import { LifecycleType } from '../../../../core-react/nft/types';
 import { NFTMedia } from './NFTMedia';
 
-vi.mock('../NFTProvider', () => ({
+vi.mock('../../../../core-react/nft/providers/NFTProvider', () => ({
   useNFTContext: vi.fn(),
 }));
-vi.mock('../NFTLifecycleProvider', () => ({
+vi.mock('../../../../core-react/nft/providers/NFTLifecycleProvider', () => ({
   useNFTLifecycleContext: vi.fn(),
 }));
 

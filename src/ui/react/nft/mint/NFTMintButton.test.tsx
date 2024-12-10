@@ -11,14 +11,14 @@ import {
   useChainId,
 } from 'wagmi';
 import { mock } from 'wagmi/connectors';
-import { useOnchainKit } from '../../../useOnchainKit';
-import { useNFTLifecycleContext } from '../NFTLifecycleProvider';
-import { useNFTContext } from '../NFTProvider';
+import { useNFTLifecycleContext } from '../../../../core-react/nft/providers/NFTLifecycleProvider';
+import { useNFTContext } from '../../../../core-react/nft/providers/NFTProvider';
+import { useOnchainKit } from '../../../../useOnchainKit';
 import { NFTMintButton } from './NFTMintButton';
 
-vi.mock('../NFTProvider');
-vi.mock('../NFTLifecycleProvider');
-vi.mock('../../../useOnchainKit');
+vi.mock('../../../../core-react/nft/providers/NFTProvider');
+vi.mock('../../../../core-react/nft/providers/NFTLifecycleProvider');
+vi.mock('../../../../useOnchainKit');
 vi.mock('wagmi', async (importOriginal) => {
   return {
     ...(await importOriginal<typeof import('wagmi')>()),
@@ -29,9 +29,9 @@ vi.mock('wagmi', async (importOriginal) => {
 vi.mock('../../../internal/components/Spinner', () => ({
   Spinner: () => <div>Spinner</div>,
 }));
-vi.mock('../../../transaction', async (importOriginal) => {
+vi.mock('../../../../transaction', async (importOriginal) => {
   return {
-    ...(await importOriginal<typeof import('../../../transaction')>()),
+    ...(await importOriginal<typeof import('../../../../transaction')>()),
     TransactionLifecycleStatus: vi.fn(),
     TransactionButton: ({ text, disabled }) => (
       <button type="button" disabled={disabled} data-testid="transactionButton">
@@ -78,7 +78,7 @@ vi.mock('../../../transaction', async (importOriginal) => {
     TransactionStatusLabel: vi.fn(),
   };
 });
-vi.mock('../../../wallet', () => ({
+vi.mock('../../../../wallet', () => ({
   ConnectWallet: () => <div>ConnectWallet</div>,
 }));
 

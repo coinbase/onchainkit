@@ -1,8 +1,8 @@
 import type { ReactNode } from 'react';
+import { useNFTContext } from '../../../../core-react/nft/providers/NFTProvider';
 import { Avatar, Badge, Identity, Name } from '../../../../identity';
 import { cn, color, text } from '../../../../styles/theme';
 import { useOnchainKit } from '../../../../useOnchainKit';
-import { useNFTContext } from '../../../../core-react/nft/providers/NFTProvider';
 
 type NFTOwnerReact = {
   className?: string;

@@ -1,7 +1,7 @@
+import { useNFTContext } from '../../../../core-react/nft/providers/NFTProvider';
 import { Avatar, Badge, Identity, Name } from '../../../../identity';
 import { cn } from '../../../../styles/theme';
 import { useOnchainKit } from '../../../../useOnchainKit';
-import { useNFTContext } from '../../../../core-react/nft/providers/NFTProvider';
 
 type NFTCreatorReact = {
   className?: string;
