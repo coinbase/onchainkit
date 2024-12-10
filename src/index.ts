@@ -5,7 +5,7 @@ export {
   getOnchainKitConfig,
   setOnchainKitConfig,
 } from './core/OnchainKitConfig';
-export { OnchainKitProvider } from './OnchainKitProvider';
+export { OnchainKitProvider } from './core-react/OnchainKitProvider';
 export { useOnchainKit } from './useOnchainKit';
 export { version } from './version';
 export type {
