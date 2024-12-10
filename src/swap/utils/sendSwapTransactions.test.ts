@@ -3,7 +3,7 @@ import { http, createConfig } from 'wagmi';
 import { waitForTransactionReceipt } from 'wagmi/actions';
 import { mainnet, sepolia } from 'wagmi/chains';
 import { mock } from 'wagmi/connectors';
-import { setOnchainKitConfig } from '../../OnchainKitConfig';
+import { setOnchainKitConfig } from '../../core/utils/OnchainKitConfig';
 import { Capabilities } from '../../core/constants';
 import type { SwapTransaction } from '../types';
 import { sendSwapTransactions } from './sendSwapTransactions';
