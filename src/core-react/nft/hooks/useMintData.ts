@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useAccount } from 'wagmi';
 import { useNFTLifecycleContext } from '../providers/NFTLifecycleProvider';
 import type { NFTData, NFTError } from '../../../ui/react/nft/types';
-import { convertIpfsToHttps } from '../../../core/nft/ipfs';
+import { convertIpfsToHttps } from '../../../core/nft/utils/ipfs';
 import { useMintDetails } from './useMintDetails';
 
 export function useMintData(

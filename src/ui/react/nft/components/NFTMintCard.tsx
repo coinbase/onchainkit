@@ -3,7 +3,7 @@ import { useIsMounted } from '../../../../useIsMounted';
 import { useTheme } from '../../../../useTheme';
 import { useMintData as defaultUseMintData } from '../../../../core-react/nft/hooks/useMintData';
 import { LifecycleType, type NFTMintCardReact } from '../types';
-import { buildMintTransactionData as defaultBuildMintTransaction } from '../../../../core/nft/buildMintTransactionData';
+import { buildMintTransactionData as defaultBuildMintTransaction } from '../../../../core/nft/utils/buildMintTransactionData';
 import NFTErrorBoundary from './NFTErrorBoundary';
 import { NFTErrorFallback } from './NFTErrorFallback';
 import { NFTLifecycleProvider } from '../../../../core-react/nft/providers/NFTLifecycleProvider';

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNFTLifecycleContext } from '../providers/NFTLifecycleProvider';
 import type { ContractType, NFTData, NFTError } from '../../../ui/react/nft/types';
-import { convertIpfsToHttps } from '../../../core/nft/ipfs';
+import { convertIpfsToHttps } from '../../../core/nft/utils/ipfs';
 import { useTokenDetails } from './useTokenDetails';
 
 export function useNFTData(

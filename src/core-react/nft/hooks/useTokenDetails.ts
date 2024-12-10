@@ -1,7 +1,7 @@
 import { type UseQueryResult, useQuery } from '@tanstack/react-query';
 import { getTokenDetails } from '../../../core/api/getTokenDetails';
 import type { GetTokenDetailsParams, TokenDetails } from '../../../core/api/types';
-import { isNFTError } from '../../../core/nft/isNFTError';
+import { isNFTError } from '../../../core/nft/utils/isNFTError';
 
 export function useTokenDetails({
   contractAddress,
