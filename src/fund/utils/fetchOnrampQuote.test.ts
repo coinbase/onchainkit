@@ -65,8 +65,8 @@ describe('fetchOnrampQuote', () => {
       },
     );
     expect(result).toEqual({
-      paymentTotal: { amount: '105.00', currency: 'USD' },
       paymentSubtotal: { amount: '100.00', currency: 'USD' },
+      paymentTotal: { amount: '105.00', currency: 'USD' },
       purchaseAmount: { amount: '0.0025', currency: 'BTC' },
       coinbaseFee: { amount: '3.00', currency: 'USD' },
       networkFee: { amount: '2.00', currency: 'USD' },
