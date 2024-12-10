@@ -23,25 +23,34 @@ export function WalletIslandQrReceive() {
     setShowQr(false);
   }, [setShowQr]);
 
-  const handleCopyAddress = useCallback(async () => {
-    try {
-      await navigator.clipboard.writeText(address ?? '');
-      setCopyText('Copied');
-      setCopyButtonText('Address copied');
-      setTimeout(() => {
-        setCopyText('Copy');
-        setCopyButtonText('Copy address');
-      }, 2000);
-    } catch (err) {
-      console.error('Failed to copy address:', err);
-      setCopyText('Failed to copy');
-      setCopyButtonText('Failed to copy address');
-      setTimeout(() => {
-        setCopyText('Copy');
-        setCopyButtonText('Copy address');
-      }, 2000);
-    }
-  }, [address]);
+  const handleCopyAddress = useCallback(
+    async (element: 'button' | 'icon') => {
+      try {
+        await navigator.clipboard.writeText(address ?? '');
+        if (element === 'button') {
+          setCopyButtonText('Address copied');
+        } else {
+          setCopyText('Copied');
+        }
+        setTimeout(() => {
+          setCopyText('Copy');
+          setCopyButtonText('Copy address');
+        }, 2000);
+      } catch (err) {
+        console.error('Failed to copy address:', err);
+        if (element === 'button') {
+          setCopyButtonText('Failed to copy address');
+        } else {
+          setCopyText('Failed to copy');
+        }
+        setTimeout(() => {
+          setCopyText('Copy');
+          setCopyButtonText('Copy address');
+        }, 2000);
+      }
+    },
+    [address],
+  );
 
   if (isClosing) {
     return null;
@@ -76,7 +85,7 @@ export function WalletIslandQrReceive() {
         <div className="group relative">
           <button
             type="button"
-            onClick={handleCopyAddress}
+            onClick={() => handleCopyAddress('icon')}
             className={cn(
               pressable.default,
               border.radius,
@@ -88,7 +97,7 @@ export function WalletIslandQrReceive() {
           </button>
           <button
             type="button"
-            onClick={handleCopyAddress}
+            onClick={() => handleCopyAddress('icon')}
             className={cn(
               pressable.alternate,
               text.legal,
@@ -109,7 +118,7 @@ export function WalletIslandQrReceive() {
       <button
         type="button"
         className={cn(border.radius, pressable.alternate, 'w-full p-3')}
-        onClick={handleCopyAddress}
+        onClick={() => handleCopyAddress('button')}
       >
         <span>{copyButtonText}</span>
       </button>
