@@ -1,8 +1,8 @@
 import { mainnet } from 'viem/chains';
 import { normalize } from 'viem/ens';
+import { getChainPublicClient } from '../../core/network/getChainPublicClient';
 import { isBase } from '../../isBase';
 import { isEthereum } from '../../isEthereum';
-import { getChainPublicClient } from '../../network/getChainPublicClient';
 import { RESOLVER_ADDRESSES_BY_CHAIN_ID } from '../constants';
 import type { Basename, GetAvatar, GetAvatarReturnType } from '../types';
 import { getBaseDefaultProfilePicture } from './getBaseDefaultProfilePicture';

@@ -2,7 +2,7 @@ import { renderHook } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useChainId } from 'wagmi';
 import { useShowCallsStatus } from 'wagmi/experimental';
-import { getChainExplorer } from '../../network/getChainExplorer';
+import { getChainExplorer } from '../../core/network/getChainExplorer';
 import { useTransactionContext } from '../components/TransactionProvider';
 import { useGetTransactionToastLabel } from './useGetTransactionToastLabel';
 
@@ -18,7 +18,7 @@ vi.mock('wagmi/experimental', () => ({
   useShowCallsStatus: vi.fn(),
 }));
 
-vi.mock('../../network/getChainExplorer', () => ({
+vi.mock('../../core/network/getChainExplorer', () => ({
   getChainExplorer: vi.fn(),
 }));
 

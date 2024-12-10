@@ -1,7 +1,7 @@
-import { CDP_GET_SWAP_QUOTE } from '../../network/definitions/swap';
-import { sendRequest } from '../../network/request';
 import type { SwapQuote } from '../../swap/types';
 import { getSwapErrorCode } from '../../swap/utils/getSwapErrorCode';
+import { CDP_GET_SWAP_QUOTE } from '../network/definitions/swap';
+import { sendRequest } from '../network/request';
 import type {
   APIError,
   GetSwapQuoteParams,

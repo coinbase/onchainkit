@@ -1,6 +1,6 @@
-import { CDP_LIST_SWAP_ASSETS } from '../../network/definitions/swap';
-import { sendRequest } from '../../network/request';
 import type { Token } from '../../token/types';
+import { CDP_LIST_SWAP_ASSETS } from '../network/definitions/swap';
+import { sendRequest } from '../network/request';
 import type { GetTokensOptions, GetTokensResponse } from './types';
 
 /**
