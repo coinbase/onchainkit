@@ -3,7 +3,7 @@ import { cn, color, text } from '../../styles/theme';
 
 import { useAccount } from 'wagmi';
 import { getChainExplorer } from '../../core/network/getChainExplorer';
-import { Toast } from '../../internal/components/Toast';
+import { Toast } from '../../core-react/internal/components/Toast';
 import { successSvg } from '../../internal/svg/successSvg';
 import type { SwapToastReact } from '../types';
 import { useSwapContext } from './SwapProvider';

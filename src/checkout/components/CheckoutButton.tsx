@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { Spinner } from '../../internal/components/Spinner';
+import { Spinner } from '../../core-react/internal/components/Spinner';
 
 import { useIcon } from '../../core-react/internal/hooks/useIcon';
 import {

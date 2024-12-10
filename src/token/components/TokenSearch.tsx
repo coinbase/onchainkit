@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import { TextInput } from '../../internal/components/TextInput';
+import { TextInput } from '../../core-react/internal/components/TextInput';
 import { closeSvg } from '../../internal/svg/closeSvg';
 import { searchIconSvg } from '../../internal/svg/searchIconSvg';
 import { cn, color, placeholder, pressable } from '../../styles/theme';

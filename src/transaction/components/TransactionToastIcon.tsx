@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { Spinner } from '../../internal/components/Spinner';
+import { Spinner } from '../../core-react/internal/components/Spinner';
 import { errorSvg } from '../../internal/svg/errorSvg';
 import { successSvg } from '../../internal/svg/successSvg';
 import { cn, text } from '../../styles/theme';

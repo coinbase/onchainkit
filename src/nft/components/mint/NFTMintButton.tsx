@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useAccount, useChainId } from 'wagmi';
-import { Spinner } from '../../../internal/components/Spinner';
+import { Spinner } from '../../../core-react/internal/components/Spinner';
 import { cn, color, text } from '../../../styles/theme';
 import {
   Transaction,
