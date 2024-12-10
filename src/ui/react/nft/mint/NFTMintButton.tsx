@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useAccount, useChainId } from 'wagmi';
+import { useNFTLifecycleContext } from '../../../../core-react/nft/providers/NFTLifecycleProvider';
+import { useNFTContext } from '../../../../core-react/nft/providers/NFTProvider';
 import { Spinner } from '../../../../internal/components/Spinner';
 import { cn, color, text } from '../../../../styles/theme';
 import {
@@ -14,8 +16,6 @@ import {
 } from '../../../../transaction';
 import type { Call } from '../../../../transaction/types';
 import { ConnectWallet } from '../../../../wallet';
-import { useNFTLifecycleContext } from '../../../../core-react/nft/providers/NFTLifecycleProvider';
-import { useNFTContext } from '../../../../core-react/nft/providers/NFTProvider';
 
 type NFTMintButtonReact = {
   className?: string;

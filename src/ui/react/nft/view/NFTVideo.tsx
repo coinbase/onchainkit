@@ -1,8 +1,8 @@
 import { useEffect, useRef } from 'react';
+import { useNFTContext } from '../../../../core-react/nft/providers/NFTProvider';
+import type { NFTError } from '../../../../core-react/nft/types';
 import { defaultNFTSvg } from '../../../../internal/svg/defaultNFTSvg';
 import { cn } from '../../../../styles/theme';
-import type { NFTError } from '../../../../core-react/nft/types';
-import { useNFTContext } from '../../../../core-react/nft/providers/NFTProvider';
 
 type NFTVideoReact = {
   className?: string;

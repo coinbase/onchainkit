@@ -13,7 +13,7 @@ import { useNFTLifecycleContext } from '../providers/NFTLifecycleProvider';
 import { useMintData } from './useMintData';
 import { useMintDetails } from './useMintDetails';
 
-vi.mock('../components/NFTLifecycleProvider');
+vi.mock('../providers/NFTLifecycleProvider');
 vi.mock('./useMintDetails');
 vi.mock('wagmi');
 

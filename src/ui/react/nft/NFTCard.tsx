@@ -7,8 +7,6 @@ import { useNFTData as defaultUseNFTData } from '../../../core-react/nft/hooks/u
 import { LifecycleType, type NFTCardReact } from '../../../core-react/nft/types';
 import NFTErrorBoundary from './NFTErrorBoundary';
 import { NFTErrorFallback } from './NFTErrorFallback';
-import { NFTLifecycleProvider } from '../../../core-react/nft/providers/NFTLifecycleProvider';
-import { NFTProvider } from '../../../core-react/nft/providers/NFTProvider';
 
 export function NFTCard({
   children,

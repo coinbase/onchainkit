@@ -1,6 +1,6 @@
+import { useNFTContext } from '../../../../core-react/nft/providers/NFTProvider';
 import { QuantitySelector } from '../../../../internal/components/QuantitySelector';
 import { cn } from '../../../../styles/theme';
-import { useNFTContext } from '../../../../core-react/nft/providers/NFTProvider';
 
 type NFTQuantitySelectorReact = {
   className?: string;

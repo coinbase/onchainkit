@@ -9,6 +9,7 @@ import {
   it,
   vi,
 } from 'vitest';
+<<<<<<< HEAD
 import { useIsMounted } from '../../core-react/internal/hooks/useIsMounted';
 import { NFTMintCard } from './NFTMintCard';
 
@@ -17,6 +18,16 @@ vi.mock('../../core-react/internal/hooks/useTheme', () => ({
 }));
 vi.mock('../../core-react/internal/hooks/useIsMounted');
 vi.mock('./NFTProvider', () => ({
+=======
+import { useIsMounted } from '../../../useIsMounted';
+import { NFTMintCard } from './NFTMintCard';
+
+vi.mock('../../../useTheme', () => ({
+  useTheme: vi.fn(() => 'default-light'),
+}));
+vi.mock('../../../useIsMounted');
+vi.mock('../../../core-react/nft/providers/NFTProvider', () => ({
+>>>>>>> 38ec07ca (fix: lint/tests)
   NFTProvider: vi.fn(({ children }) => <div>{children}</div>),
 }));
 

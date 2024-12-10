@@ -9,12 +9,12 @@ import {
   it,
   vi,
 } from 'vitest';
-import { useOnchainKit } from '../../../core-react/useOnchainKit';
-import { useNFTContext } from '../NFTProvider';
+import { useOnchainKit } from '../../../../core-react/useOnchainKit';
+import { useNFTContext } from '../../../../core-react/nft/providers/NFTProvider';
 import { NFTOwner } from './NFTOwner';
 
-vi.mock('../../../core-react/useOnchainKit');
-vi.mock('../NFTProvider');
+vi.mock('../../../../core-react/useOnchainKit');
+vi.mock('../../../../core-react/nft/providers/NFTProvider');
 vi.mock('../../../identity', async () => ({
   ...(await vi.importActual('../../../identity')),
   Identity: ({

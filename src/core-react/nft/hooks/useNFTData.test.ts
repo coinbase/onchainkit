@@ -8,12 +8,12 @@ import {
   it,
   vi,
 } from 'vitest';
-import { useNFTLifecycleContext } from '../components/NFTLifecycleProvider';
+import { useNFTLifecycleContext } from '../providers/NFTLifecycleProvider';
 import { useNFTData } from './useNFTData';
 import { useTokenDetails } from './useTokenDetails';
 
 vi.mock('./useTokenDetails');
-vi.mock('../components/NFTLifecycleProvider');
+vi.mock('../providers/NFTLifecycleProvider');
 
 describe('useNFTData', () => {
   const mockUpdateLifecycleStatus = vi.fn();
