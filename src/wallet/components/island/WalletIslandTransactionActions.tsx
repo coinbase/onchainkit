@@ -40,7 +40,7 @@ function WalletIslandTransactionAction({
   );
 }
 
-export default function WalletIslandTransactionActions() {
+export function WalletIslandTransactionActions() {
   const { setShowSwap } = useWalletIslandContext();
   return (
     <div

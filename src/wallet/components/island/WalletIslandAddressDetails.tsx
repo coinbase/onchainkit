@@ -4,7 +4,7 @@ import { Avatar, Badge, Name } from '../../../identity';
 import { border, cn, color, pressable, text } from '../../../styles/theme';
 import { useWalletContext } from '../WalletProvider';
 
-export default function AddressDetails() {
+export function AddressDetails() {
   const { address, chain, isClosing } = useWalletContext();
   const [copyText, setCopyText] = useState('Copy');
 

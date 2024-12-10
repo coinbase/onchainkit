@@ -2,7 +2,7 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { useIdentityContext } from '../../../identity/components/IdentityProvider';
 import { useWalletContext } from '../WalletProvider';
-import AddressDetails from './WalletIslandAddressDetails';
+import { AddressDetails } from './WalletIslandAddressDetails';
 
 vi.mock('../WalletProvider', () => ({
   useWalletContext: vi.fn(),
