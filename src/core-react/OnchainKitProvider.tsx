@@ -4,13 +4,13 @@ import { WagmiProvider } from 'wagmi';
 import {
   ONCHAIN_KIT_CONFIG,
   setOnchainKitConfig,
-} from './core/OnchainKitConfig';
-import { DEFAULT_PRIVACY_URL, DEFAULT_TERMS_URL } from './core/constants';
-import { checkHashLength } from './core/utils/checkHashLength';
-import { createWagmiConfig } from './core/createWagmiConfig';
-import { COINBASE_VERIFIED_ACCOUNT_SCHEMA_ID } from './identity/constants';
-import type { OnchainKitContextType, OnchainKitProviderReact } from './types';
-import { useProviderDependencies } from './useProviderDependencies';
+} from '../core/OnchainKitConfig';
+import { DEFAULT_PRIVACY_URL, DEFAULT_TERMS_URL } from '../core/constants';
+import { checkHashLength } from '../core/utils/checkHashLength';
+import { createWagmiConfig } from '../core/createWagmiConfig';
+import { COINBASE_VERIFIED_ACCOUNT_SCHEMA_ID } from '../identity/constants';
+import type { OnchainKitContextType, OnchainKitProviderReact } from '../types';
+import { useProviderDependencies } from '../useProviderDependencies';
 
 export const OnchainKitContext =
   createContext<OnchainKitContextType>(ONCHAIN_KIT_CONFIG);

@@ -8,9 +8,9 @@ import { useConfig } from 'wagmi';
 import { mock } from 'wagmi/connectors';
 import { setOnchainKitConfig } from './OnchainKitConfig';
 import { OnchainKitProvider } from './OnchainKitProvider';
-import type { EASSchemaUid } from './identity/types';
-import { useOnchainKit } from './useOnchainKit';
-import { useProviderDependencies } from './useProviderDependencies';
+import type { EASSchemaUid } from '../identity/types';
+import { useOnchainKit } from '../useOnchainKit';
+import { useProviderDependencies } from '../useProviderDependencies';
 
 vi.mock('wagmi', async (importOriginal) => {
   const actual = await importOriginal();
