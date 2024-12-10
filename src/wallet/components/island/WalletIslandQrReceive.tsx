@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { QRCodeComponent } from '../../../internal/components/QrCode/QrCode';
 import { backArrowSvg } from '../../../internal/svg/backArrowSvg';
 import { copySvg } from '../../../internal/svg/copySvg';
@@ -10,6 +10,8 @@ export function WalletIslandQrReceive() {
   const { address, isClosing } = useWalletContext();
   const { showQr, setShowQr } = useWalletIslandContext();
   const backButtonRef = useRef<HTMLButtonElement>(null);
+  const [copyText, setCopyText] = useState('Copy');
+  const [copyButtonText, setCopyButtonText] = useState('Copy address');
 
   useEffect(() => {
     if (showQr) {
@@ -24,8 +26,20 @@ export function WalletIslandQrReceive() {
   const handleCopyAddress = useCallback(async () => {
     try {
       await navigator.clipboard.writeText(address ?? '');
+      setCopyText('Copied');
+      setCopyButtonText('Address copied');
+      setTimeout(() => {
+        setCopyText('Copy');
+        setCopyButtonText('Copy address');
+      }, 2000);
     } catch (err) {
       console.error('Failed to copy address:', err);
+      setCopyText('Failed to copy');
+      setCopyButtonText('Failed to copy address');
+      setTimeout(() => {
+        setCopyText('Copy');
+        setCopyButtonText('Copy address');
+      }, 2000);
     }
   }, [address]);
 
@@ -58,18 +72,35 @@ export function WalletIslandQrReceive() {
           {backArrowSvg}
         </button>
         <span>Scan to receive</span>
-        <button
-          type="button"
-          onClick={handleCopyAddress}
-          className={cn(
-            pressable.default,
-            border.radius,
-            border.default,
-            'flex items-center justify-center p-3',
-          )}
-        >
-          {copySvg}
-        </button>
+        <div className="group relative">
+          <button
+            type="button"
+            onClick={handleCopyAddress}
+            className={cn(
+              pressable.default,
+              border.radius,
+              border.default,
+              'flex items-center justify-center p-3',
+            )}
+          >
+            {copySvg}
+          </button>
+          <button
+            type="button"
+            onClick={handleCopyAddress}
+            className={cn(
+              pressable.alternate,
+              text.legal,
+              color.foreground,
+              border.default,
+              border.radius,
+              'absolute top-full right-[0%] z-10 mt-0.5 px-1.5 py-0.5 opacity-0 transition-opacity group-hover:opacity-100',
+            )}
+            aria-live="polite"
+          >
+            {copyText}
+          </button>
+        </div>
       </div>
 
       <QRCodeComponent value={address ? `ethereum:${address}` : ''} />
@@ -79,7 +110,7 @@ export function WalletIslandQrReceive() {
         className={cn(border.radius, pressable.alternate, 'w-full p-3')}
         onClick={handleCopyAddress}
       >
-        <span>Copy address</span>
+        <span>{copyButtonText}</span>
       </button>
     </div>
   );

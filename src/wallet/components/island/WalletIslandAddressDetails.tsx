@@ -1,17 +1,22 @@
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import type { Address, Chain } from 'viem';
 import { Avatar, Badge, Name } from '../../../identity';
-import { cn, color, text } from '../../../styles/theme';
+import { border, cn, color, pressable, text } from '../../../styles/theme';
 import { useWalletContext } from '../WalletProvider';
 
 export default function AddressDetails() {
   const { address, chain, isClosing } = useWalletContext();
+  const [copyText, setCopyText] = useState('Copy');
 
   const handleCopyAddress = useCallback(async () => {
     try {
       await navigator.clipboard.writeText(address ?? '');
+      setCopyText('Copied');
+      setTimeout(() => setCopyText('Copy'), 2000);
     } catch (err) {
       console.error('Failed to copy address:', err);
+      setCopyText('Failed to copy');
+      setTimeout(() => setCopyText('Copy'), 2000);
     }
   }, [address]);
 
@@ -33,13 +38,28 @@ export default function AddressDetails() {
           <Badge />
         </Avatar>
       </div>
-      <div className="mt-2 text-base">
+      <div className="group relative mt-2 text-base">
         <button type="button" onClick={handleCopyAddress}>
           <Name
             address={address}
             chain={chain}
             className="hover:text-[var(--ock-text-foreground-muted)] active:text-[var(--ock-text-primary)]"
           />
+        </button>
+        <button
+          type="button"
+          onClick={handleCopyAddress}
+          className={cn(
+            pressable.alternate,
+            text.legal,
+            color.foreground,
+            border.default,
+            border.radius,
+            'absolute top-full right-[0%] z-10 mt-0.5 px-1.5 py-0.5 opacity-0 transition-opacity group-hover:opacity-100',
+          )}
+          aria-live="polite"
+        >
+          {copyText}
         </button>
       </div>
       <div className={cn(text.title1, 'mt-1')}>
