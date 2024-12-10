@@ -14,7 +14,7 @@ const mockSubdivision = 'NY';
 
 const mockResponseData = {
   data: {
-    paymen_total: { amount: '105.00', currency: 'USD' },
+    payment_total: { amount: '105.00', currency: 'USD' },
     payment_subtotal: { amount: '100.00', currency: 'USD' },
     purchase_amount: { amount: '0.0025', currency: 'BTC' },
     coinbase_fee: { amount: '3.00', currency: 'USD' },
