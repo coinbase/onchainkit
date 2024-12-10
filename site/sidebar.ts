@@ -55,6 +55,10 @@ export const sidebar = [
         text: 'Use Basename',
         link: '/guides/use-basename-in-onchain-app',
       },
+      {
+        text: 'Use AI-powered IDEs',
+        link: '/guides/using-ai-powered-ides',
+      },
     ],
   },
   {
