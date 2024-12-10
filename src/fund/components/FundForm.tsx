@@ -24,7 +24,7 @@ export function FundForm({
   const { setFundAmount, fundAmount, selectedPaymentMethod } = useFundContext();
 
   const fundingUrl = useMemo(() => {
-    return `${ONRAMP_BUY_URL}/one-click?appId=6eceb045-266a-4940-9d22-35952496ff00&addresses={"0x3bD7802fD4C3B01dB0767e532fB96AdBa7cd5F14":["base"]}&assets=[${assetSymbol}]&presetFiatAmount=${fundAmount}&defaultPaymentMethod=${selectedPaymentMethod.id}`;
+    return `${ONRAMP_BUY_URL}/one-click?appId=6eceb045-266a-4940-9d22-35952496ff00&addresses={"0x3bD7802fD4C3B01dB0767e532fB96AdBa7cd5F14":["base"]}&assets=["${assetSymbol}"]&presetFiatAmount=${fundAmount}&defaultPaymentMethod=${selectedPaymentMethod?.id}`;
   }, [assetSymbol, fundAmount, selectedPaymentMethod]);
 
   // https://pay.coinbase.com/buy/one-click?appId=9f59d35a-b36b-4395-ae75-560bb696bfe6&addresses={"0x3bD7802fD4C3B01dB0767e532fB96AdBa7cd5F14":["base"]}&assets=["USDC"]&presetCryptoAmount=5
