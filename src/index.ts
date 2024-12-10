@@ -15,4 +15,4 @@ export type {
   OnchainKitConfig,
   OnchainKitContextType,
   OnchainKitProviderReact,
-} from './types';
+} from './core/types';

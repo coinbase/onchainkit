@@ -1,5 +1,5 @@
 import { base, baseSepolia } from 'viem/chains';
-import type { isBaseOptions } from '../../types';
+import type { isBaseOptions } from '../types';
 
 /**
  * isBase

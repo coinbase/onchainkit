@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import type { Address, Chain } from 'viem';
-import type { EASSchemaUid } from './identity/types';
+import type { EASSchemaUid } from '../identity/types';
 
 /**
  * Note: exported as public Type
