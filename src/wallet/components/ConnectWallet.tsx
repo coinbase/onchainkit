@@ -2,9 +2,9 @@ import { Children, isValidElement, useCallback, useMemo } from 'react';
 import type { ReactNode } from 'react';
 import { useEffect, useState } from 'react';
 import { useAccount, useConnect } from 'wagmi';
+import { findComponent } from '../../core-react/internal/utils/findComponent';
 import { IdentityProvider } from '../../identity/components/IdentityProvider';
 import { Spinner } from '../../internal/components/Spinner';
-import { findComponent } from '../../internal/utils/findComponent';
 import {
   border,
   cn,

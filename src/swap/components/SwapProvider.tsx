@@ -13,7 +13,7 @@ import { useCapabilitiesSafe } from '../../core-react/internal/hooks/useCapabili
 import { useValue } from '../../core-react/internal/hooks/useValue';
 import { buildSwapTransaction } from '../../core/api/buildSwapTransaction';
 import { getSwapQuote } from '../../core/api/getSwapQuote';
-import { formatTokenAmount } from '../../internal/utils/formatTokenAmount';
+import { formatTokenAmount } from '../../core/utils/formatTokenAmount';
 import type { Token } from '../../token';
 import { GENERIC_ERROR_MESSAGE } from '../../transaction/constants';
 import { isUserRejectedRequestError } from '../../transaction/utils/isUserRejectedRequestError';
