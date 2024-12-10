@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { Spinner } from '../../internal/components/Spinner';
-import { useIcon } from '../../core-react/internal/hooks/useIcon';
+
 import {
   border,
   cn,
@@ -11,6 +11,7 @@ import {
 import { CHECKOUT_LIFECYCLESTATUS } from '../constants';
 import type { CheckoutButtonReact } from '../types';
 import { useCheckoutContext } from './CheckoutProvider';
+import { useIcon } from '../../core-react/internal/hooks/useIcon';
 
 export function CheckoutButton({
   className,
