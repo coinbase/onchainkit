@@ -10,6 +10,7 @@ import { color } from '@coinbase/onchainkit/theme';
 import {
   ConnectWallet,
   Wallet,
+  WalletBasic,
   WalletDropdown,
   WalletDropdownBasename,
   WalletDropdownDisconnect,
@@ -24,29 +25,31 @@ function WalletComponent() {
   return (
     <div className="flex justify-end">
       <Wallet>
-        <ConnectWallet text="Connect Wallet">
-          <Avatar address={address} className="h-6 w-6" />
-          <Name />
-        </ConnectWallet>
-        <WalletDropdown>
-          <Identity className="px-4 pt-3 pb-2">
-            <Avatar />
+        <WalletBasic>
+          <ConnectWallet text="Connect Wallet">
+            <Avatar address={address} className="h-6 w-6" />
             <Name />
-            <Address className={color.foregroundMuted} />
-            <EthBalance />
-            <Socials />
-          </Identity>
-          <WalletDropdownBasename />
-          <WalletDropdownLink
-            icon="wallet"
-            href="https://keys.coinbase.com"
-            target="_blank"
-          >
-            Wallet
-          </WalletDropdownLink>
-          <WalletDropdownFundLink />
-          <WalletDropdownDisconnect />
-        </WalletDropdown>
+          </ConnectWallet>
+          <WalletDropdown>
+            <Identity className="px-4 pt-3 pb-2">
+              <Avatar />
+              <Name />
+              <Address className={color.foregroundMuted} />
+              <EthBalance />
+              <Socials />
+            </Identity>
+            <WalletDropdownBasename />
+            <WalletDropdownLink
+              icon="wallet"
+              href="https://keys.coinbase.com"
+              target="_blank"
+            >
+              Wallet
+            </WalletDropdownLink>
+            <WalletDropdownFundLink />
+            <WalletDropdownDisconnect />
+          </WalletDropdown>
+        </WalletBasic>
       </Wallet>
     </div>
   );

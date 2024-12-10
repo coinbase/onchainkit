@@ -19,6 +19,7 @@ import TransactionDemo from './demo/Transaction';
 import TransactionDefaultDemo from './demo/TransactionDefault';
 import WalletDemo from './demo/Wallet';
 import WalletDefaultDemo from './demo/WalletDefault';
+import WalletIslandDefaultDemo from './demo/WalletIslandDefault';
 
 const activeComponentMapping: Record<OnchainKitComponent, React.FC> = {
   [OnchainKitComponent.Fund]: FundDemo,
@@ -35,10 +36,11 @@ const activeComponentMapping: Record<OnchainKitComponent, React.FC> = {
   [OnchainKitComponent.NFTMintCardDefault]: NFTMintCardDefaultDemo,
   [OnchainKitComponent.NFTCardDefault]: NFTCardDefaultDemo,
   [OnchainKitComponent.IdentityCard]: IdentityCardDemo,
+  [OnchainKitComponent.WalletIslandDefault]: WalletIslandDefaultDemo,
 };
 
-function Demo() {
-  const { activeComponent } = useContext(AppContext);
+export default function Demo() {
+  const { activeComponent, anchorPosition } = useContext(AppContext);
   const [isDarkMode, setIsDarkMode] = useState(true);
   const [sideBarVisible, setSideBarVisible] = useState(true);
   const [copied, setCopied] = useState(false);
@@ -75,6 +77,11 @@ function Demo() {
   const ActiveComponent = activeComponent
     ? activeComponentMapping[activeComponent]
     : null;
+
+  const componentPosition = getComponentPosition(
+    activeComponent,
+    anchorPosition,
+  );
 
   return (
     <>
@@ -138,7 +145,7 @@ function Demo() {
         </div>
       </div>
       <div className="linear-gradient(to_bottom,#f0f0f0_1px,transparent_1px)] flex flex-1 flex-col bg-[linear-gradient(to_right,#f0f0f0_1px,transparent_1px), bg-[size:6rem_4rem]">
-        <div className="flex h-full w-full flex-col items-center justify-center">
+        <div className={cn('flex h-full w-full flex-col', componentPosition)}>
           {ActiveComponent && <ActiveComponent />}
         </div>
       </div>
@@ -146,4 +153,20 @@ function Demo() {
   );
 }
 
-export default Demo;
+function getComponentPosition(
+  activeComponent: OnchainKitComponent | undefined,
+  anchorPosition: string | undefined,
+) {
+  if (!activeComponent || !anchorPosition) {
+    return 'items-center justify-center';
+  }
+
+  if (activeComponent === OnchainKitComponent.WalletIslandDefault) {
+    if (anchorPosition?.includes('top')) {
+      return 'justify-start';
+    }
+    return 'justify-end';
+  }
+
+  return 'items-center justify-center';
+}
