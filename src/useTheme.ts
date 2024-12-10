@@ -1,4 +1,4 @@
-import { usePreferredColorScheme } from './internal/hooks/usePreferredColorScheme';
+import { usePreferredColorScheme } from './core-react/internal/hooks/usePreferredColorScheme';
 import type { UseThemeReact } from './types';
 import { useOnchainKit } from './useOnchainKit';
 

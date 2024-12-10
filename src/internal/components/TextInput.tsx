@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import type { ChangeEvent } from 'react';
-import { useDebounce } from '../hooks/useDebounce';
+import { useDebounce } from '../../core-react/internal/hooks/useDebounce';
 
 type TextInputReact = {
   'aria-label'?: string;

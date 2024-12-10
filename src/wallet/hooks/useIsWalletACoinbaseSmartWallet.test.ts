@@ -1,9 +1,9 @@
 import { renderHook } from '@testing-library/react';
 import { type Mock, describe, expect, it, vi } from 'vitest';
 import { useAccount } from 'wagmi';
-import { useCapabilitiesSafe } from '../../internal/hooks/useCapabilitiesSafe';
 import { useOnchainKit } from '../../useOnchainKit';
 import { useIsWalletACoinbaseSmartWallet } from './useIsWalletACoinbaseSmartWallet';
+import { useCapabilitiesSafe } from '../../core-react/internal/hooks/useCapabilitiesSafe';
 
 vi.mock('wagmi', () => ({
   useAccount: vi.fn(),
@@ -13,7 +13,7 @@ vi.mock('../../useOnchainKit', () => ({
   useOnchainKit: vi.fn(),
 }));
 
-vi.mock('../../internal/hooks/useCapabilitiesSafe', () => ({
+vi.mock('../../core-react/internal/hooks/useCapabilitiesSafe', () => ({
   useCapabilitiesSafe: vi.fn(),
 }));
 
