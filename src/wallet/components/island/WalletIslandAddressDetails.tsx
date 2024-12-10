@@ -8,9 +8,13 @@ export default function AddressDetails() {
   const { address, chain, isClosing } = useWalletContext();
   const [copyText, setCopyText] = useState('Copy');
 
+  if (isClosing || !address || !chain) {
+    return null;
+  }
+
   const handleCopyAddress = useCallback(async () => {
     try {
-      await navigator.clipboard.writeText(address ?? '');
+      await navigator.clipboard.writeText(address);
       setCopyText('Copied');
       setTimeout(() => setCopyText('Copy'), 2000);
     } catch (err) {
@@ -19,10 +23,6 @@ export default function AddressDetails() {
       setTimeout(() => setCopyText('Copy'), 2000);
     }
   }, [address]);
-
-  if (isClosing) {
-    return null;
-  }
 
   return (
     <div
@@ -39,7 +39,11 @@ export default function AddressDetails() {
         </Avatar>
       </div>
       <div className="group relative mt-2 text-base">
-        <button type="button" onClick={handleCopyAddress}>
+        <button
+          type="button"
+          onClick={handleCopyAddress}
+          data-testid="ockWalletIsland_NameButton"
+        >
           <Name
             address={address}
             chain={chain}
@@ -58,6 +62,7 @@ export default function AddressDetails() {
             'absolute top-full right-[0%] z-10 mt-0.5 px-1.5 py-0.5 opacity-0 transition-opacity group-hover:opacity-100',
           )}
           aria-live="polite"
+          data-testid="ockWalletIsland_NameTooltip"
         >
           {copyText}
         </button>
@@ -77,5 +82,5 @@ type AddressBalanceProps = {
 function AddressBalance({ address, chain }: AddressBalanceProps) {
   const data = { address, chain }; // temp linter fix
   console.log({ data }); // temp linter fix
-  return <span>$690.42</span>;
+  return <span data-testid="ockWalletIsland_AddressBalance">$690.42</span>;
 }
