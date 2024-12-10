@@ -1,12 +1,12 @@
 import { base, mainnet } from 'viem/chains';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { getChainPublicClient } from '../../core/network/getChainPublicClient';
-import { isBase } from '../../isBase';
-import { isEthereum } from '../../isEthereum';
+import { isBase } from '../../core/utils/isBase';
+import { isEthereum } from '../../core/utils/isEthereum';
 import { getSocials } from './getSocials';
 
-vi.mock('../../isBase');
-vi.mock('../../isEthereum');
+vi.mock('../../core/utils/isBase');
+vi.mock('../../core/utils/isEthereum');
 vi.mock('../../core/network/getChainPublicClient');
 
 describe('getSocials', () => {

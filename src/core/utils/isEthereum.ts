@@ -1,5 +1,5 @@
 import { mainnet, sepolia } from 'viem/chains';
-import type { isEthereumOptions } from './types';
+import type { isEthereumOptions } from '../../types';
 
 /**
  * isEthereum

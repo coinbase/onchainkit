@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useMemo } from 'react';
 import { useValue } from '../../core-react/internal/hooks/useValue';
-import { TextInput } from '../../internal/components/TextInput';
 import { getRoundedAmount } from '../../core/utils/getRoundedAmount';
 import { isValidAmount } from '../../core/utils/isValidAmount';
+import { TextInput } from '../../internal/components/TextInput';
 import {
   background,
   border,

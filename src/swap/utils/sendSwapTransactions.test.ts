@@ -4,7 +4,7 @@ import { waitForTransactionReceipt } from 'wagmi/actions';
 import { mainnet, sepolia } from 'wagmi/chains';
 import { mock } from 'wagmi/connectors';
 import { setOnchainKitConfig } from '../../OnchainKitConfig';
-import { Capabilities } from '../../constants';
+import { Capabilities } from '../../core/constants';
 import type { SwapTransaction } from '../types';
 import { sendSwapTransactions } from './sendSwapTransactions';
 
