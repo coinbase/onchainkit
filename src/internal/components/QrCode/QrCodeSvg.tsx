@@ -46,6 +46,10 @@ export function QRCodeSVG({
   ecl = 'Q',
   gradientType = 'radial',
 }: QRCodeSVGProps) {
+  if (!value) {
+    return null;
+  }
+
   const gradientRadius = size * 0.55;
   const gradientCenterPoint = size / 2;
 
