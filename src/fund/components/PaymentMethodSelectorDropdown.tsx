@@ -6,6 +6,7 @@ import { PaymentMethodSelectorToggle } from './PaymentMethodSelectorToggle';
 import { useFundContext } from './FundProvider';
 
 export type PaymentMethod = {
+  id: 'CRYPTO_ACCOUNT' | 'FIAT_WALLET' | 'CARD' | 'ACH_BANK_ACCOUNT' | 'APPLE_PAY';
   name: string;
   description: string;
   icon: string;

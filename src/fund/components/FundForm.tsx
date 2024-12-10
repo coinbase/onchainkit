@@ -21,11 +21,11 @@ export function FundForm({
   buttonText = 'Buy',
   headerText,
 }: Props) {
-  const { setFundAmount, fundAmount } = useFundContext();
+  const { setFundAmount, fundAmount, selectedPaymentMethod } = useFundContext();
 
   const fundingUrl = useMemo(() => {
-    return `${ONRAMP_BUY_URL}/one-click?appId=6eceb045-266a-4940-9d22-35952496ff00&addresses={"0x3bD7802fD4C3B01dB0767e532fB96AdBa7cd5F14":["base"]}&assets=["ETH"]&presetFiatAmount=${fundAmount}`;
-  }, [assetSymbol, fundAmount]);
+    return `${ONRAMP_BUY_URL}/one-click?appId=6eceb045-266a-4940-9d22-35952496ff00&addresses={"0x3bD7802fD4C3B01dB0767e532fB96AdBa7cd5F14":["base"]}&assets=[${assetSymbol}]&presetFiatAmount=${fundAmount}&defaultPaymentMethod=${selectedPaymentMethod.id}`;
+  }, [assetSymbol, fundAmount, selectedPaymentMethod]);
 
   // https://pay.coinbase.com/buy/one-click?appId=9f59d35a-b36b-4395-ae75-560bb696bfe6&addresses={"0x3bD7802fD4C3B01dB0767e532fB96AdBa7cd5F14":["base"]}&assets=["USDC"]&presetCryptoAmount=5
 
@@ -42,16 +42,19 @@ export function FundForm({
       <PaymentMethodSelectorDropdown
         paymentMethods={[
           {
+            id: 'CRYPTO_ACCOUNT',
             name: 'Coinbase',
             description: 'Buy with your Coinbase account',
             icon: 'coinbasePay',
           },
           {
+            id: 'APPLE_PAY',
             name: 'Apple Pay',
             description: 'Up to $500/week',
             icon: 'applePay',
           },
           {
+            id: 'ACH_BANK_ACCOUNT',
             name: 'Debit Card',
             description: 'Up to $500/week',
             icon: 'creditCard',
