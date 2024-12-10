@@ -8,13 +8,9 @@ export default function AddressDetails() {
   const { address, chain, isClosing } = useWalletContext();
   const [copyText, setCopyText] = useState('Copy');
 
-  if (isClosing || !address || !chain) {
-    return null;
-  }
-
   const handleCopyAddress = useCallback(async () => {
     try {
-      await navigator.clipboard.writeText(address);
+      await navigator.clipboard.writeText(address ?? '');
       setCopyText('Copied');
       setTimeout(() => setCopyText('Copy'), 2000);
     } catch (err) {
@@ -23,6 +19,10 @@ export default function AddressDetails() {
       setTimeout(() => setCopyText('Copy'), 2000);
     }
   }, [address]);
+
+  if (isClosing || !address || !chain) {
+    return null;
+  }
 
   return (
     <div
