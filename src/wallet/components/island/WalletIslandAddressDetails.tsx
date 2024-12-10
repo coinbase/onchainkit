@@ -20,7 +20,7 @@ export default function AddressDetails() {
     }
   }, [address]);
 
-  if (isClosing || !address || !chain) {
+  if (isClosing || !chain) {
     return null;
   }
 

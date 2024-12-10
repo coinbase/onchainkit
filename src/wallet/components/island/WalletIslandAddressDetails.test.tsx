@@ -118,4 +118,20 @@ describe('WalletIslandAddressDetails', () => {
       expect(tooltip.textContent).toBe('Failed to copy');
     });
   });
+
+  it('copies empty string when address is null', () => {
+    mockUseWalletContext.mockReturnValue({
+      isClosing: false,
+      address: null,
+      chain: { id: 8453 },
+    });
+
+    render(<AddressDetails />);
+
+    const nameButton = screen.getByTestId('ockWalletIsland_NameButton');
+
+    fireEvent.click(nameButton);
+
+    expect(navigator.clipboard.writeText).toHaveBeenCalledWith('');
+  });
 });
