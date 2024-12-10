@@ -120,10 +120,10 @@ export function Providers(props: { children: ReactNode }) {
 }
 ```
 
-## Wrap your OnchainKit components with `<AppProviders />`
+## Wrap your OnchainKit components with `<Providers />`
 
 After configuring the providers in step 4, you will need to wrap your OnchainKit components
-with the `<AppProviders />` component.
+with the `<Providers />` component.
 
 There are two options for this:
 
@@ -133,26 +133,26 @@ There are two options for this:
 :::code-group
 
 ```tsx [ReactIsland]
-import { AppProviders } from '../AppProviders';
+import { Providers } from '../Providers';
 
 export default function ReactIsland() {
   return (
-    <AppProviders>
+    <Providers>
       <YourReactAppContainingOnchainKitComponents />
-    </AppProviders>
+    </Providers>
   );
 }
 ```
 
 ```tsx [OnchainKit Wrappers]
-import { AppProviders } from '../AppProviders';
+import { Providers } from '../Providers';
 import { OnchainKitComponent } from '@coinbase/onchainkit';
 
 export default function OnchainKitComponentWrapper() {
   return (
-    <AppProviders>
+    <Providers>
       <OnchainKitComponent />
-    </AppProviders>
+    </Providers>
   );
 }
 ```
