@@ -4,7 +4,7 @@ export { isEthereum } from './core/utils/isEthereum';
 export {
   getOnchainKitConfig,
   setOnchainKitConfig,
-} from './core/utils/OnchainKitConfig';
+} from './core/OnchainKitConfig';
 export { OnchainKitProvider } from './OnchainKitProvider';
 export { useOnchainKit } from './useOnchainKit';
 export { version } from './version';

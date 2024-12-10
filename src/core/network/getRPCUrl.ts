@@ -1,4 +1,4 @@
-import { ONCHAIN_KIT_CONFIG } from '../utils/OnchainKitConfig';
+import { ONCHAIN_KIT_CONFIG } from '../OnchainKitConfig';
 
 /**
  * Access the RPC URL for OnchainKit.
