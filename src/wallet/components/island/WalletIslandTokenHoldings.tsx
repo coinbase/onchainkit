@@ -19,7 +19,7 @@ export type TokenBalanceWithFiatValue = {
 };
 
 // TODO: handle loading state
-export default function WalletIslandTokenHoldings() {
+export function WalletIslandTokenHoldings() {
   const [tokens, setTokens] = useState<unknown[]>([]);
   const { address } = useWalletContext();
 
