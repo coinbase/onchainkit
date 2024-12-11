@@ -2,11 +2,11 @@ import { renderHook } from '@testing-library/react';
 import { type Mock, describe, expect, it, vi } from 'vitest';
 import { useAccount } from 'wagmi';
 
+import { useOnchainKit } from '../../core-react/useOnchainKit';
 import { useIsWalletACoinbaseSmartWallet } from '../../wallet/hooks/useIsWalletACoinbaseSmartWallet';
 import { getCoinbaseSmartWalletFundUrl } from '../utils/getCoinbaseSmartWalletFundUrl';
 import { getOnrampBuyUrl } from '../utils/getOnrampBuyUrl';
 import { useGetFundingUrl } from './useGetFundingUrl';
-import { useOnchainKit } from '../../core-react/useOnchainKit';
 
 vi.mock('../../core-react/useOnchainKit', () => ({
   useOnchainKit: vi.fn(),

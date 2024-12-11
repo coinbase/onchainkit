@@ -1,13 +1,13 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import {
   type Mock,
+  afterAll,
+  beforeAll,
   beforeEach,
   describe,
   expect,
   it,
   vi,
-  beforeAll,
-  afterAll,
 } from 'vitest';
 import { useConnect, useConnectors } from 'wagmi';
 import { useOnchainKit } from '../../core-react/useOnchainKit';

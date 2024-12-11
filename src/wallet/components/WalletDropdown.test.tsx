@@ -8,9 +8,9 @@ import {
   useIdentityContext,
 } from '../../identity/components/IdentityProvider';
 
+import { useBreakpoints } from '../../ui/react/internal/hooks/useBreakpoints';
 import { WalletDropdown } from './WalletDropdown';
 import { useWalletContext } from './WalletProvider';
-import { useBreakpoints } from '../../internal/hooks/useBreakpoints';
 
 vi.mock('wagmi', () => ({
   useAccount: vi.fn(),
@@ -20,7 +20,7 @@ vi.mock('./WalletProvider', () => ({
   useWalletContext: vi.fn(),
 }));
 
-vi.mock('../../internal/hooks/useBreakpoints', () => ({
+vi.mock('../../ui/react/internal/hooks/useBreakpoints', () => ({
   useBreakpoints: vi.fn(),
 }));
 

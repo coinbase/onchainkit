@@ -1,6 +1,6 @@
-import { usePreferredColorScheme } from './usePreferredColorScheme';
 import type { UseThemeReact } from '../../../core/types';
 import { useOnchainKit } from '../../useOnchainKit';
+import { usePreferredColorScheme } from './usePreferredColorScheme';
 
 export function useTheme(): UseThemeReact {
   const preferredMode = usePreferredColorScheme();

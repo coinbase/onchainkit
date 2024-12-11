@@ -1,7 +1,6 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { createContext, useMemo } from 'react';
 import { WagmiProvider } from 'wagmi';
-import type { OnchainKitProviderReact } from './types';
 import {
   ONCHAIN_KIT_CONFIG,
   setOnchainKitConfig,
@@ -12,6 +11,7 @@ import type { OnchainKitContextType } from '../core/types';
 import { checkHashLength } from '../core/utils/checkHashLength';
 import { COINBASE_VERIFIED_ACCOUNT_SCHEMA_ID } from '../identity/constants';
 import { useProviderDependencies } from './internal/hooks/useProviderDependencies';
+import type { OnchainKitProviderReact } from './types';
 
 export const OnchainKitContext =
   createContext<OnchainKitContextType>(ONCHAIN_KIT_CONFIG);

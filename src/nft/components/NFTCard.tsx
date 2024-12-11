@@ -1,8 +1,8 @@
 import { useCallback } from 'react';
 import { useAccount } from 'wagmi';
-import { border, cn, color, pressable } from '../../styles/theme';
 import { useIsMounted } from '../../core-react/internal/hooks/useIsMounted';
 import { useTheme } from '../../core-react/internal/hooks/useTheme';
+import { border, cn, color, pressable } from '../../styles/theme';
 import { useNFTData as defaultUseNFTData } from '../hooks/useNFTData';
 import { LifecycleType, type NFTCardReact } from '../types';
 import NFTErrorBoundary from './NFTErrorBoundary';

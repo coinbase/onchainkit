@@ -1,6 +1,6 @@
+import { useOnchainKit } from '../../../core-react/useOnchainKit';
 import { Avatar, Badge, Identity, Name } from '../../../identity';
 import { cn } from '../../../styles/theme';
-import { useOnchainKit } from '../../../core-react/useOnchainKit';
 import { useNFTContext } from '../NFTProvider';
 
 type NFTCreatorReact = {

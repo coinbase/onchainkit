@@ -1,5 +1,5 @@
-import { cn, pressable, text } from '../../styles/theme';
 import { useTheme } from '../../core-react/internal/hooks/useTheme';
+import { cn, pressable, text } from '../../styles/theme';
 import type { TokenChipReact } from '../types';
 import { TokenImage } from './TokenImage';
 

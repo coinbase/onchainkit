@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { background, border, cn } from '../../styles/theme';
 import { useTheme } from '../../core-react/internal/hooks/useTheme';
+import { background, border, cn } from '../../styles/theme';
 import type { TokenSelectDropdownReact } from '../types';
 import { TokenRow } from './TokenRow';
 import { TokenSelectButton } from './TokenSelectButton';

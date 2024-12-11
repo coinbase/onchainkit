@@ -9,7 +9,7 @@ vi.mock('../../core-react/internal/hooks/useTheme', () => ({
   useTheme: vi.fn(),
 }));
 
-vi.mock('../../internal/hooks/useBreakpoints', () => ({
+vi.mock('../../ui/react/internal/hooks/useBreakpoints', () => ({
   useBreakpoints: vi.fn(),
 }));
 

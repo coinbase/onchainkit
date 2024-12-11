@@ -2,9 +2,9 @@ import { render, screen } from '@testing-library/react';
 import { base, baseSepolia } from 'viem/chains';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
+import { useOnchainKit } from '../../core-react/useOnchainKit';
 import { Transaction } from './Transaction';
 import { TransactionProvider } from './TransactionProvider';
-import { useOnchainKit } from '../../core-react/useOnchainKit';
 
 function mock<T>(func: T) {
   return func as vi.Mock;

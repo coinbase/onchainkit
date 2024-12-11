@@ -1,5 +1,5 @@
-import { background, border, cn, color } from '../../styles/theme';
 import { useTheme } from '../../core-react/internal/hooks/useTheme';
+import { background, border, cn, color } from '../../styles/theme';
 
 export function NFTErrorFallback({ error }: { error: Error }) {
   const componentTheme = useTheme();

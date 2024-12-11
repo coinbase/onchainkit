@@ -6,11 +6,11 @@ import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { http, WagmiProvider, createConfig } from 'wagmi';
 import { useConfig } from 'wagmi';
 import { mock } from 'wagmi/connectors';
-import { OnchainKitProvider } from './OnchainKitProvider';
 import { setOnchainKitConfig } from '../core/OnchainKitConfig';
 import type { EASSchemaUid } from '../identity/types';
-import { useOnchainKit } from './useOnchainKit';
+import { OnchainKitProvider } from './OnchainKitProvider';
 import { useProviderDependencies } from './internal/hooks/useProviderDependencies';
+import { useOnchainKit } from './useOnchainKit';
 
 vi.mock('wagmi', async (importOriginal) => {
   const actual = await importOriginal();

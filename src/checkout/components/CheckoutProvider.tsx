@@ -14,10 +14,10 @@ import { coinbaseWallet } from 'wagmi/connectors';
 import { useWriteContracts } from 'wagmi/experimental';
 import { useCallsStatus } from 'wagmi/experimental';
 import { useValue } from '../../core-react/internal/hooks/useValue';
+import { useOnchainKit } from '../../core-react/useOnchainKit';
 import { getWindowDimensions } from '../../internal/utils/getWindowDimensions';
 import { openPopup } from '../../internal/utils/openPopup';
 import { isUserRejectedRequestError } from '../../transaction/utils/isUserRejectedRequestError';
-import { useOnchainKit } from '../../core-react/useOnchainKit';
 import { useIsWalletACoinbaseSmartWallet } from '../../wallet/hooks/useIsWalletACoinbaseSmartWallet';
 import {
   GENERIC_ERROR_MESSAGE,
