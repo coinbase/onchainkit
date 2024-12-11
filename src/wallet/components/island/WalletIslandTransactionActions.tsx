@@ -1,7 +1,7 @@
 import { addSvgForeground } from '../../../internal/svg/addForegroundSvg';
 import { arrowUpRightSvg } from '../../../internal/svg/arrowUpRightSvg';
 import { toggleSvg } from '../../../internal/svg/toggleSvg';
-import { cn, color, pressable, text } from '../../../styles/theme';
+import { cn, border, color, pressable, text } from '../../../styles/theme';
 import { useWalletIslandContext } from './WalletIslandProvider';
 
 type TransactionActionProps = {
@@ -55,7 +55,7 @@ function WalletIslandTransactionAction({
       className={cn(
         'flex flex-col items-center justify-center gap-2 pt-2.5 pb-2',
         'h-16 w-28',
-        'rounded-lg',
+        border.radius,
         pressable.alternate,
       )}
       onClick={action}
