@@ -1,7 +1,7 @@
 import { useCallback, useRef, useState } from 'react';
 import { useIcon } from '../../core-react/internal/hooks/useIcon';
 import { background, border, cn, pressable, text } from '../../styles/theme';
-import { useBreakpoints } from '../../useBreakpoints';
+import { useBreakpoints } from '../../internal/hooks/useBreakpoints';
 import { useOutsideClick } from '../../useOutsideClick';
 import type { SwapSettingsReact } from '../types';
 import { SwapSettingsSlippageLayout } from './SwapSettingsSlippageLayout';
