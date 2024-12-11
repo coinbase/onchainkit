@@ -14,5 +14,6 @@ export type {
   isEthereumOptions,
   OnchainKitConfig,
   OnchainKitContextType,
-  OnchainKitProviderReact,
 } from './core/types';
+
+export type { OnchainKitProviderReact } from './core-react/types';
