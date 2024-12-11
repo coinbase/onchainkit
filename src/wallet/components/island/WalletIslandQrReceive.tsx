@@ -12,6 +12,7 @@ export function WalletIslandQrReceive() {
   const backButtonRef = useRef<HTMLButtonElement>(null);
   const [copyText, setCopyText] = useState('Copy');
   const [copyButtonText, setCopyButtonText] = useState('Copy address');
+  const [isQrClosing, setIsQrClosing] = useState(false);
 
   useEffect(() => {
     if (showQr) {
@@ -20,7 +21,11 @@ export function WalletIslandQrReceive() {
   }, [showQr]);
 
   const handleCloseQr = useCallback(() => {
-    setShowQr(false);
+    setIsQrClosing(true);
+    setTimeout(() => {
+      setShowQr(false);
+      setIsQrClosing(false);
+    }, 150);
   }, [setShowQr]);
 
   const handleCopyAddress = useCallback(
@@ -64,7 +69,7 @@ export function WalletIslandQrReceive() {
         text.headline,
         'flex flex-col items-center justify-center gap-12',
         'w-full',
-        'animate-walletIslandContainerIn',
+        isQrClosing ? 'animate-walletIslandQrOut' : 'animate-walletIslandQrIn',
       )}
     >
       <div className="flex w-full flex-row items-center justify-between">
