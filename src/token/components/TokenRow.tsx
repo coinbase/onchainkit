@@ -1,6 +1,6 @@
 import { memo } from 'react';
+import { useTheme } from '../../core-react/internal/hooks/useTheme';
 import { cn, color, pressable, text } from '../../styles/theme';
-import { useTheme } from '../../useTheme';
 import type { TokenRowReact } from '../types';
 import { formatAmount } from '../utils/formatAmount';
 import { TokenImage } from './TokenImage';

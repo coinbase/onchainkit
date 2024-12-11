@@ -9,7 +9,7 @@ import {
   it,
   vi,
 } from 'vitest';
-import { useIsMounted } from '../../useIsMounted';
+import { useIsMounted } from '../../core-react/internal/hooks/useIsMounted';
 import { Checkout } from './Checkout';
 
 function mock<T>(func: T) {
@@ -22,11 +22,11 @@ vi.mock('./CheckoutProvider', () => ({
   )),
 }));
 
-vi.mock('../../useIsMounted', () => ({
+vi.mock('../../core-react/internal/hooks/useIsMounted', () => ({
   useIsMounted: vi.fn(),
 }));
 
-vi.mock('../../useTheme', () => ({
+vi.mock('../../core-react/internal/hooks/useTheme', () => ({
   useTheme: vi.fn(),
 }));
 

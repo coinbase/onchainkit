@@ -9,11 +9,11 @@ import {
   it,
   vi,
 } from 'vitest';
-import { useOnchainKit } from '../../../useOnchainKit';
+import { useOnchainKit } from '../../../core-react/useOnchainKit';
 import { useNFTContext } from '../NFTProvider';
 import { NFTOwner } from './NFTOwner';
 
-vi.mock('../../../useOnchainKit');
+vi.mock('../../../core-react/useOnchainKit');
 vi.mock('../NFTProvider');
 vi.mock('../../../identity', async () => ({
   ...(await vi.importActual('../../../identity')),

@@ -1,5 +1,5 @@
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
-import { setOnchainKitConfig } from '../../OnchainKitConfig';
+import { setOnchainKitConfig } from '../../core/OnchainKitConfig';
 import { ONRAMP_API_BASE_URL } from '../constants';
 import { fetchOnrampConfig } from './fetchOnrampConfig';
 

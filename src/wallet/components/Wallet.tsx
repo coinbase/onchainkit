@@ -1,4 +1,6 @@
 import { useEffect } from 'react';
+import { useIsMounted } from '../../core-react/internal/hooks/useIsMounted';
+import { useTheme } from '../../core-react/internal/hooks/useTheme';
 import { cn } from '../../styles/theme';
 import { useIsMounted } from '../../useIsMounted';
 import { useTheme } from '../../useTheme';

@@ -1,9 +1,12 @@
 // 🌲☀️🌲
-export { isBase } from './isBase';
-export { isEthereum } from './isEthereum';
-export { getOnchainKitConfig, setOnchainKitConfig } from './OnchainKitConfig';
-export { OnchainKitProvider } from './OnchainKitProvider';
-export { useOnchainKit } from './useOnchainKit';
+export { isBase } from './core/utils/isBase';
+export { isEthereum } from './core/utils/isEthereum';
+export {
+  getOnchainKitConfig,
+  setOnchainKitConfig,
+} from './core/OnchainKitConfig';
+export { OnchainKitProvider } from './core-react/OnchainKitProvider';
+export { useOnchainKit } from './core-react/useOnchainKit';
 export { version } from './version';
 export type {
   AppConfig,
@@ -11,5 +14,6 @@ export type {
   isEthereumOptions,
   OnchainKitConfig,
   OnchainKitContextType,
-  OnchainKitProviderReact,
-} from './types';
+} from './core/types';
+
+export type { OnchainKitProviderReact } from './core-react/types';

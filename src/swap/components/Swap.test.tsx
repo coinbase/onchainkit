@@ -13,7 +13,7 @@ vi.mock('../../internal/svg/closeSvg', () => ({
   CloseSvg: () => <div data-testid="mock-close-svg" />,
 }));
 
-vi.mock('../../useTheme', () => ({
+vi.mock('../../core-react/internal/hooks/useTheme', () => ({
   useTheme: vi.fn(),
 }));
 

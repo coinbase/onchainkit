@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
+import { useOnchainKit } from '../../../core-react/useOnchainKit';
 import { Avatar, Badge, Identity, Name } from '../../../identity';
 import { cn, color, text } from '../../../styles/theme';
-import { useOnchainKit } from '../../../useOnchainKit';
 import { useNFTContext } from '../NFTProvider';
 
 type NFTOwnerReact = {

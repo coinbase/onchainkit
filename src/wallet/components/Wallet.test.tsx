@@ -21,11 +21,11 @@ vi.mock('./WalletDropdown', () => ({
   ),
 }));
 
-vi.mock('../../useTheme', () => ({
+vi.mock('../../core-react/internal/hooks/useTheme', () => ({
   useTheme: vi.fn(),
 }));
 
-vi.mock('../../useOutsideClick', () => ({
+vi.mock('../../ui/react/internal/hooks/useOutsideClick', () => ({
   useOutsideClick: vi.fn(),
 }));
 

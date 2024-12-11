@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import type { ContractFunctionParameters } from 'viem';
-import { Capabilities } from '../../constants';
+import { Capabilities } from '../../core/constants';
 import type { Call, UseSendWalletTransactionsParams } from '../types';
 import { sendBatchedTransactions } from '../utils/sendBatchedTransactions';
 import { sendSingleTransactions } from '../utils/sendSingleTransactions';

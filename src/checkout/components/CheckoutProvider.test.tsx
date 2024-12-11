@@ -12,8 +12,8 @@ import { useAccount, useConnect, useSwitchChain } from 'wagmi';
 import { useWaitForTransactionReceipt } from 'wagmi';
 import { useCallsStatus } from 'wagmi/experimental';
 import { useWriteContracts } from 'wagmi/experimental';
+import { useOnchainKit } from '../../core-react/useOnchainKit';
 import { openPopup } from '../../internal/utils/openPopup';
-import { useOnchainKit } from '../../useOnchainKit';
 import { useIsWalletACoinbaseSmartWallet } from '../../wallet/hooks/useIsWalletACoinbaseSmartWallet';
 import { GENERIC_ERROR_MESSAGE } from '../constants';
 import { useCommerceContracts } from '../hooks/useCommerceContracts';
@@ -39,7 +39,7 @@ vi.mock('../../wallet/hooks/useIsWalletACoinbaseSmartWallet', () => ({
   useIsWalletACoinbaseSmartWallet: vi.fn(),
 }));
 
-vi.mock('../../useOnchainKit', () => ({
+vi.mock('../../core-react/useOnchainKit', () => ({
   useOnchainKit: vi.fn(),
 }));
 

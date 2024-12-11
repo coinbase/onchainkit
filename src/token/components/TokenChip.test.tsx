@@ -4,7 +4,7 @@ import type { Address } from 'viem';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { TokenChip } from './TokenChip';
 
-vi.mock('../../useTheme', () => ({
+vi.mock('../../core-react/internal/hooks/useTheme', () => ({
   useTheme: vi.fn(),
 }));
 
