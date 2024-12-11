@@ -1,7 +1,8 @@
 import { render, screen } from '@testing-library/react';
 import { base, baseSepolia } from 'viem/chains';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { useOnchainKit } from '../../useOnchainKit';
+
+import { useOnchainKit } from '../../core-react/useOnchainKit';
 import { Transaction } from './Transaction';
 import { TransactionProvider } from './TransactionProvider';
 
@@ -20,11 +21,11 @@ vi.mock('./TransactionProvider', () => ({
   ),
 }));
 
-vi.mock('../../useOnchainKit', () => ({
+vi.mock('../../core-react/useOnchainKit', () => ({
   useOnchainKit: vi.fn(),
 }));
 
-vi.mock('../../useTheme', () => ({
+vi.mock('../../core-react/internal/hooks/useTheme', () => ({
   useTheme: vi.fn(),
 }));
 

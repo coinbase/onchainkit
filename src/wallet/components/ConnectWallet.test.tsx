@@ -2,7 +2,7 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import type { ReactNode } from 'react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { useAccount, useConnect } from 'wagmi';
-import { useOnchainKit } from '../../useOnchainKit';
+import { useOnchainKit } from '../../core-react/useOnchainKit';
 import { ConnectWallet } from './ConnectWallet';
 import { ConnectWalletText } from './ConnectWalletText';
 import { useWalletContext } from './WalletProvider';
@@ -37,7 +37,7 @@ vi.mock('@rainbow-me/rainbowkit', () => ({
   },
 }));
 
-vi.mock('../../useOnchainKit', () => ({
+vi.mock('../../core-react/useOnchainKit', () => ({
   useOnchainKit: vi.fn(),
 }));
 

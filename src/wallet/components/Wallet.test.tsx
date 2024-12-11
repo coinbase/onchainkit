@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { useOutsideClick } from '../../useOutsideClick';
+import { useOutsideClick } from '../../ui/react/internal/hooks/useOutsideClick';
 import { ConnectWallet } from './ConnectWallet';
 import { Wallet } from './Wallet';
 import { WalletDropdown } from './WalletDropdown';
@@ -21,11 +21,11 @@ vi.mock('./WalletDropdown', () => ({
   ),
 }));
 
-vi.mock('../../useTheme', () => ({
+vi.mock('../../core-react/internal/hooks/useTheme', () => ({
   useTheme: vi.fn(),
 }));
 
-vi.mock('../../useOutsideClick', () => ({
+vi.mock('../../ui/react/internal/hooks/useOutsideClick', () => ({
   useOutsideClick: vi.fn(),
 }));
 

@@ -1,11 +1,11 @@
 import '@testing-library/jest-dom';
 import { render } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
-import { useOnchainKit } from '../../../useOnchainKit';
+import { useOnchainKit } from '../../../core-react/useOnchainKit';
 import { useNFTContext } from '../NFTProvider';
 import { NFTCreator } from './NFTCreator';
 
-vi.mock('../../../useOnchainKit', () => ({
+vi.mock('../../../core-react/useOnchainKit', () => ({
   useOnchainKit: vi.fn(),
 }));
 vi.mock('../NFTProvider', () => ({

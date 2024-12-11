@@ -6,6 +6,10 @@ import type { TransactionDefaultReact } from '../types';
 import { TransactionDefault } from './TransactionDefault';
 import { useTransactionContext } from './TransactionProvider';
 
+vi.mock('../../core-react/internal/hooks/useTheme', () => ({
+  useTheme: vi.fn(),
+}));
+
 vi.mock('../../useBreakpoints', () => ({
   useBreakpoints: vi.fn(),
 }));

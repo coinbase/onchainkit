@@ -10,17 +10,17 @@ import {
   vi,
 } from 'vitest';
 import { useAccount } from 'wagmi';
-import { useIsMounted } from '../../useIsMounted';
+import { useIsMounted } from '../../core-react/internal/hooks/useIsMounted';
 import { NFTCard } from './NFTCard';
 import { NFTProvider } from './NFTProvider';
 
 vi.mock('wagmi', () => ({
   useAccount: vi.fn(),
 }));
-vi.mock('../../useTheme', () => ({
+vi.mock('../../core-react/internal/hooks/useTheme', () => ({
   useTheme: vi.fn(() => 'default-light'),
 }));
-vi.mock('../../useIsMounted');
+vi.mock('../../core-react/internal/hooks/useIsMounted');
 vi.mock('./NFTProvider', () => ({
   NFTProvider: vi.fn(({ children }) => <div>{children}</div>),
 }));
