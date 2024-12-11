@@ -1,7 +1,7 @@
 import { renderHook, waitFor } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
-import { getTokenDetails } from '../../core/api/getTokenDetails';
 import { getNewReactQueryTestProvider } from '../../core-react/identity/hooks/getNewReactQueryTestProvider';
+import { getTokenDetails } from '../../core/api/getTokenDetails';
 import { useTokenDetails } from './useTokenDetails';
 
 vi.mock('../../core/api/getTokenDetails');

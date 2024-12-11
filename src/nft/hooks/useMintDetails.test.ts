@@ -1,8 +1,8 @@
 import { renderHook, waitFor } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
+import { getNewReactQueryTestProvider } from '../../core-react/identity/hooks/getNewReactQueryTestProvider';
 import { getMintDetails } from '../../core/api/getMintDetails';
 import { useMintDetails } from './useMintDetails';
-import { getNewReactQueryTestProvider } from '../../core-react/identity/hooks/getNewReactQueryTestProvider';
 
 vi.mock('../../core/api/getMintDetails');
 

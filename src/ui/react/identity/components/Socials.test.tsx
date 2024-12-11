@@ -1,9 +1,9 @@
 import { render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { Socials } from './Socials';
-import { useIdentityContext } from '../../../../core-react/identity/providers/IdentityProvider';
 import { useName } from '../../../../core-react/identity/hooks/useName';
 import { useSocials } from '../../../../core-react/identity/hooks/useSocials';
+import { useIdentityContext } from '../../../../core-react/identity/providers/IdentityProvider';
+import { Socials } from './Socials';
 
 vi.mock('../../../../core-react/identity/providers/IdentityProvider', () => ({
   useIdentityContext: vi.fn(),

@@ -1,10 +1,10 @@
 import { render, screen } from '@testing-library/react';
-import { type Mock, describe, expect, it, vi, beforeEach } from 'vitest';
+import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useAccount, useConnect } from 'wagmi';
+import { useAvatar } from '../../core-react/identity/hooks/useAvatar';
+import { useName } from '../../core-react/identity/hooks/useName';
 import { WalletDefault } from './WalletDefault';
 import { useWalletContext } from './WalletProvider';
-import { useName } from '../../core-react/identity/hooks/useName';
-import { useAvatar } from '../../core-react/identity/hooks/useAvatar';
 
 vi.mock('../../core-react/internal/hooks/useTheme', () => ({
   useTheme: vi.fn(),

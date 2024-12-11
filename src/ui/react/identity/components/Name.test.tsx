@@ -3,12 +3,12 @@ import '@testing-library/jest-dom';
 import { render, screen, waitFor } from '@testing-library/react';
 import { base, baseSepolia, optimism } from 'viem/chains';
 
+import { useAttestations } from '../../../../core-react/identity/hooks/useAttestations';
 import { useName } from '../../../../core-react/identity/hooks/useName';
+import { useIdentityContext } from '../../../../core-react/identity/providers/IdentityProvider';
 import { getSlicedAddress } from '../../../../core/identity/utils/getSlicedAddress';
 import { Badge } from './Badge';
-import { useIdentityContext } from '../../../../core-react/identity/providers/IdentityProvider';
 import { Name } from './Name';
-import { useAttestations } from '../../../../core-react/identity/hooks/useAttestations';
 
 vi.mock('../../../../core-react/identity/hooks/useAttestations', () => ({
   useAttestations: vi.fn(),
