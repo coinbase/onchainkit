@@ -5,6 +5,10 @@ export function useMatrix(
   value: string,
   errorCorrectionLevel: 'L' | 'M' | 'Q' | 'H',
 ) {
+  if (!value) {
+    return [];
+  }
+
   const matrix = useMemo(() => {
     const arr = Array.prototype.slice.call(
       QRCode.create(value, { errorCorrectionLevel }).modules.data,
