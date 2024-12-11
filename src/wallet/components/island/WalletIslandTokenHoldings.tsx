@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import getAddressTokenBalances from '../../../internal/utils/getAddressTokenBalances';
-import { cn, color, border, pressable, text } from '../../../styles/theme';
+import { border, cn, color, pressable, text } from '../../../styles/theme';
 import { type Token, TokenImage } from '../../../token';
 import { useWalletContext } from '../WalletProvider';
 
@@ -146,48 +146,13 @@ export function WalletIslandTokenHoldings() {
 
   return (
     // limit 4 w/ view all button
-    // <div
-    //   className={cn(
-    //     'mt-2 mb-2 flex w-full flex-col items-center gap-4 px-2',
-    //     'animate-walletIslandContainerItem4 opacity-0',
-    //   )}
-    // >
-    //   {tokenBalances.slice(0, 4).map((tokenBalance) => (
-    //     <TokenDetails
-    //       key={tokenBalance.token.address}
-    //       token={tokenBalance.token}
-    //       balance={tokenBalance.balance}
-    //       valueInFiat={tokenBalance.valueInFiat}
-    //     />
-    //   ))}
-    //   <a
-    //     href="https://wallet.coinbase.com/assets"
-    //     target="_blank"
-    //     rel="noreferrer noopener"
-    //     className={cn(
-    //       text.label2,
-    //       color.foregroundMuted,
-    //       border.lineDefault,
-    //       border.radius,
-    //       pressable.default,
-    //       'w-full py-2 text-center font-semibold',
-    //     )}
-    //   >
-    //     View All
-    //   </a>
-    // </div>
-
-
-    // Scrollable no view all button
     <div
       className={cn(
-        'max-h-44 overflow-y-auto',
-        'flex w-full flex-col items-center gap-4',
-        'mt-2 mb-2 px-2',
+        'mt-2 mb-2 flex w-full flex-col items-center gap-4 px-2',
         'animate-walletIslandContainerItem4 opacity-0',
       )}
     >
-      {tokenBalances.map((tokenBalance) => (
+      {tokenBalances.slice(0, 4).map((tokenBalance) => (
         <TokenDetails
           key={tokenBalance.token.address}
           token={tokenBalance.token}
@@ -195,7 +160,41 @@ export function WalletIslandTokenHoldings() {
           valueInFiat={tokenBalance.valueInFiat}
         />
       ))}
+      <a
+        href="https://wallet.coinbase.com/assets"
+        target="_blank"
+        rel="noreferrer noopener"
+        className={cn(
+          text.label2,
+          color.foregroundMuted,
+          border.lineDefault,
+          border.radius,
+          pressable.default,
+          'w-full py-2 text-center font-semibold',
+        )}
+      >
+        View All
+      </a>
     </div>
+
+    // Scrollable no view all button
+    // <div
+    //   className={cn(
+    //     'max-h-44 overflow-y-auto',
+    //     'flex w-full flex-col items-center gap-4',
+    //     'mt-2 mb-2 px-2',
+    //     'animate-walletIslandContainerItem4 opacity-0',
+    //   )}
+    // >
+    //   {tokenBalances.map((tokenBalance) => (
+    //     <TokenDetails
+    //       key={tokenBalance.token.address}
+    //       token={tokenBalance.token}
+    //       balance={tokenBalance.balance}
+    //       valueInFiat={tokenBalance.valueInFiat}
+    //     />
+    //   ))}
+    // </div>
   );
 }
 

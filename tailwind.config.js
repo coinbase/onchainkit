@@ -95,10 +95,14 @@ export default {
           'walletIslandContainerItemIn 300ms cubic-bezier(0.34, 1.56, 0.64, 1) 160ms forwards',
         walletIslandContainerItem4:
           'walletIslandContainerItemIn 300ms cubic-bezier(0.34, 1.56, 0.64, 1) 190ms forwards',
-        walletIslandQrIn: 'walletIslandQrIn 300ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards',
-        walletIslandQrOut: 'walletIslandQrOut 150ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards',
-        walletIslandSwapIn: 'walletIslandSwapIn 300ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards',
-        walletIslandSwapOut: 'walletIslandSwapOut 150ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards',
+        walletIslandQrIn:
+          'walletIslandQrIn 300ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards',
+        walletIslandQrOut:
+          'walletIslandQrOut 150ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards',
+        walletIslandSwapIn:
+          'walletIslandSwapIn 300ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards',
+        walletIslandSwapOut:
+          'walletIslandSwapOut 150ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards',
       },
     },
   },
