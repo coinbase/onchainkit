@@ -1,7 +1,4 @@
-import { Children, useMemo, useRef } from 'react';
-import { useIsMounted } from '../../core-react/internal/hooks/useIsMounted';
-import { useTheme } from '../../core-react/internal/hooks/useTheme';
-import { findComponent } from '../../core-react/internal/utils/findComponent';
+import { useEffect } from 'react';
 import { cn } from '../../styles/theme';
 import { useIsMounted } from '../../useIsMounted';
 import { useTheme } from '../../useTheme';
