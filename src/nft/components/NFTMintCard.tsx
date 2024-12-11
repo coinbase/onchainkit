@@ -1,6 +1,6 @@
 import { background, border, cn, color } from '../../styles/theme';
-import { useIsMounted } from '../../useIsMounted';
-import { useTheme } from '../../useTheme';
+import { useIsMounted } from '../../core-react/internal/hooks/useIsMounted';
+import { useTheme } from '../../core-react/internal/hooks/useTheme';
 import { useMintData as defaultUseMintData } from '../hooks/useMintData';
 import { LifecycleType, type NFTMintCardReact } from '../types';
 import { buildMintTransactionData as defaultBuildMintTransaction } from '../utils/buildMintTransactionData';

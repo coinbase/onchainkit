@@ -3,7 +3,7 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { useIcon } from '../../core-react/internal/hooks/useIcon';
-import { useBreakpoints } from '../../useBreakpoints';
+import { useBreakpoints } from '../../internal/hooks/useBreakpoints';
 import { SwapSettings } from './SwapSettings';
 import { SwapSettingsSlippageDescription } from './SwapSettingsSlippageDescription';
 import { SwapSettingsSlippageInput } from './SwapSettingsSlippageInput';
@@ -37,7 +37,7 @@ vi.mock('./SwapSettingsSlippageInput', () => ({
   SwapSettingsSlippageInput: vi.fn(() => <div>Input</div>),
 }));
 
-vi.mock('../../useBreakpoints', () => ({
+vi.mock('../../internal/hooks/useBreakpoints', () => ({
   useBreakpoints: vi.fn(),
 }));
 

@@ -1,4 +1,4 @@
-import { useOnchainKit } from '../../useOnchainKit';
+import { useOnchainKit } from '../../core-react/useOnchainKit';
 import type { IdentityReact } from '../types';
 import { IdentityLayout } from './IdentityLayout';
 import { IdentityProvider } from './IdentityProvider';

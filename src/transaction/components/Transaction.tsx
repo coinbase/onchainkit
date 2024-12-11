@@ -1,7 +1,7 @@
 import { cn } from '../../styles/theme';
-import { useIsMounted } from '../../useIsMounted';
-import { useOnchainKit } from '../../useOnchainKit';
-import { useTheme } from '../../useTheme';
+import { useIsMounted } from '../../core-react/internal/hooks/useIsMounted';
+import { useOnchainKit } from '../../core-react/useOnchainKit';
+import { useTheme } from '../../core-react/internal/hooks/useTheme';
 import type { TransactionReact } from '../types';
 import { TransactionProvider } from './TransactionProvider';
 

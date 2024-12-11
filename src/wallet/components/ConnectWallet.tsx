@@ -12,7 +12,7 @@ import {
   text as dsText,
   pressable,
 } from '../../styles/theme';
-import { useOnchainKit } from '../../useOnchainKit';
+import { useOnchainKit } from '../../core-react/useOnchainKit';
 import type { ConnectWalletReact } from '../types';
 import { ConnectButton } from './ConnectButton';
 import { ConnectWalletText } from './ConnectWalletText';

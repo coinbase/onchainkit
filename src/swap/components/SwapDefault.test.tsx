@@ -5,7 +5,11 @@ import type { SwapDefaultReact } from '../types';
 import { SwapDefault } from './SwapDefault';
 import { useSwapContext } from './SwapProvider';
 
-vi.mock('../../useBreakpoints', () => ({
+vi.mock('../../core-react/internal/hooks/useTheme', () => ({
+  useTheme: vi.fn(),
+}));
+
+vi.mock('../../internal/hooks/useBreakpoints', () => ({
   useBreakpoints: vi.fn(),
 }));
 

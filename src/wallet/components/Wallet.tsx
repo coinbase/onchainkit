@@ -1,9 +1,9 @@
 import { Children, useMemo, useRef } from 'react';
 import { findComponent } from '../../core-react/internal/utils/findComponent';
 import { cn } from '../../styles/theme';
-import { useIsMounted } from '../../useIsMounted';
-import { useOutsideClick } from '../../useOutsideClick';
-import { useTheme } from '../../useTheme';
+import { useIsMounted } from '../../core-react/internal/hooks/useIsMounted';
+import { useOutsideClick } from '../../internal/hooks/useOutsideClick';
+import { useTheme } from '../../core-react/internal/hooks/useTheme';
 import type { WalletReact } from '../types';
 import { ConnectWallet } from './ConnectWallet';
 import { WalletDropdown } from './WalletDropdown';

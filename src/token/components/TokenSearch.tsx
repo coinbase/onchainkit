@@ -3,7 +3,7 @@ import { TextInput } from '../../internal/components/TextInput';
 import { closeSvg } from '../../internal/svg/closeSvg';
 import { searchIconSvg } from '../../internal/svg/searchIconSvg';
 import { cn, color, placeholder, pressable } from '../../styles/theme';
-import { useTheme } from '../../useTheme';
+import { useTheme } from '../../core-react/internal/hooks/useTheme';
 import type { TokenSearchReact } from '../types';
 
 export function TokenSearch({

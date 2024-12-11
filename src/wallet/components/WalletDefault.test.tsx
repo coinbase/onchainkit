@@ -6,6 +6,10 @@ import { useName } from '../../identity/hooks/useName';
 import { WalletDefault } from './WalletDefault';
 import { useWalletContext } from './WalletProvider';
 
+vi.mock('../../core-react/internal/hooks/useTheme', () => ({
+  useTheme: vi.fn(),
+}));
+
 vi.mock('../../useBreakpoints', () => ({
   useBreakpoints: vi.fn(),
 }));

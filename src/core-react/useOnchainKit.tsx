@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { OnchainKitContext } from './core-react/OnchainKitProvider';
+import { OnchainKitContext } from './OnchainKitProvider';
 
 export function useOnchainKit() {
   return useContext(OnchainKitContext);

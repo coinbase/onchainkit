@@ -4,7 +4,7 @@ import type React from 'react';
 import { baseSepolia as sepolia } from 'viem/chains';
 import { beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
 import type { Mock } from 'vitest';
-import { OnchainKitProvider } from '../../OnchainKitProvider';
+import { OnchainKitProvider } from '../../core-react/OnchainKitProvider';
 import { useAvatar } from '../hooks/useAvatar';
 import { useName } from '../hooks/useName';
 import { IdentityCard } from './IdentityCard';

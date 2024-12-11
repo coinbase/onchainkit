@@ -13,7 +13,7 @@ import {
   pressable,
   text,
 } from '../../styles/theme';
-import { useOnchainKit } from '../../useOnchainKit';
+import { useOnchainKit } from '../../core-react/useOnchainKit';
 
 type WalletModalProps = {
   isOpen: boolean;

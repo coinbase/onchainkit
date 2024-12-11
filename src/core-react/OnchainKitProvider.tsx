@@ -11,7 +11,7 @@ import { createWagmiConfig } from '../core/createWagmiConfig';
 import type { OnchainKitContextType } from '../core/types';
 import { checkHashLength } from '../core/utils/checkHashLength';
 import { COINBASE_VERIFIED_ACCOUNT_SCHEMA_ID } from '../identity/constants';
-import { useProviderDependencies } from '../useProviderDependencies';
+import { useProviderDependencies } from './internal/hooks/useProviderDependencies';
 
 export const OnchainKitContext =
   createContext<OnchainKitContextType>(ONCHAIN_KIT_CONFIG);

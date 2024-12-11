@@ -6,12 +6,11 @@ import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { http, WagmiProvider, createConfig } from 'wagmi';
 import { useConfig } from 'wagmi';
 import { mock } from 'wagmi/connectors';
-
 import { OnchainKitProvider } from './OnchainKitProvider';
 import { setOnchainKitConfig } from '../core/OnchainKitConfig';
 import type { EASSchemaUid } from '../identity/types';
-import { useOnchainKit } from '../useOnchainKit';
-import { useProviderDependencies } from '../useProviderDependencies';
+import { useOnchainKit } from './useOnchainKit';
+import { useProviderDependencies } from './internal/hooks/useProviderDependencies';
 
 vi.mock('wagmi', async (importOriginal) => {
   const actual = await importOriginal();
@@ -21,14 +20,7 @@ vi.mock('wagmi', async (importOriginal) => {
   };
 });
 
-vi.mock('./useProviderDependencies', () => ({
-  useProviderDependencies: vi.fn(() => ({
-    providedWagmiConfig: null,
-    providedQueryClient: null,
-  })),
-}));
-
-vi.mock('./useProviderDependencies', () => ({
+vi.mock('./internal/hooks/useProviderDependencies', () => ({
   useProviderDependencies: vi.fn(() => ({
     providedWagmiConfig: null,
     providedQueryClient: null,
@@ -58,7 +50,7 @@ const TestComponent = () => {
   );
 };
 
-vi.mock('./core/OnchainKitConfig', () => ({
+vi.mock('../core/OnchainKitConfig', () => ({
   setOnchainKitConfig: vi.fn(),
   ONCHAIN_KIT_CONFIG: {
     address: null,

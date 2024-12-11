@@ -1,7 +1,7 @@
 import { createContext, useContext, useState } from 'react';
 import type { ReactNode } from 'react';
 import { useValue } from '../../core-react/internal/hooks/useValue';
-import { useOnchainKit } from '../../useOnchainKit';
+import { useOnchainKit } from '../../core-react/useOnchainKit';
 import type { WalletContextType } from '../types';
 
 const emptyContext = {} as WalletContextType;

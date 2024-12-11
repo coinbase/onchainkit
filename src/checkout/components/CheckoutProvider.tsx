@@ -17,7 +17,7 @@ import { useValue } from '../../core-react/internal/hooks/useValue';
 import { getWindowDimensions } from '../../internal/utils/getWindowDimensions';
 import { openPopup } from '../../internal/utils/openPopup';
 import { isUserRejectedRequestError } from '../../transaction/utils/isUserRejectedRequestError';
-import { useOnchainKit } from '../../useOnchainKit';
+import { useOnchainKit } from '../../core-react/useOnchainKit';
 import { useIsWalletACoinbaseSmartWallet } from '../../wallet/hooks/useIsWalletACoinbaseSmartWallet';
 import {
   GENERIC_ERROR_MESSAGE,
