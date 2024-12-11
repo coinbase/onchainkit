@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import getAddressTokenBalances from '../../../internal/utils/getAddressTokenBalances';
-import { cn, color, text } from '../../../styles/theme';
+import { cn, color, border, pressable, text } from '../../../styles/theme';
 import { type Token, TokenImage } from '../../../token';
 import { useWalletContext } from '../WalletProvider';
 
@@ -85,9 +85,16 @@ export function WalletIslandTokenHoldings() {
         href="https://wallet.coinbase.com/assets"
         target="_blank"
         rel="noreferrer noopener"
-        className={cn(text.label2, color.foregroundMuted)}
+        className={cn(
+          text.label2,
+          color.foregroundMuted,
+          border.lineDefault,
+          border.radius,
+          pressable.default,
+          'w-full py-2 text-center font-semibold',
+        )}
       >
-        View All Tokens
+        View All
       </a>
     </div>
   );
