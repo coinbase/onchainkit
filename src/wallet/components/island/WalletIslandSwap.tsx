@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { backArrowSvg } from '../../../internal/svg/backArrowSvg';
 import { border, cn, pressable } from '../../../styles/theme';
 import {
@@ -31,9 +31,14 @@ export function WalletIslandSwap({
 }: SwapDefaultReact) {
   const { showSwap, setShowSwap } = useWalletIslandContext();
   const swapDivRef = useRef<HTMLDivElement>(null);
+  const [isSwapClosing, setIsSwapClosing] = useState(false);
 
   const handleCloseSwap = useCallback(() => {
-    setShowSwap(false);
+    setIsSwapClosing(true);
+    setTimeout(() => {
+      setShowSwap(false);
+      setIsSwapClosing(false);
+    }, 150);
   }, [setShowSwap]);
 
   const backButton = (
@@ -62,7 +67,11 @@ export function WalletIslandSwap({
     <div
       ref={swapDivRef}
       tabIndex={showSwap ? -1 : undefined}
-      className="animate-walletIslandContainerIn"
+      className={cn(
+        isSwapClosing
+          ? 'animate-walletIslandSwapOut'
+          : 'animate-walletIslandSwapIn',
+      )}
       data-testid="ockWalletIslandSwap"
     >
       <Swap

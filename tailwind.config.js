@@ -62,6 +62,22 @@ export default {
           '0%': { opacity: '0', transform: 'translateY(10px)' },
           '100%': { opacity: '1', transform: 'translateY(0)' },
         },
+        walletIslandQrIn: {
+          '0%': { opacity: '0', transform: 'translateX(-20px)' },
+          '100%': { opacity: '1', transform: 'translateX(0)' },
+        },
+        walletIslandQrOut: {
+          '0%': { opacity: '1', transform: 'translateX(0)' },
+          '100%': { opacity: '0', transform: 'translateX(-20px)' },
+        },
+        walletIslandSwapIn: {
+          '0%': { opacity: '0', transform: 'translateX(20px)' },
+          '100%': { opacity: '1', transform: 'translateX(0)' },
+        },
+        walletIslandSwapOut: {
+          '0%': { opacity: '1', transform: 'translateX(0)' },
+          '100%': { opacity: '0', transform: 'translateX(20px)' },
+        },
       },
       animation: {
         enterRight: 'fadeInRight 500ms ease-out',
@@ -79,6 +95,10 @@ export default {
           'walletIslandContainerItemIn 300ms cubic-bezier(0.34, 1.56, 0.64, 1) 160ms forwards',
         walletIslandContainerItem4:
           'walletIslandContainerItemIn 300ms cubic-bezier(0.34, 1.56, 0.64, 1) 190ms forwards',
+        walletIslandQrIn: 'walletIslandQrIn 300ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards',
+        walletIslandQrOut: 'walletIslandQrOut 150ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards',
+        walletIslandSwapIn: 'walletIslandSwapIn 300ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards',
+        walletIslandSwapOut: 'walletIslandSwapOut 150ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards',
       },
     },
   },
