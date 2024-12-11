@@ -1,4 +1,4 @@
-import type { TokenBalanceWithFiatValue } from '../../wallet/components/island/WalletIslandTokenHoldings';
+import type { TokenBalanceWithFiatValue } from '../../../wallet/components/island/WalletIslandTokenHoldings';
 
 const tokenBalances: TokenBalanceWithFiatValue[] = [
   {
