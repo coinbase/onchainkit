@@ -69,7 +69,7 @@ export function WalletIslandContent({ children }: WalletIslandProps) {
           className={cn(
             'flex flex-col items-center justify-center',
             'h-auto w-96',
-            'p-2',
+            'p-4',
             showQr ? '' : 'hidden',
           )}
         >
@@ -93,7 +93,7 @@ export function WalletIslandContent({ children }: WalletIslandProps) {
           className={cn(
             'flex flex-col items-center justify-center',
             'h-auto w-96',
-            'p-2',
+            'px-4 pt-3 pb-2',
             showQr || showSwap ? 'hidden' : '',
           )}
         >
