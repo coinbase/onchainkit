@@ -61,7 +61,7 @@ export function WalletIslandContent({ children }: WalletIslandProps) {
           'h-auto w-96',
           'flex items-center justify-center',
           isClosing
-            ? 'animate-walletIslandOut'
+            ? 'animate-walletIslandContainerOut'
             : 'animate-walletIslandContainerIn',
         )}
       >

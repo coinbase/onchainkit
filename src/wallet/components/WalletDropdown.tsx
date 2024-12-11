@@ -43,7 +43,7 @@ export function WalletDropdown({ children, className }: WalletDropdownReact) {
         color.foreground,
         'absolute right-0 z-10 mt-1 flex w-max min-w-[300px] cursor-default flex-col overflow-hidden rounded-xl',
         isClosing
-          ? 'animate-walletIslandOut'
+          ? 'animate-walletIslandContainerOut'
           : 'animate-walletIslandContainerIn',
         className,
       )}

@@ -32,7 +32,7 @@ export function WalletIslandWalletActions() {
     <div
       className={cn(
         'flex w-full items-center justify-between',
-        'animate-walletIslandItem1 opacity-0',
+        'animate-walletIslandContainerItem1 opacity-0',
       )}
     >
       <div className="flex items-center">

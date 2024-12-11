@@ -16,7 +16,7 @@ export function WalletIslandTransactionActions() {
     <div
       className={cn(
         'my-3 flex w-full flex-row justify-center gap-2',
-        'animate-walletIslandItem3 opacity-0',
+        'animate-walletIslandContainerItem3 opacity-0',
       )}
     >
       <WalletIslandTransactionAction

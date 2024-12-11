@@ -54,13 +54,13 @@ export default {
           '0%': { opacity: '0', transform: 'translateY(-10px)' },
           '100%': { opacity: '1', transform: 'translateY(0)' },
         },
-        walletIslandItemIn: {
-          '0%': { opacity: '0', transform: 'translateY(10px)' },
-          '100%': { opacity: '1', transform: 'translateY(0)' },
-        },
-        walletIslandOut: {
+        walletIslandContainerOut: {
           '0%': { opacity: '1', transform: 'translateY(0)' },
           '100%': { opacity: '0', transform: 'translateY(-10px)' },
+        },
+        walletIslandContainerItemIn: {
+          '0%': { opacity: '0', transform: 'translateY(10px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
         },
       },
       animation: {
@@ -70,15 +70,15 @@ export default {
         fadeIn: 'fadeIn 100ms ease-out',
         fadeOut: 'fadeOut 100ms ease-in',
         walletIslandContainerIn: 'walletIslandContainerIn 300ms ease-out',
-        walletIslandItem1:
-          'walletIslandItemIn 300ms cubic-bezier(0.34, 1.56, 0.64, 1) 100ms forwards',
-        walletIslandItem2:
-          'walletIslandItemIn 300ms cubic-bezier(0.34, 1.56, 0.64, 1) 130ms forwards',
-        walletIslandItem3:
-          'walletIslandItemIn 300ms cubic-bezier(0.34, 1.56, 0.64, 1) 160ms forwards',
-        walletIslandItem4:
-          'walletIslandItemIn 300ms cubic-bezier(0.34, 1.56, 0.64, 1) 190ms forwards',
-        walletIslandOut: 'walletIslandOut 300ms forwards',
+        walletIslandContainerOut: 'walletIslandContainerOut 300ms forwards',
+        walletIslandContainerItem1:
+          'walletIslandContainerItemIn 300ms cubic-bezier(0.34, 1.56, 0.64, 1) 100ms forwards',
+        walletIslandContainerItem2:
+          'walletIslandContainerItemIn 300ms cubic-bezier(0.34, 1.56, 0.64, 1) 130ms forwards',
+        walletIslandContainerItem3:
+          'walletIslandContainerItemIn 300ms cubic-bezier(0.34, 1.56, 0.64, 1) 160ms forwards',
+        walletIslandContainerItem4:
+          'walletIslandContainerItemIn 300ms cubic-bezier(0.34, 1.56, 0.64, 1) 190ms forwards',
       },
     },
   },
