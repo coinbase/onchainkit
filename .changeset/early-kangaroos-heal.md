@@ -1,5 +1,5 @@
 ---
-'@coinbase/onchainkit': patch
+'@coinbase/onchainkit': minor
 ---
 
 -**feat**: Improved funding flow in `Checkout` by @0xAlec #1692
@@ -10,3 +10,7 @@
 -**feat**: Updated `WalletModal` to support MetaMask wallet connection. By @cpcramer #1701
 -**fix**: Fixed changelog generation. @dschlabach #1680
 -**docs**: Documentation updates and improvements. @brendan-defi @0xAlec @dschlabach #1690 #1685
+
+Breaking Changes:
+
+- `Farcaster Frames` including `Framegear`, `Frames`, `XMTP`, and `Neynar` is no longer supported.
