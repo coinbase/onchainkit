@@ -32,8 +32,9 @@ vi.mock('@rainbow-me/rainbowkit', () => ({
   ConnectButton: {
     Custom: ({
       children,
-    }: { children: (props: { openConnectModal: () => void }) => ReactNode }) =>
-      children({ openConnectModal: openConnectModalMock }),
+    }: {
+      children: (props: { openConnectModal: () => void }) => ReactNode;
+    }) => children({ openConnectModal: openConnectModalMock }),
   },
 }));
 
@@ -54,6 +55,7 @@ describe('ConnectWallet', () => {
     });
     vi.mocked(useWalletContext).mockReturnValue({
       isOpen: false,
+      handleClose: vi.fn(),
       setIsOpen: vi.fn(),
     });
     vi.mocked(useOnchainKit).mockReturnValue({
@@ -119,6 +121,7 @@ describe('ConnectWallet', () => {
 
   it('should toggle wallet modal on button click when connected', () => {
     const setIsOpenMock = vi.fn();
+    const handleCloseMock = vi.fn();
     vi.mocked(useAccount).mockReturnValue({
       address: '0x123',
       status: 'connected',
@@ -126,8 +129,10 @@ describe('ConnectWallet', () => {
     vi.mocked(useWalletContext).mockReturnValue({
       isOpen: false,
       setIsOpen: setIsOpenMock,
+      handleClose: handleCloseMock,
     });
-    render(
+
+    const { rerender } = render(
       <ConnectWallet text="Connect Wallet">
         <div>Wallet Connected</div>
       </ConnectWallet>,
@@ -135,12 +140,27 @@ describe('ConnectWallet', () => {
     const button = screen.getByText('Wallet Connected');
     fireEvent.click(button);
     expect(setIsOpenMock).toHaveBeenCalledWith(true);
+
+    vi.mocked(useWalletContext).mockReturnValue({
+      isOpen: true,
+      setIsOpen: setIsOpenMock,
+      handleClose: handleCloseMock,
+    });
+
+    rerender(
+      <ConnectWallet text="Connect Wallet">
+        <div>Wallet Connected</div>
+      </ConnectWallet>,
+    );
+
+    fireEvent.click(button);
+    expect(handleCloseMock).toHaveBeenCalled();
   });
 
   it('applies ock-bg-secondary-active class when isOpen is true', () => {
     vi.mocked(useWalletContext).mockReturnValue({
       isOpen: true,
-      setIsOpen: vi.fn(),
+      handleClose: vi.fn(),
     });
     vi.mocked(useAccount).mockReturnValue({
       address: '0x123',
