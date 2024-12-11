@@ -73,7 +73,7 @@ function ComponentPreview() {
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
   const [activeTab, setActiveTab] = useState(0);
   const [activeSubTab, setActiveSubTab] = useState<'preview' | 'code'>(
-    'preview'
+    'preview',
   );
   const { theme } = useTheme();
 
@@ -186,7 +186,7 @@ function PreviewContainer({
 
   useEffect(() => {
     getHighlightedCode({ code: components[activeTab].code, theme }).then(
-      setHighlightedCode
+      setHighlightedCode,
     );
   }, [activeTab, theme]);
 

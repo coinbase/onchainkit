@@ -1,6 +1,6 @@
-import App from '../App.tsx';
-import { base } from 'viem/chains';
 import { IdentityCard } from '@coinbase/onchainkit/identity';
+import { base } from 'viem/chains';
+import App from '../App.tsx';
 
 export const identityCardDemoCode = `
   import { IdentityCard } from '@coinbase/onchainkit/identity';
