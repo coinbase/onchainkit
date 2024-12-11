@@ -15,8 +15,8 @@ import { NFTOwner } from './NFTOwner';
 
 vi.mock('../../../core-react/useOnchainKit');
 vi.mock('../NFTProvider');
-vi.mock('../../../identity', async () => ({
-  ...(await vi.importActual('../../../identity')),
+vi.mock('../../../ui/react/identity', async () => ({
+  ...(await vi.importActual('../../../ui/react/identity')),
   Identity: ({ className, address }) => (
     <div className={className}>{address}</div>
   ),

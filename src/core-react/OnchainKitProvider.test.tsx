@@ -7,8 +7,8 @@ import { http, WagmiProvider, createConfig } from 'wagmi';
 import { useConfig } from 'wagmi';
 import { mock } from 'wagmi/connectors';
 import { setOnchainKitConfig } from '../core/OnchainKitConfig';
-import type { EASSchemaUid } from '../identity/types';
 import { OnchainKitProvider } from './OnchainKitProvider';
+import type { EASSchemaUid } from './identity/types';
 import { useProviderDependencies } from './internal/hooks/useProviderDependencies';
 import { useOnchainKit } from './useOnchainKit';
 

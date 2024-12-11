@@ -6,8 +6,8 @@ import {
   useMemo,
 } from 'react';
 import { useAccount } from 'wagmi';
-import { Identity } from '../../identity/components/Identity';
 import { background, cn } from '../../styles/theme';
+import { Identity } from '../../ui/react/identity/components/Identity';
 import type { WalletBottomSheetReact } from '../types';
 import { useWalletContext } from './WalletProvider';
 
