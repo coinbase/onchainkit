@@ -48,7 +48,7 @@ export function WalletIslandWalletActions() {
             'flex items-center justify-center p-1',
           )}
         >
-          {clockSvg}
+          <div className="scale-125">{clockSvg}</div>
         </a>
         <button
           data-testid="ockWalletIsland_QrButton"
@@ -61,7 +61,7 @@ export function WalletIslandWalletActions() {
             'flex items-center justify-center p-1',
           )}
         >
-          {qrIconSvg}
+          <div className="scale-125">{qrIconSvg}</div>
         </button>
       </div>
       <div className="flex items-center gap-1">
@@ -76,7 +76,7 @@ export function WalletIslandWalletActions() {
             'flex items-center justify-center p-1',
           )}
         >
-          {disconnectSvg}
+          <div className="scale-125">{disconnectSvg}</div>
         </button>
         <button
           data-testid="ockWalletIsland_CollapseButton"
@@ -89,7 +89,7 @@ export function WalletIslandWalletActions() {
             'flex items-center justify-center p-1',
           )}
         >
-          {collapseSvg}
+          <div className="scale-125">{collapseSvg}</div>
         </button>
       </div>
     </div>

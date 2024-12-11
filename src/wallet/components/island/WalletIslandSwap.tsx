@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { backArrowSvg } from '../../../internal/svg/backArrowSvg';
-import { border, cn, pressable } from '../../../styles/theme';
+import { border, cn, pressable, text } from '../../../styles/theme';
 import {
   Swap,
   SwapAmountInput,
@@ -26,7 +26,7 @@ export function WalletIslandSwap({
   onError,
   onStatus,
   onSuccess,
-  title = 'Swap',
+  title = <span className={cn(text.headline, 'text-base')}>Swap</span>,
   to,
 }: SwapDefaultReact) {
   const { showSwap, setShowSwap } = useWalletIslandContext();
@@ -53,7 +53,7 @@ export function WalletIslandSwap({
       )}
       aria-label="Back button"
     >
-      {backArrowSvg}
+      <div className="scale-125">{backArrowSvg}</div>
     </button>
   );
 

@@ -85,7 +85,7 @@ export function WalletIslandQrReceive() {
           )}
           aria-label="Back"
         >
-          {backArrowSvg}
+          <div className="scale-125">{backArrowSvg}</div>
         </button>
         <span>Scan to receive</span>
         <div className="group relative">
@@ -100,7 +100,7 @@ export function WalletIslandQrReceive() {
             )}
             aria-label="Copy icon"
           >
-            {copySvg}
+            <div className="scale-125">{copySvg}</div>
           </button>
           <button
             type="button"
