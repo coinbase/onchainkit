@@ -32,9 +32,9 @@ export function WalletIslandContent({ children }: WalletIslandProps) {
       }
 
       if (windowHeight - rect.bottom < WALLET_ISLAND_HEIGHT) {
-        yPos = rect.bottom - WALLET_ISLAND_HEIGHT - rect.height - 5;
+        yPos = rect.bottom - WALLET_ISLAND_HEIGHT - rect.height - 10;
       } else {
-        yPos = rect.bottom + 5;
+        yPos = rect.bottom + 10;
       }
 
       return {

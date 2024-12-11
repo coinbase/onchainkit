@@ -10,36 +10,6 @@ type TransactionActionProps = {
   action: () => void;
 };
 
-function WalletIslandTransactionAction({
-  icon,
-  label,
-  action,
-}: TransactionActionProps) {
-  return (
-    <button
-      type="button"
-      className={cn(
-        'flex flex-col items-center justify-center gap-1',
-        'h-16 w-28',
-        'rounded-lg',
-        pressable.alternate,
-      )}
-      onClick={action}
-    >
-      <span className="h-4 w-4">{icon}</span>
-      <span
-        className={cn(
-          text.label1,
-          color.foreground,
-          'flex flex-col justify-center',
-        )}
-      >
-        {label}
-      </span>
-    </button>
-  );
-}
-
 export function WalletIslandTransactionActions() {
   const { setShowSwap } = useWalletIslandContext();
   return (
@@ -71,5 +41,38 @@ export function WalletIslandTransactionActions() {
         }}
       />
     </div>
+  );
+}
+
+
+function WalletIslandTransactionAction({
+  icon,
+  label,
+  action,
+}: TransactionActionProps) {
+  return (
+    <button
+      type="button"
+      className={cn(
+        'flex flex-col items-center justify-center gap-2 pt-2.5 pb-2',
+        'h-16 w-28',
+        'rounded-lg',
+        pressable.alternate,
+      )}
+      onClick={action}
+    >
+      <span className="flex h-4 w-4 flex-col items-center justify-center">
+        {icon}
+      </span>
+      <span
+        className={cn(
+          text.label2,
+          color.foreground,
+          'flex flex-col justify-center',
+        )}
+      >
+        {label}
+      </span>
+    </button>
   );
 }
