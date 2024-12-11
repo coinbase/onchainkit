@@ -6,8 +6,8 @@ import {
   useContext,
   useState,
 } from 'react';
-import useAddressTokenHoldings from '../../../internal/hooks/useAddressTokenHoldings';
-import { useValue } from '../../../internal/hooks/useValue';
+import { useAddressTokenHoldings } from '../../../core-react/internal/hooks/useAddressTokenHoldings';
+import { useValue } from '../../../core-react/internal/hooks/useValue';
 import type { TokenBalanceWithFiatValue } from './WalletIslandTokenHoldings';
 
 export type WalletIslandContextType = {

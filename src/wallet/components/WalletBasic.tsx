@@ -1,5 +1,5 @@
 import { Children, useMemo } from 'react';
-import { findComponent } from '../../internal/utils/findComponent';
+import { findComponent } from '../../core-react/internal/utils/findComponent';
 import { cn } from '../../styles/theme';
 import type { WalletReact } from '../types';
 import { ConnectWallet } from './ConnectWallet';
