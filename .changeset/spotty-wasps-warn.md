@@ -2,4 +2,4 @@
 '@coinbase/onchainkit': patch
 ---
 
--**docs**: Update Idendity component preview'
+-**docs**: Updated `Identity` component preview. By @cpcramer #1717
