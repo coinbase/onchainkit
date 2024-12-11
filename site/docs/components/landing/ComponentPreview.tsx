@@ -8,7 +8,7 @@ import { getHighlightedCode } from './getHighlightedCode.tsx';
 // Demo components and code snippets
 import CheckoutDemo, { checkoutDemoCode } from './CheckoutDemo.tsx';
 import FundDemo, { fundDemoCode } from './FundDemo.tsx';
-import IdentityDemo, { identityDemoCode } from './IdentityDemo.tsx';
+import IdentityCardDemo, { identityCardDemoCode } from './IdentityCardDemo.tsx';
 import NftMintCardDemo, { nftMintCardDemoCode } from './NftMintCardDemo.tsx';
 import SwapDemo, { swapDemoCode } from './SwapDemo.tsx';
 import TransactionDemo, { transactionDemoCode } from './TransactionDemo.tsx';
@@ -60,11 +60,11 @@ const components: Component[] = [
     description: 'Fund wallets with a debit card or a coinbase account.',
   },
   {
-    name: 'Identity',
-    component: IdentityDemo,
-    code: identityDemoCode,
+    name: 'Identity Card',
+    component: IdentityCardDemo,
+    code: identityCardDemoCode,
     description:
-      'Display the Basename, avatar, and address associated with a wallet.',
+      'Display the Basename, avatar, address, and social media links associated with a wallet.',
   },
 ];
 
@@ -73,7 +73,7 @@ function ComponentPreview() {
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
   const [activeTab, setActiveTab] = useState(0);
   const [activeSubTab, setActiveSubTab] = useState<'preview' | 'code'>(
-    'preview',
+    'preview'
   );
   const { theme } = useTheme();
 
@@ -186,7 +186,7 @@ function PreviewContainer({
 
   useEffect(() => {
     getHighlightedCode({ code: components[activeTab].code, theme }).then(
-      setHighlightedCode,
+      setHighlightedCode
     );
   }, [activeTab, theme]);
 
