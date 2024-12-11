@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useOnchainKit } from '../../../useOnchainKit';
+import { useOnchainKit } from '../../../core-react/useOnchainKit';
 import {
   GRADIENT_END_COORDINATES,
   GRADIENT_START_COORDINATES,
