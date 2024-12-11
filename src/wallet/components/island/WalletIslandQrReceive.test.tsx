@@ -90,6 +90,8 @@ describe('WalletIslandQrReceive', () => {
   });
 
   it('should close when the back button is clicked', () => {
+    vi.useFakeTimers();
+
     const setShowQrMock = vi.fn();
     mockUseWalletIslandContext.mockReturnValue({
       showQr: true,
@@ -99,7 +101,11 @@ describe('WalletIslandQrReceive', () => {
     render(<WalletIslandQrReceive />);
     const backButton = screen.getByRole('button', { name: /back/i });
     fireEvent.click(backButton);
+
+    vi.advanceTimersByTime(150);
     expect(setShowQrMock).toHaveBeenCalledWith(false);
+
+    vi.useRealTimers();
   });
 
   it('should copy address when the copy icon is clicked', async () => {
