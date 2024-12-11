@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom';
-import { setOnchainKitConfig } from '@core/OnchainKitConfig';
+import { setOnchainKitConfig } from '@/core/OnchainKitConfig';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { render, screen, waitFor } from '@testing-library/react';
 import { base } from 'viem/chains';

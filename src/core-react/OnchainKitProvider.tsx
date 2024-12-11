@@ -5,7 +5,7 @@ import { WagmiProvider } from 'wagmi';
 import {
   ONCHAIN_KIT_CONFIG,
   setOnchainKitConfig,
-} from '@core/OnchainKitConfig';
+} from '@/core/OnchainKitConfig';
 import { DEFAULT_PRIVACY_URL, DEFAULT_TERMS_URL } from '../core/constants';
 import { createWagmiConfig } from '../core/createWagmiConfig';
 import type { OnchainKitContextType } from '../core/types';
