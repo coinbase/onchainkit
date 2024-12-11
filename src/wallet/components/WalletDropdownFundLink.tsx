@@ -2,7 +2,7 @@ import { useCallback, useMemo } from 'react';
 import { useIcon } from '../../core-react/internal/hooks/useIcon';
 import { useGetFundingUrl } from '../../fund/hooks/useGetFundingUrl';
 import { getFundingPopupSize } from '../../fund/utils/getFundingPopupSize';
-import { openPopup } from '../../internal/utils/openPopup';
+import { openPopup } from '../../ui/react/internal/utils/openPopup';
 import { cn, color, pressable, text as themeText } from '../../styles/theme';
 import type { WalletDropdownFundLinkReact } from '../types';
 
