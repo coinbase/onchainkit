@@ -2,9 +2,9 @@ import { render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { ConnectWallet } from './ConnectWallet';
 import { Wallet } from './Wallet';
+import { WalletBasic } from './WalletBasic';
 import { WalletDropdown } from './WalletDropdown';
 import { useWalletContext } from './WalletProvider';
-import { WalletBasic } from './WalletBasic';
 
 vi.mock('./WalletProvider', () => ({
   useWalletContext: vi.fn(),

@@ -1,11 +1,11 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { WalletIslandSwap } from './WalletIslandSwap';
+import { useAccount } from 'wagmi';
+import { useSwapContext } from '../../../swap/components/SwapProvider';
+import type { Token } from '../../../token';
 import { useWalletContext } from '../WalletProvider';
 import { useWalletIslandContext } from './WalletIslandProvider';
-import { useSwapContext } from '../../../swap/components/SwapProvider';
-import { useAccount } from 'wagmi';
-import type { Token } from '../../../token';
+import { WalletIslandSwap } from './WalletIslandSwap';
 
 const tokens = [
   {
