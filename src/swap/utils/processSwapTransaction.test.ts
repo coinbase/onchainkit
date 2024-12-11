@@ -2,8 +2,9 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { http, createConfig } from 'wagmi';
 import { base } from 'wagmi/chains';
 import { mock } from 'wagmi/connectors';
-import type { BuildSwapTransaction } from '../../api/types';
-import { Capabilities } from '../../constants';
+
+import type { BuildSwapTransaction } from '../../core/api/types';
+import { Capabilities } from '../../core/constants';
 import { PERMIT2_CONTRACT_ADDRESS } from '../constants';
 import { DEGEN_TOKEN, ETH_TOKEN, USDC_TOKEN } from '../mocks';
 import { processSwapTransaction } from './processSwapTransaction';

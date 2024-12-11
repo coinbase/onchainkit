@@ -1,6 +1,5 @@
-import type { ReactNode } from 'react';
 import type { Address, Chain } from 'viem';
-import type { EASSchemaUid } from './identity/types';
+import type { EASSchemaUid } from '../identity/types';
 
 /**
  * Note: exported as public Type
@@ -81,20 +80,6 @@ export type SetOnchainKitConfig = Partial<OnchainKitConfig>;
  * Note: exported as public Type
  */
 export type OnchainKitContextType = OnchainKitConfig;
-
-/**
- * Note: exported as public Type
- */
-export type OnchainKitProviderReact = {
-  address?: Address;
-  apiKey?: string;
-  chain: Chain;
-  children: ReactNode;
-  config?: AppConfig;
-  rpcUrl?: string;
-  schemaId?: EASSchemaUid;
-  projectId?: string;
-};
 
 export type UseCapabilitiesSafeParams = {
   chainId: number;

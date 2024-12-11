@@ -6,8 +6,9 @@ import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { http, WagmiProvider, createConfig } from 'wagmi';
 import { useConfig } from 'wagmi';
 import { mock } from 'wagmi/connectors';
-import { setOnchainKitConfig } from './OnchainKitConfig';
+
 import { OnchainKitProvider } from './OnchainKitProvider';
+import { setOnchainKitConfig } from './core/OnchainKitConfig';
 import type { EASSchemaUid } from './identity/types';
 import { useOnchainKit } from './useOnchainKit';
 import { useProviderDependencies } from './useProviderDependencies';
@@ -57,7 +58,7 @@ const TestComponent = () => {
   );
 };
 
-vi.mock('./OnchainKitConfig', () => ({
+vi.mock('./core/OnchainKitConfig', () => ({
   setOnchainKitConfig: vi.fn(),
   ONCHAIN_KIT_CONFIG: {
     address: null,

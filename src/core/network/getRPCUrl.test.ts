@@ -1,9 +1,6 @@
 import { baseSepolia } from 'viem/chains';
 import { describe, expect, it } from 'vitest';
-import {
-  getOnchainKitConfig,
-  setOnchainKitConfig,
-} from '../../OnchainKitConfig';
+import { getOnchainKitConfig, setOnchainKitConfig } from '../OnchainKitConfig';
 import { getRPCUrl } from './getRPCUrl';
 
 describe('OnchainKitConfig RPC URL', () => {

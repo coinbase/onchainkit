@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom';
 import { render } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
-import { setOnchainKitConfig } from './OnchainKitConfig';
+import { setOnchainKitConfig } from './core/OnchainKitConfig';
 import { useOnchainKit } from './useOnchainKit';
 
 const TestComponent = () => {

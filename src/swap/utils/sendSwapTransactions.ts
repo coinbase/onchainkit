@@ -1,4 +1,4 @@
-import { Capabilities } from '../../constants';
+import { Capabilities } from '../../core/constants';
 import type { SendSwapTransactionParams } from '../types';
 import { sendSingleTransactions } from './sendSingleTransactions';
 
