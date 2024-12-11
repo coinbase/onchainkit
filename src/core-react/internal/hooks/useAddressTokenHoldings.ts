@@ -29,6 +29,6 @@ const tokenBalances: TokenBalanceWithFiatValue[] = [
   },
 ];
 
-export default function useAddressTokenHoldings() {
+export function useAddressTokenHoldings() {
   return tokenBalances;
 }
