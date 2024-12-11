@@ -1,10 +1,9 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useDisconnect } from 'wagmi';
-import { disconnect } from 'wagmi/actions';
 import { useWalletContext } from '../WalletProvider';
-import { WalletIslandWalletActions } from './WalletIslandWalletActions';
 import { useWalletIslandContext } from './WalletIslandProvider';
+import { WalletIslandWalletActions } from './WalletIslandWalletActions';
 
 vi.mock('wagmi', () => ({
   useDisconnect: vi.fn(),

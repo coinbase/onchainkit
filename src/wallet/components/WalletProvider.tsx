@@ -6,6 +6,7 @@ import {
   useState,
 } from 'react';
 import type { ReactNode } from 'react';
+import { useAccount } from 'wagmi';
 import { useValue } from '../../core-react/internal/hooks/useValue';
 import { useOnchainKit } from '../../core-react/useOnchainKit';
 import type { WalletContextType } from '../types';

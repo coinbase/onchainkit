@@ -1,13 +1,8 @@
-import {
-  act,
-  fireEvent,
-  render,
-  screen,
-} from '@testing-library/react';
+import { act, fireEvent, render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { WalletIslandQrReceive } from './WalletIslandQrReceive';
 import { useWalletContext } from '../WalletProvider';
 import { useWalletIslandContext } from './WalletIslandProvider';
+import { WalletIslandQrReceive } from './WalletIslandQrReceive';
 
 vi.mock('../../../useTheme', () => ({
   useTheme: vi.fn(),
@@ -246,7 +241,9 @@ describe('WalletIslandQrReceive', () => {
       await vi.runAllTimersAsync();
     });
 
-    expect(mockSetCopyButtonText).toHaveBeenCalledWith('Failed to copy address');
+    expect(mockSetCopyButtonText).toHaveBeenCalledWith(
+      'Failed to copy address',
+    );
 
     vi.useRealTimers();
   });
