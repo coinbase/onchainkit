@@ -78,6 +78,7 @@ export function WalletIslandQrReceive() {
             border.default,
             'flex items-center justify-center p-3',
           )}
+          aria-label="Back"
         >
           {backArrowSvg}
         </button>
@@ -92,6 +93,7 @@ export function WalletIslandQrReceive() {
               border.default,
               'flex items-center justify-center p-3',
             )}
+            aria-label="Copy icon"
           >
             {copySvg}
           </button>
@@ -107,6 +109,7 @@ export function WalletIslandQrReceive() {
               'absolute top-full right-[0%] z-10 mt-0.5 px-1.5 py-0.5 opacity-0 transition-opacity group-hover:opacity-100',
             )}
             aria-live="polite"
+            aria-label="Copy tooltip"
           >
             {copyText}
           </button>
@@ -119,6 +122,7 @@ export function WalletIslandQrReceive() {
         type="button"
         className={cn(border.radius, pressable.alternate, 'w-full p-3')}
         onClick={() => handleCopyAddress('button')}
+        aria-label="Copy button"
       >
         <span>{copyButtonText}</span>
       </button>

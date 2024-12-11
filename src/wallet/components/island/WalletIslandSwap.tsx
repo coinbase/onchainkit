@@ -46,6 +46,7 @@ export function WalletIslandSwap({
         border.default,
         'flex items-center justify-center p-3',
       )}
+      aria-label="Back button"
     >
       {backArrowSvg}
     </button>
@@ -62,6 +63,7 @@ export function WalletIslandSwap({
       ref={swapDivRef}
       tabIndex={showSwap ? -1 : undefined}
       className="animate-walletIslandContainerIn"
+      data-testid="ockWalletIslandSwap"
     >
       <Swap
         className={className}
