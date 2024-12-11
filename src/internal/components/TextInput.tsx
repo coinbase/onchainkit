@@ -13,6 +13,7 @@ type TextInputReact = {
   setValue: (s: string) => void;
   value: string;
   inputValidator?: (s: string) => boolean;
+  style?: React.CSSProperties;
 };
 
 export function TextInput({
@@ -26,6 +27,7 @@ export function TextInput({
   setValue,
   value,
   inputValidator = () => true,
+  style,
 }: TextInputReact) {
   const handleDebounce = useDebounce((value) => {
     onChange(value);
@@ -44,11 +46,12 @@ export function TextInput({
         }
       }
     },
-    [onChange, handleDebounce, delayMs, setValue, inputValidator],
+    [onChange, handleDebounce, delayMs, setValue, inputValidator]
   );
 
   return (
     <input
+      style={style}
       aria-label={ariaLabel}
       data-testid="ockTextInput_Input"
       type="text"
