@@ -30,7 +30,7 @@ export function AddressDetails() {
         'mt-2 flex flex-col items-center justify-center',
         color.foreground,
         text.body,
-        'animate-walletIslandItem2 opacity-0',
+        'animate-walletIslandContainerItem2 opacity-0',
       )}
     >
       <div className="h-10 w-10">
@@ -67,7 +67,7 @@ export function AddressDetails() {
           {copyText}
         </button>
       </div>
-      <div className={cn(text.title1, 'mt-1')}>
+      <div className={cn(text.title1, 'mt-1 font-normal')}>
         <AddressBalance address={address} chain={chain} />
       </div>
     </div>

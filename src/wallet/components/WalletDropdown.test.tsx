@@ -106,6 +106,6 @@ describe('WalletDropdown', () => {
 
     useWalletContextMock.mockReturnValue({ isOpen: true, isClosing: true });
     rerender(<WalletDropdown>Content</WalletDropdown>);
-    expect(dropdown).toHaveClass('animate-walletIslandOut');
+    expect(dropdown).toHaveClass('animate-walletIslandContainerOut');
   });
 });
