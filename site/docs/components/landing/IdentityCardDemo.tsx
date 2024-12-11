@@ -24,7 +24,6 @@ function IdentityCardDemo() {
         address="0x849151d7D0bF1F34b70d5caD5149D28CC2308bf1"
         chain={base}
         schemaId="0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9"
-        className="rounded-lg bg-gray-100 px-4 py-2 dark:bg-gray-900"
       />
     </App>
   );
