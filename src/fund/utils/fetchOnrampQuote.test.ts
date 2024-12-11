@@ -1,7 +1,7 @@
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
-import { setOnchainKitConfig } from '../../OnchainKitConfig';
 import { ONRAMP_API_BASE_URL } from '../constants';
 import { fetchOnrampQuote } from './fetchOnrampQuote';
+import { setOnchainKitConfig } from '../../core/OnchainKitConfig';
 
 const mockApiKey = 'test-api-key';
 const mockPurchaseCurrency = 'BTC';
