@@ -9,37 +9,42 @@ import { base } from 'viem/chains';
 import { useAccount, useConfig, useSendTransaction } from 'wagmi';
 import { useSwitchChain } from 'wagmi';
 import { useSendCalls } from 'wagmi/experimental';
-import { useCapabilitiesSafe } from '../../core-react/internal/hooks/useCapabilitiesSafe';
-import { useValue } from '../../core-react/internal/hooks/useValue';
-import { buildSwapTransaction } from '../../core/api/buildSwapTransaction';
-import { getSwapQuote } from '../../core/api/getSwapQuote';
-import { formatTokenAmount } from '../../core/utils/formatTokenAmount';
-import type { Token } from '../../token';
+import { buildSwapTransaction } from '../../api/buildSwapTransaction';
+import { getSwapQuote } from '../../api/getSwapQuote';
+import { useCapabilitiesSafe } from '../../internal/hooks/useCapabilitiesSafe';
+import { useValue } from '../../internal/hooks/useValue';
+import { formatTokenAmount } from '../../internal/utils/formatTokenAmount';
 import { GENERIC_ERROR_MESSAGE } from '../../transaction/constants';
 import { isUserRejectedRequestError } from '../../transaction/utils/isUserRejectedRequestError';
 import { useOnchainKit } from '../../useOnchainKit';
 import { FALLBACK_DEFAULT_MAX_SLIPPAGE } from '../constants';
 import { useAwaitCalls } from '../hooks/useAwaitCalls';
-import { useFromTo } from '../hooks/useFromTo';
+import { useFundSwapTokens } from '../hooks/useFundSwapTokens';
 import { useLifecycleStatus } from '../hooks/useLifecycleStatus';
-import { useResetInputs } from '../hooks/useResetInputs';
-import type { SwapContextType, SwapProviderReact } from '../types';
+import { useResetFundSwapInputs } from '../hooks/useResetFundSwapInputs';
+import type {
+  FundSwapContextType,
+  FundSwapProviderReact,
+  SwapUnit,
+} from '../types';
 import { isSwapError } from '../utils/isSwapError';
 import { processSwapTransaction } from '../utils/processSwapTransaction';
 
-const emptyContext = {} as SwapContextType;
+const emptyContext = {} as FundSwapContextType;
 
-export const SwapContext = createContext<SwapContextType>(emptyContext);
+export const FundSwapContext = createContext<FundSwapContextType>(emptyContext);
 
-export function useSwapContext() {
-  const context = useContext(SwapContext);
+export function useFundSwapContext() {
+  const context = useContext(FundSwapContext);
   if (context === emptyContext) {
-    throw new Error('useSwapContext must be used within a Swap component');
+    throw new Error(
+      'useFundSwapContext must be used within a FundSwap component',
+    );
   }
   return context;
 }
 
-export function SwapProvider({
+export function FundSwapProvider({
   children,
   config = {
     maxSlippage: FALLBACK_DEFAULT_MAX_SLIPPAGE,
@@ -49,7 +54,8 @@ export function SwapProvider({
   onError,
   onStatus,
   onSuccess,
-}: SwapProviderReact) {
+  toToken,
+}: FundSwapProviderReact) {
   const {
     config: { paymaster } = { paymaster: undefined },
   } = useOnchainKit();
@@ -59,6 +65,7 @@ export function SwapProvider({
   const { useAggregator } = experimental;
   // Core Hooks
   const accountConfig = useConfig();
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const walletCapabilities = useCapabilitiesSafe({
     chainId: base.id,
@@ -71,15 +78,14 @@ export function SwapProvider({
     },
   }); // Component lifecycle
 
-  const [isToastVisible, setIsToastVisible] = useState(false);
   const [transactionHash, setTransactionHash] = useState('');
   const [hasHandledSuccess, setHasHandledSuccess] = useState(false);
-  const { from, to } = useFromTo(address);
+  const { fromETH, fromUSDC, to } = useFundSwapTokens(toToken, address);
   const { sendTransactionAsync } = useSendTransaction(); // Sending the transaction (and approval, if applicable)
   const { sendCallsAsync } = useSendCalls(); // Atomic Batch transactions (and approval, if applicable)
 
   // Refreshes balances and inputs post-swap
-  const resetInputs = useResetInputs({ from, to });
+  const resetInputs = useResetFundSwapInputs({ fromETH, fromUSDC, to });
   // For batched transactions, listens to and awaits calls from the Wallet server
   const awaitCallsStatus = useAwaitCalls({
     accountConfig,
@@ -100,7 +106,6 @@ export function SwapProvider({
         lifecycleStatus.statusData.transactionReceipt?.transactionHash,
       );
       setHasHandledSuccess(true);
-      setIsToastVisible(true);
     }
     // Emit Status
     onStatus?.(lifecycleStatus);
@@ -141,16 +146,24 @@ export function SwapProvider({
   ]);
 
   useEffect(() => {
+    let timer: NodeJS.Timeout;
     // Reset status to init after success has been handled
     if (lifecycleStatus.statusName === 'success' && hasHandledSuccess) {
-      updateLifecycleStatus({
-        statusName: 'init',
-        statusData: {
-          isMissingRequiredField: true,
-          maxSlippage: config.maxSlippage,
-        },
-      });
+      timer = setTimeout(() => {
+        updateLifecycleStatus({
+          statusName: 'init',
+          statusData: {
+            isMissingRequiredField: true,
+            maxSlippage: config.maxSlippage,
+          },
+        });
+      }, 3000);
     }
+    return () => {
+      if (timer) {
+        return clearTimeout(timer);
+      }
+    };
   }, [
     config.maxSlippage,
     hasHandledSuccess,
@@ -158,73 +171,50 @@ export function SwapProvider({
     updateLifecycleStatus,
   ]);
 
-  const handleToggle = useCallback(() => {
-    from.setAmount(to.amount);
-    to.setAmount(from.amount);
-    from.setToken?.(to.token);
-    to.setToken?.(from.token);
-
-    updateLifecycleStatus({
-      statusName: 'amountChange',
-      statusData: {
-        amountFrom: from.amount,
-        amountTo: to.amount,
-        tokenFrom: from.token,
-        tokenTo: to.token,
-        // token is missing
-        isMissingRequiredField:
-          !from.token || !to.token || !from.amount || !to.amount,
-      },
-    });
-  }, [from, to, updateLifecycleStatus]);
-
   const handleAmountChange = useCallback(
     async (
-      type: 'from' | 'to',
       amount: string,
-      sToken?: Token,
-      dToken?: Token,
       // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO Refactor this component
     ) => {
-      const source = type === 'from' ? from : to;
-      const destination = type === 'from' ? to : from;
-
-      source.token = sToken ?? source.token;
-      destination.token = dToken ?? destination.token;
-
-      // if token is missing alert user via isMissingRequiredField
-      if (source.token === undefined || destination.token === undefined) {
+      if (
+        to.token === undefined ||
+        fromETH.token === undefined ||
+        fromUSDC.token === undefined
+      ) {
         updateLifecycleStatus({
           statusName: 'amountChange',
           statusData: {
-            amountFrom: from.amount,
+            amountETH: fromETH.amount,
+            amountUSDC: fromUSDC.amount,
             amountTo: to.amount,
-            tokenFrom: from.token,
             tokenTo: to.token,
-            // token is missing
             isMissingRequiredField: true,
           },
         });
         return;
       }
+
       if (amount === '' || amount === '.' || Number.parseFloat(amount) === 0) {
-        destination.setAmount('');
-        destination.setAmountUSD('');
-        source.setAmountUSD('');
+        to.setAmount('');
+        to.setAmountUSD('');
+        fromETH.setAmountUSD('');
+        fromUSDC.setAmountUSD('');
         return;
       }
 
-      // When toAmount changes we fetch quote for fromAmount
-      // so set isFromQuoteLoading to true
-      destination.setLoading(true);
+      fromETH.setLoading(true);
+      fromUSDC.setLoading(true);
+
       updateLifecycleStatus({
         statusName: 'amountChange',
         statusData: {
           // when fetching quote, the previous
           // amount is irrelevant
-          amountFrom: type === 'from' ? amount : '',
-          amountTo: type === 'to' ? amount : '',
-          tokenFrom: from.token,
+          amountTo: amount,
+          amountETH: '',
+          amountUSDC: '',
+          tokenFromETH: fromETH.token,
+          tokenFromUSDC: fromUSDC.token,
           tokenTo: to.token,
           // when fetching quote, the destination
           // amount is missing
@@ -234,40 +224,71 @@ export function SwapProvider({
 
       try {
         const maxSlippage = lifecycleStatus.statusData.maxSlippage;
-        const response = await getSwapQuote({
+        const responseETH = await getSwapQuote({
           amount,
-          amountReference: 'from',
-          from: source.token,
+          amountReference: 'to',
+          from: fromETH.token,
           maxSlippage: String(maxSlippage),
-          to: destination.token,
+          to: to.token,
           useAggregator,
         });
+        const responseUSDC = await getSwapQuote({
+          amount,
+          amountReference: 'to',
+          from: fromUSDC.token,
+          maxSlippage: String(maxSlippage),
+          to: to.token,
+          useAggregator,
+        });
+
         // If request resolves to error response set the quoteError
         // property of error state to the SwapError response
-        if (isSwapError(response)) {
+        if (isSwapError(responseETH)) {
           updateLifecycleStatus({
             statusName: 'error',
             statusData: {
-              code: response.code,
-              error: response.error,
+              code: responseETH.code,
+              error: responseETH.error,
+              message: '',
+            },
+          });
+          return;
+        }
+        if (isSwapError(responseUSDC)) {
+          updateLifecycleStatus({
+            statusName: 'error',
+            statusData: {
+              code: responseUSDC.code,
+              error: responseUSDC.error,
               message: '',
             },
           });
           return;
         }
         const formattedAmount = formatTokenAmount(
-          response.toAmount,
-          response.to.decimals,
+          responseETH.fromAmount,
+          responseETH.from.decimals,
         );
-        destination.setAmountUSD(response.toAmountUSD);
-        destination.setAmount(formattedAmount);
-        source.setAmountUSD(response.fromAmountUSD);
+        const formattedUSDCAmount = formatTokenAmount(
+          responseUSDC.fromAmount,
+          responseUSDC.from.decimals,
+        );
+        fromETH.setAmountUSD(responseETH.fromAmountUSD);
+        fromETH.setAmount(formattedAmount);
+        fromUSDC.setAmountUSD(responseUSDC.fromAmountUSD);
+        fromUSDC.setAmount(formattedUSDCAmount);
+
+        // TODO: revisit this
+        to.setAmountUSD(responseETH.toAmountUSD);
+
         updateLifecycleStatus({
           statusName: 'amountChange',
           statusData: {
-            amountFrom: type === 'from' ? amount : formattedAmount,
-            amountTo: type === 'to' ? amount : formattedAmount,
-            tokenFrom: from.token,
+            amountETH: formattedAmount,
+            amountUSDC: formattedUSDCAmount,
+            amountTo: amount,
+            tokenFromETH: fromETH.token,
+            tokenFromUSDC: fromUSDC.token,
             tokenTo: to.token,
             // if quote was fetched successfully, we
             // have all required fields
@@ -285,98 +306,111 @@ export function SwapProvider({
         });
       } finally {
         // reset loading state when quote request resolves
-        destination.setLoading(false);
+        fromETH.setLoading(false);
+        fromUSDC.setLoading(false);
       }
     },
-    [from, to, lifecycleStatus, updateLifecycleStatus, useAggregator],
+    [
+      to,
+      fromETH,
+      fromUSDC,
+      useAggregator,
+      updateLifecycleStatus,
+      lifecycleStatus.statusData.maxSlippage,
+    ],
   );
 
-  // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO Refactor this component
-  const handleSubmit = useCallback(async () => {
-    if (!address || !from.token || !to.token || !from.amount) {
-      return;
-    }
+  const handleSubmit = useCallback(
+    // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO Refactor this component
+    async (from: SwapUnit) => {
+      if (!address || !from.token || !to.token || !from.amount) {
+        return;
+      }
 
-    try {
-      const maxSlippage = lifecycleStatus.statusData.maxSlippage;
-      const response = await buildSwapTransaction({
-        amount: from.amount,
-        fromAddress: address,
-        from: from.token,
-        maxSlippage: String(maxSlippage),
-        to: to.token,
-        useAggregator,
-      });
-      if (isSwapError(response)) {
+      try {
+        const maxSlippage = lifecycleStatus.statusData.maxSlippage;
+        const response = await buildSwapTransaction({
+          amount: from.amount,
+          fromAddress: address,
+          from: from.token,
+          maxSlippage: String(maxSlippage),
+          to: to.token,
+          useAggregator,
+        });
+        if (isSwapError(response)) {
+          updateLifecycleStatus({
+            statusName: 'error',
+            statusData: {
+              code: response.code,
+              error: response.error,
+              message: response.message,
+            },
+          });
+          return;
+        }
+        await processSwapTransaction({
+          chainId,
+          config: accountConfig,
+          isSponsored,
+          paymaster: paymaster || '',
+          sendCallsAsync,
+          sendTransactionAsync,
+          swapTransaction: response,
+          switchChainAsync,
+          updateLifecycleStatus,
+          useAggregator,
+          walletCapabilities,
+        });
+      } catch (err) {
+        const errorMessage = isUserRejectedRequestError(err)
+          ? 'Request denied.'
+          : GENERIC_ERROR_MESSAGE;
         updateLifecycleStatus({
           statusName: 'error',
           statusData: {
-            code: response.code,
-            error: response.error,
-            message: response.message,
+            code: 'TmSPc02', // Transaction module SwapProvider component 02 error
+            error: JSON.stringify(err),
+            message: errorMessage,
           },
         });
-        return;
       }
-      await processSwapTransaction({
-        chainId,
-        config: accountConfig,
-        isSponsored,
-        paymaster: paymaster || '',
-        sendCallsAsync,
-        sendTransactionAsync,
-        swapTransaction: response,
-        switchChainAsync,
-        updateLifecycleStatus,
-        useAggregator,
-        walletCapabilities,
-      });
-    } catch (err) {
-      const errorMessage = isUserRejectedRequestError(err)
-        ? 'Request denied.'
-        : GENERIC_ERROR_MESSAGE;
-      updateLifecycleStatus({
-        statusName: 'error',
-        statusData: {
-          code: 'TmSPc02', // Transaction module SwapProvider component 02 error
-          error: JSON.stringify(err),
-          message: errorMessage,
-        },
-      });
-    }
-  }, [
-    accountConfig,
-    address,
-    chainId,
-    from.amount,
-    from.token,
-    isSponsored,
-    lifecycleStatus,
-    paymaster,
-    sendCallsAsync,
-    sendTransactionAsync,
-    switchChainAsync,
-    to.token,
-    updateLifecycleStatus,
-    useAggregator,
-    walletCapabilities,
-  ]);
+    },
+    [
+      accountConfig,
+      address,
+      chainId,
+      isSponsored,
+      lifecycleStatus,
+      paymaster,
+      sendCallsAsync,
+      sendTransactionAsync,
+      switchChainAsync,
+      to.token,
+      updateLifecycleStatus,
+      useAggregator,
+      walletCapabilities,
+    ],
+  );
 
   const value = useValue({
     address,
     config,
-    from,
+    fromETH,
+    fromUSDC,
     handleAmountChange,
-    handleToggle,
     handleSubmit,
     lifecycleStatus,
     updateLifecycleStatus,
     to,
-    isToastVisible,
-    setIsToastVisible,
     setTransactionHash,
     transactionHash,
+    isDropdownOpen,
+    setIsDropdownOpen,
   });
 
-  return <SwapContext.Provider value={value}>{children}</SwapContext.Provider>;
+  return (
+    <FundSwapContext.Provider value={value}>
+      {children}
+    </FundSwapContext.Provider>
+  );
 }
