@@ -44,7 +44,6 @@ export function WalletIslandTransactionActions() {
   );
 }
 
-
 function WalletIslandTransactionAction({
   icon,
   label,

@@ -1,7 +1,5 @@
 import { useEffect } from 'react';
 import { cn } from '../../styles/theme';
-import { useIsMounted } from '../../useIsMounted';
-import { useTheme } from '../../useTheme';
 import type { WalletReact } from '../types';
 import { WalletProvider, useWalletContext } from './WalletProvider';
 
