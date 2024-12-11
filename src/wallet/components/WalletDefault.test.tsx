@@ -1,10 +1,10 @@
 import { render, screen } from '@testing-library/react';
-import { type Mock, describe, expect, it, vi } from 'vitest';
+import { type Mock, describe, expect, it, vi, beforeEach } from 'vitest';
 import { useAccount, useConnect } from 'wagmi';
-import { useAvatar } from '../../identity/hooks/useAvatar';
-import { useName } from '../../identity/hooks/useName';
 import { WalletDefault } from './WalletDefault';
 import { useWalletContext } from './WalletProvider';
+import { useName } from '../../core-react/identity/hooks/useName';
+import { useAvatar } from '../../core-react/identity/hooks/useAvatar';
 
 vi.mock('../../core-react/internal/hooks/useTheme', () => ({
   useTheme: vi.fn(),
@@ -27,14 +27,14 @@ vi.mock('./WalletProvider', () => ({
   useWalletContext: vi.fn(),
 }));
 
-vi.mock('../../identity/hooks/useName', () => ({
+vi.mock('../../core-react/identity/hooks/useName', () => ({
   useName: vi.fn(),
 }));
-vi.mock('../../identity/hooks/useAvatar', () => ({
+vi.mock('../../core-react/identity/hooks/useAvatar', () => ({
   useAvatar: vi.fn(),
 }));
 
-vi.mock('../../useTheme', () => ({
+vi.mock('../../core-react/internal/hooks/useTheme', () => ({
   useTheme: vi.fn(),
 }));
 

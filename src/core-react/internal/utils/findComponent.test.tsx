@@ -1,8 +1,8 @@
 import type { ReactNode } from 'react';
 import { describe, expect, it } from 'vitest';
-import { Avatar } from '../../../identity/components/Avatar';
-import { Name } from '../../../identity/components/Name';
 import { findComponent } from './findComponent';
+import { Avatar } from '../../../ui/react/identity/components/Avatar';
+import { Name } from '../../../ui/react/identity/components/Name';
 
 describe('findComponent', () => {
   it('should find the Name component in the array', () => {

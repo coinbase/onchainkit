@@ -8,11 +8,11 @@ import {
 } from '@testing-library/react';
 import { type Mock, describe, expect, it, vi } from 'vitest';
 import { useAccount } from 'wagmi';
-import { Identity } from '../../identity/components/Identity';
+import { Identity } from '../../ui/react/identity';
 import {
   IdentityProvider,
   useIdentityContext,
-} from '../../identity/components/IdentityProvider';
+} from '../../core-react/identity/providers/IdentityProvider';
 import { WalletBottomSheet } from './WalletBottomSheet';
 import { useWalletContext } from './WalletProvider';
 
@@ -24,7 +24,7 @@ vi.mock('./WalletProvider', () => ({
   useWalletContext: vi.fn(),
 }));
 
-vi.mock('../../identity/components/Identity', () => ({
+vi.mock('../../ui/react/identity', () => ({
   Identity: vi.fn(({ address, children }) => (
     <IdentityProvider address={address}>{children}</IdentityProvider>
   )),

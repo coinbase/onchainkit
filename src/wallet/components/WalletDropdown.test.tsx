@@ -2,15 +2,15 @@ import '@testing-library/jest-dom';
 import { render, renderHook, screen, waitFor } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useAccount } from 'wagmi';
-import { Identity } from '../../identity/components/Identity';
-import {
-  IdentityProvider,
-  useIdentityContext,
-} from '../../identity/components/IdentityProvider';
 
 import { useBreakpoints } from '../../ui/react/internal/hooks/useBreakpoints';
 import { WalletDropdown } from './WalletDropdown';
 import { useWalletContext } from './WalletProvider';
+import {
+  IdentityProvider,
+  useIdentityContext,
+} from '../../core-react/identity/providers/IdentityProvider';
+import { Identity } from '../../ui/react/identity';
 
 vi.mock('wagmi', () => ({
   useAccount: vi.fn(),
@@ -24,7 +24,7 @@ vi.mock('../../ui/react/internal/hooks/useBreakpoints', () => ({
   useBreakpoints: vi.fn(),
 }));
 
-vi.mock('../../identity/components/Identity', () => ({
+vi.mock('../../ui/react/identity', () => ({
   Identity: vi.fn(({ address, children }) => (
     <IdentityProvider address={address}>{children}</IdentityProvider>
   )),
