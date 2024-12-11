@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
-import Draggable from '../../../internal/components/Draggable';
 import { useTheme } from '../../../core-react/internal/hooks/useTheme';
+import Draggable from '../../../internal/components/Draggable';
 import { background, border, cn } from '../../../styles/theme';
 import type { WalletIslandProps } from '../../types';
 import { useWalletContext } from '../WalletProvider';
