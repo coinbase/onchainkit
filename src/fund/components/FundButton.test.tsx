@@ -18,7 +18,7 @@ vi.mock('../../internal/utils/openPopup', () => ({
   openPopup: vi.fn(),
 }));
 
-vi.mock('../../useTheme', () => ({
+vi.mock('../../core-react/internal/hooks/useTheme', () => ({
   useTheme: vi.fn(),
 }));
 

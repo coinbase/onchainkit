@@ -11,14 +11,14 @@ import {
   useChainId,
 } from 'wagmi';
 import { mock } from 'wagmi/connectors';
-import { useOnchainKit } from '../../../useOnchainKit';
+import { useOnchainKit } from '../../../core-react/useOnchainKit';
 import { useNFTLifecycleContext } from '../NFTLifecycleProvider';
 import { useNFTContext } from '../NFTProvider';
 import { NFTMintButton } from './NFTMintButton';
 
 vi.mock('../NFTProvider');
 vi.mock('../NFTLifecycleProvider');
-vi.mock('../../../useOnchainKit');
+vi.mock('../../../core-react/useOnchainKit');
 vi.mock('wagmi', async (importOriginal) => {
   return {
     ...(await importOriginal<typeof import('wagmi')>()),

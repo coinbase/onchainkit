@@ -9,13 +9,13 @@ import {
   it,
   vi,
 } from 'vitest';
-import { useIsMounted } from '../../useIsMounted';
+import { useIsMounted } from '../../core-react/internal/hooks/useIsMounted';
 import { NFTMintCard } from './NFTMintCard';
 
-vi.mock('../../useTheme', () => ({
+vi.mock('../../core-react/internal/hooks/useTheme', () => ({
   useTheme: vi.fn(() => 'default-light'),
 }));
-vi.mock('../../useIsMounted');
+vi.mock('../../core-react/internal/hooks/useIsMounted');
 vi.mock('./NFTProvider', () => ({
   NFTProvider: vi.fn(({ children }) => <div>{children}</div>),
 }));

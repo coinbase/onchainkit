@@ -195,7 +195,7 @@ export type OnrampTransactionStatusName =
   | 'ONRAMP_TRANSACTION_STATUS_SUCCESS'
   | 'ONRAMP_TRANSACTION_STATUS_FAILED';
 
-export type OnrampAmout = {
+export type OnrampAmount = {
   amount: string;
   currency: string;
 };
@@ -204,12 +204,12 @@ export type OnrampTransaction = {
   status: OnrampTransactionStatusName;
   purchaseCurrency: string;
   purchaseNetwork: string;
-  purchaseAmount: OnrampAmout;
-  paymentTotal: OnrampAmout;
-  paymentSubtotal: OnrampAmout;
-  coinbaseFee: OnrampAmout;
-  networkFee: OnrampAmout;
-  exchangeRate: OnrampAmout;
+  purchaseAmount: OnrampAmount;
+  paymentTotal: OnrampAmount;
+  paymentSubtotal: OnrampAmount;
+  coinbaseFee: OnrampAmount;
+  networkFee: OnrampAmount;
+  exchangeRate: OnrampAmount;
   txHash: string;
   createdAt: string;
   country: string;

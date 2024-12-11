@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import { Spinner } from '../../internal/components/Spinner';
-import { useIcon } from '../../internal/hooks/useIcon';
+
+import { useIcon } from '../../core-react/internal/hooks/useIcon';
 import {
   border,
   cn,
@@ -21,7 +22,7 @@ export function CheckoutButton({
 }: CheckoutButtonReact) {
   if (coinbaseBranded) {
     icon = 'coinbasePay';
-    text = 'Pay with Crypto';
+    text = 'Pay';
   }
   const { lifecycleStatus, onSubmit } = useCheckoutContext();
   const iconSvg = useIcon({ icon });

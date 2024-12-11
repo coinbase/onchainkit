@@ -1,5 +1,5 @@
-import { buildPayTransaction } from '../../api';
-import type { BuildPayTransactionParams } from '../../api';
+import { buildPayTransaction } from '../../core/api';
+import type { BuildPayTransactionParams } from '../../core/api';
 import type { HandlePayRequestParams } from '../types';
 
 export const handlePayRequest = async ({

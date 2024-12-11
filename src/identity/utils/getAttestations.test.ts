@@ -3,11 +3,11 @@
  */
 import { base, opBNBTestnet } from 'viem/chains';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
-import { getAttestationsByFilter } from '../../network/attestations';
+import { getAttestationsByFilter } from '../../core/network/attestations';
 import type { GetAttestationsOptions } from '../types';
 import { getAttestations } from './getAttestations';
 
-vi.mock('../../network/attestations');
+vi.mock('../../core/network/attestations');
 
 describe('getAttestations', () => {
   const mockAddress = '0x1234567890abcdef1234567890abcdef12345678';

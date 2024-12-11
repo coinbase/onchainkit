@@ -1,10 +1,11 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useConnect } from 'wagmi';
-import { coinbaseWallet, walletConnect } from 'wagmi/connectors';
+import { coinbaseWallet, metaMask } from 'wagmi/connectors';
+import { useOnchainKit } from '../../core-react/useOnchainKit';
 import { closeSvg } from '../../internal/svg/closeSvg';
 import { coinbaseWalletSvg } from '../../internal/svg/coinbaseWalletSvg';
 import { defaultAvatarSVG } from '../../internal/svg/defaultAvatarSVG';
-import { walletConnectSvg } from '../../internal/svg/walletConnectSvg';
+import { metamaskSvg } from '../../internal/svg/metamaskSvg';
 import {
   background,
   border,
@@ -13,8 +14,6 @@ import {
   pressable,
   text,
 } from '../../styles/theme';
-import { useOnchainKit } from '../../useOnchainKit';
-import { ONCHAINKIT_WALLETCONNECT_PROJECT_ID } from '../constants';
 
 type WalletModalProps = {
   isOpen: boolean;
@@ -106,26 +105,25 @@ export function WalletModal({
     }
   }, [connect, onClose, onError]);
 
-  const handleWalletConnectConnector = useCallback(() => {
+  const handleMetaMaskConnection = useCallback(() => {
     try {
-      const walletConnectConnector = walletConnect({
-        projectId: ONCHAINKIT_WALLETCONNECT_PROJECT_ID,
-        showQrModal: true,
+      const metamaskConnector = metaMask({
+        dappMetadata: {
+          name: appName || 'OnchainKit App',
+          url: window.location.origin,
+          iconUrl: appLogo || undefined,
+        },
       });
 
-      connect({ connector: walletConnectConnector });
+      connect({ connector: metamaskConnector });
       onClose();
     } catch (error) {
-      console.error('WalletConnect connection error:', error);
-      if (onError) {
-        onError(
-          error instanceof Error
-            ? error
-            : new Error('Failed to connect wallet'),
-        );
-      }
+      console.error('MetaMask connection error:', error);
+      onError?.(
+        error instanceof Error ? error : new Error('Failed to connect wallet'),
+      );
     }
-  }, [connect, onClose, onError]);
+  }, [connect, onClose, onError, appName, appLogo]);
 
   const handleLinkKeyDown = (
     event: React.KeyboardEvent<HTMLAnchorElement>,
@@ -266,7 +264,7 @@ export function WalletModal({
 
           <button
             type="button"
-            onClick={handleWalletConnectConnector}
+            onClick={handleMetaMaskConnection}
             className={cn(
               border.radiusInner,
               text.body,
@@ -276,8 +274,10 @@ export function WalletModal({
               'items-center justify-between text-left',
             )}
           >
-            Other wallets
-            <div className="h-4 w-4">{walletConnectSvg}</div>
+            MetaMask
+            <div className="-mr-0.5 flex h-5 w-5 items-center justify-center">
+              {metamaskSvg}
+            </div>
           </button>
         </div>
 

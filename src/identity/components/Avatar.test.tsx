@@ -2,7 +2,7 @@ import { base, baseSepolia, optimism } from 'viem/chains';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import '@testing-library/jest-dom';
 import { render, screen, waitFor } from '@testing-library/react';
-import { useOnchainKit } from '../../useOnchainKit';
+import { useOnchainKit } from '../../core-react/useOnchainKit';
 import { useAttestations } from '../hooks/useAttestations';
 import { useAvatar } from '../hooks/useAvatar';
 import { useName } from '../hooks/useName';
@@ -14,7 +14,7 @@ function mock<T>(func: T) {
   return func as Mock;
 }
 
-vi.mock('../../useOnchainKit', () => ({
+vi.mock('../../core-react/useOnchainKit', () => ({
   useOnchainKit: vi.fn(),
 }));
 

@@ -1,4 +1,4 @@
-import { useIcon } from '../../internal/hooks/useIcon';
+import { useIcon } from '../../core-react/internal/hooks/useIcon';
 import { cn, color, pressable, text } from '../../styles/theme';
 import type { WalletDropdownLinkReact } from '../types';
 

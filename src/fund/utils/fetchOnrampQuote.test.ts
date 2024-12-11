@@ -1,5 +1,5 @@
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
-import { setOnchainKitConfig } from '../../OnchainKitConfig';
+import { setOnchainKitConfig } from '../../core/OnchainKitConfig';
 import { ONRAMP_API_BASE_URL } from '../constants';
 import { fetchOnrampQuote } from './fetchOnrampQuote';
 
@@ -14,7 +14,7 @@ const mockSubdivision = 'NY';
 
 const mockResponseData = {
   data: {
-    paymen_total: { amount: '105.00', currency: 'USD' },
+    payment_total: { amount: '105.00', currency: 'USD' },
     payment_subtotal: { amount: '100.00', currency: 'USD' },
     purchase_amount: { amount: '0.0025', currency: 'BTC' },
     coinbase_fee: { amount: '3.00', currency: 'USD' },
@@ -65,8 +65,8 @@ describe('fetchOnrampQuote', () => {
       },
     );
     expect(result).toEqual({
-      paymenTotal: { amount: '105.00', currency: 'USD' },
       paymentSubtotal: { amount: '100.00', currency: 'USD' },
+      paymentTotal: { amount: '105.00', currency: 'USD' },
       purchaseAmount: { amount: '0.0025', currency: 'BTC' },
       coinbaseFee: { amount: '3.00', currency: 'USD' },
       networkFee: { amount: '2.00', currency: 'USD' },
