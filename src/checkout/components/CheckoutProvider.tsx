@@ -15,9 +15,9 @@ import { useWriteContracts } from 'wagmi/experimental';
 import { useCallsStatus } from 'wagmi/experimental';
 import { useValue } from '../../core-react/internal/hooks/useValue';
 import { useOnchainKit } from '../../core-react/useOnchainKit';
+import { isUserRejectedRequestError } from '../../transaction/utils/isUserRejectedRequestError';
 import { getWindowDimensions } from '../../ui/react/internal/utils/getWindowDimensions';
 import { openPopup } from '../../ui/react/internal/utils/openPopup';
-import { isUserRejectedRequestError } from '../../transaction/utils/isUserRejectedRequestError';
 import { useIsWalletACoinbaseSmartWallet } from '../../wallet/hooks/useIsWalletACoinbaseSmartWallet';
 import {
   GENERIC_ERROR_MESSAGE,
