@@ -74,7 +74,7 @@ describe('WalletIslandContent', () => {
 
     expect(screen.getByTestId('ockWalletIslandContent')).toBeDefined();
     expect(screen.queryByTestId('ockWalletIslandContent')).toHaveClass(
-      'animate-walletIslandOut',
+      'animate-walletIslandContainerOut',
     );
     expect(
       screen.queryByTestId('ockWalletIslandQrReceive')?.parentElement,
@@ -191,7 +191,7 @@ describe('WalletIslandContent', () => {
 
     const draggable = screen.getByTestId('ockDraggable');
     expect(draggable).toHaveStyle({
-      top: '455px',
+      top: '460px',
     });
   });
 
@@ -216,7 +216,7 @@ describe('WalletIslandContent', () => {
 
     const draggable = screen.getByTestId('ockDraggable');
     expect(draggable).toHaveStyle({
-      top: '51px',
+      top: '46px',
     });
   });
 });

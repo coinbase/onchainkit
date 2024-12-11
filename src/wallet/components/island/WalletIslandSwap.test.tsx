@@ -213,6 +213,8 @@ describe('WalletIslandSwap', () => {
   });
 
   it('should close swap when back button is clicked', () => {
+    vi.useFakeTimers();
+
     const mockSetShowSwap = vi.fn();
     mockUseWalletIslandContext.mockReturnValue({
       showSwap: true,
@@ -256,7 +258,11 @@ describe('WalletIslandSwap', () => {
 
     const backButton = screen.getByRole('button', { name: /back button/i });
     fireEvent.click(backButton);
+
+    vi.advanceTimersByTime(150);
     expect(mockSetShowSwap).toHaveBeenCalledWith(false);
+
+    vi.useRealTimers();
   });
 
   it('should set tabIndex to -1 when showSwap is true', () => {
