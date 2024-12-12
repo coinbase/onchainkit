@@ -159,7 +159,7 @@ export function WalletModal({
           border.radius,
           background.default,
           'w-[22rem] p-6 pb-4',
-          'flex flex-col items-center gap-4 relative',
+          'relative flex flex-col items-center gap-4',
           '-translate-x-1/2 -translate-y-1/2 fixed top-1/2 left-1/2',
           'transition-opacity duration-200',
           isOpen ? 'opacity-100' : 'opacity-0',
@@ -217,7 +217,7 @@ export function WalletModal({
               text.body,
               pressable.alternate,
               color.foreground,
-              'px-4 py-3 flex items-center justify-between text-left',
+              'flex items-center justify-between px-4 py-3 text-left',
             )}
           >
             Sign up
@@ -270,7 +270,7 @@ export function WalletModal({
               text.body,
               pressable.alternate,
               color.foreground,
-              'flex px-4 py-3 items-center justify-between text-left',
+              'flex items-center justify-between px-4 py-3 text-left',
             )}
           >
             MetaMask
