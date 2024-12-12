@@ -1,3 +1,4 @@
+// @ts-nocheck - more complex changes requried to fix this
 import { act, renderHook } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { usePreferredColorScheme } from './usePreferredColorScheme';

@@ -1,4 +1,5 @@
 import { getPaymasterUrl } from './getPaymasterUrl';
+import { describe, it, expect } from 'vitest';
 
 describe('getPaymasterUrl', () => {
   it('should return null if capabilities is undefined', () => {
@@ -7,6 +8,7 @@ describe('getPaymasterUrl', () => {
   });
 
   it('should return null if capabilities is null', () => {
+    // @ts-expect-error - testing null
     const result = getPaymasterUrl(null);
     expect(result).toEqual(null);
   });

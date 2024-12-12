@@ -1,10 +1,14 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { sendBatchedTransactions } from './sendBatchedTransactions';
 
+import type { SendBatchedTransactionsParams } from '@/transaction/types';
+
 describe('sendBatchedTransactions', () => {
   const mockSendCallsAsync = vi.fn();
-  const mockTransactions = [];
-  const mockCapabilities = { paymasterService: '' };
+  const mockTransactions: SendBatchedTransactionsParams['transactions'] = [];
+  const mockCapabilities: SendBatchedTransactionsParams['capabilities'] = {
+    paymasterService: { url: '' },
+  };
 
   beforeEach(() => {
     vi.clearAllMocks();

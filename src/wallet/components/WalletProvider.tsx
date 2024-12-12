@@ -8,7 +8,7 @@ const emptyContext = {} as WalletContextType;
 
 const WalletContext = createContext<WalletContextType>(emptyContext);
 
-type WalletProviderReact = {
+export type WalletProviderReact = {
   children: ReactNode;
 };
 

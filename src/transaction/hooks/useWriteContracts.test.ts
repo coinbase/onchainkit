@@ -1,3 +1,4 @@
+// @ts-nocheck - investigate wagmi types
 import { renderHook } from '@testing-library/react';
 import type { TransactionExecutionError } from 'viem';
 import { beforeEach, describe, expect, it, vi } from 'vitest';

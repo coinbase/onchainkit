@@ -1,4 +1,5 @@
 import { checkHashLength } from './checkHashLength';
+import { describe, expect, it } from 'vitest';
 
 describe('checkHashLength', () => {
   it('should return true when address format is valid', () => {
