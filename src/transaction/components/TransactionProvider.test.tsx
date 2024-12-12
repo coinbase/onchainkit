@@ -180,7 +180,7 @@ describe('TransactionProvider', () => {
     expect(onStatusMock).toHaveBeenCalledWith({
       statusName: 'transactionLegacyExecuted',
       statusData: {
-        transactionHashList: ['hash12345678'],
+        transactionHashList: ['0xhash12345678'],
       },
     });
   });
