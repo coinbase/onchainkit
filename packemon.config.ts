@@ -8,7 +8,7 @@ const config = {
           '@/core': './src/core',
           '@/core-react': './src/core-react',
           '@/ui-react': './src/ui/react',
-          '@': './src'
+          '@': './src',
         },
       },
     ]);
