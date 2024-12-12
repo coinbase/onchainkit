@@ -59,7 +59,7 @@ export function WalletIslandContent({ children }: WalletIslandProps) {
           background.default,
           border.radius,
           border.lineDefault,
-          'h-auto w-96',
+          'h-auto w-88',
           'flex items-center justify-center',
           animationClasses.content,
         )}
@@ -67,7 +67,7 @@ export function WalletIslandContent({ children }: WalletIslandProps) {
         <div
           className={cn(
             'flex flex-col items-center justify-center',
-            'h-auto w-96',
+            'h-auto w-88',
             'p-4',
             showQr ? '' : 'hidden',
           )}
@@ -77,7 +77,7 @@ export function WalletIslandContent({ children }: WalletIslandProps) {
         <div
           className={cn(
             'flex flex-col items-center justify-center',
-            'h-auto w-96',
+            'h-auto w-88',
             'p-2',
             showSwap ? '' : 'hidden',
           )}
@@ -91,7 +91,7 @@ export function WalletIslandContent({ children }: WalletIslandProps) {
         <div
           className={cn(
             'flex flex-col items-center justify-center',
-            'h-auto w-96',
+            'h-auto w-88',
             'px-4 pt-3 pb-2',
             showQr || showSwap ? 'hidden' : '',
           )}

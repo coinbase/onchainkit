@@ -46,10 +46,10 @@ export function WalletIslandWalletActions() {
             pressable.default,
             border.radius,
             border.default,
-            'flex items-center justify-center p-1',
+            'flex items-center justify-center p-2',
           )}
         >
-          <div className="scale-125">{clockSvg}</div>
+          {clockSvg}
         </a>
         <button
           data-testid="ockWalletIsland_QrButton"
@@ -59,10 +59,10 @@ export function WalletIslandWalletActions() {
             pressable.default,
             border.radius,
             border.default,
-            'flex items-center justify-center p-1',
+            'flex items-center justify-center p-2',
           )}
         >
-          <div className="scale-125">{qrIconSvg}</div>
+          {qrIconSvg}
         </button>
       </div>
       <div className="flex items-center gap-1">
@@ -74,10 +74,10 @@ export function WalletIslandWalletActions() {
             pressable.default,
             border.radius,
             border.default,
-            'flex items-center justify-center p-1',
+            'flex items-center justify-center p-2',
           )}
         >
-          <div className="scale-125">{disconnectSvg}</div>
+          {disconnectSvg}
         </button>
         <button
           data-testid="ockWalletIsland_CollapseButton"
@@ -87,10 +87,10 @@ export function WalletIslandWalletActions() {
             pressable.default,
             border.radius,
             border.default,
-            'flex items-center justify-center p-1',
+            'flex items-center justify-center p-2',
           )}
         >
-          <div className="scale-125">{collapseSvg}</div>
+          {collapseSvg}
         </button>
       </div>
     </div>
