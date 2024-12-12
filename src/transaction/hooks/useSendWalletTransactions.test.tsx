@@ -3,6 +3,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { sendBatchedTransactions } from '../utils/sendBatchedTransactions';
 import { sendSingleTransactions } from '../utils/sendSingleTransactions';
 import { useSendWalletTransactions } from './useSendWalletTransactions';
+import type { Call } from '@/transaction/types';
 
 // Mock the utility functions
 vi.mock('../utils/sendBatchedTransactions');
@@ -14,7 +15,7 @@ describe('useSendWalletTransactions', () => {
   });
 
   it('should handle batched transactions', async () => {
-    const transactions = [{ to: '0x123', data: '0x456' }];
+    const transactions: Call[] = [{ to: '0x123', data: '0x456' }];
     const capabilities = {};
     const { result } = renderHook(() =>
       useSendWalletTransactions({
@@ -37,7 +38,7 @@ describe('useSendWalletTransactions', () => {
   });
 
   it('should handle non-batched transactions', async () => {
-    const transactions = [
+    const transactions: Call[] = [
       { to: '0x123', data: '0x456' },
       { to: '0x789', data: '0xabc' },
     ];
@@ -61,7 +62,7 @@ describe('useSendWalletTransactions', () => {
   });
 
   it('should handle a transactions promise', async () => {
-    const transactions = [{ to: '0x123', data: '0x456' }];
+    const transactions: Call[] = [{ to: '0x123', data: '0x456' }];
     const capabilities = {};
     const { result } = renderHook(() =>
       useSendWalletTransactions({
@@ -98,7 +99,7 @@ describe('useSendWalletTransactions', () => {
   });
 
   it('should handle empty walletCapabilities', async () => {
-    const transactions = [
+    const transactions: Call[] = [
       { to: '0x123', data: '0x456' },
       { to: '0x789', data: '0xabc' },
     ];
