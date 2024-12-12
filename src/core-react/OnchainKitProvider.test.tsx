@@ -1,8 +1,4 @@
 import '@testing-library/jest-dom';
-import { OnchainKitProvider } from '@/core-react/OnchainKitProvider';
-import { useOnchainKit } from '@/core-react/useOnchainKit';
-import { setOnchainKitConfig } from '@/core/OnchainKitConfig';
-import type { AppConfig } from '@/core/types';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { render, screen, waitFor } from '@testing-library/react';
 import { base } from 'viem/chains';
@@ -10,8 +6,12 @@ import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { http, WagmiProvider, createConfig } from 'wagmi';
 import { useConfig } from 'wagmi';
 import { mock } from 'wagmi/connectors';
+import { setOnchainKitConfig } from '@/core/OnchainKitConfig';
 import type { EASSchemaUid } from '../identity/types';
+import { OnchainKitProvider } from './OnchainKitProvider';
 import { useProviderDependencies } from './internal/hooks/useProviderDependencies';
+import { useOnchainKit } from './useOnchainKit';
+import type { AppConfig } from '@/core/types';
 
 vi.mock('wagmi', async (importOriginal) => {
   const actual = (await importOriginal()) as typeof import('wagmi');
