@@ -2,7 +2,10 @@ import { useIsMounted } from '../../../core-react/internal/hooks/useIsMounted';
 import { useTheme } from '../../../core-react/internal/hooks/useTheme';
 import { background, border, cn, color } from '../../../styles/theme';
 import { useMintData as defaultUseMintData } from '../../../core-react/nft/hooks/useMintData';
-import { LifecycleType, type NFTMintCardReact } from '../../../core-react/nft/types';
+import {
+  LifecycleType,
+  type NFTMintCardReact,
+} from '../../../core-react/nft/types';
 import { buildMintTransactionData as defaultBuildMintTransaction } from '../../../core/nft/utils/buildMintTransactionData';
 import NFTErrorBoundary from './NFTErrorBoundary';
 import { NFTErrorFallback } from './NFTErrorFallback';

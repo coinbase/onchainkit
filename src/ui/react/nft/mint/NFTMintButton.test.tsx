@@ -11,25 +11,14 @@ import {
   useChainId,
 } from 'wagmi';
 import { mock } from 'wagmi/connectors';
-<<<<<<< HEAD
-import { useOnchainKit } from '../../../core-react/useOnchainKit';
-import { useNFTLifecycleContext } from '../NFTLifecycleProvider';
-import { useNFTContext } from '../NFTProvider';
-import { NFTMintButton } from './NFTMintButton';
-
-vi.mock('../NFTProvider');
-vi.mock('../NFTLifecycleProvider');
-vi.mock('../../../core-react/useOnchainKit');
-=======
 import { useNFTLifecycleContext } from '../../../../core-react/nft/providers/NFTLifecycleProvider';
 import { useNFTContext } from '../../../../core-react/nft/providers/NFTProvider';
-import { useOnchainKit } from '../../../../useOnchainKit';
+import { useOnchainKit } from '../../../../core-react/useOnchainKit';
 import { NFTMintButton } from './NFTMintButton';
 
 vi.mock('../../../../core-react/nft/providers/NFTProvider');
 vi.mock('../../../../core-react/nft/providers/NFTLifecycleProvider');
-vi.mock('../../../../useOnchainKit');
->>>>>>> 38ec07ca (fix: lint/tests)
+vi.mock('../../../../core-react/useOnchainKit');
 vi.mock('wagmi', async (importOriginal) => {
   return {
     ...(await importOriginal<typeof import('wagmi')>()),
