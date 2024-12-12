@@ -3,6 +3,7 @@ import getAddressTokenBalances from '../../../internal/utils/getAddressTokenBala
 import { cn, color, text } from '../../../styles/theme';
 import { type Token, TokenImage } from '../../../token';
 import { useWalletContext } from '../WalletProvider';
+import { useWalletIslandContext } from './WalletIslandProvider';
 
 export type TokenBalanceWithFiatValue = {
   token: Token;
@@ -20,8 +21,9 @@ export type TokenBalanceWithFiatValue = {
 
 // TODO: handle loading state
 export function WalletIslandTokenHoldings() {
-  const [tokens, setTokens] = useState<unknown[]>([]);
   const { address } = useWalletContext();
+  const { animationClasses } = useWalletIslandContext();
+  const [tokens, setTokens] = useState<TokenBalanceWithFiatValue[]>([]);
 
   useEffect(() => {
     // TODO: move this effect to the provider
@@ -35,128 +37,20 @@ export function WalletIslandTokenHoldings() {
     fetchTokens();
   }, [address]);
 
-  console.log({ tokens });
-
-  const tokenBalances: TokenBalanceWithFiatValue[] = [
-    {
-      token: {
-        name: 'Ether',
-        address: '',
-        symbol: 'ETH',
-        decimals: 18,
-        image:
-          'https://wallet-api-production.s3.amazonaws.com/uploads/tokens/eth_288.png',
-        chainId: 8453,
-      },
-      balance: 0.42,
-      valueInFiat: 1386,
-    },
-    {
-      token: {
-        name: 'USD Coin',
-        address: '0x833589fcd6edb6e08f4c7c32d4f71b54bda02913',
-        symbol: 'USDC',
-        decimals: 6,
-        image:
-          'https://d3r81g40ycuhqg.cloudfront.net/wallet/wais/44/2b/442b80bd16af0c0d9b22e03a16753823fe826e5bfd457292b55fa0ba8c1ba213-ZWUzYjJmZGUtMDYxNy00NDcyLTg0NjQtMWI4OGEwYjBiODE2',
-        chainId: 8453,
-      },
-      balance: 69,
-      valueInFiat: 69,
-    },
-    {
-      token: {
-        name: 'Ether',
-        address: '',
-        symbol: 'ETH',
-        decimals: 18,
-        image:
-          'https://wallet-api-production.s3.amazonaws.com/uploads/tokens/eth_288.png',
-        chainId: 8453,
-      },
-      balance: 0.42,
-      valueInFiat: 1386,
-    },
-    {
-      token: {
-        name: 'USD Coin',
-        address: '0x833589fcd6edb6e08f4c7c32d4f71b54bda02913',
-        symbol: 'USDC',
-        decimals: 6,
-        image:
-          'https://d3r81g40ycuhqg.cloudfront.net/wallet/wais/44/2b/442b80bd16af0c0d9b22e03a16753823fe826e5bfd457292b55fa0ba8c1ba213-ZWUzYjJmZGUtMDYxNy00NDcyLTg0NjQtMWI4OGEwYjBiODE2',
-        chainId: 8453,
-      },
-      balance: 69,
-      valueInFiat: 69,
-    },
-    {
-      token: {
-        name: 'Ether',
-        address: '',
-        symbol: 'ETH',
-        decimals: 18,
-        image:
-          'https://wallet-api-production.s3.amazonaws.com/uploads/tokens/eth_288.png',
-        chainId: 8453,
-      },
-      balance: 0.42,
-      valueInFiat: 1386,
-    },
-    {
-      token: {
-        name: 'USD Coin',
-        address: '0x833589fcd6edb6e08f4c7c32d4f71b54bda02913',
-        symbol: 'USDC',
-        decimals: 6,
-        image:
-          'https://d3r81g40ycuhqg.cloudfront.net/wallet/wais/44/2b/442b80bd16af0c0d9b22e03a16753823fe826e5bfd457292b55fa0ba8c1ba213-ZWUzYjJmZGUtMDYxNy00NDcyLTg0NjQtMWI4OGEwYjBiODE2',
-        chainId: 8453,
-      },
-      balance: 69,
-      valueInFiat: 69,
-    },
-    {
-      token: {
-        name: 'Ether',
-        address: '',
-        symbol: 'ETH',
-        decimals: 18,
-        image:
-          'https://wallet-api-production.s3.amazonaws.com/uploads/tokens/eth_288.png',
-        chainId: 8453,
-      },
-      balance: 0.42,
-      valueInFiat: 1386,
-    },
-    {
-      token: {
-        name: 'USD Coin',
-        address: '0x833589fcd6edb6e08f4c7c32d4f71b54bda02913',
-        symbol: 'USDC',
-        decimals: 6,
-        image:
-          'https://d3r81g40ycuhqg.cloudfront.net/wallet/wais/44/2b/442b80bd16af0c0d9b22e03a16753823fe826e5bfd457292b55fa0ba8c1ba213-ZWUzYjJmZGUtMDYxNy00NDcyLTg0NjQtMWI4OGEwYjBiODE2',
-        chainId: 8453,
-      },
-      balance: 69,
-      valueInFiat: 69,
-    },
-  ];
-
   return (
     <div
       className={cn(
         'max-h-44 overflow-y-auto',
         'flex w-full flex-col items-center gap-4',
         'mt-2 mb-2 px-2',
-        'animate-walletIslandContainerItem4 opacity-0',
+        'opacity-0',
+        animationClasses.tokenHoldings,
         'shadow-[inset_0_-15px_10px_-10px_rgba(0,0,0,0.05)]',
       )}
     >
-      {tokenBalances.map((tokenBalance) => (
+      {tokens.map((tokenBalance, index) => (
         <TokenDetails
-          key={tokenBalance.token.address}
+          key={`${tokenBalance.token.address}-${index}`}
           token={tokenBalance.token}
           balance={tokenBalance.balance}
           valueInFiat={tokenBalance.valueInFiat}

@@ -8,11 +8,11 @@ import { useWalletIslandContext } from './WalletIslandProvider';
 
 export function WalletIslandQrReceive() {
   const { address, isClosing } = useWalletContext();
-  const { showQr, setShowQr } = useWalletIslandContext();
+  const { showQr, setShowQr, setIsQrClosing, animationClasses } =
+    useWalletIslandContext();
   const backButtonRef = useRef<HTMLButtonElement>(null);
   const [copyText, setCopyText] = useState('Copy');
   const [copyButtonText, setCopyButtonText] = useState('Copy address');
-  const [isQrClosing, setIsQrClosing] = useState(false);
 
   useEffect(() => {
     if (showQr) {
@@ -22,11 +22,15 @@ export function WalletIslandQrReceive() {
 
   const handleCloseQr = useCallback(() => {
     setIsQrClosing(true);
+
     setTimeout(() => {
       setShowQr(false);
+    }, 200);
+
+    setTimeout(() => {
       setIsQrClosing(false);
-    }, 150);
-  }, [setShowQr]);
+    }, 400);
+  }, [setShowQr, setIsQrClosing]);
 
   const handleCopyAddress = useCallback(
     async (element: 'button' | 'icon') => {
@@ -69,7 +73,7 @@ export function WalletIslandQrReceive() {
         text.headline,
         'flex flex-col items-center justify-center gap-12',
         'w-full',
-        isQrClosing ? 'animate-walletIslandQrOut' : 'animate-walletIslandQrIn',
+        animationClasses.qr,
       )}
     >
       <div className="flex w-full flex-row items-center justify-between">

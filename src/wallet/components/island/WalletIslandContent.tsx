@@ -12,8 +12,9 @@ const WALLET_ISLAND_WIDTH = 384;
 const WALLET_ISLAND_HEIGHT = 394;
 
 export function WalletIslandContent({ children }: WalletIslandProps) {
-  const { containerRef, isClosing } = useWalletContext();
-  const { showQr, showSwap, tokenHoldings } = useWalletIslandContext();
+  const { containerRef } = useWalletContext();
+  const { showQr, showSwap, tokenHoldings, animationClasses } =
+    useWalletIslandContext();
   const componentTheme = useTheme();
 
   const position = useMemo(() => {
@@ -60,9 +61,7 @@ export function WalletIslandContent({ children }: WalletIslandProps) {
           border.lineDefault,
           'h-auto w-96',
           'flex items-center justify-center',
-          isClosing
-            ? 'animate-walletIslandContainerOut'
-            : 'animate-walletIslandContainerIn',
+          animationClasses.content,
         )}
       >
         <div

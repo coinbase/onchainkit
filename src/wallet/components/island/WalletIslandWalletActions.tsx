@@ -10,7 +10,7 @@ import { useWalletIslandContext } from './WalletIslandProvider';
 
 export function WalletIslandWalletActions() {
   const { handleClose } = useWalletContext();
-  const { setShowQr } = useWalletIslandContext();
+  const { setShowQr, animationClasses } = useWalletIslandContext();
   const { disconnect, connectors } = useDisconnect();
 
   const handleDisconnect = useCallback(() => {
@@ -32,7 +32,8 @@ export function WalletIslandWalletActions() {
     <div
       className={cn(
         'flex w-full items-center justify-between',
-        'animate-walletIslandContainerItem1 opacity-0',
+        'opacity-0',
+        animationClasses.walletActions,
       )}
     >
       <div className="flex items-center">

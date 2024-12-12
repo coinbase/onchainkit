@@ -3,9 +3,11 @@ import type { Address, Chain } from 'viem';
 import { Avatar, Badge, Name } from '../../../identity';
 import { border, cn, color, pressable, text } from '../../../styles/theme';
 import { useWalletContext } from '../WalletProvider';
+import { useWalletIslandContext } from './WalletIslandProvider';
 
 export function AddressDetails() {
   const { address, chain, isClosing } = useWalletContext();
+  const { animationClasses } = useWalletIslandContext();
   const [copyText, setCopyText] = useState('Copy');
 
   const handleCopyAddress = useCallback(async () => {
@@ -30,7 +32,8 @@ export function AddressDetails() {
         'mt-2 flex flex-col items-center justify-center',
         color.foreground,
         text.body,
-        'animate-walletIslandContainerItem2 opacity-0',
+        'opacity-0',
+        animationClasses.addressDetails,
       )}
     >
       <div className="h-10 w-10">
