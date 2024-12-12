@@ -1,6 +1,6 @@
 import { act, renderHook } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import type { SwapUnit } from '../types';
+import type { FromTo, SwapUnit } from '../types';
 import { useResetInputs } from './useResetInputs';
 
 describe('useResetInputs', () => {
@@ -78,7 +78,7 @@ describe('useResetInputs', () => {
       ...mockFrom,
       balanceResponse: { refetch: vi.fn().mockResolvedValue(undefined) },
     };
-    rerender({ from: newMockFrom, to: mockTo });
+    rerender({ from: newMockFrom, to: mockTo } as unknown as FromTo);
     expect(result.current).not.toBe(firstRender);
   });
 
@@ -89,7 +89,7 @@ describe('useResetInputs', () => {
       useResetInputs({
         from: mockFromWithNullResponse,
         to: mockToWithNullResponse,
-      }),
+      } as unknown as FromTo),
     );
     await act(async () => {
       await result.current();
