@@ -10,8 +10,8 @@ import {
 } from 'react';
 import { useAddressTokenHoldings } from '../../../core-react/internal/hooks/useAddressTokenHoldings';
 import { useValue } from '../../../core-react/internal/hooks/useValue';
-import type { TokenBalanceWithFiatValue } from './WalletIslandTokenHoldings';
 import { useWalletContext } from '../WalletProvider';
+import type { TokenBalanceWithFiatValue } from './WalletIslandTokenHoldings';
 
 export type WalletIslandContextType = {
   showSwap: boolean;

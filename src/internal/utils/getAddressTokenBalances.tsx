@@ -117,6 +117,5 @@ export default async function getAddressTokenBalances(
     },
   ];
 
-
   return tokenBalances.sort((a, b) => b.valueInFiat - a.valueInFiat);
 }
