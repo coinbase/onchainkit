@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { ConnectButton } from './ConnectButton';
 import { ConnectWalletText } from './ConnectWalletText';
 
@@ -8,7 +8,7 @@ describe('ConnectButton', () => {
     render(
       <ConnectButton
         connectWalletText="Connect Wallet"
-        onClick={() => {}}
+        onClick={vi.fn()}
         text="text"
       />,
     );
@@ -23,7 +23,7 @@ describe('ConnectButton', () => {
         connectWalletText={
           <ConnectWalletText>Connect Dope Wallet</ConnectWalletText>
         }
-        onClick={() => {}}
+        onClick={vi.fn()}
         text="text"
       />,
     );
@@ -37,7 +37,7 @@ describe('ConnectButton', () => {
       <ConnectButton
         className="custom-class"
         connectWalletText="Connect Dope Wallet"
-        onClick={() => {}}
+        onClick={vi.fn()}
         text="text"
       />,
     );
