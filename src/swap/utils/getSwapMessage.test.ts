@@ -10,7 +10,7 @@ import { ETH_TOKEN, USDC_TOKEN } from '../mocks';
  * @vitest-environment node
  */
 import { getSwapMessage } from './getSwapMessage';
-import type{ GetSwapMessageParams } from '../types';
+import type { GetSwapMessageParams } from '../types';
 
 describe('getSwapMessage', () => {
   const baseParams = {
