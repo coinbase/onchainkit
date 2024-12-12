@@ -5,7 +5,7 @@
   "repository": "https://github.com/coinbase/onchainkit.git",
   "license": "MIT",
   "scripts": {
-    "build": "packemon build --addEngines --addFiles --declaration && npx packemon validate --no-license --no-people --no-repo && tailwindcss -i ./src/styles/index.css -o ./src/tailwind.css --minify && tailwindcss -i ./src/styles/index-with-tailwind.css -o ./src/styles.css --minify",
+    "build": "packemon build --addEngines --addFiles --loadConfigs --declaration && npx packemon validate --no-license --no-people --no-repo && tailwindcss -i ./src/styles/index.css -o ./src/tailwind.css --minify && tailwindcss -i ./src/styles/index-with-tailwind.css -o ./src/styles.css --minify",
     "check": "biome check --write .",
     "check:unsafe": "biome check . --fix --unsafe",
     "ci:check": "biome ci --formatter-enabled=false --linter-enabled=false",
@@ -63,6 +63,7 @@
     "@vitest/coverage-v8": "^2.0.5",
     "@vitest/ui": "^2.0.5",
     "autoprefixer": "^10.4.19",
+    "babel-plugin-module-resolver": "^5.0.2",
     "concurrently": "^8.0.0",
     "graphql": "^14",
     "graphql-request": "^6.1.0",
