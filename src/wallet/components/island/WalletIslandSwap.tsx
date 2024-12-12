@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { backArrowSvg } from '../../../internal/svg/backArrowSvg';
 import { border, cn, pressable, text } from '../../../styles/theme';
 import {
@@ -29,17 +29,21 @@ export function WalletIslandSwap({
   title = <span className={cn(text.headline, 'text-base')}>Swap</span>,
   to,
 }: SwapDefaultReact) {
-  const { showSwap, setShowSwap } = useWalletIslandContext();
+  const { showSwap, setShowSwap, setIsSwapClosing, animationClasses } =
+    useWalletIslandContext();
   const swapDivRef = useRef<HTMLDivElement>(null);
-  const [isSwapClosing, setIsSwapClosing] = useState(false);
 
   const handleCloseSwap = useCallback(() => {
     setIsSwapClosing(true);
+
     setTimeout(() => {
       setShowSwap(false);
+    }, 200);
+
+    setTimeout(() => {
       setIsSwapClosing(false);
-    }, 150);
-  }, [setShowSwap]);
+    }, 400);
+  }, [setShowSwap, setIsSwapClosing]);
 
   const backButton = (
     <button
@@ -67,11 +71,7 @@ export function WalletIslandSwap({
     <div
       ref={swapDivRef}
       tabIndex={showSwap ? -1 : undefined}
-      className={cn(
-        isSwapClosing
-          ? 'animate-walletIslandSwapOut'
-          : 'animate-walletIslandSwapIn',
-      )}
+      className={cn(animationClasses.swap)}
       data-testid="ockWalletIslandSwap"
     >
       <Swap

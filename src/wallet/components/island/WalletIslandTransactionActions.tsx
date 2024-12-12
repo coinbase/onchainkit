@@ -11,12 +11,14 @@ type TransactionActionProps = {
 };
 
 export function WalletIslandTransactionActions() {
-  const { setShowSwap } = useWalletIslandContext();
+  const { setShowSwap, animationClasses } = useWalletIslandContext();
+  
   return (
     <div
       className={cn(
         'my-3 flex w-full flex-row justify-center gap-2',
-        'animate-walletIslandContainerItem3 opacity-0',
+        'opacity-0',
+        animationClasses.transactionActions,
       )}
     >
       <WalletIslandTransactionAction
