@@ -67,6 +67,12 @@
   padding: 8px 8px 0;
 }
 
+.dark .vocs_NavigationMenu_content{
+  background-color: #0F0F0F;
+  border-color: #18181b !important;
+  border-radius: 8px;
+}
+
 .vocs_DesktopTopNav_item.vocs_NavigationMenu_link.vocs_Link.vocs_Link_styleless {
   color: #030712;
 }
