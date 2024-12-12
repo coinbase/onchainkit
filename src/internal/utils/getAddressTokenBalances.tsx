@@ -2,28 +2,6 @@
 // import { base } from 'viem/chains';
 // import { sendRequest } from '../../network/request';
 import type { TokenBalanceWithFiatValue } from '../../wallet/components/island/WalletIslandTokenHoldings';
-// import getTokenFiatValue from './getTokenFiatConversionRates';
-
-// type CdpListBalancesResponse = {
-//   id: number;
-//   jsonrpc: string;
-//   result: {
-//     balances: CdpListBalanceTokenData[];
-//     nextPageToken: string;
-//   };
-// };
-
-// type CdpListBalanceTokenData = {
-//   asset: {
-//     id: string;
-//     groupId: `0x${string}` | Address;
-//     subGroupId: `0x${string}` | Address;
-//     type: string;
-//   };
-//   decimals: number;
-//   value: number;
-//   valueStr: string;
-// };
 
 export default async function getAddressTokenBalances(
   address: `0x${string}`,
@@ -32,69 +10,113 @@ export default async function getAddressTokenBalances(
     throw new Error('Invalid address');
   }
 
-  const walletTokenBalances: TokenBalanceWithFiatValue[] = [];
-  // let pageToken = '';
-  // const MAX_RETRIES = 3;
-  // const RETRY_DELAY = 1000;
+  const tokenBalances: TokenBalanceWithFiatValue[] = [
+    {
+      token: {
+        name: 'Ether',
+        address: '',
+        symbol: 'ETH',
+        decimals: 18,
+        image:
+          'https://wallet-api-production.s3.amazonaws.com/uploads/tokens/eth_288.png',
+        chainId: 8453,
+      },
+      balance: 0.42,
+      valueInFiat: 1386,
+    },
+    {
+      token: {
+        name: 'USD Coin',
+        address: '0x833589fcd6edb6e08f4c7c32d4f71b54bda02913',
+        symbol: 'USDC',
+        decimals: 6,
+        image:
+          'https://d3r81g40ycuhqg.cloudfront.net/wallet/wais/44/2b/442b80bd16af0c0d9b22e03a16753823fe826e5bfd457292b55fa0ba8c1ba213-ZWUzYjJmZGUtMDYxNy00NDcyLTg0NjQtMWI4OGEwYjBiODE2',
+        chainId: 8453,
+      },
+      balance: 69,
+      valueInFiat: 69,
+    },
+    {
+      token: {
+        name: 'Ether',
+        address: '',
+        symbol: 'ETH',
+        decimals: 18,
+        image:
+          'https://wallet-api-production.s3.amazonaws.com/uploads/tokens/eth_288.png',
+        chainId: 8453,
+      },
+      balance: 0.42,
+      valueInFiat: 1386,
+    },
+    {
+      token: {
+        name: 'USD Coin',
+        address: '0x833589fcd6edb6e08f4c7c32d4f71b54bda02913',
+        symbol: 'USDC',
+        decimals: 6,
+        image:
+          'https://d3r81g40ycuhqg.cloudfront.net/wallet/wais/44/2b/442b80bd16af0c0d9b22e03a16753823fe826e5bfd457292b55fa0ba8c1ba213-ZWUzYjJmZGUtMDYxNy00NDcyLTg0NjQtMWI4OGEwYjBiODE2',
+        chainId: 8453,
+      },
+      balance: 69,
+      valueInFiat: 69,
+    },
+    {
+      token: {
+        name: 'Ether',
+        address: '',
+        symbol: 'ETH',
+        decimals: 18,
+        image:
+          'https://wallet-api-production.s3.amazonaws.com/uploads/tokens/eth_288.png',
+        chainId: 8453,
+      },
+      balance: 0.42,
+      valueInFiat: 1386,
+    },
+    {
+      token: {
+        name: 'USD Coin',
+        address: '0x833589fcd6edb6e08f4c7c32d4f71b54bda02913',
+        symbol: 'USDC',
+        decimals: 6,
+        image:
+          'https://d3r81g40ycuhqg.cloudfront.net/wallet/wais/44/2b/442b80bd16af0c0d9b22e03a16753823fe826e5bfd457292b55fa0ba8c1ba213-ZWUzYjJmZGUtMDYxNy00NDcyLTg0NjQtMWI4OGEwYjBiODE2',
+        chainId: 8453,
+      },
+      balance: 69,
+      valueInFiat: 69,
+    },
+    {
+      token: {
+        name: 'Ether',
+        address: '',
+        symbol: 'ETH',
+        decimals: 18,
+        image:
+          'https://wallet-api-production.s3.amazonaws.com/uploads/tokens/eth_288.png',
+        chainId: 8453,
+      },
+      balance: 0.42,
+      valueInFiat: 1386,
+    },
+    {
+      token: {
+        name: 'USD Coin',
+        address: '0x833589fcd6edb6e08f4c7c32d4f71b54bda02913',
+        symbol: 'USDC',
+        decimals: 6,
+        image:
+          'https://d3r81g40ycuhqg.cloudfront.net/wallet/wais/44/2b/442b80bd16af0c0d9b22e03a16753823fe826e5bfd457292b55fa0ba8c1ba213-ZWUzYjJmZGUtMDYxNy00NDcyLTg0NjQtMWI4OGEwYjBiODE2',
+        chainId: 8453,
+      },
+      balance: 69,
+      valueInFiat: 69,
+    },
+  ];
 
-  // do {
-  //   let retries = 0;
 
-  //   while (retries < MAX_RETRIES) {
-  //     try {
-  //       const requestParams = {
-  //         address,
-  //         pageToken: pageToken,
-  //         pageSize: 100,
-  //       };
-
-  //       const response = (await sendRequest('cdp_listBalances', [
-  //         requestParams,
-  //       ])) as CdpListBalancesResponse;
-
-  //       console.log({ response });
-
-  //       for (const token of response.result.balances) {
-  //         if (token.asset.type === 'erc20' || token.asset.type === 'native') {
-  //           const fiatConversionRate = await getTokenFiatValue(
-  //             'ETH', // TODO [BOE-890]: get the token symbol from the token
-  //             'USD', // TODO [BOE-892]: get the user's desired fiat currency
-  //           );
-
-  //           const fiatValue =
-  //             (token.value * fiatConversionRate) / 10 ** token.decimals; // TODO use promise.all here
-  //           const walletTokenBalance: TokenBalanceWithFiatValue = {
-  //             token: {
-  //               address: token.asset.groupId,
-  //               chainId: base.id,
-  //               decimals: token.decimals,
-  //               image: null,
-  //               name: '',
-  //               symbol: '',
-  //             },
-  //             balance: token.value / 10 ** token.decimals,
-  //             valueInFiat: fiatValue,
-  //           };
-  //           walletTokenBalances.push(walletTokenBalance);
-  //         }
-  //       }
-
-  //       pageToken = response.result.nextPageToken;
-  //       break;
-  //     } catch (error) {
-  //       retries++;
-  //       console.error(`Error fetching token balances: ${error}`);
-
-  //       if (retries === MAX_RETRIES) {
-  //         throw new Error(
-  //           `Failed to fetch token balances after ${MAX_RETRIES} retries. Error: ${error}`,
-  //         );
-  //       }
-
-  //       await new Promise((resolve) => setTimeout(resolve, RETRY_DELAY));
-  //     }
-  //   }
-  // } while (pageToken);
-
-  return walletTokenBalances.sort((a, b) => b.valueInFiat - a.valueInFiat);
+  return tokenBalances.sort((a, b) => b.valueInFiat - a.valueInFiat);
 }
