@@ -1,10 +1,15 @@
 import { render, screen } from '@testing-library/react';
-import { beforeEach, describe, expect, it, vi, type Mock } from 'vitest';
-import { type Config, useAccount, type UseAccountReturnType, useSwitchChain } from 'wagmi';
+import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
+import {
+  type Config,
+  type UseAccountReturnType,
+  useAccount,
+  useSwitchChain,
+} from 'wagmi';
+import type { Token } from '../../token';
 import type { SwapDefaultReact } from '../types';
 import { SwapDefault } from './SwapDefault';
 import { useSwapContext } from './SwapProvider';
-import type { Token } from '../../token';
 
 vi.mock('../../core-react/internal/hooks/useTheme', () => ({
   useTheme: vi.fn(),

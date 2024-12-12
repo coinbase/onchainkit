@@ -1,5 +1,6 @@
 // @ts-nocheck -- made simple fixes for now, will fix rest later
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { base } from 'viem/chains';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import {
   useAccount,
@@ -17,7 +18,6 @@ import {
   TransactionProvider,
   useTransactionContext,
 } from './TransactionProvider';
-import { base } from 'viem/chains';
 
 vi.mock('wagmi', () => ({
   useAccount: vi.fn(),

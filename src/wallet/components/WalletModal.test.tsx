@@ -2,18 +2,18 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import {
   type Mock,
   afterAll,
+  afterEach,
   beforeAll,
   beforeEach,
   describe,
   expect,
   it,
   vi,
-  afterEach,
 } from 'vitest';
 import { useConnect, useConnectors } from 'wagmi';
+import type { MetaMaskParameters } from 'wagmi/connectors';
 import { useOnchainKit } from '../../core-react/useOnchainKit';
 import { WalletModal } from './WalletModal';
-import type { MetaMaskParameters } from 'wagmi/connectors';
 
 vi.mock('wagmi', () => ({
   useConnect: vi.fn(),

@@ -45,7 +45,11 @@ describe('SwapSettingsSlippageDescription', () => {
   });
 
   it('renders without children', () => {
-    const { container } = render(<SwapSettingsSlippageDescription>Description</SwapSettingsSlippageDescription>);
+    const { container } = render(
+      <SwapSettingsSlippageDescription>
+        Description
+      </SwapSettingsSlippageDescription>,
+    );
     const paragraph = container.querySelector('p');
     expect(paragraph).toBeInTheDocument();
     expect(paragraph?.textContent).toBe('Description');

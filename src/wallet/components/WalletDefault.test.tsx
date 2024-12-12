@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { type Mock, describe, expect, it, vi, beforeEach } from 'vitest';
+import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useAccount, useConnect } from 'wagmi';
 import { useAvatar } from '../../identity/hooks/useAvatar';
 import { useName } from '../../identity/hooks/useName';

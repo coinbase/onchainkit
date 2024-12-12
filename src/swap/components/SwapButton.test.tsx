@@ -1,6 +1,12 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
-import { type Config, useAccount, type UseAccountReturnType, useConnect, type UseConnectReturnType } from 'wagmi';
+import {
+  type Config,
+  type UseAccountReturnType,
+  type UseConnectReturnType,
+  useAccount,
+  useConnect,
+} from 'wagmi';
 import { SwapButton } from './SwapButton';
 import { useSwapContext } from './SwapProvider';
 

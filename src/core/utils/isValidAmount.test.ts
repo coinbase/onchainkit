@@ -1,5 +1,5 @@
-import { isValidAmount } from './isValidAmount';
 import { describe, expect, it } from 'vitest';
+import { isValidAmount } from './isValidAmount';
 
 describe('isValidAmount', () => {
   it('should return true for an empty string', () => {

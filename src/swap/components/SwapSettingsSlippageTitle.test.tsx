@@ -37,7 +37,9 @@ describe('SwapSettingsSlippageTitle', () => {
   });
 
   it('renders without valid children', () => {
-    const { container } = render(<SwapSettingsSlippageTitle>test</SwapSettingsSlippageTitle>);
+    const { container } = render(
+      <SwapSettingsSlippageTitle>test</SwapSettingsSlippageTitle>,
+    );
     const heading = container.querySelector('h3');
     expect(heading).toBeInTheDocument();
     expect(heading?.textContent).toBe('test');

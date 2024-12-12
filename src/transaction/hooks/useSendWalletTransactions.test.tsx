@@ -1,9 +1,9 @@
+import type { Call } from '@/transaction/types';
 import { renderHook } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { sendBatchedTransactions } from '../utils/sendBatchedTransactions';
 import { sendSingleTransactions } from '../utils/sendSingleTransactions';
 import { useSendWalletTransactions } from './useSendWalletTransactions';
-import type { Call } from '@/transaction/types';
 
 // Mock the utility functions
 vi.mock('../utils/sendBatchedTransactions');

@@ -47,8 +47,10 @@ const renderComponent = (props = {}) => {
   return render(
     <SwapSettings {...props}>
       <SwapSettingsSlippageTitle>Title</SwapSettingsSlippageTitle>
-      <SwapSettingsSlippageDescription>Description</SwapSettingsSlippageDescription>
-      <SwapSettingsSlippageInput/>
+      <SwapSettingsSlippageDescription>
+        Description
+      </SwapSettingsSlippageDescription>
+      <SwapSettingsSlippageInput />
     </SwapSettings>,
   );
 };
@@ -89,7 +91,9 @@ describe('SwapSettings', () => {
           text="Custom Text"
           className="custom-class"
           icon="custom-icon"
-        >test</SwapSettings>
+        >
+          test
+        </SwapSettings>
         <div data-testid="outside">Outside</div>
       </div>,
     );
@@ -118,7 +122,7 @@ describe('SwapSettings', () => {
       <SwapSettings>
         <SwapSettingsSlippageTitle>Title</SwapSettingsSlippageTitle>
         Plain text child
-        <SwapSettingsSlippageInput/>
+        <SwapSettingsSlippageInput />
       </SwapSettings>,
     );
     const button = screen.getByRole('button', {

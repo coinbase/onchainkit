@@ -1,3 +1,4 @@
+import type { GetSwapQuoteResponse } from '@/core/api';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import {
   fireEvent,
@@ -7,6 +8,7 @@ import {
   waitFor,
 } from '@testing-library/react';
 import React, { act, useCallback, useEffect } from 'react';
+import type { TransactionReceipt } from 'viem';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import {
   http,
@@ -24,11 +26,9 @@ import { useCapabilitiesSafe } from '../../core-react/internal/hooks/useCapabili
 import { buildSwapTransaction } from '../../core/api/buildSwapTransaction';
 import { getSwapQuote } from '../../core/api/getSwapQuote';
 import { DEGEN_TOKEN, ETH_TOKEN } from '../mocks';
+import type { LifecycleStatus, SwapError } from '../types';
 import { getSwapErrorCode } from '../utils/getSwapErrorCode';
 import { SwapProvider, useSwapContext } from './SwapProvider';
-import type { LifecycleStatus, SwapError } from '../types';
-import type { TransactionReceipt } from 'viem';
-import type { GetSwapQuoteResponse } from '@/core/api';
 
 const mockResetFunction = vi.fn();
 vi.mock('../hooks/useResetInputs', () => ({
@@ -214,10 +214,7 @@ const TestSwapComponent = () => {
       <button type="button" onClick={handleStatusSuccess}>
         setLifecycleStatus.success
       </button>
-      <button
-        type="submit"
-        onClick={() => context.handleSubmit()}
-      >
+      <button type="submit" onClick={() => context.handleSubmit()}>
         Swap
       </button>
     </div>

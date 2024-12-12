@@ -1,5 +1,5 @@
+import { describe, expect, it } from 'vitest';
 import { getPaymasterUrl } from './getPaymasterUrl';
-import { describe, it, expect } from 'vitest';
 
 describe('getPaymasterUrl', () => {
   it('should return null if capabilities is undefined', () => {

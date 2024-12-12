@@ -61,7 +61,11 @@ describe('SwapSettingsSlippageLayoutBottomSheet', () => {
   });
 
   it('renders without any valid child components', () => {
-    render(<SwapSettingsSlippageLayoutBottomSheet>test</SwapSettingsSlippageLayoutBottomSheet>);
+    render(
+      <SwapSettingsSlippageLayoutBottomSheet>
+        test
+      </SwapSettingsSlippageLayoutBottomSheet>,
+    );
     expect(
       screen.getByTestId('ockSwapSettingsLayout_container'),
     ).toBeInTheDocument();

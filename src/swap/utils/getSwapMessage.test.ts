@@ -6,11 +6,11 @@ import {
   USER_REJECTED_ERROR_CODE,
 } from '../constants';
 import { ETH_TOKEN, USDC_TOKEN } from '../mocks';
+import type { GetSwapMessageParams } from '../types';
 /**
  * @vitest-environment node
  */
 import { getSwapMessage } from './getSwapMessage';
-import type { GetSwapMessageParams } from '../types';
 
 describe('getSwapMessage', () => {
   const baseParams = {

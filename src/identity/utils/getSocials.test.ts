@@ -1,11 +1,11 @@
+import { http } from 'viem';
+import { createPublicClient } from 'viem';
 import { base, mainnet, sepolia } from 'viem/chains';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { getChainPublicClient } from '../../core/network/getChainPublicClient';
 import { isBase } from '../../core/utils/isBase';
 import { isEthereum } from '../../core/utils/isEthereum';
 import { getSocials } from './getSocials';
-import { http } from 'viem';
-import { createPublicClient } from 'viem';
 
 vi.mock('../../core/utils/isBase');
 vi.mock('../../core/utils/isEthereum');

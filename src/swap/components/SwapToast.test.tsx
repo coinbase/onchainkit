@@ -1,6 +1,6 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
-import { type Config, useAccount, type UseAccountReturnType } from 'wagmi';
+import { type Config, type UseAccountReturnType, useAccount } from 'wagmi';
 import { useSwapContext } from './SwapProvider';
 import { SwapToast } from './SwapToast';
 
@@ -19,7 +19,7 @@ describe('SwapToast', () => {
     // @ts-ignore
     vi.mocked(useAccount).mockReturnValue({
       chainId: 8453,
-    } as unknown as UseAccountReturnType<Config>);    
+    } as unknown as UseAccountReturnType<Config>);
   });
 
   it('does not render when not visible', () => {
@@ -85,9 +85,7 @@ describe('SwapToast', () => {
       transactionId: 'test-id',
     });
 
-    const { container } = render(
-      <SwapToast position="top-right"/>,
-    );
+    const { container } = render(<SwapToast position="top-right" />);
 
     const toastElement = container.firstChild as HTMLElement;
     expect(toastElement).toHaveClass('top-[100px] left-3/4');
@@ -103,9 +101,7 @@ describe('SwapToast', () => {
       transactionId: 'test-id',
     });
 
-    const { container } = render(
-      <SwapToast position="top-center"/>,
-    );
+    const { container } = render(<SwapToast position="top-center" />);
 
     const toastElement = container.firstChild as HTMLElement;
     expect(toastElement).toHaveClass('top-[100px] left-2/4');
@@ -121,7 +117,7 @@ describe('SwapToast', () => {
       transactionId: 'test-id',
     });
 
-    const { container } = render(<SwapToast/>);
+    const { container } = render(<SwapToast />);
 
     const toastElement = container.firstChild as HTMLElement;
     expect(toastElement).toHaveClass('bottom-5 left-2/4');
