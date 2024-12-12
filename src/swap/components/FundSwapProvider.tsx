@@ -9,14 +9,14 @@ import { base } from 'viem/chains';
 import { useAccount, useConfig, useSendTransaction } from 'wagmi';
 import { useSwitchChain } from 'wagmi';
 import { useSendCalls } from 'wagmi/experimental';
-import { buildSwapTransaction } from '../../api/buildSwapTransaction';
-import { getSwapQuote } from '../../api/getSwapQuote';
-import { useCapabilitiesSafe } from '../../internal/hooks/useCapabilitiesSafe';
-import { useValue } from '../../internal/hooks/useValue';
-import { formatTokenAmount } from '../../internal/utils/formatTokenAmount';
+import { buildSwapTransaction } from '../../core/api/buildSwapTransaction';
+import { getSwapQuote } from '../../core/api/getSwapQuote';
+import { useCapabilitiesSafe } from '../../core-react/internal/hooks/useCapabilitiesSafe';
+import { useValue } from '../../core-react/internal/hooks/useValue';
+import { formatTokenAmount } from '../../core/utils/formatTokenAmount';
 import { GENERIC_ERROR_MESSAGE } from '../../transaction/constants';
 import { isUserRejectedRequestError } from '../../transaction/utils/isUserRejectedRequestError';
-import { useOnchainKit } from '../../useOnchainKit';
+import { useOnchainKit } from '../../core-react/useOnchainKit';
 import { FALLBACK_DEFAULT_MAX_SLIPPAGE } from '../constants';
 import { useAwaitCalls } from '../hooks/useAwaitCalls';
 import { useFundSwapTokens } from '../hooks/useFundSwapTokens';
@@ -92,6 +92,7 @@ export function FundSwapProvider({
     lifecycleStatus,
     updateLifecycleStatus,
   });
+
 
   // Component lifecycle emitters
   useEffect(() => {

@@ -60,6 +60,11 @@ export type FundSwapTokens = {
   to: SwapUnit;
 };
 
+export type FundSwapToken = {
+  from: SwapUnit;
+  to: SwapUnit
+};
+
 /**
  * Note: exported as public Type
  */
@@ -73,6 +78,7 @@ export type FundSwapReact = {
   onError?: (error: SwapError) => void; // An optional callback function that handles errors within the provider.
   onStatus?: (lifecycleStatus: LifecycleStatus) => void; // An optional callback function that exposes the component lifecycle state
   onSuccess?: (transactionReceipt: TransactionReceipt) => void; // An optional callback function that exposes the transaction receipt
+  swappableTokens?: Token[]; // Swappable tokens
   toToken: Token;
 };
 
@@ -85,9 +91,10 @@ export type FundSwapContextType = {
   handleAmountChange: (amount: string) => void;
   handleSubmit: (fromToken: SwapUnit) => void;
   updateLifecycleStatus: (state: LifecycleStatusUpdate) => void; // A function to set the lifecycle status of the component
+  setTransactionHash: (hash: string) => void;
+  swappableTokens?: Token[]; // Swappable tokens
   to?: SwapUnit;
   transactionHash: string;
-  setTransactionHash: (hash: string) => void;
   isDropdownOpen: boolean;
   setIsDropdownOpen: (open: boolean) => void;
 };
@@ -104,6 +111,7 @@ export type FundSwapProviderReact = {
   onError?: (error: SwapError) => void; // An optional callback function that handles errors within the provider.
   onStatus?: (lifecycleStatus: LifecycleStatus) => void; // An optional callback function that exposes the component lifecycle state
   onSuccess?: (transactionReceipt: TransactionReceipt) => void; // An optional callback function that exposes the transaction receipt
+  swappableTokens?: Token[]; // Swappable tokens
   toToken: Token;
 };
 

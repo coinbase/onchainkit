@@ -9,18 +9,38 @@ import { AppContext } from '../AppProvider';
 
 const FALLBACK_DEFAULT_MAX_SLIPPAGE = 3;
 
+const ethToken: Token = {
+  name: 'ETH',
+  address: '',
+  symbol: 'ETH',
+  decimals: 18,
+  image:
+    'https://wallet-api-production.s3.amazonaws.com/uploads/tokens/eth_288.png',
+  chainId: base.id,
+};
+
+const usdcToken: Token = {
+  name: 'USDC',
+  address: '0x833589fcd6edb6e08f4c7c32d4f71b54bda02913',
+  symbol: 'USDC',
+  decimals: 6,
+  image:
+    'https://d3r81g40ycuhqg.cloudfront.net/wallet/wais/44/2b/442b80bd16af0c0d9b22e03a16753823fe826e5bfd457292b55fa0ba8c1ba213-ZWUzYjJmZGUtMDYxNy00NDcyLTg0NjQtMWI4OGEwYjBiODE2',
+  chainId: base.id,
+};
+
+const degenToken: Token = {
+  name: 'DEGEN',
+  address: '0x4ed4e862860bed51a9570b96d89af5e1b0efefed',
+  symbol: 'DEGEN',
+  decimals: 18,
+  image:
+    'https://d3r81g40ycuhqg.cloudfront.net/wallet/wais/3b/bf/3bbf118b5e6dc2f9e7fc607a6e7526647b4ba8f0bea87125f971446d57b296d2-MDNmNjY0MmEtNGFiZi00N2I0LWIwMTItMDUyMzg2ZDZhMWNm',
+  chainId: base.id,
+};
+
 function FundSwapComponent() {
   const { chainId, isSponsored, defaultMaxSlippage } = useContext(AppContext);
-
-  const degenToken: Token = {
-    name: 'DEGEN',
-    address: '0x4ed4e862860bed51a9570b96d89af5e1b0efefed',
-    symbol: 'DEGEN',
-    decimals: 18,
-    image:
-      'https://d3r81g40ycuhqg.cloudfront.net/wallet/wais/3b/bf/3bbf118b5e6dc2f9e7fc607a6e7526647b4ba8f0bea87125f971446d57b296d2-MDNmNjY0MmEtNGFiZi00N2I0LWIwMTItMDUyMzg2ZDZhMWNm',
-    chainId: base.id,
-  };
 
   const handleOnStatus = useCallback((lifecycleStatus: LifecycleStatus) => {
     console.log('Status:', lifecycleStatus);
@@ -30,7 +50,7 @@ function FundSwapComponent() {
     (transactionReceipt: TransactionReceipt) => {
       console.log('Success:', transactionReceipt);
     },
-    [],
+    []
   );
 
   const handleOnError = useCallback((swapError: SwapError) => {
