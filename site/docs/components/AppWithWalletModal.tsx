@@ -54,6 +54,8 @@ export default function AppWithWalletModal({
               theme: theme,
             },
             wallet: {
+              name: 'OnchainKit',
+              logo: 'https://onchainkit.xyz/favicon/48x48.png?v4-19-24',
               display: 'modal', // 'modal' | 'classic'
               termsUrl: 'https://www.coinbase.com/legal/privacy',
               privacyUrl: 'https://www.coinbase.com/legal/cookie',
