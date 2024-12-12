@@ -15,6 +15,8 @@ vi.mock('wagmi', () => ({
 describe('SwapToast', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    // TODO: set up proper mock data
+    // @ts-ignore
     vi.mocked(useAccount).mockReturnValue({
       chainId: 8453,
     });
@@ -83,9 +85,7 @@ describe('SwapToast', () => {
       transactionId: 'test-id',
     });
 
-    const { container } = render(
-      <SwapToast position="top-right">Test</SwapToast>,
-    );
+    const { container } = render(<SwapToast position="top-right" />);
 
     const toastElement = container.firstChild as HTMLElement;
     expect(toastElement).toHaveClass('top-[100px] left-3/4');
@@ -101,9 +101,7 @@ describe('SwapToast', () => {
       transactionId: 'test-id',
     });
 
-    const { container } = render(
-      <SwapToast position="top-center">Test</SwapToast>,
-    );
+    const { container } = render(<SwapToast position="top-center" />);
 
     const toastElement = container.firstChild as HTMLElement;
     expect(toastElement).toHaveClass('top-[100px] left-2/4');
@@ -119,7 +117,7 @@ describe('SwapToast', () => {
       transactionId: 'test-id',
     });
 
-    const { container } = render(<SwapToast>Test</SwapToast>);
+    const { container } = render(<SwapToast />);
 
     const toastElement = container.firstChild as HTMLElement;
     expect(toastElement).toHaveClass('bottom-5 left-2/4');
