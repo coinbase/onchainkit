@@ -43,4 +43,4 @@ export const ONRAMP_PAYMENT_METHODS = [
     description: 'Up to $500/week',
     icon: 'creditCard',
   },
-]
+];

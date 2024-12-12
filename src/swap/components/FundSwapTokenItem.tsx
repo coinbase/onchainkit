@@ -1,8 +1,9 @@
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { cn, color } from '../../styles/theme';
 import { TokenImage } from '../../token';
 import type { SwapUnit } from '../types';
 import { useFundSwapContext } from './FundSwapProvider';
+import { getRoundedAmount } from '../../core/utils/getRoundedAmount';
 
 export function FundSwapTokenItem({ swapUnit }: { swapUnit: SwapUnit }) {
   const { handleSubmit, setIsDropdownOpen } = useFundSwapContext();
@@ -16,23 +17,41 @@ export function FundSwapTokenItem({ swapUnit }: { swapUnit: SwapUnit }) {
     handleSubmit(swapUnit);
   }, [handleSubmit, swapUnit, setIsDropdownOpen]);
 
+  const hasInsufficientBalance =
+    !swapUnit.balance ||
+    Number.parseFloat(swapUnit.balance) < Number.parseFloat(swapUnit.amount);
+
+  const roundedAmount = useMemo(() => {
+    return getRoundedAmount(swapUnit.amount, 10);
+  }, [swapUnit.amount]);
+
+  const roundedBalance = useMemo(() => {
+    return getRoundedAmount(swapUnit.balance || '0', 10);
+  }, [swapUnit.balance]);
+
   return (
     <button
       className={cn(
         'flex items-center gap-2 rounded-lg p-2',
-        'hover:bg-[var(--ock-bg-inverse)]',
+        !hasInsufficientBalance && 'hover:bg-[var(--ock-bg-inverse)]',
       )}
       onClick={handleClick}
       type="button"
+      disabled={hasInsufficientBalance}
     >
       <TokenImage token={swapUnit.token} size={36} />
-      <div className="flex flex-col items-start">
+      <div
+        className={cn(
+          'flex flex-col items-start',
+          hasInsufficientBalance && color.foregroundMuted,
+        )}
+      >
         <div>
-          {swapUnit.amount} {swapUnit.token.name}
+          {roundedAmount} {swapUnit.token.name}
         </div>
         <div
           className={cn('text-xs', color.foregroundMuted)}
-        >{`Balance: ${swapUnit.balance}`}</div>
+        >{`Balance: ${roundedBalance}`}</div>
       </div>
     </button>
   );
