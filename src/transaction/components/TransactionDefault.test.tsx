@@ -8,7 +8,6 @@ import type {
 } from '../types';
 import { TransactionDefault } from './TransactionDefault';
 import { useTransactionContext } from './TransactionProvider';
-import { base } from 'viem/chains';
 
 vi.mock('../../core-react/internal/hooks/useTheme', () => ({
   useTheme: vi.fn(),
