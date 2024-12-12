@@ -48,7 +48,7 @@ export function GetSocialPlatformDetails({
         pressable.default,
         border.radius,
         border.default,
-        'flex items-center justify-center p-2',
+        'flex items-center justify-center p-2 -ml-[1px]',
       )}
       data-testid={`ockSocials_${
         platform.charAt(0).toUpperCase() + platform.slice(1)

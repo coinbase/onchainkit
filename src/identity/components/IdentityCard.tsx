@@ -30,7 +30,7 @@ export function IdentityCard({
         border.lineDefault,
         background.default,
         'items-left flex min-w-[300px] p-4',
-        className
+        className,
       )}
       schemaId={schemaId}
     >

@@ -159,8 +159,7 @@ export function WalletModal({
           border.radius,
           background.default,
           'w-[22rem] p-6 pb-4',
-          'flex flex-col items-center gap-4',
-          'relative',
+          'flex flex-col items-center gap-4 relative',
           '-translate-x-1/2 -translate-y-1/2 fixed top-1/2 left-1/2',
           'transition-opacity duration-200',
           isOpen ? 'opacity-100' : 'opacity-0',
@@ -209,7 +208,7 @@ export function WalletModal({
           </div>
         )}
 
-        <div className="flex flex-col gap-3">
+        <div className="flex w-full flex-col gap-3">
           <button
             type="button"
             onClick={handleCoinbaseWalletConnection}
@@ -218,8 +217,7 @@ export function WalletModal({
               text.body,
               pressable.alternate,
               color.foreground,
-              'w-[275px] px-4 py-3',
-              'flex items-center justify-between text-left',
+              'px-4 py-3 flex items-center justify-between text-left',
             )}
           >
             Sign up
@@ -255,7 +253,7 @@ export function WalletModal({
               text.body,
               pressable.alternate,
               color.foreground,
-              'w-[275px] px-4 py-3',
+              'px-4 py-3',
               'flex items-center justify-between text-left',
             )}
           >
@@ -272,8 +270,7 @@ export function WalletModal({
               text.body,
               pressable.alternate,
               color.foreground,
-              'flex w-[275px] px-4 py-3',
-              'items-center justify-between text-left',
+              'flex px-4 py-3 items-center justify-between text-left',
             )}
           >
             MetaMask
@@ -288,7 +285,7 @@ export function WalletModal({
             color.foregroundMuted,
             text.legal,
             'flex flex-col items-center justify-center gap-1 px-4',
-            'mt-4 w-[275px] text-center',
+            'mt-4 text-center',
           )}
         >
           <span className="font-normal text-[10px] leading-[13px]">
