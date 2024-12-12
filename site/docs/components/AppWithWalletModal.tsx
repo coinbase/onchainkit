@@ -50,12 +50,12 @@ export default function AppWithWalletModal({
           schemaId="0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9"
           config={{
             appearance: {
+              name: 'OnchainKit',
+              logo: 'https://onchainkit.xyz/favicon/48x48.png?v4-19-24',
               mode: 'auto',
               theme: theme,
             },
             wallet: {
-              name: 'OnchainKit',
-              logo: 'https://onchainkit.xyz/favicon/48x48.png?v4-19-24',
               display: 'modal', // 'modal' | 'classic'
               termsUrl: 'https://www.coinbase.com/legal/privacy',
               privacyUrl: 'https://www.coinbase.com/legal/cookie',
