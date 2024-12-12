@@ -1,13 +1,14 @@
-import type { ConfigFile } from 'packemon';
-
-const config: ConfigFile = {
+const config = {
   babelInput(config) {
     config.plugins?.push([
       require.resolve('babel-plugin-module-resolver'),
       {
-        root: './',
+        root: ['./src'],
         alias: {
-          '@/': './src',
+          '@/core': './src/core',
+          '@/core-react': './src/core-react',
+          '@/ui-react': './src/ui/react',
+          '@': './src'
         },
       },
     ]);
