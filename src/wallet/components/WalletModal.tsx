@@ -158,7 +158,7 @@ export function WalletModal({
           border.lineDefault,
           border.radius,
           background.default,
-          'w-[323px] p-6 pb-4',
+          'w-[22rem] p-6 pb-4',
           'flex flex-col items-center gap-4',
           'relative',
           '-translate-x-1/2 -translate-y-1/2 fixed top-1/2 left-1/2',
@@ -189,7 +189,7 @@ export function WalletModal({
         </button>
 
         {(appLogo || appName) && (
-          <div className="flex w-full flex-col items-center gap-3 p-2">
+          <div className="flex w-full flex-col items-center gap-2 py-3">
             {appLogo && (
               <div className={cn(border.radius, 'h-14 w-14 overflow-hidden')}>
                 <img
@@ -214,11 +214,11 @@ export function WalletModal({
             type="button"
             onClick={handleCoinbaseWalletConnection}
             className={cn(
-              border.radiusInner,
+              border.radius,
               text.body,
               pressable.alternate,
               color.foreground,
-              'h-10 w-[275px] px-4 py-3',
+              'w-[275px] px-4 py-3',
               'flex items-center justify-between text-left',
             )}
           >
@@ -250,11 +250,12 @@ export function WalletModal({
             type="button"
             onClick={handleCoinbaseWalletConnection}
             className={cn(
-              border.radiusInner,
+              border.radius,
+              background.default,
               text.body,
               pressable.alternate,
               color.foreground,
-              'h-10 w-[275px] px-4 py-3',
+              'w-[275px] px-4 py-3',
               'flex items-center justify-between text-left',
             )}
           >
@@ -266,11 +267,12 @@ export function WalletModal({
             type="button"
             onClick={handleMetaMaskConnection}
             className={cn(
-              border.radiusInner,
+              border.radius,
+              background.default,
               text.body,
               pressable.alternate,
               color.foreground,
-              'flex h-[40px] w-[275px] px-4 py-3',
+              'flex w-[275px] px-4 py-3',
               'items-center justify-between text-left',
             )}
           >
