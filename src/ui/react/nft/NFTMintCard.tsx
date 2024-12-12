@@ -1,16 +1,16 @@
 import { useIsMounted } from '../../../core-react/internal/hooks/useIsMounted';
 import { useTheme } from '../../../core-react/internal/hooks/useTheme';
-import { background, border, cn, color } from '../../../styles/theme';
 import { useMintData as defaultUseMintData } from '../../../core-react/nft/hooks/useMintData';
+import { NFTLifecycleProvider } from '../../../core-react/nft/providers/NFTLifecycleProvider';
+import { NFTProvider } from '../../../core-react/nft/providers/NFTProvider';
 import {
   LifecycleType,
   type NFTMintCardReact,
 } from '../../../core-react/nft/types';
 import { buildMintTransactionData as defaultBuildMintTransaction } from '../../../core/nft/utils/buildMintTransactionData';
+import { background, border, cn, color } from '../../../styles/theme';
 import NFTErrorBoundary from './NFTErrorBoundary';
 import { NFTErrorFallback } from './NFTErrorFallback';
-import { NFTLifecycleProvider } from '../../../core-react/nft/providers/NFTLifecycleProvider';
-import { NFTProvider } from '../../../core-react/nft/providers/NFTProvider';
 
 export function NFTMintCard({
   children,

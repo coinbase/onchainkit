@@ -10,8 +10,8 @@ import {
   vi,
 } from 'vitest';
 import { useAccount } from 'wagmi';
-import { NFTProvider } from '../../../core-react/nft/providers/NFTProvider';
 import { useIsMounted } from '../../../core-react/internal/hooks/useIsMounted';
+import { NFTProvider } from '../../../core-react/nft/providers/NFTProvider';
 import { NFTCard } from './NFTCard';
 
 vi.mock('wagmi', () => ({
