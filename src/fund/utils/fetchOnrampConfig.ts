@@ -1,5 +1,5 @@
-import { convertSnakeToCamelCase } from '../../internal/utils/convertSnakeToCamelCase';
-import { getApiKey } from '../../internal/utils/getApiKey';
+import { convertSnakeToCamelCase } from '../../core/utils/convertSnakeToCamelCase';
+import { getApiKey } from '../../core/utils/getApiKey';
 import { ONRAMP_API_BASE_URL } from '../constants';
 import type { OnrampPaymentMethod } from '../types';
 

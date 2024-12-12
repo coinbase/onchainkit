@@ -1,9 +1,9 @@
 import { type Mock, afterEach, describe, expect, it, vi } from 'vitest';
-import { getWindowDimensions } from '../../internal/utils/getWindowDimensions';
+import { getWindowDimensions } from '../../ui/react/internal/utils/getWindowDimensions';
 import { ONRAMP_POPUP_HEIGHT, ONRAMP_POPUP_WIDTH } from '../constants';
 import { getFundingPopupSize } from './getFundingPopupSize';
 
-vi.mock('../../internal/utils/getWindowDimensions', () => ({
+vi.mock('../../ui/react/internal/utils/getWindowDimensions', () => ({
   getWindowDimensions: vi.fn(),
 }));
 

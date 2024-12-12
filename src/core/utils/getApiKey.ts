@@ -1,4 +1,4 @@
-import { ONCHAIN_KIT_CONFIG } from '../../core/OnchainKitConfig';
+import { ONCHAIN_KIT_CONFIG } from '../OnchainKitConfig';
 
 /**
  * Get the API key for OnchainKit.
