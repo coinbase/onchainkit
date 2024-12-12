@@ -28,17 +28,24 @@ const usdcToken: Token = {
 
 export const useFundSwapTokens = (
   toToken: Token,
+  fromToken?: Token,
   address?: Address,
 ): FundSwapTokens => {
   const [toAmount, setToAmount] = useState('');
   const [toAmountUSD, setToAmountUSD] = useState('');
   const [toLoading, setToLoading] = useState(false);
+
   const [fromETHAmount, setFromETHAmount] = useState('');
   const [fromETHAmountUSD, setFromETHAmountUSD] = useState('');
   const [fromETHLoading, setFromETHLoading] = useState(false);
+
   const [fromUSDCAmount, setFromUSDCAmount] = useState('');
   const [fromUSDCAmountUSD, setFromUSDCAmountUSD] = useState('');
   const [fromUSDCLoading, setFromUSDCLoading] = useState(false);
+
+  const [fromAmount, setFromAmount] = useState('');
+  const [fromAmountUSD, setFromAmountUSD] = useState('');
+  const [fromLoading, setFromLoading] = useState(false);
 
   const {
     fromBalanceString: fromETHBalanceString,
@@ -54,6 +61,12 @@ export const useFundSwapTokens = (
     fromTokenBalanceError: fromUSDCBalanceError,
     fromTokenResponse: fromUSDCResponse,
   } = useSwapBalances({ address, fromToken: usdcToken, toToken });
+
+  const {
+    fromBalanceString: fromBalanceString,
+    fromTokenBalanceError: fromBalanceError,
+    fromTokenResponse: fromResponse,
+  } = useSwapBalances({ address, fromToken, toToken });
 
   const fromETH = useValue({
     balance: fromETHBalanceString,
@@ -81,6 +94,19 @@ export const useFundSwapTokens = (
     error: fromUSDCBalanceError,
   });
 
+  const from = useValue({
+    balance: fromBalanceString,
+    balanceResponse: fromResponse,
+    amount: fromAmount,
+    setAmount: setFromAmount,
+    amountUSD: fromAmountUSD,
+    setAmountUSD: setFromAmountUSD,
+    token: fromToken,
+    loading: fromLoading,
+    setLoading: setFromLoading,
+    error: fromBalanceError,
+  });
+
   const to = useValue({
     balance: toBalanceString,
     balanceResponse: toTokenResponse,
@@ -94,5 +120,5 @@ export const useFundSwapTokens = (
     error: toTokenBalanceError,
   });
 
-  return { fromETH, fromUSDC, to };
+  return { fromETH, from, fromUSDC, to };
 };

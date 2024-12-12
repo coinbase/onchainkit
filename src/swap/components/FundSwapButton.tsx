@@ -14,6 +14,7 @@ import { useFundSwapContext } from './FundSwapProvider';
 export function FundSwapButton() {
   const {
     setIsDropdownOpen,
+    from,
     fromETH,
     fromUSDC,
     to,
@@ -21,6 +22,7 @@ export function FundSwapButton() {
   } = useFundSwapContext();
   const isLoading =
     to?.loading ||
+    from?.loading ||
     fromETH.loading ||
     fromUSDC.loading ||
     statusName === 'transactionPending' ||

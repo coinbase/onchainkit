@@ -1,6 +1,5 @@
 import { useCallback, useMemo } from 'react';
 import { background, cn, color, text } from '../../styles/theme';
-import type { SwapUnit } from '../types';
 import { useFundSwapContext } from './FundSwapProvider';
 import { getRoundedAmount } from '../../core/utils/getRoundedAmount';
 import { ONRAMP_PAYMENT_METHODS } from '../constants';
@@ -12,7 +11,7 @@ import { FundSwapOnrampItem } from './FundSwapOnrampItem';
 import { FundSwapTokenItem } from './FundSwapTokenItem';
 
 export function FundSwapDropdown() {
-  const { to, fromETH, fromUSDC } = useFundSwapContext();
+  const { to, fromETH, fromUSDC, from } = useFundSwapContext();
   const { address } = useAccount();
 
   const handleOnrampClick = useCallback(
@@ -33,7 +32,7 @@ export function FundSwapDropdown() {
         });
       };
     },
-    [to]
+    [to],
   );
 
   const formattedAmountUSD = useMemo(() => {
@@ -50,12 +49,13 @@ export function FundSwapDropdown() {
         color.foreground,
         background.alternate,
         'absolute right-0 bottom-0 flex translate-y-[105%] flex-col gap-2',
-        'rounded p-2'
+        'rounded p-2',
       )}
     >
       <div className="px-2 pt-2">Buy with</div>
       <FundSwapTokenItem swapUnit={fromETH} />
       <FundSwapTokenItem swapUnit={fromUSDC} />
+      {from && <FundSwapTokenItem swapUnit={from} />}
 
       {ONRAMP_PAYMENT_METHODS.map((method) => {
         return (

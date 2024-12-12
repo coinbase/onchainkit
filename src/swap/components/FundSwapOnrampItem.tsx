@@ -17,12 +17,17 @@ const ONRAMP_ICON_MAP: Record<string, React.ReactNode> = {
   creditCard: cardSvg,
 };
 
-export function FundSwapOnrampItem({ name, description, onClick, icon }: OnrampItemReact) {
+export function FundSwapOnrampItem({
+  name,
+  description,
+  onClick,
+  icon,
+}: OnrampItemReact) {
   return (
     <button
       className={cn(
         'flex items-center gap-2 rounded-lg p-2',
-        'hover:bg-[var(--ock-bg-inverse)]'
+        'hover:bg-[var(--ock-bg-inverse)]',
       )}
       onClick={onClick}
       type="button"

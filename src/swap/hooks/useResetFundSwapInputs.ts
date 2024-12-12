@@ -5,17 +5,21 @@ import type { FundSwapTokens } from '../types';
 export const useResetFundSwapInputs = ({
   fromETH,
   fromUSDC,
+  from,
   to,
 }: FundSwapTokens) => {
   return useCallback(async () => {
     await Promise.all([
+      from.balanceResponse?.refetch(),
+      from.setAmount(''),
+      from.setAmountUSD(''),
       fromETH.balanceResponse?.refetch(),
-      fromUSDC.balanceResponse?.refetch(),
-      to.balanceResponse?.refetch(),
       fromETH.setAmount(''),
-      fromUSDC.setAmount(''),
       fromETH.setAmountUSD(''),
+      fromUSDC.balanceResponse?.refetch(),
+      fromUSDC.setAmount(''),
       fromUSDC.setAmountUSD(''),
+      to.balanceResponse?.refetch(),
       to.setAmount(''),
       to.setAmountUSD(''),
     ]);

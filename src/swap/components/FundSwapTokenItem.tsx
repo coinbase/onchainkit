@@ -20,7 +20,7 @@ export function FundSwapTokenItem({ swapUnit }: { swapUnit: SwapUnit }) {
     <button
       className={cn(
         'flex items-center gap-2 rounded-lg p-2',
-        'hover:bg-[var(--ock-bg-inverse)]'
+        'hover:bg-[var(--ock-bg-inverse)]',
       )}
       onClick={handleClick}
       type="button"

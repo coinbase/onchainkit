@@ -55,6 +55,7 @@ export function FundSwapProvider({
   onStatus,
   onSuccess,
   toToken,
+  fromToken,
 }: FundSwapProviderReact) {
   const {
     config: { paymaster } = { paymaster: undefined },
@@ -80,19 +81,22 @@ export function FundSwapProvider({
 
   const [transactionHash, setTransactionHash] = useState('');
   const [hasHandledSuccess, setHasHandledSuccess] = useState(false);
-  const { fromETH, fromUSDC, to } = useFundSwapTokens(toToken, address);
+  const { from, fromETH, fromUSDC, to } = useFundSwapTokens(
+    toToken,
+    fromToken,
+    address,
+  );
   const { sendTransactionAsync } = useSendTransaction(); // Sending the transaction (and approval, if applicable)
   const { sendCallsAsync } = useSendCalls(); // Atomic Batch transactions (and approval, if applicable)
 
   // Refreshes balances and inputs post-swap
-  const resetInputs = useResetFundSwapInputs({ fromETH, fromUSDC, to });
+  const resetInputs = useResetFundSwapInputs({ fromETH, fromUSDC, from, to });
   // For batched transactions, listens to and awaits calls from the Wallet server
   const awaitCallsStatus = useAwaitCalls({
     accountConfig,
     lifecycleStatus,
     updateLifecycleStatus,
   });
-
 
   // Component lifecycle emitters
   useEffect(() => {
@@ -200,11 +204,13 @@ export function FundSwapProvider({
         to.setAmountUSD('');
         fromETH.setAmountUSD('');
         fromUSDC.setAmountUSD('');
+        from.setAmountUSD('');
         return;
       }
 
       fromETH.setLoading(true);
       fromUSDC.setLoading(true);
+      from.setLoading(true);
 
       updateLifecycleStatus({
         statusName: 'amountChange',
@@ -214,8 +220,10 @@ export function FundSwapProvider({
           amountTo: amount,
           amountETH: '',
           amountUSDC: '',
+          amountFrom: '',
           tokenFromETH: fromETH.token,
           tokenFromUSDC: fromUSDC.token,
+          tokenFrom: from.token,
           tokenTo: to.token,
           // when fetching quote, the destination
           // amount is missing
@@ -241,6 +249,18 @@ export function FundSwapProvider({
           to: to.token,
           useAggregator,
         });
+
+        let responseFrom;
+        if (from?.token) {
+          responseFrom = await getSwapQuote({
+            amount,
+            amountReference: 'to',
+            from: from?.token,
+            maxSlippage: String(maxSlippage),
+            to: to.token,
+            useAggregator,
+          });
+        }
 
         // If request resolves to error response set the quoteError
         // property of error state to the SwapError response
@@ -274,11 +294,24 @@ export function FundSwapProvider({
           responseUSDC.fromAmount,
           responseUSDC.from.decimals,
         );
+
         fromETH.setAmountUSD(responseETH.fromAmountUSD);
         fromETH.setAmount(formattedAmount);
         fromUSDC.setAmountUSD(responseUSDC.fromAmountUSD);
         fromUSDC.setAmount(formattedUSDCAmount);
 
+        // if error occurs, handle gracefully
+        // (display other payment options with fromToken disabled)
+        let formattedFromAmount;
+        if (responseFrom && !isSwapError(responseFrom)) {
+          formattedFromAmount = formatTokenAmount(
+            responseFrom.fromAmount,
+            responseFrom.from.decimals,
+          );
+
+          from.setAmountUSD(responseFrom?.fromAmountUSD || '');
+          from.setAmount(formattedFromAmount || '');
+        }
         // TODO: revisit this
         to.setAmountUSD(responseETH.toAmountUSD);
 
@@ -287,9 +320,11 @@ export function FundSwapProvider({
           statusData: {
             amountETH: formattedAmount,
             amountUSDC: formattedUSDCAmount,
+            amountFrom: formattedFromAmount || '',
             amountTo: amount,
             tokenFromETH: fromETH.token,
             tokenFromUSDC: fromUSDC.token,
+            tokenFrom: from.token,
             tokenTo: to.token,
             // if quote was fetched successfully, we
             // have all required fields
@@ -309,6 +344,7 @@ export function FundSwapProvider({
         // reset loading state when quote request resolves
         fromETH.setLoading(false);
         fromUSDC.setLoading(false);
+        from.setLoading(false);
       }
     },
     [
@@ -396,6 +432,7 @@ export function FundSwapProvider({
   const value = useValue({
     address,
     config,
+    from,
     fromETH,
     fromUSDC,
     handleAmountChange,
@@ -407,6 +444,8 @@ export function FundSwapProvider({
     transactionHash,
     isDropdownOpen,
     setIsDropdownOpen,
+    toToken,
+    fromToken,
   });
 
   return (
