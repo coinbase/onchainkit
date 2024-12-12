@@ -2,6 +2,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { sendBatchedTransactions } from './sendBatchedTransactions';
 
 import type { SendBatchedTransactionsParams } from '@/transaction/types';
+import { erc20Abi } from 'viem';
 
 describe('sendBatchedTransactions', () => {
   const mockSendCallsAsync = vi.fn();
@@ -48,22 +49,24 @@ describe('sendBatchedTransactions', () => {
     await sendBatchedTransactions({
       capabilities: mockCapabilities,
       sendCallsAsync: mockSendCallsAsync,
-      transactions: [{ address: '0x123', abi: '123' }],
+      transactions: [
+        { address: '0x123', abi: erc20Abi, functionName: 'transfer' },
+      ],
     });
-    expect(mockSendCallsAsync).toHaveBeenCalled({
-      Capabilities: mockCapabilities,
-      calls: [{ to: '0x123', abi: '123' }],
+    expect(mockSendCallsAsync).toHaveBeenCalledWith({
+      capabilities: mockCapabilities,
+      calls: [{ to: '0x123', abi: erc20Abi, functionName: 'transfer' }],
     });
   });
 
-  it('should transform not transform call', async () => {
+  it('should not transform calls', async () => {
     await sendBatchedTransactions({
       capabilities: mockCapabilities,
       sendCallsAsync: mockSendCallsAsync,
       transactions: [{ to: '0x123', data: '0x123' }],
     });
-    expect(mockSendCallsAsync).toHaveBeenCalled({
-      Capabilities: mockCapabilities,
+    expect(mockSendCallsAsync).toHaveBeenCalledWith({
+      capabilities: mockCapabilities,
       calls: [{ to: '0x123', data: '0x123' }],
     });
   });
