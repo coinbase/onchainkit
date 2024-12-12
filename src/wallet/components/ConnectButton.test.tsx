@@ -5,7 +5,13 @@ import { ConnectWalletText } from './ConnectWalletText';
 
 describe('ConnectButton', () => {
   it('should render connect button', () => {
-    render(<ConnectButton text="Connect Wallet" />);
+    render(
+      <ConnectButton
+        connectWalletText="Connect Wallet"
+        onClick={() => {}}
+        text="text"
+      />,
+    );
     const button = screen.getByTestId('ockConnectButton');
     expect(button).toBeInTheDocument();
     expect(button).toHaveTextContent('Connect Wallet');
@@ -17,6 +23,8 @@ describe('ConnectButton', () => {
         connectWalletText={
           <ConnectWalletText>Connect Dope Wallet</ConnectWalletText>
         }
+        onClick={() => {}}
+        text="text"
       />,
     );
     const button = screen.getByTestId('ockConnectButton');
@@ -29,6 +37,8 @@ describe('ConnectButton', () => {
       <ConnectButton
         className="custom-class"
         connectWalletText="Connect Dope Wallet"
+        onClick={() => {}}
+        text="text"
       />,
     );
     const button = screen.getByTestId('ockConnectButton');

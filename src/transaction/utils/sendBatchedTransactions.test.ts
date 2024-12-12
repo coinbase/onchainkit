@@ -60,11 +60,11 @@ describe('sendBatchedTransactions', () => {
     await sendBatchedTransactions({
       capabilities: mockCapabilities,
       sendCallsAsync: mockSendCallsAsync,
-      transactions: [{ to: '0x123', data: '123' }],
+      transactions: [{ to: '0x123', data: '0x123' }],
     });
     expect(mockSendCallsAsync).toHaveBeenCalled({
       Capabilities: mockCapabilities,
-      calls: [{ to: '0x123', data: '123' }],
+      calls: [{ to: '0x123', data: '0x123' }],
     });
   });
 });
