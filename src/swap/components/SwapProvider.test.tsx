@@ -26,6 +26,9 @@ import { getSwapQuote } from '../../core/api/getSwapQuote';
 import { DEGEN_TOKEN, ETH_TOKEN } from '../mocks';
 import { getSwapErrorCode } from '../utils/getSwapErrorCode';
 import { SwapProvider, useSwapContext } from './SwapProvider';
+import type { LifecycleStatus, SwapError } from '../types';
+import type { TransactionReceipt } from 'viem';
+import type { GetSwapQuoteResponse } from '@/core/api';
 
 const mockResetFunction = vi.fn();
 vi.mock('../hooks/useResetInputs', () => ({
@@ -95,7 +98,7 @@ const accountConfig = createConfig({
   },
 });
 
-const wrapper = ({ children }) => (
+const wrapper = ({ children }: { children: React.ReactNode }) => (
   <WagmiProvider config={accountConfig}>
     <QueryClientProvider client={queryClient}>
       <SwapProvider
@@ -113,6 +116,11 @@ const renderWithProviders = ({
   onError = vi.fn(),
   onStatus = vi.fn(),
   onSuccess = vi.fn(),
+}: {
+  Component: () => React.ReactNode;
+  onError?: (error: SwapError) => void;
+  onStatus?: (status: LifecycleStatus) => void;
+  onSuccess?: (transactionReceipt?: TransactionReceipt) => void;
 }) => {
   const config = { maxSlippage: 10 };
   const mockExperimental = { useAggregator: true };
@@ -134,8 +142,6 @@ const renderWithProviders = ({
 };
 
 const TestSwapComponent = () => {
-  const mockOnError = vi.fn();
-  const mockOnSuccess = vi.fn();
   const context = useSwapContext();
   useEffect(() => {
     context.from.setToken(ETH_TOKEN);
@@ -181,7 +187,7 @@ const TestSwapComponent = () => {
       statusData: {
         transactionReceipt: { transactionHash: '0x123' },
       },
-    });
+    } as unknown as LifecycleStatus);
   };
   return (
     <div data-testid="test-component">
@@ -210,7 +216,7 @@ const TestSwapComponent = () => {
       </button>
       <button
         type="submit"
-        onClick={() => context.handleSubmit(mockOnError, mockOnSuccess)}
+        onClick={() => context.handleSubmit()}
       >
         Swap
       </button>
@@ -296,7 +302,7 @@ describe('SwapProvider', () => {
         statusData: {
           transactionReceipt: { transactionHash: '0x123' },
         },
-      });
+      } as unknown as LifecycleStatus);
     });
     await waitFor(() => {
       expect(mockResetFunction).toHaveBeenCalled();
@@ -406,7 +412,7 @@ describe('SwapProvider', () => {
       to: {
         decimals: 10,
       },
-    });
+    } as unknown as GetSwapQuoteResponse);
     const { result } = renderHook(() => useSwapContext(), { wrapper });
     await act(async () => {
       result.current.handleAmountChange('from', '10', ETH_TOKEN, DEGEN_TOKEN);
@@ -446,7 +452,7 @@ describe('SwapProvider', () => {
       to: {
         decimals: 10,
       },
-    });
+    } as unknown as GetSwapQuoteResponse);
     const { result } = renderHook(() => useSwapContext(), { wrapper });
     await act(async () => {
       result.current.handleAmountChange('to', '10', ETH_TOKEN, DEGEN_TOKEN);
@@ -821,7 +827,7 @@ describe('SwapProvider', () => {
       return lifecycleStatus;
     };
     const config = { maxSlippage: 3 };
-    const wrapper = ({ children }) => (
+    const wrapper = ({ children }: { children: React.ReactNode }) => (
       <WagmiProvider config={accountConfig}>
         <QueryClientProvider client={queryClient}>
           <SwapProvider config={config} experimental={{ useAggregator: true }}>

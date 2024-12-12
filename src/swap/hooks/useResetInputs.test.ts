@@ -19,7 +19,7 @@ describe('useResetInputs', () => {
     loading: false,
     setLoading: vi.fn(),
     error: undefined,
-  };
+  } as unknown as SwapUnit;
   const mockTo: SwapUnit = {
     balance: '200',
     balanceResponse: mockToTokenResponse,
@@ -31,7 +31,7 @@ describe('useResetInputs', () => {
     loading: false,
     setLoading: vi.fn(),
     error: undefined,
-  };
+  } as unknown as SwapUnit;
 
   beforeEach(() => {
     vi.clearAllMocks();
