@@ -38,7 +38,7 @@ export const ONRAMP_PAYMENT_METHODS = [
     icon: 'applePay',
   },
   {
-    id: 'ACH_BANK_ACCOUNT',
+    id: 'CARD',
     name: 'Debit Card',
     description: 'Up to $500/week',
     icon: 'creditCard',

@@ -19,10 +19,8 @@ export function FundSwapDropdown() {
       return () => {
         const appId = '817a37b6-9371-41f6-a362-6fb57cf3c4ff';
         const assetSymbol = to?.token?.symbol;
-        const fundAmount = to?.amountUSD;
-        const fundingUrl = `${ONRAMP_BUY_URL}/one-click?appId=${appId}&addresses={"${address}":["base"]}&assets=["${assetSymbol}"]&presetFiatAmount=${fundAmount}&defaultPaymentMethod=${paymentMethodId}`;
-        console.log({ fundingUrl });
-        console.log(paymentMethodId);
+        const fundAmount = to?.amount;
+        const fundingUrl = `${ONRAMP_BUY_URL}/one-click?appId=${appId}&addresses={"${address}":["base"]}&assets=["${assetSymbol}"]&presetCryptoAmount=${fundAmount}&defaultPaymentMethod=${paymentMethodId}`;
         const { height, width } = getFundingPopupSize('md', fundingUrl);
         openPopup({
           url: fundingUrl,
