@@ -56,7 +56,7 @@ vi.mock('@/core/OnchainKitConfig', () => ({
   ONCHAIN_KIT_CONFIG: {
     address: null,
     apiKey: null,
-    chain: base,
+    chain: { name: 'base', id: 8453 },
     rpcUrl: null,
     schemaId: null,
     projectId: null,
