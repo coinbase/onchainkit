@@ -1,21 +1,21 @@
-import { icon } from '../../styles/theme';
+import { background, icon } from '../../styles/theme';
 
 export const disconnectSvg = (
   <svg
-    role="img"
-    aria-label="ock-disconnect-svg"
-    width="100%"
-    height="100%"
-    viewBox="0 0 16 20"
+    width="28"
+    height="28"
+    viewBox="0 0 28 28"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
   >
+    <title>Disconnect</title>
+    <rect width="28" height="28" rx="8" className={background.default} />
     <path
-      d="M11.0668 0.91803L11.0668 2.93852L2.02049 2.93852L2.02049 15.0615L11.0668 15.0615L11.0668 17.082L-7.06549e-07 17.082L0 0.918029L11.0668 0.91803Z"
+      d="M16.3001 8L16.3001 9.5L9.51537 9.5L9.51537 18.5L16.3001 18.5L16.3001 20L8 20L8 8L16.3001 8Z"
       className={icon.foreground}
     />
     <path
-      d="M12.3273 12.8963L16.0002 9.02606L12.346 4.95902L10.843 6.30941L12.3623 8.00032L5.53321 8.00032L5.53321 10.0208L12.2706 10.0208L10.8617 11.5054L12.3273 12.8963Z"
+      d="M17.2455 16.8926L20.0002 14.0193L17.2595 11L16.1323 12.0025L17.2717 13.2578L12.1499 13.2578L12.1499 14.7578L17.203 14.7578L16.1463 15.86L17.2455 16.8926Z"
       className={icon.foreground}
     />
   </svg>

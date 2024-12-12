@@ -39,6 +39,7 @@
     "clsx": "^2.1.1",
     "graphql": "^14 || ^15 || ^16",
     "graphql-request": "^6.1.0",
+    "qrcode": "^1.5.4",
     "tailwind-merge": "^2.3.0",
     "viem": "^2.21.33",
     "wagmi": "^2.12.24"
@@ -58,6 +59,7 @@
     "@storybook/test-runner": "^0.19.1",
     "@testing-library/jest-dom": "^6.4.6",
     "@testing-library/react": "^14.2.0",
+    "@types/qrcode": "^1.5.5",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "@vitest/coverage-v8": "^2.0.5",
@@ -112,10 +114,10 @@
       "default": "./esm/index.js"
     },
     "./api": {
-      "types": "./esm/api/index.d.ts",
-      "module": "./esm/api/index.js",
-      "import": "./esm/api/index.js",
-      "default": "./esm/api/index.js"
+      "types": "./esm/core/api/index.d.ts",
+      "module": "./esm/core/api/index.js",
+      "import": "./esm/core/api/index.js",
+      "default": "./esm/core/api/index.js"
     },
     "./checkout": {
       "types": "./esm/checkout/index.d.ts",

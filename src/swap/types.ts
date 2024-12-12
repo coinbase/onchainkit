@@ -298,7 +298,8 @@ export type SwapReact = {
   onError?: (error: SwapError) => void; // An optional callback function that handles errors within the provider.
   onStatus?: (lifecycleStatus: LifecycleStatus) => void; // An optional callback function that exposes the component lifecycle state
   onSuccess?: (transactionReceipt: TransactionReceipt) => void; // An optional callback function that exposes the transaction receipt
-  title?: string; // Title for the Swap component. (default: "Swap")
+  title?: ReactNode; // Title for the Swap component. (default: "Swap")
+  backButton?: ReactNode; // Back button
 };
 
 /**
