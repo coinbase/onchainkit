@@ -49,7 +49,7 @@ describe('useLifecycleStatus', () => {
     expect(updatedStatus).toEqual({
       statusName: 'mediaLoaded',
       statusData: {
-        mimeType: 'image/png',
+        mediaType: 'image',
         mediaUrl: 'https://example.com/image.png',
       },
     });
@@ -122,7 +122,7 @@ describe('useLifecycleStatus', () => {
     expect(updatedStatus).toEqual({
       statusName: 'mediaLoading',
       statusData: {
-        mimeType: 'image/png',
+        mediaType: 'image',
         mediaUrl: 'https://example.com/image.png',
       },
     });
