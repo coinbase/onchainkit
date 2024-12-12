@@ -8,7 +8,10 @@ vi.mock('../NFTProvider');
 
 vi.mock('../../../identity', async () => ({
   ...(await vi.importActual('../../../identity')),
-  Identity: ({ className, children }) => (
+  Identity: ({
+    className,
+    children,
+  }: { className: string; children: React.ReactNode }) => (
     <div className={className}>{children}</div>
   ),
   Avatar: () => <div>Avatar</div>,

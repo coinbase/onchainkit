@@ -2,7 +2,12 @@ import '@testing-library/jest-dom';
 import { fireEvent, render } from '@testing-library/react';
 import type { TransactionReceipt } from 'viem';
 import { describe, expect, it, vi } from 'vitest';
-import { LifecycleType } from '../types';
+import {
+  type LifecycleStatus,
+  LifecycleType,
+  MediaType,
+  type NFTError,
+} from '../types';
 import {
   NFTLifecycleProvider,
   useNFTLifecycleContext,
@@ -39,7 +44,7 @@ const TestComponent = () => {
     context.updateLifecycleStatus({
       statusName: 'mediaLoading',
       statusData: {
-        mimeType: 'image/png',
+        mediaType: MediaType.Image,
         mediaUrl: 'https://example.com/image.png',
       },
     });
@@ -75,6 +80,11 @@ const renderWithProviders = ({
   onError = vi.fn(),
   onStatus = vi.fn(),
   onSuccess = vi.fn(),
+}: {
+  Component: () => React.ReactNode;
+  onError?: (error: NFTError) => void;
+  onStatus?: (lifecycleStatus: LifecycleStatus) => void;
+  onSuccess?: (transactionReceipt?: TransactionReceipt) => void;
 }) => {
   return render(
     <NFTLifecycleProvider

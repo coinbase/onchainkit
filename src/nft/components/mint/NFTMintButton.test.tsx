@@ -33,12 +33,23 @@ vi.mock('../../../transaction', async (importOriginal) => {
   return {
     ...(await importOriginal<typeof import('../../../transaction')>()),
     TransactionLifecycleStatus: vi.fn(),
-    TransactionButton: ({ text, disabled }) => (
+    TransactionButton: ({
+      text,
+      disabled,
+    }: { text: string; disabled: boolean }) => (
       <button type="button" disabled={disabled} data-testid="transactionButton">
         {text}
       </button>
     ),
-    Transaction: ({ onStatus, children, capabilities }) => (
+    Transaction: ({
+      onStatus,
+      children,
+      capabilities,
+    }: {
+      onStatus: (status: { statusName: string }) => void;
+      children: React.ReactNode;
+      capabilities: { paymasterService: { url: string } };
+    }) => (
       <>
         <div>
           <button
@@ -96,7 +107,7 @@ const accountConfig = createConfig({
   },
 });
 
-const TestProviders = ({ children }) => {
+const TestProviders = ({ children }: { children: React.ReactNode }) => {
   return (
     <WagmiProvider config={accountConfig}>
       <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>

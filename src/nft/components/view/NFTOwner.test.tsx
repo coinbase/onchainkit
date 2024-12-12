@@ -17,7 +17,10 @@ vi.mock('../../../core-react/useOnchainKit');
 vi.mock('../NFTProvider');
 vi.mock('../../../identity', async () => ({
   ...(await vi.importActual('../../../identity')),
-  Identity: ({ className, address }) => (
+  Identity: ({
+    className,
+    address,
+  }: { className: string; address: string }) => (
     <div className={className}>{address}</div>
   ),
 }));
