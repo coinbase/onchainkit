@@ -10,7 +10,7 @@ import { useWalletContext } from './WalletProvider';
 export function WalletDropdown({ children, className }: WalletDropdownReact) {
   const breakpoint = useBreakpoints();
   const { address } = useAccount();
-  const { isOpen, isClosing } = useWalletContext();
+  const { isClosing } = useWalletContext();
 
   const childrenArray = useMemo(() => {
     return Children.toArray(children).map((child) => {
@@ -42,9 +42,7 @@ export function WalletDropdown({ children, className }: WalletDropdownReact) {
         pressable.default,
         color.foreground,
         'absolute right-0 z-10 mt-1 flex w-max min-w-[300px] cursor-default flex-col overflow-hidden rounded-xl',
-        isClosing || !isOpen
-          ? 'animate-walletContainerOut'
-          : 'animate-walletContainerIn',
+        isClosing ? 'animate-walletContainerOut' : 'animate-walletContainerIn',
         className,
       )}
       data-testid="ockWalletDropdown"

@@ -26,8 +26,6 @@ export function WalletProvider({ children }: WalletProviderReact) {
   const { address } = useAccount();
   const containerRef = useRef<HTMLDivElement>(null);
 
-  console.log({ isOpen, isClosing, containerRef });
-
   const handleClose = useCallback(() => {
     setIsClosing(true);
     setTimeout(() => {
