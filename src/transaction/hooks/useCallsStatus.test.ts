@@ -18,7 +18,12 @@ describe('useCallsStatus', () => {
     (useCallsStatusWagmi as ReturnType<typeof vi.fn>).mockReturnValue({
       data: mockData,
     });
-    const { result } = renderHook(() => useCallsStatus({ transactionId }));
+    const { result } = renderHook(() =>
+      useCallsStatus({
+        setLifecycleStatus: vi.fn(),
+        transactionId,
+      }),
+    );
     expect(result.current.status).toBe('CONFIRMED');
     expect(result.current.transactionHash).toBe('0x123');
   });
@@ -63,7 +68,12 @@ describe('useCallsStatus', () => {
       },
     );
 
-    renderHook(() => useCallsStatus({ transactionId }));
+    renderHook(() =>
+      useCallsStatus({
+        setLifecycleStatus: vi.fn(),
+        transactionId,
+      }),
+    );
   });
 
   it('should set refetchInterval to false when status is CONFIRMED', () => {
@@ -82,7 +92,12 @@ describe('useCallsStatus', () => {
       },
     );
 
-    renderHook(() => useCallsStatus({ transactionId }));
+    renderHook(() =>
+      useCallsStatus({
+        setLifecycleStatus: vi.fn(),
+        transactionId,
+      }),
+    );
   });
 
   it('should not fetch data when transactionId is not provided', () => {
@@ -96,7 +111,7 @@ describe('useCallsStatus', () => {
     const { result } = renderHook(() =>
       useCallsStatus({
         setLifecycleStatus: mockSetLifecycleStatus,
-        transactionId: undefined,
+        transactionId: '',
       }),
     );
 

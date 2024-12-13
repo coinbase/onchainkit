@@ -4,11 +4,11 @@ import { useOutsideClick } from '../../ui/react/internal/hooks/useOutsideClick';
 import { ConnectWallet } from './ConnectWallet';
 import { Wallet } from './Wallet';
 import { WalletDropdown } from './WalletDropdown';
-import { useWalletContext } from './WalletProvider';
+import { type WalletProviderReact, useWalletContext } from './WalletProvider';
 
 vi.mock('./WalletProvider', () => ({
   useWalletContext: vi.fn(),
-  WalletProvider: ({ children }) => <>{children}</>,
+  WalletProvider: ({ children }: WalletProviderReact) => <>{children}</>,
 }));
 
 vi.mock('./ConnectWallet', () => ({
@@ -67,7 +67,9 @@ describe('Wallet Component', () => {
     render(
       <Wallet>
         <ConnectWallet />
-        <WalletDropdown />
+        <WalletDropdown>
+          <div>Wallet Dropdown</div>
+        </WalletDropdown>
       </Wallet>,
     );
 
@@ -79,13 +81,15 @@ describe('Wallet Component', () => {
     render(
       <Wallet>
         <ConnectWallet />
-        <WalletDropdown />
+        <WalletDropdown>
+          <div>Wallet Dropdown</div>
+        </WalletDropdown>
       </Wallet>,
     );
 
     expect(screen.getByTestId('wallet-dropdown')).toBeDefined();
 
-    mockOutsideClickCallback();
+    mockOutsideClickCallback({} as MouseEvent);
 
     expect(mockSetIsOpen).toHaveBeenCalledWith(false);
   });
@@ -99,13 +103,15 @@ describe('Wallet Component', () => {
     render(
       <Wallet>
         <ConnectWallet />
-        <WalletDropdown />
+        <WalletDropdown>
+          <div>Wallet Dropdown</div>
+        </WalletDropdown>
       </Wallet>,
     );
 
     expect(screen.queryByTestId('wallet-dropdown')).toBeNull();
 
-    mockOutsideClickCallback();
+    mockOutsideClickCallback({} as MouseEvent);
 
     expect(mockSetIsOpen).not.toHaveBeenCalled();
   });

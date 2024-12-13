@@ -158,9 +158,8 @@ export function WalletModal({
           border.lineDefault,
           border.radius,
           background.default,
-          'w-[323px] p-6 pb-4',
-          'flex flex-col items-center gap-4',
-          'relative',
+          'w-[22rem] p-6 pb-4',
+          'relative flex flex-col items-center gap-4',
           '-translate-x-1/2 -translate-y-1/2 fixed top-1/2 left-1/2',
           'transition-opacity duration-200',
           isOpen ? 'opacity-100' : 'opacity-0',
@@ -189,7 +188,7 @@ export function WalletModal({
         </button>
 
         {(appLogo || appName) && (
-          <div className="flex w-full flex-col items-center gap-3 p-2">
+          <div className="flex w-full flex-col items-center gap-2 py-3">
             {appLogo && (
               <div className={cn(border.radius, 'h-14 w-14 overflow-hidden')}>
                 <img
@@ -209,17 +208,16 @@ export function WalletModal({
           </div>
         )}
 
-        <div className="flex flex-col gap-3">
+        <div className="flex w-full flex-col gap-3">
           <button
             type="button"
             onClick={handleCoinbaseWalletConnection}
             className={cn(
-              border.radiusInner,
+              border.radius,
               text.body,
               pressable.alternate,
               color.foreground,
-              'h-10 w-[275px] px-4 py-3',
-              'flex items-center justify-between text-left',
+              'flex items-center justify-between px-4 py-3 text-left',
             )}
           >
             Sign up
@@ -250,11 +248,12 @@ export function WalletModal({
             type="button"
             onClick={handleCoinbaseWalletConnection}
             className={cn(
-              border.radiusInner,
+              border.radius,
+              background.default,
               text.body,
               pressable.alternate,
               color.foreground,
-              'h-10 w-[275px] px-4 py-3',
+              'px-4 py-3',
               'flex items-center justify-between text-left',
             )}
           >
@@ -266,12 +265,12 @@ export function WalletModal({
             type="button"
             onClick={handleMetaMaskConnection}
             className={cn(
-              border.radiusInner,
+              border.radius,
+              background.default,
               text.body,
               pressable.alternate,
               color.foreground,
-              'flex h-[40px] w-[275px] px-4 py-3',
-              'items-center justify-between text-left',
+              'flex items-center justify-between px-4 py-3 text-left',
             )}
           >
             MetaMask
@@ -286,7 +285,7 @@ export function WalletModal({
             color.foregroundMuted,
             text.legal,
             'flex flex-col items-center justify-center gap-1 px-4',
-            'mt-4 w-[275px] text-center',
+            'mt-4 text-center',
           )}
         >
           <span className="font-normal text-[10px] leading-[13px]">

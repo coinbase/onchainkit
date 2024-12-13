@@ -1,5 +1,5 @@
+import { describe, expect, it } from 'vitest';
 import { isBase } from './isBase';
-
 const baseSepolia = { id: 84532 };
 const base = { id: 8453 };
 

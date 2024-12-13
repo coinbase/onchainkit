@@ -1,11 +1,15 @@
-import { encodeFunctionData } from 'viem';
+import { encodeFunctionData, erc20Abi } from 'viem';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import type { Call } from '../types';
 import { sendSingleTransactions } from './sendSingleTransactions';
 
-vi.mock('viem', () => ({
-  encodeFunctionData: vi.fn(),
-}));
+vi.mock('viem', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('viem')>();
+  return {
+    ...actual,
+    encodeFunctionData: vi.fn(),
+  };
+});
 
 describe('sendSingleTransactions', () => {
   const mockSendCallAsync = vi.fn();
@@ -60,7 +64,9 @@ describe('sendSingleTransactions', () => {
   it('should transform contracts to calls', async () => {
     await sendSingleTransactions({
       sendCallAsync: mockSendCallAsync,
-      transactions: [{ abi: '123', address: '0x123' }],
+      transactions: [
+        { abi: erc20Abi, address: '0x123', functionName: 'transfer' },
+      ],
     });
     expect(mockSendCallAsync).toHaveBeenCalledWith({
       data: '123',

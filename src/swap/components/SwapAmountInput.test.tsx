@@ -59,7 +59,7 @@ const mockContextValue = {
   handleToggle: vi.fn(),
   handleSubmit: vi.fn(),
   handleAmountChange: vi.fn(),
-} as SwapContextType;
+} as unknown as SwapContextType;
 
 vi.mock('../../internal/utils/getRoundedAmount', () => ({
   getRoundedAmount: vi.fn((value) => value.slice(0, 10)),

@@ -33,6 +33,8 @@ describe('WalletDropdownLink', () => {
   it('renders correctly with custom icon element', () => {
     const customIcon = <svg aria-label="custom-icon" />;
     render(
+      // TODO: remove this once we fix WalletDropdownLinkReact type
+      // @ts-expect-error -- will fix later, don't want to update types in this PR
       <WalletDropdownLink icon={customIcon} href="https://example.com">
         Link Text
       </WalletDropdownLink>,

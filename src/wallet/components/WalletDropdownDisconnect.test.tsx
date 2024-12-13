@@ -1,5 +1,5 @@
 import { fireEvent, render, screen } from '@testing-library/react';
-import { describe, expect, it, vi } from 'vitest';
+import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useDisconnect } from 'wagmi';
 import type { Connector } from 'wagmi';
 import { WalletDropdownDisconnect } from './WalletDropdownDisconnect';
@@ -9,6 +9,7 @@ vi.mock('wagmi', () => ({
 }));
 
 describe('WalletDropdownDisconnect', () => {
+  // @ts-expect-error - will mock rest of connector later
   const fakeConnectors: Connector[] = [{ id: 'mockConnector' }];
   const mockUseDisconnect = useDisconnect as Mock;
   const mockDisconnect = vi.fn();

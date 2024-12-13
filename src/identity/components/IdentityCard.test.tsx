@@ -1,7 +1,7 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { render, screen, waitFor } from '@testing-library/react';
 import type React from 'react';
-import { baseSepolia as sepolia } from 'viem/chains';
+import { goerli, baseSepolia as sepolia } from 'viem/chains';
 import { beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
 import type { Mock } from 'vitest';
 import { OnchainKitProvider } from '../../core-react/OnchainKitProvider';
@@ -92,13 +92,7 @@ describe('IdentityCard', () => {
   const renderWithProvider = (component: React.ReactNode) => {
     return render(
       <QueryClientProvider client={queryClient}>
-        <OnchainKitProvider
-          config={{
-            chains: [sepolia],
-          }}
-        >
-          {component}
-        </OnchainKitProvider>
+        <OnchainKitProvider chain={sepolia}>{component}</OnchainKitProvider>
       </QueryClientProvider>,
     );
   };
@@ -142,9 +136,7 @@ describe('IdentityCard', () => {
       error: null,
     } as ReturnType<typeof useAvatar>);
 
-    renderWithProvider(
-      <IdentityCard address={mockAddress} showAvatar={true} />,
-    );
+    renderWithProvider(<IdentityCard address={mockAddress} />);
     await waitFor(() => {
       expect(screen.getByTestId('ockAvatar_Image')).toBeInTheDocument();
     });
@@ -160,7 +152,7 @@ describe('IdentityCard', () => {
   });
 
   it('truncates address when truncate prop is true', () => {
-    renderWithProvider(<IdentityCard address={mockAddress} truncate={true} />);
+    renderWithProvider(<IdentityCard address={mockAddress} />);
     expect(screen.getByText('0x1234...7890')).toBeInTheDocument();
   });
 
@@ -171,13 +163,11 @@ describe('IdentityCard', () => {
       error: null,
     } as ReturnType<typeof useName>);
 
-    renderWithProvider(
-      <IdentityCard address={mockAddress} chain={{ id: 5, name: 'Goerli' }} />,
-    );
+    renderWithProvider(<IdentityCard address={mockAddress} chain={goerli} />);
 
     expect(useNameMock).toHaveBeenCalledWith({
       address: mockAddress,
-      chain: { id: 5, name: 'Goerli' },
+      chain: goerli,
     });
   });
 });
