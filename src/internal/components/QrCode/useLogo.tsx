@@ -56,6 +56,7 @@ export function useLogo({
         </g>
         <g transform={`translate(${logoMargin}, ${logoMargin})`}>
           <image
+            data-testid="qr-code-logo"
             width={logoSize}
             height={logoSize}
             preserveAspectRatio="xMidYMid slice"

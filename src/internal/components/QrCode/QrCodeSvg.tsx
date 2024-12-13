@@ -3,6 +3,10 @@ import { useOnchainKit } from '../../../core-react/useOnchainKit';
 import {
   GRADIENT_END_COORDINATES,
   GRADIENT_START_COORDINATES,
+  QR_CODE_SIZE,
+  QR_LOGO_BACKGROUND_COLOR,
+  QR_LOGO_RADIUS,
+  QR_LOGO_SIZE,
   linearGradientStops,
   ockThemeToLinearGradientColorMap,
   ockThemeToRadiamGradientColorMap,
@@ -32,15 +36,15 @@ export type QRCodeSVGProps = {
   gradientType?: 'radial' | 'linear';
 };
 
-export function QRCodeSVG({
+export function QrCodeSvg({
   value,
-  size = 100,
+  size = QR_CODE_SIZE,
   backgroundColor = '#ffffff',
   logo,
-  logoSize = size * 0.2,
-  logoBackgroundColor = 'transparent',
+  logoSize = QR_LOGO_SIZE,
+  logoBackgroundColor = QR_LOGO_BACKGROUND_COLOR,
   logoMargin = 5,
-  logoBorderRadius = 0,
+  logoBorderRadius = QR_LOGO_RADIUS,
   quietZone = 12,
   quietZoneBorderRadius = 10,
   ecl = 'Q',
@@ -118,6 +122,7 @@ export function QRCodeSVG({
         {isRadialGradient ? (
           <radialGradient
             id="radialGrad"
+            data-testid="radialGrad"
             rx={gradientRadius}
             ry={gradientRadius}
             cx={gradientCenterPoint}
@@ -136,6 +141,7 @@ export function QRCodeSVG({
         ) : (
           <linearGradient
             id="linearGrad"
+            data-testid="linearGrad"
             x1={coordinateAsPercentage(x1)}
             y1={coordinateAsPercentage(y1)}
             x2={coordinateAsPercentage(x2)}
