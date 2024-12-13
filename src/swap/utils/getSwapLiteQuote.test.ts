@@ -6,8 +6,8 @@ import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { isSwapError } from '../../swap/utils/isSwapError';
 import { getSwapLiteQuote } from './getSwapLiteQuote';
 
-vi.mock('./getSwapQuote');
-vi.mock('../utils/formatTokenAmount');
+vi.mock('@/core/api/getSwapQuote');
+vi.mock('@/core/utils/formatTokenAmount');
 vi.mock('../../swap/utils/isSwapError');
 
 const toToken: Token = {
