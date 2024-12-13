@@ -1,3 +1,5 @@
+import { useNFTContext } from '@/core-react/nft/providers/NFTProvider';
+import type { NFTError } from '@/core-react/nft/types';
 import {
   type MouseEvent,
   useCallback,
@@ -5,8 +7,6 @@ import {
   useRef,
   useState,
 } from 'react';
-import { useNFTContext } from '@/core-react/nft/providers/NFTProvider';
-import type { NFTError } from '@/core-react/nft/types';
 import { background, cn } from '../../../../styles/theme';
 
 type NFTAudioReact = {

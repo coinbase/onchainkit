@@ -1,4 +1,6 @@
 import '@testing-library/jest-dom';
+import { useIsMounted } from '@/core-react/internal/hooks/useIsMounted';
+import { NFTProvider } from '@/core-react/nft/providers/NFTProvider';
 import { render } from '@testing-library/react';
 import {
   type Mock,
@@ -10,8 +12,6 @@ import {
   vi,
 } from 'vitest';
 import { useAccount } from 'wagmi';
-import { useIsMounted } from '@/core-react/internal/hooks/useIsMounted';
-import { NFTProvider } from '@/core-react/nft/providers/NFTProvider';
 import { NFTCard } from './NFTCard';
 
 vi.mock('wagmi', () => ({

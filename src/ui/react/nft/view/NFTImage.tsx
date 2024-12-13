@@ -1,6 +1,6 @@
-import { type MouseEvent, useCallback, useEffect, useState } from 'react';
 import { useNFTContext } from '@/core-react/nft/providers/NFTProvider';
 import type { NFTError } from '@/core-react/nft/types';
+import { type MouseEvent, useCallback, useEffect, useState } from 'react';
 import { defaultNFTSvg } from '../../../../internal/svg/defaultNFTSvg';
 import { cn } from '../../../../styles/theme';
 

@@ -1,5 +1,8 @@
 import { render } from '@testing-library/react';
 import '@testing-library/jest-dom';
+import { useNFTLifecycleContext } from '@/core-react/nft/providers/NFTLifecycleProvider';
+import { useNFTContext } from '@/core-react/nft/providers/NFTProvider';
+import { useOnchainKit } from '@/core-react/useOnchainKit';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { base } from 'viem/chains';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
@@ -11,9 +14,6 @@ import {
   useChainId,
 } from 'wagmi';
 import { mock } from 'wagmi/connectors';
-import { useNFTLifecycleContext } from '@/core-react/nft/providers/NFTLifecycleProvider';
-import { useNFTContext } from '@/core-react/nft/providers/NFTProvider';
-import { useOnchainKit } from '@/core-react/useOnchainKit';
 import { NFTMintButton } from './NFTMintButton';
 
 vi.mock('@/core-react/nft/providers/NFTProvider');

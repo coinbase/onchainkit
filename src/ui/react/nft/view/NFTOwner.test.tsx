@@ -1,4 +1,6 @@
 import '@testing-library/jest-dom';
+import { useNFTContext } from '@/core-react/nft/providers/NFTProvider';
+import { useOnchainKit } from '@/core-react/useOnchainKit';
 import { render } from '@testing-library/react';
 import {
   type Mock,
@@ -9,8 +11,6 @@ import {
   it,
   vi,
 } from 'vitest';
-import { useOnchainKit } from '@/core-react/useOnchainKit';
-import { useNFTContext } from '@/core-react/nft/providers/NFTProvider';
 import { NFTOwner } from './NFTOwner';
 
 vi.mock('@/core-react/useOnchainKit');

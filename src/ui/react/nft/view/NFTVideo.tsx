@@ -1,6 +1,6 @@
-import { useEffect, useRef } from 'react';
 import { useNFTContext } from '@/core-react/nft/providers/NFTProvider';
 import type { NFTError } from '@/core-react/nft/types';
+import { useEffect, useRef } from 'react';
 import { defaultNFTSvg } from '../../../../internal/svg/defaultNFTSvg';
 import { cn } from '../../../../styles/theme';
 

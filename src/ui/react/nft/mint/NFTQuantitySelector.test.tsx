@@ -1,4 +1,5 @@
 import '@testing-library/jest-dom';
+import { useNFTContext } from '@/core-react/nft/providers/NFTProvider';
 import { fireEvent, render } from '@testing-library/react';
 import { act } from 'react';
 import {
@@ -10,7 +11,6 @@ import {
   it,
   vi,
 } from 'vitest';
-import { useNFTContext } from '@/core-react/nft/providers/NFTProvider';
 import { NFTQuantitySelector } from './NFTQuantitySelector';
 
 vi.mock('@/core-react/nft/providers/NFTProvider');

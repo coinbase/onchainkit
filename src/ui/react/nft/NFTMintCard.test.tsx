@@ -1,4 +1,5 @@
 import '@testing-library/jest-dom';
+import { useIsMounted } from '@/core-react/internal/hooks/useIsMounted';
 import { render } from '@testing-library/react';
 import {
   type Mock,
@@ -9,7 +10,6 @@ import {
   it,
   vi,
 } from 'vitest';
-import { useIsMounted } from '@/core-react/internal/hooks/useIsMounted';
 import { NFTMintCard } from './NFTMintCard';
 
 vi.mock('@/core-react/internal/hooks/useTheme', () => ({

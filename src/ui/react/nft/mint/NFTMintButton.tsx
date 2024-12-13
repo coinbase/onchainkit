@@ -1,7 +1,7 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useAccount, useChainId } from 'wagmi';
 import { useNFTLifecycleContext } from '@/core-react/nft/providers/NFTLifecycleProvider';
 import { useNFTContext } from '@/core-react/nft/providers/NFTProvider';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useAccount, useChainId } from 'wagmi';
 import { Spinner } from '../../../../internal/components/Spinner';
 import { cn, color, text } from '../../../../styles/theme';
 import {
