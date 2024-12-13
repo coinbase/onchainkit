@@ -94,7 +94,7 @@ describe('ConnectWallet', () => {
     render(
       <ConnectWallet text="Connect Wallet">
         <div>Wallet Connected</div>
-      </ConnectWallet>
+      </ConnectWallet>,
     );
     const connectedText = screen.getByText('Wallet Connected');
     expect(connectedText).toBeInTheDocument();
@@ -116,7 +116,7 @@ describe('ConnectWallet', () => {
       },
       {
         onSuccess: expect.any(Function),
-      }
+      },
     );
   });
 
@@ -136,7 +136,7 @@ describe('ConnectWallet', () => {
     const { rerender } = render(
       <ConnectWallet text="Connect Wallet">
         <div>Wallet Connected</div>
-      </ConnectWallet>
+      </ConnectWallet>,
     );
     const button = screen.getByText('Wallet Connected');
     fireEvent.click(button);
@@ -151,7 +151,7 @@ describe('ConnectWallet', () => {
     rerender(
       <ConnectWallet text="Connect Wallet">
         <div>Wallet Connected</div>
-      </ConnectWallet>
+      </ConnectWallet>,
     );
 
     fireEvent.click(button);
@@ -175,7 +175,7 @@ describe('ConnectWallet', () => {
     render(
       <ConnectWallet>
         <span>Test Children</span>
-      </ConnectWallet>
+      </ConnectWallet>,
     );
     const button = screen.getByTestId('ockConnectWallet_Connected');
     expect(button).toHaveClass('ock-bg-secondary-active');
@@ -190,7 +190,7 @@ describe('ConnectWallet', () => {
       <ConnectWallet>
         <ConnectWalletText>Not Render</ConnectWalletText>
         <div>Wallet Ciao</div>
-      </ConnectWallet>
+      </ConnectWallet>,
     );
     const connectedText = screen.getByText('Wallet Ciao');
     expect(connectedText).toBeInTheDocument();
@@ -281,7 +281,7 @@ describe('ConnectWallet', () => {
 
       expect(connectMock).toHaveBeenCalledWith(
         { connector: { id: 'mockConnector' } },
-        { onSuccess: expect.any(Function) }
+        { onSuccess: expect.any(Function) },
       );
     });
   });
@@ -296,7 +296,7 @@ describe('ConnectWallet', () => {
       render(
         <ConnectWallet>
           <ConnectWalletText>Custom Connect Text</ConnectWalletText>
-        </ConnectWallet>
+        </ConnectWallet>,
       );
 
       const button = screen.getByTestId('ockConnectButton');
@@ -325,7 +325,7 @@ describe('ConnectWallet', () => {
 
       expect(connectMock).toHaveBeenCalledWith(
         { connector: { id: 'mockConnector' } },
-        { onSuccess: expect.any(Function) }
+        { onSuccess: expect.any(Function) },
       );
 
       connectMock.mock.calls[0][1].onSuccess();
@@ -394,7 +394,7 @@ describe('ConnectWallet', () => {
       });
 
       const { rerender } = render(
-        <ConnectWallet text="Connect Wallet" onConnect={onConnectMock} />
+        <ConnectWallet text="Connect Wallet" onConnect={onConnectMock} />,
       );
 
       const button = screen.getByTestId('ockConnectButton');
@@ -409,13 +409,13 @@ describe('ConnectWallet', () => {
       });
 
       rerender(
-        <ConnectWallet text="Connect Wallet" onConnect={onConnectMock} />
+        <ConnectWallet text="Connect Wallet" onConnect={onConnectMock} />,
       );
 
       expect(onConnectMock).toHaveBeenCalledTimes(1);
 
       rerender(
-        <ConnectWallet text="Connect Wallet" onConnect={onConnectMock} />
+        <ConnectWallet text="Connect Wallet" onConnect={onConnectMock} />,
       );
       expect(onConnectMock).toHaveBeenCalledTimes(1);
     });
@@ -494,7 +494,7 @@ describe('ConnectWallet', () => {
       });
 
       const { rerender } = render(
-        <ConnectWallet text="Connect Wallet" onConnect={onConnectMock} />
+        <ConnectWallet text="Connect Wallet" onConnect={onConnectMock} />,
       );
 
       const button = screen.getByTestId('ockConnectButton');
@@ -506,13 +506,13 @@ describe('ConnectWallet', () => {
       });
 
       rerender(
-        <ConnectWallet text="Connect Wallet" onConnect={onConnectMock} />
+        <ConnectWallet text="Connect Wallet" onConnect={onConnectMock} />,
       );
 
       expect(onConnectMock).toHaveBeenCalledTimes(1);
 
       rerender(
-        <ConnectWallet text="Connect Wallet" onConnect={onConnectMock} />
+        <ConnectWallet text="Connect Wallet" onConnect={onConnectMock} />,
       );
       expect(onConnectMock).toHaveBeenCalledTimes(1);
     });

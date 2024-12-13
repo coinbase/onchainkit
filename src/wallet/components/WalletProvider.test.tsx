@@ -18,7 +18,7 @@ describe('useWalletContext', () => {
         <WalletProvider>
           <div />
         </WalletProvider>
-      </WagmiProvider>
+      </WagmiProvider>,
     );
 
     const { result } = renderHook(() => useWalletContext(), {
