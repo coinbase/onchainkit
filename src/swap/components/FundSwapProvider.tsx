@@ -119,11 +119,14 @@ export function FundSwapProvider({
   }, []);
 
   useEffect(() => {
-    setupOnrampEventListeners({
+    const unsubscribe = setupOnrampEventListeners({
       onEvent: handleOnrampEvent,
       onExit: handleOnrampExit,
       onSuccess: handleOnrampSuccess,
     });
+    return () => {
+      unsubscribe();
+    };
   }, [handleOnrampEvent, handleOnrampExit, handleOnrampSuccess]);
 
   // Component lifecycle emitters
