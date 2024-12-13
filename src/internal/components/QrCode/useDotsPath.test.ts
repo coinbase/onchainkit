@@ -1,6 +1,6 @@
-import { describe, it, expect } from 'vitest';
-import { useDotsPath } from './useDotsPath';
 import { renderHook } from '@testing-library/react';
+import { describe, expect, it } from 'vitest';
+import { useDotsPath } from './useDotsPath';
 
 describe('useDotsPath', () => {
   const defaultProps = {

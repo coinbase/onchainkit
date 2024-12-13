@@ -9,7 +9,7 @@ export default {
     },
     extend: {
       spacing: {
-        '88': '22rem'
+        88: '22rem',
       },
       fontFamily: {
         display: 'DM Sans, sans-serif',

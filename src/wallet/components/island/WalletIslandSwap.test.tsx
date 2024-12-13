@@ -6,7 +6,6 @@ import type { Token } from '../../../token';
 import { useWalletContext } from '../WalletProvider';
 import { useWalletIslandContext } from './WalletIslandProvider';
 import { WalletIslandSwap } from './WalletIslandSwap';
-import { V } from 'vitest/dist/chunks/reporters.D7Jzd9GS.js';
 
 const tokens = [
   {

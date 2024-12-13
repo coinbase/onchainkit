@@ -45,11 +45,13 @@ describe('WalletIslandContent', () => {
     animationClasses: {
       content: 'animate-walletIslandContainerIn',
     },
-  }
+  };
 
   beforeEach(() => {
     vi.clearAllMocks();
-    mockUseWalletIslandContext.mockReturnValue(defaultMockUseWalletIslandContext);
+    mockUseWalletIslandContext.mockReturnValue(
+      defaultMockUseWalletIslandContext,
+    );
   });
 
   it('renders WalletIslandContent when isClosing is false', () => {

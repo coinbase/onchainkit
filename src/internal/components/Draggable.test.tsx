@@ -1,7 +1,6 @@
-import { render, fireEvent, screen } from '@testing-library/react';
-import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { fireEvent, render, screen } from '@testing-library/react';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import Draggable from './Draggable';
-import React from 'react';
 
 describe('Draggable', () => {
   beforeEach(() => {

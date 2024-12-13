@@ -46,7 +46,10 @@ describe('WalletIslandTransactionActons', () => {
     const buyButton = screen.getByRole('button', { name: 'Buy' });
     fireEvent.click(buyButton);
 
-    expect(window.open).toHaveBeenCalledWith('https://pay.coinbase.com', '_blank');
+    expect(window.open).toHaveBeenCalledWith(
+      'https://pay.coinbase.com',
+      '_blank',
+    );
   });
 
   it('opens the send page when the send button is clicked', () => {
@@ -55,9 +58,11 @@ describe('WalletIslandTransactionActons', () => {
     const sendButton = screen.getByRole('button', { name: 'Send' });
     fireEvent.click(sendButton);
 
-    expect(window.open).toHaveBeenCalledWith('https://wallet.coinbase.com', '_blank');
+    expect(window.open).toHaveBeenCalledWith(
+      'https://wallet.coinbase.com',
+      '_blank',
+    );
   });
-
 
   it('sets showSwap to true when the swap button is clicked', () => {
     const setShowSwapMock = vi.fn();

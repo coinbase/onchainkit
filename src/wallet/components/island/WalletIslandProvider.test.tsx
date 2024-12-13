@@ -1,7 +1,7 @@
 import { act, renderHook } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { useAccount } from 'wagmi';
-import { useWalletContext, WalletProvider } from '../WalletProvider';
+import { WalletProvider, useWalletContext } from '../WalletProvider';
 import {
   WalletIslandProvider,
   useWalletIslandContext,
@@ -22,7 +22,7 @@ describe('useWalletIslandContext', () => {
   const defaultWalletContext = {
     address: '0x123',
     isClosing: false,
-  }
+  };
 
   beforeEach(() => {
     mockUseAccount.mockReturnValue({

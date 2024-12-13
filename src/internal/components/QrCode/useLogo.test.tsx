@@ -1,5 +1,5 @@
-import { describe, it, expect } from 'vitest';
 import { renderHook } from '@testing-library/react';
+import { describe, expect, it } from 'vitest';
 import { useLogo } from './useLogo';
 
 describe('useLogo', () => {
@@ -26,6 +26,7 @@ describe('useLogo', () => {
   it('should handle custom React SVG element', () => {
     const customLogo = (
       <svg>
+        <title>Custom Logo</title>
         <circle cx="50" cy="50" r="40" />
       </svg>
     );
