@@ -3,15 +3,15 @@ import { base } from 'viem/chains';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useValue } from '../../core-react/internal/hooks/useValue';
 import type { Token } from '../../token';
-import { useSwapBalances } from './useSwapBalances';
-import { useSwapLiteTokens } from './useSwapLiteTokens';
-import { useSwapLiteToken } from './useSwapLiteToken';
 import {
   daiToken,
   degenToken,
   ethToken,
   usdcToken,
 } from '../../token/constants';
+import { useSwapBalances } from './useSwapBalances';
+import { useSwapLiteToken } from './useSwapLiteToken';
+import { useSwapLiteTokens } from './useSwapLiteTokens';
 
 vi.mock('./useSwapLiteToken');
 vi.mock('./useSwapBalances');
@@ -76,9 +76,13 @@ const address = '0x123';
 describe('useSwapLiteTokens', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    (useSwapLiteToken as Mock).mockImplementation((toToken, fromToken) => {
-      if (fromToken === ethToken) return mockFromETH;
-      if (fromToken === usdcToken) return mockFromUSDC;
+    (useSwapLiteToken as Mock).mockImplementation((_toToken, fromToken) => {
+      if (fromToken === ethToken) {
+        return mockFromETH;
+      }
+      if (fromToken === usdcToken) {
+        return mockFromUSDC;
+      }
       return mockFrom;
     });
 
