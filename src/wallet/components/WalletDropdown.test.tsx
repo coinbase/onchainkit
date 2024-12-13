@@ -97,4 +97,15 @@ describe('WalletDropdown', () => {
       expect(result.current.address).toEqual(address);
     });
   });
+
+  it('sets animation classes correctly based on isClosing', () => {
+    useWalletContextMock.mockReturnValue({ isOpen: true, isClosing: false });
+    const { rerender } = render(<WalletDropdown>Content</WalletDropdown>);
+    const dropdown = screen.getByTestId('ockWalletDropdown');
+    expect(dropdown).toHaveClass('animate-walletIslandContainerIn');
+
+    useWalletContextMock.mockReturnValue({ isOpen: true, isClosing: true });
+    rerender(<WalletDropdown>Content</WalletDropdown>);
+    expect(dropdown).toHaveClass('animate-walletIslandContainerOut');
+  });
 });

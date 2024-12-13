@@ -33,8 +33,9 @@ vi.mock('@rainbow-me/rainbowkit', () => ({
   ConnectButton: {
     Custom: ({
       children,
-    }: { children: (props: { openConnectModal: () => void }) => ReactNode }) =>
-      children({ openConnectModal: openConnectModalMock }),
+    }: {
+      children: (props: { openConnectModal: () => void }) => ReactNode;
+    }) => children({ openConnectModal: openConnectModalMock }),
   },
 }));
 
@@ -55,6 +56,7 @@ describe('ConnectWallet', () => {
     });
     vi.mocked(useWalletContext).mockReturnValue({
       isOpen: false,
+      handleClose: vi.fn(),
       setIsOpen: vi.fn(),
     });
     vi.mocked(useOnchainKit).mockReturnValue({
@@ -92,7 +94,7 @@ describe('ConnectWallet', () => {
     render(
       <ConnectWallet text="Connect Wallet">
         <div>Wallet Connected</div>
-      </ConnectWallet>,
+      </ConnectWallet>
     );
     const connectedText = screen.getByText('Wallet Connected');
     expect(connectedText).toBeInTheDocument();
@@ -114,12 +116,13 @@ describe('ConnectWallet', () => {
       },
       {
         onSuccess: expect.any(Function),
-      },
+      }
     );
   });
 
   it('should toggle wallet modal on button click when connected', () => {
     const setIsOpenMock = vi.fn();
+    const handleCloseMock = vi.fn();
     vi.mocked(useAccount).mockReturnValue({
       address: '0x123',
       status: 'connected',
@@ -127,21 +130,38 @@ describe('ConnectWallet', () => {
     vi.mocked(useWalletContext).mockReturnValue({
       isOpen: false,
       setIsOpen: setIsOpenMock,
+      handleClose: handleCloseMock,
     });
-    render(
+
+    const { rerender } = render(
       <ConnectWallet text="Connect Wallet">
         <div>Wallet Connected</div>
-      </ConnectWallet>,
+      </ConnectWallet>
     );
     const button = screen.getByText('Wallet Connected');
     fireEvent.click(button);
     expect(setIsOpenMock).toHaveBeenCalledWith(true);
+
+    vi.mocked(useWalletContext).mockReturnValue({
+      isOpen: true,
+      setIsOpen: setIsOpenMock,
+      handleClose: handleCloseMock,
+    });
+
+    rerender(
+      <ConnectWallet text="Connect Wallet">
+        <div>Wallet Connected</div>
+      </ConnectWallet>
+    );
+
+    fireEvent.click(button);
+    expect(handleCloseMock).toHaveBeenCalled();
   });
 
   it('applies ock-bg-secondary-active class when isOpen is true', () => {
     vi.mocked(useWalletContext).mockReturnValue({
       isOpen: true,
-      setIsOpen: vi.fn(),
+      handleClose: vi.fn(),
     });
     vi.mocked(useAccount).mockReturnValue({
       address: '0x123',
@@ -155,7 +175,7 @@ describe('ConnectWallet', () => {
     render(
       <ConnectWallet>
         <span>Test Children</span>
-      </ConnectWallet>,
+      </ConnectWallet>
     );
     const button = screen.getByTestId('ockConnectWallet_Connected');
     expect(button).toHaveClass('ock-bg-secondary-active');
@@ -170,7 +190,7 @@ describe('ConnectWallet', () => {
       <ConnectWallet>
         <ConnectWalletText>Not Render</ConnectWalletText>
         <div>Wallet Ciao</div>
-      </ConnectWallet>,
+      </ConnectWallet>
     );
     const connectedText = screen.getByText('Wallet Ciao');
     expect(connectedText).toBeInTheDocument();
@@ -261,7 +281,7 @@ describe('ConnectWallet', () => {
 
       expect(connectMock).toHaveBeenCalledWith(
         { connector: { id: 'mockConnector' } },
-        { onSuccess: expect.any(Function) },
+        { onSuccess: expect.any(Function) }
       );
     });
   });
@@ -276,7 +296,7 @@ describe('ConnectWallet', () => {
       render(
         <ConnectWallet>
           <ConnectWalletText>Custom Connect Text</ConnectWalletText>
-        </ConnectWallet>,
+        </ConnectWallet>
       );
 
       const button = screen.getByTestId('ockConnectButton');
@@ -305,7 +325,7 @@ describe('ConnectWallet', () => {
 
       expect(connectMock).toHaveBeenCalledWith(
         { connector: { id: 'mockConnector' } },
-        { onSuccess: expect.any(Function) },
+        { onSuccess: expect.any(Function) }
       );
 
       connectMock.mock.calls[0][1].onSuccess();
@@ -374,7 +394,7 @@ describe('ConnectWallet', () => {
       });
 
       const { rerender } = render(
-        <ConnectWallet text="Connect Wallet" onConnect={onConnectMock} />,
+        <ConnectWallet text="Connect Wallet" onConnect={onConnectMock} />
       );
 
       const button = screen.getByTestId('ockConnectButton');
@@ -389,13 +409,13 @@ describe('ConnectWallet', () => {
       });
 
       rerender(
-        <ConnectWallet text="Connect Wallet" onConnect={onConnectMock} />,
+        <ConnectWallet text="Connect Wallet" onConnect={onConnectMock} />
       );
 
       expect(onConnectMock).toHaveBeenCalledTimes(1);
 
       rerender(
-        <ConnectWallet text="Connect Wallet" onConnect={onConnectMock} />,
+        <ConnectWallet text="Connect Wallet" onConnect={onConnectMock} />
       );
       expect(onConnectMock).toHaveBeenCalledTimes(1);
     });
@@ -474,7 +494,7 @@ describe('ConnectWallet', () => {
       });
 
       const { rerender } = render(
-        <ConnectWallet text="Connect Wallet" onConnect={onConnectMock} />,
+        <ConnectWallet text="Connect Wallet" onConnect={onConnectMock} />
       );
 
       const button = screen.getByTestId('ockConnectButton');
@@ -486,13 +506,13 @@ describe('ConnectWallet', () => {
       });
 
       rerender(
-        <ConnectWallet text="Connect Wallet" onConnect={onConnectMock} />,
+        <ConnectWallet text="Connect Wallet" onConnect={onConnectMock} />
       );
 
       expect(onConnectMock).toHaveBeenCalledTimes(1);
 
       rerender(
-        <ConnectWallet text="Connect Wallet" onConnect={onConnectMock} />,
+        <ConnectWallet text="Connect Wallet" onConnect={onConnectMock} />
       );
       expect(onConnectMock).toHaveBeenCalledTimes(1);
     });
