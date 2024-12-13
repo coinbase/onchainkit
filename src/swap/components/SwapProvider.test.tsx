@@ -145,7 +145,7 @@ const TestSwapComponent = () => {
   const context = useSwapContext();
   useEffect(() => {
     context.from.setToken?.(ETH_TOKEN);
-    context.from.setAmount('100');
+    context.from.setAmount?.('100');
     context.to.setToken?.(DEGEN_TOKEN);
   }, [context]);
   const handleStatusError = async () => {
@@ -653,9 +653,9 @@ describe('SwapProvider', () => {
     const { result } = renderHook(() => useSwapContext(), { wrapper });
     await act(async () => {
       result.current.from.setToken?.(ETH_TOKEN);
-      result.current.from.setAmount('10');
+      result.current.from.setAmount?.('10');
       result.current.to.setToken?.(DEGEN_TOKEN);
-      result.current.to.setAmount('1000');
+      result.current.to.setAmount?.('1000');
     });
     await act(async () => {
       result.current.handleToggle();
