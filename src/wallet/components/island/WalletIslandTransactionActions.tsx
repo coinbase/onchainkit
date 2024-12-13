@@ -61,6 +61,7 @@ function WalletIslandTransactionAction({
         pressable.alternate,
       )}
       onClick={action}
+      aria-label={label}
     >
       <span className="flex h-4 w-4 flex-col items-center justify-center">
         {icon}

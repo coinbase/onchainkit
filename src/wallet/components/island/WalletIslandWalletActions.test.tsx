@@ -29,8 +29,17 @@ describe('WalletIslandWalletActions', () => {
     typeof vi.fn
   >;
 
+  const defaultMockUseWalletIslandContext = {
+    animationClasses: {
+      walletActions: 'animate-walletIslandContainerItem1',
+    },
+  };
+
   beforeEach(() => {
     vi.clearAllMocks();
+    mockUseWalletIslandContext.mockReturnValue(
+      defaultMockUseWalletIslandContext,
+    );
   });
 
   it('renders the WalletIslandWalletActions component', () => {
@@ -38,7 +47,10 @@ describe('WalletIslandWalletActions', () => {
     mockUseWalletContext.mockReturnValue({ handleClose: handleCloseMock });
 
     const setShowQrMock = vi.fn();
-    mockUseWalletIslandContext.mockReturnValue({ setShowQr: setShowQrMock });
+    mockUseWalletIslandContext.mockReturnValue({
+      ...defaultMockUseWalletIslandContext,
+      setShowQr: setShowQrMock,
+    });
 
     (useDisconnect as Mock).mockReturnValue({
       disconnect: vi.fn(),
@@ -59,10 +71,16 @@ describe('WalletIslandWalletActions', () => {
 
   it('disconnects connectors and closes when disconnect button is clicked', () => {
     const handleCloseMock = vi.fn();
-    mockUseWalletContext.mockReturnValue({ handleClose: handleCloseMock });
+    mockUseWalletContext.mockReturnValue({
+      ...defaultMockUseWalletIslandContext,
+      handleClose: handleCloseMock,
+    });
 
     const setShowQrMock = vi.fn();
-    mockUseWalletIslandContext.mockReturnValue({ setShowQr: setShowQrMock });
+    mockUseWalletIslandContext.mockReturnValue({
+      ...defaultMockUseWalletIslandContext,
+      setShowQr: setShowQrMock,
+    });
 
     const disconnectMock = vi.fn();
     (useDisconnect as Mock).mockReturnValue({
@@ -83,7 +101,10 @@ describe('WalletIslandWalletActions', () => {
 
   it('sets showQr to true when qr button is clicked', () => {
     const setShowQrMock = vi.fn();
-    mockUseWalletIslandContext.mockReturnValue({ setShowQr: setShowQrMock });
+    mockUseWalletIslandContext.mockReturnValue({
+      ...defaultMockUseWalletIslandContext,
+      setShowQr: setShowQrMock,
+    });
 
     render(<WalletIslandWalletActions />);
 
@@ -95,10 +116,16 @@ describe('WalletIslandWalletActions', () => {
 
   it('closes when collapse button is clicked', () => {
     const handleCloseMock = vi.fn();
-    mockUseWalletContext.mockReturnValue({ handleClose: handleCloseMock });
+    mockUseWalletContext.mockReturnValue({
+      ...defaultMockUseWalletIslandContext,
+      handleClose: handleCloseMock,
+    });
 
     const setShowQrMock = vi.fn();
-    mockUseWalletIslandContext.mockReturnValue({ setShowQr: setShowQrMock });
+    mockUseWalletIslandContext.mockReturnValue({
+      ...defaultMockUseWalletIslandContext,
+      setShowQr: setShowQrMock,
+    });
 
     render(<WalletIslandWalletActions />);
 
