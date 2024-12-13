@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach, Mock } from 'vitest';
 import { getSwapLiteQuote } from './getSwapLiteQuote';
 import { getSwapQuote } from './getSwapQuote';
 import { formatTokenAmount } from '../utils/formatTokenAmount';
@@ -56,15 +56,20 @@ const mockEmptyResponse = {
   fromAmountUSD: '',
 };
 
+const mockFromSwapUnit = {
+  setAmountUSD: vi.fn(),
+  setAmount: vi.fn(),
+  amount: '1',
+  amountUSD: '1',
+  loading: false,
+  setLoading: vi.fn(),
+  token: fromToken,
+};
+
 describe('getSwapLiteQuote', () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
-
-  const mockFromSwapUnit = {
-    setAmountUSD: vi.fn(),
-    setAmount: vi.fn(),
-  };
 
   it('should return default values if `from` token is not provided', async () => {
     const result = await getSwapLiteQuote({
@@ -84,9 +89,9 @@ describe('getSwapLiteQuote', () => {
   });
 
   it('should call `getSwapQuote` if `from` and `to` tokens are different', async () => {
-    (getSwapQuote as jest.Mock).mockResolvedValue(mockResponse);
-    (isSwapError as jest.Mock).mockReturnValue(false);
-    (formatTokenAmount as jest.Mock).mockReturnValue('1.0');
+    (getSwapQuote as Mock).mockResolvedValue(mockResponse);
+    (isSwapError as unknown as Mock).mockReturnValue(false);
+    (formatTokenAmount as Mock).mockReturnValue('1.0');
 
     const result = await getSwapLiteQuote({
       amount: '1',
@@ -119,9 +124,9 @@ describe('getSwapLiteQuote', () => {
   });
 
   it('should handle case where amount values are undefined', async () => {
-    (getSwapQuote as jest.Mock).mockResolvedValue(mockEmptyResponse);
-    (isSwapError as jest.Mock).mockReturnValue(false);
-    (formatTokenAmount as jest.Mock).mockReturnValue('1.0');
+    (getSwapQuote as Mock).mockResolvedValue(mockEmptyResponse);
+    (isSwapError as unknown as Mock).mockReturnValue(false);
+    (formatTokenAmount as Mock).mockReturnValue('1.0');
 
     const result = await getSwapLiteQuote({
       amount: '1',
@@ -160,8 +165,8 @@ describe('getSwapLiteQuote', () => {
       message: '',
     };
 
-    (getSwapQuote as jest.Mock).mockResolvedValue(mockError);
-    (isSwapError as jest.Mock).mockReturnValue(true);
+    (getSwapQuote as Mock).mockResolvedValue(mockError);
+    (isSwapError as unknown as Mock).mockReturnValue(true);
 
     const result = await getSwapLiteQuote({
       amount: '1',

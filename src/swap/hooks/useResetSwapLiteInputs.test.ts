@@ -4,16 +4,20 @@ import type { SwapUnit } from '../types';
 import { useResetSwapLiteInputs } from './useResetSwapLiteInputs';
 
 describe('useResetSwapLiteInputs', () => {
-  const mockFromTokenResponse = {
+  const mockQueryResponse = {
+    data: undefined,
+    error: null,
+    isError: false,
+    isPending: true,
+    isSuccess: false,
+    status: 'pending',
     refetch: vi.fn().mockResolvedValue(undefined),
-  };
-  const mockFromETHTokenResponse = {
-    refetch: vi.fn().mockResolvedValue(undefined),
-  };
-  const mockFromUSDCTokenResponse = {
-    refetch: vi.fn().mockResolvedValue(undefined),
-  };
-  const mockToTokenResponse = { refetch: vi.fn().mockResolvedValue(undefined) };
+  } as const;
+
+  const mockFromTokenResponse = mockQueryResponse;
+  const mockFromETHTokenResponse = mockQueryResponse;
+  const mockFromUSDCTokenResponse = mockQueryResponse;
+  const mockToTokenResponse = mockQueryResponse;
   const mockFrom: SwapUnit = {
     balance: '100',
     balanceResponse: mockFromTokenResponse,
@@ -24,7 +28,7 @@ describe('useResetSwapLiteInputs', () => {
     loading: false,
     setLoading: vi.fn(),
     error: undefined,
-  };
+  } as unknown as SwapUnit;
   const mockFromETH: SwapUnit = {
     balance: '100',
     balanceResponse: mockFromETHTokenResponse,
@@ -35,7 +39,7 @@ describe('useResetSwapLiteInputs', () => {
     loading: false,
     setLoading: vi.fn(),
     error: undefined,
-  };
+  } as unknown as SwapUnit;
   const mockFromUSDC: SwapUnit = {
     balance: '100',
     balanceResponse: mockFromUSDCTokenResponse,
@@ -46,7 +50,7 @@ describe('useResetSwapLiteInputs', () => {
     loading: false,
     setLoading: vi.fn(),
     error: undefined,
-  };
+  } as unknown as SwapUnit;
   const mockTo: SwapUnit = {
     balance: '200',
     balanceResponse: mockToTokenResponse,
@@ -57,7 +61,7 @@ describe('useResetSwapLiteInputs', () => {
     loading: false,
     setLoading: vi.fn(),
     error: undefined,
-  };
+  } as unknown as SwapUnit;
 
   beforeEach(() => {
     vi.clearAllMocks();
@@ -128,11 +132,11 @@ describe('useResetSwapLiteInputs', () => {
     const newMockFromETH = {
       ...mockFromETH,
       balanceResponse: { refetch: vi.fn().mockResolvedValue(undefined) },
-    };
+    } as unknown as SwapUnit;
     const newMockFromUSDC = {
       ...mockFromUSDC,
       balanceResponse: { refetch: vi.fn().mockResolvedValue(undefined) },
-    };
+    } as unknown as SwapUnit;
     rerender({
       fromETH: newMockFromETH,
       fromUSDC: newMockFromUSDC,
@@ -142,12 +146,18 @@ describe('useResetSwapLiteInputs', () => {
   });
 
   it('should handle null responses gracefully', async () => {
-    const mockFromWithNullResponse = { ...mockFromETH, balanceResponse: null };
+    const mockFromWithNullResponse = {
+      ...mockFromETH,
+      balanceResponse: null,
+    } as unknown as SwapUnit;
     const mockFromUSDCWithNullResponse = {
       ...mockFromUSDC,
       balanceResponse: null,
-    };
-    const mockToWithNullResponse = { ...mockTo, balanceResponse: null };
+    } as unknown as SwapUnit;
+    const mockToWithNullResponse = {
+      ...mockTo,
+      balanceResponse: null,
+    } as unknown as SwapUnit;
     const { result } = renderHook(() =>
       useResetSwapLiteInputs({
         fromETH: mockFromWithNullResponse,
