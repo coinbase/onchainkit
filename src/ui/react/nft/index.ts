@@ -9,8 +9,8 @@ export type {
   NFTCardReact,
   NFTCardDefaultReact,
   NFTData,
-  NFTError,
   NFTMintCardReact,
   NFTMintCardDefaultReact,
   UseNFTData,
 } from '@/core-react/nft/types';
+export type { NFTError } from '@/core/api/types';

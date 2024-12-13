@@ -1,8 +1,7 @@
+import type { ContractType, NFTError, NFTPrice } from '@/core/api/types';
 import type { ReactNode } from 'react';
 import type { Address, Hex, TransactionReceipt } from 'viem';
-import type { Call, TransactionError } from '../../transaction/types';
-
-export type ContractType = 'ERC721' | 'ERC1155';
+import type { Call } from '../../transaction/types';
 
 export enum MediaType {
   Image = 'image',
@@ -50,12 +49,6 @@ export type NFTProviderReact = {
   isSponsored?: boolean; // Optional boolean to determine if the mint is sponsored by paymaster
   useNFTData: UseNFTData;
   buildMintTransaction?: BuildMintTransaction;
-};
-
-export type NFTPrice = {
-  amount?: string; // Amount in Currency
-  currency?: string; // Currency
-  amountUSD?: string; // Amount in USD
 };
 
 /**
@@ -159,18 +152,6 @@ export type NFTMintCardReact = {
  * Note: exported as public Type
  */
 export type NFTMintCardDefaultReact = Omit<NFTMintCardReact, 'children'>;
-
-/**
-/**
- * Note: exported as public Type
- */
-export type NFTError =
-  | {
-      code: string; // The error code representing the type of nft error.
-      error: string; // The error message providing details about the nft error.
-      message: string; // The error message providing details about the nft error.
-    }
-  | TransactionError;
 
 export type LifecycleStatus =
   | {

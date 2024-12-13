@@ -1,10 +1,7 @@
 import { useNFTLifecycleContext } from '@/core-react/nft/providers/NFTLifecycleProvider';
 import { useNFTContext } from '@/core-react/nft/providers/NFTProvider';
-import {
-  LifecycleType,
-  MediaType,
-  type NFTError,
-} from '@/core-react/nft/types';
+import { LifecycleType, MediaType } from '@/core-react/nft/types';
+import type { NFTError } from '@/core/api/types';
 import { useCallback, useMemo } from 'react';
 import { cn } from '../../../../styles/theme';
 import { NFTAudio } from './NFTAudio';

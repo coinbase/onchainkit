@@ -1,4 +1,4 @@
-import type { NFTError } from '../../../core-react/nft/types';
+import type { NFTError } from '@/core/api/types';
 
 export function isNFTError(response: unknown): response is NFTError {
   return (

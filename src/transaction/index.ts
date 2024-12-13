@@ -13,7 +13,6 @@ export { TransactionToastLabel } from './components/TransactionToastLabel';
 export type {
   LifecycleStatus,
   TransactionButtonReact,
-  TransactionError,
   TransactionReact,
   TransactionResponse,
   TransactionSponsorReact,
@@ -26,3 +25,4 @@ export type {
   TransactionToastLabelReact,
   WalletCapabilities,
 } from './types';
+export type { TransactionError } from '@/core/api/types';
