@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { getAddressTokenBalances } from './getAddressTokenBalances';
+import type { TokenBalanceWithFiatValue } from '../../wallet/components/island/WalletIslandTokenHoldings';
 
 describe('getAddressTokenBalances', () => {
   it('should return an empty array for an invalid address', async () => {
