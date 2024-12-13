@@ -1,93 +1,142 @@
-import { useCallback, useEffect, useState } from 'react';
-import { cn } from '../../styles/theme';
+import { fireEvent, render, screen } from '@testing-library/react';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+import Draggable from './Draggable';
 
-type DraggableProps = {
-  children: React.ReactNode;
-  gridSize?: number;
-  startingPosition?: { x: number; y: number }; // TODO [BOE-886]: make this based on the parent component's position
-};
+describe('Draggable', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
 
-export default function Draggable({
-  children,
-  gridSize = 1,
-  startingPosition = { x: 20, y: 20 },
-}: DraggableProps) {
-  const [position, setPosition] = useState(startingPosition);
-  const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
-  const [isDragging, setIsDragging] = useState(false);
+  it('renders children correctly', () => {
+    render(
+      <Draggable>
+        <div>Drag me</div>
+      </Draggable>,
+    );
+    expect(screen.getByTestId('ockDraggable')).toBeInTheDocument();
+  });
 
-  const snapToGrid = useCallback(
-    (positionValue: number) => {
-      return Math.round(positionValue / gridSize) * gridSize;
-    },
-    [gridSize],
-  );
+  it('starts at the default position if no starting position is provided', () => {
+    render(
+      <Draggable>
+        <div>Drag me</div>
+      </Draggable>,
+    );
+    const draggable = screen.getByTestId('ockDraggable');
+    expect(draggable).toHaveStyle({ left: '20px', top: '20px' });
+  });
 
-  const handleDragStart = (e: React.MouseEvent | React.TouchEvent) => {
-    setIsDragging(true);
+  it('starts at the specified position if starting position is provided', () => {
+    render(
+      <Draggable startingPosition={{ x: 100, y: 100 }}>
+        <div>Drag me</div>
+      </Draggable>,
+    );
+    const draggable = screen.getByTestId('ockDraggable');
+    expect(draggable).toHaveStyle({ left: '100px', top: '100px' });
+  });
 
-    const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
-    const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
+  it('changes cursor style when dragging', () => {
+    render(
+      <Draggable>
+        <div>Drag me</div>
+      </Draggable>,
+    );
+    const draggable = screen.getByTestId('ockDraggable');
+    expect(draggable).toHaveClass('cursor-grab');
 
-    setDragOffset({
-      x: clientX - position.x,
-      y: clientY - position.y,
+    fireEvent.mouseDown(draggable);
+    expect(draggable).toHaveClass('cursor-grabbing');
+
+    fireEvent.mouseUp(draggable);
+    expect(draggable).toHaveClass('cursor-grab');
+  });
+
+  it('snaps to grid when dragging ends', () => {
+    render(
+      <Draggable gridSize={10} startingPosition={{ x: 0, y: 0 }}>
+        <div>Drag me</div>
+      </Draggable>,
+    );
+
+    const draggable = screen.getByTestId('ockDraggable');
+    fireEvent.mouseDown(draggable, { clientX: 0, clientY: 0 });
+    fireEvent.mouseMove(document, { clientX: 14, clientY: 16 });
+    fireEvent.mouseUp(document);
+    expect(draggable).toHaveStyle({ left: '10px', top: '20px' });
+  });
+
+  it('handles touch events', () => {
+    render(
+      <Draggable>
+        <div>Drag me</div>
+      </Draggable>,
+    );
+    const draggable = screen.getByTestId('ockDraggable');
+
+    fireEvent.touchStart(draggable, {
+      touches: [{ clientX: 0, clientY: 0 }],
     });
-  };
+    expect(draggable).toHaveClass('cursor-grabbing');
 
-  useEffect(() => {
-    if (!isDragging) {
-      return;
-    }
+    fireEvent.touchMove(document, {
+      touches: [{ clientX: 50, clientY: 50 }],
+    });
 
-    const handleGlobalMove = (e: MouseEvent | TouchEvent) => {
-      const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
-      const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
+    fireEvent.touchEnd(document);
+    expect(draggable).toHaveClass('cursor-grab');
+  });
 
-      setPosition({
-        x: clientX - dragOffset.x,
-        y: clientY - dragOffset.y,
-      });
-    };
+  it('calculates drag offset correctly', () => {
+    render(
+      <Draggable startingPosition={{ x: 50, y: 50 }}>
+        <div>Drag me</div>
+      </Draggable>,
+    );
+    const draggable = screen.getByTestId('ockDraggable');
 
-    const handleGlobalEnd = () => {
-      setPosition((prev) => ({
-        x: snapToGrid(prev.x),
-        y: snapToGrid(prev.y),
-      }));
-      setIsDragging(false);
-    };
+    fireEvent.mouseDown(draggable, { clientX: 60, clientY: 70 });
+    expect(draggable).toHaveStyle({ left: '50px', top: '50px' });
 
-    document.addEventListener('mousemove', handleGlobalMove);
-    document.addEventListener('touchmove', handleGlobalMove);
-    document.addEventListener('mouseup', handleGlobalEnd);
-    document.addEventListener('touchend', handleGlobalEnd);
+    // Move with the calculated offset
+    fireEvent.mouseMove(document, { clientX: 80, clientY: 90 });
+    expect(draggable).toHaveStyle({ left: '70px', top: '70px' });
+  });
 
-    return () => {
-      document.removeEventListener('mousemove', handleGlobalMove);
-      document.removeEventListener('touchmove', handleGlobalMove);
-      document.removeEventListener('mouseup', handleGlobalEnd);
-      document.removeEventListener('touchend', handleGlobalEnd);
-    };
-  }, [isDragging, dragOffset, snapToGrid]);
+  it('updates position during drag movement', () => {
+    render(
+      <Draggable startingPosition={{ x: 0, y: 0 }}>
+        <div>Drag me</div>
+      </Draggable>,
+    );
+    const draggable = screen.getByTestId('ockDraggable');
 
-  return (
-    <div
-      data-testid="ockDraggable"
-      className={cn(
-        'fixed select-none',
-        isDragging ? 'cursor-grabbing' : 'cursor-grab',
-      )}
-      style={{
-        left: `${position.x}px`,
-        top: `${position.y}px`,
-        zIndex: 1000,
-        touchAction: 'none',
-      }}
-      onMouseDown={handleDragStart}
-      onTouchStart={handleDragStart}
-    >
-      {children}
-    </div>
-  );
-}
+    fireEvent.mouseDown(draggable, { clientX: 0, clientY: 0 });
+
+    // Multiple move events
+    fireEvent.mouseMove(document, { clientX: 50, clientY: 50 });
+    expect(draggable).toHaveStyle({ left: '50px', top: '50px' });
+
+    fireEvent.mouseMove(document, { clientX: 100, clientY: 75 });
+    expect(draggable).toHaveStyle({ left: '100px', top: '75px' });
+  });
+
+  it('cleans up event listeners when unmounted during drag', () => {
+    const { unmount } = render(
+      <Draggable>
+        <div>Drag me</div>
+      </Draggable>,
+    );
+    const draggable = screen.getByTestId('ockDraggable');
+
+    // Start dragging
+    fireEvent.mouseDown(draggable, { clientX: 0, clientY: 0 });
+
+    // Unmount while dragging
+    unmount();
+
+    // Verify no errors when moving/ending after unmount
+    fireEvent.mouseMove(document, { clientX: 50, clientY: 50 });
+    fireEvent.mouseUp(document);
+  });
+});
