@@ -6,8 +6,8 @@ import type { TokenBalanceWithFiatValue } from '../../wallet/components/island/W
 export async function getAddressTokenBalances(
   address: `0x${string}`,
 ): Promise<TokenBalanceWithFiatValue[]> {
-  if (!address || typeof address !== 'string') {
-    throw new Error('Invalid address');
+  if (!address || address.slice(0, 2) !== '0x' || address.length !== 42) {
+    return [];
   }
 
   const tokenBalances: TokenBalanceWithFiatValue[] = [
