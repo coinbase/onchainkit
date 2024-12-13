@@ -1,6 +1,3 @@
-import { base } from 'viem/chains';
-import type { Token } from '../token';
-
 export const FALLBACK_DEFAULT_MAX_SLIPPAGE = 3;
 export const GENERAL_SWAP_ERROR_CODE = 'SWAP_ERROR';
 export const GENERAL_SWAP_QUOTE_ERROR_CODE = 'SWAP_QUOTE_ERROR';
