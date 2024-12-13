@@ -3,13 +3,9 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { useIdentityContext } from '../../../identity/components/IdentityProvider';
 import { useWalletContext } from '../WalletProvider';
 import { AddressDetails } from './WalletIslandAddressDetails';
+import { useWalletIslandContext } from './WalletIslandProvider';
 
-vi.mock('../WalletProvider', () => ({
-  useWalletContext: vi.fn(),
-  WalletProvider: ({ children }) => <>{children}</>,
-}));
-
-vi.mock('../../../useTheme', () => ({
+vi.mock('../../../core-react/internal/hooks/useTheme', () => ({
   useTheme: vi.fn(),
 }));
 
@@ -17,6 +13,10 @@ vi.mock('../../../identity/components/IdentityProvider', () => ({
   useIdentityContext: vi.fn().mockReturnValue({
     schemaId: '1',
   }),
+}));
+
+vi.mock('../../../identity/hooks/useAttestations', () => ({
+  useAttestations: () => [{ testAttestation: 'Test Attestation' }],
 }));
 
 vi.mock('../../../identity/hooks/useAvatar', () => ({
@@ -27,13 +27,22 @@ vi.mock('../../../identity/hooks/useName', () => ({
   useName: () => ({ data: null, isLoading: false }),
 }));
 
-vi.mock('../../../identity/hooks/useAttestations', () => ({
-  useAttestations: () => [{ testAttestation: 'Test Attestation' }],
+vi.mock('../WalletProvider', () => ({
+  useWalletContext: vi.fn(),
+  WalletProvider: ({ children }) => <>{children}</>,
+}));
+
+vi.mock('./WalletIslandProvider', () => ({
+  useWalletIslandContext: vi.fn(),
+  WalletIslandProvider: ({ children }) => <>{children}</>,
 }));
 
 describe('WalletIslandAddressDetails', () => {
   const mockUseWalletContext = useWalletContext as ReturnType<typeof vi.fn>;
   const mockUseIdentityContext = useIdentityContext as ReturnType<typeof vi.fn>;
+  const mockUseWalletIslandContext = useWalletIslandContext as ReturnType<
+    typeof vi.fn
+  >;
 
   const mockClipboard = {
     writeText: vi.fn(),
@@ -42,6 +51,11 @@ describe('WalletIslandAddressDetails', () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
+    mockUseWalletIslandContext.mockReturnValue({
+      animationClasses: {
+        addressDetails: 'animate-walletIslandContainerItem2',
+      },
+    });
   });
 
   it('renders null when isClosing is true', () => {

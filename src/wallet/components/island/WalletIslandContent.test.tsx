@@ -4,13 +4,13 @@ import { useWalletContext } from '../WalletProvider';
 import { WalletIslandContent } from './WalletIslandContent';
 import { useWalletIslandContext } from './WalletIslandProvider';
 
+vi.mock('../../../core-react/internal/hooks/useTheme', () => ({
+  useTheme: vi.fn(),
+}));
+
 vi.mock('../WalletProvider', () => ({
   useWalletContext: vi.fn(),
   WalletProvider: ({ children }) => <>{children}</>,
-}));
-
-vi.mock('../../../useTheme', () => ({
-  useTheme: vi.fn(),
 }));
 
 vi.mock('./WalletIslandProvider', () => ({
@@ -36,17 +36,24 @@ describe('WalletIslandContent', () => {
     typeof vi.fn
   >;
 
+  const defaultMockUseWalletIslandContext = {
+    showSwap: false,
+    isSwapClosing: false,
+    showQr: false,
+    isQrClosing: false,
+    tokenHoldings: [],
+    animationClasses: {
+      content: 'animate-walletIslandContainerIn',
+    },
+  }
+
   beforeEach(() => {
     vi.clearAllMocks();
+    mockUseWalletIslandContext.mockReturnValue(defaultMockUseWalletIslandContext);
   });
 
   it('renders WalletIslandContent when isClosing is false', () => {
     mockUseWalletContext.mockReturnValue({ isClosing: false });
-    mockUseWalletIslandContext.mockReturnValue({
-      showQr: false,
-      showSwap: false,
-      tokenHoldings: [],
-    });
 
     render(<WalletIslandContent />);
 
@@ -65,9 +72,10 @@ describe('WalletIslandContent', () => {
   it('closes WalletIslandContent when isClosing is true', () => {
     mockUseWalletContext.mockReturnValue({ isClosing: true });
     mockUseWalletIslandContext.mockReturnValue({
-      showQr: false,
-      showSwap: false,
-      tokenHoldings: [],
+      ...defaultMockUseWalletIslandContext,
+      animationClasses: {
+        content: 'animate-walletIslandContainerOut',
+      },
     });
 
     render(<WalletIslandContent />);
@@ -86,9 +94,8 @@ describe('WalletIslandContent', () => {
 
   it('renders WalletIslandQrReceive when showQr is true', () => {
     mockUseWalletIslandContext.mockReturnValue({
+      ...defaultMockUseWalletIslandContext,
       showQr: true,
-      showSwap: false,
-      tokenHoldings: [],
     });
 
     render(<WalletIslandContent />);
@@ -104,9 +111,8 @@ describe('WalletIslandContent', () => {
 
   it('renders WalletIslandSwap when showSwap is true', () => {
     mockUseWalletIslandContext.mockReturnValue({
-      showQr: false,
+      ...defaultMockUseWalletIslandContext,
       showSwap: true,
-      tokenHoldings: [],
     });
 
     render(<WalletIslandContent />);
