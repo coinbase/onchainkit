@@ -29,6 +29,8 @@ import type {
 } from '../types';
 import { isSwapError } from '../utils/isSwapError';
 import { processSwapTransaction } from '../utils/processSwapTransaction';
+import { EventMetadata, OnrampError } from '../../fund/types';
+import { setupOnrampEventListeners } from '../../fund';
 
 const emptyContext = {} as FundSwapContextType;
 
@@ -56,6 +58,7 @@ export function FundSwapProvider({
   onSuccess,
   toToken,
   fromToken,
+  projectId,
 }: FundSwapProviderReact) {
   const {
     config: { paymaster } = { paymaster: undefined },
@@ -97,6 +100,31 @@ export function FundSwapProvider({
     lifecycleStatus,
     updateLifecycleStatus,
   });
+
+  const handleOnrampEvent = useCallback((data: EventMetadata) => {
+    console.log({ data });
+    if (data.eventName === 'transition_view') {
+      updateLifecycleStatus({
+        statusName: 'transactionPending',
+      });
+    }
+  }, []);
+
+  const handleOnrampExit = useCallback((error?: OnrampError) => {
+    console.log({ error });
+  }, []);
+
+  const handleOnrampSuccess = useCallback(() => {
+    console.log('ONRAMP SUCCESS');
+  }, []);
+
+  useEffect(() => {
+    setupOnrampEventListeners({
+      onEvent: handleOnrampEvent,
+      onExit: handleOnrampExit,
+      onSuccess: handleOnrampSuccess,
+    });
+  }, [handleOnrampEvent, handleOnrampExit, handleOnrampSuccess]);
 
   // Component lifecycle emitters
   useEffect(() => {
@@ -446,6 +474,7 @@ export function FundSwapProvider({
     setIsDropdownOpen,
     toToken,
     fromToken,
+    projectId,
   });
 
   return (

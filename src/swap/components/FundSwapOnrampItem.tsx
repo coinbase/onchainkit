@@ -2,6 +2,8 @@ import { cn, color } from '../../styles/theme';
 import { appleSvg } from '../../internal/svg/appleSvg';
 import { coinbaseLogoSvg } from '../../internal/svg/coinbaseLogoSvg';
 import { cardSvg } from '../../internal/svg/cardSvg';
+import { useFundSwapContext } from './FundSwapProvider';
+import { useCallback } from 'react';
 
 type OnrampItemReact = {
   name: string;
@@ -23,13 +25,20 @@ export function FundSwapOnrampItem({
   onClick,
   icon,
 }: OnrampItemReact) {
+  const { setIsDropdownOpen } = useFundSwapContext();
+
+  const handleClick = useCallback(() => {
+    setIsDropdownOpen(false);
+    onClick();
+  }, [onClick, setIsDropdownOpen]);
+
   return (
     <button
       className={cn(
         'flex items-center gap-2 rounded-lg p-2',
         'hover:bg-[var(--ock-bg-inverse)]',
       )}
-      onClick={onClick}
+      onClick={handleClick}
       type="button"
     >
       <div className="h-9 w-9 flex items-center justify-center">

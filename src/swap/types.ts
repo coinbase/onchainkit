@@ -76,6 +76,7 @@ export type FundSwapReact = {
   onSuccess?: (transactionReceipt: TransactionReceipt) => void; // An optional callback function that exposes the transaction receipt
   fromToken?: Token;
   toToken: Token;
+  projectId: string; // Your CDP project ID found at https://portal.cdp.coinbase.com/
 };
 
 export type FundSwapContextType = {
@@ -95,6 +96,7 @@ export type FundSwapContextType = {
   transactionHash: string;
   isDropdownOpen: boolean;
   setIsDropdownOpen: (open: boolean) => void;
+  projectId: string;
 };
 
 export type FundSwapProviderReact = {
@@ -111,6 +113,7 @@ export type FundSwapProviderReact = {
   onSuccess?: (transactionReceipt: TransactionReceipt) => void; // An optional callback function that exposes the transaction receipt
   fromToken?: Token;
   toToken: Token;
+  projectId: string;
 };
 
 export type GetSwapMessageParams = {

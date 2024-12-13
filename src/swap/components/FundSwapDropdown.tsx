@@ -11,16 +11,15 @@ import { FundSwapOnrampItem } from './FundSwapOnrampItem';
 import { FundSwapTokenItem } from './FundSwapTokenItem';
 
 export function FundSwapDropdown() {
-  const { to, fromETH, fromUSDC, from } = useFundSwapContext();
+  const { to, fromETH, fromUSDC, from, projectId } = useFundSwapContext();
   const { address } = useAccount();
 
   const handleOnrampClick = useCallback(
     (paymentMethodId: string) => {
       return () => {
-        const appId = '817a37b6-9371-41f6-a362-6fb57cf3c4ff';
         const assetSymbol = to?.token?.symbol;
         const fundAmount = to?.amount;
-        const fundingUrl = `${ONRAMP_BUY_URL}/one-click?appId=${appId}&addresses={"${address}":["base"]}&assets=["${assetSymbol}"]&presetCryptoAmount=${fundAmount}&defaultPaymentMethod=${paymentMethodId}`;
+        const fundingUrl = `${ONRAMP_BUY_URL}/one-click?appId=${projectId}&addresses={"${address}":["base"]}&assets=["${assetSymbol}"]&presetCryptoAmount=${fundAmount}&defaultPaymentMethod=${paymentMethodId}`;
         const { height, width } = getFundingPopupSize('md', fundingUrl);
         openPopup({
           url: fundingUrl,
@@ -30,7 +29,7 @@ export function FundSwapDropdown() {
         });
       };
     },
-    [to],
+    [to, projectId],
   );
 
   const formattedAmountUSD = useMemo(() => {

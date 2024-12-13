@@ -55,6 +55,7 @@ export function FundSwap({
   onSuccess,
   toToken,
   fromToken,
+  projectId,
 }: FundSwapReact) {
   return (
     <FundSwapProvider
@@ -66,6 +67,7 @@ export function FundSwap({
       onSuccess={onSuccess}
       toToken={toToken}
       fromToken={fromToken}
+      projectId={projectId}
     >
       <FundSwapContent className={className} />
     </FundSwapProvider>
