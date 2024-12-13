@@ -1,6 +1,6 @@
 import type { Token } from '@/token/types';
 import { base } from 'viem/chains';
-import { beforeEach, describe, expect, it, Mock, vi } from 'vitest';
+import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { isSwapError } from '../../swap/utils/isSwapError';
 import { formatTokenAmount } from '../utils/formatTokenAmount';
 import { getSwapLiteQuote } from './getSwapLiteQuote';
