@@ -41,7 +41,7 @@ export function SwapLiteOnrampItem({
       onClick={handleClick}
       type="button"
     >
-      <div className="h-9 w-9 flex items-center justify-center">
+      <div className="flex h-9 w-9 items-center justify-center">
         {ONRAMP_ICON_MAP[icon]}
       </div>
       <div className="flex flex-col items-start">

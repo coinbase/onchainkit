@@ -5,7 +5,7 @@ export const appleSvg = (
     preserveAspectRatio="xMidYMid meet"
     id="Artwork"
   >
-    <style>{`.st0{fill:#fff}`}</style>
+    <style>{'.st0{fill:#fff}'}</style>
 
     <path
       id="XMLID_4_"

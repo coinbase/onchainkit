@@ -46,7 +46,7 @@ export function SwapLiteDropdown() {
         color.foreground,
         background.alternate,
         'absolute right-0 bottom-0 flex translate-y-[105%] flex-col gap-2',
-        'rounded p-2 min-w-80',
+        'min-w-80 rounded p-2',
       )}
     >
       <div className="px-2 pt-2">Buy with</div>

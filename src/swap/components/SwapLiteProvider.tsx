@@ -29,7 +29,7 @@ import type {
 } from '../types';
 import { isSwapError } from '../utils/isSwapError';
 import { processSwapTransaction } from '../utils/processSwapTransaction';
-import { EventMetadata, OnrampError } from '../../fund/types';
+import type { EventMetadata, OnrampError } from '../../fund/types';
 import { setupOnrampEventListeners } from '../../fund';
 
 const emptyContext = {} as SwapLiteContextType;
