@@ -1,10 +1,10 @@
 import '@testing-library/jest-dom';
 import { render } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
-import { useTheme } from '../../../core-react/internal/hooks/useTheme';
+import { useTheme } from '@/core-react/internal/hooks/useTheme';
 import { NFTErrorFallback } from './NFTErrorFallback';
 
-vi.mock('../../../core-react/internal/hooks/useTheme');
+vi.mock('@/core-react/internal/hooks/useTheme');
 
 describe('NFTErrorFallback', () => {
   beforeEach(() => {

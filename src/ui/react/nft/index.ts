@@ -13,4 +13,4 @@ export type {
   NFTMintCardReact,
   NFTMintCardDefaultReact,
   UseNFTData,
-} from '../../../core-react/nft/types';
+} from '@/core-react/nft/types';

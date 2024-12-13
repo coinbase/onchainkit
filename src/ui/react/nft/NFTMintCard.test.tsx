@@ -9,14 +9,14 @@ import {
   it,
   vi,
 } from 'vitest';
-import { useIsMounted } from '../../../core-react/internal/hooks/useIsMounted';
+import { useIsMounted } from '@/core-react/internal/hooks/useIsMounted';
 import { NFTMintCard } from './NFTMintCard';
 
-vi.mock('../../../core-react/internal/hooks/useTheme', () => ({
+vi.mock('@/core-react/internal/hooks/useTheme', () => ({
   useTheme: vi.fn(() => 'default-light'),
 }));
-vi.mock('../../../core-react/internal/hooks/useIsMounted');
-vi.mock('../../../core-react/nft/providers/NFTProvider', () => ({
+vi.mock('@/core-react/internal/hooks/useIsMounted');
+vi.mock('@/core-react/nft/providers/NFTProvider', () => ({
   NFTProvider: vi.fn(({ children }) => <div>{children}</div>),
 }));
 

@@ -9,10 +9,10 @@ import {
   it,
   vi,
 } from 'vitest';
-import { useNFTContext } from '../../../../core-react/nft/providers/NFTProvider';
+import { useNFTContext } from '@/core-react/nft/providers/NFTProvider';
 import { NFTTotalCost } from './NFTTotalCost';
 
-vi.mock('../../../../core-react/nft/providers/NFTProvider');
+vi.mock('@/core-react/nft/providers/NFTProvider');
 
 describe('NFTTotalCost', () => {
   const mockUseNFTContext = useNFTContext as Mock;

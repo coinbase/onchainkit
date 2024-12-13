@@ -10,18 +10,18 @@ import {
   vi,
 } from 'vitest';
 import { useAccount } from 'wagmi';
-import { useIsMounted } from '../../../core-react/internal/hooks/useIsMounted';
-import { NFTProvider } from '../../../core-react/nft/providers/NFTProvider';
+import { useIsMounted } from '@/core-react/internal/hooks/useIsMounted';
+import { NFTProvider } from '@/core-react/nft/providers/NFTProvider';
 import { NFTCard } from './NFTCard';
 
 vi.mock('wagmi', () => ({
   useAccount: vi.fn(),
 }));
-vi.mock('../../../core-react/internal/hooks/useTheme', () => ({
+vi.mock('@/core-react/internal/hooks/useTheme', () => ({
   useTheme: vi.fn(() => 'default-light'),
 }));
-vi.mock('../../../core-react/internal/hooks/useIsMounted');
-vi.mock('../../../core-react/nft/providers/NFTProvider', () => ({
+vi.mock('@/core-react/internal/hooks/useIsMounted');
+vi.mock('@/core-react/nft/providers/NFTProvider', () => ({
   NFTProvider: vi.fn(({ children }) => <div>{children}</div>),
 }));
 

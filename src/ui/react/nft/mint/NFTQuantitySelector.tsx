@@ -1,4 +1,4 @@
-import { useNFTContext } from '../../../../core-react/nft/providers/NFTProvider';
+import { useNFTContext } from '@/core-react/nft/providers/NFTProvider';
 import { QuantitySelector } from '../../../../internal/components/QuantitySelector';
 import { cn } from '../../../../styles/theme';
 

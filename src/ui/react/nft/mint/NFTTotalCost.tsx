@@ -1,6 +1,6 @@
 import { type ReactNode, useCallback, useMemo, useState } from 'react';
-import { useNFTContext } from '../../../../core-react/nft/providers/NFTProvider';
-import { multiplyFloats } from '../../../../core/utils/multiplyFloats';
+import { useNFTContext } from '@/core-react/nft/providers/NFTProvider';
+import { multiplyFloats } from '@/core/utils/multiplyFloats';
 import { infoSvg } from '../../../../internal/svg/infoSvg';
 import { background, border, cn, text } from '../../../../styles/theme';
 import { formatAmount } from '../../../../token/utils/formatAmount';

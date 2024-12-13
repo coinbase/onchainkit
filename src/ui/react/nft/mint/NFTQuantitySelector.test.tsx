@@ -10,10 +10,10 @@ import {
   it,
   vi,
 } from 'vitest';
-import { useNFTContext } from '../../../../core-react/nft/providers/NFTProvider';
+import { useNFTContext } from '@/core-react/nft/providers/NFTProvider';
 import { NFTQuantitySelector } from './NFTQuantitySelector';
 
-vi.mock('../../../../core-react/nft/providers/NFTProvider');
+vi.mock('@/core-react/nft/providers/NFTProvider');
 
 vi.mock('../../../../internal/components/QuantitySelector', () => ({
   QuantitySelector: ({

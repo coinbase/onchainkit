@@ -1,10 +1,10 @@
 import '@testing-library/jest-dom';
 import { render } from '@testing-library/react';
 import { type Mock, describe, expect, it, vi } from 'vitest';
-import { useNFTContext } from '../../../../core-react/nft/providers/NFTProvider';
+import { useNFTContext } from '@/core-react/nft/providers/NFTProvider';
 import { NFTTitle } from './NFTTitle';
 
-vi.mock('../../../../core-react/nft/providers/NFTProvider', () => ({
+vi.mock('@/core-react/nft/providers/NFTProvider', () => ({
   useNFTContext: vi.fn(),
 }));
 

@@ -1,11 +1,11 @@
 import { useCallback, useMemo } from 'react';
-import { useNFTLifecycleContext } from '../../../../core-react/nft/providers/NFTLifecycleProvider';
-import { useNFTContext } from '../../../../core-react/nft/providers/NFTProvider';
+import { useNFTLifecycleContext } from '@/core-react/nft/providers/NFTLifecycleProvider';
+import { useNFTContext } from '@/core-react/nft/providers/NFTProvider';
 import {
   LifecycleType,
   MediaType,
   type NFTError,
-} from '../../../../core-react/nft/types';
+} from '@/core-react/nft/types';
 import { cn } from '../../../../styles/theme';
 import { NFTAudio } from './NFTAudio';
 import { NFTImage } from './NFTImage';

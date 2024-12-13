@@ -9,10 +9,10 @@ import {
   it,
   vi,
 } from 'vitest';
-import { useNFTContext } from '../../../../core-react/nft/providers/NFTProvider';
+import { useNFTContext } from '@/core-react/nft/providers/NFTProvider';
 import { NFTVideo } from './NFTVideo';
 
-vi.mock('../../../../core-react/nft/providers/NFTProvider', () => ({
+vi.mock('@/core-react/nft/providers/NFTProvider', () => ({
   useNFTContext: vi.fn(),
 }));
 

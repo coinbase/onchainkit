@@ -1,4 +1,4 @@
-import type { NFTMintCardDefaultReact } from '../../../core-react/nft/types';
+import type { NFTMintCardDefaultReact } from '@/core-react/nft/types';
 import { NFTMintCard } from './NFTMintCard';
 import {
   NFTAssetCost,

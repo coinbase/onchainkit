@@ -1,4 +1,4 @@
-import type { NFTCardDefaultReact } from '../../../core-react/nft/types';
+import type { NFTCardDefaultReact } from '@/core-react/nft/types';
 import { NFTCard } from './NFTCard';
 import {
   NFTLastSoldPrice,
