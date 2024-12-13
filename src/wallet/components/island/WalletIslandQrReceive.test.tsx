@@ -49,15 +49,22 @@ describe('WalletIslandQrReceive', () => {
     typeof vi.fn
   >;
 
+  const defaultMockUseWalletIslandContext = {
+    showQr: false,
+    setShowQr: vi.fn(),
+    animationClasses: {
+      qr: 'animate-slideInFromLeft',
+    },
+  };
+
   beforeEach(() => {
     mockUseWalletContext.mockReturnValue({
       isOpen: true,
       isClosing: false,
     });
-    mockUseWalletIslandContext.mockReturnValue({
-      showQr: false,
-      setShowQr: vi.fn(),
-    });
+    mockUseWalletIslandContext.mockReturnValue(
+      defaultMockUseWalletIslandContext,
+    );
     mockSetCopyText.mockClear();
     mockSetCopyButtonText.mockClear();
     mockClipboard.writeText.mockReset();
@@ -80,6 +87,7 @@ describe('WalletIslandQrReceive', () => {
 
   it('should focus backButtonRef when showQr is true', () => {
     mockUseWalletIslandContext.mockReturnValue({
+      ...defaultMockUseWalletIslandContext,
       showQr: true,
       setShowQr: vi.fn(),
     });
@@ -94,6 +102,7 @@ describe('WalletIslandQrReceive', () => {
 
     const setShowQrMock = vi.fn();
     mockUseWalletIslandContext.mockReturnValue({
+      ...defaultMockUseWalletIslandContext,
       showQr: true,
       setShowQr: setShowQrMock,
     });
@@ -118,6 +127,7 @@ describe('WalletIslandQrReceive', () => {
     });
 
     mockUseWalletIslandContext.mockReturnValue({
+      ...defaultMockUseWalletIslandContext,
       showQr: true,
     });
 
@@ -155,6 +165,7 @@ describe('WalletIslandQrReceive', () => {
     });
 
     mockUseWalletIslandContext.mockReturnValue({
+      ...defaultMockUseWalletIslandContext,
       showQr: true,
     });
 
@@ -192,6 +203,7 @@ describe('WalletIslandQrReceive', () => {
     });
 
     mockUseWalletIslandContext.mockReturnValue({
+      ...defaultMockUseWalletIslandContext,
       showQr: true,
     });
 

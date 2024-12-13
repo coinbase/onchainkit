@@ -14,9 +14,23 @@ describe('useWalletIslandContext', () => {
     expect(result.current).toEqual({
       showSwap: false,
       setShowSwap: expect.any(Function),
+      isSwapClosing: false,
+      setIsSwapClosing: expect.any(Function),
       showQr: false,
       setShowQr: expect.any(Function),
+      isQrClosing: false,
+      setIsQrClosing: expect.any(Function),
       tokenHoldings: expect.any(Array),
+      animationClasses: {
+        content: expect.any(String),
+        qr: expect.any(String),
+        swap: expect.any(String),
+        walletActions: expect.any(String),
+        addressDetails: expect.any(String),
+        transactionActions: expect.any(String),
+        tokenHoldings: expect.any(String),
+      },
+      setHasContentAnimated: expect.any(Function),
     });
   });
 });

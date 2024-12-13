@@ -24,7 +24,7 @@ export type WalletIslandContextType = {
   setIsQrClosing: Dispatch<SetStateAction<boolean>>;
   tokenHoldings: TokenBalanceWithFiatValue[];
   animationClasses: WalletIslandAnimations;
-  setHasContentEntered: Dispatch<SetStateAction<boolean>>;
+  setHasContentAnimated: Dispatch<SetStateAction<boolean>>;
 };
 
 type WalletIslandAnimations = {
@@ -110,7 +110,7 @@ export function WalletIslandProvider({ children }: WalletIslandProviderReact) {
     setIsQrClosing,
     tokenHoldings,
     animationClasses,
-    setHasContentEntered: setHasContentAnimated,
+    setHasContentAnimated,
   });
 
   return (
