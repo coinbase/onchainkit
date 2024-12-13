@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { setOnchainKitConfig } from '../OnchainKitConfig';
+import { setOnchainKitConfig } from '@/core/OnchainKitConfig';
 import { getApiKey } from './getApiKey';
 
 describe('getApiKey', () => {
