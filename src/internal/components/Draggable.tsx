@@ -24,9 +24,6 @@ export default function Draggable({
   );
 
   const handleDragStart = (e: React.MouseEvent | React.TouchEvent) => {
-    if (!(e.target instanceof HTMLElement)) {
-      return;
-    }
     setIsDragging(true);
 
     const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
