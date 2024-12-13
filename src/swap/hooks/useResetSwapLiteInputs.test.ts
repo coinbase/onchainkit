@@ -11,13 +11,24 @@ describe('useResetSwapLiteInputs', () => {
     isPending: true,
     isSuccess: false,
     status: 'pending',
-    refetch: vi.fn().mockResolvedValue(undefined),
   } as const;
 
-  const mockFromTokenResponse = mockQueryResponse;
-  const mockFromETHTokenResponse = mockQueryResponse;
-  const mockFromUSDCTokenResponse = mockQueryResponse;
-  const mockToTokenResponse = mockQueryResponse;
+  const mockFromTokenResponse = {
+    ...mockQueryResponse,
+    refetch: vi.fn().mockResolvedValue(undefined),
+  };
+  const mockFromETHTokenResponse = {
+    ...mockQueryResponse,
+    refetch: vi.fn().mockResolvedValue(undefined),
+  };
+  const mockFromUSDCTokenResponse = {
+    ...mockQueryResponse,
+    refetch: vi.fn().mockResolvedValue(undefined),
+  };
+  const mockToTokenResponse = {
+    ...mockQueryResponse,
+    refetch: vi.fn().mockResolvedValue(undefined),
+  };
   const mockFrom: SwapUnit = {
     balance: '100',
     balanceResponse: mockFromTokenResponse,
