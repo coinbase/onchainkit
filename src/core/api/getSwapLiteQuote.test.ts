@@ -1,10 +1,10 @@
-import { describe, it, expect, vi, beforeEach, Mock } from 'vitest';
+import type { Token } from '@/token/types';
+import { base } from 'viem/chains';
+import { beforeEach, describe, expect, it, Mock, vi } from 'vitest';
+import { isSwapError } from '../../swap/utils/isSwapError';
+import { formatTokenAmount } from '../utils/formatTokenAmount';
 import { getSwapLiteQuote } from './getSwapLiteQuote';
 import { getSwapQuote } from './getSwapQuote';
-import { formatTokenAmount } from '../utils/formatTokenAmount';
-import { isSwapError } from '../../swap/utils/isSwapError';
-import { Token } from '@/token/types';
-import { base } from 'viem/chains';
 
 vi.mock('./getSwapQuote');
 vi.mock('../utils/formatTokenAmount');
