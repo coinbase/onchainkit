@@ -5,17 +5,17 @@ import { Wallet } from '../Wallet';
 import { useWalletContext } from '../WalletProvider';
 import { WalletIsland } from './WalletIsland';
 
-vi.mock('../WalletProvider', () => ({
-  useWalletContext: vi.fn(),
-  WalletProvider: ({ children }) => <>{children}</>,
-}));
-
-vi.mock('../../../useTheme', () => ({
+vi.mock('../../../core-react/internal/hooks/useTheme', () => ({
   useTheme: vi.fn(),
 }));
 
 vi.mock('../ConnectWallet', () => ({
   ConnectWallet: () => <div data-testid="connect-wallet">Connect Wallet</div>,
+}));
+
+vi.mock('../WalletProvider', () => ({
+  useWalletContext: vi.fn(),
+  WalletProvider: ({ children }) => <>{children}</>,
 }));
 
 vi.mock('./WalletIslandContent', () => ({

@@ -15,7 +15,7 @@ vi.mock('../WalletProvider', () => ({
   WalletProvider: ({ children }) => <>{children}</>,
 }));
 
-vi.mock('../../../useTheme', () => ({
+vi.mock('../../../core-react/internal/hooks/useTheme', () => ({
   useTheme: vi.fn(),
 }));
 
