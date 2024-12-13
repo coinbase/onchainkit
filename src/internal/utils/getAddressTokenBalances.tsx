@@ -3,7 +3,7 @@
 // import { sendRequest } from '../../network/request';
 import type { TokenBalanceWithFiatValue } from '../../wallet/components/island/WalletIslandTokenHoldings';
 
-export default async function getAddressTokenBalances(
+export async function getAddressTokenBalances(
   address: `0x${string}`,
 ): Promise<TokenBalanceWithFiatValue[]> {
   if (!address || typeof address !== 'string') {
