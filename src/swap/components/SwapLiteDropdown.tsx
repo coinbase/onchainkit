@@ -1,13 +1,13 @@
 import { useCallback, useMemo } from 'react';
-import { background, cn, color, text } from '../../styles/theme';
-import { useSwapLiteContext } from './SwapLiteProvider';
-import { getRoundedAmount } from '../../core/utils/getRoundedAmount';
-import { ONRAMP_PAYMENT_METHODS } from '../constants';
 import { useAccount } from 'wagmi';
+import { getRoundedAmount } from '../../core/utils/getRoundedAmount';
 import { ONRAMP_BUY_URL } from '../../fund/constants';
 import { getFundingPopupSize } from '../../fund/utils/getFundingPopupSize';
 import { openPopup } from '../../internal/utils/openPopup';
+import { background, cn, color, text } from '../../styles/theme';
+import { ONRAMP_PAYMENT_METHODS } from '../constants';
 import { SwapLiteOnrampItem } from './SwapLiteOnrampItem';
+import { useSwapLiteContext } from './SwapLiteProvider';
 import { SwapLiteTokenItem } from './SwapLiteTokenItem';
 
 export function SwapLiteDropdown() {

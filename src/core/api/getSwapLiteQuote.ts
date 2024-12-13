@@ -1,6 +1,6 @@
-import type { SwapUnit } from '../../swap/types';
+import type { SwapError, SwapUnit } from '../../swap/types';
 import { isSwapError } from '../../swap/utils/isSwapError';
-import { Token } from '../../token';
+import type { Token } from '../../token';
 import { formatTokenAmount } from '../utils/formatTokenAmount';
 import { getSwapQuote } from './getSwapQuote';
 import type {
@@ -58,7 +58,7 @@ export async function getSwapLiteQuote({
     fromSwapUnit.setAmount(formattedFromAmount || '');
   }
 
-  let error;
+  let error: SwapError | undefined;
   if (isSwapError(response)) {
     error = response;
     response = undefined;
