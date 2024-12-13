@@ -101,17 +101,20 @@ describe('WalletIslandQrReceive', () => {
     vi.useFakeTimers();
 
     const setShowQrMock = vi.fn();
+    const setIsQrClosingMock = vi.fn();
     mockUseWalletIslandContext.mockReturnValue({
       ...defaultMockUseWalletIslandContext,
       showQr: true,
       setShowQr: setShowQrMock,
+      setIsQrClosing: setIsQrClosingMock,
     });
 
     render(<WalletIslandQrReceive />);
     const backButton = screen.getByRole('button', { name: /back/i });
     fireEvent.click(backButton);
+    expect(setIsQrClosingMock).toHaveBeenCalledWith(true);
 
-    vi.advanceTimersByTime(150);
+    vi.advanceTimersByTime(200);
     expect(setShowQrMock).toHaveBeenCalledWith(false);
 
     vi.useRealTimers();
