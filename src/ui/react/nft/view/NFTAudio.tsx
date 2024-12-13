@@ -1,5 +1,5 @@
 import { useNFTContext } from '@/core-react/nft/providers/NFTProvider';
-import type { NFTError } from '@/core-react/nft/types';
+import type { NFTError } from '@/core/api/types';
 import {
   type MouseEvent,
   useCallback,

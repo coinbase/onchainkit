@@ -1,13 +1,9 @@
 import '@testing-library/jest-dom';
+import type { NFTError } from '@/core/api/types';
 import { fireEvent, render } from '@testing-library/react';
 import type { TransactionReceipt } from 'viem';
 import { describe, expect, it, vi } from 'vitest';
-import {
-  type LifecycleStatus,
-  LifecycleType,
-  MediaType,
-  type NFTError,
-} from '../types';
+import { type LifecycleStatus, LifecycleType, MediaType } from '../types';
 import {
   NFTLifecycleProvider,
   useNFTLifecycleContext,

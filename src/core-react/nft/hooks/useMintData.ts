@@ -1,8 +1,9 @@
+import type { NFTError } from '@/core/api/types';
 import { convertIpfsToHttps } from '@/core/nft/utils/ipfs';
 import { useEffect, useState } from 'react';
 import { useAccount } from 'wagmi';
 import { useNFTLifecycleContext } from '../providers/NFTLifecycleProvider';
-import type { NFTData, NFTError } from '../types';
+import type { NFTData } from '../types';
 import { useMintDetails } from './useMintDetails';
 
 export function useMintData(
