@@ -2163,6 +2163,7 @@ __metadata:
     storybook: "npm:^8.2.9"
     tailwind-merge: "npm:^2.3.0"
     tailwindcss: "npm:^3.4.3"
+    tailwindcss-animate: "npm:^1.0.7"
     tsup: "npm:^8.3.5"
     typescript: "npm:~5.3.3"
     viem: "npm:^2.21.33"
@@ -14782,6 +14783,15 @@ __metadata:
   version: 2.4.0
   resolution: "tailwind-merge@npm:2.4.0"
   checksum: 77bd20647d08db78a0bdf7b57d4b904479aee7727f44570f8834d62a1aa56f42d7ae68ac959e3d610c9f188aa164eeefb6c43df4f0c8bb7cfc3418e1575bfecb
+  languageName: node
+  linkType: hard
+
+"tailwindcss-animate@npm:^1.0.7":
+  version: 1.0.7
+  resolution: "tailwindcss-animate@npm:1.0.7"
+  peerDependencies:
+    tailwindcss: "*"
+  checksum: ec7dbd1631076b97d66a1fbaaa06e0725fccfa63119221e8d87a997b02dcede98ad88bb1ef6665b968f5d260fcefb10592e0299ca70208d365b37761edf5e19a
   languageName: node
   linkType: hard
 
