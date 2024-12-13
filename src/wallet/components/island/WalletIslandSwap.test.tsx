@@ -6,6 +6,7 @@ import type { Token } from '../../../token';
 import { useWalletContext } from '../WalletProvider';
 import { useWalletIslandContext } from './WalletIslandProvider';
 import { WalletIslandSwap } from './WalletIslandSwap';
+import { V } from 'vitest/dist/chunks/reporters.D7Jzd9GS.js';
 
 const tokens = [
   {
@@ -32,17 +33,8 @@ const tokens = [
   },
 ];
 
-vi.mock('../WalletProvider', () => ({
-  useWalletContext: vi.fn(),
-}));
-
-vi.mock('./WalletIslandProvider', () => ({
-  useWalletIslandContext: vi.fn(),
-}));
-
-vi.mock('../../../swap/components/SwapProvider', () => ({
-  useSwapContext: vi.fn(),
-  SwapProvider: ({ children }) => <>{children}</>,
+vi.mock('wagmi', () => ({
+  useAccount: vi.fn(),
 }));
 
 vi.mock(import('../../../swap'), async (importOriginal) => {
@@ -69,8 +61,17 @@ vi.mock(import('../../../swap'), async (importOriginal) => {
   };
 });
 
-vi.mock('wagmi', () => ({
-  useAccount: vi.fn(),
+vi.mock('../../../swap/components/SwapProvider', () => ({
+  useSwapContext: vi.fn(),
+  SwapProvider: ({ children }) => <>{children}</>,
+}));
+
+vi.mock('../WalletProvider', () => ({
+  useWalletContext: vi.fn(),
+}));
+
+vi.mock('./WalletIslandProvider', () => ({
+  useWalletIslandContext: vi.fn(),
 }));
 
 describe('WalletIslandSwap', () => {
@@ -81,37 +82,46 @@ describe('WalletIslandSwap', () => {
   const mockUseSwapContext = useSwapContext as ReturnType<typeof vi.fn>;
   const mockUseAccount = useAccount as ReturnType<typeof vi.fn>;
 
+  const defaultMockUseWalletIslandContext = {
+    showSwap: false,
+    setShowSwap: vi.fn(),
+    setIsSwapClosing: vi.fn(),
+    animationClasses: {
+      swap: 'animate-slideInFromLeft',
+    },
+  };
+
+  const defaultMockUseSwapContext = {
+    address: '0x123',
+    config: {},
+    from: [tokens[0]],
+    to: [tokens[1]],
+    handleAmountChange: vi.fn(),
+    handleToggle: vi.fn(),
+    handleSubmit: vi.fn(),
+    lifecycleStatus: {
+      statusName: '',
+      statusData: {
+        isMissingRequiredField: false,
+        maxSlippage: 1,
+      },
+    },
+    updateLifecycleStatus: vi.fn(),
+    isToastVisible: false,
+    setIsToastVisible: vi.fn(),
+    setTransactionHash: vi.fn(),
+    transactionHash: null,
+  };
+
   beforeEach(() => {
     mockUseWalletContext.mockReturnValue({
       isOpen: true,
       isClosing: false,
     });
-    mockUseWalletIslandContext.mockReturnValue({
-      showSwap: false,
-      setShowSwap: vi.fn(),
-      tokenHoldings: [tokens],
-    });
-    mockUseSwapContext.mockReturnValue({
-      address: '0x123',
-      config: {},
-      from: {},
-      to: {},
-      handleAmountChange: vi.fn(),
-      handleToggle: vi.fn(),
-      handleSubmit: vi.fn(),
-      lifecycleStatus: {
-        statusName: '',
-        statusData: {
-          isMissingRequiredField: false,
-          maxSlippage: 1,
-        },
-      },
-      updateLifecycleStatus: vi.fn(),
-      isToastVisible: false,
-      setIsToastVisible: vi.fn(),
-      setTransactionHash: vi.fn(),
-      transactionHash: null,
-    });
+    mockUseWalletIslandContext.mockReturnValue(
+      defaultMockUseWalletIslandContext,
+    );
+    mockUseSwapContext.mockReturnValue(defaultMockUseSwapContext);
     mockUseAccount.mockReturnValue({
       address: '0x123',
       chainId: 8453,
@@ -133,29 +143,8 @@ describe('WalletIslandSwap', () => {
 
   it('should render correctly', () => {
     mockUseWalletIslandContext.mockReturnValue({
+      ...defaultMockUseWalletIslandContext,
       showSwap: true,
-      setShowSwap: vi.fn(),
-    });
-    mockUseSwapContext.mockReturnValue({
-      address: '0x123',
-      config: {},
-      from: [tokens[0]],
-      to: [tokens[1]],
-      handleAmountChange: vi.fn(),
-      handleToggle: vi.fn(),
-      handleSubmit: vi.fn(),
-      lifecycleStatus: {
-        statusName: '',
-        statusData: {
-          isMissingRequiredField: false,
-          maxSlippage: 1,
-        },
-      },
-      updateLifecycleStatus: vi.fn(),
-      isToastVisible: false,
-      setIsToastVisible: vi.fn(),
-      setTransactionHash: vi.fn(),
-      transactionHash: null,
     });
 
     render(
@@ -173,29 +162,8 @@ describe('WalletIslandSwap', () => {
 
   it('should focus swapDivRef when showSwap is true', () => {
     mockUseWalletIslandContext.mockReturnValue({
+      ...defaultMockUseWalletIslandContext,
       showSwap: true,
-      setShowSwap: vi.fn(),
-    });
-    mockUseSwapContext.mockReturnValue({
-      address: '0x123',
-      config: {},
-      from: [tokens[0]],
-      handleAmountChange: vi.fn(),
-      handleToggle: vi.fn(),
-      handleSubmit: vi.fn(),
-      lifecycleStatus: {
-        statusName: '',
-        statusData: {
-          isMissingRequiredField: false,
-          maxSlippage: 1,
-        },
-      },
-      updateLifecycleStatus: vi.fn(),
-      to: [tokens[1]],
-      isToastVisible: false,
-      setIsToastVisible: vi.fn(),
-      setTransactionHash: vi.fn(),
-      transactionHash: null,
     });
 
     render(
@@ -216,31 +184,13 @@ describe('WalletIslandSwap', () => {
     vi.useFakeTimers();
 
     const mockSetShowSwap = vi.fn();
+    const mockSetIsSwapClosing = vi.fn();
     mockUseWalletIslandContext.mockReturnValue({
+      ...defaultMockUseWalletIslandContext,
       showSwap: true,
-      setShowSwap: mockSetShowSwap,
       tokenHoldings: [tokens],
-    });
-    mockUseSwapContext.mockReturnValue({
-      address: '0x123',
-      config: {},
-      from: [tokens[0]],
-      handleAmountChange: vi.fn(),
-      handleToggle: vi.fn(),
-      handleSubmit: vi.fn(),
-      lifecycleStatus: {
-        statusName: '',
-        statusData: {
-          isMissingRequiredField: false,
-          maxSlippage: 1,
-        },
-      },
-      updateLifecycleStatus: vi.fn(),
-      to: [tokens[1]],
-      isToastVisible: false,
-      setIsToastVisible: vi.fn(),
-      setTransactionHash: vi.fn(),
-      transactionHash: null,
+      setShowSwap: mockSetShowSwap,
+      setIsSwapClosing: mockSetIsSwapClosing,
     });
 
     render(
@@ -258,9 +208,13 @@ describe('WalletIslandSwap', () => {
 
     const backButton = screen.getByRole('button', { name: /back button/i });
     fireEvent.click(backButton);
+    expect(mockSetIsSwapClosing).toHaveBeenCalledWith(true);
 
-    vi.advanceTimersByTime(150);
+    vi.advanceTimersByTime(200);
     expect(mockSetShowSwap).toHaveBeenCalledWith(false);
+
+    vi.advanceTimersByTime(200);
+    expect(mockSetIsSwapClosing).toHaveBeenCalledWith(false);
 
     vi.useRealTimers();
   });
@@ -268,8 +222,8 @@ describe('WalletIslandSwap', () => {
   it('should set tabIndex to -1 when showSwap is true', () => {
     const mockSetShowSwap = vi.fn();
     mockUseWalletIslandContext.mockReturnValue({
+      ...defaultMockUseWalletIslandContext,
       showSwap: true,
-      setShowSwap: mockSetShowSwap,
     });
 
     const { rerender } = render(
@@ -289,6 +243,7 @@ describe('WalletIslandSwap', () => {
     );
 
     mockUseWalletIslandContext.mockReturnValue({
+      ...defaultMockUseWalletIslandContext,
       showSwap: false,
       setShowSwap: mockSetShowSwap,
     });

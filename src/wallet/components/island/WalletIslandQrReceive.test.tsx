@@ -117,6 +117,9 @@ describe('WalletIslandQrReceive', () => {
     vi.advanceTimersByTime(200);
     expect(setShowQrMock).toHaveBeenCalledWith(false);
 
+    vi.advanceTimersByTime(200);
+    expect(setIsQrClosingMock).toHaveBeenCalledWith(false);
+
     vi.useRealTimers();
   });
 
