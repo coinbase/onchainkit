@@ -1,9 +1,9 @@
 import { useCallback, useMemo } from 'react';
+import { getRoundedAmount } from '../../core/utils/getRoundedAmount';
 import { cn, color } from '../../styles/theme';
 import { TokenImage } from '../../token';
 import type { SwapUnit } from '../types';
 import { useSwapLiteContext } from './SwapLiteProvider';
-import { getRoundedAmount } from '../../core/utils/getRoundedAmount';
 
 export function SwapLiteTokenItem({ swapUnit }: { swapUnit: SwapUnit }) {
   const { handleSubmit, setIsDropdownOpen } = useSwapLiteContext();

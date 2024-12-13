@@ -2,11 +2,11 @@ import { useEffect, useRef } from 'react';
 import { cn } from '../../styles/theme';
 import { FALLBACK_DEFAULT_MAX_SLIPPAGE } from '../constants';
 import type { SwapLiteReact } from '../types';
+import { SwapLiteAmountInput } from './SwapLiteAmountInput';
 import { SwapLiteButton } from './SwapLiteButton';
 import { SwapLiteDropdown } from './SwapLiteDropdown';
-import { SwapLiteAmountInput } from './SwapLiteAmountInput';
-import { SwapLiteProvider, useSwapLiteContext } from './SwapLiteProvider';
 import { SwapLiteMessage } from './SwapLiteMessage';
+import { SwapLiteProvider, useSwapLiteContext } from './SwapLiteProvider';
 
 export function SwapLiteContent({ className }: { className?: string }) {
   const { isDropdownOpen, setIsDropdownOpen } = useSwapLiteContext();

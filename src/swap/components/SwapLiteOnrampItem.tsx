@@ -1,9 +1,9 @@
-import { cn, color } from '../../styles/theme';
-import { appleSvg } from '../../internal/svg/appleSvg';
-import { coinbaseLogoSvg } from '../../internal/svg/coinbaseLogoSvg';
-import { cardSvg } from '../../internal/svg/cardSvg';
-import { useSwapLiteContext } from './SwapLiteProvider';
 import { useCallback } from 'react';
+import { appleSvg } from '../../internal/svg/appleSvg';
+import { cardSvg } from '../../internal/svg/cardSvg';
+import { coinbaseLogoSvg } from '../../internal/svg/coinbaseLogoSvg';
+import { cn, color } from '../../styles/theme';
+import { useSwapLiteContext } from './SwapLiteProvider';
 
 type OnrampItemReact = {
   name: string;

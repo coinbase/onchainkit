@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
-import { TextInput } from '../../internal/components/TextInput';
 import { isValidAmount } from '../../core/utils/isValidAmount';
+import { TextInput } from '../../internal/components/TextInput';
 import { cn, pressable } from '../../styles/theme';
 import { TokenChip } from '../../token';
 import { formatAmount } from '../utils/formatAmount';

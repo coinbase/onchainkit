@@ -9,19 +9,22 @@ import { base } from 'viem/chains';
 import { useAccount, useConfig, useSendTransaction } from 'wagmi';
 import { useSwitchChain } from 'wagmi';
 import { useSendCalls } from 'wagmi/experimental';
-import { buildSwapTransaction } from '../../core/api/buildSwapTransaction';
-import { getSwapQuote } from '../../core/api/getSwapQuote';
 import { useCapabilitiesSafe } from '../../core-react/internal/hooks/useCapabilitiesSafe';
 import { useValue } from '../../core-react/internal/hooks/useValue';
+import { useOnchainKit } from '../../core-react/useOnchainKit';
+import { buildSwapTransaction } from '../../core/api/buildSwapTransaction';
+import { getSwapQuote } from '../../core/api/getSwapQuote';
+import type { GetSwapQuoteResponse } from '../../core/api/types';
 import { formatTokenAmount } from '../../core/utils/formatTokenAmount';
+import { setupOnrampEventListeners } from '../../fund';
+import type { EventMetadata, OnrampError } from '../../fund/types';
 import { GENERIC_ERROR_MESSAGE } from '../../transaction/constants';
 import { isUserRejectedRequestError } from '../../transaction/utils/isUserRejectedRequestError';
-import { useOnchainKit } from '../../core-react/useOnchainKit';
 import { FALLBACK_DEFAULT_MAX_SLIPPAGE } from '../constants';
 import { useAwaitCalls } from '../hooks/useAwaitCalls';
-import { useSwapLiteTokens } from '../hooks/useSwapLiteTokens';
 import { useLifecycleStatus } from '../hooks/useLifecycleStatus';
 import { useResetSwapLiteInputs } from '../hooks/useResetSwapLiteInputs';
+import { useSwapLiteTokens } from '../hooks/useSwapLiteTokens';
 import type {
   SwapLiteContextType,
   SwapLiteProviderReact,
@@ -29,9 +32,6 @@ import type {
 } from '../types';
 import { isSwapError } from '../utils/isSwapError';
 import { processSwapTransaction } from '../utils/processSwapTransaction';
-import type { EventMetadata, OnrampError } from '../../fund/types';
-import { setupOnrampEventListeners } from '../../fund';
-import type { GetSwapQuoteResponse } from '../../core/api/types';
 
 const emptyContext = {} as SwapLiteContextType;
 
