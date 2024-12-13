@@ -21,12 +21,22 @@ export function SwapLiteDropdown() {
         const fundAmount = to?.amount;
         const fundingUrl = `${ONRAMP_BUY_URL}/one-click?appId=${projectId}&addresses={"${address}":["base"]}&assets=["${assetSymbol}"]&presetCryptoAmount=${fundAmount}&defaultPaymentMethod=${paymentMethodId}`;
         const { height, width } = getFundingPopupSize('md', fundingUrl);
-        openPopup({
+        const popupWindow = openPopup({
           url: fundingUrl,
           height,
           width,
           target: '_blank',
         });
+
+        // if (!popupWindow) {
+        //   return null;
+        // }
+        // const interval = setInterval(() => {
+        //   if (popupWindow.closed) {
+        //     clearInterval(interval);
+        //     console.log('Popup closed');
+        //   }
+        // }, 500);
       };
     },
     [address, to, projectId],
@@ -42,7 +52,11 @@ export function SwapLiteDropdown() {
 
   const isToETH = to?.token?.symbol === 'ETH';
   const isToUSDC = to?.token?.symbol === 'USDC';
-  const isToFrom = to?.token?.symbol === from?.token?.symbol;
+  const showFromToken =
+    to?.token?.symbol !== from?.token?.symbol &&
+    from &&
+    from?.token?.symbol !== 'ETH' &&
+    from?.token?.symbol !== 'USDC';
 
   return (
     <div
@@ -56,7 +70,7 @@ export function SwapLiteDropdown() {
       <div className="px-2 pt-2">Buy with</div>
       {!isToETH && <SwapLiteTokenItem swapUnit={fromETH} />}
       {!isToUSDC && <SwapLiteTokenItem swapUnit={fromUSDC} />}
-      {from && !isToFrom && <SwapLiteTokenItem swapUnit={from} />}
+      {showFromToken && <SwapLiteTokenItem swapUnit={from} />}
 
       {ONRAMP_PAYMENT_METHODS.map((method) => {
         return (

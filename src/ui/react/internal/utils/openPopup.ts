@@ -14,5 +14,5 @@ export function openPopup({ url, target, height, width }: OpenPopupProps) {
   const top = Math.round((window.screen.height - height) / 2);
 
   const windowFeatures = `width=${width},height=${height},resizable,scrollbars=yes,status=1,left=${left},top=${top}`;
-  window.open(url, target, windowFeatures);
+  return window.open(url, target, windowFeatures);
 }
