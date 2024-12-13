@@ -20,6 +20,10 @@ type GetSwapLiteQuoteParams = Omit<GetSwapQuoteParams, 'from'> & {
   from?: Token;
 };
 
+/**
+ * Fetches a quote for a swap, but only if the from and to tokens are different.
+ */
+
 export async function getSwapLiteQuote({
   amount,
   amountReference,
@@ -49,10 +53,9 @@ export async function getSwapLiteQuote({
 
   let formattedFromAmount = '';
   if (response && !isSwapError(response)) {
-    formattedFromAmount = formatTokenAmount(
-      response.fromAmount,
-      response.from.decimals,
-    );
+    formattedFromAmount = response?.fromAmount
+      ? formatTokenAmount(response.fromAmount, response.from.decimals)
+      : '';
 
     fromSwapUnit.setAmountUSD(response?.fromAmountUSD || '');
     fromSwapUnit.setAmount(formattedFromAmount || '');

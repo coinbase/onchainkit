@@ -1,0 +1,202 @@
+import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { getSwapLiteQuote } from './getSwapLiteQuote';
+import { getSwapQuote } from './getSwapQuote';
+import { formatTokenAmount } from '../utils/formatTokenAmount';
+import { isSwapError } from '../../swap/utils/isSwapError';
+import { Token } from '@/token/types';
+import { base } from 'viem/chains';
+
+vi.mock('./getSwapQuote');
+vi.mock('../utils/formatTokenAmount');
+vi.mock('../../swap/utils/isSwapError');
+
+const toToken: Token = {
+  name: 'DEGEN',
+  address: '0x4ed4e862860bed51a9570b96d89af5e1b0efefed',
+  symbol: 'DEGEN',
+  decimals: 18,
+  image:
+    'https://d3r81g40ycuhqg.cloudfront.net/wallet/wais/3b/bf/3bbf118b5e6dc2f9e7fc607a6e7526647b4ba8f0bea87125f971446d57b296d2-MDNmNjY0MmEtNGFiZi00N2I0LWIwMTItMDUyMzg2ZDZhMWNm',
+  chainId: base.id,
+};
+
+const fromToken: Token = {
+  name: 'ETH',
+  address: '',
+  symbol: 'ETH',
+  decimals: 18,
+  image:
+    'https://wallet-api-production.s3.amazonaws.com/uploads/tokens/eth_288.png',
+  chainId: base.id,
+};
+
+const mockResponse = {
+  from: fromToken,
+  to: toToken,
+  fromAmount: '100000000000000000',
+  toAmount: '16732157880511600003860',
+  amountReference: 'from',
+  priceImpact: '0.07',
+  chainId: 8453,
+  hasHighPriceImpact: false,
+  slippage: '3',
+  fromAmountUSD: '100',
+};
+
+const mockEmptyResponse = {
+  from: fromToken,
+  to: toToken,
+  fromAmount: '',
+  toAmount: '16732157880511600003860',
+  amountReference: 'from',
+  priceImpact: '0.07',
+  chainId: 8453,
+  hasHighPriceImpact: false,
+  slippage: '3',
+  fromAmountUSD: '',
+};
+
+describe('getSwapLiteQuote', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  const mockFromSwapUnit = {
+    setAmountUSD: vi.fn(),
+    setAmount: vi.fn(),
+  };
+
+  it('should return default values if `from` token is not provided', async () => {
+    const result = await getSwapLiteQuote({
+      amount: '1',
+      amountReference: 'exactIn',
+      maxSlippage: '0.5',
+      to: toToken,
+      useAggregator: true,
+      fromSwapUnit: mockFromSwapUnit,
+    });
+
+    expect(result).toEqual({
+      response: undefined,
+      formattedFromAmount: '',
+      error: undefined,
+    });
+  });
+
+  it('should call `getSwapQuote` if `from` and `to` tokens are different', async () => {
+    (getSwapQuote as jest.Mock).mockResolvedValue(mockResponse);
+    (isSwapError as jest.Mock).mockReturnValue(false);
+    (formatTokenAmount as jest.Mock).mockReturnValue('1.0');
+
+    const result = await getSwapLiteQuote({
+      amount: '1',
+      amountReference: 'exactIn',
+      from: fromToken,
+      maxSlippage: '0.5',
+      to: toToken,
+      useAggregator: true,
+      fromSwapUnit: mockFromSwapUnit,
+    });
+
+    expect(getSwapQuote).toHaveBeenCalledWith({
+      amount: '1',
+      amountReference: 'exactIn',
+      from: fromToken,
+      maxSlippage: '0.5',
+      to: toToken,
+      useAggregator: true,
+    });
+
+    expect(formatTokenAmount).toHaveBeenCalledWith('100000000000000000', 18);
+    expect(mockFromSwapUnit.setAmountUSD).toHaveBeenCalledWith('100');
+    expect(mockFromSwapUnit.setAmount).toHaveBeenCalledWith('1.0');
+
+    expect(result).toEqual({
+      response: mockResponse,
+      formattedFromAmount: '1.0',
+      error: undefined,
+    });
+  });
+
+  it('should handle case where amount values are undefined', async () => {
+    (getSwapQuote as jest.Mock).mockResolvedValue(mockEmptyResponse);
+    (isSwapError as jest.Mock).mockReturnValue(false);
+    (formatTokenAmount as jest.Mock).mockReturnValue('1.0');
+
+    const result = await getSwapLiteQuote({
+      amount: '1',
+      amountReference: 'exactIn',
+      from: fromToken,
+      maxSlippage: '0.5',
+      to: toToken,
+      useAggregator: true,
+      fromSwapUnit: mockFromSwapUnit,
+    });
+
+    expect(getSwapQuote).toHaveBeenCalledWith({
+      amount: '1',
+      amountReference: 'exactIn',
+      from: fromToken,
+      maxSlippage: '0.5',
+      to: toToken,
+      useAggregator: true,
+    });
+
+    expect(formatTokenAmount).not.toHaveBeenCalled();
+    expect(mockFromSwapUnit.setAmountUSD).toHaveBeenCalledWith('');
+    expect(mockFromSwapUnit.setAmount).toHaveBeenCalledWith('');
+
+    expect(result).toEqual({
+      response: mockEmptyResponse,
+      formattedFromAmount: '',
+      error: undefined,
+    });
+  });
+
+  it('should handle swap errors correctly', async () => {
+    const mockError = {
+      code: 'UNCAUGHT_SWAP_QUOTE_ERROR',
+      error: 'Something went wrong',
+      message: '',
+    };
+
+    (getSwapQuote as jest.Mock).mockResolvedValue(mockError);
+    (isSwapError as jest.Mock).mockReturnValue(true);
+
+    const result = await getSwapLiteQuote({
+      amount: '1',
+      amountReference: 'exactIn',
+      from: fromToken,
+      maxSlippage: '0.5',
+      to: toToken,
+      useAggregator: true,
+      fromSwapUnit: mockFromSwapUnit,
+    });
+
+    expect(isSwapError).toHaveBeenCalledWith(mockError);
+    expect(result).toEqual({
+      response: undefined,
+      formattedFromAmount: '',
+      error: mockError,
+    });
+  });
+
+  it('should not call `getSwapQuote` if `from` and `to` tokens are the same', async () => {
+    const result = await getSwapLiteQuote({
+      amount: '1',
+      amountReference: 'exactIn',
+      from: fromToken,
+      maxSlippage: '0.5',
+      to: fromToken,
+      useAggregator: true,
+      fromSwapUnit: mockFromSwapUnit,
+    });
+
+    expect(getSwapQuote).not.toHaveBeenCalled();
+    expect(result).toEqual({
+      response: undefined,
+      formattedFromAmount: '',
+      error: undefined,
+    });
+  });
+});
