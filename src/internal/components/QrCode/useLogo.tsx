@@ -13,7 +13,7 @@ type RenderLogoProps = {
 
 const defaultSvgString = ReactDOMServer.renderToString(cbwSvg);
 const defaultSvgDataUri = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(
-  defaultSvgString
+  defaultSvgString,
 )}`;
 
 export function useLogo({
@@ -27,7 +27,7 @@ export function useLogo({
   const svgLogo = useMemo(() => {
     if (React.isValidElement(logo)) {
       logo = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(
-        ReactDOMServer.renderToString(logo)
+        ReactDOMServer.renderToString(logo),
       )}`;
     }
     const logoPosition = (size - logoSize - logoMargin * 2) / 2;
