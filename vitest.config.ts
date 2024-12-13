@@ -1,3 +1,5 @@
+// biome-ignore lint/correctness/noNodejsModules: Needed for vite resolving
+import path from 'node:path';
 import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
@@ -30,6 +32,12 @@ export default defineConfig({
         functions: 100,
         lines: 100,
       },
+    },
+    alias: {
+      '@/core': path.resolve(__dirname, './src/core'),
+      '@/core-react': path.resolve(__dirname, './src/core-react'),
+      '@/ui-react': path.resolve(__dirname, './src/ui/react'),
+      '@/': path.resolve(__dirname, './src'),
     },
     environment: 'jsdom',
     exclude: [

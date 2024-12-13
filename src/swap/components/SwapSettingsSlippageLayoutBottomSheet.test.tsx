@@ -25,7 +25,7 @@ vi.mock('./SwapSettingsSlippageInput', () => ({
 }));
 
 vi.mock('../styles/theme', () => ({
-  cn: (...args) => args.join(' '),
+  cn: (...args: string[]) => args.join(' '),
   background: { default: 'bg-default' },
   border: { default: 'border-default' },
   pressable: { shadow: 'pressable-shadow' },
@@ -60,8 +60,12 @@ describe('SwapSettingsSlippageLayoutBottomSheet', () => {
     expect(container.className).toContain('custom-class');
   });
 
-  it('renders without any child components', () => {
-    render(<SwapSettingsSlippageLayoutBottomSheet />);
+  it('renders without any valid child components', () => {
+    render(
+      <SwapSettingsSlippageLayoutBottomSheet>
+        test
+      </SwapSettingsSlippageLayoutBottomSheet>,
+    );
     expect(
       screen.getByTestId('ockSwapSettingsLayout_container'),
     ).toBeInTheDocument();

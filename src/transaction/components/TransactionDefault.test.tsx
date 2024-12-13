@@ -1,8 +1,11 @@
 import { render, screen } from '@testing-library/react';
-import { describe, expect, it, vi } from 'vitest';
+import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useAccount, useSwitchChain } from 'wagmi';
 import { useShowCallsStatus } from 'wagmi/experimental';
-import type { TransactionDefaultReact } from '../types';
+import type {
+  TransactionDefaultReact,
+  TransactionProviderReact,
+} from '../types';
 import { TransactionDefault } from './TransactionDefault';
 import { useTransactionContext } from './TransactionProvider';
 
@@ -35,7 +38,7 @@ vi.mock('wagmi', async (importOriginal) => {
 });
 
 vi.mock('./TransactionProvider', () => ({
-  TransactionProvider: ({ children }) => (
+  TransactionProvider: ({ children }: TransactionProviderReact) => (
     <div data-testid="mock-TransactionProvider">{children}</div>
   ),
   useTransactionContext: vi.fn(),
@@ -60,6 +63,8 @@ describe('TransactionDefault Component', () => {
   };
 
   beforeEach(() => {
+    // TODO: fix this by using actual account and spreading it
+    // @ts-ignore
     vi.mocked(useAccount).mockReturnValue({
       address: '0x123',
     });

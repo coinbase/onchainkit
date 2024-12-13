@@ -1,4 +1,7 @@
 import '@testing-library/jest-dom';
+import { setOnchainKitConfig } from '@/core/OnchainKitConfig';
+import type { AppConfig } from '@/core/types';
+import type { EASSchemaUid } from '@/identity/types';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { render, screen, waitFor } from '@testing-library/react';
 import { base } from 'viem/chains';
@@ -6,14 +9,12 @@ import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { http, WagmiProvider, createConfig } from 'wagmi';
 import { useConfig } from 'wagmi';
 import { mock } from 'wagmi/connectors';
-import { setOnchainKitConfig } from '../core/OnchainKitConfig';
-import type { EASSchemaUid } from '../identity/types';
 import { OnchainKitProvider } from './OnchainKitProvider';
 import { useProviderDependencies } from './internal/hooks/useProviderDependencies';
 import { useOnchainKit } from './useOnchainKit';
 
 vi.mock('wagmi', async (importOriginal) => {
-  const actual = await importOriginal();
+  const actual = (await importOriginal()) as typeof import('wagmi');
   return {
     ...actual,
     useConfig: vi.fn(),
@@ -50,12 +51,12 @@ const TestComponent = () => {
   );
 };
 
-vi.mock('../core/OnchainKitConfig', () => ({
+vi.mock('@/core/OnchainKitConfig', () => ({
   setOnchainKitConfig: vi.fn(),
   ONCHAIN_KIT_CONFIG: {
     address: null,
     apiKey: null,
-    chain: base,
+    chain: { name: 'base', id: 8453 },
     rpcUrl: null,
     schemaId: null,
     projectId: null,
@@ -275,7 +276,7 @@ describe('OnchainKitProvider', () => {
   });
 
   it('should use custom wallet config when provided', async () => {
-    const customConfig = {
+    const customConfig: AppConfig = {
       wallet: {
         display: 'modal',
         termsUrl: 'https://example.com/terms',

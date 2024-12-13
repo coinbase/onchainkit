@@ -14,7 +14,9 @@ vi.mock('../NFTProvider', () => ({
 
 vi.mock('../../../identity', async () => ({
   ...(await vi.importActual('../../../identity')),
-  Identity: ({ className }) => <div className={className}>Identity</div>,
+  Identity: ({ className }: { className: string }) => (
+    <div className={className}>Identity</div>
+  ),
 }));
 
 describe('NFTCreator', () => {

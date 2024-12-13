@@ -1,4 +1,5 @@
 import { entryPoint06Address } from 'viem/account-abstraction';
+import { describe, expect, it } from 'vitest';
 import { isValidAAEntrypoint } from './isValidAAEntrypoint';
 
 describe('isValidAAEntrypoint', () => {

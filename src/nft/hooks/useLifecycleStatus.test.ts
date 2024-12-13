@@ -1,7 +1,7 @@
 import { renderHook } from '@testing-library/react';
 import { act } from 'react';
 import { describe, expect, it } from 'vitest';
-import type { LifecycleStatus } from '../types';
+import { type LifecycleStatus, MediaType } from '../types';
 import { useLifecycleStatus } from './useLifecycleStatus';
 
 const initialLifecycleStatus = {
@@ -32,7 +32,7 @@ describe('useLifecycleStatus', () => {
       updateLifecycleStatus({
         statusName: 'mediaLoading',
         statusData: {
-          mimeType: 'image/png',
+          mediaType: MediaType.Image,
           mediaUrl: 'https://example.com/image.png',
         },
       });
@@ -49,7 +49,7 @@ describe('useLifecycleStatus', () => {
     expect(updatedStatus).toEqual({
       statusName: 'mediaLoaded',
       statusData: {
-        mimeType: 'image/png',
+        mediaType: 'image',
         mediaUrl: 'https://example.com/image.png',
       },
     });
@@ -111,7 +111,7 @@ describe('useLifecycleStatus', () => {
       updateLifecycleStatus({
         statusName: 'mediaLoading',
         statusData: {
-          mimeType: 'image/png',
+          mediaType: MediaType.Image,
           mediaUrl: 'https://example.com/image.png',
         },
       });
@@ -122,7 +122,7 @@ describe('useLifecycleStatus', () => {
     expect(updatedStatus).toEqual({
       statusName: 'mediaLoading',
       statusData: {
-        mimeType: 'image/png',
+        mediaType: 'image',
         mediaUrl: 'https://example.com/image.png',
       },
     });

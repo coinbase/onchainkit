@@ -2,6 +2,7 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import {
   type Mock,
   afterAll,
+  afterEach,
   beforeAll,
   beforeEach,
   describe,
@@ -10,6 +11,7 @@ import {
   vi,
 } from 'vitest';
 import { useConnect, useConnectors } from 'wagmi';
+import type { MetaMaskParameters } from 'wagmi/connectors';
 import { useOnchainKit } from '../../core-react/useOnchainKit';
 import { WalletModal } from './WalletModal';
 
@@ -24,7 +26,7 @@ vi.mock('../../core-react/useOnchainKit', () => ({
 
 vi.mock('wagmi/connectors', () => ({
   coinbaseWallet: () => ({ preference: 'all' }),
-  metaMask: ({ dappMetadata }) => ({ dappMetadata }),
+  metaMask: ({ dappMetadata }: MetaMaskParameters) => ({ dappMetadata }),
 }));
 
 describe('WalletModal', () => {

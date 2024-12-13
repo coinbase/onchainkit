@@ -1,6 +1,6 @@
 import { mainnet, optimism, sepolia } from 'viem/chains';
+import { describe, expect, it } from 'vitest';
 import { isEthereum } from './isEthereum';
-
 describe('isEthereum', () => {
   it('should return true for mainnet', () => {
     expect(isEthereum({ chainId: mainnet.id })).toBeTruthy();

@@ -62,7 +62,7 @@ describe('processSwapTransaction', () => {
         hasHighPriceImpact: false,
         slippage: '3',
       },
-    };
+    } as unknown as BuildSwapTransaction;
     await processSwapTransaction({
       chainId: 1, // Different from base.id (8453)
       config,
@@ -103,7 +103,7 @@ describe('processSwapTransaction', () => {
         hasHighPriceImpact: false,
         slippage: '3',
       },
-    };
+    } as unknown as BuildSwapTransaction;
     await processSwapTransaction({
       chainId: base.id, // Same as base.id (8453)
       config,
@@ -150,7 +150,7 @@ describe('processSwapTransaction', () => {
         hasHighPriceImpact: false,
         slippage: '3',
       },
-    };
+    } as unknown as BuildSwapTransaction;
     await processSwapTransaction({
       chainId: base.id,
       config,
@@ -209,7 +209,7 @@ describe('processSwapTransaction', () => {
         hasHighPriceImpact: false,
         slippage: '3',
       },
-    };
+    } as unknown as BuildSwapTransaction;
     await processSwapTransaction({
       chainId: base.id,
       config,
