@@ -25,6 +25,7 @@ export function Swap({
   onStatus,
   onSuccess,
   title = 'Swap',
+  backButton,
 }: SwapReact) {
   const componentTheme = useTheme();
 
@@ -75,6 +76,7 @@ export function Swap({
         data-testid="ockSwap_Container"
       >
         <div className="mb-4 flex items-center justify-between">
+          {backButton}
           <h3 className={cn(text.title3)} data-testid="ockSwap_Title">
             {title}
           </h3>
