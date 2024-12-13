@@ -29,7 +29,7 @@ export function SwapLiteDropdown() {
         });
       };
     },
-    [to, projectId],
+    [address, to, projectId],
   );
 
   const formattedAmountUSD = useMemo(() => {

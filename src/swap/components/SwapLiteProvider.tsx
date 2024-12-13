@@ -31,6 +31,7 @@ import { isSwapError } from '../utils/isSwapError';
 import { processSwapTransaction } from '../utils/processSwapTransaction';
 import type { EventMetadata, OnrampError } from '../../fund/types';
 import { setupOnrampEventListeners } from '../../fund';
+import type { GetSwapQuoteResponse } from '../../core/api/types';
 
 const emptyContext = {} as SwapLiteContextType;
 
@@ -101,14 +102,17 @@ export function SwapLiteProvider({
     updateLifecycleStatus,
   });
 
-  const handleOnrampEvent = useCallback((data: EventMetadata) => {
-    console.log({ data });
-    if (data.eventName === 'transition_view') {
-      updateLifecycleStatus({
-        statusName: 'transactionPending',
-      });
-    }
-  }, []);
+  const handleOnrampEvent = useCallback(
+    (data: EventMetadata) => {
+      console.log({ data });
+      if (data.eventName === 'transition_view') {
+        updateLifecycleStatus({
+          statusName: 'transactionPending',
+        });
+      }
+    },
+    [updateLifecycleStatus],
+  );
 
   const handleOnrampExit = useCallback((error?: OnrampError) => {
     console.log({ error });
@@ -281,7 +285,7 @@ export function SwapLiteProvider({
           useAggregator,
         });
 
-        let responseFrom;
+        let responseFrom: GetSwapQuoteResponse | undefined;
         if (from?.token) {
           responseFrom = await getSwapQuote({
             amount,
@@ -333,7 +337,7 @@ export function SwapLiteProvider({
 
         // if error occurs, handle gracefully
         // (display other payment options with fromToken disabled)
-        let formattedFromAmount;
+        let formattedFromAmount = '';
         if (responseFrom && !isSwapError(responseFrom)) {
           formattedFromAmount = formatTokenAmount(
             responseFrom.fromAmount,
@@ -380,6 +384,7 @@ export function SwapLiteProvider({
     },
     [
       to,
+      from,
       fromETH,
       fromUSDC,
       useAggregator,
