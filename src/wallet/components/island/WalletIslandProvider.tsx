@@ -10,6 +10,7 @@ import {
 } from 'react';
 import { useAddressTokenHoldings } from '../../../core-react/internal/hooks/useAddressTokenHoldings';
 import { useValue } from '../../../core-react/internal/hooks/useValue';
+import { getAddressTokenBalances } from '../../../internal/utils/getAddressTokenBalances';
 import { useWalletContext } from '../WalletProvider';
 import type { TokenBalanceWithFiatValue } from './WalletIslandTokenHoldings';
 
@@ -46,13 +47,13 @@ const WalletIslandContext = createContext<WalletIslandContextType>(
 );
 
 export function WalletIslandProvider({ children }: WalletIslandProviderReact) {
-  const { isClosing } = useWalletContext();
+  const { address, isClosing } = useWalletContext();
   const [showSwap, setShowSwap] = useState(false);
   const [isSwapClosing, setIsSwapClosing] = useState(false);
   const [showQr, setShowQr] = useState(false);
   const [isQrClosing, setIsQrClosing] = useState(false);
   const [hasContentAnimated, setHasContentAnimated] = useState(false);
-  const tokenHoldings = useAddressTokenHoldings();
+  const [tokenHoldings, setTokenHoldings] = useState<TokenBalanceWithFiatValue[]>([]);
 
   useEffect(() => {
     if (isQrClosing || isSwapClosing) {
@@ -65,6 +66,17 @@ export function WalletIslandProvider({ children }: WalletIslandProviderReact) {
       setHasContentAnimated(false);
     }
   }, [isClosing]);
+
+  useEffect(() => {
+    async function fetchTokens() {
+      if (address) {
+        const fetchedTokens = await getAddressTokenBalances(address);
+        setTokenHoldings(fetchedTokens);
+      }
+    }
+
+    fetchTokens();
+  }, [address]);
 
   const animations = {
     content: hasContentAnimated ? '' : 'animate-walletIslandContainerIn',

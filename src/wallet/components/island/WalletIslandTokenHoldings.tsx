@@ -1,8 +1,5 @@
-import { useEffect, useState } from 'react';
-import getAddressTokenBalances from '../../../internal/utils/getAddressTokenBalances';
 import { cn, color, text } from '../../../styles/theme';
 import { type Token, TokenImage } from '../../../token';
-import { useWalletContext } from '../WalletProvider';
 import { useWalletIslandContext } from './WalletIslandProvider';
 
 export type TokenBalanceWithFiatValue = {
@@ -21,21 +18,11 @@ export type TokenBalanceWithFiatValue = {
 
 // TODO: handle loading state
 export function WalletIslandTokenHoldings() {
-  const { address } = useWalletContext();
-  const { animationClasses } = useWalletIslandContext();
-  const [tokens, setTokens] = useState<TokenBalanceWithFiatValue[]>([]);
+  const { animationClasses, tokenHoldings } = useWalletIslandContext();
 
-  useEffect(() => {
-    // TODO: move this effect to the provider
-    async function fetchTokens() {
-      if (address) {
-        const rawTokens = await getAddressTokenBalances(address);
-        setTokens(rawTokens);
-      }
-    }
-
-    fetchTokens();
-  }, [address]);
+  if (tokenHoldings.length === 0) {
+    return null;
+  }
 
   return (
     <div
@@ -47,8 +34,9 @@ export function WalletIslandTokenHoldings() {
         animationClasses.tokenHoldings,
         'shadow-[inset_0_-15px_10px_-10px_rgba(0,0,0,0.05)]',
       )}
+      data-testid="ockWalletIsland_TokenHoldings"
     >
-      {tokens.map((tokenBalance, index) => (
+      {tokenHoldings.map((tokenBalance, index) => (
         <TokenDetails
           key={`${tokenBalance.token.address}-${index}`}
           token={tokenBalance.token}
