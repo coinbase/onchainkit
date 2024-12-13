@@ -1,13 +1,13 @@
-import type { SwapError, SwapUnit } from '../../swap/types';
-import { isSwapError } from '../../swap/utils/isSwapError';
-import type { Token } from '../../token';
-import { formatTokenAmount } from '../utils/formatTokenAmount';
-import { getSwapQuote } from './getSwapQuote';
+import { getSwapQuote } from '@/core/api/getSwapQuote';
 import type {
   APIError,
   GetSwapQuoteParams,
   GetSwapQuoteResponse,
-} from './types';
+} from '@/core/api/types';
+import { formatTokenAmount } from '@/core/utils/formatTokenAmount';
+import type { SwapError, SwapUnit } from '../../swap/types';
+import { isSwapError } from '../../swap/utils/isSwapError';
+import type { Token } from '../../token';
 
 type GetSwapLiteQuoteResponse = {
   response?: GetSwapQuoteResponse;

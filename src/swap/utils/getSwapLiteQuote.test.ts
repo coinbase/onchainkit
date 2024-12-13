@@ -1,10 +1,10 @@
+import { getSwapQuote } from '@/core/api/getSwapQuote';
+import { formatTokenAmount } from '@/core/utils/formatTokenAmount';
 import type { Token } from '@/token/types';
 import { base } from 'viem/chains';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { isSwapError } from '../../swap/utils/isSwapError';
-import { formatTokenAmount } from '../utils/formatTokenAmount';
 import { getSwapLiteQuote } from './getSwapLiteQuote';
-import { getSwapQuote } from './getSwapQuote';
 
 vi.mock('./getSwapQuote');
 vi.mock('../utils/formatTokenAmount');
