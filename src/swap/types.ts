@@ -54,14 +54,6 @@ export type FromTo = {
   to: SwapUnit;
 };
 
-export type FundSwapTokens = {
-  fromETH: FundSwapUnit;
-  fromUSDC: FundSwapUnit;
-  to: FundSwapUnit;
-};
-
-export type FundSwapUnit = Omit<SwapUnit, 'setToken'>;
-
 export type GetSwapMessageParams = {
   address?: Address;
   lifecycleStatus: LifecycleStatus;
@@ -179,6 +171,13 @@ export type ProcessSwapTransactionParams = {
   updateLifecycleStatus: (state: LifecycleStatusUpdate) => void; // A function to set the lifecycle status of the component
   useAggregator: boolean;
   walletCapabilities: WalletCapabilities; // EIP-5792 wallet capabilities
+};
+
+export type SwapLiteTokens = {
+  fromETH: SwapUnit;
+  fromUSDC: SwapUnit;
+  to: SwapUnit;
+  from?: SwapUnit;
 };
 
 /**
@@ -378,7 +377,7 @@ export type SwapUnit = {
   setAmount: Dispatch<SetStateAction<string>>;
   setAmountUSD: Dispatch<SetStateAction<string>>;
   setLoading: Dispatch<SetStateAction<boolean>>;
-  setToken: Dispatch<SetStateAction<Token | undefined>>;
+  setToken?: Dispatch<SetStateAction<Token | undefined>>;
   token: Token | undefined;
 };
 
