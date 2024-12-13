@@ -3,17 +3,19 @@ import { base } from 'viem/chains';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useValue } from '../../core-react/internal/hooks/useValue';
 import type { Token } from '../../token';
-import { USDC_TOKEN } from '../mocks';
 import { useSwapBalances } from './useSwapBalances';
 import { useSwapLiteTokens } from './useSwapLiteTokens';
+import { useSwapLiteToken } from './useSwapLiteToken';
+import {
+  daiToken,
+  degenToken,
+  ethToken,
+  usdcToken,
+} from '../../token/constants';
 
-vi.mock('./useSwapBalances', () => ({
-  useSwapBalances: vi.fn(),
-}));
-
-vi.mock('../../core-react/internal/hooks/useValue', () => ({
-  useValue: vi.fn(),
-}));
+vi.mock('./useSwapLiteToken');
+vi.mock('./useSwapBalances');
+vi.mock('../../core-react/internal/hooks/useValue');
 
 const toToken: Token = {
   name: 'DEGEN',
@@ -25,78 +27,112 @@ const toToken: Token = {
   chainId: base.id,
 };
 
+const mockFromETH = {
+  balance: '100',
+  balanceResponse: { refetch: vi.fn() },
+  error: null,
+  loading: false,
+  setAmount: vi.fn(),
+  setAmountUSD: vi.fn(),
+  setLoading: vi.fn(),
+  token: ethToken,
+};
+
+const mockFromUSDC = {
+  balance: '50',
+  balanceResponse: { refetch: vi.fn() },
+  error: null,
+  loading: false,
+  setAmount: vi.fn(),
+  setAmountUSD: vi.fn(),
+  setLoading: vi.fn(),
+  token: usdcToken,
+};
+
+const mockFrom = {
+  balance: '50',
+  balanceResponse: { refetch: vi.fn() },
+  error: null,
+  loading: false,
+  setAmount: vi.fn(),
+  setAmountUSD: vi.fn(),
+  setLoading: vi.fn(),
+  token: degenToken,
+};
+
+const mockTo = {
+  balance: '1000',
+  balanceResponse: { refetch: vi.fn() },
+  error: null,
+  loading: false,
+  setAmount: vi.fn(),
+  setAmountUSD: vi.fn(),
+  setLoading: vi.fn(),
+  token: daiToken,
+};
+
+const address = '0x123';
+
 describe('useSwapLiteTokens', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-  });
+    (useSwapLiteToken as Mock).mockImplementation((toToken, fromToken) => {
+      if (fromToken === ethToken) return mockFromETH;
+      if (fromToken === usdcToken) return mockFromUSDC;
+      return mockFrom;
+    });
 
-  it('should return correct values', () => {
     (useSwapBalances as Mock).mockReturnValue({
-      fromBalanceString: '100',
-      fromTokenBalanceError: null,
-      fromTokenResponse: { refetch: vi.fn() },
-      toBalanceString: '200',
+      toBalanceString: '1000',
       toTokenBalanceError: null,
-      toTokenResponse: { refetch: vi.fn() },
+      toTokenResponse: { balance: '1000' },
     });
-    (useValue as Mock).mockImplementation((props) => ({
-      ...props,
-      amount: '100',
-      amountUSD: '150',
-      response: props.response,
-      setAmount: vi.fn(),
-      setAmountUSD: vi.fn(),
-      setLoading: vi.fn(),
-      token: USDC_TOKEN,
-    }));
+
+    (useValue as Mock).mockReturnValue(mockTo);
+  });
+
+  it('should return expected swap tokens', () => {
     const { result } = renderHook(() =>
-      useSwapLiteTokens(toToken, undefined, '0x123'),
+      useSwapLiteTokens(toToken, daiToken, address),
     );
-    expect(result.current.fromETH).toEqual({
-      amount: '100',
-      amountUSD: '150',
-      balance: '100',
-      balanceResponse: { refetch: expect.any(Function) },
-      error: null,
-      loading: false,
-      setAmount: expect.any(Function),
-      setAmountUSD: expect.any(Function),
-      setLoading: expect.any(Function),
-      token: USDC_TOKEN,
+
+    expect(useSwapLiteToken).toHaveBeenCalledWith(toToken, ethToken, address);
+    expect(useSwapLiteToken).toHaveBeenCalledWith(toToken, usdcToken, address);
+    expect(useSwapLiteToken).toHaveBeenCalledWith(toToken, daiToken, address);
+    expect(useSwapBalances).toHaveBeenCalledWith({
+      address,
+      fromToken: ethToken,
+      toToken,
     });
-    expect(result.current.to).toEqual({
-      amount: '100',
-      amountUSD: '150',
-      balance: '200',
-      balanceResponse: { refetch: expect.any(Function) },
-      error: null,
-      loading: false,
+    expect(useValue).toHaveBeenCalledWith({
+      balance: '1000',
+      balanceResponse: { balance: '1000' },
+      amount: '',
       setAmount: expect.any(Function),
+      amountUSD: '',
       setAmountUSD: expect.any(Function),
+      token: toToken,
+      loading: false,
       setLoading: expect.any(Function),
-      token: USDC_TOKEN,
+      error: null,
+    });
+
+    expect(result.current).toEqual({
+      fromETH: mockFromETH,
+      fromUSDC: mockFromUSDC,
+      from: mockFrom,
+      to: mockTo,
     });
   });
 
-  it('should call fromTokenResponse.refetch when fromETH.response.refetch is called', async () => {
-    const mockFromRefetch = vi.fn().mockResolvedValue(undefined);
-    const mockToRefetch = vi.fn().mockResolvedValue(undefined);
-    (useSwapBalances as Mock).mockReturnValue({
-      fromTokenResponse: { refetch: mockFromRefetch },
-      toTokenResponse: { refetch: mockToRefetch },
+  it('should handle toToken.symbol === ETH', () => {
+    renderHook(() => useSwapLiteTokens(ethToken, degenToken, address));
+
+    expect(useSwapBalances).toHaveBeenCalledWith({
+      address,
+      fromToken: usdcToken,
+      toToken: ethToken,
     });
-    (useValue as Mock).mockImplementation((props) => ({
-      ...props,
-      response: props.response,
-    }));
-    const { result } = renderHook(() =>
-      useSwapLiteTokens(toToken, undefined, '0x123'),
-    );
-    await act(async () => {
-      await result.current.fromETH.balanceResponse?.refetch();
-    });
-    expect(mockFromRefetch).toHaveBeenCalledTimes(1);
-    expect(mockToRefetch).not.toHaveBeenCalled();
   });
 
   it('should call toTokenResponse.refetch when to.response.refetch is called', async () => {
