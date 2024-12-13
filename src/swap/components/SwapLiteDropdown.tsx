@@ -40,6 +40,10 @@ export function SwapLiteDropdown() {
     return `$${roundedAmount.toFixed(2)}`;
   }, [to?.amountUSD]);
 
+  const isToETH = to?.token?.symbol === 'ETH';
+  const isToUSDC = to?.token?.symbol === 'USDC';
+  const isToFrom = to?.token?.symbol === from?.token?.symbol;
+
   return (
     <div
       className={cn(
@@ -50,9 +54,9 @@ export function SwapLiteDropdown() {
       )}
     >
       <div className="px-2 pt-2">Buy with</div>
-      <SwapLiteTokenItem swapUnit={fromETH} />
-      <SwapLiteTokenItem swapUnit={fromUSDC} />
-      {from && <SwapLiteTokenItem swapUnit={from} />}
+      {!isToETH && <SwapLiteTokenItem swapUnit={fromETH} />}
+      {!isToUSDC && <SwapLiteTokenItem swapUnit={fromUSDC} />}
+      {from && !isToFrom && <SwapLiteTokenItem swapUnit={from} />}
 
       {ONRAMP_PAYMENT_METHODS.map((method) => {
         return (

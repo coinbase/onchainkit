@@ -13,9 +13,6 @@ import { useCapabilitiesSafe } from '../../core-react/internal/hooks/useCapabili
 import { useValue } from '../../core-react/internal/hooks/useValue';
 import { useOnchainKit } from '../../core-react/useOnchainKit';
 import { buildSwapTransaction } from '../../core/api/buildSwapTransaction';
-import { getSwapQuote } from '../../core/api/getSwapQuote';
-import type { GetSwapQuoteResponse } from '../../core/api/types';
-import { formatTokenAmount } from '../../core/utils/formatTokenAmount';
 import { setupOnrampEventListeners } from '../../fund';
 import type { EventMetadata, OnrampError } from '../../fund/types';
 import { GENERIC_ERROR_MESSAGE } from '../../transaction/constants';
@@ -32,6 +29,7 @@ import type {
 } from '../types';
 import { isSwapError } from '../utils/isSwapError';
 import { processSwapTransaction } from '../utils/processSwapTransaction';
+import { getSwapLiteQuote } from '../../core/api/getSwapLiteQuote';
 
 const emptyContext = {} as SwapLiteContextType;
 
@@ -268,94 +266,70 @@ export function SwapLiteProvider({
 
       try {
         const maxSlippage = lifecycleStatus.statusData.maxSlippage;
-        const responseETH = await getSwapQuote({
+
+        const {
+          response: responseETH,
+          formattedFromAmount: formattedAmountETH,
+        } = await getSwapLiteQuote({
           amount,
           amountReference: 'to',
           from: fromETH.token,
           maxSlippage: String(maxSlippage),
           to: to.token,
           useAggregator,
+          fromSwapUnit: fromETH,
         });
-        const responseUSDC = await getSwapQuote({
+
+        const {
+          response: responseUSDC,
+          formattedFromAmount: formattedAmountUSDC,
+        } = await getSwapLiteQuote({
           amount,
           amountReference: 'to',
           from: fromUSDC.token,
           maxSlippage: String(maxSlippage),
           to: to.token,
           useAggregator,
+          fromSwapUnit: fromUSDC,
         });
 
-        let responseFrom: GetSwapQuoteResponse | undefined;
-        if (from?.token) {
-          responseFrom = await getSwapQuote({
-            amount,
-            amountReference: 'to',
-            from: from?.token,
-            maxSlippage: String(maxSlippage),
-            to: to.token,
-            useAggregator,
-          });
-        }
+        const {
+          response: responseFrom,
+          formattedFromAmount: formattedAmountFrom,
+        } = await getSwapLiteQuote({
+          amount,
+          amountReference: 'to',
+          from: from?.token,
+          maxSlippage: String(maxSlippage),
+          to: to.token,
+          useAggregator,
+          fromSwapUnit: from,
+        });
 
-        // If request resolves to error response set the quoteError
-        // property of error state to the SwapError response
-        if (isSwapError(responseETH)) {
+        if (!isSwapError(responseETH) && responseETH?.toAmountUSD) {
+          to.setAmountUSD(responseETH?.toAmountUSD);
+        } else if (!isSwapError(responseUSDC) && responseUSDC?.toAmountUSD) {
+          to.setAmountUSD(responseUSDC.toAmountUSD);
+        } else if (!isSwapError(responseFrom) && responseFrom?.toAmountUSD) {
+          to.setAmountUSD(responseFrom.toAmountUSD);
+        } else {
           updateLifecycleStatus({
             statusName: 'error',
             statusData: {
-              code: responseETH.code,
-              error: responseETH.error,
+              code: 'TmSPc01', // Transaction module SwapProvider component 01 error
+              error: 'No valid quote found',
               message: '',
             },
           });
           return;
         }
-        if (isSwapError(responseUSDC)) {
-          updateLifecycleStatus({
-            statusName: 'error',
-            statusData: {
-              code: responseUSDC.code,
-              error: responseUSDC.error,
-              message: '',
-            },
-          });
-          return;
-        }
-        const formattedAmount = formatTokenAmount(
-          responseETH.fromAmount,
-          responseETH.from.decimals,
-        );
-        const formattedUSDCAmount = formatTokenAmount(
-          responseUSDC.fromAmount,
-          responseUSDC.from.decimals,
-        );
-
-        fromETH.setAmountUSD(responseETH.fromAmountUSD);
-        fromETH.setAmount(formattedAmount);
-        fromUSDC.setAmountUSD(responseUSDC.fromAmountUSD);
-        fromUSDC.setAmount(formattedUSDCAmount);
-
-        // if error occurs, handle gracefully
-        // (display other payment options with fromToken disabled)
-        let formattedFromAmount = '';
-        if (responseFrom && !isSwapError(responseFrom)) {
-          formattedFromAmount = formatTokenAmount(
-            responseFrom.fromAmount,
-            responseFrom.from.decimals,
-          );
-
-          from.setAmountUSD(responseFrom?.fromAmountUSD || '');
-          from.setAmount(formattedFromAmount || '');
-        }
-        // TODO: revisit this
-        to.setAmountUSD(responseETH.toAmountUSD);
 
         updateLifecycleStatus({
           statusName: 'amountChange',
           statusData: {
-            amountETH: formattedAmount,
-            amountUSDC: formattedUSDCAmount,
-            amountFrom: formattedFromAmount || '',
+            amountETH: formattedAmountETH,
+            amountUSDC: formattedAmountUSDC,
+            amountFrom: formattedAmountFrom || '',
             amountTo: amount,
             tokenFromETH: fromETH.token,
             tokenFromUSDC: fromUSDC.token,
@@ -363,7 +337,7 @@ export function SwapLiteProvider({
             tokenTo: to.token,
             // if quote was fetched successfully, we
             // have all required fields
-            isMissingRequiredField: !formattedAmount,
+            isMissingRequiredField: !formattedAmountETH,
           },
         });
       } catch (err) {

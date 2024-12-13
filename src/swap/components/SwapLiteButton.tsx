@@ -28,14 +28,7 @@ export function SwapLiteButton() {
     statusName === 'transactionPending' ||
     statusName === 'transactionApproved';
 
-  const isDisabled =
-    !fromETH.amount ||
-    !fromUSDC.amount ||
-    !fromETH.token ||
-    !fromUSDC.token ||
-    !to?.amount ||
-    !to?.token ||
-    isLoading;
+  const isDisabled = !to?.amount || !to?.token || isLoading;
 
   const handleSubmit = useCallback(() => {
     setIsDropdownOpen(true);
@@ -65,7 +58,7 @@ export function SwapLiteButton() {
       {isLoading ? (
         <Spinner />
       ) : (
-        <span className={cn(text.headline, color.foreground)}>
+        <span className={cn(text.headline, color.inverse)}>
           {buttonContent}
         </span>
       )}

@@ -35,7 +35,10 @@ export function SwapLiteAmountInput() {
         onChange={handleChange}
         inputValidator={isValidAmount}
       />
-      <TokenChip className={pressable.inverse} token={to.token} />
+      <TokenChip
+        className={cn(pressable.inverse, 'rounded-md')}
+        token={to.token}
+      />
     </div>
   );
 }
