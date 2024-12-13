@@ -8,7 +8,6 @@ import {
   useMemo,
   useState,
 } from 'react';
-import { useAddressTokenHoldings } from '../../../core-react/internal/hooks/useAddressTokenHoldings';
 import { useValue } from '../../../core-react/internal/hooks/useValue';
 import { getAddressTokenBalances } from '../../../internal/utils/getAddressTokenBalances';
 import { useWalletContext } from '../WalletProvider';
@@ -53,7 +52,9 @@ export function WalletIslandProvider({ children }: WalletIslandProviderReact) {
   const [showQr, setShowQr] = useState(false);
   const [isQrClosing, setIsQrClosing] = useState(false);
   const [hasContentAnimated, setHasContentAnimated] = useState(false);
-  const [tokenHoldings, setTokenHoldings] = useState<TokenBalanceWithFiatValue[]>([]);
+  const [tokenHoldings, setTokenHoldings] = useState<
+    TokenBalanceWithFiatValue[]
+  >([]);
 
   useEffect(() => {
     if (isQrClosing || isSwapClosing) {
