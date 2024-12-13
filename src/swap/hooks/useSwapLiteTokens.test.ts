@@ -4,8 +4,8 @@ import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useValue } from '../../core-react/internal/hooks/useValue';
 import type { Token } from '../../token';
 import { USDC_TOKEN } from '../mocks';
-import { useSwapLiteTokens } from './useSwapLiteTokens';
 import { useSwapBalances } from './useSwapBalances';
+import { useSwapLiteTokens } from './useSwapLiteTokens';
 
 vi.mock('./useSwapBalances', () => ({
   useSwapBalances: vi.fn(),
