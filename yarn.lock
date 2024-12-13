@@ -2145,6 +2145,7 @@ __metadata:
     "@tanstack/react-query": "npm:^5"
     "@testing-library/jest-dom": "npm:^6.4.6"
     "@testing-library/react": "npm:^14.2.0"
+    "@types/qrcode": "npm:^1"
     "@types/react": "npm:^18"
     "@types/react-dom": "npm:^18"
     "@vitest/coverage-v8": "npm:^2.0.5"
@@ -2156,6 +2157,7 @@ __metadata:
     graphql-request: "npm:^6.1.0"
     jsdom: "npm:^24.1.0"
     packemon: "npm:3.3.1"
+    qrcode: "npm:^1.5.4"
     react: "npm:^18"
     react-dom: "npm:^18"
     rimraf: "npm:^5.0.5"
@@ -5355,6 +5357,15 @@ __metadata:
   version: 15.7.12
   resolution: "@types/prop-types@npm:15.7.12"
   checksum: 1babcc7db6a1177779f8fde0ccc78d64d459906e6ef69a4ed4dd6339c920c2e05b074ee5a92120fe4e9d9f1a01c952f843ebd550bee2332fc2ef81d1706878f8
+  languageName: node
+  linkType: hard
+
+"@types/qrcode@npm:^1":
+  version: 1.5.5
+  resolution: "@types/qrcode@npm:1.5.5"
+  dependencies:
+    "@types/node": "npm:*"
+  checksum: b8e6709905d1edb32dda414408acab18ac4aefcbe7bf96d9e32ba94218f45b99c8938ba7a09863ce82a67b226195099fd0f48881d16ee844899087b7f249955f
   languageName: node
   linkType: hard
 
@@ -13132,6 +13143,19 @@ __metadata:
   bin:
     qrcode: bin/qrcode
   checksum: eb961cd8246e00ae338b6d4a3a28574174456db42cec7070aa2b315fb6576b7f040b0e4347be290032e447359a145c68cb60ef884d55ca3e1076294fed46f719
+  languageName: node
+  linkType: hard
+
+"qrcode@npm:^1.5.4":
+  version: 1.5.4
+  resolution: "qrcode@npm:1.5.4"
+  dependencies:
+    dijkstrajs: "npm:^1.0.1"
+    pngjs: "npm:^5.0.0"
+    yargs: "npm:^15.3.1"
+  bin:
+    qrcode: bin/qrcode
+  checksum: ae1d57c9cff6099639a590b432c71b15e3bd3905ce4353e6d00c95dee6bb769a8f773f6a7575ecc1b8ed476bf79c5138a4a65cb380c682de3b926d7205d34d10
   languageName: node
   linkType: hard
 
