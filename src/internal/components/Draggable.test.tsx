@@ -1,4 +1,5 @@
 import { fireEvent, render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import Draggable from './Draggable';
 
@@ -45,25 +46,49 @@ describe('Draggable', () => {
     const draggable = screen.getByTestId('ockDraggable');
     expect(draggable).toHaveClass('cursor-grab');
 
-    fireEvent.mouseDown(draggable);
+    fireEvent.pointerDown(draggable);
     expect(draggable).toHaveClass('cursor-grabbing');
 
-    fireEvent.mouseUp(draggable);
+    fireEvent.pointerUp(draggable);
     expect(draggable).toHaveClass('cursor-grab');
   });
 
-  it('snaps to grid when dragging ends', () => {
-    render(
+  it('snaps to grid when dragging ends if enableSnapToGrid is true', async () => {
+    const user = userEvent.setup();
+    const { rerender } = render(
       <Draggable gridSize={10} startingPosition={{ x: 0, y: 0 }}>
         <div>Drag me</div>
       </Draggable>,
     );
 
     const draggable = screen.getByTestId('ockDraggable');
-    fireEvent.mouseDown(draggable, { clientX: 0, clientY: 0 });
-    fireEvent.mouseMove(document, { clientX: 14, clientY: 16 });
-    fireEvent.mouseUp(document);
+    await user.pointer([
+      { keys: '[MouseLeft>]', target: draggable },
+      { coords: { x: 14, y: 16 } },
+      { keys: '[/MouseLeft]' },
+    ]);
     expect(draggable).toHaveStyle({ left: '10px', top: '20px' });
+  });
+
+  it('does not snap to grid when dragging ends if enableSnapToGrid is false', async () => {
+    const user = userEvent.setup();
+    render(
+      <Draggable
+        gridSize={10}
+        startingPosition={{ x: 0, y: 0 }}
+        enableSnapToGrid={false}
+      >
+        <div>Drag me</div>
+      </Draggable>,
+    );
+
+    const draggable = screen.getByTestId('ockDraggable');
+    await user.pointer([
+      { keys: '[MouseLeft>]', target: draggable },
+      { coords: { x: 14, y: 16 } },
+      { keys: '[/MouseLeft]' },
+    ]);
+    expect(draggable).toHaveStyle({ left: '14px', top: '16px' });
   });
 
   it('handles touch events', () => {
@@ -74,20 +99,23 @@ describe('Draggable', () => {
     );
     const draggable = screen.getByTestId('ockDraggable');
 
-    fireEvent.touchStart(draggable, {
-      touches: [{ clientX: 0, clientY: 0 }],
+    fireEvent.pointerDown(draggable, {
+      clientX: 0,
+      clientY: 0,
     });
     expect(draggable).toHaveClass('cursor-grabbing');
 
-    fireEvent.touchMove(document, {
-      touches: [{ clientX: 50, clientY: 50 }],
+    fireEvent.pointerMove(document, {
+      clientX: 50,
+      clientY: 50,
     });
 
-    fireEvent.touchEnd(document);
+    fireEvent.pointerUp(document);
     expect(draggable).toHaveClass('cursor-grab');
   });
 
-  it('calculates drag offset correctly', () => {
+  it('calculates drag offset correctly', async () => {
+    const user = userEvent.setup();
     render(
       <Draggable startingPosition={{ x: 50, y: 50 }}>
         <div>Drag me</div>
@@ -95,15 +123,16 @@ describe('Draggable', () => {
     );
     const draggable = screen.getByTestId('ockDraggable');
 
-    fireEvent.mouseDown(draggable, { clientX: 60, clientY: 70 });
-    expect(draggable).toHaveStyle({ left: '50px', top: '50px' });
-
-    // Move with the calculated offset
-    fireEvent.mouseMove(document, { clientX: 80, clientY: 90 });
+    await user.pointer([
+      { keys: '[MouseLeft>]', target: draggable, coords: { x: 60, y: 70 } },
+      { coords: { x: 80, y: 90 } },
+      { keys: '[/MouseLeft]' },
+    ]);
     expect(draggable).toHaveStyle({ left: '70px', top: '70px' });
   });
 
-  it('updates position during drag movement', () => {
+  it('updates position during drag movement', async () => {
+    const user = userEvent.setup();
     render(
       <Draggable startingPosition={{ x: 0, y: 0 }}>
         <div>Drag me</div>
@@ -111,13 +140,16 @@ describe('Draggable', () => {
     );
     const draggable = screen.getByTestId('ockDraggable');
 
-    fireEvent.mouseDown(draggable, { clientX: 0, clientY: 0 });
-
-    // Multiple move events
-    fireEvent.mouseMove(document, { clientX: 50, clientY: 50 });
+    await user.pointer([
+      { keys: '[MouseLeft>]', target: draggable, coords: { x: 0, y: 0 } },
+      { coords: { x: 50, y: 50 } },
+    ]);
     expect(draggable).toHaveStyle({ left: '50px', top: '50px' });
 
-    fireEvent.mouseMove(document, { clientX: 100, clientY: 75 });
+    await user.pointer([
+      { coords: { x: 100, y: 75 } },
+    ])
+
     expect(draggable).toHaveStyle({ left: '100px', top: '75px' });
   });
 
@@ -129,14 +161,13 @@ describe('Draggable', () => {
     );
     const draggable = screen.getByTestId('ockDraggable');
 
-    // Start dragging
-    fireEvent.mouseDown(draggable, { clientX: 0, clientY: 0 });
+    const removeSpy = vi.spyOn(document, 'removeEventListener');
 
-    // Unmount while dragging
+    fireEvent.pointerDown(draggable, { clientX: 0, clientY: 0 });
+
     unmount();
 
-    // Verify no errors when moving/ending after unmount
-    fireEvent.mouseMove(document, { clientX: 50, clientY: 50 });
-    fireEvent.mouseUp(document);
+    expect(removeSpy).toHaveBeenCalledWith('pointermove', expect.any(Function));
+    expect(removeSpy).toHaveBeenCalledWith('pointerup', expect.any(Function));
   });
 });
