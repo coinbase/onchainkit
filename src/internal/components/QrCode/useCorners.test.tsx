@@ -18,6 +18,7 @@ describe('useCorners', () => {
         defaultProps.matrixLength,
         defaultProps.backgroundColor,
         defaultProps.fillColor,
+        'test-uid',
       ),
     );
 
@@ -42,6 +43,7 @@ describe('useCorners', () => {
         defaultProps.matrixLength,
         defaultProps.backgroundColor,
         defaultProps.fillColor,
+        'test-uid',
       ),
     );
 
@@ -66,6 +68,7 @@ describe('useCorners', () => {
         defaultProps.matrixLength,
         defaultProps.backgroundColor,
         defaultProps.fillColor,
+        'test-uid',
       ),
     );
 
@@ -84,6 +87,7 @@ describe('useCorners', () => {
         defaultProps.matrixLength,
         defaultProps.backgroundColor,
         defaultProps.fillColor,
+        'test-uid',
       ),
     );
 
