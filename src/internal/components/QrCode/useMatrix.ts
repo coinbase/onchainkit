@@ -9,18 +9,20 @@ export function useMatrix(
     if (!value) {
       return [];
     }
-    const arr = Array.prototype.slice.call(
+
+    const arr = Array.from(
       QRCode.create(value, { errorCorrectionLevel }).modules.data,
-      0,
     );
 
     const sqrt = Math.sqrt(arr.length);
-    
-    return arr.reduce(
-      (rows, key, index) =>
-        (index % sqrt === 0
+
+    return arr.reduce<number[][]>(
+      (rows, key, index) =>{
+        index % sqrt === 0
           ? rows.push([key])
-          : rows[rows.length - 1].push(key)) && rows,
+          : rows[rows.length - 1].push(key);
+        return rows;
+      },
       [],
     );
   }, [errorCorrectionLevel, value]);
