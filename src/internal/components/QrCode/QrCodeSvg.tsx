@@ -80,7 +80,7 @@ export function QrCodeSvg({
   ];
 
   const matrix = useMatrix(value, ecl);
-  const corners = useCorners(size, matrix.length, bgColor, fillColor);
+  const corners = useCorners(size, matrix.length, bgColor, fillColor, uid);
   const { x: x1, y: y1 } = GRADIENT_START_COORDINATES;
   const { x: x2, y: y2 } = GRADIENT_END_COORDINATES;
 

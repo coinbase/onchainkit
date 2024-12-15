@@ -78,6 +78,7 @@ export function useCorners(
       fillColor,
       rectSize,
       size,
+      uid,
     ],
   );
   return corners;
