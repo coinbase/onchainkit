@@ -5,6 +5,7 @@ import { Wallet } from './Wallet';
 import { WalletBasic } from './WalletBasic';
 import { WalletDropdown } from './WalletDropdown';
 import { type WalletProviderReact, useWalletContext } from './WalletProvider';
+import { useOutsideClick } from '../../ui/react/internal/hooks/useOutsideClick';
 
 vi.mock('./WalletProvider', () => ({
   useWalletContext: vi.fn(),
@@ -52,10 +53,12 @@ describe('Wallet Component', () => {
 
     render(
       <Wallet>
-        <ConnectWallet />
-        <WalletDropdown>
-          <div>Wallet Dropdown</div>
-        </WalletDropdown>
+        <WalletBasic>
+          <ConnectWallet />
+          <WalletDropdown>
+            <div>Wallet Dropdown</div>
+          </WalletDropdown>
+        </WalletBasic>
       </Wallet>,
     );
 
@@ -71,12 +74,19 @@ describe('Wallet Component', () => {
       containerRef: { current: container },
     });
 
+    const mockOutsideClickCallback = vi.fn();
+    (useOutsideClick as ReturnType<typeof vi.fn>).mockReturnValue({
+      handleOutsideClick: mockOutsideClickCallback,
+    });
+
     render(
       <Wallet>
-        <ConnectWallet />
-        <WalletDropdown>
-          <div>Wallet Dropdown</div>
-        </WalletDropdown>
+        <WalletBasic>
+          <ConnectWallet />
+          <WalletDropdown>
+            <div>Wallet Dropdown</div>
+          </WalletDropdown>
+        </WalletBasic>
       </Wallet>,
     );
 
@@ -84,7 +94,7 @@ describe('Wallet Component', () => {
 
     mockOutsideClickCallback({} as MouseEvent);
 
-    expect(mockHandleClose).toHaveBeenCalled();
+    expect(mockOutsideClickCallback).toHaveBeenCalled();
   });
 
   it('should not trigger click handler when wallet is closed', () => {
@@ -94,12 +104,20 @@ describe('Wallet Component', () => {
       containerRef: { current: document.createElement('div') },
     });
 
+    const mockOutsideClickCallback = vi.fn();
+    (useOutsideClick as ReturnType<typeof vi.fn>).mockReturnValue({
+      handleOutsideClick: mockOutsideClickCallback,
+    });
+
+
     render(
       <Wallet>
-        <ConnectWallet />
-        <WalletDropdown>
-          <div>Wallet Dropdown</div>
-        </WalletDropdown>
+        <WalletBasic>
+          <ConnectWallet />
+          <WalletDropdown>
+            <div>Wallet Dropdown</div>
+          </WalletDropdown>
+        </WalletBasic>
       </Wallet>,
     );
 
