@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom';
 import { act, render, renderHook } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
-import { WagmiProvider } from 'wagmi';
+import { type Config, WagmiProvider } from 'wagmi';
 import { WalletProvider, useWalletContext } from './WalletProvider';
 
 vi.mock('wagmi', () => ({
@@ -14,7 +14,7 @@ vi.mock('wagmi', () => ({
 describe('useWalletContext', () => {
   it('should return default context', () => {
     render(
-      <WagmiProvider>
+      <WagmiProvider config={{} as Config}>
         <WalletProvider>
           <div />
         </WalletProvider>
@@ -23,7 +23,7 @@ describe('useWalletContext', () => {
 
     const { result } = renderHook(() => useWalletContext(), {
       wrapper: ({ children }) => (
-        <WagmiProvider config={{}}>
+        <WagmiProvider config={{} as Config}>
           <WalletProvider>{children}</WalletProvider>
         </WagmiProvider>
       ),
@@ -38,7 +38,7 @@ describe('useWalletContext', () => {
 
     const { result } = renderHook(() => useWalletContext(), {
       wrapper: ({ children }) => (
-        <WagmiProvider config={{}}>
+        <WagmiProvider config={{} as Config}>
           <WalletProvider>{children}</WalletProvider>
         </WagmiProvider>
       ),
@@ -67,7 +67,7 @@ describe('useWalletContext', () => {
   it('should not update visibility state if handleClose is called when wallet is not open', () => {
     const { result } = renderHook(() => useWalletContext(), {
       wrapper: ({ children }) => (
-        <WagmiProvider config={{}}>
+        <WagmiProvider config={{} as Config}>
           <WalletProvider>{children}</WalletProvider>
         </WagmiProvider>
       ),
