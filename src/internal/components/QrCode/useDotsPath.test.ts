@@ -54,7 +54,6 @@ describe('useDotsPath', () => {
       logoBorderRadius: 40,
       logoSize: 60,
       logoMargin: 5,
-      // Using a larger matrix that's more typical for QR codes
       matrix: Array(25).fill(Array(25).fill(1)),
     };
 
@@ -66,8 +65,6 @@ describe('useDotsPath', () => {
     );
 
     expect(roundLogoResult.current).not.toBe(squareLogoResult.current);
-    // expect(roundLogoResult.current).not.toBe('');
-    // expect(squareLogoResult.current).not.toBe('');
   });
 
   it('should skip masked cells in corners', () => {
