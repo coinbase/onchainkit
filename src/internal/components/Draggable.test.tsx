@@ -55,7 +55,7 @@ describe('Draggable', () => {
 
   it('snaps to grid when dragging ends if enableSnapToGrid is true', async () => {
     const user = userEvent.setup();
-    const { rerender } = render(
+    render(
       <Draggable gridSize={10} startingPosition={{ x: 0, y: 0 }}>
         <div>Drag me</div>
       </Draggable>,
@@ -146,9 +146,7 @@ describe('Draggable', () => {
     ]);
     expect(draggable).toHaveStyle({ left: '50px', top: '50px' });
 
-    await user.pointer([
-      { coords: { x: 100, y: 75 } },
-    ])
+    await user.pointer([{ coords: { x: 100, y: 75 } }]);
 
     expect(draggable).toHaveStyle({ left: '100px', top: '75px' });
   });
