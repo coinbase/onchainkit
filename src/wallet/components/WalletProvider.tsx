@@ -27,12 +27,16 @@ export function WalletProvider({ children }: WalletProviderReact) {
   const containerRef = useRef<HTMLDivElement>(null);
 
   const handleClose = useCallback(() => {
+    if (!isOpen) {
+      return;
+    }
+
     setIsClosing(true);
     setTimeout(() => {
       setIsOpen(false);
       setIsClosing(false);
     }, 300);
-  }, []);
+  }, [isOpen]);
 
   const value = useValue({
     address,

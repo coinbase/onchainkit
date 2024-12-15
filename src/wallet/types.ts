@@ -77,7 +77,7 @@ export type WalletContextType = {
   isClosing: boolean;
   setIsClosing: Dispatch<SetStateAction<boolean>>;
   handleClose: () => void;
-  containerRef?: RefObject<HTMLDivElement> | null;
+  containerRef: RefObject<HTMLDivElement>;
 };
 
 /**
