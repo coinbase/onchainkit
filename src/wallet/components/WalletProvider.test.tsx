@@ -3,7 +3,6 @@ import { act, render, renderHook } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 import { WagmiProvider } from 'wagmi';
 import { WalletProvider, useWalletContext } from './WalletProvider';
-import { useState } from 'react';
 
 vi.mock('wagmi', () => ({
   useAccount: vi.fn().mockReturnValue({ address: null }),

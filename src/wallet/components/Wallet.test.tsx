@@ -1,11 +1,11 @@
 import { render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { useOutsideClick } from '../../ui/react/internal/hooks/useOutsideClick';
 import { ConnectWallet } from './ConnectWallet';
 import { Wallet } from './Wallet';
 import { WalletBasic } from './WalletBasic';
 import { WalletDropdown } from './WalletDropdown';
 import { type WalletProviderReact, useWalletContext } from './WalletProvider';
-import { useOutsideClick } from '../../ui/react/internal/hooks/useOutsideClick';
 
 vi.mock('./WalletProvider', () => ({
   useWalletContext: vi.fn(),
@@ -108,7 +108,6 @@ describe('Wallet Component', () => {
     (useOutsideClick as ReturnType<typeof vi.fn>).mockReturnValue({
       handleOutsideClick: mockOutsideClickCallback,
     });
-
 
     render(
       <Wallet>
