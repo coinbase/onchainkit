@@ -6,6 +6,7 @@ export function useCorners(
   matrixLength: number,
   backgroundColor: string,
   fillColor: string,
+  uid: string,
 ) {
   const dotSize = size / matrixLength;
   const rectSize = dotSize * CORNER_SIZE;
@@ -22,7 +23,7 @@ export function useCorners(
           width={rectSize}
           height={rectSize}
           fill={fillColor}
-          id="Corner"
+          id={`Corner-top-left-${uid}`}
         />
         <rect
           x={0}
@@ -32,7 +33,7 @@ export function useCorners(
           width={rectSize}
           height={rectSize}
           fill={fillColor}
-          id="Corner"
+          id={`Corner-bottom-left-${uid}`}
         />
         <rect
           x={size - rectSize}
@@ -42,7 +43,7 @@ export function useCorners(
           width={rectSize}
           height={rectSize}
           fill={fillColor}
-          id="Corner"
+          id={`Corner-top-right-${uid}`}
         />
         <circle
           cx={rectSize / 2}
