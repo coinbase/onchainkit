@@ -29,10 +29,10 @@ describe('useCorners', () => {
     const children = svgGroup.props.children;
     expect(children).toHaveLength(6);
 
-    const rects = children.filter((child) => child.type === 'rect');
+    const rects = children.filter((child: JSX.Element) => child.type === 'rect');
     expect(rects).toHaveLength(3);
 
-    const circles = children.filter((child) => child.type === 'circle');
+    const circles = children.filter((child: JSX.Element) => child.type === 'circle');
     expect(circles).toHaveLength(3);
   });
 

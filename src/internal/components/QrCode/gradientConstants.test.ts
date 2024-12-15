@@ -93,9 +93,9 @@ describe('Preset Gradients', () => {
     const expectedPresets = ['default', 'blue', 'magenta', 'black'];
 
     for (const preset of expectedPresets) {
-      expect(presetGradients[preset]).toBeDefined();
-      expect(Array.isArray(presetGradients[preset])).toBe(true);
-      expect(presetGradients[preset].length).toBe(3);
+      expect(presetGradients[preset as keyof typeof presetGradients]).toBeDefined();
+      expect(Array.isArray(presetGradients[preset as keyof typeof presetGradients])).toBe(true);
+      expect(presetGradients[preset as keyof typeof presetGradients].length).toBe(3);
     }
   });
 
