@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useOnchainKit } from '../../../core-react/useOnchainKit';
+import { useTheme } from '../../../core-react/internal/hooks/useTheme';
 import {
   GRADIENT_END_COORDINATES,
   GRADIENT_START_COORDINATES,
@@ -53,12 +53,8 @@ export function QrCodeSvg({
   const gradientRadius = size * 0.55;
   const gradientCenterPoint = size / 2;
 
-  const { config } = useOnchainKit();
-  const ockTheme = (config?.appearance?.theme ?? 'default') as
-    | 'default'
-    | 'base'
-    | 'cyberpunk'
-    | 'hacker';
+  const theme = useTheme();
+  const themeName = theme.split('-')[0];
 
   const isRadialGradient = gradientType === 'radial';
   const fillColor = isRadialGradient ? 'url(#radialGrad)' : '#000000';
@@ -66,9 +62,10 @@ export function QrCodeSvg({
     ? backgroundColor
     : `url(#${gradientType}Grad)`;
 
-  const linearGradientColor = ockThemeToLinearGradientColorMap[
-    ockTheme
-  ] as keyof typeof linearGradientStops;
+  const linearGradientColor =
+    ockThemeToLinearGradientColorMap[
+      themeName as keyof typeof ockThemeToLinearGradientColorMap
+    ];
   const linearColors = [
     linearGradientStops[linearGradientColor].startColor,
     linearGradientStops[linearGradientColor].endColor,
@@ -76,7 +73,9 @@ export function QrCodeSvg({
 
   const presetGradientForColor =
     presetGradients[
-      ockThemeToRadiamGradientColorMap[ockTheme] as keyof typeof presetGradients
+      ockThemeToRadiamGradientColorMap[
+        themeName as keyof typeof ockThemeToLinearGradientColorMap
+      ] as keyof typeof presetGradients
     ];
 
   const matrix = useMatrix(value, ecl);
