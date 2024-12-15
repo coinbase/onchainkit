@@ -102,10 +102,10 @@ describe('WalletDropdown', () => {
     useWalletContextMock.mockReturnValue({ isOpen: true, isClosing: false });
     const { rerender } = render(<WalletDropdown>Content</WalletDropdown>);
     const dropdown = screen.getByTestId('ockWalletDropdown');
-    expect(dropdown).toHaveClass('animate-walletContainerIn');
+    expect(dropdown).toHaveClass('animate-containerIn');
 
     useWalletContextMock.mockReturnValue({ isOpen: true, isClosing: true });
     rerender(<WalletDropdown>Content</WalletDropdown>);
-    expect(dropdown).toHaveClass('animate-walletContainerOut');
+    expect(dropdown).toHaveClass('animate-containerOut');
   });
 });

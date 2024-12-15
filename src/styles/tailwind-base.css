@@ -254,6 +254,16 @@
   .animate-enterRight {
     @apply animate-in slide-in-from-right-8 fade-in duration-500;
   }
+  .animate-exitRight {
+    @apply animate-out fade-out slide-out-to-right-8 duration-500;
+  }
+
+  .animate-enterLeft {
+    @apply animate-in slide-in-from-left-8 fade-in duration-500;
+  }
+  .animate-exitLeft {
+    @apply animate-out fade-out slide-out-to-left-8 duration-500;
+  }
 
   .animate-enterUp {
     @apply animate-in slide-in-from-bottom-8 fade-in duration-500;
@@ -261,6 +271,29 @@
 
   .animate-enterDown {
     @apply animate-in slide-in-from-top-8 fade-in duration-500;
+  }
+
+  .animate-containerIn {
+    @apply animate-in fade-in slide-in-from-top-2.5 duration-300 ease-out;
+  }
+  .animate-containerOut {
+    @apply animate-out fade-out slide-out-to-top-2.5 duration-300 ease-in;
+  }
+
+  .animate-containerItem {
+    @apply animate-in fade-in slide-in-from-bottom-2.5 ease-out-back;
+  }
+  .animate-containerItem1 {
+    @apply animate-containerItem delay-100 duration-300;
+  }
+  .animate-containerItem2 {
+    @apply animate-containerItem delay-130 duration-300;
+  }
+  .animate-containerItem3 {
+    @apply animate-containerItem delay-160 duration-300;
+  }
+  .animate-containerItem4 {
+    @apply animate-walletIslandItem delay-190 duration-300;
   }
 }
 
