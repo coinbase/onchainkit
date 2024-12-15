@@ -60,24 +60,24 @@ export function QrCodeSvg({
   const isRadialGradient = gradientType === 'radial';
   const fillColor = isRadialGradient ? `url(#radialGrad-${uid})` : '#000000';
   const bgColor = isRadialGradient
-  ? backgroundColor
-  : `url(#linearGrad-${uid})`;
+    ? backgroundColor
+    : `url(#linearGrad-${uid})`;
 
   const linearGradientColor =
-  ockThemeToLinearGradientColorMap[
-    themeName as keyof typeof ockThemeToLinearGradientColorMap
-  ];
+    ockThemeToLinearGradientColorMap[
+      themeName as keyof typeof ockThemeToLinearGradientColorMap
+    ];
   const linearColors = [
     linearGradientStops[linearGradientColor].startColor,
     linearGradientStops[linearGradientColor].endColor,
   ];
 
   const presetGradientForColor =
-  presetGradients[
-    ockThemeToRadiamGradientColorMap[
-      themeName as keyof typeof ockThemeToLinearGradientColorMap
-    ] as keyof typeof presetGradients
-  ];
+    presetGradients[
+      ockThemeToRadiamGradientColorMap[
+        themeName as keyof typeof ockThemeToLinearGradientColorMap
+      ] as keyof typeof presetGradients
+    ];
 
   const matrix = useMatrix(value, ecl);
   const corners = useCorners(size, matrix.length, bgColor, fillColor, uid);

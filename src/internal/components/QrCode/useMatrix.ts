@@ -16,15 +16,10 @@ export function useMatrix(
 
     const sqrt = Math.sqrt(arr.length);
 
-    return arr.reduce<number[][]>(
-      (rows, key, index) =>{
-        index % sqrt === 0
-          ? rows.push([key])
-          : rows[rows.length - 1].push(key);
-        return rows;
-      },
-      [],
-    );
+    return arr.reduce<number[][]>((rows, key, index) => {
+      index % sqrt === 0 ? rows.push([key]) : rows[rows.length - 1].push(key);
+      return rows;
+    }, []);
   }, [errorCorrectionLevel, value]);
   return matrix;
 }
