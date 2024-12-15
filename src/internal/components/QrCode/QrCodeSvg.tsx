@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useId, useMemo } from 'react';
 import { useTheme } from '../../../core-react/internal/hooks/useTheme';
 import {
   GRADIENT_END_COORDINATES,
@@ -52,31 +52,32 @@ export function QrCodeSvg({
 }: QRCodeSVGProps) {
   const gradientRadius = size * 0.55;
   const gradientCenterPoint = size / 2;
+  const uid = useId();
 
   const theme = useTheme();
   const themeName = theme.split('-')[0];
 
   const isRadialGradient = gradientType === 'radial';
-  const fillColor = isRadialGradient ? 'url(#radialGrad)' : '#000000';
+  const fillColor = isRadialGradient ? `url(#radialGrad-${uid})` : '#000000';
   const bgColor = isRadialGradient
-    ? backgroundColor
-    : `url(#${gradientType}Grad)`;
+  ? backgroundColor
+  : `url(#linearGrad-${uid})`;
 
   const linearGradientColor =
-    ockThemeToLinearGradientColorMap[
-      themeName as keyof typeof ockThemeToLinearGradientColorMap
-    ];
+  ockThemeToLinearGradientColorMap[
+    themeName as keyof typeof ockThemeToLinearGradientColorMap
+  ];
   const linearColors = [
     linearGradientStops[linearGradientColor].startColor,
     linearGradientStops[linearGradientColor].endColor,
   ];
 
   const presetGradientForColor =
-    presetGradients[
-      ockThemeToRadiamGradientColorMap[
-        themeName as keyof typeof ockThemeToLinearGradientColorMap
-      ] as keyof typeof presetGradients
-    ];
+  presetGradients[
+    ockThemeToRadiamGradientColorMap[
+      themeName as keyof typeof ockThemeToLinearGradientColorMap
+    ] as keyof typeof presetGradients
+  ];
 
   const matrix = useMatrix(value, ecl);
   const corners = useCorners(size, matrix.length, bgColor, fillColor);
@@ -120,7 +121,7 @@ export function QrCodeSvg({
       <defs>
         {isRadialGradient ? (
           <radialGradient
-            id="radialGrad"
+            id={`radialGrad-${uid}`}
             data-testid="radialGrad"
             rx={gradientRadius}
             ry={gradientRadius}
@@ -139,7 +140,7 @@ export function QrCodeSvg({
           </radialGradient>
         ) : (
           <linearGradient
-            id="linearGrad"
+            id={`linearGrad-${uid}`}
             data-testid="linearGrad"
             x1={coordinateAsPercentage(x1)}
             y1={coordinateAsPercentage(y1)}
