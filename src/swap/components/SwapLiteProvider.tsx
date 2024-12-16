@@ -257,13 +257,13 @@ export function SwapLiteProvider({
         to.setAmountUSD('');
         fromETH.setAmountUSD('');
         fromUSDC.setAmountUSD('');
-        from.setAmountUSD('');
+        from?.setAmountUSD('');
         return;
       }
 
       fromETH.setLoading(true);
       fromUSDC.setLoading(true);
-      from.setLoading(true);
+      from?.setLoading(true);
 
       updateLifecycleStatus({
         statusName: 'amountChange',
@@ -276,7 +276,7 @@ export function SwapLiteProvider({
           amountFrom: '',
           tokenFromETH: fromETH.token,
           tokenFromUSDC: fromUSDC.token,
-          tokenFrom: from.token,
+          tokenFrom: from?.token,
           tokenTo: to.token,
           // when fetching quote, the destination
           // amount is missing
@@ -353,7 +353,7 @@ export function SwapLiteProvider({
             amountTo: amount,
             tokenFromETH: fromETH.token,
             tokenFromUSDC: fromUSDC.token,
-            tokenFrom: from.token,
+            tokenFrom: from?.token,
             tokenTo: to.token,
             // if quote was fetched successfully, we
             // have all required fields
@@ -373,7 +373,7 @@ export function SwapLiteProvider({
         // reset loading state when quote request resolves
         fromETH.setLoading(false);
         fromUSDC.setLoading(false);
-        from.setLoading(false);
+        from?.setLoading(false);
       }
     },
     [

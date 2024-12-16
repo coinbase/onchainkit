@@ -16,7 +16,7 @@ type GetSwapLiteQuoteResponse = {
 };
 
 type GetSwapLiteQuoteParams = Omit<GetSwapQuoteParams, 'from'> & {
-  fromSwapUnit: SwapUnit;
+  fromSwapUnit?: SwapUnit;
   from?: Token;
 };
 
@@ -48,7 +48,7 @@ export async function getSwapLiteQuote({
   }
 
   let formattedFromAmount = '';
-  if (response && !isSwapError(response)) {
+  if (response && !isSwapError(response) && fromSwapUnit) {
     formattedFromAmount = formatTokenAmount(
       response.fromAmount,
       response.from.decimals,
