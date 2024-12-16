@@ -1,9 +1,9 @@
 import { Children, useMemo } from 'react';
-import { useName } from '../../../../core-react/identity/hooks/useName';
-import { useIdentityContext } from '../../../../core-react/identity/providers/IdentityProvider';
-import type { NameReact } from '../../../../core-react/identity/types';
-import { findComponent } from '../../../../core-react/internal/utils/findComponent';
-import { getSlicedAddress } from '../../../../core/identity/utils/getSlicedAddress';
+import { useName } from '@/core-react/identity/hooks/useName';
+import { useIdentityContext } from '@/core-react/identity/providers/IdentityProvider';
+import type { NameReact } from '@/core-react/identity/types';
+import { findComponent } from '@/core-react/internal/utils/findComponent';
+import { getSlicedAddress } from '@/core/identity/utils/getSlicedAddress';
 import { cn, color, text } from '../../../../styles/theme';
 import { Badge } from './Badge';
 import { DisplayBadge } from './DisplayBadge';

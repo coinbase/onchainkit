@@ -6,8 +6,8 @@ import { NFTMinters } from './NFTMinters';
 
 vi.mock('@/core-react/nft/providers/NFTProvider');
 
-vi.mock('../../../../identity', async () => ({
-  ...(await vi.importActual('../../../../identity')),
+vi.mock('@/ui-react/identity', async () => ({
+  ...(await vi.importActual('@/ui-react/identity')),
   Identity: ({
     className,
     children,

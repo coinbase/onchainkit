@@ -8,7 +8,7 @@ import { Identity } from './Identity';
 import { Name } from './Name';
 import { useAvatar } from '@/core-react/identity/hooks/useAvatar';
 import { useName } from '@/core-react/identity/hooks/useName';
-import { useGetETHBalance } from '@/wallet/hooks/useGetETHBalance';
+import { useGetETHBalance } from '../../../../wallet/hooks/useGetETHBalance';
 
 function mock<T>(func: T) {
   return func as Mock;
@@ -21,7 +21,7 @@ vi.mock('@/core-react/identity/hooks/useName', () => ({
   useName: vi.fn(),
 }));
 
-vi.mock('@/wallet/hooks/useGetETHBalance', () => ({
+vi.mock('../../../../wallet/hooks/useGetETHBalance', () => ({
   useGetETHBalance: vi.fn(),
 }));
 

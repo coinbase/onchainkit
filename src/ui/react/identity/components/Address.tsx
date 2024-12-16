@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { useIdentityContext } from '../../../../core-react/identity/providers/IdentityProvider';
-import type { AddressReact } from '../../../../core-react/identity/types';
-import { getSlicedAddress } from '../../../../core/identity/utils/getSlicedAddress';
+import { useIdentityContext } from '@/core-react/identity/providers/IdentityProvider';
+import type { AddressReact } from '@/core-react/identity/types';
+import { getSlicedAddress } from '@/core/identity/utils/getSlicedAddress';
 import { border, cn, color, pressable, text } from '../../../../styles/theme';
 
 export function Address({

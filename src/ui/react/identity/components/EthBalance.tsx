@@ -1,6 +1,6 @@
-import { useIdentityContext } from '../../../../core-react/identity/providers/IdentityProvider';
-import type { EthBalanceReact } from '../../../../core-react/identity/types';
-import { getRoundedAmount } from '../../../../core/utils/getRoundedAmount';
+import { useIdentityContext } from '@/core-react/identity/providers/IdentityProvider';
+import type { EthBalanceReact } from '@/core-react/identity/types';
+import { getRoundedAmount } from '@/core/utils/getRoundedAmount';
 import { cn, color, text } from '../../../../styles/theme';
 import { useGetETHBalance } from '../../../../wallet/hooks/useGetETHBalance';
 
