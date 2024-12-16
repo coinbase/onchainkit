@@ -1,0 +1,44 @@
+import { useCallback } from 'react';
+import { isValidAmount } from '../../core/utils/isValidAmount';
+import { TextInput } from '../../internal/components/TextInput';
+import { cn, pressable } from '../../styles/theme';
+import { TokenChip } from '../../token';
+import { formatAmount } from '../../swap/utils/formatAmount';
+import { useBuyContext } from './BuyProvider';
+
+export function BuyAmountInput() {
+  const { to, handleAmountChange } = useBuyContext();
+
+  const handleChange = useCallback(
+    (amount: string) => {
+      handleAmountChange(amount);
+    },
+    [handleAmountChange],
+  );
+
+  if (!to?.token) {
+    return null;
+  }
+
+  return (
+    <div className="flex h-full items-center rounded-lg border px-4">
+      <TextInput
+        className={cn(
+          'mr-2 w-full border-[none] bg-transparent font-display',
+          'leading-none outline-none',
+        )}
+        placeholder="0.0"
+        delayMs={1000}
+        value={formatAmount(to.amount)}
+        setValue={to.setAmount}
+        disabled={to.loading}
+        onChange={handleChange}
+        inputValidator={isValidAmount}
+      />
+      <TokenChip
+        className={cn(pressable.inverse, 'rounded-md')}
+        token={to.token}
+      />
+    </div>
+  );
+}
