@@ -10,14 +10,7 @@ export enum MessageCodes {
   Event = 'event',
 }
 
-type MessageCode = `${MessageCodes}`;
-
 type MessageData = JsonObject;
-
-type PostMessageData = {
-  eventName: MessageCode;
-  data?: MessageData;
-};
 
 /**
  * Subscribes to a message from the parent window.
@@ -36,12 +29,12 @@ export function subscribeToWindowMessage({
   allowedOrigin: string;
   onValidateOrigin?: (origin: string) => Promise<boolean>;
 }) {
-  const handleMessage = (event: MessageEvent<PostMessageData>) => {
+  const handleMessage = (event: MessageEvent<string>) => {
     if (!isAllowedOrigin({ event, allowedOrigin })) {
       return;
     }
 
-    const { eventName, data } = event.data;
+    const { eventName, data } = JSON.parse(event.data);
 
     if (eventName === 'event') {
       (async () => {

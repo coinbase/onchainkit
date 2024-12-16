@@ -1,6 +1,6 @@
 {
   "name": "@coinbase/onchainkit",
-  "version": "0.35.8",
+  "version": "0.36.0",
   "type": "module",
   "repository": "https://github.com/coinbase/onchainkit.git",
   "license": "MIT",
@@ -40,6 +40,7 @@
     "graphql": "^14 || ^15 || ^16",
     "graphql-request": "^6.1.0",
     "tailwind-merge": "^2.3.0",
+    "tailwindcss-animate": "^1.0.7",
     "viem": "^2.21.33",
     "wagmi": "^2.12.24"
   },

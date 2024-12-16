@@ -250,5 +250,19 @@
   }
 }
 
+@layer components {
+  .animate-enterRight {
+    @apply animate-in slide-in-from-right-8 fade-in duration-500;
+  }
+
+  .animate-enterUp {
+    @apply animate-in slide-in-from-bottom-8 fade-in duration-500;
+  }
+
+  .animate-enterDown {
+    @apply animate-in slide-in-from-top-8 fade-in duration-500;
+  }
+}
+
 @tailwind utilities;
 @tailwind components;
