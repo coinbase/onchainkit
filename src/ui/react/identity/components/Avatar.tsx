@@ -1,14 +1,14 @@
-import { Children, useMemo } from 'react';
 import { useAvatar } from '@/core-react/identity/hooks/useAvatar';
 import { useName } from '@/core-react/identity/hooks/useName';
 import { useIdentityContext } from '@/core-react/identity/providers/IdentityProvider';
 import type { AvatarReact } from '@/core-react/identity/types';
 import { findComponent } from '@/core-react/internal/utils/findComponent';
-import { Badge } from './Badge';
-import { DisplayBadge } from './DisplayBadge';
+import { Children, useMemo } from 'react';
 import { defaultAvatarSVG } from '../../../../internal/svg/defaultAvatarSVG';
 import { defaultLoadingSVG } from '../../../../internal/svg/defaultLoadingSVG';
 import { cn } from '../../../../styles/theme';
+import { Badge } from './Badge';
+import { DisplayBadge } from './DisplayBadge';
 
 /**
  * Represents an Avatar component that displays either a loading indicator,
