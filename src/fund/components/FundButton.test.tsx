@@ -22,7 +22,7 @@ vi.mock('../../core-react/internal/hooks/useTheme', () => ({
   useTheme: vi.fn(),
 }));
 
-describe('WalletDropdownFundLink', () => {
+describe('FundButton', () => {
   afterEach(() => {
     vi.clearAllMocks();
   });
@@ -93,5 +93,20 @@ describe('WalletDropdownFundLink', () => {
     const linkElement = screen.getByRole('link');
     expect(screen.getByText('Fund')).toBeInTheDocument();
     expect(linkElement).toHaveAttribute('href', fundingUrl);
+  });
+
+  it('displays a spinner when in loading state', () => {
+    render(<FundButton state="loading" />);
+    expect(screen.getByTestId('ockSpinner')).toBeInTheDocument();
+  });
+
+  it('displays success text when in success state', () => {
+    render(<FundButton state="success" />);
+    expect(screen.getByTestId('fundButtonTextContent')).toHaveTextContent('Success');
+  });
+
+  it('displays error text when in error state', () => {
+    render(<FundButton state="error" />);
+    expect(screen.getByTestId('fundButtonTextContent')).toHaveTextContent('Something went wrong');
   });
 });

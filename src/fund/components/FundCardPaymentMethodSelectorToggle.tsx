@@ -2,18 +2,11 @@ import { type ForwardedRef, forwardRef } from 'react';
 import { caretDownSvg } from '../../internal/svg/caretDownSvg';
 import { caretUpSvg } from '../../internal/svg/caretUpSvg';
 import { border, cn, color, pressable, text } from '../../styles/theme';
-import { PaymentMethodImage } from './PaymentMethodImage';
-import type { PaymentMethod } from './PaymentMethodSelectorDropdown';
+import { FundCardPaymentMethodImage } from './FundCardPaymentMethodImage';
+import type { FundCardPaymentMethodSelectorTogglePropsReact } from '../types';
 
-type Props = {
-  className?: string;
-  isOpen: boolean; // Determines carot icon direction
-  onClick: () => void; // Button on click handler
-  paymentMethod: PaymentMethod
-}
-
-export const PaymentMethodSelectorToggle = forwardRef((
-  { onClick, paymentMethod, isOpen, className }: Props,
+export const FundCardPaymentMethodSelectorToggle = forwardRef((
+  { onClick, paymentMethod, isOpen, className }: FundCardPaymentMethodSelectorTogglePropsReact,
   ref: ForwardedRef<HTMLButtonElement>,
 ) => {
   return (
@@ -33,7 +26,7 @@ export const PaymentMethodSelectorToggle = forwardRef((
       {paymentMethod ? (
         <>
           <div className="w-4">
-            <PaymentMethodImage paymentMethod={paymentMethod} size={16} />
+            <FundCardPaymentMethodImage paymentMethod={paymentMethod} size={16} />
           </div>
           <span
             className={cn(text.headline, color.foreground, 'flex w-full')}

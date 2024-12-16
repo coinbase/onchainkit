@@ -86,5 +86,5 @@ export async function fetchOnrampQuote({
 
   const responseJson = await response.json();
 
-  return convertSnakeToCamelCase<OnrampQuoteResponseData>(responseJson.data);
+  return convertSnakeToCamelCase<OnrampQuoteResponseData>(responseJson);
 }

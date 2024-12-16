@@ -1,18 +1,12 @@
 import { useMemo } from 'react';
 import { cn, icon as iconTheme} from '../../styles/theme';
-//import type { TokenImageReact } from '../types';
-// import { getTokenImageColor } from '../utils/getTokenImageColor';
-import type { PaymentMethod } from './PaymentMethodSelectorDropdown';
-import { useIcon } from '../../internal/hooks/useIcon';
+import { useIcon } from '../../core-react/internal/hooks/useIcon';
+import type { FundCardPaymentMethodImagePropsReact } from '../types';
 
-type Props = {
-  className?: string;
-  size?: number;
-  paymentMethod: PaymentMethod
-};
+export function FundCardPaymentMethodImage({ className, size = 24, paymentMethod }: FundCardPaymentMethodImagePropsReact) {
+  const { icon } = paymentMethod;
 
-export function PaymentMethodImage({ className, size = 24, paymentMethod }: Props) {
-  const { icon, name } = paymentMethod;
+  // Special case for coinbasePay icon color
   const iconColor = icon === 'coinbasePay' ? iconTheme.primary : undefined;
 
   const iconSvg = useIcon({ icon, className: iconColor });
@@ -26,7 +20,6 @@ export function PaymentMethodImage({ className, size = 24, paymentMethod }: Prop
         minHeight: `${size}px`,
       },
       placeholderImage: {
-        //background: getTokenImageColor(name),
         width: `${size}px`,
         height: `${size}px`,
         minWidth: `${size}px`,
@@ -51,12 +44,5 @@ export function PaymentMethodImage({ className, size = 24, paymentMethod }: Prop
     <div  className={cn('flex items-center justify-center overflow-hidden rounded-[50%]', className)} style={styles.image}>
       {iconSvg}
     </div>
-    // <img
-    //   className={cn('overflow-hidden rounded-[50%]', className)}
-    //   alt="token-image"
-    //   data-testid="ockTokenImage_Image"
-    //   style={styles.image}
-    //   src={iconSvg}
-    // />
   );
 }

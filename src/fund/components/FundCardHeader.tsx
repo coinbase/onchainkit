@@ -1,12 +1,8 @@
+import { useTheme } from '../../core-react/internal/hooks/useTheme';
 import { cn } from '../../styles/theme';
-import { useTheme } from '../../useTheme';
+import type { FundCardHeaderPropsReact } from '../types';
 
-type Props = {
-  headerText?: string;
-  assetSymbol: string;
-};
-
-export function FundCardHeader({ headerText, assetSymbol }: Props) {
+export function FundCardHeader({ headerText, assetSymbol }: FundCardHeaderPropsReact) {
   const componentTheme = useTheme();
   const defaultHeaderText = `Buy ${assetSymbol.toUpperCase()}`;
 
@@ -17,6 +13,7 @@ export function FundCardHeader({ headerText, assetSymbol }: Props) {
         'font-display text-[16px]',
         'leading-none outline-none'
       )}
+      data-testid="fundCardHeader"
     >
       {headerText || defaultHeaderText}
     </div>

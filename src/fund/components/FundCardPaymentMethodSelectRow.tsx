@@ -1,25 +1,16 @@
 import { memo } from 'react';
 import { cn, color, pressable, text } from '../../styles/theme';
-import { useTheme } from '../../useTheme';
+import { FundCardPaymentMethodImage } from './FundCardPaymentMethodImage';
+import { useTheme } from '../../core-react/internal/hooks/useTheme';
+import type { FundCardPaymentMethodSelectRowPropsReact } from '../types';
 
-import type { PaymentMethod } from './PaymentMethodSelectorDropdown';
-import { PaymentMethodImage } from './PaymentMethodImage';
-
-type Props = {
-  className?: string;
-  paymentMethod: PaymentMethod;
-  onClick?: (paymentMethod: PaymentMethod) => void;
-  hideImage?: boolean;
-  hideDescription?: boolean;
-}
-
-export const PaymentMethodSelectRow = memo(({
+export const FundCardPaymentMethodSelectRow = memo(({
   className,
   paymentMethod,
   onClick,
   hideImage,
   hideDescription,
-}: Props) => {
+}: FundCardPaymentMethodSelectRowPropsReact) => {
   const componentTheme = useTheme();
 
   return (
@@ -35,7 +26,7 @@ export const PaymentMethodSelectRow = memo(({
       onClick={() => onClick?.(paymentMethod)}
     >
       <span className="flex items-center gap-3">
-        {!hideImage && <PaymentMethodImage paymentMethod={paymentMethod} size={28} />}
+        {!hideImage && <FundCardPaymentMethodImage paymentMethod={paymentMethod} size={28} />}
         <span className="flex flex-col items-start">
           <span className={cn(text.headline)}>{paymentMethod.name}</span>
           {!hideDescription && (

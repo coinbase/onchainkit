@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+
 /**
  * Props used to get an Onramp buy URL by directly providing a CDP project ID.
  * See https://docs.cdp.coinbase.com/onramp/docs/api-initializing#generating-the-coinbase-onramp-buysell-url
@@ -106,6 +108,9 @@ export type FundButtonReact = {
   className?: string; // An optional CSS class name for styling the button component
   disabled?: boolean; // A optional prop to disable the fund button
   text?: string; // An optional text to be displayed in the button component
+  successText?: string; // An optional text to be displayed in the button component when the transaction is successful
+  errorText?: string; // An optional text to be displayed in the button component when the transaction fails
+  state?: 'default' | 'success' | 'error' | 'loading'; // The state of the button component
   hideText?: boolean; // An optional prop to hide the text in the button component
   hideIcon?: boolean; // An optional prop to hide the icon in the button component
   fundingUrl?: string; // An optional prop to provide a custom funding URL
@@ -117,6 +122,8 @@ export type FundButtonReact = {
   popupSize?: 'sm' | 'md' | 'lg'; // Size of the popup window if `openIn` is set to `popup`
   rel?: string; // Specifies the relationship between the current document and the linked document
   target?: string; // Where to open the target if `openIn` is set to tab
+  onPopupClose?: () => void; // A callback function that will be called when the popup window is closed
+  onClick?: () => void; // A callback function that will be called when the button is clicked
 };
 
 /**
@@ -196,7 +203,7 @@ export type OnrampTransactionStatusName =
   | 'ONRAMP_TRANSACTION_STATUS_FAILED';
 
 export type OnrampAmount = {
-  amount: string;
+  value: string;
   currency: string;
 };
 
@@ -246,4 +253,112 @@ export type OnrampPurchaseCurrency = {
 export type OnrampPaymentCurrency = {
   id: string;
   paymentMethodLimits: OnrampPaymentMethodLimit[];
+};
+
+export type FundCardAmountInputPropsReact = {
+  fiatValue: string;
+  setFiatValue: (s: string) => void;
+  cryptoValue: string;
+  setCryptoValue: (s: string) => void;
+  currencySign?: string;
+  assetSymbol?: string;
+  inputType?: 'fiat' | 'crypto';
+  exchangeRate?: number;
+};
+
+export type FundCardAmountInputTypeSwitchPropsReact = {
+  selectedInputType?: 'fiat' | 'crypto';
+  setSelectedInputType: (inputType: 'fiat' | 'crypto') => void;
+  selectedAsset?: string;
+  fundAmountFiat: string;
+  fundAmountCrypto: string;
+  exchangeRate?: number;
+  isLoading?: boolean;
+};
+
+export type FundCardHeaderPropsReact = {
+  headerText?: string;
+  assetSymbol: string;
+};
+
+export type FundCardPaymentMethodImagePropsReact = {
+  className?: string;
+  size?: number;
+  paymentMethod: PaymentMethodReact
+};
+
+export type PaymentMethodReact = {
+  id:
+    | 'CRYPTO_ACCOUNT'
+    | 'FIAT_WALLET'
+    | 'CARD'
+    | 'ACH_BANK_ACCOUNT'
+    | 'APPLE_PAY';
+  name: string;
+  description: string;
+  icon: string;
+};
+
+export type FundCardPaymentMethodSelectorDropdownPropsReact = {
+  paymentMethods: PaymentMethodReact[];
+};
+
+
+export type FundCardCurrencyLabelPropsReact = {
+  currencySign: string;
+};
+
+export type FundCardPropsReact = {
+  assetSymbol: string;
+  placeholder?: string | React.ReactNode;
+  headerText?: string;
+  buttonText?: string;
+  /**
+   * Custom component for the amount input
+   */
+  amountInputComponent?: React.ComponentType<FundCardAmountInputPropsReact>;
+  /**
+   * Custom component for the header
+   */
+  headerComponent?: React.ComponentType<FundCardHeaderPropsReact>;
+
+  /**
+   * Custom component for the amount input type switch
+   */
+  amountInputTypeSwithComponent?: React.ComponentType<FundCardAmountInputTypeSwitchPropsReact>;
+
+  /**
+   * Custom component for the payment method selector dropdown
+   */
+  paymentMethodSelectorDropdownComponent?: React.ComponentType<FundCardPaymentMethodSelectorDropdownPropsReact>;
+
+  /**
+   * Custom component for the submit button
+   */
+  submitButtonComponent?: React.ComponentType<FundButtonReact>;
+
+  /**
+   * Payment methods to display in the dropdown
+   */
+  paymentMethods?: PaymentMethodReact[];
+};
+
+export type FundCardPaymentMethodSelectorTogglePropsReact = {
+  className?: string;
+  isOpen: boolean; // Determines carot icon direction
+  onClick: () => void; // Button on click handler
+  paymentMethod: PaymentMethodReact
+}
+
+export type FundCardPaymentMethodSelectRowPropsReact = {
+  className?: string;
+  paymentMethod: PaymentMethodReact;
+  onClick?: (paymentMethod: PaymentMethodReact) => void;
+  hideImage?: boolean;
+  hideDescription?: boolean;
+}
+
+export type FundCardProviderReact = {
+  children: ReactNode;
+  asset: string;
 };
