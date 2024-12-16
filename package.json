@@ -144,22 +144,22 @@
       "default": "./esm/ui/react/identity/index.js"
     },
     "./nft": {
-      "types": "./esm/nft/index.d.ts",
-      "module": "./esm/nft/index.js",
-      "import": "./esm/nft/index.js",
-      "default": "./esm/nft/index.js"
+      "types": "./esm/ui/react/nft/index.d.ts",
+      "module": "./esm/ui/react/nft/index.js",
+      "import": "./esm/ui/react/nft/index.js",
+      "default": "./esm/ui/react/nft/index.js"
     },
     "./nft/view": {
-      "types": "./esm/nft/components/view/index.d.ts",
-      "module": "./esm/nft/components/view/index.js",
-      "import": "./esm/nft/components/view/index.js",
-      "default": "./esm/nft/components/view/index.js"
+      "types": "./esm/ui/react/nft/view/index.d.ts",
+      "module": "./esm/ui/react/nft/view/index.js",
+      "import": "./esm/ui/react/nft/view/index.js",
+      "default": "./esm/ui/react/nft/view/index.js"
     },
     "./nft/mint": {
-      "types": "./esm/nft/components/mint/index.d.ts",
-      "module": "./esm/nft/components/mint/index.js",
-      "import": "./esm/nft/components/mint/index.js",
-      "default": "./esm/nft/components/mint/index.js"
+      "types": "./esm/ui/react/nft/mint/index.d.ts",
+      "module": "./esm/ui/react/nft/mint/index.js",
+      "import": "./esm/ui/react/nft/mint/index.js",
+      "default": "./esm/ui/react/nft/mint/index.js"
     },
     "./swap": {
       "types": "./esm/swap/index.d.ts",

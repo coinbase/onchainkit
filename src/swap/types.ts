@@ -370,7 +370,7 @@ export type SwapUnit = {
   setAmount: Dispatch<SetStateAction<string>>;
   setAmountUSD: Dispatch<SetStateAction<string>>;
   setLoading: Dispatch<SetStateAction<boolean>>;
-  setToken: Dispatch<SetStateAction<Token | undefined>>;
+  setToken?: Dispatch<SetStateAction<Token | undefined>>;
   token: Token | undefined;
 };
 
