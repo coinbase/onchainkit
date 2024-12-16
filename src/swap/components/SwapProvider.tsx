@@ -95,9 +95,9 @@ export function SwapProvider({
     }
     // Success
     if (lifecycleStatus.statusName === 'success') {
-      onSuccess?.(lifecycleStatus.statusData.transactionReceipt);
+      onSuccess?.(lifecycleStatus.statusData?.transactionReceipt);
       setTransactionHash(
-        lifecycleStatus.statusData.transactionReceipt?.transactionHash,
+        lifecycleStatus.statusData?.transactionReceipt?.transactionHash ?? '',
       );
       setHasHandledSuccess(true);
       setIsToastVisible(true);

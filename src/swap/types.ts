@@ -261,7 +261,7 @@ export type SwapButtonReact = {
   disabled?: boolean; // Disables swap button
 };
 
-type SwapConfig = {
+export type SwapConfig = {
   maxSlippage: number; // Maximum acceptable slippage for a swap. (default: 10) This is as a percent, not basis points;
 };
 
@@ -341,7 +341,7 @@ export type SwapProviderReact = {
   isSponsored?: boolean; // An optional setting to sponsor swaps with a Paymaster. (default: false)
   onError?: (error: SwapError) => void; // An optional callback function that handles errors within the provider.
   onStatus?: (lifecycleStatus: LifecycleStatus) => void; // An optional callback function that exposes the component lifecycle state
-  onSuccess?: (transactionReceipt: TransactionReceipt) => void; // An optional callback function that exposes the transaction receipt
+  onSuccess?: (transactionReceipt?: TransactionReceipt) => void; // An optional callback function that exposes the transaction receipt
 };
 
 /**
@@ -357,7 +357,7 @@ export type SwapReact = {
   isSponsored?: boolean; // An optional setting to sponsor swaps with a Paymaster. (default: false)
   onError?: (error: SwapError) => void; // An optional callback function that handles errors within the provider.
   onStatus?: (lifecycleStatus: LifecycleStatus) => void; // An optional callback function that exposes the component lifecycle state
-  onSuccess?: (transactionReceipt: TransactionReceipt) => void; // An optional callback function that exposes the transaction receipt
+  onSuccess?: (transactionReceipt?: TransactionReceipt) => void; // An optional callback function that exposes the transaction receipt
   title?: string; // Title for the Swap component. (default: "Swap")
 };
 
