@@ -1,9 +1,9 @@
+import { openPopup } from '@/ui-react/internal/utils/openPopup';
 import { useCallback, useMemo } from 'react';
 import { useAccount } from 'wagmi';
 import { getRoundedAmount } from '../../core/utils/getRoundedAmount';
 import { ONRAMP_BUY_URL } from '../../fund/constants';
 import { getFundingPopupSize } from '../../fund/utils/getFundingPopupSize';
-import { openPopup } from '@/ui-react/internal/utils/openPopup';
 import { background, cn, color, text } from '../../styles/theme';
 import { ONRAMP_PAYMENT_METHODS } from '../constants';
 import { BuyOnrampItem } from './BuyOnrampItem';
