@@ -4,6 +4,7 @@ export const appleSvg = (
     viewBox="0 -29.75 165.5 165.5"
     preserveAspectRatio="xMidYMid meet"
     id="Artwork"
+    data-testid="appleSvg"
   >
     <title>AppleSvg</title>
     <path

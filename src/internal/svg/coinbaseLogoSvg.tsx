@@ -8,6 +8,7 @@ export const coinbaseLogoSvg = (
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
     className={cn(icon.foreground)}
+    data-testid="coinbaseLogoSvg"
   >
     <title>CoinbaseLogoSvg</title>
     <path

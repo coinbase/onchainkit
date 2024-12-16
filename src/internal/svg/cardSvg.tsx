@@ -9,6 +9,7 @@ export const cardSvg = (
     strokeWidth="2"
     strokeLinecap="round"
     strokeLinejoin="round"
+    data-testid="cardSvg"
   >
     <title>CardSvg</title>
     <rect x="2" y="4" width="20" height="16" rx="2" />
