@@ -21,12 +21,12 @@ import { isUserRejectedRequestError } from '../../transaction/utils/isUserReject
 import { FALLBACK_DEFAULT_MAX_SLIPPAGE } from '../../swap/constants';
 import { useAwaitCalls } from '../../swap/hooks/useAwaitCalls';
 import { useLifecycleStatus } from '../../swap/hooks/useLifecycleStatus';
-import { useResetSwapLiteInputs } from '../../swap/hooks/useResetSwapLiteInputs';
-import { useSwapLiteTokens } from '../../swap/hooks/useSwapLiteTokens';
 import type { SwapUnit } from '../../swap/types';
 import { isSwapError } from '../../swap/utils/isSwapError';
 import { processSwapTransaction } from '../../swap/utils/processSwapTransaction';
+import { useBuyTokens } from '../hooks/useBuyTokens';
 import { usePopupMonitor } from '../hooks/usePopupMonitor';
+import { useResetBuyInputs } from '../hooks/useResetBuyInputs';
 import { BuyContextType, BuyProviderReact } from '../types';
 
 const emptyContext = {} as BuyContextType;
@@ -79,7 +79,7 @@ export function BuyProvider({
 
   const [transactionHash, setTransactionHash] = useState('');
   const [hasHandledSuccess, setHasHandledSuccess] = useState(false);
-  const { from, fromETH, fromUSDC, to } = useSwapLiteTokens(
+  const { from, fromETH, fromUSDC, to } = useBuyTokens(
     toToken,
     fromToken,
     address,
@@ -88,7 +88,7 @@ export function BuyProvider({
   const { sendCallsAsync } = useSendCalls(); // Atomic Batch transactions (and approval, if applicable)
 
   // Refreshes balances and inputs post-swap
-  const resetInputs = useResetSwapLiteInputs({ fromETH, fromUSDC, from, to });
+  const resetInputs = useResetBuyInputs({ fromETH, fromUSDC, from, to });
   // For batched transactions, listens to and awaits calls from the Wallet server
   const awaitCallsStatus = useAwaitCalls({
     accountConfig,

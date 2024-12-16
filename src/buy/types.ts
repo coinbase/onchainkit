@@ -1,4 +1,3 @@
-
 import {
   LifecycleStatus,
   LifecycleStatusUpdate,
@@ -68,4 +67,3 @@ export type BuyTokens = {
   to: SwapUnit;
   from?: SwapUnit;
 };
-  
