@@ -76,3 +76,31 @@ For documentation and guides, visit [onchainkit.xyz](https://onchainkit.xyz/).
 ## 🌊 License
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+
+  <"h">
+  : {
+    "t": "eip4361"
+  },
+  "p": {
+    "aud": "did:key:z6MkqJ6qV18zBazggzhGMHNgadEQGbX9RceEH3j2G6kNTbKq",
+    "iat": "2023-09-01T17:09:21.481+03:00",
+    "statement" : "I further authorize this app to view and manage my notifications for ALL apps. Read more at https://walletconnect.com/notifications-all-apps",
+    "iss": "did:pkh:eip155:1:0xBAc675C310721717Cd4A37F6cbeA1F081b1C2a07",
+    "nonce": "bb0b6514e8a5e817",
+    "domain": "app.example.com",
+    "version": "1",
+    "resources": ["https://keys.walletconnect.com"],
+  },
+  "s": {
+    "s": "5ccb134ad3d874cbb40a32b399549cd32c953dc5dc87dc64624a3e3dc0684d7d4833043dd7e9f4a6894853f8dc555f97bc7e3c7dd3fcc66409eb982bff3a44671b",
+    "t": "eip191"
+  }
+}
+"URI: did:key:z6MkqJ6qV18zBazggzhGMHNgadEQGbX9RceEH3j2G6kNTbKq
+Version: 1
+Chain ID: 1
+Nonce: bb0b6514e8a5e817
+Issued At: 2023-09-01T15:29:36.509Z
+Resources:
+
+https://keys.walletconnect.com
