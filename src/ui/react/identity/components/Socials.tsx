@@ -2,8 +2,8 @@ import type { Address, Chain } from 'viem';
 import { useName } from '../../../../core-react/identity/hooks/useName';
 import { useSocials } from '../../../../core-react/identity/hooks/useSocials';
 import { useIdentityContext } from '../../../../core-react/identity/providers/IdentityProvider';
-import { GetSocialPlatformDetails } from '../../../../core/identity/utils/getSocialPlatformDetails';
-import type { SocialPlatform } from '../../../../core/identity/utils/getSocialPlatformDetails';
+import { GetSocialPlatformDetails } from './getSocialPlatformDetails';
+import type { SocialPlatform } from './getSocialPlatformDetails';
 import { border, cn } from '../../../../styles/theme';
 
 type SocialsReact = {
