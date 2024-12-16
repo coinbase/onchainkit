@@ -1,3 +1,5 @@
+import { getWindowDimensions } from '@/ui-react/internal/utils/getWindowDimensions';
+import { openPopup } from '@/ui-react/internal/utils/openPopup';
 import {
   createContext,
   useCallback,
@@ -15,8 +17,6 @@ import { useWriteContracts } from 'wagmi/experimental';
 import { useCallsStatus } from 'wagmi/experimental';
 import { useValue } from '../../core-react/internal/hooks/useValue';
 import { useOnchainKit } from '../../core-react/useOnchainKit';
-import { getWindowDimensions } from '../../internal/utils/getWindowDimensions';
-import { openPopup } from '../../internal/utils/openPopup';
 import { isUserRejectedRequestError } from '../../transaction/utils/isUserRejectedRequestError';
 import { useIsWalletACoinbaseSmartWallet } from '../../wallet/hooks/useIsWalletACoinbaseSmartWallet';
 import {

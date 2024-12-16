@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom';
+import { openPopup } from '@/ui-react/internal/utils/openPopup';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { type Mock, afterEach, describe, expect, it, vi } from 'vitest';
-import { openPopup } from '../../internal/utils/openPopup';
 import { useGetFundingUrl } from '../hooks/useGetFundingUrl';
 import { getFundingPopupSize } from '../utils/getFundingPopupSize';
 import { FundButton } from './FundButton';
@@ -14,7 +14,7 @@ vi.mock('../utils/getFundingPopupSize', () => ({
   getFundingPopupSize: vi.fn(),
 }));
 
-vi.mock('../../internal/utils/openPopup', () => ({
+vi.mock('@/ui-react/internal/utils/openPopup', () => ({
   openPopup: vi.fn(),
 }));
 
