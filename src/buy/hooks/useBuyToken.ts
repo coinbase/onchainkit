@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import type { Address } from 'viem';
 import { useValue } from '../../core-react/internal/hooks/useValue';
-import type { Token } from '../../token';
 import { useSwapBalances } from '../../swap/hooks/useSwapBalances';
+import type { Token } from '../../token';
 
 export const useBuyToken = (
   toToken: Token,

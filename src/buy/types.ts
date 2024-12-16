@@ -1,4 +1,4 @@
-import { SwapUnit } from '@/swap/types';
+import type { SwapUnit } from '@/swap/types';
 
 export type BuyTokens = {
   fromETH: SwapUnit;
