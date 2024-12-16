@@ -1,5 +1,4 @@
 import type { Address } from 'viem';
-import type { ContractType, NFTPrice } from '../../nft/types';
 import type {
   Fee,
   QuoteWarning,
@@ -18,6 +17,17 @@ export type APIError = {
   error: string; // The Error long message
   message: string; // The Error short message
 };
+
+/**
+ * Note: exported as public Type
+ */
+export type TransactionError = APIError;
+
+/**
+/**
+ * Note: exported as public Type
+ */
+export type NFTError = APIError | TransactionError;
 
 /**
  * Note: exported as public Type
@@ -149,6 +159,14 @@ export type RawTransactionData = {
 };
 
 export type SwapAPIParams = GetQuoteAPIParams | GetSwapAPIParams;
+
+export type ContractType = 'ERC721' | 'ERC1155';
+
+export type NFTPrice = {
+  amount?: string; // Amount in Currency
+  currency?: string; // Currency
+  amountUSD?: string; // Amount in USD
+};
 
 /**
  * Note: exported as public Type
