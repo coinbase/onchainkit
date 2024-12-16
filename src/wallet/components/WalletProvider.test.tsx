@@ -1,5 +1,6 @@
 import '@testing-library/jest-dom';
 import { render, renderHook } from '@testing-library/react';
+import { describe, expect, it } from 'vitest';
 import { WalletProvider, useWalletContext } from './WalletProvider';
 
 describe('useWalletContext', () => {

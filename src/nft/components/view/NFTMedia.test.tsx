@@ -14,7 +14,15 @@ vi.mock('../NFTLifecycleProvider', () => ({
 }));
 
 vi.mock('./NFTImage', () => ({
-  NFTImage: ({ onLoading, onLoaded, onError }) => {
+  NFTImage: ({
+    onLoading,
+    onLoaded,
+    onError,
+  }: {
+    onLoading: (mediaUrl: string) => void;
+    onLoaded: () => void;
+    onError: () => void;
+  }) => {
     return (
       <>
         <div>Image</div>

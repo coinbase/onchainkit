@@ -26,10 +26,12 @@ describe('subscribeToWindowMessage', () => {
       allowedOrigin: DEFAULT_ORIGIN,
     });
 
-    const event = mockMessageEvent({
-      eventName: MessageCodes.Event,
-      data: { key: 'value' },
-    });
+    const event = mockMessageEvent(
+      JSON.stringify({
+        eventName: MessageCodes.Event,
+        data: { key: 'value' },
+      }),
+    );
     window.dispatchEvent(event);
 
     //wait for the async code to run
@@ -45,10 +47,12 @@ describe('subscribeToWindowMessage', () => {
       allowedOrigin: 'https://not.allowed.origin',
     });
 
-    const event = mockMessageEvent({
-      eventName: MessageCodes.Event,
-      data: { key: 'value' },
-    });
+    const event = mockMessageEvent(
+      JSON.stringify({
+        eventName: MessageCodes.Event,
+        data: { key: 'value' },
+      }),
+    );
     window.dispatchEvent(event);
 
     //wait for the async code to run
@@ -66,10 +70,12 @@ describe('subscribeToWindowMessage', () => {
       onValidateOrigin,
     });
 
-    const event = mockMessageEvent({
-      eventName: MessageCodes.Event,
-      data: { key: 'value' },
-    });
+    const event = mockMessageEvent(
+      JSON.stringify({
+        eventName: MessageCodes.Event,
+        data: { key: 'value' },
+      }),
+    );
     window.dispatchEvent(event);
 
     //wait for the async code to run
@@ -88,10 +94,12 @@ describe('subscribeToWindowMessage', () => {
       onValidateOrigin,
     });
 
-    const event = mockMessageEvent({
-      eventName: MessageCodes.Event,
-      data: { key: 'value' },
-    });
+    const event = mockMessageEvent(
+      JSON.stringify({
+        eventName: MessageCodes.Event,
+        data: { key: 'value' },
+      }),
+    );
     window.dispatchEvent(event);
 
     //wait for the async code to run
@@ -108,10 +116,12 @@ describe('subscribeToWindowMessage', () => {
       allowedOrigin: DEFAULT_ORIGIN,
     });
 
-    const event = mockMessageEvent({
-      eventName: 'not-event',
-      data: { key: 'value' },
-    });
+    const event = mockMessageEvent(
+      JSON.stringify({
+        eventName: 'not-event',
+        data: { key: 'value' },
+      }),
+    );
     window.dispatchEvent(event);
 
     //wait for the async code to run

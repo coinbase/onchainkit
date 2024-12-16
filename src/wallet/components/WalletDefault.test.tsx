@@ -4,7 +4,7 @@ import { useAccount, useConnect } from 'wagmi';
 import { useAvatar } from '../../core-react/identity/hooks/useAvatar';
 import { useName } from '../../core-react/identity/hooks/useName';
 import { WalletDefault } from './WalletDefault';
-import { useWalletContext } from './WalletProvider';
+import { type WalletProviderReact, useWalletContext } from './WalletProvider';
 
 vi.mock('../../core-react/internal/hooks/useTheme', () => ({
   useTheme: vi.fn(),
@@ -21,7 +21,7 @@ vi.mock('wagmi', () => ({
 }));
 
 vi.mock('./WalletProvider', () => ({
-  WalletProvider: ({ children }) => (
+  WalletProvider: ({ children }: WalletProviderReact) => (
     <div data-testid="mock-WalletProvider">{children}</div>
   ),
   useWalletContext: vi.fn(),

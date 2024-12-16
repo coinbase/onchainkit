@@ -12,9 +12,11 @@ vi.mock('../NFTProvider', () => ({
   useNFTContext: vi.fn(),
 }));
 
-vi.mock('../../../ui/react/identity', async () => ({
-  ...(await vi.importActual('../../../ui/react/identity')),
-  Identity: ({ className }) => <div className={className}>Identity</div>,
+vi.mock('../../../identity', async () => ({
+  ...(await vi.importActual('../../../identity')),
+  Identity: ({ className }: { className: string }) => (
+    <div className={className}>Identity</div>
+  ),
 }));
 
 describe('NFTCreator', () => {

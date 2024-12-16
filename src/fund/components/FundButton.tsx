@@ -2,7 +2,8 @@ import { useCallback } from 'react';
 import { useTheme } from '../../core-react/internal/hooks/useTheme';
 import { addSvg } from '../../internal/svg/addSvg';
 import { border, cn, color, pressable, text } from '../../styles/theme';
-import { openPopup } from '../../ui/react/internal/utils/openPopup';
+
+import { openPopup } from '@/ui-react/internal/utils/openPopup';
 import { useGetFundingUrl } from '../hooks/useGetFundingUrl';
 import type { FundButtonReact } from '../types';
 import { getFundingPopupSize } from '../utils/getFundingPopupSize';

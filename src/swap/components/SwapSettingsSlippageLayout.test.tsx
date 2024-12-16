@@ -25,7 +25,7 @@ vi.mock('./SwapSettingsSlippageInput', () => ({
 }));
 
 vi.mock('../styles/theme', () => ({
-  cn: (...args) => args.join(' '),
+  cn: (...args: string[]) => args.join(' '),
   background: { default: 'bg-default' },
   border: { default: 'border-default' },
   pressable: { shadow: 'pressable-shadow' },

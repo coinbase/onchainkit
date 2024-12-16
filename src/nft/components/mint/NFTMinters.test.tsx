@@ -6,9 +6,12 @@ import { NFTMinters } from './NFTMinters';
 
 vi.mock('../NFTProvider');
 
-vi.mock('../../../ui/react/identity', async () => ({
-  ...(await vi.importActual('../../../ui/react/identity')),
-  Identity: ({ className, children }) => (
+vi.mock('../../../identity', async () => ({
+  ...(await vi.importActual('../../../identity')),
+  Identity: ({
+    className,
+    children,
+  }: { className: string; children: React.ReactNode }) => (
     <div className={className}>{children}</div>
   ),
   Avatar: () => <div>Avatar</div>,

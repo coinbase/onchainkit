@@ -3,7 +3,7 @@ import { describe, expect, it, vi } from 'vitest';
 import { SwapSettingsSlippageTitle } from './SwapSettingsSlippageTitle';
 
 vi.mock('../styles/theme', () => ({
-  cn: (...args) => args.join(' '),
+  cn: (...args: string[]) => args.join(' '),
   color: { foreground: 'text-foreground' },
 }));
 
@@ -36,11 +36,13 @@ describe('SwapSettingsSlippageTitle', () => {
     );
   });
 
-  it('renders without children', () => {
-    const { container } = render(<SwapSettingsSlippageTitle />);
+  it('renders without valid children', () => {
+    const { container } = render(
+      <SwapSettingsSlippageTitle>test</SwapSettingsSlippageTitle>,
+    );
     const heading = container.querySelector('h3');
     expect(heading).toBeInTheDocument();
-    expect(heading?.textContent).toBe('');
+    expect(heading?.textContent).toBe('test');
   });
 
   it('renders with complex children', () => {

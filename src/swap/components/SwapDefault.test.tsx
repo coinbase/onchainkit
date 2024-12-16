@@ -1,6 +1,12 @@
 import { render, screen } from '@testing-library/react';
-import { describe, expect, it, vi } from 'vitest';
-import { useAccount, useSwitchChain } from 'wagmi';
+import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
+import {
+  type Config,
+  type UseAccountReturnType,
+  useAccount,
+  useSwitchChain,
+} from 'wagmi';
+import type { Token } from '../../token';
 import type { SwapDefaultReact } from '../types';
 import { SwapDefault } from './SwapDefault';
 import { useSwapContext } from './SwapProvider';
@@ -30,7 +36,7 @@ vi.mock('wagmi', async (importOriginal) => {
 });
 
 vi.mock('./SwapProvider', () => ({
-  SwapProvider: ({ children }) => (
+  SwapProvider: ({ children }: { children: React.ReactNode }) => (
     <div data-testid="mock-SwapProvider">{children}</div>
   ),
   useSwapContext: vi.fn(),
@@ -41,7 +47,7 @@ vi.mock('../../useTheme', () => ({
 }));
 
 describe('SwapDefault Component', () => {
-  const mockConfig = {};
+  const mockConfig = { maxSlippage: 0.5 };
   const mockFrom = [{ symbol: 'ETH' }];
   const mockTo = [{ symbol: 'USDC' }];
   const mockOnError = vi.fn();
@@ -52,21 +58,21 @@ describe('SwapDefault Component', () => {
     config: mockConfig,
     className: 'custom-class',
     disabled: false,
-    experimental: true,
-    from: mockFrom,
+    experimental: { useAggregator: false },
+    from: mockFrom as Token[],
     isSponsored: true,
     onError: mockOnError,
     onStatus: mockOnStatus,
     onSuccess: mockOnSuccess,
     title: 'Custom Swap Title',
-    to: mockTo,
+    to: mockTo as Token[],
   };
 
   beforeEach(() => {
     vi.mocked(useAccount).mockReturnValue({
       address: '',
       status: 'disconnected',
-    });
+    } as unknown as UseAccountReturnType<Config>);
     (useSwitchChain as ReturnType<typeof vi.fn>).mockReturnValue({
       switchChainAsync: mockSwitchChain,
     });
