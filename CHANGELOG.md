@@ -420,7 +420,7 @@ export type LifeCycleStatus =
 - **feat**: updated view transaction link experience. By @abcrane123 #1016 ccfc47f
 - **fix**: modified `Avatar` component to handle images with varying height/width ratio. By @kirkas #1058
 - **chore**: removed console.log statement in `useWriteContracts`. By @abcrane123 #1048
-- **feat**: added mobile drawer for `Wallet` experinece, and `useBreakpoints` hook. By @abcrane123 #1045
+- **feat**: added mobile drawer for `Wallet` experience, and `useBreakpoints` hook. By @abcrane123 #1045
 - **feat**: introduced `onStatus` listener, to help expose the internal `Transaction`'s component lifecycle.By @zizzamia #1034 #1047 #1055
 - **feat**: added `WalletDropdownFundLink` component as dropdown link for the keys.coinbase.com funding flow.By @0xAlec #1021
 - **chore**: increased `Wallet` dropdown png size to 18x18. By @cpcramer #1041 #1064
@@ -566,14 +566,14 @@ Learn more about this component type at https://onchainkit.xyz/transactiontypes#
 
 ### Patch Changes
 
-- **fix**: updatd Base mainnet L2 resolver address. By @kirkas #903 04e1376
+- **fix**: updated Base mainnet L2 resolver address. By @kirkas #903 04e1376
 - **feat**: added `SmartWalletCapabilities` paymaster support in the `Transaction` component. By @ilikesymmetry @cpcramer #893
 
 ## 0.26.6
 
 ### Patch Changes
 
-- **fix**: have `WalletDropdownDisconnect` to correclty disconnect all connectors. By @kirkas #895 8e78166
+- **fix**: have `WalletDropdownDisconnect` to correctly disconnect all connectors. By @kirkas #895 8e78166
 
 ## 0.26.5
 
@@ -945,10 +945,10 @@ Features
 
 - **fix**: swap `Token` pair mode. By @kyhyco #566 5347ea9
 - **feat**: added input delay to `SwapAmountInput`. By @kyhyco #563
-- **feat**: addeded swappable tokens to `SwapAmountInput`. By @abcrane123 #561
+- **feat**: added swappable tokens to `SwapAmountInput`. By @abcrane123 #561
 - **fix**: updated Smart Wallet util. By @lukasrosario #564
 - **chore**: updated `isWalletASmartWallet` name to be `isWalletACoinbaseSmartWallet`. We want to explicitly state that this is checking for Coinbase Smart Wallets. By @cpcramer #562
-- **feat**: enableded linting in CI. By @zizzamia #559
+- **feat**: enabled linting in CI. By @zizzamia #559
 
 ## 0.20.7
 
