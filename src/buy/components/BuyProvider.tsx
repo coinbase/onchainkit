@@ -87,6 +87,13 @@ export function BuyProvider({
   const { sendTransactionAsync } = useSendTransaction(); // Sending the transaction (and approval, if applicable)
   const { sendCallsAsync } = useSendCalls(); // Atomic Batch transactions (and approval, if applicable)
 
+  // Validate `projectId` prop
+  if (!projectId) {
+    throw new Error(
+      'Buy: projectId must be provided as a prop to the Buy component.',
+    );
+  }
+
   // Refreshes balances and inputs post-swap
   const resetInputs = useResetBuyInputs({ fromETH, fromUSDC, from, to });
   // For batched transactions, listens to and awaits calls from the Wallet server
