@@ -105,7 +105,6 @@ export function BuyProvider({
 
   const handleOnrampEvent = useCallback(
     (data: EventMetadata) => {
-      console.log('EVENT HANDLER', { data });
       if (data.eventName === 'transition_view') {
         updateLifecycleStatus({
           statusName: 'transactionPending',
@@ -116,7 +115,6 @@ export function BuyProvider({
   );
 
   const handleOnrampSuccess = useCallback(() => {
-    console.log('SUCCESS HANDLER');
     updateLifecycleStatus({
       statusName: 'success',
       statusData: {},
