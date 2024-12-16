@@ -13,21 +13,21 @@ import { useCapabilitiesSafe } from '../../core-react/internal/hooks/useCapabili
 import { useValue } from '../../core-react/internal/hooks/useValue';
 import { useOnchainKit } from '../../core-react/useOnchainKit';
 import { buildSwapTransaction } from '../../core/api/buildSwapTransaction';
-import { getBuyQuote } from '../utils/getBuyQuote';
 import { setupOnrampEventListeners } from '../../fund';
-import type { EventMetadata, OnrampError } from '../../fund/types';
-import { GENERIC_ERROR_MESSAGE } from '../../transaction/constants';
-import { isUserRejectedRequestError } from '../../transaction/utils/isUserRejectedRequestError';
+import type { EventMetadata } from '../../fund/types';
 import { FALLBACK_DEFAULT_MAX_SLIPPAGE } from '../../swap/constants';
 import { useAwaitCalls } from '../../swap/hooks/useAwaitCalls';
 import { useLifecycleStatus } from '../../swap/hooks/useLifecycleStatus';
 import type { SwapUnit } from '../../swap/types';
 import { isSwapError } from '../../swap/utils/isSwapError';
 import { processSwapTransaction } from '../../swap/utils/processSwapTransaction';
+import { GENERIC_ERROR_MESSAGE } from '../../transaction/constants';
+import { isUserRejectedRequestError } from '../../transaction/utils/isUserRejectedRequestError';
 import { useBuyTokens } from '../hooks/useBuyTokens';
 import { usePopupMonitor } from '../hooks/usePopupMonitor';
 import { useResetBuyInputs } from '../hooks/useResetBuyInputs';
-import { BuyContextType, BuyProviderReact } from '../types';
+import type { BuyContextType, BuyProviderReact } from '../types';
+import { getBuyQuote } from '../utils/getBuyQuote';
 
 const emptyContext = {} as BuyContextType;
 
@@ -114,7 +114,7 @@ export function BuyProvider({
       statusName: 'success',
       statusData: {},
     });
-  }, []);
+  }, [updateLifecycleStatus]);
 
   const onPopupClose = useCallback(() => {
     updateLifecycleStatus({
@@ -124,7 +124,7 @@ export function BuyProvider({
         maxSlippage: config.maxSlippage,
       },
     });
-  }, [updateLifecycleStatus]);
+  }, [updateLifecycleStatus, config.maxSlippage]);
 
   useEffect(() => {
     const unsubscribe = setupOnrampEventListeners({

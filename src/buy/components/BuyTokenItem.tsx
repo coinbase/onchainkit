@@ -1,8 +1,8 @@
 import { useCallback, useMemo } from 'react';
 import { getRoundedAmount } from '../../core/utils/getRoundedAmount';
 import { cn, color } from '../../styles/theme';
-import { TokenImage } from '../../token';
 import type { SwapUnit } from '../../swap/types';
+import { TokenImage } from '../../token';
 import { useBuyContext } from './BuyProvider';
 
 export function BuyTokenItem({ swapUnit }: { swapUnit?: SwapUnit }) {

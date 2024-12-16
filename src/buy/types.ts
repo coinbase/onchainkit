@@ -1,12 +1,12 @@
-import {
+import type {
   LifecycleStatus,
   LifecycleStatusUpdate,
   SwapConfig,
   SwapError,
   SwapUnit,
 } from '@/swap/types';
-import { Token } from '@/token';
-import { Address, TransactionReceipt } from 'viem';
+import type { Token } from '@/token';
+import type { Address, TransactionReceipt } from 'viem';
 
 export type BuyReact = {
   className?: string; // Optional className override for top div element.

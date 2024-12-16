@@ -1,9 +1,7 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { BuyButton } from './BuyButton';
 import { useBuyContext } from './BuyProvider';
-import { Spinner } from '../../internal/components/Spinner';
-import { checkmarkSvg } from '../../internal/svg/checkmarkSvg';
 
 vi.mock('./BuyProvider', () => ({
   useBuyContext: vi.fn(),

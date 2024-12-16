@@ -40,7 +40,7 @@ export function BuyDropdown() {
         }
       };
     },
-    [address, to, projectId],
+    [address, to, projectId, startPopupMonitor],
   );
 
   const formattedAmountUSD = useMemo(() => {

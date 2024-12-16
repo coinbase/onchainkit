@@ -1,9 +1,9 @@
-import { render, screen, fireEvent } from '@testing-library/react';
-import { beforeEach, describe, expect, it, Mock, vi } from 'vitest';
-import { BuyTokenItem } from './BuyTokenItem';
-import { useBuyContext } from './BuyProvider';
+import { fireEvent, render, screen } from '@testing-library/react';
+import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { getRoundedAmount } from '../../core/utils/getRoundedAmount';
 import { ethToken } from '../../token/constants';
+import { useBuyContext } from './BuyProvider';
+import { BuyTokenItem } from './BuyTokenItem';
 
 vi.mock('./BuyProvider', () => ({
   useBuyContext: vi.fn(),

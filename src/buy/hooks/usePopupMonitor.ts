@@ -1,24 +1,27 @@
-import { useRef, useEffect, useCallback } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 
 export const usePopupMonitor = (onClose?: () => void) => {
   const intervalRef = useRef<number | null>(null);
 
   // Start monitoring the popup
-  const startPopupMonitor = useCallback((popupWindow: Window) => {
-    if (intervalRef.current) {
-      clearInterval(intervalRef.current);
-    }
-    intervalRef.current = window.setInterval(() => {
-      if (popupWindow.closed) {
-        if (intervalRef.current) {
-          clearInterval(intervalRef.current);
-          intervalRef.current = null;
-        }
-        console.log('Popup closed');
-        onClose?.();
+  const startPopupMonitor = useCallback(
+    (popupWindow: Window) => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
       }
-    }, 500);
-  }, []);
+      intervalRef.current = window.setInterval(() => {
+        if (popupWindow.closed) {
+          if (intervalRef.current) {
+            clearInterval(intervalRef.current);
+            intervalRef.current = null;
+          }
+          console.log('Popup closed');
+          onClose?.();
+        }
+      }, 500);
+    },
+    [onClose],
+  );
 
   // Stop monitoring the popup
   const stopPopupMonitor = useCallback(() => {

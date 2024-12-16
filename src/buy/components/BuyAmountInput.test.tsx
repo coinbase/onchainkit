@@ -2,8 +2,6 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { BuyAmountInput } from './BuyAmountInput';
 import { useBuyContext } from './BuyProvider';
-import { TextInput } from '../../internal/components/TextInput';
-import { Token, TokenChip } from '../../token';
 
 vi.mock('./BuyProvider', () => ({
   useBuyContext: vi.fn(),

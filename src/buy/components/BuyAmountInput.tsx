@@ -2,8 +2,8 @@ import { useCallback } from 'react';
 import { isValidAmount } from '../../core/utils/isValidAmount';
 import { TextInput } from '../../internal/components/TextInput';
 import { cn, pressable } from '../../styles/theme';
-import { TokenChip } from '../../token';
 import { formatAmount } from '../../swap/utils/formatAmount';
+import { TokenChip } from '../../token';
 import { useBuyContext } from './BuyProvider';
 
 export function BuyAmountInput() {
