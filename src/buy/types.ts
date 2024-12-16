@@ -18,9 +18,9 @@ export type BuyReact = {
   onError?: (error: SwapError) => void; // An optional callback function that handles errors within the provider.
   onStatus?: (lifecycleStatus: LifecycleStatus) => void; // An optional callback function that exposes the component lifecycle state
   onSuccess?: (transactionReceipt?: TransactionReceipt) => void; // An optional callback function that exposes the transaction receipt
-  fromToken?: Token;
-  toToken: Token;
-  projectId: string; // Your CDP project ID found at https://portal.cdp.coinbase.com/
+  fromToken?: Token; // An optional token to swap from
+  toToken: Token; // The token to swap to
+  projectId: string; // A CDP project ID (found at https://portal.cdp.coinbase.com/)
 };
 
 export type BuyContextType = {
