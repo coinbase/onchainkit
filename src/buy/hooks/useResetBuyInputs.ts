@@ -1,13 +1,13 @@
 import { useCallback } from 'react';
-import type { SwapLiteTokens } from '../types';
+import type { BuyTokens } from '../types';
 
 // Refreshes balances and inputs post-swap
-export const useResetSwapLiteInputs = ({
+export const useResetBuyInputs = ({
   fromETH,
   fromUSDC,
   from,
   to,
-}: SwapLiteTokens) => {
+}: BuyTokens) => {
   return useCallback(async () => {
     await Promise.all([
       from?.balanceResponse?.refetch(),

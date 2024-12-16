@@ -9,14 +9,14 @@ import type { SwapError, SwapUnit } from '../../swap/types';
 import { isSwapError } from '../../swap/utils/isSwapError';
 import type { Token } from '../../token';
 
-type GetSwapLiteQuoteResponse = {
+type GetBuyQuoteResponse = {
   response?: GetSwapQuoteResponse;
   error?: APIError;
   formattedFromAmount?: string;
 };
 
-type GetSwapLiteQuoteParams = Omit<GetSwapQuoteParams, 'from'> & {
-  fromSwapUnit: SwapUnit;
+type GetBuyQuoteParams = Omit<GetSwapQuoteParams, 'from'> & {
+  fromSwapUnit?: SwapUnit;
   from?: Token;
 };
 
@@ -24,7 +24,7 @@ type GetSwapLiteQuoteParams = Omit<GetSwapQuoteParams, 'from'> & {
  * Fetches a quote for a swap, but only if the from and to tokens are different.
  */
 
-export async function getSwapLiteQuote({
+export async function getBuyQuote({
   amount,
   amountReference,
   from,
@@ -32,7 +32,7 @@ export async function getSwapLiteQuote({
   to,
   useAggregator,
   fromSwapUnit,
-}: GetSwapLiteQuoteParams): Promise<GetSwapLiteQuoteResponse> {
+}: GetBuyQuoteParams): Promise<GetBuyQuoteResponse> {
   // only fetch quote if the from token is provided
   if (!from) {
     return { response: undefined, formattedFromAmount: '', error: undefined };
@@ -57,8 +57,8 @@ export async function getSwapLiteQuote({
       ? formatTokenAmount(response.fromAmount, response.from.decimals)
       : '';
 
-    fromSwapUnit.setAmountUSD(response?.fromAmountUSD || '');
-    fromSwapUnit.setAmount(formattedFromAmount || '');
+    fromSwapUnit?.setAmountUSD(response?.fromAmountUSD || '');
+    fromSwapUnit?.setAmount(formattedFromAmount || '');
   }
 
   let error: SwapError | undefined;

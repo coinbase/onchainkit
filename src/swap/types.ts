@@ -173,13 +173,6 @@ export type ProcessSwapTransactionParams = {
   walletCapabilities: WalletCapabilities; // EIP-5792 wallet capabilities
 };
 
-export type SwapLiteTokens = {
-  fromETH: SwapUnit;
-  fromUSDC: SwapUnit;
-  to: SwapUnit;
-  from?: SwapUnit;
-};
-
 /**
  * Note: exported as public Type
  */

@@ -2,12 +2,12 @@ import { act, renderHook } from '@testing-library/react';
 import { base } from 'viem/chains';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useValue } from '../../core-react/internal/hooks/useValue';
+import { useSwapBalances } from '../../swap/hooks/useSwapBalances';
 import type { Token } from '../../token';
 import { usdcToken } from '../../token/constants';
-import { useSwapBalances } from './useSwapBalances';
-import { useSwapLiteToken } from './useSwapLiteToken';
+import { useBuyToken } from './useBuyToken';
 
-vi.mock('./useSwapBalances', () => ({
+vi.mock('../../swap/hooks/useSwapBalances', () => ({
   useSwapBalances: vi.fn(),
 }));
 
@@ -25,7 +25,7 @@ const toToken: Token = {
   chainId: base.id,
 };
 
-describe('useSwapLiteToken', () => {
+describe('useBuyToken', () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
@@ -43,7 +43,7 @@ describe('useSwapLiteToken', () => {
       ...props,
     }));
     const { result } = renderHook(() =>
-      useSwapLiteToken(toToken, usdcToken, '0x123'),
+      useBuyToken(toToken, usdcToken, '0x123'),
     );
     expect(result.current).toEqual({
       amount: '',
@@ -71,7 +71,7 @@ describe('useSwapLiteToken', () => {
       response: props.response,
     }));
     const { result } = renderHook(() =>
-      useSwapLiteToken(toToken, usdcToken, '0x123'),
+      useBuyToken(toToken, usdcToken, '0x123'),
     );
     await act(async () => {
       await result.current.balanceResponse?.refetch();

@@ -2,6 +2,7 @@ import { act, renderHook } from '@testing-library/react';
 import { base } from 'viem/chains';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useValue } from '../../core-react/internal/hooks/useValue';
+import { useSwapBalances } from '../../swap/hooks/useSwapBalances';
 import type { Token } from '../../token';
 import {
   daiToken,
@@ -9,12 +10,11 @@ import {
   ethToken,
   usdcToken,
 } from '../../token/constants';
-import { useSwapBalances } from './useSwapBalances';
-import { useSwapLiteToken } from './useSwapLiteToken';
-import { useSwapLiteTokens } from './useSwapLiteTokens';
+import { useBuyToken } from './useBuyToken';
+import { useBuyTokens } from './useBuyTokens';
 
-vi.mock('./useSwapLiteToken');
-vi.mock('./useSwapBalances');
+vi.mock('./useBuyToken');
+vi.mock('../../swap/hooks/useSwapBalances');
 vi.mock('../../core-react/internal/hooks/useValue');
 
 const toToken: Token = {
@@ -73,10 +73,10 @@ const mockTo = {
 
 const address = '0x123';
 
-describe('useSwapLiteTokens', () => {
+describe('useBuyTokens', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    (useSwapLiteToken as Mock).mockImplementation((_toToken, fromToken) => {
+    (useBuyToken as Mock).mockImplementation((_toToken, fromToken) => {
       if (fromToken === ethToken) {
         return mockFromETH;
       }
@@ -97,12 +97,12 @@ describe('useSwapLiteTokens', () => {
 
   it('should return expected swap tokens', () => {
     const { result } = renderHook(() =>
-      useSwapLiteTokens(toToken, daiToken, address),
+      useBuyTokens(toToken, daiToken, address),
     );
 
-    expect(useSwapLiteToken).toHaveBeenCalledWith(toToken, ethToken, address);
-    expect(useSwapLiteToken).toHaveBeenCalledWith(toToken, usdcToken, address);
-    expect(useSwapLiteToken).toHaveBeenCalledWith(toToken, daiToken, address);
+    expect(useBuyToken).toHaveBeenCalledWith(toToken, ethToken, address);
+    expect(useBuyToken).toHaveBeenCalledWith(toToken, usdcToken, address);
+    expect(useBuyToken).toHaveBeenCalledWith(toToken, daiToken, address);
     expect(useSwapBalances).toHaveBeenCalledWith({
       address,
       fromToken: ethToken,
@@ -130,7 +130,7 @@ describe('useSwapLiteTokens', () => {
   });
 
   it('should handle toToken.symbol === ETH', () => {
-    renderHook(() => useSwapLiteTokens(ethToken, degenToken, address));
+    renderHook(() => useBuyTokens(ethToken, degenToken, address));
 
     expect(useSwapBalances).toHaveBeenCalledWith({
       address,
@@ -151,7 +151,7 @@ describe('useSwapLiteTokens', () => {
       response: props.response,
     }));
     const { result } = renderHook(() =>
-      useSwapLiteTokens(toToken, undefined, '0x123'),
+      useBuyTokens(toToken, undefined, '0x123'),
     );
     await act(async () => {
       await result.current.to.balanceResponse?.refetch();
