@@ -2,11 +2,11 @@ import { base, baseSepolia, optimism } from 'viem/chains';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import '@testing-library/jest-dom';
 import { render, screen, waitFor } from '@testing-library/react';
-import { useAttestations } from '../../../../core-react/identity/hooks/useAttestations';
-import { useAvatar } from '../../../../core-react/identity/hooks/useAvatar';
-import { useName } from '../../../../core-react/identity/hooks/useName';
-import { useIdentityContext } from '../../../../core-react/identity/providers/IdentityProvider';
-import { useOnchainKit } from '../../../../core-react/useOnchainKit';
+import { useAttestations } from '@/core-react/identity/hooks/useAttestations';
+import { useAvatar } from '@/core-react/identity/hooks/useAvatar';
+import { useName } from '@/core-react/identity/hooks/useName';
+import { useIdentityContext } from '@/core-react/identity/providers/IdentityProvider';
+import { useOnchainKit } from '@/core-react/useOnchainKit';
 import { Avatar } from './Avatar';
 import { Badge } from './Badge';
 
@@ -14,23 +14,23 @@ function mock<T>(func: T) {
   return func as Mock;
 }
 
-vi.mock('../../../../core-react/useOnchainKit', () => ({
+vi.mock('@/core-react/useOnchainKit', () => ({
   useOnchainKit: vi.fn(),
 }));
 
-vi.mock('../../../../core-react/identity/hooks/useAttestations', () => ({
+vi.mock('@/core-react/identity/hooks/useAttestations', () => ({
   useAttestations: vi.fn(),
 }));
 
-vi.mock('../../../../core-react/identity/hooks/useAvatar', () => ({
+vi.mock('@/core-react/identity/hooks/useAvatar', () => ({
   useAvatar: vi.fn(),
 }));
 
-vi.mock('../../../../core-react/identity/hooks/useName', () => ({
+vi.mock('@/core-react/identity/hooks/useName', () => ({
   useName: vi.fn(),
 }));
 
-vi.mock('../../../../core-react/identity/providers/IdentityProvider', () => ({
+vi.mock('@/core-react/identity/providers/IdentityProvider', () => ({
   useIdentityContext: vi.fn(),
 }));
 

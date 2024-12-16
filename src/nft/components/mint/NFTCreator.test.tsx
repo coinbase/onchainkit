@@ -1,19 +1,19 @@
 import '@testing-library/jest-dom';
 import { render } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
-import { useOnchainKit } from '../../../core-react/useOnchainKit';
+import { useOnchainKit } from '@/core-react/useOnchainKit';
 import { useNFTContext } from '../NFTProvider';
 import { NFTCreator } from './NFTCreator';
 
-vi.mock('../../../core-react/useOnchainKit', () => ({
+vi.mock('@/core-react/useOnchainKit', () => ({
   useOnchainKit: vi.fn(),
 }));
 vi.mock('../NFTProvider', () => ({
   useNFTContext: vi.fn(),
 }));
 
-vi.mock('../../../identity', async () => ({
-  ...(await vi.importActual('../../../identity')),
+vi.mock('@/ui/react/identity', async () => ({
+  ...(await vi.importActual('@/ui/react/identity')),
   Identity: ({ className }: { className: string }) => (
     <div className={className}>Identity</div>
   ),

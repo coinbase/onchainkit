@@ -1,31 +1,31 @@
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import '@testing-library/jest-dom';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import { useAvatar } from '../../../../core-react/identity/hooks/useAvatar';
-import { useName } from '../../../../core-react/identity/hooks/useName';
-import { useGetETHBalance } from '../../../../wallet/hooks/useGetETHBalance';
 import { Address } from './Address';
 import { Avatar } from './Avatar';
 import { EthBalance } from './EthBalance';
 import { Identity } from './Identity';
 import { Name } from './Name';
+import { useAvatar } from '@/core-react/identity/hooks/useAvatar';
+import { useName } from '@/core-react/identity/hooks/useName';
+import { useGetETHBalance } from '@/wallet/hooks/useGetETHBalance';
 
 function mock<T>(func: T) {
   return func as Mock;
 }
 
-vi.mock('../../../../core-react/identity/hooks/useAvatar', () => ({
+vi.mock('@/core-react/identity/hooks/useAvatar', () => ({
   useAvatar: vi.fn(),
 }));
-vi.mock('../../../../core-react/identity/hooks/useName', () => ({
+vi.mock('@/core-react/identity/hooks/useName', () => ({
   useName: vi.fn(),
 }));
 
-vi.mock('../../../../wallet/hooks/useGetETHBalance', () => ({
+vi.mock('@/wallet/hooks/useGetETHBalance', () => ({
   useGetETHBalance: vi.fn(),
 }));
 
-vi.mock('../../../../core-react/internal/hooks/useTheme', () => ({
+vi.mock('@/core-react/internal/hooks/useTheme', () => ({
   useTheme: vi.fn(),
 }));
 
