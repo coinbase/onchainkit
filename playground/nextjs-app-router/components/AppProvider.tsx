@@ -174,8 +174,8 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
           paymaster: paymasters?.[chainId || 8453]?.url,
           wallet: {
             display: 'modal',
-            termsUrl: 'https://www.coinbase.com/legal/cookie', // URL to the terms of service for the wallet modal
-            privacyUrl: 'https://www.coinbase.com/legal/privacy', // URL to the privacy policy for the wallet modal
+            termsUrl: 'https://www.coinbase.com/legal/cookie',
+            privacyUrl: 'https://www.coinbase.com/legal/privacy',
           },
         }}
         projectId={ENVIRONMENT_VARIABLES[ENVIRONMENT.PROJECT_ID]}

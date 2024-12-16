@@ -1,3 +1,4 @@
+// @ts-nocheck - more complex changes required
 import { act, renderHook } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { waitForTransactionReceipt } from 'wagmi/actions';

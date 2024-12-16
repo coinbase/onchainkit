@@ -39,6 +39,7 @@ describe('Name', () => {
 
   it('should console.error and return null when no address is provided', () => {
     vi.mocked(useIdentityContext).mockReturnValue({
+      // @ts-expect-error
       address: undefined,
       chain: undefined,
     });

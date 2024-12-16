@@ -1,4 +1,6 @@
-import { base, mainnet } from 'viem/chains';
+import { http } from 'viem';
+import { createPublicClient } from 'viem';
+import { base, mainnet, sepolia } from 'viem/chains';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { getChainPublicClient } from '../../core/network/getChainPublicClient';
 import { isBase } from '../../core/utils/isBase';
@@ -10,7 +12,12 @@ vi.mock('../../core/utils/isEthereum');
 vi.mock('../../core/network/getChainPublicClient');
 
 describe('getSocials', () => {
+  const actualClient = createPublicClient({
+    chain: mainnet,
+    transport: http(),
+  });
   const mockClient = {
+    ...actualClient,
     getEnsText: vi.fn(),
   };
 
@@ -84,7 +91,7 @@ describe('getSocials', () => {
     vi.mocked(isBase).mockReturnValue(false);
     vi.mocked(isEthereum).mockReturnValue(false);
 
-    const unsupportedChain = { id: 123, name: 'Unsupported Chain' } as const;
+    const unsupportedChain = sepolia;
 
     await expect(
       getSocials({ ensName, chain: unsupportedChain }),

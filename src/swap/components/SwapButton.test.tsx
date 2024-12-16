@@ -1,6 +1,12 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
-import { useAccount, useConnect } from 'wagmi';
+import {
+  type Config,
+  type UseAccountReturnType,
+  type UseConnectReturnType,
+  useAccount,
+  useConnect,
+} from 'wagmi';
 import { SwapButton } from './SwapButton';
 import { useSwapContext } from './SwapProvider';
 
@@ -137,12 +143,12 @@ describe('SwapButton', () => {
     vi.mocked(useAccount).mockReturnValue({
       address: '',
       status: 'disconnected',
-    });
+    } as unknown as UseAccountReturnType<Config>);
     vi.mocked(useConnect).mockReturnValue({
       connectors: [{ id: 'mockConnector' }],
       connect: vi.fn(),
       status: 'idle',
-    });
+    } as unknown as UseConnectReturnType<Config, unknown>);
     render(<SwapButton />);
     const button = screen.getByTestId('ockConnectWallet_Container');
     expect(button).toBeDefined();

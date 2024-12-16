@@ -1,4 +1,5 @@
 // 🌲☀🌲
+import type { TransactionError } from '@/core/api/types';
 import type { ReactNode } from 'react';
 import type {
   Address,
@@ -119,15 +120,6 @@ export type SendSingleTransactionParams = {
 export type TransactionDefaultReact = {
   disabled?: boolean;
 } & Omit<TransactionReact, 'children'>;
-
-/**
- * Note: exported as public Type
- */
-export type TransactionError = {
-  code: string; // The error code representing the type of transaction error.
-  error: string; // The error message providing details about the transaction error.
-  message: string; // The error message providing details about the transaction error.
-};
 
 export type Calls = Call[] | Promise<Call[]> | (() => Promise<Call[]>);
 export type Contracts =

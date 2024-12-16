@@ -46,8 +46,10 @@ const useBreakpointsMock = useBreakpoints as Mock;
 const renderComponent = (props = {}) => {
   return render(
     <SwapSettings {...props}>
-      <SwapSettingsSlippageTitle />
-      <SwapSettingsSlippageDescription />
+      <SwapSettingsSlippageTitle>Title</SwapSettingsSlippageTitle>
+      <SwapSettingsSlippageDescription>
+        Description
+      </SwapSettingsSlippageDescription>
       <SwapSettingsSlippageInput />
     </SwapSettings>,
   );
@@ -89,7 +91,9 @@ describe('SwapSettings', () => {
           text="Custom Text"
           className="custom-class"
           icon="custom-icon"
-        />
+        >
+          test
+        </SwapSettings>
         <div data-testid="outside">Outside</div>
       </div>,
     );
@@ -116,7 +120,7 @@ describe('SwapSettings', () => {
   it('should handle non-valid React elements as children', async () => {
     render(
       <SwapSettings>
-        <SwapSettingsSlippageTitle />
+        <SwapSettingsSlippageTitle>Title</SwapSettingsSlippageTitle>
         Plain text child
         <SwapSettingsSlippageInput />
       </SwapSettings>,

@@ -1,5 +1,5 @@
+import { describe, expect, it } from 'vitest';
 import { getRoundedAmount } from './getRoundedAmount';
-
 describe('getRoundedAmount', () => {
   it('returns a rounded number with specified decimal places', () => {
     const balance = '0.0002851826238227';

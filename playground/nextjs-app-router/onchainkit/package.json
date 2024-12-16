@@ -1,11 +1,11 @@
 {
   "name": "@coinbase/onchainkit",
-  "version": "0.35.8",
+  "version": "0.36.0",
   "type": "module",
   "repository": "https://github.com/coinbase/onchainkit.git",
   "license": "MIT",
   "scripts": {
-    "build": "packemon build --addEngines --addFiles --declaration && npx packemon validate --no-license --no-people --no-repo && tailwindcss -i ./src/styles/index.css -o ./src/tailwind.css --minify && tailwindcss -i ./src/styles/index-with-tailwind.css -o ./src/styles.css --minify",
+    "build": "packemon build --addEngines --addFiles --loadConfigs --declaration && npx packemon validate --no-license --no-people --no-repo && tailwindcss -i ./src/styles/index.css -o ./src/tailwind.css --minify && tailwindcss -i ./src/styles/index-with-tailwind.css -o ./src/styles.css --minify",
     "check": "biome check --write .",
     "check:unsafe": "biome check . --fix --unsafe",
     "ci:check": "biome ci --formatter-enabled=false --linter-enabled=false",
@@ -40,6 +40,7 @@
     "graphql": "^14 || ^15 || ^16",
     "graphql-request": "^6.1.0",
     "tailwind-merge": "^2.3.0",
+    "tailwindcss-animate": "^1.0.7",
     "viem": "^2.21.33",
     "wagmi": "^2.12.24"
   },
@@ -63,6 +64,7 @@
     "@vitest/coverage-v8": "^2.0.5",
     "@vitest/ui": "^2.0.5",
     "autoprefixer": "^10.4.19",
+    "babel-plugin-module-resolver": "^5.0.2",
     "concurrently": "^8.0.0",
     "graphql": "^14",
     "graphql-request": "^6.1.0",
@@ -142,22 +144,22 @@
       "default": "./esm/identity/index.js"
     },
     "./nft": {
-      "types": "./esm/nft/index.d.ts",
-      "module": "./esm/nft/index.js",
-      "import": "./esm/nft/index.js",
-      "default": "./esm/nft/index.js"
+      "types": "./esm/ui/react/nft/index.d.ts",
+      "module": "./esm/ui/react/nft/index.js",
+      "import": "./esm/ui/react/nft/index.js",
+      "default": "./esm/ui/react/nft/index.js"
     },
     "./nft/view": {
-      "types": "./esm/nft/components/view/index.d.ts",
-      "module": "./esm/nft/components/view/index.js",
-      "import": "./esm/nft/components/view/index.js",
-      "default": "./esm/nft/components/view/index.js"
+      "types": "./esm/ui/react/nft/view/index.d.ts",
+      "module": "./esm/ui/react/nft/view/index.js",
+      "import": "./esm/ui/react/nft/view/index.js",
+      "default": "./esm/ui/react/nft/view/index.js"
     },
     "./nft/mint": {
-      "types": "./esm/nft/components/mint/index.d.ts",
-      "module": "./esm/nft/components/mint/index.js",
-      "import": "./esm/nft/components/mint/index.js",
-      "default": "./esm/nft/components/mint/index.js"
+      "types": "./esm/ui/react/nft/mint/index.d.ts",
+      "module": "./esm/ui/react/nft/mint/index.js",
+      "import": "./esm/ui/react/nft/mint/index.js",
+      "default": "./esm/ui/react/nft/mint/index.js"
     },
     "./swap": {
       "types": "./esm/swap/index.d.ts",

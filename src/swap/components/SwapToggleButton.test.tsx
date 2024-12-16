@@ -1,5 +1,5 @@
 import { fireEvent, render, screen } from '@testing-library/react';
-import { describe, it, vi } from 'vitest';
+import { type Mock, describe, expect, it, vi } from 'vitest';
 import { useSwapContext } from './SwapProvider';
 import { SwapToggleButton } from './SwapToggleButton';
 
@@ -10,7 +10,7 @@ vi.mock('./SwapProvider', () => ({
 describe('SwapToggleButton', () => {
   it('should call handleToggle when clicked', () => {
     const handleToggleMock = vi.fn();
-    (useSwapContext as jest.Mock).mockReturnValue({
+    (useSwapContext as Mock).mockReturnValue({
       handleToggle: handleToggleMock,
     });
     render(<SwapToggleButton />);
