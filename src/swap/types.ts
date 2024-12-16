@@ -122,7 +122,7 @@ export type LifecycleStatus =
   | {
       statusName: 'success';
       statusData: {
-        transactionReceipt: TransactionReceipt;
+        transactionReceipt?: TransactionReceipt;
       } & LifecycleStatusDataShared;
     };
 
@@ -213,6 +213,7 @@ export type SwapLiteContextType = {
   isDropdownOpen: boolean;
   setIsDropdownOpen: (open: boolean) => void;
   projectId: string;
+  startPopupMonitor: (popupWindow: Window) => void;
 };
 
 export type SwapLiteProviderReact = {

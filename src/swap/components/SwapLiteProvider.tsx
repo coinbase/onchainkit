@@ -30,6 +30,7 @@ import type {
 } from '../types';
 import { isSwapError } from '../utils/isSwapError';
 import { processSwapTransaction } from '../utils/processSwapTransaction';
+import { usePopupMonitor } from '../hooks/usePopupMonitor';
 
 const emptyContext = {} as SwapLiteContextType;
 
@@ -102,7 +103,7 @@ export function SwapLiteProvider({
 
   const handleOnrampEvent = useCallback(
     (data: EventMetadata) => {
-      console.log({ data });
+      console.log('EVENT HANDLER', { data });
       if (data.eventName === 'transition_view') {
         updateLifecycleStatus({
           statusName: 'transactionPending',
@@ -113,12 +114,26 @@ export function SwapLiteProvider({
   );
 
   const handleOnrampExit = useCallback((error?: OnrampError) => {
-    console.log({ error });
+    console.log('EXIT HANDLER', { error });
   }, []);
 
   const handleOnrampSuccess = useCallback(() => {
-    console.log('ONRAMP SUCCESS');
+    console.log('SUCCESS HANDLER');
+    updateLifecycleStatus({
+      statusName: 'success',
+      statusData: {},
+    });
   }, []);
+
+  const onPopupClose = useCallback(() => {
+    updateLifecycleStatus({
+      statusName: 'init',
+      statusData: {
+        isMissingRequiredField: false,
+        maxSlippage: config.maxSlippage,
+      },
+    });
+  }, [updateLifecycleStatus]);
 
   useEffect(() => {
     const unsubscribe = setupOnrampEventListeners({
@@ -131,6 +146,8 @@ export function SwapLiteProvider({
     };
   }, [handleOnrampEvent, handleOnrampExit, handleOnrampSuccess]);
 
+  const { startPopupMonitor } = usePopupMonitor(onPopupClose);
+
   // Component lifecycle emitters
   useEffect(() => {
     // Error
@@ -138,8 +155,11 @@ export function SwapLiteProvider({
       onError?.(lifecycleStatus.statusData);
     }
     // Success
-    if (lifecycleStatus.statusName === 'success') {
-      onSuccess?.(lifecycleStatus.statusData.transactionReceipt);
+    if (
+      lifecycleStatus.statusName === 'success' &&
+      lifecycleStatus?.statusData.transactionReceipt
+    ) {
+      onSuccess?.(lifecycleStatus?.statusData.transactionReceipt);
       setTransactionHash(
         lifecycleStatus.statusData.transactionReceipt?.transactionHash,
       );
@@ -457,6 +477,7 @@ export function SwapLiteProvider({
     toToken,
     fromToken,
     projectId,
+    startPopupMonitor,
   });
 
   return (

@@ -11,7 +11,8 @@ import { useSwapLiteContext } from './SwapLiteProvider';
 import { SwapLiteTokenItem } from './SwapLiteTokenItem';
 
 export function SwapLiteDropdown() {
-  const { to, fromETH, fromUSDC, from, projectId } = useSwapLiteContext();
+  const { to, fromETH, fromUSDC, from, projectId, startPopupMonitor } =
+    useSwapLiteContext();
   const { address } = useAccount();
 
   const handleOnrampClick = useCallback(
@@ -28,15 +29,11 @@ export function SwapLiteDropdown() {
           target: '_blank',
         });
 
-        // if (!popupWindow) {
-        //   return null;
-        // }
-        // const interval = setInterval(() => {
-        //   if (popupWindow.closed) {
-        //     clearInterval(interval);
-        //     console.log('Popup closed');
-        //   }
-        // }, 500);
+        if (popupWindow) {
+          // Detects when the popup is closed
+          // to stop loading state
+          startPopupMonitor(popupWindow);
+        }
       };
     },
     [address, to, projectId],
