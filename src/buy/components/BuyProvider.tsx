@@ -146,13 +146,10 @@ export function BuyProvider({
       onError?.(lifecycleStatus.statusData);
     }
     // Success
-    if (
-      lifecycleStatus.statusName === 'success' &&
-      lifecycleStatus?.statusData.transactionReceipt
-    ) {
-      onSuccess?.(lifecycleStatus?.statusData.transactionReceipt);
+    if (lifecycleStatus.statusName === 'success') {
+      onSuccess?.(lifecycleStatus?.statusData?.transactionReceipt);
       setTransactionHash(
-        lifecycleStatus.statusData.transactionReceipt?.transactionHash,
+        lifecycleStatus.statusData.transactionReceipt?.transactionHash || '',
       );
       setHasHandledSuccess(true);
     }

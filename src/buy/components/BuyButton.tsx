@@ -54,6 +54,7 @@ export function BuyButton() {
       )}
       onClick={handleSubmit}
       data-testid="ockBuyButton_Button"
+      disabled={isDisabled}
     >
       {isLoading ? (
         <Spinner />
