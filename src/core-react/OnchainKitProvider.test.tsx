@@ -1,4 +1,5 @@
 import '@testing-library/jest-dom';
+import type { EASSchemaUid } from '@/core-react/identity/types';
 import { setOnchainKitConfig } from '@/core/OnchainKitConfig';
 import type { AppConfig } from '@/core/types';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -11,7 +12,6 @@ import { mock } from 'wagmi/connectors';
 import { OnchainKitProvider } from './OnchainKitProvider';
 import { useProviderDependencies } from './internal/hooks/useProviderDependencies';
 import { useOnchainKit } from './useOnchainKit';
-import type { EASSchemaUid } from '@/core-react/identity/types';
 
 vi.mock('wagmi', async (importOriginal) => {
   const actual = (await importOriginal()) as typeof import('wagmi');
