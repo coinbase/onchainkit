@@ -7,10 +7,10 @@ import { Chain } from './form/chain';
 import { CheckoutOptions } from './form/checkout-options';
 import { IsSponsored } from './form/is-sponsored';
 import { NFTOptions } from './form/nft-options';
+import { ProjectId } from './form/project-id';
 import { SwapConfig } from './form/swap-config';
 import { TransactionOptions } from './form/transaction-options';
 import { WalletType } from './form/wallet-type';
-import { ProjectId } from './form/project-id';
 
 const COMMON_OPTIONS = [
   ActiveComponent,

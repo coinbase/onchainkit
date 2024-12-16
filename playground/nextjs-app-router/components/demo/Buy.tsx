@@ -1,16 +1,16 @@
 import { ENVIRONMENT, ENVIRONMENT_VARIABLES } from '@/lib/constants';
-import { type LifecycleStatus } from '@coinbase/onchainkit/swap';
 import { Buy } from '@coinbase/onchainkit/buy';
+import { type LifecycleStatus } from '@coinbase/onchainkit/swap';
 import type { SwapError } from '@coinbase/onchainkit/swap';
 import { useCallback, useContext } from 'react';
 import type { TransactionReceipt } from 'viem';
 import { base } from 'viem/chains';
 import { AppContext } from '../AppProvider';
-import { degenToken, ethToken } from '../constants';
+import { degenToken, ethToken } from '../../lib/constants';
 
 const FALLBACK_DEFAULT_MAX_SLIPPAGE = 3;
 
-function SwapLiteComponent() {
+function BuyComponent() {
   const { projectId, chainId, isSponsored, defaultMaxSlippage } =
     useContext(AppContext);
   const handleOnStatus = useCallback((lifecycleStatus: LifecycleStatus) => {
@@ -64,10 +64,10 @@ function SwapLiteComponent() {
     </div>
   );
 }
-export default function SwapLiteDemo() {
+export default function BuyDemo() {
   return (
     <div className="mx-auto">
-      <SwapLiteComponent />
+      <BuyComponent />
     </div>
   );
 }
