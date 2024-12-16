@@ -19,7 +19,11 @@ export function SwapLiteDropdown() {
     (paymentMethodId: string) => {
       return () => {
         const assetSymbol = to?.token?.symbol;
-        const fundAmount = to?.amount;
+        let fundAmount = to?.amount;
+        // funding url requires a leading zero if the amount is less than 1
+        if (fundAmount?.[0] === '.') {
+          fundAmount = `0${fundAmount}`;
+        }
         const fundingUrl = `${ONRAMP_BUY_URL}/one-click?appId=${projectId}&addresses={"${address}":["base"]}&assets=["${assetSymbol}"]&presetCryptoAmount=${fundAmount}&defaultPaymentMethod=${paymentMethodId}`;
         const { height, width } = getFundingPopupSize('md', fundingUrl);
         const popupWindow = openPopup({
