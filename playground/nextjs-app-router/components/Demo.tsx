@@ -14,6 +14,7 @@ import NFTCardDefaultDemo from './demo/NFTCardDefault';
 import NFTMintCardDemo from './demo/NFTMintCard';
 import NFTMintCardDefaultDemo from './demo/NFTMintCardDefault';
 import SwapDemo from './demo/Swap';
+import BuyDemo from './demo/Buy';
 import SwapDefaultDemo from './demo/SwapDefault';
 import TransactionDemo from './demo/Transaction';
 import TransactionDefaultDemo from './demo/TransactionDefault';
@@ -27,6 +28,7 @@ const activeComponentMapping: Record<OnchainKitComponent, React.FC> = {
   [OnchainKitComponent.Checkout]: CheckoutDemo,
   [OnchainKitComponent.Swap]: SwapDemo,
   [OnchainKitComponent.SwapDefault]: SwapDefaultDemo,
+  [OnchainKitComponent.Buy]: BuyDemo,
   [OnchainKitComponent.Wallet]: WalletDemo,
   [OnchainKitComponent.WalletDefault]: WalletDefaultDemo,
   [OnchainKitComponent.TransactionDefault]: TransactionDefaultDemo,
