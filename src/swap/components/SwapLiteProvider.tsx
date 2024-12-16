@@ -13,7 +13,7 @@ import { useCapabilitiesSafe } from '../../core-react/internal/hooks/useCapabili
 import { useValue } from '../../core-react/internal/hooks/useValue';
 import { useOnchainKit } from '../../core-react/useOnchainKit';
 import { buildSwapTransaction } from '../../core/api/buildSwapTransaction';
-import { getSwapLiteQuote } from '../../core/api/getSwapLiteQuote';
+import { getSwapLiteQuote } from '../utils/getSwapLiteQuote';
 import { setupOnrampEventListeners } from '../../fund';
 import type { EventMetadata, OnrampError } from '../../fund/types';
 import { GENERIC_ERROR_MESSAGE } from '../../transaction/constants';
