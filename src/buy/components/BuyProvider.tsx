@@ -108,10 +108,6 @@ export function BuyProvider({
     [updateLifecycleStatus],
   );
 
-  const handleOnrampExit = useCallback((error?: OnrampError) => {
-    console.log('EXIT HANDLER', { error });
-  }, []);
-
   const handleOnrampSuccess = useCallback(() => {
     console.log('SUCCESS HANDLER');
     updateLifecycleStatus({
@@ -133,14 +129,14 @@ export function BuyProvider({
   useEffect(() => {
     const unsubscribe = setupOnrampEventListeners({
       onEvent: handleOnrampEvent,
-      onExit: handleOnrampExit,
       onSuccess: handleOnrampSuccess,
     });
     return () => {
       unsubscribe();
     };
-  }, [handleOnrampEvent, handleOnrampExit, handleOnrampSuccess]);
+  }, [handleOnrampEvent, handleOnrampSuccess]);
 
+  // used to detect when the popup is closed in order to stop loading state
   const { startPopupMonitor } = usePopupMonitor(onPopupClose);
 
   // Component lifecycle emitters
@@ -331,7 +327,7 @@ export function BuyProvider({
           updateLifecycleStatus({
             statusName: 'error',
             statusData: {
-              code: 'TmSPc01', // Transaction module SwapProvider component 01 error
+              code: 'TmSPc01',
               error: 'No valid quote found',
               message: '',
             },
