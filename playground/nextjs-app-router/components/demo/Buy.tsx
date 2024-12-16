@@ -6,7 +6,7 @@ import { useCallback, useContext } from 'react';
 import type { TransactionReceipt } from 'viem';
 import { base } from 'viem/chains';
 import { AppContext } from '../AppProvider';
-import { degenToken, ethToken } from '../../lib/constants';
+import { daiToken, degenToken } from '../../lib/constants';
 
 const FALLBACK_DEFAULT_MAX_SLIPPAGE = 3;
 
@@ -57,8 +57,8 @@ function BuyComponent() {
         //   useAggregator: true,
         // }}
         isSponsored={isSponsored}
-        toToken={ethToken}
-        fromToken={degenToken}
+        toToken={degenToken}
+        fromToken={daiToken}
         projectId={projectId || ''}
       />
     </div>
