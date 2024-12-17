@@ -737,6 +737,26 @@ describe('BuyProvider', () => {
     });
   });
 
+  it('should setLifecycleStatus to error when projectId is not provided', async () => {
+    (useOnchainKit as Mock).mockReturnValue({
+      projectId: undefined,
+      config: {
+        paymaster: undefined,
+      },
+    });
+
+    const { result } = renderHook(() => useBuyContext(), { wrapper });
+    expect(result.current.lifecycleStatus).toEqual({
+      statusName: 'error',
+      statusData: expect.objectContaining({
+        code: 'TmBPc04',
+        error:
+          'Project ID is required, please set the projectId in the OnchainKitProvider',
+        message: '',
+      }),
+    });
+  });
+
   // it('should setLifecycleStatus to error when getBuyQuote returns an error', async () => {
   //   vi.mocked(getBuyQuote).mockResolvedValueOnce({
   //     error: 'Something went wrong' as unknown as APIError,

@@ -88,13 +88,6 @@ export function BuyProvider({
 
   // Refreshes balances and inputs post-swap
   const resetInputs = useResetBuyInputs({ fromETH, fromUSDC, from, to });
-
-  if (!projectId) {
-    throw new Error(
-      'Buy: Project ID is required, please set the projectId in the OnchainKitProvider',
-    );
-  }
-
   // For batched transactions, listens to and awaits calls from the Wallet server
   const awaitCallsStatus = useAwaitCalls({
     accountConfig,
@@ -134,6 +127,20 @@ export function BuyProvider({
     lifecycleStatus.statusData, // Keep statusData, so that the effect runs when it changes
     lifecycleStatus.statusName, // Keep statusName, so that the effect runs when it changes
   ]);
+
+  useEffect(() => {
+    if (!projectId) {
+      updateLifecycleStatus({
+        statusName: 'error',
+        statusData: {
+          code: 'TmBPc04',
+          error:
+            'Project ID is required, please set the projectId in the OnchainKitProvider',
+          message: '',
+        },
+      });
+    }
+  }, [projectId]);
 
   useEffect(() => {
     // Reset inputs after status reset. `resetInputs` is dependent
