@@ -42,7 +42,9 @@ export function WalletDropdown({ children, className }: WalletDropdownReact) {
         pressable.default,
         color.foreground,
         'absolute right-0 z-10 mt-1 flex w-max min-w-[300px] cursor-default flex-col overflow-hidden rounded-xl',
-        isClosing ? 'animate-containerOut' : 'animate-containerIn',
+        isClosing
+          ? 'fade-out slide-out-to-top-2.5 animate-out duration-300 ease-in'
+          : 'fade-in slide-in-from-top-2.5 animate-in duration-300 ease-out',
         className,
       )}
       data-testid="ockWalletDropdown"
