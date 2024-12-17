@@ -59,7 +59,7 @@ describe('Draggable', () => {
       <Draggable
         gridSize={10}
         startingPosition={{ x: 0, y: 0 }}
-        enableSnapToGrid={true}
+        snapToGrid={true}
       >
         <div>Drag me</div>
       </Draggable>,
@@ -80,7 +80,7 @@ describe('Draggable', () => {
       <Draggable
         gridSize={10}
         startingPosition={{ x: 0, y: 0 }}
-        enableSnapToGrid={false}
+        snapToGrid={false}
       >
         <div>Drag me</div>
       </Draggable>,

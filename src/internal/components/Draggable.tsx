@@ -6,20 +6,20 @@ type DraggableProps = {
   children: React.ReactNode;
   gridSize?: number;
   startingPosition?: { x: number; y: number };
-  enableSnapToGrid?: boolean;
+  snapToGrid?: boolean;
 };
 
 export default function Draggable({
   children,
   gridSize = 1,
   startingPosition = { x: 20, y: 20 },
-  enableSnapToGrid = false,
+  snapToGrid = false,
 }: DraggableProps) {
   const [position, setPosition] = useState(startingPosition);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
 
-  const snapToGrid = useCallback(
+  const calculateSnapToGrid = useCallback(
     (positionValue: number) => {
       return Math.round(positionValue / gridSize) * gridSize;
     },
@@ -49,8 +49,8 @@ export default function Draggable({
 
     const handleGlobalEnd = () => {
       setPosition((prev) => ({
-        x: enableSnapToGrid ? snapToGrid(prev.x) : prev.x,
-        y: enableSnapToGrid ? snapToGrid(prev.y) : prev.y,
+        x: snapToGrid ? calculateSnapToGrid(prev.x) : prev.x,
+        y: snapToGrid ? calculateSnapToGrid(prev.y) : prev.y,
       }));
       setIsDragging(false);
     };
@@ -62,7 +62,7 @@ export default function Draggable({
       document.removeEventListener('pointermove', handleGlobalMove);
       document.removeEventListener('pointerup', handleGlobalEnd);
     };
-  }, [isDragging, dragOffset, snapToGrid, enableSnapToGrid]);
+  }, [isDragging, dragOffset, snapToGrid, calculateSnapToGrid]);
 
   return (
     <div
