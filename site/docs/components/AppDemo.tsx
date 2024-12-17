@@ -8,6 +8,7 @@ import { coinbaseWallet } from 'wagmi/connectors';
 import '@coinbase/onchainkit/styles.css';
 import { createWalletClient } from 'viem';
 import { privateKeyToAccount } from 'viem/accounts';
+import type { Config } from 'wagmi';
 import { useTheme } from '../contexts/Theme.tsx';
 
 const queryClient = new QueryClient();
@@ -17,7 +18,7 @@ const queryClient = new QueryClient();
 const DUMMY_PK =
   '0xa67bdd8a49324aa36cb3f7f7064b9b560e3aa653b774be9793415c0a6fc62cf8';
 
-const demoWalletConnector = (_config: any) => {
+const demoWalletConnector = (_config: Config) => {
   const account = privateKeyToAccount(DUMMY_PK as `0x${string}`);
 
   const client = createWalletClient({
