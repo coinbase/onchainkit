@@ -30,12 +30,7 @@ export function WalletProvider({ children }: WalletProviderReact) {
     if (!isOpen) {
       return;
     }
-
     setIsClosing(true);
-    setTimeout(() => {
-      setIsOpen(false);
-      setIsClosing(false);
-    }, 300);
   }, [isOpen]);
 
   const value = useValue({

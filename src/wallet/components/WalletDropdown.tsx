@@ -10,7 +10,7 @@ import { useWalletContext } from './WalletProvider';
 export function WalletDropdown({ children, className }: WalletDropdownReact) {
   const breakpoint = useBreakpoints();
   const { address } = useAccount();
-  const { isClosing } = useWalletContext();
+  const { isClosing, setIsOpen, setIsClosing } = useWalletContext();
 
   const childrenArray = useMemo(() => {
     return Children.toArray(children).map((child) => {
@@ -47,6 +47,12 @@ export function WalletDropdown({ children, className }: WalletDropdownReact) {
           : 'fade-in slide-in-from-top-2.5 animate-in duration-300 ease-out',
         className,
       )}
+      onAnimationEnd={() => {
+        if (isClosing) {
+          setIsOpen(false);
+          setIsClosing(false);
+        }
+      }}
       data-testid="ockWalletDropdown"
     >
       {childrenArray}
