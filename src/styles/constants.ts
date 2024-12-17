@@ -4,5 +4,5 @@ export const zIndex = {
   dropdown: 10,
   tooltip: 20,
   modal: 40,
-  notification: 50
-}
+  notification: 50,
+};
