@@ -1,6 +1,5 @@
 import '@testing-library/jest-dom';
 import {
-  act,
   fireEvent,
   render,
   renderHook,
@@ -17,7 +16,7 @@ import {
 import { Identity } from '../../ui/react/identity';
 import { useBreakpoints } from '../../ui/react/internal/hooks/useBreakpoints';
 import { WalletDropdown } from './WalletDropdown';
-import { useWalletContext, WalletProvider } from './WalletProvider';
+import { useWalletContext } from './WalletProvider';
 
 vi.mock('wagmi', () => ({
   useAccount: vi.fn().mockReturnValue({ address: '0x123' }),
