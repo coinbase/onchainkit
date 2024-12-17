@@ -64,9 +64,9 @@ export function BuyDropdown() {
     <div
       className={cn(
         color.foreground,
-        background.alternate,
+        background.default,
         'absolute right-0 bottom-0 flex translate-y-[105%] flex-col gap-2',
-        'min-w-80 rounded p-2',
+        'border min-w-80 rounded p-2 rounded-lg',
       )}
     >
       <div className="px-2 pt-2">Buy with</div>
