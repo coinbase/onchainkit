@@ -53,7 +53,6 @@ export function BuyProvider({
   onSuccess,
   toToken,
   fromToken,
-  projectId,
 }: BuyProviderReact) {
   const {
     config: { paymaster } = { paymaster: undefined },
@@ -89,6 +88,14 @@ export function BuyProvider({
 
   // Refreshes balances and inputs post-swap
   const resetInputs = useResetBuyInputs({ fromETH, fromUSDC, from, to });
+
+  const { projectId } = useOnchainKit();
+  if (!projectId) {
+    throw new Error(
+      'Buy: Project ID is required, please set the projectId in the OnchainKitProvider',
+    );
+  }
+
   // For batched transactions, listens to and awaits calls from the Wallet server
   const awaitCallsStatus = useAwaitCalls({
     accountConfig,
@@ -462,7 +469,6 @@ export function BuyProvider({
     setIsDropdownOpen,
     toToken,
     fromToken,
-    projectId,
     startPopupMonitor,
   });
 

@@ -1,3 +1,4 @@
+import { useOnchainKit } from '@/core-react/useOnchainKit';
 import { openPopup } from '@/ui-react/internal/utils/openPopup';
 import { useCallback, useMemo } from 'react';
 import { useAccount } from 'wagmi';
@@ -11,8 +12,8 @@ import { useBuyContext } from './BuyProvider';
 import { BuyTokenItem } from './BuyTokenItem';
 
 export function BuyDropdown() {
-  const { to, fromETH, fromUSDC, from, projectId, startPopupMonitor } =
-    useBuyContext();
+  const { projectId } = useOnchainKit();
+  const { to, fromETH, fromUSDC, from, startPopupMonitor } = useBuyContext();
   const { address } = useAccount();
 
   const handleOnrampClick = useCallback(

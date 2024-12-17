@@ -1,6 +1,7 @@
 import { openPopup } from '@/ui-react/internal/utils/openPopup';
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
+import { useOnchainKit } from '../../core-react/useOnchainKit';
 import { BuyDropdown } from './BuyDropdown';
 import { useBuyContext } from './BuyProvider';
 import { degenToken, ethToken, usdcToken } from '../../token/constants';
@@ -29,6 +30,10 @@ vi.mock('wagmi', async () => {
   };
 });
 
+vi.mock('../../core-react/useOnchainKit', () => ({
+  useOnchainKit: vi.fn(),
+}));
+
 const mockStartPopupMonitor = vi.fn();
 
 const mockContextValue = {
@@ -40,7 +45,6 @@ const mockContextValue = {
   fromETH: { token: ethToken },
   fromUSDC: { token: usdcToken },
   from: { token: { symbol: 'DAI' } },
-  projectId: 'mock-project-id',
   startPopupMonitor: mockStartPopupMonitor,
   setIsDropdownOpen: vi.fn(),
 };
@@ -49,6 +53,9 @@ describe('BuyDropdown', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     (useBuyContext as Mock).mockReturnValue(mockContextValue);
+    (useOnchainKit as Mock).mockReturnValue({
+      projectId: 'mock-project-id',
+    });
   });
 
   it('renders the dropdown with correct content', () => {

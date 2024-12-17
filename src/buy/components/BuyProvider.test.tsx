@@ -145,7 +145,6 @@ const wrapper = ({ children }: { children: React.ReactNode }) => (
         config={{ maxSlippage: 5 }}
         experimental={{ useAggregator: true }}
         toToken={degenToken}
-        projectId="mock-project-id"
         fromToken={daiToken}
       >
         {children}
@@ -178,7 +177,6 @@ const renderWithProviders = ({
           onSuccess={onSuccess}
           toToken={degenToken}
           fromToken={daiToken}
-          projectId="mock-project-id"
         >
           <Component />
         </BuyProvider>
@@ -829,7 +827,6 @@ describe('BuyProvider', () => {
           <BuyProvider
             config={config}
             experimental={{ useAggregator: true }}
-            projectId="test"
             toToken={usdcToken}
           >
             {children}

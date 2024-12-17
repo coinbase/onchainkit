@@ -21,7 +21,6 @@ export type BuyReact = {
   onSuccess?: (transactionReceipt?: TransactionReceipt) => void; // An optional callback function that exposes the transaction receipt
   fromToken?: Token; // An optional token to swap from
   toToken: Token; // The token to swap to
-  projectId: string; // A CDP project ID (found at https://portal.cdp.coinbase.com/)
 };
 
 export type BuyContextType = {
@@ -41,7 +40,6 @@ export type BuyContextType = {
   transactionHash: string;
   isDropdownOpen: boolean;
   setIsDropdownOpen: (open: boolean) => void;
-  projectId: string;
   startPopupMonitor: (popupWindow: Window) => void;
 };
 
@@ -59,7 +57,6 @@ export type BuyProviderReact = {
   onSuccess?: (transactionReceipt?: TransactionReceipt) => void; // An optional callback function that exposes the transaction receipt
   fromToken?: Token;
   toToken: Token;
-  projectId: string;
 };
 
 export type BuyTokens = {

@@ -45,7 +45,6 @@ export function Buy({
   onSuccess,
   toToken,
   fromToken,
-  projectId,
 }: BuyReact) {
   return (
     <BuyProvider
@@ -57,7 +56,6 @@ export function Buy({
       onSuccess={onSuccess}
       toToken={toToken}
       fromToken={fromToken}
-      projectId={projectId}
     >
       <BuyContent className={className} />
     </BuyProvider>
