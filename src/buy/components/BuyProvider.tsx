@@ -329,7 +329,7 @@ export function BuyProvider({
           updateLifecycleStatus({
             statusName: 'error',
             statusData: {
-              code: 'TmSPc01',
+              code: 'TmBPc01',
               error: 'No valid quote found',
               message: '',
             },
@@ -357,7 +357,7 @@ export function BuyProvider({
         updateLifecycleStatus({
           statusName: 'error',
           statusData: {
-            code: 'TmSPc01', // Transaction module SwapProvider component 01 error
+            code: 'TmBPc02', // Transaction module BuyProvider component 01 error
             error: JSON.stringify(err),
             message: '',
           },
@@ -428,7 +428,7 @@ export function BuyProvider({
         updateLifecycleStatus({
           statusName: 'error',
           statusData: {
-            code: 'TmSPc02', // Transaction module SwapProvider component 02 error
+            code: 'TmBPc03',
             error: JSON.stringify(err),
             message: errorMessage,
           },

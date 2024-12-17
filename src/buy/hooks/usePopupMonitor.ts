@@ -15,7 +15,6 @@ export const usePopupMonitor = (onClose?: () => void) => {
             clearInterval(intervalRef.current);
             intervalRef.current = null;
           }
-          console.log('Popup closed');
           onClose?.();
         }
       }, 500);

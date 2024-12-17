@@ -1,4 +1,3 @@
-import { useCallback } from 'react';
 import { isValidAmount } from '../../core/utils/isValidAmount';
 import { TextInput } from '../../internal/components/TextInput';
 import { cn, pressable } from '../../styles/theme';
@@ -8,13 +7,6 @@ import { useBuyContext } from './BuyProvider';
 
 export function BuyAmountInput() {
   const { to, handleAmountChange } = useBuyContext();
-
-  const handleChange = useCallback(
-    (amount: string) => {
-      handleAmountChange(amount);
-    },
-    [handleAmountChange],
-  );
 
   if (!to?.token) {
     return null;
@@ -32,7 +24,7 @@ export function BuyAmountInput() {
         value={formatAmount(to.amount)}
         setValue={to.setAmount}
         disabled={to.loading}
-        onChange={handleChange}
+        onChange={handleAmountChange}
         inputValidator={isValidAmount}
       />
       <TokenChip
