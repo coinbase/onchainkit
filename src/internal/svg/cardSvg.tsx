@@ -11,7 +11,7 @@ export const cardSvg = (
     strokeLinejoin="round"
     data-testid="cardSvg"
   >
-    <title>Debit Card</title>
+    <title>Debit Card Onramp</title>
     <rect x="2" y="4" width="20" height="16" rx="2" />
     <path d="M7 15h0M2 9.5h20" />
   </svg>

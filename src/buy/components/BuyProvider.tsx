@@ -56,6 +56,7 @@ export function BuyProvider({
 }: BuyProviderReact) {
   const {
     config: { paymaster } = { paymaster: undefined },
+    projectId,
   } = useOnchainKit();
   const { address, chainId } = useAccount();
   const { switchChainAsync } = useSwitchChain();
@@ -89,7 +90,6 @@ export function BuyProvider({
   // Refreshes balances and inputs post-swap
   const resetInputs = useResetBuyInputs({ fromETH, fromUSDC, from, to });
 
-  const { projectId } = useOnchainKit();
   if (!projectId) {
     throw new Error(
       'Buy: Project ID is required, please set the projectId in the OnchainKitProvider',

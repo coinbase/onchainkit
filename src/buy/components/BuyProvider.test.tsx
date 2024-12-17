@@ -9,6 +9,7 @@ import {
 import React, { act, useCallback, useEffect } from 'react';
 import type { TransactionReceipt } from 'viem';
 import {
+  type Mock,
   afterEach,
   beforeEach,
   describe,
@@ -30,6 +31,7 @@ import { mock } from 'wagmi/connectors';
 import { useSendCalls } from 'wagmi/experimental';
 import { useCapabilitiesSafe } from '../../core-react/internal/hooks/useCapabilitiesSafe';
 import { buildSwapTransaction } from '../../core/api/buildSwapTransaction';
+import { useOnchainKit } from '../../core-react/useOnchainKit';
 import { getBuyQuote } from '../utils/getBuyQuote';
 import {
   daiToken,
@@ -60,6 +62,10 @@ vi.mock('../../core/api/buildSwapTransaction', () => ({
 
 vi.mock('../../swap/utils/processSwapTransaction', () => ({
   processSwapTransaction: vi.fn(),
+}));
+
+vi.mock('../../core-react/useOnchainKit', () => ({
+  useOnchainKit: vi.fn(),
 }));
 
 // vi.mock('../../swap/utils/isSwapError', () => ({
@@ -165,6 +171,12 @@ const renderWithProviders = ({
 }) => {
   const config = { maxSlippage: 10 };
   const mockExperimental = { useAggregator: true };
+  (useOnchainKit as Mock).mockReturnValue({
+    projectId: 'mock-project-id',
+    config: {
+      paymaster: undefined,
+    },
+  });
   return render(
     <WagmiProvider config={accountConfig}>
       <QueryClientProvider client={queryClient}>
@@ -266,6 +278,12 @@ const TestSwapComponent = () => {
 
 describe('useBuyContext', () => {
   beforeEach(async () => {
+    (useOnchainKit as Mock).mockReturnValue({
+      projectId: 'mock-project-id',
+      config: {
+        paymaster: undefined,
+      },
+    });
     vi.resetAllMocks();
     (useAccount as ReturnType<typeof vi.fn>).mockReturnValue({
       address: '0x123',
@@ -278,6 +296,7 @@ describe('useBuyContext', () => {
     (useSwitchChain as ReturnType<typeof vi.fn>).mockReturnValue({
       switchChainAsync: mockSwitchChain,
     });
+
     await act(async () => {
       renderWithProviders({ Component: () => null });
     });
@@ -332,6 +351,12 @@ describe('BuyProvider', () => {
       switchChainAsync: mockSwitchChain,
     });
     (useCapabilitiesSafe as ReturnType<typeof vi.fn>).mockReturnValue({});
+    (useOnchainKit as Mock).mockReturnValue({
+      projectId: 'mock-project-id',
+      config: {
+        paymaster: undefined,
+      },
+    });
   });
 
   it('should reset inputs when setLifecycleStatus is called with success', async () => {
@@ -705,7 +730,7 @@ describe('BuyProvider', () => {
     expect(result.current.lifecycleStatus).toEqual({
       statusName: 'error',
       statusData: expect.objectContaining({
-        code: 'TmSPc01',
+        code: 'TmBPc02',
         error: JSON.stringify(mockError),
         message: '',
       }),
@@ -773,7 +798,7 @@ describe('BuyProvider', () => {
       expect(
         screen.getByTestId('context-value-lifecycleStatus-statusData-code')
           .textContent,
-      ).toBe('TmSPc02');
+      ).toBe('TmBPc03');
     });
   });
 
@@ -790,7 +815,7 @@ describe('BuyProvider', () => {
       expect(
         screen.getByTestId('context-value-lifecycleStatus-statusData-code')
           .textContent,
-      ).toBe('TmSPc02');
+      ).toBe('TmBPc03');
     });
   });
 

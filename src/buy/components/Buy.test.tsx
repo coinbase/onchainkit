@@ -1,5 +1,6 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
+import { useOnchainKit } from '../../core-react/useOnchainKit';
 import { degenToken } from '../../token/constants';
 import { useOutsideClick } from '../../ui/react/internal/hooks/useOutsideClick';
 import { Buy } from './Buy';
@@ -22,6 +23,10 @@ vi.mock('../../core-react/internal/hooks/useTheme', () => ({
 
 vi.mock('../../ui/react/internal/hooks/useOutsideClick', () => ({
   useOutsideClick: vi.fn(),
+}));
+
+vi.mock('../../core-react/useOnchainKit', () => ({
+  useOnchainKit: vi.fn(),
 }));
 
 type useOutsideClickType = ReturnType<
@@ -61,11 +66,15 @@ describe('Buy', () => {
       },
     );
 
+    (useOnchainKit as Mock).mockReturnValue({
+      projectId: 'mock-project-id',
+    });
+
     vi.clearAllMocks();
   });
 
   it('renders the Buy component', () => {
-    render(<Buy className="test-class" toToken={degenToken} projectId="123" />);
+    render(<Buy className="test-class" toToken={degenToken} />);
 
     expect(screen.getByText('Buy')).toBeInTheDocument();
     expect(screen.getByText('DEGEN')).toBeInTheDocument();
@@ -88,7 +97,7 @@ describe('Buy', () => {
       },
     });
 
-    render(<Buy className="test-class" toToken={degenToken} projectId="123" />);
+    render(<Buy className="test-class" toToken={degenToken} />);
 
     expect(screen.getByTestId('mock-BuyDropdown')).toBeDefined();
     mockOutsideClickCallback({} as MouseEvent);
@@ -113,7 +122,7 @@ describe('Buy', () => {
       },
     });
 
-    render(<Buy className="test-class" toToken={degenToken} projectId="123" />);
+    render(<Buy className="test-class" toToken={degenToken} />);
 
     expect(screen.getByTestId('mock-BuyDropdown')).toBeDefined();
     fireEvent.click(screen.getByTestId('mock-BuyDropdown'));
@@ -121,7 +130,7 @@ describe('Buy', () => {
   });
 
   it('should not trigger click handler when dropdown is closed', () => {
-    render(<Buy className="test-class" toToken={degenToken} projectId="123" />);
+    render(<Buy className="test-class" toToken={degenToken} />);
     expect(screen.queryByTestId('mock-BuyDropdown')).not.toBeInTheDocument();
   });
 });
