@@ -1,5 +1,6 @@
 import { useOutsideClick } from '@/ui-react/internal/hooks/useOutsideClick';
 import { useRef } from 'react';
+import { useTheme } from '../../core-react/internal/hooks/useTheme';
 import { cn } from '../../styles/theme';
 import { FALLBACK_DEFAULT_MAX_SLIPPAGE } from '../../swap/constants';
 import type { BuyReact } from '../types';
@@ -10,6 +11,7 @@ import { BuyMessage } from './BuyMessage';
 import { BuyProvider, useBuyContext } from './BuyProvider';
 
 function BuyContent({ className }: { className?: string }) {
+  const componentTheme = useTheme();
   const { isDropdownOpen, setIsDropdownOpen } = useBuyContext();
   const buyContainerRef = useRef<HTMLDivElement>(null);
 
@@ -22,7 +24,7 @@ function BuyContent({ className }: { className?: string }) {
   return (
     <div
       ref={buyContainerRef}
-      className={cn('relative flex flex-col gap-2', className)}
+      className={cn('relative flex flex-col gap-2', componentTheme, className)}
     >
       <div className={cn('flex items-center gap-4', className)}>
         <BuyAmountInput />

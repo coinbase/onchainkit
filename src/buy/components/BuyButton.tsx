@@ -1,6 +1,7 @@
 import { useCallback, useMemo } from 'react';
 import { Spinner } from '../../internal/components/Spinner';
 import { checkmarkSvg } from '../../internal/svg/checkmarkSvg';
+import { closeSvg } from '../../internal/svg/closeSvg';
 import {
   background,
   border,
@@ -16,6 +17,7 @@ export function BuyButton() {
   const {
     address,
     setIsDropdownOpen,
+    isDropdownOpen,
     from,
     fromETH,
     fromUSDC,
@@ -33,15 +35,22 @@ export function BuyButton() {
   const isDisabled = !to?.amount || !to?.token || isLoading;
 
   const handleSubmit = useCallback(() => {
-    setIsDropdownOpen(true);
-  }, [setIsDropdownOpen]);
+    if (isDropdownOpen) {
+      setIsDropdownOpen(false);
+    } else {
+      setIsDropdownOpen(true);
+    }
+  }, [setIsDropdownOpen, isDropdownOpen]);
 
   const buttonContent = useMemo(() => {
     if (statusName === 'success') {
       return checkmarkSvg;
     }
+    if (isDropdownOpen) {
+      return closeSvg;
+    }
     return 'Buy';
-  }, [statusName]);
+  }, [statusName, isDropdownOpen]);
 
   if (!isDisabled && !address) {
     return <ConnectWallet text="Buy" className="h-12 w-24 min-w-24" />;
