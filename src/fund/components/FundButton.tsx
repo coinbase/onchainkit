@@ -1,10 +1,10 @@
 import { useCallback, useMemo } from 'react';
 import { useTheme } from '../../core-react/internal/hooks/useTheme';
-import { addSvg } from '../../internal/svg/addSvg';
-import { successSvg } from '../../internal/svg/successSvg';
-import { errorSvg } from '../../internal/svg/errorSvg';
+import { AddSvg } from '../../internal/svg/addSvg';
+import { SuccessSvg } from '../../internal/svg/successSvg';
+import { ErrorSvg } from '../../internal/svg/errorSvg';
 import { openPopup } from '../../internal/utils/openPopup';
-import { border, cn, color, pressable, text } from '../../styles/theme';
+import { border, cn, color, icon, pressable, text } from '../../styles/theme';
 import { useGetFundingUrl } from '../hooks/useGetFundingUrl';
 import type { FundButtonReact } from '../types';
 import { getFundingPopupSize } from '../utils/getFundingPopupSize';
@@ -63,9 +63,21 @@ export function FundButton({
     [fundingUrlToRender, popupSize, target, onPopupClose, onClick]
   );
 
+  const buttonColorClass = useMemo(() => {
+    switch (buttonState) {
+      case 'error':
+        return pressable.error;
+      case 'loading':
+      case 'success':
+        return pressable.primary;
+      default:
+        return pressable.primary;
+    }
+  }, [buttonState]);
+
   const classNames = cn(
     componentTheme,
-    pressable.primary,
+    buttonColorClass,
     'px-4 py-3 inline-flex items-center justify-center space-x-2 disabled',
     isDisabled && pressable.disabled,
     text.headline,
@@ -75,17 +87,20 @@ export function FundButton({
   );
 
   const buttonIcon = useMemo(() => {
+    if (hideIcon) {
+      return null;
+    }
     switch(buttonState) {
       case 'loading':
         return '';
       case 'success':
-        return successSvg
+        return <SuccessSvg className={cn(icon.inverse)} />;
       case 'error':
-        return errorSvg
+        return <ErrorSvg className={cn(icon.inverse)} />;
       default:
-        return addSvg;
+        return <AddSvg />;
     }
-  }, [buttonState]);
+  }, [buttonState, hideIcon]);
 
   const buttonTextContent = useMemo(() => {
     switch(buttonState) {
@@ -104,7 +119,7 @@ export function FundButton({
     <>
       {buttonState === 'loading' && <Spinner />}
       {/* h-6 is to match the icon height to the line-height set by text.headline */}
-      {hideIcon || <span className="flex h-6 items-center">{buttonIcon}</span>}
+      {buttonIcon && <span className="flex h-6 items-center">{buttonIcon}</span>}
       {hideText || <span data-testid="fundButtonTextContent">{buttonTextContent}</span>}
     </>
   );

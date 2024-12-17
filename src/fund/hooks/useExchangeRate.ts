@@ -4,11 +4,12 @@ import { useDebounce } from '../../core-react/internal/hooks/useDebounce';
 import { useFundContext } from '../components/FundCardProvider';
 
 export const useExchangeRate = (assetSymbol: string) => {
-  const { setExchangeRate, exchangeRate, exchangeRateLoading, setExchangeRateLoading } = useFundContext();
+  const { setExchangeRate, exchangeRateLoading, setExchangeRateLoading } =
+    useFundContext();
 
   const fetchExchangeRate = useDebounce(async () => {
-    if(exchangeRateLoading) {
-        return;
+    if (exchangeRateLoading) {
+      return;
     }
 
     setExchangeRateLoading(true);
@@ -21,14 +22,15 @@ export const useExchangeRate = (assetSymbol: string) => {
     });
 
     setExchangeRateLoading(false);
-    console.log('quote', quote);
-    setExchangeRate(Number(quote.purchaseAmount.value) / Number(quote.paymentSubtotal.value));
+    setExchangeRate(
+      Number(quote.purchaseAmount.value) / Number(quote.paymentSubtotal.value)
+    );
   }, 1000);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  // biome-ignore lint/correctness/useExhaustiveDependencies: One time effect
   useEffect(() => {
     fetchExchangeRate();
   }, []);
 
-  return useMemo(() => ({ exchangeRate, fetchExchangeRate }), [exchangeRate, fetchExchangeRate]);
+  return useMemo(() => ({ fetchExchangeRate }), [fetchExchangeRate]);
 };

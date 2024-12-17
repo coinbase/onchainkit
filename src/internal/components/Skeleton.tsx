@@ -14,6 +14,7 @@ export function Skeleton({ className }: SkeletonReact) {
         className
 
       )}
+      data-testid="ockSkeleton"
     />
   );
 }

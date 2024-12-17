@@ -32,7 +32,7 @@ export function FundCardPaymentMethodImage({ className, size = 24, paymentMethod
     return (
       <div
         className={cn('overflow-hidden rounded-full', className)}
-        data-testid="ockTokenImage_NoImage"
+        data-testid="fundCardPaymentMethodImage__noImage"
         style={styles.image}
       >
         <div style={styles.placeholderImage} />
@@ -41,7 +41,7 @@ export function FundCardPaymentMethodImage({ className, size = 24, paymentMethod
   }
 
   return (
-    <div  className={cn('flex items-center justify-center overflow-hidden rounded-[50%]', className)} style={styles.image}>
+    <div data-testid="fundCardPaymentMethodImage__iconContainer" className={cn('flex items-center justify-center overflow-hidden rounded-[50%]', className)} style={styles.image}>
       {iconSvg}
     </div>
   );

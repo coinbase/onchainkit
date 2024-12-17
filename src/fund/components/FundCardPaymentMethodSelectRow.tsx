@@ -15,7 +15,7 @@ export const FundCardPaymentMethodSelectRow = memo(({
 
   return (
     <button
-      data-testid="ockTokenRow_Container"
+      data-testid="ockFundCardPaymentMethodSelectRow__button"
       type="button"
       className={cn(
         componentTheme,

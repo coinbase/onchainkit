@@ -3,18 +3,6 @@ import { render, screen } from '@testing-library/react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { FundCardHeader } from './FundCardHeader';
 
-vi.mock('../hooks/useGetFundingUrl', () => ({
-  useGetFundingUrl: vi.fn(),
-}));
-
-vi.mock('../utils/getFundingPopupSize', () => ({
-  getFundingPopupSize: vi.fn(),
-}));
-
-vi.mock('../../internal/utils/openPopup', () => ({
-  openPopup: vi.fn(),
-}));
-
 vi.mock('../../core-react/internal/hooks/useTheme', () => ({
   useTheme: vi.fn(),
 }));

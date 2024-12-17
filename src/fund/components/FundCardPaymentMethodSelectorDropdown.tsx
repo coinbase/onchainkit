@@ -46,7 +46,7 @@ export function FundCardPaymentMethodSelectorDropdown({ paymentMethods }: FundCa
   }, []);
 
   useEffect(() => {
-    // Add event listener for clicks
+    // Add event listener for outside clicks
     document.addEventListener('click', handleBlur);
     return () => {
       // Clean up the event listener
@@ -65,7 +65,7 @@ export function FundCardPaymentMethodSelectorDropdown({ paymentMethods }: FundCa
       {isOpen && (
         <div
           ref={dropdownRef}
-          data-testid="ockTokenSelectDropdown_List"
+          data-testid="ockFundCardPaymentMethodSelectorDropdown"
           className={cn(
             componentTheme,
             border.radius,

@@ -13,20 +13,18 @@ const mockCountry = 'US';
 const mockSubdivision = 'NY';
 
 const mockResponseData = {
-  data: {
-    payment_total: { amount: '105.00', currency: 'USD' },
-    payment_subtotal: { amount: '100.00', currency: 'USD' },
-    purchase_amount: { amount: '0.0025', currency: 'BTC' },
-    coinbase_fee: { amount: '3.00', currency: 'USD' },
-    network_fee: { amount: '2.00', currency: 'USD' },
-    quote_id: 'quote-id-123',
-  },
+  payment_total: { amount: '105.00', currency: 'USD' },
+  payment_subtotal: { amount: '100.00', currency: 'USD' },
+  purchase_amount: { amount: '0.0025', currency: 'BTC' },
+  coinbase_fee: { amount: '3.00', currency: 'USD' },
+  network_fee: { amount: '2.00', currency: 'USD' },
+  quote_id: 'quote-id-123',
 };
 
 global.fetch = vi.fn(() =>
   Promise.resolve({
     json: () => Promise.resolve(mockResponseData),
-  }),
+  })
 ) as Mock;
 
 describe('fetchOnrampQuote', () => {
@@ -62,7 +60,7 @@ describe('fetchOnrampQuote', () => {
         headers: {
           Authorization: `Bearer ${mockApiKey}`,
         },
-      },
+      }
     );
     expect(result).toEqual({
       paymentSubtotal: { amount: '100.00', currency: 'USD' },
@@ -76,7 +74,7 @@ describe('fetchOnrampQuote', () => {
 
   it('should throw an error if fetch fails', async () => {
     global.fetch = vi.fn(() =>
-      Promise.reject(new Error('Fetch failed')),
+      Promise.reject(new Error('Fetch failed'))
     ) as Mock;
 
     await expect(
@@ -88,7 +86,7 @@ describe('fetchOnrampQuote', () => {
         paymentAmount: mockPaymentAmount,
         country: mockCountry,
         subdivision: mockSubdivision,
-      }),
+      })
     ).rejects.toThrow('Fetch failed');
   });
 });

@@ -110,7 +110,7 @@ export type FundButtonReact = {
   text?: string; // An optional text to be displayed in the button component
   successText?: string; // An optional text to be displayed in the button component when the transaction is successful
   errorText?: string; // An optional text to be displayed in the button component when the transaction fails
-  state?: 'default' | 'success' | 'error' | 'loading'; // The state of the button component
+  state?: FundButtonStateReact; // The state of the button component
   hideText?: boolean; // An optional prop to hide the text in the button component
   hideIcon?: boolean; // An optional prop to hide the icon in the button component
   fundingUrl?: string; // An optional prop to provide a custom funding URL
@@ -125,6 +125,8 @@ export type FundButtonReact = {
   onPopupClose?: () => void; // A callback function that will be called when the popup window is closed
   onClick?: () => void; // A callback function that will be called when the button is clicked
 };
+
+export type FundButtonStateReact = 'default' | 'success' | 'error' | 'loading';
 
 /**
  * Matches a JSON object.

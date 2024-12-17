@@ -1,6 +1,6 @@
 import { createContext, useContext, useState } from 'react';
 import { useValue } from '../../core-react/internal/hooks/useValue';
-import type { FundCardProviderReact, PaymentMethodReact } from '../types';
+import type { FundButtonStateReact, FundCardProviderReact, PaymentMethodReact } from '../types';
 
 type FundCardContextType = {
   selectedAsset?: string;
@@ -17,13 +17,11 @@ type FundCardContextType = {
   setExchangeRate: (exchangeRate: number) => void;
   exchangeRateLoading?: boolean;
   setExchangeRateLoading: (loading: boolean) => void;
-  submitButtonLoading?: boolean;
-  setSubmitButtonLoading: (loading: boolean) => void;
+  submitButtonState: FundButtonStateReact;
+  setSubmitButtonState: (state: FundButtonStateReact) => void;
 };
 
-const initialState = {} as FundCardContextType;
-
-const FundContext = createContext<FundCardContextType>(initialState);
+const FundContext = createContext<FundCardContextType | undefined>(undefined);
 
 export function FundCardProvider({ children, asset }: FundCardProviderReact) {
   const [selectedAsset, setSelectedAsset] = useState<string | undefined>(asset);
@@ -33,7 +31,7 @@ export function FundCardProvider({ children, asset }: FundCardProviderReact) {
   const [fundAmountCrypto, setFundAmountCrypto] = useState<string>('');
   const [exchangeRate, setExchangeRate] = useState<number | undefined>();
   const [exchangeRateLoading, setExchangeRateLoading] = useState<boolean | undefined>();
-  const [submitButtonLoading, setSubmitButtonLoading] = useState<boolean | undefined>();
+  const [submitButtonState, setSubmitButtonState] = useState<FundButtonStateReact>('default');
 
   const value = useValue<FundCardContextType>({
     selectedAsset,
@@ -50,8 +48,8 @@ export function FundCardProvider({ children, asset }: FundCardProviderReact) {
     setExchangeRate,
     exchangeRateLoading,
     setExchangeRateLoading,
-    submitButtonLoading,
-    setSubmitButtonLoading,
+    submitButtonState,
+    setSubmitButtonState,
   });
   return <FundContext.Provider value={value}>{children}</FundContext.Provider>;
 }
@@ -59,7 +57,7 @@ export function FundCardProvider({ children, asset }: FundCardProviderReact) {
 export function useFundContext() {
   const context = useContext(FundContext);
 
-  if (context === undefined) {
+  if (!context) {
     throw new Error('useFundContext must be used within a FundCardProvider');
   }
 

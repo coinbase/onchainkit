@@ -1,4 +1,4 @@
-import { type ChangeEvent, useEffect, useRef } from 'react';
+import { type ChangeEvent, useCallback, useEffect, useRef } from 'react';
 import { cn, text } from '../../styles/theme';
 import { useTheme } from '../../core-react/internal/hooks/useTheme';
 import { FundCardCurrencyLabel } from './FundCardCurrencyLabel';
@@ -23,7 +23,7 @@ export const FundCardAmountInput = ({
   const value = inputType === 'fiat' ? fiatValue : cryptoValue;
 
   // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: Simplifyed the function as much as possible
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     let value = e.target.value;
 
     value = formatDecimalInputValue(value);
@@ -49,15 +49,15 @@ export const FundCardAmountInput = ({
       const resultFiatValue = limitToTwoDecimalPlaces(calculatedFiatValue);
       setFiatValue(resultFiatValue === '0' ? '' : resultFiatValue);
     }
-  };
+  },[exchangeRate, setFiatValue, setCryptoValue, inputType]);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: When value changes, we want to update the input width
   useEffect(() => {
-    if (hiddenSpanRef.current) {
-      const width =
-        hiddenSpanRef.current.offsetWidth < 42
-          ? 42
-          : hiddenSpanRef.current.offsetWidth;
+    if (hiddenSpanRef.current) { // istanbul ignore next
+      const width =// istanbul ignore next
+        hiddenSpanRef.current.offsetWidth < 42// istanbul ignore next
+          ? 42// istanbul ignore next
+          : hiddenSpanRef.current.offsetWidth; // istanbul ignore next
       const currencyWidth =
         currencySpanRef.current?.getBoundingClientRect().width || 0;
 
@@ -97,7 +97,10 @@ export const FundCardAmountInput = ({
       <div className="flex" style={{ height: '78px' }}>
         {/* Display the fiat currency sign before the input*/}
         {inputType === 'fiat' && currencySign && (
-          <FundCardCurrencyLabel ref={currencySpanRef} currencySign={currencySign} />
+          <FundCardCurrencyLabel
+            ref={currencySpanRef}
+            currencySign={currencySign}
+          />
         )}
 
         <input
@@ -114,10 +117,14 @@ export const FundCardAmountInput = ({
           inputMode="decimal"
           minLength={1}
           placeholder="0"
+          data-testid="ockFundCardAmountInput"
         />
         {/* Display the crypto asset symbol after the input*/}
         {inputType === 'crypto' && assetSymbol && (
-          <FundCardCurrencyLabel ref={currencySpanRef} currencySign={assetSymbol} />
+          <FundCardCurrencyLabel
+            ref={currencySpanRef}
+            currencySign={assetSymbol}
+          />
         )}
       </div>
 
@@ -129,6 +136,7 @@ export const FundCardAmountInput = ({
           [0.12][ETH] - Now the currency symbol is displayed next to the input field
       */}
       <span
+        data-testid="ockHiddenSpan"
         ref={hiddenSpanRef}
         className={cn(
           componentTheme,

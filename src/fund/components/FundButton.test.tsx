@@ -109,4 +109,49 @@ describe('FundButton', () => {
     render(<FundButton state="error" />);
     expect(screen.getByTestId('fundButtonTextContent')).toHaveTextContent('Something went wrong');
   });
+
+  it('calls onPopupClose when the popup window is closed', () => {
+    vi.useFakeTimers()
+    const fundingUrl = 'https://props.funding.url';
+    const onPopupClose = vi.fn();
+    const { height, width } = { height: 200, width: 100 };
+    const mockPopupWindow = {
+      closed: false,
+      close: vi.fn(),
+    };
+    (getFundingPopupSize as Mock).mockReturnValue({ height, width });
+    (openPopup as Mock).mockReturnValue(mockPopupWindow);
+  
+    render(<FundButton fundingUrl={fundingUrl} onPopupClose={onPopupClose} />);
+  
+    const buttonElement = screen.getByRole('button');
+    fireEvent.click(buttonElement);
+  
+    // Simulate closing the popup
+    mockPopupWindow.closed = true;
+    vi.runOnlyPendingTimers();
+  
+    expect(onPopupClose).toHaveBeenCalled();
+  });
+
+  it('calls onClick when the fund button is clicked', () => {
+    const fundingUrl = 'https://props.funding.url';
+    const onClick = vi.fn();
+    const { height, width } = { height: 200, width: 100 };
+    (getFundingPopupSize as Mock).mockReturnValue({ height, width });
+
+    render(<FundButton fundingUrl={fundingUrl} onClick={onClick} />);
+
+    const buttonElement = screen.getByRole('button');
+    fireEvent.click(buttonElement);
+
+    expect(onClick).toHaveBeenCalled();
+    expect(getFundingPopupSize as Mock).toHaveBeenCalledWith('md', fundingUrl);
+    expect(openPopup as Mock).toHaveBeenCalledWith({
+      url: fundingUrl,
+      height,
+      width,
+      target: undefined,
+    });
+  });
 });

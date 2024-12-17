@@ -8,7 +8,7 @@ import { FundButton } from './FundButton';
 import { FundCardHeader } from './FundCardHeader';
 import { FundCardPaymentMethodSelectorDropdown } from './FundCardPaymentMethodSelectorDropdown';
 import FundCardAmountInput from './FundCardAmountInput';
-import { ONRAMP_BUY_URL } from '../constants';
+import { FUND_BUTTON_RESET_TIMEOUT, ONRAMP_BUY_URL } from '../constants';
 import { setupOnrampEventListeners } from '../utils/setupOnrampEventListeners';
 import type { FundCardPropsReact, PaymentMethodReact } from '../types';
 import FundCardAmountInputTypeSwitch from './FundCardAmountInputTypeSwitch';
@@ -107,8 +107,8 @@ export function FundCardContent({
     setSelectedInputType,
     selectedAsset,
     exchangeRateLoading,
-    submitButtonLoading,
-    setSubmitButtonLoading,
+    submitButtonState,
+    setSubmitButtonState,
   } = useFundContext();
 
   const fundAmount =
@@ -126,15 +126,24 @@ export function FundCardContent({
   useEffect(() => {
     setupOnrampEventListeners({
       onEvent: (event) => {
-        console.log('onEvent', event);
+        if (event.eventName === 'error') {
+          setSubmitButtonState('error');
+
+          setTimeout(() => {
+            setSubmitButtonState('default');
+          }, FUND_BUTTON_RESET_TIMEOUT);
+        }
       },
       onExit: (event) => {
-        setSubmitButtonLoading(false);
+        setSubmitButtonState('default');
         console.log('onExit', event);
       },
       onSuccess: () => {
-        setSubmitButtonLoading(false);
-        console.log('onSuccess');
+        setSubmitButtonState('success');
+
+        setTimeout(() => {
+          setSubmitButtonState('default');
+        }, FUND_BUTTON_RESET_TIMEOUT);
       },
     });
   }, []);
@@ -168,13 +177,13 @@ export function FundCardContent({
 
       <SubmitButton
         disabled={!fundAmount}
-        hideIcon={true}
+        hideIcon={submitButtonState === 'default'}
         text={buttonText}
         className="w-full"
         fundingUrl={fundingUrl}
-        state={submitButtonLoading ? 'loading' : 'default'}
-        onClick={() => setSubmitButtonLoading(true)}
-        onPopupClose={() => setSubmitButtonLoading(false)}
+        state={submitButtonState}
+        onClick={() => setSubmitButtonState('loading')}
+        onPopupClose={() => setSubmitButtonState('default')}
       />
     </form>
   );
