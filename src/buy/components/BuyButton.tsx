@@ -9,8 +9,8 @@ import {
   pressable,
   text,
 } from '../../styles/theme';
+import { ConnectWallet } from '../../wallet';
 import { useBuyContext } from './BuyProvider';
-import { ConnectWallet } from '@/wallet';
 
 export function BuyButton() {
   const {
