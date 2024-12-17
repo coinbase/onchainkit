@@ -16,10 +16,10 @@ const queryClient = new QueryClient();
 // WARNING: This is a publicly exposed private key used only for documentation demos.
 // Do not use this key for any real transactions or store any assets in this account.
 const DUMMY_PK =
-  '0xa67bdd8a49324aa36cb3f7f7064b9b560e3aa653b774be9793415c0a6fc62cf8';
+  '0xa67bdd8a49324aa36cb3f7f7064b9b560e3aa653b774be9793415c0a6fc62cf8' as const;
 
 const demoWalletConnector = (_config: Config) => {
-  const account = privateKeyToAccount(DUMMY_PK as `0x${string}`);
+  const account = privateKeyToAccount(DUMMY_PK);
 
   const client = createWalletClient({
     account,
