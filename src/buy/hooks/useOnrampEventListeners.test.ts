@@ -82,7 +82,7 @@ describe('useOnrampEventListeners', () => {
       statusName: 'success',
       statusData: {
         isMissingRequiredField: false,
-        transactionReceipt: undefined,
+        transactionReceipt: {},
         maxSlippage: 0.5,
       },
     });
