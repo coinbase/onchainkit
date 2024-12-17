@@ -56,7 +56,11 @@ describe('Draggable', () => {
   it('snaps to grid when dragging ends if enableSnapToGrid is true', async () => {
     const user = userEvent.setup();
     render(
-      <Draggable gridSize={10} startingPosition={{ x: 0, y: 0 }} enableSnapToGrid={true}>
+      <Draggable
+        gridSize={10}
+        startingPosition={{ x: 0, y: 0 }}
+        enableSnapToGrid={true}
+      >
         <div>Drag me</div>
       </Draggable>,
     );
