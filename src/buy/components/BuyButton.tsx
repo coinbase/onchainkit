@@ -23,8 +23,8 @@ export function BuyButton() {
   const isLoading =
     to?.loading ||
     from?.loading ||
-    fromETH.loading ||
-    fromUSDC.loading ||
+    fromETH?.loading ||
+    fromUSDC?.loading ||
     statusName === 'transactionPending' ||
     statusName === 'transactionApproved';
 

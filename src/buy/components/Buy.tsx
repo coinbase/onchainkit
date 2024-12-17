@@ -1,4 +1,5 @@
-import { useEffect, useRef } from 'react';
+import { useOutsideClick } from '@/ui-react/internal/hooks/useOutsideClick';
+import { useRef } from 'react';
 import { cn } from '../../styles/theme';
 import { FALLBACK_DEFAULT_MAX_SLIPPAGE } from '../../swap/constants';
 import type { BuyReact } from '../types';
@@ -10,28 +11,17 @@ import { BuyProvider, useBuyContext } from './BuyProvider';
 
 export function BuyContent({ className }: { className?: string }) {
   const { isDropdownOpen, setIsDropdownOpen } = useBuyContext();
-  const fundSwapContainerRef = useRef<HTMLDivElement>(null);
+  const buyContainerRef = useRef<HTMLDivElement>(null);
 
-  // Handle clicking outside the wallet component to close the dropdown.
-  useEffect(() => {
-    const handleClickOutsideComponent = (event: MouseEvent) => {
-      if (
-        fundSwapContainerRef.current &&
-        !fundSwapContainerRef.current.contains(event.target as Node) &&
-        isDropdownOpen
-      ) {
-        setIsDropdownOpen(false);
-      }
-    };
-
-    document.addEventListener('click', handleClickOutsideComponent);
-    return () =>
-      document.removeEventListener('click', handleClickOutsideComponent);
-  }, [isDropdownOpen, setIsDropdownOpen]);
+  useOutsideClick(buyContainerRef, () => {
+    if (isDropdownOpen) {
+      setIsDropdownOpen(false);
+    }
+  });
 
   return (
     <div
-      ref={fundSwapContainerRef}
+      ref={buyContainerRef}
       className={cn('relative flex flex-col gap-2', className)}
     >
       <div className={cn('flex items-center gap-4', className)}>
