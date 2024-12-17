@@ -64,7 +64,7 @@ For documentation and guides, visit [onchainkit.xyz](https://onchainkit.xyz/).
 - [Alec Chen](https://github.com/0xAlec) ([X](https://x.com/0xAlec))
 - [Paul Cramer](https://github.com/cpcramer) ([X](https://x.com/PaulCramer_))
 - [Shelley Lai](https://github.com/0xchiaroscuro) ([X](https://x.com/hey_shells), [Warpcast](https://warpcast.com/chiaroscuro))
-- [Léo Galley](https://github.com/kirkas)
+- [Léo Galley](https://github.com/kirkas) ([X](https://x.com/artefact_lad))
 - [Adam Lessey](https://github.com/alessey) ([X](https://x.com/alessey))
 
 ## 💫  Contributors
