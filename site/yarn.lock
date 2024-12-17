@@ -479,22 +479,24 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@coinbase/onchainkit@npm:0.36.0":
-  version: 0.36.0
-  resolution: "@coinbase/onchainkit@npm:0.36.0"
+"@coinbase/onchainkit@npm:0.36.1":
+  version: 0.36.1
+  resolution: "@coinbase/onchainkit@npm:0.36.1"
   dependencies:
     "@tanstack/react-query": "npm:^5"
     clsx: "npm:^2.1.1"
     graphql: "npm:^14 || ^15 || ^16"
     graphql-request: "npm:^6.1.0"
+    qrcode: "npm:^1.5.4"
     tailwind-merge: "npm:^2.3.0"
+    tailwindcss-animate: "npm:^1.0.7"
     viem: "npm:^2.21.33"
     wagmi: "npm:^2.12.24"
   peerDependencies:
     "@types/react": ^18
     react: ^18
     react-dom: ^18
-  checksum: 4c6cdb3fa9548dd52823e1206fb3e58fd28e537cdc2d1e3b3d3ebca745409e93b34a2a1dfca87cb984136146302a3b10f8c8e7abc6c9d74bcb12b140450f08ed
+  checksum: 82e26a974eba246cb3b3949038bf565ad7ca055e8b61e91d0b7729f8374e85fa44f4daed04cd085b82526415dc0a65a1c87aef87237aa6d395ae9986b07cd6f3
   languageName: node
   linkType: hard
 
@@ -8406,7 +8408,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "onchainkit@workspace:."
   dependencies:
-    "@coinbase/onchainkit": "npm:0.36.0"
+    "@coinbase/onchainkit": "npm:0.36.1"
     "@types/express": "npm:^4"
     "@types/react": "npm:latest"
     "@types/sitemap-generator": "npm:^8"
@@ -9039,6 +9041,19 @@ __metadata:
   bin:
     qrcode: bin/qrcode
   checksum: eb961cd8246e00ae338b6d4a3a28574174456db42cec7070aa2b315fb6576b7f040b0e4347be290032e447359a145c68cb60ef884d55ca3e1076294fed46f719
+  languageName: node
+  linkType: hard
+
+"qrcode@npm:^1.5.4":
+  version: 1.5.4
+  resolution: "qrcode@npm:1.5.4"
+  dependencies:
+    dijkstrajs: "npm:^1.0.1"
+    pngjs: "npm:^5.0.0"
+    yargs: "npm:^15.3.1"
+  bin:
+    qrcode: bin/qrcode
+  checksum: ae1d57c9cff6099639a590b432c71b15e3bd3905ce4353e6d00c95dee6bb769a8f773f6a7575ecc1b8ed476bf79c5138a4a65cb380c682de3b926d7205d34d10
   languageName: node
   linkType: hard
 
@@ -10312,6 +10327,15 @@ __metadata:
   dependencies:
     "@babel/runtime": "npm:^7.24.1"
   checksum: 5ea308e23c3ab1cf4c3f35f0a471753f4d3ed232d63dd7c09151a74428737321902203d90e9f0cb76ea5c3978e71b0adbc503dc455e56cda967a7674ae4b94b5
+  languageName: node
+  linkType: hard
+
+"tailwindcss-animate@npm:^1.0.7":
+  version: 1.0.7
+  resolution: "tailwindcss-animate@npm:1.0.7"
+  peerDependencies:
+    tailwindcss: "*"
+  checksum: ec7dbd1631076b97d66a1fbaaa06e0725fccfa63119221e8d87a997b02dcede98ad88bb1ef6665b968f5d260fcefb10592e0299ca70208d365b37761edf5e19a
   languageName: node
   linkType: hard
 
