@@ -32,6 +32,7 @@ import { useSendCalls } from 'wagmi/experimental';
 import { useCapabilitiesSafe } from '../../core-react/internal/hooks/useCapabilitiesSafe';
 import { useOnchainKit } from '../../core-react/useOnchainKit';
 import { buildSwapTransaction } from '../../core/api/buildSwapTransaction';
+import type { GetSwapQuoteResponse } from '../../core/api/types';
 import type { LifecycleStatus, SwapError, SwapUnit } from '../../swap/types';
 import { getSwapErrorCode } from '../../swap/utils/getSwapErrorCode';
 import {
@@ -224,11 +225,6 @@ const renderWithProviders = ({
 
 const TestSwapComponent = () => {
   const context = useBuyContext();
-  useEffect(() => {
-    context?.from?.setToken?.(daiToken);
-    context?.from?.setAmount?.('100');
-    context?.to?.setToken?.(degenToken);
-  }, [context]);
   const handleStatusError = async () => {
     context.updateLifecycleStatus({
       statusName: 'error',
@@ -398,6 +394,27 @@ describe('BuyProvider', () => {
       to: mockToDegen,
       fromETH: mockFromEth,
       fromUSDC: mockFromUsdc,
+    });
+  });
+
+  it('should return response', async () => {
+    const mockResponse = {
+      response: { amountUsd: '10' },
+    } as unknown as GetSwapQuoteResponse;
+    vi.mocked(getBuyQuote).mockResolvedValue({ response: mockResponse });
+    const { result } = renderHook(() => useBuyContext(), { wrapper });
+    // console.log('result', result);
+    await act(async () => {
+      result.current.handleAmountChange('10');
+    });
+
+    // expect(result.current.to?.amount).toBe('10');
+    expect(validateQuote).toHaveBeenCalledWith({
+      to: mockToDegen,
+      responseETH: mockResponse,
+      responseUSDC: mockResponse,
+      responseFrom: mockResponse,
+      updateLifecycleStatus: expect.any(Function),
     });
   });
 
