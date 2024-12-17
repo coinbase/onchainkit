@@ -37,7 +37,7 @@ export default defineConfig({
       '@/core': path.resolve(__dirname, './src/core'),
       '@/core-react': path.resolve(__dirname, './src/core-react'),
       '@/ui-react': path.resolve(__dirname, './src/ui/react'),
-      '@/': path.resolve(__dirname, './src'),
+      '@': path.resolve(__dirname, './src'),
     },
     environment: 'jsdom',
     exclude: [
