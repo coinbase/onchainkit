@@ -19,8 +19,3 @@
 - **fix**: Fixed development alias. By @alessy #1749
 - **docs**: Remove redundant header in wallet docs. By @fakepixels #1678
 - **fix**: Fixed storybook. By @alessy #1753
-
-
-
-
-
