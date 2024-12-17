@@ -1,20 +1,36 @@
 # Changelog
 
+## 0.36.1
+
+### Patch Changes
+
+- c7d3cff: - **docs**: Updated `Identity` component preview. By @cpcramer #1717
+  - **docs**: Updated `WalletModal` image size. By @cpcramer #1723
+  - **chore**: Added animation to landing page. By @mindapivessa #1682
+  - **dev**: Fixed test file type errors and set dev aliases. By @dschlabach @alessey #1720
+  - **chore**: Updated WalletModal UI. By @cpcramer #1727
+  - **feat**: Added tailwindcss-animate. By @alessey #1734
+  - **fix**: Fixed onramp listener function bug. By @abcrane123 #1728
+  - **docs**: Fixed typos in docs & README.md. By @Guayaba221 @vtjl10 @omahs @famouswizard @Olexandr88 @mdqst @dschlabach @detrina @Danyylka #1711 #1735 #1736 #1737 #1739 #1745 #1746 #1747 #1743 #1741
+  - **feat**: Added SwapLite util functions. By @abcrane123 #1648
+  - **refactor**: Migrated NFT components to new file structure. By @alessey #1714
+  - **chore**: Renamed SwapLite utils to Buy utils. By @abcrane123 #1742
+  - **feat**: Added QrCode component. By @brendan-defi #1731
+  - **refactor**: Moved web utils to ui/react/internal/utils. By @dschlabach #1716
+  - **feat**: Added Draggable component. By @brendan-defi #1730
+  - **fix**: Fixed development alias. By @alessey #1749
+  - **docs**: Remove redundant header in wallet docs. By @fakepixels #1678
+  - **fix**: Fixed storybook. By @alessey #1753
+
 ## 0.36.0
 
 ### Minor Changes
 
- -**feat**: Improved funding flow in `Checkout` by @0xAlec #1692 
- -**chore**: Added `useOutsideClick` hook. By @cpcramer #1612 
- -**chore**: Theme styling improvements. By @brendan-defi #1676 
- -**fix**: Fixed `TokenDropdown` when parent container is larger than button. By @dschlabach #1667 
- -**chore**: Removed `Farcaster Frames`. Deprecating `Framegear`, `Frames`, `XMTP`, and `Neynar` support. By @cpcramer #1693 
- -**feat**: Updated `WalletModal` to support MetaMask wallet connection. By @cpcramer #1701 -**fix**: Fixed changelog generation. By @dschlabach #1680 
- -**docs**: Documentation updates and improvements. By @brendan-defi @0xAlec @dschlabach #1690 #1685
+-**feat**: Improved funding flow in `Checkout` by @0xAlec #1692 -**chore**: Added `useOutsideClick` hook. By @cpcramer #1612 -**chore**: Theme styling improvements. By @brendan-defi #1676 -**fix**: Fixed `TokenDropdown` when parent container is larger than button. By @dschlabach #1667 -**chore**: Removed `Farcaster Frames`. Deprecating `Framegear`, `Frames`, `XMTP`, and `Neynar` support. By @cpcramer #1693 -**feat**: Updated `WalletModal` to support MetaMask wallet connection. By @cpcramer #1701 -**fix**: Fixed changelog generation. By @dschlabach #1680 -**docs**: Documentation updates and improvements. By @brendan-defi @0xAlec @dschlabach #1690 #1685
 
-  Breaking Changes:
+Breaking Changes:
 
-  - `Farcaster Frames` including `Framegear`, `Frames`, `XMTP`, and `Neynar` is no longer supported.
+- `Farcaster Frames` including `Framegear`, `Frames`, `XMTP`, and `Neynar` is no longer supported.
 
 ## 0.35.8
 
