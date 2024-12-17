@@ -40,7 +40,7 @@ export function BuyOnrampItem({
       )}
       onClick={handleClick}
       type="button"
-      data-testid={`ock-${icon}OrampItem`}
+      data-testid={`ock-${icon}OnrampItem`}
     >
       <div className="flex h-9 w-9 items-center justify-center">
         {ONRAMP_ICON_MAP[icon]}

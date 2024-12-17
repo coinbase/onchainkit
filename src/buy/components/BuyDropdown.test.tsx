@@ -64,7 +64,7 @@ describe('BuyDropdown', () => {
     (openPopup as Mock).mockReturnValue('popup');
     render(<BuyDropdown />);
 
-    const onrampButton = screen.getByTestId('ock-applePayOrampItem');
+    const onrampButton = screen.getByTestId('ock-applePayOnrampItem');
 
     act(() => {
       fireEvent.click(onrampButton);
@@ -83,5 +83,24 @@ describe('BuyDropdown', () => {
     render(<BuyDropdown />);
 
     expect(screen.queryByText(/≈/)).not.toBeInTheDocument();
+  });
+
+  it('adds a leading zero to fundAmount if it starts with a period', () => {
+    (openPopup as Mock).mockImplementation(() => ({ closed: false })); // Mock popup function
+    (useBuyContext as Mock).mockReturnValue({
+      ...mockContextValue,
+      to: { ...mockContextValue.to, amount: '.5' },
+    });
+    render(<BuyDropdown />);
+
+    // Find and click the first BuyOnrampItem button
+    const buyButton = screen.getByTestId('ock-applePayOnrampItem');
+    fireEvent.click(buyButton);
+
+    expect(openPopup).toHaveBeenCalledWith(
+      expect.objectContaining({
+        url: 'https://pay.coinbase.com/buy/one-click?appId=mock-project-id&addresses={"0xMockAddress":["base"]}&assets=["DEGEN"]&presetCryptoAmount=0.5&defaultPaymentMethod=APPLE_PAY',
+      }),
+    );
   });
 });
