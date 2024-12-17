@@ -11,10 +11,9 @@ import {
   Wallet,
   WalletDropdown,
   WalletDropdownBasename,
-  WalletDropdownDisconnect,
   WalletDropdownLink,
 } from '@coinbase/onchainkit/wallet';
-import App from '../App.tsx';
+import AppDemo from '../AppDemo.tsx';
 
 export const walletDemoCode = `
   import {
@@ -24,7 +23,6 @@ export const walletDemoCode = `
     WalletDropdown,
     WalletDropdownBasename,
     WalletDropdownLink,
-    WalletDropdownDisconnect,
   } from '@coinbase/onchainkit/wallet';
   import {
     Address,
@@ -42,7 +40,7 @@ export const walletDemoCode = `
 
 function WalletDemo() {
   return (
-    <App>
+    <AppDemo>
       <Wallet>
         <ConnectWallet>
           <Avatar className="h-6 w-6" />
@@ -61,10 +59,9 @@ function WalletDemo() {
             Wallet
           </WalletDropdownLink>
           <WalletDropdownBasename />
-          <WalletDropdownDisconnect />
         </WalletDropdown>
       </Wallet>
-    </App>
+    </AppDemo>
   );
 }
 

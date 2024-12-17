@@ -7,7 +7,7 @@ import {
   SwapToggleButton,
 } from '@coinbase/onchainkit/swap';
 import { ConnectWallet, Wallet } from '@coinbase/onchainkit/wallet';
-import App from '../App.tsx';
+import AppDemo from '../AppDemo.tsx';
 import SwapWrapper from '../SwapWrapper.tsx';
 
 export const swapDemoCode = `
@@ -48,7 +48,7 @@ export const swapDemoCode = `
 function SwapDemo() {
   return (
     <div className="mx-auto flex flex-col items-center justify-center">
-      <App>
+      <AppDemo>
         <SwapWrapper>
           {({ address, swappableTokens }) => {
             if (address) {
@@ -84,7 +84,7 @@ function SwapDemo() {
             );
           }}
         </SwapWrapper>
-      </App>
+      </AppDemo>
     </div>
   );
 }
