@@ -2,7 +2,6 @@
 
 import tailwindcssAnimate from 'tailwindcss-animate';
 
-
 export default {
   content: ['./src/**/*.{ts,tsx}'],
   darkMode: ['class'],
