@@ -32,7 +32,7 @@
 </p>
 
 <p>
-  <a href="https://twitter.com/OnchainKit">
+  <a href="https://x.com/OnchainKit">
     <img src="https://img.shields.io/twitter/follow/OnchainKit.svg?style=social" alt="Follow @OnchainKit" />
   </a>
   <a href="https://discord.gg/vbpeXpkPkw">
@@ -58,14 +58,14 @@ For documentation and guides, visit [onchainkit.xyz](https://onchainkit.xyz/).
 ## 🌁 Team and Community
 
 - **OnchainKit** ([X](https://x.com/Onchainkit), [Warpcast](https://warpcast.com/onchainkit))
-- [Tina He](https://github.com/fakepixels) ([X](https://twitter.com/fkpxls))
-- [Mind Apivessa](https://github.com/mindapivessa) ([X](https://twitter.com/spicypaprika_))
-- [Alissa Crane](https://github.com/abcrane123) ([X](https://twitter.com/abcrane123))
-- [Alec Chen](https://github.com/0xAlec) ([X](https://twitter.com/0xAlec))
-- [Paul Cramer](https://github.com/cpcramer) ([X](https://twitter.com/PaulCramer_))
-- [Shelley Lai](https://github.com/0xchiaroscuro) ([X](https://twitter.com/hey_shells), [Warpcast](https://warpcast.com/chiaroscuro))
+- [Tina He](https://github.com/fakepixels) ([X](https://x.com/fkpxls))
+- [Mind Apivessa](https://github.com/mindapivessa) ([X](https://x.com/spicypaprika_))
+- [Alissa Crane](https://github.com/abcrane123) ([X](https://x.com/abcrane123))
+- [Alec Chen](https://github.com/0xAlec) ([X](https://x.com/0xAlec))
+- [Paul Cramer](https://github.com/cpcramer) ([X](https://x.com/PaulCramer_))
+- [Shelley Lai](https://github.com/0xchiaroscuro) ([X](https://x.com/hey_shells), [Warpcast](https://warpcast.com/chiaroscuro))
 - [Léo Galley](https://github.com/kirkas)
-- [Adam Lessey](https://github.com/alessey) ([X](https://twitter.com/alessey))
+- [Adam Lessey](https://github.com/alessey) ([X](https://x.com/alessey))
 
 ## 💫  Contributors
 
