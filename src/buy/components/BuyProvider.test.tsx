@@ -397,24 +397,98 @@ describe('BuyProvider', () => {
     });
   });
 
-  it('should return response', async () => {
+  it('should call validateQuote with responses', async () => {
     const mockResponse = {
       response: { amountUsd: '10' },
     } as unknown as GetSwapQuoteResponse;
     vi.mocked(getBuyQuote).mockResolvedValue({ response: mockResponse });
     const { result } = renderHook(() => useBuyContext(), { wrapper });
-    // console.log('result', result);
     await act(async () => {
       result.current.handleAmountChange('10');
     });
-
-    // expect(result.current.to?.amount).toBe('10');
     expect(validateQuote).toHaveBeenCalledWith({
       to: mockToDegen,
       responseETH: mockResponse,
       responseUSDC: mockResponse,
       responseFrom: mockResponse,
       updateLifecycleStatus: expect.any(Function),
+    });
+  });
+
+  it('should not set lifecycle status to amountChange with invalid quote', async () => {
+    const mockResponse = {
+      response: { amountUsd: '10' },
+    } as unknown as GetSwapQuoteResponse;
+    vi.mocked(getBuyQuote).mockResolvedValue({ response: mockResponse });
+    (validateQuote as Mock).mockReturnValue({
+      isValid: false,
+    });
+
+    const { result } = renderHook(() => useBuyContext(), { wrapper });
+    await act(async () => {
+      result.current.handleAmountChange('10');
+    });
+    expect(result.current.lifecycleStatus).not.toEqual({
+      statusName: 'amountChange',
+      statusData: expect.objectContaining({
+        isMissingRequiredField: false,
+      }),
+    });
+  });
+
+  it('should set lifecycle status to amountChange with valid quote', async () => {
+    const mockResponse = {
+      response: { amountUsd: '10' },
+    } as unknown as GetSwapQuoteResponse;
+    vi.mocked(getBuyQuote).mockResolvedValue({
+      response: mockResponse,
+      formattedFromAmount: '20',
+    });
+    (validateQuote as Mock).mockReturnValue({
+      isValid: true,
+    });
+
+    const { result } = renderHook(() => useBuyContext(), { wrapper });
+    // console.log('result', result);
+    await act(async () => {
+      result.current.handleAmountChange('10');
+    });
+    expect(result.current.lifecycleStatus).toEqual({
+      statusName: 'amountChange',
+      statusData: expect.objectContaining({
+        amountETH: '20',
+        amountUSDC: '20',
+        amountFrom: '20',
+        amountTo: '10',
+      }),
+    });
+  });
+
+  it('should set lifecycle status to amountChange with valid quote and empty formattedFromAmount', async () => {
+    const mockResponse = {
+      response: { amountUsd: '10' },
+    } as unknown as GetSwapQuoteResponse;
+    vi.mocked(getBuyQuote).mockResolvedValue({
+      response: mockResponse,
+      formattedFromAmount: '',
+    });
+    (validateQuote as Mock).mockReturnValue({
+      isValid: true,
+    });
+
+    const { result } = renderHook(() => useBuyContext(), { wrapper });
+    // console.log('result', result);
+    await act(async () => {
+      result.current.handleAmountChange('10');
+    });
+    expect(result.current.lifecycleStatus).toEqual({
+      statusName: 'amountChange',
+      statusData: expect.objectContaining({
+        amountETH: '',
+        amountUSDC: '',
+        amountFrom: '',
+        amountTo: '10',
+      }),
     });
   });
 
