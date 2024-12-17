@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
-import { cn } from '../../styles/theme';
+import { zIndex } from '@/styles/constants';
+import { cn } from '@/styles/theme';
 
 type DraggableProps = {
   children: React.ReactNode;
@@ -68,12 +69,12 @@ export default function Draggable({
       data-testid="ockDraggable"
       className={cn(
         'fixed select-none',
+        zIndex.modal,
         isDragging ? 'cursor-grabbing' : 'cursor-grab',
       )}
       style={{
         left: `${position.x}px`,
         top: `${position.y}px`,
-        zIndex: 1000,
         touchAction: 'none',
       }}
       onPointerDown={handleDragStart}
