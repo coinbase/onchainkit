@@ -1,9 +1,9 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
+import { degenToken } from '../../token/constants';
 import { useOutsideClick } from '../../ui/react/internal/hooks/useOutsideClick';
 import { Buy } from './Buy';
 import { useBuyContext } from './BuyProvider';
-import { degenToken } from '../../token/constants';
 
 vi.mock('./BuyProvider', () => ({
   useBuyContext: vi.fn(),

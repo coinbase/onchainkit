@@ -2,9 +2,9 @@ import { openPopup } from '@/ui-react/internal/utils/openPopup';
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useOnchainKit } from '../../core-react/useOnchainKit';
+import { degenToken, ethToken, usdcToken } from '../../token/constants';
 import { BuyDropdown } from './BuyDropdown';
 import { useBuyContext } from './BuyProvider';
-import { degenToken, ethToken, usdcToken } from '../../token/constants';
 
 vi.mock('./BuyProvider', () => ({
   useBuyContext: vi.fn(),
@@ -23,7 +23,7 @@ vi.mock('../../fund/utils/getFundingPopupSize', () => ({
 }));
 
 vi.mock('wagmi', async () => {
-  const actual = await vi.importActual<any>('wagmi');
+  const actual = await vi.importActual('wagmi');
   return {
     ...actual,
     useAccount: () => ({ address: '0xMockAddress' }),

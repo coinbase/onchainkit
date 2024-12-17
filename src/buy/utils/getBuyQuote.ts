@@ -1,6 +1,5 @@
 import { getSwapQuote } from '@/core/api/getSwapQuote';
 import type {
-  APIError,
   GetSwapQuoteParams,
   GetSwapQuoteResponse,
 } from '@/core/api/types';

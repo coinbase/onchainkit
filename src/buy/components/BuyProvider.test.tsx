@@ -9,7 +9,6 @@ import {
 import React, { act, useCallback, useEffect } from 'react';
 import type { TransactionReceipt } from 'viem';
 import {
-  type Mock,
   afterEach,
   beforeEach,
   describe,
