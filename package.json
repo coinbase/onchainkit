@@ -121,6 +121,12 @@
       "import": "./esm/core/api/index.js",
       "default": "./esm/core/api/index.js"
     },
+    "./buy": {
+      "types": "./esm/buy/index.d.ts",
+      "module": "./esm/buy/index.js",
+      "import": "./esm/buy/index.js",
+      "default": "./esm/buy/index.js"
+    },
     "./checkout": {
       "types": "./esm/checkout/index.d.ts",
       "module": "./esm/checkout/index.js",
