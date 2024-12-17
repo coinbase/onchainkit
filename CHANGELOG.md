@@ -566,14 +566,14 @@ Learn more about this component type at https://onchainkit.xyz/transactiontypes#
 
 ### Patch Changes
 
-- **fix**: updatd Base mainnet L2 resolver address. By @kirkas #903 04e1376
+- **fix**: updated Base mainnet L2 resolver address. By @kirkas #903 04e1376
 - **feat**: added `SmartWalletCapabilities` paymaster support in the `Transaction` component. By @ilikesymmetry @cpcramer #893
 
 ## 0.26.6
 
 ### Patch Changes
 
-- **fix**: have `WalletDropdownDisconnect` to correclty disconnect all connectors. By @kirkas #895 8e78166
+- **fix**: have `WalletDropdownDisconnect` to correctly disconnect all connectors. By @kirkas #895 8e78166
 
 ## 0.26.5
 
@@ -948,7 +948,7 @@ Features
 - **feat**: added swappable tokens to `SwapAmountInput`. By @abcrane123 #561
 - **fix**: updated Smart Wallet util. By @lukasrosario #564
 - **chore**: updated `isWalletASmartWallet` name to be `isWalletACoinbaseSmartWallet`. We want to explicitly state that this is checking for Coinbase Smart Wallets. By @cpcramer #562
-- **feat**: enableded linting in CI. By @zizzamia #559
+- **feat**: enabled linting in CI. By @zizzamia #559
 
 ## 0.20.7
 
