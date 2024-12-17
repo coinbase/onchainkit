@@ -13,7 +13,7 @@ export default function Draggable({
   children,
   gridSize = 1,
   startingPosition = { x: 20, y: 20 },
-  enableSnapToGrid = true,
+  enableSnapToGrid = false,
 }: DraggableProps) {
   const [position, setPosition] = useState(startingPosition);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
@@ -68,14 +68,13 @@ export default function Draggable({
     <div
       data-testid="ockDraggable"
       className={cn(
-        'fixed select-none',
+        'fixed touch-none select-none',
         zIndex.modal,
         isDragging ? 'cursor-grabbing' : 'cursor-grab',
       )}
       style={{
         left: `${position.x}px`,
         top: `${position.y}px`,
-        touchAction: 'none',
       }}
       onPointerDown={handleDragStart}
     >
