@@ -14,7 +14,6 @@ import { useValue } from '../../core-react/internal/hooks/useValue';
 import { useOnchainKit } from '../../core-react/useOnchainKit';
 import { buildSwapTransaction } from '../../core/api/buildSwapTransaction';
 import { setupOnrampEventListeners } from '../../fund';
-import type { EventMetadata } from '../../fund/types';
 import { FALLBACK_DEFAULT_MAX_SLIPPAGE } from '../../swap/constants';
 import { useAwaitCalls } from '../../swap/hooks/useAwaitCalls';
 import { useLifecycleStatus } from '../../swap/hooks/useLifecycleStatus';
@@ -24,6 +23,7 @@ import { processSwapTransaction } from '../../swap/utils/processSwapTransaction'
 import { GENERIC_ERROR_MESSAGE } from '../../transaction/constants';
 import { isUserRejectedRequestError } from '../../transaction/utils/isUserRejectedRequestError';
 import { useBuyTokens } from '../hooks/useBuyTokens';
+import { useOnrampEventListeners } from '../hooks/useOnrampEventListeners';
 import { usePopupMonitor } from '../hooks/usePopupMonitor';
 import { useResetBuyInputs } from '../hooks/useResetBuyInputs';
 import type { BuyContextType, BuyProviderReact } from '../types';
@@ -103,43 +103,11 @@ export function BuyProvider({
     updateLifecycleStatus,
   });
 
-  const handleOnrampEvent = useCallback(
-    (data: EventMetadata) => {
-      if (data.eventName === 'transition_view') {
-        updateLifecycleStatus({
-          statusName: 'transactionPending',
-        });
-      }
-    },
-    [updateLifecycleStatus],
-  );
-
-  const handleOnrampSuccess = useCallback(() => {
-    updateLifecycleStatus({
-      statusName: 'success',
-      statusData: {},
-    });
-  }, [updateLifecycleStatus]);
-
-  const onPopupClose = useCallback(() => {
-    updateLifecycleStatus({
-      statusName: 'init',
-      statusData: {
-        isMissingRequiredField: false,
-        maxSlippage: config.maxSlippage,
-      },
-    });
-  }, [updateLifecycleStatus, config.maxSlippage]);
-
-  useEffect(() => {
-    const unsubscribe = setupOnrampEventListeners({
-      onEvent: handleOnrampEvent,
-      onSuccess: handleOnrampSuccess,
-    });
-    return () => {
-      unsubscribe();
-    };
-  }, [handleOnrampEvent, handleOnrampSuccess]);
+  const { onPopupClose } = useOnrampEventListeners({
+    updateLifecycleStatus,
+    setupOnrampEventListeners,
+    maxSlippage: config.maxSlippage,
+  });
 
   // used to detect when the popup is closed in order to stop loading state
   const { startPopupMonitor } = usePopupMonitor(onPopupClose);
