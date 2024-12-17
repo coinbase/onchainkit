@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.36.2
+
+### Patch Changes
+
+- cf80456: -**docs**: Auto logged in components on landing page. @cpcramer #1754
+
 ## 0.36.1
 
 ### Patch Changes
