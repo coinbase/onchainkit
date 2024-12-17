@@ -30,20 +30,20 @@ import { base } from 'wagmi/chains';
 import { mock } from 'wagmi/connectors';
 import { useSendCalls } from 'wagmi/experimental';
 import { useCapabilitiesSafe } from '../../core-react/internal/hooks/useCapabilitiesSafe';
-import { buildSwapTransaction } from '../../core/api/buildSwapTransaction';
 import { useOnchainKit } from '../../core-react/useOnchainKit';
-import { getBuyQuote } from '../utils/getBuyQuote';
+import { buildSwapTransaction } from '../../core/api/buildSwapTransaction';
+import type { LifecycleStatus, SwapError, SwapUnit } from '../../swap/types';
+import { getSwapErrorCode } from '../../swap/utils/getSwapErrorCode';
 import {
   daiToken,
   degenToken,
   ethToken,
   usdcToken,
 } from '../../token/constants';
-import type { LifecycleStatus, SwapError, SwapUnit } from '../../swap/types';
-import { getSwapErrorCode } from '../../swap/utils/getSwapErrorCode';
-import { BuyProvider, useBuyContext } from './BuyProvider';
 import { useBuyTokens } from '../hooks/useBuyTokens';
+import { getBuyQuote } from '../utils/getBuyQuote';
 import { validateQuote } from '../utils/validateQuote';
+import { BuyProvider, useBuyContext } from './BuyProvider';
 
 const mockResetFunction = vi.fn();
 vi.mock('../hooks/useResetBuyInputs', () => ({

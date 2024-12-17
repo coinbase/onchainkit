@@ -9,7 +9,7 @@ import { BuyDropdown } from './BuyDropdown';
 import { BuyMessage } from './BuyMessage';
 import { BuyProvider, useBuyContext } from './BuyProvider';
 
-export function BuyContent({ className }: { className?: string }) {
+function BuyContent({ className }: { className?: string }) {
   const { isDropdownOpen, setIsDropdownOpen } = useBuyContext();
   const buyContainerRef = useRef<HTMLDivElement>(null);
 

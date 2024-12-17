@@ -1,8 +1,8 @@
 import type { EventMetadata } from '@/fund/types';
 import type { LifecycleStatus } from '@/swap/types';
-import { useEffect, useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
+import type { TransactionReceipt } from 'viem';
 import { setupOnrampEventListeners } from '../../fund/utils/setupOnrampEventListeners';
-import { TransactionReceipt } from 'viem';
 
 type UseOnrampLifecycleParams = {
   updateLifecycleStatus: (status: LifecycleStatus) => void;
@@ -25,7 +25,7 @@ export const useOnrampEventListeners = ({
         });
       }
     },
-    [updateLifecycleStatus],
+    [maxSlippage, updateLifecycleStatus],
   );
 
   const handleOnrampSuccess = useCallback(() => {
@@ -37,7 +37,7 @@ export const useOnrampEventListeners = ({
         maxSlippage,
       },
     });
-  }, [updateLifecycleStatus]);
+  }, [maxSlippage, updateLifecycleStatus]);
 
   const onPopupClose = useCallback(() => {
     updateLifecycleStatus({
@@ -58,7 +58,7 @@ export const useOnrampEventListeners = ({
     return () => {
       unsubscribe();
     };
-  }, [setupOnrampEventListeners, handleOnrampEvent, handleOnrampSuccess]);
+  }, [handleOnrampEvent, handleOnrampSuccess]);
 
   return { onPopupClose };
 };
