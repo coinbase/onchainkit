@@ -13,7 +13,6 @@ import { useCapabilitiesSafe } from '../../core-react/internal/hooks/useCapabili
 import { useValue } from '../../core-react/internal/hooks/useValue';
 import { useOnchainKit } from '../../core-react/useOnchainKit';
 import { buildSwapTransaction } from '../../core/api/buildSwapTransaction';
-import { setupOnrampEventListeners } from '../../fund';
 import { FALLBACK_DEFAULT_MAX_SLIPPAGE } from '../../swap/constants';
 import { useAwaitCalls } from '../../swap/hooks/useAwaitCalls';
 import { useLifecycleStatus } from '../../swap/hooks/useLifecycleStatus';
@@ -105,7 +104,6 @@ export function BuyProvider({
 
   const { onPopupClose } = useOnrampEventListeners({
     updateLifecycleStatus,
-    setupOnrampEventListeners,
     maxSlippage: config.maxSlippage,
   });
 
