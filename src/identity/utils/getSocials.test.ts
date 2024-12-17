@@ -40,7 +40,7 @@ describe('getSocials', () => {
         case 'xyz.farcaster':
           return Promise.resolve('vitalikbuterin');
         case 'url':
-          return Promise.resolve('https://vitalik.ca');
+          return Promise.resolve('https://vitalik.eth.limo');
       }
     });
 
@@ -50,7 +50,7 @@ describe('getSocials', () => {
       twitter: 'vitalik',
       github: 'vitalikbuterin',
       farcaster: 'vitalikbuterin',
-      website: 'https://vitalik.ca',
+      website: 'https://vitalik.eth.limo',
     });
 
     expect(mockClient.getEnsText).toHaveBeenCalledTimes(4);
