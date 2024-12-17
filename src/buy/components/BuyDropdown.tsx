@@ -66,7 +66,7 @@ export function BuyDropdown() {
         color.foreground,
         background.default,
         'absolute right-0 bottom-0 flex translate-y-[105%] flex-col gap-2',
-        'border min-w-80 rounded p-2 rounded-lg',
+        'min-w-80 rounded rounded-lg border p-2',
       )}
     >
       <div className="px-2 pt-2">Buy with</div>
