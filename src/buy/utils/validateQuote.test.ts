@@ -1,8 +1,8 @@
-import { type Mock, beforeEach, vi, expect, it, describe } from 'vitest';
-import { validateQuote } from './validateQuote';
+import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
+import type { GetSwapQuoteResponse } from '../../core/api/types';
+import type { SwapUnit } from '../../swap/types';
 import { isSwapError } from '../../swap/utils/isSwapError';
-import { SwapUnit } from '../../swap/types';
-import { GetSwapQuoteResponse } from '../../core/api/types';
+import { validateQuote } from './validateQuote';
 
 vi.mock('../../swap/utils/isSwapError', () => ({
   isSwapError: vi.fn(),

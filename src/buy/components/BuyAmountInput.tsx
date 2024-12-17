@@ -1,6 +1,6 @@
 import { isValidAmount } from '../../core/utils/isValidAmount';
 import { TextInput } from '../../internal/components/TextInput';
-import { cn, pressable } from '../../styles/theme';
+import { cn, color } from '../../styles/theme';
 import { formatAmount } from '../../swap/utils/formatAmount';
 import { TokenChip } from '../../token';
 import { useBuyContext } from './BuyProvider';
@@ -28,7 +28,7 @@ export function BuyAmountInput() {
         inputValidator={isValidAmount}
       />
       <TokenChip
-        className={cn(pressable.inverse, 'rounded-md')}
+        className={cn(color.foreground, 'rounded-md')}
         token={to.token}
       />
     </div>

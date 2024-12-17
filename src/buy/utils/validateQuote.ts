@@ -1,5 +1,5 @@
 import type { GetSwapQuoteResponse } from '@/core/api/types';
-import type { SwapUnit, LifecycleStatusUpdate } from '@/swap/types';
+import type { LifecycleStatusUpdate, SwapUnit } from '@/swap/types';
 import { isSwapError } from '../../swap/utils/isSwapError';
 
 type ValidateQuoteParams = {

@@ -1,4 +1,4 @@
-import { renderHook, act } from '@testing-library/react';
+import { act, renderHook } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { setupOnrampEventListeners } from '../../fund/utils/setupOnrampEventListeners';
 import { useOnrampEventListeners } from './useOnrampEventListeners';
