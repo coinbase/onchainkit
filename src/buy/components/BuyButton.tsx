@@ -9,10 +9,12 @@ import {
   pressable,
   text,
 } from '../../styles/theme';
+import { ConnectWallet } from '../../wallet';
 import { useBuyContext } from './BuyProvider';
 
 export function BuyButton() {
   const {
+    address,
     setIsDropdownOpen,
     from,
     fromETH,
@@ -40,6 +42,10 @@ export function BuyButton() {
     }
     return 'Buy';
   }, [statusName]);
+
+  if (!isDisabled && !address) {
+    return <ConnectWallet text="Buy" className="h-12 w-24 min-w-24" />;
+  }
 
   return (
     <button
