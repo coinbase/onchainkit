@@ -1,5 +1,11 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
+import {
+  type Config,
+  type UseConnectReturnType,
+  useAccount,
+  useConnect,
+} from 'wagmi';
 import { useOnchainKit } from '../../core-react/useOnchainKit';
 import { degenToken } from '../../token/constants';
 import { useOutsideClick } from '../../ui/react/internal/hooks/useOutsideClick';
@@ -27,6 +33,11 @@ vi.mock('../../ui/react/internal/hooks/useOutsideClick', () => ({
 
 vi.mock('../../core-react/useOnchainKit', () => ({
   useOnchainKit: vi.fn(),
+}));
+
+vi.mock('wagmi', () => ({
+  useAccount: vi.fn(),
+  useConnect: vi.fn(),
 }));
 
 type useOutsideClickType = ReturnType<
@@ -58,7 +69,18 @@ describe('Buy', () => {
         amount: 10,
         setAmount: vi.fn(),
       },
+      address: '0x123',
     });
+
+    (useAccount as Mock).mockReturnValue({
+      address: '0x123',
+    });
+
+    vi.mocked(useConnect).mockReturnValue({
+      connectors: [{ id: 'mockConnector' }],
+      connect: vi.fn(),
+      status: 'connected',
+    } as unknown as UseConnectReturnType<Config, unknown>);
 
     (useOutsideClick as unknown as useOutsideClickType).mockImplementation(
       (_, callback) => {

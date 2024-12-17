@@ -1,5 +1,12 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
+import {
+  type Config,
+  type UseAccountReturnType,
+  type UseConnectReturnType,
+  useAccount,
+  useConnect,
+} from 'wagmi';
 import { BuyButton } from './BuyButton';
 import { useBuyContext } from './BuyProvider';
 
@@ -15,6 +22,11 @@ vi.mock('../../internal/svg/checkmarkSvg', () => ({
   checkmarkSvg: <svg data-testid="checkmarkSvg" />,
 }));
 
+vi.mock('wagmi', () => ({
+  useAccount: vi.fn(),
+  useConnect: vi.fn(),
+}));
+
 describe('BuyButton', () => {
   const mockSetIsDropdownOpen = vi.fn();
 
@@ -27,6 +39,7 @@ describe('BuyButton', () => {
       fromUSDC: { loading: false },
       to: { loading: false, amount: 10, token: 'ETH' },
       lifecycleStatus: { statusName: 'idle' },
+      address: '0x123',
     });
   });
 
@@ -47,6 +60,7 @@ describe('BuyButton', () => {
       fromUSDC: { loading: false },
       to: { loading: false, amount: 10, token: 'ETH' },
       lifecycleStatus: { statusName: 'idle' },
+      address: '0x123',
     });
 
     render(<BuyButton />);
@@ -62,6 +76,7 @@ describe('BuyButton', () => {
       fromUSDC: { loading: false },
       to: { loading: false, amount: 10, token: 'ETH' },
       lifecycleStatus: { statusName: 'success' },
+      address: '0x123',
     });
 
     render(<BuyButton />);
@@ -77,6 +92,7 @@ describe('BuyButton', () => {
       fromUSDC: { loading: false },
       to: { loading: false, amount: null, token: null },
       lifecycleStatus: { statusName: 'idle' },
+      address: '0x123',
     });
 
     render(<BuyButton />);
@@ -92,5 +108,28 @@ describe('BuyButton', () => {
     fireEvent.click(button);
 
     expect(mockSetIsDropdownOpen).toHaveBeenCalledWith(true);
+  });
+
+  it('should render ConnectWallet if disconnected and no missing fields', () => {
+    (useBuyContext as Mock).mockReturnValue({
+      setIsDropdownOpen: mockSetIsDropdownOpen,
+      from: { loading: false },
+      fromETH: { loading: false },
+      fromUSDC: { loading: false },
+      to: { loading: false, amount: 10, token: 'ETH' },
+      lifecycleStatus: { statusName: 'idle' },
+    });
+    vi.mocked(useAccount).mockReturnValue({
+      address: '',
+      status: 'disconnected',
+    } as unknown as UseAccountReturnType<Config>);
+    vi.mocked(useConnect).mockReturnValue({
+      connectors: [{ id: 'mockConnector' }],
+      connect: vi.fn(),
+      status: 'idle',
+    } as unknown as UseConnectReturnType<Config, unknown>);
+    render(<BuyButton />);
+    const button = screen.getByTestId('ockConnectWallet_Container');
+    expect(button).toBeDefined();
   });
 });

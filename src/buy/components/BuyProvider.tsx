@@ -27,6 +27,7 @@ import { usePopupMonitor } from '../hooks/usePopupMonitor';
 import { useResetBuyInputs } from '../hooks/useResetBuyInputs';
 import type { BuyContextType, BuyProviderReact } from '../types';
 import { getBuyQuote } from '../utils/getBuyQuote';
+import { validateQuote } from '../utils/validateQuote';
 
 const emptyContext = {} as BuyContextType;
 
@@ -140,7 +141,7 @@ export function BuyProvider({
         },
       });
     }
-  }, [projectId]);
+  }, [projectId, updateLifecycleStatus]);
 
   useEffect(() => {
     // Reset inputs after status reset. `resetInputs` is dependent
@@ -292,21 +293,15 @@ export function BuyProvider({
           fromSwapUnit: from,
         });
 
-        if (!isSwapError(responseETH) && responseETH?.toAmountUSD) {
-          to.setAmountUSD(responseETH?.toAmountUSD);
-        } else if (!isSwapError(responseUSDC) && responseUSDC?.toAmountUSD) {
-          to.setAmountUSD(responseUSDC.toAmountUSD);
-        } else if (!isSwapError(responseFrom) && responseFrom?.toAmountUSD) {
-          to.setAmountUSD(responseFrom.toAmountUSD);
-        } else {
-          updateLifecycleStatus({
-            statusName: 'error',
-            statusData: {
-              code: 'TmBPc01',
-              error: 'No valid quote found',
-              message: '',
-            },
-          });
+        const { isValid } = validateQuote({
+          to,
+          responseETH,
+          responseUSDC,
+          responseFrom,
+          updateLifecycleStatus,
+        });
+
+        if (!isValid) {
           return;
         }
 
