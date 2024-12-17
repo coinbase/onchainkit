@@ -41,7 +41,7 @@ type GetOnrampUrlWithProjectIdParams = {
   projectId: string;
   sessionToken?: never; // You cannot provide sessionToken when using projectId
   /**
-   * The address that the customer's funds should be delivered to.
+   * The addresses to which the customer's funds should be delivered.
    *
    * Each entry in the record represents a wallet address and the networks it is valid for. There should only be a
    * single address for each network your app supports. Users will be able to buy/send any asset supported by any of
