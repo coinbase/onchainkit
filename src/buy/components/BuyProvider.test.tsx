@@ -6,7 +6,7 @@ import {
   screen,
   waitFor,
 } from '@testing-library/react';
-import React, { act, useCallback, useEffect } from 'react';
+import React, { act, useCallback } from 'react';
 import type { TransactionReceipt } from 'viem';
 import {
   type Mock,
