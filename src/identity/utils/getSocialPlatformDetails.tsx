@@ -1,8 +1,8 @@
-import { githubSvg } from '../../internal/svg/githubSvg';
-import { twitterSvg } from '../../internal/svg/twitterSvg';
-import { warpcastSvg } from '../../internal/svg/warpcastSvg';
-import { websiteSvg } from '../../internal/svg/websiteSvg';
-import { border, cn, pressable } from '../../styles/theme';
+import { githubSvg } from '@/core/svg/githubSvg';
+import { twitterSvg } from '@/core/svg/twitterSvg';
+import { warpcastSvg } from '@/core/svg/warpcastSvg';
+import { websiteSvg } from '@/core/svg/websiteSvg';
+import { border, cn, pressable } from '@/styles/theme';
 
 export type SocialPlatform = 'twitter' | 'github' | 'farcaster' | 'website';
 

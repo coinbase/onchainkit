@@ -1,6 +1,6 @@
+import { disconnectSvg } from '@/core/svg/disconnectSvg';
 import { useCallback } from 'react';
 import { useDisconnect } from 'wagmi';
-import { disconnectSvg } from '../../internal/svg/disconnectSvg';
 import { cn, color, text as dsText, pressable } from '../../styles/theme';
 import type { WalletDropdownDisconnectReact } from '../types';
 

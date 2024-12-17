@@ -1,10 +1,10 @@
 import { useCallback } from 'react';
 import { cn, color, text } from '../../styles/theme';
 
+import { successSvg } from '@/core/svg/successSvg';
 import { useAccount } from 'wagmi';
 import { getChainExplorer } from '../../core/network/getChainExplorer';
-import { Toast } from '../../internal/components/Toast';
-import { successSvg } from '../../internal/svg/successSvg';
+import { Toast } from '../../ui/react/internal/Toast';
 import type { SwapToastReact } from '../types';
 import { useSwapContext } from './SwapProvider';
 

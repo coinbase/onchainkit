@@ -1,6 +1,6 @@
+import { addSvg } from '@/core/svg/addSvg';
 import { useCallback } from 'react';
 import { useTheme } from '../../core-react/internal/hooks/useTheme';
-import { addSvg } from '../../internal/svg/addSvg';
 import { border, cn, color, pressable, text } from '../../styles/theme';
 
 import { openPopup } from '@/ui-react/internal/utils/openPopup';

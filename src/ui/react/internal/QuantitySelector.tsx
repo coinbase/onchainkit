@@ -1,6 +1,12 @@
+import { TextInput } from '@/ui-react/internal/TextInput';
 import { useCallback, useState } from 'react';
-import { TextInput } from '../../internal/components/TextInput';
-import { background, border, cn, color, pressable } from '../../styles/theme';
+import {
+  background,
+  border,
+  cn,
+  color,
+  pressable,
+} from '../../../styles/theme';
 
 export const DELAY_MS = 200;
 

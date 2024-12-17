@@ -1,4 +1,4 @@
-import { cn } from '../../styles/theme';
+import { cn } from '../../../styles/theme';
 
 type SpinnerReact = {
   className?: string;

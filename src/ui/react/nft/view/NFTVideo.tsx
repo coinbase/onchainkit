@@ -1,7 +1,7 @@
 import { useNFTContext } from '@/core-react/nft/providers/NFTProvider';
 import type { NFTError } from '@/core/api/types';
 import { useEffect, useRef } from 'react';
-import { defaultNFTSvg } from '../../../../internal/svg/defaultNFTSvg';
+import { defaultNFTSvg } from '../../../../core/svg/defaultNFTSvg';
 import { cn } from '../../../../styles/theme';
 
 type NFTVideoReact = {

@@ -15,7 +15,7 @@ import { NFTQuantitySelector } from './NFTQuantitySelector';
 
 vi.mock('@/core-react/nft/providers/NFTProvider');
 
-vi.mock('../../../../internal/components/QuantitySelector', () => ({
+vi.mock('@/ui-react/internal/QuantitySelector', () => ({
   QuantitySelector: ({
     onChange,
     minQuantity,

@@ -1,4 +1,4 @@
-import { badgeSvg } from '../../internal/svg/badgeSvg';
+import { badgeSvg } from '@/core/svg/badgeSvg';
 import { background, cn } from '../../styles/theme';
 import type { BadgeReact } from '../types';
 

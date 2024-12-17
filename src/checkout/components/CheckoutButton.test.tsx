@@ -8,7 +8,7 @@ vi.mock('./CheckoutProvider', () => ({
   useCheckoutContext: vi.fn(),
 }));
 
-vi.mock('../../internal/components/Spinner', () => ({
+vi.mock('@/ui-react/internal/Spinner', () => ({
   Spinner: () => <div data-testid="spinner">Loading...</div>,
 }));
 

@@ -9,7 +9,7 @@ vi.mock('./SwapProvider', () => ({
   useSwapContext: vi.fn(),
 }));
 
-vi.mock('../../internal/svg/closeSvg', () => ({
+vi.mock('@/core/svg/closeSvg', () => ({
   CloseSvg: () => <div data-testid="mock-close-svg" />,
 }));
 

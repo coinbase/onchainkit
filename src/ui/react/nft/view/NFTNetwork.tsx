@@ -1,7 +1,7 @@
+import { baseSvg } from '@/core/svg/baseSvg';
 import type { ReactNode } from 'react';
 import { type Chain, base } from 'viem/chains';
 import { useChainId } from 'wagmi';
-import { baseSvg } from '../../../../internal/svg/baseSvg';
 import { cn, color, text } from '../../../../styles/theme';
 
 type NFTNetworkReact = {
