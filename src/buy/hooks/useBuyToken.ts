@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import type { Address } from 'viem';
 import { useValue } from '../../core-react/internal/hooks/useValue';
+import { useSwapBalances } from '../../swap/hooks/useSwapBalances';
 import type { Token } from '../../token';
-import { useSwapBalances } from './useSwapBalances';
 
-export const useSwapLiteToken = (
+export const useBuyToken = (
   toToken: Token,
   token: Token | undefined,
   address: Address | undefined,

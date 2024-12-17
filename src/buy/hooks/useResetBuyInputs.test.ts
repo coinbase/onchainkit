@@ -1,9 +1,9 @@
 import { act, renderHook } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import type { SwapUnit } from '../types';
-import { useResetSwapLiteInputs } from './useResetSwapLiteInputs';
+import type { SwapUnit } from '../../swap/types';
+import { useResetBuyInputs } from './useResetBuyInputs';
 
-describe('useResetSwapLiteInputs', () => {
+describe('useResetBuyInputs', () => {
   const mockQueryResponse = {
     data: undefined,
     error: null,
@@ -80,7 +80,7 @@ describe('useResetSwapLiteInputs', () => {
 
   it('should return a function', () => {
     const { result } = renderHook(() =>
-      useResetSwapLiteInputs({
+      useResetBuyInputs({
         fromETH: mockFromETH,
         fromUSDC: mockFromUSDC,
         from: mockFrom,
@@ -92,7 +92,7 @@ describe('useResetSwapLiteInputs', () => {
 
   it('should call refetch on responses and set amounts to empty strings when executed', async () => {
     const { result } = renderHook(() =>
-      useResetSwapLiteInputs({
+      useResetBuyInputs({
         fromETH: mockFromETH,
         fromUSDC: mockFromUSDC,
         from: mockFrom,
@@ -112,7 +112,7 @@ describe('useResetSwapLiteInputs', () => {
 
   it("should not create a new function reference if from and to haven't changed", () => {
     const { result, rerender } = renderHook(() =>
-      useResetSwapLiteInputs({
+      useResetBuyInputs({
         fromETH: mockFromETH,
         fromUSDC: mockFromUSDC,
         to: mockTo,
@@ -126,7 +126,7 @@ describe('useResetSwapLiteInputs', () => {
   it('should create a new function reference if from or to change', () => {
     const { result, rerender } = renderHook(
       ({ fromETH, fromUSDC, to }) =>
-        useResetSwapLiteInputs({
+        useResetBuyInputs({
           fromETH,
           fromUSDC,
           to,
@@ -170,7 +170,7 @@ describe('useResetSwapLiteInputs', () => {
       balanceResponse: null,
     } as unknown as SwapUnit;
     const { result } = renderHook(() =>
-      useResetSwapLiteInputs({
+      useResetBuyInputs({
         fromETH: mockFromWithNullResponse,
         fromUSDC: mockFromUSDCWithNullResponse,
         to: mockToWithNullResponse,

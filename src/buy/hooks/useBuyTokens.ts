@@ -1,20 +1,20 @@
 import { useState } from 'react';
 import type { Address } from 'viem';
 import { useValue } from '../../core-react/internal/hooks/useValue';
+import { useSwapBalances } from '../../swap/hooks/useSwapBalances';
 import type { Token } from '../../token';
 import { ethToken, usdcToken } from '../../token/constants';
-import type { SwapLiteTokens } from '../types';
-import { useSwapBalances } from './useSwapBalances';
-import { useSwapLiteToken } from './useSwapLiteToken';
+import type { BuyTokens } from '../types';
+import { useBuyToken } from './useBuyToken';
 
-export const useSwapLiteTokens = (
+export const useBuyTokens = (
   toToken: Token,
   fromToken?: Token,
   address?: Address,
-): SwapLiteTokens => {
-  const fromETH = useSwapLiteToken(toToken, ethToken, address);
-  const fromUSDC = useSwapLiteToken(toToken, usdcToken, address);
-  const from = useSwapLiteToken(toToken, fromToken, address);
+): BuyTokens => {
+  const fromETH = useBuyToken(toToken, ethToken, address);
+  const fromUSDC = useBuyToken(toToken, usdcToken, address);
+  const from = useBuyToken(toToken, fromToken, address);
 
   const [toAmount, setToAmount] = useState('');
   const [toAmountUSD, setToAmountUSD] = useState('');

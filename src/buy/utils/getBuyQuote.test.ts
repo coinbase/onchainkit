@@ -4,7 +4,7 @@ import type { Token } from '@/token/types';
 import { base } from 'viem/chains';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { isSwapError } from '../../swap/utils/isSwapError';
-import { getSwapLiteQuote } from './getSwapLiteQuote';
+import { getBuyQuote } from './getBuyQuote';
 
 vi.mock('@/core/api/getSwapQuote');
 vi.mock('@/core/utils/formatTokenAmount');
@@ -66,13 +66,13 @@ const mockFromSwapUnit = {
   token: fromToken,
 };
 
-describe('getSwapLiteQuote', () => {
+describe('getBuyQuote', () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
   it('should return default values if `from` token is not provided', async () => {
-    const result = await getSwapLiteQuote({
+    const result = await getBuyQuote({
       amount: '1',
       amountReference: 'exactIn',
       maxSlippage: '0.5',
@@ -93,7 +93,7 @@ describe('getSwapLiteQuote', () => {
     (isSwapError as unknown as Mock).mockReturnValue(false);
     (formatTokenAmount as Mock).mockReturnValue('1.0');
 
-    const result = await getSwapLiteQuote({
+    const result = await getBuyQuote({
       amount: '1',
       amountReference: 'exactIn',
       from: fromToken,
@@ -128,7 +128,7 @@ describe('getSwapLiteQuote', () => {
     (isSwapError as unknown as Mock).mockReturnValue(false);
     (formatTokenAmount as Mock).mockReturnValue('1.0');
 
-    const result = await getSwapLiteQuote({
+    const result = await getBuyQuote({
       amount: '1',
       amountReference: 'exactIn',
       from: fromToken,
@@ -168,7 +168,7 @@ describe('getSwapLiteQuote', () => {
     (getSwapQuote as Mock).mockResolvedValue(mockError);
     (isSwapError as unknown as Mock).mockReturnValue(true);
 
-    const result = await getSwapLiteQuote({
+    const result = await getBuyQuote({
       amount: '1',
       amountReference: 'exactIn',
       from: fromToken,
@@ -187,7 +187,7 @@ describe('getSwapLiteQuote', () => {
   });
 
   it('should not call `getSwapQuote` if `from` and `to` tokens are the same', async () => {
-    const result = await getSwapLiteQuote({
+    const result = await getBuyQuote({
       amount: '1',
       amountReference: 'exactIn',
       from: fromToken,
