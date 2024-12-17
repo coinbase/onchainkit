@@ -1,3 +1,4 @@
+import type { APIError, GetSwapQuoteResponse } from '@/core/api/types';
 import type {
   LifecycleStatus,
   LifecycleStatusUpdate,
@@ -66,4 +67,10 @@ export type BuyTokens = {
   fromUSDC: SwapUnit;
   to: SwapUnit;
   from?: SwapUnit;
+};
+
+export type GetBuyQuoteResponse = {
+  response?: GetSwapQuoteResponse;
+  error?: APIError;
+  formattedFromAmount?: string;
 };
