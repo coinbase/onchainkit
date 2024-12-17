@@ -35,5 +35,5 @@ export const usePopupMonitor = (onClose?: () => void) => {
     return () => stopPopupMonitor();
   }, [stopPopupMonitor]);
 
-  return { startPopupMonitor };
+  return { startPopupMonitor, stopPopupMonitor };
 };
