@@ -2,6 +2,7 @@ import type { EventMetadata } from '@/fund/types';
 import type { LifecycleStatus } from '@/swap/types';
 import { useEffect, useCallback } from 'react';
 import { setupOnrampEventListeners } from '../../fund/utils/setupOnrampEventListeners';
+import { TransactionReceipt } from 'viem';
 
 type UseOnrampLifecycleParams = {
   updateLifecycleStatus: (status: LifecycleStatus) => void;
@@ -32,7 +33,7 @@ export const useOnrampEventListeners = ({
       statusName: 'success',
       statusData: {
         isMissingRequiredField: false,
-        transactionReceipt: undefined,
+        transactionReceipt: {} as TransactionReceipt,
         maxSlippage,
       },
     });

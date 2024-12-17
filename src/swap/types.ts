@@ -122,7 +122,7 @@ export type LifecycleStatus =
   | {
       statusName: 'success';
       statusData: {
-        transactionReceipt?: TransactionReceipt;
+        transactionReceipt: TransactionReceipt;
       } & LifecycleStatusDataShared;
     };
 
@@ -285,7 +285,7 @@ export type SwapProviderReact = {
   isSponsored?: boolean; // An optional setting to sponsor swaps with a Paymaster. (default: false)
   onError?: (error: SwapError) => void; // An optional callback function that handles errors within the provider.
   onStatus?: (lifecycleStatus: LifecycleStatus) => void; // An optional callback function that exposes the component lifecycle state
-  onSuccess?: (transactionReceipt?: TransactionReceipt) => void; // An optional callback function that exposes the transaction receipt
+  onSuccess?: (transactionReceipt: TransactionReceipt) => void; // An optional callback function that exposes the transaction receipt
 };
 
 /**
@@ -301,7 +301,7 @@ export type SwapReact = {
   isSponsored?: boolean; // An optional setting to sponsor swaps with a Paymaster. (default: false)
   onError?: (error: SwapError) => void; // An optional callback function that handles errors within the provider.
   onStatus?: (lifecycleStatus: LifecycleStatus) => void; // An optional callback function that exposes the component lifecycle state
-  onSuccess?: (transactionReceipt?: TransactionReceipt) => void; // An optional callback function that exposes the transaction receipt
+  onSuccess?: (transactionReceipt: TransactionReceipt) => void; // An optional callback function that exposes the transaction receipt
   title?: string; // Title for the Swap component. (default: "Swap")
 };
 
