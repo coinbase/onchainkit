@@ -43,8 +43,7 @@ import type { LifecycleStatus, SwapError, SwapUnit } from '../../swap/types';
 import { getSwapErrorCode } from '../../swap/utils/getSwapErrorCode';
 import { BuyProvider, useBuyContext } from './BuyProvider';
 import { useBuyTokens } from '../hooks/useBuyTokens';
-import { APIError, GetSwapQuoteResponse } from '@/core/api';
-// import { isSwapError } from '../../swap/utils/isSwapError';
+import { validateQuote } from '../utils/validateQuote';
 
 const mockResetFunction = vi.fn();
 vi.mock('../hooks/useResetBuyInputs', () => ({
@@ -53,6 +52,10 @@ vi.mock('../hooks/useResetBuyInputs', () => ({
 
 vi.mock('../utils/getBuyQuote', () => ({
   getBuyQuote: vi.fn(),
+}));
+
+vi.mock('../utils/validateQuote', () => ({
+  validateQuote: vi.fn(),
 }));
 
 vi.mock('../hooks/useBuyTokens', () => ({
@@ -318,6 +321,9 @@ describe('useBuyContext', () => {
     });
     (useSwitchChain as ReturnType<typeof vi.fn>).mockReturnValue({
       switchChainAsync: mockSwitchChain,
+    });
+    (validateQuote as Mock).mockReturnValue({
+      isValid: true,
     });
 
     (useBuyTokens as Mock).mockReturnValue({
