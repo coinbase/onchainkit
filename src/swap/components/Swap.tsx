@@ -25,6 +25,7 @@ export function Swap({
   onStatus,
   onSuccess,
   title = 'Swap',
+  headerLeftContent,
 }: SwapReact) {
   const componentTheme = useTheme();
 
@@ -74,11 +75,12 @@ export function Swap({
         )}
         data-testid="ockSwap_Container"
       >
-        <div className="relative mb-4 flex items-center">
-          <h3 className={cn(text.title3, 'w-full')} data-testid="ockSwap_Title">
+        <div className="mb-4 flex items-center justify-between">
+          {headerLeftContent}
+          <h3 className={cn(text.title3)} data-testid="ockSwap_Title">
             {title}
           </h3>
-          <div className="absolute right-0">{swapSettings}</div>
+          {swapSettings}
         </div>
         {inputs[0]}
         <div className="relative h-1">{toggleButton}</div>

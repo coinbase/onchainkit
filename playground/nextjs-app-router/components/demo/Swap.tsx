@@ -112,6 +112,8 @@ function SwapComponent() {
           maxSlippage: defaultMaxSlippage || FALLBACK_DEFAULT_MAX_SLIPPAGE,
         }}
         isSponsored={isSponsored}
+        headerLeftContent={<button type="button" className='flex items-center justify-center'>X</button>}
+        title={<span className="w-full">Swap</span>}
       >
         <SwapSettings>
           <SwapSettingsSlippageTitle>Max. slippage</SwapSettingsSlippageTitle>

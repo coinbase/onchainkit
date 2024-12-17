@@ -299,6 +299,7 @@ export type SwapReact = {
   onStatus?: (lifecycleStatus: LifecycleStatus) => void; // An optional callback function that exposes the component lifecycle state
   onSuccess?: (transactionReceipt: TransactionReceipt) => void; // An optional callback function that exposes the transaction receipt
   title?: ReactNode; // Title for the Swap component. (default: "Swap")
+  headerLeftContent?: ReactNode; // Back button for the Swap component.
 };
 
 /**
