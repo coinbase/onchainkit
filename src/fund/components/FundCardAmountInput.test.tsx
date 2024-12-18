@@ -36,7 +36,7 @@ describe('FundCardAmountInput', () => {
     const input = screen.getByTestId('ockFundCardAmountInput');
     fireEvent.change(input, { target: { value: '10' } });
     expect(defaultProps.setFiatValue).toHaveBeenCalledWith('10');
-    expect(defaultProps.setCryptoValue).toHaveBeenCalledWith('5');
+    expect(defaultProps.setCryptoValue).toHaveBeenCalledWith('20');
   });
 
   it('handles crypto input change', () => {
@@ -59,7 +59,7 @@ describe('FundCardAmountInput', () => {
     const input = screen.getByTestId('ockFundCardAmountInput');
     fireEvent.change(input, { target: { value: '01' } });
     expect(defaultProps.setFiatValue).toHaveBeenCalledWith('0.1');
-    expect(defaultProps.setCryptoValue).toHaveBeenCalledWith('0.05');
+    expect(defaultProps.setCryptoValue).toHaveBeenCalledWith('0.2');
   });
 
   it('limits decimal places to two', () => {

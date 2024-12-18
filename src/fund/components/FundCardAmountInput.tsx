@@ -22,7 +22,6 @@ export const FundCardAmountInput = ({
 
   const value = inputType === 'fiat' ? fiatValue : cryptoValue;
 
-  // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: Simplifyed the function as much as possible
   const handleChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
       let value = e.target.value;
@@ -35,8 +34,9 @@ export const FundCardAmountInput = ({
 
         // Calculate the crypto value based on the exchange rate
         const calculatedCryptoValue = String(
-          Number(value) / Number(exchangeRate),
+          Number(value) * Number(exchangeRate),
         );
+        console.log('exchangerate', exchangeRate);
         setCryptoValue(
           calculatedCryptoValue === '0' ? '' : calculatedCryptoValue,
         );
