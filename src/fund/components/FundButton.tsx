@@ -1,14 +1,14 @@
+import { openPopup } from '@/ui-react/internal/utils/openPopup';
 import { useCallback, useMemo } from 'react';
 import { useTheme } from '../../core-react/internal/hooks/useTheme';
+import { Spinner } from '../../internal/components/Spinner';
 import { AddSvg } from '../../internal/svg/addSvg';
-import { SuccessSvg } from '../../internal/svg/successSvg';
 import { ErrorSvg } from '../../internal/svg/errorSvg';
+import { SuccessSvg } from '../../internal/svg/successSvg';
 import { border, cn, color, icon, pressable, text } from '../../styles/theme';
-import { openPopup } from '@/ui-react/internal/utils/openPopup';
 import { useGetFundingUrl } from '../hooks/useGetFundingUrl';
 import type { FundButtonReact } from '../types';
 import { getFundingPopupSize } from '../utils/getFundingPopupSize';
-import { Spinner } from '../../internal/components/Spinner';
 
 export function FundButton({
   className,
@@ -29,17 +29,19 @@ export function FundButton({
 }: FundButtonReact) {
   const componentTheme = useTheme();
   // If the fundingUrl prop is undefined, fallback to our recommended funding URL based on the wallet type
-  const fundingUrlToRender = fundingUrl ?? useGetFundingUrl();
+  const fallbackFundingUrl = useGetFundingUrl();
+  const fundingUrlToRender = fundingUrl ?? fallbackFundingUrl;
   const isDisabled = disabled || !fundingUrlToRender;
 
   const handleClick = useCallback(
     (e: React.MouseEvent) => {
       e.preventDefault();
+
       if (fundingUrlToRender) {
         onClick?.();
         const { height, width } = getFundingPopupSize(
           popupSize,
-          fundingUrlToRender
+          fundingUrlToRender,
         );
         const popupWindow = openPopup({
           url: fundingUrlToRender,
@@ -60,7 +62,7 @@ export function FundButton({
         }, 500);
       }
     },
-    [fundingUrlToRender, popupSize, target, onPopupClose, onClick]
+    [fundingUrlToRender, popupSize, target, onPopupClose, onClick],
   );
 
   const buttonColorClass = useMemo(() => {
@@ -83,14 +85,14 @@ export function FundButton({
     text.headline,
     border.radius,
     color.inverse,
-    className
+    className,
   );
 
   const buttonIcon = useMemo(() => {
     if (hideIcon) {
       return null;
     }
-    switch(buttonState) {
+    switch (buttonState) {
       case 'loading':
         return '';
       case 'success':
@@ -103,7 +105,7 @@ export function FundButton({
   }, [buttonState, hideIcon]);
 
   const buttonTextContent = useMemo(() => {
-    switch(buttonState) {
+    switch (buttonState) {
       case 'loading':
         return '';
       case 'success':
@@ -119,8 +121,14 @@ export function FundButton({
     <>
       {buttonState === 'loading' && <Spinner />}
       {/* h-6 is to match the icon height to the line-height set by text.headline */}
-      {buttonIcon && <span className="flex h-6 items-center">{buttonIcon}</span>}
-      {hideText || <span data-testid="fundButtonTextContent">{buttonTextContent}</span>}
+      {buttonIcon && (
+        <span data-testid="ockFundButtonIcon" className="flex h-6 items-center">
+          {buttonIcon}
+        </span>
+      )}
+      {hideText || (
+        <span data-testid="ockFundButtonTextContent">{buttonTextContent}</span>
+      )}
     </>
   );
 
@@ -144,6 +152,7 @@ export function FundButton({
       onClick={handleClick}
       type="button"
       disabled={isDisabled}
+      data-testid="ockFundButton"
     >
       {buttonContent}
     </button>

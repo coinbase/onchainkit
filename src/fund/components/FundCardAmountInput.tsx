@@ -1,8 +1,8 @@
 import { type ChangeEvent, useCallback, useEffect, useRef } from 'react';
-import { cn, text } from '../../styles/theme';
 import { useTheme } from '../../core-react/internal/hooks/useTheme';
-import { FundCardCurrencyLabel } from './FundCardCurrencyLabel';
+import { cn, text } from '../../styles/theme';
 import type { FundCardAmountInputPropsReact } from '../types';
+import { FundCardCurrencyLabel } from './FundCardCurrencyLabel';
 
 export const FundCardAmountInput = ({
   fiatValue,
@@ -12,7 +12,7 @@ export const FundCardAmountInput = ({
   currencySign,
   assetSymbol,
   inputType = 'fiat',
-  exchangeRate,
+  exchangeRate = 1,
 }: FundCardAmountInputPropsReact) => {
   const componentTheme = useTheme();
 
@@ -23,41 +23,41 @@ export const FundCardAmountInput = ({
   const value = inputType === 'fiat' ? fiatValue : cryptoValue;
 
   // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: Simplifyed the function as much as possible
-  const handleChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-    let value = e.target.value;
+  const handleChange = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      let value = e.target.value;
 
-    value = formatDecimalInputValue(value);
+      value = formatDecimalInputValue(value);
 
-    if (inputType === 'fiat') {
-      const fiatValue = limitToTwoDecimalPlaces(value);
-      setFiatValue(fiatValue);
+      if (inputType === 'fiat') {
+        const fiatValue = limitToTwoDecimalPlaces(value);
+        setFiatValue(fiatValue);
 
-      // Calculate the crypto value based on the exchange rate
-      const calculatedCryptoValue = String(
-        Number(value) / Number(exchangeRate || 1)
-      );
-      setCryptoValue(
-        calculatedCryptoValue === '0' ? '' : calculatedCryptoValue
-      );
-    } else {
-      setCryptoValue(value);
+        // Calculate the crypto value based on the exchange rate
+        const calculatedCryptoValue = String(
+          Number(value) / Number(exchangeRate),
+        );
+        setCryptoValue(
+          calculatedCryptoValue === '0' ? '' : calculatedCryptoValue,
+        );
+      } else {
+        setCryptoValue(value);
 
-      // Calculate the fiat value based on the exchange rate
-      const calculatedFiatValue = String(
-        Number(value) / Number(exchangeRate || 1)
-      );
-      const resultFiatValue = limitToTwoDecimalPlaces(calculatedFiatValue);
-      setFiatValue(resultFiatValue === '0' ? '' : resultFiatValue);
-    }
-  },[exchangeRate, setFiatValue, setCryptoValue, inputType]);
+        // Calculate the fiat value based on the exchange rate
+        const calculatedFiatValue = String(
+          Number(value) / Number(exchangeRate),
+        );
+        const resultFiatValue = limitToTwoDecimalPlaces(calculatedFiatValue);
+        setFiatValue(resultFiatValue === '0' ? '' : resultFiatValue);
+      }
+    },
+    [exchangeRate, setFiatValue, setCryptoValue, inputType],
+  );
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: When value changes, we want to update the input width
   useEffect(() => {
-    if (hiddenSpanRef.current) { // istanbul ignore next
-      const width =// istanbul ignore next
-        hiddenSpanRef.current.offsetWidth < 42// istanbul ignore next
-          ? 42// istanbul ignore next
-          : hiddenSpanRef.current.offsetWidth; // istanbul ignore next
+    if (hiddenSpanRef.current) {
+      const width = Math.max(42, hiddenSpanRef.current.offsetWidth);
       const currencyWidth =
         currencySpanRef.current?.getBoundingClientRect().width || 0;
 
@@ -108,7 +108,7 @@ export const FundCardAmountInput = ({
             componentTheme,
             text.body,
             'border-[none] bg-transparent',
-            'text-[60px] leading-none outline-none'
+            'text-[60px] leading-none outline-none',
           )}
           type="number"
           value={value}
@@ -142,7 +142,7 @@ export const FundCardAmountInput = ({
           componentTheme,
           text.body,
           'border-[none] bg-transparent',
-          'text-[60px] leading-none outline-none'
+          'text-[60px] leading-none outline-none',
         )}
         style={{
           position: 'absolute',

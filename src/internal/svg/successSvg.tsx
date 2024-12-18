@@ -1,6 +1,6 @@
 import { cn, icon } from '../../styles/theme';
 
-export const SuccessSvg = ({className = cn(icon.success)}) => (
+export const SuccessSvg = ({ className = cn(icon.success) }) => (
   <svg
     aria-label="ock-successSvg"
     width="16"

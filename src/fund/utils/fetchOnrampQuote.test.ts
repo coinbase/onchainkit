@@ -24,7 +24,7 @@ const mockResponseData = {
 global.fetch = vi.fn(() =>
   Promise.resolve({
     json: () => Promise.resolve(mockResponseData),
-  })
+  }),
 ) as Mock;
 
 describe('fetchOnrampQuote', () => {
@@ -60,7 +60,7 @@ describe('fetchOnrampQuote', () => {
         headers: {
           Authorization: `Bearer ${mockApiKey}`,
         },
-      }
+      },
     );
     expect(result).toEqual({
       paymentSubtotal: { amount: '100.00', currency: 'USD' },
@@ -74,7 +74,7 @@ describe('fetchOnrampQuote', () => {
 
   it('should throw an error if fetch fails', async () => {
     global.fetch = vi.fn(() =>
-      Promise.reject(new Error('Fetch failed'))
+      Promise.reject(new Error('Fetch failed')),
     ) as Mock;
 
     await expect(
@@ -86,7 +86,7 @@ describe('fetchOnrampQuote', () => {
         paymentAmount: mockPaymentAmount,
         country: mockCountry,
         subdivision: mockSubdivision,
-      })
+      }),
     ).rejects.toThrow('Fetch failed');
   });
 });

@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
-import { FundCardProvider, useFundContext } from './FundCardProvider';
-import { describe, expect, it } from 'vitest';
 import { act } from 'react';
+import { describe, expect, it } from 'vitest';
+import { FundCardProvider, useFundContext } from './FundCardProvider';
 
 const TestComponent = () => {
   const context = useFundContext();
@@ -17,7 +17,7 @@ describe('FundCardProvider', () => {
     render(
       <FundCardProvider asset="BTC">
         <TestComponent />
-      </FundCardProvider>
+      </FundCardProvider>,
     );
     expect(screen.getByTestId('selected-asset').textContent).toBe('BTC');
   });
@@ -28,7 +28,9 @@ describe('FundCardProvider', () => {
       return (
         <div>
           <span data-testid="selected-asset">{selectedAsset}</span>
-          <button type='button' onClick={() => setSelectedAsset('ETH')}>Change Asset</button>
+          <button type="button" onClick={() => setSelectedAsset('ETH')}>
+            Change Asset
+          </button>
         </div>
       );
     };
@@ -36,12 +38,12 @@ describe('FundCardProvider', () => {
     render(
       <FundCardProvider asset="BTC">
         <TestUpdateComponent />
-      </FundCardProvider>
+      </FundCardProvider>,
     );
-    
+
     expect(screen.getByTestId('selected-asset').textContent).toBe('BTC');
     act(() => {
-        screen.getByText('Change Asset').click();
+      screen.getByText('Change Asset').click();
     });
     expect(screen.getByTestId('selected-asset').textContent).toBe('ETH');
   });
@@ -53,7 +55,7 @@ describe('FundCardProvider', () => {
     };
 
     expect(() => render(<TestOutsideProvider />)).toThrow(
-      'useFundContext must be used within a FundCardProvider'
+      'useFundContext must be used within a FundCardProvider',
     );
   });
 });

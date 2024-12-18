@@ -26,7 +26,12 @@ export function ActiveComponent() {
           <SelectValue placeholder="Select component" />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value={OnchainKitComponent.Fund}>Fund</SelectItem>
+          <SelectItem value={OnchainKitComponent.FundButton}>
+            Fund Button
+          </SelectItem>
+          <SelectItem value={OnchainKitComponent.FundCard}>
+            Fund Card
+          </SelectItem>
           <SelectItem value={OnchainKitComponent.Identity}>Identity</SelectItem>
           <SelectItem value={OnchainKitComponent.IdentityCard}>
             IdentityCard

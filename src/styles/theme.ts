@@ -26,8 +26,7 @@ export const pressable = {
     'cursor-pointer ock-bg-inverse active:bg-[var(--ock-bg-inverse-active)] hover:bg-[var(--ock-bg-inverse-hover)]',
   primary:
     'cursor-pointer ock-bg-primary active:bg-[var(--ock-bg-primary-active)] hover:bg-[var(--ock-bg-primary-hover)]',
-  error:
-    'cursor-pointer ock-bg-error',
+  error: 'cursor-pointer ock-bg-error',
   secondary:
     'cursor-pointer ock-bg-secondary active:bg-[var(--ock-bg-secondary-active)] hover:bg-[var(--ock-bg-secondary-hover)]',
   coinbaseBranding: 'cursor-pointer bg-[#0052FF] hover:bg-[#0045D8]',

@@ -1,25 +1,30 @@
-import { useCallback, useRef, useState, useEffect } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { background, border, cn } from '../../styles/theme';
 
+import { useTheme } from '../../core-react/internal/hooks/useTheme';
+import type {
+  FundCardPaymentMethodSelectorDropdownPropsReact,
+  PaymentMethodReact,
+} from '../types';
 import { FundCardPaymentMethodSelectRow } from './FundCardPaymentMethodSelectRow';
 import { FundCardPaymentMethodSelectorToggle } from './FundCardPaymentMethodSelectorToggle';
 import { useFundContext } from './FundCardProvider';
-import { useTheme } from '../../core-react/internal/hooks/useTheme';
-import type { FundCardPaymentMethodSelectorDropdownPropsReact, PaymentMethodReact } from '../types';
 
-export function FundCardPaymentMethodSelectorDropdown({ paymentMethods }: FundCardPaymentMethodSelectorDropdownPropsReact) {
+export function FundCardPaymentMethodSelectorDropdown({
+  paymentMethods,
+}: FundCardPaymentMethodSelectorDropdownPropsReact) {
   const componentTheme = useTheme();
   const [isOpen, setIsOpen] = useState(false);
 
-  const {
-    selectedPaymentMethod,
-    setSelectedPaymentMethod,
-  } = useFundContext();
+  const { selectedPaymentMethod, setSelectedPaymentMethod } = useFundContext();
 
-  const handlePaymentMethodSelect = useCallback((paymentMethod: PaymentMethodReact) => {
-    setSelectedPaymentMethod(paymentMethod);
-    setIsOpen(false);
-  }, [setSelectedPaymentMethod]);
+  const handlePaymentMethodSelect = useCallback(
+    (paymentMethod: PaymentMethodReact) => {
+      setSelectedPaymentMethod(paymentMethod);
+      setIsOpen(false);
+    },
+    [setSelectedPaymentMethod],
+  );
 
   const handleToggle = useCallback(() => {
     setIsOpen(!isOpen);
@@ -70,7 +75,7 @@ export function FundCardPaymentMethodSelectorDropdown({ paymentMethods }: FundCa
             componentTheme,
             border.radius,
             'absolute right-0 z-10 mt-1 flex max-h-80 w-full flex-col overflow-y-hidden',
-            'ock-scrollbar'
+            'ock-scrollbar',
           )}
         >
           <div className={cn(background.inverse, 'p-2', 'overflow-y-auto')}>

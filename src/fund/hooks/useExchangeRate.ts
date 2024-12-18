@@ -1,7 +1,7 @@
 import { useEffect, useMemo } from 'react';
-import { fetchOnrampQuote } from '../utils/fetchOnrampQuote';
 import { useDebounce } from '../../core-react/internal/hooks/useDebounce';
 import { useFundContext } from '../components/FundCardProvider';
+import { fetchOnrampQuote } from '../utils/fetchOnrampQuote';
 
 export const useExchangeRate = (assetSymbol: string) => {
   const { setExchangeRate, exchangeRateLoading, setExchangeRateLoading } =
@@ -22,8 +22,9 @@ export const useExchangeRate = (assetSymbol: string) => {
     });
 
     setExchangeRateLoading(false);
+
     setExchangeRate(
-      Number(quote.purchaseAmount.value) / Number(quote.paymentSubtotal.value)
+      Number(quote.purchaseAmount.value) / Number(quote.paymentSubtotal.value),
     );
   }, 1000);
 

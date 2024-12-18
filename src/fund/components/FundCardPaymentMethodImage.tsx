@@ -1,9 +1,13 @@
 import { useMemo } from 'react';
-import { cn, icon as iconTheme} from '../../styles/theme';
 import { useIcon } from '../../core-react/internal/hooks/useIcon';
+import { cn, icon as iconTheme } from '../../styles/theme';
 import type { FundCardPaymentMethodImagePropsReact } from '../types';
 
-export function FundCardPaymentMethodImage({ className, size = 24, paymentMethod }: FundCardPaymentMethodImagePropsReact) {
+export function FundCardPaymentMethodImage({
+  className,
+  size = 24,
+  paymentMethod,
+}: FundCardPaymentMethodImagePropsReact) {
   const { icon } = paymentMethod;
 
   // Special case for coinbasePay icon color
@@ -41,7 +45,14 @@ export function FundCardPaymentMethodImage({ className, size = 24, paymentMethod
   }
 
   return (
-    <div data-testid="fundCardPaymentMethodImage__iconContainer" className={cn('flex items-center justify-center overflow-hidden rounded-[50%]', className)} style={styles.image}>
+    <div
+      data-testid="fundCardPaymentMethodImage__iconContainer"
+      className={cn(
+        'flex items-center justify-center overflow-hidden rounded-[50%]',
+        className,
+      )}
+      style={styles.image}
+    >
       {iconSvg}
     </div>
   );

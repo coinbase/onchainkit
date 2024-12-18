@@ -14,7 +14,9 @@ describe('FundCardHeader', () => {
 
   it('renders the provided headerText', () => {
     render(<FundCardHeader headerText="Custom Header" assetSymbol="btc" />);
-    expect(screen.getByTestId('fundCardHeader')).toHaveTextContent('Custom Header');
+    expect(screen.getByTestId('fundCardHeader')).toHaveTextContent(
+      'Custom Header',
+    );
   });
 
   it('renders the default header text when headerText is not provided', () => {

@@ -1,5 +1,6 @@
 export enum OnchainKitComponent {
-  Fund = 'fund',
+  FundButton = 'fund-button',
+  FundCard = 'fund-card',
   Identity = 'identity',
   IdentityCard = 'identity-card',
   Checkout = 'checkout',

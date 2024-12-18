@@ -46,7 +46,7 @@ export function TextInput({
         }
       }
     },
-    [onChange, handleDebounce, delayMs, setValue, inputValidator]
+    [onChange, handleDebounce, delayMs, setValue, inputValidator],
   );
 
   return (

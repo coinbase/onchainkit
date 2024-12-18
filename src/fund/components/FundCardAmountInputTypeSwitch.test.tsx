@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 import { FundCardAmountInputTypeSwitch } from './FundCardAmountInputTypeSwitch';
 
@@ -18,7 +18,7 @@ describe('FundCardAmountInputTypeSwitch', () => {
         fundAmountFiat="100"
         fundAmountCrypto="200"
         exchangeRate={1}
-      />
+      />,
     );
     expect(screen.getByText('200.00000000 ETH')).toBeInTheDocument();
   });
@@ -33,7 +33,7 @@ describe('FundCardAmountInputTypeSwitch', () => {
         fundAmountFiat="100"
         fundAmountCrypto="200"
         exchangeRate={2}
-      />
+      />,
     );
     expect(screen.getByText('$100.00')).toBeInTheDocument();
   });
@@ -49,7 +49,7 @@ describe('FundCardAmountInputTypeSwitch', () => {
         fundAmountFiat="100"
         fundAmountCrypto="0.01"
         exchangeRate={10000}
-      />
+      />,
     );
     fireEvent.click(screen.getByLabelText(/amount type switch/i));
     expect(setSelectedInputType).toHaveBeenCalledWith('crypto');
@@ -66,7 +66,7 @@ describe('FundCardAmountInputTypeSwitch', () => {
         fundAmountFiat="100"
         fundAmountCrypto="0.01"
         exchangeRate={10000}
-      />
+      />,
     );
     fireEvent.click(screen.getByLabelText(/amount type switch/i));
     expect(setSelectedInputType).toHaveBeenCalledWith('fiat');
@@ -82,7 +82,7 @@ describe('FundCardAmountInputTypeSwitch', () => {
         fundAmountFiat="0"
         fundAmountCrypto="0"
         exchangeRate={2}
-      />
+      />,
     );
     expect(screen.queryByText('$0.00')).not.toBeInTheDocument();
   });
@@ -97,7 +97,7 @@ describe('FundCardAmountInputTypeSwitch', () => {
         fundAmountFiat="100"
         fundAmountCrypto="0.01"
         exchangeRate={undefined}
-      />
+      />,
     );
     expect(screen.getByTestId('ockSkeleton')).toBeInTheDocument();
   });

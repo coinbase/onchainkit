@@ -1,126 +1,198 @@
 import '@testing-library/jest-dom';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import { describe, expect, it, vi } from 'vitest';
+import { setOnchainKitConfig } from '@/core/OnchainKitConfig';
+import {
+  act,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from '@testing-library/react';
+import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
+import type { FundCardPropsReact } from '../types';
+import { getFundingPopupSize } from '../utils/getFundingPopupSize';
 import { FundCard } from './FundCard';
 import { FundCardProvider } from './FundCardProvider';
-import type { FundCardPropsReact } from '../types';
+import { useFundCardFundingUrl } from '../hooks/useFundCardFundingUrl';
+import { useDebounce } from '@/core-react/internal/hooks/useDebounce';
+import { fetchOnrampQuote } from '../utils/fetchOnrampQuote';
 
 vi.mock('../../core-react/internal/hooks/useTheme', () => ({
   useTheme: () => 'mocked-theme-class',
 }));
 
-vi.mock('../hooks/useExchangeRate', () => ({
-  useExchangeRate: () => {},
+vi.mock('../hooks/useGetFundingUrl', () => ({
+  useGetFundingUrl: vi.fn(),
 }));
+
+vi.mock('../../core-react/internal/hooks/useDebounce', () => ({
+  useDebounce: vi.fn((callback) => callback),
+}));
+
+vi.mock('../hooks/useFundCardFundingUrl', () => ({
+  useFundCardFundingUrl: vi.fn(),
+}));
+
+vi.mock('../../useOnchainKit');
 
 vi.mock('../utils/setupOnrampEventListeners', () => ({
   setupOnrampEventListeners: vi.fn(),
 }));
 
-describe('FundCard', () => {
-  const defaultProps: FundCardPropsReact = {
-    assetSymbol: 'BTC',
-    buttonText: 'Buy BTC',
-    headerText: 'Fund Your Account',
-  };
+vi.mock('@/ui-react/internal/utils/openPopup', () => ({
+  openPopup: vi.fn(),
+}));
 
-  const renderComponent = (props = defaultProps) =>
-    render(
-      <FundCardProvider asset={props.assetSymbol}>
-        <FundCard {...props} />
-      </FundCardProvider>
-    );
+vi.mock('../utils/getFundingPopupSize', () => ({
+  getFundingPopupSize: vi.fn(),
+}));
+
+vi.mock('../hooks/useFundCardSetupOnrampEventListeners');
+vi.mock('../utils/fetchOnrampQuote');
+
+const mockResponseData = {
+  paymentTotal: { value: '100.00', currency: 'USD' },
+  paymentSubtotal: { value: '120.00', currency: 'USD' },
+  purchaseAmount: { value: '0.1', currency: 'BTC' },
+  coinbaseFee: { value: '2.00', currency: 'USD' },
+  networkFee: { value: '1.00', currency: 'USD' },
+  quoteId: 'quote-id-123',
+};
+
+const defaultProps: FundCardPropsReact = {
+  assetSymbol: 'BTC',
+  buttonText: 'Buy BTC',
+  headerText: 'Fund Your Account',
+};
+
+const renderComponent = (props = defaultProps) =>
+  render(
+    <FundCardProvider asset={props.assetSymbol}>
+      <FundCard {...props} />
+    </FundCardProvider>,
+  );
+
+describe('FundCard', () => {
+  beforeEach(() => {
+    vi.resetAllMocks();
+    setOnchainKitConfig({ apiKey: 'mock-api-key' });
+    (getFundingPopupSize as Mock).mockImplementation(() => ({
+      height: 200,
+      width: 100,
+    }));
+    (useFundCardFundingUrl as Mock).mockReturnValue('mock-funding-url');
+    (useDebounce as Mock).mockImplementation((callback) => callback);
+    (fetchOnrampQuote as Mock).mockResolvedValue(mockResponseData);
+  });
 
   it('renders without crashing', () => {
     renderComponent();
-    expect(screen.getByText('Fund Your Account')).toBeInTheDocument();
-    expect(screen.getByText('Buy BTC')).toBeInTheDocument();
+    expect(screen.getByTestId('fundCardHeader')).toBeInTheDocument();
+    expect(screen.getByTestId('ockFundButtonTextContent')).toBeInTheDocument();
   });
 
   it('displays the correct header text', () => {
     renderComponent();
-    expect(screen.getByText('Fund Your Account')).toBeInTheDocument();
+    expect(screen.getByTestId('fundCardHeader')).toHaveTextContent(
+      'Fund Your Account',
+    );
   });
 
   it('displays the correct button text', () => {
     renderComponent();
-    expect(screen.getByRole('button', { name: 'Buy BTC' })).toBeInTheDocument();
+    expect(screen.getByTestId('ockFundButtonTextContent')).toHaveTextContent(
+      'Buy BTC',
+    );
   });
 
   it('handles input changes for fiat amount', () => {
     renderComponent();
-    const input = screen.getByPlaceholderText('$') as HTMLInputElement;
-    fireEvent.change(input, { target: { value: '100' } });
+
+    const input = screen.getByTestId(
+      'ockFundCardAmountInput',
+    ) as HTMLInputElement;
+
+    act(() => {
+      fireEvent.change(input, { target: { value: '100' } });
+    });
+
     expect(input.value).toBe('100');
   });
 
-  it('switches input type from fiat to crypto', () => {
+  it('switches input type from fiat to crypto', async () => {
     renderComponent();
-    const switchButton = screen.getByRole('button', { name: /switch to crypto/i });
-    fireEvent.click(switchButton);
-    expect(screen.getByPlaceholderText('BTC')).toBeInTheDocument();
-  });
 
-  it('selects a payment method', () => {
-    renderComponent();
-    const dropdown = screen.getByRole('button', { name: /select payment method/i });
-    fireEvent.click(dropdown);
-    const option = screen.getByText('Coinbase');
-    fireEvent.click(option);
-    expect(screen.getByText('Coinbase')).toBeInTheDocument();
+    await waitFor(() => {
+      const switchButton = screen.getByTestId('ockAmountTypeSwitch');
+      fireEvent.click(switchButton);
+    });
+
+    expect(screen.getByTestId('currencySpan')).toHaveTextContent('BTC');
   });
 
   it('disables the submit button when fund amount is zero', () => {
     renderComponent();
-    const button = screen.getByRole('button', { name: 'Buy BTC' });
+    const button = screen.getByTestId('ockFundButton');
     expect(button).toBeDisabled();
   });
 
   it('enables the submit button when fund amount is greater than zero', () => {
     renderComponent();
-    const input = screen.getByPlaceholderText('$') as HTMLInputElement;
-    fireEvent.change(input, { target: { value: '100' } });
-    const button = screen.getByRole('button', { name: 'Buy BTC' });
+    const input = screen.getByTestId('ockFundCardAmountInput');
+    act(() => {
+      fireEvent.change(input, { target: { value: '100' } });
+    });
+    const button = screen.getByTestId('ockFundButton');
     expect(button).not.toBeDisabled();
   });
 
   it('shows loading state when submitting', async () => {
     renderComponent();
-    const input = screen.getByPlaceholderText('$') as HTMLInputElement;
-    fireEvent.change(input, { target: { value: '100' } });
-    const button = screen.getByRole('button', { name: 'Buy BTC' });
-    
-    fireEvent.click(button);
-    expect(button).toHaveAttribute('state', 'loading');
-    
-    await waitFor(() => {
-      expect(button).toHaveAttribute('state', 'default');
+    const input = screen.getByTestId('ockFundCardAmountInput');
+    act(() => {
+      fireEvent.change(input, { target: { value: '100' } });
     });
+    const button = screen.getByTestId('ockFundButton');
+
+    expect(screen.queryByTestId('ockSpinner')).not.toBeInTheDocument();
+    act(() => {
+      fireEvent.click(button);
+    });
+
+    expect(screen.getByTestId('ockSpinner')).toBeInTheDocument();
   });
 
-  it('handles funding URL correctly for fiat input', () => {
-    renderComponent();
-    const input = screen.getByPlaceholderText('$') as HTMLInputElement;
-    fireEvent.change(input, { target: { value: '100' } });
-    const button = screen.getByRole('button', { name: 'Buy BTC' });
-    
-    expect(button).toHaveAttribute('href');
-  });
+  it('renders passed in components', () => {
+    const CustomAmountInputComponent = () => (
+      <div data-testid="amountInputComponent" />
+    );
+    const CustomHeaderComponent = () => <div data-testid="headerComponent" />;
+    const CustomAmountInputTypeSwitchComponent = () => (
+      <div data-testid="amountInputTypeSwitchComponent" />
+    );
+    const CustomPaymentMethodSelectorDropdownComponent = () => (
+      <div data-testid="paymentMethodSelectorDropdownComponent" />
+    );
+    const CustomSubmitButtonComponent = () => (
+      <div data-testid="submitButtonComponent" />
+    );
+    renderComponent({
+      ...defaultProps,
+      amountInputComponent: CustomAmountInputComponent,
+      headerComponent: CustomHeaderComponent,
+      amountInputTypeSwithComponent: CustomAmountInputTypeSwitchComponent,
+      paymentMethodSelectorDropdownComponent:
+        CustomPaymentMethodSelectorDropdownComponent,
+      submitButtonComponent: CustomSubmitButtonComponent,
+    });
 
-  it('handles funding URL correctly for crypto input', () => {
-    renderComponent();
-    const switchButton = screen.getByRole('button', { name: /switch to crypto/i });
-    fireEvent.click(switchButton);
-    const input = screen.getByPlaceholderText('BTC') as HTMLInputElement;
-    fireEvent.change(input, { target: { value: '0.005' } });
-    const button = screen.getByRole('button', { name: 'Buy BTC' });
-    
-    expect(button).toHaveAttribute('href');
-  });
-
-  it('calls onEvent, onExit, and onSuccess from setupOnrampEventListeners', () => {
-    const { setupOnrampEventListeners } = require('../utils/setupOnrampEventListeners');
-    renderComponent();
-    expect(setupOnrampEventListeners).toHaveBeenCalled();
+    expect(screen.getByTestId('amountInputComponent')).toBeInTheDocument();
+    expect(screen.getByTestId('headerComponent')).toBeInTheDocument();
+    expect(
+      screen.getByTestId('amountInputTypeSwitchComponent'),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByTestId('paymentMethodSelectorDropdownComponent'),
+    ).toBeInTheDocument();
+    expect(screen.getByTestId('submitButtonComponent')).toBeInTheDocument();
   });
 });

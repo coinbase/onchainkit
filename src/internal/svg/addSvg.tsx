@@ -1,6 +1,6 @@
 import { cn, icon } from '../../styles/theme';
 
-export const AddSvg = ({className = cn(icon.inverse)}) => (
+export const AddSvg = ({ className = cn(icon.inverse) }) => (
   <svg
     data-testid="ock-addSvg"
     role="img"

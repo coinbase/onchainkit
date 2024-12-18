@@ -1,9 +1,13 @@
 import { createContext, useContext, useState } from 'react';
 import { useValue } from '../../core-react/internal/hooks/useValue';
-import type { FundButtonStateReact, FundCardProviderReact, PaymentMethodReact } from '../types';
+import type {
+  FundButtonStateReact,
+  FundCardProviderReact,
+  PaymentMethodReact,
+} from '../types';
 
 type FundCardContextType = {
-  selectedAsset?: string;
+  selectedAsset: string;
   setSelectedAsset: (asset: string) => void;
   selectedPaymentMethod?: PaymentMethodReact;
   setSelectedPaymentMethod: (paymentMethod: PaymentMethodReact) => void;
@@ -24,14 +28,21 @@ type FundCardContextType = {
 const FundContext = createContext<FundCardContextType | undefined>(undefined);
 
 export function FundCardProvider({ children, asset }: FundCardProviderReact) {
-  const [selectedAsset, setSelectedAsset] = useState<string | undefined>(asset);
-  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<PaymentMethodReact | undefined>();
-  const [selectedInputType, setSelectedInputType] = useState<'fiat' | 'crypto'>('fiat');
+  const [selectedAsset, setSelectedAsset] = useState<string>(asset);
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<
+    PaymentMethodReact | undefined
+  >();
+  const [selectedInputType, setSelectedInputType] = useState<'fiat' | 'crypto'>(
+    'fiat',
+  );
   const [fundAmountFiat, setFundAmountFiat] = useState<string>('');
   const [fundAmountCrypto, setFundAmountCrypto] = useState<string>('');
   const [exchangeRate, setExchangeRate] = useState<number | undefined>();
-  const [exchangeRateLoading, setExchangeRateLoading] = useState<boolean | undefined>();
-  const [submitButtonState, setSubmitButtonState] = useState<FundButtonStateReact>('default');
+  const [exchangeRateLoading, setExchangeRateLoading] = useState<
+    boolean | undefined
+  >();
+  const [submitButtonState, setSubmitButtonState] =
+    useState<FundButtonStateReact>('default');
 
   const value = useValue<FundCardContextType>({
     selectedAsset,

@@ -1,6 +1,6 @@
 import { cn, icon } from '../../styles/theme';
 
-export const ErrorSvg = ({className = cn(icon.error)}) => (
+export const ErrorSvg = ({ className = cn(icon.error) }) => (
   <svg
     aria-label="ock-errorSvg"
     width="16"

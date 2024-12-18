@@ -1,8 +1,8 @@
+import { setOnchainKitConfig } from '@/core/OnchainKitConfig';
 import { renderHook } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
-import { useExchangeRate } from './useExchangeRate';
 import { useFundContext } from '../components/FundCardProvider';
-import { setOnchainKitConfig } from '@/core/OnchainKitConfig';
+import { useExchangeRate } from './useExchangeRate';
 
 const mockResponseData = {
   payment_total: { value: '100.00', currency: 'USD' },
@@ -16,7 +16,7 @@ const mockResponseData = {
 global.fetch = vi.fn(() =>
   Promise.resolve({
     json: () => Promise.resolve(mockResponseData),
-  })
+  }),
 ) as Mock;
 
 vi.mock('../../core-react/internal/hooks/useDebounce', () => ({

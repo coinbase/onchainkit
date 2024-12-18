@@ -1,13 +1,13 @@
 import { renderHook } from '@testing-library/react';
-import { useIcon } from './useIcon';
-import { CoinbasePaySvg } from '../svg/coinbasePaySvg';
+import { describe, expect, it } from 'vitest';
 import { toggleSvg } from '../../internal/svg/toggleSvg';
 import { applePaySvg } from '../svg/applePaySvg';
+import { CoinbasePaySvg } from '../svg/coinbasePaySvg';
+import { creditCardSvg } from '../svg/creditCardSvg';
 import { fundWalletSvg } from '../svg/fundWallet';
 import { swapSettingsSvg } from '../svg/swapSettings';
 import { walletSvg } from '../svg/walletSvg';
-import { creditCardSvg } from '../svg/creditCardSvg';
-import { describe, expect, it } from 'vitest';
+import { useIcon } from './useIcon';
 
 describe('useIcon', () => {
   it('returns CoinbasePaySvg when icon is "coinbasePay"', () => {

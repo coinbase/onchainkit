@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import type { ReactNode } from 'react';
 
 /**
  * Props used to get an Onramp buy URL by directly providing a CDP project ID.
@@ -90,6 +90,11 @@ type GetOnrampBuyUrlOptionalProps = {
    * choose to change this amount in the UI. Only one of presetCryptoAmount or presetFiatAmount should be provided.
    */
   presetFiatAmount?: number;
+
+  /**
+   * The default payment method that will be selected for the user in the Onramp UI. Should be one of the payment methods
+   */
+  defaultPaymentMethod?: PaymentAccountReact;
   /**
    * The currency code of the fiat amount provided in the presetFiatAmount param e.g. USD, CAD, EUR.
    */
@@ -286,16 +291,18 @@ export type FundCardHeaderPropsReact = {
 export type FundCardPaymentMethodImagePropsReact = {
   className?: string;
   size?: number;
-  paymentMethod: PaymentMethodReact
+  paymentMethod: PaymentMethodReact;
 };
 
+export type PaymentAccountReact =
+  | 'CRYPTO_ACCOUNT'
+  | 'FIAT_WALLET'
+  | 'CARD'
+  | 'ACH_BANK_ACCOUNT'
+  | 'APPLE_PAY';
+
 export type PaymentMethodReact = {
-  id:
-    | 'CRYPTO_ACCOUNT'
-    | 'FIAT_WALLET'
-    | 'CARD'
-    | 'ACH_BANK_ACCOUNT'
-    | 'APPLE_PAY';
+  id: PaymentAccountReact;
   name: string;
   description: string;
   icon: string;
@@ -304,7 +311,6 @@ export type PaymentMethodReact = {
 export type FundCardPaymentMethodSelectorDropdownPropsReact = {
   paymentMethods: PaymentMethodReact[];
 };
-
 
 export type FundCardCurrencyLabelPropsReact = {
   currencySign: string;
@@ -349,8 +355,8 @@ export type FundCardPaymentMethodSelectorTogglePropsReact = {
   className?: string;
   isOpen: boolean; // Determines carot icon direction
   onClick: () => void; // Button on click handler
-  paymentMethod: PaymentMethodReact
-}
+  paymentMethod: PaymentMethodReact;
+};
 
 export type FundCardPaymentMethodSelectRowPropsReact = {
   className?: string;
@@ -358,7 +364,7 @@ export type FundCardPaymentMethodSelectRowPropsReact = {
   onClick?: (paymentMethod: PaymentMethodReact) => void;
   hideImage?: boolean;
   hideDescription?: boolean;
-}
+};
 
 export type FundCardProviderReact = {
   children: ReactNode;

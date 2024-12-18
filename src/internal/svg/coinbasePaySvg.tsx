@@ -1,6 +1,6 @@
 import { cn, icon } from '../../styles/theme';
 
-export const CoinbasePaySvg = ({className = cn(icon.foreground)}) => (
+export const CoinbasePaySvg = ({ className = cn(icon.foreground) }) => (
   <svg
     role="img"
     aria-label="ock-coinbasePaySvg"

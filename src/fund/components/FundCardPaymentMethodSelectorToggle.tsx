@@ -2,8 +2,8 @@ import { type ForwardedRef, forwardRef } from 'react';
 import { caretDownSvg } from '../../internal/svg/caretDownSvg';
 import { caretUpSvg } from '../../internal/svg/caretUpSvg';
 import { border, cn, color, pressable, text } from '../../styles/theme';
-import { FundCardPaymentMethodImage } from './FundCardPaymentMethodImage';
 import type { FundCardPaymentMethodSelectorTogglePropsReact } from '../types';
+import { FundCardPaymentMethodImage } from './FundCardPaymentMethodImage';
 
 export const FundCardPaymentMethodSelectorToggle = forwardRef(
   (
@@ -13,7 +13,7 @@ export const FundCardPaymentMethodSelectorToggle = forwardRef(
       isOpen,
       className,
     }: FundCardPaymentMethodSelectorTogglePropsReact,
-    ref: ForwardedRef<HTMLButtonElement>
+    ref: ForwardedRef<HTMLButtonElement>,
   ) => {
     return (
       <button
@@ -24,7 +24,7 @@ export const FundCardPaymentMethodSelectorToggle = forwardRef(
           border.radius,
           border.lineDefault,
           'flex h-12 w-full items-center gap-2 px-3 py-1',
-          className
+          className,
         )}
         onClick={onClick}
         ref={ref}
@@ -46,5 +46,5 @@ export const FundCardPaymentMethodSelectorToggle = forwardRef(
         </div>
       </button>
     );
-  }
+  },
 );

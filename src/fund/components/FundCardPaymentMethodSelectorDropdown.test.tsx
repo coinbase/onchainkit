@@ -1,10 +1,10 @@
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
-import { afterEach, describe, expect, it, vi } from 'vitest';
-import { FundCardPaymentMethodSelectorDropdown } from './FundCardPaymentMethodSelectorDropdown';
-import type { PaymentMethodReact } from '../types';
-import { FundCardProvider } from './FundCardProvider';
 import { act } from 'react';
+import { afterEach, describe, expect, it, vi } from 'vitest';
+import type { PaymentMethodReact } from '../types';
+import { FundCardPaymentMethodSelectorDropdown } from './FundCardPaymentMethodSelectorDropdown';
+import { FundCardProvider } from './FundCardProvider';
 
 vi.mock('../../core-react/internal/hooks/useTheme', () => ({
   useTheme: vi.fn(),
@@ -29,7 +29,7 @@ const renderComponent = () =>
   render(
     <FundCardProvider asset="BTC">
       <FundCardPaymentMethodSelectorDropdown paymentMethods={paymentMethods} />
-    </FundCardProvider>
+    </FundCardProvider>,
   );
 
 describe('FundCardPaymentMethodSelectorDropdown', () => {
@@ -41,40 +41,40 @@ describe('FundCardPaymentMethodSelectorDropdown', () => {
     renderComponent();
     expect(
       screen.getByTestId(
-        'ockFundCardPaymentMethodSelectorToggle__paymentMethodName'
-      )
+        'ockFundCardPaymentMethodSelectorToggle__paymentMethodName',
+      ),
     ).toBeInTheDocument();
   });
 
   it('toggles the dropdown when the toggle button is clicked', () => {
     renderComponent();
     const toggleButton = screen.getByTestId(
-      'ockFundCardPaymentMethodSelectorToggle'
+      'ockFundCardPaymentMethodSelectorToggle',
     );
     // Initially closed
     expect(
-      screen.queryByTestId('ockFundCardPaymentMethodSelectorDropdown')
+      screen.queryByTestId('ockFundCardPaymentMethodSelectorDropdown'),
     ).not.toBeInTheDocument();
     // Click to open
     act(() => {
       toggleButton.click();
     });
     expect(
-      screen.getByTestId('ockFundCardPaymentMethodSelectorDropdown')
+      screen.getByTestId('ockFundCardPaymentMethodSelectorDropdown'),
     ).toBeInTheDocument();
     // Click to close
     act(() => {
       toggleButton.click();
     });
     expect(
-      screen.queryByTestId('ockFundCardPaymentMethodSelectorDropdown')
+      screen.queryByTestId('ockFundCardPaymentMethodSelectorDropdown'),
     ).not.toBeInTheDocument();
   });
 
   it('selects a payment method and updates the selection', () => {
     renderComponent();
     const toggleButton = screen.getByTestId(
-      'ockFundCardPaymentMethodSelectorToggle'
+      'ockFundCardPaymentMethodSelectorToggle',
     );
     act(() => {
       toggleButton.click();
@@ -85,14 +85,14 @@ describe('FundCardPaymentMethodSelectorDropdown', () => {
     });
     expect(screen.getByText('Apple Pay')).toBeInTheDocument();
     expect(
-      screen.queryByTestId('ockFundCardPaymentMethodSelectorDropdown')
+      screen.queryByTestId('ockFundCardPaymentMethodSelectorDropdown'),
     ).not.toBeInTheDocument();
   });
 
   it('closes the dropdown when clicking outside', () => {
     renderComponent();
     const toggleButton = screen.getByTestId(
-      'ockFundCardPaymentMethodSelectorToggle'
+      'ockFundCardPaymentMethodSelectorToggle',
     );
 
     // Open the dropdown
@@ -101,7 +101,7 @@ describe('FundCardPaymentMethodSelectorDropdown', () => {
     });
 
     expect(
-      screen.getByTestId('ockFundCardPaymentMethodSelectorDropdown')
+      screen.getByTestId('ockFundCardPaymentMethodSelectorDropdown'),
     ).toBeInTheDocument();
 
     // Click outside
@@ -110,7 +110,7 @@ describe('FundCardPaymentMethodSelectorDropdown', () => {
     });
     // Assert dropdown is closed
     expect(
-      screen.queryByTestId('ockFundCardPaymentMethodSelectorDropdown')
+      screen.queryByTestId('ockFundCardPaymentMethodSelectorDropdown'),
     ).not.toBeInTheDocument();
   });
 });

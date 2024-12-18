@@ -16,7 +16,7 @@ export const FundCardCurrencyLabel = forwardRef<
         componentTheme,
         text.body,
         'flex items-center justify-center bg-transparent',
-        'text-[60px] leading-none outline-none'
+        'text-[60px] leading-none outline-none',
       )}
       data-testid="currencySpan"
     >

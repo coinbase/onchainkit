@@ -11,8 +11,7 @@ export function Skeleton({ className }: SkeletonReact) {
         'animate-pulse bg-opacity-50',
         background.alternate,
         'rounded',
-        className
-
+        className,
       )}
       data-testid="ockSkeleton"
     />

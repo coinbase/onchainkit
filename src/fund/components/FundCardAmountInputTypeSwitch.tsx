@@ -1,9 +1,9 @@
-import { cn, color, pressable, text } from '../../styles/theme';
 import { useCallback, useMemo } from 'react';
+import { useIcon } from '../../core-react/internal/hooks/useIcon';
 import { useTheme } from '../../core-react/internal/hooks/useTheme';
 import { getRoundedAmount } from '../../core/utils/getRoundedAmount';
-import { useIcon } from '../../core-react/internal/hooks/useIcon';
 import { Skeleton } from '../../internal/components/Skeleton';
+import { cn, color, pressable, text } from '../../styles/theme';
 import type { FundCardAmountInputTypeSwitchPropsReact } from '../types';
 
 export const FundCardAmountInputTypeSwitch = ({
@@ -38,7 +38,7 @@ export const FundCardAmountInputTypeSwitch = ({
           text.label2,
           color.foregroundMuted,
           'font-normal',
-          'pl-1'
+          'pl-1',
         )}
       >
         ({formatUSD('1')} = {exchangeRate?.toFixed(8)} {selectedAsset})
@@ -62,8 +62,8 @@ export const FundCardAmountInputTypeSwitch = ({
     );
   }, [formatUSD, fundAmountFiat, componentTheme]);
 
-  if(isLoading || !exchangeRate) {
-    return<Skeleton className="h-[1.625rem]" /> 
+  if (isLoading || !exchangeRate) {
+    return <Skeleton className="h-[1.625rem]" />;
   }
 
   return (
@@ -73,8 +73,9 @@ export const FundCardAmountInputTypeSwitch = ({
         aria-label="amount type switch"
         className={cn(
           pressable.default,
-          'mr-1 rounded-full p-1 opacity-50 transition-opacity hover:opacity-100'
+          'mr-1 rounded-full p-1 opacity-50 transition-opacity hover:opacity-100',
         )}
+        data-testid="ockAmountTypeSwitch"
         onClick={handleToggle}
       >
         <div className="h-[1.125rem] w-[1.125rem]">{iconSvg}</div>

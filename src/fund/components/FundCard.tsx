@@ -1,21 +1,20 @@
 import { useTheme } from '../../core-react/internal/hooks/useTheme';
 import { background, border, cn, color, text } from '../../styles/theme';
-import { FundCardProvider } from './FundCardProvider';
 import { useExchangeRate } from '../hooks/useExchangeRate';
-import { useEffect, useMemo } from 'react';
-import { useFundContext } from './FundCardProvider';
+import { useFundCardSetupOnrampEventListeners } from '../hooks/useFundCardSetupOnrampEventListeners';
+import type { FundCardPropsReact, PaymentMethodReact } from '../types';
 import { FundButton } from './FundButton';
+import FundCardAmountInput from './FundCardAmountInput';
+import FundCardAmountInputTypeSwitch from './FundCardAmountInputTypeSwitch';
 import { FundCardHeader } from './FundCardHeader';
 import { FundCardPaymentMethodSelectorDropdown } from './FundCardPaymentMethodSelectorDropdown';
-import FundCardAmountInput from './FundCardAmountInput';
-import { FUND_BUTTON_RESET_TIMEOUT, ONRAMP_BUY_URL } from '../constants';
-import { setupOnrampEventListeners } from '../utils/setupOnrampEventListeners';
-import type { FundCardPropsReact, PaymentMethodReact } from '../types';
-import FundCardAmountInputTypeSwitch from './FundCardAmountInputTypeSwitch';
+import { FundCardProvider } from './FundCardProvider';
+import { useFundContext } from './FundCardProvider';
+//import { useFundCardFundingUrl } from '../hooks/useFundCardFundingUrl';
 
 const defaultPaymentMethods: PaymentMethodReact[] = [
   {
-    id: 'CRYPTO_ACCOUNT',
+    id: 'FIAT_WALLET',
     name: 'Coinbase',
     description: 'Buy with your Coinbase account',
     icon: 'coinbasePay',
@@ -57,7 +56,7 @@ export function FundCard({
           'flex w-[440px] flex-col p-6',
           text.headline,
           border.radius,
-          border.lineDefault
+          border.lineDefault,
         )}
       >
         <FundCardContent
@@ -101,7 +100,6 @@ export function FundCardContent({
     fundAmountFiat,
     fundAmountCrypto,
     setFundAmountCrypto,
-    selectedPaymentMethod,
     selectedInputType,
     exchangeRate,
     setSelectedInputType,
@@ -111,45 +109,13 @@ export function FundCardContent({
     setSubmitButtonState,
   } = useFundContext();
 
-  const fundAmount =
-    selectedInputType === 'fiat' ? fundAmountFiat : fundAmountCrypto;
+  const fundingUrl = 'test'; //useFundCardFundingUrl();
 
-  const fundingUrl = useMemo(() => {
-    if (selectedInputType === 'fiat') {
-      return `${ONRAMP_BUY_URL}/one-click?appId=6eceb045-266a-4940-9d22-35952496ff00&addresses={"0x438BbEF3525eF1b0359160FD78AF9c1158485d87":["base"]}&assets=["${assetSymbol}"]&presetFiatAmount=${fundAmount}&defaultPaymentMethod=${selectedPaymentMethod?.id}`;
-    }
-
-    return `${ONRAMP_BUY_URL}/one-click?appId=6eceb045-266a-4940-9d22-35952496ff00&addresses={"0x438BbEF3525eF1b0359160FD78AF9c1158485d87":["base"]}&assets=["${assetSymbol}"]&presetCryptoAmount=${fundAmount}&defaultPaymentMethod=${selectedPaymentMethod?.id}`;
-  }, [assetSymbol, fundAmount, selectedPaymentMethod, selectedInputType]);
-
-  // biome-ignore lint/correctness/useExhaustiveDependencies: Only want to run this effect once
-  useEffect(() => {
-    setupOnrampEventListeners({
-      onEvent: (event) => {
-        if (event.eventName === 'error') {
-          setSubmitButtonState('error');
-
-          setTimeout(() => {
-            setSubmitButtonState('default');
-          }, FUND_BUTTON_RESET_TIMEOUT);
-        }
-      },
-      onExit: (event) => {
-        setSubmitButtonState('default');
-        console.log('onExit', event);
-      },
-      onSuccess: () => {
-        setSubmitButtonState('success');
-
-        setTimeout(() => {
-          setSubmitButtonState('default');
-        }, FUND_BUTTON_RESET_TIMEOUT);
-      },
-    });
-  }, []);
+  // Setup event listeners for the onramp
+  useFundCardSetupOnrampEventListeners();
 
   return (
-    <form className="w-full">
+    <form className="w-full" data-testid="ockFundCardForm">
       <HeaderComponent headerText={headerText} assetSymbol={assetSymbol} />
 
       <AmountInputComponent
@@ -176,14 +142,14 @@ export function FundCardContent({
       <PaymentMethodSelectorDropdown paymentMethods={paymentMethods} />
 
       <SubmitButton
-        disabled={!fundAmount}
+        disabled={!fundAmountFiat || !fundAmountCrypto}
         hideIcon={submitButtonState === 'default'}
         text={buttonText}
         className="w-full"
         fundingUrl={fundingUrl}
         state={submitButtonState}
         onClick={() => setSubmitButtonState('loading')}
-        onPopupClose={() => setSubmitButtonState('default')}
+        //onPopupClose={() => setSubmitButtonState('default')}
       />
     </form>
   );

@@ -6,7 +6,7 @@ import { OnchainKitComponent } from '@/types/onchainkit';
 import { useContext, useEffect, useState } from 'react';
 import DemoOptions from './DemoOptions';
 import CheckoutDemo from './demo/Checkout';
-import FundDemo from './demo/Fund';
+import FundButtonDemo from './demo/FundButton';
 import IdentityDemo from './demo/Identity';
 import { IdentityCardDemo } from './demo/IdentityCard';
 import NFTCardDemo from './demo/NFTCard';
@@ -19,9 +19,11 @@ import TransactionDemo from './demo/Transaction';
 import TransactionDefaultDemo from './demo/TransactionDefault';
 import WalletDemo from './demo/Wallet';
 import WalletDefaultDemo from './demo/WalletDefault';
+import FundCardDemo from './demo/FundCard';
 
 const activeComponentMapping: Record<OnchainKitComponent, React.FC> = {
-  [OnchainKitComponent.Fund]: FundDemo,
+  [OnchainKitComponent.FundButton]: FundButtonDemo,
+  [OnchainKitComponent.FundCard]: FundCardDemo,
   [OnchainKitComponent.Identity]: IdentityDemo,
   [OnchainKitComponent.Transaction]: TransactionDemo,
   [OnchainKitComponent.Checkout]: CheckoutDemo,
