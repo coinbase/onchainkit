@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom';
+import type { EASSchemaUid } from '@/core-react/identity/types';
 import { setOnchainKitConfig } from '@/core/OnchainKitConfig';
 import type { AppConfig } from '@/core/types';
-import type { EASSchemaUid } from '@/identity/types';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { render, screen, waitFor } from '@testing-library/react';
 import { base } from 'viem/chains';

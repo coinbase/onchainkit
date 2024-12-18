@@ -8,9 +8,9 @@ import {
 } from '@/core/OnchainKitConfig';
 import { DEFAULT_PRIVACY_URL, DEFAULT_TERMS_URL } from '../core/constants';
 import { createWagmiConfig } from '../core/createWagmiConfig';
+import { COINBASE_VERIFIED_ACCOUNT_SCHEMA_ID } from '../core/identity/constants';
 import type { OnchainKitContextType } from '../core/types';
 import { checkHashLength } from '../core/utils/checkHashLength';
-import { COINBASE_VERIFIED_ACCOUNT_SCHEMA_ID } from '../identity/constants';
 import { useProviderDependencies } from './internal/hooks/useProviderDependencies';
 import type { OnchainKitProviderReact } from './types';
 
