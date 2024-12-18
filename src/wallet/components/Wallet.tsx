@@ -16,6 +16,8 @@ function WalletContent({ children, className }: WalletReact) {
     containerRef: walletContainerRef,
   } = useWalletContext();
 
+  useOutsideClick(walletContainerRef, handleClose);
+
   const { connect, dropdown } = useMemo(() => {
     const childrenArray = Children.toArray(children);
     return {
@@ -23,8 +25,6 @@ function WalletContent({ children, className }: WalletReact) {
       dropdown: childrenArray.find(findComponent(WalletDropdown)),
     };
   }, [children]);
-
-  useOutsideClick(walletContainerRef, handleClose);
 
   return (
     <div
@@ -38,8 +38,8 @@ function WalletContent({ children, className }: WalletReact) {
 }
 
 export const Wallet = ({ children, className }: WalletReact) => {
-  const isMounted = useIsMounted();
   const componentTheme = useTheme();
+  const isMounted = useIsMounted();
 
   // prevents SSR hydration issue
   if (!isMounted) {
