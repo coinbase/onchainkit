@@ -1,6 +1,6 @@
 import { useCallback, useMemo } from 'react';
 import { getRoundedAmount } from '../../core/utils/getRoundedAmount';
-import { cn, color } from '../../styles/theme';
+import { cn, color, pressable } from '../../styles/theme';
 import type { SwapUnit } from '../../swap/types';
 import { TokenImage } from '../../token';
 import { useBuyContext } from './BuyProvider';
@@ -31,7 +31,10 @@ export function BuyTokenItem({ swapUnit }: { swapUnit?: SwapUnit }) {
 
   return (
     <button
-      className={cn('flex items-center gap-2 rounded-lg p-2')}
+      className={cn(
+        'flex items-center gap-2 rounded-lg p-2',
+        !hasInsufficientBalance && pressable.default,
+      )}
       onClick={handleClick}
       type="button"
       disabled={hasInsufficientBalance}
