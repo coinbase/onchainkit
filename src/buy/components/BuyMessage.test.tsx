@@ -38,7 +38,10 @@ describe('BuyMessage', () => {
 
   it('renders missing required fields message', () => {
     (useBuyContext as Mock).mockReturnValue({
-      lifecycleStatus: { statusName: 'error', statusData: { code: 'TmBPc05' } },
+      lifecycleStatus: {
+        statusName: 'error',
+        statusData: { code: 'TmBPc05', error: 'Missing required fields' },
+      },
     });
 
     render(<BuyMessage />);

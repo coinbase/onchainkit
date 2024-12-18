@@ -1,13 +1,15 @@
 import { cn, color } from '../../styles/theme';
+import { isSwapError } from '../../swap/utils/isSwapError';
 import { useBuyContext } from './BuyProvider';
 
 export function BuyMessage() {
-  const {
-    lifecycleStatus: { statusName, statusData },
-  } = useBuyContext();
+  const { lifecycleStatus } = useBuyContext();
 
   // Missing required fields
-  if (statusName === 'error' && statusData?.code === 'TmBPc05') {
+  if (
+    isSwapError(lifecycleStatus.statusData) &&
+    lifecycleStatus?.statusData?.code === 'TmBPc05'
+  ) {
     return (
       <div className={cn('text-sm', color.foregroundMuted)}>
         Complete the field to continue
@@ -15,7 +17,7 @@ export function BuyMessage() {
     );
   }
 
-  if (statusName === 'error') {
+  if (lifecycleStatus?.statusName === 'error') {
     return (
       <div className={cn(color.error, 'text-sm')}>
         Something went wrong. Please try again.
