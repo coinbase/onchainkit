@@ -23,6 +23,7 @@ export function BuyAmountInput() {
         className={cn(
           'mr-2 w-full border-[none] font-display',
           'leading-none outline-none',
+          'disabled:cursor-not-allowed',
           background.default,
           color.foreground,
         )}
@@ -37,6 +38,7 @@ export function BuyAmountInput() {
       <TokenChip
         className={cn(color.foreground, 'rounded-md')}
         token={to.token}
+        isPressable={false}
       />
     </div>
   );

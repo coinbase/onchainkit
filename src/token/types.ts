@@ -34,6 +34,7 @@ export type TokenChipReact = {
   token: Token; // Rendered token
   onClick?: (token: Token) => void;
   className?: string;
+  isPressable?: boolean;
 };
 
 /**

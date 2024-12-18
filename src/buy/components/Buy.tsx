@@ -26,7 +26,7 @@ function BuyContent({ className }: { className?: string }) {
       ref={buyContainerRef}
       className={cn('relative flex flex-col gap-2', componentTheme, className)}
     >
-      <div className={cn('flex items-center gap-4', className)}>
+      <div className={cn('flex items-center gap-4')}>
         <BuyAmountInput />
         <BuyButton />
         {isDropdownOpen && <BuyDropdown />}
