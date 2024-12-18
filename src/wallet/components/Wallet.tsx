@@ -5,9 +5,9 @@ import { cn } from '@/styles/theme';
 import { useOutsideClick } from '@/ui-react/internal/hooks/useOutsideClick';
 import { Children, useMemo } from 'react';
 import type { WalletReact } from '../types';
-import { WalletProvider, useWalletContext } from './WalletProvider';
 import { ConnectWallet } from './ConnectWallet';
 import { WalletDropdown } from './WalletDropdown';
+import { WalletProvider, useWalletContext } from './WalletProvider';
 
 function WalletContent({ children, className }: WalletReact) {
   const componentTheme = useTheme();
