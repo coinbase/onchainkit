@@ -26,7 +26,7 @@ export function BuyTokenItem({ swapUnit }: { swapUnit?: SwapUnit }) {
   }, [swapUnit.amount]);
 
   const roundedBalance = useMemo(() => {
-    return getRoundedAmount(swapUnit.balance || '0', 10);
+    return getRoundedAmount(swapUnit.balance || '0', 3);
   }, [swapUnit.balance]);
 
   return (

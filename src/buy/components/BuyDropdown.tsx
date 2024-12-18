@@ -1,6 +1,6 @@
 import { useOnchainKit } from '@/core-react/useOnchainKit';
 import { openPopup } from '@/ui-react/internal/utils/openPopup';
-import { useCallback, useMemo } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { useAccount } from 'wagmi';
 import { getRoundedAmount } from '../../core/utils/getRoundedAmount';
 import { ONRAMP_BUY_URL } from '../../fund/constants';
@@ -13,7 +13,8 @@ import { BuyTokenItem } from './BuyTokenItem';
 
 export function BuyDropdown() {
   const { projectId } = useOnchainKit();
-  const { to, fromETH, fromUSDC, from, startPopupMonitor } = useBuyContext();
+  const { to, fromETH, fromUSDC, from, startPopupMonitor, setIsDropdownOpen } =
+    useBuyContext();
   const { address } = useAccount();
 
   const handleOnrampClick = useCallback(
@@ -60,12 +61,25 @@ export function BuyDropdown() {
     from?.token?.symbol !== 'ETH' &&
     from?.token?.symbol !== 'USDC';
 
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setIsDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [setIsDropdownOpen]);
+
   return (
     <div
       className={cn(
         color.foreground,
         background.default,
-        'absolute right-0 bottom-0 flex translate-y-[105%] flex-col gap-2',
+        'absolute right-0 bottom-0 flex translate-y-[102%] flex-col gap-2',
         'min-w-80 rounded rounded-lg border p-2',
       )}
     >

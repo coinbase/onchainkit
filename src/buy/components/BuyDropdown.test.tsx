@@ -110,4 +110,15 @@ describe('BuyDropdown', () => {
       }),
     );
   });
+
+  it('closes the dropdown when Escape key is pressed', () => {
+    render(<BuyDropdown />);
+
+    const { setIsDropdownOpen } = mockContextValue;
+
+    act(() => {
+      fireEvent.keyDown(document, { key: 'Escape' });
+    });
+    expect(setIsDropdownOpen).toHaveBeenCalledWith(false);
+  });
 });
