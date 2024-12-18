@@ -10,7 +10,7 @@ import {
   it,
   vi,
 } from 'vitest';
-import { pressable } from '../../styles/theme';
+import { pressable } from '../../../styles/theme';
 import { DELAY_MS, QuantitySelector } from './QuantitySelector';
 
 describe('QuantitySelector component', () => {

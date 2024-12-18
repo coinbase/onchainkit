@@ -1,9 +1,9 @@
+import { coinbasePaySvg } from '@/core/svg/coinbasePaySvg';
+import { fundWalletSvg } from '@/core/svg/fundWallet';
+import { swapSettingsSvg } from '@/core/svg/swapSettings';
+import { walletSvg } from '@/core/svg/walletSvg';
 import { renderHook } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
-import { coinbasePaySvg } from '../../../internal/svg/coinbasePaySvg';
-import { fundWalletSvg } from '../../../internal/svg/fundWallet';
-import { swapSettingsSvg } from '../../../internal/svg/swapSettings';
-import { walletSvg } from '../../../internal/svg/walletSvg';
 import { useIcon } from './useIcon';
 
 describe('useIcon', () => {

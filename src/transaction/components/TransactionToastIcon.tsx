@@ -1,8 +1,8 @@
+import { errorSvg } from '@/core/svg/errorSvg';
+import { successSvg } from '@/core/svg/successSvg';
 import { useMemo } from 'react';
-import { Spinner } from '../../internal/components/Spinner';
-import { errorSvg } from '../../internal/svg/errorSvg';
-import { successSvg } from '../../internal/svg/successSvg';
 import { cn, text } from '../../styles/theme';
+import { Spinner } from '../../ui/react/internal/Spinner';
 import type { TransactionToastIconReact } from '../types';
 import { useTransactionContext } from './TransactionProvider';
 

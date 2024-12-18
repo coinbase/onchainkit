@@ -1,4 +1,4 @@
-import { Spinner } from '../../internal/components/Spinner';
+import { Spinner } from '@/ui-react/internal/Spinner';
 import {
   background,
   border,

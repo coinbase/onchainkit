@@ -1,9 +1,9 @@
+import { basenameSvg } from '@/core/svg/basenameSvg';
 import { base } from 'viem/chains';
 import { useAccount } from 'wagmi';
 import { useName } from '../../identity/hooks/useName';
-import { Spinner } from '../../internal/components/Spinner';
-import { basenameSvg } from '../../internal/svg/basenameSvg';
 import { cn, color, pressable, text } from '../../styles/theme';
+import { Spinner } from '../../ui/react/internal/Spinner';
 import type { WalletDropdownBasenameReact } from '../types';
 
 export function WalletDropdownBasename({

@@ -1,4 +1,4 @@
-import { toggleSvg } from '../../internal/svg/toggleSvg';
+import { toggleSvg } from '@/core/svg/toggleSvg';
 import { border, cn, pressable } from '../../styles/theme';
 import type { SwapToggleButtonReact } from '../types';
 import { useSwapContext } from './SwapProvider';

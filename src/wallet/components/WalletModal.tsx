@@ -1,11 +1,11 @@
+import { closeSvg } from '@/core/svg/closeSvg';
+import { coinbaseWalletSvg } from '@/core/svg/coinbaseWalletSvg';
+import { defaultAvatarSVG } from '@/core/svg/defaultAvatarSVG';
+import { metamaskSvg } from '@/core/svg/metamaskSvg';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useConnect } from 'wagmi';
 import { coinbaseWallet, metaMask } from 'wagmi/connectors';
 import { useOnchainKit } from '../../core-react/useOnchainKit';
-import { closeSvg } from '../../internal/svg/closeSvg';
-import { coinbaseWalletSvg } from '../../internal/svg/coinbaseWalletSvg';
-import { defaultAvatarSVG } from '../../internal/svg/defaultAvatarSVG';
-import { metamaskSvg } from '../../internal/svg/metamaskSvg';
 import {
   background,
   border,

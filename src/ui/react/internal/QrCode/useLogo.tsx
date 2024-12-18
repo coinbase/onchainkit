@@ -1,6 +1,6 @@
+import { cbwSvg } from '@/core/svg/cbwSvg';
 import React, { useMemo } from 'react';
 import ReactDOMServer from 'react-dom/server';
-import { cbwSvg } from '../../svg/cbwSvg';
 
 type RenderLogoProps = {
   size: number;

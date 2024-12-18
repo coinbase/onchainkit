@@ -1,8 +1,8 @@
+import { coinbasePaySvg } from '@/core/svg/coinbasePaySvg';
+import { fundWalletSvg } from '@/core/svg/fundWallet';
+import { swapSettingsSvg } from '@/core/svg/swapSettings';
+import { walletSvg } from '@/core/svg/walletSvg';
 import { isValidElement, useMemo } from 'react';
-import { coinbasePaySvg } from '../../../internal/svg/coinbasePaySvg';
-import { fundWalletSvg } from '../../../internal/svg/fundWallet';
-import { swapSettingsSvg } from '../../../internal/svg/swapSettings';
-import { walletSvg } from '../../../internal/svg/walletSvg';
 
 export const useIcon = ({ icon }: { icon?: React.ReactNode }) => {
   return useMemo(() => {

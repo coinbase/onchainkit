@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { Toast } from '../../internal/components/Toast';
+import { Toast } from '../../ui/react/internal/Toast';
 import type { TransactionToastReact } from '../types';
 import { useTransactionContext } from './TransactionProvider';
 

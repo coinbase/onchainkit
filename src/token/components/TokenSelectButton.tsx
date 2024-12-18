@@ -1,6 +1,6 @@
+import { caretDownSvg } from '@/core/svg/caretDownSvg';
+import { caretUpSvg } from '@/core/svg/caretUpSvg';
 import { type ForwardedRef, forwardRef } from 'react';
-import { caretDownSvg } from '../../internal/svg/caretDownSvg';
-import { caretUpSvg } from '../../internal/svg/caretUpSvg';
 import { border, cn, color, pressable, text } from '../../styles/theme';
 import type { TokenSelectButtonReact } from '../types';
 import { TokenImage } from './TokenImage';

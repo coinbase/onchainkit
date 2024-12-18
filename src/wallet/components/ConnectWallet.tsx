@@ -5,7 +5,6 @@ import { useAccount, useConnect } from 'wagmi';
 import { findComponent } from '../../core-react/internal/utils/findComponent';
 import { useOnchainKit } from '../../core-react/useOnchainKit';
 import { IdentityProvider } from '../../identity/components/IdentityProvider';
-import { Spinner } from '../../internal/components/Spinner';
 import {
   border,
   cn,
@@ -13,6 +12,7 @@ import {
   text as dsText,
   pressable,
 } from '../../styles/theme';
+import { Spinner } from '../../ui/react/internal/Spinner';
 import type { ConnectWalletReact } from '../types';
 import { ConnectButton } from './ConnectButton';
 import { ConnectWalletText } from './ConnectWalletText';

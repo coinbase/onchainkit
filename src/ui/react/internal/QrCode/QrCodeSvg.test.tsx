@@ -1,9 +1,9 @@
+import { cbwSvg } from '@/core/svg/cbwSvg';
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
-import { cbwSvg } from '../../svg/cbwSvg';
 import { QrCodeSvg } from './QrCodeSvg';
 
-vi.mock('../../../core-react/internal/hooks/useTheme', () => ({
+vi.mock('../../../../core-react/internal/hooks/useTheme', () => ({
   useTheme: vi.fn(() => 'default'),
 }));
 
