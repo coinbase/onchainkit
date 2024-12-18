@@ -29,7 +29,7 @@ function BuyComponent() {
       {chainId !== base.id ? (
         <div className="absolute top-0 left-0 z-10 flex h-full w-full flex-col justify-center rounded-xl bg-[#000000] bg-opacity-50 text-center">
           <div className="mx-auto w-2/3 rounded-md bg-muted p-6 text-sm">
-            Swap Demo is only available on Base.
+            Buy Demo is only available on Base.
             <br />
             You're connected to a different network. Switch to Base to continue
             using the app.
@@ -41,7 +41,7 @@ function BuyComponent() {
       {ENVIRONMENT_VARIABLES[ENVIRONMENT.ENVIRONMENT] === 'production' &&
       chainId === base.id ? (
         <div className="mb-5 italic">
-          Note: Swap is disabled on production. To test, run the app locally.
+          Note: Buy is disabled on production. To test, run the app locally.
         </div>
       ) : null}
       <Buy
