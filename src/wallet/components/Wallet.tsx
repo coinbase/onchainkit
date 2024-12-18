@@ -10,7 +10,6 @@ import { WalletDropdown } from './WalletDropdown';
 import { WalletProvider, useWalletContext } from './WalletProvider';
 
 function WalletContent({ children, className }: WalletReact) {
-  const componentTheme = useTheme();
   const {
     isOpen,
     handleClose,
@@ -30,7 +29,7 @@ function WalletContent({ children, className }: WalletReact) {
   return (
     <div
       ref={walletContainerRef}
-      className={cn('relative w-fit shrink-0', componentTheme, className)}
+      className={cn('relative w-fit shrink-0', className)}
     >
       {connect}
       {isOpen && dropdown}
@@ -38,8 +37,9 @@ function WalletContent({ children, className }: WalletReact) {
   );
 }
 
-export const Wallet = ({ children }: WalletReact) => {
+export const Wallet = ({ children, className }: WalletReact) => {
   const isMounted = useIsMounted();
+  const componentTheme = useTheme();
 
   // prevents SSR hydration issue
   if (!isMounted) {
@@ -48,7 +48,9 @@ export const Wallet = ({ children }: WalletReact) => {
 
   return (
     <WalletProvider>
-      <WalletContent>{children}</WalletContent>
+      <WalletContent className={cn(componentTheme, className)}>
+        {children}
+      </WalletContent>
     </WalletProvider>
   );
 };
