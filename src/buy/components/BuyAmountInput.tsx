@@ -15,15 +15,14 @@ export function BuyAmountInput() {
   return (
     <div
       className={cn(
-        'flex h-full items-center rounded-lg border px-4',
+        'flex h-full items-center rounded-lg border pl-4 px-2',
         background.default,
       )}
     >
       <TextInput
         className={cn(
-          'mr-2 w-full border-[none] font-display',
-          'leading-none outline-none',
-          'disabled:cursor-not-allowed',
+          'mr-2 w-full border-none font-display',
+          'leading-none outline-none disabled:cursor-not-allowed',
           background.default,
           color.foreground,
         )}

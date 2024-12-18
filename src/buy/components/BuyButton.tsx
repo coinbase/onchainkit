@@ -23,7 +23,9 @@ export function BuyButton() {
     fromUSDC,
     to,
     lifecycleStatus: { statusName },
+    updateLifecycleStatus,
   } = useBuyContext();
+
   const isLoading =
     to?.loading ||
     from?.loading ||
@@ -32,15 +34,34 @@ export function BuyButton() {
     statusName === 'transactionPending' ||
     statusName === 'transactionApproved';
 
-  const isDisabled = !to?.amount || !to?.token || isLoading;
+  const isMissingRequiredField = !to?.amount || !to?.token;
+  const isDisabled = isLoading;
 
   const handleSubmit = useCallback(() => {
+    if (isMissingRequiredField) {
+      updateLifecycleStatus({
+        statusName: 'error',
+        statusData: {
+          code: 'TmBPc05',
+          error: 'Missing required fields',
+          message: 'Complete the field to continue',
+        },
+      });
+      return;
+    }
     if (isDropdownOpen) {
       setIsDropdownOpen(false);
-    } else {
+      return;
+    }
+    if (!isDropdownOpen) {
       setIsDropdownOpen(true);
     }
-  }, [setIsDropdownOpen, isDropdownOpen]);
+  }, [
+    isMissingRequiredField,
+    setIsDropdownOpen,
+    isDropdownOpen,
+    updateLifecycleStatus,
+  ]);
 
   const buttonContent = useMemo(() => {
     if (statusName === 'success') {

@@ -33,7 +33,7 @@ export function BuyTokenItem({ swapUnit }: { swapUnit?: SwapUnit }) {
     <button
       className={cn(
         'flex items-center gap-2 rounded-lg p-2',
-        !hasInsufficientBalance && 'hover:bg-[var(--ock-bg-inverse)]',
+        !hasInsufficientBalance,
       )}
       onClick={handleClick}
       type="button"
