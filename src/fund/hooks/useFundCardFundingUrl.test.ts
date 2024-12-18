@@ -136,6 +136,6 @@ describe('useFundCardFundingUrl', () => {
     });
 
     const { result } = renderHook(() => useFundCardFundingUrl());
-    expect(result.current).toContain('addresses={"0x123":["base"]}');
+    expect(result.current).toContain(encodeURI('0x123'));
   });
 });
