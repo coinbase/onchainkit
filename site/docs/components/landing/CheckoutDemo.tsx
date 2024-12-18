@@ -2,7 +2,7 @@ import { Checkout } from '@coinbase/onchainkit/checkout';
 import { useCallback, useState } from 'react';
 import App from '../App.tsx';
 import { closeSvg } from '../svg/closeSvg.tsx';
-import { CoinbasePaySvg } from '../svg/coinbasePaySvg.tsx';
+import { coinbasePaySvg } from '../svg/coinbasePaySvg.tsx';
 
 export const checkoutDemoCode = `
   import {
@@ -90,7 +90,7 @@ function MockCheckoutButton({ onClick }: { onClick: () => void }) {
         >
           <div className="flex items-center justify-center whitespace-nowrap">
             <div className="mr-2 flex h-5 w-5 shrink-0 items-center justify-center">
-              <CoinbasePaySvg />
+              {coinbasePaySvg}
             </div>
           </div>
           <span className="ock-font-family font-semibold text-gray-50 leading-normal">
