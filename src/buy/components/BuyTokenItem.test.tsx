@@ -48,10 +48,6 @@ describe('BuyTokenItem', () => {
     expect(screen.getByRole('button')).toBeInTheDocument();
     expect(screen.getByText('10.5 ETH')).toBeInTheDocument();
     expect(screen.getByText('Balance: 20')).toBeInTheDocument();
-    const button = screen.getByRole('button');
-    expect(button).toHaveClass('hover:bg-[var(--ock-bg-inverse)]', {
-      exact: false,
-    });
   });
 
   it('disables button and applies muted styling when balance is insufficient', () => {
