@@ -1,10 +1,4 @@
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useRef,
-  useState,
-} from 'react';
+import { createContext, useCallback, useContext, useState } from 'react';
 import type { ReactNode } from 'react';
 import { useAccount } from 'wagmi';
 import { useValue } from '../../core-react/internal/hooks/useValue';
@@ -24,7 +18,6 @@ export function WalletProvider({ children }: WalletProviderReact) {
   const [isOpen, setIsOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
   const { address } = useAccount();
-  const containerRef = useRef<HTMLDivElement>(null);
 
   const handleClose = useCallback(() => {
     if (!isOpen) {
@@ -41,7 +34,6 @@ export function WalletProvider({ children }: WalletProviderReact) {
     isClosing,
     setIsClosing,
     handleClose,
-    containerRef,
   });
 
   return (

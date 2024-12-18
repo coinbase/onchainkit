@@ -3,18 +3,15 @@ import { useTheme } from '@/core-react/internal/hooks/useTheme';
 import { findComponent } from '@/core-react/internal/utils/findComponent';
 import { cn } from '@/styles/theme';
 import { useOutsideClick } from '@/ui-react/internal/hooks/useOutsideClick';
-import { Children, useMemo } from 'react';
+import { Children, useMemo, useRef } from 'react';
 import type { WalletReact } from '../types';
 import { ConnectWallet } from './ConnectWallet';
 import { WalletDropdown } from './WalletDropdown';
 import { WalletProvider, useWalletContext } from './WalletProvider';
 
 function WalletContent({ children, className }: WalletReact) {
-  const {
-    isOpen,
-    handleClose,
-    containerRef: walletContainerRef,
-  } = useWalletContext();
+  const { isOpen, handleClose } = useWalletContext();
+  const walletContainerRef = useRef<HTMLDivElement>(null);
 
   useOutsideClick(walletContainerRef, handleClose);
 

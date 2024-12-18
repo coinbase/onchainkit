@@ -1,4 +1,4 @@
-import type { Dispatch, ReactNode, RefObject, SetStateAction } from 'react';
+import type { Dispatch, ReactNode, SetStateAction } from 'react';
 import type { Address, Chain, PublicClient } from 'viem';
 import type { UserOperation } from 'viem/_types/account-abstraction';
 import type { UseBalanceReturnType, UseReadContractReturnType } from 'wagmi';
@@ -77,7 +77,6 @@ export type WalletContextType = {
   isClosing: boolean;
   setIsClosing: Dispatch<SetStateAction<boolean>>;
   handleClose: () => void;
-  containerRef: RefObject<HTMLDivElement>;
 };
 
 /**
