@@ -32,10 +32,8 @@ function WalletContent({ children, className }: WalletReact) {
       ref={walletContainerRef}
       className={cn('relative w-fit shrink-0', componentTheme, className)}
     >
-      <div className={cn('relative w-fit shrink-0', className)}>
-        {connect}
-        {isOpen && dropdown}
-      </div>
+      {connect}
+      {isOpen && dropdown}
     </div>
   );
 }
