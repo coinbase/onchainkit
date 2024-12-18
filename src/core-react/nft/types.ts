@@ -1,7 +1,7 @@
 import type { ContractType, NFTError, NFTPrice } from '@/core/api/types';
 import type { ReactNode } from 'react';
 import type { Address, Hex, TransactionReceipt } from 'viem';
-import type { Call } from '../../transaction/types';
+import type { Call } from '../transaction/types';
 
 export enum MediaType {
   Image = 'image',

@@ -19,7 +19,7 @@ import type {
   RawTransactionData,
 } from '../core/api/types';
 import type { Token } from '../token/types';
-import type { Call } from '../transaction/types';
+import type { Call } from '../core-react/transaction/types';
 
 export type SendSwapTransactionParams = {
   config: Config;

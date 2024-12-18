@@ -176,10 +176,10 @@
       "default": "./esm/token/index.js"
     },
     "./transaction": {
-      "types": "./esm/transaction/index.d.ts",
-      "module": "./esm/transaction/index.js",
-      "import": "./esm/transaction/index.js",
-      "default": "./esm/transaction/index.js"
+      "types": "./esm/ui/react/transaction/index.d.ts",
+      "module": "./esm/ui/react/transaction/index.js",
+      "import": "./esm/ui/react/transaction/index.js",
+      "default": "./esm/ui/react/transaction/index.js"
     },
     "./wallet": {
       "types": "./esm/wallet/index.d.ts",

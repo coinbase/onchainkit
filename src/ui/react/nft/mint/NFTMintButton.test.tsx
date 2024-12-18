@@ -31,7 +31,7 @@ vi.mock('../../../internal/components/Spinner', () => ({
 }));
 vi.mock('../../../../transaction', async (importOriginal) => {
   return {
-    ...(await importOriginal<typeof import('../../../../transaction')>()),
+    ...(await importOriginal<typeof import('../../transaction')>()),
     TransactionLifecycleStatus: vi.fn(),
     TransactionButton: ({
       text,

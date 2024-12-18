@@ -13,8 +13,8 @@ import {
   TransactionStatus,
   TransactionStatusAction,
   TransactionStatusLabel,
-} from '../../../../transaction';
-import type { Call } from '../../../../transaction/types';
+} from '../../transaction';
+import type { Call } from '../../../../core-react/transaction/types';
 import { ConnectWallet } from '../../../../wallet';
 
 type NFTMintButtonReact = {
