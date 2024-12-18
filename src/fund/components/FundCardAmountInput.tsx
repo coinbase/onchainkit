@@ -1,8 +1,12 @@
 import { type ChangeEvent, useCallback, useEffect, useRef } from 'react';
 import { useTheme } from '../../core-react/internal/hooks/useTheme';
 import { cn, text } from '../../styles/theme';
-import type { FundCardAmountInputPropsReact } from '../types';
+import type {
+  AmountInputSnippetReact,
+  FundCardAmountInputPropsReact,
+} from '../types';
 import { FundCardCurrencyLabel } from './FundCardCurrencyLabel';
+import { AmountInputSnippet } from './AmountInputSnippet';
 
 export const FundCardAmountInput = ({
   fiatValue,
@@ -13,6 +17,7 @@ export const FundCardAmountInput = ({
   assetSymbol,
   inputType = 'fiat',
   exchangeRate = 1,
+  amountInputSnippets,
 }: FundCardAmountInputPropsReact) => {
   const componentTheme = useTheme();
 
@@ -22,19 +27,17 @@ export const FundCardAmountInput = ({
 
   const value = inputType === 'fiat' ? fiatValue : cryptoValue;
 
-  const handleChange = useCallback(
-    (e: ChangeEvent<HTMLInputElement>) => {
-      let value = e.target.value;
-
-      value = formatDecimalInputValue(value);
+  const handleSetAmount = useCallback(
+    (amount: string) => {
+      const formattedAmount = formatDecimalInputValue(amount);
 
       if (inputType === 'fiat') {
-        const fiatValue = limitToDecimalPlaces(value, 2);
+        const fiatValue = limitToDecimalPlaces(formattedAmount, 2);
         setFiatValue(fiatValue);
 
         // Calculate the crypto value based on the exchange rate
         const calculatedCryptoValue = String(
-          Number(value) * Number(exchangeRate),
+          Number(formattedAmount) * Number(exchangeRate),
         );
 
         const resultCryptoValue = limitToDecimalPlaces(
@@ -43,17 +46,36 @@ export const FundCardAmountInput = ({
         );
         setCryptoValue(calculatedCryptoValue === '0' ? '' : resultCryptoValue);
       } else {
-        setCryptoValue(value);
+        setCryptoValue(formattedAmount);
 
         // Calculate the fiat value based on the exchange rate
         const calculatedFiatValue = String(
-          Number(value) / Number(exchangeRate),
+          Number(formattedAmount) / Number(exchangeRate),
         );
         const resultFiatValue = limitToDecimalPlaces(calculatedFiatValue, 2);
         setFiatValue(resultFiatValue === '0' ? '' : resultFiatValue);
       }
+
+      if (inputRef.current) {
+        inputRef.current.focus();
+      }
     },
     [exchangeRate, setFiatValue, setCryptoValue, inputType],
+  );
+
+  const handleChange = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      const value = e.target.value;
+      handleSetAmount(value);
+    },
+    [handleSetAmount],
+  );
+
+  const handleAmountInputSnippetClick = useCallback(
+    (snippet: AmountInputSnippetReact) => {
+      handleSetAmount(snippet.value);
+    },
+    [handleSetAmount],
   );
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: When value changes, we want to update the input width
@@ -130,6 +152,18 @@ export const FundCardAmountInput = ({
         )}
       </div>
 
+      <div className="flex w-[100%] items-center justify-end">
+        {!value &&
+          amountInputSnippets
+            ?.filter((snippet) => snippet.type === inputType)
+            .map((snippet) => (
+              <AmountInputSnippet
+                key={snippet.type + snippet.value}
+                amountInputSnippet={snippet}
+                onClick={handleAmountInputSnippetClick}
+              />
+            ))}
+      </div>
       {/* Hidden span for measuring text width 
           Without this span the input field would not adjust its width based on the text width and would look like this:
           [0.12--------Empty Space-------][ETH] - As you can see the currency symbol is far away from the inputed value

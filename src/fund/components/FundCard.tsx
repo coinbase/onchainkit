@@ -43,6 +43,7 @@ export function FundCard({
   paymentMethodDropdownComponent = FundCardPaymentMethodDropdown,
   paymentMethods = defaultPaymentMethods,
   submitButtonComponent = FundButton,
+  amountInputSnippets,
 }: FundCardPropsReact) {
   const componentTheme = useTheme();
 
@@ -69,6 +70,7 @@ export function FundCard({
           paymentMethodDropdownComponent={paymentMethodDropdownComponent}
           paymentMethods={paymentMethods}
           submitButtonComponent={submitButtonComponent}
+          amountInputSnippets={amountInputSnippets}
         />
       </div>
     </FundCardProvider>
@@ -87,6 +89,7 @@ export function FundCardContent({
     PaymentMethodSelectorDropdownComponent = FundCardPaymentMethodDropdown,
   paymentMethods = defaultPaymentMethods,
   submitButtonComponent: SubmitButtonComponent = FundButton,
+  amountInputSnippets,
 }: FundCardPropsReact) {
   /**
    * Fetches and sets the exchange rate for the asset
@@ -125,6 +128,7 @@ export function FundCardContent({
         assetSymbol={assetSymbol}
         inputType={selectedInputType}
         exchangeRate={exchangeRate}
+        amountInputSnippets={amountInputSnippets}
       />
 
       <AmountInputTypeSwitchComponent

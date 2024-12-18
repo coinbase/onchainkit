@@ -269,13 +269,14 @@ export type FundCardAmountInputPropsReact = {
   setCryptoValue: (s: string) => void;
   currencySign?: string;
   assetSymbol?: string;
-  inputType?: 'fiat' | 'crypto';
+  inputType?: AmountInputTypeReact;
   exchangeRate?: number;
+  amountInputSnippets?: AmountInputSnippetReact[];
 };
 
 export type FundCardAmountInputTypeSwitchPropsReact = {
-  selectedInputType?: 'fiat' | 'crypto';
-  setSelectedInputType: (inputType: 'fiat' | 'crypto') => void;
+  selectedInputType?: AmountInputTypeReact;
+  setSelectedInputType: (inputType: AmountInputTypeReact) => void;
   selectedAsset?: string;
   fundAmountFiat: string;
   fundAmountCrypto: string;
@@ -349,6 +350,11 @@ export type FundCardPropsReact = {
    * Payment methods to display in the dropdown
    */
   paymentMethods?: PaymentMethodReact[];
+
+  /**
+   * Amount input snippets to display next to the input field: i.e. [$10] [$50] [$100]
+   */
+  amountInputSnippets?: AmountInputSnippetReact[];
 };
 
 export type FundCardPaymentMethodSelectorTogglePropsReact = {
@@ -370,3 +376,16 @@ export type FundCardProviderReact = {
   children: ReactNode;
   asset: string;
 };
+
+export type AmountInputSnippetPropsReact = {
+  amountInputSnippet: AmountInputSnippetReact;
+  onClick: (snippet: AmountInputSnippetReact) => void;
+};
+
+export type AmountInputSnippetReact = {
+  value: string;
+  type: AmountInputTypeReact;
+  currencySignOrSymbol: string;
+};
+
+export type AmountInputTypeReact = 'fiat' | 'crypto';
