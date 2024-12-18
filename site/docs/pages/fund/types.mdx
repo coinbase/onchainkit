@@ -10,7 +10,7 @@ description: Glossary of Types.
 ```ts
 type FundButtonReact = {
   className?: string; // An optional CSS class name for styling the button component
-  disabled?: boolean; // A optional prop to disable the fund button
+  disabled?: boolean; // An optional prop to disable the fund button
   text?: string; // An optional text to be displayed in the button component
   hideText?: boolean; // An optional prop to hide the text in the button component
   hideIcon?: boolean; // An optional prop to hide the icon in the button component
@@ -41,7 +41,7 @@ type GetOnrampUrlWithProjectIdParams = {
   projectId: string;
   sessionToken?: never; // You cannot provide sessionToken when using projectId
   /**
-   * The addresses that the customer's funds should be delivered to.
+   * The addresses to which the customer's funds should be delivered.
    *
    * Each entry in the record represents a wallet address and the networks it is valid for. There should only be a
    * single address for each network your app supports. Users will be able to buy/send any asset supported by any of
