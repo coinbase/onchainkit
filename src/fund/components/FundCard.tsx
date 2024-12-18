@@ -66,9 +66,7 @@ export function FundCard({
           amountInputComponent={amountInputComponent}
           headerComponent={headerComponent}
           amountInputTypeSwithComponent={amountInputTypeSwithComponent}
-          paymentMethodDropdownComponent={
-            paymentMethodDropdownComponent
-          }
+          paymentMethodDropdownComponent={paymentMethodDropdownComponent}
           paymentMethods={paymentMethods}
           submitButtonComponent={submitButtonComponent}
         />
