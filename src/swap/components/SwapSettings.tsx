@@ -30,7 +30,7 @@ export function SwapSettings({
   return (
     <div
       className={cn(
-        'flex w-full items-center justify-end space-x-1',
+        'flex w-auto items-center justify-end space-x-1',
         className,
       )}
       data-testid="ockSwapSettings_Settings"
