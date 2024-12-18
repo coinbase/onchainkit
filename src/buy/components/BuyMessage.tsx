@@ -5,24 +5,18 @@ import { useBuyContext } from './BuyProvider';
 export function BuyMessage() {
   const { lifecycleStatus } = useBuyContext();
 
-  // Missing required fields
-  if (
-    isSwapError(lifecycleStatus.statusData) &&
-    lifecycleStatus?.statusData?.code === 'TmBPc05'
-  ) {
-    return (
-      <div className={cn('text-sm', color.foregroundMuted)}>
-        Complete the field to continue
-      </div>
-    );
-  }
+  if (isSwapError(lifecycleStatus.statusData)) {
+    const message =
+      lifecycleStatus.statusData.message ||
+      'Something went wrong. Please try again.';
 
-  if (lifecycleStatus?.statusName === 'error') {
-    return (
-      <div className={cn(color.error, 'text-sm')}>
-        Something went wrong. Please try again.
-      </div>
-    );
+    // on missing required fields, show muted text
+    const textColor =
+      lifecycleStatus?.statusData?.code === 'TmBPc05'
+        ? color.foregroundMuted
+        : color.error;
+
+    return <div className={cn(textColor, 'text-sm')}>{message}</div>;
   }
 
   return null;
