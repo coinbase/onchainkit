@@ -3,16 +3,16 @@ import { background, border, cn } from '../../styles/theme';
 
 import { useTheme } from '../../core-react/internal/hooks/useTheme';
 import type {
-  FundCardPaymentMethodSelectorDropdownPropsReact,
+  FundCardPaymentMethodDropdownPropsReact,
   PaymentMethodReact,
 } from '../types';
 import { FundCardPaymentMethodSelectRow } from './FundCardPaymentMethodSelectRow';
 import { FundCardPaymentMethodSelectorToggle } from './FundCardPaymentMethodSelectorToggle';
 import { useFundContext } from './FundCardProvider';
 
-export function FundCardPaymentMethodSelectorDropdown({
+export function FundCardPaymentMethodDropdown({
   paymentMethods,
-}: FundCardPaymentMethodSelectorDropdownPropsReact) {
+}: FundCardPaymentMethodDropdownPropsReact) {
   const componentTheme = useTheme();
   const [isOpen, setIsOpen] = useState(false);
 
@@ -70,7 +70,7 @@ export function FundCardPaymentMethodSelectorDropdown({
       {isOpen && (
         <div
           ref={dropdownRef}
-          data-testid="ockFundCardPaymentMethodSelectorDropdown"
+          data-testid="ockFundCardPaymentMethodDropdown"
           className={cn(
             componentTheme,
             border.radius,

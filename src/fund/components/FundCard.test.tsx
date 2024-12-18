@@ -171,7 +171,7 @@ describe('FundCard', () => {
       <div data-testid="amountInputTypeSwitchComponent" />
     );
     const CustomPaymentMethodSelectorDropdownComponent = () => (
-      <div data-testid="paymentMethodSelectorDropdownComponent" />
+      <div data-testid="paymentMethodDropdownComponent" />
     );
     const CustomSubmitButtonComponent = () => (
       <div data-testid="submitButtonComponent" />
@@ -181,7 +181,7 @@ describe('FundCard', () => {
       amountInputComponent: CustomAmountInputComponent,
       headerComponent: CustomHeaderComponent,
       amountInputTypeSwithComponent: CustomAmountInputTypeSwitchComponent,
-      paymentMethodSelectorDropdownComponent:
+      paymentMethodDropdownComponent:
         CustomPaymentMethodSelectorDropdownComponent,
       submitButtonComponent: CustomSubmitButtonComponent,
     });
@@ -192,7 +192,7 @@ describe('FundCard', () => {
       screen.getByTestId('amountInputTypeSwitchComponent'),
     ).toBeInTheDocument();
     expect(
-      screen.getByTestId('paymentMethodSelectorDropdownComponent'),
+      screen.getByTestId('paymentMethodDropdownComponent'),
     ).toBeInTheDocument();
     expect(screen.getByTestId('submitButtonComponent')).toBeInTheDocument();
   });

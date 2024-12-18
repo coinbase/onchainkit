@@ -8,7 +8,7 @@ import { FundButton } from './FundButton';
 import FundCardAmountInput from './FundCardAmountInput';
 import FundCardAmountInputTypeSwitch from './FundCardAmountInputTypeSwitch';
 import { FundCardHeader } from './FundCardHeader';
-import { FundCardPaymentMethodSelectorDropdown } from './FundCardPaymentMethodSelectorDropdown';
+import { FundCardPaymentMethodDropdown } from './FundCardPaymentMethodDropdown';
 import { FundCardProvider } from './FundCardProvider';
 import { useFundContext } from './FundCardProvider';
 
@@ -40,7 +40,7 @@ export function FundCard({
   amountInputComponent = FundCardAmountInput,
   headerComponent = FundCardHeader,
   amountInputTypeSwithComponent = FundCardAmountInputTypeSwitch,
-  paymentMethodSelectorDropdownComponent = FundCardPaymentMethodSelectorDropdown,
+  paymentMethodDropdownComponent = FundCardPaymentMethodDropdown,
   paymentMethods = defaultPaymentMethods,
   submitButtonComponent = FundButton,
 }: FundCardPropsReact) {
@@ -66,8 +66,8 @@ export function FundCard({
           amountInputComponent={amountInputComponent}
           headerComponent={headerComponent}
           amountInputTypeSwithComponent={amountInputTypeSwithComponent}
-          paymentMethodSelectorDropdownComponent={
-            paymentMethodSelectorDropdownComponent
+          paymentMethodDropdownComponent={
+            paymentMethodDropdownComponent
           }
           paymentMethods={paymentMethods}
           submitButtonComponent={submitButtonComponent}
@@ -84,11 +84,11 @@ export function FundCardContent({
   amountInputComponent: AmountInputComponent = FundCardAmountInput,
   headerComponent: HeaderComponent = FundCardHeader,
   amountInputTypeSwithComponent:
-    AmountInputTypeSwitch = FundCardAmountInputTypeSwitch,
-  paymentMethodSelectorDropdownComponent:
-    PaymentMethodSelectorDropdown = FundCardPaymentMethodSelectorDropdown,
+    AmountInputTypeSwitchComponent = FundCardAmountInputTypeSwitch,
+  paymentMethodDropdownComponent:
+    PaymentMethodSelectorDropdownComponent = FundCardPaymentMethodDropdown,
   paymentMethods = defaultPaymentMethods,
-  submitButtonComponent: SubmitButton = FundButton,
+  submitButtonComponent: SubmitButtonComponent = FundButton,
 }: FundCardPropsReact) {
   /**
    * Fetches and sets the exchange rate for the asset
@@ -129,7 +129,7 @@ export function FundCardContent({
         exchangeRate={exchangeRate}
       />
 
-      <AmountInputTypeSwitch
+      <AmountInputTypeSwitchComponent
         selectedInputType={selectedInputType}
         setSelectedInputType={setSelectedInputType}
         selectedAsset={selectedAsset}
@@ -139,9 +139,9 @@ export function FundCardContent({
         isLoading={exchangeRateLoading}
       />
 
-      <PaymentMethodSelectorDropdown paymentMethods={paymentMethods} />
+      <PaymentMethodSelectorDropdownComponent paymentMethods={paymentMethods} />
 
-      <SubmitButton
+      <SubmitButtonComponent
         disabled={!fundAmountFiat || !fundAmountCrypto}
         hideIcon={submitButtonState === 'default'}
         text={buttonText}

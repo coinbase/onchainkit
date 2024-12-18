@@ -308,7 +308,7 @@ export type PaymentMethodReact = {
   icon: string;
 };
 
-export type FundCardPaymentMethodSelectorDropdownPropsReact = {
+export type FundCardPaymentMethodDropdownPropsReact = {
   paymentMethods: PaymentMethodReact[];
 };
 
@@ -338,7 +338,7 @@ export type FundCardPropsReact = {
   /**
    * Custom component for the payment method selector dropdown
    */
-  paymentMethodSelectorDropdownComponent?: React.ComponentType<FundCardPaymentMethodSelectorDropdownPropsReact>;
+  paymentMethodDropdownComponent?: React.ComponentType<FundCardPaymentMethodDropdownPropsReact>;
 
   /**
    * Custom component for the submit button
