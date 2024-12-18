@@ -31,10 +31,7 @@ export function BuyTokenItem({ swapUnit }: { swapUnit?: SwapUnit }) {
 
   return (
     <button
-      className={cn(
-        'flex items-center gap-2 rounded-lg p-2',
-        !hasInsufficientBalance,
-      )}
+      className={cn('flex items-center gap-2 rounded-lg p-2')}
       onClick={handleClick}
       type="button"
       disabled={hasInsufficientBalance}
