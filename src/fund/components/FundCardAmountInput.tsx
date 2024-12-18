@@ -37,10 +37,11 @@ export const FundCardAmountInput = ({
           Number(value) * Number(exchangeRate),
         );
 
-        const resultCryptoValue = limitToDecimalPlaces(calculatedCryptoValue, 8);
-        setCryptoValue(
-          calculatedCryptoValue === '0' ? '' : resultCryptoValue,
+        const resultCryptoValue = limitToDecimalPlaces(
+          calculatedCryptoValue,
+          8,
         );
+        setCryptoValue(calculatedCryptoValue === '0' ? '' : resultCryptoValue);
       } else {
         setCryptoValue(value);
 
