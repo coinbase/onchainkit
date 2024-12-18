@@ -1,6 +1,6 @@
 import { memo } from 'react';
 import { useTheme } from '../../core-react/internal/hooks/useTheme';
-import { cn, color, pressable, text } from '../../styles/theme';
+import { border, cn, color, pressable, text } from '../../styles/theme';
 import type { FundCardPaymentMethodSelectRowPropsReact } from '../types';
 import { FundCardPaymentMethodImage } from './FundCardPaymentMethodImage';
 
@@ -21,7 +21,8 @@ export const FundCardPaymentMethodSelectRow = memo(
         className={cn(
           componentTheme,
           pressable.default,
-          'ock-border-radius flex w-full items-center justify-between px-2 py-1',
+          border.radius,
+          'flex w-full items-center justify-between px-2 py-1',
           className,
         )}
         onClick={() => onClick?.(paymentMethod)}

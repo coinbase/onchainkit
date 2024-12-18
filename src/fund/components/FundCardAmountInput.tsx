@@ -110,7 +110,7 @@ export const FundCardAmountInput = ({
             componentTheme,
             text.body,
             'border-[none] bg-transparent',
-            'text-[60px] leading-none outline-none',
+            'text-[3.75rem] leading-none outline-none',
           )}
           type="number"
           value={value}
@@ -144,7 +144,7 @@ export const FundCardAmountInput = ({
           componentTheme,
           text.body,
           'border-[none] bg-transparent',
-          'text-[60px] leading-none outline-none',
+          'text-[3.75rem] leading-none outline-none',
         )}
         style={{
           position: 'absolute',

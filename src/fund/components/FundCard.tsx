@@ -1,9 +1,10 @@
 import { useTheme } from '../../core-react/internal/hooks/useTheme';
 import { background, border, cn, color, text } from '../../styles/theme';
+import { DEFAULT_PAYMENT_METHODS } from '../constants';
 import { useExchangeRate } from '../hooks/useExchangeRate';
 import { useFundCardFundingUrl } from '../hooks/useFundCardFundingUrl';
 import { useFundCardSetupOnrampEventListeners } from '../hooks/useFundCardSetupOnrampEventListeners';
-import type { FundCardPropsReact, PaymentMethodReact } from '../types';
+import type { FundCardPropsReact } from '../types';
 import { FundButton } from './FundButton';
 import FundCardAmountInput from './FundCardAmountInput';
 import FundCardAmountInputTypeSwitch from './FundCardAmountInputTypeSwitch';
@@ -11,27 +12,6 @@ import { FundCardHeader } from './FundCardHeader';
 import { FundCardPaymentMethodDropdown } from './FundCardPaymentMethodDropdown';
 import { FundCardProvider } from './FundCardProvider';
 import { useFundContext } from './FundCardProvider';
-
-const defaultPaymentMethods: PaymentMethodReact[] = [
-  {
-    id: 'FIAT_WALLET',
-    name: 'Coinbase',
-    description: 'Buy with your Coinbase account',
-    icon: 'coinbasePay',
-  },
-  {
-    id: 'APPLE_PAY',
-    name: 'Apple Pay',
-    description: 'Up to $500/week',
-    icon: 'applePay',
-  },
-  {
-    id: 'ACH_BANK_ACCOUNT',
-    name: 'Debit Card',
-    description: 'Up to $500/week',
-    icon: 'creditCard',
-  },
-];
 
 export function FundCard({
   assetSymbol,
@@ -41,7 +21,7 @@ export function FundCard({
   headerComponent = FundCardHeader,
   amountInputTypeSwithComponent = FundCardAmountInputTypeSwitch,
   paymentMethodDropdownComponent = FundCardPaymentMethodDropdown,
-  paymentMethods = defaultPaymentMethods,
+  paymentMethods = DEFAULT_PAYMENT_METHODS,
   submitButtonComponent = FundButton,
 }: FundCardPropsReact) {
   const componentTheme = useTheme();
@@ -75,7 +55,7 @@ export function FundCard({
   );
 }
 
-export function FundCardContent({
+function FundCardContent({
   assetSymbol,
   buttonText = 'Buy',
   headerText,
@@ -85,7 +65,7 @@ export function FundCardContent({
     AmountInputTypeSwitchComponent = FundCardAmountInputTypeSwitch,
   paymentMethodDropdownComponent:
     PaymentMethodSelectorDropdownComponent = FundCardPaymentMethodDropdown,
-  paymentMethods = defaultPaymentMethods,
+  paymentMethods = DEFAULT_PAYMENT_METHODS,
   submitButtonComponent: SubmitButtonComponent = FundButton,
 }: FundCardPropsReact) {
   /**

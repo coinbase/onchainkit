@@ -80,7 +80,7 @@ export function FundButton({
   const classNames = cn(
     componentTheme,
     buttonColorClass,
-    'px-4 py-3 inline-flex items-center justify-center space-x-2 disabled',
+    'px-4 py-3 inline-flex items-center justify-center space-x-2',
     isDisabled && pressable.disabled,
     text.headline,
     border.radius,

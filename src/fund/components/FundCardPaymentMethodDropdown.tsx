@@ -74,11 +74,10 @@ export function FundCardPaymentMethodDropdown({
           className={cn(
             componentTheme,
             border.radius,
-            'absolute right-0 z-10 mt-1 flex max-h-80 w-full flex-col overflow-y-hidden',
-            'ock-scrollbar',
+            'ock-scrollbar absolute right-0 z-10 mt-1 flex max-h-80 w-full flex-col overflow-y-hidden',
           )}
         >
-          <div className={cn(background.inverse, 'p-2', 'overflow-y-auto')}>
+          <div className={cn(background.inverse, 'overflow-y-auto p-2')}>
             {paymentMethods.map((paymentMethod) => (
               <FundCardPaymentMethodSelectRow
                 className={cn(background.inverse, 'px-4 py-2')}
