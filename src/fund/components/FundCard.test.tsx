@@ -1,6 +1,7 @@
 import '@testing-library/jest-dom';
 import { useDebounce } from '@/core-react/internal/hooks/useDebounce';
 import { setOnchainKitConfig } from '@/core/OnchainKitConfig';
+import { openPopup } from '@/ui-react/internal/utils/openPopup';
 import {
   act,
   fireEvent,
@@ -15,7 +16,6 @@ import { fetchOnrampQuote } from '../utils/fetchOnrampQuote';
 import { getFundingPopupSize } from '../utils/getFundingPopupSize';
 import { FundCard } from './FundCard';
 import { FundCardProvider } from './FundCardProvider';
-import { openPopup } from '@/ui-react/internal/utils/openPopup';
 
 vi.mock('../../core-react/internal/hooks/useTheme', () => ({
   useTheme: () => 'mocked-theme-class',

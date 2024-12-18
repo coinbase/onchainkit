@@ -1,6 +1,7 @@
 import { useTheme } from '../../core-react/internal/hooks/useTheme';
 import { background, border, cn, color, text } from '../../styles/theme';
 import { useExchangeRate } from '../hooks/useExchangeRate';
+import { useFundCardFundingUrl } from '../hooks/useFundCardFundingUrl';
 import { useFundCardSetupOnrampEventListeners } from '../hooks/useFundCardSetupOnrampEventListeners';
 import type { FundCardPropsReact, PaymentMethodReact } from '../types';
 import { FundButton } from './FundButton';
@@ -10,7 +11,6 @@ import { FundCardHeader } from './FundCardHeader';
 import { FundCardPaymentMethodSelectorDropdown } from './FundCardPaymentMethodSelectorDropdown';
 import { FundCardProvider } from './FundCardProvider';
 import { useFundContext } from './FundCardProvider';
-import { useFundCardFundingUrl } from '../hooks/useFundCardFundingUrl';
 
 const defaultPaymentMethods: PaymentMethodReact[] = [
   {
