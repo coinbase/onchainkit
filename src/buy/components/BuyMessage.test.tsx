@@ -23,7 +23,7 @@ describe('BuyMessage', () => {
 
   it('renders error message when statusName is "error"', () => {
     (useBuyContext as Mock).mockReturnValue({
-      lifecycleStatus: { statusName: 'error' },
+      lifecycleStatus: { statusName: 'error', statusData: { error: '' } },
     });
 
     render(<BuyMessage />);
@@ -34,13 +34,20 @@ describe('BuyMessage', () => {
     expect(
       screen.getByText('Something went wrong. Please try again.'),
     ).toHaveClass('text-sm');
+    expect(
+      screen.getByText('Something went wrong. Please try again.'),
+    ).toHaveClass('ock-text-error');
   });
 
   it('renders missing required fields message', () => {
     (useBuyContext as Mock).mockReturnValue({
       lifecycleStatus: {
         statusName: 'error',
-        statusData: { code: 'TmBPc05', error: 'Missing required fields' },
+        statusData: {
+          code: 'TmBPc05',
+          error: 'Missing required fields',
+          message: 'Complete the field to continue',
+        },
       },
     });
 
@@ -51,6 +58,9 @@ describe('BuyMessage', () => {
     ).toBeInTheDocument();
     expect(screen.getByText('Complete the field to continue')).toHaveClass(
       'text-sm',
+    );
+    expect(screen.getByText('Complete the field to continue')).toHaveClass(
+      'ock-text-foreground-muted',
     );
   });
 });
