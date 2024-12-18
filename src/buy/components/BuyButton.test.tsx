@@ -110,6 +110,26 @@ describe('BuyButton', () => {
     expect(mockSetIsDropdownOpen).toHaveBeenCalledWith(true);
   });
 
+  it('calls setIsDropdownOpen when clicked and dropdown is open', () => {
+    (useBuyContext as Mock).mockReturnValue({
+      setIsDropdownOpen: mockSetIsDropdownOpen,
+      isDropdownOpen: true,
+      from: { loading: false },
+      fromETH: { loading: false },
+      fromUSDC: { loading: false },
+      to: { loading: false, amount: 10, token: 'ETH' },
+      lifecycleStatus: { statusName: 'idle' },
+      address: '0x123',
+    });
+
+    render(<BuyButton />);
+
+    const button = screen.getByTestId('ockBuyButton_Button');
+    fireEvent.click(button);
+
+    expect(mockSetIsDropdownOpen).toHaveBeenCalledWith(false);
+  });
+
   it('should render ConnectWallet if disconnected and no missing fields', () => {
     (useBuyContext as Mock).mockReturnValue({
       setIsDropdownOpen: mockSetIsDropdownOpen,

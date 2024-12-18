@@ -6,7 +6,7 @@ import {
   screen,
   waitFor,
 } from '@testing-library/react';
-import React, { act, useCallback, useEffect } from 'react';
+import React, { act, useCallback } from 'react';
 import type { TransactionReceipt } from 'viem';
 import {
   type Mock,
@@ -32,6 +32,7 @@ import { useSendCalls } from 'wagmi/experimental';
 import { useCapabilitiesSafe } from '../../core-react/internal/hooks/useCapabilitiesSafe';
 import { useOnchainKit } from '../../core-react/useOnchainKit';
 import { buildSwapTransaction } from '../../core/api/buildSwapTransaction';
+import type { GetSwapQuoteResponse } from '../../core/api/types';
 import type { LifecycleStatus, SwapError, SwapUnit } from '../../swap/types';
 import { getSwapErrorCode } from '../../swap/utils/getSwapErrorCode';
 import {
@@ -224,11 +225,6 @@ const renderWithProviders = ({
 
 const TestSwapComponent = () => {
   const context = useBuyContext();
-  useEffect(() => {
-    context?.from?.setToken?.(daiToken);
-    context?.from?.setAmount?.('100');
-    context?.to?.setToken?.(degenToken);
-  }, [context]);
   const handleStatusError = async () => {
     context.updateLifecycleStatus({
       statusName: 'error',
@@ -398,6 +394,101 @@ describe('BuyProvider', () => {
       to: mockToDegen,
       fromETH: mockFromEth,
       fromUSDC: mockFromUsdc,
+    });
+  });
+
+  it('should call validateQuote with responses', async () => {
+    const mockResponse = {
+      response: { amountUsd: '10' },
+    } as unknown as GetSwapQuoteResponse;
+    vi.mocked(getBuyQuote).mockResolvedValue({ response: mockResponse });
+    const { result } = renderHook(() => useBuyContext(), { wrapper });
+    await act(async () => {
+      result.current.handleAmountChange('10');
+    });
+    expect(validateQuote).toHaveBeenCalledWith({
+      to: mockToDegen,
+      responseETH: mockResponse,
+      responseUSDC: mockResponse,
+      responseFrom: mockResponse,
+      updateLifecycleStatus: expect.any(Function),
+    });
+  });
+
+  it('should not set lifecycle status to amountChange with invalid quote', async () => {
+    const mockResponse = {
+      response: { amountUsd: '10' },
+    } as unknown as GetSwapQuoteResponse;
+    vi.mocked(getBuyQuote).mockResolvedValue({ response: mockResponse });
+    (validateQuote as Mock).mockReturnValue({
+      isValid: false,
+    });
+
+    const { result } = renderHook(() => useBuyContext(), { wrapper });
+    await act(async () => {
+      result.current.handleAmountChange('10');
+    });
+    expect(result.current.lifecycleStatus).not.toEqual({
+      statusName: 'amountChange',
+      statusData: expect.objectContaining({
+        isMissingRequiredField: false,
+      }),
+    });
+  });
+
+  it('should set lifecycle status to amountChange with valid quote', async () => {
+    const mockResponse = {
+      response: { amountUsd: '10' },
+    } as unknown as GetSwapQuoteResponse;
+    vi.mocked(getBuyQuote).mockResolvedValue({
+      response: mockResponse,
+      formattedFromAmount: '20',
+    });
+    (validateQuote as Mock).mockReturnValue({
+      isValid: true,
+    });
+
+    const { result } = renderHook(() => useBuyContext(), { wrapper });
+    // console.log('result', result);
+    await act(async () => {
+      result.current.handleAmountChange('10');
+    });
+    expect(result.current.lifecycleStatus).toEqual({
+      statusName: 'amountChange',
+      statusData: expect.objectContaining({
+        amountETH: '20',
+        amountUSDC: '20',
+        amountFrom: '20',
+        amountTo: '10',
+      }),
+    });
+  });
+
+  it('should set lifecycle status to amountChange with valid quote and empty formattedFromAmount', async () => {
+    const mockResponse = {
+      response: { amountUsd: '10' },
+    } as unknown as GetSwapQuoteResponse;
+    vi.mocked(getBuyQuote).mockResolvedValue({
+      response: mockResponse,
+      formattedFromAmount: '',
+    });
+    (validateQuote as Mock).mockReturnValue({
+      isValid: true,
+    });
+
+    const { result } = renderHook(() => useBuyContext(), { wrapper });
+    // console.log('result', result);
+    await act(async () => {
+      result.current.handleAmountChange('10');
+    });
+    expect(result.current.lifecycleStatus).toEqual({
+      statusName: 'amountChange',
+      statusData: expect.objectContaining({
+        amountETH: '',
+        amountUSDC: '',
+        amountFrom: '',
+        amountTo: '10',
+      }),
     });
   });
 
