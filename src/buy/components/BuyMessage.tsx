@@ -7,7 +7,7 @@ export function BuyMessage() {
   } = useBuyContext();
 
   // Missing required fields
-  if (statusName === 'error' && statusData.code === 'TmBPc05') {
+  if (statusName === 'error' && statusData?.code === 'TmBPc05') {
     return (
       <div className={cn('text-sm', color.foregroundMuted)}>
         Complete the field to continue

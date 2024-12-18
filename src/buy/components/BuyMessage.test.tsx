@@ -35,4 +35,19 @@ describe('BuyMessage', () => {
       screen.getByText('Something went wrong. Please try again.'),
     ).toHaveClass('text-sm');
   });
+
+  it('renders missing required fields message', () => {
+    (useBuyContext as Mock).mockReturnValue({
+      lifecycleStatus: { statusName: 'error', statusData: { code: 'TmBPc05' } },
+    });
+
+    render(<BuyMessage />);
+
+    expect(
+      screen.getByText('Complete the field to continue'),
+    ).toBeInTheDocument();
+    expect(screen.getByText('Complete the field to continue')).toHaveClass(
+      'text-sm',
+    );
+  });
 });

@@ -84,7 +84,8 @@ describe('BuyButton', () => {
     expect(screen.getByTestId('checkmarkSvg')).toBeInTheDocument();
   });
 
-  it('disables the button when required fields are missing', () => {
+  it('updates status when required fields are missing', () => {
+    const mockUpdateLifecycleStatus = vi.fn();
     (useBuyContext as Mock).mockReturnValue({
       setIsDropdownOpen: mockSetIsDropdownOpen,
       from: { loading: false },
@@ -93,12 +94,22 @@ describe('BuyButton', () => {
       to: { loading: false, amount: null, token: null },
       lifecycleStatus: { statusName: 'idle' },
       address: '0x123',
+      updateLifecycleStatus: mockUpdateLifecycleStatus,
     });
 
     render(<BuyButton />);
 
     const button = screen.getByTestId('ockBuyButton_Button');
-    expect(button).toBeDisabled();
+    fireEvent.click(button);
+    expect(button).not.toBeDisabled();
+    expect(mockUpdateLifecycleStatus).toHaveBeenCalledWith({
+      statusName: 'error',
+      statusData: {
+        code: 'TmBPc05',
+        error: 'Missing required fields',
+        message: 'Complete the field to continue',
+      },
+    });
   });
 
   it('calls setIsDropdownOpen when clicked', () => {
