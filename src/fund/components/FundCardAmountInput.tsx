@@ -29,16 +29,17 @@ export const FundCardAmountInput = ({
       value = formatDecimalInputValue(value);
 
       if (inputType === 'fiat') {
-        const fiatValue = limitToTwoDecimalPlaces(value);
+        const fiatValue = limitToDecimalPlaces(value, 2);
         setFiatValue(fiatValue);
 
         // Calculate the crypto value based on the exchange rate
         const calculatedCryptoValue = String(
           Number(value) * Number(exchangeRate),
         );
-        console.log('exchangerate', exchangeRate);
+
+        const resultCryptoValue = limitToDecimalPlaces(calculatedCryptoValue, 8);
         setCryptoValue(
-          calculatedCryptoValue === '0' ? '' : calculatedCryptoValue,
+          calculatedCryptoValue === '0' ? '' : resultCryptoValue,
         );
       } else {
         setCryptoValue(value);
@@ -47,7 +48,7 @@ export const FundCardAmountInput = ({
         const calculatedFiatValue = String(
           Number(value) / Number(exchangeRate),
         );
-        const resultFiatValue = limitToTwoDecimalPlaces(calculatedFiatValue);
+        const resultFiatValue = limitToDecimalPlaces(calculatedFiatValue, 2);
         setFiatValue(resultFiatValue === '0' ? '' : resultFiatValue);
       }
     },
@@ -182,13 +183,13 @@ const formatDecimalInputValue = (value: string) => {
 };
 
 /**
- * Limit the value to two decimal places
+ * Limit the value to N decimal places
  */
-const limitToTwoDecimalPlaces = (value: string) => {
+const limitToDecimalPlaces = (value: string, decimalPlaces: number) => {
   const decimalIndex = value.indexOf('.');
   let resultValue = value;
   if (decimalIndex !== -1 && value.length - decimalIndex - 1 > 2) {
-    resultValue = value.substring(0, decimalIndex + 3);
+    resultValue = value.substring(0, decimalIndex + decimalPlaces + 1);
   }
 
   return resultValue;
