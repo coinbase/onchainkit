@@ -1,11 +1,11 @@
 import { isValidElement, useMemo } from 'react';
-import { applePaySvg } from '../../../internal/svg/applePaySvg';
-import { CoinbasePaySvg } from '../../../internal/svg/coinbasePaySvg';
-import { creditCardSvg } from '../../../internal/svg/creditCardSvg';
-import { fundWalletSvg } from '../../../internal/svg/fundWallet';
-import { swapSettingsSvg } from '../../../internal/svg/swapSettings';
-import { toggleSvg } from '../../../internal/svg/toggleSvg';
-import { walletSvg } from '../../../internal/svg/walletSvg';
+import { toggleSvg } from '../../internal/svg/toggleSvg';
+import { applePaySvg } from '../svg/applePaySvg';
+import { CoinbasePaySvg } from '../svg/coinbasePaySvg';
+import { creditCardSvg } from '../svg/creditCardSvg';
+import { fundWalletSvg } from '../svg/fundWallet';
+import { swapSettingsSvg } from '../svg/swapSettings';
+import { walletSvg } from '../svg/walletSvg';
 
 export const useIcon = ({
   icon,

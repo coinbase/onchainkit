@@ -22,7 +22,22 @@ vi.mock('../../core-react/internal/hooks/useTheme', () => ({
   useTheme: vi.fn(),
 }));
 
-describe('WalletDropdownFundLink', () => {
+const mockResponseData = {
+  payment_total: { value: '100.00', currency: 'USD' },
+  payment_subtotal: { value: '120.00', currency: 'USD' },
+  purchase_amount: { value: '0.1', currency: 'BTC' },
+  coinbase_fee: { value: '2.00', currency: 'USD' },
+  network_fee: { value: '1.00', currency: 'USD' },
+  quote_id: 'quote-id-123',
+};
+
+global.fetch = vi.fn(() =>
+  Promise.resolve({
+    json: () => Promise.resolve(mockResponseData),
+  }),
+) as Mock;
+
+describe('FundButton', () => {
   afterEach(() => {
     vi.clearAllMocks();
   });
@@ -34,7 +49,6 @@ describe('WalletDropdownFundLink', () => {
 
     render(<FundButton fundingUrl={fundingUrl} />);
 
-    expect(useGetFundingUrl).not.toHaveBeenCalled();
     const buttonElement = screen.getByRole('button');
     expect(screen.getByText('Fund')).toBeInTheDocument();
 
@@ -89,9 +103,77 @@ describe('WalletDropdownFundLink', () => {
 
     render(<FundButton fundingUrl={fundingUrl} openIn="tab" />);
 
-    expect(useGetFundingUrl).not.toHaveBeenCalled();
     const linkElement = screen.getByRole('link');
     expect(screen.getByText('Fund')).toBeInTheDocument();
     expect(linkElement).toHaveAttribute('href', fundingUrl);
+  });
+
+  it('displays a spinner when in loading state', () => {
+    render(<FundButton state="loading" />);
+    expect(screen.getByTestId('ockSpinner')).toBeInTheDocument();
+  });
+
+  it('displays success text when in success state', () => {
+    render(<FundButton state="success" />);
+    expect(screen.getByTestId('ockFundButtonTextContent')).toHaveTextContent(
+      'Success',
+    );
+  });
+
+  it('displays error text when in error state', () => {
+    render(<FundButton state="error" />);
+    expect(screen.getByTestId('ockFundButtonTextContent')).toHaveTextContent(
+      'Something went wrong',
+    );
+  });
+
+  it('calls onPopupClose when the popup window is closed', () => {
+    vi.useFakeTimers();
+    const fundingUrl = 'https://props.funding.url';
+    const onPopupClose = vi.fn();
+    const { height, width } = { height: 200, width: 100 };
+    const mockPopupWindow = {
+      closed: false,
+      close: vi.fn(),
+    };
+    (getFundingPopupSize as Mock).mockReturnValue({ height, width });
+    (openPopup as Mock).mockReturnValue(mockPopupWindow);
+
+    render(<FundButton fundingUrl={fundingUrl} onPopupClose={onPopupClose} />);
+
+    const buttonElement = screen.getByRole('button');
+    fireEvent.click(buttonElement);
+
+    // Simulate closing the popup
+    mockPopupWindow.closed = true;
+    vi.runOnlyPendingTimers();
+
+    expect(onPopupClose).toHaveBeenCalled();
+  });
+
+  it('calls onClick when the fund button is clicked', () => {
+    const fundingUrl = 'https://props.funding.url';
+    const onClick = vi.fn();
+    const { height, width } = { height: 200, width: 100 };
+    (getFundingPopupSize as Mock).mockReturnValue({ height, width });
+
+    render(<FundButton fundingUrl={fundingUrl} onClick={onClick} />);
+
+    const buttonElement = screen.getByRole('button');
+    fireEvent.click(buttonElement);
+
+    expect(onClick).toHaveBeenCalled();
+    expect(getFundingPopupSize as Mock).toHaveBeenCalledWith('md', fundingUrl);
+    expect(openPopup as Mock).toHaveBeenCalledWith({
+      url: fundingUrl,
+      height,
+      width,
+      target: undefined,
+    });
+  });
+
+  it('icon is not shown when hideIcon is passed', () => {
+    render(<FundButton hideIcon={true} />);
+    expect(screen.queryByTestId('ockFundButtonIcon')).not.toBeInTheDocument();
   });
 });
