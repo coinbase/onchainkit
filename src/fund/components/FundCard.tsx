@@ -10,7 +10,7 @@ import { FundCardHeader } from './FundCardHeader';
 import { FundCardPaymentMethodSelectorDropdown } from './FundCardPaymentMethodSelectorDropdown';
 import { FundCardProvider } from './FundCardProvider';
 import { useFundContext } from './FundCardProvider';
-//import { useFundCardFundingUrl } from '../hooks/useFundCardFundingUrl';
+import { useFundCardFundingUrl } from '../hooks/useFundCardFundingUrl';
 
 const defaultPaymentMethods: PaymentMethodReact[] = [
   {
@@ -109,7 +109,7 @@ export function FundCardContent({
     setSubmitButtonState,
   } = useFundContext();
 
-  const fundingUrl = 'test'; //useFundCardFundingUrl();
+  const fundingUrl = useFundCardFundingUrl();
 
   // Setup event listeners for the onramp
   useFundCardSetupOnrampEventListeners();
@@ -149,7 +149,7 @@ export function FundCardContent({
         fundingUrl={fundingUrl}
         state={submitButtonState}
         onClick={() => setSubmitButtonState('loading')}
-        //onPopupClose={() => setSubmitButtonState('default')}
+        onPopupClose={() => setSubmitButtonState('default')}
       />
     </form>
   );

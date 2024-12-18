@@ -15,6 +15,7 @@ import { fetchOnrampQuote } from '../utils/fetchOnrampQuote';
 import { getFundingPopupSize } from '../utils/getFundingPopupSize';
 import { FundCard } from './FundCard';
 import { FundCardProvider } from './FundCardProvider';
+import { openPopup } from '@/ui-react/internal/utils/openPopup';
 
 vi.mock('../../core-react/internal/hooks/useTheme', () => ({
   useTheme: () => 'mocked-theme-class',
@@ -194,5 +195,31 @@ describe('FundCard', () => {
       screen.getByTestId('paymentMethodSelectorDropdownComponent'),
     ).toBeInTheDocument();
     expect(screen.getByTestId('submitButtonComponent')).toBeInTheDocument();
+  });
+
+  it('sets submit button state to default on popup close', () => {
+    vi.useFakeTimers();
+
+    (openPopup as Mock).mockImplementation(() => ({closed: true}));
+    renderComponent();
+    const button = screen.getByTestId('ockFundButton');
+
+    // Simulate entering a valid amount
+    const input = screen.getByTestId('ockFundCardAmountInput') as HTMLInputElement;
+    act(() => {
+      fireEvent.change(input, { target: { value: '100' } });
+    });
+
+    // Click the submit button to trigger loading state
+    act(() => {
+      fireEvent.click(button);
+    });
+
+    vi.runOnlyPendingTimers();
+
+    const submitButton = screen.getByTestId('ockFundButton');
+
+    // Assert that the submit button state is set to 'default'
+    expect(submitButton).not.toBeDisabled();
   });
 });
