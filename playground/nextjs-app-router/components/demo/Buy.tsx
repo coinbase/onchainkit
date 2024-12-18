@@ -1,12 +1,12 @@
 import { ENVIRONMENT, ENVIRONMENT_VARIABLES } from '@/lib/constants';
 import { Buy } from '@coinbase/onchainkit/buy';
-import { type LifecycleStatus } from '@coinbase/onchainkit/swap';
+import type { LifecycleStatus } from '@coinbase/onchainkit/swap';
 import type { SwapError } from '@coinbase/onchainkit/swap';
 import { useCallback, useContext } from 'react';
 import type { TransactionReceipt } from 'viem';
 import { base } from 'viem/chains';
-import { AppContext } from '../AppProvider';
 import { degenToken } from '../../lib/constants';
+import { AppContext } from '../AppProvider';
 
 const FALLBACK_DEFAULT_MAX_SLIPPAGE = 3;
 
@@ -25,7 +25,7 @@ function BuyComponent() {
     console.log('Error:', swapError);
   }, []);
   return (
-    <div className="relative flex h-full w-full flex-col items-center mb-[50%]">
+    <div className="relative mb-[50%] flex h-full w-full flex-col items-center">
       {chainId !== base.id ? (
         <div className="absolute top-0 left-0 z-10 flex h-full w-full flex-col justify-center rounded-xl bg-[#000000] bg-opacity-50 text-center">
           <div className="mx-auto w-2/3 rounded-md bg-muted p-6 text-sm">
