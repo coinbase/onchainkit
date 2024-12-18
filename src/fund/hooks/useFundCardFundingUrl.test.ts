@@ -1,11 +1,9 @@
-import { setOnchainKitConfig } from '@/core/OnchainKitConfig';
+import { useOnchainKit } from '@/core-react/useOnchainKit';
 import { renderHook } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
-import { useFundContext } from '../components/FundCardProvider';
-import { useExchangeRate } from './useExchangeRate';
-import { useFundCardFundingUrl } from './useFundCardFundingUrl';
-import { useOnchainKit } from '@/core-react/useOnchainKit';
 import { useAccount } from 'wagmi';
+import { useFundContext } from '../components/FundCardProvider';
+import { useFundCardFundingUrl } from './useFundCardFundingUrl';
 
 vi.mock('../components/FundCardProvider', () => ({
   useFundContext: vi.fn(),

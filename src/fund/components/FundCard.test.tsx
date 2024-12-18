@@ -1,4 +1,5 @@
 import '@testing-library/jest-dom';
+import { useDebounce } from '@/core-react/internal/hooks/useDebounce';
 import { setOnchainKitConfig } from '@/core/OnchainKitConfig';
 import {
   act,
@@ -8,13 +9,12 @@ import {
   waitFor,
 } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
+import { useFundCardFundingUrl } from '../hooks/useFundCardFundingUrl';
 import type { FundCardPropsReact } from '../types';
+import { fetchOnrampQuote } from '../utils/fetchOnrampQuote';
 import { getFundingPopupSize } from '../utils/getFundingPopupSize';
 import { FundCard } from './FundCard';
 import { FundCardProvider } from './FundCardProvider';
-import { useFundCardFundingUrl } from '../hooks/useFundCardFundingUrl';
-import { useDebounce } from '@/core-react/internal/hooks/useDebounce';
-import { fetchOnrampQuote } from '../utils/fetchOnrampQuote';
 
 vi.mock('../../core-react/internal/hooks/useTheme', () => ({
   useTheme: () => 'mocked-theme-class',

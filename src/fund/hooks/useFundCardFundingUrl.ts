@@ -1,7 +1,7 @@
-import { useMemo } from 'react';
-import { useFundContext } from '../components/FundCardProvider';
 import { useOnchainKit } from '@/core-react/useOnchainKit';
+import { useMemo } from 'react';
 import { useAccount } from 'wagmi';
+import { useFundContext } from '../components/FundCardProvider';
 import { getOnrampBuyUrl } from '../utils/getOnrampBuyUrl';
 
 export const useFundCardFundingUrl = () => {
