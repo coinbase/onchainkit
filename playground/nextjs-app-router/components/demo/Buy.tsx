@@ -6,7 +6,7 @@ import { useCallback, useContext } from 'react';
 import type { TransactionReceipt } from 'viem';
 import { base } from 'viem/chains';
 import { AppContext } from '../AppProvider';
-import { daiToken, degenToken } from '../../lib/constants';
+import { degenToken } from '../../lib/constants';
 
 const FALLBACK_DEFAULT_MAX_SLIPPAGE = 3;
 
@@ -52,12 +52,8 @@ function BuyComponent() {
         config={{
           maxSlippage: defaultMaxSlippage || FALLBACK_DEFAULT_MAX_SLIPPAGE,
         }}
-        // experimental={{
-        //   useAggregator: true,
-        // }}
         isSponsored={isSponsored}
         toToken={degenToken}
-        fromToken={daiToken}
       />
     </div>
   );
