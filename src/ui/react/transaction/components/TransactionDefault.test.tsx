@@ -5,15 +5,15 @@ import { useShowCallsStatus } from 'wagmi/experimental';
 import type {
   TransactionDefaultReact,
   TransactionProviderReact,
-} from '../../../../core-react/transaction/types';
+} from '@/core-react/transaction/types';
 import { TransactionDefault } from './TransactionDefault';
-import { useTransactionContext } from './TransactionProvider';
+import { useTransactionContext } from '@/core-react/transaction/providers/TransactionProvider';
 
-vi.mock('../../core-react/internal/hooks/useTheme', () => ({
+vi.mock('@/core-react/internal/hooks/useTheme', () => ({
   useTheme: vi.fn(),
 }));
 
-vi.mock('../../useBreakpoints', () => ({
+vi.mock('@/ui/react/internal/hooks/useBreakpoints', () => ({
   useBreakpoints: vi.fn(),
 }));
 
@@ -37,7 +37,7 @@ vi.mock('wagmi', async (importOriginal) => {
   };
 });
 
-vi.mock('./TransactionProvider', () => ({
+vi.mock('@/core-react/transaction/providers/TransactionProvider', () => ({
   TransactionProvider: ({ children }: TransactionProviderReact) => (
     <div data-testid="mock-TransactionProvider">{children}</div>
   ),

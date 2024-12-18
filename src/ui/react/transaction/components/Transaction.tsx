@@ -1,9 +1,9 @@
-import { useIsMounted } from '../../../../core-react/internal/hooks/useIsMounted';
-import { useTheme } from '../../../../core-react/internal/hooks/useTheme';
-import { useOnchainKit } from '../../../../core-react/useOnchainKit';
-import { cn } from '../../../../styles/theme';
-import type { TransactionReact } from '../../../../core-react/transaction/types';
-import { TransactionProvider } from './TransactionProvider';
+import { useIsMounted } from '@/core-react/internal/hooks/useIsMounted';
+import { useTheme } from '@/core-react/internal/hooks/useTheme';
+import { useOnchainKit } from '@/core-react/useOnchainKit';
+import { cn } from '@/styles/theme';
+import type { TransactionReact } from '@/core-react/transaction/types';
+import { TransactionProvider } from '@/core-react/transaction/providers/TransactionProvider';
 
 export function Transaction({
   calls,

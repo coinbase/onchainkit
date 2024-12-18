@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
-import { Toast } from '../../../../internal/components/Toast';
-import type { TransactionToastReact } from '../../../../core-react/transaction/types';
-import { useTransactionContext } from './TransactionProvider';
+import { Toast } from '@/internal/components/Toast';
+import type { TransactionToastReact } from '@/core-react/transaction/types';
+import { useTransactionContext } from '@/core-react/transaction/providers/TransactionProvider';
 
 export function TransactionToast({
   children,

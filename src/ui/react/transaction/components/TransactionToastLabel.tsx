@@ -1,6 +1,6 @@
-import { cn, color, text } from '../../../../styles/theme';
-import { useGetTransactionToastLabel } from '../../../../core-react/transaction/hooks/useGetTransactionToastLabel';
-import type { TransactionToastLabelReact } from '../../../../core-react/transaction/types';
+import { cn, color, text } from '@/styles/theme';
+import { useGetTransactionToastLabel } from '@/core-react/transaction/hooks/useGetTransactionToastLabel';
+import type { TransactionToastLabelReact } from '@/core-react/transaction/types';
 
 export function TransactionToastLabel({
   className,

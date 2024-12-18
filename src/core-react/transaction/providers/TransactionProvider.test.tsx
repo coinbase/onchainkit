@@ -8,12 +8,12 @@ import {
   useWaitForTransactionReceipt,
 } from 'wagmi';
 import { waitForTransactionReceipt } from 'wagmi/actions';
-import { useCapabilitiesSafe } from '../../../../core-react/internal/hooks/useCapabilitiesSafe';
-import { useOnchainKit } from '../../../../core-react/useOnchainKit';
-import { useCallsStatus } from '../../../../core-react/transaction/hooks/useCallsStatus';
-import { useSendCall } from '../../../../core-react/transaction/hooks/useSendCall';
-import { useSendCalls } from '../../../../core-react/transaction/hooks/useSendCalls';
-import { useSendWalletTransactions } from '../../../../core-react/transaction/hooks/useSendWalletTransactions';
+import { useCapabilitiesSafe } from '@/core-react/internal/hooks/useCapabilitiesSafe';
+import { useOnchainKit } from '@/core-react/useOnchainKit';
+import { useCallsStatus } from '@/core-react/transaction/hooks/useCallsStatus';
+import { useSendCall } from '@/core-react/transaction/hooks/useSendCall';
+import { useSendCalls } from '@/core-react/transaction/hooks/useSendCalls';
+import { useSendWalletTransactions } from '@/core-react/transaction/hooks/useSendWalletTransactions';
 import {
   TransactionProvider,
   useTransactionContext,
@@ -31,27 +31,27 @@ vi.mock('wagmi/actions', () => ({
   waitForTransactionReceipt: vi.fn(),
 }));
 
-vi.mock('../hooks/useCallsStatus', () => ({
+vi.mock('@/core-react/transaction/hooks/useCallsStatus', () => ({
   useCallsStatus: vi.fn(),
 }));
 
-vi.mock('../hooks/useSendCall', () => ({
+vi.mock('@/core-react/transaction/hooks/useSendCall', () => ({
   useSendCall: vi.fn(),
 }));
 
-vi.mock('../hooks/useSendCalls', () => ({
+vi.mock('@/core-react/transaction/hooks/useSendCalls', () => ({
   useSendCalls: vi.fn(),
 }));
 
-vi.mock('../hooks/useSendWalletTransactions', () => ({
+vi.mock('@/core-react/transaction/hooks/useSendWalletTransactions', () => ({
   useSendWalletTransactions: vi.fn(),
 }));
 
-vi.mock('../../core-react/internal/hooks/useCapabilitiesSafe', () => ({
+vi.mock('@/core-react/internal/hooks/useCapabilitiesSafe', () => ({
   useCapabilitiesSafe: vi.fn(),
 }));
 
-vi.mock('../../core-react/useOnchainKit', () => ({
+vi.mock('@/core-react/useOnchainKit', () => ({
   useOnchainKit: vi.fn(),
 }));
 

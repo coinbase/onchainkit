@@ -1,8 +1,8 @@
 import type { Address } from 'viem';
 import { useSendTransaction as useSendCallWagmi } from 'wagmi';
-import { GENERIC_ERROR_MESSAGE } from '../../../core/transaction/constants';
+import { GENERIC_ERROR_MESSAGE } from '@/core/transaction/constants';
 import type { UseSendCallParams } from '../types';
-import { isUserRejectedRequestError } from '../../../core/transaction/utils/isUserRejectedRequestError';
+import { isUserRejectedRequestError } from '@/core/transaction/utils/isUserRejectedRequestError';
 
 /**
  * Wagmi hook for single transactions with calldata.

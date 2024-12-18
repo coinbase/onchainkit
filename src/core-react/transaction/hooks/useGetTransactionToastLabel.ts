@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
-import { color } from '../../../styles/theme';
-import { useTransactionContext } from '../../../ui/react/transaction/components/TransactionProvider';
+import { color } from '@/styles/theme';
+import { useTransactionContext } from '../providers/TransactionProvider';
 
 export function useGetTransactionToastLabel() {
   const {

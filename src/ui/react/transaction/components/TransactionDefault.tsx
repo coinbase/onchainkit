@@ -1,4 +1,4 @@
-import type { TransactionDefaultReact } from '../../../../core-react/transaction/types';
+import type { TransactionDefaultReact } from '@/core-react/transaction/types';
 import { Transaction } from './Transaction';
 import { TransactionButton } from './TransactionButton';
 import { TransactionToast } from './TransactionToast';

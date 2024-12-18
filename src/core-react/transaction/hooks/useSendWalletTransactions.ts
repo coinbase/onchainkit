@@ -1,9 +1,9 @@
 import { useCallback } from 'react';
 import type { ContractFunctionParameters } from 'viem';
-import { Capabilities } from '../../../core/constants';
+import { Capabilities } from '@/core/constants';
 import type { Call, UseSendWalletTransactionsParams } from '../types';
-import { sendBatchedTransactions } from '../../../core/transaction/utils/sendBatchedTransactions';
-import { sendSingleTransactions } from '../../../core/transaction/utils/sendSingleTransactions';
+import { sendBatchedTransactions } from '@/core/transaction/utils/sendBatchedTransactions';
+import { sendSingleTransactions } from '@/core/transaction/utils/sendSingleTransactions';
 
 // Sends transactions to the wallet using the appropriate hook based on Transaction props and wallet capabilities
 export const useSendWalletTransactions = ({

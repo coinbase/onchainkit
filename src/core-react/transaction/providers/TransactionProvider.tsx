@@ -14,22 +14,22 @@ import {
   useWaitForTransactionReceipt,
 } from 'wagmi';
 import { waitForTransactionReceipt } from 'wagmi/actions';
-import { useCapabilitiesSafe } from '../../../../core-react/internal/hooks/useCapabilitiesSafe';
-import { useValue } from '../../../../core-react/internal/hooks/useValue';
-import { useOnchainKit } from '../../../../core-react/useOnchainKit';
-import { Capabilities } from '../../../../core/constants';
-import { GENERIC_ERROR_MESSAGE } from '../../../../core/transaction/constants';
-import { useCallsStatus } from '../../../../core-react/transaction/hooks/useCallsStatus';
-import { useSendCall } from '../../../../core-react/transaction/hooks/useSendCall';
-import { useSendCalls } from '../../../../core-react/transaction/hooks/useSendCalls';
-import { useSendWalletTransactions } from '../../../../core-react/transaction/hooks/useSendWalletTransactions';
+import { useCapabilitiesSafe } from '@/core-react/internal/hooks/useCapabilitiesSafe';
+import { useValue } from '@/core-react/internal/hooks/useValue';
+import { useOnchainKit } from '@/core-react/useOnchainKit';
+import { Capabilities } from '@/core/constants';
+import { GENERIC_ERROR_MESSAGE } from '@/core/transaction/constants';
+import { useCallsStatus } from '@/core-react/transaction/hooks/useCallsStatus';
+import { useSendCall } from '@/core-react/transaction/hooks/useSendCall';
+import { useSendCalls } from '@/core-react/transaction/hooks/useSendCalls';
+import { useSendWalletTransactions } from '@/core-react/transaction/hooks/useSendWalletTransactions';
 import type {
   LifecycleStatus,
   TransactionContextType,
   TransactionProviderReact,
-} from '../../../../core-react/transaction/types';
-import { getPaymasterUrl } from '../../../../core/transaction/utils/getPaymasterUrl';
-import { isUserRejectedRequestError } from '../../../../core/transaction/utils/isUserRejectedRequestError';
+} from '@/core-react/transaction/types';
+import { getPaymasterUrl } from '@/core/transaction/utils/getPaymasterUrl';
+import { isUserRejectedRequestError } from '@/core/transaction/utils/isUserRejectedRequestError';
 
 const emptyContext = {} as TransactionContextType;
 export const TransactionContext =

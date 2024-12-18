@@ -1,13 +1,13 @@
 import type { Call } from '@/core-react/transaction/types';
 import { renderHook } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { sendBatchedTransactions } from '../../../core/transaction/utils/sendBatchedTransactions';
-import { sendSingleTransactions } from '../../../core/transaction/utils/sendSingleTransactions';
+import { sendBatchedTransactions } from '@/core/transaction/utils/sendBatchedTransactions';
+import { sendSingleTransactions } from '@/core/transaction/utils/sendSingleTransactions';
 import { useSendWalletTransactions } from './useSendWalletTransactions';
 
 // Mock the utility functions
-vi.mock('../utils/sendBatchedTransactions');
-vi.mock('../utils/sendSingleTransactions');
+vi.mock('@/core/transaction/utils/sendBatchedTransactions');
+vi.mock('@/core/transaction/utils/sendSingleTransactions');
 
 describe('useSendWalletTransactions', () => {
   beforeEach(() => {

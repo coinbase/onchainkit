@@ -29,9 +29,9 @@ vi.mock('wagmi', async (importOriginal) => {
 vi.mock('../../../internal/components/Spinner', () => ({
   Spinner: () => <div>Spinner</div>,
 }));
-vi.mock('../../../../transaction', async (importOriginal) => {
+vi.mock('@/ui-react/transaction', async (importOriginal) => {
   return {
-    ...(await importOriginal<typeof import('../../transaction')>()),
+    ...(await importOriginal<typeof import('@/ui-react/transaction')>()),
     TransactionLifecycleStatus: vi.fn(),
     TransactionButton: ({
       text,

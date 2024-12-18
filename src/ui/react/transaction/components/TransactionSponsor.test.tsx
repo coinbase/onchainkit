@@ -1,9 +1,9 @@
 import { render, screen } from '@testing-library/react';
 import { type Mock, describe, expect, it, vi } from 'vitest';
-import { useTransactionContext } from './TransactionProvider';
+import { useTransactionContext } from '@/core-react/transaction/providers/TransactionProvider';
 import { TransactionSponsor } from './TransactionSponsor';
 
-vi.mock('./TransactionProvider', () => ({
+vi.mock('@/core-react/transaction/providers/TransactionProvider', () => ({
   useTransactionContext: vi.fn(),
 }));
 

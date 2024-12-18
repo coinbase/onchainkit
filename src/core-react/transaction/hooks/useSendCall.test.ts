@@ -1,15 +1,15 @@
 import { renderHook } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useSendTransaction as useSendCallWagmi } from 'wagmi';
-import { GENERIC_ERROR_MESSAGE } from '../../../core/transaction/constants';
-import { isUserRejectedRequestError } from '../../../core/transaction/utils/isUserRejectedRequestError';
+import { GENERIC_ERROR_MESSAGE } from '@/core/transaction/constants';
+import { isUserRejectedRequestError } from '@/core/transaction/utils/isUserRejectedRequestError';
 import { useSendCall } from './useSendCall';
 
 vi.mock('wagmi', () => ({
   useSendTransaction: vi.fn(),
 }));
 
-vi.mock('../utils/isUserRejectedRequestError', () => ({
+vi.mock('@/core/transaction/utils/isUserRejectedRequestError', () => ({
   isUserRejectedRequestError: vi.fn(),
 }));
 

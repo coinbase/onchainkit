@@ -10,15 +10,15 @@ import {
   vi,
 } from 'vitest';
 
-import { useOnchainKit } from '../../../../core-react/useOnchainKit';
+import { useOnchainKit } from '@/core-react/useOnchainKit';
 import { Transaction } from './Transaction';
-import { TransactionProvider } from './TransactionProvider';
+import { TransactionProvider } from '@/core-react/transaction/providers/TransactionProvider';
 
 function mock<T>(func: T) {
   return func as Mock;
 }
 
-vi.mock('./TransactionProvider', () => ({
+vi.mock('@/core-react/transaction/providers/TransactionProvider', () => ({
   TransactionProvider: vi.fn(
     ({ chainId, children }: { chainId: number; children: React.ReactNode }) => (
       <div>
@@ -29,11 +29,11 @@ vi.mock('./TransactionProvider', () => ({
   ),
 }));
 
-vi.mock('../../core-react/useOnchainKit', () => ({
+vi.mock('@/core-react/useOnchainKit', () => ({
   useOnchainKit: vi.fn(),
 }));
 
-vi.mock('../../core-react/internal/hooks/useTheme', () => ({
+vi.mock('@/core-react/internal/hooks/useTheme', () => ({
   useTheme: vi.fn(),
 }));
 

@@ -1,3 +1,4 @@
+// TODO: fix wagmi types
 // @ts-nocheck - investigate wagmi types
 import { renderHook } from '@testing-library/react';
 import type { TransactionExecutionError } from 'viem';

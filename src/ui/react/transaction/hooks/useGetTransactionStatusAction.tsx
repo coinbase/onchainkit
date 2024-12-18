@@ -2,9 +2,9 @@ import { useMemo } from 'react';
 import type { ReactNode } from 'react';
 import { useChainId } from 'wagmi';
 import { useShowCallsStatus } from 'wagmi/experimental';
-import { getChainExplorer } from '../../../../core/network/getChainExplorer';
-import { cn, color, text } from '../../../../styles/theme';
-import { useTransactionContext } from '../components/TransactionProvider';
+import { getChainExplorer } from '@/core/network/getChainExplorer';
+import { cn, color, text } from '@/styles/theme';
+import { useTransactionContext } from '@/core-react/transaction/providers/TransactionProvider';
 
 export function useGetTransactionStatusAction() {
   const { chainId, receipt, transactionHash, transactionId } =

@@ -1,11 +1,11 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useAccount, useChainId } from 'wagmi';
-import { getChainExplorer } from '../../../../core/network/getChainExplorer';
+import { getChainExplorer } from '@/core/network/getChainExplorer';
 import { TransactionButton } from './TransactionButton';
-import { useTransactionContext } from './TransactionProvider';
+import { useTransactionContext } from '@/core-react/transaction/providers/TransactionProvider';
 
-vi.mock('./TransactionProvider', () => ({
+vi.mock('@/core-react/transaction/providers/TransactionProvider', () => ({
   useTransactionContext: vi.fn(),
 }));
 
@@ -14,7 +14,7 @@ vi.mock('wagmi', () => ({
   useAccount: vi.fn(),
 }));
 
-vi.mock('../../core/network/getChainExplorer', () => ({
+vi.mock('@/core/network/getChainExplorer', () => ({
   getChainExplorer: vi.fn(),
 }));
 

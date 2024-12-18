@@ -1,14 +1,14 @@
 import { renderHook } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useWriteContract as useWriteContractWagmi } from 'wagmi';
-import { isUserRejectedRequestError } from '../../../core/transaction/utils/isUserRejectedRequestError';
+import { isUserRejectedRequestError } from '@/core/transaction/utils/isUserRejectedRequestError';
 import { useWriteContract } from './useWriteContract';
 
 vi.mock('wagmi', () => ({
   useWriteContract: vi.fn(),
 }));
 
-vi.mock('../utils/isUserRejectedRequestError', () => ({
+vi.mock('@/core/transaction/utils/isUserRejectedRequestError', () => ({
   isUserRejectedRequestError: vi.fn(),
 }));
 
