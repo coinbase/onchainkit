@@ -200,12 +200,14 @@ describe('FundCard', () => {
   it('sets submit button state to default on popup close', () => {
     vi.useFakeTimers();
 
-    (openPopup as Mock).mockImplementation(() => ({closed: true}));
+    (openPopup as Mock).mockImplementation(() => ({ closed: true }));
     renderComponent();
     const button = screen.getByTestId('ockFundButton');
 
     // Simulate entering a valid amount
-    const input = screen.getByTestId('ockFundCardAmountInput') as HTMLInputElement;
+    const input = screen.getByTestId(
+      'ockFundCardAmountInput',
+    ) as HTMLInputElement;
     act(() => {
       fireEvent.change(input, { target: { value: '100' } });
     });
