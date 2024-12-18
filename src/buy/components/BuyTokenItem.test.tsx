@@ -103,7 +103,7 @@ describe('BuyTokenItem', () => {
     render(<BuyTokenItem swapUnit={swapUnit} />);
 
     expect(getRoundedAmount).toHaveBeenCalledWith('10.5678', 10);
-    expect(getRoundedAmount).toHaveBeenCalledWith('20.1234', 10);
+    expect(getRoundedAmount).toHaveBeenCalledWith('20.1234', 3);
     expect(screen.getByText('10.5 ETH')).toBeInTheDocument();
     expect(screen.getByText('Balance: 20.1')).toBeInTheDocument();
   });
