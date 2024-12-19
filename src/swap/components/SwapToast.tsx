@@ -1,10 +1,10 @@
 import { useCallback } from 'react';
-import { cn, color, text } from '../../styles/theme';
+import { cn, color, icon, text } from '../../styles/theme';
 
 import { useAccount } from 'wagmi';
 import { getChainExplorer } from '../../core/network/getChainExplorer';
 import { Toast } from '../../internal/components/Toast';
-import { SuccessSvg } from '../../internal/svg/successSvg';
+import { successSvg } from '../../internal/svg/successSvg';
 import type { SwapToastReact } from '../types';
 import { useSwapContext } from './SwapProvider';
 
@@ -40,8 +40,8 @@ export function SwapToast({
       isVisible={isToastVisible}
       onClose={resetToastState}
     >
-      <div className={cn(text.label2)}>
-        <SuccessSvg />
+      <div className={cn(text.label2, icon.success)}>
+      {successSvg}
       </div>
       <div className={cn(text.label1, 'text-nowrap')}>
         <p className={color.foreground}>Successful</p>

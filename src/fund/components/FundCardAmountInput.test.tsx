@@ -4,10 +4,6 @@ import { describe, expect, it, vi } from 'vitest';
 import type { FundCardAmountInputPropsReact } from '../types';
 import { FundCardAmountInput } from './FundCardAmountInput';
 
-vi.mock('../../core-react/internal/hooks/useTheme', () => ({
-  useTheme: () => 'mocked-theme-class',
-}));
-
 describe('FundCardAmountInput', () => {
   const defaultProps = {
     fiatValue: '100',

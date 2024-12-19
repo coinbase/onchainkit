@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { background, border, cn } from '../../styles/theme';
 
-import { useTheme } from '../../core-react/internal/hooks/useTheme';
 import type {
   FundCardPaymentMethodDropdownPropsReact,
   PaymentMethodReact,
@@ -9,11 +8,11 @@ import type {
 import { FundCardPaymentMethodSelectRow } from './FundCardPaymentMethodSelectRow';
 import { FundCardPaymentMethodSelectorToggle } from './FundCardPaymentMethodSelectorToggle';
 import { useFundContext } from './FundCardProvider';
+import { useOutsideClick } from '@/ui-react/internal/hooks/useOutsideClick';
 
 export function FundCardPaymentMethodDropdown({
   paymentMethods,
 }: FundCardPaymentMethodDropdownPropsReact) {
-  const componentTheme = useTheme();
   const [isOpen, setIsOpen] = useState(false);
 
   const { selectedPaymentMethod, setSelectedPaymentMethod } = useFundContext();
@@ -31,36 +30,36 @@ export function FundCardPaymentMethodDropdown({
   }, [isOpen]);
 
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const dropdownContainerRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
-
-  const handleBlur = useCallback((event: MouseEvent) => {
-    const isOutsideDropdown =
-      dropdownRef.current &&
-      !dropdownRef.current.contains(event.target as Node);
-    const isOutsideButton =
-      buttonRef.current && !buttonRef.current.contains(event.target as Node);
-
-    if (isOutsideDropdown && isOutsideButton) {
-      setIsOpen(false);
-    }
-  }, []);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: This useEffect is only called once
   useEffect(() => {
     setSelectedPaymentMethod(paymentMethods[0]);
   }, []);
 
-  useEffect(() => {
-    // Add event listener for outside clicks
-    document.addEventListener('click', handleBlur);
-    return () => {
-      // Clean up the event listener
-      document.removeEventListener('click', handleBlur);
-    };
-  }, [handleBlur]);
+  useOutsideClick(dropdownContainerRef, () => {
+    if (isOpen) {
+      setIsOpen(false);
+    }
+  });
+
+  const handleEscKeyPress = useCallback(
+    (event: React.KeyboardEvent<HTMLDivElement>) => {
+      if (event.key === 'Escape') {
+        setIsOpen(false);
+      }
+    },
+    [],
+  );
 
   return (
-    <div className="relative py-4">
+    <div
+      className="relative py-4"
+      ref={dropdownContainerRef}
+      data-testid="ockFundCardPaymentMethodDropdownContainer"
+      onKeyUp={handleEscKeyPress}
+    >
       <FundCardPaymentMethodSelectorToggle
         ref={buttonRef}
         onClick={handleToggle}
@@ -72,9 +71,8 @@ export function FundCardPaymentMethodDropdown({
           ref={dropdownRef}
           data-testid="ockFundCardPaymentMethodDropdown"
           className={cn(
-            componentTheme,
             border.radius,
-            'ock-scrollbar absolute right-0 z-10 mt-1 flex max-h-80 w-full flex-col overflow-y-hidden',
+            'ock-scrollbar absolute z-10 flex w-full flex-col overflow-y-hidden',
           )}
         >
           <div className={cn(background.inverse, 'overflow-y-auto p-2')}>

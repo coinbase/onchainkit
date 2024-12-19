@@ -1,6 +1,5 @@
 import { useCallback, useMemo } from 'react';
 import { useIcon } from '../../core-react/internal/hooks/useIcon';
-import { useTheme } from '../../core-react/internal/hooks/useTheme';
 import { getRoundedAmount } from '../../core/utils/getRoundedAmount';
 import { Skeleton } from '../../internal/components/Skeleton';
 import { cn, color, pressable, text } from '../../styles/theme';
@@ -15,8 +14,6 @@ export const FundCardAmountInputTypeSwitch = ({
   exchangeRate,
   isLoading,
 }: FundCardAmountInputTypeSwitchPropsReact) => {
-  const componentTheme = useTheme();
-
   const iconSvg = useIcon({ icon: 'toggle' });
 
   const handleToggle = () => {
@@ -48,19 +45,19 @@ export const FundCardAmountInputTypeSwitch = ({
 
   const cryptoAmountLine = useMemo(() => {
     return (
-      <span className={cn(componentTheme, text.label1)}>
+      <span className={cn( text.label1)}>
         {Number(fundAmountCrypto).toFixed(8)} {selectedAsset}
       </span>
     );
-  }, [fundAmountCrypto, selectedAsset, componentTheme]);
+  }, [fundAmountCrypto, selectedAsset]);
 
   const fiatAmountLine = useMemo(() => {
     return (
-      <span className={cn(componentTheme, text.label1)}>
+      <span className={cn(text.label1)}>
         {formatUSD(fundAmountFiat)}
       </span>
     );
-  }, [formatUSD, fundAmountFiat, componentTheme]);
+  }, [formatUSD, fundAmountFiat]);
 
   if (isLoading || !exchangeRate) {
     return <Skeleton className="h-[1.625rem]" />;
@@ -80,20 +77,12 @@ export const FundCardAmountInputTypeSwitch = ({
       >
         <div className="h-[1.125rem] w-[1.125rem]">{iconSvg}</div>
       </button>
-      <div style={textStyle}>
+      <div className='w-[390px] truncate'>
         {selectedInputType === 'fiat' ? cryptoAmountLine : fiatAmountLine}
-
         {exchangeRateLine}
       </div>
     </div>
   );
-};
-
-const textStyle = {
-  textOverflow: 'ellipsis',
-  width: '390px',
-  overflow: 'hidden',
-  whiteSpace: 'nowrap',
 };
 
 export default FundCardAmountInputTypeSwitch;

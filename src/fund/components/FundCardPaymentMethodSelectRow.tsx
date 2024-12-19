@@ -1,5 +1,4 @@
 import { memo } from 'react';
-import { useTheme } from '../../core-react/internal/hooks/useTheme';
 import { border, cn, color, pressable, text } from '../../styles/theme';
 import type { FundCardPaymentMethodSelectRowPropsReact } from '../types';
 import { FundCardPaymentMethodImage } from './FundCardPaymentMethodImage';
@@ -12,14 +11,11 @@ export const FundCardPaymentMethodSelectRow = memo(
     hideImage,
     hideDescription,
   }: FundCardPaymentMethodSelectRowPropsReact) => {
-    const componentTheme = useTheme();
-
     return (
       <button
         data-testid="ockFundCardPaymentMethodSelectRow__button"
         type="button"
         className={cn(
-          componentTheme,
           pressable.default,
           border.radius,
           'flex w-full items-center justify-between px-2 py-1',

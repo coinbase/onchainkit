@@ -3,10 +3,6 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 import { FundCardAmountInputTypeSwitch } from './FundCardAmountInputTypeSwitch';
 
-vi.mock('../../core-react/internal/hooks/useTheme', () => ({
-  useTheme: () => 'mocked-theme-class',
-}));
-
 describe('FundCardAmountInputTypeSwitch', () => {
   it('renders crypto amount when selectedInputType is fiat', () => {
     render(
