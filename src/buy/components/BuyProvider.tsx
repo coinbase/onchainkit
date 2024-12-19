@@ -46,6 +46,7 @@ export function BuyProvider({
   config = {
     maxSlippage: FALLBACK_DEFAULT_MAX_SLIPPAGE,
   },
+  disabled,
   experimental,
   isSponsored,
   onError,
@@ -424,6 +425,7 @@ export function BuyProvider({
   const value = useValue({
     address,
     config,
+    disabled,
     from,
     fromETH,
     fromUSDC,

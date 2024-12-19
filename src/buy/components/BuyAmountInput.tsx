@@ -15,7 +15,7 @@ export function BuyAmountInput() {
   return (
     <div
       className={cn(
-        'flex h-full items-center border px-2 pl-4',
+        'flex h-12 items-center border px-2 pl-4',
         background.default,
         border.radius,
       )}
