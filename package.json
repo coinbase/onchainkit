@@ -43,7 +43,7 @@
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
     "viem": "^2.21.33",
-    "wagmi": "^2.12.24"
+    "wagmi": "^2.14.3"
   },
   "devDependencies": {
     "@biomejs/biome": "1.8.3",
