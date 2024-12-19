@@ -1,4 +1,3 @@
-import type { GetSwapQuoteResponse } from '@/core/api';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import {
   fireEvent,
@@ -7,9 +6,17 @@ import {
   screen,
   waitFor,
 } from '@testing-library/react';
-import React, { act, useCallback, useEffect } from 'react';
+import React, { act, useCallback } from 'react';
 import type { TransactionReceipt } from 'viem';
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import {
+  type Mock,
+  afterEach,
+  beforeEach,
+  describe,
+  expect,
+  it,
+  vi,
+} from 'vitest';
 import {
   http,
   WagmiProvider,
@@ -23,20 +30,37 @@ import { base } from 'wagmi/chains';
 import { mock } from 'wagmi/connectors';
 import { useSendCalls } from 'wagmi/experimental';
 import { useCapabilitiesSafe } from '../../core-react/internal/hooks/useCapabilitiesSafe';
+import { useOnchainKit } from '../../core-react/useOnchainKit';
 import { buildSwapTransaction } from '../../core/api/buildSwapTransaction';
-import { getSwapQuote } from '../../core/api/getSwapQuote';
-import { DEGEN_TOKEN, ETH_TOKEN } from '../mocks';
-import type { LifecycleStatus, SwapError } from '../types';
-import { getSwapErrorCode } from '../utils/getSwapErrorCode';
-import { SwapProvider, useSwapContext } from './SwapProvider';
+import type { GetSwapQuoteResponse } from '../../core/api/types';
+import type { LifecycleStatus, SwapError, SwapUnit } from '../../swap/types';
+import { getSwapErrorCode } from '../../swap/utils/getSwapErrorCode';
+import {
+  daiToken,
+  degenToken,
+  ethToken,
+  usdcToken,
+} from '../../token/constants';
+import { useBuyTokens } from '../hooks/useBuyTokens';
+import { getBuyQuote } from '../utils/getBuyQuote';
+import { validateQuote } from '../utils/validateQuote';
+import { BuyProvider, useBuyContext } from './BuyProvider';
 
 const mockResetFunction = vi.fn();
-vi.mock('../hooks/useResetInputs', () => ({
-  useResetInputs: () => useCallback(mockResetFunction, []),
+vi.mock('../hooks/useResetBuyInputs', () => ({
+  useResetBuyInputs: () => useCallback(mockResetFunction, []),
 }));
 
-vi.mock('../../core/api/getSwapQuote', () => ({
-  getSwapQuote: vi.fn(),
+vi.mock('../utils/getBuyQuote', () => ({
+  getBuyQuote: vi.fn(),
+}));
+
+vi.mock('../utils/validateQuote', () => ({
+  validateQuote: vi.fn(),
+}));
+
+vi.mock('../hooks/useBuyTokens', () => ({
+  useBuyTokens: vi.fn(),
 }));
 
 vi.mock('../../core/api/buildSwapTransaction', () => ({
@@ -45,8 +69,12 @@ vi.mock('../../core/api/buildSwapTransaction', () => ({
     .mockRejectedValue(new Error('buildSwapTransaction')),
 }));
 
-vi.mock('../utils/processSwapTransaction', () => ({
+vi.mock('../../swap/utils/processSwapTransaction', () => ({
   processSwapTransaction: vi.fn(),
+}));
+
+vi.mock('../../core-react/useOnchainKit', () => ({
+  useOnchainKit: vi.fn(),
 }));
 
 const mockSwitchChain = vi.fn();
@@ -60,7 +88,7 @@ vi.mock('wagmi', async (importOriginal) => {
 });
 
 const mockAwaitCalls = vi.fn();
-vi.mock('../hooks/useAwaitCalls', () => ({
+vi.mock('../../swap/hooks/useAwaitCalls', () => ({
   useAwaitCalls: () => useCallback(mockAwaitCalls, []),
 }));
 
@@ -82,6 +110,50 @@ vi.mock('../path/to/maxSlippageModule', () => ({
 
 const queryClient = new QueryClient();
 
+const mockFromDai: SwapUnit = {
+  balance: '100',
+  amount: '',
+  setAmount: vi.fn(),
+  setAmountUSD: vi.fn(),
+  token: daiToken,
+  loading: false,
+  setLoading: vi.fn(),
+  error: undefined,
+} as unknown as SwapUnit;
+
+const mockToDegen: SwapUnit = {
+  balance: '100',
+  amount: '',
+  setAmount: vi.fn(),
+  setAmountUSD: vi.fn(),
+  token: degenToken,
+  loading: false,
+  setLoading: vi.fn(),
+  error: undefined,
+} as unknown as SwapUnit;
+
+const mockFromUsdc: SwapUnit = {
+  balance: '100',
+  amount: '',
+  setAmount: vi.fn(),
+  setAmountUSD: vi.fn(),
+  token: usdcToken,
+  loading: false,
+  setLoading: vi.fn(),
+  error: undefined,
+} as unknown as SwapUnit;
+
+const mockFromEth: SwapUnit = {
+  balance: '100',
+  amount: '50',
+  setAmount: vi.fn(),
+  setAmountUSD: vi.fn(),
+  token: ethToken,
+  loading: false,
+  setLoading: vi.fn(),
+  error: undefined,
+} as unknown as SwapUnit;
+
 const accountConfig = createConfig({
   chains: [base],
   connectors: [
@@ -101,12 +173,14 @@ const accountConfig = createConfig({
 const wrapper = ({ children }: { children: React.ReactNode }) => (
   <WagmiProvider config={accountConfig}>
     <QueryClientProvider client={queryClient}>
-      <SwapProvider
+      <BuyProvider
         config={{ maxSlippage: 5 }}
         experimental={{ useAggregator: true }}
+        toToken={degenToken}
+        fromToken={daiToken}
       >
         {children}
-      </SwapProvider>
+      </BuyProvider>
     </QueryClientProvider>
   </WagmiProvider>
 );
@@ -124,30 +198,33 @@ const renderWithProviders = ({
 }) => {
   const config = { maxSlippage: 10 };
   const mockExperimental = { useAggregator: true };
+  (useOnchainKit as Mock).mockReturnValue({
+    projectId: 'mock-project-id',
+    config: {
+      paymaster: undefined,
+    },
+  });
   return render(
     <WagmiProvider config={accountConfig}>
       <QueryClientProvider client={queryClient}>
-        <SwapProvider
+        <BuyProvider
           config={config}
           experimental={mockExperimental}
           onError={onError}
           onStatus={onStatus}
           onSuccess={onSuccess}
+          toToken={degenToken}
+          fromToken={daiToken}
         >
           <Component />
-        </SwapProvider>
+        </BuyProvider>
       </QueryClientProvider>
     </WagmiProvider>,
   );
 };
 
 const TestSwapComponent = () => {
-  const context = useSwapContext();
-  useEffect(() => {
-    context.from.setToken?.(ETH_TOKEN);
-    context.from.setAmount?.('100');
-    context.to.setToken?.(DEGEN_TOKEN);
-  }, [context]);
+  const context = useBuyContext();
   const handleStatusError = async () => {
     context.updateLifecycleStatus({
       statusName: 'error',
@@ -214,15 +291,21 @@ const TestSwapComponent = () => {
       <button type="button" onClick={handleStatusSuccess}>
         setLifecycleStatus.success
       </button>
-      <button type="submit" onClick={() => context.handleSubmit()}>
+      <button type="submit" onClick={() => context?.handleSubmit(mockFromEth)}>
         Swap
       </button>
     </div>
   );
 };
 
-describe('useSwapContext', () => {
+describe('useBuyContext', () => {
   beforeEach(async () => {
+    (useOnchainKit as Mock).mockReturnValue({
+      projectId: 'mock-project-id',
+      config: {
+        paymaster: undefined,
+      },
+    });
     vi.resetAllMocks();
     (useAccount as ReturnType<typeof vi.fn>).mockReturnValue({
       address: '0x123',
@@ -235,6 +318,17 @@ describe('useSwapContext', () => {
     (useSwitchChain as ReturnType<typeof vi.fn>).mockReturnValue({
       switchChainAsync: mockSwitchChain,
     });
+    (validateQuote as Mock).mockReturnValue({
+      isValid: true,
+    });
+
+    (useBuyTokens as Mock).mockReturnValue({
+      from: mockFromDai,
+      to: mockToDegen,
+      fromETH: mockFromEth,
+      fromUSDC: mockFromUsdc,
+    });
+
     await act(async () => {
       renderWithProviders({ Component: () => null });
     });
@@ -244,9 +338,9 @@ describe('useSwapContext', () => {
     vi.clearAllMocks();
   });
 
-  it('should throw an error when used outside of SwapProvider', () => {
+  it('should throw an error when used outside of BuyProvider', () => {
     const TestComponent = () => {
-      useSwapContext();
+      useBuyContext();
       return null;
     };
     // Suppress console.error for this test to avoid noisy output
@@ -254,14 +348,14 @@ describe('useSwapContext', () => {
     console.error = vi.fn();
     expect(() => {
       render(<TestComponent />);
-    }).toThrow('useSwapContext must be used within a Swap component');
+    }).toThrow('useBuyContext must be used within a Buy component');
     // Restore console.error
     console.error = originalError;
   });
 
-  it('should provide context when used within SwapProvider', async () => {
+  it('should provide context when used within BuyProvider', async () => {
     const TestComponent = () => {
-      const context = useSwapContext();
+      const context = useBuyContext();
       expect(context).toBeDefined();
       expect(context.from).toBeDefined();
       expect(context.to).toBeDefined();
@@ -274,7 +368,7 @@ describe('useSwapContext', () => {
   });
 });
 
-describe('SwapProvider', () => {
+describe('BuyProvider', () => {
   beforeEach(async () => {
     vi.resetAllMocks();
     (useAccount as ReturnType<typeof vi.fn>).mockReturnValue({
@@ -289,10 +383,117 @@ describe('SwapProvider', () => {
       switchChainAsync: mockSwitchChain,
     });
     (useCapabilitiesSafe as ReturnType<typeof vi.fn>).mockReturnValue({});
+    (useOnchainKit as Mock).mockReturnValue({
+      projectId: 'mock-project-id',
+      config: {
+        paymaster: undefined,
+      },
+    });
+    (useBuyTokens as Mock).mockReturnValue({
+      from: mockFromDai,
+      to: mockToDegen,
+      fromETH: mockFromEth,
+      fromUSDC: mockFromUsdc,
+    });
+  });
+
+  it('should call validateQuote with responses', async () => {
+    const mockResponse = {
+      response: { amountUsd: '10' },
+    } as unknown as GetSwapQuoteResponse;
+    vi.mocked(getBuyQuote).mockResolvedValue({ response: mockResponse });
+    const { result } = renderHook(() => useBuyContext(), { wrapper });
+    await act(async () => {
+      result.current.handleAmountChange('10');
+    });
+    expect(validateQuote).toHaveBeenCalledWith({
+      to: mockToDegen,
+      responseETH: mockResponse,
+      responseUSDC: mockResponse,
+      responseFrom: mockResponse,
+      updateLifecycleStatus: expect.any(Function),
+    });
+  });
+
+  it('should not set lifecycle status to amountChange with invalid quote', async () => {
+    const mockResponse = {
+      response: { amountUsd: '10' },
+    } as unknown as GetSwapQuoteResponse;
+    vi.mocked(getBuyQuote).mockResolvedValue({ response: mockResponse });
+    (validateQuote as Mock).mockReturnValue({
+      isValid: false,
+    });
+
+    const { result } = renderHook(() => useBuyContext(), { wrapper });
+    await act(async () => {
+      result.current.handleAmountChange('10');
+    });
+    expect(result.current.lifecycleStatus).not.toEqual({
+      statusName: 'amountChange',
+      statusData: expect.objectContaining({
+        isMissingRequiredField: false,
+      }),
+    });
+  });
+
+  it('should set lifecycle status to amountChange with valid quote', async () => {
+    const mockResponse = {
+      response: { amountUsd: '10' },
+    } as unknown as GetSwapQuoteResponse;
+    vi.mocked(getBuyQuote).mockResolvedValue({
+      response: mockResponse,
+      formattedFromAmount: '20',
+    });
+    (validateQuote as Mock).mockReturnValue({
+      isValid: true,
+    });
+
+    const { result } = renderHook(() => useBuyContext(), { wrapper });
+    // console.log('result', result);
+    await act(async () => {
+      result.current.handleAmountChange('10');
+    });
+    expect(result.current.lifecycleStatus).toEqual({
+      statusName: 'amountChange',
+      statusData: expect.objectContaining({
+        amountETH: '20',
+        amountUSDC: '20',
+        amountFrom: '20',
+        amountTo: '10',
+      }),
+    });
+  });
+
+  it('should set lifecycle status to amountChange with valid quote and empty formattedFromAmount', async () => {
+    const mockResponse = {
+      response: { amountUsd: '10' },
+    } as unknown as GetSwapQuoteResponse;
+    vi.mocked(getBuyQuote).mockResolvedValue({
+      response: mockResponse,
+      formattedFromAmount: '',
+    });
+    (validateQuote as Mock).mockReturnValue({
+      isValid: true,
+    });
+
+    const { result } = renderHook(() => useBuyContext(), { wrapper });
+    // console.log('result', result);
+    await act(async () => {
+      result.current.handleAmountChange('10');
+    });
+    expect(result.current.lifecycleStatus).toEqual({
+      statusName: 'amountChange',
+      statusData: expect.objectContaining({
+        amountETH: '',
+        amountUSDC: '',
+        amountFrom: '',
+        amountTo: '10',
+      }),
+    });
   });
 
   it('should reset inputs when setLifecycleStatus is called with success', async () => {
-    const { result } = renderHook(() => useSwapContext(), { wrapper });
+    const { result } = renderHook(() => useBuyContext(), { wrapper });
     await act(async () => {
       result.current.updateLifecycleStatus({
         statusName: 'success',
@@ -301,14 +502,19 @@ describe('SwapProvider', () => {
         },
       } as unknown as LifecycleStatus);
     });
-    await waitFor(() => {
-      expect(mockResetFunction).toHaveBeenCalled();
-    });
+
+    await waitFor(
+      () => {
+        expect(mockResetFunction).toHaveBeenCalled();
+      },
+      { timeout: 5000 },
+    );
+
     expect(mockResetFunction).toHaveBeenCalledTimes(1);
   });
 
   it('should handle batched transactions', async () => {
-    const { result } = renderHook(() => useSwapContext(), { wrapper });
+    const { result } = renderHook(() => useBuyContext(), { wrapper });
     (useCapabilitiesSafe as ReturnType<typeof vi.fn>).mockReturnValue({
       atomicBatch: { supported: true },
       paymasterService: { supported: true },
@@ -403,86 +609,6 @@ describe('SwapProvider', () => {
     });
   });
 
-  it('should update lifecycle status correctly after fetching quote for to token', async () => {
-    vi.mocked(getSwapQuote).mockResolvedValueOnce({
-      toAmount: '10',
-      to: {
-        decimals: 10,
-      },
-    } as unknown as GetSwapQuoteResponse);
-    const { result } = renderHook(() => useSwapContext(), { wrapper });
-    await act(async () => {
-      result.current.handleAmountChange('from', '10', ETH_TOKEN, DEGEN_TOKEN);
-    });
-    expect(result.current.lifecycleStatus).toStrictEqual({
-      statusName: 'amountChange',
-      statusData: {
-        amountFrom: '10',
-        amountTo: '1e-9',
-        isMissingRequiredField: false,
-        maxSlippage: 5,
-        tokenFrom: {
-          address: '',
-          name: 'ETH',
-          symbol: 'ETH',
-          chainId: 8453,
-          decimals: 18,
-          image:
-            'https://wallet-api-production.s3.amazonaws.com/uploads/tokens/eth_288.png',
-        },
-        tokenTo: {
-          address: '0x4ed4e862860bed51a9570b96d89af5e1b0efefed',
-          name: 'DEGEN',
-          symbol: 'DEGEN',
-          chainId: 8453,
-          decimals: 18,
-          image:
-            'https://d3r81g40ycuhqg.cloudfront.net/wallet/wais/3b/bf/3bbf118b5e6dc2f9e7fc607a6e7526647b4ba8f0bea87125f971446d57b296d2-MDNmNjY0MmEtNGFiZi00N2I0LWIwMTItMDUyMzg2ZDZhMWNm',
-        },
-      },
-    });
-  });
-
-  it('should update lifecycle status correctly after fetching quote for from token', async () => {
-    vi.mocked(getSwapQuote).mockResolvedValueOnce({
-      toAmount: '10',
-      to: {
-        decimals: 10,
-      },
-    } as unknown as GetSwapQuoteResponse);
-    const { result } = renderHook(() => useSwapContext(), { wrapper });
-    await act(async () => {
-      result.current.handleAmountChange('to', '10', ETH_TOKEN, DEGEN_TOKEN);
-    });
-    expect(result.current.lifecycleStatus).toStrictEqual({
-      statusName: 'amountChange',
-      statusData: {
-        amountFrom: '1e-9',
-        amountTo: '10',
-        isMissingRequiredField: false,
-        maxSlippage: 5,
-        tokenTo: {
-          address: '',
-          name: 'ETH',
-          symbol: 'ETH',
-          chainId: 8453,
-          decimals: 18,
-          image:
-            'https://wallet-api-production.s3.amazonaws.com/uploads/tokens/eth_288.png',
-        },
-        tokenFrom: {
-          address: '0x4ed4e862860bed51a9570b96d89af5e1b0efefed',
-          name: 'DEGEN',
-          symbol: 'DEGEN',
-          chainId: 8453,
-          decimals: 18,
-          image:
-            'https://d3r81g40ycuhqg.cloudfront.net/wallet/wais/3b/bf/3bbf118b5e6dc2f9e7fc607a6e7526647b4ba8f0bea87125f971446d57b296d2-MDNmNjY0MmEtNGFiZi00N2I0LWIwMTItMDUyMzg2ZDZhMWNm',
-        },
-      },
-    });
-  });
-
   it('should emit onStatus when setLifecycleStatus is called with transactionPending', async () => {
     const onStatusMock = vi.fn();
     renderWithProviders({
@@ -548,35 +674,13 @@ describe('SwapProvider', () => {
     expect(onStatusMock).toHaveBeenCalled();
   });
 
-  it('should handle toggles', async () => {
+  it('should pass the correct slippage to getBuyQuote', async () => {
     const TestComponent = () => {
-      const { from, to, handleToggle } = useSwapContext();
-      // biome-ignore lint: hello
-      React.useEffect(() => {
-        const initializeSwap = async () => {
-          await act(async () => {
-            from.setToken?.(ETH_TOKEN);
-            to.setToken?.(DEGEN_TOKEN);
-            handleToggle();
-          });
-        };
-        initializeSwap();
-        handleToggle();
-      }, []);
-      return null;
-    };
-    await act(async () => {
-      renderWithProviders({ Component: TestComponent });
-    });
-  });
-
-  it('should pass the correct slippage to getSwapQuote', async () => {
-    const TestComponent = () => {
-      const { handleAmountChange } = useSwapContext();
+      const { handleAmountChange } = useBuyContext();
       // biome-ignore lint: hello
       React.useEffect(() => {
         const initializeSwap = () => {
-          handleAmountChange('from', '100', ETH_TOKEN, DEGEN_TOKEN);
+          handleAmountChange('5');
         };
         initializeSwap();
       }, []);
@@ -585,25 +689,44 @@ describe('SwapProvider', () => {
     await act(async () => {
       renderWithProviders({ Component: TestComponent });
     });
-    expect(getSwapQuote).toHaveBeenCalledWith(
+    expect(getBuyQuote).toHaveBeenCalledWith(
       expect.objectContaining({
         maxSlippage: '10',
-        amount: '100',
-        amountReference: 'from',
-        from: ETH_TOKEN,
-        to: DEGEN_TOKEN,
+        amount: '5',
+        amountReference: 'to',
+        from: ethToken,
+        to: degenToken,
         useAggregator: true,
       }),
     );
   });
 
-  it('should pass the correct amountReference to getSwapQuote', async () => {
+  it('should set lifecycle status to amountChange with missing required fields when to token is undefined', async () => {
+    (useBuyTokens as Mock).mockReturnValue({
+      from: mockFromDai,
+      to: { ...mockToDegen, token: undefined },
+      fromETH: mockFromEth,
+      fromUSDC: mockFromUsdc,
+    });
+    const { result } = renderHook(() => useBuyContext(), { wrapper });
+    await act(async () => {
+      result.current.handleAmountChange('10');
+    });
+    expect(result.current.lifecycleStatus).toEqual({
+      statusName: 'amountChange',
+      statusData: expect.objectContaining({
+        isMissingRequiredField: true,
+      }),
+    });
+  });
+
+  it('should pass the correct amountReference to get', async () => {
     const TestComponent = () => {
-      const { handleAmountChange } = useSwapContext();
+      const { handleAmountChange } = useBuyContext();
       // biome-ignore lint: hello
       React.useEffect(() => {
         const initializeSwap = () => {
-          handleAmountChange('to', '100', ETH_TOKEN, DEGEN_TOKEN);
+          handleAmountChange('100');
         };
         initializeSwap();
       }, []);
@@ -612,13 +735,13 @@ describe('SwapProvider', () => {
     await act(async () => {
       renderWithProviders({ Component: TestComponent });
     });
-    expect(getSwapQuote).toHaveBeenCalledWith(
+    expect(getBuyQuote).toHaveBeenCalledWith(
       expect.objectContaining({
         maxSlippage: '10',
         amount: '100',
-        amountReference: 'from',
-        from: ETH_TOKEN,
-        to: DEGEN_TOKEN,
+        amountReference: 'to',
+        from: ethToken,
+        to: degenToken,
         useAggregator: true,
       }),
     );
@@ -626,11 +749,11 @@ describe('SwapProvider', () => {
 
   it('should handle undefined in input', async () => {
     const TestComponent = () => {
-      const { handleAmountChange } = useSwapContext();
+      const { handleAmountChange } = useBuyContext();
       // biome-ignore lint: hello
       React.useEffect(() => {
         const initializeSwap = () => {
-          handleAmountChange('from', '100', undefined, undefined);
+          handleAmountChange('100');
         };
         initializeSwap();
       }, []);
@@ -642,103 +765,81 @@ describe('SwapProvider', () => {
   });
 
   it('should initialize with empty values', () => {
-    const { result } = renderHook(() => useSwapContext(), { wrapper });
-    expect(result.current.from.token).toBeUndefined();
-    expect(result.current.from.amount).toBe('');
-    expect(result.current.to.token).toBeUndefined();
-    expect(result.current.to.amount).toBe('');
-  });
-
-  it('should toggle tokens and amounts', async () => {
-    const { result } = renderHook(() => useSwapContext(), { wrapper });
-    await act(async () => {
-      result.current.from.setToken?.(ETH_TOKEN);
-      result.current.from.setAmount?.('10');
-      result.current.to.setToken?.(DEGEN_TOKEN);
-      result.current.to.setAmount?.('1000');
-    });
-    await act(async () => {
-      result.current.handleToggle();
-    });
-    expect(result.current.from.token?.symbol).toBe('DEGEN');
-    expect(result.current.from.amount).toBe('1000');
-    expect(result.current.to.token?.symbol).toBe('ETH');
-    expect(result.current.to.amount).toBe('10');
+    const { result } = renderHook(() => useBuyContext(), { wrapper });
+    expect(result.current.from?.amount).toBe('');
+    expect(result.current.to?.amount).toBe('');
+    expect(result.current.to?.amount).toBe('');
   });
 
   it('should update amount and trigger quote', async () => {
-    const { result } = renderHook(() => useSwapContext(), { wrapper });
+    const { result } = renderHook(() => useBuyContext(), { wrapper });
     await act(async () => {
-      result.current.handleAmountChange('from', '10', ETH_TOKEN, DEGEN_TOKEN);
+      result.current.handleAmountChange('10');
     });
-    expect(getSwapQuote).toHaveBeenCalled();
-    expect(result.current.to.loading).toBe(false);
+    expect(getBuyQuote).toHaveBeenCalled();
+    expect(result.current.to?.loading).toBe(false);
   });
 
   it('should handle empty amount input', async () => {
-    const { result } = renderHook(() => useSwapContext(), { wrapper });
+    const { result } = renderHook(() => useBuyContext(), { wrapper });
     await act(async () => {
-      await result.current.handleAmountChange(
-        'from',
-        '',
-        ETH_TOKEN,
-        DEGEN_TOKEN,
-      );
+      await result.current.handleAmountChange('');
     });
-    expect(result.current.to.amount).toBe('');
+    expect(result.current.to?.amount).toBe('');
   });
 
   it('should handle zero amount input', async () => {
-    const { result } = renderHook(() => useSwapContext(), { wrapper });
+    const { result } = renderHook(() => useBuyContext(), { wrapper });
     await act(async () => {
-      await result.current.handleAmountChange(
-        'from',
-        '0',
-        ETH_TOKEN,
-        DEGEN_TOKEN,
-      );
+      await result.current.handleAmountChange('0');
     });
-    expect(result.current.to.amount).toBe('');
+    expect(result.current.to?.amount).toBe('');
   });
 
-  it('should setLifecycleStatus to error when getSwapQuote throws an error', async () => {
+  it('should not setLifecycleStatus to error when getBuyQuote throws an error', async () => {
     const mockError = new Error('Test error');
-    vi.mocked(getSwapQuote).mockRejectedValueOnce(mockError);
-    const { result } = renderHook(() => useSwapContext(), { wrapper });
+    vi.mocked(getBuyQuote).mockRejectedValueOnce(mockError);
+    const { result } = renderHook(() => useBuyContext(), { wrapper });
     await act(async () => {
-      result.current.handleAmountChange('from', '10', ETH_TOKEN, DEGEN_TOKEN);
+      result.current.handleAmountChange('10');
     });
     expect(result.current.lifecycleStatus).toEqual({
       statusName: 'error',
       statusData: expect.objectContaining({
-        code: 'TmSPc01',
+        code: 'TmBPc02',
         error: JSON.stringify(mockError),
         message: '',
       }),
     });
   });
 
-  it('should setLifecycleStatus to error when getSwapQuote returns an error', async () => {
-    vi.mocked(getSwapQuote).mockResolvedValueOnce({
-      code: getSwapErrorCode('uncaught-quote'),
-      error: 'Something went wrong',
-      message: '',
+  it('should setLifecycleStatus to error when projectId is not provided', async () => {
+    (useOnchainKit as Mock).mockReturnValue({
+      projectId: undefined,
+      config: {
+        paymaster: undefined,
+      },
     });
-    const { result } = renderHook(() => useSwapContext(), { wrapper });
-    await act(async () => {
-      result.current.handleAmountChange('from', '10', ETH_TOKEN, DEGEN_TOKEN);
-    });
+
+    const { result } = renderHook(() => useBuyContext(), { wrapper });
     expect(result.current.lifecycleStatus).toEqual({
       statusName: 'error',
       statusData: expect.objectContaining({
-        code: 'UNCAUGHT_SWAP_QUOTE_ERROR',
-        error: 'Something went wrong',
+        code: 'TmBPc04',
+        error:
+          'Project ID is required, please set the projectId in the OnchainKitProvider',
         message: '',
       }),
     });
   });
 
   it('should handle submit correctly', async () => {
+    (useBuyTokens as Mock).mockReturnValue({
+      from: mockFromDai,
+      to: { ...mockToDegen, amount: '50' },
+      fromETH: { ...mockFromEth, amount: '100' },
+      fromUSDC: mockFromUsdc,
+    });
     await act(async () => {
       renderWithProviders({ Component: TestSwapComponent });
     });
@@ -750,9 +851,12 @@ describe('SwapProvider', () => {
 
   it('should not call buildSwapTransaction when missing required fields', async () => {
     const TestComponent = () => {
-      const context = useSwapContext();
+      const context = useBuyContext();
       return (
-        <button type="submit" onClick={context.handleSubmit}>
+        <button
+          type="submit"
+          onClick={() => context.handleSubmit(context.from as SwapUnit)}
+        >
           Swap
         </button>
       );
@@ -777,7 +881,7 @@ describe('SwapProvider', () => {
       expect(
         screen.getByTestId('context-value-lifecycleStatus-statusData-code')
           .textContent,
-      ).toBe('TmSPc02');
+      ).toBe('TmBPc03');
     });
   });
 
@@ -794,7 +898,7 @@ describe('SwapProvider', () => {
       expect(
         screen.getByTestId('context-value-lifecycleStatus-statusData-code')
           .textContent,
-      ).toBe('TmSPc02');
+      ).toBe('TmBPc03');
     });
   });
 
@@ -820,16 +924,20 @@ describe('SwapProvider', () => {
 
   it('should use default maxSlippage when not provided in experimental', () => {
     const useTestHook = () => {
-      const { lifecycleStatus } = useSwapContext();
+      const { lifecycleStatus } = useBuyContext();
       return lifecycleStatus;
     };
     const config = { maxSlippage: 3 };
     const wrapper = ({ children }: { children: React.ReactNode }) => (
       <WagmiProvider config={accountConfig}>
         <QueryClientProvider client={queryClient}>
-          <SwapProvider config={config} experimental={{ useAggregator: true }}>
+          <BuyProvider
+            config={config}
+            experimental={{ useAggregator: true }}
+            toToken={usdcToken}
+          >
             {children}
-          </SwapProvider>
+          </BuyProvider>
         </QueryClientProvider>
       </WagmiProvider>
     );

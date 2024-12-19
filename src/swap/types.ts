@@ -93,9 +93,13 @@ export type LifecycleStatus =
   | {
       statusName: 'amountChange';
       statusData: {
-        amountFrom: string;
+        amountFrom?: string;
+        amountETH?: string;
+        amountUSDC?: string;
         amountTo: string;
         tokenFrom?: Token;
+        tokenFromETH?: Token;
+        tokenFromUSDC?: Token;
         tokenTo?: Token;
       } & LifecycleStatusDataShared;
     }
@@ -201,7 +205,7 @@ export type SwapButtonReact = {
   disabled?: boolean; // Disables swap button
 };
 
-type SwapConfig = {
+export type SwapConfig = {
   maxSlippage: number; // Maximum acceptable slippage for a swap. (default: 10) This is as a percent, not basis points;
 };
 
