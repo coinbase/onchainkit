@@ -65,7 +65,7 @@ export const useOnrampEventListeners = ({
     return () => {
       unsubscribe();
     };
-  }, [handleOnrampEvent, handleOnrampSuccess, lifecycleStatus?.statusName]);
+  }, [handleOnrampEvent, handleOnrampSuccess]);
 
   return { onPopupClose };
 };

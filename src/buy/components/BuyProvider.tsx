@@ -99,6 +99,7 @@ export function BuyProvider({
   const { onPopupClose } = useOnrampEventListeners({
     updateLifecycleStatus,
     maxSlippage: config.maxSlippage,
+    lifecycleStatus,
   });
 
   // used to detect when the popup is closed in order to stop loading state
