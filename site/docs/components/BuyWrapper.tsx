@@ -2,21 +2,17 @@
 import type { BuildSwapTransaction } from '@coinbase/onchainkit/swap';
 import type { Token } from '@coinbase/onchainkit/token';
 import { type ReactNode, useCallback } from 'react';
-import type { Address } from 'viem';
-import { useAccount } from 'wagmi';
 
-type SwapComponentsChildren = {
-  // address: Address | undefined;
+type BuyComponentsChildren = {
   toToken: Token;
   onSubmit: (b: BuildSwapTransaction) => void;
 };
 
-type SwapComponentsReact = {
-  children: (props: SwapComponentsChildren) => ReactNode;
+type BuyComponentsReact = {
+  children: (props: BuyComponentsChildren) => ReactNode;
 };
 
-export default function BuyComponents({ children }: SwapComponentsReact) {
-  // const { address } = useAccount();
+export default function BuyComponents({ children }: BuyComponentsReact) {
 
   const degenToken: Token = {
     name: 'DEGEN',
@@ -32,7 +28,7 @@ export default function BuyComponents({ children }: SwapComponentsReact) {
 
   return (
     <main className="flex flex-col">
-      <div className="flex items-center space-x-4">
+      <div className="flex w-full flex-col items-center justify-center gap-4 rounded-xl px-2 py-4 md:grow h-36">
         {children({ toToken: degenToken, onSubmit })}
       </div>
     </main>
