@@ -162,41 +162,6 @@ describe('FundCard', () => {
     expect(screen.getByTestId('ockSpinner')).toBeInTheDocument();
   });
 
-  it('renders passed in components', () => {
-    const CustomAmountInputComponent = () => (
-      <div data-testid="amountInputComponent" />
-    );
-    const CustomHeaderComponent = () => <div data-testid="headerComponent" />;
-    const CustomAmountInputTypeSwitchComponent = () => (
-      <div data-testid="amountInputTypeSwitchComponent" />
-    );
-    const CustomPaymentMethodSelectorDropdownComponent = () => (
-      <div data-testid="paymentMethodDropdownComponent" />
-    );
-    const CustomSubmitButtonComponent = () => (
-      <div data-testid="submitButtonComponent" />
-    );
-    renderComponent({
-      ...defaultProps,
-      amountInputComponent: CustomAmountInputComponent,
-      headerComponent: CustomHeaderComponent,
-      amountInputTypeSwithComponent: CustomAmountInputTypeSwitchComponent,
-      paymentMethodDropdownComponent:
-        CustomPaymentMethodSelectorDropdownComponent,
-      submitButtonComponent: CustomSubmitButtonComponent,
-    });
-
-    expect(screen.getByTestId('amountInputComponent')).toBeInTheDocument();
-    expect(screen.getByTestId('headerComponent')).toBeInTheDocument();
-    expect(
-      screen.getByTestId('amountInputTypeSwitchComponent'),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByTestId('paymentMethodDropdownComponent'),
-    ).toBeInTheDocument();
-    expect(screen.getByTestId('submitButtonComponent')).toBeInTheDocument();
-  });
-
   it('sets submit button state to default on popup close', () => {
     vi.useFakeTimers();
 

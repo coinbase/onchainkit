@@ -31,9 +31,11 @@ export const FundCardAmountInput = ({
         const fiatValue = truncateDecimalPlaces(value, 2);
         setFiatValue(fiatValue);
 
+        const truncatedValue = truncateDecimalPlaces(value, 2);
+
         // Calculate the crypto value based on the exchange rate
         const calculatedCryptoValue = String(
-          Number(value) * Number(exchangeRate),
+          Number(truncatedValue) * Number(exchangeRate),
         );
 
         const resultCryptoValue = truncateDecimalPlaces(
@@ -44,9 +46,11 @@ export const FundCardAmountInput = ({
       } else {
         setCryptoValue(value);
 
+        const truncatedValue = truncateDecimalPlaces(value, 8);
+
         // Calculate the fiat value based on the exchange rate
         const calculatedFiatValue = String(
-          Number(value) / Number(exchangeRate),
+          Number(truncatedValue) / Number(exchangeRate),
         );
         const resultFiatValue = truncateDecimalPlaces(calculatedFiatValue, 2);
         setFiatValue(resultFiatValue === '0' ? '' : resultFiatValue);
@@ -115,7 +119,7 @@ export const FundCardAmountInput = ({
         <input
           className={cn(
             text.body,
-            'border-[none] bg-transparent',
+            'border-none bg-transparent',
             'text-[3.75rem] leading-none outline-none',
           )}
           type="number"
@@ -148,7 +152,7 @@ export const FundCardAmountInput = ({
         ref={hiddenSpanRef}
         className={cn(
           text.body,
-          'border-[none] bg-transparent',
+          'border-none bg-transparent',
           'text-[3.75rem] leading-none outline-none',
         )}
         style={{

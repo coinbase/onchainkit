@@ -4,6 +4,7 @@ import { getRoundedAmount } from '../../core/utils/getRoundedAmount';
 import { Skeleton } from '../../internal/components/Skeleton';
 import { cn, color, pressable, text } from '../../styles/theme';
 import type { FundCardAmountInputTypeSwitchPropsReact } from '../types';
+import { truncateDecimalPlaces } from '../utils/truncateDecimalPlaces';
 
 export const FundCardAmountInputTypeSwitch = ({
   selectedInputType,
@@ -21,12 +22,16 @@ export const FundCardAmountInputTypeSwitch = ({
   };
 
   const formatUSD = useCallback((amount: string) => {
-    if (!amount || amount === '0') {
-      return null;
-    }
-    const roundedAmount = Number(getRoundedAmount(amount, 2));
-    return `$${roundedAmount.toFixed(2)}`;
+    const roundedAmount = Number(getRoundedAmount(amount || '0', 2));
+    return `$${roundedAmount}`;
   }, []);
+
+  const formatCrypto = useCallback(
+    (amount: string) => {
+      return `${truncateDecimalPlaces(amount || '0', 8)} ${selectedAsset}`;
+    },
+    [selectedAsset],
+  );
 
   const exchangeRateLine = useMemo(() => {
     return (
@@ -43,17 +48,21 @@ export const FundCardAmountInputTypeSwitch = ({
     );
   }, [formatUSD, exchangeRate, selectedAsset]);
 
-  const cryptoAmountLine = useMemo(() => {
+  const amountLine = useMemo(() => {
     return (
       <span className={cn(text.label1)}>
-        {Number(fundAmountCrypto).toFixed(8)} {selectedAsset}
+        {selectedInputType === 'fiat'
+          ? formatCrypto(fundAmountCrypto)
+          : formatUSD(fundAmountFiat)}
       </span>
     );
-  }, [fundAmountCrypto, selectedAsset]);
-
-  const fiatAmountLine = useMemo(() => {
-    return <span className={cn(text.label1)}>{formatUSD(fundAmountFiat)}</span>;
-  }, [formatUSD, fundAmountFiat]);
+  }, [
+    fundAmountCrypto,
+    fundAmountFiat,
+    selectedInputType,
+    formatUSD,
+    formatCrypto,
+  ]);
 
   if (isLoading || !exchangeRate) {
     return <Skeleton className="h-[1.625rem]" />;
@@ -74,7 +83,7 @@ export const FundCardAmountInputTypeSwitch = ({
         <div className="h-[1.125rem] w-[1.125rem]">{iconSvg}</div>
       </button>
       <div className="w-[390px] truncate">
-        {selectedInputType === 'fiat' ? cryptoAmountLine : fiatAmountLine}
+        {amountLine}
         {exchangeRateLine}
       </div>
     </div>

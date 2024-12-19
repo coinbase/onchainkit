@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { background, border, cn } from '../../styles/theme';
 
 import { useOutsideClick } from '@/ui-react/internal/hooks/useOutsideClick';
@@ -32,11 +32,6 @@ export function FundCardPaymentMethodDropdown({
   const dropdownRef = useRef<HTMLDivElement>(null);
   const dropdownContainerRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
-
-  // biome-ignore lint/correctness/useExhaustiveDependencies: This useEffect is only called once
-  useEffect(() => {
-    setSelectedPaymentMethod(paymentMethods[0]);
-  }, []);
 
   useOutsideClick(dropdownContainerRef, () => {
     if (isOpen) {

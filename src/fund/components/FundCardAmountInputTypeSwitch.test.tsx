@@ -16,7 +16,7 @@ describe('FundCardAmountInputTypeSwitch', () => {
         exchangeRate={1}
       />,
     );
-    expect(screen.getByText('200.00000000 ETH')).toBeInTheDocument();
+    expect(screen.getByText('200 ETH')).toBeInTheDocument();
   });
 
   it('renders fiat amount when selectedInputType is crypto', () => {
@@ -31,7 +31,7 @@ describe('FundCardAmountInputTypeSwitch', () => {
         exchangeRate={2}
       />,
     );
-    expect(screen.getByText('$100.00')).toBeInTheDocument();
+    expect(screen.getByText('$100')).toBeInTheDocument();
   });
 
   it('toggles input type on button click', () => {

@@ -25,10 +25,7 @@ export const FundCardPaymentMethodSelectRow = memo(
       >
         <span className="flex items-center gap-3">
           {!hideImage && (
-            <FundCardPaymentMethodImage
-              paymentMethod={paymentMethod}
-              size={28}
-            />
+            <FundCardPaymentMethodImage paymentMethod={paymentMethod} />
           )}
           <span className="flex flex-col items-start">
             <span className={cn(text.headline)}>{paymentMethod.name}</span>
