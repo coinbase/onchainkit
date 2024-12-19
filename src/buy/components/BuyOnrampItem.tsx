@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 import { appleSvg } from '../../internal/svg/appleSvg';
 import { cardSvg } from '../../internal/svg/cardSvg';
 import { coinbaseLogoSvg } from '../../internal/svg/coinbaseLogoSvg';
-import { cn, color } from '../../styles/theme';
+import { cn, color, text } from '../../styles/theme';
 import { useBuyContext } from './BuyProvider';
 
 type OnrampItemReact = {
@@ -37,6 +37,7 @@ export function BuyOnrampItem({
       className={cn(
         'flex items-center gap-2 rounded-lg p-2',
         'hover:bg-[var(--ock-bg-inverse)]',
+        text.label2,
       )}
       onClick={handleClick}
       type="button"
