@@ -1,5 +1,5 @@
 import type { Address } from 'viem';
-import type { Call } from '../../../transaction/types';
+import type { Call } from '../../../core-react/transaction/types';
 import { buildMintTransaction as buildMintTransactionApi } from '../../api/buildMintTransaction';
 import type { BuildMintTransactionParams } from '../../api/types';
 

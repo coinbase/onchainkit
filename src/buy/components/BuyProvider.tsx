@@ -1,3 +1,5 @@
+import { GENERIC_ERROR_MESSAGE } from '@/core/transaction/constants';
+import { isUserRejectedRequestError } from '@/core/transaction/utils/isUserRejectedRequestError';
 import {
   createContext,
   useCallback,
@@ -19,8 +21,6 @@ import { useLifecycleStatus } from '../../swap/hooks/useLifecycleStatus';
 import type { SwapUnit } from '../../swap/types';
 import { isSwapError } from '../../swap/utils/isSwapError';
 import { processSwapTransaction } from '../../swap/utils/processSwapTransaction';
-import { GENERIC_ERROR_MESSAGE } from '../../transaction/constants';
-import { isUserRejectedRequestError } from '../../transaction/utils/isUserRejectedRequestError';
 import { useBuyTokens } from '../hooks/useBuyTokens';
 import { useOnrampEventListeners } from '../hooks/useOnrampEventListeners';
 import { usePopupMonitor } from '../hooks/usePopupMonitor';
