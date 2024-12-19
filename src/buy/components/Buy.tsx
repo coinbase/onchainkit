@@ -40,6 +40,7 @@ export function Buy({
     maxSlippage: FALLBACK_DEFAULT_MAX_SLIPPAGE,
   },
   className,
+  disabled = false,
   experimental = { useAggregator: false },
   isSponsored = false,
   onError,
@@ -51,6 +52,7 @@ export function Buy({
   return (
     <BuyProvider
       config={config}
+      disabled={disabled}
       experimental={experimental}
       isSponsored={isSponsored}
       onError={onError}
