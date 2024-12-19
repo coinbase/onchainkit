@@ -52,7 +52,12 @@ const mockContextValue = {
 describe('BuyDropdown', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    (useBuyContext as Mock).mockReturnValue(mockContextValue);
+    (useBuyContext as Mock).mockReturnValue({
+      ...mockContextValue,
+      fromETH: { token: ethToken, amount: '10' },
+      fromUSDC: { token: usdcToken, amount: '10' },
+      from: { token: { symbol: 'DAI' }, amount: '10' },
+    });
     (useOnchainKit as Mock).mockReturnValue({
       projectId: 'mock-project-id',
     });

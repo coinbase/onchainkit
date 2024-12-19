@@ -22,6 +22,9 @@ export function BuyTokenItem({ swapUnit }: { swapUnit?: SwapUnit }) {
     Number.parseFloat(swapUnit.balance) < Number.parseFloat(swapUnit.amount);
 
   const roundedAmount = useMemo(() => {
+    if (!swapUnit.amount) {
+      return '';
+    }
     return getRoundedAmount(swapUnit.amount, 10);
   }, [swapUnit.amount]);
 
