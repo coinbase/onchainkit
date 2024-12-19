@@ -84,4 +84,23 @@ describe('BuyOnrampItem', () => {
     expect(button).toHaveClass('flex items-center gap-2 rounded-lg p-2');
     expect(button).toHaveAttribute('type', 'button');
   });
+
+  it('should show overlay on mouse enter', () => {
+    const { getByTestId, getByText, queryByText } = render(
+      <BuyOnrampItem
+        name="Apple Pay"
+        description="Fast and secure payments."
+        onClick={mockOnClick}
+        icon="applePay"
+      />,
+    );
+
+    fireEvent.mouseEnter(getByTestId('ockBuyApplePayInfo'));
+
+    expect(getByText('Only on mobile and Safari')).toBeInTheDocument();
+
+    fireEvent.mouseLeave(getByTestId('ockBuyApplePayInfo'));
+
+    expect(queryByText('Only on mobile and Safari')).toBeNull();
+  });
 });
