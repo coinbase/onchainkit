@@ -1,4 +1,5 @@
 import { findComponent } from '@/core-react/internal/utils/findComponent';
+import { Children, useMemo } from 'react';
 import { useTheme } from '../../core-react/internal/hooks/useTheme';
 import { background, border, cn, color, text } from '../../styles/theme';
 import { DEFAULT_PAYMENT_METHODS } from '../constants';
@@ -13,19 +14,14 @@ import { FundCardHeader } from './FundCardHeader';
 import { FundCardPaymentMethodDropdown } from './FundCardPaymentMethodDropdown';
 import { FundCardProvider } from './FundCardProvider';
 import { useFundContext } from './FundCardProvider';
-import { Children, useMemo } from 'react';
 
 export function FundCard({
   children,
   assetSymbol,
   buttonText = 'Buy',
   headerText,
-  // amountInputComponent = FundCardAmountInput,
-  // headerComponent = FundCardHeader,
-  // amountInputTypeSwithComponent = FundCardAmountInputTypeSwitch,
-  // paymentMethodDropdownComponent = FundCardPaymentMethodDropdown,
   paymentMethods = DEFAULT_PAYMENT_METHODS,
-}: // submitButtonComponent = FundButton,
+}:
 FundCardPropsReact) {
   const componentTheme = useTheme();
 
@@ -86,14 +82,12 @@ function FundCardContent({
   assetSymbol,
   buttonText = 'Buy',
   headerText,
-  amountInputComponent, //: AmountInputComponent = FundCardAmountInput,
-  headerComponent, //: HeaderComponent = FundCardHeader,
+  amountInputComponent,
+  headerComponent,
   amountInputTypeSwithComponent,
-  //AmountInputTypeSwitchComponent = FundCardAmountInputTypeSwitch,
   paymentMethodDropdownComponent,
-  //PaymentMethodSelectorDropdownComponent = FundCardPaymentMethodDropdown,
   paymentMethods = DEFAULT_PAYMENT_METHODS,
-  submitButtonComponent, //: SubmitButtonComponent = FundButton,
+  submitButtonComponent,
 }: FundCardContentPropsReact) {
   /**
    * Fetches and sets the exchange rate for the asset

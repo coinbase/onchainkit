@@ -1,3 +1,4 @@
+import { usePopupMonitor } from '@/buy/hooks/usePopupMonitor';
 import { openPopup } from '@/ui-react/internal/utils/openPopup';
 import { useCallback, useMemo } from 'react';
 import { useTheme } from '../../core-react/internal/hooks/useTheme';
@@ -9,7 +10,6 @@ import { border, cn, color, icon, pressable, text } from '../../styles/theme';
 import { useGetFundingUrl } from '../hooks/useGetFundingUrl';
 import type { FundButtonReact } from '../types';
 import { getFundingPopupSize } from '../utils/getFundingPopupSize';
-import { usePopupMonitor } from '@/buy/hooks/usePopupMonitor';
 
 export function FundButton({
   className,
