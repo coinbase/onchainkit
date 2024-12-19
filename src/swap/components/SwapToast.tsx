@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { cn, color, icon, text } from '../../styles/theme';
+import { cn, color, text } from '../../styles/theme';
 
 import { useAccount } from 'wagmi';
 import { getChainExplorer } from '../../core/network/getChainExplorer';
