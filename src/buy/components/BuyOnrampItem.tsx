@@ -44,7 +44,9 @@ export function BuyOnrampItem({
 
   // TODO: Remove after figuring out how to hide Apple Pay on desktop
   const tooltip = useMemo(() => {
-    if (name !== 'Apple Pay') return null;
+    if (name !== 'Apple Pay') {
+      return null;
+    }
     return (
       <>
         <div
@@ -58,7 +60,7 @@ export function BuyOnrampItem({
         {isOverlayVisible && (
           <div
             className={cn(
-              'absolute top-0 right-0 translate-y-[-140%] translate-x-[100%] flex',
+              'absolute top-0 right-0 flex translate-x-[100%] translate-y-[-140%]',
               'whitespace-nowrap p-2',
               border.radius,
               background.inverse,
@@ -70,7 +72,7 @@ export function BuyOnrampItem({
         )}
       </>
     );
-  }, [isOverlayVisible, name]);
+  }, [isOverlayVisible, name, showOverlay, hideOverlay]);
 
   return (
     <button
@@ -87,7 +89,7 @@ export function BuyOnrampItem({
         {ONRAMP_ICON_MAP[icon]}
       </div>
       <div className="flex flex-col items-start">
-        <div className="flex items-center gap-1 relative">
+        <div className="relative flex items-center gap-1">
           <div>{name}</div>
           {tooltip}
         </div>
