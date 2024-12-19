@@ -1,4 +1,4 @@
-import { cn, color } from '../../styles/theme';
+import { cn, color, text } from '../../styles/theme';
 import { isSwapError } from '../../swap/utils/isSwapError';
 import { useBuyContext } from './BuyProvider';
 
@@ -16,7 +16,7 @@ export function BuyMessage() {
         ? color.foregroundMuted
         : color.error;
 
-    return <div className={cn(textColor, 'text-sm')}>{message}</div>;
+    return <div className={cn(textColor, text.label2)}>{message}</div>;
   }
 
   return null;
