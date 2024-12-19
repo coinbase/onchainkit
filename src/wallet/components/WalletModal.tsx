@@ -14,6 +14,7 @@ import {
   pressable,
   text,
 } from '../../styles/theme';
+import { phantomConnector } from '../utils/phantomConnector';
 
 type WalletModalProps = {
   isOpen: boolean;
@@ -124,6 +125,19 @@ export function WalletModal({
       );
     }
   }, [connect, onClose, onError, appName, appLogo]);
+
+  const handlePhantomConnection = useCallback(() => {
+    try {
+      const phantom = phantomConnector();
+      connect({ connector: phantom });
+      onClose();
+    } catch (error) {
+      console.error('Phantom connection error:', error);
+      onError?.(
+        error instanceof Error ? error : new Error('Failed to connect wallet'),
+      );
+    }
+  }, [connect, onClose, onError]);
 
   const handleLinkKeyDown = (
     event: React.KeyboardEvent<HTMLAnchorElement>,
@@ -275,6 +289,25 @@ export function WalletModal({
           >
             MetaMask
             <div className="-mr-0.5 flex h-5 w-5 items-center justify-center">
+              {metamaskSvg}
+            </div>
+          </button>
+
+          <button
+            type="button"
+            onClick={handlePhantomConnection}
+            className={cn(
+              border.radius,
+              background.default,
+              text.body,
+              pressable.alternate,
+              color.foreground,
+              'flex items-center justify-between px-4 py-3 text-left',
+            )}
+          >
+            Phantom
+            <div className="-mr-0.5 flex h-5 w-5 items-center justify-center">
+              {/* TODO: Update */}
               {metamaskSvg}
             </div>
           </button>
