@@ -5,7 +5,7 @@ import { useAccount } from 'wagmi';
 import { getRoundedAmount } from '../../core/utils/getRoundedAmount';
 import { ONRAMP_BUY_URL } from '../../fund/constants';
 import { getFundingPopupSize } from '../../fund/utils/getFundingPopupSize';
-import { background, cn, color, text } from '../../styles/theme';
+import { background, border, cn, color, text } from '../../styles/theme';
 import { ONRAMP_PAYMENT_METHODS } from '../constants';
 import { BuyOnrampItem } from './BuyOnrampItem';
 import { useBuyContext } from './BuyProvider';
@@ -80,7 +80,8 @@ export function BuyDropdown() {
         color.foreground,
         background.default,
         'absolute right-0 bottom-0 flex translate-y-[102%] flex-col gap-2',
-        'z-10 min-w-80 rounded rounded-lg border p-2',
+        'z-10 min-w-80 rounded border p-2',
+        border.radius,
       )}
     >
       <div className="px-2 pt-2">Buy with</div>
