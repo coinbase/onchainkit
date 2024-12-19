@@ -2,7 +2,7 @@ import type { ContractFunctionParameters, TransactionReceipt } from 'viem';
 import type { Address } from 'viem';
 import type { Config } from 'wagmi';
 import type { PayTransaction } from '../core/api/types';
-import type { TransactionError } from '../transaction';
+import type { TransactionError } from '../ui/react/transaction';
 
 /**
  * List of Pay lifecycle statuses.
