@@ -43,15 +43,18 @@ export function BuyTokenItem({ swapUnit }: { swapUnit?: SwapUnit }) {
       <div
         className={cn(
           'flex flex-col items-start',
-          hasInsufficientBalance ? color.error : color.foreground,
+          hasInsufficientBalance ? color.foregroundMuted : color.foreground,
         )}
       >
         <div>
           {roundedAmount} {swapUnit.token.name}
         </div>
         <div
-          className={cn('text-xs', color.foregroundMuted)}
-        >{`Balance: ${roundedBalance}`}</div>
+          className={cn(
+            'text-xs',
+            hasInsufficientBalance ? color.error : color.foregroundMuted,
+          )}
+        >{`${hasInsufficientBalance ? 'Insufficient balance' : 'Balance'}: ${roundedBalance}`}</div>
       </div>
     </button>
   );
