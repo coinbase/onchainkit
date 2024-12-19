@@ -8,7 +8,6 @@ import {
 } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useAccount } from 'wagmi';
-
 import {
   IdentityProvider,
   useIdentityContext,
