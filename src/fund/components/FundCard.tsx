@@ -21,8 +21,7 @@ export function FundCard({
   buttonText = 'Buy',
   headerText,
   paymentMethods = DEFAULT_PAYMENT_METHODS,
-}:
-FundCardPropsReact) {
+}: FundCardPropsReact) {
   const componentTheme = useTheme();
 
   const {
