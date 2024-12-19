@@ -9,10 +9,7 @@ export function FundCardHeader({
 
   return (
     <div
-      className={cn(
-        'font-display text-[16px]',
-        'leading-none outline-none',
-      )}
+      className={cn('font-display text-[16px]', 'leading-none outline-none')}
       data-testid="fundCardHeader"
     >
       {headerText || defaultHeaderText}

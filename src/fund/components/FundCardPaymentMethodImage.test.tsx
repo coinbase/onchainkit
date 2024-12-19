@@ -73,15 +73,22 @@ describe('FundCardPaymentMethodImage', () => {
         size={48}
         paymentMethod={{
           icon: 'customIcon',
-          id:'ACH_BANK_ACCOUNT',
+          id: 'ACH_BANK_ACCOUNT',
           name: 'Custom Account',
           description: 'Custom description',
         }}
       />,
     );
-    const container = screen.getByTestId('fundCardPaymentMethodImage__iconContainer');
+    const container = screen.getByTestId(
+      'fundCardPaymentMethodImage__iconContainer',
+    );
     expect(container).toHaveClass('custom-class');
-    expect(container).toHaveStyle({ width: '48px', height: '48px', minWidth: '48px', minHeight: '48px' });
+    expect(container).toHaveStyle({
+      width: '48px',
+      height: '48px',
+      minWidth: '48px',
+      minHeight: '48px',
+    });
   });
 
   it('does not apply primary color for non-coinbasePay icons', () => {
@@ -96,7 +103,9 @@ describe('FundCardPaymentMethodImage', () => {
         }}
       />,
     );
-    const container = screen.getByTestId('fundCardPaymentMethodImage__iconContainer');
+    const container = screen.getByTestId(
+      'fundCardPaymentMethodImage__iconContainer',
+    );
     expect(container).not.toHaveClass('primary');
   });
 });

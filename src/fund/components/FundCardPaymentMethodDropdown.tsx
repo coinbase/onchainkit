@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { background, border, cn } from '../../styles/theme';
 
+import { useOutsideClick } from '@/ui-react/internal/hooks/useOutsideClick';
 import type {
   FundCardPaymentMethodDropdownPropsReact,
   PaymentMethodReact,
@@ -8,7 +9,6 @@ import type {
 import { FundCardPaymentMethodSelectRow } from './FundCardPaymentMethodSelectRow';
 import { FundCardPaymentMethodSelectorToggle } from './FundCardPaymentMethodSelectorToggle';
 import { useFundContext } from './FundCardProvider';
-import { useOutsideClick } from '@/ui-react/internal/hooks/useOutsideClick';
 
 export function FundCardPaymentMethodDropdown({
   paymentMethods,

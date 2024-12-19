@@ -45,18 +45,14 @@ export const FundCardAmountInputTypeSwitch = ({
 
   const cryptoAmountLine = useMemo(() => {
     return (
-      <span className={cn( text.label1)}>
+      <span className={cn(text.label1)}>
         {Number(fundAmountCrypto).toFixed(8)} {selectedAsset}
       </span>
     );
   }, [fundAmountCrypto, selectedAsset]);
 
   const fiatAmountLine = useMemo(() => {
-    return (
-      <span className={cn(text.label1)}>
-        {formatUSD(fundAmountFiat)}
-      </span>
-    );
+    return <span className={cn(text.label1)}>{formatUSD(fundAmountFiat)}</span>;
   }, [formatUSD, fundAmountFiat]);
 
   if (isLoading || !exchangeRate) {
@@ -77,7 +73,7 @@ export const FundCardAmountInputTypeSwitch = ({
       >
         <div className="h-[1.125rem] w-[1.125rem]">{iconSvg}</div>
       </button>
-      <div className='w-[390px] truncate'>
+      <div className="w-[390px] truncate">
         {selectedInputType === 'fiat' ? cryptoAmountLine : fiatAmountLine}
         {exchangeRateLine}
       </div>

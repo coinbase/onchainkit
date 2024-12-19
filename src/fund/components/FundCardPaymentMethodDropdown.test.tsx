@@ -110,18 +110,25 @@ describe('FundCardPaymentMethodDropdown', () => {
 
   it('closes the dropdown when Escape key is pressed', () => {
     renderComponent();
-    const toggleButton = screen.getByTestId('ockFundCardPaymentMethodSelectorToggle');
-    
+    const toggleButton = screen.getByTestId(
+      'ockFundCardPaymentMethodSelectorToggle',
+    );
+
     act(() => {
       toggleButton.click();
     });
-    expect(screen.getByTestId('ockFundCardPaymentMethodDropdown')).toBeInTheDocument();
-    
-    act(() => {
-      fireEvent.keyUp(screen.getByTestId('ockFundCardPaymentMethodDropdown'), { key: 'Escape' });
-    });
-    
-    expect(screen.queryByTestId('ockFundCardPaymentMethodDropdown')).not.toBeInTheDocument();
-  });
+    expect(
+      screen.getByTestId('ockFundCardPaymentMethodDropdown'),
+    ).toBeInTheDocument();
 
+    act(() => {
+      fireEvent.keyUp(screen.getByTestId('ockFundCardPaymentMethodDropdown'), {
+        key: 'Escape',
+      });
+    });
+
+    expect(
+      screen.queryByTestId('ockFundCardPaymentMethodDropdown'),
+    ).not.toBeInTheDocument();
+  });
 });

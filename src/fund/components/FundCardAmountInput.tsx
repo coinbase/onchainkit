@@ -1,9 +1,9 @@
 import { type ChangeEvent, useCallback, useEffect, useRef } from 'react';
 import { cn, text } from '../../styles/theme';
 import type { FundCardAmountInputPropsReact } from '../types';
-import { FundCardCurrencyLabel } from './FundCardCurrencyLabel';
 import { formatDecimalInputValue } from '../utils/formatDecimalInputValue';
 import { truncateDecimalPlaces } from '../utils/truncateDecimalPlaces';
+import { FundCardCurrencyLabel } from './FundCardCurrencyLabel';
 
 export const FundCardAmountInput = ({
   fiatValue,
@@ -83,7 +83,11 @@ export const FundCardAmountInput = ({
   };
 
   return (
-    <div className='flex cursor-text py-6' onClick={handleFocusInput} onKeyUp={handleFocusInput}>
+    <div
+      className="flex cursor-text py-6"
+      onClick={handleFocusInput}
+      onKeyUp={handleFocusInput}
+    >
       <style>
         {`
           input[type="number"]::-webkit-inner-spin-button,

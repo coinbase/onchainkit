@@ -96,9 +96,9 @@ export function FundButton({
       case 'loading':
         return '';
       case 'success':
-        return <SuccessSvg className={cn(icon.inverse)}/>
+        return <SuccessSvg className={cn(icon.inverse)} />;
       case 'error':
-        return  <ErrorSvg className={cn(icon.inverse)}/>
+        return <ErrorSvg className={cn(icon.inverse)} />;
       default:
         return <AddSvg />;
     }

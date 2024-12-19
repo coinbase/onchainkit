@@ -1,4 +1,4 @@
-import type { PaymentMethodReact } from "./types";
+import type { PaymentMethodReact } from './types';
 
 export const DEFAULT_ONRAMP_URL = 'https://pay.coinbase.com';
 // The base URL for the Coinbase Onramp widget.

@@ -40,9 +40,7 @@ export function SwapToast({
       isVisible={isToastVisible}
       onClose={resetToastState}
     >
-      <div className={cn(text.label2, icon.success)}>
-      {successSvg}
-      </div>
+      <div className={cn(text.label2, icon.success)}>{successSvg}</div>
       <div className={cn(text.label1, 'text-nowrap')}>
         <p className={color.foreground}>Successful</p>
       </div>
