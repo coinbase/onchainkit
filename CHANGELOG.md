@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.36.2
+
+### Patch Changes
+
+- ecd3d0e: - **feat**: Added Buy component. By @abcrane123. #1729
+- cf80456: -**docs**: Auto logged in components on landing page. @cpcramer #1754
+
 ## 0.36.1
 
 ### Patch Changes
