@@ -24,7 +24,9 @@ describe('WalletDropdownDisconnect', () => {
 
   it('renders correctly with default props', () => {
     render(<WalletDropdownDisconnect />);
-    expect(screen.getByText('Disconnect')).toBeInTheDocument();
+    expect(
+      screen.getByText('Disconnect', { selector: 'span' }),
+    ).toBeInTheDocument();
     expect(screen.getByRole('button')).toBeInTheDocument();
   });
 
