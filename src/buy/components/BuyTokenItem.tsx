@@ -50,10 +50,7 @@ export function BuyTokenItem({ swapUnit }: { swapUnit?: SwapUnit }) {
           {roundedAmount} {swapUnit.token.name}
         </div>
         <div
-          className={cn(
-            'text-xs',
-            hasInsufficientBalance ? color.error : color.foregroundMuted,
-          )}
+          className={cn('text-xs', color.foregroundMuted)}
         >{`Balance: ${roundedBalance}`}</div>
       </div>
     </button>
