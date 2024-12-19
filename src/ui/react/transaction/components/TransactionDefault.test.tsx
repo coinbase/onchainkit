@@ -1,13 +1,13 @@
-import { render, screen } from '@testing-library/react';
-import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
-import { useAccount, useSwitchChain } from 'wagmi';
-import { useShowCallsStatus } from 'wagmi/experimental';
+import { useTransactionContext } from '@/core-react/transaction/providers/TransactionProvider';
 import type {
   TransactionDefaultReact,
   TransactionProviderReact,
 } from '@/core-react/transaction/types';
+import { render, screen } from '@testing-library/react';
+import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
+import { useAccount, useSwitchChain } from 'wagmi';
+import { useShowCallsStatus } from 'wagmi/experimental';
 import { TransactionDefault } from './TransactionDefault';
-import { useTransactionContext } from '@/core-react/transaction/providers/TransactionProvider';
 
 vi.mock('@/core-react/internal/hooks/useTheme', () => ({
   useTheme: vi.fn(),

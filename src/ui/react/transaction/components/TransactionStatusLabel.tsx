@@ -1,6 +1,6 @@
-import { cn, text } from '@/styles/theme';
 import { useGetTransactionStatusLabel } from '@/core-react/transaction/hooks/useGetTransactionStatusLabel';
 import type { TransactionStatusLabelReact } from '@/core-react/transaction/types';
+import { cn, text } from '@/styles/theme';
 
 export function TransactionStatusLabel({
   className,

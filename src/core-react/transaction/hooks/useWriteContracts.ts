@@ -3,8 +3,8 @@ import {
   GENERIC_ERROR_MESSAGE,
   METHOD_NOT_SUPPORTED_ERROR_SUBSTRING,
 } from '../../../core/transaction/constants';
-import type { UseWriteContractsParams } from '../types';
 import { isUserRejectedRequestError } from '../../../core/transaction/utils/isUserRejectedRequestError';
+import type { UseWriteContractsParams } from '../types';
 
 /**
  * useWriteContracts: Experimental Wagmi hook for batching transactions.

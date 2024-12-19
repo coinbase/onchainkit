@@ -1,6 +1,6 @@
+import { useGetTransactionToastLabel } from '@/core-react/transaction/hooks/useGetTransactionToastLabel';
 import { render, screen } from '@testing-library/react';
 import { type Mock, describe, expect, it, vi } from 'vitest';
-import { useGetTransactionToastLabel } from '@/core-react/transaction/hooks/useGetTransactionToastLabel';
 import { TransactionToastLabel } from './TransactionToastLabel';
 
 vi.mock('@/core-react/transaction/hooks/useGetTransactionToastLabel', () => ({

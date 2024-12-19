@@ -1,9 +1,9 @@
+import { useTransactionContext } from '@/core-react/transaction/providers/TransactionProvider';
+import { getChainExplorer } from '@/core/network/getChainExplorer';
 import { renderHook } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useChainId } from 'wagmi';
 import { useShowCallsStatus } from 'wagmi/experimental';
-import { getChainExplorer } from '@/core/network/getChainExplorer';
-import { useTransactionContext } from '@/core-react/transaction/providers/TransactionProvider';
 import { useGetTransactionToastAction } from './useGetTransactionToastAction';
 
 vi.mock('@/core-react/transaction/providers/TransactionProvider', () => ({

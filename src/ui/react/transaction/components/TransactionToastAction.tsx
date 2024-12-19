@@ -1,6 +1,6 @@
+import type { TransactionToastActionReact } from '../../../../core-react/transaction/types';
 import { cn, text } from '../../../../styles/theme';
 import { useGetTransactionToastAction } from '../hooks/useGetTransactionToastAction';
-import type { TransactionToastActionReact } from '../../../../core-react/transaction/types';
 
 export function TransactionToastAction({
   className,

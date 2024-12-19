@@ -1,3 +1,5 @@
+import { GENERIC_ERROR_MESSAGE } from '@/core/transaction/constants';
+import { isUserRejectedRequestError } from '@/core/transaction/utils/isUserRejectedRequestError';
 import {
   createContext,
   useCallback,
@@ -26,8 +28,6 @@ import { useResetBuyInputs } from '../hooks/useResetBuyInputs';
 import type { BuyContextType, BuyProviderReact } from '../types';
 import { getBuyQuote } from '../utils/getBuyQuote';
 import { validateQuote } from '../utils/validateQuote';
-import { GENERIC_ERROR_MESSAGE } from '@/core/transaction/constants';
-import { isUserRejectedRequestError } from '@/core/transaction/utils/isUserRejectedRequestError';
 
 const emptyContext = {} as BuyContextType;
 

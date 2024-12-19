@@ -1,6 +1,6 @@
-import { cn, color, text } from '@/styles/theme';
-import type { TransactionSponsorReact } from '@/core-react/transaction/types';
 import { useTransactionContext } from '@/core-react/transaction/providers/TransactionProvider';
+import type { TransactionSponsorReact } from '@/core-react/transaction/types';
+import { cn, color, text } from '@/styles/theme';
 
 export function TransactionSponsor({ className }: TransactionSponsorReact) {
   const {

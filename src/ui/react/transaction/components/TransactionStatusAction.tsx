@@ -1,6 +1,6 @@
+import type { TransactionStatusActionReact } from '../../../../core-react/transaction/types';
 import { cn, text } from '../../../../styles/theme';
 import { useGetTransactionStatusAction } from '../hooks/useGetTransactionStatusAction';
-import type { TransactionStatusActionReact } from '../../../../core-react/transaction/types';
 
 export function TransactionStatusAction({
   className,

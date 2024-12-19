@@ -1,9 +1,9 @@
+import { GENERIC_ERROR_MESSAGE } from '@/core/transaction/constants';
+import { isUserRejectedRequestError } from '@/core/transaction/utils/isUserRejectedRequestError';
 import { renderHook } from '@testing-library/react';
 import type { TransactionExecutionError } from 'viem';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useSendCalls as useSendCallsWagmi } from 'wagmi/experimental';
-import { GENERIC_ERROR_MESSAGE } from '@/core/transaction/constants';
-import { isUserRejectedRequestError } from '@/core/transaction/utils/isUserRejectedRequestError';
 import { useSendCalls } from './useSendCalls';
 
 vi.mock('wagmi/experimental', () => ({

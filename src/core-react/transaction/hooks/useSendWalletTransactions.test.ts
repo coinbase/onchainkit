@@ -1,8 +1,8 @@
 import type { Call } from '@/core-react/transaction/types';
-import { renderHook } from '@testing-library/react';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { sendBatchedTransactions } from '@/core/transaction/utils/sendBatchedTransactions';
 import { sendSingleTransactions } from '@/core/transaction/utils/sendSingleTransactions';
+import { renderHook } from '@testing-library/react';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { useSendWalletTransactions } from './useSendWalletTransactions';
 
 // Mock the utility functions

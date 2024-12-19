@@ -1,7 +1,7 @@
-import { useSendCalls as useSendCallsWagmi } from 'wagmi/experimental';
 import { GENERIC_ERROR_MESSAGE } from '@/core/transaction/constants';
-import type { UseSendCallsParams } from '../types';
 import { isUserRejectedRequestError } from '@/core/transaction/utils/isUserRejectedRequestError';
+import { useSendCalls as useSendCallsWagmi } from 'wagmi/experimental';
+import type { UseSendCallsParams } from '../types';
 
 /**
  * useSendCalls: Experimental Wagmi hook for batching transactions with calldata.

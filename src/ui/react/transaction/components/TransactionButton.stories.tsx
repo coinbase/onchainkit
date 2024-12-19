@@ -2,8 +2,8 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { baseSepolia } from 'viem/chains';
 import { http, WagmiProvider, createConfig } from 'wagmi';
-import { TransactionButton } from './TransactionButton';
 import { TransactionProvider } from '../../../../core-react/transaction/providers/TransactionProvider';
+import { TransactionButton } from './TransactionButton';
 
 const wagmiConfig = createConfig({
   chains: [baseSepolia],

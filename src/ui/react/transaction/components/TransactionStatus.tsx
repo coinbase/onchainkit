@@ -1,5 +1,5 @@
-import { cn } from '../../../../styles/theme';
 import type { TransactionStatusReact } from '../../../../core-react/transaction/types';
+import { cn } from '../../../../styles/theme';
 
 export function TransactionStatus({
   children,

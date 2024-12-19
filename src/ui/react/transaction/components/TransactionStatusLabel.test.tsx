@@ -1,6 +1,6 @@
+import { useGetTransactionStatusLabel } from '@/core-react/transaction/hooks/useGetTransactionStatusLabel';
 import { render, screen } from '@testing-library/react';
 import { type Mock, describe, expect, it, vi } from 'vitest';
-import { useGetTransactionStatusLabel } from '@/core-react/transaction/hooks/useGetTransactionStatusLabel';
 import { TransactionStatusLabel } from './TransactionStatusLabel';
 
 vi.mock('@/core-react/transaction/hooks/useGetTransactionStatusLabel', () => ({

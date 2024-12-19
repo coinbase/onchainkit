@@ -1,6 +1,6 @@
+import { useTransactionContext } from '@/core-react/transaction/providers/TransactionProvider';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
-import { useTransactionContext } from '@/core-react/transaction/providers/TransactionProvider';
 import { TransactionToast } from './TransactionToast';
 
 vi.mock('@/core-react/transaction/providers/TransactionProvider', () => ({

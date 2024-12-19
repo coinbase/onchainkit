@@ -14,12 +14,12 @@ import type {
   SendTransactionMutateAsync,
   SwitchChainMutateAsync,
 } from 'wagmi/query';
+import type { Call } from '../core-react/transaction/types';
 import type {
   BuildSwapTransaction,
   RawTransactionData,
 } from '../core/api/types';
 import type { Token } from '../token/types';
-import type { Call } from '../core-react/transaction/types';
 
 export type SendSwapTransactionParams = {
   config: Config;

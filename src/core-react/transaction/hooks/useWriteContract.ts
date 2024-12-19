@@ -1,8 +1,8 @@
+import { GENERIC_ERROR_MESSAGE } from '@/core/transaction/constants';
+import { isUserRejectedRequestError } from '@/core/transaction/utils/isUserRejectedRequestError';
 import type { Address } from 'viem';
 import { useWriteContract as useWriteContractWagmi } from 'wagmi';
-import { GENERIC_ERROR_MESSAGE } from '@/core/transaction/constants';
 import type { UseWriteContractParams } from '../types';
-import { isUserRejectedRequestError } from '@/core/transaction/utils/isUserRejectedRequestError';
 
 /**
  * Wagmi hook for single contract transactions.

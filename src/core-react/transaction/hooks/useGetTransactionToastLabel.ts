@@ -1,5 +1,5 @@
-import { useMemo } from 'react';
 import { color } from '@/styles/theme';
+import { useMemo } from 'react';
 import { useTransactionContext } from '../providers/TransactionProvider';
 
 export function useGetTransactionToastLabel() {

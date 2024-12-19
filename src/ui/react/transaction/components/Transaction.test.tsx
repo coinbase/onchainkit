@@ -10,9 +10,9 @@ import {
   vi,
 } from 'vitest';
 
+import { TransactionProvider } from '@/core-react/transaction/providers/TransactionProvider';
 import { useOnchainKit } from '@/core-react/useOnchainKit';
 import { Transaction } from './Transaction';
-import { TransactionProvider } from '@/core-react/transaction/providers/TransactionProvider';
 
 function mock<T>(func: T) {
   return func as Mock;
