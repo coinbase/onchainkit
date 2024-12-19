@@ -87,7 +87,6 @@ export function BuyButton() {
         'h-12 w-24 items-center justify-center px-4 py-3',
         isDisabled && pressable.disabled,
         text.headline,
-        'ock-BuyButton',
       )}
       onClick={handleSubmit}
       data-testid="ockBuyButton_Button"

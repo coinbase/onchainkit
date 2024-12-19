@@ -16,11 +16,7 @@ export function BuyMessage() {
         ? color.foregroundMuted
         : color.error;
 
-    return (
-      <div className={cn(textColor, 'text-sm', 'ock-BuyMessage')}>
-        {message}
-      </div>
-    );
+    return <div className={cn(textColor, 'text-sm')}>{message}</div>;
   }
 
   return null;

@@ -24,12 +24,7 @@ function BuyContent({ className }: { className?: string }) {
   return (
     <div
       ref={buyContainerRef}
-      className={cn(
-        'relative flex flex-col gap-2',
-        componentTheme,
-        'ock-Buy',
-        className,
-      )}
+      className={cn('relative flex flex-col gap-2', componentTheme, className)}
     >
       <div className={cn('flex items-center gap-4')}>
         <BuyAmountInput />
