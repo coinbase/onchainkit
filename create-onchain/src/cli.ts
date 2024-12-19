@@ -14,7 +14,7 @@ import {
 } from './utils.js';
 
 const sourceDir = path.resolve(
-  fileURLToPath(import.meta.url), 
+  path.dirname(fileURLToPath(import.meta.url)), 
   '../../../templates/next'
 );
 
