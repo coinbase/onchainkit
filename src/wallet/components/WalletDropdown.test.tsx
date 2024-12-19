@@ -1,8 +1,13 @@
 import '@testing-library/jest-dom';
-import { render, renderHook, screen, waitFor } from '@testing-library/react';
+import {
+  fireEvent,
+  render,
+  renderHook,
+  screen,
+  waitFor,
+} from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useAccount } from 'wagmi';
-
 import {
   IdentityProvider,
   useIdentityContext,
@@ -13,11 +18,17 @@ import { WalletDropdown } from './WalletDropdown';
 import { useWalletContext } from './WalletProvider';
 
 vi.mock('wagmi', () => ({
-  useAccount: vi.fn(),
+  useAccount: vi.fn().mockReturnValue({ address: '0x123' }),
+  WagmiProvider: ({ children }: { children: React.ReactNode }) => (
+    <>{children}</>
+  ),
 }));
 
 vi.mock('./WalletProvider', () => ({
   useWalletContext: vi.fn(),
+  WalletProvider: ({ children }: { children: React.ReactNode }) => (
+    <>{children}</>
+  ),
 }));
 
 vi.mock('../../ui/react/internal/hooks/useBreakpoints', () => ({
@@ -96,5 +107,59 @@ describe('WalletDropdown', () => {
     await waitFor(() => {
       expect(result.current.address).toEqual(address);
     });
+  });
+
+  it('sets animation classes correctly based on isClosing', () => {
+    useWalletContextMock.mockReturnValue({ isOpen: true, isClosing: false });
+    const { rerender } = render(<WalletDropdown>Content</WalletDropdown>);
+    const dropdown = screen.getByTestId('ockWalletDropdown');
+    expect(dropdown).toHaveClass(
+      'fade-in slide-in-from-top-1.5 animate-in duration-300 ease-out',
+    );
+
+    useWalletContextMock.mockReturnValue({ isOpen: true, isClosing: true });
+    rerender(<WalletDropdown>Content</WalletDropdown>);
+    expect(dropdown).toHaveClass(
+      'fade-out slide-out-to-top-1.5 animate-out fill-mode-forwards ease-in-out',
+    );
+  });
+
+  it('should handle wallet closing correctly', async () => {
+    const mockSetIsOpen = vi.fn();
+    const mockSetIsClosing = vi.fn();
+
+    useWalletContextMock.mockReturnValue({
+      isOpen: true,
+      isClosing: false,
+      setIsOpen: mockSetIsOpen,
+      setIsClosing: mockSetIsClosing,
+    });
+
+    const { rerender } = render(
+      <WalletDropdown>
+        <div>Content</div>
+      </WalletDropdown>,
+    );
+
+    const dropdown = screen.getByTestId('ockWalletDropdown');
+    expect(dropdown).toHaveClass('fade-in slide-in-from-top-1.5');
+
+    useWalletContextMock.mockReturnValue({
+      isOpen: true,
+      isClosing: true,
+      setIsOpen: mockSetIsOpen,
+      setIsClosing: mockSetIsClosing,
+    });
+
+    rerender(
+      <WalletDropdown>
+        <div>Content</div>
+      </WalletDropdown>,
+    );
+
+    fireEvent.animationEnd(dropdown);
+
+    expect(mockSetIsOpen).toHaveBeenCalledWith(false);
+    expect(mockSetIsClosing).toHaveBeenCalledWith(false);
   });
 });
