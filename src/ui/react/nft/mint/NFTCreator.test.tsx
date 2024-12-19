@@ -12,8 +12,8 @@ vi.mock('@/core-react/nft/providers/NFTProvider', () => ({
   useNFTContext: vi.fn(),
 }));
 
-vi.mock('../../../../identity', async () => ({
-  ...(await vi.importActual('../../../../identity')),
+vi.mock('@/ui-react/identity', async () => ({
+  ...(await vi.importActual('@/ui-react/identity')),
   Identity: ({ className }: { className: string }) => (
     <div className={className}>Identity</div>
   ),

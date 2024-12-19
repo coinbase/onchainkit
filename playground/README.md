@@ -18,7 +18,7 @@ Navigate to NextJS (app router) demo app
 cd nextjs-app-router
 ```
 
-Intall dependencies and run app
+Install dependencies and run app
 
 ```bash
 bun build:prepare && bun build:link && bun dev

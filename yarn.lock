@@ -2173,9 +2173,9 @@ __metadata:
     vitest: "npm:^2.0.5"
     wagmi: "npm:^2.12.24"
   peerDependencies:
-    "@types/react": ^18
-    react: ^18
-    react-dom: ^18
+    "@types/react": ^18 || ^19
+    react: ^18 || ^19
+    react-dom: ^18 || ^19
   languageName: unknown
   linkType: soft
 
