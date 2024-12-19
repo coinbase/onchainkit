@@ -1,10 +1,10 @@
+// @ts-nocheck -- made simple fixes for now, will fix rest later
 import { useCapabilitiesSafe } from '@/core-react/internal/hooks/useCapabilitiesSafe';
 import { useCallsStatus } from '@/core-react/transaction/hooks/useCallsStatus';
 import { useSendCall } from '@/core-react/transaction/hooks/useSendCall';
 import { useSendCalls } from '@/core-react/transaction/hooks/useSendCalls';
 import { useSendWalletTransactions } from '@/core-react/transaction/hooks/useSendWalletTransactions';
 import { useOnchainKit } from '@/core-react/useOnchainKit';
-// @ts-nocheck -- made simple fixes for now, will fix rest later
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { base } from 'viem/chains';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
