@@ -4,34 +4,34 @@
 
 ### Patch Changes
 
-- cf80456: - **docs**: Added auto logged in components on landing page. @cpcramer #1754
-  - **feat**: Added Buy component. By @abcrane123. #1729
-  - **fix**: Added support for React 19. By @dschlabach #1763
-  - **fix**: Fixed Tailwind config. By @dschlabach #1763
-  - **docs**: Made docs improvements. By @mdqst @0xwitty @cpcramer #1761 #1762 #1765
-  - **feat**: Added `headerLeftContent` prop to `Swap` component. By @brennancabell #1752
+- **docs**: Added auto logged in components on landing page. @cpcramer #1754
+- **feat**: Added Buy component. By @abcrane123. #1729
+- **fix**: Added support for React 19. By @dschlabach #1763
+- **fix**: Fixed Tailwind config. By @dschlabach #1750
+- **docs**: Made docs improvements. By @mdqst @0xwitty @cpcramer #1761 #1762 #1765
+- **feat**: Added `headerLeftContent` prop to `Swap` component. By @brennancabell #1752
 
 ## 0.36.1
 
 ### Patch Changes
 
-- c7d3cff: - **docs**: Updated `Identity` component preview. By @cpcramer #1717
-  - **docs**: Updated `WalletModal` image size. By @cpcramer #1723
-  - **chore**: Added animation to landing page. By @mindapivessa #1682
-  - **dev**: Fixed test file type errors and set dev aliases. By @dschlabach @alessey #1720
-  - **chore**: Updated WalletModal UI. By @cpcramer #1727
-  - **feat**: Added tailwindcss-animate. By @alessey #1734
-  - **fix**: Fixed onramp listener function bug. By @abcrane123 #1728
-  - **docs**: Fixed typos in docs & README.md. By @Guayaba221 @vtjl10 @omahs @famouswizard @Olexandr88 @mdqst @dschlabach @detrina @Danyylka #1711 #1735 #1736 #1737 #1739 #1745 #1746 #1747 #1743 #1741
-  - **feat**: Added SwapLite util functions. By @abcrane123 #1648
-  - **refactor**: Migrated NFT components to new file structure. By @alessey #1714
-  - **chore**: Renamed SwapLite utils to Buy utils. By @abcrane123 #1742
-  - **feat**: Added QrCode component. By @brendan-defi #1731
-  - **refactor**: Moved web utils to ui/react/internal/utils. By @dschlabach #1716
-  - **feat**: Added Draggable component. By @brendan-defi #1730
-  - **fix**: Fixed development alias. By @alessey #1749
-  - **docs**: Remove redundant header in wallet docs. By @fakepixels #1678
-  - **fix**: Fixed storybook. By @alessey #1753
+- **docs**: Updated `Identity` component preview. By @cpcramer #1717
+- **docs**: Updated `WalletModal` image size. By @cpcramer #1723
+- **chore**: Added animation to landing page. By @mindapivessa #1682
+- **dev**: Fixed test file type errors and set dev aliases. By @dschlabach @alessey #1720
+- **chore**: Updated WalletModal UI. By @cpcramer #1727
+- **feat**: Added tailwindcss-animate. By @alessey #1734
+- **fix**: Fixed onramp listener function bug. By @abcrane123 #1728
+- **docs**: Fixed typos in docs & README.md. By @Guayaba221 @vtjl10 @omahs @famouswizard @Olexandr88 @mdqst @dschlabach @detrina @Danyylka #1711 #1735 #1736 #1737 #1739 #1745 #1746 #1747 #1743 #1741
+- **feat**: Added SwapLite util functions. By @abcrane123 #1648
+- **refactor**: Migrated NFT components to new file structure. By @alessey #1714
+- **chore**: Renamed SwapLite utils to Buy utils. By @abcrane123 #1742
+- **feat**: Added QrCode component. By @brendan-defi #1731
+- **refactor**: Moved web utils to ui/react/internal/utils. By @dschlabach #1716
+- **feat**: Added Draggable component. By @brendan-defi #1730
+- **fix**: Fixed development alias. By @alessey #1749
+- **docs**: Remove redundant header in wallet docs. By @fakepixels #1678
+- **fix**: Fixed storybook. By @alessey #1753
 
 ## 0.36.0
 
