@@ -17,6 +17,7 @@ export function BuyAmountInput() {
       className={cn(
         'flex h-full items-center rounded-lg border px-2 pl-4',
         background.default,
+        'ock-BuyAmountInput',
       )}
     >
       <TextInput
