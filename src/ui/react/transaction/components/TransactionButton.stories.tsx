@@ -3,7 +3,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { baseSepolia } from 'viem/chains';
 import { http, WagmiProvider, createConfig } from 'wagmi';
 import { TransactionButton } from './TransactionButton';
-import { TransactionProvider } from './TransactionProvider';
+import { TransactionProvider } from '../../../../core-react/transaction/providers/TransactionProvider';
 
 const wagmiConfig = createConfig({
   chains: [baseSepolia],

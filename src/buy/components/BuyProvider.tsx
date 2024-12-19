@@ -19,8 +19,6 @@ import { useLifecycleStatus } from '../../swap/hooks/useLifecycleStatus';
 import type { SwapUnit } from '../../swap/types';
 import { isSwapError } from '../../swap/utils/isSwapError';
 import { processSwapTransaction } from '../../swap/utils/processSwapTransaction';
-import { GENERIC_ERROR_MESSAGE } from '../../transaction/constants';
-import { isUserRejectedRequestError } from '../../transaction/utils/isUserRejectedRequestError';
 import { useBuyTokens } from '../hooks/useBuyTokens';
 import { useOnrampEventListeners } from '../hooks/useOnrampEventListeners';
 import { usePopupMonitor } from '../hooks/usePopupMonitor';
@@ -28,6 +26,8 @@ import { useResetBuyInputs } from '../hooks/useResetBuyInputs';
 import type { BuyContextType, BuyProviderReact } from '../types';
 import { getBuyQuote } from '../utils/getBuyQuote';
 import { validateQuote } from '../utils/validateQuote';
+import { GENERIC_ERROR_MESSAGE } from '@/core/transaction/constants';
+import { isUserRejectedRequestError } from '@/core/transaction/utils/isUserRejectedRequestError';
 
 const emptyContext = {} as BuyContextType;
 
