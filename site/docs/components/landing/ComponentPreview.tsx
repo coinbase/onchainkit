@@ -36,6 +36,12 @@ const components: Component[] = [
     description: 'Enable swaps between different cryptocurrencies.',
   },
   {
+    name: 'Buy',
+    component: SwapDemo,
+    code: swapDemoCode,
+    description: 'Enable token purchases.',
+  },
+  {
     name: 'Mint',
     component: NftMintCardDemo,
     code: nftMintCardDemoCode,
