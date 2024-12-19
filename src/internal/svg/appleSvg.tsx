@@ -5,6 +5,8 @@ export const appleSvg = (
     preserveAspectRatio="xMidYMid meet"
     id="Artwork"
     data-testid="appleSvg"
+    width="24"
+    height="24"
   >
     <title>Apple Pay Onramp</title>
     <path
