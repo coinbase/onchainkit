@@ -1,6 +1,6 @@
 import { type ChangeEvent, useCallback, useEffect, useRef } from 'react';
 import { cn, text } from '../../styles/theme';
-import type { FundCardAmountInputPropsReact } from '../types';
+import type { FundCardAmountInputPropsReact, AmountInputSnippetReact } from '../types';
 import { formatDecimalInputValue } from '../utils/formatDecimalInputValue';
 import { truncateDecimalPlaces } from '../utils/truncateDecimalPlaces';
 import { FundCardCurrencyLabel } from './FundCardCurrencyLabel';

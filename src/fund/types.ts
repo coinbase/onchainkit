@@ -328,6 +328,11 @@ export type FundCardPropsReact = {
    * Payment methods to display in the dropdown
    */
   paymentMethods?: PaymentMethodReact[];
+
+  /**
+   * Amount input snippets to display next to the input field: i.e. [$10] [$50] [$100]
+   */
+  amountInputSnippets?: AmountInputSnippetReact[];
 };
 
 export type FundCardContentPropsReact = {

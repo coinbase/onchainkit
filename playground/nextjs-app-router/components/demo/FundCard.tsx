@@ -1,36 +1,37 @@
 import { FundCard } from '@coinbase/onchainkit/fund';
+import type { AmountInputTypeReact } from '../../onchainkit/src/fund/types';
 
 export default function FundCardDemo() {
   const amountInputSnippets = [
     {
       value: '1',
       currencySignOrSymbol: 'ETH',
-      type: 'crypto'
+      type: 'crypto' as AmountInputTypeReact
     },
     {
       value: '2',
       currencySignOrSymbol: 'ETH',
-      type: 'crypto'
+      type: 'crypto' as AmountInputTypeReact
     },
     {
       value: '0.1',
       currencySignOrSymbol: 'ETH',
-      type: 'crypto'
+      type: 'crypto' as AmountInputTypeReact
     },
     {
       value: '100',
       currencySignOrSymbol: '$',
-      type: 'fiat'
+      type: 'fiat' as AmountInputTypeReact
     },
     {
       value: '200',
       currencySignOrSymbol: '$',
-      type: 'fiat'
+      type: 'fiat' as AmountInputTypeReact
     },
     {
       value: '25',
       currencySignOrSymbol: '$',
-      type: 'fiat'
+      type: 'fiat' as AmountInputTypeReact
     },
   ];
   return (
