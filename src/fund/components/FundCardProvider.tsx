@@ -1,3 +1,4 @@
+import { useDebounce } from '@/core-react/internal/hooks/useDebounce';
 import { createContext, useContext, useEffect, useState } from 'react';
 import { useValue } from '../../core-react/internal/hooks/useValue';
 import type {
@@ -5,7 +6,6 @@ import type {
   FundCardProviderReact,
   PaymentMethodReact,
 } from '../types';
-import { useDebounce } from '@/core-react/internal/hooks/useDebounce';
 import { fetchOnrampQuote } from '../utils/fetchOnrampQuote';
 
 type FundCardContextType = {
