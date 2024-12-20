@@ -1,11 +1,11 @@
 'use client';
-import type { BuildSwapTransaction } from '@coinbase/onchainkit/swap';
+import type { SwapError } from '@coinbase/onchainkit/swap';
 import type { Token } from '@coinbase/onchainkit/token';
 import { type ReactNode, useCallback } from 'react';
 
 type BuyComponentsChildren = {
   toToken: Token;
-  onSubmit: (b: BuildSwapTransaction) => void;
+  onError: (e: SwapError) => void;
 };
 
 type BuyComponentsReact = {
@@ -13,7 +13,6 @@ type BuyComponentsReact = {
 };
 
 export default function BuyComponents({ children }: BuyComponentsReact) {
-
   const degenToken: Token = {
     name: 'DEGEN',
     address: '0x4ed4e862860bed51a9570b96d89af5e1b0efefed',
@@ -24,12 +23,14 @@ export default function BuyComponents({ children }: BuyComponentsReact) {
     chainId: 8453,
   };
 
-  const onSubmit = useCallback(() => {}, []);
+  const onError = useCallback((error: SwapError) => {
+    console.log('OnchainKit Docs Buy Error', error);
+  }, []);
 
   return (
     <main className="flex flex-col">
       <div className="flex w-full flex-col items-center justify-center gap-4 rounded-xl px-2 py-4 md:grow h-36">
-        {children({ toToken: degenToken, onSubmit })}
+        {children({ toToken: degenToken, onError })}
       </div>
     </main>
   );
