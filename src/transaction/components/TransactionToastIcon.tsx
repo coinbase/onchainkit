@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { Spinner } from '../../internal/components/Spinner';
-import { errorSvg } from '../../internal/svg/errorSvg';
-import { successSvg } from '../../internal/svg/successSvg';
+import { ErrorSvg } from '../../internal/svg/errorSvg';
+import { SuccessSvg } from '../../internal/svg/successSvg';
 import { cn, text } from '../../styles/theme';
 import type { TransactionToastIconReact } from '../types';
 import { useTransactionContext } from './TransactionProvider';
@@ -14,10 +14,10 @@ export function TransactionToastIcon({ className }: TransactionToastIconReact) {
   const icon = useMemo(() => {
     // txn successful
     if (receipt) {
-      return successSvg;
+      return <SuccessSvg />;
     }
     if (errorMessage) {
-      return errorSvg;
+      return <ErrorSvg />;
     }
     if (isInProgress) {
       return <Spinner className="px-1.5 py-1.5" />;
