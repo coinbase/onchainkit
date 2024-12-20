@@ -3,7 +3,6 @@ import { Children, useMemo } from 'react';
 import { useTheme } from '../../core-react/internal/hooks/useTheme';
 import { background, border, cn, color, text } from '../../styles/theme';
 import { DEFAULT_PAYMENT_METHODS } from '../constants';
-import { useExchangeRate } from '../hooks/useExchangeRate';
 import { useFundCardFundingUrl } from '../hooks/useFundCardFundingUrl';
 import { useFundCardSetupOnrampEventListeners } from '../hooks/useFundCardSetupOnrampEventListeners';
 import type { FundCardContentPropsReact, FundCardPropsReact } from '../types';
@@ -88,11 +87,6 @@ function FundCardContent({
   paymentMethods = DEFAULT_PAYMENT_METHODS,
   submitButtonComponent,
 }: FundCardContentPropsReact) {
-  /**
-   * Fetches and sets the exchange rate for the asset
-   */
-  useExchangeRate(assetSymbol);
-
   const {
     setFundAmountFiat,
     fundAmountFiat,

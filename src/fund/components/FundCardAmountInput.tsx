@@ -107,7 +107,7 @@ export const FundCardAmountInput = ({
         `}
       </style>
 
-      <div className="flex" style={{ height: '78px' }}>
+      <div className="flex h-20">
         {/* Display the fiat currency sign before the input*/}
         {inputType === 'fiat' && currencySign && (
           <FundCardCurrencyLabel
@@ -120,7 +120,7 @@ export const FundCardAmountInput = ({
           className={cn(
             text.body,
             'border-none bg-transparent',
-            'text-[3.75rem] leading-none outline-none',
+            'text-6xl leading-none outline-none',
           )}
           type="number"
           value={value}
@@ -153,7 +153,7 @@ export const FundCardAmountInput = ({
         className={cn(
           text.body,
           'border-none bg-transparent',
-          'text-[3.75rem] leading-none outline-none',
+          'text-6xl leading-none outline-none',
         )}
         style={{
           position: 'absolute',
