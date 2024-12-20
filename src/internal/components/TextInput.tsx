@@ -8,7 +8,7 @@ type TextInputReact = {
   delayMs: number;
   disabled?: boolean;
   // specify 'decimal' to trigger numeric keyboards on mobile devices
-  inputMode?: InputHTMLAttributes<HTMLInputElement>['inputMode']
+  inputMode?: InputHTMLAttributes<HTMLInputElement>['inputMode'];
   onBlur?: () => void;
   onChange: (s: string) => void;
   placeholder: string;

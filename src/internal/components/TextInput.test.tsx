@@ -73,6 +73,9 @@ describe('TextInput', () => {
 
   it('handles inputMode', () => {
     const { getByTestId } = render(<RenderTest inputMode="decimal" />);
-    expect(getByTestId('ockTextInput_Input')).toHaveAttribute('inputMode', 'decimal');
+    expect(getByTestId('ockTextInput_Input')).toHaveAttribute(
+      'inputMode',
+      'decimal',
+    );
   });
 });
