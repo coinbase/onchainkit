@@ -82,7 +82,7 @@ describe('FundCardProvider', () => {
       render(
         <FundCardProvider asset="BTC">
           <TestComponent />
-      </FundCardProvider>,
+        </FundCardProvider>,
       );
     });
 
@@ -91,8 +91,12 @@ describe('FundCardProvider', () => {
 
     // Wait for exchange rate to be set
     await waitFor(() => {
-      expect(screen.getByTestId('exchange-rate').textContent).toBe('0.0008333333333333334');
-      expect(screen.getByTestId('loading-state').textContent).toBe('not-loading');
+      expect(screen.getByTestId('exchange-rate').textContent).toBe(
+        '0.0008333333333333334',
+      );
+      expect(screen.getByTestId('loading-state').textContent).toBe(
+        'not-loading',
+      );
     });
 
     // Verify fetch was called with correct parameters
@@ -101,7 +105,7 @@ describe('FundCardProvider', () => {
       expect.objectContaining({
         method: 'POST',
         body: expect.stringContaining('"purchase_currency":"BTC"'),
-      })
+      }),
     );
   });
 
