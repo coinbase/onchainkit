@@ -16,6 +16,7 @@ import { useBuyContext } from './BuyProvider';
 export function BuyButton() {
   const {
     address,
+    disabled,
     setIsDropdownOpen,
     isDropdownOpen,
     from,
@@ -35,7 +36,7 @@ export function BuyButton() {
     statusName === 'transactionApproved';
 
   const isMissingRequiredField = !to?.amount || !to?.token;
-  const isDisabled = isLoading;
+  const isDisabled = isLoading || disabled;
 
   const handleSubmit = useCallback(() => {
     if (isMissingRequiredField) {

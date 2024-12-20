@@ -46,6 +46,7 @@ export function BuyProvider({
   config = {
     maxSlippage: FALLBACK_DEFAULT_MAX_SLIPPAGE,
   },
+  disabled,
   experimental,
   isSponsored,
   onError,
@@ -132,17 +133,11 @@ export function BuyProvider({
 
   useEffect(() => {
     if (!projectId) {
-      updateLifecycleStatus({
-        statusName: 'error',
-        statusData: {
-          code: 'TmBPc04',
-          error:
-            'Project ID is required, please set the projectId in the OnchainKitProvider',
-          message: '',
-        },
-      });
+      console.error(
+        'Project ID is required for this component, please set the projectId in the OnchainKitProvider',
+      );
     }
-  }, [projectId, updateLifecycleStatus]);
+  }, [projectId]);
 
   useEffect(() => {
     // Reset inputs after status reset. `resetInputs` is dependent
@@ -424,6 +419,7 @@ export function BuyProvider({
   const value = useValue({
     address,
     config,
+    disabled,
     from,
     fromETH,
     fromUSDC,

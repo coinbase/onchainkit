@@ -1,3 +1,4 @@
+import { Tooltip } from '@/ui-react/internal/components/Tooltip';
 import { useCallback } from 'react';
 import { appleSvg } from '../../internal/svg/appleSvg';
 import { cardSvg } from '../../internal/svg/cardSvg';
@@ -47,7 +48,12 @@ export function BuyOnrampItem({
         {ONRAMP_ICON_MAP[icon]}
       </div>
       <div className="flex flex-col items-start">
-        <div>{name}</div>
+        <div className="relative flex items-center gap-1">
+          <div>{name}</div>
+          {name === 'Apple Pay' && (
+            <Tooltip content="Only on mobile and Safari" />
+          )}
+        </div>
         <div className={cn('text-xs', color.foregroundMuted)}>
           {description}
         </div>
