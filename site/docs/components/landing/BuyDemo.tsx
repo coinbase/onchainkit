@@ -28,7 +28,7 @@ function BuyDemo() {
       <AppDemo>
         <BuyWrapper>
           {({ toToken, onError }) => {
-            return <Buy toToken={toToken} onError={onError} disabled />;
+            return <Buy toToken={toToken} onError={onError} disabled={true} />;
           }}
         </BuyWrapper>
       </AppDemo>
