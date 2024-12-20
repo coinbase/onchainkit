@@ -71,4 +71,36 @@ describe('TokenChip Component', () => {
 
     expect(handleClick).toHaveBeenCalledTimes(1);
   });
+
+  it('should render a button if pressable', async () => {
+    const token = {
+      address: '0x123' as Address,
+      chainId: 1,
+      decimals: 2,
+      image: 'imageURL',
+      name: 'Ether',
+      symbol: 'ETH',
+    };
+    const { getByTestId } = render(
+      <TokenChip token={token} onClick={vi.fn()} />,
+    );
+
+    expect(getByTestId('ockTokenChip_Button').tagName).toBe('BUTTON');
+  });
+
+  it('should render a div if non pressable', async () => {
+    const token = {
+      address: '0x123' as Address,
+      chainId: 1,
+      decimals: 2,
+      image: 'imageURL',
+      name: 'Ether',
+      symbol: 'ETH',
+    };
+    const { getByTestId } = render(
+      <TokenChip token={token} isPressable={false} />,
+    );
+
+    expect(getByTestId('ockTokenChip_Button').tagName).toBe('DIV');
+  });
 });
