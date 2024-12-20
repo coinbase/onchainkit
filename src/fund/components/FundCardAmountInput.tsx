@@ -1,10 +1,8 @@
 import { type ChangeEvent, useCallback, useEffect, useRef } from 'react';
-import { useTheme } from '../../core-react/internal/hooks/useTheme';
 import { cn, text } from '../../styles/theme';
-import type {
-  AmountInputSnippetReact,
-  FundCardAmountInputPropsReact,
-} from '../types';
+import type { FundCardAmountInputPropsReact } from '../types';
+import { formatDecimalInputValue } from '../utils/formatDecimalInputValue';
+import { truncateDecimalPlaces } from '../utils/truncateDecimalPlaces';
 import { FundCardCurrencyLabel } from './FundCardCurrencyLabel';
 import { AmountInputSnippet } from './AmountInputSnippet';
 
@@ -19,8 +17,6 @@ export const FundCardAmountInput = ({
   exchangeRate = 1,
   amountInputSnippets,
 }: FundCardAmountInputPropsReact) => {
-  const componentTheme = useTheme();
-
   const inputRef = useRef<HTMLInputElement>(null);
   const hiddenSpanRef = useRef<HTMLSpanElement>(null);
   const currencySpanRef = useRef<HTMLSpanElement>(null);
@@ -32,15 +28,17 @@ export const FundCardAmountInput = ({
       const formattedAmount = formatDecimalInputValue(amount);
 
       if (inputType === 'fiat') {
-        const fiatValue = limitToDecimalPlaces(formattedAmount, 2);
+        const fiatValue = truncateDecimalPlaces(formattedAmount, 2);
         setFiatValue(fiatValue);
+
+        const truncatedValue = truncateDecimalPlaces(formattedAmount, 2);
 
         // Calculate the crypto value based on the exchange rate
         const calculatedCryptoValue = String(
-          Number(formattedAmount) * Number(exchangeRate),
+          Number(truncatedValue) * Number(exchangeRate),
         );
 
-        const resultCryptoValue = limitToDecimalPlaces(
+        const resultCryptoValue = truncateDecimalPlaces(
           calculatedCryptoValue,
           8,
         );
@@ -48,11 +46,13 @@ export const FundCardAmountInput = ({
       } else {
         setCryptoValue(formattedAmount);
 
+        const truncatedValue = truncateDecimalPlaces(formattedAmount, 8);
+
         // Calculate the fiat value based on the exchange rate
         const calculatedFiatValue = String(
-          Number(formattedAmount) / Number(exchangeRate),
+          Number(truncatedValue) / Number(exchangeRate),
         );
-        const resultFiatValue = limitToDecimalPlaces(calculatedFiatValue, 2);
+        const resultFiatValue = truncateDecimalPlaces(calculatedFiatValue, 2);
         setFiatValue(resultFiatValue === '0' ? '' : resultFiatValue);
       }
 
@@ -96,13 +96,21 @@ export const FundCardAmountInput = ({
   // biome-ignore lint/correctness/useExhaustiveDependencies: We only want to focus the input when the input type changes
   useEffect(() => {
     // focus the input when the input type changes
+    handleFocusInput();
+  }, [inputType]);
+
+  const handleFocusInput = () => {
     if (inputRef.current) {
       inputRef.current.focus();
     }
-  }, [inputType]);
+  };
 
   return (
-    <div className="flex py-6">
+    <div
+      className="flex cursor-text py-6"
+      onClick={handleFocusInput}
+      onKeyUp={handleFocusInput}
+    >
       <style>
         {`
           input[type="number"]::-webkit-inner-spin-button,
@@ -129,10 +137,9 @@ export const FundCardAmountInput = ({
 
         <input
           className={cn(
-            componentTheme,
             text.body,
-            'border-[none] bg-transparent',
-            'text-[60px] leading-none outline-none',
+            'border-none bg-transparent',
+            'text-[3.75rem] leading-none outline-none',
           )}
           type="number"
           value={value}
@@ -175,10 +182,9 @@ export const FundCardAmountInput = ({
         data-testid="ockHiddenSpan"
         ref={hiddenSpanRef}
         className={cn(
-          componentTheme,
           text.body,
-          'border-[none] bg-transparent',
-          'text-[60px] leading-none outline-none',
+          'border-none bg-transparent',
+          'text-[3.75rem] leading-none outline-none',
         )}
         style={{
           position: 'absolute',
@@ -194,38 +200,3 @@ export const FundCardAmountInput = ({
 };
 
 export default FundCardAmountInput;
-
-/**
- * Ensure the decimal value is formatted correctly (i.e. "0.1" instead of ".1" and "0.1" instead of "01")
- */
-const formatDecimalInputValue = (value: string) => {
-  let resultValue = value;
-  // Add a leading zero if the value starts with a dot. (i.e. ".1" -> "0.1")
-  if (resultValue[0] === '.') {
-    resultValue = `0${resultValue}`;
-  }
-
-  // Add a leading zero if the value starts with a zero and is not a decimal. (i.e. "01" -> "0.1")
-  if (
-    resultValue.length === 2 &&
-    resultValue[0] === '0' &&
-    resultValue[1] !== '.'
-  ) {
-    resultValue = `${resultValue[0]}.${resultValue[1]}`;
-  }
-
-  return resultValue;
-};
-
-/**
- * Limit the value to N decimal places
- */
-const limitToDecimalPlaces = (value: string, decimalPlaces: number) => {
-  const decimalIndex = value.indexOf('.');
-  let resultValue = value;
-  if (decimalIndex !== -1 && value.length - decimalIndex - 1 > 2) {
-    resultValue = value.substring(0, decimalIndex + decimalPlaces + 1);
-  }
-
-  return resultValue;
-};

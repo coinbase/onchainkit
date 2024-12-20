@@ -1,10 +1,10 @@
 import { useCallback, useMemo } from 'react';
 import { useIcon } from '../../core-react/internal/hooks/useIcon';
-import { useTheme } from '../../core-react/internal/hooks/useTheme';
 import { getRoundedAmount } from '../../core/utils/getRoundedAmount';
 import { Skeleton } from '../../internal/components/Skeleton';
 import { cn, color, pressable, text } from '../../styles/theme';
 import type { FundCardAmountInputTypeSwitchPropsReact } from '../types';
+import { truncateDecimalPlaces } from '../utils/truncateDecimalPlaces';
 
 export const FundCardAmountInputTypeSwitch = ({
   selectedInputType,
@@ -15,8 +15,6 @@ export const FundCardAmountInputTypeSwitch = ({
   exchangeRate,
   isLoading,
 }: FundCardAmountInputTypeSwitchPropsReact) => {
-  const componentTheme = useTheme();
-
   const iconSvg = useIcon({ icon: 'toggle' });
 
   const handleToggle = () => {
@@ -24,12 +22,16 @@ export const FundCardAmountInputTypeSwitch = ({
   };
 
   const formatUSD = useCallback((amount: string) => {
-    if (!amount || amount === '0') {
-      return null;
-    }
-    const roundedAmount = Number(getRoundedAmount(amount, 2));
-    return `$${roundedAmount.toFixed(2)}`;
+    const roundedAmount = Number(getRoundedAmount(amount || '0', 2));
+    return `$${roundedAmount}`;
   }, []);
+
+  const formatCrypto = useCallback(
+    (amount: string) => {
+      return `${truncateDecimalPlaces(amount || '0', 8)} ${selectedAsset}`;
+    },
+    [selectedAsset],
+  );
 
   const exchangeRateLine = useMemo(() => {
     return (
@@ -46,21 +48,21 @@ export const FundCardAmountInputTypeSwitch = ({
     );
   }, [formatUSD, exchangeRate, selectedAsset]);
 
-  const cryptoAmountLine = useMemo(() => {
+  const amountLine = useMemo(() => {
     return (
-      <span className={cn(componentTheme, text.label1)}>
-        {Number(fundAmountCrypto).toFixed(8)} {selectedAsset}
+      <span className={cn(text.label1)}>
+        {selectedInputType === 'fiat'
+          ? formatCrypto(fundAmountCrypto)
+          : formatUSD(fundAmountFiat)}
       </span>
     );
-  }, [fundAmountCrypto, selectedAsset, componentTheme]);
-
-  const fiatAmountLine = useMemo(() => {
-    return (
-      <span className={cn(componentTheme, text.label1)}>
-        {formatUSD(fundAmountFiat)}
-      </span>
-    );
-  }, [formatUSD, fundAmountFiat, componentTheme]);
+  }, [
+    fundAmountCrypto,
+    fundAmountFiat,
+    selectedInputType,
+    formatUSD,
+    formatCrypto,
+  ]);
 
   if (isLoading || !exchangeRate) {
     return <Skeleton className="h-[1.625rem]" />;
@@ -80,20 +82,12 @@ export const FundCardAmountInputTypeSwitch = ({
       >
         <div className="h-[1.125rem] w-[1.125rem]">{iconSvg}</div>
       </button>
-      <div style={textStyle}>
-        {selectedInputType === 'fiat' ? cryptoAmountLine : fiatAmountLine}
-
+      <div className="w-[390px] truncate">
+        {amountLine}
         {exchangeRateLine}
       </div>
     </div>
   );
-};
-
-const textStyle = {
-  textOverflow: 'ellipsis',
-  width: '390px',
-  overflow: 'hidden',
-  whiteSpace: 'nowrap',
 };
 
 export default FundCardAmountInputTypeSwitch;

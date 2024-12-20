@@ -1,3 +1,4 @@
+import { usePopupMonitor } from '@/buy/hooks/usePopupMonitor';
 import { openPopup } from '@/ui-react/internal/utils/openPopup';
 import { useCallback, useMemo } from 'react';
 import { useTheme } from '../../core-react/internal/hooks/useTheme';
@@ -33,6 +34,8 @@ export function FundButton({
   const fundingUrlToRender = fundingUrl ?? fallbackFundingUrl;
   const isDisabled = disabled || !fundingUrlToRender;
 
+  const { startPopupMonitor } = usePopupMonitor(onPopupClose);
+
   const handleClick = useCallback(
     (e: React.MouseEvent) => {
       e.preventDefault();
@@ -50,19 +53,12 @@ export function FundButton({
           target,
         });
 
-        if (!popupWindow) {
-          return null;
+        if (popupWindow) {
+          startPopupMonitor(popupWindow);
         }
-
-        const interval = setInterval(() => {
-          if (popupWindow?.closed) {
-            clearInterval(interval);
-            onPopupClose?.();
-          }
-        }, 500);
       }
     },
-    [fundingUrlToRender, popupSize, target, onPopupClose, onClick],
+    [fundingUrlToRender, popupSize, target, onClick, startPopupMonitor],
   );
 
   const buttonColorClass = useMemo(() => {
@@ -80,7 +76,7 @@ export function FundButton({
   const classNames = cn(
     componentTheme,
     buttonColorClass,
-    'px-4 py-3 inline-flex items-center justify-center space-x-2 disabled',
+    'px-4 py-3 inline-flex items-center justify-center space-x-2',
     isDisabled && pressable.disabled,
     text.headline,
     border.radius,
@@ -117,20 +113,30 @@ export function FundButton({
     }
   }, [buttonState, buttonSuccessText, buttonErrorText, buttonText]);
 
-  const buttonContent = (
-    <>
-      {buttonState === 'loading' && <Spinner />}
-      {/* h-6 is to match the icon height to the line-height set by text.headline */}
-      {buttonIcon && (
-        <span data-testid="ockFundButtonIcon" className="flex h-6 items-center">
-          {buttonIcon}
-        </span>
-      )}
-      {hideText || (
-        <span data-testid="ockFundButtonTextContent">{buttonTextContent}</span>
-      )}
-    </>
-  );
+  const buttonContent = useMemo(() => {
+    if (buttonState === 'loading') {
+      return <Spinner />;
+    }
+
+    return (
+      <>
+        {buttonIcon && (
+          // h-6 is to match the icon height to the line-height set by text.headline
+          <span
+            data-testid="ockFundButtonIcon"
+            className="flex h-6 items-center"
+          >
+            {buttonIcon}
+          </span>
+        )}
+        {hideText || (
+          <span data-testid="ockFundButtonTextContent">
+            {buttonTextContent}
+          </span>
+        )}
+      </>
+    );
+  }, [buttonState, buttonIcon, buttonTextContent, hideText]);
 
   if (openIn === 'tab') {
     return (

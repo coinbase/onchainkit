@@ -1,11 +1,9 @@
-import { useMemo } from 'react';
 import { useIcon } from '../../core-react/internal/hooks/useIcon';
 import { cn, icon as iconTheme } from '../../styles/theme';
 import type { FundCardPaymentMethodImagePropsReact } from '../types';
 
 export function FundCardPaymentMethodImage({
   className,
-  size = 24,
   paymentMethod,
 }: FundCardPaymentMethodImagePropsReact) {
   const { icon } = paymentMethod;
@@ -13,36 +11,7 @@ export function FundCardPaymentMethodImage({
   // Special case for coinbasePay icon color
   const iconColor = icon === 'coinbasePay' ? iconTheme.primary : undefined;
 
-  const iconSvg = useIcon({ icon, className: iconColor });
-
-  const styles = useMemo(() => {
-    return {
-      image: {
-        width: `${size}px`,
-        height: `${size}px`,
-        minWidth: `${size}px`,
-        minHeight: `${size}px`,
-      },
-      placeholderImage: {
-        width: `${size}px`,
-        height: `${size}px`,
-        minWidth: `${size}px`,
-        minHeight: `${size}px`,
-      },
-    };
-  }, [size]);
-
-  if (!iconSvg) {
-    return (
-      <div
-        className={cn('overflow-hidden rounded-full', className)}
-        data-testid="fundCardPaymentMethodImage__noImage"
-        style={styles.image}
-      >
-        <div style={styles.placeholderImage} />
-      </div>
-    );
-  }
+  const iconSvg = useIcon({ icon, className: `${iconColor}` });
 
   return (
     <div
@@ -51,7 +20,6 @@ export function FundCardPaymentMethodImage({
         'flex items-center justify-center overflow-hidden rounded-[50%]',
         className,
       )}
-      style={styles.image}
     >
       {iconSvg}
     </div>

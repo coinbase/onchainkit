@@ -6,10 +6,6 @@ import type { PaymentMethodReact } from '../types';
 import { FundCardPaymentMethodSelectRow } from './FundCardPaymentMethodSelectRow';
 import { FundCardProvider } from './FundCardProvider';
 
-vi.mock('../../core-react/internal/hooks/useTheme', () => ({
-  useTheme: vi.fn(),
-}));
-
 const paymentMethods = [
   {
     icon: 'sampleIcon',

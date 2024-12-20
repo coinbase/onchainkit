@@ -1,14 +1,10 @@
 import '@testing-library/jest-dom';
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { act } from 'react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import type { PaymentMethodReact } from '../types';
 import { FundCardPaymentMethodDropdown } from './FundCardPaymentMethodDropdown';
 import { FundCardProvider } from './FundCardProvider';
-
-vi.mock('../../core-react/internal/hooks/useTheme', () => ({
-  useTheme: vi.fn(),
-}));
 
 const paymentMethods = [
   {
@@ -95,7 +91,6 @@ describe('FundCardPaymentMethodDropdown', () => {
       'ockFundCardPaymentMethodSelectorToggle',
     );
 
-    // Open the dropdown
     act(() => {
       toggleButton.click();
     });
@@ -104,11 +99,34 @@ describe('FundCardPaymentMethodDropdown', () => {
       screen.getByTestId('ockFundCardPaymentMethodDropdown'),
     ).toBeInTheDocument();
 
-    // Click outside
     act(() => {
       document.body.click();
     });
-    // Assert dropdown is closed
+
+    expect(
+      screen.queryByTestId('ockFundCardPaymentMethodDropdown'),
+    ).not.toBeInTheDocument();
+  });
+
+  it('closes the dropdown when Escape key is pressed', () => {
+    renderComponent();
+    const toggleButton = screen.getByTestId(
+      'ockFundCardPaymentMethodSelectorToggle',
+    );
+
+    act(() => {
+      toggleButton.click();
+    });
+    expect(
+      screen.getByTestId('ockFundCardPaymentMethodDropdown'),
+    ).toBeInTheDocument();
+
+    act(() => {
+      fireEvent.keyUp(screen.getByTestId('ockFundCardPaymentMethodDropdown'), {
+        key: 'Escape',
+      });
+    });
+
     expect(
       screen.queryByTestId('ockFundCardPaymentMethodDropdown'),
     ).not.toBeInTheDocument();

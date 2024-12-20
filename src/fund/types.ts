@@ -318,44 +318,43 @@ export type FundCardCurrencyLabelPropsReact = {
 };
 
 export type FundCardPropsReact = {
+  children?: ReactNode;
   assetSymbol: string;
   placeholder?: string | React.ReactNode;
   headerText?: string;
   buttonText?: string;
-  /**
-   * Custom component for the amount input
-   */
-  amountInputComponent?: React.ComponentType<FundCardAmountInputPropsReact>;
-  /**
-   * Custom component for the header
-   */
-  headerComponent?: React.ComponentType<FundCardHeaderPropsReact>;
-
-  /**
-   * Custom component for the amount input type switch
-   */
-  amountInputTypeSwithComponent?: React.ComponentType<FundCardAmountInputTypeSwitchPropsReact>;
-
-  /**
-   * Custom component for the payment method selector dropdown
-   */
-  paymentMethodDropdownComponent?: React.ComponentType<FundCardPaymentMethodDropdownPropsReact>;
-
-  /**
-   * Custom component for the submit button
-   */
-  submitButtonComponent?: React.ComponentType<FundButtonReact>;
 
   /**
    * Payment methods to display in the dropdown
    */
   paymentMethods?: PaymentMethodReact[];
+};
+
+export type FundCardContentPropsReact = {
+  /**
+   * Custom component for the amount input
+   */
+  amountInputComponent?: React.ReactElement<FundCardAmountInputPropsReact>;
+  /**
+   * Custom component for the header
+   */
+  headerComponent?: React.ReactElement<FundCardHeaderPropsReact>;
 
   /**
-   * Amount input snippets to display next to the input field: i.e. [$10] [$50] [$100]
+   * Custom component for the amount input type switch
    */
-  amountInputSnippets?: AmountInputSnippetReact[];
-};
+  amountInputTypeSwithComponent?: React.ReactElement<FundCardAmountInputTypeSwitchPropsReact>;
+
+  /**
+   * Custom component for the payment method selector dropdown
+   */
+  paymentMethodDropdownComponent?: React.ReactElement<FundCardPaymentMethodDropdownPropsReact>;
+
+  /**
+   * Custom component for the submit button
+   */
+  submitButtonComponent?: React.ReactElement<FundButtonReact>;
+} & FundCardPropsReact;
 
 export type FundCardPaymentMethodSelectorTogglePropsReact = {
   className?: string;

@@ -30,9 +30,9 @@
     "watch:tailwind": "tailwind -i ./src/styles/index.css -o ./src/tailwind.css --watch"
   },
   "peerDependencies": {
-    "@types/react": "^18",
-    "react": "^18",
-    "react-dom": "^18"
+    "@types/react": "^18 || ^19",
+    "react": "^18 || ^19",
+    "react-dom": "^18 || ^19"
   },
   "dependencies": {
     "@tanstack/react-query": "^5",
@@ -121,6 +121,12 @@
       "import": "./esm/core/api/index.js",
       "default": "./esm/core/api/index.js"
     },
+    "./buy": {
+      "types": "./esm/buy/index.d.ts",
+      "module": "./esm/buy/index.js",
+      "import": "./esm/buy/index.js",
+      "default": "./esm/buy/index.js"
+    },
     "./checkout": {
       "types": "./esm/checkout/index.d.ts",
       "module": "./esm/checkout/index.js",
@@ -140,10 +146,10 @@
       "default": "./esm/fund/index.js"
     },
     "./identity": {
-      "types": "./esm/identity/index.d.ts",
-      "module": "./esm/identity/index.js",
-      "import": "./esm/identity/index.js",
-      "default": "./esm/identity/index.js"
+      "types": "./esm/ui/react/identity/index.d.ts",
+      "module": "./esm/ui/react/identity/index.js",
+      "import": "./esm/ui/react/identity/index.js",
+      "default": "./esm/ui/react/identity/index.js"
     },
     "./nft": {
       "types": "./esm/ui/react/nft/index.d.ts",

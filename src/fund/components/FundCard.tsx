@@ -1,9 +1,12 @@
+import { findComponent } from '@/core-react/internal/utils/findComponent';
+import { Children, useMemo } from 'react';
 import { useTheme } from '../../core-react/internal/hooks/useTheme';
 import { background, border, cn, color, text } from '../../styles/theme';
+import { DEFAULT_PAYMENT_METHODS } from '../constants';
 import { useExchangeRate } from '../hooks/useExchangeRate';
 import { useFundCardFundingUrl } from '../hooks/useFundCardFundingUrl';
 import { useFundCardSetupOnrampEventListeners } from '../hooks/useFundCardSetupOnrampEventListeners';
-import type { FundCardPropsReact, PaymentMethodReact } from '../types';
+import type { FundCardContentPropsReact, FundCardPropsReact } from '../types';
 import { FundButton } from './FundButton';
 import FundCardAmountInput from './FundCardAmountInput';
 import FundCardAmountInputTypeSwitch from './FundCardAmountInputTypeSwitch';
@@ -12,40 +15,38 @@ import { FundCardPaymentMethodDropdown } from './FundCardPaymentMethodDropdown';
 import { FundCardProvider } from './FundCardProvider';
 import { useFundContext } from './FundCardProvider';
 
-const defaultPaymentMethods: PaymentMethodReact[] = [
-  {
-    id: 'FIAT_WALLET',
-    name: 'Coinbase',
-    description: 'Buy with your Coinbase account',
-    icon: 'coinbasePay',
-  },
-  {
-    id: 'APPLE_PAY',
-    name: 'Apple Pay',
-    description: 'Up to $500/week',
-    icon: 'applePay',
-  },
-  {
-    id: 'ACH_BANK_ACCOUNT',
-    name: 'Debit Card',
-    description: 'Up to $500/week',
-    icon: 'creditCard',
-  },
-];
-
 export function FundCard({
+  children,
   assetSymbol,
   buttonText = 'Buy',
   headerText,
-  amountInputComponent = FundCardAmountInput,
-  headerComponent = FundCardHeader,
-  amountInputTypeSwithComponent = FundCardAmountInputTypeSwitch,
-  paymentMethodDropdownComponent = FundCardPaymentMethodDropdown,
-  paymentMethods = defaultPaymentMethods,
-  submitButtonComponent = FundButton,
-  amountInputSnippets,
+  paymentMethods = DEFAULT_PAYMENT_METHODS,
 }: FundCardPropsReact) {
   const componentTheme = useTheme();
+
+  const {
+    amountInputComponent,
+    headerComponent,
+    amountInputTypeSwithComponent,
+    paymentMethodDropdownComponent,
+    submitButtonComponent,
+  } = useMemo(() => {
+    const childrenArray = Children.toArray(children);
+
+    return {
+      amountInputComponent: childrenArray.find(
+        findComponent(FundCardAmountInput),
+      ),
+      headerComponent: childrenArray.find(findComponent(FundCardHeader)),
+      amountInputTypeSwithComponent: childrenArray.find(
+        findComponent(FundCardAmountInputTypeSwitch),
+      ),
+      paymentMethodDropdownComponent: childrenArray.find(
+        findComponent(FundCardPaymentMethodDropdown),
+      ),
+      submitButtonComponent: childrenArray.find(findComponent(FundButton)),
+    };
+  }, [children]);
 
   return (
     <FundCardProvider asset={assetSymbol}>
@@ -77,20 +78,17 @@ export function FundCard({
   );
 }
 
-export function FundCardContent({
+function FundCardContent({
   assetSymbol,
   buttonText = 'Buy',
   headerText,
-  amountInputComponent: AmountInputComponent = FundCardAmountInput,
-  headerComponent: HeaderComponent = FundCardHeader,
-  amountInputTypeSwithComponent:
-    AmountInputTypeSwitchComponent = FundCardAmountInputTypeSwitch,
-  paymentMethodDropdownComponent:
-    PaymentMethodSelectorDropdownComponent = FundCardPaymentMethodDropdown,
-  paymentMethods = defaultPaymentMethods,
-  submitButtonComponent: SubmitButtonComponent = FundButton,
-  amountInputSnippets,
-}: FundCardPropsReact) {
+  amountInputComponent,
+  headerComponent,
+  amountInputTypeSwithComponent,
+  paymentMethodDropdownComponent,
+  paymentMethods = DEFAULT_PAYMENT_METHODS,
+  submitButtonComponent,
+}: FundCardContentPropsReact) {
   /**
    * Fetches and sets the exchange rate for the asset
    */
@@ -117,42 +115,51 @@ export function FundCardContent({
 
   return (
     <form className="w-full" data-testid="ockFundCardForm">
-      <HeaderComponent headerText={headerText} assetSymbol={assetSymbol} />
+      {headerComponent || (
+        <FundCardHeader headerText={headerText} assetSymbol={assetSymbol} />
+      )}
 
-      <AmountInputComponent
-        fiatValue={fundAmountFiat}
-        setFiatValue={setFundAmountFiat}
-        cryptoValue={fundAmountCrypto}
-        setCryptoValue={setFundAmountCrypto}
-        currencySign="$"
-        assetSymbol={assetSymbol}
-        inputType={selectedInputType}
-        exchangeRate={exchangeRate}
-        amountInputSnippets={amountInputSnippets}
-      />
+      {amountInputComponent || (
+        <FundCardAmountInput
+          fiatValue={fundAmountFiat}
+          setFiatValue={setFundAmountFiat}
+          cryptoValue={fundAmountCrypto}
+          setCryptoValue={setFundAmountCrypto}
+          currencySign="$"
+          assetSymbol={assetSymbol}
+          inputType={selectedInputType}
+          exchangeRate={exchangeRate}
+        />
+      )}
 
-      <AmountInputTypeSwitchComponent
-        selectedInputType={selectedInputType}
-        setSelectedInputType={setSelectedInputType}
-        selectedAsset={selectedAsset}
-        fundAmountFiat={fundAmountFiat}
-        fundAmountCrypto={fundAmountCrypto}
-        exchangeRate={exchangeRate}
-        isLoading={exchangeRateLoading}
-      />
+      {amountInputTypeSwithComponent || (
+        <FundCardAmountInputTypeSwitch
+          selectedInputType={selectedInputType}
+          setSelectedInputType={setSelectedInputType}
+          selectedAsset={selectedAsset}
+          fundAmountFiat={fundAmountFiat}
+          fundAmountCrypto={fundAmountCrypto}
+          exchangeRate={exchangeRate}
+          isLoading={exchangeRateLoading}
+        />
+      )}
 
-      <PaymentMethodSelectorDropdownComponent paymentMethods={paymentMethods} />
+      {paymentMethodDropdownComponent || (
+        <FundCardPaymentMethodDropdown paymentMethods={paymentMethods} />
+      )}
 
-      <SubmitButtonComponent
-        disabled={!fundAmountFiat || !fundAmountCrypto}
-        hideIcon={submitButtonState === 'default'}
-        text={buttonText}
-        className="w-full"
-        fundingUrl={fundingUrl}
-        state={submitButtonState}
-        onClick={() => setSubmitButtonState('loading')}
-        onPopupClose={() => setSubmitButtonState('default')}
-      />
+      {submitButtonComponent || (
+        <FundButton
+          disabled={!fundAmountFiat || !fundAmountCrypto}
+          hideIcon={submitButtonState === 'default'}
+          text={buttonText}
+          className="w-full"
+          fundingUrl={fundingUrl}
+          state={submitButtonState}
+          onClick={() => setSubmitButtonState('loading')}
+          onPopupClose={() => setSubmitButtonState('default')}
+        />
+      )}
     </form>
   );
 }

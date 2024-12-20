@@ -35,7 +35,7 @@ describe('useIcon', () => {
     expect(result.current).toBe(creditCardSvg);
   });
 
-  it('should return coinbasePaySvg when icon is "coinbasePay"', () => {
+  it('should return CoinbasePaySvg when icon is "coinbasePay"', () => {
     const { result } = renderHook(() => useIcon({ icon: 'coinbasePay' }));
     expect(result.current?.type).toBe(CoinbasePaySvg);
   });
