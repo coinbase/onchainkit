@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import type { ChangeEvent } from 'react';
+import type { ChangeEvent, InputHTMLAttributes } from 'react';
 import { useDebounce } from '../../core-react/internal/hooks/useDebounce';
 
 type TextInputReact = {
@@ -7,6 +7,8 @@ type TextInputReact = {
   className: string;
   delayMs: number;
   disabled?: boolean;
+  // specify 'decimal' to trigger numeric keyboards on mobile devices
+  inputMode?: InputHTMLAttributes<HTMLInputElement>['inputMode']
   onBlur?: () => void;
   onChange: (s: string) => void;
   placeholder: string;
@@ -24,6 +26,7 @@ export function TextInput({
   onChange,
   placeholder,
   setValue,
+  inputMode,
   value,
   inputValidator = () => true,
 }: TextInputReact) {
@@ -53,6 +56,7 @@ export function TextInput({
       data-testid="ockTextInput_Input"
       type="text"
       className={className}
+      inputMode={inputMode}
       placeholder={placeholder}
       value={value}
       onBlur={onBlur}
