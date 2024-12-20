@@ -2,7 +2,7 @@ import { ONCHAIN_KIT_CONFIG } from '../OnchainKitConfig';
 
 /**
  * Access the RPC URL for OnchainKit.
- * Defaults to using Coinbase Developer Platform if a RPC URL is not provided.
+ * Defaults to using Coinbase Developer Platform if an RPC URL is not provided.
  */
 export const getRPCUrl = () => {
   if (!ONCHAIN_KIT_CONFIG.rpcUrl && !ONCHAIN_KIT_CONFIG.apiKey) {
