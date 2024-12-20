@@ -26,3 +26,9 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Basic: Story = {};
+
+export const NonPressable: Story = {
+  args: {
+    isPressable: false,
+  },
+};
