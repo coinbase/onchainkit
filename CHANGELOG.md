@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.36.3
+
+### Patch Changes
+
+- 46156a6: - **feat**: Added disabled prop to Buy component. @abcrane123 #1775
+
 ## 0.36.2
 
 ### Patch Changes
