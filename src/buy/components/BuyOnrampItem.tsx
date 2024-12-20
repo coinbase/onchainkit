@@ -34,6 +34,7 @@ export function BuyOnrampItem({
     onClick();
   }, [onClick, setIsDropdownOpen]);
 
+  // Debit and Apple Pay have a minimum purchase amount of $5
   const isDisabled =
     !amountUSDC || (parseFloat(amountUSDC) < 5 && name !== 'Coinbase');
 
