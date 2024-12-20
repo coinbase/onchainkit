@@ -82,6 +82,15 @@ export const sidebar = [
     text: 'Components',
     items: [
       {
+        text: 'Buy',
+        items: [
+          {
+            text: 'Buy',
+            link: '/buy/buy',
+          },
+        ],
+      },
+      {
         text: 'Checkout',
         items: [
           {
