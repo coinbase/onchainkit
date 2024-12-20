@@ -813,7 +813,10 @@ describe('BuyProvider', () => {
     });
   });
 
-  it('should setLifecycleStatus to error when projectId is not provided', async () => {
+  it('logs an error when projectId is not provided', async () => {
+    const consoleErrorSpy = vi
+      .spyOn(console, 'error')
+      .mockImplementation(() => {});
     (useOnchainKit as Mock).mockReturnValue({
       projectId: undefined,
       config: {
@@ -821,16 +824,15 @@ describe('BuyProvider', () => {
       },
     });
 
-    const { result } = renderHook(() => useBuyContext(), { wrapper });
-    expect(result.current.lifecycleStatus).toEqual({
-      statusName: 'error',
-      statusData: expect.objectContaining({
-        code: 'TmBPc04',
-        error:
-          'Project ID is required, please set the projectId in the OnchainKitProvider',
-        message: '',
-      }),
+    renderHook(() => useBuyContext(), { wrapper });
+
+    await waitFor(() => {
+      expect(consoleErrorSpy).toHaveBeenCalledWith(
+        'Project ID is required for this component, please set the projectId in the OnchainKitProvider',
+      );
     });
+
+    consoleErrorSpy.mockRestore();
   });
 
   it('should handle submit correctly', async () => {

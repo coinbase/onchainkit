@@ -133,17 +133,11 @@ export function BuyProvider({
 
   useEffect(() => {
     if (!projectId) {
-      updateLifecycleStatus({
-        statusName: 'error',
-        statusData: {
-          code: 'TmBPc04',
-          error:
-            'Project ID is required, please set the projectId in the OnchainKitProvider',
-          message: '',
-        },
-      });
+      console.error(
+        'Project ID is required for this component, please set the projectId in the OnchainKitProvider',
+      );
     }
-  }, [projectId, updateLifecycleStatus]);
+  }, [projectId]);
 
   useEffect(() => {
     // Reset inputs after status reset. `resetInputs` is dependent
