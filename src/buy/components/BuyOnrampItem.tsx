@@ -1,9 +1,8 @@
-import { Tooltip } from '@/ui-react/internal/components/Tooltip';
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { appleSvg } from '../../internal/svg/appleSvg';
 import { cardSvg } from '../../internal/svg/cardSvg';
 import { coinbaseLogoSvg } from '../../internal/svg/coinbaseLogoSvg';
-import { cn, color, text } from '../../styles/theme';
+import { cn, color, pressable, text } from '../../styles/theme';
 import { useBuyContext } from './BuyProvider';
 
 type OnrampItemReact = {
@@ -12,6 +11,7 @@ type OnrampItemReact = {
   onClick: () => void;
   svg?: React.ReactNode;
   icon: string;
+  amountUSDC?: string;
 };
 
 const ONRAMP_ICON_MAP: Record<string, React.ReactNode> = {
@@ -25,6 +25,7 @@ export function BuyOnrampItem({
   description,
   onClick,
   icon,
+  amountUSDC,
 }: OnrampItemReact) {
   const { setIsDropdownOpen } = useBuyContext();
 
@@ -33,16 +34,28 @@ export function BuyOnrampItem({
     onClick();
   }, [onClick, setIsDropdownOpen]);
 
+  const isDisabled =
+    !amountUSDC || (parseFloat(amountUSDC) < 5 && name !== 'Coinbase');
+
+  const message = useMemo(() => {
+    if (isDisabled) {
+      return 'Minimum purchase amount is $5';
+    }
+    return description;
+  }, [isDisabled, description]);
+
   return (
     <button
       className={cn(
         'flex items-center gap-2 rounded-lg p-2',
-        'hover:bg-[var(--ock-bg-inverse)]',
         text.label2,
+        !isDisabled && pressable.default,
+        isDisabled && color.foregroundMuted,
       )}
       onClick={handleClick}
       type="button"
       data-testid={`ock-${icon}OnrampItem`}
+      disabled={isDisabled}
     >
       <div className="flex h-9 w-9 items-center justify-center">
         {ONRAMP_ICON_MAP[icon]}
@@ -50,13 +63,8 @@ export function BuyOnrampItem({
       <div className="flex flex-col items-start">
         <div className="relative flex items-center gap-1">
           <div>{name}</div>
-          {name === 'Apple Pay' && (
-            <Tooltip content="Only on mobile and Safari" />
-          )}
         </div>
-        <div className={cn('text-xs', color.foregroundMuted)}>
-          {description}
-        </div>
+        <div className={cn('text-xs', color.foregroundMuted)}>{message}</div>
       </div>
     </button>
   );
