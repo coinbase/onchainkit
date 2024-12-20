@@ -36,7 +36,7 @@ export function BuyOnrampItem({
 
   // Debit and Apple Pay have a minimum purchase amount of $5
   const isDisabled =
-    !amountUSDC || (parseFloat(amountUSDC) < 5 && name !== 'Coinbase');
+    !amountUSDC || (Number.parseFloat(amountUSDC) < 5 && name !== 'Coinbase');
 
   const message = useMemo(() => {
     if (isDisabled) {
