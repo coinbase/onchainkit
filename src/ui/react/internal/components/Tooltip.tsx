@@ -1,6 +1,6 @@
-import { useCallback, useState } from 'react';
-import { background, border, cn, text } from '@/styles/theme';
 import { infoSvg } from '@/internal/svg/infoSvg';
+import { background, border, cn, text } from '@/styles/theme';
+import { useCallback, useState } from 'react';
 
 type TooltipReact = {
   children?: React.ReactNode;
