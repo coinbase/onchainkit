@@ -31,6 +31,7 @@ describe('BuyOnrampItem', () => {
         description="Fast and secure payments."
         onClick={mockOnClick}
         icon="applePay"
+        amountUSDC="5"
       />,
     );
 
@@ -47,6 +48,7 @@ describe('BuyOnrampItem', () => {
         description="Use your card to pay."
         onClick={mockOnClick}
         icon="creditCard"
+        amountUSDC="5"
       />,
     );
 
@@ -60,6 +62,7 @@ describe('BuyOnrampItem', () => {
         description="Pay using your Coinbase account."
         onClick={mockOnClick}
         icon="coinbasePay"
+        amountUSDC="5"
       />,
     );
 
@@ -77,6 +80,7 @@ describe('BuyOnrampItem', () => {
         description="Fast and secure payments."
         onClick={mockOnClick}
         icon="applePay"
+        amountUSDC="5"
       />,
     );
 
@@ -85,21 +89,18 @@ describe('BuyOnrampItem', () => {
     expect(button).toHaveAttribute('type', 'button');
   });
 
-  it('should show overlay on mouse enter', () => {
-    const { getByTestId, getByText, queryByText } = render(
+  it('should disables and shows message if amount is less than 5', () => {
+    const { getByText, queryByText } = render(
       <BuyOnrampItem
         name="Apple Pay"
         description="Fast and secure payments."
         onClick={mockOnClick}
         icon="applePay"
+        amountUSDC=".4"
       />,
     );
 
-    fireEvent.mouseEnter(getByTestId('ockBuyApplePayInfo'));
-
-    expect(getByText('Only on mobile and Safari')).toBeInTheDocument();
-
-    fireEvent.mouseLeave(getByTestId('ockBuyApplePayInfo'));
+    expect(getByText('Minimum purchase amount is $5')).toBeInTheDocument();
 
     expect(queryByText('Only on mobile and Safari')).toBeNull();
   });

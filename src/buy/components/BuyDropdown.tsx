@@ -7,6 +7,7 @@ import { ONRAMP_BUY_URL } from '../../fund/constants';
 import { getFundingPopupSize } from '../../fund/utils/getFundingPopupSize';
 import { background, border, cn, color, text } from '../../styles/theme';
 import { ONRAMP_PAYMENT_METHODS } from '../constants';
+import { isApplePaySupported } from '../utils/isApplePaySupported';
 import { BuyOnrampItem } from './BuyOnrampItem';
 import { useBuyContext } from './BuyProvider';
 import { BuyTokenItem } from './BuyTokenItem';
@@ -74,6 +75,8 @@ export function BuyDropdown() {
     };
   }, [setIsDropdownOpen]);
 
+  const isApplePayEnabled = isApplePaySupported();
+
   return (
     <div
       className={cn(
@@ -90,6 +93,9 @@ export function BuyDropdown() {
       {showFromToken && <BuyTokenItem swapUnit={from} />}
 
       {ONRAMP_PAYMENT_METHODS.map((method) => {
+        if (method.id === 'APPLE_PAY' && !isApplePayEnabled) {
+          return null;
+        }
         return (
           <BuyOnrampItem
             key={method.id}
@@ -97,6 +103,7 @@ export function BuyDropdown() {
             description={method.description}
             onClick={handleOnrampClick(method.id)}
             icon={method.icon}
+            amountUSDC={to?.amountUSD}
           />
         );
       })}
