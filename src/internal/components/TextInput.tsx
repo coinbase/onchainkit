@@ -51,7 +51,8 @@ export function TextInput({
     <input
       aria-label={ariaLabel}
       data-testid="ockTextInput_Input"
-      type="text"
+      // type="text"
+
       className={className}
       placeholder={placeholder}
       value={value}
