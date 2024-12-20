@@ -29,7 +29,7 @@ export default function BuyComponents({ children }: BuyComponentsReact) {
 
   return (
     <main className="flex flex-col">
-      <div className="flex w-full flex-col items-center justify-center gap-4 rounded-xl px-2 py-4 md:grow h-36">
+      <div className="flex h-36 w-full flex-col items-center justify-center gap-4 rounded-xl px-2 py-4 md:grow">
         {children({ toToken: degenToken, onError })}
       </div>
     </main>
