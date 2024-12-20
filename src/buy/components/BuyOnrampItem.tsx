@@ -1,9 +1,9 @@
-import { useCallback, useMemo, useState } from 'react';
+import { Tooltip } from '@/ui-react/internal/components/Tooltip';
+import { useCallback } from 'react';
 import { appleSvg } from '../../internal/svg/appleSvg';
 import { cardSvg } from '../../internal/svg/cardSvg';
 import { coinbaseLogoSvg } from '../../internal/svg/coinbaseLogoSvg';
-import { infoSvg } from '../../internal/svg/infoSvg';
-import { background, border, cn, color, text } from '../../styles/theme';
+import { cn, color, text } from '../../styles/theme';
 import { useBuyContext } from './BuyProvider';
 
 type OnrampItemReact = {
@@ -26,53 +26,12 @@ export function BuyOnrampItem({
   onClick,
   icon,
 }: OnrampItemReact) {
-  const [isOverlayVisible, setIsOverlayVisible] = useState(false);
   const { setIsDropdownOpen } = useBuyContext();
 
   const handleClick = useCallback(() => {
     setIsDropdownOpen(false);
     onClick();
   }, [onClick, setIsDropdownOpen]);
-
-  const showOverlay = useCallback(() => {
-    setIsOverlayVisible(true);
-  }, []);
-
-  const hideOverlay = useCallback(() => {
-    setIsOverlayVisible(false);
-  }, []);
-
-  // TODO: Remove after figuring out how to hide Apple Pay on desktop
-  const tooltip = useMemo(() => {
-    if (name !== 'Apple Pay') {
-      return null;
-    }
-    return (
-      <>
-        <div
-          data-testid="ockBuyApplePayInfo"
-          className="h-2.5 w-2.5 cursor-pointer object-cover"
-          onMouseEnter={showOverlay}
-          onMouseLeave={hideOverlay}
-        >
-          {infoSvg}
-        </div>
-        {isOverlayVisible && (
-          <div
-            className={cn(
-              'absolute top-0 right-0 flex translate-x-[100%] translate-y-[-140%]',
-              'whitespace-nowrap p-2',
-              border.radius,
-              background.inverse,
-              text.legal,
-            )}
-          >
-            Only on mobile and Safari
-          </div>
-        )}
-      </>
-    );
-  }, [isOverlayVisible, name, showOverlay, hideOverlay]);
 
   return (
     <button
@@ -91,7 +50,9 @@ export function BuyOnrampItem({
       <div className="flex flex-col items-start">
         <div className="relative flex items-center gap-1">
           <div>{name}</div>
-          {tooltip}
+          {name === 'Apple Pay' && (
+            <Tooltip content="Only on mobile and Safari" />
+          )}
         </div>
         <div className={cn('text-xs', color.foregroundMuted)}>
           {description}
