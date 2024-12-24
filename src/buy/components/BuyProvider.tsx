@@ -142,7 +142,7 @@ export function BuyProvider({
   useEffect(() => {
     // Reset inputs after status reset. `resetInputs` is dependent
     // on 'from' and 'to' so moved to separate useEffect to
-    // prevents multiple calls to `onStatus`
+    // prevent multiple calls to `onStatus`
     if (lifecycleStatus.statusName === 'init' && hasHandledSuccess) {
       setHasHandledSuccess(false);
       resetInputs();
