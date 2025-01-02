@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { QRCodeComponent } from '@/internal/components/QrCode/QrCode';
+import { QrCodeSvg } from '@/internal/components/QrCode/QrCodeSvg';
 import { backArrowSvg } from '@/internal/svg/backArrowSvg';
 import { copySvg } from '@/internal/svg/copySvg';
 import { border, cn, color, pressable, text } from '@/styles/theme';
@@ -125,7 +125,7 @@ export function WalletIslandQrReceive() {
         </div>
       </div>
 
-      <QRCodeComponent value={address ? `ethereum:${address}` : ''} />
+      <QrCodeSvg value={address ? `ethereum:${address}` : ''} />
 
       <button
         type="button"

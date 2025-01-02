@@ -4,7 +4,7 @@ import { clockSvg } from '@/internal/svg/clockSvg';
 import { collapseSvg } from '@/internal/svg/collapseSvg';
 import { disconnectSvg } from '@/internal/svg/disconnectSvg';
 import { qrIconSvg } from '@/internal/svg/qrIconSvg';
-import { border, cn, pressable } from '../../styles/theme';
+import { border, cn, pressable } from '@/styles/theme';
 import { useWalletContext } from './WalletProvider';
 import { useWalletIslandContext } from './WalletIslandProvider';
 
