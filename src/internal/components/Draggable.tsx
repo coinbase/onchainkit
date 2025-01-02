@@ -9,7 +9,7 @@ type DraggableProps = {
   snapToGrid?: boolean;
 };
 
-export default function Draggable({
+export function Draggable({
   children,
   gridSize = 1,
   startingPosition = { x: 20, y: 20 },
