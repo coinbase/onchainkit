@@ -36,7 +36,7 @@ vi.mock('wagmi', () => ({
   useAccount: vi.fn(),
 }));
 
-vi.mock(import('../../../swap'), async (importOriginal) => {
+vi.mock(import('../../swap'), async (importOriginal) => {
   const actual = await importOriginal();
   return {
     ...actual,

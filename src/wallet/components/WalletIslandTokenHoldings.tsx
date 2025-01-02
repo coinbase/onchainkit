@@ -1,20 +1,6 @@
-import { cn, color, text } from '../../styles/theme';
-import { type Token, TokenImage } from '../../token';
+import { cn, color, text } from '@/styles/theme';
+import { type Token, TokenImage } from '@/token';
 import { useWalletIslandContext } from './WalletIslandProvider';
-
-export type TokenBalanceWithFiatValue = {
-  token: Token;
-  /** Token:
-   * address: Address | "";
-   * chainId: number;
-   * decimals: number;
-   * image: string | null;
-   * name: string;
-   * symbol: string;
-   */
-  balance: number;
-  valueInFiat: number;
-};
 
 // TODO: handle loading state
 export function WalletIslandTokenHoldings() {
