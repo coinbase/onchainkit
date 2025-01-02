@@ -10,6 +10,7 @@ export enum OnchainKitComponent {
   TransactionDefault = 'transaction-default',
   Wallet = 'wallet',
   WalletDefault = 'wallet-default',
+  WalletIslandDefault = 'wallet-island-default',
   NFTCard = 'nft-card',
   NFTCardDefault = 'nft-card-default',
   NFTMintCard = 'nft-mint-card',
