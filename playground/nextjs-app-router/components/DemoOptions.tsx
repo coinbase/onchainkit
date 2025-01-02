@@ -3,6 +3,7 @@ import { ComponentTheme } from '@/components/form/component-theme';
 import { PaymasterUrl } from '@/components/form/paymaster';
 import { OnchainKitComponent } from '@/types/onchainkit';
 import { ActiveComponent } from './form/active-component';
+import { AnchorPosition } from './form/anchor-position';
 import { Chain } from './form/chain';
 import { CheckoutOptions } from './form/checkout-options';
 import { IsSponsored } from './form/is-sponsored';
@@ -61,6 +62,7 @@ const COMPONENT_CONFIG: Partial<
     IsSponsored,
     NFTOptions,
   ],
+  [OnchainKitComponent.WalletIslandDefault]: [AnchorPosition],
 };
 
 export default function DemoOptions({
