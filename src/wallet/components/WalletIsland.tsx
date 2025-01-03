@@ -9,34 +9,22 @@ import { WalletIslandSwap } from './WalletIslandSwap';
 import { useWalletContext } from './WalletProvider';
 import { WalletIslandProvider } from './WalletIslandProvider';
 
-export function WalletIsland({ children }: WalletIslandProps) {
-  const { isOpen } = useWalletContext();
-
-  if (!isOpen) {
-    return null;
-  }
-
-  return (
-    <WalletIslandProvider>
-      <WalletIslandContent>{children}</WalletIslandContent>
-    </WalletIslandProvider>
-  );
-}
-
-
-
-const WALLET_ISLAND_WIDTH = 384;
+const WALLET_ISLAND_WIDTH = 352;
 const WALLET_ISLAND_HEIGHT = 394;
 
-export function WalletIslandContent({ children }: WalletIslandProps) {
-  const { containerRef } = useWalletContext();
-  const { showQr, showSwap, tokenHoldings, animationClasses } =
-    useWalletIslandContext();
+export function WalletIsland({
+  children,
+  walletContainerRef,
+}: WalletIslandProps) {
+  const { isClosing, setIsOpen, setIsClosing } = useWalletContext();
+  const { showQr, showSwap, tokenHoldings } = useWalletIslandContext();
   const componentTheme = useTheme();
 
+  console.log('walletIsland', { walletContainerRef });
+
   const position = useMemo(() => {
-    if (containerRef?.current) {
-      const rect = containerRef.current.getBoundingClientRect();
+    if (walletContainerRef?.current) {
+      const rect = walletContainerRef.current.getBoundingClientRect();
       const windowWidth = window.innerWidth;
       const windowHeight = window.innerHeight;
 
@@ -65,64 +53,74 @@ export function WalletIslandContent({ children }: WalletIslandProps) {
       x: 20,
       y: 20,
     };
-  }, [containerRef]);
+  }, [walletContainerRef]);
 
   return (
-    <Draggable startingPosition={position}>
-      <div
-        data-testid="ockWalletIslandContent"
-        className={cn(
-          componentTheme,
-          background.default,
-          border.radius,
-          border.lineDefault,
-          'h-auto w-88',
-          'flex items-center justify-center',
-          animationClasses.content,
-        )}
-      >
+    <WalletIslandProvider>
+      <Draggable startingPosition={position}>
         <div
+          data-testid="ockWalletIslandContent"
           className={cn(
-            'flex flex-col items-center justify-center',
+            componentTheme,
+            background.default,
+            border.radius,
+            border.lineDefault,
             'h-auto w-88',
-            'p-4',
-            showQr ? '' : 'hidden',
+            'flex items-center justify-center',
+            isClosing
+              ? 'fade-out slide-out-to-top-1.5 animate-out fill-mode-forwards ease-in-out'
+              : 'fade-in slide-in-from-top-1.5 animate-in duration-300 ease-out',
           )}
-        >
-          <WalletIslandQrReceive />
-        </div>
-        <div
-          className={cn(
-            'flex flex-col items-center justify-center',
-            'h-auto w-88',
-            'p-2',
-            showSwap ? '' : 'hidden',
-          )}
-        >
-          <WalletIslandSwap
-            title={
-              <div
-                className={cn(text.headline, 'w-full text-center text-base')}
-              >
-                Swap
-              </div>
+          onAnimationEnd={() => {
+            if (isClosing) {
+              setIsOpen(false);
+              setIsClosing(false);
             }
-            to={tokenHoldings.map((token) => token.token)}
-            from={tokenHoldings.map((token) => token.token)}
-            className="w-full p-2"
-          />
-        </div>
-        <div
-          className={cn(
-            'flex flex-col items-center justify-center',
-            'h-auto w-88',
-            'px-4 pt-3 pb-2',
-            showQr || showSwap ? 'hidden' : '',
-          )}
+          }}
         >
-          {children}
+          <div
+            className={cn(
+              'flex flex-col items-center justify-center',
+              'h-auto w-88',
+              'p-4',
+              showQr ? '' : 'hidden',
+            )}
+          >
+            <WalletIslandQrReceive />
+          </div>
+          <div
+            className={cn(
+              'flex flex-col items-center justify-center',
+              'h-auto w-88',
+              'p-2',
+              showSwap ? '' : 'hidden',
+            )}
+          >
+            <WalletIslandSwap
+              title={
+                <div
+                  className={cn(text.headline, 'w-full text-center text-base')}
+                >
+                  Swap
+                </div>
+              }
+              to={tokenHoldings?.map((token) => token.token)}
+              from={tokenHoldings?.map((token) => token.token)}
+              className="w-full p-2"
+            />
+          </div>
+          <div
+            className={cn(
+              'flex flex-col items-center justify-center',
+              'h-auto w-88',
+              'px-4 pt-3 pb-2',
+              showQr || showSwap ? 'hidden' : '',
+            )}
+          >
+            {children}
+          </div>
         </div>
-      </div>
-    </Draggable>
+      </Draggable>
+    </WalletIslandProvider>
   );
 }
