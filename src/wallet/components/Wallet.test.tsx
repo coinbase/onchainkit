@@ -4,11 +4,15 @@ import { useOutsideClick } from '../../ui/react/internal/hooks/useOutsideClick';
 import { ConnectWallet } from './ConnectWallet';
 import { Wallet } from './Wallet';
 import { WalletDropdown } from './WalletDropdown';
+import { WalletIsland } from './WalletIsland';
 import { type WalletProviderReact, useWalletContext } from './WalletProvider';
 
-vi.mock('./WalletProvider', () => ({
-  useWalletContext: vi.fn(),
-  WalletProvider: ({ children }: WalletProviderReact) => <>{children}</>,
+vi.mock('../../core-react/internal/hooks/useTheme', () => ({
+  useTheme: vi.fn(),
+}));
+
+vi.mock('../../ui/react/internal/hooks/useOutsideClick', () => ({
+  useOutsideClick: vi.fn(),
 }));
 
 vi.mock('./ConnectWallet', () => ({
@@ -21,12 +25,13 @@ vi.mock('./WalletDropdown', () => ({
   ),
 }));
 
-vi.mock('../../core-react/internal/hooks/useTheme', () => ({
-  useTheme: vi.fn(),
+vi.mock('./WalletIsland', () => ({
+  WalletIsland: () => <div data-testid="wallet-island">Wallet Island</div>,
 }));
 
-vi.mock('../../ui/react/internal/hooks/useOutsideClick', () => ({
-  useOutsideClick: vi.fn(),
+vi.mock('./WalletProvider', () => ({
+  useWalletContext: vi.fn(),
+  WalletProvider: ({ children }: WalletProviderReact) => <>{children}</>,
 }));
 
 describe('Wallet Component', () => {
@@ -118,5 +123,29 @@ describe('Wallet Component', () => {
     mockOutsideClickCallback({} as MouseEvent);
 
     expect(mockHandleClose).not.toHaveBeenCalled();
+  });
+
+  it('should log error and default to WalletDropdown when both WalletDropdown and WalletIsland are provided', () => {
+    const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+
+    render(
+      <Wallet>
+        <ConnectWallet />
+        <WalletDropdown>
+          <div>Wallet Dropdown</div>
+        </WalletDropdown>
+        <WalletIsland>
+          <div>Wallet Island</div>
+        </WalletIsland>
+      </Wallet>,
+    );
+
+    expect(consoleSpy).toHaveBeenCalledWith(
+      'Defaulted to WalletDropdown. Wallet cannot have both WalletDropdown and WalletIsland as children.',
+    );
+    expect(screen.getByTestId('wallet-dropdown')).toBeDefined();
+    expect(screen.queryByTestId('wallet-island')).toBeNull();
+
+    consoleSpy.mockRestore();
   });
 });

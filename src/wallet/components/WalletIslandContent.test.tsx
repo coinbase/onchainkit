@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { WalletIslandContent } from './WalletIslandContent';
 import { useWalletIslandContext } from './WalletIslandProvider';
@@ -83,6 +83,24 @@ describe('WalletIslandContent', () => {
     expect(
       screen.queryByTestId('ockWalletIslandSwap')?.parentElement,
     ).toHaveClass('hidden');
+  });
+
+  it('handles animation end when closing', () => {
+    const setIsOpen = vi.fn();
+    const setIsClosing = vi.fn();
+    mockUseWalletContext.mockReturnValue({
+      isClosing: true,
+      setIsOpen,
+      setIsClosing
+    });
+
+    render(<WalletIslandContent />);
+
+    const content = screen.getByTestId('ockWalletIslandContent');
+    fireEvent.animationEnd(content);
+
+    expect(setIsOpen).toHaveBeenCalledWith(false);
+    expect(setIsClosing).toHaveBeenCalledWith(false);
   });
 
   it('renders WalletIslandQrReceive when showQr is true', () => {

@@ -88,6 +88,26 @@ describe('WalletIslandQrReceive', () => {
     expect(screen.getByTestId('ockWalletIslandQrReceive')).toBeInTheDocument();
   });
 
+  it('should render correctly based on isQrClosing state', () => {
+    mockUseWalletIslandContext.mockReturnValue({
+      isQrClosing: false,
+    });
+
+    const { rerender } = render(<WalletIslandQrReceive />);
+    expect(screen.getByTestId('ockWalletIslandQrReceive')).toBeInTheDocument();
+    expect(screen.getByTestId('ockWalletIslandQrReceive')).toHaveClass(
+      'fade-in slide-in-from-right-5 animate-in duration-150 ease-out',
+    );
+
+    mockUseWalletIslandContext.mockReturnValue({
+      isQrClosing: true,
+    });
+    rerender(<WalletIslandQrReceive />);
+    expect(screen.getByTestId('ockWalletIslandQrReceive')).toHaveClass(
+      'fade-out slide-out-to-left-5 animate-out fill-mode-forwards ease-in-out',
+    );
+  });
+
   it('should focus backButtonRef when showQr is true', () => {
     mockUseWalletIslandContext.mockReturnValue({
       ...defaultMockUseWalletIslandContext,

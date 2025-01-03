@@ -159,6 +159,26 @@ describe('WalletIslandSwap', () => {
     expect(screen.getByTestId('ockWalletIslandSwap')).toBeInTheDocument();
   });
 
+  it('should render correctly based on isSwapClosing state', () => {
+    mockUseWalletIslandContext.mockReturnValue({
+      isSwapClosing: false,
+    });
+
+    const { rerender } = render(<WalletIslandSwap />);
+    expect(screen.getByTestId('ockWalletIslandSwap')).toBeInTheDocument();
+    expect(screen.getByTestId('ockWalletIslandSwap')).toHaveClass(
+      'fade-in slide-in-from-right-5 animate-in duration-150 ease-out',
+    );
+
+    mockUseWalletIslandContext.mockReturnValue({
+      isSwapClosing: true,
+    });
+    rerender(<WalletIslandSwap />);
+    expect(screen.getByTestId('ockWalletIslandSwap')).toHaveClass(
+      'fade-out slide-out-to-left-5 animate-out fill-mode-forwards ease-in-out',
+    );
+  });
+
   it('should focus swapDivRef when showSwap is true', () => {
     mockUseWalletIslandContext.mockReturnValue({
       ...defaultMockUseWalletIslandContext,
