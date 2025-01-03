@@ -136,5 +136,9 @@ export function WalletIslandProvider({ children }: WalletIslandProviderReact) {
 }
 
 export function useWalletIslandContext() {
-  return useContext(WalletIslandContext);
+  const walletIslandContext = useContext(WalletIslandContext);
+  if (!walletIslandContext) {
+    throw new Error('useWalletIslandContext must be used within a WalletIslandProvider');
+  }
+  return walletIslandContext;
 }
