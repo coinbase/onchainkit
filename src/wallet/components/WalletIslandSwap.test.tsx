@@ -1,8 +1,8 @@
+import { useSwapContext } from '@/swap/components/SwapProvider';
+import type { Token } from '@/token';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { useAccount } from 'wagmi';
-import { useSwapContext } from '@/swap/components/SwapProvider';
-import type { Token } from '@/token';
 import { useWalletIslandContext } from './WalletIslandProvider';
 import { WalletIslandSwap } from './WalletIslandSwap';
 import { useWalletContext } from './WalletProvider';

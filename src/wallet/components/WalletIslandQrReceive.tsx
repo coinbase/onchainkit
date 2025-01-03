@@ -1,8 +1,8 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
 import { QrCodeSvg } from '@/internal/components/QrCode/QrCodeSvg';
 import { backArrowSvg } from '@/internal/svg/backArrowSvg';
 import { copySvg } from '@/internal/svg/copySvg';
 import { border, cn, color, pressable, text } from '@/styles/theme';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useWalletIslandContext } from './WalletIslandProvider';
 import { useWalletContext } from './WalletProvider';
 

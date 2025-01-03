@@ -1,8 +1,8 @@
 import { render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { useWalletContext } from './WalletProvider';
 import { WalletIslandContent } from './WalletIslandContent';
 import { useWalletIslandContext } from './WalletIslandProvider';
+import { useWalletContext } from './WalletProvider';
 
 vi.mock('../../../core-react/internal/hooks/useTheme', () => ({
   useTheme: vi.fn(),
