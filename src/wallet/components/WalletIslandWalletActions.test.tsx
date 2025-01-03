@@ -13,14 +13,14 @@ vi.mock('wagmi/actions', () => ({
   disconnect: vi.fn(),
 }));
 
-vi.mock('../WalletProvider', () => ({
-  useWalletContext: vi.fn(),
-  WalletProvider: ({ children }) => <>{children}</>,
-}));
-
 vi.mock('./WalletIslandProvider', () => ({
   useWalletIslandContext: vi.fn(),
   WalletIslandProvider: ({ children }) => <>{children}</>,
+}));
+
+vi.mock('./WalletProvider', () => ({
+  useWalletContext: vi.fn(),
+  WalletProvider: ({ children }) => <>{children}</>,
 }));
 
 describe('WalletIslandWalletActions', () => {

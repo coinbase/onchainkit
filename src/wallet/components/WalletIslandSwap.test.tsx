@@ -60,17 +60,17 @@ vi.mock(import('../../swap'), async (importOriginal) => {
   };
 });
 
-vi.mock('../../../swap/components/SwapProvider', () => ({
+vi.mock('../../swap/components/SwapProvider', () => ({
   useSwapContext: vi.fn(),
   SwapProvider: ({ children }) => <>{children}</>,
 }));
 
-vi.mock('../WalletProvider', () => ({
-  useWalletContext: vi.fn(),
-}));
-
 vi.mock('./WalletIslandProvider', () => ({
   useWalletIslandContext: vi.fn(),
+}));
+
+vi.mock('./WalletProvider', () => ({
+  useWalletContext: vi.fn(),
 }));
 
 describe('WalletIslandSwap', () => {
