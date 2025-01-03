@@ -8,7 +8,7 @@ import { useWalletContext } from './WalletProvider';
 
 export function WalletIslandQrReceive() {
   const { address, isClosing } = useWalletContext();
-  const { showQr, setShowQr, setIsQrClosing, animationClasses } =
+  const { showQr, setShowQr, isQrClosing, setIsQrClosing } =
     useWalletIslandContext();
   const backButtonRef = useRef<HTMLButtonElement>(null);
   const [copyText, setCopyText] = useState('Copy');
@@ -73,7 +73,9 @@ export function WalletIslandQrReceive() {
         text.headline,
         'flex flex-col items-center justify-center gap-12',
         'w-full',
-        animationClasses.qr,
+        isQrClosing
+          ? 'fade-out slide-out-to-left-5 animate-out fill-mode-forwards ease-in-out'
+          : 'fade-in slide-in-from-right-5 animate-in duration-150 ease-out',
       )}
     >
       <div className="flex w-full flex-row items-center justify-between">
