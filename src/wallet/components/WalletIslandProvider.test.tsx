@@ -1,4 +1,4 @@
-import { renderHook } from '@testing-library/react';
+import { render, renderHook } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { useAccount } from 'wagmi';
 import {
@@ -31,7 +31,7 @@ describe('useWalletIslandContext', () => {
     mockUseWalletContext.mockReturnValue(defaultWalletContext);
   });
 
-  it('should provide wallet island context', () => {
+  it('should provide wallet island context when used within provider', () => {
     const { result } = renderHook(() => useWalletIslandContext(), {
       wrapper: WalletIslandProvider,
     });
@@ -47,5 +47,20 @@ describe('useWalletIslandContext', () => {
       setIsQrClosing: expect.any(Function),
       tokenHoldings: expect.any(Array),
     });
+  });
+
+  it('should throw an error when used outside of WalletIslandProvider', () => {
+    const TestComponent = () => {
+      useWalletIslandContext();
+      return null;
+    };
+    // Suppress console.error for this test to avoid noisy output
+    const originalError = console.error;
+    console.error = vi.fn();
+    expect(() => {
+      render(<TestComponent />);
+    }).toThrow('useWalletIslandContext must be used within a WalletIslandProvider');
+    // Restore console.error
+    console.error = originalError;
   });
 });
