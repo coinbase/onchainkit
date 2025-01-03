@@ -150,7 +150,7 @@ describe('WalletIslandSwap', () => {
 
     render(
       <WalletIslandSwap
-        config={{}}
+        config={{ maxSlippage: 1 }}
         from={[tokens[0]] as Token[]}
         to={[tokens[1]] as Token[]}
         onError={vi.fn()}
@@ -166,7 +166,16 @@ describe('WalletIslandSwap', () => {
       isSwapClosing: false,
     });
 
-    const { rerender } = render(<WalletIslandSwap />);
+    const { rerender } = render(
+      <WalletIslandSwap
+        config={{ maxSlippage: 1 }}
+        from={[tokens[0]] as Token[]}
+        to={[tokens[1]] as Token[]}
+        onError={vi.fn()}
+        onStatus={vi.fn()}
+        onSuccess={vi.fn()}
+      />,
+    );
     expect(screen.getByTestId('ockWalletIslandSwap')).toBeInTheDocument();
     expect(screen.getByTestId('ockWalletIslandSwap')).toHaveClass(
       'fade-in slide-in-from-right-5 animate-in duration-150 ease-out',
@@ -175,7 +184,16 @@ describe('WalletIslandSwap', () => {
     mockUseWalletIslandContext.mockReturnValue({
       isSwapClosing: true,
     });
-    rerender(<WalletIslandSwap />);
+    rerender(
+      <WalletIslandSwap
+        config={{ maxSlippage: 1 }}
+        from={[tokens[0]] as Token[]}
+        to={[tokens[1]] as Token[]}
+        onError={vi.fn()}
+        onStatus={vi.fn()}
+        onSuccess={vi.fn()}
+      />,
+    );
     expect(screen.getByTestId('ockWalletIslandSwap')).toHaveClass(
       'fade-out slide-out-to-left-5 animate-out fill-mode-forwards ease-in-out',
     );
@@ -189,9 +207,9 @@ describe('WalletIslandSwap', () => {
 
     render(
       <WalletIslandSwap
-        config={{}}
-        from={[tokens[0].token] as Token[]}
-        to={[tokens[1].token] as Token[]}
+        config={{ maxSlippage: 1 }}
+        from={[tokens[0]] as Token[]}
+        to={[tokens[1]] as Token[]}
         onError={vi.fn()}
         onStatus={vi.fn()}
         onSuccess={vi.fn()}
@@ -216,7 +234,7 @@ describe('WalletIslandSwap', () => {
 
     render(
       <WalletIslandSwap
-        config={{}}
+        config={{ maxSlippage: 1 }}
         from={[tokens[0]] as Token[]}
         to={[tokens[1]] as Token[]}
         onError={vi.fn()}
@@ -249,7 +267,7 @@ describe('WalletIslandSwap', () => {
 
     const { rerender } = render(
       <WalletIslandSwap
-        config={{}}
+        config={{ maxSlippage: 1 }}
         from={[tokens[0]] as Token[]}
         to={[tokens[1]] as Token[]}
         onError={vi.fn()}
@@ -271,7 +289,7 @@ describe('WalletIslandSwap', () => {
 
     rerender(
       <WalletIslandSwap
-        config={{}}
+        config={{ maxSlippage: 1 }}
         from={[tokens[0]] as Token[]}
         to={[tokens[1]] as Token[]}
         onError={vi.fn()}
