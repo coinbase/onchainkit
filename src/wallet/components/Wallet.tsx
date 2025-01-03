@@ -3,10 +3,11 @@ import { useTheme } from '@/core-react/internal/hooks/useTheme';
 import { findComponent } from '@/core-react/internal/utils/findComponent';
 import { cn } from '@/styles/theme';
 import { useOutsideClick } from '@/ui-react/internal/hooks/useOutsideClick';
-import { Children, useMemo, useRef } from 'react';
+import { Children, cloneElement, useMemo, useRef } from 'react';
 import type { WalletReact } from '../types';
 import { ConnectWallet } from './ConnectWallet';
 import { WalletDropdown } from './WalletDropdown';
+import { WalletIsland } from './WalletIsland';
 import { WalletProvider, useWalletContext } from './WalletProvider';
 
 function WalletContent({ children, className }: WalletReact) {
@@ -15,13 +16,26 @@ function WalletContent({ children, className }: WalletReact) {
 
   useOutsideClick(walletContainerRef, handleClose);
 
-  const { connect, dropdown } = useMemo(() => {
+  const { connect, dropdown, island } = useMemo(() => {
     const childrenArray = Children.toArray(children);
     return {
       connect: childrenArray.find(findComponent(ConnectWallet)),
       dropdown: childrenArray.find(findComponent(WalletDropdown)),
+      island: (() => {
+        const islandComponent = childrenArray.find(findComponent(WalletIsland));
+        return islandComponent
+          ? cloneElement(islandComponent, { walletContainerRef })
+          : null;
+      })(),
     };
   }, [children]);
+
+  const walletSubComponent = dropdown || island;
+  if (dropdown && island) {
+    console.error(
+      'Defaulted to WalletDropdown. Wallet cannot have both WalletDropdown and WalletIsland as children.',
+    );
+  }
 
   return (
     <div
@@ -29,7 +43,7 @@ function WalletContent({ children, className }: WalletReact) {
       className={cn('relative w-fit shrink-0', className)}
     >
       {connect}
-      {isOpen && dropdown}
+      {isOpen && walletSubComponent}
     </div>
   );
 }
