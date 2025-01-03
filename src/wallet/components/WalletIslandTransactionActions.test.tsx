@@ -5,7 +5,9 @@ import { WalletIslandTransactionActions } from './WalletIslandTransactionActions
 
 vi.mock('./WalletIslandProvider', () => ({
   useWalletIslandContext: vi.fn(),
-  WalletIslandProvider: ({ children }) => <>{children}</>,
+  WalletIslandProvider: ({ children }: { children: React.ReactNode }) => (
+    <>{children}</>
+  ),
 }));
 
 describe('WalletIslandTransactionActons', () => {
