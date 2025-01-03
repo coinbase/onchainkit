@@ -1,16 +1,17 @@
-import { useCallback } from 'react';
-import { useDisconnect } from 'wagmi';
 import { clockSvg } from '@/internal/svg/clockSvg';
 import { collapseSvg } from '@/internal/svg/collapseSvg';
 import { disconnectSvg } from '@/internal/svg/disconnectSvg';
 import { qrIconSvg } from '@/internal/svg/qrIconSvg';
 import { border, cn, pressable } from '@/styles/theme';
-import { useWalletContext } from './WalletProvider';
+import { useCallback } from 'react';
+import { useDisconnect } from 'wagmi';
 import { useWalletIslandContext } from './WalletIslandProvider';
+import { useWalletContext } from './WalletProvider';
 
 export function WalletIslandWalletActions() {
   const { handleClose } = useWalletContext();
-  const { setShowQr, animationClasses } = useWalletIslandContext();
+  // const { setShowQr, animationClasses } = useWalletIslandContext();
+  const { setShowQr } = useWalletIslandContext();
   const { disconnect, connectors } = useDisconnect();
 
   const handleDisconnect = useCallback(() => {

@@ -11,7 +11,8 @@ type TransactionActionProps = {
 };
 
 export function WalletIslandTransactionActions() {
-  const { setShowSwap, animationClasses } = useWalletIslandContext();
+  // const { setShowSwap, animationClasses } = useWalletIslandContext();
+  const { setShowSwap } = useWalletIslandContext();
 
   return (
     <div

@@ -1,13 +1,13 @@
+import { border, cn, color, pressable, text } from '@/styles/theme';
+import { Avatar, Badge, Name } from '@/ui/react/identity';
 import { useCallback, useState } from 'react';
 import type { Address, Chain } from 'viem';
-import { Avatar, Badge, Name } from '../../ui/react/identity';
-import { border, cn, color, pressable, text } from '../../styles/theme';
-import { useWalletIslandContext } from './WalletIslandProvider';
+// import { useWalletIslandContext } from './WalletIslandProvider';
 import { useWalletContext } from './WalletProvider';
 
 export function AddressDetails() {
   const { address, chain, isClosing } = useWalletContext();
-  const { animationClasses } = useWalletIslandContext();
+  // const { animationClasses } = useWalletIslandContext();
   const [copyText, setCopyText] = useState('Copy');
 
   const handleCopyAddress = useCallback(async () => {

@@ -1,4 +1,3 @@
-import { useCallback, useEffect, useRef } from 'react';
 import { backArrowSvg } from '@/internal/svg/backArrowSvg';
 import { border, cn, pressable } from '@/styles/theme';
 import {
@@ -14,6 +13,7 @@ import {
   SwapToggleButton,
 } from '@/swap';
 import type { SwapDefaultReact } from '@/swap/types';
+import { useCallback, useEffect, useRef } from 'react';
 import { useWalletIslandContext } from './WalletIslandProvider';
 
 export function WalletIslandSwap({

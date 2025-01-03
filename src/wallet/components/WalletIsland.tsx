@@ -1,13 +1,15 @@
-import { useMemo } from 'react';
-import { useTheme } from '../../core-react/internal/hooks/useTheme';
+import { useTheme } from '@/core-react/internal/hooks/useTheme';
 import { Draggable } from '@/internal/components/Draggable';
-import { background, border, cn, text } from '../../styles/theme';
+import { background, border, cn, text } from '@/styles/theme';
+import { useMemo } from 'react';
 import type { WalletIslandProps } from '../types';
-import { useWalletIslandContext } from './WalletIslandProvider';
+import {
+  WalletIslandProvider,
+  useWalletIslandContext,
+} from './WalletIslandProvider';
 import { WalletIslandQrReceive } from './WalletIslandQrReceive';
 import { WalletIslandSwap } from './WalletIslandSwap';
 import { useWalletContext } from './WalletProvider';
-import { WalletIslandProvider } from './WalletIslandProvider';
 
 const WALLET_ISLAND_WIDTH = 352;
 const WALLET_ISLAND_HEIGHT = 394;

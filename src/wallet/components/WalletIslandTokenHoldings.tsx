@@ -4,7 +4,8 @@ import { useWalletIslandContext } from './WalletIslandProvider';
 
 // TODO: handle loading state
 export function WalletIslandTokenHoldings() {
-  const { animationClasses, tokenHoldings } = useWalletIslandContext();
+  // const { animationClasses, tokenHoldings } = useWalletIslandContext();
+  const { tokenHoldings } = useWalletIslandContext();
 
   if (tokenHoldings.length === 0) {
     return null;

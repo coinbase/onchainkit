@@ -1,3 +1,8 @@
+import { useValue } from '@/core-react/internal/hooks/useValue';
+import {
+  type TokenBalanceWithFiatValue,
+  getAddressTokenBalances,
+} from '@/core-react/internal/utils/getAddressTokenBalances';
 import {
   type Dispatch,
   type ReactNode,
@@ -8,9 +13,6 @@ import {
   useMemo,
   useState,
 } from 'react';
-import { useValue } from '@/core-react/internal/hooks/useValue';
-import { getAddressTokenBalances } from '@/core-react/internal/utils/getAddressTokenBalances';
-import type { TokenBalanceWithFiatValue } from './WalletIslandTokenHoldings';
 import { useWalletContext } from './WalletProvider';
 
 export type WalletIslandContextType = {
