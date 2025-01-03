@@ -9,7 +9,7 @@ import {
   QR_LOGO_SIZE,
   linearGradientStops,
   ockThemeToLinearGradientColorMap,
-  ockThemeToRadiamGradientColorMap,
+  ockThemeToRadialGradientColorMap,
   presetGradients,
 } from './gradientConstants';
 import { useCorners } from './useCorners';
@@ -66,18 +66,18 @@ export function QrCodeSvg({
   const linearGradientColor =
     ockThemeToLinearGradientColorMap[
       themeName as keyof typeof ockThemeToLinearGradientColorMap
-    ];
+    ] ?? 'blue';
   const linearColors = [
     linearGradientStops[linearGradientColor].startColor,
     linearGradientStops[linearGradientColor].endColor,
   ];
 
+  const radialGradientColor =
+    ockThemeToRadialGradientColorMap[
+      themeName as keyof typeof ockThemeToLinearGradientColorMap
+    ] ?? 'default';
   const presetGradientForColor =
-    presetGradients[
-      ockThemeToRadiamGradientColorMap[
-        themeName as keyof typeof ockThemeToLinearGradientColorMap
-      ] as keyof typeof presetGradients
-    ];
+    presetGradients[radialGradientColor as keyof typeof presetGradients];
 
   const matrix = useMatrix(value, ecl);
   const corners = useCorners(size, matrix.length, bgColor, fillColor, uid);
