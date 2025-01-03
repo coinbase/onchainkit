@@ -5,23 +5,23 @@ import { Wallet } from './Wallet';
 import { WalletIsland } from './WalletIsland';
 import { useWalletContext } from './WalletProvider';
 
-vi.mock('../../../core-react/internal/hooks/useTheme', () => ({
+vi.mock('../../core-react/internal/hooks/useTheme', () => ({
   useTheme: vi.fn(),
 }));
 
-vi.mock('../ConnectWallet', () => ({
+vi.mock('./ConnectWallet', () => ({
   ConnectWallet: () => <div data-testid="connect-wallet">Connect Wallet</div>,
-}));
-
-vi.mock('../WalletProvider', () => ({
-  useWalletContext: vi.fn(),
-  WalletProvider: ({ children }) => <>{children}</>,
 }));
 
 vi.mock('./WalletIslandContent', () => ({
   WalletIslandContent: ({ children }) => (
     <div data-testid="wallet-island-content">{children}</div>
   ),
+}));
+
+vi.mock('./WalletProvider', () => ({
+  useWalletContext: vi.fn(),
+  WalletProvider: ({ children }) => <>{children}</>,
 }));
 
 describe('WalletIsland', () => {

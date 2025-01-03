@@ -5,36 +5,36 @@ import { AddressDetails } from './WalletIslandAddressDetails';
 import { useWalletIslandContext } from './WalletIslandProvider';
 import { useWalletContext } from './WalletProvider';
 
-vi.mock('../../../core-react/internal/hooks/useTheme', () => ({
+vi.mock('../../core-react/internal/hooks/useTheme', () => ({
   useTheme: vi.fn(),
 }));
 
-vi.mock('../../../identity/components/IdentityProvider', () => ({
+vi.mock('../../core-react/identity/providers/IdentityProvider', () => ({
   useIdentityContext: vi.fn().mockReturnValue({
     schemaId: '1',
   }),
 }));
 
-vi.mock('../../../identity/hooks/useAttestations', () => ({
+vi.mock('../../core-react/identity/hooks/useAttestations', () => ({
   useAttestations: () => [{ testAttestation: 'Test Attestation' }],
 }));
 
-vi.mock('../../../identity/hooks/useAvatar', () => ({
+vi.mock('../../core-react/identity/hooks/useAvatar', () => ({
   useAvatar: () => ({ data: null, isLoading: false }),
 }));
 
-vi.mock('../../../identity/hooks/useName', () => ({
+vi.mock('../../core-react/identity/hooks/useName', () => ({
   useName: () => ({ data: null, isLoading: false }),
-}));
-
-vi.mock('../WalletProvider', () => ({
-  useWalletContext: vi.fn(),
-  WalletProvider: ({ children }) => <>{children}</>,
 }));
 
 vi.mock('./WalletIslandProvider', () => ({
   useWalletIslandContext: vi.fn(),
   WalletIslandProvider: ({ children }) => <>{children}</>,
+}));
+
+vi.mock('./WalletProvider', () => ({
+  useWalletContext: vi.fn(),
+  WalletProvider: ({ children }) => <>{children}</>,
 }));
 
 describe('WalletIslandAddressDetails', () => {

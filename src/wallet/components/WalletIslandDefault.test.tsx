@@ -10,13 +10,16 @@ vi.mock('wagmi', () => ({
   useConfig: vi.fn(),
 }));
 
-vi.mock('../WalletProvider', () => ({
-  useWalletContext: vi.fn(),
-  WalletProvider: ({ children }) => <>{children}</>,
+vi.mock('../../core-react/internal/hooks/useTheme', () => ({
+  useTheme: vi.fn(),
 }));
 
-vi.mock('../../../core-react/internal/hooks/useTheme', () => ({
-  useTheme: vi.fn(),
+vi.mock('../../core-react/identity/hooks/useAvatar', () => ({
+  useAvatar: () => ({ data: null, isLoading: false }),
+}));
+
+vi.mock('../../core-react/identity/hooks/useName', () => ({
+  useName: () => ({ data: null, isLoading: false }),
 }));
 
 vi.mock('./WalletIslandProvider', () => ({
@@ -30,12 +33,10 @@ vi.mock('./WalletIslandContent', () => ({
   ),
 }));
 
-vi.mock('../../../identity/hooks/useAvatar', () => ({
-  useAvatar: () => ({ data: null, isLoading: false }),
-}));
 
-vi.mock('../../../identity/hooks/useName', () => ({
-  useName: () => ({ data: null, isLoading: false }),
+vi.mock('./WalletProvider', () => ({
+  useWalletContext: vi.fn(),
+  WalletProvider: ({ children }) => <>{children}</>,
 }));
 
 describe('WalletIslandDefault', () => {

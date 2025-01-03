@@ -1,21 +1,22 @@
+import { useTheme } from '@/core-react/internal/hooks/useTheme';
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { useWalletIslandContext } from './WalletIslandProvider';
 import { WalletIslandQrReceive } from './WalletIslandQrReceive';
 import { useWalletContext } from './WalletProvider';
 
-vi.mock('../../../useTheme', () => ({
+vi.mock('../../core-react/internal/hooks/useTheme', () => ({
   useTheme: vi.fn(),
-}));
-
-vi.mock('../WalletProvider', () => ({
-  useWalletContext: vi.fn(),
-  WalletProvider: ({ children }) => <>{children}</>,
 }));
 
 vi.mock('./WalletIslandProvider', () => ({
   useWalletIslandContext: vi.fn(),
   WalletIslandProvider: ({ children }) => <>{children}</>,
+}));
+
+vi.mock('./WalletProvider', () => ({
+  useWalletContext: vi.fn(),
+  WalletProvider: ({ children }) => <>{children}</>,
 }));
 
 const mockSetCopyText = vi.fn();
@@ -44,6 +45,7 @@ Object.defineProperty(navigator, 'clipboard', {
 });
 
 describe('WalletIslandQrReceive', () => {
+  const mockUseTheme = useTheme as ReturnType<typeof vi.fn>;
   const mockUseWalletContext = useWalletContext as ReturnType<typeof vi.fn>;
   const mockUseWalletIslandContext = useWalletIslandContext as ReturnType<
     typeof vi.fn
@@ -58,6 +60,7 @@ describe('WalletIslandQrReceive', () => {
   };
 
   beforeEach(() => {
+    mockUseTheme.mockReturnValue('');
     mockUseWalletContext.mockReturnValue({
       isOpen: true,
       isClosing: false,
