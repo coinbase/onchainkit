@@ -30,9 +30,20 @@ type WalletIslandProviderReact = {
   children: ReactNode;
 };
 
-const WalletIslandContext = createContext<WalletIslandContextType>(
-  {} as WalletIslandContextType,
-);
+const emptyContext = {} as WalletIslandContextType;
+
+const WalletIslandContext =
+  createContext<WalletIslandContextType>(emptyContext);
+
+export function useWalletIslandContext() {
+  const walletIslandContext = useContext(WalletIslandContext);
+  if (walletIslandContext === emptyContext) {
+    throw new Error(
+      'useWalletIslandContext must be used within a WalletIslandProvider',
+    );
+  }
+  return walletIslandContext;
+}
 
 export function WalletIslandProvider({ children }: WalletIslandProviderReact) {
   const { address } = useWalletContext();
@@ -72,14 +83,4 @@ export function WalletIslandProvider({ children }: WalletIslandProviderReact) {
       {children}
     </WalletIslandContext.Provider>
   );
-}
-
-export function useWalletIslandContext() {
-  const walletIslandContext = useContext(WalletIslandContext);
-  if (!walletIslandContext) {
-    throw new Error(
-      'useWalletIslandContext must be used within a WalletIslandProvider',
-    );
-  }
-  return walletIslandContext;
 }
