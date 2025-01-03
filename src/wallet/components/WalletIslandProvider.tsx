@@ -10,7 +10,6 @@ import {
   createContext,
   useContext,
   useEffect,
-  useMemo,
   useState,
 } from 'react';
 import { useWalletContext } from './WalletProvider';
@@ -25,18 +24,6 @@ export type WalletIslandContextType = {
   isQrClosing: boolean;
   setIsQrClosing: Dispatch<SetStateAction<boolean>>;
   tokenHoldings: TokenBalanceWithFiatValue[];
-  animationClasses: WalletIslandAnimations;
-  setHasContentAnimated: Dispatch<SetStateAction<boolean>>;
-};
-
-type WalletIslandAnimations = {
-  content: `animate-${string}` | '';
-  qr: `animate-${string}`;
-  swap: `animate-${string}`;
-  walletActions: `animate-${string}`;
-  addressDetails: `animate-${string}`;
-  transactionActions: `animate-${string}`;
-  tokenHoldings: `animate-${string}`;
 };
 
 type WalletIslandProviderReact = {
@@ -48,27 +35,14 @@ const WalletIslandContext = createContext<WalletIslandContextType>(
 );
 
 export function WalletIslandProvider({ children }: WalletIslandProviderReact) {
-  const { address, isClosing } = useWalletContext();
+  const { address } = useWalletContext();
   const [showSwap, setShowSwap] = useState(false);
   const [isSwapClosing, setIsSwapClosing] = useState(false);
   const [showQr, setShowQr] = useState(false);
   const [isQrClosing, setIsQrClosing] = useState(false);
-  const [hasContentAnimated, setHasContentAnimated] = useState(false);
   const [tokenHoldings, setTokenHoldings] = useState<
     TokenBalanceWithFiatValue[]
   >([]);
-
-  useEffect(() => {
-    if (isQrClosing || isSwapClosing) {
-      setHasContentAnimated(true);
-    }
-  }, [isQrClosing, isSwapClosing]);
-
-  useEffect(() => {
-    if (isClosing) {
-      setHasContentAnimated(false);
-    }
-  }, [isClosing]);
 
   useEffect(() => {
     async function fetchTokens() {
@@ -81,39 +55,6 @@ export function WalletIslandProvider({ children }: WalletIslandProviderReact) {
     fetchTokens();
   }, [address]);
 
-  const animations = {
-    content: hasContentAnimated ? '' : 'animate-walletIslandContainerIn',
-    qr: 'animate-slideInFromLeft',
-    swap: 'animate-slideInFromRight',
-    walletActions: hasContentAnimated
-      ? 'opacity-100'
-      : 'animate-walletIslandContainerItem1',
-    addressDetails: hasContentAnimated
-      ? 'opacity-100'
-      : 'animate-walletIslandContainerItem2',
-    transactionActions: hasContentAnimated
-      ? 'opacity-100'
-      : 'animate-walletIslandContainerItem3',
-    tokenHoldings: hasContentAnimated
-      ? 'opacity-100'
-      : 'animate-walletIslandContainerItem4',
-  } as WalletIslandAnimations;
-
-  const animationClasses = useMemo(() => {
-    if (isQrClosing || isSwapClosing) {
-      animations.content = '';
-      animations.qr = 'animate-slideOutToLeft';
-      animations.swap = 'animate-slideOutToLeft';
-      animations.walletActions = 'animate-slideInFromRight';
-      animations.addressDetails = 'animate-slideInFromRight';
-      animations.transactionActions = 'animate-slideInFromRight';
-      animations.tokenHoldings = 'animate-slideInFromRight';
-    } else if (isClosing) {
-      animations.content = 'animate-walletIslandContainerOut';
-    }
-    return animations;
-  }, [isClosing, isQrClosing, isSwapClosing, animations]);
-
   const value = useValue({
     showSwap,
     setShowSwap,
@@ -124,8 +65,6 @@ export function WalletIslandProvider({ children }: WalletIslandProviderReact) {
     isQrClosing,
     setIsQrClosing,
     tokenHoldings,
-    animationClasses,
-    setHasContentAnimated,
   });
 
   return (
@@ -138,7 +77,9 @@ export function WalletIslandProvider({ children }: WalletIslandProviderReact) {
 export function useWalletIslandContext() {
   const walletIslandContext = useContext(WalletIslandContext);
   if (!walletIslandContext) {
-    throw new Error('useWalletIslandContext must be used within a WalletIslandProvider');
+    throw new Error(
+      'useWalletIslandContext must be used within a WalletIslandProvider',
+    );
   }
   return walletIslandContext;
 }
