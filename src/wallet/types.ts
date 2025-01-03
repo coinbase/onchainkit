@@ -149,3 +149,8 @@ export type WalletDropdownLinkReact = {
   rel?: string;
   target?: string;
 };
+
+export type WalletIslandProps = {
+  children: React.ReactNode;
+  walletContainerRef: React.RefObject<HTMLDivElement>;
+};
