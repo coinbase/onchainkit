@@ -6,12 +6,12 @@ import {
 
 describe('getAddressTokenBalances', () => {
   it('should return an empty array for an invalid address', async () => {
-    const result = await getAddressTokenBalances('invalid-address');
+    const result = await getAddressTokenBalances('invalid-address' as `0x${string}`);
     expect(result).toEqual([]);
   });
 
   it('should return an empty array for a null address', async () => {
-    const result = await getAddressTokenBalances(null);
+    const result = await getAddressTokenBalances(null as unknown as `0x${string}`);
     expect(result).toEqual([]);
   });
 
