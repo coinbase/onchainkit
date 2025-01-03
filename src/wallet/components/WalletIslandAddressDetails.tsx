@@ -23,7 +23,7 @@ export function AddressDetails() {
   }, [address]);
 
   if (isClosing || !chain) {
-    return null;
+    return <div className="mt-1 h-28 w-10" />;
   }
 
   return (
@@ -32,8 +32,8 @@ export function AddressDetails() {
         'mt-2 flex flex-col items-center justify-center',
         color.foreground,
         text.body,
-        'opacity-0',
-        animationClasses.addressDetails,
+        // 'opacity-0',
+        // animationClasses.addressDetails,
       )}
     >
       <div className="h-10 w-10">

@@ -16,8 +16,8 @@ export function WalletIslandTokenHoldings() {
         'max-h-44 overflow-y-auto',
         'flex w-full flex-col items-center gap-4',
         'mt-2 mb-2 px-2',
-        'opacity-0',
-        animationClasses.tokenHoldings,
+        // 'opacity-0',
+        // animationClasses.tokenHoldings,
         'shadow-[inset_0_-15px_10px_-10px_rgba(0,0,0,0.05)]',
       )}
       data-testid="ockWalletIsland_TokenHoldings"
