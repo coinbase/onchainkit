@@ -29,7 +29,7 @@ export function WalletIslandSwap({
   title,
   to,
 }: SwapDefaultReact) {
-  const { showSwap, setShowSwap, setIsSwapClosing, animationClasses } =
+  const { showSwap, setShowSwap, isSwapClosing, setIsSwapClosing } =
     useWalletIslandContext();
   const swapDivRef = useRef<HTMLDivElement>(null);
 
@@ -55,7 +55,12 @@ export function WalletIslandSwap({
     <div
       ref={swapDivRef}
       tabIndex={showSwap ? -1 : undefined}
-      className={cn(animationClasses.swap, 'relative')}
+      className={cn(
+        isSwapClosing
+          ? 'fade-out slide-out-to-left-5 animate-out fill-mode-forwards ease-in-out'
+          : 'fade-in slide-in-from-right-5 animate-in duration-150 ease-out',
+        'relative',
+      )}
       data-testid="ockWalletIslandSwap"
     >
       <button
