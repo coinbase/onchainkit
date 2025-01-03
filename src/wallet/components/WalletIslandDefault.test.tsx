@@ -33,7 +33,6 @@ vi.mock('./WalletIslandContent', () => ({
   ),
 }));
 
-
 vi.mock('./WalletProvider', () => ({
   useWalletContext: vi.fn(),
   WalletProvider: ({ children }) => <>{children}</>,

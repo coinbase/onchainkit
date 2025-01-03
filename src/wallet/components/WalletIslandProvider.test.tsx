@@ -59,7 +59,9 @@ describe('useWalletIslandContext', () => {
     console.error = vi.fn();
     expect(() => {
       render(<TestComponent />);
-    }).toThrow('useWalletIslandContext must be used within a WalletIslandProvider');
+    }).toThrow(
+      'useWalletIslandContext must be used within a WalletIslandProvider',
+    );
     // Restore console.error
     console.error = originalError;
   });

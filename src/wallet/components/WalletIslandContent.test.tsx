@@ -91,7 +91,7 @@ describe('WalletIslandContent', () => {
     mockUseWalletContext.mockReturnValue({
       isClosing: true,
       setIsOpen,
-      setIsClosing
+      setIsClosing,
     });
 
     render(<WalletIslandContent />);
