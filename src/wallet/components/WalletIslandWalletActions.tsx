@@ -32,8 +32,8 @@ export function WalletIslandWalletActions() {
     <div
       className={cn(
         'flex w-full items-center justify-between',
-        'opacity-0',
-        animationClasses.walletActions,
+        // 'opacity-0',
+        // animationClasses.walletActions,
       )}
     >
       <div className="flex items-center">
@@ -77,7 +77,7 @@ export function WalletIslandWalletActions() {
             'flex items-center justify-center p-2',
           )}
         >
-          {disconnectSvg}
+          <div className="h-7 w-7 p-2">{disconnectSvg}</div>
         </button>
         <button
           data-testid="ockWalletIsland_CollapseButton"
