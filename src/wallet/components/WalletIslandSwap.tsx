@@ -51,6 +51,22 @@ export function WalletIslandSwap({
     }
   }, [showSwap]);
 
+  const backButton = (
+    <button
+      type="button"
+      onClick={handleCloseSwap}
+      className={cn(
+        pressable.default,
+        border.radius,
+        border.default,
+        'flex items-center justify-center p-4',
+      )}
+      aria-label="Back button"
+    >
+      <div>{backArrowSvg}</div>
+    </button>
+  );
+
   return (
     <div
       ref={swapDivRef}
@@ -63,20 +79,6 @@ export function WalletIslandSwap({
       )}
       data-testid="ockWalletIslandSwap"
     >
-      <button
-        type="button"
-        onClick={handleCloseSwap}
-        className={cn(
-          pressable.default,
-          border.radius,
-          border.default,
-          'flex items-center justify-center p-3',
-          'absolute top-[2px] left-0',
-        )}
-        aria-label="Back button"
-      >
-        <div className="scale-125">{backArrowSvg}</div>
-      </button>
       <Swap
         className={className}
         onStatus={onStatus}
@@ -86,7 +88,7 @@ export function WalletIslandSwap({
         isSponsored={isSponsored}
         title={title}
         experimental={experimental}
-        // backButton={backButton}
+        headerLeftContent={backButton}
       >
         <SwapSettings className="w-auto">
           <SwapSettingsSlippageTitle>Max. slippage</SwapSettingsSlippageTitle>
