@@ -1,5 +1,8 @@
 import { describe, expect, it } from 'vitest';
-import { type TokenBalanceWithFiatValue, getAddressTokenBalances } from './getAddressTokenBalances';
+import {
+  type TokenBalanceWithFiatValue,
+  getAddressTokenBalances,
+} from './getAddressTokenBalances';
 
 describe('getAddressTokenBalances', () => {
   it('should return an empty array for an invalid address', async () => {
