@@ -3,6 +3,7 @@ import { arrowUpRightSvg } from '@/internal/svg/arrowUpRightSvg';
 import { toggleSvg } from '@/internal/svg/toggleSvg';
 import { border, cn, color, pressable, text } from '@/styles/theme';
 import { useWalletIslandContext } from './WalletIslandProvider';
+import { useWalletContext } from '@/wallet/components/WalletProvider';
 
 type TransactionActionProps = {
   icon: React.ReactNode;
@@ -11,15 +12,17 @@ type TransactionActionProps = {
 };
 
 export function WalletIslandTransactionActions() {
-  // const { setShowSwap, animationClasses } = useWalletIslandContext();
+  const { isClosing } = useWalletContext();
   const { setShowSwap } = useWalletIslandContext();
 
   return (
     <div
       className={cn(
         'my-3 flex w-full flex-row justify-center gap-2',
-        // 'opacity-0',
-        // animationClasses.transactionActions,
+        {
+          'fade-in slide-in-from-top-2.5 animate-in fill-mode-forwards duration-300 ease-out':
+            !isClosing,
+        },
       )}
     >
       <WalletIslandTransactionAction

@@ -9,8 +9,7 @@ import { useWalletIslandContext } from './WalletIslandProvider';
 import { useWalletContext } from './WalletProvider';
 
 export function WalletIslandWalletActions() {
-  const { handleClose } = useWalletContext();
-  // const { setShowQr, animationClasses } = useWalletIslandContext();
+  const { isClosing, handleClose } = useWalletContext();
   const { setShowQr } = useWalletIslandContext();
   const { disconnect, connectors } = useDisconnect();
 
@@ -33,8 +32,10 @@ export function WalletIslandWalletActions() {
     <div
       className={cn(
         'flex w-full items-center justify-between',
-        // 'opacity-0',
-        // animationClasses.walletActions,
+        {
+          'fade-in slide-in-from-top-2.5 animate-in fill-mode-forwards duration-300 ease-out':
+            !isClosing,
+        },
       )}
     >
       <div className="flex items-center">

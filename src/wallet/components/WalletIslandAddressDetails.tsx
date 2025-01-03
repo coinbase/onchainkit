@@ -2,12 +2,10 @@ import { border, cn, color, pressable, text } from '@/styles/theme';
 import { Avatar, Badge, Name } from '@/ui/react/identity';
 import { useCallback, useState } from 'react';
 import type { Address, Chain } from 'viem';
-// import { useWalletIslandContext } from './WalletIslandProvider';
 import { useWalletContext } from './WalletProvider';
 
 export function AddressDetails() {
   const { address, chain, isClosing } = useWalletContext();
-  // const { animationClasses } = useWalletIslandContext();
   const [copyText, setCopyText] = useState('Copy');
 
   const handleCopyAddress = useCallback(async () => {
@@ -32,8 +30,10 @@ export function AddressDetails() {
         'mt-2 flex flex-col items-center justify-center',
         color.foreground,
         text.body,
-        // 'opacity-0',
-        // animationClasses.addressDetails,
+        {
+          'fade-in slide-in-from-top-2.5 animate-in fill-mode-forwards duration-300 ease-out':
+            !isClosing,
+        },
       )}
     >
       <div className="h-10 w-10">
