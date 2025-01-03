@@ -30,13 +30,10 @@ export function WalletIslandWalletActions() {
 
   return (
     <div
-      className={cn(
-        'flex w-full items-center justify-between',
-        {
-          'fade-in slide-in-from-top-2.5 animate-in fill-mode-forwards duration-300 ease-out':
-            !isClosing,
-        },
-      )}
+      className={cn('flex w-full items-center justify-between', {
+        'fade-in slide-in-from-top-2.5 animate-in fill-mode-forwards duration-300 ease-out':
+          !isClosing,
+      })}
     >
       <div className="flex items-center">
         <a

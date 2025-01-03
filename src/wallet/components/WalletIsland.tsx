@@ -1,6 +1,6 @@
 import type { WalletIslandProps } from '../types';
-import { WalletIslandProvider } from './WalletIslandProvider';
 import { WalletIslandContent } from './WalletIslandContent';
+import { WalletIslandProvider } from './WalletIslandProvider';
 
 export function WalletIsland({
   children,
