@@ -1,4 +1,5 @@
 import { fireEvent, render, screen } from '@testing-library/react';
+import type { RefObject } from 'react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { WalletIslandContent } from './WalletIslandContent';
 import { useWalletIslandContext } from './WalletIslandProvider';
@@ -10,7 +11,9 @@ vi.mock('../../core-react/internal/hooks/useTheme', () => ({
 
 vi.mock('./WalletIslandProvider', () => ({
   useWalletIslandContext: vi.fn(),
-  WalletIslandProvider: ({ children }) => <>{children}</>,
+  WalletIslandProvider: ({ children }: { children: React.ReactNode }) => (
+    <>{children}</>
+  ),
 }));
 
 vi.mock('./WalletIslandQrReceive', () => ({
@@ -27,7 +30,9 @@ vi.mock('./WalletIslandSwap', () => ({
 
 vi.mock('./WalletProvider', () => ({
   useWalletContext: vi.fn(),
-  WalletProvider: ({ children }) => <>{children}</>,
+  WalletProvider: ({ children }: { children: React.ReactNode }) => (
+    <>{children}</>
+  ),
 }));
 
 describe('WalletIslandContent', () => {
@@ -54,7 +59,11 @@ describe('WalletIslandContent', () => {
   it('renders WalletIslandContent when isClosing is false', () => {
     mockUseWalletContext.mockReturnValue({ isClosing: false });
 
-    render(<WalletIslandContent />);
+    render(
+      <WalletIslandContent>
+        <div>WalletIslandContent</div>
+      </WalletIslandContent>,
+    );
 
     expect(screen.getByTestId('ockWalletIslandContent')).toBeDefined();
     expect(screen.queryByTestId('ockWalletIslandContent')).toHaveClass(
@@ -71,7 +80,11 @@ describe('WalletIslandContent', () => {
   it('closes WalletIslandContent when isClosing is true', () => {
     mockUseWalletContext.mockReturnValue({ isClosing: true });
 
-    render(<WalletIslandContent />);
+    render(
+      <WalletIslandContent>
+        <div>WalletIslandContent</div>
+      </WalletIslandContent>,
+    );
 
     expect(screen.getByTestId('ockWalletIslandContent')).toBeDefined();
     expect(screen.queryByTestId('ockWalletIslandContent')).toHaveClass(
@@ -94,7 +107,11 @@ describe('WalletIslandContent', () => {
       setIsClosing,
     });
 
-    render(<WalletIslandContent />);
+    render(
+      <WalletIslandContent>
+        <div>WalletIslandContent</div>
+      </WalletIslandContent>,
+    );
 
     const content = screen.getByTestId('ockWalletIslandContent');
     fireEvent.animationEnd(content);
@@ -109,7 +126,11 @@ describe('WalletIslandContent', () => {
       showQr: true,
     });
 
-    render(<WalletIslandContent />);
+    render(
+      <WalletIslandContent>
+        <div>WalletIslandContent</div>
+      </WalletIslandContent>,
+    );
 
     expect(screen.getByTestId('ockWalletIslandQrReceive')).toBeDefined();
     expect(
@@ -126,7 +147,11 @@ describe('WalletIslandContent', () => {
       showSwap: true,
     });
 
-    render(<WalletIslandContent />);
+    render(
+      <WalletIslandContent>
+        <div>WalletIslandContent</div>
+      </WalletIslandContent>,
+    );
 
     expect(screen.getByTestId('ockWalletIslandSwap')).toBeDefined();
     expect(
@@ -153,7 +178,13 @@ describe('WalletIslandContent', () => {
       isClosing: false,
     });
 
-    render(<WalletIslandContent walletContainerRef={mockRef} />);
+    render(
+      <WalletIslandContent
+        walletContainerRef={mockRef as unknown as RefObject<HTMLDivElement>}
+      >
+        <div>WalletIslandContent</div>
+      </WalletIslandContent>,
+    );
 
     const draggable = screen.getByTestId('ockDraggable');
     expect(draggable).toHaveStyle({
@@ -177,7 +208,13 @@ describe('WalletIslandContent', () => {
       isClosing: false,
     });
 
-    render(<WalletIslandContent walletContainerRef={mockRef} />);
+    render(
+      <WalletIslandContent
+        walletContainerRef={mockRef as unknown as RefObject<HTMLDivElement>}
+      >
+        <div>WalletIslandContent</div>
+      </WalletIslandContent>,
+    );
 
     const draggable = screen.getByTestId('ockDraggable');
     expect(draggable).toHaveStyle({
@@ -201,7 +238,13 @@ describe('WalletIslandContent', () => {
       isClosing: false,
     });
 
-    render(<WalletIslandContent walletContainerRef={mockRef} />);
+    render(
+      <WalletIslandContent
+        walletContainerRef={mockRef as unknown as RefObject<HTMLDivElement>}
+      >
+        <div>WalletIslandContent</div>
+      </WalletIslandContent>,
+    );
 
     const draggable = screen.getByTestId('ockDraggable');
     expect(draggable).toHaveStyle({
@@ -225,7 +268,13 @@ describe('WalletIslandContent', () => {
       isClosing: false,
     });
 
-    render(<WalletIslandContent walletContainerRef={mockRef} />);
+    render(
+      <WalletIslandContent
+        walletContainerRef={mockRef as unknown as RefObject<HTMLDivElement>}
+      >
+        <div>WalletIslandContent</div>
+      </WalletIslandContent>,
+    );
 
     const draggable = screen.getByTestId('ockDraggable');
     expect(draggable).toHaveStyle({

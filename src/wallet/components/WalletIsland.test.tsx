@@ -14,14 +14,16 @@ vi.mock('./ConnectWallet', () => ({
 }));
 
 vi.mock('./WalletIslandContent', () => ({
-  WalletIslandContent: ({ children }) => (
+  WalletIslandContent: ({ children }: { children: React.ReactNode }) => (
     <div data-testid="wallet-island-content">{children}</div>
   ),
 }));
 
 vi.mock('./WalletProvider', () => ({
   useWalletContext: vi.fn(),
-  WalletProvider: ({ children }) => <>{children}</>,
+  WalletProvider: ({ children }: { children: React.ReactNode }) => (
+    <>{children}</>
+  ),
 }));
 
 describe('WalletIsland', () => {

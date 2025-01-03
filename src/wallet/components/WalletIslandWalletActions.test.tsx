@@ -15,12 +15,16 @@ vi.mock('wagmi/actions', () => ({
 
 vi.mock('./WalletIslandProvider', () => ({
   useWalletIslandContext: vi.fn(),
-  WalletIslandProvider: ({ children }) => <>{children}</>,
+  WalletIslandProvider: ({ children }: { children: React.ReactNode }) => (
+    <>{children}</>
+  ),
 }));
 
 vi.mock('./WalletProvider', () => ({
   useWalletContext: vi.fn(),
-  WalletProvider: ({ children }) => <>{children}</>,
+  WalletProvider: ({ children }: { children: React.ReactNode }) => (
+    <>{children}</>
+  ),
 }));
 
 describe('WalletIslandWalletActions', () => {

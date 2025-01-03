@@ -43,7 +43,7 @@ vi.mock(import('../../swap'), async (importOriginal) => {
     SwapAmountInput: () => <div data-testid="mock-SwapAmountInput" />,
     SwapButton: () => <div data-testid="mock-SwapButton" />,
     SwapMessage: () => <div data-testid="mock-SwapMessage" />,
-    SwapSettings: ({ children }) => (
+    SwapSettings: ({ children }: { children: React.ReactNode }) => (
       <div data-testid="mock-SwapSettings">{children}</div>
     ),
     SwapSettingsSlippageDescription: () => (
@@ -62,7 +62,9 @@ vi.mock(import('../../swap'), async (importOriginal) => {
 
 vi.mock('../../swap/components/SwapProvider', () => ({
   useSwapContext: vi.fn(),
-  SwapProvider: ({ children }) => <>{children}</>,
+  SwapProvider: ({ children }: { children: React.ReactNode }) => (
+    <>{children}</>
+  ),
 }));
 
 vi.mock('./WalletIslandProvider', () => ({

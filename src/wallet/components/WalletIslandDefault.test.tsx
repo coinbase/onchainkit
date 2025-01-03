@@ -24,7 +24,9 @@ vi.mock('../../core-react/identity/hooks/useName', () => ({
 
 vi.mock('./WalletIslandProvider', () => ({
   useWalletIslandContext: vi.fn(),
-  WalletIslandProvider: ({ children }) => <>{children}</>,
+  WalletIslandProvider: ({ children }: { children: React.ReactNode }) => (
+    <>{children}</>
+  ),
 }));
 
 vi.mock('./WalletIslandContent', () => ({
@@ -35,7 +37,9 @@ vi.mock('./WalletIslandContent', () => ({
 
 vi.mock('./WalletProvider', () => ({
   useWalletContext: vi.fn(),
-  WalletProvider: ({ children }) => <>{children}</>,
+  WalletProvider: ({ children }: { children: React.ReactNode }) => (
+    <>{children}</>
+  ),
 }));
 
 describe('WalletIslandDefault', () => {
