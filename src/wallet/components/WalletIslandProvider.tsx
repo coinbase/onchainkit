@@ -26,9 +26,11 @@ export type WalletIslandContextType = {
   setIsQrClosing: Dispatch<SetStateAction<boolean>>;
   tokenBalances: PortfolioTokenWithFiatValue[] | undefined;
   portfolioFiatValue: number | undefined;
-  refetchPortfolioData: () => Promise<QueryObserverResult<PortfolioTokenBalances[], Error>>;
   isFetchingPortfolioData: boolean;
   portfolioDataUpdatedAt: number | undefined;
+  refetchPortfolioData: () => Promise<
+    QueryObserverResult<PortfolioTokenBalances[], Error>
+  >;
 };
 
 type WalletIslandProviderReact = {
@@ -77,9 +79,9 @@ export function WalletIslandProvider({ children }: WalletIslandProviderReact) {
     setIsQrClosing,
     tokenBalances,
     portfolioFiatValue,
-    refetchPortfolioData,
     isFetchingPortfolioData,
     portfolioDataUpdatedAt,
+    refetchPortfolioData,
   });
 
   return (

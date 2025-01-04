@@ -1,7 +1,7 @@
 import { getPortfolioTokenBalances } from '@/core/api/getPortfolioTokenBalances';
 import type {
-  PortfolioTokenWithFiatValue,
   PortfolioTokenBalances,
+  PortfolioTokenWithFiatValue,
 } from '@/core/api/types';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { renderHook, waitFor } from '@testing-library/react';
@@ -88,10 +88,9 @@ describe('usePortfolioTokenBalances', () => {
   });
 
   it('should not fetch when addresses is empty', () => {
-    renderHook(
-      () => usePortfolioTokenBalances({ addresses: [] }),
-      { wrapper: createWrapper() },
-    );
+    renderHook(() => usePortfolioTokenBalances({ addresses: [] }), {
+      wrapper: createWrapper(),
+    });
 
     expect(getPortfolioTokenBalances).not.toHaveBeenCalled();
   });
