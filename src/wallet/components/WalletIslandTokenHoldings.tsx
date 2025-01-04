@@ -1,3 +1,4 @@
+import { Spinner } from '@/internal/components/Spinner';
 import { cn, color, text } from '@/styles/theme';
 import { type Token, TokenImage } from '@/token';
 import { useWalletIslandContext } from './WalletIslandProvider';
@@ -6,7 +7,11 @@ import { useWalletContext } from './WalletProvider';
 // TODO: handle loading state
 export function WalletIslandTokenHoldings() {
   const { isClosing } = useWalletContext();
-  const { tokenBalances } = useWalletIslandContext();
+  const { tokenBalances, isFetchingPortfolioData } = useWalletIslandContext();
+
+  if (isFetchingPortfolioData) {
+    return <Spinner />;
+  }
 
   if (!tokenBalances || tokenBalances.length === 0) {
     return null;
