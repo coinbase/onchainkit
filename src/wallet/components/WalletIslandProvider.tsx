@@ -9,7 +9,8 @@ import {
 } from 'react';
 import { useWalletContext } from './WalletProvider';
 import { usePortfolioTokenBalances } from '@/core-react/wallet/usePortfolioTokenBalances';
-import type { PortfolioTokenWithFiatValue } from '@/core/api/getPortfolioTokenBalances';
+import type { Portfolio, PortfolioTokenWithFiatValue } from '@/core/api/getPortfolioTokenBalances';
+import type { QueryObserverResult } from '@tanstack/react-query';
 
 export type WalletIslandContextType = {
   showSwap: boolean;
@@ -22,6 +23,9 @@ export type WalletIslandContextType = {
   setIsQrClosing: Dispatch<SetStateAction<boolean>>;
   tokenBalances: PortfolioTokenWithFiatValue[] | undefined;
   portfolioFiatValue: number | undefined;
+  refetchPortfolioData: () => Promise<QueryObserverResult<Portfolio[], Error>>;
+  isFetchingPortfolioData: boolean;
+  portfolioDataUpdatedAt: number | undefined;
 };
 
 type WalletIslandProviderReact = {
@@ -51,9 +55,9 @@ export function WalletIslandProvider({ children }: WalletIslandProviderReact) {
   const [isQrClosing, setIsQrClosing] = useState(false);
   const {
     data: portfolioData,
-    // isLoading: isLoadingPortfolioData,
-    // isError,
-    // error,
+    refetch: refetchPortfolioData,
+    isFetching: isFetchingPortfolioData,
+    dataUpdatedAt: portfolioDataUpdatedAt,
   } = usePortfolioTokenBalances({ addresses: [address ?? '0x000'] });
 
   const portfolioFiatValue = portfolioData?.[0]?.portfolio_balance_usd;
@@ -70,6 +74,9 @@ export function WalletIslandProvider({ children }: WalletIslandProviderReact) {
     setIsQrClosing,
     tokenBalances,
     portfolioFiatValue,
+    refetchPortfolioData,
+    isFetchingPortfolioData,
+    portfolioDataUpdatedAt,
   });
 
   return (
