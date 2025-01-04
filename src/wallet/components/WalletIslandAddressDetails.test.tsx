@@ -152,4 +152,34 @@ describe('WalletIslandAddressDetails', () => {
 
     expect(navigator.clipboard.writeText).toHaveBeenCalledWith('');
   });
+
+  it('should show spinner when fetching portfolio data', () => {
+    mockUseWalletIslandContext.mockReturnValue({
+      isFetchingPortfolioData: true,
+    });
+
+    render(<AddressDetails />);
+
+    expect(screen.getByTestId('ockSpinner')).toBeInTheDocument();
+  });
+
+  it('should display formatted portfolio value when available', () => {
+    mockUseWalletIslandContext.mockReturnValue({
+      isFetchingPortfolioData: false,
+      portfolioFiatValue: null,
+    });
+
+    const { rerender } = render(<AddressDetails />);
+
+    expect(screen.getByTestId('ockWalletIsland_AddressBalance')).toHaveTextContent('');
+
+    mockUseWalletIslandContext.mockReturnValue({
+      isFetchingPortfolioData: false,
+      portfolioFiatValue: '1234.567'
+    });
+
+    rerender(<AddressDetails />);
+
+    expect(screen.getByTestId('ockWalletIsland_AddressBalance')).toHaveTextContent('$1234.57');
+  });
 });
