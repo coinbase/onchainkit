@@ -24,8 +24,11 @@ export function usePortfolioTokenBalances({
       return response.tokens;
     },
     retry: false,
-    refetchOnWindowFocus: false,
     enabled: !!addresses && addresses.length > 0,
-    refetchInterval: 1000 * 60 * 15, // 15 minutes
+    refetchOnWindowFocus: false,
+    staleTime: 1000 * 60 * 5, // refresh on mount every 5 minutes
+    refetchOnMount: true,
+    refetchInterval: 1000 * 60 * 15, // refresh in background every 15 minutes
+    refetchIntervalInBackground: true,
   });
 }
