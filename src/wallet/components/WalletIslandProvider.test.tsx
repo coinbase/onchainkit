@@ -41,11 +41,13 @@ describe('useWalletIslandContext', () => {
     });
     mockUseWalletContext.mockReturnValue(defaultWalletContext);
     mockUsePortfolioTokenBalances.mockReturnValue({
-      data: [{
-        address: '0x123',
-        token_balances: [],
-        portfolio_balance_usd: 0,
-      }],
+      data: [
+        {
+          address: '0x123',
+          token_balances: [],
+          portfolio_balance_usd: 0,
+        },
+      ],
       refetch: vi.fn(),
       isFetching: false,
       dataUpdatedAt: new Date(),
@@ -89,5 +91,31 @@ describe('useWalletIslandContext', () => {
     );
     // Restore console.error
     console.error = originalError;
+  });
+
+  it('should call usePortfolioTokenBalances with the correct address', () => {
+    mockUseWalletContext.mockReturnValue({
+      address: null,
+      isClosing: false,
+    });
+
+    const { rerender } = renderHook(() => useWalletIslandContext(), {
+      wrapper: WalletIslandProvider,
+    });
+
+    expect(mockUsePortfolioTokenBalances).toHaveBeenCalledWith({
+      addresses: ['0x000'],
+    });
+
+    mockUseWalletContext.mockReturnValue({
+      address: '0x123',
+      isClosing: false,
+    });
+
+    rerender();
+
+    expect(mockUsePortfolioTokenBalances).toHaveBeenCalledWith({
+      addresses: ['0x123'],
+    });
   });
 });
