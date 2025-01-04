@@ -19,12 +19,20 @@ vi.mock('./WalletIslandContent', () => ({
   ),
 }));
 
+vi.mock('./WalletIslandProvider', () => ({
+  useWalletIslandContext: vi.fn(),
+  WalletIslandProvider: ({ children }: { children: React.ReactNode }) => (
+    <>{children}</>
+  ),
+}));
+
 vi.mock('./WalletProvider', () => ({
   useWalletContext: vi.fn(),
   WalletProvider: ({ children }: { children: React.ReactNode }) => (
     <>{children}</>
   ),
 }));
+
 
 describe('WalletIsland', () => {
   const mockUseWalletContext = useWalletContext as ReturnType<typeof vi.fn>;

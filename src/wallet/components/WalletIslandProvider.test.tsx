@@ -1,3 +1,4 @@
+import { usePortfolioTokenBalances } from '@/core-react/wallet/hooks/usePortfolioTokenBalances';
 import { render, renderHook } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { useAccount } from 'wagmi';
@@ -9,6 +10,10 @@ import { useWalletContext } from './WalletProvider';
 
 vi.mock('wagmi', () => ({
   useAccount: vi.fn(),
+}));
+
+vi.mock('../../core-react/wallet/hooks/usePortfolioTokenBalances', () => ({
+  usePortfolioTokenBalances: vi.fn(),
 }));
 
 vi.mock('./WalletProvider', () => ({
@@ -26,11 +31,25 @@ describe('useWalletIslandContext', () => {
     isClosing: false,
   };
 
+  const mockUsePortfolioTokenBalances = usePortfolioTokenBalances as ReturnType<
+    typeof vi.fn
+  >;
+
   beforeEach(() => {
     mockUseAccount.mockReturnValue({
       address: '0x123',
     });
     mockUseWalletContext.mockReturnValue(defaultWalletContext);
+    mockUsePortfolioTokenBalances.mockReturnValue({
+      data: [{
+        address: '0x123',
+        token_balances: [],
+        portfolio_balance_usd: 0,
+      }],
+      refetch: vi.fn(),
+      isFetching: false,
+      dataUpdatedAt: new Date(),
+    });
   });
 
   it('should provide wallet island context when used within provider', () => {
@@ -47,7 +66,11 @@ describe('useWalletIslandContext', () => {
       setShowQr: expect.any(Function),
       isQrClosing: false,
       setIsQrClosing: expect.any(Function),
-      tokenHoldings: expect.any(Array),
+      tokenBalances: expect.any(Array),
+      portfolioFiatValue: expect.any(Number),
+      refetchPortfolioData: expect.any(Function),
+      isFetchingPortfolioData: false,
+      portfolioDataUpdatedAt: expect.any(Date),
     });
   });
 
