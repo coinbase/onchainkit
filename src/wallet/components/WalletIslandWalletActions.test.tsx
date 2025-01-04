@@ -70,7 +70,7 @@ describe('WalletIslandWalletActions', () => {
     expect(
       screen.getByTestId('ockWalletIsland_DisconnectButton'),
     ).toBeDefined();
-    expect(screen.getByTestId('ockWalletIsland_CollapseButton')).toBeDefined();
+    expect(screen.getByTestId('ockWalletIsland_RefreshButton')).toBeDefined();
   });
 
   it('disconnects connectors and closes when disconnect button is clicked', () => {
@@ -118,24 +118,35 @@ describe('WalletIslandWalletActions', () => {
     expect(setShowQrMock).toHaveBeenCalled();
   });
 
-  it('closes when collapse button is clicked', () => {
-    const handleCloseMock = vi.fn();
-    mockUseWalletContext.mockReturnValue({
-      ...defaultMockUseWalletIslandContext,
-      handleClose: handleCloseMock,
-    });
-
-    const setShowQrMock = vi.fn();
+  it('refreshes portfolio data when refresh button is clicked and data is not stale', () => {
+    const refetchPortfolioDataMock = vi.fn();
     mockUseWalletIslandContext.mockReturnValue({
       ...defaultMockUseWalletIslandContext,
-      setShowQr: setShowQrMock,
+      refetchPortfolioData: refetchPortfolioDataMock,
+      portfolioDataUpdatedAt: Date.now() - 1000 * 15 - 1,
     });
 
     render(<WalletIslandWalletActions />);
 
-    const collapseButton = screen.getByTestId('ockWalletIsland_CollapseButton');
-    fireEvent.click(collapseButton);
+    const refreshButton = screen.getByTestId('ockWalletIsland_RefreshButton');
+    fireEvent.click(refreshButton);
 
-    expect(handleCloseMock).toHaveBeenCalled();
+    expect(refetchPortfolioDataMock).toHaveBeenCalled();
+  });
+
+  it('does not refresh portfolio data when data is not stale', () => {
+    const refetchPortfolioDataMock = vi.fn();
+    mockUseWalletIslandContext.mockReturnValue({
+      ...defaultMockUseWalletIslandContext,
+      refetchPortfolioData: refetchPortfolioDataMock,
+      portfolioDataUpdatedAt: Date.now() - 1000 * 14,
+    });
+
+    render(<WalletIslandWalletActions />);
+
+    const refreshButton = screen.getByTestId('ockWalletIsland_RefreshButton');
+    fireEvent.click(refreshButton);
+
+    expect(refetchPortfolioDataMock).not.toHaveBeenCalled();
   });
 });

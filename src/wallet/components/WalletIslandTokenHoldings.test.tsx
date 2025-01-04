@@ -16,10 +16,11 @@ describe('WalletIslandTokenHoldings', () => {
   >;
 
   const defaultMockUseWalletIslandContext = {
-    animationClasses: {
-      tokenHoldings: 'animate-walletIslandContainerItem4',
-    },
-    tokenHoldings: [],
+    tokenBalances: [],
+    portfolioFiatValue: 0,
+    refetchPortfolioData: vi.fn(),
+    isFetchingPortfolioData: false,
+    portfolioDataUpdatedAt: new Date(),
   };
 
   beforeEach(() => {
@@ -29,7 +30,24 @@ describe('WalletIslandTokenHoldings', () => {
     );
   });
 
-  it('renders the WalletIslandTokenHoldings component with tokens', () => {
+  it('does not render token lists with zero tokens', () => {
+    render(<WalletIslandTokenHoldings />);
+
+    expect(screen.queryByTestId('ockWalletIsland_TokenHoldings')).toBeNull();
+  });
+
+  it('renders a spinner when fetcher is loading', () => {
+    mockUseWalletIslandContext.mockReturnValue({
+      ...defaultMockUseWalletIslandContext,
+      isFetchingPortfolioData: true,
+    });
+
+    render(<WalletIslandTokenHoldings />);
+
+    expect(screen.getByTestId('ockSpinner')).toBeDefined();
+  });
+
+  it('renders the WalletIslandTokenHoldings component with tokens when user has tokens and fetcher is not loading', () => {
     const tokens = [
       {
         token: {
@@ -74,17 +92,11 @@ describe('WalletIslandTokenHoldings', () => {
 
     mockUseWalletIslandContext.mockReturnValue({
       ...defaultMockUseWalletIslandContext,
-      tokenHoldings: tokens,
+      tokenBalances: tokens,
     });
 
     render(<WalletIslandTokenHoldings />);
 
     expect(screen.getByTestId('ockWalletIsland_TokenHoldings')).toBeDefined();
-  });
-
-  it('does not render token lists with zero tokens', () => {
-    render(<WalletIslandTokenHoldings />);
-
-    expect(screen.queryByTestId('ockWalletIsland_TokenHoldings')).toBeNull();
   });
 });
