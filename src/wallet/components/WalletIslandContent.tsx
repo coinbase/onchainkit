@@ -1,7 +1,9 @@
 import { useTheme } from '@/core-react/internal/hooks/useTheme';
 import { Draggable } from '@/internal/components/Draggable';
 import { background, border, cn, text } from '@/styles/theme';
+import type { Token } from '@/token';
 import { useMemo } from 'react';
+import { base } from 'viem/chains';
 import type { WalletIslandProps } from '../types';
 import { useWalletIslandContext } from './WalletIslandProvider';
 import { WalletIslandQrReceive } from './WalletIslandQrReceive';
@@ -10,13 +12,34 @@ import { useWalletContext } from './WalletProvider';
 
 const WALLET_ISLAND_WIDTH = 352;
 const WALLET_ISLAND_HEIGHT = 394;
+const WALLET_ISLAND_DEFAULT_SWAPPABLE_TOKENS: Token[] = [
+  {
+    name: 'ETH',
+    address: '',
+    symbol: 'ETH',
+    decimals: 18,
+    image:
+      'https://wallet-api-production.s3.amazonaws.com/uploads/tokens/eth_288.png',
+    chainId: base.id,
+  },
+  {
+    name: 'USDC',
+    address: '0x833589fcd6edb6e08f4c7c32d4f71b54bda02913',
+    symbol: 'USDC',
+    decimals: 6,
+    image:
+      'https://d3r81g40ycuhqg.cloudfront.net/wallet/wais/44/2b/442b80bd16af0c0d9b22e03a16753823fe826e5bfd457292b55fa0ba8c1ba213-ZWUzYjJmZGUtMDYxNy00NDcyLTg0NjQtMWI4OGEwYjBiODE2',
+    chainId: base.id,
+  },
+];
 
 export function WalletIslandContent({
   children,
+  swappableTokens,
   walletContainerRef,
 }: WalletIslandProps) {
   const { isClosing, setIsOpen, setIsClosing } = useWalletContext();
-  const { showQr, showSwap, tokenHoldings } = useWalletIslandContext();
+  const { showQr, showSwap, tokenBalances } = useWalletIslandContext();
   const componentTheme = useTheme();
 
   const position = useMemo(() => {
@@ -100,8 +123,17 @@ export function WalletIslandContent({
                 Swap
               </div>
             }
-            to={tokenHoldings?.map((token) => token.token)}
-            from={tokenHoldings?.map((token) => token.token)}
+            to={swappableTokens ?? WALLET_ISLAND_DEFAULT_SWAPPABLE_TOKENS}
+            from={
+              tokenBalances?.map((token) => ({
+                address: token.address,
+                chainId: token.chainId,
+                symbol: token.symbol,
+                decimals: token.decimals,
+                image: token.image,
+                name: token.name,
+              })) ?? []
+            }
             className="w-full p-2"
           />
         </div>
