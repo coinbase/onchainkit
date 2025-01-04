@@ -1,9 +1,9 @@
+import { Spinner } from '@/internal/components/Spinner';
 import { border, cn, color, pressable, text } from '@/styles/theme';
 import { Avatar, Badge, Name } from '@/ui/react/identity';
+import { useWalletIslandContext } from '@/wallet/components/WalletIslandProvider';
 import { useCallback, useState } from 'react';
 import { useWalletContext } from './WalletProvider';
-import { useWalletIslandContext } from '@/wallet/components/WalletIslandProvider';
-import { Spinner } from '@/internal/components/Spinner';
 
 export function AddressDetails() {
   const { address, chain, isClosing } = useWalletContext();

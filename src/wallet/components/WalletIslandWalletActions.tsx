@@ -96,7 +96,7 @@ export function WalletIslandWalletActions() {
             'flex items-center justify-center p-2',
           )}
         >
-          <div className='h-7 w-7 scale-125 p-2'>{refreshSvg}</div>
+          <div className="h-7 w-7 scale-125 p-2">{refreshSvg}</div>
         </button>
       </div>
     </div>

@@ -1,4 +1,10 @@
 import { useValue } from '@/core-react/internal/hooks/useValue';
+import { usePortfolioTokenBalances } from '@/core-react/wallet/usePortfolioTokenBalances';
+import type {
+  Portfolio,
+  PortfolioTokenWithFiatValue,
+} from '@/core/api/getPortfolioTokenBalances';
+import type { QueryObserverResult } from '@tanstack/react-query';
 import {
   type Dispatch,
   type ReactNode,
@@ -8,9 +14,6 @@ import {
   useState,
 } from 'react';
 import { useWalletContext } from './WalletProvider';
-import { usePortfolioTokenBalances } from '@/core-react/wallet/usePortfolioTokenBalances';
-import type { Portfolio, PortfolioTokenWithFiatValue } from '@/core/api/getPortfolioTokenBalances';
-import type { QueryObserverResult } from '@tanstack/react-query';
 
 export type WalletIslandContextType = {
   showSwap: boolean;
