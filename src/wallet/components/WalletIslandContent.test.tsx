@@ -1,3 +1,4 @@
+import type { SwapDefaultReact } from '@/swap/types';
 import { fireEvent, render, screen } from '@testing-library/react';
 import type { RefObject } from 'react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
@@ -23,8 +24,13 @@ vi.mock('./WalletIslandQrReceive', () => ({
 }));
 
 vi.mock('./WalletIslandSwap', () => ({
-  WalletIslandSwap: () => (
-    <div data-testid="ockWalletIslandSwap">WalletIslandSwap</div>
+  WalletIslandSwap: ({ from, to }: SwapDefaultReact) => (
+    <div
+      data-testid="ockWalletIslandSwap"
+      data-props={JSON.stringify({ from, to })}
+    >
+      WalletIslandSwap
+    </div>
   ),
 }));
 
@@ -160,6 +166,57 @@ describe('WalletIslandContent', () => {
     expect(
       screen.queryByTestId('ockWalletIslandQrReceive')?.parentElement,
     ).toHaveClass('hidden');
+  });
+
+  it('correctly maps token balances to the swap component', () => {
+    const mockTokenBalances = [
+      {
+        address: '0x123',
+        chainId: 1,
+        symbol: 'TEST',
+        decimals: 18,
+        image: 'test.png',
+        name: 'Test Token',
+      },
+      {
+        address: '0x456',
+        chainId: 2,
+        symbol: 'TEST2',
+        decimals: 6,
+        image: 'test2.png',
+        name: 'Test Token 2',
+      },
+    ];
+
+    mockUseWalletIslandContext.mockReturnValue({
+      ...defaultMockUseWalletIslandContext,
+      showSwap: true,
+      tokenBalances: mockTokenBalances,
+    });
+
+    mockUseWalletContext.mockReturnValue({ isClosing: false });
+
+    render(
+      <WalletIslandContent>
+        <div>WalletIslandContent</div>
+      </WalletIslandContent>,
+    );
+
+    const swapComponent = screen.getByTestId('ockWalletIslandSwap');
+    const props = JSON.parse(
+      swapComponent.getAttribute('data-props') as string,
+    );
+
+    expect(props.from).toEqual(
+      mockTokenBalances.map((token) => ({
+        address: token.address,
+        chainId: token.chainId,
+        symbol: token.symbol,
+        decimals: token.decimals,
+        image: token.image,
+        name: token.name,
+      })),
+    );
   });
 
   it('correctly positions WalletIslandContent when there is enough space on the right', () => {
