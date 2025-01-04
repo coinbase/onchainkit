@@ -1,9 +1,9 @@
 import { useValue } from '@/core-react/internal/hooks/useValue';
-import { usePortfolioTokenBalances } from '@/core-react/wallet/usePortfolioTokenBalances';
+import { usePortfolioTokenBalances } from '@/core-react/wallet/hooks/usePortfolioTokenBalances';
 import type {
-  Portfolio,
+  PortfolioTokenBalances,
   PortfolioTokenWithFiatValue,
-} from '@/core/api/getPortfolioTokenBalances';
+} from '@/core/api/types';
 import type { QueryObserverResult } from '@tanstack/react-query';
 import {
   type Dispatch,
@@ -26,7 +26,7 @@ export type WalletIslandContextType = {
   setIsQrClosing: Dispatch<SetStateAction<boolean>>;
   tokenBalances: PortfolioTokenWithFiatValue[] | undefined;
   portfolioFiatValue: number | undefined;
-  refetchPortfolioData: () => Promise<QueryObserverResult<Portfolio[], Error>>;
+  refetchPortfolioData: () => Promise<QueryObserverResult<PortfolioTokenBalances[], Error>>;
   isFetchingPortfolioData: boolean;
   portfolioDataUpdatedAt: number | undefined;
 };
