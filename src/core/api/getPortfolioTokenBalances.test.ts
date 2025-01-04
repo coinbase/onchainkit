@@ -3,9 +3,9 @@ import type {
   PortfolioTokenWithFiatValue,
 } from '@/core/api/types';
 import { type Mock, describe, expect, it, vi } from 'vitest';
-import { getPortfolioTokenBalances } from './getPortfolioTokenBalances';
-import { sendRequest } from '../network/request';
 import { CDP_GET_PORTFOLIO_TOKEN_BALANCES } from '../network/definitions/wallet';
+import { sendRequest } from '../network/request';
+import { getPortfolioTokenBalances } from './getPortfolioTokenBalances';
 
 vi.mock('../network/request', () => ({
   sendRequest: vi.fn(),
@@ -49,9 +49,10 @@ describe('getPortfolioTokenBalances', () => {
     });
 
     expect(result).toEqual(mockSuccessResponse);
-    expect(mockSendRequest).toHaveBeenCalledWith(CDP_GET_PORTFOLIO_TOKEN_BALANCES, [
-      { addresses: mockAddresses },
-    ]);
+    expect(mockSendRequest).toHaveBeenCalledWith(
+      CDP_GET_PORTFOLIO_TOKEN_BALANCES,
+      [{ addresses: mockAddresses }],
+    );
   });
 
   it('should handle API error response', async () => {

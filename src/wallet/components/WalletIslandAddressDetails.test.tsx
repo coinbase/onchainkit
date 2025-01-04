@@ -171,15 +171,19 @@ describe('WalletIslandAddressDetails', () => {
 
     const { rerender } = render(<AddressDetails />);
 
-    expect(screen.getByTestId('ockWalletIsland_AddressBalance')).toHaveTextContent('');
+    expect(
+      screen.getByTestId('ockWalletIsland_AddressBalance'),
+    ).toHaveTextContent('');
 
     mockUseWalletIslandContext.mockReturnValue({
       isFetchingPortfolioData: false,
-      portfolioFiatValue: '1234.567'
+      portfolioFiatValue: '1234.567',
     });
 
     rerender(<AddressDetails />);
 
-    expect(screen.getByTestId('ockWalletIsland_AddressBalance')).toHaveTextContent('$1234.57');
+    expect(
+      screen.getByTestId('ockWalletIsland_AddressBalance'),
+    ).toHaveTextContent('$1234.57');
   });
 });

@@ -33,7 +33,6 @@ vi.mock('./WalletProvider', () => ({
   ),
 }));
 
-
 describe('WalletIsland', () => {
   const mockUseWalletContext = useWalletContext as ReturnType<typeof vi.fn>;
 
