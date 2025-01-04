@@ -3,11 +3,11 @@ import { Avatar, Badge, Name } from '@/ui/react/identity';
 import { useCallback, useState } from 'react';
 import { useWalletContext } from './WalletProvider';
 import { useWalletIslandContext } from '@/wallet/components/WalletIslandProvider';
+import { Spinner } from '@/internal/components/Spinner';
 
 export function AddressDetails() {
   const { address, chain, isClosing } = useWalletContext();
   const [copyText, setCopyText] = useState('Copy');
-  const { portfolioFiatValue } = useWalletIslandContext();
 
   const handleCopyAddress = useCallback(async () => {
     try {
@@ -72,10 +72,23 @@ export function AddressDetails() {
         </button>
       </div>
       <div className={cn(text.title1, 'mt-1 font-normal')}>
-        <span data-testid="ockWalletIsland_AddressBalance">
-          {portfolioFiatValue && `$${Number(portfolioFiatValue)?.toFixed(2)}`}
-        </span>
+        <AddressBalanceInFiat />
       </div>
     </div>
+  );
+}
+
+function AddressBalanceInFiat() {
+  const { portfolioFiatValue, isFetchingPortfolioData } =
+    useWalletIslandContext();
+
+  if (isFetchingPortfolioData) {
+    return <Spinner />;
+  }
+
+  return (
+    <span data-testid="ockWalletIsland_AddressBalance">
+      {portfolioFiatValue && `$${Number(portfolioFiatValue)?.toFixed(2)}`}
+    </span>
   );
 }
