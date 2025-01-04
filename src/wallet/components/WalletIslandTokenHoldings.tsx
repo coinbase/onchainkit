@@ -6,9 +6,9 @@ import { useWalletContext } from './WalletProvider';
 // TODO: handle loading state
 export function WalletIslandTokenHoldings() {
   const { isClosing } = useWalletContext();
-  const { tokenHoldings } = useWalletIslandContext();
+  const { tokenBalances } = useWalletIslandContext();
 
-  if (tokenHoldings.length === 0) {
+  if (!tokenBalances || tokenBalances.length === 0) {
     return null;
   }
 
@@ -26,12 +26,19 @@ export function WalletIslandTokenHoldings() {
       )}
       data-testid="ockWalletIsland_TokenHoldings"
     >
-      {tokenHoldings.map((tokenBalance, index) => (
+      {tokenBalances.map((tokenBalance, index) => (
         <TokenDetails
-          key={`${tokenBalance.token.address}-${index}`}
-          token={tokenBalance.token}
-          balance={tokenBalance.balance}
-          valueInFiat={tokenBalance.valueInFiat}
+          key={`${tokenBalance.address}-${index}`}
+          token={{
+            address: tokenBalance.address,
+            chainId: tokenBalance.chainId,
+            decimals: tokenBalance.decimals,
+            image: tokenBalance.image,
+            name: tokenBalance.name,
+            symbol: tokenBalance.symbol,
+          }}
+          balance={(Number(tokenBalance.crypto_balance) / 10 ** Number(tokenBalance.decimals))}
+          valueInFiat={Number(tokenBalance.fiat_balance)}
         />
       ))}
     </div>
@@ -56,12 +63,12 @@ function TokenDetails({ token, balance, valueInFiat }: TokenDetailsProps) {
             {token.name}
           </span>
           <span className={cn(text.legal, color.foregroundMuted)}>
-            {`${balance} ${token.symbol}`}
+            {`${balance.toFixed(5)} ${token.symbol}`}
           </span>
         </div>
       </div>
       <span className={cn(text.label2, color.foregroundMuted)}>
-        {`${currencySymbol}${valueInFiat}`}
+        {`${currencySymbol}${valueInFiat.toFixed(2)}`}
       </span>
     </div>
   );

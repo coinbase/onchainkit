@@ -1,12 +1,13 @@
 import { border, cn, color, pressable, text } from '@/styles/theme';
 import { Avatar, Badge, Name } from '@/ui/react/identity';
 import { useCallback, useState } from 'react';
-import type { Address, Chain } from 'viem';
 import { useWalletContext } from './WalletProvider';
+import { useWalletIslandContext } from '@/wallet/components/WalletIslandProvider';
 
 export function AddressDetails() {
   const { address, chain, isClosing } = useWalletContext();
   const [copyText, setCopyText] = useState('Copy');
+  const { portfolioFiatValue } = useWalletIslandContext();
 
   const handleCopyAddress = useCallback(async () => {
     try {
@@ -71,19 +72,10 @@ export function AddressDetails() {
         </button>
       </div>
       <div className={cn(text.title1, 'mt-1 font-normal')}>
-        <AddressBalance address={address} chain={chain} />
+        <span data-testid="ockWalletIsland_AddressBalance">
+          {portfolioFiatValue && `$${Number(portfolioFiatValue)?.toFixed(2)}`}
+        </span>
       </div>
     </div>
   );
-}
-
-type AddressBalanceProps = {
-  address?: Address | null;
-  chain?: Chain | null;
-};
-
-function AddressBalance({ address, chain }: AddressBalanceProps) {
-  const data = { address, chain }; // temp linter fix
-  console.log({ data }); // temp linter fix
-  return <span data-testid="ockWalletIsland_AddressBalance">$690.42</span>;
 }

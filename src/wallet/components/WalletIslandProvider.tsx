@@ -1,18 +1,15 @@
 import { useValue } from '@/core-react/internal/hooks/useValue';
 import {
-  type TokenBalanceWithFiatValue,
-  getAddressTokenBalances,
-} from '@/core-react/internal/utils/getAddressTokenBalances';
-import {
   type Dispatch,
   type ReactNode,
   type SetStateAction,
   createContext,
   useContext,
-  useEffect,
   useState,
 } from 'react';
 import { useWalletContext } from './WalletProvider';
+import { usePortfolioTokenBalances } from '@/core-react/wallet/usePortfolioTokenBalances';
+import type { PortfolioTokenWithFiatValue } from '@/core/api/getPortfolioTokenBalances';
 
 export type WalletIslandContextType = {
   showSwap: boolean;
@@ -23,7 +20,8 @@ export type WalletIslandContextType = {
   setShowQr: Dispatch<SetStateAction<boolean>>;
   isQrClosing: boolean;
   setIsQrClosing: Dispatch<SetStateAction<boolean>>;
-  tokenHoldings: TokenBalanceWithFiatValue[];
+  tokenBalances: PortfolioTokenWithFiatValue[] | undefined;
+  portfolioFiatValue: number | undefined;
 };
 
 type WalletIslandProviderReact = {
@@ -51,20 +49,15 @@ export function WalletIslandProvider({ children }: WalletIslandProviderReact) {
   const [isSwapClosing, setIsSwapClosing] = useState(false);
   const [showQr, setShowQr] = useState(false);
   const [isQrClosing, setIsQrClosing] = useState(false);
-  const [tokenHoldings, setTokenHoldings] = useState<
-    TokenBalanceWithFiatValue[]
-  >([]);
+  const {
+    data: portfolioData,
+    // isLoading: isLoadingPortfolioData,
+    // isError,
+    // error,
+  } = usePortfolioTokenBalances({ addresses: [address ?? '0x000'] });
 
-  useEffect(() => {
-    async function fetchTokens() {
-      if (address) {
-        const fetchedTokens = await getAddressTokenBalances(address);
-        setTokenHoldings(fetchedTokens);
-      }
-    }
-
-    fetchTokens();
-  }, [address]);
+  const portfolioFiatValue = portfolioData?.[0]?.portfolio_balance_usd;
+  const tokenBalances = portfolioData?.[0]?.token_balances;
 
   const value = useValue({
     showSwap,
@@ -75,7 +68,8 @@ export function WalletIslandProvider({ children }: WalletIslandProviderReact) {
     setShowQr,
     isQrClosing,
     setIsQrClosing,
-    tokenHoldings,
+    tokenBalances,
+    portfolioFiatValue,
   });
 
   return (
