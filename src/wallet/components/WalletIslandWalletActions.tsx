@@ -1,7 +1,7 @@
 import { clockSvg } from '@/internal/svg/clockSvg';
-import { collapseSvg } from '@/internal/svg/collapseSvg';
 import { disconnectSvg } from '@/internal/svg/disconnectSvg';
 import { qrIconSvg } from '@/internal/svg/qrIconSvg';
+import { refreshSvg } from '@/internal/svg/refreshSvg';
 import { border, cn, pressable } from '@/styles/theme';
 import { useCallback } from 'react';
 import { useDisconnect } from 'wagmi';
@@ -10,7 +10,8 @@ import { useWalletContext } from './WalletProvider';
 
 export function WalletIslandWalletActions() {
   const { isClosing, handleClose } = useWalletContext();
-  const { setShowQr } = useWalletIslandContext();
+  const { setShowQr, refetchPortfolioData, portfolioDataUpdatedAt } =
+    useWalletIslandContext();
   const { disconnect, connectors } = useDisconnect();
 
   const handleDisconnect = useCallback(() => {
@@ -24,9 +25,15 @@ export function WalletIslandWalletActions() {
     setShowQr(true);
   }, [setShowQr]);
 
-  const handleCollapse = useCallback(() => {
-    handleClose();
-  }, [handleClose]);
+  const handleRefreshPortfolioData = useCallback(async () => {
+    if (
+      portfolioDataUpdatedAt &&
+      Date.now() - portfolioDataUpdatedAt < 1000 * 15
+    ) {
+      return; // TODO: Add toast
+    }
+    await refetchPortfolioData();
+  }, [refetchPortfolioData, portfolioDataUpdatedAt]);
 
   return (
     <div
@@ -76,12 +83,12 @@ export function WalletIslandWalletActions() {
             'flex items-center justify-center p-2',
           )}
         >
-          <div className="h-7 w-7 p-2">{disconnectSvg}</div>
+          <div className="h-7 w-7 scale-110 p-2">{disconnectSvg}</div>
         </button>
         <button
-          data-testid="ockWalletIsland_CollapseButton"
+          data-testid="ockWalletIsland_RefreshButton"
           type="button"
-          onClick={handleCollapse}
+          onClick={handleRefreshPortfolioData}
           className={cn(
             pressable.default,
             border.radius,
@@ -89,7 +96,7 @@ export function WalletIslandWalletActions() {
             'flex items-center justify-center p-2',
           )}
         >
-          {collapseSvg}
+          <div className='h-7 w-7 scale-125 p-2'>{refreshSvg}</div>
         </button>
       </div>
     </div>
