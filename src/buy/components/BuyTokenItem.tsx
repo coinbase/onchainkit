@@ -1,6 +1,6 @@
 import { useCallback, useMemo } from 'react';
 import { getRoundedAmount } from '../../core/utils/getRoundedAmount';
-import { cn, color, pressable } from '../../styles/theme';
+import { cn, color, pressable, text } from '../../styles/theme';
 import type { SwapUnit } from '../../swap/types';
 import { TokenImage } from '../../token';
 import { useBuyContext } from './BuyProvider';
@@ -22,6 +22,9 @@ export function BuyTokenItem({ swapUnit }: { swapUnit?: SwapUnit }) {
     Number.parseFloat(swapUnit.balance) < Number.parseFloat(swapUnit.amount);
 
   const roundedAmount = useMemo(() => {
+    if (!swapUnit.amount) {
+      return '';
+    }
     return getRoundedAmount(swapUnit.amount, 10);
   }, [swapUnit.amount]);
 
@@ -34,6 +37,7 @@ export function BuyTokenItem({ swapUnit }: { swapUnit?: SwapUnit }) {
       className={cn(
         'flex items-center gap-2 rounded-lg p-2',
         !hasInsufficientBalance && pressable.default,
+        text.label2,
       )}
       onClick={handleClick}
       type="button"
@@ -43,15 +47,18 @@ export function BuyTokenItem({ swapUnit }: { swapUnit?: SwapUnit }) {
       <div
         className={cn(
           'flex flex-col items-start',
-          hasInsufficientBalance && color.foregroundMuted,
+          hasInsufficientBalance ? color.foregroundMuted : color.foreground,
         )}
       >
         <div>
           {roundedAmount} {swapUnit.token.name}
         </div>
         <div
-          className={cn('text-xs', color.foregroundMuted)}
-        >{`Balance: ${roundedBalance}`}</div>
+          className={cn(
+            'text-xs',
+            hasInsufficientBalance ? color.error : color.foregroundMuted,
+          )}
+        >{`${hasInsufficientBalance ? 'Insufficient balance' : 'Balance'}: ${roundedBalance}`}</div>
       </div>
     </button>
   );

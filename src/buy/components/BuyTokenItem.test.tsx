@@ -69,7 +69,7 @@ describe('BuyTokenItem', () => {
     expect(button).not.toHaveClass('hover:bg-[var(--ock-bg-inverse)]', {
       exact: false,
     });
-    expect(screen.getByText('Balance: 5')).toHaveClass('text-xs');
+    expect(screen.getByText('Insufficient balance: 5')).toHaveClass('text-xs');
   });
 
   it('triggers handleSubmit and closes dropdown on click', () => {

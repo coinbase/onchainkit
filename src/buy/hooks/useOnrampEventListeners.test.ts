@@ -21,6 +21,13 @@ describe('useOnrampEventListeners', () => {
       useOnrampEventListeners({
         updateLifecycleStatus: mockUpdateLifecycleStatus,
         maxSlippage: 0.5,
+        lifecycleStatus: {
+          statusName: 'init',
+          statusData: {
+            isMissingRequiredField: false,
+            maxSlippage: 0.5,
+          },
+        },
       }),
     );
 
@@ -38,6 +45,13 @@ describe('useOnrampEventListeners', () => {
       useOnrampEventListeners({
         updateLifecycleStatus: mockUpdateLifecycleStatus,
         maxSlippage: 0.5,
+        lifecycleStatus: {
+          statusName: 'init',
+          statusData: {
+            isMissingRequiredField: false,
+            maxSlippage: 0.5,
+          },
+        },
       }),
     );
 
@@ -61,11 +75,53 @@ describe('useOnrampEventListeners', () => {
     });
   });
 
+  it('should not handle transition_view event if lifecycleStatus is transactionPending', () => {
+    renderHook(() =>
+      useOnrampEventListeners({
+        updateLifecycleStatus: mockUpdateLifecycleStatus,
+        maxSlippage: 0.5,
+        lifecycleStatus: {
+          statusName: 'transactionPending',
+          statusData: {
+            isMissingRequiredField: false,
+            maxSlippage: 0.5,
+          },
+        },
+      }),
+    );
+
+    const mockedSetupOnrampEventListeners =
+      setupOnrampEventListeners as unknown as Mock;
+    const onEventCallback =
+      mockedSetupOnrampEventListeners.mock.calls[0][0].onEvent;
+
+    act(() => {
+      onEventCallback({
+        eventName: 'transition_view',
+      });
+    });
+
+    expect(mockUpdateLifecycleStatus).not.toHaveBeenCalledWith({
+      statusName: 'transactionPending',
+      statusData: {
+        isMissingRequiredField: false,
+        maxSlippage: 0.5,
+      },
+    });
+  });
+
   it('should handle onramp success', () => {
     renderHook(() =>
       useOnrampEventListeners({
         updateLifecycleStatus: mockUpdateLifecycleStatus,
         maxSlippage: 0.5,
+        lifecycleStatus: {
+          statusName: 'init',
+          statusData: {
+            isMissingRequiredField: false,
+            maxSlippage: 0.5,
+          },
+        },
       }),
     );
 
@@ -93,6 +149,13 @@ describe('useOnrampEventListeners', () => {
       useOnrampEventListeners({
         updateLifecycleStatus: mockUpdateLifecycleStatus,
         maxSlippage: 0.5,
+        lifecycleStatus: {
+          statusName: 'init',
+          statusData: {
+            isMissingRequiredField: false,
+            maxSlippage: 0.5,
+          },
+        },
       }),
     );
 

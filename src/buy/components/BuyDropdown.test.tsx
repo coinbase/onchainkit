@@ -52,7 +52,12 @@ const mockContextValue = {
 describe('BuyDropdown', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    (useBuyContext as Mock).mockReturnValue(mockContextValue);
+    (useBuyContext as Mock).mockReturnValue({
+      ...mockContextValue,
+      fromETH: { token: ethToken, amount: '10' },
+      fromUSDC: { token: usdcToken, amount: '10' },
+      from: { token: { symbol: 'DAI' }, amount: '10' },
+    });
     (useOnchainKit as Mock).mockReturnValue({
       projectId: 'mock-project-id',
     });
@@ -71,7 +76,7 @@ describe('BuyDropdown', () => {
     (openPopup as Mock).mockReturnValue('popup');
     render(<BuyDropdown />);
 
-    const onrampButton = screen.getByTestId('ock-applePayOnrampItem');
+    const onrampButton = screen.getByTestId('ock-coinbasePayOnrampItem');
 
     act(() => {
       fireEvent.click(onrampButton);
@@ -101,12 +106,12 @@ describe('BuyDropdown', () => {
     render(<BuyDropdown />);
 
     // Find and click the first BuyOnrampItem button
-    const buyButton = screen.getByTestId('ock-applePayOnrampItem');
+    const buyButton = screen.getByTestId('ock-coinbasePayOnrampItem');
     fireEvent.click(buyButton);
 
     expect(openPopup).toHaveBeenCalledWith(
       expect.objectContaining({
-        url: 'https://pay.coinbase.com/buy/one-click?appId=mock-project-id&addresses={"0xMockAddress":["base"]}&assets=["DEGEN"]&presetCryptoAmount=0.5&defaultPaymentMethod=APPLE_PAY',
+        url: 'https://pay.coinbase.com/buy/one-click?appId=mock-project-id&addresses={"0xMockAddress":["base"]}&assets=["DEGEN"]&presetCryptoAmount=0.5&defaultPaymentMethod=CRYPTO_ACCOUNT',
       }),
     );
   });

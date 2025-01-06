@@ -56,7 +56,7 @@ const usdc: Token = {
     {({ address, swappableTokens }) => {
       if (address) {
         return (
-          <SwapDefault from={swappableTokens} to={swappableTokens.slice().reverse()} />
+          <SwapDefault from={swappableTokens} to={swappableTokens.slice().reverse()} disabled />
         )
       }
       return <>
