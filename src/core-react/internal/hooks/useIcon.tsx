@@ -1,12 +1,12 @@
 import { isValidElement, useMemo } from 'react';
 import { applePaySvg } from '../../../internal/svg/applePaySvg';
+import { coinbaseLogoSvg } from '../../../internal/svg/coinbaseLogoSvg';
 import { coinbasePaySvg } from '../../../internal/svg/coinbasePaySvg';
 import { creditCardSvg } from '../../../internal/svg/creditCardSvg';
 import { fundWalletSvg } from '../../../internal/svg/fundWallet';
 import { swapSettingsSvg } from '../../../internal/svg/swapSettings';
 import { toggleSvg } from '../../../internal/svg/toggleSvg';
 import { walletSvg } from '../../../internal/svg/walletSvg';
-import { coinbaseLogoSvg } from '../../../internal/svg/coinbaseLogoSvg';
 
 export const useIcon = ({ icon }: { icon?: React.ReactNode }) => {
   return useMemo(() => {
