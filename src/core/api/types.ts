@@ -275,6 +275,13 @@ export type PortfolioTokenWithFiatValue = Token & {
 /**
  * Note: exported as public Type
  */
+export type GetPortfoliosAPIResponse = {
+  tokens: PortfolioAPIResponse[];
+};
+
+/**
+ * Note: exported as public Type
+ */
 export type PortfolioAPIResponse = {
   address: Address;
   portfolio_balance_usd: number;
