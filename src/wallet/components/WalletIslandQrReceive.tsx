@@ -119,16 +119,14 @@ export function WalletIslandQrReceive() {
           </button>
         </div>
       </div>
-
       <QrCodeSvg value={address ? `ethereum:${address}` : ''} />
-
       <button
         type="button"
         className={cn(border.radius, pressable.alternate, 'w-full p-3')}
         onClick={() => handleCopyAddress('button')}
         aria-label="Copy button"
       >
-        <span>{copyButtonText}</span>
+        {copyButtonText}
       </button>
     </div>
   );
