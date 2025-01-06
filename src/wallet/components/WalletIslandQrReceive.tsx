@@ -1,3 +1,4 @@
+import { PressableIcon } from '@/internal/components/PressableIcon';
 import { QrCodeSvg } from '@/internal/components/QrCode/QrCodeSvg';
 import { backArrowSvg } from '@/internal/svg/backArrowSvg';
 import { copySvg } from '@/internal/svg/copySvg';
@@ -79,35 +80,27 @@ export function WalletIslandQrReceive() {
       )}
     >
       <div className="flex w-full flex-row items-center justify-between">
-        <button
-          type="button"
-          ref={backButtonRef}
-          onClick={handleCloseQr}
-          className={cn(
-            pressable.default,
-            border.radius,
-            border.default,
-            'flex items-center justify-center p-4',
-          )}
-          aria-label="Back"
-        >
-          <div>{backArrowSvg}</div>
-        </button>
-        <span>Scan to receive</span>
-        <div className="group relative">
+        <PressableIcon>
           <button
             type="button"
-            onClick={() => handleCopyAddress('icon')}
-            className={cn(
-              pressable.default,
-              border.radius,
-              border.default,
-              'flex items-center justify-center p-3',
-            )}
-            aria-label="Copy icon"
+            ref={backButtonRef}
+            onClick={handleCloseQr}
+            aria-label="Back"
           >
-            <div>{copySvg}</div>
+            <div className="p-2">{backArrowSvg}</div>
           </button>
+        </PressableIcon>
+        <span>Scan to receive</span>
+        <div className="group relative">
+          <PressableIcon>
+            <button
+              type="button"
+              onClick={() => handleCopyAddress('icon')}
+              aria-label="Copy icon"
+            >
+              <div className="p-2">{copySvg}</div>
+            </button>
+          </PressableIcon>
           <button
             type="button"
             onClick={() => handleCopyAddress('icon')}
