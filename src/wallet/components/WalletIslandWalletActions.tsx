@@ -31,7 +31,7 @@ export function WalletIslandWalletActions() {
       portfolioDataUpdatedAt &&
       Date.now() - portfolioDataUpdatedAt < 1000 * 15
     ) {
-      return; // TODO: Add toast
+      return;
     }
     await refetchPortfolioData();
   }, [refetchPortfolioData, portfolioDataUpdatedAt]);
