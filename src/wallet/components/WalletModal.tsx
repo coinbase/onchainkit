@@ -1,11 +1,12 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useConnect } from 'wagmi';
-import { coinbaseWallet, metaMask } from 'wagmi/connectors';
+import { coinbaseWallet, injected, metaMask } from 'wagmi/connectors';
 import { useOnchainKit } from '../../core-react/useOnchainKit';
 import { closeSvg } from '../../internal/svg/closeSvg';
 import { coinbaseWalletSvg } from '../../internal/svg/coinbaseWalletSvg';
 import { defaultAvatarSVG } from '../../internal/svg/defaultAvatarSVG';
 import { metamaskSvg } from '../../internal/svg/metamaskSvg';
+import { phantomSvg } from '../../internal/svg/phantomSvg';
 import {
   background,
   border,
@@ -124,6 +125,22 @@ export function WalletModal({
       );
     }
   }, [connect, onClose, onError, appName, appLogo]);
+
+  const handlePhantomConnection = useCallback(() => {
+    try {
+      const phantomConnector = injected({
+        target: 'phantom',
+      });
+
+      connect({ connector: phantomConnector });
+      onClose();
+    } catch (error) {
+      console.error('Phantom connection error:', error);
+      onError?.(
+        error instanceof Error ? error : new Error('Failed to connect wallet'),
+      );
+    }
+  }, [connect, onClose, onError]);
 
   const handleLinkKeyDown = (
     event: React.KeyboardEvent<HTMLAnchorElement>,
@@ -276,6 +293,24 @@ export function WalletModal({
             MetaMask
             <div className="-mr-0.5 flex h-5 w-5 items-center justify-center">
               {metamaskSvg}
+            </div>
+          </button>
+
+          <button
+            type="button"
+            onClick={handlePhantomConnection}
+            className={cn(
+              border.radius,
+              background.default,
+              text.body,
+              pressable.alternate,
+              color.foreground,
+              'flex items-center justify-between px-4 py-3 text-left',
+            )}
+          >
+            Phantom
+            <div className="-mr-0.5 flex h-4 w-4 items-center justify-center">
+              {phantomSvg}
             </div>
           </button>
         </div>
