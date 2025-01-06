@@ -292,7 +292,7 @@ export type PortfolioAPIResponse = {
  * Note: exported as public Type
  */
 export type PortfolioTokenBalanceAPIResponse = {
-  address: Address;
+  address: Address | 'native';
   chain_id: number;
   decimals: number;
   image: string;
