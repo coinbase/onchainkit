@@ -1,3 +1,4 @@
+import { cn, text } from '@/styles/theme';
 import type { FundCardHeaderPropsReact } from '../types';
 
 export function FundCardHeader({
@@ -7,10 +8,7 @@ export function FundCardHeader({
   const defaultHeaderText = `Buy ${assetSymbol.toUpperCase()}`;
 
   return (
-    <div
-      className="font-display text-base leading-none outline-none"
-      data-testid="fundCardHeader"
-    >
+    <div className={cn(text.headline)} data-testid="fundCardHeader">
       {headerText || defaultHeaderText}
     </div>
   );

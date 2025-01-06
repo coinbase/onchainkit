@@ -121,7 +121,6 @@ export function FundButton({
     return (
       <>
         {buttonIcon && (
-          // h-6 is to match the icon height to the line-height set by text.headline
           <span
             data-testid="ockFundButtonIcon"
             className="flex h-6 items-center"
