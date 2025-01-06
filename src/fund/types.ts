@@ -342,7 +342,7 @@ export type FundCardContentPropsReact = {
   /**
    * Custom component for the amount input type switch
    */
-  amountInputTypeSwithComponent?: React.ReactElement<FundCardAmountInputTypeSwitchPropsReact>;
+  amountInputTypeSwitchComponent?: React.ReactElement<FundCardAmountInputTypeSwitchPropsReact>;
 
   /**
    * Custom component for the payment method selector dropdown

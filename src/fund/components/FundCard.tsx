@@ -25,7 +25,7 @@ export function FundCard({
   const {
     amountInputComponent,
     headerComponent,
-    amountInputTypeSwithComponent,
+    amountInputTypeSwitchComponent,
     paymentMethodDropdownComponent,
     submitButtonComponent,
   } = useMemo(() => {
@@ -36,7 +36,7 @@ export function FundCard({
         findComponent(FundCardAmountInput),
       ),
       headerComponent: childrenArray.find(findComponent(FundCardHeader)),
-      amountInputTypeSwithComponent: childrenArray.find(
+      amountInputTypeSwitchComponent: childrenArray.find(
         findComponent(FundCardAmountInputTypeSwitch),
       ),
       paymentMethodDropdownComponent: childrenArray.find(
@@ -65,7 +65,7 @@ export function FundCard({
           headerText={headerText}
           amountInputComponent={amountInputComponent}
           headerComponent={headerComponent}
-          amountInputTypeSwithComponent={amountInputTypeSwithComponent}
+          amountInputTypeSwitchComponent={amountInputTypeSwitchComponent}
           paymentMethodDropdownComponent={paymentMethodDropdownComponent}
           paymentMethods={paymentMethods}
           submitButtonComponent={submitButtonComponent}
@@ -81,7 +81,7 @@ function FundCardContent({
   headerText,
   amountInputComponent,
   headerComponent,
-  amountInputTypeSwithComponent,
+  amountInputTypeSwitchComponent,
   paymentMethodDropdownComponent,
   paymentMethods = DEFAULT_PAYMENT_METHODS,
   submitButtonComponent,
@@ -124,7 +124,7 @@ function FundCardContent({
         />
       )}
 
-      {amountInputTypeSwithComponent || (
+      {amountInputTypeSwitchComponent || (
         <FundCardAmountInputTypeSwitch
           selectedInputType={selectedInputType}
           setSelectedInputType={setSelectedInputType}
