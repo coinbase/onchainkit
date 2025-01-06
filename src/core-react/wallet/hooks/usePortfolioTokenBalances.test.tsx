@@ -1,5 +1,7 @@
 import { getPortfolioTokenBalances } from '@/core/api/getPortfolioTokenBalances';
 import type {
+  PortfolioAPIResponse,
+  PortfolioTokenBalanceAPIResponse,
   PortfolioTokenBalances,
   PortfolioTokenWithFiatValue,
 } from '@/core/api/types';
@@ -11,6 +13,25 @@ import { usePortfolioTokenBalances } from './usePortfolioTokenBalances';
 vi.mock('@/core/api/getPortfolioTokenBalances');
 
 const mockAddresses: `0x${string}`[] = ['0x123'];
+const mockTokensAPIResponse: PortfolioTokenBalanceAPIResponse[] = [
+  {
+    address: '0x123',
+    chain_id: 8453,
+    decimals: 6,
+    image: '',
+    name: 'Token',
+    symbol: 'TOKEN',
+    crypto_balance: 100,
+    fiat_balance: 100,
+  },
+];
+const mockPortfolioTokenBalancesAPIResponse: PortfolioAPIResponse[] = [
+  {
+    address: mockAddresses[0],
+    portfolio_balance_usd: 100,
+    token_balances: mockTokensAPIResponse,
+  },
+];
 const mockTokens: PortfolioTokenWithFiatValue[] = [
   {
     address: '0x123',
@@ -26,8 +47,8 @@ const mockTokens: PortfolioTokenWithFiatValue[] = [
 const mockPortfolioTokenBalances: PortfolioTokenBalances[] = [
   {
     address: mockAddresses[0],
-    tokenBalances: mockTokens,
     portfolioBalanceUsd: 100,
+    tokenBalances: mockTokens,
   },
 ];
 
@@ -51,7 +72,7 @@ describe('usePortfolioTokenBalances', () => {
 
   it('should fetch token balances successfully', async () => {
     vi.mocked(getPortfolioTokenBalances).mockResolvedValueOnce({
-      tokens: mockPortfolioTokenBalances,
+      tokens: mockPortfolioTokenBalancesAPIResponse,
     });
 
     const { result } = renderHook(
@@ -63,10 +84,11 @@ describe('usePortfolioTokenBalances', () => {
 
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
 
-    expect(result.current.data).toEqual(mockPortfolioTokenBalances);
     expect(getPortfolioTokenBalances).toHaveBeenCalledWith({
       addresses: mockAddresses,
     });
+
+    expect(result.current.data).toEqual(mockPortfolioTokenBalances);
   });
 
   it('should handle API errors', async () => {

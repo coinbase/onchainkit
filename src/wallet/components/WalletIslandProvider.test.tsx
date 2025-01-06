@@ -44,8 +44,8 @@ describe('useWalletIslandContext', () => {
       data: [
         {
           address: '0x123',
-          token_balances: [],
-          portfolio_balance_usd: 0,
+          tokenBalances: [],
+          portfolioBalanceUsd: 0,
         },
       ],
       refetch: vi.fn(),
