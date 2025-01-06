@@ -1,9 +1,9 @@
 import { getPortfolioTokenBalances } from '@/core/api/getPortfolioTokenBalances';
 import type {
   GetPortfolioTokenBalancesParams,
-  PortfolioTokenBalances,
   PortfolioAPIResponse,
   PortfolioTokenBalanceAPIResponse,
+  PortfolioTokenBalances,
 } from '@/core/api/types';
 import { isApiError } from '@/core/utils/isApiResponseError';
 import { type UseQueryResult, useQuery } from '@tanstack/react-query';
@@ -26,16 +26,18 @@ export function usePortfolioTokenBalances({
       return response.tokens.map((token: PortfolioAPIResponse) => ({
         address: token.address,
         portfolioBalanceUsd: token.portfolio_balance_usd,
-        tokenBalances: token.token_balances.map((tokenBalance: PortfolioTokenBalanceAPIResponse) => ({
-          address: tokenBalance.symbol === 'ETH' ? '' : tokenBalance.address,
-          chainId: tokenBalance.chain_id,
-          decimals: tokenBalance.decimals,
-          image: tokenBalance.image,
-          name: tokenBalance.name,
-          symbol: tokenBalance.symbol,
-          cryptoBalance: tokenBalance.crypto_balance,
-          fiatBalance: tokenBalance.fiat_balance,
-        })),
+        tokenBalances: token.token_balances.map(
+          (tokenBalance: PortfolioTokenBalanceAPIResponse) => ({
+            address: tokenBalance.symbol === 'ETH' ? '' : tokenBalance.address,
+            chainId: tokenBalance.chain_id,
+            decimals: tokenBalance.decimals,
+            image: tokenBalance.image,
+            name: tokenBalance.name,
+            symbol: tokenBalance.symbol,
+            cryptoBalance: tokenBalance.crypto_balance,
+            fiatBalance: tokenBalance.fiat_balance,
+          }),
+        ),
       }));
     },
     retry: false,

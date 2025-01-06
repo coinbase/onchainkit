@@ -257,7 +257,7 @@ export type GetPortfolioTokenBalancesParams = {
 
 /**
  * Note: exported as public Type
-*/
+ */
 export type PortfolioTokenBalances = {
   address: Address;
   portfolioBalanceUsd: number;
