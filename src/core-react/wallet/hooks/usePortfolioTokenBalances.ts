@@ -29,17 +29,18 @@ export function usePortfolioTokenBalances({
         address: userPortfolio.address,
         portfolioBalanceUsd: userPortfolio.portfolio_balance_usd,
         tokenBalances: userPortfolio.token_balances.map(
-          (tokenBalance: PortfolioTokenBalanceAPIResponse) => ({
-            address:
-              tokenBalance.symbol === 'ETH' ? '' : tokenBalance.address,
-            chainId: tokenBalance.chain_id,
-            decimals: tokenBalance.decimals,
-            image: tokenBalance.image,
-            name: tokenBalance.name,
-            symbol: tokenBalance.symbol,
-            cryptoBalance: tokenBalance.crypto_balance,
-            fiatBalance: tokenBalance.fiat_balance,
-          }) as PortfolioTokenWithFiatValue,
+          (tokenBalance: PortfolioTokenBalanceAPIResponse) =>
+            ({
+              address:
+                tokenBalance.symbol === 'ETH' ? '' : tokenBalance.address,
+              chainId: tokenBalance.chain_id,
+              decimals: tokenBalance.decimals,
+              image: tokenBalance.image,
+              name: tokenBalance.name,
+              symbol: tokenBalance.symbol,
+              cryptoBalance: tokenBalance.crypto_balance,
+              fiatBalance: tokenBalance.fiat_balance,
+            }) as PortfolioTokenWithFiatValue,
         ),
       };
 
