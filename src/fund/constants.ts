@@ -17,7 +17,7 @@ export const DEFAULT_PAYMENT_METHODS: PaymentMethodReact[] = [
     id: 'FIAT_WALLET',
     name: 'Coinbase',
     description: 'Buy with your Coinbase account',
-    icon: 'coinbasePay',
+    icon: 'coinbaseLogo',
   },
   {
     id: 'APPLE_PAY',

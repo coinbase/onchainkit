@@ -3,7 +3,6 @@ import { Children, useMemo } from 'react';
 import { useTheme } from '../../core-react/internal/hooks/useTheme';
 import { background, border, cn, color, text } from '../../styles/theme';
 import { DEFAULT_PAYMENT_METHODS } from '../constants';
-import { useExchangeRate } from '../hooks/useExchangeRate';
 import { useFundCardFundingUrl } from '../hooks/useFundCardFundingUrl';
 import { useFundCardSetupOnrampEventListeners } from '../hooks/useFundCardSetupOnrampEventListeners';
 import type { FundCardContentPropsReact, FundCardPropsReact } from '../types';
@@ -12,8 +11,7 @@ import FundCardAmountInput from './FundCardAmountInput';
 import FundCardAmountInputTypeSwitch from './FundCardAmountInputTypeSwitch';
 import { FundCardHeader } from './FundCardHeader';
 import { FundCardPaymentMethodDropdown } from './FundCardPaymentMethodDropdown';
-import { FundCardProvider } from './FundCardProvider';
-import { useFundContext } from './FundCardProvider';
+import { FundCardProvider, useFundContext } from './FundCardProvider';
 
 export function FundCard({
   children,
@@ -28,7 +26,7 @@ export function FundCard({
   const {
     amountInputComponent,
     headerComponent,
-    amountInputTypeSwithComponent,
+    amountInputTypeSwitchComponent,
     paymentMethodDropdownComponent,
     submitButtonComponent,
   } = useMemo(() => {
@@ -39,7 +37,7 @@ export function FundCard({
         findComponent(FundCardAmountInput),
       ),
       headerComponent: childrenArray.find(findComponent(FundCardHeader)),
-      amountInputTypeSwithComponent: childrenArray.find(
+      amountInputTypeSwitchComponent: childrenArray.find(
         findComponent(FundCardAmountInputTypeSwitch),
       ),
       paymentMethodDropdownComponent: childrenArray.find(
@@ -68,7 +66,7 @@ export function FundCard({
           headerText={headerText}
           amountInputComponent={amountInputComponent}
           headerComponent={headerComponent}
-          amountInputTypeSwithComponent={amountInputTypeSwithComponent}
+          amountInputTypeSwitchComponent={amountInputTypeSwitchComponent}
           paymentMethodDropdownComponent={paymentMethodDropdownComponent}
           paymentMethods={paymentMethods}
           submitButtonComponent={submitButtonComponent}
@@ -85,17 +83,12 @@ function FundCardContent({
   headerText,
   amountInputComponent,
   headerComponent,
-  amountInputTypeSwithComponent,
+  amountInputTypeSwitchComponent,
   paymentMethodDropdownComponent,
   paymentMethods = DEFAULT_PAYMENT_METHODS,
   submitButtonComponent,
   amountInputSnippets,
 }: FundCardContentPropsReact) {
-  /**
-   * Fetches and sets the exchange rate for the asset
-   */
-  useExchangeRate(assetSymbol);
-
   const {
     setFundAmountFiat,
     fundAmountFiat,
@@ -135,7 +128,7 @@ function FundCardContent({
         />
       )}
 
-      {amountInputTypeSwithComponent || (
+      {amountInputTypeSwitchComponent || (
         <FundCardAmountInputTypeSwitch
           selectedInputType={selectedInputType}
           setSelectedInputType={setSelectedInputType}

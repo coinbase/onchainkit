@@ -1,5 +1,5 @@
 import { useIcon } from '../../core-react/internal/hooks/useIcon';
-import { cn, icon as iconTheme } from '../../styles/theme';
+import { cn } from '../../styles/theme';
 import type { FundCardPaymentMethodImagePropsReact } from '../types';
 
 export function FundCardPaymentMethodImage({
@@ -8,10 +8,7 @@ export function FundCardPaymentMethodImage({
 }: FundCardPaymentMethodImagePropsReact) {
   const { icon } = paymentMethod;
 
-  // Special case for coinbasePay icon color
-  const iconColor = icon === 'coinbasePay' ? iconTheme.primary : undefined;
-
-  const iconSvg = useIcon({ icon, className: `${iconColor}` });
+  const iconSvg = useIcon({ icon });
 
   return (
     <div

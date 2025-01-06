@@ -1,10 +1,12 @@
-import { createContext, useContext, useState } from 'react';
+import { useDebounce } from '@/core-react/internal/hooks/useDebounce';
+import { createContext, useContext, useEffect, useState } from 'react';
 import { useValue } from '../../core-react/internal/hooks/useValue';
 import type {
   FundButtonStateReact,
   FundCardProviderReact,
   PaymentMethodReact,
 } from '../types';
+import { fetchOnrampQuote } from '../utils/fetchOnrampQuote';
 
 type FundCardContextType = {
   selectedAsset: string;
@@ -43,6 +45,28 @@ export function FundCardProvider({ children, asset }: FundCardProviderReact) {
   >();
   const [submitButtonState, setSubmitButtonState] =
     useState<FundButtonStateReact>('default');
+
+  const fetchExchangeRate = useDebounce(async () => {
+    setExchangeRateLoading(true);
+    const quote = await fetchOnrampQuote({
+      purchaseCurrency: selectedAsset,
+      paymentCurrency: 'USD',
+      paymentAmount: '100',
+      paymentMethod: 'CARD',
+      country: 'US',
+    });
+
+    setExchangeRateLoading(false);
+
+    setExchangeRate(
+      Number(quote.purchaseAmount.value) / Number(quote.paymentSubtotal.value),
+    );
+  }, 1000);
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: One time effect
+  useEffect(() => {
+    fetchExchangeRate();
+  }, []);
 
   const value = useValue<FundCardContextType>({
     selectedAsset,

@@ -31,7 +31,10 @@ export const FundCardPaymentMethodSelectorToggle = forwardRef(
         data-testid="ockFundCardPaymentMethodSelectorToggle"
       >
         <div className="w-4">
-          <FundCardPaymentMethodImage paymentMethod={paymentMethod} />
+          <FundCardPaymentMethodImage
+            paymentMethod={paymentMethod}
+            className="h-4 w-4"
+          />
         </div>
         <span
           className={cn(text.headline, color.foreground, 'flex w-full')}
