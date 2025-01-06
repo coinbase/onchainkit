@@ -6,37 +6,37 @@ export default function FundCardDemo() {
     {
       value: '1',
       currencySignOrSymbol: 'ETH',
-      type: 'crypto' as AmountInputTypeReact
+      type: 'crypto' as AmountInputTypeReact,
     },
     {
       value: '2',
       currencySignOrSymbol: 'ETH',
-      type: 'crypto' as AmountInputTypeReact
+      type: 'crypto' as AmountInputTypeReact,
     },
     {
-      value: '0.1',
+      value: '3.12387687687',
       currencySignOrSymbol: 'ETH',
-      type: 'crypto' as AmountInputTypeReact
+      type: 'crypto' as AmountInputTypeReact,
     },
     {
       value: '100',
       currencySignOrSymbol: '$',
-      type: 'fiat' as AmountInputTypeReact
+      type: 'fiat' as AmountInputTypeReact,
     },
     {
       value: '200',
       currencySignOrSymbol: '$',
-      type: 'fiat' as AmountInputTypeReact
+      type: 'fiat' as AmountInputTypeReact,
     },
     {
       value: '25',
       currencySignOrSymbol: '$',
-      type: 'fiat' as AmountInputTypeReact
+      type: 'fiat' as AmountInputTypeReact,
     },
   ];
   return (
     <div className="mx-auto grid w-1/2 gap-8">
-      <FundCard assetSymbol="ETH" amountInputSnippets={amountInputSnippets}/>
+      <FundCard assetSymbol="ETH" amountInputSnippets={amountInputSnippets} />
     </div>
   );
 }

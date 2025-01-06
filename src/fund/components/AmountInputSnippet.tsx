@@ -1,32 +1,74 @@
-import { useTheme } from '../../core-react/internal/hooks/useTheme';
+import { useCallback, useMemo } from 'react';
 import { border, cn, color, text } from '../../styles/theme';
 import type { AmountInputSnippetPropsReact } from '../types';
 
 export function AmountInputSnippet({
-    amountInputSnippet,
-   onClick,
+  amountInputSnippet,
+  onClick,
 }: AmountInputSnippetPropsReact) {
-  const componentTheme = useTheme();
+  const fullText = useMemo(
+    () =>
+      amountInputSnippet.type === 'fiat'
+        ? `${amountInputSnippet.currencySignOrSymbol}${amountInputSnippet.value}`
+        : `${amountInputSnippet.value} ${amountInputSnippet.currencySignOrSymbol}`,
+    [amountInputSnippet],
+  );
+
+  const handleClick = useCallback(() => {
+    onClick(amountInputSnippet);
+  }, [amountInputSnippet, onClick]);
+
+  const handleKeyPress = useCallback(
+    (event: React.KeyboardEvent) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        onClick(amountInputSnippet);
+      }
+    },
+    [amountInputSnippet, onClick],
+  );
+
+  if (!amountInputSnippet.value) {
+    return null;
+  }
 
   return (
     <button
       type="button"
       data-testid="ockAmountInputSnippet"
       className={cn(
-        componentTheme,
+        // Typography & Colors
         text.body,
+        color.foreground,
+
+        // Border styles
         border.radius,
         border.lineDefault,
-        color.foreground,
-        'm-1 p-1 px-2',
 
+        // Layout & Sizing
+        'inline-block',
+        'w-[60px]',
+        'm-1 p-1',
+
+        // Text overflow handling
+        'overflow-hidden',
+        'whitespace-nowrap',
+        'text-ellipsis',
+
+        // Interactive states
+        'hover:bg-[var(--ock-bg-default-hover)]',
+        'focus:outline-none focus:ring-2',
       )}
-      onClick={() => onClick(amountInputSnippet)}
+      title={fullText}
+      onClick={handleClick}
+      onKeyDown={handleKeyPress}
     >
-        {amountInputSnippet.type === 'fiat' && <span> {amountInputSnippet.currencySignOrSymbol}</span>}
-        {amountInputSnippet.value}
-        {amountInputSnippet.type === 'crypto' && <span className='pl-1'>{amountInputSnippet.currencySignOrSymbol}</span>}
+      {amountInputSnippet.type === 'fiat' && (
+        <span>{amountInputSnippet.currencySignOrSymbol}</span>
+      )}
+      {amountInputSnippet.value}
+      {amountInputSnippet.type === 'crypto' && (
+        <span className="pl-1">{amountInputSnippet.currencySignOrSymbol}</span>
+      )}
     </button>
-
   );
 }

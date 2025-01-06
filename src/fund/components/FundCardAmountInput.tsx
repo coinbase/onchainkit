@@ -1,10 +1,13 @@
 import { type ChangeEvent, useCallback, useEffect, useRef } from 'react';
 import { cn, text } from '../../styles/theme';
-import type { FundCardAmountInputPropsReact, AmountInputSnippetReact } from '../types';
+import type {
+  AmountInputSnippetReact,
+  FundCardAmountInputPropsReact,
+} from '../types';
 import { formatDecimalInputValue } from '../utils/formatDecimalInputValue';
 import { truncateDecimalPlaces } from '../utils/truncateDecimalPlaces';
-import { FundCardCurrencyLabel } from './FundCardCurrencyLabel';
 import { AmountInputSnippet } from './AmountInputSnippet';
+import { FundCardCurrencyLabel } from './FundCardCurrencyLabel';
 
 export const FundCardAmountInput = ({
   fiatValue,
@@ -106,11 +109,7 @@ export const FundCardAmountInput = ({
   };
 
   return (
-    <div
-      className="flex cursor-text py-6"
-      onClick={handleFocusInput}
-      onKeyUp={handleFocusInput}
-    >
+    <div className="flex cursor-text py-6">
       <div className="flex h-20">
         {inputType === 'fiat' && currencySign && (
           <FundCardCurrencyLabel
@@ -131,6 +130,8 @@ export const FundCardAmountInput = ({
           type="number"
           value={value}
           onChange={handleChange}
+          onKeyUp={handleFocusInput}
+          onClick={handleFocusInput}
           ref={inputRef}
           inputMode="decimal"
           minLength={1}
@@ -145,9 +146,9 @@ export const FundCardAmountInput = ({
         )}
       </div>
 
-      <div className="flex w-[100%] items-center justify-end">
-        {!value &&
-          amountInputSnippets
+      {!value && (
+        <div className="flex w-[100%] flex-wrap items-center justify-end">
+          {amountInputSnippets
             ?.filter((snippet) => snippet.type === inputType)
             .map((snippet) => (
               <AmountInputSnippet
@@ -156,7 +157,8 @@ export const FundCardAmountInput = ({
                 onClick={handleAmountInputSnippetClick}
               />
             ))}
-      </div>
+        </div>
+      )}
       {/* Hidden span for measuring text width 
           Without this span the input field would not adjust its width based on the text width and would look like this:
           [0.12--------Empty Space-------][ETH] - As you can see the currency symbol is far away from the inputed value

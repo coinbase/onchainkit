@@ -1,7 +1,10 @@
 import '@testing-library/jest-dom';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
-import type { FundCardAmountInputPropsReact } from '../types';
+import type {
+  AmountInputSnippetReact,
+  FundCardAmountInputPropsReact,
+} from '../types';
 import { FundCardAmountInput } from './FundCardAmountInput';
 
 describe('FundCardAmountInput', () => {
@@ -107,5 +110,88 @@ describe('FundCardAmountInput', () => {
     const hiddenSpan = screen.getByTestId('ockHiddenSpan');
 
     expect(hiddenSpan).toHaveTextContent('0.');
+  });
+
+  describe('AmountInputSnippets', () => {
+    const mockSnippets: AmountInputSnippetReact[] = [
+      { type: 'fiat', value: '50', currencySignOrSymbol: '$' },
+      { type: 'fiat', value: '100', currencySignOrSymbol: '$' },
+      { type: 'crypto', value: '1', currencySignOrSymbol: 'ETH' },
+    ];
+
+    it('renders amount input snippets when value is empty', () => {
+      render(
+        <FundCardAmountInput
+          {...defaultProps}
+          fiatValue=""
+          amountInputSnippets={mockSnippets}
+        />,
+      );
+
+      const snippets = screen.getAllByTestId('ockAmountInputSnippet');
+      expect(snippets).toHaveLength(2); // Only fiat snippets when inputType is fiat
+    });
+
+    it('shows crypto snippets when input type is crypto', () => {
+      render(
+        <FundCardAmountInput
+          {...defaultProps}
+          inputType="crypto"
+          cryptoValue=""
+          amountInputSnippets={mockSnippets}
+        />,
+      );
+
+      const snippets = screen.getAllByTestId('ockAmountInputSnippet');
+      expect(snippets).toHaveLength(1); // Only crypto snippets
+      expect(snippets[0]).toHaveTextContent('1ETH');
+    });
+
+    it('hides snippets when input has value', () => {
+      render(
+        <FundCardAmountInput
+          {...defaultProps}
+          fiatValue="75"
+          amountInputSnippets={mockSnippets}
+        />,
+      );
+
+      expect(
+        screen.queryByTestId('ockAmountInputSnippet'),
+      ).not.toBeInTheDocument();
+    });
+
+    it('calls setFiatValue when fiat snippet is clicked', () => {
+      render(
+        <FundCardAmountInput
+          {...defaultProps}
+          fiatValue=""
+          amountInputSnippets={mockSnippets}
+        />,
+      );
+
+      const snippets = screen.getAllByTestId('ockAmountInputSnippet');
+      fireEvent.click(snippets[0]); // Click first snippet ($50)
+
+      expect(defaultProps.setFiatValue).toHaveBeenCalledWith('50');
+      expect(defaultProps.setCryptoValue).toHaveBeenCalledWith('100'); // Based on exchange rate of 2
+    });
+
+    it('calls setCryptoValue when crypto snippet is clicked', () => {
+      render(
+        <FundCardAmountInput
+          {...defaultProps}
+          inputType="crypto"
+          cryptoValue=""
+          amountInputSnippets={mockSnippets}
+        />,
+      );
+
+      const snippet = screen.getByTestId('ockAmountInputSnippet');
+      fireEvent.click(snippet);
+
+      expect(defaultProps.setCryptoValue).toHaveBeenCalledWith('1');
+      expect(defaultProps.setFiatValue).toHaveBeenCalledWith('0.5'); // Based on exchange rate of 2
+    });
   });
 });
