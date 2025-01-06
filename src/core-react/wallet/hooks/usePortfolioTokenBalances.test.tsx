@@ -44,13 +44,11 @@ const mockTokens: PortfolioTokenWithFiatValue[] = [
     fiatBalance: 100,
   },
 ];
-const mockPortfolioTokenBalances: PortfolioTokenBalances[] = [
-  {
-    address: mockAddresses[0],
-    portfolioBalanceUsd: 100,
-    tokenBalances: mockTokens,
-  },
-];
+const mockPortfolioTokenBalances: PortfolioTokenBalances = {
+  address: mockAddresses[0],
+  portfolioBalanceUsd: 100,
+  tokenBalances: mockTokens,
+};
 
 const createWrapper = () => {
   const queryClient = new QueryClient({
@@ -125,13 +123,11 @@ describe('usePortfolioTokenBalances', () => {
         fiatBalance: 100,
       },
     ];
-    const mockPortfolioTokenBalancesWithEth: PortfolioTokenBalances[] = [
-      {
-        address: mockAddresses[0],
-        portfolioBalanceUsd: 100,
-        tokenBalances: mockTokensWithEth,
-      },
-    ];
+    const mockPortfolioTokenBalancesWithEth: PortfolioTokenBalances = {
+      address: mockAddresses[0],
+      portfolioBalanceUsd: 100,
+      tokenBalances: mockTokensWithEth,
+    };
 
     vi.mocked(getPortfolioTokenBalances).mockResolvedValueOnce({
       tokens: mockPortfolioTokenBalancesAPIResponseWithEth,

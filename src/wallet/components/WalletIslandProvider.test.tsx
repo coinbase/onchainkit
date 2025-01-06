@@ -41,13 +41,11 @@ describe('useWalletIslandContext', () => {
     });
     mockUseWalletContext.mockReturnValue(defaultWalletContext);
     mockUsePortfolioTokenBalances.mockReturnValue({
-      data: [
-        {
-          address: '0x123',
-          tokenBalances: [],
-          portfolioBalanceUsd: 0,
-        },
-      ],
+      data: {
+        address: '0x123',
+        tokenBalances: [],
+        portfolioBalanceUsd: 0,
+      },
       refetch: vi.fn(),
       isFetching: false,
       dataUpdatedAt: new Date(),
