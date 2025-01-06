@@ -5,7 +5,7 @@ import type { FundCardAmountInputPropsReact } from '../types';
 import { FundCardAmountInput } from './FundCardAmountInput';
 
 describe('FundCardAmountInput', () => {
-  const defaultProps = {
+  const defaultProps: FundCardAmountInputPropsReact = {
     fiatValue: '100',
     setFiatValue: vi.fn(),
     cryptoValue: '0.05',
@@ -13,8 +13,8 @@ describe('FundCardAmountInput', () => {
     currencySign: '$',
     assetSymbol: 'ETH',
     inputType: 'fiat',
-    exchangeRate: '2',
-  } as unknown as FundCardAmountInputPropsReact;
+    exchangeRate: 2,
+  };
 
   it('renders correctly with fiat input type', () => {
     render(<FundCardAmountInput {...defaultProps} />);

@@ -6,7 +6,14 @@ import { useTheme } from '../../core-react/internal/hooks/useTheme';
 import { Spinner } from '../../internal/components/Spinner';
 import { AddSvg } from '../../internal/svg/addSvg';
 import { SuccessSvg } from '../../internal/svg/successSvg';
-import { border, cn, color, pressable, text } from '../../styles/theme';
+import {
+  background,
+  border,
+  cn,
+  color,
+  pressable,
+  text,
+} from '../../styles/theme';
 import { useGetFundingUrl } from '../hooks/useGetFundingUrl';
 import type { FundButtonReact } from '../types';
 import { getFundingPopupSize } from '../utils/getFundingPopupSize';
@@ -64,7 +71,7 @@ export function FundButton({
   const buttonColorClass = useMemo(() => {
     switch (buttonState) {
       case 'error':
-        return pressable.error;
+        return background.error;
       case 'loading':
       case 'success':
         return pressable.primary;
@@ -121,7 +128,6 @@ export function FundButton({
     return (
       <>
         {buttonIcon && (
-          // h-6 is to match the icon height to the line-height set by text.headline
           <span
             data-testid="ockFundButtonIcon"
             className="flex h-6 items-center"
