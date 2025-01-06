@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useConnect } from 'wagmi';
-import { coinbaseWallet, metaMask } from 'wagmi/connectors';
+import { coinbaseWallet, metaMask, injected } from 'wagmi/connectors';
 import { useOnchainKit } from '../../core-react/useOnchainKit';
 import { closeSvg } from '../../internal/svg/closeSvg';
 import { coinbaseWalletSvg } from '../../internal/svg/coinbaseWalletSvg';
@@ -14,7 +14,6 @@ import {
   pressable,
   text,
 } from '../../styles/theme';
-import { phantomConnector } from '../utils/phantomConnector';
 
 type WalletModalProps = {
   isOpen: boolean;
@@ -128,8 +127,12 @@ export function WalletModal({
 
   const handlePhantomConnection = useCallback(() => {
     try {
-      const phantom = phantomConnector();
-      connect({ connector: phantom });
+      const phantomConnector = injected({
+        target: 'phantom',
+        shimDisconnect: true,
+      });
+
+      connect({ connector: phantomConnector });
       onClose();
     } catch (error) {
       console.error('Phantom connection error:', error);
