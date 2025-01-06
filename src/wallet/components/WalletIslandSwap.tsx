@@ -1,5 +1,6 @@
+import { PressableIcon } from '@/internal/components/PressableIcon';
 import { backArrowSvg } from '@/internal/svg/backArrowSvg';
-import { border, cn, pressable } from '@/styles/theme';
+import { cn } from '@/styles/theme';
 import {
   Swap,
   SwapAmountInput,
@@ -52,19 +53,11 @@ export function WalletIslandSwap({
   }, [showSwap]);
 
   const backButton = (
-    <button
-      type="button"
-      onClick={handleCloseSwap}
-      className={cn(
-        pressable.default,
-        border.radius,
-        border.default,
-        'flex items-center justify-center p-4',
-      )}
-      aria-label="Back button"
-    >
-      <div>{backArrowSvg}</div>
-    </button>
+    <PressableIcon>
+      <button type="button" onClick={handleCloseSwap} aria-label="Back">
+        <div className="p-2">{backArrowSvg}</div>
+      </button>
+    </PressableIcon>
   );
 
   return (
