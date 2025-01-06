@@ -19,15 +19,15 @@ const mockTokens: PortfolioTokenWithFiatValue[] = [
     image: '',
     name: 'Token',
     symbol: 'TOKEN',
-    crypto_balance: 100,
-    fiat_balance: 100,
+    cryptoBalance: 100,
+    fiatBalance: 100,
   },
 ];
 const mockPortfolioTokenBalances: PortfolioTokenBalances[] = [
   {
     address: mockAddresses[0],
-    token_balances: mockTokens,
-    portfolio_balance_usd: 100,
+    tokenBalances: mockTokens,
+    portfolioBalanceUsd: 100,
   },
 ];
 
