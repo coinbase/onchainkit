@@ -1,11 +1,12 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useConnect } from 'wagmi';
-import { coinbaseWallet, metaMask, injected } from 'wagmi/connectors';
+import { coinbaseWallet, injected, metaMask } from 'wagmi/connectors';
 import { useOnchainKit } from '../../core-react/useOnchainKit';
 import { closeSvg } from '../../internal/svg/closeSvg';
 import { coinbaseWalletSvg } from '../../internal/svg/coinbaseWalletSvg';
 import { defaultAvatarSVG } from '../../internal/svg/defaultAvatarSVG';
 import { metamaskSvg } from '../../internal/svg/metamaskSvg';
+import { phantomSvg } from '../../internal/svg/phantomSvg';
 import {
   background,
   border,
@@ -308,10 +309,9 @@ export function WalletModal({
               'flex items-center justify-between px-4 py-3 text-left',
             )}
           >
-            Phantom!!
-            <div className="-mr-0.5 flex h-5 w-5 items-center justify-center">
-              {/* TODO: Update */}
-              {metamaskSvg}
+            Phantom
+            <div className="-mr-0.5 flex h-4 w-4 items-center justify-center">
+              {phantomSvg}
             </div>
           </button>
         </div>
