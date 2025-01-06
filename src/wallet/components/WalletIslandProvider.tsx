@@ -29,7 +29,7 @@ export type WalletIslandContextType = {
   isFetchingPortfolioData: boolean;
   portfolioDataUpdatedAt: number | undefined;
   refetchPortfolioData: () => Promise<
-    QueryObserverResult<PortfolioTokenBalances[], Error>
+    QueryObserverResult<PortfolioTokenBalances, Error>
   >;
 };
 
@@ -65,8 +65,8 @@ export function WalletIslandProvider({ children }: WalletIslandProviderReact) {
     dataUpdatedAt: portfolioDataUpdatedAt,
   } = usePortfolioTokenBalances({ addresses: [address ?? '0x000'] });
 
-  const portfolioFiatValue = portfolioData?.[0]?.portfolioBalanceUsd;
-  const tokenBalances = portfolioData?.[0]?.tokenBalances;
+  const portfolioFiatValue = portfolioData?.portfolioBalanceUsd;
+  const tokenBalances = portfolioData?.tokenBalances;
 
   const value = useValue({
     showSwap,
