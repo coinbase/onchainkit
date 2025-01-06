@@ -27,12 +27,8 @@ vi.mock('../../core-react/useOnchainKit', () => ({
 vi.mock('wagmi/connectors', () => ({
   coinbaseWallet: () => ({ preference: 'all' }),
   metaMask: ({ dappMetadata }: MetaMaskParameters) => ({ dappMetadata }),
-  injected: ({
+  injected: ({ target }: { target: string }) => ({
     target,
-    shimDisconnect,
-  }: { target: string; shimDisconnect: boolean }) => ({
-    target,
-    shimDisconnect,
   }),
 }));
 
@@ -509,7 +505,6 @@ describe('WalletModal', () => {
     expect(mockConnect).toHaveBeenCalledWith({
       connector: {
         target: 'phantom',
-        shimDisconnect: true,
       },
     });
     expect(mockOnClose).toHaveBeenCalled();

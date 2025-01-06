@@ -130,7 +130,6 @@ export function WalletModal({
     try {
       const phantomConnector = injected({
         target: 'phantom',
-        shimDisconnect: true,
       });
 
       connect({ connector: phantomConnector });
