@@ -43,10 +43,10 @@ export function WalletIslandTokenHoldings() {
             symbol: tokenBalance.symbol,
           }}
           balance={
-            Number(tokenBalance.crypto_balance) /
+            Number(tokenBalance.cryptoBalance) /
             10 ** Number(tokenBalance.decimals)
           }
-          valueInFiat={Number(tokenBalance.fiat_balance)}
+          valueInFiat={Number(tokenBalance.fiatBalance)}
         />
       ))}
     </div>
