@@ -257,24 +257,40 @@ export type GetPortfolioTokenBalancesParams = {
 
 /**
  * Note: exported as public Type
- */
-export type PortfolioTokenWithFiatValue = Token & {
-  crypto_balance: number;
-  fiat_balance: number;
-};
-
-/**
- * Note: exported as public Type
- */
+*/
 export type PortfolioTokenBalances = {
   address: Address;
-  token_balances: PortfolioTokenWithFiatValue[];
-  portfolio_balance_usd: number;
+  portfolioBalanceUsd: number;
+  tokenBalances: PortfolioTokenWithFiatValue[];
 };
 
 /**
  * Note: exported as public Type
  */
-export type GetPortfolioTokenBalancesResponse = {
-  tokens: PortfolioTokenBalances[] | APIError; // TODO: rename the response key to portfolio
+export type PortfolioTokenWithFiatValue = Token & {
+  cryptoBalance: number;
+  fiatBalance: number;
+};
+
+/**
+ * Note: exported as public Type
+ */
+export type PortfolioAPIResponse = {
+  address: Address;
+  portfolio_balance_usd: number;
+  token_balances: PortfolioTokenBalanceAPIResponse[];
+};
+
+/**
+ * Note: exported as public Type
+ */
+export type PortfolioTokenBalanceAPIResponse = {
+  address: Address;
+  chain_id: number;
+  decimals: number;
+  image: string;
+  name: string;
+  symbol: string;
+  crypto_balance: number;
+  fiat_balance: number;
 };
