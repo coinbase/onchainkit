@@ -13,7 +13,7 @@ describe('FundCardCurrencyLabel', () => {
     render(<FundCardCurrencyLabel currencySign="$" />);
     const spanElement = screen.getByText('$');
     expect(spanElement).toHaveClass(
-      'flex items-center justify-center bg-transparent text-[60px] leading-none outline-none',
+      'flex items-center justify-center bg-transparent text-6xl leading-none outline-none',
     );
   });
 });

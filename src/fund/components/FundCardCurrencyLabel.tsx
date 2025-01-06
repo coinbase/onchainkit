@@ -12,7 +12,7 @@ export const FundCardCurrencyLabel = forwardRef<
       className={cn(
         text.body,
         'flex items-center justify-center bg-transparent',
-        'text-[60px] leading-none outline-none',
+        'text-6xl leading-none outline-none',
       )}
       data-testid="currencySpan"
     >
