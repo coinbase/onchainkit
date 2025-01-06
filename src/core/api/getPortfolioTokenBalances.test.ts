@@ -1,6 +1,6 @@
 import type {
-  PortfolioTokenBalances,
-  PortfolioTokenWithFiatValue,
+  PortfolioAPIResponse,
+  PortfolioTokenBalanceAPIResponse,
 } from '@/core/api/types';
 import { type Mock, describe, expect, it, vi } from 'vitest';
 import { CDP_GET_PORTFOLIO_TOKEN_BALANCES } from '../network/definitions/wallet';
@@ -12,10 +12,10 @@ vi.mock('../network/request', () => ({
 }));
 
 const mockAddresses: `0x${string}`[] = ['0x123'];
-const mockTokens: PortfolioTokenWithFiatValue[] = [
+const mockTokens: PortfolioTokenBalanceAPIResponse[] = [
   {
     address: '0x123',
-    chainId: 8453,
+    chain_id: 8453,
     decimals: 6,
     image: '',
     name: 'Token',
@@ -24,11 +24,11 @@ const mockTokens: PortfolioTokenWithFiatValue[] = [
     fiat_balance: 100,
   },
 ];
-const mockPortfolioTokenBalances: PortfolioTokenBalances[] = [
+const mockPortfolioTokenBalances: PortfolioAPIResponse[] = [
   {
     address: mockAddresses[0],
-    token_balances: mockTokens,
     portfolio_balance_usd: 100,
+    token_balances: mockTokens,
   },
 ];
 
