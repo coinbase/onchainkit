@@ -11,8 +11,7 @@ import FundCardAmountInput from './FundCardAmountInput';
 import FundCardAmountInputTypeSwitch from './FundCardAmountInputTypeSwitch';
 import { FundCardHeader } from './FundCardHeader';
 import { FundCardPaymentMethodDropdown } from './FundCardPaymentMethodDropdown';
-import { FundCardProvider } from './FundCardProvider';
-import { useFundContext } from './FundCardProvider';
+import { FundCardProvider, useFundContext } from './FundCardProvider';
 
 export function FundCard({
   children,

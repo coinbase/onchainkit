@@ -1,12 +1,12 @@
 import { usePopupMonitor } from '@/buy/hooks/usePopupMonitor';
+import { ErrorSvg } from '@/internal/svg/errorSvg';
 import { openPopup } from '@/ui-react/internal/utils/openPopup';
 import { useCallback, useMemo } from 'react';
 import { useTheme } from '../../core-react/internal/hooks/useTheme';
 import { Spinner } from '../../internal/components/Spinner';
 import { AddSvg } from '../../internal/svg/addSvg';
-import { ErrorSvg } from '../../internal/svg/errorSvg';
 import { SuccessSvg } from '../../internal/svg/successSvg';
-import { border, cn, color, icon, pressable, text } from '../../styles/theme';
+import { border, cn, color, pressable, text } from '../../styles/theme';
 import { useGetFundingUrl } from '../hooks/useGetFundingUrl';
 import type { FundButtonReact } from '../types';
 import { getFundingPopupSize } from '../utils/getFundingPopupSize';
@@ -92,9 +92,9 @@ export function FundButton({
       case 'loading':
         return '';
       case 'success':
-        return <SuccessSvg className={cn(icon.inverse)} />;
+        return <SuccessSvg fill="#F9FAFB" />;
       case 'error':
-        return <ErrorSvg className={cn(icon.inverse)} />;
+        return <ErrorSvg fill="#F9FAFB" />;
       default:
         return <AddSvg />;
     }

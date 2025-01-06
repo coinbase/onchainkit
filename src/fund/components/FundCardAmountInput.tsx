@@ -92,23 +92,7 @@ export const FundCardAmountInput = ({
       onClick={handleFocusInput}
       onKeyUp={handleFocusInput}
     >
-      <style>
-        {`
-          input[type="number"]::-webkit-inner-spin-button,
-          input[type="number"]::-webkit-outer-spin-button {
-            -webkit-appearance: none;
-            appearance: none;
-            margin: 0;
-          }
-
-          input[type="number"] {
-            -moz-appearance: textfield;
-          }
-        `}
-      </style>
-
       <div className="flex h-20">
-        {/* Display the fiat currency sign before the input*/}
         {inputType === 'fiat' && currencySign && (
           <FundCardCurrencyLabel
             ref={currencySpanRef}
@@ -121,6 +105,9 @@ export const FundCardAmountInput = ({
             text.body,
             'border-none bg-transparent',
             'text-6xl leading-none outline-none',
+            '[appearance:textfield]',
+            '[&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none',
+            '[&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none',
           )}
           type="number"
           value={value}
@@ -131,7 +118,6 @@ export const FundCardAmountInput = ({
           placeholder="0"
           data-testid="ockFundCardAmountInput"
         />
-        {/* Display the crypto asset symbol after the input*/}
         {inputType === 'crypto' && assetSymbol && (
           <FundCardCurrencyLabel
             ref={currencySpanRef}
@@ -154,13 +140,8 @@ export const FundCardAmountInput = ({
           text.body,
           'border-none bg-transparent',
           'text-6xl leading-none outline-none',
+          'pointer-events-none absolute whitespace-nowrap opacity-0',
         )}
-        style={{
-          position: 'absolute',
-          opacity: 0,
-          whiteSpace: 'nowrap',
-          pointerEvents: 'none',
-        }}
       >
         {value ? `${value}.` : '0.'}
       </span>
