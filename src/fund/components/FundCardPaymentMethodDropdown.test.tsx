@@ -6,7 +6,7 @@ import type { PaymentMethodReact } from '../types';
 import { FundCardPaymentMethodDropdown } from './FundCardPaymentMethodDropdown';
 import { FundCardProvider } from './FundCardProvider';
 
-const paymentMethods = [
+const paymentMethods: PaymentMethodReact[] = [
   {
     icon: 'sampleIcon',
     id: 'ACH_BANK_ACCOUNT',
@@ -19,7 +19,7 @@ const paymentMethods = [
     name: 'Apple Pay',
     description: 'Up to $500',
   },
-] as PaymentMethodReact[];
+];
 
 const renderComponent = () =>
   render(
