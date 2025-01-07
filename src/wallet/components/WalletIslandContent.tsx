@@ -23,7 +23,7 @@ export function WalletIslandContent({
         background.default,
         border.radius,
         border.lineDefault,
-        'mt-2.5 h-auto w-88',
+        'my-1.5 h-auto w-88',
         'flex items-center justify-center',
         isClosing
           ? 'fade-out slide-out-to-top-1.5 animate-out fill-mode-forwards ease-in-out'

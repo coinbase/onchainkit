@@ -75,7 +75,7 @@ function WalletContent({
   }
 
   useEffect(() => {
-    if (isOpen && connectRef.current) {
+    if (draggable && isOpen && connectRef.current) {
       const connectRect = connectRef.current.getBoundingClientRect();
       const viewportHeight = window.innerHeight;
       const viewportWidth = window.innerWidth;
@@ -86,7 +86,7 @@ function WalletContent({
       setShowSubComponentAbove(spaceAvailableBelow < WALLET_ISLAND_MAX_HEIGHT);
       setAlignSubComponentRight(spaceAvailableRight < WALLET_ISLAND_MAX_WIDTH);
     }
-  }, [isOpen]);
+  }, [draggable, isOpen]);
 
   if (draggable) {
     return (
@@ -160,7 +160,7 @@ function WalletSubComponent({
         <div
           className={cn(
             'absolute',
-            showSubComponentAbove ? 'bottom-full mb-1.5' : 'top-full mt-1.5',
+            showSubComponentAbove ? 'bottom-full' : 'top-full',
             alignSubComponentRight ? 'right-0' : 'left-0',
           )}
         >
