@@ -2,15 +2,10 @@ import type { WalletIslandProps } from '../types';
 import { WalletIslandContent } from './WalletIslandContent';
 import { WalletIslandProvider } from './WalletIslandProvider';
 
-export function WalletIsland({
-  children,
-  walletContainerRef,
-}: WalletIslandProps) {
+export function WalletIsland({ children }: WalletIslandProps) {
   return (
     <WalletIslandProvider>
-      <WalletIslandContent walletContainerRef={walletContainerRef}>
-        {children}
-      </WalletIslandContent>
+      <WalletIslandContent>{children}</WalletIslandContent>
     </WalletIslandProvider>
   );
 }
