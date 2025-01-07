@@ -30,4 +30,6 @@ export type {
   WalletDropdownLinkReact,
   WalletDropdownReact,
   WalletReact,
+  WalletIslandReact,
+  WalletIslandContextType,
 } from './types';
