@@ -75,7 +75,7 @@ function WalletContent({
   }
 
   useEffect(() => {
-    if (draggable && isOpen && connectRef.current) {
+    if (isOpen && connectRef?.current) {
       const connectRect = connectRef.current.getBoundingClientRect();
       const viewportHeight = window.innerHeight;
       const viewportWidth = window.innerWidth;
@@ -86,7 +86,7 @@ function WalletContent({
       setShowSubComponentAbove(spaceAvailableBelow < WALLET_ISLAND_MAX_HEIGHT);
       setAlignSubComponentRight(spaceAvailableRight < WALLET_ISLAND_MAX_WIDTH);
     }
-  }, [draggable, isOpen]);
+  }, [isOpen]);
 
   if (draggable) {
     return (
@@ -158,6 +158,7 @@ function WalletSubComponent({
       <div ref={connectRef}>{connect}</div>
       {isOpen && (
         <div
+          data-testid="ockWalletIslandContainer"
           className={cn(
             'absolute',
             showSubComponentAbove ? 'bottom-full' : 'top-full',
