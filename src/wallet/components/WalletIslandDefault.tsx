@@ -10,9 +10,7 @@ import { WalletIslandWalletActions } from './WalletIslandWalletActions';
 
 export function WalletIslandDefault() {
   return (
-    <Wallet
-      draggable={true}
-    >
+    <Wallet draggable={true}>
       <ConnectWallet>
         <ConnectWalletText>Connect Wallet</ConnectWalletText>
         <Avatar className="h-6 w-6" />
