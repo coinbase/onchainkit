@@ -4,7 +4,12 @@ import { type Token, TokenImage } from '@/token';
 import { useWalletIslandContext } from './WalletIslandProvider';
 import { useWalletContext } from './WalletProvider';
 
-// TODO: handle loading state
+type TokenDetailsProps = {
+  token: Token;
+  balance: number;
+  valueInFiat: number;
+};
+
 export function WalletIslandTokenHoldings() {
   const { isClosing } = useWalletContext();
   const { tokenBalances, isFetchingPortfolioData } = useWalletIslandContext();
@@ -52,12 +57,6 @@ export function WalletIslandTokenHoldings() {
     </div>
   );
 }
-
-type TokenDetailsProps = {
-  token: Token;
-  balance: number;
-  valueInFiat: number;
-};
 
 function TokenDetails({ token, balance, valueInFiat }: TokenDetailsProps) {
   const currencySymbol = '$'; // TODO: get from user settings
