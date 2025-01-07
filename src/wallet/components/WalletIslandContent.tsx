@@ -1,7 +1,7 @@
 import { useTheme } from '@/core-react/internal/hooks/useTheme';
 import { background, border, cn, text } from '@/styles/theme';
 import { WALLET_ISLAND_DEFAULT_SWAPPABLE_TOKENS } from '../constants';
-import type { WalletIslandProps } from '../types';
+import type { WalletIslandReact } from '../types';
 import { useWalletIslandContext } from './WalletIslandProvider';
 import { WalletIslandQrReceive } from './WalletIslandQrReceive';
 import { WalletIslandSwap } from './WalletIslandSwap';
@@ -10,7 +10,7 @@ import { useWalletContext } from './WalletProvider';
 export function WalletIslandContent({
   children,
   swappableTokens,
-}: WalletIslandProps) {
+}: WalletIslandReact) {
   const { isClosing, setIsOpen, setIsClosing } = useWalletContext();
   const { showQr, showSwap, tokenBalances } = useWalletIslandContext();
   const componentTheme = useTheme();
