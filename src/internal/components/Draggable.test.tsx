@@ -155,6 +155,44 @@ describe('Draggable', () => {
     expect(draggable).toHaveStyle({ left: '100px', top: '75px' });
   });
 
+  it('prevents the click event when drag distance is more than 2 pixels', async () => {
+    const onClick = vi.fn();
+
+    render(
+      <Draggable>
+        <div onClick={onClick}>Drag me</div>
+      </Draggable>,
+    );
+    const draggable = screen.getByTestId('ockDraggable');
+
+    // Start drag
+    fireEvent.pointerDown(draggable, { clientX: 0, clientY: 0 });
+
+    // Move more than 2 pixels
+    fireEvent.pointerMove(document, { clientX: 10, clientY: 10 });
+
+    // Mock the click event that would be triggered by pointerup
+    const preventDefaultSpy = vi.fn();
+    const stopPropagationSpy = vi.fn();
+    const mockClickEvent = new MouseEvent('click', {
+      bubbles: true,
+      cancelable: true,
+    });
+    Object.defineProperties(mockClickEvent, {
+      preventDefault: { value: preventDefaultSpy },
+      stopPropagation: { value: stopPropagationSpy }
+    });
+
+    // End drag
+    fireEvent.pointerUp(document, { clientX: 10, clientY: 10 });
+
+    // Simulate the click that would happen
+    document.dispatchEvent(mockClickEvent);
+
+    expect(preventDefaultSpy).toHaveBeenCalled();
+    expect(stopPropagationSpy).toHaveBeenCalled();
+  });
+
   it('cleans up event listeners when unmounted during drag', () => {
     const { unmount } = render(
       <Draggable>
