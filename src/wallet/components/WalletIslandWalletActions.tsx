@@ -80,7 +80,7 @@ export function WalletIslandWalletActions() {
             type="button"
             onClick={handleRefreshPortfolioData}
           >
-            <div className="h-7 w-7 scale-125 p-2">{refreshSvg}</div>
+            <div className="h-7 w-7 scale-110 p-2">{refreshSvg}</div>
           </button>
         </PressableIcon>
       </div>
