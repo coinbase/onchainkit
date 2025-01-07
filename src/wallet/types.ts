@@ -1,5 +1,7 @@
+import type { PortfolioTokenBalances, PortfolioTokenWithFiatValue } from '@/core/api/types';
 import type { SwapError } from '@/swap';
 import type { Token } from '@/token';
+import type { QueryObserverResult } from '@tanstack/react-query';
 import type { Dispatch, ReactNode, SetStateAction } from 'react';
 import type { Address, Chain, PublicClient } from 'viem';
 import type { UserOperation } from 'viem/_types/account-abstraction';
@@ -90,6 +92,16 @@ export type WalletReact = {
   startingPosition?: { x: number; y: number };
 };
 
+export type WalletSubComponentReact = {
+  connect: React.ReactNode;
+  connectRef: React.RefObject<HTMLDivElement>;
+  dropdown: React.ReactNode;
+  island: React.ReactNode;
+  isOpen: boolean;
+  alignSubComponentRight: boolean;
+  showSubComponentAbove: boolean;
+};
+
 /**
  * Note: exported as public Type
  */
@@ -153,7 +165,31 @@ export type WalletDropdownLinkReact = {
   target?: string;
 };
 
-export type WalletIslandProps = {
+/**
+ * Note: exported as public Type
+ */
+export type WalletIslandReact = {
   children: React.ReactNode;
   swappableTokens?: Token[];
+};
+
+/**
+ * Note: exported as public Type
+ */
+export type WalletIslandContextType = {
+  showSwap: boolean;
+  setShowSwap: Dispatch<SetStateAction<boolean>>;
+  isSwapClosing: boolean;
+  setIsSwapClosing: Dispatch<SetStateAction<boolean>>;
+  showQr: boolean;
+  setShowQr: Dispatch<SetStateAction<boolean>>;
+  isQrClosing: boolean;
+  setIsQrClosing: Dispatch<SetStateAction<boolean>>;
+  tokenBalances: PortfolioTokenWithFiatValue[] | undefined;
+  portfolioFiatValue: number | undefined;
+  isFetchingPortfolioData: boolean;
+  portfolioDataUpdatedAt: number | undefined;
+  refetchPortfolioData: () => Promise<
+    QueryObserverResult<PortfolioTokenBalances, Error>
+  >;
 };

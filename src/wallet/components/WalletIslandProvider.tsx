@@ -1,37 +1,8 @@
 import { useValue } from '@/core-react/internal/hooks/useValue';
 import { usePortfolioTokenBalances } from '@/core-react/wallet/hooks/usePortfolioTokenBalances';
-import type {
-  PortfolioTokenBalances,
-  PortfolioTokenWithFiatValue,
-} from '@/core/api/types';
-import type { QueryObserverResult } from '@tanstack/react-query';
-import {
-  type Dispatch,
-  type ReactNode,
-  type SetStateAction,
-  createContext,
-  useContext,
-  useState,
-} from 'react';
+import { type ReactNode, createContext, useContext, useState } from 'react';
+import type { WalletIslandContextType } from '../types';
 import { useWalletContext } from './WalletProvider';
-
-export type WalletIslandContextType = {
-  showSwap: boolean;
-  setShowSwap: Dispatch<SetStateAction<boolean>>;
-  isSwapClosing: boolean;
-  setIsSwapClosing: Dispatch<SetStateAction<boolean>>;
-  showQr: boolean;
-  setShowQr: Dispatch<SetStateAction<boolean>>;
-  isQrClosing: boolean;
-  setIsQrClosing: Dispatch<SetStateAction<boolean>>;
-  tokenBalances: PortfolioTokenWithFiatValue[] | undefined;
-  portfolioFiatValue: number | undefined;
-  isFetchingPortfolioData: boolean;
-  portfolioDataUpdatedAt: number | undefined;
-  refetchPortfolioData: () => Promise<
-    QueryObserverResult<PortfolioTokenBalances, Error>
-  >;
-};
 
 type WalletIslandProviderReact = {
   children: ReactNode;
