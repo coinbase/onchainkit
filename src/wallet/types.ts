@@ -1,4 +1,7 @@
-import type { PortfolioTokenBalances, PortfolioTokenWithFiatValue } from '@/core/api/types';
+import type {
+  PortfolioTokenBalances,
+  PortfolioTokenWithFiatValue,
+} from '@/core/api/types';
 import type { SwapError } from '@/swap';
 import type { Token } from '@/token';
 import type { QueryObserverResult } from '@tanstack/react-query';
