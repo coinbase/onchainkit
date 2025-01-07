@@ -156,5 +156,4 @@ export type WalletDropdownLinkReact = {
 export type WalletIslandProps = {
   children: React.ReactNode;
   swappableTokens?: Token[];
-  walletContainerRef?: React.RefObject<HTMLDivElement>;
 };
