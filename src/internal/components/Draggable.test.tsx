@@ -160,7 +160,9 @@ describe('Draggable', () => {
 
     render(
       <Draggable>
-        <div onClick={onClick}>Drag me</div>
+        <div onClick={onClick} onKeyDown={onClick}>
+          Drag me
+        </div>
       </Draggable>,
     );
     const draggable = screen.getByTestId('ockDraggable');
@@ -180,7 +182,7 @@ describe('Draggable', () => {
     });
     Object.defineProperties(mockClickEvent, {
       preventDefault: { value: preventDefaultSpy },
-      stopPropagation: { value: stopPropagationSpy }
+      stopPropagation: { value: stopPropagationSpy },
     });
 
     // End drag
