@@ -81,7 +81,13 @@ export function Draggable({
       document.removeEventListener('pointermove', handleGlobalMove);
       document.removeEventListener('pointerup', handleGlobalEnd);
     };
-  }, [isDragging, dragOffset, snapToGrid, calculateSnapToGrid, dragStartPosition]);
+  }, [
+    isDragging,
+    dragOffset,
+    snapToGrid,
+    calculateSnapToGrid,
+    dragStartPosition,
+  ]);
 
   return (
     <div
