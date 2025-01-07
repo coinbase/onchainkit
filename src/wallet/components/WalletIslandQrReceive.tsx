@@ -110,7 +110,7 @@ export function WalletIslandQrReceive() {
               color.foreground,
               border.default,
               border.radius,
-              'absolute top-full right-[0%] z-10 mt-0.5 px-1.5 py-0.5 opacity-0 transition-opacity group-hover:opacity-100',
+              'absolute top-full right-0 z-10 mt-0.5 px-1.5 py-0.5 opacity-0 transition-opacity group-hover:opacity-100',
             )}
             aria-live="polite"
             aria-label="Copy tooltip"
