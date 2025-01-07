@@ -1,11 +1,9 @@
-import { findComponent } from '@/core-react/internal/utils/findComponent';
-import { Children, useMemo } from 'react';
 import { useTheme } from '../../core-react/internal/hooks/useTheme';
 import { background, border, cn, color, text } from '../../styles/theme';
 import { DEFAULT_PAYMENT_METHODS } from '../constants';
 import { useFundCardFundingUrl } from '../hooks/useFundCardFundingUrl';
 import { useFundCardSetupOnrampEventListeners } from '../hooks/useFundCardSetupOnrampEventListeners';
-import type { FundCardContentPropsReact, FundCardPropsReact } from '../types';
+import type { FundCardPropsReact } from '../types';
 import { FundButton } from './FundButton';
 import FundCardAmountInput from './FundCardAmountInput';
 import FundCardAmountInputTypeSwitch from './FundCardAmountInputTypeSwitch';
@@ -14,7 +12,11 @@ import { FundCardPaymentMethodDropdown } from './FundCardPaymentMethodDropdown';
 import { FundCardProvider, useFundContext } from './FundCardProvider';
 
 export function FundCard({
-  children,
+  AmountInputComponent = FundCardAmountInput,
+  HeaderComponent = FundCardHeader,
+  AmountInputTypeSwitchComponent = FundCardAmountInputTypeSwitch,
+  PaymentMethodDropdownComponent = FundCardPaymentMethodDropdown,
+  ButtonComponent = FundButton,
   assetSymbol,
   buttonText = 'Buy',
   headerText,
@@ -22,29 +24,29 @@ export function FundCard({
 }: FundCardPropsReact) {
   const componentTheme = useTheme();
 
-  const {
-    amountInputComponent,
-    headerComponent,
-    amountInputTypeSwitchComponent,
-    paymentMethodDropdownComponent,
-    submitButtonComponent,
-  } = useMemo(() => {
-    const childrenArray = Children.toArray(children);
+  // const {
+  //   amountInputComponent,
+  //   headerComponent,
+  //   amountInputTypeSwitchComponent,
+  //   paymentMethodDropdownComponent,
+  //   submitButtonComponent,
+  // } = useMemo(() => {
+  //   const childrenArray = Children.toArray(children);
 
-    return {
-      amountInputComponent: childrenArray.find(
-        findComponent(FundCardAmountInput),
-      ),
-      headerComponent: childrenArray.find(findComponent(FundCardHeader)),
-      amountInputTypeSwitchComponent: childrenArray.find(
-        findComponent(FundCardAmountInputTypeSwitch),
-      ),
-      paymentMethodDropdownComponent: childrenArray.find(
-        findComponent(FundCardPaymentMethodDropdown),
-      ),
-      submitButtonComponent: childrenArray.find(findComponent(FundButton)),
-    };
-  }, [children]);
+  //   return {
+  //     amountInputComponent: childrenArray.find(
+  //       findComponent(FundCardAmountInput),
+  //     ),
+  //     headerComponent: childrenArray.find(findComponent(FundCardHeader)),
+  //     amountInputTypeSwitchComponent: childrenArray.find(
+  //       findComponent(FundCardAmountInputTypeSwitch),
+  //     ),
+  //     paymentMethodDropdownComponent: childrenArray.find(
+  //       findComponent(FundCardPaymentMethodDropdown),
+  //     ),
+  //     submitButtonComponent: childrenArray.find(findComponent(FundButton)),
+  //   };
+  // }, [children]);
 
   return (
     <FundCardProvider asset={assetSymbol}>
@@ -63,12 +65,12 @@ export function FundCard({
           assetSymbol={assetSymbol}
           buttonText={buttonText}
           headerText={headerText}
-          amountInputComponent={amountInputComponent}
-          headerComponent={headerComponent}
-          amountInputTypeSwitchComponent={amountInputTypeSwitchComponent}
-          paymentMethodDropdownComponent={paymentMethodDropdownComponent}
           paymentMethods={paymentMethods}
-          submitButtonComponent={submitButtonComponent}
+          AmountInputComponent={AmountInputComponent}
+          HeaderComponent={HeaderComponent}
+          AmountInputTypeSwitchComponent={AmountInputTypeSwitchComponent}
+          PaymentMethodDropdownComponent={PaymentMethodDropdownComponent}
+          ButtonComponent={ButtonComponent}
         />
       </div>
     </FundCardProvider>
@@ -79,13 +81,13 @@ function FundCardContent({
   assetSymbol,
   buttonText = 'Buy',
   headerText,
-  amountInputComponent,
-  headerComponent,
-  amountInputTypeSwitchComponent,
-  paymentMethodDropdownComponent,
   paymentMethods = DEFAULT_PAYMENT_METHODS,
-  submitButtonComponent,
-}: FundCardContentPropsReact) {
+  AmountInputComponent = FundCardAmountInput,
+  HeaderComponent = FundCardHeader,
+  AmountInputTypeSwitchComponent = FundCardAmountInputTypeSwitch,
+  PaymentMethodDropdownComponent = FundCardPaymentMethodDropdown,
+  ButtonComponent = FundButton,
+}: FundCardPropsReact) {
   const {
     setFundAmountFiat,
     fundAmountFiat,
@@ -107,51 +109,41 @@ function FundCardContent({
 
   return (
     <form className="w-full" data-testid="ockFundCardForm">
-      {headerComponent || (
-        <FundCardHeader headerText={headerText} assetSymbol={assetSymbol} />
-      )}
+      <HeaderComponent headerText={headerText} assetSymbol={assetSymbol} />
 
-      {amountInputComponent || (
-        <FundCardAmountInput
-          fiatValue={fundAmountFiat}
-          setFiatValue={setFundAmountFiat}
-          cryptoValue={fundAmountCrypto}
-          setCryptoValue={setFundAmountCrypto}
-          currencySign="$"
-          assetSymbol={assetSymbol}
-          inputType={selectedInputType}
-          exchangeRate={exchangeRate}
-        />
-      )}
+      <AmountInputComponent
+        fiatValue={fundAmountFiat}
+        setFiatValue={setFundAmountFiat}
+        cryptoValue={fundAmountCrypto}
+        setCryptoValue={setFundAmountCrypto}
+        currencySign="$"
+        assetSymbol={assetSymbol}
+        inputType={selectedInputType}
+        exchangeRate={exchangeRate}
+      />
 
-      {amountInputTypeSwitchComponent || (
-        <FundCardAmountInputTypeSwitch
-          selectedInputType={selectedInputType}
-          setSelectedInputType={setSelectedInputType}
-          selectedAsset={selectedAsset}
-          fundAmountFiat={fundAmountFiat}
-          fundAmountCrypto={fundAmountCrypto}
-          exchangeRate={exchangeRate}
-          isLoading={exchangeRateLoading}
-        />
-      )}
+      <AmountInputTypeSwitchComponent
+        selectedInputType={selectedInputType}
+        setSelectedInputType={setSelectedInputType}
+        selectedAsset={selectedAsset}
+        fundAmountFiat={fundAmountFiat}
+        fundAmountCrypto={fundAmountCrypto}
+        exchangeRate={exchangeRate}
+        isLoading={exchangeRateLoading}
+      />
 
-      {paymentMethodDropdownComponent || (
-        <FundCardPaymentMethodDropdown paymentMethods={paymentMethods} />
-      )}
+      <PaymentMethodDropdownComponent paymentMethods={paymentMethods} />
 
-      {submitButtonComponent || (
-        <FundButton
-          disabled={!fundAmountFiat || !fundAmountCrypto}
-          hideIcon={submitButtonState === 'default'}
-          text={buttonText}
-          className="w-full"
-          fundingUrl={fundingUrl}
-          state={submitButtonState}
-          onClick={() => setSubmitButtonState('loading')}
-          onPopupClose={() => setSubmitButtonState('default')}
-        />
-      )}
+      <ButtonComponent
+        disabled={!fundAmountFiat || !fundAmountCrypto}
+        hideIcon={submitButtonState === 'default'}
+        text={buttonText}
+        className="w-full"
+        fundingUrl={fundingUrl}
+        state={submitButtonState}
+        onClick={() => setSubmitButtonState('loading')}
+        onPopupClose={() => setSubmitButtonState('default')}
+      />
     </form>
   );
 }

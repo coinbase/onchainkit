@@ -141,6 +141,7 @@ export const FundCardAmountInput = ({
           'border-none bg-transparent',
           'text-6xl leading-none outline-none',
           'pointer-events-none absolute whitespace-nowrap opacity-0',
+          'left-[-9999px]', // Hide the span from the DOM
         )}
       >
         {value ? `${value}.` : '0.'}

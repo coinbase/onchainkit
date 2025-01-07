@@ -327,33 +327,34 @@ export type FundCardPropsReact = {
    * Payment methods to display in the dropdown
    */
   paymentMethods?: PaymentMethodReact[];
-};
+} & FundCardContentPropsReact;
 
 export type FundCardContentPropsReact = {
   /**
    * Custom component for the amount input
    */
-  amountInputComponent?: React.ReactElement<FundCardAmountInputPropsReact>;
+  AmountInputComponent?: React.ComponentType<FundCardAmountInputPropsReact>;
+
   /**
    * Custom component for the header
    */
-  headerComponent?: React.ReactElement<FundCardHeaderPropsReact>;
+  HeaderComponent?: React.ComponentType<FundCardHeaderPropsReact>;
 
   /**
    * Custom component for the amount input type switch
    */
-  amountInputTypeSwitchComponent?: React.ReactElement<FundCardAmountInputTypeSwitchPropsReact>;
+  AmountInputTypeSwitchComponent?: React.ComponentType<FundCardAmountInputTypeSwitchPropsReact>;
 
   /**
    * Custom component for the payment method selector dropdown
    */
-  paymentMethodDropdownComponent?: React.ReactElement<FundCardPaymentMethodDropdownPropsReact>;
+  PaymentMethodDropdownComponent?: React.ComponentType<FundCardPaymentMethodDropdownPropsReact>;
 
   /**
    * Custom component for the submit button
    */
-  submitButtonComponent?: React.ReactElement<FundButtonReact>;
-} & FundCardPropsReact;
+  ButtonComponent?: React.ComponentType<FundButtonReact>;
+};
 
 export type FundCardPaymentMethodSelectorTogglePropsReact = {
   className?: string;
