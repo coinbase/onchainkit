@@ -51,7 +51,7 @@ export const defaultState: State = {
   setComponentMode: () => {},
   setNFTToken: () => {},
   setIsSponsored: () => {},
-  anchorPosition: 'top-left',
+  anchorPosition: 'top-center',
   setAnchorPosition: () => {},
 };
 
