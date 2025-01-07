@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useOutsideClick } from '../../ui/react/internal/hooks/useOutsideClick';
 import { ConnectWallet } from './ConnectWallet';
 import { Wallet } from './Wallet';
@@ -189,6 +189,8 @@ describe('Wallet Component', () => {
   });
 
   it('should render WalletIsland right-aligned when there is not enough space on the right', () => {
+    const originalGetBoundingClientRect = Element.prototype.getBoundingClientRect;
+
     Object.defineProperty(window, 'innerWidth', {
       writable: true,
       configurable: true,
@@ -223,6 +225,8 @@ describe('Wallet Component', () => {
     expect(screen.getByTestId('ockWalletIslandContainer')).toHaveClass(
       'right-0',
     );
+
+    Element.prototype.getBoundingClientRect = originalGetBoundingClientRect;
   });
 
   it('should render WalletIsland left-aligned when there is enough space on the right', () => {
