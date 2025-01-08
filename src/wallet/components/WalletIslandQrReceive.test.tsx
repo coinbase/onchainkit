@@ -192,7 +192,9 @@ describe('WalletIslandQrReceive', () => {
 
     render(<WalletIslandQrReceive />);
 
-    const copyTooltip = screen.getByTestId('ockWalletIslandQrReceive_CopyTooltip');
+    const copyTooltip = screen.getByTestId(
+      'ockWalletIslandQrReceive_CopyTooltip',
+    );
 
     await act(async () => {
       fireEvent.click(copyTooltip);
@@ -230,7 +232,9 @@ describe('WalletIslandQrReceive', () => {
 
     render(<WalletIslandQrReceive />);
 
-    const copyButton = screen.getByTestId('ockWalletIslandQrReceive_CopyButton');
+    const copyButton = screen.getByTestId(
+      'ockWalletIslandQrReceive_CopyButton',
+    );
 
     await act(async () => {
       fireEvent.click(copyButton);
@@ -273,7 +277,9 @@ describe('WalletIslandQrReceive', () => {
     vi.advanceTimersByTime(2000);
 
     mockSetCopyButtonText.mockClear();
-    const copyButton = screen.getByTestId('ockWalletIslandQrReceive_CopyButton');
+    const copyButton = screen.getByTestId(
+      'ockWalletIslandQrReceive_CopyButton',
+    );
     await act(async () => {
       fireEvent.click(copyButton);
       await Promise.resolve();
