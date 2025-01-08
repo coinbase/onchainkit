@@ -32,7 +32,6 @@ export function WalletIslandTokenHoldings() {
           'fade-in slide-in-from-top-2.5 animate-in fill-mode-forwards duration-300 ease-out':
             !isClosing,
         },
-        'shadow-[inset_0_-15px_10px_-10px_rgba(0,0,0,0.05)]',
       )}
       data-testid="ockWalletIsland_TokenHoldings"
     >

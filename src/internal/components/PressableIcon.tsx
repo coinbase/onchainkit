@@ -12,7 +12,7 @@ export function PressableIcon({
     <div
       className={cn(
         pressable.default,
-        border.radius,
+        border.radiusInner,
         border.default,
         'flex items-center justify-center',
         className,

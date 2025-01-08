@@ -66,14 +66,14 @@ export function WalletIslandContent({
               name: token.name,
             })) ?? []
           }
-          className="w-full p-2"
+          className="w-full px-4 pt-3 pb-4"
         />
       </div>
       <div
         className={cn(
           'flex flex-col items-center justify-between',
           'h-120 w-88',
-          'px-4 py-2',
+          'px-4 py-3',
           showQr || showSwap ? 'hidden' : '',
         )}
       >

@@ -66,7 +66,7 @@ export function WalletIslandQrReceive() {
         text.headline,
         'flex flex-col items-center justify-between',
         'h-full w-full',
-        'p-2',
+        'px-4 pt-3 pb-4',
         isQrClosing
           ? 'fade-out slide-out-to-left-5 animate-out fill-mode-forwards ease-in-out'
           : 'fade-in slide-in-from-left-5 linear animate-in duration-150',

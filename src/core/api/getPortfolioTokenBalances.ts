@@ -21,11 +21,11 @@ export async function getPortfolioTokenBalances({
       };
     }
     return res.result;
-  } catch (_error) {
+  } catch (error) {
     return {
       code: 'uncaught-portfolio',
       error: 'Something went wrong',
-      message: `Error fetching portfolio token balances: ${_error}`,
+      message: `Error fetching portfolio token balances: ${error}`,
     };
   }
 }
