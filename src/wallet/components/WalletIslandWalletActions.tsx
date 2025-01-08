@@ -14,6 +14,10 @@ export function WalletIslandWalletActions() {
   const { setShowQr, refetchPortfolioData } = useWalletIslandContext();
   const { disconnect, connectors } = useDisconnect();
 
+  const handleTransactions = useCallback(() => {
+    window.open('https://wallet.coinbase.com/assets/transactions', '_blank');
+  }, []);
+
   const handleDisconnect = useCallback(() => {
     handleClose();
     for (const connector of connectors) {
@@ -37,44 +41,25 @@ export function WalletIslandWalletActions() {
       })}
     >
       <div className="flex items-center">
-        <PressableIcon>
-          <a
-            data-testid="ockWalletIsland_TransactionsButton"
-            href="https://wallet.coinbase.com/assets/transactions"
-            target="_blank"
-            rel="noreferrer noopener"
-          >
-            {clockSvg}
-          </a>
+        <PressableIcon
+          ariaLabel="Open transaction history"
+          onClick={handleTransactions}
+        >
+          {clockSvg}
         </PressableIcon>
-        <PressableIcon>
-          <button
-            data-testid="ockWalletIsland_QrButton"
-            type="button"
-            onClick={handleQr}
-          >
-            {qrIconSvg}
-          </button>
+        <PressableIcon ariaLabel="Show QR code" onClick={handleQr}>
+          {qrIconSvg}
         </PressableIcon>
       </div>
       <div className="flex items-center">
-        <PressableIcon>
-          <button
-            data-testid="ockWalletIsland_DisconnectButton"
-            type="button"
-            onClick={handleDisconnect}
-          >
-            <div className="h-7 w-7 scale-110 p-2">{disconnectSvg}</div>
-          </button>
+        <PressableIcon ariaLabel="Disconnect wallet" onClick={handleDisconnect}>
+          <div className="h-7 w-7 scale-110 p-2">{disconnectSvg}</div>
         </PressableIcon>
-        <PressableIcon>
-          <button
-            data-testid="ockWalletIsland_RefreshButton"
-            type="button"
-            onClick={handleRefreshPortfolioData}
-          >
-            <div className="h-7 w-7 scale-110 p-2">{refreshSvg}</div>
-          </button>
+        <PressableIcon
+          ariaLabel="Refresh portfolio data"
+          onClick={handleRefreshPortfolioData}
+        >
+          <div className="h-7 w-7 scale-110 p-2">{refreshSvg}</div>
         </PressableIcon>
       </div>
     </div>

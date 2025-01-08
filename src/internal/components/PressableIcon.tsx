@@ -1,13 +1,19 @@
 import { border, cn, pressable } from '@/styles/theme';
 import type { ReactNode } from 'react';
 
+type PressableIconProps = {
+  children: ReactNode;
+  className?: string;
+  onClick?: () => void;
+  ariaLabel?: string;
+}
+
 export function PressableIcon({
   children,
   className,
-}: {
-  children: ReactNode;
-  className?: string;
-}) {
+  onClick,
+  ariaLabel,
+}: PressableIconProps) {
   return (
     <div
       className={cn(
@@ -18,7 +24,14 @@ export function PressableIcon({
         className,
       )}
     >
-      {children}
+      <button
+        type="button"
+        onClick={onClick}
+        aria-label={ariaLabel}
+        className="flex items-center justify-center"
+      >
+        {children}
+      </button>
     </div>
   );
 }
