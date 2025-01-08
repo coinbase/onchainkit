@@ -28,8 +28,6 @@ export function Draggable({
   );
 
   const handleDragStart = (e: React.PointerEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
     setIsDragging(true);
     setDragStartPosition({ x: e.clientX, y: e.clientY });
     setDragOffset({
