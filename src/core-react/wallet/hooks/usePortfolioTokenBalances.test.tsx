@@ -12,7 +12,7 @@ import { usePortfolioTokenBalances } from './usePortfolioTokenBalances';
 
 vi.mock('@/core/api/getPortfolioTokenBalances');
 
-const mockAddresses: `0x${string}`[] = ['0x123'];
+const mockAddress: `0x${string}` = '0x123';
 const mockTokensAPIResponse: PortfolioTokenBalanceAPIResponse[] = [
   {
     address: '0x123',
@@ -27,7 +27,7 @@ const mockTokensAPIResponse: PortfolioTokenBalanceAPIResponse[] = [
 ];
 const mockPortfolioTokenBalancesAPIResponse: PortfolioAPIResponse[] = [
   {
-    address: mockAddresses[0],
+    address: mockAddress,
     portfolio_balance_usd: 100,
     token_balances: mockTokensAPIResponse,
   },
@@ -45,7 +45,7 @@ const mockTokens: PortfolioTokenWithFiatValue[] = [
   },
 ];
 const mockPortfolioTokenBalances: PortfolioTokenBalances = {
-  address: mockAddresses[0],
+  address: mockAddress,
   portfolioBalanceUsd: 100,
   tokenBalances: mockTokens,
 };
@@ -74,7 +74,7 @@ describe('usePortfolioTokenBalances', () => {
     });
 
     const { result } = renderHook(
-      () => usePortfolioTokenBalances({ addresses: mockAddresses }),
+      () => usePortfolioTokenBalances({ address: mockAddress }),
       { wrapper: createWrapper() },
     );
 
@@ -83,7 +83,7 @@ describe('usePortfolioTokenBalances', () => {
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
 
     expect(getPortfolioTokenBalances).toHaveBeenCalledWith({
-      addresses: mockAddresses,
+      addresses: [mockAddress],
     });
 
     expect(result.current.data).toEqual(mockPortfolioTokenBalances);
@@ -105,7 +105,7 @@ describe('usePortfolioTokenBalances', () => {
     const mockPortfolioTokenBalancesAPIResponseWithEth: PortfolioAPIResponse[] =
       [
         {
-          address: mockAddresses[0],
+          address: mockAddress,
           portfolio_balance_usd: 100,
           token_balances: mockTokensAPIResponseWithEth,
         },
@@ -116,7 +116,7 @@ describe('usePortfolioTokenBalances', () => {
     });
 
     const { result } = renderHook(
-      () => usePortfolioTokenBalances({ addresses: mockAddresses }),
+      () => usePortfolioTokenBalances({ address: mockAddress }),
       { wrapper: createWrapper() },
     );
 
@@ -125,7 +125,7 @@ describe('usePortfolioTokenBalances', () => {
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
 
     expect(getPortfolioTokenBalances).toHaveBeenCalledWith({
-      addresses: mockAddresses,
+      addresses: [mockAddress],
     });
 
     const mockTokensWithEth: PortfolioTokenWithFiatValue[] = [
@@ -141,7 +141,7 @@ describe('usePortfolioTokenBalances', () => {
       },
     ];
     const mockPortfolioTokenBalancesWithEth: PortfolioTokenBalances = {
-      address: mockAddresses[0],
+      address: mockAddress,
       portfolioBalanceUsd: 100,
       tokenBalances: mockTokensWithEth,
     };
@@ -156,7 +156,7 @@ describe('usePortfolioTokenBalances', () => {
     });
 
     const { result } = renderHook(
-      () => usePortfolioTokenBalances({ addresses: mockAddresses }),
+      () => usePortfolioTokenBalances({ address: mockAddress }),
       { wrapper: createWrapper() },
     );
 
@@ -166,16 +166,19 @@ describe('usePortfolioTokenBalances', () => {
     expect(result.current.error?.message).toBe('API Error');
   });
 
-  it('should not fetch when addresses is empty', () => {
-    renderHook(() => usePortfolioTokenBalances({ addresses: [] }), {
-      wrapper: createWrapper(),
-    });
+  it('should not fetch when address is empty', () => {
+    renderHook(
+      () => usePortfolioTokenBalances({ address: '' as `0x${string}` }),
+      {
+        wrapper: createWrapper(),
+      },
+    );
 
     expect(getPortfolioTokenBalances).not.toHaveBeenCalled();
   });
 
-  it('should not fetch when addresses is undefined', () => {
-    renderHook(() => usePortfolioTokenBalances({ addresses: undefined }), {
+  it('should not fetch when address is undefined', () => {
+    renderHook(() => usePortfolioTokenBalances({ address: undefined }), {
       wrapper: createWrapper(),
     });
 
@@ -188,7 +191,7 @@ describe('usePortfolioTokenBalances', () => {
     });
 
     const { result } = renderHook(
-      () => usePortfolioTokenBalances({ addresses: mockAddresses }),
+      () => usePortfolioTokenBalances({ address: mockAddress }),
       { wrapper: createWrapper() },
     );
 

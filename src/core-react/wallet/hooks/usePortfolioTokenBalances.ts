@@ -1,22 +1,25 @@
 import { getPortfolioTokenBalances } from '@/core/api/getPortfolioTokenBalances';
 import type {
-  GetPortfolioTokenBalancesParams,
   PortfolioTokenBalanceAPIResponse,
   PortfolioTokenBalances,
   PortfolioTokenWithFiatValue,
 } from '@/core/api/types';
 import { isApiError } from '@/core/utils/isApiResponseError';
 import { type UseQueryResult, useQuery } from '@tanstack/react-query';
+import type { Address } from 'viem';
 
 export function usePortfolioTokenBalances({
-  addresses,
-}: GetPortfolioTokenBalancesParams): UseQueryResult<PortfolioTokenBalances> {
-  const actionKey = `usePortfolioTokenBalances-${addresses}`;
+  address,
+}: {
+  address: Address | undefined | null;
+}): UseQueryResult<PortfolioTokenBalances> {
+  console.log({ address });
+  const actionKey = `usePortfolioTokenBalances-${address}`;
   return useQuery({
     queryKey: ['usePortfolioTokenBalances', actionKey],
     queryFn: async () => {
       const response = await getPortfolioTokenBalances({
-        addresses,
+        addresses: [address ?? '0x000'],
       });
 
       if (isApiError(response)) {
@@ -25,7 +28,7 @@ export function usePortfolioTokenBalances({
 
       if (response.portfolios.length === 0) {
         return {
-          address: addresses?.[0] ?? '',
+          address: address ?? '',
           portfolioBalanceUsd: 0,
           tokenBalances: [],
         };
@@ -48,7 +51,7 @@ export function usePortfolioTokenBalances({
               symbol: tokenBalance.symbol,
               cryptoBalance: tokenBalance.crypto_balance,
               fiatBalance: tokenBalance.fiat_balance,
-            }) as PortfolioTokenWithFiatValue,
+            } as PortfolioTokenWithFiatValue),
         ),
       };
 
@@ -63,7 +66,7 @@ export function usePortfolioTokenBalances({
       return filteredPortfolio;
     },
     retry: false,
-    enabled: !!addresses && addresses.length > 0,
+    enabled: !!address,
     refetchOnWindowFocus: false,
     staleTime: 1000 * 60 * 5, // refresh on mount every 5 minutes
     refetchOnMount: true,
