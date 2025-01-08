@@ -2,29 +2,13 @@ import '@testing-library/jest-dom';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { act } from 'react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import type { PaymentMethodReact } from '../types';
 import { FundCardPaymentMethodDropdown } from './FundCardPaymentMethodDropdown';
 import { FundCardProvider } from './FundCardProvider';
-
-const paymentMethods: PaymentMethodReact[] = [
-  {
-    icon: 'sampleIcon',
-    id: 'ACH_BANK_ACCOUNT',
-    name: 'Bank account',
-    description: 'Up to $500',
-  },
-  {
-    icon: 'anotherIcon',
-    id: 'APPLE_PAY',
-    name: 'Apple Pay',
-    description: 'Up to $500',
-  },
-];
 
 const renderComponent = () =>
   render(
     <FundCardProvider asset="BTC">
-      <FundCardPaymentMethodDropdown paymentMethods={paymentMethods} />
+      <FundCardPaymentMethodDropdown />
     </FundCardProvider>,
   );
 

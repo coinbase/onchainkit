@@ -1,6 +1,7 @@
 import { useDebounce } from '@/core-react/internal/hooks/useDebounce';
 import { createContext, useContext, useEffect, useState } from 'react';
 import { useValue } from '../../core-react/internal/hooks/useValue';
+import { DEFAULT_PAYMENT_METHODS } from '../constants';
 import type {
   FundButtonStateReact,
   FundCardProviderReact,
@@ -25,17 +26,30 @@ type FundCardContextType = {
   setExchangeRateLoading: (loading: boolean) => void;
   submitButtonState: FundButtonStateReact;
   setSubmitButtonState: (state: FundButtonStateReact) => void;
+  paymentMethods: PaymentMethodReact[];
+  headerText?: string;
+  buttonText?: string;
+  currencySign?: string;
+  inputType?: 'fiat' | 'crypto';
 };
 
 const FundContext = createContext<FundCardContextType | undefined>(undefined);
 
-export function FundCardProvider({ children, asset }: FundCardProviderReact) {
+export function FundCardProvider({
+  children,
+  asset,
+  paymentMethods,
+  headerText,
+  buttonText,
+  currencySign,
+  inputType,
+}: FundCardProviderReact) {
   const [selectedAsset, setSelectedAsset] = useState<string>(asset);
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<
     PaymentMethodReact | undefined
   >();
   const [selectedInputType, setSelectedInputType] = useState<'fiat' | 'crypto'>(
-    'fiat',
+    inputType || 'fiat',
   );
   const [fundAmountFiat, setFundAmountFiat] = useState<string>('');
   const [fundAmountCrypto, setFundAmountCrypto] = useState<string>('');
@@ -85,6 +99,10 @@ export function FundCardProvider({ children, asset }: FundCardProviderReact) {
     setExchangeRateLoading,
     submitButtonState,
     setSubmitButtonState,
+    paymentMethods: paymentMethods || DEFAULT_PAYMENT_METHODS,
+    headerText,
+    buttonText,
+    currencySign,
   });
   return <FundContext.Provider value={value}>{children}</FundContext.Provider>;
 }

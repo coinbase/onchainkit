@@ -4,32 +4,36 @@ import type { FundCardAmountInputPropsReact } from '../types';
 import { formatDecimalInputValue } from '../utils/formatDecimalInputValue';
 import { truncateDecimalPlaces } from '../utils/truncateDecimalPlaces';
 import { FundCardCurrencyLabel } from './FundCardCurrencyLabel';
+import { useFundContext } from './FundCardProvider';
 
 export const FundCardAmountInput = ({
-  fiatValue,
-  setFiatValue,
-  cryptoValue,
-  setCryptoValue,
-  currencySign,
-  assetSymbol,
-  inputType = 'fiat',
-  exchangeRate = 1,
+  className,
 }: FundCardAmountInputPropsReact) => {
+  const currencySign = '$';
+  const {
+    fundAmountFiat,
+    setFundAmountFiat,
+    fundAmountCrypto,
+    setFundAmountCrypto,
+    selectedAsset,
+    selectedInputType,
+    exchangeRate,
+  } = useFundContext();
+
   const inputRef = useRef<HTMLInputElement>(null);
   const hiddenSpanRef = useRef<HTMLSpanElement>(null);
   const currencySpanRef = useRef<HTMLSpanElement>(null);
 
-  const value = inputType === 'fiat' ? fiatValue : cryptoValue;
+  const value =
+    selectedInputType === 'fiat' ? fundAmountFiat : fundAmountCrypto;
 
   const handleChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
-      let value = e.target.value;
+      const value = formatDecimalInputValue(e.target.value);
 
-      value = formatDecimalInputValue(value);
-
-      if (inputType === 'fiat') {
+      if (selectedInputType === 'fiat') {
         const fiatValue = truncateDecimalPlaces(value, 2);
-        setFiatValue(fiatValue);
+        setFundAmountFiat(fiatValue);
 
         const truncatedValue = truncateDecimalPlaces(value, 2);
 
@@ -42,21 +46,23 @@ export const FundCardAmountInput = ({
           calculatedCryptoValue,
           8,
         );
-        setCryptoValue(calculatedCryptoValue === '0' ? '' : resultCryptoValue);
+        setFundAmountCrypto(
+          calculatedCryptoValue === '0' ? '' : resultCryptoValue,
+        );
       } else {
-        setCryptoValue(value);
-
         const truncatedValue = truncateDecimalPlaces(value, 8);
+
+        setFundAmountCrypto(truncatedValue);
 
         // Calculate the fiat value based on the exchange rate
         const calculatedFiatValue = String(
           Number(truncatedValue) / Number(exchangeRate),
         );
         const resultFiatValue = truncateDecimalPlaces(calculatedFiatValue, 2);
-        setFiatValue(resultFiatValue === '0' ? '' : resultFiatValue);
+        setFundAmountFiat(resultFiatValue === '0' ? '' : resultFiatValue);
       }
     },
-    [exchangeRate, setFiatValue, setCryptoValue, inputType],
+    [exchangeRate, setFundAmountFiat, setFundAmountCrypto, selectedInputType],
   );
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: When value changes, we want to update the input width
@@ -78,7 +84,7 @@ export const FundCardAmountInput = ({
   useEffect(() => {
     // focus the input when the input type changes
     handleFocusInput();
-  }, [inputType]);
+  }, [selectedInputType]);
 
   const handleFocusInput = () => {
     if (inputRef.current) {
@@ -88,12 +94,13 @@ export const FundCardAmountInput = ({
 
   return (
     <div
-      className="flex cursor-text py-6"
+      data-testid="ockFundCardAmountInputContainer"
+      className={cn('flex cursor-text py-6', className)}
       onClick={handleFocusInput}
       onKeyUp={handleFocusInput}
     >
       <div className="flex h-20">
-        {inputType === 'fiat' && currencySign && (
+        {selectedInputType === 'fiat' && currencySign && (
           <FundCardCurrencyLabel
             ref={currencySpanRef}
             currencySign={currencySign}
@@ -118,10 +125,10 @@ export const FundCardAmountInput = ({
           placeholder="0"
           data-testid="ockFundCardAmountInput"
         />
-        {inputType === 'crypto' && assetSymbol && (
+        {selectedInputType === 'crypto' && selectedAsset && (
           <FundCardCurrencyLabel
             ref={currencySpanRef}
-            currencySign={assetSymbol}
+            currencySign={selectedAsset}
           />
         )}
       </div>

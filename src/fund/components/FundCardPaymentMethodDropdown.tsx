@@ -11,11 +11,12 @@ import { FundCardPaymentMethodSelectorToggle } from './FundCardPaymentMethodSele
 import { useFundContext } from './FundCardProvider';
 
 export function FundCardPaymentMethodDropdown({
-  paymentMethods,
+  className,
 }: FundCardPaymentMethodDropdownPropsReact) {
   const [isOpen, setIsOpen] = useState(false);
 
-  const { selectedPaymentMethod, setSelectedPaymentMethod } = useFundContext();
+  const { selectedPaymentMethod, setSelectedPaymentMethod, paymentMethods } =
+    useFundContext();
 
   const handlePaymentMethodSelect = useCallback(
     (paymentMethod: PaymentMethodReact) => {
@@ -50,7 +51,7 @@ export function FundCardPaymentMethodDropdown({
 
   return (
     <div
-      className="relative py-4"
+      className={cn('relative py-4', className)}
       ref={dropdownContainerRef}
       data-testid="ockFundCardPaymentMethodDropdownContainer"
       onKeyUp={handleEscKeyPress}

@@ -263,29 +263,15 @@ export type OnrampPaymentCurrency = {
 };
 
 export type FundCardAmountInputPropsReact = {
-  fiatValue: string;
-  setFiatValue: (s: string) => void;
-  cryptoValue: string;
-  setCryptoValue: (s: string) => void;
-  currencySign?: string;
-  assetSymbol?: string;
-  inputType?: 'fiat' | 'crypto';
-  exchangeRate?: number;
+  className?: string;
 };
 
 export type FundCardAmountInputTypeSwitchPropsReact = {
-  selectedInputType?: 'fiat' | 'crypto';
-  setSelectedInputType: (inputType: 'fiat' | 'crypto') => void;
-  selectedAsset?: string;
-  fundAmountFiat: string;
-  fundAmountCrypto: string;
-  exchangeRate?: number;
-  isLoading?: boolean;
+  className?: string;
 };
 
 export type FundCardHeaderPropsReact = {
-  headerText?: string;
-  assetSymbol: string;
+  className?: string;
 };
 
 export type FundCardPaymentMethodImagePropsReact = {
@@ -309,7 +295,7 @@ export type PaymentMethodReact = {
 };
 
 export type FundCardPaymentMethodDropdownPropsReact = {
-  paymentMethods: PaymentMethodReact[];
+  className?: string;
 };
 
 export type FundCardCurrencyLabelPropsReact = {
@@ -322,38 +308,14 @@ export type FundCardPropsReact = {
   placeholder?: string | React.ReactNode;
   headerText?: string;
   buttonText?: string;
-
+  currencySign?: string;
   /**
    * Payment methods to display in the dropdown
    */
   paymentMethods?: PaymentMethodReact[];
-} & FundCardContentPropsReact;
-
+};
 export type FundCardContentPropsReact = {
-  /**
-   * Custom component for the amount input
-   */
-  AmountInputComponent?: React.ComponentType<FundCardAmountInputPropsReact>;
-
-  /**
-   * Custom component for the header
-   */
-  HeaderComponent?: React.ComponentType<FundCardHeaderPropsReact>;
-
-  /**
-   * Custom component for the amount input type switch
-   */
-  AmountInputTypeSwitchComponent?: React.ComponentType<FundCardAmountInputTypeSwitchPropsReact>;
-
-  /**
-   * Custom component for the payment method selector dropdown
-   */
-  PaymentMethodDropdownComponent?: React.ComponentType<FundCardPaymentMethodDropdownPropsReact>;
-
-  /**
-   * Custom component for the submit button
-   */
-  ButtonComponent?: React.ComponentType<FundButtonReact>;
+  children?: ReactNode;
 };
 
 export type FundCardPaymentMethodSelectorTogglePropsReact = {
@@ -374,4 +336,9 @@ export type FundCardPaymentMethodSelectRowPropsReact = {
 export type FundCardProviderReact = {
   children: ReactNode;
   asset: string;
+  paymentMethods?: PaymentMethodReact[];
+  headerText?: string;
+  buttonText?: string;
+  currencySign?: string;
+  inputType?: 'fiat' | 'crypto';
 };

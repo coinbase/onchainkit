@@ -5,16 +5,21 @@ import { Skeleton } from '../../internal/components/Skeleton';
 import { cn, color, pressable, text } from '../../styles/theme';
 import type { FundCardAmountInputTypeSwitchPropsReact } from '../types';
 import { truncateDecimalPlaces } from '../utils/truncateDecimalPlaces';
+import { useFundContext } from './FundCardProvider';
 
 export const FundCardAmountInputTypeSwitch = ({
-  selectedInputType,
-  setSelectedInputType,
-  selectedAsset,
-  fundAmountFiat,
-  fundAmountCrypto,
-  exchangeRate,
-  isLoading,
+  className,
 }: FundCardAmountInputTypeSwitchPropsReact) => {
+  const {
+    selectedInputType,
+    setSelectedInputType,
+    selectedAsset,
+    fundAmountFiat,
+    fundAmountCrypto,
+    exchangeRate,
+    exchangeRateLoading,
+  } = useFundContext();
+
   const iconSvg = useIcon({ icon: 'toggle' });
 
   const handleToggle = () => {
@@ -36,6 +41,7 @@ export const FundCardAmountInputTypeSwitch = ({
   const exchangeRateLine = useMemo(() => {
     return (
       <span
+        data-testid="ockExchangeRateLine"
         className={cn(
           text.label2,
           color.foregroundMuted,
@@ -50,7 +56,7 @@ export const FundCardAmountInputTypeSwitch = ({
 
   const amountLine = useMemo(() => {
     return (
-      <span className={cn(text.label1)}>
+      <span data-testid="ockAmountLine" className={cn(text.label1)}>
         {selectedInputType === 'fiat'
           ? formatCrypto(fundAmountCrypto)
           : formatUSD(fundAmountFiat)}
@@ -64,12 +70,12 @@ export const FundCardAmountInputTypeSwitch = ({
     formatCrypto,
   ]);
 
-  if (isLoading || !exchangeRate) {
+  if (exchangeRateLoading || !exchangeRate) {
     return <Skeleton className="h-[1.625rem]" />;
   }
 
   return (
-    <div className="flex items-center">
+    <div className={cn('flex items-center', className)}>
       <button
         type="button"
         aria-label="amount type switch"
