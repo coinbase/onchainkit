@@ -23,7 +23,7 @@ export function usePortfolioTokenBalances({
         throw new Error(response.message);
       }
 
-      const userPortfolio = response.tokens[0];
+      const userPortfolio = response.portfolios[0];
 
       const transformedPortfolio: PortfolioTokenBalances = {
         address: userPortfolio.address,
