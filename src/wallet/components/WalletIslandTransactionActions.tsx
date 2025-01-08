@@ -4,6 +4,7 @@ import { toggleSvg } from '@/internal/svg/toggleSvg';
 import { border, cn, color, pressable, text } from '@/styles/theme';
 import { useWalletIslandContext } from './WalletIslandProvider';
 import { useWalletContext } from './WalletProvider';
+import { useCallback } from 'react';
 
 type TransactionActionProps = {
   icon: React.ReactNode;
@@ -15,6 +16,18 @@ export function WalletIslandTransactionActions() {
   const { isClosing } = useWalletContext();
   const { setShowSwap } = useWalletIslandContext();
 
+  const handleBuy = useCallback(() => {
+    window.open('https://pay.coinbase.com', '_blank');
+  }, []);
+
+  const handleSend = useCallback(() => {
+    window.open('https://wallet.coinbase.com', '_blank');
+  }, []);
+
+  const handleSwap = useCallback(() => {
+    setShowSwap(true);
+  }, [setShowSwap]);
+
   return (
     <div
       className={cn('my-3 flex w-full flex-row justify-center gap-2', {
@@ -25,23 +38,17 @@ export function WalletIslandTransactionActions() {
       <WalletIslandTransactionAction
         icon={addSvgForeground}
         label="Buy"
-        action={() => {
-          window.open('https://pay.coinbase.com', '_blank');
-        }}
+        action={handleBuy}
       />
       <WalletIslandTransactionAction
         icon={arrowUpRightSvg}
         label="Send"
-        action={() => {
-          window.open('https://wallet.coinbase.com', '_blank');
-        }}
+        action={handleSend}
       />
       <WalletIslandTransactionAction
         icon={toggleSvg}
         label="Swap"
-        action={() => {
-          setShowSwap(true);
-        }}
+        action={handleSwap}
       />
     </div>
   );
