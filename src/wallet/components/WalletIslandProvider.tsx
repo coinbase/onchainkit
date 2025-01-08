@@ -34,7 +34,7 @@ export function WalletIslandProvider({ children }: WalletIslandProviderReact) {
     refetch: refetchPortfolioData,
     isFetching: isFetchingPortfolioData,
     dataUpdatedAt: portfolioDataUpdatedAt,
-  } = usePortfolioTokenBalances({ addresses: [address ?? '0x000'] });
+  } = usePortfolioTokenBalances({ address: address ?? '0x000' });
 
   const portfolioFiatValue = portfolioData?.portfolioBalanceUsd;
   const tokenBalances = portfolioData?.tokenBalances;
