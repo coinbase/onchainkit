@@ -8,9 +8,16 @@ import { WalletIslandTokenHoldings } from './WalletIslandTokenHoldings';
 import { WalletIslandTransactionActions } from './WalletIslandTransactionActions';
 import { WalletIslandWalletActions } from './WalletIslandWalletActions';
 
-export function WalletIslandDraggable() {
+export function WalletIslandDraggable({
+  startingPosition = {
+    x: window.innerWidth - 250,
+    y: window.innerHeight - 100,
+  },
+}: {
+  startingPosition?: { x: number; y: number };
+}) {
   return (
-    <Wallet draggable={true}>
+    <Wallet draggable={true} startingPosition={startingPosition}>
       <ConnectWallet>
         <ConnectWalletText>Connect Wallet</ConnectWalletText>
         <Avatar className="h-6 w-6" />
