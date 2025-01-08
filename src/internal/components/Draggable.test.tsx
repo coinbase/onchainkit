@@ -155,44 +155,30 @@ describe('Draggable', () => {
     expect(draggable).toHaveStyle({ left: '100px', top: '75px' });
   });
 
-  it('prevents the click event when drag distance is more than 2 pixels', async () => {
+  it('prevents click after dragging but allows normal clicks', async () => {
     const onClick = vi.fn();
-
+    const user = userEvent.setup();
     render(
-      <Draggable>
-        <div onClick={onClick} onKeyDown={onClick}>
+      <Draggable startingPosition={{ x: 0, y: 0 }}>
+        <button onClick={onClick} data-testid="clickable" type="button">
           Drag me
-        </div>
+        </button>
       </Draggable>,
     );
-    const draggable = screen.getByTestId('ockDraggable');
+    const clickable = screen.getByTestId('clickable');
 
-    // Start drag
-    fireEvent.pointerDown(draggable, { clientX: 0, clientY: 0 });
+    await user.pointer([
+      { keys: '[MouseLeft>]', target: clickable, coords: { x: 0, y: 0 } },
+      { coords: { x: 50, y: 50 } },
+      { keys: '[/MouseLeft]' },
+    ]);
+    expect(onClick).not.toHaveBeenCalled();
 
-    // Move more than 2 pixels
-    fireEvent.pointerMove(document, { clientX: 10, clientY: 10 });
-
-    // Mock the click event that would be triggered by pointerup
-    const preventDefaultSpy = vi.fn();
-    const stopPropagationSpy = vi.fn();
-    const mockClickEvent = new MouseEvent('click', {
-      bubbles: true,
-      cancelable: true,
-    });
-    Object.defineProperties(mockClickEvent, {
-      preventDefault: { value: preventDefaultSpy },
-      stopPropagation: { value: stopPropagationSpy },
-    });
-
-    // End drag
-    fireEvent.pointerUp(document, { clientX: 10, clientY: 10 });
-
-    // Simulate the click that would happen
-    document.dispatchEvent(mockClickEvent);
-
-    expect(preventDefaultSpy).toHaveBeenCalled();
-    expect(stopPropagationSpy).toHaveBeenCalled();
+    await user.pointer([
+      { keys: '[MouseLeft>]', target: clickable, coords: { x: 0, y: 0 } },
+      { keys: '[/MouseLeft]' },
+    ]);
+    expect(onClick).toHaveBeenCalled();
   });
 
   it('cleans up event listeners when unmounted during drag', () => {
