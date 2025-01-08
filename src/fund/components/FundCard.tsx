@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { useTheme } from '../../core-react/internal/hooks/useTheme';
 import { background, border, cn, color, text } from '../../styles/theme';
 import { DEFAULT_PAYMENT_METHODS } from '../constants';
@@ -22,6 +23,18 @@ export function FundCard({
 }: FundCardPropsReact) {
   const componentTheme = useTheme();
 
+  const defaultChildren = useMemo(
+    () => (
+      <>
+        <FundCardHeader />
+        <FundCardAmountInput />
+        <FundCardAmountInputTypeSwitch />
+        <FundCardPaymentMethodDropdown />
+      </>
+    ),
+    [],
+  ); // Empty dependency array since these components don't depend on props
+
   return (
     <FundCardProvider
       asset={assetSymbol}
@@ -42,7 +55,7 @@ export function FundCard({
           className,
         )}
       >
-        <FundCardContent>{children}</FundCardContent>
+        <FundCardContent>{children ?? defaultChildren}</FundCardContent>
       </div>
     </FundCardProvider>
   );
@@ -64,17 +77,7 @@ function FundCardContent({ children }: FundCardContentPropsReact) {
 
   return (
     <form className="w-full" data-testid="ockFundCardForm">
-      {children || (
-        <>
-          <FundCardHeader />
-
-          <FundCardAmountInput />
-
-          <FundCardAmountInputTypeSwitch />
-
-          <FundCardPaymentMethodDropdown />
-        </>
-      )}
+      {children}
 
       <FundButton
         disabled={!fundAmountFiat || !fundAmountCrypto}

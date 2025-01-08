@@ -195,4 +195,15 @@ describe('FundCard', () => {
     // Assert that the submit button state is set to 'default'
     expect(submitButton).not.toBeDisabled();
   });
+
+  it('renders custom children instead of default children', () => {
+    render(
+      <FundCard assetSymbol="ETH">
+        <div data-testid="custom-child">Custom Content</div>
+      </FundCard>,
+    );
+
+    expect(screen.getByTestId('custom-child')).toBeInTheDocument();
+    expect(screen.queryByTestId('fundCardHeader')).not.toBeInTheDocument();
+  });
 });
