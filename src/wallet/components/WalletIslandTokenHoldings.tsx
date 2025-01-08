@@ -26,7 +26,7 @@ export function WalletIslandTokenHoldings() {
     <div
       className={cn(
         'max-h-44 overflow-y-auto',
-        'flex w-full flex-col items-center gap-4',
+        'flex min-h-44 w-full flex-col items-center gap-4',
         'mt-2 mb-2',
         {
           'fade-in slide-in-from-top-2.5 animate-in fill-mode-forwards duration-300 ease-out':
