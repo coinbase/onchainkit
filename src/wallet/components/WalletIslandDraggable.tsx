@@ -8,7 +8,7 @@ import { WalletIslandTokenHoldings } from './WalletIslandTokenHoldings';
 import { WalletIslandTransactionActions } from './WalletIslandTransactionActions';
 import { WalletIslandWalletActions } from './WalletIslandWalletActions';
 
-export function WalletIslandDefault() {
+export function WalletIslandDraggable() {
   return (
     <Wallet draggable={true}>
       <ConnectWallet>

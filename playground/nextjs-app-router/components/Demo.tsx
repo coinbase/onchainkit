@@ -20,7 +20,7 @@ import TransactionDemo from './demo/Transaction';
 import TransactionDefaultDemo from './demo/TransactionDefault';
 import WalletDemo from './demo/Wallet';
 import WalletDefaultDemo from './demo/WalletDefault';
-import WalletIslandDemo from './demo/WalletIslandDefault';
+import WalletIslandDraggableDemo from './demo/WalletIslandDraggable';
 
 const activeComponentMapping: Record<OnchainKitComponent, React.FC> = {
   [OnchainKitComponent.Buy]: BuyDemo,
@@ -32,7 +32,7 @@ const activeComponentMapping: Record<OnchainKitComponent, React.FC> = {
   [OnchainKitComponent.SwapDefault]: SwapDefaultDemo,
   [OnchainKitComponent.Wallet]: WalletDemo,
   [OnchainKitComponent.WalletDefault]: WalletDefaultDemo,
-  [OnchainKitComponent.WalletIslandDefault]: WalletIslandDemo,
+  [OnchainKitComponent.WalletIslandDraggable]: WalletIslandDraggableDemo,
   [OnchainKitComponent.TransactionDefault]: TransactionDefaultDemo,
   [OnchainKitComponent.NFTMintCard]: NFTMintCardDemo,
   [OnchainKitComponent.NFTCard]: NFTCardDemo,
@@ -42,7 +42,7 @@ const activeComponentMapping: Record<OnchainKitComponent, React.FC> = {
 };
 
 export default function Demo() {
-  const { activeComponent, anchorPosition } = useContext(AppContext);
+  const { activeComponent } = useContext(AppContext);
   const [isDarkMode, setIsDarkMode] = useState(true);
   const [sideBarVisible, setSideBarVisible] = useState(true);
   const [copied, setCopied] = useState(false);
@@ -79,11 +79,6 @@ export default function Demo() {
   const ActiveComponent = activeComponent
     ? activeComponentMapping[activeComponent]
     : null;
-
-  const componentPosition = getComponentPosition(
-    activeComponent,
-    anchorPosition,
-  );
 
   return (
     <>
@@ -147,24 +142,14 @@ export default function Demo() {
         </div>
       </div>
       <div className="linear-gradient(to_bottom,#f0f0f0_1px,transparent_1px)] flex flex-1 flex-col bg-[linear-gradient(to_right,#f0f0f0_1px,transparent_1px), bg-[size:6rem_4rem]">
-        <div className={cn('flex h-full w-full flex-col', componentPosition)}>
+        <div
+          className={cn(
+            'flex h-full w-full flex-col items-center justify-center',
+          )}
+        >
           {ActiveComponent && <ActiveComponent />}
         </div>
       </div>
     </>
   );
-}
-
-function getComponentPosition(
-  activeComponent: OnchainKitComponent | undefined,
-  anchorPosition: string | undefined,
-) {
-  if (activeComponent === OnchainKitComponent.WalletIslandDefault) {
-    if (anchorPosition?.includes('top')) {
-      return 'justify-start';
-    }
-    return 'justify-end';
-  }
-
-  return 'items-center justify-center';
 }
