@@ -13,13 +13,12 @@ export function usePortfolioTokenBalances({
 }: {
   address: Address | undefined | null;
 }): UseQueryResult<PortfolioTokenBalances> {
-  console.log({ address });
   const actionKey = `usePortfolioTokenBalances-${address}`;
   return useQuery({
     queryKey: ['usePortfolioTokenBalances', actionKey],
     queryFn: async () => {
       const response = await getPortfolioTokenBalances({
-        addresses: [address ?? '0x000'],
+        addresses: [address as Address], // Safe to coerce to Address because useQuery's enabled flag will prevent the query from running if address is undefined
       });
 
       if (isApiError(response)) {
@@ -28,7 +27,7 @@ export function usePortfolioTokenBalances({
 
       if (response.portfolios.length === 0) {
         return {
-          address: address ?? '',
+          address: address,
           portfolioBalanceUsd: 0,
           tokenBalances: [],
         };
@@ -51,7 +50,7 @@ export function usePortfolioTokenBalances({
               symbol: tokenBalance.symbol,
               cryptoBalance: tokenBalance.crypto_balance,
               fiatBalance: tokenBalance.fiat_balance,
-            } as PortfolioTokenWithFiatValue),
+            }) as PortfolioTokenWithFiatValue,
         ),
       };
 
