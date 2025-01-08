@@ -313,6 +313,7 @@ export type FundCardPropsReact = {
    * Payment methods to display in the dropdown
    */
   paymentMethods?: PaymentMethodReact[];
+  className?: string;
 };
 export type FundCardContentPropsReact = {
   children?: ReactNode;

@@ -1,7 +1,7 @@
-import '@testing-library/jest-dom';
 import { useDebounce } from '@/core-react/internal/hooks/useDebounce';
 import { setOnchainKitConfig } from '@/core/OnchainKitConfig';
 import { openPopup } from '@/ui-react/internal/utils/openPopup';
+import '@testing-library/jest-dom';
 import {
   act,
   fireEvent,
@@ -16,6 +16,11 @@ import { fetchOnrampQuote } from '../utils/fetchOnrampQuote';
 import { getFundingPopupSize } from '../utils/getFundingPopupSize';
 import { FundCard } from './FundCard';
 import { FundCardProvider } from './FundCardProvider';
+
+const mockUpdateInputWidth = vi.fn();
+vi.mock('../hooks/useInputResize', () => ({
+  useInputResize: () => mockUpdateInputWidth,
+}));
 
 vi.mock('../../core-react/internal/hooks/useTheme', () => ({
   useTheme: () => 'mocked-theme-class',
@@ -76,6 +81,7 @@ describe('FundCard', () => {
   beforeEach(() => {
     vi.resetAllMocks();
     setOnchainKitConfig({ apiKey: 'mock-api-key' });
+    mockUpdateInputWidth.mockClear();
     (getFundingPopupSize as Mock).mockImplementation(() => ({
       height: 200,
       width: 100,

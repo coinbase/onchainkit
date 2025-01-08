@@ -18,6 +18,7 @@ export function FundCard({
   currencySign = '$',
   paymentMethods = DEFAULT_PAYMENT_METHODS,
   children,
+  className,
 }: FundCardPropsReact) {
   const componentTheme = useTheme();
 
@@ -38,6 +39,7 @@ export function FundCard({
           text.headline,
           border.radius,
           border.lineDefault,
+          className,
         )}
       >
         <FundCardContent>{children}</FundCardContent>

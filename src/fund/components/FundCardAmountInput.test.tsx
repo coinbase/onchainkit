@@ -26,8 +26,16 @@ vi.mock('../../core-react/internal/hooks/useDebounce', () => ({
   useDebounce: vi.fn((callback) => callback),
 }));
 
+// Mock ResizeObserver
+class ResizeObserverMock {
+  observe() {}
+  unobserve() {}
+  disconnect() {}
+}
+
 describe('FundCardAmountInput', () => {
   beforeEach(() => {
+    global.ResizeObserver = ResizeObserverMock;
     setOnchainKitConfig({ apiKey: '123456789' });
     vi.clearAllMocks();
   });
@@ -115,21 +123,6 @@ describe('FundCardAmountInput', () => {
 
       const valueCrypto = screen.getByTestId('test-value-crypto');
       expect(valueCrypto.textContent).toBe('1');
-    });
-  });
-
-  it('updates input width based on content', async () => {
-    act(() => {
-      const { rerender } = renderWithProvider();
-      rerender(
-        <FundCardProvider asset="ETH">
-          <FundCardAmountInput />
-        </FundCardProvider>,
-      );
-    });
-    await waitFor(() => {
-      const hiddenSpan = screen.getByTestId('ockHiddenSpan');
-      expect(hiddenSpan).toHaveTextContent('0.');
     });
   });
 
@@ -221,6 +214,56 @@ describe('FundCardAmountInput', () => {
       fireEvent.change(input, { target: { value: '' } });
       expect(valueCrypto.textContent).toBe('');
       expect(valueFiat.textContent).toBe('');
+    });
+  });
+
+  it('updates width based on currency label', async () => {
+    const mockResizeObserver = vi.fn();
+    global.ResizeObserver = vi.fn().mockImplementation((callback) => {
+      // Call the callback to simulate resize
+      callback([
+        {
+          contentRect: { width: 300 },
+          target: screen.getByTestId('ockFundCardAmountInputContainer'),
+        },
+      ]);
+      return {
+        observe: mockResizeObserver,
+        unobserve: vi.fn(),
+        disconnect: vi.fn(),
+      };
+    });
+
+    render(
+      <FundCardProvider asset="ETH">
+        <FundCardAmountInput />
+      </FundCardProvider>,
+    );
+
+    const input = screen.getByTestId('ockFundCardAmountInput');
+    const container = screen.getByTestId('ockFundCardAmountInputContainer');
+
+    // Mock getBoundingClientRect for container and currency label
+    Object.defineProperty(container, 'getBoundingClientRect', {
+      value: () => ({ width: 300 }),
+      configurable: true,
+    });
+
+    const currencyLabel = screen.getByTestId('currencySpan');
+    Object.defineProperty(currencyLabel, 'getBoundingClientRect', {
+      value: () => ({ width: 20 }),
+      configurable: true,
+    });
+
+    //const input = screen.getByTestId('ockFundCardAmountInput');
+    // Trigger width update
+    act(() => {
+      fireEvent.change(input, { target: { value: '10' } });
+      window.dispatchEvent(new Event('resize'));
+    });
+
+    await waitFor(() => {
+      expect(input.style.maxWidth).toBe('280px'); // 300 - 20
     });
   });
 });

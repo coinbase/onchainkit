@@ -1,5 +1,6 @@
 import { type ChangeEvent, useCallback, useEffect, useRef } from 'react';
 import { cn, text } from '../../styles/theme';
+import { useInputResize } from '../hooks/useInputResize';
 import type { FundCardAmountInputPropsReact } from '../types';
 import { formatDecimalInputValue } from '../utils/formatDecimalInputValue';
 import { truncateDecimalPlaces } from '../utils/truncateDecimalPlaces';
@@ -20,12 +21,20 @@ export const FundCardAmountInput = ({
     exchangeRate,
   } = useFundContext();
 
+  const containerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const hiddenSpanRef = useRef<HTMLSpanElement>(null);
   const currencySpanRef = useRef<HTMLSpanElement>(null);
 
   const value =
     selectedInputType === 'fiat' ? fundAmountFiat : fundAmountCrypto;
+
+  const updateInputWidth = useInputResize(
+    containerRef,
+    inputRef,
+    hiddenSpanRef,
+    currencySpanRef,
+  );
 
   const handleChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
@@ -65,20 +74,11 @@ export const FundCardAmountInput = ({
     [exchangeRate, setFundAmountFiat, setFundAmountCrypto, selectedInputType],
   );
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: When value changes, we want to update the input width
+  // Update width when value changes
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
-    if (hiddenSpanRef.current) {
-      const width = Math.max(42, hiddenSpanRef.current.offsetWidth);
-      const currencyWidth =
-        currencySpanRef.current?.getBoundingClientRect().width || 0;
-
-      // Set the input width based on the span width
-      if (inputRef.current) {
-        inputRef.current.style.width = `${width}px`;
-        inputRef.current.style.maxWidth = `${390 - currencyWidth}px`;
-      }
-    }
-  }, [value]);
+    updateInputWidth();
+  }, [value, updateInputWidth]);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: We only want to focus the input when the input type changes
   useEffect(() => {
@@ -94,6 +94,7 @@ export const FundCardAmountInput = ({
 
   return (
     <div
+      ref={containerRef}
       data-testid="ockFundCardAmountInputContainer"
       className={cn('flex cursor-text py-6', className)}
       onClick={handleFocusInput}
