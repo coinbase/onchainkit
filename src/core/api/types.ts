@@ -276,7 +276,7 @@ export type PortfolioTokenWithFiatValue = Token & {
  * Note: exported as public Type
  */
 export type GetPortfoliosAPIResponse = {
-  tokens: PortfolioAPIResponse[];
+  portfolios: PortfolioAPIResponse[];
 };
 
 /**
