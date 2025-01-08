@@ -11,6 +11,7 @@ export enum OnchainKitComponent {
   Wallet = 'wallet',
   WalletDefault = 'wallet-default',
   WalletIslandDraggable = 'wallet-island-draggable',
+  WalletIslandFixed = 'wallet-island-fixed',
   NFTCard = 'nft-card',
   NFTCardDefault = 'nft-card-default',
   NFTMintCard = 'nft-mint-card',

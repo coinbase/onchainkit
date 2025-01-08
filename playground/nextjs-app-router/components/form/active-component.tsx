@@ -50,6 +50,9 @@ export function ActiveComponent() {
           <SelectItem value={OnchainKitComponent.WalletIslandDraggable}>
             WalletIslandDraggable
           </SelectItem>
+          <SelectItem value={OnchainKitComponent.WalletIslandFixed}>
+            WalletIslandFixed
+          </SelectItem>
           <SelectItem value={OnchainKitComponent.NFTCard}>NFT Card</SelectItem>
           <SelectItem value={OnchainKitComponent.NFTCardDefault}>
             NFT Card Default

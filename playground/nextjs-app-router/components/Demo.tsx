@@ -21,6 +21,7 @@ import TransactionDefaultDemo from './demo/TransactionDefault';
 import WalletDemo from './demo/Wallet';
 import WalletDefaultDemo from './demo/WalletDefault';
 import WalletIslandDraggableDemo from './demo/WalletIslandDraggable';
+import WalletIslandFixedDemo from './demo/WalletIslandFixed';
 
 const activeComponentMapping: Record<OnchainKitComponent, React.FC> = {
   [OnchainKitComponent.Buy]: BuyDemo,
@@ -33,6 +34,7 @@ const activeComponentMapping: Record<OnchainKitComponent, React.FC> = {
   [OnchainKitComponent.Wallet]: WalletDemo,
   [OnchainKitComponent.WalletDefault]: WalletDefaultDemo,
   [OnchainKitComponent.WalletIslandDraggable]: WalletIslandDraggableDemo,
+  [OnchainKitComponent.WalletIslandFixed]: WalletIslandFixedDemo,
   [OnchainKitComponent.TransactionDefault]: TransactionDefaultDemo,
   [OnchainKitComponent.NFTMintCard]: NFTMintCardDemo,
   [OnchainKitComponent.NFTCard]: NFTCardDemo,
