@@ -32,7 +32,9 @@ describe('PressableIcon', () => {
       </PressableIcon>,
     );
 
-    const container = screen.getByTestId('ockPressableIconButton').parentElement;
+    const container = screen.getByTestId(
+      'ockPressableIconButton',
+    ).parentElement;
     expect(container).toHaveClass(
       'flex',
       'items-center',
