@@ -2,16 +2,18 @@ import QRCode from 'qrcode';
 import { useMemo } from 'react';
 
 export function useMatrix(
-  value: string,
   errorCorrectionLevel: 'L' | 'M' | 'Q' | 'H',
+  value?: string | null,
 ) {
   const matrix = useMemo(() => {
     if (!value) {
       return [];
     }
 
+    const transformedValue = `ethereum:${value}`;
+
     const arr = Array.from(
-      QRCode.create(value, { errorCorrectionLevel }).modules.data,
+      QRCode.create(transformedValue, { errorCorrectionLevel }).modules.data,
     );
 
     const sqrt = Math.sqrt(arr.length);
