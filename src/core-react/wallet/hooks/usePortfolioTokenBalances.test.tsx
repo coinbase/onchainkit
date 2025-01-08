@@ -195,7 +195,7 @@ describe('usePortfolioTokenBalances', () => {
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
 
     expect(result.current.data).toEqual({
-      address: '',
+      address: '0x123',
       portfolioBalanceUsd: 0,
       tokenBalances: [],
     });

@@ -154,7 +154,7 @@ describe('WalletIslandQrReceive', () => {
 
     render(<WalletIslandQrReceive />);
 
-    const copyIcon = screen.getByRole('button', { name: /copy icon/i });
+    const copyIcon = screen.getByTestId('ockWalletIslandQrReceive_CopyIcon');
 
     await act(async () => {
       fireEvent.click(copyIcon);
@@ -165,7 +165,7 @@ describe('WalletIslandQrReceive', () => {
     expect(mockClipboard.writeText).toHaveBeenCalledWith('0x1234567890');
     expect(mockSetCopyText).toHaveBeenCalledWith('Copied');
 
-    const tooltip = screen.getByRole('button', { name: /copy tooltip/i });
+    const tooltip = screen.getByTestId('ockWalletIslandQrReceive_CopyTooltip');
     expect(tooltip).toBeInTheDocument();
 
     vi.advanceTimersByTime(2000);
@@ -192,7 +192,7 @@ describe('WalletIslandQrReceive', () => {
 
     render(<WalletIslandQrReceive />);
 
-    const copyTooltip = screen.getByRole('button', { name: /copy tooltip/i });
+    const copyTooltip = screen.getByTestId('ockWalletIslandQrReceive_CopyTooltip');
 
     await act(async () => {
       fireEvent.click(copyTooltip);
@@ -203,7 +203,7 @@ describe('WalletIslandQrReceive', () => {
     expect(mockClipboard.writeText).toHaveBeenCalledWith('0x1234567890');
     expect(mockSetCopyText).toHaveBeenCalledWith('Copied');
 
-    const tooltip = screen.getByRole('button', { name: /copy tooltip/i });
+    const tooltip = screen.getByTestId('ockWalletIslandQrReceive_CopyTooltip');
     expect(tooltip).toBeInTheDocument();
 
     vi.advanceTimersByTime(2000);
@@ -230,7 +230,7 @@ describe('WalletIslandQrReceive', () => {
 
     render(<WalletIslandQrReceive />);
 
-    const copyButton = screen.getByRole('button', { name: /copy button/i });
+    const copyButton = screen.getByTestId('ockWalletIslandQrReceive_CopyButton');
 
     await act(async () => {
       fireEvent.click(copyButton);
@@ -261,7 +261,7 @@ describe('WalletIslandQrReceive', () => {
     render(<WalletIslandQrReceive />);
 
     mockSetCopyText.mockClear();
-    const copyIcon = screen.getByRole('button', { name: /copy icon/i });
+    const copyIcon = screen.getByTestId('ockWalletIslandQrReceive_CopyIcon');
     await act(async () => {
       fireEvent.click(copyIcon);
       await Promise.resolve();
@@ -273,7 +273,7 @@ describe('WalletIslandQrReceive', () => {
     vi.advanceTimersByTime(2000);
 
     mockSetCopyButtonText.mockClear();
-    const copyButton = screen.getByRole('button', { name: /copy button/i });
+    const copyButton = screen.getByTestId('ockWalletIslandQrReceive_CopyButton');
     await act(async () => {
       fireEvent.click(copyButton);
       await Promise.resolve();
@@ -294,7 +294,7 @@ describe('WalletIslandQrReceive', () => {
 
     render(<WalletIslandQrReceive />);
 
-    const copyIcon = screen.getByRole('button', { name: /copy icon/i });
+    const copyIcon = screen.getByTestId('ockWalletIslandQrReceive_CopyIcon');
     fireEvent.click(copyIcon);
 
     expect(mockClipboard.writeText).toHaveBeenCalledWith('');

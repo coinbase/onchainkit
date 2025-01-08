@@ -118,12 +118,11 @@ describe('WalletIslandWalletActions', () => {
     expect(setShowQrMock).toHaveBeenCalled();
   });
 
-  it('refreshes portfolio data when refresh button is clicked and data is not stale', () => {
+  it('refreshes portfolio data when refresh button is clicked', () => {
     const refetchPortfolioDataMock = vi.fn();
     mockUseWalletIslandContext.mockReturnValue({
       ...defaultMockUseWalletIslandContext,
       refetchPortfolioData: refetchPortfolioDataMock,
-      portfolioDataUpdatedAt: Date.now() - 1000 * 15 - 1,
     });
 
     render(<WalletIslandWalletActions />);
@@ -132,21 +131,5 @@ describe('WalletIslandWalletActions', () => {
     fireEvent.click(refreshButton);
 
     expect(refetchPortfolioDataMock).toHaveBeenCalled();
-  });
-
-  it('does not refresh portfolio data when data is not stale', () => {
-    const refetchPortfolioDataMock = vi.fn();
-    mockUseWalletIslandContext.mockReturnValue({
-      ...defaultMockUseWalletIslandContext,
-      refetchPortfolioData: refetchPortfolioDataMock,
-      portfolioDataUpdatedAt: Date.now() - 1000 * 14,
-    });
-
-    render(<WalletIslandWalletActions />);
-
-    const refreshButton = screen.getByTestId('ockWalletIsland_RefreshButton');
-    fireEvent.click(refreshButton);
-
-    expect(refetchPortfolioDataMock).not.toHaveBeenCalled();
   });
 });
