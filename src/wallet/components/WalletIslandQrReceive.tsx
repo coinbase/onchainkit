@@ -73,22 +73,16 @@ export function WalletIslandQrReceive() {
       )}
     >
       <div className="flex h-[34px] w-full flex-row items-center justify-between">
-        <PressableIcon>
-          <button type="button" onClick={handleCloseQr} aria-label="Back">
-            <div className="p-2">{backArrowSvg}</div>
-          </button>
+        <PressableIcon ariaLabel="Back button" onClick={handleCloseQr}>
+          <div className="p-2">{backArrowSvg}</div>
         </PressableIcon>
         <span>Scan to receive</span>
         <div className="group relative">
-          <PressableIcon>
-            <button
-              type="button"
-              onClick={() => handleCopyAddress('icon')}
-              aria-label="Copy your address"
-              data-testid="ockWalletIslandQrReceive_CopyIcon"
-            >
-              <div className="p-2">{copySvg}</div>
-            </button>
+          <PressableIcon
+            ariaLabel="Copy your address"
+            onClick={() => handleCopyAddress('icon')}
+          >
+            <div className="p-2">{copySvg}</div>
           </PressableIcon>
           <button
             type="button"

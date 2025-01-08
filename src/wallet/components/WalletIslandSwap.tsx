@@ -46,10 +46,8 @@ export function WalletIslandSwap({
   }, [setShowSwap, setIsSwapClosing]);
 
   const backButton = (
-    <PressableIcon>
-      <button type="button" onClick={handleCloseSwap} aria-label="Back button">
-        <div className="p-2">{backArrowSvg}</div>
-      </button>
+    <PressableIcon ariaLabel="Back button" onClick={handleCloseSwap}>
+      <div className="p-2">{backArrowSvg}</div>
     </PressableIcon>
   );
 
