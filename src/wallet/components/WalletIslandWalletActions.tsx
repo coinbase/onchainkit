@@ -45,14 +45,10 @@ export function WalletIslandWalletActions() {
           ariaLabel="Open transaction history"
           onClick={handleTransactions}
         >
-          <div data-testid="ockWalletIsland_TransactionsButton">
-            {clockSvg}
-          </div>
+          <div data-testid="ockWalletIsland_TransactionsButton">{clockSvg}</div>
         </PressableIcon>
         <PressableIcon ariaLabel="Show QR code" onClick={handleQr}>
-          <div data-testid="ockWalletIsland_QrButton">
-            {qrIconSvg}
-          </div>
+          <div data-testid="ockWalletIsland_QrButton">{qrIconSvg}</div>
         </PressableIcon>
       </div>
       <div className="flex items-center">
