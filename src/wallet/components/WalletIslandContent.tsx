@@ -39,8 +39,7 @@ export function WalletIslandContent({
       <div
         className={cn(
           'flex flex-col items-center justify-center',
-          'h-auto w-88',
-          'p-4',
+          'h-120 w-88',
           showQr ? '' : 'hidden',
         )}
       >
@@ -49,8 +48,7 @@ export function WalletIslandContent({
       <div
         className={cn(
           'flex flex-col items-center justify-center',
-          'h-auto w-88',
-          'p-2',
+          'h-120 w-88',
           showSwap ? '' : 'hidden',
         )}
       >
@@ -76,9 +74,9 @@ export function WalletIslandContent({
       </div>
       <div
         className={cn(
-          'flex flex-col items-center justify-center',
-          'h-auto w-88',
-          'px-4 pt-3 pb-2',
+          'flex flex-col items-center justify-between',
+          'h-120 w-88',
+          'px-4 py-2',
           showQr || showSwap ? 'hidden' : '',
         )}
       >

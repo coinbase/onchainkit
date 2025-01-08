@@ -64,7 +64,7 @@ export function WalletIslandWalletActions() {
           </button>
         </PressableIcon>
       </div>
-      <div className="flex items-center gap-1">
+      <div className="flex items-center">
         <PressableIcon>
           <button
             data-testid="ockWalletIsland_DisconnectButton"
