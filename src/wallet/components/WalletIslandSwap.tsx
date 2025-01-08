@@ -14,7 +14,7 @@ import {
   SwapToggleButton,
 } from '@/swap';
 import type { SwapDefaultReact } from '@/swap/types';
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback } from 'react';
 import { useWalletIslandContext } from './WalletIslandProvider';
 
 export function WalletIslandSwap({
@@ -30,9 +30,8 @@ export function WalletIslandSwap({
   title,
   to,
 }: SwapDefaultReact) {
-  const { showSwap, setShowSwap, isSwapClosing, setIsSwapClosing } =
+  const { setShowSwap, isSwapClosing, setIsSwapClosing } =
     useWalletIslandContext();
-  const swapDivRef = useRef<HTMLDivElement>(null);
 
   const handleCloseSwap = useCallback(() => {
     setIsSwapClosing(true);
@@ -46,12 +45,6 @@ export function WalletIslandSwap({
     }, 400);
   }, [setShowSwap, setIsSwapClosing]);
 
-  useEffect(() => {
-    if (showSwap) {
-      swapDivRef.current?.focus();
-    }
-  }, [showSwap]);
-
   const backButton = (
     <PressableIcon>
       <button type="button" onClick={handleCloseSwap} aria-label="Back button">
@@ -62,12 +55,11 @@ export function WalletIslandSwap({
 
   return (
     <div
-      ref={swapDivRef}
-      tabIndex={showSwap ? -1 : undefined}
       className={cn(
+        'h-full w-full',
         isSwapClosing
-          ? 'fade-out slide-out-to-left-5 animate-out fill-mode-forwards ease-in-out'
-          : 'fade-in slide-in-from-right-5 animate-in duration-150 ease-out',
+          ? 'fade-out slide-out-to-right-5 animate-out fill-mode-forwards ease-in-out'
+          : 'fade-in slide-in-from-right-5 linear animate-in duration-150',
         'relative',
       )}
       data-testid="ockWalletIslandSwap"
