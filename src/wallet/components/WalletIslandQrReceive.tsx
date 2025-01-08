@@ -84,7 +84,7 @@ export function WalletIslandQrReceive() {
             <button
               type="button"
               onClick={() => handleCopyAddress('icon')}
-              aria-label="Copy icon"
+              aria-label="Copy your address"
             >
               <div className="p-2">{copySvg}</div>
             </button>
@@ -101,7 +101,7 @@ export function WalletIslandQrReceive() {
               'absolute top-full right-0 z-10 mt-0.5 px-1.5 py-0.5 opacity-0 transition-opacity group-hover:opacity-100',
             )}
             aria-live="polite"
-            aria-label="Copy tooltip"
+            aria-label="Copy your address"
           >
             {copyText}
           </button>
@@ -112,7 +112,7 @@ export function WalletIslandQrReceive() {
         type="button"
         className={cn(border.radius, pressable.alternate, 'w-full p-3')}
         onClick={() => handleCopyAddress('button')}
-        aria-label="Copy button"
+        aria-label="Copy your address"
       >
         {copyButtonText}
       </button>
