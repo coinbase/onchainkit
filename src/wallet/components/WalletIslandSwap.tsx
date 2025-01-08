@@ -1,18 +1,16 @@
 import { PressableIcon } from '@/internal/components/PressableIcon';
 import { backArrowSvg } from '@/internal/svg/backArrowSvg';
 import { cn } from '@/styles/theme';
-import {
-  Swap,
-  SwapAmountInput,
-  SwapButton,
-  SwapMessage,
-  SwapSettings,
-  SwapSettingsSlippageDescription,
-  SwapSettingsSlippageInput,
-  SwapSettingsSlippageTitle,
-  SwapToast,
-  SwapToggleButton,
-} from '@/swap';
+import { Swap } from '@/swap/components/Swap';
+import { SwapAmountInput } from '@/swap/components/SwapAmountInput';
+import { SwapButton } from '@/swap/components/SwapButton';
+import { SwapMessage } from '@/swap/components/SwapMessage';
+import { SwapSettings } from '@/swap/components/SwapSettings';
+import { SwapSettingsSlippageDescription } from '@/swap/components/SwapSettingsSlippageDescription';
+import { SwapSettingsSlippageInput } from '@/swap/components/SwapSettingsSlippageInput';
+import { SwapSettingsSlippageTitle } from '@/swap/components/SwapSettingsSlippageTitle';
+import { SwapToast } from '@/swap/components/SwapToast';
+import { SwapToggleButton } from '@/swap/components/SwapToggleButton';
 import type { SwapDefaultReact } from '@/swap/types';
 import { useCallback } from 'react';
 import { useWalletIslandContext } from './WalletIslandProvider';
