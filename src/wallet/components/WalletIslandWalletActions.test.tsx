@@ -132,4 +132,24 @@ describe('WalletIslandWalletActions', () => {
 
     expect(refetchPortfolioDataMock).toHaveBeenCalled();
   });
+
+  it('opens transaction history when transactions button is clicked', () => {
+    const windowOpenSpy = vi
+      .spyOn(window, 'open')
+      .mockImplementation(() => null);
+
+    render(<WalletIslandWalletActions />);
+
+    const transactionsButton = screen.getByTestId(
+      'ockWalletIsland_TransactionsButton',
+    );
+    fireEvent.click(transactionsButton);
+
+    expect(windowOpenSpy).toHaveBeenCalledWith(
+      'https://wallet.coinbase.com/assets/transactions',
+      '_blank',
+    );
+
+    windowOpenSpy.mockRestore();
+  });
 });
