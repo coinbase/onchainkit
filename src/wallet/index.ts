@@ -9,7 +9,8 @@ export { WalletDropdownDisconnect } from './components/WalletDropdownDisconnect'
 export { WalletDropdownFundLink } from './components/WalletDropdownFundLink';
 export { WalletDropdownLink } from './components/WalletDropdownLink';
 export { WalletIsland } from './components/WalletIsland';
-export { WalletIslandDraggable as WalletIslandDefault } from './components/WalletIslandDraggable';
+export { WalletIslandDraggable } from './components/WalletIslandDraggable';
+export { WalletIslandFixed } from './components/WalletIslandFixed';
 export { WalletIslandQrReceive } from './components/WalletIslandQrReceive';
 export { WalletIslandTransactionActions } from './components/WalletIslandTransactionActions';
 export { WalletIslandTokenHoldings } from './components/WalletIslandTokenHoldings';
