@@ -332,6 +332,9 @@ export type FundCardPaymentMethodSelectRowPropsReact = {
   onClick?: (paymentMethod: PaymentMethodReact) => void;
   hideImage?: boolean;
   hideDescription?: boolean;
+  disabled?: boolean;
+  disabledReason?: string;
+  testId?: string;
 };
 
 export type FundCardProviderReact = {
