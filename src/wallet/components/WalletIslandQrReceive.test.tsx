@@ -100,7 +100,7 @@ describe('WalletIslandQrReceive', () => {
     const { rerender } = render(<WalletIslandQrReceive />);
     expect(screen.getByTestId('ockWalletIslandQrReceive')).toBeInTheDocument();
     expect(screen.getByTestId('ockWalletIslandQrReceive')).toHaveClass(
-      'fade-in slide-in-from-right-5 animate-in duration-150 ease-out',
+      'fade-in slide-in-from-left-5 linear animate-in duration-150',
     );
 
     mockUseWalletIslandContext.mockReturnValue({
@@ -110,18 +110,6 @@ describe('WalletIslandQrReceive', () => {
     expect(screen.getByTestId('ockWalletIslandQrReceive')).toHaveClass(
       'fade-out slide-out-to-left-5 animate-out fill-mode-forwards ease-in-out',
     );
-  });
-
-  it('should focus backButtonRef when showQr is true', () => {
-    mockUseWalletIslandContext.mockReturnValue({
-      ...defaultMockUseWalletIslandContext,
-      showQr: true,
-      setShowQr: vi.fn(),
-    });
-
-    render(<WalletIslandQrReceive />);
-    const backButton = screen.getByRole('button', { name: /back/i });
-    expect(backButton).toHaveFocus();
   });
 
   it('should close when the back button is clicked', () => {

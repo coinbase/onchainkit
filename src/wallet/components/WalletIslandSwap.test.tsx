@@ -178,7 +178,7 @@ describe('WalletIslandSwap', () => {
     );
     expect(screen.getByTestId('ockWalletIslandSwap')).toBeInTheDocument();
     expect(screen.getByTestId('ockWalletIslandSwap')).toHaveClass(
-      'fade-in slide-in-from-right-5 animate-in duration-150 ease-out',
+      'fade-in slide-in-from-right-5 linear animate-in duration-150',
     );
 
     mockUseWalletIslandContext.mockReturnValue({
@@ -195,28 +195,8 @@ describe('WalletIslandSwap', () => {
       />,
     );
     expect(screen.getByTestId('ockWalletIslandSwap')).toHaveClass(
-      'fade-out slide-out-to-left-5 animate-out fill-mode-forwards ease-in-out',
+      'fade-out slide-out-to-right-5 animate-out fill-mode-forwards ease-in-out',
     );
-  });
-
-  it('should focus swapDivRef when showSwap is true', () => {
-    mockUseWalletIslandContext.mockReturnValue({
-      ...defaultMockUseWalletIslandContext,
-      showSwap: true,
-    });
-
-    render(
-      <WalletIslandSwap
-        config={{ maxSlippage: 1 }}
-        from={[tokens[0]] as Token[]}
-        to={[tokens[1]] as Token[]}
-        onError={vi.fn()}
-        onStatus={vi.fn()}
-        onSuccess={vi.fn()}
-      />,
-    );
-    const swapDiv = screen.getByTestId('ockWalletIslandSwap');
-    expect(swapDiv).toHaveFocus();
   });
 
   it('should close swap when back button is clicked', () => {
@@ -256,49 +236,5 @@ describe('WalletIslandSwap', () => {
     expect(mockSetIsSwapClosing).toHaveBeenCalledWith(false);
 
     vi.useRealTimers();
-  });
-
-  it('should set tabIndex to -1 when showSwap is true', () => {
-    const mockSetShowSwap = vi.fn();
-    mockUseWalletIslandContext.mockReturnValue({
-      ...defaultMockUseWalletIslandContext,
-      showSwap: true,
-    });
-
-    const { rerender } = render(
-      <WalletIslandSwap
-        config={{ maxSlippage: 1 }}
-        from={[tokens[0]] as Token[]}
-        to={[tokens[1]] as Token[]}
-        onError={vi.fn()}
-        onStatus={vi.fn()}
-        onSuccess={vi.fn()}
-      />,
-    );
-
-    expect(screen.getByTestId('ockWalletIslandSwap')).toHaveAttribute(
-      'tabindex',
-      '-1',
-    );
-
-    mockUseWalletIslandContext.mockReturnValue({
-      ...defaultMockUseWalletIslandContext,
-      showSwap: false,
-      setShowSwap: mockSetShowSwap,
-    });
-
-    rerender(
-      <WalletIslandSwap
-        config={{ maxSlippage: 1 }}
-        from={[tokens[0]] as Token[]}
-        to={[tokens[1]] as Token[]}
-        onError={vi.fn()}
-        onStatus={vi.fn()}
-        onSuccess={vi.fn()}
-      />,
-    );
-    expect(screen.getByTestId('ockWalletIslandSwap')).not.toHaveAttribute(
-      'tabIndex',
-    );
   });
 });

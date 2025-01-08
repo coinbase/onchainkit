@@ -70,7 +70,7 @@ describe('usePortfolioTokenBalances', () => {
 
   it('should fetch token balances successfully', async () => {
     vi.mocked(getPortfolioTokenBalances).mockResolvedValueOnce({
-      tokens: mockPortfolioTokenBalancesAPIResponse,
+      portfolios: mockPortfolioTokenBalancesAPIResponse,
     });
 
     const { result } = renderHook(
@@ -130,7 +130,7 @@ describe('usePortfolioTokenBalances', () => {
     };
 
     vi.mocked(getPortfolioTokenBalances).mockResolvedValueOnce({
-      tokens: mockPortfolioTokenBalancesAPIResponseWithEth,
+      portfolios: mockPortfolioTokenBalancesAPIResponseWithEth,
     });
 
     const { result } = renderHook(
