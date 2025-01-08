@@ -32,12 +32,41 @@ describe('PressableIcon', () => {
       </PressableIcon>,
     );
 
-    const container = screen.getByText('Icon').parentElement;
+    const container = screen.getByTestId('ockPressableIconButton').parentElement;
     expect(container).toHaveClass(
       'flex',
       'items-center',
       'justify-center',
       customClass,
     );
+  });
+
+  it('merges custom button className with default classes', () => {
+    const customButtonClass = 'custom-class';
+    render(
+      <PressableIcon buttonClassName={customButtonClass}>
+        <span>Icon</span>
+      </PressableIcon>,
+    );
+
+    const pressableIconButton = screen.getByText('Icon').parentElement;
+    expect(pressableIconButton).toHaveClass(
+      'flex',
+      'items-center',
+      'justify-center',
+      customButtonClass,
+    );
+  });
+
+  it('applies aria-label to button', () => {
+    const ariaLabel = 'test-aria-label';
+    render(
+      <PressableIcon ariaLabel={ariaLabel}>
+        <span>Icon</span>
+      </PressableIcon>,
+    );
+
+    const button = screen.getByTestId('ockPressableIconButton');
+    expect(button).toHaveAttribute('aria-label', ariaLabel);
   });
 });

@@ -82,7 +82,12 @@ export function WalletIslandQrReceive() {
             ariaLabel="Copy your address"
             onClick={() => handleCopyAddress('icon')}
           >
-            <div className="p-2">{copySvg}</div>
+            <div
+              className="p-2"
+              data-testid="ockWalletIslandQrReceive_CopyIcon"
+            >
+              {copySvg}
+            </div>
           </PressableIcon>
           <button
             type="button"

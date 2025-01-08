@@ -45,21 +45,35 @@ export function WalletIslandWalletActions() {
           ariaLabel="Open transaction history"
           onClick={handleTransactions}
         >
-          {clockSvg}
+          <div data-testid="ockWalletIsland_TransactionsButton">
+            {clockSvg}
+          </div>
         </PressableIcon>
         <PressableIcon ariaLabel="Show QR code" onClick={handleQr}>
-          {qrIconSvg}
+          <div data-testid="ockWalletIsland_QrButton">
+            {qrIconSvg}
+          </div>
         </PressableIcon>
       </div>
       <div className="flex items-center">
         <PressableIcon ariaLabel="Disconnect wallet" onClick={handleDisconnect}>
-          <div className="h-7 w-7 scale-110 p-2">{disconnectSvg}</div>
+          <div
+            data-testid="ockWalletIsland_DisconnectButton"
+            className="h-7 w-7 scale-110 p-2"
+          >
+            {disconnectSvg}
+          </div>
         </PressableIcon>
         <PressableIcon
           ariaLabel="Refresh portfolio data"
           onClick={handleRefreshPortfolioData}
         >
-          <div className="h-7 w-7 scale-110 p-2">{refreshSvg}</div>
+          <div
+            data-testid="ockWalletIsland_RefreshButton"
+            className="h-7 w-7 scale-110 p-2"
+          >
+            {refreshSvg}
+          </div>
         </PressableIcon>
       </div>
     </div>
