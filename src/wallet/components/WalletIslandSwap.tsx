@@ -83,19 +83,9 @@ export function WalletIslandSwap({
           </SwapSettingsSlippageDescription>
           <SwapSettingsSlippageInput />
         </SwapSettings>
-        <SwapAmountInput
-          label="Sell"
-          swappableTokens={from}
-          token={from?.[0]}
-          type="from"
-        />
+        <SwapAmountInput label="Sell" swappableTokens={from} type="from" />
         <SwapToggleButton />
-        <SwapAmountInput
-          label="Buy"
-          swappableTokens={to}
-          token={to?.[0]}
-          type="to"
-        />
+        <SwapAmountInput label="Buy" swappableTokens={to} type="to" />
         <SwapButton disabled={disabled} />
         <SwapMessage />
         <SwapToast />
