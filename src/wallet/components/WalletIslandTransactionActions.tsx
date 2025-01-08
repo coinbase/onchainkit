@@ -2,9 +2,9 @@ import { addSvgForeground } from '@/internal/svg/addForegroundSvg';
 import { arrowUpRightSvg } from '@/internal/svg/arrowUpRightSvg';
 import { toggleSvg } from '@/internal/svg/toggleSvg';
 import { border, cn, color, pressable, text } from '@/styles/theme';
+import { useCallback } from 'react';
 import { useWalletIslandContext } from './WalletIslandProvider';
 import { useWalletContext } from './WalletProvider';
-import { useCallback } from 'react';
 
 type TransactionActionProps = {
   icon: React.ReactNode;
