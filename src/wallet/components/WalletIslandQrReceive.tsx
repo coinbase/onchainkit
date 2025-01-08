@@ -3,23 +3,15 @@ import { QrCodeSvg } from '@/internal/components/QrCode/QrCodeSvg';
 import { backArrowSvg } from '@/internal/svg/backArrowSvg';
 import { copySvg } from '@/internal/svg/copySvg';
 import { border, cn, color, pressable, text } from '@/styles/theme';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useWalletIslandContext } from './WalletIslandProvider';
 import { useWalletContext } from './WalletProvider';
 
 export function WalletIslandQrReceive() {
   const { address, isClosing } = useWalletContext();
-  const { showQr, setShowQr, isQrClosing, setIsQrClosing } =
-    useWalletIslandContext();
-  const backButtonRef = useRef<HTMLButtonElement>(null);
+  const { setShowQr, isQrClosing, setIsQrClosing } = useWalletIslandContext();
   const [copyText, setCopyText] = useState('Copy');
   const [copyButtonText, setCopyButtonText] = useState('Copy address');
-
-  useEffect(() => {
-    if (showQr) {
-      backButtonRef.current?.focus();
-    }
-  }, [showQr]);
 
   const handleCloseQr = useCallback(() => {
     setIsQrClosing(true);
@@ -72,21 +64,17 @@ export function WalletIslandQrReceive() {
       className={cn(
         color.foreground,
         text.headline,
-        'flex flex-col items-center justify-center gap-12',
-        'w-full',
+        'flex flex-col items-center justify-between',
+        'h-full w-full',
+        'p-2',
         isQrClosing
           ? 'fade-out slide-out-to-left-5 animate-out fill-mode-forwards ease-in-out'
-          : 'fade-in slide-in-from-right-5 animate-in duration-150 ease-out',
+          : 'fade-in slide-in-from-left-5 linear animate-in duration-150',
       )}
     >
-      <div className="flex w-full flex-row items-center justify-between">
+      <div className="flex h-[34px] w-full flex-row items-center justify-between">
         <PressableIcon>
-          <button
-            type="button"
-            ref={backButtonRef}
-            onClick={handleCloseQr}
-            aria-label="Back"
-          >
+          <button type="button" onClick={handleCloseQr} aria-label="Back">
             <div className="p-2">{backArrowSvg}</div>
           </button>
         </PressableIcon>
