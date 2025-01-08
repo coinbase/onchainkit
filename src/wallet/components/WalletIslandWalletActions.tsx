@@ -11,8 +11,7 @@ import { useWalletContext } from './WalletProvider';
 
 export function WalletIslandWalletActions() {
   const { isClosing, handleClose } = useWalletContext();
-  const { setShowQr, refetchPortfolioData, portfolioDataUpdatedAt } =
-    useWalletIslandContext();
+  const { setShowQr, refetchPortfolioData } = useWalletIslandContext();
   const { disconnect, connectors } = useDisconnect();
 
   const handleDisconnect = useCallback(() => {
@@ -27,14 +26,8 @@ export function WalletIslandWalletActions() {
   }, [setShowQr]);
 
   const handleRefreshPortfolioData = useCallback(async () => {
-    if (
-      portfolioDataUpdatedAt &&
-      Date.now() - portfolioDataUpdatedAt < 1000 * 15
-    ) {
-      return;
-    }
     await refetchPortfolioData();
-  }, [refetchPortfolioData, portfolioDataUpdatedAt]);
+  }, [refetchPortfolioData]);
 
   return (
     <div
