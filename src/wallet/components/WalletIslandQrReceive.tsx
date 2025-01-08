@@ -109,7 +109,7 @@ export function WalletIslandQrReceive() {
           </button>
         </div>
       </div>
-      <QrCodeSvg value={address ? `ethereum:${address}` : ''} />
+      <QrCodeSvg value={address} />
       <button
         type="button"
         className={cn(border.radius, pressable.alternate, 'w-full p-3')}
