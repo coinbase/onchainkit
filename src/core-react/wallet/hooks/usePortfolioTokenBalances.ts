@@ -23,6 +23,14 @@ export function usePortfolioTokenBalances({
         throw new Error(response.message);
       }
 
+      if (response.portfolios.length === 0) {
+        return {
+          address: '',
+          portfolioBalanceUsd: 0,
+          tokenBalances: [],
+        };
+      }
+
       const userPortfolio = response.portfolios[0];
 
       const transformedPortfolio: PortfolioTokenBalances = {

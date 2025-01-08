@@ -111,24 +111,6 @@ describe('usePortfolioTokenBalances', () => {
         },
       ];
 
-    const mockTokensWithEth: PortfolioTokenWithFiatValue[] = [
-      {
-        address: '',
-        chainId: 8453,
-        decimals: 6,
-        image: '',
-        name: 'Ethereum',
-        symbol: 'ETH',
-        cryptoBalance: 100,
-        fiatBalance: 100,
-      },
-    ];
-    const mockPortfolioTokenBalancesWithEth: PortfolioTokenBalances = {
-      address: mockAddresses[0],
-      portfolioBalanceUsd: 100,
-      tokenBalances: mockTokensWithEth,
-    };
-
     vi.mocked(getPortfolioTokenBalances).mockResolvedValueOnce({
       portfolios: mockPortfolioTokenBalancesAPIResponseWithEth,
     });
@@ -146,6 +128,23 @@ describe('usePortfolioTokenBalances', () => {
       addresses: mockAddresses,
     });
 
+    const mockTokensWithEth: PortfolioTokenWithFiatValue[] = [
+      {
+        address: '',
+        chainId: 8453,
+        decimals: 6,
+        image: '',
+        name: 'Ethereum',
+        symbol: 'ETH',
+        cryptoBalance: 100,
+        fiatBalance: 100,
+      },
+    ];
+    const mockPortfolioTokenBalancesWithEth: PortfolioTokenBalances = {
+      address: mockAddresses[0],
+      portfolioBalanceUsd: 100,
+      tokenBalances: mockTokensWithEth,
+    };
     expect(result.current.data).toEqual(mockPortfolioTokenBalancesWithEth);
   });
 
@@ -181,5 +180,24 @@ describe('usePortfolioTokenBalances', () => {
     });
 
     expect(getPortfolioTokenBalances).not.toHaveBeenCalled();
+  });
+
+  it('should return empty data when portfolios is empty', async () => {
+    vi.mocked(getPortfolioTokenBalances).mockResolvedValueOnce({
+      portfolios: [],
+    });
+
+    const { result } = renderHook(
+      () => usePortfolioTokenBalances({ addresses: mockAddresses }),
+      { wrapper: createWrapper() },
+    );
+
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+
+    expect(result.current.data).toEqual({
+      address: '',
+      portfolioBalanceUsd: 0,
+      tokenBalances: [],
+    });
   });
 });
