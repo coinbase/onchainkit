@@ -102,7 +102,7 @@ describe('useWalletIslandContext', () => {
     });
 
     expect(mockUsePortfolioTokenBalances).toHaveBeenCalledWith({
-      addresses: ['0x000'],
+      address: '0x000',
     });
 
     mockUseWalletContext.mockReturnValue({
@@ -113,7 +113,7 @@ describe('useWalletIslandContext', () => {
     rerender();
 
     expect(mockUsePortfolioTokenBalances).toHaveBeenCalledWith({
-      addresses: ['0x123'],
+      address: '0x123',
     });
   });
 });
