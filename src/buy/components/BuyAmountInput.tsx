@@ -1,6 +1,6 @@
 import { isValidAmount } from '../../core/utils/isValidAmount';
 import { TextInput } from '../../internal/components/TextInput';
-import { background, cn, color } from '../../styles/theme';
+import { background, border, cn, color } from '../../styles/theme';
 import { formatAmount } from '../../swap/utils/formatAmount';
 import { TokenChip } from '../../token';
 import { useBuyContext } from './BuyProvider';
@@ -15,8 +15,9 @@ export function BuyAmountInput() {
   return (
     <div
       className={cn(
-        'flex h-full items-center rounded-lg border px-2 pl-4',
+        'flex h-12 items-center border px-2 pl-4',
         background.default,
+        border.radius,
       )}
     >
       <TextInput

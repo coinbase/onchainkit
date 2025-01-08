@@ -1,5 +1,6 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useCallback, useContext, useState } from 'react';
 import type { ReactNode } from 'react';
+import { useAccount } from 'wagmi';
 import { useValue } from '../../core-react/internal/hooks/useValue';
 import { useOnchainKit } from '../../core-react/useOnchainKit';
 import type { WalletContextType } from '../types';
@@ -15,11 +16,26 @@ export type WalletProviderReact = {
 export function WalletProvider({ children }: WalletProviderReact) {
   const { chain } = useOnchainKit();
   const [isOpen, setIsOpen] = useState(false);
+  const [isClosing, setIsClosing] = useState(false);
+  const { address } = useAccount();
+
+  const handleClose = useCallback(() => {
+    if (!isOpen) {
+      return;
+    }
+    setIsClosing(true);
+  }, [isOpen]);
+
   const value = useValue({
-    isOpen,
+    address,
     chain,
+    isOpen,
     setIsOpen,
+    isClosing,
+    setIsClosing,
+    handleClose,
   });
+
   return (
     <WalletContext.Provider value={value}>{children}</WalletContext.Provider>
   );

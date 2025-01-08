@@ -6,7 +6,7 @@ import type {
 } from './types';
 
 /**
- * Retrieves contract to mint an nft
+ * Retrieves contract to mint an NFT
  */
 export async function buildMintTransaction({
   mintAddress,

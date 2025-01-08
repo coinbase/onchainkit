@@ -76,7 +76,7 @@ describe('BuyDropdown', () => {
     (openPopup as Mock).mockReturnValue('popup');
     render(<BuyDropdown />);
 
-    const onrampButton = screen.getByTestId('ock-applePayOnrampItem');
+    const onrampButton = screen.getByTestId('ock-coinbasePayOnrampItem');
 
     act(() => {
       fireEvent.click(onrampButton);
@@ -106,12 +106,12 @@ describe('BuyDropdown', () => {
     render(<BuyDropdown />);
 
     // Find and click the first BuyOnrampItem button
-    const buyButton = screen.getByTestId('ock-applePayOnrampItem');
+    const buyButton = screen.getByTestId('ock-coinbasePayOnrampItem');
     fireEvent.click(buyButton);
 
     expect(openPopup).toHaveBeenCalledWith(
       expect.objectContaining({
-        url: 'https://pay.coinbase.com/buy/one-click?appId=mock-project-id&addresses={"0xMockAddress":["base"]}&assets=["DEGEN"]&presetCryptoAmount=0.5&defaultPaymentMethod=APPLE_PAY',
+        url: 'https://pay.coinbase.com/buy/one-click?appId=mock-project-id&addresses={"0xMockAddress":["base"]}&assets=["DEGEN"]&presetCryptoAmount=0.5&defaultPaymentMethod=CRYPTO_ACCOUNT',
       }),
     );
   });

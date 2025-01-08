@@ -7,6 +7,7 @@ import CheckIcon from '../svg/checkSvg.js';
 import { getHighlightedCode } from './getHighlightedCode.tsx';
 
 // Demo components and code snippets
+import BuyDemo, { buyDemoCode } from './BuyDemo.tsx';
 import CheckoutDemo, { checkoutDemoCode } from './CheckoutDemo.tsx';
 import FundDemo, { fundDemoCode } from './FundDemo.tsx';
 import IdentityCardDemo, { identityCardDemoCode } from './IdentityCardDemo.tsx';
@@ -34,6 +35,12 @@ const components: Component[] = [
     component: SwapDemo,
     code: swapDemoCode,
     description: 'Enable swaps between different cryptocurrencies.',
+  },
+  {
+    name: 'Buy',
+    component: BuyDemo,
+    code: buyDemoCode,
+    description: 'Enable token purchases.',
   },
   {
     name: 'Mint',

@@ -25,6 +25,7 @@ const LandingFooter: React.FC = () => {
     {
       title: 'Components',
       links: [
+        { text: 'Buy', href: 'https://onchainkit.xyz/buy/buy' },
         { text: 'Wallet', href: 'https://onchainkit.xyz/wallet/wallet' },
         { text: 'Swap', href: 'https://onchainkit.xyz/swap/swap' },
         {
