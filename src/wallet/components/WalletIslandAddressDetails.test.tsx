@@ -81,6 +81,13 @@ describe('WalletIslandAddressDetails', () => {
       schemaId: '1',
     });
 
+    mockUseWalletIslandContext.mockReturnValue({
+      portfolioFiatValue: 1000,
+      animations: {
+        content: '',
+      },
+    });
+
     render(<AddressDetails />);
 
     expect(screen.getByTestId('ockAvatar_ImageContainer')).toBeDefined();
@@ -181,7 +188,7 @@ describe('WalletIslandAddressDetails', () => {
 
     mockUseWalletIslandContext.mockReturnValue({
       isFetchingPortfolioData: false,
-      portfolioFiatValue: '1234.567',
+      portfolioFiatValue: 1234.567,
       animations: {
         content: '',
       },
