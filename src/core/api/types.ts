@@ -276,28 +276,5 @@ export type PortfolioTokenWithFiatValue = Token & {
  * Note: exported as public Type
  */
 export type GetPortfoliosAPIResponse = {
-  portfolios: PortfolioAPIResponse[];
-};
-
-/**
- * Note: exported as public Type
- */
-export type PortfolioAPIResponse = {
-  address: Address;
-  portfolio_balance_usd: number;
-  token_balances: PortfolioTokenBalanceAPIResponse[];
-};
-
-/**
- * Note: exported as public Type
- */
-export type PortfolioTokenBalanceAPIResponse = {
-  address: Address | 'native';
-  chain_id: number;
-  decimals: number;
-  image: string;
-  name: string;
-  symbol: string;
-  crypto_balance: number;
-  fiat_balance: number;
+  portfolios: PortfolioTokenBalances[];
 };
