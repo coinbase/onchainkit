@@ -281,6 +281,7 @@ export type FundCardPaymentMethodImagePropsReact = {
 };
 
 export type PaymentAccountReact =
+  | 'COINBASE'
   | 'CRYPTO_ACCOUNT'
   | 'FIAT_WALLET'
   | 'CARD'

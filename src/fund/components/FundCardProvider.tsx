@@ -53,7 +53,7 @@ export function FundCardProvider({
   );
   const [fundAmountFiat, setFundAmountFiat] = useState<string>('');
   const [fundAmountCrypto, setFundAmountCrypto] = useState<string>('');
-  const [exchangeRate, setExchangeRate] = useState<number | undefined>();
+  const [exchangeRate, setExchangeRate] = useState<number>(0);
   const [exchangeRateLoading, setExchangeRateLoading] = useState<
     boolean | undefined
   >();

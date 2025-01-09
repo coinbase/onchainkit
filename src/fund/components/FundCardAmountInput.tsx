@@ -44,13 +44,9 @@ export const FundCardAmountInput = ({
         const fiatValue = truncateDecimalPlaces(value, 2);
         setFundAmountFiat(fiatValue);
 
-        const truncatedValue = truncateDecimalPlaces(value, 2);
-
-        // Calculate the crypto value based on the exchange rate
         const calculatedCryptoValue = String(
-          Number(truncatedValue) * Number(exchangeRate),
+          Number(fiatValue) * Number(exchangeRate),
         );
-
         const resultCryptoValue = truncateDecimalPlaces(
           calculatedCryptoValue,
           8,
@@ -60,13 +56,12 @@ export const FundCardAmountInput = ({
         );
       } else {
         const truncatedValue = truncateDecimalPlaces(value, 8);
-
         setFundAmountCrypto(truncatedValue);
 
-        // Calculate the fiat value based on the exchange rate
         const calculatedFiatValue = String(
           Number(truncatedValue) / Number(exchangeRate),
         );
+
         const resultFiatValue = truncateDecimalPlaces(calculatedFiatValue, 2);
         setFundAmountFiat(resultFiatValue === '0' ? '' : resultFiatValue);
       }

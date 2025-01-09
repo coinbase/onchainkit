@@ -14,6 +14,7 @@ import {
   pressable,
   text,
 } from '../../styles/theme';
+import { ConnectWallet } from '../../wallet/components/ConnectWallet';
 import { useGetFundingUrl } from '../hooks/useGetFundingUrl';
 import type { FundButtonReact } from '../types';
 import { getFundingPopupSize } from '../utils/getFundingPopupSize';
@@ -40,6 +41,7 @@ export function FundButton({
   const fallbackFundingUrl = useGetFundingUrl();
   const fundingUrlToRender = fundingUrl ?? fallbackFundingUrl;
   const isDisabled = disabled || !fundingUrlToRender;
+  const shouldShowConnectWallet = !fundingUrlToRender;
 
   const { startPopupMonitor } = usePopupMonitor(onPopupClose);
 
@@ -156,6 +158,10 @@ export function FundButton({
         {buttonContent}
       </a>
     );
+  }
+
+  if (shouldShowConnectWallet) {
+    return <ConnectWallet className={cn('w-full', className)} />;
   }
 
   return (

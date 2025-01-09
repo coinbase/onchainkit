@@ -1,5 +1,5 @@
-import '@testing-library/jest-dom';
 import { openPopup } from '@/ui-react/internal/utils/openPopup';
+import '@testing-library/jest-dom';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { type Mock, afterEach, describe, expect, it, vi } from 'vitest';
 import { useGetFundingUrl } from '../hooks/useGetFundingUrl';
@@ -20,6 +20,14 @@ vi.mock('@/ui-react/internal/utils/openPopup', () => ({
 
 vi.mock('../../core-react/internal/hooks/useTheme', () => ({
   useTheme: vi.fn(),
+}));
+
+vi.mock('../../wallet/components/ConnectWallet', () => ({
+  ConnectWallet: ({ className }: { className?: string }) => (
+    <div data-testid="ockConnectWallet_Container" className={className}>
+      Connect Wallet
+    </div>
+  ),
 }));
 
 const mockResponseData = {
@@ -83,19 +91,6 @@ describe('FundButton', () => {
     });
   });
 
-  it('renders a disabled fund button when no funding URL is provided and the default cannot be fetched', () => {
-    (useGetFundingUrl as Mock).mockReturnValue(undefined);
-
-    render(<FundButton />);
-
-    expect(useGetFundingUrl).toHaveBeenCalled();
-    const buttonElement = screen.getByRole('button');
-    expect(buttonElement).toHaveClass('pointer-events-none');
-
-    fireEvent.click(buttonElement);
-    expect(openPopup as Mock).not.toHaveBeenCalled();
-  });
-
   it('renders the fund button as a link when the openIn prop is set to tab', () => {
     const fundingUrl = 'https://props.funding.url';
     const { height, width } = { height: 200, width: 100 };
@@ -109,7 +104,7 @@ describe('FundButton', () => {
   });
 
   it('displays a spinner when in loading state', () => {
-    render(<FundButton state="loading" />);
+    render(<FundButton state="loading" fundingUrl="https://funding.url" />);
     expect(screen.getByTestId('ockSpinner')).toBeInTheDocument();
   });
 
@@ -175,5 +170,30 @@ describe('FundButton', () => {
   it('icon is not shown when hideIcon is passed', () => {
     render(<FundButton hideIcon={true} />);
     expect(screen.queryByTestId('ockFundButtonIcon')).not.toBeInTheDocument();
+  });
+
+  it('shows ConnectWallet when no wallet is connected', () => {
+    (useGetFundingUrl as Mock).mockReturnValue(undefined);
+
+    render(<FundButton className="custom-class" />);
+
+    expect(
+      screen.queryByTestId('ockConnectWallet_Container'),
+    ).toBeInTheDocument();
+    expect(screen.queryByTestId('ockFundButton')).not.toBeInTheDocument();
+    expect(screen.getByTestId('ockConnectWallet_Container')).toHaveClass(
+      'custom-class',
+    );
+  });
+
+  it('shows Fund button when wallet is connected', () => {
+    (useGetFundingUrl as Mock).mockReturnValue('https://funding.url');
+
+    render(<FundButton />);
+
+    expect(screen.queryByTestId('ockFundButton')).toBeInTheDocument();
+    expect(
+      screen.queryByTestId('ockConnectWallet_Container'),
+    ).not.toBeInTheDocument();
   });
 });

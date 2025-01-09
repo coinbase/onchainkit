@@ -33,7 +33,7 @@ export function FundCard({
       </>
     ),
     [],
-  ); // Empty dependency array since these components don't depend on props
+  );
 
   return (
     <FundCardProvider
@@ -80,7 +80,7 @@ function FundCardContent({ children }: FundCardContentPropsReact) {
       {children}
 
       <FundButton
-        disabled={!fundAmountFiat || !fundAmountCrypto}
+        disabled={!fundAmountFiat && !fundAmountCrypto}
         hideIcon={submitButtonState === 'default'}
         text={buttonText}
         className="w-full"
