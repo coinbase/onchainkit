@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.36.4
+
+### Patch Changes
+
+- **feat**: Add Phantom Wallet connection support in `WalletModal`. By @cpcramer #1770
+- **docs**: Fixed typos in docs. By @mdqst @MarsonKotovi4 @zeevick10 @Pricstas #1774 #1784 #1788 #1791
+
 ## 0.36.3
 
 ### Patch Changes
@@ -43,7 +50,14 @@
 
 ### Minor Changes
 
--**feat**: Improved funding flow in `Checkout` by @0xAlec #1692 -**chore**: Added `useOutsideClick` hook. By @cpcramer #1612 -**chore**: Theme styling improvements. By @brendan-defi #1676 -**fix**: Fixed `TokenDropdown` when parent container is larger than button. By @dschlabach #1667 -**chore**: Removed `Farcaster Frames`. Deprecating `Framegear`, `Frames`, `XMTP`, and `Neynar` support. By @cpcramer #1693 -**feat**: Updated `WalletModal` to support MetaMask wallet connection. By @cpcramer #1701 -**fix**: Fixed changelog generation. By @dschlabach #1680 -**docs**: Documentation updates and improvements. By @brendan-defi @0xAlec @dschlabach #1690 #1685
+- **feat**: Improved funding flow in `Checkout` by @0xAlec #1692
+- **chore**: Added `useOutsideClick` hook. By @cpcramer #1612
+- **chore**: Theme styling improvements. By @brendan-defi #1676
+- **fix**: Fixed `TokenDropdown` when parent container is larger than button. By @dschlabach #1667
+- **chore**: Removed `Farcaster Frames`. Deprecating `Framegear`, `Frames`, `XMTP`, and `Neynar` support. By @cpcramer #1693
+- **feat**: Updated `WalletModal` to support MetaMask wallet connection. By @cpcramer #1701
+- **fix**: Fixed changelog generation. By @dschlabach #1680
+- **docs**: Documentation updates and improvements. By @brendan-defi @0xAlec @dschlabach #1690 #1685
 
 Breaking Changes:
 
