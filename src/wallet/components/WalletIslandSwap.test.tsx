@@ -200,8 +200,6 @@ describe('WalletIslandSwap', () => {
   });
 
   it('should close swap when back button is clicked', () => {
-    vi.useFakeTimers();
-
     const mockSetShowSwap = vi.fn();
     const mockSetIsSwapClosing = vi.fn();
     mockUseWalletIslandContext.mockReturnValue({
@@ -212,7 +210,7 @@ describe('WalletIslandSwap', () => {
       setIsSwapClosing: mockSetIsSwapClosing,
     });
 
-    render(
+    const { rerender } = render(
       <WalletIslandSwap
         config={{ maxSlippage: 1 }}
         from={[tokens[0]] as Token[]}
@@ -223,18 +221,33 @@ describe('WalletIslandSwap', () => {
       />,
     );
 
-    expect(screen.getByTestId('ockWalletIslandSwap')).toBeInTheDocument();
-
     const backButton = screen.getByRole('button', { name: /back button/i });
     fireEvent.click(backButton);
     expect(mockSetIsSwapClosing).toHaveBeenCalledWith(true);
 
-    vi.advanceTimersByTime(200);
+    mockUseWalletIslandContext.mockReturnValue({
+      ...defaultMockUseWalletIslandContext,
+      tokenHoldings: [tokens],
+      setShowSwap: mockSetShowSwap,
+      setIsSwapClosing: mockSetIsSwapClosing,
+      isSwapClosing: true,
+    });
+
+    rerender(
+      <WalletIslandSwap
+        config={{ maxSlippage: 1 }}
+        from={[tokens[0]] as Token[]}
+        to={[tokens[1]] as Token[]}
+        onError={vi.fn()}
+        onStatus={vi.fn()}
+        onSuccess={vi.fn()}
+      />,
+    );
+
+    const swapContainer = screen.getByTestId('ockWalletIslandSwap');
+    fireEvent.animationEnd(swapContainer);
+
     expect(mockSetShowSwap).toHaveBeenCalledWith(false);
-
-    vi.advanceTimersByTime(200);
     expect(mockSetIsSwapClosing).toHaveBeenCalledWith(false);
-
-    vi.useRealTimers();
   });
 });

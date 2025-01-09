@@ -1,5 +1,5 @@
 import type { Token } from '@/token';
-import { usdcToken, ethToken } from '@/token/constants';
+import { ethToken, usdcToken } from '@/token/constants';
 
 // The bytecode for the Coinbase Smart Wallet proxy contract.
 export const CB_SW_PROXY_BYTECODE =

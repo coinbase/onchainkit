@@ -112,30 +112,37 @@ describe('WalletIslandQrReceive', () => {
     );
   });
 
-  it('should close when the back button is clicked', () => {
-    vi.useFakeTimers();
-
-    const setShowQrMock = vi.fn();
-    const setIsQrClosingMock = vi.fn();
+  it('should close when back button is clicked', () => {
+    const mockSetShowQr = vi.fn();
+    const mockSetIsQrClosing = vi.fn();
     mockUseWalletIslandContext.mockReturnValue({
       ...defaultMockUseWalletIslandContext,
       showQr: true,
-      setShowQr: setShowQrMock,
-      setIsQrClosing: setIsQrClosingMock,
+      setShowQr: mockSetShowQr,
+      setIsQrClosing: mockSetIsQrClosing,
     });
 
-    render(<WalletIslandQrReceive />);
-    const backButton = screen.getByRole('button', { name: /back/i });
+    const { rerender } = render(<WalletIslandQrReceive />);
+
+    const backButton = screen.getByRole('button', { name: /back button/i });
     fireEvent.click(backButton);
-    expect(setIsQrClosingMock).toHaveBeenCalledWith(true);
+    expect(mockSetIsQrClosing).toHaveBeenCalledWith(true);
 
-    vi.advanceTimersByTime(200);
-    expect(setShowQrMock).toHaveBeenCalledWith(false);
+    mockUseWalletIslandContext.mockReturnValue({
+      ...defaultMockUseWalletIslandContext,
+      showQr: true,
+      setShowQr: mockSetShowQr,
+      setIsQrClosing: mockSetIsQrClosing,
+      isQrClosing: true,
+    });
 
-    vi.advanceTimersByTime(200);
-    expect(setIsQrClosingMock).toHaveBeenCalledWith(false);
+    rerender(<WalletIslandQrReceive />);
 
-    vi.useRealTimers();
+    const qrContainer = screen.getByTestId('ockWalletIslandQrReceive');
+    fireEvent.animationEnd(qrContainer);
+
+    expect(mockSetShowQr).toHaveBeenCalledWith(false);
+    expect(mockSetIsQrClosing).toHaveBeenCalledWith(false);
   });
 
   it('should copy address when the copy icon is clicked', async () => {

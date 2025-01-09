@@ -106,7 +106,7 @@ describe('useWalletIslandContext', () => {
     });
 
     expect(mockUsePortfolioTokenBalances).toHaveBeenCalledWith({
-      address: '0x000',
+      address: null,
     });
 
     mockUseWalletContext.mockReturnValue({

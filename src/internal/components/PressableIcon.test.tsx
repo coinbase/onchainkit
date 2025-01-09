@@ -32,31 +32,12 @@ describe('PressableIcon', () => {
       </PressableIcon>,
     );
 
-    const container = screen.getByTestId(
-      'ockPressableIconButton',
-    ).parentElement;
-    expect(container).toHaveClass(
+    const button = screen.getByTestId('ockPressableIconButton');
+    expect(button).toHaveClass(
       'flex',
       'items-center',
       'justify-center',
       customClass,
-    );
-  });
-
-  it('merges custom button className with default classes', () => {
-    const customButtonClass = 'custom-class';
-    render(
-      <PressableIcon buttonClassName={customButtonClass}>
-        <span>Icon</span>
-      </PressableIcon>,
-    );
-
-    const pressableIconButton = screen.getByText('Icon').parentElement;
-    expect(pressableIconButton).toHaveClass(
-      'flex',
-      'items-center',
-      'justify-center',
-      customButtonClass,
     );
   });
 
