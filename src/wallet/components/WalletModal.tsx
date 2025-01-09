@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useConnect } from 'wagmi';
 import { coinbaseWallet, injected, metaMask } from 'wagmi/connectors';
 import { useOnchainKit } from '../../core-react/useOnchainKit';
-import { closeSvg } from '../../internal/svg/closeSvg';
+import { CloseSvg } from '../../internal/svg/closeSvg';
 import { coinbaseWalletSvg } from '../../internal/svg/coinbaseWalletSvg';
 import { defaultAvatarSVG } from '../../internal/svg/defaultAvatarSVG';
 import { metamaskSvg } from '../../internal/svg/metamaskSvg';
@@ -200,7 +200,7 @@ export function WalletModal({
           aria-label="Close modal"
         >
           <div className={cn('flex h-4 w-4 items-center justify-center')}>
-            {closeSvg}
+            <CloseSvg />
           </div>
         </button>
 
