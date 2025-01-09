@@ -1,13 +1,20 @@
-import { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react';
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import type { ReactNode } from 'react';
 import { useAccount } from 'wagmi';
 import { useValue } from '../../core-react/internal/hooks/useValue';
 import { useOnchainKit } from '../../core-react/useOnchainKit';
-import type { WalletContextType } from '../types';
 import {
   WALLET_ISLAND_MAX_HEIGHT,
   WALLET_ISLAND_MAX_WIDTH,
 } from '../constants';
+import type { WalletContextType } from '../types';
 
 const emptyContext = {} as WalletContextType;
 

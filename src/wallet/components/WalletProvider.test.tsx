@@ -1,9 +1,9 @@
 import '@testing-library/jest-dom';
 import { act, render, renderHook } from '@testing-library/react';
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { useEffect } from 'react';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { type Config, WagmiProvider } from 'wagmi';
 import { WalletProvider, useWalletContext } from './WalletProvider';
-import { useEffect, useState } from 'react';
 
 vi.mock('wagmi', () => ({
   useAccount: vi.fn().mockReturnValue({ address: null }),
@@ -12,16 +12,10 @@ vi.mock('wagmi', () => ({
   ),
 }));
 
-// const originalGetBoundingClientRect = Element.prototype.getBoundingClientRect;
-
 describe('useWalletContext', () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
-
-  // afterEach(() => {
-  //   Element.prototype.getBoundingClientRect = originalGetBoundingClientRect;
-  // });
 
   it('should return default context', () => {
     render(
