@@ -146,7 +146,10 @@ export default function Demo() {
       <div className="linear-gradient(to_bottom,#f0f0f0_1px,transparent_1px)] flex flex-1 flex-col bg-[linear-gradient(to_right,#f0f0f0_1px,transparent_1px), bg-[size:6rem_4rem]">
         <div
           className={cn(
-            'flex h-full w-full flex-col items-center justify-center',
+            'flex h-full w-full flex-col items-center',
+            activeComponent === OnchainKitComponent.WalletIslandFixed
+              ? 'mt-12 justify-start'
+              : 'justify-center',
           )}
         >
           {ActiveComponent && <ActiveComponent />}
