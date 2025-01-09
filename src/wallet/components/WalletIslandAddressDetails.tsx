@@ -69,9 +69,7 @@ export function AddressDetails() {
           {copyText}
         </button>
       </div>
-      <div className={cn(text.title1, 'mt-1 font-normal')}>
-        <AddressBalanceInFiat />
-      </div>
+      <AddressBalanceInFiat />
     </div>
   );
 }
@@ -89,8 +87,11 @@ function AddressBalanceInFiat() {
   }
 
   return (
-    <span data-testid="ockWalletIsland_AddressBalance">
+    <div
+      className={cn(text.title1, 'mt-1 font-normal')}
+      data-testid="ockWalletIsland_AddressBalance"
+    >
       {`$${Number(portfolioFiatValue)?.toFixed(2)}`}
-    </span>
+    </div>
   );
 }
