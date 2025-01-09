@@ -1,7 +1,9 @@
 import type {
-  PortfolioAPIResponse,
-  PortfolioTokenBalanceAPIResponse,
+  GetPortfolioTokenBalancesParams,
+  PortfolioTokenBalances,
+  PortfolioTokenWithFiatValue,
 } from '@/core/api/types';
+import type { Address } from 'viem';
 import { type Mock, describe, expect, it, vi } from 'vitest';
 import { CDP_GET_PORTFOLIO_TOKEN_BALANCES } from '../network/definitions/wallet';
 import { sendRequest } from '../network/request';
@@ -11,24 +13,26 @@ vi.mock('../network/request', () => ({
   sendRequest: vi.fn(),
 }));
 
-const mockAddresses: `0x${string}`[] = ['0x123'];
-const mockTokens: PortfolioTokenBalanceAPIResponse[] = [
+const mockApiParams: GetPortfolioTokenBalancesParams = {
+  addresses: ['0x0000000000000000000000000000000000000000'],
+};
+const mockTokens: PortfolioTokenWithFiatValue[] = [
   {
     address: '0x123',
-    chain_id: 8453,
+    chainId: 8453,
     decimals: 6,
     image: '',
     name: 'Token',
     symbol: 'TOKEN',
-    crypto_balance: 100,
-    fiat_balance: 100,
+    cryptoBalance: 100,
+    fiatBalance: 100,
   },
 ];
-const mockPortfolioTokenBalances: PortfolioAPIResponse[] = [
+const mockPortfolioTokenBalances: PortfolioTokenBalances[] = [
   {
-    address: mockAddresses[0],
-    portfolio_balance_usd: 100,
-    token_balances: mockTokens,
+    address: mockApiParams.addresses?.[0] as Address,
+    portfolioBalanceUsd: 100,
+    tokenBalances: mockTokens,
   },
 ];
 
@@ -44,14 +48,12 @@ describe('getPortfolioTokenBalances', () => {
       result: mockSuccessResponse,
     });
 
-    const result = await getPortfolioTokenBalances({
-      addresses: mockAddresses as `0x${string}`[],
-    });
+    const result = await getPortfolioTokenBalances(mockApiParams);
 
     expect(result).toEqual(mockSuccessResponse);
     expect(mockSendRequest).toHaveBeenCalledWith(
       CDP_GET_PORTFOLIO_TOKEN_BALANCES,
-      [{ addresses: mockAddresses }],
+      [{ addresses: mockApiParams }],
     );
   });
 
@@ -66,9 +68,7 @@ describe('getPortfolioTokenBalances', () => {
       error: mockError,
     });
 
-    const result = await getPortfolioTokenBalances({
-      addresses: mockAddresses,
-    });
+    const result = await getPortfolioTokenBalances(mockApiParams);
 
     expect(result).toEqual({
       code: '500',
@@ -81,9 +81,7 @@ describe('getPortfolioTokenBalances', () => {
     const errorMessage = 'Network Error';
     mockSendRequest.mockRejectedValueOnce(new Error(errorMessage));
 
-    const result = await getPortfolioTokenBalances({
-      addresses: mockAddresses,
-    });
+    const result = await getPortfolioTokenBalances(mockApiParams);
 
     expect(result).toEqual({
       code: 'uncaught-portfolio',
