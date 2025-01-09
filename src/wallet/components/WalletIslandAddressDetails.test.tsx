@@ -177,9 +177,7 @@ describe('WalletIslandAddressDetails', () => {
 
     const { rerender } = render(<AddressDetails />);
 
-    expect(
-      screen.getByTestId('ockWalletIsland_AddressBalance'),
-    ).toHaveTextContent('');
+    expect(screen.queryByTestId('ockWalletIsland_AddressBalance')).toBeNull();
 
     mockUseWalletIslandContext.mockReturnValue({
       isFetchingPortfolioData: false,
