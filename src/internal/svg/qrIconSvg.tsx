@@ -8,7 +8,7 @@ export const qrIconSvg = (
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
   >
-    <title>QR Code Icon</title>
+    <title>QR Code</title>
     <rect width="28" height="28" rx="8" className={background.default} />
     <path d="M10 10H11.5V11.5H10V10Z" className={icon.foreground} />
     <path
