@@ -1,9 +1,13 @@
-import { createContext, useCallback, useContext, useState } from 'react';
+import { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
 import { useAccount } from 'wagmi';
 import { useValue } from '../../core-react/internal/hooks/useValue';
 import { useOnchainKit } from '../../core-react/useOnchainKit';
 import type { WalletContextType } from '../types';
+import {
+  WALLET_ISLAND_MAX_HEIGHT,
+  WALLET_ISLAND_MAX_WIDTH,
+} from '../constants';
 
 const emptyContext = {} as WalletContextType;
 
@@ -20,12 +24,27 @@ export function WalletProvider({ children }: WalletProviderReact) {
   const [showSubComponentAbove, setShowSubComponentAbove] = useState(false);
   const [alignSubComponentRight, setAlignSubComponentRight] = useState(false);
   const { address } = useAccount();
+  const connectRef = useRef<HTMLDivElement>(null);
 
   const handleClose = useCallback(() => {
     if (!isOpen) {
       return;
     }
     setIsClosing(true);
+  }, [isOpen]);
+
+  useEffect(() => {
+    if (isOpen && connectRef?.current) {
+      const connectRect = connectRef.current.getBoundingClientRect();
+      const viewportHeight = window.innerHeight;
+      const viewportWidth = window.innerWidth;
+
+      const spaceAvailableBelow = viewportHeight - connectRect.bottom;
+      const spaceAvailableRight = viewportWidth - connectRect.left;
+
+      setShowSubComponentAbove(spaceAvailableBelow < WALLET_ISLAND_MAX_HEIGHT);
+      setAlignSubComponentRight(spaceAvailableRight < WALLET_ISLAND_MAX_WIDTH);
+    }
   }, [isOpen]);
 
   const value = useValue({
@@ -36,10 +55,9 @@ export function WalletProvider({ children }: WalletProviderReact) {
     isClosing,
     setIsClosing,
     handleClose,
+    connectRef,
     showSubComponentAbove,
-    setShowSubComponentAbove,
     alignSubComponentRight,
-    setAlignSubComponentRight,
   });
 
   return (

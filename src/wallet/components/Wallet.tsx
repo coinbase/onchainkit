@@ -4,11 +4,7 @@ import { findComponent } from '@/core-react/internal/utils/findComponent';
 import { Draggable } from '@/internal/components/Draggable';
 import { cn } from '@/styles/theme';
 import { useOutsideClick } from '@/ui-react/internal/hooks/useOutsideClick';
-import { Children, useEffect, useMemo, useRef } from 'react';
-import {
-  WALLET_ISLAND_MAX_HEIGHT,
-  WALLET_ISLAND_MAX_WIDTH,
-} from '../constants';
+import { Children, useMemo, useRef } from 'react';
 import type { WalletReact } from '../types';
 import { ConnectWallet } from './ConnectWallet';
 import { WalletDropdown } from './WalletDropdown';
@@ -54,13 +50,11 @@ function WalletContent({
   const {
     isOpen,
     handleClose,
+    connectRef,
     showSubComponentAbove,
-    setShowSubComponentAbove,
     alignSubComponentRight,
-    setAlignSubComponentRight,
   } = useWalletContext();
   const walletContainerRef = useRef<HTMLDivElement>(null);
-  const connectRef = useRef<HTMLDivElement>(null);
 
   useOutsideClick(walletContainerRef, handleClose);
 
@@ -78,20 +72,6 @@ function WalletContent({
       'Defaulted to WalletDropdown. Wallet cannot have both WalletDropdown and WalletIsland as children.',
     );
   }
-
-  useEffect(() => {
-    if (isOpen && connectRef?.current) {
-      const connectRect = connectRef.current.getBoundingClientRect();
-      const viewportHeight = window.innerHeight;
-      const viewportWidth = window.innerWidth;
-
-      const spaceAvailableBelow = viewportHeight - connectRect.bottom;
-      const spaceAvailableRight = viewportWidth - connectRect.left;
-
-      setShowSubComponentAbove(spaceAvailableBelow < WALLET_ISLAND_MAX_HEIGHT);
-      setAlignSubComponentRight(spaceAvailableRight < WALLET_ISLAND_MAX_WIDTH);
-    }
-  }, [isOpen, setShowSubComponentAbove, setAlignSubComponentRight]);
 
   if (draggable) {
     return (
