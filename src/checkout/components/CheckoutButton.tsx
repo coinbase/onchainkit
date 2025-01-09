@@ -1,8 +1,8 @@
 'use client';
 
 import { useMemo } from 'react';
-import { Spinner } from '../../internal/components/Spinner';
 import { useIcon } from '../../core-react/internal/hooks/useIcon';
+import { Spinner } from '../../internal/components/Spinner';
 import {
   border,
   cn,
