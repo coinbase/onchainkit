@@ -6,7 +6,6 @@ type PressableIconProps = {
   className?: string;
   onClick?: () => void;
   ariaLabel?: string;
-  buttonClassName?: string;
 };
 
 export function PressableIcon({
@@ -14,10 +13,13 @@ export function PressableIcon({
   className,
   onClick,
   ariaLabel,
-  buttonClassName,
 }: PressableIconProps) {
   return (
-    <div
+    <button
+      type="button"
+      onClick={onClick}
+      data-testid="ockPressableIconButton"
+      aria-label={ariaLabel}
       className={cn(
         pressable.default,
         border.radiusInner,
@@ -26,15 +28,7 @@ export function PressableIcon({
         className,
       )}
     >
-      <button
-        type="button"
-        onClick={onClick}
-        className={cn('flex items-center justify-center', buttonClassName)}
-        data-testid="ockPressableIconButton"
-        aria-label={ariaLabel}
-      >
-        {children}
-      </button>
-    </div>
+      {children}
+    </button>
   );
 }
