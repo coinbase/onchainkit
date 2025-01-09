@@ -2,7 +2,6 @@ import { Spinner } from '@/internal/components/Spinner';
 import { cn, color, text } from '@/styles/theme';
 import { type Token, TokenImage } from '@/token';
 import { useWalletIslandContext } from './WalletIslandProvider';
-import { useWalletContext } from './WalletProvider';
 
 type TokenDetailsProps = {
   token: Token;
@@ -11,8 +10,8 @@ type TokenDetailsProps = {
 };
 
 export function WalletIslandTokenHoldings() {
-  const { isClosing } = useWalletContext();
-  const { tokenBalances, isFetchingPortfolioData } = useWalletIslandContext();
+  const { tokenBalances, isFetchingPortfolioData, animations } =
+    useWalletIslandContext();
 
   if (isFetchingPortfolioData) {
     return <Spinner />;
@@ -28,10 +27,7 @@ export function WalletIslandTokenHoldings() {
         'max-h-44 overflow-y-auto',
         'flex min-h-44 w-full flex-col items-center gap-4',
         'mt-2 mb-2',
-        {
-          'fade-in slide-in-from-top-2.5 animate-in fill-mode-forwards duration-300 ease-out':
-            !isClosing,
-        },
+        animations.content,
       )}
       data-testid="ockWalletIsland_TokenHoldings"
     >

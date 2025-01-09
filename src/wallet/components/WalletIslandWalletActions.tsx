@@ -10,8 +10,9 @@ import { useWalletIslandContext } from './WalletIslandProvider';
 import { useWalletContext } from './WalletProvider';
 
 export function WalletIslandWalletActions() {
-  const { isClosing, handleClose } = useWalletContext();
-  const { setShowQr, refetchPortfolioData } = useWalletIslandContext();
+  const { handleClose } = useWalletContext();
+  const { setShowQr, refetchPortfolioData, animations } =
+    useWalletIslandContext();
   const { disconnect, connectors } = useDisconnect();
 
   const handleTransactions = useCallback(() => {
@@ -35,10 +36,10 @@ export function WalletIslandWalletActions() {
 
   return (
     <div
-      className={cn('flex w-full items-center justify-between', {
-        'fade-in slide-in-from-top-2.5 animate-in fill-mode-forwards duration-300 ease-out':
-          !isClosing,
-      })}
+      className={cn(
+        'flex w-full items-center justify-between',
+        animations.content,
+      )}
     >
       <div className="flex items-center">
         <PressableIcon

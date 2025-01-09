@@ -24,7 +24,7 @@ export function useWalletIslandContext() {
 }
 
 export function WalletIslandProvider({ children }: WalletIslandProviderReact) {
-  const { address } = useWalletContext();
+  const { address, isClosing, showSubComponentAbove } = useWalletContext();
   const [showSwap, setShowSwap] = useState(false);
   const [isSwapClosing, setIsSwapClosing] = useState(false);
   const [showQr, setShowQr] = useState(false);
@@ -38,6 +38,8 @@ export function WalletIslandProvider({ children }: WalletIslandProviderReact) {
 
   const portfolioFiatValue = portfolioData?.portfolioBalanceInUsd;
   const tokenBalances = portfolioData?.tokenBalances;
+
+  const animations = getAnimations(isClosing, showSubComponentAbove);
 
   const value = useValue({
     showSwap,
@@ -53,6 +55,7 @@ export function WalletIslandProvider({ children }: WalletIslandProviderReact) {
     isFetchingPortfolioData,
     portfolioDataUpdatedAt,
     refetchPortfolioData,
+    animations,
   });
 
   return (
@@ -60,4 +63,24 @@ export function WalletIslandProvider({ children }: WalletIslandProviderReact) {
       {children}
     </WalletIslandContext.Provider>
   );
+}
+
+function getAnimations(isClosing: boolean, showSubComponentAbove: boolean) {
+  if (isClosing) {
+    return {
+      container: showSubComponentAbove
+        ? 'fade-out slide-out-to-bottom-1.5 animate-out fill-mode-forwards ease-in-out'
+        : 'fade-out slide-out-to-top-1.5 animate-out fill-mode-forwards ease-in-out',
+      content: '',
+    };
+  }
+
+  return {
+    container: showSubComponentAbove
+      ? 'fade-in slide-in-from-bottom-1.5 animate-in duration-300 ease-out'
+      : 'fade-in slide-in-from-top-1.5 animate-in duration-300 ease-out',
+    content: showSubComponentAbove
+      ? 'fade-in slide-in-from-bottom-2.5 animate-in fill-mode-forwards duration-300 ease-out'
+      : 'fade-in slide-in-from-top-2.5 animate-in fill-mode-forwards duration-300 ease-out',
+  };
 }

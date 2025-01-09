@@ -4,7 +4,7 @@ import { findComponent } from '@/core-react/internal/utils/findComponent';
 import { Draggable } from '@/internal/components/Draggable';
 import { cn } from '@/styles/theme';
 import { useOutsideClick } from '@/ui-react/internal/hooks/useOutsideClick';
-import { Children, useEffect, useMemo, useRef, useState } from 'react';
+import { Children, useEffect, useMemo, useRef } from 'react';
 import {
   WALLET_ISLAND_MAX_HEIGHT,
   WALLET_ISLAND_MAX_WIDTH,
@@ -51,9 +51,14 @@ function WalletContent({
   draggable,
   startingPosition,
 }: WalletReact) {
-  const [showSubComponentAbove, setShowSubComponentAbove] = useState(false);
-  const [alignSubComponentRight, setAlignSubComponentRight] = useState(false);
-  const { isOpen, handleClose } = useWalletContext();
+  const {
+    isOpen,
+    handleClose,
+    showSubComponentAbove,
+    setShowSubComponentAbove,
+    alignSubComponentRight,
+    setAlignSubComponentRight,
+  } = useWalletContext();
   const walletContainerRef = useRef<HTMLDivElement>(null);
   const connectRef = useRef<HTMLDivElement>(null);
 
@@ -86,7 +91,7 @@ function WalletContent({
       setShowSubComponentAbove(spaceAvailableBelow < WALLET_ISLAND_MAX_HEIGHT);
       setAlignSubComponentRight(spaceAvailableRight < WALLET_ISLAND_MAX_WIDTH);
     }
-  }, [isOpen]);
+  }, [isOpen, setShowSubComponentAbove, setAlignSubComponentRight]);
 
   if (draggable) {
     return (

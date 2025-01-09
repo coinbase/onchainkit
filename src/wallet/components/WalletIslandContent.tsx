@@ -11,7 +11,8 @@ export function WalletIslandContent({
   swappableTokens,
 }: WalletIslandReact) {
   const { isClosing, setIsOpen, setIsClosing } = useWalletContext();
-  const { showQr, showSwap, tokenBalances } = useWalletIslandContext();
+  const { showQr, showSwap, tokenBalances, animations } =
+    useWalletIslandContext();
 
   return (
     <div
@@ -22,9 +23,7 @@ export function WalletIslandContent({
         border.lineDefault,
         'my-1.5 h-auto w-88',
         'flex items-center justify-center',
-        isClosing
-          ? 'fade-out slide-out-to-top-1.5 animate-out fill-mode-forwards ease-in-out'
-          : 'fade-in slide-in-from-top-1.5 animate-in duration-300 ease-out',
+        animations.container,
       )}
       onAnimationEnd={() => {
         if (isClosing) {
