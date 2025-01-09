@@ -1,3 +1,4 @@
+'use client';
 import { useAvatar } from '@/core-react/identity/hooks/useAvatar';
 import { useName } from '@/core-react/identity/hooks/useName';
 import { useIdentityContext } from '@/core-react/identity/providers/IdentityProvider';
