@@ -3,7 +3,7 @@ import { ConnectWallet } from './ConnectWallet';
 import { ConnectWalletText } from './ConnectWalletText';
 import { Wallet } from './Wallet';
 import { WalletIsland } from './WalletIsland';
-import { AddressDetails } from './WalletIslandAddressDetails';
+import { WalletIslandAddressDetails } from './WalletIslandAddressDetails';
 import { WalletIslandTokenHoldings } from './WalletIslandTokenHoldings';
 import { WalletIslandTransactionActions } from './WalletIslandTransactionActions';
 import { WalletIslandWalletActions } from './WalletIslandWalletActions';
@@ -18,7 +18,7 @@ export function WalletIslandFixed() {
       </ConnectWallet>
       <WalletIsland>
         <WalletIslandWalletActions />
-        <AddressDetails />
+        <WalletIslandAddressDetails />
         <WalletIslandTransactionActions />
         <WalletIslandTokenHoldings />
       </WalletIsland>
