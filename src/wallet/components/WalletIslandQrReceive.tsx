@@ -15,15 +15,14 @@ export function WalletIslandQrReceive() {
 
   const handleCloseQr = useCallback(() => {
     setIsQrClosing(true);
+  }, [setIsQrClosing]);
 
-    setTimeout(() => {
+  const handleAnimationEnd = useCallback(() => {
+    if (isQrClosing) {
       setShowQr(false);
-    }, 200);
-
-    setTimeout(() => {
       setIsQrClosing(false);
-    }, 400);
-  }, [setShowQr, setIsQrClosing]);
+    }
+  }, [isQrClosing, setShowQr, setIsQrClosing]);
 
   const handleCopyAddress = useCallback(
     async (element: 'button' | 'icon') => {
@@ -71,6 +70,7 @@ export function WalletIslandQrReceive() {
           ? 'fade-out slide-out-to-left-5 animate-out fill-mode-forwards ease-in-out'
           : 'fade-in slide-in-from-left-5 linear animate-in duration-150',
       )}
+      onAnimationEnd={handleAnimationEnd}
     >
       <div className="flex h-[34px] w-full flex-row items-center justify-between">
         <PressableIcon ariaLabel="Back button" onClick={handleCloseQr}>
