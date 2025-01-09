@@ -1,5 +1,4 @@
 import type {
-  GetPortfolioTokenBalancesParams,
   PortfolioTokenBalances,
   PortfolioTokenWithFiatValue,
 } from '@/core/api/types';
