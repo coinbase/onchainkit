@@ -5,7 +5,7 @@ import { useWalletIslandContext } from '@/wallet/components/WalletIslandProvider
 import { useCallback, useState } from 'react';
 import { useWalletContext } from './WalletProvider';
 
-export function AddressDetails() {
+export function WalletIslandAddressDetails() {
   const { address, chain, isClosing } = useWalletContext();
   const { animations } = useWalletIslandContext();
   const [copyText, setCopyText] = useState('Copy');

@@ -1,7 +1,7 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { useIdentityContext } from '../../core-react/identity/providers/IdentityProvider';
-import { AddressDetails } from './WalletIslandAddressDetails';
+import { WalletIslandAddressDetails } from './WalletIslandAddressDetails';
 import { useWalletIslandContext } from './WalletIslandProvider';
 import { useWalletContext } from './WalletProvider';
 
@@ -65,7 +65,7 @@ describe('WalletIslandAddressDetails', () => {
   it('renders null when isClosing is true', () => {
     mockUseWalletContext.mockReturnValue({ isClosing: true });
 
-    render(<AddressDetails />);
+    render(<WalletIslandAddressDetails />);
 
     expect(screen.queryByTestId('address-details')).toBeNull();
   });
@@ -88,7 +88,7 @@ describe('WalletIslandAddressDetails', () => {
       },
     });
 
-    render(<AddressDetails />);
+    render(<WalletIslandAddressDetails />);
 
     expect(screen.getByTestId('ockAvatar_ImageContainer')).toBeDefined();
     expect(screen.getByTestId('ockAvatar_BadgeContainer')).toBeDefined();
@@ -103,7 +103,7 @@ describe('WalletIslandAddressDetails', () => {
       chain: { id: 8453 },
     });
 
-    render(<AddressDetails />);
+    render(<WalletIslandAddressDetails />);
 
     const nameButton = screen.getByTestId('ockWalletIsland_NameButton');
     const tooltip = screen.getByTestId('ockWalletIsland_NameTooltip');
@@ -132,7 +132,7 @@ describe('WalletIslandAddressDetails', () => {
     };
     Object.assign(navigator, { clipboard: mockClipboard });
 
-    render(<AddressDetails />);
+    render(<WalletIslandAddressDetails />);
 
     const nameButton = screen.getByTestId('ockWalletIsland_NameButton');
     const tooltip = screen.getByTestId('ockWalletIsland_NameTooltip');
@@ -151,7 +151,7 @@ describe('WalletIslandAddressDetails', () => {
       chain: { id: 8453 },
     });
 
-    render(<AddressDetails />);
+    render(<WalletIslandAddressDetails />);
 
     const nameButton = screen.getByTestId('ockWalletIsland_NameButton');
 
@@ -168,7 +168,7 @@ describe('WalletIslandAddressDetails', () => {
       },
     });
 
-    render(<AddressDetails />);
+    render(<WalletIslandAddressDetails />);
 
     expect(screen.getByTestId('ockSpinner')).toBeInTheDocument();
   });
@@ -182,7 +182,7 @@ describe('WalletIslandAddressDetails', () => {
       },
     });
 
-    const { rerender } = render(<AddressDetails />);
+    const { rerender } = render(<WalletIslandAddressDetails />);
 
     expect(screen.queryByTestId('ockWalletIsland_AddressBalance')).toBeNull();
 
@@ -194,7 +194,7 @@ describe('WalletIslandAddressDetails', () => {
       },
     });
 
-    rerender(<AddressDetails />);
+    rerender(<WalletIslandAddressDetails />);
 
     expect(
       screen.getByTestId('ockWalletIsland_AddressBalance'),
