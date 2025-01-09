@@ -1,8 +1,25 @@
 import { isValidElement } from 'react';
 import type { ComponentType, ReactElement, ReactNode } from 'react';
 
-export function findComponent<T>(component: ComponentType<T>) {
+// Type for Next.js Server Component Payload
+// Temporary patch until we update to deafult children and remove internal findComponent
+interface ServerComponentPayload {
+  _payload: {
+    value: [string, string[], string]; // [modulePath, chunks, componentName]
+  };
+}
+
+export function findComponent<T>(Component: ComponentType<T>) {
   return (child: ReactNode): child is ReactElement<T> => {
-    return isValidElement(child) && child.type === component;
+    const childType = (child as ReactElement<T>)?.type;
+
+    // Handle server component payload
+    if (childType && typeof childType === 'object' && '_payload' in childType) {
+      const serverPayload = childType as ServerComponentPayload;
+      return serverPayload._payload.value[2] === Component.name;
+    }
+
+    // Handle client component
+    return isValidElement(child) && child.type === Component;
   };
 }
