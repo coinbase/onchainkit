@@ -260,7 +260,7 @@ export type GetPortfolioTokenBalancesParams = {
  */
 export type PortfolioTokenBalances = {
   address: Address;
-  portfolioBalanceUsd: number;
+  portfolioBalanceInUsd: number;
   tokenBalances: PortfolioTokenWithFiatValue[];
 };
 
