@@ -17,8 +17,8 @@ describe('WalletIslandTransactionActons', () => {
 
   const defaultMockUseWalletIslandContext = {
     setShowSwap: vi.fn(),
-    animationClasses: {
-      transactionActions: 'animate-walletIslandContainerItem3',
+    animations: {
+      content: '',
     },
   };
 

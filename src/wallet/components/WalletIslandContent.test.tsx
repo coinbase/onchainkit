@@ -52,6 +52,10 @@ describe('WalletIslandContent', () => {
     showQr: false,
     isQrClosing: false,
     tokenHoldings: [],
+    animations: {
+      container: '',
+      content: '',
+    },
   };
 
   beforeEach(() => {
@@ -61,8 +65,21 @@ describe('WalletIslandContent', () => {
     );
   });
 
-  it('renders WalletIslandContent when isClosing is false', () => {
-    mockUseWalletContext.mockReturnValue({ isClosing: false });
+  it('renders WalletIslandContent with correct animations when isClosing is false and showSubComponentAbove is false', () => {
+    mockUseWalletContext.mockReturnValue({
+      isClosing: false,
+      showSubComponentAbove: false,
+    });
+
+    mockUseWalletIslandContext.mockReturnValue({
+      ...defaultMockUseWalletIslandContext,
+      animations: {
+        container:
+          'fade-in slide-in-from-top-1.5 animate-in duration-300 ease-out',
+        content:
+          'fade-in slide-in-from-top-2.5 animate-in fill-mode-forwards duration-300 ease-out',
+      },
+    });
 
     render(
       <WalletIslandContent>
@@ -82,8 +99,54 @@ describe('WalletIslandContent', () => {
     ).toHaveClass('hidden');
   });
 
-  it('closes WalletIslandContent when isClosing is true', () => {
-    mockUseWalletContext.mockReturnValue({ isClosing: true });
+  it('renders WalletIslandContent with correct animations when isClosing is false and showSubComponentAbove is true', () => {
+    mockUseWalletContext.mockReturnValue({
+      isClosing: false,
+      showSubComponentAbove: true,
+    });
+
+    mockUseWalletIslandContext.mockReturnValue({
+      ...defaultMockUseWalletIslandContext,
+      animations: {
+        container:
+          'fade-in slide-in-from-bottom-1.5 animate-in duration-300 ease-out',
+        content:
+          'fade-in slide-in-from-bottom-2.5 animate-in fill-mode-forwards duration-300 ease-out',
+      },
+    });
+
+    render(
+      <WalletIslandContent>
+        <div>WalletIslandContent</div>
+      </WalletIslandContent>,
+    );
+
+    expect(screen.getByTestId('ockWalletIslandContent')).toBeDefined();
+    expect(screen.queryByTestId('ockWalletIslandContent')).toHaveClass(
+      'fade-in slide-in-from-bottom-1.5 animate-in duration-300 ease-out',
+    );
+    expect(
+      screen.queryByTestId('ockWalletIslandQrReceive')?.parentElement,
+    ).toHaveClass('hidden');
+    expect(
+      screen.queryByTestId('ockWalletIslandSwap')?.parentElement,
+    ).toHaveClass('hidden');
+  });
+
+  it('closes WalletIslandContent with correct animations when isClosing is true and showSubComponentAbove is false', () => {
+    mockUseWalletContext.mockReturnValue({
+      isClosing: true,
+      showSubComponentAbove: false,
+    });
+
+    mockUseWalletIslandContext.mockReturnValue({
+      ...defaultMockUseWalletIslandContext,
+      animations: {
+        container:
+          'fade-out slide-out-to-top-1.5 animate-out fill-mode-forwards ease-in-out',
+        content: '',
+      },
+    });
 
     render(
       <WalletIslandContent>
@@ -94,6 +157,39 @@ describe('WalletIslandContent', () => {
     expect(screen.getByTestId('ockWalletIslandContent')).toBeDefined();
     expect(screen.queryByTestId('ockWalletIslandContent')).toHaveClass(
       'fade-out slide-out-to-top-1.5 animate-out fill-mode-forwards ease-in-out',
+    );
+    expect(
+      screen.queryByTestId('ockWalletIslandQrReceive')?.parentElement,
+    ).toHaveClass('hidden');
+    expect(
+      screen.queryByTestId('ockWalletIslandSwap')?.parentElement,
+    ).toHaveClass('hidden');
+  });
+
+  it('closes WalletIslandContent with correct animations when isClosing is true and showSubComponentAbove is true', () => {
+    mockUseWalletContext.mockReturnValue({
+      isClosing: true,
+      showSubComponentAbove: true,
+    });
+
+    mockUseWalletIslandContext.mockReturnValue({
+      ...defaultMockUseWalletIslandContext,
+      animations: {
+        container:
+          'fade-out slide-out-to-bottom-1.5 animate-out fill-mode-forwards ease-in-out',
+        content: '',
+      },
+    });
+
+    render(
+      <WalletIslandContent>
+        <div>WalletIslandContent</div>
+      </WalletIslandContent>,
+    );
+
+    expect(screen.getByTestId('ockWalletIslandContent')).toBeDefined();
+    expect(screen.queryByTestId('ockWalletIslandContent')).toHaveClass(
+      'fade-out slide-out-to-bottom-1.5 animate-out fill-mode-forwards ease-in-out',
     );
     expect(
       screen.queryByTestId('ockWalletIslandQrReceive')?.parentElement,

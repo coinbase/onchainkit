@@ -56,8 +56,8 @@ describe('WalletIslandAddressDetails', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     mockUseWalletIslandContext.mockReturnValue({
-      animationClasses: {
-        addressDetails: 'animate-walletIslandContainerItem2',
+      animations: {
+        content: '',
       },
     });
   });
@@ -156,6 +156,9 @@ describe('WalletIslandAddressDetails', () => {
   it('should show spinner when fetching portfolio data', () => {
     mockUseWalletIslandContext.mockReturnValue({
       isFetchingPortfolioData: true,
+      animations: {
+        content: '',
+      },
     });
 
     render(<AddressDetails />);
@@ -167,6 +170,9 @@ describe('WalletIslandAddressDetails', () => {
     mockUseWalletIslandContext.mockReturnValue({
       isFetchingPortfolioData: false,
       portfolioFiatValue: null,
+      animations: {
+        content: '',
+      },
     });
 
     const { rerender } = render(<AddressDetails />);
@@ -178,6 +184,9 @@ describe('WalletIslandAddressDetails', () => {
     mockUseWalletIslandContext.mockReturnValue({
       isFetchingPortfolioData: false,
       portfolioFiatValue: '1234.567',
+      animations: {
+        content: '',
+      },
     });
 
     rerender(<AddressDetails />);
