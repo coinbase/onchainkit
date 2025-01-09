@@ -120,4 +120,74 @@ describe('useWalletIslandContext', () => {
       address: '0x123',
     });
   });
+
+  describe('getAnimations', () => {
+    it('should return closing animations with top slide when isClosing is true and showSubComponentAbove is false', () => {
+      mockUseWalletContext.mockReturnValue({
+        address: '0x123',
+        isClosing: true,
+        showSubComponentAbove: false,
+      });
+
+      const { result } = renderHook(() => useWalletIslandContext(), {
+        wrapper: WalletIslandProvider,
+      });
+
+      expect(result.current.animations).toEqual({
+        container: 'fade-out slide-out-to-top-1.5 animate-out fill-mode-forwards ease-in-out',
+        content: '',
+      });
+    });
+
+    it('should return closing animations with bottom slide when isClosing is true and showSubComponentAbove is true', () => {
+      mockUseWalletContext.mockReturnValue({
+        address: '0x123',
+        isClosing: true,
+        showSubComponentAbove: true,
+      });
+
+      const { result } = renderHook(() => useWalletIslandContext(), {
+        wrapper: WalletIslandProvider,
+      });
+
+      expect(result.current.animations).toEqual({
+        container: 'fade-out slide-out-to-bottom-1.5 animate-out fill-mode-forwards ease-in-out',
+        content: '',
+      });
+    });
+
+    it('should return opening animations with top slide when isClosing is false and showSubComponentAbove is false', () => {
+      mockUseWalletContext.mockReturnValue({
+        address: '0x123',
+        isClosing: false,
+        showSubComponentAbove: false,
+      });
+
+      const { result } = renderHook(() => useWalletIslandContext(), {
+        wrapper: WalletIslandProvider,
+      });
+
+      expect(result.current.animations).toEqual({
+        container: 'fade-in slide-in-from-top-1.5 animate-in duration-300 ease-out',
+        content: 'fade-in slide-in-from-top-2.5 animate-in fill-mode-forwards duration-300 ease-out',
+      });
+    });
+
+    it('should return opening animations with bottom slide when isClosing is false and showSubComponentAbove is true', () => {
+      mockUseWalletContext.mockReturnValue({
+        address: '0x123',
+        isClosing: false,
+        showSubComponentAbove: true,
+      });
+
+      const { result } = renderHook(() => useWalletIslandContext(), {
+        wrapper: WalletIslandProvider,
+      });
+
+      expect(result.current.animations).toEqual({
+        container: 'fade-in slide-in-from-bottom-1.5 animate-in duration-300 ease-out',
+        content: 'fade-in slide-in-from-bottom-2.5 animate-in fill-mode-forwards duration-300 ease-out',
+      });
+    });
+  });
 });
