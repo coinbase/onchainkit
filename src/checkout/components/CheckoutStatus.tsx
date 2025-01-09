@@ -1,3 +1,5 @@
+'use client';
+
 import { cn, text } from '../../styles/theme';
 import { useGetCheckoutStatus } from '../hooks/useGetCheckoutStatus';
 import type { CheckoutStatusReact } from '../types';
