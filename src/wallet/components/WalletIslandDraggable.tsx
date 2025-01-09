@@ -10,7 +10,7 @@ import { WalletIslandWalletActions } from './WalletIslandWalletActions';
 
 export function WalletIslandDraggable({
   startingPosition = {
-    x: window.innerWidth - 250,
+    x: window.innerWidth - 300,
     y: window.innerHeight - 100,
   },
 }: {
