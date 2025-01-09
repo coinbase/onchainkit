@@ -21,6 +21,9 @@ describe('WalletIslandTokenHoldings', () => {
     refetchPortfolioData: vi.fn(),
     isFetchingPortfolioData: false,
     portfolioDataUpdatedAt: new Date(),
+    animations: {
+      content: '',
+    },
   };
 
   beforeEach(() => {

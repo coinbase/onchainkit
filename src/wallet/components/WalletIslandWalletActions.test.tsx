@@ -34,8 +34,8 @@ describe('WalletIslandWalletActions', () => {
   >;
 
   const defaultMockUseWalletIslandContext = {
-    animationClasses: {
-      walletActions: 'animate-walletIslandContainerItem1',
+    animations: {
+      content: '',
     },
   };
 

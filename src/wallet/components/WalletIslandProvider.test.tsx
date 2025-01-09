@@ -71,6 +71,10 @@ describe('useWalletIslandContext', () => {
       refetchPortfolioData: expect.any(Function),
       isFetchingPortfolioData: false,
       portfolioDataUpdatedAt: expect.any(Date),
+      animations: {
+        container: expect.any(String),
+        content: expect.any(String),
+      },
     });
   });
 
