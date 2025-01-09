@@ -1,3 +1,4 @@
+'use client';
 import type { BadgeReact } from '../../../../core-react/identity/types';
 import { badgeSvg } from '../../../../internal/svg/badgeSvg';
 import { background, cn } from '../../../../styles/theme';
