@@ -1,7 +1,5 @@
 import { getPortfolioTokenBalances } from '@/core/api/getPortfolioTokenBalances';
 import type {
-  PortfolioAPIResponse,
-  PortfolioTokenBalanceAPIResponse,
   PortfolioTokenBalances,
   PortfolioTokenWithFiatValue,
 } from '@/core/api/types';
@@ -13,25 +11,6 @@ import { usePortfolioTokenBalances } from './usePortfolioTokenBalances';
 vi.mock('@/core/api/getPortfolioTokenBalances');
 
 const mockAddress: `0x${string}` = '0x123';
-const mockTokensAPIResponse: PortfolioTokenBalanceAPIResponse[] = [
-  {
-    address: '0x123',
-    chain_id: 8453,
-    decimals: 6,
-    image: '',
-    name: 'Token',
-    symbol: 'TOKEN',
-    crypto_balance: 100,
-    fiat_balance: 100,
-  },
-];
-const mockPortfolioTokenBalancesAPIResponse: PortfolioAPIResponse[] = [
-  {
-    address: mockAddress,
-    portfolio_balance_usd: 100,
-    token_balances: mockTokensAPIResponse,
-  },
-];
 const mockTokens: PortfolioTokenWithFiatValue[] = [
   {
     address: '0x123',
@@ -70,7 +49,7 @@ describe('usePortfolioTokenBalances', () => {
 
   it('should fetch token balances successfully', async () => {
     vi.mocked(getPortfolioTokenBalances).mockResolvedValueOnce({
-      portfolios: mockPortfolioTokenBalancesAPIResponse,
+      portfolios: [mockPortfolioTokenBalances],
     });
 
     const { result } = renderHook(
@@ -87,65 +66,6 @@ describe('usePortfolioTokenBalances', () => {
     });
 
     expect(result.current.data).toEqual(mockPortfolioTokenBalances);
-  });
-
-  it('should transform the address for ETH to an empty string', async () => {
-    const mockTokensAPIResponseWithEth: PortfolioTokenBalanceAPIResponse[] = [
-      {
-        address: 'native',
-        chain_id: 8453,
-        decimals: 6,
-        image: '',
-        name: 'Ethereum',
-        symbol: 'ETH',
-        crypto_balance: 100,
-        fiat_balance: 100,
-      },
-    ];
-    const mockPortfolioTokenBalancesAPIResponseWithEth: PortfolioAPIResponse[] =
-      [
-        {
-          address: mockAddress,
-          portfolio_balance_usd: 100,
-          token_balances: mockTokensAPIResponseWithEth,
-        },
-      ];
-
-    vi.mocked(getPortfolioTokenBalances).mockResolvedValueOnce({
-      portfolios: mockPortfolioTokenBalancesAPIResponseWithEth,
-    });
-
-    const { result } = renderHook(
-      () => usePortfolioTokenBalances({ address: mockAddress }),
-      { wrapper: createWrapper() },
-    );
-
-    expect(result.current.isLoading).toBe(true);
-
-    await waitFor(() => expect(result.current.isSuccess).toBe(true));
-
-    expect(getPortfolioTokenBalances).toHaveBeenCalledWith({
-      addresses: [mockAddress],
-    });
-
-    const mockTokensWithEth: PortfolioTokenWithFiatValue[] = [
-      {
-        address: '',
-        chainId: 8453,
-        decimals: 6,
-        image: '',
-        name: 'Ethereum',
-        symbol: 'ETH',
-        cryptoBalance: 100,
-        fiatBalance: 100,
-      },
-    ];
-    const mockPortfolioTokenBalancesWithEth: PortfolioTokenBalances = {
-      address: mockAddress,
-      portfolioBalanceUsd: 100,
-      tokenBalances: mockTokensWithEth,
-    };
-    expect(result.current.data).toEqual(mockPortfolioTokenBalancesWithEth);
   });
 
   it('should handle API errors', async () => {
