@@ -1,0 +1,278 @@
+---
+title: <WalletIsland /> · OnchainKit
+description: The `<WalletIsland />` components provide an advanced Wallet interface for users.
+---
+
+import {
+  ConnectWallet,
+  Wallet,
+  WalletIsland,
+  WalletIslandDraggable,
+  WalletIslandFixed,
+} from '@coinbase/onchainkit/wallet';
+import {
+  Address,
+  Avatar,
+  Name,
+  Identity,
+  EthBalance,
+} from '@coinbase/onchainkit/identity';
+import { color } from '@coinbase/onchainkit/theme';
+import WalletComponents from '../../components/WalletComponents';
+import AppWithWalletModal from '../../components/AppWithWalletModal';
+
+# `<WalletIsland />`
+
+The `<WalletIsland />` components provide an advanced Wallet interface for users,
+including a QR code for receiving funds, a swap interface, and the user's token
+portfolio.
+
+Designed primarily for desktop experiences, the `WalletIsland` component gives
+users a seamless way to interact with their wallet and manage their assets.
+
+Before using them, ensure you've completed all [Getting Started steps](/getting-started).
+
+## Quick start
+
+`WalletIsland` has two default implementations: `WalletIslandDraggable` and
+`WalletIslandFixed`. As suggested by their names, `WalletIslandDraggable` enables
+the user to drag the component around the window, while `WalletIslandFixed` is
+fixed to the anchor position.
+
+If you'd like more customization, follow the implementation guide for our `WalletIsland` component below.
+
+```tsx twoslash
+import { WalletIslandDraggable } from '@coinbase/onchainkit/wallet';
+import { WalletIslandFixed } from '@coinbase/onchainkit/wallet';
+
+<WalletIslandDraggable />
+<WalletIslandFixed />
+```
+
+You will see two Wallet buttons below. Right below us is `WalletIslandFixed`. This
+version will stay anchored to its current position.
+
+`WalletIslandDraggable` is in the bottom-right corner of the window. Feel free to drag
+it around.
+
+<WalletComponents>
+  <WalletIslandDraggable />
+  <WalletIslandFixed />
+</WalletComponents>
+
+Whether fixed or draggable, `WalletIsland` will expand from the ConnectWallet
+component with the following logic:
+
+- If there is sufficient space to the right, it will be left-aligned.
+- If there is not enough space to the right, it will be right-aligned.
+- If there is enough space to the top, it will open above.
+- If there is not enough space to the top, it will open below.
+
+## Walkthrough
+
+::::steps
+
+### Set up your wallet connections
+
+Kick off your wallet connection setup by configuring the `wagmi` provider.
+
+And make sure to update the `appName` as that will be displayed to
+the user when they connect their wallet.
+
+```tsx twoslash
+import { ReactNode } from 'react';
+import { WagmiProvider, createConfig, http } from 'wagmi';
+import { baseSepolia } from 'wagmi/chains';
+import { coinbaseWallet } from 'wagmi/connectors';
+
+const wagmiConfig = createConfig({
+  chains: [baseSepolia],
+  connectors: [
+    coinbaseWallet({
+      appName: 'onchainkit',
+    }),
+  ],
+  ssr: true,
+  transports: {
+    [baseSepolia.id]: http(),
+  },
+});
+
+function App({ children }: { children: ReactNode }) {
+  return <WagmiProvider config={wagmiConfig}>{children}</WagmiProvider>;
+}
+```
+
+### Drop in the `<Wallet />` components
+
+Experience the magic by simply dropping in the `<Wallet />` component
+and watch it seamlessly come to life.
+
+<br />
+As with [`WalletDefault`](/wallet/wallet) , `WalletIsland` leverages several
+[`<Identity>`](/identity/identity) components like [`<Avatar>`](/identity/avatar),
+ [`<Name>`](/identity/name), and [`<Address>`](/identity/address).
+
+And `WalletIsland` introduces several advanced wallet components, including
+`<WalletIslandAddressDetails>`, `<WalletIslandTokenHoldings>`, and
+`<WalletIslandTransactionActions>`.
+
+```tsx twoslash
+import {
+  ConnectWallet, // [!code focus]
+  Wallet, // [!code focus]
+  WalletIsland, // [!code focus]
+  WalletIslandAddressDetails, // [!code focus]
+  WalletIslandTokenHoldings, // [!code focus]
+  WalletIslandTransactionActions, // [!code focus]
+  WalletIslandWalletActions, // [!code focus]
+} from '@coinbase/onchainkit/wallet'; // [!code focus]
+import { Address, Avatar, Name, Identity } from '@coinbase/onchainkit/identity';
+import { color } from '@coinbase/onchainkit/theme';
+
+export function YourFixedWalletIsland() {
+  return (
+    <div className="flex justify-end">
+      <Wallet> // [!code focus]
+        <ConnectWallet>
+          <Avatar className="h-6 w-6" />
+          <Name />
+        </ConnectWallet>
+        <WalletIsland> // [!code focus]
+          <WalletIslandWalletActions /> // [!code focus]
+          <WalletIslandAddressDetails /> // [!code focus]
+          <WalletIslandTransactionActions /> // [!code focus]
+          <WalletIslandTokenHoldings /> // [!code focus]
+        </WalletIsland> // [!code focus]
+      </Wallet> // [!code focus]
+    </div>
+  );
+}
+```
+
+<WalletComponents>
+    <Wallet>
+      <ConnectWallet>
+        <ConnectWalletText>Connect Wallet</ConnectWalletText>
+        <Avatar className="h-6 w-6" />
+        <Name />
+      </ConnectWallet>
+      <WalletIsland>
+        <WalletIslandWalletActions />
+        <WalletIslandAddressDetails />
+        <WalletIslandTransactionActions />
+        <WalletIslandTokenHoldings />
+      </WalletIsland>
+    </Wallet>
+</WalletComponents>
+
+When customizing your `WalletIsland` implementation, use the `draggable` prop on
+`Wallet` to enable the draggable behavior. `draggable` defaults to `false`, but
+when `draggable` is set to `true`, you can also set a `startingPosition` prop to
+specify the initial position of your `WalletIsland`.
+
+```tsx twoslash
+import {
+  ConnectWallet, // [!code focus]
+  Wallet, // [!code focus]
+  WalletIsland, // [!code focus]
+  WalletIslandAddressDetails, // [!code focus]
+  WalletIslandTokenHoldings, // [!code focus]
+  WalletIslandTransactionActions, // [!code focus]
+  WalletIslandWalletActions, // [!code focus]
+} from '@coinbase/onchainkit/wallet'; // [!code focus]
+import { Address, Avatar, Name, Identity } from '@coinbase/onchainkit/identity';
+import { color } from '@coinbase/onchainkit/theme';
+
+export function YourDraggableWalletIsland() {
+  return (
+    <div className="flex justify-end">
+      <Wallet draggable={true} startingPosition={{ // [!code focus]
+        x: window.innerWidth - 300, // [!code focus]
+        y: window.innerHeight - 100, // [!code focus]
+      }}> // [!code focus]
+        <ConnectWallet>
+          <Avatar className="h-6 w-6" />
+          <Name />
+        </ConnectWallet>
+        <WalletIsland>
+          <WalletIslandWalletActions />
+          <WalletIslandAddressDetails />
+          <WalletIslandTransactionActions />
+          <WalletIslandTokenHoldings />
+        </WalletIsland>
+      </Wallet>
+    </div>
+  );
+}
+```
+
+::::
+
+## Customize Connect button text and style
+
+Each OnchainKit component offers the flexibility to customize `className`
+and adjust the style of the React components it represents.
+
+Explore the options for customizing the Connect button text and style [here](/wallet/wallet#customize-connect-button-text-and-style).
+
+## Using Wallet Modal
+
+<img
+  alt="Wallet Modal"
+  src="https://onchainkit.xyz/assets/wallet-modal.png"
+  height="364"
+  width="364"
+  className="mx-auto"
+/>
+
+Wallet modal offers users multiple wallet connection options. Explore these options
+[here](/wallet/wallet#using-wallet-modal).
+
+## Example usage
+
+### Usage with Sign In With Ethereum (SIWE)
+
+To use [Sign In With Ethereum (SIWE)](https://docs.login.xyz/general-information/siwe-overview) with OnchainKit,
+check out our [SIWE example](/wallet/wallet#usage-with-sign-in-with-ethereum-siwe).
+
+## Components
+
+The components are designed to work together hierarchically. For each component, ensure the following:
+
+- `<Wallet />` - Serves as the main container for all wallet-related components.
+- `<WalletIsland />` - Contains additional wallet information and options. Place inside the `<Wallet />` component.
+- `<WalletIslandWalletActions />` - Provides wallet actions like View Transaction History, view QR Code, and Disconnect wallet. Place inside the `<WalletIsland />` component.
+- `<WalletIslandAddressDetails />` - Displays user address, avatar, and portfolio balance in fiat. Place inside the `<WalletIsland />` component.
+- `<WalletIslandTransactionActions />` - Buttons for buying crypto with fiat, transfering crypto, and swapping. Place inside the `<WalletIsland />` component.
+- `<WalletIslandTokenHoldings />` - Displays token balances and their value in fiat. Place inside the `<WalletIsland />` component.
+- `<ConnectWallet />` - Handles the wallet connection process. Place child components inside to customize the connect button appearance.
+- `<AppWithWalletModal />` - Enables a wallet aggregation experience.
+- `<WalletDropdown />` - Contains additional wallet information and options. Place inside the `<Wallet />` component.
+- `<Identity />` - Displays user identity information. Place inside `<WalletDropdown />` for a complete profile view.
+- `<WalletDropdownBasename />` - Displays the user's Basename within the dropdown.
+- `<WalletDropdownLink />` - Creates a custom link within the dropdown. Use the `icon` prop to add an icon, and `href` to specify the destination.
+- `<WalletDropdownDisconnect />` - Provides a disconnect option within the dropdown.
+
+Additional components for customizing the wallet interface include:
+
+- `<Avatar />` - Displays the user's avatar image.
+- `<Name />` - Shows the user's name or ENS.
+- `<Badge />` - Can be used to display additional user status or information.
+- `<Address />` - Shows the user's wallet address.
+- `<EthBalance />` - Displays the user's ETH balance.
+
+The Wallet component automatically handles the wallet connection state and updates the UI accordingly.
+You need to wrap your application or relevant part of it with these components
+to provide a complete wallet interaction experience.
+
+## Component types
+
+- [`WalletIslandReact`](/wallet/types#walletislandreact)
+- [`WalletIslandContextType`](/wallet/types#walletislandcontexttype)
+- [`WalletReact`](/wallet/types#walletreact)
+- [`ConnectWalletReact`](/wallet/types#connectwalletreact)
+- [`WalletDropdownReact`](/wallet/types#walletdropdownreact)
+- [`WalletDropdownBasenameReact`](/wallet/types#walletdropdownbasenamereact)
+- [`WalletDropdownDisconnectReact`](/wallet/types#walletdropdowndisconnectreact)
+- [`WalletDropdownLinkReact`](/wallet/types#walletdropdownlinkreact)

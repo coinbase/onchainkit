@@ -47,6 +47,15 @@ export type IsWalletACoinbaseSmartWalletResponse =
 ```ts
 type WalletContextType = {
   address?: Address | null; // The Ethereum address to fetch the avatar and name for.
+  chain?: Chain; // Optional chain for domain resolution
+  isOpen: boolean;
+  setIsOpen: Dispatch<SetStateAction<boolean>>;
+  isClosing: boolean;
+  setIsClosing: Dispatch<SetStateAction<boolean>>;
+  handleClose: () => void;
+  connectRef: React.RefObject<HTMLDivElement>;
+  showSubComponentAbove: boolean;
+  alignSubComponentRight: boolean;
 };
 ```
 
@@ -55,6 +64,9 @@ type WalletContextType = {
 ```ts
 type WalletReact = {
   children: React.ReactNode;
+  className?: string;
+  draggable?: boolean;
+  startingPosition?: { x: number; y: number };
 };
 ```
 
@@ -108,5 +120,40 @@ export type WalletDropdownLinkReact = {
   icon?: 'wallet' & ReactNode;
   rel?: string;
   target?: string;
+};
+```
+
+## `WalletIslandReact`
+
+```ts
+export type WalletIslandReact = {
+  children: React.ReactNode;
+  swappableTokens?: Token[]; // Optional array of tokens to specify which tokens the user can swap _to_
+};
+```
+
+## `WalletIslandContextType`
+
+```ts
+export type WalletIslandContextType = {
+  showSwap: boolean;
+  setShowSwap: Dispatch<SetStateAction<boolean>>;
+  isSwapClosing: boolean;
+  setIsSwapClosing: Dispatch<SetStateAction<boolean>>;
+  showQr: boolean;
+  setShowQr: Dispatch<SetStateAction<boolean>>;
+  isQrClosing: boolean;
+  setIsQrClosing: Dispatch<SetStateAction<boolean>>;
+  tokenBalances: PortfolioTokenWithFiatValue[] | undefined;
+  portfolioFiatValue: number | undefined;
+  isFetchingPortfolioData: boolean;
+  portfolioDataUpdatedAt: number | undefined;
+  refetchPortfolioData: () => Promise<
+    QueryObserverResult<PortfolioTokenBalances, Error>
+  >;
+  animations: {
+    container: string;
+    content: string;
+  };
 };
 ```
