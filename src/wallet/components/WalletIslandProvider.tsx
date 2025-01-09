@@ -36,7 +36,7 @@ export function WalletIslandProvider({ children }: WalletIslandProviderReact) {
     dataUpdatedAt: portfolioDataUpdatedAt,
   } = usePortfolioTokenBalances({ address: address ?? '0x000' });
 
-  const portfolioFiatValue = portfolioData?.portfolioBalanceUsd;
+  const portfolioFiatValue = portfolioData?.portfolioBalanceInUsd;
   const tokenBalances = portfolioData?.tokenBalances;
 
   const value = useValue({
