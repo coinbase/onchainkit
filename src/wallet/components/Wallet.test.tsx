@@ -34,8 +34,6 @@ vi.mock('./WalletProvider', () => ({
   WalletProvider: ({ children }: WalletProviderReact) => <>{children}</>,
 }));
 
-// const originalGetBoundingClientRect = Element.prototype.getBoundingClientRect;
-
 describe('Wallet Component', () => {
   let mockHandleClose: ReturnType<typeof vi.fn>;
 
@@ -50,10 +48,6 @@ describe('Wallet Component', () => {
 
     vi.clearAllMocks();
   });
-
-  // afterEach(() => {
-  //   Element.prototype.getBoundingClientRect = originalGetBoundingClientRect;
-  // });
 
   it('should render the Wallet component with ConnectWallet', () => {
     (useWalletContext as ReturnType<typeof vi.fn>).mockReturnValue({
@@ -206,18 +200,6 @@ describe('Wallet Component', () => {
       isOpen: true,
       alignSubComponentRight: true,
     });
-
-    // const mockGetBoundingClientRect = vi.fn().mockReturnValue({
-    //   left: 400,
-    //   right: 450,
-    //   bottom: 100,
-    //   top: 0,
-    //   width: 50,
-    //   height: 100,
-    // });
-
-    // // Mock Element.prototype.getBoundingClientRect called on the ConnectWallet ref
-    // Element.prototype.getBoundingClientRect = mockGetBoundingClientRect;
 
     render(
       <Wallet>

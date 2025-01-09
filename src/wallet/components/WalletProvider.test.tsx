@@ -1,8 +1,9 @@
 import '@testing-library/jest-dom';
 import { act, render, renderHook } from '@testing-library/react';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { type Config, WagmiProvider } from 'wagmi';
 import { WalletProvider, useWalletContext } from './WalletProvider';
+import { useEffect, useState } from 'react';
 
 vi.mock('wagmi', () => ({
   useAccount: vi.fn().mockReturnValue({ address: null }),
@@ -11,10 +12,16 @@ vi.mock('wagmi', () => ({
   ),
 }));
 
+// const originalGetBoundingClientRect = Element.prototype.getBoundingClientRect;
+
 describe('useWalletContext', () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
+
+  // afterEach(() => {
+  //   Element.prototype.getBoundingClientRect = originalGetBoundingClientRect;
+  // });
 
   it('should return default context', () => {
     render(
@@ -82,5 +89,165 @@ describe('useWalletContext', () => {
     // Verify states
     expect(result.current.isOpen).toBe(true);
     expect(result.current.isClosing).toBe(true);
+  });
+
+  it('should keep alignSubComponentRight false when there is enough space on the right', () => {
+    Object.defineProperty(window, 'innerWidth', {
+      writable: true,
+      configurable: true,
+      value: 1000,
+    });
+
+    const mockRef = {
+      getBoundingClientRect: () => ({
+        bottom: 100,
+        left: 100,
+        right: 200,
+        top: 0,
+        width: 100,
+        height: 100,
+      }),
+    };
+
+    const TestComponent = () => {
+      const { connectRef, setIsOpen } = useWalletContext();
+      useEffect(() => {
+        // @ts-ignore - we know this is safe for testing
+        connectRef.current = mockRef;
+        setIsOpen(true);
+      }, [connectRef, setIsOpen]);
+      return null;
+    };
+
+    const { result } = renderHook(() => useWalletContext(), {
+      wrapper: ({ children }) => (
+        <WalletProvider>
+          <TestComponent />
+          {children}
+        </WalletProvider>
+      ),
+    });
+
+    expect(result.current.alignSubComponentRight).toBe(false);
+  });
+
+  it('should set alignSubComponentRight to true when there is not enough space on the right', () => {
+    Object.defineProperty(window, 'innerWidth', {
+      writable: true,
+      configurable: true,
+      value: 500,
+    });
+
+    const mockRef = {
+      getBoundingClientRect: () => ({
+        bottom: 100,
+        left: 400,
+        right: 500,
+        top: 0,
+        width: 100,
+        height: 100,
+      }),
+    };
+
+    const TestComponent = () => {
+      const { connectRef, setIsOpen } = useWalletContext();
+      useEffect(() => {
+        // @ts-ignore - we know this is safe for testing
+        connectRef.current = mockRef;
+        setIsOpen(true);
+      }, [connectRef, setIsOpen]);
+      return null;
+    };
+
+    const { result } = renderHook(() => useWalletContext(), {
+      wrapper: ({ children }) => (
+        <WalletProvider>
+          <TestComponent />
+          {children}
+        </WalletProvider>
+      ),
+    });
+
+    expect(result.current.alignSubComponentRight).toBe(true);
+  });
+
+  it('should keep showSubComponentAbove false when there is enough space below', () => {
+    Object.defineProperty(window, 'innerHeight', {
+      writable: true,
+      configurable: true,
+      value: 1000,
+    });
+
+    const mockRef = {
+      getBoundingClientRect: () => ({
+        bottom: 100,
+        left: 100,
+        right: 200,
+        top: 0,
+        width: 100,
+        height: 100,
+      }),
+    };
+
+    const TestComponent = () => {
+      const { connectRef, setIsOpen } = useWalletContext();
+      useEffect(() => {
+        // @ts-ignore - we know this is safe for testing
+        connectRef.current = mockRef;
+        setIsOpen(true);
+      }, [connectRef, setIsOpen]);
+      return null;
+    };
+
+    const { result } = renderHook(() => useWalletContext(), {
+      wrapper: ({ children }) => (
+        <WalletProvider>
+          <TestComponent />
+          {children}
+        </WalletProvider>
+      ),
+    });
+
+    expect(result.current.showSubComponentAbove).toBe(false);
+  });
+
+  it('should set showSubComponentAbove to true when there is not enough space below', () => {
+    Object.defineProperty(window, 'innerHeight', {
+      writable: true,
+      configurable: true,
+      value: 500,
+    });
+
+    const mockRef = {
+      getBoundingClientRect: () => ({
+        bottom: 200,
+        left: 100,
+        right: 200,
+        top: 100,
+        width: 100,
+        height: 100,
+      }),
+    };
+
+    const TestComponent = () => {
+      const { connectRef, setIsOpen } = useWalletContext();
+      useEffect(() => {
+        // @ts-ignore - we know this is safe for testing
+        connectRef.current = mockRef;
+        setIsOpen(true);
+      }, [connectRef, setIsOpen]);
+      return null;
+    };
+
+    const { result } = renderHook(() => useWalletContext(), {
+      wrapper: ({ children }) => (
+        <WalletProvider>
+          <TestComponent />
+          {children}
+        </WalletProvider>
+      ),
+    });
+
+    expect(result.current.showSubComponentAbove).toBe(true);
   });
 });
