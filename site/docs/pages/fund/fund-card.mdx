@@ -1,0 +1,178 @@
+---
+title: <FundCard /> · OnchainKit
+description: The `<FundCard />` component provides a complete fiat onramp experience with amount input, currency switching, and payment method selection.
+---
+
+import { Avatar, Name } from '@coinbase/onchainkit/identity';
+import { FundCard } from '@coinbase/onchainkit/fund';
+import { Wallet, ConnectWallet } from '@coinbase/onchainkit/wallet';
+import App from '../../components/App';
+import FundWrapper from '../../components/FundWrapper';
+
+# `<FundCard />`
+
+The `<FundCard />` component provides a complete fiat onramp experience within your app. It includes:
+
+- Amount input with fiat/crypto switching
+- Payment method selection (Coinbase, Apple Pay, Debit Card)
+- Automatic exchange rate updates
+- Smart handling of payment method restrictions
+
+## Walkthrough
+
+::::steps
+
+### Get your Project ID
+
+1. Get your Project ID from the [Coinbase Developer Platform Dashboard](https://portal.cdp.coinbase.com/).
+
+<img alt="OnchainKit copy Project Id" src="../../assets/copy-project-id.png" />
+
+2. Add your Project ID to your `.env` file.
+
+```tsx twoslash [.env]
+// @noErrors
+NEXT_PUBLIC_ONCHAINKIT_API_KEY = YOUR_PUBLIC_API_KEY;
+NEXT_PUBLIC_CDP_PROJECT_ID = YOUR_CDP_PROJECT_ID; // [!code ++]
+```
+
+### Add Project ID to OnchainKitProvider
+
+```tsx twoslash
+// @noErrors
+<OnchainKitProvider
+  apiKey={process.env.NEXT_PUBLIC_ONCHAINKIT_API_KEY}
+  projectId={process.env.NEXT_PUBLIC_CDP_PROJECT_ID} // [!code ++]
+  chain={base}
+>
+  {props.children}
+</OnchainKitProvider>
+```
+
+### Drop in the `<FundCard />` component
+
+```tsx
+import { FundCard } from '@coinbase/onchainkit/fund';
+
+<FundCard assetSymbol="ETH" />;
+```
+
+<App>
+  <FundWrapper>
+    {({ address }) => {
+      if (address) {
+        return <FundCard assetSymbol="ETH" />;
+      }
+      return (
+        <>
+          <Wallet>
+            <ConnectWallet>
+              <Avatar className="h-6 w-6" />
+              <Name />
+            </ConnectWallet>
+          </Wallet>
+        </>
+      );
+    }}
+  </FundWrapper>
+</App>
+
+::::
+
+## Customization
+
+### Custom Header and Button Text
+
+You can customize the header and button text:
+
+```tsx
+<FundCard assetSymbol="ETH" headerText="Buy ETH" buttonText="Purchase" />
+```
+
+<App>
+  <FundWrapper>
+    {({ address }) => {
+      if (address) {
+        return (
+          <FundCard
+            assetSymbol="ETH"
+            headerText="Buy ETH"
+            buttonText="Purchase"
+          />
+        );
+      }
+      return (
+        <>
+          <Wallet>
+            <ConnectWallet>
+              <Avatar className="h-6 w-6" />
+              <Name />
+            </ConnectWallet>
+          </Wallet>
+        </>
+      );
+    }}
+  </FundWrapper>
+</App>
+
+### Custom Payment Methods
+
+You can specify which payment methods to show:
+
+```tsx
+const paymentMethods = [
+  {
+    id: 'FIAT_WALLET',
+    name: 'Coinbase',
+    description: 'Buy with your Coinbase account',
+    icon: 'coinbaseLogo',
+  },
+  {
+    id: 'ACH_BANK_ACCOUNT',
+    name: 'Debit Card',
+    description: 'Up to $500/week',
+    icon: 'creditCard',
+  },
+];
+
+<FundCard assetSymbol="ETH" paymentMethods={paymentMethods} />;
+```
+
+### Custom Currency Sign
+
+You can change the default currency sign ($):
+
+```tsx
+<FundCard assetSymbol="ETH" currencySign="€" />
+```
+
+### Custom Content
+
+You can provide custom children to completely customize the card content while keeping the fund button functionality:
+
+```tsx
+<FundCard assetSymbol="ETH">
+  <div className="space-y-4">
+    <h2>Custom Header</h2>
+    <input type="number" placeholder="Enter amount" />
+    <select>
+      <option>Payment Method 1</option>
+      <option>Payment Method 2</option>
+    </select>
+  </div>
+</FundCard>
+```
+
+## Payment Method Behavior
+
+- Apple Pay and Debit Card options are automatically disabled for amounts less than $5
+- Apple Pay is only shown on supported devices
+- The component automatically switches to Coinbase if the current payment method becomes disabled
+
+## Props
+
+- [`FundCardPropsReact`](/fund/types#fundcardpropsreact)
+
+## Related Components
+
+- [`<FundButton />`](/fund/fund-card)
