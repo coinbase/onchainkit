@@ -1,9 +1,5 @@
 import { getPortfolioTokenBalances } from '@/core/api/getPortfolioTokenBalances';
-import type {
-  PortfolioTokenBalanceAPIResponse,
-  PortfolioTokenBalances,
-  PortfolioTokenWithFiatValue,
-} from '@/core/api/types';
+import type { PortfolioTokenBalances } from '@/core/api/types';
 import { isApiError } from '@/core/utils/isApiResponseError';
 import { type UseQueryResult, useQuery } from '@tanstack/react-query';
 import type { Address } from 'viem';
@@ -33,36 +29,7 @@ export function usePortfolioTokenBalances({
         };
       }
 
-      const userPortfolio = response.portfolios[0];
-
-      const transformedPortfolio: PortfolioTokenBalances = {
-        address: userPortfolio.address,
-        portfolioBalanceUsd: userPortfolio.portfolio_balance_usd,
-        tokenBalances: userPortfolio.token_balances.map(
-          (tokenBalance: PortfolioTokenBalanceAPIResponse) =>
-            ({
-              address:
-                tokenBalance.symbol === 'ETH' ? '' : tokenBalance.address,
-              chainId: tokenBalance.chain_id,
-              decimals: tokenBalance.decimals,
-              image: tokenBalance.image,
-              name: tokenBalance.name,
-              symbol: tokenBalance.symbol,
-              cryptoBalance: tokenBalance.crypto_balance,
-              fiatBalance: tokenBalance.fiat_balance,
-            }) as PortfolioTokenWithFiatValue,
-        ),
-      };
-
-      const filteredPortfolio = {
-        ...transformedPortfolio,
-        tokenBalances: transformedPortfolio.tokenBalances.filter(
-          (tokenBalance: PortfolioTokenWithFiatValue) =>
-            tokenBalance.cryptoBalance > 0,
-        ),
-      };
-
-      return filteredPortfolio;
+      return response.portfolios[0];
     },
     retry: false,
     enabled: !!address,
