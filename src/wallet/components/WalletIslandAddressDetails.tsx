@@ -84,9 +84,13 @@ function AddressBalanceInFiat() {
     return <Spinner />;
   }
 
+  if (portfolioFiatValue === null) {
+    return null;
+  }
+
   return (
     <span data-testid="ockWalletIsland_AddressBalance">
-      {portfolioFiatValue && `$${Number(portfolioFiatValue)?.toFixed(2)}`}
+      {`$${Number(portfolioFiatValue)?.toFixed(2)}`}
     </span>
   );
 }

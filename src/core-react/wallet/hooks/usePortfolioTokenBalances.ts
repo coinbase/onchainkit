@@ -23,7 +23,7 @@ export function usePortfolioTokenBalances({
 
       if (response.portfolios.length === 0) {
         return {
-          address: address,
+          address,
           portfolioBalanceUsd: 0,
           tokenBalances: [],
         };
