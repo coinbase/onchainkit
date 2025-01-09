@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { useOutsideClick } from '../../ui/react/internal/hooks/useOutsideClick';
 import { ConnectWallet } from './ConnectWallet';
 import { Wallet } from './Wallet';
@@ -34,7 +34,7 @@ vi.mock('./WalletProvider', () => ({
   WalletProvider: ({ children }: WalletProviderReact) => <>{children}</>,
 }));
 
-const originalGetBoundingClientRect = Element.prototype.getBoundingClientRect;
+// const originalGetBoundingClientRect = Element.prototype.getBoundingClientRect;
 
 describe('Wallet Component', () => {
   let mockHandleClose: ReturnType<typeof vi.fn>;
@@ -45,14 +45,15 @@ describe('Wallet Component', () => {
       isOpen: true,
       handleClose: mockHandleClose,
       containerRef: { current: document.createElement('div') },
+      connectRef: { current: document.createElement('div') },
     });
 
     vi.clearAllMocks();
   });
 
-  afterEach(() => {
-    Element.prototype.getBoundingClientRect = originalGetBoundingClientRect;
-  });
+  // afterEach(() => {
+  //   Element.prototype.getBoundingClientRect = originalGetBoundingClientRect;
+  // });
 
   it('should render the Wallet component with ConnectWallet', () => {
     (useWalletContext as ReturnType<typeof vi.fn>).mockReturnValue({
@@ -203,19 +204,20 @@ describe('Wallet Component', () => {
 
     (useWalletContext as ReturnType<typeof vi.fn>).mockReturnValue({
       isOpen: true,
+      alignSubComponentRight: true,
     });
 
-    const mockGetBoundingClientRect = vi.fn().mockReturnValue({
-      left: 400,
-      right: 450,
-      bottom: 100,
-      top: 0,
-      width: 50,
-      height: 100,
-    });
+    // const mockGetBoundingClientRect = vi.fn().mockReturnValue({
+    //   left: 400,
+    //   right: 450,
+    //   bottom: 100,
+    //   top: 0,
+    //   width: 50,
+    //   height: 100,
+    // });
 
-    // Mock Element.prototype.getBoundingClientRect called on the ConnectWallet ref
-    Element.prototype.getBoundingClientRect = mockGetBoundingClientRect;
+    // // Mock Element.prototype.getBoundingClientRect called on the ConnectWallet ref
+    // Element.prototype.getBoundingClientRect = mockGetBoundingClientRect;
 
     render(
       <Wallet>
@@ -242,18 +244,6 @@ describe('Wallet Component', () => {
       isOpen: true,
     });
 
-    const mockGetBoundingClientRect = vi.fn().mockReturnValue({
-      left: 400,
-      right: 450,
-      bottom: 100,
-      top: 0,
-      width: 50,
-      height: 100,
-    });
-
-    // Mock Element.prototype.getBoundingClientRect called on the ConnectWallet ref
-    Element.prototype.getBoundingClientRect = mockGetBoundingClientRect;
-
     render(
       <Wallet>
         <ConnectWallet />
@@ -277,56 +267,8 @@ describe('Wallet Component', () => {
 
     (useWalletContext as ReturnType<typeof vi.fn>).mockReturnValue({
       isOpen: true,
+      showSubComponentAbove: true,
     });
-
-    const mockGetBoundingClientRect = vi.fn().mockReturnValue({
-      left: 400,
-      right: 450,
-      bottom: 100,
-      top: 0,
-      width: 50,
-      height: 100,
-    });
-
-    // Mock Element.prototype.getBoundingClientRect called on the ConnectWallet ref
-    Element.prototype.getBoundingClientRect = mockGetBoundingClientRect;
-
-    render(
-      <Wallet>
-        <ConnectWallet />
-        <WalletIsland>
-          <div>Wallet Island</div>
-        </WalletIsland>
-      </Wallet>,
-    );
-
-    expect(screen.getByTestId('ockWalletIslandContainer')).toHaveClass(
-      'top-full',
-    );
-  });
-
-  it('should render WalletIsland above ConnectWallet when there is not enough space on the bottom', () => {
-    Object.defineProperty(window, 'innerHeight', {
-      writable: true,
-      configurable: true,
-      value: 1000,
-    });
-
-    (useWalletContext as ReturnType<typeof vi.fn>).mockReturnValue({
-      isOpen: true,
-    });
-
-    const mockGetBoundingClientRect = vi.fn().mockReturnValue({
-      left: 400,
-      right: 450,
-      bottom: 800,
-      top: 0,
-      width: 50,
-      height: 100,
-    });
-
-    // Mock Element.prototype.getBoundingClientRect called on the ConnectWallet ref
-    Element.prototype.getBoundingClientRect = mockGetBoundingClientRect;
 
     render(
       <Wallet>
@@ -339,6 +281,31 @@ describe('Wallet Component', () => {
 
     expect(screen.getByTestId('ockWalletIslandContainer')).toHaveClass(
       'bottom-full',
+    );
+  });
+
+  it('should render WalletIsland below ConnectWallet when there is enough space on the bottom', () => {
+    Object.defineProperty(window, 'innerHeight', {
+      writable: true,
+      configurable: true,
+      value: 1000,
+    });
+
+    (useWalletContext as ReturnType<typeof vi.fn>).mockReturnValue({
+      isOpen: true,
+    });
+
+    render(
+      <Wallet>
+        <ConnectWallet />
+        <WalletIsland>
+          <div>Wallet Island</div>
+        </WalletIsland>
+      </Wallet>,
+    );
+
+    expect(screen.getByTestId('ockWalletIslandContainer')).toHaveClass(
+      'top-full',
     );
   });
 });
