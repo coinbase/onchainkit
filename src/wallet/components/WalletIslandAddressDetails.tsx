@@ -7,6 +7,7 @@ import { useWalletContext } from './WalletProvider';
 
 export function AddressDetails() {
   const { address, chain, isClosing } = useWalletContext();
+  const { animations } = useWalletIslandContext();
   const [copyText, setCopyText] = useState('Copy');
 
   const handleCopyAddress = useCallback(async () => {
@@ -31,10 +32,7 @@ export function AddressDetails() {
         'mt-2 flex flex-col items-center justify-center',
         color.foreground,
         text.body,
-        {
-          'fade-in slide-in-from-top-2.5 animate-in fill-mode-forwards duration-300 ease-out':
-            !isClosing,
-        },
+        animations.content,
       )}
     >
       <div className="h-10 w-10">

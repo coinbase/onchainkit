@@ -4,7 +4,6 @@ import { toggleSvg } from '@/internal/svg/toggleSvg';
 import { border, cn, color, pressable, text } from '@/styles/theme';
 import { useCallback } from 'react';
 import { useWalletIslandContext } from './WalletIslandProvider';
-import { useWalletContext } from './WalletProvider';
 
 type TransactionActionProps = {
   icon: React.ReactNode;
@@ -13,8 +12,7 @@ type TransactionActionProps = {
 };
 
 export function WalletIslandTransactionActions() {
-  const { isClosing } = useWalletContext();
-  const { setShowSwap } = useWalletIslandContext();
+  const { setShowSwap, animations } = useWalletIslandContext();
 
   const handleBuy = useCallback(() => {
     window.open('https://pay.coinbase.com', '_blank');
@@ -30,10 +28,10 @@ export function WalletIslandTransactionActions() {
 
   return (
     <div
-      className={cn('my-3 flex w-full flex-row justify-center gap-2', {
-        'fade-in slide-in-from-top-2.5 animate-in fill-mode-forwards duration-300 ease-out':
-          !isClosing,
-      })}
+      className={cn(
+        'my-3 flex w-full flex-row justify-center gap-2',
+        animations.content,
+      )}
     >
       <WalletIslandTransactionAction
         icon={addSvgForeground}

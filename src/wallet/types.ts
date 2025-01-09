@@ -83,6 +83,10 @@ export type WalletContextType = {
   isClosing: boolean;
   setIsClosing: Dispatch<SetStateAction<boolean>>;
   handleClose: () => void;
+  showSubComponentAbove: boolean;
+  setShowSubComponentAbove: Dispatch<SetStateAction<boolean>>;
+  alignSubComponentRight: boolean;
+  setAlignSubComponentRight: Dispatch<SetStateAction<boolean>>;
 };
 
 /**
@@ -195,4 +199,8 @@ export type WalletIslandContextType = {
   refetchPortfolioData: () => Promise<
     QueryObserverResult<PortfolioTokenBalances, Error>
   >;
+  animations: {
+    container: string;
+    content: string;
+  };
 };

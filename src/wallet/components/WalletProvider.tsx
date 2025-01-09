@@ -17,6 +17,8 @@ export function WalletProvider({ children }: WalletProviderReact) {
   const { chain } = useOnchainKit();
   const [isOpen, setIsOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
+  const [showSubComponentAbove, setShowSubComponentAbove] = useState(false);
+  const [alignSubComponentRight, setAlignSubComponentRight] = useState(false);
   const { address } = useAccount();
 
   const handleClose = useCallback(() => {
@@ -34,6 +36,10 @@ export function WalletProvider({ children }: WalletProviderReact) {
     isClosing,
     setIsClosing,
     handleClose,
+    showSubComponentAbove,
+    setShowSubComponentAbove,
+    alignSubComponentRight,
+    setAlignSubComponentRight,
   });
 
   return (
