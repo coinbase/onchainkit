@@ -54,8 +54,6 @@ export function WalletIslandTokenHoldings() {
 }
 
 function TokenDetails({ token, balance, valueInFiat }: TokenDetailsProps) {
-  const currencySymbol = '$'; // TODO: get from user settings
-
   return (
     <div className="flex w-full flex-row items-center justify-between">
       <div className="flex flex-row items-center gap-2">
@@ -70,7 +68,7 @@ function TokenDetails({ token, balance, valueInFiat }: TokenDetailsProps) {
         </div>
       </div>
       <span className={cn(text.label2, color.foregroundMuted)}>
-        {`${currencySymbol}${valueInFiat.toFixed(2)}`}
+        {`$${valueInFiat.toFixed(2)}`}
       </span>
     </div>
   );
