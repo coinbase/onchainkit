@@ -33,15 +33,14 @@ export function WalletIslandSwap({
 
   const handleCloseSwap = useCallback(() => {
     setIsSwapClosing(true);
+  }, [setIsSwapClosing]);
 
-    setTimeout(() => {
+  const handleAnimationEnd = useCallback(() => {
+    if (isSwapClosing) {
       setShowSwap(false);
-    }, 200);
-
-    setTimeout(() => {
       setIsSwapClosing(false);
-    }, 400);
-  }, [setShowSwap, setIsSwapClosing]);
+    }
+  }, [isSwapClosing, setShowSwap, setIsSwapClosing]);
 
   const backButton = (
     <PressableIcon ariaLabel="Back button" onClick={handleCloseSwap}>
@@ -58,6 +57,7 @@ export function WalletIslandSwap({
           : 'fade-in slide-in-from-right-5 linear animate-in duration-150',
         'relative',
       )}
+      onAnimationEnd={handleAnimationEnd}
       data-testid="ockWalletIslandSwap"
     >
       <Swap
