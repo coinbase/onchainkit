@@ -28,7 +28,7 @@ const mockTokens: PortfolioTokenWithFiatValue[] = [
 const mockPortfolioTokenBalances: PortfolioTokenBalances[] = [
   {
     address: mockAddresses[0],
-    portfolioBalanceUsd: 100,
+    portfolioBalanceInUsd: 100,
     tokenBalances: mockTokens,
   },
 ];
