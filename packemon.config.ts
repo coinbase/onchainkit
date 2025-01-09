@@ -26,7 +26,7 @@ const config = {
           // Filter out any empty lines and reconstruct
           return `'use client';\n${lines.filter((line) => line.trim()).join('\n')}`;
         }
-        return code;
+        return null; // Return null to keep the original code (https://rollupjs.org/plugin-development/#renderchunk)
       },
     });
   },
