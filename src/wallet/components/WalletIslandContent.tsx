@@ -10,7 +10,11 @@ export function WalletIslandContent({
   children,
   swappableTokens,
 }: WalletIslandReact) {
-  const { isClosing, setIsOpen, setIsClosing } = useWalletContext();
+  const {
+    isSubComponentClosing,
+    setIsSubComponentOpen,
+    setIsSubComponentClosing,
+  } = useWalletContext();
   const { showQr, showSwap, tokenBalances, animations } =
     useWalletIslandContext();
 
@@ -26,9 +30,9 @@ export function WalletIslandContent({
         animations.container,
       )}
       onAnimationEnd={() => {
-        if (isClosing) {
-          setIsOpen(false);
-          setIsClosing(false);
+        if (isSubComponentClosing) {
+          setIsSubComponentOpen(false);
+          setIsSubComponentClosing(false);
         }
       }}
     >

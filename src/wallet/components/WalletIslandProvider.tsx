@@ -24,7 +24,8 @@ export function useWalletIslandContext() {
 }
 
 export function WalletIslandProvider({ children }: WalletIslandProviderReact) {
-  const { address, isClosing, showSubComponentAbove } = useWalletContext();
+  const { address, isSubComponentClosing, showSubComponentAbove } =
+    useWalletContext();
   const [showSwap, setShowSwap] = useState(false);
   const [isSwapClosing, setIsSwapClosing] = useState(false);
   const [showQr, setShowQr] = useState(false);
@@ -39,7 +40,10 @@ export function WalletIslandProvider({ children }: WalletIslandProviderReact) {
   const portfolioFiatValue = portfolioData?.portfolioBalanceInUsd;
   const tokenBalances = portfolioData?.tokenBalances;
 
-  const animations = getAnimations(isClosing, showSubComponentAbove);
+  const animations = getAnimations(
+    isSubComponentClosing,
+    showSubComponentAbove,
+  );
 
   const value = useValue({
     showSwap,
@@ -65,8 +69,11 @@ export function WalletIslandProvider({ children }: WalletIslandProviderReact) {
   );
 }
 
-function getAnimations(isClosing: boolean, showSubComponentAbove: boolean) {
-  if (isClosing) {
+function getAnimations(
+  isSubComponentClosing: boolean,
+  showSubComponentAbove: boolean,
+) {
+  if (isSubComponentClosing) {
     return {
       container: showSubComponentAbove
         ? 'fade-out slide-out-to-bottom-1.5 animate-out fill-mode-forwards ease-in-out'

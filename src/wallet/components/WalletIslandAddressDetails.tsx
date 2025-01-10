@@ -6,7 +6,7 @@ import { useCallback, useState } from 'react';
 import { useWalletContext } from './WalletProvider';
 
 export function WalletIslandAddressDetails() {
-  const { address, chain, isClosing } = useWalletContext();
+  const { address, chain, isSubComponentClosing } = useWalletContext();
   const { animations } = useWalletIslandContext();
   const [copyText, setCopyText] = useState('Copy');
 
@@ -22,7 +22,7 @@ export function WalletIslandAddressDetails() {
     }
   }, [address]);
 
-  if (isClosing || !chain) {
+  if (isSubComponentClosing || !chain) {
     return <div className="mt-1 h-28 w-10" />; // Prevent layout shift
   }
 

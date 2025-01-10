@@ -48,7 +48,8 @@ function WalletContent({
   startingPosition,
 }: WalletReact) {
   const {
-    isOpen,
+    isSubComponentOpen,
+    isConnectModalOpen,
     handleClose,
     connectRef,
     showSubComponentAbove,
@@ -79,13 +80,16 @@ function WalletContent({
         ref={walletContainerRef}
         className={cn('relative w-fit shrink-0', className)}
       >
-        <Draggable startingPosition={startingPosition}>
+        <Draggable
+          startingPosition={startingPosition}
+          draggingDisabled={isConnectModalOpen}
+        >
           <WalletSubComponent
             connect={connect}
             connectRef={connectRef}
             dropdown={dropdown}
             island={island}
-            isOpen={isOpen}
+            isSubComponentOpen={isSubComponentOpen}
             alignSubComponentRight={alignSubComponentRight}
             showSubComponentAbove={showSubComponentAbove}
           />
@@ -104,7 +108,7 @@ function WalletContent({
         connectRef={connectRef}
         dropdown={dropdown}
         island={island}
-        isOpen={isOpen}
+        isSubComponentOpen={isSubComponentOpen}
         alignSubComponentRight={alignSubComponentRight}
         showSubComponentAbove={showSubComponentAbove}
       />
@@ -117,7 +121,7 @@ function WalletSubComponent({
   connectRef,
   dropdown,
   island,
-  isOpen,
+  isSubComponentOpen,
   alignSubComponentRight,
   showSubComponentAbove,
 }: {
@@ -125,7 +129,7 @@ function WalletSubComponent({
   connectRef: React.RefObject<HTMLDivElement>;
   dropdown: React.ReactNode;
   island: React.ReactNode;
-  isOpen: boolean;
+  isSubComponentOpen: boolean;
   alignSubComponentRight: boolean;
   showSubComponentAbove: boolean;
 }) {
@@ -133,7 +137,7 @@ function WalletSubComponent({
     return (
       <>
         {connect}
-        {isOpen && dropdown}
+        {isSubComponentOpen && dropdown}
       </>
     );
   }
@@ -141,7 +145,7 @@ function WalletSubComponent({
   return (
     <>
       <div ref={connectRef}>{connect}</div>
-      {isOpen && (
+      {isSubComponentOpen && (
         <div
           data-testid="ockWalletIslandContainer"
           className={cn(

@@ -8,7 +8,7 @@ import { useWalletIslandContext } from './WalletIslandProvider';
 import { useWalletContext } from './WalletProvider';
 
 export function WalletIslandQrReceive() {
-  const { address, isClosing } = useWalletContext();
+  const { address, isSubComponentClosing } = useWalletContext();
   const { setShowQr, isQrClosing, setIsQrClosing } = useWalletIslandContext();
   const [copyText, setCopyText] = useState('Copy');
   const [copyButtonText, setCopyButtonText] = useState('Copy address');
@@ -53,7 +53,7 @@ export function WalletIslandQrReceive() {
     [address],
   );
 
-  if (isClosing) {
+  if (isSubComponentClosing) {
     return null;
   }
 
