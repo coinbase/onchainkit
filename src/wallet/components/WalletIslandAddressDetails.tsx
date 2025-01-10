@@ -36,7 +36,7 @@ export function WalletIslandAddressDetails() {
       )}
     >
       <div className="h-10 w-10">
-        <Avatar address={address} chain={chain}>
+        <Avatar address={address} chain={chain} className="pointer-events-none">
           <Badge />
         </Avatar>
       </div>
