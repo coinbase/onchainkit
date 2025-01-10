@@ -4,6 +4,8 @@ import { toggleSvg } from '@/internal/svg/toggleSvg';
 import { border, cn, color, pressable, text } from '@/styles/theme';
 import { useCallback } from 'react';
 import { useWalletIslandContext } from './WalletIslandProvider';
+import { useWalletContext } from './WalletProvider';
+import { useOnchainKit } from '@/core-react/useOnchainKit';
 
 type TransactionActionProps = {
   icon: React.ReactNode;
@@ -12,11 +14,27 @@ type TransactionActionProps = {
 };
 
 export function WalletIslandTransactionActions() {
-  const { setShowSwap, animations } = useWalletIslandContext();
+  const { address } = useWalletContext();
+  const { chain, projectId } = useOnchainKit();
+  const { isFetchingPortfolioData, setShowSwap, animations } =
+    useWalletIslandContext();
 
   const handleBuy = useCallback(() => {
-    window.open('https://pay.coinbase.com', '_blank');
-  }, []);
+    const baseUrl = 'https://pay.coinbase.com/buy/select-asset';
+    const params = [
+      `appId=${projectId}`,
+      `destinationWallets=[{"address": "${address}", "blockchains":["${chain.name.toLowerCase()}"]}]`,
+      'defaultAsset=USDC',
+      'defaultPaymentMethod=CRYPTO_ACCOUNT',
+      'presetFiatAmount=25',
+    ];
+
+    window.open(
+      `${baseUrl}?${params.join('&')}`,
+      'popup',
+      'width=400,height=600,scrollbars=yes',
+    );
+  }, [address, chain.name, projectId]);
 
   const handleSend = useCallback(() => {
     window.open('https://wallet.coinbase.com', '_blank');
@@ -25,6 +43,10 @@ export function WalletIslandTransactionActions() {
   const handleSwap = useCallback(() => {
     setShowSwap(true);
   }, [setShowSwap]);
+
+  if (isFetchingPortfolioData) {
+    return <div className="my-3 h-16 w-full" />; // Prevent layout shift
+  }
 
   return (
     <div
