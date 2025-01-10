@@ -1,4 +1,3 @@
-import { Spinner } from '@/internal/components/Spinner';
 import { cn, color, text } from '@/styles/theme';
 import { type Token, TokenImage } from '@/token';
 import { useWalletIslandContext } from './WalletIslandProvider';
@@ -13,12 +12,8 @@ export function WalletIslandTokenHoldings() {
   const { tokenBalances, isFetchingPortfolioData, animations } =
     useWalletIslandContext();
 
-  if (isFetchingPortfolioData) {
-    return <Spinner />;
-  }
-
-  if (!tokenBalances || tokenBalances.length === 0) {
-    return null;
+  if (isFetchingPortfolioData || !tokenBalances || tokenBalances.length === 0) {
+    return <div className="my-2 h-44 w-full" />; // Prevent layout shift
   }
 
   return (
@@ -26,7 +21,7 @@ export function WalletIslandTokenHoldings() {
       className={cn(
         'max-h-44 overflow-y-auto',
         'flex min-h-44 w-full flex-col items-center gap-4',
-        'mt-2 mb-2',
+        'my-2',
         animations.content,
       )}
       data-testid="ockWalletIsland_TokenHoldings"

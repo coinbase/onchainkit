@@ -23,7 +23,7 @@ export function WalletIslandAddressDetails() {
   }, [address]);
 
   if (isClosing || !chain) {
-    return <div className="mt-1 h-28 w-10" />;
+    return <div className="mt-1 h-28 w-10" />; // Prevent layout shift
   }
 
   return (
@@ -79,7 +79,11 @@ function AddressBalanceInFiat() {
     useWalletIslandContext();
 
   if (isFetchingPortfolioData) {
-    return <Spinner />;
+    return (
+      <div className="mt-1 h-8 w-full">
+        <Spinner />
+      </div>
+    );
   }
 
   if (portfolioFiatValue === null || portfolioFiatValue === undefined) {
