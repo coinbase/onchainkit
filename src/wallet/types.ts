@@ -78,10 +78,12 @@ export type UseGetTokenBalanceResponse = {
 export type WalletContextType = {
   address?: Address | null; // The Ethereum address to fetch the avatar and name for.
   chain?: Chain; // Optional chain for domain resolution
-  isOpen: boolean;
-  setIsOpen: Dispatch<SetStateAction<boolean>>;
-  isClosing: boolean;
-  setIsClosing: Dispatch<SetStateAction<boolean>>;
+  isConnectModalOpen: boolean;
+  setIsConnectModalOpen: Dispatch<SetStateAction<boolean>>;
+  isSubComponentOpen: boolean;
+  setIsSubComponentOpen: Dispatch<SetStateAction<boolean>>;
+  isSubComponentClosing: boolean;
+  setIsSubComponentClosing: Dispatch<SetStateAction<boolean>>;
   handleClose: () => void;
   connectRef: React.RefObject<HTMLDivElement>;
   showSubComponentAbove: boolean;

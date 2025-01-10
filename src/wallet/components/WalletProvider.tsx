@@ -26,22 +26,23 @@ export type WalletProviderReact = {
 
 export function WalletProvider({ children }: WalletProviderReact) {
   const { chain } = useOnchainKit();
-  const [isOpen, setIsOpen] = useState(false);
-  const [isClosing, setIsClosing] = useState(false);
+  const [isConnectModalOpen, setIsConnectModalOpen] = useState(false);
+  const [isSubComponentOpen, setIsSubComponentOpen] = useState(false);
+  const [isSubComponentClosing, setIsSubComponentClosing] = useState(false);
   const [showSubComponentAbove, setShowSubComponentAbove] = useState(false);
   const [alignSubComponentRight, setAlignSubComponentRight] = useState(false);
   const { address } = useAccount();
   const connectRef = useRef<HTMLDivElement>(null);
 
   const handleClose = useCallback(() => {
-    if (!isOpen) {
+    if (!isSubComponentOpen) {
       return;
     }
-    setIsClosing(true);
-  }, [isOpen]);
+    setIsSubComponentClosing(true);
+  }, [isSubComponentOpen]);
 
   useEffect(() => {
-    if (isOpen && connectRef?.current) {
+    if (isSubComponentOpen && connectRef?.current) {
       const connectRect = connectRef.current.getBoundingClientRect();
       const viewportHeight = window.innerHeight;
       const viewportWidth = window.innerWidth;
@@ -52,15 +53,17 @@ export function WalletProvider({ children }: WalletProviderReact) {
       setShowSubComponentAbove(spaceAvailableBelow < WALLET_ISLAND_MAX_HEIGHT);
       setAlignSubComponentRight(spaceAvailableRight < WALLET_ISLAND_MAX_WIDTH);
     }
-  }, [isOpen]);
+  }, [isSubComponentOpen]);
 
   const value = useValue({
     address,
     chain,
-    isOpen,
-    setIsOpen,
-    isClosing,
-    setIsClosing,
+    isConnectModalOpen,
+    setIsConnectModalOpen,
+    isSubComponentOpen,
+    setIsSubComponentOpen,
+    isSubComponentClosing,
+    setIsSubComponentClosing,
     handleClose,
     connectRef,
     showSubComponentAbove,
