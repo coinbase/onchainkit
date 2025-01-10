@@ -46,3 +46,17 @@ function cleanupObserver() {
     observer = null;
   }
 }
+
+export const __test__ = {
+  getState: () => ({
+    subscriberCount: subscribers.size,
+    hasObserver: !!observer,
+  }),
+  reset: () => {
+    subscribers.clear();
+    if (observer) {
+      observer.disconnect();
+      observer = null;
+    }
+  },
+};

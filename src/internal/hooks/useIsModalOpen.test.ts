@@ -8,7 +8,7 @@ import {
   it,
   vi,
 } from 'vitest';
-import { observer, subscribers, useIsModalOpen } from './useIsModalOpen';
+import { useIsModalOpen, __test__ } from './useIsModalOpen';
 
 describe('useIsModalOpen', () => {
   let mockObserverInstance: {
@@ -22,7 +22,7 @@ describe('useIsModalOpen', () => {
     mockObserverInstance = {
       observe: vi.fn(),
       disconnect: vi.fn(),
-      callback: () => {},
+      callback: vi.fn(),
     };
 
     // Mock MutationObserver
@@ -38,12 +38,7 @@ describe('useIsModalOpen', () => {
     vi.restoreAllMocks();
     vi.unstubAllGlobals();
     document.body.innerHTML = '';
-
-    subscribers.clear();
-    if (observer) {
-      observer.disconnect();
-      vi.stubGlobal('observer', null);
-    }
+    __test__.reset();
   });
 
   it('should initialize with modal closed', () => {
@@ -53,8 +48,8 @@ describe('useIsModalOpen', () => {
 
   it('should create observer on mount', () => {
     renderHook(() => useIsModalOpen());
-    expect(observer).not.toBeNull();
-    expect(subscribers.size).toBe(1);
+    expect(__test__.getState().hasObserver).toBe(true);
+    expect(__test__.getState().subscriberCount).toBe(1);
     expect(mockObserverInstance.observe).toHaveBeenCalledWith(document.body, {
       childList: true,
       subtree: true,
@@ -64,24 +59,24 @@ describe('useIsModalOpen', () => {
   it('should cleanup observer when last hook instance unmounts', () => {
     const { unmount } = renderHook(() => useIsModalOpen());
     unmount();
-    expect(observer).toBeNull();
-    expect(subscribers.size).toBe(0);
+    expect(__test__.getState().hasObserver).toBe(false);
+    expect(__test__.getState().subscriberCount).toBe(0);
   });
 
   it('should keep observer alive when multiple hooks are mounted', () => {
     const hook1 = renderHook(() => useIsModalOpen());
     const hook2 = renderHook(() => useIsModalOpen());
 
-    expect(observer).not.toBeNull();
-    expect(subscribers.size).toBe(2);
+    expect(__test__.getState().hasObserver).toBe(true);
+    expect(__test__.getState().subscriberCount).toBe(2);
 
     hook1.unmount();
-    expect(observer).not.toBeNull();
-    expect(subscribers.size).toBe(1);
+    expect(__test__.getState().hasObserver).toBe(true);
+    expect(__test__.getState().subscriberCount).toBe(1);
 
     hook2.unmount();
-    expect(observer).toBeNull();
-    expect(subscribers.size).toBe(0);
+    expect(__test__.getState().hasObserver).toBe(false);
+    expect(__test__.getState().subscriberCount).toBe(0);
   });
 
   it('should detect modal opening', () => {
