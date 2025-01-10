@@ -117,7 +117,6 @@ export const FundCardAmountInput = ({
           onChange={handleChange}
           ref={inputRef}
           inputMode="decimal"
-          minLength={1}
           placeholder="0"
           data-testid="ockFundCardAmountInput"
         />

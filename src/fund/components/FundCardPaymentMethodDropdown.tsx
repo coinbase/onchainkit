@@ -42,7 +42,7 @@ export function FundCardPaymentMethodDropdown({
   );
 
   // If current selected method becomes disabled, switch to Coinbase
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+
   useEffect(() => {
     if (
       selectedPaymentMethod &&
@@ -54,7 +54,6 @@ export function FundCardPaymentMethodDropdown({
       }
     }
   }, [
-    fundAmountFiat,
     selectedPaymentMethod,
     paymentMethods,
     setSelectedPaymentMethod,

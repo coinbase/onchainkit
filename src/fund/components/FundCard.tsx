@@ -1,15 +1,13 @@
 import { useTheme } from '../../core-react/internal/hooks/useTheme';
 import { background, border, cn, color, text } from '../../styles/theme';
 import { DEFAULT_PAYMENT_METHODS } from '../constants';
-import { useFundCardFundingUrl } from '../hooks/useFundCardFundingUrl';
-import { useFundCardSetupOnrampEventListeners } from '../hooks/useFundCardSetupOnrampEventListeners';
-import type { FundCardContentPropsReact, FundCardPropsReact } from '../types';
-import { FundButton } from './FundButton';
+import type { FundCardPropsReact } from '../types';
 import FundCardAmountInput from './FundCardAmountInput';
 import FundCardAmountInputTypeSwitch from './FundCardAmountInputTypeSwitch';
 import { FundCardHeader } from './FundCardHeader';
 import { FundCardPaymentMethodDropdown } from './FundCardPaymentMethodDropdown';
-import { FundCardProvider, useFundContext } from './FundCardProvider';
+import { FundCardProvider } from './FundCardProvider';
+import { FundCardSubmitButton } from './FundCardSubmitButton';
 
 export function FundCard({
   assetSymbol,
@@ -42,41 +40,11 @@ export function FundCard({
           className,
         )}
       >
-        <FundCardContent>{children}</FundCardContent>
+        <form className="w-full" data-testid="ockFundCardForm">
+          {children}
+        </form>
       </div>
     </FundCardProvider>
-  );
-}
-
-function FundCardContent({ children }: FundCardContentPropsReact) {
-  const {
-    fundAmountFiat,
-    fundAmountCrypto,
-    submitButtonState,
-    setSubmitButtonState,
-    buttonText,
-  } = useFundContext();
-
-  const fundingUrl = useFundCardFundingUrl();
-
-  // Setup event listeners for the onramp
-  useFundCardSetupOnrampEventListeners();
-
-  return (
-    <form className="w-full" data-testid="ockFundCardForm">
-      {children}
-
-      <FundButton
-        disabled={!fundAmountFiat && !fundAmountCrypto}
-        hideIcon={submitButtonState === 'default'}
-        text={buttonText}
-        className="w-full"
-        fundingUrl={fundingUrl}
-        state={submitButtonState}
-        onClick={() => setSubmitButtonState('loading')}
-        onPopupClose={() => setSubmitButtonState('default')}
-      />
-    </form>
   );
 }
 
@@ -87,6 +55,7 @@ function DefaultFundCardContent() {
       <FundCardAmountInput />
       <FundCardAmountInputTypeSwitch />
       <FundCardPaymentMethodDropdown />
+      <FundCardSubmitButton />
     </>
   );
 }
