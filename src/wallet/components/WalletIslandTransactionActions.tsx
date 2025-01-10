@@ -20,17 +20,26 @@ export function WalletIslandTransactionActions() {
     useWalletIslandContext();
 
   const handleBuy = useCallback(() => {
-    const baseUrl = 'https://pay.coinbase.com/buy/select-asset';
-    const params = [
-      `appId=${projectId}`,
-      `destinationWallets=[{"address": "${address}", "blockchains":["${chain.name.toLowerCase()}"]}]`,
-      'defaultAsset=USDC',
-      'defaultPaymentMethod=CRYPTO_ACCOUNT',
-      'presetFiatAmount=25',
-    ];
+    if (!projectId || !address || !chain.name) {
+      return;
+    }
+
+    const url = new URL('https://pay.coinbase.com/buy/select-asset');
+    const params = new URLSearchParams({
+      appId: projectId,
+      destinationWallets: JSON.stringify([
+        {
+          address,
+          blockchains: [chain.name.toLowerCase()],
+        },
+      ]),
+      defaultAsset: 'USDC',
+      defaultPaymentMethod: 'CRYPTO_ACCOUNT',
+      presetFiatAmount: '25',
+    });
 
     window.open(
-      `${baseUrl}?${params.join('&')}`,
+      `${url}?${params}`,
       'popup',
       'width=400,height=600,scrollbars=yes',
     );
