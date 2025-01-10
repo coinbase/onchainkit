@@ -1,13 +1,13 @@
 import { zIndex } from '@/styles/constants';
 import { cn } from '@/styles/theme';
 import { useCallback, useEffect, useState } from 'react';
-import { useIsModalOpen } from '../hooks/useIsModalOpen';
 
 type DraggableProps = {
   children: React.ReactNode;
   gridSize?: number;
   startingPosition?: { x: number; y: number };
   snapToGrid?: boolean;
+  draggingDisabled?: boolean;
 };
 
 export function Draggable({
@@ -15,22 +15,22 @@ export function Draggable({
   gridSize = 1,
   startingPosition = { x: 20, y: 20 },
   snapToGrid = false,
+  draggingDisabled = false,
 }: DraggableProps) {
   const [position, setPosition] = useState(startingPosition);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
   const [dragStartPosition, setDragStartPosition] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
   const [cursorDisplay, setCursorDisplay] = useState('default');
-  const isModalOpen = useIsModalOpen();
 
   useEffect(() => {
-    if (isModalOpen) {
+    if (draggingDisabled) {
       setCursorDisplay('default');
       return;
     }
 
     setCursorDisplay(isDragging ? 'cursor-grabbing' : 'cursor-grab');
-  }, [isModalOpen, isDragging]);
+  }, [draggingDisabled, isDragging]);
 
   const calculateSnapToGrid = useCallback(
     (positionValue: number) => {
@@ -41,7 +41,7 @@ export function Draggable({
 
   const handleDragStart = useCallback(
     (e: React.PointerEvent) => {
-      if (isModalOpen) {
+      if (draggingDisabled) {
         return;
       }
 
@@ -52,7 +52,7 @@ export function Draggable({
         y: e.clientY - position.y,
       });
     },
-    [position, isModalOpen],
+    [position, draggingDisabled],
   );
 
   useEffect(() => {
