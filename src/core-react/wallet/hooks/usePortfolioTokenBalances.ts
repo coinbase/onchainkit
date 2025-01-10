@@ -32,7 +32,7 @@ export function usePortfolioTokenBalances({
     },
     retry: false,
     enabled: !!address,
-    refetchOnWindowFocus: false,
+    refetchOnWindowFocus: true, // refresh on window focus
     staleTime: 1000 * 60 * 5, // refresh on mount every 5 minutes
     refetchOnMount: true,
     refetchInterval: 1000 * 60 * 15, // refresh in background every 15 minutes
