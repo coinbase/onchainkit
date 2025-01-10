@@ -8,7 +8,7 @@ import {
   it,
   vi,
 } from 'vitest';
-import { useIsModalOpen, __test__ } from './useIsModalOpen';
+import { __test__, useIsModalOpen } from './useIsModalOpen';
 
 describe('useIsModalOpen', () => {
   let mockObserverInstance: {
