@@ -50,7 +50,7 @@ describe('WalletIslandTokenHoldings', () => {
     const placeholder = screen.getByTestId(
       'ockWalletIsland_LoadingPlaceholder',
     );
-    expect(placeholder).toHaveClass('my-2 h-44 w-full');
+    expect(placeholder).toHaveClass('my-2 h-44 w-80');
   });
 
   it('renders the WalletIslandTokenHoldings component with tokens when user has tokens and fetcher is not loading', () => {

@@ -120,6 +120,6 @@ describe('WalletIslandTransactionActons', () => {
     const placeholder = screen.getByTestId(
       'ockWalletIsland_LoadingPlaceholder',
     );
-    expect(placeholder).toHaveClass('my-3 h-16 w-full');
+    expect(placeholder).toHaveClass('my-3 h-16 w-80');
   });
 });
