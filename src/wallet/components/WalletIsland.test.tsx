@@ -40,8 +40,8 @@ describe('WalletIsland', () => {
     vi.clearAllMocks();
   });
 
-  it('renders connect-wallet when isOpen is false', () => {
-    mockUseWalletContext.mockReturnValue({ isOpen: false });
+  it('renders connect-wallet when isSubComponentOpen is false', () => {
+    mockUseWalletContext.mockReturnValue({ isSubComponentOpen: false });
 
     render(
       <Wallet>
@@ -57,8 +57,8 @@ describe('WalletIsland', () => {
     expect(screen.queryByTestId('child-content')).toBeNull();
   });
 
-  it('renders wallet-island-content when isOpen is true', () => {
-    mockUseWalletContext.mockReturnValue({ isOpen: true });
+  it('renders wallet-island-content when isSubComponentOpen is true', () => {
+    mockUseWalletContext.mockReturnValue({ isSubComponentOpen: true });
 
     render(
       <Wallet>

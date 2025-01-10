@@ -14,13 +14,13 @@ type TransactionActionProps = {
 };
 
 export function WalletIslandTransactionActions() {
-  const { address } = useWalletContext();
-  const { chain, projectId } = useOnchainKit();
+  const { address, chain } = useWalletContext();
+  const { projectId } = useOnchainKit();
   const { isFetchingPortfolioData, setShowSwap, animations } =
     useWalletIslandContext();
 
   const handleBuy = useCallback(() => {
-    if (!projectId || !address || !chain.name) {
+    if (!projectId || !address || !chain?.name) {
       return;
     }
 
@@ -43,7 +43,7 @@ export function WalletIslandTransactionActions() {
       'popup',
       'width=400,height=600,scrollbars=yes',
     );
-  }, [address, chain.name, projectId]);
+  }, [address, chain?.name, projectId]);
 
   const handleSend = useCallback(() => {
     window.open('https://wallet.coinbase.com', '_blank');

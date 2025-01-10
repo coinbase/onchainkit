@@ -66,8 +66,8 @@ describe('WalletIslandQrReceive', () => {
   beforeEach(() => {
     mockUseTheme.mockReturnValue('');
     mockUseWalletContext.mockReturnValue({
-      isOpen: true,
-      isClosing: false,
+      isSubComponentOpen: true,
+      isSubComponentClosing: false,
     });
     mockUseWalletIslandContext.mockReturnValue(
       defaultMockUseWalletIslandContext,
@@ -79,14 +79,14 @@ describe('WalletIslandQrReceive', () => {
 
   it('should render correctly based on isClosing state', () => {
     mockUseWalletContext.mockReturnValue({
-      isClosing: true,
+      isSubComponentClosing: true,
     });
 
     const { rerender } = render(<WalletIslandQrReceive />);
     expect(screen.queryByTestId('ockWalletIslandQrReceive')).toBeNull();
 
     mockUseWalletContext.mockReturnValue({
-      isClosing: false,
+      isSubComponentClosing: false,
     });
     rerender(<WalletIslandQrReceive />);
     expect(screen.getByTestId('ockWalletIslandQrReceive')).toBeInTheDocument();

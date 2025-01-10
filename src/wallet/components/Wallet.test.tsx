@@ -40,7 +40,7 @@ describe('Wallet Component', () => {
   beforeEach(() => {
     mockHandleClose = vi.fn();
     (useWalletContext as ReturnType<typeof vi.fn>).mockReturnValue({
-      isOpen: true,
+      isSubComponentOpen: true,
       handleClose: mockHandleClose,
       containerRef: { current: document.createElement('div') },
       connectRef: { current: document.createElement('div') },
@@ -51,7 +51,7 @@ describe('Wallet Component', () => {
 
   it('should render the Wallet component with ConnectWallet', () => {
     (useWalletContext as ReturnType<typeof vi.fn>).mockReturnValue({
-      isOpen: false,
+      isSubComponentOpen: false,
       handleClose: mockHandleClose,
       containerRef: { current: document.createElement('div') },
     });
@@ -72,7 +72,7 @@ describe('Wallet Component', () => {
   it('should close the wallet when clicking outside', () => {
     const container = document.createElement('div');
     (useWalletContext as ReturnType<typeof vi.fn>).mockReturnValue({
-      isOpen: true,
+      isSubComponentOpen: true,
       handleClose: mockHandleClose,
       containerRef: { current: container },
     });
@@ -100,7 +100,7 @@ describe('Wallet Component', () => {
 
   it('should not trigger click handler when wallet is closed', () => {
     (useWalletContext as ReturnType<typeof vi.fn>).mockReturnValue({
-      isOpen: false,
+      isSubComponentOpen: false,
       handleClose: mockHandleClose,
       containerRef: { current: document.createElement('div') },
     });
@@ -152,7 +152,7 @@ describe('Wallet Component', () => {
 
   it('should render WalletIsland when WalletIsland is provided', () => {
     (useWalletContext as ReturnType<typeof vi.fn>).mockReturnValue({
-      isOpen: true,
+      isSubComponentOpen: true,
       handleClose: mockHandleClose,
       containerRef: { current: document.createElement('div') },
     });
@@ -172,7 +172,7 @@ describe('Wallet Component', () => {
 
   it('should render Draggable when draggable prop is true', () => {
     (useWalletContext as ReturnType<typeof vi.fn>).mockReturnValue({
-      isOpen: true,
+      isSubComponentOpen: true,
       handleClose: mockHandleClose,
       containerRef: { current: document.createElement('div') },
     });
@@ -197,7 +197,7 @@ describe('Wallet Component', () => {
     });
 
     (useWalletContext as ReturnType<typeof vi.fn>).mockReturnValue({
-      isOpen: true,
+      isSubComponentOpen: true,
       alignSubComponentRight: true,
     });
 
@@ -223,7 +223,7 @@ describe('Wallet Component', () => {
     });
 
     (useWalletContext as ReturnType<typeof vi.fn>).mockReturnValue({
-      isOpen: true,
+      isSubComponentOpen: true,
     });
 
     render(
@@ -248,7 +248,7 @@ describe('Wallet Component', () => {
     });
 
     (useWalletContext as ReturnType<typeof vi.fn>).mockReturnValue({
-      isOpen: true,
+      isSubComponentOpen: true,
       showSubComponentAbove: true,
     });
 
@@ -274,7 +274,7 @@ describe('Wallet Component', () => {
     });
 
     (useWalletContext as ReturnType<typeof vi.fn>).mockReturnValue({
-      isOpen: true,
+      isSubComponentOpen: true,
     });
 
     render(

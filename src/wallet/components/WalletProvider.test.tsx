@@ -33,9 +33,9 @@ describe('useWalletContext', () => {
         </WagmiProvider>
       ),
     });
-    expect(result.current.isOpen).toEqual(false);
+    expect(result.current.isSubComponentOpen).toEqual(false);
     expect(result.current.address).toEqual(null);
-    expect(result.current.isClosing).toEqual(false);
+    expect(result.current.isSubComponentClosing).toEqual(false);
   });
 
   it('should not update visibility state if handleClose is called when wallet is not open', () => {
@@ -57,8 +57,8 @@ describe('useWalletContext', () => {
       result.current.handleClose();
     });
 
-    expect(result.current.isClosing).toBe(false);
-    expect(result.current.isOpen).toBe(false);
+    expect(result.current.isSubComponentClosing).toBe(false);
+    expect(result.current.isSubComponentOpen).toBe(false);
   });
 
   it('should update visibility state if handleClose is called when wallet is open', () => {
@@ -72,7 +72,7 @@ describe('useWalletContext', () => {
 
     // Open the wallet first
     act(() => {
-      result.current.setIsOpen(true);
+      result.current.setIsSubComponentOpen(true);
     });
 
     // Then close it
@@ -81,8 +81,8 @@ describe('useWalletContext', () => {
     });
 
     // Verify states
-    expect(result.current.isOpen).toBe(true);
-    expect(result.current.isClosing).toBe(true);
+    expect(result.current.isSubComponentOpen).toBe(true);
+    expect(result.current.isSubComponentClosing).toBe(true);
   });
 
   it('should keep alignSubComponentRight false when there is enough space on the right', () => {
@@ -104,12 +104,12 @@ describe('useWalletContext', () => {
     };
 
     const TestComponent = () => {
-      const { connectRef, setIsOpen } = useWalletContext();
+      const { connectRef, setIsSubComponentOpen } = useWalletContext();
       useEffect(() => {
         // @ts-ignore - we know this is safe for testing
         connectRef.current = mockRef;
-        setIsOpen(true);
-      }, [connectRef, setIsOpen]);
+        setIsSubComponentOpen(true);
+      }, [connectRef, setIsSubComponentOpen]);
       return null;
     };
 
@@ -144,12 +144,12 @@ describe('useWalletContext', () => {
     };
 
     const TestComponent = () => {
-      const { connectRef, setIsOpen } = useWalletContext();
+      const { connectRef, setIsSubComponentOpen } = useWalletContext();
       useEffect(() => {
         // @ts-ignore - we know this is safe for testing
         connectRef.current = mockRef;
-        setIsOpen(true);
-      }, [connectRef, setIsOpen]);
+        setIsSubComponentOpen(true);
+      }, [connectRef, setIsSubComponentOpen]);
       return null;
     };
 
@@ -184,12 +184,12 @@ describe('useWalletContext', () => {
     };
 
     const TestComponent = () => {
-      const { connectRef, setIsOpen } = useWalletContext();
+      const { connectRef, setIsSubComponentOpen } = useWalletContext();
       useEffect(() => {
         // @ts-ignore - we know this is safe for testing
         connectRef.current = mockRef;
-        setIsOpen(true);
-      }, [connectRef, setIsOpen]);
+        setIsSubComponentOpen(true);
+      }, [connectRef, setIsSubComponentOpen]);
       return null;
     };
 
@@ -224,12 +224,12 @@ describe('useWalletContext', () => {
     };
 
     const TestComponent = () => {
-      const { connectRef, setIsOpen } = useWalletContext();
+      const { connectRef, setIsSubComponentOpen } = useWalletContext();
       useEffect(() => {
         // @ts-ignore - we know this is safe for testing
         connectRef.current = mockRef;
-        setIsOpen(true);
-      }, [connectRef, setIsOpen]);
+        setIsSubComponentOpen(true);
+      }, [connectRef, setIsSubComponentOpen]);
       return null;
     };
 

@@ -56,12 +56,12 @@ describe('WalletIslandDraggable', () => {
       address: '',
     });
     (useWalletContext as Mock).mockReturnValue({
-      isOpen: false,
+      isSubComponentOpen: false,
     });
   });
 
   it('renders ConnectWallet in disconnected state', () => {
-    mockUseWalletContext.mockReturnValue({ isOpen: false });
+    mockUseWalletContext.mockReturnValue({ isSubComponentOpen: false });
 
     render(<WalletIslandDraggable />);
 
@@ -78,7 +78,7 @@ describe('WalletIslandDraggable', () => {
       address: '0x123',
     });
 
-    mockUseWalletContext.mockReturnValue({ isOpen: false });
+    mockUseWalletContext.mockReturnValue({ isSubComponentOpen: false });
 
     render(<WalletIslandDraggable />);
 
@@ -96,7 +96,7 @@ describe('WalletIslandDraggable', () => {
       address: '0x123',
     });
 
-    mockUseWalletContext.mockReturnValue({ isOpen: true });
+    mockUseWalletContext.mockReturnValue({ isSubComponentOpen: true });
 
     render(<WalletIslandDraggable />);
 

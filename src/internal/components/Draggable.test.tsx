@@ -1,19 +1,11 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { useIsModalOpen } from '../hooks/useIsModalOpen';
 import { Draggable } from './Draggable';
 
-vi.mock('../hooks/useIsModalOpen', () => ({
-  useIsModalOpen: vi.fn(),
-}));
-
 describe('Draggable', () => {
-  const mockUseIsModalOpen = useIsModalOpen as ReturnType<typeof vi.fn>;
-
   beforeEach(() => {
     vi.clearAllMocks();
-    mockUseIsModalOpen.mockReturnValue(false);
   });
 
   it('renders children correctly', () => {
@@ -207,12 +199,11 @@ describe('Draggable', () => {
     expect(removeSpy).toHaveBeenCalledWith('pointerup', expect.any(Function));
   });
 
-  it('disables dragging and sets cursor display to default when modal is open', async () => {
-    mockUseIsModalOpen.mockReturnValue(true);
+  it('disables dragging and sets cursor display to default when draggingDisabled is true', async () => {
     const user = userEvent.setup();
 
     render(
-      <Draggable startingPosition={{ x: 0, y: 0 }}>
+      <Draggable startingPosition={{ x: 0, y: 0 }} draggingDisabled={true}>
         <div>Drag me</div>
       </Draggable>,
     );

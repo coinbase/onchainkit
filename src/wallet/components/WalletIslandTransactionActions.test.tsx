@@ -36,7 +36,7 @@ describe('WalletIslandTransactionActons', () => {
     },
   };
 
-  const mockProjectId = '123';
+  const mockProjectId = '123-ABC';
   const mockAddress = '0x123';
   const mockChain = { name: 'Base' };
 
@@ -48,11 +48,11 @@ describe('WalletIslandTransactionActons', () => {
     );
     mockUseOnchainKit.mockReturnValue({
       projectId: mockProjectId,
-      chain: mockChain,
     });
 
     mockUseWalletContext.mockReturnValue({
       address: mockAddress,
+      chain: mockChain,
     });
   });
 
@@ -68,17 +68,61 @@ describe('WalletIslandTransactionActons', () => {
     expect(swapButton).toBeDefined();
   });
 
-  it('opens the buy page when the buy button is clicked', () => {
+  it('opens the buy page when the buy button is clicked and projectId, address and chain.name are defined', () => {
     render(<WalletIslandTransactionActions />);
 
     const buyButton = screen.getByRole('button', { name: 'Buy' });
     fireEvent.click(buyButton);
 
-    expect(window.open).toHaveBeenCalledWith(
-      `https://pay.coinbase.com/buy/select-asset?appId=${mockProjectId}&destinationWallets=[{"address": "${mockAddress}", "blockchains":["${mockChain.name.toLowerCase()}"]}]&defaultAsset=USDC&defaultPaymentMethod=CRYPTO_ACCOUNT&presetFiatAmount=25`,
-      'popup',
-      'width=400,height=600,scrollbars=yes',
-    );
+    const urlString = vi.mocked(window.open).mock.calls[0][0] as string;
+    const url = new URL(urlString);
+    const params = Object.fromEntries(url.searchParams);
+
+    expect(url.origin + url.pathname).toBe('https://pay.coinbase.com/buy/select-asset');
+    expect(params).toEqual({
+      appId: mockProjectId,
+      destinationWallets: JSON.stringify([{
+        address: mockAddress,
+        blockchains: [mockChain.name.toLowerCase()]
+      }]),
+      defaultAsset: 'USDC',
+      defaultPaymentMethod: 'CRYPTO_ACCOUNT',
+      presetFiatAmount: '25'
+    });
+    expect(vi.mocked(window.open).mock.calls[0][1]).toBe('popup');
+    expect(vi.mocked(window.open).mock.calls[0][2]).toBe('width=400,height=600,scrollbars=yes');
+  });
+
+  it('opens the buy page when the buy button is clicked and projectId, address or chain.name are not defined', () => {
+    // projectId is not defined
+    mockUseOnchainKit.mockReturnValue({
+      projectId: null,
+    });
+    const { rerender } = render(<WalletIslandTransactionActions />);
+    const buyButton = screen.getByRole('button', { name: 'Buy' });
+    fireEvent.click(buyButton);
+    expect(window.open).not.toHaveBeenCalled();
+
+    // address is not defined
+    mockUseOnchainKit.mockReturnValue({
+      projectId: mockProjectId,
+    });
+    mockUseWalletContext.mockReturnValue({
+      address: null,
+      chain: mockChain,
+    });
+    rerender(<WalletIslandTransactionActions />);
+    fireEvent.click(buyButton);
+    expect(window.open).not.toHaveBeenCalled();
+
+    // chain.name is not defined
+    mockUseWalletContext.mockReturnValue({
+      address: mockAddress,
+      chain: null,
+    });
+    rerender(<WalletIslandTransactionActions />);
+    fireEvent.click(buyButton);
+    expect(window.open).not.toHaveBeenCalled();
   });
 
   it('opens the send page when the send button is clicked', () => {

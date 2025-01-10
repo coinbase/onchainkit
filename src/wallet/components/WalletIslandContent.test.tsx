@@ -65,9 +65,9 @@ describe('WalletIslandContent', () => {
     );
   });
 
-  it('renders WalletIslandContent with correct animations when isClosing is false and showSubComponentAbove is false', () => {
+  it('renders WalletIslandContent with correct animations when isSubComponentClosing is false and showSubComponentAbove is false', () => {
     mockUseWalletContext.mockReturnValue({
-      isClosing: false,
+      isSubComponentClosing: false,
       showSubComponentAbove: false,
     });
 
@@ -99,9 +99,9 @@ describe('WalletIslandContent', () => {
     ).toHaveClass('hidden');
   });
 
-  it('renders WalletIslandContent with correct animations when isClosing is false and showSubComponentAbove is true', () => {
+  it('renders WalletIslandContent with correct animations when isSubComponentClosing is false and showSubComponentAbove is true', () => {
     mockUseWalletContext.mockReturnValue({
-      isClosing: false,
+      isSubComponentClosing: false,
       showSubComponentAbove: true,
     });
 
@@ -133,9 +133,9 @@ describe('WalletIslandContent', () => {
     ).toHaveClass('hidden');
   });
 
-  it('closes WalletIslandContent with correct animations when isClosing is true and showSubComponentAbove is false', () => {
+  it('closes WalletIslandContent with correct animations when isSubComponentClosing is true and showSubComponentAbove is false', () => {
     mockUseWalletContext.mockReturnValue({
-      isClosing: true,
+      isSubComponentClosing: true,
       showSubComponentAbove: false,
     });
 
@@ -166,9 +166,9 @@ describe('WalletIslandContent', () => {
     ).toHaveClass('hidden');
   });
 
-  it('closes WalletIslandContent with correct animations when isClosing is true and showSubComponentAbove is true', () => {
+  it('closes WalletIslandContent with correct animations when isSubComponentClosing is true and showSubComponentAbove is true', () => {
     mockUseWalletContext.mockReturnValue({
-      isClosing: true,
+      isSubComponentClosing: true,
       showSubComponentAbove: true,
     });
 
@@ -200,12 +200,13 @@ describe('WalletIslandContent', () => {
   });
 
   it('handles animation end when closing', () => {
-    const setIsOpen = vi.fn();
-    const setIsClosing = vi.fn();
+    const setIsSubComponentOpen = vi.fn();
+    const setIsSubComponentClosing = vi.fn();
     mockUseWalletContext.mockReturnValue({
-      isClosing: true,
-      setIsOpen,
-      setIsClosing,
+      isSubComponentOpen: true,
+      setIsSubComponentOpen,
+      isSubComponentClosing: true,
+      setIsSubComponentClosing,
     });
 
     render(
@@ -217,8 +218,8 @@ describe('WalletIslandContent', () => {
     const content = screen.getByTestId('ockWalletIslandContent');
     fireEvent.animationEnd(content);
 
-    expect(setIsOpen).toHaveBeenCalledWith(false);
-    expect(setIsClosing).toHaveBeenCalledWith(false);
+    expect(setIsSubComponentOpen).toHaveBeenCalledWith(false);
+    expect(setIsSubComponentClosing).toHaveBeenCalledWith(false);
   });
 
   it('renders WalletIslandQrReceive when showQr is true', () => {
@@ -289,7 +290,7 @@ describe('WalletIslandContent', () => {
       tokenBalances: mockTokenBalances,
     });
 
-    mockUseWalletContext.mockReturnValue({ isClosing: false });
+    mockUseWalletContext.mockReturnValue({ isSubComponentClosing: false });
 
     render(
       <WalletIslandContent>

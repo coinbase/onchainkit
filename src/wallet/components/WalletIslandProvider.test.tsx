@@ -28,7 +28,7 @@ describe('useWalletIslandContext', () => {
   const mockUseWalletContext = useWalletContext as ReturnType<typeof vi.fn>;
   const defaultWalletContext = {
     address: '0x123',
-    isClosing: false,
+    isSubComponentClosing: false,
   };
 
   const mockUsePortfolioTokenBalances = usePortfolioTokenBalances as ReturnType<
@@ -98,7 +98,7 @@ describe('useWalletIslandContext', () => {
   it('should call usePortfolioTokenBalances with the correct address', () => {
     mockUseWalletContext.mockReturnValue({
       address: null,
-      isClosing: false,
+      isSubComponentClosing: false,
     });
 
     const { rerender } = renderHook(() => useWalletIslandContext(), {
@@ -111,7 +111,7 @@ describe('useWalletIslandContext', () => {
 
     mockUseWalletContext.mockReturnValue({
       address: '0x123',
-      isClosing: false,
+      isSubComponentClosing: false,
     });
 
     rerender();
@@ -122,10 +122,10 @@ describe('useWalletIslandContext', () => {
   });
 
   describe('getAnimations', () => {
-    it('should return closing animations with top slide when isClosing is true and showSubComponentAbove is false', () => {
+    it('should return closing animations with top slide when isSubComponentClosing is true and showSubComponentAbove is false', () => {
       mockUseWalletContext.mockReturnValue({
         address: '0x123',
-        isClosing: true,
+        isSubComponentClosing: true,
         showSubComponentAbove: false,
       });
 
@@ -140,10 +140,10 @@ describe('useWalletIslandContext', () => {
       });
     });
 
-    it('should return closing animations with bottom slide when isClosing is true and showSubComponentAbove is true', () => {
+    it('should return closing animations with bottom slide when isSubComponentClosing is true and showSubComponentAbove is true', () => {
       mockUseWalletContext.mockReturnValue({
         address: '0x123',
-        isClosing: true,
+        isSubComponentClosing: true,
         showSubComponentAbove: true,
       });
 
@@ -158,10 +158,10 @@ describe('useWalletIslandContext', () => {
       });
     });
 
-    it('should return opening animations with top slide when isClosing is false and showSubComponentAbove is false', () => {
+    it('should return opening animations with top slide when isSubComponentClosing is false and showSubComponentAbove is false', () => {
       mockUseWalletContext.mockReturnValue({
         address: '0x123',
-        isClosing: false,
+        isSubComponentClosing: false,
         showSubComponentAbove: false,
       });
 
@@ -177,10 +177,10 @@ describe('useWalletIslandContext', () => {
       });
     });
 
-    it('should return opening animations with bottom slide when isClosing is false and showSubComponentAbove is true', () => {
+    it('should return opening animations with bottom slide when isSubComponentClosing is false and showSubComponentAbove is true', () => {
       mockUseWalletContext.mockReturnValue({
         address: '0x123',
-        isClosing: false,
+        isSubComponentClosing: false,
         showSubComponentAbove: true,
       });
 
