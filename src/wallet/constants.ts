@@ -19,3 +19,7 @@ export const WALLET_ISLAND_DEFAULT_SWAPPABLE_TOKENS: Token[] = [
   ethToken,
   usdcToken,
 ];
+export const WALLET_DRAGGABLE_DEFAULT_STARTING_POSITION = {
+  x: window.innerWidth - 300,
+  y: window.innerHeight - 100,
+};
