@@ -91,7 +91,7 @@ function AddressBalanceInFiat() {
       className={cn(text.title1, 'mt-1 font-normal')}
       data-testid="ockWalletIsland_AddressBalance"
     >
-      {`$${portfolioFiatValue.toFixed(2)}`}
+      {`$${Number(portfolioFiatValue).toFixed(2)}`}
     </div>
   );
 }
