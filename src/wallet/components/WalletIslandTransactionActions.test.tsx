@@ -1,9 +1,9 @@
+import { useOnchainKit } from '@/core-react/useOnchainKit';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { useWalletIslandContext } from './WalletIslandProvider';
 import { WalletIslandTransactionActions } from './WalletIslandTransactionActions';
-import { useOnchainKit } from '@/core-react/useOnchainKit';
-import { useWalletContext } from '@/wallet/components/WalletProvider';
+import { useWalletContext } from './WalletProvider';
 
 vi.mock('@/core-react/useOnchainKit', () => ({
   useOnchainKit: vi.fn(),

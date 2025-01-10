@@ -1,3 +1,4 @@
+import { useOnchainKit } from '@/core-react/useOnchainKit';
 import { addSvgForeground } from '@/internal/svg/addForegroundSvg';
 import { arrowUpRightSvg } from '@/internal/svg/arrowUpRightSvg';
 import { toggleSvg } from '@/internal/svg/toggleSvg';
@@ -5,7 +6,6 @@ import { border, cn, color, pressable, text } from '@/styles/theme';
 import { useCallback } from 'react';
 import { useWalletIslandContext } from './WalletIslandProvider';
 import { useWalletContext } from './WalletProvider';
-import { useOnchainKit } from '@/core-react/useOnchainKit';
 
 type TransactionActionProps = {
   icon: React.ReactNode;

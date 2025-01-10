@@ -1,4 +1,5 @@
 import { PressableIcon } from '@/internal/components/PressableIcon';
+import { baseScanSvg } from '@/internal/svg/baseScanSvg';
 import { disconnectSvg } from '@/internal/svg/disconnectSvg';
 import { qrIconSvg } from '@/internal/svg/qrIconSvg';
 import { refreshSvg } from '@/internal/svg/refreshSvg';
@@ -7,7 +8,6 @@ import { useCallback } from 'react';
 import { useDisconnect } from 'wagmi';
 import { useWalletIslandContext } from './WalletIslandProvider';
 import { useWalletContext } from './WalletProvider';
-import { baseScanSvg } from '@/internal/svg/baseScanSvg';
 
 export function WalletIslandWalletActions() {
   const { address, handleClose } = useWalletContext();
@@ -54,7 +54,10 @@ export function WalletIslandWalletActions() {
           </div>
         </PressableIcon>
         <PressableIcon ariaLabel="Show QR code" onClick={handleQr}>
-          <div data-testid="ockWalletIsland_QrButton" className="h-7 w-7 scale-110">
+          <div
+            data-testid="ockWalletIsland_QrButton"
+            className="h-7 w-7 scale-110"
+          >
             {qrIconSvg}
           </div>
         </PressableIcon>
