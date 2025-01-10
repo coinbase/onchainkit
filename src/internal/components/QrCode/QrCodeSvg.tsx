@@ -66,7 +66,7 @@ export function QrCodeSvg({
   const linearGradientColor =
     ockThemeToLinearGradientColorMap[
       themeName as keyof typeof ockThemeToLinearGradientColorMap
-    ] ?? 'blue';
+    ] ?? ockThemeToLinearGradientColorMap.default;
   const linearColors = [
     linearGradientStops[linearGradientColor].startColor,
     linearGradientStops[linearGradientColor].endColor,
@@ -75,7 +75,7 @@ export function QrCodeSvg({
   const radialGradientColor =
     ockThemeToRadialGradientColorMap[
       themeName as keyof typeof ockThemeToLinearGradientColorMap
-    ] ?? 'default';
+    ] ?? ockThemeToRadialGradientColorMap.default;
   const presetGradientForColor =
     presetGradients[radialGradientColor as keyof typeof presetGradients];
 
