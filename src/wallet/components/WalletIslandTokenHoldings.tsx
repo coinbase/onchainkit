@@ -16,7 +16,7 @@ export function WalletIslandTokenHoldings() {
     return (
       <div
         data-testid="ockWalletIsland_LoadingPlaceholder"
-        className="my-2 h-44 w-full"
+        className="my-2 h-44 w-80"
       />
     ); // Prevent layout shift
   }

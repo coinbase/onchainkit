@@ -48,7 +48,7 @@ export function WalletIslandTransactionActions() {
     return (
       <div
         data-testid="ockWalletIsland_LoadingPlaceholder"
-        className="my-3 h-16 w-full"
+        className="my-3 h-16 w-80"
       />
     ); // Prevent layout shift
   }

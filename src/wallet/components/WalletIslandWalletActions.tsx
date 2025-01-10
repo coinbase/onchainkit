@@ -37,7 +37,7 @@ export function WalletIslandWalletActions() {
   return (
     <div
       className={cn(
-        'flex w-full items-center justify-between',
+        'flex w-80 items-center justify-between',
         animations.content,
       )}
     >
