@@ -54,21 +54,37 @@ export function WalletIslandTokenHoldings() {
 }
 
 function TokenDetails({ token, balance, valueInFiat }: TokenDetailsProps) {
+  const formattedBalance = new Intl.NumberFormat('en-US', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 5,
+  }).format(balance);
+
+  const formattedValueInFiat = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+  }).format(valueInFiat);
+
   return (
     <div className="flex w-full flex-row items-center justify-between">
       <div className="flex flex-row items-center gap-2">
         <TokenImage token={token} size={32} />
         <div className="flex flex-col">
-          <span className={cn(text.label1, color.foreground)}>
-            {token.name}
+          <span
+            className={cn(
+              text.label1,
+              color.foreground,
+              'max-w-52 overflow-hidden text-ellipsis whitespace-nowrap text-left',
+            )}
+          >
+            {token.name?.trim()}
           </span>
           <span className={cn(text.legal, color.foregroundMuted)}>
-            {`${balance.toFixed(5)} ${token.symbol}`}
+            {`${formattedBalance} ${token.symbol}`}
           </span>
         </div>
       </div>
       <span className={cn(text.label2, color.foregroundMuted)}>
-        {`$${valueInFiat.toFixed(2)}`}
+        {formattedValueInFiat}
       </span>
     </div>
   );
