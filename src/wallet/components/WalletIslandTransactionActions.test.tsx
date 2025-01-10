@@ -2,6 +2,12 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { useWalletIslandContext } from './WalletIslandProvider';
 import { WalletIslandTransactionActions } from './WalletIslandTransactionActions';
+import { useOnchainKit } from '@/core-react/useOnchainKit';
+import { useWalletContext } from '@/wallet/components/WalletProvider';
+
+vi.mock('@/core-react/useOnchainKit', () => ({
+  useOnchainKit: vi.fn(),
+}));
 
 vi.mock('./WalletIslandProvider', () => ({
   useWalletIslandContext: vi.fn(),
@@ -10,10 +16,18 @@ vi.mock('./WalletIslandProvider', () => ({
   ),
 }));
 
+vi.mock('./WalletProvider', () => ({
+  useWalletContext: vi.fn(),
+}));
+
 describe('WalletIslandTransactionActons', () => {
   const mockUseWalletIslandContext = useWalletIslandContext as ReturnType<
     typeof vi.fn
   >;
+
+  const mockUseOnchainKit = useOnchainKit as ReturnType<typeof vi.fn>;
+
+  const mockUseWalletContext = useWalletContext as ReturnType<typeof vi.fn>;
 
   const defaultMockUseWalletIslandContext = {
     setShowSwap: vi.fn(),
@@ -22,12 +36,24 @@ describe('WalletIslandTransactionActons', () => {
     },
   };
 
+  const mockProjectId = '123';
+  const mockAddress = '0x123';
+  const mockChain = { name: 'Base' };
+
   beforeEach(() => {
     vi.clearAllMocks();
     vi.spyOn(window, 'open').mockImplementation(() => null);
     mockUseWalletIslandContext.mockReturnValue(
       defaultMockUseWalletIslandContext,
     );
+    mockUseOnchainKit.mockReturnValue({
+      projectId: mockProjectId,
+      chain: mockChain,
+    });
+
+    mockUseWalletContext.mockReturnValue({
+      address: mockAddress,
+    });
   });
 
   it('renders the WalletIslandTransactionActions component', () => {
@@ -49,8 +75,9 @@ describe('WalletIslandTransactionActons', () => {
     fireEvent.click(buyButton);
 
     expect(window.open).toHaveBeenCalledWith(
-      'https://pay.coinbase.com',
-      '_blank',
+      `https://pay.coinbase.com/buy/select-asset?appId=${mockProjectId}&destinationWallets=[{"address": "${mockAddress}", "blockchains":["${mockChain.name.toLowerCase()}"]}]&defaultAsset=USDC&defaultPaymentMethod=CRYPTO_ACCOUNT&presetFiatAmount=25`,
+      'popup',
+      'width=400,height=600,scrollbars=yes',
     );
   });
 
@@ -80,5 +107,19 @@ describe('WalletIslandTransactionActons', () => {
     fireEvent.click(swapButton);
 
     expect(setShowSwapMock).toHaveBeenCalledWith(true);
+  });
+
+  it('renders a placeholder when fetcher is loading', () => {
+    mockUseWalletIslandContext.mockReturnValue({
+      ...defaultMockUseWalletIslandContext,
+      isFetchingPortfolioData: true,
+    });
+
+    render(<WalletIslandTransactionActions />);
+
+    const placeholder = screen.getByTestId(
+      'ockWalletIsland_LoadingPlaceholder',
+    );
+    expect(placeholder).toHaveClass('my-3 h-16 w-full');
   });
 });

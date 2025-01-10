@@ -39,7 +39,7 @@ describe('WalletIslandTokenHoldings', () => {
     expect(screen.queryByTestId('ockWalletIsland_TokenHoldings')).toBeNull();
   });
 
-  it('renders a spinner when fetcher is loading', () => {
+  it('renders a placeholder when fetcher is loading', () => {
     mockUseWalletIslandContext.mockReturnValue({
       ...defaultMockUseWalletIslandContext,
       isFetchingPortfolioData: true,
@@ -47,7 +47,10 @@ describe('WalletIslandTokenHoldings', () => {
 
     render(<WalletIslandTokenHoldings />);
 
-    expect(screen.getByTestId('ockSpinner')).toBeDefined();
+    const placeholder = screen.getByTestId(
+      'ockWalletIsland_LoadingPlaceholder',
+    );
+    expect(placeholder).toHaveClass('my-2 h-44 w-full');
   });
 
   it('renders the WalletIslandTokenHoldings component with tokens when user has tokens and fetcher is not loading', () => {

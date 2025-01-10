@@ -45,7 +45,12 @@ export function WalletIslandTransactionActions() {
   }, [setShowSwap]);
 
   if (isFetchingPortfolioData) {
-    return <div className="my-3 h-16 w-full" />; // Prevent layout shift
+    return (
+      <div
+        data-testid="ockWalletIsland_LoadingPlaceholder"
+        className="my-3 h-16 w-full"
+      />
+    ); // Prevent layout shift
   }
 
   return (

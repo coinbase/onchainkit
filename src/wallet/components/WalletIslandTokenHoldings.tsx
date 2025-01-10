@@ -13,7 +13,12 @@ export function WalletIslandTokenHoldings() {
     useWalletIslandContext();
 
   if (isFetchingPortfolioData || !tokenBalances || tokenBalances.length === 0) {
-    return <div className="my-2 h-44 w-full" />; // Prevent layout shift
+    return (
+      <div
+        data-testid="ockWalletIsland_LoadingPlaceholder"
+        className="my-2 h-44 w-full"
+      />
+    ); // Prevent layout shift
   }
 
   return (
