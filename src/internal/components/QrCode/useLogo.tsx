@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import ReactDOMServer from 'react-dom/server';
-import { cbwSvg } from '../../svg/cbwSvg';
+import { coinbaseWalletSvg } from '../../svg/coinbaseWalletSvg';
 
 type RenderLogoProps = {
   size: number;
@@ -11,7 +11,7 @@ type RenderLogoProps = {
   logoBorderRadius: number;
 };
 
-const defaultSvgString = ReactDOMServer.renderToString(cbwSvg);
+const defaultSvgString = ReactDOMServer.renderToString(coinbaseWalletSvg);
 const defaultSvgDataUri = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(
   defaultSvgString,
 )}`;
