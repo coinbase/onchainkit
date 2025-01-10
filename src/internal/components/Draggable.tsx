@@ -1,6 +1,7 @@
+import { zIndex } from '@/styles/constants';
+import { cn } from '@/styles/theme';
 import { useCallback, useEffect, useState } from 'react';
-import { zIndex } from '../../styles/constants';
-import { cn } from '../../styles/theme';
+import { useIsModalOpen } from '../hooks/useIsModalOpen';
 
 type DraggableProps = {
   children: React.ReactNode;
@@ -19,6 +20,18 @@ export function Draggable({
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
   const [dragStartPosition, setDragStartPosition] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
+  const [cursorDisplay, setCursorDisplay] = useState('default');
+  const isModalOpen = useIsModalOpen();
+
+  useEffect(() => {
+    if (isModalOpen) {
+      setCursorDisplay('none');
+    } else if (isDragging) {
+      setCursorDisplay('cursor-grabbing');
+    } else {
+      setCursorDisplay('cursor-grab');
+    }
+  }, [isModalOpen, isDragging]);
 
   const calculateSnapToGrid = useCallback(
     (positionValue: number) => {
@@ -27,14 +40,21 @@ export function Draggable({
     [gridSize],
   );
 
-  const handleDragStart = (e: React.PointerEvent) => {
-    setIsDragging(true);
-    setDragStartPosition({ x: e.clientX, y: e.clientY });
-    setDragOffset({
-      x: e.clientX - position.x,
-      y: e.clientY - position.y,
-    });
-  };
+  const handleDragStart = useCallback(
+    (e: React.PointerEvent) => {
+      if (isModalOpen) {
+        return;
+      }
+
+      setIsDragging(true);
+      setDragStartPosition({ x: e.clientX, y: e.clientY });
+      setDragOffset({
+        x: e.clientX - position.x,
+        y: e.clientY - position.y,
+      });
+    },
+    [position, isModalOpen],
+  );
 
   useEffect(() => {
     if (!isDragging) {
@@ -93,7 +113,7 @@ export function Draggable({
       className={cn(
         'fixed touch-none select-none',
         zIndex.modal,
-        isDragging ? 'cursor-grabbing' : 'cursor-grab',
+        cursorDisplay,
       )}
       style={{
         left: `${position.x}px`,
