@@ -105,4 +105,26 @@ describe('WalletIslandTokenHoldings', () => {
 
     expect(screen.getByTestId('ockWalletIsland_TokenHoldings')).toBeDefined();
   });
+
+  it('trims whitespace from token names', () => {
+    const tokens = [{
+      address: '0x123',
+      chainId: 1,
+      symbol: 'SPACE',
+      decimals: 18,
+      image: 'test.png',
+      name: '  Spaced Token  ',
+      cryptoBalance: '1000000000000000000', // 1 token in wei
+      fiatBalance: '100',
+    }];
+
+    mockUseWalletIslandContext.mockReturnValue({
+      ...defaultMockUseWalletIslandContext,
+      tokenBalances: tokens,
+    });
+
+    render(<WalletIslandTokenHoldings />);
+
+    expect(screen.getByText('Spaced Token')).toBeInTheDocument();
+  });
 });
