@@ -10,6 +10,7 @@ import {
   waitFor,
 } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
+import { useAccount } from 'wagmi';
 import { useFundCardFundingUrl } from '../hooks/useFundCardFundingUrl';
 import { fetchOnrampQuote } from '../utils/fetchOnrampQuote';
 import { getFundingPopupSize } from '../utils/getFundingPopupSize';
@@ -53,6 +54,11 @@ vi.mock('../utils/getFundingPopupSize', () => ({
 
 vi.mock('../hooks/useFundCardSetupOnrampEventListeners');
 vi.mock('../utils/fetchOnrampQuote');
+
+vi.mock('wagmi', () => ({
+  useAccount: vi.fn(),
+  useConnect: vi.fn(),
+}));
 
 vi.mock('../../wallet/components/ConnectWallet', () => ({
   ConnectWallet: ({ className }: { className?: string }) => (
@@ -112,6 +118,9 @@ describe('FundCard', () => {
     (useFundCardFundingUrl as Mock).mockReturnValue('mock-funding-url');
     (useDebounce as Mock).mockImplementation((callback) => callback);
     (fetchOnrampQuote as Mock).mockResolvedValue(mockResponseData);
+    (useAccount as Mock).mockReturnValue({
+      address: '0x123',
+    });
   });
 
   it('renders without crashing', () => {

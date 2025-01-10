@@ -1,7 +1,17 @@
+import { pressable } from '@/styles/theme';
 import { openPopup } from '@/ui-react/internal/utils/openPopup';
 import '@testing-library/jest-dom';
 import { fireEvent, render, screen } from '@testing-library/react';
-import { type Mock, afterEach, describe, expect, it, vi } from 'vitest';
+import {
+  type Mock,
+  afterEach,
+  beforeEach,
+  describe,
+  expect,
+  it,
+  vi,
+} from 'vitest';
+import { useAccount } from 'wagmi';
 import { useGetFundingUrl } from '../hooks/useGetFundingUrl';
 import { getFundingPopupSize } from '../utils/getFundingPopupSize';
 import { FundButton } from './FundButton';
@@ -30,6 +40,11 @@ vi.mock('../../wallet/components/ConnectWallet', () => ({
   ),
 }));
 
+vi.mock('wagmi', () => ({
+  useAccount: vi.fn(),
+  useConnect: vi.fn(),
+}));
+
 const mockResponseData = {
   payment_total: { value: '100.00', currency: 'USD' },
   payment_subtotal: { value: '120.00', currency: 'USD' },
@@ -46,6 +61,12 @@ global.fetch = vi.fn(() =>
 ) as Mock;
 
 describe('FundButton', () => {
+  beforeEach(() => {
+    (useAccount as Mock).mockReturnValue({
+      address: '0x123',
+    });
+  });
+
   afterEach(() => {
     vi.clearAllMocks();
   });
@@ -122,6 +143,11 @@ describe('FundButton', () => {
     );
   });
 
+  it('adds disabled class when the button is disabled', () => {
+    render(<FundButton disabled={true} />);
+    expect(screen.getByRole('button')).toHaveClass(pressable.disabled);
+  });
+
   it('calls onPopupClose when the popup window is closed', () => {
     vi.useFakeTimers();
     const fundingUrl = 'https://props.funding.url';
@@ -173,7 +199,9 @@ describe('FundButton', () => {
   });
 
   it('shows ConnectWallet when no wallet is connected', () => {
-    (useGetFundingUrl as Mock).mockReturnValue(undefined);
+    (useAccount as Mock).mockReturnValue({
+      address: undefined,
+    });
 
     render(<FundButton className="custom-class" />);
 
@@ -187,8 +215,6 @@ describe('FundButton', () => {
   });
 
   it('shows Fund button when wallet is connected', () => {
-    (useGetFundingUrl as Mock).mockReturnValue('https://funding.url');
-
     render(<FundButton />);
 
     expect(screen.queryByTestId('ockFundButton')).toBeInTheDocument();
