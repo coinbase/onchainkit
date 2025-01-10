@@ -1,7 +1,7 @@
-import { type Dispatch, type SetStateAction, useState, useEffect } from 'react';
+import { type Dispatch, type SetStateAction, useEffect, useState } from 'react';
 
-let observer: MutationObserver | null = null;
-const subscribers = new Set<Dispatch<SetStateAction<boolean>>>();
+export let observer: MutationObserver | null = null;
+export const subscribers = new Set<Dispatch<SetStateAction<boolean>>>();
 
 export function useIsModalOpen() {
   const [isModalOpen, setIsModalOpen] = useState(false);
