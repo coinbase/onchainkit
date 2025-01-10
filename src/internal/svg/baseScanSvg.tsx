@@ -10,7 +10,7 @@ export const baseScanSvg = (
     className={icon.foreground}
   >
     <title>BaseScan</title>
-    <g clip-path="url(#clip0_13027_2497)">
+    <g clipPath="url(#clip0_13027_2497)">
       <mask
         id="mask0_13027_2497"
         // style="mask-type:luminance"
