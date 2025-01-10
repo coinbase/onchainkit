@@ -96,9 +96,10 @@ export type WalletContextType = {
 export type WalletReact = {
   children: React.ReactNode;
   className?: string;
-  draggable?: boolean;
-  startingPosition?: { x: number; y: number };
-};
+} & (
+  | { draggable?: true; draggableStartingPosition?: { x: number; y: number } }
+  | { draggable?: false; draggableStartingPosition?: never }
+);
 
 export type WalletSubComponentReact = {
   connect: React.ReactNode;
