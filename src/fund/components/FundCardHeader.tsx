@@ -3,8 +3,8 @@ import type { FundCardHeaderPropsReact } from '../types';
 import { useFundContext } from './FundCardProvider';
 
 export function FundCardHeader({ className }: FundCardHeaderPropsReact) {
-  const { headerText, selectedAsset } = useFundContext();
-  const defaultHeaderText = `Buy ${selectedAsset.toUpperCase()}`;
+  const { headerText, asset } = useFundContext();
+  const defaultHeaderText = `Buy ${asset.toUpperCase()}`;
 
   return (
     <div className={cn(text.headline, className)} data-testid="fundCardHeader">

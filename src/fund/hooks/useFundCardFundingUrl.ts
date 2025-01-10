@@ -12,7 +12,7 @@ export const useFundCardFundingUrl = () => {
     selectedInputType,
     fundAmountFiat,
     fundAmountCrypto,
-    selectedAsset,
+    asset,
   } = useFundContext();
 
   const chain = accountChain || defaultChain;
@@ -27,7 +27,7 @@ export const useFundCardFundingUrl = () => {
 
     return getOnrampBuyUrl({
       projectId,
-      assets: [selectedAsset],
+      assets: [asset],
       presetFiatAmount:
         selectedInputType === 'fiat' ? Number(fundAmount) : undefined,
       presetCryptoAmount:
@@ -36,7 +36,7 @@ export const useFundCardFundingUrl = () => {
       addresses: { [address]: [chain.name.toLowerCase()] },
     });
   }, [
-    selectedAsset,
+    asset,
     fundAmountFiat,
     fundAmountCrypto,
     selectedPaymentMethod,

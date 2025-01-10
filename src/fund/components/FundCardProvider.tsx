@@ -10,8 +10,7 @@ import type {
 import { fetchOnrampQuote } from '../utils/fetchOnrampQuote';
 
 type FundCardContextType = {
-  selectedAsset: string;
-  setSelectedAsset: (asset: string) => void;
+  asset: string;
   selectedPaymentMethod?: PaymentMethodReact;
   setSelectedPaymentMethod: (paymentMethod: PaymentMethodReact) => void;
   selectedInputType?: 'fiat' | 'crypto';
@@ -46,7 +45,6 @@ export function FundCardProvider({
   subdivision,
   inputType,
 }: FundCardProviderReact) {
-  const [selectedAsset, setSelectedAsset] = useState<string>(asset);
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<
     PaymentMethodReact | undefined
   >();
@@ -65,7 +63,7 @@ export function FundCardProvider({
   const fetchExchangeRate = useDebounce(async () => {
     setExchangeRateLoading(true);
     const quote = await fetchOnrampQuote({
-      purchaseCurrency: selectedAsset,
+      purchaseCurrency: asset,
       paymentCurrency: 'USD',
       paymentAmount: '100',
       paymentMethod: 'CARD',
@@ -86,8 +84,7 @@ export function FundCardProvider({
   }, []);
 
   const value = useValue<FundCardContextType>({
-    selectedAsset,
-    setSelectedAsset,
+    asset,
     selectedPaymentMethod,
     setSelectedPaymentMethod,
     fundAmountFiat,

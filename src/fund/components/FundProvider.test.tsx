@@ -27,7 +27,7 @@ const TestComponent = () => {
   const context = useFundContext();
   return (
     <div>
-      <span data-testid="selected-asset">{context.selectedAsset}</span>
+      <span data-testid="selected-asset">{context.asset}</span>
       <span data-testid="exchange-rate">{context.exchangeRate}</span>
       <span data-testid="loading-state">
         {context.exchangeRateLoading ? 'loading' : 'not-loading'}
@@ -44,43 +44,17 @@ describe('FundCardProvider', () => {
 
   it('provides default context values', () => {
     render(
-      <FundCardProvider asset="BTC">
+      <FundCardProvider asset="BTC" country="US">
         <TestComponent />
       </FundCardProvider>,
     );
     expect(screen.getByTestId('selected-asset').textContent).toBe('BTC');
   });
 
-  it('updates selectedAsset when setSelectedAsset is called', () => {
-    const TestUpdateComponent = () => {
-      const { selectedAsset, setSelectedAsset } = useFundContext();
-      return (
-        <div>
-          <span data-testid="selected-asset">{selectedAsset}</span>
-          <button type="button" onClick={() => setSelectedAsset('ETH')}>
-            Change Asset
-          </button>
-        </div>
-      );
-    };
-
-    render(
-      <FundCardProvider asset="BTC">
-        <TestUpdateComponent />
-      </FundCardProvider>,
-    );
-
-    expect(screen.getByTestId('selected-asset').textContent).toBe('BTC');
-    act(() => {
-      screen.getByText('Change Asset').click();
-    });
-    expect(screen.getByTestId('selected-asset').textContent).toBe('ETH');
-  });
-
   it('fetches and sets exchange rate on mount', async () => {
     act(() => {
       render(
-        <FundCardProvider asset="BTC">
+        <FundCardProvider asset="BTC" country="US">
           <TestComponent />
         </FundCardProvider>,
       );

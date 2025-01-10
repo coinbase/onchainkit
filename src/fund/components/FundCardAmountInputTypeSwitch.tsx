@@ -13,7 +13,7 @@ export const FundCardAmountInputTypeSwitch = ({
   const {
     selectedInputType,
     setSelectedInputType,
-    selectedAsset,
+    asset,
     fundAmountFiat,
     fundAmountCrypto,
     exchangeRate,
@@ -33,9 +33,9 @@ export const FundCardAmountInputTypeSwitch = ({
 
   const formatCrypto = useCallback(
     (amount: string) => {
-      return `${truncateDecimalPlaces(amount || '0', 8)} ${selectedAsset}`;
+      return `${truncateDecimalPlaces(amount || '0', 8)} ${asset}`;
     },
-    [selectedAsset],
+    [asset],
   );
 
   const exchangeRateLine = useMemo(() => {
@@ -49,10 +49,10 @@ export const FundCardAmountInputTypeSwitch = ({
           'pl-1',
         )}
       >
-        ({formatUSD('1')} = {exchangeRate?.toFixed(8)} {selectedAsset})
+        ({formatUSD('1')} = {exchangeRate?.toFixed(8)} {asset})
       </span>
     );
-  }, [formatUSD, exchangeRate, selectedAsset]);
+  }, [formatUSD, exchangeRate, asset]);
 
   const amountLine = useMemo(() => {
     return (

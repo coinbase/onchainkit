@@ -17,7 +17,7 @@ export const FundCardAmountInput = ({
     setFundAmountFiat,
     fundAmountCrypto,
     setFundAmountCrypto,
-    selectedAsset,
+    asset,
     selectedInputType,
     exchangeRate,
   } = useFundContext();
@@ -117,7 +117,7 @@ export const FundCardAmountInput = ({
 
         <FundCardCurrencyLabel
           ref={currencySpanRef}
-          label={selectedInputType === 'crypto' ? selectedAsset : currencyLabel}
+          label={selectedInputType === 'crypto' ? asset : currencyLabel}
         />
       </div>
 
