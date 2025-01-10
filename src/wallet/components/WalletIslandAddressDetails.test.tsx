@@ -198,6 +198,6 @@ describe('WalletIslandAddressDetails', () => {
 
     expect(
       screen.getByTestId('ockWalletIsland_AddressBalance'),
-    ).toHaveTextContent('$1234.57');
+    ).toHaveTextContent('$1,234.57');
   });
 });

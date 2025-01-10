@@ -78,6 +78,11 @@ function AddressBalanceInFiat() {
   const { portfolioFiatValue, isFetchingPortfolioData } =
     useWalletIslandContext();
 
+  const formattedValueInFiat = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+  }).format(Number(portfolioFiatValue));
+
   if (isFetchingPortfolioData) {
     return (
       <div className="mt-1 h-8 w-full">
@@ -95,7 +100,7 @@ function AddressBalanceInFiat() {
       className={cn(text.title1, 'mt-1 font-normal')}
       data-testid="ockWalletIsland_AddressBalance"
     >
-      {`$${Number(portfolioFiatValue).toFixed(2)}`}
+      {formattedValueInFiat}
     </div>
   );
 }
