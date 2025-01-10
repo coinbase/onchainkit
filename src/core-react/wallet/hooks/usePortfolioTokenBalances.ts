@@ -9,9 +9,8 @@ export function usePortfolioTokenBalances({
 }: {
   address: Address | undefined | null;
 }): UseQueryResult<PortfolioTokenBalances> {
-  const actionKey = `usePortfolioTokenBalances-${address}`;
   return useQuery({
-    queryKey: ['usePortfolioTokenBalances', actionKey],
+    queryKey: ['usePortfolioTokenBalances', address],
     queryFn: async () => {
       const response = await getPortfolioTokenBalances({
         addresses: [address as Address], // Safe to coerce to Address because useQuery's enabled flag will prevent the query from running if address is undefined
