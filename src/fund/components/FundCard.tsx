@@ -13,7 +13,8 @@ export function FundCard({
   assetSymbol,
   buttonText = 'Buy',
   headerText,
-  currencySign = '$',
+  country = 'US',
+  subdivision,
   paymentMethods = DEFAULT_PAYMENT_METHODS,
   children = <DefaultFundCardContent />,
   className,
@@ -26,7 +27,8 @@ export function FundCard({
       paymentMethods={paymentMethods}
       headerText={headerText}
       buttonText={buttonText}
-      currencySign={currencySign}
+      country={country}
+      subdivision={subdivision}
     >
       <div
         className={cn(

@@ -10,7 +10,8 @@ import { useFundContext } from './FundCardProvider';
 export const FundCardAmountInput = ({
   className,
 }: FundCardAmountInputPropsReact) => {
-  const currencySign = '$';
+  // TODO: Get currency label from country
+  const currencyLabel = 'USD';
   const {
     fundAmountFiat,
     setFundAmountFiat,
@@ -96,13 +97,6 @@ export const FundCardAmountInput = ({
       onKeyUp={handleFocusInput}
     >
       <div className="flex h-20">
-        {selectedInputType === 'fiat' && currencySign && (
-          <FundCardCurrencyLabel
-            ref={currencySpanRef}
-            currencySign={currencySign}
-          />
-        )}
-
         <input
           className={cn(
             text.body,
@@ -120,12 +114,11 @@ export const FundCardAmountInput = ({
           placeholder="0"
           data-testid="ockFundCardAmountInput"
         />
-        {selectedInputType === 'crypto' && selectedAsset && (
-          <FundCardCurrencyLabel
-            ref={currencySpanRef}
-            currencySign={selectedAsset}
-          />
-        )}
+
+        <FundCardCurrencyLabel
+          ref={currencySpanRef}
+          label={selectedInputType === 'crypto' ? selectedAsset : currencyLabel}
+        />
       </div>
 
       {/* Hidden span for measuring text width 

@@ -300,7 +300,7 @@ export type FundCardPaymentMethodDropdownPropsReact = {
 };
 
 export type FundCardCurrencyLabelPropsReact = {
-  currencySign: string;
+  label: string;
 };
 
 export type FundCardPropsReact = {
@@ -309,7 +309,8 @@ export type FundCardPropsReact = {
   placeholder?: string | React.ReactNode;
   headerText?: string;
   buttonText?: string;
-  currencySign?: string;
+  country: string;
+  subdivision?: string;
   /**
    * Payment methods to display in the dropdown
    */
@@ -344,6 +345,7 @@ export type FundCardProviderReact = {
   paymentMethods?: PaymentMethodReact[];
   headerText?: string;
   buttonText?: string;
-  currencySign?: string;
+  country: string;
+  subdivision?: string;
   inputType?: 'fiat' | 'crypto';
 };

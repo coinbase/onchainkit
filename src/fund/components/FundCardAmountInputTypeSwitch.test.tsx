@@ -27,6 +27,7 @@ vi.mock('../../core-react/internal/hooks/useDebounce', () => ({
 
 const mockContext: FundCardProviderReact = {
   asset: 'ETH',
+  country: 'US',
   inputType: 'fiat',
   children: <div>Test</div>,
 };
@@ -132,7 +133,7 @@ describe('FundCardAmountInputTypeSwitch', () => {
 
   it('applies custom className', async () => {
     render(
-      <FundCardProvider asset="ETH">
+      <FundCardProvider asset="ETH" country="US">
         <FundCardAmountInputTypeSwitch className="custom-class" />
         <TestComponent />
       </FundCardProvider>,

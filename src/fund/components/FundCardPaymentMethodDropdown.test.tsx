@@ -62,7 +62,11 @@ describe('FundCardPaymentMethodDropdown', () => {
 
   const renderWithProvider = ({ amount = '5' }: { amount?: string }) => {
     return render(
-      <FundCardProvider asset="ETH" paymentMethods={DEFAULT_PAYMENT_METHODS}>
+      <FundCardProvider
+        asset="ETH"
+        country="US"
+        paymentMethods={DEFAULT_PAYMENT_METHODS}
+      >
         <TestComponent amount={amount} />
       </FundCardProvider>,
     );

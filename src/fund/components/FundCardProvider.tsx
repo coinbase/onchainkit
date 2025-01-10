@@ -29,7 +29,8 @@ type FundCardContextType = {
   paymentMethods: PaymentMethodReact[];
   headerText?: string;
   buttonText?: string;
-  currencySign?: string;
+  country: string;
+  subdivision?: string;
   inputType?: 'fiat' | 'crypto';
 };
 
@@ -41,7 +42,8 @@ export function FundCardProvider({
   paymentMethods,
   headerText,
   buttonText,
-  currencySign,
+  country,
+  subdivision,
   inputType,
 }: FundCardProviderReact) {
   const [selectedAsset, setSelectedAsset] = useState<string>(asset);
@@ -67,7 +69,8 @@ export function FundCardProvider({
       paymentCurrency: 'USD',
       paymentAmount: '100',
       paymentMethod: 'CARD',
-      country: 'US',
+      country,
+      subdivision,
     });
 
     setExchangeRateLoading(false);
@@ -102,7 +105,8 @@ export function FundCardProvider({
     paymentMethods: paymentMethods || DEFAULT_PAYMENT_METHODS,
     headerText,
     buttonText,
-    currencySign,
+    country,
+    subdivision,
   });
   return <FundContext.Provider value={value}>{children}</FundContext.Provider>;
 }

@@ -7,7 +7,7 @@ import { FundCardProvider } from './FundCardProvider';
 describe('FundCardHeader', () => {
   it('renders the provided headerText', () => {
     render(
-      <FundCardProvider asset="ETH" headerText="Custom header">
+      <FundCardProvider asset="ETH" country="US" headerText="Custom header">
         <FundCardHeader />
       </FundCardProvider>,
     );
@@ -18,7 +18,7 @@ describe('FundCardHeader', () => {
 
   it('renders the default header text when headerText is not provided', () => {
     render(
-      <FundCardProvider asset="ETH">
+      <FundCardProvider asset="ETH" country="US">
         <FundCardHeader />
       </FundCardProvider>,
     );

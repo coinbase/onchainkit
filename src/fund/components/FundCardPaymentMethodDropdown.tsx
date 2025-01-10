@@ -116,21 +116,24 @@ export function FundCardPaymentMethodDropdown({
           )}
         >
           <div className={cn(background.inverse, 'overflow-y-auto p-2')}>
-            {filteredPaymentMethods.map((paymentMethod) => (
-              <FundCardPaymentMethodSelectRow
-                className={cn(background.inverse, 'px-4 py-2')}
-                key={paymentMethod.name}
-                testId={`ockFundCardPaymentMethodSelectRow__${paymentMethod.id}`}
-                paymentMethod={paymentMethod}
-                onClick={handlePaymentMethodSelect}
-                disabled={isPaymentMethodDisabled(paymentMethod)}
-                disabledReason={
-                  isPaymentMethodDisabled(paymentMethod)
-                    ? `Minimum amount of $${MIN_AMOUNT_FOR_CARD_PAYMENTS} required`
-                    : undefined
-                }
-              />
-            ))}
+            {filteredPaymentMethods.map((paymentMethod) => {
+              const isDisabled = isPaymentMethodDisabled(paymentMethod);
+              return (
+                <FundCardPaymentMethodSelectRow
+                  className={cn(background.inverse, 'px-4 py-2')}
+                  key={paymentMethod.name}
+                  testId={`ockFundCardPaymentMethodSelectRow__${paymentMethod.id}`}
+                  paymentMethod={paymentMethod}
+                  onClick={handlePaymentMethodSelect}
+                  disabled={isDisabled}
+                  disabledReason={
+                    isDisabled
+                      ? `Minimum amount of $${MIN_AMOUNT_FOR_CARD_PAYMENTS} required`
+                      : undefined
+                  }
+                />
+              );
+            })}
           </div>
         </div>
       )}

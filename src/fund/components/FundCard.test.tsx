@@ -15,7 +15,7 @@ import { useFundCardFundingUrl } from '../hooks/useFundCardFundingUrl';
 import { fetchOnrampQuote } from '../utils/fetchOnrampQuote';
 import { getFundingPopupSize } from '../utils/getFundingPopupSize';
 import { FundCard } from './FundCard';
-import { FundCardProvider, useFundContext } from './FundCardProvider';
+import { useFundContext } from './FundCardProvider';
 
 const mockUpdateInputWidth = vi.fn();
 vi.mock('../hooks/useInputResize', () => ({
@@ -84,6 +84,8 @@ const TestComponent = () => {
     fundAmountCrypto,
     exchangeRate,
     exchangeRateLoading,
+    setFundAmountFiat,
+    setSelectedInputType,
   } = useFundContext();
 
   return (
@@ -94,16 +96,31 @@ const TestComponent = () => {
       <span data-testid="loading-state">
         {exchangeRateLoading ? 'loading' : 'not-loading'}
       </span>
+      <button
+        type="button"
+        data-testid="set-fiat-amount"
+        onClick={() => setFundAmountFiat('100')}
+      />
+      <button
+        type="button"
+        data-testid="set-crypto-input-type"
+        onClick={() => setSelectedInputType('crypto')}
+      />
+      <button
+        type="button"
+        data-testid="set-fiat-input-type"
+        onClick={() => setSelectedInputType('fiat')}
+      />
     </div>
   );
 };
 
-const renderComponent = (inputType: 'fiat' | 'crypto' = 'fiat') =>
+const renderComponent = () =>
   render(
-    <FundCardProvider asset="BTC" inputType={inputType}>
-      <FundCard assetSymbol="BTC" />
+    <>
+      <FundCard assetSymbol="BTC" country="US" />
       <TestComponent />
-    </FundCardProvider>,
+    </>,
   );
 
 describe('FundCard', () => {
@@ -167,19 +184,29 @@ describe('FundCard', () => {
   });
 
   it('disables the submit button when fund amount is zero and type is fiat', () => {
-    renderComponent('fiat');
+    renderComponent();
+    const setFiatAmountButton = screen.getByTestId('set-fiat-amount');
+    fireEvent.click(setFiatAmountButton);
+
     const button = screen.getByTestId('ockFundButton');
     expect(button).toBeDisabled();
   });
 
   it('disables the submit button when fund amount is zero and input type is crypto', () => {
-    renderComponent('crypto');
+    renderComponent();
+    const setCryptoInputTypeButton = screen.getByTestId(
+      'set-crypto-input-type',
+    );
+    fireEvent.click(setCryptoInputTypeButton);
+
     const button = screen.getByTestId('ockFundButton');
     expect(button).toBeDisabled();
   });
 
   it('enables the submit button when fund amount is greater than zero and type is fiat', async () => {
-    renderComponent('fiat');
+    renderComponent();
+    const setFiatAmountButton = screen.getByTestId('set-fiat-amount');
+    fireEvent.click(setFiatAmountButton);
 
     await waitFor(() => {
       expect(screen.getByTestId('loading-state').textContent).toBe(
@@ -192,8 +219,13 @@ describe('FundCard', () => {
       expect(button).not.toBeDisabled();
     });
   });
+
   it('enables the submit button when fund amount is greater than zero and type is crypto', async () => {
-    renderComponent('crypto');
+    renderComponent();
+    const setCryptoInputTypeButton = screen.getByTestId(
+      'set-crypto-input-type',
+    );
+    fireEvent.click(setCryptoInputTypeButton);
 
     await waitFor(() => {
       expect(screen.getByTestId('loading-state').textContent).toBe(
@@ -259,7 +291,7 @@ describe('FundCard', () => {
 
   it('renders custom children instead of default children', () => {
     render(
-      <FundCard assetSymbol="ETH">
+      <FundCard assetSymbol="ETH" country="US">
         <div data-testid="custom-child">Custom Content</div>
       </FundCard>,
     );

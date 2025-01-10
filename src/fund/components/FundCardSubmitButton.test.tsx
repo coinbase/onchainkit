@@ -1,7 +1,14 @@
 import { useDebounce } from '@/core-react/internal/hooks/useDebounce';
 import { setOnchainKitConfig } from '@/core/OnchainKitConfig';
+import { openPopup } from '@/ui-react/internal/utils/openPopup';
 import '@testing-library/jest-dom';
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import {
+  act,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useAccount } from 'wagmi';
 import { useFundCardFundingUrl } from '../hooks/useFundCardFundingUrl';
@@ -95,6 +102,11 @@ const TestHelperComponent = () => {
         data-testid="set-fiat-amount"
         onClick={() => setFundAmountFiat('100')}
       />
+      <button
+        type="button"
+        data-testid="set-fiat-amount-zero"
+        onClick={() => setFundAmountFiat('')}
+      />
     </div>
   );
 };
@@ -117,7 +129,8 @@ describe('FundCardSubmitButton', () => {
 
   const renderComponent = () => {
     return render(
-      <FundCardProvider asset="ETH">
+      <FundCardProvider asset="ETH" country="US">
+        <TestHelperComponent />
         <FundCardSubmitButton />
       </FundCardProvider>,
     );
@@ -129,14 +142,7 @@ describe('FundCardSubmitButton', () => {
   });
 
   it('enables when fiat amount is set', async () => {
-    render(
-      <FundCardProvider asset="ETH">
-        <TestHelperComponent />
-
-        <FundCardSubmitButton />
-      </FundCardProvider>,
-    );
-
+    renderComponent();
     const button = screen.getByTestId('set-fiat-amount');
     fireEvent.click(button);
 
@@ -145,13 +151,19 @@ describe('FundCardSubmitButton', () => {
     });
   });
 
+  it('disables when fiat amount is set to zero', async () => {
+    renderComponent();
+
+    const button = screen.getByTestId('set-fiat-amount-zero');
+    fireEvent.click(button);
+
+    await waitFor(() => {
+      expect(screen.getByTestId('ockFundButton')).toBeDisabled();
+    });
+  });
+
   it('shows loading state when clicked', async () => {
-    render(
-      <FundCardProvider asset="ETH">
-        <TestHelperComponent />
-        <FundCardSubmitButton />
-      </FundCardProvider>,
-    );
+    renderComponent();
 
     const setFiatAmountButton = screen.getByTestId('set-fiat-amount');
     fireEvent.click(setFiatAmountButton);
@@ -170,5 +182,29 @@ describe('FundCardSubmitButton', () => {
       screen.queryByTestId('ockConnectWallet_Container'),
     ).toBeInTheDocument();
     expect(screen.queryByTestId('ockFundButton')).not.toBeInTheDocument();
+  });
+
+  it('sets submit button state to default on popup close', () => {
+    vi.useFakeTimers();
+
+    (openPopup as Mock).mockImplementation(() => ({ closed: true }));
+    renderComponent();
+    const button = screen.getByTestId('ockFundButton');
+
+    // Simulate entering a valid amount
+    const setFiatAmountButton = screen.getByTestId('set-fiat-amount');
+    fireEvent.click(setFiatAmountButton);
+
+    // Click the submit button to trigger loading state
+    act(() => {
+      fireEvent.click(button);
+    });
+
+    vi.runOnlyPendingTimers();
+
+    const submitButton = screen.getByTestId('ockFundButton');
+
+    // Assert that the submit button state is set to 'default'
+    expect(submitButton).not.toBeDisabled();
   });
 });

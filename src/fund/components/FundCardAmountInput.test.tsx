@@ -65,7 +65,7 @@ describe('FundCardAmountInput', () => {
     initialProps: Partial<FundCardProviderReact> = {},
   ) => {
     return render(
-      <FundCardProvider asset="ETH" {...initialProps}>
+      <FundCardProvider asset="ETH" country="US" {...initialProps}>
         <FundCardAmountInput />
         <TestComponent />
       </FundCardProvider>,
@@ -131,7 +131,7 @@ describe('FundCardAmountInput', () => {
   it('applies custom className', () => {
     act(() => {
       render(
-        <FundCardProvider asset="ETH">
+        <FundCardProvider asset="ETH" country="US">
           <FundCardAmountInput className="custom-class" />
         </FundCardProvider>,
       );
@@ -173,7 +173,7 @@ describe('FundCardAmountInput', () => {
   it('handles zero and empty values in crypto mode', async () => {
     act(() => {
       render(
-        <FundCardProvider asset="ETH" inputType="crypto">
+        <FundCardProvider asset="ETH" country="US" inputType="crypto">
           <FundCardAmountInput />
           <TestComponent />
         </FundCardProvider>,
@@ -204,7 +204,7 @@ describe('FundCardAmountInput', () => {
   it('handles zero and empty values in fiat mode', async () => {
     act(() => {
       render(
-        <FundCardProvider asset="ETH" inputType="fiat">
+        <FundCardProvider asset="ETH" country="US">
           <FundCardAmountInput />
           <TestComponent />
         </FundCardProvider>,
@@ -230,7 +230,7 @@ describe('FundCardAmountInput', () => {
   it('handles non zero values in fiat mode', async () => {
     act(() => {
       render(
-        <FundCardProvider asset="ETH" inputType="fiat">
+        <FundCardProvider asset="ETH" country="US">
           <FundCardAmountInput />
           <TestComponent />
         </FundCardProvider>,
@@ -270,7 +270,7 @@ describe('FundCardAmountInput', () => {
     });
 
     render(
-      <FundCardProvider asset="ETH">
+      <FundCardProvider asset="ETH" country="US">
         <FundCardAmountInput />
       </FundCardProvider>,
     );
@@ -320,7 +320,7 @@ describe('FundCardAmountInput', () => {
 
     act(() => {
       render(
-        <FundCardProvider asset="ETH" inputType="fiat">
+        <FundCardProvider asset="ETH" country="US">
           <FundCardAmountInput />
           <TestComponent />
         </FundCardProvider>,
