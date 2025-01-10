@@ -6,6 +6,7 @@ import { cn } from '@/styles/theme';
 import { useOutsideClick } from '@/ui-react/internal/hooks/useOutsideClick';
 import { Children, useMemo, useRef } from 'react';
 import type { WalletReact } from '../types';
+import { WALLET_DRAGGABLE_DEFAULT_STARTING_POSITION } from '../constants';
 import { ConnectWallet } from './ConnectWallet';
 import { WalletDropdown } from './WalletDropdown';
 import { WalletIsland } from './WalletIsland';
@@ -14,11 +15,8 @@ import { WalletProvider, useWalletContext } from './WalletProvider';
 export const Wallet = ({
   children,
   className,
-  draggable = false,
-  startingPosition = {
-    x: window.innerWidth - 300,
-    y: window.innerHeight - 100,
-  },
+  draggable,
+  draggableStartingPosition,
 }: WalletReact) => {
   const componentTheme = useTheme();
   const isMounted = useIsMounted();
@@ -31,9 +29,13 @@ export const Wallet = ({
   return (
     <WalletProvider>
       <WalletContent
-        draggable={draggable}
-        startingPosition={startingPosition}
         className={cn(componentTheme, className)}
+        {...(draggable
+          ? {
+              draggable,
+              draggableStartingPosition: draggableStartingPosition ?? WALLET_DRAGGABLE_DEFAULT_STARTING_POSITION,
+            }
+          : { draggable })}
       >
         {children}
       </WalletContent>
@@ -45,7 +47,7 @@ function WalletContent({
   children,
   className,
   draggable,
-  startingPosition,
+  draggableStartingPosition,
 }: WalletReact) {
   const {
     isSubComponentOpen,
@@ -81,7 +83,7 @@ function WalletContent({
         className={cn('relative w-fit shrink-0', className)}
       >
         <Draggable
-          startingPosition={startingPosition}
+          startingPosition={draggableStartingPosition}
           draggingDisabled={isConnectModalOpen}
         >
           <WalletSubComponent
