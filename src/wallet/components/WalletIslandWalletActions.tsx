@@ -1,5 +1,4 @@
 import { PressableIcon } from '@/internal/components/PressableIcon';
-import { clockSvg } from '@/internal/svg/clockSvg';
 import { disconnectSvg } from '@/internal/svg/disconnectSvg';
 import { qrIconSvg } from '@/internal/svg/qrIconSvg';
 import { refreshSvg } from '@/internal/svg/refreshSvg';
@@ -8,16 +7,17 @@ import { useCallback } from 'react';
 import { useDisconnect } from 'wagmi';
 import { useWalletIslandContext } from './WalletIslandProvider';
 import { useWalletContext } from './WalletProvider';
+import { baseScanSvg } from '@/internal/svg/baseScanSvg';
 
 export function WalletIslandWalletActions() {
-  const { handleClose } = useWalletContext();
+  const { address, handleClose } = useWalletContext();
   const { setShowQr, refetchPortfolioData, animations } =
     useWalletIslandContext();
   const { disconnect, connectors } = useDisconnect();
 
   const handleTransactions = useCallback(() => {
-    window.open('https://wallet.coinbase.com/assets/transactions', '_blank');
-  }, []);
+    window.open(`https://basescan.org/address/${address}`, '_blank');
+  }, [address]);
 
   const handleDisconnect = useCallback(() => {
     handleClose();
@@ -46,10 +46,17 @@ export function WalletIslandWalletActions() {
           ariaLabel="Open transaction history"
           onClick={handleTransactions}
         >
-          <div data-testid="ockWalletIsland_TransactionsButton">{clockSvg}</div>
+          <div
+            data-testid="ockWalletIsland_TransactionsButton"
+            className="h-7 w-7 scale-110 p-2"
+          >
+            {baseScanSvg}
+          </div>
         </PressableIcon>
         <PressableIcon ariaLabel="Show QR code" onClick={handleQr}>
-          <div data-testid="ockWalletIsland_QrButton">{qrIconSvg}</div>
+          <div data-testid="ockWalletIsland_QrButton" className="h-7 w-7 scale-110">
+            {qrIconSvg}
+          </div>
         </PressableIcon>
       </div>
       <div className="flex items-center">

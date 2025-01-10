@@ -134,6 +134,11 @@ describe('WalletIslandWalletActions', () => {
   });
 
   it('opens transaction history when transactions button is clicked', () => {
+    mockUseWalletContext.mockReturnValue({
+      ...defaultMockUseWalletIslandContext,
+      address: '0x123',
+    });
+
     const windowOpenSpy = vi
       .spyOn(window, 'open')
       .mockImplementation(() => null);
@@ -146,7 +151,7 @@ describe('WalletIslandWalletActions', () => {
     fireEvent.click(transactionsButton);
 
     expect(windowOpenSpy).toHaveBeenCalledWith(
-      'https://wallet.coinbase.com/assets/transactions',
+      'https://basescan.org/address/0x123',
       '_blank',
     );
 
