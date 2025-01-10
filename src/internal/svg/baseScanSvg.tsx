@@ -13,7 +13,6 @@ export const baseScanSvg = (
     <g clipPath="url(#clip0_13027_2497)">
       <mask
         id="mask0_13027_2497"
-        // style="mask-type:luminance"
         maskUnits="userSpaceOnUse"
         x="0"
         y="0"
