@@ -171,7 +171,7 @@ export function ConnectWallet({
           )}
           onClick={handleToggle}
         >
-          <div className="flex gap-2">{childrenWithoutConnectWalletText}</div>
+          <div className="flex items-center justify-center gap-2">{childrenWithoutConnectWalletText}</div>
         </button>
       </div>
     </IdentityProvider>
