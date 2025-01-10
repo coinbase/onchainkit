@@ -1,11 +1,19 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { useIsModalOpen } from '../hooks/useIsModalOpen';
 import { Draggable } from './Draggable';
 
+vi.mock('../hooks/useIsModalOpen', () => ({
+  useIsModalOpen: vi.fn(),
+}));
+
 describe('Draggable', () => {
+  const mockUseIsModalOpen = useIsModalOpen as ReturnType<typeof vi.fn>;
+
   beforeEach(() => {
     vi.clearAllMocks();
+    mockUseIsModalOpen.mockReturnValue(false);
   });
 
   it('renders children correctly', () => {
@@ -197,5 +205,30 @@ describe('Draggable', () => {
 
     expect(removeSpy).toHaveBeenCalledWith('pointermove', expect.any(Function));
     expect(removeSpy).toHaveBeenCalledWith('pointerup', expect.any(Function));
+  });
+
+  it('disables dragging and sets cursor display to default when modal is open', async () => {
+    mockUseIsModalOpen.mockReturnValue(true);
+    const user = userEvent.setup();
+
+    render(
+      <Draggable startingPosition={{ x: 0, y: 0 }}>
+        <div>Drag me</div>
+      </Draggable>,
+    );
+
+    const draggable = screen.getByTestId('ockDraggable');
+    expect(draggable).toHaveClass('default');
+
+    // Attempt to drag
+    await user.pointer([
+      { keys: '[MouseLeft>]', target: draggable, coords: { x: 0, y: 0 } },
+      { coords: { x: 50, y: 50 } },
+      { keys: '[/MouseLeft]' },
+    ]);
+
+    // Position should not change
+    expect(draggable).toHaveStyle({ left: '0px', top: '0px' });
+    expect(draggable).toHaveClass('default');
   });
 });

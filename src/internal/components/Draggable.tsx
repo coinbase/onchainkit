@@ -25,12 +25,11 @@ export function Draggable({
 
   useEffect(() => {
     if (isModalOpen) {
-      setCursorDisplay('none');
-    } else if (isDragging) {
-      setCursorDisplay('cursor-grabbing');
-    } else {
-      setCursorDisplay('cursor-grab');
+      setCursorDisplay('default');
+      return;
     }
+
+    setCursorDisplay(isDragging ? 'cursor-grabbing' : 'cursor-grab');
   }, [isModalOpen, isDragging]);
 
   const calculateSnapToGrid = useCallback(
