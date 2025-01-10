@@ -1,4 +1,3 @@
-import { useMemo } from 'react';
 import { useTheme } from '../../core-react/internal/hooks/useTheme';
 import { background, border, cn, color, text } from '../../styles/theme';
 import { DEFAULT_PAYMENT_METHODS } from '../constants';
@@ -18,22 +17,10 @@ export function FundCard({
   headerText,
   currencySign = '$',
   paymentMethods = DEFAULT_PAYMENT_METHODS,
-  children,
+  children = <DefaultFundCardContent />,
   className,
 }: FundCardPropsReact) {
   const componentTheme = useTheme();
-
-  const defaultChildren = useMemo(
-    () => (
-      <>
-        <FundCardHeader />
-        <FundCardAmountInput />
-        <FundCardAmountInputTypeSwitch />
-        <FundCardPaymentMethodDropdown />
-      </>
-    ),
-    [],
-  );
 
   return (
     <FundCardProvider
@@ -48,14 +35,14 @@ export function FundCard({
           componentTheme,
           background.default,
           color.foreground,
-          'flex w-[440px] flex-col p-6',
+          'flex w-full flex-col p-6',
           text.headline,
           border.radius,
           border.lineDefault,
           className,
         )}
       >
-        <FundCardContent>{children ?? defaultChildren}</FundCardContent>
+        <FundCardContent>{children}</FundCardContent>
       </div>
     </FundCardProvider>
   );
@@ -90,5 +77,16 @@ function FundCardContent({ children }: FundCardContentPropsReact) {
         onPopupClose={() => setSubmitButtonState('default')}
       />
     </form>
+  );
+}
+
+function DefaultFundCardContent() {
+  return (
+    <>
+      <FundCardHeader />
+      <FundCardAmountInput />
+      <FundCardAmountInputTypeSwitch />
+      <FundCardPaymentMethodDropdown />
+    </>
   );
 }
