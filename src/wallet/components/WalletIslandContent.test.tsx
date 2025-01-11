@@ -1,8 +1,8 @@
 import type { SwapDefaultReact } from '@/swap/types';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { WalletIslandContent } from './WalletIslandContent';
-import { useWalletIslandContext } from './WalletIslandProvider';
+import { WalletAdvancedContent } from './WalletAdvancedContent';
+import { useWalletAdvancedContext } from './WalletAdvancedProvider';
 import { useWalletContext } from './WalletProvider';
 
 vi.mock('../../core-react/internal/hooks/useTheme', () => ({
@@ -42,7 +42,7 @@ vi.mock('./WalletProvider', () => ({
 
 describe('WalletIslandContent', () => {
   const mockUseWalletContext = useWalletContext as ReturnType<typeof vi.fn>;
-  const mockUseWalletIslandContext = useWalletIslandContext as ReturnType<
+  const mockUseWalletIslandContext = useWalletAdvancedContext as ReturnType<
     typeof vi.fn
   >;
 
@@ -82,9 +82,9 @@ describe('WalletIslandContent', () => {
     });
 
     render(
-      <WalletIslandContent>
+      <WalletAdvancedContent>
         <div>WalletIslandContent</div>
-      </WalletIslandContent>,
+      </WalletAdvancedContent>,
     );
 
     expect(screen.getByTestId('ockWalletIslandContent')).toBeDefined();
@@ -116,9 +116,9 @@ describe('WalletIslandContent', () => {
     });
 
     render(
-      <WalletIslandContent>
+      <WalletAdvancedContent>
         <div>WalletIslandContent</div>
-      </WalletIslandContent>,
+      </WalletAdvancedContent>,
     );
 
     expect(screen.getByTestId('ockWalletIslandContent')).toBeDefined();
@@ -149,9 +149,9 @@ describe('WalletIslandContent', () => {
     });
 
     render(
-      <WalletIslandContent>
+      <WalletAdvancedContent>
         <div>WalletIslandContent</div>
-      </WalletIslandContent>,
+      </WalletAdvancedContent>,
     );
 
     expect(screen.getByTestId('ockWalletIslandContent')).toBeDefined();
@@ -182,9 +182,9 @@ describe('WalletIslandContent', () => {
     });
 
     render(
-      <WalletIslandContent>
+      <WalletAdvancedContent>
         <div>WalletIslandContent</div>
-      </WalletIslandContent>,
+      </WalletAdvancedContent>,
     );
 
     expect(screen.getByTestId('ockWalletIslandContent')).toBeDefined();
@@ -210,9 +210,9 @@ describe('WalletIslandContent', () => {
     });
 
     render(
-      <WalletIslandContent>
+      <WalletAdvancedContent>
         <div>WalletIslandContent</div>
-      </WalletIslandContent>,
+      </WalletAdvancedContent>,
     );
 
     const content = screen.getByTestId('ockWalletIslandContent');
@@ -229,9 +229,9 @@ describe('WalletIslandContent', () => {
     });
 
     render(
-      <WalletIslandContent>
+      <WalletAdvancedContent>
         <div>WalletIslandContent</div>
-      </WalletIslandContent>,
+      </WalletAdvancedContent>,
     );
 
     expect(screen.getByTestId('ockWalletIslandQrReceive')).toBeDefined();
@@ -250,9 +250,9 @@ describe('WalletIslandContent', () => {
     });
 
     render(
-      <WalletIslandContent>
+      <WalletAdvancedContent>
         <div>WalletIslandContent</div>
-      </WalletIslandContent>,
+      </WalletAdvancedContent>,
     );
 
     expect(screen.getByTestId('ockWalletIslandSwap')).toBeDefined();
@@ -293,9 +293,9 @@ describe('WalletIslandContent', () => {
     mockUseWalletContext.mockReturnValue({ isSubComponentClosing: false });
 
     render(
-      <WalletIslandContent>
+      <WalletAdvancedContent>
         <div>WalletIslandContent</div>
-      </WalletIslandContent>,
+      </WalletAdvancedContent>,
     );
 
     const swapComponent = screen.getByTestId('ockWalletIslandSwap');

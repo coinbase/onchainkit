@@ -1,29 +1,31 @@
 import { useValue } from '@/core-react/internal/hooks/useValue';
 import { usePortfolioTokenBalances } from '@/core-react/wallet/hooks/usePortfolioTokenBalances';
 import { type ReactNode, createContext, useContext, useState } from 'react';
-import type { WalletIslandContextType } from '../types';
+import type { WalletAdvancedContextType } from '../types';
 import { useWalletContext } from './WalletProvider';
 
 type WalletIslandProviderReact = {
   children: ReactNode;
 };
 
-const emptyContext = {} as WalletIslandContextType;
+const emptyContext = {} as WalletAdvancedContextType;
 
-const WalletIslandContext =
-  createContext<WalletIslandContextType>(emptyContext);
+const WalletAdvancedContext =
+  createContext<WalletAdvancedContextType>(emptyContext);
 
-export function useWalletIslandContext() {
-  const walletIslandContext = useContext(WalletIslandContext);
-  if (walletIslandContext === emptyContext) {
+export function useWalletAdvancedContext() {
+  const walletAdvancedContext = useContext(WalletAdvancedContext);
+  if (walletAdvancedContext === emptyContext) {
     throw new Error(
-      'useWalletIslandContext must be used within a WalletIslandProvider',
+      'useWalletAdvancedContext must be used within a WalletAdvancedProvider',
     );
   }
-  return walletIslandContext;
+  return walletAdvancedContext;
 }
 
-export function WalletIslandProvider({ children }: WalletIslandProviderReact) {
+export function WalletAdvancedProvider({
+  children,
+}: WalletIslandProviderReact) {
   const { address, isSubComponentClosing, showSubComponentAbove } =
     useWalletContext();
   const [showSwap, setShowSwap] = useState(false);
@@ -63,9 +65,9 @@ export function WalletIslandProvider({ children }: WalletIslandProviderReact) {
   });
 
   return (
-    <WalletIslandContext.Provider value={value}>
+    <WalletAdvancedContext.Provider value={value}>
       {children}
-    </WalletIslandContext.Provider>
+    </WalletAdvancedContext.Provider>
   );
 }
 

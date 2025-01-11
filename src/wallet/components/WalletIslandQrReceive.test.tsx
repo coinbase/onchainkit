@@ -1,8 +1,8 @@
 import { useTheme } from '@/core-react/internal/hooks/useTheme';
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { useWalletIslandContext } from './WalletIslandProvider';
-import { WalletIslandQrReceive } from './WalletIslandQrReceive';
+import { useWalletAdvancedContext } from './WalletAdvancedProvider';
+import { WalletAdvancedQrReceive } from './WalletAdvancedQrReceive';
 import { useWalletContext } from './WalletProvider';
 
 vi.mock('../../core-react/internal/hooks/useTheme', () => ({
@@ -51,7 +51,7 @@ Object.defineProperty(navigator, 'clipboard', {
 describe('WalletIslandQrReceive', () => {
   const mockUseTheme = useTheme as ReturnType<typeof vi.fn>;
   const mockUseWalletContext = useWalletContext as ReturnType<typeof vi.fn>;
-  const mockUseWalletIslandContext = useWalletIslandContext as ReturnType<
+  const mockUseWalletIslandContext = useWalletAdvancedContext as ReturnType<
     typeof vi.fn
   >;
 
@@ -82,13 +82,13 @@ describe('WalletIslandQrReceive', () => {
       isSubComponentClosing: true,
     });
 
-    const { rerender } = render(<WalletIslandQrReceive />);
+    const { rerender } = render(<WalletAdvancedQrReceive />);
     expect(screen.queryByTestId('ockWalletIslandQrReceive')).toBeNull();
 
     mockUseWalletContext.mockReturnValue({
       isSubComponentClosing: false,
     });
-    rerender(<WalletIslandQrReceive />);
+    rerender(<WalletAdvancedQrReceive />);
     expect(screen.getByTestId('ockWalletIslandQrReceive')).toBeInTheDocument();
   });
 
@@ -97,7 +97,7 @@ describe('WalletIslandQrReceive', () => {
       isQrClosing: false,
     });
 
-    const { rerender } = render(<WalletIslandQrReceive />);
+    const { rerender } = render(<WalletAdvancedQrReceive />);
     expect(screen.getByTestId('ockWalletIslandQrReceive')).toBeInTheDocument();
     expect(screen.getByTestId('ockWalletIslandQrReceive')).toHaveClass(
       'fade-in slide-in-from-left-5 linear animate-in duration-150',
@@ -106,7 +106,7 @@ describe('WalletIslandQrReceive', () => {
     mockUseWalletIslandContext.mockReturnValue({
       isQrClosing: true,
     });
-    rerender(<WalletIslandQrReceive />);
+    rerender(<WalletAdvancedQrReceive />);
     expect(screen.getByTestId('ockWalletIslandQrReceive')).toHaveClass(
       'fade-out slide-out-to-left-5 animate-out fill-mode-forwards ease-in-out',
     );
@@ -122,7 +122,7 @@ describe('WalletIslandQrReceive', () => {
       setIsQrClosing: mockSetIsQrClosing,
     });
 
-    const { rerender } = render(<WalletIslandQrReceive />);
+    const { rerender } = render(<WalletAdvancedQrReceive />);
 
     const backButton = screen.getByRole('button', { name: /back button/i });
     fireEvent.click(backButton);
@@ -136,7 +136,7 @@ describe('WalletIslandQrReceive', () => {
       isQrClosing: true,
     });
 
-    rerender(<WalletIslandQrReceive />);
+    rerender(<WalletAdvancedQrReceive />);
 
     const qrContainer = screen.getByTestId('ockWalletIslandQrReceive');
     fireEvent.animationEnd(qrContainer);
@@ -159,7 +159,7 @@ describe('WalletIslandQrReceive', () => {
       showQr: true,
     });
 
-    render(<WalletIslandQrReceive />);
+    render(<WalletAdvancedQrReceive />);
 
     const copyIcon = screen.getByTestId('ockWalletIslandQrReceive_CopyIcon');
 
@@ -197,7 +197,7 @@ describe('WalletIslandQrReceive', () => {
       showQr: true,
     });
 
-    render(<WalletIslandQrReceive />);
+    render(<WalletAdvancedQrReceive />);
 
     const copyTooltip = screen.getByTestId(
       'ockWalletIslandQrReceive_CopyTooltip',
@@ -237,7 +237,7 @@ describe('WalletIslandQrReceive', () => {
       showQr: true,
     });
 
-    render(<WalletIslandQrReceive />);
+    render(<WalletAdvancedQrReceive />);
 
     const copyButton = screen.getByTestId(
       'ockWalletIslandQrReceive_CopyButton',
@@ -269,7 +269,7 @@ describe('WalletIslandQrReceive', () => {
       address: '0x1234567890',
     });
 
-    render(<WalletIslandQrReceive />);
+    render(<WalletAdvancedQrReceive />);
 
     mockSetCopyText.mockClear();
     const copyIcon = screen.getByTestId('ockWalletIslandQrReceive_CopyIcon');
@@ -305,7 +305,7 @@ describe('WalletIslandQrReceive', () => {
       address: undefined,
     });
 
-    render(<WalletIslandQrReceive />);
+    render(<WalletAdvancedQrReceive />);
 
     const copyIcon = screen.getByTestId('ockWalletIslandQrReceive_CopyIcon');
     fireEvent.click(copyIcon);

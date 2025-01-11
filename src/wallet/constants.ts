@@ -13,13 +13,13 @@ export const ERC_1967_PROXY_IMPLEMENTATION_SLOT =
 // The Coinbase Smart Wallet factory address.
 export const CB_SW_FACTORY_ADDRESS =
   '0x0BA5ED0c6AA8c49038F819E587E2633c4A9F428a';
-export const WALLET_ISLAND_MAX_HEIGHT = 400;
-export const WALLET_ISLAND_MAX_WIDTH = 352;
-export const WALLET_ISLAND_DEFAULT_SWAPPABLE_TOKENS: Token[] = [
-  ethToken,
-  usdcToken,
-];
 export const WALLET_DRAGGABLE_DEFAULT_STARTING_POSITION = {
   x: window.innerWidth - 300,
   y: window.innerHeight - 100,
 };
+export const WALLET_ADVANCED_MAX_HEIGHT = 400;
+export const WALLET_ADVANCED_MAX_WIDTH = 352;
+export const WALLET_ADVANCED_DEFAULT_SWAPPABLE_TOKENS: Token[] = [
+  ethToken,
+  usdcToken,
+];

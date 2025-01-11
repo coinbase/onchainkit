@@ -177,7 +177,7 @@ export type WalletDropdownLinkReact = {
 /**
  * Note: exported as public Type
  */
-export type WalletIslandReact = {
+export type WalletAdvancedReact = {
   children: React.ReactNode;
   swappableTokens?: Token[];
 };
@@ -185,7 +185,7 @@ export type WalletIslandReact = {
 /**
  * Note: exported as public Type
  */
-export type WalletIslandContextType = {
+export type WalletAdvancedContextType = {
   showSwap: boolean;
   setShowSwap: Dispatch<SetStateAction<boolean>>;
   isSwapClosing: boolean;

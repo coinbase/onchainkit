@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { useWalletIslandContext } from './WalletIslandProvider';
-import { WalletIslandTokenHoldings } from './WalletIslandTokenHoldings';
+import { useWalletAdvancedContext } from './WalletAdvancedProvider';
+import { WalletAdvancedTokenHoldings } from './WalletAdvancedTokenHoldings';
 
 vi.mock('./WalletIslandProvider', () => ({
   useWalletIslandContext: vi.fn(),
@@ -11,7 +11,7 @@ vi.mock('./WalletIslandProvider', () => ({
 }));
 
 describe('WalletIslandTokenHoldings', () => {
-  const mockUseWalletIslandContext = useWalletIslandContext as ReturnType<
+  const mockUseWalletIslandContext = useWalletAdvancedContext as ReturnType<
     typeof vi.fn
   >;
 
@@ -34,7 +34,7 @@ describe('WalletIslandTokenHoldings', () => {
   });
 
   it('does not render token lists with zero tokens', () => {
-    render(<WalletIslandTokenHoldings />);
+    render(<WalletAdvancedTokenHoldings />);
 
     expect(screen.queryByTestId('ockWalletIsland_TokenHoldings')).toBeNull();
   });
@@ -45,7 +45,7 @@ describe('WalletIslandTokenHoldings', () => {
       isFetchingPortfolioData: true,
     });
 
-    render(<WalletIslandTokenHoldings />);
+    render(<WalletAdvancedTokenHoldings />);
 
     const placeholder = screen.getByTestId(
       'ockWalletIsland_LoadingPlaceholder',
@@ -101,7 +101,7 @@ describe('WalletIslandTokenHoldings', () => {
       tokenBalances: tokens,
     });
 
-    render(<WalletIslandTokenHoldings />);
+    render(<WalletAdvancedTokenHoldings />);
 
     expect(screen.getByTestId('ockWalletIsland_TokenHoldings')).toBeDefined();
   });
@@ -125,7 +125,7 @@ describe('WalletIslandTokenHoldings', () => {
       tokenBalances: tokens,
     });
 
-    render(<WalletIslandTokenHoldings />);
+    render(<WalletAdvancedTokenHoldings />);
 
     expect(screen.getByText('Spaced Token')).toBeInTheDocument();
   });

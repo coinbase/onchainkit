@@ -1,13 +1,13 @@
 import { Spinner } from '@/internal/components/Spinner';
 import { border, cn, color, pressable, text } from '@/styles/theme';
 import { Avatar, Badge, Name } from '@/ui/react/identity';
-import { useWalletIslandContext } from '@/wallet/components/WalletIslandProvider';
 import { useCallback, useState } from 'react';
+import { useWalletAdvancedContext } from './WalletAdvancedProvider';
 import { useWalletContext } from './WalletProvider';
 
-export function WalletIslandAddressDetails() {
+export function WalletAdvancedAddressDetails() {
   const { address, chain, isSubComponentClosing } = useWalletContext();
-  const { animations } = useWalletIslandContext();
+  const { animations } = useWalletAdvancedContext();
   const [copyText, setCopyText] = useState('Copy');
 
   const handleCopyAddress = useCallback(async () => {
@@ -76,7 +76,7 @@ export function WalletIslandAddressDetails() {
 
 function AddressBalanceInFiat() {
   const { portfolioFiatValue, isFetchingPortfolioData } =
-    useWalletIslandContext();
+    useWalletAdvancedContext();
 
   const formattedValueInFiat = new Intl.NumberFormat('en-US', {
     style: 'currency',

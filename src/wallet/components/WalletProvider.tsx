@@ -11,8 +11,8 @@ import { useAccount } from 'wagmi';
 import { useValue } from '../../core-react/internal/hooks/useValue';
 import { useOnchainKit } from '../../core-react/useOnchainKit';
 import {
-  WALLET_ISLAND_MAX_HEIGHT,
-  WALLET_ISLAND_MAX_WIDTH,
+  WALLET_ADVANCED_MAX_HEIGHT,
+  WALLET_ADVANCED_MAX_WIDTH,
 } from '../constants';
 import type { WalletContextType } from '../types';
 
@@ -50,8 +50,12 @@ export function WalletProvider({ children }: WalletProviderReact) {
       const spaceAvailableBelow = viewportHeight - connectRect.bottom;
       const spaceAvailableRight = viewportWidth - connectRect.left;
 
-      setShowSubComponentAbove(spaceAvailableBelow < WALLET_ISLAND_MAX_HEIGHT);
-      setAlignSubComponentRight(spaceAvailableRight < WALLET_ISLAND_MAX_WIDTH);
+      setShowSubComponentAbove(
+        spaceAvailableBelow < WALLET_ADVANCED_MAX_HEIGHT,
+      );
+      setAlignSubComponentRight(
+        spaceAvailableRight < WALLET_ADVANCED_MAX_WIDTH,
+      );
     }
   }, [isSubComponentOpen]);
 

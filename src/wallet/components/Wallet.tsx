@@ -9,7 +9,7 @@ import type { WalletReact } from '../types';
 import { WALLET_DRAGGABLE_DEFAULT_STARTING_POSITION } from '../constants';
 import { ConnectWallet } from './ConnectWallet';
 import { WalletDropdown } from './WalletDropdown';
-import { WalletIsland } from './WalletIsland';
+import { WalletAdvanced } from './WalletAdvanced';
 import { WalletProvider, useWalletContext } from './WalletProvider';
 
 export const Wallet = ({
@@ -33,7 +33,9 @@ export const Wallet = ({
         {...(draggable
           ? {
               draggable,
-              draggableStartingPosition: draggableStartingPosition ?? WALLET_DRAGGABLE_DEFAULT_STARTING_POSITION,
+              draggableStartingPosition:
+                draggableStartingPosition ??
+                WALLET_DRAGGABLE_DEFAULT_STARTING_POSITION,
             }
           : { draggable })}
       >
@@ -66,7 +68,7 @@ function WalletContent({
     return {
       connect: childrenArray.find(findComponent(ConnectWallet)),
       dropdown: childrenArray.find(findComponent(WalletDropdown)),
-      island: childrenArray.find(findComponent(WalletIsland)),
+      island: childrenArray.find(findComponent(WalletAdvanced)),
     };
   }, [children]);
 

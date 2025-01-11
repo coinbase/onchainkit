@@ -1,6 +1,6 @@
 import { cn, color, text } from '@/styles/theme';
 import { type Token, TokenImage } from '@/token';
-import { useWalletIslandContext } from './WalletIslandProvider';
+import { useWalletAdvancedContext } from './WalletAdvancedProvider';
 
 type TokenDetailsProps = {
   token: Token;
@@ -8,9 +8,9 @@ type TokenDetailsProps = {
   valueInFiat: number;
 };
 
-export function WalletIslandTokenHoldings() {
+export function WalletAdvancedTokenHoldings() {
   const { tokenBalances, isFetchingPortfolioData, animations } =
-    useWalletIslandContext();
+    useWalletAdvancedContext();
 
   if (isFetchingPortfolioData || !tokenBalances || tokenBalances.length === 0) {
     return (

@@ -13,9 +13,9 @@ import { SwapToast } from '@/swap/components/SwapToast';
 import { SwapToggleButton } from '@/swap/components/SwapToggleButton';
 import type { SwapDefaultReact } from '@/swap/types';
 import { useCallback } from 'react';
-import { useWalletIslandContext } from './WalletIslandProvider';
+import { useWalletAdvancedContext } from './WalletAdvancedProvider';
 
-export function WalletIslandSwap({
+export function WalletAdvancedSwap({
   config,
   className,
   disabled,
@@ -29,7 +29,7 @@ export function WalletIslandSwap({
   to,
 }: SwapDefaultReact) {
   const { setShowSwap, isSwapClosing, setIsSwapClosing } =
-    useWalletIslandContext();
+    useWalletAdvancedContext();
 
   const handleCloseSwap = useCallback(() => {
     setIsSwapClosing(true);

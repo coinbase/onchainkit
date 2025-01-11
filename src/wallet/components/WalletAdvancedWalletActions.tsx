@@ -6,13 +6,13 @@ import { refreshSvg } from '@/internal/svg/refreshSvg';
 import { cn } from '@/styles/theme';
 import { useCallback } from 'react';
 import { useDisconnect } from 'wagmi';
-import { useWalletIslandContext } from './WalletIslandProvider';
+import { useWalletAdvancedContext } from './WalletAdvancedProvider';
 import { useWalletContext } from './WalletProvider';
 
-export function WalletIslandWalletActions() {
+export function WalletAdvancedWalletActions() {
   const { address, handleClose } = useWalletContext();
   const { setShowQr, refetchPortfolioData, animations } =
-    useWalletIslandContext();
+    useWalletAdvancedContext();
   const { disconnect, connectors } = useDisconnect();
 
   const handleTransactions = useCallback(() => {

@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useAccount, useConnect } from 'wagmi';
-import { WalletIslandDraggable } from './WalletIslandDraggable';
+import { WalletIsland } from './WalletIslandDraggable';
 import { useWalletContext } from './WalletProvider';
 
 vi.mock('wagmi', () => ({
@@ -63,7 +63,7 @@ describe('WalletIslandDraggable', () => {
   it('renders ConnectWallet in disconnected state', () => {
     mockUseWalletContext.mockReturnValue({ isSubComponentOpen: false });
 
-    render(<WalletIslandDraggable />);
+    render(<WalletIsland />);
 
     expect(screen.getByTestId('ockConnectWallet_Container')).toBeDefined();
   });
@@ -80,7 +80,7 @@ describe('WalletIslandDraggable', () => {
 
     mockUseWalletContext.mockReturnValue({ isSubComponentOpen: false });
 
-    render(<WalletIslandDraggable />);
+    render(<WalletIsland />);
 
     expect(screen.getByTestId('ockAvatar_ImageContainer')).toBeDefined();
     expect(screen.getByTestId('ockIdentity_Text')).toBeDefined();
@@ -98,7 +98,7 @@ describe('WalletIslandDraggable', () => {
 
     mockUseWalletContext.mockReturnValue({ isSubComponentOpen: true });
 
-    render(<WalletIslandDraggable />);
+    render(<WalletIsland />);
 
     expect(screen.getByTestId('ockWalletIslandContent')).toBeDefined();
   });

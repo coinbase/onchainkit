@@ -1,8 +1,8 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useDisconnect } from 'wagmi';
-import { useWalletIslandContext } from './WalletIslandProvider';
-import { WalletIslandWalletActions } from './WalletIslandWalletActions';
+import { useWalletAdvancedContext } from './WalletAdvancedProvider';
+import { WalletAdvancedWalletActions } from './WalletAdvancedWalletActions';
 import { useWalletContext } from './WalletProvider';
 
 vi.mock('wagmi', () => ({
@@ -29,7 +29,7 @@ vi.mock('./WalletProvider', () => ({
 
 describe('WalletIslandWalletActions', () => {
   const mockUseWalletContext = useWalletContext as ReturnType<typeof vi.fn>;
-  const mockUseWalletIslandContext = useWalletIslandContext as ReturnType<
+  const mockUseWalletIslandContext = useWalletAdvancedContext as ReturnType<
     typeof vi.fn
   >;
 
@@ -61,7 +61,7 @@ describe('WalletIslandWalletActions', () => {
       connectors: [],
     });
 
-    render(<WalletIslandWalletActions />);
+    render(<WalletAdvancedWalletActions />);
 
     expect(
       screen.getByTestId('ockWalletIsland_TransactionsButton'),
@@ -92,7 +92,7 @@ describe('WalletIslandWalletActions', () => {
       connectors: [{ id: 'mock-connector' }],
     });
 
-    render(<WalletIslandWalletActions />);
+    render(<WalletAdvancedWalletActions />);
 
     const disconnectButton = screen.getByTestId(
       'ockWalletIsland_DisconnectButton',
@@ -110,7 +110,7 @@ describe('WalletIslandWalletActions', () => {
       setShowQr: setShowQrMock,
     });
 
-    render(<WalletIslandWalletActions />);
+    render(<WalletAdvancedWalletActions />);
 
     const qrButton = screen.getByTestId('ockWalletIsland_QrButton');
     fireEvent.click(qrButton);
@@ -125,7 +125,7 @@ describe('WalletIslandWalletActions', () => {
       refetchPortfolioData: refetchPortfolioDataMock,
     });
 
-    render(<WalletIslandWalletActions />);
+    render(<WalletAdvancedWalletActions />);
 
     const refreshButton = screen.getByTestId('ockWalletIsland_RefreshButton');
     fireEvent.click(refreshButton);
@@ -143,7 +143,7 @@ describe('WalletIslandWalletActions', () => {
       .spyOn(window, 'open')
       .mockImplementation(() => null);
 
-    render(<WalletIslandWalletActions />);
+    render(<WalletAdvancedWalletActions />);
 
     const transactionsButton = screen.getByTestId(
       'ockWalletIsland_TransactionsButton',

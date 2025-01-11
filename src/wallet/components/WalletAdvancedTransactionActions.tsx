@@ -4,7 +4,7 @@ import { arrowUpRightSvg } from '@/internal/svg/arrowUpRightSvg';
 import { toggleSvg } from '@/internal/svg/toggleSvg';
 import { border, cn, color, pressable, text } from '@/styles/theme';
 import { useCallback } from 'react';
-import { useWalletIslandContext } from './WalletIslandProvider';
+import { useWalletAdvancedContext } from './WalletAdvancedProvider';
 import { useWalletContext } from './WalletProvider';
 
 type TransactionActionProps = {
@@ -13,11 +13,11 @@ type TransactionActionProps = {
   action: () => void;
 };
 
-export function WalletIslandTransactionActions() {
+export function WalletAdvancedTransactionActions() {
   const { address, chain } = useWalletContext();
   const { projectId } = useOnchainKit();
   const { isFetchingPortfolioData, setShowSwap, animations } =
-    useWalletIslandContext();
+    useWalletAdvancedContext();
 
   const handleBuy = useCallback(() => {
     if (!projectId || !address || !chain?.name) {

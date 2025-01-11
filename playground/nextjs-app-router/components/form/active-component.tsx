@@ -47,11 +47,11 @@ export function ActiveComponent() {
           <SelectItem value={OnchainKitComponent.WalletDefault}>
             WalletDefault
           </SelectItem>
-          <SelectItem value={OnchainKitComponent.WalletIslandDraggable}>
-            WalletIslandDraggable
+          <SelectItem value={OnchainKitComponent.WalletAdvancedDefault}>
+            WalletAdvancedDefault
           </SelectItem>
-          <SelectItem value={OnchainKitComponent.WalletIslandFixed}>
-            WalletIslandFixed
+          <SelectItem value={OnchainKitComponent.WalletIsland}>
+            WalletIsland
           </SelectItem>
           <SelectItem value={OnchainKitComponent.NFTCard}>NFT Card</SelectItem>
           <SelectItem value={OnchainKitComponent.NFTCardDefault}>

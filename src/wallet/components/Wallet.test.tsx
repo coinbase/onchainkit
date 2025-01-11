@@ -4,7 +4,7 @@ import { useOutsideClick } from '../../ui/react/internal/hooks/useOutsideClick';
 import { ConnectWallet } from './ConnectWallet';
 import { Wallet } from './Wallet';
 import { WalletDropdown } from './WalletDropdown';
-import { WalletIsland } from './WalletIsland';
+import { WalletAdvanced } from './WalletAdvanced';
 import { type WalletProviderReact, useWalletContext } from './WalletProvider';
 
 vi.mock('../../core-react/internal/hooks/useTheme', () => ({
@@ -135,9 +135,9 @@ describe('Wallet Component', () => {
         <WalletDropdown>
           <div>Wallet Dropdown</div>
         </WalletDropdown>
-        <WalletIsland>
+        <WalletAdvanced>
           <div>Wallet Island</div>
-        </WalletIsland>
+        </WalletAdvanced>
       </Wallet>,
     );
 
@@ -160,9 +160,9 @@ describe('Wallet Component', () => {
     render(
       <Wallet>
         <ConnectWallet />
-        <WalletIsland>
+        <WalletAdvanced>
           <div>Wallet Island</div>
-        </WalletIsland>
+        </WalletAdvanced>
       </Wallet>,
     );
 
@@ -180,9 +180,9 @@ describe('Wallet Component', () => {
     render(
       <Wallet draggable={true}>
         <ConnectWallet />
-        <WalletIsland>
+        <WalletAdvanced>
           <div>Wallet Island</div>
-        </WalletIsland>
+        </WalletAdvanced>
       </Wallet>,
     );
 
@@ -204,9 +204,9 @@ describe('Wallet Component', () => {
     render(
       <Wallet>
         <ConnectWallet />
-        <WalletIsland>
+        <WalletAdvanced>
           <div>Wallet Island</div>
-        </WalletIsland>
+        </WalletAdvanced>
       </Wallet>,
     );
 
@@ -229,9 +229,9 @@ describe('Wallet Component', () => {
     render(
       <Wallet>
         <ConnectWallet />
-        <WalletIsland>
+        <WalletAdvanced>
           <div>Wallet Island</div>
-        </WalletIsland>
+        </WalletAdvanced>
       </Wallet>,
     );
 
@@ -255,9 +255,9 @@ describe('Wallet Component', () => {
     render(
       <Wallet>
         <ConnectWallet />
-        <WalletIsland>
+        <WalletAdvanced>
           <div>Wallet Island</div>
-        </WalletIsland>
+        </WalletAdvanced>
       </Wallet>,
     );
 
@@ -280,9 +280,9 @@ describe('Wallet Component', () => {
     render(
       <Wallet>
         <ConnectWallet />
-        <WalletIsland>
+        <WalletAdvanced>
           <div>Wallet Island</div>
-        </WalletIsland>
+        </WalletAdvanced>
       </Wallet>,
     );
 

@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { ConnectWallet } from './ConnectWallet';
 import { Wallet } from './Wallet';
-import { WalletIsland } from './WalletIsland';
+import { WalletAdvanced } from './WalletAdvanced';
 import { useWalletContext } from './WalletProvider';
 
 vi.mock('../../core-react/internal/hooks/useTheme', () => ({
@@ -46,9 +46,9 @@ describe('WalletIsland', () => {
     render(
       <Wallet>
         <ConnectWallet />
-        <WalletIsland>
+        <WalletAdvanced>
           <div data-testid="child-content">Some content</div>
-        </WalletIsland>
+        </WalletAdvanced>
       </Wallet>,
     );
 
@@ -63,9 +63,9 @@ describe('WalletIsland', () => {
     render(
       <Wallet>
         <ConnectWallet />
-        <WalletIsland>
+        <WalletAdvanced>
           <div data-testid="child-content">Some content</div>
-        </WalletIsland>
+        </WalletAdvanced>
       </Wallet>,
     );
 

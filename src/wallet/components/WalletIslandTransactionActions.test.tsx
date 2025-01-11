@@ -1,8 +1,8 @@
 import { useOnchainKit } from '@/core-react/useOnchainKit';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { useWalletIslandContext } from './WalletIslandProvider';
-import { WalletIslandTransactionActions } from './WalletIslandTransactionActions';
+import { useWalletAdvancedContext } from './WalletAdvancedProvider';
+import { WalletAdvancedTransactionActions } from './WalletAdvancedTransactionActions';
 import { useWalletContext } from './WalletProvider';
 
 vi.mock('@/core-react/useOnchainKit', () => ({
@@ -21,7 +21,7 @@ vi.mock('./WalletProvider', () => ({
 }));
 
 describe('WalletIslandTransactionActons', () => {
-  const mockUseWalletIslandContext = useWalletIslandContext as ReturnType<
+  const mockUseWalletIslandContext = useWalletAdvancedContext as ReturnType<
     typeof vi.fn
   >;
 
@@ -57,7 +57,7 @@ describe('WalletIslandTransactionActons', () => {
   });
 
   it('renders the WalletIslandTransactionActions component', () => {
-    render(<WalletIslandTransactionActions />);
+    render(<WalletAdvancedTransactionActions />);
 
     const buyButton = screen.getByRole('button', { name: 'Buy' });
     const sendButton = screen.getByRole('button', { name: 'Send' });
@@ -69,7 +69,7 @@ describe('WalletIslandTransactionActons', () => {
   });
 
   it('opens the buy page when the buy button is clicked and projectId, address and chain.name are defined', () => {
-    render(<WalletIslandTransactionActions />);
+    render(<WalletAdvancedTransactionActions />);
 
     const buyButton = screen.getByRole('button', { name: 'Buy' });
     fireEvent.click(buyButton);
@@ -78,19 +78,25 @@ describe('WalletIslandTransactionActons', () => {
     const url = new URL(urlString);
     const params = Object.fromEntries(url.searchParams);
 
-    expect(url.origin + url.pathname).toBe('https://pay.coinbase.com/buy/select-asset');
+    expect(url.origin + url.pathname).toBe(
+      'https://pay.coinbase.com/buy/select-asset',
+    );
     expect(params).toEqual({
       appId: mockProjectId,
-      destinationWallets: JSON.stringify([{
-        address: mockAddress,
-        blockchains: [mockChain.name.toLowerCase()]
-      }]),
+      destinationWallets: JSON.stringify([
+        {
+          address: mockAddress,
+          blockchains: [mockChain.name.toLowerCase()],
+        },
+      ]),
       defaultAsset: 'USDC',
       defaultPaymentMethod: 'CRYPTO_ACCOUNT',
-      presetFiatAmount: '25'
+      presetFiatAmount: '25',
     });
     expect(vi.mocked(window.open).mock.calls[0][1]).toBe('popup');
-    expect(vi.mocked(window.open).mock.calls[0][2]).toBe('width=400,height=600,scrollbars=yes');
+    expect(vi.mocked(window.open).mock.calls[0][2]).toBe(
+      'width=400,height=600,scrollbars=yes',
+    );
   });
 
   it('opens the buy page when the buy button is clicked and projectId, address or chain.name are not defined', () => {
@@ -98,7 +104,7 @@ describe('WalletIslandTransactionActons', () => {
     mockUseOnchainKit.mockReturnValue({
       projectId: null,
     });
-    const { rerender } = render(<WalletIslandTransactionActions />);
+    const { rerender } = render(<WalletAdvancedTransactionActions />);
     const buyButton = screen.getByRole('button', { name: 'Buy' });
     fireEvent.click(buyButton);
     expect(window.open).not.toHaveBeenCalled();
@@ -111,7 +117,7 @@ describe('WalletIslandTransactionActons', () => {
       address: null,
       chain: mockChain,
     });
-    rerender(<WalletIslandTransactionActions />);
+    rerender(<WalletAdvancedTransactionActions />);
     fireEvent.click(buyButton);
     expect(window.open).not.toHaveBeenCalled();
 
@@ -120,13 +126,13 @@ describe('WalletIslandTransactionActons', () => {
       address: mockAddress,
       chain: null,
     });
-    rerender(<WalletIslandTransactionActions />);
+    rerender(<WalletAdvancedTransactionActions />);
     fireEvent.click(buyButton);
     expect(window.open).not.toHaveBeenCalled();
   });
 
   it('opens the send page when the send button is clicked', () => {
-    render(<WalletIslandTransactionActions />);
+    render(<WalletAdvancedTransactionActions />);
 
     const sendButton = screen.getByRole('button', { name: 'Send' });
     fireEvent.click(sendButton);
@@ -145,7 +151,7 @@ describe('WalletIslandTransactionActons', () => {
       setShowSwap: setShowSwapMock,
     });
 
-    render(<WalletIslandTransactionActions />);
+    render(<WalletAdvancedTransactionActions />);
 
     const swapButton = screen.getByRole('button', { name: 'Swap' });
     fireEvent.click(swapButton);
@@ -159,7 +165,7 @@ describe('WalletIslandTransactionActons', () => {
       isFetchingPortfolioData: true,
     });
 
-    render(<WalletIslandTransactionActions />);
+    render(<WalletAdvancedTransactionActions />);
 
     const placeholder = screen.getByTestId(
       'ockWalletIsland_LoadingPlaceholder',

@@ -3,9 +3,9 @@ import { render, renderHook } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { useAccount } from 'wagmi';
 import {
-  WalletIslandProvider,
-  useWalletIslandContext,
-} from './WalletIslandProvider';
+  WalletAdvancedProvider,
+  useWalletAdvancedContext,
+} from './WalletAdvancedProvider';
 import { useWalletContext } from './WalletProvider';
 
 vi.mock('wagmi', () => ({
@@ -53,8 +53,8 @@ describe('useWalletIslandContext', () => {
   });
 
   it('should provide wallet island context when used within provider', () => {
-    const { result } = renderHook(() => useWalletIslandContext(), {
-      wrapper: WalletIslandProvider,
+    const { result } = renderHook(() => useWalletAdvancedContext(), {
+      wrapper: WalletAdvancedProvider,
     });
 
     expect(result.current).toEqual({
@@ -80,7 +80,7 @@ describe('useWalletIslandContext', () => {
 
   it('should throw an error when used outside of WalletIslandProvider', () => {
     const TestComponent = () => {
-      useWalletIslandContext();
+      useWalletAdvancedContext();
       return null;
     };
     // Suppress console.error for this test to avoid noisy output
@@ -101,8 +101,8 @@ describe('useWalletIslandContext', () => {
       isSubComponentClosing: false,
     });
 
-    const { rerender } = renderHook(() => useWalletIslandContext(), {
-      wrapper: WalletIslandProvider,
+    const { rerender } = renderHook(() => useWalletAdvancedContext(), {
+      wrapper: WalletAdvancedProvider,
     });
 
     expect(mockUsePortfolioTokenBalances).toHaveBeenCalledWith({
@@ -129,8 +129,8 @@ describe('useWalletIslandContext', () => {
         showSubComponentAbove: false,
       });
 
-      const { result } = renderHook(() => useWalletIslandContext(), {
-        wrapper: WalletIslandProvider,
+      const { result } = renderHook(() => useWalletAdvancedContext(), {
+        wrapper: WalletAdvancedProvider,
       });
 
       expect(result.current.animations).toEqual({
@@ -147,8 +147,8 @@ describe('useWalletIslandContext', () => {
         showSubComponentAbove: true,
       });
 
-      const { result } = renderHook(() => useWalletIslandContext(), {
-        wrapper: WalletIslandProvider,
+      const { result } = renderHook(() => useWalletAdvancedContext(), {
+        wrapper: WalletAdvancedProvider,
       });
 
       expect(result.current.animations).toEqual({
@@ -165,8 +165,8 @@ describe('useWalletIslandContext', () => {
         showSubComponentAbove: false,
       });
 
-      const { result } = renderHook(() => useWalletIslandContext(), {
-        wrapper: WalletIslandProvider,
+      const { result } = renderHook(() => useWalletAdvancedContext(), {
+        wrapper: WalletAdvancedProvider,
       });
 
       expect(result.current.animations).toEqual({
@@ -184,8 +184,8 @@ describe('useWalletIslandContext', () => {
         showSubComponentAbove: true,
       });
 
-      const { result } = renderHook(() => useWalletIslandContext(), {
-        wrapper: WalletIslandProvider,
+      const { result } = renderHook(() => useWalletAdvancedContext(), {
+        wrapper: WalletAdvancedProvider,
       });
 
       expect(result.current.animations).toEqual({

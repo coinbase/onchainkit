@@ -3,8 +3,8 @@ import type { Token } from '@/token';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { useAccount } from 'wagmi';
-import { useWalletIslandContext } from './WalletIslandProvider';
-import { WalletIslandSwap } from './WalletIslandSwap';
+import { useWalletAdvancedContext } from './WalletAdvancedProvider';
+import { WalletAdvancedSwap } from './WalletAdvancedSwap';
 import { useWalletContext } from './WalletProvider';
 
 const tokens = [
@@ -77,7 +77,7 @@ vi.mock('./WalletProvider', () => ({
 
 describe('WalletIslandSwap', () => {
   const mockUseWalletContext = useWalletContext as ReturnType<typeof vi.fn>;
-  const mockUseWalletIslandContext = useWalletIslandContext as ReturnType<
+  const mockUseWalletIslandContext = useWalletAdvancedContext as ReturnType<
     typeof vi.fn
   >;
   const mockUseSwapContext = useSwapContext as ReturnType<typeof vi.fn>;
@@ -149,7 +149,7 @@ describe('WalletIslandSwap', () => {
     });
 
     render(
-      <WalletIslandSwap
+      <WalletAdvancedSwap
         config={{ maxSlippage: 1 }}
         from={[tokens[0]] as Token[]}
         to={[tokens[1]] as Token[]}
@@ -167,7 +167,7 @@ describe('WalletIslandSwap', () => {
     });
 
     const { rerender } = render(
-      <WalletIslandSwap
+      <WalletAdvancedSwap
         config={{ maxSlippage: 1 }}
         from={[tokens[0]] as Token[]}
         to={[tokens[1]] as Token[]}
@@ -185,7 +185,7 @@ describe('WalletIslandSwap', () => {
       isSwapClosing: true,
     });
     rerender(
-      <WalletIslandSwap
+      <WalletAdvancedSwap
         config={{ maxSlippage: 1 }}
         from={[tokens[0]] as Token[]}
         to={[tokens[1]] as Token[]}
@@ -211,7 +211,7 @@ describe('WalletIslandSwap', () => {
     });
 
     const { rerender } = render(
-      <WalletIslandSwap
+      <WalletAdvancedSwap
         config={{ maxSlippage: 1 }}
         from={[tokens[0]] as Token[]}
         to={[tokens[1]] as Token[]}
@@ -234,7 +234,7 @@ describe('WalletIslandSwap', () => {
     });
 
     rerender(
-      <WalletIslandSwap
+      <WalletAdvancedSwap
         config={{ maxSlippage: 1 }}
         from={[tokens[0]] as Token[]}
         to={[tokens[1]] as Token[]}

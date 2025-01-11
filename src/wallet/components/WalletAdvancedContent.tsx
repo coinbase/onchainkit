@@ -1,22 +1,22 @@
 import { background, border, cn, text } from '@/styles/theme';
-import { WALLET_ISLAND_DEFAULT_SWAPPABLE_TOKENS } from '../constants';
-import type { WalletIslandReact } from '../types';
-import { useWalletIslandContext } from './WalletIslandProvider';
-import { WalletIslandQrReceive } from './WalletIslandQrReceive';
-import { WalletIslandSwap } from './WalletIslandSwap';
+import { WALLET_ADVANCED_DEFAULT_SWAPPABLE_TOKENS } from '../constants';
+import type { WalletAdvancedReact } from '../types';
+import { useWalletAdvancedContext } from './WalletAdvancedProvider';
+import { WalletAdvancedQrReceive } from './WalletAdvancedQrReceive';
+import { WalletAdvancedSwap } from './WalletAdvancedSwap';
 import { useWalletContext } from './WalletProvider';
 
-export function WalletIslandContent({
+export function WalletAdvancedContent({
   children,
   swappableTokens,
-}: WalletIslandReact) {
+}: WalletAdvancedReact) {
   const {
     isSubComponentClosing,
     setIsSubComponentOpen,
     setIsSubComponentClosing,
   } = useWalletContext();
   const { showQr, showSwap, tokenBalances, animations } =
-    useWalletIslandContext();
+    useWalletAdvancedContext();
 
   return (
     <div
@@ -43,7 +43,7 @@ export function WalletIslandContent({
           showQr ? '' : 'hidden',
         )}
       >
-        <WalletIslandQrReceive />
+        <WalletAdvancedQrReceive />
       </div>
       <div
         className={cn(
@@ -52,13 +52,13 @@ export function WalletIslandContent({
           showSwap ? '' : 'hidden',
         )}
       >
-        <WalletIslandSwap
+        <WalletAdvancedSwap
           title={
             <div className={cn(text.headline, 'w-full text-center text-base')}>
               Swap
             </div>
           }
-          to={swappableTokens ?? WALLET_ISLAND_DEFAULT_SWAPPABLE_TOKENS}
+          to={swappableTokens ?? WALLET_ADVANCED_DEFAULT_SWAPPABLE_TOKENS}
           from={
             tokenBalances?.map((token) => ({
               address: token.address,

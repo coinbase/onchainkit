@@ -20,8 +20,8 @@ import TransactionDemo from './demo/Transaction';
 import TransactionDefaultDemo from './demo/TransactionDefault';
 import WalletDemo from './demo/Wallet';
 import WalletDefaultDemo from './demo/WalletDefault';
-import WalletIslandDraggableDemo from './demo/WalletIslandDraggable';
-import WalletIslandFixedDemo from './demo/WalletIslandFixed';
+import WalletIslandDemo from './demo/WalletIsland';
+import WalletAdvancedDefaultDemo from './demo/WalletAdvancedDefault';
 
 const activeComponentMapping: Record<OnchainKitComponent, React.FC> = {
   [OnchainKitComponent.Buy]: BuyDemo,
@@ -33,8 +33,8 @@ const activeComponentMapping: Record<OnchainKitComponent, React.FC> = {
   [OnchainKitComponent.SwapDefault]: SwapDefaultDemo,
   [OnchainKitComponent.Wallet]: WalletDemo,
   [OnchainKitComponent.WalletDefault]: WalletDefaultDemo,
-  [OnchainKitComponent.WalletIslandDraggable]: WalletIslandDraggableDemo,
-  [OnchainKitComponent.WalletIslandFixed]: WalletIslandFixedDemo,
+  [OnchainKitComponent.WalletIsland]: WalletIslandDemo,
+  [OnchainKitComponent.WalletAdvancedDefault]: WalletAdvancedDefaultDemo,
   [OnchainKitComponent.TransactionDefault]: TransactionDefaultDemo,
   [OnchainKitComponent.NFTMintCard]: NFTMintCardDemo,
   [OnchainKitComponent.NFTCard]: NFTCardDemo,
@@ -147,7 +147,7 @@ export default function Demo() {
         <div
           className={cn(
             'flex h-full w-full flex-col items-center',
-            activeComponent === OnchainKitComponent.WalletIslandFixed
+            activeComponent === OnchainKitComponent.WalletAdvancedDefault
               ? 'mt-12 justify-start'
               : 'justify-center',
           )}

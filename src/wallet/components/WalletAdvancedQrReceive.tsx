@@ -4,12 +4,12 @@ import { backArrowSvg } from '@/internal/svg/backArrowSvg';
 import { copySvg } from '@/internal/svg/copySvg';
 import { border, cn, color, pressable, text } from '@/styles/theme';
 import { useCallback, useState } from 'react';
-import { useWalletIslandContext } from './WalletIslandProvider';
+import { useWalletAdvancedContext } from './WalletAdvancedProvider';
 import { useWalletContext } from './WalletProvider';
 
-export function WalletIslandQrReceive() {
+export function WalletAdvancedQrReceive() {
   const { address, isSubComponentClosing } = useWalletContext();
-  const { setShowQr, isQrClosing, setIsQrClosing } = useWalletIslandContext();
+  const { setShowQr, isQrClosing, setIsQrClosing } = useWalletAdvancedContext();
   const [copyText, setCopyText] = useState('Copy');
   const [copyButtonText, setCopyButtonText] = useState('Copy address');
 
