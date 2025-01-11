@@ -1,4 +1,3 @@
-import { useDebounce } from '@/core-react/internal/hooks/useDebounce';
 import { setOnchainKitConfig } from '@/core/OnchainKitConfig';
 import { openPopup } from '@/ui-react/internal/utils/openPopup';
 import '@testing-library/jest-dom';
@@ -23,10 +22,6 @@ vi.mock('../../core-react/internal/hooks/useTheme', () => ({
 
 vi.mock('../hooks/useGetFundingUrl', () => ({
   useGetFundingUrl: vi.fn(),
-}));
-
-vi.mock('../../core-react/internal/hooks/useDebounce', () => ({
-  useDebounce: vi.fn((callback) => callback),
 }));
 
 vi.mock('../hooks/useFundCardFundingUrl', () => ({
@@ -121,7 +116,6 @@ describe('FundCardSubmitButton', () => {
     }));
     (useFundCardFundingUrl as Mock).mockReturnValue('mock-funding-url');
     (fetchOnrampQuote as Mock).mockResolvedValue(mockResponseData);
-    (useDebounce as Mock).mockImplementation((callback) => callback);
     (useAccount as Mock).mockReturnValue({
       address: '0x123',
     });

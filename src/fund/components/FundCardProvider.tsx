@@ -1,5 +1,10 @@
-import { useDebounce } from '@/core-react/internal/hooks/useDebounce';
-import { createContext, useContext, useEffect, useState } from 'react';
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 import { useValue } from '../../core-react/internal/hooks/useValue';
 import { DEFAULT_PAYMENT_METHODS } from '../constants';
 import type {
@@ -39,7 +44,7 @@ export function FundCardProvider({
   children,
   asset,
   paymentMethods,
-  headerText,
+  headerText = `Buy ${asset.toUpperCase()}`,
   buttonText,
   country,
   subdivision,
@@ -60,7 +65,7 @@ export function FundCardProvider({
   const [submitButtonState, setSubmitButtonState] =
     useState<FundButtonStateReact>('default');
 
-  const fetchExchangeRate = useDebounce(async () => {
+  const fetchExchangeRate = useCallback(async () => {
     setExchangeRateLoading(true);
     const quote = await fetchOnrampQuote({
       purchaseCurrency: asset,
@@ -76,7 +81,7 @@ export function FundCardProvider({
     setExchangeRate(
       Number(quote.purchaseAmount.value) / Number(quote.paymentSubtotal.value),
     );
-  }, 1000);
+  }, [asset, country, subdivision]);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: One time effect
   useEffect(() => {

@@ -22,10 +22,6 @@ global.fetch = vi.fn(() =>
   }),
 ) as Mock;
 
-vi.mock('../../core-react/internal/hooks/useDebounce', () => ({
-  useDebounce: vi.fn((callback) => callback),
-}));
-
 // Mock ResizeObserver
 class ResizeObserverMock {
   observe() {}

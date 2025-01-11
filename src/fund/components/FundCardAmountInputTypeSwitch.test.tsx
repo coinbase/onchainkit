@@ -21,10 +21,6 @@ global.fetch = vi.fn(() =>
   }),
 ) as Mock;
 
-vi.mock('../../core-react/internal/hooks/useDebounce', () => ({
-  useDebounce: vi.fn((callback) => callback),
-}));
-
 const mockContext: FundCardProviderReact = {
   asset: 'ETH',
   country: 'US',

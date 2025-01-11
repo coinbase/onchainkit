@@ -42,7 +42,6 @@ export function FundCardPaymentMethodDropdown({
   );
 
   // If current selected method becomes disabled, switch to Coinbase
-
   useEffect(() => {
     if (
       selectedPaymentMethod &&
