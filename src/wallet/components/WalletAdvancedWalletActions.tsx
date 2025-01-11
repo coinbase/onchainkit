@@ -47,7 +47,7 @@ export function WalletAdvancedWalletActions() {
           onClick={handleTransactions}
         >
           <div
-            data-testid="ockWalletIsland_TransactionsButton"
+            data-testid="ockWalletAdvanced_TransactionsButton"
             className="h-7 w-7 scale-110 p-2"
           >
             {baseScanSvg}
@@ -55,7 +55,7 @@ export function WalletAdvancedWalletActions() {
         </PressableIcon>
         <PressableIcon ariaLabel="Show QR code" onClick={handleQr}>
           <div
-            data-testid="ockWalletIsland_QrButton"
+            data-testid="ockWalletAdvanced_QrButton"
             className="h-7 w-7 scale-110"
           >
             {qrIconSvg}
@@ -65,7 +65,7 @@ export function WalletAdvancedWalletActions() {
       <div className="flex items-center">
         <PressableIcon ariaLabel="Disconnect wallet" onClick={handleDisconnect}>
           <div
-            data-testid="ockWalletIsland_DisconnectButton"
+            data-testid="ockWalletAdvanced_DisconnectButton"
             className="h-7 w-7 scale-110 p-2"
           >
             {disconnectSvg}
@@ -76,7 +76,7 @@ export function WalletAdvancedWalletActions() {
           onClick={handleRefreshPortfolioData}
         >
           <div
-            data-testid="ockWalletIsland_RefreshButton"
+            data-testid="ockWalletAdvanced_RefreshButton"
             className="h-7 w-7 scale-110 p-2"
           >
             {refreshSvg}

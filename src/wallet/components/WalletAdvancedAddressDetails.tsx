@@ -44,7 +44,7 @@ export function WalletAdvancedAddressDetails() {
         <button
           type="button"
           onClick={handleCopyAddress}
-          data-testid="ockWalletIsland_NameButton"
+          data-testid="ockWalletAdvanced_NameButton"
         >
           <Name
             address={address}
@@ -64,7 +64,7 @@ export function WalletAdvancedAddressDetails() {
             'absolute top-full right-0 z-10 mt-0.5 px-1.5 py-0.5 opacity-0 transition-opacity group-hover:opacity-100',
           )}
           aria-live="polite"
-          data-testid="ockWalletIsland_NameTooltip"
+          data-testid="ockWalletAdvanced_NameTooltip"
         >
           {copyText}
         </button>
@@ -98,7 +98,7 @@ function AddressBalanceInFiat() {
   return (
     <div
       className={cn(text.title1, 'mt-1 font-normal')}
-      data-testid="ockWalletIsland_AddressBalance"
+      data-testid="ockWalletAdvanced_AddressBalance"
     >
       {formattedValueInFiat}
     </div>

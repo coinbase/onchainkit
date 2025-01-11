@@ -56,7 +56,7 @@ export function WalletAdvancedTransactionActions() {
   if (isFetchingPortfolioData) {
     return (
       <div
-        data-testid="ockWalletIsland_LoadingPlaceholder"
+        data-testid="ockWalletAdvanced_LoadingPlaceholder"
         className="my-3 h-16 w-80"
       />
     ); // Prevent layout shift
@@ -69,17 +69,17 @@ export function WalletAdvancedTransactionActions() {
         animations.content,
       )}
     >
-      <WalletIslandTransactionAction
+      <WalletAdvancedTransactionAction
         icon={addSvgForeground}
         label="Buy"
         action={handleBuy}
       />
-      <WalletIslandTransactionAction
+      <WalletAdvancedTransactionAction
         icon={arrowUpRightSvg}
         label="Send"
         action={handleSend}
       />
-      <WalletIslandTransactionAction
+      <WalletAdvancedTransactionAction
         icon={toggleSvg}
         label="Swap"
         action={handleSwap}
@@ -88,7 +88,7 @@ export function WalletAdvancedTransactionActions() {
   );
 }
 
-function WalletIslandTransactionAction({
+function WalletAdvancedTransactionAction({
   icon,
   label,
   action,

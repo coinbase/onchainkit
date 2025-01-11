@@ -22,16 +22,16 @@ vi.mock('../../core-react/identity/hooks/useName', () => ({
   useName: () => ({ data: null, isLoading: false }),
 }));
 
-vi.mock('./WalletIslandProvider', () => ({
-  useWalletIslandContext: vi.fn(),
-  WalletIslandProvider: ({ children }: { children: React.ReactNode }) => (
+vi.mock('./WalletAdvancedProvider', () => ({
+  useWalletAdvancedContext: vi.fn(),
+  WalletAdvancedProvider: ({ children }: { children: React.ReactNode }) => (
     <>{children}</>
   ),
 }));
 
-vi.mock('./WalletIslandContent', () => ({
-  WalletIslandContent: () => (
-    <div data-testid="ockWalletIslandContent">WalletIslandContent</div>
+vi.mock('./WalletAdvancedContent', () => ({
+  WalletAdvancedContent: () => (
+    <div data-testid="ockWalletAdvancedContent">WalletAdvancedContent</div>
   ),
 }));
 
@@ -42,7 +42,7 @@ vi.mock('./WalletProvider', () => ({
   ),
 }));
 
-describe('WalletIslandDraggable', () => {
+describe('WalletIsland', () => {
   const mockUseWalletContext = useWalletContext as ReturnType<typeof vi.fn>;
 
   beforeEach(() => {
@@ -68,7 +68,7 @@ describe('WalletIslandDraggable', () => {
     expect(screen.getByTestId('ockConnectWallet_Container')).toBeDefined();
   });
 
-  it('renders Avatar and Name in connected state and isOpen is false', () => {
+  it('renders Avatar in connected state and isSubComponentOpen is false', () => {
     (useConnect as ReturnType<typeof vi.fn>).mockReturnValue({
       connectors: [],
       status: 'connected',
@@ -83,10 +83,9 @@ describe('WalletIslandDraggable', () => {
     render(<WalletIsland />);
 
     expect(screen.getByTestId('ockAvatar_ImageContainer')).toBeDefined();
-    expect(screen.getByTestId('ockIdentity_Text')).toBeDefined();
   });
 
-  it('renders WalletIslandContent in connected state and isOpen is true', () => {
+  it('renders WalletAdvancedContent in connected state and isSubComponentOpen is true', () => {
     (useConnect as ReturnType<typeof vi.fn>).mockReturnValue({
       connectors: [],
       status: 'connected',
@@ -100,6 +99,6 @@ describe('WalletIslandDraggable', () => {
 
     render(<WalletIsland />);
 
-    expect(screen.getByTestId('ockWalletIslandContent')).toBeDefined();
+    expect(screen.getByTestId('ockWalletAdvancedContent')).toBeDefined();
   });
 });

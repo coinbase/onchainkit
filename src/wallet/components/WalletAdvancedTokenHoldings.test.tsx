@@ -3,19 +3,19 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { useWalletAdvancedContext } from './WalletAdvancedProvider';
 import { WalletAdvancedTokenHoldings } from './WalletAdvancedTokenHoldings';
 
-vi.mock('./WalletIslandProvider', () => ({
-  useWalletIslandContext: vi.fn(),
-  WalletIslandProvider: ({ children }: { children: React.ReactNode }) => (
+vi.mock('./WalletAdvancedProvider', () => ({
+  useWalletAdvancedContext: vi.fn(),
+  WalletAdvancedProvider: ({ children }: { children: React.ReactNode }) => (
     <>{children}</>
   ),
 }));
 
-describe('WalletIslandTokenHoldings', () => {
-  const mockUseWalletIslandContext = useWalletAdvancedContext as ReturnType<
+describe('WalletAdvancedTokenHoldings', () => {
+  const mockUseWalletAdvancedContext = useWalletAdvancedContext as ReturnType<
     typeof vi.fn
   >;
 
-  const defaultMockUseWalletIslandContext = {
+  const defaultMockUseWalletAdvancedContext = {
     tokenBalances: [],
     portfolioFiatValue: 0,
     refetchPortfolioData: vi.fn(),
@@ -28,32 +28,32 @@ describe('WalletIslandTokenHoldings', () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
-    mockUseWalletIslandContext.mockReturnValue(
-      defaultMockUseWalletIslandContext,
+    mockUseWalletAdvancedContext.mockReturnValue(
+      defaultMockUseWalletAdvancedContext,
     );
   });
 
   it('does not render token lists with zero tokens', () => {
     render(<WalletAdvancedTokenHoldings />);
 
-    expect(screen.queryByTestId('ockWalletIsland_TokenHoldings')).toBeNull();
+    expect(screen.queryByTestId('ockWalletAdvanced_TokenHoldings')).toBeNull();
   });
 
   it('renders a placeholder when fetcher is loading', () => {
-    mockUseWalletIslandContext.mockReturnValue({
-      ...defaultMockUseWalletIslandContext,
+    mockUseWalletAdvancedContext.mockReturnValue({
+      ...defaultMockUseWalletAdvancedContext,
       isFetchingPortfolioData: true,
     });
 
     render(<WalletAdvancedTokenHoldings />);
 
     const placeholder = screen.getByTestId(
-      'ockWalletIsland_LoadingPlaceholder',
+      'ockWalletAdvanced_LoadingPlaceholder',
     );
     expect(placeholder).toHaveClass('my-2 h-44 w-80');
   });
 
-  it('renders the WalletIslandTokenHoldings component with tokens when user has tokens and fetcher is not loading', () => {
+  it('renders the WalletAdvancedTokenHoldings component with tokens when user has tokens and fetcher is not loading', () => {
     const tokens = [
       {
         token: {
@@ -96,14 +96,14 @@ describe('WalletIslandTokenHoldings', () => {
       },
     ];
 
-    mockUseWalletIslandContext.mockReturnValue({
-      ...defaultMockUseWalletIslandContext,
+    mockUseWalletAdvancedContext.mockReturnValue({
+      ...defaultMockUseWalletAdvancedContext,
       tokenBalances: tokens,
     });
 
     render(<WalletAdvancedTokenHoldings />);
 
-    expect(screen.getByTestId('ockWalletIsland_TokenHoldings')).toBeDefined();
+    expect(screen.getByTestId('ockWalletAdvanced_TokenHoldings')).toBeDefined();
   });
 
   it('trims whitespace from token names', () => {
@@ -120,8 +120,8 @@ describe('WalletIslandTokenHoldings', () => {
       },
     ];
 
-    mockUseWalletIslandContext.mockReturnValue({
-      ...defaultMockUseWalletIslandContext,
+    mockUseWalletAdvancedContext.mockReturnValue({
+      ...defaultMockUseWalletAdvancedContext,
       tokenBalances: tokens,
     });
 

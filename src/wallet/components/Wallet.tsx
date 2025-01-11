@@ -8,8 +8,8 @@ import { Children, useMemo, useRef } from 'react';
 import type { WalletReact } from '../types';
 import { WALLET_DRAGGABLE_DEFAULT_STARTING_POSITION } from '../constants';
 import { ConnectWallet } from './ConnectWallet';
-import { WalletDropdown } from './WalletDropdown';
 import { WalletAdvanced } from './WalletAdvanced';
+import { WalletDropdown } from './WalletDropdown';
 import { WalletProvider, useWalletContext } from './WalletProvider';
 
 export const Wallet = ({
@@ -63,18 +63,18 @@ function WalletContent({
 
   useOutsideClick(walletContainerRef, handleClose);
 
-  const { connect, dropdown, island } = useMemo(() => {
+  const { connect, dropdown, advanced } = useMemo(() => {
     const childrenArray = Children.toArray(children);
     return {
       connect: childrenArray.find(findComponent(ConnectWallet)),
       dropdown: childrenArray.find(findComponent(WalletDropdown)),
-      island: childrenArray.find(findComponent(WalletAdvanced)),
+      advanced: childrenArray.find(findComponent(WalletAdvanced)),
     };
   }, [children]);
 
-  if (dropdown && island) {
+  if (dropdown && advanced) {
     console.error(
-      'Defaulted to WalletDropdown. Wallet cannot have both WalletDropdown and WalletIsland as children.',
+      'Defaulted to WalletDropdown. Wallet cannot have both WalletDropdown and WalletAdvanced as children.',
     );
   }
 
@@ -92,7 +92,7 @@ function WalletContent({
             connect={connect}
             connectRef={connectRef}
             dropdown={dropdown}
-            island={island}
+            advanced={advanced}
             isSubComponentOpen={isSubComponentOpen}
             alignSubComponentRight={alignSubComponentRight}
             showSubComponentAbove={showSubComponentAbove}
@@ -111,7 +111,7 @@ function WalletContent({
         connect={connect}
         connectRef={connectRef}
         dropdown={dropdown}
-        island={island}
+        advanced={advanced}
         isSubComponentOpen={isSubComponentOpen}
         alignSubComponentRight={alignSubComponentRight}
         showSubComponentAbove={showSubComponentAbove}
@@ -124,7 +124,7 @@ function WalletSubComponent({
   connect,
   connectRef,
   dropdown,
-  island,
+  advanced,
   isSubComponentOpen,
   alignSubComponentRight,
   showSubComponentAbove,
@@ -132,7 +132,7 @@ function WalletSubComponent({
   connect: React.ReactNode;
   connectRef: React.RefObject<HTMLDivElement>;
   dropdown: React.ReactNode;
-  island: React.ReactNode;
+  advanced: React.ReactNode;
   isSubComponentOpen: boolean;
   alignSubComponentRight: boolean;
   showSubComponentAbove: boolean;
@@ -151,14 +151,14 @@ function WalletSubComponent({
       <div ref={connectRef}>{connect}</div>
       {isSubComponentOpen && (
         <div
-          data-testid="ockWalletIslandContainer"
+          data-testid="ockWalletAdvancedContainer"
           className={cn(
             'absolute',
             showSubComponentAbove ? 'bottom-full' : 'top-full',
             alignSubComponentRight ? 'right-0' : 'left-0',
           )}
         >
-          {island}
+          {advanced}
         </div>
       )}
     </>

@@ -9,9 +9,9 @@ vi.mock('../../core-react/internal/hooks/useTheme', () => ({
   useTheme: vi.fn(),
 }));
 
-vi.mock('./WalletIslandProvider', () => ({
-  useWalletIslandContext: vi.fn(),
-  WalletIslandProvider: ({ children }: { children: React.ReactNode }) => (
+vi.mock('./WalletAdvancedProvider', () => ({
+  useWalletAdvancedContext: vi.fn(),
+  WalletAdvancedProvider: ({ children }: { children: React.ReactNode }) => (
     <>{children}</>
   ),
 }));
@@ -48,14 +48,14 @@ Object.defineProperty(navigator, 'clipboard', {
   configurable: true,
 });
 
-describe('WalletIslandQrReceive', () => {
+describe('WalletAdvancedQrReceive', () => {
   const mockUseTheme = useTheme as ReturnType<typeof vi.fn>;
   const mockUseWalletContext = useWalletContext as ReturnType<typeof vi.fn>;
-  const mockUseWalletIslandContext = useWalletAdvancedContext as ReturnType<
+  const mockUseWalletAdvancedContext = useWalletAdvancedContext as ReturnType<
     typeof vi.fn
   >;
 
-  const defaultMockUseWalletIslandContext = {
+  const defaultMockUseWalletAdvancedContext = {
     showQr: false,
     setShowQr: vi.fn(),
     animationClasses: {
@@ -69,8 +69,8 @@ describe('WalletIslandQrReceive', () => {
       isSubComponentOpen: true,
       isSubComponentClosing: false,
     });
-    mockUseWalletIslandContext.mockReturnValue(
-      defaultMockUseWalletIslandContext,
+    mockUseWalletAdvancedContext.mockReturnValue(
+      defaultMockUseWalletAdvancedContext,
     );
     mockSetCopyText.mockClear();
     mockSetCopyButtonText.mockClear();
@@ -83,31 +83,31 @@ describe('WalletIslandQrReceive', () => {
     });
 
     const { rerender } = render(<WalletAdvancedQrReceive />);
-    expect(screen.queryByTestId('ockWalletIslandQrReceive')).toBeNull();
+    expect(screen.queryByTestId('ockWalletAdvancedQrReceive')).toBeNull();
 
     mockUseWalletContext.mockReturnValue({
       isSubComponentClosing: false,
     });
     rerender(<WalletAdvancedQrReceive />);
-    expect(screen.getByTestId('ockWalletIslandQrReceive')).toBeInTheDocument();
+    expect(screen.getByTestId('ockWalletAdvancedQrReceive')).toBeInTheDocument();
   });
 
   it('should render correctly based on isQrClosing state', () => {
-    mockUseWalletIslandContext.mockReturnValue({
+    mockUseWalletAdvancedContext.mockReturnValue({
       isQrClosing: false,
     });
 
     const { rerender } = render(<WalletAdvancedQrReceive />);
-    expect(screen.getByTestId('ockWalletIslandQrReceive')).toBeInTheDocument();
-    expect(screen.getByTestId('ockWalletIslandQrReceive')).toHaveClass(
+    expect(screen.getByTestId('ockWalletAdvancedQrReceive')).toBeInTheDocument();
+    expect(screen.getByTestId('ockWalletAdvancedQrReceive')).toHaveClass(
       'fade-in slide-in-from-left-5 linear animate-in duration-150',
     );
 
-    mockUseWalletIslandContext.mockReturnValue({
+    mockUseWalletAdvancedContext.mockReturnValue({
       isQrClosing: true,
     });
     rerender(<WalletAdvancedQrReceive />);
-    expect(screen.getByTestId('ockWalletIslandQrReceive')).toHaveClass(
+    expect(screen.getByTestId('ockWalletAdvancedQrReceive')).toHaveClass(
       'fade-out slide-out-to-left-5 animate-out fill-mode-forwards ease-in-out',
     );
   });
@@ -115,8 +115,8 @@ describe('WalletIslandQrReceive', () => {
   it('should close when back button is clicked', () => {
     const mockSetShowQr = vi.fn();
     const mockSetIsQrClosing = vi.fn();
-    mockUseWalletIslandContext.mockReturnValue({
-      ...defaultMockUseWalletIslandContext,
+    mockUseWalletAdvancedContext.mockReturnValue({
+      ...defaultMockUseWalletAdvancedContext,
       showQr: true,
       setShowQr: mockSetShowQr,
       setIsQrClosing: mockSetIsQrClosing,
@@ -128,8 +128,8 @@ describe('WalletIslandQrReceive', () => {
     fireEvent.click(backButton);
     expect(mockSetIsQrClosing).toHaveBeenCalledWith(true);
 
-    mockUseWalletIslandContext.mockReturnValue({
-      ...defaultMockUseWalletIslandContext,
+    mockUseWalletAdvancedContext.mockReturnValue({
+      ...defaultMockUseWalletAdvancedContext,
       showQr: true,
       setShowQr: mockSetShowQr,
       setIsQrClosing: mockSetIsQrClosing,
@@ -138,7 +138,7 @@ describe('WalletIslandQrReceive', () => {
 
     rerender(<WalletAdvancedQrReceive />);
 
-    const qrContainer = screen.getByTestId('ockWalletIslandQrReceive');
+    const qrContainer = screen.getByTestId('ockWalletAdvancedQrReceive');
     fireEvent.animationEnd(qrContainer);
 
     expect(mockSetShowQr).toHaveBeenCalledWith(false);
@@ -154,14 +154,14 @@ describe('WalletIslandQrReceive', () => {
       address: '0x1234567890',
     });
 
-    mockUseWalletIslandContext.mockReturnValue({
-      ...defaultMockUseWalletIslandContext,
+    mockUseWalletAdvancedContext.mockReturnValue({
+      ...defaultMockUseWalletAdvancedContext,
       showQr: true,
     });
 
     render(<WalletAdvancedQrReceive />);
 
-    const copyIcon = screen.getByTestId('ockWalletIslandQrReceive_CopyIcon');
+    const copyIcon = screen.getByTestId('ockWalletAdvancedQrReceive_CopyIcon');
 
     await act(async () => {
       fireEvent.click(copyIcon);
@@ -172,7 +172,7 @@ describe('WalletIslandQrReceive', () => {
     expect(mockClipboard.writeText).toHaveBeenCalledWith('0x1234567890');
     expect(mockSetCopyText).toHaveBeenCalledWith('Copied');
 
-    const tooltip = screen.getByTestId('ockWalletIslandQrReceive_CopyTooltip');
+    const tooltip = screen.getByTestId('ockWalletAdvancedQrReceive_CopyTooltip');
     expect(tooltip).toBeInTheDocument();
 
     vi.advanceTimersByTime(2000);
@@ -192,15 +192,15 @@ describe('WalletIslandQrReceive', () => {
       address: '0x1234567890',
     });
 
-    mockUseWalletIslandContext.mockReturnValue({
-      ...defaultMockUseWalletIslandContext,
+    mockUseWalletAdvancedContext.mockReturnValue({
+      ...defaultMockUseWalletAdvancedContext,
       showQr: true,
     });
 
     render(<WalletAdvancedQrReceive />);
 
     const copyTooltip = screen.getByTestId(
-      'ockWalletIslandQrReceive_CopyTooltip',
+      'ockWalletAdvancedQrReceive_CopyTooltip',
     );
 
     await act(async () => {
@@ -212,7 +212,7 @@ describe('WalletIslandQrReceive', () => {
     expect(mockClipboard.writeText).toHaveBeenCalledWith('0x1234567890');
     expect(mockSetCopyText).toHaveBeenCalledWith('Copied');
 
-    const tooltip = screen.getByTestId('ockWalletIslandQrReceive_CopyTooltip');
+    const tooltip = screen.getByTestId('ockWalletAdvancedQrReceive_CopyTooltip');
     expect(tooltip).toBeInTheDocument();
 
     vi.advanceTimersByTime(2000);
@@ -232,15 +232,15 @@ describe('WalletIslandQrReceive', () => {
       address: '0x1234567890',
     });
 
-    mockUseWalletIslandContext.mockReturnValue({
-      ...defaultMockUseWalletIslandContext,
+    mockUseWalletAdvancedContext.mockReturnValue({
+      ...defaultMockUseWalletAdvancedContext,
       showQr: true,
     });
 
     render(<WalletAdvancedQrReceive />);
 
     const copyButton = screen.getByTestId(
-      'ockWalletIslandQrReceive_CopyButton',
+      'ockWalletAdvancedQrReceive_CopyButton',
     );
 
     await act(async () => {
@@ -272,7 +272,7 @@ describe('WalletIslandQrReceive', () => {
     render(<WalletAdvancedQrReceive />);
 
     mockSetCopyText.mockClear();
-    const copyIcon = screen.getByTestId('ockWalletIslandQrReceive_CopyIcon');
+    const copyIcon = screen.getByTestId('ockWalletAdvancedQrReceive_CopyIcon');
     await act(async () => {
       fireEvent.click(copyIcon);
       await Promise.resolve();
@@ -285,7 +285,7 @@ describe('WalletIslandQrReceive', () => {
 
     mockSetCopyButtonText.mockClear();
     const copyButton = screen.getByTestId(
-      'ockWalletIslandQrReceive_CopyButton',
+      'ockWalletAdvancedQrReceive_CopyButton',
     );
     await act(async () => {
       fireEvent.click(copyButton);
@@ -307,7 +307,7 @@ describe('WalletIslandQrReceive', () => {
 
     render(<WalletAdvancedQrReceive />);
 
-    const copyIcon = screen.getByTestId('ockWalletIslandQrReceive_CopyIcon');
+    const copyIcon = screen.getByTestId('ockWalletAdvancedQrReceive_CopyIcon');
     fireEvent.click(copyIcon);
 
     expect(mockClipboard.writeText).toHaveBeenCalledWith('');

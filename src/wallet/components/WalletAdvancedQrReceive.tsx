@@ -59,7 +59,7 @@ export function WalletAdvancedQrReceive() {
 
   return (
     <div
-      data-testid="ockWalletIslandQrReceive"
+      data-testid="ockWalletAdvancedQrReceive"
       className={cn(
         color.foreground,
         text.headline,
@@ -84,7 +84,7 @@ export function WalletAdvancedQrReceive() {
           >
             <div
               className="p-2"
-              data-testid="ockWalletIslandQrReceive_CopyIcon"
+              data-testid="ockWalletAdvancedQrReceive_CopyIcon"
             >
               {copySvg}
             </div>
@@ -102,7 +102,7 @@ export function WalletAdvancedQrReceive() {
             )}
             aria-live="polite"
             aria-label="Copy your address"
-            data-testid="ockWalletIslandQrReceive_CopyTooltip"
+            data-testid="ockWalletAdvancedQrReceive_CopyTooltip"
           >
             {copyText}
           </button>
@@ -114,7 +114,7 @@ export function WalletAdvancedQrReceive() {
         className={cn(border.radius, pressable.alternate, 'w-full p-3')}
         onClick={() => handleCopyAddress('button')}
         aria-label="Copy your address"
-        data-testid="ockWalletIslandQrReceive_CopyButton"
+        data-testid="ockWalletAdvancedQrReceive_CopyButton"
       >
         {copyButtonText}
       </button>

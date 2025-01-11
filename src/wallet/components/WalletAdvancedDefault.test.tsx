@@ -22,16 +22,16 @@ vi.mock('../../core-react/identity/hooks/useName', () => ({
   useName: () => ({ data: null, isLoading: false }),
 }));
 
-vi.mock('./WalletIslandProvider', () => ({
-  useWalletIslandContext: vi.fn(),
-  WalletIslandProvider: ({ children }: { children: React.ReactNode }) => (
+vi.mock('./WalletAdvancedProvider', () => ({
+  useWalletAdvancedContext: vi.fn(),
+  WalletAdvancedProvider: ({ children }: { children: React.ReactNode }) => (
     <>{children}</>
   ),
 }));
 
-vi.mock('./WalletIslandContent', () => ({
-  WalletIslandContent: () => (
-    <div data-testid="ockWalletIslandContent">WalletIslandContent</div>
+vi.mock('./WalletAdvancedContent', () => ({
+  WalletAdvancedContent: () => (
+    <div data-testid="ockWalletAdvancedContent">WalletAdvancedContent</div>
   ),
 }));
 
@@ -42,7 +42,7 @@ vi.mock('./WalletProvider', () => ({
   ),
 }));
 
-describe('WalletIslandFixed', () => {
+describe('WalletAdvancedDefault', () => {
   const mockUseWalletContext = useWalletContext as ReturnType<typeof vi.fn>;
 
   beforeEach(() => {
@@ -86,7 +86,7 @@ describe('WalletIslandFixed', () => {
     expect(screen.getByTestId('ockIdentity_Text')).toBeDefined();
   });
 
-  it('renders WalletIslandContent in connected state and isOpen is true', () => {
+  it('renders WalletAdvancedContent in connected state and isOpen is true', () => {
     (useConnect as ReturnType<typeof vi.fn>).mockReturnValue({
       connectors: [],
       status: 'connected',
@@ -100,6 +100,6 @@ describe('WalletIslandFixed', () => {
 
     render(<WalletAdvancedDefault />);
 
-    expect(screen.getByTestId('ockWalletIslandContent')).toBeDefined();
+    expect(screen.getByTestId('ockWalletAdvancedContent')).toBeDefined();
   });
 });

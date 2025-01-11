@@ -58,7 +58,7 @@ export function WalletAdvancedSwap({
         'relative',
       )}
       onAnimationEnd={handleAnimationEnd}
-      data-testid="ockWalletIslandSwap"
+      data-testid="ockWalletAdvancedSwap"
     >
       <Swap
         className={className}

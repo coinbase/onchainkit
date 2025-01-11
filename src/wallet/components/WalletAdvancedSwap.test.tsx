@@ -67,23 +67,23 @@ vi.mock('../../swap/components/SwapProvider', () => ({
   ),
 }));
 
-vi.mock('./WalletIslandProvider', () => ({
-  useWalletIslandContext: vi.fn(),
+vi.mock('./WalletAdvancedProvider', () => ({
+  useWalletAdvancedContext: vi.fn(),
 }));
 
 vi.mock('./WalletProvider', () => ({
   useWalletContext: vi.fn(),
 }));
 
-describe('WalletIslandSwap', () => {
+describe('WalletAdvancedSwap', () => {
   const mockUseWalletContext = useWalletContext as ReturnType<typeof vi.fn>;
-  const mockUseWalletIslandContext = useWalletAdvancedContext as ReturnType<
+  const mockUseWalletAdvancedContext = useWalletAdvancedContext as ReturnType<
     typeof vi.fn
   >;
   const mockUseSwapContext = useSwapContext as ReturnType<typeof vi.fn>;
   const mockUseAccount = useAccount as ReturnType<typeof vi.fn>;
 
-  const defaultMockUseWalletIslandContext = {
+  const defaultMockUseWalletAdvancedContext = {
     showSwap: false,
     setShowSwap: vi.fn(),
     setIsSwapClosing: vi.fn(),
@@ -119,8 +119,8 @@ describe('WalletIslandSwap', () => {
       isOpen: true,
       isClosing: false,
     });
-    mockUseWalletIslandContext.mockReturnValue(
-      defaultMockUseWalletIslandContext,
+    mockUseWalletAdvancedContext.mockReturnValue(
+      defaultMockUseWalletAdvancedContext,
     );
     mockUseSwapContext.mockReturnValue(defaultMockUseSwapContext);
     mockUseAccount.mockReturnValue({
@@ -143,8 +143,8 @@ describe('WalletIslandSwap', () => {
   });
 
   it('should render correctly', () => {
-    mockUseWalletIslandContext.mockReturnValue({
-      ...defaultMockUseWalletIslandContext,
+    mockUseWalletAdvancedContext.mockReturnValue({
+      ...defaultMockUseWalletAdvancedContext,
       showSwap: true,
     });
 
@@ -158,11 +158,11 @@ describe('WalletIslandSwap', () => {
         onSuccess={vi.fn()}
       />,
     );
-    expect(screen.getByTestId('ockWalletIslandSwap')).toBeInTheDocument();
+    expect(screen.getByTestId('ockWalletAdvancedSwap')).toBeInTheDocument();
   });
 
   it('should render correctly based on isSwapClosing state', () => {
-    mockUseWalletIslandContext.mockReturnValue({
+    mockUseWalletAdvancedContext.mockReturnValue({
       isSwapClosing: false,
     });
 
@@ -176,12 +176,12 @@ describe('WalletIslandSwap', () => {
         onSuccess={vi.fn()}
       />,
     );
-    expect(screen.getByTestId('ockWalletIslandSwap')).toBeInTheDocument();
-    expect(screen.getByTestId('ockWalletIslandSwap')).toHaveClass(
+    expect(screen.getByTestId('ockWalletAdvancedSwap')).toBeInTheDocument();
+    expect(screen.getByTestId('ockWalletAdvancedSwap')).toHaveClass(
       'fade-in slide-in-from-right-5 linear animate-in duration-150',
     );
 
-    mockUseWalletIslandContext.mockReturnValue({
+    mockUseWalletAdvancedContext.mockReturnValue({
       isSwapClosing: true,
     });
     rerender(
@@ -194,7 +194,7 @@ describe('WalletIslandSwap', () => {
         onSuccess={vi.fn()}
       />,
     );
-    expect(screen.getByTestId('ockWalletIslandSwap')).toHaveClass(
+    expect(screen.getByTestId('ockWalletAdvancedSwap')).toHaveClass(
       'fade-out slide-out-to-right-5 animate-out fill-mode-forwards ease-in-out',
     );
   });
@@ -202,8 +202,8 @@ describe('WalletIslandSwap', () => {
   it('should close swap when back button is clicked', () => {
     const mockSetShowSwap = vi.fn();
     const mockSetIsSwapClosing = vi.fn();
-    mockUseWalletIslandContext.mockReturnValue({
-      ...defaultMockUseWalletIslandContext,
+    mockUseWalletAdvancedContext.mockReturnValue({
+      ...defaultMockUseWalletAdvancedContext,
       showSwap: true,
       tokenHoldings: [tokens],
       setShowSwap: mockSetShowSwap,
@@ -225,8 +225,8 @@ describe('WalletIslandSwap', () => {
     fireEvent.click(backButton);
     expect(mockSetIsSwapClosing).toHaveBeenCalledWith(true);
 
-    mockUseWalletIslandContext.mockReturnValue({
-      ...defaultMockUseWalletIslandContext,
+    mockUseWalletAdvancedContext.mockReturnValue({
+      ...defaultMockUseWalletAdvancedContext,
       tokenHoldings: [tokens],
       setShowSwap: mockSetShowSwap,
       setIsSwapClosing: mockSetIsSwapClosing,
@@ -244,7 +244,7 @@ describe('WalletIslandSwap', () => {
       />,
     );
 
-    const swapContainer = screen.getByTestId('ockWalletIslandSwap');
+    const swapContainer = screen.getByTestId('ockWalletAdvancedSwap');
     fireEvent.animationEnd(swapContainer);
 
     expect(mockSetShowSwap).toHaveBeenCalledWith(false);

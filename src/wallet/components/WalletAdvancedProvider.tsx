@@ -4,7 +4,7 @@ import { type ReactNode, createContext, useContext, useState } from 'react';
 import type { WalletAdvancedContextType } from '../types';
 import { useWalletContext } from './WalletProvider';
 
-type WalletIslandProviderReact = {
+type WalletAdvancedProviderReact = {
   children: ReactNode;
 };
 
@@ -25,7 +25,7 @@ export function useWalletAdvancedContext() {
 
 export function WalletAdvancedProvider({
   children,
-}: WalletIslandProviderReact) {
+}: WalletAdvancedProviderReact) {
   const { address, isSubComponentClosing, showSubComponentAbove } =
     useWalletContext();
   const [showSwap, setShowSwap] = useState(false);

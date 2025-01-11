@@ -20,7 +20,7 @@ export function WalletAdvancedContent({
 
   return (
     <div
-      data-testid="ockWalletIslandContent"
+      data-testid="ockWalletAdvancedContent"
       className={cn(
         background.default,
         border.radius,

@@ -15,7 +15,7 @@ export function WalletAdvancedTokenHoldings() {
   if (isFetchingPortfolioData || !tokenBalances || tokenBalances.length === 0) {
     return (
       <div
-        data-testid="ockWalletIsland_LoadingPlaceholder"
+        data-testid="ockWalletAdvanced_LoadingPlaceholder"
         className="my-2 h-44 w-80"
       />
     ); // Prevent layout shift
@@ -29,7 +29,7 @@ export function WalletAdvancedTokenHoldings() {
         'my-2',
         animations.content,
       )}
-      data-testid="ockWalletIsland_TokenHoldings"
+      data-testid="ockWalletAdvanced_TokenHoldings"
     >
       {tokenBalances.map((tokenBalance, index) => (
         <TokenDetails

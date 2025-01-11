@@ -13,15 +13,15 @@ vi.mock('./ConnectWallet', () => ({
   ConnectWallet: () => <div data-testid="connect-wallet">Connect Wallet</div>,
 }));
 
-vi.mock('./WalletIslandContent', () => ({
-  WalletIslandContent: ({ children }: { children: React.ReactNode }) => (
-    <div data-testid="wallet-island-content">{children}</div>
+vi.mock('./WalletAdvancedContent', () => ({
+  WalletAdvancedContent: ({ children }: { children: React.ReactNode }) => (
+    <div data-testid="wallet-advanced-content">{children}</div>
   ),
 }));
 
-vi.mock('./WalletIslandProvider', () => ({
-  useWalletIslandContext: vi.fn(),
-  WalletIslandProvider: ({ children }: { children: React.ReactNode }) => (
+vi.mock('./WalletAdvancedProvider', () => ({
+  useWalletAdvancedContext: vi.fn(),
+  WalletAdvancedProvider: ({ children }: { children: React.ReactNode }) => (
     <>{children}</>
   ),
 }));
@@ -33,7 +33,7 @@ vi.mock('./WalletProvider', () => ({
   ),
 }));
 
-describe('WalletIsland', () => {
+describe('WalletAdvanced', () => {
   const mockUseWalletContext = useWalletContext as ReturnType<typeof vi.fn>;
 
   beforeEach(() => {
@@ -53,11 +53,11 @@ describe('WalletIsland', () => {
     );
 
     expect(screen.getByTestId('connect-wallet')).toBeDefined();
-    expect(screen.queryByTestId('wallet-island-content')).toBeNull();
+    expect(screen.queryByTestId('wallet-advanced-content')).toBeNull();
     expect(screen.queryByTestId('child-content')).toBeNull();
   });
 
-  it('renders wallet-island-content when isSubComponentOpen is true', () => {
+  it('renders wallet-advanced-content when isSubComponentOpen is true', () => {
     mockUseWalletContext.mockReturnValue({ isSubComponentOpen: true });
 
     render(
@@ -69,7 +69,7 @@ describe('WalletIsland', () => {
       </Wallet>,
     );
 
-    expect(screen.getByTestId('wallet-island-content')).toBeDefined();
+    expect(screen.getByTestId('wallet-advanced-content')).toBeDefined();
     expect(screen.getByTestId('child-content')).toBeDefined();
   });
 });

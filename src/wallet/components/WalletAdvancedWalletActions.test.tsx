@@ -13,9 +13,9 @@ vi.mock('wagmi/actions', () => ({
   disconnect: vi.fn(),
 }));
 
-vi.mock('./WalletIslandProvider', () => ({
-  useWalletIslandContext: vi.fn(),
-  WalletIslandProvider: ({ children }: { children: React.ReactNode }) => (
+vi.mock('./WalletAdvancedProvider', () => ({
+  useWalletAdvancedContext: vi.fn(),
+  WalletAdvancedProvider: ({ children }: { children: React.ReactNode }) => (
     <>{children}</>
   ),
 }));
@@ -27,13 +27,13 @@ vi.mock('./WalletProvider', () => ({
   ),
 }));
 
-describe('WalletIslandWalletActions', () => {
+describe('WalletAdvancedWalletActions', () => {
   const mockUseWalletContext = useWalletContext as ReturnType<typeof vi.fn>;
-  const mockUseWalletIslandContext = useWalletAdvancedContext as ReturnType<
+  const mockUseWalletAdvancedContext = useWalletAdvancedContext as ReturnType<
     typeof vi.fn
   >;
 
-  const defaultMockUseWalletIslandContext = {
+  const defaultMockUseWalletAdvancedContext = {
     animations: {
       content: '',
     },
@@ -41,18 +41,18 @@ describe('WalletIslandWalletActions', () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
-    mockUseWalletIslandContext.mockReturnValue(
-      defaultMockUseWalletIslandContext,
+    mockUseWalletAdvancedContext.mockReturnValue(
+      defaultMockUseWalletAdvancedContext,
     );
   });
 
-  it('renders the WalletIslandWalletActions component', () => {
+  it('renders the WalletAdvancedWalletActions component', () => {
     const handleCloseMock = vi.fn();
     mockUseWalletContext.mockReturnValue({ handleClose: handleCloseMock });
 
     const setShowQrMock = vi.fn();
-    mockUseWalletIslandContext.mockReturnValue({
-      ...defaultMockUseWalletIslandContext,
+    mockUseWalletAdvancedContext.mockReturnValue({
+      ...defaultMockUseWalletAdvancedContext,
       setShowQr: setShowQrMock,
     });
 
@@ -64,25 +64,25 @@ describe('WalletIslandWalletActions', () => {
     render(<WalletAdvancedWalletActions />);
 
     expect(
-      screen.getByTestId('ockWalletIsland_TransactionsButton'),
+      screen.getByTestId('ockWalletAdvanced_TransactionsButton'),
     ).toBeDefined();
-    expect(screen.getByTestId('ockWalletIsland_QrButton')).toBeDefined();
+    expect(screen.getByTestId('ockWalletAdvanced_QrButton')).toBeDefined();
     expect(
-      screen.getByTestId('ockWalletIsland_DisconnectButton'),
+      screen.getByTestId('ockWalletAdvanced_DisconnectButton'),
     ).toBeDefined();
-    expect(screen.getByTestId('ockWalletIsland_RefreshButton')).toBeDefined();
+    expect(screen.getByTestId('ockWalletAdvanced_RefreshButton')).toBeDefined();
   });
 
   it('disconnects connectors and closes when disconnect button is clicked', () => {
     const handleCloseMock = vi.fn();
     mockUseWalletContext.mockReturnValue({
-      ...defaultMockUseWalletIslandContext,
+      ...defaultMockUseWalletAdvancedContext,
       handleClose: handleCloseMock,
     });
 
     const setShowQrMock = vi.fn();
-    mockUseWalletIslandContext.mockReturnValue({
-      ...defaultMockUseWalletIslandContext,
+    mockUseWalletAdvancedContext.mockReturnValue({
+      ...defaultMockUseWalletAdvancedContext,
       setShowQr: setShowQrMock,
     });
 
@@ -95,7 +95,7 @@ describe('WalletIslandWalletActions', () => {
     render(<WalletAdvancedWalletActions />);
 
     const disconnectButton = screen.getByTestId(
-      'ockWalletIsland_DisconnectButton',
+      'ockWalletAdvanced_DisconnectButton',
     );
     fireEvent.click(disconnectButton);
 
@@ -105,14 +105,14 @@ describe('WalletIslandWalletActions', () => {
 
   it('sets showQr to true when qr button is clicked', () => {
     const setShowQrMock = vi.fn();
-    mockUseWalletIslandContext.mockReturnValue({
-      ...defaultMockUseWalletIslandContext,
+    mockUseWalletAdvancedContext.mockReturnValue({
+      ...defaultMockUseWalletAdvancedContext,
       setShowQr: setShowQrMock,
     });
 
     render(<WalletAdvancedWalletActions />);
 
-    const qrButton = screen.getByTestId('ockWalletIsland_QrButton');
+    const qrButton = screen.getByTestId('ockWalletAdvanced_QrButton');
     fireEvent.click(qrButton);
 
     expect(setShowQrMock).toHaveBeenCalled();
@@ -120,14 +120,14 @@ describe('WalletIslandWalletActions', () => {
 
   it('refreshes portfolio data when refresh button is clicked', () => {
     const refetchPortfolioDataMock = vi.fn();
-    mockUseWalletIslandContext.mockReturnValue({
-      ...defaultMockUseWalletIslandContext,
+    mockUseWalletAdvancedContext.mockReturnValue({
+      ...defaultMockUseWalletAdvancedContext,
       refetchPortfolioData: refetchPortfolioDataMock,
     });
 
     render(<WalletAdvancedWalletActions />);
 
-    const refreshButton = screen.getByTestId('ockWalletIsland_RefreshButton');
+    const refreshButton = screen.getByTestId('ockWalletAdvanced_RefreshButton');
     fireEvent.click(refreshButton);
 
     expect(refetchPortfolioDataMock).toHaveBeenCalled();
@@ -135,7 +135,7 @@ describe('WalletIslandWalletActions', () => {
 
   it('opens transaction history when transactions button is clicked', () => {
     mockUseWalletContext.mockReturnValue({
-      ...defaultMockUseWalletIslandContext,
+      ...defaultMockUseWalletAdvancedContext,
       address: '0x123',
     });
 
@@ -146,7 +146,7 @@ describe('WalletIslandWalletActions', () => {
     render(<WalletAdvancedWalletActions />);
 
     const transactionsButton = screen.getByTestId(
-      'ockWalletIsland_TransactionsButton',
+      'ockWalletAdvanced_TransactionsButton',
     );
     fireEvent.click(transactionsButton);
 

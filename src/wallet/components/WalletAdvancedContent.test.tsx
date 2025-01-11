@@ -9,26 +9,26 @@ vi.mock('../../core-react/internal/hooks/useTheme', () => ({
   useTheme: vi.fn(),
 }));
 
-vi.mock('./WalletIslandProvider', () => ({
-  useWalletIslandContext: vi.fn(),
-  WalletIslandProvider: ({ children }: { children: React.ReactNode }) => (
+vi.mock('./WalletAdvancedProvider', () => ({
+  useWalletAdvancedContext: vi.fn(),
+  WalletAdvancedProvider: ({ children }: { children: React.ReactNode }) => (
     <>{children}</>
   ),
 }));
 
-vi.mock('./WalletIslandQrReceive', () => ({
-  WalletIslandQrReceive: () => (
-    <div data-testid="ockWalletIslandQrReceive">WalletIslandQrReceive</div>
+vi.mock('./WalletAdvancedQrReceive', () => ({
+  WalletAdvancedQrReceive: () => (
+    <div data-testid="ockWalletAdvancedQrReceive">WalletAdvancedQrReceive</div>
   ),
 }));
 
-vi.mock('./WalletIslandSwap', () => ({
-  WalletIslandSwap: ({ from, to }: SwapDefaultReact) => (
+vi.mock('./WalletAdvancedSwap', () => ({
+  WalletAdvancedSwap: ({ from, to }: SwapDefaultReact) => (
     <div
-      data-testid="ockWalletIslandSwap"
+      data-testid="ockWalletAdvancedSwap"
       data-props={JSON.stringify({ from, to })}
     >
-      WalletIslandSwap
+      WalletAdvancedSwap
     </div>
   ),
 }));
@@ -40,13 +40,13 @@ vi.mock('./WalletProvider', () => ({
   ),
 }));
 
-describe('WalletIslandContent', () => {
+describe('WalletAdvancedContent', () => {
   const mockUseWalletContext = useWalletContext as ReturnType<typeof vi.fn>;
-  const mockUseWalletIslandContext = useWalletAdvancedContext as ReturnType<
+  const mockUseWalletAdvancedContext = useWalletAdvancedContext as ReturnType<
     typeof vi.fn
   >;
 
-  const defaultMockUseWalletIslandContext = {
+  const defaultMockUseWalletAdvancedContext = {
     showSwap: false,
     isSwapClosing: false,
     showQr: false,
@@ -60,19 +60,19 @@ describe('WalletIslandContent', () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
-    mockUseWalletIslandContext.mockReturnValue(
-      defaultMockUseWalletIslandContext,
+    mockUseWalletAdvancedContext.mockReturnValue(
+      defaultMockUseWalletAdvancedContext,
     );
   });
 
-  it('renders WalletIslandContent with correct animations when isSubComponentClosing is false and showSubComponentAbove is false', () => {
+  it('renders WalletAdvancedContent with correct animations when isSubComponentClosing is false and showSubComponentAbove is false', () => {
     mockUseWalletContext.mockReturnValue({
       isSubComponentClosing: false,
       showSubComponentAbove: false,
     });
 
-    mockUseWalletIslandContext.mockReturnValue({
-      ...defaultMockUseWalletIslandContext,
+    mockUseWalletAdvancedContext.mockReturnValue({
+      ...defaultMockUseWalletAdvancedContext,
       animations: {
         container:
           'fade-in slide-in-from-top-1.5 animate-in duration-300 ease-out',
@@ -83,30 +83,30 @@ describe('WalletIslandContent', () => {
 
     render(
       <WalletAdvancedContent>
-        <div>WalletIslandContent</div>
+        <div>WalletAdvancedContent</div>
       </WalletAdvancedContent>,
     );
 
-    expect(screen.getByTestId('ockWalletIslandContent')).toBeDefined();
-    expect(screen.queryByTestId('ockWalletIslandContent')).toHaveClass(
+    expect(screen.getByTestId('ockWalletAdvancedContent')).toBeDefined();
+    expect(screen.queryByTestId('ockWalletAdvancedContent')).toHaveClass(
       'fade-in slide-in-from-top-1.5 animate-in duration-300 ease-out',
     );
     expect(
-      screen.queryByTestId('ockWalletIslandQrReceive')?.parentElement,
+      screen.queryByTestId('ockWalletAdvancedQrReceive')?.parentElement,
     ).toHaveClass('hidden');
     expect(
-      screen.queryByTestId('ockWalletIslandSwap')?.parentElement,
+      screen.queryByTestId('ockWalletAdvancedSwap')?.parentElement,
     ).toHaveClass('hidden');
   });
 
-  it('renders WalletIslandContent with correct animations when isSubComponentClosing is false and showSubComponentAbove is true', () => {
+  it('renders WalletAdvancedContent with correct animations when isSubComponentClosing is false and showSubComponentAbove is true', () => {
     mockUseWalletContext.mockReturnValue({
       isSubComponentClosing: false,
       showSubComponentAbove: true,
     });
 
-    mockUseWalletIslandContext.mockReturnValue({
-      ...defaultMockUseWalletIslandContext,
+    mockUseWalletAdvancedContext.mockReturnValue({
+      ...defaultMockUseWalletAdvancedContext,
       animations: {
         container:
           'fade-in slide-in-from-bottom-1.5 animate-in duration-300 ease-out',
@@ -117,30 +117,30 @@ describe('WalletIslandContent', () => {
 
     render(
       <WalletAdvancedContent>
-        <div>WalletIslandContent</div>
+        <div>WalletAdvancedContent</div>
       </WalletAdvancedContent>,
     );
 
-    expect(screen.getByTestId('ockWalletIslandContent')).toBeDefined();
-    expect(screen.queryByTestId('ockWalletIslandContent')).toHaveClass(
+    expect(screen.getByTestId('ockWalletAdvancedContent')).toBeDefined();
+    expect(screen.queryByTestId('ockWalletAdvancedContent')).toHaveClass(
       'fade-in slide-in-from-bottom-1.5 animate-in duration-300 ease-out',
     );
     expect(
-      screen.queryByTestId('ockWalletIslandQrReceive')?.parentElement,
+      screen.queryByTestId('ockWalletAdvancedQrReceive')?.parentElement,
     ).toHaveClass('hidden');
     expect(
-      screen.queryByTestId('ockWalletIslandSwap')?.parentElement,
+      screen.queryByTestId('ockWalletAdvancedSwap')?.parentElement,
     ).toHaveClass('hidden');
   });
 
-  it('closes WalletIslandContent with correct animations when isSubComponentClosing is true and showSubComponentAbove is false', () => {
+  it('closes WalletAdvancedContent with correct animations when isSubComponentClosing is true and showSubComponentAbove is false', () => {
     mockUseWalletContext.mockReturnValue({
       isSubComponentClosing: true,
       showSubComponentAbove: false,
     });
 
-    mockUseWalletIslandContext.mockReturnValue({
-      ...defaultMockUseWalletIslandContext,
+    mockUseWalletAdvancedContext.mockReturnValue({
+      ...defaultMockUseWalletAdvancedContext,
       animations: {
         container:
           'fade-out slide-out-to-top-1.5 animate-out fill-mode-forwards ease-in-out',
@@ -150,30 +150,30 @@ describe('WalletIslandContent', () => {
 
     render(
       <WalletAdvancedContent>
-        <div>WalletIslandContent</div>
+        <div>WalletAdvancedContent</div>
       </WalletAdvancedContent>,
     );
 
-    expect(screen.getByTestId('ockWalletIslandContent')).toBeDefined();
-    expect(screen.queryByTestId('ockWalletIslandContent')).toHaveClass(
+    expect(screen.getByTestId('ockWalletAdvancedContent')).toBeDefined();
+    expect(screen.queryByTestId('ockWalletAdvancedContent')).toHaveClass(
       'fade-out slide-out-to-top-1.5 animate-out fill-mode-forwards ease-in-out',
     );
     expect(
-      screen.queryByTestId('ockWalletIslandQrReceive')?.parentElement,
+      screen.queryByTestId('ockWalletAdvancedQrReceive')?.parentElement,
     ).toHaveClass('hidden');
     expect(
-      screen.queryByTestId('ockWalletIslandSwap')?.parentElement,
+      screen.queryByTestId('ockWalletAdvancedSwap')?.parentElement,
     ).toHaveClass('hidden');
   });
 
-  it('closes WalletIslandContent with correct animations when isSubComponentClosing is true and showSubComponentAbove is true', () => {
+  it('closes WalletAdvancedContent with correct animations when isSubComponentClosing is true and showSubComponentAbove is true', () => {
     mockUseWalletContext.mockReturnValue({
       isSubComponentClosing: true,
       showSubComponentAbove: true,
     });
 
-    mockUseWalletIslandContext.mockReturnValue({
-      ...defaultMockUseWalletIslandContext,
+    mockUseWalletAdvancedContext.mockReturnValue({
+      ...defaultMockUseWalletAdvancedContext,
       animations: {
         container:
           'fade-out slide-out-to-bottom-1.5 animate-out fill-mode-forwards ease-in-out',
@@ -183,19 +183,19 @@ describe('WalletIslandContent', () => {
 
     render(
       <WalletAdvancedContent>
-        <div>WalletIslandContent</div>
+        <div>WalletAdvancedContent</div>
       </WalletAdvancedContent>,
     );
 
-    expect(screen.getByTestId('ockWalletIslandContent')).toBeDefined();
-    expect(screen.queryByTestId('ockWalletIslandContent')).toHaveClass(
+    expect(screen.getByTestId('ockWalletAdvancedContent')).toBeDefined();
+    expect(screen.queryByTestId('ockWalletAdvancedContent')).toHaveClass(
       'fade-out slide-out-to-bottom-1.5 animate-out fill-mode-forwards ease-in-out',
     );
     expect(
-      screen.queryByTestId('ockWalletIslandQrReceive')?.parentElement,
+      screen.queryByTestId('ockWalletAdvancedQrReceive')?.parentElement,
     ).toHaveClass('hidden');
     expect(
-      screen.queryByTestId('ockWalletIslandSwap')?.parentElement,
+      screen.queryByTestId('ockWalletAdvancedSwap')?.parentElement,
     ).toHaveClass('hidden');
   });
 
@@ -211,56 +211,56 @@ describe('WalletIslandContent', () => {
 
     render(
       <WalletAdvancedContent>
-        <div>WalletIslandContent</div>
+        <div>WalletAdvancedContent</div>
       </WalletAdvancedContent>,
     );
 
-    const content = screen.getByTestId('ockWalletIslandContent');
+    const content = screen.getByTestId('ockWalletAdvancedContent');
     fireEvent.animationEnd(content);
 
     expect(setIsSubComponentOpen).toHaveBeenCalledWith(false);
     expect(setIsSubComponentClosing).toHaveBeenCalledWith(false);
   });
 
-  it('renders WalletIslandQrReceive when showQr is true', () => {
-    mockUseWalletIslandContext.mockReturnValue({
-      ...defaultMockUseWalletIslandContext,
+  it('renders WalletAdvancedQrReceive when showQr is true', () => {
+    mockUseWalletAdvancedContext.mockReturnValue({
+      ...defaultMockUseWalletAdvancedContext,
       showQr: true,
     });
 
     render(
       <WalletAdvancedContent>
-        <div>WalletIslandContent</div>
+        <div>WalletAdvancedContent</div>
       </WalletAdvancedContent>,
     );
 
-    expect(screen.getByTestId('ockWalletIslandQrReceive')).toBeDefined();
+    expect(screen.getByTestId('ockWalletAdvancedQrReceive')).toBeDefined();
     expect(
-      screen.queryByTestId('ockWalletIslandQrReceive')?.parentElement,
+      screen.queryByTestId('ockWalletAdvancedQrReceive')?.parentElement,
     ).not.toHaveClass('hidden');
     expect(
-      screen.queryByTestId('ockWalletIslandSwap')?.parentElement,
+      screen.queryByTestId('ockWalletAdvancedSwap')?.parentElement,
     ).toHaveClass('hidden');
   });
 
-  it('renders WalletIslandSwap when showSwap is true', () => {
-    mockUseWalletIslandContext.mockReturnValue({
-      ...defaultMockUseWalletIslandContext,
+  it('renders WalletAdvancedSwap when showSwap is true', () => {
+    mockUseWalletAdvancedContext.mockReturnValue({
+      ...defaultMockUseWalletAdvancedContext,
       showSwap: true,
     });
 
     render(
       <WalletAdvancedContent>
-        <div>WalletIslandContent</div>
+        <div>WalletAdvancedContent</div>
       </WalletAdvancedContent>,
     );
 
-    expect(screen.getByTestId('ockWalletIslandSwap')).toBeDefined();
+    expect(screen.getByTestId('ockWalletAdvancedSwap')).toBeDefined();
     expect(
-      screen.queryByTestId('ockWalletIslandSwap')?.parentElement,
+      screen.queryByTestId('ockWalletAdvancedSwap')?.parentElement,
     ).not.toHaveClass('hidden');
     expect(
-      screen.queryByTestId('ockWalletIslandQrReceive')?.parentElement,
+      screen.queryByTestId('ockWalletAdvancedQrReceive')?.parentElement,
     ).toHaveClass('hidden');
   });
 
@@ -284,8 +284,8 @@ describe('WalletIslandContent', () => {
       },
     ];
 
-    mockUseWalletIslandContext.mockReturnValue({
-      ...defaultMockUseWalletIslandContext,
+    mockUseWalletAdvancedContext.mockReturnValue({
+      ...defaultMockUseWalletAdvancedContext,
       showSwap: true,
       tokenBalances: mockTokenBalances,
     });
@@ -294,11 +294,11 @@ describe('WalletIslandContent', () => {
 
     render(
       <WalletAdvancedContent>
-        <div>WalletIslandContent</div>
+        <div>WalletAdvancedContent</div>
       </WalletAdvancedContent>,
     );
 
-    const swapComponent = screen.getByTestId('ockWalletIslandSwap');
+    const swapComponent = screen.getByTestId('ockWalletAdvancedSwap');
     const props = JSON.parse(
       swapComponent.getAttribute('data-props') as string,
     );

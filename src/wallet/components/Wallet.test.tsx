@@ -25,8 +25,10 @@ vi.mock('./WalletDropdown', () => ({
   ),
 }));
 
-vi.mock('./WalletIsland', () => ({
-  WalletIsland: () => <div data-testid="wallet-island">Wallet Island</div>,
+vi.mock('./WalletAdvanced', () => ({
+  WalletAdvanced: () => (
+    <div data-testid="wallet-advanced">Wallet Advanced</div>
+  ),
 }));
 
 vi.mock('./WalletProvider', () => ({
@@ -126,7 +128,7 @@ describe('Wallet Component', () => {
     expect(mockHandleClose).not.toHaveBeenCalled();
   });
 
-  it('should log error and default to WalletDropdown when both WalletDropdown and WalletIsland are provided', () => {
+  it('should log error and default to WalletDropdown when both WalletDropdown and WalletAdvanced are provided', () => {
     const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
 
     render(
@@ -136,21 +138,21 @@ describe('Wallet Component', () => {
           <div>Wallet Dropdown</div>
         </WalletDropdown>
         <WalletAdvanced>
-          <div>Wallet Island</div>
+          <div>Wallet Advanced</div>
         </WalletAdvanced>
       </Wallet>,
     );
 
     expect(consoleSpy).toHaveBeenCalledWith(
-      'Defaulted to WalletDropdown. Wallet cannot have both WalletDropdown and WalletIsland as children.',
+      'Defaulted to WalletDropdown. Wallet cannot have both WalletDropdown and WalletAdvanced as children.',
     );
     expect(screen.getByTestId('wallet-dropdown')).toBeDefined();
-    expect(screen.queryByTestId('wallet-island')).toBeNull();
+    expect(screen.queryByTestId('wallet-advanced')).toBeNull();
 
     consoleSpy.mockRestore();
   });
 
-  it('should render WalletIsland when WalletIsland is provided', () => {
+  it('should render WalletAdvanced when WalletAdvanced is provided', () => {
     (useWalletContext as ReturnType<typeof vi.fn>).mockReturnValue({
       isSubComponentOpen: true,
       handleClose: mockHandleClose,
@@ -161,12 +163,12 @@ describe('Wallet Component', () => {
       <Wallet>
         <ConnectWallet />
         <WalletAdvanced>
-          <div>Wallet Island</div>
+          <div>Wallet Advanced</div>
         </WalletAdvanced>
       </Wallet>,
     );
 
-    expect(screen.getByTestId('wallet-island')).toBeDefined();
+    expect(screen.getByTestId('wallet-advanced')).toBeDefined();
     expect(screen.queryByTestId('wallet-dropdown')).toBeNull();
   });
 
@@ -181,7 +183,7 @@ describe('Wallet Component', () => {
       <Wallet draggable={true}>
         <ConnectWallet />
         <WalletAdvanced>
-          <div>Wallet Island</div>
+          <div>Wallet Advanced</div>
         </WalletAdvanced>
       </Wallet>,
     );
@@ -189,7 +191,7 @@ describe('Wallet Component', () => {
     expect(screen.getByTestId('ockDraggable')).toBeDefined();
   });
 
-  it('should render WalletIsland right-aligned when there is not enough space on the right', () => {
+  it('should render WalletAdvanced right-aligned when there is not enough space on the right', () => {
     Object.defineProperty(window, 'innerWidth', {
       writable: true,
       configurable: true,
@@ -205,17 +207,17 @@ describe('Wallet Component', () => {
       <Wallet>
         <ConnectWallet />
         <WalletAdvanced>
-          <div>Wallet Island</div>
+          <div>Wallet Advanced</div>
         </WalletAdvanced>
       </Wallet>,
     );
 
-    expect(screen.getByTestId('ockWalletIslandContainer')).toHaveClass(
+    expect(screen.getByTestId('ockWalletAdvancedContainer')).toHaveClass(
       'right-0',
     );
   });
 
-  it('should render WalletIsland left-aligned when there is enough space on the right', () => {
+  it('should render WalletAdvanced left-aligned when there is enough space on the right', () => {
     Object.defineProperty(window, 'innerWidth', {
       writable: true,
       configurable: true,
@@ -230,17 +232,17 @@ describe('Wallet Component', () => {
       <Wallet>
         <ConnectWallet />
         <WalletAdvanced>
-          <div>Wallet Island</div>
+          <div>Wallet Advanced</div>
         </WalletAdvanced>
       </Wallet>,
     );
 
-    expect(screen.getByTestId('ockWalletIslandContainer')).toHaveClass(
+    expect(screen.getByTestId('ockWalletAdvancedContainer')).toHaveClass(
       'left-0',
     );
   });
 
-  it('should render WalletIsland above ConnectWallet when there is not enough space on the bottom', () => {
+  it('should render WalletAdvanced above ConnectWallet when there is not enough space on the bottom', () => {
     Object.defineProperty(window, 'innerHeight', {
       writable: true,
       configurable: true,
@@ -256,17 +258,17 @@ describe('Wallet Component', () => {
       <Wallet>
         <ConnectWallet />
         <WalletAdvanced>
-          <div>Wallet Island</div>
+          <div>Wallet Advanced</div>
         </WalletAdvanced>
       </Wallet>,
     );
 
-    expect(screen.getByTestId('ockWalletIslandContainer')).toHaveClass(
+    expect(screen.getByTestId('ockWalletAdvancedContainer')).toHaveClass(
       'bottom-full',
     );
   });
 
-  it('should render WalletIsland below ConnectWallet when there is enough space on the bottom', () => {
+  it('should render WalletAdvanced below ConnectWallet when there is enough space on the bottom', () => {
     Object.defineProperty(window, 'innerHeight', {
       writable: true,
       configurable: true,
@@ -281,12 +283,12 @@ describe('Wallet Component', () => {
       <Wallet>
         <ConnectWallet />
         <WalletAdvanced>
-          <div>Wallet Island</div>
+          <div>Wallet Advanced</div>
         </WalletAdvanced>
       </Wallet>,
     );
 
-    expect(screen.getByTestId('ockWalletIslandContainer')).toHaveClass(
+    expect(screen.getByTestId('ockWalletAdvancedContainer')).toHaveClass(
       'top-full',
     );
   });

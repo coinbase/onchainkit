@@ -23,7 +23,7 @@ vi.mock('./WalletProvider', () => ({
   ),
 }));
 
-describe('useWalletIslandContext', () => {
+describe('useWalletAdvancedContext', () => {
   const mockUseAccount = useAccount as ReturnType<typeof vi.fn>;
   const mockUseWalletContext = useWalletContext as ReturnType<typeof vi.fn>;
   const defaultWalletContext = {
@@ -78,7 +78,7 @@ describe('useWalletIslandContext', () => {
     });
   });
 
-  it('should throw an error when used outside of WalletIslandProvider', () => {
+  it('should throw an error when used outside of WalletAdvancedProvider', () => {
     const TestComponent = () => {
       useWalletAdvancedContext();
       return null;
@@ -89,7 +89,7 @@ describe('useWalletIslandContext', () => {
     expect(() => {
       render(<TestComponent />);
     }).toThrow(
-      'useWalletIslandContext must be used within a WalletIslandProvider',
+      'useWalletAdvancedContext must be used within a WalletAdvancedProvider',
     );
     // Restore console.error
     console.error = originalError;

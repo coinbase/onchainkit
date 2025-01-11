@@ -9,9 +9,9 @@ vi.mock('@/core-react/useOnchainKit', () => ({
   useOnchainKit: vi.fn(),
 }));
 
-vi.mock('./WalletIslandProvider', () => ({
-  useWalletIslandContext: vi.fn(),
-  WalletIslandProvider: ({ children }: { children: React.ReactNode }) => (
+vi.mock('./WalletAdvancedProvider', () => ({
+  useWalletAdvancedContext: vi.fn(),
+  WalletAdvancedProvider: ({ children }: { children: React.ReactNode }) => (
     <>{children}</>
   ),
 }));
@@ -20,8 +20,8 @@ vi.mock('./WalletProvider', () => ({
   useWalletContext: vi.fn(),
 }));
 
-describe('WalletIslandTransactionActons', () => {
-  const mockUseWalletIslandContext = useWalletAdvancedContext as ReturnType<
+describe('WalletAdvancedTransactionActons', () => {
+  const mockUseWalletAdvancedContext = useWalletAdvancedContext as ReturnType<
     typeof vi.fn
   >;
 
@@ -29,7 +29,7 @@ describe('WalletIslandTransactionActons', () => {
 
   const mockUseWalletContext = useWalletContext as ReturnType<typeof vi.fn>;
 
-  const defaultMockUseWalletIslandContext = {
+  const defaultMockUseWalletAdvancedContext = {
     setShowSwap: vi.fn(),
     animations: {
       content: '',
@@ -43,8 +43,8 @@ describe('WalletIslandTransactionActons', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     vi.spyOn(window, 'open').mockImplementation(() => null);
-    mockUseWalletIslandContext.mockReturnValue(
-      defaultMockUseWalletIslandContext,
+    mockUseWalletAdvancedContext.mockReturnValue(
+      defaultMockUseWalletAdvancedContext,
     );
     mockUseOnchainKit.mockReturnValue({
       projectId: mockProjectId,
@@ -56,7 +56,7 @@ describe('WalletIslandTransactionActons', () => {
     });
   });
 
-  it('renders the WalletIslandTransactionActions component', () => {
+  it('renders the WalletAdvancedTransactionActions component', () => {
     render(<WalletAdvancedTransactionActions />);
 
     const buyButton = screen.getByRole('button', { name: 'Buy' });
@@ -146,8 +146,8 @@ describe('WalletIslandTransactionActons', () => {
   it('sets showSwap to true when the swap button is clicked', () => {
     const setShowSwapMock = vi.fn();
 
-    mockUseWalletIslandContext.mockReturnValue({
-      ...defaultMockUseWalletIslandContext,
+    mockUseWalletAdvancedContext.mockReturnValue({
+      ...defaultMockUseWalletAdvancedContext,
       setShowSwap: setShowSwapMock,
     });
 
@@ -160,15 +160,15 @@ describe('WalletIslandTransactionActons', () => {
   });
 
   it('renders a placeholder when fetcher is loading', () => {
-    mockUseWalletIslandContext.mockReturnValue({
-      ...defaultMockUseWalletIslandContext,
+    mockUseWalletAdvancedContext.mockReturnValue({
+      ...defaultMockUseWalletAdvancedContext,
       isFetchingPortfolioData: true,
     });
 
     render(<WalletAdvancedTransactionActions />);
 
     const placeholder = screen.getByTestId(
-      'ockWalletIsland_LoadingPlaceholder',
+      'ockWalletAdvanced_LoadingPlaceholder',
     );
     expect(placeholder).toHaveClass('my-3 h-16 w-80');
   });

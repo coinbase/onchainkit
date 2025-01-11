@@ -27,9 +27,9 @@ vi.mock('../../core-react/identity/hooks/useName', () => ({
   useName: () => ({ data: null, isLoading: false }),
 }));
 
-vi.mock('./WalletIslandProvider', () => ({
-  useWalletIslandContext: vi.fn(),
-  WalletIslandProvider: ({ children }: { children: React.ReactNode }) => (
+vi.mock('./WalletAdvancedProvider', () => ({
+  useWalletAdvancedContext: vi.fn(),
+  WalletAdvancedProvider: ({ children }: { children: React.ReactNode }) => (
     <>{children}</>
   ),
 }));
@@ -41,10 +41,10 @@ vi.mock('./WalletProvider', () => ({
   ),
 }));
 
-describe('WalletIslandAddressDetails', () => {
+describe('WalletAdvancedAddressDetails', () => {
   const mockUseWalletContext = useWalletContext as ReturnType<typeof vi.fn>;
   const mockUseIdentityContext = useIdentityContext as ReturnType<typeof vi.fn>;
-  const mockUseWalletIslandContext = useWalletAdvancedContext as ReturnType<
+  const mockUseWalletAdvancedContext = useWalletAdvancedContext as ReturnType<
     typeof vi.fn
   >;
 
@@ -55,7 +55,7 @@ describe('WalletIslandAddressDetails', () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
-    mockUseWalletIslandContext.mockReturnValue({
+    mockUseWalletAdvancedContext.mockReturnValue({
       animations: {
         content: '',
       },
@@ -81,7 +81,7 @@ describe('WalletIslandAddressDetails', () => {
       schemaId: '1',
     });
 
-    mockUseWalletIslandContext.mockReturnValue({
+    mockUseWalletAdvancedContext.mockReturnValue({
       portfolioFiatValue: 1000,
       animations: {
         content: '',
@@ -93,7 +93,7 @@ describe('WalletIslandAddressDetails', () => {
     expect(screen.getByTestId('ockAvatar_ImageContainer')).toBeDefined();
     expect(screen.getByTestId('ockAvatar_BadgeContainer')).toBeDefined();
     expect(screen.getByTestId('ockIdentity_Text')).toBeDefined();
-    expect(screen.getByTestId('ockWalletIsland_AddressBalance')).toBeDefined();
+    expect(screen.getByTestId('ockWalletAdvanced_AddressBalance')).toBeDefined();
   });
 
   it('copies address to clipboard and shows tooltip when Name group is clicked', async () => {
@@ -105,8 +105,8 @@ describe('WalletIslandAddressDetails', () => {
 
     render(<WalletAdvancedAddressDetails />);
 
-    const nameButton = screen.getByTestId('ockWalletIsland_NameButton');
-    const tooltip = screen.getByTestId('ockWalletIsland_NameTooltip');
+    const nameButton = screen.getByTestId('ockWalletAdvanced_NameButton');
+    const tooltip = screen.getByTestId('ockWalletAdvanced_NameTooltip');
     expect(tooltip).toHaveClass('opacity-0');
     expect(tooltip).toHaveClass('group-hover:opacity-100');
 
@@ -134,8 +134,8 @@ describe('WalletIslandAddressDetails', () => {
 
     render(<WalletAdvancedAddressDetails />);
 
-    const nameButton = screen.getByTestId('ockWalletIsland_NameButton');
-    const tooltip = screen.getByTestId('ockWalletIsland_NameTooltip');
+    const nameButton = screen.getByTestId('ockWalletAdvanced_NameButton');
+    const tooltip = screen.getByTestId('ockWalletAdvanced_NameTooltip');
 
     fireEvent.click(nameButton);
 
@@ -153,7 +153,7 @@ describe('WalletIslandAddressDetails', () => {
 
     render(<WalletAdvancedAddressDetails />);
 
-    const nameButton = screen.getByTestId('ockWalletIsland_NameButton');
+    const nameButton = screen.getByTestId('ockWalletAdvanced_NameButton');
 
     fireEvent.click(nameButton);
 
@@ -161,7 +161,7 @@ describe('WalletIslandAddressDetails', () => {
   });
 
   it('should show spinner when fetching portfolio data', () => {
-    mockUseWalletIslandContext.mockReturnValue({
+    mockUseWalletAdvancedContext.mockReturnValue({
       isFetchingPortfolioData: true,
       animations: {
         content: '',
@@ -174,7 +174,7 @@ describe('WalletIslandAddressDetails', () => {
   });
 
   it('should display formatted portfolio value when available', () => {
-    mockUseWalletIslandContext.mockReturnValue({
+    mockUseWalletAdvancedContext.mockReturnValue({
       isFetchingPortfolioData: false,
       portfolioFiatValue: null,
       animations: {
@@ -184,9 +184,9 @@ describe('WalletIslandAddressDetails', () => {
 
     const { rerender } = render(<WalletAdvancedAddressDetails />);
 
-    expect(screen.queryByTestId('ockWalletIsland_AddressBalance')).toBeNull();
+    expect(screen.queryByTestId('ockWalletAdvanced_AddressBalance')).toBeNull();
 
-    mockUseWalletIslandContext.mockReturnValue({
+    mockUseWalletAdvancedContext.mockReturnValue({
       isFetchingPortfolioData: false,
       portfolioFiatValue: 1234.567,
       animations: {
@@ -197,7 +197,7 @@ describe('WalletIslandAddressDetails', () => {
     rerender(<WalletAdvancedAddressDetails />);
 
     expect(
-      screen.getByTestId('ockWalletIsland_AddressBalance'),
+      screen.getByTestId('ockWalletAdvanced_AddressBalance'),
     ).toHaveTextContent('$1,234.57');
   });
 });
