@@ -93,7 +93,9 @@ describe('WalletAdvancedAddressDetails', () => {
     expect(screen.getByTestId('ockAvatar_ImageContainer')).toBeDefined();
     expect(screen.getByTestId('ockAvatar_BadgeContainer')).toBeDefined();
     expect(screen.getByTestId('ockIdentity_Text')).toBeDefined();
-    expect(screen.getByTestId('ockWalletAdvanced_AddressBalance')).toBeDefined();
+    expect(
+      screen.getByTestId('ockWalletAdvanced_AddressBalance'),
+    ).toBeDefined();
   });
 
   it('copies address to clipboard and shows tooltip when Name group is clicked', async () => {

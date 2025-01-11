@@ -16,8 +16,7 @@ export function WalletBottomSheet({
   className,
 }: WalletBottomSheetReact) {
   const { address } = useAccount();
-  const { isSubComponentOpen, setIsSubComponentOpen } =
-    useWalletContext();
+  const { isSubComponentOpen, setIsSubComponentOpen } = useWalletContext();
 
   const childrenArray = useMemo(() => {
     return Children.toArray(children).map((child) => {

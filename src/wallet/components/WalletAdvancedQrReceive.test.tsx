@@ -89,7 +89,9 @@ describe('WalletAdvancedQrReceive', () => {
       isSubComponentClosing: false,
     });
     rerender(<WalletAdvancedQrReceive />);
-    expect(screen.getByTestId('ockWalletAdvancedQrReceive')).toBeInTheDocument();
+    expect(
+      screen.getByTestId('ockWalletAdvancedQrReceive'),
+    ).toBeInTheDocument();
   });
 
   it('should render correctly based on isQrClosing state', () => {
@@ -98,7 +100,9 @@ describe('WalletAdvancedQrReceive', () => {
     });
 
     const { rerender } = render(<WalletAdvancedQrReceive />);
-    expect(screen.getByTestId('ockWalletAdvancedQrReceive')).toBeInTheDocument();
+    expect(
+      screen.getByTestId('ockWalletAdvancedQrReceive'),
+    ).toBeInTheDocument();
     expect(screen.getByTestId('ockWalletAdvancedQrReceive')).toHaveClass(
       'fade-in slide-in-from-left-5 linear animate-in duration-150',
     );
@@ -172,7 +176,9 @@ describe('WalletAdvancedQrReceive', () => {
     expect(mockClipboard.writeText).toHaveBeenCalledWith('0x1234567890');
     expect(mockSetCopyText).toHaveBeenCalledWith('Copied');
 
-    const tooltip = screen.getByTestId('ockWalletAdvancedQrReceive_CopyTooltip');
+    const tooltip = screen.getByTestId(
+      'ockWalletAdvancedQrReceive_CopyTooltip',
+    );
     expect(tooltip).toBeInTheDocument();
 
     vi.advanceTimersByTime(2000);
@@ -212,7 +218,9 @@ describe('WalletAdvancedQrReceive', () => {
     expect(mockClipboard.writeText).toHaveBeenCalledWith('0x1234567890');
     expect(mockSetCopyText).toHaveBeenCalledWith('Copied');
 
-    const tooltip = screen.getByTestId('ockWalletAdvancedQrReceive_CopyTooltip');
+    const tooltip = screen.getByTestId(
+      'ockWalletAdvancedQrReceive_CopyTooltip',
+    );
     expect(tooltip).toBeInTheDocument();
 
     vi.advanceTimersByTime(2000);

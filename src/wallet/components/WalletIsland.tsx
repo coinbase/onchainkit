@@ -1,4 +1,6 @@
 import { portfolioSvg } from '@/internal/svg/portfolioSvg';
+import { Avatar } from '@/ui/react/identity';
+import { useAccount } from 'wagmi';
 import { ConnectWallet } from './ConnectWallet';
 import { ConnectWalletText } from './ConnectWalletText';
 import { Wallet } from './Wallet';
@@ -7,8 +9,6 @@ import { WalletAdvancedAddressDetails } from './WalletAdvancedAddressDetails';
 import { WalletAdvancedTokenHoldings } from './WalletAdvancedTokenHoldings';
 import { WalletAdvancedTransactionActions } from './WalletAdvancedTransactionActions';
 import { WalletAdvancedWalletActions } from './WalletAdvancedWalletActions';
-import { useAccount } from 'wagmi';
-import { Avatar } from '@/ui/react/identity';
 
 export function WalletIsland({
   startingPosition = {

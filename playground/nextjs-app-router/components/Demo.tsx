@@ -19,9 +19,9 @@ import SwapDefaultDemo from './demo/SwapDefault';
 import TransactionDemo from './demo/Transaction';
 import TransactionDefaultDemo from './demo/TransactionDefault';
 import WalletDemo from './demo/Wallet';
+import WalletAdvancedDefaultDemo from './demo/WalletAdvancedDefault';
 import WalletDefaultDemo from './demo/WalletDefault';
 import WalletIslandDemo from './demo/WalletIsland';
-import WalletAdvancedDefaultDemo from './demo/WalletAdvancedDefault';
 
 const activeComponentMapping: Record<OnchainKitComponent, React.FC> = {
   [OnchainKitComponent.Buy]: BuyDemo,

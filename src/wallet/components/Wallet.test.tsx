@@ -3,8 +3,8 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { useOutsideClick } from '../../ui/react/internal/hooks/useOutsideClick';
 import { ConnectWallet } from './ConnectWallet';
 import { Wallet } from './Wallet';
-import { WalletDropdown } from './WalletDropdown';
 import { WalletAdvanced } from './WalletAdvanced';
+import { WalletDropdown } from './WalletDropdown';
 import { type WalletProviderReact, useWalletContext } from './WalletProvider';
 
 vi.mock('../../core-react/internal/hooks/useTheme', () => ({
